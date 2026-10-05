@@ -1,0 +1,15 @@
+# Katana SDK / compiler runtime code (not the game's); the repo's tools/progress.py reports it apart.
+# range <start> <end>: whole blocks; func <addr>: single SDK functions matched by signature.
+range 0c010000 0c014000 boot block (copied by the entry point)
+range 0c14ab88 0c1789b0 SDK libraries (374 of 983 functions matched SDK signatures)
+func 0c03a9ee __init_dteapi_cc_f
+func 0c075f70 rand
+func 0c081414 memmove
+func 0c081458 memset
+func 0c081484 strlen
+func 0c081494 strncmp
+func 0c087ea4 strncpy
+func 0c0887e0 _app_coss
+func 0c088e64 _allzero
+func 0c0892e4 _rsfts
+func 0c0896f4 _duchek

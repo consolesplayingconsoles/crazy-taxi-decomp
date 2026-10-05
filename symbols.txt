@@ -1,0 +1,18 @@
+# Absolute addresses for symbols the C sources use but no source defines yet (RAM, and data still
+# inside asm blobs). build.sh passes each to the linker as a define.
+0C1799C8 gEventList
+0C1799D8 gHeap
+0C1A99EC gEventCount
+0C1A99E8 gEventAllocCount
+0C08AA88 str_set_event
+0C08AA98 str_set_event_bf
+0C08AAA8 str_set_event_next
+0C2B7BC0 gPaletteDirty
+0C2B7BC1 gPaletteMode
+0C2B7C40 gPaletteData
+0C0D6274 gPaletteModeTable
+0C14A644 g_0c14a644
+0C0F4270 gExtRandSeed
+0C0F4274 g_0c0f4274
+0C2A4E68 g_0c2a4e68
+0C2A4E64 g_0c2a4e64

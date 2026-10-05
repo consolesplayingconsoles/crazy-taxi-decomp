@@ -1,7 +1,7 @@
 # Crazy Taxi decomp (kick-off)
 
 A matching decompilation of the Dreamcast **Crazy Taxi**, in progress. It rebuilds the game's
-executable byte for byte from one assembly file per function, with 429 of its 2,389 functions
+executable byte for byte from one assembly file per function, with 734 of its 2,391 functions
 named so far.
 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
@@ -41,23 +41,60 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | path | what |
 |---|---|
 | `functions.txt` | every function: address, size, name (`FUN_<addr>` = not named yet) |
+| `globals.txt` | named global variables: address, name |
 | `BASE` | link address |
 | `setup.sh` | extract + verify your executable, generate `asm/` and `text-map/` |
 | `build.sh` | assemble, link, convert, compare with your original |
 | `disc.sh` | build a playable disc image of your version (files you put under `disc/`) |
 | `textures.sh` | optional: every standard texture on one page, to find text drawn into images |
 | `tools/` | disc reader, splitter, text mapper |
+| `src/` | matching C units (see below) |
+| `sdk.txt` | which code is Sega's SDK, not the game (for `tools/progress.py`) |
+| `symbols.txt` | addresses the C units use that no file defines yet (RAM, data inside asm) |
 | `AGENTS.md` | the per-function decompilation loop |
+| `docs/engine.md` | what is known about the game's code and data |
 
 `text-map/` (generated) lists the executable's strings with every pointer to them, the text density
 of each disc file with the code that opens it, how text is drawn, and image files that probably
 hold text (candidates). These are heuristics for you to check, not a verdict.
+
+## C units
+
+A file `src/<name>.c` whose first line is `/* @unit <start>-<end> [shc options] */` replaces every
+asm file in that address range. `build.sh` compiles it with the SDK's `shc` to assembly, lays it
+out exactly like the original (`tools/fill.py`: alignment as nops, reserved gaps as `0xEE`, padded
+to `<end>`), assembles it and links it in place; the result still has to `MATCH`. A unit is one
+original source file: all its functions share literal pools, so it goes in only when all of it
+matches. `python3 tools/progress.py` reports the state in several measures, game code and SDK apart
+(`sdk.txt` marks the SDK): matching C (bytes, functions, units), named functions and globals, and
+functions documented in `docs/engine.md`.
+
+## Progress
+
+Updated on every commit by `tools/hooks/pre-commit`; enable it once per clone with
+`git config core.hooksPath tools/hooks`.
+
+<!-- progress:start -->
+```
+GAME CODE                         1393 functions, 273551 bytes of code
+  matching C, bytes         0.0%  52 bytes, 1 units
+  matching C, functions     0.2%  3 of 1393
+  named functions          22.6%  315 of 1393
+  named code, bytes        32.1%  code in named functions
+  documented functions      3.8%  53 in docs/*.md
+  named globals                   29
+SDK (Sega libraries)              1000 functions, 105732 bytes of code
+  named functions          42.0%  420 of 1000 (signatures)
+```
+<!-- progress:end -->
 
 ## Names
 
 Names come from signature matching: 385 matches from the Katana SDK's own libraries and
 30 from the public Tokyo Bus Guide decomp (only unique matches are applied). 429
 functions carry a name in all, because small wrappers inherit the name of the function they call.
+The rest were named by reading the code, using the original names from the Android build where a
+function is identified; `docs/engine.md` has what is known about them.
 
 ## How this was started
 

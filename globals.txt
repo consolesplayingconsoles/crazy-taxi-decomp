@@ -1,0 +1,31 @@
+# Named globals: address, name. Names are the original ones, from the Android build's data
+# symbols, matched through the functions that use them (see docs/engine.md).
+0c0d553c vecAxisX
+0c1790cc Car_Data
+0c179840 Cam_Pos
+0c179860 VR_mode
+0c1ee208 GDERR_COUNT
+0c1ee20c CourseMode
+0c1ee210 Game_No
+0c1ee214 MiniGame_No
+0c1ee234 MainMode
+0c1ee24c TaxiSW
+0c1ee330 GlbCntr
+0c1ee800 CourseDataA
+0c1ee810 adxtM
+0c2a11b8 NowDrive
+0c2a11c0 NowLanguage
+0c2a1ad4 sprZ
+0c2a1b30 playerEV
+0c2a44a8 CarEntryNum
+0c2a44ac CameraTargetNo
+0c2a6690 CourseTable
+0c2a6ac8 current_pro_ang
+0c2a931c adv_spr_flag
+0c2ae388 SndQueue
+0c17948c ReverseMode
+0c1ee244 LOCATION
+0c28a4e8 Taxi_BACKUP
+0c2a11bc NowAudio
+0c2a7368 NoEro_Mode
+0c2a9f70 f_parm
