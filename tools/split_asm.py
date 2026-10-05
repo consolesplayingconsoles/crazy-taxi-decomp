@@ -10,7 +10,8 @@ replaces a function can call the others by name.
 
 The body is emitted as data words: that is what guarantees the byte match on day one. Turning a
 file into real instructions (and then C) is the decomp work itself.
-Writes <out dir>/asm/*.src and <out dir>/objects.txt (link order).
+Writes <out dir>/asm/*.src, <out dir>/objects.txt (link order) and <out dir>/functions.txt
+("F <addr> <size> <name>", the committed function list setup.sh splits from).
 """
 import os
 import re
@@ -56,6 +57,12 @@ def main():
         open(os.path.join(out, fname), "w").write("\n".join(lines) + "\n")
         order.append(fname)
     open(os.path.join(sys.argv[4], "objects.txt"), "w").write("\n".join(order) + "\n")
+    if os.path.abspath(sys.argv[3]) != os.path.abspath(os.path.join(sys.argv[4], "functions.txt")):
+        with open(os.path.join(sys.argv[4], "functions.txt"), "w") as f:
+            for line in open(sys.argv[3]):
+                p = line.split()
+                if len(p) >= 4 and p[0] == "F" and base <= int(p[1], 16) < end:
+                    f.write("F %s %s %s\n" % (p[1], p[2], p[3]))
     print("%d files, %d named, %d bytes" % (len(order), sum(1 for n in names.values() if not n.startswith("FUN_")), len(data)))
 
 

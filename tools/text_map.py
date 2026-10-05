@@ -128,6 +128,8 @@ def main():
 
     with open(os.path.join(out, "font.tsv"), "w") as f:
         f.write("kind\twhere\tfunction\n")
+        if not any(words.get(v) for v in ROMFONT):
+            f.write("-\tno BIOS ROM-font use found: the game draws text with its own font or as images\t-\n")
         for v in ROMFONT:
             for p in words.get(v, []):
                 f.write("romfont-vector\t%06x\t%s\n" % (p, containing(funcs, starts, base + p)))
@@ -137,10 +139,7 @@ def main():
     if tier not in TIERS:
         raise SystemExit("tier must be one of: " + ", ".join(TIERS))
     if len(sys.argv) >= 6 and tier != "quick":
-        # gdi_read.py: next to this script (vendored), else the dc-disassembly skill
-        # ($DC_DISASSEMBLY_DIR, default: sibling of this skill).
-        dis = os.environ.get("DC_DISASSEMBLY_DIR", os.path.join(HERE, "..", "..", "dc-disassembly"))
-        sys.path[:0] = [HERE, os.path.join(dis, "scripts")]
+        sys.path.insert(0, HERE)              # gdi_read.py lives next to this script
         import gdi_read
         disc = gdi_read.Disc(sys.argv[5])
         by_name = {}
@@ -162,6 +161,9 @@ def main():
             f.write("path\treason\n")
             for p in sorted(cands):
                 f.write("%s\t%s\n" % (p, cands[p]))
+            if not cands:
+                f.write("-\tno automatic signal for this game (no per-language files): this does NOT mean no "
+                        "text in images. Check textures/index.html by eye.\n")
     print("%d strings (%d Shift-JIS, %d with pointers), %d files" % (
         len(rows), sum(1 for r in rows if r[2] == "sjis"), sum(1 for r in rows if r[5]), nfiles))
 
