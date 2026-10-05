@@ -30,7 +30,7 @@ assembler and linker do the build).
 
 ```
 ./setup.sh "path/to/Crazy Taxi (Europe) (En,Ja).gdi"
-SDK_PATH=path/to/katana-sdk ./build.sh   # any SDK layout; DC_LOCAL=1 for no Docker
+SDK_PATH=path/to/katana-sdk ./build.sh   # any SDK layout; Docker required (Linux without Docker: DC_LOCAL=1)
 ```
 
 `build.sh` should end with `MATCH`. The first build assembles every file (a few minutes); after

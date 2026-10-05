@@ -3,7 +3,8 @@
 # Runs the SDK's Hitachi tools (asmsh, lnk, elf2bin) under wibo, in a Linux container by default.
 #   SDK_PATH=<katana sdk dir> ./build.sh
 # SDK_PATH can be any SDK layout: the tools are found by name (asmsh.exe) anywhere under it.
-# Without Docker: DC_LOCAL=1 runs wibo from your PATH instead (wibo is Linux x86_64 only).
+# Docker is the default (any OS). DC_LOCAL=1 is opt-in for Linux x86_64 without Docker: it runs
+# wibo from your PATH (wibo does not run on macOS or Windows).
 set -euo pipefail
 cd "$(dirname "$0")"
 : "${SDK_PATH:?set SDK_PATH to your Katana SDK folder}"
