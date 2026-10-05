@@ -1,12 +1,16 @@
-# Game data and anything derived from the SDK stay local
+# Everything game-derived or SDK-derived stays local: setup.sh regenerates it from your own disc.
 1ST_READ.BIN
+IP.BIN
 *.gdi
 *.bin
 *.raw
 *.chd
+asm/
+objects.txt
+text-map/
 build/
 *.sigs
-asm/
-text-map/
-ct_named.txt
-objects.txt
+report*.txt
+.env
+disc/
+.idea/
