@@ -49,6 +49,56 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   `+0x24` look, `+0x28` motion index, `+0x40` dodge position, `+0x50` state (-1 free, 0 gone, 1
   standing, 2 dodging), `+0x54` ground data, `+0x60` customer flag.
 
+## Passengers (customers)
+
+Customers are not crowd records: each is a `tagPASSENGER` (the Android build's type name), set up by
+`Psg_Init(p, character, param)` and run by `Psg_Execute`. Layout (Dreamcast offsets; the Android
+build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 equal, +8 from
++0x34, +0xC from +0x11C, +0x14 from +0x124, +0x18 from +0x148):
+
+| Offset | Field |
+|---|---|
+| `+0x00` | character index |
+| `+0x04` | position (`x, y, z`) |
+| `+0x14` | direction / ground normal (`vecAxisX` at init; `CalcShadow4Normal` writes it) |
+| `+0x20` | state; `+0x24` sub-state (state 2, or 4 with sub-state 2: the ground snap is relaxed) |
+| `+0x34` | `0x0CADB018` at init (the Android build stores the same Dreamcast address) |
+| `+0x3C` | animation player (`tagFCVIPBUFFER`, 0xCC bytes), started by `FcvStoreBuffer(motion, 0.0, p + 0x3C)` |
+| `+0x10C` | float; > 0 sets flag bit 16 |
+| `+0x11C` | walk speed; `+0x120` run speed (`Psg_SetMoveSpeed`: speed, speed / 0.5) |
+| `+0x124`, `+0x128` | pointers (`0x0C0D5720`, `0x0C0D5728` at init) |
+| `+0x12C` | counter near the curves of `HitDetectCurve` (`Psg_Continue`) |
+| `+0x134` | vector, zero at init |
+| `+0x140` | `Psg_Init`'s third argument |
+| `+0x148` | flags (bit field): bits 0-2 per character (`FUN_0c070cd0`), bit 3 animation set A |
+| `+0x150` | int; `+0x154` ride-on index (mini games) |
+
+- `Psg_SetPosPtr(p, pos)` / `Psg_SetPosVal(p, x, y, z)` / `Psg_SetPosPtrSet(p, pos)` move a
+  passenger and snap it to the ground with `GetCollision2D(pos)` (result `+0x1C` = -1: no ground).
+- States (`+0x20`): `psgSetState(p, state, a, b)` stores the state and `+0x28`/`+0x2C`, clears the
+  sub-state, then `psgCallEnter` runs the state's entry function from a table of seven (template
+  at `0x0C0D5A98`; the Android build has the same table at `0x821258`). What each entry does, from
+  the customer lines it plays (the Android entries call them by name):
+
+  | State | Entry | Plays / does |
+  |---|---|---|
+  | 0 | `psgEnterState0` | waiting at the curb: `Chat_HeyTaxi`, a random idle motion; `IsBoyFriend` in mini game 8 |
+  | 1 | `psgEnterState1` | the taxi near: `Chat_DontPass`, `Chat_DamnIt`, distance to the car |
+  | 2 | `psgEnterState2` | getting in: `Chat_Geton`, moves along the car's matrix, ground probe |
+  | 3 | `psgEnterState3` | riding: `Chat_TellDestination`, `Chat_Direction`, `Chat_Iraira`, `Drv_StartAction` |
+  | 4 | `psgEnterState4` | getting out: `Chat_Getoff`, the get-off hand tables, `Psg_SetMoveSpeed` |
+  | 5 | `psgEnterState5` | `Chat_Iraira` (impatience) with a random choice |
+  | 6 | `psgEnterState6` | `Chat_DamnIt`, facing the car; `Psg_Continue` enters it |
+
+  State 2, and state 4 with sub-state 2, relax the ground snap in `Psg_SetPosPtr`: the customer is
+  in the air or inside the car.
+- `0x0C06B9D0` (state 2's entry) was named `VSklPlay` by the first matcher pass; the table and its
+  calls show it is not.
+- Animation sets: characters 1-3, 0x18, 0x1A, 0x1F-0x21, 0x23, 0x24, 0x26, 0x29, 0x2A, 0x2C, 0x2E,
+  0x30, 0x31, 0x33, 0x34, 0x37 and 0x39 (`FUN_0c070bf8`, a bit mask in the Android build) play the
+  motions at `0x0C9726F4`, the others those at `0x0C972E68`. `FUN_0c070c64` is a second character
+  list; the Android build replaced it with a table.
+
 ## Taxi
 
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that

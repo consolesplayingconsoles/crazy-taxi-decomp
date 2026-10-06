@@ -76,23 +76,24 @@ Updated on every commit by `tools/hooks/pre-commit`; enable it once per clone wi
 
 <!-- progress:start -->
 ```
-GAME CODE                         1393 functions, 273551 bytes of code
+GAME CODE                         1395 functions, 274351 bytes of code
   matching C, bytes         0.0%  52 bytes, 1 units
-  matching C, functions     0.2%  3 of 1393
-  named functions          22.6%  315 of 1393
-  named code, bytes        32.1%  code in named functions
-  documented functions      3.8%  53 in docs/*.md
-  named globals                   29
+  matching C, functions     0.2%  3 of 1395
+  named functions          23.7%  330 of 1395
+  named code, bytes        34.6%  code in named functions
+  documented functions      5.3%  74 in docs/*.md
+  named globals                   32
 SDK (Sega libraries)              1000 functions, 105732 bytes of code
-  named functions          42.0%  420 of 1000 (signatures)
+  named functions          52.8%  528 of 1000 (signatures)
 ```
 <!-- progress:end -->
 
 ## Names
 
-Names come from signature matching: 385 matches from the Katana SDK's own libraries and
-30 from the public Tokyo Bus Guide decomp (only unique matches are applied). 429
-functions carry a name in all, because small wrappers inherit the name of the function they call.
+Names come from signature matching: 385 matches from the Katana SDK R10.1's own libraries, 112 more
+from SDK R9 (the release closest to the game's library banners) and 30 from the public Tokyo Bus
+Guide decomp (only unique matches are applied); small wrappers inherit the name of the function they
+call. The Progress block above has the current counts.
 The rest were named by reading the code, using the original names from the Android build where a
 function is identified; `docs/engine.md` has what is known about them.
 
