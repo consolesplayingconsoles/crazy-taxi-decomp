@@ -79,11 +79,11 @@ functions documented in `docs/*.md`.
 <!-- progress -->
 ```
 GAME CODE                         1402 functions, 281591 bytes of code
-  matching C, bytes         0.0%  52 bytes, 1 units
-  matching C, functions     0.2%  3 of 1402
-  named functions          24.3%  341 of 1402
-  named code, bytes        36.4%  code in named functions
-  documented functions      5.8%  81 in docs/*.md
+  matching C, bytes         0.4%  1166 bytes, 2 units
+  matching C, functions     0.6%  8 of 1402
+  named functions          24.8%  347 of 1402
+  named code, bytes        36.6%  code in named functions
+  documented functions      5.8%  82 in docs/*.md
   named globals                   32
 SDK (Sega libraries)              1000 functions, 105732 bytes of code
   named functions          52.8%  528 of 1000 (signatures)

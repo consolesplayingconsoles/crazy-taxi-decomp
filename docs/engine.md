@@ -226,6 +226,12 @@ original name is used here.
   (`src/palette.c`). Most of it is hand-written FPU assembly (vector and matrix routines).
 - `src/event.c` and `src/extrand.c` are reference C (no `@unit` header, not built) until all their
   functions match.
+- `src/psg.c` (customers: `Set_StandWaitDist`, `Psg_Init`, `psgSetState`, `psgCallEnter`,
+  `psgEnterState0`) is the first game unit built: `@data 0C0D5A98-0C0D5B30` places its initialised
+  local tables (the state entry table and state 0's motion lists). Idioms that mattered: a whole-word
+  bit field at `+0x150` (`unsigned int f150 : 32`, stored through a computed address), the driver's
+  hold flag as a one-bit field, `if (hold || f140 < 0) pick; else switch` (block order and stack
+  slots follow it), and `x ? 1 : 0` for bit fields set from a call.
 - Units (the smallest address ranges no literal-pool load or branch crosses): 161 in the game code,
   86 in the Naomi library.
 
