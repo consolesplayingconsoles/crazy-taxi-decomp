@@ -126,6 +126,24 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   float frame at `+0x38`, then `nlPopMatrix(1)`. `nlPushUnitMatrix` (`0x0C0782E0`) pushes an
   identity matrix instead, which drops the camera: anything drawn under it is placed as if the
   camera sat at the world origin.
+- Moving and animating a customer (state 1's frame handler, `psgFrameState1`; the Android build's
+  `FUN_0042def4` reads the same): the heading is `+0x10` (16-bit angle; drawn at heading
+  `+ 0x8000`), the current motion `+0x34` and its float frame `+0x38`. Sub-state 1 (running to the
+  taxi) plays the character's run motion with `FcvPlay`, steps the frame by `+0x120` per tick and
+  moves toward a target (the Android build passes `+0x28`), until within 3 units. Sub-state 2
+  walks by root motion: the motion's own root position at the previous and current frame gives
+  the step, rotated into the heading and averaged with the wanted direction
+  (`nlGetAverageVector`), then `Psg_SetPosPtr` puts the customer there on the ground. The heading
+  turns toward the wanted direction with `GetAverageAngle(current, target, 0.8)`.
+- A motion change can blend: `+0x108` counts frames up to `+0x10C` (> 0 sets flag bit 16), with
+  the next motion at `+0x110` and its frame at `+0x114`; `psgPlayBlend` draws the mix
+  (`VSklIpPlay`), the plain case draws with `humanDraw` (the Android build's `VSklPlay`).
+- Before each draw: `psgFaceTaxi` (or the mini game 8 boyfriend variant `FUN_0c071104`) turns the
+  heading toward the taxi when standing, and `psgPutShadow` moves the matrix to the customer
+  (translate `+0x04`, rotate heading `+ 0x8000`) and draws the shadow (`CalcShadow2Matrix` from
+  the ground normal `+0x14`, shadow model `0x0C5AA038`).
+- `0x0C06AFB2` was named `nlFastSinCos` by the first matcher pass; it is `GetAverageAngle`
+  (`current + (target - current, wrapped) * t`).
 - `0x0C06B9D0` (state 2's entry) was named `VSklPlay` by the first matcher pass; the table and its
   calls show it is not.
 - Animation sets: characters 1-3, 0x18, 0x1A, 0x1F-0x21, 0x23, 0x24, 0x26, 0x29, 0x2A, 0x2C, 0x2E,
@@ -158,6 +176,10 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
 
+- The driver in the cab: `Drv_Execute` runs one action function per driver mode (`TaxiDriver`
+  `+0x10`, from a table) and draws the driver with `FcvPlayBuffer(TaxiDriver + 0x28)` (the call at
+  `0x0C06400E`) or, on the other branch, `bsr 0x0C064130`.
+
 ## Camera
 
 - Current camera at `0x0C179840`: `+0x00` eye, `+0x0C` target, `+0x18` three 16-bit angles.
@@ -168,6 +190,12 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   and `camSetAngles(x, y, z, mode)` (into `0x0C179928`): mode 1 snaps, 0 eases.
 - `camSnapToCar(car)` puts eye and target on the car's position. `camSave` / `camRestore` copy the
   current camera to `0x0C2AD554` and back.
+- `execCamera` (the Android build's name; ours is `camUpdate`) moves two smoothed points, the eye
+  and the look-at (homing vectors), toward targets the current mode (`VR_mode`, 0-11) computes
+  from the player's car, then builds the view with `nlLookAt`, stores the camera matrix and
+  rebuilds the model-view matrix. Modes 10 and 11 are scripted cut-scenes (`KyaCamera_Start(p, 0)`
+  for getting in, `(p, 1)` for getting out): 5 and 6 shot functions stepped by a frame counter;
+  the previous mode, position, target and angle are saved and restored.
 
 ## Small wrappers
 
