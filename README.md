@@ -121,6 +121,13 @@ solely responsible for determining whether you are entitled to obtain and use an
 Crazy Taxi and its publisher's trademarks belong to their owners. This project is not affiliated with
 or endorsed by them.
 
+## Where this comes from
+
+It came out of real work on Consoles Playing Consoles. See what Pluto has helped me build:
+
+- 📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
+- 🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
+
 ## Licence
 
 The code and documentation in this repository: GPL-3.0-or-later (`LICENSE`).
