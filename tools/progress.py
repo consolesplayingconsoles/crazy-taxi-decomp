@@ -12,7 +12,7 @@ import os, re, subprocess, sys
 here = os.path.dirname(os.path.abspath(__file__))
 units = [l.split() for l in subprocess.run([sys.executable, os.path.join(here, 'units.py'), '--units'],
                                            capture_output=True, text=True).stdout.splitlines() if l.strip()]
-funcs = [(int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt')]
+funcs = [(int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F ')]
 total = os.path.getsize('1ST_READ.BIN')
 nf = len(funcs)
 

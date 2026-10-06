@@ -7,7 +7,8 @@ A C unit is src/<name>.c whose first line is
 build/obj/c_<name>.obj takes the place of the first. With @data, the unit's constant data (its C
 section: initialised tables, string literals) is its own piece, build/obj/c_<name>_data.obj, in
 place of the asm files in [dstart, dend); both ranges must start and end on asm file boundaries
-(add the missing addresses to functions.txt). Prints one object path per line (build-relative,
+(add them to functions.txt: "F <addr> 0 FUN_<addr>" for a function start, "D <addr> 0
+data_<addr>" for a data boundary). Prints one object path per line (build-relative,
 backslashes for the Windows linker), then nothing else. With --units, prints instead:
     <name> <start> <end> <dstart|-> <dend|-> <options...>
 """
@@ -43,7 +44,8 @@ for n, s, e, d, _ in us:
 for s, e, _, n, what in ranges:
     if s not in starts or e not in starts:
         sys.exit('[ERROR] C unit %s: %s %08X-%08X must start and end on asm file boundaries (add the '
-                 'missing address to functions.txt)' % (n, what, s, e))
+                 'missing address to functions.txt: F for a function start, D for a data boundary)'
+                 % (n, what, s, e))
 for i, a in enumerate(ranges):
     for b in ranges[i + 1:]:
         if a[0] < b[1] and b[0] < a[1]:
