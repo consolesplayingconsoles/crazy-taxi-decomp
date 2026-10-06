@@ -106,10 +106,21 @@ F 0c02bc24 42 FUN_0c02bc24
 F 0c02c094 22 FUN_0c02c094
 F 0c02c528 294 FUN_0c02c528
 F 0c02c6d8 36 FUN_0c02c6d8
+F 0c02c6fc 708 gameState0
+F 0c02c9c0 554 gameStateDrive
+F 0c02cbea 100 gameState2
+F 0c02cc4e 58 gameState3
+F 0c02cc88 52 gameState8
+F 0c02ccbc 26 gameState9
+F 0c02ccd6 32 gameState10
+F 0c02ccf6 18 gameState11
+F 0c02cd08 62 gameState4
 F 0c02cd46 118 FUN_0c02cd46
 F 0c02ce48 310 Initialize_Replay
 F 0c02d00c 230 Initialize_Replay_Part
 F 0c02d164 504 exec_loop_Replay
+F 0c02d40c 126 gameState12
+F 0c02d48a 764 gameState13
 F 0c02d786 318 FUN_0c02d786
 F 0c02d918 36 FUN_0c02d918
 F 0c02d93c 174 FUN_0c02d93c
@@ -313,6 +324,8 @@ F 0c0399b8 234 FUN_0c0399b8
 F 0c039ad4 292 FUN_0c039ad4
 F 0c039c1c 182 FUN_0c039c1c
 F 0c039cd2 286 FUN_0c039cd2
+F 0c03a220 192 gameState14
+F 0c03a35c 96 gameState15
 F 0c03a3e0 60 FUN_0c03a3e0
 F 0c03a640 8 FUN_0c03a640
 F 0c03a648 6 syCfgExit
@@ -606,7 +619,7 @@ F 0c05473e 72 FUN_0c05473e
 F 0c054786 594 FUN_0c054786
 F 0c054a38 102 FUN_0c054a38
 F 0c054a9e 828 FUN_0c054a9e
-F 0c054e80 382 FUN_0c054e80
+F 0c054e80 382 hudDrawTime
 F 0c054ffe 324 FUN_0c054ffe
 F 0c0551c6 234 FUN_0c0551c6
 F 0c0552b0 30 FUN_0c0552b0
@@ -744,7 +757,7 @@ F 0c05da9c 198 FUN_0c05da9c
 F 0c05db62 16 GetNumRideon
 F 0c05db72 6 FUN_0c05db72
 F 0c05dbdc 596 FUN_0c05dbdc
-F 0c05dea8 92 FUN_0c05dea8
+F 0c05dea8 92 execMiniLight
 F 0c05df48 22 FUN_0c05df48
 F 0c05df5e 12 FUN_0c05df5e
 F 0c05df6a 680 FUN_0c05df6a
@@ -860,7 +873,7 @@ F 0c06b0ce 32 FUN_0c06b0ce
 F 0c06b0ee 6 FUN_0c06b0ee
 F 0c06b0f4 142 Bezier
 F 0c06b1c0 12 FUN_0c06b1c0
-F 0c06b1cc 42 FUN_0c06b1cc
+F 0c06b1cc 42 motionClearRootZ
 F 0c06b200 74 Set_StandWaitDist
 F 0c06b24a 522 Psg_Init
 F 0c06b4f4 100 psgSetState

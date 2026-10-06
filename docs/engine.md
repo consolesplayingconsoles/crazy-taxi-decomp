@@ -3,6 +3,32 @@
 What is known about the game's own code and data, from reading the executable. Addresses are RAM
 (linked at `0x0C010000`). Function names here are the ones in `functions.txt`.
 
+## Game states
+
+- `MainLoop` reads the pads (`getSwitch`) then runs the current game state from the table at
+  `0x0C08AE64` (16 entries): `gameState0`-`gameState15`, with `gameStateDrive` (1, driving),
+  `FUN_0c02cd46` (5), `Initialize_Replay` (6) and `exec_loop_Replay` (7, replay) named so far.
+- `gameStateDrive`'s order each frame: `FUN_0c041c14`, `camUpdate`, per-`CourseMode` work (the
+  Crazy Box: `execMiniLight`), the customers (`exec_KyakuMain`), `ExecSetObject`, `ExecKyakuArea`,
+  `ExecHelicopter`, `Act_Execute` (the cab driver), `entryCarPut`, `trafficControl`, the crowd
+  (`crowdSpawn`, not in the Crazy Box), the tasks, `ExecColliObj`, `PutCourse`, `GoiTool`, and
+  last `hudDraw`. Each call goes through the handler's own pool words.
+
+## Game modes
+
+- `CourseMode` (`0x0C1EE20C`): the mode chosen in the menu; 2 is the Crazy Box, whose game is
+  `MiniGame_No` (`0x0C1EE214`). The menu (`FUN_0c03f3ac`) applies the choice at `0x0C03F8E2`-
+  `0x0C03F8FA`: `MiniGame_No` = item - 2, then `CourseMode` = the chosen mode (Crazy Box game 15
+  gives 0). That store (`0x0C03F8FA`) is the only place `CourseMode` becomes 2: `gameInit`,
+  `FUN_0c02bc24`, `FUN_0c03df1a` and `callGoBackAdvertise` (back to the attract demo) only write 0.
+- The driving frame (state 1, `0x0C02C9C0`) branches on `CourseMode`: with 2 it calls
+  `FUN_0c05dea8` (lighting per mini game, `LightEffect`) and skips the crowd (`crowdSpawn`).
+  `Init_DCmini` registers the mini game's tasks; functions reached only from `Init_DCmini` and
+  `FUN_0c05dea8` include `Exec_Balloon` and the run `0x0C05EA98`-`0x0C05EEF4`; no code outside
+  that run or `Init_DCmini` (`0x0C05B404`-`0x0C05B7A8`) loads from or branches into them.
+- Crazy Box code runs behind `CourseMode == 2` checks spread through the game (`Init_DCmini` at
+  set-up, `IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
+
 ## Boot
 
 - The entry stub (`0x0C010000`) copies `0x0C010100`-`0x0C014000` (the boot code, then `0xFFFD`
@@ -41,6 +67,25 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   character-select screen from the table at `0x0C130748` (0x10 bytes per driver: two motion
   pointers, the character index).
 - Pedestrians are drawn as character `look + 5`, so characters 0-4 are not used for them.
+- Motions (`motDC.BIN`, loaded at `0x0C880000`): a 12-byte header `frames, bones, data` with the
+  data right before it, `frames` x 396 bytes (33 vectors of 12 bytes: `(bones + 1) * 2 + 1`,
+  bones 15 for every human); vector 0 is the root, so a walk's root moves forward frame by frame.
+  Customer motions are listed in a table at `0x0C0D143C` and in `psgEnterState1`'s templates: run
+  `0x0CA75D74` / `0x0CA7BBDC` (61 frames, 0.47 units a frame; `FUN_0c06b1cc` picks one of the two
+  sets), walks such as `0x0CAB6BBC` (121 frames, 0.38 a frame), `0x0CA8BCBC`, `0x0CAA143C`
+  (101 frames), `0x0CB32654` (66 frames, 0.60), each with its other-set twin. Walking customers
+  draw with `humanDraw(..., 1)` and standing ones with mode 0: mode 1 plays the motion in place,
+  the movement coming from the root's steps (the Android build reads the same).
+  A character's forward is its local -x: a walk's root travels along -x (`0x0CAB6BBC`: 0 to -45.4
+  over the loop), and characters are drawn with their heading as the y rotation.
+  Customer walks are whole clips (set off, walk, halt): `0x0CAB6BBC` speeds up to 0.6 units a frame
+  around frames 30-40 and slows to 0.12 at the end; its steady stride, frames 39-83 (44 frames,
+  0.51 a frame), loops with almost the same pose at both ends. Customer standing idles (no root
+  travel) include `0x0CAE3244` (76 frames), `0x0CAD21A4`, `0x0CAFC810`, `0x0CB17990` (81 frames).
+  There is no walk cycle: people stand, wave and jog. The crowd (`pedDraw`) takes its motions from
+  the same sets, standing idles from the table at `0x0C0D6158` and the jog clips from `0x0C0D61AC`.
+  `0x0CA64554` / `0x0CA6A230` (in place, 60 frames) are the two tennis players `FUN_0c072348`
+  draws (character `0x10`, table `0x0C13F4C4`).
 
 ## Pedestrians
 
@@ -177,8 +222,19 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
 
 - The driver in the cab: `Drv_Execute` runs one action function per driver mode (`TaxiDriver`
-  `+0x10`, from a table) and draws the driver with `FcvPlayBuffer(TaxiDriver + 0x28)` (the call at
-  `0x0C06400E`) or, on the other branch, `bsr 0x0C064130`.
+  `+0x10`, from a table, offset by 10 while flag bit `0x80` is set; `Drv_StartAction(action,
+  a, b)` stores it with `a`, `b` at `+0x18`/`+0x1C` and runs the action's set-up,
+  `FUN_0c062096`). 2 is a customer getting in and 4 one getting out (`Psg_Execute`), 5 the "pick
+  someone up" line (`Act_Execute`, when the timer reads 600 or 300 frames); the action changes on
+  its own while driving, so it is not a "just driving" signal. In driver modes 2 and 4 it plays the animation buffer at `TaxiDriver +
+  0x28` (`FcvPlayBuffer`); otherwise `FUN_0c064130` works out where the head looks. The driver
+  himself is rigid models (body, head, arms in `polDC0`, e.g. `0x0C3BFFE0`, `0x0C3C05A8`,
+  `0x0C3C07C8`; one model table per cabbie at `0x0C136BE4`, `0x0C138BF8`, `0x0C13BB20`,
+  `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `FUN_0c07ad00`, and only while bit 0 of
+  the flags byte `TaxiDriver + 0x1DF` is set: that is the bicycle (the "chari" cheat; setting the bit
+  in play puts the driver on a pedalling bike above the seat) (bit 1 is the hold flag the customers read, bit 7 is
+  tested in `Drv_Execute`). `Drv_Init` and the driver's action functions write that byte;
+  `Drv_Execute` only reads it.
 
 ## Camera
 
@@ -226,6 +282,15 @@ Thin game functions around the SDK, named from what they call. Grouped by subsys
   and a hide function (clears the bit). `hudDraw` runs every frame and calls one draw routine per
   set bit; it also prints the cheat-mode labels ("another day", "EXPERT", "no arrows",
   "no destination mark"). `hudInit` clears the HUD state for a run.
+- `hudDraw` draws one element per bit of the flags word `0x0C2A75E0`: `0x01` `Put_Credits`;
+  `0x80` the main game group: `Put_TotalDrum` (the money drum; skipped with bit `0x10000000` or
+  in the Crazy Box) then `hudDrawTime` (the clock: its digits at `0x0C2A8C7C`-`0x0C2A8C84`, the
+  tick sound `0x4A9` when time runs low); `0x100` `FUN_0c056ed8`; `0x400`, `0x800`, `0x1000`
+  (not in the Crazy Box) `FUN_0c055950`, `FUN_0c0558a2`, `FUN_0c055b38`; `0x10`, `0x20`
+  `FUN_0c053ac0`, `FUN_0c053b44`; `0x01000000`, `0x02000000`, `0x04000000` `FUN_0c0572de`,
+  `FUN_0c057388`, `FUN_0c05741c`; `0x10000000` `Put_ReadySetGo`; then the cheat labels.
+- `hudDrawTime` and the functions only it calls fill `0x0C054E80`-`0x0C055688` (2,056 bytes);
+  `hudDraw`'s call (`0x0C052E5E`) is their only way in, and no other code loads from them.
 - The driving frame handler calls `hudDraw` at its very end, after the scene is drawn; another
   mode's frame (`FUN_0c050f80`) calls it too. No other function loads from `hudDraw`'s bytes
   (`0x0C052E1C`-`0x0C05308C`).
