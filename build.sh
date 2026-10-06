@@ -19,8 +19,9 @@ for t in lnk elf2bin shc; do
 done
 BASE="$(cat BASE)"
 mkdir -p build/obj
-# C units (src/*.c starting with /* @unit <start>-<end> [shc options] */) replace the asm files in
-# their range; symbols.txt gives the linker the addresses of globals they use that no file defines.
+# C units (src/*.c starting with /* @unit <start>-<end> [@data <dstart>-<dend>] [shc options] */)
+# replace the asm files in their range(s);
+# symbols.txt gives the linker the addresses of globals they use that no file defines.
 {
   printf '%s\n' elf "start P($BASE)" "output build\\out.elf"
   python3 tools/units.py objects.txt | while read -r o; do printf 'input %s\n' "$o"; done
@@ -50,14 +51,22 @@ STEPS='
   echo "assembled $n files"
   # C units: shc -> asm, gaps filled with 0xEE and padded to the unit size (tools/fill.py), asmsh
   mkdir -p build/tmp
-  while read -r name start end opts; do
+  while read -r name start end dstart dend opts; do
     [ -n "$name" ] || continue
     o="build/obj/c_$name.obj"
     if [ ! -f "$o" ] || [ "src/$name.c" -nt "$o" ] || [ src -nt "$o" ]; then
       SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "$(tool shc)" "src\\$name.c" -code=asm -object="build\\obj\\c_$name.s" \
         -cpu=sh4 -endian=little -fpu=single -division=cpu -round=nearest -pic=0 -macsave=0 -optimize=1 -size \
         -string=const -section=p=P,c=C,d=D,b=B -include=src $opts > build/shc.log 2>&1 || { cat build/shc.log; exit 1; }
-      python3 tools/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" || exit 1
+      # code at <start>-<end>; with @data, the constant data (C section) as its own piece at <dstart>-<dend>
+      if [ "$dstart" = - ]; then
+        python3 tools/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" || exit 1
+      else
+        python3 tools/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" \
+          "build/obj/c_${name}_data.s" "$dstart" "$dend" "$name" || exit 1
+        wibo "$(tool asmsh)" "build\\obj\\c_${name}_data.s" -object="build\\obj\\c_${name}_data.obj" -cpu=sh4 -endian=little > build/asm.log 2>&1 \
+          || { cat build/asm.log; exit 1; }
+      fi
       wibo "$(tool asmsh)" "build\\obj\\c_${name}_f.s" -object="build\\obj\\c_$name.obj" -cpu=sh4 -endian=little > build/asm.log 2>&1 \
         || { cat build/asm.log; exit 1; }
       echo "  compiled C unit $name"

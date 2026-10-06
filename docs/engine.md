@@ -92,6 +92,26 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 
   State 2, and state 4 with sub-state 2, relax the ground snap in `Psg_SetPosPtr`: the customer is
   in the air or inside the car.
+- Every frame: `Psg_Execute(task, distance)` runs one customer task. The `tagPASSENGER` sits at
+  task `+0x1C`; task `+0x14` points to the customer's request (`+0` event, `+8` spot position);
+  task `+0x174` is the ride phase, set by the customer manager (the Android build, where the
+  passenger sits at `+0x38`, reads the same):
+
+  | Phase | Each frame |
+  |---|---|
+  | 0 | spawn: `psgSetState(p, 0, 0, 0)`, snap to the spot |
+  | 1 | waiting: on screen or not (`nlProjectScreen3D`); the distance to the taxi picks a band (`g_0c13eed4`/`eed8`/`eedc`, set by `Set_StandWaitDist`) and re-enters the state with it; nearer than `g_0c13eee0` (150): state 1. Request event 5 (the taxi stopped for them): state 2, the get-in camera (`KyaCamera_Start`), `Drv_StartAction(2)`, a random get-in variant |
+  | 2 | riding: impatience (`Chat_Iraira`), reactions to the car's acceleration (`Chat_Crush` at -2/-4/-6), arrival |
+  | 3 | out of time: impatient line, out of the car |
+  | 4 | arrived: state 4, `Drv_StartAction(4)`, the drop-off camera (`KyaCamera_Start(p, 1)`) |
+  | 5 | nothing |
+  | 6 | frees its animation buffer slot |
+
+  Then `psgSetCurrent(p)` and `psgFrame(p)`: in states 0 and 1 `psgRoadCheck` counts how long the
+  customer stands near the road's curve points (`HitDetectCurve`, within 15 units; over 15: state
+  6), then the state's frame handler runs from a second table of seven (template at `0x0C0D5F64`,
+  Android `0x821540`): `psgFrameState0`-`psgFrameState6`. Taking a customer over means replacing
+  these handlers.
 - `0x0C06B9D0` (state 2's entry) was named `VSklPlay` by the first matcher pass; the table and its
   calls show it is not.
 - Animation sets: characters 1-3, 0x18, 0x1A, 0x1F-0x21, 0x23, 0x24, 0x26, 0x29, 0x2A, 0x2C, 0x2E,
