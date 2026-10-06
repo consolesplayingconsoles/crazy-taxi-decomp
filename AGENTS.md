@@ -11,7 +11,8 @@ with `bash build.sh` printing `MATCH`.
   words (`.DATA.W`), which is what makes the first build match.
 - `src/<unit>.c`: matching C. A file whose first line is `/* @unit <start>-<end> [shc options] */`
   replaces every asm file in that range (`tools/units.py`, `tools/fill.py`). A unit with constant
-  data (tables, strings) adds `@data <dstart>-<dend>`: the range where the original link put that data.
+  data (tables, strings) adds `@data <dstart>-<dend>`: the range where the original link put that data. Its ends are
+  `D <addr> 0 data_<addr>` lines in `functions.txt` (data boundaries, not counted as functions).
 - `symbols.txt`: `<addr> <name>` for what the C uses that no file defines yet (RAM, data still inside
   asm); the linker gets them as defines.
 - `sdk.txt`: which code is Sega's SDK. `python3 tools/progress.py` reports game and SDK apart.

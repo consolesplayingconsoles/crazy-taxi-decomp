@@ -3,8 +3,9 @@
 
     split_asm.py <1ST_READ.BIN> <base hex> <report.txt> <out dir>
 
-<report.txt> is DcReport output ("F <addr> <size> <name>" lines). Every function entry starts a
-new file that runs to the next entry, so the files cover the binary exactly; in input order and
+<report.txt> is DcReport output ("F <addr> <size> <name>" lines), or a functions.txt, which may also
+hold "D <addr> 0 <name>" lines: a data boundary (where a C unit's @data range starts or ends), not
+a function. Every entry starts a new file that runs to the next entry, so the files cover the binary exactly; in input order and
 linked with ALIGN=2 they rebuild it byte for byte. Each file exports its label (_<name>) so C that
 replaces a function can call the others by name.
 
@@ -27,7 +28,7 @@ def main():
     names = {}
     for line in open(sys.argv[3]):
         p = line.split()
-        if len(p) >= 4 and p[0] == "F":
+        if len(p) >= 4 and p[0] in ("F", "D"):
             a = int(p[1], 16)
             if base <= a < end:
                 names[a] = p[3]
@@ -61,9 +62,9 @@ def main():
         with open(os.path.join(sys.argv[4], "functions.txt"), "w") as f:
             for line in open(sys.argv[3]):
                 p = line.split()
-                if len(p) >= 4 and p[0] == "F" and base <= int(p[1], 16) < end:
-                    f.write("F %s %s %s\n" % (p[1], p[2], p[3]))
-    print("%d files, %d named, %d bytes" % (len(order), sum(1 for n in names.values() if not n.startswith("FUN_")), len(data)))
+                if len(p) >= 4 and p[0] in ("F", "D") and base <= int(p[1], 16) < end:
+                    f.write("%s %s %s %s\n" % (p[0], p[1], p[2], p[3]))
+    print("%d files, %d named, %d bytes" % (len(order), sum(1 for a, n in names.items() if not n.startswith(("FUN_", "data_"))), len(data)))
 
 
 if __name__ == "__main__":

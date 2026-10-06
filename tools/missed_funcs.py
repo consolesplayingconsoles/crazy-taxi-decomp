@@ -25,7 +25,7 @@ if len(sys.argv) != 4:
     sys.exit(__doc__)
 exe = open(sys.argv[1], 'rb').read()
 base = int(sys.argv[2], 16)
-funcs = sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open(sys.argv[3]))
+funcs = sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open(sys.argv[3]) if l.startswith('F '))
 end = base + len(exe)
 gaps = []
 for i, (a, size, name) in enumerate(funcs):
