@@ -3,6 +3,14 @@
 What is known about the game's own code and data, from reading the executable. Addresses are RAM
 (linked at `0x0C010000`). Function names here are the ones in `functions.txt`.
 
+## Boot
+
+- The entry stub (`0x0C010000`) copies `0x0C010100`-`0x0C014000` (the boot code, then `0xFFFD`
+  filler from `0x0C011C28`) to `0x0C004000` and runs it there; the boot code sets the stack to
+  `0xAC00FC00`, the vector base to `0x8C00F400`, and clears `0x0C010000`-`0x0C011000`. The block
+  is reused at run time: bytes placed in the filler do not survive into gameplay, although no
+  pointer in the executable points into it.
+
 ## Loading
 
 | file | loaded at | by |
@@ -110,14 +118,40 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   Then `psgSetCurrent(p)` and `psgFrame(p)`: in states 0 and 1 `psgRoadCheck` counts how long the
   customer stands near the road's curve points (`HitDetectCurve`, within 15 units; over 15: state
   6), then the state's frame handler runs from a second table of seven (template at `0x0C0D5F64`,
-  Android `0x821540`): `psgFrameState0`-`psgFrameState6`. Taking a customer over means replacing
-  these handlers.
+  Android `0x821540`): `psgFrameState0`-`psgFrameState6`.
+- A customer draws itself in its frame handler (`psgFrameState0` and others): `nlPushMatrix(0)`
+  (a copy of the camera's view matrix), place it in the world (`FUN_0c071048`, or `FUN_0c071104`
+  for the mini game 8 boyfriend, then `FUN_0c070f04` and `FUN_0c0713d8`), then
+  `humanDraw(p->motion, p->chara, (int)p->frame, 0)` with the current motion at `+0x34` and the
+  float frame at `+0x38`, then `nlPopMatrix(1)`. `nlPushUnitMatrix` (`0x0C0782E0`) pushes an
+  identity matrix instead, which drops the camera: anything drawn under it is placed as if the
+  camera sat at the world origin.
 - `0x0C06B9D0` (state 2's entry) was named `VSklPlay` by the first matcher pass; the table and its
   calls show it is not.
 - Animation sets: characters 1-3, 0x18, 0x1A, 0x1F-0x21, 0x23, 0x24, 0x26, 0x29, 0x2A, 0x2C, 0x2E,
   0x30, 0x31, 0x33, 0x34, 0x37 and 0x39 (`FUN_0c070bf8`, a bit mask in the Android build) play the
   motions at `0x0C9726F4`, the others those at `0x0C972E68`. `FUN_0c070c64` is a second character
   list; the Android build replaced it with a table.
+
+## Input
+
+- Every frame `getSwitch` reads the pads: `padReadSlot(0)` stores `pdGetPeripheral(0)` (port A)
+  in the table at `0x0C1EE12C`, `ConvertSwitch(0)` turns it into `TaxiSW`, port C (`padReadSlot(2)`)
+  goes through `ConvertSwitch2`, then `padToAnalog` makes the car's inputs. The Android build does
+  all of it in one `getSwitch()`.
+- `TaxiSW` (`0x0C1EE24C`, 0x34 bytes per player): `+0x00` buttons held, `+0x04` pressed, `+0x08`
+  released, `+0x0C` last frame's held; `+0x10` stick X (recentred, x256), `+0x12` right trigger
+  x256, `+0x14` left trigger x256, `+0x16` stick Y; bytes `+0x18` stick X (0-255), `+0x19` right
+  trigger, `+0x1A` left trigger, `+0x1B`-`+0x1E` button flags (`exec_CarMain` reads `+0x1B`,
+  `+0x1C`); `+0x2B` device: 0 pad, 1 a device whose name starts with `R` (the racing
+  controller), 2 one with `F` at its 11th character.
+- `padToAnalog` (Android names): steering `STR_ADc` = (stick X - `STR_MID`) / `STR_RBND` (or
+  `STR_LBND` to the left), -1 to 1; accelerator `ACC_ADc` = (right trigger - `ACC_MIN`) /
+  `ACC_BND`, 0 to 1; brake `BRK_ADc` = (left trigger - `BRK_MIN`) / `BRK_BND`, 0 to 1 (the `_AD`
+  globals hold the same values before clamping). These three floats are what the taxi drives on.
+- Other readers of `TaxiSW`: `CheckSoftReset` (A+B+X+Y+Start), two cheat code checks (the Android
+  build's `DC_Chari_Command_Check` and `DC_Reverse_Command_Check`; `FUN_0c0511a4` is one of them),
+  menus, the camera, `technicalCheck`.
 
 ## Taxi
 
@@ -164,6 +198,9 @@ Thin game functions around the SDK, named from what they call. Grouped by subsys
   and a hide function (clears the bit). `hudDraw` runs every frame and calls one draw routine per
   set bit; it also prints the cheat-mode labels ("another day", "EXPERT", "no arrows",
   "no destination mark"). `hudInit` clears the HUD state for a run.
+- The driving frame handler calls `hudDraw` at its very end, after the scene is drawn; another
+  mode's frame (`FUN_0c050f80`) calls it too. No other function loads from `hudDraw`'s bytes
+  (`0x0C052E1C`-`0x0C05308C`).
 - Bit 25 = "STOP AND PICK UP A CUSTOMER!" (`hudShowPickUpNag` / `hudHidePickUpNag`; voice clip
   188; called every 10 s with an empty cab). Bits 24 and 26 are two more messages with the same
   pattern (show `0x0C05355E` / `0x0C0535FC`, hide `0x0C0535A4` / `0x0C053642`), not identified yet.

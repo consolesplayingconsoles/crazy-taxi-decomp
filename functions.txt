@@ -84,11 +84,11 @@ F 0c0297fa 78 FUN_0c0297fa
 F 0c0298f0 252 FUN_0c0298f0
 F 0c029a94 18 FUN_0c029a94
 F 0c029aa6 126 FUN_0c029aa6
-F 0c029b24 194 FUN_0c029b24
+F 0c029b24 194 padToAnalog
 F 0c029c42 60 padReadSlot
-F 0c029c7e 1508 FUN_0c029c7e
-F 0c02a2d4 40 FUN_0c02a2d4
-F 0c02a2fc 22 FUN_0c02a2fc
+F 0c029c7e 1508 ConvertSwitch
+F 0c02a2d4 40 ConvertSwitch2
+F 0c02a2fc 22 getSwitch
 F 0c02a3ec 138 usr_gd_err_func
 F 0c02a480 754 gameInit
 F 0c02a9ac 252 MainLoop
