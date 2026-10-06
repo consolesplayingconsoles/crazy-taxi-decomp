@@ -9,8 +9,7 @@ works if everything that locates the records is updated. This finds, for every d
      every sector;
   2. tables in the executable that hold those records' positions: runs of 32-bit entries at a fixed
      stride, in bytes or in 0x800-byte sectors, optionally each followed by the record's size.
-A hit means the file can grow: repack the records, then rewrite that table (Boku Doraemon:
-STORY.PAC, 76 scenes, (sector, length) pairs at 0x8C04B704). No hit is not proof there is none:
+A hit means the file can grow: repack the records, then rewrite that table. No hit is not proof there is none:
 the positions may live in the file itself, or be computed.
 """
 import collections

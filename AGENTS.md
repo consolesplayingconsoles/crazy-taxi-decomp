@@ -16,6 +16,8 @@ with `bash build.sh` printing `MATCH`.
 - `symbols.txt`: `<addr> <name>` for what the C uses that no file defines yet (RAM, data still inside
   asm); the linker gets them as defines.
 - `sdk.txt`: which code is Sega's SDK. `python3 tools/progress.py` reports game and SDK apart.
+- `python3 tools/shdis.py <start> <end>`: SH-4 disassembly with FPU, pool values and names, to
+  read the original while writing C.
 - `BASE`: the address the executable is linked at. `1ST_READ.BIN`: yours, never committed.
 - Names: `FUN_<addr>` is unknown; anything else came from SDK signatures, a reference decomp, or
   reading the code.
@@ -51,3 +53,21 @@ written down (what differs) for later; move on.
   value re-read from memory versus the one just stored (`if ((e->prev = p->prev) == 0)`).
 - A difference that no rewording moves is worth checking against another compiler version before
   more rewording; if two versions give the same bytes, it is the C.
+- Idioms that decide matches (details in the kick-off skill's `references/matching-c.md`):
+  `x ? 1 : 0` for a bit field set from a call (not `!= 0`); one-bit fields rather than `& mask`
+  tests on a flags byte (no `extu.b`); a whole-word field (`unsigned int f : 32`) when the original
+  stores through a computed address (`mov.w off,r2; add rP,r2; mov.l rX,@r2`); globals read at
+  constant offsets as struct members, not array indexing; if/else order decides block layout and
+  stack slots (local declaration order does not); a block-scoped temporary can stay in a register
+  where a function-scoped one spills; `unsigned` can change which constant register is shared.
+- Compiler runtime routines (`__modls`, `__bfslu`, `__quick_evn_mvn`, `__quick_odd_mvn`, ...) are
+  named in `functions.txt` with one underscore less (`_modls`): the asm exports `_<name>`, so the
+  label is exactly what the compiler calls and a C unit links without `symbols.txt` entries for
+  them. If one is still `FUN_...`, rename it.
+
+## Changing the game
+The boot block is not free space. The entry stub copies the start of the executable elsewhere and
+runs it there (seen on a game linked at `0x0C010000`: `0x0C010100-0x0C014000` to `0x0C004000`),
+and the filler after the boot code, which looks unused and has no pointer into it, can be reused
+once gameplay starts: code placed there can give a black screen. Space that has worked for new
+code: an unused function the game's own code already calls.
