@@ -71,22 +71,22 @@ functions documented in `docs/engine.md`.
 
 ## Progress
 
-Updated on every commit by `tools/hooks/pre-commit`; enable it once per clone with
-`git config core.hooksPath tools/hooks`.
-
-<!-- progress:start -->
+<!-- progress -->
 ```
-GAME CODE                         1395 functions, 274351 bytes of code
+GAME CODE                         1402 functions, 281591 bytes of code
   matching C, bytes         0.0%  52 bytes, 1 units
-  matching C, functions     0.2%  3 of 1395
-  named functions          23.7%  330 of 1395
-  named code, bytes        34.6%  code in named functions
-  documented functions      5.3%  74 in docs/*.md
+  matching C, functions     0.2%  3 of 1402
+  named functions          24.3%  341 of 1402
+  named code, bytes        36.4%  code in named functions
+  documented functions      5.8%  81 in docs/*.md
   named globals                   32
 SDK (Sega libraries)              1000 functions, 105732 bytes of code
   named functions          52.8%  528 of 1000 (signatures)
 ```
-<!-- progress:end -->
+<!-- /progress -->
+
+Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
+`git config core.hooksPath tools/hooks`).
 
 ## Names
 

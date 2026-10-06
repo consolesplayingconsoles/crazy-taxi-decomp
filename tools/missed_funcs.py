@@ -11,7 +11,10 @@ the gap after a function's analysed end:
   - an address some pointer-sized word in the executable points at (callbacks, tables, pools),
     unless that word sits in the same function's own bytes (its switch jump table);
   - a typical function start (saving r8-r14 or pr, or making stack room);
-  - a tiny leaf: a literal-pool load straight followed by rts (getters, setters).
+  - a tiny leaf: a literal-pool load straight followed by rts (getters, setters);
+  - an address a word elsewhere points at INSIDE a function's analysed body, where code starts
+    right after an rts or looks like a function start: two functions the analysis merged into one
+    (typical for entries of a function-pointer table in the data area, reached only through data).
 Only small gaps count (pools and padding, under 2 KB): a big gap is data, not code.
 Review each before adding it to functions.txt as "F <addr> <size> FUN_<addr>"; then re-run
 split_asm.py and build.sh (still MATCH).
@@ -76,7 +79,20 @@ for lo, hi, name in gaps:
             found.setdefault(x, set()).add('function start')
         elif hw(x) >> 12 == 0xd and hw(x + 2) == 0x000b:
             found.setdefault(x, set()).add('leaf: pool load + rts')
+# 3. pointers into an analysed body (not its start): a merged function, if it looks like an entry
+sizes = {a: s_ for a, s_, n in funcs}
+names = {a: n for a, s_, n in funcs}
+for o in range(0, len(exe) - 3, 4):
+    v = struct.unpack_from('<I', exe, o)[0]
+    t = (v & 0x1fffffff) | (base & 0xe0000000)
+    if not (base <= t < end) or t & 1 or t in sizes:
+        continue
+    f = owner(t)
+    if f is None or not (f < t < f + sizes[f]) or owner(base + o) == f:
+        continue
+    if (t >= base + 4 and hw(t - 4) == 0x000b) or hw(t) in PUSH or (hw(t) >> 8 == 0x7f and hw(t) & 0x80):
+        found.setdefault(t, set()).add('pointed to from %08x, inside %s (merged?)' % (base + o, names[f]))
 for x in sorted(found, key=lambda x: (not any(r.startswith('pointed') for r in found[x]), x)):
     g = in_gap(x)
-    print('%08x  after %-24s %s' % (x, g[2] if g else '?', '; '.join(sorted(found[x]))[:100]))
+    print('%08x  after %-24s %s' % (x, g[2] if g else names.get(owner(x), '?'), '; '.join(sorted(found[x]))[:100]))
 print('%d candidates' % len(found), file=sys.stderr)

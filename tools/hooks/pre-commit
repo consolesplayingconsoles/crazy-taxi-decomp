@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-# Rewrites the progress block in README.md from tools/progress.py and stages it.
+# Keeps the README's Progress block current: on every commit it rewrites the lines between
+# <!-- progress --> and <!-- /progress --> with tools/progress.py's report, and stages README.md.
 # Enable once per clone: git config core.hooksPath tools/hooks
-set -e
+set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-python3 tools/progress.py > /tmp/ct-progress.$$ || { rm -f /tmp/ct-progress.$$; exit 1; }
-python3 - /tmp/ct-progress.$$ <<'P'
-import sys
-start, end = '<!-- progress:start -->', '<!-- progress:end -->'
-r = open('README.md').read()
-a, b = r.index(start) + len(start), r.index(end)
-new = r[:a] + '\n```\n' + open(sys.argv[1]).read().rstrip() + '\n```\n' + r[b:]
-if new != r:
-    open('README.md', 'w').write(new)
-P
-rm -f /tmp/ct-progress.$$
+grep -q '<!-- progress -->' README.md || exit 0
+[ -f functions.txt ] || exit 0
+report="$(python3 tools/progress.py 2>/dev/null)" || { echo "[pre-commit] tools/progress.py failed: Progress block left as is" >&2; exit 0; }
+python3 - "$report" <<'PY'
+import re, sys
+s = open("README.md", encoding="utf-8").read()
+block = "<!-- progress -->\n```\n%s\n```\n<!-- /progress -->" % sys.argv[1].rstrip()
+s2 = re.sub(r"<!-- progress -->.*?<!-- /progress -->", lambda m: block, s, flags=re.S)
+if s2 != s:
+    open("README.md", "w", encoding="utf-8").write(s2)
+PY
 git add README.md
