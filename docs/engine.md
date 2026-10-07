@@ -22,13 +22,24 @@ What is known about the game's own code and data, from reading the executable. A
   `0x0C03F8E2`-`0x0C03F8FA`: `MiniGame_No` = item - 2, then `CourseMode` = the chosen mode (Crazy Box game 15
   gives 0). That store (`0x0C03F8FA`) is the only place `CourseMode` becomes 2: `gameInit`,
   `FUN_0c02bc24`, `FUN_0c03df1a` and `callGoBackAdvertise` (back to the attract demo) only write 0.
+- The menu state (`0x0C2A11D8`): `+0` the depth, then one selected item per depth (`+4` the mode,
+  0 Arcade, 1 Original, 2 Crazy Box; `+8` the item on the next screen). `menuSetMode` reads both:
+  `Game_No` = the mode, and for the Crazy Box `MiniGame_No` = `+8` - 2.
+- The Crazy Box screen (`0x0C03FD2C`, in the handler table at `0x0C09DE48`) is a 19-item list
+  whose items 2-17 are the 16 games (a 4 x 4 grid). Its cursor moves with
+  `menuCursorBox(menu, 19, skip)`; `menuCursor(menu, count, skip)` (`0x0C03BB48`) is the plain
+  list version the other menus use. Both wrap around and step over every item whose bit is set
+  in `skip`. This screen's `skip` is `0x3FFFE` (only item 0) while the byte `0x0C28A4F6` is 0,
+  otherwise the locked games (`FUN_0c040cea`) shifted up by 2.
 - The driving frame (state 1, `0x0C02C9C0`) branches on `CourseMode`: with 2 it calls
   `FUN_0c05dea8` (lighting per mini game, `LightEffect`) and skips the crowd (`crowdSpawn`).
   `Init_DCmini` registers the mini game's tasks; functions reached only from `Init_DCmini` and
   `FUN_0c05dea8` include `Exec_Balloon` and the run `0x0C05EA98`-`0x0C05EEF4`; no code outside
   that run or `Init_DCmini` (`0x0C05B404`-`0x0C05B7A8`) loads from or branches into them.
-- Crazy Box code runs behind `CourseMode == 2` checks spread through the game (`Init_DCmini` at
-  set-up, `IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
+- Crazy Box code runs behind `Game_No == 2` (`gameState0`, the set-up: `Init_DCmini` and
+  `FUN_0c02f02a`; the driving frame: `execDCmini` (`0x0C05B914`), the mini game's update and 2D
+  overlay, by `MiniGame_No`) and `CourseMode == 2` checks spread through the game
+  (`IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
 
 ## Boot
 
@@ -225,7 +236,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   released, `+0x0C` last frame's held; `+0x10` stick X (recentred, x256), `+0x12` right trigger
   x256, `+0x14` left trigger x256, `+0x16` stick Y; bytes `+0x18` stick X (0-255), `+0x19` right
   trigger, `+0x1A` left trigger, `+0x1B`-`+0x1E` button flags (`exec_CarMain` reads `+0x1B`,
-  `+0x1C`); `+0x2B` device: 0 pad, 1 a device whose name starts with `R` (the racing
+  `+0x1C`: the gear buttons, on the pad A and B); `+0x2B` device: 0 pad, 1 a device whose name starts with `R` (the racing
   controller), 2 one with `F` at its 11th character.
 - `padToAnalog` (Android names): steering `STR_ADc` = (stick X - `STR_MID`) / `STR_RBND` (or
   `STR_LBND` to the left), -1 to 1; accelerator `ACC_ADc` = (right trigger - `ACC_MIN`) /
@@ -239,6 +250,28 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
+- The player's car is drawn by `putPlayerCar` (`0x0C0203E8`), not by `putCarModel`: at its
+  position and rotation (`+0x86` yaw, `+0x84`, `+0x88`), with the models in the set `+0x74`
+  points to (eight models: four wheels, the body at `[4]`, two body variants at `[5]`/`[6]`
+  picked by `+0x58`, one more). `init_CarMain` fills `+0x6C`, `+0x70` (wheel positions, x y z
+  each) and `+0x74` per cabbie from three five-entry tables (`0x0C0DAFD8`, `0x0C0DAFEC`,
+  `0x0C0DAFC4`; entry 4 is a default), so each cabbie has their own cab.
+- Traffic models: `carTbl` (`0x0C0A2628`, 0xA8 bytes per type; `putCarModel` reads the type as a
+  short at `+0x78` of the `_car`). An entry, by `putCarModel` (the Android build's has the same
+  order with 8-byte pointers): `+0x00`/`+0x04` body (two detail levels), `+0x08`/`+0x0C` shadow,
+  `+0x10`/`+0x14` an extra model, `+0x18`-`+0x34` and `+0x38`-`+0x54` two sets of eight light
+  variants, `+0x58`/`+0x60`/`+0x68` the wheel model of up to three axles, `+0x70`/`+0x7C`/`+0x88`
+  those axles' centres (x y z; type 0 (0, 3.2, +-14.9), type 10 (0, 5.7, +-36.7)), `+0x94` 2000
+  for cars, 8000 for type 10 (not yet known), `+0x98` (28, 40), `+0xA4` a pointer (the Android
+  build passes this entry's collision data to `SetColliObj`). The player's model set (above) is
+  a different layout: one model per wheel, then the body. Types 0-13 are traffic cars and vans
+  (type 10 has the longest wheelbase), 14 uses the same body as the cab in the cabbie model
+  set 3 (`0x0C3E1568`), 15 is empty, 16-19 use city models (`polDC1`-`3`, the trains).
+- The gear is `+0x120` (the Android build's `getCarGear`, `+0x138` there): 0 reverse, 1-5 the
+  automatic gears. `carGearbox` (`0x0C020DE8`, inline in the Android build's `exec_CarMain`)
+  sets 0 while `TaxiSW + 0x1C` (A, reverse) is set, 1 on `TaxiSW + 0x1B` (B, drive), and moves
+  between 1 and 5 by the engine's revs. `carRumble` (`0x0C0206DC`) reads the same buttons and
+  the stick and ends in `ndPuru2Start` (the Jump Pack).
 
 - The driver in the cab: `Drv_Execute` runs one action function per driver mode (`TaxiDriver`
   `+0x10`, from a table, offset by 10 while flag bit `0x80` is set; `Drv_StartAction(action,
@@ -265,6 +298,36 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   below its bottom). Its callers are `ExecAdvCamera`, `SetObjFly` and `FUN_0c0730b4` (an object
   by the taxi, radius 21); the customers' own movement never calls it. A point at ground height
 with radius 5 (a person) is held back by building walls and poles.
+
+## Traffic
+
+- Events: `set_event(size, func)` (the Android build's `nlSetEvent`) allocates an event of
+  `size` bytes and links it into the list at `0x0C1799C8`; the event's own header holds the links
+  (`+0x04`, `+0x08`) and its function (`+0x0C`), its data follows. `nlExecuteEvent`
+  (`0x0C029702`, once per driving frame) calls every event's function with the event;
+  `nlCloseEvent(event)` (`0x0C029698`) unlinks and frees one.
+- Traffic cars (and trains) are events, not an array (`PcarInit`: `nlSetEvent(0x146, ...)`, the
+  `_car` is the event); closing a car's event takes it out of traffic. `TrainCarInit`, `CableControlInit`,
+  `PcarInit`, `StopingCarInit` and `ParkingCarInit` register an executor per car (seven in all;
+  their `carEntry` calls are at `0x0C0467E8`-`0x0C049460`, in code not yet split into functions;
+  static in the Android build too) with the car's `_car` record. `trafficControl` decides where cars appear around the
+  player (`playerEV`, the radius `CarControlArea`).
+- Every frame each executor calls `carEntry(car)` (`0x0C0448FC`), which appends the car to a list
+  of up to 100 pointers (`0x0C2A44CC`, count at `0x0C2A44C8`). `entryCarPut`, in the driving frame
+  after `Act_Execute`, draws every car on the list that is on screen (`putCarModel`, or
+  `putTrainModel` for types 0x10 and up in the Android build) and then sets the count back to 0 (not in a replay); the
+  pointers stay in the array until the next frame overwrites them. The list is the one place
+  that holds every live car.
+- A traffic `_car` (the Android build's offsets minus 0x1C): `+0x78` type, `+0x80` its course,
+  `+0x84` flags (bit `0x10000` on screen this frame), `+0x8C` position, `+0xA4`/`+0xA6`/`+0xA8`
+  rotation x/y/z, `+0xB0` radius (for clipping), `+0xD4` the point on its course. With flag bit
+  3 a car is also a collision object: `PcarInit` calls `SetColliObj` on the `ColliObj` inside
+  the `_car`, with its type's collision entry from `carTbl` (`KillColliObj` when the bit drops). `entryCarPut(0)`
+  also builds (in `FUN_0c043b68`) a collision box per shape from `ColliObjBoxSimpleTbl`
+  (`0x0C0ED68C`, 15 entries): half-width, height, front, back (z extents, back negative).
+  Entries 0-8 are car-sized (about 9-10 half-width, 20-35 long), 9 van-sized, 10 bus-sized
+  (16 x 45 x 87), 11-14 longer still (up to 160). The entries are collision shapes, not car
+  types: a type picks its shape through its collision data (`carTbl` `+0xA4`).
 
 ## Camera
 
@@ -405,4 +468,9 @@ original name is used here.
 
 ## Still open
 
+- Where the D/R gear box (bottom right while driving) is drawn. Not by a read of `+0x120`
+  (`carGearbox`, the camera's reverse view, `ExecArrow`'s caller and unrelated structs are the
+  only ones), not in `hudDraw`'s elements or `Put_TotalDrum`'s sprites, not by the sprite or
+  model draws two to four calls below `gameStateDrive` (cars, train, humans, `Put_Transporter`,
+  `Put_Build_Patch`). The Android build replaced it with a touch button.
 - What each camera mode is, and which one the normal chase camera uses.

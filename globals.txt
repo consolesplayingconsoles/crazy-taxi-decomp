@@ -1,7 +1,9 @@
 # Named globals: address, name. Names are the original ones, from the Android build's data
 # symbols, matched through the functions that use them (see docs/engine.md).
+0c0a2628 carTbl
 0c0d5530 vecZero
 0c0d553c vecAxisX
+0c0ed68c ColliObjBoxSimpleTbl
 0c13eed0 PsgPeraDistance
 0c1790c8 CREQ_flag
 0c1790cc Car_Data
