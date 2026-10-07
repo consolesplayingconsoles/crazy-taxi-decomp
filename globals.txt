@@ -1,5 +1,7 @@
 # Named globals: address, name. Names are the original ones, from the Android build's data
 # symbols, matched through the functions that use them (see docs/engine.md).
+0c08ad94 F_ZERO
+0c08adac I_ZERO
 0c0a2628 carTbl
 0c0d5530 vecZero
 0c0d553c vecAxisX
@@ -16,6 +18,7 @@
 0c1ee210 Game_No
 0c1ee214 MiniGame_No
 0c1ee234 MainMode
+0c1ee238 SubMode
 0c1ee244 LOCATION
 0c1ee24c TaxiSW
 0c1ee2e8 STR_AD
@@ -32,6 +35,7 @@
 0c1ee328 STR_LBND
 0c1ee32c STR_RBND
 0c1ee330 GlbCntr
+0c1ee788 GSystem
 0c1ee800 CourseDataA
 0c1ee810 adxtM
 0c28a4e8 Taxi_BACKUP
@@ -45,6 +49,7 @@
 0c2a6690 CourseTable
 0c2a6ac8 current_pro_ang
 0c2a7368 NoEro_Mode
+0c2a736c NoArrow_Mode
 0c2a931c adv_spr_flag
 0c2a9f70 f_parm
 0c2ad000 TaxiDriver
