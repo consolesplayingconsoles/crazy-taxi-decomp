@@ -17,8 +17,9 @@ What is known about the game's own code and data, from reading the executable. A
 ## Game modes
 
 - `CourseMode` (`0x0C1EE20C`): the mode chosen in the menu; 2 is the Crazy Box, whose game is
-  `MiniGame_No` (`0x0C1EE214`). The menu (`FUN_0c03f3ac`) applies the choice at `0x0C03F8E2`-
-  `0x0C03F8FA`: `MiniGame_No` = item - 2, then `CourseMode` = the chosen mode (Crazy Box game 15
+  `MiniGame_No` (`0x0C1EE214`). `menuSetMode` (`0x0C03F89A`, a callback in the
+  menu's handler table at `0x0C09DE08`; static in the Android build) applies the choice at
+  `0x0C03F8E2`-`0x0C03F8FA`: `MiniGame_No` = item - 2, then `CourseMode` = the chosen mode (Crazy Box game 15
   gives 0). That store (`0x0C03F8FA`) is the only place `CourseMode` becomes 2: `gameInit`,
   `FUN_0c02bc24`, `FUN_0c03df1a` and `callGoBackAdvertise` (back to the attract demo) only write 0.
 - The driving frame (state 1, `0x0C02C9C0`) branches on `CourseMode`: with 2 it calls
@@ -50,6 +51,20 @@ What is known about the game's own code and data, from reading the executable. A
 
 `polDC*.BIN` hold no absolute pointers; the exe's own tables point into them at their load address.
 
+The city streams in pieces around a point: `gdc_CoursePointLoadReq(point, radius)` (`0x0C02EE20`;
+the point is a 12-byte struct passed by value on the stack, the radius in `fr4`) requests every
+course piece whose centre is within `radius` plus the piece's own size, through
+`gdc_CourseReq(piece, set, distance)`. `exec_CarMain` (the end of the player car's update) calls
+it every frame from a point ahead of the taxi along its heading, chosen by `CREQ_flag`
+(`0x0C1790C8`, just before `Car_Data`): 600 units ahead with radius 1800 in the default case,
+220 / 560 and 30 / 50 in two other cases (`0x0C0244BC`-`0x0C02469A`).
+`gdc_CourseReq` does not read anything itself: it reserves room in a fixed pool of course memory
+(0x480 blocks of 32 bytes, in the Android build). A piece already in the pool gets its request
+count raised (and, if idle, a priority from the distance); a new one takes the free run that fits
+it best. The pieces requested each frame are the ones kept: moving `exec_CarMain`'s request
+point moves the loaded city with it, while a second request elsewhere does not (the pool stays
+full of the taxi's pieces).
+
 ## Tasks
 
 `set_event(size, callback)` (the name is the string it stores in the node) allocates a task node and
@@ -80,8 +95,10 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   over the loop), and characters are drawn with their heading as the y rotation.
   Customer walks are whole clips (set off, walk, halt): `0x0CAB6BBC` speeds up to 0.6 units a frame
   around frames 30-40 and slows to 0.12 at the end; its steady stride, frames 39-83 (44 frames,
-  0.51 a frame), loops with almost the same pose at both ends. Customer standing idles (no root
-  travel) include `0x0CAE3244` (76 frames), `0x0CAD21A4`, `0x0CAFC810`, `0x0CB17990` (81 frames).
+  0.51 a frame), is the closest loop in the clip, but its ends still differ by about a third of
+  the stride's own pose swing. Customer standing idles (no root
+  travel) include `0x0CAE3244` (76 frames), `0x0CAD21A4`, `0x0CAFC810`, `0x0CB17990` (81 frames);
+  `0x0CB17990` and `0x0CB035F0` (71 frames) barely move, the others gesture.
   There is no walk cycle: people stand, wave and jog. The crowd (`pedDraw`) takes its motions from
   the same sets, standing idles from the table at `0x0C0D6158` and the jog clips from `0x0C0D61AC`.
   `0x0CA64554` / `0x0CA6A230` (in place, 60 frames) are the two tennis players `FUN_0c072348`
@@ -183,6 +200,8 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 - A motion change can blend: `+0x108` counts frames up to `+0x10C` (> 0 sets flag bit 16), with
   the next motion at `+0x110` and its frame at `+0x114`; `psgPlayBlend` draws the mix
   (`VSklIpPlay`), the plain case draws with `humanDraw` (the Android build's `VSklPlay`).
+  `VSklIpPlay(motion a, frame a, motion b, frame b, weight of b, character, mode)` mixes two poses
+  (root included), so it can blend two frames of one motion as well as two motions.
 - Before each draw: `psgFaceTaxi` (or the mini game 8 boyfriend variant `FUN_0c071104`) turns the
   heading toward the taxi when standing, and `psgPutShadow` moves the matrix to the customer
   (translate `+0x04`, rotate heading `+ 0x8000`) and draws the shadow (`CalcShadow2Matrix` from
@@ -226,8 +245,12 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   a, b)` stores it with `a`, `b` at `+0x18`/`+0x1C` and runs the action's set-up,
   `FUN_0c062096`). 2 is a customer getting in and 4 one getting out (`Psg_Execute`), 5 the "pick
   someone up" line (`Act_Execute`, when the timer reads 600 or 300 frames); the action changes on
-  its own while driving, so it is not a "just driving" signal. In driver modes 2 and 4 it plays the animation buffer at `TaxiDriver +
-  0x28` (`FcvPlayBuffer`); otherwise `FUN_0c064130` works out where the head looks. The driver
+  its own while driving, so it is not a "just driving" signal. The seated driver is drawn by one
+  `FcvPlayBuffer(buffer, TaxiDriver + 0)` either way: in driver modes 2 and 4 (and with bit 0 of
+  `+0x1DF`) from the animation buffer at `TaxiDriver + 0x28` (call at `0x0C06400E`); otherwise
+  `drvJolt` (`0x0C064130`, inline in the Android build) turns the cab's acceleration, in its own
+  axes, into a body lean and head turn in the buffer `FcvJoltD` (`0x0C2AD460`) and plays that
+  (call at `0x0C0643F0`). The driver
   himself is rigid models (body, head, arms in `polDC0`, e.g. `0x0C3BFFE0`, `0x0C3C05A8`,
   `0x0C3C07C8`; one model table per cabbie at `0x0C136BE4`, `0x0C138BF8`, `0x0C13BB20`,
   `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `FUN_0c07ad00`, and only while bit 0 of
@@ -236,16 +259,31 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   tested in `Drv_Execute`). `Drv_Init` and the driver's action functions write that byte;
   `Drv_Execute` only reads it.
 
+- Walls: `CheckColliWall(point, radius)` (`0x0C0341E8`; the point in `r4`, the radius in `fr4`)
+  pushes a point out of the walls and poles of its collision grid cell, in place. A wall is a 2D
+  line with a height range; it counts only while the point's y is within it (down to `radius`
+  below its bottom). Its callers are `ExecAdvCamera`, `SetObjFly` and `FUN_0c0730b4` (an object
+  by the taxi, radius 21); the customers' own movement never calls it. A point at ground height
+with radius 5 (a person) is held back by building walls and poles.
+
 ## Camera
 
 - Current camera at `0x0C179840`: `+0x00` eye, `+0x0C` target, `+0x18` three 16-bit angles.
+- Angles are 16-bit (`0x10000` a full turn); `nlArcTan2(y, x)` takes two floats and returns one
+  (`nlArcTan2(1, 0)` = `0x4000`).
 - Mode at `0x0C179860` (0-11), set by `camSetMode`. `camUpdate(car)` runs every frame and handles
   each mode; the controller-3 debug cameras (Start, then A/B/X/Y) switch the same mode. Debug pad
   state is read from `0x0C1EE2B4`.
 - `camSetEye(vec, mode)`, `camSetTarget(vec, mode)` (into `0x0C1798D0` / `0x0C1798FC`, at `+0x18`)
   and `camSetAngles(x, y, z, mode)` (into `0x0C179928`): mode 1 snaps, 0 eases.
-- `camSnapToCar(car)` puts eye and target on the car's position. `camSave` / `camRestore` copy the
-  current camera to `0x0C2AD554` and back.
+- `camSnapToCar(car)` (`car` is an index into `Car_Data`, 956 bytes each) re-inits the eye and
+  target homing vectors on the car's position, re-inits the angle from `Cam_Angle` and calls
+  `ResetSpark`; the Android `execCamera` does the same on a VR mode change. `camSave` /
+  `camRestore` copy the current camera to `0x0C2AD554` and back.
+- A homing vector (`InitHomingVector` 0x0C036422, `CalcHomingVector` 0x0C03633C): `+0x0` current
+  point, `+0xC` velocity, `+0x18` goal, `+0x24` pull, `+0x28` keep. Each frame
+  velocity = velocity * keep + (goal - current) * pull, then current += velocity. Init puts current
+  and goal on the point with pull 1, keep 0. The eye is at `0x0C1798D0`, the target at `0x0C1798FC`.
 - `execCamera` (the Android build's name; ours is `camUpdate`) moves two smoothed points, the eye
   and the look-at (homing vectors), toward targets the current mode (`VR_mode`, 0-11) computes
   from the player's car, then builds the view with `nlLookAt`, stores the camera matrix and
