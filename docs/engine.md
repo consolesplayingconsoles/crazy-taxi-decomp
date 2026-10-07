@@ -5,14 +5,28 @@ What is known about the game's own code and data, from reading the executable. A
 
 ## Game states
 
-- `MainLoop` reads the pads (`getSwitch`) then runs the current game state from the table at
-  `0x0C08AE64` (16 entries): `gameState0`-`gameState15`, with `gameStateDrive` (1, driving),
+- `MainLoop` reads the pads (`getSwitch`) then runs the handler of `MainMode` (`0x0C1EE234`) from
+  the table at `0x0C08ACEC`; an empty entry moves on to the next `MainMode` and sets `SubMode`
+  (`0x0C1EE238`) to 0. The game's handler (the Android build's `Game`) runs state `SubMode`
+  (mod 16) from the table at `0x0C08AE64` (16 entries): `gameState0`-`gameState15`, with `gameStateDrive` (1, driving),
   `FUN_0c02cd46` (5), `Initialize_Replay` (6) and `exec_loop_Replay` (7, replay) named so far.
 - `gameStateDrive`'s order each frame: `FUN_0c041c14`, `camUpdate`, per-`CourseMode` work (the
   Crazy Box: `execMiniLight`), the customers (`exec_KyakuMain`), `ExecSetObject`, `ExecKyakuArea`,
   `ExecHelicopter`, `Act_Execute` (the cab driver), `entryCarPut`, `trafficControl`, the crowd
   (`crowdSpawn`, not in the Crazy Box), the tasks, `ExecColliObj`, `PutCourse`, `GoiTool`, and
   last `hudDraw`. Each call goes through the handler's own pool words.
+
+## The run's numbers
+
+- `GSystem` (`0x0C1EE788`, 100 bytes in the Android build): `+0x0C` the game time (frames; the
+  game tick counts it down, `Act_Execute` plays "pick someone up" at 600 and 300), `+0x20` the
+  cash, `+0x44` the current customer's time (read by `Psg_Execute` and the customer states,
+  against `+0x4C`). The cash and customer-time meanings come from the public USA cheat list
+  (libretro-database, `cht/Sega - Dreamcast/Crazy Taxi.cht`): the USA build's variables sit
+  0x22E0 lower (game time `0x8C1EC4B4`); each was checked against this build's code.
+- The two cheat switches `NoEro_Mode` (`0x0C2A7368`, no destination mark) and `NoArrow_Mode`
+  (`0x0C2A736C`, no arrows) are read by `hudDraw` (their labels) and the customers' code
+  (`exec_KyakuMain`).
 
 ## Game modes
 
@@ -38,7 +52,8 @@ What is known about the game's own code and data, from reading the executable. A
   that run or `Init_DCmini` (`0x0C05B404`-`0x0C05B7A8`) loads from or branches into them.
 - Crazy Box code runs behind `Game_No == 2` (`gameState0`, the set-up: `Init_DCmini` and
   `FUN_0c02f02a`; the driving frame: `execDCmini` (`0x0C05B914`), the mini game's update and 2D
-  overlay, by `MiniGame_No`) and `CourseMode == 2` checks spread through the game
+  overlay, by `MiniGame_No`; the six functions at `0x0C05BE5C`-`0x0C05C72E`, `FUN_0c05be5c` to
+  `FUN_0c05c614`, are reached only from it) and `CourseMode == 2` checks spread through the game
   (`IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
 
 ## Boot
@@ -236,7 +251,9 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   released, `+0x0C` last frame's held; `+0x10` stick X (recentred, x256), `+0x12` right trigger
   x256, `+0x14` left trigger x256, `+0x16` stick Y; bytes `+0x18` stick X (0-255), `+0x19` right
   trigger, `+0x1A` left trigger, `+0x1B`-`+0x1E` button flags (`exec_CarMain` reads `+0x1B`,
-  `+0x1C`: the gear buttons, on the pad A and B); `+0x2B` device: 0 pad, 1 a device whose name starts with `R` (the racing
+  `+0x1C`: the gear buttons, on the pad A and B; `+0x1D`, `+0x1E` probably the controller
+  set-up's other two actions, "confirm" and "destination", read only by a menu helper at
+  `0x0C04D60C`; `ConvertSwitch` fills all four from the configured buttons); `+0x2B` device: 0 pad, 1 a device whose name starts with `R` (the racing
   controller), 2 one with `F` at its 11th character.
 - `padToAnalog` (Android names): steering `STR_ADc` = (stick X - `STR_MID`) / `STR_RBND` (or
   `STR_LBND` to the left), -1 to 1; accelerator `ACC_ADc` = (right trigger - `ACC_MIN`) /
@@ -250,7 +267,8 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
-- The player's car is drawn by `putPlayerCar` (`0x0C0203E8`), not by `putCarModel`: at its
+- The player's car is drawn by `putPlayerCar(car)` (`0x0C0203E8`, the car index; called once,
+  from `exec_CarMain`), not by `putCarModel`: at its
   position and rotation (`+0x86` yaw, `+0x84`, `+0x88`), with the models in the set `+0x74`
   points to (eight models: four wheels, the body at `[4]`, two body variants at `[5]`/`[6]`
   picked by `+0x58`, one more). `init_CarMain` fills `+0x6C`, `+0x70` (wheel positions, x y z
@@ -262,11 +280,26 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `+0x10`/`+0x14` an extra model, `+0x18`-`+0x34` and `+0x38`-`+0x54` two sets of eight light
   variants, `+0x58`/`+0x60`/`+0x68` the wheel model of up to three axles, `+0x70`/`+0x7C`/`+0x88`
   those axles' centres (x y z; type 0 (0, 3.2, +-14.9), type 10 (0, 5.7, +-36.7)), `+0x94` 2000
-  for cars, 8000 for type 10 (not yet known), `+0x98` (28, 40), `+0xA4` a pointer (the Android
-  build passes this entry's collision data to `SetColliObj`). The player's model set (above) is
-  a different layout: one model per wheel, then the body. Types 0-13 are traffic cars and vans
-  (type 10 has the longest wheelbase), 14 uses the same body as the cab in the cabbie model
-  set 3 (`0x0C3E1568`), 15 is empty, 16-19 use city models (`polDC1`-`3`, the trains).
+  for cars, 8000 for type 10 (not yet known), `+0x98` (28, 40), `+0xA4` the type's name:
+  0 `E_Taxi`, 1 `P_Compact`, 2 `P_Wagon`, 3 `P_Sedan_A`, 4 `P_Sedan_B`, 5 `P_JEEP`, 6 `P_Picup`, 7 `P_Box`, 8 `P_Sedan_C`, 9 `P_IceBox`, 10 `P_Bus`, 11 `P_Convoy`, 12 `P_Convoy_TLR`, 13 `P_Convoy_TLR2`, 14 `P_Mercury`. The player's model set (above) is
+  a different layout: one model per wheel, then the body. Type 14 (`P_Mercury`) uses the same
+  body as the cab in the cabbie model set 3 (`0x0C3E1568`), 15 is empty, 16-19 use city models
+  (`polDC1`-`3`, the trains).
+- Where the car starts: `init_CarMain` writes the start position and heading straight into the
+  car (fixed values per `CourseMode`, and per `ReverseMode` in mode 1), then copies them on: a copy
+  of the position at `+0x8C` (where traffic cars keep the position they are drawn at), the
+  heading's copy `+0xF6`, each wheel's contact point in the tyre records from `+0x1A0` (0x84
+  apart) and the car's own collision object at `+0x00` (`SetColliObj(car, 0)`). The car's
+  velocity is `+0xFC` (x y z, a copy at `+0x108`) and its speed `+0x15C` (the Android build's
+  `getCarSpeed` / `setCarSpeed`, `+0x174` there). The car fields are the Android build's offsets
+  minus 0x18 (the DC `init_CarMain` uses `0x86`, `0x8C`, `0xF6`, `0xFC` and `0x1A0`).
+- No function moves the player's car once the run has started, except the recovery (inline in
+  the Android build's `exec_CarMain`; on the DC in `FUN_0c0231b4`, `0x0C0234E0`-`0x0C023580`):
+  when none of the four wheels finds ground (the car is out of the world) it puts the position
+  `+0x78` on the nearest course point (`getNearLineIndexAll`, or per mode the nearest of two
+  course lines), copies it to `+0x8C`, lifts it by 30 (`+0x7C`), copies `F_ZERO` (`0x0C08AD94`)
+  into the velocity `+0xFC` and `+0x108`, and zeroes the speed `+0x15C` and `+0x160` (in Crazy
+  Box game 3 it also resets the angles `+0x84` from `I_ZERO`, `0x0C08ADAC`).
 - The gear is `+0x120` (the Android build's `getCarGear`, `+0x138` there): 0 reverse, 1-5 the
   automatic gears. `carGearbox` (`0x0C020DE8`, inline in the Android build's `exec_CarMain`)
   sets 0 while `TaxiSW + 0x1C` (A, reverse) is set, 1 on `TaxiSW + 0x1B` (B, drive), and moves
@@ -311,7 +344,19 @@ with radius 5 (a person) is held back by building walls and poles.
   `PcarInit`, `StopingCarInit` and `ParkingCarInit` register an executor per car (seven in all;
   their `carEntry` calls are at `0x0C0467E8`-`0x0C049460`, in code not yet split into functions;
   static in the Android build too) with the car's `_car` record. `trafficControl` decides where cars appear around the
-  player (`playerEV`, the radius `CarControlArea`).
+  player: `playerEV` (`0x0C2A1B30`; `+0x00` the player car, `+0x04` a point, `+0x10` its course
+  point) holds a point ahead of the player car (by `CarControlArea` - 600 in the arcade game),
+  which `trafficControl` rebuilds from the car at its end (in the Android build) and reads, the
+  next frame, to choose which spawn points are live.
+- `ParkingCarInit(type, point, course, position, heading)` (`0x0C0463E4`) adds a parked car: an
+  event of 0x12C bytes run by `0x0C046B60` (static in the Android build too), the type, the course
+  (set to 0 at random half the time), the position (or the course's start when it is 0,
+  then put on the ground with `GetCollision2D`), flag `0x10` (parked) and a heading (`heading` if
+  0 or more, plus a little noise; random otherwise). Type 11 also gets its trailer. It returns
+  the car. A parked car stays while `point` is an active entry of `trafficControl`'s spawn points
+  (the Android build's `pointEventGet`: 0x20-byte records, the count at `0x0C2A4480`) or while it
+  is on screen; otherwise it removes its collision object, closes its event and lowers
+  `CarEntryNum`. Parked cars still react to being hit.
 - Every frame each executor calls `carEntry(car)` (`0x0C0448FC`), which appends the car to a list
   of up to 100 pointers (`0x0C2A44CC`, count at `0x0C2A44C8`). `entryCarPut`, in the driving frame
   after `Act_Execute`, draws every car on the list that is on screen (`putCarModel`, or
@@ -321,13 +366,16 @@ with radius 5 (a person) is held back by building walls and poles.
 - A traffic `_car` (the Android build's offsets minus 0x1C): `+0x78` type, `+0x80` its course,
   `+0x84` flags (bit `0x10000` on screen this frame), `+0x8C` position, `+0xA4`/`+0xA6`/`+0xA8`
   rotation x/y/z, `+0xB0` radius (for clipping), `+0xD4` the point on its course. With flag bit
-  3 a car is also a collision object: `PcarInit` calls `SetColliObj` on the `ColliObj` inside
-  the `_car`, with its type's collision entry from `carTbl` (`KillColliObj` when the bit drops). `entryCarPut(0)`
+  3 a car is also a collision object: `PcarInit` calls `SetColliObj` (`0x0C0330B8`) on the
+  `ColliObj` inside the `_car` (`+0x14`), with its type's collision entry from `carTbl` (`KillColliObj`, `0x0C03313A`, when the bit drops). A traffic executor ends its car with
+  `KillColliObj(car + 0x14)`, `nlCloseEvent(car)` and `CarEntryNum` minus one. (`0x0C03313A` was
+  first matched as `SetColliObj`; its body is the Android build's `KillColliObj`.) `entryCarPut(0)`
   also builds (in `FUN_0c043b68`) a collision box per shape from `ColliObjBoxSimpleTbl`
   (`0x0C0ED68C`, 15 entries): half-width, height, front, back (z extents, back negative).
   Entries 0-8 are car-sized (about 9-10 half-width, 20-35 long), 9 van-sized, 10 bus-sized
-  (16 x 45 x 87), 11-14 longer still (up to 160). The entries are collision shapes, not car
-  types: a type picks its shape through its collision data (`carTbl` `+0xA4`).
+  (16 x 45 x 87), 11-14 longer still (up to 160). 15 entries for 15 named types: by size
+  they line up with the types (0 `E_Taxi` car-sized, 10 `P_Bus` bus-sized, 11-13 the convoy and
+  its trailers), except 14 (`P_Mercury`, a cab's body but an 80-long box); not yet confirmed.
 
 ## Camera
 
@@ -347,6 +395,10 @@ with radius 5 (a person) is held back by building walls and poles.
   point, `+0xC` velocity, `+0x18` goal, `+0x24` pull, `+0x28` keep. Each frame
   velocity = velocity * keep + (goal - current) * pull, then current += velocity. Init puts current
   and goal on the point with pull 1, keep 0. The eye is at `0x0C1798D0`, the target at `0x0C1798FC`.
+- `initCamera` sets `VR_mode` to 0, the field of view (`0x0C1798A4`, read by the clipping in
+  `PutCourse` and `entryCarPut` too) and the chase distance (`0x0C0E4A04`) to 60. The chase
+  distance is the eye's offset in camera sub-modes 0 and 2 (`nlTranslate(0, 0, -distance)`);
+  sub-mode 1, the normal one, sets it from the eye and target's distance every frame instead.
 - `execCamera` (the Android build's name; ours is `camUpdate`) moves two smoothed points, the eye
   and the look-at (homing vectors), toward targets the current mode (`VR_mode`, 0-11) computes
   from the player's car, then builds the view with `nlLookAt`, stores the camera matrix and
@@ -463,6 +515,14 @@ original name is used here.
   bit field at `+0x150` (`unsigned int f150 : 32`, stored through a computed address), the driver's
   hold flag as a one-bit field, `if (hold || f140 < 0) pick; else switch` (block order and stack
   slots follow it), and `x ? 1 : 0` for bit fields set from a call.
+- `src/psgenter56.c` (`psgEnterState5`, `psgEnterState6`) is reference C: every instruction
+  comes out as in the original, but the original's first literal pool in `psgEnterState5` also
+  holds seven constants no remaining instruction loads (the offsets 0x110, 0x114, 0x10C and
+  0x248; 0x0C9EF530, `FcvStoreBuffer`, 0x0C0D5690, 5.0, 10.0, `Psg_SetMoveSpeed`): code the
+  original compiler removed but whose literals it kept, like a block of `psgEnterState2`. Without
+  them the pool fits further on and lands after case 1, not case 0. An `if (0)` block does not
+  keep its literals in SHC 5.1. Calling `FUN_0c061b14` in each case (not once after the switch)
+  was what gave the hoisted address in `r13`.
 - Units (the smallest address ranges no literal-pool load or branch crosses): 161 in the game code,
   86 in the Naomi library.
 
