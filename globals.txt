@@ -3,6 +3,7 @@
 0c0d5530 vecZero
 0c0d553c vecAxisX
 0c13eed0 PsgPeraDistance
+0c1790c8 CREQ_flag
 0c1790cc Car_Data
 0c17948c ReverseMode
 0c1794e8 RideonCamFlag
@@ -44,4 +45,6 @@
 0c2a7368 NoEro_Mode
 0c2a931c adv_spr_flag
 0c2a9f70 f_parm
+0c2ad000 TaxiDriver
+0c2ad460 FcvJoltD
 0c2ae388 SndQueue
