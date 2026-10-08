@@ -12,7 +12,9 @@ What is known about the game's own code and data, from reading the executable. A
   `FUN_0c02cd46` (5), `Initialize_Replay` (6) and `exec_loop_Replay` (7, replay) named so far.
 - `gameStateDrive`'s order each frame: `FUN_0c041c14`, `camUpdate`, per-`CourseMode` work (the
   Crazy Box: `execMiniLight`), the customers (`exec_KyakuMain`), `ExecSetObject`, `ExecKyakuArea`,
-  `ExecHelicopter`, `Act_Execute` (the cab driver), `entryCarPut`, `trafficControl`, the crowd
+  `ExecHelicopter`, `Act_Execute` (the cab driver), `entryCarPut`, `trafficControl`, `nlExecuteEvent`
+  (every event, so the traffic executors run on the `playerEV` point `trafficControl` has just
+  rebuilt; seen live), the crowd
   (`crowdSpawn`, not in the Crazy Box), the tasks, `ExecColliObj`, `PutCourse`, `GoiTool`, and
   last `hudDraw`. Each call goes through the handler's own pool words.
 

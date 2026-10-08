@@ -140,8 +140,14 @@ def shot():
         time.sleep(0.1)
         new = set(glob.glob(os.path.join(glob.escape(SHOTS), '*.png'))) - before
         if new:
-            time.sleep(0.2)                       # let the write finish
-            return max(new, key=os.path.getmtime)
+            path, size = max(new, key=os.path.getmtime), -1
+            for _ in range(50):                   # written in pieces: wait until it settles
+                time.sleep(0.2)
+                now = os.path.getsize(path)
+                if now and now == size:
+                    return path
+                size = now
+            return path
     sys.exit('no screenshot appeared in %s (set RA_SHOTS to RetroArch\'s folder)' % SHOTS)
 
 
