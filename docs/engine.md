@@ -357,6 +357,23 @@ with radius 5 (a person) is held back by building walls and poles.
   (the Android build's `pointEventGet`: 0x20-byte records, the count at `0x0C2A4480`) or while it
   is on screen; otherwise it removes its collision object, closes its event and lowers
   `CarEntryNum`. Parked cars still react to being hit.
+- The executors (static in the Android build; the names here are ours), each the event function
+  its set-up registers with `set_event`: `pcarExec` (`0x0C0465A8`, `PcarInit`, moving traffic),
+  `stopingCarExec` (`0x0C0468A8`, `StopingCarInit`), `parkingCarExec` (`0x0C046B60`,
+  `ParkingCarInit`), `cableCarExec` (`0x0C0483E0`, `TrainCarInit` for type 15), `trainCarExec`
+  (`0x0C048C48`, `TrainCarInit` for any other type), `trailerExec` (`0x0C0486D4`, `TrailerInit`,
+  the convoy's trailer) and `trainExec` (`0x0C0490E0`, `TrainInit`).
+- The cable cars are type 15: the Android build's `CableControlInit` puts two on each of the
+  courses 0x120 and 0x121, with a control event of its own.
+- How a moving car drives (`pcarDrive`, `0x0C04510E`, called by `pcarExec`; inline in the Android
+  build's executor): it follows its course line point by point and asks the course occupancy
+  grid about the points ahead, `courseStatusGet(course, point, ...)` (`0x0C0421EC`); a taken point
+  makes it brake and stop. The grid (per course, base `0x0C2A3A40`) is rebuilt every frame by
+  `entryCarPut`: `courseStatusInit(2)`, then `courseStatusEntry(course, point)` (`0x0C042196`) for
+  every car that is not parked. A car stopped within 800 units of the player (its collision
+  object's distance, `+0x40` in the Android build) counts frames in `+0x120`; at 120 it honks:
+  `Sound_Request(horn[type & 3], 2)`, the horns at `0x0C0A3768` (sound 0x1A9 in four variants:
+  0x1A9, 0x101A9, 0x301A9, 0x201A9).
 - Every frame each executor calls `carEntry(car)` (`0x0C0448FC`), which appends the car to a list
   of up to 100 pointers (`0x0C2A44CC`, count at `0x0C2A44C8`). `entryCarPut`, in the driving frame
   after `Act_Execute`, draws every car on the list that is on screen (`putCarModel`, or
