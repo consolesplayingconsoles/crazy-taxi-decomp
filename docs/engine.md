@@ -339,15 +339,71 @@ with radius 5 (a person) is held back by building walls and poles.
   (`+0x04`, `+0x08`) and its function (`+0x0C`), its data follows. `nlExecuteEvent`
   (`0x0C029702`, once per driving frame) calls every event's function with the event;
   `nlCloseEvent(event)` (`0x0C029698`) unlinks and frees one.
+- The heap: `nlInitHeapMemory(base, size)` (`0x0C0293C8`) sets up one block of 0x30000 bytes
+  at `0x0C1799E8` (descriptor at `0x0C1799D8`: start, end, free list) at every run's start
+  (`gameState0`); `nlInitEvent` (`0x0C029542`) then empties the event list. `nlMalloc`
+  (`0x0C0293FA`) is first fit (4-byte aligned, 8 at least), splitting from a block's end;
+  each block has its size in front (negative while in use) and behind. `nlFree`
+  (`0x0C02948C`) merges with free neighbours and has no guard: a block freed twice goes on the
+  free list twice. Events (`nlSetEvent` = `set_event`, `nlSetEventBefore` `0x0C0295E4`,
+  `nlSetEventNext` `0x0C02963E`) come from this heap, so do the course occupancy grids
+  (`courseStatusInit(0)`), pedestrians and set objects; `0x0C1A99EC` counts events. When the heap
+  is full, `nlSetEvent` returns 0 and `PcarInit`/`ParkingCarInit` add nothing. `nlExecuteEvent`
+  keeps the next event at list `+0x0C` before each call, and `nlCloseEvent` moves it on, so an
+  event may close itself (or the next one) while it runs.
+- `SubwayFlag` (`0x0C2A6FD8`): at 2 `trafficControl` skips `trafficLevelControl` and
+  `trafficSectionControl` (no new moving traffic); set at a run's start.
 - Traffic cars (and trains) are events, not an array (`PcarInit`: `nlSetEvent(0x146, ...)`, the
   `_car` is the event); closing a car's event takes it out of traffic. `TrainCarInit`, `CableControlInit`,
   `PcarInit`, `StopingCarInit` and `ParkingCarInit` register an executor per car (seven in all;
   their `carEntry` calls are at `0x0C0467E8`-`0x0C049460`, in code not yet split into functions;
   static in the Android build too) with the car's `_car` record. `trafficControl` decides where cars appear around the
   player: `playerEV` (`0x0C2A1B30`; `+0x00` the player car, `+0x04` a point, `+0x10` its course
-  point) holds a point ahead of the player car (by `CarControlArea` - 600 in the arcade game),
+  point) holds a point ahead of the player car (by `CarControlArea` - 600 while `MainMode` is 1, the normal game: 500 ahead, seen live),
   which `trafficControl` rebuilds from the car at its end (in the Android build) and reads, the
   next frame, to choose which spawn points are live.
+- `CarControlArea` (`0x0C2A1B18`) is the traffic radius: each frame `g_fDrawFactor` x 1100 (900
+  on some grids) while `MainMode` (`0x0C1EE234`) is 1, the normal game (1100 seen live in the
+  Original game), x 1700 otherwise (the Android build). `trafficControl`
+  runs, in order, `trafficLevelControl` (`0x0C042ACC`), `trafficSectionControl` (`0x0C042BB0`),
+  `parkingControl` (`0x0C0423B4`) and `RailroadAreaCheck` (the names of the first three are ours;
+  inline or static in the Android build).
+- Density: `trafficLevelControl` sets `TrafficLevel` (`0x0C2A1B6C`) from a table by mode
+  (`0x0C0A2178`, frame steps at `0x0C0A2198` and `0x0C0A21B8`) and raises it by one per step, up
+  to 23. With a fare on board (player car `+0x58` == 1) `TrafficPassengerLevel` (`0x0C2A1B70`)
+  climbs too and adds to it; without one, the passenger part is taken off again.
+- Moving traffic, `trafficSectionControl`: every course is cut into sections of 15 points (up to
+  96 per course, a bit each, two buffers swapped every frame). A section is live when its first
+  point is within `CarControlArea` of the `playerEV` point. A section live this frame but not
+  the last gets cars: one at a time along it, spaced by `CourseJamTable` (`0x0C0C3F20`, by the
+  course's jam class) minus `TrafficLevel` (at least 8 points); one time in 16 a short run packed 3 points apart.
+  `pcarSpawn` (`0x0C041F3C`) adds each car: nothing at 100 cars (`CarEntryNum`), nothing where
+  `courseStatusGet` finds the road taken, nothing within half `CarControlArea` of the
+  `playerEV` car's position (`+0x78`, so cars do not appear right beside the player);
+  otherwise `PcarInit(type, course, point)`, the type from `courseCarType` (`0x0C041EFC`:
+  `CourseCarGroupRateTable` `0x0C0C3E24` picks a group by course class, `CourseCarGroupTable`
+  `0x0C0A21F8` gives the group's first type and count). Types 10 and up take 6 more points.
+  `EntryNo` (`0x0C2A1B1C`) numbers every car made (`ParkingCarInit` stores it in `+0x74`); on
+  courses with flag `0x2000`, when it has bits `0x18`, `stopingCarSpawn` (`0x0C0420B0`) also adds
+  a stopping car.
+- Removal: every frame `calcCheck` (`0x0C045A2E`) measures a car from the `playerEV` point
+  (`+0x04`, at `0x0C2A1B34`): within `CarControlArea` + 30 it sets `+0x84` bits 0, 2 and 3 (alive,
+  moving, collision object), beyond it clears them; bit 2 also drops when the car stands still.
+  `calcCheckExec` then adds or removes the collision object to match bit 3 and returns bit 0;
+  on 0 the executor ends the car. The executors' other ends: `dropOutCheck` (`0x0C045C36`, below
+  y -35000) for moving and stopping cars, and for a parked car `pointEventGet(point)`
+  (`0x0C042398`: its spawn record no longer active) while it is off screen. Every end goes
+  through `pcarEnd` (`0x0C045C00`, ours; inline in the Android build): `KillColliObj`,
+  `nlCloseEvent`, `CarEntryNum` minus one, and for the convoy (type 11) its trailer's bit 0
+  cleared (the trailer is the next event, made with `nlSetEventNext`), so it ends next. Each
+  executor decides this before its `carEntry` call, so every car on the draw list was alive
+  that frame. `calcColliCheck` (`0x0C0459A8`) is `calcCheck` without the distance test. So moving traffic lives only near the `playerEV` point, and
+  appears only at the edge of that circle, as sections come into it.
+- Parked cars, `parkingControl`: the 0x20-byte spawn records (count at `0x0C2A4480`; active
+  flag, kind 1-7, how many cars, a position, a radius, a course) come live within
+  `CarControlArea` + 30 + the record's radius of the `playerEV` point, and add their cars with
+  `ParkingCarInit` (types again from the group tables; kind 5 taxis, kind 6 type 11, kind 7
+  alternating, facing set).
 - `ParkingCarInit(type, point, course, position, heading)` (`0x0C0463E4`) adds a parked car: an
   event of 0x12C bytes run by `0x0C046B60` (static in the Android build too), the type, the course
   (set to 0 at random half the time), the position (or the course's start when it is 0,
@@ -365,6 +421,12 @@ with radius 5 (a person) is held back by building walls and poles.
   the convoy's trailer) and `trainExec` (`0x0C0490E0`, `TrainInit`).
 - The cable cars are type 15: the Android build's `CableControlInit` puts two on each of the
   courses 0x120 and 0x121, with a control event of its own.
+- Courses: `CourseTable` (`0x0C2A6690`) points to 12-byte entries, one per course, the first word
+  its points (x y z each). `StageCourseInfoTable` (`0x0C0C3D4C`, 12-byte entries by `Game_No` +
+  `MiniGame_No`) gives each game's first course (`+0x04`) and how many (`+0x08`).
+  `getNearCoursePoint(mode, course, &point, position)` (`0x0C049ECE`) returns the distance to a
+  course's nearest point and stores which; `getNearLineIndexAll(position)` runs it over every
+  course of the game and moves the position onto the nearest point.
 - How a moving car drives (`pcarDrive`, `0x0C04510E`, called by `pcarExec`; inline in the Android
   build's executor): it follows its course line point by point and asks the course occupancy
   grid about the points ahead, `courseStatusGet(course, point, ...)` (`0x0C0421EC`); a taken point
@@ -380,6 +442,18 @@ with radius 5 (a person) is held back by building walls and poles.
   `putTrainModel` for types 0x10 and up in the Android build) and then sets the count back to 0 (not in a replay); the
   pointers stay in the array until the next frame overwrites them. The list is the one place
   that holds every live car.
+- Drawing, per car on the list (`entryCarPut(1)`): a car not parked (flag `0x10` clear) marks
+  its point in the occupancy grid, types 10 and up also the point behind (long vehicles); then
+  `nlProjectScreen3D` of its position and `CheckClippingProject3D` with its radius (`+0xB0`); off
+  screen, or farther than 1800 in front of the camera, it is not drawn and loses `+0x84` bit
+  `0x10000`. On screen it gets the bit and is drawn with `putCarModel` (types below 16) or
+  `putTrainModel`, in the detailed model only within 400 of the camera (or with a field of view
+  under 40), the simpler one otherwise. `entryCarPut(0)`, at a run's start, empties the list, sets
+  `CarEntryNum` and `CameraTargetNo` to 0, allocates the occupancy grids (`courseStatusInit(0)`)
+  and builds the collision boxes.
+- So traffic lives in a circle of `CarControlArea` (+30) around the `playerEV` point, which in
+  the normal game (`MainMode` 1) is `CarControlArea` - 600 ahead of the player car and otherwise the car
+  itself; cars are drawn up to 1800 ahead of the camera.
 - A traffic `_car` (the Android build's offsets minus 0x1C): `+0x78` type, `+0x80` its course,
   `+0x84` flags (bit `0x10000` on screen this frame), `+0x8C` position, `+0xA4`/`+0xA6`/`+0xA8`
   rotation x/y/z, `+0xB0` radius (for clipping), `+0xD4` the point on its course. With flag bit
@@ -422,6 +496,17 @@ with radius 5 (a person) is held back by building walls and poles.
   rebuilds the model-view matrix. Modes 10 and 11 are scripted cut-scenes (`KyaCamera_Start(p, 0)`
   for getting in, `(p, 1)` for getting out): 5 and 6 shot functions stepped by a frame counter;
   the previous mode, position, target and angle are saved and restored.
+- Mode 0, the chase camera (`camUpdate` from `0x0C026A80`): the field of view is set to 60; the
+  target is the car's position plus (0, 5, 17) in the car's axes (yaw and pitch), and the eye
+  the car's position plus (0, y, z) with y = 15 plus a third of a smoothed speed term
+  (`0x0C1798B4`) and z = -60 minus that term plus the car's speed (`+0x15C`, copied to
+  `0x0C0E4DD8`) times a factor; the literals are at `0x0C02704C` (15) and `0x0C027050` (-60),
+  or `0x0C026F28` / `0x0C026F30` while `0x0C179960` is set. `GetCollision(target, eye, 0, 5)`
+  then pulls the eye in front of any wall between the two (course geometry only, not cars),
+  and `camSetEye(eye, 2)` eases it there. The offsets are fixed for every car: the eye sits
+  about 60 behind and 15 above the car's centre: 30 behind a cab's collision box (back -30,
+  11 high), only 16 behind a bus's (back -44.2, 45 high) and at a third of its height. The projection's near plane is 3 (`nlPerspectiveX`, far
+  15000; the Android build's `execCamera`).
 
 ## Small wrappers
 

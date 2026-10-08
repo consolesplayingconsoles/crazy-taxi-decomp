@@ -27,6 +27,11 @@ Rename in `functions.txt`, delete the old `asm/<addr>_FUN_<addr>.src`, re-run `s
 still `MATCH` (names never change bytes). A function missed by the analysis (`tools/missed_funcs.py`
 lists candidates) is added the same way, as `F <addr> <size> FUN_<addr>`.
 
+Optional, when RetroArch with the Flycast core is at hand: `tools/live.py` reads the running game
+by address or by name (`python3 tools/live.py watch <name>`, `vec <name>+4`), so a global's
+name can be checked against what the value does in play. Setup and commands: `tools/live.py` with
+no arguments. Reading the code stays the evidence; a live value confirms it or sends you back.
+
 ## The C loop (one original source file at a time)
 1. **Find the unit.** The compiler's literal pools are shared by every function of one source file,
    and `bsr` calls only reach functions of the same file: a unit runs from just after the previous
