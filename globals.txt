@@ -2,7 +2,11 @@
 # symbols, matched through the functions that use them (see docs/engine.md).
 0c08ad94 F_ZERO
 0c08adac I_ZERO
+0c0a21f8 CourseCarGroupTable
 0c0a2628 carTbl
+0c0c3d4c StageCourseInfoTable
+0c0c3e24 CourseCarGroupRateTable
+0c0c3f20 CourseJamTable
 0c0d5530 vecZero
 0c0d553c vecAxisX
 0c0ed68c ColliObjBoxSimpleTbl
@@ -43,11 +47,16 @@
 0c2a11bc NowAudio
 0c2a11c0 NowLanguage
 0c2a1ad4 sprZ
+0c2a1b18 CarControlArea
+0c2a1b1c EntryNo
 0c2a1b30 playerEV
+0c2a1b6c TrafficLevel
+0c2a1b70 TrafficPassengerLevel
 0c2a44a8 CarEntryNum
 0c2a44ac CameraTargetNo
 0c2a6690 CourseTable
 0c2a6ac8 current_pro_ang
+0c2a6fd8 SubwayFlag
 0c2a7368 NoEro_Mode
 0c2a736c NoArrow_Mode
 0c2a931c adv_spr_flag

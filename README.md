@@ -48,7 +48,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `build.sh` | assemble, link, convert, compare with your original |
 | `disc.sh` | build a playable disc image of your version (files you put under `disc/`) |
 | `textures.sh` | optional: every standard texture on one page, to find text drawn into images |
-| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler |
+| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler, live checks against the running game (optional) |
 | `src/` | matching C units (see below) |
 | `sdk.txt` | which code is Sega's SDK, not the game (for `tools/progress.py`) |
 | `symbols.txt` | addresses the C units use that no file defines yet (RAM, data inside asm) |
@@ -79,13 +79,13 @@ functions documented in `docs/*.md`.
 
 <!-- progress -->
 ```
-GAME CODE                         1447 functions, 305707 bytes of code
+GAME CODE                         1448 functions, 305797 bytes of code
   matching C, bytes         0.4%  1166 bytes, 2 units
-  matching C, functions     0.6%  8 of 1447
-  named functions          27.2%  394 of 1447
-  named code, bytes        40.4%  code in named functions
-  documented functions     12.4%  180 in docs/*.md
-  named globals                   55
+  matching C, functions     0.6%  8 of 1448
+  named functions          28.2%  408 of 1448
+  named code, bytes        41.6%  code in named functions
+  documented functions     13.8%  200 in docs/*.md
+  named globals                   64
 SDK (Sega libraries)              1024 functions, 113988 bytes of code
   named functions          52.0%  532 of 1024 (signatures)
 ```
