@@ -54,6 +54,7 @@
 0c2a1b70 TrafficPassengerLevel
 0c2a44a8 CarEntryNum
 0c2a44ac CameraTargetNo
+0c2a4e50 EndingFlag
 0c2a6690 CourseTable
 0c2a6ac8 current_pro_ang
 0c2a6fd8 SubwayFlag
