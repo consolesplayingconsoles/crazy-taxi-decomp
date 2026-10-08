@@ -326,6 +326,13 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   in play puts the driver on a pedalling bike above the seat) (bit 1 is the hold flag the customers read, bit 7 is
   tested in `Drv_Execute`). `Drv_Init` and the driver's action functions write that byte;
   `Drv_Execute` only reads it.
+- The driver's fields by their original labels: the Dec 3, 1999 prototype (HDR-0053 V0.220) still
+  has a debug readout ("Beta Version DEBUG ASCII", at `0x0C0614C0` in that build) printing the
+  same struct (`0x0C2A9628` there): `+0x00` `ManType`, `+0x04`/`+0x08`/`+0x0C` `pos.x/y/z`,
+  `+0x10` `Act`, `+0x14` `Mode`, `+0x18` `ParamA`, `+0x1C` `ParamB`, `+0x20` `Addr`, `+0x24`
+  `Frm` (a float), bit 7 of `+0x1DF` `isIp`. They fit the retail code: `Act` is the action
+  `Drv_Execute` runs, `ParamA`/`ParamB` the two arguments `Drv_StartAction` stores, `Addr` the
+  model table it picks. Retail and the later prototypes dropped the readout.
 
 - Walls: `CheckColliWall(point, radius)` (`0x0C0341E8`; the point in `r4`, the radius in `fr4`)
   pushes a point out of the walls and poles of its collision grid cell, in place. A wall is a 2D
@@ -598,6 +605,20 @@ original name is used here.
 | `vmuExit` | `BupExit` |
 | `rand` / `randFloat` | `nlRand` / `nlRandom` |
 | (frame handler, state 7, now named) | `exec_loop_Replay`: state 7 is the replay |
+
+## Prototypes
+
+Three earlier builds of the same game: Dec 3, 1999 (HDR-0053 V0.220, JU), Dec 13, 1999 (MK-51053
+V1.001, US) and Jan 14, 2000 (MK-51035 V1.005, E, six days before this disc), all linked at
+`0x0C010000`, same compiler and options. Pairing this build's functions with them (allowing for
+moved pools, pool addresses and `bsr` offsets): Jan 14 has 2,109 of 2,167 unchanged, 43 changed
+(mostly constants: a camera script count 9 to 10 in `camPlayScript`, 7 to 8 in `SetStartCamera`,
+a pedestrian case 6 to 7 in `pedDraw`; `gameInit` reworked) and 15 not found as they are
+(`exec_CarMain`, `camUpdate`, `InitAdvCamera`, `gdc_CoursePointLoadReq`, `nd_CarSelMain`
+rewritten in the last week). Dec 13: 1,841 unchanged; Dec 3: 1,655, with the customers' frame
+states, `trainCarExec`, `Drv_Execute` and `getNearCoursePoint` much changed. Only Dec 3 has a
+debug readout (the driver's field labels, under Taxi); the discs carry no symbols or maps. The
+December builds lack the French, German and Spanish sprite files.
 
 ## The compiler
 
