@@ -276,6 +276,18 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   picked by `+0x58`, one more). `init_CarMain` fills `+0x6C`, `+0x70` (wheel positions, x y z
   each) and `+0x74` per cabbie from three five-entry tables (`0x0C0DAFD8`, `0x0C0DAFEC`,
   `0x0C0DAFC4`; entry 4 is a default), so each cabbie has their own cab.
+  `putPlayerCar` runs to `0x0C0206DA` (a literal pool sits mid-body): it draws the body `[4]`,
+  then `[6]` (or `[5]` while `+0x58` is set) at the same matrix (position, the three angles,
+  then `+0xAC`/`+0xB0` and 1.2 down), and places each wheel from the `+0x6C` table (x and z; the
+  height comes from the suspension), computing the tyre contact points on the way
+  (`FUN_0c0771b0`). A model is drawn by `FUN_0c07ad00(model)`; its first word picks the mesh
+  kind (0 or 1; by the code, any other value only pops the matrix). The player car is drawn in a state that ignores
+  the fade colour: with the base fade set to red (`0x0C0EA5BC`, which `ResetFadeColor` copies
+  in), the city and the traffic turned red and the player car and the walker did not (seen
+  live). Traffic cars, by contrast, wear their colour through it (`+0x7C`, below). The colour
+  comes in per strip: the routine all models go through (`FUN_0c081662`) reads it once per model
+  and applies it to strips whose flag word (read from the model, XOR-ed with `0x0C14A648`) has
+  bit `0x20` set and `0x10` clear.
 - Traffic models: `carTbl` (`0x0C0A2628`, 0xA8 bytes per type; `putCarModel` reads the type as a
   short at `+0x78` of the `_car`). An entry, by `putCarModel` (the Android build's has the same
   order with 8-byte pointers): `+0x00`/`+0x04` body (two detail levels), `+0x08`/`+0x0C` shadow,
@@ -361,7 +373,9 @@ with radius 5 (a person) is held back by building walls and poles.
   keeps the next event at list `+0x0C` before each call, and `nlCloseEvent` moves it on, so an
   event may close itself (or the next one) while it runs.
 - `SubwayFlag` (`0x0C2A6FD8`): at 2 `trafficControl` skips `trafficLevelControl` and
-  `trafficSectionControl` (no new moving traffic); set at a run's start.
+  `trafficSectionControl` (no new moving traffic); set at a run's start. `trafficSectionControl`
+  also needs `getGoiToolFlag(2)` (`0x0C049878`: a bit of the GoiTool debug menu's flags at
+  `0x0C2A4E68`), on in a normal run.
 - Traffic cars (and trains) are events, not an array (`PcarInit`: `nlSetEvent(0x146, ...)`, the
   `_car` is the event); closing a car's event takes it out of traffic. `TrainCarInit`, `CableControlInit`,
   `PcarInit`, `StopingCarInit` and `ParkingCarInit` register an executor per car (seven in all;
@@ -381,6 +395,11 @@ with radius 5 (a person) is held back by building walls and poles.
   (`0x0C0A2178`, frame steps at `0x0C0A2198` and `0x0C0A21B8`) and raises it by one per step, up
   to 23. With a fare on board (player car `+0x58` == 1) `TrafficPassengerLevel` (`0x0C2A1B70`)
   climbs too and adds to it; without one, the passenger part is taken off again.
+  `TrafficLevelChange(delta)` (`0x0C042A5A`) moves it by `delta` between the base level and 23,
+  at most once per 180 frames (it sets the step timer to -180); `technicalCheck` calls it, and
+  `setTechnicalBonus(kind, count)` (`0x0C0430D4`), which counts tricks in a run (`-1` resets) and
+  puts up the bonus display as an event (`technicalBonusExec`, `0x0C043284`, ours) while
+  `MainMode` is 1 and `EndingFlag` (`0x0C2A4E50`) is not 1.
 - Moving traffic, `trafficSectionControl`: every course is cut into sections of 15 points (up to
   96 per course, a bit each, two buffers swapped every frame). A section is live when its first
   point is within `CarControlArea` of the `playerEV` point. A section live this frame but not
@@ -463,7 +482,9 @@ with radius 5 (a person) is held back by building walls and poles.
 - So traffic lives in a circle of `CarControlArea` (+30) around the `playerEV` point, which in
   the normal game (`MainMode` 1) is `CarControlArea` - 600 ahead of the player car and otherwise the car
   itself; cars are drawn up to 1800 ahead of the camera.
-- A traffic `_car` (the Android build's offsets minus 0x1C): `+0x78` type, `+0x80` its course,
+- A traffic `_car` (the Android build's offsets minus 0x1C): `+0x78` type, `+0x7C` its colour (an
+  index into 12-byte r g b entries at `0x0C0A3498`, -1 none: `putCarModel` tints the body with
+  `SetFadeColorBaseMulti(r, g, b)` (`0x0C030BFA`) and `ResetFadeColor`s after it), `+0x80` its course,
   `+0x84` flags (bit `0x10000` on screen this frame), `+0x8C` position, `+0xA4`/`+0xA6`/`+0xA8`
   rotation x/y/z, `+0xB0` radius (for clipping), `+0xD4` the point on its course. With flag bit
   3 a car is also a collision object: `PcarInit` calls `SetColliObj` (`0x0C0330B8`) on the

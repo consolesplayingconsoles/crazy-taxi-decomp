@@ -1,4 +1,4 @@
-/* Reference C, not built: SHC 5.1 -extra=a=400 -macsave=1 matches 5 of 6 functions; extRand keeps its mask in r2, the original in r3 (see docs/engine.md, "The compiler"). Range 0C049818-0C0498F8. */
+/* Reference C, not built: SHC 5.1 -extra=a=400 -macsave=1 matches 5 of 6 functions; extRand keeps its mask in r2, the original in r3 (see docs/engine.md, "The compiler"); 22 wordings tried, all r2. Of 17 SHC builds, R1.00J, R1.0b2 and R4 put it in r3 but schedule extRand's start (sts.l macl after the load) and the other functions differently; R1.42J to R11b all give r2. Range 0C049818-0C0498F8. */
 /* The game's own random numbers (extRand*), a timer delta, and two bit-field helpers. */
 
 extern unsigned int gExtRandSeed;
