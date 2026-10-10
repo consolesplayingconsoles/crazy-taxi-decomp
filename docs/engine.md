@@ -330,7 +330,10 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `+0x1DF`) from the animation buffer at `TaxiDriver + 0x28` (call at `0x0C06400E`); otherwise
   `drvJolt` (`0x0C064130`, inline in the Android build) turns the cab's acceleration, in its own
   axes, into a body lean and head turn in the buffer `FcvJoltD` (`0x0C2AD460`) and plays that
-  (call at `0x0C0643F0`). The driver
+  (call at `0x0C0643F0`). Before either, `Drv_Execute` pushes the car's matrix (`Car_Data + 0xB4`)
+  and moves to the seat: one x, y, z per cabbie in the car's axes (front is +z), copied every
+  frame from `0x0C0D51E8` (4.36, 0, -1.01 / 4.36, 0, -0.12 / 4.36, 0, -1.67 / 4.36, 1.21, 0.73).
+  The driver
   himself is rigid models (body, head, arms in `polDC0`, e.g. `0x0C3BFFE0`, `0x0C3C05A8`,
   `0x0C3C07C8`; one model table per cabbie at `0x0C136BE4`, `0x0C138BF8`, `0x0C13BB20`,
   `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `FUN_0c07ad00`, and only while bit 0 of
