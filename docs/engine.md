@@ -147,6 +147,13 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   `+0x24` look, `+0x28` motion index, `+0x40` dodge position, `+0x50` state (-1 free, 0 gone, 1
   standing, 2 dodging), `+0x54` ground data, `+0x60` customer flag.
 
+- Dodging: `pedDodgeCheck` (`0x0C04FC5A`, from `pedUpdate`) tests only the player car: distance to
+  `Car_Data + 0x78` under `|Car_Data + 0x15C| * 15 + 50` and a lateral offset under 20 in the
+  car's motion frame (`crowdCarFrame`, `0x0C2A6FE4`, rebuilt by `crowdSpawn` every frame). The start
+  writes `+0x20` = 0, `+0x50` = 2, `+0x1A` = `Car_Data + 0xF4`, a jump clip in `+0x28` (even with
+  `+0x38` = 0xC000, odd with 0x4000; clips at `0x0C0D61AC`), `+0x3C` = `pedJumpDist[clip]` / frames,
+  and plays `pedScreamSound[look]`. People have no collision of their own.
+
 ## Passengers (customers)
 
 Customers are not crowd records: each is a `tagPASSENGER` (the Android build's type name), set up by
@@ -242,6 +249,13 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   0x30, 0x31, 0x33, 0x34, 0x37 and 0x39 (`FUN_0c070bf8`, a bit mask in the Android build) play the
   motions at `0x0C9726F4`, the others those at `0x0C972E68`. `FUN_0c070c64` is a second character
   list; the Android build replaced it with a table.
+
+- Boarding (`kyakuTaskExec`, `0x0C024878`, phase 1): the request event goes 1 to 3 when the
+  horizontal distance from the customer's spot to `Car_Data + 0x78` is under `kyakuDespawnDist`,
+  under 500 (`0x0C024FA4`), and under 130 - 60 * `task + 0x194` (`0x0C024FA8`), the car's speed
+  `|+0x15C|` is at most 0.15 and its height within 50 of the spot. `exec_KyakuMain` turns 3 into 4
+  (sets `kyakuBoarding`, sound 0x2A9) and the task 4 into 5 after `GS_GuestIn`. Only the car's
+  position counts; the green circle is drawn only in VR modes 0, 1, 2, 10, 11.
 
 ## Input
 
@@ -540,6 +554,29 @@ with radius 5 (a person) is held back by building walls and poles.
   about 60 behind and 15 above the car's centre: 30 behind a cab's collision box (back -30,
   11 high), only 16 behind a bus's (back -44.2, 45 high) and at a third of its height. The projection's near plane is 3 (`nlPerspectiveX`, far
   15000; the Android build's `execCamera`).
+
+## Set objects
+
+Postboxes, signs, crates: sphere collision objects (kinds 16-20), 0x70-byte instances in 32-byte
+groups (`setObjGroupTbl`, `0x0C0EDBB8`: group `+0x10` count, `+0x1C` instances). Instance `+0x00`
+position, `+0x0C` velocity, `+0x18` distance to the taxi's collision object (`ExecColliObj`), `+0x1C`
+impact, `+0x20` hit bits (bit 0 the player car), `+0x68` state (-1 free, 0 resting, 1+ flying).
+Groups open within `setObjOpenRange` (1000 or 1800) of `Car_Data + 0x78` and close beyond
+`setObjKillRange`. A hit (`colliBoxSphere`, `0x0C033D30`, from `colliHandlerTbl`) pushes the object
+out of the car's box and adds `n * 1.8 * closing speed * 2500 / (2500 + mass)` to its velocity;
+`SetObjFly` (`0x0C037B40`) then flies it (damping 0.98, gravity 1/6 a frame, bounces). There is no
+separate throw function.
+
+## Dead code (sandbox)
+
+Code that cannot run once Crazy Box is unreachable (callers all behind `CourseMode == 2` or
+`Game_No == 2`, or no references at all), for the sandbox mod's code space: `0x0C05C72E-0x0C05D852`
+(the rest of the Crazy Box overlay), `0x0C05D8E8-0x0C05E5CC` (`execMiniLight` and helpers),
+`0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player, never referenced), `0x0C05F544-0x0C05FD9C`,
+`0x0C05E8C8-0x0C05EA98`, `0x0C04DF34-0x0C04E194`, `0x0C060930-0x0C060B84`. Live neighbours to keep:
+`FUN_0c05d852` (psgFrame's table) and its pools, `FUN_0c05e5cc` (`PutWindow`), `ndPuru2Reset`'s
+pool at `0x0C05F532`. `FUN_0c02f02a` is not Crazy Box only (also called from `0x0C02CCD0`,
+`0x0C02CDAE`, `0x0C03E00C`).
 
 ## Small wrappers
 
