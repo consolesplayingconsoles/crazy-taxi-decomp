@@ -481,6 +481,33 @@ with radius 5 (a person) is held back by building walls and poles.
   the convoy's trailer) and `trainExec` (`0x0C0490E0`, `TrainInit`).
 - The cable cars are type 15: the Android build's `CableControlInit` puts two on each of the
   courses 0x120 and 0x121, with a control event of its own.
+- Rail vehicles by city (`trafficSectionControl`'s set-up, by `Game_No` + `MiniGame_No`): 0 (Arcade)
+  and 17 get the cable cars, `CableControlInit(0)` (`0x0C047698`): on courses 288 and 289 one
+  car 10 points before the course's end and one 160 points before, each `TrainCarInit(15, course,
+  point)`, plus the control event `cableControlExec` (`0x0C047C84`, ours, 92 bytes). 1 (Original)
+  gets the trains, `trainControlInit` (`0x0C0477D4`, ours): `TrainCarInit(16, ...)` on courses
+  315 and 316, `TrainCarInit(19, ...)` on 317 and 318 (each with `+0x84` bit 0 cleared), and the
+  event `trainControlExec` (`0x0C0482F4`, ours: sound 0xAA9 in five variants, state at
+  `0x0C2A4E48`). `TrainInit(lead, n)` adds carriage `n` 6n points behind the lead car, type
+  lead + 1 (lead + 2 for `n` 5).
+- `TrainCarInit(type, course, point)` (`0x0C047880`): a 300-byte event, `cableCarExec` for type
+  15 and `trainCarExec` otherwise; position from the point (or the course's last point when
+  `point` is 0), then `PcarEvInit`, `courseStatusEntry` and `calcCheckExec`.
+- A cable car is a physical car: `cableCarExec` (`0x0C0483E0`) runs only while the player car's
+  `+0x64` is 0-5, and does not end its car (no `calcCheckExec` result). Each frame it calls
+  `cableCarDrive`, then `carSteering`, `carResistance`, gravity (0.0735 off `+0x9C`), ground from
+  `GetCollision2D`, `carMultiCollision` and `Put_Motion2D`, and `carEntry`.
+- `cableCarDrive` (`0x0C046FF8`, ours) follows the course: nearest point (`getNearLineIndex`
+  mode 1) into `+0xD4`, an aim 2 points ahead eased in by 0.2 at `+0xE0`, and a speed state in
+  `+0x88`: 0 the course's speed (`0x0C0C3F04` by the course's flags & 15), 1-3 slower, 4 and 5
+  stop. 3 points before the end it stops (4); when the control word `0x0C2A4E44` reads 6 for that
+  line (course 288 its high nibble, 289 its low one) it moves onto the course linked from the
+  end (the course's third word, `+0x04` a short) at point 0: the trip back. 8 points before the
+  end it slows (2); a taken point within 10 ahead (`courseStatusGet`) stops it (4) or slows it
+  (3). Standing almost still, every 128 frames, it rings its bell (`Sound_Request`, table
+  `0x0C0A37A8`).
+- `cableControlExec` steps each line's state 0-6 in `0x0C2A4E44` (one nibble per line) and turns
+  the car round at the ends; only while the player car's `+0x64` is 0-5. Not read in detail yet.
 - Courses: `CourseTable` (`0x0C2A6690`) points to 12-byte entries, one per course, the first word
   its points (x y z each). `StageCourseInfoTable` (`0x0C0C3D4C`, 12-byte entries by `Game_No` +
   `MiniGame_No`) gives each game's first course (`+0x04`) and how many (`+0x08`).
