@@ -93,6 +93,12 @@ it best. The pieces requested each frame are the ones kept: moving `exec_CarMain
 point moves the loaded city with it, while a second request elsewhere does not (the pool stays
 full of the taxi's pieces).
 
+- `Car_Data + 0x60` is the car's nearest `courseLineTbl` point, set every frame by
+  `getNearLineIndex(0, courseLineTbl, courseLineCount, &+0x60, &+0x78)` in `exec_CarMain`. The
+  Arcade city (`PutCourse`'s CourseMode 0 branch, and `PutCourse_CheckPiece`) draws the pieces listed
+  for that point (`courseVisListA`/`B`, 136 bytes a point); the Original city picks an area from the
+  camera (`getAreaFromPos`, `areaPieceList`).
+
 ## Tasks
 
 `set_event(size, callback)` (the name is the string it stores in the node) allocates a task node and
@@ -213,8 +219,8 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   | 6 | frees its animation buffer slot |
 
   Then `psgSetCurrent(p)` and `psgFrame(p)`: in states 0 and 1 `psgRoadCheck` counts how long the
-  customer stands near the road's curve points (`HitDetectCurve`, within 15 units; over 15: state
-  6), then the state's frame handler runs from a second table of seven (template at `0x0C0D5F64`,
+  customer stands in the taxi's path (the 35 points at `0x0C2AD2BC`, TaxiDriver + 0x2BC; over 15:
+  state 6, a dodge out of its way, after which they wait again where they stand), then the state's frame handler runs from a second table of seven (template at `0x0C0D5F64`,
   Android `0x821540`): `psgFrameState0`-`psgFrameState6`.
 - A customer draws itself in its frame handler (`psgFrameState0` and others): `nlPushMatrix(0)`
   (a copy of the camera's view matrix), place it in the world (`FUN_0c071048`, or `FUN_0c071104`
@@ -256,6 +262,15 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `|+0x15C|` is at most 0.15 and its height within 50 of the spot. `exec_KyakuMain` turns 3 into 4
   (sets `kyakuBoarding`, sound 0x2A9) and the task 4 into 5 after `GS_GuestIn`. Only the car's
   position counts; the green circle is drawn only in VR modes 0, 1, 2, 10, 11.
+
+- The ride and the drop-off (`kyakuTaskExec` phase 2, `0x0C02513C`): arrival needs the car
+  (`task + 0x18`, never `Car_Data` by name) inside the destination area (`kyakuInDestArea`), within its
+  drop radius (`dest + 0x14`), speed `|+0x15C|` at most 0.15 and yaw rate `|(short)+0x198|` under 16;
+  then `GS_GuestOut` pays (rating, +120/+300 time bonus) and phase 4 starts the get-out
+  (`psgPickExitSide`, the car matrix `+0xB4`, through their own `Car_Data` pool words) and
+  `camPlayScript` (VR mode 11). The riding passenger is drawn at `psgSeatMatrix` (`Car_Data + 0xB4`
+  times `psgSeatOfsTbl[cabbie]`); its character index is passenger `+0x00`. `drvPassenger`
+  (`0x0C2AD1D8`) is the passenger in the cab.
 
 ## Input
 
@@ -572,10 +587,11 @@ separate throw function.
 Code that cannot run once Crazy Box is unreachable (callers all behind `CourseMode == 2` or
 `Game_No == 2`, or no references at all), for the sandbox mod's code space: `0x0C05C72E-0x0C05D852`
 (the rest of the Crazy Box overlay), `0x0C05D8E8-0x0C05E5CC` (`execMiniLight` and helpers),
-`0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player, never referenced), `0x0C05F544-0x0C05FD9C`,
+`0x0C05F544-0x0C05FD9C`,
 `0x0C05E8C8-0x0C05EA98`, `0x0C04DF34-0x0C04E194`, `0x0C060930-0x0C060B84`. Live neighbours to keep:
 `FUN_0c05d852` (psgFrame's table) and its pools, `FUN_0c05e5cc` (`PutWindow`), `ndPuru2Reset`'s
-pool at `0x0C05F532`. `FUN_0c02f02a` is not Crazy Box only (also called from `0x0C02CCD0`,
+pool at `0x0C05F532`. `0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player) has no reference in the exe but is not
+used: nothing proves it is never reached through a computed pointer. `FUN_0c02f02a` is not Crazy Box only (also called from `0x0C02CCD0`,
 `0x0C02CDAE`, `0x0C03E00C`).
 
 ## Small wrappers
@@ -623,6 +639,11 @@ Thin game functions around the SDK, named from what they call. Grouped by subsys
   188; called every 10 s with an empty cab). Bits 24 and 26 are two more messages with the same
   pattern (show `0x0C05355E` / `0x0C0535FC`, hide `0x0C0535A4` / `0x0C053642`), not identified yet.
 - `rankingInsert` inserts the run's result into the 100-entry ranking table; 1 if it got in.
+
+- The top menu (`menuTopHandler`, node `0x0C09DFE8`, labels `0x0C09F8BC`, 44 bytes each): ARCADE,
+  ORIGINAL, CRAZY BOX, OPTIONS, RECORDS, SAVE & LOAD, EXIT; `menuCursor(level, count, skip mask)`.
+  ARCADE and ORIGINAL lead to the rules screen (`menuRuleHandler`, node `0x0C09DE18`), whose rules
+  lead to `menuSetMode` (node `0x0C09DE08`); the rule is read later as `GetMenuMode(1)`.
 
 ## Original names (Android build)
 
