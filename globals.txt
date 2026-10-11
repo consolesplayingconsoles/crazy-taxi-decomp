@@ -1,7 +1,9 @@
 # Named globals: address, name. Names are the original ones, from the Android build's data
 # symbols, matched through the functions that use them (see docs/engine.md).
+0c08a9b8 kyakuCharaTbl
 0c08ad94 F_ZERO
 0c08adac I_ZERO
+0c08eac8 areaPolyTable
 0c0a21f8 CourseCarGroupTable
 0c0a2628 carTbl
 0c0c3d4c StageCourseInfoTable
@@ -9,23 +11,40 @@
 0c0c3f20 CourseJamTable
 0c0d5530 vecZero
 0c0d553c vecAxisX
+0c0d6064 psgDoorPosL
+0c0d6070 psgDoorPosR
 0c0d61bc pedJumpCount
+0c0db008 kyakuStops0
+0c0dd678 kyakuStops0Rev
+0c0df608 kyakuStops1
+0c0e1c78 kyakuStops1Rev
 0c0ed440 colliKindTbl
 0c0ed68c ColliObjBoxSimpleTbl
 0c0ed7fc colliHandlerTbl
 0c0edbb8 setObjGroupTbl
 0c0edbc0 setObjTypeTbl
 0c0ee1b4 setObjModelTbl
+0c0f4588 courseVisListA
+0c100f68 courseVisListB
+0c111700 areaPieceList
+0c124358 splineSectionTable
+0c1243f8 splineSectionPieceA
+0c124448 splineSectionPieceB
 0c12ff24 pedJumpDist
 0c12ff7c pedScreamSound
 0c13eed0 PsgPeraDistance
 0c1790c8 CREQ_flag
 0c1790cc Car_Data
 0c17948c ReverseMode
+0c1794d0 kyakuDropCount
+0c1794d4 kyakuMg8Tasks
 0c1794e8 RideonCamFlag
+0c1794ec kyakuFrameCount
+0c1794f0 kyakuDestTbl
 0c179820 kyakuSpawnDist
 0c179824 kyakuDespawnDist
 0c179828 kyakuBoarding
+0c179838 kyakuFrameCount2
 0c179840 Cam_Pos
 0c179860 VR_mode
 0c1ee208 GDERR_COUNT
@@ -88,6 +107,8 @@
 0c2a4e50 EndingFlag
 0c2a6690 CourseTable
 0c2a6ac8 current_pro_ang
+0c2a6ebc camArea
+0c2a6ec0 camSplineIndex
 0c2a6fd8 SubwayFlag
 0c2a6fe4 crowdCarFrame
 0c2a7368 NoEro_Mode
@@ -95,5 +116,6 @@
 0c2a931c adv_spr_flag
 0c2a9f70 f_parm
 0c2ad000 TaxiDriver
+0c2ad2bc taxiPathPts
 0c2ad460 FcvJoltD
 0c2ae388 SndQueue
