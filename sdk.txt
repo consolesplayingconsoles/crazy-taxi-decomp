@@ -2,6 +2,7 @@
 # range <start> <end>: whole blocks; func <addr>: single SDK functions matched by signature.
 range 0c010000 0c014000 boot block (copied by the entry point)
 range 0c14ab88 0c1789b0 SDK libraries (374 of 983 functions matched SDK signatures)
+range 0c0739c0 0c089f26 NAOMI library (nl*, sprites, textures; NAOMI SDK 001002) and the C runtime, the same code as in Virtua Tennis
 func 0c03a9ee __init_dteapi_cc_f
 func 0c075f70 rand
 func 0c081414 memmove
