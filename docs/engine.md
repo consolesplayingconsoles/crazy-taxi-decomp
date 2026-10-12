@@ -632,6 +632,45 @@ pool at `0x0C05F532`. `0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player) ha
 used: nothing proves it is never reached through a computed pointer. `FUN_0c02f02a` is not Crazy Box only (also called from `0x0C02CCD0`,
 `0x0C02CDAE`, `0x0C03E00C`).
 
+## RAM map
+
+Read from the code and the disc file sizes, then checked against a live menu dump and an Arcade run
+(`0C5DB8F0-0C5E0000`, `0CB39000-0CB40000`, `0CE4F000-0CE5E800` and the tail of `0CE5F000-0CE90000` stayed zero;
+`0C014000-0C020000` stayed the `0xFFFD` fill). A file read by `gdc_FileLoad` (size 0) fills whole 2048-byte sectors, so
+every end below is the file size rounded up to 2048. `CourseMode` 0 is Arcade, 1 Original, 2 Crazy
+Box (`loadCity`'s argument).
+
+| Range | Size | Owner |
+|---|---|---|
+| `0C000000-0C010000` | 64 KB | system area, boot copy at `0C004000`, vector base `8C00F400`, stack `0C00C000-0C00FC00` (the start-up fills it with `SEGA`) |
+| `0C010000-0C011C28` | | exe boot block (`0C010100-0C014000` is copied to `0C004000`; the block is reused) |
+| `0C011C28-0C020000` | 58,328 | `0xFFFD` filler in the file; `0C014000-0C020000` (49,152) is outside the boot copy |
+| `0C020000-0C020080` | | real entry (`0C020000` jumps to `0C14AB60`) |
+| `0C020080-0C073050` | | game code |
+| `0C073050-0C089F26` | | NAOMI library and C runtime |
+| `0C08A9B8-0C14AB88` | ~770 KB | game data: tables, strings, models' pointer tables |
+| `0C14AB88-0C1789B0` | | Katana SDK libraries |
+| `0C1789C0-0C2B8C40` | 1,311,360 | game BSS (word-cleared by `FUN_0c14ab98`) |
+| `0C2B8C40-0C2FD460` | 280,608 | SDK BSS (byte-cleared); the BSS ends at `0C2FD460` |
+| `0C2FD460-0C30C000` | 60,320 | past the cleared BSS, but not free: `ADX_DecodeSteFloat` uses `0C2FD460` and the menu already holds data from `0C2FDE98` (floats, matrices, 16-bit texels); a 23 KB block placed here crashed the game 3 s into a run. Owner not identified |
+| `0C30C000-0C328000` | 114,688 | replay buffer: `RECADV*`/`RECEND*.BIN` (108,000 B each), 20-byte input records read by `replay` (`0C04BC00`); loaded by `FUN_0c02c528`. Holds other data even with those loads skipped (24,386 non-zero bytes in a run), so not free |
+| `0C328000-0C390000` | | `SPLDCn.BIN`: Arcade ends `0C377800`, Original `0C385000` (`0C390000` follows) |
+| `0C390000-0C5D0000` | 2,359,296 | `POLDC0.BIN` (ends `0C5CFEB0` unrounded); `TEXDC0.BIN` is staged then uploaded |
+| `0C5D0000-0C5E0000` | 65,536 | not used |
+| `0C5E0000-` | | `POLDCn.BIN`: Arcade ends `0C63A800`, Original `0C605800` |
+| `0C640000-0C880000` | 2,359,296 | course pool, 288 blocks of 8192 (`FUN_0c02e800`); also the scratch for AFS headers while a city loads; the last 64 KB takes `SNDDC3.BIN` for a moment at a run's start |
+| `0C880000-0CB39000` | | `MOTDC.BIN` (`0CB39000-0CB40000` unused) |
+| `0CB40000-` | | staging for sound/texture/sprite files (read, uploaded, reused), then `COLDCn.BIN` stays: Arcade ends `0CE4F000`, Original `0CE5E800` |
+| `0CE5E800-0CE90000` | 202,752 | unused in both cities (Arcade: from `0CE4F000`, 266,240) |
+| `0CE90000-0CE98000` | 32,768 | `OBJDCn.BIN` (first 0x8000 bytes) |
+| `0CE98000-0CEA0000` | 32,768 | landscape texture index (16 sectors), set objects |
+| `0CEA0000-0CFEA800` | 1,353,728 | Kamui vertex-buffer base given to `kmfSetVertexBufferBaseAddress` (use not yet measured) |
+
+Game BSS: the nlMalloc heap `0C1799E8-0C1A99E8` (0x30000), peripheral buffers `0C1A99F8` and
+`0C1B5A18` (49,184 each), NAOMI library tables `0C1C1E78-0C1EDCE4`, three 67,716-byte buffers from
+`0C1EE824` (`FUN_0c02dfbc`), the course pool table at `0C26C5DC`. The heap's peak use is not
+measured. Katana's `malloc` is never set up (see Loading).
+
 ## Small wrappers
 
 Thin game functions around the SDK, named from what they call. Grouped by subsystem.
