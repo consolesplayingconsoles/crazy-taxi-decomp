@@ -79,15 +79,15 @@ functions documented in `docs/*.md`.
 
 <!-- progress -->
 ```
-GAME CODE                         999 functions, 253143 bytes of code; each function in one bucket
-  done: equivalent C        1.1%  11 of 999 functions, 1552 bytes (0.6%): C that behaves like the original
+GAME CODE                         1002 functions, 255671 bytes of code; each function in one bucket
+  done: equivalent C        1.1%  11 of 1002 functions, 1552 bytes (0.6%): C that behaves like the original
     of which matching C     0.5%  5 functions, 1114 bytes, 2 units: rebuilt byte for byte
-  named only               39.0%  390 functions: a name, no C yet (not done work)
-  unnamed                  59.9%  598 functions (FUN_...), no C yet
-  documented               22.4%  224 named functions in docs/*.md
-  named globals                   119
+  named only               39.5%  396 functions: a name, no C yet (not done work)
+  unnamed                  59.4%  595 functions (FUN_...), no C yet
+  documented               23.0%  230 named functions in docs/*.md
+  named globals                   120
 SDK (Sega libraries)              1825 functions, 196416 bytes of code; never decompiled here
-  named by signature       71.7%  1308 of 1825 (SDK tables: the library's own names)
+  named by signature       71.9%  1312 of 1825 (SDK tables: the library's own names)
 ```
 <!-- /progress -->
 

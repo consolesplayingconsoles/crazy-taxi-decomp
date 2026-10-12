@@ -149,6 +149,91 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   `0x0CA64554` / `0x0CA6A230` (in place, 60 frames) are the two tennis players `FUN_0c072348`
   draws (character `0x10`, table `0x0C13F4C4`).
 
+## Skeleton and motions
+
+Three motion formats share one skeleton. Names are the Android build's (`libgl2jni.so` keeps
+`SklPlay`, `SklIpPlay`, `SklSfPlay`, `VSklPlay`, `VSklIpPlay`, `VSklSfPlay`, `FcvPlayBuffer`; the
+Dreamcast functions sit in the same order, and the Android `VSklPlay` reads like `humanDraw`).
+
+| Format | Draw | Interpolated | Float frame | Used by |
+|---|---|---|---|---|
+| V (`motDC.BIN`): rotation matrices | `VSklPlay` = `humanDraw` (`0x0C069800`) | `VSklIpPlay` (`0x0C06A204`) | `VSklSfPlay` (`0x0C06AF44`) | crowd, customers, tennis players |
+| Skl: `s16` Euler angles | `SklPlay` (`0x0C067DE0`) | `SklIpPlay` (`0x0C068730`) | `SklSfPlay` (`0x0C069590`) | nothing: no call or pointer reaches these three |
+| Fcv: key curves into a pose buffer | `FcvPlayBuffer` (`0x0C066D98`) | `FcvStoreBuffer` fills the buffer | | cab drivers (`Drv_Execute`); `FcvPlay` (`0x0C065E34`) draws a curve motion directly (the running customer) |
+
+- Skeleton: 16 bones (a motion's `bones` field is 15 = the last index), the same for every
+  character. Only the models differ: `mptbl_All` (`0x0C1331B0`, Android name) holds one pointer per
+  character to 16 model pointers in `polDC0` (`+4 * bone`; slot 0 unused; null = not drawn: hands
+  2/5, feet 9/12 or hips 15 on simpler characters, merged into the neighbouring part). Bind offsets
+  are 13 vectors in the executable (`0x0C0D5430`-`0x0C0D54CB`); every bone points along its own +x
+  (child offsets are along +x). `FcvPlayBuffer` repeats the same lengths as literals.
+
+| Bone | Parent | Offset (in the parent's axes) | Model slot | Part (side from the stance below) |
+|---|---|---|---|---|
+| 0 | root (motion vector 0) | none | (none) | root orientation |
+| 8 | 0 | none | 8 | torso (chest to neck; +x up) |
+| 1 | 8 | `0x0C0D5430` (4.4849, 0, 0) | 1 | head (+x = face, +y = up) |
+| 4 | 8 | `0x0C0D543C` (3.6611, 0.056, -1.7876) | 4 | left upper arm |
+| 3 | 4 | `0x0C0D5448` (2.508, 0, 0) | 3 | left forearm |
+| 2 | 3 | `0x0C0D5454` (2.5145, 0, 0) | 2 | left hand |
+| 7 | 8 | `0x0C0D5460` (3.6611, 0.056, 1.7876) | 7 | right upper arm |
+| 6 | 7 | `0x0C0D546C` (2.508, 0, 0) | 6 | right forearm |
+| 5 | 6 | `0x0C0D5478` (2.5145, 0, 0) | 5 | right hand |
+| 15 | 0 | none | 15 | hips (+x down) |
+| 11 | 15 | `0x0C0D5484` (1.1603, 0.1486, -1.1764) | 11 | left thigh |
+| 10 | 11 | `0x0C0D5490` (4.051, 0, 0) | 10 | left shin |
+| 9 | 10 | `0x0C0D549C` (4.2466, 0, 0) | 9 | left foot (+y = toes) |
+| 14 | 15 | `0x0C0D54A8` (1.1603, 0.1486, 1.1764) | 14 | right thigh |
+| 13 | 14 | `0x0C0D54B4` (4.051, 0, 0) | 13 | right shin |
+| 12 | 13 | `0x0C0D54C0` (4.2466, 0, 0) | 12 | right foot |
+
+- Models agree: each part's bounding sphere (record `+0x08`) sits along its bone's +x, about half
+  its length out (character `0x3B`: torso centre x 2.35, upper arm 0.76, forearm 1.12, thigh
+  1.70, shin 2.05; forearm or shin centres move out to ~2.2 / 2.6 when the hand or foot slot is null).
+- Stance and sides: posing a standing record (`0x0CAE3244` record 1) through the tree gives a
+  standing person, pelvis at y 10.58, head joint 15.06, ankles 1.25, facing -z (head +x and foot
+  +y both point -z), bones 7 and 14 at +x. The world is right-handed (the driver's seat is at car
+  +x with the front at +z, the left seat of a left-hand-drive cab), so +x is the person's right:
+  4-3-2 and 11-10-9 are the left limbs. The walk `0x0CAB6BBC` turns the body 90 degrees as it sets
+  off (bone 0 yaw up to 52 degrees) and faces -x, its travel direction, then turns back.
+- Drawing order (`humanDraw`; `push` = `nlPushMatrix(0)`, a copy; every rotation multiplies the
+  current matrix on the right): push; root (mode 0: `nlTranslateV(v0)`, mode 1: `nlTranslate(0,
+  v0.y, 0)`); R0; push; R8, part 8; push, T, R1, part 1, pop; push, T R4, T R3, T R2 (parts), pop;
+  push, T R7, T R6, T R5, pop 2; R15, part 15; push, T R11, T R10, T R9, pop; T R14; push, T R13,
+  T R12, pop 2. Balanced (7 pushes, 7 pops). Per-character extra models (hats, bags) are drawn
+  after a part by `switch (character)` blocks. When `0x0C13ED9C` is set the head's position
+  (`nlGetTranslate`) goes to `0x0C13EDA4`; `0x0C13EDA0` does the same for the hips at `0x0C13EDB0`;
+  `0x0C13ED98` gates the extras of characters `0x21`, `0x23`, `0x24`.
+- V format record (33 vectors of 12 bytes, 396 bytes): `v0` root position, then per bone `b`
+  two unit vectors `a = v[1 + 2b]`, `c = v[2 + 2b]` (offsets `12 + 24b`, `24 + 24b`).
+  `vsklRotate(a, c)` (`0x0C06AF8C`) copies them into the matrix `0x0C13EE80` with
+  `nlOuterProduct(a, c)` (`0x0C078B00`) as the third column and calls `nlMultiMatrix8`: R has
+  columns `a, c, a x c`, i.e. `a` is the bone's +x and `c` its +y in the parent's axes. Motion header
+  `{int frames; int bones; v *data}`, data just before it. `VSklPlay` and `VSklIpPlay` play record
+  `frame mod (frames - 1) + 1` (unsigned): record 0 is never drawn.
+- `VSklIpPlay(a, frame a, b, frame b, w, character, mode)`: per vector `nlGetAverageVector(va, vb,
+  out, 1 - w, w)`, then `nlUnitVector` on the two basis vectors (no re-orthogonalisation; the third
+  column is their cross product). `VSklSfPlay(motion, float frame, character, mode)` = `VSklIpPlay(motion,
+  floor, motion, ceil, fraction, character, mode)`.
+- Skl format: header `{u16 frames; int rootOfs @+4; int rotOfs @+8}`, root vector at
+  `header - rootOfs + 12 * i`, angles at `header - rotOfs + 96 * i` (16 bones x `s16` x, y, z,
+  bone `b` at `+6b`); `SklPlay` plays `i = frame mod frames` (signed), `SklIpPlay` `frame mod
+  (frames - 1) + 1`. `sklRotate(s16 v[3])` (`0x0C0696CA`) builds `Rz(v[2]) * Ry(v[1]) * Rx(v[0])`
+  (angles `0x10000` = a turn, `nlFastSinCos` = `fsca`, `0x0C089DF0`) in `0x0C13EE3C` and calls
+  `nlMultiMatrix`; the tree, offsets and models are `humanDraw`'s. Blends: `GetAverageAngle(x, y,
+  t)` returns `y + wrap(x - y) * t`; `SklIpPlay` passes `(a, b, 1 - w)`, so `w` is the weight of `b`
+  as in `VSklIpPlay`. The Android build kept `SklPlay` with the same body.
+- Fcv pose buffer (`tagFCVIPBUFFER`, 17 vectors, 0xCC bytes; `FcvStoreBuffer` evaluates the curves
+  into it): `[0]` root position, `[1]`-`[4]` float target points in the character's axes (hands of
+  chains 4-3-2 and 7-6-5, feet of 11-10-9 and 14-13-12), `[5]`-`[16]` `int` angles (`0x10000` = a
+  turn) for `fcvRotate` (`0x0C0695D8`, the same `Rz * Ry * Rx`). `FcvPlayBuffer` places root,
+  `[5]`, `nlRotateAY(0x4000)`, then `[6]` torso, `[7]` head (after `nlRotateAZ(-0x4000)`), per arm
+  a shoulder turn (`[8]`, `[10]`) then upper arm and forearm bent by `nlRotateAZ` angles from the
+  two-bone solver `FUN_0c067c14` aimed at the target, the hand `[9]`, `[11]`; `[12]` hips; per leg
+  `[13]`, `[15]`, the solver, the foot `[14]`, `[16]`.
+- `nlMultiMatrix` (`0x0C077E40`) and `nlMultiMatrix8` (`0x0C077EA0`): current = current * M (16
+  floats, column by column); byte-identical to Virtua Tennis's functions of those names.
+
 ## Pedestrians
 
 - Crowd spots: 20-byte records, `float x, y, z` then `u16` at `+0x0E` (spread radius) and `u16` at
@@ -758,7 +843,7 @@ original name is used here.
 | `set_event` | `nlSetEvent` |
 | `heapAlloc` / `heapFree` (src/event.c) | `nlMalloc` / `nlFree` |
 | `crowdSpawn` | `nd_peopleConstruct` |
-| `humanDraw` | `SklPlay` |
+| `humanDraw` | `VSklPlay` (not `SklPlay`: see Skeleton and motions) |
 | `hudDraw` | `execSprite` |
 | `vmuExit` | `BupExit` |
 | (frame handler, state 7, now named) | `exec_loop_Replay`: state 7 is the replay |

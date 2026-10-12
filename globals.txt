@@ -32,6 +32,7 @@
 0c124448 splineSectionPieceB
 0c12ff24 pedJumpDist
 0c12ff7c pedScreamSound
+0c1331b0 mptbl_All
 0c13eed0 PsgPeraDistance
 0c1790c8 CREQ_flag
 0c1790cc Car_Data
