@@ -94,21 +94,45 @@ def where(text):
     return a + (int(off, 0) if off else 0)
 
 
+CHUNK = 2048                                      # Flycast answers up to 3,000 bytes a read (a 3,500
+                                                  # byte reply never comes): stay well under
+_ram_only = []                                    # set once the core has shown it has no memory map
+
+
 def read(addr, n):
     """Bytes at a Dreamcast address: the core's memory map, else the achievements RAM view."""
-    for _ in range(3):                            # a busy machine drops or delays answers
-        for name, a in (('READ_CORE_MEMORY', addr), ('READ_CORE_RAM', addr - RAM)):
-            r = cmd('%s %x %d' % (name, a, n))
-            if r and r.split()[2:3] != ['-1']:
-                return bytes(int(b, 16) for b in r.split()[2:])
-    sys.exit('read failed at %08X (is RetroArch running the game, with network commands on?)' % addr)
+    out = bytearray()
+    while len(out) < n:
+        k = min(CHUNK, n - len(out))
+        a = addr + len(out)
+        for _ in range(3):                        # a busy machine drops or delays answers
+            tries = [('READ_CORE_RAM', a - RAM)] if _ram_only else \
+                [('READ_CORE_MEMORY', a), ('READ_CORE_RAM', a - RAM)]
+            for name, at in tries:
+                r = cmd('%s %x %d' % (name, at, k))
+                if r and r.split()[2:3] != ['-1'] and len(r.split()) == k + 2:
+                    if name == 'READ_CORE_RAM' and not _ram_only:
+                        _ram_only.append(1)
+                    out += bytes(int(b, 16) for b in r.split()[2:])
+                    break
+            else:
+                continue
+            break
+        else:
+            sys.exit('read failed at %08X (is RetroArch running the game, with network commands on?)' % a)
+    return bytes(out)
 
 
 def write(addr, data):
-    hexes = ' '.join('%02x' % b for b in data)
-    r = cmd('WRITE_CORE_MEMORY %x %s' % (addr, hexes))
-    if r is None or r.split()[2:3] == ['-1']:
-        cmd('WRITE_CORE_RAM %x %s' % (addr - RAM, hexes), reply=False)
+    """In 256-byte commands: Flycast has no memory map, so each first try waits out a timeout."""
+    for i in range(0, len(data), 256):
+        part, a = data[i:i + 256], addr + i
+        hexes = ' '.join('%02x' % b for b in part)
+        r = None if _ram_only else cmd('WRITE_CORE_MEMORY %x %s' % (a, hexes))
+        if r is None or r.split()[2:3] == ['-1']:
+            if not _ram_only:
+                _ram_only.append(1)
+            cmd('WRITE_CORE_RAM %x %s' % (a - RAM, hexes), reply=False)
 
 
 def pad(device, index, ident, state):

@@ -15,7 +15,9 @@ the gap after a function's analysed end:
   - an address a word elsewhere points at INSIDE a function's analysed body, where code starts
     right after an rts or looks like a function start: two functions the analysis merged into one
     (typical for entries of a function-pointer table in the data area, reached only through data).
-Only small gaps count (pools and padding, under 2 KB): a big gap is data, not code.
+Patterns are searched only in small gaps (pools and padding, under 2 KB); in a big gap (data, or a
+whole function the analysis never reached: a 21 KB one has been seen) only a pointed-to address
+that looks like an entry counts.
 Review each before adding it to functions.txt as "F <addr> <size> FUN_<addr>"; then re-run
 split_asm.py and build.sh (still MATCH).
 """
@@ -27,11 +29,12 @@ exe = open(sys.argv[1], 'rb').read()
 base = int(sys.argv[2], 16)
 funcs = sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open(sys.argv[3]) if l.startswith('F '))
 end = base + len(exe)
-gaps = []
-for i, (a, size, name) in enumerate(funcs):
+gaps = []                                      # every gap; small ones (under 2 KB) are pools and
+for i, (a, size, name) in enumerate(funcs):     # padding, a big one is data or whole missed functions
     nxt = funcs[i + 1][0] if i + 1 < len(funcs) else end
-    if a + size < nxt and nxt - (a + size) < 0x800:
+    if a + size < nxt:
         gaps.append((a + size, nxt, name))
+small = lambda g: g[1] - g[0] < 0x800
 
 def in_gap(x):
     lo, hi = 0, len(gaps)
@@ -51,6 +54,8 @@ def hw(x):
     return struct.unpack_from('<H', exe, x - base)[0]
 
 PUSH = {0x4f22} | {0x2f06 | (r << 4) for r in range(8, 15)}   # sts.l pr,@-r15 / mov.l rN,@-r15
+def looks_like_entry(x):                       # right after an rts and its delay slot, or a prologue
+    return (x >= base + 4 and hw(x - 4) == 0x000b) or hw(x) in PUSH or (hw(x) >> 8 == 0x7f and hw(x) & 0x80)
 found = {}
 # 1. pointers into gaps (any 4-byte-aligned word, with the cached/uncached mirrors folded)
 for o in range(0, len(exe) - 3, 4):
@@ -58,7 +63,8 @@ for o in range(0, len(exe) - 3, 4):
     t = (v & 0x1fffffff) | (base & 0xe0000000)
     if base <= t < end and not t & 1:
         g = in_gap(t)
-        if g and hw(t) not in (0x0009, 0xeeee, 0x0000) and owner(base + o) != owner(t):
+        if g and hw(t) not in (0x0009, 0xeeee, 0x0000) and owner(base + o) != owner(t) and \
+                (small(g) or looks_like_entry(t)):       # in a big gap only what looks like an entry
             found.setdefault(t, set()).add('pointed to from %08x' % (base + o))
 # 2. a function start or a tiny leaf, right after something that ends a function: an rts and its
 #    delay slot, nop/0xEEEE padding, or a literal-pool word holding an address
@@ -71,7 +77,7 @@ def after_end(x):
         w = struct.unpack_from('<I', exe, x - 4 - base)[0]
         return base <= ((w & 0x1fffffff) | (base & 0xe0000000)) < base + 0x1000000
     return False
-for lo, hi, name in gaps:
+for lo, hi, name in filter(small, gaps):
     for x in range(lo, hi - 2, 2):
         if not after_end(x):
             continue
