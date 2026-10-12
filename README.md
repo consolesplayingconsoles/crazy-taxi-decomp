@@ -97,7 +97,8 @@ Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 ## Names
 
 Names come from signature matching: 385 matches from the Katana SDK R10.1's own libraries, 112 more
-from SDK R9 (the release closest to the game's library banners) and 30 from a names table since dropped (only unique matches are applied); small wrappers inherit the name of the function they
+from SDK R9 (the release closest to the game's library banners), and 30 from a names table since
+dropped (only unique matches are applied); small wrappers inherit the name of the function they
 call. The Progress block above has the current counts.
 The rest were named by reading the code, using the original names from the Android build where a
 function is identified; `docs/engine.md` has what is known about them.
@@ -111,8 +112,8 @@ skill. Everything since (names, docs, matching C) is decomp work in this repo.
 
 ## Third-party sources
 
-The build needs a Katana SDK. Repositories that hold such
-material (for example `Kochise/dreamcast-docs`)
+The build needs a Katana SDK. Repositories that hold such material (for example
+`Kochise/dreamcast-docs`)
 are named solely as examples of the type of material required. We have no affiliation with, and
 make no representation regarding, those repositories, their contents, or their licensing. You are
 solely responsible for determining whether you are entitled to obtain and use any such material.
