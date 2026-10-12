@@ -1,0 +1,314 @@
+{
+ "dev": [
+  {
+   "about": "Arcade heap: 0 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "Arcade heap: 1 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000001"
+   }
+  },
+  {
+   "about": "Arcade heap: 7 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000007"
+   }
+  },
+  {
+   "about": "Arcade heap: 8 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000008"
+   }
+  },
+  {
+   "about": "Arcade heap: 9 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000009"
+   }
+  },
+  {
+   "about": "Arcade heap: 12 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0000000C"
+   }
+  },
+  {
+   "about": "Arcade heap: 100 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000064"
+   }
+  },
+  {
+   "about": "Arcade heap: 4096 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00001000"
+   }
+  },
+  {
+   "about": "Arcade heap: 131072 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00020000"
+   }
+  },
+  {
+   "about": "Arcade heap: 262144 bytes",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00040000"
+   }
+  },
+  {
+   "about": "Arcade heap: exactly a free block (128)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000080"
+   }
+  },
+  {
+   "about": "Arcade heap: a free block minus 16: split (112)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000070"
+   }
+  },
+  {
+   "about": "Arcade heap: minus 15: no split (113)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000071"
+   }
+  },
+  {
+   "about": "Arcade heap: one more than a free block (129)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000081"
+   }
+  },
+  {
+   "about": "Arcade heap: exactly a free block (256)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000100"
+   }
+  },
+  {
+   "about": "Arcade heap: a free block minus 16: split (240)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "000000F0"
+   }
+  },
+  {
+   "about": "Arcade heap: minus 15: no split (241)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "000000F1"
+   }
+  },
+  {
+   "about": "Arcade heap: one more than a free block (257)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000101"
+   }
+  },
+  {
+   "about": "Arcade heap: exactly a free block (264)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000108"
+   }
+  },
+  {
+   "about": "Arcade heap: a free block minus 16: split (248)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "000000F8"
+   }
+  },
+  {
+   "about": "Arcade heap: minus 15: no split (249)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "000000F9"
+   }
+  },
+  {
+   "about": "Arcade heap: one more than a free block (265)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000109"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "Original heap: 0 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "Original heap: 1 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000001"
+   }
+  },
+  {
+   "about": "Original heap: 7 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000007"
+   }
+  },
+  {
+   "about": "Original heap: 8 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000008"
+   }
+  },
+  {
+   "about": "Original heap: 9 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000009"
+   }
+  },
+  {
+   "about": "Original heap: 12 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0000000C"
+   }
+  },
+  {
+   "about": "Original heap: 100 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000064"
+   }
+  },
+  {
+   "about": "Original heap: 4096 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00001000"
+   }
+  },
+  {
+   "about": "Original heap: 131072 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00020000"
+   }
+  },
+  {
+   "about": "Original heap: 262144 bytes",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00040000"
+   }
+  },
+  {
+   "about": "Original heap: exactly a free block (32)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000020"
+   }
+  },
+  {
+   "about": "Original heap: a free block minus 16: split (16)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000010"
+   }
+  },
+  {
+   "about": "Original heap: minus 15: no split (17)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000011"
+   }
+  },
+  {
+   "about": "Original heap: one more than a free block (33)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000021"
+   }
+  },
+  {
+   "about": "Original heap: exactly a free block (128)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000080"
+   }
+  },
+  {
+   "about": "Original heap: a free block minus 16: split (112)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000070"
+   }
+  },
+  {
+   "about": "Original heap: minus 15: no split (113)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000071"
+   }
+  },
+  {
+   "about": "Original heap: one more than a free block (129)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000081"
+   }
+  },
+  {
+   "about": "Original heap: exactly a free block (140)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0000008C"
+   }
+  },
+  {
+   "about": "Original heap: a free block minus 16: split (124)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0000007C"
+   }
+  },
+  {
+   "about": "Original heap: minus 15: no split (125)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0000007D"
+   }
+  },
+  {
+   "about": "Original heap: one more than a free block (141)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0000008D"
+   }
+  }
+ ]
+}

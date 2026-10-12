@@ -143,6 +143,7 @@ class CPU:
         self.steps = 0
         self.on_call = None       # callback(cpu, target, kind) -> True when the call was handled
         self.lo = self.hi = 0     # the function's own bytes: branches inside stay inside
+        self.inside = []          # return addresses of the callees running now (deep calls)
 
     # FPSCR as a word
     def get_fpscr(self):
@@ -420,6 +421,11 @@ class CPU:
     def go(self, target, call, at):
         """A taken branch: inside the function, or out of it (a call, a tail jump, the return)."""
         if call == 'rts' or target == SENTINEL:
+            if self.inside and target == self.inside[-1]:
+                self.inside.pop()                 # a deep callee returned
+            self.pc = target
+            return
+        if self.inside and call != 'call':        # inside a deep callee: its branches are its own
             self.pc = target
             return
         if call in ('call', 'jump') or not (self.lo <= target < self.hi):
@@ -544,7 +550,8 @@ class CPU:
 
 def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     """Run one case. code = (address, bytes) puts other code (a compiled C unit) at its address;
-    entry/end then name the function inside it (default: all of it)."""
+    entry/end then name the function inside it (default: all of it). deep: True runs every call;
+    a function of the target address runs the calls it accepts (the rest return the case's values)."""
     mem = Memory()
     path = lambda p: p if os.path.isabs(p) else os.path.join(case_dir, p)
     if case.get('dump'):
@@ -578,11 +585,13 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     entry_r15 = cpu.r[15]
 
     def on_call(c, target, kind, at):
+        if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
+            if kind == 'call':
+                c.inside.append(c.pr)            # runs until it returns here; not a call out
+            return False
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
                       'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)]})
-        if deep:
-            return False
         ret = returns.pop(0) if returns else {}
         for k, v in ret.items():
             if k.startswith('fr'):

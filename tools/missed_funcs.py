@@ -45,17 +45,26 @@ def in_gap(x):
     return gaps[lo] if lo < len(gaps) and gaps[lo][0] <= x < gaps[lo][1] else None
 
 starts = [a for a, s, n in funcs]
+sizes_all = {a: s_ for a, s_, n in funcs}
 import bisect
 def owner(x):
     i = bisect.bisect_right(starts, x) - 1
     return starts[i] if i >= 0 else None
 
+def in_body(x, f):                             # x inside f's analysed bytes (its own switch tables live there)
+    return f is not None and f <= x < f + sizes_all.get(f, 0)
+
+
 def hw(x):
     return struct.unpack_from('<H', exe, x - base)[0]
 
 PUSH = {0x4f22} | {0x2f06 | (r << 4) for r in range(8, 15)}   # sts.l pr,@-r15 / mov.l rN,@-r15
-def looks_like_entry(x):                       # right after an rts and its delay slot, or a prologue
-    return (x >= base + 4 and hw(x - 4) == 0x000b) or hw(x) in PUSH or (hw(x) >> 8 == 0x7f and hw(x) & 0x80)
+def ends(op):                                  # rts, a tail jump (jmp @rN, braf rN) or bra: a delay slot follows
+    return op == 0x000b or op & 0xf0ff in (0x402b, 0x0023) or op >> 12 == 0xa
+
+
+def looks_like_entry(x):                       # right after an ending branch and its delay slot, or a prologue
+    return (x >= base + 4 and ends(hw(x - 4))) or hw(x) in PUSH or (hw(x) >> 8 == 0x7f and hw(x) & 0x80)
 found = {}
 # 1. pointers into gaps (any 4-byte-aligned word, with the cached/uncached mirrors folded)
 for o in range(0, len(exe) - 3, 4):
@@ -63,15 +72,15 @@ for o in range(0, len(exe) - 3, 4):
     t = (v & 0x1fffffff) | (base & 0xe0000000)
     if base <= t < end and not t & 1:
         g = in_gap(t)
-        if g and hw(t) not in (0x0009, 0xeeee, 0x0000) and owner(base + o) != owner(t) and \
+        if g and hw(t) not in (0x0009, 0xeeee, 0x0000) and not in_body(base + o, owner(t)) and \
                 (small(g) or looks_like_entry(t)):       # in a big gap only what looks like an entry
             found.setdefault(t, set()).add('pointed to from %08x' % (base + o))
 # 2. a function start or a tiny leaf, right after something that ends a function: an rts and its
 #    delay slot, nop/0xEEEE padding, or a literal-pool word holding an address
 def after_end(x):
-    if x >= base + 4 and hw(x - 4) == 0x000b:
+    if x >= base + 4 and ends(hw(x - 4)):
         return True
-    if hw(x - 2) in (0x0009, 0xeeee):
+    if hw(x - 2) in (0x0009, 0xeeee, 0x0000):     # nop, 0xEEEE or zero padding
         return True
     if not x & 3:
         w = struct.unpack_from('<I', exe, x - 4 - base)[0]
@@ -96,7 +105,7 @@ for o in range(0, len(exe) - 3, 4):
     f = owner(t)
     if f is None or not (f < t < f + sizes[f]) or owner(base + o) == f:
         continue
-    if (t >= base + 4 and hw(t - 4) == 0x000b) or hw(t) in PUSH or (hw(t) >> 8 == 0x7f and hw(t) & 0x80):
+    if looks_like_entry(t):
         found.setdefault(t, set()).add('pointed to from %08x, inside %s (merged?)' % (base + o, names[f]))
 for x in sorted(found, key=lambda x: (not any(r.startswith('pointed') for r in found[x]), x)):
     g = in_gap(x)

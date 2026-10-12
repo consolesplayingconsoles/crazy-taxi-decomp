@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """progress.py: the decomp's state, in several measures. Run from the repo root after setup.sh.
 
-  equivalent   functions whose C behaves like the original (tests/equivalent.txt, by tools/equiv.py),
-               matching ones included: the bar a function is done by
-  matching C   bytes, functions and units rebuilt byte for byte from src/*.c: the bonus tier
+  Buckets, each game function in one: done (equivalent C: behaves like the original, by
+  tools/equiv.py into tests/equivalent.txt; matching C, rebuilt byte for byte, is part of it),
+  named only (a label, not done work), unnamed. A name never counts as done.
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
 Game code and SDK code (sdk.txt: Katana libraries, compiler runtime, boot block) are reported apart:
@@ -53,18 +53,22 @@ def pct(a, b):
 
 g = stats(lambda a: not is_sdk(a))
 k = stats(is_sdk)
+game = [x for x in funcs if not is_sdk(x[0])]
+is_done = lambda x: in_c(x[0]) or x[2] in equivalent
+named_only = sum(1 for x in game if not is_done(x) and not x[2].startswith('FUN_'))
+unnamed = sum(1 for x in game if not is_done(x) and x[2].startswith('FUN_'))
 rows = [
-    ('GAME CODE', '', '%d functions, %d bytes of code' % (g[0], g[1])),
-    ('  equivalent C, functions', pct(g[7], g[0]), '%d of %d (behaves like the original; matching included)' % (g[7], g[0])),
-    ('  equivalent C, bytes', pct(g[8], g[1]), '%d bytes' % g[8]),
-    ('  matching C, bytes', pct(g[2], g[1]), '%d bytes, %d units' % (g[2], len(units))),
-    ('  matching C, functions', pct(g[3], g[0]), '%d of %d' % (g[3], g[0])),
-    ('  named functions', pct(g[4], g[0]), '%d of %d' % (g[4], g[0])),
-    ('  named code, bytes', pct(g[5], g[1]), 'code in named functions'),
-    ('  documented functions', pct(g[6], g[0]), '%d in docs/*.md' % g[6]),
+    ('GAME CODE', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
+    ('  done: equivalent C', pct(g[7], g[0]), '%d of %d functions, %d bytes (%s): C that behaves like the original'
+     % (g[7], g[0], g[8], pct(g[8], g[1]).strip())),
+    ('    of which matching C', pct(g[3], g[0]), '%d functions, %d bytes, %d units: rebuilt byte for byte'
+     % (g[3], g[2], len(units))),
+    ('  named only', pct(named_only, g[0]), '%d functions: a name, no C yet (not done work)' % named_only),
+    ('  unnamed', pct(unnamed, g[0]), '%d functions (FUN_...), no C yet' % unnamed),
+    ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),
-    ('SDK (Sega libraries)', '', '%d functions, %d bytes of code' % (k[0], k[1])),
-    ('  named functions', pct(k[4], k[0]), '%d of %d (signatures)' % (k[4], k[0])),
+    ('SDK (Sega libraries)', '', '%d functions, %d bytes of code; never decompiled here' % (k[0], k[1])),
+    ('  named by signature', pct(k[4], k[0]), '%d of %d (SDK tables: the library\'s own names)' % (k[4], k[0])),
 ]
 w = max(len(r[0]) for r in rows)
 for name, p, detail in rows:

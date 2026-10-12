@@ -1,3 +1,6 @@
 extRand
 extRandom
 extRandomSeed
+nlFree
+nlInitHeapMemory
+nlMalloc

@@ -1,0 +1,104 @@
+{
+ "dev": [
+  {
+   "about": "Arcade heap: free a block (previous free, next in use)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1A3B40"
+   }
+  },
+  {
+   "about": "Arcade heap: free a block (previous in use, next in use)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1A3D40"
+   }
+  },
+  {
+   "about": "Arcade heap: free a block (previous in use, next free)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1A4140"
+   }
+  },
+  {
+   "about": "Arcade heap: free a block (previous free, next free)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1A48F0"
+   }
+  },
+  {
+   "about": "Arcade heap: free a block (previous in use, last)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1A99B0"
+   }
+  },
+  {
+   "about": "Arcade heap: free a block that is already free (it goes in the list twice)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0C1799EC"
+   }
+  },
+  {
+   "about": "free(0)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "Original heap: free a block (previous free, next in use)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C19D0D4"
+   }
+  },
+  {
+   "about": "Original heap: free a block (previous in use, next in use)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C19D208"
+   }
+  },
+  {
+   "about": "Original heap: free a block (previous in use, next free)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C19D33C"
+   }
+  },
+  {
+   "about": "Original heap: free a block (previous free, next free)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C19DDCC"
+   }
+  },
+  {
+   "about": "Original heap: free a block (previous in use, last)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C1A99C8"
+   }
+  },
+  {
+   "about": "Original heap: free a block that is already free (it goes in the list twice)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "0C1799EC"
+   }
+  },
+  {
+   "about": "free(0)",
+   "dump": "build/ram/original.bin",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ]
+}

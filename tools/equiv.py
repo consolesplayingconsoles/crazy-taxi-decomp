@@ -7,10 +7,14 @@ Compiles the file with the SDK's shc (same flags as build.sh), links it on its o
 address with every outside name it uses defined at the game's address (functions.txt,
 globals.txt, symbols.txt), and runs each of its functions in tools/sh4sim.py twice per case:
 the original bytes at the original address, then the compiled C. The two runs must agree on
-every call out (target and arguments), every memory write and the return registers. The cases
+every call out (target and arguments, in order), the memory they leave behind (the final value at
+every address either one wrote) and the return register. The cases
 are tests/<file>/<function>.json: a list of sh4sim cases without exe/entry/end (filled in
-here); a case may name a RAM dump ("dump": path relative to the repo). A function with cases
-that all agree is Equivalent; the result goes to tests/equivalent.txt (progress.py reads it).
+here), or {"dev": [...], "holdout": [...]} (holdout: cases written after the C passed the dev ones,
+so they were not fitted to); a case may name a RAM dump ("dump": path relative to the repo) and
+say what it covers ("about"). A function with cases
+that all agree is Equivalent; the result goes to tests/equivalent.txt (progress.py reads it) and
+its evidence to docs/equivalent.md (one entry per function).
 A function that byte-matches is Equivalent by definition and needs no cases.
 
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
@@ -121,6 +125,16 @@ def returns(cfile):
     return out
 
 
+def final(writes):
+    """Memory after the writes, byte by byte: {address: byte}."""
+    mem = {}
+    for addr, size, value in writes:
+        a, v = int(addr, 16), int(value, 16)
+        for i in range(size):
+            mem['%08X' % (a + i)] = '%02X' % ((v >> (8 * i)) & 0xFF)
+    return mem
+
+
 def same(a, b, outs, back):
     """The parts of two runs that must agree, and the first difference. back maps an address in
     the compiled C (one of its own functions or data) to the game's address of the same name."""
@@ -132,8 +146,9 @@ def same(a, b, outs, back):
         if k == 'calls':
             x = [(c['to'], c['r4-r7'], c['fr4-fr11']) for c in x]
             y = [(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11']) for c in y]
-        if k == 'writes':
-            y = [[fix(w[0])] + w[1:] for w in y]
+        if k == 'writes':                 # the final value at each address: the order of plain stores
+            x = final(x)                 # is the compiler's business (devices keep their order)
+            y = final([[fix(w[0])] + w[1:] for w in y])
         if x != y:
             return False, '%s: original %s / C %s' % (k, json.dumps(x)[:200], json.dumps(y)[:200])
     return True, ''
@@ -153,7 +168,10 @@ def main(argv):
     base = int(open('BASE').read().strip(), 16)
     rets = returns(cfile)
     back = {a: table[n[1:]] for n, a in syms.items() if n[1:] in table}    # the file's own names
-    results = {}
+    # a call into the compiled C that is not one of its game-named functions is the C's own helper
+    # (a static the original inlined, not in the map): part of the C version, so it runs
+    helpers = lambda t: SCRATCH <= t < SCRATCH + len(code) and t not in back
+    results, evidence = {}, {}
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
         if fn not in funcs or '_' + fn not in syms:
@@ -166,10 +184,14 @@ def main(argv):
         c_at = syms['_' + fn]
         c_end = min([a for a in syms.values() if a > c_at] + [SCRATCH + len(code)])
         ok, why, n = True, '', 0
-        for case in json.load(open(case_path)):
+        sets = json.load(open(case_path))
+        if isinstance(sets, list):                   # a plain list: all development cases
+            sets = {'dev': sets}
+        counts = {k: len(v) for k, v in sets.items()}
+        for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
             orig = sh4sim.run(case, '.')
-            mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end)
+            mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back)
             if orig['error']:
@@ -177,7 +199,10 @@ def main(argv):
             if not good:
                 ok, why = False, 'case %d: %s' % (n, diff)
                 break
-        results[fn] = (ok, why or '%d cases' % n)
+        results[fn] = (ok, why or '%d cases (%s)' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items())))
+        if ok:
+            evidence[fn] = (start, size, cfile, counts,
+                            [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])])
     for fn, (ok, why) in results.items():
         print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
     path = os.path.join('tests', 'equivalent.txt')
@@ -186,6 +211,32 @@ def main(argv):
     have -= {fn for fn, (ok, _) in results.items() if ok is False}
     os.makedirs('tests', exist_ok=True)
     open(path, 'w').write(''.join(f + '\n' for f in sorted(have)))
+    write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False})
+
+
+def write_evidence(new, failed):
+    """docs/equivalent.md: one entry per Equivalent function, its evidence. Kept across runs; a
+    function that fails again loses its entry."""
+    path = os.path.join('docs', 'equivalent.md')
+    entries = {}
+    if os.path.exists(path):
+        for block in open(path).read().split('\n### ')[1:]:
+            entries[block.split(' ', 1)[0]] = '### ' + block.rstrip('\n') + '\n'
+    for fn in failed:
+        entries.pop(fn, None)
+    for fn, (start, size, cfile, counts, about) in new.items():
+        lines = ['### %s (`%08X`, %d bytes, `%s`)' % (fn, start, size, cfile),
+                 '- equivalent on %s cases, in `tests/%s/%s.json`'
+                 % (' and '.join('%d %s' % (v, 'development' if k == 'dev' else k) for k, v in counts.items()),
+                    os.path.splitext(os.path.basename(cfile))[0], fn)]
+        lines += ['- %s' % a for a in about if a]
+        entries[fn] = '\n'.join(lines) + '\n'
+    os.makedirs('docs', exist_ok=True)
+    head = ('# Equivalent functions\n\nFunctions whose C behaves like the original on every test case '
+            '(`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; '
+            'the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need '
+            'your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.\n')
+    open(path, 'w').write(head + ''.join('\n' + entries[k] for k in sorted(entries)))
 
 
 if __name__ == '__main__':

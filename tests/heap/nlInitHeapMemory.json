@@ -1,0 +1,38 @@
+{
+ "dev": [
+  {
+   "about": "a 0x1000-byte heap",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0CE5F000",
+    "r5": "00001000"
+   }
+  },
+  {
+   "about": "a 0x30000-byte heap",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0CE5F000",
+    "r5": "00030000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "a 0x1003-byte heap (size not a multiple of 4)",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0CE5F000",
+    "r5": "00001003"
+   }
+  },
+  {
+   "about": "a 0x40-byte heap",
+   "dump": "build/ram/arcade.bin",
+   "regs": {
+    "r4": "0CE5F000",
+    "r5": "00000040"
+   }
+  }
+ ]
+}

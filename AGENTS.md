@@ -48,11 +48,16 @@ no arguments. Reading the code stays the evidence; a live value confirms it or s
    (one file per original source file is the goal, but a few functions are fine to start).
    Outside names it uses come from `functions.txt`, `globals.txt` and `symbols.txt`.
 2. **Write cases** in `tests/<file>/<function>.json`: the inputs that reach each branch (registers,
-   memory bytes via `poke`, a RAM dump for the world state), and what each call it makes returns.
+   memory bytes via `poke`, a RAM dump for the world state), what each call it makes returns, and
+   what each case covers (`about`). Split them `{"dev": [...], "holdout": [...]}`: write the dev
+   cases first and iterate on them; then write holdout cases the C was never checked against (other
+   values, another RAM dump) and run once more. A function counts only when both pass.
 3. **Check**: `python3 tools/equiv.py src/<file>.c`. Each function runs in the SH-4 interpreter
    twice per case, the original bytes and your compiled C, and must agree on calls (target and
    arguments), memory writes and the return register (from your prototype). `DIFFERS` names the
-   first case and what differed. A function with all cases agreeing is Equivalent.
+   first case and what differed. A function with all cases agreeing is Equivalent: it goes into
+   `tests/equivalent.txt`, and its evidence (address, size, file, case counts, what they cover)
+   into `docs/equivalent.md`, one entry per function.
 4. **Progress**: `python3 tools/progress.py` (Equivalent first, Matching beside it).
 
 Cases are the evidence: one case proves little; cover each branch and edge (zero, negative, the
