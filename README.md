@@ -86,8 +86,8 @@ GAME CODE                         1459 functions, 309001 bytes of code
   named code, bytes        47.7%  code in named functions
   documented functions     16.2%  236 in docs/*.md
   named globals                   119
-SDK (Sega libraries)              1024 functions, 113988 bytes of code
-  named functions          52.1%  534 of 1024 (signatures)
+SDK (Sega libraries)              1293 functions, 136080 bytes of code
+  named functions          82.1%  1062 of 1293 (signatures)
 ```
 <!-- /progress -->
 
