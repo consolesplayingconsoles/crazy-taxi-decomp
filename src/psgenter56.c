@@ -93,7 +93,7 @@ extern char mot_0ca75d74[];
 extern char mot_0ca7bbdc[];
 
 unsigned int extRand(void);
-int rand(void);
+int nlRand(void);
 void nlSubVector3op(NLpoint3 *out, NLpoint3 *a, NLpoint3 *b);
 void nlUnitVector(NLpoint3 *v);
 float nlInnerProduct(NLpoint3 *a, NLpoint3 *b);
@@ -162,7 +162,7 @@ void psgEnterState6(tagPASSENGER *p, int arg)
     unsigned int r;
     int i;
 
-    r = rand();
+    r = nlRand();
     switch (arg) {
     case 0:
         nlSubVector3op(&d, &p->pos, &Car_Data[0].pos);

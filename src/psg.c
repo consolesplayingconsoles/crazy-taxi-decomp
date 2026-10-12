@@ -111,7 +111,7 @@ typedef struct {
 extern TAXIDRIVER TaxiDriver;
 int IsBoyFriend(int chara, int a);
 void Chat_HeyTaxi(tagPASSENGER *p);
-int rand(void);
+int nlRand(void);
 extern int CourseMode;
 extern int MiniGame_No;
 extern unsigned char RideonCamFlag;
@@ -325,7 +325,7 @@ void psgEnterState0(tagPASSENGER *p, int arg)
             break;
         }
     }
-    p->f034 = list[rand() % n];
+    p->f034 = list[nlRand() % n];
     p->f124 = g_0c0d5720;
     p->f128 = g_0c0d5728;
     p->f038 = 0.0f;

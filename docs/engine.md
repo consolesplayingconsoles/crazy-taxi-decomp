@@ -636,7 +636,7 @@ Thin game functions around the SDK, named from what they call. Grouped by subsys
 | Save | `saveBufferInit(buf)` | 4-byte header from `0x0C09DB48`, then 0x780 bytes of 0xFF |
 | System | `rtcGetSeconds()` | the real-time clock as a seconds count |
 | System | `sysCfgRead()` | console sound mode and language into `0x0C2A11BC` / `0x0C2A11C0` |
-| System | `randFloat()` | a random float |
+| System | `nlRandom()` | a random float |
 | Camera | `camPlayScript(script, kind)` | saves the camera, switches to mode 10 or 11 and plays a camera script |
 | Graphics | `frameFlip()` | renders the frame (`kmRender`) and flips the frame buffer |
 | Graphics | `texLoadIndexed(i)`, `texFreeMem()` | load texture `i` from the texture tables; free texture memory |
@@ -712,7 +712,6 @@ original name is used here.
 | `humanDraw` | `SklPlay` |
 | `hudDraw` | `execSprite` |
 | `vmuExit` | `BupExit` |
-| `rand` / `randFloat` | `nlRand` / `nlRandom` |
 | (frame handler, state 7, now named) | `exec_loop_Replay`: state 7 is the replay |
 
 ## Prototypes
