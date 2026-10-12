@@ -84,7 +84,7 @@ GAME CODE                         999 functions, 253143 bytes of code
   matching C, functions     0.5%  5 of 999
   named functions          40.1%  401 of 999
   named code, bytes        56.5%  code in named functions
-  documented functions     22.0%  220 in docs/*.md
+  documented functions     22.2%  222 in docs/*.md
   named globals                   119
 SDK (Sega libraries)              1825 functions, 196416 bytes of code
   named functions          71.7%  1308 of 1825 (signatures)

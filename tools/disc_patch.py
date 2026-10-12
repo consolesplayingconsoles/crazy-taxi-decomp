@@ -8,6 +8,8 @@ parity) recomputed: emulators ignore stale ECC, real hardware and GDEMU may not.
 nothing that locates files by disc position breaks. A smaller replacement is padded with zeros. A
 bigger one moves into free sectors (no file or directory uses them: GD-ROMs often carry a whole
 filler track) and its ISO9660 directory entry is repointed; only that entry and the new sectors change.
+A path the disc does not have is added: its data into free sectors, a new record in the root
+directory (in name order, if the sector it sorts into has room).
 """
 import os
 import shutil
@@ -162,6 +164,96 @@ def grow(gdi, path, data):
                                                             track_of(start)["lba"]))
 
 
+def add(gdi, path, data):
+    """A file the disc does not have: its data into free sectors (as grow does) and a new record in
+    the root directory, in ISO 9660 name order, inside the sector it sorts into (an error when that
+    sector has no room: records never span sectors)."""
+    name = path.strip("/").upper()
+    if "/" in name:
+        raise SystemExit("[ERROR] %s: only root-directory files can be added" % path)
+    disc = gdi_read.Disc(gdi)
+    pvd = disc.sector(45016)
+    root_lba = struct.unpack_from("<I", pvd, 156 + 2)[0]
+    root_size = struct.unpack_from("<I", pvd, 156 + 10)[0]
+    if any(p.upper() == "/" + name for _, _, p in disc.files()):
+        raise SystemExit("[ERROR] %s is already on the disc" % path)
+    # a placeholder record so the free-run search below sees the directory as it will be
+    raw = bytearray(disc.read(root_lba, root_size))
+    recs = []                                           # (sector, offset, bytes)
+    o = 0
+    while o < len(raw):
+        n = raw[o]
+        if n == 0:
+            o = (o // 2048 + 1) * 2048
+            continue
+        recs.append((o // 2048, o % 2048, bytes(raw[o:o + n])))
+        o += n
+    ident = (name + ";1").encode("latin-1")
+    rec = bytearray(33 + len(ident) + (1 - len(ident) % 2))
+    rec[0] = len(rec)
+    sib = recs[-1][2]
+    rec[18:25] = sib[18:25]                             # a neighbour's date
+    struct.pack_into("<H", rec, 28, 1)
+    struct.pack_into(">H", rec, 30, 1)
+    rec[32] = len(ident)
+    rec[33:33 + len(ident)] = ident
+    key = lambda r: r[33:33 + r[32]].split(b";")[0].upper()
+    at = len(recs)
+    for k, (sector, off, r) in enumerate(recs):
+        if r[33:33 + r[32]] not in (b"\0", b"\1") and key(r) > ident.split(b";")[0]:
+            at = k
+            break
+    sector = recs[at][0] if at < len(recs) else recs[-1][0]
+    mine = [r for sct, off, r in recs if sct == sector]
+    before = sum(1 for k, (sct, off, r) in enumerate(recs) if sct == sector and k < at)
+    mine.insert(before, bytes(rec))
+    if sum(len(r) for r in mine) > 2048:
+        raise SystemExit("[ERROR] %s: no room in the root directory's sector %d" % (path, sector))
+    # data: placed by grow's free-run search, through a temporary record pointing nowhere
+    need = (len(data) + 2047) // 2048
+    def track_of(lba):
+        for t in disc.tracks:
+            if t["lba"] <= lba < t["lba"] + t["count"]:
+                return t
+        raise SystemExit("lba %d in no data track" % lba)
+    def write_sector(lba, user):
+        t = track_of(lba)
+        with open(t["path"], "r+b") as f:
+            pos = (lba - t["lba"]) * 2352
+            f.seek(pos)
+            sec = bytearray(f.read(2352))
+            sec[16:2064] = user.ljust(2048, b"\0")
+            f.seek(pos)
+            f.write(fix_sector(sec))
+    used = [(root_lba, (root_size + 2047) // 2048)] + [(l, (z + 2047) // 2048) for l, z, _ in disc.files()]
+    start = None
+    for t in disc.tracks:
+        cand = max(t["lba"], 45100)
+        for ul, un in sorted(used):
+            if ul + un <= cand or ul >= cand + need:
+                continue
+            cand = max(cand, ul + un)
+        if cand + need <= t["lba"] + t["count"]:
+            start = cand
+            break
+    if start is None:
+        raise SystemExit("no free run of %d sectors" % need)
+    for k in range(need):
+        write_sector(start + k, data[k * 2048:(k + 1) * 2048])
+    struct.pack_into("<I", rec, 2, start)
+    struct.pack_into(">I", rec, 6, start)
+    struct.pack_into("<I", rec, 10, len(data))
+    struct.pack_into(">I", rec, 14, len(data))
+    mine[before] = bytes(rec)
+    write_sector(root_lba + sector, b"".join(mine))
+    disc = gdi_read.Disc(gdi)
+    hit = [f for f in disc.files() if f[2].upper() == "/" + name]
+    if not (hit and hit[0][0] == start and hit[0][1] == len(data) and disc.read(start, len(data)) == data):
+        raise SystemExit("[ERROR] %s: read-back after the add differs" % path)
+    print("  added %s: %d bytes at lba %d, root directory record in sector %d, read back identical"
+          % (path, len(data), start, sector))
+
+
 def main():
     if len(sys.argv) < 4:
         raise SystemExit(__doc__)
@@ -182,8 +274,11 @@ def main():
     for arg in sys.argv[3:]:
         path, local = arg.split("=", 1)
         key = "/" + path.strip("/").upper()
-        if key not in files:
-            raise SystemExit("[ERROR] %s is not on the disc" % path)
+        if key not in files:                        # a new file: free sectors + a directory record
+            add(out_gdi, path, open(local, "rb").read())
+            disc = gdi_read.Disc(out_gdi)
+            files = {p.upper(): (l, z) for l, z, p in disc.files()}
+            continue
         lba, size = files[key]
         data = open(local, "rb").read()
         if len(data) > size:

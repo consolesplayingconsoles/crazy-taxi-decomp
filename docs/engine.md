@@ -78,6 +78,17 @@ What is known about the game's own code and data, from reading the executable. A
 | `motDC.BIN` | | animation data; the motion pointers in the tables below point into it |
 
 `polDC*.BIN` hold no absolute pointers; the exe's own tables point into them at their load address.
+Models are the NAOMI library's flat format (`nlObjPut`): a record starts with two counts, a bounding
+sphere (centre, radius), then PowerVR polygon words (`0x8000002C`, `0x83000000`, TSP, a texture word
+with address 0 on disc). After loading, the texture words get their video-memory addresses through
+`nlObjPutLoadTexture(model, textures)` (`0x0C07A250`), only for the records the game names.
+`gdc_FileLoad(where, name, size)` (`0x0C02DEFE`) reads a whole file when `size` is 0 (ADXF, waits
+for the read). Memory: `gameInit` loads `polDC0.BIN` at `0x0C390000` (2,358,960 bytes, ending at
+`0x0C5CFEB0`), 65,872 bytes below the city models at `0x0C5E0000`; `0x0C5E0000`-`0x0C880000` holds the
+city's models and its streamed pieces; `motDC.BIN` from `0x0C880000`; sprites at `0x0CB40000`
+(`gdc_SpriteSetAdv`). The game's heap (`nlMalloc`, the events') is 0x30000 bytes (`gameInit`'s
+`nlInitHeapMemory` call). Shinobi's `malloc` (`0x0C14F61C`) is never set up: it calls through the
+interface word at `0x0C2B9334`, which stays 0, so calling it hangs.
 
 The city streams in pieces around a point: `gdc_CoursePointLoadReq(point, radius)` (`0x0C02EE20`;
 the point is a 12-byte struct passed by value on the stack, the radius in `fr4`) requests every
