@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """progress.py: the decomp's state, in several measures. Run from the repo root after setup.sh.
 
-  matching C   bytes, functions and units rebuilt from src/*.c
+  equivalent   functions whose C behaves like the original (tests/equivalent.txt, by tools/equiv.py),
+               matching ones included: the bar a function is done by
+  matching C   bytes, functions and units rebuilt byte for byte from src/*.c: the bonus tier
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
 Game code and SDK code (sdk.txt: Katana libraries, compiler runtime, boot block) are reported apart:
@@ -28,6 +30,8 @@ def is_sdk(a):
 def in_c(a):
     return any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
 
+equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
+
 def stats(sel):
     fs = [x for x in funcs if sel(x[0])]
     code = sum(sz for a, sz, n in fs)
@@ -36,7 +40,8 @@ def stats(sel):
     nm = [x for x in fs if not x[2].startswith('FUN_')]
     nb = sum(sz for a, sz, n in nm)
     dc = sum(1 for a, sz, n in nm if n in words)
-    return len(fs), code, cb, cf, len(nm), nb, dc
+    eq = [x for x in fs if in_c(x[0]) or x[2] in equivalent]
+    return len(fs), code, cb, cf, len(nm), nb, dc, len(eq), sum(sz for a, sz, n in eq)
 
 globals_named = sum(1 for l in open('globals.txt') if l.strip() and not l.startswith('#')) if os.path.exists('globals.txt') else 0
 import glob
@@ -50,6 +55,8 @@ g = stats(lambda a: not is_sdk(a))
 k = stats(is_sdk)
 rows = [
     ('GAME CODE', '', '%d functions, %d bytes of code' % (g[0], g[1])),
+    ('  equivalent C, functions', pct(g[7], g[0]), '%d of %d (behaves like the original; matching included)' % (g[7], g[0])),
+    ('  equivalent C, bytes', pct(g[8], g[1]), '%d bytes' % g[8]),
     ('  matching C, bytes', pct(g[2], g[1]), '%d bytes, %d units' % (g[2], len(units))),
     ('  matching C, functions', pct(g[3], g[0]), '%d of %d' % (g[3], g[0])),
     ('  named functions', pct(g[4], g[0]), '%d of %d' % (g[4], g[0])),
