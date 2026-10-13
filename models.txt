@@ -43,5 +43,24 @@ textures BINC3.AFS TEXDC3.BIN
 name POLDC1.BIN 0 Fountain
 name POLDC2.BIN 0 Train
 
+# Sounds, named by file and entry (kept sorted by the viewer).
+sound SONG01.AFS 0 Menu Short
+sound SONG01.AFS 1 Menu Long
+sound SONG01.AFS 2 Character Selection
+sound SONG01.AFS 8 Ranking
+sound VOICE01.AFS 0 Arrival 1
+sound VOICE01.AFS 1 Departure 1
+sound VOICE01.AFS 2 Departure 2
+sound VOICE01.AFS 3 Reply 1
+sound VOICE01.AFS 4 Complaint 1
+sound VOICE01.AFS 5 Calm 1
+sound VOICE01.AFS 6 Praise 1
+sound VOICE01.AFS 7 Regret 1
+sound VOICE01.AFS 8 Greeting 1
+sound VOICE01.AFS 9 Departure 3
+sound VOICE01.AFS 10 Greeting 2
+sound VOICE01.AFS 11 Call 1
+sound VOICE01.AFS 12 Rush 1
+
 # Tables, put under a group and label (kept sorted by the viewer).
 table 0C0266C4 Tables Arrow
