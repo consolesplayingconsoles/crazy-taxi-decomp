@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "poke": {
+    "8C20C8A8": "00000000"
+   }
+  },
+  {
+   "about": "five",
+   "poke": {
+    "8C20C8A8": "05000000"
+   }
+  },
+  {
+   "about": "wrap",
+   "poke": {
+    "8C20C8A8": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "big",
+   "poke": {
+    "8C20C8A8": "78563412"
+   }
+  }
+ ]
+}

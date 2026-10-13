@@ -1,0 +1,60 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "bit 2",
+   "regs": {
+    "r4": "00000004"
+   }
+  },
+  {
+   "about": "low bits",
+   "regs": {
+    "r4": "00000007"
+   }
+  },
+  {
+   "about": "upper half",
+   "regs": {
+    "r4": "00800000"
+   }
+  },
+  {
+   "about": "both",
+   "regs": {
+    "r4": "00800004"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mid",
+   "regs": {
+    "r4": "00012345"
+   }
+  },
+  {
+   "about": "below",
+   "regs": {
+    "r4": "007FFFFF"
+   }
+  },
+  {
+   "about": "max",
+   "regs": {
+    "r4": "FFFFFFFF"
+   }
+  },
+  {
+   "about": "big",
+   "regs": {
+    "r4": "01234567"
+   }
+  }
+ ]
+}

@@ -107,7 +107,7 @@ def compile_link(cfile, defines):
     if r.returncode:
         sys.exit('[ERROR] compile failed:\n' + r.stdout + r.stderr)
     log = open('build/equiv/lnk.log', errors='replace').read()
-    undefined = re.findall(r'UNDEFINED.*?SYMBOL.*?"?([_A-Za-z]\w*)', log) or \
+    undefined = re.findall(r'UNDEFINED EXTERNAL SYMBOL\((?:\w+\.)?_?([^)\s]+)\)', log) or \
         re.findall(r'\(E\) UNDEFINED EXTERNAL SYMBOL\s*"?(\w+)', log)
     if undefined or not os.path.exists('build/equiv/%s.bin' % stem):
         return None, undefined or ['(link failed: see build/equiv/lnk.log)']

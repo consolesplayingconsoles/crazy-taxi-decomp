@@ -1,0 +1,129 @@
+{
+ "dev": [
+  {
+   "about": "positive, setjmp 0",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "e8030000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "00000032"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  },
+  {
+   "about": "negative",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "e8030000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  },
+  {
+   "about": "zero, setjmp 1",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "e8030000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    }
+   ]
+  },
+  {
+   "about": "positive, setjmp 2",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "e8030000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "00000007"
+   },
+   "calls": [
+    {
+     "r0": "00000002"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "big tick",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "00010000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "7FFFFFF0"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  },
+  {
+   "about": "min",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "e8030000",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "80000000"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    }
+   ]
+  },
+  {
+   "about": "tick minus",
+   "poke": {
+    "8C4762C8": "0000808c",
+    "8C800D78": "0010808c",
+    "8C800204": "fbffffff",
+    "8C801010": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "00000003"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  }
+ ]
+}

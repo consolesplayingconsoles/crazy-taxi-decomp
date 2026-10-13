@@ -1,0 +1,78 @@
+{
+ "dev": [
+  {
+   "about": "empty",
+   "poke": {
+    "8C800000": "00cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "five",
+   "poke": {
+    "8C800000": "68656c6c6f00cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "twelve",
+   "poke": {
+    "8C800000": "6162636465666768696a6b6c00cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "long",
+   "poke": {
+    "8C800000": "6162636465666768696a6b6c6d6e6f70717200cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "negative byte",
+   "poke": {
+    "8C800000": "80ff00cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "eleven",
+   "poke": {
+    "8C800000": "6162636465666768696a6b00cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "one",
+   "poke": {
+    "8C800000": "7800cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  },
+  {
+   "about": "thirteen",
+   "poke": {
+    "8C800000": "3031323334353637383961626300cccccccccccccccc"
+   },
+   "regs": {
+    "r4": "8C800000"
+   }
+  }
+ ]
+}

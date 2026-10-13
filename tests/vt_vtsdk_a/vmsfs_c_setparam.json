@@ -1,0 +1,84 @@
+{
+ "dev": [
+  {
+   "about": "slot 0",
+   "poke": {
+    "0C2EC578": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "040000000500000006000000"
+   },
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000003"
+   }
+  },
+  {
+   "about": "slot 1",
+   "poke": {
+    "8C462200": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "440000005500000066000000"
+   },
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000011",
+    "r6": "00000022",
+    "r7": "00000033"
+   }
+  },
+  {
+   "about": "slot 3",
+   "poke": {
+    "8C462300": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "000000000000000000000000"
+   },
+   "regs": {
+    "r4": "00000003",
+    "r5": "00000000",
+    "r6": "00000000",
+    "r7": "00000000"
+   }
+  },
+  {
+   "about": "negatives",
+   "poke": {
+    "8C462280": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "fcfffffffbfffffffaffffff"
+   },
+   "regs": {
+    "r4": "00000002",
+    "r5": "FFFFFFFF",
+    "r6": "FFFFFFFE",
+    "r7": "FFFFFFFD"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "slot 7",
+   "poke": {
+    "8C462500": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "0200000000000080ffffff7f"
+   },
+   "regs": {
+    "r4": "00000007",
+    "r5": "12345678",
+    "r6": "9ABCDEF0",
+    "r7": "00000001"
+   }
+  },
+  {
+   "about": "slot 2 again",
+   "poke": {
+    "8C462280": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "0DFFFF00": "060000000500000004000000"
+   },
+   "regs": {
+    "r4": "00000002",
+    "r5": "00000009",
+    "r6": "00000008",
+    "r7": "00000007"
+   }
+  }
+ ]
+}

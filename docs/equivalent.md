@@ -2,6 +2,97 @@
 
 Functions whose C behaves like the original on every test case (`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.
 
+### ADXB_ExecOneWav (`0C17435C`, 40 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_b/ADXB_ExecOneWav.json`
+- mode 2
+- mode 1
+- mode 0
+- mode 3
+- mode -1
+- mode 0x102
+- mode 0x8000
+- mode 0x100
+
+### ADXB_Start (`0C1713CE`, 14 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXB_Start.json`
+- zero
+- one
+- two
+- minus
+- high
+
+### ADXB_Stop (`0C1713DC`, 26 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/ADXB_Stop.json`
+- normal
+- f8 zero
+- other
+- f4 already zero
+- again
+
+### ADXPD_Destroy (`0C17442E`, 20 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_b/ADXPD_Destroy.json`
+- null
+- object
+- object offset
+- another
+
+### ADXSJD_Destroy (`0C168300`, 52 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/ADXSJD_Destroy.json`
+- null
+- no buffer
+- with buffer
+- other buffer
+- other r0
+
+### ADXSTM_GetBufSize (`0C168E48`, 12 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetBufSize.json`
+- basic
+- zero
+- minus
+- big
+- swapped
+
+### ADXSTM_GetGdfsStat (`0C168E6E`, 28 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetGdfsStat.json`
+- basic
+- zero
+- minus
+- big
+- other
+
+### ADXT_SetOutPan (`0C152238`, 50 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/ADXT_SetOutPan.json`
+- in range
+- equal -> error
+- above -> error
+- ch 0 count 0
+- signed count
+- rna handle
+
+### BCDtoDEC (`0C166C80`, 24 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_b/BCDtoDEC.json`
+- 59
+- zero
+- 99
+- 0xff
+- 0x12345678
+- top bit
+- 0x0a
+- 0x7f
+- all ones
+
+### DECtoBCD (`0C166C5C`, 36 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_a/DECtoBCD.json`
+- 0
+- 9
+- 10
+- 59
+- 99
+- 100
+- 12
+- 255
+- big
+
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`
 - level 0
@@ -160,6 +251,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag -3
 - flag 0x103
 
+### adxf_ChkPrmGfr (`0C15337C`, 62 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 7 development and 6 holdout cases, in `tests/vt_vtsdk_b/adxf_ChkPrmGfr.json`
+- ok
+- b = last valid
+- b = limit
+- b negative
+- a negative
+- a = 256
+- b = 0
+- a=255 ok
+- a huge
+- b huge
+- limit 1 b 0
+- limit 0 b 0
+- a=0 ok
+
+### buFbrWakeupFiber (`0C172AC2`, 28 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_c/buFbrWakeupFiber.json`
+- idx0 set
+- idx0 clear
+- idx2 set
+- idx3 clear
+- idx1 set other
+- idx4 set
+
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`
 - mode 0 (homing vector)
@@ -213,6 +329,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - bit already set
 - course 7, no table
 
+### direntry (`0C166B40`, 24 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/direntry.json`
+- unit 1 entry 3
+- entry 0
+- unit 0
+- entry negative
+- unit 7 big entry
+- unit 3 entry 1
+
 ### discardVertexBuffer (`0C0755F0`, 8 bytes, `src/sdk_e.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_e/discardVertexBuffer.json`
 - plain
@@ -244,6 +369,97 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other
 - big
 
+### gdFsCheckEof (`0C1600D4`, 40 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_e/gdFsCheckEof.json`
+- null
+- flag zero
+- pos past
+- pos before
+- equal
+- negative pos
+- negative size
+- flag high byte
+- big
+
+### gdFsClose (`0C15FFEC`, 56 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 7 development and 3 holdout cases, in `tests/vt_vtsdk_d/gdFsClose.json`
+- null
+- flag zero
+- state 2
+- state 3
+- state 4
+- state 1
+- state 5
+- state 0
+- state 0x10002
+- state 2 again
+
+### gdFsGetDrvStat (`0C14E4A4`, 24 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsGetDrvStat.json`
+- table set
+- null table
+- other args
+- other target
+
+### gdFsGetLE4 (`0C14CFBC`, 38 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/vt_vtsdk_c/gdFsGetLE4.json`
+- 1234
+- high bytes
+- zero
+- top bit
+- ff
+- low
+
+### gdFsGetTransStat (`0C1604F0`, 26 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/gdFsGetTransStat.json`
+- null
+- zero state
+- ok
+- negative short
+- zero value
+- ffff
+- 7fff
+
+### gdFsLoadDirFast (`0C14E3AC`, 22 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/gdFsLoadDirFast.json`
+- null
+- object
+- other object
+- arg zero
+- arg minus
+
+### gdFsOpen (`0C14E3EE`, 22 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpen.json`
+- table set
+- null table
+- other args
+- other target
+
+### gdFsOpenRange (`0C14E41C`, 24 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpenRange.json`
+- table set
+- null table
+- other args
+- other target
+
+### gdFsSetGlobalErrG (`0C14D004`, 10 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/gdFsSetGlobalErrG.json`
+- one
+- zero
+- neg
+- big
+- other
+
+### gdFsSetTmode (`0C1600FC`, 26 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/gdFsSetTmode.json`
+- null
+- zero state
+- ok
+- ok negative
+- ok wide value
+- state negative short
+- null again
+
 ### getGoiToolFlag (`0C049878`, 18 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/getGoiToolFlag.json`
 - bit set
@@ -270,6 +486,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern
 - bit above
 
+### hwInit (`0C150014`, 40 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/hwInit.json`
+- empty table
+- one entry
+- three entries
+- same addr twice
+- four
+- one other
+
 ### initPlayer (`0C02DD56`, 4 bytes, `src/leaf.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/leaf/initPlayer.json`
 - nothing happens
@@ -280,6 +505,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - word clear
 - word set
 - other value
+
+### kdGetDevice (`0C162094`, 18 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/kdGetDevice.json`
+- 0
+- 1
+- 3
+- 7
+- negative
+- 100
+
+### kmyConvertAddress64to32 (`0C157F1E`, 34 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_c/kmyConvertAddress64to32.json`
+- zero
+- bit 2
+- low bits
+- upper half
+- both
+- mid
+- below
+- max
+- big
+
+### kmytex_FBEnQueueEntry (`0C157416`, 28 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/kmytex_FBEnQueueEntry.json`
+- empty queue
+- nonempty queue
+- empty, other layout
+- nonempty, other layout
+- empty, third layout
 
 ### kyakuClearVoiceBit24 (`0C0535A4`, 12 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/kyakuClearVoiceBit24.json`
@@ -317,6 +571,97 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - n=32
 - negative val
 - n=3 odd start
+
+### mpdrv_frame_recv_post (`0C16EBBC`, 22 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_frame_recv_post.json`
+- basic
+- flag was set
+- other
+
+### mpdrv_get_device (`0C16ED60`, 16 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/mpdrv_get_device.json`
+- zero
+- three
+- minus
+- big
+- other base
+
+### mpdrv_set_ft4ctrl_ns (`0C1700A4`, 36 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_ft4ctrl_ns.json`
+- 1,2
+- zero
+- negative
+- big
+- other
+- port 2
+
+### mpdrv_set_getcond_ns (`0C16FD16`, 30 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_set_getcond_ns.json`
+- a b
+- ret 7
+- ret neg
+
+### mpdrv_set_getminfo_ns (`0C16FE88`, 38 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_set_getminfo_ns.json`
+- shift
+- big c
+- zero c
+- c ff
+
+### mpdrv_set_setcond_ns (`0C170104`, 36 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_setcond_ns.json`
+- 1..4
+- zero
+- negative
+- big
+- other
+- port 2
+
+### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_c/mwRnaGetAutoSw.json`
+- null
+- bit set
+- bit clear
+- all
+- zero
+- bit 3 only
+- bits 2,0
+
+### mwRnaGetSfreq (`0C16AC76`, 30 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetSfreq.json`
+- null
+- 44100
+- zero
+- negative
+- 48000
+- big
+
+### mwRnaGetTime (`0C16A82C`, 64 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetTime.json`
+- null
+- normal
+- negative diff
+- equal
+- big
+- zero start
+
+### mwRnaGetTransSw (`0C16A88C`, 38 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/mwRnaGetTransSw.json`
+- null
+- bit set
+- bit clear
+- all ones
+- zero byte
+- only bit 7
+
+### mwRnaSetSfreq (`0C16AA42`, 58 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/mwRnaSetSfreq.json`
+- null object
+- ok
+- zero freq
+- negative
+- other freq
+- null other freq
 
 ### njSetRenderWidth (`0C076B30`, 8 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/njSetRenderWidth.json`
@@ -1287,6 +1632,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - neg
 - 0x80
 
+### nlsndStreamSetHdPan (`0C07FF30`, 12 bytes, `src/vt_vtsdk_b.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/nlsndStreamSetHdPan.json`
+- i=0
+- i=3
+- i=-1
+- v wider than a byte
+- i high bits set
+- i=15 v negative
+- i=-8
+
 ### paletteSetMode (`0C0742A0`, 22 bytes, `src/sdk_a.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_a/paletteSetMode.json`
 - 0
@@ -1301,6 +1656,34 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - dirty
 - dirty 5
 - flag in byte 1 only
+
+### pdGetPeripheralInfo (`0C14EAFE`, 10 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/pdGetPeripheralInfo.json`
+- zero
+- two
+- minus
+- big
+- ret minus
+
+### pdGunSetTrigger (`0C14EC0C`, 52 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_a/pdGunSetTrigger.json`
+- 0
+- 6
+- 12
+- 18
+- other 5
+- 24
+- negative
+- 7
+
+### pdVibGetInfo (`0C151720`, 60 bytes, `src/vt_vtsdk_e.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/vt_vtsdk_e/pdVibGetInfo.json`
+- ok
+- positive
+- negative
+- zero ret
+- ret min
+- other dev
 
 ### psgSetCurrent (`0C06E246`, 6 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/psgSetCurrent.json`
@@ -1336,6 +1719,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - size 19
 - size 20, fails, empty list
 
+### str_len (`0C16652E`, 26 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_c/str_len.json`
+- empty
+- five
+- twelve
+- long
+- negative byte
+- eleven
+- one
+- thirteen
+
 ### strcmp (`0C087E90`, 14 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/strcmp.json`
 - equal
@@ -1364,11 +1758,32 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - n one
 - big pad
 
+### syTmrInit (`0C1614B8`, 38 bytes, `src/vt_vtsdk_d.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/syTmrInit.json`
+- regs zero
+- regs ones
+- mixed
+
 ### texFreeMem (`0C073BE0`, 24 bytes, `src/sdk_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_a/texFreeMem.json`
 - free mem call
 - call returns something
 - again
+
+### vmsfs_c_setparam (`0C163590`, 36 bytes, `src/vt_vtsdk_a.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/vmsfs_c_setparam.json`
+- slot 0
+- slot 1
+- slot 3
+- negatives
+- slot 7
+- slot 2 again
+
+### vmsfs_exit (`0C163AC0`, 24 bytes, `src/vt_vtsdk_c.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_c/vmsfs_exit.json`
+- run
+- r4 set
+- dirty
 
 ### volumeToDb (`0C02E222`, 96 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/volumeToDb.json`

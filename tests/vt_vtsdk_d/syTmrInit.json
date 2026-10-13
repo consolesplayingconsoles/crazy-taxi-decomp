@@ -1,0 +1,33 @@
+{
+ "dev": [
+  {
+   "about": "regs zero",
+   "device_reads": {
+    "FFD80004": [
+     "00",
+     "00"
+    ]
+   }
+  },
+  {
+   "about": "regs ones",
+   "device_reads": {
+    "FFD80004": [
+     "FF",
+     "FF"
+    ]
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mixed",
+   "device_reads": {
+    "FFD80004": [
+     "A5",
+     "5A"
+    ]
+   }
+  }
+ ]
+}

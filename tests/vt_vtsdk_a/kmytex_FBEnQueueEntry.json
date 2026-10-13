@@ -1,0 +1,81 @@
+{
+ "dev": [
+  {
+   "about": "empty queue",
+   "poke": {
+    "8C800000": "77777777",
+    "8C800100": "eeeeeeeeeeeeeeeeeeeeeeee",
+    "8C800200": "dddddddddddddddddddddddd",
+    "8C800300": "bbbbbbbbbbbbbbbbbbbbbbbb",
+    "8C800208": "00000000"
+   },
+   "regs": {
+    "r4": "8C800000",
+    "r5": "8C800100",
+    "r6": "8C800200"
+   }
+  },
+  {
+   "about": "nonempty queue",
+   "poke": {
+    "8C800000": "77777777",
+    "8C800100": "eeeeeeeeeeeeeeeeeeeeeeee",
+    "8C800200": "dddddddddddddddddddddddd",
+    "8C800300": "bbbbbbbbbbbbbbbbbbbbbbbb",
+    "8C800208": "0003808c"
+   },
+   "regs": {
+    "r4": "8C800000",
+    "r5": "8C800100",
+    "r6": "8C800200"
+   }
+  },
+  {
+   "about": "empty, other layout",
+   "poke": {
+    "8C801000": "01000000",
+    "8C801040": "eeeeeeeeeeeeeeeeeeeeeeee",
+    "8C801080": "dddddddddddddddddddddddd",
+    "8C8010C0": "bbbbbbbbbbbbbbbbbbbbbbbb",
+    "8C801088": "00000000"
+   },
+   "regs": {
+    "r4": "8C801000",
+    "r5": "8C801040",
+    "r6": "8C801080"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "nonempty, other layout",
+   "poke": {
+    "8C802000": "01000000",
+    "8C802040": "eeeeeeeeeeeeeeeeeeeeeeee",
+    "8C802080": "dddddddddddddddddddddddd",
+    "8C8020C0": "bbbbbbbbbbbbbbbbbbbbbbbb",
+    "8C802088": "c020808c"
+   },
+   "regs": {
+    "r4": "8C802000",
+    "r5": "8C802040",
+    "r6": "8C802080"
+   }
+  },
+  {
+   "about": "empty, third layout",
+   "poke": {
+    "8C803000": "01000000",
+    "8C803040": "eeeeeeeeeeeeeeeeeeeeeeee",
+    "8C803080": "dddddddddddddddddddddddd",
+    "8C8030C0": "bbbbbbbbbbbbbbbbbbbbbbbb",
+    "8C803088": "00000000"
+   },
+   "regs": {
+    "r4": "8C803000",
+    "r5": "8C803040",
+    "r6": "8C803080"
+   }
+  }
+ ]
+}

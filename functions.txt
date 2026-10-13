@@ -1348,7 +1348,7 @@ F 0c07fe90 22 nlsndStreamGenerateHdInfo
 F 0c07feb0 16 nlsndStreamSetHdOctFns
 F 0c07fec0 76 nlsndStreamSetHdChs
 F 0c07ff20 12 FUN_0c07ff20
-F 0c07ff30 12 FUN_0c07ff30
+F 0c07ff30 12 nlsndStreamSetHdPan
 F 0c07ff40 72 nlsndStreamSetHdBitSize
 F 0c07ff90 26 nlsndStreamSetHdFx
 F 0c07ffb0 18 nlsndStreamSetHdGain
@@ -2403,7 +2403,7 @@ F 0c168bb4 36 ADXSTM_Tell
 F 0c168c0c 64 ADXSTM_Seek
 F 0c168c4c 6 ADXSTM_EntryEosFunc
 F 0c168c52 32 ADXSTM_SetEos
-F 0c168c72 10 FUN_0c168c72
+F 0c168c72 10 adxstm_sj_internal_error
 F 0c168c7c 330 FUN_0c168c7c
 F 0c168dda 14 ADXSTMF_ExecHndl
 F 0c168de8 40 ADXAMP_ExecServer

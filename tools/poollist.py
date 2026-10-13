@@ -47,7 +47,7 @@ def main():
                 kind = ('function ' + nm) if v in funcs.values() or (nm and v in fstarts) else \
                        ('code: no F line' if nm is None and v in fstarts else 'code ' + (nm or ''))
                 if v not in fstarts:
-                    kind = 'inside code (a label)' if not nm else 'code ' + nm
+                    kind = ('inside the image, not a function start: a data global or a code label (name it in symbols.txt if the C reads or writes it)') if not nm else 'code ' + nm
             elif 0x0C000000 <= v < 0x0D000000 or 0x8C000000 <= v < 0x8D000000:
                 kind = 'RAM ' + (nm if nm else 'MISSING')
             else:

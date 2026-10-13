@@ -230,7 +230,8 @@ def main():
         note = ''
         if pool is not None and base <= pool < base + len(exe) - size + 1:
             if size == 2:
-                note = '  ; =%d' % struct.unpack_from('<h', exe, pool - base)[0]
+                v16 = struct.unpack_from('<h', exe, pool - base)[0]
+                note = '  ; =%d (0x%x)' % (v16, v16 & 0xffff)
             else:
                 v = struct.unpack_from('<I', exe, pool - base)[0]
                 f = struct.unpack_from('<f', exe, pool - base)[0]
