@@ -1,0 +1,66 @@
+{
+ "dev": [
+  {
+   "about": "clean",
+   "poke": {
+    "0C2B7BC0": "00000000",
+    "0C2B7C40": "cdcdcdcdcdcdcdcd"
+   },
+   "regs": {
+    "r0": "00000077"
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "dirty",
+   "poke": {
+    "0C2B7BC0": "01000000",
+    "0C2B7C40": "cdcdcdcdcdcdcdcd"
+   },
+   "regs": {
+    "r0": "00000077"
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "dirty 5",
+   "poke": {
+    "0C2B7BC0": "05000000",
+    "0C2B7C40": "cdcdcdcdcdcdcdcd"
+   },
+   "regs": {
+    "r0": "00000077"
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "flag in byte 1 only",
+   "poke": {
+    "0C2B7BC0": "00010000",
+    "0C2B7C40": "cdcdcdcdcdcdcdcd"
+   },
+   "regs": {
+    "r0": "00000077"
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  }
+ ]
+}

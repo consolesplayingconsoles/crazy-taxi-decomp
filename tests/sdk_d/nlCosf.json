@@ -1,0 +1,94 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "regs": {
+    "fr4": 0.0
+   },
+   "calls": [
+    {
+     "fr0": 1.0
+    }
+   ]
+  },
+  {
+   "about": "positive",
+   "regs": {
+    "fr4": 0.5
+   },
+   "calls": [
+    {
+     "fr0": 0.25
+    }
+   ]
+  },
+  {
+   "about": "negative",
+   "regs": {
+    "fr4": -0.5
+   },
+   "calls": [
+    {
+     "fr0": 0.75
+    }
+   ]
+  },
+  {
+   "about": "pi",
+   "regs": {
+    "fr4": 3.140625
+   },
+   "calls": [
+    {
+     "fr0": -1.0
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "large",
+   "regs": {
+    "fr4": 100.0
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "negative large",
+   "regs": {
+    "fr4": -1000.0
+   },
+   "calls": [
+    {
+     "fr0": -0.125
+    }
+   ]
+  },
+  {
+   "about": "tiny",
+   "regs": {
+    "fr4": 1e-20
+   },
+   "calls": [
+    {
+     "fr0": 2.0
+    }
+   ]
+  },
+  {
+   "about": "neg zero",
+   "regs": {
+    "fr4": -0.0
+   },
+   "calls": [
+    {
+     "fr0": 3.0
+    }
+   ]
+  }
+ ]
+}

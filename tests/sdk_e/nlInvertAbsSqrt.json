@@ -1,0 +1,83 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "regs": {
+    "fr4": 0.0
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "four",
+   "regs": {
+    "fr4": 4.0
+   },
+   "calls": [
+    {
+     "fr0": 2.0
+    }
+   ]
+  },
+  {
+   "about": "negative",
+   "regs": {
+    "fr4": -9.0
+   },
+   "calls": [
+    {
+     "fr0": 3.0
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "one",
+   "regs": {
+    "fr4": 1.0
+   },
+   "calls": [
+    {
+     "fr0": 1.0
+    }
+   ]
+  },
+  {
+   "about": "callee zero",
+   "regs": {
+    "fr4": 5.0
+   },
+   "calls": [
+    {
+     "fr0": 0.0
+    }
+   ]
+  },
+  {
+   "about": "neg zero",
+   "regs": {
+    "fr4": -0.0
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "quarter",
+   "regs": {
+    "fr4": 0.25
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  }
+ ]
+}

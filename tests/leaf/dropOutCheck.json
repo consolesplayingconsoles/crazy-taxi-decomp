@@ -1,0 +1,69 @@
+{
+ "dev": [
+  {
+   "about": "well above",
+   "poke": {
+    "0C800090": "00000000"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "well below",
+   "poke": {
+    "0C800090": "00401cc7"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "exactly -35000",
+   "poke": {
+    "0C800090": "00b808c7"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "just below the line",
+   "poke": {
+    "0C800090": "00b908c7"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "just above",
+   "poke": {
+    "0C800090": "00b708c7"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "very low",
+   "poke": {
+    "0C800090": "caf249f1"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "very high",
+   "poke": {
+    "0C800090": "caf24971"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  }
+ ]
+}

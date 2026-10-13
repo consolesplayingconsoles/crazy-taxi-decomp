@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "flag clear",
+   "poke": {
+    "0C2757E0": "00000000"
+   }
+  },
+  {
+   "about": "flag set",
+   "poke": {
+    "0C2757E0": "01000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "other value",
+   "poke": {
+    "0C2757E0": "4d000000"
+   }
+  }
+ ]
+}

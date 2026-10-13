@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "clear",
+   "poke": {
+    "0C2AF0BC": "00000000"
+   }
+  },
+  {
+   "about": "set",
+   "poke": {
+    "0C2AF0BC": "01000000"
+   }
+  },
+  {
+   "about": "other bits",
+   "poke": {
+    "0C2AF0BC": "06000080"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "all",
+   "poke": {
+    "0C2AF0BC": "ffffffff"
+   }
+  },
+  {
+   "about": "bit 1",
+   "poke": {
+    "0C2AF0BC": "02000000"
+   }
+  }
+ ]
+}

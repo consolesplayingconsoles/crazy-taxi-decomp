@@ -1,0 +1,110 @@
+{
+ "dev": [
+  {
+   "about": "free",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "0a00"
+   },
+   "regs": {
+    "r4": "00000003"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "flag set",
+   "poke": {
+    "0C14A644": "01000000",
+    "0C2B7BC4": "0a00"
+   },
+   "regs": {
+    "r4": "00000003"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "index at limit",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "0a00"
+   },
+   "regs": {
+    "r4": "0000000A"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "index over limit",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "0a00"
+   },
+   "regs": {
+    "r4": "00000063"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "negative index",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "0a00"
+   },
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "negative limit",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "fbff"
+   },
+   "regs": {
+    "r4": "FFFFFFF0"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "limit 0, index 0",
+   "poke": {
+    "0C14A644": "00000000",
+    "0C2B7BC4": "0000"
+   },
+   "regs": {
+    "r4": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "flag big, in range",
+   "poke": {
+    "0C14A644": "00000080",
+    "0C2B7BC4": "6400"
+   },
+   "regs": {
+    "r4": "00000001"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

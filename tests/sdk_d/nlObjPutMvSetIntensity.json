@@ -1,0 +1,51 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "one",
+   "regs": {
+    "r4": "00000001"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "negative",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "large",
+   "regs": {
+    "r4": "7FFFFFFF"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "five",
+   "regs": {
+    "r4": "00000005"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

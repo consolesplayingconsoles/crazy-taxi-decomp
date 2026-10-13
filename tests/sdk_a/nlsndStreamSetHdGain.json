@@ -1,0 +1,56 @@
+{
+ "dev": [
+  {
+   "about": "0",
+   "poke": {
+    "0C800030": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   },
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000000"
+   }
+  },
+  {
+   "about": "0x7f",
+   "poke": {
+    "0C800030": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   },
+   "regs": {
+    "r4": "0C800000",
+    "r5": "0000007F"
+   }
+  },
+  {
+   "about": "0x1ff truncated",
+   "poke": {
+    "0C800030": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   },
+   "regs": {
+    "r4": "0C800000",
+    "r5": "000001FF"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "neg",
+   "poke": {
+    "0C800030": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   },
+   "regs": {
+    "r4": "0C800000",
+    "r5": "FFFFFFFF"
+   }
+  },
+  {
+   "about": "0x80",
+   "poke": {
+    "0C800030": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   },
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000080"
+   }
+  }
+ ]
+}

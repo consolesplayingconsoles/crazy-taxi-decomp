@@ -1,0 +1,41 @@
+{
+ "dev": [
+  {
+   "about": "normal",
+   "poke": {
+    "0C2B7BD8": "0000800c",
+    "0C2B7BC4": "10000000"
+   }
+  },
+  {
+   "about": "zero",
+   "poke": {
+    "0C2B7BD8": "00000000",
+    "0C2B7BC4": "00000000"
+   }
+  },
+  {
+   "about": "negative short",
+   "poke": {
+    "0C2B7BD8": "0001800c",
+    "0C2B7BC4": "ffff0000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "big",
+   "poke": {
+    "0C2B7BD8": "0000900c",
+    "0C2B7BC4": "ff7f0000"
+   }
+  },
+  {
+   "about": "sign bit",
+   "poke": {
+    "0C2B7BD8": "0002800c",
+    "0C2B7BC4": "00800000"
+   }
+  }
+ ]
+}

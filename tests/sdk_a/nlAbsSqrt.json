@@ -1,0 +1,48 @@
+{
+ "dev": [
+  {
+   "about": "positive 16",
+   "regs": {
+    "fr4": 16.0
+   }
+  },
+  {
+   "about": "negative -16",
+   "regs": {
+    "fr4": -16.0
+   }
+  },
+  {
+   "about": "zero",
+   "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "2.25",
+   "regs": {
+    "fr4": 2.25
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "neg 0.25",
+   "regs": {
+    "fr4": -0.25
+   }
+  },
+  {
+   "about": "100",
+   "regs": {
+    "fr4": 100.0
+   }
+  },
+  {
+   "about": "-81",
+   "regs": {
+    "fr4": -81.0
+   }
+  }
+ ]
+}

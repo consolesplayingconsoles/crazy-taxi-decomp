@@ -1,0 +1,60 @@
+{
+ "dev": [
+  {
+   "about": "bit set",
+   "poke": {
+    "0C2A4E68": "04000000"
+   },
+   "regs": {
+    "r4": "00000004"
+   }
+  },
+  {
+   "about": "bit clear",
+   "poke": {
+    "0C2A4E68": "02000000"
+   },
+   "regs": {
+    "r4": "00000004"
+   }
+  },
+  {
+   "about": "mask 0",
+   "poke": {
+    "0C2A4E68": "ffff0000"
+   },
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "several, one set",
+   "poke": {
+    "0C2A4E68": "10000000"
+   },
+   "regs": {
+    "r4": "0000001F"
+   }
+  },
+  {
+   "about": "high bit",
+   "poke": {
+    "0C2A4E68": "00000080"
+   },
+   "regs": {
+    "r4": "80000000"
+   }
+  },
+  {
+   "about": "flags 0",
+   "poke": {
+    "0C2A4E68": "00000000"
+   },
+   "regs": {
+    "r4": "FFFFFFFF"
+   }
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "dev": [
+  {
+   "about": "nothing happens"
+  }
+ ],
+ "holdout": [
+  {
+   "about": "with a register set",
+   "regs": {
+    "r4": "00000005"
+   }
+  }
+ ]
+}

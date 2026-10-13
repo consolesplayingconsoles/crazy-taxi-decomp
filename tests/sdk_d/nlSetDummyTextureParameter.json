@@ -1,0 +1,56 @@
+{
+ "dev": [
+  {
+   "about": "mixed",
+   "poke": {
+    "0C800008": "ffffffffffffffff",
+    "0C2AECBC": "1200000000000007"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "zero dest",
+   "poke": {
+    "0C800008": "0000000000000000",
+    "0C2AECBC": "ab000000ffffffff"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "zero src",
+   "poke": {
+    "0C800008": "7f56341212efcdab",
+    "0C2AECBC": "0000000000000000"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "low bits overlap",
+   "poke": {
+    "0C800008": "5555555555555555",
+    "0C2AECBC": "3f000000000000f8"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "pattern",
+   "poke": {
+    "0C800008": "a5a5a5a5efbeadde",
+    "0C2AECBC": "c0000000ffffff07"
+   },
+   "regs": {
+    "r4": "0C800000"
+   }
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "640",
+   "regs": {
+    "r4": "00000280"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "320",
+   "regs": {
+    "r4": "00000140"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "negative",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

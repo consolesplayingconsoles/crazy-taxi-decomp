@@ -1,0 +1,25 @@
+{
+ "dev": [
+  {
+   "about": "free mem call"
+  },
+  {
+   "about": "call returns something",
+   "calls": [
+    {
+     "r0": "00000005"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  }
+ ]
+}

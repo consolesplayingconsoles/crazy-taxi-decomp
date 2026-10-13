@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "all set",
+   "poke": {
+    "0C2A75E0": "ffffffff"
+   }
+  },
+  {
+   "about": "only that bit",
+   "poke": {
+    "0C2A75E0": "00000004"
+   }
+  },
+  {
+   "about": "none",
+   "poke": {
+    "0C2A75E0": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "others set",
+   "poke": {
+    "0C2A75E0": "fffffffb"
+   }
+  },
+  {
+   "about": "pattern",
+   "poke": {
+    "0C2A75E0": "a5a5a5a5"
+   }
+  },
+  {
+   "about": "bit above",
+   "poke": {
+    "0C2A75E0": "01000008"
+   }
+  }
+ ]
+}

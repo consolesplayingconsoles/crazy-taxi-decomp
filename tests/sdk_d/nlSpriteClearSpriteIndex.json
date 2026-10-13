@@ -1,0 +1,66 @@
+{
+ "dev": [
+  {
+   "about": "index 0",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "index 33",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "regs": {
+    "r4": "00000021"
+   }
+  },
+  {
+   "about": "index 31",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "regs": {
+    "r4": "0000001F"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "index 255 pattern",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "000000FF"
+   }
+  },
+  {
+   "about": "already clear",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "regs": {
+    "r4": "00000046"
+   }
+  },
+  {
+   "about": "index 100",
+   "poke": {
+    "0C2B76C4": "0008800c",
+    "0C800800": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "regs": {
+    "r4": "00000064"
+   }
+  }
+ ]
+}

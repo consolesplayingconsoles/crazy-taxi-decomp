@@ -894,9 +894,12 @@ December builds lack the French, German and Spanish sprite files.
 
 ## Still open
 
-- Where the D/R gear box (bottom right while driving) is drawn. Not by a read of `+0x120`
-  (`carGearbox`, the camera's reverse view, `ExecArrow`'s caller and unrelated structs are the
-  only ones), not in `hudDraw`'s elements or `Put_TotalDrum`'s sprites, not by the sprite or
-  model draws two to four calls below `gameStateDrive` (cars, train, humans, `Put_Transporter`,
-  `Put_Build_Patch`). The Android build replaced it with a touch button.
+- (Found 2026-10-13, live: a RAM diff between drive and reverse.) The D/R gear box is `Put_GearBox`
+  (`0x0C0569E2`, 134 bytes; its literal pool sits mid-body): it reads the gear through the pointer at
+  `0x0C2A8C60` (zero = reverse), plays voice/sound `2985` when the state changes (state word
+  `0x0C2A8DE8`), sets the sprite record `0x0C2A892C`'s first word to 17 (D) or 18 (R) and tail-jumps to
+  `nlSprPut` (`0x0C07DF00`); the record is set up in `hudInit`'s `FUN_0c052c9e` (at 580, 420). It is called,
+  by a tail `jmp`, from the end of the HUD elements for flag bits `0x10` (`FUN_0c053ac0`, pool word
+  `0x0C053B40`) and `0x20` (`FUN_0c053b44`, pool word `0x0C053BDC`), so it shows while the Arcade HUD does.
+  Earlier ruled out: the `D gear` / `R gear` strings are button-hint labels; `carGearbox` has no HUD copy.
 - What each camera mode is, and which one the normal chase camera uses.

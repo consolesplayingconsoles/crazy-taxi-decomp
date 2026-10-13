@@ -1,0 +1,102 @@
+{
+ "dev": [
+  {
+   "about": "short src, pads",
+   "poke": {
+    "0C800000": "61626300dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000008"
+   }
+  },
+  {
+   "about": "exact fit",
+   "poke": {
+    "0C800000": "6162636400dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000004"
+   }
+  },
+  {
+   "about": "truncated",
+   "poke": {
+    "0C800000": "616263646566676800dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000003"
+   }
+  },
+  {
+   "about": "zero n",
+   "poke": {
+    "0C800000": "78797a00dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "empty src",
+   "poke": {
+    "0C800000": "00dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000005"
+   }
+  },
+  {
+   "about": "long",
+   "poke": {
+    "0C800000": "68656c6c6f20776f726c6400dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "0000000B"
+   }
+  },
+  {
+   "about": "n one",
+   "poke": {
+    "0C800000": "7100dddddddddddddddd",
+    "0C800100": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "00000001"
+   }
+  },
+  {
+   "about": "big pad",
+   "poke": {
+    "0C800000": "616200dddddddddddddddd",
+    "0C800100": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800000",
+    "r6": "0000001E"
+   }
+  }
+ ]
+}

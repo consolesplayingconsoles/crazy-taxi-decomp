@@ -1,0 +1,46 @@
+{
+ "dev": [
+  {
+   "about": "returns 0",
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "returns 12345678",
+   "calls": [
+    {
+     "r0": "12345678"
+    }
+   ]
+  },
+  {
+   "about": "returns FFFFFFFF",
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "returns 1",
+   "calls": [
+    {
+     "r0": "00000001"
+    }
+   ]
+  },
+  {
+   "about": "returns 80000000",
+   "calls": [
+    {
+     "r0": "80000000"
+    }
+   ]
+  }
+ ]
+}

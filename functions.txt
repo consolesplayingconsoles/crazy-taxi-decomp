@@ -687,7 +687,7 @@ F 0c05614e 516 FUN_0c05614e
 F 0c0563aa 78 Put_Combo_Entry
 F 0c0563f8 18 FUN_0c0563f8
 F 0c0567f6 434 Put_Max_Combo
-F 0c0569e2 66 FUN_0c0569e2
+F 0c0569e2 134 Put_GearBox
 F 0c056a68 900 Put_TotalDrum
 F 0c056e80 88 FUN_0c056e80
 F 0c056ed8 158 FUN_0c056ed8
@@ -1033,7 +1033,7 @@ F 0c0740f0 64 nlReloadPalette
 F 0c074130 16 nlReloadPalette8888
 F 0c074140 164 nlSearchPalette
 F 0c074200 74 FUN_0c074200
-F 0c074270 24 paletteUpload
+F 0c074270 36 paletteUpload
 F 0c0742a0 22 paletteSetMode
 F 0c0742c0 6 FUN_0c0742c0
 F 0c0742f0 4 FUN_0c0742f0
@@ -1116,13 +1116,13 @@ F 0c076830 10 nlSetFontSize
 F 0c076840 224 nlPuts
 F 0c0769a0 126 nlLocate
 F 0c076a30 6 nlPrintColor
-F 0c076a40 50 nlPrintf
+F 0c076a40 60 nlPrintf
 F 0c076ac0 48 nlFogTableOff
 F 0c076af0 58 nlFogTableColor
 F 0c076b30 8 njSetRenderWidth
 F 0c076b40 6 kmSetFogTable
 F 0c076b50 66 nlFogDensityF
-F 0c076bb0 42 nlRenderTextureInit
+F 0c076bb0 48 nlRenderTextureInit
 F 0c076be0 16 nlRenderTextureSet
 F 0c076bf0 16 nlRenderTextureSet_Stride
 F 0c076c00 342 nlRenderTextureSet_Sub
@@ -1137,7 +1137,7 @@ F 0c077210 24 FUN_0c077210
 F 0c077290 50 FUN_0c077290
 F 0c077380 52 nlGetMatrix
 F 0c077470 40 FUN_0c077470
-F 0c077540 28 nlGetPushedMatrix
+F 0c077540 40 nlGetPushedMatrix
 F 0c077580 16 nlGetTranslate
 F 0c077590 58 FUN_0c077590
 F 0c0775d0 74 FUN_0c0775d0
@@ -1307,7 +1307,7 @@ F 0c07d6a0 46 FUN_0c07d6a0
 F 0c07d6e0 84 FUN_0c07d6e0
 F 0c07d7b0 158 nlInitSprite
 F 0c07d860 484 FUN_0c07d860
-F 0c07daf0 64 nlObjPutSetReplaceTextureDirName
+F 0c07daf0 70 nlObjPutSetReplaceTextureDirName
 F 0c07db90 114 FUN_0c07db90
 F 0c07dcf0 274 FUN_0c07dcf0
 F 0c07de30 64 nlSpriteFreeTexture
@@ -1325,7 +1325,7 @@ F 0c07e820 86 FUN_0c07e820
 F 0c07e880 18 FUN_0c07e880
 F 0c07e8a0 100 FUN_0c07e8a0
 F 0c07e960 186 FUN_0c07e960
-F 0c07ea20 54 nlsndCheckPackFreeError
+F 0c07ea20 70 nlsndCheckPackFreeError
 F 0c07ea70 124 FUN_0c07ea70
 F 0c07eb10 298 FUN_0c07eb10
 F 0c07eca0 222 FUN_0c07eca0
@@ -1346,10 +1346,10 @@ F 0c07fd30 66 FUN_0c07fd30
 F 0c07fd80 198 FUN_0c07fd80
 F 0c07fe90 22 nlsndStreamGenerateHdInfo
 F 0c07feb0 16 nlsndStreamSetHdOctFns
-F 0c07fec0 46 nlsndStreamSetHdChs
+F 0c07fec0 76 nlsndStreamSetHdChs
 F 0c07ff20 12 FUN_0c07ff20
 F 0c07ff30 12 FUN_0c07ff30
-F 0c07ff40 42 nlsndStreamSetHdBitSize
+F 0c07ff40 72 nlsndStreamSetHdBitSize
 F 0c07ff90 26 nlsndStreamSetHdFx
 F 0c07ffb0 18 nlsndStreamSetHdGain
 F 0c07ffd0 274 nlsndStreamGetParam

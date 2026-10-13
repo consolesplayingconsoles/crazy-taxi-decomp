@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "flag 3",
+   "poke": {
+    "0C2A9F64": "03000000"
+   }
+  },
+  {
+   "about": "flag 0",
+   "poke": {
+    "0C2A9F64": "00000000"
+   }
+  },
+  {
+   "about": "flag 2",
+   "poke": {
+    "0C2A9F64": "02000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "flag 4",
+   "poke": {
+    "0C2A9F64": "04000000"
+   }
+  },
+  {
+   "about": "flag -3",
+   "poke": {
+    "0C2A9F64": "fdffffff"
+   }
+  },
+  {
+   "about": "flag 0x103",
+   "poke": {
+    "0C2A9F64": "03010000"
+   }
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "word clear",
+   "poke": {
+    "0C1EE334": "00000000"
+   }
+  },
+  {
+   "about": "word set",
+   "poke": {
+    "0C1EE334": "81000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "other value",
+   "poke": {
+    "0C1EE334": "ffffffff"
+   }
+  }
+ ]
+}
