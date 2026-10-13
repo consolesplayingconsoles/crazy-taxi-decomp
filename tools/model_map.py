@@ -17,11 +17,15 @@ Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer o
   [assemblies]   one row per placed part (`assemble` rules): group sub part file offset, then a 3x4 matrix row by row
   [textures]     one row per texture (`textures` rules): model file, number, texture file, offset, size, width, height,
                  PVR data type, pixel format
+  [audio]        one row per sound found: file, entry (the index in an archive), offset, bytes, format (ADX, AHX, or a
+                 DTPK sound bank), channels, sample rate, samples, seconds, name. Sounds are found by their headers: CRI
+                 ADX / AHX streams inside AFS archives or on their own. A sound has no name unless a `sound` rule gives it one.
 The name is a starting point for a person to check.
 
 models.txt (curated rules, one per line, `#` comments, `_` is a space in labels):
   array <addr> <count> <group> <label>          pointers at addr + 4*i: "<label> <i>"
   chars <addr> <count> <group> <slot:label,...> a table of pointers to arrays of part pointers
+  sound <file> <entry> <text...>                names one sound (the entry is the index in its archive; 0 for a stand-alone file)
   name <model file> <offset hex> <text...>      names one model (the offset is the one in its id: FILE:offset)
   table <addr hex> <group> <label>              puts every model of the table at addr under that group and label
   note <group> <first id> <last id> <text>      adds " (<text>)" to the sub-group of characters first..last
@@ -342,6 +346,59 @@ def texture_lists(exe, base):
     return out
 
 
+def adx_info(b):
+    """(format, channels, rate, samples) of a CRI ADX / AHX header at the start of b, or None."""
+    if len(b) < 16 or b[0] != 0x80 or b[1] != 0x00:
+        return None
+    enc, ch = b[4], b[7]
+    rate, samples = struct.unpack(">II", b[8:16])
+    if enc not in (2, 3, 4, 0x10, 0x11) or not 1 <= ch <= 8 or not 4000 <= rate <= 192000:
+        return None
+    return ("AHX" if enc >= 0x10 else "ADX"), ch, rate, samples
+
+
+def audio_rows(disc, rules):
+    """Rows for the [audio] section: every ADX / AHX stream in an AFS archive or a file of its own, and every DTPK
+    sound bank (listed, not opened)."""
+    names = {}
+    for r in rules:
+        if r[0] == "sound" and len(r) >= 4:
+            names[(r[1].upper(), int(r[2]))] = tidy(" ".join(r[3:]))
+    rows = []
+
+    def row(fn, idx, off, size, fmt, ch="", rate="", samples=""):
+        secs = "%.1f" % (samples / rate) if rate and samples else ""
+        rows.append([fn, str(idx), "%x" % off, str(size), fmt, str(ch), str(rate), str(samples), secs,
+                     names.get((fn, idx), "")])
+    for lba, size, path in disc.files():
+        fn = path.split("/")[-1].upper()
+        head = disc.read(lba, min(size, 4096))
+        if head[:4] == b"AFS\0":
+            n = struct.unpack("<I", head[4:8])[0]
+            if not 0 < n < 100000:
+                continue
+            table = disc.read(lba, 8 + 8 * n)
+            mark = len(rows)
+            for i in range(n):
+                off, sz = struct.unpack_from("<II", table, 8 + 8 * i)
+                if not sz or off + 16 > size:
+                    continue
+                h = disc.read(lba + off // 2048, 4096)[off % 2048:off % 2048 + 16]
+                info = adx_info(h)
+                if info:
+                    row(fn, i, off, sz, info[0], info[1], info[2], info[3])
+                else:
+                    row(fn, i, off, sz, "unknown")
+            if not any(r[4] in ("ADX", "AHX") for r in rows[mark:]):
+                del rows[mark:]                       # an archive of something else (a city, a model set)
+        elif adx_info(head):
+            info = adx_info(head)
+            row(fn, 0, 0, size, info[0], info[1], info[2], info[3])
+        elif head[:4] == b"DTPK":
+            row(fn, 0, 0, size, "DTPK sound bank")
+    return rows
+
+
 def main():
     if len(sys.argv) < 6:
         sys.exit(__doc__)
@@ -511,6 +568,9 @@ def main():
     if placed:
         sections.append(("assemblies", "group\tsub\tpart\tfile\toffset\t" + "\t".join("m%d%d" % (r_, c_) for r_ in range(3) for c_ in range(4)),
                          ["\t".join(row) for row in placed]))
+    sounds = audio_rows(disc, rules)
+    if sounds:
+        sections.append(("audio", "file\tindex\toffset\tbytes\tformat\tchannels\trate\tsamples\tseconds\tname", ["\t".join(r_) for r_ in sounds]))
     if tex:
         sections.append(("textures", "file\tnumber\ttexture_file\toffset\tsize\twidth\theight\ttype\tformat", ["\t".join(row) for row in tex]))
     with open(os.path.join(out_dir, "game.dcgs"), "w") as out:
@@ -519,7 +579,7 @@ def main():
             out.write("[%s]\n%s\n" % (name, head))
             for row in rows:
                 out.write(row + "\n")
-    print("%d models, %d assembled parts, %d textures" % (len(models), len(placed), len(tex)))
+    print("%d models, %d assembled parts, %d textures, %d sounds" % (len(models), len(placed), len(tex), len(sounds)))
     named = sum(1 for m in models if m["group"])
     print("%d models, %d with a table or a rule (%d tables) -> %s" % (len(models), named, len(tables),
                                                                        os.path.join(out_dir, "game.dcgs")))

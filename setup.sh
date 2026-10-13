@@ -19,7 +19,7 @@ echo "Text map: strings, text per file, the list of images ($TIER tier)"
 "$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt text-map "$GDI" "$TIER"
 echo "File tables: which disc files the executable locates by internal offsets (seconds)"
 "$PY" tools/file_tables.py 1ST_READ.BIN "$(cat BASE)" "$GDI" text-map/file_tables.tsv
-echo "Model map: the 3D models in the disc files, named by the tables that hold them (models.txt: known tables)"
+echo "Model map: the 3D models, textures and sounds in the disc files, models named by the tables that hold them (models.txt: known tables)"
 "$PY" tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "$GDI" model-map
 chmod +x build.sh setup.sh 2>/dev/null || true
 echo "Textures (optional, to find text drawn into images): bash \"$PWD/textures.sh\" \"$GDI\""

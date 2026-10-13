@@ -67,8 +67,8 @@ not a verdict.
 ## Model map
 
 `setup.sh` also builds `model-map/game.dcgs` (with `tools/model_map.py`): every model it recognises in the disc files, the
-table in the executable that holds it, the texture lists, and, where a skeleton is known, characters assembled from
-their parts. It is plain tab-separated text in sections (`[models]`, `[assemblies]`, `[textures]`) and it is
+table in the executable that holds it, the texture lists, every sound it recognises (CRI ADX and AHX streams, and the sound
+banks), and, where a skeleton is known, characters assembled from their parts. It is plain tab-separated text in sections (`[models]`, `[assemblies]`, `[audio]`, `[textures]`) and it is
 **committed**: it holds addresses, offsets, sizes and names only, no game bytes or text (the text map is the one
 that stays local). Regenerate it with `python3 tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "<your disc>.gdi" model-map`.
 
@@ -78,7 +78,7 @@ that stays local). Regenerate it with `python3 tools/model_map.py 1ST_READ.BIN "
 - **`models.txt` is what is known about the game's models**, one rule per line: `chars` and `structs` (tables whose
   layout is understood), `rig` / `bone` / `assemble` (a skeleton posed from a motion record), `textures` (pairs a
   model file with a texture file of another name; matching names are found by themselves), `note`, and the two a
-  person adds by naming things: `name <file> <offset> <text>` (one model) and `table <address> <group> <label>`
+  person adds by naming things: `name <file> <offset> <text>` (one model), `sound <file> <entry> <text>` (one sound) and `table <address> <group> <label>`
   (a whole table). The syntax is in the header of `tools/model_map.py`.
 - **Naming convention.** A row shows the name first and the id beside it, and only the id when there is no name:
   `Axel  0x01`, `Torso  0x1D6EA8`, `0x080000`. Names are tidied the same way everywhere: words separated by single
