@@ -1,0 +1,198 @@
+{
+ "dev": [
+  {
+   "about": "0",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "a quarter turn",
+   "regs": {
+    "r4": "00004000"
+   }
+  },
+  {
+   "about": "a half turn",
+   "regs": {
+    "r4": "00008000"
+   }
+  },
+  {
+   "about": "three quarters",
+   "regs": {
+    "r4": "0000C000"
+   }
+  },
+  {
+   "about": "1",
+   "regs": {
+    "r4": "00000001"
+   }
+  },
+  {
+   "about": "0x1000 (22.5 degrees)",
+   "regs": {
+    "r4": "00001000"
+   }
+  },
+  {
+   "about": "0x2AAA",
+   "regs": {
+    "r4": "00002AAA"
+   }
+  },
+  {
+   "about": "0x5555",
+   "regs": {
+    "r4": "00005555"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "0xFFFF",
+   "regs": {
+    "r4": "0000FFFF"
+   }
+  },
+  {
+   "about": "0x10000 (a full turn: only the low 16 bits count)",
+   "regs": {
+    "r4": "00010000"
+   }
+  },
+  {
+   "about": "negative angle",
+   "regs": {
+    "r4": "FFFFE000"
+   }
+  },
+  {
+   "about": "0x7FFF",
+   "regs": {
+    "r4": "00007FFF"
+   }
+  },
+  {
+   "about": "0x8001",
+   "regs": {
+    "r4": "00008001"
+   }
+  },
+  {
+   "about": "0x3FFF",
+   "regs": {
+    "r4": "00003FFF"
+   }
+  },
+  {
+   "about": "0x4001",
+   "regs": {
+    "r4": "00004001"
+   }
+  },
+  {
+   "about": "0xBFFF",
+   "regs": {
+    "r4": "0000BFFF"
+   }
+  },
+  {
+   "about": "0xC001",
+   "regs": {
+    "r4": "0000C001"
+   }
+  },
+  {
+   "about": "0x1234",
+   "regs": {
+    "r4": "00001234"
+   }
+  },
+  {
+   "about": "0xABCD",
+   "regs": {
+    "r4": "0000ABCD"
+   }
+  },
+  {
+   "about": "0x00010123",
+   "regs": {
+    "r4": "00010123"
+   }
+  },
+  {
+   "about": "random 0",
+   "regs": {
+    "r4": "0000A5CD"
+   }
+  },
+  {
+   "about": "random 1",
+   "regs": {
+    "r4": "00004D3C"
+   }
+  },
+  {
+   "about": "random 2",
+   "regs": {
+    "r4": "0000CA26"
+   }
+  },
+  {
+   "about": "random 3",
+   "regs": {
+    "r4": "000018B8"
+   }
+  },
+  {
+   "about": "random 4",
+   "regs": {
+    "r4": "00002516"
+   }
+  },
+  {
+   "about": "random 5",
+   "regs": {
+    "r4": "00003031"
+   }
+  },
+  {
+   "about": "random 6",
+   "regs": {
+    "r4": "0000BB3B"
+   }
+  },
+  {
+   "about": "random 7",
+   "regs": {
+    "r4": "00001DB2"
+   }
+  },
+  {
+   "about": "random 8",
+   "regs": {
+    "r4": "00006DEC"
+   }
+  },
+  {
+   "about": "random 9",
+   "regs": {
+    "r4": "00001332"
+   }
+  },
+  {
+   "about": "random 10",
+   "regs": {
+    "r4": "00002C01"
+   }
+  },
+  {
+   "about": "random 11",
+   "regs": {
+    "r4": "0000DE06"
+   }
+  }
+ ]
+}

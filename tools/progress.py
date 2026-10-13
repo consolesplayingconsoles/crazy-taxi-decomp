@@ -24,13 +24,17 @@ if os.path.exists('sdk.txt'):
         p = l.split()
         if p and p[0] == 'range': ranges.append((int(p[1], 16), int(p[2], 16)))
         if p and p[0] == 'func': sdk_funcs.add(int(p[1], 16))
-def is_sdk(a):
-    return a in sdk_funcs or any(s <= a < e for s, e in ranges)
-
 def in_c(a):
     return any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
 
 equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
+name_at = {a: n for a, sz, n in funcs}
+
+def is_sdk(a):
+    # a function we have done counts as game code wherever it sits, library ranges included
+    if in_c(a) or name_at.get(a) in equivalent:
+        return False
+    return a in sdk_funcs or any(s <= a < e for s, e in ranges)
 
 def stats(sel):
     fs = [x for x in funcs if sel(x[0])]

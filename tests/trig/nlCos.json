@@ -1,0 +1,138 @@
+{
+ "dev": [
+  {
+   "about": "0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "a quarter turn",
+   "regs": {
+    "r4": "00004000"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "a half turn",
+   "regs": {
+    "r4": "00008000"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "just past a half turn",
+   "regs": {
+    "r4": "00008001"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "three quarters",
+   "regs": {
+    "r4": "0000C000"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "0xFFFF",
+   "regs": {
+    "r4": "0000FFFF"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "0x10000",
+   "regs": {
+    "r4": "00010000"
+   },
+   "calls": [
+    {
+     "fr0": -0.25
+    }
+   ]
+  },
+  {
+   "about": "negative angle",
+   "regs": {
+    "r4": "FFFFC000"
+   },
+   "calls": [
+    {
+     "fr0": 1.0
+    }
+   ]
+  },
+  {
+   "about": "0x7FFF",
+   "regs": {
+    "r4": "00007FFF"
+   },
+   "calls": [
+    {
+     "fr0": 0.0
+    }
+   ]
+  },
+  {
+   "about": "0x1234",
+   "regs": {
+    "r4": "00001234"
+   },
+   "calls": [
+    {
+     "fr0": 0.125
+    }
+   ]
+  },
+  {
+   "about": "0xE000",
+   "regs": {
+    "r4": "0000E000"
+   },
+   "calls": [
+    {
+     "fr0": -1.0
+    }
+   ]
+  },
+  {
+   "about": "0x00018000",
+   "regs": {
+    "r4": "00018000"
+   },
+   "calls": [
+    {
+     "fr0": 0.75
+    }
+   ]
+  }
+ ]
+}

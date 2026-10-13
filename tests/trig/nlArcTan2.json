@@ -1,0 +1,219 @@
+{
+ "dev": [
+  {
+   "about": "right region (x >= |y|)",
+   "regs": {
+    "fr4": 1.0,
+    "fr5": 4.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "top region (y > |x|)",
+   "regs": {
+    "fr4": 5.0,
+    "fr5": 1.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "left region (-x > |y|... x < -|y|)",
+   "regs": {
+    "fr4": 1.0,
+    "fr5": -4.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "bottom region (-y > x and y <= x)",
+   "regs": {
+    "fr4": -5.0,
+    "fr5": 1.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "y = 0, x > 0",
+   "regs": {
+    "fr4": 0.0,
+    "fr5": 3.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "x = 0, y > 0",
+   "regs": {
+    "fr4": 3.0,
+    "fr5": 0.0
+   }
+  },
+  {
+   "about": "x = 0, y < 0",
+   "regs": {
+    "fr4": -3.0,
+    "fr5": 0.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "y = 0, x < 0",
+   "regs": {
+    "fr4": 0.0,
+    "fr5": -3.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "both zero",
+   "regs": {
+    "fr4": 0.0,
+    "fr5": 0.0
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "diagonal up-right (y = x)",
+   "regs": {
+    "fr4": 2.0,
+    "fr5": 2.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "diagonal up-left (y = -x)",
+   "regs": {
+    "fr4": 2.0,
+    "fr5": -2.0
+   },
+   "calls": [
+    {
+     "r0": "00006000"
+    }
+   ]
+  },
+  {
+   "about": "diagonal down-right (y = -x)",
+   "regs": {
+    "fr4": -2.0,
+    "fr5": 2.0
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "diagonal down-left",
+   "regs": {
+    "fr4": -2.0,
+    "fr5": -2.0
+   },
+   "calls": [
+    {
+     "r0": "0000FFFF"
+    }
+   ]
+  },
+  {
+   "about": "tiny values",
+   "regs": {
+    "fr4": 1e-20,
+    "fr5": 3e-20
+   },
+   "calls": [
+    {
+     "r0": "00001234"
+    }
+   ]
+  },
+  {
+   "about": "large values",
+   "regs": {
+    "fr4": 1e+30,
+    "fr5": -2e+30
+   },
+   "calls": [
+    {
+     "r0": "00007FFF"
+    }
+   ]
+  },
+  {
+   "about": "negative y, negative x",
+   "regs": {
+    "fr4": -1.0,
+    "fr5": -4.0
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "top region, negative x",
+   "regs": {
+    "fr4": 5.0,
+    "fr5": -1.0
+   },
+   "calls": [
+    {
+     "r0": "00004000"
+    }
+   ]
+  },
+  {
+   "about": "bottom region, negative x",
+   "regs": {
+    "fr4": -5.0,
+    "fr5": -1.0
+   },
+   "calls": [
+    {
+     "r0": "0000C000"
+    }
+   ]
+  },
+  {
+   "about": "x = 0, y > 0 no call",
+   "regs": {
+    "fr4": 7.0,
+    "fr5": 0.0
+   }
+  }
+ ]
+}

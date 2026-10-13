@@ -84,3 +84,14 @@
 0CB38C78 mot_0cb38c78
 0CA75D74 mot_0ca75d74
 0CA7BBDC mot_0ca7bbdc
+0C0965F0 g_zeroVec
+0C1798D0 g_camEyeHV
+0C1798FC g_camTargetHV
+0C179858 g_camAngles
+0C179928 g_camHV3
+0C0E4A14 g_camSnapFlag
+0C13EE80 g_vsklA
+0C13EE90 g_vsklC
+0C13EEA0 g_vsklAxC
+0C2AE6E8 sndPtr
+0C2AE700 sndCount
