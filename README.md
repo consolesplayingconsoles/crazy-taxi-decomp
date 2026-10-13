@@ -1,8 +1,8 @@
 # Crazy Taxi decomp
 
-A matching decompilation of the Dreamcast **Crazy Taxi**, in progress. It rebuilds the game's
-executable byte for byte from one assembly file per function, with the first source files now
-matching C (`src/`); names, structures and what is known about the engine are in `docs/engine.md`,
+A decompilation of the Dreamcast **Crazy Taxi**, in progress. A function is **done** when its C behaves like the original (Equivalent, checked by `tools/equiv.py`); byte-identical C (Matching) is the bonus tier. It rebuilds the game's
+executable byte for byte from one assembly file per function, with Equivalent C for a growing
+share of its functions (`src/`, `tests/`) and a few matching units; names, structures and what is known about the engine are in `docs/engine.md`,
 and the Progress block below has the current counts.
 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
@@ -48,18 +48,31 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `build.sh` | assemble, link, convert, compare with your original |
 | `disc.sh` | build a playable disc image of your version (files you put under `disc/`) |
 | `textures.sh` | optional: every standard texture on one page, to find text drawn into images |
-| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler, live checks against the running game (optional) |
-| `src/` | matching C units (see below) |
+| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler and simulator, the Equivalent check (`equiv.py`) with its helpers (`checksizes.py`, `classify.py`, `poollist.py`, `port_equiv.py`), live checks against the running game (optional) |
+| `src/` | C: Equivalent files (checked by `tools/equiv.py`, not built) and matching C units (built, see below) |
+| `tests/` | test cases per function (`tests/<file>/<function>.json`) and `tests/equivalent.txt` |
+| `docs/equivalent.md` | the evidence for each Equivalent function (written by `tools/equiv.py`) |
 | `sdk.txt` | which code is Sega's SDK, not the game (for `tools/progress.py`) |
 | `symbols.txt` | addresses the C units use that no file defines yet (RAM, data inside asm) |
-| `AGENTS.md` | the per-function decompilation loop |
+| `AGENTS.md` | the per-function decompilation loop: Equivalent first, Matching as the bonus |
 | `docs/engine.md` | what is known about the game's code and data |
 
 `text-map/` (generated) lists the executable's strings with every pointer to them, the text density
 of each disc file with the code that opens it, how text is drawn, and image files that probably
 hold text (candidates). These are heuristics for you to check, not a verdict.
 
-## C units
+## Equivalent C and shared library code
+
+`src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/equiv.py src/<file>.c`
+runs each function in an SH-4 interpreter twice per test case, the original bytes and your compiled C,
+and they must agree on calls, memory writes and the result. Passing functions are listed in
+`tests/equivalent.txt` and counted as done. The loop, and how to write many of them quickly, is in
+`AGENTS.md` and the kickoff skill's `references/equivalent-pipeline.md`. Library code the game shares
+with another decomp of this skill (the NAOMI library, the C runtime) need not be rewritten:
+`python3 tools/port_equiv.py <that decomp> .` finds those functions here by their code, ports the C and
+its cases, and keeps only what `equiv.py` confirms on this game's own bytes.
+
+## Matching C units (the build tier)
 
 A file `src/<name>.c` whose first line is `/* @unit <start>-<end> [shc options] */` replaces every
 asm file in that address range. `build.sh` compiles it with the SDK's `shc` to assembly, lays it
@@ -72,8 +85,8 @@ file boundaries (add them to `functions.txt`: `F <addr> 0 FUN_<addr>` for a func
 `D <addr> 0 data_<addr>` for a data boundary, which is not counted as a function). A unit is one
 original source file: all its functions share literal pools, so it goes in only when all of it
 matches. `python3 tools/progress.py` reports the state in several measures, game code and SDK apart
-(`sdk.txt` marks the SDK): matching C (bytes, functions, units), named functions and globals, and
-functions documented in `docs/*.md`.
+(`sdk.txt` marks the SDK): done (equivalent C, matching C part of it), named functions and globals, and
+functions documented in `docs/*.md`. A library function counts as game code once it is done.
 
 ## Progress
 
