@@ -49,7 +49,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `setup.sh` | extract + verify your executable, generate `asm/`, `text-map/` and `model-map/` |
 | `build.sh` | assemble, link, convert, compare with your original |
 | `disc.sh` | build a playable disc image of your version (files you put under `disc/`) |
-| `textures.sh` | optional: every standard texture on one page, to find text drawn into images |
+| `textures.sh` | optional: every standard texture on one page, to look through |
 | `tools/` | disc reader, splitter, text mapper, model mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler and simulator, the Equivalent check (`equiv.py`) with its helpers (`checksizes.py`, `classify.py`, `poollist.py`, `port_equiv.py`), live checks against the running game (optional) |
 | `src/` | C: Equivalent files (checked by `tools/equiv.py`, not built) and matching C units (built, see below) |
 | `tests/` | test cases per function (`tests/<file>/<function>.json`) and `tests/equivalent.txt` |
@@ -59,20 +59,20 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `AGENTS.md` | the per-function decompilation loop: Equivalent first, Matching as the bonus |
 | `docs/engine.md` | what is known about the game's code and data |
 
-`text-map/` (generated) lists the executable's strings with every pointer to them, the text density
-of each disc file with the code that opens it, how text is drawn, and image files that probably
-hold text (candidates). These are heuristics for you to check, not a verdict.
+`text-map/` (generated) lists the executable's strings with every pointer to them, how much text each disc file holds
+with the code that opens it, how text is drawn, and every image file (`images.tsv`). Counts and lists for you to read,
+not a verdict.
 
 
 ## Model map
 
-`setup.sh` also builds `model-map/game.dcgs` (with `tools/model_map.py`): every 3D model in the disc files, the
+`setup.sh` also builds `model-map/game.dcgs` (with `tools/model_map.py`): every model it recognises in the disc files, the
 table in the executable that holds it, the texture lists, and, where a skeleton is known, characters assembled from
 their parts. It is plain tab-separated text in sections (`[models]`, `[assemblies]`, `[textures]`) and it is
 **committed**: it holds addresses, offsets, sizes and names only, no game bytes or text (the text map is the one
 that stays local). Regenerate it with `python3 tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "<your disc>.gdi" model-map`.
 
-- **No setup needed to start.** With no rules the map still lists every model, grouped by the table that holds it.
+- **No setup needed to start.** With no rules the map still lists every model it recognises, grouped by the table that holds it.
   Models in a table are found by pointer, and the file each model lives in is loaded at an address the tool works out
   from the executable's own pointers.
 - **`models.txt` is what is known about the game's models**, one rule per line: `chars` and `structs` (tables whose

@@ -16,10 +16,9 @@ Writes to <out dir>:
                    string runs), and the executable strings that name it with their functions
                    (the code that opens it, i.e. where its offsets are parsed).
   font.tsv         callers of the BIOS ROM font vector (0x8C0000B4), and font-looking files.
-  image_candidates.tsv
-                   with a GDI: files that probably hold text drawn as images, with the reason.
-                   Candidates only: the user decides. Today's signal is language variants (the
-                   same name with ENG/JAP/GER/... in it, or a language-named folder).
+  images.tsv       with a GDI: every disc file that holds images (standard PVR textures found in it, or
+                   an image file extension). No guess about which ones have text: that is for a person
+                   to see, on the contact sheet textures.sh makes.
 <report.txt> is DcReport output (F and S lines).
 """
 import bisect
@@ -37,27 +36,7 @@ ASCII_SPAN = re.compile(rb"[\x20-\x7e\t\n\r]{4,}")
 SJIS_SPAN = re.compile(rb"(?:[\x81-\x9f\xe0-\xef][\x40-\x7e\x80-\xfc]|[\x20-\x7e]){3,}")
 TIERS = {"quick": 0, "standard": 2 << 20, "deep": None}   # bytes read per disc file
 ROMFONT = (0x8C0000B4, 0x0C0000B4, 0xAC0000B4)
-LANG_TOKENS = ("ENG", "JAP", "JPN", "GER", "DEU", "FRE", "FRA", "SPA", "ESP", "ITA", "USA", "EUR")
-LANG_DIRS = ("ENGLISH", "JAPANESE", "GERMAN", "FRENCH", "SPANISH", "ITALIAN")
-
-
-def language_families(paths):
-    """{path: reason} for files whose name differs from a sibling only by a language token, or
-    that sit in a language-named folder."""
-    groups, out = {}, {}
-    tok = re.compile("(%s)" % "|".join(LANG_TOKENS))
-    for p in paths:
-        d, name = p.rsplit("/", 1)
-        for m in tok.finditer(name.upper()):
-            key = (d, name.upper()[:m.start()] + "*" + name.upper()[m.end():])
-            groups.setdefault(key, []).append((p, m.group()))
-        if any(part.upper() in LANG_DIRS for part in d.split("/")):
-            out[p] = "in a language folder (%s)" % d
-    for (d, key), members in groups.items():
-        if len({lang for _, lang in members}) >= 2:
-            for p, lang in members:
-                out[p] = "language variant %s of %s" % (lang, key)
-    return out
+IMAGE_EXT = (".PVR", ".PVM", ".PVP", ".PNG", ".TGA", ".BMP", ".JPG", ".GIF", ".TIM")
 
 
 def load_report(path):
@@ -156,14 +135,14 @@ def main():
                 if re.search(r"FONT|\.FON$|KANJI", name):
                     ff.write("font-file\t%s\t-\n" % path)
                 nfiles += 1
-        cands = language_families([path for _, _, path in disc.files()])
-        with open(os.path.join(out, "image_candidates.tsv"), "w") as f:
-            f.write("path\treason\n")
-            for p in sorted(cands):
-                f.write("%s\t%s\n" % (p, cands[p]))
-            if not cands:
-                f.write("-\tno automatic signal for this game (no per-language files): this does NOT mean no "
-                        "text in images. Check textures/index.html by eye.\n")
+        with open(os.path.join(out, "images.tsv"), "w") as f:
+            f.write("path\tbytes\tpvr_textures\tkind\n")
+            for lba, size, path in sorted(disc.files(), key=lambda x: x[2]):
+                blob = disc.read(lba, size if TIERS[tier] is None else min(size, TIERS[tier]))
+                n = blob.count(b"PVRT")
+                ext = path.upper().endswith(IMAGE_EXT)
+                if n or ext:
+                    f.write("%s\t%d\t%d\t%s\n" % (path, size, n, "image file" if ext and not n else "holds PVR textures" if not ext else "image file with PVR textures"))
     print("%d strings (%d Shift-JIS, %d with pointers), %d files" % (
         len(rows), sum(1 for r in rows if r[2] == "sjis"), sum(1 for r in rows if r[5]), nfiles))
 

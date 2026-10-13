@@ -3,7 +3,7 @@
 
     model_map.py <1ST_READ.BIN> <base hex> <functions.txt> <disc.gdi> <out dir> [models.txt]
 
-Models are the NAOMI library's flat format (see docs/engine.md). Each disc file that holds some is
+Models are the NAOMI library's flat format (`nlObjPut`'s: records of PowerVR polygon words and strips). Each disc file that holds some is
 loaded at an address the executable's tables point into: that address is found by matching those
 pointers to the models' starts, then every pointer to a model is followed back to the table that holds
 it, and the table is named by (1) a rule in models.txt (curated: a table whose layout is known),

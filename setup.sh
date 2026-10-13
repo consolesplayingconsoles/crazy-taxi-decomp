@@ -15,7 +15,7 @@ SHA1="2756d6c828b5a3848189cd84cac62bc9cb0a94b7"                                 
 got="$( (sha1sum 1ST_READ.BIN 2>/dev/null || shasum -a 1 1ST_READ.BIN) | cut -d' ' -f1)"
 [ "$got" = "$SHA1" ] || { echo "[ERROR] $BOOT has SHA-1 $got, expected $SHA1: not the supported release (see README)"; exit 1; }
 "$PY" tools/split_asm.py 1ST_READ.BIN "$(cat BASE)" functions.txt .
-echo "Text map: strings, file text density, image candidates ($TIER tier)"
+echo "Text map: strings, text per file, the list of images ($TIER tier)"
 "$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt text-map "$GDI" "$TIER"
 echo "File tables: which disc files the executable locates by internal offsets (seconds)"
 "$PY" tools/file_tables.py 1ST_READ.BIN "$(cat BASE)" "$GDI" text-map/file_tables.tsv
