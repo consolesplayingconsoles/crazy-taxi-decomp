@@ -9,9 +9,11 @@ pointers to the models' starts, then every pointer to a model is followed back t
 it, and the table is named by (1) a rule in models.txt (curated: a table whose layout is known),
 (2) a data symbol, (3) the functions that use the table.
 
-Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer or a spreadsheet): `# dcgs v2`, `# sha1`
+Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer or a spreadsheet): `# dcgs v3`, `# sha1`
 (of the executable), `# base`, `# sections ...`, then each section as `[name]`, a header row and its rows:
-  [models]       one row per model: file offset bytes records radius group sub name table index used_by
+  [models]       one row per model: file offset bytes records radius group sub sublabel name table index used_by
+                 (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
+                 empty when it has none; every name is tidied: no parentheses, each word capitalised)
   [assemblies]   one row per placed part (`assemble` rules): group sub part file offset, then a 3x4 matrix row by row
   [textures]     one row per texture (`textures` rules): model file, number, texture file, offset, size, width, height,
                  PVR data type, pixel format
@@ -20,6 +22,8 @@ The name is a starting point for a person to check.
 models.txt (curated rules, one per line, `#` comments, `_` is a space in labels):
   array <addr> <count> <group> <label>          pointers at addr + 4*i: "<label> <i>"
   chars <addr> <count> <group> <slot:label,...> a table of pointers to arrays of part pointers
+  name <model file> <offset hex> <text...>      names one model (the offset is the one in its id: FILE:offset)
+  table <addr hex> <group> <label>              puts every model of the table at addr under that group and label
   note <group> <first id> <last id> <text>      adds " (<text>)" to the sub-group of characters first..last
   rig <name> <motion file> <file base hex> <motion header addr hex> <record>
                                                 a skeleton posed from one record of a V-format motion
@@ -57,6 +61,15 @@ SKIP = (".ADX", ".SFD", ".WAV", ".MP2", ".AHX", ".SFA")
 def A(a):
     """An address with its RAM mirror bits dropped: 0x8C..., 0xAC... and 0x0C... name the same cached RAM."""
     return a & 0x1FFFFFFF if (a >> 24) in (0x0C, 0x8C, 0xAC) else a
+
+
+def tidy(text):
+    """The naming convention, applied to every name a person gives or a rule supplies: words separated by single spaces
+    (underscores and camelCase become spaces), each word starting with a capital, no parentheses or brackets.
+    Ids (hex offsets, table addresses, the game's own identifiers) are not names and are left as they are."""
+    text = re.sub(r"[()\[\]]", "", text).replace("_", " ")
+    text = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", text)
+    return " ".join(w[:1].upper() + w[1:] for w in text.split())
 
 
 def f32(w):
@@ -373,7 +386,7 @@ def main():
         maxtex[name.upper()] = max(f[4] for f in found)
         for off, recs, nbytes, radius, _ in found:
             models.append({"file": name, "offset": off, "records": recs, "bytes": nbytes, "radius": radius,
-                           "addr": load + off if load else None, "group": "", "sub": "", "name": "", "table": "",
+                           "addr": load + off if load else None, "group": "", "sub": "", "sublabel": "", "name": "", "table": "",
                            "index": "", "used_by": ""})
     by_addr = {m["addr"]: m for m in models if m["addr"]}
 
@@ -417,8 +430,10 @@ def main():
             if m and not m["table"]:
                 m["table"], m["index"] = "%08X" % s, str((a - s) // 4)
                 m["used_by"] = " ".join((good or us)[:3])
-                m["group"], m["sub"] = "Tables", label
-                m["name"] = "%d" % ((a - s) // 4)
+                m["group"], m["sub"] = "Tables", "table_%08X" % s
+                if not label.startswith("table_"):
+                    m["sublabel"] = tidy(label)
+                m["name"] = ""
 
     # 3. curated rules override
     def ptr_at(a):
@@ -433,10 +448,12 @@ def main():
         end = exe.find(b"\0", o, o + 40)
         return exe[o:end].decode("ascii", "replace").strip() if end > o else ""
 
-    def put(addr, group, sub, name):
+    def put(addr, group, sub, name, sublabel=""):
         m = by_addr.get(addr)
         if m:
-            m["group"], m["sub"], m["name"] = group, sub, name
+            m["group"], m["sub"], m["name"] = group, sub, tidy(name)
+            if sublabel and tidy(sublabel) != sub:
+                m["sublabel"] = tidy(sublabel)
 
     char_parts = []
     for r in rules:
@@ -444,7 +461,7 @@ def main():
         if kind == "array":
             a, cnt, group, label = A(int(r[1], 16)), int(r[2], 0), r[3].replace("_", " "), r[4].replace("_", " ")
             for i in range(cnt):
-                put(ptr_at(a + 4 * i), group, label, str(i))
+                put(ptr_at(a + 4 * i), group, label, "", label)
         elif kind == "chars":
             a, cnt, group, slots = A(int(r[1], 16)), int(r[2], 0), r[3].replace("_", " "), pairs(r[4])
             for ch in range(cnt):
@@ -461,24 +478,35 @@ def main():
                 e0 = a + t * stride
                 nm = cstr(ptr_at(e0 + nameoff)) or "type %d" % t
                 for off, label in slots.items():
-                    put(ptr_at(e0 + off), group, nm, label)
+                    put(ptr_at(e0 + off), group, nm, label, nm)
 
+    by_file_off = dict(((m["file"].upper(), m["offset"]), m) for m in models)
+    for r in rules:
+        if r[0] == "name":                            # name <model file> <offset hex> <text...>: one model
+            m = by_file_off.get((r[1].upper(), int(r[2], 16)))
+            if m:
+                m["name"] = tidy(" ".join(r[3:]))
+            else:
+                print("name: no model %s:%s" % (r[1], r[2]))
+        elif r[0] == "table":                         # table <addr hex> <group> <label>: a table of models
+            key = "%08X" % A(int(r[1], 16))
+            for m in models:
+                if m["table"] == key:
+                    m["group"], m["sublabel"] = r[2].replace("_", " "), tidy(r[3].replace("_", " "))
     for r in rules:
         if r[0] == "note":
             group, lo, hi, text = r[1].replace("_", " "), int(r[2], 0), int(r[3], 0), " ".join(r[4:]).replace("_", " ")
             for m in models:
                 if m["group"] == group and m["sub"].startswith("0x") and lo <= int(m["sub"].split()[0], 16) <= hi:
-                    m["sub"] += " (%s)" % text
-            char_parts[:] = [(g, sub + (" (%s)" % text if g == group and lo <= int(sub.split()[0], 16) <= hi else ""), parts)
-                             for g, sub, parts in char_parts]
+                    m["sublabel"] = tidy(text)
 
     placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base)
     os.makedirs(out_dir, exist_ok=True)
     sha = hashlib.sha1(exe).hexdigest()
     tex = texture_rows(rules, disc, exe, base, maxtex)
-    sections = [("models", "file\toffset\tbytes\trecords\tradius\tgroup\tsub\tname\ttable\tindex\tused_by", [
-        "%s\t%x\t%d\t%d\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s" % (
-            m["file"], m["offset"], m["bytes"], m["records"], m["radius"], m["group"], m["sub"], m["name"],
+    sections = [("models", "file\toffset\tbytes\trecords\tradius\tgroup\tsub\tsublabel\tname\ttable\tindex\tused_by", [
+        "%s\t%x\t%d\t%d\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (
+            m["file"], m["offset"], m["bytes"], m["records"], m["radius"], m["group"], m["sub"], m["sublabel"], m["name"],
             m["table"], m["index"], m["used_by"]) for m in sorted(models, key=lambda m: (m["file"], m["offset"]))])]
     if placed:
         sections.append(("assemblies", "group\tsub\tpart\tfile\toffset\t" + "\t".join("m%d%d" % (r_, c_) for r_ in range(3) for c_ in range(4)),
@@ -486,13 +514,13 @@ def main():
     if tex:
         sections.append(("textures", "file\tnumber\ttexture_file\toffset\tsize\twidth\theight\ttype\tformat", ["\t".join(row) for row in tex]))
     with open(os.path.join(out_dir, "game.dcgs"), "w") as out:
-        out.write("# dcgs v2\n# sha1 %s\n# base %08X\n# sections %s\n" % (sha, base, " ".join(n for n, _, _ in sections)))
+        out.write("# dcgs v3\n# sha1 %s\n# base %08X\n# sections %s\n" % (sha, base, " ".join(n for n, _, _ in sections)))
         for name, head, rows in sections:
             out.write("[%s]\n%s\n" % (name, head))
             for row in rows:
                 out.write(row + "\n")
     print("%d models, %d assembled parts, %d textures" % (len(models), len(placed), len(tex)))
-    named = sum(1 for m in models if m["name"])
+    named = sum(1 for m in models if m["group"])
     print("%d models, %d with a table or a rule (%d tables) -> %s" % (len(models), named, len(tables),
                                                                        os.path.join(out_dir, "game.dcgs")))
 

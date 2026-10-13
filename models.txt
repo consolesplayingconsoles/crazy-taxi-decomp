@@ -38,3 +38,10 @@ assemble human Characters
 textures BINC1.AFS TEXDC1.BIN
 textures BINC2.AFS TEXDC2.BIN
 textures BINC3.AFS TEXDC3.BIN
+
+# Single models, named by file and offset (kept sorted by the viewer).
+name POLDC1.BIN 0 Fountain
+name POLDC2.BIN 0 Train
+
+# Tables, put under a group and label (kept sorted by the viewer).
+table 0C0266C4 Tables Arrow
