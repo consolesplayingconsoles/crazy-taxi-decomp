@@ -38,6 +38,33 @@
      "fr0": 0.0
     }
    ]
+  },
+  {
+   "about": "the callee asks for two more rounds (it fills the cursor slot)",
+   "regs": {
+    "r4": "0C800100",
+    "r5": "0C800200"
+   },
+   "calls": [
+    {
+     "r0": "00000001",
+     "poke_arg": {
+      "r7": "05000000"
+     }
+    },
+    {
+     "r0": "00000002",
+     "poke_arg": {
+      "r7": "09000000"
+     }
+    },
+    {
+     "r0": "00000004",
+     "poke_arg": {
+      "r7": "00000000"
+     }
+    }
+   ]
   }
  ],
  "holdout": [

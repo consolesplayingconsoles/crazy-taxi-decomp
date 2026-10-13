@@ -20,7 +20,8 @@ between two runs of this interpreter is meaningful, never a value against the co
 
 The case (JSON): {"exe": path, "base": hex, "dump": path, "entry": hex, "end": hex,
 "regs": {"r4": hex, "fr4": float, ...}, "poke": {hex addr: hex bytes}, "calls": [{"r0": hex,
-"fr0": float}, ...], "steps": max}. Paths are relative to the case file.
+"fr0": float, "poke_arg": {"r7": hexbytes}}, ...], "steps": max}. Paths are relative to the case file.
+A call's "poke_arg" writes those bytes at the address the named register holds when the call is made.
 """
 import json
 import math
@@ -593,7 +594,11 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
                       'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)]})
         ret = returns.pop(0) if returns else {}
+        for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
+            mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))
         for k, v in ret.items():
+            if k == 'poke_arg':
+                continue
             if k.startswith('fr'):
                 c.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
             else:

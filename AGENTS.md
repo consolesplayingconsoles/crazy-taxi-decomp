@@ -52,9 +52,16 @@ no arguments. Reading the code stays the evidence; a live value confirms it or s
    what each case covers (`about`). Split them `{"dev": [...], "holdout": [...]}`: write the dev
    cases first and iterate on them; then write holdout cases the C was never checked against (other
    values, another RAM dump) and run once more. A function counts only when both pass.
-3. **Check**: `python3 tools/equiv.py src/<file>.c`. Each function runs in the SH-4 interpreter
-   twice per case, the original bytes and your compiled C, and must agree on calls (target and
-   arguments), memory writes and the return register (from your prototype). `DIFFERS` names the
+   Before writing C, run the three checks (`references/equivalent-pipeline.md` in the kickoff skill): the
+   size is right (`python3 tools/checksizes.py <name>`: a literal pool mid-body ends a listing early), the
+   function can be C (`python3 tools/classify.py <name>`: FPU register banks, `fsrra`, control registers
+   cannot) and every name it uses exists (`python3 tools/poollist.py <name>`; `python3 tools/shdis.py --func <name>`
+   prints it).
+3. **Check**: `python3 tools/equiv.py src/<file>.c` (`-q`: only what is not Equivalent). Each function runs in the SH-4 interpreter
+   twice per case, the original bytes and your compiled C, and must agree on calls (target and the
+   arguments the callee takes, from the prototype you declare for it; the compiler's `_...` runtime helpers
+   run for real; a stack address is "the stack"), memory writes and the return register (from your prototype).
+   A call may fill an output slot: `"poke_arg": {"r7": "<hex>"}`. `DIFFERS` names the
    first case and what differed. A function with all cases agreeing is Equivalent: it goes into
    `tests/equivalent.txt`, and its evidence (address, size, file, case counts, what they cover)
    into `docs/equivalent.md`, one entry per function.

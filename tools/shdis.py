@@ -2,6 +2,7 @@
 """SH-4 disassembly of part of the executable, FPU included, with names. Stdlib only.
 
     python3 tools/shdis.py <start hex> <end hex>        (run in the repo)
+    python3 tools/shdis.py --func <name or address>     one function of functions.txt
 
 Reads 1ST_READ.BIN and BASE, and names from functions.txt, symbols.txt and globals.txt (when they
 exist). Prints one instruction per line; pc-relative loads show the pool value (as a name when it
@@ -170,12 +171,23 @@ def decode(w, pc):
 
 
 def main():
-    if len(sys.argv) != 3:
+    if not (len(sys.argv) == 3 or (len(sys.argv) == 3 and sys.argv[1] == '--func')):
         sys.exit(__doc__)
     exe = open('1ST_READ.BIN', 'rb').read()
     base = int(open('BASE').read().strip(), 16)
     names = load_names()
-    start, end = int(sys.argv[1], 16), int(sys.argv[2], 16)
+    if sys.argv[1] == '--func':                       # a function of functions.txt, by name or address
+        want = sys.argv[2].lower()
+        for line in open('functions.txt'):
+            p = line.split()
+            if len(p) >= 4 and p[0] == 'F' and (p[3].lower() == want or p[1].lower().lstrip('0x') == want.lstrip('0x')):
+                start, end = int(p[1], 16), int(p[1], 16) + int(p[2])
+                print('; %s %08x, %s bytes (functions.txt)' % (p[3], start, p[2]))
+                break
+        else:
+            sys.exit('[ERROR] %s is not in functions.txt' % sys.argv[2])
+    else:
+        start, end = int(sys.argv[1], 16), int(sys.argv[2], 16)
 
     def name(v):
         return names.get(v) or names.get((v & 0x1fffffff) | (base & 0xe0000000))

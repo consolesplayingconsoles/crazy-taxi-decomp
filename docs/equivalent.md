@@ -39,6 +39,26 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - large
 - 0.1
 
+### Psg_SetPosPtr (`0C070AA6`, 170 bytes, `src/misc.c`)
+- equivalent on 8 development and 9 holdout cases, in `tests/misc/Psg_SetPosPtr.json`
+- ground, kind 2, close: snaps
+- ground, kind 2, far: x and z only
+- ground, kind 4 sub 2, close
+- ground, kind 4 sub 3, close: other branch snaps
+- ground, kind 4 sub 3, far: returns
+- ground, kind 0, between 20 and 65: returns
+- no ground, kind 2: x and z
+- no ground, kind 0: nothing
+- kind 2, dy exactly 65
+- kind 0, dy exactly 20
+- kind 0, dy 19.9
+- kind 4 sub 2, no ground
+- kind 4 sub 1, no ground: nothing
+- kind 2, pos below ground by 30
+- kind 0, pos below ground by 10
+- flag 1 (ground), kind 5, same height
+- kind 2, dy 64.9
+
 ### ResetFadeColor (`0C030C52`, 36 bytes, `src/misc.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/misc/ResetFadeColor.json`
 - white, no offset
@@ -112,6 +132,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value -2.0
 - value 1e+30
 
+### Sound_Request (`0C072168`, 176 bytes, `src/sound.c`)
+- equivalent on 8 development and 8 holdout cases, in `tests/sound/Sound_Request.json`
+- free slot, channel 0
+- free slot, channel 2
+- slot occupied
+- not in a run (MainMode 0)
+- MainMode 3
+- ending flag set
+- last slot wraps to the start
+- second to last slot
+- channel 5, free
+- channel 4 wraps
+- sound 0
+- large sound id
+- count already large
+- channel 1 occupied, ending set
+- channel 5 last slot
+- channel 2 first slot
+
 ### acSystemGetSystemFlag (`0C060396`, 12 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/acSystemGetSystemFlag.json`
 - flag 3
@@ -140,6 +179,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 1, zero vector
 - mode 3
 - mode -1
+
+### camSnapToCar (`0C02890E`, 90 bytes, `src/camera.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/camera/camSnapToCar.json`
+- car 0
+- car 1
+- car 3
+- car 5
+- car 2, angles max
+- car 0, other angles
 
 ### carEntry (`0C0448FC`, 30 bytes, `src/leaf.c`)
 - equivalent on 4 development and 4 holdout cases, in `tests/leaf/carEntry.json`
@@ -717,6 +765,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag 1
 - flag 3
 
+### nlObjPutLoadTexture (`0C07A250`, 54 bytes, `src/sdk_c.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_c/nlObjPutLoadTexture.json`
+- callee 0
+- callee 1
+- callee 5
+- the callee asks for two more rounds (it fills the cursor slot)
+- callee -1
+- callee 0x80
+
 ### nlObjPutMvInit (`0C07AA70`, 18 bytes, `src/sdk_c.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_c/nlObjPutMvInit.json`
 - three calls
@@ -870,6 +927,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pointers
 - negatives
 - mixed
+
+### nlRotate (`0C0783E0`, 54 bytes, `src/sdk_c.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlRotate.json`
+- x axis
+- mixed
+- negative
+- zero vec
+- large
 
 ### nlScaleUnitVector (`0C078B80`, 60 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_b/nlScaleUnitVector.json`
@@ -1129,6 +1194,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - minus
 - big
 - one
+
+### nlTriPutTextureInit (`0C07A5D0`, 42 bytes, `src/sdk_d.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlTriPutTextureInit.json`
+- basic
+- zero args
+- pointer tex
+- other seed
+- v 5
 
 ### nlsndCheckPackFreeError (`0C07EA20`, 70 bytes, `src/sdk_e.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/sdk_e/nlsndCheckPackFreeError.json`

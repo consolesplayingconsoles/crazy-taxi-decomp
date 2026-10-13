@@ -2,6 +2,7 @@ GetMenuMode
 GetNumRideon
 KillColliObj
 Psg_SetMoveSpeed
+Psg_SetPosPtr
 ResetFadeColor
 ResetSpark
 SetCameraMode
@@ -11,9 +12,11 @@ SetFadeColorBase
 SetFadeColorBaseMulti
 SetFadeColorOffset
 SetLandmarkDist
+Sound_Request
 acSystemGetSystemFlag
 camSetEye
 camSetTarget
+camSnapToCar
 carEntry
 courseStatusEntry
 discardVertexBuffer
@@ -73,6 +76,7 @@ nlLog10
 nlLog2
 nlMalloc
 nlObjPut
+nlObjPutLoadTexture
 nlObjPutMvInit
 nlObjPutMvSetIntensity
 nlObjPutMvSetMode
@@ -92,6 +96,7 @@ nlReloadPalette
 nlReloadPalette8888
 nlRenderTextureInit
 nlRenderTextureSet
+nlRotate
 nlScaleUnitVector
 nlScaleVector
 nlScalor
@@ -118,6 +123,7 @@ nlTriPutSetAttribTranslucent
 nlTriPutSetAttribUV
 nlTriPutSetClipping
 nlTriPutSetPaletteIndex
+nlTriPutTextureInit
 nlsndCheckPackFreeError
 nlsndG2DmaHandleClose
 nlsndG2DmaHandleOpen

@@ -17,6 +17,19 @@ that all agree is Equivalent; the result goes to tests/equivalent.txt (progress.
 its evidence to docs/equivalent.md (one entry per function).
 A function that byte-matches is Equivalent by definition and needs no cases.
 
+The compiler's own runtime helpers (names starting with `_`: _divls, _quick_odd_mvn...) are not calls out:
+they run, in the original and in the C, so a division the original does through _divls and the C inlines
+agree, and a struct copy is compared by what it writes.
+Calls out are compared by target and by the arguments the callee takes, read from the prototype the C
+file declares for it (an int or pointer takes the next of r4-r7, a float the next of fr4-fr11): registers a
+call merely leaves over are not arguments. A callee with no prototype in the file is compared on all of
+r4-r7 and fr4-fr11, as before. An argument that points into the simulator's stack is compared as "the
+stack": a local's address depends on the frame layout, which is the compiler's business.
+A call in a case's "calls" list may also carry "poke_arg": {"r7": "<hex bytes>"}: those bytes are written at
+the address the register holds when the call is made, as if the callee had filled that output slot (a loop
+that reads it can then run more than once).
+    python3 tools/equiv.py -q src/<file>.c    prints only what is not EQUIVALENT, and a count.
+
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
 import json
@@ -125,6 +138,24 @@ def returns(cfile):
     return out
 
 
+def prototypes(cfile):
+    """The argument registers each function this file declares or defines takes, from its prototype:
+    {name: (ints and pointers, floats)}; a name starting with an underscore is a runtime helper: (0, 0)."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    out = {}
+    for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
+        name, params = m.group(1), m.group(2).strip()
+        ni = nf = 0
+        if params not in ('', 'void'):
+            for p in params.split(','):
+                if re.search(r'\b(float|double)\b', p) and '*' not in p:
+                    nf += 1
+                else:
+                    ni += 1
+        out[name] = (min(ni, 4), min(nf, 8))
+    return out
+
+
 def final(writes):
     """Memory after the writes, byte by byte: {address: byte}."""
     mem = {}
@@ -135,17 +166,31 @@ def final(writes):
     return mem
 
 
-def same(a, b, outs, back):
+def stackish(v):
+    return 'STACK' if 0x0DFF0000 <= int(v, 16) < 0x0E000000 else v
+
+
+def callview(to, r, f, arity):
+    """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
+    floats)}; none known: all of them), a stack address as "STACK"."""
+    a = arity.get(int(to, 16))
+    if a is not None:
+        r, f = r[:a[0]], f[:a[1]]
+    return (to, [stackish(v) for v in r], f)
+
+
+def same(a, b, outs, back, arity=None):
     """The parts of two runs that must agree, and the first difference. back maps an address in
     the compiled C (one of its own functions or data) to the game's address of the same name."""
+    arity = arity or {}
     fix = lambda h: '%08X' % back.get(int(h, 16), int(h, 16))
     for k in ('error', 'out', 'calls', 'writes', 'devices'):
         x, y = a[k], b[k]
         if k == 'out':
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
-            x = [(c['to'], c['r4-r7'], c['fr4-fr11']) for c in x]
-            y = [(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11']) for c in y]
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity) for c in x]
+            y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity) for c in y]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
@@ -155,6 +200,8 @@ def same(a, b, outs, back):
 
 
 def main(argv):
+    quiet = '-q' in argv
+    argv = [a for a in argv if a != '-q']
     if len(argv) < 2:
         sys.exit(__doc__)
     cfile = argv[1]
@@ -170,7 +217,12 @@ def main(argv):
     back = {a: table[n[1:]] for n, a in syms.items() if n[1:] in table}    # the file's own names
     # a call into the compiled C that is not one of its game-named functions is the C's own helper
     # (a static the original inlined, not in the map): part of the C version, so it runs
-    helpers = lambda t: SCRATCH <= t < SCRATCH + len(code) and t not in back
+    runtime_addrs = {a for n, a in table.items() if n.startswith('_')}
+    helpers = lambda t: (SCRATCH <= t < SCRATCH + len(code) and t not in back) or t in runtime_addrs
+    arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
+    runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
+    arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
+    helpers_orig = lambda t: t in runtime
     results, evidence = {}, {}
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
@@ -190,10 +242,10 @@ def main(argv):
         counts = {k: len(v) for k, v in sets.items()}
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
-            orig = sh4sim.run(case, '.')
+            orig = sh4sim.run(case, '.', deep=helpers_orig)
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
-            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back)
+            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity)
             if orig['error']:
                 good, diff = False, 'the original stopped: ' + orig['error']
             if not good:
@@ -204,7 +256,12 @@ def main(argv):
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])])
     for fn, (ok, why) in results.items():
-        print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
+        if not quiet or ok is not True:
+            print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
+    if quiet:
+        print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
+            sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),
+            sum(1 for ok, _ in results.values() if ok is None)))
     path = os.path.join('tests', 'equivalent.txt')
     have = set(open(path).read().split()) if os.path.exists(path) else set()
     have |= {fn for fn, (ok, _) in results.items() if ok}
