@@ -8,6 +8,10 @@
   documented   functions that a docs/*.md file mentions by name
 Game code and SDK code (sdk.txt: Katana libraries, compiler runtime, boot block) are reported apart:
 the SDK is Sega's library, named by signature and never decompiled here.
+
+The project's main metric ("done: equivalent C") is the FIRST row of the first section, and its label
+stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/homebrew/decompMetric.ts,
+MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 """
 import os, re, subprocess, sys
 

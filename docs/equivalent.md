@@ -14,6 +14,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - middle of three, kind 20
 - no node, empty list
 
+### ResetFadeColor (`0C030C52`, 36 bytes, `src/misc.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/misc/ResetFadeColor.json`
+- white, no offset
+- tinted
+- negative offset
+- zeros
+
 ### SetColliObj (`0C0330B8`, 130 bytes, `src/colli.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/colli/SetColliObj.json`
 - empty list, kind 0
@@ -23,6 +30,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - three nodes in the list, kind 7
 - allocation fails, empty list
 - empty list, last kind
+
+### SetFadeColorBaseMulti (`0C030BFA`, 44 bytes, `src/misc.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/misc/SetFadeColorBaseMulti.json`
+- base 1, factors 0.5
+- different channels
+- zero base
+- zero factor
+- negative
+- large
+- fractions
 
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`
@@ -43,6 +60,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 1, zero vector
 - mode 3
 - mode -1
+
+### courseStatusEntry (`0C042196`, 44 bytes, `src/misc.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/misc/courseStatusEntry.json`
+- point 0
+- point 31
+- point 32 (next word)
+- no table for the course
+- point 5, bits already set
+- point 63
+- point 100
+- point 255
+- bit already set
+- course 7, no table
 
 ### extRand (`0C04981E`, 32 bytes, `src/extrand.c`)
 - equivalent on 6 development cases, in `tests/extrand/extRand.json`
@@ -317,6 +347,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - three events
 - size 19
 - size 20, fails, empty list
+
+### volumeToDb (`0C02E222`, 96 bytes, `src/misc.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/misc/volumeToDb.json`
+- level 0
+- level 127
+- level 64
+- level 1
+- negative byte
+- byte 0 of a bigger value
+- level 255 as -1
+- level 100
+- log below -5 (very negative)
+- level 0x80 (-128)
 
 ### vsklRotate (`0C06AF8C`, 38 bytes, `src/camera.c`)
 - equivalent on 2 development and 3 holdout cases, in `tests/camera/vsklRotate.json`

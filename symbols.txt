@@ -95,3 +95,6 @@
 0C13EEA0 g_vsklAxC
 0C2AE6E8 sndPtr
 0C2AE700 sndCount
+0C2A3A40 g_courseStatusTbl
+0C0EA5BC g_fadeBase
+0C0EA5C8 g_fadeOffset

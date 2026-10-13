@@ -1,0 +1,106 @@
+{
+ "dev": [
+  {
+   "about": "level 0",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "level 127",
+   "regs": {
+    "r4": "0000007F"
+   },
+   "calls": [
+    {
+     "fr0": 0.0
+    }
+   ]
+  },
+  {
+   "about": "level 64",
+   "regs": {
+    "r4": "00000040"
+   },
+   "calls": [
+    {
+     "fr0": -0.30103
+    }
+   ]
+  },
+  {
+   "about": "level 1",
+   "regs": {
+    "r4": "00000001"
+   },
+   "calls": [
+    {
+     "fr0": -2.1
+    }
+   ]
+  },
+  {
+   "about": "negative byte",
+   "regs": {
+    "r4": "000000FF"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "byte 0 of a bigger value",
+   "regs": {
+    "r4": "00000100"
+   }
+  },
+  {
+   "about": "level 255 as -1",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {
+     "fr0": 1.5
+    }
+   ]
+  },
+  {
+   "about": "level 100",
+   "regs": {
+    "r4": "00000064"
+   },
+   "calls": [
+    {
+     "fr0": -0.103
+    }
+   ]
+  },
+  {
+   "about": "log below -5 (very negative)",
+   "regs": {
+    "r4": "00000003"
+   },
+   "calls": [
+    {
+     "fr0": -9.9
+    }
+   ]
+  },
+  {
+   "about": "level 0x80 (-128)",
+   "regs": {
+    "r4": "00000080"
+   },
+   "calls": [
+    {
+     "fr0": 2.0
+    }
+   ]
+  }
+ ]
+}

@@ -1,7 +1,10 @@
 KillColliObj
+ResetFadeColor
 SetColliObj
+SetFadeColorBaseMulti
 camSetEye
 camSetTarget
+courseStatusEntry
 extRand
 extRandom
 extRandomSeed
@@ -22,4 +25,5 @@ nlSetEventNext
 nlSin
 nlSubVector3op
 set_event
+volumeToDb
 vsklRotate
