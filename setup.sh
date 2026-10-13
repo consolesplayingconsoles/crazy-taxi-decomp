@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Prepare the decomp from YOUR OWN disc: extract the executable, check it is the supported release,
-# generate asm/ (one file per function) and text-map/. Nothing from the game is stored in git.
+# generate asm/ (one file per function), text-map/ and model-map/. No game bytes are stored in git (model-map/ holds only
+# addresses, sizes and names, and is committed; text-map/ holds the game's text and is not).
 #   bash setup.sh <path to your .gdi> [quick|standard|deep]
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -18,6 +19,8 @@ echo "Text map: strings, file text density, image candidates ($TIER tier)"
 "$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt text-map "$GDI" "$TIER"
 echo "File tables: which disc files the executable locates by internal offsets (seconds)"
 "$PY" tools/file_tables.py 1ST_READ.BIN "$(cat BASE)" "$GDI" text-map/file_tables.tsv
+echo "Model map: the 3D models in the disc files, named by the tables that hold them (models.txt: known tables)"
+"$PY" tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "$GDI" model-map
 chmod +x build.sh setup.sh 2>/dev/null || true
 echo "Textures (optional, to find text drawn into images): bash \"$PWD/textures.sh\" \"$GDI\""
 if grep -q '^SDK_PATH=' .env 2>/dev/null; then

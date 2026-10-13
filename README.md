@@ -61,6 +61,10 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 of each disc file with the code that opens it, how text is drawn, and image files that probably
 hold text (candidates). These are heuristics for you to check, not a verdict.
 
+`model-map/game.dcgs` (generated and committed: addresses, offsets, sizes and names only, no game bytes or text; `setup.sh` rebuilds it) lists every 3D model in the disc files with the name the executable's tables give it
+(`models.txt` holds the tables whose layout is known: characters, cars; the rest are named by table address and the
+functions that use it). A model viewer can open it to show what each model is.
+
 ## Equivalent C and shared library code
 
 `src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/equiv.py src/<file>.c`

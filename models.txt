@@ -1,0 +1,40 @@
+b# Curated model tables for Crazy Taxi (European release). See tools/model_map.py for the syntax.
+# Character parts (docs/engine.md): the character table, each entry a pointer to 16 part pointers.
+chars 0C1331B0 64 Characters 1:head,2:left_hand,3:left_forearm,4:left_upper_arm,5:right_hand,6:right_forearm,7:right_upper_arm,8:torso,9:left_foot,10:left_shin,11:left_thigh,12:right_foot,13:right_shin,14:right_thigh,15:hips
+# Traffic models: carTbl, 0xA8 bytes a type, the type's name string pointer at +0xA4.
+structs 0C0A2628 0xA8 20 0xA4 Cars 0:body,4:body_(far),8:shadow,12:shadow_(far),16:extra,20:extra_(far),88:wheel,96:wheel_2,104:wheel_3
+# 0x00 is an empty skeleton; the cabbies are 0x01-0x04 and again 0x3B-0x3E, both in the order of the selection screen,
+# Axel, B.D. Joe, Gena, Gus (the maintainer's notes).
+note Characters 0x00 0x00 empty_skeleton
+note Characters 0x01 0x01 Axel
+note Characters 0x02 0x02 B.D._Joe
+note Characters 0x03 0x03 Gena
+note Characters 0x04 0x04 Gus
+note Characters 0x3B 0x3B Axel
+note Characters 0x3C 0x3C B.D._Joe
+note Characters 0x3D 0x3D Gena
+note Characters 0x3E 0x3E Gus
+# The human skeleton (docs/engine.md "Skeleton and motions"): 16 bones, a model slot per bone, bind offsets in the
+# executable, posed from record 1 of the customer idle 0x0CAE3244 in motDC.BIN (loaded at 0x0C880000): a standing person.
+rig human MOTDC.BIN 0C880000 0CAE3244 1
+bone human 0 - -
+bone human 8 0 -
+bone human 1 8 0C0D5430
+bone human 4 8 0C0D543C
+bone human 3 4 0C0D5448
+bone human 2 3 0C0D5454
+bone human 7 8 0C0D5460
+bone human 6 7 0C0D546C
+bone human 5 6 0C0D5478
+bone human 15 0 -
+bone human 11 15 0C0D5484
+bone human 10 11 0C0D5490
+bone human 9 10 0C0D549C
+bone human 14 15 0C0D54A8
+bone human 13 14 0C0D54B4
+bone human 12 13 0C0D54C0
+assemble human Characters
+# The city course archives hold models that use their city's texture file.
+textures BINC1.AFS TEXDC1.BIN
+textures BINC2.AFS TEXDC2.BIN
+textures BINC3.AFS TEXDC3.BIN
