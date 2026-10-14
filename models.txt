@@ -1,6 +1,24 @@
 b# Curated model tables for Crazy Taxi (European release). See tools/model_map.py for the syntax.
 # Character parts (docs/engine.md): the character table, each entry a pointer to 16 part pointers.
 chars 0C1331B0 64 Characters 1:head,2:left_hand,3:left_forearm,4:left_upper_arm,5:right_hand,6:right_forearm,7:right_upper_arm,8:torso,9:left_foot,10:left_shin,11:left_thigh,12:right_foot,13:right_shin,14:right_thigh,15:hips
+# FcvPlay draws one more model on the torso's matrix for some characters, picked by character number (0x0C065F42):
+# e.g. Axel's shirt back (his torso model is the front half).
+extra Characters 0x01 8 0C567178 torso_extra
+extra Characters 0x03 8 0C495C20 torso_extra
+extra Characters 0x0C 8 0C5A0878 torso_extra
+extra Characters 0x11 8 0C4A2C40 torso_extra
+extra Characters 0x12 8 0C4A49E0 torso_extra
+extra Characters 0x13 8 0C4A68B0 torso_extra
+extra Characters 0x14 8 0C4A87C8 torso_extra
+extra Characters 0x15 8 0C4AAA40 torso_extra
+extra Characters 0x17 8 0C4B15B8 torso_extra
+extra Characters 0x1D 8 0C4D35A8 torso_extra
+extra Characters 0x22 8 0C4EE460 torso_extra
+extra Characters 0x25 8 0C5027E8 torso_extra
+extra Characters 0x35 8 0C55C470 torso_extra
+extra Characters 0x36 8 0C4D35A8 torso_extra
+extra Characters 0x3B 8 0C56E778 torso_extra
+extra Characters 0x3D 8 0C49AFA8 torso_extra
 # Traffic models: carTbl, 0xA8 bytes a type, the type's name string pointer at +0xA4.
 structs 0C0A2628 0xA8 20 0xA4 Cars 0:body,4:body_(far),8:shadow,12:shadow_(far),16:extra,20:extra_(far),88:wheel,96:wheel_2,104:wheel_3
 # 0x00 is an empty skeleton; the cabbies are 0x01-0x04 and again 0x3B-0x3E, both in the order of the selection screen,

@@ -42,6 +42,11 @@ The name is a starting point for a person to check.
 models.txt (curated rules, one per line, `#` comments, `_` is a space in labels):
   array <addr> <count> <group> <label>          pointers at addr + 4*i: "<label> <i>"
   chars <addr> <count> <group> <slot:label,...> a table of pointers to arrays of part pointers
+  extra <group> <id> <slot> <model addr> <label>
+                                                one more model a character of a `chars` group draws on a slot's matrix
+                                                (e.g. picked by character number in code): filed under the character
+                                                (named <label>) and placed with that slot in [assemblies] (its part
+                                                column is the slot's label)
   sound <file> <entry> <text...>                names one sound (the entry is the index in its archive; 0 for a stand-alone file)
   name <model file> <offset hex> <text...>      names one model (the offset is the one in its id: FILE:offset)
   table <addr hex> <group> <label>              puts every model of the table at addr under that group and label
@@ -865,6 +870,15 @@ def main():
                 for off, label in slots.items():
                     put(ptr_at(e0 + off), group, nm, label, nm)
 
+    for r in rules:
+        if r[0] == "extra":                           # extra <group> <id> <slot> <model addr> <label>
+            group, sub, slot, ptr = r[1].replace("_", " "), "0x%02X" % int(r[2], 0), int(r[3], 0), A(int(r[4], 16))
+            entry = next((e for e in char_parts if e[0] == group and e[1] == sub), None)
+            if ptr not in by_addr or entry is None:
+                print("extra: %s" % ("no model %08X" % ptr if ptr not in by_addr else "no character %s %s" % (group, sub)))
+                continue
+            put(ptr, group, sub, " ".join(r[5:]))
+            entry[2].append((slot, ptr, slots_by_group.get(group, {}).get(slot, "part %d" % slot)))
     by_file_off = dict(((m["file"].upper(), m["offset"]), m) for m in models)
     for r in rules:
         if r[0] == "name":                            # name <model file> <offset hex> <text...>: one model

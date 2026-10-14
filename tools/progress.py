@@ -6,6 +6,9 @@
   named only (a label, not done work), unnamed. A name never counts as done.
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
+A last section, REVERSE ENGINEERING, counts what the model map (model-map/game.dcgs) identifies: models, characters,
+sounds and tables with a name. It is separate from the decomp measures and never feeds them: a name is identification,
+not done work. A row with nothing named is left out, and so is the section while all its rows are.
 Everything on the disc that is code is part of the game, the bundled library included (the Katana libraries,
 the compiler runtime, the boot block): one total, fixed from the start, and a function is in the same bucket
 whether it is done or not. sdk.txt only marks which functions are library, to show their share of the total.
@@ -81,6 +84,43 @@ rows = [
     ('    done', pct(k[7], k[0]), '%d of %d library functions, %d bytes (%s)' % (k[7], k[0], k[8], pct(k[8], k[1]).strip())),
     ('    named', pct(k[4], k[0]), '%d of %d (the library\'s own names, from SDK tables)' % (k[4], k[0])),
 ]
+
+def map_sections(path):
+    """{section: [row dicts]} of a game.dcgs file."""
+    out, sec, head = {}, None, None
+    for line in open(path, errors='replace'):
+        line = line.rstrip('\n')
+        if line.startswith('#') or not line:
+            continue
+        if line.startswith('['):
+            sec, head = line[1:-1], None
+            out[sec] = []
+        elif head is None:
+            head = line.split('\t')
+        else:
+            out[sec].append(dict(zip(head, line.split('\t'))))
+    return out
+
+if os.path.exists('model-map/game.dcgs'):
+    m = map_sections('model-map/game.dcgs')
+    rules = [l.split('#', 1)[0].split() for l in open('models.txt')] if os.path.exists('models.txt') else []
+    models = m.get('models', [])
+    mn = sum(1 for r in models if r.get('name') or r.get('sublabel'))
+    chars = set((r['group'], r['sub']) for r in models if r.get('sub', '').startswith('0x'))
+    cn = set((r['group'], r['sub']) for r in models if r.get('sub', '').startswith('0x') and r.get('sublabel'))
+    sounds = [r for r in m.get('audio', []) if r.get('format') != 'unknown']
+    sn = sum(1 for r in sounds if r.get('name'))
+    tables = set(r['table'] for r in models if r.get('table'))
+    tn = tables & set('%08X' % (int(r[1], 16) & 0x1FFFFFFF) for r in rules if len(r) > 1 and r[0] == 'table')
+    re_rows = [(n, row) for n, row in [
+        (mn, ('  models named', pct(mn, len(models)), '%d of %d models: a name, or a named table or collection' % (mn, len(models)))),
+        (len(cn), ('  characters named', pct(len(cn), len(chars)), '%d of %d characters (note rules)' % (len(cn), len(chars)))),
+        (sn, ('  sounds named', pct(sn, len(sounds)), '%d of %d sounds (sound rules)' % (sn, len(sounds)))),
+        (len(tn), ('  tables named', pct(len(tn), len(tables)), '%d of %d model tables (table rules)' % (len(tn), len(tables)))),
+    ] if n]
+    if re_rows:
+        rows += [('REVERSE ENGINEERING', '', 'what the model map identifies; separate from the measures above, not done work')]
+        rows += [row for n, row in re_rows]
 w = max(len(r[0]) for r in rows)
 for name, p, detail in rows:
     print('%-*s  %7s  %s' % (w, name, p, detail))
