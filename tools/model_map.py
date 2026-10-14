@@ -12,9 +12,10 @@ it, and the table is named by (1) a rule in models.txt (curated: a table whose l
 Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer or a spreadsheet): `# dcgs <version>` (the skill version
 that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run from the skill), `# sha1`
 (of the executable), `# base`, `# sections ...`, then each section as `[name]`, a header row and its rows:
-  [models]       one row per model: file offset bytes records radius group sub sublabel name table index used_by
+  [models]       one row per model: file offset bytes records radius group sub sublabel name table index used_by texset
                  (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
-                 empty when it has none; every name is tidied: no parentheses, each word capitalised)
+                 empty when it has none; every name is tidied: no parentheses, each word capitalised; texset is the
+                 texture set it takes its textures from, empty when its file's rows apply)
   [assemblies]   one row per placed part (`assemble` and `nodes` rules): group sub part file offset, then a 3x4 matrix
                  row by row
   [rigs]         one row per skeleton: rig kind (bones or nodes) group motion_file motion_format (v, or empty) pose_offset
@@ -24,7 +25,8 @@ that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run fro
                  the parent's, empty for a root; part: the label of the part it carries, as in [assemblies] (a node
                  tree's is its index); x y z: its rest offset in the parent's axes)
   [textures]     one row per texture (`textures` rules): model file, number, texture file, offset, size, width, height,
-                 PVR data type, pixel format
+                 PVR data type, pixel format, set (empty for a model file's own list, the set's index for a `texturesets`
+                 rule's lists: a model with that texset looks its texture numbers up in those rows)
   [audio]        one row per sound found: file, entry (the index in an archive), offset, bytes, format (ADX, AHX, or a
                  DTPK sound bank), channels, sample rate, samples, seconds, name. Sounds are found by their headers: CRI
                  ADX / AHX streams inside AFS archives or on their own. A sound has no name unless a `sound` rule gives it one.
@@ -60,6 +62,13 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
                                                 format, data address, x) in the
                                                 executable, indexed by the texture number in the model file's records;
                                                 written to the [textures] section (number -> offset in the texture file)
+  texturesets <model lists addr> <texture lists addr> <count> <file names addr> <texture base hex>
+                                                three tables of count pointers: entry i of the first is a list of model
+                                                pointers (ending at the next list's start, a null, or any of the three
+                                                tables), of the second a texture list (16-byte entries as in `textures`,
+                                                ending at a zero entry), of the third a file name (C string); the models
+                                                of list i take texture list i, whose data addresses minus texture base are
+                                                offsets in file i (per-character textures for models sharing one file)
   structs <addr> <stride> <count> <namestr off> <group> <off:label,...>  records with model pointers
 """
 import bisect
@@ -415,6 +424,50 @@ def texture_rows(rules, disc, exe, base, maxtex):
     return rows
 
 
+def texture_set_rows(rules, disc, exe, base, ptr_at, by_addr):
+    """Rows for [textures] from the `texturesets` rules (the set column filled), each set's models marked with it."""
+    files = {path.split("/")[-1].upper(): size for lba, size, path in disc.files()}
+    rows = []
+    for r in rules:
+        if r[0] != "texturesets":
+            continue
+        mtab, ttab, count, ntab, tbase = A(int(r[1], 16)), A(int(r[2], 16)), int(r[3]), A(int(r[4], 16)), A(int(r[5], 16))
+        starts = sorted(set(ptr_at(mtab + 4 * i) for i in range(count)) | {mtab, ttab, ntab})
+        for i in range(count):
+            mlist, tlist, name = ptr_at(mtab + 4 * i), ptr_at(ttab + 4 * i), ptr_at(ntab + 4 * i)
+            o = name - base
+            tfile = exe[o:exe.find(b"\0", o)].decode("ascii", "replace").split("/")[-1].upper()
+            if tfile not in files:
+                print("texturesets %d: no disc file %s" % (i, tfile))
+                continue
+            end, a, mfiles = min(s for s in starts + [1 << 40] if s > mlist), mlist, set()
+            while a < end and ptr_at(a):
+                m = by_addr.get(ptr_at(a))
+                if m:
+                    if m["texset"] not in ("", str(i)):
+                        print("texturesets: model %s:%x in sets %s and %d" % (m["file"], m["offset"], m["texset"], i))
+                    m["texset"] = str(i)
+                    mfiles.add(m["file"].upper())
+                a += 4
+            entries = []
+            for k in range(4096):
+                e = struct.unpack_from("<4I", exe, tlist - base + 16 * k)
+                if e[0] == 0:
+                    break
+                entries.append((A(e[2]) - tbase, e[0] & 0xFFFF, e[0] >> 16, e[1] >> 8, e[1] & 0xFF))
+            tlen = files[tfile]
+            offs = sorted(set(e[0] for e in entries)) + [tlen]
+            for mfile in sorted(mfiles):
+                for n, (off, w, h, dt, pf) in enumerate(entries):
+                    rows.append([mfile, str(n), tfile, "%x" % off, str(offs[offs.index(off) + 1] - off), str(w), str(h),
+                                 "%x" % dt, str(pf), str(i)])
+            last = max(entries, key=lambda e: e[0]) if entries else None
+            if last and not 0 <= tlen - (last[0] + texture_size(last[3], last[1], last[2])) < 32:
+                print("texturesets %d: list ends at %x, %s is %x bytes" % (i, last[0] + texture_size(last[3], last[1], last[2]), tfile, tlen))
+        print("texturesets %08X: %d sets, %d rows" % (mtab, count, len(rows)))
+    return rows
+
+
 def texture_size(dt, w, h):
     """Bytes of a texture of PVR data type dt (1 twiddled, 2 twiddled mipmapped, 3 VQ, 4 VQ mipmapped, 9, 0x0D) and w x h."""
     if dt in (3, 4):
@@ -576,7 +629,7 @@ def main():
         for off, recs, nbytes, radius, _ in found:
             models.append({"file": name, "offset": off, "records": recs, "bytes": nbytes, "radius": radius,
                            "addr": load + off if load else None, "group": "", "sub": "", "sublabel": "", "name": "", "table": "",
-                           "index": "", "used_by": ""})
+                           "index": "", "used_by": "", "texset": ""})
     by_addr = {m["addr"]: m for m in models if m["addr"]}
 
     # 2. tables: runs of words that are model pointers (or null), found from each model's references
@@ -683,24 +736,26 @@ def main():
             for m in models:
                 if m["table"] == key:
                     m["group"], m["sublabel"] = r[2].replace("_", " "), tidy(r[3].replace("_", " "))
+
+    placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base)
+    rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
+    nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)
+    placed, rigs, bones = placed + nplaced, rigs + nrigs, bones + nbones
+    # notes last: they name a hex sub-group whatever rule made it (chars, nodes)
     for r in rules:
         if r[0] == "note":
             group, lo, hi, text = r[1].replace("_", " "), int(r[2], 0), int(r[3], 0), " ".join(r[4:]).replace("_", " ")
             for m in models:
                 if m["group"] == group and m["sub"].startswith("0x") and lo <= int(m["sub"].split()[0], 16) <= hi:
                     m["sublabel"] = tidy(text)
-
-    placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base)
-    rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
-    nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)
-    placed, rigs, bones = placed + nplaced, rigs + nrigs, bones + nbones
     os.makedirs(out_dir, exist_ok=True)
     sha = hashlib.sha1(exe).hexdigest()
-    tex = texture_rows(rules, disc, exe, base, maxtex)
-    sections = [("models", "file\toffset\tbytes\trecords\tradius\tgroup\tsub\tsublabel\tname\ttable\tindex\tused_by", [
-        "%s\t%x\t%d\t%d\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (
+    tex = [row + [""] for row in texture_rows(rules, disc, exe, base, maxtex)]
+    tex += texture_set_rows(rules, disc, exe, base, ptr_at, by_addr)
+    sections = [("models", "file\toffset\tbytes\trecords\tradius\tgroup\tsub\tsublabel\tname\ttable\tindex\tused_by\ttexset", [
+        "%s\t%x\t%d\t%d\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (
             m["file"], m["offset"], m["bytes"], m["records"], m["radius"], m["group"], m["sub"], m["sublabel"], m["name"],
-            m["table"], m["index"], m["used_by"]) for m in sorted(models, key=lambda m: (m["file"], m["offset"]))])]
+            m["table"], m["index"], m["used_by"], m["texset"]) for m in sorted(models, key=lambda m: (m["file"], m["offset"]))])]
     if placed:
         sections.append(("assemblies", "group\tsub\tpart\tfile\toffset\t" + "\t".join("m%d%d" % (r_, c_) for r_ in range(3) for c_ in range(4)),
                          ["\t".join(row) for row in placed]))
@@ -712,7 +767,7 @@ def main():
     if sounds:
         sections.append(("audio", "file\tindex\toffset\tbytes\tformat\tchannels\trate\tsamples\tseconds\tname", ["\t".join(r_) for r_ in sounds]))
     if tex:
-        sections.append(("textures", "file\tnumber\ttexture_file\toffset\tsize\twidth\theight\ttype\tformat", ["\t".join(row) for row in tex]))
+        sections.append(("textures", "file\tnumber\ttexture_file\toffset\tsize\twidth\theight\ttype\tformat\tset", ["\t".join(row) for row in tex]))
     with open(os.path.join(out_dir, "game.dcgs"), "w") as out:
         out.write("# dcgs %s\n# sha1 %s\n# base %08X\n# sections %s\n" % (version, sha, base, " ".join(n for n, _, _ in sections)))
         for name, head, rows in sections:
