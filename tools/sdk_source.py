@@ -96,9 +96,12 @@ def stage(folders, sdk):
         for root, _, files in os.walk(folder):
             for f in files:
                 if f.lower().endswith(('.c', '.h')):
-                    d = os.path.join(dst, os.path.relpath(root, folder))
+                    # spaces become '_' in folder names and .c names: the user's folders can be named anything, the
+                    # compiler's command line cannot hold a space (headers keep their names: #include lines name them)
+                    d = os.path.join(dst, os.path.relpath(root, folder).replace(' ', '_'))
                     os.makedirs(d, exist_ok=True)
-                    shutil.copyfile(os.path.join(root, f), os.path.join(d, f))
+                    name = f.replace(' ', '_') if f.lower().endswith('.c') else f
+                    shutil.copyfile(os.path.join(root, f), os.path.join(d, name))
         trees.append(dst)
     incs = []
     for cand in glob.glob(os.path.join(sdk, '*', 'include')) + [os.path.join(sdk, 'shc', 'include')]:
