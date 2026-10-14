@@ -24,6 +24,13 @@ that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run fro
                  for a bone rig's one shared tree; bone: the bone's number, or a node's first index in its list; parent:
                  the parent's, empty for a root; part: the label of the part it carries, as in [assemblies] (a node
                  tree's is its index); x y z: its rest offset in the parent's axes)
+  [welds]        one row per welded vertex of a node tree, in drawing order: rig sub node src_node src_vertex dst_vertex
+                 (nodes by list index; the vertices are file offsets in their model file: dst takes src's posed position)
+  [motionbones]  one row per motion bone of a `motionskel` rig: rig bone order x y z (order 1: Rz(-z) * Ry(y), 0:
+                 Ry(y) * Rz(-z), then Rx(x); x y z: the bone's offset, applied as T(x*s, y*s, -z*s), s the scale)
+  [poses]        one row per `pose` rule, in rule order: rig node parent steps (parent `-` for the character's own
+                 place; a copy is parent `=` and steps the node it copies)
+  [scales]       one row per character of a `scale` rule's rig: rig sub scale
   [textures]     one row per texture (`textures` rules): model file, number, texture file, offset, size, width, height,
                  PVR data type, pixel format, set (empty for a model file's own list, the set's index for a `texturesets`
                  rule's lists: a model with that texset looks its texture numbers up in those rows)
@@ -53,7 +60,10 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
                                                 where a node holds its model pointer, bind position (3 floats, parent's
                                                 axes), bind rotation (3 floats x y z; unit deg or rad; order as applied,
                                                 zyx = Rz * Ry * Rx) and links (pointers, null = none); local = T(pos) * R,
-                                                world = parent's world * local
+                                                world = parent's world * local; optional weld=<src node>:<count>:<src
+                                                offsets>:<dst offsets> (where a node holds the node it welds from, how
+                                                many vertices, and two arrays of byte offsets into the source's and its
+                                                own model: [welds])
   textures <model file> <texture file>          pairs a model file with a texture file of another name (e.g. an archive of
                                                 a city with that city's textures); the list in the executable that fits the
                                                 texture file's size is found by itself
@@ -62,6 +72,22 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
                                                 format, data address, x) in the
                                                 executable, indexed by the texture number in the model file's records;
                                                 written to the [textures] section (number -> offset in the texture file)
+  motionskel <rig> <header offset hex> <motion file> <format>
+                                                the rig's motions: in <motion file>, format e16 (a motion: key count,
+                                                root and rotation key offsets, keys per frame, root tracks, 3 root
+                                                divisors; keys of 3 s16 a track or bone, 0x10000 = a turn); the
+                                                skeleton header at <header offset> in that file holds file offsets of
+                                                the order flags, the bone count, and the bone offsets (+0, +4, +0x10)
+  scale <rig> <table addr> <entry size hex> <offset hex>
+                                                each character's scale: a float at table + i * entry size + offset
+  pose <rig> <node> <parent node|-> <step>...   how the game builds a node's matrix from its parent's (- = the
+                                                character's place), steps in order: root (T(x/dx, y/dy, -z/dz) from root
+                                                track 0), rot:<b> (bone b's rotation), bone:<b> (its offset, then its
+                                                rotation), rx: / ry: / rz:<hex angle> (signed, 0x10000 = a turn),
+                                                t:<x>,<y>,<z> (times the scale), bind (the node's bind pose relative to
+                                                its parent, alone on the line); `pose <rig> <node> = <node>` copies a
+                                                matrix; a node without a line is not drawn (the game leaves its matrix
+                                                zero); a line for a node a character lacks is skipped
   texturesets <model lists addr> <texture lists addr> <count> <file names addr> <texture base hex>
                                                 three tables of count pointers: entry i of the first is a list of model
                                                 pointers (ending at the next list's start, a null, or any of the three
@@ -424,6 +450,122 @@ def texture_rows(rules, disc, exe, base, maxtex):
     return rows
 
 
+def full_vertices(data, off, records):
+    """File offsets of the full vertex entries (8 floats) of the model at off, walked as record_ok walks its strips."""
+    n = len(data) // 4
+    w = struct.unpack_from("<%dI" % n, data)
+    out, i = set(), off // 4 + 6
+    for _ in range(records):
+        p, e = i + 20, i + 20 + w[i + 19] // 4
+        while p < e:
+            count, p, k = w[p + 1], p + 2, 0
+            while k < count or (p < e and not (w[p] < 0x1000 and 0 < w[p + 1] <= 200)):
+                k += 1
+                f = f32(w[p])
+                if f != f or abs(f) > 1e9:
+                    p += 2
+                else:
+                    out.add(p * 4)
+                    p += 8
+        i = e
+    return out
+
+
+def weld_rows(rules, ptr_at, exe, base, by_addr, disc):
+    """Rows for [welds]: every node-tree node's welded vertices (`nodelayout ... weld=`), in drawing order: a node, its
+    children, then its next sibling, from each root (a vertex is welded after its source node was drawn)."""
+    files = dict((path.split("/")[-1].upper(), (lba, size)) for lba, size, path in disc.files())
+    layouts, rows, cache = {}, [], {}
+    for r in rules:
+        if r[0] == "nodelayout":
+            f = dict(item.split("=", 1) for item in r[2:])
+            if "weld" in f:
+                layouts[r[1]] = [int(x, 16) for x in f["weld"].split(":")] + [int(f["child"], 16), int(f["sibling"], 16),
+                                                                              int(f["parent"], 16), int(f["model"], 16)]
+    for r in rules:
+        if r[0] != "nodes" or r[1] not in layouts:
+            continue
+        rig, table, count, size, listoff, per = r[1], A(int(r[2], 16)), int(r[3]), int(r[4], 16), int(r[5], 16), int(r[6])
+        srco, cnto, srcoffs, dstoffs, childo, sibo, parento, modelo = layouts[rig]
+
+        def vertices(m):
+            key = (m["file"].upper(), m["offset"])
+            if key not in cache:
+                if m["file"].upper() not in cache:
+                    cache[m["file"].upper()] = disc.read(*files[m["file"].upper()])
+                cache[key] = full_vertices(cache[m["file"].upper()], m["offset"], m["records"])
+            return cache[key]
+        bad = 0
+        for ch in range(count):
+            arr = ptr_at(table + ch * size + listoff)
+            if not arr:
+                continue
+            index = {}
+            for i in range(per):
+                node = ptr_at(arr + 4 * i)
+                if node and node not in index:
+                    index[node] = i
+            order, todo = [], [n for n in sorted(index, key=index.get) if not ptr_at(n + parento)][::-1]
+            while todo:
+                n = todo.pop()
+                if n in order:
+                    continue
+                order.append(n)
+                todo += [x for x in (ptr_at(n + sibo), ptr_at(n + childo)) if x]
+            for node in order:
+                cnt = struct.unpack_from("<i", exe, node + cnto - base)[0]
+                src = ptr_at(node + srco)
+                if cnt <= 0 or not src:
+                    continue
+                sm, dm = by_addr.get(ptr_at(src + modelo)), by_addr.get(ptr_at(node + modelo))
+                for k in range(cnt):
+                    so = struct.unpack_from("<I", exe, node + srcoffs + 4 * k - base)[0]
+                    do = struct.unpack_from("<I", exe, node + dstoffs + 4 * k - base)[0]
+                    sv, dv = sm["offset"] + so if sm else None, dm["offset"] + do if dm else None
+                    if sv is None or dv is None or sv not in vertices(sm) or dv not in vertices(dm):
+                        bad += 1
+                    rows.append([rig, "0x%02X" % ch, str(index.get(node, "")), str(index.get(src, "")),
+                                 "%x" % sv if sv is not None else "", "%x" % dv if dv is not None else ""])
+        print("welds %s: %d rows, %d not on a full vertex" % (rig, len(rows), bad))
+    return rows
+
+
+def pose_rows(rules, disc, exe, base, rigs):
+    """Rows for [motionbones], [poses] and [scales] from the `motionskel`, `pose` and `scale` rules; fills the
+    motion columns of those rigs' [rigs] rows."""
+    files = dict((path.split("/")[-1].upper(), (lba, size)) for lba, size, path in disc.files())
+    counts = dict((r[1], int(r[3])) for r in rules if r[0] == "nodes")
+    mbones, poses, scales = [], [], []
+    for r in rules:
+        if r[0] == "motionskel":
+            rig, hdr, mfile, fmt = r[1], int(r[2], 16), r[3].upper(), r[4]
+            if mfile not in files:
+                print("motionskel %s: no disc file %s" % (rig, mfile))
+                continue
+            data = disc.read(*files[mfile])
+            flags, cnt, _, _, offs = struct.unpack_from("<5I", data, hdr)
+            n = struct.unpack_from("<I", data, cnt)[0]
+            for b in range(n):
+                order = struct.unpack_from("<I", data, flags + 4 * b)[0]
+                mbones.append([rig, str(b), "1" if order else "0"]
+                              + ["%.5f" % x for x in struct.unpack_from("<3f", data, offs + 12 * b)])
+            for row in rigs:
+                if row[0] == rig:
+                    row[3], row[4] = mfile, fmt
+            print("motionskel %s: %d bones from %s:%x" % (rig, n, mfile, hdr))
+        elif r[0] == "scale":
+            rig, table, size, off = r[1], A(int(r[2], 16)), int(r[3], 16), int(r[4], 16)
+            for i in range(counts.get(rig, 0)):
+                scales.append([rig, "0x%02X" % i, "%.5f" % struct.unpack_from("<f", exe, table + i * size + off - base)[0]])
+        elif r[0] == "pose":
+            for st in r[4:] if r[3] != "=" else []:
+                if not (st in ("root", "bind") or re.match(r"(rot|bone):\d+$", st) or re.match(r"r[xyz]:-?[0-9A-Fa-f]+$", st)
+                        or re.match(r"t:[-0-9.]+,[-0-9.]+,[-0-9.]+$", st)):
+                    print("pose %s %s: unknown step %s" % (r[1], r[2], st))
+            poses.append([r[1], r[2], r[3], " ".join(r[4:])])
+    return mbones, poses, scales
+
+
 def texture_set_rows(rules, disc, exe, base, ptr_at, by_addr):
     """Rows for [textures] from the `texturesets` rules (the set column filled), each set's models marked with it."""
     files = {path.split("/")[-1].upper(): size for lba, size, path in disc.files()}
@@ -741,6 +883,8 @@ def main():
     rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
     nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)
     placed, rigs, bones = placed + nplaced, rigs + nrigs, bones + nbones
+    mbones, poses, scales = pose_rows(rules, disc, exe, base, rigs)
+    welds = weld_rows(rules, ptr_at, exe, base, by_addr, disc)
     # notes last: they name a hex sub-group whatever rule made it (chars, nodes)
     for r in rules:
         if r[0] == "note":
@@ -763,6 +907,14 @@ def main():
         sections.append(("rigs", "rig\tkind\tgroup\tmotion_file\tmotion_format\tpose_offset\tpose_record",
                          ["\t".join(row) for row in rigs]))
         sections.append(("bones", "rig\tsub\tbone\tparent\tpart\tx\ty\tz", ["\t".join(row) for row in bones]))
+    if welds:
+        sections.append(("welds", "rig\tsub\tnode\tsrc_node\tsrc_vertex\tdst_vertex", ["\t".join(row) for row in welds]))
+    if mbones:
+        sections.append(("motionbones", "rig\tbone\torder\tx\ty\tz", ["\t".join(row) for row in mbones]))
+    if poses:
+        sections.append(("poses", "rig\tnode\tparent\tsteps", ["\t".join(row) for row in poses]))
+    if scales:
+        sections.append(("scales", "rig\tsub\tscale", ["\t".join(row) for row in scales]))
     sounds = audio_rows(disc, rules)
     if sounds:
         sections.append(("audio", "file\tindex\toffset\tbytes\tformat\tchannels\trate\tsamples\tseconds\tname", ["\t".join(r_) for r_ in sounds]))
