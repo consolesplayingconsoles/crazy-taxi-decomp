@@ -47,6 +47,11 @@ name POLDC2.BIN 0 Train
 sound SONG01.AFS 0 Menu Short
 sound SONG01.AFS 1 Menu Long
 sound SONG01.AFS 2 Character Selection
+sound SONG01.AFS 3 Song 1
+sound SONG01.AFS 4 Song 2
+sound SONG01.AFS 5 Song 3
+sound SONG01.AFS 6 Song 4
+sound SONG01.AFS 7 Song 5
 sound SONG01.AFS 8 Ranking
 sound VOICE01.AFS 0 Arrival 1
 sound VOICE01.AFS 1 Departure 1
@@ -61,6 +66,64 @@ sound VOICE01.AFS 9 Departure 3
 sound VOICE01.AFS 10 Greeting 2
 sound VOICE01.AFS 11 Call 1
 sound VOICE01.AFS 12 Rush 1
+
+# Motions, named by file and offset (kept sorted by the viewer).
+motion MOTDC.BIN 17cab4 Select Axel
+motion MOTDC.BIN 18b2c8 Axel Idle
+motion MOTDC.BIN 198b64 Selet BD Joe
+motion MOTDC.BIN 1a7504 BD Joe Idle
+motion MOTDC.BIN 1b2eb0 Select Gena
+motion MOTDC.BIN 1c16c4 Gena Idle
+motion MOTDC.BIN 1cfed8 Select Gus
+motion MOTDC.BIN 1de878 Gust Idle
+motion MOTDC.BIN 1e4554 Tennis 1
+motion MOTDC.BIN 1ea230 Tennis 2
+motion MOTDC.BIN 1eff0c Tennis Idle
+motion MOTDC.BIN 1f5d74 Back Step 1
+motion MOTDC.BIN 1fbbdc Back Step 2
+motion MOTDC.BIN 200184 Wave Both Hands
+motion MOTDC.BIN 20bcbc Side Sprint Left 1
+motion MOTDC.BIN 2177f4 Side Sprint Right 1
+motion MOTDC.BIN 22143c Side Sprint Left 2
+motion MOTDC.BIN 22b084 Side Sprint Right 2
+motion MOTDC.BIN 236bbc Side Sprint Left 3
+motion MOTDC.BIN 2426f4 Side Sprint Right 3
+motion MOTDC.BIN 24a44c Wave 1
+motion MOTDC.BIN 2521a4 Hair Back
+motion MOTDC.BIN 25674c Hop Slow
+motion MOTDC.BIN 25acf4 Hope Fast
+motion MOTDC.BIN 25b018 Idle 1
+motion MOTDC.BIN 25b33c Idle 2
+motion MOTDC.BIN 25b660 Idle 3
+motion MOTDC.BIN 25b984 Idle 4
+motion MOTDC.BIN 25bca8 Idle 5
+motion MOTDC.BIN 263244 Look Out
+motion MOTDC.BIN 263568 Idle 6
+motion MOTDC.BIN 26388c Idle 7
+motion MOTDC.BIN 267fc0 Impatient 1
+motion MOTDC.BIN 26bf38 Impatient 2
+motion MOTDC.BIN 26c25c Idle 8
+motion MOTDC.BIN 26c580 Idle 9
+motion MOTDC.BIN 2704f8 Impatient 3
+motion MOTDC.BIN 27081c Idle 10
+motion MOTDC.BIN 274794 Impatient 4
+motion MOTDC.BIN 274ab8 Idle 11
+motion MOTDC.BIN 27c810 Impatient 5
+motion MOTDC.BIN 2835f0 Impatient 6
+motion MOTDC.BIN 283914 Idle 12
+motion MOTDC.BIN 2895f0 Wave Cab 1
+motion MOTDC.BIN 28f2cc Wave Cab 2
+motion MOTDC.BIN 28f5f0 Idle 13
+motion MOTDC.BIN 28f914 Idle 14
+motion MOTDC.BIN 28fc38 Idle 15
+motion MOTDC.BIN 297990 Call Cab 1
+motion MOTDC.BIN 29d66c Call Cab 2
+motion MOTDC.BIN 2a4c08 Call Cab 3
+motion MOTDC.BIN 2a4f2c Idle 16
+motion MOTDC.BIN 2a5250 Idle 17
+motion MOTDC.BIN 2ac030 Call Cab 4
+motion MOTDC.BIN 2b2654 Jump Left
+motion MOTDC.BIN 2b8c78 Jump Right
 
 # Tables, put under a group and label (kept sorted by the viewer).
 table 0C0266C4 Tables Arrow

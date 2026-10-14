@@ -133,7 +133,9 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   Customer motions are listed in a table at `0x0C0D143C` and in `psgEnterState1`'s templates: run
   `0x0CA75D74` / `0x0CA7BBDC` (61 frames, 0.47 units a frame; `FUN_0c06b1cc` picks one of the two
   sets), walks such as `0x0CAB6BBC` (121 frames, 0.38 a frame), `0x0CA8BCBC`, `0x0CAA143C`
-  (101 frames), `0x0CB32654` (66 frames, 0.60), each with its other-set twin. Walking customers
+  (101 frames), each with its other-set twin. `0x0CB32654` and `0x0CB38C78` (66 frames each) are not
+  walks but the pedestrians' sideways leap, mirrored: the root travels 38.7 units along -x in the
+  first and +x in the second, at about the same height (10.4 to 10.6). Walking customers
   draw with `humanDraw(..., 1)` and standing ones with mode 0: mode 1 plays the motion in place,
   the movement coming from the root's steps (the Android build reads the same).
   A character's forward is its local -x: a walk's root travels along -x (`0x0CAB6BBC`: 0 to -45.4
