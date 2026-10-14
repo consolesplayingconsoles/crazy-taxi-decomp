@@ -14,7 +14,14 @@ Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer o
   [models]       one row per model: file offset bytes records radius group sub sublabel name table index used_by
                  (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
                  empty when it has none; every name is tidied: no parentheses, each word capitalised)
-  [assemblies]   one row per placed part (`assemble` rules): group sub part file offset, then a 3x4 matrix row by row
+  [assemblies]   one row per placed part (`assemble` and `nodes` rules): group sub part file offset, then a 3x4 matrix
+                 row by row
+  [rigs]         one row per skeleton: rig kind (bones or nodes) group motion_file motion_format (v, or empty) pose_offset
+                 pose_record (the motion and record the assemblies were posed with; empty for a bind pose)
+  [bones]        one row per bone: rig sub bone parent part x y z (sub: the character's sub-group for a node tree, empty
+                 for a bone rig's one shared tree; bone: the bone's number, or a node's first index in its list; parent:
+                 the parent's, empty for a root; part: the label of the part it carries, as in [assemblies] (a node
+                 tree's is its index); x y z: its rest offset in the parent's axes)
   [textures]     one row per texture (`textures` rules): model file, number, texture file, offset, size, width, height,
                  PVR data type, pixel format
   [audio]        one row per sound found: file, entry (the index in an archive), offset, bytes, format (ADX, AHX, or a
@@ -34,6 +41,16 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
   bone <rig> <bone> <parent|-> <offset addr|->  a bone: its parent and the 3 floats at <offset addr> (bind offset)
   assemble <rig> <group>                        each character of <group> (a `chars` rule) placed on the rig, one
                                                 part per slot = bone, into the [assemblies] section
+  nodes <rig> <table addr> <count> <entry size> <list offset> <nodes per entry> <group>
+                                                a node tree per character: count entries of entry size bytes, each with a
+                                                pointer at list offset to an array of node pointers (null = no node); one
+                                                character per entry under group, its index as the sub-group (addresses,
+                                                sizes and offsets hex, counts decimal)
+  nodelayout <rig> model=<off> pos=<off> rot=<off>:<unit>:<order> child=<off> sibling=<off> parent=<off>
+                                                where a node holds its model pointer, bind position (3 floats, parent's
+                                                axes), bind rotation (3 floats x y z; unit deg or rad; order as applied,
+                                                zyx = Rz * Ry * Rx) and links (pointers, null = none); local = T(pos) * R,
+                                                world = parent's world * local
   textures <model file> <texture file>          pairs a model file with a texture file of another name (e.g. an archive of
                                                 a city with that city's textures); the list in the executable that fits the
                                                 texture file's size is found by itself
@@ -47,6 +64,7 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
 import bisect
 import collections
 import hashlib
+import math
 import os
 import random
 import re
@@ -238,6 +256,106 @@ def assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base):
                     vals = ["%.5f" % x for i in range(3) for x in (Rw[i][0], Rw[i][1], Rw[i][2], t[i])]
                     rows.append([g, sub, label, m["file"], "%x" % m["offset"]] + vals)
     return rows
+
+
+def rotation(order, angles):
+    """The 3x3 matrix of rotations about x, y, z by angles (radians), applied as order reads: zyx = Rz * Ry * Rx."""
+    out = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+    for axis in order:
+        a = angles["xyz".index(axis)]
+        c, s = math.cos(a), math.sin(a)
+        R = {"x": [[1, 0, 0], [0, c, -s], [0, s, c]],
+             "y": [[c, 0, s], [0, 1, 0], [-s, 0, c]],
+             "z": [[c, -s, 0], [s, c, 0], [0, 0, 1]]}[axis]
+        out = matmul(out, R)
+    return out
+
+
+def node_trees(rules, ptr_at, exe, base, by_addr, put):
+    """Rows for [assemblies], [rigs] and [bones] from the `nodes` / `nodelayout` rules: every character's node tree,
+    each part placed by its node's world bind matrix."""
+    layouts = {}
+    for r in rules:
+        if r[0] == "nodelayout":
+            f = dict(item.split("=", 1) for item in r[2:])
+            rot = f["rot"].split(":")
+            layouts[r[1]] = {"model": int(f["model"], 16), "pos": int(f["pos"], 16), "rot": int(rot[0], 16),
+                             "scale": math.pi / 180 if rot[1] == "deg" else 1.0, "order": rot[2],
+                             "parent": int(f["parent"], 16), "child": int(f["child"], 16), "sibling": int(f["sibling"], 16)}
+    placed, rigs, bones = [], [], []
+    for r in rules:
+        if r[0] != "nodes":
+            continue
+        rig, table, count, size, listoff, per, group = (r[1], A(int(r[2], 16)), int(r[3]), int(r[4], 16), int(r[5], 16),
+                                                        int(r[6]), r[7].replace("_", " "))
+        if rig not in layouts:
+            print("nodes %s: no nodelayout rule" % rig)
+            continue
+        L = layouts[rig]
+        rigs.append([rig, "nodes", group, "", "", "", ""])
+
+        def floats(node, off):
+            return struct.unpack_from("<3f", exe, node + off - base)
+
+        def world(node, memo):
+            if node not in memo:
+                parent = ptr_at(node + L["parent"])
+                R = rotation(L["order"], [x * L["scale"] for x in floats(node, L["rot"])])
+                t = floats(node, L["pos"])
+                if parent:
+                    Rp, tp = world(parent, memo)
+                    memo[node] = (matmul(Rp, R), tuple(sum(Rp[i][k] * t[k] for k in range(3)) + tp[i] for i in range(3)))
+                else:
+                    memo[node] = (R, tuple(t))
+            return memo[node]
+        for ch in range(count):
+            arr = ptr_at(table + ch * size + listoff)
+            if not arr:
+                continue
+            index = {}                                # node -> its first index in the list
+            for i in range(per):
+                node = ptr_at(arr + 4 * i)
+                if node and node not in index:
+                    index[node] = i
+            reach, todo = set(), [n for n in index if not ptr_at(n + L["parent"])]
+            while todo:                               # every node the links reach must be in the list
+                n = todo.pop()
+                if n in reach:
+                    continue
+                reach.add(n)
+                todo += [x for x in (ptr_at(n + L["child"]), ptr_at(n + L["sibling"])) if x]
+            missing = sorted(reach - set(index))
+            if missing:
+                print("nodes %s: character %d links to nodes outside its list: %s" % (rig, ch, " ".join("%08X" % n for n in missing)))
+            sub, memo = "0x%02X" % ch, {}
+            for node, i in sorted(index.items(), key=lambda kv: kv[1]):
+                parent = ptr_at(node + L["parent"])
+                model = ptr_at(node + L["model"])
+                bones.append([rig, sub, str(i), str(index[parent]) if parent in index else "", str(i)]
+                             + ["%.5f" % x for x in floats(node, L["pos"])])
+                if model in by_addr:
+                    put(model, group, sub, "node %d" % i)
+                    Rw, t = world(node, memo)
+                    m = by_addr[model]
+                    placed.append([group, sub, str(i), m["file"], "%x" % m["offset"]]
+                                  + ["%.5f" % x for i_ in range(3) for x in (Rw[i_][0], Rw[i_][1], Rw[i_][2], t[i_])])
+    return placed, rigs, bones
+
+
+def bone_rigs(rules, exe, base, slots_by_group):
+    """Rows for [rigs] and [bones] from the `rig` / `bone` / `assemble` rules."""
+    groups = dict((r[1], r[2].replace("_", " ")) for r in rules if r[0] == "assemble")
+    rigs, bones = [], []
+    for r in rules:
+        if r[0] == "rig":
+            mbase, hdr = A(int(r[3], 16)), A(int(r[4], 16))
+            rigs.append([r[1], "bones", groups.get(r[1], ""), r[2], "v", "%x" % (hdr - mbase), r[5]])
+    for r in rules:
+        if r[0] == "bone":
+            off = struct.unpack_from("<3f", exe, A(int(r[4], 16)) - base) if r[4] != "-" else (0.0, 0.0, 0.0)
+            label = slots_by_group.get(groups.get(r[1]), {}).get(int(r[2]), "")
+            bones.append([r[1], "", r[2], "" if r[3] == "-" else r[3], label] + ["%.5f" % x for x in off])
+    return rigs, bones
 
 
 def depth(tree, b):
@@ -512,7 +630,7 @@ def main():
             if sublabel and tidy(sublabel) != sub:
                 m["sublabel"] = tidy(sublabel)
 
-    char_parts = []
+    char_parts, slots_by_group = [], {}
     for r in rules:
         kind = r[0]
         if kind == "array":
@@ -521,6 +639,7 @@ def main():
                 put(ptr_at(a + 4 * i), group, label, "", label)
         elif kind == "chars":
             a, cnt, group, slots = A(int(r[1], 16)), int(r[2], 0), r[3].replace("_", " "), pairs(r[4])
+            slots_by_group[group] = slots
             for ch in range(cnt):
                 arr = ptr_at(a + 4 * ch)
                 parts = [ptr_at(arr + 4 * i) for i in range(16)] if arr else []
@@ -558,6 +677,9 @@ def main():
                     m["sublabel"] = tidy(text)
 
     placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base)
+    rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
+    nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)
+    placed, rigs, bones = placed + nplaced, rigs + nrigs, bones + nbones
     os.makedirs(out_dir, exist_ok=True)
     sha = hashlib.sha1(exe).hexdigest()
     tex = texture_rows(rules, disc, exe, base, maxtex)
@@ -568,6 +690,10 @@ def main():
     if placed:
         sections.append(("assemblies", "group\tsub\tpart\tfile\toffset\t" + "\t".join("m%d%d" % (r_, c_) for r_ in range(3) for c_ in range(4)),
                          ["\t".join(row) for row in placed]))
+    if rigs:
+        sections.append(("rigs", "rig\tkind\tgroup\tmotion_file\tmotion_format\tpose_offset\tpose_record",
+                         ["\t".join(row) for row in rigs]))
+        sections.append(("bones", "rig\tsub\tbone\tparent\tpart\tx\ty\tz", ["\t".join(row) for row in bones]))
     sounds = audio_rows(disc, rules)
     if sounds:
         sections.append(("audio", "file\tindex\toffset\tbytes\tformat\tchannels\trate\tsamples\tseconds\tname", ["\t".join(r_) for r_ in sounds]))
