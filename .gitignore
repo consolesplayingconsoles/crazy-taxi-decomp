@@ -9,6 +9,7 @@ asm/
 objects.txt
 text-map/
 build/
+sdk-source/
 *.sigs
 report*.txt
 .env

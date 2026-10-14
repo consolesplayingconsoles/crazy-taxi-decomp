@@ -5,7 +5,7 @@ extern float _builtin_sqrtf(float);
 extern void kmGetFreeTextureMem(int *a, int *b);
 extern void nlInitPalette(int a, int b);
 extern void kmSetPaletteMode(int m);
-extern void g_0c076b40(float *t); /* the nl-side kmSetFogTable stub; functions.txt has two functions of that name */
+extern void nlFogTableSet(float *t);   /* the NAOMI library's stub that jumps to kmSetFogTable */
 extern void nlPushMatrix(int a);
 extern void FUN_0c07b220(int a);
 extern void FUN_0c077ee0(void *a);
@@ -71,7 +71,7 @@ void nlFogTableOff(void)
 
     for (i = 0; i < 128; i++)
         t[i] = 0.0f;
-    g_0c076b40(t);
+    nlFogTableSet(t);
 }
 
 void nlOuterProduct(float *a, float *b, float *out)

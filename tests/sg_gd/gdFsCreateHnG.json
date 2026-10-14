@@ -1,0 +1,244 @@
+{
+ "dev": [
+  {
+   "about": "active",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000003"
+   },
+   "calls": []
+  },
+  {
+   "about": "free size 0",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000010",
+    "r6": "00000020",
+    "r7": "00000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "size 1",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000010",
+    "r6": "00000020",
+    "r7": "00000001"
+   },
+   "calls": []
+  },
+  {
+   "about": "size 2048",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000003",
+    "r6": "00000004",
+    "r7": "00000800"
+   },
+   "calls": []
+  },
+  {
+   "about": "size 2049",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000003",
+    "r6": "00000004",
+    "r7": "00000801"
+   },
+   "calls": []
+  },
+  {
+   "about": "size 4096",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000005",
+    "r6": "00000006",
+    "r7": "00001000"
+   },
+   "calls": []
+  },
+  {
+   "about": "negative size",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000005",
+    "r6": "00000006",
+    "r7": "FFFFFFFF"
+   },
+   "calls": []
+  },
+  {
+   "about": "neg tag",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "feff"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000005",
+    "r6": "00000006",
+    "r7": "00000064"
+   },
+   "calls": []
+  }
+ ],
+ "holdout": [
+  {
+   "about": "active -1",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000003"
+   },
+   "calls": []
+  },
+  {
+   "about": "active 0x100 (short)",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50001a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000003"
+   },
+   "calls": []
+  },
+  {
+   "about": "active 0x7fff",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ff7fa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000003"
+   },
+   "calls": []
+  },
+  {
+   "about": "size max",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "FFFFFFFF",
+    "r6": "80000000",
+    "r7": "7FFFFFFF"
+   },
+   "calls": []
+  },
+  {
+   "about": "size min",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000007",
+    "r6": "00000008",
+    "r7": "80000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "size -2048",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000007",
+    "r6": "00000008",
+    "r7": "FFFFF800"
+   },
+   "calls": []
+  },
+  {
+   "about": "size -2049",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000007",
+    "r6": "00000008",
+    "r7": "FFFFF7FF"
+   },
+   "calls": []
+  },
+  {
+   "about": "size 2047",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "5713"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000009",
+    "r6": "00000009",
+    "r7": "000007FF"
+   },
+   "calls": []
+  },
+  {
+   "about": "tag min",
+   "poke": {
+    "0C840000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C174E94": "0080"
+   },
+   "regs": {
+    "r4": "0C840000",
+    "r5": "00000001",
+    "r6": "00000001",
+    "r7": "00000005"
+   },
+   "calls": []
+  }
+ ]
+}

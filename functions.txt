@@ -1120,7 +1120,7 @@ F 0c076a40 60 nlPrintf
 F 0c076ac0 48 nlFogTableOff
 F 0c076af0 58 nlFogTableColor
 F 0c076b30 8 njSetRenderWidth
-F 0c076b40 6 kmSetFogTable
+F 0c076b40 6 nlFogTableSet
 F 0c076b50 66 nlFogDensityF
 F 0c076bb0 48 nlRenderTextureInit
 F 0c076be0 16 nlRenderTextureSet
@@ -1306,7 +1306,7 @@ F 0c07d650 56 FUN_0c07d650
 F 0c07d6a0 46 FUN_0c07d6a0
 F 0c07d6e0 84 FUN_0c07d6e0
 F 0c07d7b0 158 nlInitSprite
-F 0c07d860 484 FUN_0c07d860
+F 0c07d860 484 nlSpriteLoadTextureOnce_Sub
 F 0c07daf0 70 nlObjPutSetReplaceTextureDirName
 F 0c07db90 114 FUN_0c07db90
 F 0c07dcf0 274 FUN_0c07dcf0
@@ -1612,7 +1612,7 @@ F 0c14d89e 268 gdFsLoadDirG
 F 0c14d9aa 4 gdFsLoadDirFastG
 F 0c14d9ae 68 gdFsSetDirG
 F 0c14da16 74 gdFsGetDirInfoG
-F 0c14da60 92 gdFsCreateHnG
+F 0c14da60 112 gdFsCreateHnG
 F 0c14dad0 120 gdFsOpenG
 F 0c14db48 4 gdFsOpenFastG
 F 0c14db4c 114 gdFsOpenRangeG
@@ -1648,7 +1648,8 @@ F 0c14e748 286 _pd_peripheral_set_data
 F 0c14e8dc 34 convert_support
 F 0c14e8fe 80 _pd_peripheral_set_id
 F 0c14e94e 52 _pd_peripheral_error
-F 0c14e982 50 pdExecPeripheralServer
+F 0c14e982 12 pdExecPeripheralServer
+D 0c14e98e 0 data_0c14e98e
 F 0c14e9b4 174 pdExecPeripheralServerUser
 F 0c14ea88 12 pdGetPeripheral
 F 0c14eaac 72 pdExitPeripheral
@@ -2095,7 +2096,7 @@ F 0c160a5e 198 syChainClx1Handler
 F 0c160b24 314 syChainDeleteHandler
 F 0c160cb0 362 FUN_0c160cb0
 F 0c160e88 174 FUN_0c160e88
-F 0c160f36 70 FUN_0c160f36
+F 0c160f36 70 syMmuDeleteAllEntries
 F 0c160ff4 296 syG2Read
 F 0c16113c 396 syG2SysInit
 F 0c161314 388 syG2Write

@@ -37,14 +37,6 @@ extern char *g_8c47317c;
 extern char *g_8c1feb48;
 
 
-
-float nlCosh(unsigned short x)
-{
-    float e = nlExp((float)x * 6.2831855f / 65536.0f);
-    return (e + 1.0f / e) / 2.0f;
-}
-
-
 int gdFsOpen(int a, int b, int c, int d)
 {
     struct gdfs_ops *o = g_8c20c210;

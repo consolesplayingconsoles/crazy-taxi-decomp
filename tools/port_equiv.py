@@ -20,7 +20,8 @@ src/*.c with tests/<file>/<function>.json). For every function the source has as
    cases to tests/<tag>_<file>/<function>.json with their addresses translated (mapped addresses, and the
    other 0C... RAM addresses of the source moved to the destination's 8C... base).
 4. Run the destination's own `tools/equiv.py -q` on the ported file; a function whose body names something
-   still unmapped (a link error) is dropped and the run repeated. Only what equiv.py prints EQUIVALENT counts:
+   still unmapped (a link error) is dropped and the run repeated. Only what equiv.py prints EQUIVALENT stays: the
+   file keeps those (and what an earlier port put in it), the cases of the rest are removed. Only that counts:
    the destination's tests/equivalent.txt and docs/equivalent.md are its own tool's output.
 --dry: stop after the matches and the plan. Run the destination's `build.sh` afterwards (names changed: MATCH).
 """
@@ -250,9 +251,15 @@ def main(argv):
             continue
         pre, defs = split_c(text)
         stem = '%s_%s' % (tag, f[:-2])
+        out_c = os.path.join(dst['path'], 'src', stem + '.c')
+        keep = []                      # what an earlier port already put in this file stays in it
+        if os.path.exists(out_c):
+            _, old = split_c(open(out_c, errors='replace').read())
+            keep = [n for n, _ in old if n not in mine and n in dict(defs)]
+        tried = list(mine)
         for attempt in range(6):
-            body = ''.join(pre) + '\n'.join(t for n, t in defs if n in mine or t.lstrip().startswith('static')) + '\n'
-            open(os.path.join(dst['path'], 'src', stem + '.c'), 'w').write(
+            body = ''.join(pre) + '\n'.join(t for n, t in defs if n in mine or n in keep or t.lstrip().startswith('static')) + '\n'
+            open(out_c, 'w').write(
                 '/* Ported from %s (src/%s) by scripts/port_equiv.py: only the functions the destination has. */\n'
                 % (os.path.basename(src['path'].rstrip('/')), f) + body)
             tdir = os.path.join(dst['path'], 'tests', stem)
@@ -296,6 +303,25 @@ def main(argv):
                 col = line.split()
                 results[n] = 'EQUIVALENT' if len(col) > 1 and col[1] == 'EQUIVALENT' else (line[29:140] or 'no result')
             break
+        # only what passed stays: the file keeps the functions that are Equivalent here (and what it already held), and
+        # the cases of the others go
+        passed = [n for n in tried if results.get(n) == 'EQUIVALENT']
+        for n in tried:
+            if n not in passed:
+                case = os.path.join(dst['path'], 'tests', stem, n + '.json')
+                if os.path.exists(case):
+                    os.remove(case)
+        tdir = os.path.join(dst['path'], 'tests', stem)
+        if not passed and not keep:
+            if os.path.exists(out_c):
+                os.remove(out_c)
+            if os.path.isdir(tdir) and not os.listdir(tdir):
+                os.rmdir(tdir)
+        elif passed != tried:
+            body = ''.join(pre) + '\n'.join(t for n, t in defs if n in passed or n in keep or t.lstrip().startswith('static')) + '\n'
+            open(out_c, 'w').write(
+                '/* Ported from %s (src/%s) by scripts/port_equiv.py: only the functions the destination has. */\n'
+                % (os.path.basename(src['path'].rstrip('/')), f) + body)
     for n, why in report:
         results.setdefault(n, why)
     ok = sorted(n for n, v in results.items() if v == 'EQUIVALENT')

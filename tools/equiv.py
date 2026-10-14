@@ -8,7 +8,7 @@ address with every outside name it uses defined at the game's address (functions
 globals.txt, symbols.txt), and runs each of its functions in tools/sh4sim.py twice per case:
 the original bytes at the original address, then the compiled C. The two runs must agree on
 every call out (target and arguments, in order), the memory they leave behind (the final value at
-every address either one wrote) and the return register. The cases
+every address either one wrote), the return register and the final SR without its M, Q, S, T flags (a case may set the starting SR: "sr"). The cases
 are tests/<file>/<function>.json: a list of sh4sim cases without exe/entry/end (filled in
 here), or {"dev": [...], "holdout": [...]} (holdout: cases written after the C passed the dev ones,
 so they were not fitted to); a case may name a RAM dump ("dump": path relative to the repo) and
@@ -184,8 +184,10 @@ def same(a, b, outs, back, arity=None):
     the compiled C (one of its own functions or data) to the game's address of the same name."""
     arity = arity or {}
     fix = lambda h: '%08X' % back.get(int(h, 16), int(h, 16))
-    for k in ('error', 'out', 'calls', 'writes', 'devices'):
-        x, y = a[k], b[k]
+    for k in ('error', 'out', 'calls', 'writes', 'devices', 'sr'):
+        x, y = a.get(k), b.get(k)
+        if k == 'sr' and x and y:          # the state SR keeps (interrupt mask...), not the M, Q, S, T flags
+            x, y = '%08X' % (int(x, 16) & 0xFFFFFCFC), '%08X' % (int(y, 16) & 0xFFFFFCFC)
         if k == 'out':
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':

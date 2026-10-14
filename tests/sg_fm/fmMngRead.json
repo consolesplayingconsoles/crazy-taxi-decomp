@@ -1,0 +1,185 @@
+{
+ "dev": [
+  {
+   "about": "null state",
+   "poke": {
+    "0C178720": "00000000"
+   },
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000009"
+   },
+   "calls": []
+  },
+  {
+   "about": "busy",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a501000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000009"
+   },
+   "calls": []
+  },
+  {
+   "about": "ok",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000002",
+    "r5": "00000077"
+   },
+   "calls": []
+  },
+  {
+   "about": "neg index",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "FFFFFFFF",
+    "r5": "00000005"
+   },
+   "calls": []
+  },
+  {
+   "about": "index==count",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000004",
+    "r5": "00000005"
+   },
+   "calls": []
+  },
+  {
+   "about": "index 0",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000001"
+   },
+   "calls": []
+  },
+  {
+   "about": "index count-1",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000003",
+    "r5": "00000002"
+   },
+   "calls": []
+  }
+ ],
+ "holdout": [
+  {
+   "about": "busy neg",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000a5a5a5a5ffffffffa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000009"
+   },
+   "calls": []
+  },
+  {
+   "about": "count 0",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000009"
+   },
+   "calls": []
+  },
+  {
+   "about": "count neg",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5fbffffffa5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "FFFFFFFA",
+    "r5": "00000009"
+   },
+   "calls": []
+  },
+  {
+   "about": "big index",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffff7fa5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "7FFFFFFE",
+    "r5": "80000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "min index",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a503000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "80000000",
+    "r5": "00000001"
+   },
+   "calls": []
+  },
+  {
+   "about": "index>count",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a503000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "7FFFFFFF",
+    "r5": "00000001"
+   },
+   "calls": []
+  },
+  {
+   "about": "busy and bad idx",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a503000000a5a5a5a502000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "FFFFFFFF",
+    "r5": "00000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "arg ffffffff",
+   "poke": {
+    "0C178720": "0000820c",
+    "0C820000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50a000000a5a5a5a500000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "regs": {
+    "r4": "00000009",
+    "r5": "FFFFFFFF"
+   },
+   "calls": []
+  }
+ ]
+}

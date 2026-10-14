@@ -1,0 +1,54 @@
+{
+ "dev": [
+  {
+   "about": "zero",
+   "poke": {
+    "0C174EFC": "00000000"
+   },
+   "regs": {},
+   "calls": []
+  },
+  {
+   "about": "one",
+   "poke": {
+    "0C174EFC": "01000000"
+   },
+   "regs": {},
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "-1",
+   "poke": {
+    "0C174EFC": "ffffffff"
+   },
+   "regs": {},
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "min",
+   "poke": {
+    "0C174EFC": "00000080"
+   },
+   "regs": {},
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "256",
+   "poke": {
+    "0C174EFC": "00010000"
+   },
+   "regs": {},
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

@@ -55,7 +55,7 @@ no arguments. Reading the code stays the evidence; a live value confirms it or s
    Before writing C, run the three checks (`references/equivalent-pipeline.md` in the kickoff skill): the
    size is right (`python3 tools/checksizes.py <name>`: a literal pool mid-body ends a listing early), the
    function can be C (`python3 tools/classify.py <name>`: FPU register banks, `fsrra`, control registers
-   cannot) and every name it uses exists (`python3 tools/poollist.py <name>`; `python3 tools/shdis.py --func <name>`
+   other than SR cannot) and every name it uses exists (`python3 tools/poollist.py <name>`; `python3 tools/shdis.py --func <name>`
    prints it).
 3. **Check**: `python3 tools/equiv.py src/<file>.c` (`-q`: only what is not Equivalent). Each function runs in the SH-4 interpreter
    twice per case, the original bytes and your compiled C, and must agree on calls (target and the

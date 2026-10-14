@@ -5,7 +5,7 @@ extern int FUN_0c085dfc(void *buf, char *fmt, void *args);
 extern int nlPuts(void *buf);
 extern int FUN_0c077b50(void *m);
 extern int FUN_0c077290(int n, void *m);
-extern int FUN_0c07d860(void *p, void *name, int i, int z);
+extern int nlSpriteLoadTextureOnce_Sub(void *p, void *name, int i, int z);
 extern int FUN_0c080990(void *a, int b);
 extern int FUN_0c080c50(int a, int b);
 extern int kmSetPaletteData(void *p);
@@ -128,7 +128,7 @@ int nlObjPutSetReplaceTextureDirName(char *p, void *name)
     acc = 0;
     i = 0;
     for (e = p; *(int *)(e + 4) != -1; e += 16) {
-        acc |= FUN_0c07d860(p, name, i, 0);
+        acc |= nlSpriteLoadTextureOnce_Sub(p, name, i, 0);
         i++;
     }
     return acc;

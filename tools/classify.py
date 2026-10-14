@@ -6,7 +6,8 @@
 Reads each function's disassembly and says "ok" or "blocked: <why>" before anyone writes C:
   FPU register banks (frchg, fschg, ftrv, XMTRX): the C cannot name the second bank
   fsrra, fsca: the simulator has no such instruction
-  system registers and cache (ldc, stc, ocbi, pref, movca, trapa, sleep, SR/GBR/VBR moves): not C
+  system registers and cache (ldc, stc, ocbi, pref, movca, trapa, sleep, GBR/VBR moves): not C; moving SR to or
+  from a register is fine (SHC's get_imask/set_imask, get_cr/set_cr; the simulator keeps SR)
   fipr, fmac: ok, but the cases use values that are exact in float (fipr sums with one rounding)
 A function that takes a variable argument list, or passes the address of its own stack area on, cannot
 be told from the disassembly: the first case that differs shows it.
@@ -48,7 +49,8 @@ def main():
             elif w & 0xF0FF == 0xF0ED: t = 'fipr'
             elif w & 0xF3FF == 0xF1FD: t = 'ftrv'
             text.append(t)
-        why = sorted({r for t in text for k, r in BLOCK if t.startswith(k)})
+        sr = lambda t: t.startswith('stc sr,') or (t.startswith('ldc r') and t.endswith(',sr'))   # SR moves: simulated
+        why = sorted({r for t in text for k, r in BLOCK if t.startswith(k) and not sr(t)})
         note = sorted({r for t in text for k, r in NOTE if t.startswith(k)})
         print('%08x %4d %-32s %s%s' % (a, sz, n, ('blocked: ' + ', '.join(why)) if why else 'ok',
                                        ('  (' + ', '.join(note) + ')') if note else ''))

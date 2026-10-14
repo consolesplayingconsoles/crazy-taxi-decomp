@@ -1,0 +1,60 @@
+{
+ "dev": [
+  {
+   "about": "mask 0",
+   "sr": "40000000",
+   "poke": {},
+   "regs": {},
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "mask 15",
+   "sr": "400000F0",
+   "poke": {},
+   "regs": {},
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "mask 7, T and S set",
+   "sr": "40000073",
+   "poke": {},
+   "regs": {},
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mask 3, M and Q set",
+   "sr": "40000330",
+   "poke": {},
+   "regs": {},
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  },
+  {
+   "about": "mask 12",
+   "sr": "400000C1",
+   "poke": {},
+   "regs": {},
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

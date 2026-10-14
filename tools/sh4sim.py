@@ -19,7 +19,7 @@ stops the run. fipr and ftrv are exact here, approximate on the hardware: only t
 between two runs of this interpreter is meaningful, never a value against the console's.
 
 The case (JSON): {"exe": path, "base": hex, "dump": path, "entry": hex, "end": hex,
-"regs": {"r4": hex, "fr4": float, ...}, "poke": {hex addr: hex bytes}, "calls": [{"r0": hex,
+"regs": {"r4": hex, "fr4": float, ...}, "sr": hex (optional, the starting SR), "poke": {hex addr: hex bytes}, "calls": [{"r0": hex,
 "fr0": float, "poke_arg": {"r7": hexbytes}}, ...], "steps": max}. Paths are relative to the case file.
 A call's "poke_arg" writes those bytes at the address the named register holds when the call is made.
 """
@@ -135,6 +135,7 @@ class CPU:
         self.m = mem
         self.r = [0] * 16
         self.t = self.s = self.q = self.mq = 0
+        self.srx = 0x40000000         # SR's other bits (MD = 1, interrupt mask 0): read by stc sr, written by ldc sr
         self.gbr = self.mach = self.macl = self.pr = self.pc = 0
         self.fpul = 0
         self.fr = [0] * 16        # float32 bits, current bank
@@ -166,7 +167,13 @@ class CPU:
         self.fr[n] = f_bits(x)
 
     def sr(self):
-        return (self.mq << 9) | (self.q << 8) | (self.s << 1) | self.t
+        return self.srx | (self.mq << 9) | (self.q << 8) | (self.s << 1) | self.t
+
+    def set_sr(self, x):
+        if (x ^ self.srx) & 0x30000000:
+            raise Stop('ldc sr changes the register bank or the block bit (not modelled)')
+        self.t, self.s, self.q, self.mq = x & 1, (x >> 1) & 1, (x >> 8) & 1, (x >> 9) & 1
+        self.srx = x & 0xFFFFFCFC
 
     # one instruction; returns a pending branch target (delayed) or None
     def step(self, in_slot=False):
@@ -322,6 +329,7 @@ class CPU:
             if lo8 == 0x5a: self.fpul = x; return
             if lo8 == 0x6a: self.set_fpscr(x); return
             if lo8 == 0x1e: self.gbr = x; return
+            if lo8 == 0x0e: self.set_sr(x); return                         # ldc rm,sr
             if lo8 in (0x02, 0x12, 0x22, 0x52, 0x62, 0x13):               # sts.l / stc.l gbr
                 v = {0x02: self.mach, 0x12: self.macl, 0x22: self.pr, 0x52: self.fpul,
                      0x62: self.get_fpscr(), 0x13: self.gbr}[lo8]
@@ -572,6 +580,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     cpu = CPU(mem)
     cpu.lo, cpu.hi = entry, end
     cpu.r[15] = STACK_TOP - 0x100
+    if 'sr' in case:                                     # the starting SR (interrupt mask and the rest)
+        cpu.set_sr(int(case['sr'], 16))
     for k, v in case.get('regs', {}).items():
         if k.startswith('fr'):
             cpu.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
@@ -618,7 +628,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             cpu.step()
     except Stop as e:
         error = str(e)
-    return {'error': error, 'steps': cpu.steps, 'calls': calls,
+    return {'error': error, 'steps': cpu.steps, 'calls': calls, 'sr': '%08X' % cpu.sr(),
             'writes': [['%08X' % a, s, '%0*X' % (s * 2, v)] for a, s, v in mem.writes],
             'devices': [[k, '%08X' % a, s, '%0*X' % (s * 2, v)] for k, a, s, v in mem.devices],
             'out': {'r0': '%08X' % cpu.r[0], 'r1': '%08X' % cpu.r[1],
