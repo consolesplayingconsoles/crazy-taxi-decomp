@@ -9,7 +9,8 @@ pointers to the models' starts, then every pointer to a model is followed back t
 it, and the table is named by (1) a rule in models.txt (curated: a table whose layout is known),
 (2) a data symbol, (3) the functions that use the table.
 
-Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer or a spreadsheet): `# dcgs v3`, `# sha1`
+Writes <out dir>/game.dcgs (tab-separated text in sections, for a model viewer or a spreadsheet): `# dcgs <version>` (the skill version
+that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run from the skill), `# sha1`
 (of the executable), `# base`, `# sections ...`, then each section as `[name]`, a header row and its rows:
   [models]       one row per model: file offset bytes records radius group sub sublabel name table index used_by
                  (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
@@ -517,9 +518,22 @@ def audio_rows(disc, rules):
     return rows
 
 
+def skill_version():
+    """The version game.dcgs states: the KICKOFF file of the repo this tool is in (tools/..), or the skill's VERSION
+    file when run from the skill (scripts/..). The map format is the skill version: no separate format number."""
+    for name in ("KICKOFF", "VERSION"):
+        path = os.path.join(os.path.dirname(HERE), name)
+        if os.path.isfile(path):
+            v = open(path).read().strip()
+            if v:
+                return v
+    sys.exit("[ERROR] no version: %s has no KICKOFF (in a repo) or VERSION (in the skill) file" % os.path.dirname(HERE))
+
+
 def main():
     if len(sys.argv) < 6:
         sys.exit(__doc__)
+    version = skill_version()
     exe_path, base, fn_path, gdi, out_dir = sys.argv[1], A(int(sys.argv[2], 16)), sys.argv[3], sys.argv[4], sys.argv[5]
     rules = read_rules(sys.argv[6] if len(sys.argv) > 6 else os.path.join(os.path.dirname(HERE), "models.txt"))
     exe = open(exe_path, "rb").read()
@@ -700,7 +714,7 @@ def main():
     if tex:
         sections.append(("textures", "file\tnumber\ttexture_file\toffset\tsize\twidth\theight\ttype\tformat", ["\t".join(row) for row in tex]))
     with open(os.path.join(out_dir, "game.dcgs"), "w") as out:
-        out.write("# dcgs v3\n# sha1 %s\n# base %08X\n# sections %s\n" % (sha, base, " ".join(n for n, _, _ in sections)))
+        out.write("# dcgs %s\n# sha1 %s\n# base %08X\n# sections %s\n" % (version, sha, base, " ".join(n for n, _, _ in sections)))
         for name, head, rows in sections:
             out.write("[%s]\n%s\n" % (name, head))
             for row in rows:
