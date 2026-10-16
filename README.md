@@ -1,5 +1,7 @@
 # Crazy Taxi decomp
 
+![decomp progress](badge.svg)
+
 A decompilation of the Dreamcast **Crazy Taxi**, in progress. A function is **done** when its C behaves like the original (Equivalent, checked by `tools/equiv.py`); byte-identical C (Matching) is the bonus tier. It rebuilds the game's
 executable byte for byte from one assembly file per function, with Equivalent C for a growing
 share of its functions (`src/`, `tests/`) and a few matching units; names, structures and what is known about the engine are in `docs/engine.md`,

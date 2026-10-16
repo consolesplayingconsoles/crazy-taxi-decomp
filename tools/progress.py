@@ -16,6 +16,9 @@ whether it is done or not. sdk.txt only marks which functions are library, to sh
 The project's main metric ("done: equivalent C") is the FIRST row of the first section, and its label
 stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/homebrew/decompMetric.ts,
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
+
+It also writes badge.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
+hook stages it with the Progress block.
 """
 import os, re, subprocess, sys
 
@@ -121,6 +124,38 @@ if os.path.exists('model-map/game.dcgs'):
     if re_rows:
         rows += [('REVERSE ENGINEERING', '', 'what the model map identifies; separate from the measures above, not done work')]
         rows += [row for n, row in re_rows]
+def write_badge(rows, label, path='badge.svg'):
+    """badge.svg beside the README: the label, a bar filled to the main metric ("done: ...") and its percentage, in
+    Pluto's colours. One metric only; the number is always printed, so colour carries no meaning on its own."""
+    done = 0.0
+    for n, p, _ in rows:
+        if n.strip().startswith('done:'):
+            try:
+                done = float(p.strip().rstrip('%'))
+            except ValueError:
+                done = 0.0
+            break
+    bar = 64
+    wd = int(round(bar * min(done, 100.0) / 100.0))
+    if done > 0 and wd < 2:
+        wd = 2
+    text = '%.1f%%' % done
+    title = '%s: %s done' % (label, text)
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="182" height="20" role="img" aria-label="%s">'
+           '<title>%s</title><clipPath id="r"><rect width="182" height="20" rx="3"/></clipPath>'
+           '<g clip-path="url(#r)"><rect width="52" height="20" fill="#1a2233"/><rect x="52" width="130" height="20" fill="#2a3347"/>'
+           '<rect x="60" y="6" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
+           '<rect x="60" y="6" width="%d" height="8" rx="2" fill="#c87053"/></g>'
+           '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
+           '<text x="26" y="14">%s</text><text x="154" y="14">%s</text></g></svg>\n'
+           % (title, title, bar, wd, label, text))
+    try:
+        open(path, 'w').write(svg)
+    except OSError:
+        pass
+
+
+write_badge(rows, 'decomp')
 w = max(len(r[0]) for r in rows)
 for name, p, detail in rows:
     print('%-*s  %7s  %s' % (w, name, p, detail))
