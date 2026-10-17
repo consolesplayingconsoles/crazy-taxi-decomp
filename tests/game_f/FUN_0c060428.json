@@ -1,0 +1,34 @@
+{
+ "dev": [
+  {
+   "about": "clears and sets",
+   "poke": {
+    "0C2A9FB0": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A9FD0": "0000000000000000000000000000000000000000000000000000000000000000",
+    "0C2A9FAC": "ffffffff",
+    "0C2A9FF0": "ffffffff"
+   },
+   "calls": [
+    {},
+    {
+     "r0": "00000001"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C2A9FB0": "0101010101010101010101010101010101010101010101010101010101010101",
+    "0C2A9FD0": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {
+     "r0": "00000009"
+    }
+   ]
+  }
+ ]
+}

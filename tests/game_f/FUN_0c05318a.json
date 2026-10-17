@@ -1,0 +1,34 @@
+{
+ "dev": [
+  {
+   "about": "init",
+   "regs": {
+    "r4": "00000007"
+   },
+   "poke": {
+    "0C2A75E0": "00000000",
+    "0C2A8E94": "ffffffff",
+    "0C2A8E98": "ffffffff"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C2A75E0": "0f0f0f0f"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

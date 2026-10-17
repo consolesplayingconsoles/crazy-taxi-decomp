@@ -54,12 +54,15 @@ FUN_0c02dd52
 FUN_0c02dd5a
 FUN_0c02e36c
 FUN_0c02e572
+FUN_0c02e58a
 FUN_0c02e75a
+FUN_0c02e800
 FUN_0c02e90e
 FUN_0c02f14c
 FUN_0c0300b6
 FUN_0c03019a
 FUN_0c0301bc
+FUN_0c030e34
 FUN_0c031036
 FUN_0c031048
 FUN_0c0310a0
@@ -85,6 +88,7 @@ FUN_0c051d22
 FUN_0c05308c
 FUN_0c0530a0
 FUN_0c05317e
+FUN_0c05318a
 FUN_0c05328a
 FUN_0c053292
 FUN_0c0532a4
@@ -107,9 +111,11 @@ FUN_0c05df48
 FUN_0c05df5e
 FUN_0c05f482
 FUN_0c05f93c
+FUN_0c060428
 FUN_0c06047c
 FUN_0c06048c
 FUN_0c060616
+FUN_0c060660
 FUN_0c067a28
 FUN_0c0742f0
 FUN_0c074300
@@ -184,6 +190,7 @@ GetMenuMode
 GetNumRideon
 InitAdvCamera
 InitHelicopter
+IsBoyFriend
 KillColliObj
 Psg_SetMoveSpeed
 Psg_SetPosPtr
@@ -257,6 +264,7 @@ extRandomSeed
 fmMngRead
 frameFlip
 gameState11
+gameState4
 gameState9
 gdFsCheckEof
 gdFsClose
