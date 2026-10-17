@@ -1,0 +1,51 @@
+{
+ "dev": [
+  {
+   "about": "pattern ff",
+   "poke": {
+    "0C0E4A04": "ff060d141b222930"
+   },
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "pattern 00",
+   "poke": {
+    "0C0E4A04": "00070e151c232a31"
+   },
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "pattern a5",
+   "poke": {
+    "0C0E4A04": "a5acb3bac1c8cfd6"
+   },
+   "regs": {
+    "fr4": 0.1
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pattern 3c",
+   "poke": {
+    "0C0E4A04": "3c434a51585f666d"
+   },
+   "regs": {
+    "fr4": 1000000000.0
+   }
+  },
+  {
+   "about": "pattern c3",
+   "poke": {
+    "0C0E4A04": "c3cad1d8dfe6edf4"
+   },
+   "regs": {
+    "fr4": -0.0
+   }
+  }
+ ]
+}

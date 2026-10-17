@@ -1,0 +1,56 @@
+{
+ "dev": [
+  {
+   "about": "pattern ff",
+   "poke": {
+    "0C2EAB9C": "ff060d141b222930",
+    "0C178304": "ff060d141b222930"
+   },
+   "regs": {
+    "r4": "11111115"
+   }
+  },
+  {
+   "about": "pattern 00",
+   "poke": {
+    "0C2EAB9C": "00070e151c232a31",
+    "0C178304": "00070e151c232a31"
+   },
+   "regs": {
+    "r4": "00000005"
+   }
+  },
+  {
+   "about": "pattern a5",
+   "poke": {
+    "0C2EAB9C": "a5acb3bac1c8cfd6",
+    "0C178304": "a5acb3bac1c8cfd6"
+   },
+   "regs": {
+    "r4": "00000003"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pattern 3c",
+   "poke": {
+    "0C2EAB9C": "3c434a51585f666d",
+    "0C178304": "3c434a51585f666d"
+   },
+   "regs": {
+    "r4": "80000003"
+   }
+  },
+  {
+   "about": "pattern c3",
+   "poke": {
+    "0C2EAB9C": "c3cad1d8dfe6edf4",
+    "0C178304": "c3cad1d8dfe6edf4"
+   },
+   "regs": {
+    "r4": "80000004"
+   }
+  }
+ ]
+}

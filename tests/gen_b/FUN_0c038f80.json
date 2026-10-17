@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "pattern ff",
+   "poke": {
+    "0C275944": "ff060d141b222930"
+   }
+  },
+  {
+   "about": "pattern 00",
+   "poke": {
+    "0C275944": "00070e151c232a31"
+   }
+  },
+  {
+   "about": "pattern a5",
+   "poke": {
+    "0C275944": "a5acb3bac1c8cfd6"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pattern 3c",
+   "poke": {
+    "0C275944": "3c434a51585f666d"
+   }
+  },
+  {
+   "about": "pattern c3",
+   "poke": {
+    "0C275944": "c3cad1d8dfe6edf4"
+   }
+  }
+ ]
+}

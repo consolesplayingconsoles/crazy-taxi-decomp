@@ -1,0 +1,126 @@
+{
+ "dev": [
+  {
+   "about": "pattern ff",
+   "poke": {
+    "0C2A7604": "ff060d141b222930",
+    "0C2A8070": "ff060d141b222930",
+    "0C2A7608": "ff060d141b222930",
+    "0C2A8074": "ff060d141b222930",
+    "0C2A8078": "ff060d141b222930",
+    "0C2A807C": "ff060d141b222930",
+    "0C2A8080": "ff060d141b222930",
+    "0C2A8084": "ff060d141b222930",
+    "0C2A8088": "ff060d141b222930",
+    "0C2A808C": "ff060d141b222930",
+    "0C2A8090": "ff060d141b222930",
+    "0C2A8094": "ff060d141b222930",
+    "0C2A80A0": "ff060d141b222930",
+    "0C2A8098": "ff060d141b222930",
+    "0C2A809C": "ff060d141b222930",
+    "0C2A8DF4": "ff060d141b222930",
+    "0C2A8DF8": "ff060d141b222930",
+    "0C2A8DFC": "ff060d141b222930",
+    "0C2A8E30": "ff060d141b222930"
+   }
+  },
+  {
+   "about": "pattern 00",
+   "poke": {
+    "0C2A7604": "00070e151c232a31",
+    "0C2A8070": "00070e151c232a31",
+    "0C2A7608": "00070e151c232a31",
+    "0C2A8074": "00070e151c232a31",
+    "0C2A8078": "00070e151c232a31",
+    "0C2A807C": "00070e151c232a31",
+    "0C2A8080": "00070e151c232a31",
+    "0C2A8084": "00070e151c232a31",
+    "0C2A8088": "00070e151c232a31",
+    "0C2A808C": "00070e151c232a31",
+    "0C2A8090": "00070e151c232a31",
+    "0C2A8094": "00070e151c232a31",
+    "0C2A80A0": "00070e151c232a31",
+    "0C2A8098": "00070e151c232a31",
+    "0C2A809C": "00070e151c232a31",
+    "0C2A8DF4": "00070e151c232a31",
+    "0C2A8DF8": "00070e151c232a31",
+    "0C2A8DFC": "00070e151c232a31",
+    "0C2A8E30": "00070e151c232a31"
+   }
+  },
+  {
+   "about": "pattern a5",
+   "poke": {
+    "0C2A7604": "a5acb3bac1c8cfd6",
+    "0C2A8070": "a5acb3bac1c8cfd6",
+    "0C2A7608": "a5acb3bac1c8cfd6",
+    "0C2A8074": "a5acb3bac1c8cfd6",
+    "0C2A8078": "a5acb3bac1c8cfd6",
+    "0C2A807C": "a5acb3bac1c8cfd6",
+    "0C2A8080": "a5acb3bac1c8cfd6",
+    "0C2A8084": "a5acb3bac1c8cfd6",
+    "0C2A8088": "a5acb3bac1c8cfd6",
+    "0C2A808C": "a5acb3bac1c8cfd6",
+    "0C2A8090": "a5acb3bac1c8cfd6",
+    "0C2A8094": "a5acb3bac1c8cfd6",
+    "0C2A80A0": "a5acb3bac1c8cfd6",
+    "0C2A8098": "a5acb3bac1c8cfd6",
+    "0C2A809C": "a5acb3bac1c8cfd6",
+    "0C2A8DF4": "a5acb3bac1c8cfd6",
+    "0C2A8DF8": "a5acb3bac1c8cfd6",
+    "0C2A8DFC": "a5acb3bac1c8cfd6",
+    "0C2A8E30": "a5acb3bac1c8cfd6"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pattern 3c",
+   "poke": {
+    "0C2A7604": "3c434a51585f666d",
+    "0C2A8070": "3c434a51585f666d",
+    "0C2A7608": "3c434a51585f666d",
+    "0C2A8074": "3c434a51585f666d",
+    "0C2A8078": "3c434a51585f666d",
+    "0C2A807C": "3c434a51585f666d",
+    "0C2A8080": "3c434a51585f666d",
+    "0C2A8084": "3c434a51585f666d",
+    "0C2A8088": "3c434a51585f666d",
+    "0C2A808C": "3c434a51585f666d",
+    "0C2A8090": "3c434a51585f666d",
+    "0C2A8094": "3c434a51585f666d",
+    "0C2A80A0": "3c434a51585f666d",
+    "0C2A8098": "3c434a51585f666d",
+    "0C2A809C": "3c434a51585f666d",
+    "0C2A8DF4": "3c434a51585f666d",
+    "0C2A8DF8": "3c434a51585f666d",
+    "0C2A8DFC": "3c434a51585f666d",
+    "0C2A8E30": "3c434a51585f666d"
+   }
+  },
+  {
+   "about": "pattern c3",
+   "poke": {
+    "0C2A7604": "c3cad1d8dfe6edf4",
+    "0C2A8070": "c3cad1d8dfe6edf4",
+    "0C2A7608": "c3cad1d8dfe6edf4",
+    "0C2A8074": "c3cad1d8dfe6edf4",
+    "0C2A8078": "c3cad1d8dfe6edf4",
+    "0C2A807C": "c3cad1d8dfe6edf4",
+    "0C2A8080": "c3cad1d8dfe6edf4",
+    "0C2A8084": "c3cad1d8dfe6edf4",
+    "0C2A8088": "c3cad1d8dfe6edf4",
+    "0C2A808C": "c3cad1d8dfe6edf4",
+    "0C2A8090": "c3cad1d8dfe6edf4",
+    "0C2A8094": "c3cad1d8dfe6edf4",
+    "0C2A80A0": "c3cad1d8dfe6edf4",
+    "0C2A8098": "c3cad1d8dfe6edf4",
+    "0C2A809C": "c3cad1d8dfe6edf4",
+    "0C2A8DF4": "c3cad1d8dfe6edf4",
+    "0C2A8DF8": "c3cad1d8dfe6edf4",
+    "0C2A8DFC": "c3cad1d8dfe6edf4",
+    "0C2A8E30": "c3cad1d8dfe6edf4"
+   }
+  }
+ ]
+}
