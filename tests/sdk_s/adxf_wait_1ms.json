@@ -1,0 +1,15 @@
+{
+ "dev": [
+  {
+   "about": "spins"
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "regs": {
+    "r4": "12345678"
+   }
+  }
+ ]
+}

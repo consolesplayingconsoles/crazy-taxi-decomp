@@ -1,0 +1,26 @@
+{
+ "dev": [
+  {
+   "about": "drive 1",
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000005"
+   },
+   "poke": {
+    "0C2EC5F8": "ffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "drive 3",
+   "regs": {
+    "r4": "00000003",
+    "r5": "FFFFFFFF"
+   },
+   "poke": {
+    "0C2EC6F8": "00000000000000000000000000000000"
+   }
+  }
+ ]
+}

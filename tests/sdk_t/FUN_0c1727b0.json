@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "slot 1",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "01000000",
+    "0C178700": "0000810c",
+    "0C810000": "0010820c",
+    "0C821000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "slot 0",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "00000000",
+    "0C178700": "0000810c",
+    "0C810000": "0010820c",
+    "0C821000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "slot 2",
+   "regs": {
+    "r4": "0C800100"
+   },
+   "poke": {
+    "0C800100": "02000000",
+    "0C178700": "0000830c",
+    "0C830000": "0010840c",
+    "0C841000": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   }
+  }
+ ]
+}

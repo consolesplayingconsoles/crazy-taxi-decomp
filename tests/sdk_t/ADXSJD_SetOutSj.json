@@ -1,0 +1,28 @@
+{
+ "dev": [
+  {
+   "about": "slot 2",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000002",
+    "r6": "12345678"
+   },
+   "poke": {
+    "0C800000": "00000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "slot 0",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000000",
+    "r6": "FFFFFFFF"
+   },
+   "poke": {
+    "0C800000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ]
+}

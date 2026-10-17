@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "count 0x1000",
+   "poke": {
+    "FFD8000C": "00100000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "poke": {
+    "FFD8000C": "00000000"
+   }
+  },
+  {
+   "about": "all ones",
+   "poke": {
+    "FFD8000C": "ffffffff"
+   }
+  }
+ ]
+}

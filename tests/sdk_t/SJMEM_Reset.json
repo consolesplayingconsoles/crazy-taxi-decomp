@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "reset",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "000000000000000000000000000000000000000000000000341200000000000000000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ]
+}

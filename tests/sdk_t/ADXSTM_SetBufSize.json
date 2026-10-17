@@ -1,0 +1,28 @@
+{
+ "dev": [
+  {
+   "about": "two",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000100",
+    "r6": "00000200"
+   },
+   "poke": {
+    "0C800000": "00000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "others",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "FFFFFFFF",
+    "r6": "00000000"
+   },
+   "poke": {
+    "0C800000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ]
+}

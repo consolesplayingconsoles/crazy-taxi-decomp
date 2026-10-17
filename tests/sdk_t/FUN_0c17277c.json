@@ -1,0 +1,44 @@
+{
+ "dev": [
+  {
+   "about": "bit set",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "A05F688C": "01000000",
+    "0C800000": "ffffffff"
+   }
+  },
+  {
+   "about": "bit clear",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "A05F688C": "feffffff",
+    "0C800000": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "A05F688C": "00000000"
+   }
+  },
+  {
+   "about": "all",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "A05F688C": "ffffffff"
+   }
+  }
+ ]
+}
