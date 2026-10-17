@@ -244,6 +244,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - two
 - others
 
+### ADXSTM_Start (`0C168B46`, 42 bytes, `src/sdk_u.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/ADXSTM_Start.json`
+- h[5] 0
+- h[5] set: tells
+- h[5] -1
+
 ### ADXSTM_Tell (`0C168BB4`, 36 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/ADXSTM_Tell.json`
 - open
@@ -1463,6 +1469,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - clears
 - again
 
+### FUN_0c16800c (`0C16800C`, 26 bytes, `src/sdk_u.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_u/FUN_0c16800c.json`
+- init
+- again
+
+### FUN_0c168026 (`0C168026`, 26 bytes, `src/sdk_u.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_u/FUN_0c168026.json`
+- init
+- again
+
 ### FUN_0c168808 (`0C168808`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c168808.json`
 - two
@@ -1632,14 +1648,32 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag set
 - other value
 
+### SJMEM_Destroy (`0C16AFF6`, 30 bytes, `src/sdk_u.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJMEM_Destroy.json`
+- handle
+- null
+- another
+
 ### SJMEM_Reset (`0C16B01E`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJMEM_Reset.json`
 - reset
 - another
 
+### SJRBF_Destroy (`0C16B2CA`, 30 bytes, `src/sdk_u.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJRBF_Destroy.json`
+- handle
+- null
+- another
+
 ### SJRBF_Reset (`0C16B2F2`, 14 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJRBF_Reset.json`
 - reset
+- another
+
+### SJUNI_Destroy (`0C16B6F6`, 30 bytes, `src/sdk_u.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJUNI_Destroy.json`
+- handle
+- null
 - another
 
 ### SJUNI_GetNumChainPool (`0C16BAD2`, 26 bytes, `src/sdk_t.c`)
@@ -2704,6 +2738,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - offset
 - another
 
+### kmiFBGarbageCollect (`0C15662E`, 60 bytes, `src/sdk_v.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_v/kmiFBGarbageCollect.json`
+- first ok
+- first 0, second 7
+- both 0
+- first -1
+
+### kmiFBSortQueue (`0C1565EE`, 64 bytes, `src/sdk_v.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_v/kmiFBSortQueue.json`
+- four calls
+- again
+
 ### kmiGetSysConfigFlag (`0C14CBA8`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
 - value
@@ -2820,6 +2866,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 3 halfwords
 - 0
 - 1
+
+### memmove (`0C081414`, 68 bytes, `src/sdk_v.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_v/memmove.json`
+- same
+- forward (d below s)
+- backward (d above s)
+- n 0
+- apart
+- overlap by 1 backward
 
 ### memset (`0C081458`, 24 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/sdk_b/memset.json`
@@ -4365,6 +4420,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - high bytes
 - two
 
+### strncmp (`0C081494`, 62 bytes, `src/sdk_v.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_v/strncmp.json`
+- equal
+- differ
+- both end early
+- n 0
+- unsigned bytes
+- limit before difference
+- a shorter
+
 ### strncpy (`0C087EA4`, 46 bytes, `src/sdk_e.c`)
 - equivalent on 4 development and 4 holdout cases, in `tests/sdk_e/strncpy.json`
 - short src, pads
@@ -4594,6 +4659,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - run
 - r4 set
 - dirty
+
+### vmsfs_init_work_new (`0C1637DC`, 60 bytes, `src/sdk_v.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_v/vmsfs_init_work_new.json`
+- 15
+- 33
+- 65
+- 122
+- other: -256
+- negative
+- 123
 
 ### vmsfs_memcmp (`0C170754`, 32 bytes, `src/sdk_t.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_t/vmsfs_memcmp.json`

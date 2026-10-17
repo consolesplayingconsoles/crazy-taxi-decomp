@@ -1,0 +1,44 @@
+{
+ "dev": [
+  {
+   "about": "h[5] 0",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ffffffffffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": []
+  },
+  {
+   "about": "h[5] set: tells",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "000000000000000000000000000000000000000001000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000123"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "h[5] -1",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0000000000000000000000000000000000000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ]
+}

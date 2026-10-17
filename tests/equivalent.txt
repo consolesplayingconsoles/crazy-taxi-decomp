@@ -37,6 +37,7 @@ ADXSTM_GetFsizeByte
 ADXSTM_GetGdfsStat
 ADXSTM_Init
 ADXSTM_SetBufSize
+ADXSTM_Start
 ADXSTM_Tell
 ADXT_GetNumChan
 ADXT_GetNumSmpl
@@ -231,6 +232,8 @@ FUN_0c15fa92
 FUN_0c1614de
 FUN_0c162db6
 FUN_0c167c4c
+FUN_0c16800c
+FUN_0c168026
 FUN_0c168808
 FUN_0c1701c4
 FUN_0c1708bc
@@ -253,8 +256,11 @@ Psg_SetMoveSpeed
 Psg_SetPosPtr
 ResetFadeColor
 ResetSpark
+SJMEM_Destroy
 SJMEM_Reset
+SJRBF_Destroy
 SJRBF_Reset
+SJUNI_Destroy
 SJUNI_GetNumChainPool
 SJUNI_GetNumChunk
 SJUNI_Reset
@@ -404,6 +410,8 @@ kmiCopyFromFrameBuffer
 kmiCopyFromPVRMemory
 kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
+kmiFBGarbageCollect
+kmiFBSortQueue
 kmiGetSysConfigFlag
 kmiInitCallback
 kmiInitializeBackGroundPlane
@@ -422,6 +430,7 @@ kyakuClearVoiceBit24
 kyakuClearVoiceBit26
 kyakuCountDest
 memcpy2
+memmove
 memset
 menuOpenStep
 mpdrv_frame_recv_post
@@ -599,6 +608,7 @@ set_event
 str_len
 strcmp
 strlen
+strncmp
 strncpy
 syBtExit
 syCblCheck
@@ -628,6 +638,7 @@ vmsfs_c_getstate
 vmsfs_c_setfunc
 vmsfs_c_setparam
 vmsfs_exit
+vmsfs_init_work_new
 vmsfs_memcmp
 vmsfs_setdevicetype
 vmsfs_setretry

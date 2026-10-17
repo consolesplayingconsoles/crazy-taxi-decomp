@@ -128,15 +128,15 @@ functions and globals, and functions documented in `docs/*.md`.
 <!-- progress -->
 ```
 THE GAME                          2827 functions, 452645 bytes of code; each function in one bucket
-  done: equivalent C       30.6%  865 of 2827 functions, 34696 bytes (7.7%): C that behaves like the original
+  done: equivalent C       31.0%  876 of 2827 functions, 35194 bytes (7.8%): C that behaves like the original
     of which matching C     0.3%  8 functions, 1178 bytes, 2 units: rebuilt byte for byte
     of which SDK source     7.9%  222 functions, 11678 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               37.7%  1066 functions: a name, no C yet (not done work)
-  unnamed                  31.7%  896 functions (FUN_...), no C yet
-  documented               23.5%  663 named functions in docs/*.md
+  named only               37.4%  1057 functions: a name, no C yet (not done work)
+  unnamed                  31.6%  894 functions (FUN_...), no C yet
+  documented               23.8%  672 named functions in docs/*.md
   named globals                   120
   of which library                1825 functions, 196796 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   37.5%  685 of 1825 library functions, 26762 bytes (13.6%)
+    done                   38.1%  696 of 1825 library functions, 27260 bytes (13.9%)
     named                  73.0%  1333 of 1825 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2724 models: a name, or a named table or collection
