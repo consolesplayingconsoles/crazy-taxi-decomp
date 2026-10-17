@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "m 1: clear bit 2",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2A9FA8": "ffffffff"
+   }
+  },
+  {
+   "about": "m 0: clear bit 1",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A9FA8": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "m 7",
+   "regs": {
+    "r4": "00000007"
+   },
+   "poke": {
+    "0C2A9FA8": "06000000"
+   }
+  },
+  {
+   "about": "m 0 on zero",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A9FA8": "00000000"
+   }
+  }
+ ]
+}

@@ -250,6 +250,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0x7f
 - all ones
 
+### Chat_Execute (`0C060E00`, 24 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/Chat_Execute.json`
+- two randoms
+- again
+
 ### CourseSplineGet (`0C04D202`, 24 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/CourseSplineGet.json`
 - course 1
@@ -347,6 +352,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 ### FUN_0c02f14c (`0C02F14C`, 22 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02f14c.json`
 - sets
+- again
+
+### FUN_0c0300b6 (`0C0300B6`, 26 bytes, `src/game_d.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c0300b6.json`
+- 1: calls
+- 0: nothing
+- 2: nothing
+- -1
+
+### FUN_0c03019a (`0C03019A`, 34 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c03019a.json`
+- sequence
 - again
 
 ### FUN_0c0301bc (`0C0301BC`, 30 bytes, `src/game_b.c`)
@@ -550,6 +567,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - clears
 - again
 
+### FUN_0c057c3c (`0C057C3C`, 32 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c057c3c.json`
+- sets
+- bit 0 only
+
 ### FUN_0c05bb12 (`0C05BB12`, 18 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
 - sets
@@ -584,6 +606,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05df48.json`
 - sets
 - others
+
+### FUN_0c05df5e (`0C05DF5E`, 12 bytes, `src/game_d.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c05df5e.json`
+- all set
+- only the bit
+- clear
+- others
+
+### FUN_0c05f482 (`0C05F482`, 22 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c05f482.json`
+- port 1
+- port 3
+
+### FUN_0c05f93c (`0C05F93C`, 38 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c05f93c.json`
+- ten calls
+- again
+
+### FUN_0c06047c (`0C06047C`, 8 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c06047c.json`
+- clears
+- again
+
+### FUN_0c06048c (`0C06048C`, 10 bytes, `src/game_d.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_d/FUN_0c06048c.json`
+- sets bit 0
+- keeps others
+- already set
+
+### FUN_0c060616 (`0C060616`, 28 bytes, `src/game_d.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c060616.json`
+- m 1: clear bit 2
+- m 0: clear bit 1
+- m 7
+- m 0 on zero
+
+### FUN_0c067a28 (`0C067A28`, 22 bytes, `src/game_d.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c067a28.json`
+- two calls
+- another
 
 ### FUN_0c0742f0 (`0C0742F0`, 4 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0742f0.json`

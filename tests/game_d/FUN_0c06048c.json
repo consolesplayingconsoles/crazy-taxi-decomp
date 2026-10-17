@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "sets bit 0",
+   "poke": {
+    "0C2A9FA8": "00000000"
+   }
+  },
+  {
+   "about": "keeps others",
+   "poke": {
+    "0C2A9FA8": "f0000008"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "already set",
+   "poke": {
+    "0C2A9FA8": "01000000"
+   }
+  }
+ ]
+}

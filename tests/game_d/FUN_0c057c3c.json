@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "sets",
+   "poke": {
+    "0C2A9228": "ffff"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "bit 0 only",
+   "poke": {
+    "0C2A9228": "0100"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

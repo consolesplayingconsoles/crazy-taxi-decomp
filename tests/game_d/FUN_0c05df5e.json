@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "all set",
+   "poke": {
+    "0C2A992C": "ffff"
+   }
+  },
+  {
+   "about": "only the bit",
+   "poke": {
+    "0C2A992C": "4000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "clear",
+   "poke": {
+    "0C2A992C": "0000"
+   }
+  },
+  {
+   "about": "others",
+   "poke": {
+    "0C2A992C": "a5a5"
+   }
+  }
+ ]
+}
