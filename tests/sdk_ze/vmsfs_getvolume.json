@@ -1,0 +1,135 @@
+{
+ "dev": [
+  {
+   "about": "ok",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "01",
+    "0C2EEAE0": "01",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "none",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "00",
+    "0C2EEAE0": "01",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": []
+  },
+  {
+   "about": "gone",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "01",
+    "0C2EEAE0": "01",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  },
+  {
+   "about": "format",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "01",
+    "0C2EEAE0": "01",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "not mounted",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "01",
+    "0C2EEAE0": "01",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "flag8",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000"
+   },
+   "poke": {
+    "0C2EEADA": "01",
+    "0C2EEAE0": "00",
+    "0C2EEAF8": "0000840c",
+    "0C840010": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "r0": "00000001"
+    }
+   ]
+  }
+ ]
+}

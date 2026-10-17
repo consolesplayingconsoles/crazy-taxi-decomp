@@ -1,0 +1,53 @@
+{
+ "dev": [
+  {
+   "about": "mid",
+   "regs": {},
+   "poke": {
+    "0C2A8C78": "0000830c",
+    "0C830000": "7d000000"
+   }
+  },
+  {
+   "about": "end",
+   "regs": {},
+   "poke": {
+    "0C2A8C78": "0000830c",
+    "0C830000": "77000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "regs": {},
+   "poke": {
+    "0C2A8C78": "0000830c",
+    "0C830000": "00000000"
+   }
+  },
+  {
+   "about": "big",
+   "regs": {},
+   "poke": {
+    "0C2A8C78": "0000830c",
+    "0C830000": "110e0000"
+   }
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

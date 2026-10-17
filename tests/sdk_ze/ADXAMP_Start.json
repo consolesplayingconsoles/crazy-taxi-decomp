@@ -1,0 +1,33 @@
+{
+ "dev": [
+  {
+   "about": "2 channels",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0001020000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "none",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "000500eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  },
+  {
+   "about": "6",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "000006eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ]
+}

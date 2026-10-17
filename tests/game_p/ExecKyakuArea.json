@@ -1,0 +1,156 @@
+{
+ "dev": [
+  {
+   "about": "plain",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "0000003f",
+    "0C0ED924": "00000000",
+    "0C0ED928": "00000000",
+    "0C1EE20C": "00000000",
+    "0C1EE214": "00000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.75
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "mg19 step0",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "cdcccc3d",
+    "0C0ED924": "00100000",
+    "0C0ED928": "00000000",
+    "0C1EE20C": "02000000",
+    "0C1EE214": "13000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.2
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.25
+    },
+    {
+     "fr0": 0.125
+    }
+   ]
+  },
+  {
+   "about": "mg19 step3",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "6666663f",
+    "0C0ED924": "00f8ffff",
+    "0C0ED928": "03000000",
+    "0C1EE20C": "02000000",
+    "0C1EE214": "13000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.9
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.25
+    },
+    {
+     "fr0": 0.5
+    }
+   ]
+  },
+  {
+   "about": "mg19 step9",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "9a99993e",
+    "0C0ED924": "64000000",
+    "0C0ED928": "09000000",
+    "0C1EE20C": "02000000",
+    "0C1EE214": "13000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.3
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.25
+    },
+    {
+     "fr0": 1.0
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mg19 wrap",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "a4707d3f",
+    "0C0ED924": "00000000",
+    "0C0ED928": "0e000000",
+    "0C1EE20C": "02000000",
+    "0C1EE214": "13000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.3
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.25
+    },
+    {
+     "fr0": 0.0
+    }
+   ]
+  },
+  {
+   "about": "cm 1",
+   "regs": {},
+   "poke": {
+    "0C0ED920": "0000803e",
+    "0C0ED924": "05000000",
+    "0C0ED928": "02000000",
+    "0C1EE20C": "01000000",
+    "0C1EE214": "13000000",
+    "0C271D18": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.5
+    },
+    {
+     "fr0": 0.5
+    }
+   ]
+  }
+ ]
+}

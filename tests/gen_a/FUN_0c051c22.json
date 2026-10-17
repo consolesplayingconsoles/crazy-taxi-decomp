@@ -52,6 +52,21 @@
     "0C2A73EC": "a5a5a5a5",
     "0C2A73F0": "a5a5a5a5"
    }
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
   }
  ]
 }

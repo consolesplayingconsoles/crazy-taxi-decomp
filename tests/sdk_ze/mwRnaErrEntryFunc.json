@@ -1,0 +1,41 @@
+{
+ "dev": [
+  {
+   "about": "set",
+   "regs": {
+    "r4": "0C123456",
+    "r5": "00000007"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "clear",
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000007"
+   },
+   "poke": {
+    "0C178724": "ffffffffffffffff"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "set 2",
+   "regs": {
+    "r4": "00000001",
+    "r5": "FFFFFFFF"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

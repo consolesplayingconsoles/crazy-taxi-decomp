@@ -26,5 +26,15 @@
     "r0": "00007FFF"
    }
   ]
+ },
+ {
+  "about": "live RAM (arcade, passenger on board, paused)",
+  "dump": "build/ram/live.bin",
+  "regs": {}
+ },
+ {
+  "about": "live RAM (Total Records screen)",
+  "dump": "build/ram/records.bin",
+  "regs": {}
  }
 ]

@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "on",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "off",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "on 2",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

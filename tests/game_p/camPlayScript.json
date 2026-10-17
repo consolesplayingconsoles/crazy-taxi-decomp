@@ -1,0 +1,48 @@
+{
+ "dev": [
+  {
+   "about": "mode 0",
+   "regs": {
+    "r4": "0C123456",
+    "r5": "00000000"
+   },
+   "poke": {
+    "0C179860": "ffffffff",
+    "0C2AD548": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "mode 1",
+   "regs": {
+    "r4": "0C123456",
+    "r5": "00000001"
+   },
+   "poke": {
+    "0C179860": "ffffffff",
+    "0C2AD548": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mode 7",
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000007"
+   },
+   "poke": {
+    "0C179860": "ffffffff",
+    "0C2AD548": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

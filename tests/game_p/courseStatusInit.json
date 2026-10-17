@@ -1,0 +1,99 @@
+{
+ "dev": [
+  {
+   "about": "first",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A6694": "02000000",
+    "0C2A6690": "0000830c",
+    "0C830000": "000000000000840c00000000000000000400840c00000000",
+    "0C840000": "2800000064000000",
+    "0C2A3A3C": "00000000000000000000000000000000",
+    "0C900000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C910000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "0C900000"
+    },
+    {
+     "r0": "0C910000"
+    }
+   ]
+  },
+  {
+   "about": "again",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2A6694": "02000000",
+    "0C2A6690": "0000830c",
+    "0C830000": "000000000000840c00000000000000000400840c00000000",
+    "0C840000": "2800000064000000",
+    "0C2A3A3C": "020000000000900c040000000000910c",
+    "0C900000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C910000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  },
+  {
+   "about": "fail",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A6694": "02000000",
+    "0C2A6690": "0000830c",
+    "0C830000": "000000000000840c00000000000000000400840c00000000",
+    "0C840000": "2800000064000000",
+    "0C2A3A3C": "00000000000000000000000000000000",
+    "0C900000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C910000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "0C900000"
+    },
+    {
+     "r0": "00000000"
+    },
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "none",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A6694": "00000000",
+    "0C2A6690": "0000830c",
+    "0C830000": "",
+    "0C840000": "",
+    "0C2A3A3C": "",
+    "0C900000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C910000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  },
+  {
+   "about": "zero len",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2A6694": "01000000",
+    "0C2A6690": "0000830c",
+    "0C830000": "000000000000840c00000000",
+    "0C840000": "00000000",
+    "0C2A3A3C": "000000000000900c",
+    "0C900000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C910000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ]
+}

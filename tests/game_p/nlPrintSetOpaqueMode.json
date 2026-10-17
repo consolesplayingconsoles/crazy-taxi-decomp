@@ -1,0 +1,51 @@
+{
+ "dev": [
+  {
+   "about": "x 0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2AF118": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "x 1",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2AF118": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "x neg",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C2AF118": "000000000000000000000000000000000000000000000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "x 5 zeros",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2AF118": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+   }
+  },
+  {
+   "about": "x 0 mixed",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2AF118": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   }
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "dev": [
+  {
+   "about": "after",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r5": "d646c15c"
+     }
+    }
+   ]
+  },
+  {
+   "about": "before",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r5": "5123b05c"
+     }
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "exact",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r5": "d117b45c"
+     }
+    }
+   ]
+  },
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r5": "00000000"
+     }
+    }
+   ]
+  },
+  {
+   "about": "max",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r5": "ffffffff"
+     }
+    }
+   ]
+  }
+ ]
+}

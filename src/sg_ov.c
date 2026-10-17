@@ -43,3 +43,31 @@ void ovLibClose(int key)
         t->ent[idx].refs--;
     ovUnlockCs(&lock);
 }
+
+/* Remove the library with this key from the table, closing the gap; 0, or -2 when it is not there. */
+int ovLibDeleteTbl(int key)
+{
+    int lock;
+    int out[1];
+    LibTable *t;
+    int idx;
+    int rv;
+    int i;
+
+    ovLockCs(&lock);
+    t = ovGetLibTbl(out);
+    idx = ovSearchLib(key);
+    if (idx < 0) {
+        rv = -2;
+    } else {
+        t->count--;
+        for (i = idx; i < t->count; i++) {
+            t->ent[i] = t->ent[i + 1];
+        }
+        t->ent[i].key = 0;
+        t->ent[i].refs = 0;
+        rv = 0;
+    }
+    ovUnlockCs(&lock);
+    return rv;
+}

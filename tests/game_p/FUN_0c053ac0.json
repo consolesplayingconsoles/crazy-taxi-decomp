@@ -1,0 +1,95 @@
+{
+ "dev": [
+  {
+   "about": "game 2",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "02000000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "menu",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "no menu",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "game 1 menu",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "01000000"
+   },
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    },
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM",
+   "dump": "build/ram/live.bin",
+   "regs": {},
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {},
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {},
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {},
+    {}
+   ]
+  }
+ ]
+}

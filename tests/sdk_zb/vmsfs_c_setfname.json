@@ -1,0 +1,32 @@
+{
+ "dev": [
+  {
+   "about": "short names",
+   "regs": {
+    "r4": "00000001",
+    "r5": "0C800000",
+    "r6": "0C800020"
+   },
+   "poke": {
+    "0C800000": "53415645004141414141414141414141414141414141414141",
+    "0C800020": "564d53004242424242424242424242424242424242424242",
+    "0C2EC5F8": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "long names",
+   "regs": {
+    "r4": "00000000",
+    "r5": "0C800000",
+    "r6": "0C800020"
+   },
+   "poke": {
+    "0C800000": "4142434445464748494a4b4c4d4e4f50",
+    "0C800020": "30313233343536373839414243444546",
+    "0C2EC578": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ]
+}

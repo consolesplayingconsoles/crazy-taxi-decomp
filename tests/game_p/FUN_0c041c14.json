@@ -1,0 +1,114 @@
+{
+ "dev": [
+  {
+   "about": "idle note",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "01000000",
+    "0C2A11B4": "00000000",
+    "0C2A11B0": "00000000",
+    "0C2A1214": "00000000",
+    "0C2A1210": "00000000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "open",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "00000000",
+    "0C2A11B4": "00000000",
+    "0C2A11B0": "01000000",
+    "0C2A1214": "00000000",
+    "0C2A1210": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "cancel",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "01000000",
+    "0C2A11B4": "01000000",
+    "0C2A11B0": "01000000",
+    "0C2A1214": "00000000",
+    "0C2A1210": "e0dd090c"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "run",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "00000000",
+    "0C2A11B4": "01000000",
+    "0C2A11B0": "01000000",
+    "0C2A1214": "00000000",
+    "0C2A1210": "e0dd090c"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pending 0",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "00000000",
+    "0C2A11B4": "01000000",
+    "0C2A11B0": "00000000",
+    "0C2A1214": "00000000",
+    "0C2A1210": "00000000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "idle quiet",
+   "regs": {},
+   "poke": {
+    "0C2A11CC": "01000000",
+    "0C2A11B4": "00000000",
+    "0C2A11B0": "02000000",
+    "0C2A1214": "01000000",
+    "0C2A1210": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

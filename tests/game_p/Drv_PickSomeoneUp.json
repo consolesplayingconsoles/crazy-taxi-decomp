@@ -1,0 +1,50 @@
+{
+ "dev": [
+  {
+   "about": "late",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "59020000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "early",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "58020000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "much later",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "0f270000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

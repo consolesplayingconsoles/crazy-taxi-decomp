@@ -1,0 +1,95 @@
+{
+ "dev": [
+  {
+   "about": "lv 1",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "01000000",
+    "0C2A8F94": "0a000000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "lv -1 end",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "ffffffff",
+    "0C2A8F94": "b4000000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lv 3",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "03000000",
+    "0C2A8F94": "0a000000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "lv -2",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "feffffff",
+    "0C2A8F94": "00000000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  },
+  {
+   "about": "lv 2",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "02000000",
+    "0C2A8F94": "f4010000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lv 0",
+   "regs": {},
+   "poke": {
+    "0C2A760C": "00000000",
+    "0C2A8F94": "00000000",
+    "0C130B08": "1000000011000000120000001300000014000000",
+    "0C2A7EDC": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

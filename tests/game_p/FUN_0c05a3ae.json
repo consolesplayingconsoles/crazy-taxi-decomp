@@ -1,0 +1,66 @@
+{
+ "dev": [
+  {
+   "about": "3 shown",
+   "regs": {},
+   "poke": {
+    "0C2A96F4": "3c000000",
+    "0C2A9748": "0c000000",
+    "0C2A9758": "0000003f",
+    "0C130E6C": "2000000021000000220000002300000024000000",
+    "0C2A96F8": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "none",
+   "regs": {},
+   "poke": {
+    "0C2A96F4": "34000000",
+    "0C2A9748": "0c000000",
+    "0C2A9758": "0000003f",
+    "0C130E6C": "2000000021000000220000002300000024000000",
+    "0C2A96F8": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "all",
+   "regs": {},
+   "poke": {
+    "0C2A96F4": "64000000",
+    "0C2A9748": "0c000000",
+    "0C2A9758": "0000003f",
+    "0C130E6C": "2000000021000000220000002300000024000000",
+    "0C2A96F8": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

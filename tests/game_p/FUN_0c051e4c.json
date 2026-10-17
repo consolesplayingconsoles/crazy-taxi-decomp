@@ -1,0 +1,74 @@
+{
+ "dev": [
+  {
+   "about": "pick 0",
+   "regs": {},
+   "poke": {
+    "0C2A751C": "0000830c",
+    "0C830000": "00000000",
+    "0C1304CC": "0000840c1000840c2000840c3000840c",
+    "0C840000": "00010000010100000000000000000000020100000301000000000000000000000401000005010000000000000000000006010000070100000000000000000000",
+    "0C2A7410": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "pick 2",
+   "regs": {},
+   "poke": {
+    "0C2A751C": "0000830c",
+    "0C830000": "02000000",
+    "0C1304CC": "0000840c1000840c2000840c3000840c",
+    "0C840000": "00010000010100000000000000000000020100000301000000000000000000000401000005010000000000000000000006010000070100000000000000000000",
+    "0C2A7410": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "pick 3",
+   "regs": {},
+   "poke": {
+    "0C2A751C": "0000830c",
+    "0C830000": "03000000",
+    "0C1304CC": "0000840c1000840c2000840c3000840c",
+    "0C840000": "00010000010100000000000000000000020100000301000000000000000000000401000005010000000000000000000006010000070100000000000000000000",
+    "0C2A7410": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "none",
+   "regs": {},
+   "poke": {
+    "0C2A751C": "0000830c",
+    "0C830000": "09000000",
+    "0C1304CC": "0000840c1000840c2000840c3000840c",
+    "0C840000": "00010000010100000000000000000000020100000301000000000000000000000401000005010000000000000000000006010000070100000000000000000000",
+    "0C2A7410": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}

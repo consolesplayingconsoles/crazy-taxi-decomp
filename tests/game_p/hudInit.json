@@ -1,0 +1,69 @@
+{
+ "dev": [
+  {
+   "about": "game 2",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "02000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "menu off",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {}
+   ]
+  },
+  {
+   "about": "menu on",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "game 1 menu",
+   "regs": {},
+   "poke": {
+    "0C1EE210": "01000000",
+    "0C2A8C94": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

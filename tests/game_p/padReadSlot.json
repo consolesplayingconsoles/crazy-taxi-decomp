@@ -1,0 +1,62 @@
+{
+ "dev": [
+  {
+   "about": "slot 0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C1EE12C": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "0C900000"
+    }
+   ]
+  },
+  {
+   "about": "slot 1",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C1EE12C": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "0C900100"
+    }
+   ]
+  },
+  {
+   "about": "slot 2",
+   "regs": {
+    "r4": "00000002"
+   },
+   "poke": {
+    "0C1EE12C": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "0C900200"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "slot 7",
+   "regs": {
+    "r4": "00000007"
+   },
+   "poke": {
+    "0C1EE12C": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "12345678"
+    }
+   ]
+  }
+ ]
+}

@@ -28,5 +28,15 @@
   "poke": {
    "0C0F4270": "0df0ad0b"
   }
+ },
+ {
+  "about": "live RAM (arcade, passenger on board, paused)",
+  "dump": "build/ram/live.bin",
+  "regs": {}
+ },
+ {
+  "about": "live RAM (Total Records screen)",
+  "dump": "build/ram/records.bin",
+  "regs": {}
  }
 ]

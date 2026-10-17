@@ -121,6 +121,21 @@
     "0C2A8DFC": "c3cad1d8dfe6edf4",
     "0C2A8E30": "c3cad1d8dfe6edf4"
    }
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
   }
  ]
 }

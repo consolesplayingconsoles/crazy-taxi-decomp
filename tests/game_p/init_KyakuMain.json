@@ -1,0 +1,140 @@
+{
+ "dev": [
+  {
+   "about": "arcade",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "00000000",
+    "0C1EE214": "00000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "box 10",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "02000000",
+    "0C1EE214": "0a000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "orig 1",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "01000000",
+    "0C1EE214": "03000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "noarrow",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "01000000",
+    "0C1EE214": "03000000",
+    "0C2A736C": "01000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "cm0 mg15",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "00000000",
+    "0C1EE214": "0f000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "box 5",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "02000000",
+    "0C1EE214": "05000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "box 12",
+   "regs": {},
+   "poke": {
+    "0C1EE20C": "02000000",
+    "0C1EE214": "0c000000",
+    "0C2A736C": "00000000",
+    "0C179820": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C1794E8": "ffffffffffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

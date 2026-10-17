@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "a",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000040"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r6": "78563412"
+     }
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "b",
+   "regs": {
+    "r4": "00000000",
+    "r5": "FFFFFFFF"
+   },
+   "poke": {},
+   "calls": [
+    {
+     "poke_arg": {
+      "r6": "ffffffff"
+     }
+    }
+   ]
+  }
+ ]
+}

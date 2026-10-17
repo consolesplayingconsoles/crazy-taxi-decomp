@@ -1,0 +1,32 @@
+{
+ "dev": [
+  {
+   "about": "a",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "b",
+   "regs": {
+    "r4": "0C810000"
+   },
+   "poke": {
+    "0C810000": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

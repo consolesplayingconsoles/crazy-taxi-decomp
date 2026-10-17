@@ -2,6 +2,21 @@
 
 Functions whose C behaves like the original on every test case (`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.
 
+### ADXAMP_Destroy (`0C167A02`, 44 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/ADXAMP_Destroy.json`
+- amp
+- null
+- amp 2
+
+### ADXAMP_ExecServer (`0C168DE8`, 40 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_z/ADXAMP_ExecServer.json`
+- two open
+- none open
+- last open
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### ADXAMP_GetStat (`0C167A2E`, 4 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/ADXAMP_GetStat.json`
 - pattern ff
@@ -9,6 +24,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern a5
 - pattern 3c
 - pattern c3
+
+### ADXAMP_Start (`0C167A32`, 66 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_ze/ADXAMP_Start.json`
+- 2 channels
+- none
+- 6
 
 ### ADXAMP_Stop (`0C167A74`, 6 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXAMP_Stop.json`
@@ -320,17 +341,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - f4 already zero
 - again
 
+### ADXF_Close (`0C152E70`, 80 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_ze/ADXF_Close.json`
+- reading
+- idle
+- null
+- idle 2
+
 ### ADXF_ExecServer (`0C1531E0`, 48 bytes, `src/sdk_l.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_l/ADXF_ExecServer.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_l/ADXF_ExecServer.json`
 - entries 0 and 2 running
 - none
 - all 16 running
 - state 2 skipped
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXF_Finish (`0C15270E`, 56 bytes, `src/sdk_o.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/ADXF_Finish.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_o/ADXF_Finish.json`
 - finish
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXF_GetFsizeByte (`0C1532F8`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetFsizeByte.json`
@@ -368,20 +402,53 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### ADXF_Init (`0C1526D4`, 58 bytes, `src/sdk_o.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/ADXF_Init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_o/ADXF_Init.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXF_ReadSj32 (`0C152FA2`, 46 bytes, `src/sdk_l.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_l/ADXF_ReadSj32.json`
 - read
 - other
 
+### ADXF_Seek (`0C153210`, 144 bytes, `src/sdk_ze.c`)
+- equivalent on 6 development and 3 holdout cases, in `tests/sdk_ze/ADXF_Seek.json`
+- null
+- abs
+- rel
+- end
+- bad mode
+- neg
+- past
+- reading
+- end past
+
+### ADXF_Stop (`0C1530BE`, 150 bytes, `src/sdk_ze.c`)
+- equivalent on 5 development and 1 holdout cases, in `tests/sdk_ze/ADXF_Stop.json`
+- null
+- idle
+- stopped 3
+- reading
+- no stream
+- state 4
+
 ### ADXF_Tell (`0C1532A0`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_Tell.json`
 - null: -3
 - handle
 - another
+
+### ADXPD_Create (`0C17439E`, 120 bytes, `src/sdk_za.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_za/ADXPD_Create.json`
+- slot 2 free
+- all used
+- slot 7 free
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXPD_Destroy (`0C17442E`, 20 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_b/ADXPD_Destroy.json`
@@ -395,6 +462,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - free: set
 - busy: 0
 - negative
+
+### ADXPD_ExecHndl (`0C1744E0`, 154 bytes, `src/sdk_t.c`)
+- equivalent on 5 development and 2 holdout cases, in `tests/sdk_t/ADXPD_ExecHndl.json`
+- state 0
+- state 3
+- mono
+- stereo even
+- stereo odd
+- stereo neg odd
+- stereo zero
 
 ### ADXPD_GetNumBlk (`0C1744BC`, 4 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/ADXPD_GetNumBlk.json`
@@ -447,7 +524,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### ADXRNA_DiscardData (`0C168136`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_DiscardData.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_DiscardData.json`
 - case 0
 - case 1
 - case 2
@@ -470,9 +547,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_ExecServer (`0C1680F4`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_ExecServer.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_ExecServer.json`
 - case 0
 - case 1
 - case 2
@@ -495,9 +575,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetBitPerSmpl (`0C168130`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetBitPerSmpl.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetBitPerSmpl.json`
 - case 0
 - case 1
 - case 2
@@ -520,9 +603,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetNumData (`0C1680E2`, 6 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/ADXRNA_GetNumData.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/ADXRNA_GetNumData.json`
 - case 0
 - case 1
 - case 2
@@ -545,9 +631,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetOutPan (`0C16812A`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetOutPan.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetOutPan.json`
 - case 0
 - case 1
 - case 2
@@ -570,9 +659,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetOutVol (`0C168124`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetOutVol.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetOutVol.json`
 - case 0
 - case 1
 - case 2
@@ -595,9 +687,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetSfreq (`0C16811E`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetSfreq.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetSfreq.json`
 - case 0
 - case 1
 - case 2
@@ -620,9 +715,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetStat (`0C1680EE`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetStat.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetStat.json`
 - case 0
 - case 1
 - case 2
@@ -645,9 +743,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_GetTime (`0C1680DC`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_GetTime.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_GetTime.json`
 - case 0
 - case 1
 - case 2
@@ -670,9 +771,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetBitPerSmpl (`0C168118`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetBitPerSmpl.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetBitPerSmpl.json`
 - case 0
 - case 1
 - case 2
@@ -695,9 +799,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetNumChan (`0C168100`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetNumChan.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetNumChan.json`
 - case 0
 - case 1
 - case 2
@@ -720,9 +827,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetOutPan (`0C168112`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetOutPan.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetOutPan.json`
 - case 0
 - case 1
 - case 2
@@ -745,9 +855,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetOutVol (`0C16810C`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetOutVol.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetOutVol.json`
 - case 0
 - case 1
 - case 2
@@ -770,9 +883,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetPlaySw (`0C1680D6`, 6 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/ADXRNA_SetPlaySw.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/ADXRNA_SetPlaySw.json`
 - case 0
 - case 1
 - case 2
@@ -795,9 +911,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetSfreq (`0C168106`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetSfreq.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetSfreq.json`
 - case 0
 - case 1
 - case 2
@@ -820,9 +939,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_SetStartSmpl (`0C1680FA`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetStartSmpl.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetStartSmpl.json`
 - case 0
 - case 1
 - case 2
@@ -845,9 +967,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### ADXRNA_SetStmHdInfo (`0C16814C`, 20 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/ADXRNA_SetStmHdInfo.json`
+- a
+- b
 
 ### ADXRNA_SetTransSw (`0C1680D0`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_SetTransSw.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_SetTransSw.json`
 - case 0
 - case 1
 - case 2
@@ -870,9 +1000,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_Start (`0C1680C4`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_Start.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_Start.json`
 - case 0
 - case 1
 - case 2
@@ -895,9 +1028,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXRNA_Stop (`0C1680CA`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXRNA_Stop.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXRNA_Stop.json`
 - case 0
 - case 1
 - case 2
@@ -920,6 +1056,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXSJD_Destroy (`0C168300`, 52 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/ADXSJD_Destroy.json`
@@ -937,14 +1076,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - state 3
 
 ### ADXSJD_ExecServer (`0C1687C0`, 46 bytes, `src/sdk_o.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_o/ADXSJD_ExecServer.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_o/ADXSJD_ExecServer.json`
 - entries 0 and 3 running
 - none
 - all running
 - state 2 skipped
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXSJD_Finish (`0C1681D8`, 10 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ADXSJD_Finish.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ADXSJD_Finish.json`
 - case 0
 - case 1
 - case 2
@@ -967,6 +1109,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXSJD_GetStat (`0C168334`, 4 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/ADXSJD_GetStat.json`
@@ -977,9 +1122,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern c3
 
 ### ADXSJD_Init (`0C1681C4`, 20 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_Init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/ADXSJD_Init.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXSJD_SetInSj (`0C168338`, 4 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSJD_SetInSj.json`
@@ -1028,6 +1176,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### ADXSTM_Close (`0C168B1E`, 40 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zd/ADXSTM_Close.json`
+- with file
+- null
+- no file
+
 ### ADXSTM_EntryEosFunc (`0C168C4C`, 6 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSTM_EntryEosFunc.json`
 - fill ff
@@ -1065,6 +1219,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - info
 - another
 
+### ADXSTM_GetFsizeSct (`0C168EA8`, 46 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_ze/ADXSTM_GetFsizeSct.json`
+- a
+- exact
+- negative
+
 ### ADXSTM_GetGdfsStat (`0C168E6E`, 28 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetGdfsStat.json`
 - basic
@@ -1082,9 +1242,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern c3
 
 ### ADXSTM_Init (`0C168920`, 18 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSTM_Init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/ADXSTM_Init.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXSTM_SetBufSize (`0C168E58`, 8 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/ADXSTM_SetBufSize.json`
@@ -1165,10 +1328,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 3
 - -1
 
+### ADXT_GetTimeReal (`0C1521B4`, 42 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/ADXT_GetTimeReal.json`
+- a
+- b
+
 ### ADXT_Init (`0C151A0E`, 50 bytes, `src/sdk_l.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_l/ADXT_Init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_l/ADXT_Init.json`
 - eight calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ADXT_SetOutPan (`0C152238`, 50 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/ADXT_SetOutPan.json`
@@ -1184,13 +1355,27 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - vol -30
 - vol 0
 
+### Act_Execute (`0C060D4C`, 76 bytes, `src/game_p.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/game_p/Act_Execute.json`
+- 600
+- 300 busy
+- game 2
+- other
+- 300
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### Advtise (`0C057B6C`, 40 bytes, `src/game_i.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_i/Advtise.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_i/Advtise.json`
 - bit 0 and bit 3
 - bit 0 only
 - bit 3 only
 - none
 - other bits
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### BCDtoDEC (`0C166C80`, 24 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_b/BCDtoDEC.json`
@@ -1204,23 +1389,91 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0x7f
 - all ones
 
+### Bezier (`0C06B0F4`, 142 bytes, `src/game_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_p/Bezier.json`
+- mid
+- start
+- end
+- quarter
+
+### CalcHomingVector (`0C03633C`, 60 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/CalcHomingVector.json`
+- a
+- b
+
+### CalcShadow4Normal (`0C036286`, 88 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/CalcShadow4Normal.json`
+- flat
+- slope
+- steep
+
+### ChangeColliObj (`0C03319A`, 154 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/ChangeColliObj.json`
+- only to empty
+- same
+- middle to used
+- head to used
+- tail to empty
+
 ### Chat_Execute (`0C060E00`, 24 bytes, `src/game_d.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_d/Chat_Execute.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_d/Chat_Execute.json`
 - two randoms
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### Chat_PickSomeoneUp (`0C061D0C`, 56 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/Chat_PickSomeoneUp.json`
+- driver 1
+- busy
+- driver 4
+- driver 0
+- driver 9
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### Check2DAreaDX (`0C032274`, 88 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/Check2DAreaDX.json`
+- inside
+- outside
+- on edge
+- last edge
+- one point
+
+### CheckAreaGrid (`0C032316`, 138 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/CheckAreaGrid.json`
+- first
+- next
+- later
+- none
+- wrap
+- none 2
+
+### CheckKyakuArea (`0C035B38`, 64 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/CheckKyakuArea.json`
+- a
+- b
 
 ### ConvertSwitch2 (`0C02A2D4`, 40 bytes, `src/game_e.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_e/ConvertSwitch2.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_e/ConvertSwitch2.json`
 - copies
 - other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### CourseObj_Init (`0C04EAC0`, 98 bytes, `src/game_k.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_k/CourseObj_Init.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_k/CourseObj_Init.json`
 - mode 0
 - mode 1
 - mode 2: tables only
 - mode -1
 - count 8
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### CourseSplineGet (`0C04D202`, 24 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/CourseSplineGet.json`
@@ -1244,8 +1497,50 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 255
 - big
 
+### DispVector (`0C0499E0`, 146 bytes, `src/game_p.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/game_p/DispVector.json`
+- mode 0
+- mode 1
+- mode 2
+- mode 3
+- mode 4
+- mode 5
+- mode 6
+- mode -1
+
+### Drv_PickSomeoneUp (`0C0645DE`, 36 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/Drv_PickSomeoneUp.json`
+- late
+- early
+- much later
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### ExecHelicopter (`0C0375A8`, 162 bytes, `src/game_p.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/game_p/ExecHelicopter.json`
+- start
+- wait
+- follow
+- arrived
+- gone
+- started
+- follow 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### ExecKyakuArea (`0C0356F8`, 184 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/ExecKyakuArea.json`
+- plain
+- mg19 step0
+- mg19 step3
+- mg19 step9
+- mg19 wrap
+- cm 1
+
 ### FUN_0c020092 (`0C020092`, 20 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c020092.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/FUN_0c020092.json`
 - case 0
 - case 1
 - case 2
@@ -1268,6 +1563,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0200aa (`0C0200AA`, 12 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c0200aa.json`
@@ -1308,9 +1606,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c0246dc (`0C0246DC`, 8 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0246dc.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c0246dc.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c025b30 (`0C025B30`, 168 bytes, `src/game_p.c`)
+- equivalent on 6 development and 7 holdout cases, in `tests/game_p/FUN_0c025b30.json`
+- box10 here
+- box10 other
+- box14 match
+- box14 miss
+- orig15 7
+- orig15 other
+- arcade
+- box 5
+- box14 other stop
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Crazy Box 1-1)
+- live RAM (Total Records screen)
 
 ### FUN_0c0287d4 (`0C0287D4`, 12 bytes, `src/game_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c0287d4.json`
@@ -1336,12 +1653,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern c3
 
 ### FUN_0c0288f0 (`0C0288F0`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c0288f0.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c0288f0.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c028908 (`0C028908`, 6 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c028908.json`
@@ -1351,13 +1671,50 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern 3c
 - pattern c3
 
+### FUN_0c028b06 (`0C028B06`, 168 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c028b06.json`
+- reset
+- plain
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c028f50 (`0C028F50`, 138 bytes, `src/game_p.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_p/FUN_0c028f50.json`
+- no reset
+- reset
+- far
+- mid
+- live
+- live
+
+### FUN_0c029748 (`0C029748`, 178 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c029748.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0297fa (`0C0297FA`, 78 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c0297fa.json`
+- one
+- other
+- two
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c029a94 (`0C029A94`, 18 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c029a94.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c029a94.json`
 - two calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c029aa6 (`0C029AA6`, 126 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c029aa6.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c029aa6.json`
 - case 0
 - case 1
 - case 2
@@ -1380,6 +1737,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02bb60 (`0C02BB60`, 60 bytes, `src/gen_j.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_j/FUN_0c02bb60.json`
@@ -1432,11 +1792,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c02bc24 (`0C02BC24`, 42 bytes, `src/game_e.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_e/FUN_0c02bc24.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_e/FUN_0c02bc24.json`
 - 0: to 1
 - 1: to 0
 - 2: nothing
 - -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02c094 (`0C02C094`, 22 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02c094.json`
@@ -1445,17 +1808,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other value
 
 ### FUN_0c02c6d8 (`0C02C6D8`, 36 bytes, `src/game_k.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_k/FUN_0c02c6d8.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_k/FUN_0c02c6d8.json`
 - reset
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02d918 (`0C02D918`, 36 bytes, `src/game_a.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_a/FUN_0c02d918.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_a/FUN_0c02d918.json`
 - below: 0
 - between: 1
 - at upper: 2
 - equal lower: 0
 - negative values
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02da42 (`0C02DA42`, 30 bytes, `src/game_o.c`)
 - equivalent on 1 development and 2 holdout cases, in `tests/game_o/FUN_0c02da42.json`
@@ -1463,11 +1832,32 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - big
 
+### FUN_0c02dc84 (`0C02DC84`, 84 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/FUN_0c02dc84.json`
+- blink
+- dark
+- reset
+- x 1
+- mode 1 dark
+- mode 1 blink
+
+### FUN_0c02dcd8 (`0C02DCD8`, 98 bytes, `src/game_p.c`)
+- equivalent on 5 development and 1 holdout cases, in `tests/game_p/FUN_0c02dcd8.json`
+- f338 done 7
+- f338 not done
+- plain done other
+- plain running
+- 9 early
+- 9 late
+
 ### FUN_0c02dd3a (`0C02DD3A`, 16 bytes, `src/game_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd3a.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_a/FUN_0c02dd3a.json`
 - bit 3 set
 - clear
 - other bits
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02dd52 (`0C02DD52`, 4 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd52.json`
@@ -1480,7 +1870,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - nothing again
 
 ### FUN_0c02dfbc (`0C02DFBC`, 96 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c02dfbc.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c02dfbc.json`
 - case 0
 - case 1
 - case 2
@@ -1503,6 +1893,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c02e1ce (`0C02E1CE`, 84 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c02e1ce.json`
+- playing
+- not yet
+- stat 2
+
+### FUN_0c02e282 (`0C02E282`, 72 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/FUN_0c02e282.json`
+- 127
+- 0
+- 64 mode 1
+- 300 low byte
+- 256
 
 ### FUN_0c02e2ca (`0C02E2CA`, 84 bytes, `src/gen_c.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c02e2ca.json`
@@ -1559,13 +1966,27 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - values
 - others
 
+### FUN_0c02e3c0 (`0C02E3C0`, 106 bytes, `src/game_p.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/game_p/FUN_0c02e3c0.json`
+- off
+- delay
+- fade
+- end
+- fade neg
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c02e42a (`0C02E42A`, 46 bytes, `src/game_o.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_o/FUN_0c02e42a.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_o/FUN_0c02e42a.json`
 - v 0
 - v 8
 - v 200
 - v 255
 - v 3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02e572 (`0C02E572`, 24 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e572.json`
@@ -1581,6 +2002,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - stat -1: no
 - stat 2: yes
 
+### FUN_0c02e682 (`0C02E682`, 48 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c02e682.json`
+- a
+- b
+
+### FUN_0c02e71e (`0C02E71E`, 60 bytes, `src/game_p.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/game_p/FUN_0c02e71e.json`
+- a
+- b
+- c
+
 ### FUN_0c02e75a (`0C02E75A`, 30 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02e75a.json`
 - slot 1, pan 5
@@ -1588,19 +2020,36 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - slot 0, 0x80 sign
 
 ### FUN_0c02e800 (`0C02E800`, 60 bytes, `src/game_f.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_f/FUN_0c02e800.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_f/FUN_0c02e800.json`
 - table
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02e90e (`0C02E90E`, 18 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e90e.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c02e90e.json`
 - sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c02edd4 (`0C02EDD4`, 44 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c02edd4.json`
+- once
+- once again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02f14c (`0C02F14C`, 22 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02f14c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c02f14c.json`
 - sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c02f220 (`0C02F220`, 74 bytes, `src/game_g.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_g/FUN_0c02f220.json`
@@ -1630,13 +2079,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - unsigned compare
 
 ### FUN_0c02f870 (`0C02F870`, 66 bytes, `src/game_g.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_g/FUN_0c02f870.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_g/FUN_0c02f870.json`
 - two entries
 - null list: nothing
 - none
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03006a (`0C03006A`, 76 bytes, `src/gen_o.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c03006a.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_o/FUN_0c03006a.json`
 - case 0
 - case 1
 - case 2
@@ -1659,18 +2111,38 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0300b6 (`0C0300B6`, 26 bytes, `src/game_d.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c0300b6.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_d/FUN_0c0300b6.json`
 - 1: calls
 - 0: nothing
 - 2: nothing
 - -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c03012c (`0C03012C`, 110 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c03012c.json`
+- playing
+- idle
+- off
+- playing 0
+- none
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03019a (`0C03019A`, 34 bytes, `src/game_d.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c03019a.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_d/FUN_0c03019a.json`
 - sequence
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0301bc (`0C0301BC`, 30 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c0301bc.json`
@@ -1678,14 +2150,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### FUN_0c030914 (`0C030914`, 60 bytes, `src/game_g.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_g/FUN_0c030914.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_g/FUN_0c030914.json`
 - not 5: loads
 - 5: nothing
 - 4
 - -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c030a3e (`0C030A3E`, 66 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c030a3e.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c030a3e.json`
 - case 0
 - case 1
 - case 2
@@ -1708,9 +2183,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c030a80 (`0C030A80`, 62 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c030a80.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c030a80.json`
 - case 0
 - case 1
 - case 2
@@ -1733,6 +2211,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c030b10 (`0C030B10`, 88 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c030b10.json`
+- a
+- b
 
 ### FUN_0c030b7a (`0C030B7A`, 8 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c030b7a.json`
@@ -1766,7 +2252,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - group 0, one
 
 ### FUN_0c030e72 (`0C030E72`, 42 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c030e72.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/FUN_0c030e72.json`
 - case 0
 - case 1
 - case 2
@@ -1789,6 +2275,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03101a (`0C03101A`, 16 bytes, `src/game_m.c`)
 - equivalent on 1 development and 2 holdout cases, in `tests/game_m/FUN_0c03101a.json`
@@ -1802,14 +2291,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - others
 
 ### FUN_0c031048 (`0C031048`, 20 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c031048.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c031048.json`
 - zeros
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0310a0 (`0C0310A0`, 14 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0310a0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/FUN_0c0310a0.json`
 - reset
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0310ae (`0C0310AE`, 18 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0310ae.json`
@@ -1830,9 +2325,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - off over zero
 
 ### FUN_0c031480 (`0C031480`, 18 bytes, `src/game_b.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c031480.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_b/FUN_0c031480.json`
 - sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c031492 (`0C031492`, 84 bytes, `src/game_j.c`)
 - equivalent on 6 development and 5 holdout cases, in `tests/game_j/FUN_0c031492.json`
@@ -1848,10 +2346,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m -1 count 2 s 1 g 0
 - m 3 count 0 s 0 g 0
 
+### FUN_0c031934 (`0C031934`, 126 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/FUN_0c031934.json`
+- cm0
+- cm1
+- cm2
+- cm3
+- cm2 b
+
+### FUN_0c0321c2 (`0C0321C2`, 178 bytes, `src/game_p.c`)
+- equivalent on 6 development and 5 holdout cases, in `tests/game_p/FUN_0c0321c2.json`
+- mid
+- left
+- below
+- eq x
+- eq z
+- right
+- above
+- edge cross
+- edge on
+- edge right
+- b below
+
 ### FUN_0c0357b0 (`0C0357B0`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0357b0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c0357b0.json`
 - sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c036256 (`0C036256`, 48 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c036256.json`
@@ -1879,17 +2402,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c038ed0 (`0C038ED0`, 22 bytes, `src/game_b.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c038ed0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_b/FUN_0c038ed0.json`
 - clears 70 words
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c038ee6 (`0C038EE6`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c038ee6.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c038ee6.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c038eec (`0C038EEC`, 12 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c038eec.json`
@@ -1897,37 +2426,133 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - index 0
 
 ### FUN_0c038f78 (`0C038F78`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c038f78.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c038f78.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c038f80 (`0C038F80`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c038f80.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c038f80.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0391fc (`0C0391FC`, 60 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c0391fc.json`
+- a
+- b
 
 ### FUN_0c039280 (`0C039280`, 24 bytes, `src/game_b.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c039280.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_b/FUN_0c039280.json`
 - two calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03932e (`0C03932E`, 16 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/FUN_0c03932e.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/FUN_0c03932e.json`
 - not 2: set 1
 - 2: kept
 - negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03933e (`0C03933E`, 16 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/FUN_0c03933e.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/FUN_0c03933e.json`
 - positive: -1
 - zero: kept
 - negative: kept
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c03934e (`0C03934E`, 42 bytes, `src/game_p.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_p/FUN_0c03934e.json`
+- inside
+- above
+- below
+- above no flag
+- zero
+- one
+
+### FUN_0c039540 (`0C039540`, 32 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c039540.json`
+- on
+- off
+- minus
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c039560 (`0C039560`, 62 bytes, `src/game_p.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/game_p/FUN_0c039560.json`
+- zero
+- minus
+- one
+- two
+- five
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c039680 (`0C039680`, 92 bytes, `src/game_p.c`)
+- equivalent on 7 development and 6 holdout cases, in `tests/game_p/FUN_0c039680.json`
+- 0
+- 25
+- 26
+- 35
+- 36
+- 39
+- 41
+- -5
+- 37
+- 38
+- 40
+- 42
+- 100
+
+### FUN_0c0396dc (`0C0396DC`, 112 bytes, `src/game_p.c`)
+- equivalent on 7 development and 7 holdout cases, in `tests/game_p/FUN_0c0396dc.json`
+- 48
+- 57
+- 65
+- 90
+- 46
+- 38
+- 33
+- 63
+- 64
+- 42
+- 47
+- 91
+- 321
+- 255
+
+### FUN_0c03974c (`0C03974C`, 156 bytes, `src/game_p.c`)
+- equivalent on 6 development and 5 holdout cases, in `tests/game_p/FUN_0c03974c.json`
+- SEX
+- XX 
+- ABC
+- X  
+-    
+-    
+- b'XXX'
+- b'   '
+- b'SEA'
+- b'X\x00X'
+- b'SEY'
 
 ### FUN_0c03a3e0 (`0C03A3E0`, 60 bytes, `src/gen_h.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_h/FUN_0c03a3e0.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_h/FUN_0c03a3e0.json`
 - case 0
 - case 1
 - case 2
@@ -1950,9 +2575,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03a640 (`0C03A640`, 8 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c03a640.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c03a640.json`
 - case 0
 - case 1
 - case 2
@@ -1975,9 +2603,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c03a704 (`0C03A704`, 64 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c03a704.json`
+- a
+- b
 
 ### FUN_0c03ac62 (`0C03AC62`, 20 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c03ac62.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/FUN_0c03ac62.json`
 - case 0
 - case 1
 - case 2
@@ -2000,12 +2636,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03ace8 (`0C03ACE8`, 32 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/FUN_0c03ace8.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/FUN_0c03ace8.json`
 - equal: 0
 - different: 1
 - different, negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03b158 (`0C03B158`, 58 bytes, `src/game_o.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_o/FUN_0c03b158.json`
@@ -2038,7 +2680,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative p
 
 ### FUN_0c03c10e (`0C03C10E`, 58 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c03c10e.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c03c10e.json`
 - case 0
 - case 1
 - case 2
@@ -2061,6 +2703,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03d678 (`0C03D678`, 74 bytes, `src/game_h.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/game_h/FUN_0c03d678.json`
@@ -2077,7 +2722,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 2, loaded
 
 ### FUN_0c03df1a (`0C03DF1A`, 84 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c03df1a.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c03df1a.json`
 - case 0
 - case 1
 - case 2
@@ -2100,9 +2745,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c03dfc8 (`0C03DFC8`, 50 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c03dfc8.json`
+- request
+- count
+- ends
+- count 2
+- negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c03dffa (`0C03DFFA`, 48 bytes, `src/gen_o.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c03dffa.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_o/FUN_0c03dffa.json`
 - case 0
 - case 1
 - case 2
@@ -2125,9 +2784,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c03f3ac (`0C03F3AC`, 70 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c03f3ac.json`
+- bit 2
+- bit 4
+- none
+- flag off
+- both
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0409a6 (`0C0409A6`, 44 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c0409a6.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c0409a6.json`
 - case 0
 - case 1
 - case 2
@@ -2150,6 +2823,34 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c040a50 (`0C040A50`, 176 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c040a50.json`
+- reverse
+- from 1
+- from 3
+- from 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c040b54 (`0C040B54`, 68 bytes, `src/game_p.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_p/FUN_0c040b54.json`
+- arm
+- keep, off
+- keep, on
+- mode 3
+
+### FUN_0c040b98 (`0C040B98`, 116 bytes, `src/game_p.c`)
+- equivalent on 4 development and 1 holdout cases, in `tests/game_p/FUN_0c040b98.json`
+- k0 arm
+- k1 noflag
+- k1 ok
+- k1 bad
+- k0 flag
 
 ### FUN_0c040de6 (`0C040DE6`, 54 bytes, `src/game_i.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c040de6.json`
@@ -2167,6 +2868,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 0, lang 0
 - m 5, lang -1
 
+### FUN_0c041c14 (`0C041C14`, 160 bytes, `src/game_p.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_p/FUN_0c041c14.json`
+- idle note
+- open
+- cancel
+- run
+- pending 0
+- idle quiet
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c041ce2 (`0C041CE2`, 6 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c041ce2.json`
 - fill ff
@@ -2174,7 +2887,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - fill a5
 
 ### FUN_0c041ce8 (`0C041CE8`, 32 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c041ce8.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c041ce8.json`
 - case 0
 - case 1
 - case 2
@@ -2197,6 +2910,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c041d68 (`0C041D68`, 184 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c041d68.json`
+- a
+- b
 
 ### FUN_0c043524 (`0C043524`, 58 bytes, `src/game_e.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/game_e/FUN_0c043524.json`
@@ -2226,19 +2947,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 0, course 3
 
 ### FUN_0c04bef4 (`0C04BEF4`, 32 bytes, `src/game_b.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_b/FUN_0c04bef4.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_b/FUN_0c04bef4.json`
 - >= 4
 - < 4
 - negative
 - big
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c04bf14 (`0C04BF14`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c04bf14.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c04bf14.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c04bf1a (`0C04BF1A`, 6 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c04bf1a.json`
@@ -2257,18 +2984,71 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - course 3
 - course 0
 
+### FUN_0c04d30a (`0C04D30A`, 38 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c04d30a.json`
+- a
+- b
+
+### FUN_0c04d3ee (`0C04D3EE`, 56 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c04d3ee.json`
+- a
+- origin
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c04eb4a (`0C04EB4A`, 98 bytes, `src/game_p.c`)
+- equivalent on 1 development and 5 holdout cases, in `tests/game_p/FUN_0c04eb4a.json`
+- range
+- empty
+- one
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c04f1b0 (`0C04F1B0`, 56 bytes, `src/game_n.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_n/FUN_0c04f1b0.json`
 - init
 - negative
 
+### FUN_0c0500d8 (`0C0500D8`, 94 bytes, `src/game_p.c`)
+- equivalent on 11 development and 13 holdout cases, in `tests/game_p/FUN_0c0500d8.json`
+- 486
+- 490
+- 491
+- 503
+- 630
+- 639
+- 700
+- 735
+- 787
+- 590
+- 752
+- 485
+- 501
+- 505
+- 629
+- 640
+- 732
+- 737
+- 785
+- 789
+- 591
+- 687
+- 0
+- -1
+
 ### FUN_0c0504bc (`0C0504BC`, 72 bytes, `src/game_o.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_o/FUN_0c0504bc.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_o/FUN_0c0504bc.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c050716 (`0C050716`, 60 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c050716.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c050716.json`
 - case 0
 - case 1
 - case 2
@@ -2291,9 +3071,55 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c050b4c (`0C050B4C`, 110 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c050b4c.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c050bbe (`0C050BBE`, 76 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c050bbe.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c050c0a (`0C050C0A`, 92 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c050c0a.json`
+- base 1
+- base 250
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c050f80 (`0C050F80`, 108 bytes, `src/game_p.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_p/FUN_0c050f80.json`
+- timer
+- late
+- done
+- neg
+
+### FUN_0c050fec (`0C050FEC`, 76 bytes, `src/game_p.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_p/FUN_0c050fec.json`
+- 0
+- 1
+- 2
+- 3
+- negative
+- big
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0512ac (`0C0512AC`, 94 bytes, `src/game_j.c`)
-- equivalent on 8 development and 8 holdout cases, in `tests/game_j/FUN_0c0512ac.json`
+- equivalent on 8 development and 11 holdout cases, in `tests/game_j/FUN_0c0512ac.json`
 - state 0 sw 10000 0
 - state 0 sw 30000 4
 - state 0 sw 0 4
@@ -2310,58 +3136,121 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - state 3 sw 30000 4
 - state 3 sw 0 4
 - state 3 sw 10000 4
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05130a (`0C05130A`, 114 bytes, `src/game_p.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_p/FUN_0c05130a.json`
+- same
+- m0
+- m1
+- m2
+- m3
+- m1 b
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05153e (`0C05153E`, 24 bytes, `src/sdk_s.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_s/FUN_0c05153e.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_s/FUN_0c05153e.json`
 - state 0: both
 - state 1: one
 - state -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051556 (`0C051556`, 96 bytes, `src/game_j.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/game_j/FUN_0c051556.json`
+- equivalent on 3 development and 6 holdout cases, in `tests/game_j/FUN_0c051556.json`
 - not state 1
 - counter above limit, index 0
 - counter below: increments
 - index 2: 3
 - index 1: 8
 - equal counter: increments
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c051992 (`0C051992`, 76 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c051992.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0519de (`0C0519DE`, 92 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c0519de.json`
+- base 1
+- base 250
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c051a3a (`0C051A3A`, 110 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c051a3a.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051bc0 (`0C051BC0`, 22 bytes, `src/game_b.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c051bc0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_b/FUN_0c051bc0.json`
 - five calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051bd6 (`0C051BD6`, 76 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051bd6.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c051bd6.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051c22 (`0C051C22`, 64 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051c22.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c051c22.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051caa (`0C051CAA`, 64 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051caa.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c051caa.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051cea (`0C051CEA`, 56 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051cea.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c051cea.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051d22 (`0C051D22`, 22 bytes, `src/game_b.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c051d22.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_b/FUN_0c051d22.json`
 - five calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c051d38 (`0C051D38`, 12 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c051d38.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c051d38.json`
 - case 0
 - case 1
 - case 2
@@ -2384,9 +3273,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c051e4c (`0C051E4C`, 158 bytes, `src/game_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_p/FUN_0c051e4c.json`
+- pick 0
+- pick 2
+- pick 3
+- none
 
 ### FUN_0c052138 (`0C052138`, 12 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c052138.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c052138.json`
 - case 0
 - case 1
 - case 2
@@ -2409,44 +3308,83 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c052268 (`0C052268`, 156 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c052268.json`
+- a
+- b
 
 ### FUN_0c052574 (`0C052574`, 64 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052574.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c052574.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0525b4 (`0C0525B4`, 72 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0525b4.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c0525b4.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0525fc (`0C0525FC`, 96 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0525fc.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c0525fc.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0526a0 (`0C0526A0`, 156 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c0526a0.json`
+- a
+- b
 
 ### FUN_0c05273c (`0C05273C`, 92 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c05273c.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c05273c.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c052c9e (`0C052C9E`, 84 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052c9e.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c052c9e.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c052d28 (`0C052D28`, 86 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052d28.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c052d28.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c052d7e (`0C052D7E`, 106 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c052d7e.json`
+- init
+- init 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05308c (`0C05308C`, 20 bytes, `src/game_b.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_b/FUN_0c05308c.json`
@@ -2461,11 +3399,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0 already clear
 
 ### FUN_0c05317e (`0C05317E`, 12 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c05317e.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c05317e.json`
 - all set: bit cleared
 - only the bit
 - already clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05318a (`0C05318A`, 64 bytes, `src/game_f.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_f/FUN_0c05318a.json`
@@ -2487,39 +3428,70 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - three
 - other
 
+### FUN_0c05324e (`0C05324E`, 60 bytes, `src/game_p.c`)
+- equivalent on 2 development and 5 holdout cases, in `tests/game_p/FUN_0c05324e.json`
+- mid
+- end
+- zero
+- big
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c05328a (`0C05328A`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05328a.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05328a.json`
 - sets 1
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c053292 (`0C053292`, 18 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c053292.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c053292.json`
 - sets bit, clears word
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0532a4 (`0C0532A4`, 12 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0532a4.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c0532a4.json`
 - all set: bit cleared
 - only the bit
 - already clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0532de (`0C0532DE`, 12 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0532de.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c0532de.json`
 - all set: bit cleared
 - only the bit
 - already clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0532ea (`0C0532EA`, 66 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c0532ea.json`
+- game 0
+- game 2
+- game 1
 
 ### FUN_0c05332c (`0C05332C`, 12 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c05332c.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c05332c.json`
 - all set: bit cleared
 - only the bit
 - already clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0533ba (`0C0533BA`, 44 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c0533ba.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c0533ba.json`
 - case 0
 - case 1
 - case 2
@@ -2542,13 +3514,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0533e6 (`0C0533E6`, 12 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0533e6.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c0533e6.json`
 - all set: bit cleared
 - only the bit
 - already clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0534ec (`0C0534EC`, 114 bytes, `src/gen_j.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_j/FUN_0c0534ec.json`
@@ -2576,23 +3554,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c05355e (`0C05355E`, 70 bytes, `src/game_h.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_h/FUN_0c05355e.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_h/FUN_0c05355e.json`
 - run
 - Game_No 2: nothing
 - NoArrow set: nothing
 - Game_No 1
 - Game_No -1, arrow
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0535fc (`0C0535FC`, 70 bytes, `src/game_h.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_h/FUN_0c0535fc.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_h/FUN_0c0535fc.json`
 - run
 - Game_No 2: nothing
 - NoArrow set: nothing
 - Game_No 1
 - Game_No -1, arrow
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05364e (`0C05364E`, 40 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c05364e.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c05364e.json`
 - case 0
 - case 1
 - case 2
@@ -2615,9 +3599,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c053ac0 (`0C053AC0`, 38 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c053ac0.json`
+- game 2
+- menu
+- no menu
+- game 1 menu
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c053b44 (`0C053B44`, 50 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c053b44.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c053b44.json`
 - case 0
 - case 1
 - case 2
@@ -2640,6 +3637,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0543fc (`0C0543FC`, 86 bytes, `src/gen_i.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_i/FUN_0c0543fc.json`
@@ -2667,24 +3667,153 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c054452 (`0C054452`, 58 bytes, `src/game_e.c`)
-- equivalent on 2 development and 3 holdout cases, in `tests/game_e/FUN_0c054452.json`
+- equivalent on 2 development and 6 holdout cases, in `tests/game_e/FUN_0c054452.json`
 - amount 100: 60 moved
 - amount 25: all moved
 - amount 60
 - amount 0: nothing
 - negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c054a38 (`0C054A38`, 102 bytes, `src/game_p.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_p/FUN_0c054a38.json`
+- off
+- on
+- neg
+- 2
+- zero
+- big
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0552b0 (`0C0552B0`, 30 bytes, `src/game_c.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0552b0.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_c/FUN_0c0552b0.json`
 - below 8: three calls
 - 8: nothing
 - negative
 - 9
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c055310 (`0C055310`, 82 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c055310.json`
+- all set
+- one clear
+- state 1
+- state 5 last clear
+- state 6
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0558a2 (`0C0558A2`, 98 bytes, `src/game_p.c`)
+- equivalent on 3 development and 6 holdout cases, in `tests/game_p/FUN_0c0558a2.json`
+- lv 1
+- lv -1 end
+- lv 3
+- lv -2
+- lv 2
+- lv 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c055aca (`0C055ACA`, 78 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c055aca.json`
+- big
+- small
+- off
+- mid
+- other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c055b38 (`0C055B38`, 180 bytes, `src/game_p.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/game_p/FUN_0c055b38.json`
+- state0
+- state1
+- state2 wait
+- state2 done
+- state2 done 99
+- state3 to 4
+- state3 wait
+- state4 done
+- state4 run
+- state6
+
+### FUN_0c055cf4 (`0C055CF4`, 36 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c055cf4.json`
+- both set
+- one clear
+- other clear
+- none
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c0563f8 (`0C0563F8`, 18 bytes, `src/game_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c0563f8.json`
 - init
 - another
+
+### FUN_0c056e80 (`0C056E80`, 88 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c056e80.json`
+- start
+- third
+- done
+- mid
+- third 59
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c056ff8 (`0C056FF8`, 136 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c056ff8.json`
+- 0
+- 2
+- 3
+- live RAM (arcade)
+- live RAM (box)
+- live RAM (Total Records screen)
+
+### FUN_0c057080 (`0C057080`, 92 bytes, `src/game_p.c`)
+- equivalent on 2 development and 5 holdout cases, in `tests/game_p/FUN_0c057080.json`
+- 3
+- 0
+- neg
+- 1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0572de (`0C0572DE`, 96 bytes, `src/game_p.c`)
+- equivalent on 3 development and 6 holdout cases, in `tests/game_p/FUN_0c0572de.json`
+- shown
+- hidden
+- alt
+- wrap
+- edge
+- edge 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05741c (`0C05741C`, 96 bytes, `src/game_p.c`)
+- equivalent on 3 development and 6 holdout cases, in `tests/game_p/FUN_0c05741c.json`
+- shown
+- hidden
+- alt
+- wrap
+- edge
+- edge 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05778a (`0C05778A`, 14 bytes, `src/gen_f.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c05778a.json`
@@ -2712,39 +3841,69 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c0577dc (`0C0577DC`, 18 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0577dc.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c0577dc.json`
 - four calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c057930 (`0C057930`, 80 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c057930.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c057930.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c057980 (`0C057980`, 64 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c057980.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c057980.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c057aac (`0C057AAC`, 176 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c057aac.json`
+- ones
+- zeros
 
 ### FUN_0c057b5c (`0C057B5C`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c057b5c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c057b5c.json`
 - sets 8
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c057b64 (`0C057B64`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c057b64.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c057b64.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c057bdc (`0C057BDC`, 96 bytes, `src/game_p.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_p/FUN_0c057bdc.json`
+- k 0
+- k -1
+- k 3
+- k 0 2
 
 ### FUN_0c057c3c (`0C057C3C`, 32 bytes, `src/game_d.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c057c3c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_d/FUN_0c057c3c.json`
 - sets
 - bit 0 only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c057e9e (`0C057E9E`, 68 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c057e9e.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c057e9e.json`
 - case 0
 - case 1
 - case 2
@@ -2767,9 +3926,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c057fe2 (`0C057FE2`, 54 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c057fe2.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c057fe2.json`
 - case 0
 - case 1
 - case 2
@@ -2792,21 +3954,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05891a (`0C05891A`, 18 bytes, `src/game_m.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_m/FUN_0c05891a.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_m/FUN_0c05891a.json`
 - state 1: zero
 - state 0: kept
 - state 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c058968 (`0C058968`, 80 bytes, `src/game_p.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/game_p/FUN_0c058968.json`
+- kind 1
+- kind 3 none
+- kind 3 last
+- kind 5 own
+- kind 9
+- kind 6 earlier set
+- kind 7
+- kind -1
+
+### FUN_0c058f38 (`0C058F38`, 94 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c058f38.json`
+- base 1
+- base 250
 
 ### FUN_0c0591ea (`0C0591EA`, 72 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0591ea.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c0591ea.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c059450 (`0C059450`, 54 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c059450.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/FUN_0c059450.json`
 - case 0
 - case 1
 - case 2
@@ -2829,6 +4016,60 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c059514 (`0C059514`, 160 bytes, `src/game_p.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/game_p/FUN_0c059514.json`
+- past
+- no button
+- done flag
+- before
+- mid
+- at start
+- post start
+- just under
+
+### FUN_0c0597fc (`0C0597FC`, 106 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c0597fc.json`
+- 3 hud
+- -1
+- 1 no hud
+- 2 hud
+- 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c059eb0 (`0C059EB0`, 124 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c059eb0.json`
+- shown
+- not yet
+- shown 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05a350 (`0C05A350`, 94 bytes, `src/game_p.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/game_p/FUN_0c05a350.json`
+- entry clear
+- k 1
+- k 3 none
+- k 4 later
+- k 8
+- k 7 set
+- k 5 none
+- k 9
+
+### FUN_0c05a3ae (`0C05A3AE`, 142 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c05a3ae.json`
+- 3 shown
+- none
+- all
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05a742 (`0C05A742`, 90 bytes, `src/gen_g.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_g/FUN_0c05a742.json`
@@ -2855,13 +4096,45 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### FUN_0c05ab80 (`0C05AB80`, 142 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c05ab80.json`
+- 2 shown
+- none
+- all
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05ac4c (`0C05AC4C`, 124 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/FUN_0c05ac4c.json`
+- shown
+- not yet
+- shown 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05aefc (`0C05AEFC`, 112 bytes, `src/game_p.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/game_p/FUN_0c05aefc.json`
+- wobble
+- stop
+- small
+- off
+- no stop
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c05af6c (`0C05AF6C`, 26 bytes, `src/game_m.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c05af6c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_m/FUN_0c05af6c.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05af86 (`0C05AF86`, 8 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c05af86.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c05af86.json`
 - case 0
 - case 1
 - case 2
@@ -2884,9 +4157,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05af8e (`0C05AF8E`, 76 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c05af8e.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05b044 (`0C05B044`, 92 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c05b044.json`
+- base 1
+- base 250
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05b0a0 (`0C05B0A0`, 124 bytes, `src/gen_h.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_h/FUN_0c05b0a0.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_h/FUN_0c05b0a0.json`
 - case 0
 - case 1
 - case 2
@@ -2909,12 +4201,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05b7a8 (`0C05B7A8`, 72 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c05b7a8.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c05b7a8.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05b7f0 (`0C05B7F0`, 154 bytes, `src/game_p.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_p/FUN_0c05b7f0.json`
+- k4
+- k2
+- k1
+- k3
+- k0
+- k5
+
+### FUN_0c05b88a (`0C05B88A`, 78 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c05b88a.json`
+- mg 3
+- mg 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05baf4 (`0C05BAF4`, 30 bytes, `src/game_o.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_o/FUN_0c05baf4.json`
@@ -2924,14 +4239,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - tiny
 
 ### FUN_0c05bb12 (`0C05BB12`, 18 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
 - sets
 - bit 2 only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05bb24 (`0C05BB24`, 64 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c05bb24.json`
+- go timer
+- go no timer
+- done
+- other
+- negative timer
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05bb64 (`0C05BB64`, 18 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb64.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05bb64.json`
 - sets
 - bit 4 only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05bb76 (`0C05BB76`, 72 bytes, `src/game_i.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c05bb76.json`
@@ -2942,28 +4274,57 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative sound
 
 ### FUN_0c05c2d4 (`0C05C2D4`, 48 bytes, `src/game_i.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c05c2d4.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/game_i/FUN_0c05c2d4.json`
 - t 0: starts
 - t 100
 - t 209: reaches 210
 - t 300
 - negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05c72e (`0C05C72E`, 126 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c05c72e.json`
+- timeout
+- goal near
+- done
+- near only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05c7ac (`0C05C7AC`, 68 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c05c7ac.json`
+- done
+- nothing yet
+- starts
+- blocked
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05cb52 (`0C05CB52`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c05cb52.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c05cb52.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05cdb4 (`0C05CDB4`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05cdb4.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05cdb4.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05cde4 (`0C05CDE4`, 84 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c05cde4.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c05cde4.json`
 - case 0
 - case 1
 - case 2
@@ -2986,19 +4347,43 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05ce38 (`0C05CE38`, 8 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05ce38.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05ce38.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05d076 (`0C05D076`, 138 bytes, `src/game_p.c`)
+- equivalent on 7 development and 5 holdout cases, in `tests/game_p/FUN_0c05d076.json`
+- flag set
+- clear
+- drop+clear
+- mg6 low
+- mg6 high
+- mg5 zero
+- mg5 pos
+- mg3
+- mg6 20
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1)
+- live RAM (Total Records screen)
 
 ### FUN_0c05d492 (`0C05D492`, 18 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05d492.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05d492.json`
 - sets
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05d4fc (`0C05D4FC`, 90 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c05d4fc.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c05d4fc.json`
 - case 0
 - case 1
 - case 2
@@ -3021,9 +4406,33 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05d662 (`0C05D662`, 64 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c05d662.json`
+- drop, more left
+- drop, last
+- no drop
+- none left
+- drop 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05d6e0 (`0C05D6E0`, 40 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c05d6e0.json`
+- entry 3
+- none
+- game 14
+- entry 5 game 14
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05d82a (`0C05D82A`, 40 bytes, `src/gen_l.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_l/FUN_0c05d82a.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_l/FUN_0c05d82a.json`
 - case 0
 - case 1
 - case 2
@@ -3046,31 +4455,70 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05d852 (`0C05D852`, 16 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05d852.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05d852.json`
 - copies
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05db72 (`0C05DB72`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c05db72.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c05db72.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05df48 (`0C05DF48`, 22 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05df48.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/FUN_0c05df48.json`
 - sets
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c05df5e (`0C05DF5E`, 12 bytes, `src/game_d.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c05df5e.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_d/FUN_0c05df5e.json`
 - all set
 - only the bit
 - clear
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05e2fa (`0C05E2FA`, 78 bytes, `src/game_p.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/game_p/FUN_0c05e2fa.json`
+- big
+- small
+- off
+- mid
+- other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05e8c8 (`0C05E8C8`, 102 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c05e8c8.json`
+- reset
+- reset 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05ead0 (`0C05EAD0`, 130 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c05ead0.json`
+- k2
+- k25
 
 ### FUN_0c05ef68 (`0C05EF68`, 82 bytes, `src/game_i.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/game_i/FUN_0c05ef68.json`
@@ -3087,25 +4535,92 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - port 3
 
 ### FUN_0c05f93c (`0C05F93C`, 38 bytes, `src/game_d.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c05f93c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_d/FUN_0c05f93c.json`
 - ten calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c05fa48 (`0C05FA48`, 114 bytes, `src/game_p.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_p/FUN_0c05fa48.json`
+- k 0
+- k 7
+- k 12
+- k 4
+- k 9
+- k -3
+
+### FUN_0c05fcc6 (`0C05FCC6`, 78 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c05fcc6.json`
+- near
+- far
+- big index
+
+### FUN_0c05fd70 (`0C05FD70`, 32 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/FUN_0c05fd70.json`
+- voice 2
+- voice 0
+
+### FUN_0c060334 (`0C060334`, 98 bytes, `src/game_p.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/game_p/FUN_0c060334.json`
+- under 14
+- under sys
+- under none
+- above sys
+- above
+- subway
+- edge
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c0603a2 (`0C0603A2`, 86 bytes, `src/game_p.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/game_p/FUN_0c0603a2.json`
+- no ground
+- subway
+- subway area 21
+- above
+- below
+- area 0
+- kind 16 above
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c060428 (`0C060428`, 52 bytes, `src/game_f.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_f/FUN_0c060428.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_f/FUN_0c060428.json`
 - clears and sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c06047c (`0C06047C`, 8 bytes, `src/game_d.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c06047c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_d/FUN_0c06047c.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c06048c (`0C06048C`, 10 bytes, `src/game_d.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_d/FUN_0c06048c.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_d/FUN_0c06048c.json`
 - sets bit 0
 - keeps others
 - already set
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c060586 (`0C060586`, 136 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/FUN_0c060586.json`
+- port0
+- port1 pressed flag
+- port2 pressed no flag
+- port1 not pressed
+- port5
+- port 14 flag
 
 ### FUN_0c060616 (`0C060616`, 28 bytes, `src/game_d.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c060616.json`
@@ -3115,9 +4630,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 0 on zero
 
 ### FUN_0c060660 (`0C060660`, 50 bytes, `src/game_f.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_f/FUN_0c060660.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_f/FUN_0c060660.json`
 - block 12288 bytes
 - pattern
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c060692 (`0C060692`, 62 bytes, `src/game_p.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_p/FUN_0c060692.json`
+- p 1
+- p 7
+- p 13
+- p 0
+- p 11
+- p 20
 
 ### FUN_0c0608ac (`0C0608AC`, 50 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c0608ac.json`
@@ -3144,8 +4671,32 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### FUN_0c0608de (`0C0608DE`, 64 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c0608de.json`
+- a
+- b
+
+### FUN_0c060a5c (`0C060A5C`, 146 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c060a5c.json`
+- pad
+- no pad
+- pad no flag
+
+### FUN_0c060aee (`0C060AEE`, 92 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c060aee.json`
+- flag
+- no flag
+- flag 2
+
+### FUN_0c060b84 (`0C060B84`, 112 bytes, `src/game_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_p/FUN_0c060b84.json`
+- k 0
+- k 6
+- k 3
+- k 1
+
 ### FUN_0c060da6 (`0C060DA6`, 22 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c060da6.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c060da6.json`
 - case 0
 - case 1
 - case 2
@@ -3168,9 +4719,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c062ff4 (`0C062FF4`, 64 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c062ff4.json`
+- 1
+- 2
+
+### FUN_0c0630a2 (`0C0630A2`, 48 bytes, `src/game_p.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_p/FUN_0c0630a2.json`
+- same
+- new id
+- new value
+- both
 
 ### FUN_0c0631c6 (`0C0631C6`, 56 bytes, `src/game_n.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/game_n/FUN_0c0631c6.json`
+- equivalent on 5 development and 7 holdout cases, in `tests/game_n/FUN_0c0631c6.json`
 - speed 0
 - speed 1717
 - speed 3434
@@ -3180,9 +4746,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - speed 32767
 - speed -1
 - speed 200
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c063292 (`0C063292`, 60 bytes, `src/gen_k.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_k/FUN_0c063292.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_k/FUN_0c063292.json`
 - case 0
 - case 1
 - case 2
@@ -3205,9 +4774,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c063ad0 (`0C063AD0`, 40 bytes, `src/game_n.c`)
-- equivalent on 4 development and 5 holdout cases, in `tests/game_n/FUN_0c063ad0.json`
+- equivalent on 4 development and 8 holdout cases, in `tests/game_n/FUN_0c063ad0.json`
 - x 5.0
 - x 10.0
 - x 20.0
@@ -3217,9 +4789,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - x -0.0
 - x 1e+30
 - x 0.001
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c063dc6 (`0C063DC6`, 104 bytes, `src/gen_o.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c063dc6.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_o/FUN_0c063dc6.json`
 - case 0
 - case 1
 - case 2
@@ -3242,19 +4817,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c064420 (`0C064420`, 152 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/FUN_0c064420.json`
+- advance both
+- none
+- wrap
+- one
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c066bf0 (`0C066BF0`, 164 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c066bf0.json`
+- a
+- b
 
 ### FUN_0c067a28 (`0C067A28`, 22 bytes, `src/game_d.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c067a28.json`
 - two calls
 - another
 
+### FUN_0c06b028 (`0C06B028`, 74 bytes, `src/game_p.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/game_p/FUN_0c06b028.json`
+- 45
+- 90
+- 0
+
 ### FUN_0c06b0ee (`0C06B0EE`, 6 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c06b0ee.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/FUN_0c06b0ee.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c070ede (`0C070EDE`, 38 bytes, `src/sdk_w.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_w/FUN_0c070ede.json`
@@ -3289,7 +4891,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c0714f2 (`0C0714F2`, 108 bytes, `src/gen_c.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c0714f2.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_c/FUN_0c0714f2.json`
 - case 0
 - case 1
 - case 2
@@ -3312,6 +4914,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c071d98 (`0C071D98`, 32 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c071d98.json`
+- event
+- null
+- event 2
+
+### FUN_0c072348 (`0C072348`, 172 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c072348.json`
+- k0
+- k1 wrap
+- k2
 
 ### FUN_0c072502 (`0C072502`, 10 bytes, `src/game_m.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_m/FUN_0c072502.json`
@@ -3320,16 +4937,57 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero
 - big
 
+### FUN_0c072884 (`0C072884`, 68 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c072884.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c072dd4 (`0C072DD4`, 98 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c072dd4.json`
+- reset
+- reset 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c072e36 (`0C072E36`, 28 bytes, `src/sdk_s.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/FUN_0c072e36.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_s/FUN_0c072e36.json`
 - four calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c072e52 (`0C072E52`, 62 bytes, `src/game_p.c`)
+- equivalent on 2 development and 5 holdout cases, in `tests/game_p/FUN_0c072e52.json`
+- mode 1 all
+- mode 0
+- mode 1 none
+- mode 2 ch0 free
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c072e90 (`0C072E90`, 136 bytes, `src/game_p.c`)
+- equivalent on 5 development and 1 holdout cases, in `tests/game_p/FUN_0c072e90.json`
+- start
+- wait
+- playing short
+- playing long
+- next
+- last
 
 ### FUN_0c072fe8 (`0C072FE8`, 104 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c072fe8.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/FUN_0c072fe8.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c07387c (`0C07387C`, 50 bytes, `src/gen_j.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_j/FUN_0c07387c.json`
@@ -3391,10 +5049,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 1
 - -1
 
+### FUN_0c074510 (`0C074510`, 154 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c074510.json`
+- a
+- b
+
+### FUN_0c0745e0 (`0C0745E0`, 152 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c0745e0.json`
+- a
+- b
+
 ### FUN_0c074680 (`0C074680`, 8 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074680.json`
 - 100000.0
 - again
+
+### FUN_0c074990 (`0C074990`, 22 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/FUN_0c074990.json`
+- a
+- b
+
+### FUN_0c0749b0 (`0C0749B0`, 22 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/FUN_0c0749b0.json`
+- a
+- b
 
 ### FUN_0c074ca0 (`0C074CA0`, 98 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c074ca0.json`
@@ -3408,9 +5086,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0
 
 ### FUN_0c0753f0 (`0C0753F0`, 6 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0753f0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c0753f0.json`
 - timer 0 count
 - another count
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c075400 (`0C075400`, 16 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c075400.json`
@@ -3423,29 +5104,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0 - 1
 
 ### FUN_0c075430 (`0C075430`, 20 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c075430.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c075430.json`
 - count 1000, kept 5000
 - other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c075570 (`0C075570`, 54 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zd/FUN_0c075570.json`
+- on
+- off
+- on 2
 
 ### FUN_0c076670 (`0C076670`, 34 bytes, `src/sdk_m.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c076670.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_m/FUN_0c076670.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c077df0 (`0C077DF0`, 74 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c077df0.json`
+- 2 to 3
+- 0 to 1
+- same
 
 ### FUN_0c077f60 (`0C077F60`, 10 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f60.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c077f60.json`
 - top 0C810080
 - top 0C900040
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c077f70 (`0C077F70`, 8 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f70.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c077f70.json`
 - view 0C810000
 - view 0C820040
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c077f80 (`0C077F80`, 14 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f80.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c077f80.json`
 - push view, multiply
 - other pointers
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c078750 (`0C078750`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c078750.json`
@@ -3463,19 +5171,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negatives
 
 ### FUN_0c078fa0 (`0C078FA0`, 32 bytes, `src/sdk_m.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c078fa0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_m/FUN_0c078fa0.json`
 - sequence
 - another matrix
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c078ff0 (`0C078FF0`, 32 bytes, `src/sdk_m.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c078ff0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_m/FUN_0c078ff0.json`
 - sequence
 - another matrix
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c079e70 (`0C079E70`, 40 bytes, `src/sdk_m.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c079e70.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_m/FUN_0c079e70.json`
 - sequence
 - others
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c079f10 (`0C079F10`, 52 bytes, `src/sdk_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c079f10.json`
@@ -3513,6 +5230,49 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - one argument
 - another
 
+### FUN_0c07c100 (`0C07C100`, 68 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/FUN_0c07c100.json`
+- both below
+- a below
+- b below
+- none
+- equal
+- a below b equal
+
+### FUN_0c07c1d0 (`0C07C1D0`, 134 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07c1d0.json`
+- a
+- b
+
+### FUN_0c07c260 (`0C07C260`, 126 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07c260.json`
+- a
+- b
+
+### FUN_0c07c2e0 (`0C07C2E0`, 118 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07c2e0.json`
+- a
+- b
+
+### FUN_0c07c3f0 (`0C07C3F0`, 118 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07c3f0.json`
+- a
+- b
+
+### FUN_0c07c6b0 (`0C07C6B0`, 138 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/FUN_0c07c6b0.json`
+- a
+- b
+- c
+
+### FUN_0c07c830 (`0C07C830`, 64 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/FUN_0c07c830.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### FUN_0c07d430 (`0C07D430`, 22 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c07d430.json`
 - the four words
@@ -3522,6 +5282,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c07d4f0.json`
 - four
 - others
+
+### FUN_0c07d510 (`0C07D510`, 40 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07d510.json`
+- a
+- b
 
 ### FUN_0c07d5c0 (`0C07D5C0`, 34 bytes, `src/sdk_m.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_m/FUN_0c07d5c0.json`
@@ -3551,10 +5316,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - resource only
 
 ### FUN_0c07e880 (`0C07E880`, 18 bytes, `src/sdk_s.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_s/FUN_0c07e880.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_s/FUN_0c07e880.json`
 - set
 - clear
 - high bit
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c07fc10 (`0C07FC10`, 40 bytes, `src/sdk_m.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_m/FUN_0c07fc10.json`
@@ -3615,6 +5383,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - word 2, bit 6 set
 - word 0, bit clear
 
+### FUN_0c0886cc (`0C0886CC`, 100 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/FUN_0c0886cc.json`
+- round up with carries
+- round down
+- n 1
+- carry to front
+- exactly 5
+
+### FUN_0c08933c (`0C08933C`, 120 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/FUN_0c08933c.json`
+- no borrow
+- underflow
+- zero
+- underflow signed
+- n 0
+
 ### FUN_0c0893b8 (`0C0893B8`, 52 bytes, `src/sdk_m.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_m/FUN_0c0893b8.json`
 - equal 3
@@ -3654,14 +5438,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - high
 
 ### FUN_0c14ab88 (`0C14AB88`, 8 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14ab88.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/FUN_0c14ab88.json`
 - handle
 - another
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c14ab90 (`0C14AB90`, 8 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14ab90.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/FUN_0c14ab90.json`
 - handle
 - another
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c14ab98 (`0C14AB98`, 90 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c14ab98.json`
+- a
+- b
+
+### FUN_0c14ceee (`0C14CEEE`, 88 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c14ceee.json`
+- foreign
+- two libs
+- none
 
 ### FUN_0c14cfe2 (`0C14CFE2`, 34 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c14cfe2.json`
@@ -3683,7 +5484,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - nothing again
 
 ### FUN_0c1519be (`0C1519BE`, 76 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c1519be.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c1519be.json`
 - case 0
 - case 1
 - case 2
@@ -3706,6 +5507,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c152292 (`0C152292`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c152292.json`
@@ -3716,6 +5520,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c152330.json`
 - 0x7F
 - 0x1FF (byte)
+
+### FUN_0c152340 (`0C152340`, 100 bytes, `src/sdk_za.c`)
+- equivalent on 1 development and 5 holdout cases, in `tests/sdk_za/FUN_0c152340.json`
+- two open
+- none open
+- last open
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### FUN_0c1534a0 (`0C1534A0`, 42 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_zc/FUN_0c1534a0.json`
+- both
+- none
+- c only
+- b only
 
 ### FUN_0c1534ca (`0C1534CA`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_j/FUN_0c1534ca.json`
@@ -3746,12 +5566,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - no flag
 - flag, n 0
 
+### FUN_0c157160 (`0C157160`, 156 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_ze/FUN_0c157160.json`
+- empty
+- chain
+- limit
+- none
+- best
+- slot1
+- mixed
+
 ### FUN_0c1573a0 (`0C1573A0`, 44 bytes, `src/sdk_l.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_l/FUN_0c1573a0.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_l/FUN_0c1573a0.json`
 - first free
 - second free
 - third free, high bits
 - first used, bit 0 only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c1573cc (`0C1573CC`, 38 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c1573cc.json`
@@ -3767,11 +5600,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another list
 
 ### FUN_0c157cc8 (`0C157CC8`, 44 bytes, `src/sdk_l.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_l/FUN_0c157cc8.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_l/FUN_0c157cc8.json`
 - first free
 - second free
 - third free, high bits
 - first used, bit 0 only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c157d20 (`0C157D20`, 38 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c157d20.json`
@@ -3816,7 +5652,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 14 bytes: 3 words
 
 ### FUN_0c158f00 (`0C158F00`, 92 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/FUN_0c158f00.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/FUN_0c158f00.json`
 - case 0
 - case 1
 - case 2
@@ -3839,16 +5675,55 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c159ae0 (`0C159AE0`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c159ae0.json`
 - nothing
 - nothing again
 
+### FUN_0c15c746 (`0C15C746`, 62 bytes, `src/sdk_za.c`)
+- equivalent on 4 development and 1 holdout cases, in `tests/sdk_za/FUN_0c15c746.json`
+- type 3
+- mip
+- flag 32
+- plain
+- mip and 32
+
+### FUN_0c15c7f4 (`0C15C7F4`, 94 bytes, `src/sdk_za.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_za/FUN_0c15c7f4.json`
+- 256 mip
+- 8x8 plain
+- 64x16 mip
+- 32x32 plain
+- 16x128 mip
+- 8x8 mip
+- 8x16 plain
+
 ### FUN_0c15c960 (`0C15C960`, 42 bytes, `src/sdk_l.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_l/FUN_0c15c960.json`
 - level 2
 - level 0
+
+### FUN_0c15cc6e (`0C15CC6E`, 154 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/FUN_0c15cc6e.json`
+- e1
+- e2
+- e3
+- e5
+- e0
+- e4
+
+### FUN_0c15cd40 (`0C15CD40`, 168 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/FUN_0c15cd40.json`
+- e1
+- e2
+- e3
+- e5
+- e0
+- e4
 
 ### FUN_0c15f49a (`0C15F49A`, 46 bytes, `src/sdk_l.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_l/FUN_0c15f49a.json`
@@ -3893,24 +5768,36 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c15f818 (`0C15F818`, 16 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c15f818.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/FUN_0c15f818.json`
 - call
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c15f868 (`0C15F868`, 14 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c15f868.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/FUN_0c15f868.json`
 - call
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c15f8ba (`0C15F8BA`, 16 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c15f8ba.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/FUN_0c15f8ba.json`
 - call
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c15f926 (`0C15F926`, 14 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c15f926.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/FUN_0c15f926.json`
 - call
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c15f998 (`0C15F998`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_i/FUN_0c15f998.json`
@@ -3926,11 +5813,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - empty
 - three chars
 
+### FUN_0c15fab8 (`0C15FAB8`, 150 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/FUN_0c15fab8.json`
+- short
+- file
+- dir
+- dot
+- dotdot
+- file other
+
 ### FUN_0c1614de (`0C1614DE`, 10 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 2 holdout cases, in `tests/sdk_t/FUN_0c1614de.json`
+- equivalent on 1 development and 5 holdout cases, in `tests/sdk_t/FUN_0c1614de.json`
 - count 0x1000
 - zero
 - all ones
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c162db6 (`0C162DB6`, 34 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/FUN_0c162db6.json`
@@ -3945,19 +5844,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - fill a5
 
 ### FUN_0c167c4c (`0C167C4C`, 8 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c167c4c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/FUN_0c167c4c.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c16800c (`0C16800C`, 26 bytes, `src/sdk_u.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_u/FUN_0c16800c.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_u/FUN_0c16800c.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c168026 (`0C168026`, 26 bytes, `src/sdk_u.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_u/FUN_0c168026.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_u/FUN_0c168026.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c1687f2 (`0C1687F2`, 4 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c1687f2.json`
@@ -4271,6 +6179,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### FUN_0c1689c0 (`0C1689C0`, 8 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c1689c0.json`
+- a
+- b
+
 ### FUN_0c168e10 (`0C168E10`, 4 bytes, `src/gen_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/gen_b/FUN_0c168e10.json`
 - pattern ff
@@ -4305,7 +6218,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c16c7ca (`0C16C7CA`, 40 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c16c7ca.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c16c7ca.json`
 - case 0
 - case 1
 - case 2
@@ -4328,12 +6241,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c16c7f2 (`0C16C7F2`, 30 bytes, `src/sdk_w.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_w/FUN_0c16c7f2.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_w/FUN_0c16c7f2.json`
 - status 0: bit set
 - status 5: kept
 - already bit
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c1701c4 (`0C1701C4`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 2 holdout cases, in `tests/sdk_t/FUN_0c1701c4.json`
@@ -4348,10 +6267,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 1 byte
 - -3
 
+### FUN_0c170c10 (`0C170C10`, 88 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 1 holdout cases, in `tests/sdk_ze/FUN_0c170c10.json`
+- busy
+- unused
+- good
+- bad
+- good 0
+
 ### FUN_0c170fd0 (`0C170FD0`, 20 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c170fd0.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/FUN_0c170fd0.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c17190c (`0C17190C`, 40 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c17190c.json`
@@ -4387,6 +6317,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c171e62.json`
 - param
 - another
+
+### FUN_0c171fe8 (`0C171FE8`, 90 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/FUN_0c171fe8.json`
+- 0
+- 5
+- 15
+- -3
+- 14
+- 100
 
 ### FUN_0c1720ac (`0C1720AC`, 72 bytes, `src/gen_l.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_l/FUN_0c1720ac.json`
@@ -4500,7 +6439,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### FUN_0c174394 (`0C174394`, 10 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c174394.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/FUN_0c174394.json`
 - case 0
 - case 1
 - case 2
@@ -4523,6 +6462,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### FUN_0c17472e (`0C17472E`, 58 bytes, `src/sdk_q.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_q/FUN_0c17472e.json`
@@ -4534,19 +6476,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 1 other bits
 
 ### FUN_0c174768 (`0C174768`, 86 bytes, `src/sdk_q.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_q/FUN_0c174768.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_q/FUN_0c174768.json`
 - mode 0: all stores
 - mode 1: only the bit
 - mode 2
 - mode 0, bit already set
 - negative mode
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### GS_ComboReset (`0C02DA02`, 64 bytes, `src/game_e.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_e/GS_ComboReset.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_e/GS_ComboReset.json`
 - both counters
 - nothing pending
 - 22 zero: kept
 - 21 set only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`
@@ -4557,28 +6505,50 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - level 3
 
 ### GetNumRideon (`0C05DB62`, 16 bytes, `src/leaf.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetNumRideon.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/leaf/GetNumRideon.json`
 - count 0
 - count 41
 - count -1
 - count 0x7FFFFFFF
 - count 1000
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### InitAdvCamera (`0C0289AC`, 18 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/InitAdvCamera.json`
 - sets mode 8
 - again
 
+### InitArrow (`0C035C94`, 54 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/InitArrow.json`
+- a
+- b
+
 ### InitHelicopter (`0C03759C`, 12 bytes, `src/game_c.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_c/InitHelicopter.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_c/InitHelicopter.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### Init_Fog (`0C05FD9C`, 134 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/Init_Fog.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### Init_Standard (`0C05252C`, 72 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/Init_Standard.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/Init_Standard.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### IsBoyFriend (`0C025F6C`, 68 bytes, `src/game_f.c`)
 - equivalent on 4 development and 5 holdout cases, in `tests/game_f/IsBoyFriend.json`
@@ -4604,6 +6574,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - middle of three, kind 20
 - no node, empty list
 
+### LetsPlayTennis (`0C0722E8`, 96 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/LetsPlayTennis.json`
+- both
+- far
+- clipped
+- second only
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### LightEffect (`0C030C76`, 66 bytes, `src/gen_c.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_c/LightEffect.json`
 - case 0
@@ -4628,6 +6608,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+
+### PAL_FreeTexture (`0C02AB4C`, 104 bytes, `src/game_p.c`)
+- equivalent on 3 development and 6 holdout cases, in `tests/game_p/PAL_FreeTexture.json`
+- lang 0
+- lang 2
+- lang 3
+- lang 1
+- lang 4
+- lang 7
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### Psg_SetMoveSpeed (`0C070BE8`, 16 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/Psg_SetMoveSpeed.json`
@@ -4658,15 +6650,42 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag 1 (ground), kind 5, same height
 - kind 2, dy 64.9
 
+### PutCourse_Init (`0C04D6BC`, 56 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/PutCourse_Init.json`
+- a
+- b
+
+### PutVMSMessage (`0C040EC6`, 126 bytes, `src/game_p.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/game_p/PutVMSMessage.json`
+- none
+- ready
+- not ready pad
+- no flag no pad
+- blink off
+- title
+- title sub2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### Put_Combo_Entry (`0C0563AA`, 78 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/Put_Combo_Entry.json`
+- replace
+- first
+- again
+
 ### ResetFadeColor (`0C030C52`, 36 bytes, `src/misc.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/misc/ResetFadeColor.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/misc/ResetFadeColor.json`
 - white, no offset
 - tinted
 - negative offset
 - zeros
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ResetLight (`0C030B88`, 20 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/ResetLight.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/ResetLight.json`
 - case 0
 - case 1
 - case 2
@@ -4689,12 +6708,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ResetSpark (`0C037B0A`, 8 bytes, `src/leaf.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/leaf/ResetSpark.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/leaf/ResetSpark.json`
 - flag clear
 - flag set
 - other value
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### SJMEM_Create (`0C16AF94`, 98 bytes, `src/sdk_za.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_za/SJMEM_Create.json`
+- slot 2 free
+- all used
+- first free
 
 ### SJMEM_Destroy (`0C16AFF6`, 30 bytes, `src/sdk_u.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJMEM_Destroy.json`
@@ -4732,10 +6763,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern 3c
 - pattern c3
 
+### SJMEM_Init (`0C16AF6A`, 28 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_ze/SJMEM_Init.json`
+- first
+- again
+- negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### SJMEM_Reset (`0C16B01E`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJMEM_Reset.json`
 - reset
 - another
+
+### SJRBF_Create (`0C16B268`, 98 bytes, `src/sdk_za.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_za/SJRBF_Create.json`
+- slot 3 free
+- all used
+- last free
 
 ### SJRBF_Destroy (`0C16B2CA`, 30 bytes, `src/sdk_u.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJRBF_Destroy.json`
@@ -4781,10 +6827,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern 3c
 - pattern c3
 
+### SJRBF_Init (`0C16B23E`, 28 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_ze/SJRBF_Init.json`
+- first
+- again
+- negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### SJRBF_Reset (`0C16B2F2`, 14 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJRBF_Reset.json`
 - reset
 - another
+
+### SJUNI_Create (`0C16B68C`, 106 bytes, `src/sdk_za.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_za/SJUNI_Create.json`
+- slot 1 free
+- all used
+- mode 255
 
 ### SJUNI_Destroy (`0C16B6F6`, 30 bytes, `src/sdk_u.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/SJUNI_Destroy.json`
@@ -4818,6 +6879,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pattern 3c
 - pattern c3
 
+### SJUNI_Init (`0C16B662`, 28 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_ze/SJUNI_Init.json`
+- first
+- again
+- negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### SJUNI_Reset (`0C16B71E`, 80 bytes, `src/sdk_q.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_q/SJUNI_Reset.json`
 - 4 cells
@@ -4825,11 +6895,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 2 cells
 - 0 count
 
+### SJ_SplitChunk (`0C16BAEC`, 44 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_ze/SJ_SplitChunk.json`
+- split
+- short
+- zero
+- equal
+
 ### SetAudio (`0C041028`, 28 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/SetAudio.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/SetAudio.json`
 - audio 1
 - audio 0
 - audio 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### SetCameraMode (`0C028716`, 6 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/SetCameraMode.json`
@@ -4908,6 +6988,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - large
 
+### SetFadeColorOffsetMulti (`0C030C26`, 44 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/SetFadeColorOffsetMulti.json`
+- a
+- b
+
 ### SetLandmarkDist (`0C0318EA`, 6 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/SetLandmarkDist.json`
 - value 0.0
@@ -4916,8 +7001,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value -2.0
 - value 1e+30
 
+### SetMVShadow (`0C04EB22`, 40 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/SetMVShadow.json`
+- mode 0
+- mode 2
+- mode 1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### SetSEvolume (`0C041044`, 36 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/SetSEvolume.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/SetSEvolume.json`
 - case 0
 - case 1
 - case 2
@@ -4940,6 +7034,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### Set_StandWaitDist (`0C06B200`, 74 bytes, `src/game_n.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_n/Set_StandWaitDist.json`
@@ -4947,6 +7044,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 0
 - mode 2
 - mode -1
+
+### SklSfPlay (`0C069590`, 72 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/SklSfPlay.json`
+- a
+- b
 
 ### Sound_Request (`0C072168`, 176 bytes, `src/sound.c`)
 - equivalent on 8 development and 8 holdout cases, in `tests/sound/Sound_Request.json`
@@ -4975,6 +7077,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - timer zero: nothing
 - equal minimum
 
+### Voice_Request (`0C072F18`, 68 bytes, `src/game_p.c`)
+- equivalent on 6 development and 3 holdout cases, in `tests/game_p/Voice_Request.json`
+- mode 1 ch 0
+- mode 1 ending ch 2
+- mode 1 no ending ch 2
+- mode 0 off
+- mode 0 on ch 0
+- mode 0 on ch 1
+- busy slot
+- mode 3 on ch 0 ending
+- mode 1 ending ch 0
+
 ### _allzero (`0C088E64`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/_allzero.json`
 - zeros
@@ -4983,13 +7097,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - last byte set
 
 ### acSystemGetSystemFlag (`0C060396`, 12 bytes, `src/leaf.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/leaf/acSystemGetSystemFlag.json`
+- equivalent on 3 development and 6 holdout cases, in `tests/leaf/acSystemGetSystemFlag.json`
 - flag 3
 - flag 0
 - flag 2
 - flag 4
 - flag -3
 - flag 0x103
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### adxStartAfs1 (`0C02E134`, 24 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/adxStartAfs1.json`
@@ -5002,11 +7119,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - slot 0
 
 ### adxf_AllocAdxFs (`0C152C2E`, 38 bytes, `src/sdk_k.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/adxf_AllocAdxFs.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_k/adxf_AllocAdxFs.json`
 - first free
 - third free
 - all 16 used
 - last free
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### adxf_ChkPrmGfr (`0C15337C`, 62 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 7 development and 6 holdout cases, in `tests/vt_vtsdk_b/adxf_ChkPrmGfr.json`
@@ -5034,10 +7154,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big and null
 
 ### adxf_CreateAdxFs (`0C152C54`, 50 bytes, `src/sdk_l.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_l/adxf_CreateAdxFs.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_l/adxf_CreateAdxFs.json`
 - alloc ok
 - none
 - another entry
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### adxf_wait_1ms (`0C1527C8`, 10 bytes, `src/sdk_s.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/adxf_wait_1ms.json`
@@ -5045,9 +7168,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - again
 
 ### adxpd_error (`0C1744C0`, 8 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/adxpd_error.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/adxpd_error.json`
 - sets
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### adxsjd_clear (`0C1681E2`, 30 bytes, `src/sdk_k.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/adxsjd_clear.json`
@@ -5055,9 +7181,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### adxstm_sj_internal_error (`0C168C72`, 10 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/adxstm_sj_internal_error.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/adxstm_sj_internal_error.json`
 - inc
 - wrap
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### adxt_eos_entry (`0C168FCC`, 40 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/adxt_eos_entry.json`
@@ -5188,7 +7317,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### buExitForce (`0C150344`, 30 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/buExitForce.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/buExitForce.json`
 - case 0
 - case 1
 - case 2
@@ -5211,9 +7340,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### buFbrDestroyServer (`0C1729D8`, 62 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/buFbrDestroyServer.json`
+- none live
+- empty
 
 ### buFbrExit (`0C1729AC`, 44 bytes, `src/sg_bup.c`)
-- equivalent on 4 development and 4 holdout cases, in `tests/sg_bup/buFbrExit.json`
+- equivalent on 4 development and 7 holdout cases, in `tests/sg_bup/buFbrExit.json`
 - created=0,0
 - created=1,0
 - created=0,1
@@ -5222,9 +7359,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - created=0x0,0x80000000
 - created=0x7,0x9
 - created=0x100,0x0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### buFbrInit (`0C1727F8`, 32 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/buFbrInit.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/buFbrInit.json`
 - case 0
 - case 1
 - case 2
@@ -5247,6 +7387,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### buFbrKillFiberLevel (`0C172A7E`, 68 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/buFbrKillFiberLevel.json`
+- mixed
+- none
+- all
 
 ### buFbrSleepVFiber (`0C172B1C`, 4 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/buFbrSleepVFiber.json`
@@ -5352,14 +7501,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - drive 0
 
 ### buGetVersion (`0C150516`, 6 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buGetVersion.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/buGetVersion.json`
 - version
 - 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### buInterruptHandler (`0C150278`, 4 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buInterruptHandler.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/buInterruptHandler.json`
 - server
 - returns -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### buIsExistFile (`0C150AB4`, 38 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buIsExistFile.json`
@@ -5377,6 +7532,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buIsReady.json`
 - argument passed
 - another
+
+### buLoadFile (`0C150C38`, 88 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/buLoadFile.json`
+- ok
+- busy
+- ok 2
+
+### buLoadFileEx (`0C150D4C`, 86 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/buLoadFileEx.json`
+- ok
+- busy
+- ok 2
 
 ### buMount (`0C150522`, 60 bytes, `src/sdk_n.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_n/buMount.json`
@@ -5416,6 +7583,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - busy
 - another
 
+### buRewriteExecFile (`0C150DA2`, 86 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/buRewriteExecFile.json`
+- ok
+- busy
+- ok 2
+
 ### buSetCallbackParam (`0C150510`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetCallbackParam.json`
 - argument passed
@@ -5425,6 +7598,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetCompleteCallback.json`
 - argument passed
 - another
+
+### buSetFileAttr (`0C150A54`, 96 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/buSetFileAttr.json`
+- ok
+- busy
+- ok 2
 
 ### buSetPrintFunc (`0C150E80`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetPrintFunc.json`
@@ -5454,7 +7633,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - drive 0
 
 ### buUnmountDisk (`0C150EAC`, 36 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/buUnmountDisk.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/buUnmountDisk.json`
 - case 0
 - case 1
 - case 2
@@ -5477,6 +7656,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### buWriteDiskImage (`0C150E3C`, 68 bytes, `src/sdk_n.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buWriteDiskImage.json`
@@ -5491,7 +7673,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other
 
 ### callGoBackAdvertise (`0C040C8A`, 96 bytes, `src/gen_d.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_d/callGoBackAdvertise.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_d/callGoBackAdvertise.json`
 - case 0
 - case 1
 - case 2
@@ -5514,9 +7696,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### callTryAgain (`0C0409D2`, 66 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/callTryAgain.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/callTryAgain.json`
 - case 0
 - case 1
 - case 2
@@ -5539,9 +7724,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### camPlayScript (`0C064648`, 70 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/camPlayScript.json`
+- mode 0
+- mode 1
+- mode 7
 
 ### camRestore (`0C0646E4`, 52 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/camRestore.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/camRestore.json`
 - case 0
 - case 1
 - case 2
@@ -5564,6 +7758,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### camSetAngles (`0C028888`, 66 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/camSetAngles.json`
+- mode 0
+- mode 1
+- mode 2
 
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`
@@ -5600,6 +7803,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - car 2, angles max
 - car 0, other angles
 
+### carColliReflection (`0C043AAE`, 102 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/carColliReflection.json`
+- a
+- b
+
 ### carEntry (`0C0448FC`, 30 bytes, `src/leaf.c`)
 - equivalent on 4 development and 4 holdout cases, in `tests/leaf/carEntry.json`
 - empty list
@@ -5611,12 +7819,42 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - car 0
 - count 0xFFFFFFFF
 
+### check_fat_all (`0C166086`, 110 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_ze/check_fat_all.json`
+- ok
+- bad sys
+- bad save
+- ok 2
+
+### clear_file (`0C165534`, 140 bytes, `src/sdk_zb.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_zb/clear_file.json`
+- 3 blocks
+- bad chain
+- none
+- 0 blocks
+- 1 block
+
+### close_file_handle (`0C166BA0`, 8 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/close_file_handle.json`
+- a
+- b
+
+### colliBoxAhead (`0C033588`, 74 bytes, `src/game_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_p/colliBoxAhead.json`
+- ahead
+- behind
+- edge
+- bit 0
+
 ### colliNodeAlloc (`0C032B12`, 32 bytes, `src/game_b.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/game_b/colliNodeAlloc.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/game_b/colliNodeAlloc.json`
 - first free
 - third free
 - none (all used)
 - last free
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### convert_support (`0C14E8DC`, 34 bytes, `src/sdk_k.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_k/convert_support.json`
@@ -5628,9 +7866,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero
 
 ### copy_device (`0C1619C0`, 66 bytes, `src/sdk_o.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/copy_device.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_o/copy_device.json`
 - records
 - another
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### courseStatusEntry (`0C042196`, 44 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/courseStatusEntry.json`
@@ -5645,6 +7886,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - bit already set
 - course 7, no table
 
+### courseStatusInit (`0C0420F4`, 162 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/courseStatusInit.json`
+- first
+- again
+- fail
+- none
+- zero len
+
 ### direntry (`0C166B40`, 24 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/direntry.json`
 - unit 1 entry 3
@@ -5655,9 +7904,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - unit 3 entry 1
 
 ### discardVertexBuffer (`0C0755F0`, 8 bytes, `src/sdk_e.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_e/discardVertexBuffer.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_e/discardVertexBuffer.json`
 - plain
 - other result
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### dropOutCheck (`0C045C36`, 16 bytes, `src/leaf.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/leaf/dropOutCheck.json`
@@ -5670,7 +7922,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - very high
 
 ### drvAccelDot (`0C06FD62`, 10 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/drvAccelDot.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/drvAccelDot.json`
 - case 0
 - case 1
 - case 2
@@ -5693,15 +7945,33 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### extRand (`0C04981E`, 32 bytes, `src/extrand.c`)
-- equivalent on 6 development cases, in `tests/extrand/extRand.json`
+- equivalent on 8 development cases, in `tests/extrand/extRand.json`
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Total Records screen)
 
 ### extRandom (`0C04983E`, 22 bytes, `src/extrand.c`)
-- equivalent on 4 development cases, in `tests/extrand/extRandom.json`
+- equivalent on 6 development cases, in `tests/extrand/extRandom.json`
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Total Records screen)
 
 ### extRandomSeed (`0C049818`, 6 bytes, `src/extrand.c`)
 - equivalent on 6 development cases, in `tests/extrand/extRandomSeed.json`
+
+### fmMngFormat (`0C170DCC`, 140 bytes, `src/sdk_ze.c`)
+- equivalent on 6 development and 2 holdout cases, in `tests/sdk_ze/fmMngFormat.json`
+- no state
+- bad mode
+- refused
+- short
+- ok
+- final err
+- mode -1
+- ok 0
 
 ### fmMngRead (`0C170E58`, 60 bytes, `src/sg_fm.c`)
 - equivalent on 7 development and 8 holdout cases, in `tests/sg_fm/fmMngRead.json`
@@ -5721,15 +7991,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - busy and bad idx
 - arg ffffffff
 
+### fmcalccrc (`0C172C00`, 52 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zd/fmcalccrc.json`
+- hello
+- empty
+- bytes
+
 ### frameFlip (`0C074370`, 24 bytes, `src/sdk_b.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/frameFlip.json`
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_b/frameFlip.json`
 - flag clear
 - flag set
 - other
 - big
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState10 (`0C02CCD6`, 32 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/gameState10.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/gameState10.json`
 - case 0
 - case 1
 - case 2
@@ -5752,14 +8031,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState11 (`0C02CCF6`, 18 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gameState11.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/gameState11.json`
 - two
 - from 5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState12 (`0C02D40C`, 126 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/gameState12.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/gameState12.json`
 - case 0
 - case 1
 - case 2
@@ -5782,14 +8067,38 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### gameState2 (`0C02CBEA`, 100 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/gameState2.json`
+- menu 2
+- next
+- next 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### gameState3 (`0C02CC4E`, 58 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/gameState3.json`
+- counting
+- done
+- long done
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState4 (`0C02CD08`, 62 bytes, `src/game_f.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_f/gameState4.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_f/gameState4.json`
 - sequence
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState8 (`0C02CC88`, 52 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/gameState8.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/gameState8.json`
 - case 0
 - case 1
 - case 2
@@ -5812,11 +8121,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gameState9 (`0C02CCBC`, 26 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gameState9.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/gameState9.json`
 - three calls
 - from -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### gdFsChangeDir (`0C15FFD4`, 24 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/gdFsChangeDir.json`
+- a
+- b
 
 ### gdFsCheckEof (`0C1600D4`, 40 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_e/gdFsCheckEof.json`
@@ -5887,6 +8207,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - size -2049
 - size 2047
 - tag min
+
+### gdFsGetDirInfoG (`0C14DA16`, 74 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/gdFsGetDirInfoG.json`
+- found 2
+- missing
+- found 1
 
 ### gdFsGetDrvStat (`0C14E4A4`, 24 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsGetDrvStat.json`
@@ -6022,6 +8348,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### gdFsMemcpy (`0C15F9AC`, 24 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_z/gdFsMemcpy.json`
+- five bytes
+- zero
+- negative
+- one
+
 ### gdFsOpen (`0C14E3EE`, 22 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpen.json`
 - table set
@@ -6074,6 +8407,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - b 0x7fffffff
 - other handle
 
+### gdFsSearchName (`0C15FC1E`, 112 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_ze/gdFsSearchName.json`
+- exact found
+- loose
+- none
+- empty
+- miss
+
 ### gdFsSetGlobalErrG (`0C14D004`, 10 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/gdFsSetGlobalErrG.json`
 - one
@@ -6117,10 +8458,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### gdc_SpriteSetGame (`0C0307D2`, 158 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/gdc_SpriteSetGame.json`
+- done
+- menu jp
+- state 5 en
+- menu en
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### gdc_StopStreamSongAll (`0C02E15A`, 8 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamSongAll.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/gdc_StopStreamSongAll.json`
 - stop
 - another
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### gdc_StopStreamVoice (`0C02E5BA`, 14 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamVoice.json`
@@ -6128,9 +8482,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - slot 0
 
 ### gdc_StopStreamVoiceAll (`0C02E624`, 34 bytes, `src/game_a.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamVoiceAll.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_a/gdc_StopStreamVoiceAll.json`
 - four stops
 - zeros
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### getAreaFromPos (`0C0323A8`, 138 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/getAreaFromPos.json`
+- first
+- wrap
+- none
+- later
+- bad start
 
 ### getGoiToolFlag (`0C049878`, 18 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/getGoiToolFlag.json`
@@ -6141,8 +8506,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - high bit
 - flags 0
 
+### getNearLineIndexAll (`0C049C4A`, 156 bytes, `src/game_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_p/getNearLineIndexAll.json`
+- 3 courses
+- first best
+- none close
+- one
+
 ### getSwitch (`0C02A2FC`, 22 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/getSwitch.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/getSwitch.json`
 - case 0
 - case 1
 - case 2
@@ -6165,14 +8537,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### getSystemMetrics (`0C0751C0`, 8 bytes, `src/sdk_d.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/getSystemMetrics.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_d/getSystemMetrics.json`
 - returns 0
 - returns 12345678
 - returns FFFFFFFF
 - returns 1
 - returns 80000000
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### get_fat (`0C166A8C`, 32 bytes, `src/sdk_k.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/get_fat.json`
@@ -6180,16 +8558,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - drive 0
 
 ### hudHidePickUpNag (`0C0535F0`, 12 bytes, `src/leaf.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/leaf/hudHidePickUpNag.json`
+- equivalent on 3 development and 6 holdout cases, in `tests/leaf/hudHidePickUpNag.json`
 - all set
 - only that bit
 - none
 - others set
 - pattern
 - bit above
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### hudInit (`0C052304`, 96 bytes, `src/game_p.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_p/hudInit.json`
+- game 2
+- menu off
+- menu on
+- game 1 menu
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### hudShowPickUpNag (`0C0535B0`, 64 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/hudShowPickUpNag.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/hudShowPickUpNag.json`
 - case 0
 - case 1
 - case 2
@@ -6212,15 +8603,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### hwInit (`0C150014`, 40 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/hwInit.json`
+- equivalent on 4 development and 5 holdout cases, in `tests/vt_vtsdk_a/hwInit.json`
 - empty table
 - one entry
 - three entries
 - same addr twice
 - four
 - one other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### initPlayer (`0C02DD56`, 4 bytes, `src/leaf.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/leaf/initPlayer.json`
@@ -6228,10 +8625,59 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - with a register set
 
 ### initPlayerADV (`0C02DD4A`, 8 bytes, `src/leaf.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/leaf/initPlayerADV.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/leaf/initPlayerADV.json`
 - word clear
 - word set
 - other value
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### init_KyakuMain (`0C025FB0`, 162 bytes, `src/game_p.c`)
+- equivalent on 4 development and 6 holdout cases, in `tests/game_p/init_KyakuMain.json`
+- arcade
+- box 10
+- orig 1
+- noarrow
+- cm0 mg15
+- box 5
+- box 12
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### init_sub (`0C161A02`, 164 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_ze/init_sub.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### isPosInArea (`0C0322CC`, 74 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/isPosInArea.json`
+- inside
+- outside
+- other winding
+- edge
+- far
+
+### kbCfgIni (`0C167770`, 80 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_ze/kbCfgIni.json`
+- set
+- blank
+- fail
+- half blank
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### kdDevGetFD (`0C16237A`, 48 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_z/kdDevGetFD.json`
+- second set bit
+- bit not set
+- bit 0
+- top bit
 
 ### kdDmaEndHandler1 (`0C16194A`, 8 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdDmaEndHandler1.json`
@@ -6259,7 +8705,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### kdExecGun (`0C1618D8`, 114 bytes, `src/kaede.c`)
-- equivalent on 4 development and 5 holdout cases, in `tests/kaede/kdExecGun.json`
+- equivalent on 4 development and 8 holdout cases, in `tests/kaede/kdExecGun.json`
 - count0
 - count1
 - count2
@@ -6269,6 +8715,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - count 32768
 - high buf
 - max
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kdGetDevice (`0C162094`, 18 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/kdGetDevice.json`
@@ -6303,6 +8752,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+
+### kdGetDriverMode (`0C162692`, 110 bytes, `src/sdk_ze.c`)
+- equivalent on 5 development and 7 holdout cases, in `tests/sdk_ze/kdGetDriverMode.json`
+- 0
+- 2
+- 4
+- 6
+- 8
+- 1
+- 3
+- 5
+- 7
+- 9
+- 10
+- -1
 
 ### kdGetGunLatchedPort (`0C162712`, 6 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetGunLatchedPort.json`
@@ -6593,6 +9057,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 7
 - mode 1 over pattern
 
+### kmChangeContextFilterMode (`0C15E43C`, 62 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_ze/kmChangeContextFilterMode.json`
+- 0
+- 2
+- 1
+- 3
+
 ### kmChangeContextFlipUV (`0C15E400`, 30 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextFlipUV.json`
 - mode 3
@@ -6620,6 +9091,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - buffer 2, 16 words
 - buffer 0, -1
 
+### kmChangeVertexPCW (`0C14BB48`, 56 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/kmChangeVertexPCW.json`
+- a
+- b
+
 ### kmCreateTextureSurface (`0C15BBAC`, 68 bytes, `src/gen_l.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_l/kmCreateTextureSurface.json`
 - case 0
@@ -6646,11 +9122,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### kmDiscardVertexBuffer (`0C14BA32`, 54 bytes, `src/sdk_r.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_r/kmDiscardVertexBuffer.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_r/kmDiscardVertexBuffer.json`
 - freed ok
 - free fails
 - another
 - negative
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmFreeTexture (`0C15C228`, 36 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmFreeTexture.json`
@@ -6660,29 +9139,43 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0x10003 high bit set: still VQ
 
 ### kmGarbageCollectTexture (`0C15C3B4`, 20 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmGarbageCollectTexture.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/kmGarbageCollectTexture.json`
 - returns 0
 - returns 1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmGetCurrentVertexOffset (`0C14BB12`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmGetCurrentVertexOffset.json`
 - 16 words
 - negative -2 bytes
 
+### kmGetFreeTextureMem (`0C15C280`, 56 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/kmGetFreeTextureMem.json`
+- a
+- b
+
 ### kmQueryFinishFlushVertexBuffer (`0C14B85C`, 28 bytes, `src/sdk_j.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/kmQueryFinishFlushVertexBuffer.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_j/kmQueryFinishFlushVertexBuffer.json`
 - done
 - running
 - other channel, 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmRenderDirect (`0C15B000`, 96 bytes, `src/gen_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/kmRenderDirect.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/gen_a/kmRenderDirect.json`
 - fill ff
 - fill 00
 - fill a5
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmResetRenderer (`0C14B232`, 110 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/kmResetRenderer.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/kmResetRenderer.json`
 - case 0
 - case 1
 - case 2
@@ -6705,12 +9198,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### kmSetAutoSortMode (`0C14AF84`, 38 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_ze/kmSetAutoSortMode.json`
+- same 1
+- same 0
+- other
+- same 5
 
 ### kmSetBackGroundPlane (`0C14AF60`, 36 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/kmSetBackGroundPlane.json`
 - plane 2
 - plane 3
 - plane 2, other word
+
+### kmSetBackGroundRenderState (`0C14AEA6`, 148 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_ze/kmSetBackGroundRenderState.json`
+- half
+- ones
+- zero
+- mixed
 
 ### kmSetCullingRegister (`0C14AC7A`, 28 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/kmSetCullingRegister.json`
@@ -6738,6 +9248,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0x1234
 - 0
 - -1
+
+### kmSetFogTable (`0C14AD10`, 104 bytes, `src/sdk_za.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_za/kmSetFogTable.json`
+- ramp
+- mixed
 
 ### kmSetGlobalClipping (`0C14AFAA`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmSetGlobalClipping.json`
@@ -6805,7 +9320,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0
 
 ### kmUnloadDevice (`0C060D98`, 14 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/kmUnloadDevice.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/kmUnloadDevice.json`
 - case 0
 - case 1
 - case 2
@@ -6828,6 +9343,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmUseAnotherModifier (`0C14B2A0`, 38 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 3 holdout cases, in `tests/sdk_k/kmUseAnotherModifier.json`
@@ -6855,6 +9373,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/kmfSetVertexBufferBaseAddress.json`
 - two
 - others
+
+### kmiABSalloc (`0C155EE0`, 62 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/kmiABSalloc.json`
+- big
+- small
+- equal
 
 ### kmiAddSysConfigFlag (`0C14CB20`, 12 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiAddSysConfigFlag.json`
@@ -6887,34 +9411,49 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### kmiFBGarbageCollect (`0C15662E`, 60 bytes, `src/sdk_v.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_v/kmiFBGarbageCollect.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_v/kmiFBGarbageCollect.json`
 - first ok
 - first 0, second 7
 - both 0
 - first -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiFBSortQueue (`0C1565EE`, 64 bytes, `src/sdk_v.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_v/kmiFBSortQueue.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_v/kmiFBSortQueue.json`
 - four calls
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiGetSysConfigFlag (`0C14CBA8`, 6 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
 - value
 - 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiInitCallback (`0C158900`, 88 bytes, `src/sdk_o.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/kmiInitCallback.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_o/kmiInitCallback.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiInitializeBackGroundPlane (`0C15354C`, 96 bytes, `src/sdk_p.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/kmiInitializeBackGroundPlane.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_p/kmiInitializeBackGroundPlane.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiInitializeTA (`0C15F120`, 70 bytes, `src/gen_h.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_h/kmiInitializeTA.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_h/kmiInitializeTA.json`
 - case 0
 - case 1
 - case 2
@@ -6937,6 +9476,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiPurgeMemory (`0C159AEE`, 40 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmiPurgeMemory.json`
@@ -6945,26 +9487,47 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 31 bytes: 1 line
 - 32 bytes: 2 lines
 
+### kmiQueryFinishDMA (`0C155838`, 92 bytes, `src/sdk_za.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_za/kmiQueryFinishDMA.json`
+- queued
+- done
+- second queue
+- other id
+- empty
+
 ### kmiReadRegister (`0C159B16`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiReadRegister.json`
 - offset 0xB0
 - offset 0x40
 
 ### kmiReleaseHardware (`0C1586A0`, 28 bytes, `src/sdk_j.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/kmiReleaseHardware.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_j/kmiReleaseHardware.json`
 - loaded
 - not loaded
 - loaded, other value
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiResetBoard (`0C157FA0`, 30 bytes, `src/sdk_j.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmiResetBoard.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_j/kmiResetBoard.json`
 - reset
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmiSetSysConfigFlag (`0C14CBA0`, 8 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiSetSysConfigFlag.json`
 - 5
 - 0
+
+### kmiTXalloc (`0C155E20`, 84 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_ze/kmiTXalloc.json`
+- split upper
+- split lower
+- one pool
+- equal
 
 ### kmiUnloadDevice (`0C158334`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiUnloadDevice.json`
@@ -6995,9 +9558,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 
 ### kmyResetTA (`0C15F3EC`, 20 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmyResetTA.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/kmyResetTA.json`
 - reset
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kmytex_FBEnQueueEntry (`0C157416`, 28 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/kmytex_FBEnQueueEntry.json`
@@ -7008,22 +9574,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - empty, third layout
 
 ### kyakuClearVoiceBit24 (`0C0535A4`, 12 bytes, `src/leaf.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/leaf/kyakuClearVoiceBit24.json`
+- equivalent on 3 development and 6 holdout cases, in `tests/leaf/kyakuClearVoiceBit24.json`
 - all set
 - only that bit
 - none
 - others set
 - pattern
 - bit above
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kyakuClearVoiceBit26 (`0C053642`, 12 bytes, `src/leaf.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/leaf/kyakuClearVoiceBit26.json`
+- equivalent on 3 development and 6 holdout cases, in `tests/leaf/kyakuClearVoiceBit26.json`
 - all set
 - only that bit
 - none
 - others set
 - pattern
 - bit above
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### kyakuCountDest (`0C0200B6`, 12 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/kyakuCountDest.json`
@@ -7033,6 +9605,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - wraps at 32767
 - negative
 - index 5
+
+### kyakuMiniGameAreaOk (`0C025C64`, 184 bytes, `src/game_p.c`)
+- equivalent on 7 development and 4 holdout cases, in `tests/game_p/kyakuMiniGameAreaOk.json`
+- cm 1
+- mg 3
+- mg 8 bf
+- mg 8 no
+- mg 10 gs 0
+- mg 10 still in
+- mg 10 still out
+- mg 10 moving
+- mg 10 turning
+- mg 10 neg
+- mg 8 gs 0
+
+### kyakuStopAreaVisible (`0C025BD8`, 116 bytes, `src/game_p.c`)
+- equivalent on 5 development and 7 holdout cases, in `tests/game_p/kyakuStopAreaVisible.json`
+- mg 10
+- mg 8 bf
+- mg 8 no
+- cm 1 boarding
+- cm 1
+- cm 2 mg 3
+- cm 2 mg 3 free
+- mg 14
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Crazy Box 1-1)
+- live RAM (Total Records screen)
 
 ### memcpy2 (`0C171560`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/memcpy2.json`
@@ -7060,7 +9661,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - n=3 odd start
 
 ### menuOpenStep (`0C03BFE2`, 102 bytes, `src/game_l.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/game_l/menuOpenStep.json`
+- equivalent on 5 development and 7 holdout cases, in `tests/game_l/menuOpenStep.json`
 - state 1: 0
 - bit clear: 0
 - running, p 5
@@ -7070,9 +9671,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - p 14: second q steps and clamps
 - q below 64
 - negative p
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### menuPutFrame (`0C03C148`, 38 bytes, `src/gen_d.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_d/menuPutFrame.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_d/menuPutFrame.json`
 - case 0
 - case 1
 - case 2
@@ -7095,12 +9699,60 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### menuPutHelpBar (`0C03C16E`, 84 bytes, `src/game_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_p/menuPutHelpBar.json`
+- a
+- b
+
+### menuSetMode (`0C03F89A`, 120 bytes, `src/game_p.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_p/menuSetMode.json`
+- arcade
+- original
+- box
+- box 17
+- other
+- box 2
+- live RAM
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### menuTopHandler (`0C0406F0`, 104 bytes, `src/game_p.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/game_p/menuTopHandler.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### motionClearRootZ (`0C06B1CC`, 42 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zd/motionClearRootZ.json`
+- 3 frames
+- none
+- 2 frames 3 nodes
+
+### mpdrv_check_port (`0C16F716`, 176 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/sdk_ze/mpdrv_check_port.json`
+- mode1
+- mode0
+- none under
+- none over
+- neg byte
+- none 0
+- live RAM live
+- live RAM records
 
 ### mpdrv_frame_recv_post (`0C16EBBC`, 22 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_frame_recv_post.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/vt_vtsdk_d/mpdrv_frame_recv_post.json`
 - basic
 - flag was set
 - other
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### mpdrv_get_device (`0C16ED60`, 16 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/mpdrv_get_device.json`
@@ -7161,9 +9813,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### mpdrv_init_memory (`0C170190`, 12 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/mpdrv_init_memory.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/mpdrv_init_memory.json`
 - sets
 - another
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### mpdrv_insertnop (`0C16F194`, 68 bytes, `src/kaede.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/kaede/mpdrv_insertnop.json`
@@ -7178,11 +9833,48 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - n=32767
 - count negative
 
+### mpdrv_memset_l (`0C170170`, 22 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_z/mpdrv_memset_l.json`
+- three words
+- none
+- negative count
+- one
+
 ### mpdrv_sdckbenable (`0C16F694`, 72 bytes, `src/sdk_y.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_y/mpdrv_sdckbenable.json`
 - enable
 - x 0x7fff
 - x negative
+
+### mpdrv_set_allstatreq_ns (`0C16FE44`, 24 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_allstatreq_ns.json`
+- port 1
+- port 3
+
+### mpdrv_set_arctrl_ns (`0C170054`, 36 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_arctrl_ns.json`
+- a
+- b
+
+### mpdrv_set_bread_ns (`0C16FEE0`, 46 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_bread_ns.json`
+- a
+- b
+
+### mpdrv_set_dkill_ns (`0C16FDBC`, 24 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_dkill_ns.json`
+- port 1
+- port 3
+
+### mpdrv_set_dreq_ns (`0C16FD78`, 24 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_dreq_ns.json`
+- port 1
+- port 3
+
+### mpdrv_set_dreset_ns (`0C16FE00`, 24 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_dreset_ns.json`
+- port 1
+- port 3
 
 ### mpdrv_set_ft4ctrl_ns (`0C1700A4`, 36 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_ft4ctrl_ns.json`
@@ -7265,10 +9957,33 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other
 - port 2
 
+### mpdrv_set_transagain_ns (`0C170010`, 24 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/mpdrv_set_transagain_ns.json`
+- port 1
+- port 3
+
+### mpdrv_stat (`0C16EDC4`, 26 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/mpdrv_stat.json`
+- same
+- other
+- zero
+
 ### mpdrv_swaplong (`0C1727E4`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/mpdrv_swaplong.json`
 - 2 words
 - 1 word
+
+### mwRnaErrEntryFunc (`0C171808`, 30 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/mwRnaErrEntryFunc.json`
+- set
+- clear
+- set 2
+
+### mwRnaFlush (`0C169E04`, 40 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zc/mwRnaFlush.json`
+- handle
+- null
+- already
 
 ### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_c/mwRnaGetAutoSw.json`
@@ -7294,6 +10009,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - zero
 
+### mwRnaGetFilter (`0C16ADDA`, 40 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zc/mwRnaGetFilter.json`
+- handle
+- null
+- handle 2
+
+### mwRnaGetFx (`0C16ACE4`, 64 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zc/mwRnaGetFx.json`
+- handle
+- null
+- handle 2
+
 ### mwRnaGetNumData (`0C16A904`, 30 bytes, `src/sdk_x.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetNumData.json`
 - null
@@ -7314,6 +10041,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value
 - negative
 - zero
+
+### mwRnaGetPitch (`0C16AD24`, 64 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zc/mwRnaGetPitch.json`
+- handle
+- null
+- handle 2
 
 ### mwRnaGetPlaySw (`0C16A8B2`, 40 bytes, `src/sdk_x.c`)
 - equivalent on 3 development and 5 holdout cases, in `tests/sdk_x/mwRnaGetPlaySw.json`
@@ -7380,12 +10113,37 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other freq
 - null other freq
 
+### mwRnaSetStartSmpl (`0C16A9CA`, 32 bytes, `src/sdk_zc.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_zc/mwRnaSetStartSmpl.json`
+- handle
+- null
+- handle 2
+
+### mwRnaStop (`0C169DB4`, 80 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_ze/mwRnaStop.json`
+- playing
+- stopped
+- null
+- playing 2
+
 ### mwlRnaAlloc (`0C169B98`, 40 bytes, `src/sdk_p.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_p/mwlRnaAlloc.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_p/mwlRnaAlloc.json`
 - first free
 - third
 - none
 - last
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### mwlRnaIsCopyEnd (`0C169E6A`, 142 bytes, `src/game_p.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_p/mwlRnaIsCopyEnd.json`
+- idle
+- both done
+- second not
+- first not
+- one chan
+- none
 
 ### mwlRnaSetInitMember (`0C169B4C`, 76 bytes, `src/sdk_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/mwlRnaSetInitMember.json`
@@ -7393,21 +10151,47 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### mwlSbAlloc (`0C171934`, 38 bytes, `src/sdk_w.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_w/mwlSbAlloc.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_w/mwlSbAlloc.json`
 - first free
 - third
 - none
 - last
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### mwlSbGetPitch (`0C17209E`, 14 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/mwlSbGetPitch.json`
 - two
 - others
 
+### ndPuru2Reset (`0C05F42C`, 56 bytes, `src/sdk_z.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_z/ndPuru2Reset.json`
+- mode 2 pack
+- mode 2 no pack
+- mode 1
+- mode 2 pack first try
+
+### ndPuru2Start (`0C05F004`, 118 bytes, `src/game_p.c`)
+- equivalent on 6 development and 4 holdout cases, in `tests/game_p/ndPuru2Start.json`
+- 28
+- 24
+- 16
+- blocked
+- off
+- menu
+- mode lim
+- mode lim no
+- sub 2
+- other mask
+
 ### nd_Init_Puru2 (`0C05EEF4`, 116 bytes, `src/game_k.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/game_k/nd_Init_Puru2.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/game_k/nd_Init_Puru2.json`
 - init
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### njSetConstantAttr (`0C168040`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/njSetConstantAttr.json`
@@ -7494,12 +10278,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - index 31
 
 ### nlCommonTextureGetNextTextureIndex (`0C073C20`, 126 bytes, `src/nltex.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/nltex/nlCommonTextureGetNextTextureIndex.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/nltex/nlCommonTextureGetNextTextureIndex.json`
 - first word full, second has bit 3 free
 - all full: -1
 - empty: index 0
 - third word, bit 31
 - no words: -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlCos (`0C075B20`, 24 bytes, `src/trig.c`)
 - equivalent on 6 development and 6 holdout cases, in `tests/trig/nlCos.json`
@@ -7643,13 +10430,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### nlExecuteEvent (`0C029702`, 38 bytes, `src/nlevent.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/nlevent/nlExecuteEvent.json`
+- equivalent on 4 development and 5 holdout cases, in `tests/nlevent/nlExecuteEvent.json`
 - empty list
 - one event
 - three events
 - stale next-to-run
 - two events
 - five events
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### nlFogDensityF (`0C076B50`, 66 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/nlFogDensityF.json`
+- 1.0
+- 3.5
+- 0.25
+- 100.0
+- 0.0078125
+- 1.75
+
+### nlFogTableColor (`0C076AF0`, 58 bytes, `src/game_p.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/game_p/nlFogTableColor.json`
+- a
+- b
+- c
 
 ### nlFogTableOff (`0C076AC0`, 48 bytes, `src/sdk_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_a/nlFogTableOff.json`
@@ -7680,18 +10485,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - free(0)
 
 ### nlFreePaletteAll (`0C074060`, 16 bytes, `src/sdk_a.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_a/nlFreePaletteAll.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_a/nlFreePaletteAll.json`
 - normal
 - zero
 - negative short
 - big
 - sign bit
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlFreeTextureAll (`0C073F20`, 100 bytes, `src/nltex.c`)
-- equivalent on 1 development and 2 holdout cases, in `tests/nltex/nlFreeTextureAll.json`
+- equivalent on 1 development and 5 holdout cases, in `tests/nltex/nlFreeTextureAll.json`
 - 3 surfaces: in use, refused, unused
 - 2 surfaces both in use
 - no surfaces
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlGetAverageVector (`0C078A90`, 44 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_e/nlGetAverageVector.json`
@@ -7741,13 +10552,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 
 ### nlInitEvent (`0C029542`, 68 bytes, `src/nlevent.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/nlevent/nlInitEvent.json`
+- equivalent on 4 development and 5 holdout cases, in `tests/nlevent/nlInitEvent.json`
 - empty list
 - one event
 - three events
 - events with extra blocks
 - five events
 - one event with three blocks
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlInitFont (`0C076490`, 16 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlInitFont.json`
@@ -7805,12 +10619,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - event 7 ignored
 
 ### nlIntrGetEvent (`0C07B7C0`, 112 bytes, `src/gen_b.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/gen_b/nlIntrGetEvent.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/gen_b/nlIntrGetEvent.json`
 - pattern ff
 - pattern 00
 - pattern a5
 - pattern 3c
 - pattern c3
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlInvLightVector (`0C07B220`, 50 bytes, `src/nlobjput.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlInvLightVector.json`
@@ -7818,7 +10635,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other registers
 
 ### nlInvLightVectorUseViewMatrix (`0C07B260`, 122 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/nlInvLightVectorUseViewMatrix.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/nlInvLightVectorUseViewMatrix.json`
 - case 0
 - case 1
 - case 2
@@ -7841,6 +10658,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlInvertAbsSqrt (`0C075D30`, 32 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/sdk_e/nlInvertAbsSqrt.json`
@@ -7893,12 +10713,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - -1
 
 ### nlLoadDummyTexture (`0C073FA0`, 40 bytes, `src/sdk_c.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlLoadDummyTexture.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_c/nlLoadDummyTexture.json`
 - 8x8
 - 64x32
 - negative short
 - 256x256
 - zero
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlLoadTextureMem (`0C073940`, 126 bytes, `src/nltex.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/nltex/nlLoadTextureMem.json`
@@ -7956,9 +10779,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - again, other registers
 
 ### nlMakeModelViewProjectMatrix_objput (`0C07B430`, 24 bytes, `src/nlobjput.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlMakeModelViewProjectMatrix_objput.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/nlobjput/nlMakeModelViewProjectMatrix_objput.json`
 - push, multiply by the matrix at *(0C2B31F4 + 8)
 - another matrix pointer
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlMalloc (`0C0293FA`, 146 bytes, `src/heap.c`)
 - equivalent on 22 development and 22 holdout cases, in `tests/heap/nlMalloc.json`
@@ -8166,6 +10992,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - -1
 - large
 
+### nlPrintSetOpaqueMode (`0C076570`, 176 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/nlPrintSetOpaqueMode.json`
+- x 0
+- x 1
+- x neg
+- x 5 zeros
+- x 0 mixed
+
 ### nlPrintSetZ (`0C0764A0`, 16 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_e/nlPrintSetZ.json`
 - two
@@ -8185,17 +11019,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode ffff
 
 ### nlPrnIndentOff (`0C076820`, 16 bytes, `src/sdk_g.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlPrnIndentOff.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/nlPrnIndentOff.json`
 - bit 0 set
 - bit 0 clear
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlPrnIndentOn (`0C076810`, 10 bytes, `src/sdk_c.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlPrnIndentOn.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_c/nlPrnIndentOn.json`
 - clear
 - set
 - other bits
 - all
 - bit 1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlProjectScreen3D (`0C079960`, 32 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/nlProjectScreen3D.json`
@@ -8212,17 +11052,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 
 ### nlRand (`0C075F70`, 30 bytes, `src/sdk_g.c`)
-- equivalent on 2 development and 2 holdout cases, in `tests/sdk_g/nlRand.json`
+- equivalent on 2 development and 5 holdout cases, in `tests/sdk_g/nlRand.json`
 - seed 1
 - seed 0
 - seed FFFFFFFF
 - seed 12345678
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlRandom (`0C075F90`, 22 bytes, `src/sdk_g.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_g/nlRandom.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_g/nlRandom.json`
 - 32767
 - 0
 - 1234
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlRandomSeed (`0C075FB0`, 6 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlRandomSeed.json`
@@ -8245,6 +11091,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - index 255
 - index -1
 - index 1000
+
+### nlRenderTextureFreeAll (`0C076E50`, 96 bytes, `src/game_p.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/game_p/nlRenderTextureFreeAll.json`
+- 3
+- 0
+- 1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlRenderTextureInit (`0C076BB0`, 48 bytes, `src/sdk_c.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/sdk_c/nlRenderTextureInit.json`
@@ -8411,6 +11266,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - four
 - minus one first entry only
 
+### nlSpriteFreeTextureGI (`0C07DE80`, 80 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/nlSpriteFreeTextureGI.json`
+- three
+- none
+- one
+
 ### nlSpriteGetImaginaryScreenSize (`0C07DEF0`, 16 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlSpriteGetImaginaryScreenSize.json`
 - 640x480
@@ -8567,6 +11428,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - one
 
+### nlTriPutSetPoint (`0C07AA20`, 76 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/nlTriPutSetPoint.json`
+- a
+- b
+
 ### nlTriPutTextureInit (`0C07A5D0`, 42 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlTriPutTextureInit.json`
 - basic
@@ -8611,13 +11477,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 
 ### nlsndG2DmaHandleOpen (`0C080420`, 34 bytes, `src/sdk_b.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/sdk_b/nlsndG2DmaHandleOpen.json`
+- equivalent on 4 development and 5 holdout cases, in `tests/sdk_b/nlsndG2DmaHandleOpen.json`
 - all free
 - first two used
 - last free
 - all used
 - gap
 - only last used
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### nlsndStreamGenerateHdInfo (`0C07FE90`, 22 bytes, `src/sdk_b.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_b/nlsndStreamGenerateHdInfo.json`
@@ -8690,12 +11559,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - i=-8
 
 ### open_file_handle (`0C166B72`, 46 bytes, `src/sdk_o.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sdk_o/open_file_handle.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_o/open_file_handle.json`
 - first free
 - third free
 - none free: error
 - no handles
 - first used byte 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### ovInit (`0C14CD6A`, 10 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/ovInit.json`
@@ -8734,6 +11606,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - idx2 min refs
 - idx0 refs 1
 
+### ovLibDeleteTbl (`0C14CE54`, 134 bytes, `src/sg_ov.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sg_ov/ovLibDeleteTbl.json`
+- none
+- first
+- middle
+- last
+
 ### ovSearchLib (`0C14CCD6`, 64 bytes, `src/sg_ov.c`)
 - equivalent on 6 development and 5 holdout cases, in `tests/sg_ov/ovSearchLib.json`
 - empty
@@ -8749,10 +11628,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - dup
 
 ### padPortAConnected (`0C040DC8`, 30 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/padPortAConnected.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/padPortAConnected.json`
 - connected
 - not
 - high word
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### padReadSlot (`0C029C42`, 60 bytes, `src/game_p.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_p/padReadSlot.json`
+- slot 0
+- slot 1
+- slot 2
+- slot 7
 
 ### paletteSetMode (`0C0742A0`, 22 bytes, `src/sdk_a.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_a/paletteSetMode.json`
@@ -8770,15 +11659,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag in byte 1 only
 
 ### pdExecPeripheralServer (`0C14E982`, 12 bytes, `src/sg_pad.c`)
-- equivalent on 2 development and 3 holdout cases, in `tests/sg_pad/pdExecPeripheralServer.json`
+- equivalent on 2 development and 6 holdout cases, in `tests/sg_pad/pdExecPeripheralServer.json`
 - zero
 - one
 - -1
 - min
 - 256
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### pdExitPeripheral (`0C14EAAC`, 72 bytes, `src/sg_pad.c`)
-- equivalent on 3 development and 4 holdout cases, in `tests/sg_pad/pdExitPeripheral.json`
+- equivalent on 3 development and 7 holdout cases, in `tests/sg_pad/pdExitPeripheral.json`
 - active=0
 - active=1
 - active=0
@@ -8786,6 +11678,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - active=100
 - active=80000000
 - active=2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### pdGetMode (`0C14EB14`, 6 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGetMode.json`
@@ -8970,6 +11865,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### pdGunSetFlashColor (`0C14EB94`, 12 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/pdGunSetFlashColor.json`
+- a
+- b
+
 ### pdGunSetTrigger (`0C14EC0C`, 52 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_a/pdGunSetTrigger.json`
 - 0
@@ -8980,6 +11880,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 24
 - negative
 - 7
+
+### pdInitPeripheral (`0C14E58C`, 158 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/pdInitPeripheral.json`
+- with driver
+- no driver
+- b only
+
+### pdSetMode (`0C14EB08`, 12 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/pdSetMode.json`
+- a
+- b
+
+### pdSetOptimize (`0C14EB1A`, 12 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/pdSetOptimize.json`
+- a
+- b
 
 ### pdSetThreshold (`0C14EB34`, 10 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdSetThreshold.json`
@@ -9044,6 +11960,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ready=0 ret=2147483647
 - ready=1 ret=1
 
+### pedPickIdle (`0C050284`, 114 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/pedPickIdle.json`
+- special
+- special 4
+- plain
+- wrap
+- plain wrap
+
 ### pfColor (`0C03102A`, 12 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/pfColor.json`
 - four
@@ -9061,6 +11985,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - empty
 - one
 
+### pfSetZ (`0C030FC0`, 46 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_z/pfSetZ.json`
+- z 2
+- z 0
+- z negative
+- z 0.5
+
 ### pfSize (`0C030FEE`, 44 bytes, `src/game_m.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_m/pfSize.json`
 - flag clear
@@ -9072,6 +12003,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - set
 - clear
 - index 0
+
+### psgPlayBlend (`0C071198`, 136 bytes, `src/game_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_p/psgPlayBlend.json`
+- zero
+- mid
+- end
+- start
+- last
 
 ### psgPutShadow (`0C070F04`, 54 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/psgPutShadow.json`
@@ -9106,6 +12045,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value 4294967295
 - value 7
 
+### read_dir (`0C166274`, 110 bytes, `src/sdk_zb.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_zb/read_dir.json`
+- chain of 3
+- read fails
+- limit reached
+- none
+
 ### read_sys (`0C1666FE`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/read_sys.json`
 - drive 1
@@ -9118,6 +12064,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value 305419896
 - value 4294967295
 - value 2147483648
+
+### rtcGetSeconds (`0C03AC42`, 32 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_ze/rtcGetSeconds.json`
+- a
+- b
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### saveBufferInit (`0C03AC20`, 34 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/saveBufferInit.json`
@@ -9144,6 +12098,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### search_exec_file (`0C166692`, 62 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_zd/search_exec_file.json`
+- found
+- none
+- past limit
+- first
+
+### search_fat_free_xross (`0C1669B0`, 70 bytes, `src/sdk_zd.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_zd/search_fat_free_xross.json`
+- first ok
+- none
+- one crossing
+- two crossings then none
+
+### search_free_dir (`0C1666D0`, 46 bytes, `src/sdk_zd.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_zd/search_free_dir.json`
+- third
+- none
+- past limit
+- first
+
+### search_subst_fat_top (`0C166816`, 126 bytes, `src/sdk_zb.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_zb/search_subst_fat_top.json`
+- first run fits
+- none
+- second try
+- n 1
+- n 0
+
 ### setBorderColor (`0C074A10`, 26 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/setBorderColor.json`
 - rgb
@@ -9151,6 +12134,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero
 - half alpha
 - all ones
+
+### setObjPieceExec (`0C0385AC`, 54 bytes, `src/game_p.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_p/setObjPieceExec.json`
+- high
+- low
+- edge
+
+### setObjPieceExecSleep (`0C0385E2`, 86 bytes, `src/game_p.c`)
+- equivalent on 4 development and 1 holdout cases, in `tests/game_p/setObjPieceExecSleep.json`
+- high
+- slow 5
+- fast 5
+- kind 3
+- kind 5 edge
 
 ### set_event (`0C029586`, 74 bytes, `src/nlevent.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/nlevent/set_event.json`
@@ -9161,6 +12158,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - three events
 - size 19
 - size 20, fails, empty list
+
+### set_vmstime (`0C166CB8`, 134 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/set_vmstime.json`
+- a
+- b
 
 ### str_len (`0C16652E`, 26 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_c/str_len.json`
@@ -9212,7 +12214,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big pad
 
 ### syBtExit (`0C1514FC`, 48 bytes, `src/sg_sybt.c`)
-- equivalent on 4 development and 5 holdout cases, in `tests/sg_sybt/syBtExit.json`
+- equivalent on 4 development and 8 holdout cases, in `tests/sg_sybt/syBtExit.json`
 - a1 b1
 - a1 b0
 - a0
@@ -9222,9 +12224,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - a255 b255
 - a1 b255
 - a0x101? 
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syCblCheck (`0C150226`, 70 bytes, `src/sg_sycbl.c`)
-- equivalent on 5 development and 7 holdout cases, in `tests/sg_sycbl/syCblCheck.json`
+- equivalent on 5 development and 10 holdout cases, in `tests/sg_sycbl/syCblCheck.json`
 - cable0
 - c1 b0
 - c1 b1
@@ -9237,9 +12242,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - b-1
 - b big
 - b 2^32+1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syCblCheckBroadcast (`0C1501EC`, 58 bytes, `src/sg_sycbl.c`)
-- equivalent on 4 development and 5 holdout cases, in `tests/sg_sycbl/syCblCheckBroadcast.json`
+- equivalent on 4 development and 8 holdout cases, in `tests/sg_sycbl/syCblCheckBroadcast.json`
 - '1'
 - '2'
 - '3'
@@ -9249,6 +12257,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0xff
 - 0xb1
 - 47
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syCblCheckCable (`0C162DDC`, 18 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syCblCheckCable.json`
@@ -9306,9 +12317,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0
 
 ### syCfgExit (`0C1512C6`, 10 bytes, `src/sdk_h.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/syCfgExit.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/syCfgExit.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syCfgGetBroadcastType (`0C15140C`, 42 bytes, `src/sdk_l.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_l/syCfgGetBroadcastType.json`
@@ -9332,10 +12346,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another block
 
 ### syCfgGetIDAddress (`0C15147C`, 26 bytes, `src/sdk_j.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/syCfgGetIDAddress.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_j/syCfgGetIDAddress.json`
 - ok
 - failed
 - failed -1
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syCfgGetIndividualID (`0C151436`, 70 bytes, `src/gen_o.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_o/syCfgGetIndividualID.json`
@@ -9403,11 +12420,27 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null: -1
 - another work
 
+### syCfgSetSoundMode (`0C1512D0`, 54 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 1 holdout cases, in `tests/sdk_ze/syCfgSetSoundMode.json`
+- stereo
+- mono fails
+- bad
+- no cfg
+- mono
+
 ### syG2DmaResume (`0C172790`, 26 bytes, `src/sdk_t.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_t/syG2DmaResume.json`
 - slot 1
 - slot 0
 - slot 2
+
+### syG2DmaResumeAll (`0C16E484`, 52 bytes, `src/sdk_z.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_z/syG2DmaResumeAll.json`
+- table at 0C800000
+- table at 0C810010
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syG2DmaSetProtect (`0C16E4C8`, 40 bytes, `src/sdk_p.c`)
 - equivalent on 2 development and 3 holdout cases, in `tests/sdk_p/syG2DmaSetProtect.json`
@@ -9417,13 +12450,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mixed
 - low bits
 
+### syG2DmaSuspendAll (`0C16E500`, 52 bytes, `src/sdk_z.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_z/syG2DmaSuspendAll.json`
+- table at 0C800000
+- table at 0C810010
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
 ### syHwFinish (`0C14FFAE`, 60 bytes, `src/sg_syhw.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/sg_syhw/syHwFinish.json`
+- equivalent on 3 development and 5 holdout cases, in `tests/sg_syhw/syHwFinish.json`
 - mask 0
 - mask 15
 - mask 7, T and S set
 - mask 3, M and Q set
 - mask 12
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### syHwInit2 (`0C14FF9E`, 16 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syHwInit2.json`
@@ -9488,6 +12532,35 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - idx=ffffffff val=3 cur=55
 - idx=40 val=0 cur=7
 - idx=2 val=9 cur=9
+
+### syMmuDeleteAllEntries (`0C160F36`, 70 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_ze/syMmuDeleteAllEntries.json`
+- list
+- list 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### syRtcAicaGetCount (`0C14FDA8`, 92 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_ze/syRtcAicaGetCount.json`
+- ok
+- fail
+- high bits
+
+### syRtcAicaSetDateHi (`0C14FE52`, 38 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/syRtcAicaSetDateHi.json`
+- a
+- b
+
+### syRtcAicaSetDateLo (`0C14FE2C`, 38 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/syRtcAicaSetDateLo.json`
+- a
+- b
+
+### syRtcAicaSetWriteFlag (`0C14FE04`, 40 bytes, `src/sdk_zc.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/syRtcAicaSetWriteFlag.json`
+- a
+- b
 
 ### syRtcDbgSetLogAddr (`0C14FF34`, 20 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcDbgSetLogAddr.json`
@@ -9639,6 +12712,32 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### syRtcMakeAgeOfMoon (`0C14FEB4`, 72 bytes, `src/sdk_ze.c`)
+- equivalent on 2 development and 3 holdout cases, in `tests/sdk_ze/syRtcMakeAgeOfMoon.json`
+- after
+- before
+- exact
+- zero
+- max
+
+### syRtcMakeDayOfWeek (`0C14FE78`, 60 bytes, `src/sdk_ze.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/syRtcMakeDayOfWeek.json`
+- (2000, 1, 1)
+- (1999, 12, 31)
+- (2024, 2, 29)
+- (1998, 11, 27)
+- (2001, 3, 1)
+- (0, 0, 0)
+
+### syRtcSetDate (`0C14FA40`, 82 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_ze/syRtcSetDate.json`
+- ok
+- ticked
+- wrong
+- flag fails
+- hi fails
+- lo fails
+
 ### syRtcSetServerMode (`0C14FA92`, 6 bytes, `src/gen_zz.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcSetServerMode.json`
 - case 0
@@ -9665,19 +12764,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 21
 
 ### syTmrInit (`0C1614B8`, 38 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/syTmrInit.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/vt_vtsdk_d/syTmrInit.json`
 - regs zero
 - regs ones
 - mixed
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### texFreeMem (`0C073BE0`, 24 bytes, `src/sdk_a.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/sdk_a/texFreeMem.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_a/texFreeMem.json`
 - free mem call
 - call returns something
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c02a9ac (`0C02AB40`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c02a9ac.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c02a9ac.json`
 - case 0
 - case 1
 - case 2
@@ -9700,9 +12805,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c0409d2 (`0C05BBBE`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c0409d2.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c0409d2.json`
 - case 0
 - case 1
 - case 2
@@ -9725,9 +12833,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c072fe8 (`0C0738B8`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c072fe8.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c072fe8.json`
 - case 0
 - case 1
 - case 2
@@ -9750,9 +12861,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c158b80 (`0C07B930`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c158b80.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c158b80.json`
 - case 0
 - case 1
 - case 2
@@ -9775,9 +12889,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c15fa1c (`0C15FA10`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c15fa1c.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c15fa1c.json`
 - case 0
 - case 1
 - case 2
@@ -9800,9 +12917,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c169a20 (`0C1680A0`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c169a20.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c169a20.json`
 - case 0
 - case 1
 - case 2
@@ -9825,9 +12945,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c169a7a (`0C1680A6`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c169a7a.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c169a7a.json`
 - case 0
 - case 1
 - case 2
@@ -9850,9 +12973,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c170880 (`0C170870`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c170880.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c170880.json`
 - case 0
 - case 1
 - case 2
@@ -9875,9 +13001,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_FUN_0c1708b2 (`0C1708A8`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_FUN_0c1708b2.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_FUN_0c1708b2.json`
 - case 0
 - case 1
 - case 2
@@ -9900,9 +13029,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_kmSetFogTable (`0C0749D0`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_kmSetFogTable.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_kmSetFogTable.json`
 - case 0
 - case 1
 - case 2
@@ -9925,9 +13057,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_kmiWriteRegister (`0C158726`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_kmiWriteRegister.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_kmiWriteRegister.json`
 - case 0
 - case 1
 - case 2
@@ -9950,9 +13085,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_mwRnaCreate (`0C1680AC`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_mwRnaCreate.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_mwRnaCreate.json`
 - case 0
 - case 1
 - case 2
@@ -9975,9 +13113,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_mwRnaErrEntryFunc (`0C16AD84`, 6 bytes, `src/gen_f.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_f/thunk_mwRnaErrEntryFunc.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_f/thunk_mwRnaErrEntryFunc.json`
 - case 0
 - case 1
 - case 2
@@ -10000,9 +13141,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_njSetConstantAttr (`0C1524AE`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_njSetConstantAttr.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_njSetConstantAttr.json`
 - case 0
 - case 1
 - case 2
@@ -10025,9 +13169,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_nlCloseEvent (`0C0572D8`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_nlCloseEvent.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_nlCloseEvent.json`
 - case 0
 - case 1
 - case 2
@@ -10050,9 +13197,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### thunk_syCfgExit (`0C03A648`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/thunk_syCfgExit.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/thunk_syCfgExit.json`
 - case 0
 - case 1
 - case 2
@@ -10075,12 +13225,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vibIsReady (`0C040F44`, 18 bytes, `src/game_b.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/game_b/vibIsReady.json`
+- equivalent on 2 development and 4 holdout cases, in `tests/game_b/vibIsReady.json`
 - ready
 - not
 - 2
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vibStart (`0C05F3C4`, 68 bytes, `src/game_i.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/game_i/vibStart.json`
@@ -10095,7 +13251,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 
 ### vmsfb_end (`0C170238`, 40 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfb_end.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfb_end.json`
 - case 0
 - case 1
 - case 2
@@ -10118,9 +13274,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfb_exec (`0C170222`, 8 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfb_exec.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfb_exec.json`
 - case 0
 - case 1
 - case 2
@@ -10143,9 +13302,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfb_exit (`0C17022A`, 8 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfb_exit.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfb_exit.json`
 - case 0
 - case 1
 - case 2
@@ -10168,14 +13330,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfb_init (`0C1701F4`, 22 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfb_init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/vmsfb_init.json`
 - server 7
 - server 0
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfb_sleep (`0C170232`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfb_sleep.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfb_sleep.json`
 - case 0
 - case 1
 - case 2
@@ -10198,14 +13366,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_exit (`0C1631C4`, 18 bytes, `src/sdk_i.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfs_c_exit.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_i/vmsfs_c_exit.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber0 (`0C1631DC`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber0.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber0.json`
 - case 0
 - case 1
 - case 2
@@ -10228,9 +13402,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber1 (`0C1631E0`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber1.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber1.json`
 - case 0
 - case 1
 - case 2
@@ -10253,9 +13430,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber2 (`0C1631E4`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber2.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber2.json`
 - case 0
 - case 1
 - case 2
@@ -10278,9 +13458,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber3 (`0C1631E8`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber3.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber3.json`
 - case 0
 - case 1
 - case 2
@@ -10303,9 +13486,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber4 (`0C1631EC`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber4.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber4.json`
 - case 0
 - case 1
 - case 2
@@ -10328,9 +13514,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_fiber5 (`0C1631F0`, 4 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_fiber5.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_fiber5.json`
 - case 0
 - case 1
 - case 2
@@ -10353,6 +13542,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_c_getstate (`0C163570`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_t/vmsfs_c_getstate.json`
@@ -10371,6 +13563,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - callback
 - none
 - negative
+
+### vmsfs_c_setfname (`0C1635E0`, 118 bytes, `src/sdk_zb.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_zb/vmsfs_c_setfname.json`
+- short names
+- long names
 
 ### vmsfs_c_setfunc (`0C163580`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/vmsfs_c_setfunc.json`
@@ -10392,8 +13589,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - none
 - negative
 
+### vmsfs_c_settime (`0C163656`, 26 bytes, `src/sdk_ze.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/vmsfs_c_settime.json`
+- drive 1
+- drive 3
+
+### vmsfs_c_setvolume (`0C1635B4`, 36 bytes, `src/sdk_z.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_z/vmsfs_c_setvolume.json`
+- drive 0
+- drive 2
+
 ### vmsfs_c_synch (`0C1631D6`, 6 bytes, `src/gen_e.c`)
-- equivalent on 15 development and 7 holdout cases, in `tests/gen_e/vmsfs_c_synch.json`
+- equivalent on 15 development and 10 holdout cases, in `tests/gen_e/vmsfs_c_synch.json`
 - case 0
 - case 1
 - case 2
@@ -10416,12 +13623,44 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_exit (`0C163AC0`, 24 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_c/vmsfs_exit.json`
 - run
 - r4 set
 - dirty
+
+### vmsfs_fgetsize (`0C165C2C`, 154 bytes, `src/sdk_ze.c`)
+- equivalent on 6 development and 2 holdout cases, in `tests/sdk_ze/vmsfs_fgetsize.json`
+- ok
+- gone
+- none
+- unformatted
+- open
+- missing
+- not mounted
+- flag 2 off
+
+### vmsfs_fread (`0C164EB6`, 114 bytes, `src/sdk_zb.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_zb/vmsfs_fread.json`
+- three ok
+- no file
+- not ready
+- second fails
+- zero blocks
+- one
+
+### vmsfs_getvolume (`0C165E28`, 142 bytes, `src/sdk_ze.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_ze/vmsfs_getvolume.json`
+- ok
+- none
+- gone
+- format
+- not mounted
+- flag8
 
 ### vmsfs_init_work_new (`0C1637DC`, 60 bytes, `src/sdk_v.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/sdk_v/vmsfs_init_work_new.json`
@@ -10432,6 +13671,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other: -256
 - negative
 - 123
+
+### vmsfs_isready (`0C163B00`, 58 bytes, `src/sdk_z.c`)
+- equivalent on 1 development and 5 holdout cases, in `tests/sdk_z/vmsfs_isready.json`
+- mixed
+- all ready
+- none
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### vmsfs_memcmp (`0C170754`, 32 bytes, `src/sdk_t.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_t/vmsfs_memcmp.json`
@@ -10453,9 +13701,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - -1
 
 ### vmsio_init (`0C170260`, 8 bytes, `src/sdk_t.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/vmsio_init.json`
+- equivalent on 1 development and 4 holdout cases, in `tests/sdk_t/vmsio_init.json`
 - clears
 - again
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
+
+### vmuExit (`0C03A6D8`, 20 bytes, `src/sdk_z.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_z/vmuExit.json`
+- first try
+- two retries
+- one retry
+- live RAM (arcade, passenger on board, paused)
+- live RAM (Crazy Box 1-1, paused after go)
+- live RAM (Total Records screen)
 
 ### volumeToDb (`0C02E222`, 96 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/volumeToDb.json`
@@ -10477,6 +13737,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero vectors
 - negative
 - same vector twice
+
+### write_fat_1 (`0C166798`, 126 bytes, `src/sdk_zb.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_zb/write_fat_1.json`
+- three ok
+- second fails
+- none
+- first fails
 
 ### write_sys (`0C166716`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/write_sys.json`

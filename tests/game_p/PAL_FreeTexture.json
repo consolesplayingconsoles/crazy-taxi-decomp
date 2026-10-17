@@ -1,0 +1,99 @@
+{
+ "dev": [
+  {
+   "about": "lang 0",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lang 2",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "02000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lang 3",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "03000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "lang 1",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "01000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lang 4",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "04000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "lang 7",
+   "regs": {},
+   "poke": {
+    "0C2A11C0": "07000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

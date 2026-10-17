@@ -1,0 +1,97 @@
+{
+ "dev": [
+  {
+   "about": "timeout",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "00000000",
+    "0C2A991C": "00000000",
+    "0C179120": "ffffffff"
+   },
+   "calls": [
+    {},
+    {
+     "r0": "00000000"
+    },
+    {
+     "fr0": 3000.0
+    }
+   ]
+  },
+  {
+   "about": "goal near",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "05000000",
+    "0C2A991C": "00000000",
+    "0C179120": "ffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {},
+    {
+     "fr0": 100.0
+    },
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "done",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "05000000",
+    "0C2A991C": "01000000",
+    "0C179120": "ffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000001"
+    },
+    {
+     "fr0": 5000.0
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "near only",
+   "regs": {},
+   "poke": {
+    "0C1EE794": "09000000",
+    "0C2A991C": "00000000",
+    "0C179120": "ffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    },
+    {
+     "fr0": 1999.0
+    },
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

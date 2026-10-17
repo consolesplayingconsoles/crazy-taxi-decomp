@@ -1,0 +1,65 @@
+{
+ "dev": [
+  {
+   "about": "reading",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0002eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "idle",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0001eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "null",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "idle 2",
+   "regs": {
+    "r4": "0C810000"
+   },
+   "poke": {
+    "0C810000": "00ff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}

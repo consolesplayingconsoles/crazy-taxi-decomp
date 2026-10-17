@@ -1,0 +1,77 @@
+{
+ "dev": [
+  {
+   "about": "driver 1",
+   "regs": {},
+   "poke": {
+    "0C2AD1DF": "00",
+    "0C2AD000": "01"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "busy",
+   "regs": {},
+   "poke": {
+    "0C2AD1DF": "02",
+    "0C2AD000": "01"
+   }
+  },
+  {
+   "about": "driver 4",
+   "regs": {},
+   "poke": {
+    "0C2AD1DF": "01",
+    "0C2AD000": "04"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "driver 0",
+   "regs": {},
+   "poke": {
+    "0C2AD1DF": "fd",
+    "0C2AD000": "00"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "driver 9",
+   "regs": {},
+   "poke": {
+    "0C2AD1DF": "00",
+    "0C2AD000": "09"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

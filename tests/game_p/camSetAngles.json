@@ -1,0 +1,45 @@
+{
+ "dev": [
+  {
+   "about": "mode 0",
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000002",
+    "r6": "00000003",
+    "r7": "00000000"
+   },
+   "poke": {
+    "0C179928": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C0965FC": "0000803f0000004000004040"
+   }
+  },
+  {
+   "about": "mode 1",
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000002",
+    "r6": "00000003",
+    "r7": "00000001"
+   },
+   "poke": {
+    "0C179928": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C0965FC": "0000803f0000004000004040"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mode 2",
+   "regs": {
+    "r4": "0000000A",
+    "r5": "0000000B",
+    "r6": "0000000C",
+    "r7": "00000002"
+   },
+   "poke": {
+    "0C179928": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C0965FC": "0000803f0000004000004040"
+   }
+  }
+ ]
+}

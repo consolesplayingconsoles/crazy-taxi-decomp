@@ -1,0 +1,22 @@
+{
+ "dev": [
+  {
+   "about": "a",
+   "regs": {},
+   "poke": {
+    "0C2A801C": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A8D7C": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "b",
+   "regs": {},
+   "poke": {
+    "0C2A801C": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "0C2A8D7C": "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+   }
+  }
+ ]
+}

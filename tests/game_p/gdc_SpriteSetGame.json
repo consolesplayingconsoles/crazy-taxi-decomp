@@ -1,0 +1,86 @@
+{
+ "dev": [
+  {
+   "about": "done",
+   "regs": {},
+   "poke": {
+    "0C26E184": "03000000",
+    "0C2A11C0": "00000000"
+   }
+  },
+  {
+   "about": "menu jp",
+   "regs": {},
+   "poke": {
+    "0C26E184": "01000000",
+    "0C2A11C0": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "state 5 en",
+   "regs": {},
+   "poke": {
+    "0C26E184": "05000000",
+    "0C2A11C0": "01000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "menu en",
+   "regs": {},
+   "poke": {
+    "0C26E184": "00000000",
+    "0C2A11C0": "02000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

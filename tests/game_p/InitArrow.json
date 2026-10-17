@@ -1,0 +1,37 @@
+{
+ "dev": [
+  {
+   "about": "a",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0000803f0000004000004040",
+    "0C179130": "00008a0c",
+    "0C274234": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {
+     "r0": "00000005"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "b",
+   "regs": {
+    "r4": "0C800010"
+   },
+   "poke": {
+    "0C800010": "000080bf0000000000a00c46",
+    "0C179130": "ffffffff"
+   },
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ]
+}

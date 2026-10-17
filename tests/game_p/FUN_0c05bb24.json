@@ -1,0 +1,85 @@
+{
+ "dev": [
+  {
+   "about": "go timer",
+   "regs": {},
+   "poke": {
+    "0C2A9934": "00000000",
+    "0C2A9930": "00000000",
+    "0C1EE794": "05000000",
+    "0C2A992C": "0100",
+    "0C2A9904": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "go no timer",
+   "regs": {},
+   "poke": {
+    "0C2A9934": "00000000",
+    "0C2A9930": "00000000",
+    "0C1EE794": "00000000",
+    "0C2A992C": "0100",
+    "0C2A9904": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "done",
+   "regs": {},
+   "poke": {
+    "0C2A9934": "01000000",
+    "0C2A9930": "00000000",
+    "0C1EE794": "05000000",
+    "0C2A992C": "0100",
+    "0C2A9904": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "other",
+   "regs": {},
+   "poke": {
+    "0C2A9934": "00000000",
+    "0C2A9930": "03000000",
+    "0C1EE794": "05000000",
+    "0C2A992C": "0100",
+    "0C2A9904": "00000000"
+   }
+  },
+  {
+   "about": "negative timer",
+   "regs": {},
+   "poke": {
+    "0C2A9934": "00000000",
+    "0C2A9930": "00000000",
+    "0C1EE794": "ffffffff",
+    "0C2A992C": "0100",
+    "0C2A9904": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "live RAM (arcade, passenger on board, paused)",
+   "dump": "build/ram/live.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Crazy Box 1-1, paused after go)",
+   "dump": "build/ram/box.bin",
+   "regs": {}
+  },
+  {
+   "about": "live RAM (Total Records screen)",
+   "dump": "build/ram/records.bin",
+   "regs": {}
+  }
+ ]
+}

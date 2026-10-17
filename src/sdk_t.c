@@ -226,3 +226,30 @@ void FUN_0c171db0(int *h, int x)
     nlsndStreamSetHdBitSize(((int *)h[7])[1], x);
     h[4] = x;
 }
+
+int ADX_DecodeMonoFloat(int a, int b, int c, int *d, int e, int f);
+int ADX_DecodeSteFloat(int a, int b, int c, int *d, int e, int *f, short g, short h);
+
+/* Run one ADX decode step of a player handle: a handle in state 1 goes to 2; in state 2 the
+   mono (h+20 is 1) or stereo decoder runs on the handle's buffers and its result is kept at +16,
+   an odd non-negative result raises adxpd_error, and the state moves to 3. */
+void ADXPD_ExecHndl(int *h)
+{
+    int r;
+
+    if (h[3] == 1) {
+        h[3] = 2;
+    }
+    if (h[3] == 2) {
+        if (h[5] == 1) {
+            h[4] = ADX_DecodeMonoFloat(h[6], h[7], h[8], h + 10, *(short *)((char *)h + 48), *(short *)((char *)h + 50));
+        } else {
+            r = ADX_DecodeSteFloat(h[6], h[7], h[8], h + 10, h[9], h + 11, *(short *)((char *)h + 48), *(short *)((char *)h + 50));
+            h[4] = r;
+            if (r >= 0 && (r & 1) == 1) {
+                adxpd_error();
+            }
+        }
+        h[3] = 3;
+    }
+}

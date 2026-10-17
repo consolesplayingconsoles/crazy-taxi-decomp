@@ -1,0 +1,45 @@
+{
+ "dev": [
+  {
+   "about": "flat",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "0C810000"
+   },
+   "poke": {
+    "0C810000": "000000000000803f00000000",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeee"
+   }
+  },
+  {
+   "about": "slope",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "0C810000"
+   },
+   "poke": {
+    "0C810000": "9a99993e6666663fcdcccc3d",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "steep",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "0C810000"
+   },
+   "poke": {
+    "0C810000": "333333bfcdcc4c3e9a99193f",
+    "0C800000": "eeeeeeeeeeeeeeeeeeeeeeee"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

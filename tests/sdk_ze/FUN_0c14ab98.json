@@ -1,0 +1,40 @@
+{
+ "dev": [
+  {
+   "about": "a",
+   "regs": {},
+   "poke": {
+    "0C089F34": "0000800c000000000000810c000000001000810c0000820c",
+    "0C089F4C": "0000820c",
+    "0C089F58": "2000820c",
+    "0C800000": "000102030405060708090a0b0c0d0e0f",
+    "0C810000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C820000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C174B54": "0000830c000000000000840c000000000800840c",
+    "0C174B6C": "0000850c00000000000000000600850c",
+    "0C830000": "6465666768696a6b",
+    "0C840000": "aaaaaaaaaaaaaaaa",
+    "0C850000": "bbbbbbbbbbbbbbbb"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "b",
+   "regs": {},
+   "poke": {
+    "0C089F34": "0000800c000000000000810c000000001000810c0000820c",
+    "0C089F4C": "0000820c",
+    "0C089F58": "0400820c",
+    "0C800000": "000102030405060708090a0b0c0d0e0f",
+    "0C810000": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0C820000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C174B54": "0000830c000000000000840c000000000800840c",
+    "0C174B6C": "0000850c00000000000000000600850c",
+    "0C830000": "6465666768696a6b",
+    "0C840000": "aaaaaaaaaaaaaaaa",
+    "0C850000": "bbbbbbbbbbbbbbbb"
+   }
+  }
+ ]
+}
