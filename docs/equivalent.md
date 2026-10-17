@@ -380,6 +380,39 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - sets
 - again
 
+### FUN_0c02f220 (`0C02F220`, 74 bytes, `src/game_g.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_g/FUN_0c02f220.json`
+- open ok, close first
+- open ok, nothing to close
+- open fails
+- fails after close
+- another id
+
+### FUN_0c02f362 (`0C02F362`, 48 bytes, `src/game_g.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_g/FUN_0c02f362.json`
+- two models
+- none
+- one
+
+### FUN_0c02f7e4 (`0C02F7E4`, 76 bytes, `src/game_g.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_g/FUN_0c02f7e4.json`
+- three entries
+- none
+- one
+
+### FUN_0c02f830 (`0C02F830`, 64 bytes, `src/game_g.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_g/FUN_0c02f830.json`
+- memory grows on the first try
+- grows on the third
+- never grows (100 tries)
+- unsigned compare
+
+### FUN_0c02f870 (`0C02F870`, 66 bytes, `src/game_g.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_g/FUN_0c02f870.json`
+- two entries
+- null list: nothing
+- none
+
 ### FUN_0c0300b6 (`0C0300B6`, 26 bytes, `src/game_d.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c0300b6.json`
 - 1: calls
@@ -396,6 +429,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c0301bc.json`
 - sequence
 - another
+
+### FUN_0c030914 (`0C030914`, 60 bytes, `src/game_g.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_g/FUN_0c030914.json`
+- not 5: loads
+- 5: nothing
+- 4
+- -1
 
 ### FUN_0c030e34 (`0C030E34`, 62 bytes, `src/game_f.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_f/FUN_0c030e34.json`
@@ -484,6 +524,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - different: 1
 - different, negative
 
+### FUN_0c03d678 (`0C03D678`, 74 bytes, `src/game_h.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_h/FUN_0c03d678.json`
+- m 1, loaded ok: written back
+- m 1, load fails
+- m 0
+- m 5, value 0x1FF to a byte
+
+### FUN_0c03d9b4 (`0C03D9B4`, 78 bytes, `src/game_h.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_h/FUN_0c03d9b4.json`
+- m 1, loaded: set
+- m 1, fails
+- m 0
+- m 2, loaded
+
 ### FUN_0c041016 (`0C041016`, 18 bytes, `src/game_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_b/FUN_0c041016.json`
 - m 0, lang 3
@@ -501,6 +555,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - down from 0: wraps to 21
 - up from 21: wraps to 0
 - negative input
+
+### FUN_0c04a38a (`0C04A38A`, 72 bytes, `src/game_h.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/game_h/FUN_0c04a38a.json`
+- small difference
+- big, b above a
+- big, b below a
+- exactly half
+- half + 1
+- c = 1
+- negative values
 
 ### FUN_0c04bef4 (`0C04BEF4`, 32 bytes, `src/game_b.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_b/FUN_0c04bef4.json`
@@ -591,6 +655,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - only the bit
 - already clear
 - others
+
+### FUN_0c05355e (`0C05355E`, 70 bytes, `src/game_h.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_h/FUN_0c05355e.json`
+- run
+- Game_No 2: nothing
+- NoArrow set: nothing
+- Game_No 1
+- Game_No -1, arrow
+
+### FUN_0c0535fc (`0C0535FC`, 70 bytes, `src/game_h.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_h/FUN_0c0535fc.json`
+- run
+- Game_No 2: nothing
+- NoArrow set: nothing
+- Game_No 1
+- Game_No -1, arrow
 
 ### FUN_0c054452 (`0C054452`, 58 bytes, `src/game_e.c`)
 - equivalent on 2 development and 3 holdout cases, in `tests/game_e/FUN_0c054452.json`
