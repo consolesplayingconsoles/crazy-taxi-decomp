@@ -1,0 +1,43 @@
+{
+ "dev": [
+  {
+   "about": "entry 0 found",
+   "regs": {
+    "r4": "0C2D767C"
+   },
+   "poke": {
+    "0C2D767C": "ffff"
+   }
+  },
+  {
+   "about": "entry 3 found",
+   "regs": {
+    "r4": "0C2D7760"
+   },
+   "poke": {
+    "0C2D7760": "0300"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "not an entry",
+   "regs": {
+    "r4": "0C2D7681"
+   },
+   "poke": {
+    "0C2D767C": "ffff",
+    "0C2D7681": "0100"
+   }
+  },
+  {
+   "about": "outside",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ffff"
+   }
+  }
+ ]
+}

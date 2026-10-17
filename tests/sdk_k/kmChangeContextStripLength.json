@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "length 2",
+   "regs": {
+    "r4": "00000002"
+   },
+   "poke": {
+    "0C2EAB9C": "ffffffff"
+   }
+  },
+  {
+   "about": "length 0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2EAB9C": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "length 3",
+   "regs": {
+    "r4": "00000003"
+   },
+   "poke": {
+    "0C2EAB9C": "12345678"
+   }
+  },
+  {
+   "about": "length 7",
+   "regs": {
+    "r4": "00000007"
+   },
+   "poke": {
+    "0C2EAB9C": "a5a5a5a5"
+   }
+  }
+ ]
+}

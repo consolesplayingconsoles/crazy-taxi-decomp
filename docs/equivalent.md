@@ -136,6 +136,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - swapped
 
+### ADXSTM_GetCurOfst (`0C168E28`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/ADXSTM_GetCurOfst.json`
+- offset
+- closed
+
+### ADXSTM_GetFad (`0C168E8A`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/ADXSTM_GetFad.json`
+- info
+- another
+
+### ADXSTM_GetFsizeByte (`0C168ED6`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/ADXSTM_GetFsizeByte.json`
+- info
+- another
+
 ### ADXSTM_GetGdfsStat (`0C168E6E`, 28 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetGdfsStat.json`
 - basic
@@ -148,6 +163,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSTM_Init.json`
 - init
 - again
+
+### ADXSTM_Tell (`0C168BB4`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/ADXSTM_Tell.json`
+- open
+- closed
+- negative
 
 ### ADXT_GetNumChan (`0C15221A`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/ADXT_GetNumChan.json`
@@ -363,6 +384,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - handle
 - another
 
+### FUN_0c14cfe2 (`0C14CFE2`, 34 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c14cfe2.json`
+- match
+- mismatch last
+- mismatch first
+- first byte ignored
+
 ### FUN_0c14d2fa (`0C14D2FA`, 22 bytes, `src/sdk_i.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_i/FUN_0c14d2fa.json`
 - count 2: copy
@@ -406,6 +434,26 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - no flag
 - flag, n 0
 
+### FUN_0c1573cc (`0C1573CC`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c1573cc.json`
+- entry 0 found
+- entry 3 found
+- not an entry
+- outside
+
+### FUN_0c1573f2 (`0C1573F2`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/FUN_0c1573f2.json`
+- empty list
+- one node in list
+- another list
+
+### FUN_0c157d20 (`0C157D20`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/FUN_0c157d20.json`
+- entry 0 found
+- entry 3 found
+- not an entry
+- outside
+
 ### FUN_0c157d46 (`0C157D46`, 18 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/FUN_0c157d46.json`
 - empty list
@@ -429,6 +477,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 'z'
 - 'm' with high bits
 - '{'
+
+### FUN_0c15fa92 (`0C15FA92`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/FUN_0c15fa92.json`
+- "ab"
+- empty
+- three chars
+
+### FUN_0c162db6 (`0C162DB6`, 34 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/FUN_0c162db6.json`
+- bits
+- all 1s
+- alternating
 
 ### FUN_0c1708bc (`0C1708BC`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_i/FUN_0c1708bc.json`
@@ -612,6 +672,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag -3
 - flag 0x103
 
+### adxf_AllocAdxFs (`0C152C2E`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/adxf_AllocAdxFs.json`
+- first free
+- third free
+- all 16 used
+- last free
+
 ### adxf_ChkPrmGfr (`0C15337C`, 62 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 7 development and 6 holdout cases, in `tests/vt_vtsdk_b/adxf_ChkPrmGfr.json`
 - ok
@@ -627,6 +694,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - limit 1 b 0
 - limit 0 b 0
 - a=0 ok
+
+### adxsjd_clear (`0C1681E2`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/adxsjd_clear.json`
+- clears
+- another
+
+### adxt_eos_entry (`0C168FCC`, 40 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/adxt_eos_entry.json`
+- positive
+- negative
+- small positive
 
 ### buCalcBackupFileSize (`0C1510C8`, 64 bytes, `src/sg_bup.c`)
 - equivalent on 9 development and 9 holdout cases, in `tests/sg_bup/buCalcBackupFileSize.json`
@@ -683,6 +761,54 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - idx1 set other
 - idx4 set
 
+### buFindExecFile (`0C1507A8`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buFindExecFile.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buFindFirstFile (`0C1506E8`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buFindFirstFile.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buFindNextFile (`0C150716`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buFindNextFile.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buGetDiskFree (`0C1506BA`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buGetDiskFree.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buGetDiskInfo (`0C15068C`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buGetDiskInfo.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buGetFileSize (`0C150BA4`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buGetFileSize.json`
+- ready
+- busy
+- another
+- busy -1
+
+### buGetLastError (`0C150B2E`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/buGetLastError.json`
+- ready
+- busy
+- drive 0
+
 ### buGetVersion (`0C150516`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buGetVersion.json`
 - version
@@ -693,6 +819,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - server
 - returns -1
 
+### buIsExistFile (`0C150AB4`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buIsExistFile.json`
+- ready
+- busy
+- another
+- busy -1
+
 ### buIsFormat (`0C1505C6`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buIsFormat.json`
 - argument passed
@@ -702,6 +835,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buIsReady.json`
 - argument passed
 - another
+
+### buMountDisk (`0C150E8C`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buMountDisk.json`
+- work set: mount
+- failed
+- another
+- failed -1
 
 ### buRemount (`0C15059A`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buRemount.json`
@@ -738,6 +878,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ready
 - busy
 - -1
+
+### buUnmount (`0C15059E`, 40 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/buUnmount.json`
+- ready
+- busy
+- drive 0
 
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`
@@ -778,6 +924,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - second car
 - car 0
 - count 0xFFFFFFFF
+
+### convert_support (`0C14E8DC`, 34 bytes, `src/sdk_k.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_k/convert_support.json`
+- plain
+- bit 17
+- bits 16 and 17
+- all ones
+- bit 16
+- zero
 
 ### courseStatusEntry (`0C042196`, 44 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/courseStatusEntry.json`
@@ -991,6 +1146,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - returns 1
 - returns 80000000
 
+### get_fat (`0C166A8C`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/get_fat.json`
+- drive 1
+- drive 0
+
 ### hudHidePickUpNag (`0C0535F0`, 12 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/hudHidePickUpNag.json`
 - all set
@@ -1041,15 +1201,57 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - 100
 
+### kmChangeContextClampUV (`0C15E41E`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextClampUV.json`
+- mode 3
+- mode 0
+- mode 7
+- mode 1
+
 ### kmChangeContextColorType (`0C15E0D6`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmChangeContextColorType.json`
 - type 2
 - type 1
 
+### kmChangeContextCullingMode (`0C15E10C`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextCullingMode.json`
+- mode 3
+- mode 0
+- mode 7
+- mode 1 over pattern
+
+### kmChangeContextDepthMode (`0C15E0EE`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextDepthMode.json`
+- mode 3
+- mode 0
+- mode 7
+- mode 1 over pattern
+
+### kmChangeContextFlipUV (`0C15E400`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextFlipUV.json`
+- mode 3
+- mode 0
+- mode 7
+- mode 1
+
+### kmChangeContextStripLength (`0C15E578`, 30 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextStripLength.json`
+- length 2
+- length 0
+- length 3
+- length 7
+
 ### kmChangeVertexOffset (`0C14BB30`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmChangeVertexOffset.json`
 - buffer 2, 16 words
 - buffer 0, -1
+
+### kmFreeTexture (`0C15C228`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmFreeTexture.json`
+- type 3: VQ free
+- other: free by [7]
+- high half ignored
+- 0x10003 high bit set: still VQ
 
 ### kmGarbageCollectTexture (`0C15C3B4`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmGarbageCollectTexture.json`
@@ -1067,8 +1269,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - running
 - other channel, 2
 
+### kmSetBackGroundPlane (`0C14AF60`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/kmSetBackGroundPlane.json`
+- plane 2
+- plane 3
+- plane 2, other word
+
+### kmSetCullingRegister (`0C14AC7A`, 28 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/kmSetCullingRegister.json`
+- 2.5
+- -2.5
+- 0
+
 ### kmSetEORCallback (`0C158ADE`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmSetEORCallback.json`
+- callback
+- none
+
+### kmSetEndOfVertexCallback (`0C158DCA`, 28 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetEndOfVertexCallback.json`
+- callback
+- none
+
+### kmSetEndOfYUVCallback (`0C158DE6`, 28 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetEndOfYUVCallback.json`
 - callback
 - none
 
@@ -1077,8 +1301,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 640 x 480
 - 0 x 0
 
+### kmSetPaletteMode (`0C14ADC0`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmSetPaletteMode.json`
+- 2
+- 0
+- 4: nothing
+- -1: nothing
+
+### kmSetStripOverRunCallback (`0C158DAE`, 28 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetStripOverRunCallback.json`
+- callback
+- none
+
 ### kmSetTexOverflowCallback (`0C158D92`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmSetTexOverflowCallback.json`
+- callback
+- none
+
+### kmSetVSyncCallback (`0C158AFA`, 34 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetVSyncCallback.json`
+- callback
+- none
+
+### kmSetWaitVsyncCallback (`0C158E02`, 28 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetWaitVsyncCallback.json`
 - callback
 - none
 
@@ -1086,6 +1332,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmSetWaitVsyncCount.json`
 - 2
 - 0
+
+### kmUseAnotherModifier (`0C14B2A0`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 3 holdout cases, in `tests/sdk_k/kmUseAnotherModifier.json`
+- bit 0 set
+- bit 0 clear
+- 1
+- 0
+- -1
 
 ### kmiAddSysConfigFlag (`0C14CB20`, 12 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiAddSysConfigFlag.json`
@@ -1097,6 +1351,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - nothing
 - nothing again
 
+### kmiCopyFromFrameBuffer (`0C159C62`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmiCopyFromFrameBuffer.json`
+- copy and purge
+- another
+
 ### kmiCopyFromPVRMemory (`0C159B32`, 22 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmiCopyFromPVRMemory.json`
 - offset 0x100
@@ -1107,10 +1366,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - offset 0x100, 16 bytes
 - offset 0
 
+### kmiCreateDummyRegionforAvoidCacheBug (`0C15E9C8`, 36 bytes, `src/sdk_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmiCreateDummyRegionforAvoidCacheBug.json`
+- offset
+- another
+
 ### kmiGetSysConfigFlag (`0C14CBA8`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
 - value
 - 0
+
+### kmiPurgeMemory (`0C159AEE`, 40 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmiPurgeMemory.json`
+- 96 bytes: 4 lines (inclusive end)
+- 0 bytes: 1 line
+- 31 bytes: 1 line
+- 32 bytes: 2 lines
 
 ### kmiReadRegister (`0C159B16`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiReadRegister.json`
@@ -2287,6 +2558,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - src 7
 - dst 7 old
 
+### nlTriPutSetAttribCulling (`0C07A980`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_k/nlTriPutSetAttribCulling.json`
+- v 1
+- v 0
+- v 3
+- v 2 over a pattern
+- v 7 (masked)
+
 ### nlTriPutSetAttribFaceColor (`0C07A8D0`, 22 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_e/nlTriPutSetAttribFaceColor.json`
 - white
@@ -2294,6 +2573,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero
 - negative
 - large
+
+### nlTriPutSetAttribGouraud (`0C07A9A0`, 32 bytes, `src/sdk_k.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_k/nlTriPutSetAttribGouraud.json`
+- v 1
+- v 0
+- v 3
+- v 2 over a pattern
+- v 7 (masked)
 
 ### nlTriPutSetAttribOffsetColor (`0C07A8B0`, 32 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlTriPutSetAttribOffsetColor.json`
@@ -2563,6 +2850,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero ret
 - ret min
 - other dev
+
+### pdVibIsReady (`0C15155C`, 38 bytes, `src/sdk_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/pdVibIsReady.json`
+- bit set
+- bit clear
+- only that bit
 
 ### pdVmsLcdWrite (`0C15008C`, 102 bytes, `src/sg_lcd.c`)
 - equivalent on 4 development and 4 holdout cases, in `tests/sg_lcd/pdVmsLcdWrite.json`

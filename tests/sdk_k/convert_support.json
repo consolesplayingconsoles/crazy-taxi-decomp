@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "plain",
+   "regs": {
+    "r4": "12345678"
+   }
+  },
+  {
+   "about": "bit 17",
+   "regs": {
+    "r4": "00020000"
+   }
+  },
+  {
+   "about": "bits 16 and 17",
+   "regs": {
+    "r4": "00030000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "all ones",
+   "regs": {
+    "r4": "FFFFFFFF"
+   }
+  },
+  {
+   "about": "bit 16",
+   "regs": {
+    "r4": "00010000"
+   }
+  },
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ]
+}
