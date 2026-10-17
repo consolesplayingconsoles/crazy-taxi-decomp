@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "on",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C0ED1C8": "00000000"
+   }
+  },
+  {
+   "about": "off",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C0ED1C8": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "on over ones",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C0ED1C8": "ffffffff"
+   }
+  },
+  {
+   "about": "off over zero",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C0ED1C8": "00000000"
+   }
+  }
+ ]
+}

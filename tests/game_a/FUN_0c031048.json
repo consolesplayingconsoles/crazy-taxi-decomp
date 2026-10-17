@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "zeros",
+   "poke": {
+    "0C0ED240": "ffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C0ED240": "00000000000000000000000000000000"
+   }
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "dev": [
+  {
+   "about": "sets mode 8",
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "regs": {
+    "r4": "12345678"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

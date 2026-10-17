@@ -262,6 +262,116 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 255
 - big
 
+### FUN_0c0200aa (`0C0200AA`, 12 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c0200aa.json`
+- index 3
+- index 0 negative
+- index 0x10001 as int
+
+### FUN_0c0246dc (`0C0246DC`, 8 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0246dc.json`
+- clears
+- again
+
+### FUN_0c0288ca (`0C0288CA`, 10 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0288ca.json`
+- three
+- others
+
+### FUN_0c029a94 (`0C029A94`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c029a94.json`
+- two calls
+- again
+
+### FUN_0c02c094 (`0C02C094`, 22 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02c094.json`
+- on: 900
+- off: 0
+- other value
+
+### FUN_0c02d918 (`0C02D918`, 36 bytes, `src/game_a.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_a/FUN_0c02d918.json`
+- below: 0
+- between: 1
+- at upper: 2
+- equal lower: 0
+- negative values
+
+### FUN_0c02dd3a (`0C02DD3A`, 16 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd3a.json`
+- bit 3 set
+- clear
+- other bits
+
+### FUN_0c02dd52 (`0C02DD52`, 4 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd52.json`
+- nothing
+- nothing again
+
+### FUN_0c02dd5a (`0C02DD5A`, 4 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd5a.json`
+- nothing
+- nothing again
+
+### FUN_0c02e36c (`0C02E36C`, 20 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e36c.json`
+- values
+- others
+
+### FUN_0c02e572 (`0C02E572`, 24 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e572.json`
+- slot 2
+- slot 0
+
+### FUN_0c02e75a (`0C02E75A`, 30 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02e75a.json`
+- slot 1, pan 5
+- pan -3 (byte)
+- slot 0, 0x80 sign
+
+### FUN_0c02e90e (`0C02E90E`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e90e.json`
+- sets
+- again
+
+### FUN_0c02f14c (`0C02F14C`, 22 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02f14c.json`
+- sets
+- again
+
+### FUN_0c031036 (`0C031036`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c031036.json`
+- four and word
+- others
+
+### FUN_0c031048 (`0C031048`, 20 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c031048.json`
+- zeros
+- again
+
+### FUN_0c0310a0 (`0C0310A0`, 14 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0310a0.json`
+- reset
+- again
+
+### FUN_0c0310ae (`0C0310AE`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0310ae.json`
+- append
+- another
+
+### FUN_0c0310c0 (`0C0310C0`, 30 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c0310c0.json`
+- string
+- empty
+- one char
+
+### FUN_0c031408 (`0C031408`, 28 bytes, `src/game_a.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_a/FUN_0c031408.json`
+- on
+- off
+- on over ones
+- off over zero
+
 ### FUN_0c0742f0 (`0C0742F0`, 4 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0742f0.json`
 - the constant
@@ -670,6 +780,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - count 0x7FFFFFFF
 - count 1000
 
+### InitAdvCamera (`0C0289AC`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/InitAdvCamera.json`
+- sets mode 8
+- again
+
 ### KillColliObj (`0C03313A`, 96 bytes, `src/colli.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/colli/KillColliObj.json`
 - only node
@@ -818,6 +933,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag 4
 - flag -3
 - flag 0x103
+
+### adxStartAfs1 (`0C02E134`, 24 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/adxStartAfs1.json`
+- slot 1
+- slot 0
+
+### adxStartAfs2 (`0C02E706`, 24 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/adxStartAfs2.json`
+- slot 1
+- slot 0
 
 ### adxf_AllocAdxFs (`0C152C2E`, 38 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/adxf_AllocAdxFs.json`
@@ -1097,6 +1222,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 3
 - mode -1
 
+### camSetMode (`0C0286FA`, 28 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/camSetMode.json`
+- changes
+- same: nothing
+- from 0
+
 ### camSetTarget (`0C02877E`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetTarget.json`
 - mode 0 (homing vector)
@@ -1206,6 +1337,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag set
 - other
 - big
+
+### gameState11 (`0C02CCF6`, 18 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gameState11.json`
+- two
+- from 5
+
+### gameState9 (`0C02CCBC`, 26 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gameState9.json`
+- three calls
+- from -1
 
 ### gdFsCheckEof (`0C1600D4`, 40 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_e/gdFsCheckEof.json`
@@ -1330,6 +1471,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ok wide value
 - state negative short
 - null again
+
+### gdc_StopStreamSongAll (`0C02E15A`, 8 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamSongAll.json`
+- stop
+- another
+
+### gdc_StopStreamVoice (`0C02E5BA`, 14 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamVoice.json`
+- slot 3
+- slot 0
+
+### gdc_StopStreamVoiceAll (`0C02E624`, 34 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamVoiceAll.json`
+- four stops
+- zeros
 
 ### getGoiToolFlag (`0C049878`, 18 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/getGoiToolFlag.json`
@@ -3099,6 +3255,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ready=5 ret=-100
 - ready=0 ret=2147483647
 - ready=1 ret=1
+
+### pfColor (`0C03102A`, 12 bytes, `src/game_a.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_a/pfColor.json`
+- four
+- others
+
+### pfPuts (`0C031390`, 24 bytes, `src/game_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_a/pfPuts.json`
+- three chars
+- empty
+- one
 
 ### psgSetCurrent (`0C06E246`, 6 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/psgSetCurrent.json`

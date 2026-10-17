@@ -1,0 +1,33 @@
+{
+ "dev": [
+  {
+   "about": "index 3",
+   "regs": {
+    "r4": "00000003"
+   },
+   "poke": {
+    "0C178E76": "ff7f"
+   }
+  },
+  {
+   "about": "index 0 negative",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C178E70": "ffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "index 0x10001 as int",
+   "regs": {
+    "r4": "00010001"
+   },
+   "poke": {
+    "0C178E70": "0000"
+   }
+  }
+ ]
+}

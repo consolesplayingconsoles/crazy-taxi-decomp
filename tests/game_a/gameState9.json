@@ -1,0 +1,28 @@
+{
+ "dev": [
+  {
+   "about": "three calls",
+   "poke": {
+    "0C1EE240": "07000000"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "from -1",
+   "poke": {
+    "0C1EE240": "ffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}

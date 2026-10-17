@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "bit 3 set",
+   "poke": {
+    "0C1EE250": "08000000"
+   }
+  },
+  {
+   "about": "clear",
+   "poke": {
+    "0C1EE250": "f7ffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "other bits",
+   "poke": {
+    "0C1EE250": "00000001"
+   }
+  }
+ ]
+}

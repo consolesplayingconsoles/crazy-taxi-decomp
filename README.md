@@ -128,12 +128,12 @@ functions and globals, and functions documented in `docs/*.md`.
 <!-- progress -->
 ```
 THE GAME                          2827 functions, 452645 bytes of code; each function in one bucket
-  done: equivalent C       23.5%  664 of 2827 functions, 27532 bytes (6.1%): C that behaves like the original
+  done: equivalent C       24.6%  695 of 2827 functions, 28134 bytes (6.2%): C that behaves like the original
     of which matching C     0.3%  8 functions, 1178 bytes, 2 units: rebuilt byte for byte
     of which SDK source     7.9%  222 functions, 11678 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               40.6%  1147 functions: a name, no C yet (not done work)
-  unnamed                  35.9%  1016 functions (FUN_...), no C yet
-  documented               21.0%  593 named functions in docs/*.md
+  named only               40.2%  1136 functions: a name, no C yet (not done work)
+  unnamed                  35.2%  996 functions (FUN_...), no C yet
+  documented               21.2%  600 named functions in docs/*.md
   named globals                   120
   of which library                1825 functions, 196796 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
     done                   33.6%  613 of 1825 library functions, 24082 bytes (12.2%)
