@@ -153,6 +153,15 @@ def write_badge(rows, label, path='badge.svg'):
         open(path, 'w').write(svg)
     except OSError:
         pass
+    # the README's badge link carries the number (badge.svg?p=40.3): a new number is a new address, so GitHub's image cache
+    # never shows an old badge
+    try:
+        readme = open('README.md').read()
+        fresh = re.sub(r'\(badge\.svg(\?p=[0-9.]*)?\)', '(badge.svg?p=%.1f)' % done, readme, count=1)
+        if fresh != readme:
+            open('README.md', 'w').write(fresh)
+    except (IOError, OSError):
+        pass
 
 
 write_badge(rows, 'decomp')
