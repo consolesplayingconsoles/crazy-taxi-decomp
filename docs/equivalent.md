@@ -302,6 +302,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - count 1000, kept 5000
 - other
 
+### FUN_0c076670 (`0C076670`, 34 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c076670.json`
+- init
+- again
+
 ### FUN_0c077f60 (`0C077F60`, 10 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f60.json`
 - top 0C810080
@@ -326,6 +331,26 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c0789c0.json`
 - vector
 - zero
+
+### FUN_0c078fa0 (`0C078FA0`, 32 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c078fa0.json`
+- sequence
+- another matrix
+
+### FUN_0c078ff0 (`0C078FF0`, 32 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c078ff0.json`
+- sequence
+- another matrix
+
+### FUN_0c079e70 (`0C079E70`, 40 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c079e70.json`
+- sequence
+- others
+
+### FUN_0c079f10 (`0C079F10`, 52 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c079f10.json`
+- sequence
+- again
 
 ### FUN_0c07aad0 (`0C07AAD0`, 14 bytes, `src/sdk_h.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07aad0.json`
@@ -368,11 +393,45 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - four
 - others
 
+### FUN_0c07d5c0 (`0C07D5C0`, 34 bytes, `src/sdk_m.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_m/FUN_0c07d5c0.json`
+- positive, has data
+- negative
+- no data
+- zero and data
+
+### FUN_0c07d5f0 (`0C07D5F0`, 36 bytes, `src/sdk_m.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_m/FUN_0c07d5f0.json`
+- positive, has data
+- negative
+- no data
+- zero and data
+
+### FUN_0c07d620 (`0C07D620`, 38 bytes, `src/sdk_m.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_m/FUN_0c07d620.json`
+- one record, bits clear
+- two records
+- mask already set
+- three records, mixed
+
 ### FUN_0c07d6a0 (`0C07D6A0`, 54 bytes, `src/sdk_l.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_l/FUN_0c07d6a0.json`
 - leaf: no resource, no child, no sibling
 - with resource and sibling
 - resource only
+
+### FUN_0c07fc10 (`0C07FC10`, 40 bytes, `src/sdk_m.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_m/FUN_0c07fc10.json`
+- in use, locked: value
+- in use, unlocked: 0
+- not in use
+- index 0x10001 (short 1)
+
+### FUN_0c07fd00 (`0C07FD00`, 36 bytes, `src/sdk_m.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_m/FUN_0c07fd00.json`
+- unlocked in use: freed
+- locked: kept
+- not in use
 
 ### FUN_0c07ff20 (`0C07FF20`, 12 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07ff20.json`
@@ -385,6 +444,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - -5
 - 0
 - min int
+
+### FUN_0c0813e0 (`0C0813E0`, 52 bytes, `src/sdk_m.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_m/FUN_0c0813e0.json`
+- equal 3
+- differ at 2
+- n 0
+- differ first, unsigned
+- last differs
 
 ### FUN_0c081650 (`0C081650`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c081650.json`
@@ -402,6 +469,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - word 1: 0
 - word 2, bit 6 set
 - word 0, bit clear
+
+### FUN_0c0893b8 (`0C0893B8`, 52 bytes, `src/sdk_m.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_m/FUN_0c0893b8.json`
+- equal 3
+- differ at 2
+- n 0
+- differ first, unsigned
+- last differs
+
+### FUN_0c0897f8 (`0C0897F8`, 32 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c0897f8.json`
+- word
+- negative
+
+### FUN_0c089cc8 (`0C089CC8`, 34 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c089cc8.json`
+- halfword
+- high
 
 ### FUN_0c14ab88 (`0C14AB88`, 8 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14ab88.json`
@@ -1422,6 +1507,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_l/kmSetHSyncCallback.json`
 - callback set
 - none
+- another
+
+### kmSetPaletteData (`0C14ADE0`, 52 bytes, `src/sdk_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/kmSetPaletteData.json`
+- 1024 writes
 - another
 
 ### kmSetPaletteMode (`0C14ADC0`, 32 bytes, `src/sdk_k.c`)

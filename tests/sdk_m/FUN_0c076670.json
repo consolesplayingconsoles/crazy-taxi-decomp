@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "init",
+   "poke": {
+    "0C2AF118": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C2AF118": "000000000000000000000000000000000000000000000000"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}
