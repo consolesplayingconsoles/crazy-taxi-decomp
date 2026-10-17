@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "alloc ok",
+   "poke": {
+    "0C800000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {
+     "r0": "0C800000"
+    }
+   ]
+  },
+  {
+   "about": "none",
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another entry",
+   "poke": {
+    "0C800100": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "calls": [
+    {
+     "r0": "0C800100"
+    }
+   ]
+  }
+ ]
+}

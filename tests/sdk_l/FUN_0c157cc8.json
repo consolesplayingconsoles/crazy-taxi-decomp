@@ -1,0 +1,35 @@
+{
+ "dev": [
+  {
+   "about": "first free",
+   "poke": {
+    "0C2D767C": "0000"
+   }
+  },
+  {
+   "about": "second free",
+   "poke": {
+    "0C2D767C": "0100",
+    "0C2D76C8": "0000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "third free, high bits",
+   "poke": {
+    "0C2D767C": "0300",
+    "0C2D76C8": "fffd",
+    "0C2D7714": "fefe"
+   }
+  },
+  {
+   "about": "first used, bit 0 only",
+   "poke": {
+    "0C2D767C": "0100",
+    "0C2D76C8": "0100",
+    "0C2D7714": "0100"
+   }
+  }
+ ]
+}
