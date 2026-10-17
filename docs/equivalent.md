@@ -47,6 +47,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - all 16 running
 - state 2 skipped
 
+### ADXF_Finish (`0C15270E`, 56 bytes, `src/sdk_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/ADXF_Finish.json`
+- finish
+- again
+
 ### ADXF_GetFsizeByte (`0C1532F8`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetFsizeByte.json`
 - null: -3
@@ -81,6 +86,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null: -3
 - handle
 - another
+
+### ADXF_Init (`0C1526D4`, 58 bytes, `src/sdk_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/ADXF_Init.json`
+- init
+- again
 
 ### ADXF_ReadSj32 (`0C152FA2`, 46 bytes, `src/sdk_l.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_l/ADXF_ReadSj32.json`
@@ -135,6 +145,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - state 1: prep
 - state 0
 - state 3
+
+### ADXSJD_ExecServer (`0C1687C0`, 46 bytes, `src/sdk_o.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_o/ADXSJD_ExecServer.json`
+- entries 0 and 3 running
+- none
+- all running
+- state 2 skipped
 
 ### ADXSJD_Init (`0C1681C4`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_Init.json`
@@ -1788,6 +1805,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - bit 16
 - zero
 
+### copy_device (`0C1619C0`, 66 bytes, `src/sdk_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/copy_device.json`
+- records
+- another
+
 ### courseStatusEntry (`0C042196`, 44 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/courseStatusEntry.json`
 - point 0
@@ -2277,6 +2299,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
 - value
 - 0
+
+### kmiInitCallback (`0C158900`, 88 bytes, `src/sdk_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_o/kmiInitCallback.json`
+- init
+- again
 
 ### kmiPurgeMemory (`0C159AEE`, 40 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmiPurgeMemory.json`
@@ -3666,6 +3693,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - i=15 v negative
 - i=-8
 
+### open_file_handle (`0C166B72`, 46 bytes, `src/sdk_o.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_o/open_file_handle.json`
+- first free
+- third free
+- none free: error
+- no handles
+- first used byte 2
+
 ### ovLibClose (`0C14CDCC`, 56 bytes, `src/sg_ov.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/sg_ov/ovLibClose.json`
 - idx0
@@ -4059,6 +4094,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - run
 - r4 set
 - dirty
+
+### vmsfs_setdevicetype (`0C1636B4`, 46 bytes, `src/sdk_o.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_o/vmsfs_setdevicetype.json`
+- type 1
+- type 0
+- type 3 (bit 0 set)
+- type 2
 
 ### volumeToDb (`0C02E222`, 96 bytes, `src/misc.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/misc/volumeToDb.json`

@@ -4,12 +4,14 @@ ADXB_ExecOneWav
 ADXB_Start
 ADXB_Stop
 ADXF_ExecServer
+ADXF_Finish
 ADXF_GetFsizeByte
 ADXF_GetFsizeSct
 ADXF_GetNumReadSct
 ADXF_GetNumReqSct
 ADXF_GetPtinfoSize
 ADXF_GetStat
+ADXF_Init
 ADXF_ReadSj32
 ADXF_Tell
 ADXPD_Destroy
@@ -19,6 +21,7 @@ ADXPD_Stop
 ADXRNA_Destroy
 ADXSJD_Destroy
 ADXSJD_ExecHndl
+ADXSJD_ExecServer
 ADXSJD_Init
 ADXSJD_Start
 ADXSTM_GetBufSize
@@ -274,6 +277,7 @@ camSnapToCar
 carEntry
 colliNodeAlloc
 convert_support
+copy_device
 courseStatusEntry
 direntry
 discardVertexBuffer
@@ -344,6 +348,7 @@ kmiCopyFromPVRMemory
 kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
 kmiGetSysConfigFlag
+kmiInitCallback
 kmiPurgeMemory
 kmiReadRegister
 kmiReleaseHardware
@@ -504,6 +509,7 @@ nlsndStreamSetHdFx
 nlsndStreamSetHdGain
 nlsndStreamSetHdOctFns
 nlsndStreamSetHdPan
+open_file_handle
 ovLibClose
 ovSearchLib
 padPortAConnected
@@ -551,6 +557,7 @@ vmsfb_init
 vmsfs_c_exit
 vmsfs_c_setparam
 vmsfs_exit
+vmsfs_setdevicetype
 volumeToDb
 vsklRotate
 write_sys

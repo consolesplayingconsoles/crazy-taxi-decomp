@@ -1,0 +1,46 @@
+{
+ "dev": [
+  {
+   "about": "type 1",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2EE98C": "0000810c",
+    "0C810000": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "type 0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2EE98C": "0000810c",
+    "0C810000": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "type 3 (bit 0 set)",
+   "regs": {
+    "r4": "00000003"
+   },
+   "poke": {
+    "0C2EE98C": "0010820c",
+    "0C821000": "000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "about": "type 2",
+   "regs": {
+    "r4": "00000002"
+   },
+   "poke": {
+    "0C2EE98C": "0010820c",
+    "0C821000": "000000000000000000000000000000000000000000000000"
+   }
+  }
+ ]
+}
