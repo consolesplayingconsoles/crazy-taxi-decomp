@@ -1486,6 +1486,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - crc 818001fe55 n=None
 - crc 7a7a n=1
 
+### buCloseFile (`0C1508B0`, 70 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buCloseFile.json`
+- ready
+- busy
+- another handle
+
+### buConnect (`0C15055E`, 60 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_n/buConnect.json`
+- ready
+- busy
+- drive 0
+- busy -1
+
 ### buCreateExecFile (`0C15083E`, 46 bytes, `src/sdk_l.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_l/buCreateExecFile.json`
 - ready
@@ -1494,6 +1507,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 
 ### buCreateFile (`0C150808`, 46 bytes, `src/sdk_l.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_l/buCreateFile.json`
+- ready
+- busy
+- another
+
+### buDeleteFile (`0C1509C2`, 76 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buDeleteFile.json`
+- ready
+- busy
+- another
+
+### buDeleteFileEx (`0C150A0E`, 70 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buDeleteFileEx.json`
 - ready
 - busy
 - another
@@ -1614,6 +1639,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - argument passed
 - another
 
+### buMount (`0C150522`, 60 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_n/buMount.json`
+- ready
+- busy
+- drive 0
+- busy -1
+
 ### buMountDisk (`0C150E8C`, 32 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/buMountDisk.json`
 - work set: mount
@@ -1628,9 +1660,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 - busy -1
 
+### buReadDiskImage (`0C150DF8`, 68 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buReadDiskImage.json`
+- ready
+- busy
+- another
+
 ### buRemount (`0C15059A`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buRemount.json`
 - argument passed
+- another
+
+### buRenameFile (`0C150B54`, 80 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buRenameFile.json`
+- ready
+- busy
 - another
 
 ### buSetCallbackParam (`0C150510`, 6 bytes, `src/sdk_h.c`)
@@ -1669,6 +1713,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ready
 - busy
 - drive 0
+
+### buWriteDiskImage (`0C150E3C`, 68 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buWriteDiskImage.json`
+- ready
+- busy
+- another
+
+### buWriteFile (`0C150978`, 74 bytes, `src/sdk_n.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_n/buWriteFile.json`
+- ready
+- busy
+- other
 
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`

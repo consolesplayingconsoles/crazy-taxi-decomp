@@ -229,8 +229,12 @@ adxsjd_clear
 adxt_eos_entry
 buCalcBackupFileSize
 buCalcCRC
+buCloseFile
+buConnect
 buCreateExecFile
 buCreateFile
+buDeleteFile
+buDeleteFileEx
 buFbrExit
 buFbrWakeupFiber
 buFindExecFile
@@ -248,9 +252,12 @@ buInterruptHandler
 buIsExistFile
 buIsFormat
 buIsReady
+buMount
 buMountDisk
 buOpenFile
+buReadDiskImage
 buRemount
+buRenameFile
 buSetCallbackParam
 buSetCompleteCallback
 buSetPrintFunc
@@ -258,6 +265,8 @@ buSetProgressCallback
 buSetRetryCount
 buStat
 buUnmount
+buWriteDiskImage
+buWriteFile
 camSetEye
 camSetMode
 camSetTarget
