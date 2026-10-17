@@ -37,6 +37,8 @@ ADXT_Init
 ADXT_SetOutPan
 ADXT_SetOutVol
 BCDtoDEC
+CourseSplineGet
+CourseSplineNumGet
 DECtoBCD
 FUN_0c0200aa
 FUN_0c0246dc
@@ -52,12 +54,26 @@ FUN_0c02e572
 FUN_0c02e75a
 FUN_0c02e90e
 FUN_0c02f14c
+FUN_0c0301bc
 FUN_0c031036
 FUN_0c031048
 FUN_0c0310a0
 FUN_0c0310ae
 FUN_0c0310c0
 FUN_0c031408
+FUN_0c031480
+FUN_0c038ed0
+FUN_0c039280
+FUN_0c03932e
+FUN_0c03933e
+FUN_0c03ace8
+FUN_0c041016
+FUN_0c04bef4
+FUN_0c04d1ac
+FUN_0c051bc0
+FUN_0c051d22
+FUN_0c05308c
+FUN_0c0530a0
 FUN_0c0742f0
 FUN_0c074300
 FUN_0c074680
@@ -134,6 +150,7 @@ Psg_SetMoveSpeed
 Psg_SetPosPtr
 ResetFadeColor
 ResetSpark
+SetAudio
 SetCameraMode
 SetCameraPosRatio
 SetColliObj
@@ -188,6 +205,7 @@ camSetMode
 camSetTarget
 camSnapToCar
 carEntry
+colliNodeAlloc
 convert_support
 courseStatusEntry
 direntry
@@ -420,6 +438,7 @@ nlsndStreamSetHdOctFns
 nlsndStreamSetHdPan
 ovLibClose
 ovSearchLib
+padPortAConnected
 paletteSetMode
 paletteUpload
 pdExecPeripheralServer
@@ -432,6 +451,7 @@ pdVmsLcdWrite
 pdVmsLcdWrite1
 pfColor
 pfPuts
+pointEventGet
 psgSetCurrent
 read_sys
 rinRandomSeed
@@ -457,6 +477,7 @@ syRtcGetAndCheckCount
 syRtcGetDate
 syTmrInit
 texFreeMem
+vibIsReady
 vmsfb_create
 vmsfb_init
 vmsfs_c_exit

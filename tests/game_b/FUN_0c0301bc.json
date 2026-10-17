@@ -1,0 +1,26 @@
+{
+ "dev": [
+  {
+   "about": "sequence",
+   "regs": {
+    "r4": "00000005"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

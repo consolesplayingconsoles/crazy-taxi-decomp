@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "not 2: set 1",
+   "poke": {
+    "0C0EE900": "05000000"
+   }
+  },
+  {
+   "about": "2: kept",
+   "poke": {
+    "0C0EE900": "02000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "negative",
+   "poke": {
+    "0C0EE900": "ffffffff"
+   }
+  }
+ ]
+}

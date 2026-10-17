@@ -1,0 +1,33 @@
+{
+ "dev": [
+  {
+   "about": "0: bit clear",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A75E0": "ffffffff"
+   }
+  },
+  {
+   "about": "1: kept",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2A75E0": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "0 already clear",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A75E0": "00000002"
+   }
+  }
+ ]
+}
