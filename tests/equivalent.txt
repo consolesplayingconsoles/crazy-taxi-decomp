@@ -153,6 +153,7 @@ FUN_0c06048c
 FUN_0c060616
 FUN_0c060660
 FUN_0c067a28
+FUN_0c070ede
 FUN_0c072e36
 FUN_0c0742f0
 FUN_0c074300
@@ -235,6 +236,7 @@ FUN_0c167c4c
 FUN_0c16800c
 FUN_0c168026
 FUN_0c168808
+FUN_0c16c7f2
 FUN_0c1701c4
 FUN_0c1708bc
 FUN_0c170fd0
@@ -372,6 +374,7 @@ initPlayerADV
 kdExecGun
 kdGetDevice
 kmChangeContextClampUV
+kmChangeContextColorClamp
 kmChangeContextColorType
 kmChangeContextCullingMode
 kmChangeContextDepthMode
@@ -449,6 +452,7 @@ mwRnaGetTransSw
 mwRnaSetSfreq
 mwlRnaAlloc
 mwlRnaSetInitMember
+mwlSbAlloc
 mwlSbGetPitch
 nd_Init_Puru2
 njSetConstantAttr

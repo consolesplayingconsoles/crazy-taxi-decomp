@@ -1,0 +1,28 @@
+{
+ "dev": [
+  {
+   "about": "status 0: bit set",
+   "poke": {
+    "0C2F91FC": "00000000",
+    "0C2EA930": "00000000",
+    "A05F6908": "00000000"
+   }
+  },
+  {
+   "about": "status 5: kept",
+   "poke": {
+    "0C2F91FC": "05000000",
+    "0C2EA930": "00010000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "already bit",
+   "poke": {
+    "0C2F91FC": "00000000",
+    "0C2EA930": "ffffffff"
+   }
+  }
+ ]
+}

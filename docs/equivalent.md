@@ -988,6 +988,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - two calls
 - another
 
+### FUN_0c070ede (`0C070EDE`, 38 bytes, `src/sdk_w.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_w/FUN_0c070ede.json`
+- found at 2
+- not found
+- first
+- last
+
 ### FUN_0c072e36 (`0C072E36`, 28 bytes, `src/sdk_s.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/FUN_0c072e36.json`
 - four calls
@@ -1483,6 +1490,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c168808.json`
 - two
 - others
+
+### FUN_0c16c7f2 (`0C16C7F2`, 30 bytes, `src/sdk_w.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_w/FUN_0c16c7f2.json`
+- status 0: bit set
+- status 5: kept
+- already bit
 
 ### FUN_0c1701c4 (`0C1701C4`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 2 holdout cases, in `tests/sdk_t/FUN_0c1701c4.json`
@@ -2524,6 +2537,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 7
 - mode 1
 
+### kmChangeContextColorClamp (`0C15E4F2`, 78 bytes, `src/sdk_w.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_w/kmChangeContextColorClamp.json`
+- on
+- off
+- on over ones
+- off over zero
+
 ### kmChangeContextColorType (`0C15E0D6`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmChangeContextColorType.json`
 - type 2
@@ -3023,6 +3043,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/mwlRnaSetInitMember.json`
 - init
 - another
+
+### mwlSbAlloc (`0C171934`, 38 bytes, `src/sdk_w.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_w/mwlSbAlloc.json`
+- first free
+- third
+- none
+- last
 
 ### mwlSbGetPitch (`0C17209E`, 14 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/mwlSbGetPitch.json`
