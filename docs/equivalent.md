@@ -3867,6 +3867,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0x7F
 - 0xA3
 
+### FUN_0c15f4e2 (`0C15F4E2`, 54 bytes, `src/gen_p.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_p/FUN_0c15f4e2.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### FUN_0c15f818 (`0C15F818`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c15f818.json`
 - call
