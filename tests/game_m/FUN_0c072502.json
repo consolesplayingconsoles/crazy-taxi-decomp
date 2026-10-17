@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "x 1.5",
+   "regs": {
+    "fr4": 1.5
+   }
+  },
+  {
+   "about": "x -2",
+   "regs": {
+    "fr4": -2.0
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "big",
+   "regs": {
+    "fr4": 3e+30
+   }
+  }
+ ]
+}

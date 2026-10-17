@@ -1,0 +1,26 @@
+{
+ "dev": [
+  {
+   "about": "two",
+   "regs": {
+    "fr4": 2.5,
+    "fr5": -3.0
+   },
+   "poke": {
+    "0C1798FC": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "regs": {
+    "fr4": 0.0,
+    "fr5": 10000000000.0
+   },
+   "poke": {
+    "0C1798FC": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   }
+  }
+ ]
+}

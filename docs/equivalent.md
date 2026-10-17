@@ -377,10 +377,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - clears
 - again
 
+### FUN_0c0287d4 (`0C0287D4`, 12 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c0287d4.json`
+- two
+- zero
+
 ### FUN_0c0288ca (`0C0288CA`, 10 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0288ca.json`
 - three
 - others
+
+### FUN_0c0288d4 (`0C0288D4`, 12 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c0288d4.json`
+- two
+- other
 
 ### FUN_0c029a94 (`0C029A94`, 18 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c029a94.json`
@@ -531,6 +541,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - three entries
 - none
 - group 0, one
+
+### FUN_0c03101a (`0C03101A`, 16 bytes, `src/game_m.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/game_m/FUN_0c03101a.json`
+- x 2
+- negative
+- zero
 
 ### FUN_0c031036 (`0C031036`, 18 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c031036.json`
@@ -721,6 +737,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - course 3
 - course 0
 
+### FUN_0c04f1b0 (`0C04F1B0`, 56 bytes, `src/game_n.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_n/FUN_0c04f1b0.json`
+- init
+- negative
+
 ### FUN_0c0512ac (`0C0512AC`, 94 bytes, `src/game_j.c`)
 - equivalent on 8 development and 8 holdout cases, in `tests/game_j/FUN_0c0512ac.json`
 - state 0 sw 10000 0
@@ -788,6 +809,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_f/FUN_0c05318a.json`
 - init
 - another
+
+### FUN_0c05322c (`0C05322C`, 10 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c05322c.json`
+- two
+- other
+
+### FUN_0c053236 (`0C053236`, 10 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c053236.json`
+- two
+- other
+
+### FUN_0c053240 (`0C053240`, 14 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c053240.json`
+- three
+- other
 
 ### FUN_0c05328a (`0C05328A`, 8 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05328a.json`
@@ -858,6 +894,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - 9
 
+### FUN_0c0563f8 (`0C0563F8`, 18 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c0563f8.json`
+- init
+- another
+
 ### FUN_0c0577dc (`0C0577DC`, 18 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0577dc.json`
 - four calls
@@ -877,6 +918,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c057c3c.json`
 - sets
 - bit 0 only
+
+### FUN_0c05891a (`0C05891A`, 18 bytes, `src/game_m.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_m/FUN_0c05891a.json`
+- state 1: zero
+- state 0: kept
+- state 2
+
+### FUN_0c05af6c (`0C05AF6C`, 26 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c05af6c.json`
+- init
+- again
 
 ### FUN_0c05bb12 (`0C05BB12`, 18 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
@@ -983,6 +1035,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - block 12288 bytes
 - pattern
 
+### FUN_0c0631c6 (`0C0631C6`, 56 bytes, `src/game_n.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/game_n/FUN_0c0631c6.json`
+- speed 0
+- speed 1717
+- speed 3434
+- speed -100
+- speed 6000
+- speed -32768
+- speed 32767
+- speed -1
+- speed 200
+
+### FUN_0c063ad0 (`0C063AD0`, 40 bytes, `src/game_n.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/game_n/FUN_0c063ad0.json`
+- x 5.0
+- x 10.0
+- x 20.0
+- x -3.0
+- x 0.0
+- x 10.5
+- x -0.0
+- x 1e+30
+- x 0.001
+
 ### FUN_0c067a28 (`0C067A28`, 22 bytes, `src/game_d.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c067a28.json`
 - two calls
@@ -994,6 +1070,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - not found
 - first
 - last
+
+### FUN_0c072502 (`0C072502`, 10 bytes, `src/game_m.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_m/FUN_0c072502.json`
+- x 1.5
+- x -2
+- zero
+- big
 
 ### FUN_0c072e36 (`0C072E36`, 28 bytes, `src/sdk_s.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/FUN_0c072e36.json`
@@ -1069,6 +1152,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c0789c0.json`
 - vector
 - zero
+
+### FUN_0c078a70 (`0C078A70`, 32 bytes, `src/game_m.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c078a70.json`
+- add
+- negatives
 
 ### FUN_0c078fa0 (`0C078FA0`, 32 bytes, `src/sdk_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c078fa0.json`
@@ -1773,6 +1861,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value 100.0
 - value -2.0
 - value 1e+30
+
+### Set_StandWaitDist (`0C06B200`, 74 bytes, `src/game_n.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_n/Set_StandWaitDist.json`
+- mode 1
+- mode 0
+- mode 2
+- mode -1
 
 ### Sound_Request (`0C072168`, 176 bytes, `src/sound.c`)
 - equivalent on 8 development and 8 holdout cases, in `tests/sound/Sound_Request.json`
@@ -2718,6 +2813,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0
 - -1
 
+### kmfSetCommonModifier (`0C15A01E`, 98 bytes, `src/sdk_y.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_y/kmfSetCommonModifier.json`
+- off
+- aligned
+- a misaligned
+- b misaligned
+- both misaligned
+- zero a aligned
+
 ### kmfSetFatalErrorCallback (`0C158E1E`, 26 bytes, `src/sdk_s.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_s/kmfSetFatalErrorCallback.json`
 - callback
@@ -2950,6 +3054,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - n=32767
 - count negative
 
+### mpdrv_sdckbenable (`0C16F694`, 72 bytes, `src/sdk_y.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_y/mpdrv_sdckbenable.json`
+- enable
+- x 0x7fff
+- x negative
+
 ### mpdrv_set_ft4ctrl_ns (`0C1700A4`, 36 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_ft4ctrl_ns.json`
 - 1,2
@@ -2986,24 +3096,80 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 2 words
 - 1 word
 
-### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_c/mwRnaGetAutoSw.json`
+### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/sdk_x.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_x/mwRnaGetAutoSw.json`
 - null
-- bit set
-- bit clear
-- all
-- zero
-- bit 3 only
-- bits 2,0
+- byte1 00
+- byte1 07
+- byte1 ff
+- byte1 02
+- byte1 04
+- byte1 01
+- byte1 85
 
-### mwRnaGetSfreq (`0C16AC76`, 30 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetSfreq.json`
+### mwRnaGetBitPerSmpl (`0C16AC58`, 30 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetBitPerSmpl.json`
 - null
-- 44100
-- zero
+- value
 - negative
-- 48000
-- big
+- zero
+
+### mwRnaGetDrctLvl (`0C16AD64`, 32 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetDrctLvl.json`
+- null
+- value
+- negative
+- zero
+
+### mwRnaGetNumData (`0C16A904`, 30 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetNumData.json`
+- null
+- value
+- negative
+- zero
+
+### mwRnaGetNumRoom (`0C16A922`, 34 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetNumRoom.json`
+- null
+- room
+- negative
+- equal
+
+### mwRnaGetOutVol (`0C16AC94`, 32 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetOutVol.json`
+- null
+- value
+- negative
+- zero
+
+### mwRnaGetPlaySw (`0C16A8B2`, 40 bytes, `src/sdk_x.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_x/mwRnaGetPlaySw.json`
+- null
+- byte1 00
+- byte1 07
+- byte1 ff
+- byte1 02
+- byte1 04
+- byte1 01
+- byte1 85
+
+### mwRnaGetSfreq (`0C16AC76`, 30 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaGetSfreq.json`
+- null
+- value
+- negative
+- zero
+
+### mwRnaGetStat (`0C16A86C`, 32 bytes, `src/sdk_x.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_x/mwRnaGetStat.json`
+- null
+- byte1 00
+- byte1 07
+- byte1 ff
+- byte1 02
+- byte1 04
+- byte1 01
+- byte1 85
 
 ### mwRnaGetTime (`0C16A82C`, 64 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetTime.json`
@@ -3014,14 +3180,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - zero start
 
-### mwRnaGetTransSw (`0C16A88C`, 38 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/mwRnaGetTransSw.json`
+### mwRnaGetTransSw (`0C16A88C`, 38 bytes, `src/sdk_x.c`)
+- equivalent on 3 development and 5 holdout cases, in `tests/sdk_x/mwRnaGetTransSw.json`
 - null
-- bit set
-- bit clear
-- all ones
-- zero byte
-- only bit 7
+- byte1 00
+- byte1 07
+- byte1 ff
+- byte1 02
+- byte1 04
+- byte1 01
+- byte1 85
+
+### mwRnaIsPause (`0C16A738`, 32 bytes, `src/sdk_x.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_x/mwRnaIsPause.json`
+- null
+- set
+- clear
+- byte 0x80
 
 ### mwRnaSetSfreq (`0C16AA42`, 58 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/mwRnaSetSfreq.json`
@@ -4368,11 +4543,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - four
 - others
 
+### pfLocate (`0C030FA2`, 30 bytes, `src/game_m.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_m/pfLocate.json`
+- flag clear
+- flag set
+- negative flag
+
 ### pfPuts (`0C031390`, 24 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/pfPuts.json`
 - three chars
 - empty
 - one
+
+### pfSize (`0C030FEE`, 44 bytes, `src/game_m.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_m/pfSize.json`
+- flag clear
+- flag set
+- other
 
 ### pointEventGet (`0C042398`, 28 bytes, `src/game_b.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_b/pointEventGet.json`
@@ -4667,6 +4854,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - drive 0
 - drive 1 big
 
+### vmsfs_c_setcallbackparam (`0C163554`, 28 bytes, `src/sdk_y.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_y/vmsfs_c_setcallbackparam.json`
+- callback
+- none
+- negative
+
+### vmsfs_c_setcompletecallback (`0C16351C`, 28 bytes, `src/sdk_y.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_y/vmsfs_c_setcompletecallback.json`
+- callback
+- none
+- negative
+
 ### vmsfs_c_setfunc (`0C163580`, 16 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/vmsfs_c_setfunc.json`
 - drive 1
@@ -4680,6 +4879,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negatives
 - slot 7
 - slot 2 again
+
+### vmsfs_c_setprogresscallback (`0C163538`, 28 bytes, `src/sdk_y.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_y/vmsfs_c_setprogresscallback.json`
+- callback
+- none
+- negative
 
 ### vmsfs_exit (`0C163AC0`, 24 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_c/vmsfs_exit.json`

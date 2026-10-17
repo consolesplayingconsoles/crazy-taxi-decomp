@@ -1,0 +1,42 @@
+{
+ "dev": [
+  {
+   "about": "mode 1",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C13EED0": "ffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "mode 0",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C13EED0": "ffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mode 2",
+   "regs": {
+    "r4": "00000002"
+   },
+   "poke": {
+    "0C13EED0": "0000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "about": "mode -1",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C13EED0": "0000000000000000000000000000000000000000"
+   }
+  }
+ ]
+}
