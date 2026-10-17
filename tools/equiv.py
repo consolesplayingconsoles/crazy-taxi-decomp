@@ -210,6 +210,9 @@ def main(argv):
     stem = os.path.splitext(os.path.basename(cfile))[0]
     table, funcs = names(), functions()
     defines, defined = outside_names(cfile, table)
+    # the compiler's runtime helpers (_divls, _modls, _quick_evn_mvn...) are called by code it generates, not by name in
+    # the source: every one the game names goes to the linker too
+    defines.update({'_' + n: a for n, a in table.items() if n.startswith('_') and n not in defined})
     code, syms = compile_link(cfile, defines)
     if code is None:
         sys.exit('[ERROR] link: undefined %s (name them in functions.txt / globals.txt / symbols.txt)' % ', '.join(syms))
