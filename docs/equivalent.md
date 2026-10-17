@@ -255,6 +255,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - two randoms
 - again
 
+### ConvertSwitch2 (`0C02A2D4`, 40 bytes, `src/game_e.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_e/ConvertSwitch2.json`
+- copies
+- other
+
 ### CourseSplineGet (`0C04D202`, 24 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/CourseSplineGet.json`
 - course 1
@@ -297,6 +302,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c029a94.json`
 - two calls
 - again
+
+### FUN_0c02bc24 (`0C02BC24`, 42 bytes, `src/game_e.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_e/FUN_0c02bc24.json`
+- 0: to 1
+- 1: to 0
+- 2: nothing
+- -1
 
 ### FUN_0c02c094 (`0C02C094`, 22 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02c094.json`
@@ -460,6 +472,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 0, lang 0
 - m 5, lang -1
 
+### FUN_0c043524 (`0C043524`, 58 bytes, `src/game_e.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/game_e/FUN_0c043524.json`
+- bit 5 set: up
+- bit 4 set: down
+- both: same
+- none
+- down from 0: wraps to 21
+- up from 21: wraps to 0
+- negative input
+
 ### FUN_0c04bef4 (`0C04BEF4`, 32 bytes, `src/game_b.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_b/FUN_0c04bef4.json`
 - >= 4
@@ -544,6 +566,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - only the bit
 - already clear
 - others
+
+### FUN_0c054452 (`0C054452`, 58 bytes, `src/game_e.c`)
+- equivalent on 2 development and 3 holdout cases, in `tests/game_e/FUN_0c054452.json`
+- amount 100: 60 moved
+- amount 25: all moved
+- amount 60
+- amount 0: nothing
+- negative
 
 ### FUN_0c0552b0 (`0C0552B0`, 30 bytes, `src/game_c.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0552b0.json`
@@ -1039,6 +1069,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - param
 - another
 
+### GS_ComboReset (`0C02DA02`, 64 bytes, `src/game_e.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_e/GS_ComboReset.json`
+- both counters
+- nothing pending
+- 22 zero: kept
+- 21 set only
+
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`
 - level 0
@@ -1203,6 +1240,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - channel 1 occupied, ending set
 - channel 5 last slot
 - channel 2 first slot
+
+### TrafficLevelChange (`0C042A5A`, 46 bytes, `src/game_e.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_e/TrafficLevelChange.json`
+- timer positive, within range
+- above 23
+- below minimum
+- timer zero: nothing
+- equal minimum
 
 ### _allzero (`0C088E64`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/_allzero.json`

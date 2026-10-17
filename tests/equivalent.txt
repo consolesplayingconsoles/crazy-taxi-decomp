@@ -38,6 +38,7 @@ ADXT_SetOutPan
 ADXT_SetOutVol
 BCDtoDEC
 Chat_Execute
+ConvertSwitch2
 CourseSplineGet
 CourseSplineNumGet
 DECtoBCD
@@ -45,6 +46,7 @@ FUN_0c0200aa
 FUN_0c0246dc
 FUN_0c0288ca
 FUN_0c029a94
+FUN_0c02bc24
 FUN_0c02c094
 FUN_0c02d918
 FUN_0c02dd3a
@@ -74,6 +76,7 @@ FUN_0c03932e
 FUN_0c03933e
 FUN_0c03ace8
 FUN_0c041016
+FUN_0c043524
 FUN_0c04bef4
 FUN_0c04c0dc
 FUN_0c04d1ac
@@ -88,6 +91,7 @@ FUN_0c0532a4
 FUN_0c0532de
 FUN_0c05332c
 FUN_0c0533e6
+FUN_0c054452
 FUN_0c0552b0
 FUN_0c0577dc
 FUN_0c057b5c
@@ -175,6 +179,7 @@ FUN_0c162db6
 FUN_0c1708bc
 FUN_0c170fd0
 FUN_0c171e62
+GS_ComboReset
 GetMenuMode
 GetNumRideon
 InitAdvCamera
@@ -193,6 +198,7 @@ SetFadeColorBaseMulti
 SetFadeColorOffset
 SetLandmarkDist
 Sound_Request
+TrafficLevelChange
 _allzero
 acSystemGetSystemFlag
 adxStartAfs1
