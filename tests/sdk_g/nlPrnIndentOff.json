@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "bit 0 set",
+   "poke": {
+    "0C2AF0BC": "ff000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "bit 0 clear",
+   "poke": {
+    "0C2AF0BC": "02010000"
+   }
+  }
+ ]
+}

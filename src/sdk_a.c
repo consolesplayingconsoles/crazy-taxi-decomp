@@ -7,9 +7,9 @@ extern void nlInitPalette(int a, int b);
 extern void kmSetPaletteMode(int m);
 extern void nlFogTableSet(float *t);   /* the NAOMI library's stub that jumps to kmSetFogTable */
 extern void nlPushMatrix(int a);
-extern void FUN_0c07b220(int a);
+extern void nlInvLightVector(int a);
 extern void FUN_0c077ee0(void *a);
-extern void FUN_0c07b340(void *a);
+extern void nlobjput_sub(void *a);
 extern int FUN_0c07dcf0(void *a, int b, int c, int d);
 extern void nlstripSetVertexContext(void *a);
 extern void FUN_0c080ae0(void *a, int b, void *c);
@@ -108,10 +108,10 @@ void nlTriPutSetAttribShading(int *p, int v)
 void nlObjPut(int *obj)
 {
     if (!(obj[1] & 2))
-        FUN_0c07b220(obj[1]);
+        nlInvLightVector(obj[1]);
     nlPushMatrix(0);
     FUN_0c077ee0(g_0c2b34a8);
-    FUN_0c07b340(obj);
+    nlobjput_sub(obj);
 }
 
 int nlGetIntrFunction(int n, int *out)

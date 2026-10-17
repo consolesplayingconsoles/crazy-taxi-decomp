@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "table",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another table",
+   "regs": {
+    "r4": "0C900100"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "dev": [
+  {
+   "about": "surface accepted: nlCreateTextureParamA",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2B29C0": "0000810c",
+    "0C810064": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "surface refused: the dummy texture's TSP bits and TCW",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2B29C0": "0000810c",
+    "0C810064": "01000000",
+    "0C2AECBC": "1b00000000003000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "surface 3 refused (error -2)",
+   "regs": {
+    "r4": "00000003"
+   },
+   "poke": {
+    "0C2B29C0": "0000810c",
+    "0C8100DC": "feffffff",
+    "0C2AECBC": "0900000000001080"
+   }
+  }
+ ]
+}

@@ -93,6 +93,61 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 255
 - big
 
+### FUN_0c0742f0 (`0C0742F0`, 4 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0742f0.json`
+- the constant
+- again
+
+### FUN_0c074300 (`0C074300`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074300.json`
+- 1
+- -1
+
+### FUN_0c074680 (`0C074680`, 8 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074680.json`
+- 100000.0
+- again
+
+### FUN_0c074d10 (`0C074D10`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074d10.json`
+- 2
+- 0
+
+### FUN_0c0753f0 (`0C0753F0`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0753f0.json`
+- timer 0 count
+- another count
+
+### FUN_0c075400 (`0C075400`, 16 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c075400.json`
+- 100 x 0.5
+- -7 x 3.25
+
+### FUN_0c075410 (`0C075410`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c075410.json`
+- 10 - 3
+- 0 - 1
+
+### FUN_0c075430 (`0C075430`, 20 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c075430.json`
+- count 1000, kept 5000
+- other
+
+### FUN_0c077f60 (`0C077F60`, 10 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f60.json`
+- top 0C810080
+- top 0C900040
+
+### FUN_0c077f70 (`0C077F70`, 8 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f70.json`
+- view 0C810000
+- view 0C820040
+
+### FUN_0c077f80 (`0C077F80`, 14 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f80.json`
+- push view, multiply
+- other pointers
+
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`
 - level 0
@@ -858,6 +913,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - middle with two extra blocks, runs next
 - only event, extra block
 
+### nlCommonTextureClearTextureIndex (`0C073CA0`, 36 bytes, `src/nltex.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/nltex/nlCommonTextureClearTextureIndex.json`
+- index 37
+- index -1: nothing
+- index 31
+
+### nlCommonTextureGetNextTextureIndex (`0C073C20`, 126 bytes, `src/nltex.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/nltex/nlCommonTextureGetNextTextureIndex.json`
+- first word full, second has bit 3 free
+- all full: -1
+- empty: index 0
+- third word, bit 31
+- no words: -1
+
 ### nlCos (`0C075B20`, 24 bytes, `src/trig.c`)
 - equivalent on 6 development and 6 holdout cases, in `tests/trig/nlCos.json`
 - 0
@@ -903,6 +972,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - high bits ignored
 - x=1 exp 1e-3
 - x=0x8000
+
+### nlCreateTextureParam (`0C073EF0`, 38 bytes, `src/nltex.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/nltex/nlCreateTextureParam.json`
+- surface accepted: nlCreateTextureParamA
+- surface refused: the dummy texture's TSP bits and TCW
+- surface 3 refused (error -2)
 
 ### nlDispStrip (`0C080770`, 32 bytes, `src/sdk_a.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_a/nlDispStrip.json`
@@ -983,6 +1058,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - call with r4
 - another
 
+### nlFogTableSet (`0C076B40`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlFogTableSet.json`
+- table
+- another table
+
 ### nlFree (`0C02948C`, 182 bytes, `src/heap.c`)
 - equivalent on 7 development and 7 holdout cases, in `tests/heap/nlFree.json`
 - Arcade heap: free a block (previous free, next in use)
@@ -1007,6 +1087,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative short
 - big
 - sign bit
+
+### nlFreeTextureAll (`0C073F20`, 100 bytes, `src/nltex.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/nltex/nlFreeTextureAll.json`
+- 3 surfaces: in use, refused, unused
+- 2 surfaces both in use
+- no surfaces
 
 ### nlGetAverageVector (`0C078A90`, 44 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_e/nlGetAverageVector.json`
@@ -1119,6 +1205,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - event 4
 - event 7 ignored
 
+### nlInvLightVector (`0C07B220`, 50 bytes, `src/nlobjput.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlInvLightVector.json`
+- the five calls
+- other registers
+
 ### nlInvertAbsSqrt (`0C075D30`, 32 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/sdk_e/nlInvertAbsSqrt.json`
 - zero
@@ -1167,6 +1258,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 256x256
 - zero
 
+### nlLoadTextureMem (`0C073940`, 126 bytes, `src/nltex.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/nltex/nlLoadTextureMem.json`
+- accepted, no callback
+- refused by Kamui: 1, no load
+- callback gives another address
+- callback returns 0: data kept
+
 ### nlLog10 (`0C075EA0`, 16 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_b/nlLog10.json`
 - ln10
@@ -1184,6 +1282,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - arbitrary
 - zero
+
+### nlMakeModelProjectMatrix_objput (`0C07B420`, 16 bytes, `src/nlobjput.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlMakeModelProjectMatrix_objput.json`
+- push, load
+- again, other registers
+
+### nlMakeModelViewProjectMatrix_objput (`0C07B430`, 24 bytes, `src/nlobjput.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlMakeModelViewProjectMatrix_objput.json`
+- push, multiply by the matrix at *(0C2B31F4 + 8)
+- another matrix pointer
 
 ### nlMalloc (`0C0293FA`, 146 bytes, `src/heap.c`)
 - equivalent on 22 development and 22 holdout cases, in `tests/heap/nlMalloc.json`
@@ -1313,6 +1421,33 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - all zero
 - four
 
+### nlObjPutSetVtxColorMode (`0C07AF90`, 44 bytes, `src/nlobjput.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/nlobjput/nlObjPutSetVtxColorMode.json`
+- 0
+- 1
+- 2
+- 3: unchanged
+- -1: unchanged
+
+### nlObjPutTrnsl (`0C07AD30`, 52 bytes, `src/nlobjput.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/nlobjput/nlObjPutTrnsl.json`
+- word 1 bit 1 clear: lights first
+- word 1 bit 1 set: no lights
+- word 1 = 2
+
+### nlObjPutUseViewMatrix (`0C07AD00`, 34 bytes, `src/nlobjput.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/nlobjput/nlObjPutUseViewMatrix.json`
+- second word 1: lights set up
+- second word 3 (bit 1): no light set-up
+- second word 2, first word 0
+- second word 0
+
+### nlObjPutUseViewMatrixTrnsl (`0C07AD70`, 44 bytes, `src/nlobjput.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/nlobjput/nlObjPutUseViewMatrixTrnsl.json`
+- word 1 bit 1 clear: lights first
+- word 1 bit 1 set: no lights
+- word 1 = 2
+
 ### nlOuterProduct (`0C078B00`, 52 bytes, `src/sdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_a/nlOuterProduct.json`
 - x cross y
@@ -1321,6 +1456,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - parallel
 - fractions
 - negatives
+
+### nlPrintColor (`0C076A30`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlPrintColor.json`
+- FFFF0000
+- 0
 
 ### nlPrintMonitorMode (`0C076560`, 16 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/nlPrintMonitorMode.json`
@@ -1347,6 +1487,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 5 overflows field
 - mode ffff
 
+### nlPrnIndentOff (`0C076820`, 16 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlPrnIndentOff.json`
+- bit 0 set
+- bit 0 clear
+
 ### nlPrnIndentOn (`0C076810`, 10 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlPrnIndentOn.json`
 - clear
@@ -1368,6 +1513,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null
 - other
 - big
+
+### nlRand (`0C075F70`, 30 bytes, `src/sdk_g.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_g/nlRand.json`
+- seed 1
+- seed 0
+- seed FFFFFFFF
+- seed 12345678
+
+### nlRandom (`0C075F90`, 22 bytes, `src/sdk_g.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_g/nlRandom.json`
+- 32767
+- 0
+- 1234
+
+### nlRandomSeed (`0C075FB0`, 6 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlRandomSeed.json`
+- 1
+- 0xDEADBEEF
 
 ### nlReloadPalette (`0C0740F0`, 64 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_c/nlReloadPalette.json`
@@ -1403,6 +1566,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pointers
 - negatives
 - mixed
+
+### nlRenderTextureSet_Stride (`0C076BF0`, 16 bytes, `src/sdk_g.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlRenderTextureSet_Stride.json`
+- four arguments, then 0
+- others
 
 ### nlRotate (`0C0783E0`, 54 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlRotate.json`
@@ -1442,6 +1610,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0.5s
 - axis
 
+### nlSetCommonTextureOffset (`0C073AC0`, 6 bytes, `src/nltex.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nltex/nlSetCommonTextureOffset.json`
+- 1938
+- 0
+
 ### nlSetDummyTextureParameter (`0C073FD0`, 28 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlSetDummyTextureParameter.json`
 - mixed
@@ -1477,6 +1650,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 640x480
 - negative
 - big
+
+### nlSetScaleFactor (`0C079EA0`, 6 bytes, `src/nlobjput.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlSetScaleFactor.json`
+- 2.0
+- -0.5
+
+### nlSetTextureParameter (`0C073E00`, 38 bytes, `src/nltex.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/nltex/nlSetTextureParameter.json`
+- surface 2: TSP keeps its top bits, takes the size; TCW replaced
+- surface 0, other bits
 
 ### nlSin (`0C0760A0`, 150 bytes, `src/trig.c`)
 - equivalent on 8 development and 24 holdout cases, in `tests/trig/nlSin.json`
@@ -1678,6 +1861,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - pointer tex
 - other seed
 - v 5
+
+### nlobjput_sub (`0C07B340`, 64 bytes, `src/nlobjput.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/nlobjput/nlobjput_sub.json`
+- first word 0
+- first word 1
+- first word 2: only the pop
+- first word -1
+
+### nlobjput_sub_trnsl (`0C07B3B0`, 64 bytes, `src/nlobjput.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/nlobjput/nlobjput_sub_trnsl.json`
+- first word 0
+- first word 1
+- first word 5: only the pop
+- first word -1
 
 ### nlsndCheckPackFreeError (`0C07EA20`, 70 bytes, `src/sdk_e.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/sdk_e/nlsndCheckPackFreeError.json`

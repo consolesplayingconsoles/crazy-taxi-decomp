@@ -82,6 +82,92 @@ Models are the NAOMI library's flat format (`nlObjPut`): a record starts with tw
 sphere (centre, radius), then PowerVR polygon words (`0x8000002C`, `0x83000000`, TSP, a texture word
 with address 0 on disc). After loading, the texture words get their video-memory addresses through
 `nlObjPutLoadTexture(model, textures)` (`0x0C07A250`), only for the records the game names.
+
+Textures and the model draw (2026-10-17: read from the code and the disc; the texture sizes accepted and refused were seen in a
+running Arcade game):
+- The texture table for `polDC0` is in the executable at `0x8C141868`: 438 entries of 16 bytes, `{height << 16 | width,
+  data type << 8 | pixel format, data address (in the staging area at 0x0CB40000+), slot}`; a record's texture number indexes
+  it. The cabbies' parts use 243-256 (character `0x3B`), 257-267 (`0x3C`), 238-305 (`0x3D`) and 272-283 (`0x3E`), all
+  64 x 64 or smaller except one 128 x 128 each; types `0x401` (VQ mipmapped, RGB565), `0x201` (twiddled mipmapped, RGB565),
+  `0xD01` (twiddled rectangle, RGB565) and a few 16 x 16 / 32 x 32 `0x202` (twiddled mipmapped, ARGB4444).
+- A record is the SDK's `NL_PF_GloblParamType2` (`nlobjtyp.h` of the NAOMI SDK): `+0x00` the parameter control word (polygon list
+  in bits 24-26), `+0x04` ISP/TSP instruction, `+0x08` TSP instruction, `+0x0C` texture control word, `+0x10` the sphere
+  (`cx, cy, cz, cr`), `+0x20` `tex_pvf_index` (the texture number), `+0x24` specular, `+0x28` `tex_ambient` (float), `+0x2C`
+  face colour A, R, G, B, `+0x3C` face offset colour A, R, G, B, `+0x4C` `skip_byte` (the strip data's length), then the strips:
+  each a `gflag` (`NL_PF_GloblFlag`: bits 0-1 culling, 2 sprite (quads), 3 triangle, 4 strip, 5 s_index, 6 gouraud, 7 not_gp,
+  8 envmap; 0 ends the model), `polygon_num`, then the vertices (`NL_PF_PolygonFormat0`: `x y z`, `nx ny nz`, `u v`) or 2-word
+  references back to a vertex of the record. C for `nlObjPutUseViewMatrix`, `nlobjput_sub` and `nlMakeModelViewProjectMatrix_objput`: `src/nlobjput.c`, Equivalent
+  (`nlObjPut` is in `src/sdk_a.c`, `nlObjPutLoadTexture` in `src/sdk_c.c`).
+- `nlObjPutLoadTexture` walks the model's records with `nlObjPutLoadTextureOnce_Sub` (`0x0C079F80`, 692 bytes; the SDK's
+  `nlObjPutLoadTextureOnce` and `nlObjPutLoadTextureOnceGI` share it, the last argument picking GI, where the number is first
+  looked up in the texture table's fourth word). Each call loads at most one new texture and returns where it stopped, so
+  `nlObjPutLoadTexture` calls it until the model's end. A texture number keeps one surface: the slot table at `*0x0C2AEC84`
+  (the SDK's `nl_texture_loadflag`, `NL_TEXTURE_FLAGS` of `nlcmntex.h`: 8 bytes a number, after the offset `*0x0C2B3184`
+  that `nlSetCommonTextureOffset` sets: a use count, then a surface index), the surfaces 60 bytes each at `*0x0C2B29C0`. A
+  number without a surface gets a free index from `nlCommonTextureGetNextTextureIndex` (a clear bit in the bitmap at
+  `*0x0C2AEC88`, `nl_texture_loadbit`), then `nlLoadTextureMem` creates it: `kmCreateTextureSurface` (`0x0C15BBAC`) with the
+  entry's width, height and Kamui type (its result kept at surface +40), the load callback at `0x0C14A640`
+  (`nlCommonTextureSetLoadCallBack`; it may give another data address), then `kmLoadTexture` (`0x0C15BDFA`); 1 when Kamui
+  refused the surface. `nlCreateTextureParam` then works out the surface's TSP size bits (+48) and texture control word (+52)
+  (`nlCreateTextureParamA`), or, for a refused surface, copies the dummy texture's: a refused texture is drawn with the dummy
+  texture, never left out. A number that already has a surface is counted again and shares it. A 256 x 256 VQ ARGB4444
+  texture (18 KB) added at run time in Arcade was refused there; 128 x 128 ones are accepted. How much texture memory is left
+  is not known. C for `nlLoadTextureMem`, `nlSetTextureParameter` and `nlCreateTextureParam`: `src/nltex.c`, Equivalent.
+- What the load leaves in a record: `nlSetTextureParameter` replaces the TSP's U and V size (bits 0-5) and the whole texture
+  control word with the surface's, so a model file's own TCW and size bits are never used; an untextured record (number
+  below 0) gets the dummy parameters and its PCW bit 0 and ISP bit 22 set (16-bit UV). Every record's PCW loses bits 16-17
+  and gains `*0x0C14A650 << 16` (user clip) and `0x008C0000`. A palette texture (TCW pixel format 5 or 6) also gets its
+  palette from the list at `0x0C2B3568` (`nlObjPutSetPaletteHeaderAddress`).
+- `nlObjPutUseViewMatrix` (the draw a model at the current matrix that the game's car code uses) tests bit 1 of the model's second
+  header word: clear, it first runs `nlInvLightVectorUseViewMatrix` (it sets up the light vectors at `0x0C2B3150` from `0x0C14A918`/`0x0C14A938`);
+  then `nlMakeModelViewProjectMatrix_objput` (push, multiply by the matrix at `*0x0C2B31F4 + 8`) and `nlobjput_sub`, which picks a draw routine by
+  the model's first header word (0, 1, other): its literal pool (`mova 0x0C07B380`, words at +20 to +32) gives the light data
+  `0x0C2B3150`, the draw routine `0x0C081660` for word 0 and for word 1 (one `fldi1 fr4`, then `FUN_0c081662`), and
+  `nlPopMatrix`.
+- `FUN_0c081662` (896 bytes, hand-written SH-4) draws the records: it skips the 24-byte model header, reads each record's PCW
+  (ORed with `*0x0C2B7948`), ISP, TSP (ORed with `*0x0C2B794C`) and TCW, transforms the record's sphere (+16, radius +28)
+  with `ftrv` and skips the record when the sphere test fails. The polygon list is `(PCW >> 24) & 7`: it indexes the table of
+  word pointers at `**0x0C2B8CBC` (Kamui's per-list vertex buffers), and when the list changes from the last record the top
+  byte of that list's pointer goes to the store-queue area registers `QACR0/QACR1` (`0xFF000038/3C`). Then the strip is
+  written through the store queue. So every list Kamui has a buffer for is drawn from here; which lists Crazy Taxi gives a
+  buffer (its `kmCreateVertexBuffer` call) is still to read.
+- After a record's header the loop reads strip after strip: a positive word is a strip's `gflag`, 0 ends the model, a negative
+  word is the next record's PCW (bit 31 is always set in a PCW). The strip's culling (`gflag` bits 0-1) becomes the ISP
+  culling mode (bits 27-28: 0 none, 1 small, 2 and 3 one winding each), flipped (xor 1) when the word at `0x0C2B7948` is
+  negative. Which routine draws the strip depends first on the record's depth test (below): a record wholly on one side
+  goes to `FUN_0c081a40` (`gflag` bit 3 clear) or `FUN_0c082440` (bit 3 set); a record across the bound goes to
+  `FUN_0c081da0` (bit 4 set) or `FUN_0c082240` (bit 4 clear), with bit 6 (gouraud) passed in `r12`. Bit 6 also becomes the
+  PCW's gouraud bit (bit 1) of the parameter sent for the strip.
+- The record test, on the sphere transformed with the model-view-projection (`ftrv`, its w in `fr7`) and the radius times
+  `|*0x0C2B7BE8|` (the scale `nlSetScaleFactor` sets; the loop puts it back to 1.0 when it starts): the word at `+12` of the
+  drawer's second argument (`0x0C2B3150`, read as a float) is a bound; `w - r` above it skips the record, `w + r` above it
+  marks it as crossing (the clipping routines above). Then two side tests against `w` times the constants at `0x0C14A82C` and
+  `0x0C14A830` skip a record outside the view. A skipped record whose PCW has colour type 2 (intensity, face colour) still
+  sends its face colour, since the records after it may use colour type 3 (intensity, the previous face colour).
+- The record's light: specular `-1` gives an ambient of 1.0 (no lighting); a value above 0 picks a light set at
+  `0x0C2B30A4 + 512 * value`; 0 uses `tex_ambient`; `-2` and `-3` call `FUN_0c085e40` and `FUN_0c0868c0`. The face colour is
+  multiplied by the model's alpha (1.0 from `nlObjPut`, the argument of the `Trnsl` entries) and by the fade colours at
+  `0x0C14A948` and `0x0C14A958`. After the first strip of a record its PCW (kept at `0x0C2B7960`) switches from colour type 2
+  to 3.
+- Crazy Taxi's own models (`polDC0`-`polDC3`, 1752 models read off the disc): every record's ISP is `0x83000000` or
+  `0x83400000` (depth test "greater", texture, offset); TSP `0x9401A440` (blend source alpha, inverse source alpha) appears in
+  415 records, all in polygon list 2 (PCW `0x82......`); 312 records are one 4-vertex `gflag 0x16` strip (culling 2,
+  sprite, strip) of 136 bytes, the game's billboards. Of the Kamui texture types in the `polDC0` table, `0x302` (VQ, ARGB4444,
+  no mipmaps) is used once.
+- The texture module's names come the same way, from where its names fall in the SDK libraries: `libnlobj`'s offsets laid at
+  `0x0C070720` put `nlObjPutLoadTexture` on the function already named so, `nlObjPutLoadTextureOnce_Sub` on `0x0C079F80` and
+  `nlObjPutFreeTextureOnce_Sub` on `0x0C07A3D0` (it calls `kmFreeTexture`, `nlCommonTextureClearTextureIndex` and
+  `nlFreePalette`); `libnaomi`'s, laid so that `nlSetTextureParameter` falls on `0x0C073E00`, also meet `nlCreateTextureParam`,
+  `nlCreateTextureParamA`, `nlInitTextureSurface`, `nlLoadDummyTexture`, `nlSetDummyTextureParameter` and
+  `nlInitCommonTexture`, and put `nlLoadTextureMem` on `0x0C073940`, `nlCommonTextureGetNextTextureIndex` on `0x0C073C20` and
+  `nlCommonTextureClearTextureIndex` on `0x0C073CA0`. The same offsets fall on two functions already named from the Android
+  build: `texLoadIndexed` (`0x0C073AD0`, `nlCommonTextureReloadA` there) and `texFreeMem` (`0x0C073BE0`,
+  `nlCommonTextureGetFreeMem`); those names were left as they are.
+- Names in this block come from the NAOMI SDK's `libnlobj` (its name offsets laid at `0x0C072100` meet the names already
+  known here: `nlObjPut`, `nlObjPutSetFadeColor*`, `nlObjPutSetGlobalAmbience`, `nlObjPutSetLightDirectionV`). Translucent
+  models have their own entries: `nlObjPutTrnsl` (`0x0C07AD30`) and `nlObjPutUseViewMatrixTrnsl` (`0x0C07AD70`), drawing through
+  `nlobjput_sub_trnsl` (`0x0C07B3B0`). The Android build's name `nlObjPutUseViewMatrix` had been put on `0x0C067A28` (22 bytes:
+  a vector from `FUN_0c0678a4`, then `nlTranslateV`), which is not it: that function is `FUN_0c067a28` again.
 `gdc_FileLoad(where, name, size)` (`0x0C02DEFE`) reads a whole file when `size` is 0 (ADXF, waits
 for the read). Memory: `gameInit` loads `polDC0.BIN` at `0x0C390000` (2,358,960 bytes, ending at
 `0x0C5CFEB0`), 65,872 bytes below the city models at `0x0C5E0000`; `0x0C5E0000`-`0x0C880000` holds the
@@ -407,7 +493,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   then `[6]` (or `[5]` while `+0x58` is set) at the same matrix (position, the three angles,
   then `+0xAC`/`+0xB0` and 1.2 down), and places each wheel from the `+0x6C` table (x and z; the
   height comes from the suspension), computing the tyre contact points on the way
-  (`FUN_0c0771b0`). A model is drawn by `FUN_0c07ad00(model)`; its first word picks the mesh
+  (`FUN_0c0771b0`). A model is drawn by `nlObjPutUseViewMatrix(model)`; its first word picks the mesh
   kind (0 or 1; by the code, any other value only pops the matrix). The player car is drawn in a state that ignores
   the fade colour: with the base fade set to red (`0x0C0EA5BC`, which `ResetFadeColor` copies
   in), the city and the traffic turned red and the player car and the walker did not (seen
@@ -463,7 +549,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   The driver
   himself is rigid models (body, head, arms in `polDC0`, e.g. `0x0C3BFFE0`, `0x0C3C05A8`,
   `0x0C3C07C8`; one model table per cabbie at `0x0C136BE4`, `0x0C138BF8`, `0x0C13BB20`,
-  `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `FUN_0c07ad00`, and only while bit 0 of
+  `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `nlObjPutUseViewMatrix`, and only while bit 0 of
   the flags byte `TaxiDriver + 0x1DF` is set: that is the bicycle (the "chari" cheat; setting the bit
   in play puts the driver on a pedalling bike above the seat) (bit 1 is the hold flag the customers read, bit 7 is
   tested in `Drv_Execute`). `Drv_Init` and the driver's action functions write that byte;

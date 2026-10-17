@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "push, load",
+   "regs": {},
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again, other registers",
+   "regs": {
+    "r4": "12345678"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

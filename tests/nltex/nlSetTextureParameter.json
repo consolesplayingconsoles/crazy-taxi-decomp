@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "surface 2: TSP keeps its top bits, takes the size; TCW replaced",
+   "regs": {
+    "r4": "0C800000",
+    "r5": "00000002"
+   },
+   "poke": {
+    "0C2B29C0": "0010810c",
+    "0C800000": "2c00008000000083ffa40194aaaaaaaa",
+    "0C810100": "2b00000044332211"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "surface 0, other bits",
+   "regs": {
+    "r4": "0C800040",
+    "r5": "00000000"
+   },
+   "poke": {
+    "0C2B29C0": "0000810c",
+    "0C800040": "0000000000000000ffffffff00000000",
+    "0C810030": "0500000000000010"
+   }
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "dev": [
+  {
+   "about": "index 37",
+   "regs": {
+    "r4": "00000025"
+   },
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C810000": "ffffffffffffffff"
+   }
+  },
+  {
+   "about": "index -1: nothing",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C810000": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "index 31",
+   "regs": {
+    "r4": "0000001F"
+   },
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C810000": "ffffffff"
+   }
+  }
+ ]
+}

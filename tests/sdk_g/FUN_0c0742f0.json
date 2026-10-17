@@ -1,0 +1,15 @@
+{
+ "dev": [
+  {
+   "about": "the constant"
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "regs": {
+    "r4": "12345678"
+   }
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "timer 0 count",
+   "poke": {
+    "FFD8000C": "78563412"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another count",
+   "poke": {
+    "FFD8000C": "01000000"
+   }
+  }
+ ]
+}

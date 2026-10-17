@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "push, multiply by the matrix at *(0C2B31F4 + 8)",
+   "regs": {},
+   "poke": {
+    "0C2B31F4": "0000000000000000a0b2800c"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another matrix pointer",
+   "regs": {},
+   "poke": {
+    "0C2B31F4": "11111111222222220010810c"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}

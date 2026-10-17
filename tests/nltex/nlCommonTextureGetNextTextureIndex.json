@@ -1,0 +1,45 @@
+{
+ "dev": [
+  {
+   "about": "first word full, second has bit 3 free",
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C14A63C": "03000000",
+    "0C810000": "fffffffff7ffffff00000000"
+   }
+  },
+  {
+   "about": "all full: -1",
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C14A63C": "02000000",
+    "0C810000": "ffffffffffffffff"
+   }
+  },
+  {
+   "about": "empty: index 0",
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C14A63C": "01000000",
+    "0C810000": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "third word, bit 31",
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C14A63C": "04000000",
+    "0C810000": "ffffffffffffffffffffff7f00000000"
+   }
+  },
+  {
+   "about": "no words: -1",
+   "poke": {
+    "0C2AEC88": "0000810c",
+    "0C14A63C": "00000000"
+   }
+  }
+ ]
+}

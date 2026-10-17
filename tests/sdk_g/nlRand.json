@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "seed 1",
+   "poke": {
+    "0C14A7B4": "01000000"
+   }
+  },
+  {
+   "about": "seed 0",
+   "poke": {
+    "0C14A7B4": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "seed FFFFFFFF",
+   "poke": {
+    "0C14A7B4": "ffffffff"
+   }
+  },
+  {
+   "about": "seed 12345678",
+   "poke": {
+    "0C14A7B4": "78563412"
+   }
+  }
+ ]
+}
