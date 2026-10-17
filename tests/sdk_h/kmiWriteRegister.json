@@ -1,0 +1,20 @@
+{
+ "dev": [
+  {
+   "about": "fog colour register",
+   "regs": {
+    "r4": "000000B0",
+    "r5": "00FF8040"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "offset 0x40",
+   "regs": {
+    "r4": "00000040",
+    "r5": "00000000"
+   }
+  }
+ ]
+}

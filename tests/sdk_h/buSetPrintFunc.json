@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "function",
+   "regs": {
+    "r4": "0C150000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "none",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ]
+}

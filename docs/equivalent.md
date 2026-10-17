@@ -2,6 +2,17 @@
 
 Functions whose C behaves like the original on every test case (`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.
 
+### ADXB_CheckSpsd (`0C173D32`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/ADXB_CheckSpsd.json`
+- match
+- no match
+- no match, positive
+
+### ADXB_CopyExtraBufMono (`0C1715C0`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXB_CopyExtraBufMono.json`
+- pos 8, 4
+- pos 0
+
 ### ADXB_ExecOneWav (`0C17435C`, 40 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_b/ADXB_ExecOneWav.json`
 - mode 2
@@ -29,11 +40,67 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - f4 already zero
 - again
 
+### ADXF_GetFsizeByte (`0C1532F8`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetFsizeByte.json`
+- null: -3
+- handle
+- another
+
+### ADXF_GetFsizeSct (`0C1532DC`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetFsizeSct.json`
+- null: -3
+- handle
+- another
+
+### ADXF_GetNumReadSct (`0C153344`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetNumReadSct.json`
+- null: -3
+- handle
+- another
+
+### ADXF_GetPtinfoSize (`0C152C24`, 10 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/ADXF_GetPtinfoSize.json`
+- ptid 1
+- ptid 0
+
+### ADXF_GetStat (`0C153360`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_GetStat.json`
+- null: -3
+- handle
+- another
+
+### ADXF_Tell (`0C1532A0`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/ADXF_Tell.json`
+- null: -3
+- handle
+- another
+
 ### ADXPD_Destroy (`0C17442E`, 20 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_b/ADXPD_Destroy.json`
 - null
 - object
 - object offset
+- another
+
+### ADXPD_SetCoef (`0C174416`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXPD_SetCoef.json`
+- coef
+- another
+
+### ADXPD_Start (`0C174486`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/ADXPD_Start.json`
+- stopped: start
+- running
+- state 2
+
+### ADXPD_Stop (`0C174498`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXPD_Stop.json`
+- stop
+- another
+
+### ADXRNA_Destroy (`0C1680B2`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXRNA_Destroy.json`
+- handle
 - another
 
 ### ADXSJD_Destroy (`0C168300`, 52 bytes, `src/vt_vtsdk_c.c`)
@@ -43,6 +110,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - with buffer
 - other buffer
 - other r0
+
+### ADXSJD_ExecHndl (`0C168772`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_ExecHndl.json`
+- state 2: decode
+- state 1: prep
+- state 0
+- state 3
+
+### ADXSJD_Init (`0C1681C4`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_Init.json`
+- init
+- again
+
+### ADXSJD_Start (`0C16834C`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_Start.json`
+- start
+- another
 
 ### ADXSTM_GetBufSize (`0C168E48`, 12 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetBufSize.json`
@@ -60,6 +144,42 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - other
 
+### ADXSTM_Init (`0C168920`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSTM_Init.json`
+- init
+- again
+
+### ADXT_GetNumChan (`0C15221A`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/ADXT_GetNumChan.json`
+- state 2
+- state 1
+- state 5
+- state -1
+
+### ADXT_GetNumSmpl (`0C1521DE`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/ADXT_GetNumSmpl.json`
+- state 2
+- state 1
+- state 5
+- state -1
+
+### ADXT_GetOutPan (`0C15226A`, 12 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/ADXT_GetOutPan.json`
+- ch 1
+- ch 0, negative
+
+### ADXT_GetSfreq (`0C1521FC`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/ADXT_GetSfreq.json`
+- state 2
+- state 1
+- state 5
+- state -1
+
+### ADXT_GetStat (`0C152106`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/ADXT_GetStat.json`
+- 3
+- -1
+
 ### ADXT_SetOutPan (`0C152238`, 50 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/ADXT_SetOutPan.json`
 - in range
@@ -68,6 +188,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ch 0 count 0
 - signed count
 - rna handle
+
+### ADXT_SetOutVol (`0C152276`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXT_SetOutVol.json`
+- vol -30
+- vol 0
 
 ### BCDtoDEC (`0C166C80`, 24 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_b/BCDtoDEC.json`
@@ -147,6 +272,180 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c077f80.json`
 - push view, multiply
 - other pointers
+
+### FUN_0c078750 (`0C078750`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c078750.json`
+- 0.5
+- -1
+
+### FUN_0c0789c0 (`0C0789C0`, 26 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c0789c0.json`
+- vector
+- zero
+
+### FUN_0c07aad0 (`0C07AAD0`, 14 bytes, `src/sdk_h.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07aad0.json`
+- -1 kept
+- 5 becomes 1
+- 0 becomes 1
+
+### FUN_0c07b710 (`0C07B710`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07b710.json`
+- 0
+- 0 again
+
+### FUN_0c07b970 (`0C07B970`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07b970.json`
+- three arguments
+- others
+
+### FUN_0c07b980 (`0C07B980`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07b980.json`
+- three arguments
+- others
+
+### FUN_0c07b9d0 (`0C07B9D0`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07b9d0.json`
+- one argument
+- another
+
+### FUN_0c07b9e0 (`0C07B9E0`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07b9e0.json`
+- one argument
+- another
+
+### FUN_0c07d430 (`0C07D430`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c07d430.json`
+- the four words
+- again
+
+### FUN_0c07d4f0 (`0C07D4F0`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/FUN_0c07d4f0.json`
+- four
+- others
+
+### FUN_0c07ff20 (`0C07FF20`, 12 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07ff20.json`
+- i 2
+- i 0x1FFFF (short -1)
+
+### FUN_0c0813d0 (`0C0813D0`, 14 bytes, `src/sdk_h.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_h/FUN_0c0813d0.json`
+- 5
+- -5
+- 0
+- min int
+
+### FUN_0c081650 (`0C081650`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c081650.json`
+- nothing
+- nothing again
+
+### FUN_0c087e1a (`0C087E1A`, 16 bytes, `src/sdk_h.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_h/FUN_0c087e1a.json`
+- word 1: clears the byte
+- word 2: nothing
+- word 0
+
+### FUN_0c087e2a (`0C087E2A`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/FUN_0c087e2a.json`
+- word 1: 0
+- word 2, bit 6 set
+- word 0, bit clear
+
+### FUN_0c14ab88 (`0C14AB88`, 8 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14ab88.json`
+- handle
+- another
+
+### FUN_0c14ab90 (`0C14AB90`, 8 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14ab90.json`
+- handle
+- another
+
+### FUN_0c14d2fa (`0C14D2FA`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_i/FUN_0c14d2fa.json`
+- count 2: copy
+- count 1: nothing
+- null
+- count 5
+
+### FUN_0c14f59e (`0C14F59E`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c14f59e.json`
+- nothing
+- nothing again
+
+### FUN_0c152292 (`0C152292`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c152292.json`
+- 0x1234
+- 0x18000 (short)
+
+### FUN_0c152330 (`0C152330`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c152330.json`
+- 0x7F
+- 0x1FF (byte)
+
+### FUN_0c1534ca (`0C1534CA`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_j/FUN_0c1534ca.json`
+- none
+- 0x02000000
+- 0x03000000
+- 0x02400000
+- 0x03400000
+- 0x01000000 only
+
+### FUN_0c1534e8 (`0C1534E8`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/FUN_0c1534e8.json`
+- flag set
+- flag clear
+- flag set, n 0
+
+### FUN_0c153530 (`0C153530`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/FUN_0c153530.json`
+- flag
+- no flag
+- flag, n 0
+
+### FUN_0c157d46 (`0C157D46`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/FUN_0c157d46.json`
+- empty list
+- one node
+- another
+
+### FUN_0c15887e (`0C15887E`, 16 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c15887e.json`
+- 12 bytes
+- 14 bytes: 3 words
+
+### FUN_0c159ae0 (`0C159AE0`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c159ae0.json`
+- nothing
+- nothing again
+
+### FUN_0c15f998 (`0C15F998`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_i/FUN_0c15f998.json`
+- 'a'
+- 'Z'
+- 'z'
+- 'm' with high bits
+- '{'
+
+### FUN_0c1708bc (`0C1708BC`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_i/FUN_0c1708bc.json`
+- 5 bytes
+- 0 bytes
+- 1 byte
+- -3
+
+### FUN_0c170fd0 (`0C170FD0`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c170fd0.json`
+- init
+- again
+
+### FUN_0c171e62 (`0C171E62`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c171e62.json`
+- param
+- another
 
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`
@@ -297,6 +596,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - channel 5 last slot
 - channel 2 first slot
 
+### _allzero (`0C088E64`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/_allzero.json`
+- zeros
+- a byte set
+- n 0
+- last byte set
+
 ### acSystemGetSystemFlag (`0C060396`, 12 bytes, `src/leaf.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/leaf/acSystemGetSystemFlag.json`
 - flag 3
@@ -376,6 +682,62 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - idx3 clear
 - idx1 set other
 - idx4 set
+
+### buGetVersion (`0C150516`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buGetVersion.json`
+- version
+- 0
+
+### buInterruptHandler (`0C150278`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buInterruptHandler.json`
+- server
+- returns -1
+
+### buIsFormat (`0C1505C6`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buIsFormat.json`
+- argument passed
+- another
+
+### buIsReady (`0C15051C`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buIsReady.json`
+- argument passed
+- another
+
+### buRemount (`0C15059A`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buRemount.json`
+- argument passed
+- another
+
+### buSetCallbackParam (`0C150510`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetCallbackParam.json`
+- argument passed
+- another
+
+### buSetCompleteCallback (`0C150504`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetCompleteCallback.json`
+- argument passed
+- another
+
+### buSetPrintFunc (`0C150E80`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetPrintFunc.json`
+- function
+- none
+
+### buSetProgressCallback (`0C15050A`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetProgressCallback.json`
+- argument passed
+- another
+
+### buSetRetryCount (`0C150E86`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/buSetRetryCount.json`
+- argument passed
+- another
+
+### buStat (`0C150B14`, 26 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/buStat.json`
+- ready
+- busy
+- -1
 
 ### camSetEye (`0C02871C`, 68 bytes, `src/camera.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/camera/camSetEye.json`
@@ -679,6 +1041,114 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - 100
 
+### kmChangeContextColorType (`0C15E0D6`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmChangeContextColorType.json`
+- type 2
+- type 1
+
+### kmChangeVertexOffset (`0C14BB30`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmChangeVertexOffset.json`
+- buffer 2, 16 words
+- buffer 0, -1
+
+### kmGarbageCollectTexture (`0C15C3B4`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmGarbageCollectTexture.json`
+- returns 0
+- returns 1
+
+### kmGetCurrentVertexOffset (`0C14BB12`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmGetCurrentVertexOffset.json`
+- 16 words
+- negative -2 bytes
+
+### kmQueryFinishFlushVertexBuffer (`0C14B85C`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/kmQueryFinishFlushVertexBuffer.json`
+- done
+- running
+- other channel, 2
+
+### kmSetEORCallback (`0C158ADE`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmSetEORCallback.json`
+- callback
+- none
+
+### kmSetGlobalClipping (`0C14AFAA`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmSetGlobalClipping.json`
+- 640 x 480
+- 0 x 0
+
+### kmSetTexOverflowCallback (`0C158D92`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmSetTexOverflowCallback.json`
+- callback
+- none
+
+### kmSetWaitVsyncCount (`0C14B2C6`, 10 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmSetWaitVsyncCount.json`
+- 2
+- 0
+
+### kmiAddSysConfigFlag (`0C14CB20`, 12 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiAddSysConfigFlag.json`
+- or 4
+- or 0x80000000
+
+### kmiCheckRenderer (`0C157FBE`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiCheckRenderer.json`
+- nothing
+- nothing again
+
+### kmiCopyFromPVRMemory (`0C159B32`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmiCopyFromPVRMemory.json`
+- offset 0x100
+- offset 0x200
+
+### kmiCopyToPVRMemory (`0C159B1C`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmiCopyToPVRMemory.json`
+- offset 0x100, 16 bytes
+- offset 0
+
+### kmiGetSysConfigFlag (`0C14CBA8`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiGetSysConfigFlag.json`
+- value
+- 0
+
+### kmiReadRegister (`0C159B16`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiReadRegister.json`
+- offset 0xB0
+- offset 0x40
+
+### kmiReleaseHardware (`0C1586A0`, 28 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/kmiReleaseHardware.json`
+- loaded
+- not loaded
+- loaded, other value
+
+### kmiResetBoard (`0C157FA0`, 30 bytes, `src/sdk_j.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_j/kmiResetBoard.json`
+- reset
+- again
+
+### kmiSetSysConfigFlag (`0C14CBA0`, 8 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiSetSysConfigFlag.json`
+- 5
+- 0
+
+### kmiUnloadDevice (`0C158334`, 4 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiUnloadDevice.json`
+- nothing
+- nothing again
+
+### kmiWaitForFinishDMA (`0C1558C0`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/kmiWaitForFinishDMA.json`
+- done at once
+- done on the third query
+- 2 then 1
+
+### kmiWriteRegister (`0C159AE4`, 10 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/kmiWriteRegister.json`
+- fog colour register
+- offset 0x40
+
 ### kmyConvertAddress64to32 (`0C157F1E`, 34 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_c/kmyConvertAddress64to32.json`
 - zero
@@ -690,6 +1160,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - below
 - max
 - big
+
+### kmyResetTA (`0C15F3EC`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmyResetTA.json`
+- reset
+- again
 
 ### kmytex_FBEnQueueEntry (`0C157416`, 28 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/kmytex_FBEnQueueEntry.json`
@@ -725,6 +1200,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - wraps at 32767
 - negative
 - index 5
+
+### memcpy2 (`0C171560`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/memcpy2.json`
+- 3 halfwords
+- 0
+- 1
 
 ### memset (`0C081458`, 24 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/sdk_b/memset.json`
@@ -793,6 +1274,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - other
 - port 2
+
+### mpdrv_swaplong (`0C1727E4`, 20 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/mpdrv_swaplong.json`
+- 2 words
+- 1 word
 
 ### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_c/mwRnaGetAutoSw.json`
@@ -1250,6 +1736,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - src 4 dst 2
 - big args
 
+### nlLineSetDiv (`0C07B9F0`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/nlLineSetDiv.json`
+- 2.5
+- -1
+
+### nlLineSetThickness (`0C07BA00`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/nlLineSetThickness.json`
+- 2.5
+- -1
+
 ### nlLoadDummyTexture (`0C073FA0`, 40 bytes, `src/sdk_c.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c/nlLoadDummyTexture.json`
 - 8x8
@@ -1357,6 +1853,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the callee asks for two more rounds (it fills the cursor slot)
 - callee -1
 - callee 0x80
+
+### nlObjPutLoadTextureCallBack (`0C07B940`, 12 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/nlObjPutLoadTextureCallBack.json`
+- a value
+- 0
 
 ### nlObjPutMvInit (`0C07AA70`, 18 bytes, `src/sdk_c.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_c/nlObjPutMvInit.json`
@@ -1960,6 +2461,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - neg
 - 0x80
 
+### nlsndStreamSetHdOctFns (`0C07FEB0`, 16 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/sdk_h/nlsndStreamSetHdOctFns.json`
+- oct 3, fns 0x155
+- oct -1 (0xFFFF), fns 0
+- oct 0x10005 (short 5), fns 0x7FF
+
 ### nlsndStreamSetHdPan (`0C07FF30`, 12 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/nlsndStreamSetHdPan.json`
 - i=0
@@ -2088,6 +2595,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - value 4294967295
 - value 7
 
+### read_sys (`0C1666FE`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/read_sys.json`
+- drive 1
+- drive 0
+
 ### rinRandomSeed (`0C06B0C8`, 6 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/rinRandomSeed.json`
 - value 0
@@ -2192,6 +2704,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0xb1
 - 47
 
+### syCfgConvLang (`0C15137E`, 6 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/syCfgConvLang.json`
+- '3'
+- 0
+
+### syCfgExit (`0C1512C6`, 10 bytes, `src/sdk_h.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/syCfgExit.json`
+- clears
+- again
+
+### syCfgGetIDAddress (`0C15147C`, 26 bytes, `src/sdk_j.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/syCfgGetIDAddress.json`
+- ok
+- failed
+- failed -1
+
+### syCfgInit (`0C1512B4`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/syCfgInit.json`
+- work
+- null: -1
+- another work
+
 ### syHwFinish (`0C14FFAE`, 60 bytes, `src/sg_syhw.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sg_syhw/syHwFinish.json`
 - mask 0
@@ -2251,6 +2785,21 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - call returns something
 - again
 
+### vmsfb_create (`0C17020A`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfb_create.json`
+- fiber
+- another
+
+### vmsfb_init (`0C1701F4`, 22 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfb_init.json`
+- server 7
+- server 0
+
+### vmsfs_c_exit (`0C1631C4`, 18 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfs_c_exit.json`
+- clears
+- again
+
 ### vmsfs_c_setparam (`0C163590`, 36 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/vmsfs_c_setparam.json`
 - slot 0
@@ -2286,3 +2835,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero vectors
 - negative
 - same vector twice
+
+### write_sys (`0C166716`, 24 bytes, `src/sdk_i.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/write_sys.json`
+- drive 1
+- drive 0

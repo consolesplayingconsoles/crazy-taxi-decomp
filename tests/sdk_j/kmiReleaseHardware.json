@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "loaded",
+   "poke": {
+    "0C178268": "01000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "not loaded",
+   "poke": {
+    "0C178268": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "loaded, other value",
+   "poke": {
+    "0C178268": "0000800c"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

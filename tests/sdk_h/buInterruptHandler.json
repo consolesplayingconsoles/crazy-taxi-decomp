@@ -1,0 +1,22 @@
+{
+ "dev": [
+  {
+   "about": "server",
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "returns -1",
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ]
+}

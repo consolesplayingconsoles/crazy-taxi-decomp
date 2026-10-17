@@ -1,0 +1,26 @@
+{
+ "dev": [
+  {
+   "about": "handle",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another",
+   "regs": {
+    "r4": "0C900000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  }
+ ]
+}

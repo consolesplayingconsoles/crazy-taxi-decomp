@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "work",
+   "regs": {
+    "r4": "0C800000"
+   }
+  },
+  {
+   "about": "null: -1",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another work",
+   "regs": {
+    "r4": "0C900000"
+   }
+  }
+ ]
+}

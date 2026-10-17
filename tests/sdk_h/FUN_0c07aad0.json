@@ -1,0 +1,24 @@
+{
+ "dev": [
+  {
+   "about": "-1 kept",
+   "regs": {
+    "r4": "FFFFFFFF"
+   }
+  },
+  {
+   "about": "5 becomes 1",
+   "regs": {
+    "r4": "00000005"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "0 becomes 1",
+   "regs": {
+    "r4": "00000000"
+   }
+  }
+ ]
+}
