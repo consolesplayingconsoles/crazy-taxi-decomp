@@ -1,0 +1,41 @@
+{
+ "dev": [
+  {
+   "about": "two addresses",
+   "regs": {
+    "r4": "0C000000",
+    "r5": "0D000000"
+   }
+  },
+  {
+   "about": "masked",
+   "regs": {
+    "r4": "FFFFFFFF",
+    "r5": "FFFFFFFF"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "zero",
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000000"
+   }
+  },
+  {
+   "about": "mixed",
+   "regs": {
+    "r4": "07F00000",
+    "r5": "00100000"
+   }
+  },
+  {
+   "about": "low bits",
+   "regs": {
+    "r4": "000FFFFF",
+    "r5": "00001000"
+   }
+  }
+ ]
+}

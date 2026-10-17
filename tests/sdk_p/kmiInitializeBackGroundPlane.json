@@ -1,0 +1,20 @@
+{
+ "dev": [
+  {
+   "about": "init",
+   "poke": {
+    "0C2EA724": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2EA82C": "ffffffff",
+    "0C2EA830": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C2EA724": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   }
+  }
+ ]
+}

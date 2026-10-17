@@ -1,0 +1,69 @@
+{
+ "dev": [
+  {
+   "about": "valid",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ea15010203040506"
+   }
+  },
+  {
+   "about": "bad sum",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ea16010203040506"
+   }
+  },
+  {
+   "about": "bad complement",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "eb15010203040506"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "all zero: sum 0 compl ff",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "ff00000000000000"
+   }
+  },
+  {
+   "about": "zeros wrong",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0000000000000000"
+   }
+  },
+  {
+   "about": "wrapping sum",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "d42cffffffffffff"
+   }
+  },
+  {
+   "about": "wrapping, wrong",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "d52cffffffffffff"
+   }
+  }
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "dev": [
+  {
+   "about": "x 00000000",
+   "regs": {
+    "r4": "00000000"
+   }
+  },
+  {
+   "about": "x 003ffffc",
+   "regs": {
+    "r4": "003ffffc"
+   }
+  },
+  {
+   "about": "x 003fffff",
+   "regs": {
+    "r4": "003fffff"
+   }
+  },
+  {
+   "about": "x 00400000",
+   "regs": {
+    "r4": "00400000"
+   }
+  },
+  {
+   "about": "x 00400003",
+   "regs": {
+    "r4": "00400003"
+   }
+  },
+  {
+   "about": "x 007ffffc",
+   "regs": {
+    "r4": "007ffffc"
+   }
+  },
+  {
+   "about": "x 007fffff",
+   "regs": {
+    "r4": "007fffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "x 00800000",
+   "regs": {
+    "r4": "00800000"
+   }
+  },
+  {
+   "about": "x 00bfffff",
+   "regs": {
+    "r4": "00bfffff"
+   }
+  },
+  {
+   "about": "x 00c00000",
+   "regs": {
+    "r4": "00c00000"
+   }
+  },
+  {
+   "about": "x 00c00003",
+   "regs": {
+    "r4": "00c00003"
+   }
+  },
+  {
+   "about": "x 01000000",
+   "regs": {
+    "r4": "01000000"
+   }
+  },
+  {
+   "about": "x ffffffff",
+   "regs": {
+    "r4": "ffffffff"
+   }
+  },
+  {
+   "about": "x 12345678",
+   "regs": {
+    "r4": "12345678"
+   }
+  }
+ ]
+}

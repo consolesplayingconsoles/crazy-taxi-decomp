@@ -1,0 +1,45 @@
+{
+ "dev": [
+  {
+   "about": "mode 0: all stores",
+   "poke": {
+    "0C2FD444": "00000000",
+    "0C2FD440": "0000810c",
+    "0C810000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "FFC00004": "00"
+   }
+  },
+  {
+   "about": "mode 1: only the bit",
+   "poke": {
+    "0C2FD444": "01000000",
+    "FFC00004": "80"
+   }
+  },
+  {
+   "about": "mode 2",
+   "poke": {
+    "0C2FD444": "02000000",
+    "FFC00004": "ff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mode 0, bit already set",
+   "poke": {
+    "0C2FD444": "00000000",
+    "0C2FD440": "0010810c",
+    "0C811000": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "FFC00004": "01"
+   }
+  },
+  {
+   "about": "negative mode",
+   "poke": {
+    "0C2FD444": "ffffffff",
+    "FFC00004": "fe"
+   }
+  }
+ ]
+}

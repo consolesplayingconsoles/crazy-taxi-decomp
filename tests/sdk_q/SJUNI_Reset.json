@@ -1,0 +1,46 @@
+{
+ "dev": [
+  {
+   "about": "4 cells",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0000000000000000000000000000810c04000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C810000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "1 cell",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "poke": {
+    "0C800000": "0000000000000000000000000000810c01000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C810000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "2 cells",
+   "regs": {
+    "r4": "0C800100"
+   },
+   "poke": {
+    "0C800100": "0000000000000000000000000000820c02000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C820000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "about": "0 count",
+   "regs": {
+    "r4": "0C800200"
+   },
+   "poke": {
+    "0C800200": "0000000000000000000000000000830c00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C830000": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ]
+}

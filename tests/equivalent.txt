@@ -1,6 +1,7 @@
 ADXB_CheckSpsd
 ADXB_CopyExtraBufMono
 ADXB_ExecOneWav
+ADXB_GetOutBps
 ADXB_Start
 ADXB_Stop
 ADXF_ExecServer
@@ -80,6 +81,7 @@ FUN_0c0310ae
 FUN_0c0310c0
 FUN_0c031408
 FUN_0c031480
+FUN_0c031492
 FUN_0c0357b0
 FUN_0c038ed0
 FUN_0c038eec
@@ -95,9 +97,12 @@ FUN_0c040de6
 FUN_0c041016
 FUN_0c043524
 FUN_0c04a38a
+FUN_0c04bb70
 FUN_0c04bef4
 FUN_0c04c0dc
 FUN_0c04d1ac
+FUN_0c0512ac
+FUN_0c051556
 FUN_0c051bc0
 FUN_0c051d22
 FUN_0c05308c
@@ -187,6 +192,7 @@ FUN_0c152292
 FUN_0c152330
 FUN_0c1534ca
 FUN_0c1534e8
+FUN_0c1534fc
 FUN_0c153530
 FUN_0c1573a0
 FUN_0c1573cc
@@ -195,6 +201,7 @@ FUN_0c157cc8
 FUN_0c157d20
 FUN_0c157d46
 FUN_0c157d58
+FUN_0c157f40
 FUN_0c15887e
 FUN_0c159ae0
 FUN_0c15c960
@@ -205,6 +212,8 @@ FUN_0c162db6
 FUN_0c1708bc
 FUN_0c170fd0
 FUN_0c171e62
+FUN_0c17472e
+FUN_0c174768
 GS_ComboReset
 GetMenuMode
 GetNumRideon
@@ -216,6 +225,7 @@ Psg_SetMoveSpeed
 Psg_SetPosPtr
 ResetFadeColor
 ResetSpark
+SJUNI_Reset
 SetAudio
 SetCameraMode
 SetCameraPosRatio
@@ -355,6 +365,7 @@ kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
 kmiGetSysConfigFlag
 kmiInitCallback
+kmiInitializeBackGroundPlane
 kmiPurgeMemory
 kmiReadRegister
 kmiReleaseHardware
@@ -384,6 +395,8 @@ mwRnaGetSfreq
 mwRnaGetTime
 mwRnaGetTransSw
 mwRnaSetSfreq
+mwlRnaAlloc
+mwlRnaSetInitMember
 njSetRenderWidth
 nlAbsSqrt
 nlAddVector
@@ -550,7 +563,9 @@ syCfgGetBroadcastType
 syCfgGetCountryCode
 syCfgGetDefaultLanguage
 syCfgGetIDAddress
+syCfgIIDCheckSum
 syCfgInit
+syG2DmaSetProtect
 syHwFinish
 syMmuCacheCtrl
 syRtcGetAndCheckCount

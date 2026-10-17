@@ -24,6 +24,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mode 0x8000
 - mode 0x100
 
+### ADXB_GetOutBps (`0C171312`, 60 bytes, `src/sdk_q.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/sdk_q/ADXB_GetOutBps.json`
+- mode 0
+- 2,2: 4
+- 2,1: 8
+- 2,3: 16
+- 1,2: 4
+- 1,1: 16
+- 3,2: 16
+- -1,2: 16
+- 2,0: 16
+
 ### ADXB_Start (`0C1713CE`, 14 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXB_Start.json`
 - zero
@@ -506,6 +518,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - sets
 - again
 
+### FUN_0c031492 (`0C031492`, 84 bytes, `src/game_j.c`)
+- equivalent on 6 development and 5 holdout cases, in `tests/game_j/FUN_0c031492.json`
+- m 0 count 6 s 1 g 0
+- m 0 count 3 s 4 g 0
+- m 0 count 0 s 0 g 0
+- m 3 count 1 s 1 g 0
+- m 2 count 3 s 1 g 0
+- m 1 count 2 s 1 g 0
+- m 0 count 5 s 2 g 2
+- m 3 count 5 s 1 g 0
+- m 2 count 2 s 4 g 0
+- m -1 count 2 s 1 g 0
+- m 3 count 0 s 0 g 0
+
 ### FUN_0c0357b0 (`0C0357B0`, 8 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0357b0.json`
 - sets
@@ -607,6 +633,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - c = 1
 - negative values
 
+### FUN_0c04bb70 (`0C04BB70`, 66 bytes, `src/game_j.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_j/FUN_0c04bb70.json`
+- course 0
+- course 1
+- m 5, course 0
+- m 0, course 3
+
 ### FUN_0c04bef4 (`0C04BEF4`, 32 bytes, `src/game_b.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_b/FUN_0c04bef4.json`
 - >= 4
@@ -624,6 +657,34 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c04d1ac.json`
 - course 3
 - course 0
+
+### FUN_0c0512ac (`0C0512AC`, 94 bytes, `src/game_j.c`)
+- equivalent on 8 development and 8 holdout cases, in `tests/game_j/FUN_0c0512ac.json`
+- state 0 sw 10000 0
+- state 0 sw 30000 4
+- state 0 sw 0 4
+- state 0 sw 10000 4
+- state 1 sw 10000 0
+- state 1 sw 30000 4
+- state 1 sw 0 4
+- state 1 sw 10000 4
+- state 2 sw 10000 0
+- state 2 sw 30000 4
+- state 2 sw 0 4
+- state 2 sw 10000 4
+- state 3 sw 10000 0
+- state 3 sw 30000 4
+- state 3 sw 0 4
+- state 3 sw 10000 4
+
+### FUN_0c051556 (`0C051556`, 96 bytes, `src/game_j.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_j/FUN_0c051556.json`
+- not state 1
+- counter above limit, index 0
+- counter below: increments
+- index 2: 3
+- index 1: 8
+- equal counter: increments
 
 ### FUN_0c051bc0 (`0C051BC0`, 22 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c051bc0.json`
@@ -1138,6 +1199,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag clear
 - flag set, n 0
 
+### FUN_0c1534fc (`0C1534FC`, 52 bytes, `src/sdk_p.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_p/FUN_0c1534fc.json`
+- whole word
+- split
+- flag off: nothing
+- split, n 0
+- whole, n 5
+
 ### FUN_0c153530 (`0C153530`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_j/FUN_0c153530.json`
 - flag
@@ -1190,6 +1259,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - node in the middle
 - node last
 - single
+
+### FUN_0c157f40 (`0C157F40`, 64 bytes, `src/sdk_p.c`)
+- equivalent on 7 development and 7 holdout cases, in `tests/sdk_p/FUN_0c157f40.json`
+- x 00000000
+- x 003ffffc
+- x 003fffff
+- x 00400000
+- x 00400003
+- x 007ffffc
+- x 007fffff
+- x 00800000
+- x 00bfffff
+- x 00c00000
+- x 00c00003
+- x 01000000
+- x ffffffff
+- x 12345678
 
 ### FUN_0c15887e (`0C15887E`, 16 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c15887e.json`
@@ -1249,6 +1335,23 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/FUN_0c171e62.json`
 - param
 - another
+
+### FUN_0c17472e (`0C17472E`, 58 bytes, `src/sdk_q.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_q/FUN_0c17472e.json`
+- mode 0: signed byte
+- mode 0: positive
+- mode 1, bit set: 13
+- mode 1, bit clear: r5
+- mode 2: r5
+- mode 1 other bits
+
+### FUN_0c174768 (`0C174768`, 86 bytes, `src/sdk_q.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_q/FUN_0c174768.json`
+- mode 0: all stores
+- mode 1: only the bit
+- mode 2
+- mode 0, bit already set
+- negative mode
 
 ### GS_ComboReset (`0C02DA02`, 64 bytes, `src/game_e.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_e/GS_ComboReset.json`
@@ -1348,6 +1451,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - flag clear
 - flag set
 - other value
+
+### SJUNI_Reset (`0C16B71E`, 80 bytes, `src/sdk_q.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_q/SJUNI_Reset.json`
+- 4 cells
+- 1 cell
+- 2 cells
+- 0 count
 
 ### SetAudio (`0C041028`, 28 bytes, `src/game_b.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_b/SetAudio.json`
@@ -2354,6 +2464,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - init
 - again
 
+### kmiInitializeBackGroundPlane (`0C15354C`, 96 bytes, `src/sdk_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/kmiInitializeBackGroundPlane.json`
+- init
+- again
+
 ### kmiPurgeMemory (`0C159AEE`, 40 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmiPurgeMemory.json`
 - 96 bytes: 4 lines (inclusive end)
@@ -2574,6 +2689,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - other freq
 - null other freq
+
+### mwlRnaAlloc (`0C169B98`, 40 bytes, `src/sdk_p.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_p/mwlRnaAlloc.json`
+- first free
+- third
+- none
+- last
+
+### mwlRnaSetInitMember (`0C169B4C`, 76 bytes, `src/sdk_p.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/mwlRnaSetInitMember.json`
+- init
+- another
 
 ### njSetRenderWidth (`0C076B30`, 8 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/njSetRenderWidth.json`
@@ -4043,11 +4170,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - failed
 - failed -1
 
+### syCfgIIDCheckSum (`0C1514B8`, 68 bytes, `src/sdk_q.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_q/syCfgIIDCheckSum.json`
+- valid
+- bad sum
+- bad complement
+- all zero: sum 0 compl ff
+- zeros wrong
+- wrapping sum
+- wrapping, wrong
+
 ### syCfgInit (`0C1512B4`, 18 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/syCfgInit.json`
 - work
 - null: -1
 - another work
+
+### syG2DmaSetProtect (`0C16E4C8`, 40 bytes, `src/sdk_p.c`)
+- equivalent on 2 development and 3 holdout cases, in `tests/sdk_p/syG2DmaSetProtect.json`
+- two addresses
+- masked
+- zero
+- mixed
+- low bits
 
 ### syHwFinish (`0C14FFAE`, 60 bytes, `src/sg_syhw.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sg_syhw/syHwFinish.json`
