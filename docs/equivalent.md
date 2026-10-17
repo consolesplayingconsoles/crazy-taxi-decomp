@@ -255,6 +255,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - vol -30
 - vol 0
 
+### Advtise (`0C057B6C`, 40 bytes, `src/game_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_i/Advtise.json`
+- bit 0 and bit 3
+- bit 0 only
+- bit 3 only
+- none
+- other bits
+
 ### BCDtoDEC (`0C166C80`, 24 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_b/BCDtoDEC.json`
 - 59
@@ -541,6 +549,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - different: 1
 - different, negative
 
+### FUN_0c03bf42 (`0C03BF42`, 52 bytes, `src/game_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c03bf42.json`
+- bit 1 clear: 0
+- bit 1 set: counts down
+- reaches zero: flag
+- wraps to m
+- wraps to m = 0
+
 ### FUN_0c03d678 (`0C03D678`, 74 bytes, `src/game_h.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/game_h/FUN_0c03d678.json`
 - m 1, loaded ok: written back
@@ -554,6 +570,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 1, fails
 - m 0
 - m 2, loaded
+
+### FUN_0c040de6 (`0C040DE6`, 54 bytes, `src/game_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c040de6.json`
+- state 3, other drive, ready
+- state 3, other drive, not ready
+- state 3, same drive
+- state 2
+- ready returns 2
 
 ### FUN_0c041016 (`0C041016`, 18 bytes, `src/game_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_b/FUN_0c041016.json`
@@ -734,6 +758,22 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - sets
 - bit 4 only
 
+### FUN_0c05bb76 (`0C05BB76`, 72 bytes, `src/game_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c05bb76.json`
+- both clear: starts
+- first set
+- second set
+- both clear, no sound
+- negative sound
+
+### FUN_0c05c2d4 (`0C05C2D4`, 48 bytes, `src/game_i.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c05c2d4.json`
+- t 0: starts
+- t 100
+- t 209: reaches 210
+- t 300
+- negative
+
 ### FUN_0c05cdb4 (`0C05CDB4`, 8 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05cdb4.json`
 - clears
@@ -765,6 +805,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - only the bit
 - clear
 - others
+
+### FUN_0c05ef68 (`0C05EF68`, 82 bytes, `src/game_i.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/game_i/FUN_0c05ef68.json`
+- 43=2, 44=5: set flag
+- 43=2, 44=3: 0
+- 43=1, 44=2, bit set: clear flag
+- 43=1, 44=2, bit clear
+- 43=1, 44=1
+- 43=3, 44=5 (not 2)
 
 ### FUN_0c05f482 (`0C05F482`, 22 bytes, `src/game_d.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c05f482.json`
@@ -4064,6 +4113,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ready
 - not
 - 2
+
+### vibStart (`0C05F3C4`, 68 bytes, `src/game_i.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/game_i/vibStart.json`
+- ready, started
+- ready, start fails
+- not ready
+- another
 
 ### vmsfb_create (`0C17020A`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/vmsfb_create.json`

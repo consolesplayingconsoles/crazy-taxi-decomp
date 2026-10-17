@@ -39,6 +39,7 @@ ADXT_GetStat
 ADXT_Init
 ADXT_SetOutPan
 ADXT_SetOutVol
+Advtise
 BCDtoDEC
 Chat_Execute
 ConvertSwitch2
@@ -87,8 +88,10 @@ FUN_0c039280
 FUN_0c03932e
 FUN_0c03933e
 FUN_0c03ace8
+FUN_0c03bf42
 FUN_0c03d678
 FUN_0c03d9b4
+FUN_0c040de6
 FUN_0c041016
 FUN_0c043524
 FUN_0c04a38a
@@ -117,12 +120,15 @@ FUN_0c057b64
 FUN_0c057c3c
 FUN_0c05bb12
 FUN_0c05bb64
+FUN_0c05bb76
+FUN_0c05c2d4
 FUN_0c05cdb4
 FUN_0c05ce38
 FUN_0c05d492
 FUN_0c05d852
 FUN_0c05df48
 FUN_0c05df5e
+FUN_0c05ef68
 FUN_0c05f482
 FUN_0c05f93c
 FUN_0c060428
@@ -552,6 +558,7 @@ syRtcGetDate
 syTmrInit
 texFreeMem
 vibIsReady
+vibStart
 vmsfb_create
 vmsfb_init
 vmsfs_c_exit
