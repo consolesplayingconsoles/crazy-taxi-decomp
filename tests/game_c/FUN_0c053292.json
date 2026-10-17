@@ -1,0 +1,20 @@
+{
+ "dev": [
+  {
+   "about": "sets bit, clears word",
+   "poke": {
+    "0C2A75E0": "00000000",
+    "0C2A8F68": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "others",
+   "poke": {
+    "0C2A75E0": "0f0000f0",
+    "0C2A8F68": "01000000"
+   }
+  }
+ ]
+}

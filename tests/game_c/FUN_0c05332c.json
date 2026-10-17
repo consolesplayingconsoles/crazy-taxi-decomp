@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "all set: bit cleared",
+   "poke": {
+    "0C2A75E0": "ffffffff"
+   }
+  },
+  {
+   "about": "only the bit",
+   "poke": {
+    "0C2A75E0": "00040000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "already clear",
+   "poke": {
+    "0C2A75E0": "00000000"
+   }
+  },
+  {
+   "about": "others",
+   "poke": {
+    "0C2A75E0": "a5a5a5a5"
+   }
+  }
+ ]
+}

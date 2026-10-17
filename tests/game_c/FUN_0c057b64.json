@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "clears",
+   "poke": {
+    "0C2A9228": "ffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C2A9228": "0100"
+   }
+  }
+ ]
+}

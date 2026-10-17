@@ -1,0 +1,22 @@
+{
+ "dev": [
+  {
+   "about": "sets",
+   "poke": {
+    "0C2A992C": "0000",
+    "0C2A9BAC": "00000000",
+    "0C2A9BB0": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "others",
+   "poke": {
+    "0C2A992C": "ffff",
+    "0C2A9BAC": "ffffffff",
+    "0C2A9BB0": "ffffffff"
+   }
+  }
+ ]
+}

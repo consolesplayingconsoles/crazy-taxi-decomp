@@ -1,0 +1,21 @@
+{
+ "dev": [
+  {
+   "about": "copies",
+   "poke": {
+    "0C2A98EC": "78563412",
+    "0C2A9928": "00000000",
+    "0C2A9A38": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C2A98EC": "ffffffff",
+    "0C2A9A38": "00000000"
+   }
+  }
+ ]
+}

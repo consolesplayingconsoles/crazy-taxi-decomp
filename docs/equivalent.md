@@ -392,9 +392,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - sets
 - again
 
+### FUN_0c0357b0 (`0C0357B0`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0357b0.json`
+- sets
+- again
+
 ### FUN_0c038ed0 (`0C038ED0`, 22 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c038ed0.json`
 - clears 70 words
+- again
+
+### FUN_0c038eec (`0C038EEC`, 12 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c038eec.json`
+- index 3
+- index 0
+
+### FUN_0c038f78 (`0C038F78`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c038f78.json`
+- clears
 - again
 
 ### FUN_0c039280 (`0C039280`, 24 bytes, `src/game_b.c`)
@@ -435,6 +450,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - big
 
+### FUN_0c04c0dc (`0C04C0DC`, 40 bytes, `src/game_c.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_c/FUN_0c04c0dc.json`
+- three courses
+- none
+- one
+
 ### FUN_0c04d1ac (`0C04D1AC`, 24 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c04d1ac.json`
 - course 3
@@ -461,6 +482,108 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0: bit clear
 - 1: kept
 - 0 already clear
+
+### FUN_0c05317e (`0C05317E`, 12 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c05317e.json`
+- all set: bit cleared
+- only the bit
+- already clear
+- others
+
+### FUN_0c05328a (`0C05328A`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05328a.json`
+- sets 1
+- again
+
+### FUN_0c053292 (`0C053292`, 18 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c053292.json`
+- sets bit, clears word
+- others
+
+### FUN_0c0532a4 (`0C0532A4`, 12 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0532a4.json`
+- all set: bit cleared
+- only the bit
+- already clear
+- others
+
+### FUN_0c0532de (`0C0532DE`, 12 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0532de.json`
+- all set: bit cleared
+- only the bit
+- already clear
+- others
+
+### FUN_0c05332c (`0C05332C`, 12 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c05332c.json`
+- all set: bit cleared
+- only the bit
+- already clear
+- others
+
+### FUN_0c0533e6 (`0C0533E6`, 12 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0533e6.json`
+- all set: bit cleared
+- only the bit
+- already clear
+- others
+
+### FUN_0c0552b0 (`0C0552B0`, 30 bytes, `src/game_c.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_c/FUN_0c0552b0.json`
+- below 8: three calls
+- 8: nothing
+- negative
+- 9
+
+### FUN_0c0577dc (`0C0577DC`, 18 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c0577dc.json`
+- four calls
+- again
+
+### FUN_0c057b5c (`0C057B5C`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c057b5c.json`
+- sets 8
+- again
+
+### FUN_0c057b64 (`0C057B64`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c057b64.json`
+- clears
+- again
+
+### FUN_0c05bb12 (`0C05BB12`, 18 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
+- sets
+- bit 2 only
+
+### FUN_0c05bb64 (`0C05BB64`, 18 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb64.json`
+- sets
+- bit 4 only
+
+### FUN_0c05cdb4 (`0C05CDB4`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05cdb4.json`
+- clears
+- again
+
+### FUN_0c05ce38 (`0C05CE38`, 8 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05ce38.json`
+- clears
+- again
+
+### FUN_0c05d492 (`0C05D492`, 18 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05d492.json`
+- sets
+- others
+
+### FUN_0c05d852 (`0C05D852`, 16 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05d852.json`
+- copies
+- again
+
+### FUN_0c05df48 (`0C05DF48`, 22 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05df48.json`
+- sets
+- others
 
 ### FUN_0c0742f0 (`0C0742F0`, 4 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0742f0.json`
@@ -873,6 +996,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 ### InitAdvCamera (`0C0289AC`, 18 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/InitAdvCamera.json`
 - sets mode 8
+- again
+
+### InitHelicopter (`0C03759C`, 12 bytes, `src/game_c.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_c/InitHelicopter.json`
+- clears
 - again
 
 ### KillColliObj (`0C03313A`, 96 bytes, `src/colli.c`)

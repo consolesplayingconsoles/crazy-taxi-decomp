@@ -1,0 +1,40 @@
+{
+ "dev": [
+  {
+   "about": "below 8: three calls",
+   "poke": {
+    "0C2A8EB0": "03000000"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "8: nothing",
+   "poke": {
+    "0C2A8EB0": "08000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "negative",
+   "poke": {
+    "0C2A8EB0": "ffffffff"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "9",
+   "poke": {
+    "0C2A8EB0": "09000000"
+   }
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "dev": [
+  {
+   "about": "sets",
+   "poke": {
+    "0C1311B8": "ffffffff",
+    "0C2A992C": "ffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "bit 2 only",
+   "poke": {
+    "0C1311B8": "00000000",
+    "0C2A992C": "0400"
+   }
+  }
+ ]
+}
