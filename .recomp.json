@@ -1,0 +1,26 @@
+{
+  "$schema": "https://recomp.fyi/schema/v1.json",
+  "game": "Crazy Taxi",
+  "system": "Dreamcast",
+  "type": "decomp",
+  "original": {
+    "region": "Europe",
+    "revision": "V1.000",
+    "serial": "MK-51035"
+  },
+  "project": "Crazy Taxi decomp",
+  "status": "in-progress",
+  "approach": "Names applied from the SDK, one assembly file per function, rebuilt byte for byte; a function is done when its C behaves like the original",
+  "maintainers": [
+    {
+      "name": "consolesplayingconsoles",
+      "link": "https://github.com/consolesplayingconsoles"
+    }
+  ],
+  "links": [
+    {
+      "label": "Shuriken Explorer",
+      "url": "https://consolesplayingconsoles.github.io/dc-shuriken-explorer/"
+    }
+  ]
+}
