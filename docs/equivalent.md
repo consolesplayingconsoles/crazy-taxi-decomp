@@ -16,11 +16,61 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - fill 00
 - fill a5
 
+### ADXB_CheckAu (`0C17354C`, 50 bytes, `src/gen_m.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_m/ADXB_CheckAu.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### ADXB_CheckSpsd (`0C173D32`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/ADXB_CheckSpsd.json`
 - match
 - no match
 - no match, positive
+
+### ADXB_CheckWav (`0C174328`, 52 bytes, `src/gen_m.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_m/ADXB_CheckWav.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### ADXB_CopyExtraBufMono (`0C1715C0`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXB_CopyExtraBufMono.json`
@@ -1059,6 +1109,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - closed
 - negative
 
+### ADXT_DiscardSmpl (`0C1524BA`, 46 bytes, `src/gen_n.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_n/ADXT_DiscardSmpl.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### ADXT_GetNumChan (`0C15221A`, 30 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_j/ADXT_GetNumChan.json`
 - state 2
@@ -1454,6 +1529,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### FUN_0c02e31e (`0C02E31E`, 78 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c02e31e.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### FUN_0c02e36c (`0C02E36C`, 20 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e36c.json`
 - values
@@ -1534,6 +1634,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - two entries
 - null list: nothing
 - none
+
+### FUN_0c03006a (`0C03006A`, 76 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c03006a.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### FUN_0c0300b6 (`0C0300B6`, 26 bytes, `src/game_d.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/game_d/FUN_0c0300b6.json`
@@ -1953,6 +2078,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 
 ### FUN_0c03df1a (`0C03DF1A`, 84 bytes, `src/gen_c.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c03df1a.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### FUN_0c03dffa (`0C03DFFA`, 48 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c03dffa.json`
 - case 0
 - case 1
 - case 2
@@ -3068,6 +3218,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - x 1e+30
 - x 0.001
 
+### FUN_0c063dc6 (`0C063DC6`, 104 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c063dc6.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### FUN_0c067a28 (`0C067A28`, 22 bytes, `src/game_d.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_d/FUN_0c067a28.json`
 - two calls
@@ -3087,6 +3262,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - not found
 - first
 - last
+
+### FUN_0c071258 (`0C071258`, 104 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/FUN_0c071258.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### FUN_0c0714f2 (`0C0714F2`, 108 bytes, `src/gen_c.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_c/FUN_0c0714f2.json`
@@ -4249,6 +4449,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero
 - all
 
+### FUN_0c172f1e (`0C172F1E`, 52 bytes, `src/gen_m.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_m/FUN_0c172f1e.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### FUN_0c174394 (`0C174394`, 10 bytes, `src/gen_e.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_e/FUN_0c174394.json`
 - case 0
@@ -4998,6 +5223,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### buFbrSleepVFiber (`0C172B1C`, 4 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/buFbrSleepVFiber.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### buFbrWakeupFiber (`0C172AC2`, 28 bytes, `src/vt_vtsdk_c.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_c/buFbrWakeupFiber.json`
 - idx0 set
@@ -5568,6 +5818,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - state 0x10002
 - state 2 again
 
+### gdFsCreateDirhn (`0C15FFC8`, 12 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsCreateDirhn.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### gdFsCreateHnG (`0C14DA60`, 112 bytes, `src/sg_gd.c`)
 - equivalent on 8 development and 9 holdout cases, in `tests/sg_gd/gdFsCreateHnG.json`
 - active
@@ -5604,6 +5879,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ff
 - low
 
+### gdFsGetNumRd (`0C1605B4`, 22 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsGetNumRd.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### gdFsGetStat (`0C16059C`, 24 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsGetStat.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### gdFsGetTransStat (`0C1604F0`, 26 bytes, `src/vt_vtsdk_b.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/gdFsGetTransStat.json`
 - null
@@ -5614,6 +5939,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ffff
 - 7fff
 
+### gdFsInit (`0C14D62E`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsInit.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### gdFsLoadDirFast (`0C14E3AC`, 22 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/gdFsLoadDirFast.json`
 - null
@@ -5622,12 +5972,62 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - arg zero
 - arg minus
 
+### gdFsLoadDirFastG (`0C14D9AA`, 4 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsLoadDirFastG.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### gdFsOpen (`0C14E3EE`, 22 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpen.json`
 - table set
 - null table
 - other args
 - other target
+
+### gdFsOpenFastG (`0C14DB48`, 4 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsOpenFastG.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### gdFsOpenRange (`0C14E41C`, 24 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpenRange.json`
@@ -5666,6 +6066,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ok wide value
 - state negative short
 - null again
+
+### gdFsTell (`0C1600BE`, 22 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/gdFsTell.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### gdc_StopStreamSongAll (`0C02E15A`, 8 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/gdc_StopStreamSongAll.json`
@@ -5783,6 +6208,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - word set
 - other value
 
+### kdDmaEndHandler1 (`0C16194A`, 8 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdDmaEndHandler1.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### kdExecGun (`0C1618D8`, 114 bytes, `src/kaede.c`)
 - equivalent on 4 development and 5 holdout cases, in `tests/kaede/kdExecGun.json`
 - count0
@@ -5804,11 +6254,286 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - 100
 
+### kdGetDeviceInfo (`0C1620A6`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetDeviceInfo.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdGetGunLatchedPort (`0C162712`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetGunLatchedPort.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdGetGunPosition (`0C162706`, 12 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetGunPosition.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdGetPortStatus (`0C1620B4`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetPortStatus.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdGetStatus (`0C1620C2`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetStatus.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdGetVersion (`0C162368`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdGetVersion.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdIsChanged (`0C16236E`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdIsChanged.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdRecognizeChanged (`0C162374`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdRecognizeChanged.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### kdSetGunCallback (`0C162720`, 6 bytes, `src/gen_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/gen_a/kdSetGunCallback.json`
 - fill ff
 - fill 00
 - fill a5
+
+### kdSetGunTrigger (`0C162718`, 8 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdSetGunTrigger.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kdVbInHandler (`0C161864`, 12 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/kdVbInHandler.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### kmBlankScreen (`0C15928E`, 114 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/kmBlankScreen.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### kmChangeContextClampUV (`0C15E41E`, 30 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextClampUV.json`
@@ -6360,6 +7085,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - other base
 
+### mpdrv_get_portstatus (`0C16ED82`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/mpdrv_get_portstatus.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### mpdrv_get_version (`0C16EE5A`, 24 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/mpdrv_get_version.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### mpdrv_init_memory (`0C170190`, 12 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/mpdrv_init_memory.json`
 - sets
@@ -6405,6 +7180,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big c
 - zero c
 - c ff
+
+### mpdrv_set_hreset (`0C170128`, 4 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/mpdrv_set_hreset.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### mpdrv_set_hreset_ns (`0C17012C`, 4 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/mpdrv_set_hreset_ns.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### mpdrv_set_setcond_ns (`0C170104`, 36 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_setcond_ns.json`
@@ -7056,6 +7881,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - refused by Kamui: 1, no load
 - callback gives another address
 - callback returns 0: data kept
+
+### nlLog (`0C075E20`, 106 bytes, `src/gen_m.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_m/nlLog.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### nlLog10 (`0C075EA0`, 16 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_b/nlLog10.json`
@@ -7822,6 +8672,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - no handles
 - first used byte 2
 
+### ovInit (`0C14CD6A`, 10 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/ovInit.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### ovLibClose (`0C14CDCC`, 56 bytes, `src/sg_ov.c`)
 - equivalent on 5 development and 4 holdout cases, in `tests/sg_ov/ovLibClose.json`
 - idx0
@@ -7887,6 +8762,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - active=80000000
 - active=2
 
+### pdGetMode (`0C14EB14`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGetMode.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### pdGetOptimize (`0C14EB26`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGetOptimize.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### pdGetPeripheralInfo (`0C14EAFE`, 10 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/pdGetPeripheralInfo.json`
 - zero
@@ -7894,6 +8819,131 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - minus
 - big
 - ret minus
+
+### pdGunCheck (`0C14EB88`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGunCheck.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### pdGunEnter (`0C14EB3E`, 36 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGunEnter.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### pdGunGetFlashColor (`0C14EBA0`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGunGetFlashColor.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### pdGunGetPosition (`0C14EB8E`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGunGetPosition.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### pdGunLeave (`0C14EB62`, 38 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdGunLeave.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### pdGunSetTrigger (`0C14EC0C`, 52 bytes, `src/vt_vtsdk_a.c`)
 - equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_a/pdGunSetTrigger.json`
@@ -7905,6 +8955,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 24
 - negative
 - 7
+
+### pdSetThreshold (`0C14EB34`, 10 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/pdSetThreshold.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### pdVibGetInfo (`0C151720`, 60 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/vt_vtsdk_e/pdVibGetInfo.json`
@@ -8150,6 +9225,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0xb1
 - 47
 
+### syCblCheckCable (`0C162DDC`, 18 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syCblCheckCable.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syCblCheckCableType (`0C162DEE`, 12 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syCblCheckCableType.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### syCfgConvLang (`0C15137E`, 6 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/syCfgConvLang.json`
 - '3'
@@ -8186,6 +9311,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - ok
 - failed
 - failed -1
+
+### syCfgGetIndividualID (`0C151436`, 70 bytes, `src/gen_o.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_o/syCfgGetIndividualID.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syCfgGetLanguage (`0C151384`, 94 bytes, `src/gen_m.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_m/syCfgGetLanguage.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### syCfgIIDCheckSum (`0C1514B8`, 68 bytes, `src/sdk_q.c`)
 - equivalent on 3 development and 4 holdout cases, in `tests/sdk_q/syCfgIIDCheckSum.json`
@@ -8225,6 +9400,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mask 3, M and Q set
 - mask 12
 
+### syHwInit2 (`0C14FF9E`, 16 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syHwInit2.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syMallocChangeIF (`0C14F58A`, 20 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syMallocChangeIF.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### syMmuCacheCtrl (`0C16E2A4`, 80 bytes, `src/sg_mmu.c`)
 - equivalent on 5 development and 6 holdout cases, in `tests/sg_mmu/syMmuCacheCtrl.json`
 - idx=0 val=0 cur=ffffffff
@@ -8238,6 +9463,81 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - idx=ffffffff val=3 cur=55
 - idx=40 val=0 cur=7
 - idx=2 val=9 cur=9
+
+### syRtcDbgSetLogAddr (`0C14FF34`, 20 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcDbgSetLogAddr.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syRtcExecServer (`0C14F9B0`, 42 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcExecServer.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syRtcFinish (`0C14F9A2`, 14 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcFinish.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### syRtcGetAndCheckCount (`0C14FCC6`, 118 bytes, `src/sg_syrtc.c`)
 - equivalent on 6 development and 5 holdout cases, in `tests/sg_syrtc/syRtcGetAndCheckCount.json`
@@ -8263,6 +9563,81 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - max year
 - flag high bits only
 - flag 0xffffffff
+
+### syRtcGetStat (`0C14FA98`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcGetStat.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syRtcInit (`0C14F978`, 42 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcInit.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### syRtcSetServerMode (`0C14FA92`, 6 bytes, `src/gen_zz.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_zz/syRtcSetServerMode.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### syTmrInit (`0C1614B8`, 38 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/syTmrInit.json`
