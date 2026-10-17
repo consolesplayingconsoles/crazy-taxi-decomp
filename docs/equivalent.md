@@ -297,6 +297,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - copies
 - other
 
+### CourseObj_Init (`0C04EAC0`, 98 bytes, `src/game_k.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_k/CourseObj_Init.json`
+- mode 0
+- mode 1
+- mode 2: tables only
+- mode -1
+- count 8
+
 ### CourseSplineGet (`0C04D202`, 24 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/CourseSplineGet.json`
 - course 1
@@ -352,6 +360,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - on: 900
 - off: 0
 - other value
+
+### FUN_0c02c6d8 (`0C02C6D8`, 36 bytes, `src/game_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_k/FUN_0c02c6d8.json`
+- reset
+- again
 
 ### FUN_0c02d918 (`0C02D918`, 36 bytes, `src/game_a.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_a/FUN_0c02d918.json`
@@ -582,6 +595,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - reaches zero: flag
 - wraps to m
 - wraps to m = 0
+
+### FUN_0c03bf76 (`0C03BF76`, 108 bytes, `src/game_l.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/game_l/FUN_0c03bf76.json`
+- bit 3 clear: 0
+- counting
+- reaches 0, bit 0 set: calls
+- reaches 0, flag set: calls
+- reaches 0, neither: no call
+- wraps to m
+- wraps to m = 0: starts closing
+- negative p
 
 ### FUN_0c03d678 (`0C03D678`, 74 bytes, `src/game_h.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/game_h/FUN_0c03d678.json`
@@ -1090,6 +1114,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - locked: kept
 - not in use
 
+### FUN_0c07fd30 (`0C07FD30`, 66 bytes, `src/game_k.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/game_k/FUN_0c07fd30.json`
+- in use, not started: starts
+- in use, started: returns 1
+- free: returns 0
+- other state 2
+- index 0x10003 as short
+- started with big value
+
 ### FUN_0c07ff20 (`0C07FF20`, 12 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_h/FUN_0c07ff20.json`
 - i 2
@@ -1135,10 +1168,30 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - differ first, unsigned
 - last differs
 
+### FUN_0c089738 (`0C089738`, 76 bytes, `src/sdk_r.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_r/FUN_0c089738.json`
+- 80 01
+- ff ff ff
+- 00 00
+- 01
+- 7f 80 00 01
+- n 0
+- negative n
+
 ### FUN_0c0897f8 (`0C0897F8`, 32 bytes, `src/sdk_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c0897f8.json`
 - word
 - negative
+
+### FUN_0c089c80 (`0C089C80`, 70 bytes, `src/sdk_r.c`)
+- equivalent on 3 development and 4 holdout cases, in `tests/sdk_r/FUN_0c089c80.json`
+- 80 01
+- ff ff ff
+- 00 00
+- 01
+- 7f 80 00 01
+- n 0
+- negative n
 
 ### FUN_0c089cc8 (`0C089CC8`, 34 bytes, `src/sdk_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_m/FUN_0c089cc8.json`
@@ -2311,6 +2364,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - buffer 2, 16 words
 - buffer 0, -1
 
+### kmDiscardVertexBuffer (`0C14BA32`, 54 bytes, `src/sdk_r.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/sdk_r/kmDiscardVertexBuffer.json`
+- freed ok
+- free fails
+- another
+- negative
+
 ### kmFreeTexture (`0C15C228`, 36 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmFreeTexture.json`
 - type 3: VQ free
@@ -2360,6 +2420,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_k/kmSetEndOfYUVCallback.json`
 - callback
 - none
+
+### kmSetFogDensity (`0C14AD78`, 24 bytes, `src/game_k.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/game_k/kmSetFogDensity.json`
+- 0x1234
+- 0
+- -1
 
 ### kmSetGlobalClipping (`0C14AFAA`, 24 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmSetGlobalClipping.json`
@@ -2581,6 +2647,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative val
 - n=3 odd start
 
+### menuOpenStep (`0C03BFE2`, 102 bytes, `src/game_l.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/game_l/menuOpenStep.json`
+- state 1: 0
+- bit clear: 0
+- running, p 5
+- p reaches 0
+- p wraps to 20
+- p 15: second q kept
+- p 14: second q steps and clamps
+- q below 64
+- negative p
+
 ### mpdrv_frame_recv_post (`0C16EBBC`, 22 bytes, `src/vt_vtsdk_d.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_frame_recv_post.json`
 - basic
@@ -2701,6 +2779,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_p/mwlRnaSetInitMember.json`
 - init
 - another
+
+### nd_Init_Puru2 (`0C05EEF4`, 116 bytes, `src/game_k.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_k/nd_Init_Puru2.json`
+- init
+- again
 
 ### njSetRenderWidth (`0C076B30`, 8 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/njSetRenderWidth.json`

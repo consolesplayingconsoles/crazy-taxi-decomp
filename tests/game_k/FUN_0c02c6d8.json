@@ -1,0 +1,27 @@
+{
+ "dev": [
+  {
+   "about": "reset",
+   "poke": {
+    "0C1EE35C": "00",
+    "0C179488": "ffffffff",
+    "0C17948C": "ffffffff",
+    "0C2A4E50": "ffffffff"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "again",
+   "poke": {
+    "0C179488": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

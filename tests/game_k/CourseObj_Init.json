@@ -1,0 +1,55 @@
+{
+ "dev": [
+  {
+   "about": "mode 0",
+   "poke": {
+    "0C0C83EC": "03000000",
+    "0C1EE20C": "00000000",
+    "0C2A6EE8": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A6F60": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A6EC8": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A6EE0": "ffffffff",
+    "0C2A6EE4": "ffffffff"
+   }
+  },
+  {
+   "about": "mode 1",
+   "poke": {
+    "0C0C83EC": "02000000",
+    "0C1EE20C": "01000000",
+    "0C2A6EC8": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C2A6EE0": "ffffffff",
+    "0C2A6EE4": "ffffffff"
+   }
+  },
+  {
+   "about": "mode 2: tables only",
+   "poke": {
+    "0C0C83EC": "00000000",
+    "0C1EE20C": "02000000",
+    "0C2A6EE0": "07000000",
+    "0C2A6EE4": "09000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "mode -1",
+   "poke": {
+    "0C0C83EC": "01000000",
+    "0C1EE20C": "ffffffff",
+    "0C2A6EE8": "ffffffff",
+    "0C2A6F60": "ffffffff"
+   }
+  },
+  {
+   "about": "count 8",
+   "poke": {
+    "0C0C83EC": "08000000",
+    "0C1EE20C": "00000000",
+    "0C2A6EE8": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "0C2A6F60": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   }
+  }
+ ]
+}

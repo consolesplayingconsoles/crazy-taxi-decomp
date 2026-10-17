@@ -1,0 +1,52 @@
+{
+ "dev": [
+  {
+   "about": "freed ok",
+   "poke": {
+    "0C2B8D20": "01000000",
+    "0C2B8D24": "02000000",
+    "0C2B8D28": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "free fails",
+   "poke": {
+    "0C2B8D28": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+   },
+   "calls": [
+    {
+     "r0": "00000005"
+    }
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "another",
+   "poke": {
+    "0C2B8D28": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+   },
+   "calls": [
+    {
+     "r0": "00000000"
+    }
+   ]
+  },
+  {
+   "about": "negative",
+   "poke": {
+    "0C2B8D28": "111111111111111111111111111111111111111111111111"
+   },
+   "calls": [
+    {
+     "r0": "FFFFFFFF"
+    }
+   ]
+  }
+ ]
+}

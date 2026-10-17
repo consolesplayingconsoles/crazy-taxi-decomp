@@ -1,0 +1,103 @@
+{
+ "dev": [
+  {
+   "about": "bit 3 clear: 0",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "05000000",
+    "0C2A1218": "00000000"
+   }
+  },
+  {
+   "about": "counting",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000008000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "05000000",
+    "0C2A1218": "00000000"
+   }
+  },
+  {
+   "about": "reaches 0, bit 0 set: calls",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000009000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "01000000",
+    "0C2A1218": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "reaches 0, flag set: calls",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000008000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "01000000",
+    "0C2A1218": "01000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "reaches 0, neither: no call",
+   "regs": {
+    "r4": "00000005"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000008000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "01000000",
+    "0C2A1218": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "wraps to m",
+   "regs": {
+    "r4": "00000003"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000008000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "00000000",
+    "0C2A1218": "00000000"
+   }
+  },
+  {
+   "about": "wraps to m = 0: starts closing",
+   "regs": {
+    "r4": "00000000"
+   },
+   "poke": {
+    "0C2A11F4": "02000000000000000000000000000000000000002f000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "00000000",
+    "0C2A1218": "00000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "negative p",
+   "regs": {
+    "r4": "00000007"
+   },
+   "poke": {
+    "0C2A11F4": "020000000000000000000000000000000000000008000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0C0EF54C": "fdffffff",
+    "0C2A1218": "01000000"
+   }
+  }
+ ]
+}
