@@ -1,0 +1,33 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "regs": {
+    "r4": "12345678"
+   },
+   "poke": {
+    "0C0F2B38": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C0F2B38": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C0F2B38": "a5a5a5a5"
+   }
+  }
+ ]
+}

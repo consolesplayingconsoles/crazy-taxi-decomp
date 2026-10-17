@@ -1,0 +1,60 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "poke": {
+    "0C2A7F30": "ffffffff",
+    "0C2A7F34": "ffffffff",
+    "0C2A7F38": "ffffffff",
+    "0C2A7F3C": "ffffffff",
+    "0C2A7F40": "ffffffff",
+    "0C2A7F44": "ffffffff",
+    "0C2A7F48": "ffffffff",
+    "0C2A7F4C": "ffffffff",
+    "0C2A7F50": "ffffffff",
+    "0C2A7F54": "ffffffff",
+    "0C2A7F60": "ffffffff",
+    "0C2A7F58": "ffffffff",
+    "0C2A7F5C": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "poke": {
+    "0C2A7F30": "00000000",
+    "0C2A7F34": "00000000",
+    "0C2A7F38": "00000000",
+    "0C2A7F3C": "00000000",
+    "0C2A7F40": "00000000",
+    "0C2A7F44": "00000000",
+    "0C2A7F48": "00000000",
+    "0C2A7F4C": "00000000",
+    "0C2A7F50": "00000000",
+    "0C2A7F54": "00000000",
+    "0C2A7F60": "00000000",
+    "0C2A7F58": "00000000",
+    "0C2A7F5C": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "poke": {
+    "0C2A7F30": "a5a5a5a5",
+    "0C2A7F34": "a5a5a5a5",
+    "0C2A7F38": "a5a5a5a5",
+    "0C2A7F3C": "a5a5a5a5",
+    "0C2A7F40": "a5a5a5a5",
+    "0C2A7F44": "a5a5a5a5",
+    "0C2A7F48": "a5a5a5a5",
+    "0C2A7F4C": "a5a5a5a5",
+    "0C2A7F50": "a5a5a5a5",
+    "0C2A7F54": "a5a5a5a5",
+    "0C2A7F60": "a5a5a5a5",
+    "0C2A7F58": "a5a5a5a5",
+    "0C2A7F5C": "a5a5a5a5"
+   }
+  }
+ ]
+}

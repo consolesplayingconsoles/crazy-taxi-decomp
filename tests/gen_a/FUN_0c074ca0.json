@@ -1,0 +1,93 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "regs": {
+    "r4": "12345678"
+   },
+   "poke": {
+    "0C2AECD0": "ffffffff",
+    "0C2AECD4": "ffffffff",
+    "0C2AED30": "ffffffff",
+    "0C2AED34": "ffffffff",
+    "0C2AECD8": "ffffffff",
+    "0C2AECDC": "ffffffff",
+    "0C2AECE0": "ffffffff",
+    "0C2AECE4": "ffffffff",
+    "0C2AECE8": "ffffffff",
+    "0C2AECEC": "ffffffff",
+    "0C2AECF0": "ffffffff",
+    "0C2AECF4": "ffffffff",
+    "0C2AECF8": "ffffffff",
+    "0C2AECFC": "ffffffff",
+    "0C2AED00": "ffffffff",
+    "0C2AED04": "ffffffff",
+    "0C2AED08": "ffffffff",
+    "0C2AED0C": "ffffffff",
+    "0C2AED2C": "ffffffff",
+    "0C2AED38": "ffffffff",
+    "0C2AED3C": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "regs": {
+    "r4": "00000001"
+   },
+   "poke": {
+    "0C2AECD0": "00000000",
+    "0C2AECD4": "00000000",
+    "0C2AED30": "00000000",
+    "0C2AED34": "00000000",
+    "0C2AECD8": "00000000",
+    "0C2AECDC": "00000000",
+    "0C2AECE0": "00000000",
+    "0C2AECE4": "00000000",
+    "0C2AECE8": "00000000",
+    "0C2AECEC": "00000000",
+    "0C2AECF0": "00000000",
+    "0C2AECF4": "00000000",
+    "0C2AECF8": "00000000",
+    "0C2AECFC": "00000000",
+    "0C2AED00": "00000000",
+    "0C2AED04": "00000000",
+    "0C2AED08": "00000000",
+    "0C2AED0C": "00000000",
+    "0C2AED2C": "00000000",
+    "0C2AED38": "00000000",
+    "0C2AED3C": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "regs": {
+    "r4": "FFFFFFFF"
+   },
+   "poke": {
+    "0C2AECD0": "a5a5a5a5",
+    "0C2AECD4": "a5a5a5a5",
+    "0C2AED30": "a5a5a5a5",
+    "0C2AED34": "a5a5a5a5",
+    "0C2AECD8": "a5a5a5a5",
+    "0C2AECDC": "a5a5a5a5",
+    "0C2AECE0": "a5a5a5a5",
+    "0C2AECE4": "a5a5a5a5",
+    "0C2AECE8": "a5a5a5a5",
+    "0C2AECEC": "a5a5a5a5",
+    "0C2AECF0": "a5a5a5a5",
+    "0C2AECF4": "a5a5a5a5",
+    "0C2AECF8": "a5a5a5a5",
+    "0C2AECFC": "a5a5a5a5",
+    "0C2AED00": "a5a5a5a5",
+    "0C2AED04": "a5a5a5a5",
+    "0C2AED08": "a5a5a5a5",
+    "0C2AED0C": "a5a5a5a5",
+    "0C2AED2C": "a5a5a5a5",
+    "0C2AED38": "a5a5a5a5",
+    "0C2AED3C": "a5a5a5a5"
+   }
+  }
+ ]
+}

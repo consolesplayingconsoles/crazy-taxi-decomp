@@ -1,0 +1,30 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "poke": {
+    "0C2EA9F4": "ffffffff",
+    "0C2EA9FC": "ffffffff",
+    "0C178278": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "poke": {
+    "0C2EA9F4": "00000000",
+    "0C2EA9FC": "00000000",
+    "0C178278": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "poke": {
+    "0C2EA9F4": "a5a5a5a5",
+    "0C2EA9FC": "a5a5a5a5",
+    "0C178278": "a5a5a5a5"
+   }
+  }
+ ]
+}

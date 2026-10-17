@@ -1,0 +1,69 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "poke": {
+    "0C2A8980": "ffffffff",
+    "0C2A8984": "ffffffff",
+    "0C2A8988": "ffffffff",
+    "0C2A898C": "ffffffff",
+    "0C2A8990": "ffffffff",
+    "0C2A8994": "ffffffff",
+    "0C2A8998": "ffffffff",
+    "0C2A899C": "ffffffff",
+    "0C2A89A0": "ffffffff",
+    "0C2A89A4": "ffffffff",
+    "0C2A89B0": "ffffffff",
+    "0C2A89AC": "ffffffff",
+    "0C2A8FC0": "ffffffff",
+    "0C2A8FC4": "ffffffff",
+    "0C2A89A8": "ffffffff",
+    "0C2A8FC8": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "poke": {
+    "0C2A8980": "00000000",
+    "0C2A8984": "00000000",
+    "0C2A8988": "00000000",
+    "0C2A898C": "00000000",
+    "0C2A8990": "00000000",
+    "0C2A8994": "00000000",
+    "0C2A8998": "00000000",
+    "0C2A899C": "00000000",
+    "0C2A89A0": "00000000",
+    "0C2A89A4": "00000000",
+    "0C2A89B0": "00000000",
+    "0C2A89AC": "00000000",
+    "0C2A8FC0": "00000000",
+    "0C2A8FC4": "00000000",
+    "0C2A89A8": "00000000",
+    "0C2A8FC8": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "poke": {
+    "0C2A8980": "a5a5a5a5",
+    "0C2A8984": "a5a5a5a5",
+    "0C2A8988": "a5a5a5a5",
+    "0C2A898C": "a5a5a5a5",
+    "0C2A8990": "a5a5a5a5",
+    "0C2A8994": "a5a5a5a5",
+    "0C2A8998": "a5a5a5a5",
+    "0C2A899C": "a5a5a5a5",
+    "0C2A89A0": "a5a5a5a5",
+    "0C2A89A4": "a5a5a5a5",
+    "0C2A89B0": "a5a5a5a5",
+    "0C2A89AC": "a5a5a5a5",
+    "0C2A8FC0": "a5a5a5a5",
+    "0C2A8FC4": "a5a5a5a5",
+    "0C2A89A8": "a5a5a5a5",
+    "0C2A8FC8": "a5a5a5a5"
+   }
+  }
+ ]
+}

@@ -1,0 +1,75 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "poke": {
+    "0C2A8C8C": "ffffffff",
+    "0C2A8C90": "ffffffff",
+    "0C2A8CB4": "ffffffff",
+    "0C2A8CB8": "ffffffff",
+    "0C2A7F80": "ffffffff",
+    "0C2A7F84": "ffffffff",
+    "0C2A7F88": "ffffffff",
+    "0C2A7F8C": "ffffffff",
+    "0C2A7F90": "ffffffff",
+    "0C2A7F94": "ffffffff",
+    "0C2A7F98": "ffffffff",
+    "0C2A7F9C": "ffffffff",
+    "0C2A7FA0": "ffffffff",
+    "0C2A7FA4": "ffffffff",
+    "0C2A7FB0": "ffffffff",
+    "0C2A7FA8": "ffffffff",
+    "0C2A7FAC": "ffffffff",
+    "0C2A8CAC": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "poke": {
+    "0C2A8C8C": "00000000",
+    "0C2A8C90": "00000000",
+    "0C2A8CB4": "00000000",
+    "0C2A8CB8": "00000000",
+    "0C2A7F80": "00000000",
+    "0C2A7F84": "00000000",
+    "0C2A7F88": "00000000",
+    "0C2A7F8C": "00000000",
+    "0C2A7F90": "00000000",
+    "0C2A7F94": "00000000",
+    "0C2A7F98": "00000000",
+    "0C2A7F9C": "00000000",
+    "0C2A7FA0": "00000000",
+    "0C2A7FA4": "00000000",
+    "0C2A7FB0": "00000000",
+    "0C2A7FA8": "00000000",
+    "0C2A7FAC": "00000000",
+    "0C2A8CAC": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "poke": {
+    "0C2A8C8C": "a5a5a5a5",
+    "0C2A8C90": "a5a5a5a5",
+    "0C2A8CB4": "a5a5a5a5",
+    "0C2A8CB8": "a5a5a5a5",
+    "0C2A7F80": "a5a5a5a5",
+    "0C2A7F84": "a5a5a5a5",
+    "0C2A7F88": "a5a5a5a5",
+    "0C2A7F8C": "a5a5a5a5",
+    "0C2A7F90": "a5a5a5a5",
+    "0C2A7F94": "a5a5a5a5",
+    "0C2A7F98": "a5a5a5a5",
+    "0C2A7F9C": "a5a5a5a5",
+    "0C2A7FA0": "a5a5a5a5",
+    "0C2A7FA4": "a5a5a5a5",
+    "0C2A7FB0": "a5a5a5a5",
+    "0C2A7FA8": "a5a5a5a5",
+    "0C2A7FAC": "a5a5a5a5",
+    "0C2A8CAC": "a5a5a5a5"
+   }
+  }
+ ]
+}

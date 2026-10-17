@@ -1,0 +1,93 @@
+{
+ "dev": [
+  {
+   "about": "fill ff",
+   "poke": {
+    "0C2AEC20": "ffffffff",
+    "0C2AEC24": "ffffffff",
+    "0C2AEC28": "ffffffff",
+    "0C2AEC34": "ffffffff",
+    "0C2AEC30": "ffffffff",
+    "0C2AEC2C": "ffffffff",
+    "0C2AEC3C": "ffffffff",
+    "0C2AEC48": "ffffffff",
+    "0C2AEC44": "ffffffff",
+    "0C2AEC40": "ffffffff",
+    "0C2AEC54": "ffffffff",
+    "0C2AEC50": "ffffffff",
+    "0C2AEC4C": "ffffffff",
+    "0C2AEC58": "ffffffff",
+    "0C2AEC5C": "ffffffff",
+    "0C2AEC68": "ffffffff",
+    "0C2AEC64": "ffffffff",
+    "0C2AEC60": "ffffffff",
+    "0C2AEC74": "ffffffff",
+    "0C2AEC70": "ffffffff",
+    "0C2AEC6C": "ffffffff",
+    "0C2AEC80": "ffffffff",
+    "0C2AEC7C": "ffffffff",
+    "0C2AEC78": "ffffffff"
+   }
+  },
+  {
+   "about": "fill 00",
+   "poke": {
+    "0C2AEC20": "00000000",
+    "0C2AEC24": "00000000",
+    "0C2AEC28": "00000000",
+    "0C2AEC34": "00000000",
+    "0C2AEC30": "00000000",
+    "0C2AEC2C": "00000000",
+    "0C2AEC3C": "00000000",
+    "0C2AEC48": "00000000",
+    "0C2AEC44": "00000000",
+    "0C2AEC40": "00000000",
+    "0C2AEC54": "00000000",
+    "0C2AEC50": "00000000",
+    "0C2AEC4C": "00000000",
+    "0C2AEC58": "00000000",
+    "0C2AEC5C": "00000000",
+    "0C2AEC68": "00000000",
+    "0C2AEC64": "00000000",
+    "0C2AEC60": "00000000",
+    "0C2AEC74": "00000000",
+    "0C2AEC70": "00000000",
+    "0C2AEC6C": "00000000",
+    "0C2AEC80": "00000000",
+    "0C2AEC7C": "00000000",
+    "0C2AEC78": "00000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "fill a5",
+   "poke": {
+    "0C2AEC20": "a5a5a5a5",
+    "0C2AEC24": "a5a5a5a5",
+    "0C2AEC28": "a5a5a5a5",
+    "0C2AEC34": "a5a5a5a5",
+    "0C2AEC30": "a5a5a5a5",
+    "0C2AEC2C": "a5a5a5a5",
+    "0C2AEC3C": "a5a5a5a5",
+    "0C2AEC48": "a5a5a5a5",
+    "0C2AEC44": "a5a5a5a5",
+    "0C2AEC40": "a5a5a5a5",
+    "0C2AEC54": "a5a5a5a5",
+    "0C2AEC50": "a5a5a5a5",
+    "0C2AEC4C": "a5a5a5a5",
+    "0C2AEC58": "a5a5a5a5",
+    "0C2AEC5C": "a5a5a5a5",
+    "0C2AEC68": "a5a5a5a5",
+    "0C2AEC64": "a5a5a5a5",
+    "0C2AEC60": "a5a5a5a5",
+    "0C2AEC74": "a5a5a5a5",
+    "0C2AEC70": "a5a5a5a5",
+    "0C2AEC6C": "a5a5a5a5",
+    "0C2AEC80": "a5a5a5a5",
+    "0C2AEC7C": "a5a5a5a5",
+    "0C2AEC78": "a5a5a5a5"
+   }
+  }
+ ]
+}

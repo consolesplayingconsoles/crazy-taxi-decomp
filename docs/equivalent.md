@@ -2,6 +2,12 @@
 
 Functions whose C behaves like the original on every test case (`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.
 
+### ADXAMP_Stop (`0C167A74`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXAMP_Stop.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### ADXB_CheckSpsd (`0C173D32`, 20 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/ADXB_CheckSpsd.json`
 - match
@@ -150,6 +156,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - coef
 - another
 
+### ADXPD_SetMode (`0C174442`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXPD_SetMode.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### ADXPD_Start (`0C174486`, 18 bytes, `src/sdk_i.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_i/ADXPD_Start.json`
 - stopped: start
@@ -193,6 +205,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - init
 - again
 
+### ADXSJD_SetInSj (`0C168338`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSJD_SetInSj.json`
+- fill ff
+- fill 00
+- fill a5
+
+### ADXSJD_SetMaxDecSmpl (`0C168348`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSJD_SetMaxDecSmpl.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### ADXSJD_SetOutSj (`0C16833C`, 12 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/ADXSJD_SetOutSj.json`
 - slot 2
@@ -202,6 +226,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/ADXSJD_Start.json`
 - start
 - another
+
+### ADXSTM_EntryEosFunc (`0C168C4C`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSTM_EntryEosFunc.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### ADXSTM_GetBufSize (`0C168E48`, 12 bytes, `src/vt_vtsdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetBufSize.json`
@@ -243,6 +273,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/ADXSTM_SetBufSize.json`
 - two
 - others
+
+### ADXSTM_SetReqRdSize (`0C168E60`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/ADXSTM_SetReqRdSize.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### ADXSTM_Start (`0C168B46`, 42 bytes, `src/sdk_u.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_u/ADXSTM_Start.json`
@@ -372,6 +408,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - index 0 negative
 - index 0x10001 as int
 
+### FUN_0c0211e0 (`0C0211E0`, 54 bytes, `src/game_o.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_o/FUN_0c0211e0.json`
+- half
+- corner
+- odd
+- big
+
 ### FUN_0c0246dc (`0C0246DC`, 8 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c0246dc.json`
 - clears
@@ -423,6 +466,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equal lower: 0
 - negative values
 
+### FUN_0c02da42 (`0C02DA42`, 30 bytes, `src/game_o.c`)
+- equivalent on 1 development and 2 holdout cases, in `tests/game_o/FUN_0c02da42.json`
+- x 5
+- negative
+- big
+
 ### FUN_0c02dd3a (`0C02DD3A`, 16 bytes, `src/game_a.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_a/FUN_0c02dd3a.json`
 - bit 3 set
@@ -443,6 +492,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e36c.json`
 - values
 - others
+
+### FUN_0c02e42a (`0C02E42A`, 46 bytes, `src/game_o.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/game_o/FUN_0c02e42a.json`
+- v 0
+- v 8
+- v 200
+- v 255
+- v 3
 
 ### FUN_0c02e572 (`0C02E572`, 24 bytes, `src/game_a.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_a/FUN_0c02e572.json`
@@ -643,6 +700,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - different: 1
 - different, negative
 
+### FUN_0c03b158 (`0C03B158`, 58 bytes, `src/game_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_o/FUN_0c03b158.json`
+- init
+- another
+
+### FUN_0c03b674 (`0C03B674`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c03b674.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c03bf42 (`0C03BF42`, 52 bytes, `src/game_i.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/game_i/FUN_0c03bf42.json`
 - bit 1 clear: 0
@@ -692,6 +760,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - m 0, lang 0
 - m 5, lang -1
 
+### FUN_0c041ce2 (`0C041CE2`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c041ce2.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c043524 (`0C043524`, 58 bytes, `src/game_e.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/game_e/FUN_0c043524.json`
 - bit 5 set: up
@@ -726,6 +800,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - big
 
+### FUN_0c04bf1a (`0C04BF1A`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c04bf1a.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c04c0dc (`0C04C0DC`, 40 bytes, `src/game_c.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_c/FUN_0c04c0dc.json`
 - three courses
@@ -741,6 +821,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/game_n/FUN_0c04f1b0.json`
 - init
 - negative
+
+### FUN_0c0504bc (`0C0504BC`, 72 bytes, `src/game_o.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/game_o/FUN_0c0504bc.json`
+- init
+- again
 
 ### FUN_0c0512ac (`0C0512AC`, 94 bytes, `src/game_j.c`)
 - equivalent on 8 development and 8 holdout cases, in `tests/game_j/FUN_0c0512ac.json`
@@ -781,10 +866,64 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - five calls
 - again
 
+### FUN_0c051bd6 (`0C051BD6`, 76 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051bd6.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c051c22 (`0C051C22`, 64 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051c22.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c051caa (`0C051CAA`, 64 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051caa.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c051cea (`0C051CEA`, 56 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c051cea.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c051d22 (`0C051D22`, 22 bytes, `src/game_b.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_b/FUN_0c051d22.json`
 - five calls
 - again
+
+### FUN_0c052574 (`0C052574`, 64 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052574.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c0525b4 (`0C0525B4`, 72 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0525b4.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c0525fc (`0C0525FC`, 96 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0525fc.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c052c9e (`0C052C9E`, 84 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052c9e.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c052d28 (`0C052D28`, 86 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c052d28.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### FUN_0c05308c (`0C05308C`, 20 bytes, `src/game_b.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_b/FUN_0c05308c.json`
@@ -904,6 +1043,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - four calls
 - again
 
+### FUN_0c057930 (`0C057930`, 80 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c057930.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c057980 (`0C057980`, 64 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c057980.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c057b5c (`0C057B5C`, 8 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c057b5c.json`
 - sets 8
@@ -925,10 +1076,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - state 0: kept
 - state 2
 
+### FUN_0c0591ea (`0C0591EA`, 72 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c0591ea.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c05af6c (`0C05AF6C`, 26 bytes, `src/game_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_m/FUN_0c05af6c.json`
 - init
 - again
+
+### FUN_0c05b7a8 (`0C05B7A8`, 72 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c05b7a8.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c05baf4 (`0C05BAF4`, 30 bytes, `src/game_o.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/game_o/FUN_0c05baf4.json`
+- value 3.7
+- negative
+- big
+- tiny
 
 ### FUN_0c05bb12 (`0C05BB12`, 18 bytes, `src/game_c.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_c/FUN_0c05bb12.json`
@@ -1083,6 +1253,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - four calls
 - again
 
+### FUN_0c072fe8 (`0C072FE8`, 104 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c072fe8.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c0742f0 (`0C0742F0`, 4 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c0742f0.json`
 - the constant
@@ -1097,6 +1273,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074680.json`
 - 100000.0
 - again
+
+### FUN_0c074ca0 (`0C074CA0`, 98 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c074ca0.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### FUN_0c074d10 (`0C074D10`, 6 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/FUN_0c074d10.json`
@@ -1559,6 +1741,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - all 1s
 - alternating
 
+### FUN_0c167c24 (`0C167C24`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c167c24.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c167c4c (`0C167C4C`, 8 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c167c4c.json`
 - clears
@@ -1574,10 +1762,34 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - init
 - again
 
+### FUN_0c1687f6 (`0C1687F6`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c1687f6.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### FUN_0c168808 (`0C168808`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/FUN_0c168808.json`
 - two
 - others
+
+### FUN_0c168812 (`0C168812`, 4 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c168812.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c16881a (`0C16881A`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c16881a.json`
+- fill ff
+- fill 00
+- fill a5
+
+### FUN_0c168826 (`0C168826`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/FUN_0c168826.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### FUN_0c16c7f2 (`0C16C7F2`, 30 bytes, `src/sdk_w.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_w/FUN_0c16c7f2.json`
@@ -1683,6 +1895,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - clears
 - again
 
+### Init_Standard (`0C05252C`, 72 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/Init_Standard.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### IsBoyFriend (`0C025F6C`, 68 bytes, `src/game_f.c`)
 - equivalent on 4 development and 5 holdout cases, in `tests/game_f/IsBoyFriend.json`
 - 26 plain
@@ -1755,6 +1973,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null
 - another
 
+### SJMEM_EntryErrFunc (`0C16B018`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/SJMEM_EntryErrFunc.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### SJMEM_Reset (`0C16B01E`, 10 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJMEM_Reset.json`
 - reset
@@ -1766,6 +1990,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null
 - another
 
+### SJRBF_EntryErrFunc (`0C16B2EC`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/SJRBF_EntryErrFunc.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### SJRBF_Reset (`0C16B2F2`, 14 bytes, `src/sdk_t.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_t/SJRBF_Reset.json`
 - reset
@@ -1776,6 +2006,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - handle
 - null
 - another
+
+### SJUNI_EntryErrFunc (`0C16B718`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/SJUNI_EntryErrFunc.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### SJUNI_GetNumChainPool (`0C16BAD2`, 26 bytes, `src/sdk_t.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_t/SJUNI_GetNumChainPool.json`
@@ -2625,6 +2861,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - 100
 
+### kdSetGunCallback (`0C162720`, 6 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/kdSetGunCallback.json`
+- fill ff
+- fill 00
+- fill a5
+
 ### kmChangeContextClampUV (`0C15E41E`, 30 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_k/kmChangeContextClampUV.json`
 - mode 3
@@ -2706,6 +2948,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - done
 - running
 - other channel, 2
+
+### kmRenderDirect (`0C15B000`, 96 bytes, `src/gen_a.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/gen_a/kmRenderDirect.json`
+- fill ff
+- fill 00
+- fill a5
 
 ### kmSetBackGroundPlane (`0C14AF60`, 36 bytes, `src/sdk_k.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_k/kmSetBackGroundPlane.json`
