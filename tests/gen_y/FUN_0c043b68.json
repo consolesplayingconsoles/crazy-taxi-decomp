@@ -1,0 +1,94 @@
+{
+ "dev": [
+  {
+   "about": "case 0",
+   "poke": {}
+  },
+  {
+   "about": "case 1",
+   "poke": {}
+  },
+  {
+   "about": "case 2",
+   "poke": {}
+  },
+  {
+   "about": "case 3",
+   "poke": {}
+  },
+  {
+   "about": "case 4",
+   "poke": {}
+  },
+  {
+   "about": "case 5",
+   "poke": {}
+  },
+  {
+   "about": "case 6",
+   "poke": {}
+  },
+  {
+   "about": "case 7",
+   "poke": {}
+  },
+  {
+   "about": "case 8",
+   "poke": {}
+  },
+  {
+   "about": "case 9",
+   "poke": {}
+  },
+  {
+   "about": "case 10",
+   "poke": {}
+  },
+  {
+   "about": "case 11",
+   "poke": {}
+  },
+  {
+   "about": "case 12",
+   "poke": {}
+  },
+  {
+   "about": "case 13",
+   "poke": {}
+  },
+  {
+   "about": "case 14",
+   "poke": {}
+  }
+ ],
+ "holdout": [
+  {
+   "about": "case 15",
+   "poke": {}
+  },
+  {
+   "about": "case 16",
+   "poke": {}
+  },
+  {
+   "about": "case 17",
+   "poke": {}
+  },
+  {
+   "about": "case 18",
+   "poke": {}
+  },
+  {
+   "about": "case 19",
+   "poke": {}
+  },
+  {
+   "about": "case 20",
+   "poke": {}
+  },
+  {
+   "about": "case 21",
+   "poke": {}
+  }
+ ]
+}
