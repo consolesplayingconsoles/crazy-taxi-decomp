@@ -4,6 +4,29 @@
 # Enable once per clone: git config core.hooksPath tools/hooks
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
+# A commit must build: build.sh compiles and links every source and has to print MATCH, and every staged src/*.c has to
+# pass tools/equiv.py with no DIFFERS (a compile error shows up there too). Needs Docker. SKIP_BUILD_CHECK=1 skips it.
+if [ "${SKIP_BUILD_CHECK:-}" != "1" ] && [ -f build.sh ]; then
+    echo "[pre-commit] build.sh: compile and link every source..." >&2
+    out="$(bash build.sh 2>&1)" || true
+    if ! printf '%s\n' "$out" | grep -q '^MATCH: '; then
+        printf '%s\n' "$out" | tail -25 >&2
+        echo "[pre-commit] build.sh did not print MATCH: commit refused (SKIP_BUILD_CHECK=1 skips the check)" >&2
+        exit 1
+    fi
+    if [ -f tools/equiv.py ]; then
+        for f in $(git diff --cached --name-only --diff-filter=AM -- 'src/*.c'); do
+            res="$(python3 tools/equiv.py -q "$f" 2>&1 | tail -1)"
+            case "$res" in
+                *" 0 DIFFERS"*) ;;
+                *) echo "[pre-commit] $f: $res" >&2
+                   echo "[pre-commit] commit refused: a staged source does not compile or differs from the original" >&2
+                   exit 1;;
+            esac
+        done
+        git add tests/equivalent.txt docs/equivalent.md 2>/dev/null || true
+    fi
+fi
 grep -q '<!-- progress -->' README.md || exit 0
 [ -f functions.txt ] || exit 0
 report="$(python3 tools/progress.py 2>/dev/null)" || { echo "[pre-commit] tools/progress.py failed: Progress block left as is" >&2; exit 0; }

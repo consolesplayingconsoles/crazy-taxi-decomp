@@ -3419,6 +3419,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - cm3
 - cm2 b
 
+### FUN_0c031c5a (`0C031C5A`, 264 bytes, `src/collide.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/collide/FUN_0c031c5a.json`
+- zero
+- null cell
+- one cell stop
+- two cells
+- far entries
+- ten cells
+- hit 8
+
 ### FUN_0c032080 (`0C032080`, 196 bytes, `src/collide.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/collide/FUN_0c032080.json`
 - inside
@@ -10520,6 +10530,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
+### GetCollision (`0C0319B2`, 440 bytes, `src/collide.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/collide/GetCollision.json`
+- no hit
+- one hit
+- two hits
+- three hits
+- rest 0
+- rest 2
+
 ### GetCollision2D (`0C031EF4`, 396 bytes, `src/collide.c`)
 - equivalent on 4 development and 5 holdout cases, in `tests/collide/GetCollision2D.json`
 - pick highest below
@@ -10531,6 +10550,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - out of range
 - all rejected
 - three above
+
+### GetCollisionFirst (`0C031B6A`, 240 bytes, `src/collide.c`)
+- equivalent on 2 development and 2 holdout cases, in `tests/collide/GetCollisionFirst.json`
+- none
+- hit
+- hit kind 5
+- full
 
 ### GetMenuMode (`0C041CD8`, 10 bytes, `src/leaf.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/leaf/GetMenuMode.json`

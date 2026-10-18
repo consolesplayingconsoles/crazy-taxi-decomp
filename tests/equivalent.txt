@@ -253,6 +253,7 @@ FUN_0c031408
 FUN_0c031480
 FUN_0c031492
 FUN_0c031934
+FUN_0c031c5a
 FUN_0c032080
 FUN_0c0321c2
 FUN_0c0357b0
@@ -759,7 +760,9 @@ FUN_0c1747f4
 FcvStoreBuffer
 GS_ComboReset
 GetAverageAngle
+GetCollision
 GetCollision2D
+GetCollisionFirst
 GetMenuMode
 GetNumRideon
 GoiTool
