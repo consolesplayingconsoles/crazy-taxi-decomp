@@ -135,6 +135,7 @@ ADX_DecodeInfo
 ADX_DecodeInfoAiff
 ADX_DecodeInfoExADPCM2
 Act_Execute
+Act_Init
 Advtise
 BCDtoDEC
 Bezier
@@ -158,12 +159,15 @@ DispVector
 Drv_PickSomeoneUp
 ExecHelicopter
 ExecKyakuArea
+ExecSetObject
+Exec_Balloon
 FUN_0c020080
 FUN_0c020092
 FUN_0c0200aa
 FUN_0c0208d6
 FUN_0c0210d4
 FUN_0c0211e0
+FUN_0c022250
 FUN_0c022358
 FUN_0c0246dc
 FUN_0c025b30
@@ -174,6 +178,7 @@ FUN_0c0288d4
 FUN_0c0288e0
 FUN_0c0288f0
 FUN_0c028908
+FUN_0c0289be
 FUN_0c028b06
 FUN_0c028f50
 FUN_0c028fda
@@ -185,6 +190,7 @@ FUN_0c02bb60
 FUN_0c02bbf4
 FUN_0c02bc24
 FUN_0c02c094
+FUN_0c02c528
 FUN_0c02c6d8
 FUN_0c02d918
 FUN_0c02da42
@@ -236,6 +242,7 @@ FUN_0c030b68
 FUN_0c030b7a
 FUN_0c030e34
 FUN_0c030e72
+FUN_0c030ebc
 FUN_0c03101a
 FUN_0c031036
 FUN_0c031048
@@ -252,6 +259,7 @@ FUN_0c0357b0
 FUN_0c036256
 FUN_0c0364b8
 FUN_0c037534
+FUN_0c0376b0
 FUN_0c038ed0
 FUN_0c038ee6
 FUN_0c038eec
@@ -285,8 +293,10 @@ FUN_0c03dc82
 FUN_0c03df1a
 FUN_0c03dfc8
 FUN_0c03dffa
+FUN_0c03f216
 FUN_0c03f3ac
 FUN_0c03f912
+FUN_0c03f96e
 FUN_0c0409a6
 FUN_0c040a50
 FUN_0c040b00
@@ -353,6 +363,7 @@ FUN_0c0526a0
 FUN_0c05273c
 FUN_0c0527ec
 FUN_0c0528c8
+FUN_0c052a1c
 FUN_0c052c9e
 FUN_0c052d28
 FUN_0c052d7e
@@ -400,6 +411,7 @@ FUN_0c0572de
 FUN_0c057388
 FUN_0c05741c
 FUN_0c05765c
+FUN_0c057728
 FUN_0c05778a
 FUN_0c0577dc
 FUN_0c057930
@@ -449,8 +461,10 @@ FUN_0c05bb24
 FUN_0c05bb64
 FUN_0c05bb76
 FUN_0c05c2d4
+FUN_0c05c3fe
 FUN_0c05c72e
 FUN_0c05c7ac
+FUN_0c05ca3e
 FUN_0c05cb52
 FUN_0c05cb80
 FUN_0c05cdb4
@@ -461,6 +475,7 @@ FUN_0c05d492
 FUN_0c05d4fc
 FUN_0c05d662
 FUN_0c05d6e0
+FUN_0c05d708
 FUN_0c05d82a
 FUN_0c05d852
 FUN_0c05da9c
@@ -489,6 +504,7 @@ FUN_0c060692
 FUN_0c0606e2
 FUN_0c0608ac
 FUN_0c0608de
+FUN_0c060934
 FUN_0c060a5c
 FUN_0c060aee
 FUN_0c060b84
@@ -503,14 +519,17 @@ FUN_0c064420
 FUN_0c066bf0
 FUN_0c067a28
 FUN_0c06b028
+FUN_0c06b0ce
 FUN_0c06b0ee
 FUN_0c070bf8
 FUN_0c070c64
+FUN_0c070e8a
 FUN_0c070ede
 FUN_0c071258
 FUN_0c0714f2
 FUN_0c071d34
 FUN_0c071d98
+FUN_0c071db8
 FUN_0c072348
 FUN_0c072502
 FUN_0c07250c
@@ -547,6 +566,7 @@ FUN_0c075570
 FUN_0c076670
 FUN_0c077290
 FUN_0c0775d0
+FUN_0c077a00
 FUN_0c077df0
 FUN_0c077f60
 FUN_0c077f70
@@ -594,6 +614,7 @@ FUN_0c07fd30
 FUN_0c07ff20
 FUN_0c080470
 FUN_0c080500
+FUN_0c080990
 FUN_0c0813d0
 FUN_0c0813e0
 FUN_0c081650
@@ -644,6 +665,7 @@ FUN_0c15c746
 FUN_0c15c7a0
 FUN_0c15c7f4
 FUN_0c15c852
+FUN_0c15c8dc
 FUN_0c15c960
 FUN_0c15c98a
 FUN_0c15c9e0
@@ -734,17 +756,20 @@ FUN_0c17472e
 FUN_0c174768
 FUN_0c1747be
 FUN_0c1747f4
+FcvStoreBuffer
 GS_ComboReset
 GetAverageAngle
 GetCollision2D
 GetMenuMode
 GetNumRideon
 GoiTool
+HesLate
 InitAdvCamera
 InitArrow
 InitEffect
 InitHelicopter
 InitHomingVector
+Init_Adv_Global_Parm
 Init_Fog
 Init_Standard
 Initialize_Replay_Part
@@ -752,14 +777,18 @@ IsBoyFriend
 KillColliObj
 LetsPlayTennis
 LightEffect
+LoadBackupData
 PAL_FreeTexture
+PC_RenderSimpleTaxiShadow
 Psg_SetMoveSpeed
 Psg_SetPosPtr
 Psg_SetPosPtrSet
+Put2DObj
 PutCourse_Init
 PutVMSMessage
 Put_Build_Patch
 Put_Combo_Entry
+RailroadAreaCheck
 ResetFadeColor
 ResetLight
 ResetSpark
@@ -809,6 +838,7 @@ Set_StandWaitDist
 SklSfPlay
 Sound_Request
 TrafficLevelChange
+VSklSfPlay
 Voice_Request
 _allzero
 acSystemGetSystemFlag
@@ -968,6 +998,7 @@ getAreaFromPos
 getGoiToolFlag
 getNearLineIndexAll
 getPieceWindow
+getReplayPassenger
 getSwitch
 getSystemMetrics
 get_fat
@@ -1017,6 +1048,7 @@ kmChangeContextZWriteDisable
 kmChangeVertexOffset
 kmChangeVertexPCW
 kmCreateCombinedTextureSurface
+kmCreateFrameBufferSurface
 kmCreateTextureSurface
 kmDiscardVertexBuffer
 kmFreeTexture
@@ -1101,8 +1133,10 @@ kmiInitializeHardware
 kmiInitializeTA
 kmiMIPalloc
 kmiProcessVertex_04
+kmiProcessVertex_06
 kmiProcessVertex_08
 kmiProcessVertex_12
+kmiProcessVertex_14
 kmiPurgeMemory
 kmiPutGlobalParam
 kmiQueryFinishDMA
@@ -1117,6 +1151,7 @@ kmiUnloadDevice
 kmiWaitForFinishDMA
 kmiWriteRegister
 kmiWriteRegisters
+kmtex_GetTextureLevel
 kmyConvertAddress64to32
 kmyResetTA
 kmytex_FBEnQueueEntry
@@ -1203,6 +1238,7 @@ nlCos
 nlCosec
 nlCosf
 nlCosh
+nlCot
 nlCreateTextureParam
 nlDispStrip
 nlDispStripFreePalette
@@ -1248,6 +1284,7 @@ nlLineSetDiv
 nlLineSetThickness
 nlLoadDummyTexture
 nlLoadTextureMem
+nlLocate
 nlLog
 nlLog10
 nlLog2
@@ -1286,6 +1323,7 @@ nlRandom
 nlRandomSeed
 nlReloadPalette
 nlReloadPalette8888
+nlRenderTextureFree
 nlRenderTextureFreeAll
 nlRenderTextureInit
 nlRenderTextureSet
@@ -1295,6 +1333,7 @@ nlScaleUnitVector
 nlScaleVector
 nlScalor
 nlSearchPalette
+nlSec
 nlSetCommonTextureOffset
 nlSetDummyTextureParameter
 nlSetEventBefore
@@ -1314,6 +1353,7 @@ nlSpriteSetVtxContext
 nlSubVector
 nlSubVector3op
 nlTan
+nlTanh
 nlTranslateV
 nlTriPutSetAttribAmbient
 nlTriPutSetAttribBiliner
@@ -1356,6 +1396,7 @@ padReadSlot
 paletteSetMode
 paletteUpload
 pcarEnd
+pcarSpawn
 pdExecPeripheralServer
 pdExitPeripheral
 pdGetMode
@@ -1383,9 +1424,12 @@ pedStand
 pfColor
 pfLocate
 pfPuts
+pfSetFont
 pfSetZ
 pfSize
 pointEventGet
+psgEnterState1
+psgFrameState0
 psgFrameState5
 psgPlayBlend
 psgPutShadow
@@ -1402,6 +1446,8 @@ search_fat_free_xross
 search_free_dir
 search_subst_fat_top
 setBorderColor
+setObjGroupExec
+setObjGroupOpen
 setObjPieceExec
 setObjPieceExecSleep
 setObjPlace
