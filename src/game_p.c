@@ -3935,3 +3935,166 @@ void psgPlayBlend(char *h, int arg)
         *(float *)(h + 56) = *(float *)(h + 276);
     }
 }
+
+/* A point on the line through p and q (x, y, z each) found for the third coordinate: with a different z
+   in q the line is solved for z = t = (dz*px - dx*pz) / (k*dz - dx), x = k*t and y follows the line;
+   with the same z, z stays p's, x = k*pz and y follows the line, or is out's own when q has the same
+   x too. The result goes to out. (The factor k is the float argument.) */
+void FUN_0c07bee0(float *p, float *q, float *out, float k)
+{
+    float tmp[3];
+    float dy = q[1] - p[1];
+    float dz = q[2] - p[2];
+    float dx = q[0] - p[0];
+    float t;
+
+    if (dz == 0.0f) {
+        tmp[2] = p[2];
+        tmp[0] = k * p[2];
+        if (dx == 0.0f) {
+            tmp[1] = out[1];
+        } else {
+            tmp[1] = dy * (tmp[0] - p[0]) / dx + p[1];
+        }
+    } else {
+        t = (dz * p[0] - dx * p[2]) / (k * dz - dx);
+        tmp[2] = t;
+        tmp[0] = k * t;
+        tmp[1] = dy * (t - p[2]) / dz + p[1];
+    }
+    out[0] = tmp[0];
+    out[1] = tmp[1];
+    out[2] = tmp[2];
+}
+
+/* The same with x and y swapped: y = k*t, and x follows the line. */
+void FUN_0c07bf70(float *p, float *q, float *out, float k)
+{
+    float tmp[3];
+    float dy = q[1] - p[1];
+    float dz = q[2] - p[2];
+    float dx = q[0] - p[0];
+    float t;
+
+    if (dz == 0.0f) {
+        tmp[2] = p[2];
+        tmp[1] = k * p[2];
+        if (dy == 0.0f) {
+            tmp[0] = out[0];
+        } else {
+            tmp[0] = dx * (tmp[1] - p[1]) / dy + p[0];
+        }
+    } else {
+        t = (dz * p[1] - dy * p[2]) / (k * dz - dy);
+        tmp[2] = t;
+        tmp[1] = k * t;
+        tmp[0] = dx * (t - p[2]) / dz + p[0];
+    }
+    out[0] = tmp[0];
+    out[1] = tmp[1];
+    out[2] = tmp[2];
+}
+
+extern float nlLdexpf(float x, int n);
+
+/* The smoothed value at 0C2A9F70 (copied to 0C0E4E48) for the state at 0C2A9F64: in state 3, or with 0C2A9F68
+   at 3, it jumps to the state's limit (a float at tbl + (signed byte)(state * 20)); with 0C2A9F9C set it grows
+   by nlLdexpf(1, step) with the step counter at 0C2A9FA0 counting up, and is cut at the limit; otherwise it eases
+   toward the limit by the factor at +16 of the state's entry. */
+void FUN_0c060160(void)
+{
+    char *tbl = (char *)0x0C1322C0;
+    float *pf = (float *)0x0C2A9F70;
+    float *lim;
+    int s = *(int *)0x0C2A9F64;
+    int n;
+
+    if (s != 3 && *(int *)0x0C2A9F68 != 3) {
+        if (*(int *)0x0C2A9F9C != 0) {
+            n = *(int *)0x0C2A9FA0;
+            *(int *)0x0C2A9FA0 = n + 1;
+            *pf = *pf + nlLdexpf(1.0f, n);
+            lim = (float *)(tbl + (signed char)(*(int *)0x0C2A9F64 * 20));
+            if (!(*pf > *lim)) {
+                *(float *)0x0C0E4E48 = *pf;
+                return;
+            }
+        } else {
+            lim = (float *)(tbl + (signed char)(s * 20));
+            *pf = *pf + (lim[0] - *pf) * lim[4];
+            *(float *)0x0C0E4E48 = *pf;
+            return;
+        }
+    }
+    lim = (float *)(tbl + (signed char)(*(int *)0x0C2A9F64 * 20));
+    *pf = *lim;
+    *(float *)0x0C0E4E48 = *pf;
+}
+
+extern void FUN_0c058f08(float *p);
+/* nlObjPutSetLightDirection(x, y, z): the second entry of nlObjPutSetLightDirectionV (0C07AE00), which loads the vector's components and falls into it */
+extern void nlObjPutSetLightDirection(float a, float b, float c);
+
+/* Set up the HUD sprite layer: a perspective for mode 3, ten sprite slots at 0C2A932C (20 bytes each: x 320,
+   y 240, z 0 and three zero halfwords), the extra slot at 0C2A93F8 (0, 36, 0), colour 0x00FFFFFF, and the
+   light direction (0, 0.6, 0.8). */
+void FUN_0c0579c0(void)
+{
+    float *s = (float *)0x0C2A932C;
+    float *e = (float *)0x0C2A93F8;
+    int i;
+
+    FUN_0c077df0(3);
+    nlUnitMatrix();
+    nlPerspective(1.3333332538604736f, 0.29999998f, 300.0f, 7464);
+    FUN_0c077df0(1);
+    for (i = 0; i < 10; i++) {
+        s[0] = 320.0f;
+        s[1] = 240.0f;
+        s[2] = 0.0f;
+        *(short *)((char *)s + 12) = 0;
+        *(short *)((char *)s + 14) = 0;
+        *(short *)((char *)s + 16) = 0;
+        s += 5;
+    }
+    *(int *)0x0C2A93F4 = 0;
+    e[0] = 0.0f;
+    e[2] = 0.0f;
+    e[1] = 36.0f;
+    FUN_0c058f08(e);
+    FUN_0c058f38(0x00FFFFFF);
+    nlObjPutSetLightDirection(0.0f, 0.59999996f, 0.79999995f);
+}
+
+extern void hudHidePickUpNag(void);
+
+/* The pick-up nag's sprites, once a frame: a counter (0C2A8FB4) steps; in the first 50 of every 61 frames three
+   sprites (ids 462-464, at 280/440/480 across, 240 down) are drawn, or one (470, at 320) while 0C2A8FBC is set.
+   Past 180 frames the counter restarts and the nag is hidden; at 105 the passenger is picked up. */
+void FUN_0c057388(void)
+{
+    int *cnt = (int *)0x0C2A8FB4;
+    float *p = (float *)0x0C2A7EDC;
+
+    *cnt = *cnt + 1;
+    p[4] = 1.0f;
+    p[5] = 1.0f;
+    *(int *)(p + 13) = 10;
+    *(int *)(p + 10) = 0;
+    if (*cnt % 61 < 50) {
+        if (*(int *)0x0C2A8FBC == 0) {
+            FUN_0c05778a(p, 462, 280.0f, 240.0f);
+            FUN_0c05778a(p, 463, 440.0f, 240.0f);
+            FUN_0c05778a(p, 464, 480.0f, 240.0f);
+        } else {
+            FUN_0c05778a(p, 470, 320.0f, 240.0f);
+        }
+    }
+    if (*cnt > 180) {
+        *cnt = 0;
+        hudHidePickUpNag();
+    }
+    if (*cnt == 105) {
+        Drv_PickSomeoneUp();
+    }
+}

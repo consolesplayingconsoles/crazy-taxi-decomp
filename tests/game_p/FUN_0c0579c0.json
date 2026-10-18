@@ -1,0 +1,48 @@
+{
+ "dev": [
+  {
+   "about": "run",
+   "regs": {},
+   "poke": {},
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "live",
+   "dump": "build/ram/live.bin",
+   "regs": {},
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "records",
+   "dump": "build/ram/records.bin",
+   "regs": {},
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}

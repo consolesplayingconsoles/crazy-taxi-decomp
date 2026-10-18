@@ -1252,3 +1252,29 @@ int FUN_0c157160(short a, int lim, int *h)
     }
     return (int)found;
 }
+
+extern int kmiCopyFromPVRMemory(int a, int off, int n);
+extern int FUN_0c15ca40(int a, int off, int b, int c);
+extern int FUN_0c15c98a(int a, int off, int b);
+
+/* Read a texture back from video memory into a: by the texture's type (word 0): low bits 1, a copy from
+   PVR memory; type 3, FUN_0c15ca40; otherwise by its format flags (+24): flag 4 and 1 set and 8 and 32 clear
+   give FUN_0c15c98a, anything else a frame buffer copy. Always 0. */
+int kmGetTexture(int a, int *t)
+{
+    int fl;
+
+    if ((t[0] & 3) == 1) {
+        kmiCopyFromPVRMemory(a, t[7], t[5]);
+    } else if ((unsigned short)t[0] == 3) {
+        FUN_0c15ca40(a, t[7], t[3], t[6]);
+    } else {
+        fl = t[6];
+        if ((fl & 4) && (fl & 1) && !(fl & 8) && !(fl & 32)) {
+            FUN_0c15c98a(a, t[7], t[3]);
+        } else {
+            kmiCopyFromFrameBuffer((char *)a, t[7], t[5]);
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,123 @@
+{
+ "dev": [
+  {
+   "about": "first 3 sprites",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "0a000000",
+    "0C2A8FBC": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "one sprite",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "0a000000",
+    "0C2A8FBC": "01000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "skip window",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "37000000",
+    "0C2A8FBC": "00000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "at 105",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "68000000",
+    "0C2A8FBC": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "hide",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "b4000000",
+    "0C2A8FBC": "00000000"
+   },
+   "calls": [
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "wrap 61",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "3c000000",
+    "0C2A8FBC": "00000000"
+   },
+   "calls": []
+  },
+  {
+   "about": "at 105 skip",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "68000000",
+    "0C2A8FBC": "01000000"
+   },
+   "calls": [
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "hide late",
+   "regs": {},
+   "poke": {
+    "0C2A8FB4": "c8000000",
+    "0C2A8FBC": "01000000"
+   },
+   "calls": [
+    {}
+   ]
+  },
+  {
+   "about": "live live",
+   "dump": "build/ram/live.bin",
+   "regs": {},
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  },
+  {
+   "about": "live records",
+   "dump": "build/ram/records.bin",
+   "regs": {},
+   "calls": [
+    {},
+    {},
+    {},
+    {},
+    {}
+   ]
+  }
+ ]
+}
