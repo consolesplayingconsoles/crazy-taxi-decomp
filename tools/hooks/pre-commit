@@ -9,14 +9,15 @@ cd "$(git rev-parse --show-toplevel)"
 if [ "${SKIP_BUILD_CHECK:-}" != "1" ] && [ -f build.sh ]; then
     echo "[pre-commit] build.sh: compile and link every source..." >&2
     out="$(bash build.sh 2>&1)" || true
-    if ! printf '%s\n' "$out" | grep -q '^MATCH: '; then
-        printf '%s\n' "$out" | tail -25 >&2
-        echo "[pre-commit] build.sh did not print MATCH: commit refused (SKIP_BUILD_CHECK=1 skips the check)" >&2
-        exit 1
-    fi
+    case "$out" in
+        *"MATCH: "*) ;;
+        *) printf '%s\n' "$out" | tail -25 >&2
+           echo "[pre-commit] build.sh did not print MATCH: commit refused (SKIP_BUILD_CHECK=1 skips the check)" >&2
+           exit 1;;
+    esac
     if [ -f tools/equiv.py ]; then
         for f in $(git diff --cached --name-only --diff-filter=AM -- 'src/*.c'); do
-            res="$(python3 tools/equiv.py -q "$f" 2>&1 | tail -1)"
+            res="$(python3 tools/equiv.py -q "$f" 2>&1 | tail -1)" || true
             case "$res" in
                 *" 0 DIFFERS"*) ;;
                 *) echo "[pre-commit] $f: $res" >&2
