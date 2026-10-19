@@ -135,8 +135,10 @@ if os.path.exists('model-map/game.dcgs'):
         rows += [('REVERSE ENGINEERING', '', 'what the model map identifies; separate from the measures above, not done work')]
         rows += [row for n, row in re_rows]
 def write_badge(rows, label, path='badge.svg'):
-    """badge.svg beside the README: the label, a bar filled to the main metric ("done: ...") and its percentage, in
-    Pluto's colours. One metric only; the number is always printed, so colour carries no meaning on its own."""
+    """badge.svg beside the README, two rows in Pluto's colours: functions (a bar filled to the main metric, "done: ...", and its
+    percentage) and bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of the slice is
+    done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both rows, and
+    the numbers are always printed."""
     done = 0.0
     for n, p, _ in rows:
         if n.strip().startswith('done:'):
@@ -145,29 +147,51 @@ def write_badge(rows, label, path='badge.svg'):
             except ValueError:
                 done = 0.0
             break
-    bar = 64
+    bar = 100
     wd = int(round(bar * min(done, 100.0) / 100.0))
     if done > 0 and wd < 2:
         wd = 2
-    text = '%.1f%%' % done
-    title = '%s: %s done' % (label, text)
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="182" height="20" role="img" aria-label="%s">'
-           '<title>%s</title><clipPath id="r"><rect width="182" height="20" rx="3"/></clipPath>'
-           '<g clip-path="url(#r)"><rect width="52" height="20" fill="#1a2233"/><rect x="52" width="130" height="20" fill="#2a3347"/>'
-           '<rect x="60" y="6" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
-           '<rect x="60" y="6" width="%d" height="8" rx="2" fill="#c87053"/></g>'
+    code_total = sum(sz for _, sz, _ in funcs) or 1
+    dark = [0] * bar
+    pos = done_bytes = 0
+    for fa, fsz, fn in sorted(funcs):
+        if in_c(fa) or fn in equivalent or fn in verified:
+            done_bytes += fsz
+            for b in range(pos, pos + fsz):
+                dark[min(bar - 1, b * bar // code_total)] += 1
+        pos += fsz
+    per = float(code_total) / bar
+    runs, c = [], 0
+    while c < bar:
+        on = dark[c] * 2 > per
+        e = c
+        while e < bar and (dark[e] * 2 > per) == on:
+            e += 1
+        if on:
+            runs.append('<rect x="%d" y="26" width="%d" height="8" fill="#c87053"/>' % (70 + c, e - c))
+        c = e
+    strip = '<rect x="70" y="26" width="%d" height="8" fill="#ecc9b9"/>%s' % (bar, ''.join(runs))
+    ftext = '%.1f%%' % done
+    btext = '%.1f%%' % (100.0 * done_bytes / code_total)
+    title = '%s: %s of functions, %s of code bytes done' % (label, ftext, btext)
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="222" height="40" role="img" aria-label="%s">'
+           '<title>%s</title><clipPath id="r"><rect width="222" height="40" rx="3"/></clipPath>'
+           '<g clip-path="url(#r)"><rect width="222" height="40" fill="#1a2233"/><rect x="62" width="160" height="40" fill="#2a3347"/>'
+           '<rect x="70" y="6" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
+           '<rect x="70" y="6" width="%d" height="8" rx="2" fill="#c87053"/>%s</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
-           '<text x="26" y="14">%s</text><text x="154" y="14">%s</text></g></svg>\n'
-           % (title, title, bar, wd, label, text))
+           '<text x="31" y="14">Functions</text><text x="31" y="34">Bytes</text>'
+           '<text x="196" y="14">%s</text><text x="196" y="34">%s</text></g></svg>\n'
+           % (title, title, bar, wd, strip, ftext, btext))
     try:
         open(path, 'w').write(svg)
     except OSError:
         pass
-    # the README's badge link carries the number (badge.svg?p=40.3): a new number is a new address, so GitHub's image cache
+    # the README's badge link carries both numbers (badge.svg?p=71.9&b=34.0): a new number is a new address, so GitHub's image cache
     # never shows an old badge
     try:
         readme = open('README.md').read()
-        fresh = re.sub(r'\(badge\.svg(\?p=[0-9.]*)?\)', '(badge.svg?p=%.1f)' % done, readme, count=1)
+        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s)' % (done, btext.rstrip('%')), readme, count=1)
         if fresh != readme:
             open('README.md', 'w').write(fresh)
     except (IOError, OSError):
