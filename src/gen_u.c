@@ -1119,7 +1119,7 @@ int FUN_0c044b80(int a4)
     return t70;
 }
 
-int CarSel_Time_Count(void)
+void CarSel_Time_Count(void)
 {
     int t0;
     int t1;
@@ -1156,7 +1156,7 @@ int CarSel_Time_Count(void)
 
     t0 = *(int *)0xC2A7518;
     if (t0 != 0) {
-        return 0;
+        return;
     }
     t1 = *(int *)0xC2A757C;
     t10 = 0x0;
@@ -1260,9 +1260,10 @@ int CarSel_Time_Count(void)
         t60 = *(int *)0xC2A751C;
         t61 = *(int *)((t60 + 0x0));
         t62 = *(int *)(((t61 << 2) + 0xC1306A0));
-        return Voice_Request(t62, 0x0, 0x7F, 0x0);
+        Voice_Request(t62, 0x0, 0x7F, 0x0);
+        return;
     }
-    return 0;
+    return;
 }
 
 int FUN_0c0511a4(void)

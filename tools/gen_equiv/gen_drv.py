@@ -94,6 +94,7 @@ def stack_top():
         return sh4sim.STACK_TOP-0x100
     except Exception: raise Skip('no simulator for stack arguments')
 LAST_READS=[]
+RUNTIME={a for a,n in G.FUNCS.items() if n.startswith('_')}       # the compiler's runtime helpers run for real, as equiv.py runs them
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -104,7 +105,7 @@ def original_runs(name,case):
     except Exception: return 0,None
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
-    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=100000),'.',deep=lambda t:False)
+    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=100000),'.',deep=lambda t:t in RUNTIME)
     LAST_READS[:]=r.get('reads',[])
     if r['error']: return None,set()
     return r['steps'],set(r.get('covered',[]))

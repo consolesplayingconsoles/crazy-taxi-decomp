@@ -70,11 +70,13 @@ ADXPD_SetCoef
 ADXPD_SetMode
 ADXPD_Start
 ADXPD_Stop
+ADXRNA_ClearBuf
 ADXRNA_Destroy
 ADXRNA_DiscardData
 ADXRNA_ExecServer
 ADXRNA_GetBitPerSmpl
 ADXRNA_GetNumData
+ADXRNA_GetNumRoom
 ADXRNA_GetOutPan
 ADXRNA_GetOutVol
 ADXRNA_GetSfreq
@@ -84,11 +86,14 @@ ADXRNA_SetBitPerSmpl
 ADXRNA_SetNumChan
 ADXRNA_SetOutPan
 ADXRNA_SetOutVol
+ADXRNA_SetPcmType
 ADXRNA_SetPlaySw
 ADXRNA_SetSfreq
 ADXRNA_SetStartSmpl
 ADXRNA_SetStmHdInfo
+ADXRNA_SetTotalNumSmpl
 ADXRNA_SetTransSw
+ADXRNA_SetWavFname
 ADXRNA_Start
 ADXRNA_Stop
 ADXSJD_Create
@@ -106,6 +111,7 @@ ADXSJD_Stop
 ADXSTMF_ExecHndl
 ADXSTM_Close
 ADXSTM_EntryEosFunc
+ADXSTM_EntryErrFunc
 ADXSTM_GetBufSize
 ADXSTM_GetCurOfst
 ADXSTM_GetFad
@@ -151,6 +157,7 @@ Chat_Execute
 Chat_PickSomeoneUp
 Check2DAreaDX
 CheckAreaGrid
+CheckClippingProject3D
 CheckColliWall
 CheckKyakuArea
 CheckSoftReset
@@ -177,6 +184,7 @@ FUN_0c022250
 FUN_0c022358
 FUN_0c0246dc
 FUN_0c025b30
+FUN_0c028760
 FUN_0c0287c2
 FUN_0c0287d4
 FUN_0c0288ca
@@ -200,6 +208,7 @@ FUN_0c02c528
 FUN_0c02c6d8
 FUN_0c02d918
 FUN_0c02da42
+FUN_0c02dc24
 FUN_0c02dc84
 FUN_0c02dcd8
 FUN_0c02dd3a
@@ -218,6 +227,7 @@ FUN_0c02e494
 FUN_0c02e4b2
 FUN_0c02e572
 FUN_0c02e58a
+FUN_0c02e646
 FUN_0c02e682
 FUN_0c02e71e
 FUN_0c02e75a
@@ -283,6 +293,7 @@ FUN_0c03933e
 FUN_0c03934e
 FUN_0c039540
 FUN_0c039560
+FUN_0c0395a2
 FUN_0c039680
 FUN_0c0396dc
 FUN_0c03974c
@@ -290,6 +301,7 @@ FUN_0c0399b8
 FUN_0c03a3e0
 FUN_0c03a640
 FUN_0c03a704
+FUN_0c03aa9a
 FUN_0c03ac62
 FUN_0c03ace8
 FUN_0c03b158
@@ -326,6 +338,9 @@ FUN_0c041d68
 FUN_0c043524
 FUN_0c043b68
 FUN_0c044b80
+FUN_0c049854
+FUN_0c04988a
+FUN_0c049aa8
 FUN_0c049b06
 FUN_0c04a090
 FUN_0c04a38a
@@ -339,14 +354,17 @@ FUN_0c04c104
 FUN_0c04d1ac
 FUN_0c04d30a
 FUN_0c04d3ee
+FUN_0c04d49e
 FUN_0c04e194
 FUN_0c04eb4a
 FUN_0c04f1b0
+FUN_0c05008c
 FUN_0c0500d8
 FUN_0c0504bc
 FUN_0c050542
 FUN_0c050716
 FUN_0c050b4c
+FUN_0c050bba
 FUN_0c050bbe
 FUN_0c050c0a
 FUN_0c050f80
@@ -508,6 +526,7 @@ FUN_0c05df5e
 FUN_0c05e2fa
 FUN_0c05e8c8
 FUN_0c05e944
+FUN_0c05ea98
 FUN_0c05ead0
 FUN_0c05ef68
 FUN_0c05f482
@@ -534,6 +553,7 @@ FUN_0c060a5c
 FUN_0c060aee
 FUN_0c060b84
 FUN_0c060da6
+FUN_0c060dfc
 FUN_0c062ff4
 FUN_0c0630a2
 FUN_0c0631c6
@@ -541,6 +561,7 @@ FUN_0c063292
 FUN_0c063ad0
 FUN_0c063dc6
 FUN_0c064420
+FUN_0c06468e
 FUN_0c066bf0
 FUN_0c067a28
 FUN_0c06b028
@@ -570,6 +591,7 @@ FUN_0c07387c
 FUN_0c0738ae
 FUN_0c0738bc
 FUN_0c074200
+FUN_0c0742c0
 FUN_0c0742f0
 FUN_0c074300
 FUN_0c074510
@@ -600,6 +622,7 @@ FUN_0c077f80
 FUN_0c078750
 FUN_0c0789c0
 FUN_0c078a70
+FUN_0c078c00
 FUN_0c078fa0
 FUN_0c078ff0
 FUN_0c079e70
@@ -611,6 +634,7 @@ FUN_0c07b980
 FUN_0c07b9d0
 FUN_0c07b9e0
 FUN_0c07bd30
+FUN_0c07bde0
 FUN_0c07be20
 FUN_0c07bee0
 FUN_0c07bf70
@@ -633,6 +657,8 @@ FUN_0c07e880
 FUN_0c07e8a0
 FUN_0c07eca0
 FUN_0c07f5c0
+FUN_0c07fbb0
+FUN_0c07fbe0
 FUN_0c07fc10
 FUN_0c07fc40
 FUN_0c07fd00
@@ -643,6 +669,7 @@ FUN_0c080500
 FUN_0c080990
 FUN_0c0813d0
 FUN_0c0813e0
+FUN_0c08160a
 FUN_0c081650
 FUN_0c087e1a
 FUN_0c087e2a
@@ -706,6 +733,7 @@ FUN_0c15f818
 FUN_0c15f868
 FUN_0c15f8ba
 FUN_0c15f926
+FUN_0c15f978
 FUN_0c15f998
 FUN_0c15f9c4
 FUN_0c15fa32
@@ -713,6 +741,7 @@ FUN_0c15fa6c
 FUN_0c15fa92
 FUN_0c15fab8
 FUN_0c1614de
+FUN_0c1614e8
 FUN_0c162d2c
 FUN_0c162d5e
 FUN_0c162d8a
@@ -738,15 +767,21 @@ FUN_0c1688aa
 FUN_0c1688b6
 FUN_0c1688c2
 FUN_0c1688ce
+FUN_0c1688da
+FUN_0c168936
 FUN_0c1689c0
 FUN_0c168e10
 FUN_0c1697c4
+FUN_0c169a1c
 FUN_0c16bb70
 FUN_0c16bca0
 FUN_0c16bf4a
 FUN_0c16c796
 FUN_0c16c7ca
 FUN_0c16c7f2
+FUN_0c16dd00
+FUN_0c16dd04
+FUN_0c16e544
 FUN_0c1701c4
 FUN_0c17088c
 FUN_0c1708bc
@@ -758,6 +793,7 @@ FUN_0c170b48
 FUN_0c170c10
 FUN_0c170c68
 FUN_0c170fd0
+FUN_0c1717d0
 FUN_0c1718c4
 FUN_0c17190c
 FUN_0c171cfe
@@ -773,6 +809,7 @@ FUN_0c1720f4
 FUN_0c172132
 FUN_0c17217a
 FUN_0c1721da
+FUN_0c17249c
 FUN_0c17277c
 FUN_0c1727b0
 FUN_0c1727d0
@@ -792,6 +829,7 @@ GetCollision2D
 GetCollisionFirst
 GetMenuMode
 GetNumRideon
+GetRotVec
 GoiTool
 HesLate
 InitAdvCamera
@@ -813,6 +851,7 @@ PC_RenderSimpleTaxiShadow
 Psg_SetMoveSpeed
 Psg_SetPosPtr
 Psg_SetPosPtrSet
+Psg_SetPosVal
 Put2DObj
 PutCourse_Init
 PutVMSMessage
@@ -871,18 +910,24 @@ Set_StandWaitDist
 SklSfPlay
 Sound_Init
 Sound_Request
+TOANG
 TrafficLevelChange
 VSklSfPlay
 Voice_Request
+Voice_ShutUp
 _allzero
+_app_coss
+_app_sins
 acSystemGetSystemFlag
 adxStartAfs1
 adxStartAfs2
 adxf_AllocAdxFs
 adxf_ChkPrmGfr
 adxf_ChkPrmPt
+adxf_CloseSjStm
 adxf_CreateAdxFs
 adxf_ExecOne
+adxf_SetAfsFileInfo
 adxf_read_sj32
 adxf_wait_1ms
 adxpd_error
@@ -893,6 +938,7 @@ adxt_eos_entry
 adxt_set_outpan
 adxt_start_stm
 adxt_stat_decend
+adxt_stat_playend
 buAnalyzeBackupFileImage
 buCalcBackupFileSize
 buCalcCRC
@@ -909,6 +955,7 @@ buFbrCreateFiber
 buFbrDestroyServer
 buFbrExit
 buFbrInit
+buFbrKillFiber
 buFbrKillFiberLevel
 buFbrSleepFiber
 buFbrSleepVFiber
@@ -957,6 +1004,7 @@ callGoBackAdvertise
 callTryAgain
 camPlayScript
 camRestore
+camSave
 camSetAngles
 camSetEye
 camSetMode
@@ -1070,6 +1118,7 @@ kdIsChanged
 kdRecognizeChanged
 kdSetGunCallback
 kdSetGunTrigger
+kdSetHandler
 kdVbInHandler
 kdVbOverHandler
 kmActivateFrameBuffer
@@ -1086,6 +1135,7 @@ kmChangeContextPaletteBank
 kmChangeContextStripLength
 kmChangeContextUserClipMode
 kmChangeContextZWriteDisable
+kmChangeLatencyModel
 kmChangeVertexOffset
 kmChangeVertexPCW
 kmCreateCombinedTextureSurface
@@ -1172,6 +1222,7 @@ kmiGetNativeRegOBPSize
 kmiGetSysConfigFlag
 kmiInitCallback
 kmiInitInterrupt
+kmiInitRenderer
 kmiInitVGA
 kmiInitializeBackGroundPlane
 kmiInitializeDMA
@@ -1206,6 +1257,7 @@ kmiWriteRegisters
 kmtex_GetTextureLevel
 kmyConvertAddress64to32
 kmyResetTA
+kmytex_FBDeQueueEntry
 kmytex_FBEnQueueEntry
 kyakuClearVoiceBit24
 kyakuClearVoiceBit26
@@ -1249,6 +1301,7 @@ mpdrv_set_setcond_ns
 mpdrv_set_transagain_ns
 mpdrv_stat
 mpdrv_swaplong
+mwRnaDiscardData
 mwRnaErrEntryFunc
 mwRnaFlush
 mwRnaGetAutoSw
@@ -1272,6 +1325,7 @@ mwRnaSetupSnd
 mwRnaStop
 mwlRnaAddFlshPos
 mwlRnaAlloc
+mwlRnaClearBuf
 mwlRnaInsrtSlntDat
 mwlRnaIsCopyEnd
 mwlRnaSetInitMember
@@ -1296,6 +1350,7 @@ nlCosf
 nlCosh
 nlCot
 nlCreateTextureParam
+nlCreateTextureParamA
 nlDispStrip
 nlDispStripFreePalette
 nlDispStripLoadPalette
@@ -1368,6 +1423,7 @@ nlObjPutUseViewMatrixTrnsl
 nlOuterProduct
 nlPrintColor
 nlPrintMonitorMode
+nlPrintSetGarbagedTexture
 nlPrintSetOpaqueMode
 nlPrintSetZ
 nlPrintTileClipMode
@@ -1388,6 +1444,7 @@ nlRenderTextureSet
 nlRenderTextureSet_Stride
 nlRotate
 nlRoundOff
+nlRoundUp
 nlScaleUnitVector
 nlScaleVector
 nlScalor
@@ -1485,12 +1542,14 @@ pedInit
 pedPickIdle
 pedStand
 pfColor
+pfLength
 pfLocate
 pfPuts
 pfSetFont
 pfSetZ
 pfSize
 pointEventGet
+psgCallEnter
 psgEnterState1
 psgEnterState2
 psgFrameState0
@@ -1507,6 +1566,7 @@ replay
 rinRandomSeed
 rtcGetSeconds
 saveBufferInit
+search_dir_by_startfat
 search_exec_file
 search_fat_free_xross
 search_free_dir
@@ -1542,6 +1602,7 @@ syCfgGetSoundMode
 syCfgIIDCheckSum
 syCfgInit
 syCfgSetSoundMode
+syChainMasterHandler
 syG2DmaReset
 syG2DmaResume
 syG2DmaResumeAll

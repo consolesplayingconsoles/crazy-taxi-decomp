@@ -29,6 +29,8 @@ def restore_evidence():
     for f,t in KEEP.items(): open(f,'w').write(t)
 READ_LIMIT=300       # seconds: a function whose reading does not finish in that time is skipped (some shapes loop for ever)
 BUILD_LIMIT=60       # and the same for writing its C and cases in a round
+if '--draw' in sys.argv:
+    import draw_cases; draw_cases.main([x for x in sys.argv[1:] if x!='--draw']); sys.exit(0)
 if '--retest' in sys.argv:
     import gen_retest; gen_retest.main([a for a in sys.argv[1:] if a.startswith('gen_')]); sys.exit(0)
 known='--known' in sys.argv

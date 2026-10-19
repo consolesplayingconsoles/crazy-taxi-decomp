@@ -9,7 +9,7 @@ int nlMultiMatrix(int, int, int, int);
 int nlRotateAY(int);
 int nlTranslateV(int);
 
-int FUN_0c02f02a(int a4, int a5, int a6, int a7)
+void FUN_0c02f02a(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t9;
@@ -46,7 +46,7 @@ int FUN_0c02f02a(int a4, int a5, int a6, int a7)
                     t4 = *(int *)0xC1EE214;
                     t5 = *(int *)0xC1244E8;
                     t6 = *(int *)(((t4 << 2) + t5));
-                    t7 = *(int *)((0xC0C835C + t5));
+                    t7 = *(int *)((0xC0C835C + (t4 << 2)));
                     if ((int)t3 >= (int)(t6 + t7)) break;
                     gdc_CourseReq(t3, 0x0, a6, a7, 0.0f);
                     t3 = (t3 + 0x1);
@@ -89,7 +89,7 @@ int FUN_0c02f02a(int a4, int a5, int a6, int a7)
         t23 = gdc_CoursePointLoadReq(2000.0f);
         t24 = t23;
     }
-    return t24;
+    return;
 }
 
 int psgSeatMatrix(int a4, int a5, int a6, int a7)

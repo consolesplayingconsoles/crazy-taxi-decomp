@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=64.9)
+![decomp progress](badge.svg?p=66.7)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,7 +21,7 @@ This decomp follows the six steps of the dc-decomp-kickoff skill, from the disc 
 | 2 | **Signature-driven baseline**          | -                         |                                    | Reads the disc, splits the executable into one assembly file per function, rebuilds it **byte for byte** with the SDK's own assembler and linker, and names every function it can match by signature.                                                                                                                      |
 | 3 | **Asset mapping**                      | -                         |                                    | Writes the text map (every string with its pointers, text per disc file), the model map, the texture list and the audio map.                                                                                                                                                                                               |
 | 4 | **Opportunity-driven optional boosts** | Varies greatly by project | The materials                      | Uses what you hand over to save work in every step after it, the earlier the better: a later port (Android is the strongest), a prototype or debug build, cheat codes, other regions, existing notes, the same game on another console, a sibling decomp. It never looks for these itself and never reads your other code. |
-| 5 | **Incremental scripted decomp**        | ~25% (higher with boosts) | SDK library sources (optional)     | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then a second pass that draws the test cases again to cover more of the original. Generated C is reported apart from hand-written C.                                                                 |
+| 5 | **Incremental script-generated decomp**        | ~25% (higher with boosts) | SDK library sources (optional)     | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then a second pass that draws the test cases again to cover more of the original. Generated C is reported apart from hand-written C.                                                                 |
 | 6 | **Experience-driven agentic decomp**   | 100%                      |                                    | Takes what is left one pocket at a time, function by function: C and test cases until each function is proven. The plan is in the repo's `AGENTS.md`.                                                                                                                                                                      |
 
 ## Supported version
@@ -136,17 +136,17 @@ the evidence for each equivalent function.
 
 <!-- progress -->
 ```
-THE GAME                          2827 functions, 527331 bytes of code; each function in one bucket
-  done: equivalent C       64.9%  1835 of 2827 functions, 152418 bytes (28.9%): C that behaves like the original
+THE GAME                          2845 functions, 527331 bytes of code; each function in one bucket
+  done: equivalent C       66.7%  1897 of 2845 functions, 153866 bytes (29.2%): C that behaves like the original
     of which matching C     0.3%  8 functions, 1178 bytes, 2 units: rebuilt byte for byte
-    of which SDK source     6.9%  194 functions, 14760 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               18.6%  526 functions: a name, no C yet (not done work)
-  unnamed                  16.5%  466 functions (FUN_...), no C yet
-  documented               41.0%  1159 named functions in docs/*.md
+    of which SDK source     6.8%  194 functions, 14760 bytes: the SDK's own source reproduces them (sdk-source/, local)
+  named only               17.4%  496 functions: a name, no C yet (not done work)
+  unnamed                  15.9%  452 functions (FUN_...), no C yet
+  documented               41.6%  1184 named functions in docs/*.md
   named globals                   120
-  of which library                1825 functions, 215364 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   65.9%  1202 of 1825 library functions, 79932 bytes (37.1%)
-    named                  73.0%  1333 of 1825 (the library's own names, from SDK tables)
+  of which library                1842 functions, 215364 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
+    done                   67.4%  1242 of 1842 library functions, 80452 bytes (37.4%)
+    named                  72.4%  1333 of 1842 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named         15.5%  9 of 58 characters (note rules)

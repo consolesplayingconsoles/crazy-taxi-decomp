@@ -3,6 +3,8 @@
 
 int FUN_0c0813e0(int, int, int);
 int syBtCfgSet(int, int);
+int syCfgConvLang(int);
+int syCfgGetDefaultLanguage(int *);
 
 void nlLog(float f4)
 {
@@ -13,21 +15,35 @@ void nlLog(float f4)
         }
 }
 
-void syCfgGetLanguage(int a4)
+int syCfgGetLanguage(int *out)
 {
-    int t0;
-    int t1;
+    int lang;
+    int bt;
+    int saved;
 
-    if (!(a4 == 0)) {
-        *(unsigned int *)((a4 + 0x0)) = 0x0;
-        t0 = *(int *)0xC177AC8;
-        if (!(t0 == 0)) {
-        t1 = syBtCfgSet(0x0, t0);
-        if ((t1 == -1)) {
-        return;
+    if (out == 0) {
+        return -1;
+    }
+    *out = 0;
+    bt = *(int *)0xC177AC8;
+    if (bt == 0) {
+        return -1;
+    }
+    if (syBtCfgSet(0, bt) == -1) {
+        return -1;
+    }
+    saved = *(signed char *)0x8C00007D;
+    if (saved == -1) {
+        syCfgGetDefaultLanguage(&lang);
+        if (lang == -1) {
+            *out = 1;
+        } else {
+            *out = syCfgConvLang(lang);
         }
-        }
-        }
+    } else {
+        *out = saved;
+    }
+    return 0;
 }
 
 void FUN_0c172f1e(int a4)

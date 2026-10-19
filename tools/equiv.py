@@ -280,6 +280,7 @@ def main(argv):
                 ok, why = False, 'case %d: %s' % (n, diff)
                 break
         total = code_addresses(exe_bytes, base, start, size)
+        total = [a for a in total if a in seen or struct.unpack_from('<H', exe_bytes, a - base)[0] != 0x0009]       # padding nops no case runs are not code
         cov = len([a for a in total if a in seen])
         covtext = '%d of %d instructions' % (cov, len(total)) if total else ''
         results[fn] = (ok, why or '%d cases (%s), %s' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items()), covtext))

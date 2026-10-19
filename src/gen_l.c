@@ -27,33 +27,21 @@ int FUN_0c05d82a(void)
 
 int kmCreateTextureSurface(int a4)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t8;
-    int t5;
+    int r;
 
-    t0 = FUN_0c15c3c8(a4);
-    
-    if (!(t0 == 0)) {
-        t8 = t0;
-        } else {
-        t1 = *(int *)((a4 + 0x0));
-    
-        if (((unsigned short)t1 == 3)) {
-        t2 = kmiVQalloc(a4);
-        t5 = t2;
-        } else {
-        t3 = *(int *)((a4 + 0x14));
-        t4 = kmiTXalloc(t3, a4);
-        t5 = t4;
-        }
-        
-        t8 = t5;
-        }
-    return t8;
+    r = FUN_0c15c3c8(a4);
+    if (r != 0) {
+        return r;
+    }
+    if ((unsigned short)*(int *)(a4 + 0x0) == 3) {
+        r = kmiVQalloc(a4);
+    } else {
+        r = kmiTXalloc(*(int *)(a4 + 0x14), a4);
+    }
+    if (r == 3) {
+        kmiDefaultInterruptHandler(3);
+    }
+    return r;
 }
 
 int FUN_0c1720ac(int a4, int a5, int a6)

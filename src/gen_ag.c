@@ -115,46 +115,40 @@ void FUN_0c077a00(int a4, int a5, int a6)
     FUN_0c0789c0(a4);
 }
 
-void FUN_0c15c8dc(int a4)
+int FUN_0c15c8dc(int *a4)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t16;
-    int t17;
+    unsigned int w;
+    unsigned int h;
+    unsigned int x;
+    unsigned int y;
+    unsigned int m;
+    int level;
+    int sum;
 
-    t0 = *(int *)((a4 + 0xC));
-    t1 = *(int *)((a4 + 0x10));
-    t2 = kmtex_GetTextureLevel(t0, t1);
-    t3 = *(int *)((a4 + 0x18));
-    if ((t3 & 0x1) != 0) {
-        t4 = ((unsigned int)((unsigned int)t1 >> 1) >> 1);
-        if ((unsigned int)((unsigned int)((unsigned int)t0 >> 1) >> 1) < (unsigned int)((unsigned int)((unsigned int)t1 >> 1) >> 1)) {
-            t4 = ((unsigned int)((unsigned int)t0 >> 1) >> 1);
+    w = a4[3];
+    h = a4[4];
+    level = kmtex_GetTextureLevel(w, h);
+    x = w >> 1;
+    y = h >> 1;
+    sum = x * y;
+    if (a4[6] & 1) {
+        x >>= 1;
+        y >>= 1;
+        m = (x >= y) ? y : x;
+        while (m > 1) {
+            sum += x * y;
+            x >>= 1;
+            y >>= 1;
+            m >>= 1;
         }
-        if ((unsigned int)t4 > (unsigned int)0x1) {
-            t5 = t4;
-            t6 = (((unsigned int)t0 >> 1) * ((unsigned int)t1 >> 1));
-            t7 = ((unsigned int)((unsigned int)t0 >> 1) >> 1);
-            t8 = ((unsigned int)((unsigned int)t1 >> 1) >> 1);
-            do {
-                t9 = (t7 * t8);
-                t7 = ((unsigned int)t7 >> 1);
-                t8 = ((unsigned int)t8 >> 1);
-                t5 = ((unsigned int)t5 >> 1);
-                t6 = (t6 + t9);
-            } while ((unsigned int)t5 > (unsigned int)0x1);
+        if (x == y) {
+            sum += 2;
+        } else {
+            sum += x * y;
         }
-        
-        t16 = *(int *)(((t2 << 2) + 0xC175DE0));
+        sum += 10 + *(int *)(0xC175DE0 + (level << 2));
     } else {
-        t17 = *(int *)(((t2 << 2) + 0xC175DC4));
+        sum += *(int *)(0xC175DC4 + (level << 2));
     }
+    return sum;
 }

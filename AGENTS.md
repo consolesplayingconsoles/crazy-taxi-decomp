@@ -19,7 +19,7 @@ each by its title before you start it (`=== Step N of 6: <title> ===`), and end 
 | 2 | Signature-driven baseline | done by the kickoff: the build matches, names applied |
 | 3 | Asset mapping | done by the kickoff |
 | 4 | Opportunity-driven optional boosts | whatever the user handed over; never look into their other code for more |
-| 5 | Incremental scripted decomp | `tools/sdk_source.py <folder>`, `python3 tools/gen_equiv`, `python3 tools/gen_equiv --retest` |
+| 5 | Incremental script-generated decomp | `tools/sdk_source.py <folder>`, `python3 tools/gen_equiv`, `python3 tools/gen_equiv --retest` |
 | 6 | Experience-driven agentic decomp | you: pocket by pocket (library without source, the game's own code, runtime routines and tables), writing cases for the branches `equiv.py` says no case ran; RAM dumps (`"dump"`) for what depends on run-time state |
 
 If you are the session that ran the kickoff and the user chose to continue, this file is your instructions. If you are a new session,
