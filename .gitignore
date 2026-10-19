@@ -17,3 +17,4 @@ report*.txt
 disc/
 .idea/
 __pycache__/
+state/

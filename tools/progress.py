@@ -6,6 +6,7 @@
   named only (a label, not done work), unnamed. A name never counts as done.
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
+  with partial C   done plus the functions with C in partial/*.c that is not proven equivalent yet: its own row, done stays apart
 A last section, REVERSE ENGINEERING, counts what the model map (model-map/game.dcgs) identifies: models, characters,
 sounds and tables with a name. It is separate from the decomp measures and never feeds them: a name is identification,
 not done work. A row with nothing named is left out, and so is the section while all its rows are.
@@ -71,6 +72,13 @@ k = stats(is_lib)
 is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in verified
 named_only = sum(1 for x in funcs if not is_done(x) and not x[2].startswith('FUN_'))
 unnamed = sum(1 for x in funcs if not is_done(x) and x[2].startswith('FUN_'))
+# partial C: functions with C written in partial/*.c that is not proven equivalent yet. Its own row (the total with them),
+# done stays apart; the row exists only when partial/ holds some C
+partial = set()
+for pf in glob.glob('partial/*.c'):
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(pf, errors='replace').read(), flags=re.S)
+    partial |= set(re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', text, flags=re.M))
+partial = set(x[2] for x in funcs if x[2] in partial and not is_done(x))
 rows = [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
     ('  done: equivalent C', pct(g[7], g[0]), '%d of %d functions, %d bytes (%s): C that behaves like the original'
@@ -81,6 +89,8 @@ rows = [
      % (g[9], g[10])),
     ('  named only', pct(named_only, g[0]), '%d functions: a name, no C yet (not done work)' % named_only),
     ('  unnamed', pct(unnamed, g[0]), '%d functions (FUN_...), no C yet' % unnamed),
+    ] + ([('  with partial C', pct(g[7] + len(partial), g[0]), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
+           % (g[7] + len(partial), g[7], len(partial)))] if partial else []) + [
     ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),
     ('  of which library', '', '%d functions, %d bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game' % (k[0], k[1])),

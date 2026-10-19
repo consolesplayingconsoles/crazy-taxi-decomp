@@ -139,6 +139,7 @@ THE GAME                          2843 functions, 537910 bytes of code; each fun
     of which SDK source     6.8%  194 functions, 14784 bytes: the SDK's own source reproduces them (sdk-source/, local)
   named only               14.4%  410 functions: a name, no C yet (not done work)
   unnamed                  13.7%  390 functions (FUN_...), no C yet
+  with partial C           72.3%  2055 functions: 2043 done + 12 partial (C written in partial/, not yet proven equivalent)
   documented               44.5%  1264 named functions in docs/*.md
   named globals                   120
   of which library                1840 functions, 221988 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
