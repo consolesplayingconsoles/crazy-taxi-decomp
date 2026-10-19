@@ -1992,6 +1992,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - wrap
 - none 2
 
+### CheckColliWall (`0C0341E8`, 484 bytes, `src/collide.c`)
+- equivalent on 7 development and 4 holdout cases, in `tests/collide/CheckColliWall.json`
+- empty cell
+- no wall
+- type 1 inside
+- type 1 two inside
+- type 1 beyond
+- type 2
+- pole
+- beyond far
+- mix then pole
+- R 2
+- type 2 far
+
 ### CheckKyakuArea (`0C035B38`, 64 bytes, `src/game_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_p/CheckKyakuArea.json`
 - a
@@ -2270,6 +2284,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - corner
 - odd
 - big
+
+### FUN_0c0217b4 (`0C0217B4`, 130 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/FUN_0c0217b4.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### FUN_0c022250 (`0C022250`, 264 bytes, `src/gen_ac.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_ac/FUN_0c022250.json`
@@ -6793,6 +6832,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_zc/FUN_0c05fd70.json`
 - voice 2
 - voice 0
+
+### FUN_0c05ff66 (`0C05FF66`, 450 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/FUN_0c05ff66.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### FUN_0c060160 (`0C060160`, 144 bytes, `src/game_p.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/game_p/FUN_0c060160.json`
@@ -12434,6 +12498,56 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - busy
 - other
 
+### calcCheck (`0C045A2E`, 236 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/calcCheck.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
+### calcColliCheck (`0C0459A8`, 134 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/calcColliCheck.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### callGoBackAdvertise (`0C040C8A`, 96 bytes, `src/gen_d.c`)
 - equivalent on 15 development and 10 holdout cases, in `tests/gen_d/callGoBackAdvertise.json`
 - case 0
@@ -16722,6 +16836,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - infinity
 - vd and vs the same vector
 
+### nlArcTan (`0C0759B0`, 134 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/nlArcTan.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### nlArcTan2 (`0C075A50`, 164 bytes, `src/trig.c`)
 - equivalent on 9 development and 10 holdout cases, in `tests/trig/nlArcTan2.json`
 - right region (x >= |y|)
@@ -16985,6 +17124,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
 
+### nlFloor (`0C075CA0`, 70 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/nlFloor.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### nlFogDensityF (`0C076B50`, 66 bytes, `src/sdk_ze.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_ze/nlFogDensityF.json`
 - 1.0
@@ -17010,6 +17174,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_g/nlFogTableSet.json`
 - table
 - another table
+
+### nlFraction (`0C075CF0`, 54 bytes, `src/gen_aj.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_aj/nlFraction.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### nlFree (`0C02948C`, 182 bytes, `src/heap.c`)
 - equivalent on 7 development and 7 holdout cases, in `tests/heap/nlFree.json`
@@ -17826,6 +18015,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero vec
 - large
 
+### nlRoundOff (`0C075FC0`, 86 bytes, `src/gen_ai.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_ai/nlRoundOff.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
+
 ### nlScaleUnitVector (`0C078B80`, 60 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_b/nlScaleUnitVector.json`
 - unit x
@@ -17991,6 +18205,31 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - random 9
 - random 10
 - random 11
+
+### nlSinh (`0C076140`, 96 bytes, `src/gen_aj.c`)
+- equivalent on 15 development and 7 holdout cases, in `tests/gen_aj/nlSinh.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 18
+- case 19
+- case 20
+- case 21
 
 ### nlSpriteClearSpriteIndex (`0C07E7B0`, 30 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_d/nlSpriteClearSpriteIndex.json`

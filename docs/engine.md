@@ -569,6 +569,27 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   by the taxi, radius 21); the customers' own movement never calls it. A point at ground height
 with radius 5 (a person) is held back by building walls and poles.
 
+- The ground and the swept move (`src/collide.c`, all Equivalent C): the course's collision data is a grid of cells.
+  The grid header is at `0x0C26E3F4` (32 bytes, loaded with the course, not built by code): `+0x00` and `+0x04` the
+  first cell's x and z (in cells), `+0x10` the cells per row, `+0x18` the number of cells, `+0x1C` the cell size
+  (a float); the pointer at `0x0C26E3F0` is the array of cell pointers (0: an empty cell). A cell: `+0x08` a
+  halfword count, then from `+0x0C` that many surface pointers. A surface: `+0x00` the plane normal (a, b, c) and
+  `+0x0C` d, so a point's height is `-(a*x + c*z + d) / b`; `+0x10` a radius (only points within it of the first
+  corner are tried); four corners (x, y, z) at `+0x14`, `+0x20`, `+0x2C`, `+0x38`; `+0x44` its kind and `+0x48` its
+  shape (3: the first edge is not tested).
+- `GetCollision2D(pos, tol)` (`0x0C031EF4`) is the ground lookup the walker and the passengers use: it turns x and
+  z into a cell, asks every surface of the cell (`FUN_0c032080`: inside the corners, and the height), skips kind 13,
+  and takes the highest surface not above `pos.y` (or the lowest when none is below), then any surface within `tol`
+  above it. It returns `0x0C26E478`: x, height, z, the surface's normal at `+0x0C`, its kind at `+0x1C` (-1: no
+  ground). `GetCollisionFirst(a, b, radius)` (`0x0C031B6A`) gives the first thing the move a to a + b meets (`0x0C26E458`:
+  point, normal at `+0x0C`, fraction at `+0x18`, kind at `+0x1C`). `GetCollision(a, b, bounce, radius)`
+  (`0x0C0319B2`) slides a point along a move through several surfaces: each hit moves it to the hit and takes the
+  normal part off the rest of the vector, scaled by `1 + bounce * table[kind]` (the kinds' first float at
+  `0x0C08F748`, 28 bytes each: kinds 2 and 6 are 1.0, the rest 0); it writes the first hit at `0x0C26E414` and the
+  last at `0x0C26E434` and the kinds met as a bit mask at `0x0C26E454`. Both search through `FUN_0c031c5a`, which
+  walks up to 10 cells along the move (the cell list at `0x0C26E3A0`, their far-side fractions at `0x0C26E3C8`) and
+  stops when the hit found is nearer than the next cell. The walls (`CheckColliWall`, above) are a separate list.
+
 ## Traffic
 
 - Events: `set_event(size, func)` (the Android build's `nlSetEvent`) allocates an event of

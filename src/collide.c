@@ -322,3 +322,87 @@ int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius)
     nlPopMatrix(1);
     return mask;
 }
+
+/* What the wall and pole tests (FUN_0c034872, FUN_0c0349d8) get: the point, what they give back (a push, x and z,
+   and how far along it) and the point's radius. */
+typedef struct {
+    float *pos;
+    float push[2];
+    float t;
+    float spare;
+    float radius;
+} WallQuery;
+
+extern int FUN_0c034872(WallQuery *q, int *wall);
+extern int FUN_0c0349d8(WallQuery *q, int *pole);
+
+/* Pushes the point out of the walls and poles of its cell in the wall grid (header at 0x0C27045C, cell pointers
+   behind 0x0C270458: a cell has a halfword count of walls at +0, of poles at +2, then the pointers). A wall test
+   gives 0 (not touched), 1 or 2: type 1 pushes by the largest `t` within the radius, else the nearest beyond it
+   (when under twice the radius); type 2 by its nearest when within the radius. The first pole it is inside pushes
+   the point and ends the check. */
+void CheckColliWall(float *pos, float radius)
+{
+    int *g = (int *)0x0C27045C;
+    WallQuery q;
+    float near1[2], far1[2], other[2];
+    float inner = -3.4028234663852886e+38f;
+    float outer = 3.4028234663852886e+38f;
+    float third = 3.4028234663852886e+38f;
+    int cx, cz, idx, n, res;
+    int *cell;
+    int **list;
+
+    cx = (int)nlFloor(pos[0] / *(float *)(g + 7));
+    cz = (int)nlFloor(pos[2] / *(float *)(g + 7));
+    cx -= g[0];
+    cz -= g[1];
+    idx = cz * g[4] + cx;
+    if (idx < 0 || idx >= g[6] || ((int *)*(int *)0x0C270458)[idx] == 0) {
+        return;
+    }
+    cell = (int *)((int *)*(int *)0x0C270458)[idx];
+    q.pos = pos;
+    q.radius = radius;
+    list = (int **)((char *)cell + 4);
+    for (n = *(short *)cell; n != 0; n--) {
+        res = FUN_0c034872(&q, *list);
+        list++;
+        if (res == 1) {
+            if (q.t > radius) {
+                if (outer > q.t) {
+                    far1[0] = q.push[0];
+                    far1[1] = q.push[1];
+                    outer = q.t;
+                }
+            } else if (q.t > inner) {
+                near1[0] = q.push[0];
+                near1[1] = q.push[1];
+                inner = q.t;
+            }
+        } else if (res == 2) {
+            if (third > q.t) {
+                other[0] = q.push[0];
+                other[1] = q.push[1];
+                third = q.t;
+            }
+        }
+    }
+    if (inner > 0.0f) {
+        pos[0] = pos[0] + inner * near1[0];
+        pos[2] = pos[2] + inner * near1[1];
+    } else if (2.0f * radius > outer) {
+        pos[0] = pos[0] + outer * far1[0];
+        pos[2] = pos[2] + outer * far1[1];
+    } else if (radius > third) {
+        pos[0] = pos[0] + third * other[0];
+        pos[2] = pos[2] + third * other[1];
+    }
+    for (n = *(short *)((char *)cell + 2); n != 0; n--) {
+        if (FUN_0c0349d8(&q, *list++)) {
+            pos[0] = pos[0] + q.t * q.push[0];
+            pos[2] = pos[2] + q.t * q.push[1];
+            return;
+        }
+    }
+}
