@@ -1,6 +1,6 @@
 """Writes Equivalent C for the functions that need no thinking, and checks each against the original.
 
-    python3 tools/gen_equiv [--known] [--jobs N] [max function size, default 200]      (run in the repo, like equiv.py)
+    python3 tools/gen_equiv [--known] [--jobs N] [max function size, default 200] [function name ...]      (run in the repo, like equiv.py)
 
 For every function classify.py calls convertible and no C covers yet, it symbolically executes the SH-4 code: constants,
 loads and stores, integer and single-precision float arithmetic, forward if / else blocks, and calls to named functions
@@ -39,7 +39,9 @@ known='--known' in sys.argv
 JOBS=max(1,(os.cpu_count() or 2)-2)       # worker processes: every function is read and drawn on its own
 if '--jobs' in sys.argv: JOBS=max(1,int(sys.argv[sys.argv.index('--jobs')+1]))
 args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs') and not (i>1 and sys.argv[i-1]=='--jobs')]
-maxsize=int(args[0]) if args else 200
+ONLY=[x for x in args if not x.isdigit()]            # function names: run only these (a quick look at a few, a debug run)
+args=[x for x in args if x.isdigit()]
+maxsize=int(args[0]) if args else (100000 if ONLY else 200)
 eq=set(open('tests/equivalent.txt').read().split())
 defined=set()
 for f in glob.glob('src/*.c'):
@@ -57,7 +59,7 @@ for l in open('functions.txt'):
 for l in (subprocess.run(['python3','tools/classify.py']+sizes,capture_output=True,text=True).stdout.splitlines() if sizes else []):
     p=l.split()
     if len(p)>=4 and p[-1]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and p[2] not in ver and not p[2].startswith('_') and int(p[1])<=maxsize:
-        tolook.append(p[2])
+        if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
     signal.alarm(READ_LIMIT)
     try: gen_core.run(n); return (n,None)
@@ -97,7 +99,7 @@ def write_batch(keep):
     for it in keep:
         for a,b in it[3].items(): protos[a]=b
     fn='gen_%s'%letters[k]; k+=1
-    head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.protos_text(protos)+'\n\n'
+    head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
     open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
@@ -141,7 +143,7 @@ for ri,(vi,pt) in enumerate(rounds):
         for l in gen_pipe.LAST.get('out','').splitlines():
             q=l.split()
             if len(q)>1 and q[0] in failed: fh.write(l+'\n')
-        for n in dropped: fh.write('%s  did not compile\n'%n)
+        for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,'')))
     done|=set(passed)
     final.append((stem,keep,vi,pt))
     if not known: write_batch(keep)

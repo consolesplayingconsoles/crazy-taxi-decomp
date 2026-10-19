@@ -246,5 +246,17 @@ def protos_text(protos):
     for n,sig in sorted(protos.items()):
         ret='int'
         if sig and sig[-1]=='->float': ret='float'; sig=sig[:-1]
-        out.append('%s %s(%s);'%(ret,n,', '.join(sig) if sig else 'void'))
+        if n=='_builtin_set_imask': out.append('extern void _builtin_set_imask(int);'); continue      # the compiler's own, its prototype is fixed
+        out.append('%s%s %s(%s);'%('extern ' if n.startswith('_builtin_') else '',ret,n,', '.join(sig) if sig else 'void'))
     return '\n'.join(out)
+
+def head_protos(items):
+    """The prototypes for a file that defines the items: the callees it declares, except the ones it defines itself (a definition
+    that differs from the type the caller assumed would be a second, conflicting declaration), then the definitions' own."""
+    protos={}
+    for it in items:
+        for k,v in it[3].items(): protos[k]=v
+    mine=[it[1].split('\n')[0].strip() for it in items]
+    names={it[0] for it in items}
+    out=protos_text({k:v for k,v in protos.items() if k not in names})
+    return (out+'\n' if out else '')+'\n'.join(l+';' for l in mine if l.endswith(')'))

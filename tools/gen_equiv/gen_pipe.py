@@ -49,7 +49,7 @@ def run_file_robust(stem,items):
                 if k in protos and protos[k]!=v: ok=False
             if ok: protos.update(it[3]); use.append(it)
             else: deferred.append(it)
-        head='/* scratch */\n'+gen_drv.protos_text(protos)+'\n\n'
+        head='/* scratch */\n'+gen_drv.head_protos(use)+'\n\n'
         text=head
         spans=[]
         line=head.count('\n')+1
@@ -68,6 +68,11 @@ def run_file_robust(stem,items):
                 for a,b,n in spans:
                     if a<=ln<b: bad.add(n)
             if not bad: return [],[],deferred,dropped,out[:500]
+            for ln in lines:
+                for a_,b_,n_ in spans:
+                    if a_<=ln<b_ and n_ in bad:
+                        m_=re.search(r'gen_\w+\.c\(%d\) : (.*)'%ln,out)
+                        LAST.setdefault('why',{}).setdefault(n_,(m_.group(1) if m_ else '?')[:100]+' [line %d: %s]'%(ln,text.split('\n')[ln-1].strip()[:80]))
             items=[it for it in items if it[0] not in bad]; dropped+=sorted(bad); continue
         if out.startswith('[ERROR') : return [],[],deferred,dropped,out[:500]
         passed=[];failed=[]

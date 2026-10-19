@@ -1,11 +1,11 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=71.9&b=34.0)
+![decomp progress](badge.svg?p=74.7&b=43.1)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
-A decompilation of the Dreamcast **Crazy Taxi**, in progress. It rebuilds the game's executable byte for byte, with
-1742 of its 2,827 functions named so far. A function is **done** when its C behaves like the original (Equivalent);
+A decompilation of the Dreamcast **Crazy Taxi**, in progress. It rebuilds the game's executable byte for byte.
+A function is **done** when its C behaves like the original (Equivalent);
 byte-identical C (Matching) is the bonus tier.
 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
@@ -133,17 +133,18 @@ the evidence for each equivalent function.
 
 <!-- progress -->
 ```
-THE GAME                          2843 functions, 537910 bytes of code; each function in one bucket
-  done: equivalent C       71.9%  2043 of 2843 functions, 183026 bytes (34.0%): C that behaves like the original
+THE GAME                          2842 functions, 507952 bytes of code; each function in one bucket
+  done: equivalent C       74.7%  2065 of 2763 functions, 185944 bytes (43.1%): C that behaves like the original (the 79 with no C form are counted apart)
     of which matching C     0.3%  8 functions, 1338 bytes, 2 units: rebuilt byte for byte
-    of which SDK source     6.8%  194 functions, 14784 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               14.4%  410 functions: a name, no C yet (not done work)
-  unnamed                  13.7%  390 functions (FUN_...), no C yet
-  with partial C           72.3%  2055 functions: 2043 done + 12 partial (C written in partial/, not yet proven equivalent)
-  documented               44.5%  1264 named functions in docs/*.md
+    of which SDK source     7.0%  194 functions, 14784 bytes: the SDK's own source reproduces them (sdk-source/, local)
+  done: no C form           2.8%  79 functions of the 2842: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the 2763 that can be C
+  named only               12.4%  343 functions: a name, no C yet (not done work)
+  unnamed                  12.8%  355 functions (FUN_...), no C yet
+  with partial C           75.1%  2074 functions: 2065 done + 9 partial (C written in partial/, not yet proven equivalent)
+  documented               45.1%  1283 named functions in docs/*.md
   named globals                   120
   of which library                1840 functions, 221988 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   74.0%  1361 of 1840 library functions, 103738 bytes (46.7%)
+    done                   75.1%  1382 of 1840 library functions, 106518 bytes (48.0%)
     named                  72.5%  1334 of 1840 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2723 models: a name, or a named table or collection
@@ -158,9 +159,8 @@ Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 
 ## Names
 
-Names come from signature matching: 385 matches from the Katana SDK's own libraries (only
-unique matches are applied). 1742
-functions carry a name in all, because small wrappers inherit the name of the function they call.
+Names come from signature matching against the Katana SDK's own libraries (only unique matches are applied);
+small wrappers inherit the name of the function they call.
 
 ## How this was started
 

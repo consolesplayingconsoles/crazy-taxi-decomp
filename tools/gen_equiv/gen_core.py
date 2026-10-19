@@ -55,6 +55,7 @@ def fx(v):
     return v[1]
 def isint(v): return isinstance(v,int)
 def iop(op,a,b=None):
+    if (isinstance(a,tuple) and a[0]=='srx') or (isinstance(b,tuple) and b[0]=='srx'): return srop(op,a,b)
     if isint(a) and (b is None or isint(b)):
         if op=='add': return (a+b)&M
         if op=='sub': return (a-b)&M
@@ -72,6 +73,22 @@ def iop(op,a,b=None):
     if op=='not': return ('e','(~%s)'%ex(a))
     if op=='neg': return ('e','(-%s)'%ex(a))
     raise Skip(op)
+def srop(op,a,b):
+    """SR as a value: ('srx', s, m, V) = ((SR >> s) & m) | V. Only what get_imask / set_imask are made of: stc sr, shifts right,
+    and with a constant, or with a value."""
+    if isinstance(b,tuple) and b[0]=='srx': a,b=b,a
+    if not isinstance(b,tuple) or b[0]!='srx':
+        _,sh,m,V=a
+        if op=='and' and isint(b) and V is None: return ('srx',sh,m&b,None)
+        if op=='or' and sh==0: return ('srx',sh,m,b if V is None else iop('or',V,b))
+    raise Skip('sr op '+op)
+def sr_get_fin(c,reg):
+    """(SR >> 4) & 15 is get_imask(): read now, while SR still holds what stc read."""
+    v=c.R.get(reg)
+    if isinstance(v,tuple) and v[0]=='srx' and v[1]==4 and v[2]==15 and v[3] is None:
+        t='t%d'%c.ntemp; c.ntemp+=1
+        c.protos['_builtin_get_imask']=()
+        c.blocks[-1].append('int %s = _builtin_get_imask();'%t); c.R[reg]=('e',t)
 _ARITY={}
 _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','neg','negc','not','swap.b','swap.w','sts','sts.l','float','mova',
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
@@ -270,6 +287,15 @@ def run(name,passthru=False):
             return
         if mn=='mova':
             m2=re.match(r'@\((0x[0-9a-f]+),pc\)',a[0]); c.R['r0']=('addr',int(m2.group(1),16)); return
+        if mn=='stc' and a[0]=='sr': c.R[a[1]]=('srx',0,M,None); return
+        if mn=='ldc' and a[1]=='sr':
+            v=c.gi(a[0])
+            if not(isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]==0xFFFFFF0F): raise Skip('ldc sr not set_imask')
+            V=0 if v[3] is None else v[3]
+            arg='0x%X'%((V&0xF0)>>4) if isint(V) else '((unsigned int)%s >> 4)'%ex(V)
+            if isint(V) and V&~0xF0: raise Skip('ldc sr not set_imask')
+            c.protos['_builtin_set_imask']=('int',)
+            c.blocks[-1].append('_builtin_set_imask(%s);'%arg); return
         if mn=='mov' and a[0].startswith('#'): c.R[a[1]]=int(a[0][1:])&M; return
         if mn=='mov' and a[0].startswith('r'): c.R[a[1]]=c.gi(a[0]); return
         if mn=='add' and a[0].startswith('#'):
@@ -280,9 +306,9 @@ def run(name,passthru=False):
             x=c.gi(a[1]); y=c.gi(a[0])
             for v in (x,y):
                 if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr')
-            c.R[a[1]]=iop(mn,x,y); return
+            c.R[a[1]]=iop(mn,x,y); sr_get_fin(c,a[1]); return
         if mn in('and','or','xor') and a[0].startswith('#'):
-            v=c.gi(a[1]); c.R[a[1]]=iop(mn,v,int(a[0][1:])&0xff); return
+            v=c.gi(a[1]); c.R[a[1]]=iop(mn,v,int(a[0][1:])&0xff); sr_get_fin(c,a[1]); return
         if mn in ('not','neg'): c.R[a[1]]=iop(mn,c.gi(a[0])); return
         if mn in ('mul.l','muls.w','mulu.w'):
             x=c.gi(a[0]); y=c.gi(a[1])
@@ -295,7 +321,11 @@ def run(name,passthru=False):
         if mn in('shll2','shll8','shll16'):
             n={'shll2':2,'shll8':8,'shll16':16}[mn]; v=c.gi(a[0]); c.R[a[0]]=(v<<n)&M if isint(v) else ('e','(%s << %d)'%(ex(v),n)); return
         if mn in('shlr','shlr2','shlr8','shlr16'):
-            n={'shlr':1,'shlr2':2,'shlr8':8,'shlr16':16}[mn]; v=c.gi(a[0]); c.R[a[0]]=(v>>n) if isint(v) else ('e','((unsigned int)%s >> %d)'%(ex(v),n)); return
+            n={'shlr':1,'shlr2':2,'shlr8':8,'shlr16':16}[mn]; v=c.gi(a[0])
+            if isinstance(v,tuple) and v[0]=='srx':
+                if v[3] is not None: raise Skip('sr shift')
+                c.R[a[0]]=('srx',v[1]+n,v[2]>>n,None); sr_get_fin(c,a[0]); return
+            c.R[a[0]]=(v>>n) if isint(v) else ('e','((unsigned int)%s >> %d)'%(ex(v),n)); return
         if mn in ('shad','shld'):
             m=c.gi(a[0]); v=c.gi(a[1]); sg=mn=='shad'
             if isint(m):
@@ -584,7 +614,7 @@ def run(name,passthru=False):
                 if va==vb:
                     if va is not None: out[r]=va
                     continue
-                if va is None or vb is None or DIRTY in (va,vb) or (isinstance(va,tuple) and va[0]=='addr') or (isinstance(vb,tuple) and vb[0]=='addr'):
+                if va is None or vb is None or DIRTY in (va,vb) or (isinstance(va,tuple) and va[0] in ('addr','srx')) or (isinstance(vb,tuple) and vb[0] in ('addr','srx')):
                     out[r]=DIRTY; continue
                 var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
                 if not ea and not eb:
@@ -747,7 +777,7 @@ def run(name,passthru=False):
             if mn=='rts':
                 step(i+1) if i+1<len(ins) else None
                 r0=c.R.get('r0'); f0=c.FR.get('fr0')
-                rs='None' if r0 is None or r0==DIRTY or (isinstance(r0,tuple) and r0[0]=='addr') else ex(r0)
+                rs='None' if r0 is None or r0==DIRTY or (isinstance(r0,tuple) and r0[0] in ('addr','srx')) else ex(r0)
                 fs='None' if f0 is None or f0==DIRTY else fx(f0)
                 c.rets.append((rs,fs))
                 if len(c.blocks)==1: return ('ret',)

@@ -52,6 +52,8 @@ ADXB_GetTotalNumSmpl
 ADXB_Reset
 ADXB_Start
 ADXB_Stop
+ADXCRS_Lock
+ADXCRS_Unlock
 ADXERR_CallErrFunc
 ADXF_Close
 ADXF_ExecServer
@@ -647,6 +649,7 @@ FUN_0c074d20
 FUN_0c074de0
 FUN_0c074eb0
 FUN_0c075090
+FUN_0c075120
 FUN_0c0753f0
 FUN_0c075400
 FUN_0c075410
@@ -846,6 +849,7 @@ FUN_0c1689c0
 FUN_0c168e10
 FUN_0c1697c4
 FUN_0c169a1c
+FUN_0c16af38
 FUN_0c16bb70
 FUN_0c16bca0
 FUN_0c16bf4a
@@ -869,6 +873,7 @@ FUN_0c170c10
 FUN_0c170c68
 FUN_0c170fd0
 FUN_0c1717d0
+FUN_0c1717d8
 FUN_0c1718c4
 FUN_0c17190c
 FUN_0c171cfe
@@ -957,6 +962,8 @@ SJMEM_Init
 SJMEM_IsGetChunk
 SJMEM_PutChunk
 SJMEM_Reset
+SJMEM_UngetChunk
+SJMEM_Unlock
 SJRBF_Create
 SJRBF_Destroy
 SJRBF_EntryErrFunc
@@ -969,8 +976,10 @@ SJRBF_GetUuid
 SJRBF_GetXtrSize
 SJRBF_Init
 SJRBF_IsGetChunk
+SJRBF_Lock
 SJRBF_PutChunk
 SJRBF_Reset
+SJRBF_Unlock
 SJUNI_Create
 SJUNI_Destroy
 SJUNI_EntryErrFunc
@@ -981,7 +990,9 @@ SJUNI_GetNumChunk
 SJUNI_GetNumData
 SJUNI_GetUuid
 SJUNI_Init
+SJUNI_Lock
 SJUNI_Reset
+SJUNI_Unlock
 SJ_SplitChunk
 SetAudio
 SetCameraMode
@@ -1050,6 +1061,7 @@ buDeleteFileEx
 buExit
 buExitForce
 buFbrCreateFiber
+buFbrCreateServer
 buFbrDestroyServer
 buFbrExit
 buFbrInit
@@ -1069,6 +1081,7 @@ buGetFileInfo
 buGetFileSize
 buGetLastError
 buGetVersion
+buInit
 buInterruptHandler
 buIsExistFile
 buIsFormat
@@ -1311,11 +1324,13 @@ kmiConvertUVnum
 kmiCopyDummyGlobalData
 kmiCopyFromFrameBuffer
 kmiCopyFromPVRMemory
+kmiCopyToFrameBuffer
 kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
 kmiCreateDummyTranslucentObject
 kmiCreateGlobalParameter
 kmiDMAHazardReset
+kmiDMAtoTARequest
 kmiExecuteDMAChain
 kmiFBGarbageCollect
 kmiFBSortQueue
@@ -1352,6 +1367,7 @@ kmiPurgeMemory
 kmiPutGlobalParam
 kmiQueryFinishDMA
 kmiReadRegister
+kmiRegisterCallback
 kmiReleaseHardware
 kmiReqRestOfDMA
 kmiResetBoard
@@ -1435,6 +1451,7 @@ mwRnaSetSfreq
 mwRnaSetStartSmpl
 mwRnaSetupSnd
 mwRnaStop
+mwRnaUnlockCs
 mwlRnaAddFlshPos
 mwlRnaAddRdPos
 mwlRnaAlloc
@@ -1573,6 +1590,7 @@ nlSetDummyTextureParameter
 nlSetEventBefore
 nlSetEventNext
 nlSetFontSize
+nlSetIntrFunction
 nlSetScaleFactor
 nlSetTextureParameter
 nlSin
@@ -1727,6 +1745,7 @@ syCfgGetSoundMode
 syCfgIIDCheckSum
 syCfgInit
 syCfgSetSoundMode
+syChainClx1Handler
 syChainMasterHandler
 syG2AicaFifoWaitEmpty
 syG2DmaReset
@@ -1776,6 +1795,7 @@ thunk_syCfgExit
 trafficLevelControl
 trainControlExec
 trainControlInit
+usr_gd_err_func
 vibIsReady
 vibStart
 vmsfb_create
@@ -1812,6 +1832,7 @@ vmsfs_findfirst
 vmsfs_findfirst_ex
 vmsfs_fisexist
 vmsfs_fopen
+vmsfs_format
 vmsfs_fread
 vmsfs_fread1
 vmsfs_frename
@@ -1836,6 +1857,7 @@ vmsfs_xdefrag
 vmsfs_xfind
 vmsfs_xwrite1
 vmsio_init
+vmsio_ismount
 vmuExit
 volumeToDb
 vsklRotate

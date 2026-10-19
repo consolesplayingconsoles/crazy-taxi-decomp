@@ -1814,6 +1814,86 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - again
 - the cases run 13 of 13 instructions
 
+### ADXCRS_Lock (`0C167C54`, 40 bytes, `src/gen_az.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_az/ADXCRS_Lock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 20 of 20 instructions
+
+### ADXCRS_Unlock (`0C167C7C`, 38 bytes, `src/gen_ay.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ay/ADXCRS_Unlock.json`
+- case 1
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 0
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 19 of 19 instructions
+
 ### ADXERR_CallErrFunc (`0C16804A`, 62 bytes, `src/gen_ap.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ap/ADXERR_CallErrFunc.json`
 - case 1
@@ -15742,6 +15822,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 15 of 15 instructions
 
+### FUN_0c075120 (`0C075120`, 68 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/FUN_0c075120.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 34 of 34 instructions
+
 ### FUN_0c0753f0 (`0C0753F0`, 6 bytes, `src/sdk_g.c`)
 - equivalent on 1 development and 4 holdout cases, in `tests/sdk_g/FUN_0c0753f0.json`
 - timer 0 count
@@ -20403,6 +20523,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 2 of 2 instructions
 
+### FUN_0c16af38 (`0C16AF38`, 24 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/FUN_0c16af38.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 12 of 12 instructions
+
 ### FUN_0c16bb70 (`0C16BB70`, 196 bytes, `src/gen_q.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_q/FUN_0c16bb70.json`
 - case 0
@@ -21151,6 +21311,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 2 of 2 instructions
+
+### FUN_0c1717d8 (`0C1717D8`, 24 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/FUN_0c1717d8.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 12 of 12 instructions
 
 ### FUN_0c1718c4 (`0C1718C4`, 72 bytes, `src/gen_q.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_q/FUN_0c1718c4.json`
@@ -23671,6 +23871,86 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another
 - the cases run 5 of 5 instructions
 
+### SJMEM_UngetChunk (`0C16B126`, 128 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/SJMEM_UngetChunk.json`
+- case 0
+- case 1
+- case 3
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 5
+- case 2
+- case 4
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 35 of 62 instructions
+
+### SJMEM_Unlock (`0C16AF50`, 22 bytes, `src/gen_az.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_az/SJMEM_Unlock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 11 of 11 instructions
+
 ### SJRBF_Create (`0C16B268`, 98 bytes, `src/sdk_za.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_za/SJRBF_Create.json`
 - slot 3 free
@@ -24055,6 +24335,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 32
 - the cases run 67 of 67 instructions
 
+### SJRBF_Lock (`0C16B20C`, 24 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/SJRBF_Lock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 12 of 12 instructions
+
 ### SJRBF_PutChunk (`0C16B426`, 186 bytes, `src/gen_ao.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ao/SJRBF_PutChunk.json`
 - case 21
@@ -24100,6 +24420,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - reset
 - another
 - the cases run 7 of 7 instructions
+
+### SJRBF_Unlock (`0C16B224`, 22 bytes, `src/gen_ay.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ay/SJRBF_Unlock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 11 of 11 instructions
 
 ### SJUNI_Create (`0C16B68C`, 106 bytes, `src/sdk_za.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_za/SJUNI_Create.json`
@@ -24339,6 +24699,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 14 of 14 instructions
 
+### SJUNI_Lock (`0C16B630`, 24 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/SJUNI_Lock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 12 of 12 instructions
+
 ### SJUNI_Reset (`0C16B71E`, 80 bytes, `src/sdk_q.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_q/SJUNI_Reset.json`
 - 4 cells
@@ -24346,6 +24746,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 2 cells
 - 0 count
 - the cases run 40 of 40 instructions
+
+### SJUNI_Unlock (`0C16B648`, 22 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/SJUNI_Unlock.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 11 of 11 instructions
 
 ### SJ_SplitChunk (`0C16BAEC`, 44 bytes, `src/sdk_ze.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/sdk_ze/SJ_SplitChunk.json`
@@ -25923,6 +26363,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 34
 - the cases run 87 of 104 instructions
 
+### buFbrCreateServer (`0C172818`, 150 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/buFbrCreateServer.json`
+- case 0
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- the cases run 75 of 75 instructions
+
 ### buFbrDestroyServer (`0C1729D8`, 62 bytes, `src/sdk_ze.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_ze/buFbrDestroyServer.json`
 - none live
@@ -26193,6 +26673,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
 - the cases run 3 of 3 instructions
+
+### buInit (`0C15027C`, 140 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/buInit.json`
+- case 22
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 70 of 70 instructions
 
 ### buInterruptHandler (`0C150278`, 4 bytes, `src/sdk_h.c`)
 - equivalent on 1 development and 4 holdout cases, in `tests/sdk_h/buInterruptHandler.json`
@@ -31188,6 +31708,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - offset 0x200
 - the cases run 11 of 11 instructions
 
+### kmiCopyToFrameBuffer (`0C159B80`, 226 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/kmiCopyToFrameBuffer.json`
+- case 20
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 115
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- the cases run 93 of 94 instructions
+
 ### kmiCopyToPVRMemory (`0C159B1C`, 22 bytes, `src/sdk_i.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/sdk_i/kmiCopyToPVRMemory.json`
 - offset 0x100, 16 bytes
@@ -31319,6 +31879,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 44 of 44 instructions
+
+### kmiDMAtoTARequest (`0C1554E0`, 456 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/kmiDMAtoTARequest.json`
+- case 8
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 3
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- the cases run 194 of 206 instructions
 
 ### kmiExecuteDMAChain (`0C155700`, 312 bytes, `src/gen_u.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_u/kmiExecuteDMAChain.json`
@@ -32463,6 +33063,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - offset 0xB0
 - offset 0x40
 - the cases run 3 of 3 instructions
+
+### kmiRegisterCallback (`0C158A62`, 124 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/kmiRegisterCallback.json`
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 28
+- case 30
+- case 32
+- case 34
+- case 27
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 42 of 54 instructions
 
 ### kmiReleaseHardware (`0C1586A0`, 28 bytes, `src/sdk_j.c`)
 - equivalent on 2 development and 4 holdout cases, in `tests/sdk_j/kmiReleaseHardware.json`
@@ -33748,6 +34388,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - null
 - playing 2
 - the cases run 40 of 40 instructions
+
+### mwRnaUnlockCs (`0C1717F0`, 22 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/mwRnaUnlockCs.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 11 of 11 instructions
 
 ### mwlRnaAddFlshPos (`0C16A088`, 48 bytes, `src/gen_y.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_y/mwlRnaAddFlshPos.json`
@@ -36044,6 +36724,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - big
 - the cases run 5 of 5 instructions
+
+### nlSetIntrFunction (`0C07B720`, 112 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/nlSetIntrFunction.json`
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- the cases run 42 of 42 instructions
 
 ### nlSetScaleFactor (`0C079EA0`, 6 bytes, `src/nlobjput.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlSetScaleFactor.json`
@@ -38995,6 +39715,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - mono
 - the cases run 27 of 27 instructions
 
+### syChainClx1Handler (`0C160A5E`, 198 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/syChainClx1Handler.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 24 of 84 instructions
+
 ### syChainMasterHandler (`0C1609CA`, 36 bytes, `src/small_b.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/small_b/syChainMasterHandler.json`
 - case 0
@@ -40258,6 +41018,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 148
 - the cases run 86 of 86 instructions
 
+### usr_gd_err_func (`0C02A3EC`, 138 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/usr_gd_err_func.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 19 of 58 instructions
+
 ### vibIsReady (`0C040F44`, 18 bytes, `src/game_b.c`)
 - equivalent on 2 development and 4 holdout cases, in `tests/game_b/vibIsReady.json`
 - ready
@@ -41181,6 +41981,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 114 of 116 instructions
 
+### vmsfs_format (`0C163EEC`, 810 bytes, `src/gen_ax.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ax/vmsfs_format.json`
+- case 32
+- case 0
+- case 84
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 14
+- case 19
+- case 21
+- case 23
+- case 26
+- case 29
+- case 36
+- case 39
+- case 41
+- case 45
+- case 27
+- case 13
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 18
+- case 20
+- case 22
+- case 24
+- case 28
+- case 35
+- case 37
+- case 40
+- case 42
+- case 46
+- the cases run 105 of 372 instructions
+
 ### vmsfs_fread (`0C164EB6`, 114 bytes, `src/sdk_zb.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_zb/vmsfs_fread.json`
 - three ok
@@ -41892,6 +42732,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
 - the cases run 4 of 4 instructions
+
+### vmsio_ismount (`0C1707B4`, 106 bytes, `src/gen_ay.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ay/vmsio_ismount.json`
+- case 94
+- case 1
+- case 5
+- case 9
+- case 11
+- case 17
+- case 20
+- case 22
+- case 26
+- case 29
+- case 32
+- case 34
+- case 36
+- case 41
+- case 45
+- case 47
+- case 51
+- case 55
+- case 0
+- case 4
+- case 6
+- case 10
+- case 14
+- case 18
+- case 21
+- case 24
+- case 28
+- case 31
+- case 33
+- case 35
+- case 39
+- case 43
+- case 46
+- case 49
+- case 53
+- case 59
+- the cases run 38 of 45 instructions
 
 ### vmuExit (`0C03A6D8`, 20 bytes, `src/sdk_z.c`)
 - equivalent on 2 development and 4 holdout cases, in `tests/sdk_z/vmuExit.json`

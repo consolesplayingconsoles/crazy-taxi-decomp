@@ -79,17 +79,30 @@ for pf in glob.glob('partial/*.c'):
     text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(pf, errors='replace').read(), flags=re.S)
     partial |= set(re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', text, flags=re.M))
 partial = set(x[2] for x in funcs if x[2] in partial and not is_done(x))
+# no C form: functions with an instruction this compiler has no C for (tools/classify.py); done by the proof that the instruction
+# exists, not by C. Its own row; the main number stays equivalent C
+sys.path.insert(0, here)
+import classify
+_exe = open('1ST_READ.BIN', 'rb').read()
+_base = int(open('BASE').read().strip(), 16)
+nocform = set(x[2] for x in funcs if not (in_c(x[0]) or x[2] in equivalent or x[2] in verified)
+              and classify.no_c_form(_exe, _base, x[0], x[1]))
+named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and not x[2].startswith('FUN_'))   # each function in one bucket
+unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2].startswith('FUN_'))
+doable = g[0] - len(nocform)                       # what can be C: the functions with no C form are not part of the equivalent C measure
+doable_bytes = g[1] - sum(x[1] for x in funcs if x[2] in nocform)
 rows = [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
-    ('  done: equivalent C', pct(g[7], g[0]), '%d of %d functions, %d bytes (%s): C that behaves like the original'
-     % (g[7], g[0], g[8], pct(g[8], g[1]).strip())),
-    ('    of which matching C', pct(g[3], g[0]), '%d functions, %d bytes, %d units: rebuilt byte for byte'
+    ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
+     % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform)) if nocform else '')),
+    ('    of which matching C', pct(g[3], doable), '%d functions, %d bytes, %d units: rebuilt byte for byte'
      % (g[3], g[2], len(units))),
-    ('    of which SDK source', pct(g[9], g[0]), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local)'
+    ('    of which SDK source', pct(g[9], doable), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local)'
      % (g[9], g[10])),
-    ('  named only', pct(named_only, g[0]), '%d functions: a name, no C yet (not done work)' % named_only),
-    ('  unnamed', pct(unnamed, g[0]), '%d functions (FUN_...), no C yet' % unnamed),
-    ] + ([('  with partial C', pct(g[7] + len(partial), g[0]), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
+    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
+    ('  named only', pct(named_only, doable), '%d functions: a name, no C yet (not done work)' % named_only),
+    ('  unnamed', pct(unnamed, doable), '%d functions (FUN_...), no C yet' % unnamed),
+    ] + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
            % (g[7] + len(partial), g[7], len(partial)))] if partial else []) + [
     ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),
@@ -151,10 +164,10 @@ def write_badge(rows, label, path='badge.svg'):
     wd = int(round(bar * min(done, 100.0) / 100.0))
     if done > 0 and wd < 2:
         wd = 2
-    code_total = sum(sz for _, sz, _ in funcs) or 1
+    code_total = sum(sz for _, sz, n in funcs if n not in nocform) or 1
     dark = [0] * bar
     pos = done_bytes = 0
-    for fa, fsz, fn in sorted(funcs):
+    for fa, fsz, fn in sorted(x for x in funcs if x[2] not in nocform):
         if in_c(fa) or fn in equivalent or fn in verified:
             done_bytes += fsz
             for b in range(pos, pos + fsz):
