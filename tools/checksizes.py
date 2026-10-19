@@ -3,6 +3,7 @@
 
     python3 tools/checksizes.py [name ...]     (no names: every function)
     python3 tools/checksizes.py --hidden [name ...]    functions listed longer than their code
+    python3 tools/checksizes.py --merge [--write] [name ...]    entries that are pieces of one function
 
 A function with a literal pool in the middle of its body ends at its last rts and delay slot, not where
 the pool begins; a sweep that stops at the pool leaves the code after it outside the listed size. Seen
@@ -17,6 +18,12 @@ starts like a function (a register save, `sts.l pr,@-r15` or a stack adjust) and
 with the size the entry would have. Such a function counts as proven when the entry is, though nothing tests it.
 Entries with a jump table (jmp, braf) are skipped and counted. Report only: check the disassembly, then change
 functions.txt, `split_asm.py`, build (MATCH) and run `equiv.py` on the file of every function you cut.
+
+--merge looks at entries that are pieces of one function: an entry whose code runs off its end into the next one (no rts
+before the listed end) is the first half of a function listed twice. The entry is extended over the next one(s) until the
+flow ends with an rts, a jump or a tail `bra`. A merge swallows the names of the later entries: the report names every one that
+was counted proven, since the merged function must be proven again. With --write, functions.txt is rewritten (a copy goes to
+functions.txt.before-merge); then run split_asm.py and build.sh (MATCH), and equiv.py on the files of the merged functions.
 """
 import os
 import struct
@@ -159,8 +166,115 @@ def hidden(only):
     print('%d function(s) listed longer than their code; %d skipped (jump table)' % (found, skipped))
 
 
+def merge(only, write):
+    exe = open('1ST_READ.BIN', 'rb').read()
+    base = int(open('BASE').read().strip(), 16)
+    lines = open('functions.txt').read().split('\n')
+    entries = []                                  # (line index, address, size, name)
+    for i, line in enumerate(lines):
+        p = line.split()
+        if len(p) >= 4 and p[0] == 'F':
+            entries.append((i, int(p[1], 16), int(p[2]), p[3]))
+    entries.sort(key=lambda e: e[1])
+    done = set()
+    for f in ('tests/equivalent.txt', 'sdk-verified.txt'):
+        if os.path.exists(f):
+            for line in open(f):
+                if not line.startswith('#'):
+                    done.update(line.split())
+
+    def word(pc):
+        return struct.unpack_from('<H', exe, pc - base)[0]
+
+    def runs_off(start, end):
+        """True when the flow from start runs past end without an exit; None for a jump table"""
+        seen, stack, fall = set(), [start], False
+        while stack:
+            pc = stack.pop()
+            while pc not in seen:
+                if not start <= pc < end:
+                    if pc >= end:
+                        fall = True
+                    break
+                seen.add(pc)
+                text, _, _, target = shdis.decode(word(pc), pc)
+                op = text.split()[0]
+                if op in ('rts', 'rte'):
+                    seen.add(pc + 2)
+                    break
+                if op == 'bra':
+                    seen.add(pc + 2)
+                    if target is not None and start <= target < end:
+                        stack.append(target)
+                    break
+                if op in ('jmp', 'braf'):
+                    return None
+                if op in ('bt/s', 'bf/s', 'bt', 'bf'):
+                    if target is not None and start <= target < end:
+                        stack.append(target)
+                    if op.endswith('/s'):
+                        seen.add(pc + 2)
+                        pc += 4
+                    else:
+                        pc += 2
+                    continue
+                if op in ('bsr', 'jsr', 'bsrf'):
+                    seen.add(pc + 2)
+                    pc += 4
+                    continue
+                pc += 2
+        return fall
+
+    absorbed, plan = set(), []
+    for k, (li, a, sz, name) in enumerate(entries):
+        if k in absorbed or (only and name not in only) or a + sz - base > len(exe):
+            continue
+        end, j, gap = a + sz, k, 0
+        while runs_off(a, end) and j + 1 < len(entries) and j - k < 8:
+            nxt_start = entries[j + 1][1]
+            if nxt_start > end:                         # the code goes on into the gap before the next entry
+                gap += nxt_start - end
+                end = nxt_start
+                if runs_off(a, end) is False:
+                    break
+            if runs_off(a, end):                        # still running: the next entry is the rest of the function
+                j += 1
+                end += entries[j][2]
+        if (j > k or gap) and runs_off(a, end) is False:
+            plan.append((k, j, a, end - a, gap))
+            absorbed.update(range(k + 1, j + 1))
+    lost = 0
+    for k, j, a, size, gap in plan:
+        names = [entries[m][3] for m in range(k, j + 1)]
+        proven = [n for n in names if n in done]
+        print('F %08x -> %4d %-28s absorbs %s%s%s' % (a, size, names[0], ', '.join(names[1:]) or 'no entry', '  +%d bytes of gap' % gap if gap else '',
+              '   PROVEN: ' + ', '.join(proven) if proven else ''))
+        lost += len(proven) if names[0] not in done else len(proven)
+    print('%d merge(s) removing %d entries; %d proven entries would need proving again'
+          % (len(plan), sum(j - k for k, j, _, _, _ in plan), lost))
+    held = [p for p in plan if any(entries[m][3] in done for m in range(p[0] + 1, p[1] + 1))]
+    if write and held:
+        print('%d merge(s) swallow a proven entry and are NOT written: read them first' % len(held))
+        plan = [p for p in plan if p not in held]
+    if write and plan:
+        import shutil
+        shutil.copy('functions.txt', 'functions.txt.before-merge')
+        drop = set()
+        for k, j, a, size, gap in plan:
+            li = entries[k][0]
+            p = lines[li].split()
+            lines[li] = 'F %s %d %s' % (p[1], size, p[3])
+            for m in range(k + 1, j + 1):
+                drop.add(entries[m][0])
+        open('functions.txt', 'w').write('\n'.join(l for i, l in enumerate(lines) if i not in drop))
+        print('functions.txt rewritten (copy: functions.txt.before-merge); run split_asm.py and build.sh')
+
+
 if __name__ == '__main__':
     if sys.argv[1:2] == ['--hidden']:
         hidden(set(sys.argv[2:]))
+    elif sys.argv[1:2] == ['--merge']:
+        rest = sys.argv[2:]
+        merge(set(a for a in rest if a != '--write'), '--write' in rest)
     else:
         main()

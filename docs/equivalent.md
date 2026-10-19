@@ -611,8 +611,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 10 of 12 instructions
 
-### ADXB_ExecOneWav (`0C17435C`, 40 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_b/ADXB_ExecOneWav.json`
+### ADXB_ExecOneWav (`0C17435C`, 40 bytes, `src/sdk_b_2.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/sdk_b_2/ADXB_ExecOneWav.json`
 - mode 2
 - mode 1
 - mode 0
@@ -1396,8 +1396,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 16 of 16 instructions
 
-### ADXB_Start (`0C1713CE`, 14 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXB_Start.json`
+### ADXB_Start (`0C1713CE`, 14 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/ADXB_Start.json`
 - zero
 - one
 - two
@@ -1405,8 +1405,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - high
 - the cases run 7 of 7 instructions
 
-### ADXB_Stop (`0C1713DC`, 26 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/ADXB_Stop.json`
+### ADXB_Stop (`0C1713DC`, 26 bytes, `src/sdk_a_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_a_2/ADXB_Stop.json`
 - normal
 - f8 zero
 - other
@@ -1618,8 +1618,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 60 of 60 instructions
 
-### ADXPD_Destroy (`0C17442E`, 20 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_b/ADXPD_Destroy.json`
+### ADXPD_Destroy (`0C17442E`, 20 bytes, `src/sdk_b_2.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_b_2/ADXPD_Destroy.json`
 - null
 - object
 - object offset
@@ -2843,8 +2843,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 37
 - the cases run 102 of 105 instructions
 
-### ADXSJD_Destroy (`0C168300`, 52 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/ADXSJD_Destroy.json`
+### ADXSJD_Destroy (`0C168300`, 52 bytes, `src/sdk_c_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_c_2/ADXSJD_Destroy.json`
 - null
 - no buffer
 - with buffer
@@ -3219,8 +3219,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 2 of 2 instructions
 
-### ADXSTM_GetBufSize (`0C168E48`, 12 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetBufSize.json`
+### ADXSTM_GetBufSize (`0C168E48`, 12 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/ADXSTM_GetBufSize.json`
 - basic
 - zero
 - minus
@@ -3293,8 +3293,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - negative
 - the cases run 23 of 23 instructions
 
-### ADXSTM_GetGdfsStat (`0C168E6E`, 28 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/ADXSTM_GetGdfsStat.json`
+### ADXSTM_GetGdfsStat (`0C168E6E`, 28 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/ADXSTM_GetGdfsStat.json`
 - basic
 - zero
 - minus
@@ -3662,8 +3662,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 25 of 25 instructions
 
-### ADXT_SetOutPan (`0C152238`, 50 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/ADXT_SetOutPan.json`
+### ADXT_SetOutPan (`0C152238`, 50 bytes, `src/sdk_d_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_d_2/ADXT_SetOutPan.json`
 - in range
 - equal -> error
 - above -> error
@@ -3902,8 +3902,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 20 of 20 instructions
 
-### BCDtoDEC (`0C166C80`, 24 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_b/BCDtoDEC.json`
+### BCDtoDEC (`0C166C80`, 24 bytes, `src/sdk_b_2.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/sdk_b_2/BCDtoDEC.json`
 - 59
 - zero
 - 99
@@ -4199,8 +4199,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - course 0
 - the cases run 10 of 10 instructions
 
-### DECtoBCD (`0C166C5C`, 36 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_a/DECtoBCD.json`
+### DECtoBCD (`0C166C5C`, 36 bytes, `src/sdk_a_2.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/sdk_a_2/DECtoBCD.json`
 - 0
 - 9
 - 10
@@ -14677,7 +14677,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - neg
 - the cases run 65 of 65 instructions
 
-### FUN_0c07c100 (`0C07C100`, 68 bytes, `src/game_p.c`)
+### FUN_0c07c100 (`0C07C100`, 80 bytes, `src/game_p.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/game_p/FUN_0c07c100.json`
 - both below
 - a below
@@ -14685,7 +14685,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - none
 - equal
 - a below b equal
-- the cases run 22 of 22 instructions
+- the cases run 34 of 34 instructions
 
 ### FUN_0c07c1d0 (`0C07C1D0`, 134 bytes, `src/game_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_p/FUN_0c07c1d0.json`
@@ -21420,8 +21420,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 19 of 19 instructions
 
-### adxf_ChkPrmGfr (`0C15337C`, 62 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 7 development and 6 holdout cases, in `tests/vt_vtsdk_b/adxf_ChkPrmGfr.json`
+### adxf_ChkPrmGfr (`0C15337C`, 62 bytes, `src/sdk_b_2.c`)
+- equivalent on 7 development and 6 holdout cases, in `tests/sdk_b_2/adxf_ChkPrmGfr.json`
 - ok
 - b = last valid
 - b = limit
@@ -22307,8 +22307,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### buFbrWakeupFiber (`0C172AC2`, 28 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_c/buFbrWakeupFiber.json`
+### buFbrWakeupFiber (`0C172AC2`, 28 bytes, `src/sdk_c_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_c_2/buFbrWakeupFiber.json`
 - idx0 set
 - idx0 clear
 - idx2 set
@@ -23199,8 +23199,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero len
 - the cases run 81 of 81 instructions
 
-### direntry (`0C166B40`, 24 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/direntry.json`
+### direntry (`0C166B40`, 24 bytes, `src/sdk_b_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_b_2/direntry.json`
 - unit 1 entry 3
 - entry 0
 - unit 0
@@ -23787,8 +23787,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - b
 - the cases run 3 of 3 instructions
 
-### gdFsCheckEof (`0C1600D4`, 40 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_e/gdFsCheckEof.json`
+### gdFsCheckEof (`0C1600D4`, 40 bytes, `src/sdk_e_2.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/sdk_e_2/gdFsCheckEof.json`
 - null
 - flag zero
 - pos past
@@ -23800,8 +23800,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - the cases run 20 of 20 instructions
 
-### gdFsClose (`0C15FFEC`, 56 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 7 development and 3 holdout cases, in `tests/vt_vtsdk_d/gdFsClose.json`
+### gdFsClose (`0C15FFEC`, 56 bytes, `src/sdk_d_2.c`)
+- equivalent on 7 development and 3 holdout cases, in `tests/sdk_d_2/gdFsClose.json`
 - null
 - flag zero
 - state 2
@@ -23867,16 +23867,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - found 1
 - the cases run 37 of 37 instructions
 
-### gdFsGetDrvStat (`0C14E4A4`, 24 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsGetDrvStat.json`
+### gdFsGetDrvStat (`0C14E4A4`, 24 bytes, `src/sdk_d_2.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_d_2/gdFsGetDrvStat.json`
 - table set
 - null table
 - other args
 - other target
 - the cases run 12 of 12 instructions
 
-### gdFsGetLE4 (`0C14CFBC`, 38 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/vt_vtsdk_c/gdFsGetLE4.json`
+### gdFsGetLE4 (`0C14CFBC`, 38 bytes, `src/sdk_c_2.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_c_2/gdFsGetLE4.json`
 - 1234
 - high bytes
 - zero
@@ -23935,8 +23935,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### gdFsGetTransStat (`0C1604F0`, 26 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/gdFsGetTransStat.json`
+### gdFsGetTransStat (`0C1604F0`, 26 bytes, `src/sdk_b_2.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_b_2/gdFsGetTransStat.json`
 - null
 - zero state
 - ok
@@ -23971,8 +23971,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### gdFsLoadDirFast (`0C14E3AC`, 22 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/gdFsLoadDirFast.json`
+### gdFsLoadDirFast (`0C14E3AC`, 22 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/gdFsLoadDirFast.json`
 - null
 - object
 - other object
@@ -24013,8 +24013,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - one
 - the cases run 12 of 12 instructions
 
-### gdFsOpen (`0C14E3EE`, 22 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpen.json`
+### gdFsOpen (`0C14E3EE`, 22 bytes, `src/sdk_d_2.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_d_2/gdFsOpen.json`
 - table set
 - null table
 - other args
@@ -24046,8 +24046,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### gdFsOpenRange (`0C14E41C`, 24 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/gdFsOpenRange.json`
+### gdFsOpenRange (`0C14E41C`, 24 bytes, `src/sdk_d_2.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_d_2/gdFsOpenRange.json`
 - table set
 - null table
 - other args
@@ -24077,8 +24077,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - miss
 - the cases run 56 of 56 instructions
 
-### gdFsSetGlobalErrG (`0C14D004`, 10 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_c/gdFsSetGlobalErrG.json`
+### gdFsSetGlobalErrG (`0C14D004`, 10 bytes, `src/sdk_c_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_c_2/gdFsSetGlobalErrG.json`
 - one
 - zero
 - neg
@@ -24086,8 +24086,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other
 - the cases run 5 of 5 instructions
 
-### gdFsSetTmode (`0C1600FC`, 26 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/gdFsSetTmode.json`
+### gdFsSetTmode (`0C1600FC`, 26 bytes, `src/sdk_b_2.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_b_2/gdFsSetTmode.json`
 - null
 - zero state
 - ok
@@ -24746,8 +24746,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 32 of 32 instructions
 
-### hwInit (`0C150014`, 40 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 5 holdout cases, in `tests/vt_vtsdk_a/hwInit.json`
+### hwInit (`0C150014`, 40 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 5 holdout cases, in `tests/sdk_a_2/hwInit.json`
 - empty table
 - one entry
 - three entries
@@ -24867,8 +24867,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 57 of 57 instructions
 
-### kdGetDevice (`0C162094`, 18 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/kdGetDevice.json`
+### kdGetDevice (`0C162094`, 18 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/kdGetDevice.json`
 - 0
 - 1
 - 3
@@ -28481,8 +28481,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 29
 - the cases run 55 of 55 instructions
 
-### kmyConvertAddress64to32 (`0C157F1E`, 34 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 5 development and 4 holdout cases, in `tests/vt_vtsdk_c/kmyConvertAddress64to32.json`
+### kmyConvertAddress64to32 (`0C157F1E`, 34 bytes, `src/sdk_c_2.c`)
+- equivalent on 5 development and 4 holdout cases, in `tests/sdk_c_2/kmyConvertAddress64to32.json`
 - zero
 - bit 2
 - low bits
@@ -28543,8 +28543,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 115
 - the cases run 24 of 30 instructions
 
-### kmytex_FBEnQueueEntry (`0C157416`, 28 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_a/kmytex_FBEnQueueEntry.json`
+### kmytex_FBEnQueueEntry (`0C157416`, 28 bytes, `src/sdk_a_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_a_2/kmytex_FBEnQueueEntry.json`
 - empty queue
 - nonempty queue
 - empty, other layout
@@ -28870,8 +28870,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 40 of 40 instructions
 
-### mpdrv_frame_recv_post (`0C16EBBC`, 22 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 2 development and 4 holdout cases, in `tests/vt_vtsdk_d/mpdrv_frame_recv_post.json`
+### mpdrv_frame_recv_post (`0C16EBBC`, 22 bytes, `src/sdk_d_2.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_d_2/mpdrv_frame_recv_post.json`
 - basic
 - flag was set
 - other
@@ -28880,8 +28880,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 11 of 11 instructions
 
-### mpdrv_get_device (`0C16ED60`, 16 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/mpdrv_get_device.json`
+### mpdrv_get_device (`0C16ED60`, 16 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/mpdrv_get_device.json`
 - zero
 - three
 - minus
@@ -29053,8 +29053,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - port 3
 - the cases run 12 of 12 instructions
 
-### mpdrv_set_ft4ctrl_ns (`0C1700A4`, 36 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_ft4ctrl_ns.json`
+### mpdrv_set_ft4ctrl_ns (`0C1700A4`, 36 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/mpdrv_set_ft4ctrl_ns.json`
 - 1,2
 - zero
 - negative
@@ -29063,15 +29063,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - port 2
 - the cases run 18 of 18 instructions
 
-### mpdrv_set_getcond_ns (`0C16FD16`, 30 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_set_getcond_ns.json`
+### mpdrv_set_getcond_ns (`0C16FD16`, 30 bytes, `src/sdk_d_2.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_d_2/mpdrv_set_getcond_ns.json`
 - a b
 - ret 7
 - ret neg
 - the cases run 15 of 15 instructions
 
-### mpdrv_set_getminfo_ns (`0C16FE88`, 38 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 3 development and 1 holdout cases, in `tests/vt_vtsdk_d/mpdrv_set_getminfo_ns.json`
+### mpdrv_set_getminfo_ns (`0C16FE88`, 38 bytes, `src/sdk_d_2.c`)
+- equivalent on 3 development and 1 holdout cases, in `tests/sdk_d_2/mpdrv_set_getminfo_ns.json`
 - shift
 - big c
 - zero c
@@ -29128,8 +29128,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### mpdrv_set_setcond_ns (`0C170104`, 36 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mpdrv_set_setcond_ns.json`
+### mpdrv_set_setcond_ns (`0C170104`, 36 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/mpdrv_set_setcond_ns.json`
 - 1..4
 - zero
 - negative
@@ -29211,8 +29211,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - already
 - the cases run 20 of 20 instructions
 
-### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_c/mwRnaGetAutoSw.json`
+### mwRnaGetAutoSw (`0C16A8DA`, 42 bytes, `src/sdk_c_2.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_c_2/mwRnaGetAutoSw.json`
 - null
 - bit set
 - bit clear
@@ -29295,8 +29295,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - byte1 85
 - the cases run 20 of 20 instructions
 
-### mwRnaGetSfreq (`0C16AC76`, 30 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetSfreq.json`
+### mwRnaGetSfreq (`0C16AC76`, 30 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/mwRnaGetSfreq.json`
 - null
 - 44100
 - zero
@@ -29317,8 +29317,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - byte1 85
 - the cases run 16 of 16 instructions
 
-### mwRnaGetTime (`0C16A82C`, 64 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/mwRnaGetTime.json`
+### mwRnaGetTime (`0C16A82C`, 64 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/mwRnaGetTime.json`
 - null
 - normal
 - negative diff
@@ -29327,8 +29327,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zero start
 - the cases run 32 of 32 instructions
 
-### mwRnaGetTransSw (`0C16A88C`, 38 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_d/mwRnaGetTransSw.json`
+### mwRnaGetTransSw (`0C16A88C`, 38 bytes, `src/sdk_d_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_d_2/mwRnaGetTransSw.json`
 - null
 - bit set
 - bit clear
@@ -29345,8 +29345,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - byte 0x80
 - the cases run 16 of 16 instructions
 
-### mwRnaSetSfreq (`0C16AA42`, 58 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_b/mwRnaSetSfreq.json`
+### mwRnaSetSfreq (`0C16AA42`, 58 bytes, `src/sdk_b_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_b_2/mwRnaSetSfreq.json`
 - null object
 - ok
 - zero freq
@@ -29839,12 +29839,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 28 of 28 instructions
 
-### nlCreateTextureParam (`0C073EF0`, 38 bytes, `src/nltex.c`)
+### nlCreateTextureParam (`0C073EF0`, 48 bytes, `src/nltex.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/nltex/nlCreateTextureParam.json`
 - surface accepted: nlCreateTextureParamA
 - surface refused: the dummy texture's TSP bits and TCW
 - surface 3 refused (error -2)
-- the cases run 12 of 12 instructions
+- the cases run 19 of 19 instructions
 
 ### nlCreateTextureParamA (`0C073E60`, 114 bytes, `src/small_a.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/small_a/nlCreateTextureParamA.json`
@@ -30231,7 +30231,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 5 of 5 instructions
 
-### nlFreeTextureAll (`0C073F20`, 100 bytes, `src/nltex.c`)
+### nlFreeTextureAll (`0C073F20`, 128 bytes, `src/nltex.c`)
 - equivalent on 1 development and 5 holdout cases, in `tests/nltex/nlFreeTextureAll.json`
 - 3 surfaces: in use, refused, unused
 - 2 surfaces both in use
@@ -30239,7 +30239,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (arcade, passenger on board, paused)
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
-- the cases run 31 of 31 instructions
+- the cases run 50 of 50 instructions
 
 ### nlGetAverageVector (`0C078A90`, 44 bytes, `src/sdk_e.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_e/nlGetAverageVector.json`
@@ -30504,7 +30504,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - quarter
 - the cases run 16 of 16 instructions
 
-### nlInvertSqrt (`0C075D50`, 22 bytes, `src/sdk_a.c`)
+### nlInvertSqrt (`0C075D50`, 32 bytes, `src/sdk_a.c`)
 - equivalent on 4 development and 3 holdout cases, in `tests/sdk_a/nlInvertSqrt.json`
 - zero
 - 4
@@ -30513,7 +30513,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 1
 - 256
 - negative 0
-- the cases run 6 of 6 instructions
+- the cases run 11 of 11 instructions
 
 ### nlLdexpf (`0C075D70`, 168 bytes, `src/gen_y.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_y/nlLdexpf.json`
@@ -30649,7 +30649,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 63 of 63 instructions
 
-### nlLog (`0C075E20`, 106 bytes, `src/gen_m.c`)
+### nlLog (`0C075E20`, 128 bytes, `src/gen_m.c`)
 - equivalent on 15 development and 7 holdout cases, in `tests/gen_m/nlLog.json`
 - case 0
 - case 1
@@ -30673,7 +30673,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 19
 - case 20
 - case 21
-- the cases run 10 of 10 instructions
+- the cases run 53 of 53 instructions
 
 ### nlLog10 (`0C075EA0`, 16 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_b/nlLog10.json`
@@ -31604,7 +31604,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 23 of 23 instructions
 
-### nlSpriteFreeTexture (`0C07DE30`, 64 bytes, `src/sdk_a.c`)
+### nlSpriteFreeTexture (`0C07DE30`, 80 bytes, `src/sdk_a.c`)
 - equivalent on 4 development and 2 holdout cases, in `tests/sdk_a/nlSpriteFreeTexture.json`
 - empty
 - one
@@ -31612,7 +31612,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - zeros
 - four
 - minus one first entry only
-- the cases run 13 of 13 instructions
+- the cases run 32 of 32 instructions
 
 ### nlSpriteFreeTextureGI (`0C07DE80`, 80 bytes, `src/game_p.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/game_p/nlSpriteFreeTextureGI.json`
@@ -32049,7 +32049,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - the cases run 9 of 9 instructions
 
-### nlsndG2DmaHandleOpen (`0C080420`, 34 bytes, `src/sdk_b.c`)
+### nlsndG2DmaHandleOpen (`0C080420`, 48 bytes, `src/sdk_b.c`)
 - equivalent on 4 development and 5 holdout cases, in `tests/sdk_b/nlsndG2DmaHandleOpen.json`
 - all free
 - first two used
@@ -32060,7 +32060,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (arcade, passenger on board, paused)
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
-- the cases run 10 of 10 instructions
+- the cases run 17 of 17 instructions
 
 ### nlsndIcsControl (`0C07F3B0`, 250 bytes, `src/gen_ak.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ak/nlsndIcsControl.json`
@@ -32169,8 +32169,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - oct 0x10005 (short 5), fns 0x7FF
 - the cases run 8 of 8 instructions
 
-### nlsndStreamSetHdPan (`0C07FF30`, 12 bytes, `src/vt_vtsdk_b.c`)
-- equivalent on 4 development and 3 holdout cases, in `tests/vt_vtsdk_b/nlsndStreamSetHdPan.json`
+### nlsndStreamSetHdPan (`0C07FF30`, 12 bytes, `src/sdk_b_2.c`)
+- equivalent on 4 development and 3 holdout cases, in `tests/sdk_b_2/nlsndStreamSetHdPan.json`
 - i=0
 - i=3
 - i=-1
@@ -32564,8 +32564,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### pdGetPeripheralInfo (`0C14EAFE`, 10 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 2 holdout cases, in `tests/vt_vtsdk_e/pdGetPeripheralInfo.json`
+### pdGetPeripheralInfo (`0C14EAFE`, 10 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/sdk_e_2/pdGetPeripheralInfo.json`
 - zero
 - two
 - minus
@@ -32704,8 +32704,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - b
 - the cases run 6 of 6 instructions
 
-### pdGunSetTrigger (`0C14EC0C`, 52 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_a/pdGunSetTrigger.json`
+### pdGunSetTrigger (`0C14EC0C`, 52 bytes, `src/sdk_a_2.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/sdk_a_2/pdGunSetTrigger.json`
 - 0
 - 6
 - 12
@@ -32760,8 +32760,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### pdVibGetInfo (`0C151720`, 60 bytes, `src/vt_vtsdk_e.c`)
-- equivalent on 3 development and 3 holdout cases, in `tests/vt_vtsdk_e/pdVibGetInfo.json`
+### pdVibGetInfo (`0C151720`, 60 bytes, `src/sdk_e_2.c`)
+- equivalent on 3 development and 3 holdout cases, in `tests/sdk_e_2/pdVibGetInfo.json`
 - ok
 - positive
 - negative
@@ -33836,8 +33836,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 79
 - the cases run 21 of 34 instructions
 
-### str_len (`0C16652E`, 26 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 5 development and 3 holdout cases, in `tests/vt_vtsdk_c/str_len.json`
+### str_len (`0C16652E`, 26 bytes, `src/sdk_c_2.c`)
+- equivalent on 5 development and 3 holdout cases, in `tests/sdk_c_2/str_len.json`
 - empty
 - five
 - twelve
@@ -34618,8 +34618,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 
-### syTmrInit (`0C1614B8`, 38 bytes, `src/vt_vtsdk_d.c`)
-- equivalent on 2 development and 4 holdout cases, in `tests/vt_vtsdk_d/syTmrInit.json`
+### syTmrInit (`0C1614B8`, 38 bytes, `src/sdk_d_2.c`)
+- equivalent on 2 development and 4 holdout cases, in `tests/sdk_d_2/syTmrInit.json`
 - regs zero
 - regs ones
 - mixed
@@ -35913,8 +35913,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - drive 3
 - the cases run 8 of 8 instructions
 
-### vmsfs_c_setparam (`0C163590`, 36 bytes, `src/vt_vtsdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/vt_vtsdk_a/vmsfs_c_setparam.json`
+### vmsfs_c_setparam (`0C163590`, 36 bytes, `src/sdk_a_2.c`)
+- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a_2/vmsfs_c_setparam.json`
 - slot 0
 - slot 1
 - slot 3
@@ -35982,8 +35982,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 3 of 3 instructions
 
-### vmsfs_exit (`0C163AC0`, 24 bytes, `src/vt_vtsdk_c.c`)
-- equivalent on 2 development and 1 holdout cases, in `tests/vt_vtsdk_c/vmsfs_exit.json`
+### vmsfs_exit (`0C163AC0`, 24 bytes, `src/sdk_c_2.c`)
+- equivalent on 2 development and 1 holdout cases, in `tests/sdk_c_2/vmsfs_exit.json`
 - run
 - r4 set
 - dirty

@@ -107,7 +107,7 @@ def split_c(text):
 
 def main(argv):
     dry = '--dry' in argv
-    tag = 'port'
+    tag = 'libs'
     args = []
     it = iter(argv[1:])
     for a in it:
@@ -260,8 +260,7 @@ def main(argv):
         for attempt in range(6):
             body = ''.join(pre) + '\n'.join(t for n, t in defs if n in mine or n in keep or t.lstrip().startswith('static')) + '\n'
             open(out_c, 'w').write(
-                '/* Ported from %s (src/%s) by scripts/port_equiv.py: only the functions the destination has. */\n'
-                % (os.path.basename(src['path'].rstrip('/')), f) + body)
+                '/* Library code: C that behaves like this game\'s own bytes. */\n' + body)
             tdir = os.path.join(dst['path'], 'tests', stem)
             os.makedirs(tdir, exist_ok=True)
             import json
@@ -320,8 +319,7 @@ def main(argv):
         elif passed != tried:
             body = ''.join(pre) + '\n'.join(t for n, t in defs if n in passed or n in keep or t.lstrip().startswith('static')) + '\n'
             open(out_c, 'w').write(
-                '/* Ported from %s (src/%s) by scripts/port_equiv.py: only the functions the destination has. */\n'
-                % (os.path.basename(src['path'].rstrip('/')), f) + body)
+                '/* Library code: C that behaves like this game\'s own bytes. */\n' + body)
     for n, why in report:
         results.setdefault(n, why)
     ok = sorted(n for n, v in results.items() if v == 'EQUIVALENT')

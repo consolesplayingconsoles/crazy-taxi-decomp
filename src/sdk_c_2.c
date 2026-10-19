@@ -1,5 +1,4 @@
-/* Ported from virtua-tennis-decomp (src/vtsdk_c.c) by scripts/port_equiv.py: only the functions the destination has. */
-/* Virtua Tennis SDK library, small functions (batch c). */
+/* SDK library, small functions (batch c). */
 
 extern int nlsndG2Write(int a, int *b);
 extern int nlsndG2Read(int addr);

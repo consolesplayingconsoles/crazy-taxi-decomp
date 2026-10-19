@@ -1,4 +1,3 @@
-/* Ported from virtua-tennis-decomp (src/vtsdk_d.c) by scripts/port_equiv.py: only the functions the destination has. */
 /* Small SDK library functions (batch d): math, gd file system glue, backup-unit file calls, ADX/RNA/mpdrv/kmi/kmy helpers. */
 
 extern float nlExp(float x);

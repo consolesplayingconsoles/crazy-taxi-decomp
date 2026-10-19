@@ -71,7 +71,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `sdk-verified.txt` | Library functions whose bytes the SDK source you supplied reproduces (written by `tools/sdk_source.py`) |
 | `sdk-source/` | The C of those library functions, from the SDK source you supplied (local, git-ignored) |
 | `AGENTS.md` | The six steps this decomp follows, and the per-function decompilation loop: Equivalent first, Matching as the bonus |
-| `tools/` | Disc reader, splitter, text mapper, model mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler and simulator, the Equivalent check (`equiv.py`) with its helpers (`checksizes.py`, `classify.py`, `poollist.py`, `port_equiv.py`), the SDK-source check (`sdk_source.py`), live checks against the running game (optional) |
+| `tools/` | Disc reader, splitter, text mapper, model mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler and simulator, the Equivalent check (`equiv.py`) with its helpers (`checksizes.py`, `classify.py`, `poollist.py`), the SDK-source check (`sdk_source.py`), live checks against the running game (optional) |
 
 `text-map/` (generated) lists the executable's strings, how much text each disc file holds, and every image file
 (`images.tsv`). Counts and lists for you to read, not a verdict.
@@ -110,10 +110,7 @@ nobody ran). `AGENTS.md` lists the six steps this decomp follows, up to 100%.
 runs each function in an SH-4 interpreter twice per test case, the original bytes and your compiled C,
 and they must agree on calls, memory writes and the result. Passing functions are listed in
 `tests/equivalent.txt` and counted as done. The loop, and how to write many of them quickly, is in
-`AGENTS.md` and the kickoff skill's `references/equivalent-pipeline.md`. Library code the game shares
-with another decomp of this skill (the NAOMI library, the C runtime) need not be rewritten:
-`python3 tools/port_equiv.py <that decomp> .` finds those functions here by their code, ports the C and
-its cases, and keeps only what `equiv.py` confirms on this game's own bytes.
+`AGENTS.md` and the kickoff skill's `references/equivalent-pipeline.md`.
 
 ## Matching C units (the build tier)
 
@@ -136,17 +133,17 @@ the evidence for each equivalent function.
 
 <!-- progress -->
 ```
-THE GAME                          2845 functions, 527331 bytes of code; each function in one bucket
-  done: equivalent C       66.7%  1897 of 2845 functions, 153866 bytes (29.2%): C that behaves like the original
-    of which matching C     0.3%  8 functions, 1178 bytes, 2 units: rebuilt byte for byte
-    of which SDK source     6.8%  194 functions, 14760 bytes: the SDK's own source reproduces them (sdk-source/, local)
+THE GAME                          2843 functions, 537910 bytes of code; each function in one bucket
+  done: equivalent C       66.7%  1897 of 2843 functions, 154176 bytes (28.7%): C that behaves like the original
+    of which matching C     0.3%  8 functions, 1338 bytes, 2 units: rebuilt byte for byte
+    of which SDK source     6.8%  194 functions, 14784 bytes: the SDK's own source reproduces them (sdk-source/, local)
   named only               17.4%  496 functions: a name, no C yet (not done work)
-  unnamed                  15.9%  452 functions (FUN_...), no C yet
+  unnamed                  15.8%  450 functions (FUN_...), no C yet
   documented               41.6%  1184 named functions in docs/*.md
   named globals                   120
-  of which library                1842 functions, 215364 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   67.4%  1242 of 1842 library functions, 80452 bytes (37.4%)
-    named                  72.4%  1333 of 1842 (the library's own names, from SDK tables)
+  of which library                1840 functions, 221988 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
+    done                   67.5%  1242 of 1840 library functions, 80602 bytes (36.3%)
+    named                  72.4%  1333 of 1840 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named         15.5%  9 of 58 characters (note rules)

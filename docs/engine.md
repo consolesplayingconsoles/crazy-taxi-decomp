@@ -320,7 +320,7 @@ Dreamcast functions sit in the same order, and the Android `VSklPlay` reads like
   two-bone solver `FUN_0c067c14` aimed at the target, the hand `[9]`, `[11]`; `[12]` hips; per leg
   `[13]`, `[15]`, the solver, the foot `[14]`, `[16]`.
 - `nlMultiMatrix` (`0x0C077E40`) and `nlMultiMatrix8` (`0x0C077EA0`): current = current * M (16
-  floats, column by column); byte-identical to Virtua Tennis's functions of those names.
+  floats, column by column); checked against this game's own bytes.
 
 ## Pedestrians
 

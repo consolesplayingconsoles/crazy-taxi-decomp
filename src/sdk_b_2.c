@@ -1,4 +1,3 @@
-/* Ported from virtua-tennis-decomp (src/vtsdk_b.c) by scripts/port_equiv.py: only the functions the destination has. */
 /* Small SDK functions (batch b): nl fraction, sound wait/pan, backup-unit file wrappers, ADX/mw error
    checks, GD filesystem accessors, FAT helpers, mpdrv, kmy/kmi helpers. */
 

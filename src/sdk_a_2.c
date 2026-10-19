@@ -1,5 +1,4 @@
-/* Ported from virtua-tennis-decomp (src/vtsdk_a.c) by scripts/port_equiv.py: only the functions the destination has. */
-/* Katana SDK and CRI library small functions (VT batch a). */
+/* Katana SDK and CRI library small functions (batch a). */
 
 extern int kdSetGunTrigger(int a);
 extern int mpdrv_set_hreset(void);

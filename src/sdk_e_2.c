@@ -1,4 +1,3 @@
-/* Ported from virtua-tennis-decomp (src/vtsdk_e.c) by scripts/port_equiv.py: only the functions the destination has. */
 /* Small SDK functions, batch e (VT pilot). Behaviour-checked only. */
 
 extern float nlArcTan(float x);
