@@ -26,7 +26,7 @@ mkdir -p build/obj
   printf '%s\n' elf "start P($BASE)" "output build\\out.elf"
   python3 tools/units.py objects.txt | while read -r o; do printf 'input %s\n' "$o"; done
   if ls src/*.c >/dev/null 2>&1; then
-    grep -hoE '[A-Za-z_][A-Za-z0-9_]*' $(grep -l '@unit' src/*.c 2>/dev/null) /dev/null | sort -u > build/c_idents.txt
+    grep -hoE '[A-Za-z_][A-Za-z0-9_]*' $(grep -l '@unit' src/*.c 2>/dev/null) /dev/null | sort -u > build/c_idents.txt || true
     [ -f symbols.txt ] && awk 'NR==FNR{u[$1]=1; next} !/^#/ && NF==2 && ($2 in u) {printf "define _%s(%s)\n", $2, $1}' build/c_idents.txt symbols.txt
   fi
   printf '%s\n' exit
@@ -74,6 +74,8 @@ STEPS='
   done < build/units.txt
   echo "linking"
   wibo "$(tool lnk)" -subcommand=build\\link.sub > build/link.log 2>&1 || { tr -d "\r" < build/link.log | grep -v "^: input" | tail -20; exit 1; }
+  # lnk exits 0 with an unresolved symbol (it is only a warning): the call would go to address 0.
+  if grep -qi "UNDEFINED" build/link.log; then tr -d "\r" < build/link.log | grep -i "UNDEFINED"; exit 1; fi
   wibo "$(tool elf2bin)" -s "$B" build\\out.elf > build/elf2bin.log 2>&1 || { cat build/elf2bin.log; exit 1; }
 '
 if [ "${DC_LOCAL:-0}" = 1 ]; then

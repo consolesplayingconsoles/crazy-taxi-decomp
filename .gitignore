@@ -8,6 +8,7 @@ IP.BIN
 asm/
 objects.txt
 text-map/
+text-dump/
 build/
 sdk-source/
 *.sigs

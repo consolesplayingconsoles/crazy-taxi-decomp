@@ -16,7 +16,9 @@ got="$( (sha1sum 1ST_READ.BIN 2>/dev/null || shasum -a 1 1ST_READ.BIN) | cut -d'
 [ "$got" = "$SHA1" ] || { echo "[ERROR] $BOOT has SHA-1 $got, expected $SHA1: not the supported release (see README)"; exit 1; }
 "$PY" tools/split_asm.py 1ST_READ.BIN "$(cat BASE)" functions.txt .
 echo "Text map: strings, text per file, the list of images ($TIER tier)"
-"$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt text-map "$GDI" "$TIER"
+"$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" text-map "$GDI" "$TIER"
+echo "Text files: the disc files models.txt lists as text (text-dump/)"
+"$PY" tools/text_dump.py "$GDI" models.txt text-dump
 echo "Model map: the 3D models, textures and sounds in the disc files, models named by the tables that hold them (models.txt: known tables)"
 "$PY" tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "$GDI" model-map
 chmod +x build.sh setup.sh 2>/dev/null || true

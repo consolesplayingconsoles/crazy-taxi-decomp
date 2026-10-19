@@ -1,30 +1,22 @@
 #!/usr/bin/env python3
 """Map where a Dreamcast game keeps its text: a starting point for translation. Stdlib only.
 
-    text_map.py <1ST_READ.BIN> <base hex> <report.txt> <out dir> [<disc.gdi> [quick|standard|deep]]
+    text_map.py <1ST_READ.BIN> <base hex> <out dir> [<disc.gdi> [quick|standard|deep]]
 
 Tiers: quick = executable only; standard (default) = plus the first 2 MiB of every disc file;
 deep = whole files (slow on big discs).
 
 Writes to <out dir>:
   exe_strings.tsv  every ASCII / Shift-JIS string in the executable: address, file offset,
-                   encoding, length, the functions that use it (from the report), and every
-                   pointer to it (file offsets of 32-bit words holding its address). The pointers
-                   are what let a translation move a string somewhere bigger and repoint it,
-                   instead of fitting the original bytes.
-  files.tsv        with a GDI: every disc file, its text density (ASCII / Shift-JIS bytes in
-                   string runs), and the executable strings that name it with their functions
-                   (the code that opens it, i.e. where its offsets are parsed).
-  font.tsv         callers of the BIOS ROM font vector (0x8C0000B4), and font-looking files.
+                   encoding, length and the text.
+  files.tsv        with a GDI: every disc file and its text density (ASCII / Shift-JIS bytes in
+                   string runs).
   images.tsv       with a GDI: every disc file that holds images (standard PVR textures found in it, or
                    an image file extension). No guess about which ones have text: that is for a person
                    to see, on the contact sheet textures.sh makes.
-<report.txt> is DcReport output (F and S lines).
 """
-import bisect
 import os
 import re
-import struct
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -35,27 +27,7 @@ SJIS_PAIR = re.compile(rb"[\x81-\x9f\xe0-\xef][\x40-\x7e\x80-\xfc]")
 ASCII_SPAN = re.compile(rb"[\x20-\x7e\t\n\r]{4,}")
 SJIS_SPAN = re.compile(rb"(?:[\x81-\x9f\xe0-\xef][\x40-\x7e\x80-\xfc]|[\x20-\x7e]){3,}")
 TIERS = {"quick": 0, "standard": 2 << 20, "deep": None}   # bytes read per disc file
-ROMFONT = (0x8C0000B4, 0x0C0000B4, 0xAC0000B4)
 IMAGE_EXT = (".PVR", ".PVM", ".PVP", ".PNG", ".TGA", ".BMP", ".JPG", ".GIF", ".TIM")
-
-
-def load_report(path):
-    funcs, callers = [], {}
-    for line in open(path, errors="replace"):
-        if line.startswith("F "):
-            p = line.split()
-            funcs.append((int(p[1], 16), p[3]))
-        elif line.startswith("S "):
-            m = re.match(r"S ([0-9a-f]+) \[([^\]]*)\]", line)
-            if m:
-                callers[int(m.group(1), 16)] = sorted({c for c in m.group(2).split(",") if c})
-    funcs.sort()
-    return funcs, callers
-
-
-def containing(funcs, starts, addr):
-    i = bisect.bisect_right(starts, addr) - 1
-    return funcs[i][1] if i >= 0 else "-"
 
 
 def strings(data):
@@ -79,61 +51,36 @@ def density(blob):
 
 
 def main():
-    if len(sys.argv) not in (5, 6, 7):
+    if len(sys.argv) not in (4, 5, 6):
         raise SystemExit(__doc__)
     data = open(sys.argv[1], "rb").read()
     base = int(sys.argv[2], 16)
-    funcs, callers = load_report(sys.argv[3])
-    starts = [a for a, _ in funcs]
-    out = sys.argv[4]
+    out = sys.argv[3]
     os.makedirs(out, exist_ok=True)
-
-    words = {}
-    for o in range(0, len(data) - 3, 4):
-        words.setdefault(struct.unpack_from("<I", data, o)[0], []).append(o)
 
     rows = []
     for off, enc, b in strings(data):
-        addr = base + off
-        ptrs = words.get(addr, []) + words.get(addr ^ 0x80000000, [])
-        users = callers.get(addr) or sorted({containing(funcs, starts, base + p) for p in ptrs})
         text = b.decode("shift_jis" if enc == "sjis" else "latin-1", "replace")
-        rows.append((addr, off, enc, len(b), users, ptrs, text))
+        rows.append((base + off, off, enc, len(b), text))
     with open(os.path.join(out, "exe_strings.tsv"), "w", encoding="utf-8") as f:
-        f.write("addr\toffset\tenc\tbytes\tfunctions\tpointer_offsets\ttext\n")
-        for addr, off, enc, n, users, ptrs, text in rows:
-            f.write("%08x\t%06x\t%s\t%d\t%s\t%s\t%s\n" % (addr, off, enc, n, ",".join(users),
-                    ",".join("%06x" % p for p in ptrs), text.replace("\t", "\\t").replace("\n", "\\n")))
-
-    with open(os.path.join(out, "font.tsv"), "w") as f:
-        f.write("kind\twhere\tfunction\n")
-        if not any(words.get(v) for v in ROMFONT):
-            f.write("-\tno BIOS ROM-font use found: the game draws text with its own font or as images\t-\n")
-        for v in ROMFONT:
-            for p in words.get(v, []):
-                f.write("romfont-vector\t%06x\t%s\n" % (p, containing(funcs, starts, base + p)))
+        f.write("addr\toffset\tenc\tbytes\ttext\n")
+        for addr, off, enc, n, text in rows:
+            f.write("%08x\t%06x\t%s\t%d\t%s\n" % (addr, off, enc, n, text.replace("\t", "\\t").replace("\n", "\\n")))
 
     nfiles = 0
-    tier = sys.argv[6] if len(sys.argv) == 7 else "standard"
+    tier = sys.argv[5] if len(sys.argv) == 6 else "standard"
     if tier not in TIERS:
         raise SystemExit("tier must be one of: " + ", ".join(TIERS))
-    if len(sys.argv) >= 6 and tier != "quick":
+    if len(sys.argv) >= 5 and tier != "quick":
         sys.path.insert(0, HERE)              # gdi_read.py lives next to this script
         import gdi_read
-        disc = gdi_read.Disc(sys.argv[5])
-        by_name = {}
-        for addr, off, enc, n, users, ptrs, text in rows:
-            for w in re.findall(r"[A-Za-z0-9_]+\.[A-Za-z0-9]{2,4}", text):
-                by_name.setdefault(w.upper(), []).append("%08x:%s" % (addr, "|".join(users) or "-"))
-        with open(os.path.join(out, "files.tsv"), "w") as f, open(os.path.join(out, "font.tsv"), "a") as ff:
-            f.write("path\tbytes\tascii_text\tsjis_text\tnamed_by\n")
+        disc = gdi_read.Disc(sys.argv[4])
+        with open(os.path.join(out, "files.tsv"), "w") as f:
+            f.write("path\tbytes\tascii_text\tsjis_text\n")
             for lba, size, path in sorted(disc.files(), key=lambda x: x[2]):
                 blob = disc.read(lba, size if TIERS[tier] is None else min(size, TIERS[tier]))
                 a, s = density(blob)
-                name = path.rsplit("/", 1)[-1].upper()
-                f.write("%s\t%d\t%d\t%d\t%s\n" % (path, size, a, s, " ".join(by_name.get(name, []))))
-                if re.search(r"FONT|\.FON$|KANJI", name):
-                    ff.write("font-file\t%s\t-\n" % path)
+                f.write("%s\t%d\t%d\t%d\n" % (path, size, a, s))
                 nfiles += 1
         with open(os.path.join(out, "images.tsv"), "w") as f:
             f.write("path\tbytes\tpvr_textures\tkind\n")
@@ -143,8 +90,7 @@ def main():
                 ext = path.upper().endswith(IMAGE_EXT)
                 if n or ext:
                     f.write("%s\t%d\t%d\t%s\n" % (path, size, n, "image file" if ext and not n else "holds PVR textures" if not ext else "image file with PVR textures"))
-    print("%d strings (%d Shift-JIS, %d with pointers), %d files" % (
-        len(rows), sum(1 for r in rows if r[2] == "sjis"), sum(1 for r in rows if r[5]), nfiles))
+    print("%d strings (%d Shift-JIS), %d files" % (len(rows), sum(1 for r in rows if r[2] == "sjis"), nfiles))
 
 
 if __name__ == "__main__":
