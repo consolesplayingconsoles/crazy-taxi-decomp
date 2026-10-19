@@ -200,3 +200,4 @@
 0C177AA8 gBuBlockTableA
 0C177AB8 gBuBlockTableB
 0C07AE10 nlObjPutSetLightDirection
+0C2EC578 buVmsCmd

@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=61.4)
+![decomp progress](badge.svg?p=62.4)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -130,15 +130,15 @@ functions and globals, and functions documented in `docs/*.md`.
 <!-- progress -->
 ```
 THE GAME                          2827 functions, 527331 bytes of code; each function in one bucket
-  done: equivalent C       61.4%  1736 of 2827 functions, 129748 bytes (24.6%): C that behaves like the original
+  done: equivalent C       62.4%  1763 of 2827 functions, 133264 bytes (25.3%): C that behaves like the original
     of which matching C     0.3%  8 functions, 1178 bytes, 2 units: rebuilt byte for byte
-    of which SDK source     5.3%  149 functions, 9352 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               21.4%  605 functions: a name, no C yet (not done work)
+    of which SDK source     6.2%  176 functions, 12868 bytes: the SDK's own source reproduces them (sdk-source/, local)
+  named only               20.4%  578 functions: a name, no C yet (not done work)
   unnamed                  17.2%  486 functions (FUN_...), no C yet
   documented               40.1%  1134 named functions in docs/*.md
   named globals                   120
   of which library                1825 functions, 215364 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   62.2%  1135 of 1825 library functions, 70068 bytes (32.5%)
+    done                   63.7%  1162 of 1825 library functions, 73584 bytes (34.2%)
     named                  73.0%  1333 of 1825 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2724 models: a name, or a named table or collection

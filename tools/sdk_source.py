@@ -9,6 +9,10 @@ build.sh), linked at a scratch address with every outside name at the game's add
 compared with the executable's. A function whose bytes are identical (a literal pool that sits a few bytes apart still
 counts: the instructions are identical) is verified against the SDK source.
 
+Headers the supplied sources lack: a header the source includes that no folder holds gets an empty stub; a reconstructed one in
+the repo's sdk-headers/ (by hand: what the sources use and the game's code shows) wins over the stub. A reconstruction is
+checked by the byte comparison itself: a wrong layout or value only fails to verify.
+
 Writes:
   sdk-source/<function>.c   the exact C of each verified function, from the source you supplied. It is the SDK's own
                             code: the folder is git-ignored and stays on this machine. Putting it in the repo is your choice.
@@ -131,6 +135,22 @@ def stage(folders, sdk):
                 nb = pat.sub(fix, b)
                 if nb != b:
                     open(p, 'wb').write(nb)
+    # a header the source includes that no folder holds (the dump leaves some out) gets an empty stub, so a file that only
+    # needs its name can compile; a file that needs what is in it still fails, and a result counts only if its bytes match
+    if incs:
+        for root in trees:
+            for r, _, fs in os.walk(root):
+                for f in fs:
+                    for m in pat.finditer(open(os.path.join(r, f), 'rb').read()):
+                        base = m.group(2).decode('latin1').replace('\\', '/').split('/')[-1]
+                        if base.lower() not in real and base.lower().endswith('.h'):
+                            open(os.path.join(incs[0], base), 'w').write('/* stub: not in the supplied sources */\n')
+                            real[base.lower()] = base
+    # headers the supplied sources lack, reconstructed by hand in the repo's sdk-headers/ (they win over the stubs)
+    if incs and os.path.isdir('sdk-headers'):
+        for f in os.listdir('sdk-headers'):
+            if f.lower().endswith('.h'):
+                shutil.copyfile(os.path.join('sdk-headers', f), os.path.join(incs[0], f))
     return trees, incs
 
 
