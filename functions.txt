@@ -1392,7 +1392,7 @@ F 0c080fc4 158 _divlu
 F 0c08106c 190 _modls
 F 0c081134 174 _modlu
 F 0c0811ec 20 _quick_evn_mvn
-F 0c081268 188 FUN_0c081268
+F 0c081268 188 _quick_mvn
 F 0c081324 20 _quick_odd_mvn
 F 0c081398 56 _slow_mvn
 F 0c0813d0 14 FUN_0c0813d0

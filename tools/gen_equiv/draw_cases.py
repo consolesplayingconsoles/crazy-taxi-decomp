@@ -37,13 +37,25 @@ def draw_one(name,params,body,rng):
             f=float(m)
             FL+= [f,-f,f*2.0,f*0.5,f*1.0000001,f*0.9999999]
         except (ValueError,OverflowError): pass
+    lits=[]
+    for m in re.findall(r'(?<![\w.])(\d+\.\d*(?:[eE][+-]?\d+)?|\.\d+)f?',body):
+        try: lits.append(float(m))
+        except (ValueError, OverflowError): pass
+    lits=sorted(set(lits))[:14]
+    for x in lits:                                           # an input that makes one constant meet another
+        for y in lits:
+            if y != 0.0:
+                for v in (x/y, x*y, -x/y):
+                    if abs(v)<3e38: FL.append(v)
     FL=[f for f in FL if abs(f)<3e38]
     fbits=[struct.unpack('<I',struct.pack('<f',f))[0] for f in FL]
     ptrs_ok=[0x0C800000,0x0C810000,0x0C900000,0x0C910000]            # addresses that have memory behind them
     V=sorted(set(base)|{c for c in consts if c<=0x100000 or c>=0xFFFF0000}|set(fbits)|set(ptrs_ok))
     small=[v for v in V if v<=0x100 or v>=0xFFFFFF00]
-    outslots=bool(re.search(r'&\s*\w',body))                         # an address passed to a call: the callee may fill it
+    arrays=re.search(r'\w\s+\w+\[\d+\]\s*;',body)                            # a local array handed to a call
+    outslots=bool(re.search(r'&\s*\w',body)) or bool(arrays)                         # an address passed to a call: the callee may fill it
     ncalls=len([m for m in re.findall(r'\b(\w+)\s*\(',body) if m not in KEYWORDS])+4
+    if re.search(r'\b(for|while|do)\b',body): ncalls=max(ncalls,24)           # a loop may call as often as it goes round
     pool=small+fbits+[0x0C900000,0x0C910000]
     cases=[]
     for i in range(120):
@@ -58,7 +70,7 @@ def draw_one(name,params,body,rng):
             poke['%08X'%pa]=struct.pack('<256I',*[rng.choice(small) for _ in range(256)]).hex()
         d={'about':'case %d'%i,'poke':poke}
         if regs: d['regs']=regs
-        if ncalls>4: d['calls']=[dict({'r0':'%08X'%(rng.choice([0x0C900000,0x0C910000]) if rng.random()<0.4 else rng.choice(pool))},**({'poke_arg':{r:struct.pack('<I',rng.choice(small)).hex() for r in ('r4','r5','r6','r7')}} if outslots else {})) for _ in range(ncalls)]
+        if ncalls>4: d['calls']=[dict({'r0':'%08X'%(rng.choice([0x0C900000,0x0C910000]) if rng.random()<0.4 else rng.choice(pool))},**({'poke_arg':{r:struct.pack('<4I' if arrays else '<I',*[rng.choice(small+fbits) for _ in range(4 if arrays else 1)]).hex() for r in ('r4','r5','r6','r7')}} if outslots else {})) for _ in range(ncalls)]
         cases.append(d)
     return cases,V,sorted(set(consts)|{0,1,2,0xFFFFFFFF}|set(ptrs_ok))
 def main(args):

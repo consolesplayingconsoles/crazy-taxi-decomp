@@ -22,6 +22,9 @@ def build(name,ret,passthru=False):
     text=re.sub(r'\n[ \t]*(?=\n)','',text)
     frame_decl=None
     if c.frame:
+        for m in re.finditer(r'\(int\)stk \+ @@F:(-?\d+)@@\)((?: [+-] (?:0x[0-9A-Fa-f]+|\d+)\))*)',text):
+            off=int(m.group(1))+sum(int(x,0)*(-1 if sg=='-' else 1) for sg,x in re.findall(r' ([+-]) (0x[0-9A-Fa-f]+|\d+)\)',m.group(2)))
+            if off>=0: raise Skip('reads the caller frame')      # an address above the function's own frame is an argument the caller left on the stack
         W=(c.maxD+3)//4+1
         frame_decl='int stk[%d];'%W
         text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))),text)
@@ -82,7 +85,8 @@ def addr_vals(c,basemap):
         if re.search(r'\b[tu]\d+\b|\bstk\b',e): res.append(None); continue
         ex=e
         for k,v in basemap.items(): ex=re.sub(r'\b%s\b'%k,str(v),ex)
-        if not re.match(r'^[\(\)\s\w\+\-]*$',ex): raise Skip('addr expr '+e)
+        ex=re.sub(r'\(\s*(?:unsigned\s+|signed\s+)?(?:short|char|int|long)\s*\)','',ex)           # a cast only narrows the seed address
+        if not re.match(r'^[\(\)\s\w\+\-\*<>|&~]*$',ex): raise Skip('addr expr '+e)
         try: res.append(eval(ex)&0xffffffff)
         except Exception: raise Skip('eval')
     return res
@@ -95,6 +99,13 @@ def stack_top():
     except Exception: raise Skip('no simulator for stack arguments')
 LAST_READS=[]
 RUNTIME={a for a,n in G.FUNCS.items() if n.startswith('_')}       # the compiler's runtime helpers run for real, as equiv.py runs them
+HW=[True]           # whether the function names a hardware address: only then are its device accesses part of a case
+def _names_hardware(src):
+    for m in re.findall(r'0x([0-9A-Fa-f]{5,8})',src):
+        v=int(m,16)
+        ram=0x0C000000<=v<0x0D000000 or 0x8C000000<=v<0x8D000000 or 0xAC000000<=v<0xAD000000
+        if v>=0x00200000 and not ram: return True
+    return False
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -108,6 +119,7 @@ def original_runs(name,case):
     r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=100000),'.',deep=lambda t:t in RUNTIME)
     LAST_READS[:]=r.get('reads',[])
     if r['error']: return None,set()
+    if r.get('devices') and not HW[0]: return None,set()      # a wild pointer reached memory the function never names (a null pointer, a random word): not a case
     return r['steps'],set(r.get('covered',[]))
 def grow(name,runs,V,rng,HOT,budget=1200):
     """Coverage-guided growth: take one of the cases that reach the most code, change one input (a word in memory, a register, the
@@ -117,8 +129,9 @@ def grow(name,runs,V,rng,HOT,budget=1200):
     for d,n,c in runs:
         if c: seen|=c
     pool=[(d,c) for d,n,c in runs if n is not None and c]
+    stale=0                                     # tries in a row that reached nothing new: past ~250 the function is done
     for _ in range(budget):
-        if not pool: break
+        if not pool or stale>=250: break
         top=sorted(pool,key=lambda dc:-len(dc[1]))[:6]
         d,c=top[0] if rng.random()<0.7 else rng.choice(top)
         e=json.loads(json.dumps(d))
@@ -142,7 +155,9 @@ def grow(name,runs,V,rng,HOT,budget=1200):
         n,cov=original_runs(name,e)
         if n is None or cov is None: continue
         if cov-seen:
-            seen|=cov; runs.append((e,n,cov)); pool.append((e,cov))
+            seen|=cov; runs.append((e,n,cov)); pool.append((e,cov)); stale=0
+        else:
+            stale+=1
     return runs
 def pick(name,cases,want,V=None,rng=None,HOT=None):
     """Of many candidate cases, the ones the original finishes on, chosen greedily by the new instructions each reaches (the
@@ -161,6 +176,7 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         chosen.append(d)
     return chosen
 def tests(name,c,src):
+    HW[0]=_names_hardware(src)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
     loopy=c.has_loop
     addr_params=set()
@@ -197,7 +213,8 @@ def tests(name,c,src):
         addrs=addr_vals(c,bm)
         poke={}
         forced=V[i] if i<12 and i<len(V) else None
-        pool=(small if loopy else V)+([0x0C900000,0x0C910000,0x0C920040] if chained else [])      # some loaded words are pointers
+        POINTERS=[0x0C900000,0x0C910000,0x0C920040,0x0C930100]
+        pool=(small if loopy else V)+(POINTERS*max(1,len(V)//4) if chained else [])      # about half of the loaded words are pointers
         if loopy or chained:
             # addresses that follow loop variables or loaded values cannot be worked out: fill the memory the pointers point at
             for n in sorted(addr_params):
@@ -205,6 +222,8 @@ def tests(name,c,src):
                 words=[forced if forced is not None and rng.random()<0.85 else rng.choice(pool) for _ in range(64)]
                 poke['%08X'%((b-0x20)&0xffffffff)]=struct.pack('<16I',*[rng.choice(pool) for _ in range(16)]).hex()
                 poke['%08X'%b]=struct.pack('<64I',*words).hex()
+        if chained:
+            for pb in POINTERS: poke['%08X'%(pb&~3)]=struct.pack('<64I',*[rng.choice(pool) for _ in range(64)]).hex()   # memory behind those pointers
         for a in addrs:
             if a is None: continue
             w=forced if forced is not None else rng.choice(pool)

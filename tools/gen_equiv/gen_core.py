@@ -329,6 +329,9 @@ def run(name,passthru=False):
                 if mm[0]=='post':
                     b=c.gi(mm[1]); t=load(sz,addr_expr(b,0)); step={'l':4,'w':2,'b':1}[sz]; c.R[mm[1]]=iop('add',b,step); c.R[a[1]]=t; return
                 c.R[a[1]]=load(sz,memaddr(mm)); return
+        if mn=='movt':                                           # the last comparison, as 1 or 0
+            if c.T is None: raise Skip('no T')
+            c.R[a[0]]=('e','((%s) ? 1 : 0)'%c.T); return
         # floats
         if mn=='fldi0': c.FR[a[0]]=0; return
         if mn=='fldi1': c.FR[a[0]]=0x3f800000; return
@@ -361,7 +364,7 @@ def run(name,passthru=False):
         if mn=='sts' and a[0]=='fpul': c.R[a[1]]=c.fpul; return
         raise Skip(mn+' '+rawops)
     addr2idx={x[2]:i for i,x in enumerate(ins)}
-    def do_call(fname,tail=False):
+    def do_call(fname,tail=False,ind=None):
         if fname in ('_divls','_divlu','_modls','_modlu'):
             # the compiler's division helpers: dividend r1, divisor r0, result r0 (r1 is used up, the others come back unchanged)
             if tail: raise Skip('helper as a tail call')
@@ -386,7 +389,7 @@ def run(name,passthru=False):
         for n in range(4,12):
             r='fr%d'%n
             if r in c.FR and c.FR[r]!=DIRTY: fav.append(n)
-        ar=callee_arity(fname)
+        ar=None if ind else callee_arity(fname)
         if ar and not c.pend:                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
@@ -406,20 +409,26 @@ def run(name,passthru=False):
             if '@@F' in args[-1]: c.frame_regs.add('r%d'%n)
         if c.pend:
             # arguments pushed on the stack: the first of them was pushed last
-            if len(ia)<4: raise Skip('stack arguments without four in registers')
+            variadic=False
+            if len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
+                variadic=True
+            elif len(ia)<4: raise Skip('stack arguments without four in registers')
             for v in reversed(c.pend): args.append(ex(v)); types.append('int')
+            if variadic: types=['int','...']
             c.pend=[]
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         sig=tuple(types)
-        isf=fname in c.protos and c.protos[fname][-1:]==('->float',)
-        if fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Skip('proto conflict %s %s -> %s'%(fname,tuple(x for x in c.protos[fname] if x!='->float'),sig))
-        if not isf: c.protos[fname]=sig
-        call='%s(%s)'%(fname,', '.join(args))
+        isf=(not ind) and fname in c.protos and c.protos[fname][-1:]==('->float',)
+        if not ind:
+            if fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Skip('proto conflict %s %s -> %s'%(fname,tuple(x for x in c.protos[fname] if x!='->float'),sig))
+            if not isf: c.protos[fname]=sig
+        if ind: call='((int (*)(%s))(%s))(%s)'%(', '.join(sig) or 'void',ind,', '.join(args))
+        else: call='%s(%s)'%(fname,', '.join(args))
         if tail:
             c.tail=call; c.blocks[-1].append('@@TAIL:%s@@'%call); return
         t='t%d'%c.ntemp; c.ntemp+=1
         c.blocks[-1].append('%s %s = %s;'%('float' if isf else 'int',t,call))
-        c.lastcall=(c.blocks[-1],len(c.blocks[-1])-1,t,fname)
+        c.lastcall=None if ind else (c.blocks[-1],len(c.blocks[-1])-1,t,fname)
         c.ncalls+=1
         for n in range(1,8):
             c.R.pop('r%d'%n,None)
@@ -712,7 +721,12 @@ def run(name,passthru=False):
                 if mn=='bsr': tgt=target_of(ops)
                 else:
                     v=c.gi(parse_ops(ops)[0].strip('@'))
-                    if not isinstance(v,int): raise Skip('indirect call')
+                    if not isinstance(v,int):
+                        # a call through an address worked out or loaded: the register holds it before the delay slot runs
+                        if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect call')
+                        texpr=ex(v)
+                        step(i+1)
+                        do_call('@indirect',ind=texpr); commit(); i+=2; continue
                     tgt=v
                 if tgt not in FUNCS: raise Skip('callee unknown %x'%tgt)
                 step(i+1)

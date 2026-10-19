@@ -19,7 +19,6 @@ int FUN_0c074680(int, int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
 int FUN_0c078980(void);
-int FUN_0c081268(void);
 int Init_Result(int);
 int Initialize_Replay(void);
 int Sound_Init(void);
@@ -32,9 +31,13 @@ int nlObjPutLoadTexture(int, int);
 int nlScaleUnitVector(int, int, float);
 int nlSprPut(int, int, float, float);
 
+typedef struct {
+    int w[442];
+} Block1768;
+
 void FUN_0c020092(void)
 {
-    FUN_0c081268();
+    *(Block1768 *)0xC1789E0 = *(Block1768 *)0xC089F80;
 }
 
 void gameState12(void)
@@ -67,9 +70,13 @@ void FUN_0c030e72(void)
     nlObjPutLoadTexture(0xC0EB720, 0xC141868);
 }
 
+typedef struct {
+    int w[2412];
+} Block9648;
+
 void FUN_0c03ac62(void)
 {
-    FUN_0c081268();
+    *(Block9648 *)0xC28F8A0 = *(Block9648 *)0xC28A4E8;
 }
 
 void FUN_0c05778a(int a4, int a5, float f4, float f5)

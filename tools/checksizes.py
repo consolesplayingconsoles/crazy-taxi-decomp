@@ -22,8 +22,7 @@ functions.txt, `split_asm.py`, build (MATCH) and run `equiv.py` on the file of e
 --merge looks at entries that are pieces of one function: an entry whose code runs off its end into the next one (no rts
 before the listed end) is the first half of a function listed twice. The entry is extended over the next one(s) until the
 flow ends with an rts, a jump or a tail `bra`. A merge swallows the names of the later entries: the report names every one that
-was counted proven, since the merged function must be proven again. With --write, functions.txt is rewritten (a copy goes to
-functions.txt.before-merge); then run split_asm.py and build.sh (MATCH), and equiv.py on the files of the merged functions.
+was counted proven, since the merged function must be proven again. With --write, functions.txt is rewritten (git keeps the old one); then run split_asm.py and build.sh (MATCH), and equiv.py on the files of the merged functions.
 """
 import os
 import struct
@@ -257,8 +256,6 @@ def merge(only, write):
         print('%d merge(s) swallow a proven entry and are NOT written: read them first' % len(held))
         plan = [p for p in plan if p not in held]
     if write and plan:
-        import shutil
-        shutil.copy('functions.txt', 'functions.txt.before-merge')
         drop = set()
         for k, j, a, size, gap in plan:
             li = entries[k][0]
@@ -267,7 +264,7 @@ def merge(only, write):
             for m in range(k + 1, j + 1):
                 drop.add(entries[m][0])
         open('functions.txt', 'w').write('\n'.join(l for i, l in enumerate(lines) if i not in drop))
-        print('functions.txt rewritten (copy: functions.txt.before-merge); run split_asm.py and build.sh')
+        print('functions.txt rewritten; run split_asm.py and build.sh')
 
 
 if __name__ == '__main__':

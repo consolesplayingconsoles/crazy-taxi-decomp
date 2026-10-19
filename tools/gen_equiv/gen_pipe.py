@@ -11,6 +11,9 @@ def variants(name,passthru):
     if c.rets and all(r!='None' for r,f in c.rets) and not all(lit(r) for r,f in c.rets): out.append('r0')
     out.append('void')
     return out
+LAST={}                          # the text of the last check, for the report of what failed
+
+
 def run_file(stem,items):
     """items: list of (name,src,tests,protos). returns passed names, failed names, compile_error"""
     protos={}
@@ -56,7 +59,8 @@ def run_file_robust(stem,items):
         open('src/%s.c'%stem,'w').write(text)
         shutil.rmtree('tests/%s'%stem,ignore_errors=True); os.makedirs('tests/%s'%stem)
         for it in use: json.dump(it[2],open('tests/%s/%s.json'%(stem,it[0]),'w'),indent=1)
-        r=subprocess.run(['python3','tools/equiv.py','src/%s.c'%stem],capture_output=True,text=True); out=r.stdout+r.stderr
+        r=subprocess.run(['python3','tools/equiv.py','--full','src/%s.c'%stem],capture_output=True,text=True); out=r.stdout+r.stderr
+        LAST['out']=out
         if 'compile failed' in out:
             lines=[int(x) for x in re.findall(r'gen_\w+\.c\((\d+)\)',out)]
             bad=set()

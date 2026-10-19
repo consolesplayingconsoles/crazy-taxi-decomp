@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int FUN_0c0789c0(int);
-int FUN_0c081268(void);
+int _quick_mvn(void);
 int buAnalyzeBackupFileImage(int, int);
 int buGetFileInfo(int, int, int);
 int buGetFileSize(int, int);
@@ -39,7 +39,7 @@ void LoadBackupData(int a4)
                 if (t4 == 0) {
                     t5 = *(int *)(((int)stk + 112));
                     memmove(0xC28F8A0, t5, 0x25B0);
-                    FUN_0c081268();
+                    _quick_mvn();
                     t8 = buGetFileInfo(a4, 0xC09DB4C, ((int)stk + 4));
                     if (t8 == 0) {
                         memmove(0xC28CA98, (((int)stk + 4) + 0xA), 0x8);

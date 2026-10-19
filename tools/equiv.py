@@ -147,6 +147,9 @@ def prototypes(cfile):
     for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
         name, params = m.group(1), m.group(2).strip()
         ni = nf = 0
+        if '...' in params:                # variadic: every argument goes on the stack, the registers are not arguments
+            out[name] = (0, 0, True)
+            continue
         if params not in ('', 'void'):
             for p in params.split(','):
                 if re.search(r'\b(float|double)\b', p) and '*' not in p:
@@ -186,16 +189,21 @@ def final(writes):
     return mem
 
 
+SHOW = 200                       # characters of each side shown for a difference; --full shows 6000
+
+
 def stackish(v):
     return 'STACK' if 0x0DFF0000 <= int(v, 16) < 0x0E000000 else v
 
 
-def callview(to, r, f, arity):
+def callview(to, r, f, arity, stack=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
     a = arity.get(int(to, 16))
     if a is not None:
         r, f = r[:a[0]], f[:a[1]]
+        if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
+            return (to, [stackish(stack)], [])
     return (to, [stackish(v) for v in r], f)
 
 
@@ -211,19 +219,21 @@ def same(a, b, outs, back, arity=None):
         if k == 'out':
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
-            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity) for c in x]
-            y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity) for c in y]
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack')) for c in x]
+            y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None) for c in y]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
         if x != y:
-            return False, '%s: original %s / C %s' % (k, json.dumps(x)[:200], json.dumps(y)[:200])
+            return False, '%s: original %s / C %s' % (k, json.dumps(x)[:SHOW], json.dumps(y)[:SHOW])
     return True, ''
 
 
 def main(argv):
+    global SHOW
     quiet = '-q' in argv
-    argv = [a for a in argv if a != '-q']
+    if '--full' in argv: SHOW = 6000
+    argv = [a for a in argv if a not in ('-q', '--full')]
     if len(argv) < 2:
         sys.exit(__doc__)
     cfile = argv[1]

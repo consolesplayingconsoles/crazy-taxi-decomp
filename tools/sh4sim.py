@@ -607,7 +607,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             return False
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
-                      'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)]})
+                      'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)],
+                      'stack': '%08X' % mem.read(c.r[15] & M32, 4)})   # the word on top of the stack: the first argument of a variadic call
         ret = returns.pop(0) if returns else {}
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
             mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))

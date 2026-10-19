@@ -39,7 +39,13 @@ int FUN_0c070e8a(int);
 int FUN_0c077210(int, int);
 int FUN_0c07a520(void);
 int FUN_0c07f5c0(void);
-int FUN_0c081268(void);
+typedef struct {
+    int w[36];
+} Block144;
+
+typedef struct {
+    int w[239];
+} Block956;
 int FUN_0c0813e0(int, int, int);
 int FUN_0c1534a0(int, int, int);
 int FUN_0c1534ca(int);
@@ -2272,7 +2278,7 @@ int replay(int a4)
                                                         *(unsigned int *)((((t42 * 0x3C0) + t43) + 0x0)) = t44;
                                                         t45 = *(int *)(((t35 + (((t33 << 2) << 2) << 1)) + 0x8));
                                                         t46 = *(int *)0xC2A62A8;
-                                                        FUN_0c081268();
+                                                        *(Block956 *)(t45 * 0x3C0 + t46 + 4) = *(Block956 *)0xC1790CC;
                                                         *(unsigned int *)0xC0F2B34 = 0x12C;
                                                         *(unsigned int *)0xC0F2B38 = 0xFFFFFFFF;
                                                         t51 = 0x0;
@@ -3953,7 +3959,7 @@ int Drv_Execute(void)
     int t100;
     int stk[50];
 
-    FUN_0c081268();
+    *(Block144 *)((int)stk + 20) = *(Block144 *)0xC0D51E8;
     t1 = *(int *)0xC2AD23C;
     *(unsigned int *)0xC2AD248 = t1;
     t2 = *(int *)0xC2AD238;

@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=66.7)
+![decomp progress](badge.svg?p=71.9)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -134,16 +134,16 @@ the evidence for each equivalent function.
 <!-- progress -->
 ```
 THE GAME                          2843 functions, 537910 bytes of code; each function in one bucket
-  done: equivalent C       66.7%  1897 of 2843 functions, 154176 bytes (28.7%): C that behaves like the original
+  done: equivalent C       71.9%  2043 of 2843 functions, 183026 bytes (34.0%): C that behaves like the original
     of which matching C     0.3%  8 functions, 1338 bytes, 2 units: rebuilt byte for byte
     of which SDK source     6.8%  194 functions, 14784 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  named only               17.4%  496 functions: a name, no C yet (not done work)
-  unnamed                  15.8%  450 functions (FUN_...), no C yet
-  documented               41.6%  1184 named functions in docs/*.md
+  named only               14.4%  410 functions: a name, no C yet (not done work)
+  unnamed                  13.7%  390 functions (FUN_...), no C yet
+  documented               44.5%  1264 named functions in docs/*.md
   named globals                   120
   of which library                1840 functions, 221988 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                   67.5%  1242 of 1840 library functions, 80602 bytes (36.3%)
-    named                  72.4%  1333 of 1840 (the library's own names, from SDK tables)
+    done                   74.0%  1361 of 1840 library functions, 103738 bytes (46.7%)
+    named                  72.5%  1334 of 1840 (the library's own names, from SDK tables)
 REVERSE ENGINEERING               what the model map identifies; separate from the measures above, not done work
   models named             37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named         15.5%  9 of 58 characters (note rules)

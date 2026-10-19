@@ -1,11 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_z): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c081268(int, int, int);
 int FUN_0c156742(int, int);
 int FUN_0c156934(int, int, int, int, int, int);
 int FUN_0c157160(int, int, int);
-int FUN_0c16d2c0(void);
+typedef struct {
+    int w[63];
+} Block252;
+
+int FUN_0c16d2c0(int a, int b, int c, int d, Block252 v);
 int kmiCopyToFrameBuffer(int, int, int, int);
 int vmsfs_c_getstate(int, int, int, int);
 int vmsfs_c_setfname(int, int, int);
@@ -132,56 +135,55 @@ void kmiInitVGA(void)
     int t2;
     int t3;
     int t4;
-    int stk[129];
+    Block252 v;
 
-    *(unsigned int *)((((int)stk + 256) + 0x8)) = 0x359;
-    *(unsigned int *)((((int)stk + 256) + 0x14)) = 0x20C;
-    *(unsigned int *)((((int)stk + 256) + 0x0)) = 0x7E;
-    *(unsigned int *)((((int)stk + 256) + 0x4)) = 0x345;
-    *(unsigned int *)((((int)stk + 256) + 0xC)) = 0x28;
-    *(unsigned int *)((((int)stk + 256) + 0x10)) = 0x208;
-    *(unsigned int *)((((int)stk + 256) + 0x18)) = 0x3F;
-    *(unsigned int *)((((int)stk + 256) + 0x1C)) = 0x3;
-    *(unsigned int *)((((int)stk + 256) + 0x20)) = 0x319;
-    *(unsigned int *)((((int)stk + 256) + 0x24)) = 0xF;
-    *(unsigned int *)((((int)stk + 256) + 0x74)) = 0x208;
-    *(unsigned int *)((((int)stk + 256) + 0x78)) = 0x15;
-    *(unsigned int *)((((int)stk + 256) + 0x34)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x38)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x3C)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x40)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x44)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x8)) = 0x359;
+    *(unsigned int *)((((int)&v) + 0x14)) = 0x20C;
+    *(unsigned int *)((((int)&v) + 0x0)) = 0x7E;
+    *(unsigned int *)((((int)&v) + 0x4)) = 0x345;
+    *(unsigned int *)((((int)&v) + 0xC)) = 0x28;
+    *(unsigned int *)((((int)&v) + 0x10)) = 0x208;
+    *(unsigned int *)((((int)&v) + 0x18)) = 0x3F;
+    *(unsigned int *)((((int)&v) + 0x1C)) = 0x3;
+    *(unsigned int *)((((int)&v) + 0x20)) = 0x319;
+    *(unsigned int *)((((int)&v) + 0x24)) = 0xF;
+    *(unsigned int *)((((int)&v) + 0x74)) = 0x208;
+    *(unsigned int *)((((int)&v) + 0x78)) = 0x15;
+    *(unsigned int *)((((int)&v) + 0x34)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x38)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x3C)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x40)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x44)) = 0x0;
     t0 = *(int *)0xC2EA680;
     if (t0 == 6) {
-        *(unsigned int *)((((int)stk + 256) + 0x70)) = 0x16;
+        *(unsigned int *)((((int)&v) + 0x70)) = 0x16;
     } else {
-        *(unsigned int *)((((int)stk + 256) + 0x70)) = 0x1F;
+        *(unsigned int *)((((int)&v) + 0x70)) = 0x1F;
     }
-    *(unsigned int *)((((int)stk + 256) + 0x6C)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x28)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x2C)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x30)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x48)) = 0x1;
-    *(unsigned int *)((((int)stk + 256) + 0x4C)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x50)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x54)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x58)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x5C)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x68)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x60)) = 0x0;
-    *(unsigned int *)((((int)stk + 256) + 0x64)) = 0x1E0;
-    *(unsigned int *)((((int)stk + 256) + 0xF8)) = 0x90;
-    *(unsigned int *)((((int)stk + 256) + 0xF0)) = 0x23;
-    *(unsigned int *)((((int)stk + 256) + 0xF4)) = 0x23;
-    *(unsigned int *)((((int)stk + 256) + 0xF8)) = 0xA8;
-    *(unsigned int *)((((int)stk + 256) + 0xF0)) = 0x28;
-    *(unsigned int *)((((int)stk + 256) + 0xF4)) = 0x28;
+    *(unsigned int *)((((int)&v) + 0x6C)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x28)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x2C)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x30)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x48)) = 0x1;
+    *(unsigned int *)((((int)&v) + 0x4C)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x50)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x54)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x58)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x5C)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x68)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x60)) = 0x0;
+    *(unsigned int *)((((int)&v) + 0x64)) = 0x1E0;
+    *(unsigned int *)((((int)&v) + 0xF8)) = 0x90;
+    *(unsigned int *)((((int)&v) + 0xF0)) = 0x23;
+    *(unsigned int *)((((int)&v) + 0xF4)) = 0x23;
+    *(unsigned int *)((((int)&v) + 0xF8)) = 0xA8;
+    *(unsigned int *)((((int)&v) + 0xF0)) = 0x28;
+    *(unsigned int *)((((int)&v) + 0xF4)) = 0x28;
     *(unsigned int *)0xC2EA9A0 = 0x1E0;
     t2 = *(int *)0xC2EA9A0;
-    t3 = *(int *)((((int)stk + 256) + 0xC));
+    t3 = *(int *)((((int)&v) + 0xC));
     *(unsigned int *)0xC2EA998 = (t3 + t2);
-    t4 = *(int *)((((int)stk + 256) + 0xC));
+    t4 = *(int *)((((int)&v) + 0xC));
     *(unsigned int *)0xC2EA99C = t4;
-    FUN_0c081268(0x1E0, 0x28, 0x23);
-    FUN_0c16d2c0();
+    FUN_0c16d2c0(0x1E0, 0x28, 0x23, 0, v);
 }
