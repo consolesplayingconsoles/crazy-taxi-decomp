@@ -7,6 +7,27 @@ Game code counts as decompiled when its C **behaves like the original** (Equival
 same memory writes, same result on every test case, checked by `tools/equiv.py`). C that also
 rebuilds the original bytes (Matching) is the bonus tier: it goes into the build as a unit.
 
+## The six steps of this decomp
+
+This repo follows the six steps of the dc-decomp-kickoff skill. They are the milestones of the run: say which step you are in, announce
+each by its title before you start it (`=== Step N of 6: <title> ===`), and end it by printing the results
+(`python3 tools/progress.py`, with generated and hand-written C apart). The user decides at each boundary whether to go on.
+
+| # | Step | State in this repo |
+|---|---|---|
+| 1 | Decomp project setup | done by the kickoff |
+| 2 | Signature-driven baseline | done by the kickoff: the build matches, names applied |
+| 3 | Asset mapping | done by the kickoff |
+| 4 | Opportunity-driven optional boosts | whatever the user handed over; never look into their other code for more |
+| 5 | Incremental scripted decomp | `tools/sdk_source.py <folder>`, `python3 tools/gen_equiv`, `python3 tools/gen_equiv --retest` |
+| 6 | Experience-driven agentic decomp | you: pocket by pocket (library without source, the game's own code, runtime routines and tables), writing cases for the branches `equiv.py` says no case ran; RAM dumps (`"dump"`) for what depends on run-time state |
+
+If you are the session that ran the kickoff and the user chose to continue, this file is your instructions. If you are a new session,
+you are a guided agent: read this file, run `python3 tools/progress.py` to see where the run stands, and start at the first step not done.
+
+A function is only as proven as its cases: `equiv.py` prints how many of the original's instructions they ran. Aim for all of them; an
+instruction no case ran is a branch nobody checked. Details: the kickoff skill's `references/equivalent-pipeline.md` and `references/agentic-decomp.md`.
+
 ## Layout
 - `functions.txt`: every function (`F <addr> <size> <name>`). The source of truth for names and
   boundaries: `asm/` is generated from it (`python3 tools/split_asm.py 1ST_READ.BIN "$(cat BASE)"
@@ -20,7 +41,7 @@ rebuilds the original bytes (Matching) is the bonus tier: it goes into the build
   `D <addr> 0 data_<addr>` lines in `functions.txt` (data boundaries, not counted as functions).
 - `symbols.txt`: `<addr> <name>` for what the C uses that no file defines yet (RAM, data still inside
   asm); the linker gets them as defines.
-- `sdk.txt`: which code is Sega's SDK. `python3 tools/progress.py` reports game and SDK apart.
+- `sdk.txt`: the bundled Sega SDK's code. `python3 tools/progress.py` reports the state.
 - `tests/<file>/<function>.json`: test cases for a function (a list; each gives registers, bytes to
   put in memory, return values for the calls it makes, optionally a RAM dump to start from:
   `tools/sh4sim.py`). `tests/equivalent.txt`: the functions `tools/equiv.py` found equivalent.
@@ -30,7 +51,7 @@ rebuilds the original bytes (Matching) is the bonus tier: it goes into the build
 - Names: `FUN_<addr>` is unknown; anything else came from SDK signatures, a sibling decomp, or
   reading the code.
 
-## Naming (fast, safe, worth doing first)
+## Naming (step 2: fast, safe, worth doing first)
 Rename in `functions.txt`, delete the old `asm/<addr>_FUN_<addr>.src`, re-run `split_asm.py`, build:
 still `MATCH` (names never change bytes). A function missed by the analysis (`tools/missed_funcs.py`
 lists candidates) is added the same way, as `F <addr> <size> FUN_<addr>`. Its size runs to the end
@@ -43,7 +64,7 @@ by address or by name (`python3 tools/live.py watch <name>`, `vec <name>+4`), so
 name can be checked against what the value does in play. Setup and commands: `tools/live.py` with
 no arguments. Reading the code stays the evidence; a live value confirms it or sends you back.
 
-## The C loop: Equivalent first
+## The C loop: Equivalent first (step 6)
 1. **Write `src/<file>.c`**: the functions you read, in C, as the original source would have them
    (one file per original source file is the goal, but a few functions are fine to start).
    Outside names it uses come from `functions.txt`, `globals.txt` and `symbols.txt`.
@@ -71,7 +92,7 @@ Cases are the evidence: one case proves little; cover each branch and edge (zero
 values the game really uses). A RAM dump from the running game (`tools/live.py`) gives real
 world state to start from.
 
-## Matching (the bonus tier, one original source file at a time)
+## Matching (step 6, the bonus tier, one original source file at a time)
 1. **Find the unit.** The compiler's literal pools are shared by every function of one source file,
    and `bsr` calls only reach functions of the same file: a unit runs from just after the previous
    file's pool (and its padding) to the end of its own last pool. Both ends must be function
@@ -97,7 +118,7 @@ written down (what differs) for later; move on.
   value re-read from memory versus the one just stored (`if ((e->prev = p->prev) == 0)`).
 - A difference that no rewording moves is worth checking against another compiler version before
   more rewording; if two versions give the same bytes, it is the C.
-- Idioms that decide matches (details in the kick-off skill's `references/matching-c.md`):
+- Idioms that decide matches (details in the kickoff skill's `references/matching-c.md`):
   `x ? 1 : 0` for a bit field set from a call (not `!= 0`); one-bit fields rather than `& mask`
   tests on a flags byte (no `extu.b`); a whole-word field (`unsigned int f : 32`) when the original
   stores through a computed address (`mov.w off,r2; add rP,r2; mov.l rX,@r2`); globals read at
