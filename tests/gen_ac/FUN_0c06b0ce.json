@@ -3,135 +3,219 @@
   {
    "about": "case 0",
    "poke": {
-    "0C13EEC8": "0000000008000000"
-   }
-  },
-  {
-   "about": "case 1",
-   "poke": {
-    "0C13EEC8": "01000000ffff0700"
+    "0C13EEC8": "000000000f000000"
    }
   },
   {
    "about": "case 2",
    "poke": {
-    "0C13EEC8": "0200000000000800"
-   }
-  },
-  {
-   "about": "case 3",
-   "poke": {
-    "0C13EEC8": "0300000005000000"
+    "0C13EEC8": "0200000008000000"
    }
   },
   {
    "about": "case 4",
    "poke": {
-    "0C13EEC8": "0400000072600000"
-   }
-  },
-  {
-   "about": "case 5",
-   "poke": {
-    "0C13EEC8": "05000000feff0700"
+    "0C13EEC8": "0400000008000000"
    }
   },
   {
    "about": "case 6",
    "poke": {
-    "0C13EEC8": "08000000feff0f00"
-   }
-  },
-  {
-   "about": "case 7",
-   "poke": {
-    "0C13EEC8": "0f00000000000040"
+    "0C13EEC8": "0800000005000000"
    }
   },
   {
    "about": "case 8",
    "poke": {
-    "0C13EEC8": "10000000000040c0"
-   }
-  },
-  {
-   "about": "case 9",
-   "poke": {
-    "0C13EEC8": "11000000feff0f00"
+    "0C13EEC8": "100000000000803f"
    }
   },
   {
    "about": "case 10",
    "poke": {
-    "0C13EEC8": "200000003a300000"
-   }
-  },
-  {
-   "about": "case 11",
-   "poke": {
-    "0C13EEC8": "00010000feff0700"
+    "0C13EEC8": "2000000000000800"
    }
   },
   {
    "about": "case 12",
    "poke": {
-    "0C13EEC8": "ffffffff0000c842"
-   }
-  },
-  {
-   "about": "case 13",
-   "poke": {
-    "0C13EEC8": "20000000ffffff7f"
+    "0C13EEC8": "2000000001000000"
    }
   },
   {
    "about": "case 14",
    "poke": {
-    "0C13EEC8": "05000000ffffffff"
-   }
-  }
- ],
- "holdout": [
-  {
-   "about": "case 15",
-   "poke": {
-    "0C13EEC8": "02000000feff0700"
+    "0C13EEC8": "0000004001000000"
    }
   },
   {
    "about": "case 16",
    "poke": {
-    "0C13EEC8": "ffff070003000000"
-   }
-  },
-  {
-   "about": "case 17",
-   "poke": {
-    "0C13EEC8": "0001000000000080"
+    "0C13EEC8": "0000c84200000000"
    }
   },
   {
    "about": "case 18",
    "poke": {
-    "0C13EEC8": "1000000000002040"
-   }
-  },
-  {
-   "about": "case 19",
-   "poke": {
-    "0C13EEC8": "3a30000000000000"
+    "0C13EEC8": "feffffffffff0700"
    }
   },
   {
    "about": "case 20",
    "poke": {
-    "0C13EEC8": "feff070038300000"
+    "0C13EEC8": "04000000286b6e4e"
+   }
+  },
+  {
+   "about": "case 22",
+   "poke": {
+    "0C13EEC8": "000008003a300000"
+   }
+  },
+  {
+   "about": "case 24",
+   "poke": {
+    "0C13EEC8": "0400000000000040"
+   }
+  },
+  {
+   "about": "case 26",
+   "poke": {
+    "0C13EEC8": "feff0700286b6e4e"
+   }
+  },
+  {
+   "about": "case 28",
+   "poke": {
+    "0C13EEC8": "ffffff7f72600000"
+   }
+  },
+  {
+   "about": "case 30",
+   "poke": {
+    "0C13EEC8": "3a30000000000040"
+   }
+  },
+  {
+   "about": "case 32",
+   "poke": {
+    "0C13EEC8": "00000080feff0f00"
+   }
+  },
+  {
+   "about": "case 34",
+   "poke": {
+    "0C13EEC8": "0400000000002040"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "case 1",
+   "poke": {
+    "0C13EEC8": "01000000286b6e4e"
+   }
+  },
+  {
+   "about": "case 3",
+   "poke": {
+    "0C13EEC8": "0300000000010000"
+   }
+  },
+  {
+   "about": "case 5",
+   "poke": {
+    "0C13EEC8": "0500000008000000"
+   }
+  },
+  {
+   "about": "case 7",
+   "poke": {
+    "0C13EEC8": "0f00000000000800"
+   }
+  },
+  {
+   "about": "case 9",
+   "poke": {
+    "0C13EEC8": "1100000000000080"
+   }
+  },
+  {
+   "about": "case 11",
+   "poke": {
+    "0C13EEC8": "0001000000002040"
+   }
+  },
+  {
+   "about": "case 13",
+   "poke": {
+    "0C13EEC8": "286b6e4e04000000"
+   }
+  },
+  {
+   "about": "case 15",
+   "poke": {
+    "0C13EEC8": "ffffff7fffffffff"
+   }
+  },
+  {
+   "about": "case 17",
+   "poke": {
+    "0C13EEC8": "00010000feff0f00"
+   }
+  },
+  {
+   "about": "case 19",
+   "poke": {
+    "0C13EEC8": "feffffff08000000"
    }
   },
   {
    "about": "case 21",
    "poke": {
-    "0C13EEC8": "0f0000000000803f"
+    "0C13EEC8": "0f00000004000000"
+   }
+  },
+  {
+   "about": "case 23",
+   "poke": {
+    "0C13EEC8": "0000004000010000"
+   }
+  },
+  {
+   "about": "case 25",
+   "poke": {
+    "0C13EEC8": "feff0f0011000000"
+   }
+  },
+  {
+   "about": "case 27",
+   "poke": {
+    "0C13EEC8": "feffffffffff0700"
+   }
+  },
+  {
+   "about": "case 29",
+   "poke": {
+    "0C13EEC8": "0800000000010000"
+   }
+  },
+  {
+   "about": "case 31",
+   "poke": {
+    "0C13EEC8": "38300000feff0700"
+   }
+  },
+  {
+   "about": "case 33",
+   "poke": {
+    "0C13EEC8": "ffffffffffff0700"
+   }
+  },
+  {
+   "about": "case 35",
+   "poke": {
+    "0C13EEC8": "0000c8420000803f"
    }
   }
  ]

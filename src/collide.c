@@ -333,8 +333,9 @@ typedef struct {
     float radius;
 } WallQuery;
 
-extern int FUN_0c034872(WallQuery *q, int *wall);
-extern int FUN_0c0349d8(WallQuery *q, int *pole);
+extern float _builtin_sqrtf(float);
+extern int FUN_0c034872(WallQuery *q, float *wall);
+extern int FUN_0c0349d8(WallQuery *q, float *pole);
 
 /* Pushes the point out of the walls and poles of its cell in the wall grid (header at 0x0C27045C, cell pointers
    behind 0x0C270458: a cell has a halfword count of walls at +0, of poles at +2, then the pointers). A wall test
@@ -366,7 +367,7 @@ void CheckColliWall(float *pos, float radius)
     q.radius = radius;
     list = (int **)((char *)cell + 4);
     for (n = *(short *)cell; n != 0; n--) {
-        res = FUN_0c034872(&q, *list);
+        res = FUN_0c034872(&q, (float *)*list);
         list++;
         if (res == 1) {
             if (q.t > radius) {
@@ -399,10 +400,91 @@ void CheckColliWall(float *pos, float radius)
         pos[2] = pos[2] + third * other[1];
     }
     for (n = *(short *)((char *)cell + 2); n != 0; n--) {
-        if (FUN_0c0349d8(&q, *list++)) {
+        if (FUN_0c0349d8(&q, (float *)*list++)) {
             pos[0] = pos[0] + q.t * q.push[0];
             pos[2] = pos[2] + q.t * q.push[1];
             return;
         }
     }
+}
+
+
+/* Is the point against this wall? A wall: its line (a, b, d at +0, +4, +16: a*x + b*z + d is the distance), its end point
+   (+8, +12), the top at +20 and the bottom at +24, and the length at +28. Not touching: 0. Past the end it came for (the
+   along-the-wall coordinate under 0): 2, pushed away from the end point, by radius minus its distance; along the wall
+   inside the length: 1, pushed along the wall's normal (a, b) by radius minus the distance. The distance goes to q->spare. */
+int FUN_0c034872(WallQuery *q, float *w)
+{
+    float *pos = q->pos;
+    float y = pos[1];
+    float x, z, dist, along, dx, dz, d, inv, R;
+
+    if (y > w[5]) {
+        return 0;
+    }
+    if (w[6] - q->radius > y) {
+        return 0;
+    }
+    x = pos[0];
+    z = pos[2];
+    dist = w[1] * z + x * w[0] + w[4];
+    R = q->radius;
+    along = (w[2] - x) * w[1] - (w[3] - z) * w[0];
+    if (!(R > dist)) {
+        return 0;
+    }
+    if (!(dist > -R)) {
+        return 0;
+    }
+    q->spare = dist;
+    if (0.0f > along) {
+        if (!(along > -R)) {
+            return 0;
+        }
+        dx = x - w[2];
+        dz = z - w[3];
+        d = _builtin_sqrtf(dz * dz + dx * dx);
+        if (!(R > d)) {
+            return 0;
+        }
+        inv = 1.0f / d;
+        q->t = R - d;
+        q->push[0] = inv * dx;
+        q->push[1] = inv * dz;
+        return 2;
+    }
+    if (!(w[7] > along)) {
+        return 0;
+    }
+    q->push[0] = w[0];
+    q->push[1] = w[1];
+    q->t = R - dist;
+    return 1;
+}
+
+/* Is the point against this pole (a post: its centre x, z at +8 and +12, its radius at +16, the top at +20 and the bottom at +24)?
+   Inside the heights and closer than the radii added: 2, pushed away from the centre by the overlap (q->t) along q->push. */
+int FUN_0c0349d8(WallQuery *q, float *p)
+{
+    float *pos = q->pos;
+    float y = pos[1];
+    float dx, dz, d, inv;
+
+    if (y > p[5]) {
+        return 0;
+    }
+    if (p[6] - q->radius > y) {
+        return 0;
+    }
+    dx = pos[0] - p[2];
+    dz = pos[2] - p[3];
+    d = _builtin_sqrtf(dz * dz + dx * dx);
+    if (!(q->radius + p[4] > d)) {
+        return 0;
+    }
+    inv = 1.0f / d;
+    q->push[0] = inv * dx;
+    q->push[1] = inv * dz;
+    q->t = q->radius + p[4] - d;
+    return 2;
 }

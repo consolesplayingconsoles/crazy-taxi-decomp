@@ -146,6 +146,21 @@ def stage(folders, sdk):
                         if base.lower() not in real and base.lower().endswith('.h'):
                             open(os.path.join(incs[0], base), 'w').write('/* stub: not in the supplied sources */\n')
                             real[base.lower()] = base
+    # sdk-patches.txt: one change per line, "file name <TAB> old text <TAB> new text", applied to the staged copies of the sources
+    # (the build the game was made with set an option the shipped source has the other way round); '#' starts a comment
+    if os.path.exists('sdk-patches.txt'):
+        for line in open('sdk-patches.txt'):
+            parts = line.rstrip('\n').split('\t')
+            if line.startswith('#') or len(parts) != 3:
+                continue
+            for root in trees:
+                for r, _, fs in os.walk(root):
+                    for f in fs:
+                        if f.lower() == parts[0].lower():
+                            fp = os.path.join(r, f)
+                            b = open(fp, 'rb').read()
+                            if parts[1].encode('latin1') in b:
+                                open(fp, 'wb').write(b.replace(parts[1].encode('latin1'), parts[2].encode('latin1')))
     # headers the supplied sources lack, reconstructed by hand in the repo's sdk-headers/ (they win over the stubs)
     if incs and os.path.isdir('sdk-headers'):
         for f in os.listdir('sdk-headers'):
@@ -214,6 +229,7 @@ def main(argv):
     sdk, rel = sdk_env()
     RELWIN = rel.replace('/', '\\')
     table, funcs = names(), functions()
+    all_starts = {int(l.split()[1], 16) for l in open('functions.txt') if l.startswith('F ')}
     exe = open('1ST_READ.BIN', 'rb').read()
     base = int(open('BASE').read().strip(), 16)
     trees, incs = stage(folders, sdk)
@@ -244,6 +260,44 @@ def main(argv):
                 continue
             code = open(binp, 'rb').read()
             mp = open(os.path.join(outdir, stem + '.map'), errors='replace').read()
+            # a call to another function of the same file goes through a literal that holds that function's scratch
+            # address here and its game address in the executable: put the game's address in the literal first
+            where = {}
+            for mm in re.finditer(r"_(\w+)\s*\n?\s*H'([0-9A-Fa-f]{8})", mp):
+                if mm.group(1) in table:
+                    where[int(mm.group(2), 16)] = table[mm.group(1)]
+            if where:
+                fixed = bytearray(code)
+                for off in range(0, len(fixed) - 3, 2):
+                    v = struct.unpack_from('<I', fixed, off)[0]
+                    if v in where:
+                        struct.pack_into('<I', fixed, off, where[v])
+                code = bytes(fixed)
+            # a call to a function of the file the game has no name for (FUN_...): its literal holds the scratch address here and
+            # the game's address there. Learn the pairs from the functions' own bytes, but only where the game's value is the start
+            # of a function in functions.txt and one scratch address never maps to two
+            learned = {}
+            for n in wanted:
+                mm = re.search(r"_%s\s*\n?\s*H'([0-9A-Fa-f]{8})" % re.escape(n), mp)
+                if not mm:
+                    continue
+                at = int(mm.group(1), 16)
+                for start, size in funcs[n]:
+                    mine_b = code[at - SCRATCH:at - SCRATCH + size]
+                    orig_b = exe[start - base:start - base + size]
+                    for off in range(0, min(len(mine_b), len(orig_b)) - 3, 2):
+                        v1 = struct.unpack_from('<I', mine_b, off)[0]
+                        v2 = struct.unpack_from('<I', orig_b, off)[0]
+                        if SCRATCH <= v1 < SCRATCH + len(code) and v1 not in where and v2 in all_starts:
+                            learned.setdefault(v1, set()).add(v2)
+            pairs = {k: next(iter(v)) for k, v in learned.items() if len(v) == 1}
+            if pairs:
+                fixed = bytearray(code)
+                for off in range(0, len(fixed) - 3, 2):
+                    v = struct.unpack_from('<I', fixed, off)[0]
+                    if v in pairs:
+                        struct.pack_into('<I', fixed, off, pairs[v])
+                code = bytes(fixed)
             for n in wanted:
                 m = re.search(r"_%s\s*\n?\s*H'([0-9A-Fa-f]{8})" % re.escape(n), mp)
                 if not m:

@@ -1,7 +1,7 @@
 {
  "dev": [
   {
-   "about": "case 0",
+   "about": "case 2",
    "poke": {},
    "regs": {
     "fr4": 2.5
@@ -11,63 +11,28 @@
    "about": "case 1",
    "poke": {},
    "regs": {
-    "fr4": -3.0
-   }
-  },
-  {
-   "about": "case 2",
-   "poke": {},
-   "regs": {
-    "fr4": 1.0
-   }
-  },
-  {
-   "about": "case 3",
-   "poke": {},
-   "regs": {
-    "fr4": -3.0
+    "fr4": 1000000000.0
    }
   },
   {
    "about": "case 4",
    "poke": {},
    "regs": {
-    "fr4": 1000000000.0
-   }
-  },
-  {
-   "about": "case 5",
-   "poke": {},
-   "regs": {
-    "fr4": 2.5
+    "fr4": -3.0
    }
   },
   {
    "about": "case 6",
    "poke": {},
    "regs": {
-    "fr4": -3.0
-   }
-  },
-  {
-   "about": "case 7",
-   "poke": {},
-   "regs": {
-    "fr4": -3.0
+    "fr4": 1000000000.0
    }
   },
   {
    "about": "case 8",
    "poke": {},
    "regs": {
-    "fr4": 2.5
-   }
-  },
-  {
-   "about": "case 9",
-   "poke": {},
-   "regs": {
-    "fr4": 2.5
+    "fr4": 100.0
    }
   },
   {
@@ -78,61 +43,152 @@
    }
   },
   {
-   "about": "case 11",
-   "poke": {},
-   "regs": {
-    "fr4": 0.0
-   }
-  },
-  {
    "about": "case 12",
    "poke": {},
    "regs": {
-    "fr4": 1000000000.0
-   }
-  },
-  {
-   "about": "case 13",
-   "poke": {},
-   "regs": {
-    "fr4": 1000000000.0
+    "fr4": -3.0
    }
   },
   {
    "about": "case 14",
    "poke": {},
    "regs": {
-    "fr4": 2.5
-   }
-  }
- ],
- "holdout": [
-  {
-   "about": "case 15",
-   "poke": {},
-   "regs": {
-    "fr4": 1.0
+    "fr4": 0.0
    }
   },
   {
    "about": "case 16",
    "poke": {},
    "regs": {
-    "fr4": 0.0
-   }
-  },
-  {
-   "about": "case 17",
-   "poke": {},
-   "regs": {
-    "fr4": 1000000000.0
+    "fr4": 1.0
    }
   },
   {
    "about": "case 18",
    "poke": {},
    "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "case 20",
+   "poke": {},
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "case 22",
+   "poke": {},
+   "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "case 24",
+   "poke": {},
+   "regs": {
+    "fr4": 1000000000.0
+   }
+  },
+  {
+   "about": "case 26",
+   "poke": {},
+   "regs": {
+    "fr4": 1.0
+   }
+  },
+  {
+   "about": "case 28",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 30",
+   "poke": {},
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "case 32",
+   "poke": {},
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "case 34",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "case 0",
+   "poke": {},
+   "regs": {
+    "fr4": 1.0
+   }
+  },
+  {
+   "about": "case 3",
+   "poke": {},
+   "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "case 5",
+   "poke": {},
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "case 7",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 9",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 11",
+   "poke": {},
+   "regs": {
     "fr4": 100.0
+   }
+  },
+  {
+   "about": "case 13",
+   "poke": {},
+   "regs": {
+    "fr4": 2.5
+   }
+  },
+  {
+   "about": "case 15",
+   "poke": {},
+   "regs": {
+    "fr4": 1000000000.0
+   }
+  },
+  {
+   "about": "case 17",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
    }
   },
   {
@@ -143,17 +199,59 @@
    }
   },
   {
-   "about": "case 20",
+   "about": "case 21",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 23",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 25",
    "poke": {},
    "regs": {
     "fr4": 0.0
    }
   },
   {
-   "about": "case 21",
+   "about": "case 27",
+   "poke": {},
+   "regs": {
+    "fr4": 1.0
+   }
+  },
+  {
+   "about": "case 29",
+   "poke": {},
+   "regs": {
+    "fr4": -3.0
+   }
+  },
+  {
+   "about": "case 31",
    "poke": {},
    "regs": {
     "fr4": 0.0
+   }
+  },
+  {
+   "about": "case 33",
+   "poke": {},
+   "regs": {
+    "fr4": 0.0
+   }
+  },
+  {
+   "about": "case 35",
+   "poke": {},
+   "regs": {
+    "fr4": 100.0
    }
   }
  ]

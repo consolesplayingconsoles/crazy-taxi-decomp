@@ -3,10 +3,10 @@
 #ifndef _SG_BUP2_H_
 #define _SG_BUP2_H_
 
-#define BUD_ERR_NO_DEVICE   0xffffff02
-#define BUD_ERR_NOTMOUNTED  0xffffff82
-#define BUD_ERR_UNMOUNT     0xffffff84
-#define BUD_ERR_READ_ERROR  0xffffff42
+#define BUD_ERR_NO_DEVICE   0xffffff30   /* read from the game: the six functions that return it hold it */
+#define BUD_ERR_NOTMOUNTED  0xffffff82   /* guess: no compiled function uses it */
+#define BUD_ERR_UNMOUNT     0xffffff84   /* guess: no compiled function uses it */
+#define BUD_ERR_READ_ERROR  0xffffff42   /* guess: its one user is a function that differs in code anyway */
 
 typedef struct {
     char isOpen;                /* +0 */

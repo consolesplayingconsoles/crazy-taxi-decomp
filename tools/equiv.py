@@ -35,6 +35,7 @@ Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 import json
 import os
 import re
+import struct
 import subprocess
 import sys
 
@@ -156,6 +157,25 @@ def prototypes(cfile):
     return out
 
 
+
+def code_addresses(exe, base, start, size):
+    """The addresses of the instructions of a function: its listed bytes without the literal pools its loads point to, the
+    padding nops and the data after its last return (and that return's delay slot)."""
+    import shdis
+    word = lambda pc: struct.unpack_from('<H', exe, pc - base)[0]
+    pools = set()
+    for pc in range(start, start + size, 2):
+        _, pool, psize, _ = shdis.decode(word(pc), pc)
+        if pool is not None:
+            pools.update(range(pool, pool + psize, 2))
+    addrs = [pc for pc in range(start, start + size, 2) if pc not in pools]
+    last = -1
+    for i, pc in enumerate(addrs):
+        if shdis.decode(word(pc), pc)[0].startswith(('rts', 'jmp', 'bra', 'rte')):
+            last = i
+    return addrs[:last + 2] if last >= 0 else addrs
+
+
 def final(writes):
     """Memory after the writes, byte by byte: {address: byte}."""
     mem = {}
@@ -218,6 +238,7 @@ def main(argv):
         sys.exit('[ERROR] link: undefined %s (name them in functions.txt / globals.txt / symbols.txt)' % ', '.join(syms))
     want = argv[2:] or sorted(n for n in defined if n in funcs)
     base = int(open('BASE').read().strip(), 16)
+    exe_bytes = open('1ST_READ.BIN', 'rb').read()
     rets = returns(cfile)
     back = {a: table[n[1:]] for n, a in syms.items() if n[1:] in table}    # the file's own names
     # a call into the compiled C that is not one of its game-named functions is the C's own helper
@@ -241,6 +262,7 @@ def main(argv):
         c_at = syms['_' + fn]
         c_end = min([a for a in syms.values() if a > c_at] + [SCRATCH + len(code)])
         ok, why, n = True, '', 0
+        seen = set()
         sets = json.load(open(case_path))
         if isinstance(sets, list):                   # a plain list: all development cases
             sets = {'dev': sets}
@@ -248,6 +270,7 @@ def main(argv):
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
             orig = sh4sim.run(case, '.', deep=helpers_orig)
+            seen.update(orig.get('covered', []))
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity)
@@ -256,10 +279,13 @@ def main(argv):
             if not good:
                 ok, why = False, 'case %d: %s' % (n, diff)
                 break
-        results[fn] = (ok, why or '%d cases (%s)' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items())))
+        total = code_addresses(exe_bytes, base, start, size)
+        cov = len([a for a in total if a in seen])
+        covtext = '%d of %d instructions' % (cov, len(total)) if total else ''
+        results[fn] = (ok, why or '%d cases (%s), %s' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items()), covtext))
         if ok:
             evidence[fn] = (start, size, cfile, counts,
-                            [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])])
+                            [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
     for fn, (ok, why) in results.items():
         if not quiet or ok is not True:
             print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))

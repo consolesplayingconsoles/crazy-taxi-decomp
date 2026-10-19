@@ -1,0 +1,3 @@
+# sdk_source.py: changes to the supplied sources (file <TAB> old <TAB> new)
+# the game was built without static helpers: its symbol table names them
+VMSGBL.H	#define USE_STATIC 1	#define USE_STATIC 0

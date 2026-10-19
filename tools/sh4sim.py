@@ -77,6 +77,7 @@ class Memory:
         self.pages = {}
         self.writes = []          # (addr, size, value), stack excluded
         self.devices = []         # ('r'/'w', addr, size, value)
+        self.reads = []           # the address of every data read, in order (capped)
         self.stack = (STACK_TOP - 0x10000, STACK_TOP)
         self.device_reads = {}    # addr -> list of values to hand back, in order
 
@@ -99,6 +100,8 @@ class Memory:
 
     def read(self, addr, size, fetch=False):
         a = self.phys(addr)
+        if not fetch and len(self.reads) < 4000:
+            self.reads.append(a)
         if a & (size - 1):
             raise Stop('unaligned %d-byte read at %08X' % (size, addr))
         page = self.pages.get(a >> 12)
@@ -143,6 +146,7 @@ class CPU:
         self.sz = self.prec = self.frbit = 0
         self.fpscr_rest = 0x00040001   # DN = 1, RM = nearest
         self.steps = 0
+        self.covered = set()                  # the address of every instruction that ran
         self.on_call = None       # callback(cpu, target, kind) -> True when the call was handled
         self.lo = self.hi = 0     # the function's own bytes: branches inside stay inside
         self.inside = []          # return addresses of the callees running now (deep calls)
@@ -180,6 +184,7 @@ class CPU:
         pc = self.pc
         op = self.m.read(pc, 2, fetch=True)
         self.steps += 1
+        self.covered.add(pc)
         self.pc = (pc + 2) & M32
         n, m_, lo4, lo8 = (op >> 8) & 15, (op >> 4) & 15, op & 15, op & 255
         r = self.r
@@ -633,7 +638,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             'devices': [[k, '%08X' % a, s, '%0*X' % (s * 2, v)] for k, a, s, v in mem.devices],
             'out': {'r0': '%08X' % cpu.r[0], 'r1': '%08X' % cpu.r[1],
                     'fr0': '%08X' % cpu.fr[0], 'fr1': '%08X' % cpu.fr[1]},
-            'r15_balanced': cpu.r[15] == entry_r15}
+            'r15_balanced': cpu.r[15] == entry_r15,
+            'covered': sorted(a for a in cpu.covered if entry <= a < end),
+            'reads': mem.reads}
 
 
 def main(argv):

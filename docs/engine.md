@@ -568,6 +568,15 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   below its bottom). Its callers are `ExecAdvCamera`, `SetObjFly` and `FUN_0c0730b4` (an object
   by the taxi, radius 21); the customers' own movement never calls it. A point at ground height
 with radius 5 (a person) is held back by building walls and poles.
+  The wall grid is laid out like the ground grid: header at `0x0C27045C`, cell pointers behind `0x0C270458`; a cell
+  has a halfword count of walls at `+0` and of poles at `+2`, then the pointers (walls first). A wall (`FUN_0c034872`,
+  floats): the line `a*x + b*z + d` at `+0`, `+4`, `+16` (the signed distance, so (a, b) is its normal), an end point
+  (x, z) at `+8`, `+12`, the top at `+20`, the bottom at `+24` and the length at `+28`. A point at `y` counts only between
+  the bottom (less its radius) and the top. Inside the radius of the line and past the end it came for, it is pushed away
+  from the end point (type 2); along the wall within its length, along (a, b) (type 1); the push is the radius minus the
+  distance. A pole (`FUN_0c0349d8`): centre (x, z) at `+8`, `+12`, its radius at `+16`, top and bottom at `+20`, `+24`; it
+  pushes the point away from the centre by the overlap of the two radii. `CheckColliWall` takes the deepest type 1 push, else
+  the nearest type 1 beyond the radius (under twice the radius), else the nearest type 2; the first pole it is inside ends the check.
 
 - The ground and the swept move (`src/collide.c`, all Equivalent C): the course's collision data is a grid of cells.
   The grid header is at `0x0C26E3F4` (32 bytes, loaded with the course, not built by code): `+0x00` and `+0x04` the

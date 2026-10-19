@@ -8,6 +8,7 @@ ADXB_CheckAu
 ADXB_CheckSpsd
 ADXB_CheckWav
 ADXB_CopyExtraBufMono
+ADXB_CopyExtraBufSte
 ADXB_Create
 ADXB_DecodeHeader
 ADXB_Destroy
@@ -119,6 +120,7 @@ ADXSTM_SetBufSize
 ADXSTM_SetEos
 ADXSTM_SetReqRdSize
 ADXSTM_Start
+ADXSTM_Stop
 ADXSTM_Tell
 ADXT_DiscardSmpl
 ADXT_GetNumChan
@@ -134,6 +136,7 @@ ADXT_SetOutVol
 ADX_DecodeInfo
 ADX_DecodeInfoAiff
 ADX_DecodeInfoExADPCM2
+ADX_DecodeInfoWav
 Act_Execute
 Act_Init
 Advtise
@@ -157,6 +160,7 @@ CourseSplineGet
 CourseSplineNumGet
 DECtoBCD
 DispVector
+Drv_Execute
 Drv_PickSomeoneUp
 ExecHelicopter
 ExecKyakuArea
@@ -220,6 +224,7 @@ FUN_0c02e75a
 FUN_0c02e800
 FUN_0c02e90e
 FUN_0c02e940
+FUN_0c02ea04
 FUN_0c02eb86
 FUN_0c02edd4
 FUN_0c02f02a
@@ -258,6 +263,9 @@ FUN_0c031934
 FUN_0c031c5a
 FUN_0c032080
 FUN_0c0321c2
+FUN_0c032432
+FUN_0c034872
+FUN_0c0349d8
 FUN_0c0357b0
 FUN_0c036256
 FUN_0c0364b8
@@ -278,6 +286,7 @@ FUN_0c039560
 FUN_0c039680
 FUN_0c0396dc
 FUN_0c03974c
+FUN_0c0399b8
 FUN_0c03a3e0
 FUN_0c03a640
 FUN_0c03a704
@@ -289,6 +298,7 @@ FUN_0c03b674
 FUN_0c03bf42
 FUN_0c03bf76
 FUN_0c03c10e
+FUN_0c03cd2c
 FUN_0c03d594
 FUN_0c03d678
 FUN_0c03d9b4
@@ -308,6 +318,7 @@ FUN_0c040b98
 FUN_0c040de6
 FUN_0c040e1c
 FUN_0c041016
+FUN_0c041a3e
 FUN_0c041c14
 FUN_0c041ce2
 FUN_0c041ce8
@@ -315,6 +326,8 @@ FUN_0c041d68
 FUN_0c043524
 FUN_0c043b68
 FUN_0c044b80
+FUN_0c049b06
+FUN_0c04a090
 FUN_0c04a38a
 FUN_0c04a4d6
 FUN_0c04bb70
@@ -322,6 +335,7 @@ FUN_0c04bef4
 FUN_0c04bf14
 FUN_0c04bf1a
 FUN_0c04c0dc
+FUN_0c04c104
 FUN_0c04d1ac
 FUN_0c04d30a
 FUN_0c04d3ee
@@ -408,6 +422,7 @@ FUN_0c055b38
 FUN_0c055cf4
 FUN_0c0563f8
 FUN_0c056e80
+FUN_0c056ed8
 FUN_0c056ff8
 FUN_0c057080
 FUN_0c0572de
@@ -440,15 +455,19 @@ FUN_0c059514
 FUN_0c0595e8
 FUN_0c0596ac
 FUN_0c0597fc
+FUN_0c059866
 FUN_0c05999c
 FUN_0c0599fa
+FUN_0c059d9c
 FUN_0c059eb0
 FUN_0c05a350
 FUN_0c05a3ae
 FUN_0c05a460
+FUN_0c05a5e0
 FUN_0c05a742
 FUN_0c05ab80
 FUN_0c05ac4c
+FUN_0c05acc8
 FUN_0c05aefc
 FUN_0c05af6c
 FUN_0c05af86
@@ -467,6 +486,7 @@ FUN_0c05c2d4
 FUN_0c05c3fe
 FUN_0c05c72e
 FUN_0c05c7ac
+FUN_0c05c81c
 FUN_0c05ca3e
 FUN_0c05cb52
 FUN_0c05cb80
@@ -487,6 +507,7 @@ FUN_0c05df48
 FUN_0c05df5e
 FUN_0c05e2fa
 FUN_0c05e8c8
+FUN_0c05e944
 FUN_0c05ead0
 FUN_0c05ef68
 FUN_0c05f482
@@ -534,6 +555,7 @@ FUN_0c0714f2
 FUN_0c071d34
 FUN_0c071d98
 FUN_0c071db8
+FUN_0c071fa4
 FUN_0c072348
 FUN_0c072502
 FUN_0c07250c
@@ -685,6 +707,8 @@ FUN_0c15f868
 FUN_0c15f8ba
 FUN_0c15f926
 FUN_0c15f998
+FUN_0c15f9c4
+FUN_0c15fa32
 FUN_0c15fa6c
 FUN_0c15fa92
 FUN_0c15fab8
@@ -792,8 +816,11 @@ Psg_SetPosPtrSet
 Put2DObj
 PutCourse_Init
 PutVMSMessage
+PutVM_Message
 Put_Build_Patch
 Put_Combo_Entry
+Put_Course_Obj_Dist
+Put_Max_Combo
 RailroadAreaCheck
 ResetFadeColor
 ResetLight
@@ -842,6 +869,7 @@ SetMVShadow
 SetSEvolume
 Set_StandWaitDist
 SklSfPlay
+Sound_Init
 Sound_Request
 TrafficLevelChange
 VSklSfPlay
@@ -923,6 +951,7 @@ buUnmountDisk
 buWriteDiskImage
 buWriteFile
 calcCheck
+calcCheckExec
 calcColliCheck
 callGoBackAdvertise
 callTryAgain
@@ -952,6 +981,7 @@ dropOutCheck
 drvAccelDot
 execAdvSprite
 execMiniLight
+exec_loop_Replay
 extRand
 extRandom
 extRandomSeed
@@ -998,17 +1028,20 @@ gdc_CourseReq
 gdc_CourseSet
 gdc_FileLoadInitAll
 gdc_SpriteFreeMenu
+gdc_SpriteSetAdv
 gdc_SpriteSetGame
 gdc_StopStreamSongAll
 gdc_StopStreamVoice
 gdc_StopStreamVoiceAll
 getAreaFromPos
 getGoiToolFlag
+getNearLineIndex
 getNearLineIndexAll
 getPieceWindow
 getReplayPassenger
 getSwitch
 getSystemMetrics
+get_data
 get_fat
 hudDraw
 hudDrawTime
@@ -1067,7 +1100,9 @@ kmGetTexture
 kmInitDevice
 kmLoadRectangleTexturePart
 kmLoadVQCodebook
+kmLoadYUVTexture
 kmQueryFinishFlushVertexBuffer
+kmReLoadMipmap
 kmRenderDirect
 kmResetPointer
 kmResetRenderer
@@ -1105,6 +1140,7 @@ kmSetWaitVsyncCallback
 kmSetWaitVsyncCount
 kmUnloadDevice
 kmUseAnotherModifier
+kmfInitializeYUVConverter
 kmfSetCommonModifier
 kmfSetFatalErrorCallback
 kmfSetTimeOutCount
@@ -1127,7 +1163,10 @@ kmiDMAHazardReset
 kmiExecuteDMAChain
 kmiFBGarbageCollect
 kmiFBSortQueue
+kmiFBalloc
 kmiFBallocEx
+kmiFBfreeEx
+kmiFBinit
 kmiFinalizeRender
 kmiGetNativeRegOBPSize
 kmiGetSysConfigFlag
@@ -1140,9 +1179,14 @@ kmiInitializeFog
 kmiInitializeHardware
 kmiInitializeTA
 kmiMIPalloc
+kmiProcessVertex_00
+kmiProcessVertex_01
+kmiProcessVertex_02
 kmiProcessVertex_04
 kmiProcessVertex_06
 kmiProcessVertex_08
+kmiProcessVertex_09
+kmiProcessVertex_10
 kmiProcessVertex_12
 kmiProcessVertex_14
 kmiPurgeMemory
@@ -1168,6 +1212,7 @@ kyakuClearVoiceBit26
 kyakuCountDest
 kyakuMiniGameAreaOk
 kyakuStopAreaVisible
+make_header
 memcpy2
 memmove
 memset
@@ -1179,12 +1224,14 @@ menuSetMode
 menuTopHandler
 motionClearRootZ
 mpdrv_check_port
+mpdrv_clear_deviceinfo
 mpdrv_frame_recv_post
 mpdrv_get_device
 mpdrv_get_portstatus
 mpdrv_get_version
 mpdrv_init_memory
 mpdrv_insertnop
+mpdrv_make_rootdevicedata
 mpdrv_memset_l
 mpdrv_sdckbenable
 mpdrv_set_allstatreq_ns
@@ -1389,6 +1436,7 @@ nlobjput_sub_trnsl
 nlsndCheckPackFreeError
 nlsndG2DmaHandleClose
 nlsndG2DmaHandleOpen
+nlsndIcsControl
 nlsndStreamGenerateHdInfo
 nlsndStreamGetHdInfo
 nlsndStreamSetHdBitSize
@@ -1397,6 +1445,7 @@ nlsndStreamSetHdFx
 nlsndStreamSetHdGain
 nlsndStreamSetHdOctFns
 nlsndStreamSetHdPan
+nlsndSystemControl
 nlstripSetVertexContext
 open_file_handle
 ovInit
@@ -1432,6 +1481,7 @@ pdVibSetStopTime
 pdVibSetUnitInfo
 pdVmsLcdWrite
 pdVmsLcdWrite1
+pedInit
 pedPickIdle
 pedStand
 pfColor
@@ -1442,15 +1492,18 @@ pfSetZ
 pfSize
 pointEventGet
 psgEnterState1
+psgEnterState2
 psgFrameState0
 psgFrameState5
 psgPlayBlend
 psgPutShadow
 psgSeatMatrix
 psgSetCurrent
+putString
 rankingInsert
 read_dir
 read_sys
+replay
 rinRandomSeed
 rtcGetSeconds
 saveBufferInit
@@ -1515,6 +1568,7 @@ syRtcMakeDayOfWeek
 syRtcSetDate
 syRtcSetServerMode
 syTmrInit
+technicalCheck
 texFreeMem
 thunk_FUN_0c02a9ac
 thunk_FUN_0c0409d2

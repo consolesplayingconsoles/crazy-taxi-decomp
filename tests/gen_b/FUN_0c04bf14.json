@@ -1,51 +1,222 @@
 {
  "dev": [
   {
-   "about": "pattern ff",
+   "about": "case 0",
    "poke": {
-    "0C0F2B3C": "ff060d141b222930"
+    "0C0F2B3C": "000000000000803f"
    }
   },
   {
-   "about": "pattern 00",
+   "about": "case 2",
    "poke": {
-    "0C0F2B3C": "00070e151c232a31"
+    "0C0F2B3C": "020000000000803f"
    }
   },
   {
-   "about": "pattern a5",
+   "about": "case 4",
    "poke": {
-    "0C0F2B3C": "a5acb3bac1c8cfd6"
+    "0C0F2B3C": "04000000286b6e4e"
+   }
+  },
+  {
+   "about": "case 6",
+   "poke": {
+    "0C0F2B3C": "0800000000000080"
+   }
+  },
+  {
+   "about": "case 8",
+   "poke": {
+    "0C0F2B3C": "0001000004000000"
+   }
+  },
+  {
+   "about": "case 10",
+   "poke": {
+    "0C0F2B3C": "0000004005000000"
+   }
+  },
+  {
+   "about": "case 12",
+   "poke": {
+    "0C0F2B3C": "ffffffff00000080"
+   }
+  },
+  {
+   "about": "case 14",
+   "poke": {
+    "0C0F2B3C": "0500000000000000"
+   }
+  },
+  {
+   "about": "case 16",
+   "poke": {
+    "0C0F2B3C": "0000000000010000"
+   }
+  },
+  {
+   "about": "case 18",
+   "poke": {
+    "0C0F2B3C": "020000000000803f"
+   }
+  },
+  {
+   "about": "case 20",
+   "poke": {
+    "0C0F2B3C": "1000000000002040"
+   }
+  },
+  {
+   "about": "case 22",
+   "poke": {
+    "0C0F2B3C": "0000204000000080"
+   }
+  },
+  {
+   "about": "case 24",
+   "poke": {
+    "0C0F2B3C": "000000400000803f"
+   }
+  },
+  {
+   "about": "case 26",
+   "poke": {
+    "0C0F2B3C": "03000000ffffffff"
+   }
+  },
+  {
+   "about": "case 28",
+   "poke": {
+    "0C0F2B3C": "0000803f286b6e4e"
+   }
+  },
+  {
+   "about": "case 30",
+   "poke": {
+    "0C0F2B3C": "1000000001000000"
+   }
+  },
+  {
+   "about": "case 32",
+   "poke": {
+    "0C0F2B3C": "05000000ffffffff"
+   }
+  },
+  {
+   "about": "case 34",
+   "poke": {
+    "0C0F2B3C": "000000000000c842"
    }
   }
  ],
  "holdout": [
   {
-   "about": "pattern 3c",
+   "about": "case 1",
    "poke": {
-    "0C0F2B3C": "3c434a51585f666d"
+    "0C0F2B3C": "0100000000010000"
    }
   },
   {
-   "about": "pattern c3",
+   "about": "case 3",
    "poke": {
-    "0C0F2B3C": "c3cad1d8dfe6edf4"
+    "0C0F2B3C": "03000000286b6e4e"
    }
   },
   {
-   "about": "live RAM (arcade, passenger on board, paused)",
-   "dump": "build/ram/live.bin",
-   "regs": {}
+   "about": "case 5",
+   "poke": {
+    "0C0F2B3C": "05000000feffffff"
+   }
   },
   {
-   "about": "live RAM (Crazy Box 1-1, paused after go)",
-   "dump": "build/ram/box.bin",
-   "regs": {}
+   "about": "case 7",
+   "poke": {
+    "0C0F2B3C": "10000000ffffffff"
+   }
   },
   {
-   "about": "live RAM (Total Records screen)",
-   "dump": "build/ram/records.bin",
-   "regs": {}
+   "about": "case 9",
+   "poke": {
+    "0C0F2B3C": "0000803fffffffff"
+   }
+  },
+  {
+   "about": "case 11",
+   "poke": {
+    "0C0F2B3C": "00002040ffffff7f"
+   }
+  },
+  {
+   "about": "case 13",
+   "poke": {
+    "0C0F2B3C": "08000000feffffff"
+   }
+  },
+  {
+   "about": "case 15",
+   "poke": {
+    "0C0F2B3C": "feffffff08000000"
+   }
+  },
+  {
+   "about": "case 17",
+   "poke": {
+    "0C0F2B3C": "0000c84200000080"
+   }
+  },
+  {
+   "about": "case 19",
+   "poke": {
+    "0C0F2B3C": "1000000001000000"
+   }
+  },
+  {
+   "about": "case 21",
+   "poke": {
+    "0C0F2B3C": "050000000000803f"
+   }
+  },
+  {
+   "about": "case 23",
+   "poke": {
+    "0C0F2B3C": "02000000feffffff"
+   }
+  },
+  {
+   "about": "case 25",
+   "poke": {
+    "0C0F2B3C": "0800000010000000"
+   }
+  },
+  {
+   "about": "case 27",
+   "poke": {
+    "0C0F2B3C": "0400000008000000"
+   }
+  },
+  {
+   "about": "case 29",
+   "poke": {
+    "0C0F2B3C": "286b6e4e08000000"
+   }
+  },
+  {
+   "about": "case 31",
+   "poke": {
+    "0C0F2B3C": "0000204008000000"
+   }
+  },
+  {
+   "about": "case 33",
+   "poke": {
+    "0C0F2B3C": "0500000010000000"
+   }
+  },
+  {
+   "about": "case 35",
+   "poke": {
+    "0C0F2B3C": "ffffffff0000c842"
+   }
   }
  ]
 }

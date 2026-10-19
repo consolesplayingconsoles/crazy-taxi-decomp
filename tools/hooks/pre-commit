@@ -25,6 +25,11 @@ if [ "${SKIP_BUILD_CHECK:-}" != "1" ] && [ -f build.sh ]; then
                    exit 1;;
             esac
         done
+        if [ -f tools/audit_equivalent.py ] && ! python3 tools/audit_equivalent.py >/dev/null 2>&1; then
+            python3 tools/audit_equivalent.py >&2 || true
+            echo "[pre-commit] commit refused: tests/equivalent.txt names functions with no C behind them (python3 tools/audit_equivalent.py --fix removes them)" >&2
+            exit 1
+        fi
         git add tests/equivalent.txt docs/equivalent.md 2>/dev/null || true
     fi
 fi
