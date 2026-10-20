@@ -2,6 +2,9 @@
 cases are drawn again (many candidates, kept by the instructions of the original they reach, see gen_drv.pick), and equiv.py runs
 the existing C on them. The old cases are kept in tests/gen_<x>/<fn>.json.old until the batch passes; a function that fails on the
 new cases is listed (the C was wrong on a branch the old cases never reached) and keeps its old cases."""
+import os as _os, sys as _sys
+_sys.path.insert(0,_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..'))
+import ledger
 import os,sys,json,glob,subprocess,shutil,signal
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import gen_pipe,gen_drv,gen_core
@@ -29,6 +32,7 @@ def main(batches):
                 print('  keep old cases',fn,type(e).__name__,str(e)[:60],flush=True)
             finally: signal.alarm(0)
         for fn,t in new.items():
+            ledger.archive_cases(fn,'tests/%s/%s.json'%(b,fn),'redrawn')
             shutil.copy('tests/%s/%s.json'%(b,fn),'tests/%s/%s.json.old'%(b,fn))
             json.dump(t,open('tests/%s/%s.json'%(b,fn),'w'),indent=1)
         if not new:
@@ -71,7 +75,7 @@ def lift(names):
                 gen_core.run(fn); vs=gen_pipe.variants(fn,False)
                 s,c=gen_drv.build(fn,vs[0],False)
                 t=gen_drv.tests(fn,c,s)
-                shutil.copy(p,p+'.old'); json.dump(t,open(p,'w'),indent=1); n_new+=1
+                ledger.archive_cases(fn,p,'lifted'); shutil.copy(p,p+'.old'); json.dump(t,open(p,'w'),indent=1); n_new+=1
             except Exception as e:
                 print('  keep old cases',fn,type(e).__name__,str(e)[:60],flush=True)
             finally: signal.alarm(0)

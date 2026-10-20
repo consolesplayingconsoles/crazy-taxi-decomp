@@ -14,7 +14,7 @@ def target_of(ops):
     return int(m.group(1), 16) if m else None
 
 
-def succ_of(ins, addr2idx, i):
+def succ_of(ins, addr2idx, i, switches=None):
     """Successor nodes of node i (EXIT for a return or a jump out of the function)."""
     mn, ops, pc = ins[i]
     out = []
@@ -24,6 +24,8 @@ def succ_of(ins, addr2idx, i):
         out.append(i + (2 if mn.endswith('/s') else 1))
     elif mn == 'bra':
         out.append(addr2idx.get(target_of(ops), EXIT))
+    elif mn in ('braf', 'jmp') and switches and i in switches:
+        out.extend(switches[i])           # a jump table: its distinct targets
     elif mn in ('rts', 'jmp', 'braf', 'rte'):
         out.append(EXIT)
     elif mn in ('jsr', 'bsr', 'bsrf'):
@@ -34,7 +36,7 @@ def succ_of(ins, addr2idx, i):
 
 
 class Graph:
-    def __init__(s, ins, addr2idx):
+    def __init__(s, ins, addr2idx, switches=None):
         s.ins = ins
         s.succ = {}
         todo = [0]
@@ -42,7 +44,7 @@ class Graph:
             n = todo.pop()
             if n in s.succ or n == EXIT:
                 continue
-            s.succ[n] = succ_of(ins, addr2idx, n)
+            s.succ[n] = succ_of(ins, addr2idx, n, switches)
             todo.extend(s.succ[n])
         s.nodes = sorted(s.succ)
         s.pred = {n: [] for n in s.nodes}
@@ -92,6 +94,27 @@ class Graph:
                 return d
         return EXIT
 
+    def ijoin(s, n):
+        """Where the arms of the branch at n meet: the immediate post-dominator; when a path returns early and no node is on every path,
+        the one node both arms can reach that none of the other common nodes comes before (the arms that return early just end)."""
+        d = s.ipdom(n)
+        if d != EXIT:
+            return d
+        cache = s.__dict__.setdefault('_ijoin', {})
+        if n in cache:
+            return cache[n]
+        ss = [t for t in s.succ[n] if t != EXIT]
+        res = EXIT
+        if len(ss) == 2:
+            common = (s.reach(ss[0]) & s.reach(ss[1])) - {n}
+            if common:
+                # the minimal elements: common nodes that no other common node reaches
+                firsts = [x for x in common if not any(y != x and x in s.reach(y) and y not in s.reach(x) for y in common)]
+                if len(firsts) == 1:
+                    res = firsts[0]
+        cache[n] = res
+        return res
+
     def _loops(s):
         s.loops = {}                       # header -> set of nodes of the natural loop
         for n in s.nodes:
@@ -104,6 +127,40 @@ class Graph:
                         if x not in body:
                             body.add(x)
                             stack.extend(s.pred[x])
+        # irreducible flow: a retreating edge n -> t (t is on the depth-first path to n) whose target does not dominate n. The cycle is
+        # entered at more than one node; t is taken as its header. A path that enters the cycle partway runs those nodes once as plain
+        # code (a peeled pass) and reaches the loop at t, which is the same behaviour.
+        state = {}
+        order = []
+        def dfs(root):
+            stack = [(root, iter(s.succ[root]))]
+            state[root] = 1
+            while stack:
+                n, it = stack[-1]
+                for t in it:
+                    if t == EXIT:
+                        continue
+                    if state.get(t) == 1 and t not in s.dom[n]:
+                        order.append((n, t))
+                    elif t not in state:
+                        state[t] = 1
+                        stack.append((t, iter(s.succ[t])))
+                        break
+                else:
+                    state[n] = 2
+                    stack.pop()
+        if s.nodes:
+            dfs(0)
+        for n, t in order:
+            fwd = s.reach(t)
+            body = s.loops.setdefault(t, {t})
+            stack = [n]
+            while stack:
+                x = stack.pop()
+                if x in body or x not in fwd:
+                    continue
+                body.add(x)
+                stack.extend(s.pred[x])
 
     def loop_exits(s, h):
         """Nodes outside loop h that the loop jumps to."""

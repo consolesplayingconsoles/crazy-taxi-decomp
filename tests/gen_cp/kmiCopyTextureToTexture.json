@@ -1,0 +1,150 @@
+{
+ "dev": [
+  {
+   "about": "case 0",
+   "poke": {}
+  },
+  {
+   "about": "case 1",
+   "poke": {}
+  },
+  {
+   "about": "case 2",
+   "poke": {}
+  },
+  {
+   "about": "case 3",
+   "poke": {}
+  },
+  {
+   "about": "case 4",
+   "poke": {}
+  },
+  {
+   "about": "case 5",
+   "poke": {}
+  },
+  {
+   "about": "case 6",
+   "poke": {}
+  },
+  {
+   "about": "case 7",
+   "poke": {}
+  },
+  {
+   "about": "case 8",
+   "poke": {}
+  },
+  {
+   "about": "case 9",
+   "poke": {}
+  },
+  {
+   "about": "case 10",
+   "poke": {}
+  },
+  {
+   "about": "case 11",
+   "poke": {}
+  },
+  {
+   "about": "case 12",
+   "poke": {}
+  },
+  {
+   "about": "case 13",
+   "poke": {}
+  },
+  {
+   "about": "case 14",
+   "poke": {}
+  },
+  {
+   "about": "case 15",
+   "poke": {}
+  },
+  {
+   "about": "case 16",
+   "poke": {}
+  },
+  {
+   "about": "case 17",
+   "poke": {}
+  }
+ ],
+ "holdout": [
+  {
+   "about": "case 80",
+   "poke": {}
+  },
+  {
+   "about": "case 59",
+   "poke": {}
+  },
+  {
+   "about": "case 38",
+   "poke": {}
+  },
+  {
+   "about": "case 67",
+   "poke": {}
+  },
+  {
+   "about": "case 57",
+   "poke": {}
+  },
+  {
+   "about": "case 54",
+   "poke": {}
+  },
+  {
+   "about": "case 94",
+   "poke": {}
+  },
+  {
+   "about": "case 103",
+   "poke": {}
+  },
+  {
+   "about": "case 60",
+   "poke": {}
+  },
+  {
+   "about": "case 56",
+   "poke": {}
+  },
+  {
+   "about": "case 70",
+   "poke": {}
+  },
+  {
+   "about": "case 61",
+   "poke": {}
+  },
+  {
+   "about": "case 91",
+   "poke": {}
+  },
+  {
+   "about": "case 79",
+   "poke": {}
+  },
+  {
+   "about": "case 88",
+   "poke": {}
+  },
+  {
+   "about": "case 84",
+   "poke": {}
+  },
+  {
+   "about": "case 113",
+   "poke": {}
+  },
+  {
+   "about": "case 83",
+   "poke": {}
+  }
+ ]
+}

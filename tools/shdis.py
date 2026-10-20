@@ -10,6 +10,7 @@ is one, else as a number and, for a 32-bit value, as a float), branches and call
 FPU moves are decoded as single precision (the games are built with -fpu=single).
 """
 import os
+import re
 import struct
 import sys
 
@@ -203,10 +204,17 @@ def main():
     reach, work = set(), [start & ~1]
     while work:
         pc = work.pop()
+        regval = {}                    # register -> the pool constant a mov.l @(pc) just loaded into it (a long-range `jmp @rN` goes there)
         while start <= pc < end and pc not in reach:
             reach.add(pc)
-            t, _, _, tgt = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
+            t, ppool, psize, tgt = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
             op = t.split()[0]
+            mload = re.match(r'mov\.l\s+@\([^)]*\),r(\d+)', t)
+            if mload and ppool is not None and base <= ppool < base + len(exe) - 3:
+                regval[int(mload.group(1))] = struct.unpack_from('<I', exe, ppool - base)[0]
+            mj = re.match(r'jmp\s+@r(\d+)', t)
+            if mj and regval.get(int(mj.group(1))) is not None and start <= regval[int(mj.group(1))] < end:
+                work.append(regval[int(mj.group(1))] & ~1)
             delay = op in ('bra', 'bsr', 'bt/s', 'bf/s', 'jsr', 'jmp', 'rts', 'rte', 'braf', 'bsrf')
             if delay and pc + 2 < end:
                 reach.add(pc + 2)

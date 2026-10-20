@@ -7,11 +7,16 @@ class Skip(Exception): pass
 class Conflict(Exception):         # two call sites give one callee different argument types: it is called through a cast at every site
     def __init__(self,fname): Exception.__init__(self,fname); self.fname=fname
 _CONFLICTS=set()
+_IJOIN=[False]       # the nearest common node as the join when no node is on every path: tried when the plain post-dominator join takes too many steps
 DIRTY=('x',)          # a register the two arms of an if left different and unreadable
 FUNCS={}; SPANS={}
 for _l in open('functions.txt'):
     _p=_l.split()
     if len(_p)>=4 and _p[0]=='F': FUNCS[int(_p[1],16)]=_p[3]; SPANS[_p[3]]=(int(_p[1],16),int(_p[2]))
+_STARTS=sorted(FUNCS)
+ENDS={}          # where the code and literal pool of a function end: the next function's start (the pool after its last rts is in the gap, outside its listed size)
+for _i,_a in enumerate(_STARTS):
+    ENDS[FUNCS[_a]]=max(_STARTS[_i+1] if _i+1<len(_STARTS) else _a+SPANS[FUNCS[_a]][1],_a+SPANS[FUNCS[_a]][1])
 
 def fbits(f): return struct.unpack('<I',struct.pack('<f',f))[0]
 def ffmt(bits):
@@ -158,14 +163,17 @@ STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'a
 def run(name,passthru=False):
     """The first reading keeps the stack as symbolic values; when that fails on the stack, the whole frame becomes a C array
     (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory)."""
-    _CONFLICTS.clear()
-    for _ in range(8):
+    _CONFLICTS.clear(); _IJOIN[0]=False
+    for _ in range(10):
         try:
             try: return _run(name,passthru,False)
             except Skip as e:
                 if not any(k in str(e) for k in STACKY): raise
             return _run(name,passthru,True)
         except Conflict as e: _CONFLICTS.add(e.fname)
+        except Skip as e:
+            if 'too long' in str(e) and not _IJOIN[0]: _IJOIN[0]=True; continue
+            raise
     raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
 def _run(name,passthru=False,frame=False):
     out=subprocess.run(['python3','tools/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
@@ -184,7 +192,7 @@ def _run(name,passthru=False,frame=False):
     def pool(ad,n):
         # a read at a constant address inside this function's own code is a literal pool or table (a `mova` result): fold it
         sp=SPANS.get(c.name)
-        if ad[0]=='const' and sp and sp[0]<=ad[1] and ad[1]+n<=sp[0]+sp[1]: return ad[1]
+        if ad[0]=='const' and sp and sp[0]<=ad[1] and ad[1]+n<=ENDS.get(c.name,sp[0]+sp[1]): return ad[1]
     def load(sz,ad):
         pa=pool(ad,TY[sz][1])
         if pa is not None:
@@ -625,7 +633,7 @@ def _run(name,passthru=False,frame=False):
             variadic=False
             if len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
                 variadic=True
-            elif len(ia)<4: raise Skip('stack arguments without four in registers [%s: %d in registers%s, %d on the stack]'%(fname,len(ia),' + floats' if fa else '',len(c.pend)))
+            elif len(ia)<4: raise Skip('stack arguments without four in registers [%s: %d in registers%s, %d on the stack; %d float registers, stack %s]'%(fname,len(ia),' + floats' if fa else '',len(c.pend),len(fa),''.join('f' if isfp(v) else 'i' for v in c.pend)))
             for v in reversed(c.pend):
                 if isfp(v): args.append(fx(v[1])); types.append('float')
                 else: args.append(ex(v)); types.append('int')
@@ -803,7 +811,18 @@ def _run(name,passthru=False,frame=False):
         """The state after an if / else whose arms both reach the same place. A and B are the arms' statements; a register
         the arms leave different becomes a variable assigned in each arm."""
         ea,eb=not A,not B
-        if stA[5]!=stB[5] or stA[6]!=stB[6]: raise Skip('stack pointer differs')
+        pendM=list(stA[6])
+        if stA[5]!=stB[5] or len(stA[6])!=len(stB[6]): raise Skip('stack pointer differs (%s vs %s, pending %d vs %d)'%(stA[5],stB[5],len(stA[6]),len(stB[6])))
+        for k_,(pa_,pb_) in enumerate(zip(stA[6],stB[6])):
+            if pa_==pb_: continue
+            # a pushed value (an argument for a call after the join) that the arms set differently: a variable assigned in each arm
+            fa_=isfp(pa_); fb_=isfp(pb_)
+            if fa_!=fb_ or (not fa_ and (isinstance(pa_,tuple) and pa_[0]=='addr' or isinstance(pb_,tuple) and pb_[0]=='addr')): raise Skip('stack pointer differs (pushed values differ in kind)')
+            xa_=pa_[1] if fa_ else pa_; xb_=pb_[1] if fb_ else pb_
+            f_=fx if fa_ else ex
+            var_=fresh(fa_); emit('%s %s;'%('float' if fa_ else 'int',var_))
+            A.append('%s = %s;'%(var_,f_(xa_))); B.append('%s = %s;'%(var_,f_(xb_)))
+            pendM[k_]=('fpend',('e',var_)) if fa_ else ('e',var_)
         if stA[7]!=stB[7]: raise Skip('FPU bank or size mode differs')
         R={}; FR={}
         for sa,sb,out,isf in ((stA[0],stB[0],R,False),(stA[1],stB[1],FR,True)):
@@ -812,8 +831,16 @@ def _run(name,passthru=False,frame=False):
                 if va==vb:
                     if va is not None: out[r]=va
                     continue
-                if va is None or vb is None or DIRTY in (va,vb) or (isinstance(va,tuple) and va[0] in ('addr','srx')) or (isinstance(vb,tuple) and vb[0] in ('addr','srx')):
+                bad=lambda v: v is not None and (v==DIRTY or (isinstance(v,tuple) and v[0] in ('addr','srx')))
+                if bad(va) or bad(vb) or (va is None and vb is None):
                     out[r]=DIRTY; c.dwhy[r]='%s | %s'%(str(va)[:40],str(vb)[:40]); continue
+                if va is None or vb is None:
+                    # one arm never sets the register: the code after the join reads it only where it was set (the compiler keeps the two
+                    # in step), so it becomes a variable assigned on the arm that sets it
+                    var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
+                    emit('%s %s;'%(ty,var))
+                    (A if va is not None else B).append('%s = %s;'%(var,f(va if va is not None else vb)))
+                    out[r]=('e',var); continue
                 var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
                 if not ea and not eb:
                     emit('%s %s;'%(ty,var)); A.append('%s = %s;'%(var,f(va))); B.append('%s = %s;'%(var,f(vb)))
@@ -823,34 +850,136 @@ def _run(name,passthru=False,frame=False):
                     emit('%s %s = %s;'%(ty,var,f(va))); B.append('%s = %s;'%(var,f(vb)))
                 out[r]=('e',var)
         stack={k:v for k,v in stA[3].items() if stB[3].get(k)==v}
-        set_regs((R,FR,stA[2] if stA[2]==stB[2] else None,stack,stA[4] if stA[4]==stB[4] else None,stA[5],list(stA[6])))
+        def special(a_,b_):
+            # fpul / macl: equal, or set on both arms to different values (a variable assigned in each arm)
+            if a_==b_: return a_
+            if a_ is None or b_ is None or a_==DIRTY or b_==DIRTY or isinstance(a_,tuple) and a_[0] in ('addr','srx') or isinstance(b_,tuple) and b_[0] in ('addr','srx'): return None
+            v_=fresh(False); emit('int %s;'%v_); A.append('%s = %s;'%(v_,ex(a_))); B.append('%s = %s;'%(v_,ex(b_)))
+            return ('e',v_)
+        set_regs((R,FR,special(stA[2],stB[2]),stack,special(stA[4],stB[4]),stA[5],pendM))
 
-    def branch(i,j,f,cond,stops):
-        """cond holds when the fall-through arm (starting at f) runs; j is where the branch goes."""
-        J=G.ipdom(i)
+    def outer_join(J):
+        """A join inside a loop that is not running (one arm entered the cycle partway) is where that loop leaves."""
+        for _ in range(8):
+            if J==gen_cfg.EXIT: return J
+            hl=G.innermost(J)
+            if hl is None or hl in c.active: return J
+            E,_o=G.loop_exit(hl)
+            if E is None: return J
+            J=E
+        return J
+    def branch(i,j,f,cond,stops,tA=None):
+        T0=c.T
+        c._tends=[]
+        r=branch0(i,j,f,cond,stops,tA)
+        ends=c._tends
+        # after the join the flag is what it was before the branch if neither arm changed it (the compiler reuses it: movt after the
+        # join), what the one arm that goes on left it, and unknown otherwise
+        if tA is not None and len(ends)==2 and ends[0]==('1' if tA else '0') and ends[1]==('0' if tA else '1'): c.T=T0
+        elif tA is not None and len(ends)==1: c.T=ends[0]
+        else: c.T=None
+        return r
+    def branch0(i,j,f,cond,stops,tA=None):
+        """cond holds when the fall-through arm (starting at f) runs; j is where the branch goes. tA: the T flag on the fall-through
+        arm (True for a bf that fell through, False for a bt), the opposite on the taken arm: a second branch there may use it."""
+        J=outer_join(G.ijoin(i) if _IJOIN[0] else G.ipdom(i))
         stops2=dict(stops)
         if J!=gen_cfg.EXIT and (J not in stops2 or stops2[J]=='cont'):
             if not c.loopstack or J in G.loops[c.loopstack[-1]]: stops2[J]='join'
         c.T=None
         pre=regs_state()
+        if tA is not None: setT('1','0') if tA else setT('0','1')
         A=[]; c.blocks.append(A); oA=exec_from(f,stops2,False); stA=regs_state(); c.blocks.pop()
+        endA=c.T
         set_regs(pre); c.T=None
+        if tA is not None: setT('0','1') if tA else setT('1','0')
         B=[]; c.blocks.append(B)
         if j in FUNCS:                      # the branch goes to another function: a tail call
             do_call(FUNCS[j],tail=True); oB=('end',)
+        elif isinstance(j,int) and j>=0x0C000000 and j not in G.succ:      # to a code address that is no function's entry: a tail call by address
+            do_call('@indirect',tail=True,ind='0x%X'%j); oB=('end',)
         else: oB=exec_from(j,stops2,False)
         stB=regs_state(); c.blocks.pop()
+        endB=c.T
         ta=oA[0]=='end'; tb=oB[0]=='end'
+        c._tends=([endA] if not ta else [])+([endB] if not tb else [])
+        if not ta and not tb: c._tends=[endA,endB]
         if ta and tb:
             emit(mkif(cond,A,[])); c.blocks[-1].extend(B); return ('end',)
         if ta:
             emit(mkif(cond,A,[])); c.blocks[-1].extend(B); set_regs(stB); return oB
         if tb:
             emit(mkif(negate(cond),B,[])); c.blocks[-1].extend(A); set_regs(stA); return oA
-        if oA[1]!=oB[1]: raise Skip('unstructured')
+        for _ext in range(4):
+            if oA[0]=='end' or oB[0]=='end' or oA[1]==oB[1]: break
+            # one arm stopped at a join that leads on to the other arm's: that arm goes on to it (its code stays inside its arm)
+            X,Y=oA[1],oB[1]
+            if X in G.reach(Y) and Y!=X and Y not in G.reach(X):          # B stopped first: B goes on to X
+                set_regs(stB); c.T=None
+                stops3=dict(stops2); stops3.pop(Y,None)
+                c.blocks.append(B); oB=exec_from(Y,stops3,False); stB=regs_state(); c.blocks.pop()
+            elif Y in G.reach(X) and X!=Y and X not in G.reach(Y):        # A stopped first: A goes on to Y
+                set_regs(stA); c.T=None
+                stops3=dict(stops2); stops3.pop(X,None)
+                c.blocks.append(A); oA=exec_from(X,stops3,False); stA=regs_state(); c.blocks.pop()
+            else: break
+        if oA[0]!='end' and oB[0]!='end' and oA[1]!=oB[1]:
+            if True: raise Skip('unstructured %x %s %s'%(ins[i][2],oA[1] if len(oA)>1 else '-',oB[1] if len(oB)>1 else '-'))
         merge_arms(stA,stB,A,B)
         emit(mkif(cond,A,B))
         return oA
+
+    def switch_at(b,rx,tg,stops):
+        """A jump table at node b: a C switch on the index register (twice the index), one case group per distinct target, the last
+        one the default; the arms that reach the same place merge their states like the two arms of a branch."""
+        J=G.ipdom(b)
+        stops2=dict(stops)
+        if J!=gen_cfg.EXIT and (J not in stops2 or stops2[J]=='cont'):
+            if not c.loopstack or J in G.loops[c.loopstack[-1]]: stops2[J]='join'
+        idx=ex(c.gi(rx))
+        groups={}
+        for k,t in enumerate(tg): groups.setdefault(t,[]).append(2*k)
+        order=sorted(groups.items(),key=lambda kv:kv[1][0])
+        c.R['r0']=DIRTY; c.T=None
+        pre=regs_state(); arms=[]
+        for t,ks in order:
+            set_regs(pre); c.T=None
+            A=[]; c.blocks.append(A); o=exec_from(t,stops2,False); st=regs_state(); c.blocks.pop()
+            arms.append((ks,A,st,o))
+        live=[(st,A,o) for ks,A,st,o in arms if o[0]!='end']
+        if live:
+            if any(o[1]!=live[0][2][1] for st,A,o in live): raise Skip('unstructured')
+            if any(st[5]!=live[0][0][5] or st[6]!=live[0][0][6] for st,A,o in live): raise Skip('stack pointer differs')
+            if any(st[7]!=live[0][0][7] for st,A,o in live): raise Skip('FPU bank or size mode differs')
+        if len(live)>1:
+            R={}; FR={}
+            for k,isf,out in ((0,False,R),(1,True,FR)):
+                for r in sorted(set().union(*[set(st[k]) for st,A,o in live])):
+                    vs=[st[k].get(r) for st,A,o in live]
+                    if all(v==vs[0] for v in vs):
+                        if vs[0] is not None: out[r]=vs[0]
+                        continue
+                    if any(v is not None and (v==DIRTY or (isinstance(v,tuple) and v[0] in ('addr','srx'))) for v in vs) or all(v is None for v in vs):
+                        out[r]=DIRTY; c.dwhy[r]='switch arms differ'; continue
+                    var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
+                    emit('%s %s;'%(ty,var))
+                    for (st,A,o),v in zip(live,vs):
+                        if v is not None: A.append('%s = %s;'%(var,f(v)))
+                    out[r]=('e',var)
+            st0=live[0][0]
+            stack={k2:v for k2,v in st0[3].items() if all(st[3].get(k2)==v for st,A,o in live)}
+            set_regs((R,FR,st0[2] if all(st[2]==st0[2] for st,A,o in live) else None,stack,st0[4] if all(st[4]==st0[4] for st,A,o in live) else None,st0[5],list(st0[6])))
+            cur=regs_state()
+        elif live: cur=live[0][0]
+        txt='switch (%s) {\n'%idx
+        for n,(ks,A,st,o) in enumerate(arms):
+            last=n==len(arms)-1
+            labels=['default:'] if last else ['case %d:'%v for v in ks]
+            txt+='\n'.join('    '+l for l in labels)+'\n'+ind([blk(A)])+'\n'+('' if o[0]=='end' else '        break;\n')
+        txt+='}'
+        emit(txt)
+        if not live: return ('end',)
+        set_regs(cur); return live[0][2]
 
     def exec_loop(h):
         E,_=G.loop_exit(h)
@@ -903,6 +1032,20 @@ def _run(name,passthru=False,frame=False):
         c.blocks.pop(); c.active.pop(); c.loopstack.pop(); nb=c.nbreak.pop(); nc=c.ncont.pop()
         exits_=c.exits; c.exits,c.conts=outer
         for r in added: c.lv.pop(r,None)
+        # registers the exits leave different: a variable assigned before each break, so the code after the loop can read it
+        repl={}; newreg={}
+        if exits_ and len(exits_)>1:
+            for k,isf in ((0,False),(1,True)):
+                for r in sorted(set().union(*[set(o[k]) for o in exits_])):
+                    vs=[o[k].get(r) for o in exits_]
+                    if all(v==vs[0] for v in vs): continue
+                    if any(v is not None and (v==DIRTY or (isinstance(v,tuple) and v[0] in ('addr','srx'))) for v in vs) or all(v is None for v in vs): continue
+                    if any(isinstance(v,tuple) and v[0]=='e' and re.search(r'@\w+@',v[1]) for v in vs if v is not None): continue
+                    var=fresh(isf); newreg[(k,r)]=(var,isf)
+                    for xi,v in enumerate(vs):
+                        if v is not None: repl.setdefault(xi,[]).append('%s = %s;'%(var,(fx if isf else ex)(v)))
+        lb=[re.sub(r'@@BRK(\d+)@@break;',lambda m_:(' '.join(repl.get(int(m_.group(1)),[]))+' ' if repl.get(int(m_.group(1))) else '')+'break;',x) if isinstance(x,str) else x for x in lb]
+        for (k,r),(var,isf) in sorted(newreg.items()): emit('%s %s;'%('float' if isf else 'int',var))
         if lb and lb[-1]=='continue;': lb.pop(); nc-=1
         pat=re.compile(r'^if \((.*)\) break;$',re.S)
         m1=pat.match(lb[0]) if lb else None; m2=pat.match(lb[-1]) if lb else None
@@ -919,6 +1062,7 @@ def _run(name,passthru=False,frame=False):
             for mm,k in ((R,0),(FR,1)):
                 for r in set(mm)|set(o[k]):
                     if mm.get(r)!=o[k].get(r): mm[r]=DIRTY
+        for (k,r),(var,isf) in newreg.items(): (FR if isf else R)[r]=('e',var)
         set_regs((R,FR,st[2] if all(o[2]==st[2] for o in exits_) else None,{k:v for k,v in st[3].items() if all(o[3].get(k)==v for o in exits_)},st[4] if all(o[4]==st[4] for o in exits_) else None,st[5],list(st[6])))
         c.T=None
         return E
@@ -929,13 +1073,22 @@ def _run(name,passthru=False,frame=False):
         own final return."""
         while True:
             c.steps+=1
-            if c.steps>30000: raise Skip('too long')
-            if i not in G.succ: raise Skip('runs off the code')
+            if c.steps>1500000: raise Skip('too long')      # some shapes need far more than 30,000 symbolic steps; the time limit per function guards against a runaway
+            if i not in G.succ:
+                if ins and i==len(ins):
+                    # no return at the end: the code runs on into the next function, which is a tail call to the address after the last
+                    # instruction (its registers are set up above)
+                    tgt=ins[-1][2]+2
+                    if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
+                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                    else: raise Skip('runs off the code')
+                    return ('end',)
+                raise Skip('runs off the code')
             if i in stops and not first:
                 k=stops[i]
                 if k=='join': return ('reach',i)
                 if k=='break':
-                    c.exits.append(regs_state()); c.nbreak[-1]+=1; emit('break;')
+                    c.exits.append(regs_state()); c.nbreak[-1]+=1; emit('@@BRK%d@@break;'%(len(c.exits)-1))
                 else:
                     c.conts.append(regs_state()); c.ncont[-1]+=1; emit('continue;')
                 return ('end',)
@@ -944,9 +1097,17 @@ def _run(name,passthru=False,frame=False):
                 if i is None: return ('end',)
                 continue
             first=False
+            if i in SW0:
+                b=SW0[i]; r=switch_at(b,SWV[b][1],SWV[b][2],stops)
+                if r[0]=='end': return r
+                i=r[1]; continue
             mn,ops,pc=ins[i]
-            if mn in ('jsr','bsr'):
+            if mn in ('jsr','bsr','bsrf'):
                 if mn=='bsr': tgt=target_of(ops)
+                elif mn=='bsrf':                               # pc-relative call through a register: the target is the address of the next instruction after the delay slot plus the register
+                    v=c.gi(parse_ops(ops)[0])
+                    if not isint(v): raise Skip('flow bsrf')
+                    tgt=(pc+4+v)&0xFFFFFFFF
                 else:
                     v=c.gi(parse_ops(ops)[0].strip('@'))
                     if not isinstance(v,int):
@@ -957,7 +1118,12 @@ def _run(name,passthru=False,frame=False):
                         do_call('@indirect',ind=texpr,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
                     tgt=v
                 if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF   # the cached/uncached mirror of a function
-                if tgt not in FUNCS: raise Skip('callee unknown %x'%tgt)
+                if tgt not in FUNCS:
+                    if not (0x0C000000<=tgt<0x0D000000): raise Skip('callee unknown %x'%tgt)
+                    # a code address that is not a function entry (a shared tail, an entry into the middle of another function): called
+                    # through a cast of its address, checked by address like any call through a pointer
+                    step(i+1)
+                    do_call('@indirect',ind='0x%X'%tgt,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
                 step(i+1)
                 do_call(FUNCS[tgt],after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
             if mn=='bra' or mn=='jmp':
@@ -975,7 +1141,11 @@ def _run(name,passthru=False,frame=False):
                     tgt=v
                     if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue      # the compiler's long-range goto: a constant address inside the function, like a bra
                 if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
-                if tgt not in FUNCS: raise Skip('tail unknown')
+                if tgt not in FUNCS:
+                    if not (0x0C000000<=tgt<0x0D000000): raise Skip('tail unknown')
+                    step(i+1)
+                    do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                    return ('end',)
                 step(i+1)
                 do_call(FUNCS[tgt],tail=True)
                 return ('end',)
@@ -991,19 +1161,60 @@ def _run(name,passthru=False,frame=False):
                 return ('end',)
             if mn in ('bt','bf','bt/s','bf/s'):
                 tgt=target_of(ops)
-                if tgt not in addr2idx and tgt not in FUNCS: raise Skip('branch out')
+                if tgt not in addr2idx and tgt not in FUNCS and not (0x0C000000<=tgt<0x0D000000): raise Skip('branch out')
                 delay=mn.endswith('/s')
                 if delay: step(i+1)
                 if c.T is None: raise Skip('no T')
                 cond=c.T if mn.startswith('bf') else negate(c.T)
-                r=branch(i,addr2idx.get(tgt,tgt),i+(2 if delay else 1),cond,stops)
+                r=branch(i,addr2idx.get(tgt,tgt),i+(2 if delay else 1),cond,stops,mn.startswith('bf'))
                 if r[0]=='end': return r
                 i=r[1]; continue
             step(i); i+=1
 
     c.D=0; c.maxD=0; c.pend=[]; c.frame_regs=set(); c.frame=bool(frame) or any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
     c.rets=[]; c.lvk={}; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
-    G=gen_cfg.Graph(ins,addr2idx) if ins else None
+    # jump tables: `mova table,r0; mov.w @(r0,rX),r0; braf r0` and a table of 16-bit offsets from the braf + 4; rX holds twice the index
+    def find_switches():
+        sw={}
+        for i in range(len(ins)-2):
+            if ins[i][0]!='mova' or ins[i+1][0]!='mov.w' or ins[i+2][0]!='braf': continue
+            m=re.match(r'@\((0x[0-9a-f]+),pc\),r0$',(ins[i][1] or '').strip()); m2=re.match(r'@\(r0,(r\d+)\),r0$',(ins[i+1][1] or '').strip())
+            if not m or not m2 or (ins[i+2][1] or '').strip()!='r0': continue
+            tbl=int(m.group(1),16); base=ins[i+2][2]+4
+            limit=None                                                       # the count from the bounds check before the jump: cmp/hs rLimit,rIndex
+            for j in range(i-1,max(i-14,-1),-1):
+                if ins[j][0]=='cmp/hs':
+                    lr=(ins[j][1] or '').split(',')[0].strip()
+                    for k in range(j-1,max(j-14,-1),-1):
+                        mm=re.match(r'#(-?\d+),%s$'%lr,(ins[k][1] or '').strip()) if ins[k][0]=='mov' else None
+                        if mm: limit=int(mm.group(1)); break
+                        mw=re.search(r'=(-?\d+)',ins[k][1] or '') if ins[k][0]=='mov.w' and (ins[k][1] or '').strip().endswith(','+lr) else None
+                        if mw: limit=int(mw.group(1)); break
+                    break
+            tg=[]
+            for k in range(256 if limit is None else limit):
+                off=int.from_bytes(BIN[tbl+2*k-BASE:tbl+2*k-BASE+2],'little',signed=True)
+                if base+off not in addr2idx: break
+                tg.append(addr2idx[base+off])
+            if not tg or (limit is not None and len(tg)!=limit): continue
+            sw[i+2]=(i,m2.group(1),tg)
+        return sw
+    SWV=find_switches()
+    SW0={v[0]:b for b,v in SWV.items()}                  # the mova node -> its braf node
+    # long-range gotos: `mov.l @(pc),rN ; jmp @rN` with the pool constant an address inside this function: an edge in the graph
+    GOTO={}
+    for i_,x_ in enumerate(ins):
+        if x_[0]=='jmp' and re.match(r'@r\d+$',(x_[1] or '').strip()):
+            reg_=(x_[1] or '').strip()[1:]
+            for j_ in range(i_-1,max(i_-5,-1),-1):
+                m_=re.match(r'@\(0x[0-9a-f]+,pc\),%s\s*;\s*=([0-9a-f]{8})'%reg_,(ins[j_][1] or '').strip()) if ins[j_][0]=='mov.l' else None
+                if m_:
+                    t_=int(m_.group(1),16)
+                    if t_ in addr2idx: GOTO[i_]=[addr2idx[t_]]
+                    break
+    swg={b:sorted(set(v[2])) for b,v in SWV.items()}
+    swg.update(GOTO)
+    G=gen_cfg.Graph(ins,addr2idx,swg) if ins else None
     if G is None: raise Skip('empty')
     out=exec_from(0,{},False)
     c.terminated=out[0]=='end'

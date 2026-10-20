@@ -249,7 +249,7 @@ def same(a, b, outs, back, arity=None, ind=None):
     the compiled C (one of its own functions or data) to the game's address of the same name."""
     arity = arity or {}
     fix = lambda h: '%08X' % back.get(int(h, 16), int(h, 16))
-    for k in ('error', 'out', 'calls', 'writes', 'devices', 'sr'):
+    for k in ('error', 'out', 'calls', 'writes', 'devices', 'sr', 'seq_used'):
         x, y = a.get(k), b.get(k)
         if k == 'sr' and x and y:          # the state SR keeps (interrupt mask...), not the M, Q, S, T flags
             x, y = '%08X' % (int(x, 16) & 0xFFFFFCFC), '%08X' % (int(y, 16) & 0xFFFFFCFC)
@@ -323,7 +323,7 @@ def main(argv):
             orig = sh4sim.run(case, '.', deep=helpers_orig)
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
-            observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices')) or len(srs) > 1
+            observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used')) or len(srs) > 1
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn))
@@ -374,6 +374,7 @@ def main(argv):
 
 
 def write_evidence(new, failed):
+    import ledger
     """docs/equivalent.md: one entry per Equivalent function, its evidence. Kept across runs; a
     function that fails again loses its entry."""
     path = os.path.join('docs', 'equivalent.md')

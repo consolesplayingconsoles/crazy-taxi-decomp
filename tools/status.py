@@ -43,15 +43,39 @@ def age(path):
         return '-'
 
 
+def runs(procs):
+    """One row per generator log (build/gen_run.log and build/gen_run-<name>.log): running when a gen_equiv process has that name."""
+    import glob
+    out = []
+    for log in sorted(glob.glob('build/gen_run*.log')):
+        name = log[len('build/gen_run'):-4].lstrip('-') or 'run'
+        live = [p for p in procs if re.search(r'gen_equiv', p[2]) and 'status.py' not in p[2]
+                and ((('--run ' + name) in p[2]) if name != 'run' else ('--run' not in p[2]))]
+        est = ''
+        if live:
+            try:
+                import watch
+                sn = watch.snapshot(name)
+                est = watch.fmt(sn).split(': ', 1)[1] + '  | '
+            except Exception:
+                est = ''
+        out.append(('generator ' + name, 'RUNNING' if live else '-', live[0][1] if live else '', est + last_line(log) + '  [' + log + ', ' + age(log) + ']'))
+    return out
+
+
 def main():
     procs = running()
     print('%-22s %-9s %-12s %s' % ('Job', 'State', 'Running', 'Last line of its log'))
+    for r in runs(procs):
+        print('%-22s %-9s %-12s %s' % r)
     for name, pattern, log, how in JOBS:
+        if name == 'generator run':
+            continue
         hit = [p for p in procs if pattern and re.search(pattern, p[2]) and 'status.py' not in p[2]]
         state = 'RUNNING' if hit else ('-' if pattern else 'file')
         et = hit[0][1] if hit else ''
         print('%-22s %-9s %-12s %s' % (name, state, et, (last_line(log) + '  [' + log + ', ' + age(log) + ']') if log else how))
-    print('\nFollow a log with: tail -f <file>   (the generator writes build/gen_run.log, one run at a time)')
+    print('\nFollow a log with: tail -f <file>   (a named generator run, --run NAME, writes build/gen_run-NAME.log; every outcome of every run is kept in state/results.jsonl)')
 
 
 if __name__ == '__main__':

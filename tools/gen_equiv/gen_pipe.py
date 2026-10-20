@@ -76,7 +76,11 @@ def run_file_robust(stem,items):
             items=[it for it in items if it[0] not in bad]; dropped+=sorted(bad); continue
         if out.startswith('[ERROR') : return [],[],deferred,dropped,out[:500]
         passed=[];failed=[]
+        LAST['weak']=set()
         for it in use:
             m=re.search(r'^%s\s+(\S+)'%re.escape(it[0]),out,flags=re.M)
-            (passed if m and m.group(1)=='EQUIVALENT' else failed).append(it[0])
+            # a WEAK function passes the check on its cases but they ran too little of it: its C and cases are kept (the C is written,
+            # not done) so the cases can be improved later; only a function that differs or does not compile is failed
+            if m and m.group(1)=='WEAK': LAST['weak'].add(it[0]); passed.append(it[0])
+            else: (passed if m and m.group(1)=='EQUIVALENT' else failed).append(it[0])
         return passed,failed,deferred,dropped,''

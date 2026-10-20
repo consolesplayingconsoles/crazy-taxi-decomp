@@ -81,6 +81,8 @@ class Memory:
         self.reads = []           # the address of every data read, in order (capped)
         self.stack = (STACK_TOP - 0x10000, STACK_TOP)
         self.device_reads = {}    # addr -> list of values to hand back, in order
+        self.seq_reads = {}       # RAM addr -> what each read returns, in order (the last value stays): a word an interrupt changes
+        self.seq_used = {}        # RAM addr -> how many reads took one of those values
 
     @staticmethod
     def phys(a):
@@ -103,6 +105,10 @@ class Memory:
         a = self.phys(addr)
         if not fetch and len(self.reads) < 4000:
             self.reads.append(a)
+        sq = self.seq_reads.get(a) if not fetch else None
+        if sq:                                   # a word that changes between reads (an interrupt, a counter): the case lists what each read returns
+            self.seq_used['%08X' % a] = self.seq_used.get('%08X' % a, 0) + 1
+            return (sq.pop(0) if len(sq) > 1 else sq[0]) & ((1 << (8 * size)) - 1)
         if a & (size - 1):
             raise Stop('unaligned %d-byte read at %08X' % (size, addr))
         page = self.pages.get(a >> 12)
@@ -148,6 +154,7 @@ class CPU:
         self.fpscr_rest = 0x00040001   # DN = 1, RM = nearest
         self.steps = 0
         self.covered = set()                  # the address of every instruction that ran
+        self.trace = None                     # with case['trace']: (pc, opcode, r0-r15, fr0-fr15) of every instruction, before it runs
         self.on_call = None       # callback(cpu, target, kind) -> True when the call was handled
         self.lo = self.hi = 0     # the function's own bytes: branches inside stay inside
         self.inside = []          # return addresses of the callees running now (deep calls)
@@ -183,9 +190,15 @@ class CPU:
     # one instruction; returns a pending branch target (delayed) or None
     def step(self, in_slot=False):
         pc = self.pc
+        if not in_slot and not self.inside and getattr(self, 'hi', None) and pc == self.hi and self.on_call:
+            # execution ran on past the function's last instruction (no return: it falls into the next function): a jump out, like a tail call
+            if self.on_call(self, pc, 'jump', pc):
+                return
         op = self.m.read(pc, 2, fetch=True)
         self.steps += 1
         self.covered.add(pc)
+        if self.trace is not None:
+            self.trace.append((pc, op, tuple(self.r), tuple(self.fr)))
         self.pc = (pc + 2) & M32
         n, m_, lo4, lo8 = (op >> 8) & 15, (op >> 4) & 15, op & 15, op & 255
         r = self.r
@@ -586,6 +599,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     end = end_ if end_ is not None else (code[0] + len(code[1]) if code else int(case['end'], 16))
     for a, hexbytes in case.get('poke', {}).items():
         mem.load(int(a, 16), bytes.fromhex(hexbytes))
+    for a, vals in case.get('seq_reads', {}).items():
+        mem.seq_reads[Memory.phys(int(a, 16))] = [int(v, 16) for v in vals]
     for a, vals in case.get('device_reads', {}).items():
         mem.device_reads[Memory.phys(int(a, 16))] = [int(v, 16) for v in vals]
     mem.writes.clear()
@@ -605,6 +620,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             cpu.r[int(k[1:])] = int(v, 16) & M32
     cpu.pr = SENTINEL
     cpu.pc = entry
+    if case.get('trace'):
+        cpu.trace = []
     calls = []
     returns = list(case.get('calls', []))
     entry_r15 = cpu.r[15]
@@ -656,7 +673,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
                     'fr0': '%08X' % cpu.fr[0], 'fr1': '%08X' % cpu.fr[1]},
             'r15_balanced': cpu.r[15] == entry_r15,
             'covered': sorted(a for a in cpu.covered if entry <= a < end),
-            'reads': mem.reads}
+            'reads': mem.reads, 'seq_used': dict(mem.seq_used), 'trace': cpu.trace}
 
 
 def main(argv):

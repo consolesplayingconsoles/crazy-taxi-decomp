@@ -5,6 +5,9 @@ candidates from the arguments its prototype takes (an int or pointer in r4..r7, 
 and an answer for every call, then grown and chosen by how much of the ORIGINAL's code they run (gen_drv.pick), so the
 check rests on cases that reach the branches. Written to tests/<file>/<function>.json; an existing file is kept unless --force.
 Run equiv.py on the file afterwards: DIFFERS names the case, and `equiv.py` prints the instructions the cases ran."""
+import os as _os, sys as _sys
+_sys.path.insert(0,_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..'))
+import ledger
 import os,re,sys,json,random,struct,zlib
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import gen_drv,gen_core as G
@@ -92,5 +95,6 @@ def main(args):
         chosen=gen_drv.pick(name,cases,36,V,rng,hot)
         if len(chosen)<4:
             print('%-28s skipped: the original does not finish on the cases'%name); continue
+        ledger.archive_cases(_os.path.basename(path)[:-5],path,'drawn-before')
         json.dump({'dev':chosen[0::2],'holdout':chosen[1::2]},open(path,'w'),indent=1)
         print('%-28s %d cases'%(name,len(chosen)))

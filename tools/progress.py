@@ -42,6 +42,10 @@ def in_c(a):
 equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
 # functions whose bytes the SDK's own source reproduces (tools/sdk_source.py, from the source the user supplied)
 verified = set(l.strip() for l in open('sdk-verified.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-verified.txt') else set()
+# functions whose bytes are verbatim in the SDK's compiled library code (tools/sdk_identical.py): the library's own code, not C
+identical = set(l.split()[0] for l in open('sdk-identical.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-identical.txt') else set()
+verified_src = set(verified)
+verified |= identical
 name_at = {a: n for a, sz, n in funcs}
 
 def is_lib(a):
@@ -56,8 +60,9 @@ def stats(sel):
     nb = sum(sz for a, sz, n in nm)
     dc = sum(1 for a, sz, n in nm if n in words)
     eq = [x for x in fs if in_c(x[0]) or x[2] in equivalent or x[2] in verified]
-    vs = [x for x in fs if x[2] in verified and not (in_c(x[0]) or x[2] in equivalent)]
-    return len(fs), code, cb, cf, len(nm), nb, dc, len(eq), sum(sz for a, sz, n in eq), len(vs), sum(sz for a, sz, n in vs)
+    vs = [x for x in fs if x[2] in verified_src and not (in_c(x[0]) or x[2] in equivalent)]
+    vi = [x for x in fs if x[2] in identical and x[2] not in verified_src and not (in_c(x[0]) or x[2] in equivalent)]
+    return len(fs), code, cb, cf, len(nm), nb, dc, len(eq), sum(sz for a, sz, n in eq), len(vs), sum(sz for a, sz, n in vs), len(vi), sum(sz for a, sz, n in vi)
 
 globals_named = sum(1 for l in open('globals.txt') if l.strip() and not l.startswith('#')) if os.path.exists('globals.txt') else 0
 import glob
@@ -108,6 +113,8 @@ rows = [
      % (g[3], g[2], len(units))),
     ('    of which SDK source', pct(g[9], doable), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local)'
      % (g[9], g[10])),
+    ('    of which SDK object code', pct(g[11], doable), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt)'
+     % (g[11], g[12])),
     ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
     ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
      % (med([x[1] for x in funcs if is_done(x)]), med([x[1] for x in funcs if not is_done(x)]),
@@ -225,6 +232,7 @@ def write_badge(rows, label, path='badge.svg'):
 
 
 write_badge(rows, 'decomp')
+rows = [r for r in rows if not (r[0].strip() == 'of which SDK object code' and not g[11])]      # only when sdk-identical.txt names something
 w = max(len(r[0]) for r in rows)
 for name, p, detail in rows:
     print('%-*s  %7s  %s' % (w, name, p, detail))

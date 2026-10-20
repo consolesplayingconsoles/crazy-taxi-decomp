@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=71.9&b=36.4)
+![decomp progress](badge.svg?p=82.6&b=51.5)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -182,26 +182,27 @@ the evidence for each equivalent function.
 
 <!-- progress -->
 ```
-THE GAME                           3246 functions, 559018 bytes of code; each function in one bucket
-  done: equivalent C        71.9%  2332 of 3242 functions, 203176 bytes (36.4%): C that behaves like the original (the 4 with no C form are counted apart)
-    of which matching C      0.2%  8 functions, 1338 bytes, 2 units: rebuilt byte for byte
-    of which SDK source      6.0%  195 functions, 14944 bytes: the SDK's own source reproduces them (sdk-source/, local)
-  done: no C form            0.1%  4 functions of the 3246: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the 3242 that can be C
-  size of what is done             median 48 bytes; what is left: median 230 bytes, 66 functions of 1000 bytes or more holding 122376 bytes (21.9% of all code)
-  named only                12.2%  395 functions: a name, no C yet (not done work)
-  unnamed                   15.9%  515 functions (FUN_...), no C yet
-  below the coverage bar     6.9%  223 functions: C written, but its cases ran too little of the original to count (tests/weak.txt); not done
-  with partial C            72.2%  2340 functions: 2332 done + 8 partial (C written in partial/, not yet proven equivalent)
-  documented                39.4%  1279 named functions in docs/*.md
-  named globals                    120
-  of which library                 2048 functions, 241090 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
-    done                    74.8%  1532 of 2048 library functions, 110764 bytes (45.9%)
-    named                   65.1%  1334 of 2048 (the library's own names, from SDK tables)
-REVERSE ENGINEERING                what the model map identifies; separate from the measures above, not done work
-  models named              37.1%  1010 of 2723 models: a name, or a named table or collection
-  characters named          15.5%  9 of 58 characters (note rules)
-  sounds named               3.1%  22 of 716 sounds (sound rules)
-  tables named               1.1%  1 of 95 model tables (table rules)
+THE GAME                               3246 functions, 559018 bytes of code; each function in one bucket
+  done: equivalent C            82.6%  2678 of 3243 functions, 287438 bytes (51.5%): C that behaves like the original (the 3 with no C form are counted apart)
+    of which matching C          0.2%  8 functions, 1338 bytes, 2 units: rebuilt byte for byte
+    of which SDK source          6.0%  195 functions, 14944 bytes: the SDK's own source reproduces them (sdk-source/, local)
+    of which SDK object code     5.7%  184 functions, 26756 bytes: byte-identical to the SDK library's own compiled code (sdk-identical.txt)
+  done: no C form                0.1%  3 functions of the 3246: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the 3243 that can be C
+  size of what is done                 median 56 bytes; what is left: median 286 bytes, 59 functions of 1000 bytes or more holding 111140 bytes (19.9% of all code)
+  named only                     8.1%  264 functions: a name, no C yet (not done work)
+  unnamed                        9.3%  301 functions (FUN_...), no C yet
+  below the coverage bar         7.6%  245 functions: C written, but its cases ran too little of the original to count (tests/weak.txt); not done
+  with partial C                82.8%  2685 functions: 2678 done + 7 partial (C written in partial/, not yet proven equivalent)
+  documented                    40.6%  1317 named functions in docs/*.md
+  named globals                        120
+  of which library                     2048 functions, 241090 bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game
+    done                        87.1%  1784 of 2048 library functions, 153282 bytes (63.6%)
+    named                       65.1%  1334 of 2048 (the library's own names, from SDK tables)
+REVERSE ENGINEERING                    what the model map identifies; separate from the measures above, not done work
+  models named                  37.1%  1010 of 2723 models: a name, or a named table or collection
+  characters named              15.5%  9 of 58 characters (note rules)
+  sounds named                   3.1%  22 of 716 sounds (sound rules)
+  tables named                   1.1%  1 of 95 model tables (table rules)
 ```
 <!-- /progress -->
 

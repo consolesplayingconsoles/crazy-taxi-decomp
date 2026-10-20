@@ -14,16 +14,28 @@ The result is generated code, plain (temps t0, t1, hex stores, int prototypes) a
 cases never reach can pass by luck, so equiv.py reports the instruction coverage. Report it apart from hand-written C.
 `--retest [gen_x ...]` draws the cases again for functions already generated (see gen_retest.py). Needs: functions.txt, tools/shdis.py,
 tools/classify.py, tools/equiv.py, 1ST_READ.BIN."""
-import sys,json,os,shutil,glob,re,subprocess,collections,signal,time,multiprocessing
+import sys,json,os,shutil,glob,re,subprocess,collections,signal,time,multiprocessing,fcntl
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
+import ledger
 T0=time.time()
+# --run NAME: a named run keeps its own log, report and survival file, so several runs can go at once (groups of one big list); the
+# steps that touch shared files (compiling and checking, the evidence files, the batch files) take turns on state/.gen.lock
+RUN='run'
+if '--run' in sys.argv: RUN=sys.argv[sys.argv.index('--run')+1]
+SUF='' if RUN=='run' else '-'+RUN
+LOG='build/gen_run%s.log'%SUF; FAILED='build/gen_failed%s.txt'%SUF
+os.makedirs('state',exist_ok=True)
+_LOCKF=open('state/.gen.lock','w')
+def lock(): fcntl.flock(_LOCKF,fcntl.LOCK_EX)
+def unlock(): fcntl.flock(_LOCKF,fcntl.LOCK_UN)
 class _Tee:                                  # everything the run prints also goes to build/gen_run.log, so a run can be followed from another terminal
     def __init__(self,f): self.f=f; self.out=sys.stdout
     def write(self,t): self.out.write(t); self.f.write(t); self.f.flush()
     def flush(self): self.out.flush(); self.f.flush()
 if os.path.isdir('build') and not any(a in sys.argv for a in ('--draw','--retest')):
-    sys.stdout=_Tee(open('build/gen_run.log','w'))
+    ledger.rotate(LOG,'run'); sys.stdout=_Tee(open(LOG,'w'))
 def note(msg): print('[%4ds] %s'%(time.time()-T0,msg),flush=True)
-sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import gen_pipe,gen_drv,gen_core
 class Timeout(Exception): pass
 def _alarm(sig,frm): raise Timeout()
@@ -32,13 +44,15 @@ def _term(sig,frm): raise SystemExit('stopped')
 signal.signal(signal.SIGTERM,_term)
 # equiv.py records every function it passes in tests/equivalent.txt and docs/equivalent.md, also for the scratch files of a round:
 # both are put back after each round, and if the run is stopped, so nothing is left there that has no C behind it
-KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
+KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md','tests/weak.txt') if os.path.exists(f)}
 def restore_evidence():
     for f,t in KEEP.items(): open(f,'w').write(t)
 READ_LIMIT=300       # seconds: a function whose reading does not finish in that time is skipped (some shapes loop for ever)
 BUILD_LIMIT=60       # and the same for writing its C and cases in a round
 if '--draw' in sys.argv:
     import draw_cases; draw_cases.main([x for x in sys.argv[1:] if x!='--draw']); sys.exit(0)
+if '--direct' in sys.argv:
+    import directed; directed.main([x for x in sys.argv[1:] if x!='--direct'],gen_drv.RUNTIME,gen_core.SPANS if False else {n:v for n,v in gen_core.SPANS.items()}); sys.exit(0)
 if '--lift' in sys.argv:
     import gen_retest; gen_retest.lift([x for x in sys.argv[1:] if x!='--lift']); sys.exit(0)
 if '--retest' in sys.argv:
@@ -46,7 +60,7 @@ if '--retest' in sys.argv:
 known='--known' in sys.argv
 JOBS=max(1,(os.cpu_count() or 2)-2)       # worker processes: every function is read and drawn on its own
 if '--jobs' in sys.argv: JOBS=max(1,int(sys.argv[sys.argv.index('--jobs')+1]))
-args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs') and not (i>1 and sys.argv[i-1]=='--jobs')]
+args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs','--run') and not (i>1 and sys.argv[i-1] in ('--jobs','--run'))]
 ONLY=[x for x in args if not x.isdigit()]            # function names: run only these (a quick look at a few, a debug run)
 args=[x for x in args if x.isdigit()]
 maxsize=int(args[0]) if args else (100000 if ONLY else 200)
@@ -58,6 +72,9 @@ for f in glob.glob('src/*.c'):
 ver=set()
 for l in open('sdk-verified.txt'):
     if not l.startswith('#'): ver.update(l.split())
+if os.path.exists('sdk-identical.txt'):
+    for l in open('sdk-identical.txt'):
+        if not l.startswith('#'): ver.update(l.split()[:1])
 cand=[]; cnt=collections.Counter(); tolook=[]
 sizes=[]
 for l in open('functions.txt'):
@@ -66,7 +83,7 @@ for l in open('functions.txt'):
 # classify.py without names stops at 128 bytes: name the functions to look at
 for l in (subprocess.run(['python3','tools/classify.py']+sizes,capture_output=True,text=True).stdout.splitlines() if sizes else []):
     p=l.split()
-    if len(p)>=4 and p[-1]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and p[2] not in ver and not p[2].startswith('_') and int(p[1])<=maxsize:
+    if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and p[2] not in ver and not p[2].startswith('_') and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
     signal.alarm(max(READ_LIMIT,gen_core.SPANS[n][1]//4))      # a larger function gets more time: size/4 seconds, at least 300
@@ -87,13 +104,13 @@ def each(fn,names,what):
         pool=multiprocessing.get_context("fork").Pool(JOBS); it=pool.imap_unordered(fn,names)
     for r in it:
         got.append(r)
-        if len(got)%25==0: note('%s %d of %d functions'%(what,len(got),len(names)))
+        if len(got)%25==0 or len(names)<=60 or len(got)==len(names): note('%s %d of %d functions'%(what,len(got),len(names)))      # a small run shows every function
     if pool: pool.close(); pool.join()
     return got
 note('reading %d functions with %d workers'%(len(tolook),JOBS))
 for n,why in each(_read,tolook,'read'):
     if why is None: cand.append(n)
-    else: cnt[why]+=1
+    else: cnt[why]+=1; ledger.record(RUN,n,'cannot read',why)
 print(len(cand),cnt.most_common(10),flush=True)
 if known:
     # the check of the generator itself: it writes C for functions already proven Equivalent (by hand or by an earlier run)
@@ -110,7 +127,7 @@ def write_batch(keep):
     protos={}
     for it in keep:
         for a,b in it[3].items(): protos[a]=b
-    fn='gen_%s'%letters[k]; k+=1
+    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc] if not os.path.exists('src/gen_%s.c'%x))
     head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
     open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
@@ -136,7 +153,8 @@ def _draw(n):
     finally: signal.alarm(0)
 rounds=[(0,False)]      # one round: on Crazy Taxi the retry rounds (other code shapes) added nothing and cost as much time again
 done=set()
-if os.path.exists('build/gen_failed.txt'): os.remove('build/gen_failed.txt')
+ledger.rotate(FAILED,'report')
+if os.path.exists(FAILED): os.remove(FAILED)
 for ri,(vi,pt) in enumerate(rounds):
     if not remaining: break
     items=[]
@@ -146,17 +164,19 @@ for ri,(vi,pt) in enumerate(rounds):
     for r in each(_draw,remaining,'  round %d: cases drawn for'%ri):
         if r and r[0]=='skip': notdrawn.append(r)
         elif r: items.append(r)
-    with open('state/case-survival.txt','w') as fh:       # per function: cases drawn, cases the original survived, and whether the holdout is independent
+    with open('state/case-survival%s.txt'%SUF,'w') as fh:       # per function: cases drawn, cases the original survived, and whether the holdout is independent
         fh.write('function drawn survived holdout_independent\n')
         for it in items:
             st=it[4] if len(it)>4 else {}
             fh.write('%s %s %s %s\n'%(it[0],st.get('drawn','?'),st.get('survived','?'),st.get('holdout_independent','?')))
-    with open('build/gen_failed.txt','a') as fh:        # the functions that got no C or no cases, and why
-        for _,n_,why in notdrawn: fh.write('%s  not drawn: %s\n'%(n_,why))
+    with open(FAILED,'a') as fh:        # the functions that got no C or no cases, and why
+        for _,n_,why in notdrawn: fh.write('%s  not drawn: %s\n'%(n_,why)); ledger.record(RUN,n_,'not drawn',why)
     order={n:k for k,n in enumerate(remaining)}
     items.sort(key=lambda it:order[it[0]])
     if not items: continue
     stem='gen_tmp%d'%ri
+    lock()
+    KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md','tests/weak.txt') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
     note('round %d: compiling and checking %d functions'%(ri,len(items)))
     try:
         passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
@@ -165,19 +185,23 @@ for ri,(vi,pt) in enumerate(rounds):
     print(ri,vi,pt,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
     os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
     for it in items:
-        if it[0] in failed: json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
+        if it[0] in failed:
+            ledger.archive_cases(it[0],'state/failed-cases/%s.json'%it[0],'failed-before')
+            json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
     keep=[it for it in items if it[0] in passed]
-    with open('build/gen_failed.txt','a') as fh:        # what failed and the first difference, for whoever improves the generator
+    with open(FAILED,'a') as fh:        # what failed and the first difference, for whoever improves the generator
         for l in gen_pipe.LAST.get('out','').splitlines():
             q=l.split()
-            if len(q)>1 and q[0] in failed: fh.write(l+'\n')
-        for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,'')))
+            if len(q)>1 and q[0] in failed: fh.write(l+'\n'); ledger.record(RUN,q[0],q[1],' '.join(q[2:]))
+        for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,''))); ledger.record(RUN,n,'did not compile',gen_pipe.LAST.get('why',{}).get(n,''))
+    for n in passed: ledger.record(RUN,n,'WEAK' if n in gen_pipe.LAST.get('weak',()) else 'EQUIVALENT','')
     done|=set(passed)
     final.append((stem,keep,vi,pt))
     if not known: write_batch(keep)
     remaining=[n for n in remaining if n not in passed]
     for f in glob.glob('src/gen_tmp*.c'): os.remove(f)
     for d in glob.glob('tests/gen_tmp*'): shutil.rmtree(d)
+    unlock()
 if known:
     for f,t in saved.items(): open(f,'w').write(t)
     print('known-equivalent functions written again and passing:',len(done))

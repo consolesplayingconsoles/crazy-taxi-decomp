@@ -231,9 +231,9 @@ def tests(name,c,src):
                     poke['%08X'%b]=struct.pack('<64I',*words).hex()
             if chained:
                 for pb in POINTERS: poke['%08X'%(pb&~3)]=struct.pack('<64I',*[rng.choice(pool) for _ in range(64)]).hex()   # memory behind those pointers
-            own=G.SPANS.get(name,(0,0))
+            own=G.SPANS.get(name,(0,0)); own_end=G.ENDS.get(name,own[0]+own[1])      # the code and its pool up to the next function
             for a in addrs:
-                if a is None or own[0]<=a<own[0]+own[1]: continue      # the function's own bytes (its pool, its tables) are not state to poke
+                if a is None or own[0]<=a<own_end or own[0]<=a+7<own_end: continue      # the function's own bytes (its pool, its tables) are not state to poke
                 w=forced if forced is not None else rng.choice(pool)
                 poke['%08X'%((a&~3)&0xffffffff)]=struct.pack('<II',w,rng.choice(pool)).hex()
             regs={}
@@ -258,6 +258,16 @@ def tests(name,c,src):
             dev=cases[:18] if indep else cases[0::2][:18]
             LAST['holdout_independent']=indep
             return {'dev':dev,'holdout':hold}
+    # no case ends: a wait loop on a word nothing changes. Search for cases that end (directed.py): a changed poke, or a word that
+    # changes between two reads
+    try:
+        import directed
+        st,sz=G.SPANS[name]
+        found=directed.rescue(name,st,sz,int(open('BASE').read().strip(),16),lambda t:t in RUNTIME)
+    except Exception: found=[]
+    if found:
+        LAST['holdout_independent']=False
+        return {'dev':found[0::2] or found,'holdout':found[1::2] or found}
     raise Skip('the original does not finish on the cases')
 ASMW={      # instructions with no intrinsic, as SHC inline assembly functions (#pragma inline_asm): name -> (return type, parameters, assembly lines)
  'iaFscaS':('float','int a',["LDS R4,FPUL",".DATA.W H'F0FD"]),                       # fsca fpul,dr0: the sine, in fr0

@@ -88,6 +88,7 @@ def main():
     base = int(open('BASE').read().strip(), 16)
     equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
     verified = set(l.strip() for l in open('sdk-verified.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-verified.txt') else set()
+    verified |= set(l.split()[0] for l in open('sdk-identical.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-identical.txt') else set()
     units = [l.split() for l in subprocess.run([sys.executable, os.path.join(here, 'units.py'), '--units'],
                                                capture_output=True, text=True).stdout.splitlines() if l.strip()]
     in_c = lambda a: any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
@@ -101,11 +102,22 @@ def main():
         if len(p) >= 4:
             cls[p[2]] = p[3].strip()
     failed = {}
-    if os.path.exists('build/gen_failed.txt'):
-        for l in open('build/gen_failed.txt'):
+    for rep in sorted(__import__('glob').glob('build/gen_failed*.txt')):            # the reports of the last runs
+        for l in open(rep):
             p = l.split(None, 1)
             if len(p) == 2:
                 failed[p[0]] = p[1].strip()
+    if os.path.exists('state/results.jsonl'):                                         # the ledger: the latest outcome of every function, kept across runs
+        last = {}
+        for l in open('state/results.jsonl'):
+            try:
+                r = json.loads(l)
+            except ValueError:
+                continue
+            last[r['fn']] = r
+        for n, r in last.items():
+            if r['outcome'] not in ('EQUIVALENT', 'cannot read'):
+                failed[n] = '%s %s' % (r['outcome'], r['detail'])
     # the generator's reading, cached by the function's bytes and the tools' source
     os.makedirs('state', exist_ok=True)
     cache_file = 'state/remaining.cache.json'
