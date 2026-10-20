@@ -812,7 +812,7 @@ def _run(name,passthru=False,frame=False):
         the arms leave different becomes a variable assigned in each arm."""
         ea,eb=not A,not B
         pendM=list(stA[6])
-        if stA[5]!=stB[5] or len(stA[6])!=len(stB[6]): raise Skip('stack pointer differs (%s vs %s, pending %d vs %d)'%(stA[5],stB[5],len(stA[6]),len(stB[6])))
+        if stA[5]!=stB[5] or len(stA[6])!=len(stB[6]): raise Skip('stack pointer differs (%s vs %s, pending %d vs %d) at %x join %s'%(stA[5],stB[5],len(stA[6]),len(stB[6]),ins[getattr(c,'_bi',0)][2],('%x'%ins[c._bj][2]) if getattr(c,'_bj',-1)>=0 else 'none'))
         for k_,(pa_,pb_) in enumerate(zip(stA[6],stB[6])):
             if pa_==pb_: continue
             # a pushed value (an argument for a call after the join) that the arms set differently: a variable assigned in each arm
@@ -882,7 +882,9 @@ def _run(name,passthru=False,frame=False):
     def branch0(i,j,f,cond,stops,tA=None):
         """cond holds when the fall-through arm (starting at f) runs; j is where the branch goes. tA: the T flag on the fall-through
         arm (True for a bf that fell through, False for a bt), the opposite on the taken arm: a second branch there may use it."""
+        c._bi=i
         J=outer_join(G.ijoin(i) if _IJOIN[0] else G.ipdom(i))
+        c._bj=J
         stops2=dict(stops)
         if J!=gen_cfg.EXIT and (J not in stops2 or stops2[J]=='cont'):
             if not c.loopstack or J in G.loops[c.loopstack[-1]]: stops2[J]='join'
@@ -999,7 +1001,7 @@ def _run(name,passthru=False,frame=False):
         restore(s0)
         for st in conts:
             if st[3]!=entS: raise Skip('stack local in a loop')
-        cand=[]
+        cand=[]; undef=set()
         for k,(ent,isf) in enumerate(((entR,False),(entF,True))):
             for st in conts:
                 for r,v in st[k].items():
@@ -1007,10 +1009,13 @@ def _run(name,passthru=False,frame=False):
                     n=int(r[2:] if isf else r[1:])
                     e=ent.get(r,('s',('f%d' if isf else 'a%d')%n) if 4<=n<=(11 if isf else 7) else None)
                     if e is not None and v!=e and v!=DIRTY: cand.append((r,isf))
+                    elif e is None and r not in ent and v is not None and v!=DIRTY and not (isinstance(v,tuple) and v[0] in ('addr','srx')):
+                        cand.append((r,isf)); undef.add((r,isf))       # undefined on entry, set by the loop and read on the next pass: a variable with no initial value
         cand.sort(key=lambda w:(w[1],int(w[0][2:] if w[1] else w[0][1:])))
         W=[]
         if cand:
-            for r,isf in cand: c.gf(r) if isf else c.gi(r)         # an argument the loop changes is read here
+            for r,isf in cand:
+                if (r,isf) not in undef: c.gf(r) if isf else c.gi(r)         # an argument the loop changes is read here
             s1=snap()
             conts,exits_,lb=run_pass(cand)
             text='\n'.join(map(str,lb))+'\n'+repr([st[:2] for st in conts+exits_])
@@ -1019,6 +1024,9 @@ def _run(name,passthru=False,frame=False):
             restore(s0)
         added=[]
         for r,isf in W:
+            if (r,isf) in undef:
+                var=fresh(isf); emit('%s %s;'%('float' if isf else 'int',var))
+                (c.FR if isf else c.R)[r]=('e',var); c.lv[r]=var; added.append(r); continue
             val=c.gf(r) if isf else c.gi(r)
             if isinstance(val,tuple) and val[0]=='addr': raise Skip('addr loop variable')
             var=fresh(isf)

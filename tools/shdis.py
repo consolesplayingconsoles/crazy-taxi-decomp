@@ -205,6 +205,7 @@ def main():
     while work:
         pc = work.pop()
         regval = {}                    # register -> the pool constant a mov.l @(pc) just loaded into it (a long-range `jmp @rN` goes there)
+        hist = []                      # (pc, text) of this straight run: the mova and the bounds check before a braf jump table
         while start <= pc < end and pc not in reach:
             reach.add(pc)
             t, ppool, psize, tgt = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
@@ -212,6 +213,33 @@ def main():
             mload = re.match(r'mov\.l\s+@\([^)]*\),r(\d+)', t)
             if mload and ppool is not None and base <= ppool < base + len(exe) - 3:
                 regval[int(mload.group(1))] = struct.unpack_from('<I', exe, ppool - base)[0]
+            hist.append((pc, t))
+            if op == 'braf':
+                # a jump table: `mova table,r0; mov.w @(r0,rX),r0; braf r0`, 16-bit offsets from the braf + 4, the count from the cmp/hs
+                # bounds check before it when the run holds it, else while the entry lands inside the function
+                tab = None
+                limit = None
+                for hpc, ht in reversed(hist[:-1]):
+                    mm = re.match(r'mova\s+@\((0x[0-9a-f]+),pc\),r0', ht)
+                    if mm and tab is None:
+                        tab = int(mm.group(1), 16)
+                    if ht.startswith('cmp/hs') and tab is not None and limit is None:
+                        rl = ht.split()[1].split(',')[0]
+                        for hpc2, ht2 in reversed(hist[:hist.index((hpc, ht))]):
+                            m1 = re.match(r'mov\s+#(-?\d+),%s$' % re.escape(rl), ht2)
+                            m2 = re.search(r'=(-?\d+)', ht2) if ht2.startswith('mov.w') and ht2.split()[1].split(',')[-1].split()[0].endswith(rl) else None
+                            if m1: limit = int(m1.group(1)); break
+                            if m2: limit = int(m2.group(1)); break
+                        break
+                if tab is not None and base <= tab < base + len(exe) - 1:
+                    k = 0
+                    while k < (256 if limit is None else limit):
+                        a = tab + 2 * k
+                        if not (base <= a < base + len(exe) - 1): break
+                        tgt2 = pc + 4 + struct.unpack_from('<h', exe, a - base)[0]
+                        if not (start <= tgt2 < end) or tgt2 % 2: break
+                        work.append(tgt2)
+                        k += 1
             mj = re.match(r'jmp\s+@r(\d+)', t)
             if mj and regval.get(int(mj.group(1))) is not None and start <= regval[int(mj.group(1))] < end:
                 work.append(regval[int(mj.group(1))] & ~1)
