@@ -3,23 +3,22 @@
 
 int ADXB_Create(int, int, int, int);
 int ADXB_EntryGetWrFunc(int, int, int);
-int ADXCRS_Lock(int, int, int);
+int ADXCRS_Lock(void);
 int ADXCRS_Unlock(void);
-int ADXERR_CallErrFunc(int, int, int);
+int ADXERR_CallErrFunc(void);
 int ADXF_LoadPartition(int, int, int, int);
 int ADXSTM_OpenRange(int, int, int);
 int ADXSTM_Start(int);
 int Act_Init(void);
 int Drv_StartAction(int, int, int);
 int FUN_0c02e36c(int, int);
-int FUN_0c02e83c(int, int, int, int, float);
+int FUN_0c02e83c(int);
 int FUN_0c031048(void);
 int FUN_0c031934(int);
 int FUN_0c03bea0(int, int, int);
 int FUN_0c03c792(int, int, int, int);
 int FUN_0c041a3e(int);
 int FUN_0c04f1b0(int);
-int FUN_0c0511a4(void);
 int FUN_0c0512ac(void);
 int FUN_0c0530a0(int);
 int FUN_0c0532ea(int);
@@ -29,7 +28,7 @@ int FUN_0c06047c(void);
 int FUN_0c060616(int);
 int FUN_0c0713d8(int);
 int FUN_0c072e36(void);
-int FUN_0c074680(int, int, int);
+int FUN_0c074680(void);
 int FUN_0c156c32(int, int, int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
@@ -43,7 +42,7 @@ int Init_Standard(void);
 int LightEffect(int);
 int PutCourse_Init(int);
 int ResetLight(void);
-int SJRBF_GetBufPtr(int, int, int, int);
+int SJRBF_GetBufPtr(int);
 int SJRBF_GetBufSize(int);
 int SJRBF_GetXtrSize(int);
 int Sound_Init(void);
@@ -51,44 +50,44 @@ int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int adxamp_extract(int);
-int adxsjd_clear(int, int);
-int buCalcCRC(int, int, int, int);
-int buIsFormat(int);
-int buStat(int);
-int callGoBackAdvertise(int);
+int adxsjd_clear(int);
+int buCalcCRC(int, int);
+int buIsFormat(void);
+int buStat(void);
+int callGoBackAdvertise(void);
 int entryCarPut(int);
-int extRand(int, int, int);
+int extRand(void);
 int extRandomSeed(int);
 int gdc_StopStreamSongAll(void);
 int gdc_StopStreamVoice(int);
 int gdc_StopStreamVoiceAll(void);
 int get_fat(int, int);
 int init_CarMain(void);
-int init_GameSystem(int);
+int init_GameSystem(void);
 int init_KyakuMain(void);
 int kmiAddSysConfigFlag(int);
 int kmiAllocSysConfig(int);
 int kmiFlipVertexBuffer(int);
-int kmiGetSysConfigFlag(int, int, int, int);
+int kmiGetSysConfigFlag(void);
 int kmiReadRegister(int);
 int kmiSetSysConfigFlag(int);
-int kmiWaitVlank(int, int, int, int);
+int kmiWaitVlank(void);
 int kmiWriteRegister(int, int);
 int kmyConvertAddress64to32(int);
 int memset(int, int, int);
 int menuPutSprites(int, int, int, int);
 int mpdrv_insertnop(int);
-int mpdrv_set_allstatreq_ns(int);
-int mpdrv_set_dkill_ns(int);
-int mpdrv_set_dreq_ns(int);
-int mpdrv_set_dreset_ns(int);
+int mpdrv_set_allstatreq_ns(void);
+int mpdrv_set_dkill_ns(void);
+int mpdrv_set_dreq_ns(void);
+int mpdrv_set_dreset_ns(void);
 int mpdrv_set_end_ns(void);
 int mpdrv_set_getcond_ns(int, int);
-int ndPuru2Reset(int, int);
+int ndPuru2Reset(void);
 int nlInitEvent(void);
 int nlInitHeapMemory(int, int);
 int nlObjPutSetFadeColor(float, float, float);
-int nlObjPutUseViewMatrix(int, int, int, int, float);
+int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlSetCommonTextureOffset(int);
@@ -100,11 +99,11 @@ int pfLocate(float, float);
 int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
-int psgEnterState5(int, int);
+int psgEnterState5(int);
 int psgSeatMatrix(int);
 int search_fat(int, int);
 int search_fat_free_xross(int);
-int set_fat(int, int, int);
+int set_fat(int, int);
 int trafficControl(int);
 int usr_gd_err_func(int, int);
 int vmsfb_create(int, int, int);
@@ -113,46 +112,96 @@ int vmsfs_read_retry(int, int, int);
 int vmsfs_unmount(int);
 int vmsfs_write_retry(int, int, int);
 int vmsio_ismount(int);
-int vmsio_isready(int, int);
+int vmsio_isready(int);
+int FUN_0c0208d6(void);
+int FUN_0c0210d4(int a4);
+int Initialize_Replay_Part(void);
+int FUN_0c02eb86(int a4, int a5, float f4);
+int gdc_CourseSet(int a4);
+int gdc_SpriteFreeMenu(void);
+int FUN_0c03d594(int a4);
+int CheckSoftReset(void);
+int FUN_0c044b80(int a4);
+int CarSel_Time_Count(void);
+int FUN_0c0511a4(void);
+int FUN_0c051746(void);
+int FUN_0c0528c8(void);
+int FUN_0c05423a(void);
+int FUN_0c0551c6(int a4, int a5);
+int FUN_0c05765c(void);
+int execAdvSprite(void);
+int FUN_0c058828(void);
+int FUN_0c0596ac(void);
+int FUN_0c05a460(void);
+int psgFrameState5(int a4);
+int FUN_0c07e580(float f4, float f5, float f6, float f7);
+int kmSetUserClipLevelAdjust(int a4, int a5);
+int buAnalyzeBackupFileImage(int a4, int a5);
+int adxf_read_sj32(int a4, int a5, int a6);
+int kmiExecuteDMAChain(void);
+int kmiFBallocEx(int a4, int a5, int a6);
+int FUN_0c158958(int a4, int a5);
+int kmfSetVirticalFilterMode(int a4);
+int kmActivateFrameBuffer(int a4, int a5, int a6, int a7);
+int kmSetFramebufferTexture(int a4);
+int kmResetPointer(void);
+int vmsfs_c_init(int a4);
+int vmsfs_fwrite1(int a4, int a5);
+int vmsfs_xwrite1(int a4, int a5);
+int vmsfs_fread1(int a4, int a5);
+int ADXAMP_ExecHndl(int a4);
+int ADXSJD_Create(int a4, int a5, int a6);
+int kmiFinalizeRender(void);
+int frame_make(void);
 
 int FUN_0c0208d6(void)
 {
-    int t0;
-    int t2;
-    int t4;
+    float u0;
+    int t1;
+    int t3;
+    float u4;
+    float u6;
     int t7;
-    int t14;
-    int t17;
-    int t18;
-    int t9;
     int t10;
+    int t18;
+    float u19;
+    int t22;
+    float u23;
+    int t24;
+    int t13;
+    int t14;
 
     *(unsigned int *)0xC1794AC = 0x0;
-    t0 = *(int *)0xC179488;
-    if ((int)t0 < (int)0x4) {
+    u0 = *(float *)0xC0209EC;
+    t1 = *(int *)0xC179488;
+    if ((int)t1 < (int)0x4) {
         nlsndIcsControl(0x0, 0xA5, 0x400);
-        t2 = *(signed char *)0xC28A4ED;
-        t9 = 0x0;
-        t10 = (signed char)(int)(((float)(unsigned char)t2 / 8.0f) * 55.0f);
+        t3 = *(signed char *)0xC28A4ED;
+        u4 = *(float *)0xC0209F8;
+        t13 = 0x0;
+        t14 = (signed char)(int)(((float)(unsigned char)t3 / u0) * u4);
     } else {
         nlsndIcsControl(0x0, 0xA5, 0x300);
-        t4 = *(signed char *)0xC28A4ED;
-        nlsndIcsControl(0x0, 0x10A5, (signed char)(int)(((float)(unsigned char)t4 / 8.0f) * 120.0f));
-        nlsndIcsControl(0x3, 0xA5, 0x301);
+        u6 = *(float *)0xC0209FC;
         t7 = *(signed char *)0xC28A4ED;
-        t9 = 0x3;
-        t10 = (signed char)(int)(((float)(unsigned char)t7 / 8.0f) * 120.0f);
+        nlsndIcsControl(0x0, 0x10A5, (signed char)(int)(((float)(unsigned char)t7 / u0) * u6));
+        nlsndIcsControl(0x3, 0xA5, 0x301);
+        t10 = *(signed char *)0xC28A4ED;
+        t13 = 0x3;
+        t14 = (signed char)(int)(((float)(unsigned char)t10 / u0) * u6);
     }
-    nlsndIcsControl(t9, 0x10A5, t10);
+    nlsndIcsControl(t13, 0x10A5, t14);
     nlsndIcsControl(0x1, 0xA5, 0x100);
-    t14 = *(signed char *)0xC28A4ED;
-    nlsndIcsControl(0x1, 0x10A5, (signed char)(int)(((float)(unsigned char)t14 / 8.0f) * 103.0f));
+    t18 = *(signed char *)0xC28A4ED;
+    u19 = *(float *)0xC020A00;
+    nlsndIcsControl(0x1, 0x10A5, (signed char)(int)(((float)(unsigned char)t18 / u0) * u19));
     nlsndIcsControl(0x2, 0xA5, 0x101);
-    t17 = *(signed char *)0xC28A4ED;
-    t18 = nlsndIcsControl(0x2, 0x10A5, (signed char)(int)(((float)(unsigned char)t17 / 8.0f) * 85.0f));
+    t22 = *(signed char *)0xC28A4ED;
+    u23 = *(float *)0xC020A04;
+    t24 = nlsndIcsControl(0x2, 0x10A5, (signed char)(int)(((float)(unsigned char)t22 / u0) * u23));
     *(unsigned char *)0xC1794A8 = 0x0;
     *(float *)0xC1794A4 = 0.0f;
-    return t18;
+    return t24;
 }
 
 int FUN_0c0210d4(int a4)
@@ -161,25 +210,33 @@ int FUN_0c0210d4(int a4)
     int t1;
     int t2;
     int t3;
-    int t4;
+    float u4;
     int t5;
     int t6;
-    int t7;
+    float u7;
     int t8;
-    int t13;
-    int t18;
-    int t19;
-    int t20;
-    int t25;
-    int t30;
-    int t31;
-    int t32;
-    int t33;
-    int t34;
+    float u9;
     int t10;
-    float u12;
-    int t22;
+    float u11;
+    int t12;
+    int t17;
+    float u22;
+    int t23;
     float u24;
+    int t25;
+    float u26;
+    int t27;
+    int t32;
+    float u37;
+    int t38;
+    int t39;
+    int t40;
+    int t41;
+    int t42;
+    int t14;
+    float u16;
+    int t29;
+    float u31;
 
     t0 = *(int *)((a4 + 0x5C));
     if (t0 != 3) {
@@ -190,55 +247,63 @@ int FUN_0c0210d4(int a4)
         t3 = *(short *)((a4 + 0x114));
         if ((int)t3 < (int)0x600) {
             if ((int)t3 > (int)0xFFFFFA00) {
-                t4 = *(short *)((a4 + 0x114));
-                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((float)t4 * 0.369999975f);
+                u4 = *(float *)0xC02122C;
                 t5 = *(short *)((a4 + 0x114));
-                *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((float)t5 * 0.369999975f);
-            } else {
+                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((float)t5 * u4);
                 t6 = *(short *)((a4 + 0x114));
-                if ((int)t6 > 0) {
-                    t7 = *(short *)((a4 + 0x114));
-                    *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t7 - 1536) * 0.159999996f)) + 568.319946f);
-                    t10 = 0xFFFFFA00;
-                    u12 = 568.319946f;
+                *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((float)t6 * u4);
+            } else {
+                u7 = *(float *)0xC021230;
+                t8 = *(short *)((a4 + 0x114));
+                if ((int)t8 > 0) {
+                    u9 = *(float *)0xC021234;
+                    t10 = *(short *)((a4 + 0x114));
+                    *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t10 - 1536) * u7)) + u9);
+                    t14 = 0xFFFFFA00;
+                    u16 = u9;
                 } else {
-                    t8 = *(short *)((a4 + 0x114));
-                    *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t8 + 0x600) * 0.159999996f)) + -568.319946f);
-                    t10 = 0x600;
-                    u12 = -568.319946f;
+                    u11 = *(float *)0xC021238;
+                    t12 = *(short *)((a4 + 0x114));
+                    *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t12 + 0x600) * u7)) + u11);
+                    t14 = 0x600;
+                    u16 = u11;
                 }
-                t13 = *(short *)((a4 + 0x114));
-                *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t13 + t10) * 0.159999996f)) + u12);
+                t17 = *(short *)((a4 + 0x114));
+                *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t17 + t14) * u7)) + u16);
             }
         } else {
-            t18 = *(short *)((a4 + 0x114));
-            if ((int)t18 > 0) {
-                t19 = *(short *)((a4 + 0x114));
-                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t19 - 1536) * 0.159999996f)) + 568.319946f);
-                t22 = 0xFFFFFA00;
-                u24 = 568.319946f;
+            u22 = *(float *)0xC021230;
+            t23 = *(short *)((a4 + 0x114));
+            if ((int)t23 > 0) {
+                u24 = *(float *)0xC021234;
+                t25 = *(short *)((a4 + 0x114));
+                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t25 - 1536) * u22)) + u24);
+                t29 = 0xFFFFFA00;
+                u31 = u24;
             } else {
-                t20 = *(short *)((a4 + 0x114));
-                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t20 + 0x600) * 0.159999996f)) + -568.319946f);
-                t22 = 0x600;
-                u24 = -568.319946f;
+                u26 = *(float *)0xC021238;
+                t27 = *(short *)((a4 + 0x114));
+                *(unsigned short *)(((((0x1A0 + a4) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t27 + 0x600) * u22)) + u26);
+                t29 = 0x600;
+                u31 = u26;
             }
-            t25 = *(short *)((a4 + 0x114));
-            *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t25 + t22) * 0.159999996f)) + u24);
+            t32 = *(short *)((a4 + 0x114));
+            *(unsigned short *)((((((0x1A0 + a4) + 0x84) + 0x84) + 0x84) + 0x80)) = (int)((-((float)(t32 + t29) * u22)) + u31);
         }
-        t34 = 0x80;
+        t42 = 0x80;
     } else {
-        t30 = *(short *)((a4 + 0x114));
-        *(unsigned short *)((a4 + 0x2A4)) = (int)((float)t30 * 0.099999994f);
-        t31 = *(short *)((a4 + 0x114));
-        *(unsigned short *)((a4 + 0x220)) = (int)((float)t31 * 0.099999994f);
-        t32 = *(short *)((a4 + 0x114));
-        *(unsigned short *)((a4 + 0x3AC)) = (-t32);
-        t33 = *(short *)((a4 + 0x114));
-        *(unsigned short *)((a4 + 0x328)) = (-t33);
-        t34 = 0x328;
+        u37 = *(float *)0xC02123C;
+        t38 = *(short *)((a4 + 0x114));
+        *(unsigned short *)((a4 + 0x2A4)) = (int)((float)t38 * u37);
+        t39 = *(short *)((a4 + 0x114));
+        *(unsigned short *)((a4 + 0x220)) = (int)((float)t39 * u37);
+        t40 = *(short *)((a4 + 0x114));
+        *(unsigned short *)((a4 + 0x3AC)) = (-t40);
+        t41 = *(short *)((a4 + 0x114));
+        *(unsigned short *)((a4 + 0x328)) = (-t41);
+        t42 = 0x328;
     }
-    return t34;
+    return t42;
 }
 
 int Initialize_Replay_Part(void)
@@ -259,7 +324,7 @@ int Initialize_Replay_Part(void)
     nlInitEvent();
     extRandomSeed(0x3039);
     Init_Standard();
-    init_GameSystem(0x0);
+    init_GameSystem();
     t7 = *(int *)0xC179488;
     InitColliObj(t7);
     t9 = *(int *)0xC1EE20C;
@@ -305,7 +370,7 @@ int Initialize_Replay_Part(void)
     return Init_Fog();
 }
 
-void FUN_0c02eb86(int a4, int a5, float f4)
+int FUN_0c02eb86(int a4, int a5, float f4)
 {
     int t0;
     int t1;
@@ -321,15 +386,23 @@ void FUN_0c02eb86(int a4, int a5, float f4)
     int t15;
     int t16;
     int t17;
-    int t18;
-    int t19;
-    int t20;
+    float u18;
+    float u19;
+    float u20;
     int t21;
+    float u22;
     int t23;
     int t24;
+    int t25;
+    int t26;
+    int t27;
+    int t30;
     int t28;
+    int t29;
+    int t32;
     int t5;
     int t6;
+    int t31;
 
     if (a5 == 0) {
         t0 = *(int *)0xC26E0FC;
@@ -363,7 +436,7 @@ void FUN_0c02eb86(int a4, int a5, float f4)
         t12 = (t12 + t11);
         if ((int)t10 >= (int)0x120) {
             t10 = t9;
-            t16 = FUN_0c02e83c(t10, t11, 0x120, (((a4 << 2) + a4) << 2), f4);
+            t16 = FUN_0c02e83c(t10);
             t10 = t16;
             if (t16 != -1) {
                 t17 = t10;
@@ -376,10 +449,13 @@ void FUN_0c02eb86(int a4, int a5, float f4)
                 t11 = 0x1;
                 *(unsigned char *)((t10 + 0x0)) = t11;
                 *(unsigned int *)((t10 + 0x4)) = t5;
-                if (0.0f > (120.0f - (f4 * 0.399999976f))) {
-                    *(unsigned int *)((t10 + 0xC)) = (int)(0.0f + 90.0f);
-                    t18 = *(int *)((t10 + 0x10));
-                    *(unsigned int *)((t10 + 0x10)) = (t18 + 0x1);
+                u18 = *(float *)0xC02ED04;
+                u19 = *(float *)0xC02ED08;
+                if (0.0f > (u19 - (f4 * u18))) {
+                    u20 = *(float *)0xC02ED0C;
+                    *(unsigned int *)((t10 + 0xC)) = (int)(0.0f + u20);
+                    t21 = *(int *)((t10 + 0x10));
+                    *(unsigned int *)((t10 + 0x10)) = (t21 + 0x1);
                     *(unsigned int *)((t10 + 0x8)) = (t9 - 1);
                     if ((int)t9 > (int)t11) {
                         t10 = (t10 + 0x18);
@@ -393,15 +469,16 @@ void FUN_0c02eb86(int a4, int a5, float f4)
                                 *(unsigned int *)((t10 + 0x4)) = 0xFFFFFFFF;
                                 t10 = (t10 + 0x18);
                             } while ((int)t11 < (int)t9);
-                            return;
+                            return 0xC02ED0C;
                         }
-                        return;
+                        return 0xC02ED0C;
                     }
-                    return;
+                    return 0xC02ED0C;
                 }
-                *(unsigned int *)((t10 + 0xC)) = (int)((120.0f - (f4 * 0.399999976f)) + 90.0f);
-                t19 = *(int *)((t10 + 0x10));
-                *(unsigned int *)((t10 + 0x10)) = (t19 + 0x1);
+                u22 = *(float *)0xC02ED0C;
+                *(unsigned int *)((t10 + 0xC)) = (int)((u19 - (f4 * u18)) + u22);
+                t23 = *(int *)((t10 + 0x10));
+                *(unsigned int *)((t10 + 0x10)) = (t23 + 0x1);
                 *(unsigned int *)((t10 + 0x8)) = (t9 - 1);
                 if ((int)t9 > (int)t11) {
                     t10 = (t10 + 0x18);
@@ -415,30 +492,35 @@ void FUN_0c02eb86(int a4, int a5, float f4)
                             *(unsigned int *)((t10 + 0x4)) = 0xFFFFFFFF;
                             t10 = (t10 + 0x18);
                         } while ((int)t11 < (int)t9);
-                        return;
+                        return 0xC02ED0C;
                     }
-                    return;
+                    return 0xC02ED0C;
                 }
-                return;
+                return 0xC02ED0C;
             }
-            return;
+            return t16;
         }
     }
-    t20 = *(signed char *)((t12 + 0x0));
-    if ((unsigned char)t20 == 4) {
-        t21 = *(int *)((t12 + 0x14));
-        nlObjPutUseViewMatrix(t21, t11, 0x120, (((a4 << 2) + a4) << 2), f4);
+    t24 = *(signed char *)((t12 + 0x0));
+    if ((unsigned char)t24 == 4) {
+        t25 = *(int *)((t12 + 0x14));
+        t26 = nlObjPutUseViewMatrix(t25);
+        t31 = t26;
     } else {
-        t23 = *(signed char *)((t12 + 0x0));
-        if (t23 == 0) {
-            t24 = *(int *)((t12 + 0x14));
-            nlObjPutUseViewMatrix(t24, t11, 0x120, (((a4 << 2) + a4) << 2), f4);
+        t27 = *(signed char *)((t12 + 0x0));
+        t30 = (unsigned char)t24;
+        if (t27 == 0) {
+            t28 = *(int *)((t12 + 0x14));
+            t29 = nlObjPutUseViewMatrix(t28);
             *(unsigned char *)((t12 + 0x0)) = 0x4;
             *(unsigned int *)((t12 + 0xC)) = 0x0;
+            t30 = t29;
         }
+        t31 = t30;
     }
-    t28 = *(int *)((t12 + 0x10));
-    *(unsigned int *)((t12 + 0x10)) = (t28 + 0x1);
+    t32 = *(int *)((t12 + 0x10));
+    *(unsigned int *)((t12 + 0x10)) = (t32 + 0x1);
+    return t31;
 }
 
 int gdc_CourseSet(int a4)
@@ -603,9 +685,10 @@ int FUN_0c03d594(int a4)
     int t8;
     int t9;
     float u10;
-    int t11;
-    float u12;
-    int t13;
+    float u11;
+    int t12;
+    float u13;
+    int t14;
 
     t0 = *(signed char *)0xC28A4E8;
     t1 = 0x8;
@@ -629,11 +712,12 @@ int FUN_0c03d594(int a4)
     t8 = FUN_0c03c792(t7, 0xC09E4F8, t1, t6);
     t9 = *(int *)0xC2A1240;
     if ((int)(t9 - 4) >= 0) {
-        u10 = *(float *)0xC09E4FC;
-        t11 = *(int *)0xC2A1ADC;
-        u12 = *(float *)0xC09E4F8;
-        t13 = *(int *)((((t9 - 4) << 2) + 0xC0EF638));
-        return menuPutSprites(t13, 0xC2A1A84, (int)(u12 + (float)t11), (int)(u10 + 8.0f));
+        u10 = *(float *)0xC03D700;
+        u11 = *(float *)0xC09E4FC;
+        t12 = *(int *)0xC2A1ADC;
+        u13 = *(float *)0xC09E4F8;
+        t14 = *(int *)((((t9 - 4) << 2) + 0xC0EF638));
+        return menuPutSprites(t14, 0xC2A1A84, (int)(u13 + (float)t12), (int)(u11 + u10));
     }
     return t8;
 }
@@ -699,7 +783,7 @@ int CheckSoftReset(void)
     t0 = *(int *)0xC2A121C;
     if (t0 != 0) {
         t1 = *(int *)0xC2A11B8;
-        t2 = buStat(t1);
+        t2 = buStat();
         t68 = t2;
         if (t2 == 0) {
             t3 = *(signed char *)0xC1EE277;
@@ -736,7 +820,7 @@ int CheckSoftReset(void)
                         t14 = *(int *)0xC0EF7F4;
                         t38 = 0x0;
                         if (t14 == 0) {
-                            ndPuru2Reset(0x2, 0x8);
+                            ndPuru2Reset();
                             t16 = *(int *)0xC1EE234;
                             if (t16 != 0) {
                                 t17 = *(int *)0xC1EE234;
@@ -747,10 +831,10 @@ int CheckSoftReset(void)
                                         if (t19 == 0) {
                                             usr_gd_err_func(0x0, 0xFFFFFFE9);
                                         } else {
-                                            callGoBackAdvertise(0xC1EE234);
+                                            callGoBackAdvertise();
                                         }
                                     } else {
-                                        callGoBackAdvertise(0xC1EE234);
+                                        callGoBackAdvertise();
                                     }
                                 } else {
                                     usr_gd_err_func(0x0, 0xFFFFFFE9);
@@ -787,7 +871,7 @@ int CheckSoftReset(void)
                     t41 = *(int *)0xC0EF7F4;
                     t65 = 0x0;
                     if (t41 == 0) {
-                        ndPuru2Reset(0x2, 0x8);
+                        ndPuru2Reset();
                         t43 = *(int *)0xC1EE234;
                         if (t43 != 0) {
                             t44 = *(int *)0xC1EE234;
@@ -798,10 +882,10 @@ int CheckSoftReset(void)
                                     if (t46 == 0) {
                                         usr_gd_err_func(0x0, 0xFFFFFFE9);
                                     } else {
-                                        callGoBackAdvertise(0xC1EE234);
+                                        callGoBackAdvertise();
                                     }
                                 } else {
-                                    callGoBackAdvertise(0xC1EE234);
+                                    callGoBackAdvertise();
                                 }
                             } else {
                                 usr_gd_err_func(0x0, 0xFFFFFFE9);
@@ -867,7 +951,7 @@ int CheckSoftReset(void)
                     t82 = *(int *)0xC0EF7F4;
                     t106 = 0x0;
                     if (t82 == 0) {
-                        ndPuru2Reset(0x2, 0x8);
+                        ndPuru2Reset();
                         t84 = *(int *)0xC1EE234;
                         if (t84 != 0) {
                             t85 = *(int *)0xC1EE234;
@@ -878,10 +962,10 @@ int CheckSoftReset(void)
                                     if (t87 == 0) {
                                         usr_gd_err_func(0x0, 0xFFFFFFE9);
                                     } else {
-                                        callGoBackAdvertise(0xC1EE234);
+                                        callGoBackAdvertise();
                                     }
                                 } else {
-                                    callGoBackAdvertise(0xC1EE234);
+                                    callGoBackAdvertise();
                                 }
                             } else {
                                 usr_gd_err_func(0x0, 0xFFFFFFE9);
@@ -918,7 +1002,7 @@ int CheckSoftReset(void)
                 t112 = *(int *)0xC0EF7F4;
                 t136 = 0x0;
                 if (t112 == 0) {
-                    ndPuru2Reset(0x2, 0x8);
+                    ndPuru2Reset();
                     t114 = *(int *)0xC1EE234;
                     if (t114 != 0) {
                         t115 = *(int *)0xC1EE234;
@@ -929,10 +1013,10 @@ int CheckSoftReset(void)
                                 if (t117 == 0) {
                                     usr_gd_err_func(0x0, 0xFFFFFFE9);
                                 } else {
-                                    callGoBackAdvertise(0xC1EE234);
+                                    callGoBackAdvertise();
                                 }
                             } else {
-                                callGoBackAdvertise(0xC1EE234);
+                                callGoBackAdvertise();
                             }
                         } else {
                             usr_gd_err_func(0x0, 0xFFFFFFE9);
@@ -1040,7 +1124,7 @@ int FUN_0c044b80(int a4)
                 t12 = *(int *)((((((t10 << 1) + t10) << 2) + t11) + 0x8));
                 t13 = *(short *)((t12 + 0x6));
                 if (t13 != 0) {
-                    t14 = extRand(0xC2A6690, 0x1000, t4);
+                    t14 = extRand();
                     if ((t14 & 1) != 0) {
                         t15 = *(int *)((a4 + 0x84));
                         *(unsigned int *)((a4 + 0x84)) = (t15 | 0x200);
@@ -1085,7 +1169,7 @@ int FUN_0c044b80(int a4)
             t46 = *(int *)((((((t44 << 1) + t44) << 2) + t45) + 0x8));
             t47 = *(short *)((t46 + 0x6));
             if (t47 != 0) {
-                t48 = extRand(0xC2A6690, 0x1000, t4);
+                t48 = extRand();
                 if ((t48 & 1) != 0) {
                     t49 = *(int *)((a4 + 0x84));
                     *(unsigned int *)((a4 + 0x84)) = (t49 | 0x200);
@@ -1119,10 +1203,11 @@ int FUN_0c044b80(int a4)
     return t70;
 }
 
-void CarSel_Time_Count(void)
+int CarSel_Time_Count(void)
 {
     int t0;
     int t1;
+    int t9;
     int t10;
     int t3;
     int t4;
@@ -1130,35 +1215,45 @@ void CarSel_Time_Count(void)
     int t8;
     int t7;
     int t12;
-    int t49;
+    int t56;
+    int t57;
     int t13;
     int t14;
     int t15;
+    int t20;
     int t16;
-    int t23;
-    int t24;
+    int t17;
+    int t26;
     int t31;
-    int t46;
-    int t32;
-    int t33;
-    int t34;
-    int t40;
+    int t27;
+    int t28;
+    int t37;
     int t52;
-    int t55;
     int t53;
-    int t54;
-    int t57;
+    int t38;
+    int t39;
+    int t40;
+    int t46;
     int t60;
+    int t63;
+    int t64;
     int t61;
     int t62;
+    int t66;
+    int t69;
+    int t70;
+    int t71;
+    int t34;
+    int t23;
+    int t49;
     int t43;
-    int t37;
 
     t0 = *(int *)0xC2A7518;
     if (t0 != 0) {
-        return;
+        return 0;
     }
     t1 = *(int *)0xC2A757C;
+    t9 = 0xC2A757C;
     t10 = 0x0;
     if ((int)t1 < (int)0x3B0) {
         FUN_0c0511a4();
@@ -1177,10 +1272,12 @@ void CarSel_Time_Count(void)
             }
             t8 = t7;
         }
+        t9 = t6;
         t10 = t8;
     }
     t12 = *(signed char *)0xC28A4E8;
-    t49 = t10;
+    t56 = t9;
+    t57 = t10;
     if (((unsigned char)t12 & 0x1) != 0) {
         t13 = *(int *)0xC1EE250;
         if ((t13 & 16) != 0) {
@@ -1188,82 +1285,98 @@ void CarSel_Time_Count(void)
             if (t14 == 0) {
                 *(unsigned int *)0xC2A75C4 = 0x1;
                 *(float *)0xC2A7504 = 480.0f;
+                t23 = 0xC05112C;
             } else {
                 t15 = *(int *)0xC1EE250;
+                t20 = t15;
                 if ((t15 & 32) != 0) {
                     t16 = *(int *)0xC2A75C4;
+                    t17 = t15;
                     if (t16 != 0) {
                         *(unsigned int *)0xC2A75C4 = 0x0;
                         *(float *)0xC2A7504 = 480.0f;
+                        t17 = 0xC05112C;
                     }
+                    t20 = t17;
                 }
+                t23 = t20;
             }
+            t34 = t23;
         } else {
-            t23 = *(int *)0xC1EE250;
-            if ((t23 & 32) != 0) {
-                t24 = *(int *)0xC2A75C4;
-                if (t24 != 0) {
+            t26 = *(int *)0xC1EE250;
+            t31 = t26;
+            if ((t26 & 32) != 0) {
+                t27 = *(int *)0xC2A75C4;
+                t28 = t26;
+                if (t27 != 0) {
                     *(unsigned int *)0xC2A75C4 = 0x0;
                     *(float *)0xC2A7504 = 480.0f;
+                    t28 = 0xC05112C;
                 }
+                t31 = t28;
             }
+            t34 = t31;
         }
-        t31 = *(int *)0xC2A75C4;
-        t46 = t10;
-        if (t31 != 0) {
-            t32 = *(int *)0xC1EE250;
-            if ((t32 & 4) != 0) {
-                t33 = *(int *)0xC2A757C;
-                if ((int)t33 < (int)0x3B0) {
+        t37 = *(int *)0xC2A75C4;
+        t52 = t34;
+        t53 = t10;
+        if (t37 != 0) {
+            t38 = *(int *)0xC1EE250;
+            if ((t38 & 4) != 0) {
+                t39 = *(int *)0xC2A757C;
+                if ((int)t39 < (int)0x3B0) {
                     *(unsigned int *)0xC2A75C0 = 0x4;
-                    t37 = 0x1;
+                    t43 = 0x1;
                 } else {
-                    if (t31 != 0) {
-                        t34 = *(int *)0xC2A757C;
-                        if (t34 == 0) {
+                    if (t37 != 0) {
+                        t40 = *(int *)0xC2A757C;
+                        if (t40 == 0) {
                             *(unsigned int *)0xC2A75C0 = 0x4;
                         }
                     }
-                    t37 = t10;
+                    t43 = t10;
                 }
-                t43 = t37;
+                t49 = t43;
             } else {
-                if (t31 != 0) {
-                    t40 = *(int *)0xC2A757C;
-                    if (t40 == 0) {
+                if (t37 != 0) {
+                    t46 = *(int *)0xC2A757C;
+                    if (t46 == 0) {
                         *(unsigned int *)0xC2A75C0 = 0x4;
                     }
                 }
-                t43 = t10;
+                t49 = t10;
             }
-            t46 = t43;
+            t52 = t38;
+            t53 = t49;
         }
-        t49 = t46;
+        t56 = t52;
+        t57 = t53;
     }
-    t52 = *(int *)0xC2A757C;
-    t55 = 0x1;
-    if (t52 != 0) {
-        t53 = *(int *)0xC1EE250;
-        t54 = t49;
-        if ((t53 & 4) != 0) {
-            t54 = 0x1;
+    t60 = *(int *)0xC2A757C;
+    t63 = t56;
+    t64 = 0x1;
+    if (t60 != 0) {
+        t61 = *(int *)0xC1EE250;
+        t62 = t57;
+        if ((t61 & 4) != 0) {
+            t62 = 0x1;
         }
-        t55 = t54;
+        t63 = t61;
+        t64 = t62;
     }
-    if (t55 != 0) {
+    if (t64 != 0) {
         FUN_0c0530a0(0x0);
         *(unsigned int *)0xC2A7518 = 0x1;
-        t57 = *(int *)0xC2A75A4;
-        *(unsigned int *)0xC2A75A4 = (t57 + 0x1);
+        t66 = *(int *)0xC2A75A4;
+        *(unsigned int *)0xC2A75A4 = (t66 + 0x1);
         FUN_0c02e36c(0x3C, 0xF0);
         Voice_ShutUp(0x0);
-        t60 = *(int *)0xC2A751C;
-        t61 = *(int *)((t60 + 0x0));
-        t62 = *(int *)(((t61 << 2) + 0xC1306A0));
-        Voice_Request(t62, 0x0, 0x7F, 0x0);
-        return;
+        t69 = *(int *)0xC2A751C;
+        t70 = *(int *)((t69 + 0x0));
+        t71 = *(int *)(((t70 << 2) + 0xC1306A0));
+        return Voice_Request(t71, 0x0, 0x7F, 0x0);
     }
-    return;
+    return t63;
 }
 
 int FUN_0c0511a4(void)
@@ -1522,14 +1635,19 @@ int FUN_0c051746(void)
 
 int FUN_0c0528c8(void)
 {
-    int t0;
-    int t1;
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+    int t4;
+    int t5;
 
     *(unsigned int *)0xC2A8EA4 = 0x0;
     *(unsigned int *)0xC2A8EA8 = 0x0;
     *(unsigned int *)0xC2A8EAC = 0x0;
     *(unsigned int *)0xC2A8EB4 = 0x0;
-    *(float *)0xC2A8EB8 = 36.0f;
+    u0 = *(float *)0xC0529D0;
+    *(float *)0xC2A8EB8 = u0;
     *(unsigned int *)0xC2A8F6C = 0x0;
     *(unsigned int *)0xC2A8F70 = 0x0;
     *(unsigned int *)0xC2A8EB0 = 0x1;
@@ -1540,18 +1658,21 @@ int FUN_0c0528c8(void)
     *(float *)0xC2A7EA4 = 0.0f;
     *(float *)0xC2A7EA8 = 0.0f;
     *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7EB8 = 0.299999982f;
+    u1 = *(float *)0xC0529F4;
+    *(float *)0xC2A7EB8 = u1;
     *(float *)0xC2A7EB0 = 1.0f;
     *(unsigned int *)0xC2A7EC0 = 0x2006;
     *(float *)0xC2A7E90 = 0.0f;
     *(float *)0xC2A7E94 = 0.0f;
-    *(float *)0xC2A7E98 = 0.25f;
+    u2 = *(float *)0xC0529F8;
+    *(float *)0xC2A7E98 = u2;
     *(float *)0xC2A7E9C = 1.0f;
     *(float *)0xC2A7EA0 = 1.0f;
     *(unsigned int *)0xC2A7EBC = 0x2;
     *(float *)0xC2A8890 = 0.0f;
     *(float *)0xC2A8894 = 0.0f;
-    *(float *)0xC2A8898 = 0.279999971f;
+    u3 = *(float *)0xC052A00;
+    *(float *)0xC2A8898 = u3;
     *(float *)0xC2A889C = 1.0f;
     *(float *)0xC2A88A0 = 1.0f;
     *(float *)0xC2A88A4 = 0.0f;
@@ -1562,22 +1683,22 @@ int FUN_0c0528c8(void)
     *(unsigned int *)0xC2A88C0 = 0xA;
     *(float *)0xC2A88B8 = 1.0f;
     *(unsigned int *)0xC2A88BC = 0x2;
-    t0 = 0x0;
+    t4 = 0x0;
     do {
-        *(unsigned int *)((0xC2A8E34 + (t0 << 2))) = 0x0;
-        if ((int)t0 >= (int)0x3) {
-            *(unsigned int *)((0xC2A8E50 + (t0 << 2))) = 0xA;
+        *(unsigned int *)((0xC2A8E34 + (t4 << 2))) = 0x0;
+        if ((int)t4 >= (int)0x3) {
+            *(unsigned int *)((0xC2A8E50 + (t4 << 2))) = 0xA;
         } else {
-            *(unsigned int *)((0xC2A8E50 + (t0 << 2))) = 0x0;
+            *(unsigned int *)((0xC2A8E50 + (t4 << 2))) = 0x0;
         }
-        t1 = (t0 << 2);
-        t0 = (t0 + 0x1);
-        *(unsigned int *)((0xC2A8E6C + t1)) = 0x1;
-    } while ((int)t0 < (int)0x7);
+        t5 = (t4 << 2);
+        t4 = (t4 + 0x1);
+        *(unsigned int *)((0xC2A8E6C + t5)) = 0x1;
+    } while ((int)t4 < (int)0x7);
     *(unsigned int *)0xC2A8E90 = 0x2;
     *(unsigned int *)0xC2A8E88 = 0x7;
     *(unsigned int *)0xC2A8E8C = 0x3;
-    return t1;
+    return t5;
 }
 
 int FUN_0c05423a(void)
@@ -1587,19 +1708,19 @@ int FUN_0c05423a(void)
     int t2;
     float u4;
     float u5;
-    float u7;
-    int t8;
-    int t9;
+    float u8;
     int t10;
     int t11;
-    int t342;
-    int t674;
-    int t343;
-    int t670;
+    int t12;
+    int t13;
     int t344;
+    int t676;
     int t345;
-    int t666;
-    int t504;
+    int t672;
+    int t346;
+    int t347;
+    int t668;
+    int t506;
 
     t0 = *(int *)0xC2A8CBC;
     if (t0 == 0) {
@@ -1611,49 +1732,51 @@ int FUN_0c05423a(void)
             *(unsigned int *)0xC2A8C90 = 0xA;
             *(unsigned int *)0xC2A8CBC = 0x1;
         }
-    } else if (t0 == 1) {
-        u4 = *(float *)0xC2A8C8C;
-        if (1.0f > u4) {
-            u5 = *(float *)0xC2A8C8C;
-            *(float *)0xC2A8C8C = (u5 + 0.099999994f);
-        } else {
-            Sound_Request(0x705A9, 0x0);
-            *(unsigned int *)0xC2A8CBC = 0x2;
-        }
-        u7 = *(float *)0xC2A8C8C;
-        if (u7 > 1.0f) {
-            *(float *)0xC2A8C8C = 1.0f;
+    } else {
+        if (t0 == 1) {
+            u4 = *(float *)0xC2A8C8C;
+            if (1.0f > u4) {
+                u5 = *(float *)0xC2A8C8C;
+                *(float *)0xC2A8C8C = (u5 + 0.099999994f);
+            } else {
+                Sound_Request(0x705A9, 0x0);
+                *(unsigned int *)0xC2A8CBC = 0x2;
+            }
+            u8 = *(float *)0xC2A8C8C;
+            if (u8 > 1.0f) {
+                *(float *)0xC2A8C8C = 1.0f;
+            }
         }
     }
-    t8 = *(int *)0xC2A8CBC;
-    if (t8 == 2) {
-        t9 = *(int *)0xC2A8CB8;
-        if ((int)t9 < (int)0x30) {
-            t10 = *(int *)0xC2A8CB8;
-            *(unsigned int *)0xC2A8CB8 = (t10 + 0x1);
-            if ((int)(t10 + 0x1) > 0) {
-                t11 = *(int *)0xC2A8CB8;
-                if ((int)t11 > (int)0x3) {
-                    if ((int)(t10 + 0x1) > (int)0x3) {
-                        if ((int)(t10 + 0x1) > (int)0x5) {
-                            if ((int)(t10 + 0x1) > (int)0x5) {
-                                if ((int)(t10 + 0x1) > (int)0x8) {
-                                    if ((int)(t10 + 0x1) > (int)0xC) {
-                                        if ((int)(t10 + 0x1) > (int)0xF) {
-                                            if ((int)(t10 + 0x1) > (int)0xF) {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+    t10 = *(int *)0xC2A8CBC;
+    if (t10 == 2) {
+        t11 = *(int *)0xC2A8CB8;
+        if ((int)t11 < (int)0x30) {
+            t12 = *(int *)0xC2A8CB8;
+            *(unsigned int *)0xC2A8CB8 = (t12 + 0x1);
+            if ((int)(t12 + 0x1) > 0) {
+                t13 = *(int *)0xC2A8CB8;
+                if ((int)t13 > (int)0x3) {
+                    if ((int)(t12 + 0x1) > (int)0x3) {
+                        if ((int)(t12 + 0x1) > (int)0x5) {
+                            if ((int)(t12 + 0x1) > (int)0x5) {
+                                if ((int)(t12 + 0x1) > (int)0x8) {
+                                    if ((int)(t12 + 0x1) > (int)0xC) {
+                                        if ((int)(t12 + 0x1) > (int)0xF) {
+                                            if ((int)(t12 + 0x1) > (int)0xF) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                                         } else {
-                                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                                             } else {
                                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                                             }
                                                         }
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1663,18 +1786,18 @@ int FUN_0c05423a(void)
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1685,20 +1808,20 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0xF) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0xF) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1708,18 +1831,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1731,22 +1854,22 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                 }
                             } else {
-                                if ((int)(t10 + 0x1) > (int)0xC) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0xF) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                                if ((int)(t12 + 0x1) > (int)0xC) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0xF) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1756,18 +1879,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1778,20 +1901,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1801,18 +1924,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1825,24 +1948,24 @@ int FUN_0c05423a(void)
                             *(unsigned int *)0xC2A8CB4 = 0x2;
                         }
                     } else {
-                        if ((int)(t10 + 0x1) > (int)0x5) {
-                            if ((int)(t10 + 0x1) > (int)0x8) {
-                                if ((int)(t10 + 0x1) > (int)0xC) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0xF) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                        if ((int)(t12 + 0x1) > (int)0x5) {
+                            if ((int)(t12 + 0x1) > (int)0x8) {
+                                if ((int)(t12 + 0x1) > (int)0xC) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0xF) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1852,18 +1975,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1874,20 +1997,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1897,18 +2020,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1920,22 +2043,22 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                             }
                         } else {
-                            if ((int)(t10 + 0x1) > (int)0xC) {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                            if ((int)(t12 + 0x1) > (int)0xC) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1945,18 +2068,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1967,20 +2090,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                 }
                             } else {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -1990,18 +2113,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2015,26 +2138,26 @@ int FUN_0c05423a(void)
                     *(unsigned int *)0xC2A8CB4 = 0x1;
                 }
             } else {
-                if ((int)(t10 + 0x1) > (int)0x3) {
-                    if ((int)(t10 + 0x1) > (int)0x5) {
-                        if ((int)(t10 + 0x1) > (int)0x5) {
-                            if ((int)(t10 + 0x1) > (int)0x8) {
-                                if ((int)(t10 + 0x1) > (int)0xC) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0xF) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                if ((int)(t12 + 0x1) > (int)0x3) {
+                    if ((int)(t12 + 0x1) > (int)0x5) {
+                        if ((int)(t12 + 0x1) > (int)0x5) {
+                            if ((int)(t12 + 0x1) > (int)0x8) {
+                                if ((int)(t12 + 0x1) > (int)0xC) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0xF) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                                     } else {
-                                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2044,18 +2167,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2066,20 +2189,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2089,18 +2212,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2112,22 +2235,22 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                             }
                         } else {
-                            if ((int)(t10 + 0x1) > (int)0xC) {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                            if ((int)(t12 + 0x1) > (int)0xC) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2137,18 +2260,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2159,20 +2282,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                 }
                             } else {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2182,18 +2305,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2206,24 +2329,24 @@ int FUN_0c05423a(void)
                         *(unsigned int *)0xC2A8CB4 = 0x2;
                     }
                 } else {
-                    if ((int)(t10 + 0x1) > (int)0x5) {
-                        if ((int)(t10 + 0x1) > (int)0x8) {
-                            if ((int)(t10 + 0x1) > (int)0xC) {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0xF) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) > (int)0x11) {
-                                                if ((int)(t10 + 0x1) <= (int)0x14) {
+                    if ((int)(t12 + 0x1) > (int)0x5) {
+                        if ((int)(t12 + 0x1) > (int)0x8) {
+                            if ((int)(t12 + 0x1) > (int)0xC) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0xF) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) > (int)0x11) {
+                                                if ((int)(t12 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                                 } else {
-                                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8CB4 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2233,18 +2356,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2255,20 +2378,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8CB4 = 0x1;
                                 }
                             } else {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2278,18 +2401,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2301,22 +2424,22 @@ int FUN_0c05423a(void)
                             *(unsigned int *)0xC2A8CB4 = 0x1;
                         }
                     } else {
-                        if ((int)(t10 + 0x1) > (int)0xC) {
-                            if ((int)(t10 + 0x1) > (int)0xF) {
-                                if ((int)(t10 + 0x1) > (int)0xF) {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) > (int)0x11) {
-                                            if ((int)(t10 + 0x1) <= (int)0x14) {
+                        if ((int)(t12 + 0x1) > (int)0xC) {
+                            if ((int)(t12 + 0x1) > (int)0xF) {
+                                if ((int)(t12 + 0x1) > (int)0xF) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) > (int)0x11) {
+                                            if ((int)(t12 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                                             } else {
-                                                if ((int)(t10 + 0x1) >= (int)0x30) {
+                                                if ((int)(t12 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8CB4 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2326,18 +2449,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2348,20 +2471,20 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8CB4 = 0x1;
                             }
                         } else {
-                            if ((int)(t10 + 0x1) > (int)0xF) {
-                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                    if ((int)(t10 + 0x1) > (int)0x11) {
-                                        if ((int)(t10 + 0x1) <= (int)0x14) {
+                            if ((int)(t12 + 0x1) > (int)0xF) {
+                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                    if ((int)(t12 + 0x1) > (int)0x11) {
+                                        if ((int)(t12 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8CB4 = 0x1;
                                         } else {
-                                            if ((int)(t10 + 0x1) >= (int)0x30) {
+                                            if ((int)(t12 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8CB4 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8CB4 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2371,18 +2494,18 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8CB4 = 0x2;
                                 }
                             } else {
-                                if ((int)(t10 + 0x1) > (int)0x11) {
-                                    if ((int)(t10 + 0x1) <= (int)0x14) {
+                                if ((int)(t12 + 0x1) > (int)0x11) {
+                                    if ((int)(t12 + 0x1) <= (int)0x14) {
                                         *(unsigned int *)0xC2A8CB4 = 0x1;
                                     } else {
-                                        if ((int)(t10 + 0x1) >= (int)0x30) {
+                                        if ((int)(t12 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8CB4 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8CB4 = 0x0;
                                         }
                                     }
                                 } else {
-                                    if ((int)(t10 + 0x1) >= (int)0x30) {
+                                    if ((int)(t12 + 0x1) >= (int)0x30) {
                                         *(unsigned int *)0xC2A8CB4 = 0x2;
                                     } else {
                                         *(unsigned int *)0xC2A8CB4 = 0x0;
@@ -2395,37 +2518,37 @@ int FUN_0c05423a(void)
             }
         }
     }
-    t342 = *(int *)0xC2A8EB0;
-    t674 = t342;
-    if (t342 == 2) {
-        t343 = *(int *)0xC2A8EAC;
-        t670 = 0xC2A8EAC;
-        if ((int)t343 < (int)0x30) {
-            t344 = *(int *)0xC2A8EAC;
-            *(unsigned int *)0xC2A8EAC = (t344 + 0x1);
-            if ((int)(t344 + 0x1) > 0) {
-                t345 = *(int *)0xC2A8EAC;
-                if ((int)t345 > (int)0x3) {
-                    if ((int)(t344 + 0x1) > (int)0x3) {
-                        if ((int)(t344 + 0x1) > (int)0x5) {
-                            if ((int)(t344 + 0x1) > (int)0x5) {
-                                if ((int)(t344 + 0x1) > (int)0x8) {
-                                    if ((int)(t344 + 0x1) > (int)0xC) {
-                                        if ((int)(t344 + 0x1) > (int)0xF) {
-                                            if ((int)(t344 + 0x1) > (int)0xF) {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+    t344 = *(int *)0xC2A8EB0;
+    t676 = t344;
+    if (t344 == 2) {
+        t345 = *(int *)0xC2A8EAC;
+        t672 = 0xC2A8EAC;
+        if ((int)t345 < (int)0x30) {
+            t346 = *(int *)0xC2A8EAC;
+            *(unsigned int *)0xC2A8EAC = (t346 + 0x1);
+            if ((int)(t346 + 0x1) > 0) {
+                t347 = *(int *)0xC2A8EAC;
+                if ((int)t347 > (int)0x3) {
+                    if ((int)(t346 + 0x1) > (int)0x3) {
+                        if ((int)(t346 + 0x1) > (int)0x5) {
+                            if ((int)(t346 + 0x1) > (int)0x5) {
+                                if ((int)(t346 + 0x1) > (int)0x8) {
+                                    if ((int)(t346 + 0x1) > (int)0xC) {
+                                        if ((int)(t346 + 0x1) > (int)0xF) {
+                                            if ((int)(t346 + 0x1) > (int)0xF) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                                         } else {
-                                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                                             } else {
                                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                                             }
                                                         }
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2435,18 +2558,18 @@ int FUN_0c05423a(void)
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2457,20 +2580,20 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0xF) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0xF) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2480,18 +2603,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2503,22 +2626,22 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                 }
                             } else {
-                                if ((int)(t344 + 0x1) > (int)0xC) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0xF) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                                if ((int)(t346 + 0x1) > (int)0xC) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0xF) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2528,18 +2651,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2550,20 +2673,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2573,18 +2696,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2597,24 +2720,24 @@ int FUN_0c05423a(void)
                             *(unsigned int *)0xC2A8EA8 = 0x2;
                         }
                     } else {
-                        if ((int)(t344 + 0x1) > (int)0x5) {
-                            if ((int)(t344 + 0x1) > (int)0x8) {
-                                if ((int)(t344 + 0x1) > (int)0xC) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0xF) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                        if ((int)(t346 + 0x1) > (int)0x5) {
+                            if ((int)(t346 + 0x1) > (int)0x8) {
+                                if ((int)(t346 + 0x1) > (int)0xC) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0xF) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2624,18 +2747,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2646,20 +2769,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2669,18 +2792,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2692,22 +2815,22 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                             }
                         } else {
-                            if ((int)(t344 + 0x1) > (int)0xC) {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                            if ((int)(t346 + 0x1) > (int)0xC) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2717,18 +2840,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2739,20 +2862,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                 }
                             } else {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2762,18 +2885,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2783,33 +2906,33 @@ int FUN_0c05423a(void)
                             }
                         }
                     }
-                    t504 = 0x3;
+                    t506 = 0x3;
                 } else {
                     *(unsigned int *)0xC2A8EA8 = 0x1;
-                    t504 = 0xC2A8EAC;
+                    t506 = 0xC2A8EAC;
                 }
-                t666 = t504;
+                t668 = t506;
             } else {
-                if ((int)(t344 + 0x1) > (int)0x3) {
-                    if ((int)(t344 + 0x1) > (int)0x5) {
-                        if ((int)(t344 + 0x1) > (int)0x5) {
-                            if ((int)(t344 + 0x1) > (int)0x8) {
-                                if ((int)(t344 + 0x1) > (int)0xC) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0xF) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                if ((int)(t346 + 0x1) > (int)0x3) {
+                    if ((int)(t346 + 0x1) > (int)0x5) {
+                        if ((int)(t346 + 0x1) > (int)0x5) {
+                            if ((int)(t346 + 0x1) > (int)0x8) {
+                                if ((int)(t346 + 0x1) > (int)0xC) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0xF) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                                     } else {
-                                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                                         } else {
                                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                                         }
                                                     }
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2819,18 +2942,18 @@ int FUN_0c05423a(void)
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2841,20 +2964,20 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2864,18 +2987,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2887,22 +3010,22 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                             }
                         } else {
-                            if ((int)(t344 + 0x1) > (int)0xC) {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                            if ((int)(t346 + 0x1) > (int)0xC) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2912,18 +3035,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2934,20 +3057,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                 }
                             } else {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2957,18 +3080,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -2981,24 +3104,24 @@ int FUN_0c05423a(void)
                         *(unsigned int *)0xC2A8EA8 = 0x2;
                     }
                 } else {
-                    if ((int)(t344 + 0x1) > (int)0x5) {
-                        if ((int)(t344 + 0x1) > (int)0x8) {
-                            if ((int)(t344 + 0x1) > (int)0xC) {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0xF) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) > (int)0x11) {
-                                                if ((int)(t344 + 0x1) <= (int)0x14) {
+                    if ((int)(t346 + 0x1) > (int)0x5) {
+                        if ((int)(t346 + 0x1) > (int)0x8) {
+                            if ((int)(t346 + 0x1) > (int)0xC) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0xF) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) > (int)0x11) {
+                                                if ((int)(t346 + 0x1) <= (int)0x14) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                                 } else {
-                                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                                     } else {
                                                         *(unsigned int *)0xC2A8EA8 = 0x0;
                                                     }
                                                 }
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3008,18 +3131,18 @@ int FUN_0c05423a(void)
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3030,20 +3153,20 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8EA8 = 0x1;
                                 }
                             } else {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3053,18 +3176,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3076,22 +3199,22 @@ int FUN_0c05423a(void)
                             *(unsigned int *)0xC2A8EA8 = 0x1;
                         }
                     } else {
-                        if ((int)(t344 + 0x1) > (int)0xC) {
-                            if ((int)(t344 + 0x1) > (int)0xF) {
-                                if ((int)(t344 + 0x1) > (int)0xF) {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) > (int)0x11) {
-                                            if ((int)(t344 + 0x1) <= (int)0x14) {
+                        if ((int)(t346 + 0x1) > (int)0xC) {
+                            if ((int)(t346 + 0x1) > (int)0xF) {
+                                if ((int)(t346 + 0x1) > (int)0xF) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) > (int)0x11) {
+                                            if ((int)(t346 + 0x1) <= (int)0x14) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                                             } else {
-                                                if ((int)(t344 + 0x1) >= (int)0x30) {
+                                                if ((int)(t346 + 0x1) >= (int)0x30) {
                                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                                 } else {
                                                     *(unsigned int *)0xC2A8EA8 = 0x0;
                                                 }
                                             }
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3101,18 +3224,18 @@ int FUN_0c05423a(void)
                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3123,20 +3246,20 @@ int FUN_0c05423a(void)
                                 *(unsigned int *)0xC2A8EA8 = 0x1;
                             }
                         } else {
-                            if ((int)(t344 + 0x1) > (int)0xF) {
-                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                    if ((int)(t344 + 0x1) > (int)0x11) {
-                                        if ((int)(t344 + 0x1) <= (int)0x14) {
+                            if ((int)(t346 + 0x1) > (int)0xF) {
+                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                    if ((int)(t346 + 0x1) > (int)0x11) {
+                                        if ((int)(t346 + 0x1) <= (int)0x14) {
                                             *(unsigned int *)0xC2A8EA8 = 0x1;
                                         } else {
-                                            if ((int)(t344 + 0x1) >= (int)0x30) {
+                                            if ((int)(t346 + 0x1) >= (int)0x30) {
                                                 *(unsigned int *)0xC2A8EA8 = 0x2;
                                             } else {
                                                 *(unsigned int *)0xC2A8EA8 = 0x0;
                                             }
                                         }
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3146,18 +3269,18 @@ int FUN_0c05423a(void)
                                     *(unsigned int *)0xC2A8EA8 = 0x2;
                                 }
                             } else {
-                                if ((int)(t344 + 0x1) > (int)0x11) {
-                                    if ((int)(t344 + 0x1) <= (int)0x14) {
+                                if ((int)(t346 + 0x1) > (int)0x11) {
+                                    if ((int)(t346 + 0x1) <= (int)0x14) {
                                         *(unsigned int *)0xC2A8EA8 = 0x1;
                                     } else {
-                                        if ((int)(t344 + 0x1) >= (int)0x30) {
+                                        if ((int)(t346 + 0x1) >= (int)0x30) {
                                             *(unsigned int *)0xC2A8EA8 = 0x2;
                                         } else {
                                             *(unsigned int *)0xC2A8EA8 = 0x0;
                                         }
                                     }
                                 } else {
-                                    if ((int)(t344 + 0x1) >= (int)0x30) {
+                                    if ((int)(t346 + 0x1) >= (int)0x30) {
                                         *(unsigned int *)0xC2A8EA8 = 0x2;
                                     } else {
                                         *(unsigned int *)0xC2A8EA8 = 0x0;
@@ -3167,13 +3290,13 @@ int FUN_0c05423a(void)
                         }
                     }
                 }
-                t666 = 0x3;
+                t668 = 0x3;
             }
-            t670 = t666;
+            t672 = t668;
         }
-        t674 = t670;
+        t676 = t672;
     }
-    return t674;
+    return t676;
 }
 
 int FUN_0c0551c6(int a4, int a5)
@@ -3303,24 +3426,31 @@ int FUN_0c0551c6(int a4, int a5)
     return t38;
 }
 
-void FUN_0c05765c(void)
+int FUN_0c05765c(void)
 {
     int t1;
     int t6;
     int t7;
+    int t8;
     int t9;
-    int t10;
-    int t11;
-    int t12;
+    int t25;
+    float u10;
+    float u11;
+    float u12;
     float u13;
-    float u14;
-    float u15;
-    float u16;
-    float u17;
-    int t18;
-    int t19;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    float u18;
+    float u19;
+    float u20;
+    float u21;
+    float u22;
+    int t23;
+    int t24;
 
-    FUN_0c074680(0xFF000000, 0xFF000000, 0xFF000000);
+    FUN_0c074680();
     t1 = *(int *)0xC2A8FD4;
     if (t1 == 0) {
         Voice_ShutUp(0x0);
@@ -3331,39 +3461,54 @@ void FUN_0c05765c(void)
     t7 = 0xC2A89CC;
     do {
         *(unsigned int *)((t7 + 0x28)) = 0x0;
-        nlSprPut(t7);
+        t8 = nlSprPut(t7);
         t6 = (t6 - 0x1);
         t7 = (t7 + 0x50);
     } while (t6 != 0);
     t9 = *(int *)0xC2A8FCC;
+    t25 = t8;
     if ((int)t9 < (int)0x8) {
-        t10 = 0xC2A89CC;
-        t11 = 0x0;
+        u10 = *(float *)0xC0577BC;
+        u11 = *(float *)0xC0577C0;
+        u12 = *(float *)0xC0577C4;
+        u13 = *(float *)0xC0577C8;
+        t14 = 0xC0577C8;
+        t15 = 0xC2A89CC;
+        t16 = 0x0;
         do {
-            t12 = *(int *)0xC2A8FCC;
-            if (t12 == t11) {
-                u13 = *(float *)((t10 + 0x4));
-                *(float *)((t10 + 0x4)) = (u13 + ((((float)t11 + -3.5f) * 64.0f) / 6.0f));
-                u14 = *(float *)((t10 + 0x10));
-                *(float *)((t10 + 0x10)) = (u14 + 0.166666657f);
-                u15 = *(float *)((t10 + 0x14));
-                *(float *)((t10 + 0x14)) = (u15 + 0.166666657f);
-                u16 = *(float *)((t10 + 0xC));
-                *(float *)((t10 + 0xC)) = (u16 - 0.166666657f);
-                u17 = *(float *)((t10 + 0x2C));
-                *(float *)((t10 + 0x2C)) = (u17 + 0.166666657f);
-                t18 = *(int *)0xC2A8FD0;
-                *(unsigned int *)0xC2A8FD0 = (t18 + 0x1);
-                if ((t18 + 0x1) == 6) {
-                    t19 = *(int *)0xC2A8FCC;
-                    *(unsigned int *)0xC2A8FCC = (t19 + 0x1);
+            t17 = *(int *)0xC2A8FCC;
+            if (t17 == t16) {
+                t14 = 0x4;
+                u18 = *(float *)((t15 + t14));
+                *(float *)((t15 + t14)) = (u18 + ((((float)t16 + u13) * u11) / u12));
+                t14 = 0x10;
+                u19 = *(float *)((t15 + t14));
+                *(float *)((t15 + t14)) = (u19 + u10);
+                t14 = 0x14;
+                u20 = *(float *)((t15 + t14));
+                *(float *)((t15 + t14)) = (u20 + u10);
+                t14 = 0xC;
+                u21 = *(float *)((t15 + t14));
+                *(float *)((t15 + t14)) = (u21 - u10);
+                t14 = 0x2C;
+                u22 = *(float *)((t15 + t14));
+                *(float *)((t15 + t14)) = (u22 + u10);
+                t23 = *(int *)0xC2A8FD0;
+                t14 = t23;
+                t14 = (t14 + 0x1);
+                *(unsigned int *)0xC2A8FD0 = t14;
+                if (t14 == 6) {
+                    t24 = *(int *)0xC2A8FCC;
+                    *(unsigned int *)0xC2A8FCC = (t24 + 0x1);
                     *(unsigned int *)0xC2A8FD0 = 0x0;
                 }
             }
-            t11 = (t11 + 0x1);
-            t10 = (t10 + 0x50);
-        } while ((int)t11 < (int)0x8);
+            t16 = (t16 + 0x1);
+            t15 = (t15 + 0x50);
+        } while ((int)t16 < (int)0x8);
+        t25 = t14;
     }
+    return t25;
 }
 
 int execAdvSprite(void)
@@ -3391,6 +3536,8 @@ int execAdvSprite(void)
     int t29;
     int t31;
     int t32;
+    float u36;
+    float u37;
 
     t0 = *(int *)0xC2A931C;
     if (t0 == 1) {
@@ -3457,7 +3604,9 @@ int execAdvSprite(void)
             pfSetFont(0x1);
             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
             pfSize(1.0f, 1.0f);
-            pfLocate(380.0f, 320.0f);
+            u36 = *(float *)0xC057F64;
+            u37 = *(float *)0xC057F68;
+            pfLocate(u37, u36);
             return pfPuts(0xC0D0AA0);
         }
         return t32;
@@ -3472,12 +3621,16 @@ int FUN_0c058828(void)
     int t2;
     int t3;
     int t6;
-    int t8;
-    int t10;
-    int t12;
-    int t14;
-    int t16;
+    float u7;
+    float u8;
+    float u9;
+    int t11;
+    int t13;
+    int t15;
     int t17;
+    float u18;
+    int t20;
+    int t21;
 
     t0 = *(int *)0xC2A968C;
     if ((int)t0 > 0) {
@@ -3494,37 +3647,41 @@ int FUN_0c058828(void)
     *(unsigned int *)0xC2A91D8 = 0xE3;
     t6 = *(int *)0xC2A968C;
     *(float *)0xC2A91DC = (float)(t6 + 0x8);
-    *(float *)0xC2A91E0 = 50.0f;
-    *(float *)0xC2A91E4 = 0.099999994f;
-    *(float *)0xC2A91E8 = 1.39999998f;
+    u7 = *(float *)0xC05894C;
+    *(float *)0xC2A91E0 = u7;
+    u8 = *(float *)0xC058950;
+    *(float *)0xC2A91E4 = u8;
+    u9 = *(float *)0xC058954;
+    *(float *)0xC2A91E8 = u9;
     *(float *)0xC2A91EC = 1.0f;
     *(unsigned int *)0xC2A9200 = 0x0;
     *(unsigned int *)0xC2A920C = 0xA;
     nlSprPut(0xC2A91D8);
     *(unsigned int *)0xC2A91D8 = 0xE8;
     *(float *)0xC2A91E8 = 1.0f;
-    t8 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t8 + 0x53);
+    t11 = *(int *)0xC2A968C;
+    *(float *)0xC2A91DC = (float)(t11 + 0x53);
     nlSprPut(0xC2A91D8);
     *(unsigned int *)0xC2A91D8 = 0xE7;
-    t10 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t10 + 0xD3);
+    t13 = *(int *)0xC2A968C;
+    *(float *)0xC2A91DC = (float)(t13 + 0xD3);
     nlSprPut(0xC2A91D8);
     *(unsigned int *)0xC2A91D8 = 0xE9;
-    t12 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t12 + 0x146);
+    t15 = *(int *)0xC2A968C;
+    *(float *)0xC2A91DC = (float)(t15 + 0x146);
     nlSprPut(0xC2A91D8);
     *(unsigned int *)0xC2A91D8 = 0xE3;
-    t14 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t14 + 0x1CA);
-    *(float *)0xC2A91E8 = 8.5f;
+    t17 = *(int *)0xC2A968C;
+    *(float *)0xC2A91DC = (float)(t17 + 0x1CA);
+    u18 = *(float *)0xC05895C;
+    *(float *)0xC2A91E8 = u18;
     nlSprPut(0xC2A91D8);
     *(float *)0xC2A91E8 = 1.0f;
     *(unsigned int *)0xC2A91D8 = 0xE4;
-    t16 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t16 + 0x24C);
-    t17 = nlSprPut(0xC2A91D8);
-    return t17;
+    t20 = *(int *)0xC2A968C;
+    *(float *)0xC2A91DC = (float)(t20 + 0x24C);
+    t21 = nlSprPut(0xC2A91D8);
+    return t21;
 }
 
 int FUN_0c0596ac(void)
@@ -3657,12 +3814,16 @@ int FUN_0c05a460(void)
     float u3;
     int t4;
     int t5;
-    int t7;
-    float u8;
+    float u7;
+    int t8;
     float u9;
-    int t12;
-    float u13;
-    float u14;
+    float u10;
+    float u11;
+    float u12;
+    float u15;
+    int t16;
+    float u17;
+    float u18;
 
     t0 = *(int *)0xC2A96F4;
     if ((int)t0 <= (int)0x58) {
@@ -3688,29 +3849,33 @@ int FUN_0c05a460(void)
         t5 = (t5 + 0x11);
     } while ((int)t4 < (int)0x8);
     *(unsigned int *)0xC2A96F8 = 0x146;
-    *(float *)0xC2A96FC = 172.0f;
-    t7 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t7 + 0x18C);
-    *(float *)0xC2A9704 = 0.199999988f;
-    u8 = *(float *)0xC2A9758;
-    *(float *)0xC2A9708 = (u8 + 1.0f);
-    u9 = *(float *)0xC2A9758;
-    *(float *)0xC2A970C = (u9 + 1.0f);
+    u7 = *(float *)0xC05A5CC;
+    *(float *)0xC2A96FC = u7;
+    t8 = *(int *)0xC2A9748;
+    *(float *)0xC2A9700 = (float)(t8 + 0x18C);
+    u9 = *(float *)0xC05A5D0;
+    *(float *)0xC2A9704 = u9;
+    u10 = *(float *)0xC2A9758;
+    *(float *)0xC2A9708 = (u10 + 1.0f);
+    u11 = *(float *)0xC2A9758;
+    *(float *)0xC2A970C = (u11 + 1.0f);
     *(float *)0xC2A9714 = 0.0f;
     *(float *)0xC2A971C = 1.0f;
     *(unsigned int *)0xC2A972C = 0x200A;
-    nlObjPutSetFadeColor(0.699999988f, 0.699999988f, 0.699999988f);
+    u12 = *(float *)0xC05A5D4;
+    nlObjPutSetFadeColor(u12, u12, u12);
     nlSprPut(0xC2A96F8);
-    *(float *)0xC2A9704 = 0.199999988f;
+    *(float *)0xC2A9704 = u9;
     *(unsigned int *)0xC2A972C = 0xA;
     *(unsigned int *)0xC2A96F8 = 0x12E;
-    *(float *)0xC2A96FC = 276.0f;
-    t12 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t12 + 0x1B4);
-    u13 = *(float *)0xC2A9758;
-    *(float *)0xC2A9708 = (u13 + 1.0f);
-    u14 = *(float *)0xC2A9758;
-    *(float *)0xC2A970C = (u14 + 1.0f);
+    u15 = *(float *)0xC05A5DC;
+    *(float *)0xC2A96FC = u15;
+    t16 = *(int *)0xC2A9748;
+    *(float *)0xC2A9700 = (float)(t16 + 0x1B4);
+    u17 = *(float *)0xC2A9758;
+    *(float *)0xC2A9708 = (u17 + 1.0f);
+    u18 = *(float *)0xC2A9758;
+    *(float *)0xC2A970C = (u18 + 1.0f);
     *(float *)0xC2A9714 = 0.0f;
     *(float *)0xC2A971C = 1.0f;
     nlSprPut(0xC2A96F8);
@@ -3726,29 +3891,31 @@ int psgFrameState5(int a4)
     float u9;
     int t10;
     float u14;
-    float u17;
-    int t18;
-    float u23;
-    int t24;
+    float u15;
+    float u18;
+    float u19;
+    int t20;
+    float u25;
     int t26;
-    float u28;
-    int t29;
-    int t30;
+    int t28;
+    float u30;
     int t31;
+    int t32;
     int t33;
-    float u34;
     int t35;
-    int t36;
-    float u43;
-    int t44;
-    float u46;
+    float u36;
+    int t37;
+    int t38;
     float u45;
-    int t48;
-    float u50;
-    int t51;
+    int t46;
+    float u48;
+    float u47;
+    int t50;
     float u52;
     int t53;
-    int t54;
+    float u54;
+    int t55;
+    int t56;
 
     t0 = *(int *)((a4 + 0x24));
     if (t0 != 0) {
@@ -3772,40 +3939,42 @@ int psgFrameState5(int a4)
                     FUN_0c0532ea(0xFFFFFFFF);
                 }
             }
-            u14 = *(float *)((a4 + 0x38));
-            if (u14 == 120.0f) {
+            u14 = *(float *)0xC070884;
+            u15 = *(float *)((a4 + 0x38));
+            if (u15 == u14) {
                 Drv_StartAction(0x7, 0x0, 0x1);
             }
-            u17 = *(float *)((a4 + 0x38));
-            if (!(150.0f > u17)) {
-                t18 = *(signed char *)(((0x149 + a4) + 0x0));
-                *(unsigned char *)(((0x149 + a4) + 0x0)) = (t18 | 0x20);
+            u18 = *(float *)0xC07088C;
+            u19 = *(float *)((a4 + 0x38));
+            if (!(u18 > u19)) {
+                t20 = *(signed char *)(((0x149 + a4) + 0x0));
+                *(unsigned char *)(((0x149 + a4) + 0x0)) = (t20 | 0x20);
             }
             return nlPopMatrix(0x1);
         }
         nlPushMatrix(0x0);
         psgSeatMatrix(a4);
         FUN_0c0713d8(a4);
-        u23 = *(float *)((a4 + 0x38));
-        t24 = *(int *)((a4 + 0x34));
-        FcvStoreBuffer(t24, (a4 + 0x3C), u23);
-        t26 = *(int *)((a4 + 0x0));
-        FcvPlayBuffer((a4 + 0x3C), t26);
-        u28 = *(float *)((a4 + 0x38));
-        *(float *)((a4 + 0x38)) = (u28 + 1.0f);
-        t29 = *(signed char *)((a4 + 0x149));
-        if ((t29 & 16) != 0) {
-            t30 = *(int *)((a4 + 0x24));
-            *(unsigned int *)((a4 + 0x24)) = (t30 + 0x1);
-            t31 = *(int *)((a4 + 0x24));
-            psgEnterState5(a4, t31);
+        u25 = *(float *)((a4 + 0x38));
+        t26 = *(int *)((a4 + 0x34));
+        FcvStoreBuffer(t26, (a4 + 0x3C), u25);
+        t28 = *(int *)((a4 + 0x0));
+        FcvPlayBuffer((a4 + 0x3C), t28);
+        u30 = *(float *)((a4 + 0x38));
+        *(float *)((a4 + 0x38)) = (u30 + 1.0f);
+        t31 = *(signed char *)((a4 + 0x149));
+        if ((t31 & 16) != 0) {
+            t32 = *(int *)((a4 + 0x24));
+            *(unsigned int *)((a4 + 0x24)) = (t32 + 0x1);
+            t33 = *(int *)((a4 + 0x24));
+            psgEnterState5(a4);
         } else {
-            t33 = *(int *)((a4 + 0x34));
-            u34 = *(float *)((a4 + 0x38));
-            t35 = *(int *)((t33 + 0x0));
-            if (!((float)(t35 - 2) > u34)) {
-                t36 = *(int *)((a4 + 0x24));
-                psgEnterState5(a4, t36);
+            t35 = *(int *)((a4 + 0x34));
+            u36 = *(float *)((a4 + 0x38));
+            t37 = *(int *)((t35 + 0x0));
+            if (!((float)(t37 - 2) > u36)) {
+                t38 = *(int *)((a4 + 0x24));
+                psgEnterState5(a4);
             }
         }
         return nlPopMatrix(0x1);
@@ -3813,76 +3982,78 @@ int psgFrameState5(int a4)
     nlPushMatrix(0x0);
     psgSeatMatrix(a4);
     FUN_0c0713d8(a4);
-    u43 = *(float *)((a4 + 0x38));
-    t44 = *(int *)((a4 + 0x34));
-    u46 = 58.0f;
-    if (58.0f > u43) {
-        u45 = *(float *)((a4 + 0x38));
-        u46 = u45;
+    u45 = *(float *)((a4 + 0x38));
+    t46 = *(int *)((a4 + 0x34));
+    u48 = 58.0f;
+    if (58.0f > u45) {
+        u47 = *(float *)((a4 + 0x38));
+        u48 = u47;
     }
-    FcvStoreBuffer(t44, (a4 + 0x3C), u46);
-    t48 = *(int *)((a4 + 0x0));
-    FcvPlayBuffer((a4 + 0x3C), t48);
-    u50 = *(float *)((a4 + 0x38));
-    *(float *)((a4 + 0x38)) = (u50 + 1.0f);
-    t51 = *(int *)((a4 + 0x34));
+    FcvStoreBuffer(t46, (a4 + 0x3C), u48);
+    t50 = *(int *)((a4 + 0x0));
+    FcvPlayBuffer((a4 + 0x3C), t50);
     u52 = *(float *)((a4 + 0x38));
-    t53 = *(int *)((t51 + 0x0));
-    if (!((float)(t53 - 2) > u52)) {
-        t54 = *(int *)((a4 + 0x24));
-        *(unsigned int *)((a4 + 0x24)) = (t54 + 0x1);
-        psgEnterState5(a4, (t54 + 0x1));
+    *(float *)((a4 + 0x38)) = (u52 + 1.0f);
+    t53 = *(int *)((a4 + 0x34));
+    u54 = *(float *)((a4 + 0x38));
+    t55 = *(int *)((t53 + 0x0));
+    if (!((float)(t55 - 2) > u54)) {
+        t56 = *(int *)((a4 + 0x24));
+        *(unsigned int *)((a4 + 0x24)) = (t56 + 0x1);
+        psgEnterState5(a4);
     }
     return nlPopMatrix(0x1);
 }
 
 int FUN_0c07e580(float f4, float f5, float f6, float f7)
 {
-    float u0;
     float u1;
-    float u2;
     float u3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
+    float u5;
+    float u8;
+    float u6;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
 
-    u0 = (f4 * 255.0f);
+    u1 = (f4 * 255.0f);
     if ((f4 * 255.0f) > 2.14748365e+09f) {
-        u0 = ((f4 * 255.0f) + -4.2949673e+09f);
+        u1 = ((f4 * 255.0f) + -4.2949673e+09f);
     }
-    u1 = (f5 * 255.0f);
+    u3 = (f5 * 255.0f);
     if ((f5 * 255.0f) > 2.14748365e+09f) {
-        u1 = ((f5 * 255.0f) + -4.2949673e+09f);
+        u3 = ((f5 * 255.0f) + -4.2949673e+09f);
     }
-    u2 = (f6 * 255.0f);
+    u5 = (f6 * 255.0f);
     if ((f6 * 255.0f) > 2.14748365e+09f) {
-        u2 = ((f6 * 255.0f) + -4.2949673e+09f);
+        u5 = ((f6 * 255.0f) + -4.2949673e+09f);
     }
-    u3 = (f7 * 255.0f);
+    u8 = (f7 * 255.0f);
     if ((f7 * 255.0f) > 2.14748365e+09f) {
-        u3 = ((f7 * 255.0f) + -4.2949673e+09f);
+        u6 = *(float *)0xC07E720;
+        u8 = ((f7 * 255.0f) + u6);
     }
-    t4 = (int)u0;
-    if ((unsigned int)(int)u0 > (unsigned int)0xFF) {
-        t4 = 0xFF;
-    }
-    t5 = (int)u1;
+    t9 = (int)u1;
     if ((unsigned int)(int)u1 > (unsigned int)0xFF) {
-        t5 = 0xFF;
+        t9 = 0xFF;
     }
-    t6 = (int)u2;
-    if ((unsigned int)(int)u2 > (unsigned int)0xFF) {
-        t6 = 0xFF;
-    }
-    t7 = (int)u3;
+    t10 = (int)u3;
     if ((unsigned int)(int)u3 > (unsigned int)0xFF) {
-        t7 = 0xFF;
+        t10 = 0xFF;
     }
-    return ((((((t4 << 8) | t5) << 8) | t6) << 8) | t7);
+    t11 = (int)u5;
+    if ((unsigned int)(int)u5 > (unsigned int)0xFF) {
+        t11 = 0xFF;
+    }
+    t12 = (int)u8;
+    if ((unsigned int)(int)u8 > (unsigned int)0xFF) {
+        t12 = 0xFF;
+    }
+    return ((((((t9 << 8) | t10) << 8) | t11) << 8) | t12);
 }
 
-void kmSetUserClipLevelAdjust(int a4, int a5)
+int kmSetUserClipLevelAdjust(int a4, int a5)
 {
     int t0;
     int t1;
@@ -3980,6 +4151,7 @@ void kmSetUserClipLevelAdjust(int a4, int a5)
         t46 = *(int *)0xC2EA6BC;
         *(unsigned int *)((a5 + 0x0)) = t46;
     }
+    return 0x0;
 }
 
 int buAnalyzeBackupFileImage(int a4, int a5)
@@ -4108,7 +4280,7 @@ int buAnalyzeBackupFileImage(int a4, int a5)
                         }
                         t31 = *(short *)((a5 + 0x46));
                         *(unsigned short *)((a5 + 0x46)) = 0x0;
-                        t32 = buCalcCRC(a5, (((t5 + t7) + t8) + 0x80), t28, t21);
+                        t32 = buCalcCRC(a5, (((t5 + t7) + t8) + 0x80));
                         *(unsigned short *)((a5 + 0x46)) = t31;
                         t33 = 0x0;
                         if ((unsigned short)t32 != (unsigned short)t31) {
@@ -4149,15 +4321,15 @@ int adxf_read_sj32(int a4, int a5, int a6)
     int t21;
 
     if (a4 == 0) {
-        ADXERR_CallErrFunc(0xC1757E8, a5, a6);
+        ADXERR_CallErrFunc();
         t29 = 0xFFFFFFFD;
     } else {
         if ((int)a5 < 0) {
-            ADXERR_CallErrFunc(0xC175814, a5, a6);
+            ADXERR_CallErrFunc();
             t27 = 0xFFFFFFFD;
         } else {
             if (a6 == 0) {
-                ADXERR_CallErrFunc(0xC175844, a5, a6);
+                ADXERR_CallErrFunc();
                 t25 = 0xFFFFFFFD;
             } else {
                 t3 = *(signed char *)((a4 + 0x1));
@@ -4165,10 +4337,10 @@ int adxf_read_sj32(int a4, int a5, int a6)
                 if (t3 != 2) {
                     t4 = *(int *)((a4 + 0x4));
                     if (t4 != 0) {
-                        ADXERR_CallErrFunc(0xC17586C, a5, a6);
+                        ADXERR_CallErrFunc();
                         t21 = 0xFFFFFFFF;
                     } else {
-                        ADXCRS_Lock(a4, a5, a6);
+                        ADXCRS_Lock();
                         t7 = *(int *)((a4 + 0xC));
                         t8 = *(int *)((a4 + 0x18));
                         *(unsigned int *)((a4 + 0x1C)) = (t7 + t8);
@@ -4206,7 +4378,7 @@ int adxf_read_sj32(int a4, int a5, int a6)
     return t29;
 }
 
-void kmiExecuteDMAChain(void)
+int kmiExecuteDMAChain(void)
 {
     int t0;
     int t1;
@@ -4237,7 +4409,7 @@ void kmiExecuteDMAChain(void)
         if ((t5 & 0x3) == 1) break;
         t3 = (t3 + 0x1);
         if ((unsigned int)t3 >= (unsigned int)0x2) {
-            return;
+            return 0x0;
         }
     }
     t6 = *(int *)(((((t3 << 8) + 0xC2BF460) + (((t4 << 2) << 2) << 1)) + 0x18));
@@ -4268,6 +4440,7 @@ void kmiExecuteDMAChain(void)
     *(unsigned int *)0xC2BF678 = t3;
     t17 = *(int *)((((t3 << 2) + 0xC2BF66C) + 0x0));
     *(unsigned int *)((((t3 << 2) + 0xC2BF66C) + 0x0)) = ((t17 + 0x1) & 0x7);
+    return 0x1;
 }
 
 int kmiFBallocEx(int a4, int a5, int a6)
@@ -4387,7 +4560,7 @@ int FUN_0c158958(int a4, int a5)
     return t8;
 }
 
-void kmfSetVirticalFilterMode(int a4)
+int kmfSetVirticalFilterMode(int a4)
 {
     int t0;
     int t1;
@@ -4526,7 +4699,7 @@ void kmfSetVirticalFilterMode(int a4)
     }
     t59 = *(int *)0xC2EA6D4;
     t60 = *(int *)0xC2EA6D4;
-    kmiWaitVlank(a4, t56, ((t57 + t60) << 16), ((t58 + t59) | ((t57 + t60) << 16)));
+    kmiWaitVlank();
     t62 = *(int *)0xC2EA948;
     kmiWriteRegister(0x44, (t62 & 0xFFFFFFFE));
     t64 = *(int *)0xC2EA984;
@@ -4535,6 +4708,7 @@ void kmfSetVirticalFilterMode(int a4)
     kmiWriteRegister(0x5C, ((t3 & 0xFFF003FF) | (((t53 & 0x3FF) << 8) << 2)));
     kmiWriteRegister(0xF4, ((t4 & 0xFFFF0000) | t56));
     *(unsigned int *)0xC2EA928 = 0x1;
+    return 0x0;
 }
 
 int kmActivateFrameBuffer(int a4, int a5, int a6, int a7)
@@ -4576,7 +4750,7 @@ int kmActivateFrameBuffer(int a4, int a5, int a6, int a7)
             *(unsigned int *)0xC2B8C84 = a7;
             *(unsigned int *)0xC2B8C58 = a6;
             *(unsigned int *)0xC2EA6B4 = a6;
-            t0 = kmiGetSysConfigFlag(a4, a5, a6, a7);
+            t0 = kmiGetSysConfigFlag();
             if (t0 != 0x80000000) {
                 t1 = kmiAddSysConfigFlag(0x800);
                 t6 = 0x0;
@@ -4643,7 +4817,7 @@ int kmActivateFrameBuffer(int a4, int a5, int a6, int a7)
     return t48;
 }
 
-void kmSetFramebufferTexture(int a4)
+int kmSetFramebufferTexture(int a4)
 {
     int t0;
     int t7;
@@ -4681,7 +4855,7 @@ void kmSetFramebufferTexture(int a4)
     if (t9 != 3) {
         if (t9 != 0) {
             if (t9 != 1) {
-                return;
+                return 0x4;
             }
             *(unsigned int *)((a4 + 0x4)) = 0x1;
             *(unsigned int *)((a4 + 0x8)) = 0x0;
@@ -4693,7 +4867,7 @@ void kmSetFramebufferTexture(int a4)
             t10 = *(int *)0xC178274;
             t11 = *(int *)(((t10 << 2) + 0xC2EA9B4));
             *(unsigned int *)((a4 + 0x1C)) = ((t11 << 2) << 1);
-            return;
+            return 0x0;
         }
         *(unsigned int *)((a4 + 0x4)) = 0x1;
         *(unsigned int *)((a4 + 0x8)) = 0x8000000;
@@ -4705,7 +4879,7 @@ void kmSetFramebufferTexture(int a4)
         t12 = *(int *)0xC178274;
         t13 = *(int *)(((t12 << 2) + 0xC2EA9B4));
         *(unsigned int *)((a4 + 0x1C)) = ((t13 << 2) << 1);
-        return;
+        return 0x0;
     }
     *(unsigned int *)((a4 + 0x4)) = 0x1;
     *(unsigned int *)((a4 + 0x8)) = 0x0;
@@ -4717,6 +4891,7 @@ void kmSetFramebufferTexture(int a4)
     t14 = *(int *)0xC178274;
     t15 = *(int *)(((t14 << 2) + 0xC2EA9B4));
     *(unsigned int *)((a4 + 0x1C)) = ((t15 << 2) << 1);
+    return 0x0;
 }
 
 int kmResetPointer(void)
@@ -4843,7 +5018,7 @@ int vmsfs_fwrite1(int a4, int a5)
     int t31;
 
     t0 = *(int *)((a4 + 0x28));
-    t1 = vmsio_isready(t0, a5);
+    t1 = vmsio_isready(t0);
     if (t1 == 0) {
         t2 = *(int *)((a4 + 0x28));
         vmsfs_unmount(t2);
@@ -4858,7 +5033,7 @@ int vmsfs_fwrite1(int a4, int a5)
             t37 = 0xFFFFFF01;
             if (t7 != 0) {
                 t8 = *(int *)((a4 + 0x28));
-                t9 = buIsFormat(t8);
+                t9 = buIsFormat();
                 t36 = 0xFFFFFF03;
                 if ((int)t9 >= 0) {
                     t10 = *(int *)((a4 + 0x28));
@@ -4871,13 +5046,13 @@ int vmsfs_fwrite1(int a4, int a5)
                             if (t12 != 0xFFFFFF01) {
                                 t13 = t11;
                                 for (;;) {
-                                    set_fat(t10, t13, 0xFFFF);
+                                    set_fat(t10, t13);
                                     t15 = search_fat(t10, 0xFFFC);
                                     t13 = t15;
                                     if ((int)t13 < 0) break;
                                     t16 = vmsfs_write_retry(t10, t13, a5);
                                     if (t16 == 0) {
-                                        set_fat(t10, t13, 0xFFFA);
+                                        set_fat(t10, t13);
                                         t18 = *(int *)((a4 + 0x38));
                                         if (t18 == 0xFFFF) {
                                             *(unsigned int *)((a4 + 0x38)) = (short)t13;
@@ -4887,7 +5062,7 @@ int vmsfs_fwrite1(int a4, int a5)
                                             return 0x0;
                                         }
                                         t20 = *(int *)((a4 + 0x3C));
-                                        set_fat(t10, t20, t13);
+                                        set_fat(t10, t20);
                                         *(unsigned int *)((a4 + 0x3C)) = (short)t13;
                                         t22 = *(int *)((a4 + 0x30));
                                         *(unsigned int *)((a4 + 0x30)) = (t22 + 0x1);
@@ -4898,13 +5073,13 @@ int vmsfs_fwrite1(int a4, int a5)
                             }
                             t31 = t23;
                         } else {
-                            set_fat(t10, t11, 0xFFFA);
+                            set_fat(t10, t11);
                             t26 = *(int *)((a4 + 0x38));
                             if (t26 == 0xFFFF) {
                                 *(unsigned int *)((a4 + 0x38)) = (short)t11;
                             } else {
                                 t27 = *(int *)((a4 + 0x3C));
-                                set_fat(t10, t27, t11);
+                                set_fat(t10, t27);
                             }
                             *(unsigned int *)((a4 + 0x3C)) = (short)t11;
                             t30 = *(int *)((a4 + 0x30));
@@ -4954,7 +5129,7 @@ int vmsfs_xwrite1(int a4, int a5)
     int t29;
 
     t0 = *(int *)((a4 + 0x28));
-    t1 = vmsio_isready(t0, a5);
+    t1 = vmsio_isready(t0);
     if (t1 == 0) {
         t2 = *(int *)((a4 + 0x28));
         vmsfs_unmount(t2);
@@ -4969,7 +5144,7 @@ int vmsfs_xwrite1(int a4, int a5)
             t27 = 0xFFFFFF01;
             if (t7 != 0) {
                 t8 = *(int *)((a4 + 0x28));
-                t9 = buIsFormat(t8);
+                t9 = buIsFormat();
                 t26 = 0xFFFFFF03;
                 if ((int)t9 >= 0) {
                     t10 = *(int *)((a4 + 0x30));
@@ -4985,13 +5160,13 @@ int vmsfs_xwrite1(int a4, int a5)
                             t16 = vmsfs_write_retry(t11, t10, a5);
                             t23 = t16;
                             if ((int)t16 >= 0) {
-                                set_fat(t11, t10, 0xFFFA);
+                                set_fat(t11, t10);
                                 t18 = *(int *)((a4 + 0x38));
                                 if (t18 == 0xFFFF) {
                                     *(unsigned int *)((a4 + 0x38)) = (short)t10;
                                 } else {
                                     t19 = *(int *)((a4 + 0x3C));
-                                    set_fat(t11, t19, t10);
+                                    set_fat(t11, t19);
                                 }
                                 *(unsigned int *)((a4 + 0x3C)) = (short)t10;
                                 t22 = *(int *)((a4 + 0x30));
@@ -5046,7 +5221,7 @@ int vmsfs_fread1(int a4, int a5)
     int t25;
 
     t0 = *(int *)((a4 + 0x28));
-    t1 = vmsio_isready(t0, a5);
+    t1 = vmsio_isready(t0);
     if (t1 == 0) {
         t2 = *(int *)((a4 + 0x28));
         vmsfs_unmount(t2);
@@ -5061,7 +5236,7 @@ int vmsfs_fread1(int a4, int a5)
             t27 = 0xFFFFFF01;
             if (t7 != 0) {
                 t8 = *(int *)((a4 + 0x28));
-                t9 = buIsFormat(t8);
+                t9 = buIsFormat();
                 t26 = 0xFFFFFF03;
                 if ((int)t9 >= 0) {
                     t10 = *(int *)((a4 + 0x40));
@@ -5135,7 +5310,6 @@ int ADXSJD_Create(int a4, int a5, int a6)
     int t8;
     int t10;
     int t21;
-    int t19;
     int t11;
     int t12;
     int t13;
@@ -5153,7 +5327,7 @@ int ADXSJD_Create(int a4, int a5, int a6)
     }
     t23 = 0x0;
     if (t1 != 8) {
-        t5 = SJRBF_GetBufPtr(t0, 0x98, 0x8, 0xC2F4F1C);
+        t5 = SJRBF_GetBufPtr(t0);
         t6 = SJRBF_GetBufSize(t0);
         t7 = SJRBF_GetXtrSize(t0);
         t8 = ADXB_Create(a5, t5, ((unsigned int)t6 >> 1), (((unsigned int)t6 >> 1) + ((unsigned int)t7 >> 1)));
@@ -5164,7 +5338,6 @@ int ADXSJD_Create(int a4, int a5, int a6)
         if (t10 != 0) {
             *(unsigned int *)((((t1 * 0x98) + 0xC2F4F1C) + 0x8)) = a4;
             *(unsigned char *)((((t1 * 0x98) + 0xC2F4F1C) + 0x2)) = a5;
-            t19 = 0x0;
             if ((int)a5 > 0) {
                 t11 = 0x0;
                 t12 = 0x0;
@@ -5174,10 +5347,9 @@ int ADXSJD_Create(int a4, int a5, int a6)
                     *(unsigned int *)((((((t1 * 0x98) + 0xC2F4F1C) + 0xC) + t11) + 0x0)) = t13;
                     t11 = (t11 + 0x4);
                 } while ((int)t12 < (int)a5);
-                t19 = t12;
             }
             *(unsigned char *)((((t1 * 0x98) + 0xC2F4F1C) + 0x1)) = 0x0;
-            adxsjd_clear(((t1 * 0x98) + 0xC2F4F1C), t19);
+            adxsjd_clear(((t1 * 0x98) + 0xC2F4F1C));
             *(unsigned int *)((((t1 * 0x98) + 0xC2F4F1C) + 0x48)) = 0x0;
             *(unsigned int *)((((t1 * 0x98) + 0xC2F4F1C) + 0x4C)) = 0x0;
             *(unsigned int *)((((t1 * 0x98) + 0xC2F4F1C) + 0x50)) = 0x0;
@@ -5190,7 +5362,7 @@ int ADXSJD_Create(int a4, int a5, int a6)
     return t23;
 }
 
-void kmiFinalizeRender(void)
+int kmiFinalizeRender(void)
 {
     int t0;
     int t1;
@@ -5255,9 +5427,10 @@ void kmiFinalizeRender(void)
     t27 = *(int *)0xFFD8000C;
     t28 = *(int *)0xC2F91F0;
     *(unsigned int *)0xC2F91F4 = (t28 - t27);
+    return 0x4C;
 }
 
-void frame_make(void)
+int frame_make(void)
 {
     int t0;
     int t1;
@@ -5317,19 +5490,19 @@ void frame_make(void)
                                     t5 = t16;
                                 }
                             } else {
-                                t17 = mpdrv_set_dkill_ns(t8);
+                                t17 = mpdrv_set_dkill_ns();
                                 t5 = t17;
                             }
                         } else {
-                            t18 = mpdrv_set_dreset_ns(t8);
+                            t18 = mpdrv_set_dreset_ns();
                             t5 = t18;
                         }
                     } else {
-                        t19 = mpdrv_set_allstatreq_ns(t8);
+                        t19 = mpdrv_set_allstatreq_ns();
                         t5 = t19;
                     }
                 } else {
-                    t20 = mpdrv_set_dreq_ns(t8);
+                    t20 = mpdrv_set_dreq_ns();
                     t5 = t20;
                 }
             }
@@ -5339,4 +5512,6 @@ void frame_make(void)
         t8 = (t8 + 0x1);
     }
     mpdrv_set_end_ns();
+    return 0x0;
 }
+

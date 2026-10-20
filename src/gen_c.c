@@ -8,33 +8,48 @@ int FUN_0c05322c(float, float);
 int FUN_0c053236(float, float);
 int FUN_0c053240(float, float, float);
 int FUN_0c05778a(int, int, float, float);
-int FUN_0c074680(int, int, int, float, float);
+int FUN_0c074680(void);
 int ResetFadeColor(void);
-int SetFadeColorBase(int, float, float, float);
+int SetFadeColorBase(float, float, float);
 int SetFadeColorOffset(float, float, float);
 int menuPutSprites(int, int, int, int);
-int nlObjPutSetFadeColor(int, float, float, float);
+int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutSetFadeColorBase(float, float, float);
 int nlObjPutSetFadeColorOffset(float, float, float);
 int nlSprPut(int);
 int volumeToDb(int);
+int FUN_0c02e2ca(int a4);
+int FUN_0c030a3e(void);
+int FUN_0c030a80(void);
+int SetFadeColorMulti(float f4, float f5, float f6);
+int LightEffect(int a4);
+int FUN_0c03c10e(void);
+int FUN_0c03df1a(void);
+int FUN_0c057e9e(void);
+void FUN_0c05cde4(void);
+int FUN_0c0714f2(void);
 
-void FUN_0c02e2ca(int a4)
+int FUN_0c02e2ca(int a4)
 {
     int t0;
-    int t1;
+    float u1;
     int t2;
     int t3;
-    int t5;
+    int t4;
+    float u6;
+    int t7;
 
     t0 = *(signed char *)0xC28A4EC;
-    *(unsigned char *)0xC1EE80C = (int)((float)(signed char)a4 * ((float)(unsigned char)t0 / 8.0f));
-    t1 = *(signed char *)0xC1EE80C;
-    t2 = volumeToDb(t1);
-    t3 = *(int *)0xC1EE820;
-    ADXT_SetOutVol(t3, t2);
-    t5 = *(signed char *)0xC28A4EC;
-    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)t5 / 8.0f) * 76.0f);
+    u1 = *(float *)0xC02E394;
+    *(unsigned char *)0xC1EE80C = (int)((float)(signed char)a4 * ((float)(unsigned char)t0 / u1));
+    t2 = *(signed char *)0xC1EE80C;
+    t3 = volumeToDb(t2);
+    t4 = *(int *)0xC1EE820;
+    ADXT_SetOutVol(t4, t3);
+    u6 = *(float *)0xC02E3A8;
+    t7 = *(signed char *)0xC28A4EC;
+    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)t7 / u1) * u6);
+    return 0xC02E3A8;
 }
 
 int FUN_0c030a3e(void)
@@ -50,18 +65,25 @@ int FUN_0c030a3e(void)
     *(unsigned int *)0xC26E1B8 = 0x2;
     *(float *)0xC26E19C = 1.0f;
     *(float *)0xC26E198 = 1.0f;
-    return FUN_0c074680(0xFFBFBFBF, 0xFFBFBFBF, 0xFFBFBFBF, 1.0f, 0.0f);
+    return FUN_0c074680();
 }
 
 int FUN_0c030a80(void)
 {
+    float u0;
+    float u1;
+    float u3;
+
     *(unsigned int *)0xC26E188 = 0xEA;
-    *(float *)0xC26E18C = 320.0f;
-    *(float *)0xC26E190 = 384.0f;
+    u0 = *(float *)0xC030B00;
+    *(float *)0xC26E18C = u0;
+    u1 = *(float *)0xC030B04;
+    *(float *)0xC26E190 = u1;
     nlSprPut(0xC26E188);
     *(unsigned int *)0xC26E188 = 0xEB;
-    *(float *)0xC26E18C = 320.0f;
-    *(float *)0xC26E190 = 224.0f;
+    *(float *)0xC26E18C = u0;
+    u3 = *(float *)0xC030B0C;
+    *(float *)0xC26E190 = u3;
     return nlSprPut(0xC26E188);
 }
 
@@ -86,44 +108,65 @@ int SetFadeColorMulti(float f4, float f5, float f6)
 
 int LightEffect(int a4)
 {
-    if (!(a4 == 0)) {
-        SetFadeColorBase(a4, 0.5f, 0.599999964f, 1.0f);
-        SetFadeColorOffset(0.299999982f, 0.399999976f, 0.5f);
-        } else {
-        SetFadeColorBase(a4, 1.0f, 1.0f, 1.0f);
+    float u0;
+    float u1;
+    float u3;
+    float u4;
+
+    if (a4 != 0) {
+        u0 = *(float *)0xC030CFC;
+        u1 = *(float *)0xC030D00;
+        SetFadeColorBase(u0, u1, 1.0f);
+        u3 = *(float *)0xC030D04;
+        u4 = *(float *)0xC030D08;
+        SetFadeColorOffset(u4, u3, u0);
+    } else {
+        SetFadeColorBase(1.0f, 1.0f, 1.0f);
         SetFadeColorOffset(1.0f, 1.0f, 1.0f);
-        }
+    }
     return ResetFadeColor();
 }
 
-void FUN_0c03c10e(void)
+int FUN_0c03c10e(void)
 {
     int t0;
     float u1;
+    int t5;
+    float u2;
+    float u3;
+    int t4;
 
     t0 = *(int *)0xC1EE234;
     u1 = *(float *)0xC2A1AD4;
-    if (!(t0 == 1)) {
-        *(float *)0xC2A1AD4 = 100.0f;
-        *(float *)0xC2A1AB0 = 0.5f;
-        menuPutSprites(0xC0A0678, 0xC2A1A84, 0x170, 0xD0);
+    t5 = t0;
+    if (t0 != 1) {
+        u2 = *(float *)0xC03C1DC;
+        *(float *)0xC2A1AD4 = u2;
+        u3 = *(float *)0xC03C1E0;
+        *(float *)0xC2A1AB0 = u3;
+        t4 = menuPutSprites(0xC0A0678, 0xC2A1A84, 0x170, 0xD0);
         *(float *)0xC2A1AB0 = 1.0f;
         *(float *)0xC2A1AD4 = u1;
-        }
+        t5 = t4;
+    }
+    return t5;
 }
 
-void FUN_0c03df1a(void)
+int FUN_0c03df1a(void)
 {
     int t0;
+    int t1;
     int t4;
     int t5;
     int t6;
+    int t10;
 
     t0 = *(int *)0xC2A1218;
-    if (!(t0 == 0)) {
-        FUN_0c03b698(t0);
+    if (t0 != 0) {
+        t1 = FUN_0c03b698(t0);
         *(unsigned int *)0xC2A1218 = 0x0;
-        } else {
+        t10 = t1;
+    } else {
         FUN_0c03b544(0x4);
         FUN_0c03b698(0x0);
         *(unsigned int *)0xC2A11B0 = 0x0;
@@ -132,59 +175,93 @@ void FUN_0c03df1a(void)
         t5 = *(int *)0xC2A122C;
         *(unsigned int *)0xC1EE238 = t5;
         t6 = *(int *)0xC1EE234;
-        if ((t6 == 0)) {
-        *(unsigned int *)0xC1EE210 = 0x0;
-        *(unsigned int *)0xC1EE214 = 0x0;
-        *(unsigned int *)0xC1EE20C = 0x0;
+        if (t6 == 0) {
+            *(unsigned int *)0xC1EE210 = 0x0;
+            *(unsigned int *)0xC1EE214 = 0x0;
+            *(unsigned int *)0xC1EE20C = 0x0;
         }
-        }
+        t10 = t5;
+    }
+    return t10;
 }
 
 int FUN_0c057e9e(void)
 {
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+
     *(unsigned int *)0xC2A92CC = 0x62;
     *(unsigned int *)0xC2A9300 = 0x2005;
-    *(float *)0xC2A92DC = 40.0f;
-    *(float *)0xC2A92E0 = 30.0f;
-    *(float *)0xC2A92D8 = 490.0f;
-    *(float *)0xC2A92F8 = 0.5f;
-    nlObjPutSetFadeColor(0xC2A92CC, 0.0f, 0.0f, 0.0f);
+    u0 = *(float *)0xC057F7C;
+    *(float *)0xC2A92DC = u0;
+    u1 = *(float *)0xC057F80;
+    *(float *)0xC2A92E0 = u1;
+    u2 = *(float *)0xC057F84;
+    *(float *)0xC2A92D8 = u2;
+    u3 = *(float *)0xC057F88;
+    *(float *)0xC2A92F8 = u3;
+    nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
     return nlSprPut(0xC2A92CC);
 }
 
 void FUN_0c05cde4(void)
 {
     int t0;
+    float u1;
+    float u2;
+    float u3;
+    float u5;
 
     t0 = *(int *)0xC2A9960;
     *(unsigned int *)0xC2A9960 = (t0 + 0x1);
-    if (!((int)(t0 + 0x1) >= (int)0x78)) {
-        *(float *)0xC2A98A8 = 1.39999998f;
-        *(float *)0xC2A98AC = 1.39999998f;
-        FUN_0c05778a(0xC2A9898, 0x1F1, 525.0f, 154.0f);
-        FUN_0c05778a(0xC2A9898, 0x1F2, 525.0f, 221.0f);
+    if ((int)(t0 + 0x1) < (int)0x78) {
+        u1 = *(float *)0xC05CE48;
+        *(float *)0xC2A98A8 = u1;
+        *(float *)0xC2A98AC = u1;
+        u2 = *(float *)0xC05CE50;
+        u3 = *(float *)0xC05CE54;
+        FUN_0c05778a(0xC2A9898, 0x1F1, u2, u3);
+        u5 = *(float *)0xC05CE5C;
+        FUN_0c05778a(0xC2A9898, 0x1F2, u2, u5);
         *(float *)0xC2A98A8 = 1.0f;
         *(float *)0xC2A98AC = 1.0f;
-        }
+    }
 }
 
 int FUN_0c0714f2(void)
 {
     float u0;
     float u1;
+    float u2;
+    float u3;
+    float u4;
+    float u5;
+    float u6;
+    float u9;
+    float u10;
 
     *(unsigned int *)0xC2AE368 = 0x0;
     *(unsigned int *)0xC2AE364 = 0x0;
-    *(float *)0xC2AE36C = 420.0f;
-    *(float *)0xC2AE370 = 250.0f;
+    u0 = *(float *)0xC071574;
+    *(float *)0xC2AE36C = u0;
+    u1 = *(float *)0xC071578;
+    *(float *)0xC2AE370 = u1;
     *(float *)0xC2AE374 = (-1.0f);
-    *(float *)0xC2AE378 = -30.0f;
-    *(float *)0xC2AE380 = 0.5f;
-    *(float *)0xC2AE37C = 0.5f;
-    *(float *)0xC2AE384 = 15.0f;
-    u0 = *(float *)0xC2AE370;
-    u1 = *(float *)0xC2AE36C;
-    FUN_0c05322c(u1, u0);
-    FUN_0c053236(0.5f, 0.5f);
-    return FUN_0c053240(0.899999976f, 0.899999976f, 0.599999964f);
+    u2 = *(float *)0xC07157C;
+    *(float *)0xC2AE378 = u2;
+    u3 = *(float *)0xC071580;
+    *(float *)0xC2AE380 = u3;
+    *(float *)0xC2AE37C = u3;
+    u4 = *(float *)0xC071584;
+    *(float *)0xC2AE384 = u4;
+    u5 = *(float *)0xC2AE370;
+    u6 = *(float *)0xC2AE36C;
+    FUN_0c05322c(u6, u5);
+    FUN_0c053236(u3, u3);
+    u9 = *(float *)0xC071590;
+    u10 = *(float *)0xC071594;
+    return FUN_0c053240(u9, u9, u10);
 }
+

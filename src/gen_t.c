@@ -3,19 +3,21 @@
 
 int kmiCopyFromFrameBuffer(int, int, int);
 int kmiCopyToFrameBuffer(int, int, int);
-int kmtex_GetTextureLevel(int, int, int, int);
+int kmtex_GetTextureLevel(int, int);
+int FUN_0c15c98a(int a4, int a5, int a6);
+int FUN_0c15c9e0(int a4, int a5, int a6, int a7);
 
-void FUN_0c15c98a(int a4, int a5, int a6, int a7)
+int FUN_0c15c98a(int a4, int a5, int a6)
 {
     int t0;
     int t1;
 
-    t0 = kmtex_GetTextureLevel(a6, a6, a6, a7);
+    t0 = kmtex_GetTextureLevel(a6, a6);
     t1 = *(int *)(((t0 << 2) + 0xC175E54));
-    kmiCopyFromFrameBuffer(a4, (a5 + 0x4), t1);
+    return kmiCopyFromFrameBuffer(a4, (a5 + 0x4), t1);
 }
 
-void FUN_0c15c9e0(int a4, int a5, int a6, int a7)
+int FUN_0c15c9e0(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -25,7 +27,7 @@ void FUN_0c15c9e0(int a4, int a5, int a6, int a7)
     int t6;
     int t7;
 
-    t0 = kmtex_GetTextureLevel(a6, a6, a6, a7);
+    t0 = kmtex_GetTextureLevel(a6, a6);
     if ((a7 & 1) != 0) {
         t1 = *(int *)(((t0 << 2) + 0xC175DE0));
         t2 = *(int *)(((t0 << 2) + 0xC175ED8));
@@ -38,5 +40,6 @@ void FUN_0c15c9e0(int a4, int a5, int a6, int a7)
         t7 = t3;
     }
     kmiCopyToFrameBuffer(a4, a5, t7);
-    kmiCopyToFrameBuffer((a4 + 0x800), (a5 + t7), t6);
+    return kmiCopyToFrameBuffer((a4 + 0x800), (a5 + t7), t6);
 }
+

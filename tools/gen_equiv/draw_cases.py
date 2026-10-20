@@ -5,7 +5,7 @@ candidates from the arguments its prototype takes (an int or pointer in r4..r7, 
 and an answer for every call, then grown and chosen by how much of the ORIGINAL's code they run (gen_drv.pick), so the
 check rests on cases that reach the branches. Written to tests/<file>/<function>.json; an existing file is kept unless --force.
 Run equiv.py on the file afterwards: DIFFERS names the case, and `equiv.py` prints the instructions the cases ran."""
-import os,re,sys,json,random,struct
+import os,re,sys,json,random,struct,zlib
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import gen_drv,gen_core as G
 HEAD=re.compile(r'^(?:static\s+|extern\s+)?[A-Za-z_][\w\s\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{',re.M)
@@ -85,7 +85,7 @@ def main(args):
         if name in KEYWORDS or (names and name not in names) or name not in G.SPANS: continue
         path='tests/%s/%s.json'%(stem,name)
         if os.path.exists(path) and not force: continue
-        rng=random.Random(hash(name)&0xffff)
+        rng=random.Random(zlib.crc32(name.encode())&0xffff)
         try: cases,V,hot=draw_one(name,split_params(m.group(2)),body_of(src,m.end()),rng)
         except ValueError as e:
             print('%-28s skipped: %s'%(name,e)); continue

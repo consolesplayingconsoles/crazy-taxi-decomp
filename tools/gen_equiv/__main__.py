@@ -16,6 +16,12 @@ cases never reach can pass by luck, so equiv.py reports the instruction coverage
 tools/classify.py, tools/equiv.py, 1ST_READ.BIN."""
 import sys,json,os,shutil,glob,re,subprocess,collections,signal,time,multiprocessing
 T0=time.time()
+class _Tee:                                  # everything the run prints also goes to build/gen_run.log, so a run can be followed from another terminal
+    def __init__(self,f): self.f=f; self.out=sys.stdout
+    def write(self,t): self.out.write(t); self.f.write(t); self.f.flush()
+    def flush(self): self.out.flush(); self.f.flush()
+if os.path.isdir('build') and not any(a in sys.argv for a in ('--draw','--retest')):
+    sys.stdout=_Tee(open('build/gen_run.log','w'))
 def note(msg): print('[%4ds] %s'%(time.time()-T0,msg),flush=True)
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import gen_pipe,gen_drv,gen_core
@@ -33,6 +39,8 @@ READ_LIMIT=300       # seconds: a function whose reading does not finish in that
 BUILD_LIMIT=60       # and the same for writing its C and cases in a round
 if '--draw' in sys.argv:
     import draw_cases; draw_cases.main([x for x in sys.argv[1:] if x!='--draw']); sys.exit(0)
+if '--lift' in sys.argv:
+    import gen_retest; gen_retest.lift([x for x in sys.argv[1:] if x!='--lift']); sys.exit(0)
 if '--retest' in sys.argv:
     import gen_retest; gen_retest.main([a for a in sys.argv[1:] if a.startswith('gen_')]); sys.exit(0)
 known='--known' in sys.argv
@@ -61,8 +69,12 @@ for l in (subprocess.run(['python3','tools/classify.py']+sizes,capture_output=Tr
     if len(p)>=4 and p[-1]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and p[2] not in ver and not p[2].startswith('_') and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
-    signal.alarm(READ_LIMIT)
-    try: gen_core.run(n); return (n,None)
+    signal.alarm(max(READ_LIMIT,gen_core.SPANS[n][1]//4))      # a larger function gets more time: size/4 seconds, at least 300
+    try:
+        try: gen_core.run(n); return (n,None)
+        except gen_core.Skip as e:
+            if 'arg gap' not in str(e): raise
+            gen_core.run(n,True); return (n,None)       # a stub that passes its own arguments on
     except Timeout: return (n,'timeout')
     except gen_core.Skip as e: return (n,re.sub(r'[0-9a-f]{4,}','',str(e).split()[0] if str(e) else '?'))
     except Exception as e: return (n,'EXC '+type(e).__name__)
@@ -108,15 +120,19 @@ def write_batch(keep):
 ROUND=[0,False]
 def _draw(n):
     vi,pt=ROUND
-    signal.alarm(BUILD_LIMIT)
+    signal.alarm(max(BUILD_LIMIT,gen_core.SPANS[n][1]//8))      # a larger function gets more time: size/8 seconds, at least 60
     try:
-        vs=gen_pipe.variants(n,pt)
+        try: vs=gen_pipe.variants(n,pt)
+        except gen_core.Skip as e:
+            if 'arg gap' not in str(e) or pt: raise
+            pt=True                          # a stub that passes its own arguments on: the registers it never set are its arguments
+            vs=gen_pipe.variants(n,pt)
         if vi>=len(vs): return None
         s,c=gen_drv.build(n,vs[vi],pt)
         if n in c.protos: return None
         t=gen_drv.tests(n,c,s)
-        return (n,s,t,c.protos)
-    except Exception as e: return None
+        return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None))
+    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)[:90]))
     finally: signal.alarm(0)
 rounds=[(0,False)]      # one round: on Crazy Taxi the retry rounds (other code shapes) added nothing and cost as much time again
 done=set()
@@ -126,8 +142,17 @@ for ri,(vi,pt) in enumerate(rounds):
     items=[]
     note('round %d: drawing cases for %d functions (the slow part; results are written after each round)'%(ri,len(remaining)))
     ROUND[:]=[vi,pt]
+    notdrawn=[]
     for r in each(_draw,remaining,'  round %d: cases drawn for'%ri):
-        if r: items.append(r)
+        if r and r[0]=='skip': notdrawn.append(r)
+        elif r: items.append(r)
+    with open('state/case-survival.txt','w') as fh:       # per function: cases drawn, cases the original survived, and whether the holdout is independent
+        fh.write('function drawn survived holdout_independent\n')
+        for it in items:
+            st=it[4] if len(it)>4 else {}
+            fh.write('%s %s %s %s\n'%(it[0],st.get('drawn','?'),st.get('survived','?'),st.get('holdout_independent','?')))
+    with open('build/gen_failed.txt','a') as fh:        # the functions that got no C or no cases, and why
+        for _,n_,why in notdrawn: fh.write('%s  not drawn: %s\n'%(n_,why))
     order={n:k for k,n in enumerate(remaining)}
     items.sort(key=lambda it:order[it[0]])
     if not items: continue
@@ -138,6 +163,9 @@ for ri,(vi,pt) in enumerate(rounds):
     finally:
         restore_evidence()
     print(ri,vi,pt,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
+    os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
+    for it in items:
+        if it[0] in failed: json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
     keep=[it for it in items if it[0] in passed]
     with open('build/gen_failed.txt','a') as fh:        # what failed and the first difference, for whoever improves the generator
         for l in gen_pipe.LAST.get('out','').splitlines():

@@ -5,8 +5,11 @@ int ADXSJD_SetInSj(int, int);
 int ADXSJD_Start(void);
 int gdFsGetStatG(void);
 int mwRnaGetTransSw(int);
+int gdFsExecServerG(void);
+int adxt_start_sj(int a4, int a5);
+int mwlRnaAddRdPos(int a4);
 
-int gdFsExecServerG(int a4, int a5, int a6, int a7)
+int gdFsExecServerG(void)
 {
     int t0;
     int t1;
@@ -18,7 +21,7 @@ int gdFsExecServerG(int a4, int a5, int a6, int a7)
     t0 = *(int *)0xC177A8C;
     t1 = *(int *)((t0 + 0xC));
     t2 = *(int *)((t1 + 0x40));
-    t3 = ((int (*)(int, int, int, int))(t2))(a4, a5, a6, a7);
+    t3 = ((int (*)(void))(t2))();
     t4 = *(int *)0xC177A8C;
     t5 = *(int *)((t4 + 0x1C));
     if (t5 != 0) {
@@ -27,7 +30,7 @@ int gdFsExecServerG(int a4, int a5, int a6, int a7)
     return t3;
 }
 
-void adxt_start_sj(int a4, int a5, int a6, int a7)
+int adxt_start_sj(int a4, int a5)
 {
     int t0;
     int t1;
@@ -45,7 +48,7 @@ void adxt_start_sj(int a4, int a5, int a6, int a7)
         t2 = *(int *)((((t0 << 2) + (a4 + 0x18)) + 0x0));
         t3 = *(int *)((t2 + 0x0));
         t4 = *(int *)((t3 + 0x14));
-        t5 = ((int (*)(int, int, int, int))(t4))(t2, a5, a6, a7);
+        t5 = ((int (*)(int, int))(t4))(t2, a5);
         t0 = (t0 + 0x1);
     }
     t6 = *(int *)((a4 + 0x4));
@@ -56,9 +59,10 @@ void adxt_start_sj(int a4, int a5, int a6, int a7)
     *(unsigned char *)((a4 + 0x1)) = 0x1;
     *(unsigned int *)((a4 + 0x4C)) = 0x0;
     *(unsigned char *)((a4 + 0x71)) = 0x0;
+    return 0x71;
 }
 
-void mwlRnaAddRdPos(int a4, int a5, int a6, int a7)
+int mwlRnaAddRdPos(int a4)
 {
     int t0;
     int t1;
@@ -83,7 +87,7 @@ void mwlRnaAddRdPos(int a4, int a5, int a6, int a7)
     t1 = *(int *)((a4 + 0x30));
     t2 = *(int *)((t0 + 0x0));
     t3 = *(int *)((t2 + 0x20));
-    t4 = ((int (*)(int, int, int, int))(t3))(t0, 0x0, a6, a7);
+    t4 = ((int (*)(int, int))(t3))(t0, 0x0);
     t5 = *(int *)((a4 + 0x8));
     t6 = (int)((int)0x20 / (int)t5);
     t7 = (int)((int)t4 / (int)((t6 << 2) << 1));
@@ -114,4 +118,6 @@ void mwlRnaAddRdPos(int a4, int a5, int a6, int a7)
     *(unsigned int *)((a4 + 0x34)) = t14;
     t21 = *(int *)((a4 + 0x48));
     *(unsigned int *)((a4 + 0x48)) = (t21 + t15);
+    return 0x48;
 }
+

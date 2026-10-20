@@ -3,19 +3,19 @@
 
 int FUN_0c053ac0(void);
 int FUN_0c053b44(void);
-int FUN_0c0558a2(int);
-int FUN_0c055950(int);
-int FUN_0c055b38(int);
+int FUN_0c0558a2(void);
+int FUN_0c055950(void);
+int FUN_0c055b38(void);
 int FUN_0c056ed8(int);
-int FUN_0c0572de(int);
-int FUN_0c057388(int);
-int FUN_0c05741c(int);
-int FUN_0c0608ac(int, int, int);
+int FUN_0c0572de(void);
+int FUN_0c057388(void);
+int FUN_0c05741c(void);
+int FUN_0c0608ac(int, int);
 int FUN_0c0770f0(int, int, int);
 int FUN_0c07d5c0(int);
 int Put_Credits(int);
 int Put_ReadySetGo(void);
-int Put_TotalDrum(int, int);
+int Put_TotalDrum(void);
 int gdc_FileLoad(int, int, int);
 int gdc_StopStreamVoice(int);
 int hudDrawTime(void);
@@ -25,6 +25,12 @@ int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
+int FUN_0c02f392(void);
+int FUN_0c0302e6(void);
+int hudDraw(void);
+int kmiCreateGlobalParameter(void);
+int kmSetVertexRenderState(int a4);
+int kmSetModifierRenderState(int a4);
 
 int FUN_0c02f392(void)
 {
@@ -274,7 +280,7 @@ int FUN_0c0302e6(void)
     return t71;
 }
 
-void hudDraw(void)
+int hudDraw(void)
 {
     int t0;
     int t3;
@@ -292,30 +298,81 @@ void hudDraw(void)
     int t39;
     int t42;
     int t48;
+    int t47;
     int t49;
+    int t50;
+    int t92;
     int t53;
     int t54;
+    int t55;
     int t57;
     int t58;
+    int t59;
     int t61;
-    int t67;
-    int t74;
+    int t66;
+    int t62;
+    int t65;
+    int t64;
+    int t72;
+    int t68;
+    int t71;
+    int t70;
     int t75;
+    int t76;
     int t78;
-    int t84;
-    int t94;
+    int t83;
+    int t79;
+    int t82;
+    int t81;
+    int t89;
+    int t85;
+    int t88;
+    int t87;
     int t95;
-    int t98;
+    int t96;
+    int t97;
     int t99;
-    int t102;
+    int t100;
+    int t101;
+    int t103;
     int t108;
-    int t115;
-    int t116;
-    int t119;
+    int t104;
+    int t107;
+    int t106;
+    int t114;
+    int t110;
+    int t113;
+    int t112;
+    int t117;
+    int t118;
+    int t120;
     int t125;
-    int t132;
-    int t134;
+    int t121;
+    int t124;
+    int t123;
+    int t131;
+    int t127;
+    int t130;
+    int t129;
     int t135;
+    int t137;
+    int t142;
+    int t138;
+    int t140;
+    int t139;
+    int t134;
+    int t91;
+    int t74;
+    int t73;
+    int t67;
+    int t90;
+    int t84;
+    int t133;
+    int t116;
+    int t115;
+    int t109;
+    int t132;
+    int t126;
 
     t0 = *(int *)0xC2A75E0;
     if ((t0 & 0x1) == 1) {
@@ -326,7 +383,7 @@ void hudDraw(void)
         if ((t3 & 0x10000000) != 0x10000000) {
             t4 = *(int *)0xC1EE20C;
             if (t4 != 2) {
-                Put_TotalDrum((t3 & 0x10000000), 0x80);
+                Put_TotalDrum();
             }
         }
         hudDrawTime();
@@ -339,15 +396,15 @@ void hudDraw(void)
     if (t13 != 2) {
         t14 = *(int *)0xC2A75E0;
         if ((t14 & 0x400) == 0x400) {
-            FUN_0c055950(0x400);
+            FUN_0c055950();
         }
         t17 = *(int *)0xC2A75E0;
         if ((t17 & 0x800) == 0x800) {
-            FUN_0c0558a2(0x800);
+            FUN_0c0558a2();
         }
         t20 = *(int *)0xC2A75E0;
         if ((t20 & 0x1000) == 0x1000) {
-            FUN_0c055b38(0x1000);
+            FUN_0c055b38();
         }
     }
     t24 = *(int *)0xC2A75E0;
@@ -360,169 +417,236 @@ void hudDraw(void)
     }
     t30 = *(int *)0xC2A75E0;
     if ((t30 & 0x1000000) == 0x1000000) {
-        FUN_0c0572de(0x1000000);
+        FUN_0c0572de();
     }
     t33 = *(int *)0xC2A75E0;
     if ((t33 & 0x2000000) == 0x2000000) {
-        FUN_0c057388(0x2000000);
+        FUN_0c057388();
     }
     t36 = *(int *)0xC2A75E0;
     if ((t36 & 0x4000000) == 0x4000000) {
-        FUN_0c05741c(0x4000000);
+        FUN_0c05741c();
     }
     t39 = *(int *)0xC2A75E0;
     if ((t39 & 0x10000000) == 0x10000000) {
         Put_ReadySetGo();
     }
     t42 = *(int *)0xC17948C;
+    t48 = 0xC052FF8;
     if (t42 != 0) {
         pfSetFont(0x0);
         pfSize(1.0f, 1.0f);
         pfSetZ(0.149999991f);
         pfColor(0xFF00FF00, 0xFFFFFF00, 0xFF00FF00, 0xFFFFFF00);
-        FUN_0c0608ac(0x23, 0x1A9, 0xC0D0878);
+        t47 = FUN_0c0608ac(0x23, 0x1A9);
+        t48 = t47;
     }
-    t48 = *(int *)0xC2A736C;
-    if (t48 == 0) {
-        t49 = *(int *)0xC2A7368;
-        if (t49 != 0) {
+    t49 = *(int *)0xC2A736C;
+    if (t49 == 0) {
+        t50 = *(int *)0xC2A7368;
+        t92 = t48;
+        if (t50 != 0) {
             pfSetFont(0x0);
             pfSize(1.0f, 1.0f);
-            pfSetZ(0.149999991f);
-            t53 = *(int *)0xC2A736C;
-            if (t53 != 0) {
-                t54 = *(int *)0xC2A7368;
-                if (t54 == 0) {
+            t53 = pfSetZ(0.149999991f);
+            t54 = *(int *)0xC2A736C;
+            if (t54 != 0) {
+                t55 = *(int *)0xC2A7368;
+                if (t55 == 0) {
                     pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
-                    FUN_0c0608ac(0x23, 0x197, 0xC0D0884);
+                    t57 = FUN_0c0608ac(0x23, 0x197);
+                    t74 = t57;
                 } else {
-                    t57 = *(int *)0xC2A736C;
-                    if (t57 == 0) {
-                        t58 = *(int *)0xC2A7368;
-                        if (t58 != 0) {
+                    t58 = *(int *)0xC2A736C;
+                    if (t58 == 0) {
+                        t59 = *(int *)0xC2A7368;
+                        if (t59 != 0) {
                             pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                            FUN_0c0608ac(0x23, 0x197, 0xC0D0890);
+                            t61 = FUN_0c0608ac(0x23, 0x197);
+                            t67 = t61;
                         } else {
-                            if (t57 != 0) {
-                                t61 = *(int *)0xC2A7368;
-                                if (t61 != 0) {
+                            t66 = t53;
+                            if (t58 != 0) {
+                                t62 = *(int *)0xC2A7368;
+                                t65 = t53;
+                                if (t62 != 0) {
                                     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                    FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                                    t64 = FUN_0c0608ac(0x23, 0x197);
+                                    t65 = t64;
                                 }
+                                t66 = t65;
                             }
+                            t67 = t66;
                         }
+                        t73 = t67;
                     } else {
-                        if (t57 != 0) {
-                            t67 = *(int *)0xC2A7368;
-                            if (t67 != 0) {
+                        t72 = t53;
+                        if (t58 != 0) {
+                            t68 = *(int *)0xC2A7368;
+                            t71 = t53;
+                            if (t68 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                                t70 = FUN_0c0608ac(0x23, 0x197);
+                                t71 = t70;
                             }
+                            t72 = t71;
                         }
+                        t73 = t72;
                     }
+                    t74 = t73;
                 }
+                t91 = t74;
             } else {
-                t74 = *(int *)0xC2A736C;
-                if (t74 == 0) {
-                    t75 = *(int *)0xC2A7368;
-                    if (t75 != 0) {
+                t75 = *(int *)0xC2A736C;
+                if (t75 == 0) {
+                    t76 = *(int *)0xC2A7368;
+                    if (t76 != 0) {
                         pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                        FUN_0c0608ac(0x23, 0x197, 0xC0D0890);
+                        t78 = FUN_0c0608ac(0x23, 0x197);
+                        t84 = t78;
                     } else {
-                        if (t74 != 0) {
-                            t78 = *(int *)0xC2A7368;
-                            if (t78 != 0) {
+                        t83 = t53;
+                        if (t75 != 0) {
+                            t79 = *(int *)0xC2A7368;
+                            t82 = t53;
+                            if (t79 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                                t81 = FUN_0c0608ac(0x23, 0x197);
+                                t82 = t81;
                             }
+                            t83 = t82;
                         }
+                        t84 = t83;
                     }
+                    t90 = t84;
                 } else {
-                    if (t74 != 0) {
-                        t84 = *(int *)0xC2A7368;
-                        if (t84 != 0) {
+                    t89 = t53;
+                    if (t75 != 0) {
+                        t85 = *(int *)0xC2A7368;
+                        t88 = t53;
+                        if (t85 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                            t87 = FUN_0c0608ac(0x23, 0x197);
+                            t88 = t87;
                         }
+                        t89 = t88;
                     }
+                    t90 = t89;
                 }
+                t91 = t90;
             }
+            t92 = t91;
         }
+        t134 = t92;
     } else {
         pfSetFont(0x0);
         pfSize(1.0f, 1.0f);
-        pfSetZ(0.149999991f);
-        t94 = *(int *)0xC2A736C;
-        if (t94 != 0) {
-            t95 = *(int *)0xC2A7368;
-            if (t95 == 0) {
+        t95 = pfSetZ(0.149999991f);
+        t96 = *(int *)0xC2A736C;
+        if (t96 != 0) {
+            t97 = *(int *)0xC2A7368;
+            if (t97 == 0) {
                 pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
-                FUN_0c0608ac(0x23, 0x197, 0xC0D0884);
+                t99 = FUN_0c0608ac(0x23, 0x197);
+                t116 = t99;
             } else {
-                t98 = *(int *)0xC2A736C;
-                if (t98 == 0) {
-                    t99 = *(int *)0xC2A7368;
-                    if (t99 != 0) {
+                t100 = *(int *)0xC2A736C;
+                if (t100 == 0) {
+                    t101 = *(int *)0xC2A7368;
+                    if (t101 != 0) {
                         pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                        FUN_0c0608ac(0x23, 0x197, 0xC0D0890);
+                        t103 = FUN_0c0608ac(0x23, 0x197);
+                        t109 = t103;
                     } else {
-                        if (t98 != 0) {
-                            t102 = *(int *)0xC2A7368;
-                            if (t102 != 0) {
+                        t108 = t95;
+                        if (t100 != 0) {
+                            t104 = *(int *)0xC2A7368;
+                            t107 = t95;
+                            if (t104 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                                t106 = FUN_0c0608ac(0x23, 0x197);
+                                t107 = t106;
                             }
+                            t108 = t107;
                         }
+                        t109 = t108;
                     }
+                    t115 = t109;
                 } else {
-                    if (t98 != 0) {
-                        t108 = *(int *)0xC2A7368;
-                        if (t108 != 0) {
+                    t114 = t95;
+                    if (t100 != 0) {
+                        t110 = *(int *)0xC2A7368;
+                        t113 = t95;
+                        if (t110 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                            t112 = FUN_0c0608ac(0x23, 0x197);
+                            t113 = t112;
                         }
+                        t114 = t113;
                     }
+                    t115 = t114;
                 }
+                t116 = t115;
             }
+            t133 = t116;
         } else {
-            t115 = *(int *)0xC2A736C;
-            if (t115 == 0) {
-                t116 = *(int *)0xC2A7368;
-                if (t116 != 0) {
+            t117 = *(int *)0xC2A736C;
+            if (t117 == 0) {
+                t118 = *(int *)0xC2A7368;
+                if (t118 != 0) {
                     pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                    FUN_0c0608ac(0x23, 0x197, 0xC0D0890);
+                    t120 = FUN_0c0608ac(0x23, 0x197);
+                    t126 = t120;
                 } else {
-                    if (t115 != 0) {
-                        t119 = *(int *)0xC2A7368;
-                        if (t119 != 0) {
+                    t125 = t95;
+                    if (t117 != 0) {
+                        t121 = *(int *)0xC2A7368;
+                        t124 = t95;
+                        if (t121 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                            t123 = FUN_0c0608ac(0x23, 0x197);
+                            t124 = t123;
                         }
+                        t125 = t124;
                     }
+                    t126 = t125;
                 }
+                t132 = t126;
             } else {
-                if (t115 != 0) {
-                    t125 = *(int *)0xC2A7368;
-                    if (t125 != 0) {
+                t131 = t95;
+                if (t117 != 0) {
+                    t127 = *(int *)0xC2A7368;
+                    t130 = t95;
+                    if (t127 != 0) {
                         pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                        FUN_0c0608ac(0x23, 0x197, 0xC0D08A4);
+                        t129 = FUN_0c0608ac(0x23, 0x197);
+                        t130 = t129;
                     }
+                    t131 = t130;
                 }
+                t132 = t131;
             }
+            t133 = t132;
         }
+        t134 = t133;
     }
-    t132 = *(int *)0xC2A11B0;
-    if (t132 == 0) {
+    t135 = *(int *)0xC2A11B0;
+    if (t135 == 0) {
         *(unsigned int *)0xC2A91C8 = 0x0;
     }
-    t134 = *(int *)0xC2A11B0;
-    if (t134 != 0) {
-        t135 = *(int *)0xC2A91C8;
-        if (t135 == 0) {
-            gdc_StopStreamVoice(0x0);
+    t137 = *(int *)0xC2A11B0;
+    t142 = t134;
+    if (t137 != 0) {
+        t138 = *(int *)0xC2A91C8;
+        t140 = 0xC2A91C8;
+        if (t138 == 0) {
+            t139 = gdc_StopStreamVoice(0x0);
             *(unsigned int *)0xC2A91C8 = 0x1;
+            t140 = t139;
         }
+        t142 = t140;
     }
+    return t142;
 }
 
 int kmiCreateGlobalParameter(void)
@@ -711,7 +835,7 @@ int kmiCreateGlobalParameter(void)
     return t64;
 }
 
-void kmSetVertexRenderState(int a4)
+int kmSetVertexRenderState(int a4)
 {
     int t0;
     int t1;
@@ -737,8 +861,8 @@ void kmSetVertexRenderState(int a4)
     int t23;
     int t24;
     int t25;
-    int t85;
-    int t36;
+    int t86;
+    int t37;
     float u26;
     float u27;
     float u28;
@@ -747,7 +871,7 @@ void kmSetVertexRenderState(int a4)
     float u31;
     float u32;
     float u33;
-    int t38;
+    float u34;
     int t39;
     int t40;
     int t41;
@@ -757,9 +881,9 @@ void kmSetVertexRenderState(int a4)
     int t45;
     int t46;
     int t47;
-    int t53;
+    int t48;
     int t54;
-    int t60;
+    int t55;
     int t61;
     int t62;
     int t63;
@@ -767,16 +891,17 @@ void kmSetVertexRenderState(int a4)
     int t65;
     int t66;
     int t67;
-    int t73;
+    int t68;
     int t74;
     int t75;
     int t76;
-    int t93;
-    int t91;
-    int t80;
-    int t71;
-    int t58;
-    int t51;
+    int t77;
+    int t94;
+    int t92;
+    int t81;
+    int t72;
+    int t59;
+    int t52;
 
     t0 = *(int *)((a4 + 0x90));
     *(unsigned int *)0xC2EAB9C = t0;
@@ -819,7 +944,7 @@ void kmSetVertexRenderState(int a4)
     if ((((unsigned int)((unsigned int)(t20 & 0x7000000) >> 16) >> 8) & 1) != 0) {
         t21 = *(int *)0xC2EABDC;
         *(unsigned int *)0xC178308 = t21;
-        t91 = 0xC178324;
+        t92 = 0xC178324;
     } else {
         t22 = *(int *)0xC2EABAC;
         *(unsigned int *)0xC178308 = t22;
@@ -828,100 +953,102 @@ void kmSetVertexRenderState(int a4)
         t24 = *(int *)0xC2EABB4;
         *(unsigned int *)0xC178310 = t24;
         t25 = *(int *)0xC2EAC0C;
-        t85 = 0xC178324;
+        t86 = 0xC178324;
         if (t25 != 0) {
             if (t25 != 1) {
                 if (t25 != 2) {
                     if (t25 != 3) {
                         if (t25 != 4) {
-                            t36 = 0xC178314;
+                            t37 = 0xC178314;
                             if (t25 == 16) {
-                                u26 = *(float *)0xC2EABBC;
-                                u27 = *(float *)0xC2EABC0;
-                                u28 = *(float *)0xC2EABC4;
-                                u29 = *(float *)0xC2EABC8;
-                                *(unsigned int *)0xC178314 = ((((((int)(u26 * 255.0f) << 16) << 8) | ((int)(u27 * 255.0f) << 16)) | ((int)(u28 * 255.0f) << 8)) | (int)(u29 * 255.0f));
-                                u30 = *(float *)0xC2EABCC;
-                                u31 = *(float *)0xC2EABD0;
-                                u32 = *(float *)0xC2EABD4;
-                                u33 = *(float *)0xC2EABD8;
-                                *(unsigned int *)0xC178318 = ((((((int)(u30 * 255.0f) << 16) << 8) | ((int)(u31 * 255.0f) << 16)) | ((int)(u32 * 255.0f) << 8)) | (int)(u33 * 255.0f));
-                                t36 = 0xC178324;
+                                u26 = *(float *)0xC15DDA0;
+                                u27 = *(float *)0xC2EABBC;
+                                u28 = *(float *)0xC2EABC0;
+                                u29 = *(float *)0xC2EABC4;
+                                u30 = *(float *)0xC2EABC8;
+                                *(unsigned int *)0xC178314 = ((((((int)(u27 * u26) << 16) << 8) | ((int)(u28 * u26) << 16)) | ((int)(u29 * u26) << 8)) | (int)(u30 * u26));
+                                u31 = *(float *)0xC2EABCC;
+                                u32 = *(float *)0xC2EABD0;
+                                u33 = *(float *)0xC2EABD4;
+                                u34 = *(float *)0xC2EABD8;
+                                *(unsigned int *)0xC178318 = ((((((int)(u31 * u26) << 16) << 8) | ((int)(u32 * u26) << 16)) | ((int)(u33 * u26) << 8)) | (int)(u34 * u26));
+                                t37 = 0xC178324;
                             }
-                            t51 = t36;
+                            t52 = t37;
                         } else {
-                            t38 = *(int *)0xC2EABE0;
-                            *(unsigned int *)0xC178314 = t38;
-                            t39 = *(int *)0xC2EABE4;
-                            *(unsigned int *)0xC178318 = t39;
-                            t40 = *(int *)0xC2EABBC;
-                            *(unsigned int *)0xC178324 = t40;
-                            t41 = *(int *)0xC2EABC0;
-                            *(unsigned int *)0xC178328 = t41;
-                            t42 = *(int *)0xC2EABC4;
-                            *(unsigned int *)0xC17832C = t42;
-                            t43 = *(int *)0xC2EABC8;
-                            *(unsigned int *)0xC178330 = t43;
-                            t44 = *(int *)0xC2EABEC;
-                            *(unsigned int *)0xC178334 = t44;
-                            t45 = *(int *)0xC2EABF0;
-                            *(unsigned int *)0xC178338 = t45;
-                            t46 = *(int *)0xC2EABF4;
-                            *(unsigned int *)0xC17833C = t46;
-                            t47 = *(int *)0xC2EABF8;
-                            *(unsigned int *)0xC178340 = t47;
-                            t51 = 0xC178344;
+                            t39 = *(int *)0xC2EABE0;
+                            *(unsigned int *)0xC178314 = t39;
+                            t40 = *(int *)0xC2EABE4;
+                            *(unsigned int *)0xC178318 = t40;
+                            t41 = *(int *)0xC2EABBC;
+                            *(unsigned int *)0xC178324 = t41;
+                            t42 = *(int *)0xC2EABC0;
+                            *(unsigned int *)0xC178328 = t42;
+                            t43 = *(int *)0xC2EABC4;
+                            *(unsigned int *)0xC17832C = t43;
+                            t44 = *(int *)0xC2EABC8;
+                            *(unsigned int *)0xC178330 = t44;
+                            t45 = *(int *)0xC2EABEC;
+                            *(unsigned int *)0xC178334 = t45;
+                            t46 = *(int *)0xC2EABF0;
+                            *(unsigned int *)0xC178338 = t46;
+                            t47 = *(int *)0xC2EABF4;
+                            *(unsigned int *)0xC17833C = t47;
+                            t48 = *(int *)0xC2EABF8;
+                            *(unsigned int *)0xC178340 = t48;
+                            t52 = 0xC178344;
                         }
-                        t58 = t51;
+                        t59 = t52;
                     } else {
-                        t53 = *(int *)0xC2EABE0;
-                        *(unsigned int *)0xC178314 = t53;
-                        t54 = *(int *)0xC2EABE4;
-                        *(unsigned int *)0xC178318 = t54;
-                        t58 = 0xC178324;
+                        t54 = *(int *)0xC2EABE0;
+                        *(unsigned int *)0xC178314 = t54;
+                        t55 = *(int *)0xC2EABE4;
+                        *(unsigned int *)0xC178318 = t55;
+                        t59 = 0xC178324;
                     }
-                    t71 = t58;
+                    t72 = t59;
                 } else {
-                    t60 = *(int *)0xC2EABBC;
-                    *(unsigned int *)0xC178324 = t60;
-                    t61 = *(int *)0xC2EABC0;
-                    *(unsigned int *)0xC178328 = t61;
-                    t62 = *(int *)0xC2EABC4;
-                    *(unsigned int *)0xC17832C = t62;
-                    t63 = *(int *)0xC2EABC8;
-                    *(unsigned int *)0xC178330 = t63;
-                    t64 = *(int *)0xC2EABCC;
-                    *(unsigned int *)0xC178334 = t64;
-                    t65 = *(int *)0xC2EABD0;
-                    *(unsigned int *)0xC178338 = t65;
-                    t66 = *(int *)0xC2EABD4;
-                    *(unsigned int *)0xC17833C = t66;
-                    t67 = *(int *)0xC2EABD8;
-                    *(unsigned int *)0xC178340 = t67;
-                    t71 = 0xC178344;
+                    t61 = *(int *)0xC2EABBC;
+                    *(unsigned int *)0xC178324 = t61;
+                    t62 = *(int *)0xC2EABC0;
+                    *(unsigned int *)0xC178328 = t62;
+                    t63 = *(int *)0xC2EABC4;
+                    *(unsigned int *)0xC17832C = t63;
+                    t64 = *(int *)0xC2EABC8;
+                    *(unsigned int *)0xC178330 = t64;
+                    t65 = *(int *)0xC2EABCC;
+                    *(unsigned int *)0xC178334 = t65;
+                    t66 = *(int *)0xC2EABD0;
+                    *(unsigned int *)0xC178338 = t66;
+                    t67 = *(int *)0xC2EABD4;
+                    *(unsigned int *)0xC17833C = t67;
+                    t68 = *(int *)0xC2EABD8;
+                    *(unsigned int *)0xC178340 = t68;
+                    t72 = 0xC178344;
                 }
-                t80 = t71;
+                t81 = t72;
             } else {
-                t73 = *(int *)0xC2EABBC;
-                *(unsigned int *)0xC178314 = t73;
-                t74 = *(int *)0xC2EABC0;
-                *(unsigned int *)0xC178318 = t74;
-                t75 = *(int *)0xC2EABC4;
-                *(unsigned int *)0xC17831C = t75;
-                t76 = *(int *)0xC2EABC8;
-                *(unsigned int *)0xC178320 = t76;
-                t80 = 0xC178324;
+                t74 = *(int *)0xC2EABBC;
+                *(unsigned int *)0xC178314 = t74;
+                t75 = *(int *)0xC2EABC0;
+                *(unsigned int *)0xC178318 = t75;
+                t76 = *(int *)0xC2EABC4;
+                *(unsigned int *)0xC17831C = t76;
+                t77 = *(int *)0xC2EABC8;
+                *(unsigned int *)0xC178320 = t77;
+                t81 = 0xC178324;
             }
-            t85 = t80;
+            t86 = t81;
         }
-        t91 = t85;
+        t92 = t86;
     }
-    t93 = *(int *)0xC2B8D1C;
-    *(unsigned int *)0xC2B8CA8 = t93;
-    *(unsigned int *)0xC2B8CAC = (t91 - 0xC178304);
+    t94 = *(int *)0xC2B8D1C;
+    *(unsigned int *)0xC2B8CA8 = t94;
+    *(unsigned int *)0xC2B8CAC = (t92 - 0xC178304);
+    return 0x0;
 }
 
-void kmSetModifierRenderState(int a4)
+int kmSetModifierRenderState(int a4)
 {
     int t0;
     int t1;
@@ -938,8 +1065,8 @@ void kmSetModifierRenderState(int a4)
     int t12;
     int t13;
     int t14;
-    int t74;
-    int t25;
+    int t75;
+    int t26;
     float u15;
     float u16;
     float u17;
@@ -948,7 +1075,7 @@ void kmSetModifierRenderState(int a4)
     float u20;
     float u21;
     float u22;
-    int t27;
+    float u23;
     int t28;
     int t29;
     int t30;
@@ -958,9 +1085,9 @@ void kmSetModifierRenderState(int a4)
     int t34;
     int t35;
     int t36;
-    int t42;
+    int t37;
     int t43;
-    int t49;
+    int t44;
     int t50;
     int t51;
     int t52;
@@ -968,16 +1095,17 @@ void kmSetModifierRenderState(int a4)
     int t54;
     int t55;
     int t56;
-    int t62;
+    int t57;
     int t63;
     int t64;
     int t65;
-    int t82;
-    int t80;
-    int t69;
-    int t60;
-    int t47;
-    int t40;
+    int t66;
+    int t83;
+    int t81;
+    int t70;
+    int t61;
+    int t48;
+    int t41;
 
     t0 = *(int *)((a4 + 0x98));
     *(unsigned int *)0xC2EABE0 = t0;
@@ -1001,7 +1129,7 @@ void kmSetModifierRenderState(int a4)
     if ((((unsigned int)((unsigned int)(t9 & 0x7000000) >> 16) >> 8) & 1) != 0) {
         t10 = *(int *)0xC2EABDC;
         *(unsigned int *)0xC178308 = t10;
-        t80 = 0xC178324;
+        t81 = 0xC178324;
     } else {
         t11 = *(int *)0xC2EABAC;
         *(unsigned int *)0xC178308 = t11;
@@ -1010,95 +1138,98 @@ void kmSetModifierRenderState(int a4)
         t13 = *(int *)0xC2EABB4;
         *(unsigned int *)0xC178310 = t13;
         t14 = *(int *)0xC2EAC0C;
-        t74 = 0xC178324;
+        t75 = 0xC178324;
         if (t14 != 0) {
             if (t14 != 1) {
                 if (t14 != 2) {
                     if (t14 != 3) {
                         if (t14 != 4) {
-                            t25 = 0xC178314;
+                            t26 = 0xC178314;
                             if (t14 == 16) {
-                                u15 = *(float *)0xC2EABBC;
-                                u16 = *(float *)0xC2EABC0;
-                                u17 = *(float *)0xC2EABC4;
-                                u18 = *(float *)0xC2EABC8;
-                                *(unsigned int *)0xC178314 = ((((((int)(u15 * 255.0f) << 16) << 8) | ((int)(u16 * 255.0f) << 16)) | ((int)(u17 * 255.0f) << 8)) | (int)(u18 * 255.0f));
-                                u19 = *(float *)0xC2EABCC;
-                                u20 = *(float *)0xC2EABD0;
-                                u21 = *(float *)0xC2EABD4;
-                                u22 = *(float *)0xC2EABD8;
-                                *(unsigned int *)0xC178318 = ((((((int)(u19 * 255.0f) << 16) << 8) | ((int)(u20 * 255.0f) << 16)) | ((int)(u21 * 255.0f) << 8)) | (int)(u22 * 255.0f));
-                                t25 = 0xC178324;
+                                u15 = *(float *)0xC15E060;
+                                u16 = *(float *)0xC2EABBC;
+                                u17 = *(float *)0xC2EABC0;
+                                u18 = *(float *)0xC2EABC4;
+                                u19 = *(float *)0xC2EABC8;
+                                *(unsigned int *)0xC178314 = ((((((int)(u16 * u15) << 16) << 8) | ((int)(u17 * u15) << 16)) | ((int)(u18 * u15) << 8)) | (int)(u19 * u15));
+                                u20 = *(float *)0xC2EABCC;
+                                u21 = *(float *)0xC2EABD0;
+                                u22 = *(float *)0xC2EABD4;
+                                u23 = *(float *)0xC2EABD8;
+                                *(unsigned int *)0xC178318 = ((((((int)(u20 * u15) << 16) << 8) | ((int)(u21 * u15) << 16)) | ((int)(u22 * u15) << 8)) | (int)(u23 * u15));
+                                t26 = 0xC178324;
                             }
-                            t40 = t25;
+                            t41 = t26;
                         } else {
-                            t27 = *(int *)0xC2EABE0;
-                            *(unsigned int *)0xC178314 = t27;
-                            t28 = *(int *)0xC2EABE4;
-                            *(unsigned int *)0xC178318 = t28;
-                            t29 = *(int *)0xC2EABBC;
-                            *(unsigned int *)0xC178324 = t29;
-                            t30 = *(int *)0xC2EABC0;
-                            *(unsigned int *)0xC178328 = t30;
-                            t31 = *(int *)0xC2EABC4;
-                            *(unsigned int *)0xC17832C = t31;
-                            t32 = *(int *)0xC2EABC8;
-                            *(unsigned int *)0xC178330 = t32;
-                            t33 = *(int *)0xC2EABEC;
-                            *(unsigned int *)0xC178334 = t33;
-                            t34 = *(int *)0xC2EABF0;
-                            *(unsigned int *)0xC178338 = t34;
-                            t35 = *(int *)0xC2EABF4;
-                            *(unsigned int *)0xC17833C = t35;
-                            t36 = *(int *)0xC2EABF8;
-                            *(unsigned int *)0xC178340 = t36;
-                            t40 = 0xC178344;
+                            t28 = *(int *)0xC2EABE0;
+                            *(unsigned int *)0xC178314 = t28;
+                            t29 = *(int *)0xC2EABE4;
+                            *(unsigned int *)0xC178318 = t29;
+                            t30 = *(int *)0xC2EABBC;
+                            *(unsigned int *)0xC178324 = t30;
+                            t31 = *(int *)0xC2EABC0;
+                            *(unsigned int *)0xC178328 = t31;
+                            t32 = *(int *)0xC2EABC4;
+                            *(unsigned int *)0xC17832C = t32;
+                            t33 = *(int *)0xC2EABC8;
+                            *(unsigned int *)0xC178330 = t33;
+                            t34 = *(int *)0xC2EABEC;
+                            *(unsigned int *)0xC178334 = t34;
+                            t35 = *(int *)0xC2EABF0;
+                            *(unsigned int *)0xC178338 = t35;
+                            t36 = *(int *)0xC2EABF4;
+                            *(unsigned int *)0xC17833C = t36;
+                            t37 = *(int *)0xC2EABF8;
+                            *(unsigned int *)0xC178340 = t37;
+                            t41 = 0xC178344;
                         }
-                        t47 = t40;
+                        t48 = t41;
                     } else {
-                        t42 = *(int *)0xC2EABE0;
-                        *(unsigned int *)0xC178314 = t42;
-                        t43 = *(int *)0xC2EABE4;
-                        *(unsigned int *)0xC178318 = t43;
-                        t47 = 0xC178324;
+                        t43 = *(int *)0xC2EABE0;
+                        *(unsigned int *)0xC178314 = t43;
+                        t44 = *(int *)0xC2EABE4;
+                        *(unsigned int *)0xC178318 = t44;
+                        t48 = 0xC178324;
                     }
-                    t60 = t47;
+                    t61 = t48;
                 } else {
-                    t49 = *(int *)0xC2EABBC;
-                    *(unsigned int *)0xC178324 = t49;
-                    t50 = *(int *)0xC2EABC0;
-                    *(unsigned int *)0xC178328 = t50;
-                    t51 = *(int *)0xC2EABC4;
-                    *(unsigned int *)0xC17832C = t51;
-                    t52 = *(int *)0xC2EABC8;
-                    *(unsigned int *)0xC178330 = t52;
-                    t53 = *(int *)0xC2EABCC;
-                    *(unsigned int *)0xC178334 = t53;
-                    t54 = *(int *)0xC2EABD0;
-                    *(unsigned int *)0xC178338 = t54;
-                    t55 = *(int *)0xC2EABD4;
-                    *(unsigned int *)0xC17833C = t55;
-                    t56 = *(int *)0xC2EABD8;
-                    *(unsigned int *)0xC178340 = t56;
-                    t60 = 0xC178344;
+                    t50 = *(int *)0xC2EABBC;
+                    *(unsigned int *)0xC178324 = t50;
+                    t51 = *(int *)0xC2EABC0;
+                    *(unsigned int *)0xC178328 = t51;
+                    t52 = *(int *)0xC2EABC4;
+                    *(unsigned int *)0xC17832C = t52;
+                    t53 = *(int *)0xC2EABC8;
+                    *(unsigned int *)0xC178330 = t53;
+                    t54 = *(int *)0xC2EABCC;
+                    *(unsigned int *)0xC178334 = t54;
+                    t55 = *(int *)0xC2EABD0;
+                    *(unsigned int *)0xC178338 = t55;
+                    t56 = *(int *)0xC2EABD4;
+                    *(unsigned int *)0xC17833C = t56;
+                    t57 = *(int *)0xC2EABD8;
+                    *(unsigned int *)0xC178340 = t57;
+                    t61 = 0xC178344;
                 }
-                t69 = t60;
+                t70 = t61;
             } else {
-                t62 = *(int *)0xC2EABBC;
-                *(unsigned int *)0xC178314 = t62;
-                t63 = *(int *)0xC2EABC0;
-                *(unsigned int *)0xC178318 = t63;
-                t64 = *(int *)0xC2EABC4;
-                *(unsigned int *)0xC17831C = t64;
-                t65 = *(int *)0xC2EABC8;
-                *(unsigned int *)0xC178320 = t65;
-                t69 = 0xC178324;
+                t63 = *(int *)0xC2EABBC;
+                *(unsigned int *)0xC178314 = t63;
+                t64 = *(int *)0xC2EABC0;
+                *(unsigned int *)0xC178318 = t64;
+                t65 = *(int *)0xC2EABC4;
+                *(unsigned int *)0xC17831C = t65;
+                t66 = *(int *)0xC2EABC8;
+                *(unsigned int *)0xC178320 = t66;
+                t70 = 0xC178324;
             }
-            t74 = t69;
+            t75 = t70;
         }
-        t80 = t74;
+        t81 = t75;
     }
-    t82 = *(int *)0xC2B8D1C;
-    *(unsigned int *)0xC2B8CA8 = t82;
-    *(unsigned int *)0xC2B8CAC = (t80 - 0xC178304);
+    t83 = *(int *)0xC2B8D1C;
+    *(unsigned int *)0xC2B8CA8 = t83;
+    *(unsigned int *)0xC2B8CAC = (t81 - 0xC178304);
+    return 0x0;
 }
+

@@ -7,9 +7,13 @@ int ADXF_LoadPartition(int, int, int, int);
 int ADXF_OpenAfs(int, int);
 int ADXF_ReadNw32(int, int, int);
 int nlSetCommonTextureOffset(int);
-int texLoadIndexed(int, int);
+int texLoadIndexed(int);
+int gdc_FileLoadInitAll(int a4);
+void FUN_0c074200(int a4, int a5);
+void FUN_0c17088c(int a4, int a5, int a6);
+int FUN_0c170908(int a4, int a5, int a6);
 
-void gdc_FileLoadInitAll(int a4)
+int gdc_FileLoadInitAll(int a4)
 {
     int t0;
     int t1;
@@ -58,10 +62,11 @@ void gdc_FileLoadInitAll(int a4)
     t13 = *(int *)0xC26E174;
     ADXF_Close(t13);
     nlSetCommonTextureOffset(0x0);
-    texLoadIndexed(0x7A, 0xCE98000);
+    texLoadIndexed(0x7A);
     *(unsigned int *)0xC1EE808 = 0x0;
     *(unsigned int *)0xC26E17C = 0x0;
     *(unsigned int *)0xC26E178 = 0x0;
+    return 0xC26E17C;
 }
 
 void FUN_0c074200(int a4, int a5)
@@ -120,7 +125,7 @@ void FUN_0c17088c(int a4, int a5, int a6)
     }
 }
 
-void FUN_0c170908(int a4, int a5, int a6)
+int FUN_0c170908(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -157,4 +162,6 @@ void FUN_0c170908(int a4, int a5, int a6)
         }
         t0 = (t0 - 1);
     }
+    return 0x0;
 }
+

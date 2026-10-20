@@ -96,12 +96,19 @@ def compile_link(cfile, defines):
            'print build\\equiv\\%s.map' % stem, 'input build\\equiv\\%s.obj' % stem]
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(defines.items())] + ['exit']
     open('build/equiv/%s.sub' % stem, 'w').write('\n'.join(sub) + '\n')
-    steps = ('set -e; mkdir -p build/tmp; '
-             'SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "/sdk/%s/shc.exe" "src\\%s.c" '
+    inline = '#pragma inline_asm' in open(cfile, errors='replace').read()      # C with assembly text: shc to assembly source, then asmsh
+    first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "/sdk/%s/shc.exe" "src\\%s.c" '
              '-object="build\\equiv\\%s.obj" %s > build/equiv/shc.log 2>&1 || { cat build/equiv/shc.log; exit 1; }; '
+             % (rel, stem, stem, FLAGS))
+    if inline:
+        first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "/sdk/%s/shc.exe" "src\\%s.c" -code=asm '
+                 '-object="build\\equiv\\%s.s" %s > build/equiv/shc.log 2>&1 || { cat build/equiv/shc.log; exit 1; }; '
+                 'wibo "/sdk/%s/asmsh.exe" "build\\equiv\\%s.s" -object="build\\equiv\\%s.obj" -cpu=sh4 -endian=little '
+                 '> build/equiv/asm.log 2>&1 || { cat build/equiv/asm.log; exit 1; }; ' % (rel, stem, stem, FLAGS, rel, stem, stem))
+    steps = ('set -e; mkdir -p build/tmp; ' + first +
              'wibo "/sdk/%s/lnk.exe" -subcommand="build\\equiv\\%s.sub" > build/equiv/lnk.log 2>&1 || true; '
              'wibo "/sdk/%s/elf2bin.exe" -s %08X "build\\equiv\\%s.elf" "build\\equiv\\%s.bin" > build/equiv/elf2bin.log 2>&1 || true'
-             % (rel, stem, stem, FLAGS, rel, stem, rel, SCRATCH, stem, stem))
+             % (rel, stem, rel, SCRATCH, stem, stem))
     r = subprocess.run(['docker', 'run', '--rm', '-v', sdk + ':/sdk:ro', '-v', os.getcwd() + ':/app', '-w', '/app',
                         '-e', 'TW=' + tw, os.environ.get('DC_TOOLS_IMAGE', 'dc-tools'), 'bash', '-c', steps],
                        stdin=subprocess.DEVNULL, capture_output=True, text=True)
@@ -146,6 +153,8 @@ def prototypes(cfile):
     out = {}
     for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
         name, params = m.group(1), m.group(2).strip()
+        if params == '' and not re.search(r'\bstatic\b', m.group(0)):
+            continue                        # declared with (): the arguments are the call site's (a cast gives them), the arity is not known here
         ni = nf = 0
         if '...' in params:                # variadic: every argument goes on the stack, the registers are not arguments
             out[name] = (0, 0, True)
@@ -189,17 +198,27 @@ def final(writes):
     return mem
 
 
+MIN_COVERAGE = 70                # percent of the original's instructions the cases must run for a function to count as Equivalent; raised later
 SHOW = 200                       # characters of each side shown for a difference; --full shows 6000
 
 
 def stackish(v):
+    if v == '*':
+        return v
     return 'STACK' if 0x0DFF0000 <= int(v, 16) < 0x0E000000 else v
 
 
-def callview(to, r, f, arity, stack=None):
+def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
+    to = '%08X' % (0x0C000000 | (int(to, 16) & 0x1FFFFFFF)) if 0x0C000000 <= (int(to, 16) & 0x1FFFFFFF) < 0x0D000000 else to   # the cached, uncached and plain addresses of the same RAM word
     a = arity.get(int(to, 16))
+    if a is None and ind is not None:        # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers
+        r = r[:ind]
+    if a is None and chg:                    # a callee of unknown arity: only the registers the function set are arguments, the rest are leftovers
+        r = [v if ch else '*' for v, ch in zip(r, chg)]
+        if fchg:
+            f = [v if ch else '*' for v, ch in zip(f, fchg)]
     if a is not None:
         r, f = r[:a[0]], f[:a[1]]
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
@@ -207,7 +226,25 @@ def callview(to, r, f, arity, stack=None):
     return (to, [stackish(v) for v in r], f)
 
 
-def same(a, b, outs, back, arity=None):
+def indirect_arity(cfile, fn):
+    """How many integer arguments the C of one function passes in calls through a pointer, from the function-pointer casts in its body
+    ((int (*)(int, int))(p)(a, b) is 2): the most of them, None when it has no such call."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    m = re.search(r'\b%s\s*\([^;{)]*\)\s*\{' % re.escape(fn), text)
+    if not m:
+        return None
+    depth, i = 1, m.end()
+    while i < len(text) and depth:
+        depth += {'{': 1, '}': -1}.get(text[i], 0)
+        i += 1
+    counts = []
+    for c in re.finditer(r'\(\s*[\w\s\*]+\(\*\)\s*\(([^)]*)\)\s*\)', text[m.end():i]):
+        ps = c.group(1).strip()
+        counts.append(0 if ps in ('', 'void') else len([q for q in ps.split(',') if not re.search(r'\b(float|double)\b', q) or '*' in q]))
+    return max(counts) if counts else None
+
+
+def same(a, b, outs, back, arity=None, ind=None):
     """The parts of two runs that must agree, and the first difference. back maps an address in
     the compiled C (one of its own functions or data) to the game's address of the same name."""
     arity = arity or {}
@@ -219,8 +256,10 @@ def same(a, b, outs, back, arity=None):
         if k == 'out':
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
-            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack')) for c in x]
-            y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None) for c in y]
+            xs = x
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg')) for c in xs]
+            y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None,
+                          xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None) for i, c in enumerate(y)]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
@@ -259,7 +298,7 @@ def main(argv):
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime
-    results, evidence = {}, {}
+    results, evidence, weak = {}, {}, {}
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
         if fn not in funcs or '_' + fn not in syms:
@@ -273,6 +312,8 @@ def main(argv):
         c_end = min([a for a in syms.values() if a > c_at] + [SCRATCH + len(code)])
         ok, why, n = True, '', 0
         seen = set()
+        observed = False                              # did any case have something to compare (a write, a call, a device access, a changing SR)?
+        srs = set()
         sets = json.load(open(case_path))
         if isinstance(sets, list):                   # a plain list: all development cases
             sets = {'dev': sets}
@@ -281,9 +322,11 @@ def main(argv):
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
             orig = sh4sim.run(case, '.', deep=helpers_orig)
             seen.update(orig.get('covered', []))
+            srs.add(orig.get('sr'))
+            observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices')) or len(srs) > 1
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
-            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity)
+            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn))
             if orig['error']:
                 good, diff = False, 'the original stopped: ' + orig['error']
             if not good:
@@ -294,23 +337,40 @@ def main(argv):
         cov = len([a for a in total if a in seen])
         covtext = '%d of %d instructions' % (cov, len(total)) if total else ''
         results[fn] = (ok, why or '%d cases (%s), %s' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items()), covtext))
+        if ok and total and len(total) > 6 and not observed and not rets.get(fn, ['r0']):     # a void C and an original that does nothing observable: nothing was compared
+            weak[fn] = 'nothing-compared'
+            results[fn] = (None, 'WEAK: no case showed a write, a call, a device access or a change of SR, and the C returns nothing: nothing was compared')
+            ok = False
+        elif ok and total and cov * 100 < MIN_COVERAGE * len(total):       # passes, but the cases ran too little of the original to count
+            weak[fn] = '%d%%' % (100 * cov // len(total))
+            results[fn] = (None, 'WEAK: the cases ran %d of %d instructions (%s, the bar is %d%%)' % (cov, len(total), weak[fn], MIN_COVERAGE))
+            ok = False
         if ok:
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
     for fn, (ok, why) in results.items():
         if not quiet or ok is not True:
-            print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
+            print('%-28s %-11s %s' % (fn, 'WEAK' if fn in weak else {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
     if quiet:
-        print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
-            sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),
-            sum(1 for ok, _ in results.values() if ok is None)))
+        print('%d EQUIVALENT, %d DIFFERS, %d WEAK (below the coverage bar), %d without cases or not compiled' % (
+            sum(1 for ok, _ in results.values() if ok is True), sum(1 for fn, (ok, _) in results.items() if ok is False and fn not in weak),
+            len(weak), sum(1 for fn, (ok, _) in results.items() if ok is None and fn not in weak)))
     path = os.path.join('tests', 'equivalent.txt')
     have = set(open(path).read().split()) if os.path.exists(path) else set()
     have |= {fn for fn, (ok, _) in results.items() if ok}
     have -= {fn for fn, (ok, _) in results.items() if ok is False}
+    have -= set(weak)
+    wpath = os.path.join('tests', 'weak.txt')              # the functions below the bar, so they are not missed: progress.py and remaining.py read it
+    wk = {l.split()[0]: l.split()[1] for l in open(wpath) if l.strip() and not l.startswith('#')} if os.path.exists(wpath) else {}
+    for fn, (ok, _) in results.items():
+        if fn in weak:
+            wk[fn] = weak[fn]
+        else:
+            wk.pop(fn, None)
+    open(wpath, 'w').write('# functions whose cases ran less of the original than the bar (tools/equiv.py MIN_COVERAGE); not done\n' + ''.join('%s %s\n' % kv for kv in sorted(wk.items())))
     os.makedirs('tests', exist_ok=True)
     open(path, 'w').write(''.join(f + '\n' for f in sorted(have)))
-    write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False})
+    write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False} | set(weak))
 
 
 def write_evidence(new, failed):

@@ -15,7 +15,7 @@ int FUN_0c05aefc(void);
 int FUN_0c05af8e(void);
 int FUN_0c05b044(void);
 int FUN_0c05b0a0(void);
-int FUN_0c074680(int, int, int);
+int FUN_0c074680(void);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
 int FUN_0c078980(void);
@@ -29,24 +29,38 @@ int mwRnaGetNumData(void);
 int mwRnaSetPlaySw(void);
 int nlObjPutLoadTexture(int, int);
 int nlScaleUnitVector(int, int, float);
-int nlSprPut(int, int, float, float);
-
-typedef struct {
-    int w[442];
-} Block1768;
+int nlSprPut(int, int);
+void FUN_0c020092(void);
+int gameState12(void);
+int FUN_0c030e72(void);
+void FUN_0c03ac62(void);
+int FUN_0c05778a(int a4, int a5, float f4, float f5);
+int FUN_0c059450(void);
+int nlInvLightVectorUseViewMatrix(void);
+int FUN_0c158f00(void);
+int ADXRNA_SetPlaySw(void);
+int ADXRNA_GetNumData(void);
+int thunk_mwRnaErrEntryFunc(void);
 
 void FUN_0c020092(void)
 {
-    *(Block1768 *)0xC1789E0 = *(Block1768 *)0xC089F80;
+    int t0;
+
+    t0 = 0;
+    for (; t0 < (int)0x6E8; t0++) *(unsigned char *)(0xC1789E0 + t0) = *(unsigned char *)(0xC089F80 + t0);
 }
 
-void gameState12(void)
+int gameState12(void)
 {
-    int t12;
+    float u9;
+    float u11;
+    float u12;
+    int t14;
+    int t15;
 
     Sound_Init();
     gdc_StopStreamSongAll();
-    FUN_0c074680(0x0, 0x0, 0x0);
+    FUN_0c074680();
     *(unsigned int *)0xC2A4E50 = 0x1;
     Init_Result(0xFFFFFFFF);
     Initialize_Replay();
@@ -54,41 +68,48 @@ void gameState12(void)
     FUN_0c028fda(0xC179840, 0x1);
     FUN_0c03932e();
     FUN_0c03932e();
-    FUN_0c03934e(0.5f);
-    FUN_0c039378(0.899999976f, 0.799999952f, 0.5f);
-    FUN_0c03a3e0();
-    t12 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t12 + 0x1);
+    u9 = *(float *)0xC02D520;
+    FUN_0c03934e(u9);
+    u11 = *(float *)0xC02D528;
+    u12 = *(float *)0xC02D52C;
+    FUN_0c039378(u12, u11, u9);
+    t14 = FUN_0c03a3e0();
+    t15 = *(int *)0xC1EE238;
+    *(unsigned int *)0xC1EE238 = (t15 + 0x1);
     *(unsigned int *)0xC1EE240 = 0x0;
+    return t14;
 }
 
-void FUN_0c030e72(void)
+int FUN_0c030e72(void)
 {
+    int t3;
+
     nlObjPutLoadTexture(0xC0EA5D8, 0xC141868);
     nlObjPutLoadTexture(0xC0EAC20, 0xC141868);
     nlObjPutLoadTexture(0xC0EB340, 0xC141868);
-    nlObjPutLoadTexture(0xC0EB720, 0xC141868);
+    t3 = nlObjPutLoadTexture(0xC0EB720, 0xC141868);
+    return t3;
 }
-
-typedef struct {
-    int w[2412];
-} Block9648;
 
 void FUN_0c03ac62(void)
 {
-    *(Block9648 *)0xC28F8A0 = *(Block9648 *)0xC28A4E8;
+    int t0;
+
+    t0 = 0;
+    for (; t0 < (int)0x25B0; t0++) *(unsigned char *)(0xC28F8A0 + t0) = *(unsigned char *)(0xC28A4E8 + t0);
 }
 
-void FUN_0c05778a(int a4, int a5, float f4, float f5)
+int FUN_0c05778a(int a4, int a5, float f4, float f5)
 {
     *(unsigned int *)((a4 + 0x0)) = a5;
     *(float *)((a4 + 0x4)) = f4;
     *(float *)((a4 + 0x8)) = f5;
-    nlSprPut(a4, a5, f4, f5);
+    return nlSprPut(a4, a5);
 }
 
-void FUN_0c059450(void)
+int FUN_0c059450(void)
 {
+    int t7;
     int t8;
 
     FUN_0c059514();
@@ -98,12 +119,13 @@ void FUN_0c059450(void)
     FUN_0c05b044();
     FUN_0c05b0a0();
     FUN_0c05aefc();
-    FUN_0c0597fc();
+    t7 = FUN_0c0597fc();
     t8 = *(int *)0xC2A96F4;
     *(unsigned int *)0xC2A96F4 = (t8 + 0x1);
+    return t7;
 }
 
-void nlInvLightVectorUseViewMatrix(void)
+int nlInvLightVectorUseViewMatrix(void)
 {
     float u7;
     float u8;
@@ -111,6 +133,8 @@ void nlInvLightVectorUseViewMatrix(void)
     float u10;
     float u11;
     float u12;
+    float u14;
+    int t16;
 
     FUN_0c077df0(0x2);
     FUN_0c078980();
@@ -129,11 +153,13 @@ void nlInvLightVectorUseViewMatrix(void)
     u12 = *(float *)0xC14A920;
     *(float *)0xC2B3158 = (u11 + u12);
     FUN_0c077210(0xC2B3150, 0xC2B3150);
-    nlScaleUnitVector(0xC2B3150, 0xC2B3150, 436.5f);
-    FUN_0c078980();
+    u14 = *(float *)0xC07B2F0;
+    nlScaleUnitVector(0xC2B3150, 0xC2B3150, u14);
+    t16 = FUN_0c078980();
+    return t16;
 }
 
-void FUN_0c158f00(void)
+int FUN_0c158f00(void)
 {
     int t0;
     int t2;
@@ -144,6 +170,7 @@ void FUN_0c158f00(void)
     int t12;
     int t14;
     int t16;
+    int t17;
 
     t0 = *(int *)0xC2EA934;
     kmiWriteRegister(0x68, t0);
@@ -162,20 +189,22 @@ void FUN_0c158f00(void)
     t14 = *(int *)0xC2EA948;
     kmiWriteRegister(0x44, (t14 & 0xFFFFFFFE));
     t16 = *(int *)0xC2EA984;
-    kmiWriteRegister(0xE8, (t16 | 0x8));
+    t17 = kmiWriteRegister(0xE8, (t16 | 0x8));
+    return t17;
 }
 
-void ADXRNA_SetPlaySw(void)
+int ADXRNA_SetPlaySw(void)
 {
-    mwRnaSetPlaySw();
+    return mwRnaSetPlaySw();
 }
 
-void ADXRNA_GetNumData(void)
+int ADXRNA_GetNumData(void)
 {
-    mwRnaGetNumData();
+    return mwRnaGetNumData();
 }
 
-void thunk_mwRnaErrEntryFunc(void)
+int thunk_mwRnaErrEntryFunc(void)
 {
-    mwRnaErrEntryFunc();
+    return mwRnaErrEntryFunc();
 }
+

@@ -11,7 +11,7 @@ extern void vmsio_exit(void);
 extern void ADXB_Destroy(int a);
 extern void ADXCRS_Lock(void);
 extern void ADXCRS_Unlock(void);
-extern int mwRnaErrCallFunc(int a, ...);
+extern void mwRnaErrCallFunc(char *fmt, ...);
 extern void FUN_8c1e28e0(int a, int b, int c);
 extern void kmiWriteRegister(int reg, int val);
 
@@ -83,7 +83,7 @@ void ADXSJD_Destroy(int *p)
 int mwRnaGetAutoSw(unsigned char *p)
 {
     if (p == 0) {
-        mwRnaErrCallFunc(0, g_8c20ac30);
+        mwRnaErrCallFunc(g_8c20ac30);
         return -1;
     }
     return (p[1] & 4) >> 2;

@@ -4,14 +4,15 @@
     python3 tools/classify.py [name ...]     (no names: every function of at most 128 bytes, as a table)
 
 Reads each function's disassembly and says "ok" or "blocked: <why>" before anyone writes C:
-  FPU register banks (frchg, fschg, ftrv, XMTRX): the C cannot name the second bank
+  FPU register banks, matrix and vector instructions (frchg, fschg, ftrv, fipr, XMTRX), prefetch, trapa, sleep, tas: SHC's own intrinsics
+  (umachine.h / smachine.h in the SDK: ftrv, fipr, mtrx4mul, ld_ext, st_ext, add4, sub4, get_fpscr, set_fpscr, prefetch, tas, trapa, sleep): not blocked
   fsrra, fsca: the simulator has no such instruction
   system registers and cache (ldc, stc, ocbi, pref, movca, trapa, sleep, GBR/VBR moves): not C; moving SR to or
   from a register is fine (SHC's get_imask/set_imask, get_cr/set_cr; the simulator keeps SR)
   fipr, fmac: ok, but the cases use values that are exact in float (fipr sums with one rounding)
-No C form: a control register this compiler has no intrinsic for (a banked register, GBR, VBR, DBR, SSR, SPC, SGR; tested:
-_builtin_get_imask, _builtin_set_imask and _builtin_get_cr compile, the others do not). no_c_form() names the instruction, and
-the literal pools are not read as instructions. progress.py counts these functions as done: no C form.
+No C form: a control register this compiler has no intrinsic for (a banked register, DBR, SSR, SPC, SGR: not in smachine.h or
+umachine.h, which hold the intrinsics for SR, VBR, GBR, sleep, trapa, tas and prefetch). no_c_form() names the instruction, and
+only instructions control flow reaches are read (data inside a function, such as a jump table, decodes as instructions otherwise). progress.py counts these functions as done: no C form.
 A function that takes a variable argument list, or passes the address of its own stack area on, cannot
 be told from the disassembly: the first case that differs shows it.
 """
@@ -22,28 +23,40 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shdis
 
-BLOCK = (('frchg', 'FPU register bank'), ('fschg', 'FPU size mode'), ('ftrv', 'matrix register (XMTRX)'),
-         ('fsrra', 'fsrra (not in the simulator)'), ('fsca', 'fsca (not in the simulator)'),
-         ('ldc', 'control register'), ('stc', 'control register'), ('ocbi', 'cache'), ('pref', 'cache'),
-         ('movca', 'cache'), ('trapa', 'trap'), ('sleep', 'sleep'))
+BLOCK = (('ldtlb', 'MMU'),)           # everything else has an intrinsic or an inline assembly wrapper (gen_equiv)
 NOTE = (('fipr', 'fipr: exact-in-float values'), ('fmac', 'fmac: exact-in-float values'))
 
 
-NO_C_FORM = ('bank', 'gbr', 'vbr', 'dbr', 'ssr', 'spc', 'sgr')
+NO_C_FORM = ('bank', 'dbr', 'ssr', 'spc', 'sgr')      # GBR and VBR have intrinsics (get_gbr, set_vbr...) when smachine.h / umachine.h are included
+
+
+def reachable(exe, base, a, sz):
+    """The addresses of the instructions control flow reaches from the entry, delay slots included, following branches inside the
+    function. Data inside a function (a jump table, constants after a branch) decodes as instructions if it is read in a straight
+    line, so a decoder must only look at these. Code reached only through a jump table is not included."""
+    word = lambda pc: struct.unpack_from('<H', exe, pc - base)[0]
+    seen, work, end = set(), [a], a + sz
+    while work:
+        pc = work.pop()
+        while a <= pc < end and pc not in seen:
+            seen.add(pc)
+            t, _, _, tgt = shdis.decode(word(pc), pc)
+            op = t.split()[0]
+            delay = op in ('bra', 'bsr', 'bt/s', 'bf/s', 'jsr', 'jmp', 'rts', 'rte', 'braf', 'bsrf')
+            if delay and pc + 2 < end:
+                seen.add(pc + 2)
+            if op in ('bt', 'bf', 'bt/s', 'bf/s', 'bra', 'bsr') and tgt is not None and a <= tgt < end:
+                work.append(tgt)
+            if op in ('rts', 'rte', 'jmp', 'braf', 'bra'):
+                break
+            pc += 4 if delay else 2
+    return seen
 
 
 def no_c_form(exe, base, a, sz):
     """The instructions of one function that have no C form with this compiler (see above): ['ldc r3,r0_bank', ...], pools skipped."""
-    pools = set()
-    for pc in range(a, a + sz - 1, 2):
-        w = struct.unpack_from('<H', exe, pc - base)[0]
-        _, pool, psz, _ = shdis.decode(w, pc)
-        if pool is not None:
-            pools.update(range(pool, pool + max(psz, 2), 2))
     out = []
-    for pc in range(a, a + sz - 1, 2):
-        if pc in pools:
-            continue
+    for pc in sorted(reachable(exe, base, a, sz)):
         t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
         if t.startswith(('stc', 'ldc')) and any(k in t for k in NO_C_FORM) and t not in out:
             out.append(t)
@@ -63,7 +76,7 @@ def main():
         if (only and n not in only) or (not only and sz > 128):
             continue
         text = []
-        for pc in range(a, a + sz, 2):
+        for pc in sorted(reachable(exe, base, a, sz)):       # data inside the function (jump tables...) is not code
             w = struct.unpack_from('<H', exe, pc - base)[0]
             t, _, _, _ = shdis.decode(w, pc)
             if w == 0xFBFD: t = 'frchg'                      # the decoder may print these as .word

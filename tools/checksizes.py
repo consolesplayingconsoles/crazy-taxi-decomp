@@ -30,6 +30,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shdis
+import classify
 
 
 def main():
@@ -59,9 +60,7 @@ def main():
             if pool is not None:
                 pools.update(range(pool, pool + size, 2))
         out, has_rts = [], False
-        for pc in range(a, end, 2):
-            if pc in pools:
-                continue
+        for pc in sorted(classify.reachable(exe, base, a, sz)):     # only the code control flow reaches: data in a function is not a branch
             text, _, _, target = shdis.decode(word(pc), pc)
             if text.startswith(('rts', 'rte', 'jmp', 'bra')):       # an exit (a tail jump or branch ends it too)
                 has_rts = True
@@ -85,6 +84,21 @@ def main():
         reason = 'branch to %s outside' % ', '.join('%08x' % t for t in sorted(set(out))) if out else 'no rts in the body'
         print('F %08x %4d %-30s %s%s' % (a, sz, n, reason, '  -> size %d' % (new - a) if new and new <= stop else ''))
         bad += 1
+    # entries that are the same address twice, or ranges that run into the next entry
+    seen = {}
+    for line in open('functions.txt'):
+        p = line.split()
+        if len(p) >= 4 and p[0] == 'F':
+            seen.setdefault(int(p[1], 16), []).append((int(p[2]), p[3]))
+    for a_, v in sorted(seen.items()):
+        if len(v) > 1:
+            print('duplicate address %08x: %s' % (a_, ', '.join('%s (%d)' % (n_, z_) for z_, n_ in v)))
+            bad += 1
+    ordered = sorted((a_, max(z_ for z_, _ in v), v[0][1]) for a_, v in seen.items())
+    for (a_, z_, n_), (b_, y_, m_) in zip(ordered, ordered[1:]):
+        if b_ < a_ + z_:
+            print('overlap: %s %08x (%d bytes) runs into %s at %08x' % (n_, a_, z_, m_, b_))
+            bad += 1
     print('%d function(s) to look at' % bad)
 
 

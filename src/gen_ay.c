@@ -7,7 +7,7 @@ int kdGetDeviceInfo(void);
 int kdIsChanged(void);
 void SJRBF_Unlock(int a4, int a5);
 void ADXCRS_Unlock(void);
-void vmsio_ismount(int a4);
+int vmsio_ismount(int a4);
 
 void SJRBF_Unlock(int a4, int a5)
 {
@@ -27,7 +27,7 @@ void ADXCRS_Unlock(void)
     }
 }
 
-void vmsio_ismount(int a4)
+int vmsio_ismount(int a4)
 {
     int t0;
     int t1;
@@ -45,10 +45,12 @@ void vmsio_ismount(int a4)
         if (t4 == 0) {
             t5 = *(int *)((t2 + 0x0));
             if ((t5 & 2) == 0) {
-                return;
+                return 0x0;
             }
-            return;
+            return 0x1;
         }
-        return;
+        return 0x0;
     }
+    return 0x0;
 }
+

@@ -24,12 +24,12 @@ int ADXSTM_Start(int);
 int CalcShadow2Matrix(int);
 int ConvertSwitch(int);
 int ConvertSwitch2(void);
-int FUN_0c02c094(int, int);
+int FUN_0c02c094(int);
 int FUN_0c02e074(void);
 int FUN_0c02e42a(void);
 int FUN_0c03012c(void);
 int FUN_0c03019a(void);
-int FUN_0c0310a0(int, int, int);
+int FUN_0c0310a0(void);
 int FUN_0c03b698(int);
 int FUN_0c0527ec(void);
 int FUN_0c052d28(void);
@@ -50,7 +50,7 @@ int FUN_0c152330(int, int);
 int FUN_0c15fa1c(void);
 int FUN_0c167c4c(void);
 int FUN_0c16800c(void);
-int FUN_0c169710(int);
+int FUN_0c169710(void);
 int FUN_0c16c634(int);
 int FUN_0c170880(void);
 int FUN_0c1708b2(void);
@@ -58,7 +58,7 @@ int FUN_0c171e62(int, int, int);
 int FcvPlay(int, int, float);
 int GetMenuMode(int);
 int GetRotVec(int);
-int Init_Standard(int);
+int Init_Standard(void);
 int MainLoop(void);
 int Put_GearBox(void);
 int SJMEM_Init(void);
@@ -74,7 +74,6 @@ int buFbrEndFiber(void);
 int buFbrExecFiberServer(int);
 int buFbrSleepVFiber(void);
 int buUnmount(void);
-int callTryAgain(void);
 int camSetAngles(int, int, int, int);
 int camSetEye(int, int);
 int camSetMode(int);
@@ -111,9 +110,9 @@ int mwRnaSetTransSw(void);
 int mwRnaStart(void);
 int mwRnaStop(void);
 int njSetConstantAttr(void);
-int nlArcTan2(int, float);
+int nlArcTan2(float);
 int nlCloseEvent(void);
-int nlInitEvent(int);
+int nlInitEvent(void);
 int nlInnerProduct(int, int);
 int nlObjPutLoadTexture(int, int);
 int nlObjPutSetGlobalAmbience(float);
@@ -121,7 +120,7 @@ int nlObjPutSetLightDirectionV(int);
 int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int nlPushUnitMatrix(int, int, int, int);
+int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
@@ -129,7 +128,7 @@ int nlSprPut(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int nlsndSystemControl(int, int, int);
-int nlstripSetVertexContext(int, int, int);
+int nlstripSetVertexContext(int);
 int padReadSlot(int);
 int padToAnalog(void);
 int pfColor(int, int, int, int);
@@ -141,67 +140,183 @@ int pfSize(float, float);
 int rankingInsert(void);
 int syCfgExit(void);
 int syCfgInit(int);
-int thunk_FUN_0c072fe8(void);
-int thunk_FUN_0c169a20(void);
-int thunk_mwRnaErrEntryFunc(int, int);
-int vmsfb_exec(void);
+int thunk_mwRnaErrEntryFunc(void);
 int vmsfs_c_dispatch(int);
 int vmsfs_c_exit(void);
 int vmsfs_exit(void);
+int FUN_0c022358(int a4);
+int FUN_0c029aa6(void);
+int getSwitch(void);
+int thunk_FUN_0c02a9ac(void);
+int FUN_0c02bbf4(int a4, float f4);
+int gameState8(void);
+int gameState10(void);
+int FUN_0c02dfbc(void);
+int FUN_0c030b7a(float f4);
+int ResetLight(void);
+int FUN_0c036256(int a4, int a5, int a6, int a7);
+int FUN_0c03a640(void);
+int thunk_syCfgExit(void);
+int saveBufferInit(int a4);
+int FUN_0c0409a6(void);
+int callTryAgain(void);
+int SetSEvolume(void);
+int FUN_0c041ce8(void);
+int FUN_0c050716(void);
+int FUN_0c051d38(void);
+int FUN_0c052138(void);
+int FUN_0c0533ba(void);
+int hudShowPickUpNag(void);
+int FUN_0c05364e(void);
+int FUN_0c053b44(void);
+int thunk_nlCloseEvent(void);
+int FUN_0c057fe2(void);
+int FUN_0c05af86(void);
+int thunk_FUN_0c0409d2(void);
+int FUN_0c05d4fc(void);
+int FUN_0c0608ac(int a4, int a5, int a6);
+int kmUnloadDevice(void);
+int FUN_0c060da6(void);
+int camRestore(void);
+int drvAccelDot(void);
+int psgPutShadow(int a4);
+int FUN_0c0738ae(int a4);
+int thunk_FUN_0c072fe8(void);
+int thunk_kmSetFogTable(void);
+int thunk_FUN_0c158b80(void);
+int nlDispStripX(int a4, int a5, int a6);
+int kmResetRenderer(void);
+int buExitForce(void);
+int buUnmountDisk(void);
+int FUN_0c1519be(void);
+int adxt_start_stm(int a4);
+int thunk_njSetConstantAttr(void);
+int thunk_kmiWriteRegister(void);
+int thunk_FUN_0c15fa1c(void);
+int vmsfs_c_synch(void);
+int vmsfs_c_fiber0(void);
+int vmsfs_c_fiber1(void);
+int vmsfs_c_fiber2(void);
+int vmsfs_c_fiber3(void);
+int vmsfs_c_fiber4(void);
+int vmsfs_c_fiber5(void);
+int thunk_FUN_0c169a20(void);
+int thunk_FUN_0c169a7a(void);
+int thunk_mwRnaCreate(void);
+int ADXRNA_Start(void);
+int ADXRNA_Stop(void);
+int ADXRNA_SetTransSw(void);
+int ADXRNA_GetTime(void);
+int ADXRNA_GetStat(void);
+int ADXRNA_ExecServer(void);
+int ADXRNA_SetStartSmpl(void);
+int ADXRNA_SetNumChan(void);
+int ADXRNA_SetSfreq(void);
+int ADXRNA_SetOutVol(void);
+int ADXRNA_SetOutPan(void);
+int ADXRNA_SetBitPerSmpl(void);
+int ADXRNA_GetSfreq(void);
+int ADXRNA_GetOutVol(void);
+int ADXRNA_GetOutPan(void);
+int ADXRNA_GetBitPerSmpl(void);
+int ADXRNA_DiscardData(void);
+int ADXSJD_Finish(void);
+int ADXSJD_Stop(int a4);
+int FUN_0c168832(int a4);
+int FUN_0c16883e(int a4);
+int FUN_0c16884a(int a4);
+int FUN_0c168856(int a4);
+int FUN_0c168862(int a4);
+int FUN_0c16887a(int a4);
+int FUN_0c168892(int a4);
+int FUN_0c1688aa(int a4);
+int FUN_0c1688b6(int a4);
+int FUN_0c1688c2(int a4);
+int FUN_0c1688ce(int a4);
+int FUN_0c1697c4(int a4);
+int FUN_0c16c7ca(void);
+int vmsfb_exec(void);
+int vmsfb_exit(void);
+int vmsfb_sleep(void);
+int vmsfb_end(void);
+int thunk_FUN_0c170880(void);
+int thunk_FUN_0c1708b2(void);
+void ADXB_Destroy(int a4);
+int ADXB_Reset(int a4);
+void FUN_0c17190c(int a4);
+int FUN_0c1720f4(int a4, int a5, int a6);
+int buFbrInit(void);
+int FUN_0c174394(void);
 
-void FUN_0c022358(int a4)
+int FUN_0c022358(int a4)
 {
     int t0;
     int t1;
+    int t7;
+    int t5;
     int t2;
     float u3;
     float u4;
 
     t0 = *(short *)((a4 + 0x86));
     t1 = *(short *)((a4 + 0xF4));
-    if (((int)(unsigned short)(t1 - t0) > (int)0x4000)) {
-        if (!((int)(unsigned short)(t1 - t0) >= (int)0xC000)) {
-        t2 = *(short *)((a4 + 0xF4));
-        *(unsigned short *)((a4 + 0xF4)) = (t2 + 0x8000);
-        u3 = *(float *)((a4 + 0x160));
-        *(float *)((a4 + 0x160)) = (-u3);
-        u4 = *(float *)((a4 + 0x15C));
-        *(float *)((a4 + 0x15C)) = (-u4);
+    t7 = 0xF4;
+    if ((int)(unsigned short)(t1 - t0) > (int)0x4000) {
+        t5 = 0xF4;
+        if ((int)(unsigned short)(t1 - t0) < (int)0xC000) {
+            t2 = *(short *)((a4 + 0xF4));
+            *(unsigned short *)((a4 + 0xF4)) = (t2 + 0x8000);
+            u3 = *(float *)((a4 + 0x160));
+            *(float *)((a4 + 0x160)) = (-u3);
+            u4 = *(float *)((a4 + 0x15C));
+            *(float *)((a4 + 0x15C)) = (-u4);
+            t5 = 0x15C;
         }
-        }
+        t7 = t5;
+    }
+    return t7;
 }
 
-void FUN_0c029aa6(void)
+int FUN_0c029aa6(void)
 {
-    int t0;
-    int t1;
+    float u0;
+    float u1;
     float u2;
     int t3;
     int t4;
+    float u5;
+    float u6;
+    int t7;
+    int t8;
 
     *(float *)0xC1EE300 = 0.0f;
-    *(float *)0xC1EE304 = 255.0f;
-    *(float *)0xC1EE308 = 255.0f;
+    u0 = *(float *)0xC029B64;
+    *(float *)0xC1EE304 = u0;
+    *(float *)0xC1EE308 = u0;
+    u1 = *(float *)0xC029B70;
     *(float *)0xC1EE30C = 0.0f;
-    *(float *)0xC1EE310 = 255.0f;
-    *(float *)0xC1EE314 = 255.0f;
+    *(float *)0xC1EE310 = u0;
+    *(float *)0xC1EE314 = u0;
     *(float *)0xC1EE318 = 0.0f;
-    *(float *)0xC1EE31C = 128.0f;
-    *(float *)0xC1EE320 = 255.0f;
-    *(float *)0xC1EE324 = 255.0f;
-    t0 = *(signed char *)0xC1789DE;
-    t1 = *(signed char *)0xC1789DC;
-    *(float *)0xC1EE32C = (float)((unsigned char)t0 - (unsigned char)t1);
-    u2 = *(float *)0xC1EE32C;
-    if ((u2 == 0.0f)) {
-        *(float *)0xC1EE32C = 0.049999997f;
-        }
-    t3 = *(signed char *)0xC1789DC;
-    t4 = *(signed char *)0xC1789DD;
-    *(float *)0xC1EE328 = (float)((unsigned char)t3 - (unsigned char)t4);
-    if (((float)((unsigned char)t3 - (unsigned char)t4) == 0.0f)) {
-        *(float *)0xC1EE328 = 0.049999997f;
-        }
+    u2 = *(float *)0xC029B84;
+    *(float *)0xC1EE31C = u2;
+    *(float *)0xC1EE320 = u0;
+    *(float *)0xC1EE324 = u0;
+    t3 = *(signed char *)0xC1789DE;
+    t4 = *(signed char *)0xC1789DC;
+    *(float *)0xC1EE32C = (float)((unsigned char)t3 - (unsigned char)t4);
+    u5 = *(float *)0xC1EE32C;
+    u6 = *(float *)0xC029B9C;
+    if (u5 == 0.0f) {
+        *(float *)0xC1EE32C = u6;
+    }
+    t7 = *(signed char *)0xC1789DC;
+    t8 = *(signed char *)0xC1789DD;
+    *(float *)0xC1EE328 = (float)((unsigned char)t7 - (unsigned char)t8);
+    if ((float)((unsigned char)t7 - (unsigned char)t8) == 0.0f) {
+        *(float *)0xC1EE328 = u6;
+    }
+    return 0x19;
 }
 
 int getSwitch(void)
@@ -222,7 +337,7 @@ int FUN_0c02bbf4(int a4, float f4)
 {
     int t0;
 
-    t0 = nlArcTan2(a4, (-f4));
+    t0 = nlArcTan2((-f4));
     *(unsigned short *)((a4 + 0x0)) = t0;
     return t0;
 }
@@ -235,7 +350,7 @@ int gameState8(void)
     t0 = *(int *)0xC1EE238;
     *(unsigned int *)0xC1EE238 = (t0 + 0x1);
     *(unsigned int *)0xC1EE240 = 0x0;
-    nlInitEvent(0xC1EE238);
+    nlInitEvent();
     Sound_Init();
     gdc_StopStreamSongAll();
     t4 = *(int *)0xC179488;
@@ -251,7 +366,7 @@ int gameState10(void)
     t0 = *(int *)0xC1EE238;
     *(unsigned int *)0xC1EE238 = (t0 + 0x1);
     *(unsigned int *)0xC1EE240 = 0x0;
-    nlInitEvent(0xC1EE238);
+    nlInitEvent();
     Sound_Init();
     return gdc_StopStreamSongAll();
 }
@@ -299,7 +414,7 @@ int ResetLight(void)
 
 int FUN_0c036256(int a4, int a5, int a6, int a7)
 {
-    nlPushUnitMatrix(a4, a5, a6, a7);
+    nlPushUnitMatrix();
     nlRotateAY(a6);
     nlRotateAX(a5);
     nlRotateAZ(a7);
@@ -359,10 +474,14 @@ int callTryAgain(void)
 
 int SetSEvolume(void)
 {
-    int t0;
+    float u0;
+    int t1;
+    float u2;
 
-    t0 = *(signed char *)0xC28A4ED;
-    return nlsndSystemControl(0x8, 0x10A0, (signed char)(int)(((float)(unsigned char)t0 / 8.0f) * 117.0f));
+    u0 = *(float *)0xC0410DC;
+    t1 = *(signed char *)0xC28A4ED;
+    u2 = *(float *)0xC0410E0;
+    return nlsndSystemControl(0x8, 0x10A0, (signed char)(int)(((float)(unsigned char)t1 / u0) * u2));
 }
 
 int FUN_0c041ce8(void)
@@ -376,7 +495,7 @@ int FUN_0c041ce8(void)
     *(unsigned int *)0xC2A122C = t1;
     *(unsigned int *)0xC1EE234 = 0x3;
     *(unsigned int *)0xC1EE238 = 0x0;
-    return FUN_0c02c094(0x0, 0xC1EE238);
+    return FUN_0c02c094(0x0);
 }
 
 int FUN_0c050716(void)
@@ -403,7 +522,10 @@ int FUN_0c051d38(void)
 
 int FUN_0c052138(void)
 {
-    return menuPutHelpBar(0x3, 0.0f, 416.0f);
+    float u0;
+
+    u0 = *(float *)0xC052164;
+    return menuPutHelpBar(0x3, 0.0f, u0);
 }
 
 int FUN_0c0533ba(void)
@@ -413,33 +535,37 @@ int FUN_0c0533ba(void)
 
     FUN_0c0527ec();
     t1 = rankingInsert();
-    if (!(t1 == 0)) {
+    if (t1 != 0) {
         t2 = *(int *)0xC2A75E0;
         *(unsigned int *)0xC2A75E0 = (t2 | 0x1000);
         *(unsigned int *)0xC2A916C = 0x0;
         *(unsigned int *)0xC2A9178 = 0x0;
         *(unsigned int *)0xC2A917C = 0x0;
-        }
+    }
     return t1;
 }
 
-void hudShowPickUpNag(void)
+int hudShowPickUpNag(void)
 {
     int t0;
+    int t6;
     int t1;
     int t5;
 
     t0 = *(int *)0xC1EE210;
-    if (!(t0 == 2)) {
+    t6 = t0;
+    if (t0 != 2) {
         t1 = *(int *)0xC2A75E0;
         *(unsigned int *)0xC2A75E0 = (t1 | 0x2000000);
-        Init_Standard(0xC2A75E0);
+        Init_Standard();
         Voice_ShutUp(0x0);
         Voice_Request(0xC130B60, 0x0, 0x7F, 0x0);
         *(unsigned int *)0xC2A8FB4 = 0x0;
         t5 = *(int *)0xC1EE244;
         *(unsigned int *)0xC2A8FBC = t5;
-        }
+        t6 = 0xC1EE244;
+    }
+    return t6;
 }
 
 int FUN_0c05364e(void)
@@ -464,17 +590,17 @@ int FUN_0c053b44(void)
     int t1;
 
     t0 = *(int *)0xC1EE210;
-    if (!(t0 == 2)) {
+    if (t0 != 2) {
         t1 = GetMenuMode(0x1);
-        if (!(t1 == 0)) {
-        FUN_0c053dec();
+        if (t1 != 0) {
+            FUN_0c053dec();
         } else {
-        FUN_0c053b76();
+            FUN_0c053b76();
         }
         FUN_0c0544a8();
-        } else {
+    } else {
         FUN_0c053dec();
-        }
+    }
     return Put_GearBox();
 }
 
@@ -486,12 +612,14 @@ int thunk_nlCloseEvent(void)
 int FUN_0c057fe2(void)
 {
     float u3;
+    float u4;
 
     pfSetFont(0x1);
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     pfSize(1.0f, 1.0f);
-    u3 = *(float *)0xC2A96D0;
-    pfLocate(u3, 378.0f);
+    u3 = *(float *)0xC0581B0;
+    u4 = *(float *)0xC2A96D0;
+    pfLocate(u4, u3);
     return pfPuts(0xC0D0A40);
 }
 
@@ -506,31 +634,40 @@ int thunk_FUN_0c0409d2(void)
     return callTryAgain();
 }
 
-void FUN_0c05d4fc(void)
+int FUN_0c05d4fc(void)
 {
-    int t3;
+    float u2;
+    float u3;
     int t5;
-    int t8;
+    int t7;
     int t9;
+    int t10;
+    int t12;
+    int t11;
 
     nlPushMatrix(0x0);
     nlTranslateV(0xC13197C);
-    nlTranslate(-3.0f, 0.0f, 26.0f);
-    t3 = *(short *)0xC2A9A64;
-    nlRotateAY(((unsigned short)t3 + 0x8000));
-    t5 = *(int *)0xC2A9B90;
-    FcvPlay(0xC9C6C40, 0x21, (float)t5);
-    nlPopMatrix(0x1);
-    t8 = *(int *)0xC2A9B90;
-    if (!((int)t8 >= (int)0x40)) {
-        t9 = *(int *)0xC2A9B90;
-        *(unsigned int *)0xC2A9B90 = (t9 + 0x1);
-        }
+    u2 = *(float *)0xC05D584;
+    u3 = *(float *)0xC05D588;
+    nlTranslate(u3, 0.0f, u2);
+    t5 = *(short *)0xC2A9A64;
+    nlRotateAY(((unsigned short)t5 + 0x8000));
+    t7 = *(int *)0xC2A9B90;
+    FcvPlay(0xC9C6C40, 0x21, (float)t7);
+    t9 = nlPopMatrix(0x1);
+    t10 = *(int *)0xC2A9B90;
+    t12 = t9;
+    if ((int)t10 < (int)0x40) {
+        t11 = *(int *)0xC2A9B90;
+        *(unsigned int *)0xC2A9B90 = (t11 + 0x1);
+        t12 = (t11 + 0x1);
+    }
+    return t12;
 }
 
 int FUN_0c0608ac(int a4, int a5, int a6)
 {
-    FUN_0c0310a0(a4, a5, a6);
+    FUN_0c0310a0();
     pfLength(a6);
     pfLocate((float)a4, (float)a5);
     return pfPuts(a6);
@@ -544,8 +681,11 @@ int kmUnloadDevice(void)
 
 int FUN_0c060da6(void)
 {
+    float u1;
+
     FUN_0c0728c8();
-    ShallWeHaveSomeRelaxation(-1240.0f);
+    u1 = *(float *)0xC060DF0;
+    ShallWeHaveSomeRelaxation(u1);
     return FUN_0c0738bc();
 }
 
@@ -606,14 +746,15 @@ int thunk_FUN_0c158b80(void)
 
 int nlDispStripX(int a4, int a5, int a6)
 {
-    nlstripSetVertexContext(0xC14AAC8, a5, a6);
+    nlstripSetVertexContext(0xC14AAC8);
     return FUN_0c080ae0(a4, a5, a6);
 }
 
-void kmResetRenderer(void)
+int kmResetRenderer(void)
 {
     kmiDiscardRenderPipeline();
     kmiResetBoard();
+    return 0x0;
 }
 
 int buExitForce(void)
@@ -643,11 +784,11 @@ int FUN_0c1519be(void)
     ADXSTM_Init();
     ADXSJD_Init();
     FUN_0c16800c();
-    thunk_mwRnaErrEntryFunc(0xC1519A4, 0x0);
+    thunk_mwRnaErrEntryFunc();
     return memset(0xC177AE0, 0x0, 0x460);
 }
 
-void adxt_start_stm(int a4)
+int adxt_start_stm(int a4)
 {
     int t0;
     int t1;
@@ -667,6 +808,7 @@ void adxt_start_stm(int a4)
     t8 = *(int *)((a4 + 0x10));
     adxt_start_sj(a4, t8);
     *(unsigned char *)((a4 + 0x2)) = 0x0;
+    return 0x0;
 }
 
 int thunk_njSetConstantAttr(void)
@@ -824,13 +966,14 @@ int ADXSJD_Finish(void)
     return memset(0xC2F4F1C, 0x0, 0x4C0);
 }
 
-void ADXSJD_Stop(int a4)
+int ADXSJD_Stop(int a4)
 {
     int t0;
 
     t0 = *(int *)((a4 + 0x4));
     ADXB_Stop(t0);
     *(unsigned char *)((a4 + 0x1)) = 0x0;
+    return 0x0;
 }
 
 int FUN_0c168832(int a4)
@@ -925,14 +1068,14 @@ int FUN_0c1697c4(int a4)
 {
     int t1;
 
-    FUN_0c169710(a4);
+    FUN_0c169710();
     *(unsigned int *)0xFF00001C = ((a4 & 0xFFFFF7FF) | 0x800);
     t1 = *(int *)0xFF00001C;
     *(unsigned int *)0xFF00001C = ((t1 & 0xFFFFFFF7) | 0x8);
     return ((t1 & 0xFFFFFFF7) | 0x8);
 }
 
-void FUN_0c16c7ca(void)
+int FUN_0c16c7ca(void)
 {
     int t0;
     int t1;
@@ -942,11 +1085,12 @@ void FUN_0c16c7ca(void)
     t0 = *(int *)0xC2F91C4;
     *(unsigned int *)0xC2F91C4 = (t0 + 0x1);
     t1 = *(int *)0xC2EAB2C;
-    if ((t1 == 1)) {
+    if (t1 == 1) {
         t2 = *(int *)0xC2F91B8;
         *(unsigned int *)0xC2F91B8 = (t2 + 0x1);
         FUN_0c16c634(0x1);
-        }
+    }
+    return 0x0;
 }
 
 int vmsfb_exec(void)
@@ -989,41 +1133,45 @@ void ADXB_Destroy(int a4)
 {
     int t0;
 
-    if (!(a4 == 0)) {
+    if (a4 != 0) {
         t0 = *(int *)((a4 + 0x8));
         ADXPD_Destroy(t0);
         memset(a4, 0x0, 0xAC);
         *(unsigned short *)((a4 + 0x0)) = 0x0;
-        }
+    }
 }
 
-void ADXB_Reset(int a4)
+int ADXB_Reset(int a4)
 {
     int t0;
+    int t3;
     int t1;
 
     t0 = *(int *)((a4 + 0x4));
-    if ((t0 == 3)) {
+    t3 = t0;
+    if (t0 == 3) {
         t1 = *(int *)((a4 + 0x8));
         ADXPD_Reset(t1);
         *(unsigned int *)((a4 + 0x9C)) = 0x0;
         *(unsigned int *)((a4 + 0x4)) = 0x0;
-        }
+        t3 = 0x9C;
+    }
+    return t3;
 }
 
 void FUN_0c17190c(int a4)
 {
     int t0;
 
-    if (!(a4 == 0)) {
+    if (a4 != 0) {
         t0 = *(int *)((a4 + 0x4));
         memset(t0, 0x0, 0x100);
         memset(a4, 0x0, 0x8);
         *(unsigned int *)((a4 + 0x0)) = 0x0;
-        }
+    }
 }
 
-void FUN_0c1720f4(int a4, int a5, int a6)
+int FUN_0c1720f4(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1038,17 +1186,20 @@ void FUN_0c1720f4(int a4, int a5, int a6)
     *(unsigned int *)((a5 + 0x0)) = t2;
     t3 = *(short *)((a4 + 0x5A));
     *(unsigned int *)((a6 + 0x0)) = t3;
+    return 0x5A;
 }
 
-void buFbrInit(void)
+int buFbrInit(void)
 {
     memset(0xC2FB798, 0x0, 0x1AF8);
     *(unsigned int *)0xC2FD290 = 0x0;
     *(unsigned int *)0xC2FD294 = 0x0;
     *(unsigned int *)0xC2FD298 = 0x0;
+    return 0xC2FD298;
 }
 
 int FUN_0c174394(void)
 {
     return memset(0xC2FD29C, 0x0, 0x1A0);
 }
+

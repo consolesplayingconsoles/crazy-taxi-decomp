@@ -4,50 +4,63 @@
 int FUN_0c02e2ca(int);
 int FUN_0c02e31e(int);
 int FUN_0c050fec(void);
-int FUN_0c074680(int, int, int);
+int FUN_0c074680(void);
 int kmiInitializeDMA(void);
 int kmiWriteRegister(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int);
 int pfSetFont(int);
 int pfSize(float, float);
+int FUN_0c03a3e0(void);
+int FUN_0c05b0a0(void);
+int kmiInitializeTA(void);
 
-void FUN_0c03a3e0(void)
+int FUN_0c03a3e0(void)
 {
-    FUN_0c074680(0x0, 0x0, 0x0);
+    FUN_0c074680();
     pfSetFont(0x0);
     pfSize(1.0f, 1.0f);
     FUN_0c02e31e(0x3);
     FUN_0c02e2ca(0x6E);
     *(unsigned int *)0xC2864E0 = 0x0;
     *(unsigned int *)0xC2864E4 = 0x2;
+    return 0xC2864E4;
 }
 
-void FUN_0c05b0a0(void)
+int FUN_0c05b0a0(void)
 {
     float u2;
     float u3;
-    int t4;
+    float u4;
+    float u5;
+    int t6;
+    float u7;
+    float u10;
 
     FUN_0c050fec();
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     *(unsigned int *)0xC2A96F8 = 0x62;
     *(unsigned int *)0xC2A972C = 0x2005;
     u2 = *(float *)0xC2A9758;
-    *(float *)0xC2A9708 = (u2 + 40.0f);
-    u3 = *(float *)0xC2A9758;
-    *(float *)0xC2A970C = (u3 + 30.0f);
+    u3 = *(float *)0xC05B184;
+    *(float *)0xC2A9708 = (u2 + u3);
+    u4 = *(float *)0xC2A9758;
+    u5 = *(float *)0xC05B188;
+    *(float *)0xC2A970C = (u4 + u5);
     *(float *)0xC2A96FC = 0.0f;
-    t4 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t4 + 0x70);
-    *(float *)0xC2A9704 = 0.279999971f;
+    t6 = *(int *)0xC2A9748;
+    *(float *)0xC2A9700 = (float)(t6 + 0x70);
+    u7 = *(float *)0xC05B190;
+    *(float *)0xC2A9704 = u7;
     *(unsigned int *)0xC2A9720 = 0x0;
     nlSprPut(0xC2A96F8);
     nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    *(float *)0xC2A9704 = 0.199999988f;
+    u10 = *(float *)0xC05B198;
+    *(float *)0xC2A9704 = u10;
+    return 0xC;
 }
 
-void kmiInitializeTA(void)
+int kmiInitializeTA(void)
 {
     int t3;
     int t4;
@@ -63,4 +76,6 @@ void kmiInitializeTA(void)
     *(unsigned int *)0xC2EAAEC = ((unsigned int)t4 >> 1);
     *(unsigned int *)0xC2EAB0C = 0x0;
     *(unsigned int *)0xC2EAB2C = 0x1;
+    return 0xC2EAAEC;
 }
+

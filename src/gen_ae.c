@@ -3,11 +3,14 @@
 
 int VSklIpPlay(int, int, int, int, int, int, float);
 float nlCeil(float);
-float nlFloor(int, int, int, int, float);
+float nlFloor(float);
 float nlFraction(float);
-float nlPow(int, int, int, int, float, float);
+float nlPow(float, float);
+int pfSetFont(int a4);
+int FUN_0c057728(int a4, int a5, int a6);
+int VSklSfPlay(int a4, int a5, int a6, float f4);
 
-void pfSetFont(int a4)
+int pfSetFont(int a4)
 {
     int t1;
     int t0;
@@ -23,9 +26,11 @@ void pfSetFont(int a4)
     int t11;
     int t12;
     int t13;
+    int t16;
     float u14;
-    int t17;
-    int t18;
+    float u15;
+    int t19;
+    int t20;
 
     t1 = 0x0;
     if ((int)a4 >= 0) {
@@ -54,54 +59,58 @@ void pfSetFont(int a4)
     t12 = *(int *)(((t1 << 2) + 0xC0ED268));
     *(unsigned int *)0xC0ED1C8 = (t11 | t12);
     t13 = *(int *)0xC26E1F0;
+    t16 = 0xC0ED268;
     if (t13 != 0) {
         u14 = *(float *)0xC26E204;
-        *(float *)0xC26E204 = (u14 * 0.5f);
+        u15 = *(float *)0xC03112C;
+        *(float *)0xC26E204 = (u14 * u15);
+        t16 = 0xC03112C;
     }
-    t17 = *(int *)0xC2B29C0;
-    t18 = *(int *)((((t6 * 0x3C) + t17) + 0x34));
-    *(unsigned int *)0xC0ED1CC = t18;
+    t19 = *(int *)0xC2B29C0;
+    t20 = *(int *)((((t6 * 0x3C) + t19) + 0x34));
+    *(unsigned int *)0xC0ED1CC = t20;
+    return t16;
 }
 
-void FUN_0c057728(int a4, int a5, int a6, int a7)
+int FUN_0c057728(int a4, int a5, int a6)
 {
-    int t0;
+    float u0;
+    int t6;
     int t1;
     int t2;
-    int t3;
-    float t4;
+    float t3;
+    int t4;
     int t5;
 
+    u0 = *(float *)0xC0577D4;
+    t6 = 0xC0577D4;
     if ((int)(a6 - 1) >= 0) {
-        t0 = a4;
         t1 = a5;
-        t2 = a5;
-        t3 = (a6 - 1);
+        t2 = (a6 - 1);
         do {
-            t4 = nlPow(t0, t1, a6, a7, 10.0f, (float)t3);
-            t1 = t3;
-            t1 = (t1 << 2);
-            t1 = (t1 + a4);
-            t0 = (int)t4;
-            t5 = (int)((int)t2 / (int)t0);
-            t3 = (t3 - 1);
-            *(unsigned int *)((t1 + 0x0)) = t5;
-            t0 = (t5 * t0);
-            t2 = (t2 - t0);
-        } while ((int)t3 >= 0);
+            t3 = nlPow(u0, (float)t2);
+            t4 = (int)((int)t1 / (int)(int)t3);
+            t5 = ((t2 << 2) + a4);
+            t2 = (t2 - 1);
+            *(unsigned int *)((t5 + 0x0)) = t4;
+            t1 = (t1 - (t4 * (int)t3));
+        } while ((int)t2 >= 0);
+        t6 = t4;
     }
+    return t6;
 }
 
-int VSklSfPlay(int a4, int a5, int a6, int a7, float f4)
+int VSklSfPlay(int a4, int a5, int a6, float f4)
 {
     float t0;
     float t1;
     float t2;
     int t3;
 
-    t0 = nlFloor(a4, a5, a6, a7, f4);
+    t0 = nlFloor(f4);
     t1 = nlCeil(f4);
     t2 = nlFraction(f4);
     t3 = VSklIpPlay(a4, (int)t0, a4, (int)t1, a5, a6, t2);
     return t3;
 }
+

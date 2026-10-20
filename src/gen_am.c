@@ -2,8 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int mpdrv_memset_l(int, int, int);
+int get_data(int a4);
+int make_header(int a4, int a5);
+int mpdrv_clear_deviceinfo(int a4);
 
-void get_data(int a4)
+int get_data(int a4)
 {
     int t0;
     int t1;
@@ -29,9 +32,10 @@ void get_data(int a4)
             *(unsigned char *)((a4 + 0x0)) = 0x0;
         }
     }
+    return 0x0;
 }
 
-void make_header(int a4, int a5)
+int make_header(int a4, int a5)
 {
     int t0;
     int t1;
@@ -46,7 +50,7 @@ void make_header(int a4, int a5)
     int t10;
     int t12;
     int t13;
-    int stk[2];
+    int stk[2] = {0};
 
     t0 = *(int *)((a5 + 0x0));
     *(unsigned int *)(((int)stk + 4)) = t0;
@@ -82,9 +86,10 @@ void make_header(int a4, int a5)
             *(unsigned int *)((a4 + 0x14)) = t13;
         }
     }
+    return 0x0;
 }
 
-void mpdrv_clear_deviceinfo(int a4)
+int mpdrv_clear_deviceinfo(int a4)
 {
     int t1;
 
@@ -101,4 +106,6 @@ void mpdrv_clear_deviceinfo(int a4)
         t1 = (t1 + 0x1);
     } while ((unsigned int)t1 < (unsigned int)(a4 + 0x33));
     *(unsigned char *)((a4 + 0x33)) = 0x0;
+    return 0x0;
 }
+

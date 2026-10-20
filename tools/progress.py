@@ -91,6 +91,15 @@ named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and 
 unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2].startswith('FUN_'))
 doable = g[0] - len(nocform)                       # what can be C: the functions with no C form are not part of the equivalent C measure
 doable_bytes = g[1] - sum(x[1] for x in funcs if x[2] in nocform)
+def med(v):
+    v = sorted(v)
+    return v[len(v) // 2] if v else 0
+
+
+# functions whose cases ran less of the original than the bar: tests/weak.txt (name and coverage), written by tools/equiv.py;
+# they are not done, and this row keeps them from going missing
+weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
+weak = set(n for n in weak if n not in equivalent)
 rows = [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
     ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
@@ -100,9 +109,13 @@ rows = [
     ('    of which SDK source', pct(g[9], doable), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local)'
      % (g[9], g[10])),
     ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
+    ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
+     % (med([x[1] for x in funcs if is_done(x)]), med([x[1] for x in funcs if not is_done(x)]),
+        sum(1 for x in funcs if not is_done(x) and x[1] >= 1000), sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000),
+        pct(sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000), g[1]).strip())),
     ('  named only', pct(named_only, doable), '%d functions: a name, no C yet (not done work)' % named_only),
     ('  unnamed', pct(unnamed, doable), '%d functions (FUN_...), no C yet' % unnamed),
-    ] + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
+    ] + ([('  below the coverage bar', pct(len(weak), doable), '%d functions: C written, but its cases ran too little of the original to count (tests/weak.txt); not done' % len(weak))] if weak else []) + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
            % (g[7] + len(partial), g[7], len(partial)))] if partial else []) + [
     ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),

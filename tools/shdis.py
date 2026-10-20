@@ -167,6 +167,10 @@ def decode(w, pc):
                 return 'fipr fv%d,fv%d' % ((n & 3) * 4, (n >> 2) * 4), None, 0, None
             if m == 0xf and n & 3 == 1:
                 return 'ftrv xmtrx,fv%d' % ((n >> 2) * 4), None, 0, None
+            if m == 0xf and n & 1 == 0:
+                return 'fsca fpul,dr%d' % n, None, 0, None
+            if m == 7:
+                return 'fsrra fr%d' % n, None, 0, None
     return '.word 0x%04x' % w, None, 0, None
 
 
@@ -194,10 +198,27 @@ def main():
 
     # Pool words the range loads are shown as data. Data decoded as instructions can look like
     # loads too, so a load that itself sits inside a pool word does not count; repeat until stable.
+    # Control flow from the entry tells which words are code: a "load" found in data (a jump table, constants after a branch)
+    # can point into real code, and must not turn that code into a pool word.
+    reach, work = set(), [start & ~1]
+    while work:
+        pc = work.pop()
+        while start <= pc < end and pc not in reach:
+            reach.add(pc)
+            t, _, _, tgt = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
+            op = t.split()[0]
+            delay = op in ('bra', 'bsr', 'bt/s', 'bf/s', 'jsr', 'jmp', 'rts', 'rte', 'braf', 'bsrf')
+            if delay and pc + 2 < end:
+                reach.add(pc + 2)
+            if op in ('bt', 'bf', 'bt/s', 'bf/s', 'bra', 'bsr') and tgt is not None and start <= tgt < end:
+                work.append(tgt)
+            if op in ('rts', 'rte', 'jmp', 'braf', 'bra'):
+                break
+            pc += 4 if delay else 2
     loads = {}
     for pc in range(start & ~1, end, 2):
         _, pool, size, _ = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
-        if pool is not None:
+        if pool is not None and not any(pool + k in reach for k in range(0, size, 2)):
             loads[pc] = (pool, size)
     pools = {}
     while True:

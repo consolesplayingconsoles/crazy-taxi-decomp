@@ -4,6 +4,9 @@ BIN=open('1ST_READ.BIN','rb').read(); BASE=0x0C010000
 def rd32(a): return struct.unpack_from('<I',BIN,a-BASE)[0]
 M=0xffffffff
 class Skip(Exception): pass
+class Conflict(Exception):         # two call sites give one callee different argument types: it is called through a cast at every site
+    def __init__(self,fname): Exception.__init__(self,fname); self.fname=fname
+_CONFLICTS=set()
 DIRTY=('x',)          # a register the two arms of an if left different and unreadable
 FUNCS={}; SPANS={}
 for _l in open('functions.txt'):
@@ -20,16 +23,19 @@ def ffmt(bits):
 class Ctx:
     def __init__(s,name):
         s.name=name; s.R={}; s.FR={}; s.stmts=[]; s.ntemp=0; s.iuse=set(); s.fuse=set(); s.addrs=[]; s.fpul=None
-        s.mem_addrs=[]; s.dirty=set()
+        s.mem_addrs=[]; s.dirty=set(); s.dwhy={}
     def gi(s,r):
-        if s.R.get(r)==DIRTY: raise Skip('dirty '+r)
+        if s.R.get(r)==DIRTY: raise Skip('dirty '+r+' ['+s.dwhy.get(r,'')+']')
+        if r=='r15':                         # the stack pointer as a value: the address of the current frame position
+            if not s.frame: raise Skip('addr of local')
+            return ('e','((int)stk + @@F:%d@@)'%(-s.D))
         if r not in s.R:
             n=int(r[1:])
             if 4<=n<=7: s.R[r]=('s','a%d'%n); s.iuse.add(n)
             else: raise Skip('read '+r)
         return s.R[r]
     def gf(s,r):
-        if s.FR.get(r)==DIRTY: raise Skip('dirty '+r)
+        if s.FR.get(r)==DIRTY: raise Skip('dirty '+r+' ['+s.dwhy.get(r,'')+']')
         if r not in s.FR and r=='fr0' and getattr(s,'lastcall',None):
             # fr0 right after a call is the callee's float result: that call returns a float (its line and prototype say so)
             lst,idx,t,fname=s.lastcall; s.lastcall=None
@@ -38,6 +44,7 @@ class Ctx:
             s.protos[fname]=tuple(x for x in s.protos[fname] if x!='->float')+('->float',)
             if s.R.get('r0')==('e',t): del s.R['r0']
             s.FR['fr0']=('e',t); return s.FR['fr0']
+        if r not in s.FR and s.swapped: raise Skip('xf bank unset')
         if r not in s.FR:
             n=int(r[2:])
             if 4<=n<=11: s.FR[r]=('s','f%d'%n); s.fuse.add(n)
@@ -113,7 +120,8 @@ def callee_arity(fname):
             regs=lambda t: re.findall(r'\b(f?r\d+)\b',t)
             base=mn.split('/')[0]
             dest=None; reads=[]
-            if mn in ('jsr','bsr','jmp','bra','rts','nop','rte') or mn.startswith('b'):
+            if mn in ('fldi0','fldi1') and len(a)==1: dest=a[0]      # a constant load writes its register, reads nothing
+            elif mn in ('jsr','bsr','jmp','bra','rts','nop','rte') or mn.startswith('b'):
                 for t in a: reads+=regs(t)
                 if mn in ('jsr','bsr'):
                     pass
@@ -145,13 +153,27 @@ def callee_arity(fname):
     _ARITY[fname]=res
     return res
 
+def isfp(v): return isinstance(v,tuple) and v[0]=='fpend'      # a float kept on the pending stack
+STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'addr\'')
 def run(name,passthru=False):
+    """The first reading keeps the stack as symbolic values; when that fails on the stack, the whole frame becomes a C array
+    (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory)."""
+    _CONFLICTS.clear()
+    for _ in range(8):
+        try:
+            try: return _run(name,passthru,False)
+            except Skip as e:
+                if not any(k in str(e) for k in STACKY): raise
+            return _run(name,passthru,True)
+        except Conflict as e: _CONFLICTS.add(e.fname)
+    raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
+def _run(name,passthru=False,frame=False):
     out=subprocess.run(['python3','tools/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
     ins=[]
     for l in out:
         m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
         if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
-    c=Ctx(name); c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
+    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
         # base: value; off: int or value
@@ -159,7 +181,16 @@ def run(name,passthru=False):
         if isint(b) and isint(off): return ('const',(b+off)&M)
         if isinstance(b,tuple) and b[0]=='addr': raise Skip('addr')
         return ('expr','(%s + %s)'%(ex(b),ex(off)))
+    def pool(ad,n):
+        # a read at a constant address inside this function's own code is a literal pool or table (a `mova` result): fold it
+        sp=SPANS.get(c.name)
+        if ad[0]=='const' and sp and sp[0]<=ad[1] and ad[1]+n<=sp[0]+sp[1]: return ad[1]
     def load(sz,ad):
+        pa=pool(ad,TY[sz][1])
+        if pa is not None:
+            if sz=='l': return rd32(pa)
+            v=int.from_bytes(BIN[pa-BASE:pa-BASE+TY[sz][1]],'little'); h=1<<(8*TY[sz][1]-1)
+            return ((v^h)-h)&M
         t='t%d'%c.ntemp; c.ntemp+=1
         ty=TY[sz][0]
         if ad[0]=='const': c.blocks[-1].append('%s %s = *(%s *)0x%X;'%('int',t,ty,ad[1])); c.mem_addrs.append(('c',ad[1]))
@@ -171,6 +202,8 @@ def run(name,passthru=False):
         if ad[0]=='const': c.blocks[-1].append('*(%s *)0x%X = %s;'%(T,ad[1],v)); c.mem_addrs.append(('c',ad[1]))
         else: c.blocks[-1].append('*(%s *)(%s) = %s;'%(T,ad[1],v)); c.mem_addrs.append(('e',ad[1]))
     def fload(ad):
+        pa=pool(ad,4)
+        if pa is not None: return rd32(pa)
         t='u%d'%c.ntemp; c.ntemp+=1
         if ad[0]=='const': c.blocks[-1].append('float %s = *(float *)0x%X;'%(t,ad[1])); c.mem_addrs.append(('c',ad[1]))
         else: c.blocks[-1].append('float %s = *(float *)(%s);'%(t,ad[1])); c.mem_addrs.append(('e',ad[1]))
@@ -223,12 +256,20 @@ def run(name,passthru=False):
             n=int(a[0][2:])
             c.D+=4; c.maxD=max(c.maxD,c.D)
             if c.in_prologue or (n>=12 and a[0] not in c.FR): return
-            raise Skip('fpush')
+            val=c.gf(a[0]); c.pend.append(('fpend',val))      # a float kept for a pop or passed on the stack
+            if c.frame: fstore(('expr','((int)stk + @@F:%d@@)'%(-c.D)),val)     # still readable in place (fmov.s @r15,frN)
+            else: c.stack[(-c.D,'f')]=val
+            return
         if mn=='mov.l' and a[0]=='@r15+' and a[1].startswith('r'):
             c.D-=4
-            if c.pend: c.R[a[1]]=c.pend.pop()
+            if c.pend:
+                if isfp(c.pend[-1]): raise Skip('float popped into integer register')
+                c.R[a[1]]=c.pend.pop()
             return
-        if mn=='fmov.s' and a[0]=='@r15+' : c.D-=4; return
+        if mn=='fmov.s' and a[0]=='@r15+' :
+            c.D-=4
+            if c.pend and isfp(c.pend[-1]): c.FR[a[1]]=c.pend.pop()[1]
+            return
         if mn in('add','sub') and a[1]=='r15':
             if a[0].startswith('#'): n=int(a[0][1:])
             else:
@@ -236,6 +277,7 @@ def run(name,passthru=False):
                 if not isint(v): raise Skip('stack pointer step')
                 n=v-(1<<32) if v&0x80000000 else v
                 if mn=='sub': n=-n
+            if n>0 and n%4==0 and c.pend: del c.pend[len(c.pend)-min(n//4,len(c.pend)):]      # arguments dropped after the call that read them
             c.D-=n; c.maxD=max(c.maxD,c.D); return
         if mn=='mov' and a[0]=='r15':
             if not c.frame: raise Skip('addr of local')
@@ -286,7 +328,13 @@ def run(name,passthru=False):
                 mm=re.match(r'=([0-9a-fA-F]+)',com); c.R[a[1]]=int(mm.group(1),16)
             return
         if mn=='mova':
-            m2=re.match(r'@\((0x[0-9a-f]+),pc\)',a[0]); c.R['r0']=('addr',int(m2.group(1),16)); return
+            m2=re.match(r'@\((0x[0-9a-f]+),pc\)',a[0]); c.R['r0']=int(m2.group(1),16); return   # the numeric address; reads of it fold in pool()
+        if mn=='tas.b':                    # test and set: T = the byte was 0 (SHC's _builtin_tas returns that), and bit 7 is set
+            e='_builtin_tas((char *)%s)'%ex(c.gi(a[0].strip('@')))
+            c.protos['_builtin_tas']=('char *',)
+            setT('(%s != 0)'%e,'(%s == 0)'%e); return
+        if mn=='pref':                        # prefetch a cache line: SHC's prefetch(); no effect the check can see
+            c.protos['_builtin_prefetch']=('void *',); c.blocks[-1].append('_builtin_prefetch((void *)%s);'%ex(c.gi(a[0].strip('@')))); return
         if mn=='stc' and a[0]=='sr': c.R[a[1]]=('srx',0,M,None); return
         if mn=='ldc' and a[1]=='sr':
             v=c.gi(a[0])
@@ -359,12 +407,108 @@ def run(name,passthru=False):
                 if mm[0]=='post':
                     b=c.gi(mm[1]); t=load(sz,addr_expr(b,0)); step={'l':4,'w':2,'b':1}[sz]; c.R[mm[1]]=iop('add',b,step); c.R[a[1]]=t; return
                 c.R[a[1]]=load(sz,memaddr(mm)); return
+        if mn=='sett': setT('1','0'); return
+        if mn=='clrt': setT('0','1'); return
+        if mn in ('addc','subc','rotcl','rotcr','rotr','rotl','cmp/str'):
+            U=lambda e:'(unsigned int)%s'%e
+            if mn in ('addc','subc','rotcl','rotcr'):
+                if c.T is None: raise Skip('no T')
+                tbit='((%s) ? 1u : 0u)'%c.T
+            if mn=='addc':
+                x=ex(c.gi(a[1])); y=ex(c.gi(a[0])); s_=fresh(False); r_=fresh(False); f_=fresh(False)
+                emit('int %s = (int)(%s + %s);'%(s_,U(x),U(y))); emit('int %s = (int)(%s + %s);'%(r_,U(s_),tbit))
+                emit('int %s = ((%s < %s) | (%s < %s)) ? 1 : 0;'%(f_,U(s_),U(x),U(r_),U(s_)))
+                c.R[a[1]]=('e',r_); setT('(%s != 0)'%f_,'(%s == 0)'%f_); return
+            if mn=='subc':
+                x=ex(c.gi(a[1])); y=ex(c.gi(a[0])); s_=fresh(False); r_=fresh(False); f_=fresh(False)
+                emit('int %s = (int)(%s - %s);'%(s_,U(x),U(y))); emit('int %s = (int)(%s - %s);'%(r_,U(s_),tbit))
+                emit('int %s = ((%s < %s) | (%s < %s)) ? 1 : 0;'%(f_,U(x),U(s_),U(s_),U(r_)))
+                c.R[a[1]]=('e',r_); setT('(%s != 0)'%f_,'(%s == 0)'%f_); return
+            if mn=='cmp/str':
+                x='(%s ^ %s)'%(U(ex(c.gi(a[1]))),U(ex(c.gi(a[0]))))
+                cond='(((%s & 0xFFu) == 0) || ((%s & 0xFF00u) == 0) || ((%s & 0xFF0000u) == 0) || ((%s & 0xFF000000u) == 0))'%(x,x,x,x)
+                setT(cond,'(!%s)'%cond); return
+            x=ex(c.gi(a[0])); r_=fresh(False); f_=fresh(False)
+            xs=fresh(False); emit('int %s = %s;'%(xs,x))
+            if mn=='rotcl': emit('int %s = (int)((%s << 1) | %s);'%(r_,U(xs),tbit)); emit('int %s = (int)(%s >> 31);'%(f_,U(xs)))
+            elif mn=='rotcr': emit('int %s = (int)((%s >> 1) | (%s << 31));'%(r_,U(xs),tbit)); emit('int %s = %s & 1;'%(f_,xs))
+            elif mn=='rotr': emit('int %s = (int)((%s >> 1) | (%s << 31));'%(r_,U(xs),U(xs))); emit('int %s = %s & 1;'%(f_,xs))
+            else: emit('int %s = (int)((%s << 1) | (%s >> 31));'%(r_,U(xs),U(xs))); emit('int %s = (int)(%s >> 31);'%(f_,U(xs)))
+            c.R[a[0]]=('e',r_); setT('(%s != 0)'%f_,'(%s == 0)'%f_); return
         if mn=='movt':                                           # the last comparison, as 1 or 0
             if c.T is None: raise Skip('no T')
             c.R[a[0]]=('e','((%s) ? 1 : 0)'%c.T); return
         # floats
         if mn=='fldi0': c.FR[a[0]]=0; return
         if mn=='fldi1': c.FR[a[0]]=0x3f800000; return
+        if mn=='fsca' and a[0]=='fpul':
+            if c.fpul is None: raise Skip('fpul unset')
+            n_=int(a[1][2:]); ang=ex(c.fpul); sn=fresh(True); cs=fresh(True)
+            emit('float %s = iaFscaS(%s);'%(sn,ang)); emit('float %s = iaFscaC(%s);'%(cs,ang))
+            c.protos['iaFscaS']=('int',); c.protos['iaFscaC']=('int',)
+            c.FR['fr%d'%n_]=('e',sn); c.FR['fr%d'%(n_+1)]=('e',cs); return
+        if mn=='fsrra':
+            t_=fresh(True); emit('float %s = iaFsrra(%s);'%(t_,fx(c.gf(a[0])))); c.protos['iaFsrra']=('float',); c.FR[a[0]]=('e',t_); return
+        if mn in ('ocbi','ocbp','ocbwb'):
+            nm={'ocbi':'iaOcbi','ocbp':'iaOcbp','ocbwb':'iaOcbwb'}[mn]; c.protos[nm]=('void *',)
+            emit('%s((void *)%s);'%(nm,ex(c.gi(a[0].strip('@'))))); return
+        if mn=='movca.l':
+            c.protos['iaMovca']=('int','void *'); emit('iaMovca(%s, (void *)%s);'%(ex(c.gi('r0')),ex(c.gi(a[1].strip('@'))))); return
+        if mn=='fschg': c.sz=not c.sz; return
+        if mn=='frchg': c.FR,c.XF=c.XF,c.FR; c.swapped=not c.swapped; return
+        if c.sz and mn in ('fmov','fmov.s'):       # size mode 1: a move takes a register pair; an odd register number names the other bank
+            def pair_get(k):
+                bank=c.XF if k&1 else c.FR
+                names=('fr%d'%(k&14),'fr%d'%((k&14)+1))
+                if bank is c.FR: return c.gf(names[0]),c.gf(names[1])
+                if names[0] not in bank or names[1] not in bank: raise Skip('xf bank unset')
+                return bank[names[0]],bank[names[1]]
+            def pair_put(k,hi,lo):
+                bank=c.XF if k&1 else c.FR
+                bank['fr%d'%(k&14)]=hi; bank['fr%d'%((k&14)+1)]=lo
+            def plus4(ad): return ('const',(ad[1]+4)&M) if ad[0]=='const' else ('expr','(%s + 4)'%ad[1])
+            num=lambda r:int(r[2:])
+            if mn=='fmov':
+                pair_put(num(a[1]),*pair_get(num(a[0]))); return
+            if a[0].startswith('fr'):                # store the pair: the odd register at the address, the even one 4 above
+                hi,lo=pair_get(num(a[0])); mm=parse_mem(a[1])
+                if mm[0]=='pre':
+                    nb=iop('sub',c.gi(mm[1]),8); c.R[mm[1]]=nb; ad=addr_expr(nb,0)
+                else: ad=memaddr(mm)
+                fstore(ad,lo); fstore(plus4(ad),hi); return
+            mm=parse_mem(a[0])
+            if mm[0]=='post':
+                b=c.gi(mm[1]); ad=addr_expr(b,0); c.R[mm[1]]=iop('add',b,8)
+            else: ad=memaddr(mm)
+            lo=fload(ad); hi=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return
+        if mn=='ftrv' and a[0]=='xmtrx':
+            vn=int(a[1][2:]); names=['fr%d'%i for i in range(16)]
+            if c.sz: raise Skip('ftrv in size mode 1')
+            if not c.XF and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is
+                c.xf_entry=True; v_=fresh(True); emit('float %s[4];'%v_)
+                for i in range(4): emit('%s[%d] = %s;'%(v_,i,fx(c.gf('fr%d'%(vn+i)))))
+                c.protos['_builtin_ftrv']=('float *','float *'); emit('_builtin_ftrv(%s, %s);'%(v_,v_))
+                for i in range(4): c.FR['fr%d'%(vn+i)]=('e','%s[%d]'%(v_,i))
+                return
+            if any(r not in c.XF for r in names): raise Skip('xmtrx unset')
+            m_=fresh(True); v_=fresh(True)
+            emit('float %s[16];'%m_); emit('float %s[4];'%v_)
+            for i in range(16): emit('%s[%d] = %s;'%(m_,i,fx(c.XF['fr%d'%i])))
+            for i in range(4): emit('%s[%d] = %s;'%(v_,i,fx(c.gf('fr%d'%(vn+i)))))
+            c.protos['_builtin_ld_ext']=('float (*)[4]',); c.protos['_builtin_ftrv']=('float *','float *')
+            emit('_builtin_ld_ext((float (*)[4])%s);'%m_); emit('_builtin_ftrv(%s, %s);'%(v_,v_))
+            for i in range(4): c.FR['fr%d'%(vn+i)]=('e','%s[%d]'%(v_,i))
+            return
+        if mn=='fipr':
+            vm=int(a[0][2:]); vn=int(a[1][2:])
+            if c.sz: raise Skip('fipr in size mode 1')
+            x_=fresh(True); y_=fresh(True); r_=fresh(True)
+            emit('float %s[4];'%x_); emit('float %s[4];'%y_)
+            for i in range(4): emit('%s[%d] = %s;'%(x_,i,fx(c.gf('fr%d'%(vm+i)))))
+            for i in range(4): emit('%s[%d] = %s;'%(y_,i,fx(c.gf('fr%d'%(vn+i)))))
+            c.protos['_builtin_fipr']=('float *','float *','->float')
+            emit('float %s = _builtin_fipr(%s, %s);'%(r_,x_,y_))
+            c.FR['fr%d'%(vn+3)]=('e',r_); return
         if mn=='fmov' and a[0].startswith('fr'): c.FR[a[1]]=c.gf(a[0]); return
         if mn=='fmov.s':
             if a[0].startswith('fr'):   # store
@@ -374,14 +518,23 @@ def run(name,passthru=False):
                 fstore(memaddr(mm),v); return
             else:
                 mm=parse_mem(a[0])
-                if mm[0]=='ind' and isinstance(c.gi(mm[1]),tuple) and c.gi(mm[1])[0]=='addr':
-                    c.FR[a[1]]=rd32(c.gi(mm[1])[1]); return
                 if mm[0]=='post':
                     b=c.gi(mm[1]); c.FR[a[1]]=fload(addr_expr(b,0)); c.R[mm[1]]=iop('add',b,4); return
                 c.FR[a[1]]=fload(memaddr(mm)); return
         if mn in('fadd','fsub','fmul','fdiv'):
             x=c.gf(a[1]); y=c.gf(a[0]); op={'fadd':'+','fsub':'-','fmul':'*','fdiv':'/'}[mn]
             c.FR[a[1]]=('e','(%s %s %s)'%(fx(x),op,fx(y))); return
+        if mn=='fsqrt':
+            c.protos['_builtin_sqrtf']=('float','->float'); c.FR[a[0]]=('e','_builtin_sqrtf(%s)'%fx(c.gf(a[0]))); return
+        if mn=='fsts' and a[0]=='fpul':     # the bits of fpul as a float
+            v=c.fpul
+            if v is None: raise Skip('fpul unset')
+            if isint(v): c.FR[a[1]]=v; return
+            t=fresh(False); emit('int %s = %s;'%(t,ex(v))); c.FR[a[1]]=('e','(*(float *)&%s)'%t); return
+        if mn=='flds' and a[1]=='fpul':     # the bits of a float in fpul
+            v=c.gf(a[0])
+            if isint(v): c.fpul=v; return
+            t=fresh(True); emit('float %s = %s;'%(t,fx(v))); c.fpul=('e','(*(int *)&%s)'%t); return
         if mn=='fneg': c.FR[a[0]]=('e','(-%s)'%fx(c.gf(a[0]))); return
         if mn=='fmac' and len(a)==3 and a[0]=='fr0':       # frn += fr0 * frm
             acc=c.gf(a[2]); x=c.gf(a[0]); y=c.gf(a[1])
@@ -394,20 +547,47 @@ def run(name,passthru=False):
         if mn=='sts' and a[0]=='fpul': c.R[a[1]]=c.fpul; return
         raise Skip(mn+' '+rawops)
     addr2idx={x[2]:i for i,x in enumerate(ins)}
-    def do_call(fname,tail=False,ind=None):
+    def do_call(fname,tail=False,ind=None,after=None,after2=None):
+        if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
         if fname in ('_divls','_divlu','_modls','_modlu'):
             # the compiler's division helpers: dividend r1, divisor r0, result r0 (r1 is used up, the others come back unchanged)
             if tail: raise Skip('helper as a tail call')
             ty='int' if fname.endswith('s') else 'unsigned int'
             t=fresh(False); emit('int %s = (int)((%s)%s %s (%s)%s);'%(t,ty,ex(c.gi('r1')),'/' if fname.startswith('_div') else '%',ty,ex(c.gi('r0'))))
             c.R['r0']=('e',t); c.R.pop('r1',None); return
-        if fname in ('_quick_odd_mvn','_quick_evn_mvn'):
-            # a block copy: length r0 (bytes, a multiple of 4), destination r1, source r2, copied from the top down; r0 is left unknown
+        if fname in ('_quick_odd_mvn','_quick_evn_mvn','_quick_mvn','_slow_mvn'):
+            # a block copy: length r0 (bytes), destination r1, source r2; r0 is left unknown (and r1 for the byte copy), r2-r7 are kept
             n=c.gi('r0')
-            if tail or not isint(n) or n%4 or n>256: raise Skip('block copy length')
+            if tail: raise Skip('block copy tail')
             d=c.gi('r1'); sr=c.gi('r2')
-            for off in range(n-4,-1,-4): store('l',addr_expr(d,off),load('l',addr_expr(sr,off)))
-            c.R['r0']=DIRTY; return
+            if isint(n) and n%4==0 and n<=256 and fname!='_slow_mvn':
+                for off in range(n-4,-1,-4): store('l',addr_expr(d,off),load('l',addr_expr(sr,off)))
+            elif isint(n) and n<=64:
+                for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
+            else:                                   # any other length: a byte loop
+                k=fresh(False)
+                emit('int %s = 0;'%k)
+                emit('for (; %s < (int)%s; %s++) *(unsigned char *)(%s + %s) = *(unsigned char *)(%s + %s);'%(k,ex(n),k,ex(d),k,ex(sr),k))
+            c.R['r0']=DIRTY
+            if fname=='_slow_mvn': c.R['r1']=DIRTY
+            return
+        if fname in ('_bfxlu','_bfslu'):
+            # bit fields, unsigned: r1 = (offset << 8) | width-end, r2 = the address of the word; _bfxlu returns the field in r0,
+            # _bfslu stores r0 into the field (and leaves the value masked to the field in r0). r1 and r2 are kept
+            desc=c.gi('r1'); p=c.gi('r2')
+            if tail or not isint(desc): raise Skip('bit field descriptor')
+            a=(desc>>8)&0xff; w=desc&0xff
+            if w<1 or w>32: raise Skip('bit field descriptor')
+            sh=32-w-a
+            if sh<0: raise Skip('bit field descriptor')
+            wmask=(1<<w)-1
+            old=load('l',addr_expr(p,0))
+            if fname=='_bfxlu':
+                t=fresh(False); emit('int %s = (int)(((unsigned int)%s >> %d) & 0x%X);'%(t,ex(old),sh,wmask)); c.R['r0']=('e',t); return
+            v=c.gi('r0')
+            t=fresh(False); emit('int %s = (int)((unsigned int)%s & 0x%X);'%(t,ex(v),wmask))
+            store('l',addr_expr(p,0),('e','((%s & 0x%X) | ((unsigned int)%s << %d))'%(ex(old),(~(wmask<<sh))&M,t,sh)))
+            c.R['r0']=('e',t); return
         if fname.startswith('_'): raise Skip('compiler helper %s'%fname)
         iargs=[]; 
         avail=[]
@@ -420,7 +600,10 @@ def run(name,passthru=False):
             r='fr%d'%n
             if r in c.FR and c.FR[r]!=DIRTY: fav.append(n)
         ar=None if ind else callee_arity(fname)
-        if ar and not c.pend:                    # the registers the callee reads: leftovers set for other reasons are not arguments
+        isadd=lambda x:bool(x) and x[0]=='add' and parse_ops(x[1])[-1]=='r15'
+        cleanup=isadd(after) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
+        spill=bool(ar) and ar[0]<=4 and bool(c.pend) and not cleanup    # a callee taking at most four integer arguments and no cleanup: what is on the stack was saved, not passed
+        if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
@@ -437,22 +620,26 @@ def run(name,passthru=False):
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr arg')
             args.append(ex(v)); types.append('int')
             if '@@F' in args[-1]: c.frame_regs.add('r%d'%n)
-        if c.pend:
+        if c.pend and not spill:
             # arguments pushed on the stack: the first of them was pushed last
             variadic=False
             if len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
                 variadic=True
-            elif len(ia)<4: raise Skip('stack arguments without four in registers')
-            for v in reversed(c.pend): args.append(ex(v)); types.append('int')
+            elif len(ia)<4: raise Skip('stack arguments without four in registers [%s: %d in registers%s, %d on the stack]'%(fname,len(ia),' + floats' if fa else '',len(c.pend)))
+            for v in reversed(c.pend):
+                if isfp(v): args.append(fx(v[1])); types.append('float')
+                else: args.append(ex(v)); types.append('int')
             if variadic: types=['int','...']
             c.pend=[]
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         sig=tuple(types)
         isf=(not ind) and fname in c.protos and c.protos[fname][-1:]==('->float',)
         if not ind:
-            if fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Skip('proto conflict %s %s -> %s'%(fname,tuple(x for x in c.protos[fname] if x!='->float'),sig))
-            if not isf: c.protos[fname]=sig
+            if fname not in _CONFLICTS and fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Conflict(fname)
+            if fname in _CONFLICTS: c.protos[fname]=('()',)+(('->float',) if isf else ())
+            elif not isf: c.protos[fname]=sig
         if ind: call='((int (*)(%s))(%s))(%s)'%(', '.join(sig) or 'void',ind,', '.join(args))
+        elif fname in _CONFLICTS: call='((%s (*)(%s))(%s))(%s)'%('float' if isf else 'int',', '.join(sig) or 'void',fname,', '.join(args))
         else: call='%s(%s)'%(fname,', '.join(args))
         if tail:
             c.tail=call; c.blocks[-1].append('@@TAIL:%s@@'%call); return
@@ -538,8 +725,10 @@ def run(name,passthru=False):
         if s: c.blocks[-1].append(s)
 
     # ---- machine state ----
-    def regs_state(): return (dict(c.R),dict(c.FR),c.fpul,dict(c.stack),c.macl,c.D,list(c.pend))
-    def set_regs(st): c.R,c.FR,c.fpul,c.stack,c.macl,c.D,c.pend=dict(st[0]),dict(st[1]),st[2],dict(st[3]),st[4],st[5],list(st[6])
+    def regs_state(): return (dict(c.R),dict(c.FR),c.fpul,dict(c.stack),c.macl,c.D,list(c.pend),(c.sz,c.swapped,dict(c.XF)))
+    def set_regs(st):
+        c.R,c.FR,c.fpul,c.stack,c.macl,c.D,c.pend=dict(st[0]),dict(st[1]),st[2],dict(st[3]),st[4],st[5],list(st[6])
+        if len(st)>7: c.sz,c.swapped,c.XF=st[7][0],st[7][1],dict(st[7][2])
     # a snapshot keeps the statement lists themselves (their callers hold them) and restores their contents
     def snap():
         d={k:v for k,v in c.__dict__.items() if k not in ('blocks','stmts')}
@@ -560,6 +749,7 @@ def run(name,passthru=False):
         for r in sorted(c.lv):
             isf=r.startswith('fr'); v=(c.FR if isf else c.R).get(r); var=c.lv[r]
             if v is None or v==DIRTY or v==('e',var): continue
+            if isinstance(v,int) and c.lvk.get(r)==v: continue                       # a function's address already stored in the variable and kept as the constant
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr loop variable')
             pend.append([r,var,v,isf])
         if not pend: return
@@ -587,7 +777,10 @@ def run(name,passthru=False):
                 q=[q for q in left if isinstance(q[2],tuple) and any(o is not q and re.search(r'\b%s\b'%o[1],q[2][1]) for o in left)][0]
                 q[2]=keep(q[2][1],q[3]); continue
             emit('%s = %s;'%(pick[1],fx(pick[2]) if pick[3] else ex(pick[2])))
-            (c.FR if pick[3] else c.R)[pick[0]]=('e',pick[1])
+            if isinstance(pick[2],int) and not pick[3] and (pick[2] in FUNCS or (pick[2]>>29 in (4,5) and (pick[2]&0x1FFFFFFF) in FUNCS)):
+                c.lvk[pick[0]]=pick[2]           # a call target: the call must still see the constant, so the register keeps it (the variable has it too)
+            else:
+                (c.FR if pick[3] else c.R)[pick[0]]=('e',pick[1])
             left.remove(pick)
 
     def step(i):
@@ -599,7 +792,11 @@ def run(name,passthru=False):
             r=parse_ops(ops)[0]; c.R[r]=iop('sub',c.gi(r),1); commit(); x=ex(c.R[r]); setT('(%s == 0)'%x,'(%s != 0)'%x)
         elif mn in ('braf','bsrf','rte','trapa'): raise Skip('flow '+mn)
         else:
-            if exec1(mn,ops) == 'rts': raise Skip('rts in slot')
+            try:
+                if exec1(mn,ops) == 'rts': raise Skip('rts in slot')
+            except Skip as e:
+                if '@@' not in str(e) and not str(e).endswith(')'): e.args=(str(e)+' @%x'%pc,)
+                raise
         commit()
 
     def merge_arms(stA,stB,A,B):
@@ -607,6 +804,7 @@ def run(name,passthru=False):
         the arms leave different becomes a variable assigned in each arm."""
         ea,eb=not A,not B
         if stA[5]!=stB[5] or stA[6]!=stB[6]: raise Skip('stack pointer differs')
+        if stA[7]!=stB[7]: raise Skip('FPU bank or size mode differs')
         R={}; FR={}
         for sa,sb,out,isf in ((stA[0],stB[0],R,False),(stA[1],stB[1],FR,True)):
             for r in sorted(set(sa)|set(sb)):
@@ -615,7 +813,7 @@ def run(name,passthru=False):
                     if va is not None: out[r]=va
                     continue
                 if va is None or vb is None or DIRTY in (va,vb) or (isinstance(va,tuple) and va[0] in ('addr','srx')) or (isinstance(vb,tuple) and vb[0] in ('addr','srx')):
-                    out[r]=DIRTY; continue
+                    out[r]=DIRTY; c.dwhy[r]='%s | %s'%(str(va)[:40],str(vb)[:40]); continue
                 var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
                 if not ea and not eb:
                     emit('%s %s;'%(ty,var)); A.append('%s = %s;'%(var,f(va))); B.append('%s = %s;'%(var,f(vb)))
@@ -731,7 +929,7 @@ def run(name,passthru=False):
         own final return."""
         while True:
             c.steps+=1
-            if c.steps>3000: raise Skip('too long')
+            if c.steps>30000: raise Skip('too long')
             if i not in G.succ: raise Skip('runs off the code')
             if i in stops and not first:
                 k=stops[i]
@@ -756,20 +954,27 @@ def run(name,passthru=False):
                         if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect call')
                         texpr=ex(v)
                         step(i+1)
-                        do_call('@indirect',ind=texpr); commit(); i+=2; continue
+                        do_call('@indirect',ind=texpr,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
                     tgt=v
+                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF   # the cached/uncached mirror of a function
                 if tgt not in FUNCS: raise Skip('callee unknown %x'%tgt)
                 step(i+1)
-                do_call(FUNCS[tgt]); commit(); i+=2; continue
+                do_call(FUNCS[tgt],after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
             if mn=='bra' or mn=='jmp':
                 if mn=='bra':
                     tgt=target_of(ops)
                     if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue
                 else:
                     v=c.gi(parse_ops(ops)[0].strip('@'))
-                    if not isinstance(v,int): raise Skip('indirect jmp')
+                    if not isinstance(v,int):
+                        # a tail call through a pointer (a callback, a method table): the delay slot restores the frame
+                        if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect jmp')
+                        texpr=ex(v); step(i+1)
+                        do_call('@indirect',tail=True,ind=texpr)
+                        return ('end',)
                     tgt=v
-                    if tgt in addr2idx: raise Skip('jmp inner')
+                    if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue      # the compiler's long-range goto: a constant address inside the function, like a bra
+                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
                 if tgt not in FUNCS: raise Skip('tail unknown')
                 step(i+1)
                 do_call(FUNCS[tgt],tail=True)
@@ -777,6 +982,7 @@ def run(name,passthru=False):
             if mn=='rts':
                 step(i+1) if i+1<len(ins) else None
                 r0=c.R.get('r0'); f0=c.FR.get('fr0')
+                if c.sz or c.swapped: raise Skip('FPU mode not restored')
                 rs='None' if r0 is None or r0==DIRTY or (isinstance(r0,tuple) and r0[0] in ('addr','srx')) else ex(r0)
                 fs='None' if f0 is None or f0==DIRTY else fx(f0)
                 c.rets.append((rs,fs))
@@ -795,8 +1001,8 @@ def run(name,passthru=False):
                 i=r[1]; continue
             step(i); i+=1
 
-    c.D=0; c.maxD=0; c.pend=[]; c.frame_regs=set(); c.frame=any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
-    c.rets=[]; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
+    c.D=0; c.maxD=0; c.pend=[]; c.frame_regs=set(); c.frame=bool(frame) or any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
+    c.rets=[]; c.lvk={}; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
     G=gen_cfg.Graph(ins,addr2idx) if ins else None
     if G is None: raise Skip('empty')
     out=exec_from(0,{},False)

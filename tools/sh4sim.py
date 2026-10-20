@@ -26,6 +26,7 @@ A call's "poke_arg" writes those bytes at the address the named register holds w
 import json
 import math
 import os
+import re
 import struct
 import sys
 
@@ -495,6 +496,12 @@ class CPU:
                 self.setf(n, math.sqrt(x) if x >= 0 else float('nan')); return
             if k == 8: self.fr[n] = 0; return                            # fldi0
             if k == 9: self.fr[n] = 0x3F800000; return                   # fldi1
+            if k == 7:                                                    # fsrra frn
+                x = self.f(n)
+                self.setf(n, 1.0 / math.sqrt(x) if x > 0 else float('inf')); return
+            if k == 0xf and (n & 1) == 0:                                 # fsca fpul,drn: sine and cosine of an angle in 1/65536 turns
+                a = 2.0 * math.pi * (self.fpul & 0xFFFF) / 65536.0
+                self.setf(n, math.sin(a)); self.setf(n + 1, math.cos(a)); return
             if k == 0xe:                                                  # fipr fvm,fvn
                 vn, vm = (n >> 2) * 4, (n & 3) * 4
                 s = sum(self.f(vm + i) * self.f(vn + i) for i in range(4))
@@ -592,6 +599,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             cpu.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
         elif k == 'gbr':
             cpu.gbr = int(v, 16)
+        elif k.startswith('xf'):                          # the back bank (XMTRX) the function starts with
+            cpu.xf[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
         else:
             cpu.r[int(k[1:])] = int(v, 16) & M32
     cpu.pr = SENTINEL
@@ -599,6 +608,10 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     calls = []
     returns = list(case.get('calls', []))
     entry_r15 = cpu.r[15]
+    given_args = {int(k[1:]) for k in case.get('regs', {}) if re.match(r'r[4-7]$', k)}   # the arguments the case passes in are the function's own
+    entry_fargs = [cpu.fr[i] for i in range(4, 12)]   # fr4-fr11 as the case gave them: a float argument register that still holds this was not set by the function
+    given_fargs = {int(k[2:]) for k in case.get('regs', {}) if re.match(r'fr(4|5|6|7|8|9|10|11)$', k)}
+    entry_args = [cpu.r[i] for i in range(4, 8)]      # r4-r7 as the case gave them: a call's argument register that still holds this was not set by the function
 
     def on_call(c, target, kind, at):
         if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
@@ -608,6 +621,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
                       'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)],
+                      'chg': [i in given_args or c.r[i] != entry_args[i - 4] for i in range(4, 8)],
+                      'fchg': [i in given_fargs or c.fr[i] != entry_fargs[i - 4] for i in range(4, 12)],
                       'stack': '%08X' % mem.read(c.r[15] & M32, 4)})   # the word on top of the stack: the first argument of a variadic call
         ret = returns.pop(0) if returns else {}
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot

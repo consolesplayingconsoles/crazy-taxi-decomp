@@ -22,7 +22,7 @@ extern int vmsfs_c_getstate(int a);
 extern int vmsfs_findnext(int a, int b);
 extern int vmsfs_fgetsize(int a, int b);
 extern int ADXERR_CallErrFunc(char *fmt);
-extern int mwRnaErrCallFunc(int a, ...);
+extern void mwRnaErrCallFunc(char *fmt, ...);
 extern int FUN_8c1e2de4(int a, int *out);
 extern int FUN_8c1e2e1c(int a, int b);
 extern void kmWaitVBlank(void);
@@ -90,7 +90,7 @@ void mwRnaSetSfreq(char *o, int f)
     int **p;
 
     if (o == 0) {
-        mwRnaErrCallFunc((int)o, g_8c20ac30);
+        mwRnaErrCallFunc(g_8c20ac30);
         return;
     }
     p = *(int ***)(o + 56);

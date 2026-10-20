@@ -8,7 +8,7 @@ def variants(name,passthru):
     lit=lambda x:re.match(r'^(-?\d+|0x[0-9A-F]+|-?[\d.e+-]+f)$',x)
     out=[]
     if c.rets and all(f!='None' for r,f in c.rets) and not all(lit(f) for r,f in c.rets): out.append('fr0')
-    if c.rets and all(r!='None' for r,f in c.rets) and not all(lit(r) for r,f in c.rets): out.append('r0')
+    if c.rets and all(r!='None' for r,f in c.rets): out.append('r0')      # a literal return counts too: the check must compare r0 when the function sets it
     out.append('void')
     return out
 LAST={}                          # the text of the last check, for the report of what failed

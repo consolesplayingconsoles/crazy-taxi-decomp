@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXB_CheckAu(int);
-int ADXB_CheckSpsd(int, int, int);
+int ADXB_CheckSpsd(void);
 int ADXB_CheckWav(int);
 int ADXB_DecodeHeaderAdx(int, int, int);
 int ADXB_DecodeHeaderAiff(int, int, int);
@@ -18,10 +18,10 @@ int ADXB_ExecOneAu8(int);
 int ADXB_ExecOneAuUlaw(int);
 int ADXB_GetStat(int);
 int ADXF_GetFsizeSct(int);
-int ADXF_OpenAfs(int, int, int, int);
+int ADXF_OpenAfs(int, int);
 int ADXF_ReadNw32(int, int, int);
 int ADXPD_Create(void);
-int ADXRNA_SetOutPan(int, int, int);
+int ADXRNA_SetOutPan(void);
 int ADXSTM_Tell(int);
 int ADXT_SetOutVol(int, int);
 int FUN_0c02e1ce(int);
@@ -32,7 +32,6 @@ int FUN_0c031036(int, int, int, int);
 int FUN_0c031408(int);
 int FUN_0c03933e(void);
 int FUN_0c03934e(float);
-int FUN_0c03f912(void);
 int FUN_0c040b98(int);
 int FUN_0c04a4d6(int, int);
 int FUN_0c04a52a(int);
@@ -44,11 +43,11 @@ int FUN_0c04d49e(int, float, float);
 int FUN_0c050fec(void);
 int FUN_0c057728(int, int, int);
 int FUN_0c05778a(int, int, float, float);
-int FUN_0c059310(int, int);
+int FUN_0c059310(void);
 int FUN_0c059486(int, int);
 int FUN_0c05af6c(void);
 int FUN_0c05af86(void);
-int FUN_0c05bb24(int);
+int FUN_0c05bb24(void);
 int FUN_0c05bb76(int);
 int FUN_0c070e8a(int);
 int FUN_0c07284e(int, int);
@@ -57,32 +56,28 @@ int FUN_0c074690(void);
 int FUN_0c074f10(void);
 int FUN_0c0770f0(int, int, int);
 int FUN_0c0813e0(int, int, int);
-int FUN_0c08160a(int, int, int, int, float);
+int FUN_0c08160a(int);
 int FUN_0c156c32(int, int, int, int);
-int FUN_0c1583c4(int);
+int FUN_0c1583c4(void);
 int FUN_0c158860(int, int, int);
 int FUN_0c16884a(int);
 int FUN_0c168c7c(int);
 int FUN_0c16c634(int);
-int FUN_0c170848(int, int, int);
-int FUN_0c17085c(int);
+int FUN_0c170848(void);
+int FUN_0c17085c(void);
 int FUN_0c17088c(int, int, int);
 int FUN_0c170908(int, int, int);
-int FUN_0c170956(int, int);
-int FUN_0c170a8c(int);
-int FUN_0c170b48(int);
 int FUN_0c172f1e(int);
-int FUN_0c17467c(int);
 int GetMenuMode(int);
-int GetRotVec4Ang(float);
+int GetRotVec4Ang(void);
 int KillColliObj(int);
-int LightEffect(int, float);
+int LightEffect(int);
 int Psg_Init(int, int, int);
 int Put_Max_Combo(void);
 int ResetFadeColor(void);
 int ResetSpark(void);
 int Sound_Request(int, int);
-int StopingCarInit(int, int, int);
+int StopingCarInit(int, int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int adxStartAfs1(int, int);
@@ -90,26 +85,26 @@ int adxsjd_decexec_end(int);
 int adxsjd_decexec_start(int);
 int buExitForce(void);
 int callGoBackAdvertise(void);
-int courseCarType(int, int);
+int courseCarType(void);
 int fmcalccrc(int, int);
-int gdFsInit(int, int, int, int);
-int gdFsSeek(int, int, int);
+int gdFsInit(void);
+int gdFsSeek(int);
 int gdc_StopStreamSongAll(void);
 int kmChangeLatencyModel(int, int);
 int kmProcessVertexRenderState(int);
 int kmSetVertexRenderState(int);
 int kmfSetVertexBufferBaseAddress(int, int);
 int kmiCopyToFrameBuffer(int, int, int);
-int kmiGetProfileInt(int, int, int);
+int kmiGetProfileInt(int, int);
 int kmiInitializeHardware(void);
 int kmiRegisterPhIntHandler(int);
-int kmiWriteRegister(int, int, int);
+int kmiWriteRegister(int, int);
 int kmtex_GetTextureLevel(int, int);
 int kmyConvertAddress64to32(int);
 int longjmp(int, int);
-int memset(int, int, int, int);
+int memset(int, int, int);
 int nlCloseEvent(int);
-int nlGetMatrix(int, int);
+int nlGetMatrix(int);
 int nlLoadMatrix(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutUseViewMatrix(int);
@@ -117,7 +112,6 @@ int nlPopMatrix(int);
 int nlPrintColor(int);
 int nlPushMatrix(int);
 int nlScale(float, float, float);
-int nlSearchPalette(int, int);
 int nlSetScaleFactor(float);
 int nlSetTextureParameter(int);
 int nlSprPut(int);
@@ -126,16 +120,121 @@ int nlsndStreamSetHdChs(int, int);
 int ovLibDeleteTbl(int);
 int pfColor(int, int, int, int);
 int pfSetFont(int);
-int pfSetZ(int, int, int, float, float, float);
+int pfSetZ(float);
 int pfSize(float, float);
 int psgSetState(int, int, int, int);
 int replay(int);
-int set_event(int, int, int, int);
+int set_event(int, int);
 int setjmp(int);
-int syBtCfgSet(int, int);
+int syBtCfgSet(int);
 int syCfgSetSoundMode(int);
-int thunk_FUN_0c1708b2(int, int, int);
+int thunk_FUN_0c1708b2(void);
 int vmsfs_c_getstate(int);
+int FUN_0c02e458(void);
+int fsInit(void);
+int FUN_0c02e940(void);
+int InitEffect(void);
+int gameState14(void);
+int FUN_0c03b544(int a4);
+int menuEnterStep(void);
+int FUN_0c03f912(void);
+int stopingCarSpawn(int a4, int a5);
+int pcarEnd(int a4);
+int trainControlExec(int a4);
+void GoiTool(int a4);
+int FUN_0c04e194(void);
+int FUN_0c051c62(void);
+void FUN_0c051d44(void);
+int FUN_0c059254(void);
+int FUN_0c0595e8(void);
+int FUN_0c05da9c(void);
+int execMiniLight(void);
+int GetAverageAngle(int a4, int a5, float f4);
+int FUN_0c070bf8(int a4);
+int FUN_0c070c64(int a4);
+int FUN_0c071d34(int a4, int a5, int a6, int a7);
+int FUN_0c0728c8(void);
+int FUN_0c0738bc(void);
+int nlFreePalette(int a4);
+int nlSearchPalette(int a4, int a5);
+int FUN_0c074d20(void);
+int FUN_0c074de0(int a4);
+int FUN_0c074eb0(int a4);
+int FUN_0c075090(void);
+float nlTan(int a4);
+int FUN_0c077290(int a4, int a5);
+int FUN_0c07bd30(int a4);
+int FUN_0c07be20(int a4);
+int nlSpriteSetVtxContext(int a4);
+int nlSpriteF2C(float f4);
+int FUN_0c07e8a0(int a4, int a5);
+int FUN_0c07f5c0(int a4);
+int FUN_0c07fc40(int a4);
+int FUN_0c080470(int a4, int a5, int a6, int a7);
+int FUN_0c080500(int a4);
+int nlDispStripLoadPalette(int a4, int a5);
+int nlstripSetVertexContext(int a4);
+int kmSetPaletteBankData(int a4, int a5, int a6);
+int kmSetPixelClipping(int a4, int a5, int a6, int a7);
+int FUN_0c14cf46(int a4);
+void p2_cache_set(void);
+int buExit(void);
+int syCfgGetSoundMode(int a4);
+int kmiInitializeDMA(void);
+int kmiDMAHazardReset(void);
+int kmiCh2DMAtoTA(int a4, int a5);
+int kmiTAallocEx(int a4, int a5, int a6);
+int FUN_0c1566a0(int a4, int a5);
+int kmInitDevice(int a4);
+void kmiWriteRegisters(int a4, int a5, int a6, int a7);
+int kmfSetTimeOutCount(int a4, int a5);
+int FUN_0c15a9a8(int a4);
+int kmLoadVQCodebook(int a4, int a5);
+int FUN_0c15c7a0(int a4);
+int FUN_0c15c852(int a4);
+int kmiConvertUVnum(int a4);
+int kmSetCheapShadowMode(int a4);
+int kmiPutGlobalParam(void);
+int kmChangeContextZWriteDisable(int a4);
+int kmChangeContextFogMode(int a4);
+int kmChangeContextPaletteBank(int a4);
+int FUN_0c15e820(int a4);
+int FUN_0c15f460(int a4, int a5, int a6, int a7);
+int FUN_0c15fa6c(int a4, int a5, int a6);
+int kdVbOverHandler(void);
+int FUN_0c162d2c(int a4, int a5);
+int FUN_0c162d5e(int a4, int a5);
+int FUN_0c162d8a(int a4, int a5);
+int check_caps(int a4);
+int ADX_DecodeInfoExADPCM2(int a4, int a5, int a6);
+int adxsjd_decode_exec(int a4);
+int ADXSTM_Seek(int a4, int a5);
+void ADXSTM_SetEos(int a4, int a5);
+int ADXSTMF_ExecHndl(int a4);
+int adxt_set_outpan(int a4);
+void mwRnaSetupSnd(int a4, int a5);
+void SJMEM_Finish(void);
+void SJRBF_Finish(void);
+void SJUNI_Finish(void);
+int kmiInitInterrupt(void);
+int FUN_0c16bb70(void);
+int FUN_0c16c796(void);
+int syG2DmaReset(int a4);
+int FUN_0c1708d0(int a4, int a5, int a6);
+int FUN_0c170956(int a4, int a5);
+int FUN_0c170a8c(int a4);
+int FUN_0c170b48(int a4);
+int FUN_0c170c68(int a4);
+int ADXB_Create(int a4, int a5, int a6, int a7);
+int ADXB_DecodeHeader(int a4, int a5, int a6);
+int FUN_0c1718c4(int a4);
+int FUN_0c171cfe(int a4, int a5);
+int buFbrSleepFiber(int a4);
+int ADXB_ExecOneAiff(int a4);
+int ADXB_ExecOneAu(int a4);
+int FUN_0c17467c(int a4);
+void FUN_0c1747be(int a4);
+int FUN_0c1747f4(int a4);
 
 int FUN_0c02e458(void)
 {
@@ -170,7 +269,7 @@ int fsInit(void)
 
     t0 = 0x8;
     for (;;) {
-        t1 = gdFsInit(0xC, 0xC26A0E0, 0x46, 0xC26B5A8);
+        t1 = gdFsInit();
         if (t1 != -23) {
             if (t1 != -33) {
                 if (t1 != 0) {
@@ -237,7 +336,7 @@ int FUN_0c02e940(void)
         *(unsigned char *)((((short)((((t8 << 1) + t8) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
         t9 = *(int *)0xC26E0F4;
         t10 = *(int *)((((short)((((t9 << 1) + t9) << 2) << 1) + 0xC26C5DC) + 0x4));
-        t11 = ADXF_OpenAfs(0x0, t10, 0xC26E0F4, t2);
+        t11 = ADXF_OpenAfs(0x0, t10);
         *(unsigned int *)0xC26C5D8 = t11;
         t16 = t11;
         if (t11 != 0) {
@@ -256,7 +355,7 @@ int FUN_0c02e940(void)
     return t17;
 }
 
-void InitEffect(void)
+int InitEffect(void)
 {
     int t0;
     int t1;
@@ -267,8 +366,14 @@ void InitEffect(void)
     int t6;
     int t7;
     int t9;
-    int t10;
+    float u10;
     float u11;
+    int t12;
+    int t14;
+    float u15;
+    float u13;
+    int t22;
+    int t19;
     int t16;
 
     t0 = 0xC0EDA78;
@@ -302,27 +407,38 @@ void InitEffect(void)
     *(unsigned int *)0xC274264 = 0x1;
     t9 = *(int *)0xC1EE20C;
     if (t9 == 0) {
-        *(float *)0xC274258 = -1237.0f;
+        u10 = *(float *)0xC03676C;
+        *(float *)0xC274258 = u10;
+        t19 = 0xC03676C;
     } else {
         if (t9 == 1) {
-            *(float *)0xC274258 = -30.0f;
-        } else {
-            t10 = *(int *)0xC1EE214;
-            u11 = 0.0f;
-            if (t10 == 1) {
-                u11 = -9.79999924f;
-            }
+            u11 = *(float *)0xC036770;
             *(float *)0xC274258 = u11;
+            t16 = 0xC036770;
+        } else {
+            t12 = *(int *)0xC1EE214;
+            t14 = t12;
+            u15 = 0.0f;
+            if (t12 == 1) {
+                u13 = *(float *)0xC036778;
+                t14 = 0xC036778;
+                u15 = u13;
+            }
+            *(float *)0xC274258 = u15;
+            t16 = t14;
         }
+        t19 = t16;
     }
-    t16 = *(int *)0xC14AA70;
-    *(unsigned int *)0xC14AA70 = (t16 | 0x800000);
+    t22 = *(int *)0xC14AA70;
+    *(unsigned int *)0xC14AA70 = (t22 | 0x800000);
+    return t19;
 }
 
 int gameState14(void)
 {
-    int t9;
+    float u5;
     int t10;
+    int t11;
 
     Voice_ShutUp(0x0);
     Voice_Request(0xC0EEA08, 0x0, 0x7F, 0x0);
@@ -337,7 +453,8 @@ int gameState14(void)
     *(unsigned int *)0xC2864B8 = 0x0;
     *(unsigned int *)0xC2864B4 = 0x0;
     *(unsigned int *)0xC2864B0 = 0x0;
-    *(float *)0xC2864C0 = 0.399999976f;
+    u5 = *(float *)0xC03A31C;
+    *(float *)0xC2864C0 = u5;
     *(float *)0xC2864D4 = 1.0f;
     *(unsigned int *)0xC2864D8 = 0x0;
     *(unsigned int *)0xC2864C4 = 0x744;
@@ -351,18 +468,24 @@ int gameState14(void)
     FUN_0c031408(0x1);
     pfSize((1.0f + 1.0f), (1.0f + 1.0f));
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    t9 = FUN_0c031036(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
-    t10 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t10 + 0x1);
-    return t9;
+    t10 = FUN_0c031036(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
+    t11 = *(int *)0xC1EE238;
+    *(unsigned int *)0xC1EE238 = (t11 + 0x1);
+    return t10;
 }
 
 int FUN_0c03b544(int a4)
 {
+    float u0;
+    float u4;
+    float u5;
+    float u6;
+    float u7;
+    int t3;
     int t2;
     int t1;
-    int t0;
 
+    u0 = *(float *)0xC03B5E0;
     if (a4 != 0) {
         if (a4 != 1) {
             if (a4 != 2) {
@@ -370,7 +493,7 @@ int FUN_0c03b544(int a4)
                     if (a4 != 4) {
                         if (a4 != 5) {
                             if (a4 == 6) {
-                                *(float *)0xC2A1AE4 = 0.75f;
+                                *(float *)0xC2A1AE4 = u0;
                             }
                         } else {
                             *(float *)0xC2A1AE4 = 1.0f;
@@ -378,32 +501,35 @@ int FUN_0c03b544(int a4)
                     } else {
                         *(float *)0xC2A1AE4 = 0.0f;
                     }
-                    t0 = a4;
+                    t1 = a4;
                 } else {
-                    *(float *)0xC2A1A10 = 0.75f;
-                    *(float *)0xC2A1AE4 = 0.75f;
-                    t0 = 0x2C;
+                    *(float *)0xC2A1A10 = u0;
+                    *(float *)0xC2A1AE4 = u0;
+                    t1 = 0x2C;
                 }
-                t1 = t0;
+                t2 = t1;
             } else {
                 *(float *)0xC2A1A10 = 1.0f;
                 *(float *)0xC2A1AE4 = 1.0f;
-                t1 = 0x2C;
+                t2 = 0x2C;
             }
-            t2 = t1;
+            t3 = t2;
         } else {
             *(float *)0xC2A1A10 = 0.0f;
             *(float *)0xC2A1AE4 = 0.0f;
-            t2 = 0x2C;
+            t3 = 0x2C;
         }
-        return t2;
+        return t3;
     }
     *(unsigned int *)0xC2A19E4 = 0x62;
     *(float *)0xC2A19E8 = 0.0f;
     *(float *)0xC2A19EC = 0.0f;
-    *(float *)0xC2A19F0 = 0.399999976f;
-    *(float *)0xC2A19F4 = 40.0f;
-    *(float *)0xC2A19F8 = 30.0f;
+    u4 = *(float *)0xC03B5EC;
+    *(float *)0xC2A19F0 = u4;
+    u5 = *(float *)0xC03B5F0;
+    *(float *)0xC2A19F4 = u5;
+    u6 = *(float *)0xC03B5F4;
+    *(float *)0xC2A19F8 = u6;
     *(float *)0xC2A19FC = 0.0f;
     *(float *)0xC2A1A00 = 0.0f;
     *(float *)0xC2A1A04 = 1.0f;
@@ -413,7 +539,8 @@ int FUN_0c03b544(int a4)
     *(unsigned int *)0xC2A1A14 = 0x2;
     *(float *)0xC2A1A10 = 0.0f;
     *(float *)0xC2A1AE4 = 0.0f;
-    return pfSetZ(a4, 0xC2A19E4, 0xC2A1AE4, 0.099999994f, 1.0f, 0.75f);
+    u7 = *(float *)0xC03B5F8;
+    return pfSetZ(u7);
 }
 
 int menuEnterStep(void)
@@ -537,8 +664,8 @@ int stopingCarSpawn(int a4, int a5)
     if ((t2 & 0x2000) != 0) {
         t3 = *(int *)0xC2A1B1C;
         if ((t3 & 24) != 0) {
-            t4 = courseCarType(0x1, a5);
-            return StopingCarInit(t4, a4, a5);
+            t4 = courseCarType();
+            return StopingCarInit(t4, a4);
         }
         return t3;
     }
@@ -656,10 +783,11 @@ int trainControlExec(int a4)
 
 void GoiTool(int a4)
 {
-    int t10;
-    int t15;
+    float u6;
     int t11;
+    int t16;
     int t12;
+    int t13;
 
     if (a4 == 0) {
         *(unsigned int *)0xC2A4E60 = 0x0;
@@ -676,22 +804,23 @@ void GoiTool(int a4)
         FUN_0c04aac6(0x0);
         FUN_0c04af54(0x0);
         FUN_0c03933e();
-        *(float *)0xC2A6298 = 0.5f;
-        FUN_0c03934e(0.5f);
+        u6 = *(float *)0xC049B48;
+        *(float *)0xC2A6298 = u6;
+        FUN_0c03934e(u6);
         FUN_0c04bb70(0x0);
         replay(0x1);
         replay(0x5);
-        t10 = *(int *)0xC1EE234;
-        t15 = 0x3;
-        if (t10 != 0) {
-            t11 = *(int *)0xC2A4E50;
-            t12 = 0x2;
-            if (t11 == 1) {
-                t12 = 0x3;
+        t11 = *(int *)0xC1EE234;
+        t16 = 0x3;
+        if (t11 != 0) {
+            t12 = *(int *)0xC2A4E50;
+            t13 = 0x2;
+            if (t12 == 1) {
+                t13 = 0x3;
             }
-            t15 = t12;
+            t16 = t13;
         }
-        replay(t15);
+        replay(t16);
         *(unsigned int *)0xC2A62A4 = 0x0;
     }
 }
@@ -729,107 +858,114 @@ int FUN_0c04e194(void)
     return t0;
 }
 
-void FUN_0c051c62(void)
+int FUN_0c051c62(void)
 {
-    int t0;
+    float u0;
+    int t1;
 
-    t0 = 0x3;
+    u0 = *(float *)0xC051E10;
+    t1 = 0x3;
     do {
         *(float *)0xC2A7414 = 0.0f;
         *(float *)0xC2A7418 = 0.0f;
-        *(float *)0xC2A741C = 500.799988f;
+        *(float *)0xC2A741C = u0;
         *(float *)0xC2A7420 = 1.0f;
         *(float *)0xC2A7424 = 1.0f;
         *(float *)0xC2A7428 = 0.0f;
         *(float *)0xC2A742C = 0.0f;
         *(float *)0xC2A7430 = 1.0f;
         *(float *)0xC2A7434 = 1.0f;
-        t0 = (t0 - 0x1);
+        t1 = (t1 - 0x1);
         *(unsigned int *)0xC2A7438 = 0x0;
         *(unsigned int *)0xC2A7444 = 0xA;
         *(float *)0xC2A743C = 1.0f;
         *(unsigned int *)0xC2A7440 = 0x2;
-    } while (t0 != 0);
+    } while (t1 != 0);
+    return 0x2C;
 }
 
 void FUN_0c051d44(void)
 {
-    int t0;
-    int t1;
+    float u0;
+    float u1;
     int t2;
     int t3;
-    float u4;
-    float u5;
-    float u9;
-    int t10;
-    int t11;
+    int t4;
+    int t5;
+    float u6;
+    float u7;
+    float u11;
     int t12;
     int t13;
+    int t14;
     int t15;
-    float u16;
-    float u17;
-    float u21;
-    int t22;
-    int t23;
+    int t17;
+    float u18;
+    float u19;
+    float u23;
     int t24;
     int t25;
+    int t26;
+    int t27;
 
-    t0 = 0x0;
+    u0 = *(float *)0xC051E34;
+    u1 = *(float *)0xC051E38;
+    t2 = 0x0;
     for (;;) {
-        t1 = *(int *)0xC2A751C;
-        t2 = *(int *)((t1 + 0x0));
-        if (t2 == 3) {
-            if (t0 != 2) {
-                t3 = *(int *)0xC2A759C;
-                if (t3 == 1) {
-                    u4 = *(float *)0xC2A750C;
-                    if (0.0f > u4) {
-                        u5 = *(float *)0xC2A750C;
-                        *(float *)0xC2A750C = (u5 + 30.0f);
+        t3 = *(int *)0xC2A751C;
+        t4 = *(int *)((t3 + 0x0));
+        if (t4 == 3) {
+            if (t2 != 2) {
+                t5 = *(int *)0xC2A759C;
+                if (t5 == 1) {
+                    u6 = *(float *)0xC2A750C;
+                    if (0.0f > u6) {
+                        u7 = *(float *)0xC2A750C;
+                        *(float *)0xC2A750C = (u7 + u1);
                     } else {
-                        FUN_0c04d49e(0xC2A750C, 0.599999964f, 0.0f);
+                        FUN_0c04d49e(0xC2A750C, u0, 0.0f);
                     }
                 }
-                u9 = *(float *)0xC2A750C;
-                *(float *)0xC2A73C4 = ((float)(((((t0 << 2) << 2) << 2) << 1) + 0x50) + u9);
-                t10 = *(int *)0xC2A751C;
-                t11 = *(int *)((t10 + 0x0));
-                t12 = *(int *)((0xC13049C + (t11 << 2)));
-                t13 = *(int *)(((t0 << 2) + t12));
-                *(unsigned int *)0xC2A73C0 = t13;
+                u11 = *(float *)0xC2A750C;
+                *(float *)0xC2A73C4 = ((float)(((((t2 << 2) << 2) << 2) << 1) + 0x50) + u11);
+                t12 = *(int *)0xC2A751C;
+                t13 = *(int *)((t12 + 0x0));
+                t14 = *(int *)((0xC13049C + (t13 << 2)));
+                t15 = *(int *)(((t2 << 2) + t14));
+                *(unsigned int *)0xC2A73C0 = t15;
                 *(unsigned int *)0xC2A73E8 = 0x0;
                 nlSprPut(0xC2A73C0);
-                t0 = (t0 + 0x1);
-                if ((int)t0 >= (int)0x3) break;
+                t2 = (t2 + 0x1);
+                if ((int)t2 >= (int)0x3) break;
                 continue;
             }
             break;
         }
-        t15 = *(int *)0xC2A759C;
-        if (t15 == 1) {
-            u16 = *(float *)0xC2A750C;
-            if (0.0f > u16) {
-                u17 = *(float *)0xC2A750C;
-                *(float *)0xC2A750C = (u17 + 30.0f);
+        t17 = *(int *)0xC2A759C;
+        if (t17 == 1) {
+            u18 = *(float *)0xC2A750C;
+            if (0.0f > u18) {
+                u19 = *(float *)0xC2A750C;
+                *(float *)0xC2A750C = (u19 + u1);
             } else {
-                FUN_0c04d49e(0xC2A750C, 0.599999964f, 0.0f);
+                FUN_0c04d49e(0xC2A750C, u0, 0.0f);
             }
         }
-        u21 = *(float *)0xC2A750C;
-        *(float *)0xC2A73C4 = ((float)(((((t0 << 2) << 2) << 2) << 1) + 0x50) + u21);
-        t22 = *(int *)0xC2A751C;
-        t23 = *(int *)((t22 + 0x0));
-        t24 = *(int *)((0xC13049C + (t23 << 2)));
-        t25 = *(int *)(((t0 << 2) + t24));
-        *(unsigned int *)0xC2A73C0 = t25;
+        u23 = *(float *)0xC2A750C;
+        *(float *)0xC2A73C4 = ((float)(((((t2 << 2) << 2) << 2) << 1) + 0x50) + u23);
+        t24 = *(int *)0xC2A751C;
+        t25 = *(int *)((t24 + 0x0));
+        t26 = *(int *)((0xC13049C + (t25 << 2)));
+        t27 = *(int *)(((t2 << 2) + t26));
+        *(unsigned int *)0xC2A73C0 = t27;
         *(unsigned int *)0xC2A73E8 = 0x0;
         nlSprPut(0xC2A73C0);
-        t0 = (t0 + 0x1);
-        if ((int)t0 >= (int)0x3) break;
+        t2 = (t2 + 0x1);
+        if ((int)t2 >= (int)0x3) break;
     }
 }
 
-void FUN_0c059254(void)
+int FUN_0c059254(void)
 {
     int t0;
     int t1;
@@ -840,6 +976,7 @@ void FUN_0c059254(void)
     int t7;
     int t8;
     int t13;
+    float u14;
 
     *(unsigned int *)0xC2A978C = 0x0;
     t0 = 0xC2A97AC;
@@ -865,7 +1002,7 @@ void FUN_0c059254(void)
     } else {
         *(unsigned int *)0xC2A97A8 = 0x145;
     }
-    FUN_0c059310(t8, 0xC2A97A8);
+    FUN_0c059310();
     FUN_0c05af6c();
     FUN_0c05af86();
     *(unsigned int *)0xC2A96F4 = 0x0;
@@ -882,9 +1019,11 @@ void FUN_0c059254(void)
     *(unsigned int *)0xC2A984C = 0x0;
     *(unsigned int *)0xC2A9748 = 0x0;
     *(float *)0xC2A9758 = 0.0f;
-    *(float *)0xC2A974C = 0.5f;
+    u14 = *(float *)0xC059390;
+    *(float *)0xC2A974C = u14;
     *(unsigned short *)0xC2A9750 = 0x0;
     *(unsigned int *)0xC2A9754 = 0x0;
+    return 0xC059390;
 }
 
 int FUN_0c0595e8(void)
@@ -2605,44 +2744,62 @@ int FUN_0c0595e8(void)
 
 int FUN_0c05da9c(void)
 {
-    int t8;
-    int t9;
+    float u1;
+    float u2;
+    float u4;
+    float u6;
+    float u8;
+    float u9;
+    float u11;
+    float u12;
+    float u14;
+    int t17;
+    int t18;
+    int t28;
     int t19;
-    int t10;
-    int t15;
-    int t11;
+    int t24;
+    int t20;
 
     nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    FUN_0c05778a(0xC2A9898, 0x53, 483.0f, 55.0f);
-    FUN_0c05778a(0xC2A9898, 0x50, 509.0f, 55.0f);
-    nlObjPutSetFadeColor(0.0f, 0.299999982f, 1.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E6, 458.0f, 67.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E3, 559.0f, 60.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E4, 595.0f, 60.0f);
+    u1 = *(float *)0xC05DB88;
+    u2 = *(float *)0xC05DB90;
+    FUN_0c05778a(0xC2A9898, 0x53, u2, u1);
+    u4 = *(float *)0xC05DB94;
+    FUN_0c05778a(0xC2A9898, 0x50, u4, u1);
+    u6 = *(float *)0xC05DB98;
+    nlObjPutSetFadeColor(0.0f, u6, 1.0f);
+    u8 = *(float *)0xC05DB9C;
+    u9 = *(float *)0xC05DBA0;
+    FUN_0c05778a(0xC2A9898, 0x1E6, u9, u8);
+    u11 = *(float *)0xC05DBA4;
+    u12 = *(float *)0xC05DBA8;
+    FUN_0c05778a(0xC2A9898, 0x1E3, u12, u11);
+    u14 = *(float *)0xC05DBAC;
+    FUN_0c05778a(0xC2A9898, 0x1E4, u14, u11);
     ResetFadeColor();
-    t8 = Put_Max_Combo();
-    t9 = *(int *)0xC1EE794;
-    t19 = t8;
-    if (t9 == 0) {
-        t10 = *(int *)0xC2A991C;
-        t15 = t8;
-        if (t10 == 0) {
-            t11 = *(int *)0xC2A7614;
-            if ((int)t11 >= (int)0x1E) {
-                *(unsigned int *)0xC2A98F4 = t11;
-                FUN_0c05bb24(t11);
+    t17 = Put_Max_Combo();
+    t18 = *(int *)0xC1EE794;
+    t28 = t17;
+    if (t18 == 0) {
+        t19 = *(int *)0xC2A991C;
+        t24 = t17;
+        if (t19 == 0) {
+            t20 = *(int *)0xC2A7614;
+            if ((int)t20 >= (int)0x1E) {
+                *(unsigned int *)0xC2A98F4 = t20;
+                FUN_0c05bb24();
             } else {
                 FUN_0c05bb76(0x0);
             }
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
-            t15 = 0x54;
+            t24 = 0x54;
         }
-        t19 = t15;
+        t28 = t24;
     }
-    return t19;
+    return t28;
 }
 
 int execMiniLight(void)
@@ -2656,8 +2813,8 @@ int execMiniLight(void)
     int t8;
     int t10;
     int t12;
+    int t15;
     int t14;
-    int t13;
     int t11;
     int t9;
     int t7;
@@ -2710,19 +2867,19 @@ int execMiniLight(void)
             }
             t11 = t10;
         }
-        t13 = t11;
+        t14 = t11;
     } else {
         t12 = 0x1;
         if (!(-9.79999924f > u1)) {
             t12 = 0x0;
         }
-        t13 = t12;
+        t14 = t12;
     }
-    t14 = LightEffect(t13, u1);
-    if (t13 != 0) {
+    t15 = LightEffect(t14);
+    if (t14 != 0) {
         return ResetSpark();
     }
-    return t14;
+    return t15;
 }
 
 int GetAverageAngle(int a4, int a5, float f4)
@@ -2736,7 +2893,7 @@ int GetAverageAngle(int a4, int a5, float f4)
     return t2;
 }
 
-void FUN_0c070bf8(int a4)
+int FUN_0c070bf8(int a4)
 {
     int t0;
 
@@ -2762,51 +2919,52 @@ void FUN_0c070bf8(int a4)
                                                                             if (t0 != 52) {
                                                                                 if (t0 != 55) {
                                                                                     if (t0 != 57) {
-                                                                                        return;
+                                                                                        return 0x0;
                                                                                     }
-                                                                                    return;
+                                                                                    return 0x1;
                                                                                 }
-                                                                                return;
+                                                                                return 0x1;
                                                                             }
-                                                                            return;
+                                                                            return 0x1;
                                                                         }
-                                                                        return;
+                                                                        return 0x1;
                                                                     }
-                                                                    return;
+                                                                    return 0x1;
                                                                 }
-                                                                return;
+                                                                return 0x1;
                                                             }
-                                                            return;
+                                                            return 0x1;
                                                         }
-                                                        return;
+                                                        return 0x1;
                                                     }
-                                                    return;
+                                                    return 0x1;
                                                 }
-                                                return;
+                                                return 0x1;
                                             }
-                                            return;
+                                            return 0x1;
                                         }
-                                        return;
+                                        return 0x1;
                                     }
-                                    return;
+                                    return 0x1;
                                 }
-                                return;
+                                return 0x1;
                             }
-                            return;
+                            return 0x1;
                         }
-                        return;
+                        return 0x1;
                     }
-                    return;
+                    return 0x1;
                 }
-                return;
+                return 0x1;
             }
-            return;
+            return 0x1;
         }
-        return;
+        return 0x1;
     }
+    return 0x1;
 }
 
-void FUN_0c070c64(int a4)
+int FUN_0c070c64(int a4)
 {
     int t0;
 
@@ -2834,59 +2992,60 @@ void FUN_0c070c64(int a4)
                                                                                     if (t0 != 53) {
                                                                                         if (t0 != 56) {
                                                                                             if (t0 != 57) {
-                                                                                                return;
+                                                                                                return 0x0;
                                                                                             }
-                                                                                            return;
+                                                                                            return 0x1;
                                                                                         }
-                                                                                        return;
+                                                                                        return 0x1;
                                                                                     }
-                                                                                    return;
+                                                                                    return 0x1;
                                                                                 }
-                                                                                return;
+                                                                                return 0x1;
                                                                             }
-                                                                            return;
+                                                                            return 0x1;
                                                                         }
-                                                                        return;
+                                                                        return 0x1;
                                                                     }
-                                                                    return;
+                                                                    return 0x1;
                                                                 }
-                                                                return;
+                                                                return 0x1;
                                                             }
-                                                            return;
+                                                            return 0x1;
                                                         }
-                                                        return;
+                                                        return 0x1;
                                                     }
-                                                    return;
+                                                    return 0x1;
                                                 }
-                                                return;
+                                                return 0x1;
                                             }
-                                            return;
+                                            return 0x1;
                                         }
-                                        return;
+                                        return 0x1;
                                     }
-                                    return;
+                                    return 0x1;
                                 }
-                                return;
+                                return 0x1;
                             }
-                            return;
+                            return 0x1;
                         }
-                        return;
+                        return 0x1;
                     }
-                    return;
+                    return 0x1;
                 }
-                return;
+                return 0x1;
             }
-            return;
+            return 0x1;
         }
-        return;
+        return 0x1;
     }
+    return 0x1;
 }
 
 int FUN_0c071d34(int a4, int a5, int a6, int a7)
 {
     int t0;
 
-    t0 = set_event(0x17C, 0xC071E10, a6, a7);
+    t0 = set_event(0x17C, 0xC071E10);
     if (t0 == 0) {
         return 0x0;
     }
@@ -2917,14 +3076,16 @@ int FUN_0c0738bc(void)
 {
     int t0;
     float u1;
+    float u2;
 
     t0 = *(int *)0xC1EE210;
     if (t0 != 0) {
         return t0;
     }
-    u1 = *(float *)0xC179148;
-    if (!(u1 > -1237.0f)) {
-        return GetRotVec4Ang(-1237.0f);
+    u1 = *(float *)0xC07392C;
+    u2 = *(float *)0xC179148;
+    if (!(u2 > u1)) {
+        return GetRotVec4Ang();
     }
     return 0x7C;
 }
@@ -3143,32 +3304,44 @@ int FUN_0c075090(void)
 
 float nlTan(int a4)
 {
-    int t0;
+    float u0;
     float u1;
     float u2;
-    int t3;
+    float u3;
+    int t4;
+    float u5;
+    float u6;
+    int t7;
+    float u8;
+    float u9;
 
     if ((0x7FFF & (unsigned short)a4) != 0x4000) {
-        t0 = 0xD;
-        u1 = ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f);
-        u2 = 0.0f;
-        while ((int)t0 >= (int)0x3) {
-            t3 = t0;
-            t0 = (t0 - 2);
-            u1 = (float)t3;
-            u1 = (u1 - u2);
-            u2 = (((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f)) * ((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f)));
-            u2 = (u2 / u1);
+        u0 = *(float *)0xC076458;
+        u1 = *(float *)0xC07645C;
+        u2 = *(float *)0xC076460;
+        u3 = *(float *)0xC076464;
+        t4 = 0xD;
+        u5 = ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2);
+        u6 = 0.0f;
+        while ((int)t4 >= (int)0x3) {
+            t7 = t4;
+            t4 = (t4 - 2);
+            u5 = (float)t7;
+            u5 = (u5 - u6);
+            u6 = (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) * ((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)));
+            u6 = (u6 / u5);
         }
-        if (((int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) & 0x1) == 0) {
-            return (((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f)) / (1.0f - u2));
+        if (((int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) & 0x1) == 0) {
+            return (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6));
         }
-        if ((((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f)) / (1.0f - u2)) != 0.0f) {
-            return ((-1.0f) / (((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * 6.28318501f) / 65536.0f) / 1.57079625f) + 0.5f) * 1.57079625f)) / (1.0f - u2)));
+        if ((((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6)) != 0.0f) {
+            return ((-1.0f) / (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6)));
         }
-        return 3.40282347e+38f;
+        u8 = *(float *)0xC076468;
+        return u8;
     }
-    return 3.40282347e+38f;
+    u9 = *(float *)0xC076468;
+    return u9;
 }
 
 int FUN_0c077290(int a4, int a5)
@@ -3185,7 +3358,7 @@ int FUN_0c077290(int a4, int a5)
         return 0;
     }
     if (a5 == 0) {
-        return nlGetMatrix(a4, a5);
+        return nlGetMatrix(a4);
     }
     t0 = 0x10;
     t1 = a4;
@@ -3208,57 +3381,59 @@ int FUN_0c07bd30(int a4)
     float u3;
     float u4;
     float u5;
-    int t6;
+    float u6;
     int t7;
     int t8;
-    int t11;
+    int t9;
     int t12;
     int t13;
     int t14;
     int t15;
     int t16;
-    int t9;
+    int t17;
     int t10;
+    int t11;
 
-    u0 = *(float *)0xC14A824;
-    *(float *)0xC2B7624 = (u0 * 0.5f);
-    u1 = *(float *)0xC14A828;
-    *(float *)0xC2B7628 = (u1 * 0.5f);
-    u2 = *(float *)0xC2B7624;
-    *(float *)0xC2B762C = ((-1.0f) - u2);
-    u3 = *(float *)0xC2B7628;
-    *(float *)0xC2B7630 = ((-1.0f) - u3);
-    u4 = *(float *)0xC2B7624;
-    *(float *)0xC14AA08 = u4;
-    u5 = *(float *)0xC2B7628;
-    *(float *)0xC14AA1C = (-u5);
-    t6 = *(int *)0xC2B8CBC;
+    u0 = *(float *)0xC07BE84;
+    u1 = *(float *)0xC14A824;
+    *(float *)0xC2B7624 = (u1 * u0);
+    u2 = *(float *)0xC14A828;
+    *(float *)0xC2B7628 = (u2 * u0);
+    u3 = *(float *)0xC2B7624;
+    *(float *)0xC2B762C = ((-1.0f) - u3);
+    u4 = *(float *)0xC2B7628;
+    *(float *)0xC2B7630 = ((-1.0f) - u4);
+    u5 = *(float *)0xC2B7624;
+    *(float *)0xC14AA08 = u5;
+    u6 = *(float *)0xC2B7628;
+    *(float *)0xC14AA1C = (-u6);
+    t7 = *(int *)0xC2B8CBC;
     if ((a4 & 0x1) != 0) {
-        t7 = *(int *)((t6 + 0x8));
-        t9 = t7;
-        t10 = 0xC14AA68;
+        t8 = *(int *)((t7 + 0x8));
+        t10 = t8;
+        t11 = 0xC14AA68;
     } else {
-        t8 = *(int *)((t6 + 0x0));
-        t9 = t8;
-        t10 = 0xC14AA48;
+        t9 = *(int *)((t7 + 0x0));
+        t10 = t9;
+        t11 = 0xC14AA48;
     }
-    t11 = *(int *)((t10 + 0x0));
-    *(unsigned int *)((t10 + 0x0)) = (t11 & 0xFFFCFFFF);
-    t12 = *(int *)0xC14A650;
-    t13 = *(int *)((t10 + 0x0));
-    *(unsigned int *)((t10 + 0x0)) = (t13 | ((t12 << 16) | 0x8C0000));
-    *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t9 >> 16) >> 8);
-    *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t9 >> 16) >> 8);
-    t14 = ((0x3FFFFFF & t9) | 0xE0000000);
-    t15 = t10;
+    t12 = *(int *)((t11 + 0x0));
+    *(unsigned int *)((t11 + 0x0)) = (t12 & 0xFFFCFFFF);
+    t13 = *(int *)0xC14A650;
+    t14 = *(int *)((t11 + 0x0));
+    *(unsigned int *)((t11 + 0x0)) = (t14 | ((t13 << 16) | 0x8C0000));
+    *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t10 >> 16) >> 8);
+    *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t10 >> 16) >> 8);
+    t15 = ((0x3FFFFFF & t10) | 0xE0000000);
+    t16 = t11;
     do {
-        t16 = *(int *)((t15 + 0x0));
+        t17 = *(int *)((t16 + 0x0));
+        t16 = (t16 + 0x4);
+        *(unsigned int *)((t15 + 0x0)) = t17;
         t15 = (t15 + 0x4);
-        *(unsigned int *)((t14 + 0x0)) = t16;
-        t14 = (t14 + 0x4);
-    } while ((unsigned int)t14 < (unsigned int)(((0x3FFFFFF & t9) | 0xE0000000) + 0x20));
-    FUN_0c08160a(((0x3FFFFFF & t9) | 0xE0000000), t15, (((0x3FFFFFF & t9) | 0xE0000000) + 0x20), 0xC14AA08, ((-1.0f) - u3));
-    return (((0x3FFFFFF & t9) | 0xE0000000) + 0x20);
+    } while ((unsigned int)t15 < (unsigned int)(((0x3FFFFFF & t10) | 0xE0000000) + 0x20));
+    FUN_0c08160a(((0x3FFFFFF & t10) | 0xE0000000));
+    return (((0x3FFFFFF & t10) | 0xE0000000) + 0x20);
 }
 
 int FUN_0c07be20(int a4)
@@ -3301,7 +3476,7 @@ int FUN_0c07be20(int a4)
     return t13;
 }
 
-void nlSpriteSetVtxContext(int a4)
+int nlSpriteSetVtxContext(int a4)
 {
     int t1;
     int t6;
@@ -3337,22 +3512,29 @@ void nlSpriteSetVtxContext(int a4)
     t8 = *(int *)((a4 + 0x8));
     u9 = *(float *)((0xC0D6880 + ((t8 & 0x7) << 2)));
     *(float *)((a4 + 0x1C)) = u9;
+    return 0x1C;
 }
 
 int nlSpriteF2C(float f4)
 {
     float u0;
-    int t1;
+    float u1;
+    float u4;
+    float u2;
+    int t5;
 
-    u0 = (f4 * 255.0f);
-    if ((f4 * 255.0f) > 2.14748365e+09f) {
-        u0 = ((f4 * 255.0f) + -4.2949673e+09f);
+    u0 = *(float *)0xC07E80C;
+    u1 = *(float *)0xC07E810;
+    u4 = (f4 * u0);
+    if ((f4 * u0) > u1) {
+        u2 = *(float *)0xC07E814;
+        u4 = ((f4 * u0) + u2);
     }
-    t1 = (int)u0;
-    if ((unsigned int)(int)u0 > (unsigned int)0xFF) {
-        t1 = 0xFF;
+    t5 = (int)u4;
+    if ((unsigned int)(int)u4 > (unsigned int)0xFF) {
+        t5 = 0xFF;
     }
-    return t1;
+    return t5;
 }
 
 int FUN_0c07e8a0(int a4, int a5)
@@ -3537,7 +3719,7 @@ int FUN_0c07fc40(int a4)
     return t25;
 }
 
-void FUN_0c080470(int a4, int a5, int a6, int a7)
+int FUN_0c080470(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -3548,16 +3730,16 @@ void FUN_0c080470(int a4, int a5, int a6, int a7)
 
     t0 = *(int *)((a4 + 0x0));
     if (t0 != 1) {
-        return;
+        return 0xFFFFFFFF;
     }
     if ((a5 & 0x1F) != 0) {
-        return;
+        return 0xFFFFFFFE;
     }
     if ((a6 & 0x1F) != 0) {
-        return;
+        return 0xFFFFFFFD;
     }
     if ((0x1F & a7) != 0) {
-        return;
+        return 0xFFFFFFFC;
     }
     t1 = *(int *)0xC2B7714;
     if (t1 == 0) {
@@ -3573,29 +3755,31 @@ void FUN_0c080470(int a4, int a5, int a6, int a7)
                 t2 = (t2 + 0x4);
             } while ((unsigned int)t4 < (unsigned int)((unsigned int)a7 >> 2));
         }
-        return;
+        return 0x0;
     }
     if (t1 != 1) {
-        return;
+        return 0xFFFFFFFB;
     }
+    return 0x0;
 }
 
-void FUN_0c080500(int a4)
+int FUN_0c080500(int a4)
 {
     int t0;
     int t1;
 
     t0 = *(int *)((a4 + 0x0));
     if (t0 != 1) {
-        return;
+        return 0xFFFFFFFF;
     }
     t1 = *(int *)0xC2B7714;
     if (t1 == 0) {
-        return;
+        return 0x100;
     }
     if (t1 != 1) {
-        return;
+        return 0xFFFFFFFB;
     }
+    return 0x0;
 }
 
 int nlDispStripLoadPalette(int a4, int a5)
@@ -3724,7 +3908,7 @@ int nlstripSetVertexContext(int a4)
     return kmSetVertexRenderState(t24);
 }
 
-void kmSetPaletteBankData(int a4, int a5, int a6)
+int kmSetPaletteBankData(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -3743,14 +3927,15 @@ void kmSetPaletteBankData(int a4, int a5, int a6)
         do {
             t4 = *(int *)((t1 + 0x0));
             t1 = (t1 + 0x4);
-            kmiWriteRegister(t2, t4, a6);
+            kmiWriteRegister(t2, t4);
             t3 = (t3 + 0x1);
             t2 = (t2 + 0x4);
         } while ((int)t3 < (int)t0);
     }
+    return 0x0;
 }
 
-void kmSetPixelClipping(int a4, int a5, int a6, int a7)
+int kmSetPixelClipping(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -3762,7 +3947,7 @@ void kmSetPixelClipping(int a4, int a5, int a6, int a7)
 
     if ((int)a4 <= (int)a6) {
         if ((int)a5 > (int)a7) {
-            return;
+            return 0xDDDD;
         }
         t0 = a6;
         if ((int)a6 > (int)0x7FF) {
@@ -3785,8 +3970,9 @@ void kmSetPixelClipping(int a4, int a5, int a6, int a7)
         }
         *(unsigned int *)0xC2EA934 = ((t4 & 0x7FF) | ((t6 & 0x7FF) << 16));
         *(unsigned int *)0xC2EA938 = (((t7 & 0x7FF) << 16) | (t5 & 0x7FF));
-        return;
+        return 0x0;
     }
+    return 0xDDDD;
 }
 
 int FUN_0c14cf46(int a4)
@@ -3845,7 +4031,7 @@ int buExit(void)
     return 0xFFFFFFFF;
 }
 
-void syCfgGetSoundMode(int a4)
+int syCfgGetSoundMode(int a4)
 {
     int t0;
     int t1;
@@ -3855,26 +4041,27 @@ void syCfgGetSoundMode(int a4)
         *(unsigned int *)((a4 + 0x0)) = 0x0;
         t0 = *(int *)0xC177AC8;
         if (t0 != 0) {
-            t1 = syBtCfgSet(0x0, t0);
+            t1 = syBtCfgSet(0x0);
             if (t1 != -1) {
                 t2 = *(signed char *)0x8C00007E;
                 if ((signed char)t2 == 0) {
                     *(unsigned int *)((a4 + 0x0)) = 0x0;
-                    return;
+                    return 0x0;
                 }
                 if ((signed char)t2 == 1) {
                     *(unsigned int *)((a4 + 0x0)) = 0x1;
-                    return;
+                    return 0x0;
                 }
-                return;
+                return 0xFFFFFFFF;
             }
-            return;
+            return 0xFFFFFFFF;
         }
-        return;
+        return 0xFFFFFFFF;
     }
+    return 0xFFFFFFFF;
 }
 
-void kmiInitializeDMA(void)
+int kmiInitializeDMA(void)
 {
     int t0;
     int t1;
@@ -3903,9 +4090,10 @@ void kmiInitializeDMA(void)
         *(unsigned int *)((t2 + 0x18)) = 0x0;
         *(unsigned int *)(((t2 + 0x100) + 0x18)) = 0x8;
     } while ((unsigned int)t1 < (unsigned int)0x100);
+    return 0x8;
 }
 
-void kmiDMAHazardReset(void)
+int kmiDMAHazardReset(void)
 {
     int t0;
     int t1;
@@ -3936,9 +4124,10 @@ void kmiDMAHazardReset(void)
         *(unsigned int *)((t3 + 0x18)) = 0x0;
         *(unsigned int *)(((t3 + 0x100) + 0x18)) = 0x8;
     } while ((unsigned int)t2 < (unsigned int)0x100);
+    return 0x0;
 }
 
-void kmiCh2DMAtoTA(int a4, int a5)
+int kmiCh2DMAtoTA(int a4, int a5)
 {
     *(unsigned int *)0xFFA00020 = a4;
     *(unsigned int *)0xFFA00024 = 0x0;
@@ -3948,8 +4137,9 @@ void kmiCh2DMAtoTA(int a4, int a5)
         *(unsigned int *)0xA05F6800 = 0x10000000;
         *(unsigned int *)0xA05F6804 = ((a5 + 0x1F) & 0xFFFFFFE0);
         *(unsigned int *)0xA05F6808 = 0x1;
-        return;
+        return 0x1;
     }
+    return 0x0;
 }
 
 int kmiTAallocEx(int a4, int a5, int a6)
@@ -4041,20 +4231,21 @@ int FUN_0c1566a0(int a4, int a5)
     return t23;
 }
 
-void kmInitDevice(int a4)
+int kmInitDevice(int a4)
 {
     int t1;
 
-    FUN_0c1583c4(a4);
+    FUN_0c1583c4();
     if ((int)a4 <= (int)0x2) {
         if ((int)a4 < 0) {
-            return;
+            return 0x2;
         }
-        t1 = kmiGetProfileInt(0xC175CFC, 0xC175D04, (0x3 & a4));
+        t1 = kmiGetProfileInt(0xC175CFC, 0xC175D04);
         *(unsigned int *)0xC2EA69C = t1;
         kmiInitializeHardware();
-        return;
+        return 0x0;
     }
+    return 0x2;
 }
 
 void kmiWriteRegisters(int a4, int a5, int a6, int a7)
@@ -4075,7 +4266,7 @@ void kmiWriteRegisters(int a4, int a5, int a6, int a7)
     }
 }
 
-void kmfSetTimeOutCount(int a4, int a5)
+int kmfSetTimeOutCount(int a4, int a5)
 {
     int t0;
     int t1;
@@ -4115,9 +4306,10 @@ void kmfSetTimeOutCount(int a4, int a5)
             *(unsigned int *)0xC2EA684 = (t15 | 0x10);
         }
     }
+    return 0x0;
 }
 
-void FUN_0c15a9a8(int a4)
+int FUN_0c15a9a8(int a4)
 {
     int t0;
     int t1;
@@ -4131,7 +4323,7 @@ void FUN_0c15a9a8(int a4)
     if ((t0 & 4) == 0) {
         t1 = *(int *)((a4 + 0x4));
         if (t1 != 1) {
-            return;
+            return 0x4;
         }
         t2 = *(int *)((a4 + 0x8));
         t6 = 0x3;
@@ -4148,8 +4340,9 @@ void FUN_0c15a9a8(int a4)
         }
         t7 = *(int *)0xC2EA94C;
         *(unsigned int *)0xC2EAB84 = ((t7 & 0xFFFFFFF8) | t6);
-        return;
+        return 0x0;
     }
+    return 0x4;
 }
 
 int kmLoadVQCodebook(int a4, int a5)
@@ -4372,7 +4565,7 @@ int kmiConvertUVnum(int a4)
     return t10;
 }
 
-void kmSetCheapShadowMode(int a4)
+int kmSetCheapShadowMode(int a4)
 {
     int t0;
 
@@ -4382,7 +4575,8 @@ void kmSetCheapShadowMode(int a4)
         *(unsigned int *)0xC1782FC = 0x0;
     }
     t0 = *(int *)0xC1782FC;
-    kmiWriteRegister(0x74, (((0x1 - t0) << 8) | (unsigned char)a4), ((0x1 - t0) << 8));
+    kmiWriteRegister(0x74, (((0x1 - t0) << 8) | (unsigned char)a4));
+    return 0x0;
 }
 
 int kmiPutGlobalParam(void)
@@ -4410,7 +4604,7 @@ int kmiPutGlobalParam(void)
     return t8;
 }
 
-void kmChangeContextZWriteDisable(int a4)
+int kmChangeContextZWriteDisable(int a4)
 {
     int t0;
     int t1;
@@ -4425,9 +4619,10 @@ void kmChangeContextZWriteDisable(int a4)
     }
     t3 = *(int *)0xC2EABAC;
     *(unsigned int *)0xC178308 = t3;
+    return 0x0;
 }
 
-void kmChangeContextFogMode(int a4)
+int kmChangeContextFogMode(int a4)
 {
     int t0;
     int t1;
@@ -4436,9 +4631,10 @@ void kmChangeContextFogMode(int a4)
     *(unsigned int *)0xC2EABB0 = ((t0 & 0xFF3FFFFF) | (a4 << 22));
     t1 = *(int *)0xC2EABB0;
     *(unsigned int *)0xC17830C = t1;
+    return 0x0;
 }
 
-void kmChangeContextPaletteBank(int a4)
+int kmChangeContextPaletteBank(int a4)
 {
     int t0;
     int t1;
@@ -4460,6 +4656,7 @@ void kmChangeContextPaletteBank(int a4)
         t7 = *(int *)0xC2EABB4;
         *(unsigned int *)0xC178310 = t7;
     }
+    return 0x0;
 }
 
 int FUN_0c15e820(int a4)
@@ -4681,7 +4878,7 @@ int FUN_0c162d8a(int a4, int a5)
     return t7;
 }
 
-void check_caps(int a4)
+int check_caps(int a4)
 {
     int t0;
     int t1;
@@ -4741,66 +4938,67 @@ void check_caps(int a4)
                                                                 if (t18 != 0x1FF) {
                                                                     if (t18 != 0x3FF) {
                                                                         if (t18 != 0x7FF) {
-                                                                            return;
+                                                                            return 0xFFFFFFFF;
                                                                         }
                                                                         *(unsigned int *)((a4 + 0x4)) = 0x3;
-                                                                        return;
+                                                                        return 0x0;
                                                                     }
                                                                     *(unsigned int *)((a4 + 0x4)) = 0x2;
-                                                                    return;
+                                                                    return 0x0;
                                                                 }
                                                                 *(unsigned int *)((a4 + 0x4)) = 0x1;
-                                                                return;
+                                                                return 0x0;
                                                             }
                                                             *(unsigned int *)((a4 + 0x4)) = 0x0;
-                                                            return;
+                                                            return 0x0;
                                                         }
-                                                        return;
+                                                        return 0xFFFFFFFF;
                                                     }
-                                                    return;
+                                                    return 0xFFFFFFFF;
                                                 }
                                                 t19 = *(int *)((t0 + 0x0));
                                                 if (t19 != 0xFF) {
                                                     if (t19 != 0x1FF) {
                                                         if (t19 != 0x3FF) {
                                                             if (t19 != 0x7FF) {
-                                                                return;
+                                                                return 0xFFFFFFFF;
                                                             }
                                                             *(unsigned int *)((a4 + 0x4)) = 0x3;
-                                                            return;
+                                                            return 0x0;
                                                         }
                                                         *(unsigned int *)((a4 + 0x4)) = 0x2;
-                                                        return;
+                                                        return 0x0;
                                                     }
                                                     *(unsigned int *)((a4 + 0x4)) = 0x1;
-                                                    return;
+                                                    return 0x0;
                                                 }
                                                 *(unsigned int *)((a4 + 0x4)) = 0x0;
-                                                return;
+                                                return 0x0;
                                             }
-                                            return;
+                                            return 0xFFFFFFFF;
                                         }
-                                        return;
+                                        return 0xFFFFFFFF;
                                     }
-                                    return;
+                                    return 0xFFFFFFFF;
                                 }
-                                return;
+                                return 0xFFFFFFFF;
                             }
-                            return;
+                            return 0xFFFFFFFF;
                         }
-                        return;
+                        return 0xFFFFFFFF;
                     }
-                    return;
+                    return 0xFFFFFFFF;
                 }
-                return;
+                return 0xFFFFFFFF;
             }
-            return;
+            return 0xFFFFFFFF;
         }
-        return;
+        return 0xFFFFFFFF;
     }
+    return 0xFFFFFFFF;
 }
 
-void ADX_DecodeInfoExADPCM2(int a4, int a5, int a6)
+int ADX_DecodeInfoExADPCM2(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -4809,16 +5007,17 @@ void ADX_DecodeInfoExADPCM2(int a4, int a5, int a6)
     if ((int)a5 >= (int)0x12) {
         t0 = *(short *)((a4 + 0x0));
         if ((unsigned short)((unsigned char)((int)(unsigned short)t0 >> 8) | (((unsigned short)t0 << 8) & 0xFF00)) != 0x8000) {
-            return;
+            return 0xFFFFFFFE;
         }
         t1 = *(short *)((a4 + 0x2));
         if ((int)((unsigned char)((int)t1 >> 8) | ((t1 << 8) & 0xFF00)) < (int)0xE) {
-            return;
+            return 0xFFFFFFFF;
         }
         t2 = *(short *)((a4 + 0x10));
         *(unsigned short *)((a6 + 0x0)) = ((unsigned char)((int)(unsigned short)t2 >> 8) | (((unsigned short)t2 << 8) & 0xFFFFFF00));
-        return;
+        return 0x0;
     }
+    return 0xFFFFFFFF;
 }
 
 int adxsjd_decode_exec(int a4)
@@ -4843,23 +5042,15 @@ int adxsjd_decode_exec(int a4)
 int ADXSTM_Seek(int a4, int a5)
 {
     int t0;
-    int t1;
-    int t2;
     int t3;
     int t4;
 
     t0 = *(int *)((a4 + 0x14));
-    t1 = (t0 + 0x7FF);
-    if ((int)(t0 + 0x7FF) < 0) {
-        t1 = ((t0 + 0x7FF) + 0x7FF);
-    }
-    t2 = ((int)t1 >> 11);
-    if ((int)a5 <= (int)((int)t1 >> 11)) {
-        t2 = a5;
-    }
+    
+    
     t3 = *(int *)((a4 + 0x10));
     t4 = *(int *)((a4 + 0x8));
-    gdFsSeek(t4, (t3 + t2), 0x0);
+    gdFsSeek(t4);
     return ADXSTM_Tell(a4);
 }
 
@@ -4897,15 +5088,12 @@ int adxt_set_outpan(int a4)
     int t1;
     int t2;
     int t3;
-    int t5;
     int t4;
     int t6;
     int t7;
-    int t9;
     int t8;
     int t10;
     int t12;
-    int t15;
     int t13;
     int t16;
     int t17;
@@ -4916,30 +5104,24 @@ int adxt_set_outpan(int a4)
     if (t1 == 1) {
         t2 = *(short *)(((a4 + 0x42) + 0x0));
         t3 = *(int *)((a4 + 0xC));
-        t5 = 0x0;
         if (t2 != -128) {
             t4 = *(short *)(((a4 + 0x42) + 0x0));
-            t5 = t4;
         }
-        t6 = ADXRNA_SetOutPan(t3, 0x0, t5);
+        t6 = ADXRNA_SetOutPan();
         t18 = t6;
     } else {
         t7 = *(short *)(((a4 + 0x42) + 0x0));
-        t9 = 0xFFFFFFF1;
         if (t7 != -128) {
             t8 = *(short *)(((a4 + 0x42) + 0x0));
-            t9 = t8;
         }
         t10 = *(int *)((a4 + 0xC));
-        ADXRNA_SetOutPan(t10, 0x0, t9);
+        ADXRNA_SetOutPan();
         t12 = *(short *)((a4 + 0x44));
-        t15 = 0xF;
         if (t12 != -128) {
             t13 = *(short *)((a4 + 0x44));
-            t15 = t13;
         }
         t16 = *(int *)((a4 + 0xC));
-        t17 = ADXRNA_SetOutPan(t16, 0x1, t15);
+        t17 = ADXRNA_SetOutPan();
         t18 = t17;
     }
     return t18;
@@ -5116,7 +5298,7 @@ int FUN_0c16bb70(void)
     return t61;
 }
 
-void FUN_0c16c796(void)
+int FUN_0c16c796(void)
 {
     int t0;
     int t1;
@@ -5134,9 +5316,10 @@ void FUN_0c16c796(void)
         *(unsigned int *)0xC2F91BC = (t3 + 0x1);
         FUN_0c16c634(0x0);
     }
+    return 0x0;
 }
 
-void syG2DmaReset(int a4)
+int syG2DmaReset(int a4)
 {
     int t0;
     int t1;
@@ -5206,6 +5389,7 @@ void syG2DmaReset(int a4)
     t25 = *(int *)0xC178700;
     t26 = *(int *)((t25 + 0x0));
     *(unsigned int *)((((((t24 << 2) << 2) << 1) + t26) + 0x14)) = 0x0;
+    return 0x0;
 }
 
 int FUN_0c1708d0(int a4, int a5, int a6)
@@ -5317,7 +5501,7 @@ int FUN_0c170a8c(int a4)
     t39 = 0xFFFFFFFA;
     if (t0 == 0) {
         t2 = *(int *)((a4 + 0xC));
-        t3 = FUN_0c170848(t1, t2, 0x40);
+        t3 = FUN_0c170848();
         t35 = 0xFFFFFFFE;
         if (t3 == 64) {
             t4 = *(int *)((a4 + 0x14));
@@ -5333,7 +5517,7 @@ int FUN_0c170a8c(int a4)
                         t11 = FUN_0c170956(a4, t9);
                         t5 = t11;
                         if (t5 == 0) {
-                            t12 = FUN_0c170848(t8, t9, 0x40);
+                            t12 = FUN_0c170848();
                             t5 = t12;
                             if (t5 == 64) {
                                 t7 = (t7 + 0x1);
@@ -5359,7 +5543,7 @@ int FUN_0c170a8c(int a4)
                 t15 = *(int *)((a4 + 0x18));
                 FUN_0c170908(t7, t9, t15);
                 t17 = *(int *)((a4 + 0x18));
-                t18 = FUN_0c170848((((((t14 + 0x1) << 2) << 2) << 2) + t1), t9, (((t17 << 2) << 2) << 2));
+                t18 = FUN_0c170848();
                 t19 = *(int *)((a4 + 0x18));
                 t20 = 0xFFFFFFFE;
                 if (t18 == (((t19 << 2) << 2) << 2)) {
@@ -5372,7 +5556,7 @@ int FUN_0c170a8c(int a4)
                 t22 = *(int *)((a4 + 0x18));
                 FUN_0c170908(0x0, (t2 + 0x40), t22);
                 t24 = *(int *)((a4 + 0x18));
-                t25 = FUN_0c170848((((((t21 + 0x1) << 2) << 2) << 2) + t1), (t2 + 0x40), (((t24 << 2) << 2) << 2));
+                t25 = FUN_0c170848();
                 t26 = *(int *)((a4 + 0x18));
                 t27 = 0xFFFFFFFE;
                 if (t25 == (((t26 << 2) << 2) << 2)) {
@@ -5422,7 +5606,7 @@ int FUN_0c170b48(int a4)
         t1 = *(int *)((a4 + 0x28));
         *(unsigned short *)(((a4 + 0x34) + 0x0)) = t1;
         t2 = *(int *)((a4 + 0x30));
-        thunk_FUN_0c1708b2(t2, ((a4 + 0x34) + 0x2), 0x3C);
+        thunk_FUN_0c1708b2();
         t4 = fmcalccrc(0x3E, (a4 + 0x34));
         *(unsigned short *)(((a4 + 0x34) + 0x3E)) = t4;
         t5 = *(int *)((a4 + 0x28));
@@ -5440,7 +5624,7 @@ int FUN_0c170b48(int a4)
             t15 = *(int *)((a4 + 0x18));
             t16 = *(int *)((a4 + 0xC));
             t17 = *(int *)((a4 + 0x4));
-            t18 = FUN_0c170848((t17 + ((((t10 + 0x1) << 2) << 2) << 2)), (t16 + ((((t10 + 0x1) << 2) << 2) << 2)), (((t15 << 2) << 2) << 2));
+            t18 = FUN_0c170848();
             t19 = *(int *)((a4 + 0x18));
             t25 = 0xFFFFFFFE;
             if (t18 == (((t19 << 2) << 2) << 2)) {
@@ -5448,7 +5632,7 @@ int FUN_0c170b48(int a4)
                 t21 = *(int *)((a4 + 0x10));
                 *(unsigned int *)((a4 + 0x10)) = (t21 + 0x1);
                 t22 = *(int *)((a4 + 0x4));
-                t23 = FUN_0c170848((t22 + ((((t20 + 0x1) << 2) << 2) << 2)), (a4 + 0x34), 0x40);
+                t23 = FUN_0c170848();
                 t24 = 0x0;
                 if (t23 != 64) {
                     t24 = 0xFFFFFFFE;
@@ -5486,7 +5670,7 @@ int FUN_0c170c68(int a4)
             t8 = t3;
         } else {
             t4 = *(int *)((a4 + 0x4));
-            t5 = FUN_0c17085c(t4);
+            t5 = FUN_0c17085c();
             t6 = 0xFFFFFFFD;
             if (t5 != -1) {
                 *(unsigned int *)((a4 + 0x24)) = 0x2;
@@ -5527,7 +5711,7 @@ int ADXB_Create(int a4, int a5, int a6, int a7)
     }
     t8 = 0x0;
     if (t0 != 8) {
-        memset(((t0 * 0xAC) + 0xC2FA5B4), 0x0, 0xAC, a7);
+        memset(((t0 * 0xAC) + 0xC2FA5B4), 0x0, 0xAC);
         *(unsigned short *)((((t0 * 0xAC) + 0xC2FA5B4) + 0x0)) = 0x1;
         t5 = ADXPD_Create();
         *(unsigned int *)((((t0 * 0xAC) + 0xC2FA5B4) + 0x8)) = t5;
@@ -5562,7 +5746,7 @@ int ADXB_DecodeHeader(int a4, int a5, int a6)
     if ((unsigned short)((unsigned char)((int)(unsigned short)t0 >> 8) | (((unsigned short)t0 << 8) & 0xFF00)) == 0x8000) {
         return ADXB_DecodeHeaderAdx(a4, a5, a6);
     }
-    t1 = ADXB_CheckSpsd(a5, a5, a6);
+    t1 = ADXB_CheckSpsd();
     if (t1 != 0) {
         return ADXB_DecodeHeaderSpsd(a4, a5, a6);
     }
@@ -5784,3 +5968,4 @@ int FUN_0c1747f4(int a4)
     } while ((int)t0 >= 0);
     return t2;
 }
+

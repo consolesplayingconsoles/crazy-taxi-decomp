@@ -45,3 +45,36 @@ def main(batches):
                 print('  FAILS on the new cases:',fn,(why[0][:200] if why else ''),flush=True)
             else: os.remove(old)
         print(b,len(new),'re-drawn,',len(failed),'fail',flush=True)
+
+
+def lift(names):
+    """python3 tools/gen_equiv --lift [name ...]: more cases for the functions the coverage bar put aside (default: tests/weak.txt).
+    Many more growth tries per function (GEN_BUDGET, GEN_STALE raised), the cases written to tests/<file>/<function>.json (the old
+    ones kept as .json.old), then equiv.py runs the file: a function that now reaches the bar is Equivalent."""
+    import re
+    os.environ.setdefault('GEN_BUDGET','6000'); os.environ.setdefault('GEN_STALE','1200')
+    if not names:
+        names=[l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')]
+    byfile={}
+    for f in sorted(glob.glob('src/*.c')):
+        t=open(f,errors='replace').read()
+        for n in names:
+            if re.search(r'^[A-Za-z_][\w \t\*]*\b%s\s*\([^;{]*\)\s*\{'%re.escape(n),t,flags=re.M): byfile.setdefault(os.path.basename(f)[:-2],[]).append(n)
+    for stem,fns in sorted(byfile.items()):
+        if not os.path.isdir('tests/'+stem): continue
+        n_new=0
+        for fn in fns:
+            p='tests/%s/%s.json'%(stem,fn)
+            if not os.path.exists(p): continue
+            signal.alarm(max(300,gen_core.SPANS[fn][1]//2))
+            try:
+                gen_core.run(fn); vs=gen_pipe.variants(fn,False)
+                s,c=gen_drv.build(fn,vs[0],False)
+                t=gen_drv.tests(fn,c,s)
+                shutil.copy(p,p+'.old'); json.dump(t,open(p,'w'),indent=1); n_new+=1
+            except Exception as e:
+                print('  keep old cases',fn,type(e).__name__,str(e)[:60],flush=True)
+            finally: signal.alarm(0)
+        if n_new:
+            r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%stem],capture_output=True,text=True)
+            print(stem,'redrawn',n_new,'|',(r.stdout.strip().splitlines() or ['?'])[-1][:110],flush=True)

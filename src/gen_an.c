@@ -8,13 +8,15 @@ int TrafficLevelChange(int);
 int ndPuru2Start(int, int, int);
 int nlProjectScreen3D(int);
 int setTechnicalBonus(int, int);
+int technicalCheck(int a4);
+int kmiProcessVertex_02(int a4);
 
 int technicalCheck(int a4)
 {
     int t0;
     int t1;
     int t2;
-    int t50;
+    int t52;
     int t3;
     float u4;
     int t7;
@@ -37,90 +39,96 @@ int technicalCheck(int a4)
     int t35;
     int t36;
     float u40;
-    int t41;
-    int t47;
+    float u41;
     int t42;
+    int t49;
     int t43;
-    int t46;
-    float u44;
-    int t45;
-    int t51;
-    float u52;
-    int t55;
-    float u56;
+    int t44;
+    int t48;
+    float u45;
+    float u46;
+    int t47;
+    int t53;
+    float u54;
     int t57;
-    int t58;
-    int t61;
-    int t66;
-    float u67;
+    float u58;
+    int t59;
+    int t60;
+    int t63;
     int t68;
-    int t69;
-    int t74;
-    int t75;
+    float u69;
+    int t70;
+    int t71;
     int t76;
     int t77;
     int t78;
-    float u80;
-    int t81;
-    int t82;
+    int t79;
+    int t80;
+    float u82;
     int t83;
     int t84;
-    float u88;
-    int t89;
-    int t95;
-    int t90;
-    int t91;
-    int t94;
-    float u92;
-    int t93;
+    int t85;
+    int t86;
+    float u90;
+    float u91;
+    int t92;
     int t99;
-    float u100;
+    int t93;
+    int t94;
+    int t98;
+    float u95;
+    float u96;
+    int t97;
     int t103;
     float u104;
-    int t105;
-    int t106;
+    int t107;
+    float u108;
     int t109;
-    int t114;
-    float u115;
-    int t116;
-    int t117;
-    int t122;
-    int t123;
-    int t124;
-    int t125;
+    int t110;
+    int t113;
+    int t118;
+    float u119;
+    int t120;
+    int t121;
     int t126;
-    float u128;
+    int t127;
+    int t128;
     int t129;
     int t130;
-    int t131;
-    int t132;
-    float u136;
-    int t137;
-    int t143;
-    int t138;
-    int t139;
-    int t142;
-    float u140;
-    int t141;
-    int t146;
-    int t98;
-    int t49;
-    int t48;
-    int t37;
-    int t97;
-    int t96;
-    int t85;
-    int t145;
-    int t144;
+    float u132;
     int t133;
-    int stk[10];
+    int t134;
+    int t135;
+    int t136;
+    float u140;
+    float u141;
+    int t142;
+    int t149;
+    int t143;
+    int t144;
+    int t148;
+    float u145;
+    float u146;
+    int t147;
+    int t152;
+    int t102;
+    int t51;
+    int t50;
+    int t37;
+    int t101;
+    int t100;
+    int t87;
+    int t151;
+    int t150;
+    int t137;
+    int stk[10] = {0};
 
     t0 = *(int *)0xC1EE20C;
     if (t0 == 2) {
         t1 = *(int *)0xC1EE214;
         if (t1 != 12) {
             t2 = *(int *)0xC1EE214;
-            t50 = t2;
+            t52 = t2;
             if (t2 == 9) {
                 t3 = *(int *)((a4 + 0x34));
                 if ((t3 & 0x1) != 0) {
@@ -172,7 +180,7 @@ int technicalCheck(int a4)
                         *(unsigned int *)((a4 + 0x124)) = 0x0;
                         t28 = 0x124;
                     }
-                    t49 = t28;
+                    t51 = t28;
                 } else {
                     t29 = *(int *)((a4 + 0x68));
                     if (t29 != 0) {
@@ -191,236 +199,242 @@ int technicalCheck(int a4)
                             }
                             Sound_Request(t37, 0x2);
                         }
-                        u40 = *(float *)((a4 + 0x6C));
-                        if (u40 > 2.5f) {
+                        u40 = *(float *)0xC045DFC;
+                        u41 = *(float *)((a4 + 0x6C));
+                        if (u41 > u40) {
                             *(unsigned int *)((a4 + 0x124)) = 0x1;
                         } else {
                             *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                         }
-                        t48 = 0x124;
+                        t50 = 0x124;
                     } else {
-                        t41 = *(int *)((a4 + 0x124));
-                        t47 = 0x124;
-                        if (t41 != 0) {
+                        t42 = *(int *)((a4 + 0x124));
+                        t49 = 0x124;
+                        if (t42 != 0) {
                             *(unsigned int *)((a4 + 0x124)) = 0x0;
-                            t42 = *(int *)0xC2A1B30;
-                            t43 = *(int *)((0x58 + t42));
-                            t46 = t43;
-                            if (t43 == 1) {
-                                u44 = *(float *)((a4 + 0x6C));
-                                t45 = setTechnicalBonus(0x0, ((int)(u44 * 0.199999988f) + 0x1));
-                                t46 = t45;
+                            t43 = *(int *)0xC2A1B30;
+                            t44 = *(int *)((0x58 + t43));
+                            t48 = t44;
+                            if (t44 == 1) {
+                                u45 = *(float *)0xC045E04;
+                                u46 = *(float *)((a4 + 0x6C));
+                                t47 = setTechnicalBonus(0x0, ((int)(u46 * u45) + 0x1));
+                                t48 = t47;
                             }
-                            t47 = t46;
+                            t49 = t48;
                         }
-                        t48 = t47;
+                        t50 = t49;
                     }
-                    t49 = t48;
+                    t51 = t50;
                 }
-                t50 = t49;
+                t52 = t51;
             }
-            t98 = t50;
+            t102 = t52;
         } else {
-            t51 = *(int *)((a4 + 0x34));
-            if ((t51 & 0x1) != 0) {
-                u52 = *(float *)((a4 + 0x70));
-                if (!(u52 > 0.049999997f)) {
-                    if (-0.099999994f > u52) {
+            t53 = *(int *)((a4 + 0x34));
+            if ((t53 & 0x1) != 0) {
+                u54 = *(float *)((a4 + 0x70));
+                if (!(u54 > 0.049999997f)) {
+                    if (-0.099999994f > u54) {
                         *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                         setTechnicalBonus(0xFFFFFFFF, 0x0);
                         TrafficLevelChange(0xFFFFFFFF);
-                        t55 = *(int *)0xC2A1B74;
-                        if (t55 == 0) {
-                            u56 = *(float *)((a4 + 0x30));
-                            t57 = 0x6;
-                            if ((unsigned int)(int)(u56 * 1.5f) < (unsigned int)0x6) {
-                                t57 = (int)(u56 * 1.5f);
+                        t57 = *(int *)0xC2A1B74;
+                        if (t57 == 0) {
+                            u58 = *(float *)((a4 + 0x30));
+                            t59 = 0x6;
+                            if ((unsigned int)(int)(u58 * 1.5f) < (unsigned int)0x6) {
+                                t59 = (int)(u58 * 1.5f);
                             }
-                            *(unsigned int *)(((int)stk + 4)) = t57;
-                            t58 = *(int *)(((t57 << 2) + 0xC0A3788));
-                            Sound_Request(t58, 0x1);
+                            *(unsigned int *)(((int)stk + 4)) = t59;
+                            t60 = *(int *)(((t59 << 2) + 0xC0A3788));
+                            Sound_Request(t60, 0x1);
                         }
                         *(unsigned int *)0xC2A1B74 = 0x5;
                     } else {
-                        t61 = *(signed char *)0xC1EE278;
-                        ndPuru2Start((unsigned char)t61, 0x1000000, 0x0);
+                        t63 = *(signed char *)0xC1EE278;
+                        ndPuru2Start((unsigned char)t63, 0x1000000, 0x0);
                     }
                 } else {
                     *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                     setTechnicalBonus(0xFFFFFFFF, 0x0);
                     TrafficLevelChange(0xFFFFFFFF);
-                    t66 = *(int *)0xC2A1B74;
-                    if (t66 == 0) {
-                        u67 = *(float *)((a4 + 0x30));
-                        t68 = 0x6;
-                        if ((unsigned int)(int)(u67 * 1.5f) < (unsigned int)0x6) {
-                            t68 = (int)(u67 * 1.5f);
+                    t68 = *(int *)0xC2A1B74;
+                    if (t68 == 0) {
+                        u69 = *(float *)((a4 + 0x30));
+                        t70 = 0x6;
+                        if ((unsigned int)(int)(u69 * 1.5f) < (unsigned int)0x6) {
+                            t70 = (int)(u69 * 1.5f);
                         }
-                        *(unsigned int *)(((int)stk + 4)) = t68;
-                        t69 = *(int *)(((t68 << 2) + 0xC0A3788));
-                        Sound_Request(t69, 0x1);
+                        *(unsigned int *)(((int)stk + 4)) = t70;
+                        t71 = *(int *)(((t70 << 2) + 0xC0A3788));
+                        Sound_Request(t71, 0x1);
                     }
                     *(unsigned int *)0xC2A1B74 = 0x5;
                 }
             }
-            t74 = *(int *)((a4 + 0x124));
-            if (t74 == -1) {
-                t75 = *(int *)((a4 + 0x68));
-                t76 = 0x68;
-                if (t75 == 0) {
-                    *(unsigned int *)((a4 + 0x124)) = 0x0;
-                    t76 = 0x124;
-                }
-                t97 = t76;
-            } else {
+            t76 = *(int *)((a4 + 0x124));
+            if (t76 == -1) {
                 t77 = *(int *)((a4 + 0x68));
-                if (t77 != 0) {
-                    t78 = *(int *)((a4 + 0x124));
-                    if (t78 == 0) {
+                t78 = 0x68;
+                if (t77 == 0) {
+                    *(unsigned int *)((a4 + 0x124)) = 0x0;
+                    t78 = 0x124;
+                }
+                t101 = t78;
+            } else {
+                t79 = *(int *)((a4 + 0x68));
+                if (t79 != 0) {
+                    t80 = *(int *)((a4 + 0x124));
+                    if (t80 == 0) {
                         nlProjectScreen3D((0x8C + a4));
-                        u80 = *(float *)(((int)stk + 8));
-                        if (0.0f > u80) {
-                            t81 = *(int *)((a4 + 0x78));
-                            t82 = *(int *)(((((t81 & 0x1) << 2) + 0xC0A3778) + 0x0));
-                            t85 = t82;
-                        } else {
+                        u82 = *(float *)(((int)stk + 8));
+                        if (0.0f > u82) {
                             t83 = *(int *)((a4 + 0x78));
-                            t84 = *(int *)(((((t83 & 0x1) << 2) + 0xC0A3778) + 0x8));
-                            t85 = t84;
+                            t84 = *(int *)(((((t83 & 0x1) << 2) + 0xC0A3778) + 0x0));
+                            t87 = t84;
+                        } else {
+                            t85 = *(int *)((a4 + 0x78));
+                            t86 = *(int *)(((((t85 & 0x1) << 2) + 0xC0A3778) + 0x8));
+                            t87 = t86;
                         }
-                        Sound_Request(t85, 0x2);
+                        Sound_Request(t87, 0x2);
                     }
-                    u88 = *(float *)((a4 + 0x6C));
-                    if (u88 > 2.5f) {
+                    u90 = *(float *)0xC045DFC;
+                    u91 = *(float *)((a4 + 0x6C));
+                    if (u91 > u90) {
                         *(unsigned int *)((a4 + 0x124)) = 0x1;
                     } else {
                         *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                     }
-                    t96 = 0x124;
+                    t100 = 0x124;
                 } else {
-                    t89 = *(int *)((a4 + 0x124));
-                    t95 = 0x124;
-                    if (t89 != 0) {
+                    t92 = *(int *)((a4 + 0x124));
+                    t99 = 0x124;
+                    if (t92 != 0) {
                         *(unsigned int *)((a4 + 0x124)) = 0x0;
-                        t90 = *(int *)0xC2A1B30;
-                        t91 = *(int *)((0x58 + t90));
-                        t94 = t91;
-                        if (t91 == 1) {
-                            u92 = *(float *)((a4 + 0x6C));
-                            t93 = setTechnicalBonus(0x0, ((int)(u92 * 0.199999988f) + 0x1));
-                            t94 = t93;
+                        t93 = *(int *)0xC2A1B30;
+                        t94 = *(int *)((0x58 + t93));
+                        t98 = t94;
+                        if (t94 == 1) {
+                            u95 = *(float *)0xC045E04;
+                            u96 = *(float *)((a4 + 0x6C));
+                            t97 = setTechnicalBonus(0x0, ((int)(u96 * u95) + 0x1));
+                            t98 = t97;
                         }
-                        t95 = t94;
+                        t99 = t98;
                     }
-                    t96 = t95;
+                    t100 = t99;
                 }
-                t97 = t96;
+                t101 = t100;
             }
-            t98 = t97;
+            t102 = t101;
         }
-        t146 = t98;
+        t152 = t102;
     } else {
-        t99 = *(int *)((a4 + 0x34));
-        if ((t99 & 0x1) != 0) {
-            u100 = *(float *)((a4 + 0x70));
-            if (!(u100 > 0.049999997f)) {
-                if (-0.099999994f > u100) {
+        t103 = *(int *)((a4 + 0x34));
+        if ((t103 & 0x1) != 0) {
+            u104 = *(float *)((a4 + 0x70));
+            if (!(u104 > 0.049999997f)) {
+                if (-0.099999994f > u104) {
                     *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                     setTechnicalBonus(0xFFFFFFFF, 0x0);
                     TrafficLevelChange(0xFFFFFFFF);
-                    t103 = *(int *)0xC2A1B74;
-                    if (t103 == 0) {
-                        u104 = *(float *)((a4 + 0x30));
-                        t105 = 0x6;
-                        if ((unsigned int)(int)(u104 * 1.5f) < (unsigned int)0x6) {
-                            t105 = (int)(u104 * 1.5f);
+                    t107 = *(int *)0xC2A1B74;
+                    if (t107 == 0) {
+                        u108 = *(float *)((a4 + 0x30));
+                        t109 = 0x6;
+                        if ((unsigned int)(int)(u108 * 1.5f) < (unsigned int)0x6) {
+                            t109 = (int)(u108 * 1.5f);
                         }
-                        *(unsigned int *)(((int)stk + 4)) = t105;
-                        t106 = *(int *)(((t105 << 2) + 0xC0A3788));
-                        Sound_Request(t106, 0x1);
+                        *(unsigned int *)(((int)stk + 4)) = t109;
+                        t110 = *(int *)(((t109 << 2) + 0xC0A3788));
+                        Sound_Request(t110, 0x1);
                     }
                     *(unsigned int *)0xC2A1B74 = 0x5;
                 } else {
-                    t109 = *(signed char *)0xC1EE278;
-                    ndPuru2Start((unsigned char)t109, 0x1000000, 0x0);
+                    t113 = *(signed char *)0xC1EE278;
+                    ndPuru2Start((unsigned char)t113, 0x1000000, 0x0);
                 }
             } else {
                 *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                 setTechnicalBonus(0xFFFFFFFF, 0x0);
                 TrafficLevelChange(0xFFFFFFFF);
-                t114 = *(int *)0xC2A1B74;
-                if (t114 == 0) {
-                    u115 = *(float *)((a4 + 0x30));
-                    t116 = 0x6;
-                    if ((unsigned int)(int)(u115 * 1.5f) < (unsigned int)0x6) {
-                        t116 = (int)(u115 * 1.5f);
+                t118 = *(int *)0xC2A1B74;
+                if (t118 == 0) {
+                    u119 = *(float *)((a4 + 0x30));
+                    t120 = 0x6;
+                    if ((unsigned int)(int)(u119 * 1.5f) < (unsigned int)0x6) {
+                        t120 = (int)(u119 * 1.5f);
                     }
-                    *(unsigned int *)(((int)stk + 4)) = t116;
-                    t117 = *(int *)(((t116 << 2) + 0xC0A3788));
-                    Sound_Request(t117, 0x1);
+                    *(unsigned int *)(((int)stk + 4)) = t120;
+                    t121 = *(int *)(((t120 << 2) + 0xC0A3788));
+                    Sound_Request(t121, 0x1);
                 }
                 *(unsigned int *)0xC2A1B74 = 0x5;
             }
         }
-        t122 = *(int *)((a4 + 0x124));
-        if (t122 == -1) {
-            t123 = *(int *)((a4 + 0x68));
-            t124 = 0x68;
-            if (t123 == 0) {
+        t126 = *(int *)((a4 + 0x124));
+        if (t126 == -1) {
+            t127 = *(int *)((a4 + 0x68));
+            t128 = 0x68;
+            if (t127 == 0) {
                 *(unsigned int *)((a4 + 0x124)) = 0x0;
-                t124 = 0x124;
+                t128 = 0x124;
             }
-            t145 = t124;
+            t151 = t128;
         } else {
-            t125 = *(int *)((a4 + 0x68));
-            if (t125 != 0) {
-                t126 = *(int *)((a4 + 0x124));
-                if (t126 == 0) {
+            t129 = *(int *)((a4 + 0x68));
+            if (t129 != 0) {
+                t130 = *(int *)((a4 + 0x124));
+                if (t130 == 0) {
                     nlProjectScreen3D((0x8C + a4));
-                    u128 = *(float *)(((int)stk + 8));
-                    if (0.0f > u128) {
-                        t129 = *(int *)((a4 + 0x78));
-                        t130 = *(int *)(((((t129 & 0x1) << 2) + 0xC0A3778) + 0x0));
-                        t133 = t130;
+                    u132 = *(float *)(((int)stk + 8));
+                    if (0.0f > u132) {
+                        t133 = *(int *)((a4 + 0x78));
+                        t134 = *(int *)(((((t133 & 0x1) << 2) + 0xC0A3778) + 0x0));
+                        t137 = t134;
                     } else {
-                        t131 = *(int *)((a4 + 0x78));
-                        t132 = *(int *)(((((t131 & 0x1) << 2) + 0xC0A3778) + 0x8));
-                        t133 = t132;
+                        t135 = *(int *)((a4 + 0x78));
+                        t136 = *(int *)(((((t135 & 0x1) << 2) + 0xC0A3778) + 0x8));
+                        t137 = t136;
                     }
-                    Sound_Request(t133, 0x2);
+                    Sound_Request(t137, 0x2);
                 }
-                u136 = *(float *)((a4 + 0x6C));
-                if (u136 > 2.5f) {
+                u140 = *(float *)0xC045DFC;
+                u141 = *(float *)((a4 + 0x6C));
+                if (u141 > u140) {
                     *(unsigned int *)((a4 + 0x124)) = 0x1;
                 } else {
                     *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
                 }
-                t144 = 0x124;
+                t150 = 0x124;
             } else {
-                t137 = *(int *)((a4 + 0x124));
-                t143 = 0x124;
-                if (t137 != 0) {
+                t142 = *(int *)((a4 + 0x124));
+                t149 = 0x124;
+                if (t142 != 0) {
                     *(unsigned int *)((a4 + 0x124)) = 0x0;
-                    t138 = *(int *)0xC2A1B30;
-                    t139 = *(int *)((0x58 + t138));
-                    t142 = t139;
-                    if (t139 == 1) {
-                        u140 = *(float *)((a4 + 0x6C));
-                        t141 = setTechnicalBonus(0x0, ((int)(u140 * 0.199999988f) + 0x1));
-                        t142 = t141;
+                    t143 = *(int *)0xC2A1B30;
+                    t144 = *(int *)((0x58 + t143));
+                    t148 = t144;
+                    if (t144 == 1) {
+                        u145 = *(float *)0xC045E04;
+                        u146 = *(float *)((a4 + 0x6C));
+                        t147 = setTechnicalBonus(0x0, ((int)(u146 * u145) + 0x1));
+                        t148 = t147;
                     }
-                    t143 = t142;
+                    t149 = t148;
                 }
-                t144 = t143;
+                t150 = t149;
             }
-            t145 = t144;
+            t151 = t150;
         }
-        t146 = t145;
+        t152 = t151;
     }
-    return t146;
+    return t152;
 }
 
-void kmiProcessVertex_02(int a4)
+int kmiProcessVertex_02(int a4)
 {
     int t0;
     int t1;
@@ -437,26 +451,27 @@ void kmiProcessVertex_02(int a4)
     int t12;
     int t13;
     float u14;
-    int t15;
+    float u15;
     int t16;
     int t17;
     int t18;
     int t19;
     int t20;
     int t21;
-    float u22;
-    int t23;
+    int t22;
+    float u23;
     int t24;
     int t25;
     int t26;
     int t27;
     int t28;
     int t29;
-    float u30;
-    int t31;
-    int t33;
+    int t30;
+    float u31;
+    int t32;
     int t34;
-    int stk[8];
+    int t35;
+    int stk[8] = {0};
 
     t0 = *(int *)((a4 + 0x0));
     *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x0)) = t0;
@@ -482,36 +497,39 @@ void kmiProcessVertex_02(int a4)
     t12 = *(int *)((t11 + 0xC));
     *(unsigned int *)0xC2EA738 = t12;
     t13 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    u14 = *(float *)(((0x18 + t13) + 0x0));
-    *(unsigned int *)0xC2EA73C = ((((((int)(u14 * 255.0f) << 16) << 8) | ((int)(u14 * 255.0f) << 16)) | ((int)(u14 * 255.0f) << 8)) | (int)(u14 * 255.0f));
-    t15 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
-    t16 = *(int *)((t15 + 0x4));
-    *(unsigned int *)0xC2EA740 = t16;
-    t17 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
-    t18 = *(int *)((t17 + 0x8));
-    *(unsigned int *)0xC2EA744 = t18;
-    t19 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
-    t20 = *(int *)((t19 + 0xC));
-    *(unsigned int *)0xC2EA748 = t20;
-    t21 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
-    u22 = *(float *)(((0x18 + t21) + 0x0));
-    *(unsigned int *)0xC2EA74C = ((((((int)(u22 * 255.0f) << 16) << 8) | ((int)(u22 * 255.0f) << 16)) | ((int)(u22 * 255.0f) << 8)) | (int)(u22 * 255.0f));
-    t23 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
-    t24 = *(int *)((t23 + 0x4));
-    *(unsigned int *)0xC2EA750 = t24;
-    t25 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
-    t26 = *(int *)((t25 + 0x8));
-    *(unsigned int *)0xC2EA754 = t26;
-    t27 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
-    t28 = *(int *)((t27 + 0xC));
-    *(unsigned int *)0xC2EA758 = t28;
-    t29 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
-    u30 = *(float *)(((0x18 + t29) + 0x0));
-    *(unsigned int *)0xC2EA75C = ((((((int)(u30 * 255.0f) << 16) << 8) | ((int)(u30 * 255.0f) << 16)) | ((int)(u30 * 255.0f) << 8)) | (int)(u30 * 255.0f));
+    u14 = *(float *)0xC153C30;
+    u15 = *(float *)(((0x18 + t13) + 0x0));
+    *(unsigned int *)0xC2EA73C = ((((((int)(u15 * u14) << 16) << 8) | ((int)(u15 * u14) << 16)) | ((int)(u15 * u14) << 8)) | (int)(u15 * u14));
+    t16 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
+    t17 = *(int *)((t16 + 0x4));
+    *(unsigned int *)0xC2EA740 = t17;
+    t18 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
+    t19 = *(int *)((t18 + 0x8));
+    *(unsigned int *)0xC2EA744 = t19;
+    t20 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
+    t21 = *(int *)((t20 + 0xC));
+    *(unsigned int *)0xC2EA748 = t21;
+    t22 = *(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0));
+    u23 = *(float *)(((0x18 + t22) + 0x0));
+    *(unsigned int *)0xC2EA74C = ((((((int)(u23 * u14) << 16) << 8) | ((int)(u23 * u14) << 16)) | ((int)(u23 * u14) << 8)) | (int)(u23 * u14));
+    t24 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
+    t25 = *(int *)((t24 + 0x4));
+    *(unsigned int *)0xC2EA750 = t25;
+    t26 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
+    t27 = *(int *)((t26 + 0x8));
+    *(unsigned int *)0xC2EA754 = t27;
+    t28 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
+    t29 = *(int *)((t28 + 0xC));
+    *(unsigned int *)0xC2EA758 = t29;
+    t30 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0));
+    u31 = *(float *)(((0x18 + t30) + 0x0));
+    *(unsigned int *)0xC2EA75C = ((((((int)(u31 * u14) << 16) << 8) | ((int)(u31 * u14) << 16)) | ((int)(u31 * u14) << 8)) | (int)(u31 * u14));
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t31 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t31, 0x0, 0x0);
-    t33 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t34 = *(int *)((t33 + 0xC));
-    *(unsigned int *)0xC2EA830 = t34;
+    t32 = FUN_0c1534ca(t3);
+    FUN_0c1534a0(t32, 0x0, 0x0);
+    t34 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t35 = *(int *)((t34 + 0xC));
+    *(unsigned int *)0xC2EA830 = t35;
+    return 0x0;
 }
+

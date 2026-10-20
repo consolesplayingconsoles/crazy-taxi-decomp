@@ -4,13 +4,15 @@
 int GetRotVec(int);
 int SetColliObj(int, int);
 int nlPopMatrix(int);
-int nlPushUnitMatrix(int, int, int, int);
+int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
+int setObjPlace(int a4, int a5);
 
-void setObjPlace(int a4, int a5, int a6, int a7)
+int setObjPlace(int a4, int a5)
 {
     int t0;
+    int t61;
     int t1;
     int t2;
     int t3;
@@ -34,11 +36,31 @@ void setObjPlace(int a4, int a5, int a6, int a7)
     int t36;
     int t37;
     int t38;
+    int t39;
     int t40;
+    int t41;
     int t42;
+    int t43;
     int t44;
+    int t45;
+    int t48;
+    int t50;
+    int t52;
+    int t55;
+    int t57;
+    int t59;
+    int t60;
+    int t58;
+    int t56;
+    int t54;
+    int t53;
+    int t51;
+    int t49;
+    int t47;
+    int t46;
 
     t0 = *(short *)((a4 + 0x10));
+    t61 = t0;
     if (t0 != -1) {
         t1 = *(int *)((a4 + 0x8));
         *(unsigned int *)((a5 + 0x8)) = t1;
@@ -53,7 +75,7 @@ void setObjPlace(int a4, int a5, int a6, int a7)
         t6 = *(int *)0xC0965F0;
         *(unsigned int *)(((a5 + 0xC) + 0x0)) = t6;
         *(float *)((a5 + 0x18)) = 0.0f;
-        nlPushUnitMatrix(a4, a5, a6, a7);
+        nlPushUnitMatrix();
         t8 = *(int *)((a4 + 0xC));
         nlRotateAY(t8);
         t10 = *(short *)((a4 + 0x10));
@@ -110,44 +132,65 @@ void setObjPlace(int a4, int a5, int a6, int a7)
             if (t38 != 8) {
                 if (t38 != 10) {
                     if (t38 == 14) {
-                        SetColliObj(a5, 0x11);
+                        t39 = SetColliObj(a5, 0x11);
+                        t54 = t39;
                     } else {
                         t40 = *(short *)((a4 + 0x10));
                         if (t40 != 11) {
                             if (t40 != 12) {
                                 if (t40 != 15) {
                                     if (t40 == 16) {
-                                        SetColliObj(a5, 0x12);
+                                        t41 = SetColliObj(a5, 0x12);
+                                        t47 = t41;
                                     } else {
                                         t42 = *(short *)((a4 + 0x10));
                                         if (t42 == 19) {
-                                            SetColliObj(a5, 0x13);
+                                            t43 = SetColliObj(a5, 0x13);
+                                            t46 = t43;
                                         } else {
                                             t44 = 0x10;
                                             if (t42 == 20) {
                                                 t44 = 0x14;
                                             }
-                                            SetColliObj(a5, t44);
+                                            t45 = SetColliObj(a5, t44);
+                                            t46 = t45;
                                         }
+                                        t47 = t46;
                                     }
+                                    t49 = t47;
                                 } else {
-                                    SetColliObj(a5, 0x12);
+                                    t48 = SetColliObj(a5, 0x12);
+                                    t49 = t48;
                                 }
+                                t51 = t49;
                             } else {
-                                SetColliObj(a5, 0x12);
+                                t50 = SetColliObj(a5, 0x12);
+                                t51 = t50;
                             }
+                            t53 = t51;
                         } else {
-                            SetColliObj(a5, 0x12);
+                            t52 = SetColliObj(a5, 0x12);
+                            t53 = t52;
                         }
+                        t54 = t53;
                     }
+                    t56 = t54;
                 } else {
-                    SetColliObj(a5, 0x11);
+                    t55 = SetColliObj(a5, 0x11);
+                    t56 = t55;
                 }
+                t58 = t56;
             } else {
-                SetColliObj(a5, 0x11);
+                t57 = SetColliObj(a5, 0x11);
+                t58 = t57;
             }
+            t60 = t58;
         } else {
-            SetColliObj(a5, 0x11);
+            t59 = SetColliObj(a5, 0x11);
+            t60 = t59;
         }
+        t61 = t60;
     }
+    return t61;
 }
+

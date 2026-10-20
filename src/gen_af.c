@@ -5,10 +5,10 @@ int ExecAdvCamera(void);
 int FUN_0c0287d4(float, float);
 int FUN_0c0288ca(int, int, int);
 int FUN_0c0288d4(float, float);
-int FUN_0c0288e0(int, float);
+int FUN_0c0288e0(float);
 int FUN_0c028b06(void);
 int FUN_0c028f50(void);
-int FUN_0c077f80(int, float, float);
+int FUN_0c077f80(void);
 int FUN_0c1534a0(int, int, int);
 int FUN_0c1534ca(int);
 int FUN_0c1534e8(int, int, int);
@@ -19,17 +19,23 @@ int SetCameraMode(int);
 int camSetAngles(int, int, int, int);
 int camSetTarget(int, int);
 int kmiAddSysConfigFlag(int);
-int kmiCopyToPVRMemory(int, int, int);
+int kmiCopyToPVRMemory(int);
 int kmiFBalloc(int, int);
-int kmiGetDisplayData(int, int, int, int);
+int kmiGetDisplayData(int, int, int);
 int kmiGetSysConfigFlag(void);
 int nlAddVector(int, int);
 int nlObjPut(int);
 int nlPopMatrix(int);
 int nlScale(float, float, float);
 int nlScaleUnitVector(int, int, float);
-int nlSubVector(int, int, int, int);
+int nlSubVector(int, int);
 int nlUnitRotation(void);
+int FUN_0c0289be(void);
+int Put2DObj(int a4, float f4, float f5);
+void getReplayPassenger(int a4, int a5, int a6, int a7, int a8);
+int kmiProcessVertex_06(int a4);
+int kmiProcessVertex_14(int a4);
+int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8);
 
 int FUN_0c0289be(void)
 {
@@ -47,10 +53,11 @@ int FUN_0c0289be(void)
     int t16;
     int t18;
     int t20;
-    int t29;
+    float u23;
+    int t30;
     int t21;
     int t17;
-    int stk[9];
+    int stk[9] = {0};
 
     t0 = *(int *)0xC0E4E38;
     if (t0 != 1) {
@@ -75,7 +82,7 @@ int FUN_0c0289be(void)
     *(float *)(((int)stk + 8)) = (u4 + 5.0f);
     t5 = *(int *)0xC179974;
     if (t5 != 0) {
-        FUN_0c0288e0(0x0, 60.0f);
+        FUN_0c0288e0(60.0f);
         camSetTarget(((int)stk + 4), 0x0);
         FUN_0c0287d4(0.299999982f, 0.299999982f);
         t9 = *(int *)0xC2A4E50;
@@ -100,19 +107,20 @@ int FUN_0c0289be(void)
             t21 = (unsigned short)t20;
         }
         camSetAngles(0xFFFFC000, t21, 0xFFFFD000, 0x1);
-        FUN_0c0288d4(9.99999975e-06f, 1.0f);
+        u23 = *(float *)0xC028BB8;
+        FUN_0c0288d4(u23, 1.0f);
         FUN_0c0288ca(0x8, 0x90, 0x10);
         SetCameraMode(0x2);
         ResetSpark();
         *(unsigned int *)0xC179974 = 0x0;
     }
-    t29 = camSetTarget(((int)stk + 4), 0x2);
-    return t29;
+    t30 = camSetTarget(((int)stk + 4), 0x2);
+    return t30;
 }
 
 int Put2DObj(int a4, float f4, float f5)
 {
-    FUN_0c077f80(a4, f4, f5);
+    FUN_0c077f80();
     nlUnitRotation();
     nlScale(f4, f5, 1.0f);
     nlObjPut(a4);
@@ -129,18 +137,21 @@ void getReplayPassenger(int a4, int a5, int a6, int a7, int a8)
     int t5;
     int t6;
     float u7;
-    int t11;
-    int t12;
-    float u13;
-    float u14;
+    float u9;
+    float u12;
+    int t13;
+    int t14;
     float u15;
-    float u18;
-    int t19;
-    int t20;
-    int t21;
+    float u16;
+    float u17;
+    float u20;
+    float u21;
     int t22;
     int t23;
-    int stk[7];
+    int t24;
+    int t25;
+    int t26;
+    int stk[7] = {0};
 
     *(unsigned int *)(((int)stk + 4)) = a5;
     t0 = *(int *)0xC0F2B30;
@@ -163,33 +174,36 @@ void getReplayPassenger(int a4, int a5, int a6, int a7, int a8)
         *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x0)) = t6;
         u7 = *(float *)0xC179148;
         *(float *)(((int)stk + 12)) = u7;
-        nlSubVector((((int)stk + 4) + 0x4), 0xC179144, a6, a7);
-        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), 50.0f);
+        nlSubVector((((int)stk + 4) + 0x4), 0xC179144);
+        u9 = *(float *)0xC04C08C;
+        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), u9);
         nlAddVector((((int)stk + 4) + 0x4), 0xC179144);
-        t11 = GetCollision2D((((int)stk + 4) + 0x4), 10.0f);
-        t12 = *(int *)((t11 + 0x1C));
-        if (t12 != -1) {
-            u13 = *(float *)((t11 + 0x18));
-            u14 = *(float *)(((int)stk + 12));
-            if (u13 > u14) {
-                u15 = *(float *)((t11 + 0x18));
-                *(float *)(((int)stk + 12)) = u15;
+        u12 = *(float *)0xC04C098;
+        t13 = GetCollision2D((((int)stk + 4) + 0x4), u12);
+        t14 = *(int *)((t13 + 0x1C));
+        if (t14 != -1) {
+            u15 = *(float *)((t13 + 0x18));
+            u16 = *(float *)(((int)stk + 12));
+            if (u15 > u16) {
+                u17 = *(float *)((t13 + 0x18));
+                *(float *)(((int)stk + 12)) = u17;
             }
         }
-        u18 = *(float *)(((int)stk + 12));
-        *(float *)(((int)stk + 12)) = (u18 + 4.0f);
-        t19 = *(int *)(((int)stk + 4));
-        t20 = *(int *)0xC2A62AC;
-        t21 = *(int *)(((((int)stk + 4) + 0x4) + 0x8));
-        *(unsigned int *)((((((t19 << 1) + t19) << 2) + t20) + 0x8)) = t21;
-        t22 = *(int *)(((((int)stk + 4) + 0x4) + 0x4));
-        *(unsigned int *)((((((t19 << 1) + t19) << 2) + t20) + 0x4)) = t22;
-        t23 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-        *(unsigned int *)((((((t19 << 1) + t19) << 2) + t20) + 0x0)) = t23;
+        u20 = *(float *)0xC04C0A0;
+        u21 = *(float *)(((int)stk + 12));
+        *(float *)(((int)stk + 12)) = (u21 + u20);
+        t22 = *(int *)(((int)stk + 4));
+        t23 = *(int *)0xC2A62AC;
+        t24 = *(int *)(((((int)stk + 4) + 0x4) + 0x8));
+        *(unsigned int *)((((((t22 << 1) + t22) << 2) + t23) + 0x8)) = t24;
+        t25 = *(int *)(((((int)stk + 4) + 0x4) + 0x4));
+        *(unsigned int *)((((((t22 << 1) + t22) << 2) + t23) + 0x4)) = t25;
+        t26 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+        *(unsigned int *)((((((t22 << 1) + t22) << 2) + t23) + 0x0)) = t26;
     }
 }
 
-void kmiProcessVertex_06(int a4)
+int kmiProcessVertex_06(int a4)
 {
     int t0;
     int t1;
@@ -211,12 +225,12 @@ void kmiProcessVertex_06(int a4)
     float u17;
     float u18;
     float u19;
-    int t20;
-    float u21;
+    float u20;
+    int t21;
     float u22;
     float u23;
     float u24;
-    int t25;
+    float u25;
     int t26;
     int t27;
     int t28;
@@ -227,16 +241,16 @@ void kmiProcessVertex_06(int a4)
     int t33;
     int t34;
     int t35;
-    float u36;
+    int t36;
     float u37;
     float u38;
     float u39;
-    int t40;
-    float u41;
+    float u40;
+    int t41;
     float u42;
     float u43;
     float u44;
-    int t45;
+    float u45;
     int t46;
     int t47;
     int t48;
@@ -247,20 +261,21 @@ void kmiProcessVertex_06(int a4)
     int t53;
     int t54;
     int t55;
-    float u56;
+    int t56;
     float u57;
     float u58;
     float u59;
-    int t60;
-    float u61;
+    float u60;
+    int t61;
     float u62;
     float u63;
     float u64;
-    int t65;
+    float u65;
     int t66;
-    int t68;
+    int t67;
     int t69;
-    int stk[12];
+    int t70;
+    int stk[12] = {0};
 
     t0 = *(int *)((a4 + 0x0));
     *(unsigned int *)((((int)stk + 4) + 0x0)) = t0;
@@ -287,74 +302,76 @@ void kmiProcessVertex_06(int a4)
     t13 = *(int *)((t12 + 0x10));
     t14 = FUN_0c1534fc(t3, 0x6, t13);
     t15 = *(int *)((((int)stk + 4) + 0x0));
-    u16 = *(float *)(((0x20 + t15) + 0x0));
-    u17 = *(float *)(((0x24 + t15) + 0x0));
-    u18 = *(float *)(((0x28 + t15) + 0x0));
-    u19 = *(float *)(((0x2C + t15) + 0x0));
-    *(unsigned int *)(((t14 << 2) + 0xC2EA724)) = ((((((int)(u16 * 255.0f) << 16) << 8) | ((int)(u17 * 255.0f) << 16)) | ((int)(u18 * 255.0f) << 8)) | (int)(u19 * 255.0f));
-    t20 = *(int *)((((int)stk + 4) + 0x0));
-    u21 = *(float *)((t20 + 0x30));
-    u22 = *(float *)((t20 + 0x34));
-    u23 = *(float *)((t20 + 0x38));
-    u24 = *(float *)((t20 + 0x3C));
-    t25 = FUN_0c1534e8(t3, (t14 + 0x1), ((((((int)(u21 * 255.0f) << 16) << 8) | ((int)(u22 * 255.0f) << 16)) | ((int)(u23 * 255.0f) << 8)) | (int)(u24 * 255.0f)));
-    t26 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t27 = *(int *)((t26 + 0x4));
-    *(unsigned int *)(((t25 << 2) + 0xC2EA724)) = t27;
-    t28 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t29 = *(int *)((t28 + 0x8));
-    *(unsigned int *)((((t25 + 0x1) << 2) + 0xC2EA724)) = t29;
-    t30 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t31 = *(int *)((t30 + 0xC));
-    *(unsigned int *)(((((t25 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t31;
-    t32 = *(int *)((((int)stk + 4) + 0x0));
-    t33 = *(int *)((t32 + 0x10));
-    t34 = FUN_0c1534fc(t3, (((t25 + 0x1) + 0x1) + 0x1), t33);
-    t35 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    u36 = *(float *)(((0x20 + t35) + 0x0));
-    u37 = *(float *)(((0x24 + t35) + 0x0));
-    u38 = *(float *)(((0x28 + t35) + 0x0));
-    u39 = *(float *)(((0x2C + t35) + 0x0));
-    *(unsigned int *)(((t34 << 2) + 0xC2EA724)) = ((((((int)(u36 * 255.0f) << 16) << 8) | ((int)(u37 * 255.0f) << 16)) | ((int)(u38 * 255.0f) << 8)) | (int)(u39 * 255.0f));
-    t40 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    u41 = *(float *)((t40 + 0x30));
-    u42 = *(float *)((t40 + 0x34));
-    u43 = *(float *)((t40 + 0x38));
-    u44 = *(float *)((t40 + 0x3C));
-    t45 = FUN_0c1534e8(t3, (t34 + 0x1), ((((((int)(u41 * 255.0f) << 16) << 8) | ((int)(u42 * 255.0f) << 16)) | ((int)(u43 * 255.0f) << 8)) | (int)(u44 * 255.0f)));
-    t46 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t47 = *(int *)((t46 + 0x4));
-    *(unsigned int *)(((t45 << 2) + 0xC2EA724)) = t47;
-    t48 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t49 = *(int *)((t48 + 0x8));
-    *(unsigned int *)((((t45 + 0x1) << 2) + 0xC2EA724)) = t49;
-    t50 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t51 = *(int *)((t50 + 0xC));
-    *(unsigned int *)(((((t45 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t51;
-    t52 = *(int *)((((int)stk + 4) + 0x0));
-    t53 = *(int *)((t52 + 0x10));
-    t54 = FUN_0c1534fc(t3, (((t45 + 0x1) + 0x1) + 0x1), t53);
-    t55 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    u56 = *(float *)(((0x20 + t55) + 0x0));
-    u57 = *(float *)(((0x24 + t55) + 0x0));
-    u58 = *(float *)(((0x28 + t55) + 0x0));
-    u59 = *(float *)(((0x2C + t55) + 0x0));
-    *(unsigned int *)(((t54 << 2) + 0xC2EA724)) = ((((((int)(u56 * 255.0f) << 16) << 8) | ((int)(u57 * 255.0f) << 16)) | ((int)(u58 * 255.0f) << 8)) | (int)(u59 * 255.0f));
-    t60 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    u61 = *(float *)((t60 + 0x30));
-    u62 = *(float *)((t60 + 0x34));
-    u63 = *(float *)((t60 + 0x38));
-    u64 = *(float *)((t60 + 0x3C));
-    t65 = FUN_0c1534e8(t3, (t54 + 0x1), ((((((int)(u61 * 255.0f) << 16) << 8) | ((int)(u62 * 255.0f) << 16)) | ((int)(u63 * 255.0f) << 8)) | (int)(u64 * 255.0f)));
-    *(unsigned int *)0xC2EA81C = (t65 << 2);
-    t66 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t66, 0x0, 0x0);
-    t68 = *(int *)((((int)stk + 4) + 0x0));
-    t69 = *(int *)((t68 + 0xC));
-    *(unsigned int *)0xC2EA830 = t69;
+    u16 = *(float *)0xC154390;
+    u17 = *(float *)(((0x20 + t15) + 0x0));
+    u18 = *(float *)(((0x24 + t15) + 0x0));
+    u19 = *(float *)(((0x28 + t15) + 0x0));
+    u20 = *(float *)(((0x2C + t15) + 0x0));
+    *(unsigned int *)(((t14 << 2) + 0xC2EA724)) = ((((((int)(u17 * u16) << 16) << 8) | ((int)(u18 * u16) << 16)) | ((int)(u19 * u16) << 8)) | (int)(u20 * u16));
+    t21 = *(int *)((((int)stk + 4) + 0x0));
+    u22 = *(float *)((t21 + 0x30));
+    u23 = *(float *)((t21 + 0x34));
+    u24 = *(float *)((t21 + 0x38));
+    u25 = *(float *)((t21 + 0x3C));
+    t26 = FUN_0c1534e8(t3, (t14 + 0x1), ((((((int)(u22 * u16) << 16) << 8) | ((int)(u23 * u16) << 16)) | ((int)(u24 * u16) << 8)) | (int)(u25 * u16)));
+    t27 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t28 = *(int *)((t27 + 0x4));
+    *(unsigned int *)(((t26 << 2) + 0xC2EA724)) = t28;
+    t29 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t30 = *(int *)((t29 + 0x8));
+    *(unsigned int *)((((t26 + 0x1) << 2) + 0xC2EA724)) = t30;
+    t31 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t32 = *(int *)((t31 + 0xC));
+    *(unsigned int *)(((((t26 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t32;
+    t33 = *(int *)((((int)stk + 4) + 0x0));
+    t34 = *(int *)((t33 + 0x10));
+    t35 = FUN_0c1534fc(t3, (((t26 + 0x1) + 0x1) + 0x1), t34);
+    t36 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    u37 = *(float *)(((0x20 + t36) + 0x0));
+    u38 = *(float *)(((0x24 + t36) + 0x0));
+    u39 = *(float *)(((0x28 + t36) + 0x0));
+    u40 = *(float *)(((0x2C + t36) + 0x0));
+    *(unsigned int *)(((t35 << 2) + 0xC2EA724)) = ((((((int)(u37 * u16) << 16) << 8) | ((int)(u38 * u16) << 16)) | ((int)(u39 * u16) << 8)) | (int)(u40 * u16));
+    t41 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    u42 = *(float *)((t41 + 0x30));
+    u43 = *(float *)((t41 + 0x34));
+    u44 = *(float *)((t41 + 0x38));
+    u45 = *(float *)((t41 + 0x3C));
+    t46 = FUN_0c1534e8(t3, (t35 + 0x1), ((((((int)(u42 * u16) << 16) << 8) | ((int)(u43 * u16) << 16)) | ((int)(u44 * u16) << 8)) | (int)(u45 * u16)));
+    t47 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t48 = *(int *)((t47 + 0x4));
+    *(unsigned int *)(((t46 << 2) + 0xC2EA724)) = t48;
+    t49 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t50 = *(int *)((t49 + 0x8));
+    *(unsigned int *)((((t46 + 0x1) << 2) + 0xC2EA724)) = t50;
+    t51 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t52 = *(int *)((t51 + 0xC));
+    *(unsigned int *)(((((t46 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t52;
+    t53 = *(int *)((((int)stk + 4) + 0x0));
+    t54 = *(int *)((t53 + 0x10));
+    t55 = FUN_0c1534fc(t3, (((t46 + 0x1) + 0x1) + 0x1), t54);
+    t56 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    u57 = *(float *)(((0x20 + t56) + 0x0));
+    u58 = *(float *)(((0x24 + t56) + 0x0));
+    u59 = *(float *)(((0x28 + t56) + 0x0));
+    u60 = *(float *)(((0x2C + t56) + 0x0));
+    *(unsigned int *)(((t55 << 2) + 0xC2EA724)) = ((((((int)(u57 * u16) << 16) << 8) | ((int)(u58 * u16) << 16)) | ((int)(u59 * u16) << 8)) | (int)(u60 * u16));
+    t61 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    u62 = *(float *)((t61 + 0x30));
+    u63 = *(float *)((t61 + 0x34));
+    u64 = *(float *)((t61 + 0x38));
+    u65 = *(float *)((t61 + 0x3C));
+    t66 = FUN_0c1534e8(t3, (t55 + 0x1), ((((((int)(u62 * u16) << 16) << 8) | ((int)(u63 * u16) << 16)) | ((int)(u64 * u16) << 8)) | (int)(u65 * u16)));
+    *(unsigned int *)0xC2EA81C = (t66 << 2);
+    t67 = FUN_0c1534ca(t3);
+    FUN_0c1534a0(t67, 0x0, 0x0);
+    t69 = *(int *)((((int)stk + 4) + 0x0));
+    t70 = *(int *)((t69 + 0xC));
+    *(unsigned int *)0xC2EA830 = t70;
+    return 0x0;
 }
 
-void kmiProcessVertex_14(int a4)
+int kmiProcessVertex_14(int a4)
 {
     int t0;
     int t1;
@@ -373,9 +390,9 @@ void kmiProcessVertex_14(int a4)
     int t14;
     int t15;
     float u16;
-    int t17;
-    float u18;
-    int t19;
+    float u17;
+    int t18;
+    float u19;
     int t20;
     int t21;
     int t22;
@@ -386,10 +403,10 @@ void kmiProcessVertex_14(int a4)
     int t27;
     int t28;
     int t29;
-    float u30;
-    int t31;
-    float u32;
-    int t33;
+    int t30;
+    float u31;
+    int t32;
+    float u33;
     int t34;
     int t35;
     int t36;
@@ -400,14 +417,15 @@ void kmiProcessVertex_14(int a4)
     int t41;
     int t42;
     int t43;
-    float u44;
-    int t45;
-    float u46;
-    int t47;
+    int t44;
+    float u45;
+    int t46;
+    float u47;
     int t48;
-    int t50;
+    int t49;
     int t51;
-    int stk[12];
+    int t52;
+    int stk[12] = {0};
 
     t0 = *(int *)((a4 + 0x0));
     *(unsigned int *)((((int)stk + 4) + 0x0)) = t0;
@@ -435,52 +453,54 @@ void kmiProcessVertex_14(int a4)
     t14 = FUN_0c1534fc(t3, 0x6, t13);
     t15 = *(int *)((((int)stk + 4) + 0x0));
     u16 = *(float *)(((0x18 + t15) + 0x0));
-    *(unsigned int *)(((t14 << 2) + 0xC2EA724)) = ((((((int)(u16 * 255.0f) << 16) << 8) | ((int)(u16 * 255.0f) << 16)) | ((int)(u16 * 255.0f) << 8)) | (int)(u16 * 255.0f));
-    t17 = *(int *)((((int)stk + 4) + 0x0));
-    u18 = *(float *)((t17 + 0x1C));
-    t19 = FUN_0c1534e8(t3, (t14 + 0x1), ((((((int)(u18 * 255.0f) << 16) << 8) | ((int)(u18 * 255.0f) << 16)) | ((int)(u18 * 255.0f) << 8)) | (int)(u18 * 255.0f)));
-    t20 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t21 = *(int *)((t20 + 0x4));
-    *(unsigned int *)(((t19 << 2) + 0xC2EA724)) = t21;
-    t22 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t23 = *(int *)((t22 + 0x8));
-    *(unsigned int *)((((t19 + 0x1) << 2) + 0xC2EA724)) = t23;
-    t24 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t25 = *(int *)((t24 + 0xC));
-    *(unsigned int *)(((((t19 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t25;
-    t26 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    t27 = *(int *)((t26 + 0x10));
-    t28 = FUN_0c1534fc(t3, (((t19 + 0x1) + 0x1) + 0x1), t27);
-    t29 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    u30 = *(float *)(((0x18 + t29) + 0x0));
-    *(unsigned int *)(((t28 << 2) + 0xC2EA724)) = ((((((int)(u30 * 255.0f) << 16) << 8) | ((int)(u30 * 255.0f) << 16)) | ((int)(u30 * 255.0f) << 8)) | (int)(u30 * 255.0f));
-    t31 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
-    u32 = *(float *)((t31 + 0x1C));
-    t33 = FUN_0c1534e8(t3, (t28 + 0x1), ((((((int)(u32 * 255.0f) << 16) << 8) | ((int)(u32 * 255.0f) << 16)) | ((int)(u32 * 255.0f) << 8)) | (int)(u32 * 255.0f)));
-    t34 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t35 = *(int *)((t34 + 0x4));
-    *(unsigned int *)(((t33 << 2) + 0xC2EA724)) = t35;
-    t36 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t37 = *(int *)((t36 + 0x8));
-    *(unsigned int *)((((t33 + 0x1) << 2) + 0xC2EA724)) = t37;
-    t38 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t39 = *(int *)((t38 + 0xC));
-    *(unsigned int *)(((((t33 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t39;
-    t40 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    t41 = *(int *)((t40 + 0x10));
-    t42 = FUN_0c1534fc(t3, (((t33 + 0x1) + 0x1) + 0x1), t41);
-    t43 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    u44 = *(float *)(((0x18 + t43) + 0x0));
-    *(unsigned int *)(((t42 << 2) + 0xC2EA724)) = ((((((int)(u44 * 255.0f) << 16) << 8) | ((int)(u44 * 255.0f) << 16)) | ((int)(u44 * 255.0f) << 8)) | (int)(u44 * 255.0f));
-    t45 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
-    u46 = *(float *)((t45 + 0x1C));
-    t47 = FUN_0c1534e8(t3, (t42 + 0x1), ((((((int)(u46 * 255.0f) << 16) << 8) | ((int)(u46 * 255.0f) << 16)) | ((int)(u46 * 255.0f) << 8)) | (int)(u46 * 255.0f)));
-    *(unsigned int *)0xC2EA81C = (t47 << 2);
-    t48 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t48, 0x0, 0x0);
-    t50 = *(int *)((((int)stk + 4) + 0x0));
-    t51 = *(int *)((t50 + 0xC));
-    *(unsigned int *)0xC2EA830 = t51;
+    u17 = *(float *)0xC155394;
+    *(unsigned int *)(((t14 << 2) + 0xC2EA724)) = ((((((int)(u16 * u17) << 16) << 8) | ((int)(u16 * u17) << 16)) | ((int)(u16 * u17) << 8)) | (int)(u16 * u17));
+    t18 = *(int *)((((int)stk + 4) + 0x0));
+    u19 = *(float *)((t18 + 0x1C));
+    t20 = FUN_0c1534e8(t3, (t14 + 0x1), ((((((int)(u19 * u17) << 16) << 8) | ((int)(u19 * u17) << 16)) | ((int)(u19 * u17) << 8)) | (int)(u19 * u17)));
+    t21 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t22 = *(int *)((t21 + 0x4));
+    *(unsigned int *)(((t20 << 2) + 0xC2EA724)) = t22;
+    t23 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t24 = *(int *)((t23 + 0x8));
+    *(unsigned int *)((((t20 + 0x1) << 2) + 0xC2EA724)) = t24;
+    t25 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t26 = *(int *)((t25 + 0xC));
+    *(unsigned int *)(((((t20 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t26;
+    t27 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    t28 = *(int *)((t27 + 0x10));
+    t29 = FUN_0c1534fc(t3, (((t20 + 0x1) + 0x1) + 0x1), t28);
+    t30 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    u31 = *(float *)(((0x18 + t30) + 0x0));
+    *(unsigned int *)(((t29 << 2) + 0xC2EA724)) = ((((((int)(u31 * u17) << 16) << 8) | ((int)(u31 * u17) << 16)) | ((int)(u31 * u17) << 8)) | (int)(u31 * u17));
+    t32 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
+    u33 = *(float *)((t32 + 0x1C));
+    t34 = FUN_0c1534e8(t3, (t29 + 0x1), ((((((int)(u33 * u17) << 16) << 8) | ((int)(u33 * u17) << 16)) | ((int)(u33 * u17) << 8)) | (int)(u33 * u17)));
+    t35 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t36 = *(int *)((t35 + 0x4));
+    *(unsigned int *)(((t34 << 2) + 0xC2EA724)) = t36;
+    t37 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t38 = *(int *)((t37 + 0x8));
+    *(unsigned int *)((((t34 + 0x1) << 2) + 0xC2EA724)) = t38;
+    t39 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t40 = *(int *)((t39 + 0xC));
+    *(unsigned int *)(((((t34 + 0x1) + 0x1) << 2) + 0xC2EA724)) = t40;
+    t41 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    t42 = *(int *)((t41 + 0x10));
+    t43 = FUN_0c1534fc(t3, (((t34 + 0x1) + 0x1) + 0x1), t42);
+    t44 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    u45 = *(float *)(((0x18 + t44) + 0x0));
+    *(unsigned int *)(((t43 << 2) + 0xC2EA724)) = ((((((int)(u45 * u17) << 16) << 8) | ((int)(u45 * u17) << 16)) | ((int)(u45 * u17) << 8)) | (int)(u45 * u17));
+    t46 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
+    u47 = *(float *)((t46 + 0x1C));
+    t48 = FUN_0c1534e8(t3, (t43 + 0x1), ((((((int)(u47 * u17) << 16) << 8) | ((int)(u47 * u17) << 16)) | ((int)(u47 * u17) << 8)) | (int)(u47 * u17)));
+    *(unsigned int *)0xC2EA81C = (t48 << 2);
+    t49 = FUN_0c1534ca(t3);
+    FUN_0c1534a0(t49, 0x0, 0x0);
+    t51 = *(int *)((((int)stk + 4) + 0x0));
+    t52 = *(int *)((t51 + 0xC));
+    *(unsigned int *)0xC2EA830 = t52;
+    return 0x0;
 }
 
 int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8)
@@ -514,7 +534,7 @@ int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8)
     int t27;
     int t29;
     int t41;
-    int stk[654];
+    int stk[654] = {0};
 
     *(unsigned int *)(((int)stk + 4)) = a6;
     t0 = *(int *)0xC175D4C;
@@ -545,7 +565,7 @@ int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8)
     t12 = *(int *)0xC2B8C94;
     if (t12 != 0) {
         t13 = *(int *)(((int)stk + 4));
-        kmiGetDisplayData(0xFF, a7, t13, a7);
+        kmiGetDisplayData(0xFF, a7, t13);
     }
     t16 = kmiGetSysConfigFlag();
     if (t16 == 0x80000000) {
@@ -579,7 +599,7 @@ int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8)
                     t26 = 0x0;
                     do {
                         t27 = *(int *)((a4 + 0x1C));
-                        kmiCopyToPVRMemory((t27 + t26), (((int)stk + 4) + 0x1C), 0xA00);
+                        kmiCopyToPVRMemory((t27 + t26));
                         t29 = *(int *)((a4 + 0x14));
                         t26 = (t26 + 0xA00);
                     } while ((unsigned int)t26 < (unsigned int)t29);
@@ -594,3 +614,4 @@ int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8)
     }
     return t41;
 }
+
