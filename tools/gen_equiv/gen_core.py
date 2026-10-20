@@ -256,7 +256,7 @@ def _run(name,passthru=False,frame=False):
         if mn in('mov.l',) and a[0].startswith('r') and a[1]=='@-r15':
             n=int(a[0][1:])
             c.D+=4; c.maxD=max(c.maxD,c.D)
-            if c.in_prologue or (n>=8 and a[0] not in c.R): return
+            if (c.in_prologue and n>=8) or (n>=8 and a[0] not in c.R): return      # a callee-saved register saved in the prologue; r4-r7 pushed there are arguments
             v=c.gi(a[0])                       # an argument pushed for the next call (or a value kept for a pop)
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr arg')
             c.pend.append(v); return
@@ -268,6 +268,10 @@ def _run(name,passthru=False,frame=False):
             if c.frame: fstore(('expr','((int)stk + @@F:%d@@)'%(-c.D)),val)     # still readable in place (fmov.s @r15,frN)
             else: c.stack[(-c.D,'f')]=val
             return
+        if mn=='mov.l' and a[1].startswith('r') and c.pend and (a[0]=='@r15' or re.match(r'^@\((\d+),r15\)$',a[0])):      # a reload of a word pushed before a call that took none of it: the pending push, not memory
+            dsp=0 if a[0]=='@r15' else int(re.match(r'^@\((\d+),r15\)$',a[0]).group(1))
+            if dsp%4==0 and dsp//4<len(c.pend) and not isfp(c.pend[-1-dsp//4]):
+                c.R[a[1]]=c.pend[-1-dsp//4]; return
         if mn=='mov.l' and a[0]=='@r15+' and a[1].startswith('r'):
             c.D-=4
             if c.pend:
@@ -344,6 +348,21 @@ def _run(name,passthru=False,frame=False):
         if mn=='pref':                        # prefetch a cache line: SHC's prefetch(); no effect the check can see
             c.protos['_builtin_prefetch']=('void *',); c.blocks[-1].append('_builtin_prefetch((void *)%s);'%ex(c.gi(a[0].strip('@')))); return
         if mn=='stc' and a[0]=='sr': c.R[a[1]]=('srx',0,M,None); return
+        # control registers through the SDK's own intrinsics (smachine.h / umachine.h: get_vbr, set_vbr, get_gbr, set_gbr, get_fpscr, set_fpscr)
+        if mn=='stc' and a[0] in ('vbr','gbr'):
+            nm='_builtin_get_%s'%a[0]; c.protos[nm]=(); t='t%d'%c.ntemp; c.ntemp+=1
+            emit('int %s = %s();'%(t,nm)); c.R[a[1]]=('e',t); return
+        if mn=='ldc' and a[1] in ('vbr','gbr'):
+            nm='_builtin_set_%s'%a[1]; c.protos[nm]=('int',)
+            emit('%s(%s);'%(nm,ex(c.gi(a[0])))); return
+        if mn=='sts' and a[0]=='fpscr':
+            c.protos['_builtin_get_fpscr']=(); t='t%d'%c.ntemp; c.ntemp+=1
+            emit('int %s = _builtin_get_fpscr();'%t); c.R[a[1]]=('e',t); c.fpscr_saved=getattr(c,'fpscr_saved',set())|{t}; return
+        if mn=='lds' and a[1]=='fpscr':
+            v=c.gi(a[0])
+            # only a restore of a value read earlier: the FPU mode the generator tracks (fschg, frchg) is then unchanged at the end
+            if not (isinstance(v,tuple) and v[0]=='e' and v[1] in getattr(c,'fpscr_saved',set())): raise Skip('lds fpscr not a restore')
+            c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%v[1]); return
         if mn=='ldc' and a[1]=='sr':
             v=c.gi(a[0])
             if not(isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]==0xFFFFFF0F): raise Skip('ldc sr not set_imask')
@@ -463,7 +482,17 @@ def _run(name,passthru=False,frame=False):
         if mn=='movca.l':
             c.protos['iaMovca']=('int','void *'); emit('iaMovca(%s, (void *)%s);'%(ex(c.gi('r0')),ex(c.gi(a[1].strip('@'))))); return
         if mn=='fschg': c.sz=not c.sz; return
-        if mn=='frchg': c.FR,c.XF=c.XF,c.FR; c.swapped=not c.swapped; return
+        if mn=='frchg':
+            if c.swapped and c.FR and not c.sz:      # leaving the back bank after writing registers into it: the matrix keeps them
+                regs_=sorted(int(k[2:]) for k in c.FR if k.startswith('fr'))
+                if any(c.FR[k]==DIRTY for k in c.FR): raise Skip('xf bank dirty')
+                m_=fresh(True); emit('float %s[16];'%m_)
+                c.protos['_builtin_st_ext']=('float (*)[4]',); c.protos['_builtin_ld_ext']=('float (*)[4]',)
+                emit('_builtin_st_ext((float (*)[4])%s);'%m_)
+                for i in regs_: emit('%s[%d] = %s;'%(m_,i,fx(c.FR['fr%d'%i])))
+                emit('_builtin_ld_ext((float (*)[4])%s);'%m_)
+                c.FR,c.XF=c.XF,{}; c.swapped=False; c.xf_entry=True; return
+            c.FR,c.XF=c.XF,c.FR; c.swapped=not c.swapped; return
         if c.sz and mn in ('fmov','fmov.s'):       # size mode 1: a move takes a register pair; an odd register number names the other bank
             def pair_get(k):
                 bank=c.XF if k&1 else c.FR
@@ -474,6 +503,14 @@ def _run(name,passthru=False,frame=False):
             def pair_put(k,hi,lo):
                 bank=c.XF if k&1 else c.FR
                 bank['fr%d'%(k&14)]=hi; bank['fr%d'%((k&14)+1)]=lo
+                if bank is c.XF and not c.swapped:            # a write to the back bank (XD register): the matrix keeps it
+                    if hi==DIRTY or lo==DIRTY: raise Skip('xf bank dirty')
+                    m_=fresh(True); emit('float %s[16];'%m_)
+                    c.protos['_builtin_st_ext']=('float (*)[4]',); c.protos['_builtin_ld_ext']=('float (*)[4]',)
+                    emit('_builtin_st_ext((float (*)[4])%s);'%m_)
+                    emit('%s[%d] = %s;'%(m_,k&14,fx(hi))); emit('%s[%d] = %s;'%(m_,(k&14)+1,fx(lo)))
+                    emit('_builtin_ld_ext((float (*)[4])%s);'%m_)
+                    c.xf_entry=True
             def plus4(ad): return ('const',(ad[1]+4)&M) if ad[0]=='const' else ('expr','(%s + 4)'%ad[1])
             num=lambda r:int(r[2:])
             if mn=='fmov':
@@ -492,7 +529,7 @@ def _run(name,passthru=False,frame=False):
         if mn=='ftrv' and a[0]=='xmtrx':
             vn=int(a[1][2:]); names=['fr%d'%i for i in range(16)]
             if c.sz: raise Skip('ftrv in size mode 1')
-            if not c.XF and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is
+            if (not c.XF or getattr(c,'xf_entry',False)) and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is
                 c.xf_entry=True; v_=fresh(True); emit('float %s[4];'%v_)
                 for i in range(4): emit('%s[%d] = %s;'%(v_,i,fx(c.gf('fr%d'%(vn+i)))))
                 c.protos['_builtin_ftrv']=('float *','float *'); emit('_builtin_ftrv(%s, %s);'%(v_,v_))
@@ -628,18 +665,25 @@ def _run(name,passthru=False,frame=False):
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr arg')
             args.append(ex(v)); types.append('int')
             if '@@F' in args[-1]: c.frame_regs.add('r%d'%n)
+        hidden=None
         if c.pend and not spill:
             # arguments pushed on the stack: the first of them was pushed last
             variadic=False
             if len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
                 variadic=True
+            elif len(ia)<4 and len(c.pend)==1 and not isfp(c.pend[0]) and (ia or fa) and '@@F' in ex(c.pend[0]):
+                # the address of a local pushed alone, with the other arguments in registers: SHC passes the hidden return pointer of a
+                # function that returns a structure by value on the stack. Declared variadic after its real arguments, the compiler puts
+                # the pointer on the stack too, whatever the structure's size is.
+                hidden=ex(c.pend[0]); c.frame_stack_call=True
             elif len(ia)<4: raise Skip('stack arguments without four in registers [%s: %d in registers%s, %d on the stack; %d float registers, stack %s]'%(fname,len(ia),' + floats' if fa else '',len(c.pend),len(fa),''.join('f' if isfp(v) else 'i' for v in c.pend)))
-            for v in reversed(c.pend):
+            for v in ([] if hidden else reversed(c.pend)):
                 if isfp(v): args.append(fx(v[1])); types.append('float')
                 else: args.append(ex(v)); types.append('int')
             if variadic: types=['int','...']
             c.pend=[]
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
+        if hidden: args.append(hidden); types.append('...')
         sig=tuple(types)
         isf=(not ind) and fname in c.protos and c.protos[fname][-1:]==('->float',)
         if not ind:
@@ -870,13 +914,14 @@ def _run(name,passthru=False,frame=False):
         return J
     def branch(i,j,f,cond,stops,tA=None):
         T0=c.T
-        c._tends=[]
+        c._tends=[]; c._tvar=None
         r=branch0(i,j,f,cond,stops,tA)
         ends=c._tends
         # after the join the flag is what it was before the branch if neither arm changed it (the compiler reuses it: movt after the
         # join), what the one arm that goes on left it, and unknown otherwise
         if tA is not None and len(ends)==2 and ends[0]==('1' if tA else '0') and ends[1]==('0' if tA else '1'): c.T=T0
         elif tA is not None and len(ends)==1: c.T=ends[0]
+        elif c._tvar: c.T=c._tvar
         else: c.T=None
         return r
     def branch0(i,j,f,cond,stops,tA=None):
@@ -884,6 +929,9 @@ def _run(name,passthru=False,frame=False):
         arm (True for a bf that fell through, False for a bt), the opposite on the taken arm: a second branch there may use it."""
         c._bi=i
         J=outer_join(G.ijoin(i) if _IJOIN[0] else G.ipdom(i))
+        if c.loopstack and J!=gen_cfg.EXIT and J not in G.loops[c.loopstack[-1]]:
+            J2=G.ijoin_in(i,G.loops[c.loopstack[-1]])           # the real join is outside the loop (the arms leave it): meet inside it instead
+            if J2!=gen_cfg.EXIT: J=J2
         c._bj=J
         stops2=dict(stops)
         if J!=gen_cfg.EXIT and (J not in stops2 or stops2[J]=='cont'):
@@ -912,6 +960,7 @@ def _run(name,passthru=False,frame=False):
             emit(mkif(cond,A,[])); c.blocks[-1].extend(B); set_regs(stB); return oB
         if tb:
             emit(mkif(negate(cond),B,[])); c.blocks[-1].extend(A); set_regs(stA); return oA
+        oA0,oB0=oA,oB
         for _ext in range(4):
             if oA[0]=='end' or oB[0]=='end' or oA[1]==oB[1]: break
             # one arm stopped at a join that leads on to the other arm's: that arm goes on to it (its code stays inside its arm)
@@ -928,6 +977,12 @@ def _run(name,passthru=False,frame=False):
         if oA[0]!='end' and oB[0]!='end' and oA[1]!=oB[1]:
             if True: raise Skip('unstructured %x %s %s'%(ins[i][2],oA[1] if len(oA)>1 else '-',oB[1] if len(oB)>1 else '-'))
         merge_arms(stA,stB,A,B)
+        if oA is oA0 and oB is oB0 and endA is not None and endB is not None and endA!=endB:
+            # the two arms leave T as different things (1 here, a compare there): the code after the join may read it (rotcr, movt, a branch);
+            # a variable carries it
+            tv=fresh(False); emit('int %s = 0;'%tv)
+            A.append('%s = (%s);'%(tv,endA)); B.append('%s = (%s);'%(tv,endB))
+            c._tvar=tv; c.neg[tv]='!'+tv; c.neg['!'+tv]=tv
         emit(mkif(cond,A,B))
         return oA
 
@@ -985,7 +1040,7 @@ def _run(name,passthru=False,frame=False):
 
     def exec_loop(h):
         E,_=G.loop_exit(h)
-        if E is None and _ is None: raise Skip('loop exits')
+        if E is None and _ is None and not G.never_leaves(h): raise Skip('loop exits')
         stl={h:'cont'}
         if E is not None: stl[E]='break'
         s0=snap(); entR=dict(c.R); entF=dict(c.FR); entS=dict(c.stack)
@@ -1008,7 +1063,9 @@ def _run(name,passthru=False,frame=False):
                     if r in c.lv or (r,isf) in cand: continue
                     n=int(r[2:] if isf else r[1:])
                     e=ent.get(r,('s',('f%d' if isf else 'a%d')%n) if 4<=n<=(11 if isf else 7) else None)
-                    if e is not None and v!=e and v!=DIRTY: cand.append((r,isf))
+                    if e==DIRTY and v is not None and v!=DIRTY and not (isinstance(v,tuple) and v[0] in ('addr','srx')):
+                        cand.append((r,isf)); undef.add((r,isf))       # unreadable on entry (a helper clobbered it) and the first pass read nothing of it: like undefined
+                    elif e is not None and v!=e and v!=DIRTY: cand.append((r,isf))
                     elif e is None and r not in ent and v is not None and v!=DIRTY and not (isinstance(v,tuple) and v[0] in ('addr','srx')):
                         cand.append((r,isf)); undef.add((r,isf))       # undefined on entry, set by the loop and read on the next pass: a variable with no initial value
         cand.sort(key=lambda w:(w[1],int(w[0][2:] if w[1] else w[0][1:])))

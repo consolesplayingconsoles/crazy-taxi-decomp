@@ -106,10 +106,6 @@ int trafficSectionControl(int a4, int a5, int a6, float f4);
 int humanDraw(int a4, int a5, int a6, int a7);
 int FcvPlay(int a4, int a5, float f4);
 
-void nlUnitRotation(void)
-{
-    
-}
 
 int kmiCopyTextureToTexture(void)
 {
@@ -4329,3 +4325,4 @@ int FcvPlay(int a4, int a5, float f4)
     t360 = nlPopMatrix(0x4);
     return t360;
 }
+

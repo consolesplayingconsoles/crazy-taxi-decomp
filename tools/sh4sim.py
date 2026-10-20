@@ -147,6 +147,7 @@ class CPU:
         self.t = self.s = self.q = self.mq = 0
         self.srx = 0x40000000         # SR's other bits (MD = 1, interrupt mask 0): read by stc sr, written by ldc sr
         self.gbr = self.mach = self.macl = self.pr = self.pc = 0
+        self.vbr = 0
         self.fpul = 0
         self.fr = [0] * 16        # float32 bits, current bank
         self.xf = [0] * 16        # the other bank
@@ -226,6 +227,7 @@ class CPU:
             if op == 0x0019: self.mq = self.q = self.t = 0; return
             if lo8 == 0x02: r[n] = self.sr(); return
             if lo8 == 0x12: r[n] = self.gbr; return
+            if lo8 == 0x22: r[n] = self.vbr; return                          # stc vbr,rn
             if lo8 == 0x0a: r[n] = self.mach; return
             if lo8 == 0x1a: r[n] = self.macl; return
             if lo8 == 0x2a: r[n] = self.pr; return
@@ -348,18 +350,20 @@ class CPU:
             if lo8 == 0x5a: self.fpul = x; return
             if lo8 == 0x6a: self.set_fpscr(x); return
             if lo8 == 0x1e: self.gbr = x; return
+            if lo8 == 0x2e: self.vbr = x; return                             # ldc rm,vbr
             if lo8 == 0x0e: self.set_sr(x); return                         # ldc rm,sr
-            if lo8 in (0x02, 0x12, 0x22, 0x52, 0x62, 0x13):               # sts.l / stc.l gbr
+            if lo8 in (0x02, 0x12, 0x22, 0x52, 0x62, 0x13, 0x23):         # sts.l / stc.l gbr, vbr
                 v = {0x02: self.mach, 0x12: self.macl, 0x22: self.pr, 0x52: self.fpul,
-                     0x62: self.get_fpscr(), 0x13: self.gbr}[lo8]
+                     0x62: self.get_fpscr(), 0x13: self.gbr, 0x23: self.vbr}[lo8]
                 r[n] = (x - 4) & M32; wr(r[n], 4, v); return
-            if lo8 in (0x06, 0x16, 0x26, 0x56, 0x66, 0x17):               # lds.l / ldc.l gbr
+            if lo8 in (0x06, 0x16, 0x26, 0x56, 0x66, 0x17, 0x27):         # lds.l / ldc.l gbr, vbr
                 v = rd(x, 4); r[n] = (x + 4) & M32
                 if lo8 == 0x06: self.mach = v
                 elif lo8 == 0x16: self.macl = v
                 elif lo8 == 0x26: self.pr = v
                 elif lo8 == 0x56: self.fpul = v
                 elif lo8 == 0x66: self.set_fpscr(v)
+                elif lo8 == 0x27: self.vbr = v
                 else: self.gbr = v
                 return
         elif hi == 5:
@@ -614,6 +618,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             cpu.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
         elif k == 'gbr':
             cpu.gbr = int(v, 16)
+        elif k == 'vbr':
+            cpu.vbr = int(v, 16)
         elif k.startswith('xf'):                          # the back bank (XMTRX) the function starts with
             cpu.xf[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
         else:
@@ -625,6 +631,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
     calls = []
     returns = list(case.get('calls', []))
     entry_r15 = cpu.r[15]
+    xf_entry = list(cpu.xf)
     given_args = {int(k[1:]) for k in case.get('regs', {}) if re.match(r'r[4-7]$', k)}   # the arguments the case passes in are the function's own
     entry_fargs = [cpu.fr[i] for i in range(4, 12)]   # fr4-fr11 as the case gave them: a float argument register that still holds this was not set by the function
     given_fargs = {int(k[2:]) for k in case.get('regs', {}) if re.match(r'fr(4|5|6|7|8|9|10|11)$', k)}
@@ -644,8 +651,10 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
         ret = returns.pop(0) if returns else {}
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
             mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))
+        if ret.get('poke_stack'):                                # a structure returned by value: the callee fills the buffer the stack word names
+            mem.load(mem.read(c.r[15] & M32, 4) & M32, bytes.fromhex(ret['poke_stack']))
         for k, v in ret.items():
-            if k == 'poke_arg':
+            if k in ('poke_arg', 'poke_stack'):
                 continue
             if k.startswith('fr'):
                 c.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
@@ -672,6 +681,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             'out': {'r0': '%08X' % cpu.r[0], 'r1': '%08X' % cpu.r[1],
                     'fr0': '%08X' % cpu.fr[0], 'fr1': '%08X' % cpu.fr[1]},
             'r15_balanced': cpu.r[15] == entry_r15,
+            'xf': ['%08X' % v for v in cpu.xf], 'xf_changed': cpu.xf != xf_entry,
             'covered': sorted(a for a in cpu.covered if entry <= a < end),
             'reads': mem.reads, 'seq_used': dict(mem.seq_used), 'trace': cpu.trace}
 

@@ -27,6 +27,7 @@ import sh4sim
 M = 0xFFFFFFFF
 MAX_NEW = 24                 # new cases kept per function
 ROUNDS = 4
+WHY = []                     # why a one-sided branch could not be flipped (filled by extend; main prints it when DIRECT_WHY is set)
 
 
 def s32(v): return v - (1 << 32) if v & 0x80000000 else v
@@ -58,17 +59,75 @@ def definition(op, r):
     return None
 
 
+def store_of(op, r):
+    """(address, size, source register) of a store instruction, or None."""
+    hi = op >> 12; n = (op >> 8) & 15; m = (op >> 4) & 15; lo = op & 15
+    if hi == 2 and lo in (0, 1, 2): return (r[n], (1, 2, 4)[lo], m)
+    if hi == 2 and lo in (4, 5, 6): z = (1, 2, 4)[lo - 4]; return ((r[n] - z) & M, z, m)
+    if hi == 1: return ((r[n] + (op & 15) * 4) & M, 4, m)
+    if hi == 8 and n == 0: return ((r[m] + (op & 15)) & M, 1, 0)
+    if hi == 8 and n == 1: return ((r[m] + (op & 15) * 2) & M, 2, 0)
+    if hi == 0 and lo in (4, 5, 6): return ((r[n] + r[0]) & M, (1, 2, 4)[lo - 4], m)
+    return None
+
+
+CTX = {'range': None, 'deep': None}      # the function's address range and the inline-call test of the run being extended (set by extend)
+
+
+def call_target(op, pc, r):
+    """The address a call instruction at pc jumps to (r: the registers when it ran), or None when the op is not a call."""
+    if op & 0xF0FF == 0x400B: return r[(op >> 8) & 15] & M                       # jsr @rn
+    if op >> 12 == 0xB: return (pc + 4 + (sx(op & 0xFFF, 12) << 1)) & M          # bsr
+    if op & 0xF0FF == 0x0003: return (pc + 4 + r[(op >> 8) & 15]) & M            # bsrf rn
+    return None
+
+
+def call_index(trace, j):
+    """How many calls the case has answered before the call at trace[j]: calls made by the function itself that are not run inline."""
+    lo, hi = CTX['range'] or (0, 1 << 32)
+    n = 0
+    for i in range(j):
+        pc, op, r, fr = trace[i]
+        if not lo <= pc < hi: continue
+        t = call_target(op, pc, r)
+        if t is not None and not (CTX['deep'] and CTX['deep'](t)): n += 1
+    return n
+
+
 def provenance(trace, k, reg, is_float=False):
     """Where register `reg` got its value before trace[k]: ('mem', addr, size, offset) / ('arg', reg, offset) / ('fmem', addr) / None."""
     off = 0
     j = k - 1
     while j >= 0:
         pc, op, r, fr = trace[j]
+        t = call_target(op, pc, r)
+        if t is not None and reg == 0 and CTX['range'] and CTX['range'][0] <= pc < CTX['range'][1]:       # r0 / fr0 right after a call: the callee's answer
+            if CTX['deep'] and CTX['deep'](t): return None
+            return ('call', call_index(trace, j), is_float, off)
+        if reg == 0 and j >= 1 and CTX['range']:                         # j is the delay slot of a call: the answer arrives after it
+            pc1, op1, r1, _ = trace[j - 1]
+            t1 = call_target(op1, pc1, r1)
+            if t1 is not None and CTX['range'][0] <= pc1 < CTX['range'][1]:
+                if CTX['deep'] and CTX['deep'](t1): return None
+                return ('call', call_index(trace, j - 1), is_float, off)
+        if reg == 0 and not is_float and op >> 8 in (0xC9, 0xCA, 0xCB):      # and/xor/or #imm,r0: the source is the same register one step back
+            j -= 1; continue
         d = definition(op, r)
         after = trace[j + 1][2] if j + 1 < len(trace) else None
         afterf = trace[j + 1][3] if j + 1 < len(trace) else None
         if d and ((d[0] in ('fcopy', 'floadf')) == is_float) and d[1] == reg:
-            if d[0] == 'load': return ('mem', d[2], d[3], off, j)
+            if d[0] == 'load':
+                for sj in range(j - 1, -1, -1):                      # a value the function stored and read back: follow it to what was stored
+                    st = store_of(trace[sj][1], trace[sj][2])
+                    if st and st[0] == d[2] and st[1] == d[3]:
+                        sub = provenance(trace, sj, st[2], False)
+                        if sub is None: return None
+                        if sub[0] in ('arg', 'mem', 'call'):
+                            i = {'arg': 2, 'mem': 3, 'call': 3}[sub[0]]
+                            return sub[:i] + (sub[i] + off,) + sub[i + 1:]
+                        return None
+                    if st and st[0] < d[2] + d[3] and d[2] < st[0] + st[1]: break      # an overlapping store of another shape: leave it
+                return ('mem', d[2], d[3], off, j)
             if d[0] == 'floadf': return ('fmem', d[2], 4, 0)
             if d[0] in ('copy', 'fcopy'): reg = d[2]; j -= 1; continue
             if d[0] == 'add': off += d[2]; j -= 1; continue
@@ -113,9 +172,12 @@ def branches(trace):
     out = []
     for i, (pc, op, r, fr) in enumerate(trace):
         hi = op >> 8
-        if hi in (0x89, 0x8b, 0x8d, 0x8f) and i + 1 < len(trace):
+        if hi in (0x89, 0x8b, 0x8d, 0x8f):
             delay = hi in (0x8d, 0x8f)
-            nxt = trace[i + 2][0] if delay and i + 2 < len(trace) else trace[i + 1][0]
+            if i + (2 if delay else 1) >= len(trace):         # the run ends here: the taken branch left the function (the trace stops at its end)
+                if i + 1 < len(trace) or not delay: out.append((i, pc, True))
+                continue
+            nxt = trace[i + 2][0] if delay else trace[i + 1][0]
             out.append((i, pc, nxt != pc + (4 if delay else 2)))
     return out
 
@@ -145,6 +207,13 @@ def candidates(kind, a, b):
 def apply(case, prov, want, size_bits=None):
     """case with the provenance's source set so the compared value becomes `want`."""
     c = copy.deepcopy(case)
+    if prov[0] == 'call':
+        idx, isf, off = prov[1], prov[2], prov[3]
+        calls = c.setdefault('calls', [])
+        while len(calls) <= idx: calls.append({})
+        if isf: calls[idx]['fr0'] = '%08X' % fb(want)
+        else: calls[idx]['r0'] = '%08X' % ((want - off) & M)
+        return c
     if prov[0] == 'arg':
         c.setdefault('regs', {})['r%d' % prov[1]] = '%08X' % ((want - prov[2]) & M)
         return c
@@ -174,6 +243,7 @@ def run_case(case, name, start, size, base, deep, trace=False):
 def extend(name, sets, start, size, base, deep):
     """New cases for the function: a list, and the coverage before and after (counts of covered instructions)."""
     cases = sets['dev'] + sets['holdout']
+    CTX['range'] = (start, start + size); CTX['deep'] = deep
     runs = [run_case(cs, name, start, size, base, deep, True) for cs in cases]
     covered = set()
     for r in runs: covered |= set(r.get('covered', []))
@@ -189,11 +259,14 @@ def extend(name, sets, start, size, base, deep):
                 sides.setdefault(pc, set()).add(taken)
                 where.setdefault((pc, taken), (ci, i))
         gained = False
+        stuck = []
         for pc, seen in sorted(sides.items()):
             if len(seen) > 1: continue
             taken = next(iter(seen)); ci, i = where[(pc, taken)]
             tr = runs[ci]['trace']; comp = compare_at(tr, i)
-            if not comp: continue
+            if not comp:
+                WHY.append((pc, 'no compare in the 12 instructions before the branch'))
+                stuck.append((pc, taken, ci)); continue
             kind, ar, br, imm, k = comp
             isf = kind in ('feq', 'fgt')
             a, b = values(tr, comp)
@@ -201,24 +274,71 @@ def extend(name, sets, start, size, base, deep):
                 reg = ar if which == 'a' else br
                 if reg is None: continue
                 prov = provenance(tr, k, reg, isf)
-                if not prov: continue
+                if not prov:
+                    WHY.append((pc, 'no provenance for %s%d (%s)' % ('fr' if isf else 'r', reg, kind)))
+                    stuck.append((pc, taken, ci)); continue
                 x, y = (a, b) if which == 'a' else (b, a)
                 kd = kind if which == 'a' else {'hs': 'hs', 'hi': 'hi', 'ge': 'ge', 'gt': 'gt'}.get(kind, kind)
-                for cand in (candidates(kind, x, y) if which == 'a' else candidates_b(kind, x, y)):
+                if kind == 'tst' and ar == br:                          # tst rn,rn: one value, nonzero or zero
+                    if which == 'b': continue
+                    cands = [c for c in (1, 0xFF, 0x7F, M, 0x80000000, 0) if ((c & M) == 0) != (x & M == 0)]
+                else:
+                    cands = candidates(kind, x, y) if which == 'a' else candidates_b(kind, x, y)
+                for cand in cands:
                     key = (pc, which, prov[0], prov[1], cand if not isf else round(cand, 3))
                     if key in tried: continue
                     tried.add(key)
                     nc = apply(cases[ci], prov, cand)
-                    if not nc: continue
+                    if not nc:
+                        WHY.append((pc, 'value %s cannot be set at %s' % (cand, prov[0]))); continue
                     r2 = run_case(nc, name, start, size, base, deep, True)
-                    if r2['error']: continue
+                    if r2['error']:
+                        WHY.append((pc, 'flipped case errors: %s' % str(r2['error'])[:40])); continue
                     gain = set(r2.get('covered', [])) - covered
+                    if not gain: WHY.append((pc, 'flipped (%s %s) but no new instruction ran' % (prov[0], cand)))
                     if gain and len(new) < MAX_NEW:
                         nc['about'] = 'directed: flips %08X (%s)' % (pc, 'taken' if taken else 'not taken')
                         new.append(nc); cases.append(nc); runs.append(r2); covered |= gain; gained = True
                         break
+        for pc, taken, ci in stuck:                          # a branch whose compare could not be traced: change the arguments together
+            for nc in bulk_variants(cases[ci]):
+                key = (pc, 'bulk', json.dumps(nc.get('regs'), sort_keys=True))
+                if key in tried: continue
+                tried.add(key)
+                r2 = run_case(nc, name, start, size, base, deep, True)
+                if r2['error']: continue
+                gain = set(r2.get('covered', [])) - covered
+                if gain and len(new) < MAX_NEW:
+                    nc['about'] = 'directed: arguments changed together for %08X' % pc
+                    new.append(nc); cases.append(nc); runs.append(r2); covered |= gain; gained = True
+                    break
         if not gained: break
     return new, before, len(covered)
+
+
+def bulk_variants(case):
+    """Copies of a case with every integer argument register changed together: a compare on several arguments combined (an or of them
+    tested against a mask, a sum) has no single source to set, so try the shapes such tests usually separate: all aligned, all zero,
+    all ones, all small."""
+    regs = case.get('regs', {})
+    names = [r for r in regs if r.startswith('r') and r[1:].isdigit()]
+    if not names: return []
+    names = sorted(names)
+    out = []
+    for mask in reversed(range(1, (1 << len(names)) - 1)):                  # some registers RAM pointers, the rest small aligned counts
+        for count in (8, 24):
+            c = copy.deepcopy(case)
+            for k, r in enumerate(names):
+                c['regs'][r] = '%08X' % (0x0C900000 + 0x400 * k if mask >> k & 1 else count)
+            out.append(c)
+    shapes = (lambda v, k: v & ~7 & M, lambda v, k: v & ~15 & M, lambda v, k: v & ~3 & M, lambda v, k: 0, lambda v, k: M,
+              lambda v, k: v & 0xFF, lambda v, k: v & 0xF & ~1, lambda v, k: v & 0x38, lambda v, k: v & 0x78 & ~7,
+              lambda v, k: 8 * (k + 1), lambda v, k: 16 * (k + 1), lambda v, k: 4 * (k + 2), lambda v, k: 1 + k)      # last four: small, distinct, aligned
+    for f in shapes:
+        c = copy.deepcopy(case)
+        for k, r in enumerate(sorted(names)): c['regs'][r] = '%08X' % f(int(regs[r], 16), k)
+        if c['regs'] != regs: out.append(c)
+    return out
 
 
 def candidates_b(kind, a, b):
@@ -253,12 +373,15 @@ def main(names, runtime, funcs):
             path = 'tests/%s/%s.json' % (stem, n)
             sets = json.load(open(path)); old[n] = open(path).read()
             start, size = funcs[n]
+            WHY.clear()
             try:
                 new, b, a = extend(n, sets, start, size, base, deep)
             except Exception as e:
                 new, b, a = [], 0, 0; ledger.record('direct', n, 'error', '%s %s' % (type(e).__name__, str(e)[:80]))
             done += 1
             print('[%4ds] directed: %d of %d functions | %s: %d new cases, instructions run %d -> %d' % (time.time() - t0, done, total_fn, n, len(new), b, a), flush=True)
+            if os.environ.get('DIRECT_WHY'):                # a dry look: say why the branches stayed one-sided, change nothing
+                print('WHY %s %s' % (n, json.dumps(sorted(set(w for _, w in WHY)))), flush=True); continue
             if new:
                 changed.append((n, path, sets, new))
         if not changed:

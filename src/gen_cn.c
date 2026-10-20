@@ -135,16 +135,6 @@ int FUN_0c03fd2c(void);
 int psgFrameState4(int a4);
 void psgEnterState3(int a4, int a5);
 
-void nlTranslate(float f4, float f5, float f6)
-{
-    float u0[4];
-
-    u0[0] = f4;
-    u0[1] = f5;
-    u0[2] = f6;
-    u0[3] = 1.0f;
-    _builtin_ftrv(u0, u0);
-}
 
 int FUN_0c074970(void)
 {

@@ -49,6 +49,7 @@ def restore_evidence():
     for f,t in KEEP.items(): open(f,'w').write(t)
 READ_LIMIT=300       # seconds: a function whose reading does not finish in that time is skipped (some shapes loop for ever)
 BUILD_LIMIT=60       # and the same for writing its C and cases in a round
+TIMEF=float(os.environ.get('GEN_TIME_FACTOR','1'))      # more time for the drawing of cases when the machine is shared by several groups
 if '--draw' in sys.argv:
     import draw_cases; draw_cases.main([x for x in sys.argv[1:] if x!='--draw']); sys.exit(0)
 if '--direct' in sys.argv:
@@ -83,7 +84,7 @@ for l in open('functions.txt'):
 # classify.py without names stops at 128 bytes: name the functions to look at
 for l in (subprocess.run(['python3','tools/classify.py']+sizes,capture_output=True,text=True).stdout.splitlines() if sizes else []):
     p=l.split()
-    if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and p[2] not in ver and not p[2].startswith('_') and int(p[1])<=maxsize:
+    if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and (p[2] not in ver or p[2] in ONLY) and not p[2].startswith('_') and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
     signal.alarm(max(READ_LIMIT,gen_core.SPANS[n][1]//4))      # a larger function gets more time: size/4 seconds, at least 300
@@ -137,7 +138,7 @@ def write_batch(keep):
 ROUND=[0,False]
 def _draw(n):
     vi,pt=ROUND
-    signal.alarm(max(BUILD_LIMIT,gen_core.SPANS[n][1]//8))      # a larger function gets more time: size/8 seconds, at least 60
+    signal.alarm(int(max(BUILD_LIMIT,gen_core.SPANS[n][1]//8)*TIMEF))      # a larger function gets more time: size/8 seconds, at least 60, times GEN_TIME_FACTOR
     try:
         try: vs=gen_pipe.variants(n,pt)
         except gen_core.Skip as e:

@@ -2,6 +2,7 @@ ADXAMP_Destroy
 ADXAMP_ExecHndl
 ADXAMP_ExecServer
 ADXAMP_GetStat
+ADXAMP_Start
 ADXAMP_Stop
 ADXB_CheckAu
 ADXB_CheckSpsd
@@ -9,6 +10,7 @@ ADXB_CheckWav
 ADXB_CopyExtraBufMono
 ADXB_CopyExtraBufSte
 ADXB_Create
+ADXB_DecodeHeader
 ADXB_DecodeHeaderAdx
 ADXB_DecodeHeaderAiff
 ADXB_DecodeHeaderAu
@@ -20,6 +22,8 @@ ADXB_EntryAddWrFunc
 ADXB_EntryData
 ADXB_EntryGetWrFunc
 ADXB_EvokeDecode
+ADXB_ExecHndl
+ADXB_ExecOneAdx
 ADXB_ExecOneAiff
 ADXB_ExecOneAu
 ADXB_ExecOneWav
@@ -138,6 +142,7 @@ ADXSTM_SetBufSize
 ADXSTM_SetEos
 ADXSTM_SetReqRdSize
 ADXSTM_Start
+ADXSTM_Stop
 ADXSTM_Tell
 ADXT_DiscardSmpl
 ADXT_GetNumChan
@@ -154,7 +159,6 @@ ADXT_StartAfs
 ADXT_StartSj
 ADXT_Stop
 ADX_DecodeInfoSpsd
-ADX_DecodeInfoWav
 Act_Execute
 Act_Init
 Advtise
@@ -166,7 +170,6 @@ CalcShadow2Matrix
 CalcShadow4Normal
 CarSel_Time_Count
 ChangeColliObj
-Chat_Choin
 Chat_Direction
 Chat_Execute
 Chat_HeyTaxi
@@ -199,8 +202,8 @@ FUN_0c0105d4
 FUN_0c010630
 FUN_0c010682
 FUN_0c010754
-FUN_0c0107fe
 FUN_0c01089a
+FUN_0c0108ea
 FUN_0c010954
 FUN_0c01098c
 FUN_0c0109c4
@@ -287,6 +290,7 @@ FUN_0c02dd5a
 FUN_0c02dfbc
 FUN_0c02e01c
 FUN_0c02e04a
+FUN_0c02e074
 FUN_0c02e19e
 FUN_0c02e1ce
 FUN_0c02e282
@@ -313,6 +317,7 @@ FUN_0c02edd4
 FUN_0c02f02a
 FUN_0c02f14c
 FUN_0c02f220
+FUN_0c02f26a
 FUN_0c02f362
 FUN_0c02f392
 FUN_0c02f7e4
@@ -361,6 +366,7 @@ FUN_0c0357b0
 FUN_0c036256
 FUN_0c036378
 FUN_0c0364b8
+FUN_0c03663c
 FUN_0c036b5a
 FUN_0c037534
 FUN_0c0376b0
@@ -377,6 +383,7 @@ FUN_0c039280
 FUN_0c03932e
 FUN_0c03933e
 FUN_0c03934e
+FUN_0c039378
 FUN_0c039434
 FUN_0c039540
 FUN_0c039560
@@ -391,8 +398,8 @@ FUN_0c039ad4
 FUN_0c039cd2
 FUN_0c039e58
 FUN_0c03a07c
+FUN_0c03a120
 FUN_0c03a3e0
-FUN_0c03a41c
 FUN_0c03a640
 FUN_0c03a704
 FUN_0c03a82c
@@ -469,15 +476,21 @@ FUN_0c03ec76
 FUN_0c03ef54
 FUN_0c03f216
 FUN_0c03f3ac
+FUN_0c03f430
 FUN_0c03f912
+FUN_0c03f96e
+FUN_0c03fd2c
 FUN_0c040192
+FUN_0c040264
 FUN_0c0403b8
 FUN_0c040790
 FUN_0c0409a6
+FUN_0c040a50
 FUN_0c040b00
 FUN_0c040b54
 FUN_0c040b98
 FUN_0c040c58
+FUN_0c040cea
 FUN_0c040de6
 FUN_0c041016
 FUN_0c0411a8
@@ -489,16 +502,17 @@ FUN_0c041cb4
 FUN_0c041ce2
 FUN_0c041ce8
 FUN_0c041d68
+FUN_0c041e20
 FUN_0c043524
 FUN_0c043b68
 FUN_0c044b80
 FUN_0c044f12
-FUN_0c047330
 FUN_0c0496fc
 FUN_0c049854
 FUN_0c04988a
 FUN_0c049988
 FUN_0c049aa8
+FUN_0c049b06
 FUN_0c04a38a
 FUN_0c04a3d2
 FUN_0c04a4d6
@@ -613,6 +627,7 @@ FUN_0c055b38
 FUN_0c055cf4
 FUN_0c0563f8
 FUN_0c056e80
+FUN_0c056ed8
 FUN_0c056ff8
 FUN_0c057080
 FUN_0c057130
@@ -645,7 +660,9 @@ FUN_0c058ff0
 FUN_0c059110
 FUN_0c0591ea
 FUN_0c059254
+FUN_0c059310
 FUN_0c059450
+FUN_0c059486
 FUN_0c059514
 FUN_0c0595e8
 FUN_0c0596ac
@@ -720,9 +737,11 @@ FUN_0c05e8c8
 FUN_0c05e944
 FUN_0c05ea98
 FUN_0c05ead0
+FUN_0c05eb52
 FUN_0c05ef68
 FUN_0c05f482
 FUN_0c05f498
+FUN_0c05f65c
 FUN_0c05f854
 FUN_0c05f8cc
 FUN_0c05f93c
@@ -764,7 +783,6 @@ FUN_0c062096
 FUN_0c0620ce
 FUN_0c062158
 FUN_0c06278e
-FUN_0c062824
 FUN_0c062d26
 FUN_0c062ea0
 FUN_0c062f84
@@ -794,6 +812,7 @@ FUN_0c064718
 FUN_0c064748
 FUN_0c064a06
 FUN_0c064ade
+FUN_0c064b0e
 FUN_0c0650b8
 FUN_0c0655f0
 FUN_0c065df6
@@ -813,6 +832,7 @@ FUN_0c070cd0
 FUN_0c070e8a
 FUN_0c070ede
 FUN_0c071258
+FUN_0c0713d8
 FUN_0c0714f2
 FUN_0c071d34
 FUN_0c071d98
@@ -822,6 +842,7 @@ FUN_0c071fa4
 FUN_0c072348
 FUN_0c072502
 FUN_0c07250c
+FUN_0c07270c
 FUN_0c072884
 FUN_0c0728c8
 FUN_0c072dd4
@@ -831,11 +852,14 @@ FUN_0c072e90
 FUN_0c072f82
 FUN_0c072fe8
 FUN_0c0736c0
+FUN_0c07378e
 FUN_0c07387c
 FUN_0c0738ae
+FUN_0c0738bc
 FUN_0c073c00
 FUN_0c073d10
 FUN_0c073d50
+FUN_0c073d60
 FUN_0c074200
 FUN_0c0742c0
 FUN_0c0742f0
@@ -846,6 +870,7 @@ FUN_0c074510
 FUN_0c0745e0
 FUN_0c074680
 FUN_0c074690
+FUN_0c074970
 FUN_0c074990
 FUN_0c0749b0
 FUN_0c074ac0
@@ -855,6 +880,7 @@ FUN_0c074d10
 FUN_0c074d20
 FUN_0c074de0
 FUN_0c074ea0
+FUN_0c074eb0
 FUN_0c075090
 FUN_0c075120
 FUN_0c0753f0
@@ -865,11 +891,13 @@ FUN_0c075430
 FUN_0c075450
 FUN_0c075470
 FUN_0c075560
+FUN_0c075570
 FUN_0c0755c0
 FUN_0c0755d0
 FUN_0c0755e0
 FUN_0c075600
 FUN_0c075700
+FUN_0c075860
 FUN_0c075930
 FUN_0c076200
 FUN_0c076670
@@ -887,6 +915,8 @@ FUN_0c0777ec
 FUN_0c077830
 FUN_0c077884
 FUN_0c077a00
+FUN_0c077b50
+FUN_0c077b80
 FUN_0c077df0
 FUN_0c077f60
 FUN_0c077f70
@@ -918,6 +948,7 @@ FUN_0c079cc0
 FUN_0c079d40
 FUN_0c079d60
 FUN_0c079e70
+FUN_0c079ed0
 FUN_0c079f10
 FUN_0c07a240
 FUN_0c07a290
@@ -943,6 +974,7 @@ FUN_0c07b9e0
 FUN_0c07ba40
 FUN_0c07bd30
 FUN_0c07bde0
+FUN_0c07be20
 FUN_0c07bee0
 FUN_0c07bf70
 FUN_0c07c000
@@ -976,6 +1008,8 @@ FUN_0c07d5f0
 FUN_0c07d620
 FUN_0c07d6a0
 FUN_0c07d7a0
+FUN_0c07dcf0
+FUN_0c07e580
 FUN_0c07e820
 FUN_0c07e880
 FUN_0c07e8a0
@@ -992,6 +1026,7 @@ FUN_0c07f7c0
 FUN_0c07f830
 FUN_0c07f840
 FUN_0c07f860
+FUN_0c07f870
 FUN_0c07fab0
 FUN_0c07fb70
 FUN_0c07fbb0
@@ -1053,7 +1088,7 @@ FUN_0c14ec64
 FUN_0c14f3d6
 FUN_0c14f59e
 FUN_0c14f5a2
-FUN_0c14f6f4
+FUN_0c14f626
 FUN_0c14f7ac
 FUN_0c14f8de
 FUN_0c15152c
@@ -1078,9 +1113,9 @@ FUN_0c155366
 FUN_0c15536a
 FUN_0c15536e
 FUN_0c1566a0
+FUN_0c156742
 FUN_0c1568cc
 FUN_0c156934
-FUN_0c156e0a
 FUN_0c157160
 FUN_0c157220
 FUN_0c1573a0
@@ -1095,6 +1130,7 @@ FUN_0c157d46
 FUN_0c157d58
 FUN_0c157f40
 FUN_0c1583c4
+FUN_0c158860
 FUN_0c15887e
 FUN_0c15888e
 FUN_0c158958
@@ -1144,7 +1180,10 @@ FUN_0c15f93a
 FUN_0c15f95a
 FUN_0c15f978
 FUN_0c15f998
+FUN_0c15f9c4
 FUN_0c15fa1c
+FUN_0c15fa32
+FUN_0c15fa6c
 FUN_0c15fa92
 FUN_0c15fab8
 FUN_0c160e88
@@ -1166,11 +1205,13 @@ FUN_0c167694
 FUN_0c1676a8
 FUN_0c1676bc
 FUN_0c1676d0
+FUN_0c1676e4
 FUN_0c16770c
 FUN_0c167720
 FUN_0c1677d8
 FUN_0c167800
 FUN_0c167910
+FUN_0c167bf8
 FUN_0c167c24
 FUN_0c167c4c
 FUN_0c16800c
@@ -1200,6 +1241,9 @@ FUN_0c16893a
 FUN_0c1689c0
 FUN_0c168e10
 FUN_0c168f00
+FUN_0c169514
+FUN_0c1696c4
+FUN_0c1697c2
 FUN_0c1697c4
 FUN_0c169a1c
 FUN_0c16ad8a
@@ -1241,6 +1285,9 @@ FUN_0c17187c
 FUN_0c1718a0
 FUN_0c1718c4
 FUN_0c17190c
+FUN_0c17195a
+FUN_0c171b2c
+FUN_0c171c0c
 FUN_0c171cae
 FUN_0c171cd0
 FUN_0c171cfe
@@ -1251,6 +1298,7 @@ FUN_0c171db0
 FUN_0c171dce
 FUN_0c171de4
 FUN_0c171e62
+FUN_0c171e74
 FUN_0c171ee8
 FUN_0c171f36
 FUN_0c171f6c
@@ -1278,6 +1326,7 @@ FUN_0c174394
 FUN_0c17457a
 FUN_0c17472e
 FUN_0c174768
+FUN_0c1747be
 FUN_0c1747f4
 FcvStoreBuffer
 GS_ComboReset
@@ -1285,6 +1334,7 @@ GS_GuestOut
 GetAng4Mat
 GetCollision
 GetCollision2D
+GetCollisionFirst
 GetMenuMode
 GetNumRideon
 GetRotVec
@@ -1292,6 +1342,7 @@ GetRotVec4Ang
 GoiTool
 InitAdvCamera
 InitArrow
+InitColliObj
 InitEffect
 InitHelicopter
 InitHomingVector
@@ -1325,8 +1376,10 @@ Put_Build_Patch
 Put_Combo_Entry
 Put_Course_Obj_Dist
 Put_Credits
+Put_GearBox
 Put_Max_Combo
 Put_ReadySetGo
+Put_Transporter
 ResetFadeColor
 ResetLight
 ResetSpark
@@ -1336,6 +1389,8 @@ SJMEM_EntryErrFunc
 SJMEM_Finish
 SJMEM_GetBufPtr
 SJMEM_GetBufSize
+SJMEM_GetChunk
+SJMEM_GetNumData
 SJMEM_GetUuid
 SJMEM_Init
 SJMEM_IsGetChunk
@@ -1363,7 +1418,6 @@ SJUNI_Create
 SJUNI_Destroy
 SJUNI_EntryErrFunc
 SJUNI_Finish
-SJUNI_GetChunk
 SJUNI_GetNumChainPool
 SJUNI_GetNumChunk
 SJUNI_GetNumData
@@ -1372,6 +1426,7 @@ SJUNI_Init
 SJUNI_Lock
 SJUNI_PutChunk
 SJUNI_Reset
+SJUNI_UngetChunk
 SJUNI_Unlock
 SJ_SplitChunk
 SaveBackupData
@@ -1429,9 +1484,9 @@ adxt_set_outpan
 adxt_start_sj
 adxt_start_stm
 adxt_stat_decend
+adxt_stat_decinfo
 adxt_stat_playend
 adxt_stat_playing
-adxt_stat_prep
 buAnalyzeBackupFileImage
 buCalcBackupFileSize
 buCalcCRC
@@ -1507,6 +1562,7 @@ camSetTarget
 camSnapToCar
 carColliReflection
 carEntry
+carResistance
 check_fat_all
 clear_file
 close_file_handle
@@ -1525,6 +1581,7 @@ dropOutCheck
 drvAccelDot
 drvJolt
 execAdvSprite
+execMiniLight
 extRand
 extRandom
 extRandomSeed
@@ -1535,11 +1592,13 @@ fmMngInit
 fmMngRead
 fmcalccrc
 frameFlip
+frame_make
 fsInit
 gameState0
 gameState10
 gameState11
 gameState12
+gameState13
 gameState14
 gameState15
 gameState2
@@ -1587,6 +1646,7 @@ gdc_StopStreamVoice
 gdc_StopStreamVoiceAll
 getAreaFromPos
 getGoiToolFlag
+getNearCoursePoint
 getNearLineIndex
 getNearLineIndexAll
 getPieceWindow
@@ -1630,6 +1690,7 @@ kdSetGunTrigger
 kdSetHandler
 kdSetSetConditionEx
 kdVbInHandler
+kdVbOverHandler
 kmBlankScreen
 kmChangeContextClampUV
 kmChangeContextColorClamp
@@ -1644,10 +1705,10 @@ kmChangeContextStripLength
 kmChangeContextSuperSample
 kmChangeContextUserClipMode
 kmChangeContextZWriteDisable
-kmChangeLatencyModel
 kmChangeVertexOffset
 kmChangeVertexPCW
 kmCreateCombinedTextureSurface
+kmCreateFrameBufferSurface
 kmCreateTABuffer
 kmCreateTextureSurface
 kmDiscardVertexBuffer
@@ -1658,12 +1719,15 @@ kmGetCurrentScanline
 kmGetCurrentVertexOffset
 kmGetFreeTextureMem
 kmGetTexture
+kmInitDevice
 kmLoadRectangleTexturePart
 kmLoadVQCodebook
 kmLoadYUVTexture
 kmQueryFinishFlushVertexBuffer
 kmReLoadMipmap
+kmRenderDirect
 kmResetPointer
+kmResetRenderer
 kmSetAutoSortMode
 kmSetBackGroundPlane
 kmSetBackGroundRenderState
@@ -1683,6 +1747,7 @@ kmSetFramebufferTexture
 kmSetGlobalClipping
 kmSetHSyncCallback
 kmSetHSyncLine
+kmSetModifierRenderState
 kmSetPALEXTCallback
 kmSetPaletteBankData
 kmSetPaletteData
@@ -1711,6 +1776,7 @@ kmfSetVertexBufferBaseAddress
 kmfSetVirticalFilterMode
 kmiABSalloc
 kmiAddSysConfigFlag
+kmiAllocSysConfig
 kmiCBalloc
 kmiCh2DMAtoTA
 kmiCheckRenderer
@@ -1718,11 +1784,13 @@ kmiConvertUVnum
 kmiCopyDummyGlobalData
 kmiCopyFromFrameBuffer
 kmiCopyFromPVRMemory
+kmiCopyTextureToTexture
 kmiCopyToFrameBuffer
 kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
 kmiCreateDummyTranslucentObject
 kmiCreateGlobalParameter
+kmiDACControl
 kmiDMAHazardReset
 kmiDMAtoTARequest
 kmiDefaultInterruptHandler
@@ -1836,6 +1904,7 @@ mpdrv_setcmd_force
 mpdrv_stat
 mpdrv_swaplong
 mwRnaAdjustBuf
+mwRnaContinue
 mwRnaDestroy
 mwRnaDiscardData
 mwRnaErrCallFunc
@@ -1914,13 +1983,14 @@ nlDispStripLoadTexture
 nlDispStripSetPalette
 nlDispStripTex
 nlDispStripTexOfs
+nlDispStripTexOfsTrnsl
 nlDispStripTexTrnsl
 nlDispStripTrnsl
 nlDispStripTrnslX
+nlDispStripX
 nlExecuteEvent
 nlExp
 nlFastSinCos
-nlFloor
 nlFogDensityF
 nlFogTableColor
 nlFogTableOff
@@ -1935,6 +2005,7 @@ nlGetIntrFunction
 nlGetIntrPriority
 nlGetPaletteID
 nlGetPushedMatrix
+nlInitCommonTexture
 nlInitEvent
 nlInitFont
 nlInitHeapMemory
@@ -1944,6 +2015,7 @@ nlInitSprite
 nlInitTextureSurface
 nlInnerProduct
 nlIntrClearEvent
+nlIntrGetEvent
 nlInvLightVector
 nlInvLightVectorUseViewMatrix
 nlInvertAbsSqrt
@@ -1954,6 +2026,7 @@ nlLineBlendFunc
 nlLineSetDiv
 nlLineSetThickness
 nlLoadDummyTexture
+nlLoadMatrix
 nlLoadTextureMem
 nlLocate
 nlLog
@@ -1963,8 +2036,10 @@ nlMakeModelProjectMatrix_objput
 nlMakeModelViewProjectMatrix_objput
 nlMalloc
 nlObjPut
+nlObjPutFreeTextureOnce_Sub
 nlObjPutLoadTexture
 nlObjPutLoadTextureCallBack
+nlObjPutMLPreCalcLightRestore
 nlObjPutMvInit
 nlObjPutMvSetIntensity
 nlObjPutMvSetMode
@@ -1984,6 +2059,7 @@ nlPow
 nlPrintColor
 nlPrintMonitorMode
 nlPrintSetGarbagedTexture
+nlPrintSetOpaqueMode
 nlPrintSetZ
 nlPrintTileClipMode
 nlPrintf
@@ -1991,11 +2067,14 @@ nlPrnIndentOff
 nlPrnIndentOn
 nlProjectScreen3D
 nlPushUnitMatrix
+nlPuts
 nlRand
 nlRandom
 nlRandomSeed
 nlReloadPalette
 nlReloadPalette8888
+nlRenderTextureFree
+nlRenderTextureFreeAll
 nlRenderTextureInit
 nlRenderTextureSet
 nlRenderTextureSet_Stride
@@ -2004,6 +2083,8 @@ nlRotate
 nlRotateAX
 nlRotateAY
 nlRotateAZ
+nlRotateV
+nlRoundOff
 nlRoundUp
 nlScaleUnitVector
 nlScaleVector
@@ -2018,6 +2099,7 @@ nlSetFontSize
 nlSetIntrFunction
 nlSetScaleFactor
 nlSetTextureParameter
+nlSetTranslate
 nlSin
 nlSinf
 nlSinh
@@ -2034,6 +2116,8 @@ nlSubVector
 nlSubVector3op
 nlTan
 nlTanf
+nlTanh
+nlTranslate
 nlTranslateV
 nlTriPutSetAttrib
 nlTriPutSetAttribAmbient
@@ -2052,6 +2136,8 @@ nlTriPutSetClipping
 nlTriPutSetPaletteIndex
 nlTriPutSetPoint
 nlTriPutTextureInit
+nlUnitMatrix
+nlUnitRotation
 nlUnitVector
 nlVoidUnitVector
 nlobjput_sub
@@ -2097,6 +2183,7 @@ pdGunEnter
 pdGunGetFlashColor
 pdGunGetPosition
 pdGunLeave
+pdGunSetCallback
 pdGunSetFlashColor
 pdGunSetTrigger
 pdInitPeripheral
@@ -2122,7 +2209,7 @@ pfSetZ
 pfSize
 pointEventGet
 psgCallEnter
-psgEnterState1
+psgFaceTaxi
 psgFrameState0
 psgFrameState5
 psgPlayBlend
@@ -2132,13 +2219,13 @@ psgSetCurrent
 putCarModel
 putRecordUnit
 putString
-rankingInsert
 read_dir
 read_sys
 rinRandomSeed
 rtcGetSeconds
 saveBufferInit
 search_dir
+search_dir_by_startfat
 search_exec_file
 search_fat_backward
 search_fat_free_xross
@@ -2174,7 +2261,6 @@ syCfgGetCountryCode
 syCfgGetDefaultLanguage
 syCfgGetIDAddress
 syCfgGetIndividualID
-syCfgGetLanguage
 syCfgGetSoundMode
 syCfgIIDCheckSum
 syCfgInit
@@ -2211,8 +2297,10 @@ syRtcMakeDayOfWeek
 syRtcSetDate
 syRtcSetServerMode
 syTmrInit
+sysCfgRead
 technicalBonusExec
 texFreeMem
+texLoadIndexed
 thunk_FUN_0c02a9ac
 thunk_FUN_0c0409d2
 thunk_FUN_0c072fe8
@@ -2236,6 +2324,7 @@ trigger
 vibIsReady
 vibStart
 vmsfb_create
+vmsfb_end
 vmsfb_exec
 vmsfb_exit
 vmsfb_init
@@ -2285,11 +2374,15 @@ vmsfs_read_disk_image
 vmsfs_scanfile
 vmsfs_setdevicetype
 vmsfs_setretry
+vmsfs_setvolume
 vmsfs_sysdiskfree
 vmsfs_xfind
+vmsfs_xwrite1
+vmsio_block_read
 vmsio_init
 vmsio_ismount
 vmuExit
+volumeToDb
 vsklRotate
 write_dir_all
 write_fat_1

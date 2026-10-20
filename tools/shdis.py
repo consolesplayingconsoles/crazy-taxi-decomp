@@ -175,32 +175,8 @@ def decode(w, pc):
     return '.word 0x%04x' % w, None, 0, None
 
 
-def main():
-    if not (len(sys.argv) == 3 or (len(sys.argv) == 3 and sys.argv[1] == '--func')):
-        sys.exit(__doc__)
-    exe = open('1ST_READ.BIN', 'rb').read()
-    base = int(open('BASE').read().strip(), 16)
-    names = load_names()
-    if sys.argv[1] == '--func':                       # a function of functions.txt, by name or address
-        want = sys.argv[2].lower()
-        for line in open('functions.txt'):
-            p = line.split()
-            if len(p) >= 4 and p[0] == 'F' and (p[3].lower() == want or p[1].lower().lstrip('0x') == want.lstrip('0x')):
-                start, end = int(p[1], 16), int(p[1], 16) + int(p[2])
-                print('; %s %08x, %s bytes (functions.txt)' % (p[3], start, p[2]))
-                break
-        else:
-            sys.exit('[ERROR] %s is not in functions.txt' % sys.argv[2])
-    else:
-        start, end = int(sys.argv[1], 16), int(sys.argv[2], 16)
-
-    def name(v):
-        return names.get(v) or names.get((v & 0x1fffffff) | (base & 0xe0000000))
-
-    # Pool words the range loads are shown as data. Data decoded as instructions can look like
-    # loads too, so a load that itself sits inside a pool word does not count; repeat until stable.
-    # Control flow from the entry tells which words are code: a "load" found in data (a jump table, constants after a branch)
-    # can point into real code, and must not turn that code into a pool word.
+def reachable(exe, base, start, end):
+    """The addresses control flow reaches from the entry (delay slots included): which words of [start, end) are code."""
     reach, work = set(), [start & ~1]
     while work:
         pc = work.pop()
@@ -251,6 +227,36 @@ def main():
             if op in ('rts', 'rte', 'jmp', 'braf', 'bra'):
                 break
             pc += 4 if delay else 2
+    return reach
+
+
+def main():
+    if not (len(sys.argv) == 3 or (len(sys.argv) == 3 and sys.argv[1] == '--func')):
+        sys.exit(__doc__)
+    exe = open('1ST_READ.BIN', 'rb').read()
+    base = int(open('BASE').read().strip(), 16)
+    names = load_names()
+    if sys.argv[1] == '--func':                       # a function of functions.txt, by name or address
+        want = sys.argv[2].lower()
+        for line in open('functions.txt'):
+            p = line.split()
+            if len(p) >= 4 and p[0] == 'F' and (p[3].lower() == want or p[1].lower().lstrip('0x') == want.lstrip('0x')):
+                start, end = int(p[1], 16), int(p[1], 16) + int(p[2])
+                print('; %s %08x, %s bytes (functions.txt)' % (p[3], start, p[2]))
+                break
+        else:
+            sys.exit('[ERROR] %s is not in functions.txt' % sys.argv[2])
+    else:
+        start, end = int(sys.argv[1], 16), int(sys.argv[2], 16)
+
+    def name(v):
+        return names.get(v) or names.get((v & 0x1fffffff) | (base & 0xe0000000))
+
+    # Pool words the range loads are shown as data. Data decoded as instructions can look like
+    # loads too, so a load that itself sits inside a pool word does not count; repeat until stable.
+    # Control flow from the entry tells which words are code: a "load" found in data (a jump table, constants after a branch)
+    # can point into real code, and must not turn that code into a pool word.
+    reach = reachable(exe, base, start, end)
     loads = {}
     for pc in range(start & ~1, end, 2):
         _, pool, size, _ = decode(struct.unpack_from('<H', exe, pc - base)[0], pc)

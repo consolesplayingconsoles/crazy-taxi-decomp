@@ -128,7 +128,6 @@ kmiProcessVertex_13 570 libkamui.elf 6880
 kmiFBreset 160 libkamui.lib 70176
 kmiVQFBfree 226 mw_ply01.elf 328480
 kmiFBgetfreememEx 136 libkamui.elf 13158
-FUN_0c156934 44 libkamui.elf 14132
 FUN_0c15725c 260 libkamui.elf 16636
 FUN_0c157580 172 libkamui.lib 79604
 FUN_0c157dc0 170 libkamui.elf 19552

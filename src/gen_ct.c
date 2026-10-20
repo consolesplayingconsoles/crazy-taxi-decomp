@@ -35,27 +35,6 @@ int courseStatusGet(int a4, int a5, int a6, int a7);
 int TrailerInit(int a4, int a5);
 float getNearCoursePoint(int a4, int a5, int a6, int a7);
 
-int FUN_0c05eb52(void)
-{
-    int t1;
-    int t2;
-    int t3;
-    int stk[3] = {0};
-
-    Exec_Balloon();
-    t1 = *(int *)(((int)stk + 4));
-    t2 = *(int *)((t1 + 0x7C));
-    if (t2 == 1) {
-        t3 = *(int *)((t1 + 0x78));
-        *(unsigned int *)((t1 + 0x78)) = (t3 + 0x1);
-        if ((int)(t3 + 0x1) >= (int)0x14) {
-            KillColliObj((t1 + 0x48));
-            return nlCloseEvent(t1);
-        }
-        return 0x78;
-    }
-    return t2;
-}
 
 float FUN_0c02b146(int a4, int a5, float f4)
 {

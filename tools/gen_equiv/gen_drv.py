@@ -247,6 +247,8 @@ def tests(name,c,src):
             if regs: d['regs']=regs
             if c.ncalls or c.tail:
                 d['calls']=[dict({'r0':'%08X'%rng.choice(pool)},**({'poke_arg':{r:struct.pack('<%dI'%pw,*[rng.choice(pool) for _ in range(pw)]).hex() for r in sorted(c.frame_regs)}} if c.frame_regs else {})) for _ in range(ncalls)]
+                if getattr(c,'frame_stack_call',False):          # a call that returns a structure: the callee fills the buffer its stack argument names
+                    for e_ in d['calls']: e_['poke_stack']=struct.pack('<4I',*[rng.choice(pool) for _ in range(4)]).hex()
             cases.append(d)
         cases=pick(name,cases,36,V,rng,sorted(consts|{0,1,2,0xFFFFFFFF}))
         if len(cases)>=(12 if (loopy or chained) else 6):
@@ -294,8 +296,10 @@ def protos_text(protos):
         ret='int'
         if sig and sig[-1]=='->float': ret='float'; sig=sig[:-1]
         if n=='_builtin_set_imask': out.append('extern void _builtin_set_imask(int);'); continue
+        if n in ('_builtin_set_vbr','_builtin_set_gbr','_builtin_set_fpscr'): out.append('extern void %s(int);'%n); continue
         if n=='_builtin_prefetch': out.append('extern void _builtin_prefetch(void *);'); continue
         if n=='_builtin_ld_ext': out.append('extern void _builtin_ld_ext(float (*)[4]);'); continue
+        if n=='_builtin_st_ext': out.append('extern void _builtin_st_ext(float (*)[4]);'); continue
         if n=='_builtin_ftrv': out.append('extern void _builtin_ftrv(float *, float *);'); continue      # the compiler's own, its prototype is fixed
         out.append('%s%s %s(%s);'%('extern ' if n.startswith('_builtin_') or sig==('()',) else '',ret,n,'' if sig==('()',) else ', '.join(sig) if sig else 'void'))
     return '\n'.join(out)

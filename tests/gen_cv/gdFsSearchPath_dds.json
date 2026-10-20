@@ -3,12 +3,42 @@
   {
    "about": "rescue: empty case",
    "regs": {}
+  },
+  {
+   "about": "directed: flips 0C15FDCE (not taken)",
+   "regs": {},
+   "poke": {
+    "00000000": "01"
+   }
+  },
+  {
+   "about": "directed: flips 0C15FE3E (taken)",
+   "regs": {},
+   "calls": [
+    {},
+    {
+     "r0": "00000000"
+    }
+   ],
+   "poke": {
+    "0DFFFEC4": "0100"
+   }
   }
  ],
  "holdout": [
   {
    "about": "rescue: empty case",
    "regs": {}
+  },
+  {
+   "about": "directed: flips 0C15FE20 (taken)",
+   "regs": {},
+   "calls": [
+    {},
+    {
+     "r0": "00000000"
+    }
+   ]
   }
  ]
 }

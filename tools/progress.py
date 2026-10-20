@@ -115,7 +115,7 @@ rows = [
      % (g[9], g[10])),
     ('    of which SDK object code', pct(g[11], doable), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt)'
      % (g[11], g[12])),
-    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction with no C form in this compiler (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
+    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction or a register convention with no C form (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
     ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
      % (med([x[1] for x in funcs if is_done(x)]), med([x[1] for x in funcs if not is_done(x)]),
         sum(1 for x in funcs if not is_done(x) and x[1] >= 1000), sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000),
@@ -193,6 +193,7 @@ def write_badge(rows, label, path='badge.svg'):
             for b in range(pos, pos + fsz):
                 dark[min(bar - 1, b * bar // code_total)] += 1
         pos += fsz
+    X = 150                                        # the bars start here; the label column is wide enough for "Min. accuracy"
     per = float(code_total) / bar
     runs, c = [], 0
     while c < bar:
@@ -201,21 +202,27 @@ def write_badge(rows, label, path='badge.svg'):
         while e < bar and (dark[e] * 2 > per) == on:
             e += 1
         if on:
-            runs.append('<rect x="%d" y="26" width="%d" height="8" fill="#c87053"/>' % (70 + c, e - c))
+            runs.append('<rect x="%d" y="46" width="%d" height="8" fill="#c87053"/>' % (X + c, e - c))
         c = e
-    strip = '<rect x="70" y="26" width="%d" height="8" fill="#ecc9b9"/>%s' % (bar, ''.join(runs))
+    strip = '<rect x="%d" y="46" width="%d" height="8" fill="#ecc9b9"/>%s' % (X, bar, ''.join(runs))
+    try:                                          # the gate a function must pass to count as done: tools/equiv.py MIN_COVERAGE
+        gate = int(re.search(r'^MIN_COVERAGE = (\d+)', open('tools/equiv.py').read(), re.M).group(1))
+    except (IOError, OSError, AttributeError):
+        gate = 0
     ftext = '%.1f%%' % done
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
-    title = '%s: %s of functions, %s of code bytes done' % (label, ftext, btext)
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="222" height="40" role="img" aria-label="%s">'
-           '<title>%s</title><clipPath id="r"><rect width="222" height="40" rx="3"/></clipPath>'
-           '<g clip-path="url(#r)"><rect width="222" height="40" fill="#1a2233"/><rect x="62" width="160" height="40" fill="#2a3347"/>'
-           '<rect x="70" y="6" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
-           '<rect x="70" y="6" width="%d" height="8" rx="2" fill="#c87053"/>%s</g>'
+    gtext = '%d%%' % gate
+    title = '%s: %s of functions, %s of code bytes done; a function counts as done when its tests ran at least %s of the original (the test coverage quality threshold)' % (label, ftext, btext, gtext)
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="60" role="img" aria-label="%s">'
+           '<title>%s</title><clipPath id="r"><rect width="304" height="60" rx="3"/></clipPath>'
+           '<g clip-path="url(#r)"><rect width="304" height="60" fill="#1a2233"/>'
+           '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
+           '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#c87053"/>%s'
+           '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
-           '<text x="31" y="14">Functions</text><text x="31" y="34">Bytes</text>'
-           '<text x="196" y="14">%s</text><text x="196" y="34">%s</text></g></svg>\n'
-           % (title, title, bar, wd, strip, ftext, btext))
+           '<text x="71" y="34">COVERED FUNCTIONS</text><text x="71" y="54">COVERED BYTES</text>'
+           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TEST COVERAGE QUALITY THRESHOLD: %s</text></g></svg>\n'
+           % (title, title, X, bar, X, wd, strip, ftext, btext, gtext))
     try:
         open(path, 'w').write(svg)
     except OSError:
@@ -224,7 +231,7 @@ def write_badge(rows, label, path='badge.svg'):
     # never shows an old badge
     try:
         readme = open('README.md').read()
-        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s)' % (done, btext.rstrip('%')), readme, count=1)
+        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s&a=%d)' % (done, btext.rstrip('%'), gate), readme, count=1)
         if fresh != readme:
             open('README.md', 'w').write(fresh)
     except (IOError, OSError):

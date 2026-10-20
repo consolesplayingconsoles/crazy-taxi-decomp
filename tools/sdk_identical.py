@@ -35,18 +35,57 @@ buf = bytes(buf)
 import bisect
 offs = [s for s, _ in starts]
 out = []
-for n, a, s in todo:
-    b = exe[a - base:a - base + s]
-    while len(b) >= 2 and b[-2:] == b'\x09\x00':
-        b = b[:-2]
-    if len(b) < 24:
-        continue
+found = {}
+def find(b):
     at = buf.find(b)
     while at >= 0 and at % 2:
         at = buf.find(b, at + 1)
-    if at >= 0:
-        i = bisect.bisect_right(offs, at) - 1
-        out.append((n, s, os.path.basename(starts[i][1]), at - starts[i][0]))
+    if at < 0:
+        return None
+    i = bisect.bisect_right(offs, at) - 1
+    return os.path.basename(starts[i][1]), at - starts[i][0]
+def trimmed(a, s):
+    b = exe[a - base:a - base + s]
+    while len(b) >= 2 and b[-2:] == b'\x09\x00':
+        b = b[:-2]
+    return b
+for n, a, s in todo:
+    b = trimmed(a, s)
+    if len(b) < 24:
+        continue
+    hit = find(b)
+    if hit:
+        found[n] = (s,) + hit
+# a routine the function list cut in two (or more): consecutive functions where one runs on into the next (it does not end in a
+# return or a jump). Windows of up to 4 of them are searched as one piece, and every member of a matching window is the library's code.
+def ends_in_flow_stop(a, s):
+    w = [int.from_bytes(exe[a - base + s - 2 * k - 2:a - base + s - 2 * k], 'little') for k in range(3)]       # the last three words
+    stops = lambda x: x in (0x000B, 0x002B) or (x & 0xF0FF) == 0x402B or (x & 0xF0FF) == 0x0023 or (x & 0xF000) == 0xA000
+    return any(stops(x) for x in w)
+allf = sorted(funcs, key=lambda f: f[1])
+todo_names = set(n for n, a, s in todo)
+i = 0
+while i < len(allf):
+    j = i
+    while j + 1 < len(allf) and allf[j][1] + allf[j][2] == allf[j + 1][1] and not ends_in_flow_stop(allf[j][1], allf[j][2]):
+        j += 1
+    chain = allf[i:j + 1]
+    if len(chain) > 1:
+        for x in range(len(chain)):
+            for y in range(x + 1, min(len(chain), x + 4)):
+                members = chain[x:y + 1]
+                if not any(m[0] in todo_names and m[0] not in found for m in members):
+                    continue
+                b = trimmed(members[0][1], sum(m[2] for m in members))
+                if len(b) >= 24:
+                    hit = find(b)
+                    if hit:
+                        for m in members:
+                            if m[0] in todo_names and m[0] not in found:
+                                found[m[0]] = (m[2],) + hit
+    i = j + 1
+for n, (s, f, o) in found.items():
+    out.append((n, s, f, o))
 open('sdk-identical.txt', 'w').write('# functions whose bytes are verbatim in the SDK\'s compiled library code (tools/sdk_identical.py): name size file offset\n'
                                      + ''.join('%s %d %s %d\n' % o for o in out))
 print('%d of %d open functions (24 bytes or more) are the SDK library\'s own code: %d bytes (sdk-identical.txt)' % (len(out), len(todo), sum(o[1] for o in out)))

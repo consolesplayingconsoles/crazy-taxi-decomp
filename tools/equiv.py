@@ -185,7 +185,9 @@ def code_addresses(exe, base, start, size):
     for i, pc in enumerate(addrs):
         if shdis.decode(word(pc), pc)[0].startswith(('rts', 'jmp', 'bra', 'rte')):
             last = i
-    return addrs[:last + 2] if last >= 0 else addrs
+    addrs = addrs[:last + 2] if last >= 0 else addrs
+    reach = shdis.reachable(exe, base, start, start + size)      # data between the code (tables after a branch) is not code
+    return [a for a in addrs if a in reach]
 
 
 def final(writes):
@@ -198,7 +200,7 @@ def final(writes):
     return mem
 
 
-MIN_COVERAGE = 70                # percent of the original's instructions the cases must run for a function to count as Equivalent; raised later
+MIN_COVERAGE = 80                # percent of the original's instructions the cases must run for a function to count as Equivalent; raised later
 SHOW = 200                       # characters of each side shown for a difference; --full shows 6000
 
 
@@ -249,7 +251,7 @@ def same(a, b, outs, back, arity=None, ind=None):
     the compiled C (one of its own functions or data) to the game's address of the same name."""
     arity = arity or {}
     fix = lambda h: '%08X' % back.get(int(h, 16), int(h, 16))
-    for k in ('error', 'out', 'calls', 'writes', 'devices', 'sr', 'seq_used'):
+    for k in ('error', 'out', 'calls', 'writes', 'devices', 'sr', 'seq_used', 'xf'):
         x, y = a.get(k), b.get(k)
         if k == 'sr' and x and y:          # the state SR keeps (interrupt mask...), not the M, Q, S, T flags
             x, y = '%08X' % (int(x, 16) & 0xFFFFFCFC), '%08X' % (int(y, 16) & 0xFFFFFCFC)
@@ -323,7 +325,7 @@ def main(argv):
             orig = sh4sim.run(case, '.', deep=helpers_orig)
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
-            observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used')) or len(srs) > 1
+            observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn))
@@ -367,7 +369,7 @@ def main(argv):
             wk[fn] = weak[fn]
         else:
             wk.pop(fn, None)
-    open(wpath, 'w').write('# functions whose cases ran less of the original than the bar (tools/equiv.py MIN_COVERAGE); not done\n' + ''.join('%s %s\n' % kv for kv in sorted(wk.items())))
+    open(wpath, 'w').write('# functions whose cases ran less of the original than the bar (tools/equiv.py MIN_COVERAGE); not done\n' + ''.join('%s %s\n' % kv for kv in sorted(wk.items(), key=lambda kv: (-(int(kv[1].rstrip('%')) if kv[1].rstrip('%').isdigit() else -1), kv[0]))))     # highest coverage first, nothing-compared last
     os.makedirs('tests', exist_ok=True)
     open(path, 'w').write(''.join(f + '\n' for f in sorted(have)))
     write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False} | set(weak))

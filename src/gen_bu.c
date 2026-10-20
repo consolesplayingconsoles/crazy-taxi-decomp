@@ -1110,77 +1110,9 @@ void FUN_0c063058(void)
     *(float *)0xC2AD0F8 = u1;
 }
 
-float FUN_0c0785a0(float f4, float f5)
-{
-    float u0[4];
-    float u1[4];
 
-    u0[0] = 0.0f;
-    u0[1] = f5;
-    u0[2] = f4;
-    u0[3] = 0.0f;
-    _builtin_ftrv(u0, u0);
-    u1[0] = 0.0f;
-    u1[1] = f4;
-    u1[2] = f5;
-    u1[3] = 0.0f;
-    _builtin_ftrv(u1, u1);
-    return u0[0];
-}
 
-float FUN_0c078660(float f4, float f5)
-{
-    float u0[4];
-    float u1[4];
 
-    u0[0] = f5;
-    u0[1] = 0.0f;
-    u0[2] = f4;
-    u0[3] = 0.0f;
-    _builtin_ftrv(u0, u0);
-    u1[0] = (-f4);
-    u1[1] = 0.0f;
-    u1[2] = f5;
-    u1[3] = 0.0f;
-    _builtin_ftrv(u1, u1);
-    return u0[0];
-}
-
-float FUN_0c0786c0(float f4, float f5)
-{
-    float u0[4];
-    float u1[4];
-
-    u0[0] = f5;
-    u0[1] = f4;
-    u0[2] = 0.0f;
-    u0[3] = 0.0f;
-    _builtin_ftrv(u0, u0);
-    u1[0] = (-f4);
-    u1[1] = f5;
-    u1[2] = 0.0f;
-    u1[3] = 0.0f;
-    _builtin_ftrv(u1, u1);
-    return u0[0];
-}
-
-float FUN_0c078720(float f4, float f5)
-{
-    float u0[4];
-    float u1[4];
-
-    u0[0] = f5;
-    u0[1] = (-f4);
-    u0[2] = 0.0f;
-    u0[3] = 0.0f;
-    _builtin_ftrv(u0, u0);
-    u1[0] = f4;
-    u1[1] = f5;
-    u1[2] = 0.0f;
-    u1[3] = 0.0f;
-    _builtin_ftrv(u1, u1);
-    return u0[0];
-}
 
 void FUN_0c07b4c0(void)
 {

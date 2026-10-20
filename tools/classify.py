@@ -53,6 +53,36 @@ def reachable(exe, base, a, sz):
     return seen
 
 
+def register_inputs(exe, base, a, sz):
+    """Registers r0-r3 and r8-r14 that the function reads and never writes anywhere (stack saves and restores aside): their value
+    is whatever the caller left there, an input of a custom calling convention. C has no way to say it, so the function has no C
+    form. Only the instructions control flow reaches are looked at, so data decoded as code does not count."""
+    import re
+    defs, uses = set(), set()
+    pure = ('mov', 'mov.b', 'mov.w', 'mov.l', 'mova', 'movt', 'sts', 'stc', 'neg', 'not', 'extu.b', 'extu.w', 'exts.b', 'exts.w', 'swap.b', 'swap.w', 'float')
+    for pc in sorted(reachable(exe, base, a, sz)):
+        t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
+        mn, _, ops = t.partition(' ')
+        ops = ops.split(';')[0].strip()
+        if mn in ('bsr', 'jsr', 'bsrf'):
+            defs.add(0)                                          # the callee leaves its return value in r0
+        if not ops or '@-r15' in ops or '@r15+' in ops:
+            continue
+        parts = [x.strip() for x in re.split(r',(?![^(]*\))', ops)]
+        last = parts[-1]
+        dest = last if re.fullmatch(r'r\d+', last) and not mn.startswith(('cmp', 'tst', 'lds', 'ldc', 'jmp', 'jsr', 'bsr', 'bra')) else None
+        if dest:
+            defs.add(int(dest[1:]))
+        for x in parts:
+            if len(parts) == 2 and x == parts[0] and re.fullmatch(r'r\d+', x) and re.search(r'@\(?[^,]*r15', parts[1]) and mn.startswith('mov'):
+                continue                                         # a store to the stack frame: a spill, not a use
+            for r in re.findall(r'\br(\d+)\b', x):
+                if dest and x == dest and mn in pure:
+                    continue
+                uses.add(int(r))
+    return sorted(r for r in uses if r not in defs and (r <= 3 or 8 <= r <= 14))
+
+
 def no_c_form(exe, base, a, sz):
     """The instructions of one function that have no C form with this compiler (see above): ['ldc r3,r0_bank', ...], pools skipped."""
     out = []
@@ -60,6 +90,9 @@ def no_c_form(exe, base, a, sz):
         t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
         if t.startswith(('stc', 'ldc')) and any(k in t for k in NO_C_FORM) and t not in out:
             out.append(t)
+    ri = register_inputs(exe, base, a, sz)
+    if ri:
+        out.append('reads r%s, which it never writes (a custom register convention)' % ', r'.join(str(r) for r in ri))
     return out
 
 

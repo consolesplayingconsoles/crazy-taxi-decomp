@@ -91,21 +91,7 @@ int pedDodgeCheck(int a4, float f4, float f5);
 int SklPlay(int a4, int a5, int a6, int a7);
 int FcvPlayBuffer(int a4, int a5);
 
-void nlSetTranslate(int a4)
-{
-    float u0;
-    float u1;
-    float u2;
 
-    u0 = *(float *)((a4 + 0x0));
-    u1 = *(float *)(((a4 + 0x4) + 0x0));
-    u2 = *(float *)((((a4 + 0x4) + 0x4) + 0x0));
-}
-
-void nlUnitMatrix(void)
-{
-    
-}
 
 int nlDispStripTexOfsTrnsl(int a4, int a5, int a6)
 {
@@ -6555,3 +6541,4 @@ int FcvPlayBuffer(int a4, int a5)
     t345 = nlPopMatrix(0x1);
     return t345;
 }
+

@@ -115,6 +115,18 @@ class Graph:
         cache[n] = res
         return res
 
+    def ijoin_in(s, n, body):
+        """Inside a loop: the one node of the loop body that both arms of the branch at n reach and that no other such node comes
+        before (EXIT when there is none, or more than one). Used when the real join lies outside the loop (the arms leave it)."""
+        ss = [t for t in s.succ[n] if t != EXIT]
+        if len(ss) != 2:
+            return EXIT
+        common = (s.reach(ss[0]) & s.reach(ss[1]) & body) - {n}
+        if not common:
+            return EXIT
+        firsts = [x for x in common if not any(y != x and x in s.reach(y) and y not in s.reach(x) for y in common)]
+        return firsts[0] if len(firsts) == 1 else EXIT
+
     def _loops(s):
         s.loops = {}                       # header -> set of nodes of the natural loop
         for n in s.nodes:
@@ -187,6 +199,22 @@ class Graph:
             todo.extend(s.succ[x])
         return seen
 
+    def reach_cut(s, n, cut):
+        """reach(n) without following any edge into a node of cut (the node itself is still reached from n only when n is it)."""
+        seen = set()
+        todo = [n]
+        while todo:
+            x = todo.pop()
+            if x in seen or x == EXIT:
+                continue
+            seen.add(x)
+            todo.extend(t for t in s.succ[x] if t not in cut)
+        return seen
+
+    def never_leaves(s, h):
+        """True when loop h has no exit and no return inside it: it runs for ever (a main loop, an error hang)."""
+        return not s.loop_exits(h) and not any(EXIT in s.succ[n] for n in s.loops[h])
+
     def loop_exit(s, h):
         """(main exit, other exits) of loop h. The main exit is the one no other exit leads to; the others are left by
         returning (their code runs inline in the loop). None for the main exit when the loop only ever returns."""
@@ -196,11 +224,13 @@ class Graph:
             if not any(EXIT in s.succ[n] for n in body):
                 return None, None                       # never leaves: not a function that returns
             return None, []
-        main = [x for x in xs if not any(y != x and x in s.reach(y) for y in xs)]
+        cut = {H for H, b in s.loops.items() if H != h and h in b}        # an enclosing loop's header: going round it is not part of leaving this loop
+        r = lambda n: s.reach_cut(n, cut)
+        main = [x for x in xs if not any(y != x and x in r(y) for y in xs)]
         if not main:
             return None, None
         main = main[0]
         others = [x for x in xs if x != main]
-        if any(main in s.reach(x) for x in others):
+        if any(main in r(x) for x in others):
             return None, None
         return main, others
