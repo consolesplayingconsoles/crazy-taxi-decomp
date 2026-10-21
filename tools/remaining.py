@@ -96,6 +96,9 @@ def main():
     in_c = lambda a: any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
     funcs = [(int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F ')]
     undone = [(a, sz, n) for a, sz, n in funcs if not (in_c(a) or n in equivalent or n in verified)]
+    sys.path.insert(0, here)
+    import classify                                    # a function with no C form is done apart (progress.py counts it so): it is not part of what is left
+    undone = [(a, sz, n) for a, sz, n in undone if not classify.no_c_form(exe, base, a, sz)]
     out = subprocess.run([sys.executable, os.path.join(here, 'classify.py')] + [n for _, _, n in undone],
                          capture_output=True, text=True).stdout.splitlines()
     cls = {}

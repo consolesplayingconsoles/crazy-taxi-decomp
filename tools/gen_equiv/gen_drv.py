@@ -296,7 +296,7 @@ def protos_text(protos):
         ret='int'
         if sig and sig[-1]=='->float': ret='float'; sig=sig[:-1]
         if n=='_builtin_set_imask': out.append('extern void _builtin_set_imask(int);'); continue
-        if n in ('_builtin_set_vbr','_builtin_set_gbr','_builtin_set_fpscr'): out.append('extern void %s(int);'%n); continue
+        if n in ('_builtin_set_vbr','_builtin_set_gbr','_builtin_set_fpscr','_builtin_set_cr','_builtin_trapa'): out.append('extern void %s(int);'%n); continue
         if n=='_builtin_prefetch': out.append('extern void _builtin_prefetch(void *);'); continue
         if n=='_builtin_ld_ext': out.append('extern void _builtin_ld_ext(float (*)[4]);'); continue
         if n=='_builtin_st_ext': out.append('extern void _builtin_st_ext(float (*)[4]);'); continue

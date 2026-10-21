@@ -10,6 +10,16 @@ _CONFLICTS=set()
 _IJOIN=[False]       # the nearest common node as the join when no node is on every path: tried when the plain post-dominator join takes too many steps
 DIRTY=('x',)          # a register the two arms of an if left different and unreadable
 FUNCS={}; SPANS={}
+_CUSTOM={}
+def _custom_convention(name):
+    """True for a function that takes registers C does not pass (tools/classify.py no_c_form), or that is not in functions.txt."""
+    if name not in _CUSTOM:
+        sp=SPANS.get(name)
+        if not sp: _CUSTOM[name]=True
+        else:
+            import classify
+            _CUSTOM[name]=bool(classify.no_c_form(BIN,BASE,sp[0],sp[1]))
+    return _CUSTOM[name]
 for _l in open('functions.txt'):
     _p=_l.split()
     if len(_p)>=4 and _p[0]=='F': FUNCS[int(_p[1],16)]=_p[3]; SPANS[_p[3]]=(int(_p[1],16),int(_p[2]))
@@ -227,6 +237,8 @@ def _run(name,passthru=False,frame=False):
         if m: return ('pc',)
         m=re.match(r'@\((\d+),(r\d+)\)$',s)
         if m: return ('disp',int(m.group(1)),m.group(2))
+        m=re.match(r'@\((\d+),gbr\)$',s)
+        if m: return ('gbr',int(m.group(1)))
         m=re.match(r'@\(r0,(r\d+)\)$',s)
         if m: return ('r0',m.group(1))
         m=re.match(r'@(r\d+)$',s)
@@ -241,6 +253,9 @@ def _run(name,passthru=False,frame=False):
         if k=='disp': return addr_expr(c.gi(mm[2]),mm[1])
         if k=='r0': return addr_expr(c.gi(mm[1]),c.gi('r0'))
         if k=='ind': return addr_expr(c.gi(mm[1]),0)
+        if k=='gbr':                                     # GBR-relative: the base register through the SDK's own intrinsic
+            c.protos['_builtin_get_gbr']=()
+            return ('expr','((int)_builtin_get_gbr() + %d)'%mm[1])
         raise Skip('memaddr')
     def exec1(mn,rawops):
         ops=rawops; com=''
@@ -327,6 +342,11 @@ def _run(name,passthru=False,frame=False):
                 return
             if ab>=0:
                 # an argument the caller passed on the stack
+                if not isf and mn in ('mov.w','mov.b'):         # part of a stack argument: the low half or byte of the word the caller left (little-endian)
+                    n=8+ab//4; part=ab%4
+                    if (mn=='mov.w' and part%2) : raise Skip('stack argument read')
+                    c.iuse.add(n)
+                    c.R[a[1]]=('e','((%s)(a%d >> %d))'%('short' if mn=='mov.w' else 'signed char',n,8*part)); return
                 if isf or mn!='mov.l' or ab%4: raise Skip('stack argument read')
                 n=8+ab//4
                 c.iuse.add(n); c.R[a[1]]=('s','a%d'%n); return
@@ -381,11 +401,19 @@ def _run(name,passthru=False,frame=False):
                 if mm and mm.group(1) in getattr(c,'fpscr_saved',set()):
                     k=int(mm.group(3),16)
                     kb=(k>>20)&3
-                    keep=(mode&kb)==mode if mm.group(2)=='&' else (mode|kb)==mode        # the tracked SZ and FR bits come out as they are
-            if not keep: raise Skip('lds fpscr not a restore')
+                    newmode=(mode&kb) if mm.group(2)=='&' else (mode|kb)
+                    keep=(newmode&2)==(mode&2)                         # FR (the bank) must stay; SZ (the move size) follows the write
+                    if keep: c.sz=bool(newmode&1)
+            if not keep and not (isinstance(v,tuple) and v[0]=='e' and re.match(r'^[tu]\d+$',v[1])): raise Skip('lds fpscr not a restore')
+            # a value carried in a variable (through a join or a loop): written as it is; the check catches a mode the generator did not follow
             c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%(ex(v))); return
         if mn=='ldc' and a[1]=='sr':
             v=c.gi(a[0])
+            if isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]!=0xFFFFFF0F and (v[3] is None or isint(v[3])):
+                # SR changed beyond the interrupt mask (the BL bit, the register bank...): the whole word through the SDK's set_cr / get_cr
+                c.protos['_builtin_set_cr']=('int',); c.protos['_builtin_get_cr']=()
+                val='(_builtin_get_cr() & 0x%X)'%v[2] + ((' | 0x%X'%v[3]) if v[3] else '')
+                c.blocks[-1].append('_builtin_set_cr(%s);'%val); return
             if not(isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]==0xFFFFFF0F): raise Skip('ldc sr not set_imask')
             V=0 if v[3] is None else v[3]
             arg='0x%X'%((V&0xF0)>>4) if isint(V) else '((unsigned int)%s >> 4)'%ex(V)
@@ -627,6 +655,14 @@ def _run(name,passthru=False,frame=False):
             ty='int' if fname.endswith('s') else 'unsigned int'
             t=fresh(False); emit('int %s = (int)((%s)%s %s (%s)%s);'%(t,ty,ex(c.gi('r1')),'/' if fname.startswith('_div') else '%',ty,ex(c.gi('r0'))))
             c.R['r0']=('e',t); c.R.pop('r1',None); return
+        if fname=='_slow_strcpy':
+            # the compiler's string copy: destination r0, source r1; the registers it uses come back unknown
+            if tail: raise Skip('helper as a tail call')
+            d_=ex(c.gi('r0')); s_=ex(c.gi('r1')); k=fresh(False)
+            emit('int %s;'%k)
+            emit('for (%s = 0; ; %s++) { *(unsigned char *)(%s + %s) = *(unsigned char *)(%s + %s); if (*(unsigned char *)(%s + %s) == 0) break; }'%(k,k,d_,k,s_,k,s_,k))
+            for n_r in range(0,8): c.R.pop('r%d'%n_r,None)
+            return
         if fname=='_allzero':
             # the compiler's test that n bytes at p are all zero: p r4, n r5, result r0 (1 when all zero); r1-r7 are used up
             if tail: raise Skip('helper as a tail call')
@@ -668,7 +704,7 @@ def _run(name,passthru=False,frame=False):
             t=fresh(False); emit('int %s = (int)((unsigned int)%s & 0x%X);'%(t,ex(v),wmask))
             store('l',addr_expr(p,0),('e','((%s & 0x%X) | ((unsigned int)%s << %d))'%(ex(old),(~(wmask<<sh))&M,t,sh)))
             c.R['r0']=('e',t); return
-        if fname.startswith('_'): raise Skip('compiler helper %s'%fname)
+        if fname.startswith('_') and _custom_convention(fname): raise Skip('compiler helper %s'%fname)      # a helper with its own register convention; one with the normal one is an ordinary call
         iargs=[]; 
         avail=[]
         for n in range(4,8):
@@ -906,10 +942,24 @@ def _run(name,passthru=False,frame=False):
         mn,ops,pc=ins[i]
         if c.in_prologue and not (mn=='sts.l' or (mn in('mov.l','fmov.s') and parse_ops(ops)[1:]==['@-r15']) or (mn=='add' and parse_ops(ops)[1:]==['r15'])):
             c.in_prologue=False
-        if mn.startswith('cmp') or mn.startswith('tst') or mn.startswith('fcmp'): set_T(mn,parse_ops(ops))
+        if mn in ('tst.b','and.b','or.b','xor.b') and parse_ops(ops)[1:]==['@(r0,gbr)']:
+            # a byte at GBR + r0 read, combined with an immediate and written back (tst.b only sets T)
+            imm=int(parse_ops(ops)[0].lstrip('#'),0)&0xff
+            c.protos['_builtin_get_gbr']=()
+            ad=('expr','(%s + (int)_builtin_get_gbr())'%ex(c.gi('r0')))
+            v=load('b',ad)
+            if mn=='tst.b':
+                x='((unsigned char)%s & %d)'%(ex(v),imm); setT('(%s == 0)'%x,'(%s != 0)'%x)
+            else:
+                op={'and.b':'&','or.b':'|','xor.b':'^'}[mn]
+                store('b',ad,('e','((unsigned char)%s %s %d)'%(ex(v),op,imm)))
+        elif mn.startswith('cmp') or mn.startswith('tst') or mn.startswith('fcmp'): set_T(mn,parse_ops(ops))
         elif mn=='dt':
             r=parse_ops(ops)[0]; c.R[r]=iop('sub',c.gi(r),1); commit(); x=ex(c.R[r]); setT('(%s == 0)'%x,'(%s != 0)'%x)
-        elif mn in ('braf','bsrf','rte','trapa'): raise Skip('flow '+mn)
+        elif mn=='trapa':                               # a trap (an assertion, a system call): the SDK's own intrinsic
+            c.protos['_builtin_trapa']=('int',)
+            emit('_builtin_trapa(%d);'%(int(parse_ops(ops)[0].lstrip('#'),0)&0xff))
+        elif mn in ('braf','bsrf','rte'): raise Skip('flow '+mn)
         else:
             try:
                 if exec1(mn,ops) == 'rts': raise Skip('rts in slot')
@@ -923,6 +973,8 @@ def _run(name,passthru=False,frame=False):
         the arms leave different becomes a variable assigned in each arm."""
         ea,eb=not A,not B
         pendM=list(stA[6])
+        if stA[5]==stB[5] and len(stA[6])!=len(stB[6]):      # the same depth, but one arm's call took the pushed words as its arguments and the other's did not: nothing stays pending
+            pendM=[]; stA=stA[:6]+([],)+stA[7:]; stB=stB[:6]+([],)+stB[7:]
         if stA[5]!=stB[5] or len(stA[6])!=len(stB[6]): raise Skip('stack pointer differs (%s vs %s, pending %d vs %d) at %x join %s'%(stA[5],stB[5],len(stA[6]),len(stB[6]),ins[getattr(c,'_bi',0)][2],('%x'%ins[c._bj][2]) if getattr(c,'_bj',-1)>=0 else 'none'))
         for k_,(pa_,pb_) in enumerate(zip(stA[6],stB[6])):
             if pa_==pb_: continue
@@ -1164,6 +1216,9 @@ def _run(name,passthru=False,frame=False):
                 var=fresh(isf); emit('%s %s;'%('float' if isf else 'int',var))
                 (c.FR if isf else c.R)[r]=('e',var); c.lv[r]=var; added.append(r); continue
             val=c.gf(r) if isf else c.gi(r)
+            if isinstance(val,tuple) and val[0]=='srx':         # an SR value (set_imask arithmetic) the loop overwrites: no C value to start from, like a register undefined on entry
+                var=fresh(isf); emit('%s %s;'%('float' if isf else 'int',var))
+                (c.FR if isf else c.R)[r]=('e',var); c.lv[r]=var; added.append(r); continue
             if isinstance(val,tuple) and val[0]=='addr': raise Skip('addr loop variable')
             var=fresh(isf)
             emit('%s %s = %s;'%('float' if isf else 'int',var,fx(val) if isf else ex(val)))

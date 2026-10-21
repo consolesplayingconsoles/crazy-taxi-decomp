@@ -8,6 +8,8 @@ Scans every library and object file (*.lib, *.a, *.obj, *.o, *.elf) under the di
 own code: nothing to decompile, a decomp links the library. Writes sdk-identical.txt (name, size, file, offset in the file); progress.py
 counts the names as done, in a row of their own (they are not C). Hand-written assembly the SDK ships only as object code (a maths
 library, startup code) is the usual case. Compiled game code never matches: its literal pools hold addresses of the game.
+A second pass takes what is still open and allows the linker's own changes: a call it relaxed (jsr @rN in the library, bsrf rN in the
+game), a pool load whose displacement moved, and literal-pool words (addresses the linker filled in). Those lines end in "relaxed".
 """
 import os
 import sys
@@ -84,8 +86,49 @@ while i < len(allf):
                             if m[0] in todo_names and m[0] not in found:
                                 found[m[0]] = (m[2],) + hit
     i = j + 1
+# the linker's relaxation: the library's jsr @rN became bsrf rN, pool loads moved, pool words hold the linked addresses
+import struct
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shdis
+def relaxed_same(a, b, lib):
+    """b: the game's bytes at a; lib: the library's bytes of the same length. True when every difference is one the linker makes."""
+    pools = set()
+    for pc in range(a, a + len(b), 2):
+        _, pool, ps, _ = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
+        if pool is not None and a <= pool < a + len(b):
+            pools.update(range(pool, pool + ps, 2))
+    relaxed = False
+    for k in range(0, len(b), 2):
+        x = struct.unpack_from('<H', b, k)[0]; y = struct.unpack_from('<H', lib, k)[0]
+        if x == y:
+            continue
+        if (a + k) in pools:
+            continue
+        if (x & 0xF0FF) == 0x0003 and (y & 0xF0FF) == 0x400B and (x >> 8) & 15 == (y >> 8) & 15:
+            relaxed = True; continue
+        if (x & 0xF000) == 0xD000 and (y & 0xF000) == 0xD000 and (x & 0x0F00) == (y & 0x0F00):
+            continue
+        return False
+    return relaxed
+relaxed_found = {}
+for n, a, s in todo:
+    if n in found:
+        continue
+    b = trimmed(a, s)
+    if len(b) < 24:
+        continue
+    at = buf.find(b[:8]); tries = 0
+    while at >= 0 and tries < 400:
+        tries += 1
+        if at % 2 == 0 and relaxed_same(a, b, buf[at:at + len(b)]):
+            i = bisect.bisect_right(offs, at) - 1
+            relaxed_found[n] = (s, os.path.basename(starts[i][1]), at - starts[i][0])
+            break
+        at = buf.find(b[:8], at + 1)
 for n, (s, f, o) in found.items():
     out.append((n, s, f, o))
 open('sdk-identical.txt', 'w').write('# functions whose bytes are verbatim in the SDK\'s compiled library code (tools/sdk_identical.py): name size file offset\n'
-                                     + ''.join('%s %d %s %d\n' % o for o in out))
-print('%d of %d open functions (24 bytes or more) are the SDK library\'s own code: %d bytes (sdk-identical.txt)' % (len(out), len(todo), sum(o[1] for o in out)))
+                                     + ''.join('%s %d %s %d\n' % o for o in out)
+                                     + ''.join('%s %d %s %d relaxed\n' % ((n,) + v) for n, v in sorted(relaxed_found.items())))
+print('%d of %d open functions (24 bytes or more) are the SDK library\'s own code: %d bytes (sdk-identical.txt); %d more after the linker\'s relaxation (%d bytes)'
+      % (len(out), len(todo), sum(o[1] for o in out), len(relaxed_found), sum(v[0] for v in relaxed_found.values())))
