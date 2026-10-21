@@ -188,62 +188,6 @@ int selectDrawDriver(int a4)
     return nlPopMatrix(0x1);
 }
 
-int FUN_0c03d80a(int a4, int a5)
-{
-    int t0;
-    int t2;
-    float u4;
-    float u5;
-    int t7;
-    int t8;
-    int t9;
-    int t15;
-    int t20;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int stk[12];
-
-    t0 = *(int *)0xC2A1ADC;
-    t2 = 0xC28A4ED;
-    u4 = 290.0f;
-    u5 = (float)(t0 + 0x1DE);
-    if (a5 == 4) {
-        t2 = 0xC28A4EC;
-        u4 = 256.0f;
-        u5 = (float)(0x1DE - t0);
-    }
-    t7 = *(signed char *)((t2 + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)t7;
-    if (a4 != 0) {
-        t8 = FUN_0c03bea0(0x0, ((int)stk + 4), 0x9);
-        if (t8 == 1) {
-            t9 = *(int *)(((int)stk + 4));
-            *(unsigned char *)((t2 + 0x0)) = t9;
-            SetSEvolume();
-            FUN_0c072dd4();
-            FUN_0c02e2ca(0x7F);
-        }
-    }
-    putString(0x28, 0xC0A2058, (u5 + -82.0f), (u4 + -7.0f), 1.0f);
-    t15 = putString(0x20, 0xC0A205C, (u5 + 82.0f), (u4 + -7.0f), 1.0f);
-    t20 = t15;
-    if ((int)0x8 > 0) {
-        t16 = 0x0;
-        do {
-            t17 = *(int *)(((int)stk + 4));
-            t18 = 0xC0A0868;
-            if ((int)t16 < (int)t17) {
-                t18 = 0xC0A0858;
-            }
-            t19 = menuPutSprites(t18, 0xC2A1A84, (int)((float)(((((t16 - 3) << 2) + (t16 - 3)) << 2) - 10) + u5), (int)u4);
-            t16 = (t16 + 0x1);
-        } while ((int)t16 < (int)0x8);
-        t20 = t19;
-    }
-    return t20;
-}
 
 int FUN_0c15762c(int a4, int a5, int a6)
 {

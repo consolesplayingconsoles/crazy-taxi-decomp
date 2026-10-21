@@ -204,7 +204,7 @@ def _name_at(addr):
                 p = l.split()
                 if len(p) >= 4 and p[0] == 'F':
                     _NAMES[int(p[1], 16)] = p[3]
-    return _NAMES.get(addr)
+    return _NAMES.get(addr) or _NAMES.get((addr & 0x1FFFFFFF) | (min(_NAMES) & 0xE0000000) if _NAMES else addr)
 
 
 def _call_target(exe, base, a, pc, mn, ops, tgt):
@@ -238,7 +238,9 @@ def _custom_callee(exe, base, addr):
                 p = l.split()
                 if len(p) >= 4 and p[0] == 'F':
                     _SPANS[int(p[1], 16)] = int(p[2])
-    sz = _SPANS.get(addr)
+    sz = _SPANS.get(addr) or (_SPANS.get((addr & 0x1FFFFFFF) | (min(_SPANS) & 0xE0000000)) if _SPANS else None)
+    if sz and addr not in _SPANS:
+        addr = (addr & 0x1FFFFFFF) | (min(_SPANS) & 0xE0000000)
     if not sz:
         return False
     return bool(register_inputs(exe, base, addr, sz) or entry_input(exe, base, addr, sz) or t_input(exe, base, addr, sz))
@@ -297,9 +299,10 @@ def callee_keeps(exe, base, a, sz):
     return None
 
 
-def double_precision(exe, base, a, sz):
-    """True when the function runs double-precision code: it uses fcnvsd / fcnvds, or ORs FPSCR.PR (0x00080000) into FPSCR. This
-    project compiles C with -fpu=single (build.sh, equiv.py), where double is single precision: such code has no C form here."""
+def double_precision(exe, base, a, sz, depth=0):
+    """True when the function runs double-precision code: it uses fcnvsd / fcnvds, ORs FPSCR.PR (0x00080000) into FPSCR, or calls a
+    routine that does (it then passes and takes doubles). This project compiles C with -fpu=single (build.sh, equiv.py), where double is
+    single precision: such code has no C form here."""
     import re
     pr = set()
     for pc in sorted(reachable(exe, base, a, sz)):
@@ -318,6 +321,13 @@ def double_precision(exe, base, a, sz):
         m = re.match(r'r(\d+),fpscr$', ops)
         if mn == 'lds' and m and int(m.group(1)) in pr:
             return True
+        if mn in ('bsr', 'jsr', 'bsrf') and depth == 0:
+            ta = _call_target(exe, base, a, pc, mn, ops, _)
+            if ta:
+                _custom_callee(exe, base, ta)                       # loads the function sizes
+                sp = _SPANS.get(ta) or _SPANS.get((ta & 0x1FFFFFFF) | (min(_SPANS) & 0xE0000000) if _SPANS else 0)
+                if sp and double_precision(exe, base, ta if ta in _SPANS else (ta & 0x1FFFFFFF) | (min(_SPANS) & 0xE0000000), sp, 1):
+                    return True
     return False
 
 

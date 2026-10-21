@@ -250,25 +250,6 @@ float FUN_0c021836(float x)
     return 1.69999993f + 0.00142857130f * (t + -170.0f);
 }
 
-int SJUNI_GetNumData(int *obj, int n)
-{
-    int *node;
-    int sum;
-
-    if (n < 0 || n >= 4) {
-        if (obj[10] != 0) {
-            ((void (*)(int, int))obj[10])(obj[11], -3);
-        }
-        return 0;
-    }
-    sum = 0;
-    node = (int *)obj[6 + n];
-    while (node != 0) {
-        sum += node[3];
-        node = (int *)node[0];
-    }
-    return sum;
-}
 
 void mwRnaExecServer(void)
 {

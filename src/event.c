@@ -127,27 +127,6 @@ void eventFreeAll(void)
     gEventAllocCount = 0;
 }
 
-Event *set_event(unsigned int size, EventFunc func)
-{
-    Event *e;
-
-    if (size < 20)
-        size = 20;
-    if ((e = heapAlloc(size)) != 0) {
-        if (gEventList.tail == 0)
-            gEventList.head = e;
-        else
-            gEventList.tail->next = e;
-        e->prev = gEventList.tail;
-        e->next = 0;
-        e->func = func;
-        e->alloc = 0;
-        e->name = str_set_event;
-        gEventList.tail = e;
-        gEventCount++;
-    }
-    return e;
-}
 
 Event *set_event_bf(unsigned int size, EventFunc func, Event *before)
 {

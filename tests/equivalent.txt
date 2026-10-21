@@ -821,6 +821,7 @@ FUN_0c065df6
 FUN_0c066b28
 FUN_0c066bf0
 FUN_0c067a28
+FUN_0c067a3e
 FUN_0c067b30
 FUN_0c067b8e
 FUN_0c06b028
@@ -913,6 +914,7 @@ FUN_0c077230
 FUN_0c077270
 FUN_0c077290
 FUN_0c0772e0
+FUN_0c077470
 FUN_0c0775d0
 FUN_0c0777ec
 FUN_0c077830
@@ -951,6 +953,7 @@ FUN_0c079a60
 FUN_0c079cc0
 FUN_0c079d40
 FUN_0c079d60
+FUN_0c079da0
 FUN_0c079e70
 FUN_0c079ed0
 FUN_0c079f10
@@ -1064,9 +1067,11 @@ FUN_0c085dfc
 FUN_0c0868c0
 FUN_0c087e1a
 FUN_0c087e2a
+FUN_0c087ed4
 FUN_0c0886cc
 FUN_0c08933c
 FUN_0c0893b8
+FUN_0c0893ec
 FUN_0c089738
 FUN_0c0897f8
 FUN_0c089978
@@ -1193,6 +1198,7 @@ FUN_0c15fa32
 FUN_0c15fa6c
 FUN_0c15fa92
 FUN_0c15fab8
+FUN_0c160cb0
 FUN_0c160e88
 FUN_0c1614de
 FUN_0c1614e8
@@ -1213,6 +1219,7 @@ FUN_0c1676a8
 FUN_0c1676bc
 FUN_0c1676d0
 FUN_0c1676e4
+FUN_0c1676f8
 FUN_0c16770c
 FUN_0c167720
 FUN_0c1677d8
@@ -1267,13 +1274,16 @@ FUN_0c16dd00
 FUN_0c16dd04
 FUN_0c16e544
 FUN_0c1701c4
+FUN_0c1701d4
 FUN_0c1701de
+FUN_0c1701e6
 FUN_0c1701ee
 FUN_0c170820
 FUN_0c170834
 FUN_0c170848
 FUN_0c17085c
 FUN_0c17088c
+FUN_0c1708b2
 FUN_0c1708bc
 FUN_0c1708d0
 FUN_0c170908
@@ -1317,6 +1327,8 @@ FUN_0c172132
 FUN_0c17217a
 FUN_0c172180
 FUN_0c1721da
+FUN_0c1721e0
+FUN_0c17225c
 FUN_0c1722c2
 FUN_0c172350
 FUN_0c1723d6
@@ -1463,11 +1475,15 @@ TrafficLevelChange
 VSklSfPlay
 Voice_Request
 Voice_ShutUp
+__init_dteapi_cc_f
 _allzero
 _app_coss
 _app_sins
+_mult
 _pd_peripheral_error
+_pd_peripheral_set_data
 _pd_peripheral_set_null
+_pow5
 acSystemGetSystemFlag
 adxStartAfs1
 adxStartAfs2
@@ -1511,6 +1527,7 @@ buExitForce
 buFbrCreateFiber
 buFbrCreateServer
 buFbrDestroyServer
+buFbrExecFiberServer
 buFbrExit
 buFbrInit
 buFbrKillFiber
@@ -1603,6 +1620,7 @@ fmcalccrc
 frameFlip
 frame_make
 fsInit
+gameInit
 gameState0
 gameState10
 gameState11
@@ -1790,6 +1808,7 @@ kmiAllocSysConfig
 kmiCBalloc
 kmiCh2DMAtoTA
 kmiCheckRenderer
+kmiChkActiveListType
 kmiConvertUVnum
 kmiCopyDummyGlobalData
 kmiCopyFromFrameBuffer
@@ -1869,6 +1888,7 @@ kyakuInDestArea2
 kyakuMiniGameAreaOk
 kyakuStopAreaVisible
 kyakuTaskStart
+loadCity
 make_header
 memcpy2
 memmove
@@ -1967,6 +1987,7 @@ mwlSbAlloc
 mwlSbGetPitch
 ndPuru2Reset
 ndPuru2Start
+nd_CarSelInit
 nd_Init_Puru2
 njSetConstantAttr
 njSetRenderWidth
@@ -2015,6 +2036,7 @@ nlGetIntrFunction
 nlGetIntrPriority
 nlGetPaletteID
 nlGetPushedMatrix
+nlGetTranslate
 nlInitCommonTexture
 nlInitEvent
 nlInitFont

@@ -1,6 +1,14 @@
 import re,struct,subprocess,copy
 import gen_cfg
-BIN=open('1ST_READ.BIN','rb').read(); BASE=0x0C010000
+BIN=open('1ST_READ.BIN','rb').read(); BASE=int(open('BASE').read().strip(),16)
+def in_ram(a):
+    """An address in main RAM, in any of its mirrors (0x0C, 0x8C, 0xAC...)."""
+    return isinstance(a,int) and 0x0C000000<=(a&0x1FFFFFFF)<0x0D000000
+def canon(a):
+    """The address as functions.txt writes it: the same function seen through another mirror maps to the listed one."""
+    if a in FUNCS or not isinstance(a,int): return a
+    b=(a&0x1FFFFFFF)|(BASE&0xE0000000)
+    return b if b in FUNCS else a
 def rd32(a): return struct.unpack_from('<I',BIN,a-BASE)[0]
 M=0xffffffff
 class Skip(Exception): pass
@@ -396,10 +404,10 @@ def _run(name,passthru=False,frame=False,flat=False):
         # control registers through the SDK's own intrinsics (smachine.h / umachine.h: get_vbr, set_vbr, get_gbr, set_gbr, get_fpscr, set_fpscr)
         if mn=='stc' and a[0] in ('vbr','gbr'):
             nm='_builtin_get_%s'%a[0]; c.protos[nm]=(); t='t%d'%c.ntemp; c.ntemp+=1
-            emit('int %s = %s();'%(t,nm)); c.R[a[1]]=('e',t); return
+            emit('int %s = (int)%s();'%(t,nm)); c.R[a[1]]=('e',t); return      # SHC's own: it returns a pointer
         if mn=='ldc' and a[1] in ('vbr','gbr'):
             nm='_builtin_set_%s'%a[1]; c.protos[nm]=('int',)
-            emit('%s(%s);'%(nm,ex(c.gi(a[0])))); return
+            emit('%s((void *)(%s));'%(nm,ex(c.gi(a[0])))); return              # SHC's own: it takes a pointer
         if mn=='sts' and a[0]=='fpscr':
             c.protos['_builtin_get_fpscr']=(); t='t%d'%c.ntemp; c.ntemp+=1
             emit('int %s = _builtin_get_fpscr();'%t); c.R[a[1]]=('e',t); c.fpscr_saved=getattr(c,'fpscr_saved',set())|{t}; return
@@ -952,7 +960,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 q=[q for q in left if isinstance(q[2],tuple) and any(o is not q and re.search(r'\b%s\b'%o[1],q[2][1]) for o in left)][0]
                 q[2]=keep(q[2][1],q[3]); continue
             emit('%s = %s;'%(pick[1],fx(pick[2]) if pick[3] else ex(pick[2])))
-            if isinstance(pick[2],int) and not pick[3] and (pick[2] in FUNCS or (pick[2]>>29 in (4,5) and (pick[2]&0x1FFFFFFF) in FUNCS)):
+            if isinstance(pick[2],int) and not pick[3] and canon(pick[2]) in FUNCS:
                 c.lvk[pick[0]]=pick[2]           # a call target: the call must still see the constant, so the register keeps it (the variable has it too)
             else:
                 (c.FR if pick[3] else c.R)[pick[0]]=('e',pick[1])
@@ -1097,7 +1105,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         B=[]; c.blocks.append(B)
         if j in FUNCS:                      # the branch goes to another function: a tail call
             do_call(FUNCS[j],tail=True); oB=('end',)
-        elif isinstance(j,int) and j>=0x0C000000 and j not in G.succ:      # to a code address that is no function's entry: a tail call by address
+        elif isinstance(j,int) and in_ram(j) and j not in G.succ:      # to a code address that is no function's entry: a tail call by address
             do_call('@indirect',tail=True,ind='0x%X'%j); oB=('end',)
         else: oB=exec_from(j,stops2,False)
         stB=regs_state(); c.blocks.pop()
@@ -1309,7 +1317,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                     # instruction (its registers are set up above)
                     tgt=ins[-1][2]+2
                     if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
-                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                    elif in_ram(tgt): do_call('@indirect',tail=True,ind='0x%X'%tgt)
                     else: raise Skip('runs off the code')
                     return ('end',)
                 raise Skip('runs off the code')
@@ -1353,9 +1361,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                         step(i+1)
                         do_call('@indirect',ind=texpr,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
                     tgt=v
-                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF   # the cached/uncached mirror of a function
+                tgt=canon(tgt)   # the cached/uncached mirror of a function
                 if tgt not in FUNCS:
-                    if not (0x0C000000<=tgt<0x0D000000): raise Skip('callee unknown %x'%tgt)
+                    if not (in_ram(tgt)): raise Skip('callee unknown %x'%tgt)
                     # a code address that is not a function entry (a shared tail, an entry into the middle of another function): called
                     # through a cast of its address, checked by address like any call through a pointer
                     step(i+1)
@@ -1366,10 +1374,10 @@ def _run(name,passthru=False,frame=False,flat=False):
                 # braf through a constant (not a jump table): a goto, or a tail call to a fixed address
                 tgt=(pc+4+c.R[parse_ops(ops)[0]])&0xFFFFFFFF
                 if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue
-                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                tgt=canon(tgt)
                 step(i+1)
                 if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
-                elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                elif in_ram(tgt): do_call('@indirect',tail=True,ind='0x%X'%tgt)
                 else: raise Skip('tail unknown')
                 return ('end',)
             if mn=='bra' or mn=='jmp':
@@ -1386,9 +1394,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                         return ('end',)
                     tgt=v
                     if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue      # the compiler's long-range goto: a constant address inside the function, like a bra
-                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                tgt=canon(tgt)
                 if tgt not in FUNCS:
-                    if not (0x0C000000<=tgt<0x0D000000): raise Skip('tail unknown')
+                    if not (in_ram(tgt)): raise Skip('tail unknown')
                     step(i+1)
                     do_call('@indirect',tail=True,ind='0x%X'%tgt)
                     return ('end',)
@@ -1407,7 +1415,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 return ('end',)
             if mn in ('bt','bf','bt/s','bf/s'):
                 tgt=target_of(ops)
-                if tgt not in addr2idx and tgt not in FUNCS and not (0x0C000000<=tgt<0x0D000000): raise Skip('branch out')
+                if tgt not in addr2idx and tgt not in FUNCS and not (in_ram(tgt)): raise Skip('branch out')
                 delay=mn.endswith('/s')
                 if delay: step(i+1)
                 if c.T is None: raise Skip('no T')
@@ -1538,10 +1546,10 @@ def _run(name,passthru=False,frame=False,flat=False):
                             texpr=ex(v); step(i+1)
                             do_call('@indirect',ind=texpr,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); i+=2; continue
                         tgt=v
-                    if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                    tgt=canon(tgt)
                     step(i+1)
                     if tgt in FUNCS: do_call(FUNCS[tgt],after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None)
-                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',ind='0x%X'%tgt,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None)
+                    elif in_ram(tgt): do_call('@indirect',ind='0x%X'%tgt,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None)
                     else: raise Skip('callee unknown %x'%tgt)
                     i+=2; continue
                 if mn in ('bra','jmp','braf'):
@@ -1555,9 +1563,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                     step(i+1)
                     if tgt in addr2idx:
                         spill(); emit('goto %s;'%label(addr2idx[tgt])); return [(addr2idx[tgt],c.D)]
-                    if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                    tgt=canon(tgt)
                     if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
-                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                    elif in_ram(tgt): do_call('@indirect',tail=True,ind='0x%X'%tgt)
                     else: raise Skip('tail unknown')
                     return []
                 if mn=='rts':

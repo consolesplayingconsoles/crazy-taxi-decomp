@@ -142,11 +142,22 @@ def main():
             and cache.get(n, [None])[0] != key(a, sz)]
     if noread: todo = []
     if todo:
+        import time
+        t0 = time.time()
+        os.makedirs('build', exist_ok=True)
+        log = open('build/remaining.log', 'w')                 # progress of the reading, to follow with tail -f
+        def note(msg):
+            line = '[%5ds] %s' % (time.time() - t0, msg)
+            log.write(line + '\n'); log.flush(); sys.stderr.write(line + '\n')
+        note('reading %d functions with %d workers' % (len(todo), jobs))
         ctx = multiprocessing.get_context('fork')
         with ctx.Pool(jobs) as pool:
-            for name, state in pool.imap_unordered(read_one, todo, chunksize=4):
+            for k, (name, state) in enumerate(pool.imap_unordered(read_one, todo, chunksize=4), 1):
                 a, sz = [(x[0], x[1]) for x in undone if x[2] == name][0]
                 cache[name] = [key(a, sz), state]
+                if k % 10 == 0 or k == len(todo):
+                    note('read %d of %d functions (%d with errors so far)' % (k, len(todo), sum(1 for v in cache.values() if v[1] != 'readable')))
+        note('done')
         json.dump({'tools': th, 'read': cache}, open(cache_file, 'w'))
     weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
     rows = []

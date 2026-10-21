@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=87.1&b=56.7&a=80)
+![decomp progress](badge.svg?p=87.8&b=58.0&a=80)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -22,18 +22,18 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 <!-- progress -->
 ```
 TEST COVERAGE QUALITY THRESHOLD          80%  configurable, drops anything below this value (MIN_COVERAGE in tools/equiv.py)
-FUNCTIONS LEFT          (87.1% complete) 412  of the 3188 functions that can be C (58 with no C form are counted apart)
-BYTES LEFT           (56.7% complete) 234798  of 542382 bytes of code that can be C
+FUNCTIONS LEFT          (87.8% complete) 388  of the 3186 functions that can be C (60 with no C form are counted apart)
+BYTES LEFT           (58.0% complete) 226870  of 539766 bytes of code that can be C
 FUNCTIONS                                     what is left, counting down to zero
   unnamed                               1503  functions still called FUN_... (1503 of 3246)
   Not read                                 0  0 bytes
   Read with errors                         0  0 bytes
-  Not drawn                               60  28042 bytes
-  Drawn with errors                       51  34508 bytes
-  Checked with errors                    163  93868 bytes
-  Below 80% test coverage threshold      138  78380 bytes
-  No C form                             1.8%  58 functions of the 3246: an instruction or a register convention with no C form (tools/classify.py names it); the counts above are of the 3188 that can be C
-  documented                           41.9%  1360 named functions in docs/*.md
+  Not drawn                                6  4334 bytes
+  Drawn with errors                       57  37214 bytes
+  Checked with errors                    171  94784 bytes
+  Below 80% test coverage threshold      154  90538 bytes
+  No C form                             1.8%  60 functions of the 3246: an instruction or a register convention with no C form (tools/classify.py names it); the counts above are of the 3186 that can be C
+  documented                           42.1%  1367 named functions in docs/*.md
 GAME ASSETS (EXTRA)                           reverse engineering: what the model map identifies; it does not affect the measures above and is not done work
   models named                         37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named                     15.5%  9 of 58 characters (note rules)

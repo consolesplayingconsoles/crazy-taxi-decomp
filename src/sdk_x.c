@@ -14,32 +14,8 @@ int mwRnaGetPlaySw(int *h, int b, int c, int d)
     return (((unsigned char *)h)[1] & 2) >> 1;
 }
 
-int mwRnaGetTransSw(int *h, int b, int c, int d)
-{
-    if (!h) {
-        mwRnaErrCallFunc(h, b, c, d, MSG);
-        return -1;
-    }
-    return ((unsigned char *)h)[1] & 1;
-}
 
-int mwRnaGetAutoSw(int *h, int b, int c, int d)
-{
-    if (!h) {
-        mwRnaErrCallFunc(h, b, c, d, MSG);
-        return -1;
-    }
-    return (((unsigned char *)h)[1] & 4) >> 2;
-}
 
-int mwRnaGetSfreq(int *h, int b, int c, int d)
-{
-    if (!h) {
-        mwRnaErrCallFunc(h, b, c, d, MSG);
-        return -1;
-    }
-    return h[3];
-}
 
 int mwRnaGetStat(int *h, int b, int c, int d)
 {

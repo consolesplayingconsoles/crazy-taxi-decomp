@@ -139,7 +139,7 @@ def grow(name,runs,V,rng,HOT,budget=int(os.environ.get('GEN_BUDGET','1200'))):
         e=json.loads(json.dumps(d))
         n0,c0=original_runs(name,e)
         start,size=G.SPANS[name]
-        late=[a&~3 for a in LAST_READS if 0x0C000000<=a<0x0D000000 and not start-0x1000<=a<start+size+0x1000][-10:]
+        late=[a&~3 for a in LAST_READS if 0x0C000000<=(a&0x1FFFFFFF)<0x0D000000 and not start-0x1000<=a<start+size+0x1000][-10:]
         v=rng.choice(HOT) if rng.random()<0.7 else rng.choice(V)
         if late and rng.random()<0.8:
             # the words the original read last are the ones its final guard looked at: set one of them
@@ -296,7 +296,8 @@ def protos_text(protos):
         ret='int'
         if sig and sig[-1]=='->float': ret='float'; sig=sig[:-1]
         if n=='_builtin_set_imask': out.append('extern void _builtin_set_imask(int);'); continue
-        if n in ('_builtin_set_vbr','_builtin_set_gbr','_builtin_set_fpscr','_builtin_set_cr','_builtin_trapa'): out.append('extern void %s(int);'%n); continue
+        if n in ('_builtin_trapa','_builtin_get_vbr','_builtin_set_vbr','_builtin_get_gbr','_builtin_set_gbr','_builtin_get_cr','_builtin_set_cr',
+                 '_builtin_get_fpscr','_builtin_set_fpscr'): continue          # SHC knows these; a declaration of its own does not compile
         if n=='_builtin_prefetch': out.append('extern void _builtin_prefetch(void *);'); continue
         if n=='_builtin_ld_ext': out.append('extern void _builtin_ld_ext(float (*)[4]);'); continue
         if n=='_builtin_st_ext': out.append('extern void _builtin_st_ext(float (*)[4]);'); continue

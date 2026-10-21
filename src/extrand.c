@@ -23,14 +23,6 @@ float extRandom(void)
     return (float)extRand() * (1.0f / 32768.0f);
 }
 
-float FUN_0c049854(void)
-{
-    float now = (float)FUN_0c075430();
-    float d = now - g_0c0f4274;
-
-    g_0c0f4274 = now;
-    return d / 150.0f;
-}
 
 int FUN_0c049878(int mask)
 {
@@ -39,25 +31,3 @@ int FUN_0c049878(int mask)
     return 0;
 }
 
-int FUN_0c04988a(int *p)
-{
-    int v, i, n, more, res;
-
-    v = g_0c2a4e64;
-    n = 0;
-    i = 0;
-    if (p)
-        n = *p;
-    for (i = 0; i < 5; i++) {
-        more = v & 32;
-        res = v & 31;
-        if (!more)
-            break;
-        if (i == n - 1)
-            break;
-        v >>= 6;
-    }
-    if (p)
-        *p = i + 1;
-    return res;
-}
