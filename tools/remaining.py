@@ -138,7 +138,7 @@ def main():
         except (ValueError, IOError):
             cache = {}
     key = lambda a, sz: hashlib.sha1(exe[a - base:a - base + sz]).hexdigest()
-    todo = [(n, sz) for a, sz, n in undone if not n.startswith('_') and not cls.get(n, '').startswith('blocked')
+    todo = [(n, sz) for a, sz, n in undone if not cls.get(n, '').startswith('blocked')
             and cache.get(n, [None])[0] != key(a, sz)]
     if noread: todo = []
     if todo:
@@ -151,9 +151,7 @@ def main():
     weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
     rows = []
     for a, sz, n in undone:
-        if n.startswith('_'):
-            cause = 'runtime helper or table (names starting with _)'
-        elif cls.get(n, '').startswith('blocked'):
+        if cls.get(n, '').startswith('blocked'):
             cause = 'blocked: ' + cls[n][9:].split('(')[0].strip()
         else:
             state = cache.get(n, [None, 'not read' if noread else 'readable'])[1]

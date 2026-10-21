@@ -26,8 +26,8 @@ FUNCTIONS LEFT          (87.0% complete) 416  of the 3192 functions that can be 
 BYTES LEFT           (56.7% complete) 234854  of 542438 bytes of code that can be C
 FUNCTIONS                                     what is left, counting down to zero
   unnamed                               1503  functions still called FUN_... (1503 of 3246)
-  Not read                                 0  0 bytes
-  Read with errors                        20  12846 bytes
+  Not read                                 8  1356 bytes
+  Read with errors                        12  11490 bytes
   Not drawn                               44  16912 bytes
   Drawn with errors                       51  33080 bytes
   Checked with errors                    163  93636 bytes

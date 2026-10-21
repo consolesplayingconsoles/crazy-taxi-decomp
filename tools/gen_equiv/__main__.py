@@ -84,7 +84,7 @@ for l in open('functions.txt'):
 # classify.py without names stops at 128 bytes: name the functions to look at
 for l in (subprocess.run(['python3','tools/classify.py']+sizes,capture_output=True,text=True).stdout.splitlines() if sizes else []):
     p=l.split()
-    if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and (p[2] not in ver or p[2] in ONLY) and not p[2].startswith('_') and int(p[1])<=maxsize:
+    if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and (p[2] not in ver or p[2] in ONLY) and not (p[2].startswith('_') and gen_core._custom_convention(p[2])) and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
     signal.alarm(max(READ_LIMIT,gen_core.SPANS[n][1]//4))      # a larger function gets more time: size/4 seconds, at least 300

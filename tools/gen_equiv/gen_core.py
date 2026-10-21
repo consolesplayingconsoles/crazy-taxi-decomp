@@ -47,6 +47,8 @@ class Ctx:
         if r not in s.R:
             n=int(r[1:])
             if 4<=n<=7: s.R[r]=('s','a%d'%n); s.iuse.add(n)
+            elif 8<=n<=14 and getattr(s,'uninit',None) and getattr(s,'wrote_somewhere',set()) & {r}:
+                s.uninit(r)                  # a callee-saved register this path never wrote, written on another: an uninitialised local in the original C
             else: raise Skip('read '+r)
         return s.R[r]
     def gf(s,r):
@@ -193,7 +195,7 @@ def _run(name,passthru=False,frame=False):
     for l in out:
         m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
         if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
-    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
+    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
         # base: value; off: int or value
@@ -320,7 +322,12 @@ def _run(name,passthru=False,frame=False):
             if ab>=0:
                 # the callee owns the argument area the caller left: a store there is a write to its own copy of a stack argument
                 if ab%4 or mn not in ('mov.l','fmov.s'): raise Skip('store into the caller frame')
-                c.stack[(ab,'f' if isf else 'i')]=c.gf(a[0]) if isf else c.gi(a[0]); return
+                key_=(ab,'f' if isf else 'i'); val_=c.gf(a[0]) if isf else c.gi(a[0])
+                var_=c.argvars.get(key_)
+                if var_ is None:
+                    var_=fresh(isf); c.argvars[key_]=var_; emit('%s %s;'%('float' if isf else 'int',var_))
+                emit('%s = %s;'%(var_,fx(val_) if isf else ex(val_)))
+                c.stack[key_]=('e',var_); return
             val=c.gf(a[0]) if isf else c.gi(a[0])
             if c.frame:
                 ad=('expr','((int)stk + @@F:%d@@)'%ab)
@@ -895,6 +902,10 @@ def _run(name,passthru=False,frame=False):
             if 'fr%d'%i not in bank: bank['fr%d'%i]=('e','%s[%d]'%(m_,i))
         c.xf_entry=True
     c.xf_snapshot=xf_snapshot
+    def uninit(r):
+        v=fresh(False); emit('int %s;'%v); c.R[r]=('e',v)
+    c.uninit=uninit
+    c.wrote_somewhere={'r%d'%int(m_.group(1)) for x_ in ins for m_ in [re.search(r',r(\d+)\s*(;|$)',x_[1].split(';')[0])] if m_ and x_[0] not in ('cmp/eq','cmp/ge','cmp/gt','cmp/hi','cmp/hs','tst') and 8<=int(m_.group(1))<=14}
 
     # registers that a loop changes from one pass to the next are C variables updated where the instruction runs;
     # everything else stays a symbolic expression
@@ -1185,6 +1196,16 @@ def _run(name,passthru=False,frame=False):
             return c.conts,c.exits,lb
         conts,_,_=run_pass([])
         restore(s0)
+        pre=sorted({k for st in conts for k in st[3] if k[0]>=0 and k not in entS and k[1]=='i'})
+        if pre:
+            for k in pre:
+                var_=c.argvars.get(k)
+                if var_ is None:
+                    var_=fresh(False); c.argvars[k]=var_; emit('int %s;'%var_)
+                n_=8+k[0]//4; c.iuse.add(n_); emit('%s = a%d;'%(var_,n_)); c.stack[k]=('e',var_)
+            s0=snap(); entR=dict(c.R); entF=dict(c.FR); entS=dict(c.stack)
+            conts,_,_=run_pass([])
+            restore(s0)
         for st in conts:
             if st[3]!=entS: raise Skip('stack local in a loop')
         cand=[]; undef=set()
@@ -1332,6 +1353,16 @@ def _run(name,passthru=False,frame=False):
                     do_call('@indirect',ind='0x%X'%tgt,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
                 step(i+1)
                 do_call(FUNCS[tgt],after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); commit(); i+=2; continue
+            if mn=='braf' and isint(c.R.get(parse_ops(ops)[0])):
+                # braf through a constant (not a jump table): a goto, or a tail call to a fixed address
+                tgt=(pc+4+c.R[parse_ops(ops)[0]])&0xFFFFFFFF
+                if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue
+                if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                step(i+1)
+                if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
+                elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                else: raise Skip('tail unknown')
+                return ('end',)
             if mn=='bra' or mn=='jmp':
                 if mn=='bra':
                     tgt=target_of(ops)
