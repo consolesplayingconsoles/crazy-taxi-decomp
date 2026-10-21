@@ -648,6 +648,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
                       'chg': [i in given_args or c.r[i] != entry_args[i - 4] for i in range(4, 8)],
                       'fchg': [i in given_fargs or c.fr[i] != entry_fargs[i - 4] for i in range(4, 12)],
                       'stack': '%08X' % mem.read(c.r[15] & M32, 4)})   # the word on top of the stack: the first argument of a variadic call
+        if not returns:
+            c.r[0] = 0                           # a call the case gives no answer for returns 0 (r0 and fr0): a leftover register is not a result, on the original or on the compiled C
+            c.fr[0] = 0
         ret = returns.pop(0) if returns else {}
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
             mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))

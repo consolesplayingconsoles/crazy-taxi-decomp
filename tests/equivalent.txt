@@ -394,6 +394,7 @@ FUN_0c03495c
 FUN_0c0349d8
 FUN_0c034a4a
 FUN_0c034b5e
+FUN_0c034fa8
 FUN_0c035134
 FUN_0c0351da
 FUN_0c0357b0
@@ -727,6 +728,10 @@ FUN_0c058234
 FUN_0c058828
 FUN_0c05891a
 FUN_0c058968
+FUN_0c0589b8
+FUN_0c058a94
+FUN_0c058b70
+FUN_0c058c78
 FUN_0c058f08
 FUN_0c058f38
 FUN_0c058ff0
@@ -801,6 +806,7 @@ FUN_0c05d6e0
 FUN_0c05d708
 FUN_0c05d82a
 FUN_0c05d852
+FUN_0c05d862
 FUN_0c05da9c
 FUN_0c05db72
 FUN_0c05dbdc
@@ -862,6 +868,7 @@ FUN_0c061e04
 FUN_0c062096
 FUN_0c0620ce
 FUN_0c062158
+FUN_0c0621a0
 FUN_0c06278e
 FUN_0c062824
 FUN_0c062d26
@@ -898,12 +905,16 @@ FUN_0c0644cc
 FUN_0c06468e
 FUN_0c064718
 FUN_0c064748
+FUN_0c064788
+FUN_0c0648e0
 FUN_0c064a06
+FUN_0c064a5c
 FUN_0c064ade
 FUN_0c064b0e
 FUN_0c064c0c
 FUN_0c0650b8
 FUN_0c0655f0
+FUN_0c065bb8
 FUN_0c065df6
 FUN_0c066b28
 FUN_0c066bf0
@@ -923,6 +934,7 @@ FUN_0c070c64
 FUN_0c070cd0
 FUN_0c070e8a
 FUN_0c070ede
+FUN_0c071104
 FUN_0c071258
 FUN_0c0713d8
 FUN_0c0714f2
@@ -1044,6 +1056,7 @@ FUN_0c078ef0
 FUN_0c078fa0
 FUN_0c078fc0
 FUN_0c078ff0
+FUN_0c0792b0
 FUN_0c079980
 FUN_0c079a60
 FUN_0c079cc0
@@ -1545,7 +1558,9 @@ Put_Course_Obj_Dist
 Put_Credits
 Put_GearBox
 Put_Max_Combo
+Put_Motion2D
 Put_ReadySetGo
+Put_SEGA_LOGO2
 Put_Transporter
 RailroadAreaCheck
 ResetFadeColor
@@ -1621,6 +1636,7 @@ SklPlay
 SklSfPlay
 Sound_Init
 Sound_Request
+Start_Proposal
 StopingCarInit
 TOANG
 TrafficLevelChange
@@ -1641,6 +1657,7 @@ _pd_peripheral_set_data
 _pd_peripheral_set_null
 _pow10
 _pow5
+_power
 acSystemGetSystemFlag
 adxStartAfs1
 adxStartAfs2
@@ -1750,8 +1767,10 @@ camSnapToCar
 carBalance
 carColliReflection
 carEntry
+carMultiCollision
 carResistance
 carRumble
+carSteering
 check_caps
 check_fat_all
 clear_file
@@ -1857,8 +1876,10 @@ getNearLineIndex
 getNearLineIndexAll
 getPieceWindow
 getReplayPassenger
+getSteering
 getSwitch
 getSystemMetrics
+getYXZrot
 get_data
 get_fat
 hudDraw
@@ -2004,6 +2025,7 @@ kmiCopyToPVRMemory
 kmiCreateDummyRegionforAvoidCacheBug
 kmiCreateDummyTranslucentObject
 kmiCreateGlobalParameter
+kmiCreateRegionArray
 kmiDACControl
 kmiDMAHazardReset
 kmiDMAtoTARequest
@@ -2184,6 +2206,7 @@ navi_GetRouteTbl
 ndPuru2Reset
 ndPuru2Start
 nd_CarSelInit
+nd_CarSel_PutCar
 nd_Exec_Puru2
 nd_Init_Puru2
 njSetConstantAttr
@@ -2458,6 +2481,7 @@ psgEnterState6
 psgFaceTaxi
 psgFrameState0
 psgFrameState1
+psgFrameState3
 psgFrameState4
 psgFrameState5
 psgFrameState6
@@ -2658,6 +2682,7 @@ vmsio_ismount
 vmuExit
 volumeToDb
 vsklRotate
+write_dir
 write_dir_all
 write_fat_1
 write_sys

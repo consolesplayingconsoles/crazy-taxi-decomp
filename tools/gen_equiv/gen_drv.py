@@ -21,11 +21,17 @@ def build(name,ret,passthru=False):
     text=re.sub(r'\n[ \t]*(?=\n)','',text)
     frame_decl=None
     if c.frame:
+        up=0
         for m in re.finditer(r'\(int\)stk \+ @@F:(-?\d+)@@\)((?: [+-] (?:0x[0-9A-Fa-f]+|\d+)\))*)',text):
             off=int(m.group(1))+sum(int(x,0)*(-1 if sg=='-' else 1) for sg,x in re.findall(r' ([+-]) (0x[0-9A-Fa-f]+|\d+)\)',m.group(2)))
-            if off>=0: raise Skip('reads the caller frame')      # an address above the function's own frame is an argument the caller left on the stack
+            if off>=0: up=max(up,off//4+1)      # an address above the function's own frame: words the caller left on the stack (arguments, a structure passed by value)
+        if up:
+            up=min(max(up,4),16)
+            for n in range(8,8+up): c.iuse.add(n)       # they come in as the stack parameters a8..: copied to the top of the frame array
+            ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
+            if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
         W=(c.maxD+3)//4+1
-        frame_decl='int stk[%d] = {0};'%W         # zero, like the stack the original runs on in the simulator
+        frame_decl='int stk[%d] = {0};'%(W+up)         # zero, like the stack the original runs on in the simulator
         text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))),text)
     rt='void'
     if '@@TAIL:' in text:
@@ -73,6 +79,7 @@ def build(name,ret,passthru=False):
         if len(re.findall(r'\b%s\b'%nm,text))==1 and re.search(r'\b%s = [A-Za-z_]\w*\('%nm,text):
             text=re.sub(r'\b%s = '%nm,'',text); decls.remove(d)
     body=text.strip('\n').split('\n')
+    if frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
     return src,c
 _CPOOL={}
@@ -244,6 +251,13 @@ def tests(name,c,src):
                     poke['%08X'%b]=struct.pack('<64I',*words).hex()
             if chained:
                 for pb in POINTERS: poke['%08X'%(pb&~3)]=struct.pack('<64I',*[rng.choice(pool) for _ in range(64)]).hex()   # memory behind those pointers
+                own_=G.SPANS.get(name,(0,0)); oend_=G.ENDS.get(name,own_[0]+own_[1])
+                for k_,e_ in c.mem_addrs:       # a table indexed by a loaded value: its entries (pointers) lie in a window after the constant base
+                    if k_!='e': continue
+                    for hx in re.findall(r'0x([0-9A-Fa-f]{7,8})\b',e_):
+                        tb=int(hx,16)&~3
+                        if 0x0C000000<=tb<0x0D000000 and not own_[0]-0x1000<=tb<oend_+0x1000 and '%08X'%tb not in poke:
+                            poke['%08X'%tb]=struct.pack('<16I',*[rng.choice(pool) for _ in range(16)]).hex()
             own=G.SPANS.get(name,(0,0)); own_end=G.ENDS.get(name,own[0]+own[1])      # the code and its pool up to the next function
             cpool=const_pool(name)
             for a in addrs:
