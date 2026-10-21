@@ -1,0 +1,20 @@
+{
+ "dev": [
+  {
+   "about": "rescue: flips 0C07DC42",
+   "regs": {},
+   "poke": {
+    "00000004": "ffffffff"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "rescue: flips 0C07DC42",
+   "regs": {},
+   "poke": {
+    "00000004": "ffffffff"
+   }
+  }
+ ]
+}

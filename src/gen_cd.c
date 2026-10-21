@@ -14,7 +14,7 @@ int FUN_0c04bef4(void);
 int FUN_0c04f1b0(int);
 int FUN_0c052268(void);
 int FUN_0c074680(void);
-int FUN_0c07eca0(int, int);
+int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
 int FUN_0c14d324(void);
 int FUN_0c15c746(int);
@@ -775,7 +775,7 @@ int gameState0(void)
         if ((int)t6 < (int)0x4) {
             FUN_0c07f0b0();
             gdc_FileLoad(0xC870000, 0xC08AE58, 0x0);
-            FUN_0c07eca0(0xC870000, 0x5);
+            nlsndPackLoad(0xC870000, 0x5);
         }
     }
     ResetLight();

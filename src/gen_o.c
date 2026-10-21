@@ -10,7 +10,7 @@ int FUN_0c03019a(void);
 int FUN_0c03b544(int);
 int FUN_0c03b698(int);
 int FUN_0c066bf0(int, int, float);
-int FUN_0c07eca0(int, int);
+int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
 int FUN_0c167800(void);
 int gdc_FileLoad(int, int, int);
@@ -52,24 +52,6 @@ int FUN_0c02e31e(int a4)
     return ADXT_SetOutVol(t8, t7);
 }
 
-int FUN_0c03006a(void)
-{
-    int t0;
-    int t4;
-
-    t0 = *(int *)0xC179488;
-    if ((int)t0 < (int)0x4) {
-        FUN_0c07f0b0();
-        t4 = 0xC08D4C8;
-    } else {
-        FUN_0c07f0b0();
-        t4 = 0xC08D4D4;
-    }
-    gdc_FileLoad(0xCB40000, t4, 0x0);
-    FUN_0c07eca0(0xCB40000, 0x5);
-    gdc_FileLoad(0xCB40000, 0xC08D588, 0x0);
-    return gdc_FileLoad(0xCE90000, 0xC08D594, 0x8000);
-}
 
 int FUN_0c03dffa(void)
 {

@@ -4,7 +4,7 @@ void FUN_0c05af8e(void);
 
 #define F(a)    (*(float *)(a))
 
-void FUN_0c0287d4(float a, float b)
+void SetCameraTargetRatio(float a, float b)
 {
     char *g = (char *)0x0C1798FC;
 

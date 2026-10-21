@@ -80,6 +80,8 @@ def build(name,ret,passthru=False):
             text=re.sub(r'\b%s = '%nm,'',text); decls.remove(d)
     body=text.strip('\n').split('\n')
     if frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
+    nlines=len(body)+len(decls)
+    if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
     return src,c
 _CPOOL={}

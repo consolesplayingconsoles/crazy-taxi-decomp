@@ -90,6 +90,13 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
         return
     lock()
     try:
+        getattr(restore_evidence, 'snapshot', lambda: None)()      # the evidence files as they are now, to put back after the check
+        proved = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
+        for it in [i for i in items if i[0] in proved]:          # another run proved it since the list was made
+            items.remove(it)
+            drop(it[0])
+        if not items:
+            return
         passed, failed, deferred, dropped, err = gen_pipe.run_file_robust('gen_tmpK', items)
     finally:
         restore_evidence()
@@ -114,5 +121,9 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
             ledger.record(run, n, 'did not compile', detail)
             save(it, 'did not compile', detail, run, kept_rec[n].get('variant', 0), kept_rec[n].get('passthru', False))
     if keep:
-        write_batch(keep)
+        lock()
+        try:
+            write_batch(keep)
+        finally:
+            unlock()
     note('rechecked %d: %d pass, %d differ, %d do not compile' % (len(items), len(passed), len(failed), len(dropped)))

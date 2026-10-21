@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ExecAdvCamera(void);
-int FUN_0c0287d4(float, float);
+int SetCameraTargetRatio(float, float);
 int FUN_0c0288ca(int, int, int);
 int FUN_0c0288d4(float, float);
 int FUN_0c0288e0(float);
@@ -84,7 +84,7 @@ int FUN_0c0289be(void)
     if (t5 != 0) {
         FUN_0c0288e0(60.0f);
         camSetTarget(((int)stk + 4), 0x0);
-        FUN_0c0287d4(0.299999982f, 0.299999982f);
+        SetCameraTargetRatio(0.299999982f, 0.299999982f);
         t9 = *(int *)0xC2A4E50;
         if (t9 == 1) {
             t10 = *(int *)0xC1EE20C;

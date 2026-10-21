@@ -4302,7 +4302,7 @@ int nlSpriteGetNextSpriteIndex(void)
     return ((((t0 << 2) << 2) << 1) + t7);
 }
 
-int FUN_0c07eca0(int a4, int a5)
+int nlsndPackLoad(int a4, int a5)
 {
     int t0;
     int t23;

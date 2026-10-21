@@ -39,7 +39,7 @@ int FUN_0c074300(int);
 int FUN_0c074970(int);
 int FUN_0c077210(int, int);
 int FUN_0c07eb10(int, int);
-int FUN_0c07eca0(int, int);
+int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
 int FUN_0c07f5c0(void);
 int FUN_0c07f870(int, int, int);
@@ -121,14 +121,14 @@ int loadCity(int a4, int a5)
                 FUN_0c07f0b0();
                 FUN_0c07f0b0();
                 gdc_FileLoad(0xCB40000, 0xC08D564, 0x0);
-                FUN_0c07eca0(0xCB40000, 0x4);
+                nlsndPackLoad(0xCB40000, 0x4);
                 t10 = *(int *)0xC179488;
                 if ((int)t10 < (int)0x4) {
                     gdc_FileLoad(0xCB40000, 0xC08D4C8, 0x0);
                 } else {
                     gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
                 }
-                FUN_0c07eca0(0xCB40000, 0x5);
+                nlsndPackLoad(0xCB40000, 0x5);
                 gdc_FileLoad(0xCB40000, 0xC08D570, 0x0);
                 gdc_FileLoad(0xC5E0000, 0xC08D57C, 0x0);
                 if (a5 != -1) {
@@ -145,7 +145,7 @@ int loadCity(int a4, int a5)
             FUN_0c07f0b0();
             FUN_0c07f0b0();
             gdc_FileLoad(0xCB40000, 0xC08D51C, 0x0);
-            FUN_0c07eca0(0xCB40000, 0x4);
+            nlsndPackLoad(0xCB40000, 0x4);
             t33 = *(int *)0xC1EE210;
             if (t33 == 2) {
                 t34 = *(int *)0xC179488;
@@ -157,7 +157,7 @@ int loadCity(int a4, int a5)
             } else {
                 gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
             }
-            FUN_0c07eca0(0xCB40000, 0x5);
+            nlsndPackLoad(0xCB40000, 0x5);
             gdc_FileLoad(0xCB40000, 0xC08D528, 0x0);
             gdc_FileLoad(0xC5E0000, 0xC08D534, 0x0);
             if (a5 != -1) {
@@ -174,7 +174,7 @@ int loadCity(int a4, int a5)
         FUN_0c07f0b0();
         FUN_0c07f0b0();
         gdc_FileLoad(0xCB40000, 0xC08D4BC, 0x0);
-        FUN_0c07eca0(0xCB40000, 0x4);
+        nlsndPackLoad(0xCB40000, 0x4);
         t60 = *(int *)0xC1EE210;
         if (t60 == 2) {
             t61 = *(int *)0xC179488;
@@ -186,7 +186,7 @@ int loadCity(int a4, int a5)
         } else {
             gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
         }
-        FUN_0c07eca0(0xCB40000, 0x5);
+        nlsndPackLoad(0xCB40000, 0x5);
         gdc_FileLoad(0xCB40000, 0xC08D4E0, 0x0);
         gdc_FileLoad(0xC5E0000, 0xC08D4EC, 0x0);
         if (a5 != -1) {
@@ -608,11 +608,11 @@ int gameInit(void)
         }
     }
     gdc_FileLoad(0xCB40000, 0xC08AB0C, 0x0);
-    FUN_0c07eca0(0xCB40000, 0x0);
+    nlsndPackLoad(0xCB40000, 0x0);
     gdc_FileLoad(0xCB40000, 0xC08AB18, 0x0);
-    FUN_0c07eca0(0xCB40000, 0x1);
+    nlsndPackLoad(0xCB40000, 0x1);
     gdc_FileLoad(0xCB40000, 0xC08AB24, 0x0);
-    FUN_0c07eca0(0xCB40000, 0x3);
+    nlsndPackLoad(0xCB40000, 0x3);
     FUN_0c07f5c0();
     FUN_0c07f870(0x4, 0x1, 0x0);
     FUN_0c02dfbc();

@@ -482,6 +482,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
+- `FUN_0c0200e4` (`0x0C0200E4`, 772 bytes) is the sibling of `putPlayerCar`: the same matrix calls (`nlPushMatrix`, `nlPopMatrix`, `nlRotateAX/AY/AZ`, `nlSetTranslate`, `nlTranslate`), the same literals (`0x0C1790CC`, `0x0C179488` = DRIVER) and `Put_Motion2D`. The Walking Tour mod hooks it for the four cabbies. It stays unnamed: no original symbol is known for it.
 - The player's car is drawn by `putPlayerCar(car)` (`0x0C0203E8`, the car index; called once,
   from `exec_CarMain`), not by `putCarModel`: at its
   position and rotation (`+0x86` yaw, `+0x84`, `+0x88`), with the models in the set `+0x74`

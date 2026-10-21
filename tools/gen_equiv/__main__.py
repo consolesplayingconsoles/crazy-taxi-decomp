@@ -47,6 +47,9 @@ signal.signal(signal.SIGTERM,_term)
 KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
 def restore_evidence():
     for f,t in KEEP.items(): open(f,'w').write(t)
+def snapshot_evidence():       # the files as they are now (call with the lock held): other runs may have added to them since this run started
+    KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})
+restore_evidence.snapshot=snapshot_evidence
 READ_LIMIT=300       # seconds: a function whose reading does not finish in that time is skipped (some shapes loop for ever)
 BUILD_LIMIT=60       # and the same for writing its C and cases in a round
 TIMEF=float(os.environ.get('GEN_TIME_FACTOR','1'))      # more time for the drawing of cases when the machine is shared by several groups
@@ -184,6 +187,10 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
     lock()
     try:
         KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
+        if not known:       # another run may have proved a function since this one drew it: writing it again would define it twice
+            proved=set(KEEP.get('tests/equivalent.txt','').split())
+            items[:]=[it for it in items if it[0] not in proved]
+            if not items: return
         note('round %d batch %d: compiling and checking %d functions'%(ri,bn,len(items)))
         try:
             passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)

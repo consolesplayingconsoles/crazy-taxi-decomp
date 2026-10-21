@@ -212,6 +212,11 @@ def _run(name,passthru=False,frame=False,flat=False):
     for l in out:
         m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
         if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
+    if ins and ins[-1][0] in ('bra','bsr','jsr','jmp','rts','braf','bsrf','bt/s','bf/s'):      # a function whose size stops at its last branch: the delay slot is the next instruction in the binary
+        nxt=ins[-1][2]+2
+        for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
+            m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+            if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
     c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
@@ -667,7 +672,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         if mn=='fneg': c.FR[a[0]]=('e','(-%s)'%fx(c.gf(a[0]))); return
         if mn=='fmac' and len(a)==3 and a[0]=='fr0':       # frn += fr0 * frm
             acc=c.gf(a[2]); x=c.gf(a[0]); y=c.gf(a[1])
-            c.FR[a[2]]=('e','(%s + %s * %s)'%(fx(acc),fx(x),fx(y))); return
+            t=fresh(True); emit('float %s = %s;'%(t,fx(acc))); emit('%s = %s + %s * %s;'%(t,t,fx(x),fx(y)))      # a statement of its own, as the source has it: the compiler then selects fmac (one rounding)
+            c.FR[a[2]]=('e',t); return
         if mn=='fabs':
             v=fx(c.gf(a[0])); c.FR[a[0]]=('e','(%s < 0.0f ? -%s : %s)'%(v,v,v)); return
         if mn=='lds' and a[1]=='fpul': c.fpul=c.gi(a[0]); return

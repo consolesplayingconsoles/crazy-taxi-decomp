@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=95.9&b=84.9&a=83)
+![decomp progress](badge.svg?p=96.0&b=85.0&a=83)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,18 +21,18 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE            82.8%  the instructions the cases ran, of all instructions, over the 2667 functions that reached the check
-FUNCTIONS LEFT  (95.9% complete) 130  of the 3186 functions that can be C (60 with no C form are counted apart)
-BYTES LEFT    (84.9% complete) 81704  of 539766 bytes of code that can be C
+TOTAL TEST COVERAGE            82.7%  the instructions the cases ran, of all instructions, over the 2681 functions that reached the check
+FUNCTIONS LEFT  (96.0% complete) 126  of the 3186 functions that can be C (60 with no C form are counted apart)
+BYTES LEFT    (85.0% complete) 80840  of 539766 bytes of code that can be C
 FUNCTIONS                             
-  unnamed                       1503  functions still called FUN_... (1503 of 3246)
+  unnamed                       1501  functions still called FUN_... (1501 of 3246)
   Not written C                    0  0 bytes
   Written C with errors            0  0 bytes
   Not drawn                        1  70 bytes
-  Drawn with errors               24  21424 bytes
-  Checked with errors            105  60210 bytes
+  Drawn with errors               18  18736 bytes
+  Checked with errors            107  62034 bytes
   No C form                     1.8%  an instruction or a register convention with no C form (tools/classify.py names it)
-  documented                   44.9%  1458 named functions in docs/*.md
+  documented                   45.2%  1466 named functions in docs/*.md
 GAME ASSETS (EXTRA)                   
   models named                 37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named             15.5%  9 of 58 characters (note rules)
@@ -54,7 +54,7 @@ This decomp follows the six steps of the dc-decomp-kickoff skill, from the disc 
 | 2 | **Signature-driven baseline**           | -                         |                                    | Reads the disc, splits the executable into one assembly file per function, rebuilds it **byte for byte** with the SDK's own assembler and linker, and names every function it can match by signature.                                                                                                                      |
 | 3 | **Asset mapping**                       | -                         |                                    | Writes the text map (every string with its pointers, text per disc file), the model map, the texture list and the audio map.                                                                                                                                                                                               |
 | 4 | **Opportunity-driven optional boosts**  | Varies greatly by project | The materials                      | Uses what you hand over to save work in every step after it, the earlier the better: a later port (Android is the strongest), a prototype or debug build, cheat codes, other regions, existing notes, the same game on another console, a sibling decomp. It never looks for these itself and never reads your other code. |
-| 5 | **Incremental script-generated decomp** | ~25% (higher with boosts) | SDK library sources (optional)     | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then a second pass that draws the test cases again to cover more of the original. Generated C is reported apart from hand-written C.                                                                 |
+| 5 | **Incremental script-generated decomp** | up to 50% (higher with boosts) | SDK library sources (optional)     | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then directed test cases that reach the branches the first ones missed. Generated C is reported apart from hand-written C.                                                                 |
 | 6 | **Experience-driven agentic decomp**    | 100%                      |                                    | Takes what is left one pocket at a time, function by function: C and test cases until each function is proven. The plan is in the repo's `AGENTS.md`.                                                                                                                                                                      |
 
 ## Supported version
@@ -178,8 +178,8 @@ that stays local). Regenerate it with `python3 tools/model_map.py 1ST_READ.BIN "
 
 How strong an Equivalent function is depends on its test cases, so `tools/equiv.py` reports how many of the original's instructions they
 run. The original's code is kept as one assembly file per function, the baseline the build keeps checking. C written by `tools/gen_equiv` is
-the lower gate: it is generated, checked on generated cases, and then polished (`gen_equiv --retest`, and cases by hand for the branches
-nobody ran). `AGENTS.md` lists the six steps this decomp follows, up to 100%.
+script-generated: it is checked on generated cases, which are then widened (`gen_equiv --direct` and `--retest`, and cases by hand for the branches
+nobody ran). There is no pass mark: a function that passes is done, and the total test coverage on the badge says how strong the evidence is. `AGENTS.md` lists the six steps this decomp follows, up to 100%.
 
 `src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/equiv.py src/<file>.c`
 runs each function in an SH-4 interpreter twice per test case, the original bytes and your compiled C,

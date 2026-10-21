@@ -3012,7 +3012,7 @@ extern void SetCameraPosVelocity(float *v);
 extern void GetAng4Mat(int *ang);
 extern void FUN_0c0288e0(int a, float b);
 extern void camSetTarget(float *pos, int mode);
-extern void FUN_0c0287d4(float a, float b);
+extern void SetCameraTargetRatio(float a, float b);
 extern void SetCameraMode(int mode);
 extern int GetAverageAngle(int a, int b, float w);
 
@@ -3066,7 +3066,7 @@ void FUN_0c028b06(void)
     if (*(int *)0x0C179974) {
         FUN_0c0288e0(0, 35.0f);
         camSetTarget(v, 0);
-        FUN_0c0287d4(0.7999999523162842f, 0.29999998211860657f);
+        SetCameraTargetRatio(0.7999999523162842f, 0.29999998211860657f);
         SetCameraMode(2);
         ResetSpark();
         *(int *)0x0C179974 = 0;
@@ -3901,7 +3901,7 @@ void FUN_0c028f50(void)
     v[1] = v[1] + 5.0f;
     if (*(int *)0x0C179974 != 0) {
         camSetEye((float *)0x0C179968, 0);
-        FUN_0c0287d4(0.29999998f, 0.29999998f);
+        SetCameraTargetRatio(0.29999998f, 0.29999998f);
         SetCameraMode(1);
         ResetSpark();
         *(int *)0x0C179974 = 0;

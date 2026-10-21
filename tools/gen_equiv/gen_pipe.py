@@ -4,7 +4,7 @@ import gen_drv,gen_core
 Skip=gen_core.Skip
 def variants(name,passthru):
     c=gen_core.run(name,passthru)
-    if c.tail: return ['r0','void']
+    if c.tail: return ['void'] if any(r=='None' for r,f in c.rets) else ['r0','void']      # a return that leaves r0 to a helper (unknown) cannot be written as a value
     lit=lambda x:re.match(r'^(-?\d+|0x[0-9A-F]+|-?[\d.e+-]+f)$',x)
     out=[]
     if c.rets and all(f!='None' for r,f in c.rets) and not all(lit(f) for r,f in c.rets): out.append('fr0')

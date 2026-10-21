@@ -439,9 +439,14 @@ def rescue(name, start, size, base, deep, steps=20000):
                 T = next(iter(seen))
                 last_other = max([i for i, t in occ[pc] if t != T], default=-1)
                 where[(pc, T)] = min(i for i, t in occ[pc] if t == T and i > last_other)     # the first iteration of the pass that is stuck now
+            todo = []
             for pc, seen in sorted(sides.items()):
                 if len(seen) > 1: continue
-                taken = next(iter(seen)); i = where[(pc, taken)]
+                taken = next(iter(seen)); todo.append((pc, taken, where[(pc, taken)]))
+            for pc, occs in sorted(occ.items()):                 # then the branches taken the same way every time before that tail: another way through the function may avoid the loop
+                if pc in sides or len({t for _, t in occs}) > 1: continue
+                todo.append((pc, occs[0][1], occs[0][0]))
+            for pc, taken, i in todo:
                 comp = compare_at(tr, i)
                 if not comp: continue
                 kind, ar, br, imm, k = comp
@@ -476,7 +481,7 @@ def rescue(name, start, size, base, deep, steps=20000):
                             nc['about'] = 'rescue: flips %08X' % pc; nc['_score'] = score; nxt.append(nc)
         if found and len(found) >= 6: break
         nxt.sort(key=lambda x: -x.get('_score', 0))
-        frontier = nxt[:12]
+        frontier = nxt[:40]
         if not frontier: break
     for f in found: f.pop('_score', None)
     return found[:6]

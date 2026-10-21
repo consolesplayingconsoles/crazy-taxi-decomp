@@ -265,7 +265,6 @@ FUN_0c0246dc
 FUN_0c025b30
 FUN_0c028760
 FUN_0c0287c2
-FUN_0c0287d4
 FUN_0c0288ca
 FUN_0c0288d4
 FUN_0c0288e0
@@ -417,6 +416,7 @@ FUN_0c038c34
 FUN_0c038ed0
 FUN_0c038ee6
 FUN_0c038eec
+FUN_0c038ef8
 FUN_0c038f78
 FUN_0c038f80
 FUN_0c038f86
@@ -573,6 +573,7 @@ FUN_0c044c64
 FUN_0c044f12
 FUN_0c045058
 FUN_0c047330
+FUN_0c048adc
 FUN_0c0496fc
 FUN_0c049854
 FUN_0c04988a
@@ -1020,6 +1021,7 @@ FUN_0c075700
 FUN_0c075860
 FUN_0c075930
 FUN_0c076200
+FUN_0c0762d0
 FUN_0c076670
 FUN_0c076f70
 FUN_0c077170
@@ -1076,6 +1078,7 @@ FUN_0c079ed0
 FUN_0c079f10
 FUN_0c07a240
 FUN_0c07a290
+FUN_0c07a2a0
 FUN_0c07a2e0
 FUN_0c07a520
 FUN_0c07a540
@@ -1143,6 +1146,8 @@ FUN_0c07d620
 FUN_0c07d6a0
 FUN_0c07d7a0
 FUN_0c07db40
+FUN_0c07dc10
+FUN_0c07dc60
 FUN_0c07dcf0
 FUN_0c07e580
 FUN_0c07e820
@@ -1151,7 +1156,6 @@ FUN_0c07e8a0
 FUN_0c07e960
 FUN_0c07ea70
 FUN_0c07eb10
-FUN_0c07eca0
 FUN_0c07ede0
 FUN_0c07ee50
 FUN_0c07ef40
@@ -1278,6 +1282,7 @@ FUN_0c1573a0
 FUN_0c1573cc
 FUN_0c1573f2
 FUN_0c15748a
+FUN_0c157580
 FUN_0c15762c
 FUN_0c157852
 FUN_0c157ba0
@@ -1629,6 +1634,7 @@ SetAudio
 SetCameraMode
 SetCameraPosRatio
 SetCameraPosVelocity
+SetCameraTargetRatio
 SetColliObj
 SetFadeColorBase
 SetFadeColorBaseMulti
@@ -1868,6 +1874,7 @@ gdFsSearchPath_dds
 gdFsSetGlobalErrG
 gdFsSetTmode
 gdFsTell
+gdc_CoursePointLoadReq
 gdc_CourseReq
 gdc_CourseSet
 gdc_Err
@@ -2012,6 +2019,7 @@ kmSetVertexRenderState
 kmSetWaitVsyncCallback
 kmSetWaitVsyncCount
 kmStartVertexStrip
+kmStopDisplayFrameBuffer
 kmUnloadDevice
 kmUseAnotherModifier
 kmfGetInternalSystemMetrics
@@ -2043,6 +2051,7 @@ kmiDACControl
 kmiDMAHazardReset
 kmiDMAtoTARequest
 kmiDefaultInterruptHandler
+kmiDiscardRenderPipeline
 kmiExecuteDMAChain
 kmiFBGarbageCollect
 kmiFBSortQueue
@@ -2051,7 +2060,9 @@ kmiFBallocEx
 kmiFBfree
 kmiFBfreeEx
 kmiFBgetfreemem
+kmiFBgetfreememEx
 kmiFBinit
+kmiFBreset
 kmiFatalErrorEntry
 kmiFinalizeRender
 kmiGetNativeRegOBPSize
@@ -2096,6 +2107,7 @@ kmiStartRenderTextureEntry
 kmiTAallocEx
 kmiTXalloc
 kmiUnloadDevice
+kmiVQFBfree
 kmiVQalloc
 kmiWaitForFinishDMA
 kmiWaitVlank
@@ -2215,6 +2227,7 @@ mwlRnaInsrtSlntDat
 mwlRnaIsCopyEnd
 mwlRnaSetInitMember
 mwlRnaStartTrans
+mwlRnaWaitTransEnd
 mwlSbAlloc
 mwlSbGetPitch
 navi_GetRouteTbl
@@ -2420,6 +2433,7 @@ nlsndCheckPackFreeError
 nlsndG2DmaHandleClose
 nlsndG2DmaHandleOpen
 nlsndIcsControl
+nlsndPackLoad
 nlsndStreamChgFx
 nlsndStreamGenerateHdInfo
 nlsndStreamGetHdInfo
