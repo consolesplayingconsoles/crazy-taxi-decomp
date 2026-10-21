@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=95.3&b=82.0&a=83)
+![decomp progress](badge.svg?p=95.9&b=84.9&a=83)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,18 +21,18 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE            83.1%  the instructions the cases ran, of all instructions, over the 2646 functions that reached the check
-FUNCTIONS LEFT  (95.3% complete) 151  of the 3186 functions that can be C (60 with no C form are counted apart)
-BYTES LEFT    (82.0% complete) 97224  of 539766 bytes of code that can be C
+TOTAL TEST COVERAGE            82.8%  the instructions the cases ran, of all instructions, over the 2667 functions that reached the check
+FUNCTIONS LEFT  (95.9% complete) 130  of the 3186 functions that can be C (60 with no C form are counted apart)
+BYTES LEFT    (84.9% complete) 81704  of 539766 bytes of code that can be C
 FUNCTIONS                             
   unnamed                       1503  functions still called FUN_... (1503 of 3246)
   Not written C                    0  0 bytes
   Written C with errors            0  0 bytes
   Not drawn                        1  70 bytes
-  Drawn with errors               25  21876 bytes
-  Checked with errors            125  75278 bytes
+  Drawn with errors               24  21424 bytes
+  Checked with errors            105  60210 bytes
   No C form                     1.8%  an instruction or a register convention with no C form (tools/classify.py names it)
-  documented                   44.7%  1452 named functions in docs/*.md
+  documented                   44.9%  1458 named functions in docs/*.md
 GAME ASSETS (EXTRA)                   
   models named                 37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named             15.5%  9 of 58 characters (note rules)

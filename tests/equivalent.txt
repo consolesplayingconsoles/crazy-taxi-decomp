@@ -244,6 +244,7 @@ FUN_0c011afe
 FUN_0c020080
 FUN_0c020092
 FUN_0c0200aa
+FUN_0c0200e4
 FUN_0c0208d6
 FUN_0c020a10
 FUN_0c020d20
@@ -405,6 +406,7 @@ FUN_0c03663c
 FUN_0c036806
 FUN_0c0369da
 FUN_0c036b5a
+FUN_0c0370c4
 FUN_0c037534
 FUN_0c0376b0
 FUN_0c03864e
@@ -504,6 +506,7 @@ FUN_0c03bea0
 FUN_0c03bf42
 FUN_0c03bf76
 FUN_0c03c10e
+FUN_0c03c792
 FUN_0c03cd2c
 FUN_0c03d44e
 FUN_0c03d594
@@ -531,6 +534,7 @@ FUN_0c03ec76
 FUN_0c03ee10
 FUN_0c03ee76
 FUN_0c03ef54
+FUN_0c03f038
 FUN_0c03f216
 FUN_0c03f3ac
 FUN_0c03f430
@@ -593,6 +597,7 @@ FUN_0c04d1ac
 FUN_0c04d30a
 FUN_0c04d330
 FUN_0c04d3ee
+FUN_0c04d46c
 FUN_0c04d49e
 FUN_0c04d504
 FUN_0c04d548
@@ -607,6 +612,7 @@ FUN_0c050504
 FUN_0c050542
 FUN_0c050656
 FUN_0c050716
+FUN_0c050752
 FUN_0c050a12
 FUN_0c050b4c
 FUN_0c050bba
@@ -723,6 +729,7 @@ FUN_0c057bdc
 FUN_0c057c3c
 FUN_0c057e9e
 FUN_0c057fe2
+FUN_0c058018
 FUN_0c0580d2
 FUN_0c058234
 FUN_0c058828
@@ -981,6 +988,7 @@ FUN_0c074510
 FUN_0c0745e0
 FUN_0c074680
 FUN_0c074690
+FUN_0c074740
 FUN_0c074970
 FUN_0c074990
 FUN_0c0749b0
@@ -1106,6 +1114,7 @@ FUN_0c07c2e0
 FUN_0c07c3f0
 FUN_0c07c470
 FUN_0c07c6b0
+FUN_0c07c740
 FUN_0c07c830
 FUN_0c07c870
 FUN_0c07c9b0
@@ -1561,6 +1570,7 @@ Put_Max_Combo
 Put_Motion2D
 Put_ReadySetGo
 Put_SEGA_LOGO2
+Put_TotalDrum
 Put_Transporter
 RailroadAreaCheck
 ResetFadeColor
@@ -1632,6 +1642,7 @@ SetSEvolume
 SetSpark
 SetStartCamera
 Set_StandWaitDist
+SklIpPlay
 SklPlay
 SklSfPlay
 Sound_Init
@@ -1798,6 +1809,7 @@ drvJolt
 entryCarPut
 execAdvSprite
 execMiniLight
+exec_KyakuMain
 exec_loop_Replay
 extRand
 extRandom
@@ -1954,6 +1966,7 @@ kmGetFreeTextureMem
 kmGetTexture
 kmInitDevice
 kmLoadRectangleTexturePart
+kmLoadTextureBlock
 kmLoadVQCodebook
 kmLoadYUVTexture
 kmQueryFinishFlushVertexBuffer
@@ -2078,6 +2091,8 @@ kmiReqRestOfDMA
 kmiResetBoard
 kmiSetOpaqueDummy
 kmiSetSysConfigFlag
+kmiSetTAEnvironment
+kmiStartRenderTextureEntry
 kmiTAallocEx
 kmiTXalloc
 kmiUnloadDevice
@@ -2206,6 +2221,7 @@ navi_GetRouteTbl
 ndPuru2Reset
 ndPuru2Start
 nd_CarSelInit
+nd_CarSelMain
 nd_CarSel_PutCar
 nd_Exec_Puru2
 nd_Init_Puru2
@@ -2429,6 +2445,7 @@ padToAnalog
 paletteSetMode
 paletteUpload
 parkingCarExec
+parkingControl
 pcarDrive
 pcarEnd
 pcarExec
@@ -2466,6 +2483,7 @@ pedUpdate
 pfColor
 pfLength
 pfLocate
+pfPutSEGALogo
 pfPuts
 pfSetFont
 pfSetZ
@@ -2485,12 +2503,15 @@ psgFrameState3
 psgFrameState4
 psgFrameState5
 psgFrameState6
+psgPickExitSide
 psgPlayBlend
 psgPutShadow
 psgRoadCheck
+psgRunToPoint
 psgSeatMatrix
 psgSetCurrent
 putCarModel
+putLevelCTFontAssist
 putRecordUnit
 putString
 rankingInsert

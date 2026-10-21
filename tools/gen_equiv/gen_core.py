@@ -309,10 +309,15 @@ def _run(name,passthru=False,frame=False,flat=False):
             if dsp%4==0 and dsp//4<len(c.pend) and not isfp(c.pend[-1-dsp//4]):
                 c.R[a[1]]=c.pend[-1-dsp//4]; return
         if mn=='mov.l' and a[0]=='@r15+' and a[1].startswith('r'):
+            ab=-c.D
             c.D-=4
             if c.pend:
                 if isfp(c.pend[-1]): raise Skip('float popped into integer register')
                 c.R[a[1]]=c.pend.pop()
+            elif a[1] in ('r0','r1','r2','r3','r4','r5','r6','r7') and ab<0:      # a word stored to the frame with a plain store and read back by a pop (an argument for a tail call): a load from that slot
+                key=(ab,'i')
+                if key in c.stack: c.R[a[1]]=c.stack[key]
+                elif c.frame: c.R[a[1]]=load('l',('expr','((int)stk + @@F:%d@@)'%ab))
             return
         if mn=='fmov.s' and a[0]=='@r15+' :
             c.D-=4

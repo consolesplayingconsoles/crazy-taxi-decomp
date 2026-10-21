@@ -31,7 +31,7 @@ def build(name,ret,passthru=False):
             ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
         W=(c.maxD+3)//4+1
-        frame_decl='int stk[%d] = {0};'%(W+up)         # zero, like the stack the original runs on in the simulator
+        frame_decl='int stk[%d] = {0};'%(W+up+(8 if up else 0))         # zero, like the stack the original runs on in the simulator
         text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))),text)
     rt='void'
     if '@@TAIL:' in text:

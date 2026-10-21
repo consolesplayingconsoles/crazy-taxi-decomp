@@ -66,6 +66,8 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
     todo = [n for n in names() if not wanted or n in wanted]
     items, stale, kept_rec = [], [], {}
     for n in todo:
+        if not os.path.exists('%s/%s.json' % (KEPT, n)):
+            continue                                         # proved by another run since the list was made
         rec = load(n)
         if rec['tools']['draw'] != have['draw']:
             stale.append(n)                                  # its cases came from an older draw
