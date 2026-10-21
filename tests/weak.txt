@@ -24,6 +24,7 @@ nlObjPutLoadTextureOnce_Sub 72%
 rankingInsert 72%
 FUN_0c1523da 70%
 FUN_0c156c32 70%
+pedSpawn 70%
 FUN_0c072580 69%
 FUN_0c156f4c 68%
 replay 68%
@@ -35,6 +36,7 @@ nlSpriteLoadTextureOnce_Sub 67%
 FUN_0c03e254 66%
 FUN_0c074320 66%
 carRumble 66%
+FUN_0c02b220 65%
 GetAverageAngle 65%
 FUN_0c02187a 64%
 gdc_CourseReq 64%
@@ -43,10 +45,8 @@ gdDecSubcode 63%
 gdFsSearchPath_dds 63%
 vmsfs_findfirst_ex 63%
 ADXT_Destroy 62%
-FUN_0c0781a0 62%
 FUN_0c040e1c 61%
 crowdTask 60%
-pedSpawn 60%
 FUN_0c173328 59%
 FUN_0c087e40 58%
 FUN_0c032662 57%
@@ -75,8 +75,11 @@ FUN_0c080c50 47%
 psgFrameState1 47%
 setObjGroupExec 47%
 ADX_DecodeInfoExADPCM2 46%
+FUN_0c067960 46%
+FUN_0c0678a4 45%
 FUN_0c089ad4 45%
 exec_loop_Replay 45%
+getCoursePointMove 45%
 FUN_0c07bc00 44%
 FUN_0c07c470 44%
 FUN_0c15cace 44%
@@ -97,9 +100,11 @@ FUN_0c07cc00 36%
 crowdSpawn 36%
 FUN_0c038688 33%
 PutVM_Message 33%
+vmsfs_findnext_ex 33%
 vmsfs_format 33%
 vmsfs_fsettime 33%
 FUN_0c04a090 32%
+SetObjFly 32%
 adxf_ExecOne 32%
 carBalance 32%
 usr_gd_err_func 32%
@@ -109,6 +114,7 @@ ADXB_ExecOneAu8 31%
 ADXB_ExecOneWav16 31%
 FUN_0c031d62 31%
 ADXB_ExecOneWav8 30%
+menuPutSprites 29%
 ADXB_ExecOneAiff16 28%
 FUN_0c06045c 28%
 FUN_0c07fd80 28%
@@ -119,7 +125,9 @@ psgFrameState2 27%
 FUN_0c03ab40 26%
 FUN_0c07eca0 26%
 FUN_0c07f0b0 26%
+Init_Result 26%
 RailroadAreaCheck 26%
+kmiVQalloc 25%
 CheckColliWallBox 24%
 FUN_0c157852 23%
 SetSpark 23%
@@ -143,8 +151,9 @@ kmRenderTextureDirect 12%
 mpdrv_frame_send 11%
 psgFrameState6 10%
 trailerExec 10%
+trainExec 9%
 BigOneSwims 8%
-trainExec 8%
+cableCarExec 8%
 ADX_DecodeInfo nothing-compared
 FUN_0c051aa8 nothing-compared
 FUN_0c058f08 nothing-compared

@@ -200,7 +200,7 @@ for ri,(vi,pt) in enumerate(rounds):
     final.append((stem,keep,vi,pt))
     if not known: write_batch(keep)
     remaining=[n for n in remaining if n not in passed]
-    for f in glob.glob('src/gen_tmp*.c'): os.remove(f)
+    for f in ([] if os.environ.get('GEN_KEEP') else glob.glob('src/gen_tmp*.c')): os.remove(f)      # GEN_KEEP=1 leaves the scratch C to look at
     for d in glob.glob('tests/gen_tmp*'): shutil.rmtree(d)
     unlock()
 if known:

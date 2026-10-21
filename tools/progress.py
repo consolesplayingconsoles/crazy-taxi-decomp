@@ -7,7 +7,7 @@
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
   with partial C   done plus the functions with C in partial/*.c that is not proven equivalent yet: its own row, done stays apart
-A last section, REVERSE ENGINEERING, counts what the model map (model-map/game.dcgs) identifies: models, characters,
+A last section, GAME ASSETS (EXTRA), counts what the model map (model-map/game.dcgs) identifies: models, characters,
 sounds and tables with a name. It is separate from the decomp measures and never feeds them: a name is identification,
 not done work. A row with nothing named is left out, and so is the section while all its rows are.
 Everything on the disc that is code is part of the game, the bundled library included (the Katana libraries,
@@ -105,7 +105,27 @@ def med(v):
 # they are not done, and this row keeps them from going missing
 weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
 weak = set(n for n in weak if n not in equivalent)
+state_rows = []                                   # where the functions that are not done stand, from tools/remaining.py --table (it reads nothing)
+try:
+    _t = subprocess.run([sys.executable, os.path.join(here, 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
+    for _l in _t:
+        _m = re.match(r'^(\S.*?)\s+(\d+)\s+(\d+)$', _l)
+        if _m and _m.group(1) != 'State':
+            state_rows.append(('  ' + _m.group(1), _m.group(2), '%s bytes' % _m.group(3)))
+except Exception:
+    state_rows = []
+unnamed_all = sum(1 for x in funcs if x[2].startswith('FUN_'))              # every function still called FUN_..., done or not
+try:
+    gate_now = int(re.search(r'^MIN_COVERAGE = (\d+)', open(os.path.join(here, 'equiv.py')).read(), re.M).group(1))
+except (IOError, OSError, AttributeError):
+    gate_now = 0
 rows = [
+    ('TEST COVERAGE QUALITY THRESHOLD', '%d%%' % gate_now, 'configurable, drops anything below this value (MIN_COVERAGE in tools/equiv.py)'),
+    ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),
+    ('  functions left', '%d' % (doable - g[7]), 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
+    ('  bytes left', '%d' % (doable_bytes - g[8]), 'of %d bytes of code that can be C' % doable_bytes),
+    ('  unnamed', '%d' % unnamed_all, 'functions still called FUN_... (%d of %d)' % (unnamed_all, g[0])),
+    ] + state_rows + [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
     ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
      % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform)) if nocform else '')),
@@ -165,21 +185,14 @@ if os.path.exists('model-map/game.dcgs'):
         (len(tn), ('  tables named', pct(len(tn), len(tables)), '%d of %d model tables (table rules)' % (len(tn), len(tables)))),
     ] if n]
     if re_rows:
-        rows += [('REVERSE ENGINEERING', '', 'what the model map identifies; separate from the measures above, not done work')]
+        rows += [('GAME ASSETS (EXTRA)', '', 'reverse engineering: what the model map identifies; it does not affect the measures above and is not done work')]
         rows += [row for n, row in re_rows]
 def write_badge(rows, label, path='badge.svg'):
     """badge.svg beside the README, two rows in Pluto's colours: functions (a bar filled to the main metric, "done: ...", and its
     percentage) and bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of the slice is
     done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both rows, and
     the numbers are always printed."""
-    done = 0.0
-    for n, p, _ in rows:
-        if n.strip().startswith('done:'):
-            try:
-                done = float(p.strip().rstrip('%'))
-            except ValueError:
-                done = 0.0
-            break
+    done = float(pct(g[7], doable).strip().rstrip('%')) if doable else 0.0      # the same number the 'done: equivalent C' row used to carry, straight from the counts
     bar = 100
     wd = int(round(bar * min(done, 100.0) / 100.0))
     if done > 0 and wd < 2:
@@ -239,7 +252,30 @@ def write_badge(rows, label, path='badge.svg'):
 
 
 write_badge(rows, 'decomp')
-rows = [r for r in rows if not (r[0].strip() == 'of which SDK object code' and not g[11])]      # only when sdk-identical.txt names something
+# what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
+_drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
+         'named only', 'below the coverage bar', 'with partial C', 'named globals', 'of which library', 'done', 'named')
+_shown = []
+_top = []
+for _r in rows:
+    _n = _r[0].strip()
+    if _n in _drop or (_n == 'unnamed' and not _r[2].startswith('functions still called')):
+        continue
+    if _n in ('functions left', 'bytes left'):               # the two countdown numbers sit under the threshold, each with its share complete
+        _share = pct(g[7], doable).strip() if _n == 'functions left' else pct(g[8], doable_bytes).strip()
+        _top.append((_n.upper(), _r[1], _r[2], '(%s complete)' % _share))
+        continue
+    if _n == 'COUNTDOWN':
+        _r = ('FUNCTIONS', '', 'what is left, counting down to zero')
+    elif _n == 'done: no C form':
+        _r = ('  No C form', _r[1], _r[2].replace('the rows above are of the', 'the counts above are of the'))
+    _shown.append(_r)
+rows = _shown[:1] + _top + _shown[1:]
 w = max(len(r[0]) for r in rows)
-for name, p, detail in rows:
-    print('%-*s  %7s  %s' % (w, name, p, detail))
+for row in rows:
+    name, p, detail = row[:3]
+    if len(row) > 3:                                           # "(86.4% complete) 435": the share and the number end where the numbers of the other rows end
+        cell = row[3] + ' ' + p
+        print('%s%s  %s' % (name, cell.rjust(w + 2 + 7 - len(name)), detail))
+    else:
+        print('%-*s  %7s  %s' % (w, name, p, detail))

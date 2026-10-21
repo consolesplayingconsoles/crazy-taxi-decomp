@@ -62,7 +62,7 @@ def build(name,ret,passthru=False):
                 lhs=re.findall(r'^\s*%s = ([^\n]*);$'%nm,text,flags=re.M)
                 if occ==len(lhs) and all(('*(' not in r and not re.search(r'[A-Za-z_]\w*\s*\(',r)) for r in lhs):
                     text=re.sub(r'^\s*%s = [^\n]*;\n?'%nm,'',text,flags=re.M); decls.remove(dcl); changed=True
-            t2=re.sub(r'if \([^\n]*\) \{\s*\}','',text)
+            t2=re.sub(r'if \([^\n]*\) \{\s*\}(?!\s*else)','',text)      # an empty if that has an else stays: dropping it would leave the else standing alone
             t2=re.sub(r' else \{\s*\}','',t2)
             if t2!=text: text=t2; changed=True
         return text

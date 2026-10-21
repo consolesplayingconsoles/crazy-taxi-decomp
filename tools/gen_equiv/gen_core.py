@@ -49,7 +49,9 @@ class Ctx:
             s.protos[fname]=tuple(x for x in s.protos[fname] if x!='->float')+('->float',)
             if s.R.get('r0')==('e',t): del s.R['r0']
             s.FR['fr0']=('e',t); return s.FR['fr0']
-        if r not in s.FR and s.swapped: raise Skip('xf bank unset')
+        if r not in s.FR and s.swapped:
+            if not getattr(s,'xf_snapshot',None): raise Skip('xf bank unset')
+            s.xf_snapshot(s.FR)          # the back bank as the caller left it: read it with st_ext
         if r not in s.FR:
             n=int(r[2:])
             if 4<=n<=11: s.FR[r]=('s','f%d'%n); s.fuse.add(n)
@@ -181,7 +183,7 @@ def _run(name,passthru=False,frame=False):
     for l in out:
         m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
         if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
-    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
+    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
         # base: value; off: int or value
@@ -300,7 +302,10 @@ def _run(name,passthru=False,frame=False):
         if mn in('mov.l','mov.w','mov.b','fmov.s') and (m15 or m15b) and (a[0].startswith('r') or a[0].startswith('fr')):
             off=int(m15.group(1)) if m15 else 0
             ab=off-c.D; isf=a[0].startswith('fr')
-            if ab>=0: raise Skip('store into the caller frame')
+            if ab>=0:
+                # the callee owns the argument area the caller left: a store there is a write to its own copy of a stack argument
+                if ab%4 or mn not in ('mov.l','fmov.s'): raise Skip('store into the caller frame')
+                c.stack[(ab,'f' if isf else 'i')]=c.gf(a[0]) if isf else c.gi(a[0]); return
             val=c.gf(a[0]) if isf else c.gi(a[0])
             if c.frame:
                 ad=('expr','((int)stk + @@F:%d@@)'%ab)
@@ -316,6 +321,10 @@ def _run(name,passthru=False,frame=False):
             off=int(m15.group(1)) if m15 else 0
             ab=off-c.D; isf=a[1].startswith('fr')
             key=(ab,'f' if isf else 'i')
+            if ab>=0 and key in c.stack:                  # a stack argument slot this function wrote earlier
+                if isf: c.FR[a[1]]=c.stack[key]
+                else: c.R[a[1]]=c.stack[key]
+                return
             if ab>=0:
                 # an argument the caller passed on the stack
                 if isf or mn!='mov.l' or ab%4: raise Skip('stack argument read')
@@ -361,8 +370,20 @@ def _run(name,passthru=False,frame=False):
         if mn=='lds' and a[1]=='fpscr':
             v=c.gi(a[0])
             # only a restore of a value read earlier: the FPU mode the generator tracks (fschg, frchg) is then unchanged at the end
-            if not (isinstance(v,tuple) and v[0]=='e' and v[1] in getattr(c,'fpscr_saved',set())): raise Skip('lds fpscr not a restore')
-            c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%v[1]); return
+            if isinstance(v,tuple) and v[0]=='e' and v[1] in getattr(c,'fpscr_saved',set()):
+                c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%v[1]); return
+            # a changed value: fine while the bits the generator tracks (SZ, FR) stay as they are
+            mode=(1 if c.sz else 0)|(2 if c.swapped else 0)
+            keep=False
+            if isint(v): keep=((v>>20)&3)==mode
+            elif isinstance(v,tuple) and v[0]=='e':
+                mm=re.match(r'^\((t\d+) ([&|]) (0x[0-9A-Fa-f]+)\)$',v[1])
+                if mm and mm.group(1) in getattr(c,'fpscr_saved',set()):
+                    k=int(mm.group(3),16)
+                    kb=(k>>20)&3
+                    keep=(mode&kb)==mode if mm.group(2)=='&' else (mode|kb)==mode        # the tracked SZ and FR bits come out as they are
+            if not keep: raise Skip('lds fpscr not a restore')
+            c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%(ex(v))); return
         if mn=='ldc' and a[1]=='sr':
             v=c.gi(a[0])
             if not(isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]==0xFFFFFF0F): raise Skip('ldc sr not set_imask')
@@ -417,6 +438,10 @@ def _run(name,passthru=False,frame=False):
                 c.R[a[1]]=('e','(((int)%s >= 0) ? (%s << (%s & 31)) : ((-(int)%s & 31) ? ((%s)%s >> (-(int)%s & 31)) : %s))'%(x,y,x,x,ty,y,x,'((int)%s >> 31)'%y if sg else '0'))
             return
         if mn=='shar': v=c.gi(a[0]); c.R[a[0]]=('e','(%s >> 1)'%ex(v)) if not isint(v) else ((v>>1)|(v&0x80000000)); return
+        if mn=='swap.w':
+            v=c.gi(a[0]); c.R[a[1]]=((((v&0xffff)<<16)|((v>>16)&0xffff))&M) if isint(v) else ('e','((((unsigned int)%s) << 16) | (((unsigned int)%s) >> 16))'%(ex(v),ex(v))); return
+        if mn=='swap.b':
+            v=c.gi(a[0]); c.R[a[1]]=(((v&0xffff0000)|((v&0xff)<<8)|((v>>8)&0xff))&M) if isint(v) else ('e','((((unsigned int)%s) & 0xFFFF0000) | ((((unsigned int)%s) & 0xFF) << 8) | ((((unsigned int)%s) >> 8) & 0xFF))'%(ex(v),ex(v),ex(v))); return
         if mn=='extu.b': v=c.gi(a[0]); c.R[a[1]]=(v&0xff) if isint(v) else ('e','(unsigned char)%s'%ex(v)); return
         if mn=='extu.w': v=c.gi(a[0]); c.R[a[1]]=(v&0xffff) if isint(v) else ('e','(unsigned short)%s'%ex(v)); return
         if mn=='exts.b': v=c.gi(a[0]); c.R[a[1]]=('e','(signed char)%s'%ex(v)) if not isint(v) else (((v&0xff)^0x80)-0x80)&M; return
@@ -498,7 +523,9 @@ def _run(name,passthru=False,frame=False):
                 bank=c.XF if k&1 else c.FR
                 names=('fr%d'%(k&14),'fr%d'%((k&14)+1))
                 if bank is c.FR: return c.gf(names[0]),c.gf(names[1])
-                if names[0] not in bank or names[1] not in bank: raise Skip('xf bank unset')
+                if names[0] not in bank or names[1] not in bank:
+                    if bank is c.XF and not c.swapped: c.xf_snapshot(bank)
+                    else: raise Skip('xf bank unset')
                 return bank[names[0]],bank[names[1]]
             def pair_put(k,hi,lo):
                 bank=c.XF if k&1 else c.FR
@@ -600,6 +627,14 @@ def _run(name,passthru=False,frame=False):
             ty='int' if fname.endswith('s') else 'unsigned int'
             t=fresh(False); emit('int %s = (int)((%s)%s %s (%s)%s);'%(t,ty,ex(c.gi('r1')),'/' if fname.startswith('_div') else '%',ty,ex(c.gi('r0'))))
             c.R['r0']=('e',t); c.R.pop('r1',None); return
+        if fname=='_allzero':
+            # the compiler's test that n bytes at p are all zero: p r4, n r5, result r0 (1 when all zero); r1-r7 are used up
+            if tail: raise Skip('helper as a tail call')
+            p_=ex(c.gi('r4')); n_=ex(c.gi('r5')); t=fresh(False); k=fresh(False)
+            emit('int %s = 1;'%t); emit('int %s;'%k)
+            emit('for (%s = 0; %s < (int)%s; %s++) { if (*(unsigned char *)(%s + %s) != 0) { %s = 0; break; } }'%(k,k,n_,k,p_,k,t))
+            for n_r in range(1,8): c.R.pop('r%d'%n_r,None)
+            c.R['r0']=('e',t); return
         if fname in ('_quick_odd_mvn','_quick_evn_mvn','_quick_mvn','_slow_mvn'):
             # a block copy: length r0 (bytes), destination r1, source r2; r0 is left unknown (and r1 for the byte copy), r2-r7 are kept
             n=c.gi('r0')
@@ -645,17 +680,39 @@ def _run(name,passthru=False,frame=False):
             r='fr%d'%n
             if r in c.FR and c.FR[r]!=DIRTY: fav.append(n)
         ar=None if ind else callee_arity(fname)
-        isadd=lambda x:bool(x) and x[0]=='add' and parse_ops(x[1])[-1]=='r15'
+        def isadd(x):                  # an add to r15 that drops exactly the words pushed for this call (a bigger one is the frame's teardown)
+            if not (x and x[0]=='add' and parse_ops(x[1])[-1]=='r15'): return False
+            o_=parse_ops(x[1])[0]
+            if o_.startswith('#') and c.pend:
+                try: return int(o_[1:],0)==4*len(c.pend)
+                except ValueError: return True
+            return True
         cleanup=isadd(after) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
         spill=bool(ar) and ar[0]<=4 and bool(c.pend) and not cleanup    # a callee taking at most four integer arguments and no cleanup: what is on the stack was saved, not passed
         if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
+        if avail and c.pcalls==0 and not c.pt:           # a register below the highest one set that the function never touched is its own incoming argument, passed straight on
+            hole=[n for n in range(4,max(avail)) if n not in avail and 'r%d'%n not in c.R]
+            if hole and all(n in (4,5,6,7) for n in hole): avail=sorted(set(avail)|set(hole))
+        elif avail and not c.pt and ar is None:
+            # a call of unknown arity (an address, a function pointer): the check compares only the argument registers the function changed,
+            # so a register it never set (clobbered by earlier calls) goes as 0
+            hole=[n for n in range(4,max(avail)) if n not in avail and 'r%d'%n not in c.R]
+            if hole and all(n in (4,5,6,7) for n in hole):
+                for n in hole: c.R['r%d'%n]=0
+                avail=sorted(set(avail)|set(hole))
         ia=[]
         k=4
         while k in avail: ia.append(k); k+=1
         if any(x>=k for x in avail): raise Skip('arg gap')
+        if fav and not c.pt and (c.pcalls==0 or ar is None):      # a float argument register below the highest one set: the function's own incoming argument passed on, or 0 for an unknown-arity call
+            fhole=[n for n in range(4,max(fav)) if n not in fav and 'fr%d'%n not in c.FR]
+            if fhole:
+                if c.pcalls!=0:
+                    for n in fhole: c.FR['fr%d'%n]=('e','0.0f')
+                fav=sorted(set(fav)|set(fhole))
         fa=[]; k=4
         while k in fav: fa.append(k); k+=1
         if any(x>=k for x in fav): raise Skip('farg gap')
@@ -698,7 +755,7 @@ def _run(name,passthru=False,frame=False):
         t='t%d'%c.ntemp; c.ntemp+=1
         c.blocks[-1].append('%s %s = %s;'%('float' if isf else 'int',t,call))
         c.lastcall=None if ind else (c.blocks[-1],len(c.blocks[-1])-1,t,fname)
-        c.ncalls+=1
+        c.ncalls+=1; c.pcalls+=1
         for n in range(1,8):
             c.R.pop('r%d'%n,None)
         for n in range(0,12): c.FR.pop('fr%d'%n,None)
@@ -777,10 +834,11 @@ def _run(name,passthru=False,frame=False):
         if s: c.blocks[-1].append(s)
 
     # ---- machine state ----
-    def regs_state(): return (dict(c.R),dict(c.FR),c.fpul,dict(c.stack),c.macl,c.D,list(c.pend),(c.sz,c.swapped,dict(c.XF)))
+    def regs_state(): return (dict(c.R),dict(c.FR),c.fpul,dict(c.stack),c.macl,c.D,list(c.pend),(c.sz,c.swapped,dict(c.XF)),c.pcalls)
     def set_regs(st):
         c.R,c.FR,c.fpul,c.stack,c.macl,c.D,c.pend=dict(st[0]),dict(st[1]),st[2],dict(st[3]),st[4],st[5],list(st[6])
         if len(st)>7: c.sz,c.swapped,c.XF=st[7][0],st[7][1],dict(st[7][2])
+        if len(st)>8: c.pcalls=st[8]
     # a snapshot keeps the statement lists themselves (their callers hold them) and restores their contents
     def snap():
         d={k:v for k,v in c.__dict__.items() if k not in ('blocks','stmts')}
@@ -792,6 +850,15 @@ def _run(name,passthru=False,frame=False):
         c.blocks=[b for b,_ in bl]; c.stmts=c.blocks[0]
     def fresh(isf):
         t=('u%d' if isf else 't%d')%c.ntemp; c.ntemp+=1; return t
+    def xf_snapshot(bank):
+        """Fill the unset registers of bank (the matrix bank as the caller left it) with the values st_ext reads from the hardware."""
+        m_=fresh(True); emit('float %s[16];'%m_)
+        c.protos['_builtin_st_ext']=('float (*)[4]',)
+        emit('_builtin_st_ext((float (*)[4])%s);'%m_)
+        for i in range(16):
+            if 'fr%d'%i not in bank: bank['fr%d'%i]=('e','%s[%d]'%(m_,i))
+        c.xf_entry=True
+    c.xf_snapshot=xf_snapshot
 
     # registers that a loop changes from one pass to the next are C variables updated where the instruction runs;
     # everything else stays a symbolic expression
@@ -893,14 +960,26 @@ def _run(name,passthru=False,frame=False):
                 else:
                     emit('%s %s = %s;'%(ty,var,f(va))); B.append('%s = %s;'%(var,f(vb)))
                 out[r]=('e',var)
+        argslots={}
+        for k in sorted(set(stA[3])|set(stB[3])):
+            if k[0]>=0 and stA[3].get(k)!=stB[3].get(k):          # a stack argument slot the arms left different: a variable carries it
+                if k[1]=='f': raise Skip('float stack argument slot written in one arm')
+                nslot=8+k[0]//4
+                tv=fresh(False); emit('int %s = 0;'%tv)
+                for blk_,st_ in ((A,stA),(B,stB)):
+                    v_=st_[3].get(k)
+                    if v_ is None: c.iuse.add(nslot); v_=('s','a%d'%nslot)
+                    blk_.append('%s = %s;'%(tv,ex(v_)))
+                argslots[k]=('e',tv)
         stack={k:v for k,v in stA[3].items() if stB[3].get(k)==v}
+        stack.update(argslots)
         def special(a_,b_):
             # fpul / macl: equal, or set on both arms to different values (a variable assigned in each arm)
             if a_==b_: return a_
             if a_ is None or b_ is None or a_==DIRTY or b_==DIRTY or isinstance(a_,tuple) and a_[0] in ('addr','srx') or isinstance(b_,tuple) and b_[0] in ('addr','srx'): return None
             v_=fresh(False); emit('int %s;'%v_); A.append('%s = %s;'%(v_,ex(a_))); B.append('%s = %s;'%(v_,ex(b_)))
             return ('e',v_)
-        set_regs((R,FR,special(stA[2],stB[2]),stack,special(stA[4],stB[4]),stA[5],pendM))
+        set_regs((R,FR,special(stA[2],stB[2]),stack,special(stA[4],stB[4]),stA[5],pendM)); c.pcalls=max(stA[8],stB[8])
 
     def outer_join(J):
         """A join inside a loop that is not running (one arm entered the cycle partway) is where that loop leaves."""
@@ -1025,7 +1104,7 @@ def _run(name,passthru=False,frame=False):
                     out[r]=('e',var)
             st0=live[0][0]
             stack={k2:v for k2,v in st0[3].items() if all(st[3].get(k2)==v for st,A,o in live)}
-            set_regs((R,FR,st0[2] if all(st[2]==st0[2] for st,A,o in live) else None,stack,st0[4] if all(st[4]==st0[4] for st,A,o in live) else None,st0[5],list(st0[6])))
+            set_regs((R,FR,st0[2] if all(st[2]==st0[2] for st,A,o in live) else None,stack,st0[4] if all(st[4]==st0[4] for st,A,o in live) else None,st0[5],list(st0[6]))); c.pcalls=max(st[8] for st,A,o in live)
             cur=regs_state()
         elif live: cur=live[0][0]
         txt='switch (%s) {\n'%idx
@@ -1128,7 +1207,7 @@ def _run(name,passthru=False,frame=False):
                 for r in set(mm)|set(o[k]):
                     if mm.get(r)!=o[k].get(r): mm[r]=DIRTY
         for (k,r),(var,isf) in newreg.items(): (FR if isf else R)[r]=('e',var)
-        set_regs((R,FR,st[2] if all(o[2]==st[2] for o in exits_) else None,{k:v for k,v in st[3].items() if all(o[3].get(k)==v for o in exits_)},st[4] if all(o[4]==st[4] for o in exits_) else None,st[5],list(st[6])))
+        set_regs((R,FR,st[2] if all(o[2]==st[2] for o in exits_) else None,{k:v for k,v in st[3].items() if all(o[3].get(k)==v for o in exits_)},st[4] if all(o[4]==st[4] for o in exits_) else None,st[5],list(st[6]))); c.pcalls=max(o[8] for o in exits_)
         c.T=None
         return E
 
@@ -1170,7 +1249,14 @@ def _run(name,passthru=False,frame=False):
             if mn in ('jsr','bsr','bsrf'):
                 if mn=='bsr': tgt=target_of(ops)
                 elif mn=='bsrf':                               # pc-relative call through a register: the target is the address of the next instruction after the delay slot plus the register
-                    v=c.gi(parse_ops(ops)[0])
+                    rg=parse_ops(ops)[0]
+                    v=c.gi(rg)
+                    if not isint(v):                              # a register the generator holds as a variable (a loop carries it): the code loaded it from a pool just before
+                        for k_ in range(i-1,max(i-9,-1),-1):
+                            m_=ins[k_]
+                            mm_=re.match(r'^@\(0x[0-9a-f]+,pc\),%s\s*;\s*=([0-9a-fA-F]+)'%rg,m_[1]) if m_[0]=='mov.l' else None
+                            if mm_: v=int(mm_.group(1),16); break
+                            if re.search(r',\s*%s\s*(;|$)'%rg,m_[1]) or m_[0] in ('bra','jsr','bsr','bsrf','rts','jmp','bt','bf','bt/s','bf/s'): break
                     if not isint(v): raise Skip('flow bsrf')
                     tgt=(pc+4+v)&0xFFFFFFFF
                 else:

@@ -13,6 +13,10 @@ Reads each function's disassembly and says "ok" or "blocked: <why>" before anyon
 No C form: a control register this compiler has no intrinsic for (a banked register, DBR, SSR, SPC, SGR: not in smachine.h or
 umachine.h, which hold the intrinsics for SR, VBR, GBR, sleep, trapa, tas and prefetch). no_c_form() names the instruction, and
 only instructions control flow reaches are read (data inside a function, such as a jump table, decodes as instructions otherwise). progress.py counts these functions as done: no C form.
+No C form, by register convention: a function that reads r0-r3 or r8-r14 it never writes, or whose first use of the T flag is a read
+(bt, bf, movt, rotcl, rotcr, addc, subc, negc, div1 before anything sets it), takes that register or flag from its caller or from a helper
+it calls. Assembly routines did this; SHC reaches them from C through #pragma inline_asm and #pragma regsave/noregsave (see the messages in
+shc/bin/shcerr.msg), and C itself has no way to take a flag as an argument or return one.
 A function that takes a variable argument list, or passes the address of its own stack area on, cannot
 be told from the disassembly: the first case that differs shows it.
 """
@@ -83,6 +87,39 @@ def register_inputs(exe, base, a, sz):
     return sorted(r for r in uses if r not in defs and (r <= 3 or 8 <= r <= 14))
 
 
+T_READERS = ('bt', 'bf', 'bt/s', 'bf/s', 'movt', 'rotcl', 'rotcr', 'addc', 'subc', 'negc', 'div1')
+T_WRITERS = ('cmp/eq', 'cmp/ge', 'cmp/gt', 'cmp/hi', 'cmp/hs', 'cmp/pl', 'cmp/pz', 'cmp/str', 'tst', 'dt', 'shll', 'shlr', 'shal', 'shar',
+             'rotl', 'rotr', 'sett', 'clrt', 'div0s', 'div0u', 'addv', 'subv', 'tas.b', 'fcmp/eq', 'fcmp/gt')
+
+
+def t_input(exe, base, a, sz):
+    """True when the first instruction from the entry that touches the T flag reads it (a flag the caller or a helper it calls left)."""
+    pc = a
+    while pc < a + sz:
+        t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
+        op = t.split()[0]
+        if op in T_READERS:
+            return True
+        if op in T_WRITERS:
+            return False
+        if op in ('rts', 'rte', 'jmp', 'bra', 'braf'):
+            return False                                     # control left before any use of T
+        pc += 2
+    return False
+
+
+def runs_off(exe, base, a, sz):
+    """True when control flow from the entry runs to the end of the range without a return, jump or branch away: padding and address
+    constants the function list took for code (real code ends in rts, rte, jmp or bra)."""
+    seen = reachable(exe, base, a, sz)
+    if not seen or max(seen) < a + sz - 4:
+        return False
+    for pc in seen:
+        if shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0].split()[0] in ('rts', 'rte', 'jmp', 'braf', 'bra'):
+            return False
+    return True
+
+
 def no_c_form(exe, base, a, sz):
     """The instructions of one function that have no C form with this compiler (see above): ['ldc r3,r0_bank', ...], pools skipped."""
     out = []
@@ -90,8 +127,10 @@ def no_c_form(exe, base, a, sz):
         t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
         if t.startswith(('stc', 'ldc')) and any(k in t for k in NO_C_FORM) and t not in out:
             out.append(t)
+    if t_input(exe, base, a, sz):
+        out.append('reads the T flag before anything sets it: a flag its caller or a helper it calls left (a custom convention)')
     ri = register_inputs(exe, base, a, sz)
-    if ri:
+    if ri and not out:
         out.append('reads r%s, which it never writes (a custom register convention)' % ', r'.join(str(r) for r in ri))
     return out
 

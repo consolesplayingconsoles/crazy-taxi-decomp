@@ -164,6 +164,7 @@ Act_Init
 Advtise
 BCDtoDEC
 Bezier
+BupInit
 CableControlInit
 CalcHomingVector
 CalcShadow2Matrix
@@ -355,6 +356,7 @@ FUN_0c031c5a
 FUN_0c032080
 FUN_0c0321c2
 FUN_0c03271e
+FUN_0c033234
 FUN_0c034872
 FUN_0c03495c
 FUN_0c0349d8
@@ -883,6 +885,7 @@ FUN_0c074ea0
 FUN_0c074eb0
 FUN_0c075090
 FUN_0c075120
+FUN_0c075330
 FUN_0c0753f0
 FUN_0c075400
 FUN_0c075410
@@ -923,6 +926,7 @@ FUN_0c077f70
 FUN_0c077f80
 FUN_0c077fa0
 FUN_0c078070
+FUN_0c0781a0
 FUN_0c078450
 FUN_0c078480
 FUN_0c0785a0
@@ -957,6 +961,9 @@ FUN_0c07a520
 FUN_0c07a540
 FUN_0c07aad0
 FUN_0c07aae0
+FUN_0c07aaf0
+FUN_0c07ab10
+FUN_0c07ab30
 FUN_0c07aca0
 FUN_0c07ade0
 FUN_0c07b460
@@ -1339,10 +1346,12 @@ GetMenuMode
 GetNumRideon
 GetRotVec
 GetRotVec4Ang
+GetStopPosCenter
 GoiTool
 InitAdvCamera
 InitArrow
 InitColliObj
+InitColliWall
 InitEffect
 InitHelicopter
 InitHomingVector
@@ -1636,6 +1645,7 @@ gdFsSetTmode
 gdFsTell
 gdc_CourseSet
 gdc_Err
+gdc_FileLoad
 gdc_FileLoadInitAll
 gdc_SpriteFreeMenu
 gdc_SpriteSetAdv
@@ -2104,6 +2114,7 @@ nlSin
 nlSinf
 nlSinh
 nlSprPut
+nlSprPutPosSet
 nlSpriteClearSpriteIndex
 nlSpriteF2C
 nlSpriteFreeTexture
@@ -2367,6 +2378,7 @@ vmsfs_init
 vmsfs_init_work_new
 vmsfs_init_work_normal
 vmsfs_isready
+vmsfs_load_file
 vmsfs_memcmp
 vmsfs_mount
 vmsfs_mount2

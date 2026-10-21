@@ -81,6 +81,8 @@ def read_one(task):
 
 def main():
     fresh = '--fresh' in sys.argv
+    table_only = '--table' in sys.argv            # print only the by-state table (for the README): reads nothing, writes nothing
+    noread = '--no-read' in sys.argv or table_only            # report from what the steps already recorded: nothing is read here (a function with no read result is 'Not read')
     jobs = max(1, (os.cpu_count() or 2) - 2)
     if '--jobs' in sys.argv:
         jobs = max(1, int(sys.argv[sys.argv.index('--jobs') + 1]))
@@ -128,11 +130,14 @@ def main():
             data = json.load(open(cache_file))
             if data.get('tools') == th:
                 cache = data.get('read', {})
+            else:                       # the tools changed: what was readable is kept (a change nearly always widens what reads; --fresh re-reads all), what was not is read again
+                cache = {n: v for n, v in data.get('read', {}).items() if v[1] == 'readable' or noread}      # no-read mode shows the last known result even when it is from older tools
         except (ValueError, IOError):
             cache = {}
     key = lambda a, sz: hashlib.sha1(exe[a - base:a - base + sz]).hexdigest()
     todo = [(n, sz) for a, sz, n in undone if not n.startswith('_') and not cls.get(n, '').startswith('blocked')
             and cache.get(n, [None])[0] != key(a, sz)]
+    if noread: todo = []
     if todo:
         ctx = multiprocessing.get_context('fork')
         with ctx.Pool(jobs) as pool:
@@ -140,6 +145,7 @@ def main():
                 a, sz = [(x[0], x[1]) for x in undone if x[2] == name][0]
                 cache[name] = [key(a, sz), state]
         json.dump({'tools': th, 'read': cache}, open(cache_file, 'w'))
+    weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
     rows = []
     for a, sz, n in undone:
         if n.startswith('_'):
@@ -147,9 +153,11 @@ def main():
         elif cls.get(n, '').startswith('blocked'):
             cause = 'blocked: ' + cls[n][9:].split('(')[0].strip()
         else:
-            state = cache.get(n, [None, 'readable'])[1]
+            state = cache.get(n, [None, 'not read' if noread else 'readable'])[1]
             if state != 'readable':
                 cause = state
+            elif n in weak:
+                cause = 'weak: its cases ran too little of the original'
             else:
                 f = failed.get(n, '')
                 if 'DIFFERS' in f:
@@ -167,12 +175,15 @@ def main():
     fam['Runtime helpers and tables'] = collections.defaultdict(list)
     fam['Translated: the check differs or gives no cases'] = collections.defaultdict(list)
     fam['Readable: no result recorded yet'] = collections.defaultdict(list)
+    fam['Below the coverage bar'] = collections.defaultdict(list)
     fam['Other'] = collections.defaultdict(list)
     for cause, n, sz in rows:
         if cause.startswith('runtime helper'):
             target = 'Runtime helpers and tables'
         elif cause.startswith('blocked'):
             target = 'Blocked by classify.py'
+        elif cause.startswith('weak'):
+            target = 'Below the coverage bar'
         elif cause.startswith('translated'):
             target = 'Translated: the check differs or gives no cases'
         elif cause.startswith('readable'):
@@ -186,8 +197,27 @@ def main():
         fam[target][cause].append((n, sz))
     fromcache = sum(1 for n in cache if any(n == r[1] for r in rows))
     lines = ['# Remaining functions by state and shared cause', '', '%d functions are not done.' % len(rows), '']
-    print('%d functions are not done (generator reading: %d from state/, %d read now; tools %s)'
-          % (len(rows), fromcache - len(todo), len(todo), th[:8]))
+    if not table_only:
+        print('%d functions are not done (generator reading: %d kept from state/, %d read now; tools %s)'
+              % (len(rows), fromcache - len(todo), len(todo), th[:8]))
+    try:
+        gate = int(re.search(r'^MIN_COVERAGE = (\d+)', open(os.path.join(here, 'equiv.py')).read(), re.M).group(1))
+    except (IOError, OSError, AttributeError):
+        gate = 0
+    weak_label = 'Below %d%% test coverage threshold' % gate
+    stages = collections.OrderedDict((k, [0, 0]) for k in ('Not read', 'Read with errors', 'Not drawn', 'Drawn with errors', 'Checked with errors', weak_label))
+    for cause, n, sz in rows:
+        st = (weak_label if cause.startswith('weak') else 'Checked with errors' if cause.startswith('translated, differs') or cause.endswith('does not compile') else
+              'Drawn with errors' if cause.startswith('translated, no cases') else 'Not drawn' if cause.startswith('readable') else
+              'Not read' if cause.startswith('not read') else 'Read with errors')
+        stages[st][0] += 1; stages[st][1] += sz
+    print('Where the functions that are not done stand: %d functions, the first step each has not passed' % len(rows))
+    print('%-52s %5s %9s' % ('State', 'Funcs', 'Bytes'))
+    for st, (k, by) in stages.items():
+        print('%-52s %5d %9d' % (st, k, by))
+    if table_only:
+        return
+    print('')
     print('%-52s %5s %9s' % ('Family', 'Funcs', 'Bytes'))
     for name, causes in fam.items():
         k = sum(len(v) for v in causes.values())
