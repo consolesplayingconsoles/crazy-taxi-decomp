@@ -209,12 +209,14 @@ def stackish(v):
     return 'STACK' if 0x0DFF0000 <= int(v, 16) < 0x0E000000 else v
 
 
-def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None):
+def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
     to = '%08X' % (0x0C000000 | (int(to, 16) & 0x1FFFFFFF)) if 0x0C000000 <= (int(to, 16) & 0x1FFFFFFF) < 0x0D000000 else to   # the cached, uncached and plain addresses of the same RAM word
     a = arity.get(int(to, 16))
-    if a is None and ind is not None:        # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers
+    if a is None and indmap and int(to, 16) in indmap:      # a call through a literal address: its own cast says how many integer arguments it passes
+        r = r[:indmap[int(to, 16)]]
+    elif a is None and ind is not None:      # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers
         r = r[:ind]
     if a is None and chg:                    # a callee of unknown arity: only the registers the function set are arguments, the rest are leftovers
         r = [v if ch else '*' for v, ch in zip(r, chg)]
@@ -225,6 +227,27 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None):
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
             return (to, [stackish(stack)], [])
     return (to, [stackish(v) for v in r], f)
+
+
+def indirect_targets(cfile, fn):
+    """{address: integer arguments} for the calls the C of one function makes through a cast on a literal address
+    ((int (*)(int))(0xAC01193A)(x) is {0x0C01193A: 1}); the most when one address is called with different counts."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    m = re.search(r'\b%s\s*\([^;{)]*\)\s*\{' % re.escape(fn), text)
+    if not m:
+        return {}
+    depth, i = 1, m.end()
+    while i < len(text) and depth:
+        depth += {'{': 1, '}': -1}.get(text[i], 0)
+        i += 1
+    out = {}
+    for c in re.finditer(r'\(\s*[\w\s\*]+\(\*\)\s*\(([^)]*)\)\s*\)\s*\(\s*0[xX]([0-9A-Fa-f]+)\s*\)', text[m.end():i]):
+        ps = c.group(1).strip()
+        n = 0 if ps in ('', 'void') else len([q for q in ps.split(',') if not re.search(r'\b(float|double)\b', q) or '*' in q])
+        a = int(c.group(2), 16)
+        a = 0x0C000000 | (a & 0x1FFFFFFF) if 0x0C000000 <= (a & 0x1FFFFFFF) < 0x0D000000 else a
+        out[a] = max(out.get(a, 0), n)
+    return out
 
 
 def indirect_arity(cfile, fn):
@@ -245,7 +268,7 @@ def indirect_arity(cfile, fn):
     return max(counts) if counts else None
 
 
-def same(a, b, outs, back, arity=None, ind=None):
+def same(a, b, outs, back, arity=None, ind=None, indmap=None):
     """The parts of two runs that must agree, and the first difference. back maps an address in
     the compiled C (one of its own functions or data) to the game's address of the same name."""
     arity = arity or {}
@@ -258,9 +281,9 @@ def same(a, b, outs, back, arity=None, ind=None):
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
             xs = x
-            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg')) for c in xs]
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap) for c in xs]
             y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None,
-                          xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None) for i, c in enumerate(y)]
+                          xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None, indmap) for i, c in enumerate(y)]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
@@ -327,7 +350,7 @@ def main(argv):
             observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1
             mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
             n += 1
-            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn))
+            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn), indirect_targets(cfile, fn))
             if orig['error']:
                 good, diff = False, 'the original stopped: ' + orig['error']
             if not good:

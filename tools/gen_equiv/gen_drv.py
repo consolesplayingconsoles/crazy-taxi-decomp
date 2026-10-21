@@ -128,6 +128,24 @@ def _names_hardware(src):
         ram=0x0C000000<=v<0x0D000000 or 0x8C000000<=v<0x8D000000 or 0xAC000000<=v<0xAD000000
         if v>=0x00200000 and not ram: return True
     return False
+_SAVED={}
+NOSTACK=[True]     # the function being drawn takes no stack arguments
+def _saved_words(name):
+    """The prologue's pushes before the frame is made: (words pushed, the slots holding an argument register, which the body may read
+    back). Slot i is the i-th push, at 4*(i+1) below the entry stack pointer."""
+    if name not in _SAVED:
+        import shdis
+        st,sz=G.SPANS.get(name,(0,0)); k=0; spill=set()
+        for pc in range(st,min(st+sz,st+48),2):
+            t=shdis.decode(struct.unpack_from('<H',G.BIN,pc-G.BASE)[0],pc)[0]
+            m=re.match(r'(mov\.l r(\d+)|sts\.l (pr|macl|mach)|fmov\.s fr(\d+)),@-r15$',t)
+            if m:
+                if m.group(2) and int(m.group(2))<4: break                 # r0-r3 pushed: an argument for a call, the prologue is over
+                if (m.group(2) and 4<=int(m.group(2))<=7) or m.group(4): spill.add(k)      # an argument register, or a float register (its pops may be paired): not checked
+                k+=1
+            elif re.search(r',r15$',t) or t.startswith(('rts','bra','jmp','jsr','bsr','b')): break      # the frame is made (any change to r15), or the code branches
+        _SAVED[name]=(k,spill)
+    return _SAVED[name]
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -140,6 +158,15 @@ def original_runs(name,case):
     base=int(open('BASE').read().strip(),16)
     r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=max(100000,size*60)),'.',deep=lambda t:t in RUNTIME)
     LAST_READS[:]=r.get('reads',[])
+    k,spill=_saved_words(name)
+    if k and not r['error']:
+        top=int(case.get('regs',{}).get('r15','%X'%(sh4sim.STACK_TOP-0x100)),16)
+        hi=top+(0x40 if NOSTACK[0] else 0)        # above the saved words is the caller's frame: only a function that takes stack arguments reads there
+        spilled={top-4*(i+1) for i in spill}            # an argument register the prologue pushed: the body may read it back
+        seen=[a&~3 for a in r.get('reads',[]) if top-4*k<=a<hi and (a&~3) not in spilled]
+        if seen and seen!=sorted(top-4*(i+1) for i in range(k) if i not in spill):      # the only other reads there are the epilogue's pops, in order     # it read its own saved registers or return address beyond the epilogue's pops: an index past the end of a local table, which the game never makes
+            ERRS['reads its own saved registers']=ERRS.get('reads its own saved registers',0)+1
+            return None,set()
     if r['error']:
         ERRS[str(r['error'])[:70]]=ERRS.get(str(r['error'])[:70],0)+1
         return None,set()
@@ -202,6 +229,7 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         chosen.append(d)
     return chosen
 def tests(name,c,src):
+    NOSTACK[0]=not any(n>=8 for n in c.iuse)
     HW[0]=_names_hardware(src)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
     loopy=c.has_loop

@@ -93,10 +93,10 @@ def run_variant(name, variant):
     cap = {}
     orig_same, orig_run = equiv.same, sh4sim.run
 
-    def same(a, b, outs, back, arity=None, ind=None):
-        ok, diff = orig_same(a, b, outs, back, arity, ind)
+    def same(a, b, outs, back, arity=None, ind=None, indmap=None):
+        ok, diff = orig_same(a, b, outs, back, arity, ind, indmap)
         if not ok and 'a' not in cap:
-            cap.update(a=a, b=b, diff=diff, back=back, arity=arity, ind=ind)
+            cap.update(a=a, b=b, diff=diff, back=back, arity=arity, ind=ind, indmap=indmap)
         return ok, diff
     equiv.same = same
     sh4sim.run = lambda case, *a, **k: orig_run(dict(case, trace=True), *a, **k)
@@ -113,15 +113,15 @@ def run_variant(name, variant):
 
 
 def report(name, variant, cap, text):
-    a, b, back, arity, ind = cap['a'], cap['b'], cap['back'], cap['arity'] or {}, cap['ind']
+    a, b, back, arity, ind, indmap = cap['a'], cap['b'], cap['back'], cap['arity'] or {}, cap['ind'], cap.get('indmap')
     diff = cap['diff']
     print('variant %s: %s' % (variant, diff[:200]))
     if not diff.startswith('calls:'):
         return
     fix = lambda h: '%08X' % back.get(int(h, 16), int(h, 16))
-    x = [equiv.callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg')) for c in a['calls']]
+    x = [equiv.callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap) for c in a['calls']]
     y = [equiv.callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None,
-                        a['calls'][i].get('chg') if i < len(a['calls']) else None, ind, a['calls'][i].get('fchg') if i < len(a['calls']) else None)
+                        a['calls'][i].get('chg') if i < len(a['calls']) else None, ind, a['calls'][i].get('fchg') if i < len(a['calls']) else None, indmap)
          for i, c in enumerate(b['calls'])]
     k = next((i for i, (p, q) in enumerate(zip(x, y)) if p != q), min(len(x), len(y)))
     print('calls: original %d, C %d; the first difference is call %d' % (len(x), len(y), k))
@@ -173,8 +173,8 @@ def main():
     if name not in gen_core.SPANS:
         sys.exit('%s is not in functions.txt' % name)
     lock = open('state/.gen.lock', 'w')
-    saved = {f: open(f).read() for f in KEEP if os.path.exists(f)}
     fcntl.flock(lock, fcntl.LOCK_EX)
+    saved = {f: open(f).read() for f in KEEP if os.path.exists(f)}      # taken with the lock held: what other runs recorded while this one waited stays
     try:
         for v in variants:
             try:

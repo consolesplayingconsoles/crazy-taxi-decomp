@@ -127,6 +127,7 @@ _ARITY={}
 _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','neg','negc','not','swap.b','swap.w','sts','sts.l','float','mova',
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
 _COMPARE=('cmp','tst','fcmp')
+class _PassThrough(Exception): pass
 def callee_arity(fname):
     """(integer arguments, float arguments) a function reads before it writes them, from a straight scan of its code up to its
     first return: r4-r7 and fr4-fr11. None when the code cannot be read. A guess for the prototype, not a proof: the call is
@@ -171,10 +172,14 @@ def callee_arity(fname):
                 if re.fullmatch(r'r[4-7]',r): maxi=max(maxi,int(r[1:])-4)
                 elif re.fullmatch(r'fr(4|5|6|7|8|9|10|11)',r): maxf=max(maxf,int(r[2:])-4)
             if dest: wrote.add(dest)
+            if mn in ('jsr','bsr','bsrf','jmp','braf') and maxi<0 and maxf<0 and not ({'r4','r5','r6','r7'}&wrote) and SPANS.get(fname,(0,99))[1]<=32:
+                raise _PassThrough()     # a call before it has read or written any argument register: a wrapper passing its arguments on, arity unknown
             if mn in ('jsr','bsr'):
                 wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
             if mn=='rts': after_ret=2
         res=(maxi+1,maxf+1)
+    except _PassThrough:
+        res=None
     except Exception:
         res=None
     _ARITY[fname]=res
@@ -1043,6 +1048,12 @@ def _run(name,passthru=False,frame=False,flat=False):
                 bad=lambda v: v is not None and (v==DIRTY or (isinstance(v,tuple) and v[0] in ('addr','srx')))
                 if bad(va) or bad(vb) or (va is None and vb is None):
                     out[r]=DIRTY; c.dwhy[r]='%s | %s'%(str(va)[:40],str(vb)[:40]); continue
+                own=('s','a%d'%int(r[1:])) if not isf and r[1:].isdigit() and 4<=int(r[1:])<=7 else ('s','f%d'%int(r[2:])) if isf and r[2:].isdigit() and 4<=int(r[2:])<=11 else None
+                if own:         # an argument register an arm never touched, with no call made yet, still holds the function's own argument
+                    if va is None and stA[8]==0: va=own
+                    if vb is None and stB[8]==0: vb=own
+                    if va==vb:
+                        out[r]=va; continue
                 if va is None or vb is None:
                     # one arm never sets the register: the code after the join reads it only where it was set (the compiler keeps the two
                     # in step), so it becomes a variable assigned on the arm that sets it

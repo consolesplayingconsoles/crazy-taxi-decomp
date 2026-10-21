@@ -22,6 +22,8 @@ ADXB_EntryAddWrFunc
 ADXB_EntryData
 ADXB_EntryGetWrFunc
 ADXB_EvokeDecode
+ADXB_EvokeExpandMono
+ADXB_EvokeExpandSte
 ADXB_ExecHndl
 ADXB_ExecOneAdx
 ADXB_ExecOneAiff
@@ -194,6 +196,7 @@ Chat_Direction
 Chat_Execute
 Chat_HeyTaxi
 Chat_PickSomeoneUp
+Chat_TellDestination
 Check2DAreaDX
 CheckAreaGrid
 CheckClipping
@@ -222,6 +225,7 @@ ExecStartCamera
 Exec_Balloon
 FUN_0c010158
 FUN_0c0103aa
+FUN_0c010402
 FUN_0c0105d4
 FUN_0c010630
 FUN_0c010682
@@ -233,8 +237,11 @@ FUN_0c010954
 FUN_0c01098c
 FUN_0c0109c4
 FUN_0c010a98
+FUN_0c010f3e
 FUN_0c0110e6
 FUN_0c01117e
+FUN_0c0111e8
+FUN_0c0112c6
 FUN_0c0113b4
 FUN_0c0115ba
 FUN_0c0119a8
@@ -336,6 +343,7 @@ FUN_0c02e572
 FUN_0c02e58a
 FUN_0c02e646
 FUN_0c02e682
+FUN_0c02e6b2
 FUN_0c02e71e
 FUN_0c02e75a
 FUN_0c02e800
@@ -508,6 +516,7 @@ FUN_0c03bf42
 FUN_0c03bf76
 FUN_0c03c10e
 FUN_0c03c792
+FUN_0c03ccca
 FUN_0c03cd2c
 FUN_0c03d44e
 FUN_0c03d594
@@ -585,6 +594,7 @@ FUN_0c04a090
 FUN_0c04a38a
 FUN_0c04a3d2
 FUN_0c04a4d6
+FUN_0c04a52a
 FUN_0c04a8b6
 FUN_0c04aac6
 FUN_0c04ac8c
@@ -686,6 +696,7 @@ FUN_0c0538a4
 FUN_0c053ac0
 FUN_0c053b44
 FUN_0c053b76
+FUN_0c053dec
 FUN_0c05423a
 FUN_0c0543fc
 FUN_0c054452
@@ -706,6 +717,7 @@ FUN_0c055aca
 FUN_0c055b38
 FUN_0c055cf4
 FUN_0c0563f8
+FUN_0c056460
 FUN_0c056e80
 FUN_0c056ed8
 FUN_0c056ff8
@@ -869,6 +881,7 @@ FUN_0c060aee
 FUN_0c060b84
 FUN_0c060da6
 FUN_0c060dfc
+FUN_0c060e18
 FUN_0c060f38
 FUN_0c0618da
 FUN_0c061b14
@@ -1034,6 +1047,7 @@ FUN_0c077270
 FUN_0c077290
 FUN_0c0772e0
 FUN_0c077470
+FUN_0c077590
 FUN_0c0775d0
 FUN_0c0777ec
 FUN_0c077830
@@ -1197,6 +1211,7 @@ FUN_0c080c50
 FUN_0c080d70
 FUN_0c0813d0
 FUN_0c0813e0
+FUN_0c081470
 FUN_0c08160a
 FUN_0c081650
 FUN_0c085c60
@@ -1204,6 +1219,7 @@ FUN_0c085d20
 FUN_0c085dfc
 FUN_0c0868c0
 FUN_0c087474
+FUN_0c087bb0
 FUN_0c087db4
 FUN_0c087e1a
 FUN_0c087e2a
@@ -2055,6 +2071,7 @@ kmiDMAtoTARequest
 kmiDefaultInterruptHandler
 kmiDiscardRenderPipeline
 kmiExecuteDMAChain
+kmiFBControl
 kmiFBGarbageCollect
 kmiFBSortQueue
 kmiFBalloc
@@ -2067,9 +2084,12 @@ kmiFBinit
 kmiFBreset
 kmiFatalErrorEntry
 kmiFinalizeRender
+kmiFlipVertexBuffer
 kmiGetNativeRegOBPSize
 kmiGetPackOBPParam
+kmiGetProfileInt
 kmiGetSysConfigFlag
+kmiGetVertexBasePointer
 kmiInitCallback
 kmiInitInterrupt
 kmiInitNTSC
@@ -2127,6 +2147,7 @@ kyakuInDestArea2
 kyakuInitStops
 kyakuMiniGameAreaOk
 kyakuStopAreaVisible
+kyakuTaskExec
 kyakuTaskStart
 loadCity
 make_header
@@ -2513,6 +2534,7 @@ psgEnterState4
 psgEnterState5
 psgEnterState6
 psgFaceTaxi
+psgFrame
 psgFrameState0
 psgFrameState1
 psgFrameState3
@@ -2583,6 +2605,7 @@ syCfgSetSoundMode
 syChainClx1Handler
 syChainInit
 syChainMasterHandler
+syChainMasterHandlerPVR_V
 syG2AicaFifoWaitEmpty
 syG2DmaEndIntrruptHandler
 syG2DmaReset

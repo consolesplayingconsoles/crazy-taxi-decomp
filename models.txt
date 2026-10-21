@@ -218,8 +218,8 @@ motion MOTDC.BIN 2a4c08 Call Cab 3
 motion MOTDC.BIN 2a4f2c Idle 16
 motion MOTDC.BIN 2a5250 Idle 17
 motion MOTDC.BIN 2ac030 Call Cab 4
-motion MOTDC.BIN 2b2654 Jump Left
-motion MOTDC.BIN 2b8c78 Jump Right
+motion MOTDC.BIN 2b2654 Jump Right
+motion MOTDC.BIN 2b8c78 Jump Left
 
 # Tables, put under a group and label (kept sorted by the viewer).
 table 0C0266C4 Tables Arrow
