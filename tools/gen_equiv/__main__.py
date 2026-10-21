@@ -116,16 +116,22 @@ def _read(n):
     except gen_core.Skip as e: return (n,re.sub(r'[0-9a-f]{4,}','',str(e).split()[0] if str(e) else '?'))
     except Exception as e: return (n,'EXC '+type(e).__name__)
     finally: signal.alarm(0)
+def stream(fn,names):
+    """fn over the names in worker processes (or here with --jobs 1); each result as it finishes, in the order the workers are given the names"""
+    if JOBS==1:
+        for r in map(fn,names): yield r
+        return
+    pool=multiprocessing.get_context("fork").Pool(JOBS)
+    try:
+        for r in pool.imap_unordered(fn,names): yield r
+    finally:
+        pool.close(); pool.join()
 def each(fn,names,what):
-    """fn over the names in worker processes (or here with --jobs 1); results as they finish, with a progress line"""
+    """fn over the names, all results, with a progress line"""
     got=[]
-    if JOBS==1: it=map(fn,names); pool=None
-    else:
-        pool=multiprocessing.get_context("fork").Pool(JOBS); it=pool.imap_unordered(fn,names)
-    for r in it:
+    for r in stream(fn,names):
         got.append(r)
         if len(got)%25==0 or len(names)<=60 or len(got)==len(names): note('%s %d of %d functions'%(what,len(got),len(names)))      # a small run shows every function
-    if pool: pool.close(); pool.join()
     return got
 note('reading %d functions with %d workers'%(len(tolook),JOBS))
 for n,why in each(_read,tolook,'read'):
@@ -138,11 +144,13 @@ if known:
     saved={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
 existing=[os.path.basename(f)[4:-2] for f in glob.glob('src/gen_*.c')]
 letters=[x for x in list(abc)+[a+b for a in abc for b in abc] if x not in existing]   # gen_a .. gen_z, then gen_aa ..
-remaining=sorted(cand,key=lambda n:gen_core.SPANS[n][1]); final=[]            # the smallest first: results arrive early
+remaining=sorted(cand,key=lambda n:-gen_core.SPANS[n][1]); final=[]            # the biggest first: the slow ones start early and never hold the others back
+BATCH=int(os.environ.get('GEN_BATCH','8000'))      # bytes of original code per batch: results are checked and written each time this many bytes have been drawn
 k=0
 ROUND=[0,False]
 def _draw(n):
     vi,pt=ROUND
+    t0=time.time()
     signal.alarm(int(max(BUILD_LIMIT,gen_core.SPANS[n][1]//8)*TIMEF))      # a larger function gets more time: size/8 seconds, at least 60, times GEN_TIME_FACTOR
     try:
         try: vs=gen_pipe.variants(n,pt)
@@ -154,71 +162,85 @@ def _draw(n):
         s,c=gen_drv.build(n,vs[vi],pt)
         if n in c.protos: return None
         t=gen_drv.tests(n,c,s)
-        return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None))
-    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)[:90]))
+        return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None,secs=round(time.time()-t0,1)))
+    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)[:90]),round(time.time()-t0,1))
     finally: signal.alarm(0)
 rounds=[(0,False)]      # one round: on Crazy Taxi the retry rounds (other code shapes) added nothing and cost as much time again
 done=set()
 ledger.rotate(FAILED,'report')
 if os.path.exists(FAILED): os.remove(FAILED)
-for ri,(vi,pt) in enumerate(rounds):
-    if not remaining: break
-    items=[]
-    note('round %d: drawing cases for %d functions (the slow part; results are written after each round)'%(ri,len(remaining)))
-    ROUND[:]=[vi,pt]
-    notdrawn=[]
-    for r in each(_draw,remaining,'  round %d: cases drawn for'%ri):
-        if r and r[0]=='skip': notdrawn.append(r)
-        elif r: items.append(r)
-    with open('state/case-survival%s.txt'%SUF,'w') as fh:       # per function: cases drawn, cases the original survived, and whether the holdout is independent
-        fh.write('function drawn survived holdout_independent\n')
+import keep as keepstore
+def flush(items,notdrawn,ri,vi,pt,order,bn):
+    """check and write one batch of drawn functions"""
+    with open('state/case-survival%s.txt'%SUF,'a') as fh:       # per function: cases drawn, cases the original survived, and whether the holdout is independent
         for it in items:
             st=it[4] if len(it)>4 else {}
             fh.write('%s %s %s %s\n'%(it[0],st.get('drawn','?'),st.get('survived','?'),st.get('holdout_independent','?')))
     with open(FAILED,'a') as fh:        # the functions that got no C or no cases, and why
         for _,n_,why in notdrawn: fh.write('%s  not drawn: %s\n'%(n_,why)); ledger.record(RUN,n_,'not drawn',why)
-    order={n:k for k,n in enumerate(remaining)}
     items.sort(key=lambda it:order[it[0]])
-    if not items: continue
+    if not items: return
     stem='gen_tmp%d'%ri
     lock()
-    KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
-    note('round %d: compiling and checking %d functions'%(ri,len(items)))
     try:
-        passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
-    finally:
-        restore_evidence()
-    print(ri,vi,pt,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
-    os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
-    import keep as keepstore
-    for it in items:
-        if it[0] in failed:
-            ledger.archive_cases(it[0],'state/failed-cases/%s.json'%it[0],'failed-before')
-            json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
-    for it in items:       # the work of what did not pass is kept (state/kept, local): a later fix re-checks it instead of drawing again
+        KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
+        note('round %d batch %d: compiling and checking %d functions'%(ri,bn,len(items)))
         try:
+            passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
+        finally:
+            restore_evidence()
+        print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
+        os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
+        for it in items:
             if it[0] in failed:
-                ln=next((l for l in gen_pipe.LAST.get('out','').splitlines() if l.split()[:1]==[it[0]]),'')
-                keepstore.save(it,'DIFFERS',' '.join(ln.split()[2:]),RUN,vi,pt)
-            elif it[0] in dropped: keepstore.save(it,'did not compile',gen_pipe.LAST.get('why',{}).get(it[0],''),RUN,vi,pt)
-            elif it[0] in passed: keepstore.drop(it[0])
-        except Exception as e: note('could not keep %s: %s'%(it[0],str(e)[:60]))
-    keep=[it for it in items if it[0] in passed]
-    with open(FAILED,'a') as fh:        # what failed and the first difference, for whoever improves the generator
-        for l in gen_pipe.LAST.get('out','').splitlines():
-            q=l.split()
-            if len(q)>1 and q[0] in failed: fh.write(l+'\n'); ledger.record(RUN,q[0],q[1],' '.join(q[2:]))
-        for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,''))); ledger.record(RUN,n,'did not compile',gen_pipe.LAST.get('why',{}).get(n,''))
-    for n in passed: ledger.record(RUN,n,'EQUIVALENT','')
-    done|=set(passed)
-    final.append((stem,keep,vi,pt))
-    if not known: write_batch(keep)
-    remaining=[n for n in remaining if n not in passed]
-    for f in ([] if os.environ.get('GEN_KEEP') else glob.glob('src/gen_tmp*.c')): os.remove(f)      # GEN_KEEP=1 leaves the scratch C to look at
-    for d in glob.glob('tests/gen_tmp*'): shutil.rmtree(d)
-    unlock()
+                ledger.archive_cases(it[0],'state/failed-cases/%s.json'%it[0],'failed-before')
+                json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
+        for it in items:       # the work of what did not pass is kept (state/kept, local): a later fix re-checks it instead of drawing again
+            try:
+                if it[0] in failed:
+                    ln=next((l for l in gen_pipe.LAST.get('out','').splitlines() if l.split()[:1]==[it[0]]),'')
+                    keepstore.save(it,'DIFFERS',' '.join(ln.split()[2:]),RUN,vi,pt)
+                elif it[0] in dropped: keepstore.save(it,'did not compile',gen_pipe.LAST.get('why',{}).get(it[0],''),RUN,vi,pt)
+                elif it[0] in passed: keepstore.drop(it[0])
+            except Exception as e: note('could not keep %s: %s'%(it[0],str(e)[:60]))
+        keep=[it for it in items if it[0] in passed]
+        with open(FAILED,'a') as fh:        # what failed and the first difference, for whoever improves the generator
+            for l in gen_pipe.LAST.get('out','').splitlines():
+                q=l.split()
+                if len(q)>1 and q[0] in failed: fh.write(l+'\n'); ledger.record(RUN,q[0],q[1],' '.join(q[2:]))
+            for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,''))); ledger.record(RUN,n,'did not compile',gen_pipe.LAST.get('why',{}).get(n,''))
+        for n in passed: ledger.record(RUN,n,'EQUIVALENT','')
+        done.update(passed)
+        final.append((stem,keep,vi,pt))
+        if not known: write_batch(keep)
+        for f in ([] if os.environ.get('GEN_KEEP') else glob.glob('src/gen_tmp*.c')): os.remove(f)      # GEN_KEEP=1 leaves the scratch C to look at
+        for d in glob.glob('tests/gen_tmp*'): shutil.rmtree(d)
+    finally:
+        unlock()
+for ri,(vi,pt) in enumerate(rounds):
+    if not remaining: break
+    size=lambda n:gen_core.SPANS[n][1]
+    total=sum(size(n) for n in remaining)
+    note('round %d: drawing cases for %d functions, %d bytes; checked and written every %d bytes (the biggest are drawn first)'%(ri,len(remaining),total,BATCH))
+    ROUND[:]=[vi,pt]
+    order={n:k for k,n in enumerate(remaining)}
+    open('state/case-survival%s.txt'%SUF,'w').write('function drawn survived holdout_independent\n')
+    items=[]; notdrawn=[]; got=0; gotb=0; batchb=0; bn=0
+    for r in stream(_draw,remaining):
+        got+=1
+        if r and r[0]=='skip':
+            notdrawn.append(r[:3]); b=size(r[1]); secs=r[3]; print('  drawn %-28s %6d B %7.1f s  not drawn: %s'%(r[1],b,secs,r[2]),flush=True)
+        elif r:
+            b=size(r[0]); print('  drawn %-28s %6d B %7.1f s'%(r[0],b,r[4].get('secs',0)),flush=True); items.append(r)
+        else: b=0
+        gotb+=b; batchb+=b
+        if got%25==0 or len(remaining)<=60 or got==len(remaining):
+            el=time.time()-T0; note('  round %d: %d of %d functions drawn, %d of %d bytes (about %d s left at this rate)'%(ri,got,len(remaining),gotb,total,el*(total-gotb)/max(gotb,1)))
+        if batchb>=BATCH:
+            bn+=1; flush(items,notdrawn,ri,vi,pt,order,bn); items=[]; notdrawn=[]; batchb=0
+    if items or notdrawn: bn+=1; flush(items,notdrawn,ri,vi,pt,order,bn)
+    remaining=[n for n in remaining if n not in done]
 if known:
-    for f,t in saved.items(): open(f,'w').write(t)
     print('known-equivalent functions written again and passing:',len(done))
     print('names:',' '.join(sorted(done)))
     sys.exit(0)
