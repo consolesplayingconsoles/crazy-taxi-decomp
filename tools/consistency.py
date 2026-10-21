@@ -8,7 +8,7 @@ What it looks at, for the functions of functions.txt that src/*.c defines (match
   defined twice      the same function in two files: the copy in the file whose cases exist stays, the other is removed
   stray cases        tests/<file>/<function>.json where <file>.c does not define the function: moved to the file that does, or
                      deleted when no file does (left behind when C moved or was regenerated)
-  no recorded pass   C and cases, but the function is neither in tests/equivalent.txt nor in tests/weak.txt: the file is checked
+  no recorded pass   C and cases, but the function is not in tests/equivalent.txt: the file is checked
                      again (tools/equiv.py); what still fails leaves src/
   no cases           C with no case file anywhere
 C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the generator writes it again; hand-written C moves to
@@ -61,8 +61,7 @@ def block(text, name):
 
 def lists():
     eq = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
-    weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
-    return eq, weak
+    return eq
 
 
 def survey():
@@ -73,7 +72,7 @@ def survey():
         stem, fn = p.split('/')[1], os.path.basename(p)[:-5]
         if fn in funcs and not stem.startswith(('gen_tmp', 'zz_')):
             cases.setdefault(fn, []).append(stem)
-    eq, weak = lists()
+    eq = lists()
     found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': []}
     for n, stems in sorted(defs.items()):
         if len(stems) > 1:
@@ -82,7 +81,7 @@ def survey():
         if st not in cases.get(n, []):
             if not cases.get(n):
                 found['no cases'].append((n, st))
-        elif n not in eq and n not in weak:
+        elif n not in eq:
             found['no recorded pass'].append((n, st))
     for n, stems in sorted(cases.items()):
         for st in stems:
@@ -142,9 +141,9 @@ def fix():
         stems = sorted({st for n, st in found['no recorded pass']})
         for st in stems:
             subprocess.run([sys.executable, 'tools/equiv.py', '-q', 'src/%s.c' % st], capture_output=True, text=True)
-        eq, weak = lists()
+        eq = lists()
         for n, st in found['no recorded pass']:
-            if n not in eq and n not in weak:
+            if n not in eq:
                 leave_src(n, st); done.append('%s: does not pass in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
         for n, st in found['no cases']:
             leave_src(n, st); done.append('%s: C with no cases in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))

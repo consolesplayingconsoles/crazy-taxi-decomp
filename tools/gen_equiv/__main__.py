@@ -44,7 +44,7 @@ def _term(sig,frm): raise SystemExit('stopped')
 signal.signal(signal.SIGTERM,_term)
 # equiv.py records every function it passes in tests/equivalent.txt and docs/equivalent.md, also for the scratch files of a round:
 # both are put back after each round, and if the run is stopped, so nothing is left there that has no C behind it
-KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md','tests/weak.txt') if os.path.exists(f)}
+KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
 def restore_evidence():
     for f,t in KEEP.items(): open(f,'w').write(t)
 READ_LIMIT=300       # seconds: a function whose reading does not finish in that time is skipped (some shapes loop for ever)
@@ -56,6 +56,25 @@ if '--direct' in sys.argv:
     import directed; directed.main([x for x in sys.argv[1:] if x!='--direct'],gen_drv.RUNTIME,gen_core.SPANS if False else {n:v for n,v in gen_core.SPANS.items()}); sys.exit(0)
 if '--lift' in sys.argv:
     import gen_retest; gen_retest.lift([x for x in sys.argv[1:] if x!='--lift']); sys.exit(0)
+abc='abcdefghijklmnopqrstuvwxyz'
+k=0
+def write_batch(keep):
+    global k
+    if not keep: return
+    protos={}
+    for it in keep:
+        for a,b in it[3].items(): protos[a]=b
+    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc] if not os.path.exists('src/gen_%s.c'%x))
+    head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
+    open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
+    shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
+    for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
+    r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%fn],capture_output=True,text=True)
+    note('%s: %d functions written, %s'%(fn,len(keep),(r.stdout+r.stderr).strip().splitlines()[-1]))
+if '--recheck' in sys.argv:
+    import keep as keepstore
+    wanted=[x for x in sys.argv[1:] if not x.startswith('--') and x!=RUN and not (sys.argv[sys.argv.index(x)-1] in ('--run','--jobs'))]
+    keepstore.recheck(wanted,'--rebuild' in sys.argv,RUN,write_batch,note,ledger,lock,unlock,restore_evidence); sys.exit(0)
 if '--retest' in sys.argv:
     import gen_retest; gen_retest.main([a for a in sys.argv[1:] if a.startswith('gen_')]); sys.exit(0)
 known='--known' in sys.argv
@@ -118,23 +137,9 @@ if known:
     # and tests it. The evidence equiv.py writes for them is put back afterwards.
     saved={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
 existing=[os.path.basename(f)[4:-2] for f in glob.glob('src/gen_*.c')]
-abc='abcdefghijklmnopqrstuvwxyz'
 letters=[x for x in list(abc)+[a+b for a in abc for b in abc] if x not in existing]   # gen_a .. gen_z, then gen_aa ..
 remaining=sorted(cand,key=lambda n:gen_core.SPANS[n][1]); final=[]            # the smallest first: results arrive early
 k=0
-def write_batch(keep):
-    global k
-    if not keep: return
-    protos={}
-    for it in keep:
-        for a,b in it[3].items(): protos[a]=b
-    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc] if not os.path.exists('src/gen_%s.c'%x))
-    head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
-    open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
-    shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
-    for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%fn],capture_output=True,text=True)
-    note('%s: %d functions written, %s'%(fn,len(keep),(r.stdout+r.stderr).strip().splitlines()[-1]))
 ROUND=[0,False]
 def _draw(n):
     vi,pt=ROUND
@@ -177,7 +182,7 @@ for ri,(vi,pt) in enumerate(rounds):
     if not items: continue
     stem='gen_tmp%d'%ri
     lock()
-    KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md','tests/weak.txt') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
+    KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
     note('round %d: compiling and checking %d functions'%(ri,len(items)))
     try:
         passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
@@ -185,17 +190,26 @@ for ri,(vi,pt) in enumerate(rounds):
         restore_evidence()
     print(ri,vi,pt,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
     os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
+    import keep as keepstore
     for it in items:
         if it[0] in failed:
             ledger.archive_cases(it[0],'state/failed-cases/%s.json'%it[0],'failed-before')
             json.dump(it[2],open('state/failed-cases/%s.json'%it[0],'w'))
+    for it in items:       # the work of what did not pass is kept (state/kept, local): a later fix re-checks it instead of drawing again
+        try:
+            if it[0] in failed:
+                ln=next((l for l in gen_pipe.LAST.get('out','').splitlines() if l.split()[:1]==[it[0]]),'')
+                keepstore.save(it,'DIFFERS',' '.join(ln.split()[2:]),RUN,vi,pt)
+            elif it[0] in dropped: keepstore.save(it,'did not compile',gen_pipe.LAST.get('why',{}).get(it[0],''),RUN,vi,pt)
+            elif it[0] in passed: keepstore.drop(it[0])
+        except Exception as e: note('could not keep %s: %s'%(it[0],str(e)[:60]))
     keep=[it for it in items if it[0] in passed]
     with open(FAILED,'a') as fh:        # what failed and the first difference, for whoever improves the generator
         for l in gen_pipe.LAST.get('out','').splitlines():
             q=l.split()
             if len(q)>1 and q[0] in failed: fh.write(l+'\n'); ledger.record(RUN,q[0],q[1],' '.join(q[2:]))
         for n in dropped: fh.write('%s  did not compile: %s\n'%(n,gen_pipe.LAST.get('why',{}).get(n,''))); ledger.record(RUN,n,'did not compile',gen_pipe.LAST.get('why',{}).get(n,''))
-    for n in passed: ledger.record(RUN,n,'WEAK' if n in gen_pipe.LAST.get('weak',()) else 'EQUIVALENT','')
+    for n in passed: ledger.record(RUN,n,'EQUIVALENT','')
     done|=set(passed)
     final.append((stem,keep,vi,pt))
     if not known: write_batch(keep)

@@ -418,17 +418,27 @@ def rescue(name, start, size, base, deep, steps=20000):
     found = []
     frontier = [{'about': 'rescue: empty case', 'regs': {}}]
     tried = set()
-    for _ in range(4):
+    for _ in range(16):                                          # a chain of waits needs one flip per link
         nxt = []
         for case in frontier:
             r = go(case)
             if not r['error']:
-                found.append(case); continue
+                case.pop('_score', None); found.append(case); continue
             tr = r.get('trace') or []
+            score = len(set(r.get('covered', [])))               # how far this run got: its children are kept in that order
             sides = {}
             where = {}
+            tail_from = max(0, len(tr) - 3000)                   # what keeps the run in place is in its tail: an earlier pass of the same loop may have exited
+            occ = {}
             for i, pc, taken in branches(tr):
-                sides.setdefault(pc, set()).add(taken); where.setdefault((pc, taken), i)
+                occ.setdefault(pc, []).append((i, taken))
+                if i < tail_from: continue
+                sides.setdefault(pc, set()).add(taken)
+            for pc, seen in list(sides.items()):
+                if len(seen) > 1: continue
+                T = next(iter(seen))
+                last_other = max([i for i, t in occ[pc] if t != T], default=-1)
+                where[(pc, T)] = min(i for i, t in occ[pc] if t == T and i > last_other)     # the first iteration of the pass that is stuck now
             for pc, seen in sorted(sides.items()):
                 if len(seen) > 1: continue
                 taken = next(iter(seen)); i = where[(pc, taken)]
@@ -446,20 +456,27 @@ def rescue(name, start, size, base, deep, steps=20000):
                         key = (pc, 'seq', pa[1], alt & M)
                         if key in tried: continue
                         tried.add(key)
-                        nc = copy.deepcopy(case); nc['about'] = 'rescue: %08X changes between reads' % pa[1]
+                        nc = copy.deepcopy(case); nc['about'] = 'rescue: %08X changes between reads' % pa[1]; nc['_score'] = score
                         nc.setdefault('seq_reads', {})['%08X' % pa[1]] = ['%08X' % v1] + ['%08X' % (alt & M)] * 60
                         nxt.append(nc)
                     continue
                 for which, prov, x, y in (('a', pa, a, b), ('b', pb, b, a)):
                     if not prov or prov[0] == 'seq': continue
-                    for cand in (candidates(kind, x, y) if which == 'a' else candidates_b(kind, y, x)):
+                    if kind == 'tst' and ar == br:                          # tst rn,rn: one value, nonzero or zero
+                        if which == 'b': continue
+                        cs = [c_ for c_ in (1, 2, 3, 0xFF, M, 0) if ((c_ & M) == 0) != (x & M == 0)]
+                    else:
+                        cs = candidates(kind, x, y) if which == 'a' else candidates_b(kind, y, x)
+                    for cand in cs:
                         key = (pc, which, prov[0], prov[1], cand if not isf else round(cand, 3))
                         if key in tried: continue
                         tried.add(key)
                         nc = apply(case, prov, cand)
                         if nc:
-                            nc['about'] = 'rescue: flips %08X' % pc; nxt.append(nc)
+                            nc['about'] = 'rescue: flips %08X' % pc; nc['_score'] = score; nxt.append(nc)
         if found and len(found) >= 6: break
-        frontier = nxt[:24]
+        nxt.sort(key=lambda x: -x.get('_score', 0))
+        frontier = nxt[:12]
         if not frontier: break
+    for f in found: f.pop('_score', None)
     return found[:6]

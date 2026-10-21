@@ -8,7 +8,7 @@
 Writes the function's generated C and its cases to scratch files, runs the equivalence check with an instruction trace on both the
 original and the compiled C, and reports the first mismatching call: its target and the argument registers that differ, and for each
 the instruction that produced the value (a load from a memory word and its address, a constant, an argument) on each side. The compile
-takes the generator's lock (state/.gen.lock), so it can run while generator groups are going. tests/equivalent.txt, tests/weak.txt and
+takes the generator's lock (state/.gen.lock), so it can run while generator groups are going. tests/equivalent.txt and
 docs/equivalent.md are put back as they were. Nothing it writes stays in src/ or tests/.
 """
 import contextlib
@@ -30,7 +30,7 @@ import gen_core
 import gen_drv
 import directed
 
-KEEP = ('tests/equivalent.txt', 'tests/weak.txt', 'docs/equivalent.md')
+KEEP = ('tests/equivalent.txt', 'docs/equivalent.md')
 
 
 def call_sites(trace, table_runtime, deep_range):

@@ -671,6 +671,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         if mn=='sts' and a[0]=='fpul': c.R[a[1]]=c.fpul; return
         raise Skip(mn+' '+rawops)
     addr2idx={x[2]:i for i,x in enumerate(ins)}
+    def ind_variadic_hint(fname):
+        return fname in ('nlPrintf','printf','sprintf','nlSprintf')
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
         if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
         if fname in ('_divls','_divlu','_modls','_modlu'):
@@ -747,8 +749,10 @@ def _run(name,passthru=False,frame=False,flat=False):
                 try: return int(o_[1:],0)==4*len(c.pend)
                 except ValueError: return True
             return True
-        cleanup=isadd(after) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
-        spill=bool(ar) and ar[0]<=4 and bool(c.pend) and not cleanup    # a callee taking at most four integer arguments and no cleanup: what is on the stack was saved, not passed
+        def teardown(x):                 # an instruction of the epilogue: the add before it frees the frame, not the call's arguments
+            return bool(x) and (x[0]=='rts' or (x[0] in ('lds.l','mov.l','fmov.s') and '@r15+' in (x[1] or '')))
+        cleanup=(isadd(after) and not teardown(after2)) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
+        spill=bool(c.pend) and not cleanup and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
         if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]

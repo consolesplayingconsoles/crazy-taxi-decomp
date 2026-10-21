@@ -101,10 +101,15 @@ def med(v):
     return v[len(v) // 2] if v else 0
 
 
-# functions whose cases ran less of the original than the bar: tests/weak.txt (name and coverage), written by tools/equiv.py;
-# they are not done, and this row keeps them from going missing
-weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
-weak = set(n for n in weak if n not in equivalent)
+# the quality figure: the instructions the cases ran, of all the instructions, over every function that reached the check (weighted by size)
+_run = _all = _nfn = 0
+if os.path.exists('docs/equivalent.md'):
+    for _b in open('docs/equivalent.md').read().split('\n### ')[1:]:
+        _fn = _b.split(' ', 1)[0]
+        _m = re.search(r'the cases run (\d+) of (\d+) instructions', _b)
+        if _fn in equivalent and _m and int(_m.group(2)):
+            _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1
+wavg = 100.0 * _run / _all if _all else 0.0
 state_rows = []                                   # where the functions that are not done stand, from tools/remaining.py --table (it reads nothing)
 try:
     _t = subprocess.run([sys.executable, os.path.join(here, 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
@@ -115,12 +120,8 @@ try:
 except Exception:
     state_rows = []
 unnamed_all = sum(1 for x in funcs if x[2].startswith('FUN_'))              # every function still called FUN_..., done or not
-try:
-    gate_now = int(re.search(r'^MIN_COVERAGE = (\d+)', open(os.path.join(here, 'equiv.py')).read(), re.M).group(1))
-except (IOError, OSError, AttributeError):
-    gate_now = 0
 rows = [
-    ('TEST COVERAGE QUALITY THRESHOLD', '%d%%' % gate_now, 'configurable, drops anything below this value (MIN_COVERAGE in tools/equiv.py)'),
+    ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that reached the check' % _nfn),
     ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),
     ('  functions left', '%d' % (doable - g[7]), 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
     ('  bytes left', '%d' % (doable_bytes - g[8]), 'of %d bytes of code that can be C' % doable_bytes),
@@ -142,7 +143,7 @@ rows = [
         pct(sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000), g[1]).strip())),
     ('  named only', pct(named_only, doable), '%d functions: a name, no C yet (not done work)' % named_only),
     ('  unnamed', pct(unnamed, doable), '%d functions (FUN_...), no C yet' % unnamed),
-    ] + ([('  below the coverage bar', pct(len(weak), doable), '%d functions: C written, but its cases ran too little of the original to count (tests/weak.txt); not done' % len(weak))] if weak else []) + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
+    ] + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
            % (g[7] + len(partial), g[7], len(partial)))] if partial else []) + [
     ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),
@@ -218,14 +219,10 @@ def write_badge(rows, label, path='badge.svg'):
             runs.append('<rect x="%d" y="46" width="%d" height="8" fill="#c87053"/>' % (X + c, e - c))
         c = e
     strip = '<rect x="%d" y="46" width="%d" height="8" fill="#ecc9b9"/>%s' % (X, bar, ''.join(runs))
-    try:                                          # the gate a function must pass to count as done: tools/equiv.py MIN_COVERAGE
-        gate = int(re.search(r'^MIN_COVERAGE = (\d+)', open('tools/equiv.py').read(), re.M).group(1))
-    except (IOError, OSError, AttributeError):
-        gate = 0
     ftext = '%.1f%%' % done
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
-    gtext = '%d%%' % gate
-    title = '%s: %s of functions, %s of code bytes done; a function counts as done when its tests ran at least %s of the original (the test coverage quality threshold)' % (label, ftext, btext, gtext)
+    gtext = '%.1f%%' % wavg
+    title = '%s: %s of functions, %s of code bytes done; the total test coverage over all of them is %s' % (label, ftext, btext, gtext)
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="60" role="img" aria-label="%s">'
            '<title>%s</title><clipPath id="r"><rect width="304" height="60" rx="3"/></clipPath>'
            '<g clip-path="url(#r)"><rect width="304" height="60" fill="#1a2233"/>'
@@ -234,7 +231,7 @@ def write_badge(rows, label, path='badge.svg'):
            '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
            '<text x="71" y="34">COVERED FUNCTIONS</text><text x="71" y="54">COVERED BYTES</text>'
-           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TEST COVERAGE QUALITY THRESHOLD: %s</text></g></svg>\n'
+           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TOTAL TEST COVERAGE: %s</text></g></svg>\n'
            % (title, title, X, bar, X, wd, strip, ftext, btext, gtext))
     try:
         open(path, 'w').write(svg)
@@ -244,7 +241,7 @@ def write_badge(rows, label, path='badge.svg'):
     # never shows an old badge
     try:
         readme = open('README.md').read()
-        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s&a=%d)' % (done, btext.rstrip('%'), gate), readme, count=1)
+        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s&a=%d)' % (done, btext.rstrip('%'), int(round(wavg))), readme, count=1)
         if fresh != readme:
             open('README.md', 'w').write(fresh)
     except (IOError, OSError):
@@ -254,7 +251,7 @@ def write_badge(rows, label, path='badge.svg'):
 write_badge(rows, 'decomp')
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
-         'named only', 'below the coverage bar', 'with partial C', 'named globals', 'of which library', 'done', 'named')
+         'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')
 _shown = []
 _top = []
 for _r in rows:
@@ -266,12 +263,15 @@ for _r in rows:
         _top.append((_n.upper(), _r[1], _r[2], '(%s complete)' % _share))
         continue
     if _n == 'COUNTDOWN':
-        _r = ('FUNCTIONS', '', 'what is left, counting down to zero')
+        _r = ('FUNCTIONS', '', '')
     elif _n == 'done: no C form':
-        _r = ('  No C form', _r[1], _r[2].replace('the rows above are of the', 'the counts above are of the'))
+        _r = ('  No C form', _r[1], re.sub(r'; the rows above are of the \d+ that can be C', '', re.sub(r'^\d+ functions of the \d+: ', '', _r[2])))
+    if _n == 'GAME ASSETS (EXTRA)':
+        _r = (_r[0], _r[1], '')                                  # the title already says it is outside the measures
     _shown.append(_r)
 rows = _shown[:1] + _top + _shown[1:]
 w = max(len(r[0]) for r in rows)
+w = max([w] + [len(r[0]) + 2 + len(r[3] + ' ' + r[1]) - 9 for r in rows if len(r) > 3])      # room for "(92.8% complete) 230" between a name and its description
 for row in rows:
     name, p, detail = row[:3]
     if len(row) > 3:                                           # "(86.4% complete) 435": the share and the number end where the numbers of the other rows end

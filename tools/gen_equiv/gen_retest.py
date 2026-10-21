@@ -52,13 +52,13 @@ def main(batches):
 
 
 def lift(names):
-    """python3 tools/gen_equiv --lift [name ...]: more cases for the functions the coverage bar put aside (default: tests/weak.txt).
+    """python3 tools/gen_equiv --lift [name ...]: more cases for the named functions (the ones whose cases ran least of the original: docs/equivalent.md says how much each ran).
     Many more growth tries per function (GEN_BUDGET, GEN_STALE raised), the cases written to tests/<file>/<function>.json (the old
-    ones kept as .json.old), then equiv.py runs the file: a function that now reaches the bar is Equivalent."""
+    ones kept as .json.old), then equiv.py runs the file: the function stays Equivalent and its coverage is updated."""
     import re
     os.environ.setdefault('GEN_BUDGET','6000'); os.environ.setdefault('GEN_STALE','1200')
     if not names:
-        names=[l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')]
+        sys.exit('name the functions to give more cases (python3 tools/gen_equiv --lift NAME ...)')
     byfile={}
     for f in sorted(glob.glob('src/*.c')):
         t=open(f,errors='replace').read()

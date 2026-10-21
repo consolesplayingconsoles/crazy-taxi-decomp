@@ -75,6 +75,19 @@ def build(name,ret,passthru=False):
     body=text.strip('\n').split('\n')
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
     return src,c
+_CPOOL={}
+def const_pool(name):
+    """The 4-byte words of the function's literal pool that it loads as constants (mov.l / mov.w @(pc)): the pool may lie past the next function."""
+    if name not in _CPOOL:
+        import shdis
+        st,sz=G.SPANS.get(name,(0,0)); words=set()
+        for pc in range(st,st+sz,2):
+            t,pool,psize,_=shdis.decode(struct.unpack_from('<H',G.BIN,pc-G.BASE)[0],pc)
+            if pool is not None and t.startswith(('mov.l','mov.w')):
+                words.add(pool&~3)
+                if psize>2: words.add((pool&~3)+4)
+        _CPOOL[name]=words
+    return _CPOOL[name]
 def addr_vals(c,basemap):
     """The addresses the code touches that follow from the argument values alone (None for one that depends on a loaded
     value or a loop variable)."""
@@ -232,10 +245,14 @@ def tests(name,c,src):
             if chained:
                 for pb in POINTERS: poke['%08X'%(pb&~3)]=struct.pack('<64I',*[rng.choice(pool) for _ in range(64)]).hex()   # memory behind those pointers
             own=G.SPANS.get(name,(0,0)); own_end=G.ENDS.get(name,own[0]+own[1])      # the code and its pool up to the next function
+            cpool=const_pool(name)
             for a in addrs:
                 if a is None or own[0]<=a<own_end or own[0]<=a+7<own_end: continue      # the function's own bytes (its pool, its tables) are not state to poke
                 w=forced if forced is not None else rng.choice(pool)
-                poke['%08X'%((a&~3)&0xffffffff)]=struct.pack('<II',w,rng.choice(pool)).hex()
+                for k_,wd_ in enumerate((w,rng.choice(pool))):
+                    a4_=((a&~3)+4*k_)&0xffffffff
+                    if a4_ in cpool: continue                  # a pool word the function loads as a constant (the C has it baked in): not state, wherever the pool lies
+                    poke['%08X'%a4_]=struct.pack('<I',wd_).hex()
             regs={}
             for n in ip:
                 if n<8: regs['r%d'%n]='%08X'%(bm['a%d'%n]&0xffffffff)

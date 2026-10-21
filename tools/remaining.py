@@ -159,7 +159,6 @@ def main():
                     note('read %d of %d functions (%d with errors so far)' % (k, len(todo), sum(1 for v in cache.values() if v[1] != 'readable')))
         note('done')
         json.dump({'tools': th, 'read': cache}, open(cache_file, 'w'))
-    weak = set(l.split()[0] for l in open('tests/weak.txt') if l.strip() and not l.startswith('#')) if os.path.exists('tests/weak.txt') else set()
     rows = []
     for a, sz, n in undone:
         if cls.get(n, '').startswith('blocked'):
@@ -168,8 +167,6 @@ def main():
             state = cache.get(n, [None, 'not read' if noread else 'readable'])[1]
             if state != 'readable':
                 cause = state
-            elif n in weak:
-                cause = 'weak: its cases ran too little of the original'
             else:
                 f = failed.get(n, '')
                 if 'DIFFERS' in f:
@@ -187,15 +184,12 @@ def main():
     fam['Runtime helpers and tables'] = collections.defaultdict(list)
     fam['Translated: the check differs or gives no cases'] = collections.defaultdict(list)
     fam['Readable: no result recorded yet'] = collections.defaultdict(list)
-    fam['Below the coverage bar'] = collections.defaultdict(list)
     fam['Other'] = collections.defaultdict(list)
     for cause, n, sz in rows:
         if cause.startswith('runtime helper'):
             target = 'Runtime helpers and tables'
         elif cause.startswith('blocked'):
             target = 'Blocked by classify.py'
-        elif cause.startswith('weak'):
-            target = 'Below the coverage bar'
         elif cause.startswith('translated'):
             target = 'Translated: the check differs or gives no cases'
         elif cause.startswith('readable'):
@@ -212,16 +206,11 @@ def main():
     if not table_only:
         print('%d functions are not done (generator reading: %d kept from state/, %d read now; tools %s)'
               % (len(rows), fromcache - len(todo), len(todo), th[:8]))
-    try:
-        gate = int(re.search(r'^MIN_COVERAGE = (\d+)', open(os.path.join(here, 'equiv.py')).read(), re.M).group(1))
-    except (IOError, OSError, AttributeError):
-        gate = 0
-    weak_label = 'Below %d%% test coverage threshold' % gate
-    stages = collections.OrderedDict((k, [0, 0]) for k in ('Not read', 'Read with errors', 'Not drawn', 'Drawn with errors', 'Checked with errors', weak_label))
+    stages = collections.OrderedDict((k, [0, 0]) for k in ('Not written C', 'Written C with errors', 'Not drawn', 'Drawn with errors', 'Checked with errors'))
     for cause, n, sz in rows:
-        st = (weak_label if cause.startswith('weak') else 'Checked with errors' if cause.startswith('translated, differs') or cause.endswith('does not compile') else
+        st = ('Checked with errors' if cause.startswith('translated, differs') or cause.endswith('does not compile') else
               'Drawn with errors' if cause.startswith('translated, no cases') else 'Not drawn' if cause.startswith('readable') else
-              'Not read' if cause.startswith('not read') else 'Read with errors')
+              'Not written C' if cause.startswith('not read') else 'Written C with errors')
         stages[st][0] += 1; stages[st][1] += sz
     print('Where the functions that are not done stand: %d functions, the first step each has not passed' % len(rows))
     print('%-52s %5s %9s' % ('State', 'Funcs', 'Bytes'))

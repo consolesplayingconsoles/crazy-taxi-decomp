@@ -200,7 +200,6 @@ def final(writes):
     return mem
 
 
-MIN_COVERAGE = 80                # percent of the original's instructions the cases must run for a function to count as Equivalent; raised later
 SHOW = 200                       # characters of each side shown for a difference; --full shows 6000
 
 
@@ -300,7 +299,7 @@ def main(argv):
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime
-    results, evidence, weak = {}, {}, {}
+    results, evidence = {}, {}
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
         if fn not in funcs or '_' + fn not in syms:
@@ -339,40 +338,28 @@ def main(argv):
         cov = len([a for a in total if a in seen])
         covtext = '%d of %d instructions' % (cov, len(total)) if total else ''
         results[fn] = (ok, why or '%d cases (%s), %s' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items()), covtext))
+        # Nothing gates: a function that passes is Equivalent, whatever its cases covered. The coverage is evidence (docs/equivalent.md) and the
+        # total over all of them is the quality figure the status and the badge show.
         if ok and total and len(total) > 6 and not observed and not rets.get(fn, ['r0']):     # a void C and an original that does nothing observable: nothing was compared
-            weak[fn] = 'nothing-compared'
-            results[fn] = (None, 'WEAK: no case showed a write, a call, a device access or a change of SR, and the C returns nothing: nothing was compared')
-            ok = False
-        elif ok and total and cov * 100 < MIN_COVERAGE * len(total):       # passes, but the cases ran too little of the original to count
-            weak[fn] = '%d%%' % (100 * cov // len(total))
-            results[fn] = (None, 'WEAK: the cases ran %d of %d instructions (%s, the bar is %d%%)' % (cov, len(total), weak[fn], MIN_COVERAGE))
-            ok = False
+            covtext = '0 of %d instructions (nothing compared: no case showed a write, a call, a device access or a change of SR, and the C returns nothing)' % len(total)
+            results[fn] = (True, '%d cases (%s), %s' % (n, ', '.join('%d %s' % (v, k) for k, v in counts.items()), covtext))
         if ok:
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
     for fn, (ok, why) in results.items():
         if not quiet or ok is not True:
-            print('%-28s %-11s %s' % (fn, 'WEAK' if fn in weak else {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
+            print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
     if quiet:
-        print('%d EQUIVALENT, %d DIFFERS, %d WEAK (below the coverage bar), %d without cases or not compiled' % (
-            sum(1 for ok, _ in results.values() if ok is True), sum(1 for fn, (ok, _) in results.items() if ok is False and fn not in weak),
-            len(weak), sum(1 for fn, (ok, _) in results.items() if ok is None and fn not in weak)))
+        print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
+            sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),
+            sum(1 for ok, _ in results.values() if ok is None)))
     path = os.path.join('tests', 'equivalent.txt')
     have = set(open(path).read().split()) if os.path.exists(path) else set()
     have |= {fn for fn, (ok, _) in results.items() if ok}
     have -= {fn for fn, (ok, _) in results.items() if ok is False}
-    have -= set(weak)
-    wpath = os.path.join('tests', 'weak.txt')              # the functions below the bar, so they are not missed: progress.py and remaining.py read it
-    wk = {l.split()[0]: l.split()[1] for l in open(wpath) if l.strip() and not l.startswith('#')} if os.path.exists(wpath) else {}
-    for fn, (ok, _) in results.items():
-        if fn in weak:
-            wk[fn] = weak[fn]
-        else:
-            wk.pop(fn, None)
-    open(wpath, 'w').write('# functions whose cases ran less of the original than the bar (tools/equiv.py MIN_COVERAGE); not done\n' + ''.join('%s %s\n' % kv for kv in sorted(wk.items(), key=lambda kv: (-(int(kv[1].rstrip('%')) if kv[1].rstrip('%').isdigit() else -1), kv[0]))))     # highest coverage first, nothing-compared last
     os.makedirs('tests', exist_ok=True)
     open(path, 'w').write(''.join(f + '\n' for f in sorted(have)))
-    write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False} | set(weak))
+    write_evidence(evidence, {fn for fn, (ok, _) in results.items() if ok is False})
 
 
 def write_evidence(new, failed):

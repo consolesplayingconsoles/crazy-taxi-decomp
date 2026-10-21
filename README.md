@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=87.8&b=58.0&a=80)
+![decomp progress](badge.svg?p=92.8&b=74.6&a=84)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,24 +21,23 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TEST COVERAGE QUALITY THRESHOLD          80%  configurable, drops anything below this value (MIN_COVERAGE in tools/equiv.py)
-FUNCTIONS LEFT          (87.8% complete) 388  of the 3186 functions that can be C (60 with no C form are counted apart)
-BYTES LEFT           (58.0% complete) 226870  of 539766 bytes of code that can be C
-FUNCTIONS                                     what is left, counting down to zero
-  unnamed                               1503  functions still called FUN_... (1503 of 3246)
-  Not read                                 0  0 bytes
-  Read with errors                         0  0 bytes
-  Not drawn                                6  4334 bytes
-  Drawn with errors                       57  37214 bytes
-  Checked with errors                    171  94784 bytes
-  Below 80% test coverage threshold      154  90538 bytes
-  No C form                             1.8%  60 functions of the 3246: an instruction or a register convention with no C form (tools/classify.py names it); the counts above are of the 3186 that can be C
-  documented                           42.1%  1367 named functions in docs/*.md
-GAME ASSETS (EXTRA)                           reverse engineering: what the model map identifies; it does not affect the measures above and is not done work
-  models named                         37.1%  1010 of 2723 models: a name, or a named table or collection
-  characters named                     15.5%  9 of 58 characters (note rules)
-  sounds named                          3.1%  22 of 716 sounds (sound rules)
-  tables named                          1.1%  1 of 95 model tables (table rules)
+TOTAL TEST COVERAGE            84.1%  the instructions the cases ran, of all instructions, over the 2567 functions that reached the check
+FUNCTIONS LEFT  (92.8% complete) 230  of the 3186 functions that can be C (60 with no C form are counted apart)
+BYTES LEFT   (74.6% complete) 137034  of 539766 bytes of code that can be C
+FUNCTIONS                             
+  unnamed                       1503  functions still called FUN_... (1503 of 3246)
+  Not written C                    0  0 bytes
+  Written C with errors            0  0 bytes
+  Not drawn                        6  4334 bytes
+  Drawn with errors               53  35282 bytes
+  Checked with errors            171  97418 bytes
+  No C form                     1.8%  an instruction or a register convention with no C form (tools/classify.py names it)
+  documented                   44.4%  1440 named functions in docs/*.md
+GAME ASSETS (EXTRA)                   
+  models named                 37.1%  1010 of 2723 models: a name, or a named table or collection
+  characters named             15.5%  9 of 58 characters (note rules)
+  sounds named                  3.1%  22 of 716 sounds (sound rules)
+  tables named                  1.1%  1 of 95 model tables (table rules)
 ```
 <!-- /progress -->
 
@@ -130,8 +129,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | path | what |
 |---|---|
 | [tests/<file>/<function>.json](tests/) | The test cases of each function |
-| [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent, with the coverage bar met |
-| [tests/weak.txt](tests/weak.txt) | The functions that pass but whose cases ran less of the original than the bar: not done |
+| [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent |
 | [badge.svg](badge.svg) | The progress badge (written by [tools/progress.py](tools/progress.py)) |
 
 **Scripts and tools**
