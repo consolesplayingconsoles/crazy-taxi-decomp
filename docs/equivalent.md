@@ -9922,6 +9922,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 18 of 20 instructions
 
+### FUN_0c02ef24 (`0C02EF24`, 262 bytes, `src/gen_eu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_eu/FUN_0c02ef24.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 77 of 131 instructions
+
 ### FUN_0c02f02a (`0C02F02A`, 290 bytes, `src/gen_aa.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_aa/FUN_0c02f02a.json`
 - case 24
@@ -35801,6 +35807,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 116
 - case 107
 - the cases run 13 of 13 instructions
+
+### FUN_0c087474 (`0C087474`, 1852 bytes, `src/gen_ev.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ev/FUN_0c087474.json`
+- case 68
+- case 68
+- case 87
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 235
+- case 159
+- case 171
+- case 120
+- case 101
+- case 66
+- case 196
+- case 238
+- case 254
+- case 157
+- case 193
+- case 80
+- case 169
+- case 106
+- case 93
+- case 217
+- case 65
+- case 250
+- the cases run 80 of 847 instructions
 
 ### FUN_0c087db4 (`0C087DB4`, 102 bytes, `src/gen_cx.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_cx/FUN_0c087db4.json`

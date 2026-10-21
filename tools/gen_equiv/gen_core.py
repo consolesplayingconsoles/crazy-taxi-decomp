@@ -182,7 +182,7 @@ def callee_arity(fname):
 
 def isfp(v): return isinstance(v,tuple) and v[0]=='fpend'      # a float kept on the pending stack
 STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'addr\'')
-FLATTY=('unstructured','too long','stack pointer differs','loop exits','recursion','stack local in a loop')
+FLATTY=('bloat','unstructured','too long','stack pointer differs','loop exits','recursion','stack local in a loop')
 def run(name,passthru=False):
     """The first reading keeps the stack as symbolic values; when that fails on the stack, the whole frame becomes a C array
     (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory). When the
@@ -217,7 +217,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
-    c=Ctx(name); c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
+    c=Ctx(name); c.nemit=0; c.emit_limit=10**9 if flat else 6*(SPANS.get(name,(0,0))[1]//2)+300; c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
         # base: value; off: int or value
@@ -763,7 +763,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         def teardown(x):                 # an instruction of the epilogue: the add before it frees the frame, not the call's arguments
             return bool(x) and (x[0]=='rts' or (x[0] in ('lds.l','mov.l','fmov.s') and '@r15+' in (x[1] or '')))
         cleanup=(isadd(after) and not teardown(after2)) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
-        spill=bool(c.pend) and not cleanup and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
+        spill=bool(c.pend) and not cleanup and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
         if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
@@ -906,7 +906,10 @@ def _run(name,passthru=False,frame=False,flat=False):
             else: s+=' else '+blk(B)
         return s
     def emit(s):
-        if s: c.blocks[-1].append(s)
+        if s:
+            c.blocks[-1].append(s)
+            c.nemit+=1
+            if c.nemit>c.emit_limit: raise Skip('bloat: arms that meet at different joins were written out once per path (%d statements)'%c.nemit)      # the flat form is linear in the function's size
 
     # ---- machine state ----
     def regs_state(): return (dict(c.R),dict(c.FR),c.fpul,dict(c.stack),c.macl,c.D,list(c.pend),(c.sz,c.swapped,dict(c.XF)),c.pcalls)

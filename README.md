@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=96.0&b=85.0&a=83)
+![decomp progress](badge.svg?p=96.1&b=85.1&a=82)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,16 +21,16 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE            82.7%  the instructions the cases ran, of all instructions, over the 2681 functions that reached the check
-FUNCTIONS LEFT  (96.0% complete) 126  of the 3186 functions that can be C (60 with no C form are counted apart)
-BYTES LEFT    (85.0% complete) 80840  of 539766 bytes of code that can be C
+TOTAL TEST COVERAGE            82.3%  the instructions the cases ran, of all instructions, over the 2683 functions that reached the check
+FUNCTIONS LEFT  (96.1% complete) 125  of the 3187 functions that can be C (59 with no C form are counted apart)
+BYTES LEFT    (85.1% complete) 80578  of 541618 bytes of code that can be C
 FUNCTIONS                             
   unnamed                       1501  functions still called FUN_... (1501 of 3246)
   Not written C                    0  0 bytes
   Written C with errors            0  0 bytes
   Not drawn                        1  70 bytes
   Drawn with errors               18  18736 bytes
-  Checked with errors            107  62034 bytes
+  Checked with errors            106  61772 bytes
   No C form                     1.8%  an instruction or a register convention with no C form (tools/classify.py names it)
   documented                   45.2%  1466 named functions in docs/*.md
 GAME ASSETS (EXTRA)                   
