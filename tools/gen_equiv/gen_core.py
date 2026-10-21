@@ -174,9 +174,18 @@ def callee_arity(fname):
 
 def isfp(v): return isinstance(v,tuple) and v[0]=='fpend'      # a float kept on the pending stack
 STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'addr\'')
+FLATTY=('unstructured','too long','stack pointer differs','loop exits','recursion','stack local in a loop')
 def run(name,passthru=False):
     """The first reading keeps the stack as symbolic values; when that fails on the stack, the whole frame becomes a C array
-    (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory)."""
+    (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory). When the
+    control flow has no if / while form (arms meeting at different joins, loops entered from a jump table, paths that multiply), the
+    function is written flat: a label per block, every register a variable, goto between blocks."""
+    try: return _run_structured(name,passthru)
+    except RecursionError: pass
+    except Skip as e:
+        if not any(k in str(e) for k in FLATTY): raise
+    return _run(name,passthru,True,True)
+def _run_structured(name,passthru=False):
     _CONFLICTS.clear(); _IJOIN[0]=False
     for _ in range(10):
         try:
@@ -189,7 +198,7 @@ def run(name,passthru=False):
             if 'too long' in str(e) and not _IJOIN[0]: _IJOIN[0]=True; continue
             raise
     raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
-def _run(name,passthru=False,frame=False):
+def _run(name,passthru=False,frame=False,flat=False):
     out=subprocess.run(['python3','tools/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
     ins=[]
     for l in out:
@@ -1453,6 +1462,138 @@ def _run(name,passthru=False,frame=False):
     swg.update(GOTO)
     G=gen_cfg.Graph(ins,addr2idx,swg) if ins else None
     if G is None: raise Skip('empty')
-    out=exec_from(0,{},False)
+
+    def exec_flat():
+        """The function as labelled blocks: every register a C variable (R0-R14, F0-F15, T_ for the T flag) written back at the end of each
+        block, branches as `if (...) goto`, jump tables as a switch of gotos, the stack frame as memory."""
+        if any(x[0] in ('frchg','fschg') for x in ins): raise Skip('flat: FPU mode changes')
+        ints=sorted({int(n) for x in ins for n in re.findall(r'\br(\d+)\b',(x[1] or '').split(';')[0]) if int(n)<=14}|{0})
+        flts=sorted({int(n) for x in ins for n in re.findall(r'\bfr(\d+)\b',(x[1] or '').split(';')[0])}|{2*int(n)+k for x in ins for n in re.findall(r'\bdr(\d+)\b',(x[1] or '').split(';')[0]) for k in (0,1)})
+        V=lambda r:'R%s'%r[1:]
+        FV=lambda f:'F%s'%f[2:]
+        for n in ints: emit('int R%d;'%n)
+        for n in flts: emit('float F%d;'%n)
+        emit('int T_;')
+        for n in ints:
+            if 4<=n<=7: c.iuse.add(n); emit('R%d = a%d;'%(n,n))
+        for n in flts:
+            if 4<=n<=11: c.fuse.add(n); emit('F%d = f%d;'%(n,n))
+        lead={0}
+        for i_,(mn_,ops_,pc_) in enumerate(ins):
+            if mn_ in ('bt','bf','bt/s','bf/s','bra'):
+                t_=target_of(ops_)
+                if t_ in addr2idx: lead.add(addr2idx[t_])
+                lead.add(i_+(2 if mn_ in ('bt/s','bf/s','bra') else 1))
+            if mn_ in ('rts','jmp','braf','rte'): lead.add(i_+2)
+        for b_,v_ in SWV.items(): lead.update(v_[2])
+        for v_ in GOTO.values(): lead.update(v_)
+        lead={x for x in lead if x<len(ins)}
+        def fresh_state(D):
+            c.R={'r%d'%n:('e','R%d'%n) for n in ints}; c.FR={'fr%d'%n:('e','F%d'%n) for n in flts}
+            c.D=D; c.pend=[]; c.fpul=None; c.macl=None; c.stack={}; c.lastcall=None
+            setT('T_','!T_')
+        def spill():
+            if c.pend: raise Skip('flat: a pushed word crosses a block')
+            if c.sz or c.swapped: raise Skip('flat: FPU mode across a block')
+            pairs=[]
+            for r,v in sorted(c.R.items()):
+                if r=='r15' or r[1:]=='' or not r[1:].isdigit() or int(r[1:])>14 or v is None or v==DIRTY or v==('e',V(r)): continue
+                if isinstance(v,tuple) and v[0] in ('addr','srx'): raise Skip('flat: an address or SR value crosses a block')
+                pairs.append((V(r),ex(v),False))
+            for f,v in sorted(c.FR.items()):
+                if v is None or v==DIRTY or v==('e',FV(f)): continue
+                pairs.append((FV(f),fx(v),True))
+            if c.T is not None and c.T!='T_': pairs.append(('T_','(%s)'%c.T,False))
+            tmp=[]
+            for var,e,isf in pairs:
+                t=fresh(isf); emit('%s %s = %s;'%('float' if isf else 'int',t,e)); tmp.append((var,t))
+            for var,t in tmp: emit('%s = %s;'%(var,t))
+        def label(i): return 'L_%X'%ins[i][2]
+        def block(i,D):
+            fresh_state(D)
+            emit('%s:;'%label(i))
+            start=i
+            while True:
+                if i>=len(ins): raise Skip('runs off the code')
+                if i!=start and i in lead:
+                    spill(); emit('goto %s;'%label(i)); return [(i,c.D)]
+                if i in SW0:
+                    b=SW0[i]; mv,rx,tg=SWV[b]
+                    idx=c.gi(rx)
+                    step(b+1)                                    # the delay slot of the braf runs before the jump
+                    spill()
+                    emit('switch (%s) { %s }'%(ex(idx),' '.join('case %d: goto %s;'%(2*k,label(t)) for k,t in enumerate(tg))))
+                    return [(t,c.D) for t in sorted(set(tg))]
+                mn,ops,pc=ins[i]
+                if mn in ('jsr','bsr','bsrf'):
+                    if mn=='bsr': tgt=target_of(ops)
+                    elif mn=='bsrf':
+                        v=c.gi(parse_ops(ops)[0])
+                        if not isint(v): raise Skip('flow bsrf')
+                        tgt=(pc+4+v)&0xFFFFFFFF
+                    else:
+                        v=c.gi(parse_ops(ops)[0].strip('@'))
+                        if not isinstance(v,int):
+                            if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect call')
+                            texpr=ex(v); step(i+1)
+                            do_call('@indirect',ind=texpr,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None); i+=2; continue
+                        tgt=v
+                    if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                    step(i+1)
+                    if tgt in FUNCS: do_call(FUNCS[tgt],after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None)
+                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',ind='0x%X'%tgt,after=ins[i+2] if i+2<len(ins) else None,after2=ins[i+3] if i+3<len(ins) else None)
+                    else: raise Skip('callee unknown %x'%tgt)
+                    i+=2; continue
+                if mn in ('bra','jmp','braf'):
+                    if mn=='bra': tgt=target_of(ops)
+                    else:
+                        v=c.gi(parse_ops(ops)[0].strip('@'))
+                        if not isint(v):
+                            if mn=='braf' or (isinstance(v,tuple) and v[0]=='addr'): raise Skip('flat: '+mn)
+                            texpr=ex(v); step(i+1); do_call('@indirect',tail=True,ind=texpr); return []
+                        tgt=v if mn=='jmp' else (pc+4+v)&0xFFFFFFFF
+                    step(i+1)
+                    if tgt in addr2idx:
+                        spill(); emit('goto %s;'%label(addr2idx[tgt])); return [(addr2idx[tgt],c.D)]
+                    if tgt not in FUNCS and tgt>>29 in (4,5): tgt&=0x1FFFFFFF
+                    if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
+                    elif 0x0C000000<=tgt<0x0D000000: do_call('@indirect',tail=True,ind='0x%X'%tgt)
+                    else: raise Skip('tail unknown')
+                    return []
+                if mn=='rts':
+                    if i+1<len(ins): step(i+1)
+                    r0=c.R.get('r0'); f0=c.FR.get('fr0')
+                    if c.sz or c.swapped: raise Skip('FPU mode not restored')
+                    rs='None' if r0 is None or r0==DIRTY or (isinstance(r0,tuple) and r0[0] in ('addr','srx')) else ex(r0)
+                    fs='None' if f0 is None or f0==DIRTY else fx(f0)
+                    c.rets.append((rs,fs)); emit('@@RET:%s@|@%s@@'%(rs,fs))
+                    return []
+                if mn in ('bt','bf','bt/s','bf/s'):
+                    tgt=target_of(ops)
+                    if tgt not in addr2idx: raise Skip('flat: branch out')
+                    if c.T is None: raise Skip('no T')
+                    cond=negate(c.T) if mn.startswith('bf') else c.T
+                    k=fresh(False); emit('int %s = %s;'%(k,uw(cond)))
+                    delay=mn.endswith('/s')
+                    if delay: step(i+1)
+                    nxt=i+(2 if delay else 1)
+                    spill()
+                    emit('if (%s) goto %s;'%(k,label(addr2idx[tgt])))
+                    emit('goto %s;'%label(nxt))
+                    return [(addr2idx[tgt],c.D),(nxt,c.D)]
+                if mn in ('rte',): raise Skip('flow rte')
+                step(i); i+=1
+        seen={}
+        work=[(0,0)]
+        while work:
+            i,D=work.pop()
+            if i in seen:
+                if seen[i]!=D: raise Skip('flat: stack depth differs at %x'%ins[i][2])
+                continue
+            seen[i]=D
+            work.extend(block(i,D))
+        c.flat=True
+        return ('end',)
+    out=exec_flat() if flat else exec_from(0,{},False)
     c.terminated=out[0]=='end'
     return c

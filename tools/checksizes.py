@@ -19,6 +19,11 @@ with the size the entry would have. Such a function counts as proven when the en
 Entries with a jump table (jmp, braf) are skipped and counted. Report only: check the disassembly, then change
 functions.txt, `split_asm.py`, build (MATCH) and run `equiv.py` on the file of every function you cut.
 
+--extend [--write] looks at entries whose own control flow (branches, jump tables, constant jumps) runs past their listed end into code
+no entry owns: the size is extended to the last instruction it reaches, never past the next entry. With --write, functions.txt is
+rewritten (git keeps the old one); then run split_asm.py and build.sh (MATCH), and the generator or equiv.py again for any extended
+function that had C (its original now runs on instead of jumping out).
+
 --merge looks at entries that are pieces of one function: an entry whose code runs off its end into the next one (no rts
 before the listed end) is the first half of a function listed twice. The entry is extended over the next one(s) until the
 flow ends with an rts, a jump or a tail `bra`. A merge swallows the names of the later entries: the report names every one that
@@ -281,7 +286,46 @@ def merge(only, write):
         print('functions.txt rewritten; run split_asm.py and build.sh')
 
 
+def extend(only, write):
+    exe = open('1ST_READ.BIN', 'rb').read()
+    base = int(open('BASE').read().strip(), 16)
+    lines = open('functions.txt').read().split('\n')
+    ent = []
+    for i, l in enumerate(lines):
+        p = l.split()
+        if len(p) >= 4 and p[0] == 'F':
+            ent.append((int(p[1], 16), int(p[2]), p[3], i))
+    ent.sort()
+    changed = []
+    for k, (a, sz, name, li) in enumerate(ent):
+        if only and name not in only:
+            continue
+        nxt = ent[k + 1][0] if k + 1 < len(ent) else a + sz
+        if nxt <= a + sz:
+            continue
+        reach = shdis.reachable(exe, base, a, nxt)
+        past = [pc for pc in reach if pc >= a + sz]
+        if not past:
+            continue
+        new = max(reach) + 2 - a
+        if new <= sz or a + new > nxt:
+            continue
+        changed.append((name, a, sz, new))
+        p = lines[li].split()
+        p[2] = str(new)
+        lines[li] = ' '.join(p)
+    for name, a, sz, new in changed:
+        print('F %08x %5d -> %5d %s' % (a, sz, new, name))
+    print('%d entr%s %s' % (len(changed), 'y' if len(changed) == 1 else 'ies', 'extended (functions.txt written)' if write else 'to extend (--write rewrites functions.txt)'))
+    if write and changed:
+        open('functions.txt', 'w').write('\n'.join(lines))
+
+
 if __name__ == '__main__':
+    if sys.argv[1:2] == ['--extend']:
+        rest = sys.argv[2:]
+        extend(set(x for x in rest if x != '--write'), '--write' in rest)
+        sys.exit(0)
     if sys.argv[1:2] == ['--hidden']:
         hidden(set(sys.argv[2:]))
     elif sys.argv[1:2] == ['--merge']:

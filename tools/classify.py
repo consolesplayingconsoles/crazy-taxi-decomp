@@ -297,6 +297,30 @@ def callee_keeps(exe, base, a, sz):
     return None
 
 
+def double_precision(exe, base, a, sz):
+    """True when the function runs double-precision code: it uses fcnvsd / fcnvds, or ORs FPSCR.PR (0x00080000) into FPSCR. This
+    project compiles C with -fpu=single (build.sh, equiv.py), where double is single precision: such code has no C form here."""
+    import re
+    pr = set()
+    for pc in sorted(reachable(exe, base, a, sz)):
+        t, pool, ps, _ = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
+        mn, _, ops = t.partition(' ')
+        ops = ops.split(';')[0].strip()
+        if mn in ('fcnvsd', 'fcnvds'):
+            return True
+        m = re.match(r'@\(0x[0-9a-f]+,pc\),r(\d+)$', ops)
+        if mn == 'mov.l' and m and pool is not None and struct.unpack_from('<I', exe, pool - base)[0] & 0x00080000 and \
+                not struct.unpack_from('<I', exe, pool - base)[0] & 0xFFF00000:
+            pr.add(int(m.group(1))); continue
+        m = re.match(r'r(\d+),r(\d+)$', ops)
+        if mn == 'or' and m and int(m.group(1)) in pr:
+            pr.add(int(m.group(2))); continue
+        m = re.match(r'r(\d+),fpscr$', ops)
+        if mn == 'lds' and m and int(m.group(1)) in pr:
+            return True
+    return False
+
+
 def runs_off(exe, base, a, sz):
     """True when control flow from the entry runs to the end of the range without a return, jump or branch away: padding and address
     constants the function list took for code (real code ends in rts, rte, jmp or bra)."""
@@ -316,6 +340,8 @@ def no_c_form(exe, base, a, sz):
         t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
         if t.startswith(('stc', 'ldc')) and any(k in t for k in NO_C_FORM) and t not in out:
             out.append(t)
+    if double_precision(exe, base, a, sz):
+        out.append('runs double-precision code (FPSCR.PR = 1); this project compiles C with -fpu=single')
     if address_table(exe, base, a, sz):
         out.append('is data: a table of addresses inside the executable, not code')
     ck = callee_keeps(exe, base, a, sz)

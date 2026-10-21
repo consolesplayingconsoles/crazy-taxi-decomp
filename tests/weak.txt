@@ -60,6 +60,7 @@ trafficSectionControl 55%
 vmsfs_rewrite_exec_file 55%
 trafficControl 54%
 FUN_0c044c64 53%
+PutCourse_CheckPiece 53%
 kyakuInitStops 51%
 vmsfs_save_file 51%
 FUN_0c07ee50 50%

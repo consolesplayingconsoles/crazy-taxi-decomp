@@ -81,7 +81,7 @@ def addr_vals(c,basemap):
     res=[]
     for kind,e in c.mem_addrs:
         if kind=='c': res.append(e); continue
-        if re.search(r'\b[tu]\d+\b|\bstk\b',e): res.append(None); continue
+        if re.search(r'\b[tu]\d+\b|\bstk\b|\b[RF]\d+\b|\bT_\b',e): res.append(None); continue      # a temp, the frame, or a register variable of the flat form
         ex=e
         for k,v in basemap.items(): ex=re.sub(r'\b%s\b'%k,str(v),ex)
         ex=re.sub(r'\(\s*(?:unsigned\s+|signed\s+)?(?:short|char|int|long)\s*\)','',ex)           # a cast only narrows the seed address
@@ -212,7 +212,7 @@ def tests(name,c,src):
         pw=(8,4,1)[attempt]                  # words a callee writes through a pointer to the frame: fewer when it would overwrite the saved registers
         cases=[]
         rng=random.Random((zlib.crc32(name.encode())&0xffff)+attempt)
-        chained=any(k=='e' and re.search(r'\b[tu]\d+\b|\bstk\b',e) for k,e in c.mem_addrs)
+        chained=any(k=='e' and re.search(r'\b[tu]\d+\b|\bstk\b|\b[RF]\d+\b',e) for k,e in c.mem_addrs)
         for i in range(int((160 if (loopy or chained) else 120)*ncand)):
             bm=dict(basemap)
             for n in ip:
