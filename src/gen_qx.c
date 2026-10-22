@@ -30,7 +30,7 @@ int Drv_ExecReverse(void)
     }
     t8 = *(int *)0xC1791EC;
     if (t8 != 0) {
-        u9 = *(float *)0xC063320;
+        u9 = -0.099999994f;
         u10 = *(float *)0xC179228;
         if (u10 > u9) {
             return Drv_StartAction(0x0, 0x0, 0x0);

@@ -107,7 +107,7 @@ int putMenuValue(int a4, int a5, int a6, int a7)
     }
     t41 = pfLength(((a5 + (a7 * 0x2C)) + 0xC));
     if ((0x4 & a4) != 0) {
-        u42 = *(float *)0xC03CAA0;
+        u42 = 0.5f;
         u46 = (-(t41 * u42));
     } else {
         if ((0x8 & a4) != 0) {
@@ -139,20 +139,20 @@ int putMenuValue(int a4, int a5, int a6, int a7)
                 }
                 u65 = u56;
             }
-            u67 = *(float *)0xC03CAA0;
+            u67 = 0.5f;
             if ((int)a7 > 0) {
                 if ((0x4 & a4) != 0) {
                     t68 = pfLength(0xC0A2024);
-                    u69 = *(float *)0xC03CAB8;
+                    u69 = -5.0f;
                     u80 = (((-(u65 * u67)) - t68) + u69);
                 } else {
                     if ((0x8 & a4) != 0) {
                         t70 = pfLength(0xC0A2024);
-                        u71 = *(float *)0xC03CAB8;
+                        u71 = -5.0f;
                         u75 = (((-u65) - t70) + u71);
                     } else {
                         t72 = pfLength(0xC0A2024);
-                        u73 = *(float *)0xC03CAB8;
+                        u73 = -5.0f;
                         u75 = ((-t72) + u73);
                     }
                     u80 = u75;
@@ -162,7 +162,7 @@ int putMenuValue(int a4, int a5, int a6, int a7)
                 pfPuts(0xC0A2028);
             }
             if ((int)a7 < (int)(a6 - 1)) {
-                u95 = *(float *)0xC03CAC0;
+                u95 = 5.0f;
                 u98 = ((u65 * u67) + u95);
                 if ((0x4 & a4) != 0) {
                 } else {
@@ -288,7 +288,7 @@ void FUN_0c074740(int a4, int a5, int a6)
     } else {
         FUN_0c079a60(0.0f, 0.0f, (float)t29, (float)(short)t28);
     }
-    u41 = *(float *)0xC074A34;
+    u41 = 0.19999999f;
     kmSetCullingRegister(u41);
     *(unsigned int *)0xFF000038 = 0xC;
     *(unsigned int *)0xFF00003C = 0xC;
@@ -301,132 +301,3 @@ void FUN_0c074740(int a4, int a5, int a6)
 }
 
 
-int windowNameConfirm(void)
-{
-    int t0;
-    int t1;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t13;
-    int t14;
-    int t15;
-    int t21;
-    int t22;
-    int t23;
-    int t24;
-    int t26;
-    int t27;
-    int t28;
-    int t31;
-    int t32;
-    int t33;
-    int t34;
-    int t35;
-    int t36;
-    int t37;
-    int t38;
-    int t39;
-    int t40;
-    int t41;
-    int t42;
-    int t43;
-    float u44;
-    int t65;
-    int t52;
-    int t53;
-    float u55;
-    int t30;
-    int stk[22] = {0};
-
-    t0 = windowOpenStep();
-    if (t0 == 1) {
-        t1 = *(short *)0xC2A11C4;
-        memmove(0xC2A124C, ((short)((short)t1 * (short)0x788) + 0xC28A4F8), 0x4);
-    }
-    menuCursor(0x1, 0x2, 0x0);
-    t6 = FUN_0c0813e0(0xC2A124C, 0xC0A2044, 0x4);
-    if (t6 == 0) {
-        t7 = *(int *)0xC2A11DC;
-        if ((int)t7 > (int)0x1) {
-            t8 = *(int *)0xC2A11F4;
-            t9 = *(int *)((((t8 << 2) + 0xC2A11F8) + 0x0));
-            t10 = GetNowLanguage(0x0);
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t10 * (short)0x58)), 0x2, t9, 0x0);
-            PutVM_Message(0x20, 0x15, 0xC2A1248, 197.0f, 208.0f);
-        } else {
-            t13 = *(int *)0xC2A11F4;
-            t14 = *(int *)((((t13 << 2) + 0xC2A11F8) + 0x0));
-            t15 = GetNowLanguage(0x0);
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t15 * (short)0x58)), 0x2, t14, 0x0);
-            PutVM_Message(0x20, 0x22, 0xC2A1248, 197.0f, 208.0f);
-        }
-    } else {
-        t21 = *(int *)0xC2A11DC;
-        if ((int)t21 <= (int)0x1) {
-            t22 = *(int *)0xC2A11F4;
-            t23 = *(int *)((((t22 << 2) + 0xC2A11F8) + 0x0));
-            t24 = GetNowLanguage(0x0);
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t24 * (short)0x58)), 0x2, t23, 0x0);
-            t52 = 0x22;
-            t53 = 0xC2A1248;
-            u55 = 197.0f;
-        } else {
-            t26 = *(int *)0xC2A11F4;
-            t27 = *(int *)((((t26 << 2) + 0xC2A11F8) + 0x0));
-            t28 = GetNowLanguage(0x0);
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t28 * (short)0x58)), 0x2, t27, 0x0);
-            t31 = 0x0;
-            t32 = 0xC2A124C;
-            t33 = ((int)stk + 12);
-            for (;;) {
-                if ((int)t31 >= (int)0x3) {
-                    break;
-                }
-                t34 = *(signed char *)((t32 + 0x0));
-                t30 = t34;
-                t32 = (t32 + 0x1);
-                t31 = (t31 + 0x1);
-                *(unsigned char *)((t33 + 0x0)) = t30;
-                t33 = (t33 + 0x1);
-            }
-            t35 = 0x0;
-            t36 = t33;
-            for (;;) {
-                t37 = GetNowLanguage(0x0);
-                t38 = *(int *)((0xC0EF7A8 + (t37 << 2)));
-                if ((int)t35 >= (int)t38) {
-                    break;
-                }
-                *(unsigned char *)((t36 + 0x0)) = 0x20;
-                t35 = (t35 + 0x1);
-                t36 = (t36 + 0x1);
-            }
-            t39 = t38;
-            t40 = 0x0;
-            t41 = 0xC2A1248;
-            t42 = t36;
-            for (;;) {
-                if ((int)t40 >= (int)0x3) {
-                    break;
-                }
-                t43 = *(signed char *)((t41 + 0x0));
-                t39 = t43;
-                t41 = (t41 + 0x1);
-                t40 = (t40 + 0x1);
-                *(unsigned char *)((t42 + 0x0)) = t39;
-                t42 = (t42 + 0x1);
-            }
-            *(unsigned char *)((t42 + 0x0)) = 0x0;
-            u44 = *(float *)0xC03F2B4;
-            t52 = 0x1C;
-            t53 = ((int)stk + 12);
-            u55 = u44;
-        }
-        PutVM_Message(0x20, t52, t53, u55, 208.0f);
-    }
-    t65 = windowEnterStep();
-    return t65;
-}

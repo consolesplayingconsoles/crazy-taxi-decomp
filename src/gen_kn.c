@@ -332,7 +332,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if (t74) goto L_C05D818;
     goto L_C05D7DE;
     L_C05D7DE:;
-    u77 = *(float *)0xC05D8D0;
+    u77 = 5000.0f;
     t78 = !(u77 > F15);
     *(float *)(((int)stk + 8)) = *(float *)((int)stk + 8);
     *(float *)(((int)stk + 4)) = *(float *)((int)stk + 4);

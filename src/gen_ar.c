@@ -122,56 +122,6 @@ int CheckBoxFlag(int a4)
     return t12;
 }
 
-int trainControlInit(void)
-{
-    int t0;
-    int t17;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t16;
-
-    t0 = set_event(0x18, 0xC0482F4);
-    t17 = t0;
-    if (t0 != 0) {
-        *(unsigned int *)((t0 + 0x14)) = 0x0;
-        *(unsigned int *)0xC2A4E48 = 0x0;
-        t1 = 0x13B;
-        do {
-            t2 = *(int *)0xC2A6690;
-            t3 = *(int *)((((((t1 << 1) + t1) << 2) + t2) + 0x4));
-            t4 = *(int *)((((((t1 << 1) + t1) << 2) + t2) + 0x0));
-            t5 = *(int *)((t3 + 0x0));
-            t6 = TrainCarInit(0x10, t1, (((((t5 << 1) + t5) << 2) + t4) - 120));
-            t1 = (t1 + 0x1);
-            t8 = *(int *)((t6 + 0x84));
-            *(unsigned int *)((t6 + 0x84)) = (t8 & 0xFFFFFFFE);
-        } while ((int)t1 < (int)0x13D);
-        t9 = 0x13D;
-        do {
-            t10 = *(int *)0xC2A6690;
-            t11 = *(int *)((((((t9 << 1) + t9) << 2) + t10) + 0x4));
-            t12 = *(int *)((((((t9 << 1) + t9) << 2) + t10) + 0x0));
-            t13 = *(int *)((t11 + 0x0));
-            t14 = TrainCarInit(0x13, t9, (((((t13 << 1) + t13) << 2) + t12) - 120));
-            t9 = (t9 + 0x1);
-            t16 = *(int *)((t14 + 0x84));
-            *(unsigned int *)((t14 + 0x84)) = (t16 & 0xFFFFFFFE);
-        } while ((int)t9 < (int)0x13F);
-        t17 = 0x84;
-    }
-    return t17;
-}
 
 void getReplayPoint(int a4, int a5, int a6, int a7, int a8)
 {
@@ -269,41 +219,6 @@ int crowdCreate(int a4, int a5)
     return t19;
 }
 
-int pedGetSubwayFlag(void)
-{
-    int t0;
-    int t1;
-    float u2;
-    float u3;
-    int t4;
-    int t5;
-    int t7;
-    int t8;
-    int t6;
-
-    t0 = GetCollision2D(0xC179144, 20.0f);
-    t1 = *(int *)((t0 + 0x1C));
-    if (t1 != -1) {
-        u2 = *(float *)0xC179148;
-        u3 = *(float *)((t0 + 0x4));
-        if (!(((u3 - u2) < 0.0f ? -(u3 - u2) : (u3 - u2)) > 80.0f)) {
-            t4 = *(int *)((t0 + 0x1C));
-            *(unsigned int *)0xC12FFBC = t4;
-            t6 = t4;
-        } else {
-            t5 = *(int *)0xC12FFBC;
-            t6 = t5;
-        }
-        t8 = t6;
-    } else {
-        t7 = *(int *)0xC12FFBC;
-        t8 = t7;
-    }
-    if (t8 == 21) {
-        return 0x2;
-    }
-    return ((((int)t8 >= (int)0x11)) ? 1 : 0);
-}
 
 
 int FUN_0c075700(int a4, int a5)

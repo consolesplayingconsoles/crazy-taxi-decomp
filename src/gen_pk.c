@@ -1,42 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_pk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int BigOneResetState(void);
+int Psg_CheckCharaBit4(int a4);
 
-int BigOneResetState(void)
+int Psg_CheckCharaBit4(int a4)
 {
-    float u0;
-    float u1;
-    float u2;
-    float u3;
+    int t0;
 
-    u0 = *(float *)0xC073140;
-    *(float *)0xC2AEC20 = u0;
-    u1 = *(float *)0xC073144;
-    *(float *)0xC2AEC24 = u1;
-    u2 = *(float *)0xC073148;
-    *(float *)0xC2AEC28 = u2;
-    *(unsigned int *)0xC2AEC34 = 0x0;
-    *(unsigned int *)0xC2AEC30 = 0x0;
-    *(unsigned int *)0xC2AEC2C = 0x0;
-    *(unsigned int *)0xC2AEC3C = 0x0;
-    *(float *)0xC2AEC48 = 0.0f;
-    *(float *)0xC2AEC44 = 0.0f;
-    *(float *)0xC2AEC40 = 0.0f;
-    *(unsigned int *)0xC2AEC54 = 0x0;
-    *(unsigned int *)0xC2AEC50 = 0x0;
-    *(unsigned int *)0xC2AEC4C = 0x0;
-    *(float *)0xC2AEC58 = 0.0f;
-    u3 = *(float *)0xC07314C;
-    *(float *)0xC2AEC5C = u3;
-    *(unsigned int *)0xC2AEC68 = 0x0;
-    *(unsigned int *)0xC2AEC64 = 0x0;
-    *(unsigned int *)0xC2AEC60 = 0x0;
-    *(unsigned int *)0xC2AEC74 = 0x0;
-    *(unsigned int *)0xC2AEC70 = 0x0;
-    *(unsigned int *)0xC2AEC6C = 0x0;
-    *(unsigned int *)0xC2AEC80 = 0x0;
-    *(unsigned int *)0xC2AEC7C = 0x0;
-    *(unsigned int *)0xC2AEC78 = 0x0;
-    return 0x58;
+    t0 = *(int *)((a4 + 0x0));
+    if ((t0 != 1) && ((t0 != 3) && ((t0 != 4) && ((t0 != 23) && ((t0 != 24) && ((t0 != 30) && ((t0 != 32) && ((t0 != 33) && ((t0 != 35) && ((t0 != 37) && ((t0 != 39) && ((t0 != 40) && ((t0 != 42) && ((t0 != 43) && ((t0 != 44) && ((t0 != 45) && ((t0 != 48) && ((t0 != 49) && ((t0 != 50) && ((t0 != 52) && ((t0 != 53) && ((t0 != 56) && (t0 != 57))))))))))))))))))))))) {
+        return 0x0;
+    }
+    return 0x1;
 }

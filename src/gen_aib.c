@@ -1,0 +1,93 @@
+/* Straight-line functions with calls and guards (batch gen_aib): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int FUN_0c04d60c(int a4, int a5, int a6, int a7, int a8);
+
+int FUN_0c04d60c(int a4, int a5, int a6, int a7, int a8)
+{
+    int t7;
+    int t9;
+    int t19;
+    int stk[2] = {0};
+
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R12;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C04D60C:;
+    R0 = (0x1C);
+    R1 = (0xC1EE24C);
+    if (((*(signed char *)0xC1EE268) == 0)) goto L_C04D654;
+    goto L_C04D618;
+    L_C04D618:;
+    if (((*(int *)((R5 + 0x0))) != 0)) goto L_C04D67A;
+    goto L_C04D61E;
+    L_C04D61E:;
+    t7 = (int)((int)((*(int *)((R6 + 0x0))) + 0x1) % (int)R7);
+    *(unsigned int *)((R6 + 0x0)) = t7;
+    R0 = (t7);
+    goto L_C04D67A;
+    L_C04D67A:;
+    t9 = *(int *)((R4 + 0x0));
+    *(unsigned int *)((R4 + 0x0)) = (t9 + 0x1);
+    if (((int)(t9 + 0x1) > (int)a8)) goto L_C04D6AE;
+    goto L_C04D686;
+    L_C04D686:;
+    *(unsigned int *)((R5 + 0x0)) = 0x1;
+    goto L_C04D6B2;
+    L_C04D6B2:;
+    return R0;
+    L_C04D6AE:;
+    *(unsigned int *)((R5 + 0x0)) = 0x0;
+    goto L_C04D6B2;
+    L_C04D654:;
+    R0 = (0x1B);
+    if (((*(signed char *)((R1 + 0x1B))) == 0)) goto L_C04D68C;
+    goto L_C04D65C;
+    L_C04D65C:;
+    if (((*(int *)((R5 + 0x0))) != 0)) goto L_C04D67A;
+    goto L_C04D662;
+    L_C04D662:;
+    if (((*(int *)((R6 + 0x0))) != 0)) goto L_C04D66E;
+    goto L_C04D668;
+    L_C04D668:;
+    *(unsigned int *)((R6 + 0x0)) = (R7 - 1);
+    goto L_C04D67A;
+    L_C04D66E:;
+    t19 = (int)((int)((*(int *)((R6 + 0x0))) - 1) % (int)R7);
+    *(unsigned int *)((R6 + 0x0)) = t19;
+    R0 = (t19);
+    goto L_C04D67A;
+    L_C04D68C:;
+    if (((*(signed char *)((R1 + R0))) != 0)) goto L_C04D6B2;
+    goto L_C04D692;
+    L_C04D692:;
+    R0 = (0x1C);
+    if (((*(signed char *)((R1 + 0x1C))) != 0)) goto L_C04D6B2;
+    goto L_C04D69A;
+    L_C04D69A:;
+    R0 = (0x1D);
+    if (((*(signed char *)((R1 + 0x1D))) != 0)) goto L_C04D6B2;
+    goto L_C04D6A2;
+    L_C04D6A2:;
+    R0 = (0x1E);
+    if (((*(signed char *)((R1 + 0x1E))) != 0)) goto L_C04D6B2;
+    goto L_C04D6AA;
+    L_C04D6AA:;
+    *(unsigned int *)((R4 + 0x0)) = 0x0;
+    goto L_C04D6AE;
+}

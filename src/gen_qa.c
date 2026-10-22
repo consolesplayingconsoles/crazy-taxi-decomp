@@ -3,37 +3,23 @@
 
 int SetScreen(int);
 int SetWindow(int);
-int windowReturn(void);
+int Voice_Request(int, int, int, int);
+int callBoxAdvice(void);
 
-int windowReturn(void)
+int callBoxAdvice(void)
 {
-    int t0;
-    int t1;
-    int t4;
-    int t5;
-    int t6;
-    int t11;
+    int t9;
 
-    t0 = *(int *)0xC2A1218;
-    if (t0 != 0) {
-        t1 = SetWindow(t0);
-        *(unsigned int *)0xC2A1218 = 0x0;
-        t11 = t1;
-    } else {
-        SetScreen(0x4);
-        SetWindow(0x0);
-        *(unsigned int *)0xC2A11B0 = 0x0;
-        t4 = *(int *)0xC2A1228;
-        *(unsigned int *)0xC1EE234 = t4;
-        t5 = *(int *)0xC2A122C;
-        *(unsigned int *)0xC1EE238 = t5;
-        t6 = *(int *)0xC1EE234;
-        if (t6 == 0) {
-            *(unsigned int *)0xC1EE210 = 0x0;
-            *(unsigned int *)0xC1EE214 = 0x0;
-            *(unsigned int *)0xC1EE20C = 0x0;
-        }
-        t11 = t5;
+    *(unsigned int *)0xC2A1228 = (*(int *)0xC1EE234);
+    *(unsigned int *)0xC2A122C = (*(int *)0xC1EE238);
+    if ((*(int *)0xC1EE234) != 3) {
+        *(unsigned int *)0xC1EE234 = 0x3;
+        *(unsigned int *)0xC1EE238 = 0x0;
     }
-    return t11;
+    SetScreen(0x6);
+    SetWindow(0xF);
+    t9 = (int)((int)((*(int *)0xC2A1AE0) + 0x1) % (int)0x3);
+    *(unsigned int *)0xC2A1AE0 = t9;
+    *(unsigned int *)0xC0EF550 = (*(int *)(((t9 << 2) + 0xC0A2018)));
+    return Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
 }

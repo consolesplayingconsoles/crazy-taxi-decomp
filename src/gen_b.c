@@ -103,9 +103,9 @@ int Init_Pass_Time(void)
     *(float *)0xC2A8070 = u0;
     u1 = *(float *)0xC2A7608;
     *(float *)0xC2A8074 = u1;
-    u2 = *(float *)0xC0527D4;
+    u2 = 0.099999994f;
     *(float *)0xC2A8078 = u2;
-    u3 = *(float *)0xC0527D8;
+    u3 = 0.5f;
     *(float *)0xC2A807C = u3;
     *(float *)0xC2A8080 = u3;
     *(float *)0xC2A8084 = 0.0f;

@@ -99,33 +99,42 @@ def compile_link(cfile, defines):
     stem = os.path.splitext(os.path.basename(cfile))[0]
     os.makedirs('build/equiv', exist_ok=True)
     tw = 'Z:' + ('/sdk/' + rel).replace('/', '\\')
+    me = '%s.%d' % (stem, os.getpid())      # the compiler's temp folder and the logs are per run: compiles may run side by side
     sub = ['elf', 'start P(%08X)' % SCRATCH, 'output build\\equiv\\%s.elf' % stem,
            'print build\\equiv\\%s.map' % stem, 'input build\\equiv\\%s.obj' % stem]
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(defines.items())] + ['exit']
     open('build/equiv/%s.sub' % stem, 'w').write('\n'.join(sub) + '\n')
     inline = '#pragma inline_asm' in open(cfile, errors='replace').read()      # C with assembly text: shc to assembly source, then asmsh
-    first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "/sdk/%s/shc.exe" "src\\%s.c" '
-             '-object="build\\equiv\\%s.obj" %s > build/equiv/shc.log 2>&1 || { cat build/equiv/shc.log; exit 1; }; '
-             % (rel, stem, stem, FLAGS))
+    first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "src\\%s.c" '
+             '-object="build\\equiv\\%s.obj" %s > build/equiv/%s.shc.log 2>&1 || { cat build/equiv/%s.shc.log; exit 1; }; '
+             % (me, rel, stem, stem, FLAGS, me, me))
     if inline:
-        first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp" wibo "/sdk/%s/shc.exe" "src\\%s.c" -code=asm '
-                 '-object="build\\equiv\\%s.s" %s > build/equiv/shc.log 2>&1 || { cat build/equiv/shc.log; exit 1; }; '
+        first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "src\\%s.c" -code=asm '
+                 '-object="build\\equiv\\%s.s" %s > build/equiv/%s.shc.log 2>&1 || { cat build/equiv/%s.shc.log; exit 1; }; '
                  'wibo "/sdk/%s/asmsh.exe" "build\\equiv\\%s.s" -object="build\\equiv\\%s.obj" -cpu=sh4 -endian=little '
-                 '> build/equiv/asm.log 2>&1 || { cat build/equiv/asm.log; exit 1; }; ' % (rel, stem, stem, FLAGS, rel, stem, stem))
-    steps = ('set -e; mkdir -p build/tmp; ' + first +
-             'wibo "/sdk/%s/lnk.exe" -subcommand="build\\equiv\\%s.sub" > build/equiv/lnk.log 2>&1 || true; '
-             'wibo "/sdk/%s/elf2bin.exe" -s %08X "build\\equiv\\%s.elf" "build\\equiv\\%s.bin" > build/equiv/elf2bin.log 2>&1 || true'
-             % (rel, stem, rel, SCRATCH, stem, stem))
+                 '> build/equiv/%s.asm.log 2>&1 || { cat build/equiv/%s.asm.log; exit 1; }; '
+                 % (me, rel, stem, stem, FLAGS, me, me, rel, stem, stem, me, me))
+    steps = ('set -e; mkdir -p build/tmp/%s; ' % me + first +
+             'wibo "/sdk/%s/lnk.exe" -subcommand="build\\equiv\\%s.sub" > build/equiv/%s.lnk.log 2>&1 || true; '
+             'wibo "/sdk/%s/elf2bin.exe" -s %08X "build\\equiv\\%s.elf" "build\\equiv\\%s.bin" > build/equiv/%s.elf2bin.log 2>&1 || true; '
+             'rm -rf build/tmp/%s'
+             % (rel, stem, me, rel, SCRATCH, stem, stem, me, me))
     r = subprocess.run(['docker', 'run', '--rm', '-v', sdk + ':/sdk:ro', '-v', os.getcwd() + ':/app', '-w', '/app',
                         '-e', 'TW=' + tw, os.environ.get('DC_TOOLS_IMAGE', 'dc-tools'), 'bash', '-c', steps],
                        stdin=subprocess.DEVNULL, capture_output=True, text=True)
     if r.returncode:
         sys.exit('[ERROR] compile failed:\n' + r.stdout + r.stderr)
-    log = open('build/equiv/lnk.log', errors='replace').read()
+    if not os.path.exists('build/equiv/%s.lnk.log' % me):      # the container stopped before the link: say what it printed
+        return None, ['(no link: %s)' % (r.stdout + r.stderr).strip()[-200:]]
+    log = open('build/equiv/%s.lnk.log' % me, errors='replace').read()
+    for k in ('shc', 'asm', 'lnk', 'elf2bin'):
+        if k != 'lnk' and os.path.exists('build/equiv/%s.%s.log' % (me, k)):
+            os.remove('build/equiv/%s.%s.log' % (me, k))
+    os.remove('build/equiv/%s.lnk.log' % me)
     undefined = re.findall(r'UNDEFINED EXTERNAL SYMBOL\((?:\w+\.)?_?([^)\s]+)\)', log) or \
         re.findall(r'\(E\) UNDEFINED EXTERNAL SYMBOL\s*"?(\w+)', log)
     if undefined or not os.path.exists('build/equiv/%s.bin' % stem):
-        return None, undefined or ['(link failed: see build/equiv/lnk.log)']
+        return None, undefined or ['(link failed: %s)' % log.strip()[-200:]]
     syms = {}
     for m in re.finditer(r'(_\w+)\s*\n?\s*H\'([0-9A-Fa-f]{8})', open('build/equiv/%s.map' % stem, errors='replace').read()):
         syms.setdefault(m.group(1), int(m.group(2), 16))
@@ -458,7 +467,7 @@ def main(argv):
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
             cache[key] = {'fn': fn, 'why': results[fn][1], 'covtext': covtext}
-    if any(ok for ok, _ in results.values()):
+    if any(ok for ok, _ in results.values()) and not stem.startswith('zz_'):
         fresh_cache = load_cache()          # another run may have added keys meanwhile
         fresh_cache.update(cache)
         save_cache(fresh_cache)
@@ -469,6 +478,8 @@ def main(argv):
         print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
             sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),
             sum(1 for ok, _ in results.values() if ok is None)))
+    if stem.startswith('zz_'):          # a scratch file (an experiment): its results are printed, never recorded
+        return
     path = os.path.join('tests', 'equivalent.txt')
     have = set(open(path).read().split()) if os.path.exists(path) else set()
     have |= {fn for fn, (ok, _) in results.items() if ok}

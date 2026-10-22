@@ -67,7 +67,7 @@ def write_batch(keep):
     protos={}
     for it in keep:
         for a,b in it[3].items(): protos[a]=b
-    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc] if not os.path.exists('src/gen_%s.c'%x))
+    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc]+[a+b+c_ for a in abc for b in abc for c_ in abc] if not os.path.exists('src/gen_%s.c'%x))
     head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
     open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)

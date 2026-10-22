@@ -1,34 +1,24 @@
 /* Straight-line functions with calls and guards (batch gen_qt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetScreen(int);
-int SetWindow(int);
-int Voice_Clear(void);
-int Sound_Init(void);
-int gdc_StopStreamSongAll(void);
-int gdc_StopStreamVoiceAll(void);
-int pfSetZ(float);
-int callGoBackAdvertise(void);
+int set_event(int, int);
+void SetHelicopter(void);
 
-int callGoBackAdvertise(void)
+void SetHelicopter(void)
 {
-    float u6;
-    int t7;
+    int t0;
 
-    *(unsigned int *)0xC1EE234 = 0x0;
-    *(unsigned int *)0xC1EE238 = 0x8;
-    *(unsigned int *)0xC2A11D8 = 0x0;
-    *(unsigned int *)0xC2A11DC = 0x0;
-    SetScreen(0x0);
-    SetWindow(0x0);
-    Voice_Clear();
-    gdc_StopStreamVoiceAll();
-    gdc_StopStreamSongAll();
-    Sound_Init();
-    u6 = *(float *)0xC040D94;
-    t7 = pfSetZ(u6);
-    *(unsigned int *)0xC1EE210 = 0x0;
-    *(unsigned int *)0xC1EE214 = 0x0;
-    *(unsigned int *)0xC1EE20C = 0x0;
-    return t7;
+    t0 = set_event(0x5C, 0xC0370C4);
+    *(unsigned int *)0xC27428C = t0;
+    if (t0 != 0) {
+        *(float *)((t0 + 0x14)) = (*(float *)0xC037678);
+        *(float *)((t0 + 0x18)) = (*(float *)0xC03767C);
+        *(float *)((t0 + 0x1C)) = (*(float *)0xC037680);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x20)) = *(struct mv3 *)(0xC0965F0); }
+        *(unsigned int *)((t0 + 0x58)) = 0x0;
+        { struct mv9 { int w[9]; }; *(struct mv9 *)((t0 + 0x2C)) = *(struct mv9 *)(0xC096608); }
+        *(float *)((t0 + 0x50)) = (*(float *)0xC037690);
+        *(unsigned int *)((t0 + 0x54)) = 0x0;
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC274274) = *(struct mv3 *)((t0 + 0x14)); }
+    }
 }

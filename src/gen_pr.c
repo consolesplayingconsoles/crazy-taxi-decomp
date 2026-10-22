@@ -1,101 +1,115 @@
 /* Straight-line functions with calls and guards (batch gen_pr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Init_nd_StartWait(void);
-int nd_StartWait_MoveCar(void);
+int FUN_0c07b9e0(void);
+int FcvPlay(int, int, float);
+int nlObjPutSetFadeColor(float, float, float);
+int nlObjPutSetFadeColorBase(float, float, float);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAY(int);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int nd_StartWait_PutKyaku(void);
 
-int nd_StartWait_MoveCar(void)
+int nd_StartWait_PutKyaku(void)
 {
     int t0;
-    float u1;
-    float u2;
-    float u3;
-    int t4;
-    int t12;
-    int t13;
-    float u15;
-    float u16;
-    float u17;
-    float u18;
-    float u19;
-    int t28;
-    float u31;
-    float u32;
-    int t33;
-    int t35;
-    int t34;
     int t5;
-    int t20;
+    int t7;
+    float u25;
+    float u26;
+    int t34;
+    int t38;
+    int t49;
+    int t50;
+    int t72;
+    int t73;
+    int t43;
+    int t51;
+    int t64;
+    float u66;
 
     t0 = *(int *)0xC2A720C;
-    u1 = *(float *)0xC2A72CC;
-    if (t0 == 0) {
-        if (-20.0f > u1) {
-            u2 = *(float *)0xC2A72CC;
-            *(float *)0xC2A72CC = (u2 + 4.0f);
-            u3 = *(float *)0xC2A72E0;
-            *(float *)0xC2A72E0 = (u3 + 3.0f);
-            t4 = *(short *)0xC2A72C0;
-            *(unsigned short *)0xC2A72C0 = (t4 - 0x200);
-            t5 = 0xC0505D0;
+    if ((t0 != 2) && (t0 != 3)) {
+        if ((t0 != 0) && (t0 != 1)) {
+            *(unsigned int *)0xC130468 = 0x2;
         } else {
-            *(unsigned int *)0xC2A720C = 0x1;
-            *(unsigned int *)0xC2A72B8 = 0x0;
-            t5 = 0x1;
+            *(unsigned int *)0xC130468 = 0x0;
         }
-        return t5;
+    } else {
+        *(unsigned int *)0xC130468 = 0x1;
     }
-    t12 = *(int *)0xC2A7208;
-    if (t0 == 1) {
-        t13 = t0;
-        if ((int)t12 >= (int)0x64) {
-            *(unsigned int *)0xC2A720C = 0x2;
-            t13 = 0x2;
+    nlObjPutSetFadeColorBase(1.0f, 1.0f, 0.0f);
+    nlPushMatrix(0x0);
+    t5 = *(int *)0xC130468;
+    if (t5 == 0) {
+        nlTranslate(-20.0f, 0.0f, -160.0f);
+        t7 = *(signed char *)0xC2A72D8;
+        nlTranslateV(((signed char)(((t7 << 1) + t7) << 2) + 0xC0CF624));
+        nlRotateAY(0x8000);
+        if ((int)(*(int *)0xC2A7208) <= (int)0x33) {
+            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
+            nlPushMatrix(0x0);
+            nlTranslate(0.0f, (*(float *)0xC2A72C4), 0.0f);
+            nlRotateAY(0x8000);
+            nlObjPutUseViewMatrix(0xC46D618);
+            nlPopMatrix(0x1);
         }
-        return t13;
-    }
-    if (t0 == 2) {
-        u15 = *(float *)0xC05069C;
-        if (u15 > u1) {
-            u16 = *(float *)0xC2A72CC;
-            u17 = *(float *)0xC0506A0;
-            *(float *)0xC2A72CC = (u16 + u17);
-            u18 = *(float *)0xC2A72E0;
-            u19 = *(float *)0xC0506A8;
-            *(float *)0xC2A72E0 = (u18 + u19);
-            t20 = 0xC0506A8;
+        nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+        nlRotateAY((-(unsigned short)(*(short *)0xC2A72C0)));
+        u25 = *(float *)0xC2A72C4;
+        u26 = *(float *)0xC2A72C8;
+        *(float *)0xC2A72C4 = (u25 + u26);
+        if (35.0f > (u25 + u26)) {
+            *(float *)0xC2A72C4 = 35.0f;
+            *(float *)0xC2A72C8 = 0.699999988f;
+        }
+        *(float *)0xC2A72C8 = ((*(float *)0xC2A72C8) - 0.0249999985f);
+        FUN_0c07b9e0();
+    } else {
+        if (t5 == 1) {
+            nlTranslateV(0xC2A72CC);
+            nlRotateAY(0x4000);
+            t34 = *(signed char *)0xC2A72D8;
+            nlTranslateV(((signed char)(((t34 << 1) + t34) << 2) + 0xC0CF654));
+            t43 = 0x8000;
         } else {
-            *(unsigned int *)0xC2A720C = 0x3;
-            *(unsigned int *)0xC2A72B8 = 0x0;
-            t20 = 0xC05069C;
+            nlTranslate((204.4f), 0.0f, -160.0f);
+            t38 = *(signed char *)0xC2A72D8;
+            nlTranslateV(((signed char)(((t38 << 1) + t38) << 2) + 0xC0CF684));
+            t43 = ((unsigned short)(*(short *)0xC2A72C0) + 0x8000);
         }
-        return t20;
+        nlRotateAY(t43);
     }
-    if (t0 == 3) {
-        t28 = t0;
-        if ((int)t12 >= (int)0x104) {
-            *(unsigned int *)0xC2A720C = 0x4;
-            *(unsigned short *)0xC2A72C0 = 0x0;
-            *(unsigned int *)0xC12FFC0 = 0x1E;
-            t28 = 0x1E;
+    t49 = *(int *)0xC2A720C;
+    t50 = *(int *)0xC2A7208;
+    if ((t49 == 1) && (t51 = *(int *)0xC2A7208, (int)t51 > (int)0x33)) {
+        if (t50 == 52) {
+            *(unsigned int *)0xC12FFC0 = 0x0;
         }
-        return t28;
-    }
-    if (t0 == 4) {
-        u31 = *(float *)0xC0506B4;
-        if (u31 > u1) {
-            u32 = *(float *)0xC2A72CC;
-            *(float *)0xC2A72CC = (u32 + (1.0f + 1.0f));
-            t33 = *(short *)0xC2A72C0;
-            t35 = 0xC0506B4;
-            if ((int)(unsigned short)t33 < (int)0x4000) {
-                t34 = *(short *)0xC2A72C0;
-                *(unsigned short *)0xC2A72C0 = (t34 + 0x100);
-                t35 = (t34 + 0x100);
+        nlRotateAY(0x4000);
+        FcvPlay(0xC9CE170, 0x0, (float)(*(int *)0xC12FFC0));
+    } else {
+        if ((t49 == 3) && ((int)t50 > (int)0xAB)) {
+            if (t50 == 0xAC) {
+                *(unsigned int *)0xC12FFC0 = 0x0;
             }
-            return t35;
+            t64 = 0xC954D58;
+            u66 = (float)(*(int *)0xC12FFC0);
+        } else {
+            t64 = (*(int *)(((t49 << 2) + 0xC12FFFC)));
+            u66 = (float)(*(int *)0xC12FFC0);
         }
-        return Init_nd_StartWait();
+        FcvPlay(t64, 0x0, u66);
     }
-    return t0;
+    t72 = *(int *)0xC12FFC0;
+    t73 = (t72 + 0x1);
+    if ((*(int *)0xC2A720C) == 4) {
+        t73 = (t72 + 0x2);
+    }
+    *(unsigned int *)0xC12FFC0 = ((int)((int)t73 % (int)0xC8));
+    nlPopMatrix(0x1);
+    return nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
 }

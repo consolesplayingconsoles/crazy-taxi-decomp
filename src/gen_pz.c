@@ -86,10 +86,10 @@ int gdc_CoursePut(int a4, int a5, float f4)
                 t12 = 0x1;
                 *(unsigned char *)((t11 + 0x0)) = t12;
                 *(unsigned int *)((t11 + 0x4)) = t5;
-                u19 = *(float *)0xC02ED04;
-                u20 = *(float *)0xC02ED08;
+                u19 = 0.39999998f;
+                u20 = 120.0f;
                 if (0.0f > (u20 - (f4 * u19))) {
-                    u21 = *(float *)0xC02ED0C;
+                    u21 = 90.0f;
                     *(unsigned int *)((t11 + 0xC)) = (int)(0.0f + u21);
                     t22 = *(int *)((t11 + 0x10));
                     *(unsigned int *)((t11 + 0x10)) = (t22 + 0x1);
@@ -115,7 +115,7 @@ int gdc_CoursePut(int a4, int a5, float f4)
                     }
                     return 0xC02ED0C;
                 }
-                u23 = *(float *)0xC02ED0C;
+                u23 = 90.0f;
                 *(unsigned int *)((t11 + 0xC)) = (int)((u20 - (f4 * u19)) + u23);
                 t24 = *(int *)((t11 + 0x10));
                 *(unsigned int *)((t11 + 0x10)) = (t24 + 0x1);

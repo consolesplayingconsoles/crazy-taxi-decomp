@@ -62,7 +62,7 @@ int pfSetFont(int a4)
     t16 = 0xC0ED268;
     if (t13 != 0) {
         u14 = *(float *)0xC26E204;
-        u15 = *(float *)0xC03112C;
+        u15 = 0.5f;
         *(float *)0xC26E204 = (u14 * u15);
         t16 = 0xC03112C;
     }
@@ -72,32 +72,5 @@ int pfSetFont(int a4)
     return t16;
 }
 
-int Money_Array(int a4, int a5, int a6)
-{
-    float u0;
-    int t6;
-    int t1;
-    int t2;
-    float t3;
-    int t4;
-    int t5;
-
-    u0 = *(float *)0xC0577D4;
-    t6 = 0xC0577D4;
-    if ((int)(a6 - 1) >= 0) {
-        t1 = a5;
-        t2 = (a6 - 1);
-        do {
-            t3 = nlPow(u0, (float)t2);
-            t4 = (int)((int)t1 / (int)(int)t3);
-            t5 = ((t2 << 2) + a4);
-            t2 = (t2 - 1);
-            *(unsigned int *)((t5 + 0x0)) = t4;
-            t1 = (t1 - (t4 * (int)t3));
-        } while ((int)t2 >= 0);
-        t6 = t4;
-    }
-    return t6;
-}
 
 

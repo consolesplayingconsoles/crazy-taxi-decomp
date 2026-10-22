@@ -1,30 +1,25 @@
 /* Straight-line functions with calls and guards (batch gen_pm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int LetsMakeAquarium(void);
+int nd_SprPut(int, int, float, float);
+void Put_Bowling_Message(float f4);
 
-int LetsMakeAquarium(void)
+void Put_Bowling_Message(float f4)
 {
-    float u0;
-    int t1;
-    int t2;
+    int t0;
+    float u1;
+    float u2;
 
-    *(unsigned int *)0xC13F514 = 0x0;
-    u0 = *(float *)0xC072A34;
-    t1 = 0x0;
-    for (;;) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)((((t1 << 2) << 1) + t1) << 2) + 0xC2AE788)) = *(struct mv3 *)(0xC0D5530); }
-        *(unsigned int *)((((short)((((t1 << 2) << 1) + t1) << 2) + 0xC2AE788) + 0xC)) = 0x0;
-        t2 = ((short)((((t1 << 2) << 1) + t1) << 2) + 0xC2AE788);
-        t1 = (t1 + 0x1);
-        *(unsigned int *)((t2 + 0x10)) = 0x0;
-        *(float *)((t2 + 0x14)) = u0;
-        *(unsigned int *)((t2 + 0x18)) = 0x0;
-        *(unsigned int *)((t2 + 0x1C)) = 0x0;
-        *(unsigned int *)((t2 + 0x20)) = 0x0;
-        if ((int)t1 >= (int)0x1E) {
-            break;
-        }
+    t0 = *(int *)0xC2A9960;
+    *(unsigned int *)0xC2A9960 = (t0 + 0x1);
+    if ((int)(t0 + 0x1) < (int)0x78) {
+        u1 = *(float *)0xC05CE48;
+        *(float *)0xC2A98A8 = u1;
+        *(float *)0xC2A98AC = u1;
+        u2 = *(float *)0xC05CE50;
+        nd_SprPut(0xC2A9898, 0x1F1, u2, (*(float *)0xC05CE54));
+        nd_SprPut(0xC2A9898, 0x1F2, u2, (*(float *)0xC05CE5C));
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
     }
-    return 0x14;
 }

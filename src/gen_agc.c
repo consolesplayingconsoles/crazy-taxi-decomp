@@ -1,0 +1,46 @@
+/* Straight-line functions with calls and guards (batch gen_agc): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int FUN_0c077df0(int);
+int humanDraw(int, int, int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlScale(float, float, float);
+int nlTranslate(float, float, float);
+int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+
+int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+{
+    int stk[21] = {0};
+
+    stk[9] = a8;
+    stk[10] = a9;
+    stk[11] = a10;
+    stk[12] = a11;
+    *(unsigned int *)(((int)stk + 4)) = a4;
+    *(unsigned int *)(((int)stk + 16)) = a5;
+    *(unsigned int *)(((int)stk + 12)) = a6;
+    *(unsigned int *)(((int)stk + 8)) = a7;
+    FUN_0c077df0(0x3);
+    nlPushMatrix(0xC0D09D0);
+    FUN_0c077df0(0x2);
+    nlPushUnitMatrix();
+    FUN_0c077df0(0x1);
+    nlPushUnitMatrix();
+    nlTranslate((float)((*(int *)(((int)stk + 4))) - 320), (float)(0xF0 - (*(int *)(((int)stk + 16)))), -0.299999982f);
+    nlRotateAY((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x2))));
+    nlRotateAX((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x0))));
+    nlRotateAZ((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x4))));
+    nlScale(f4, f4, f4);
+    humanDraw((*(int *)(((int)stk + 12))), (*(int *)(((int)stk + 8))), a10, 0x0);
+    nlPopMatrix(0x1);
+    FUN_0c077df0(0x2);
+    nlPopMatrix(0x1);
+    FUN_0c077df0(0x3);
+    nlPopMatrix(0x1);
+    return (FUN_0c077df0(0x1));
+}

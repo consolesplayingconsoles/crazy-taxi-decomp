@@ -68,10 +68,10 @@ int gameState12(void)
     SetAdvCamera(0xC179840, 0x1);
     MotionBlurOn();
     MotionBlurOn();
-    u9 = *(float *)0xC02D520;
+    u9 = 0.5f;
     SetMotionBlurStrength(u9);
-    u11 = *(float *)0xC02D528;
-    u12 = *(float *)0xC02D52C;
+    u11 = 0.79999995f;
+    u12 = 0.9f;
     SetMotionBlurColor(u12, u11, u9);
     t14 = InitEndRoll();
     t15 = *(int *)0xC1EE238;
@@ -153,7 +153,7 @@ int nlInvLightVectorUseViewMatrix(void)
     u12 = *(float *)0xC14A920;
     *(float *)0xC2B3158 = (u11 + u12);
     FUN_0c077210(0xC2B3150, 0xC2B3150);
-    u14 = *(float *)0xC07B2F0;
+    u14 = 436.5f;
     nlScaleUnitVector(0xC2B3150, 0xC2B3150, u14);
     t16 = FUN_0c078980();
     return t16;

@@ -1,32 +1,54 @@
 /* Straight-line functions with calls and guards (batch gen_qu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int set_event(int, int);
-void SetHelicopter(void);
+int GetMenuMode(int);
+int Pass_Rideoff(void);
+int Start_Pass_Judgement(int);
+int GS_GuestOut(int a4);
 
-void SetHelicopter(void)
+int GS_GuestOut(int a4)
 {
-    int t0;
-    float u1;
-    float u2;
-    float u3;
-    float u4;
+    int t6;
+    int t42;
+    int t55;
+    int t48;
+    int t36;
 
-    t0 = set_event(0x5C, 0xC0370C4);
-    *(unsigned int *)0xC27428C = t0;
-    if (t0 != 0) {
-        u1 = *(float *)0xC037678;
-        *(float *)((t0 + 0x14)) = u1;
-        u2 = *(float *)0xC03767C;
-        *(float *)((t0 + 0x18)) = u2;
-        u3 = *(float *)0xC037680;
-        *(float *)((t0 + 0x1C)) = u3;
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x20)) = *(struct mv3 *)(0xC0965F0); }
-        *(unsigned int *)((t0 + 0x58)) = 0x0;
-        { struct mv9 { int w[9]; }; *(struct mv9 *)((t0 + 0x2C)) = *(struct mv9 *)(0xC096608); }
-        u4 = *(float *)0xC037690;
-        *(float *)((t0 + 0x50)) = u4;
-        *(unsigned int *)((t0 + 0x54)) = 0x0;
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC274274) = *(struct mv3 *)((t0 + 0x14)); }
+    if ((*(int *)0xC1EE210) != 2) {
+        t6 = *(int *)0xC1EE7CC;
+        t42 = 0x0;
+        if ((int)t6 <= (int)(*(int *)0xC1EE7D4)) {
+        } else {
+            if ((int)t6 < (int)(*(int *)0xC1EE7D8)) {
+                if ((*(int *)0xC1EE210) != 2) {
+                    if ((GetMenuMode(0x1)) == 0) {
+                        *(unsigned int *)0xC1EE798 = ((*(int *)0xC1EE798) + 0x78);
+                    }
+                }
+                t36 = 0x1;
+            } else {
+                if ((*(int *)0xC1EE210) != 2) {
+                    if ((GetMenuMode(0x1)) == 0) {
+                        *(unsigned int *)0xC1EE798 = ((*(int *)0xC1EE798) + 0x12C);
+                    }
+                }
+                t36 = 0x2;
+            }
+            t42 = t36;
+        }
+        t48 = t42;
     }
+    *(unsigned int *)0xC1EE78C = 0x0;
+    *(unsigned int *)0xC1EE79C = ((*(int *)0xC1EE79C) + 0x1);
+    *(unsigned int *)0xC1EE7DC = 0x1;
+    *(unsigned int *)0xC1EE7E0 = ((*(int *)0xC1EE7E0) + 0x1);
+    t55 = *(int *)0xC1EE7CC;
+    *(unsigned int *)0xC1EE7B0 = (((t55 << 2) + t55) << 1);
+    *(unsigned int *)0xC1EE7A0 = 0x0;
+    *(unsigned int *)0xC1EE7CC = 0x0;
+    Pass_Rideoff();
+    Start_Pass_Judgement(t48);
+    *(unsigned int *)0xC1EE7E8 = 0x384;
+    *(unsigned int *)0xC1EE7F4 = 0x0;
+    return t48;
 }

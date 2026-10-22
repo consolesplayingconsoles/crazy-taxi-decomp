@@ -35,23 +35,6 @@ int Drv_StartHorn(void)
     return 0xF8;
 }
 
-int Drv_StartPickUp(void)
-{
-    int t0;
-
-    t0 = *(int *)0xC2AD018;
-    if (t0 != 0) {
-        if (t0 == 1) {
-            Drv_SetMotion(0xC8E3D50, 0.0f);
-        }
-    } else {
-        Drv_SetMotion(0xC8D62BC, 0.0f);
-    }
-    *(float *)0xC2AD0F8 = 10.0f;
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
-    return Chat_PickSomeoneUp();
-}
 
 int Put_Adv_Rating(void)
 {

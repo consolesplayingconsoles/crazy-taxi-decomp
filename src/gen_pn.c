@@ -1,28 +1,30 @@
 /* Straight-line functions with calls and guards (batch gen_pn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int PTime_Pos_Set(float, float);
-int PTime_Scale_Set(float, float);
-int PTime_Color_Set(float, float, float);
-int psgTimeDispInit(void);
+int Init_Adv_Sprite(void);
+int Start_Adv_Title_LOGO(int, int);
+int Voice_Clear(void);
+int Voice_Request(int, int, int, int);
+int gdc_FileLoadInit(void);
+int gdc_FileLoadStop(void);
+int gdc_StopStreamSongAll(void);
+int nlInitEvent(void);
+int AdvStateTitle2Init(void);
 
-int psgTimeDispInit(void)
+int AdvStateTitle2Init(void)
 {
-    float u0;
-    float u1;
-
-    *(unsigned int *)0xC2AE368 = 0x0;
-    *(unsigned int *)0xC2AE364 = 0x0;
-    *(float *)0xC2AE36C = 420.0f;
-    *(float *)0xC2AE370 = 250.0f;
-    *(float *)0xC2AE374 = (-1.0f);
-    *(float *)0xC2AE378 = -30.0f;
-    *(float *)0xC2AE380 = 0.5f;
-    *(float *)0xC2AE37C = 0.5f;
-    *(float *)0xC2AE384 = 15.0f;
-    u0 = *(float *)0xC2AE370;
-    u1 = *(float *)0xC2AE36C;
-    PTime_Pos_Set(u1, u0);
-    PTime_Scale_Set(0.5f, 0.5f);
-    return PTime_Color_Set(0.899999976f, 0.899999976f, 0.599999964f);
+    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
+    *(unsigned int *)0xC1EE240 = 0x0;
+    *(unsigned int *)0xC1EE334 = 0x11;
+    nlInitEvent();
+    gdc_StopStreamSongAll();
+    Voice_Clear();
+    Init_Adv_Sprite();
+    Start_Adv_Title_LOGO(0x0, 0x0);
+    if ((int)(*(int *)0xC0E5310) > 0) {
+        *(unsigned int *)0xC0E5310 = 0x384;
+        Voice_Request(0xC130DC0, 0x0, 0x7F, 0x0);
+    }
+    gdc_FileLoadStop();
+    return gdc_FileLoadInit();
 }

@@ -1,194 +1,172 @@
 /* Straight-line functions with calls and guards (batch gen_ip): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int TOANG2(int, float);
-int PutMVObj(void);
-int nlSqrt(int, int);
-int GetRotVec(int);
-int nlGetMatrix(int);
-int nlObjPutUseViewMatrix(int);
+int FUN_0c077210(int, int);
+int FUN_0c078a70(int, int, int);
+int FcvPlay(int, int, float);
+int GetAverageAngle(int, int, float);
+int IsBoyFriend(int, int);
+int Psg_SetPosPtr(int, int);
+extern float _builtin_sqrtf(float);
+int humanDraw(int, int, int, int);
+int nlArcTan2(float, float);
+int nlGetAverageVector(int, int, int, float, float);
+int nlGetPushedMatrix(int);
+float nlInnerProduct(int, int);
+float nlLength(int, int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int nlRotateAX(int);
 int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlSetTranslate(int);
-int nlTranslate(float, float, float);
-int putPlayerCar(int a4);
+int nlSubVector(int, int);
+int nlSubVector3op(int, int, int);
+int nlUnitVector(int);
+int psgEnterState1(int, int);
+int psgFaceBoyFriend(int);
+int psgFaceTaxi(int);
+int psgPlayBlend(int, int);
+int psgPutMarker(int, int);
+int psgPutShadow(int);
+float psgRunToPoint(int);
+int psgSetState(int, int, int, int);
+int psgUpdatePartTracks(int);
+int psgFrameState1(int a4);
 
-int putPlayerCar(int a4)
+int psgFrameState1(int a4)
 {
-    int t2;
-    int t4;
-    int t6;
-    int t9;
-    int t11;
-    int t15;
-    int t16;
-    int t18;
-    int t19;
-    int t20;
+    float t1;
+    int t10;
+    float t15;
+    float u16;
+    float u17;
     int t21;
-    int t22;
-    int t32;
-    float u33;
-    int t34;
-    float u35;
-    int t36;
-    int t38;
-    float u39;
-    float u40;
-    float u41;
-    float u42;
-    int t44;
-    int t45;
-    int t46;
-    int t47;
-    int t48;
-    int t53;
-    int t55;
-    int t56;
-    int t60;
-    float u61;
-    float u62;
-    float u63;
-    float u64;
-    int t69;
-    float u70;
-    float u71;
-    int t72;
-    float u73;
-    float u74;
-    int t76;
-    int t80;
-    int t81;
-    float u82;
-    float u83;
-    float u84;
-    float u85;
-    int t87;
-    int t88;
-    int t91;
-    float u92;
-    float u93;
-    int t95;
-    int t97;
-    int t99;
-    int t100;
-    int t103;
+    int t23;
+    float u24;
     int t25;
-    int stk[18] = {0};
+    int t27;
+    float u28;
+    int t29;
+    int t46;
+    float u49;
+    float t97;
+    int t100;
+    float u101;
+    int t5;
+    int t124;
+    int stk[33] = {0};
 
-    nlPushMatrix(0x0);
-    nlSetTranslate((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x78));
-    t2 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86));
-    nlRotateAY((unsigned short)t2);
-    t4 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x84));
-    nlRotateAX((unsigned short)t4);
-    t6 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88));
-    nlRotateAZ((unsigned short)t6);
-    nlPushMatrix(0x0);
-    t9 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0xAC));
-    nlRotateAX((unsigned short)t9);
-    t11 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0xB0));
-    nlRotateAZ((unsigned short)t11);
-    nlTranslate(0.0f, -1.19999993f, 0.0f);
-    nlGetMatrix((0xB4 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)));
-    t15 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74));
-    t16 = *(int *)((t15 + 0x10));
-    nlObjPutUseViewMatrix(t16);
-    t18 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x58));
-    if (t18 == 0) {
-        t19 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74));
-        t20 = *(int *)((t19 + 0x18));
-        t25 = t20;
-    } else {
-        t21 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74));
-        t22 = *(int *)((t21 + 0x14));
-        t25 = t22;
+    *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
+    *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;
+    t1 = nlLength((a4 + 0x4), 0xC179144);
+    nlSubVector3op((((int)stk + 4) + 0x54), ((*(int *)(((int)stk + 4))) + 0x78), (a4 + 0x4));
+    if ((t1 > (*(float *)0xC13EEE0)) && (t5 = *(int *)((a4 + 0x24)), t5 != 1)) {
+        *(unsigned int *)((a4 + 0x24)) = 0x1;
+        psgEnterState1(a4, 0x1);
     }
-    nlObjPutUseViewMatrix(t25);
-    *(volatile int *)0xC179488;
-    PutMVObj();
-    GetRotVec((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x30));
-    nlPopMatrix(0x1);
-    t32 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x6C));
-    *(unsigned int *)(((int)stk + 12)) = t32;
-    u33 = *(float *)(((0x168 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x0));
-    t34 = *(short *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x82));
-    *(unsigned short *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x82)) = (t34 + (int)(u33 * 18.2041664f));
-    u35 = *(float *)(((0x168 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x0));
-    t36 = *(short *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x82));
-    *(unsigned short *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x82)) = (t36 + (int)(u35 * 18.2041664f));
-    nlPushMatrix(0x0);
-    t38 = *(int *)(((int)stk + 12));
-    u39 = *(float *)((t38 + 0x8));
-    u40 = *(float *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0xB4));
-    u41 = *(float *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x30));
-    u42 = *(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C));
-    nlTranslate(0.0f, ((u42 - ((u41 + u40) * 0.5f)) + -0.699999988f), u39);
-    *(unsigned int *)(((int)stk + 4)) = (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC));
-    t44 = *(int *)(((int)stk + 4));
-    t45 = *(short *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x80));
-    t46 = *(short *)(((t44 + 0x84) + 0x80));
-    t47 = (int)((unsigned int)((unsigned short)t45 + (unsigned short)t46) + (unsigned int)0x0);
-    t48 = (int)((unsigned int)t47 + ((((int)0x0 > (int)((unsigned short)t45 + (unsigned short)t46))) ? 1u : 0u));
-    nlRotateAY((t48 >> 1));
-    nlSqrt(0xC08A8A4, (0x1FC + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)));
-    nlSqrt(0xC08A8B0, (0x280 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)));
-    t53 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x222));
-    nlRotateAX((unsigned short)t53);
-    t55 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74));
-    t56 = *(int *)((t55 + 0x0));
-    nlObjPutUseViewMatrix(t56);
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    t60 = *(int *)(((int)stk + 12));
-    *(unsigned int *)(((int)stk + 20)) = (t60 + 0x18);
-    u61 = *(float *)(((t60 + 0x18) + 0x8));
-    u62 = *(float *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x30));
-    u63 = *(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C));
-    u64 = *(float *)(((t60 + 0x18) + 0x0));
-    nlTranslate(u64, ((u63 - u62) + -0.699999988f), u61);
-    nlSqrt(0xC08A8BC, ((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x5C));
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    t69 = *(int *)(((int)stk + 12));
-    *(unsigned int *)(((int)stk + 4)) = (t69 + 0x24);
-    u70 = *(float *)(((t69 + 0x24) + 0x8));
-    *(unsigned int *)(((int)stk + 8)) = (0x18C + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)));
-    u71 = *(float *)(((0x18C + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x30));
-    t72 = *(int *)(((int)stk + 4));
-    u73 = *(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C));
-    u74 = *(float *)((t72 + 0x0));
-    nlTranslate(u74, ((u73 - u71) + -0.699999988f), u70);
-    t76 = *(int *)(((int)stk + 8));
-    nlSqrt(0xC08A8C8, (t76 + 0x5C));
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    t80 = *(int *)(((int)stk + 4));
-    t81 = *(int *)(((int)stk + 8));
-    u82 = *(float *)((t80 + 0x8));
-    u83 = *(float *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x30));
-    u84 = *(float *)((t81 + 0x30));
-    u85 = *(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C));
-    nlTranslate(0.0f, ((u85 - ((u83 + u84) * 0.5f)) + -0.699999988f), u82);
-    t87 = *(int *)(((int)stk + 20));
-    t88 = *(int *)(((int)stk + 4));
-    *(volatile float *)((t87 + 0x0));
-    *(volatile float *)((t88 + 0x0));
-    t91 = *(int *)(((int)stk + 8));
-    u92 = *(float *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x30));
-    u93 = *(float *)((t91 + 0x30));
-    TOANG2((((int)stk + 4) + 0xC), (u92 - u93));
-    t95 = *(short *)(((int)stk + 16));
-    nlRotateAZ((unsigned short)t95);
-    t97 = *(short *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x82));
-    nlRotateAX((unsigned short)t97);
-    t99 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74));
-    t100 = *(int *)((t99 + 0xC));
-    nlObjPutUseViewMatrix(t100);
-    nlPopMatrix(0x1);
-    t103 = nlPopMatrix(0x1);
-    return t103;
+    t10 = *(int *)((a4 + 0x24));
+    if (t10 != 0) {
+        if (t10 != 1) {
+            if (t10 == 2) {
+                *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
+                *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x2);
+                nlPushMatrix(0x0);
+                *(float *)(((int)stk + 92)) = 0.0f;
+                nlUnitVector((((int)stk + 4) + 0x54));
+                t15 = nlInnerProduct((((int)stk + 4) + 0x54), 0xC0D5554);
+                u16 = *(float *)(((int)stk + 88));
+                u17 = (-_builtin_sqrtf((1.0f - (t15 * t15))));
+                if (u16 > 0.0f) {
+                    u17 = _builtin_sqrtf((1.0f - (t15 * t15)));
+                }
+                t21 = GetAverageAngle((*(int *)((a4 + 0x10))), (nlArcTan2(u17, t15)), 0.799999952f);
+                *(unsigned int *)((a4 + 0x10)) = (short)t21;
+                nlRotateAY(((short)t21 + 0x8000));
+                t23 = *(int *)((a4 + 0x34));
+                u24 = *(float *)((a4 + 0x38));
+                t25 = *(int *)((t23 + 0x4));
+                { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(((*(int *)((t23 + 0x8))) + ((((((int)u24 - 1) * (((t25 + 0x1) << 1) + 0x1)) << 1) + (((int)u24 - 1) * (((t25 + 0x1) << 1) + 0x1))) << 2))); }
+                t27 = *(int *)((a4 + 0x34));
+                u28 = *(float *)((a4 + 0x38));
+                t29 = *(int *)((t27 + 0x4));
+                { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(((*(int *)((t27 + 0x8))) + (((((int)u28 * (((t29 + 0x1) << 1) + 0x1)) << 1) + ((int)u28 * (((t29 + 0x1) << 1) + 0x1))) << 2))); }
+                *(float *)(((int)stk + 24)) = 0.0f;
+                *(float *)(((int)stk + 36)) = 0.0f;
+                nlSubVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
+                FUN_0c077210((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
+                nlGetAverageVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x54), (((int)stk + 4) + 0x10), 1.39999998f, -0.5f);
+                FUN_0c078a70((((int)stk + 4) + 0x1C), (a4 + 0x4), (((int)stk + 4) + 0x10));
+                Psg_SetPosPtr(a4, (((int)stk + 4) + 0x1C));
+                nlGetPushedMatrix(0x0);
+                psgPutShadow(a4);
+                if (((*(signed char *)((a4 + 0x149))) & 128) == 0) {
+                    psgUpdatePartTracks(a4);
+                    humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x1);
+                    *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+                    t46 = *(int *)(((*(int *)((a4 + 0x34))) + 0x0));
+                    u49 = (float)(t46 - 2);
+                    if ((int)(t46 - 2) < 0) {
+                        u49 = ((float)(t46 - 2) + 4.2949673e+09f);
+                    }
+                    if (!(u49 > (*(float *)((a4 + 0x38))))) {
+                        psgSetState(a4, 0x0, 0x0, 0x0);
+                    }
+                } else {
+                    psgPlayBlend(a4, 0x1);
+                }
+                nlPopMatrix(0x1);
+            } else {
+                if (t10 == 3) {
+                    nlPushMatrix(0x0);
+                    psgPutShadow(a4);
+                    if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
+                        psgPlayBlend(a4, 0x1);
+                    } else {
+                        psgUpdatePartTracks(a4);
+                        humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x1);
+                        psgSetState(a4, 0x0, 0x0, 0x0);
+                    }
+                    nlPopMatrix(0x1);
+                }
+            }
+        } else {
+            *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
+            nlPushMatrix(0x0);
+            *(volatile int *)((a4 + 0x28));
+            t97 = psgRunToPoint(a4);
+            psgPutShadow(a4);
+            psgUpdatePartTracks(a4);
+            t100 = *(int *)((a4 + 0x0));
+            u101 = *(float *)((a4 + 0x38));
+            *(unsigned int *)(((int)stk + 4)) = t100;
+            FcvPlay((*(int *)((((t100 - 23) << 2) + 0xC0D5690))), t100, u101);
+            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + (*(float *)(((0x120 + a4) + 0x0))));
+            if (!(3.0f > t97)) {
+            } else {
+                *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
+                psgSetState(a4, 0x0, 0x0, 0x0);
+            }
+            nlPopMatrix(0x1);
+        }
+    } else {
+        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
+        nlPushMatrix(0x0);
+        if (((*(int *)0xC1EE20C) == 2) && (t124 = *(int *)0xC1EE214, t124 == 8)) {
+            if ((IsBoyFriend((*(int *)((a4 + 0x0))), 0x0)) == 0) {
+                psgFaceBoyFriend(a4);
+            } else {
+                psgFaceTaxi(a4);
+            }
+        } else {
+            psgFaceTaxi(a4);
+        }
+        psgPutShadow(a4);
+        if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
+            psgPlayBlend(a4, 0x0);
+        } else {
+            psgUpdatePartTracks(a4);
+            humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x0);
+            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+        }
+        nlPopMatrix(0x1);
+    }
+    return (psgPutMarker(a4, 0x1));
 }

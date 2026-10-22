@@ -40,8 +40,8 @@ int gdc_PlayStreamSong(int a4)
 
     *(unsigned int *)0xC26A0B8 = 0x0;
     t0 = *(signed char *)0xC28A4EC;
-    u1 = *(float *)0xC02E394;
-    u2 = *(float *)0xC02E3A8;
+    u1 = 8.0f;
+    u2 = 76.0f;
     *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)t0 / u1) * u2);
     gdc_StopStreamSongAll();
     t4 = *(int *)0xC1EE820;

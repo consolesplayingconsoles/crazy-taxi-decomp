@@ -1,73 +1,178 @@
 /* Straight-line functions with calls and guards (batch gen_gg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlLocate(int, int);
-int nlPrintf(int, ...);
-int Set_AD(void);
+int FUN_0c077210(int, int);
+int FUN_0c078480(int, int);
+int FUN_0c078a70(int, int, int);
+int SetCameraMode(int);
+int camRestore(void);
+int camSetEye(int, int);
+int camSetTarget(int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlScaleVector(int, int, float);
+int nlSqrt(int, int);
+int nlSubVector(int, int);
+int nlSubVector3op(int, int, int);
+int camGetOffShot1(void);
 
-int Set_AD(void)
+int camGetOffShot1(void)
 {
-    int t0;
     int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
+    float u6;
+    float u15;
+    float u28;
+    float u36;
+    float u48;
+    float u56;
+    float u75;
+    float u84;
+    float u94;
+    int t153;
+    int t155;
+    int stk[51] = {0};
 
-    t0 = *(int *)0xC1EDF26;
-    t1 = *(signed char *)((t0 + 0x0));
-    *(unsigned char *)0xC2A6698 = t1;
-    t2 = *(int *)0xC1EDF2A;
-    t3 = *(signed char *)((t2 + 0x0));
-    *(unsigned char *)0xC2A6699 = t3;
-    t4 = *(int *)0xC1EDF2E;
-    t5 = *(signed char *)((t4 + 0x0));
-    *(unsigned char *)0xC2A669A = t5;
-    t6 = *(int *)0xC1EDF32;
-    t7 = *(signed char *)((t6 + 0x0));
-    *(unsigned char *)0xC2A669B = t7;
-    t8 = *(int *)0xC1EDF36;
-    t9 = *(signed char *)((t8 + 0x0));
-    *(unsigned char *)0xC2A669C = t9;
-    t10 = *(int *)0xC1EDF3A;
-    t11 = *(signed char *)((t10 + 0x0));
-    *(unsigned char *)0xC2A669D = t11;
-    t12 = *(int *)0xC1EDF3E;
-    t13 = *(signed char *)((t12 + 0x0));
-    *(unsigned char *)0xC2A669E = t13;
-    t14 = *(int *)0xC1EDF42;
-    t15 = *(signed char *)((t14 + 0x0));
-    *(unsigned char *)0xC2A669F = t15;
-    nlLocate(0x37, 0x34);
-    t17 = *(signed char *)0xC2A669B;
-    t18 = *(signed char *)0xC2A669A;
-    t19 = *(signed char *)0xC2A6699;
-    t20 = *(signed char *)0xC2A6698;
-    nlPrintf(0xC0C8348, (unsigned char)t20, (unsigned char)t19, (unsigned char)t18, (unsigned char)t17);
-    nlLocate(0x37, 0x35);
-    t23 = *(signed char *)0xC2A669F;
-    t24 = *(signed char *)0xC2A669E;
-    t25 = *(signed char *)0xC2A669D;
-    t26 = *(signed char *)0xC2A669C;
-    t27 = nlPrintf(0xC0C8348, (unsigned char)t26, (unsigned char)t25, (unsigned char)t24, (unsigned char)t23);
-    return t27;
+    { struct mv12 { int w[12]; }; *(struct mv12 *)((((int)stk + 4) + 0x70)) = *(struct mv12 *)(0xC0D52AC); }
+    { struct mv12 { int w[12]; }; *(struct mv12 *)((((int)stk + 4) + 0x40)) = *(struct mv12 *)(0xC0D52DC); }
+    SetCameraMode(0x1);
+    *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;
+    t1 = *(int *)0xC2AD580;
+    if (t1 != 0) {
+        if (t1 != 1) {
+            if (t1 == 2) {
+                nlPushMatrix(((*(int *)(((int)stk + 4))) + 0xB4));
+                u6 = (-1.0f);
+                if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                    u6 = 1.0f;
+                }
+                *(float *)(((int)stk + 56)) = (u6 * (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x0))));
+                *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x4)));
+                *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x8)));
+                nlSqrt((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x34));
+                camSetEye((((int)stk + 4) + 0x34), 0x0);
+                u15 = (-1.0f);
+                if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                    u15 = 1.0f;
+                }
+                *(float *)(((int)stk + 44)) = (u15 * (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x0))));
+                *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x4)));
+                *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x8)));
+                nlSqrt((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x28));
+                camSetTarget((((int)stk + 4) + 0x28), 0x0);
+                nlPopMatrix(0x1);
+                *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+            } else {
+                if (t1 == 3) {
+                    nlPushMatrix(((*(int *)(((int)stk + 4))) + 0xB4));
+                    u28 = (-1.0f);
+                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                        u28 = 1.0f;
+                    }
+                    *(float *)(((int)stk + 56)) = (u28 * (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x0))));
+                    *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x4)));
+                    *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x8)));
+                    nlSqrt((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x10));
+                    u36 = (-1.0f);
+                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                        u36 = 1.0f;
+                    }
+                    *(float *)(((int)stk + 56)) = (u36 * (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x0))));
+                    *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x4)));
+                    *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x8)));
+                    nlSqrt((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x4));
+                    nlSubVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10));
+                    nlScaleVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), 0.0166666657f);
+                    FUN_0c078a70((((int)stk + 4) + 0x34), 0xC179840, (((int)stk + 4) + 0x1C));
+                    camSetEye((((int)stk + 4) + 0x34), 0x0);
+                    u48 = (-1.0f);
+                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                        u48 = 1.0f;
+                    }
+                    *(float *)(((int)stk + 44)) = (u48 * (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x0))));
+                    *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x4)));
+                    *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x8)));
+                    nlSqrt((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x10));
+                    u56 = (-1.0f);
+                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                        u56 = 1.0f;
+                    }
+                    *(float *)(((int)stk + 44)) = (u56 * (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x0))));
+                    *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x4)));
+                    *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x8)));
+                    nlSqrt((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x4));
+                    nlSubVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10));
+                    nlScaleVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), 0.0166666657f);
+                    FUN_0c078a70((((int)stk + 4) + 0x28), 0xC17984C, (((int)stk + 4) + 0x1C));
+                    camSetTarget((((int)stk + 4) + 0x28), 0x0);
+                    if ((int)(*(int *)0xC2AD578) >= (int)0x8C) {
+                        *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+                    }
+                    nlPopMatrix(0x1);
+                } else {
+                    if (t1 == 4) {
+                        nlPushMatrix(((*(int *)(((int)stk + 4))) + 0xB4));
+                        u75 = (-1.0f);
+                        if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                            u75 = 1.0f;
+                        }
+                        *(float *)(((int)stk + 20)) = (u75 * (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x0))));
+                        *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x4)));
+                        *(float *)(((int)stk + 28)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x8)));
+                        nlSqrt((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34));
+                        camSetEye((((int)stk + 4) + 0x34), 0x0);
+                        u84 = (-1.0f);
+                        if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
+                            u84 = 1.0f;
+                        }
+                        *(float *)(((int)stk + 20)) = (u84 * (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x0))));
+                        *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x4)));
+                        *(float *)(((int)stk + 28)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x8)));
+                        nlSqrt((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28));
+                        camSetTarget((((int)stk + 4) + 0x28), 0x0);
+                        nlPopMatrix(0x1);
+                        *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+                    } else {
+                        if (t1 == 5) {
+                            nlSubVector3op((((int)stk + 4) + 0x1C), 0xC2AD554, 0xC179840);
+                            u94 = 0.08f;
+                            nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x34), 1.0f, u94);
+                            camSetEye((((int)stk + 4) + 0x34), 0x0);
+                            nlSubVector3op((((int)stk + 4) + 0x1C), 0xC2AD560, 0xC17984C);
+                            nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x28), 1.0f, u94);
+                            camSetTarget((((int)stk + 4) + 0x28), 0x0);
+                        }
+                    }
+                }
+            }
+        } else {
+            nlSubVector3op((((int)stk + 4) + 0x1C), 0xC179840, 0xC17984C);
+            nlPushUnitMatrix();
+            FUN_0c078480(0xC2AD1EC, 0xFFFFFCD0);
+            FUN_0c077210((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
+            nlPopMatrix(0x1);
+            FUN_0c078a70((((int)stk + 4) + 0x34), 0xC17984C, (((int)stk + 4) + 0x1C));
+            *(float *)(((int)stk + 60)) = ((*(float *)(((int)stk + 60))) - 0.199999988f);
+            camSetEye((((int)stk + 4) + 0x34), 0x0);
+            if ((int)(*(int *)0xC2AD578) < (int)0x50) {
+            } else {
+                *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+            }
+        }
+    } else {
+        nlPushMatrix(((*(int *)(((int)stk + 4))) + 0xB4));
+        nlSqrt((((int)stk + 4) + 0x70), (((int)stk + 4) + 0x34));
+        nlSqrt((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x28));
+        nlPopMatrix(0x1);
+        camSetEye((((int)stk + 4) + 0x34), 0x0);
+        camSetTarget((((int)stk + 4) + 0x28), 0x0);
+        *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+    }
+    t153 = *(int *)0xC2AD590;
+    t155 = t153;
+    if ((t153 & 2) == 0) {
+        t155 = (camRestore());
+    }
+    return t155;
 }

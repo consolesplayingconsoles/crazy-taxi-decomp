@@ -1,12 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_jl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetBubble(int, int);
-int SetEffect(int, int, int);
-int Sound_Request(int, int);
-int nlLocate(int, int);
-int nlRand(void);
-float nlScalor(int);
-int setTechnicalBonus(int, int, int);
-int ExecEffect(int a4, int a5, int a6, float f4);
+void usr_adx_err_func(void);
 
+void usr_adx_err_func(void)
+{
+    *(unsigned int *)0xC1EE208 = ((*(int *)0xC1EE208) + 0x1);
+}

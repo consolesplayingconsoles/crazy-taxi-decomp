@@ -1,100 +1,138 @@
 /* Straight-line functions with calls and guards (batch gen_oa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_StartAction(int, int, int);
-int FcvStoreBuffer(int, int, float);
-int nlSubVector3op(int, int, int);
-void Drv_Init(void);
+int CheckRanking(int);
+int PutRecords(int, int, int, int, int, int, float, float);
+int PutStringFixPfont(int, int, float, float, float, float);
+int Put_Window_SpriteXtoY(int, int, int, int, float, float, float, float);
+int SeachRankTotal(int, int, int);
+int SetTotalRecords(void);
+int Start_CrazyBox_Voice(int);
+int Wobble_Record_Window(void);
+int nlSprPut(int);
+int pfColor(int, int, int, int);
+int pfCrazyBoxRecordComboPut(int, int, int);
+int pfCrazyBoxRecordDistPut(int, int, int, float);
+int pfCrazyBoxRecordTimePut(int, int, int);
+int pfSetFont(int);
+int pfSize(float, float);
+int pfTextCenterPut(int, int);
+int pfTextPut(int, int);
+int Put_Record_Window(void);
 
-void Drv_Init(void)
+int Put_Record_Window(void)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t4;
-    float u5;
-    float u6;
-    int t7;
-    int t9;
-    int t10;
-    int t11;
     int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
+    int t27;
+    float u38;
+    int t50;
+    int t80;
+    int t81;
+    float u82;
+    float u83;
     int t23;
-    int t19;
-    int stk[18] = {0};
+    int t108;
+    int t51;
+    int t96;
+    int t103;
+    int t105;
+    int t106;
+    int stk[15] = {0};
 
-    { struct mv12 { int w[12]; }; *(struct mv12 *)(((int)stk + 4)) = *(struct mv12 *)(0xC0D4C78); }
-    t0 = *(int *)0xC179488;
-    t1 = *(int *)((((int)stk + 4) + (t0 << 2)));
-    *(unsigned int *)0xC2AD000 = t1;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD004) = *(struct mv3 *)(0xC0D5530); }
-    *(unsigned int *)0xC2AD010 = 0x0;
-    *(unsigned int *)0xC2AD014 = 0x0;
-    *(unsigned int *)0xC2AD01C = 0x0;
-    *(unsigned int *)0xC2AD018 = 0x0;
-    *(unsigned int *)0xC2AD020 = 0xC8E2204;
-    *(float *)0xC2AD024 = 0.0f;
-    t2 = *(int *)0xC2AD020;
-    FcvStoreBuffer(t2, 0xC2AD028, 0.0f);
-    *(float *)0xC2AD0F4 = 0.0f;
-    *(float *)0xC2AD0F8 = 0.0f;
-    t4 = *(int *)0xC2AD020;
-    *(unsigned int *)0xC2AD0FC = t4;
-    u5 = *(float *)0xC2AD024;
-    *(float *)0xC2AD100 = u5;
-    u6 = *(float *)0xC2AD100;
-    t7 = *(int *)0xC2AD0FC;
-    FcvStoreBuffer(t7, 0xC2AD104, u6);
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
-    *(unsigned int *)0xC2AD1D8 = 0x0;
-    t9 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t9 & 0x7F);
-    t10 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t10 | 0x40);
-    t11 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t11 & 0xDF);
-    t12 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t12 & 0xE7);
-    t13 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t13 & 0xFB);
-    t14 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t14 & 0xFD);
-    t15 = *(int *)0xC2AD1DC;
-    *(unsigned int *)0xC2AD1DC = ((t15 & 0xFF000000) | 0x0);
-    t16 = *(int *)0xC179488;
-    if ((int)t16 >= (int)0x4) {
-        t17 = *(signed char *)0xC2AD1DF;
-        t19 = (t17 | 0x1);
-    } else {
-        t18 = *(signed char *)0xC2AD1DF;
-        t19 = (t18 & 0xFE);
-    }
-    *(unsigned char *)0xC2AD1DF = t19;
-    Drv_StartAction(0x0, 0x0, 0x0);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)(0xC179144); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)(0xC1791C8); }
-    nlSubVector3op(0xC13ED80, 0xC1791C8, 0xC1791D4);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)(0xC13ED80); }
-    t23 = 0x0;
-    for (;;) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)(((t23 << 1) + t23) << 2) + 0xC2AD2BC)) = *(struct mv3 *)(0xC0D5530); }
-        t23 = (t23 + 0x1);
-        if ((int)t23 >= (int)0x23) {
-            break;
+    if ((*(int *)0xC2A9950) == 0) {
+        *(unsigned int *)0xC2A9BB4 = (CheckRanking((*(int *)0xC2A98F0)));
+        SetTotalRecords();
+        *(unsigned int *)0xC2A9BB0 = (SeachRankTotal((*(int *)0xC2A11C4), ((*(int *)0xC1EE210) + (*(int *)0xC1EE214)), (*(int *)0xC2A9BB4)));
+        if ((*(int *)0xC1EE214) != 15) {
+            t12 = 0x3;
+            if ((*(int *)0xC2A9BB0) == 0) {
+                t12 = 0x5;
+            }
+            Start_CrazyBox_Voice(t12);
         }
     }
-    *(float *)0xC2AD52C = 0.0f;
-    *(unsigned int *)0xC2AD530 = 0x0;
-    *(unsigned int *)0xC2AD534 = 0x0;
-    *(unsigned int *)0xC2AD538 = 0x0;
-    *(unsigned int *)0xC2AD53C = 0x0;
-    *(unsigned int *)0xC2AD540 = 0x0;
-    *(unsigned int *)0xC2AD544 = 0x0;
+    if (((*(int *)0xC2A9950) == 105) && (t23 = *(int *)0xC1EE214, t23 != 15)) {
+        t27 = 0x8;
+        if ((*(int *)0xC2A9BB0) == 0) {
+            t27 = 0x7;
+        }
+        Start_CrazyBox_Voice(t27);
+    }
+    if ((*(int *)0xC2A9BB0) == 0) {
+        *(unsigned int *)0xC2A9898 = 0x74;
+    } else {
+        *(unsigned int *)0xC2A9898 = 0x72;
+    }
+    Wobble_Record_Window();
+    *(float *)0xC2A989C = 320.0f;
+    *(float *)0xC2A98A0 = 88.0f;
+    u38 = *(float *)0xC2A994C;
+    *(float *)0xC2A98A8 = (u38 + 1.0f);
+    *(float *)0xC2A98AC = (u38 + 1.0f);
+    nlSprPut(0xC2A9898);
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    if ((int)(*(int *)0xC2A9950) < (int)0x57) {
+        t108 = 0x14;
+    } else {
+        Put_Window_SpriteXtoY(0x140, 0x173, 0xA, 0x5, 0.5f, 20.0f, 6.0f, 0.399999976f);
+        if ((int)(*(int *)0xC2A9BAC) > 0) {
+            *(unsigned int *)0xC2A9BAC = ((*(int *)0xC2A9BAC) - 32);
+        }
+        pfSetFont(0x2);
+        pfSize(1.0f, 1.0f);
+        pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+        t50 = *(int *)0xC2A9BAC;
+        if (((*(int *)0xC1EE214) != 12) && (t51 = *(int *)0xC1EE214, t51 != 4)) {
+            if ((*(int *)0xC1EE214) == 0) {
+                pfCrazyBoxRecordDistPut((t50 + 0x140), 0xE8, 0x1, (*(float *)0xC2A9A24));
+            } else {
+                pfCrazyBoxRecordTimePut((t50 + 0x140), 0xE8, (*(int *)0xC2A98F8));
+            }
+        } else {
+            pfCrazyBoxRecordComboPut((t50 + 0x140), 0xE8, (*(int *)0xC2A7614));
+        }
+        pfSetFont(0x0);
+        pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
+        pfTextCenterPut((0x140 - (*(int *)0xC2A9BAC)), 0x90);
+        pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
+        pfTextCenterPut((0x140 - (*(int *)0xC2A9BAC)), 0xD6);
+        pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+        pfTextPut((0xAC - (*(int *)0xC2A9BAC)), 0x144);
+        pfTextCenterPut((0x140 - (*(int *)0xC2A9BAC)), 0x144);
+        pfTextPut((0x1A4 - (*(int *)0xC2A9BAC)), 0x144);
+        t80 = (PutStringFixPfont(0x26, ((short)((short)(*(short *)0xC2A11C4) * (short)0x788) + 0xC28A4F8), 320.0f, 164.0f, 32.0f, 1.0f));
+        t81 = 0x0;
+        u82 = 320.0f;
+        u83 = 1.0f;
+        for (;;) {
+            if ((int)t81 >= (int)0x3) {
+                break;
+            }
+            t80 = t81;
+            if (t80 == 1) {
+                *(unsigned int *)(((int)stk + 12)) = (*(int *)0xC2A9BAC);
+            } else {
+                *(unsigned int *)(((int)stk + 12)) = (-(*(int *)0xC2A9BAC));
+            }
+            t80 = 0xC2A11C4;
+            u83 = (float)(((((t81 << 1) + t81) << 2) << 1) + 0x15E);
+            u82 = (float)((*(int *)(((int)stk + 12))) + 0xBE);
+            t80 = (SeachRankTotal((*(int *)((t80 + 0x0))), ((*(int *)0xC1EE210) + (*(int *)0xC1EE214)), (*(int *)0xC2A9BB4)));
+            if ((t81 == t80) && (t96 = *(int *)0xC1EE330, (t96 & 0x8) != 0)) {
+                t103 = (t81);
+                t105 = 0x47;
+                t106 = (((*(int *)0xC1EE210) << 2) + (*(int *)0xC1EE214));
+            } else {
+                t103 = (t81);
+                t105 = 0x27;
+                t106 = (((*(int *)0xC1EE210) << 2) + (*(int *)0xC1EE214));
+            }
+            t80 = (PutRecords(t105, 0xFFFFFFFF, t106, t81, t103, 0x1, u82, u83));
+            t81 = (t81 + 0x1);
+        }
+        t108 = t80;
+    }
+    *(unsigned int *)0xC2A9950 = ((*(int *)0xC2A9950) + 0x1);
+    return t108;
 }

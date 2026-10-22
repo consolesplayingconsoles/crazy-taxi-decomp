@@ -40,13 +40,13 @@ int gdc_VolStreamSong(int a4)
     int t7;
 
     t0 = *(signed char *)0xC28A4EC;
-    u1 = *(float *)0xC02E394;
+    u1 = 8.0f;
     *(unsigned char *)0xC1EE80C = (int)((float)(signed char)a4 * ((float)(unsigned char)t0 / u1));
     t2 = *(signed char *)0xC1EE80C;
     t3 = volumeToDb(t2);
     t4 = *(int *)0xC1EE820;
     ADXT_SetOutVol(t4, t3);
-    u6 = *(float *)0xC02E3A8;
+    u6 = 76.0f;
     t7 = *(signed char *)0xC28A4EC;
     *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)t7 / u1) * u6);
     return 0xC02E3A8;
@@ -75,39 +75,19 @@ int PutAdvLogoSprite(void)
     float u3;
 
     *(unsigned int *)0xC26E188 = 0xEA;
-    u0 = *(float *)0xC030B00;
+    u0 = 320.0f;
     *(float *)0xC26E18C = u0;
-    u1 = *(float *)0xC030B04;
+    u1 = 384.0f;
     *(float *)0xC26E190 = u1;
     nlSprPut(0xC26E188);
     *(unsigned int *)0xC26E188 = 0xEB;
     *(float *)0xC26E18C = u0;
-    u3 = *(float *)0xC030B0C;
+    u3 = 224.0f;
     *(float *)0xC26E190 = u3;
     return nlSprPut(0xC26E188);
 }
 
 
-int LightEffect(int a4)
-{
-    float u0;
-    float u1;
-    float u3;
-    float u4;
-
-    if (a4 != 0) {
-        u0 = *(float *)0xC030CFC;
-        u1 = *(float *)0xC030D00;
-        SetFadeColorBase(u0, u1, 1.0f);
-        u3 = *(float *)0xC030D04;
-        u4 = *(float *)0xC030D08;
-        SetFadeColorOffset(u4, u3, u0);
-    } else {
-        SetFadeColorBase(1.0f, 1.0f, 1.0f);
-        SetFadeColorOffset(1.0f, 1.0f, 1.0f);
-    }
-    return ResetFadeColor();
-}
 
 int menuPutBackground(void)
 {
@@ -122,9 +102,9 @@ int menuPutBackground(void)
     u1 = *(float *)0xC2A1AD4;
     t5 = t0;
     if (t0 != 1) {
-        u2 = *(float *)0xC03C1DC;
+        u2 = 100.0f;
         *(float *)0xC2A1AD4 = u2;
-        u3 = *(float *)0xC03C1E0;
+        u3 = 0.5f;
         *(float *)0xC2A1AB0 = u3;
         t4 = menuPutSprites(0xC0A0678, 0xC2A1A84, 0x170, 0xD0);
         *(float *)0xC2A1AB0 = 1.0f;
@@ -144,40 +124,17 @@ int Put_Adv_Logo_Sprite(void)
 
     *(unsigned int *)0xC2A92CC = 0x62;
     *(unsigned int *)0xC2A9300 = 0x2005;
-    u0 = *(float *)0xC057F7C;
+    u0 = 40.0f;
     *(float *)0xC2A92DC = u0;
-    u1 = *(float *)0xC057F80;
+    u1 = 30.0f;
     *(float *)0xC2A92E0 = u1;
-    u2 = *(float *)0xC057F84;
+    u2 = 490.0f;
     *(float *)0xC2A92D8 = u2;
-    u3 = *(float *)0xC057F88;
+    u3 = 0.5f;
     *(float *)0xC2A92F8 = u3;
     nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
     return nlSprPut(0xC2A92CC);
 }
 
-void Put_Bowling_Message(void)
-{
-    int t0;
-    float u1;
-    float u2;
-    float u3;
-    float u5;
-
-    t0 = *(int *)0xC2A9960;
-    *(unsigned int *)0xC2A9960 = (t0 + 0x1);
-    if ((int)(t0 + 0x1) < (int)0x78) {
-        u1 = *(float *)0xC05CE48;
-        *(float *)0xC2A98A8 = u1;
-        *(float *)0xC2A98AC = u1;
-        u2 = *(float *)0xC05CE50;
-        u3 = *(float *)0xC05CE54;
-        nd_SprPut(0xC2A9898, 0x1F1, u2, u3);
-        u5 = *(float *)0xC05CE5C;
-        nd_SprPut(0xC2A9898, 0x1F2, u2, u5);
-        *(float *)0xC2A98A8 = 1.0f;
-        *(float *)0xC2A98AC = 1.0f;
-    }
-}
 
 

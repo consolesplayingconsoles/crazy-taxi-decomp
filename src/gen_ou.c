@@ -1,78 +1,69 @@
 /* Straight-line functions with calls and guards (batch gen_ou): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_Init(void);
-int Drv_StartAction(int, int, int);
-int Chat_Init(void);
-int FcvStoreBuffer(int, int, float);
-int Sound_Init(void);
-int RinAqua_Init(void);
-int nlRand(void);
-int rinRandomSeed(int);
-int Act_Init(void);
+int CheckBoxFlag(int);
+int PutRecords(int, int, int, int, int, int, float, float);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
+void menuItemRecords(int a4, int a5);
 
-int Act_Init(void)
+void menuItemRecords(int a4, int a5)
 {
-    int t0;
     int t1;
     int t8;
     int t9;
-    int t12;
-    int t13;
     int t10;
-    int t19;
-    int t22;
-    int t24;
+    int t15;
+    int t17;
+    int t20;
+    int t21;
+    int t13;
 
-    t0 = *(int *)0xC1EE234;
-    if (t0 == 1) {
-        t1 = nlRand();
-        rinRandomSeed((t1 + 0x1));
+    if (a4 == 0) {
     } else {
-        rinRandomSeed(0x3039);
-    }
-    Drv_Init();
-    FcvStoreBuffer(0xC8E2204, 0xC2AD460, 0.0f);
-    t8 = *(int *)0xC1EE234;
-    if (t8 == 1) {
-        t9 = *(int *)0xC1EE210;
-        t12 = 0x0;
-        t13 = 0x0;
-        if (t9 != 2) {
-            t10 = *(int *)0xC1EE7F0;
-            t12 = 0x6;
-            t13 = t10;
+        t1 = *(int *)0xC2A11E0;
+        if (a5 != 2) {
+            menuChangeValue(0x0, 0xC2A1244, 0x4);
+            putMenuValue(0x8013, 0xC09F444, 0x4, (*(int *)0xC2A1244));
+            PutRecords(0x24, (t1 - 1), ((*(int *)0xC2A1244) + (a5 << 2)), 0x0, 0x9, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 128.0f);
+        } else {
+            if ((int)(t1 - 1) < 0) {
+                t8 = 0xFFFF;
+                t9 = 0x0;
+                for (;;) {
+                    t10 = CheckBoxFlag(t9);
+                    t9 = (t9 + 0x1);
+                    t8 = (t8 & t10);
+                    if ((int)t9 >= (int)0x4) {
+                        break;
+                    }
+                }
+                t13 = t8;
+            } else {
+                t13 = (CheckBoxFlag((t1 - 1)));
+            }
+            t15 = 0x8;
+            if ((0x3000 & t13) == 0x3000) {
+                t15 = 0x7;
+            }
+            t17 = t15;
+            if ((t13 & 0xC000) == 0xC000) {
+                t17 = (t15 - 1);
+            }
+            menuChangeValue(0x0, 0xC2A1244, t17);
+            t20 = *(int *)0xC2A1244;
+            t21 = t20;
+            if (((0x3000 & t13) == 0x3000) && (((t13 & 0xC000) != 0xC000) && (t20 == (t17 - 1)))) {
+                t21 = (t20 + 0x1);
+            }
+            if (((((int)(t21 << 1) >= 0) ? (0x1 << ((t21 << 1) & 31)) : ((-(int)(t21 << 1) & 31) ? ((int)0x1 >> (-(int)(t21 << 1) & 31)) : ((int)0x1 >> 31))) & t13) == 0) {
+                putMenuValue(0x8013, 0xC09F4F4, t17, t21);
+                PutRecords(0x24, (t1 - 1), ((a5 << 2) + (t21 << 1)), 0x0, 0x4, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 128.0f);
+            }
+            if (((((int)((t21 << 1) + 0x1) >= 0) ? (0x1 << (((t21 << 1) + 0x1) & 31)) : ((-(int)((t21 << 1) + 0x1) & 31) ? ((int)0x1 >> (-(int)((t21 << 1) + 0x1) & 31)) : ((int)0x1 >> 31))) & t13) == 0) {
+                putMenuValue(0x8013, 0xC09F654, t17, t21);
+                PutRecords(0x24, (t1 - 1), (((a5 << 2) + (t21 << 1)) + 0x1), 0x0, 0x4, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 268.0f);
+            }
         }
-        Drv_StartAction(t12, 0x0, t13);
     }
-    *(unsigned int *)0xC2AD590 = 0x0;
-    t19 = 0x0;
-    for (;;) {
-        *(unsigned int *)((0xC2AD594 + (t19 << 2))) = 0x0;
-        FcvStoreBuffer(0xC9726F4, ((short)((short)t19 * (short)0xCC) + 0xC2AD5B8), 0.0f);
-        t19 = (t19 + 0x1);
-        if ((int)t19 >= (int)0x9) {
-            break;
-        }
-    }
-    t22 = 0x0;
-    for (;;) {
-        FcvStoreBuffer(0xC9726F4, ((short)((short)t22 * (short)0xCC) + 0xC2ADCE4), 0.0f);
-        t24 = ((unsigned short)t22 * (unsigned short)0x1C);
-        t22 = (t22 + 0x1);
-        *(float *)((((unsigned char)t24 + 0xC2AE278) + 0x0)) = 0.0f;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0x4)) = 0x0;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0x10)) = 0x0;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0xC)) = 0x0;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0x8)) = 0x0;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0x18)) = 0x0;
-        *(unsigned int *)((((unsigned char)t24 + 0xC2AE278) + 0x14)) = 0x0;
-        if ((int)t22 >= (int)0x7) {
-            break;
-        }
-    }
-    Sound_Init();
-    Chat_Init();
-    *(unsigned int *)0xC0E49E0 = 0x0;
-    return RinAqua_Init();
 }

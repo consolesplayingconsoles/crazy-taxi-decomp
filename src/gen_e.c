@@ -290,15 +290,15 @@ int padInitAnalog(void)
     int t8;
 
     *(float *)0xC1EE300 = 0.0f;
-    u0 = *(float *)0xC029B64;
+    u0 = 255.0f;
     *(float *)0xC1EE304 = u0;
     *(float *)0xC1EE308 = u0;
-    u1 = *(float *)0xC029B70;
+    u1 = 0.099999994f;
     *(float *)0xC1EE30C = 0.0f;
     *(float *)0xC1EE310 = u0;
     *(float *)0xC1EE314 = u0;
     *(float *)0xC1EE318 = 0.0f;
-    u2 = *(float *)0xC029B84;
+    u2 = 128.0f;
     *(float *)0xC1EE31C = u2;
     *(float *)0xC1EE320 = u0;
     *(float *)0xC1EE324 = u0;
@@ -306,7 +306,7 @@ int padInitAnalog(void)
     t4 = *(signed char *)0xC1789DC;
     *(float *)0xC1EE32C = (float)((unsigned char)t3 - (unsigned char)t4);
     u5 = *(float *)0xC1EE32C;
-    u6 = *(float *)0xC029B9C;
+    u6 = 0.049999997f;
     if (u5 == 0.0f) {
         *(float *)0xC1EE32C = u6;
     }
@@ -334,22 +334,6 @@ int thunk_FUN_0c02a9ac(void)
 }
 
 
-int gameState8(void)
-{
-    int t0;
-    int t4;
-
-    t0 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t0 + 0x1);
-    *(unsigned int *)0xC1EE240 = 0x0;
-    nlInitEvent();
-    Sound_Init();
-    gdc_StopStreamSongAll();
-    t4 = *(int *)0xC179488;
-    Init_Result(t4);
-    gdc_FileLoadStop();
-    return gdc_FileLoadInit();
-}
 
 int gameState10(void)
 {
@@ -420,12 +404,6 @@ int CfgInit(void)
 }
 
 
-int saveBufferInit(int a4)
-{
-    memmove(a4, 0xC09DB48, 0x4);
-    *(unsigned int *)((a4 + 0x4)) = 0x0;
-    return memset((a4 + 0x8), 0xFFFFFFFF, 0x780);
-}
 
 int callPause(void)
 {
@@ -466,9 +444,9 @@ int SetSEvolume(void)
     int t1;
     float u2;
 
-    u0 = *(float *)0xC0410DC;
+    u0 = 8.0f;
     t1 = *(signed char *)0xC28A4ED;
-    u2 = *(float *)0xC0410E0;
+    u2 = 117.0f;
     return nlsndSystemControl(0x8, 0x10A0, (signed char)(int)(((float)(unsigned char)t1 / u0) * u2));
 }
 
@@ -497,26 +475,10 @@ int selectPutHelpBar(void)
 {
     float u0;
 
-    u0 = *(float *)0xC052164;
+    u0 = 416.0f;
     return menuPutHelpBar(0x3, 0.0f, u0);
 }
 
-int Start_Pass_Ranking(void)
-{
-    int t1;
-    int t2;
-
-    Init_RankDrum();
-    t1 = rankingInsert();
-    if (t1 != 0) {
-        t2 = *(int *)0xC2A75E0;
-        *(unsigned int *)0xC2A75E0 = (t2 | 0x1000);
-        *(unsigned int *)0xC2A916C = 0x0;
-        *(unsigned int *)0xC2A9178 = 0x0;
-        *(unsigned int *)0xC2A917C = 0x0;
-    }
-    return t1;
-}
 
 int hudShowPickUpNag(void)
 {
@@ -586,7 +548,7 @@ int Put_Press_Start(void)
     pfSetFont(0x1);
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     pfSize(1.0f, 1.0f);
-    u3 = *(float *)0xC0581B0;
+    u3 = 378.0f;
     u4 = *(float *)0xC2A96D0;
     pfLocate(u4, u3);
     return pfPuts(0xC0D0A40);
@@ -616,8 +578,8 @@ int Put_PoleMarriageKiss(void)
 
     nlPushMatrix(0x0);
     nlTranslateV(0xC13197C);
-    u2 = *(float *)0xC05D584;
-    u3 = *(float *)0xC05D588;
+    u2 = 26.0f;
+    u3 = -3.0f;
     nlTranslate(u3, 0.0f, u2);
     t5 = *(short *)0xC2A9A64;
     nlRotateAY(((unsigned short)t5 + 0x8000));
@@ -653,7 +615,7 @@ int RinAqua_Execute(void)
     float u1;
 
     AreYouBreathing();
-    u1 = *(float *)0xC060DF0;
+    u1 = -1240.0f;
     ShallWeHaveSomeRelaxation(u1);
     return BigOneSwims();
 }
@@ -698,10 +660,6 @@ int LoadBigOne(int a4)
     return nlObjPutLoadTexture(0xC13F898, a4);
 }
 
-int thunk_FUN_0c072fe8(void)
-{
-    return BigOneResetState();
-}
 
 int thunk_kmSetFogTable(void)
 {

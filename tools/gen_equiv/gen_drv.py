@@ -101,12 +101,57 @@ def build(name,ret,passthru=False):
         if m_ and occ[m_.group(2)]==1:
             body[i_]='%s*(volatile %s *)%s;'%(m_.group(1),m_.group(3),m_.group(4))
             decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%m_.group(2),d)]
-    if frame_decl and up>16: body=['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body
-    elif frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
+    if os.environ.get('GEN_INLINE','1')!='0': body=inline_single(body,decls)
+    # the caller-frame copies are statements: after the body's own leading declarations (the flat form declares its register
+    # variables there), or a C89 compiler rejects every declaration that follows them
+    k_=0
+    while k_<len(body) and (not body[k_].strip() or re.match(r'^\s*(?:int|float|double|unsigned int|struct \w+)\s+[\w\[\]\s,*]+;$',body[k_])): k_+=1
+    if frame_decl and up>16: body=body[:k_]+['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body[k_:]
+    elif frame_decl and up: body=body[:k_]+['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body[k_:]
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
     return src,c
+_ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
+_IDENT=re.compile(r'\b[A-Za-z_]\w*\b')
+def inline_single(body,decls):
+    """A temporary set once and read once, further down the same straight run of statements, with nothing in between that
+    changes what it reads, is written into its one use: `t9 = R4 != 0; ... if (t9) goto L;` becomes `if (R4 != 0) goto L;`.
+    The flat form's write-back copies and held conditions cost the compiler registers, copies and spills; the original's
+    source had the expression where it is used. Nothing crosses a label, a brace or a goto; a value that reads memory or
+    calls does not cross a store or a call."""
+    import collections
+    for _round in range(6):
+        occ=collections.Counter(_IDENT.findall('\n'.join(body)))
+        changed=False
+        i=0
+        while i<len(body):
+            m=_ASSIGN.match(body[i])
+            if not m or occ[m.group(1)]!=2:
+                i+=1; continue
+            v,e=m.group(1),m.group(2)
+            if re.search(r'\b%s\b'%v,e) or 'volatile' in e:
+                i+=1; continue
+            reads_mem='*(' in e or re.search(r'\b[A-Za-z_]\w*\s*\(',e.replace('(int)','').replace('(float)','')) or 'stk' in e
+            names=set(_IDENT.findall(e))
+            j=i+1; ok=False
+            while j<len(body):
+                l=body[j]
+                if re.search(r'\b%s\b'%v,l):
+                    ok=len(re.findall(r'\b%s\b'%v,l))==1 and not re.match(r'^\s*(?:L_\w+:|\}|case |default:)',l); break
+                if re.search(r'[{}]|^\s*L_\w+:|\bgoto\b|\breturn\b|\bbreak\b|\bcontinue\b',l): break
+                a=re.match(r'^\s*([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*[-+*/&|^]?=',l)
+                if a and a.group(1) in names: break
+                if reads_mem and (re.match(r'^\s*\*\(',l) or re.search(r'\b[A-Za-z_]\w*\s*\((?!\s*(?:int|float|unsigned|signed|char|short)\b)',re.sub(r'\((?:unsigned |signed )?(?:int|float|char|short)\s*\**\)','',l))): break
+                j+=1
+            if not ok:
+                i+=1; continue
+            body[j]=re.sub(r'\b%s\b'%v,lambda _:'(%s)'%e,body[j],count=1)
+            del body[i]
+            decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%v,d)]
+            changed=True
+        if not changed: break
+    return body
 _CPOOL={}
 def const_pool(name):
     """The 4-byte words of the function's literal pool that it loads as constants (mov.l / mov.w @(pc)): the pool may lie past the next function."""
@@ -332,6 +377,7 @@ def tests(name,c,src):
             for n in fp: regs['fr%d'%n]=rng.choice(floats)
             if getattr(c,'xf_entry',False):
                 for i in range(16): regs['xf%d'%i]=rng.choice(floats)
+            for k_ in [k_ for k_ in poke if 0x0C020000<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<0x0C089F26]: del poke[k_]       # the code is read-only on the console: a case may not change a literal pool
             d={'about':'case %d'%i,'poke':poke}
             if regs: d['regs']=regs
             if c.ncalls or c.tail:

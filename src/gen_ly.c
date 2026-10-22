@@ -1,139 +1,165 @@
 /* Straight-line functions with calls and guards (batch gen_ly): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetMenuMode(int);
-int nlPrintColor(int);
-int Result_Next_State(int a4);
+int FUN_0c077f70(void);
+int FUN_0c07b9d0(void);
+int GetCollisionFirst(int, int);
+int nlAddVector(int, int);
+float nlInnerProduct(int, int);
+int nlLineBlendFunc(int, int);
+int nlLineSetDiv(float);
+int nlLineSetThickness(float);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlScaleVector(int, int, float);
+int nlSqrt(int, int);
+void ExecSpark(void);
 
-int Result_Next_State(int a4)
+void ExecSpark(void)
 {
-    int t0;
-    int t1;
     int t2;
-    int t3;
     int t4;
     int t5;
+    int t8;
+    int t11;
+    int t16;
+    float t24;
+    int t31;
+    float u33;
     int t6;
     int t7;
-    int t8;
     int t9;
     int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t22;
-    int t23;
-    int t24;
-    int t25;
+    float u12;
+    int t39;
+    int t42;
     int t26;
-    int t27;
-    int t28;
-    int t29;
-    int t30;
-    int t31;
-    int stk[3] = {0};
+    int stk[16] = {0};
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R14;
-    int T_;
-    R4 = a4;
-    L_C0595E8:;
-    t0 = *(int *)0xC2A97D8;
-    t1 = t0 == 0;
-    t2 = 0xC2A97D8;
-    t3 = t0;
-    R14 = t2;
-    R4 = t3;
-    if (t1) goto L_C059624;
-    goto L_C0595F4;
-    L_C0595F4:;
-    t4 = R4 == 0x3E7;
-    if (t4) goto L_C059612;
-    goto L_C0595FA;
-    L_C0595FA:;
-    t5 = R4 == 99;
-    if (t5) goto L_C059612;
-    goto L_C059602;
-    L_C059602:;
-    t6 = *(int *)0xC2A97A8;
-    t7 = *(int *)0xC2A96F4;
-    t8 = (int)t7 >= (int)(t6 + 0x186);
-    if (t8) goto L_C059646;
-    goto L_C059612;
-    L_C059612:;
-    t9 = R4 == 0;
-    if (t9) goto L_C059624;
-    goto L_C059616;
-    L_C059616:;
-    t10 = R4 == 0x3E7;
-    if (t10) goto L_C059624;
-    goto L_C05961C;
-    L_C05961C:;
-    t11 = R4 != 99;
-    if (t11) goto L_C059634;
-    goto L_C059624;
-    L_C059624:;
-    t12 = *(int *)0xC2A97A8;
-    t13 = *(int *)0xC2A96F4;
-    t14 = (int)t13 >= (int)(t12 + 0x1FE);
-    if (t14) goto L_C059646;
-    goto L_C059634;
-    L_C059634:;
-    t15 = *(int *)0xC2A97E0;
-    t16 = t15 != 1;
-    t17 = t15;
-    R0 = t17;
-    if (t16) goto L_C05967A;
-    goto L_C05963C;
-    L_C05963C:;
-    t18 = *(int *)0xC2A97E4;
-    t19 = (int)t18 < (int)0x78;
-    t20 = 0xC2A97E4;
-    R0 = t20;
-    if (t19) goto L_C05967A;
-    goto L_C059646;
-    L_C059646:;
-    nlPrintColor(0xFFFFFFFF);
-    t22 = *(int *)((R14 + 0x0));
-    t23 = t22 == 0;
-    if (t23) goto L_C05965A;
-    goto L_C059652;
-    L_C059652:;
-    t24 = *(int *)((R14 + 0x0));
-    t25 = (int)t24 < (int)0x63;
-    if (t25) goto L_C059674;
-    goto L_C05965A;
-    L_C05965A:;
-    t26 = *(int *)0xC1EE210;
-    t27 = t26 == 2;
-    if (t27) goto L_C059674;
-    goto L_C059662;
-    L_C059662:;
-    t28 = GetMenuMode(0x1);
-    t29 = t28 != 0;
-    t30 = t28;
-    R0 = t30;
-    if (t29) goto L_C059674;
-    goto L_C05966C;
-    L_C05966C:;
-    *(unsigned int *)0xC1EE238 = 0xC;
-    goto L_C05967A;
-    L_C05967A:;
-    return R0;
-    L_C059674:;
-    *(unsigned int *)0xC1EE238 = 0x2;
-    t31 = 0x2;
-    R0 = t31;
-    goto L_C05967A;
+    if ((int)(*(int *)0xC2757D0) < (int)0x1) {
+    } else {
+        nlPushUnitMatrix();
+        t2 = FUN_0c077f70();
+        *(unsigned int *)(((int)stk + 4)) = (*(int *)0xC2757D0);
+        t4 = *(int *)0xC2757D4;
+        *(unsigned int *)(((int)stk + 8)) = t4;
+        t5 = t2;
+        t8 = t4;
+        t11 = ((short)((short)t4 * (short)0x1C) + 0xC274DF8);
+        for (;;) {
+            if ((*(int *)(((int)stk + 4))) != 0) {
+                t6 = (*(int *)((t11 + 0x18)));
+                t6 = (t6 - 1);
+                *(unsigned int *)((t11 + 0x18)) = t6;
+                if ((int)t6 < 0) {
+                    t7 = (*(int *)0xC2757D0);
+                    t7 = (t7 - 1);
+                    *(unsigned int *)0xC2757D0 = t7;
+                    t7 = 0x5A;
+                    t16 = *(int *)0xC2757D4;
+                    *(unsigned int *)0xC2757D4 = (t16 + 0x1);
+                    if ((int)(t16 + 0x1) >= (int)t7) {
+                        *(unsigned int *)0xC2757D4 = 0x0;
+                    }
+                    t39 = t6;
+                    t42 = t10;
+                } else {
+                    u12 = 0.0f;
+                    t10 = 0xC031B6A;
+                    t8 = t11;
+                    t5 = (GetCollisionFirst(t8, (t11 + 0xC)));
+                    t9 = t5;
+                    t5 = (*(int *)((t9 + 0x1C)));
+                    t10 = 0xC078BC0;
+                    if (t5 == -1) {
+                        t8 = t11;
+                        t26 = (t11 + 0xC);
+                    } else {
+                        t5 = 0x18;
+                        t8 = ((int)stk + 4);
+                        t8 = (t8 + 0x8);
+                        t5 = (nlScaleVector(t8, (t11 + 0xC), (*(float *)((t9 + t5)))));
+                        t8 = t11;
+                        t5 = (nlAddVector(t8, (((int)stk + 4) + 0x8)));
+                        t5 = 0xC037868;
+                        u12 = (*(float *)((t5 + 0x0)));
+                        t8 = t11;
+                        t8 = (t8 + 0xC);
+                        t24 = nlInnerProduct(t8, (t9 + 0xC));
+                        t8 = ((int)stk + 4);
+                        t8 = (t8 + 0x8);
+                        t5 = (nlScaleVector(t8, (t9 + 0xC), (-(t24 * u12))));
+                        t8 = t11;
+                        t8 = (t8 + 0xC);
+                        t26 = (((int)stk + 4) + 0x8);
+                    }
+                    t7 = 0xC078A50;
+                    t5 = (nlAddVector(t8, t26));
+                    t7 = 0xC2757DC;
+                    t9 = (*(int *)(((int)stk + 8)));
+                    t31 = *(signed char *)((t7 + 0x0));
+                    t9 = (t9 << 2);
+                    t6 = 0xC0771B0;
+                    t9 = (t9 << 2);
+                    t9 = (t9 << 1);
+                    t9 = (t9 + 0xC274298);
+                    t8 = t11;
+                    t5 = (nlSqrt(t8, ((signed char)(((t31 << 1) + t31) << 2) + (t9 + 0x8))));
+                    t5 = 0xC037874;
+                    u33 = *(float *)((t5 + 0x0));
+                    t5 = 0x10;
+                    t8 = t11;
+                    *(float *)((t11 + t5)) = ((*(float *)((t11 + t5))) - u33);
+                    t5 = 0xC037878;
+                    u12 = (*(float *)((t5 + 0x0)));
+                    t8 = (t8 + 0xC);
+                    t5 = (nlScaleVector(t8, (t11 + 0xC), u12));
+                    t5 = (*(int *)((t11 + 0x18)));
+                    t8 = 0xC0EDB40;
+                    t5 = (t5 << 2);
+                    *(unsigned int *)((t9 + 0x4)) = (*(int *)((t8 + t5)));
+                    t42 = 0xC078BC0;
+                }
+                t6 = t39;
+                t7 = (*(int *)(((int)stk + 8)));
+                t10 = t42;
+                t7 = (t7 + 0x1);
+                *(unsigned int *)(((int)stk + 8)) = t7;
+                if ((int)t7 >= (int)0x5A) {
+                    t11 = 0xC274DF8;
+                    *(unsigned int *)(((int)stk + 8)) = 0x0;
+                } else {
+                    t11 = (t11 + 0x1C);
+                }
+                *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) - 1);
+                continue;
+            }
+            break;
+        }
+        nlPopMatrix(0x1);
+        if ((int)(*(int *)0xC2757D0) > 0) {
+            if ((*(int *)0xC2757E0) == 0) {
+                nlLineBlendFunc(0x1, 0x4);
+                nlLineSetThickness((1.0f + 1.0f));
+                nlLineSetDiv((*(float *)0xC0379BC));
+                if ((*(int *)0xC2757D0) == 90) {
+                    *(unsigned int *)0xC274DD8 = 0x0;
+                } else {
+                    *(unsigned int *)(((((((*(int *)0xC2757D8) << 2) << 2) << 1) + 0xC274298) + 0x0)) = 0x0;
+                    if ((int)(*(int *)0xC2757D4) > (int)(*(int *)0xC2757D8)) {
+                        *(unsigned int *)0xC274DD8 = 0x0;
+                        FUN_0c07b9d0();
+                    }
+                    *(volatile int *)0xC2757D4;
+                }
+                FUN_0c07b9d0();
+            }
+        } else {
+            *(unsigned int *)0xC2757D8 = 0x0;
+            *(unsigned int *)0xC2757D4 = 0x0;
+            *(unsigned int *)0xC2757D0 = 0x0;
+        }
+        *(unsigned int *)0xC2757DC = ((*(int *)0xC2757DC) ^ 0x1);
+        *(unsigned int *)0xC2757E0 = 0x0;
+    }
 }

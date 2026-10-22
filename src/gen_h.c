@@ -42,20 +42,20 @@ int Result_SetBackColor(void)
     *(unsigned int *)0xC2A96F8 = 0x62;
     *(unsigned int *)0xC2A972C = 0x2005;
     u2 = *(float *)0xC2A9758;
-    u3 = *(float *)0xC05B184;
+    u3 = 40.0f;
     *(float *)0xC2A9708 = (u2 + u3);
     u4 = *(float *)0xC2A9758;
-    u5 = *(float *)0xC05B188;
+    u5 = 30.0f;
     *(float *)0xC2A970C = (u4 + u5);
     *(float *)0xC2A96FC = 0.0f;
     t6 = *(int *)0xC2A9748;
     *(float *)0xC2A9700 = (float)(t6 + 0x70);
-    u7 = *(float *)0xC05B190;
+    u7 = 0.27999997f;
     *(float *)0xC2A9704 = u7;
     *(unsigned int *)0xC2A9720 = 0x0;
     nlSprPut(0xC2A96F8);
     nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    u10 = *(float *)0xC05B198;
+    u10 = 0.19999999f;
     *(float *)0xC2A9704 = u10;
     return 0xC;
 }

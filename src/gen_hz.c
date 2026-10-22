@@ -1,208 +1,148 @@
 /* Straight-line functions with calls and guards (batch gen_hz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int convergeRot(int, int, float);
-int FUN_0c077210(int, int);
-int carBalanceRoll(int);
-int getYXZrot(int);
-int nlArcTan2(float, float);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int carBalance(int a4, int a5);
+int CheckKyakuArea(int, int);
+int CheckNumRideon(void);
+int kyakuInDestArea2(int a4, int a5);
 
-int carBalance(int a4, int a5)
+int kyakuInDestArea2(int a4, int a5)
 {
-    int t1;
-    int t3;
+    int t2;
     int t5;
-    int t8;
-    float u11;
-    float u12;
+    int t9;
+    int t11;
     int t13;
-    float u14;
-    float u15;
-    int t16;
-    int t18;
+    int t17;
     int t20;
     int t22;
-    int t25;
+    int t24;
     int t27;
+    int t29;
     int t31;
     int t33;
-    int t34;
-    int t36;
-    int t37;
-    int t41;
+    int t38;
+    int t40;
     int t42;
     int t46;
-    int t51;
-    int t52;
+    int t48;
+    int t50;
     int t53;
-    int t54;
-    float u61;
-    int t62;
-    float u63;
-    int t64;
-    int t106;
-    int t65;
-    float u66;
-    int t67;
-    int t68;
-    int t69;
-    int t70;
-    int t71;
-    int t81;
-    float u91;
-    int t92;
-    int t107;
-    float u108;
-    int t109;
-    int t110;
-    int t111;
-    int t112;
-    int t113;
-    int t123;
-    int stk[21] = {0};
+    int stk[3] = {0};
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    nlPushUnitMatrix();
-    t1 = *(short *)((a4 + 0xA8));
-    nlRotateAZ((-(unsigned short)t1));
-    t3 = *(short *)((a4 + 0xA4));
-    nlRotateAX((-(unsigned short)t3));
-    t5 = *(short *)((a4 + 0xA6));
-    nlRotateAY((-(unsigned short)t5));
-    FUN_0c077210((0xEC + a4), (((int)stk + 4) + 0x10));
-    t8 = *(int *)(((int)stk + 4));
-    FUN_0c077210(t8, (((int)stk + 4) + 0x4));
-    nlPopMatrix(0x1);
-    u11 = *(float *)(((int)stk + 24));
-    u12 = *(float *)(((int)stk + 28));
-    t13 = nlArcTan2(u12, u11);
-    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x0)) = (-t13);
-    u14 = *(float *)(((int)stk + 24));
-    u15 = *(float *)(((int)stk + 20));
-    t16 = nlArcTan2(u15, u14);
-    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x4)) = t16;
-    nlPushUnitMatrix();
-    t18 = *(short *)((a4 + 0xA6));
-    nlRotateAY((unsigned short)t18);
-    t20 = *(short *)((a4 + 0xA4));
-    nlRotateAX((unsigned short)t20);
-    t22 = *(short *)((a4 + 0xA8));
-    nlRotateAZ((unsigned short)t22);
-    nlPushMatrix(0x0);
-    t25 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-    nlRotateAX((-(unsigned short)t25));
-    t27 = *(short *)(((((int)stk + 4) + 0x1C) + 0x4));
-    nlRotateAZ((-(unsigned short)t27));
-    getYXZrot((0x108 + a4));
-    nlPopMatrix(0x1);
-    t31 = *(int *)((a4 + 0x110));
-    if (t31 != 0) {
-        nlPushMatrix(0x0);
-        t33 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-        t34 = convergeRot(t33, 0x0, 0.349999994f);
-        nlRotateAX(t34);
-        t36 = *(short *)(((((int)stk + 4) + 0x1C) + 0x4));
-        t37 = convergeRot(t36, 0x0, 0.349999994f);
-        nlRotateAZ(t37);
-        getYXZrot((0xA4 + a4));
-        nlPopMatrix(0x1);
-    } else {
-        t41 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-        if ((int)(unsigned short)t41 >= (int)0x3000) {
-            if ((int)(unsigned short)t41 > (int)0xD000) {
-                t42 = *(short *)((a4 + 0xA4));
-                *(unsigned short *)((a4 + 0xA4)) = (t42 + 0x40);
-            }
-        } else {
-            t46 = *(short *)((a4 + 0xA4));
-            *(unsigned short *)((a4 + 0xA4)) = (t46 + 0x40);
-        }
-        t51 = *(short *)((a4 + 0x10C));
-        t52 = *(short *)((a4 + 0xA8));
-        t53 = convergeRot(t52, t51, 0.199999988f);
-        t54 = *(short *)(((0xA8 + a4) + 0x0));
-        *(unsigned short *)(((0xA8 + a4) + 0x0)) = (t54 + t53);
-    }
-    nlPopMatrix(0x1);
-    u61 = *(float *)(((0x60 + a4) + 0x0));
-    t62 = *(short *)((a4 + 0xA6));
-    *(unsigned short *)((a4 + 0xA6)) = (t62 + ((int)(((u61 * 524288.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
-    u63 = *(float *)((a4 + 0x60));
-    *(float *)((a4 + 0x60)) = (u63 * 0.949999988f);
-    t64 = *(int *)((a4 + 0x84));
-    t106 = 0;
-    if ((t64 & 64) == 0) {
-        t65 = *(short *)((a4 + 0xAE));
-        u66 = *(float *)(((((int)stk + 4) + 0x4) + 0x0));
-        *(unsigned short *)((a4 + 0xAE)) = (t65 + ((int)(((u66 * 6553.59961f) / 6.28318501f) + 0.5f) & 0xFFFF));
-        t67 = *(short *)((a4 + 0xAE));
-        t68 = convergeRot(t67, 0x0, 0.149999991f);
-        t69 = *(short *)(((0xAE + a4) + 0x0));
-        *(unsigned short *)(((0xAE + a4) + 0x0)) = (t69 + t68);
-        t70 = *(short *)((a4 + 0xAE));
-        if ((int)(unsigned short)t70 < (int)0x8000) {
-            if ((int)(unsigned short)t70 > (int)0x400) {
-                *(unsigned short *)((a4 + 0xAE)) = 0x400;
-            } else {
-                t71 = *(short *)((a4 + 0xAE));
-                if ((int)(unsigned short)t71 > (int)0x8000) {
-                    if ((int)(unsigned short)t71 < (int)0xFC00) {
-                        *(unsigned short *)((a4 + 0xAE)) = 0xFC00;
-                    }
-                }
-            }
-        } else {
-            t81 = *(short *)((a4 + 0xAE));
-            if ((int)(unsigned short)t81 > (int)0x8000) {
-                if ((int)(unsigned short)t81 < (int)0xFC00) {
-                    *(unsigned short *)((a4 + 0xAE)) = 0xFC00;
-                }
-            }
-        }
-        u91 = *(float *)((a4 + 0x100));
-        if (_builtin_fabsf(u91) > 0.0014999999f) {
-            t92 = *(int *)((a4 + 0x84));
-            *(unsigned int *)((a4 + 0x84)) = (t92 | 0x40);
-        }
-        _builtin_fabsf(u91);
-        t106 = ((_builtin_fabsf(u91) > 0.0014999999f));
-    } else {
-        carBalanceRoll(a4);
-        t106 = (0);
-    }
-    t107 = *(short *)((a4 + 0xAA));
-    u108 = *(float *)(((((int)stk + 4) + 0xC) + 0x0));
-    *(unsigned short *)((a4 + 0xAA)) = (t107 - ((int)(((u108 * 1310.71997f) / 6.28318501f) + 0.5f) & 0xFFFF));
-    t109 = *(short *)((a4 + 0xAA));
-    t110 = convergeRot(t109, 0x0, 0.149999991f);
-    t111 = *(short *)(((0xAA + a4) + 0x0));
-    *(unsigned short *)(((0xAA + a4) + 0x0)) = (t111 + t110);
-    t112 = *(short *)((a4 + 0xAA));
-    if ((int)(unsigned short)t112 < (int)0x8000) {
-        if ((int)(unsigned short)t112 > (int)0x200) {
-            *(unsigned short *)((a4 + 0xAA)) = 0x200;
-        } else {
-            t113 = *(short *)((a4 + 0xAA));
-            if ((int)(unsigned short)t113 > (int)0x8000) {
-                if ((int)(unsigned short)t113 < (int)0xFE00) {
-                    *(unsigned short *)((a4 + 0xAA)) = 0xFE00;
-                }
-            }
-        }
-    } else {
-        t123 = *(short *)((a4 + 0xAA));
-        if ((int)(unsigned short)t123 > (int)0x8000) {
-            if ((int)(unsigned short)t123 < (int)0xFE00) {
-                *(unsigned short *)((a4 + 0xAA)) = 0xFE00;
-            }
-        }
-    }
-    return 0xAA;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C025E74:;
+    t2 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = (R14);
+    R14 = (R4);
+    if (t2) goto L_C025E98;
+    goto L_C025E82;
+    L_C025E82:;
+    t5 = (*(int *)0xC1EE214) != 11;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t5) goto L_C025E98;
+    goto L_C025E8A;
+    L_C025E8A:;
+    t9 = (*(int *)0xC2A98FC) == (*(int *)(((*(int *)((R14 + 0x198))) + 0x0)));
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t9) goto L_C025EF0;
+    goto L_C025E98;
+    L_C025E98:;
+    t11 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t11) goto L_C025EC4;
+    goto L_C025EA0;
+    L_C025EA0:;
+    t13 = (*(int *)0xC1EE214) != 14;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t13) goto L_C025EC4;
+    goto L_C025EA8;
+    L_C025EA8:;
+    t17 = (*(int *)0xC2A98FC) != (*(int *)(((*(int *)((R14 + 0x198))) + 0x0)));
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t17) goto L_C025EC4;
+    goto L_C025EB6;
+    L_C025EB6:;
+    t20 = (CheckNumRideon()) == (*(int *)0xC2A9900);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t20) goto L_C025EF0;
+    goto L_C025EC4;
+    L_C025EC4:;
+    t22 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t22) goto L_C025EE0;
+    goto L_C025ECC;
+    L_C025ECC:;
+    t24 = (*(int *)0xC1EE214) == 11;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    R3 = (0xC1EE214);
+    if (t24) goto L_C025F02;
+    goto L_C025ED4;
+    L_C025ED4:;
+    t27 = (*(int *)((R3 + 0x0))) == 10;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t27) goto L_C025F02;
+    goto L_C025EDA;
+    L_C025EDA:;
+    t29 = (*(int *)((R3 + 0x0))) == 14;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t29) goto L_C025F02;
+    goto L_C025EE0;
+    L_C025EE0:;
+    t31 = (*(int *)0xC1EE20C) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t31) goto L_C025EF0;
+    goto L_C025EE8;
+    L_C025EE8:;
+    t33 = (*(int *)0xC1EE214) == 15;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t33) goto L_C025F02;
+    goto L_C025EF0;
+    L_C025EF0:;
+    t38 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), (*(int *)(((*(int *)((R14 + 0x198))) + 0x0))))) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t38) goto L_C025F48;
+    goto L_C025F02;
+    L_C025F02:;
+    t40 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t40) goto L_C025F22;
+    goto L_C025F0A;
+    L_C025F0A:;
+    t42 = (*(int *)0xC1EE214) != 10;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t42) goto L_C025F22;
+    goto L_C025F12;
+    L_C025F12:;
+    t46 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), (*(int *)0xC2A98FC))) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t46) goto L_C025F48;
+    goto L_C025F22;
+    L_C025F22:;
+    t48 = (*(int *)0xC1EE20C) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t48) goto L_C025F40;
+    goto L_C025F2A;
+    L_C025F2A:;
+    t50 = (*(int *)0xC1EE214) != 15;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t50) goto L_C025F40;
+    goto L_C025F32;
+    L_C025F32:;
+    t53 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), 0x7)) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t53) goto L_C025F48;
+    goto L_C025F40;
+    L_C025F40:;
+    return 0x0;
+    L_C025F48:;
+    return 0x1;
 }

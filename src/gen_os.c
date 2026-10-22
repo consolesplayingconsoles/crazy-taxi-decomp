@@ -1,94 +1,77 @@
 /* Straight-line functions with calls and guards (batch gen_os): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-float nlLength(int, int);
-float GetStopPosCenter(int a4, int a5, int a6);
+int FUN_0c077df0(int);
+int GetMenuMode(int);
+int Init_Result_Parm(void);
+int Init_Result_Standard_Sprite(void);
+int Money_Array(int, int, int);
+int Result_Drop_Lowest_Rank(void);
+int Result_Insert_Rank(void);
+int nlPerspective(int, float, float, float);
+int nlUnitMatrix(void);
+int Init_Result(int a4);
 
-float GetStopPosCenter(int a4, int a5, int a6)
+int Init_Result(int a4)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    float u17;
-    float u18;
-    float u19;
-    int t20;
+    int t14;
+    int t15;
+    int t19;
     int t21;
-    int t22;
-    int t23;
+    int t39;
     int t24;
-    int t25;
-    float u41;
+    int t34;
     int t26;
-    int t27;
-    float u28;
-    float t29;
-    int t45;
-    float u40;
-    int stk[13] = {0};
+    int t29;
 
-    *(unsigned int *)(((int)stk + 4)) = a6;
-    t0 = *(int *)0xC1EE210;
-    t1 = *(int *)0xC1EE214;
-    t2 = *(int *)((0xC0ED974 + (t0 << 2)));
-    t3 = *(int *)(((t1 << 2) + t2));
-    *(unsigned int *)(((int)stk + 8)) = ((a4 << 2) << 1);
-    t4 = *(int *)(((t3 + ((a4 << 2) << 1)) + 0x4));
-    t5 = *(int *)(((t3 + ((a4 << 2) << 1)) + 0x0));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(0xC08AD94); }
-    if ((int)t5 > 0) {
-        t6 = 0x0;
-        t7 = t4;
-        for (;;) {
-            nlAddVector((((int)stk + 4) + 0x8), t7);
-            t6 = (t6 + 0x1);
-            t7 = (t7 + 0xC);
-            if ((int)t6 >= (int)t5) {
-                break;
-            }
+    FUN_0c077df0(0x3);
+    nlUnitMatrix();
+    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
+    FUN_0c077df0(0x1);
+    if ((*(int *)0xC1EE210) != 2) {
+        if ((GetMenuMode(0x1)) == 0) {
+            *(unsigned int *)0xC2A7618 = 0x1;
+        } else {
+            *(unsigned int *)0xC2A7618 = 0x0;
+        }
+    } else {
+        *(unsigned int *)0xC2A7618 = 0x1;
+    }
+    t14 = 0xC2A986C;
+    t15 = 0x0;
+    for (;;) {
+        t15 = (t15 + 0x1);
+        *(unsigned int *)((t14 + 0x0)) = 0x0;
+        t14 = (t14 + 0x4);
+        if ((int)t15 >= (int)0xA) {
+            break;
         }
     }
-    u17 = *(float *)(((int)stk + 12));
-    *(float *)(((int)stk + 12)) = (u17 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x0)) = (u17 * (1.0f / (float)t5));
-    u18 = *(float *)(((int)stk + 16));
-    *(float *)(((int)stk + 16)) = (u18 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x4)) = (u18 * (1.0f / (float)t5));
-    u19 = *(float *)(((int)stk + 20));
-    *(float *)(((int)stk + 20)) = (u19 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x8)) = (u19 * (1.0f / (float)t5));
-    t20 = *(int *)0xC1EE214;
-    t21 = *(int *)0xC1EE210;
-    t22 = *(int *)((0xC0ED974 + (t21 << 2)));
-    t23 = *(int *)(((int)stk + 8));
-    t24 = *(int *)(((t20 << 2) + t22));
-    t25 = *(int *)(((t24 + t23) + 0x4));
-    u41 = 0.0f;
-    if ((int)t5 > 0) {
-        t26 = 0x0;
-        t27 = t25;
-        u28 = 0.0f;
-        for (;;) {
-            t29 = nlLength(a5, t27);
-            t27 = (t27 + 0xC);
-            if (t29 > u28) {
-                u28 = t29;
+    *(unsigned int *)0xC2A96F0 = ((int)((int)a4 % (int)0x4));
+    Init_Result_Standard_Sprite();
+    Init_Result_Parm();
+    t19 = *(int *)0xC1EE340;
+    *(unsigned int *)0xC2A97DC = t19;
+    t21 = *(int *)0xC2A97DC;
+    t39 = (Money_Array(0xC2A97CC, t19, 0x3));
+    if ((int)t21 < (int)0x64) {
+        t24 = *(int *)0xC17948C;
+        t34 = t24;
+        if (t24 == 0) {
+            t26 = *(int *)0xC2A7618;
+            t29 = t26;
+            if (t26 != 0) {
+                Result_Drop_Lowest_Rank();
+                t29 = (Result_Insert_Rank());
             }
-            t26 = (t26 + 0x1);
-            if ((int)t26 >= (int)t5) {
-                break;
-            }
+            t34 = t29;
         }
-        u40 = t29;
-        u41 = u28;
+        t39 = t34;
     }
-    t45 = *(int *)(((int)stk + 4));
-    *(float *)((t45 + 0x0)) = (u41 * 1.19999993f);
-    return u40;
+    *(unsigned int *)0xC2A9858 = 0x0;
+    *(unsigned int *)0xC2A985C = 0x0;
+    *(unsigned int *)0xC2A9860 = 0x0;
+    *(unsigned int *)0xC2A9864 = 0x0;
+    *(unsigned int *)0xC2A9868 = 0x0;
+    return t39;
 }

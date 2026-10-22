@@ -1,0 +1,52 @@
+/* Straight-line functions with calls and guards (batch gen_age): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int CheckAreaGrid(int, int);
+int FUN_0c07b970(void);
+void PutGrid(int a4);
+
+void PutGrid(int a4)
+{
+    int t5;
+    float u9;
+    float u10;
+    int t14;
+    int t15;
+    int stk[19] = {0};
+
+    *(unsigned int *)0xC0ED43C = (CheckAreaGrid(a4, (*(int *)0xC0ED43C)));
+    *(float *)(((int)stk + 4)) = ((*(float *)((a4 + 0x0))) * 9.99999975e-06f);
+    *(float *)(((int)stk + 8)) = (-((*(float *)((a4 + 0x8))) * 9.99999975e-06f));
+    *(float *)(((int)stk + 12)) = -0.5f;
+    FUN_0c07b970();
+    t5 = 0x0;
+    for (;;) {
+        u9 = (-1.0f);
+        u10 = 1.99999995e-05f;
+        if (t5 == (*(int *)0xC0ED43C)) {
+            u9 = -0.5f;
+            u10 = 9.99999975e-06f;
+        }
+        *(float *)(((int)stk + 16)) = ((*(float *)(((((((t5 << 2) << 2) << 1) + 0xC08DBA8) + 0x18) + 0x0))) * u10);
+        *(float *)(((int)stk + 20)) = (-((*(float *)(((((((t5 << 2) << 2) << 1) + 0xC08DBA8) + 0x18) + 0x4))) * u10));
+        *(float *)(((int)stk + 24)) = u9;
+        t14 = 0x0;
+        t15 = ((((t5 << 2) << 2) << 1) + 0xC08DBA8);
+        for (;;) {
+            *(float *)(((int)stk + 4)) = ((*(float *)((t15 + 0x0))) * u10);
+            *(float *)(((int)stk + 8)) = (-((*(float *)((t15 + 0x4))) * u10));
+            *(float *)(((int)stk + 12)) = u9;
+            FUN_0c07b970();
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(((int)stk + 4)); }
+            t14 = (t14 + 0x1);
+            t15 = (t15 + 0x8);
+            if ((int)t14 >= (int)0x4) {
+                break;
+            }
+        }
+        t5 = (t5 + 0x1);
+        if ((int)t5 >= (int)0x19) {
+            break;
+        }
+    }
+}

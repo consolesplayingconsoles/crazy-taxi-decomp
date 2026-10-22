@@ -1,59 +1,32 @@
 /* Straight-line functions with calls and guards (batch gen_oe): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077df0(int);
-int nlObjPut(int);
+int FUN_0c077170(int, int);
+int nlMultiMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlScale(float, float, float);
-int nlTranslate(float, float, float);
-int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6);
 
-int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6)
 {
-    int t6;
-    int t7;
-    int t9;
-    int t11;
-    int t13;
-    int t16;
-    int t23;
-    int stk[20] = {0};
+    float u6;
+    int stk[15] = {0};
 
-    stk[8] = a8;
-    stk[9] = a9;
-    stk[10] = a10;
-    stk[11] = a11;
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(unsigned int *)(((int)stk + 12)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    FUN_0c077df0(0x3);
-    nlPushMatrix(0xC0D09D0);
-    FUN_0c077df0(0x2);
-    nlPushUnitMatrix();
-    FUN_0c077df0(0x1);
-    nlPushUnitMatrix();
-    t6 = *(int *)(((int)stk + 12));
-    t7 = *(int *)(((int)stk + 4));
-    nlTranslate((float)(t7 - 320), (float)(0xF0 - t6), -0.299999982f);
-    t9 = *(short *)(((((int)stk + 4) + 0x1C) + 0x2));
-    nlRotateAY((unsigned short)t9);
-    t11 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-    nlRotateAX((unsigned short)t11);
-    t13 = *(short *)(((((int)stk + 4) + 0x1C) + 0x4));
-    nlRotateAZ((unsigned short)t13);
-    nlScale(f4, f4, 1.0f);
-    t16 = *(int *)(((int)stk + 8));
-    nlObjPut(t16);
-    nlPopMatrix(0x1);
-    FUN_0c077df0(0x2);
-    nlPopMatrix(0x1);
-    FUN_0c077df0(0x3);
-    nlPopMatrix(0x1);
-    t23 = FUN_0c077df0(0x1);
-    return t23;
+    *(float *)(((int)stk + 24)) = f4;
+    *(float *)(((int)stk + 12)) = f5;
+    *(float *)(((int)stk + 20)) = f6;
+    *(unsigned int *)(((int)stk + 16)) = a4;
+    *(unsigned int *)(((int)stk + 8)) = a5;
+    *(unsigned int *)(((int)stk + 4)) = a6;
+    nlPushMatrix(0xC2B3410);
+    nlMultiMatrix(0xC2B33D0);
+    *(float *)(((int)stk + 44)) = (*(float *)(((int)stk + 24)));
+    *(float *)(((int)stk + 48)) = (*(float *)(((int)stk + 12)));
+    *(float *)(((int)stk + 52)) = (*(float *)(((int)stk + 20)));
+    FUN_0c077170((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x18));
+    u6 = *(float *)(((int)stk + 40));
+    *(float *)(((*(int *)(((int)stk + 16))) + 0x0)) = ((*(float *)(((int)stk + 28))) * (1.0f / u6));
+    *(float *)(((*(int *)(((int)stk + 8))) + 0x0)) = ((*(float *)(((int)stk + 32))) * (1.0f / u6));
+    *(float *)(((*(int *)(((int)stk + 4))) + 0x0)) = (1.0f / u6);
+    return (nlPopMatrix(0x1));
 }

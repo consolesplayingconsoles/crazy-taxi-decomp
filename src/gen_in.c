@@ -63,7 +63,7 @@ int Put_ProposalWalker(int a4)
         nlObjPutUseViewMatrix(t7);
         return nlPopMatrix(0x1);
     }
-    u9 = *(float *)0xC05FD14;
+    u9 = 16.5f;
     t10 = GetCollision2D((a4 + 0x1C), u9);
     t11 = *(int *)((t10 + 0x1C));
     if (t11 != -1) {
@@ -77,7 +77,7 @@ int Put_ProposalWalker(int a4)
     nlRotateAX((unsigned short)t19);
     t21 = *(short *)((a4 + 0x38));
     nlRotateAZ((unsigned short)t21);
-    u23 = *(float *)0xC05FD34;
+    u23 = 3.0f;
     nlTranslate(0.0f, 0.0f, u23);
     t25 = *(int *)((a4 + 0x18));
     if (t25 == 1) {

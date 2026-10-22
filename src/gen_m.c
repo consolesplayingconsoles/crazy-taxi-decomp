@@ -32,7 +32,7 @@ float nlLog(float f4)
         if (f4 == 0.0f) {
             return 0.0f;
         }
-        u0 = *(float *)0xC075EE8;
+        u0 = 0.6931471f;
         u3 = f4;
         u4 = 0.0f;
         if (!((1.0f + 1.0f) > f4)) {

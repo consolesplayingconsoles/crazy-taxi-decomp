@@ -1,84 +1,80 @@
 /* Straight-line functions with calls and guards (batch gen_la): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int KillColliObj(int);
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-void setObjHitSplitSleep(int a4);
+float getNearLineIndex(int, int, int, int);
+float navi_GetRouteDataC(int a4, int a5, float f4);
 
-void setObjHitSplitSleep(int a4)
+float navi_GetRouteDataC(int a4, int a5, float f4)
 {
-    float t0;
     int t1;
     int t2;
     int t3;
-    float u4;
+    int t4;
     int t5;
+    int t6;
     int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t20;
-    int t21;
+    float u9;
+    float u10;
+    float u8;
     int t22;
     int t23;
-    int t29;
-    int t30;
-    int t31;
-    int t6;
-    int t11;
-    int stk[15] = {0};
+    int t24;
+    int t25;
+    int t26;
+    int t16;
+    int t17;
+    int t18;
+    int stk[12] = {0};
 
-    t0 = nlLength((a4 + 0xC), (a4 + 0x58));
-    if (t0 > (1.0f + 1.0f)) {
-        t1 = *(int *)(((a4 + 0xC) + 0x8));
-        t2 = *(int *)(((a4 + 0xC) + 0x4));
-        *(unsigned int *)(((a4 + 0x58) + 0x8)) = t1;
-        t3 = *(int *)(((a4 + 0xC) + 0x0));
-        *(unsigned int *)(((a4 + 0x58) + 0x4)) = t2;
-        *(unsigned int *)(((a4 + 0x58) + 0x0)) = t3;
-        *(unsigned int *)(((int)stk + 4)) = 0xC0EDEB4;
-        u4 = *(float *)0xC0387B0;
-        t5 = 0x0;
-        for (;;) {
-            t7 = set_event(0x84, 0xC0385E2);
-            if (t7 != 0) {
-                t6 = t7;
-                t6 = (t6 + 0x14);
-                t8 = a4;
-                t9 = (a4 + 112);
-                t10 = t6;
-                for (;;) { t11 = *(int *)t8; t8 = (t8 + 4); if ((unsigned int)t9 < (unsigned int)t8) break; *(unsigned int *)t10 = t11; t10 = (t10 + 4); }
-                if (t5 != 0) {
-                    nlScaleVector((t6 + 0x30), (t6 + 0x30), (-1.0f));
-                }
-                nlScaleVector((((int)stk + 4) + 0x4), (t6 + 0x30), u4);
-                nlAddVector(t6, (((int)stk + 4) + 0x4));
-                *(unsigned int *)((t6 + 0x28)) = (t6 + 0x30);
-                t20 = *(int *)(((int)stk + 4));
-                *(unsigned int *)((t6 + 0x54)) = t20;
-                t21 = *(int *)((a4 + 0x6C));
-                t22 = *(int *)0xC0EE208;
-                t23 = *(int *)((((t21 << 2) + t22) + 0x0));
-                *(unsigned int *)((t6 + 0x64)) = t23;
-                SetColliObj(t6, 0x10);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1EE1EC) = *(struct mv3 *)(a4); }
+    t1 = 0xC1EE1EC;
+    t2 = 0xC2A6690;
+    t3 = 0xEF4;
+    t4 = a4;
+    t5 = a5;
+    t6 = ((*(int *)0xC2A6690) + 0xEF4);
+    t7 = 0x0;
+    u9 = f4;
+    u10 = 999999.875f;
+    for (;;) {
+        if (((a5 != 44) && (a5 != 55)) || (t7 != 7)) {
+            t5 = (*(int *)((t6 + 0x0)));
+            t4 = 0x0;
+            u8 = (getNearLineIndex(t4, t5, (*(int *)(((*(int *)((t6 + 0x4))) + 0x0))), (((int)stk + 4) + 0x4)));
+            u9 = u8;
+            if (u10 > u9) {
+                t1 = 0xC1EE1FC;
+                t2 = 0xC1EE1F8;
+                u10 = u9;
+                *(float *)0xC1EE200 = u10;
+                *(unsigned int *)((t2 + 0x0)) = t7;
+                t3 = (*(int *)(((int)stk + 8)));
+                *(unsigned int *)((t1 + 0x0)) = t3;
+                t16 = t1;
+                t17 = t2;
+                t18 = t3;
             }
-            t5 = (t5 + 0x1);
-            if ((int)t5 >= (int)0x2) {
-                break;
-            }
+            t22 = t16;
+            t23 = t17;
+            t24 = t18;
+        } else {
+            t7 = (t7 + 0x1);
+            t22 = t1;
+            t23 = t2;
+            t24 = t3;
+            t25 = t4;
+            t26 = t5;
         }
-        KillColliObj(a4);
-        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
-    } else {
-        t29 = *(int *)(((a4 + 0xC) + 0x8));
-        t30 = *(int *)(((a4 + 0xC) + 0x4));
-        *(unsigned int *)(((a4 + 0x58) + 0x8)) = t29;
-        t31 = *(int *)(((a4 + 0xC) + 0x0));
-        *(unsigned int *)(((a4 + 0x58) + 0x4)) = t30;
-        *(unsigned int *)(((a4 + 0x58) + 0x0)) = t31;
+        t1 = t22;
+        t7 = (t7 + 0x1);
+        t2 = t23;
+        t3 = t24;
+        t4 = t25;
+        t5 = t26;
+        t6 = (t6 + 0xC);
+        if ((int)t7 > (int)0x8) {
+            break;
+        }
     }
+    return u8;
 }

@@ -20,7 +20,7 @@ int gdc_GetStreamSongTotalTime(int a4)
     if ((int)t1 >= (int)0x2) {
         t2 = *(int *)(((a4 << 2) + 0xC1EE820));
         t3 = ADXT_GetNumSmpl(t2);
-        u4 = *(float *)0xC02E260;
+        u4 = 0.0013605441f;
         t7 = (int)((float)t3 * u4);
     }
     return t7;

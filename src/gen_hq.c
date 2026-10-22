@@ -1,111 +1,61 @@
 /* Straight-line functions with calls and guards (batch gen_hq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuDrawTree(void);
+int ADXF_GetFsizeSct(int);
+int ADXF_OpenAfs(int, int);
+int ADXF_ReadNw32(int, int, int);
+int gdc_CourseBlockReadNext(void);
 
-int menuDrawTree(void)
+int gdc_CourseBlockReadNext(void)
 {
     int t1;
     int t2;
     int t3;
-    int t4;
-    int t6;
     int t7;
     int t9;
     int t10;
     int t11;
     int t13;
-    float u14;
-    int t15;
-    int t16;
-    int t17;
     int t18;
-    int t19;
-    int t20;
-    int t22;
-    int t30;
-    int t31;
-    int t33;
-    int t32;
+    int t17;
     int t0;
-    int t8;
-    int t12;
-    int t23;
-    int t26;
-    int t27;
-    float u28;
+    int t5;
+    int t22;
 
-    *(float *)0xC2A1AD4 = 1.0f;
-    *(unsigned int *)0xC2A11F0 = 0xC09DFE8;
-    t1 = 0xC09DFE8;
+    t1 = 0xC26C5DC;
     t2 = 0x0;
+    t3 = 0x0;
     for (;;) {
-        t3 = *(int *)0xC2A11D8;
-        if ((int)t2 >= (int)t3) {
-            break;
+        if (((unsigned char)(*(signed char *)((t1 + 0x0))) == 1) && (t5 = *(int *)((t1 + 0xC)), t0 = t5, (int)t3 < (int)t0)) {
+            *(unsigned int *)0xC26E0F4 = t2;
+            t3 = (*(int *)((t1 + 0xC)));
         }
-        t1 = 0xC2A11D8;
-        t1 = (t1 + 0x4);
-        t4 = *(int *)((((t2 << 2) + t1) + 0x0));
-        t0 = t4;
+        t7 = *(int *)((t1 + 0x8));
+        t2 = (t2 + t7);
         t2 = (t2 + 0x1);
-        t6 = *(int *)0xC2A11F0;
-        t0 = (t0 << 2);
-        t0 = (t0 << 1);
-        t0 = (t0 + t6);
-        t7 = *(int *)((t0 + 0x8));
-        t1 = t7;
-        *(unsigned int *)0xC2A11F0 = t1;
-    }
-    t9 = t0;
-    t10 = t2;
-    t11 = 0x0;
-    t13 = 0x0;
-    u14 = 1.0f;
-    for (;;) {
-        t15 = *(int *)0xC2A11F0;
-        t16 = *(int *)((t15 + 0x4));
-        if ((int)t13 >= (int)t16) {
+        t1 = (t1 + (((((t7 + 0x1) << 1) + (t7 + 0x1)) << 2) << 1));
+        if ((int)t2 >= (int)0x120) {
             break;
         }
-        t12 = t13;
-        t17 = *(int *)0xC2A11F0;
-        t12 = (t12 << 2);
-        t12 = (t12 << 1);
-        t12 = (t12 + t17);
-        t18 = *(int *)((t12 + 0xC));
-        t12 = t18;
-        if (t12 != 0) {
-            t19 = *(int *)0xC2A11D8;
-            t20 = *(int *)((((t19 << 2) + 0xC2A11DC) + 0x0));
-            t9 = t20;
-            if (t13 != t9) {
-                t11 = t13;
-                t10 = 0x0;
-            } else {
-                t10 = 0x1;
-                t11 = t13;
-            }
-            t22 = ((int (*)(int, int))(t12))(t10, t11);
-            t8 = t22;
-        } else {
-            t23 = t9;
-            t26 = t10;
-            t27 = t11;
-            u28 = u14;
+    }
+    t9 = *(int *)0xC26E0F4;
+    if (t9 != -1) {
+        *(unsigned int *)0xC26E0F8 = 0x1;
+        t10 = *(int *)0xC26E0F4;
+        *(unsigned char *)((((short)((((t10 << 1) + t10) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
+        t11 = *(int *)0xC26E0F4;
+        t13 = ADXF_OpenAfs(0x0, (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x4))));
+        *(unsigned int *)0xC26C5D8 = t13;
+        t18 = t13;
+        if (t13 != 0) {
+            t17 = ADXF_ReadNw32((*(int *)0xC26C5D8), (ADXF_GetFsizeSct(t13)), (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x14))));
+            *(unsigned char *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x3;
+            t18 = t17;
         }
-        u14 = u28;
-        t9 = t23;
-        t13 = (t13 + 0x1);
-        t10 = t26;
-        t11 = t27;
+        t22 = t18;
+    } else {
+        *(unsigned int *)0xC26E0F8 = 0x0;
+        t22 = t9;
     }
-    t30 = *(int *)0xC2A11F0;
-    t31 = *(int *)((t30 + 0x0));
-    t33 = t8;
-    if (t31 != 0) {
-        t32 = ((int (*)(int, int))(t31))(t10, t11);
-        t33 = t32;
-    }
-    return t33;
+    return t22;
 }

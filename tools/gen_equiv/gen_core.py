@@ -237,6 +237,11 @@ def reg_liveness(ins,addr2idx):
         if mn in ('rts','rte'): use.discard('T')
         if use is _ALLREGS or use==set(_ALLREGS): use=set(_ALLREGS)|{'T'}
         UD.append((use,dfn))
+    # a call's delay slot runs before the call transfers: what the slot reads (an argument moved into r4 there) is read by the
+    # call, ahead of the clobbering of r0-r7 that the call node stands for
+    for i_,(mn_,_o,_p) in enumerate(ins):
+        if mn_ in ('jsr','bsr','bsrf') and i_+1<n:
+            UD[i_]=(UD[i_][0]|UD[i_+1][0],UD[i_][1])
     succ={}
     for i,(mn,ops,pc) in enumerate(ins):
         t=gen_cfg.target_of(ops) if ops else None; ti=addr2idx.get(t) if t is not None else None
@@ -355,9 +360,17 @@ def run(name,passthru=False):
     control flow has no if / while form (arms meeting at different joins, loops entered from a jump table, paths that multiply), the
     function is written flat: a label per block, every register a variable, goto between blocks."""
     _FLOATRET.clear()
+    form=os.environ.get('GEN_FORM','')      # 'flat' or 'structured' forces one form (tools/shrink.py compiles both and keeps the smaller)
+    if form=='flat':
+        for _ in range(10):
+            try: return _run(name,passthru,True,True)
+            except Conflict as e: _CONFLICTS.add(e.fname)
+            except Restart: continue
+        raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
     for _ in range(4):
         try:
             c_=_run_structured(name,passthru)
+            if form=='structured': return c_
             # arms that meet at different joins are written once per path: when that makes the text much longer than the
             # flat form (each block once), the flat form compiles far smaller (pedSpawn: 26,328 bytes structured, 676 flat)
             try:
@@ -628,10 +641,11 @@ def _run(name,passthru=False,frame=False,flat=False):
             c.protos['_builtin_set_fpscr']=('int',); emit('_builtin_set_fpscr(%s);'%(ex(v))); return
         if mn=='ldc' and a[1]=='sr':
             v=c.gi(a[0])
-            if isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]!=0xFFFFFF0F and (v[3] is None or isint(v[3])):
+            if isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]!=0xFFFFFF0F:
                 # SR changed beyond the interrupt mask (the BL bit, the register bank...): the whole word through the SDK's set_cr / get_cr
+                # (the bits or-ed in are a constant, or a value the function computed)
                 c.protos['_builtin_set_cr']=('int',); c.protos['_builtin_get_cr']=()
-                val='(_builtin_get_cr() & 0x%X)'%v[2] + ((' | 0x%X'%v[3]) if v[3] else '')
+                val='(_builtin_get_cr() & 0x%X)'%v[2] + ((' | 0x%X'%v[3] if isint(v[3]) else ' | (%s)'%ex(v[3])) if v[3] else '')
                 c.blocks[-1].append('_builtin_set_cr(%s);'%val); return
             if not(isinstance(v,tuple) and v[0]=='srx' and v[1]==0 and v[2]==0xFFFFFF0F): raise Skip('ldc sr not set_imask')
             V=0 if v[3] is None else v[3]
@@ -1282,7 +1296,8 @@ def _run(name,passthru=False,frame=False,flat=False):
                     (A if va is not None else B).append('%s = %s;'%(var,f(va if va is not None else vb)))
                     out[r]=('e',var); continue
                 var=fresh(isf); ty='float' if isf else 'int'; f=fx if isf else ex
-                if not ea and not eb:
+                late=c.cond_tmps and re.search(r'\b(%s)\b'%'|'.join(sorted(c.cond_tmps)),f(va)+' '+f(vb))     # a value the folded condition computes
+                if (not ea and not eb) or late:
                     emit('%s %s;'%(ty,var)); A.append('%s = %s;'%(var,f(va))); B.append('%s = %s;'%(var,f(vb)))
                 elif eb:
                     emit('%s %s = %s;'%(ty,var,f(vb))); A.append('%s = %s;'%(var,f(va)))
@@ -1320,9 +1335,111 @@ def _run(name,passthru=False,frame=False,flat=False):
             if E is None: return J
             J=E
         return J
+    # ---- compound conditions: a block that only tests (loads, moves, compares) and branches to where the branch before it goes
+    # is the second half of `a && b` / `a || b`; folded into one condition, the code both reach is written once, not once per test ----
+    _PURE=re.compile(r'^(mov|mov\.[bwl]|cmp/\w+|tst|fcmp/\w+|exts\.[bw]|extu\.[bw]|and|or|xor|add|sub|neg|not|shll\d*|shlr\d*|shal|shar|'
+                     r'fmov|fmov\.s|fldi[01]|mova|nop)$')
+    def pure_ins(k):
+        mn,ops,pc=ins[k]; a=parse_ops(ops)
+        if not _PURE.match(mn): return False
+        if a and '@' in a[-1]: return False                 # a store
+        return not any(x.startswith('@-') for x in a)
+    def cond_block(x):
+        """Nodes x..k entered only from the one before, all pure, ending in bt/bf (a delayed one with a pure slot): k, or None."""
+        k=x
+        for _ in range(12):
+            if k not in G.succ: return None
+            mn=ins[k][0]
+            if mn in ('bt','bf','bt/s','bf/s'):
+                return k if not mn.endswith('/s') or (k+1<len(ins) and pure_ins(k+1)) else None
+            if not pure_ins(k) or G.succ[k]!=[k+1] or len(G.pred.get(k+1,[]))!=1: return None
+            k+=1
+        return None
+    def written(a_,b_):
+        w={'T'}
+        for k in range(a_,b_+1):
+            mn,ops,pc=ins[k]; a=parse_ops(ops)
+            if mn.startswith(('cmp','tst','fcmp')): continue
+            for x in a:
+                if x.startswith('@') and x.endswith('+'): w|=set(re.findall(r'\b(f?r\d+)\b',x))
+            if a and not a[-1].startswith('@'):
+                for r_ in re.findall(r'\b(f?r\d+|dr\d+)\b',a[-1]):
+                    w|={'fr%d'%int(r_[2:]),'fr%d'%(int(r_[2:])+1)} if r_.startswith('dr') else {r_}
+        return w
+    def logic(op,a,b):
+        p='(%s %s %s)'%(a,op,b); n='(%s %s %s)'%(negate(a),'||' if op=='&&' else '&&',negate(b))
+        c.neg[p]=n; c.neg[n]=p; return p
+    def test_at(x,st,depth,inside,keep=frozenset()):
+        """The test chain starting at node x, run from state st: (taken, fall, cond that holds when it falls, state on the taken
+        side, state on the falling side, registers it writes, its nodes), or None when x does not start one. Every way into x
+        must come from inside the condition being built (the nodes in inside)."""
+        if depth>30 or not isinstance(x,int) or x in keep or x not in G.succ or not G.pred.get(x) or not set(G.pred[x])<=inside: return None
+        k=cond_block(x)
+        if k is None: return None
+        mn,ops,pc=ins[k]
+        t2=addr2idx.get(gen_cfg.target_of(ops)); f2=k+(2 if mn.endswith('/s') else 1)
+        if t2 is None or t2==f2: return None
+        before=regs_state(); T0=c.T
+        set_regs(st)
+        lines=[]; c.blocks.append(lines)
+        try:
+            for k_ in range(x,k): step(k_)
+            if mn.endswith('/s'): step(k+1)
+            ok=c.T is not None
+        except Skip: ok=False
+        c.blocks.pop()
+        pref=[]; decl=[]
+        for l_ in lines:
+            m_=re.match(r'^(?:(int|float) )?([tu]\d+)(?: = (.*))?;$',l_)
+            if not m_: ok=False; break
+            if m_.group(1): decl.append('%s %s;'%(m_.group(1),m_.group(2)))
+            if m_.group(3) is not None: pref.append('%s = %s'%(m_.group(2),m_.group(3)))
+        if not ok:
+            set_regs(before); c.T=T0; return None
+        for d_ in decl: emit(d_)
+        c2=c.T if mn.startswith('bf') else negate(c.T)        # holds when the block falls through
+        if pref:
+            c.cond_tmps|={p_.split(' = ',1)[0] for p_ in pref}       # assigned inside the condition: not known before the if
+            P=', '.join(pref); n2=negate(c2)
+            q='(%s, %s)'%(P,uw(c2)); nq='(%s, %s)'%(P,uw(n2)); c.neg[q]=nq; c.neg[nq]=q; c2=q
+        after=regs_state(); set_regs(before); c.T=T0
+        w=written(x,k+1 if mn.endswith('/s') else k-1)
+        mine=set(range(x,k+1))
+        j_,f_,c_,sf,sj,w2,_,n2=fold(t2,f2,c2,after,depth+1,inside|mine,keep)
+        return j_,f_,c_,sj or after,sf or after,w|w2,mine|n2
+    def fold(j,f,cond,pre=None,depth=0,inside=frozenset(),keep=frozenset()):
+        """Folds the test chains at the head of either arm into cond. Returns (j, f, cond, state for A, state for B, registers the
+        folded tests write, folded, the folded nodes)."""
+        if getattr(c,'flat',False) or getattr(c,'live',None) is None: return j,f,cond,None,None,set(),False,set()
+        if pre is None: pre=regs_state()
+        sA=sB=None; folded=False; W=set(); N=set(inside)
+        for _ in range(8):
+            moved=False
+            for side in ('A','B'):
+                x=f if side=='A' else j
+                r=test_at(x,(sA if side=='A' else sB) or pre,depth,N,keep|{j if side=='A' else f})      # a nested chain must not swallow the other arm
+                if r is None: continue
+                tj,tf,tc,sa,sb,w,nodes=r
+                if side=='A':           # A is the chain: it ends at j (the shared place) or goes on
+                    if w & c.live.get(j,_ALLREGS|{'T'}): continue
+                    if tj==j: f,cond,sA=tf,logic('&&',cond,tc),sb
+                    elif tf==j: f,cond,sA=tj,logic('&&',cond,negate(tc)),sa
+                    else: continue
+                else:                   # B is the chain: it ends at f or goes on
+                    if w & c.live.get(f,_ALLREGS|{'T'}): continue
+                    if tf==f: j,cond,sB=tj,logic('||',cond,tc),sa
+                    elif tj==f: j,cond,sB=tf,logic('||',cond,negate(tc)),sb
+                    else: continue
+                W|=w; N|=nodes; moved=folded=True
+            if not moved: break
+        return j,f,cond,sA,sB,W,folded,N-set(inside)
+
     def branch(i,j,f,cond,stops,tA=None):
         T0=c.T
         c._tends=[]; c._tvar=None
+        j,f,cond,sA,sB,_w,folded,_n=fold(j,f,cond,None,0,frozenset([i]))
+        if folded: tA=None
+        c._fold=(sA,sB)
         r=branch0(i,j,f,cond,stops,tA)
         ends=c._tends
         # after the join the flag is what it was before the branch if neither arm changed it (the compiler reuses it: movt after the
@@ -1336,6 +1453,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         """cond holds when the fall-through arm (starting at f) runs; j is where the branch goes. tA: the T flag on the fall-through
         arm (True for a bf that fell through, False for a bt), the opposite on the taken arm: a second branch there may use it."""
         c._bi=i
+        sA0,sB0=getattr(c,'_fold',(None,None)); c._fold=(None,None)       # the arms' start states when fold() ran their tests
         J=outer_join(G.ijoin(i) if _IJOIN[0] else G.ipdom(i))
         if c.loopstack and J!=gen_cfg.EXIT and J not in G.loops[c.loopstack[-1]]:
             J2=G.ijoin_in(i,G.loops[c.loopstack[-1]])           # the real join is outside the loop (the arms leave it): meet inside it instead
@@ -1346,10 +1464,11 @@ def _run(name,passthru=False,frame=False,flat=False):
             if not c.loopstack or J in G.loops[c.loopstack[-1]]: stops2[J]='join'
         c.T=None
         pre=regs_state()
+        if sA0: set_regs(sA0)
         if tA is not None: setT('1','0') if tA else setT('0','1')
         A=[]; c.blocks.append(A); oA=exec_from(f,stops2,False); stA=regs_state(); c.blocks.pop()
         endA=c.T
-        set_regs(pre); c.T=None
+        set_regs(sB0 or pre); c.T=None
         if tA is not None: setT('0','1') if tA else setT('1','0')
         B=[]; c.blocks.append(B)
         if j in FUNCS:                      # the branch goes to another function: a tail call
@@ -1730,6 +1849,10 @@ def _run(name,passthru=False,frame=False,flat=False):
     swg.update(GOTO)
     G=gen_cfg.Graph(ins,addr2idx,swg) if ins else None
     if G is None: raise Skip('empty')
+    c.live=None; c.cond_tmps=set()
+    if os.environ.get('GEN_FOLD','1')!='0':
+        try: c.live=reg_liveness(ins,addr2idx)
+        except Exception: c.live=None
 
     def exec_flat():
         """The function as labelled blocks: every register a C variable (R0-R14, F0-F15, T_ for the T flag) written back at the end of each

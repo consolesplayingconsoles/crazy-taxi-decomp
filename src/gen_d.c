@@ -19,7 +19,7 @@ int menuPutFrame(void)
     int t2;
     int t3;
 
-    u0 = *(float *)0xC03C1F0;
+    u0 = 99.899994f;
     u1 = *(float *)0xC2A1AD4;
     *(float *)0xC2A1AD4 = u0;
     t2 = *(int *)0xC2A1AD8;

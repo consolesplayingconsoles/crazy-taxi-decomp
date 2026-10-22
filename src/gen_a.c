@@ -92,13 +92,13 @@ int selectInitBarSprite(void)
     float u2;
 
     *(unsigned int *)0xC2A7370 = 0x62;
-    u0 = *(float *)0xC051DF8;
+    u0 = 501.0f;
     *(float *)0xC2A737C = u0;
     *(float *)0xC2A7374 = 0.0f;
     *(float *)0xC2A7378 = 0.0f;
-    u1 = *(float *)0xC051DFC;
+    u1 = 40.0f;
     *(float *)0xC2A7380 = u1;
-    u2 = *(float *)0xC051E00;
+    u2 = 8.5f;
     *(float *)0xC2A7384 = u2;
     *(float *)0xC2A7388 = 0.0f;
     *(float *)0xC2A738C = 0.0f;
@@ -116,9 +116,9 @@ int selectInitPanelSprite(void)
     float u0;
     float u1;
 
-    u0 = *(float *)0xC051E08;
+    u0 = 72.0f;
     *(float *)0xC2A73C8 = u0;
-    u1 = *(float *)0xC051E0C;
+    u1 = 500.9f;
     *(float *)0xC2A73CC = u1;
     *(float *)0xC2A73D0 = 1.0f;
     *(float *)0xC2A73D4 = 1.0f;
@@ -133,26 +133,6 @@ int selectInitPanelSprite(void)
     return 0x2C;
 }
 
-int selectInitTileSprite(void)
-{
-    float u0;
-
-    *(float *)0xC2A7464 = 0.0f;
-    *(float *)0xC2A7468 = 0.0f;
-    u0 = *(float *)0xC051E1C;
-    *(float *)0xC2A746C = u0;
-    *(float *)0xC2A7470 = 1.0f;
-    *(float *)0xC2A7474 = 1.0f;
-    *(float *)0xC2A7478 = 0.0f;
-    *(float *)0xC2A747C = 0.0f;
-    *(float *)0xC2A7480 = 1.0f;
-    *(float *)0xC2A7484 = 1.0f;
-    *(unsigned int *)0xC2A7488 = 0x0;
-    *(unsigned int *)0xC2A7494 = 0xA;
-    *(float *)0xC2A748C = 1.0f;
-    *(unsigned int *)0xC2A7490 = 0x2;
-    return 0x2C;
-}
 
 
 
@@ -162,11 +142,11 @@ int Init_sprCombo(void)
     float u1;
     float u2;
 
-    u0 = *(float *)0xC052664;
+    u0 = 320.0f;
     *(float *)0xC2A88E0 = u0;
-    u1 = *(float *)0xC052668;
+    u1 = 240.0f;
     *(float *)0xC2A88E4 = u1;
-    u2 = *(float *)0xC05266C;
+    u2 = 0.19999999f;
     *(float *)0xC2A88E8 = u2;
     *(float *)0xC2A88EC = 1.0f;
     *(float *)0xC2A88F0 = 1.0f;
@@ -188,16 +168,16 @@ int Init_Remain_Time(void)
     float u2;
     float u3;
 
-    u0 = *(float *)0xC052678;
+    u0 = -2.0f;
     *(float *)0xC2A8C8C = u0;
     *(unsigned int *)0xC2A8C90 = 0x0;
     *(unsigned int *)0xC2A8CB4 = 0x0;
     *(unsigned int *)0xC2A8CB8 = 0x0;
-    u1 = *(float *)0xC052690;
+    u1 = 32.0f;
     *(float *)0xC2A7F80 = u1;
-    u2 = *(float *)0xC052694;
+    u2 = 84.0f;
     *(float *)0xC2A7F84 = u2;
-    u3 = *(float *)0xC052698;
+    u3 = 0.049999997f;
     *(float *)0xC2A7F88 = u3;
     *(float *)0xC2A7F8C = 1.0f;
     *(float *)0xC2A7F90 = 1.0f;
@@ -214,33 +194,6 @@ int Init_Remain_Time(void)
 }
 
 
-int Init_TimeUp(void)
-{
-    float u0;
-    float u1;
-    float u2;
-
-    u0 = *(float *)0xC052DF0;
-    *(float *)0xC2A8980 = u0;
-    u1 = *(float *)0xC052DF4;
-    *(float *)0xC2A8984 = u1;
-    u2 = *(float *)0xC052DF8;
-    *(float *)0xC2A8988 = u2;
-    *(float *)0xC2A898C = 1.0f;
-    *(float *)0xC2A8990 = 1.0f;
-    *(float *)0xC2A8994 = 0.0f;
-    *(float *)0xC2A8998 = 0.0f;
-    *(float *)0xC2A899C = 1.0f;
-    *(float *)0xC2A89A0 = 1.0f;
-    *(unsigned int *)0xC2A89A4 = 0x0;
-    *(unsigned int *)0xC2A89B0 = 0x200A;
-    *(unsigned int *)0xC2A89AC = 0x2;
-    *(unsigned int *)0xC2A8FC0 = 0xFFFFFE20;
-    *(unsigned int *)0xC2A8FC4 = 0x0;
-    *(float *)0xC2A89A8 = 1.0f;
-    *(unsigned int *)0xC2A8FC8 = 0x0;
-    return 0x2C;
-}
 
 int Init_Adv_Title_LOGO(void)
 {
@@ -248,7 +201,7 @@ int Init_Adv_Title_LOGO(void)
 
     *(float *)0xC2A9230 = 0.0f;
     *(float *)0xC2A9234 = 0.0f;
-    u0 = *(float *)0xC057A4C;
+    u0 = 500.0f;
     *(float *)0xC2A9238 = u0;
     *(float *)0xC2A923C = 1.0f;
     *(float *)0xC2A9240 = 1.0f;
@@ -273,11 +226,11 @@ int Init_Result_Standard_Sprite(void)
     float u1;
     float u2;
 
-    u0 = *(float *)0xC059248;
+    u0 = 320.0f;
     *(float *)0xC2A96FC = u0;
-    u1 = *(float *)0xC05924C;
+    u1 = 240.0f;
     *(float *)0xC2A9700 = u1;
-    u2 = *(float *)0xC059250;
+    u2 = 0.19999999f;
     *(float *)0xC2A9704 = u2;
     *(float *)0xC2A9708 = 1.0f;
     *(float *)0xC2A970C = 1.0f;
@@ -292,30 +245,6 @@ int Init_Result_Standard_Sprite(void)
     return 0x2C;
 }
 
-int Init_DCmini_Standard_Sprite(void)
-{
-    float u0;
-    float u1;
-    float u2;
-
-    u0 = *(float *)0xC05B8E4;
-    *(float *)0xC2A989C = u0;
-    u1 = *(float *)0xC05B8E8;
-    *(float *)0xC2A98A0 = u1;
-    u2 = *(float *)0xC05B8EC;
-    *(float *)0xC2A98A4 = u2;
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98AC = 1.0f;
-    *(float *)0xC2A98B0 = 0.0f;
-    *(float *)0xC2A98B4 = 0.0f;
-    *(float *)0xC2A98B8 = 1.0f;
-    *(float *)0xC2A98BC = 1.0f;
-    *(unsigned int *)0xC2A98C0 = 0x0;
-    *(unsigned int *)0xC2A98CC = 0x200A;
-    *(float *)0xC2A98C4 = 1.0f;
-    *(unsigned int *)0xC2A98C8 = 0x2;
-    return 0x2C;
-}
 
 
 int FUN_0c074ca0(int a4)
@@ -337,11 +266,11 @@ int FUN_0c074ca0(int a4)
     *(unsigned int *)0xC2AECF0 = 0xC2AF368;
     *(unsigned int *)0xC2AECF4 = 0xACC00000;
     *(unsigned int *)0xC2AECF8 = 0x100000;
-    u0 = *(float *)0xC074DB4;
+    u0 = 70.0f;
     *(float *)0xC2AECFC = u0;
-    u1 = *(float *)0xC074DB8;
+    u1 = 5.0f;
     *(float *)0xC2AED00 = u1;
-    u2 = *(float *)0xC074DBC;
+    u2 = 25.0f;
     *(float *)0xC2AED04 = u2;
     *(float *)0xC2AED08 = 0.0f;
     *(float *)0xC2AED0C = 0.0f;
@@ -384,11 +313,11 @@ int Init_Standard(void)
     float u1;
     float u2;
 
-    u0 = *(float *)0xC052664;
+    u0 = 320.0f;
     *(float *)0xC2A7EE0 = u0;
-    u1 = *(float *)0xC052668;
+    u1 = 240.0f;
     *(float *)0xC2A7EE4 = u1;
-    u2 = *(float *)0xC05266C;
+    u2 = 0.19999999f;
     *(float *)0xC2A7EE8 = u2;
     *(float *)0xC2A7EEC = 1.0f;
     *(float *)0xC2A7EF0 = 1.0f;

@@ -1,91 +1,55 @@
 /* Straight-line functions with calls and guards (batch gen_oy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuChangeValue(int, int, int);
-int putMenuValue(int, int, int, int);
-int PutRecords(int, int, int, int, int, int, float, float);
-int CheckBoxFlag(int);
-void menuItemRecords(int a4, int a5);
+int rankingCalcDigitRoll(int, int);
+int rankingInsert(void);
 
-void menuItemRecords(int a4, int a5)
+int rankingInsert(void)
 {
     int t0;
-    int t2;
-    int t4;
+    int t1;
     int t5;
+    int t6;
     int t7;
     int t8;
-    int t9;
-    int t10;
-    int t14;
-    int t16;
-    int t19;
-    int t25;
-    int t22;
-    int t20;
-    int t30;
-    int t37;
-    int t12;
+    int t24;
+    int stk[16] = {0};
 
-    if (a4 == 0) {
-    } else {
-        t0 = *(int *)0xC2A11E0;
-        if (a5 != 2) {
-            menuChangeValue(0x0, 0xC2A1244, 0x4);
-            t2 = *(int *)0xC2A1244;
-            putMenuValue(0x8013, 0xC09F444, 0x4, t2);
-            t4 = *(int *)0xC2A1ADC;
-            t5 = *(int *)0xC2A1244;
-            PutRecords(0x24, (t0 - 1), (t5 + (a5 << 2)), 0x0, 0x9, 0x2, (float)(t4 + 0x78), 128.0f);
-        } else {
-            if ((int)(t0 - 1) < 0) {
-                t7 = 0xFFFF;
-                t8 = 0x0;
-                for (;;) {
-                    t9 = CheckBoxFlag(t8);
-                    t8 = (t8 + 0x1);
-                    t7 = (t7 & t9);
-                    if ((int)t8 >= (int)0x4) {
-                        break;
-                    }
-                }
-                t12 = t7;
-            } else {
-                t10 = CheckBoxFlag((t0 - 1));
-                t12 = t10;
-            }
-            t14 = 0x8;
-            if ((0x3000 & t12) == 0x3000) {
-                t14 = 0x7;
-            }
-            t16 = t14;
-            if ((t12 & 0xC000) == 0xC000) {
-                t16 = (t14 - 1);
-            }
-            menuChangeValue(0x0, 0xC2A1244, t16);
-            t19 = *(int *)0xC2A1244;
-            t25 = t19;
-            if ((0x3000 & t12) == 0x3000) {
-                t22 = t19;
-                if ((t12 & 0xC000) != 0xC000) {
-                    t20 = t19;
-                    if (t19 == (t16 - 1)) {
-                        t20 = (t19 + 0x1);
-                    }
-                    t22 = t20;
-                }
-                t25 = t22;
-            }
-            if (((((int)(t25 << 1) >= 0) ? (0x1 << ((t25 << 1) & 31)) : ((-(int)(t25 << 1) & 31) ? ((int)0x1 >> (-(int)(t25 << 1) & 31)) : ((int)0x1 >> 31))) & t12) == 0) {
-                putMenuValue(0x8013, 0xC09F4F4, t16, t25);
-                t30 = *(int *)0xC2A1ADC;
-                PutRecords(0x24, (t0 - 1), ((a5 << 2) + (t25 << 1)), 0x0, 0x4, 0x2, (float)(t30 + 0x78), 128.0f);
-            }
-            if (((((int)((t25 << 1) + 0x1) >= 0) ? (0x1 << (((t25 << 1) + 0x1) & 31)) : ((-(int)((t25 << 1) + 0x1) & 31) ? ((int)0x1 >> (-(int)((t25 << 1) + 0x1) & 31)) : ((int)0x1 >> 31))) & t12) == 0) {
-                putMenuValue(0x8013, 0xC09F654, t16, t25);
-                t37 = *(int *)0xC2A1ADC;
-                PutRecords(0x24, (t0 - 1), (((a5 << 2) + (t25 << 1)) + 0x1), 0x0, 0x4, 0x2, (float)(t37 + 0x78), 268.0f);
-            }
-        }
+    t0 = *(int *)0xC2A9168;
+    t1 = t0;
+    if (t0 == 100) {
+        t1 = 0x63;
     }
+    *(unsigned int *)(((int)stk + 4)) = ((int)((int)t1 / (int)0xA));
+    *(unsigned int *)(((int)stk + 8)) = ((int)((int)t1 % (int)0xA));
+    *(unsigned int *)(((int)stk + 12)) = (((int)stk + 4) + 0x10);
+    t5 = 0x1;
+    t6 = 0x1;
+    t7 = 0x0;
+    t8 = 0xC2A8FD8;
+    for (;;) {
+        if ((int)t7 >= (int)t0) {
+            return 0x0;
+        }
+        if ((int)(*(int *)(((*(int *)0xC2A7600) + 0x0))) > (int)(*(int *)((t8 + 0x0)))) {
+            break;
+        }
+        t5 = (t5 + 0x1);
+        t8 = (t8 + 0x4);
+        t7 = (t7 + 0x1);
+        t6 = (t6 + 0x1);
+    }
+    t24 = 0x0;
+    if (((t5 == t1) && (t0 != 100)) || (t5 == 100)) {
+    } else {
+        *(unsigned int *)0xC2A9168 = t6;
+        *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x0)) = (*(int *)(((int)stk + 4)));
+        *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = (*(int *)(((int)stk + 8)));
+        *(unsigned int *)(((*(int *)(((int)stk + 12))) + 0x0)) = ((int)((int)(*(int *)0xC2A9168) / (int)0xA));
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = ((int)((int)(*(int *)0xC2A9168) % (int)0xA));
+        rankingCalcDigitRoll((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC));
+        *(unsigned int *)0xC1EE340 = (*(int *)0xC2A9168);
+        t24 = 0x1;
+    }
+    return t24;
 }

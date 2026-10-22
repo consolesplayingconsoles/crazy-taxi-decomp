@@ -15,40 +15,6 @@ int nlMultiMatrix(int, float);
 int nlOuterProduct(int, int, int);
 int nlUnitVector(int);
 
-void LoadBackupData(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t8;
-    int stk[34];
-
-    t0 = buGetFileSize(a4, 0xC09DB4C);
-    if (t0 == 23) {
-        t1 = buLoadFile(a4, 0xC09DB4C, 0xC28CAA0, t0);
-        if (t1 == 0) {
-            do {
-                t2 = buStat(a4);
-            } while (t2 == -1);
-            t3 = buGetLastError(a4);
-            if (t3 == 0) {
-                t4 = buAnalyzeBackupFileImage((((int)stk + 4) + 0x14), 0xC28CAA0);
-                if (t4 == 0) {
-                    t5 = *(int *)(((int)stk + 112));
-                    memmove(0xC28F8A0, t5, 0x25B0);
-                    _quick_mvn();
-                    t8 = buGetFileInfo(a4, 0xC09DB4C, ((int)stk + 4));
-                    if (t8 == 0) {
-                        memmove(0xC28CA98, (((int)stk + 4) + 0xA), 0x8);
-                    }
-                }
-            }
-        }
-    }
-}
 
 void FUN_0c077a00(int a4, int a5, int a6)
 {

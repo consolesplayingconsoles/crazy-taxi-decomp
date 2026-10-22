@@ -1,113 +1,86 @@
 /* Straight-line functions with calls and guards (batch gen_lp): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void ExecWindow(int a4, int a5);
+float BigOneKeyValue(int a4, int a5, float f4);
 
-void ExecWindow(int a4, int a5)
+float BigOneKeyValue(int a4, int a5, float f4)
 {
-    int t0;
-    float u1;
+    float u0;
+    int t1;
     int t2;
+    int t3;
     int t4;
     int t5;
-    int t6;
-    int t7;
-    int t9;
-    int t10;
-    int t12;
-    int t13;
-    int t14;
-    int t16;
     float u17;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
-    int t23;
-    int t25;
-    int t33;
-    int t34;
-    int t35;
-    int t3;
-    int t15;
-    int t26;
-    int t29;
-    int t30;
-    float u31;
+    float u18;
+    float u21;
+    float u19;
+    float u24;
+    float u25;
+    float u27;
+    float u30;
+    float u32;
+    float u34;
 
-    t0 = *(int *)0xC2A1210;
-    if (t0 != 0) {
-        u1 = *(float *)0xC03B898;
-        *(float *)0xC2A1AD4 = u1;
-        t2 = *(int *)0xC2A1210;
-        *(unsigned int *)0xC2A120C = t2;
-        t4 = t2;
-        t5 = 0x0;
+    u0 = 3.0f;
+    if ((int)(a5 - 1) > 0) {
+        t1 = 0xC0738F0;
+        t2 = ((0x0 + a4) + 0x10);
+        t3 = (0x0 + a4);
+        t4 = 0x0;
+        t5 = ((0x0 + a4) + 0x10);
         for (;;) {
-            t6 = *(int *)0xC2A11F4;
-            if ((int)t5 >= (int)t6) {
-                break;
-            }
-            t4 = 0xC2A11F4;
-            t4 = (t4 + 0x4);
-            t7 = *(int *)((((t5 << 2) + t4) + 0x0));
-            t3 = t7;
-            t5 = (t5 + 0x1);
-            t9 = *(int *)0xC2A120C;
-            t3 = (t3 << 2);
-            t3 = (t3 << 1);
-            t3 = (t3 + t9);
-            t10 = *(int *)((t3 + 0x8));
-            t4 = t10;
-            *(unsigned int *)0xC2A120C = t4;
-        }
-        t12 = t3;
-        t13 = t5;
-        t14 = 0x0;
-        t16 = 0x0;
-        u17 = u1;
-        for (;;) {
-            t18 = *(int *)0xC2A120C;
-            t19 = *(int *)((t18 + 0x4));
-            if ((int)t16 >= (int)t19) {
-                break;
-            }
-            t15 = t16;
-            t20 = *(int *)0xC2A120C;
-            t15 = (t15 << 2);
-            t15 = (t15 << 1);
-            t15 = (t15 + t20);
-            t21 = *(int *)((t15 + 0xC));
-            t15 = t21;
-            if (t15 != 0) {
-                t22 = *(int *)0xC2A11F4;
-                t23 = *(int *)((((t22 << 2) + 0xC2A11F8) + 0x0));
-                t12 = t23;
-                if (t16 != t12) {
-                    t14 = t16;
-                    t13 = 0x0;
-                } else {
-                    t13 = 0x1;
-                    t14 = t16;
+            if (!((*(float *)(((((t4 << 2) << 2) + a4) + 0x0))) > f4)) {
+                t1 = 0x10;
+                if ((*(float *)(((((t4 << 2) << 2) + a4) + t1))) > f4) {
+                    break;
                 }
-                t25 = ((int (*)(int, int))(t15))(t13, t14);
-            } else {
-                t26 = t12;
-                t29 = t13;
-                t30 = t14;
-                u31 = u17;
+                if ((*(float *)((t2 + 0x0))) == f4) {
+                    t1 = 0x4;
+                    return (*(float *)((t5 + t1)));
+                }
+                t4 = (t4 + 0x1);
+                t2 = (t2 + 0x10);
+                t5 = (t5 + 0x10);
+                t3 = (t3 + 0x10);
+                if ((int)t4 >= (int)(a5 - 1)) {
+                    return 0.0f;
+                }
+                continue;
             }
-            u17 = u31;
-            t12 = t26;
-            t16 = (t16 + 0x1);
-            t13 = t29;
-            t14 = t30;
+            if ((*(float *)((t2 + 0x0))) == f4) {
+                t1 = 0x4;
+                return (*(float *)((t5 + t1)));
+            }
+            t4 = (t4 + 0x1);
+            t2 = (t2 + 0x10);
+            t5 = (t5 + 0x10);
+            t3 = (t3 + 0x10);
+            if ((int)t4 >= (int)(a5 - 1)) {
+                return 0.0f;
+            }
         }
-        t33 = *(int *)0xC2A120C;
-        t34 = *(int *)((t33 + 0x0));
-        if (t34 != 0) {
-            t35 = ((int (*)(int, int))(t34))(t13, t14);
+        u17 = *(float *)(((((t4 << 2) << 2) + a4) + t1));
+        u18 = *(float *)(((((t4 << 2) << 2) + a4) + 0x0));
+        u21 = 0.0f;
+        if (0.0f > ((f4 - u18) / (u17 - u18))) {
+        } else {
+            u19 = ((f4 - u18) / (u17 - u18));
+            if (((f4 - u18) / (u17 - u18)) > 1.0f) {
+                u19 = 1.0f;
+            }
+            u21 = u19;
         }
+        u24 = (u21 * u21);
+        u25 = (u21 * u21);
+        u27 = (u21 * u24);
+        u30 = ((*(float *)((t3 + 0x14))) * (((u25 * u0) - (u27 * (1.0f + 1.0f)))));
+        u30 = u30 + (((u27 * (1.0f + 1.0f)) - (u25 * u0)) + 1.0f) * (*(float *)((t3 + 0x4)));
+        u32 = u30;
+        u32 = u32 + ((u21 - (((u21 * u21)) * (1.0f + 1.0f))) + (u21 * u24)) * (*(float *)((t3 + 0xC)));
+        u34 = u32;
+        u34 = u34 + ((u21 * u24) - (u21 * u21)) * (*(float *)((t3 + 0x8)));
+        return u34;
     }
+    return 0.0f;
 }

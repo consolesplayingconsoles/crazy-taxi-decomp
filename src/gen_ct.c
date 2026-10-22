@@ -62,8 +62,8 @@ float ExecNameEntryScroll(void)
         *(unsigned int *)0xC2864B4 = 0x0;
         *(unsigned int *)0xC2864B0 = 0x0;
     }
-    u4 = *(float *)0xC03A164;
-    u5 = *(float *)0xC03A168;
+    u4 = 420.0f;
+    u5 = 560.0f;
     pfLocate(u5, u4);
     pfCleanString();
     t8 = *(int *)0xC2864C4;
@@ -71,14 +71,14 @@ float ExecNameEntryScroll(void)
     pfAddNumber(t9);
     t11 = *(int *)0xC08D678;
     pfPuts(t11);
-    u13 = *(float *)0xC03A188;
+    u13 = 0.9f;
     u14 = *(float *)0xC2864D4;
     *(float *)0xC2864D4 = (u14 * u13);
     if (1.0f > (u14 * u13)) {
         t15 = *(int *)0xC2864D8;
         t16 = FUN_0c089de0(((t15 << 8) << 2));
-        u17 = *(float *)0xC03A194;
-        u18 = *(float *)0xC03A198;
+        u17 = 0.5f;
+        u18 = 1.5f;
         *(float *)0xC2864D4 = ((-(t16 * u17)) + u18);
         u20 = ((-(t16 * u17)) + u18);
     }
@@ -93,198 +93,7 @@ float ExecNameEntryScroll(void)
     return u20;
 }
 
-float psgUpdatePartTracks(int a4)
-{
-    float u0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    float u6;
-    int t15;
-    int t16;
-    int t25;
-    int t26;
-    float t35;
-    int t36;
-    float u37;
-    int t38;
-    int t41;
-    float u42;
-    int t43;
-    int t46;
-    int t47;
-    int t48;
-    int t49;
-    int t50;
-    int t51;
-    int t52;
-    int t53;
-    int t54;
-    int t55;
-    int t56;
-    int t57;
-    float u31;
-    float u21;
-    float u11;
 
-    u0 = *(float *)((a4 + 0x38));
-    t1 = *(int *)(((0x148 + a4) + 0x0));
-    t2 = (int)(((unsigned int)t1 >> 9) & 0x3);
-    if (t2 != 0) {
-        if (t2 != 1) {
-            if (t2 == 2) {
-                t3 = *(int *)((a4 + 0x34));
-                t4 = *(int *)((t3 + 0x0));
-                u6 = (float)t4;
-                if (0.0f > (float)t4) {
-                    u6 = ((float)t4 + 4.2949673e+09f);
-                }
-                u11 = u6;
-            }
-            u21 = u11;
-        } else {
-            t15 = *(int *)((a4 + 0x34));
-            t16 = *(short *)((t15 + 0x0));
-            u21 = (float)(unsigned short)t16;
-        }
-        u31 = u21;
-    } else {
-        t25 = *(int *)((a4 + 0x34));
-        t26 = *(int *)((t25 + 0x0));
-        u31 = (float)t26;
-    }
-    t35 = nlFloor((u0 / u31));
-    t36 = *(int *)((a4 + 0x124));
-    u37 = *(float *)((t36 + 0x4));
-    if ((u0 - (t35 * u31)) > u37) {
-        t38 = *(int *)((a4 + 0x124));
-        *(unsigned int *)((a4 + 0x124)) = (t38 + 0x8);
-    }
-    t41 = *(int *)((a4 + 0x128));
-    u42 = *(float *)((t41 + 0x4));
-    if ((u0 - (t35 * u31)) > u42) {
-        t43 = *(int *)((a4 + 0x128));
-        *(unsigned int *)((a4 + 0x128)) = (t43 + 0x8);
-    }
-    t46 = *(int *)((a4 + 0x0));
-    t47 = *(int *)((0xC1337CC + (t46 << 2)));
-    t48 = *(int *)((0xC1331B0 + (t46 << 2)));
-    t49 = *(int *)(((0x124 + a4) + 0x0));
-    t50 = *(int *)((t49 + 0x0));
-    t51 = *(int *)(((t47 + ((t50 << 1) << 2)) + 0x0));
-    *(unsigned int *)((t48 + 0x8)) = t51;
-    t52 = *(int *)((a4 + 0x0));
-    t53 = *(int *)(((0xC1331B0 + (t52 << 2)) + 0x0));
-    t54 = *(int *)((0xC1337CC + (t52 << 2)));
-    t55 = *(int *)(((0x128 + a4) + 0x0));
-    t56 = *(int *)((t55 + 0x0));
-    t57 = *(int *)(((t54 + ((t56 << 1) << 2)) + 0x4));
-    *(unsigned int *)((t53 + 0x14)) = t57;
-    return (t35 * u31);
-}
-
-int TrainInit(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t7;
-    int t8;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    float u22;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int t28;
-    int t29;
-    int t30;
-    int t31;
-    int t32;
-    int t33;
-    int t35;
-    int t36;
-    int t38;
-
-    t0 = nlSetEventNext(0x12C, 0xC0490E0, a4);
-    if (t0 == 0) {
-        return t0;
-    }
-    t1 = *(int *)0xC2A1B1C;
-    *(unsigned int *)0xC2A1B1C = (t1 + 0x1);
-    *(unsigned int *)((t0 + 0x74)) = ((t1 + 0x1) - 1);
-    t2 = *(int *)0xC2A44A8;
-    *(unsigned int *)0xC2A44A8 = (t2 + 0x1);
-    if (a5 == 5) {
-        t3 = *(int *)((a4 + 0x78));
-        *(unsigned int *)((t0 + 0x78)) = (t3 + 0x2);
-    } else {
-        t4 = *(int *)((a4 + 0x78));
-        *(unsigned int *)((t0 + 0x78)) = (t4 + 0x1);
-    }
-    t7 = *(int *)((a4 + 0x80));
-    *(unsigned int *)((t0 + 0x80)) = t7;
-    t8 = *(int *)((a4 + 0xD4));
-    *(unsigned int *)((t0 + 0xD4)) = (t8 - ((a5 << 1) + (a5 << 2)));
-    getCoursePointMove((0x80 + t0), (0xD4 + t0), 0x0);
-    t10 = *(int *)((t0 + 0x80));
-    t11 = *(int *)0xC2A6690;
-    t12 = *(int *)((t0 + 0xD4));
-    t13 = *(int *)((((((t10 << 1) + t10) << 2) + t11) + 0x0));
-    t14 = *(int *)((((((t12 << 1) + t12) << 2) + t13) + 0x8));
-    *(unsigned int *)(((0x8C + t0) + 0x8)) = t14;
-    t15 = *(int *)((((((t12 << 1) + t12) << 2) + t13) + 0x4));
-    *(unsigned int *)(((0x8C + t0) + 0x4)) = t15;
-    t16 = *(int *)((((((t12 << 1) + t12) << 2) + t13) + 0x0));
-    *(unsigned int *)(((0x8C + t0) + 0x0)) = t16;
-    PcarEvInit(t0);
-    t18 = *(int *)((t0 + 0x80));
-    t19 = *(int *)0xC2A6690;
-    t20 = *(int *)((t0 + 0xD4));
-    t21 = *(int *)((((((t18 << 1) + t18) << 2) + t19) + 0x0));
-    u22 = *(float *)(((t21 + (((t20 << 1) + t20) << 2)) + 0x4));
-    *(float *)((t0 + 0x90)) = (u22 + 1.0f);
-    t23 = *(int *)(((0x98 + a4) + 0x8));
-    *(unsigned int *)(((0x98 + t0) + 0x8)) = t23;
-    t24 = *(int *)(((0x98 + a4) + 0x4));
-    *(unsigned int *)(((0x98 + t0) + 0x4)) = t24;
-    t25 = *(int *)(((0x98 + a4) + 0x0));
-    *(unsigned int *)(((0x98 + t0) + 0x0)) = t25;
-    t26 = *(signed char *)(((0xA4 + a4) + 0x0));
-    *(unsigned char *)(((0xA4 + t0) + 0x0)) = t26;
-    t27 = *(signed char *)(((0xA4 + a4) + 0x1));
-    *(unsigned char *)(((0xA4 + t0) + 0x1)) = t27;
-    t28 = *(signed char *)(((0xA4 + a4) + 0x2));
-    *(unsigned char *)(((0xA4 + t0) + 0x2)) = t28;
-    t29 = *(signed char *)(((0xA4 + a4) + 0x3));
-    *(unsigned char *)(((0xA4 + t0) + 0x3)) = t29;
-    t30 = *(signed char *)(((0xA4 + a4) + 0x4));
-    *(unsigned char *)(((0xA4 + t0) + 0x4)) = t30;
-    t31 = *(signed char *)(((0xA4 + a4) + 0x5));
-    *(unsigned char *)(((0xA4 + t0) + 0x5)) = t31;
-    t32 = *(int *)((t0 + 0xD4));
-    t33 = *(int *)((t0 + 0x80));
-    courseStatusEntry(t33, t32);
-    t35 = *(int *)((t0 + 0xD4));
-    t36 = *(int *)((t0 + 0x80));
-    courseStatusEntry(t36, (t35 + 0x1));
-    t38 = *(int *)((t0 + 0x84));
-    return calcCheckExec(t0, t38);
-}
 
 int courseStatusGet(int a4, int a5, int a6, int a7)
 {
@@ -484,122 +293,4 @@ int courseStatusGet(int a4, int a5, int a6, int a7)
     return t79;
 }
 
-int TrailerInit(int a4, int a5)
-{
-    int t0;
-    int t51;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t11;
-    int t17;
-    int t18;
-    int t19;
-    float u20;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    float u27;
-    int t34;
-    int t35;
-    int t36;
-    int t37;
-    int t38;
-    int t39;
-    int t40;
-    int t41;
-    int t42;
-    int t43;
-    int t44;
-    int t46;
-    int t47;
-    int t49;
-    int t50;
-    int stk[9] = {0};
-
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t0 = nlSetEventNext(0x12C, 0xC0486D4, a4);
-    t51 = t0;
-    if (t0 != 0) {
-        t1 = *(int *)0xC2A1B1C;
-        *(unsigned int *)0xC2A1B1C = (t1 + 0x1);
-        *(unsigned int *)((t0 + 0x74)) = ((t1 + 0x1) - 1);
-        t2 = *(int *)0xC2A44A8;
-        *(unsigned int *)0xC2A44A8 = (t2 + 0x1);
-        t3 = extRand();
-        *(unsigned int *)(((0x78 + t0) + 0x0)) = ((t3 & 0x1) + 0xC);
-        t4 = *(int *)((a4 + 0x80));
-        *(unsigned int *)((t0 + 0x80)) = t4;
-        t5 = *(int *)(((0x8C + a4) + 0x8));
-        *(unsigned int *)(((0x8C + t0) + 0x8)) = t5;
-        t6 = *(int *)(((0x8C + a4) + 0x4));
-        *(unsigned int *)(((0x8C + t0) + 0x4)) = t6;
-        t7 = *(int *)(((0x8C + a4) + 0x0));
-        *(unsigned int *)(((0x8C + t0) + 0x0)) = t7;
-        t8 = *(int *)((a4 + 0xD4));
-        *(unsigned int *)((t0 + 0xD4)) = t8;
-        *(float *)(((int)stk + 12)) = 0.0f;
-        *(float *)(((int)stk + 8)) = 0.0f;
-        t9 = *(int *)(((int)stk + 4));
-        *(float *)(((int)stk + 16)) = (-((float)t9 * 100.0f));
-        nlPushUnitMatrix();
-        t11 = *(short *)((a4 + 0xA6));
-        nlRotateAY((unsigned short)t11);
-        FUN_0c077210((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4));
-        nlAddVector((0x8C + t0), (((int)stk + 4) + 0x4));
-        nlPopMatrix(0x1);
-        PcarEvInit(t0);
-        t17 = *(int *)((t0 + 0x80));
-        if (t17 == 0) {
-            t18 = GetCollision2D((0x8C + t0), 30.0f);
-            t19 = *(int *)((t18 + 0x1C));
-            if (t19 != -1) {
-                u20 = *(float *)((t18 + 0x18));
-                *(float *)((t0 + 0x90)) = (u20 + 1.0f);
-            }
-        } else {
-            t23 = *(int *)((t0 + 0x80));
-            t24 = *(int *)0xC2A6690;
-            t25 = *(int *)((t0 + 0xD4));
-            t26 = *(int *)((((((t23 << 1) + t23) << 2) + t24) + 0x0));
-            u27 = *(float *)(((t26 + (((t25 << 1) + t25) << 2)) + 0x4));
-            *(float *)((t0 + 0x90)) = (u27 + 1.0f);
-        }
-        t34 = *(int *)(((0x98 + a4) + 0x8));
-        *(unsigned int *)(((0x98 + t0) + 0x8)) = t34;
-        t35 = *(int *)(((0x98 + a4) + 0x4));
-        *(unsigned int *)(((0x98 + t0) + 0x4)) = t35;
-        t36 = *(int *)(((0x98 + a4) + 0x0));
-        *(unsigned int *)(((0x98 + t0) + 0x0)) = t36;
-        t37 = *(signed char *)(((0xA4 + a4) + 0x0));
-        *(unsigned char *)(((0xA4 + t0) + 0x0)) = t37;
-        t38 = *(signed char *)(((0xA4 + a4) + 0x1));
-        *(unsigned char *)(((0xA4 + t0) + 0x1)) = t38;
-        t39 = *(signed char *)(((0xA4 + a4) + 0x2));
-        *(unsigned char *)(((0xA4 + t0) + 0x2)) = t39;
-        t40 = *(signed char *)(((0xA4 + a4) + 0x3));
-        *(unsigned char *)(((0xA4 + t0) + 0x3)) = t40;
-        t41 = *(signed char *)(((0xA4 + a4) + 0x4));
-        *(unsigned char *)(((0xA4 + t0) + 0x4)) = t41;
-        t42 = *(signed char *)(((0xA4 + a4) + 0x5));
-        *(unsigned char *)(((0xA4 + t0) + 0x5)) = t42;
-        t43 = *(int *)((t0 + 0xD4));
-        t44 = *(int *)((t0 + 0x80));
-        courseStatusEntry(t44, t43);
-        t46 = *(int *)((t0 + 0xD4));
-        t47 = *(int *)((t0 + 0x80));
-        courseStatusEntry(t47, (t46 + 0x1));
-        t49 = *(int *)((t0 + 0x84));
-        t50 = calcCheckExec(t0, t49);
-        t51 = t50;
-    }
-    return t51;
-}
 

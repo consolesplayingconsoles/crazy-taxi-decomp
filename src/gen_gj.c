@@ -1,103 +1,93 @@
 /* Straight-line functions with calls and guards (batch gen_gj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_SetMotion(int, float);
-int Drv_StartReady(int a4);
+int Sound_Request(int, int);
+int TrafficLevelChange(int);
+int ndPuru2Start(int, int, int);
+int nlProjectScreen3D(int);
+int setTechnicalBonus(int, int);
+int technicalCheck(int a4);
 
-int Drv_StartReady(int a4)
+int technicalCheck(int a4)
 {
-    int t0;
+    float u9;
+    float u15;
+    int t16;
+    int t38;
+    int t73;
+    int t64;
+    int t67;
     int t1;
     int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t16;
-    int t14;
-    int t22;
-    int t18;
-    int t19;
-    int t20;
-    int t31;
-    int t33;
-    int t34;
-    int t35;
-    int t36;
-    int t37;
-    int t38;
-    int stk[20] = {0};
+    int t97;
+    int t88;
+    int t79;
+    int t50;
+    int stk[10] = {0};
 
-    t0 = *(int *)0xC0D5130;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0xC)) = t0;
-    t1 = *(int *)0xC0D512C;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x8)) = t1;
-    t2 = *(int *)0xC0D5128;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x4)) = t2;
-    t3 = *(int *)0xC0D5124;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x0)) = t3;
-    t4 = *(int *)0xC0D5140;
-    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0xC)) = t4;
-    t5 = *(int *)0xC0D513C;
-    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x8)) = t5;
-    t6 = *(int *)0xC0D5138;
-    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x4)) = t6;
-    t7 = *(int *)0xC0D5134;
-    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = t7;
-    t8 = *(int *)0xC0D5150;
-    *(unsigned int *)(((((int)stk + 4) + 0x4) + 0xC)) = t8;
-    t9 = *(int *)0xC0D514C;
-    *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x8)) = t9;
-    t10 = *(int *)0xC0D5148;
-    *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x4)) = t10;
-    t11 = *(int *)0xC0D5144;
-    *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x0)) = t11;
-    t12 = *(int *)0xC2AD01C;
-    t13 = *(int *)0xC2AD000;
-    t16 = a4;
-    if ((unsigned int)t12 <= (unsigned int)0x0) {
-        t14 = a4;
-        if (a4 == 0) {
-            *(unsigned int *)0xC2AD014 = 0x1;
-            t14 = 0x1;
-        }
-        t16 = t14;
-    }
-    if (t16 != 0) {
-        t22 = t16;
-        if (t16 != 1) {
-        } else {
-            t18 = *(int *)(((((int)stk + 4) + 0x14) + ((t13 - 1) << 2)));
-            *(unsigned int *)0xC2AD1D0 = t18;
-            t19 = *(int *)(((((int)stk + 4) + 0x4) + ((t13 - 1) << 2)));
-            *(unsigned int *)0xC2AD1D4 = t19;
-            t20 = *(int *)(((((int)stk + 4) + 0x24) + ((t13 - 1) << 2)));
-            Drv_SetMotion(t20, 0.0f);
-            *(float *)0xC2AD0F8 = 15.0f;
-            t22 = 0xF8;
-        }
-        t38 = t22;
+    if (((*(int *)0xC1EE20C) == 2) && ((t1 = *(int *)0xC1EE214, t1 != 12) && (t2 = *(int *)0xC1EE214, t2 != 9))) {
+        t97 = t2;
     } else {
-        *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-        *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
-        *(unsigned int *)(((int)stk + 4)) = (((t13 - 1) << 2) + (((int)stk + 4) + 0x24));
-        t31 = *(int *)(((((t13 - 1) << 2) + (((int)stk + 4) + 0x24)) + 0x0));
-        Drv_SetMotion(t31, 0.0f);
-        *(float *)0xC2AD0F8 = 15.0f;
-        t33 = *(int *)(((int)stk + 4));
-        t34 = *(int *)((t33 + 0x0));
-        t35 = *(int *)((t34 + 0x0));
-        t36 = *(int *)0xC2AD1DC;
-        t37 = (int)((unsigned int)(t35 + 0x78) & 0xFFFFFF);
-        *(unsigned int *)0xC2AD1DC = ((t36 & 0xFF000000) | ((unsigned int)t37 << 0));
-        t38 = t37;
+        if (((*(int *)((a4 + 0x34))) & 0x1) != 0) {
+            u9 = *(float *)((a4 + 0x70));
+            if (!(u9 > 0.049999997f) && !(-0.099999994f > u9)) {
+                ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x1000000, 0x0);
+            } else {
+                *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
+                setTechnicalBonus(0xFFFFFFFF, 0x0);
+                TrafficLevelChange(0xFFFFFFFF);
+                if ((*(int *)0xC2A1B74) == 0) {
+                    u15 = *(float *)((a4 + 0x30));
+                    t16 = 0x6;
+                    if ((unsigned int)(int)(u15 * 1.5f) < (unsigned int)0x6) {
+                        t16 = (int)(u15 * 1.5f);
+                    }
+                    *(unsigned int *)(((int)stk + 4)) = t16;
+                    Sound_Request((*(int *)(((t16 << 2) + 0xC0A3788))), 0x1);
+                }
+                *(unsigned int *)0xC2A1B74 = 0x5;
+            }
+        }
+        if ((*(int *)((a4 + 0x124))) == -1) {
+            t38 = 0x68;
+            if ((*(int *)((a4 + 0x68))) == 0) {
+                *(unsigned int *)((a4 + 0x124)) = 0x0;
+                t38 = 0x124;
+            }
+            t88 = t38;
+        } else {
+            if ((*(int *)((a4 + 0x68))) != 0) {
+                if ((*(int *)((a4 + 0x124))) == 0) {
+                    nlProjectScreen3D((0x8C + a4));
+                    if (0.0f > (*(float *)(((int)stk + 8)))) {
+                        t50 = (*(int *)((((((*(int *)((a4 + 0x78))) & 0x1) << 2) + 0xC0A3778) + 0x0)));
+                    } else {
+                        t50 = (*(int *)((((((*(int *)((a4 + 0x78))) & 0x1) << 2) + 0xC0A3778) + 0x8)));
+                    }
+                    Sound_Request(t50, 0x2);
+                }
+                if ((*(float *)((a4 + 0x6C))) > 2.5f) {
+                    *(unsigned int *)((a4 + 0x124)) = 0x1;
+                } else {
+                    *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
+                }
+                t79 = 0x124;
+            } else {
+                t73 = 0x124;
+                if ((*(int *)((a4 + 0x124))) != 0) {
+                    *(unsigned int *)((a4 + 0x124)) = 0x0;
+                    t64 = *(int *)((0x58 + (*(int *)0xC2A1B30)));
+                    t67 = t64;
+                    if (t64 == 1) {
+                        t67 = (setTechnicalBonus(0x0, ((int)((*(float *)((a4 + 0x6C))) * 0.199999988f) + 0x1)));
+                    }
+                    t73 = t67;
+                }
+                t79 = t73;
+            }
+            t88 = t79;
+        }
+        t97 = t88;
     }
-    return t38;
+    return t97;
 }

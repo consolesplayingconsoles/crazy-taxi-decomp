@@ -1,233 +1,105 @@
 /* Straight-line functions with calls and guards (batch gen_al): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Result_Crazy_Put(void);
-int Result_Awesome_Put(void);
-int ResetFadeColor(void);
-int Sound_Request(int, int);
-float drvAccelDot(void);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int, int);
-int psgEnterState3(int);
+float nlPow(float, float);
+float Init_Pass_Fare(void);
 
-void Result_Class_Put(void)
+float Init_Pass_Fare(void)
 {
-    int t0;
+    float t0;
     int t1;
     int t2;
-    int t3;
     int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t13;
     int t14;
-    int t16;
-    int t20;
-    int t25;
-    int t26;
-    float u27;
-    float u28;
 
-    t0 = *(int *)0xC2A96F4;
-    t1 = *(int *)0xC2A97A8;
-    if ((int)t0 <= (int)t1) {
-        return;
-    }
-    t2 = *(int *)0xC2A982C;
-    if (t2 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t3 = *(int *)0xC2A9830;
-    if (t3 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t4 = *(int *)0xC2A9834;
-    if (t4 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t5 = *(int *)0xC2A9838;
-    if (t5 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t6 = *(int *)0xC2A983C;
-    if (t6 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t7 = *(int *)0xC2A9840;
-    if (t7 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t8 = *(int *)0xC2A9844;
-    if (t8 != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    t9 = *(int *)0xC2A9848;
-    if (t9 == 1) {
-        t10 = *(int *)0xC2A97E0;
-        if (t10 == 1) {
-            t11 = *(int *)0xC2A97E4;
-            *(unsigned int *)0xC2A97E4 = (t11 + 0x1);
-        }
-        t13 = *(int *)0xC2A97A8;
-        t14 = *(int *)0xC2A96F4;
-        if (t14 == (t13 + 0x1)) {
-            Sound_Request(0x405A9, 0x0);
-            t16 = *(int *)0xC130E04;
-            *(unsigned int *)0xC130E04 = (t16 + 0x1);
-            *(unsigned int *)0xC2A9754 = 0x1;
-        }
-        t20 = *(int *)0xC2A97D8;
-        if (t20 == 0x3E7) {
-            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            Result_Crazy_Put();
-            ResetFadeColor();
-    return;
-        }
-        if (t20 == 99) {
-            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            Result_Awesome_Put();
-            ResetFadeColor();
-    return;
-        }
-        t25 = *(int *)(((t20 << 2) + 0xC130E80));
-        *(unsigned int *)0xC2A96F8 = t25;
-        *(float *)0xC2A96FC = 164.0f;
-        t26 = *(int *)0xC2A9748;
-        *(float *)0xC2A9700 = (float)(t26 + 0x18C);
-        u27 = *(float *)0xC2A9758;
-        *(float *)0xC2A9708 = (u27 + 1.0f);
-        u28 = *(float *)0xC2A9758;
-        *(float *)0xC2A970C = (u28 + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        *(unsigned int *)0xC2A9720 = 0x0;
-        nlSprPut(0xC2A96F8, 0xC2A9758);
-    return;
-    }
-    *(unsigned int *)0xC2A96F4 = t1;
-}
-
-void EndPsg_CrushReact(int a4)
-{
-    int t0;
-    float t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-
-    t0 = *(int *)0xC1790EC;
-    if (t0 != 0) {
-        t1 = drvAccelDot();
-        t2 = *(int *)0xC1790EC;
-        if ((0x7FFE & t2) == 0) {
-            if ((0x80000000 & t2) != 0) {
-                if (!(-6.0f > t1)) {
-                    if (-4.0f > t1) {
-                        *(unsigned int *)((a4 + 0x40)) = 0xD;
-                        t3 = *(int *)((a4 + 0x40));
-                        psgEnterState3((a4 + 0x1C));
-    return;
-                    }
-                    return;
-                }
-                *(unsigned int *)((a4 + 0x40)) = 0xD;
-                t4 = *(int *)((a4 + 0x40));
-                psgEnterState3((a4 + 0x1C));
-    return;
+    *(unsigned int *)0xC2A8E9C = 0x0;
+    *(float *)0xC2A8EA0 = -2.0f;
+    *(unsigned int *)0xC2A8EA4 = 0x0;
+    *(unsigned int *)0xC2A8EA8 = 0x0;
+    *(unsigned int *)0xC2A8EAC = 0x0;
+    *(unsigned int *)0xC2A8EB4 = 0xFFFFFFFB;
+    t0 = nlPow(-5.0f, (1.0f + 1.0f));
+    *(float *)0xC2A8EB8 = t0;
+    *(unsigned int *)0xC2A8F6C = 0x0;
+    *(unsigned int *)0xC2A8F70 = 0x0;
+    *(unsigned int *)0xC2A7EB4 = 0x0;
+    *(float *)0xC2A7EA4 = 0.0f;
+    *(float *)0xC2A7EA8 = 0.0f;
+    *(float *)0xC2A7EAC = 1.0f;
+    *(float *)0xC2A7EB8 = 1.0f;
+    *(float *)0xC2A7EB0 = 1.0f;
+    *(unsigned int *)0xC2A7EC0 = 0x6;
+    *(float *)0xC2A7E90 = 0.0f;
+    *(float *)0xC2A7E94 = 0.0f;
+    *(float *)0xC2A7E98 = 0.25f;
+    *(float *)0xC2A7E9C = 1.0f;
+    *(float *)0xC2A7EA0 = 1.0f;
+    t1 = 0x0;
+    for (;;) {
+        *(float *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x18)) = 0.0f;
+        *(float *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x1C)) = 0.0f;
+        *(float *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x20)) = 1.0f;
+        *(float *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x24)) = 0.5f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x280) + 0x18)) = (-1.0f);
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x280) + 0x1C)) = -0.5f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x280) + 0x20)) = 0.0f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x280) + 0x24)) = 0.0f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x500) + 0x18)) = (-1.0f);
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x500) + 0x1C)) = -0.5f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x500) + 0x20)) = 0.0f;
+        *(float *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x500) + 0x24)) = 0.0f;
+        *(unsigned int *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x34)) = 0xE;
+        *(unsigned int *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x280) + 0x34)) = 0x6;
+        *(unsigned int *)((((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x500) + 0x34)) = 0x6;
+        t2 = 0x0;
+        for (;;) {
+            *(unsigned int *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x28)) = 0x0;
+            *(float *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x4)) = 0.0f;
+            *(float *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x8)) = 240.0f;
+            if (t2 == 1) {
+                *(float *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0xC)) = 0.25f;
+            } else {
+                *(float *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0xC)) = 0.279999971f;
             }
-            t5 = *(int *)0xC1790EC;
-            if ((t5 & 0x1F0000) == 0) {
-                t6 = *(int *)0xC1790EC;
-                if ((t6 & 0x20000) != 0) {
-                    *(unsigned int *)((a4 + 0x40)) = 0xE;
-                    t7 = *(int *)((a4 + 0x40));
-                    psgEnterState3((a4 + 0x1C));
-    return;
-                }
-                return;
+            *(float *)(((((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x10)) = 1.0f;
+            t4 = (((short)((((((t2 << 2) + t2) << 2) << 2) << 2) << 1) + 0xC2A810C) + (short)((((t1 << 2) + t1) << 2) << 2));
+            t2 = (t2 + 0x1);
+            *(float *)((t4 + 0x14)) = 0.5f;
+            *(unsigned int *)((t4 + 0x28)) = 0x0;
+            *(float *)((t4 + 0x2C)) = 1.0f;
+            if ((int)t2 >= (int)0x3) {
+                break;
             }
-            *(unsigned int *)((a4 + 0x40)) = 0xE;
-            t8 = *(int *)((a4 + 0x40));
-            psgEnterState3((a4 + 0x1C));
-    return;
         }
-        if (!(-6.0f > t1)) {
-            if (-4.0f > t1) {
-                *(unsigned int *)((a4 + 0x40)) = 0xD;
-                t9 = *(int *)((a4 + 0x40));
-                psgEnterState3((a4 + 0x1C));
-    return;
+        *(unsigned int *)(((t1 << 2) + 0xC2A8EDC)) = 0x0;
+        if ((t1 != 7) && ((t1 != 6) && ((t1 != 5) && (t1 != 4)))) {
+            if (t1 == 3) {
+                *(unsigned int *)((0xC2A8EFC + (t1 << 2))) = 0xB;
+            } else {
+                *(unsigned int *)((0xC2A8EFC + (t1 << 2))) = 0x9;
             }
-            return;
+        } else {
+            *(unsigned int *)((0xC2A8EFC + (t1 << 2))) = 0xA;
         }
-        *(unsigned int *)((a4 + 0x40)) = 0xD;
-        t10 = *(int *)((a4 + 0x40));
-        psgEnterState3((a4 + 0x1C));
-    return;
+        if ((t1 != 7) && ((t1 != 6) && ((t1 != 5) && (t1 != 4)))) {
+            if (t1 == 3) {
+                *(unsigned int *)((((t1 << 2) + 0xC2A8EFC) + 0x20)) = 0xB;
+            } else {
+                *(unsigned int *)((((t1 << 2) + 0xC2A8EFC) + 0x20)) = 0x9;
+            }
+        } else {
+            *(unsigned int *)((((t1 << 2) + 0xC2A8EFC) + 0x20)) = 0xA;
+        }
+        *(unsigned int *)((((0xC2A8EFC + (t1 << 2)) + 0x40) + 0x0)) = 0x8;
+        t14 = (t1 << 2);
+        t1 = (t1 + 0x1);
+        *(unsigned int *)((t14 + 0xC2A8EBC)) = 0xA;
+        if ((int)t1 < (int)0x8) continue;
+        break;
     }
-    t11 = *(int *)((a4 + 0x40));
-    if (t11 != 12) {
-        t12 = *(int *)((a4 + 0x40));
-        if (t12 != 11) {
-            t13 = *(int *)0xC2AD010;
-            if (t13 == 1) {
-                *(unsigned int *)((a4 + 0x40)) = 0xB;
-                t14 = *(int *)((a4 + 0x40));
-                psgEnterState3((a4 + 0x1C));
-    return;
-            }
-            t15 = *(int *)((a4 + 0x40));
-            if (t15 == 11) {
-                t16 = *(int *)0xC2AD010;
-                if (t16 != 1) {
-                    *(unsigned int *)((a4 + 0x40)) = 0xC;
-                    t17 = *(int *)((a4 + 0x40));
-                    psgEnterState3((a4 + 0x1C));
-    return;
-                }
-                return;
-            }
-            return;
-        }
-        t18 = *(int *)((a4 + 0x40));
-        if (t18 == 11) {
-            t19 = *(int *)0xC2AD010;
-            if (t19 != 1) {
-                *(unsigned int *)((a4 + 0x40)) = 0xC;
-                t20 = *(int *)((a4 + 0x40));
-                psgEnterState3((a4 + 0x1C));
-    return;
-            }
-            return;
-        }
-        return;
-    }
+    *(unsigned int *)0xC2A8EB0 = 0x0;
+    *(unsigned int *)0xC2A8F5C = 0x0;
+    *(unsigned int *)0xC2A8F60 = 0x0;
+    *(unsigned int *)0xC2A8F64 = 0x0;
+    return t0;
 }

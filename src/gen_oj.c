@@ -1,168 +1,99 @@
 /* Straight-line functions with calls and guards (batch gen_oj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0813e0(int, int, int);
-int buGetFileInfo(int, int, int);
-int buIsReady(int);
-int buStat(int);
-void CheckDrive(int a4, int a5, int a6);
+int nlSetDummyTextureParameter(int);
+int nlSetTextureParameter(int, int);
+int FUN_0c07a2e0(int a4, int a5, int a6);
 
-void CheckDrive(int a4, int a5, int a6)
+int FUN_0c07a2e0(int a4, int a5, int a6)
 {
     int t0;
-    int t1;
+    int t35;
     int t2;
     int t3;
-    int t4;
     int t5;
     int t6;
     int t7;
     int t8;
     int t9;
     int t10;
-    int t11;
-    int t12;
-    int t13;
+    int t25;
+    int t17;
+    int t1;
+    int t4;
     int t14;
     int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
     int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int t28;
-    int t29;
-    int t30;
-    int t31;
-    int t32;
-    int t33;
-    int stk[14] = {0};
+    int stk[12] = {0};
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    L_C040E1C:;
-    t0 = *(int *)0xC2A1220;
-    t1 = (int)t0 <= 0;
-    t2 = 0xC2A121C;
-    t3 = 0xFFFFFFFF;
-    t4 = 0xC2A1220;
-    R10 = t2;
-    R13 = t3;
-    R4 = t4;
-    if (t1) goto L_C040E48;
-    goto L_C040E3A;
-    L_C040E3A:;
-    t5 = *(int *)((R4 + 0x0));
-    t6 = (t5 - 1) != 0;
-    *(unsigned int *)((R4 + 0x0)) = (t5 - 1);
-    if (t6) goto L_C040EB2;
-    goto L_C040E44;
-    L_C040E44:;
-    *(unsigned int *)((R10 + 0x0)) = 0x1;
-    goto L_C040E48;
-    L_C040E48:;
-    t7 = *(int *)((R10 + 0x0));
-    t8 = t7 != 1;
-    t9 = t7;
-    R0 = t9;
-    if (t8) goto L_C040EB2;
-    goto L_C040E4E;
-    L_C040E4E:;
-    t10 = 0x7;
-    t11 = 0xC150B14;
-    t12 = 0x0;
-    t13 = 0xC150AE2;
-    t14 = 0xC15051C;
-    R11 = t10;
-    R12 = t11;
-    R14 = t12;
-    R8 = t13;
-    R9 = t14;
-    goto L_C040E98;
-    L_C040E98:;
-    t15 = (int)R14 <= (int)R11;
-    if (t15) goto L_C040E5A;
-    goto L_C040E9C;
-    L_C040E9C:;
-    t16 = R13 == -1;
-    t17 = R13;
-    R0 = t17;
-    if (t16) goto L_C040EB2;
-    goto L_C040EA4;
-    L_C040EA4:;
-    t18 = *(int *)0xC2A11B8;
-    t19 = t18 == R13;
-    t20 = 0xC2A11B8;
-    R4 = t20;
-    if (t19) goto L_C040EB0;
-    goto L_C040EAC;
-    L_C040EAC:;
-    *(unsigned int *)((R10 + 0x0)) = 0x1;
-    goto L_C040EB0;
-    L_C040EB0:;
-    *(unsigned int *)((R4 + 0x0)) = R13;
-    goto L_C040EB2;
-    L_C040EB2:;
-    return;
-    L_C040E5A:;
-    t21 = buIsReady(R14);
-    t22 = t21 != 1;
-    if (t22) goto L_C040E96;
-    goto L_C040E62;
-    L_C040E62:;
-    t23 = R13 != -1;
-    if (t23) goto L_C040E6C;
-    goto L_C040E6A;
-    L_C040E6A:;
-    t24 = R14;
-    R13 = t24;
-    goto L_C040E6C;
-    L_C040E6C:;
-    t25 = buStat(R14);
-    t26 = t25 == -1;
-    if (t26) goto L_C040E6C;
-    goto L_C040E74;
-    L_C040E74:;
-    t27 = buGetFileInfo(R14, 0xC0A2078, ((int)stk + 4));
-    t28 = t27 != 0;
-    t29 = t27;
-    R4 = t29;
-    if (t28) goto L_C040E96;
-    goto L_C040E82;
-    L_C040E82:;
-    t30 = FUN_0c0813e0((((int)stk + 4) + 0xA), 0xC28CA98, 0x8);
-    t31 = t30 != 0;
-    if (t31) goto L_C040E96;
-    goto L_C040E92;
-    L_C040E92:;
-    t32 = R14;
-    R13 = t32;
-    goto L_C040E9C;
-    L_C040E96:;
-    t33 = (R14 + 0x1);
-    R14 = t33;
-    goto L_C040E98;
+    *(unsigned int *)(((int)stk + 4)) = a6;
+    t0 = *(int *)((a4 + 0x0));
+    t35 = 0x0;
+    if (((int)t0 >= 0) && (t1 = *(int *)((a4 + 0x18)), t1 != 0)) {
+        *(unsigned int *)(((int)stk + 8)) = ((((a5 == 0)) ? 1 : 0) ^ 0x1);
+        t2 = ((((a5 == 0)) ? 1 : 0) ^ 0x1);
+        t3 = t1;
+        t5 = t0;
+        t6 = a4;
+        t7 = 0x0;
+        t8 = (a4 + 0x18);
+        for (;;) {
+            t9 = *(int *)((t8 + 0x20));
+            t10 = t8;
+            t8 = (t8 + 0x50);
+            t25 = t9;
+            if ((int)t9 >= 0) {
+                t5 = (*(int *)(((int)stk + 4)));
+                t17 = t9;
+                if ((t5 != 0) && (t14 = *(int *)(((int)stk + 8)), t15 = (t5 == 0), t5 = t14, t5 != 0)) {
+                    t5 = t9;
+                    t5 = (t5 << 2);
+                    t5 = (t5 << 2);
+                    t5 = (t5 + a5);
+                    t17 = (*(int *)((t5 + 0xC)));
+                }
+                t3 = 0xC2B3184;
+                t2 = 0xC2AEC84;
+                t4 = (*(int *)((t3 + 0x0)));
+                t5 = (*(int *)((t2 + 0x0)));
+                t6 = (t17 + t4);
+                t6 = (t6 << 2);
+                t6 = (t6 << 1);
+                t6 = (t6 + t5);
+                t4 = (*(int *)((t6 + 0x0)));
+                if (t4 == 0) {
+                    t7 = 0x1;
+                    t23 = 0xFFFFFFFF;
+                } else {
+                    t23 = (*(int *)((t6 + 0x4)));
+                }
+                t25 = t23;
+            }
+            t4 = (*(int *)((t10 + 0xC)));
+            t4 = (t4 & 0x7E00000);
+            *(unsigned int *)(((int)stk + 12)) = t4;
+            if ((int)t25 >= 0) {
+                t4 = 0xC073E00;
+                t6 = t10;
+                t2 = (nlSetTextureParameter(t6, t25));
+            } else {
+                t4 = 0xC073FD0;
+                t6 = t10;
+                t2 = (nlSetDummyTextureParameter(t6));
+            }
+            t2 = 0x4C;
+            t5 = (*(int *)(((int)stk + 12)));
+            t4 = (*(int *)((t10 + 0xC)));
+            t4 = (t4 | t5);
+            *(unsigned int *)((t10 + 0xC)) = t4;
+            t3 = (*(int *)((t10 + t2)));
+            t8 = (t8 + t3);
+            t6 = (*(int *)((t8 + 0x0)));
+            if (t6 == 0) {
+                break;
+            }
+        }
+        t35 = t7;
+    }
+    return t35;
 }

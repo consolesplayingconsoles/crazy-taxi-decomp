@@ -52,9 +52,9 @@ int gdc_CourseReq(int a4, int a5, float f4)
         t6 = 0xC1EE804;
     }
     t8 = *(int *)((t6 + 0x0));
-    u9 = *(float *)0xC02EE10;
+    u9 = 0.19999999f;
     t10 = *(int *)(((t8 + (((a4 << 2) + a4) << 2)) + 0x10));
-    u11 = *(float *)0xC02EE14;
+    u11 = 90.0f;
     t12 = 0xC26C5DC;
     t13 = 0x0;
     t14 = (a4 << 2);
@@ -125,55 +125,6 @@ int gdc_CourseReq(int a4, int a5, float f4)
     t26 = *(int *)((t12 + 0x10));
     *(unsigned int *)((t12 + 0x10)) = (t26 + 0x1);
     return 0x120;
-}
-
-int Put_Build_Patch(void)
-{
-    float u1;
-    float u2;
-    float u3;
-    float u7;
-    float u12;
-    float u13;
-    float u14;
-    float u15;
-    int t16;
-    int t17;
-    float u19;
-    int t26;
-
-    nlPushMatrix(0x0);
-    u1 = *(float *)0xC04F168;
-    u2 = *(float *)0xC04F16C;
-    u3 = *(float *)0xC04F170;
-    nlTranslate(u3, u2, u1);
-    nlRotateAY(0xC000);
-    nlRotateAX(0x4AAA);
-    u7 = *(float *)0xC04F180;
-    nlScale(u7, u7, u7);
-    nlSetScaleFactor(u7);
-    nlObjPutUseViewMatrix(0xC5BDE50);
-    nlPopMatrix(0x1);
-    u12 = *(float *)0xC04F198;
-    u13 = *(float *)0xC04F19C;
-    u14 = *(float *)0xC04F1A0;
-    u15 = *(float *)0xC04F1A4;
-    t16 = 0x0;
-    t17 = 0xC11894C;
-    do {
-        nlPushMatrix(0x0);
-        u19 = *(float *)((t17 + 0x0));
-        t17 = (t17 + 0x4);
-        nlTranslate(u12, u13, u19);
-        nlRotateAY(0xC000);
-        nlRotateAX(0xAAA);
-        nlScale(u15, u14, u14);
-        nlSetScaleFactor(u15);
-        nlObjPutUseViewMatrix(0xC5C55D8);
-        t26 = nlPopMatrix(0x1);
-        t16 = (t16 + 0x1);
-    } while ((int)t16 < (int)0x3);
-    return t26;
 }
 
 

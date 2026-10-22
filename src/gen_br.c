@@ -524,57 +524,6 @@ int ADX_DecodeInfoSpsd(int a4, int a5, int a6, int a7, int a8, int a9, int a10, 
     return 0x0;
 }
 
-int Result_Drop_Lowest_Rank(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t25;
-    int t26;
-    int stk[6] = {0};
-
-    t0 = 0x1;
-    t1 = 0x0;
-    do {
-        t2 = *(int *)0xC1EE210;
-        *(unsigned int *)(((int)stk + 4)) = ((short)((short)t2 * (short)0x3C0) + 0xC28C318);
-        t3 = *(int *)(((((t1 << 2) << 1) + (((short)((short)t2 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4));
-        t4 = *(int *)(((((t0 << 2) << 1) + (((short)((short)t2 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4));
-        if ((unsigned int)t3 > (unsigned int)t4) {
-            t1 = t0;
-        }
-        t0 = (t0 + 0x1);
-    } while ((int)t0 < (int)0x50);
-    if (t1 != 79) {
-        if ((int)t1 < (int)0x4F) {
-            t5 = ((t1 << 2) << 1);
-            t6 = t1;
-            do {
-                t7 = *(int *)0xC1EE210;
-                t8 = *(int *)((((((short)((short)t7 * (short)0x3C0) + 0xC28C318) + 0x140) + t5) + 0x8));
-                *(unsigned int *)((((((short)((short)t7 * (short)0x3C0) + 0xC28C318) + 0x140) + t5) + 0x0)) = t8;
-                t9 = *(int *)0xC1EE210;
-                t10 = *(int *)((((((short)((short)t9 * (short)0x3C0) + 0xC28C318) + 0x140) + t5) + 0xC));
-                t6 = (t6 + 0x1);
-                *(unsigned int *)((((((short)((short)t9 * (short)0x3C0) + 0xC28C318) + 0x140) + t5) + 0x4)) = t10;
-                t5 = (t5 + 0x8);
-            } while ((int)t6 < (int)0x4F);
-        }
-    }
-    t25 = *(int *)0xC1EE210;
-    *(unsigned int *)((((0x140 + ((short)((short)t25 * (short)0x3C0) + 0xC28C318)) + 0x278) + 0x0)) = 0x0;
-    t26 = *(int *)0xC1EE210;
-    *(unsigned int *)(((0x278 + (0x140 + ((short)((short)t26 * (short)0x3C0) + 0xC28C318))) + 0x4)) = 0x0;
-    return (0x140 + ((short)((short)t26 * (short)0x3C0) + 0xC28C318));
-}
 
 int hudLoadRanking(void)
 {

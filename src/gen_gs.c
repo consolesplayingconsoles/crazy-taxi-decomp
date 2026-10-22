@@ -1,188 +1,91 @@
 /* Straight-line functions with calls and guards (batch gen_gs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07b980(void);
+int GetCollision2D(int, float);
+int PcarEvInit(int);
+int calcCheckExec(int, int);
+int carBalance(int);
+int extRand(void);
 int nlAddVector(int, int);
-int nlLineSetThickness(float);
-int nlObjPutUseViewMatrix(int);
-int nlScaleVector(int, int, float);
-int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
-int nlTriPutSetAttribFaceColor(int, float, float, float);
-int nlTriPutSetClipping(int, float, float, float, float);
-int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
-int nlTriPutTextureInit(int, int, int);
-int PutColliWall(int a4);
+int nlCloseEvent(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAY(int);
+int nlSqrt(int, int);
+int set_event(int, int);
+int StopingCarInit(int a4, int a5, int a6);
 
-int PutColliWall(int a4)
+int StopingCarInit(int a4, int a5, int a6)
 {
     int t0;
-    int t3;
-    int t8;
-    float u9;
-    float u10;
-    float u13;
-    float u14;
-    float u15;
-    int t16;
-    int t17;
-    int t18;
-    float u19;
-    float u22;
-    int t81;
-    float u23;
-    float u24;
-    float u25;
-    float u27;
-    float u28;
-    float u29;
+    int t44;
+    int t1;
+    int t6;
+    int t28;
+    int t29;
     float u30;
-    float u31;
-    float u32;
-    float u33;
-    float u34;
-    float u35;
-    float u36;
-    float u37;
-    float u38;
-    float u40;
-    float u41;
-    float u42;
-    float u43;
-    float u44;
-    float u46;
-    float u47;
-    float u48;
-    float u49;
-    float u50;
-    float u52;
-    float u53;
-    float u54;
-    float u55;
-    float u56;
-    float u58;
-    float u59;
-    float u60;
-    float u61;
-    float u62;
-    float u63;
-    float u64;
-    float u69;
-    float u70;
-    float u71;
-    float u72;
-    float u73;
-    float u74;
-    float u75;
-    float u76;
-    int t80;
-    int stk[22] = {0};
+    int t40;
+    int t22;
+    int t42;
+    int stk[10] = {0};
 
-    t0 = *(int *)0xC0ED89C;
+    *(unsigned int *)(((int)stk + 12)) = a4;
+    *(unsigned int *)(((int)stk + 8)) = a5;
+    *(unsigned int *)(((int)stk + 4)) = a6;
+    t0 = set_event(0x12C, 0xC0468A8);
+    t44 = t0;
     if (t0 != 0) {
-        nlTriPutTextureInit(0xC270A98, 0xFFFFFFFF, 0x0);
-        nlTriPutSetAttrib(0xC270A98, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x4, 0.5f, 0.5f, 0.0f, 5.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-        t3 = *(int *)0xC270AB8;
-        *(unsigned int *)0xC270AB8 = (t3 | 0xC0);
-        *(unsigned int *)0xC0ED89C = 0x0;
+        t1 = *(int *)0xC2A1B1C;
+        *(unsigned int *)0xC2A1B1C = (t1 + 0x1);
+        *(unsigned int *)((t0 + 0x74)) = ((t1 + 0x1) - 1);
+        *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) + 0x1);
+        *(unsigned int *)((t0 + 0x78)) = (*(int *)(((int)stk + 12)));
+        *(unsigned int *)((t0 + 0x80)) = (*(int *)(((int)stk + 8)));
+        if ((*(int *)(((int)stk + 4))) == 0) {
+            t6 = *(int *)((t0 + 0x80));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t0)) = *(struct mv3 *)((*(int *)((((((t6 << 1) + t6) << 2) + (*(int *)0xC2A6690)) + 0x0)))); }
+        } else {
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t0)) = *(struct mv3 *)((*(int *)(((int)stk + 4)))); }
+        }
+        PcarEvInit(t0);
+        *(unsigned int *)((t0 + 0x84)) = ((*(int *)((t0 + 0x84))) | 0x10);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
+        *(float *)(((int)stk + 16)) = -50.0f;
+        nlPushUnitMatrix();
+        nlRotateAY((unsigned short)(*(short *)((t0 + 0xA6))));
+        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+        nlAddVector((0x8C + t0), (((int)stk + 4) + 0xC));
+        nlAddVector((0xE0 + t0), (((int)stk + 4) + 0xC));
+        nlPopMatrix(0x1);
+        if ((((extRand()) & 3) != 0) && (t22 = *(int *)((t0 + 0x78)), (int)t22 < (int)0x8)) {
+            *(unsigned short *)((t0 + 0xA6)) = ((*(short *)((t0 + 0xA6))) + 0x2000);
+        } else {
+            *(unsigned int *)((t0 + 0x84)) = ((*(int *)((t0 + 0x84))) | 0xC00);
+        }
+        *(float *)((t0 + 0xC8)) = 0.00999999978f;
+        t28 = GetCollision2D((0x8C + t0), 30.0f);
+        t29 = *(int *)((t28 + 0x1C));
+        if ((t29 != -1) && (t29 != 12)) {
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + t0)) = *(struct mv3 *)((t28 + 0xC)); }
+            *(unsigned int *)((t0 + 0x110)) = 0xA;
+            u30 = *(float *)((t28 + 0x18));
+            *(float *)((t0 + 0x104)) = u30;
+            *(float *)((t0 + 0x90)) = u30;
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
+            carBalance(t0);
+            *(unsigned char *)(((0xA4 + t0) + 0x0)) = (*(signed char *)(((0x108 + t0) + 0x0)));
+            *(unsigned char *)(((0xA4 + t0) + 0x1)) = (*(signed char *)(((0x108 + t0) + 0x1)));
+            *(unsigned char *)(((0xA4 + t0) + 0x2)) = (*(signed char *)(((0x108 + t0) + 0x2)));
+            *(unsigned char *)(((0xA4 + t0) + 0x3)) = (*(signed char *)(((0x108 + t0) + 0x3)));
+            *(unsigned char *)(((0xA4 + t0) + 0x4)) = (*(signed char *)(((0x108 + t0) + 0x4)));
+            *(unsigned char *)(((0xA4 + t0) + 0x5)) = (*(signed char *)(((0x108 + t0) + 0x5)));
+            t42 = (calcCheckExec(t0, (*(int *)((t0 + 0x84)))));
+        } else {
+            t40 = nlCloseEvent(t0);
+            *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) - 1);
+            t42 = t40;
+        }
+        t44 = t42;
     }
-    t8 = *(int *)((a4 + 0x18));
-    u9 = 0.0f;
-    u10 = 0.699999988f;
-    if ((t8 & 1) != 0) {
-        u9 = 0.699999988f;
-        u10 = 0.0f;
-    }
-    nlTriPutSetAttribFaceColor(0xC270A98, 1.0f, u9, u10);
-    u13 = *(float *)((a4 + 0x8));
-    *(float *)(((int)stk + 40)) = u13;
-    u14 = *(float *)((a4 + 0x18));
-    *(float *)(((int)stk + 44)) = u14;
-    u15 = *(float *)((a4 + 0xC));
-    *(float *)(((int)stk + 48)) = u15;
-    t16 = *(int *)(((((int)stk + 28) + 0xC) + 0x8));
-    t17 = *(int *)(((((int)stk + 28) + 0xC) + 0x4));
-    *(unsigned int *)((((int)stk + 28) + 0x8)) = t16;
-    t18 = *(int *)(((((int)stk + 28) + 0xC) + 0x0));
-    *(unsigned int *)((((int)stk + 28) + 0x4)) = t17;
-    *(unsigned int *)((((int)stk + 28) + 0x0)) = t18;
-    u19 = *(float *)((a4 + 0x14));
-    *(float *)(((int)stk + 32)) = u19;
-    nlLineSetThickness(3.0f);
-    FUN_0c07b980();
-    u22 = *(float *)((a4 + 0x1C));
-    t81 = 0x1C;
-    if (!(u22 > 0.0f)) {
-    } else {
-        u23 = *(float *)(((int)stk + 44));
-        *(float *)(((int)stk + 32)) = u23;
-        u24 = *(float *)(((a4 + 0x20) + 0x8));
-        *(float *)(((int)stk + 28)) = u24;
-        u25 = *(float *)(((a4 + 0x20) + 0xC));
-        *(float *)(((int)stk + 36)) = u25;
-        FUN_0c07b980();
-        u27 = *(float *)((a4 + 0x1C));
-        u28 = *(float *)((a4 + 0x4));
-        u29 = *(float *)(((int)stk + 40));
-        *(float *)(((int)stk + 28)) = (u29 - (u28 * u27));
-        u30 = *(float *)(((int)stk + 48));
-        u31 = *(float *)((a4 + 0x0));
-        u32 = *(float *)((a4 + 0x1C));
-        u33 = u30;
-        u33 = u33 + u32 * u31;
-        *(float *)(((int)stk + 36)) = u33;
-        u34 = *(float *)((a4 + 0x4));
-        u35 = *(float *)(((int)stk + 48));
-        u36 = *(float *)((a4 + 0x18));
-        u37 = *(float *)(((int)stk + 40));
-        u38 = *(float *)((a4 + 0x0));
-        nlTriPutSetPoint(0xC270A98, 0x0, u37, u36, u35, u38, 0.0f, u34, 0.0f, 0.0f);
-        u40 = *(float *)((a4 + 0x0));
-        u41 = *(float *)((a4 + 0x4));
-        u42 = *(float *)(((int)stk + 48));
-        u43 = *(float *)((a4 + 0x14));
-        u44 = *(float *)(((int)stk + 40));
-        nlTriPutSetPoint(0xC270A98, 0x1, u44, u43, u42, u40, 0.0f, u41, 0.0f, 0.0f);
-        u46 = *(float *)(((int)stk + 28));
-        u47 = *(float *)((a4 + 0x4));
-        u48 = *(float *)(((int)stk + 36));
-        u49 = *(float *)((a4 + 0x18));
-        u50 = *(float *)((a4 + 0x0));
-        nlTriPutSetPoint(0xC270A98, 0x2, u46, u49, u48, u50, 0.0f, u47, 0.0f, 0.0f);
-        u52 = *(float *)(((int)stk + 28));
-        u53 = *(float *)((a4 + 0x4));
-        u54 = *(float *)(((int)stk + 36));
-        u55 = *(float *)((a4 + 0x14));
-        u56 = *(float *)((a4 + 0x0));
-        nlTriPutSetPoint(0xC270A98, 0x3, u52, u55, u54, u56, 0.0f, u53, 0.0f, 0.0f);
-        u58 = *(float *)((a4 + 0x14));
-        u59 = *(float *)((a4 + 0x1C));
-        u60 = *(float *)((a4 + 0x18));
-        u61 = *(float *)(((int)stk + 36));
-        u62 = *(float *)(((int)stk + 48));
-        u63 = *(float *)(((int)stk + 28));
-        u64 = *(float *)(((int)stk + 40));
-        nlTriPutSetClipping(0xC270A98, ((u64 + u63) * 0.5f), ((u58 + u60) * 0.5f), ((u62 + u61) * 0.5f), (((u59 + u58) - u60) * 0.5f));
-        nlObjPutUseViewMatrix(0xC270A98);
-        nlAddVector((((int)stk + 28) + 0xC), ((int)stk + 28));
-        nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), 0.5f);
-        u69 = *(float *)((a4 + 0x18));
-        u70 = *(float *)((a4 + 0x14));
-        *(float *)(((int)stk + 32)) = ((u70 + u69) * 0.5f);
-        *(float *)(((int)stk + 44)) = ((u70 + u69) * 0.5f);
-        u71 = *(float *)((a4 + 0x0));
-        u72 = *(float *)(((int)stk + 40));
-        u73 = u72;
-        u73 = u73 + 0.199999988f * (u71 * (((u59 + u58) - u60) * 0.5f));
-        *(float *)(((int)stk + 28)) = u73;
-        u74 = *(float *)((a4 + 0x4));
-        u75 = *(float *)(((int)stk + 48));
-        u76 = u75;
-        u76 = u76 + 0.199999988f * (u74 * (((u59 + u58) - u60) * 0.5f));
-        *(float *)(((int)stk + 36)) = u76;
-        *(volatile int *)((a4 + 0x14));
-        
-        t80 = FUN_0c07b980();
-        t81 = t80;
-    }
-    return t81;
+    return t44;
 }

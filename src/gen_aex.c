@@ -1,0 +1,123 @@
+/* Straight-line functions with calls and guards (batch gen_aex): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int CalcShadow4Normal(int, int);
+int GetCollision2D(int, float);
+int nlAddVector(int, int);
+int nlRand(void);
+int pedInit(int, int);
+int pedIsSpecialModel(int);
+int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, float f8);
+
+int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, float f8)
+{
+    int t7;
+    int t11;
+    int t17;
+    int t47;
+    int t60;
+    int stk[13] = {0};
+
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R10;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F8;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F8 = f8;
+    L_C04F7B8:;
+    *(unsigned int *)(((int)stk + 4)) = R5;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)((*(int *)((R4 + 0x18)))); }
+    R13 = (0xC075F70);
+    R14 = (R4);
+    if (((*(int *)0xC1EE20C) != 1)) goto L_C04F86C;
+    goto L_C04F7DE;
+    L_C04F7DE:;
+    t7 = *(short *)(((0xE + (*(int *)((R14 + 0x18)))) + 0x0));
+    *(float *)(((int)stk + 20)) = (float)(((int)((int)(nlRand()) % (int)((unsigned short)t7 << 1))) - (unsigned short)t7);
+    t11 = *(short *)(((0xE + (*(int *)((R14 + 0x18)))) + 0x0));
+    R0 = ((((int)((int)(nlRand()) % (int)((unsigned short)t11 << 1))) - (unsigned short)t11));
+    goto L_C04F892;
+    L_C04F892:;
+    *(float *)(((int)stk + 28)) = (float)R0;
+    nlAddVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10));
+    t17 = (*(int *)0xC1EE20C) != 1;
+    R13 = ((GetCollision2D((((int)stk + 4) + 0x4), 16.5f)));
+    if (t17) goto L_C04F8F2;
+    goto L_C04F8BC;
+    L_C04F8BC:;
+    if (((pedIsSpecialModel((*(int *)((R14 + 0x1C))))) == 0)) goto L_C04F8D2;
+    goto L_C04F8C4;
+    L_C04F8C4:;
+    if (((int)(*(int *)((R13 + 0x1C))) < (int)0x11)) goto L_C04F8D2;
+    goto L_C04F8CC;
+    L_C04F8CC:;
+    if (((*(int *)((R13 + 0x1C))) != 21)) goto L_C04F912;
+    goto L_C04F8D2;
+    L_C04F8D2:;
+    if (((pedIsSpecialModel((*(int *)((R14 + 0x1C))))) != 0)) goto L_C04F8F2;
+    goto L_C04F8DA;
+    L_C04F8DA:;
+    if (((*(int *)((R13 + 0x1C))) == 3)) goto L_C04F912;
+    goto L_C04F8E0;
+    L_C04F8E0:;
+    if (((*(int *)((R13 + 0x1C))) == 5)) goto L_C04F912;
+    goto L_C04F8E6;
+    L_C04F8E6:;
+    if (((*(int *)((R13 + 0x1C))) == 9)) goto L_C04F912;
+    goto L_C04F8EC;
+    L_C04F8EC:;
+    if (((*(int *)((R13 + 0x1C))) == 10)) goto L_C04F912;
+    goto L_C04F8F2;
+    L_C04F8F2:;
+    if (((*(int *)0xC1EE20C) != 0)) goto L_C04F9A8;
+    goto L_C04F8FA;
+    L_C04F8FA:;
+    if (((*(int *)((R13 + 0x1C))) == 3)) goto L_C04F912;
+    goto L_C04F900;
+    L_C04F900:;
+    if (((*(int *)((R13 + 0x1C))) == 5)) goto L_C04F912;
+    goto L_C04F906;
+    L_C04F906:;
+    if (((*(int *)((R13 + 0x1C))) == 9)) goto L_C04F912;
+    goto L_C04F90C;
+    L_C04F90C:;
+    if (((*(int *)((R13 + 0x1C))) != 10)) goto L_C04F9A8;
+    goto L_C04F912;
+    L_C04F912:;
+    t47 = *(int *)(((int)stk + 4));
+    pedInit(((*(int *)((R14 + 0x20))) + (t47 * 0x64)), (*(int *)((R14 + 0x1C))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((*(int *)((R14 + 0x20))) + (t47 * 0x64))) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0xC)) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
+    *(float *)((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0x4)) = (*(float *)((R13 + 0x18)));
+    *(float *)((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0x10)) = (*(float *)((R13 + 0x18)));
+    *(unsigned short *)((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0x1A)) = (*(short *)(((*(int *)((R14 + 0x18))) + 0xC)));
+    t60 = *(int *)((R14 + 0x20));
+    *(unsigned short *)(((t60 + (t47 * 0x64)) + 0x18)) = (*(short *)(((t60 + (t47 * 0x64)) + 0x1A)));
+    CalcShadow4Normal((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0x54), (R13 + 0xC));
+    *(unsigned int *)0xC2A6FE0 = ((*(int *)0xC2A6FE0) + 0x1);
+    R0 = (0x1);
+    goto L_C04F9AA;
+    L_C04F9AA:;
+    return R0;
+    L_C04F9A8:;
+    R0 = (0x0);
+    goto L_C04F9AA;
+    L_C04F86C:;
+    *(float *)(((int)stk + 20)) = (float)(((int)((int)(nlRand()) % (int)0xC8)) - 100);
+    R0 = ((((int)((int)(nlRand()) % (int)0xC8)) - 100));
+    goto L_C04F892;
+}

@@ -1,74 +1,83 @@
 /* Straight-line functions with calls and guards (batch gen_lf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlInnerProduct(int, int);
-float nlLength(int, int);
-int nlOuterProduct(int, int, int);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int);
-int set_event(int, int);
-void setObjHitBreakSide(int a4);
+int GetMenuMode(int);
+int nlPrintColor(int);
+int Result_Next_State(int a4);
 
-void setObjHitBreakSide(int a4)
+int Result_Next_State(int a4)
 {
-    float t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t8;
-    int t9;
-    float t13;
-    int t14;
+    int t0;
     int t15;
-    int t16;
-    int t17;
-    int t35;
-    int t36;
-    int t37;
-    int t5;
-    int t18;
-    int stk[12] = {0};
+    int t28;
+    int stk[3] = {0};
 
-    t0 = nlLength((a4 + 0xC), (a4 + 0x58));
-    if (t0 > (1.0f + 1.0f)) {
-        t1 = set_event(0x84, 0xC0385AC);
-        if (t1 != 0) {
-            t2 = a4;
-            t3 = (a4 + 112);
-            t4 = (t1 + 0x14);
-            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)t3 < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
-            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 12.0f);
-            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
-            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
-            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDED8;
-            t8 = *(int *)0xC0EE20C;
-            t9 = *(int *)((t8 + 0x0));
-            *(unsigned int *)(((t1 + 0x14) + 0x64)) = t9;
-            SetColliObj((t1 + 0x14), 0x10);
-            nlSubVector3op((((int)stk + 4) + 0xC), (a4 + 0xC), (a4 + 0x58));
-            nlOuterProduct((a4 + 0x3C), (a4 + 0x30), ((int)stk + 4));
-            t13 = nlInnerProduct((((int)stk + 4) + 0xC), ((int)stk + 4));
-            if (t13 > 0.0f) {
-                *(unsigned int *)((a4 + 0x54)) = 0xC0EDEFC;
-                t14 = *(int *)0xC0EE210;
-                t15 = *(int *)((t14 + 0x0));
-                t18 = t15;
-            } else {
-                *(unsigned int *)((a4 + 0x54)) = 0xC0EDF20;
-                t16 = *(int *)0xC0EE214;
-                t17 = *(int *)((t16 + 0x0));
-                t18 = t17;
-            }
-            *(unsigned int *)((a4 + 0x64)) = t18;
-        }
-        t35 = *(int *)(((a4 + 0xC) + 0x8));
-        t36 = *(int *)(((a4 + 0xC) + 0x4));
-        *(unsigned int *)(((a4 + 0x58) + 0x8)) = t35;
-        t37 = *(int *)(((a4 + 0xC) + 0x0));
-        *(unsigned int *)(((a4 + 0x58) + 0x4)) = t36;
-        *(unsigned int *)(((a4 + 0x58) + 0x0)) = t37;
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R14;
+    int T_;
+    R4 = a4;
+    L_C0595E8:;
+    t0 = *(int *)0xC2A97D8;
+    R14 = (0xC2A97D8);
+    R4 = (t0);
+    if ((t0 == 0)) goto L_C059624;
+    goto L_C0595F4;
+    L_C0595F4:;
+    if ((R4 == 0x3E7)) goto L_C059612;
+    goto L_C0595FA;
+    L_C0595FA:;
+    if ((R4 == 99)) goto L_C059612;
+    goto L_C059602;
+    L_C059602:;
+    if (((int)(*(int *)0xC2A96F4) >= (int)((*(int *)0xC2A97A8) + 0x186))) goto L_C059646;
+    goto L_C059612;
+    L_C059612:;
+    if ((R4 == 0)) goto L_C059624;
+    goto L_C059616;
+    L_C059616:;
+    if ((R4 == 0x3E7)) goto L_C059624;
+    goto L_C05961C;
+    L_C05961C:;
+    if ((R4 != 99)) goto L_C059634;
+    goto L_C059624;
+    L_C059624:;
+    if (((int)(*(int *)0xC2A96F4) >= (int)((*(int *)0xC2A97A8) + 0x1FE))) goto L_C059646;
+    goto L_C059634;
+    L_C059634:;
+    t15 = *(int *)0xC2A97E0;
+    R0 = (t15);
+    if ((t15 != 1)) goto L_C05967A;
+    goto L_C05963C;
+    L_C05963C:;
+    R0 = (0xC2A97E4);
+    if (((int)(*(int *)0xC2A97E4) < (int)0x78)) goto L_C05967A;
+    goto L_C059646;
+    L_C059646:;
+    nlPrintColor(0xFFFFFFFF);
+    if (((*(int *)((R14 + 0x0))) == 0)) goto L_C05965A;
+    goto L_C059652;
+    L_C059652:;
+    if (((int)(*(int *)((R14 + 0x0))) < (int)0x63)) goto L_C059674;
+    goto L_C05965A;
+    L_C05965A:;
+    if (((*(int *)0xC1EE210) == 2)) goto L_C059674;
+    goto L_C059662;
+    L_C059662:;
+    t28 = GetMenuMode(0x1);
+    R0 = (t28);
+    if ((t28 != 0)) goto L_C059674;
+    goto L_C05966C;
+    L_C05966C:;
+    *(unsigned int *)0xC1EE238 = 0xC;
+    goto L_C05967A;
+    L_C05967A:;
+    return R0;
+    L_C059674:;
+    *(unsigned int *)0xC1EE238 = 0x2;
+    R0 = (0x2);
+    goto L_C05967A;
 }

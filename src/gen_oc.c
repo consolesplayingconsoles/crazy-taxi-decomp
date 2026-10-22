@@ -1,99 +1,100 @@
 /* Straight-line functions with calls and guards (batch gen_oc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-void setObjHitShed(int a4, int a5, float f4);
+int Chk_DispCredit(void);
+int End_Adv_Title_LOGO(void);
+int Voice_Request(int, int, int, int);
+int gdc_CoursePointLoadReq(float);
+int getReplayChangePos(int, int, int);
+int AdvStateTitle(void);
 
-void setObjHitShed(int a4, int a5, float f4)
+int AdvStateTitle(void)
 {
-    float t0;
-    int t1;
-    int t2;
-    float u3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
     int t10;
-    int t11;
-    int t15;
-    int t16;
-    int t20;
-    int t21;
-    int t22;
-    int t12;
-    int stk[7] = {0};
+    int t71;
+    int t63;
+    int t23;
+    float u58;
+    int t80;
+    int stk[29] = {0};
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    F4 = f4;
-    L_C038A00:;
-    t0 = nlLength((R4 + 0xC), (R4 + 0x58));
-    t1 = t0 > (1.0f + 1.0f);
-    t2 = R4;
-    R14 = t2;
-    if (t1) goto L_C038A28;
-    goto L_C038A1C;
-    L_C038A1C:;
-    u3 = *(float *)((R14 + 0x40));
-    t4 = !(0.699999988f > u3);
-    if (t4) goto L_C038AB0;
-    goto L_C038A28;
-    L_C038A28:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x58)) = *(struct mv3 *)((R14 + 0xC)); }
-    t5 = set_event(0x84, 0xC0385AC);
-    t6 = t5 == 0;
-    t7 = t5;
-    t8 = t5;
-    R0 = t7;
-    R4 = t8;
-    if (t6) goto L_C038ABE;
-    goto L_C038A46;
-    L_C038A46:;
-    t9 = R14;
-    t10 = (R14 + 112);
-    t11 = (R4 + 0x14);
-    for (;;) { t12 = *(int *)t9; t9 = (t9 + 4); if ((unsigned int)t10 < (unsigned int)t9) break; *(unsigned int *)t11 = t12; t11 = (t11 + 4); }
-    nlScaleVector(((int)stk + 4), ((R4 + 0x14) + 0x3C), -8.0f);
-    nlAddVector((R4 + 0x14), ((int)stk + 4));
-    *(unsigned int *)(((R4 + 0x14) + 0x28)) = ((R4 + 0x14) + 0x30);
-    *(unsigned int *)(((R4 + 0x14) + 0x54)) = 0xC0EDC08;
-    t15 = *(int *)0xC0EE1BC;
-    t16 = *(int *)((t15 + 0x0));
-    *(unsigned int *)(((R4 + 0x14) + 0x64)) = t16;
-    SetColliObj((R4 + 0x14), 0x10);
-    nlScaleVector(((int)stk + 4), (R14 + 0x3C), 11.0f);
-    nlAddVector(R14, ((int)stk + 4));
-    *(unsigned int *)((R14 + 0x54)) = 0xC0EDCBC;
-    t20 = *(int *)0xC0EE1D0;
-    t21 = *(int *)((t20 + 0x0));
-    *(unsigned int *)((R14 + 0x64)) = t21;
-    t22 = 0x64;
-    R0 = t22;
-    goto L_C038ABE;
-    L_C038ABE:;
-    return;
-    L_C038AB0:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x58)) = *(struct mv3 *)((R14 + 0xC)); }
-    goto L_C038ABE;
+    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    if ((int)(*(int *)0xC0E5310) > 0) {
+        *(unsigned int *)0xC0E5310 = ((*(int *)0xC0E5310) - 1);
+        if ((int)(*(int *)0xC1EE240) > (int)0x5) {
+            *(unsigned int *)0xC1EE240 = 0x5;
+        }
+    }
+    t10 = *(int *)0xC1EE240;
+    if ((*(int *)0xC1EE23C) != 0) {
+        if ((*(int *)0xC1EE23C) == 1) {
+            if (t10 == 30) {
+                Voice_Request(0xC0E52F8, 0x0, 0x7F, 0x0);
+            }
+            getReplayChangePos(0x2, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(800.0f);
+            t23 = 0x117;
+        }
+        t63 = t23;
+    } else {
+        if (t10 == 40) {
+            Voice_Request(0xC0E52F8, 0x0, 0x7F, 0x0);
+        }
+        if ((*(int *)0xC1EE20C) == 0) {
+            getReplayChangePos(0x1, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x1, (((int)stk + 64) + 0xC));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 52)) = *(struct mv3 *)((((int)stk + 64) + 0xC)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x2, (((int)stk + 52) + 0x18));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 40)) = *(struct mv3 *)((((int)stk + 52) + 0x18)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x3, (((int)stk + 40) + 0x24));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 40) + 0x24)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x4, (((int)stk + 28) + 0x30));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)((((int)stk + 28) + 0x30)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x5, (((int)stk + 16) + 0x3C));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x3C)); }
+            u58 = 1500.0f;
+        } else {
+            getReplayChangePos(0x2, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(1000.0f);
+            getReplayChangePos(0x2, 0x1, (((int)stk + 64) + 0xC));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 52)) = *(struct mv3 *)((((int)stk + 64) + 0xC)); }
+            gdc_CoursePointLoadReq(800.0f);
+            getReplayChangePos(0x2, 0x2, (((int)stk + 52) + 0x18));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 40)) = *(struct mv3 *)((((int)stk + 52) + 0x18)); }
+            gdc_CoursePointLoadReq(600.0f);
+            getReplayChangePos(0x2, 0x3, (((int)stk + 40) + 0x24));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 40) + 0x24)); }
+            gdc_CoursePointLoadReq(400.0f);
+            getReplayChangePos(0x2, 0x4, (((int)stk + 28) + 0x30));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)((((int)stk + 28) + 0x30)); }
+            gdc_CoursePointLoadReq(400.0f);
+            getReplayChangePos(0x2, 0x5, (((int)stk + 16) + 0x3C));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x3C)); }
+            u58 = 400.0f;
+        }
+        gdc_CoursePointLoadReq(u58);
+        t63 = 0x135;
+    }
+    if ((int)(*(int *)0xC1EE240) >= (int)t63) {
+        t71 = *(int *)0xC1EE23C;
+        if (t71 == 0) {
+            *(unsigned int *)0xC1EE238 = 0x2;
+        } else {
+            if (t71 == 1) {
+                *(unsigned int *)0xC1EE238 = 0x4;
+            }
+        }
+        t80 = (End_Adv_Title_LOGO());
+    } else {
+        t80 = (Chk_DispCredit());
+    }
+    return t80;
 }

@@ -1,62 +1,38 @@
 /* Straight-line functions with calls and guards (batch gen_px): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int);
-int Put_TimeUp(void);
+int NextWindow(int);
+int PutVM_Message(int, int, int, float, float);
+int windowEnterStep(int);
+int windowOpenStep(int);
+int windowCardMissing(void);
 
-int Put_TimeUp(void)
+int windowCardMissing(void)
 {
-    int t0;
-    int t1;
-    int t4;
-    float u6;
-    float u8;
-    float u9;
-    int t12;
-    int t19;
     int t13;
-    int t16;
-    int t15;
 
-    t0 = *(int *)0xC2A8FC4;
-    if ((int)t0 < (int)0xA) {
-        t1 = *(int *)0xC2A8FC4;
-        *(unsigned int *)0xC2A8FC4 = (t1 + 0x1);
-    } else {
-        *(unsigned int *)0xC2A8FC4 = 0xA;
-    }
-    t4 = *(int *)0xC2A8FC4;
-    *(float *)0xC2A898C = ((float)t4 / 10.0f);
-    *(float *)0xC2A8990 = ((float)t4 / 10.0f);
-    nlObjPutSetFadeColor(1.0f, 1.0f, 0.699999988f);
-    *(unsigned int *)0xC2A897C = 0x1A3;
-    u6 = *(float *)0xC2A898C;
-    *(float *)0xC2A8980 = ((-(u6 * 32.0f)) + 320.0f);
-    *(unsigned int *)0xC2A89A4 = 0x0;
-    nlSprPut(0xC2A897C);
-    *(unsigned int *)0xC2A897C = 0x1A4;
-    u8 = *(float *)0xC2A898C;
-    u9 = 320.0f;
-    u9 = u9 + 128.0f * u8;
-    *(float *)0xC2A8980 = u9;
-    nlSprPut(0xC2A897C);
-    ResetFadeColor();
-    t12 = *(int *)0xC2A8FC4;
-    t19 = t12;
-    if (t12 == 10) {
-        t13 = *(int *)0xC2A8FC8;
-        t16 = t12;
-        if (t13 == 0) {
-            Voice_ShutUp(0x0);
-            t15 = Voice_Request(0xC130B90, 0x0, 0x7F, 0x0);
-            *(unsigned int *)0xC2A8FC8 = 0x1;
-            t16 = t15;
+    windowOpenStep(0x14);
+    PutVM_Message(0x20, 0x0, 0x0, 160.0f, 144.0f);
+    PutVM_Message(0x20, 0x1, 0x0, 160.0f, 176.0f);
+    PutVM_Message(0x20, 0x2, 0xC2A1238, 160.0f, 208.0f);
+    PutVM_Message(0x20, 0x3, 0x0, 160.0f, 272.0f);
+    PutVM_Message(0x20, 0x4, 0x0, 160.0f, 304.0f);
+    if (((*(int *)0xC2A1208) & 4) != 0) {
+        if ((*(int *)0xC2A121C) == 1) {
+            *(unsigned int *)0xC2A121C = 0x2;
+            *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x9);
+            t13 = 0x5;
+            if ((*(int *)0xC2A1224) == 0) {
+                t13 = 0x4;
+            }
+            NextWindow(t13);
+        } else {
+            if (((*(int *)0xC2A11CC) & 1) != 0) {
+                *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x9);
+                *(unsigned int *)0xC2A121C = 0x0;
+                NextWindow(0x9);
+            }
         }
-        t19 = t16;
     }
-    return t19;
+    return windowEnterStep(0x14);
 }

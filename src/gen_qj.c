@@ -1,39 +1,50 @@
 /* Straight-line functions with calls and guards (batch gen_qj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckSetDrive(int, int);
-int buGetDiskInfo(int, int);
-int memset(int, int, int);
-void BupCompleteCallback(int a4, int a5, int a6);
+void carBoxVertexInit(void);
 
-void BupCompleteCallback(int a4, int a5, int a6)
+void carBoxVertexInit(void)
 {
+    int t0;
+    int t1;
+    int t2;
     int t4;
+    int t8;
+    int t10;
+    int t12;
+    int stk[12] = {0};
 
-    if (a5 != 1) {
-        if (a5 != 2) {
-            *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x4)) = a6;
-            buGetDiskInfo(a4, (((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x14));
-        } else {
-            *(unsigned short *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x0)) = 0x0;
-            *(unsigned short *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x2)) = 0x0;
-            *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x8)) = 0x0;
-            *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0xC)) = 0x0;
-            *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x10)) = 0x0;
-            memset((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x14), 0x0, 0x38);
-        }
-    } else {
-        if (a6 == 0) {
-            *(unsigned short *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x0)) = 0x1;
-            t4 = buGetDiskInfo(a4, (((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x14));
-            if (t4 == 0) {
-                *(unsigned short *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x2)) = 0x1;
+    t0 = 0x0;
+    for (;;) {
+        t1 = ((short)(((((t0 << 1) + t0) << 2) << 2) << 1) + 0xC2A465C);
+        t2 = 0x0;
+        for (;;) {
+            t4 = t1;
+            t1 = (t1 + 0xC);
+            *(float *)((((int)stk + 4) + 0x4)) = ((*(float *)((((((t0 << 2) << 2) + 0xC0ED68C) + 0x4) + 0x0))) * (float)t2);
+            *(float *)((((int)stk + 4) + 0x0)) = (-(*(float *)(((((t0 << 2) << 2) + 0xC0ED68C) + 0x0))));
+            *(float *)((((int)stk + 4) + 0x8)) = (*(float *)((((((t0 << 2) << 2) + 0xC0ED68C) + 0xC) + 0x0)));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(t4) = *(struct mv3 *)(((int)stk + 4)); }
+            *(float *)((((int)stk + 4) + 0x0)) = (*(float *)(((((t0 << 2) << 2) + 0xC0ED68C) + 0x0)));
+            t8 = t1;
+            t1 = (t1 + 0xC);
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(t8) = *(struct mv3 *)(((int)stk + 4)); }
+            *(float *)((((int)stk + 4) + 0x8)) = (*(float *)((((((t0 << 2) << 2) + 0xC0ED68C) + 0x8) + 0x0)));
+            t10 = t1;
+            t1 = (t1 + 0xC);
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(t10) = *(struct mv3 *)(((int)stk + 4)); }
+            t12 = t1;
+            t1 = (t1 + 0xC);
+            *(float *)((((int)stk + 4) + 0x0)) = (-(*(float *)(((((t0 << 2) << 2) + 0xC0ED68C) + 0x0))));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(t12) = *(struct mv3 *)(((int)stk + 4)); }
+            t2 = (t2 + 0x1);
+            if ((int)t2 >= (int)0x2) {
+                break;
             }
-            *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x4)) = 0x0;
         }
-    }
-    *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x10)) = 0x0;
-    if (a5 == 2) {
-        CheckSetDrive(a4, a5);
+        t0 = (t0 + 0x1);
+        if ((int)t0 >= (int)0xF) {
+            break;
+        }
     }
 }

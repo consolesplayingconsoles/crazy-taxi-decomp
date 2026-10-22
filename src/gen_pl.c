@@ -1,92 +1,226 @@
 /* Straight-line functions with calls and guards (batch gen_pl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float carSlipRatio(float f4, float f5);
+int rtcGetSeconds(void);
+int Result_Insert_Rank(int a4, int a5, int a6, int a7);
 
-float carSlipRatio(float f4, float f5)
+int Result_Insert_Rank(int a4, int a5, int a6, int a7)
 {
-    float u0;
-    int t20;
-    float u3;
-    float u4;
-    float u5;
-    float u1;
-    float u10;
-    float u11;
-    float u7;
-    int t40;
-    float u23;
-    float u24;
-    float u25;
-    float u21;
-    float u30;
-    float u31;
-    float u27;
-    float u49;
-    float u47;
-    float u19;
-    float u39;
+    int t0;
+    int t1;
+    int t4;
+    int t5;
+    int t56;
+    int t2;
+    int t3;
+    int t6;
+    int t7;
+    int t11;
+    int t12;
 
-    u0 = *(float *)0xC0218FC;
-    if (!(f5 > f4)) {
-        t20 = 0;
-        if (f4 != 0.0f) {
-            u3 = _builtin_fabsf(((f4 - f5) / f4));
-            u4 = f4;
-            u5 = _builtin_fabsf(((f4 - f5) / f4));
-            if (u0 > _builtin_fabsf(f4)) {
-                u1 = *(float *)0xC021900;
-                u3 = u1;
-                u4 = _builtin_fabsf((f4 / u1));
-                u5 = (_builtin_fabsf(((f4 - f5) / f4)) * _builtin_fabsf((f4 / u1)));
-            }
-            _builtin_fabsf(f4);
-            u19 = u5;
-            t20 = ((u0 > _builtin_fabsf(f4)));
-        } else {
-            u10 = f5;
-            u11 = 0.0f;
-            if (f5 != 0.0f) {
-                u7 = *(float *)0xC021900;
-                u10 = _builtin_fabsf((f5 / u7));
-                u11 = (_builtin_fabsf((f5 / u7)) * 1.0f);
-            }
-            u19 = u11;
-            t20 = ((f5 == 0.0f));
-        }
-        u47 = u19;
-    } else {
-        t40 = 0;
-        if (f5 != 0.0f) {
-            u23 = _builtin_fabsf(((f5 - f4) / f5));
-            u24 = f5;
-            u25 = _builtin_fabsf(((f5 - f4) / f5));
-            if (u0 > _builtin_fabsf(f5)) {
-                u21 = *(float *)0xC021900;
-                u23 = u21;
-                u24 = _builtin_fabsf((f5 / u21));
-                u25 = (_builtin_fabsf(((f5 - f4) / f5)) * _builtin_fabsf((f5 / u21)));
-            }
-            _builtin_fabsf(f5);
-            u39 = u25;
-            t40 = ((u0 > _builtin_fabsf(f5)));
-        } else {
-            u30 = f4;
-            u31 = 0.0f;
-            if (f4 == 0.0f) {
+    t0 = rtcGetSeconds();
+    t1 = t0;
+    t4 = 0x63;
+    t5 = a7;
+    for (;;) {
+        if ((int)t4 >= (int)((*(int *)0xC2A97DC) - 1)) {
+            t7 = t4;
+            t6 = (*(int *)0xC1EE210);
+            t7 = (t7 - 20);
+            t3 = 0x1E30;
+            t7 = (t7 << 2);
+            t3 = (t3 + 0xC28A4E8);
+            t7 = (t7 << 1);
+            t6 = ((short)t6 * (short)0x3C0);
+            t6 = (short)t6;
+            t6 = (t6 + t3);
+            t1 = t4;
+            if ((t1 == 99) && (t2 = 0xC2A97DC, t11 = *(int *)((t2 + 0x0)), t12 = (t1 == 99), t1 = t11, t1 == 100)) {
+                t3 = (*(int *)0xC2A7600);
+                t2 = (*(int *)((t3 + 0x0)));
+                t3 = 0x3C0;
+                t1 = 0x140;
+                *(unsigned int *)((((0x140 + t6) + t7) + 0x0)) = t2;
+                t2 = 0x1E30;
+                t2 = (t2 + 0xC28A4E8);
+                t1 = (t1 + ((short)((short)(*(int *)0xC1EE210) * (short)t3) + t2));
+                t1 = (t1 + t7);
+                *(unsigned int *)((t1 + 0x4)) = t0;
             } else {
-                u27 = *(float *)0xC021900;
-                u30 = _builtin_fabsf((f4 / u27));
-                u31 = (_builtin_fabsf((f4 / u27)) * 1.0f);
+                t3 = 0x14;
+                if ((int)t4 >= (int)t3) {
+                    t1 = t4;
+                    if (t1 != 99) {
+                        t5 = 0x140;
+                        t2 = 0x1E30;
+                        t5 = (t5 + t6);
+                        t1 = 0x140;
+                        t5 = (t5 + t7);
+                        t2 = (t2 + 0xC28A4E8);
+                        *(unsigned int *)((t5 + 0x8)) = (*(int *)((t5 + 0x0)));
+                        t5 = (*(int *)0xC1EE210);
+                        t5 = ((short)t5 * (short)0x3C0);
+                        t5 = (short)t5;
+                        t5 = (t5 + t2);
+                        t5 = (t5 + t1);
+                        t5 = (t5 + t7);
+                        t3 = (*(int *)((t5 + 0x4)));
+                        *(unsigned int *)((t5 + 0xC)) = t3;
+                    }
+                    if (t4 == ((*(int *)0xC2A97DC) - 1)) {
+                        t3 = 0x3C0;
+                        t2 = 0x1E30;
+                        t1 = 0x140;
+                        t2 = (t2 + 0xC28A4E8);
+                        t1 = (t1 + ((short)((short)(*(int *)0xC1EE210) * (short)t3) + t2));
+                        t1 = (t1 + t7);
+                        t2 = (*(int *)(((*(int *)0xC2A7600) + 0x0)));
+                        *(unsigned int *)((t1 + 0x0)) = t2;
+                        t2 = 0x1E30;
+                        t1 = 0x140;
+                        t2 = (t2 + 0xC28A4E8);
+                        t1 = (t1 + ((short)((short)(*(int *)0xC1EE210) * (short)t3) + t2));
+                        t1 = (t1 + t7);
+                        *(unsigned int *)((t1 + 0x4)) = t0;
+                    }
+                } else {
+                    t7 = t4;
+                    t7 = (t7 << 2);
+                    t1 = t4;
+                    t7 = (t7 << 2);
+                    if (t1 == 19) {
+                        t2 = (*(int *)(((t6 + t7) + 0x0)));
+                        t3 = 0x1E30;
+                        t1 = 0x140;
+                        t3 = (t3 + 0xC28A4E8);
+                        *(unsigned int *)((t6 + t1)) = t2;
+                        t1 = (t1 + 0x4);
+                        t5 = (*(int *)0xC1EE210);
+                        t5 = ((short)t5 * (short)0x3C0);
+                        t5 = (short)t5;
+                        t5 = (t5 + t3);
+                        t2 = t5;
+                        t2 = (t2 + t7);
+                        t3 = (*(int *)((t2 + 0xC)));
+                        *(unsigned int *)((t5 + t1)) = t3;
+                    } else {
+                        t5 = t6;
+                        t5 = (t5 + t7);
+                        t2 = 0x1E30;
+                        *(unsigned int *)((t5 + 0x10)) = (*(int *)((t5 + 0x0)));
+                        t2 = (t2 + 0xC28A4E8);
+                        t5 = (*(int *)0xC1EE210);
+                        t5 = ((short)t5 * (short)0x3C0);
+                        t5 = (short)t5;
+                        t5 = (t5 + t2);
+                        t2 = 0x14;
+                        t5 = (t5 + t7);
+                        t2 = (t2 + t5);
+                        t1 = (*(signed char *)((t5 + 0x4)));
+                        *(unsigned char *)((t2 + 0x0)) = t1;
+                        t5 = (*(int *)0xC1EE210);
+                        t2 = 0x1E30;
+                        t2 = (t2 + 0xC28A4E8);
+                        t5 = ((short)t5 * (short)0x3C0);
+                        t5 = (short)t5;
+                        t5 = (t5 + t2);
+                        t2 = 0x15;
+                        t5 = (t5 + t7);
+                        t2 = (t2 + t5);
+                        t1 = (*(signed char *)((t5 + 0x5)));
+                        *(unsigned char *)((t2 + 0x0)) = t1;
+                        t5 = (*(int *)0xC1EE210);
+                        t5 = ((short)t5 * (short)0x3C0);
+                        t2 = 0x1E30;
+                        t5 = (short)t5;
+                        t2 = (t2 + 0xC28A4E8);
+                        t5 = (t5 + t2);
+                        t5 = (t5 + t7);
+                        t1 = (*(int *)((t5 + 0xC)));
+                        *(unsigned int *)((t5 + 0x1C)) = t1;
+                        t5 = 0x0;
+                        for (;;) {
+                            t6 = (*(int *)0xC1EE210);
+                            t3 = 0x1E30;
+                            t3 = (t3 + 0xC28A4E8);
+                            t6 = ((short)t6 * (short)0x3C0);
+                            t6 = (short)t6;
+                            t6 = (t6 + t3);
+                            t6 = (t6 + t7);
+                            t3 = t6;
+                            t2 = t6;
+                            t3 = (t3 + 0x6);
+                            t2 = (t2 + 0x16);
+                            t3 = (t3 + t5);
+                            t2 = (t2 + t5);
+                            t1 = (*(signed char *)((t3 + 0x0)));
+                            t5 = (t5 + 0x1);
+                            *(unsigned char *)((t2 + 0x0)) = t1;
+                            if ((int)t5 >= (int)0x3) {
+                                break;
+                            }
+                        }
+                    }
+                    if (t4 != ((*(int *)0xC2A97DC) - 1)) {
+                    } else {
+                        t3 = 0x3C0;
+                        t2 = 0x1E30;
+                        t2 = (t2 + 0xC28A4E8);
+                        t1 = ((short)((short)(*(int *)0xC1EE210) * (short)t3) + t2);
+                        t1 = (t1 + t7);
+                        t2 = (*(int *)(((*(int *)0xC2A7600) + 0x0)));
+                        *(unsigned int *)((t1 + 0x0)) = t2;
+                        t2 = 0x1E30;
+                        t2 = (t2 + 0xC28A4E8);
+                        t1 = ((short)((short)(*(int *)0xC1EE210) * (short)t3) + t2);
+                        t2 = 0xC1794D0;
+                        t1 = (t1 + t7);
+                        t56 = *(signed char *)((t2 + 0x0));
+                        t2 = 0x4;
+                        t2 = (t2 + t1);
+                        *(unsigned char *)((t2 + 0x0)) = t56;
+                        t1 = (*(int *)0xC1EE210);
+                        t1 = ((short)t1 * (short)t3);
+                        t1 = (short)t1;
+                        t1 = (t1 + 0xC28C318);
+                        t2 = t1;
+                        t2 = (t2 + t7);
+                        t1 = (*(signed char *)0xC2A96F0);
+                        *(unsigned char *)((t2 + 0x5)) = t1;
+                        t2 = (*(int *)0xC1EE210);
+                        t2 = ((short)t2 * (short)t3);
+                        t2 = (short)t2;
+                        t2 = (t2 + 0xC28C318);
+                        t1 = t2;
+                        t1 = (t1 + t7);
+                        t5 = 0x0;
+                        *(unsigned int *)((t1 + 0xC)) = t0;
+                        for (;;) {
+                            t2 = 0x2A;
+                            t1 = (*(int *)0xC1EE210);
+                            t3 = 0x1E30;
+                            t3 = (t3 + 0xC28A4E8);
+                            t1 = ((short)t1 * (short)0x3C0);
+                            t1 = (short)t1;
+                            t1 = (t1 + t3);
+                            t1 = (t1 + t7);
+                            t3 = t1;
+                            t3 = (t3 + 0x6);
+                            t3 = (t3 + t5);
+                            t5 = (t5 + 0x1);
+                            *(unsigned char *)((t3 + 0x0)) = t2;
+                            if ((int)t5 >= (int)0x3) {
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            u39 = u31;
-            t40 = ((f4 == 0.0f));
+            t4 = (t4 - 1);
+            continue;
         }
-        u47 = u39;
+        break;
     }
-    u49 = u47;
-    if (u47 > 1.0f) {
-        u49 = 1.0f;
-    }
-    return u49;
+    *(unsigned int *)0xC1789C0 = ((*(int *)0xC1789C0) + 0x1);
+    return t1;
 }

@@ -215,73 +215,6 @@ int SJMEM_UngetChunk(int a4, int a5, int a6)
     return SJMEM_Unlock(a4, t0);
 }
 
-int usr_gd_err_func(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t30;
-    int t2;
-    int t3;
-    int t16;
-    int t4;
-    int t5;
-    int t15;
-    int t17;
-    int t18;
-    int t28;
-    int t29;
-    int stk[5];
-
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t0 = *(int *)0xC2A11B8;
-    t1 = buStat();
-    t30 = t1;
-    if (t1 != -1) {
-        t2 = *(int *)(((int)stk + 4));
-        if (t2 != -23) {
-            t3 = *(int *)(((int)stk + 4));
-            t16 = t3;
-            if (t3 == -33) {
-                t4 = *(signed char *)0xC08AAEE;
-                *(unsigned char *)(((int)stk + 12)) = t4;
-                t5 = *(signed char *)0xC08AAEF;
-                *(unsigned char *)(((int)stk + 8)) = t5;
-                pdVibSetStopTime(0x2, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x1);
-                ADXT_Init();
-                thunk_syCfgExit();
-                vmuExit();
-                syRtcFinish();
-                pdExitPeripheral();
-                discardVertexBuffer();
-                FUN_0c14f59e();
-                syHwFinish();
-                _builtin_set_imask(0xF);
-                t15 = syBtExit();
-                t16 = t15;
-            }
-            t29 = t16;
-        } else {
-            t17 = *(signed char *)0xC08AAEE;
-            *(unsigned char *)(((int)stk + 12)) = t17;
-            t18 = *(signed char *)0xC08AAEF;
-            *(unsigned char *)(((int)stk + 8)) = t18;
-            pdVibSetStopTime(0x2, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x1);
-            ADXT_Init();
-            thunk_syCfgExit();
-            vmuExit();
-            syRtcFinish();
-            pdExitPeripheral();
-            discardVertexBuffer();
-            FUN_0c14f59e();
-            syHwFinish();
-            _builtin_set_imask(0xF);
-            t28 = syBtExit();
-            t29 = t28;
-        }
-        t30 = t29;
-    }
-    return t30;
-}
 
 int buInit(int a4, int a5, int a6, int a7)
 {
@@ -957,3 +890,5 @@ int vmsfs_format(int a4, int a5, int a6, int a7, int a8)
     }
     return t159;
 }
+
+
