@@ -10,6 +10,7 @@
   },
   "project": "Crazy Taxi decomp",
   "status": "in-progress",
+  "toolchain": "dc-decomp-kickoff",
   "approach": "Names applied from the SDK, one assembly file per function, rebuilt byte for byte; a function is done when its C behaves like the original",
   "maintainers": [
     {
@@ -21,6 +22,10 @@
     {
       "label": "Shuriken Explorer",
       "url": "https://consolesplayingconsoles.github.io/dc-shuriken-explorer/"
+    },
+    {
+      "label": "dc-decomp-kickoff",
+      "url": "https://github.com/consolesplayingconsoles/dc-decomp-kickoff"
     }
   ]
 }
