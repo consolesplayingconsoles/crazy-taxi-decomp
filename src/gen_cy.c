@@ -29,63 +29,6 @@ int FUN_0c085dfc(int a4, int a5, int a6)
     return t0;
 }
 
-int nlPopMatrix(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    float u5;
-    float u6;
-    float u7;
-    float u8;
-    float u9;
-    float u10;
-    float u11;
-    float u12;
-    float u13;
-    float u14;
-    float u15;
-    float u16;
-    float u17;
-    float u18;
-    float u19;
-    float u20;
-
-    t0 = a4;
-    if ((int)a4 <= 0) {
-        t0 = 0x1;
-    }
-    t1 = *(short *)0xC2B31DC;
-    t2 = *(short *)0xC2B31DE;
-    t3 = (t1 - t0);
-    if ((int)t1 < (int)t0) {
-        t3 = 0x0;
-    }
-    t4 = *(int *)0xC2B31E0;
-    *(unsigned short *)0xC2B31DC = t3;
-    if ((int)t3 < (int)t2) {
-        *(unsigned int *)0xC2B31E4 = (t4 + ((unsigned int)(t3 << 8) >> 2));
-    }
-    u5 = *(float *)(((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x0));
-    u6 = *(float *)((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x0) + 4));
-    u7 = *(float *)((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x0));
-    u8 = *(float *)(((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x0) + 4));
-    u9 = *(float *)(((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x0));
-    u10 = *(float *)((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x0) + 4));
-    u11 = *(float *)((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x0));
-    u12 = *(float *)(((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x0) + 4));
-    u13 = *(float *)(((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0));
-    u14 = *(float *)((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0) + 4));
-    u15 = *(float *)((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0));
-    u16 = *(float *)(((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0) + 4));
-    u17 = *(float *)(((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0));
-    u18 = *(float *)((((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0) + 4));
-    u19 = *(float *)((((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0));
-    u20 = *(float *)(((((((((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x8) + 0x0) + 4));
-    return ((((int)t1 >= (int)t0)) ? 1 : 0);
-}
 
 int FUN_0c07e960(int a4, int a5, int a6, int a7)
 {

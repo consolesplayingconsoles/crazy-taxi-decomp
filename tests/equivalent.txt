@@ -178,6 +178,8 @@ ADX_DecodeInfoExADPCM2
 ADX_DecodeInfoExLoop
 ADX_DecodeInfoSpsd
 ADX_DecodeInfoWav
+ADX_DecodeSteFloat
+ADX_GetCoefficient
 Act_Execute
 Act_Init
 Advtise
@@ -213,8 +215,11 @@ CourseSplineNumGet
 DECtoBCD
 DispVector
 Drv_Execute
+Drv_Init
 Drv_PickSomeoneUp
 Drv_StartAction
+ExecAdvCamera
+ExecArrow
 ExecColliObj
 ExecEffect
 ExecHelicopter
@@ -238,6 +243,7 @@ FUN_0c01098c
 FUN_0c0109c4
 FUN_0c010a98
 FUN_0c010f3e
+FUN_0c011088
 FUN_0c0110e6
 FUN_0c01117e
 FUN_0c0111e8
@@ -262,12 +268,15 @@ FUN_0c021600
 FUN_0c0217b4
 FUN_0c021836
 FUN_0c02187a
+FUN_0c021970
 FUN_0c022102
 FUN_0c022250
 FUN_0c022358
 FUN_0c02238e
 FUN_0c022410
+FUN_0c0227c8
 FUN_0c0230bc
+FUN_0c0231b4
 FUN_0c0246dc
 FUN_0c025b30
 FUN_0c028760
@@ -403,9 +412,12 @@ FUN_0c03495c
 FUN_0c0349d8
 FUN_0c034a4a
 FUN_0c034b5e
+FUN_0c034cf2
 FUN_0c034fa8
 FUN_0c035134
 FUN_0c0351da
+FUN_0c035304
+FUN_0c0354f8
 FUN_0c0357b0
 FUN_0c036256
 FUN_0c036378
@@ -419,6 +431,8 @@ FUN_0c037534
 FUN_0c0376b0
 FUN_0c03864e
 FUN_0c038688
+FUN_0c038776
+FUN_0c0388a4
 FUN_0c038a00
 FUN_0c038b08
 FUN_0c038c34
@@ -448,6 +462,7 @@ FUN_0c03974c
 FUN_0c0397e8
 FUN_0c0399b8
 FUN_0c039ad4
+FUN_0c039c1c
 FUN_0c039cd2
 FUN_0c039e58
 FUN_0c03a07c
@@ -509,6 +524,7 @@ FUN_0c03b158
 FUN_0c03b544
 FUN_0c03b600
 FUN_0c03b674
+FUN_0c03b698
 FUN_0c03b788
 FUN_0c03b81e
 FUN_0c03bea0
@@ -569,7 +585,9 @@ FUN_0c041016
 FUN_0c0411a8
 FUN_0c0413c2
 FUN_0c0417c0
+FUN_0c0418b8
 FUN_0c041a3e
+FUN_0c041b04
 FUN_0c041c14
 FUN_0c041cb4
 FUN_0c041ce2
@@ -598,14 +616,17 @@ FUN_0c04a52a
 FUN_0c04a8b6
 FUN_0c04aac6
 FUN_0c04ac8c
+FUN_0c04af54
 FUN_0c04bb70
 FUN_0c04bec2
 FUN_0c04bef4
 FUN_0c04bf14
 FUN_0c04bf1a
+FUN_0c04bff2
 FUN_0c04c0dc
 FUN_0c04c104
 FUN_0c04d1ac
+FUN_0c04d240
 FUN_0c04d30a
 FUN_0c04d330
 FUN_0c04d3ee
@@ -707,6 +728,7 @@ FUN_0c05473e
 FUN_0c054786
 FUN_0c054a38
 FUN_0c054a9e
+FUN_0c054ffe
 FUN_0c0551c6
 FUN_0c0552b0
 FUN_0c055310
@@ -842,6 +864,7 @@ FUN_0c05e944
 FUN_0c05ea98
 FUN_0c05ead0
 FUN_0c05eb52
+FUN_0c05ecae
 FUN_0c05ef68
 FUN_0c05f482
 FUN_0c05f498
@@ -894,6 +917,7 @@ FUN_0c0621a0
 FUN_0c06278e
 FUN_0c062824
 FUN_0c062d26
+FUN_0c062da4
 FUN_0c062ea0
 FUN_0c062f5e
 FUN_0c062f84
@@ -902,6 +926,7 @@ FUN_0c063034
 FUN_0c063058
 FUN_0c06307c
 FUN_0c0630a2
+FUN_0c0630d2
 FUN_0c063150
 FUN_0c0631c6
 FUN_0c0631fe
@@ -946,6 +971,7 @@ FUN_0c067a28
 FUN_0c067a3e
 FUN_0c067b30
 FUN_0c067b8e
+FUN_0c067c14
 FUN_0c06b028
 FUN_0c06b0ce
 FUN_0c06b0ee
@@ -1038,6 +1064,7 @@ FUN_0c076200
 FUN_0c0762d0
 FUN_0c076670
 FUN_0c076f70
+FUN_0c0770f0
 FUN_0c077170
 FUN_0c0771b0
 FUN_0c0771d0
@@ -1117,6 +1144,7 @@ FUN_0c07b980
 FUN_0c07b9d0
 FUN_0c07b9e0
 FUN_0c07ba40
+FUN_0c07ba90
 FUN_0c07bc00
 FUN_0c07bd30
 FUN_0c07bde0
@@ -1158,7 +1186,9 @@ FUN_0c07d540
 FUN_0c07d5c0
 FUN_0c07d5f0
 FUN_0c07d620
+FUN_0c07d650
 FUN_0c07d6a0
+FUN_0c07d6e0
 FUN_0c07d7a0
 FUN_0c07db40
 FUN_0c07dc10
@@ -1257,6 +1287,9 @@ FUN_0c14df90
 FUN_0c14e03a
 FUN_0c14e2ac
 FUN_0c14ec64
+FUN_0c14ecd0
+FUN_0c14ef2e
+FUN_0c14f182
 FUN_0c14f3d6
 FUN_0c14f59e
 FUN_0c14f5a2
@@ -1271,6 +1304,7 @@ FUN_0c1519a4
 FUN_0c1519be
 FUN_0c151b04
 FUN_0c151b9c
+FUN_0c151cac
 FUN_0c152292
 FUN_0c152298
 FUN_0c1522f0
@@ -1431,6 +1465,7 @@ FUN_0c169514
 FUN_0c1696c4
 FUN_0c1697c2
 FUN_0c1697c4
+FUN_0c1697ee
 FUN_0c169a1c
 FUN_0c16ad8a
 FUN_0c16af38
@@ -1564,9 +1599,13 @@ KillColliObj
 LetsPlayTennis
 LightEffect
 LoadBackupData
+MainLoop
 MakeKyakuTakeArea
+Model_Put_Sprite3D
 PAL_FreeTexture
 PC_RenderSimpleTaxiShadow
+ParkingCarInit
+PcarEvInit
 PcarInit
 Psg_ChoinIt
 Psg_Execute
@@ -1590,7 +1629,6 @@ Put_Course_Obj_Dist
 Put_Credits
 Put_GearBox
 Put_Max_Combo
-Put_Motion2D
 Put_ReadySetGo
 Put_SEGA_LOGO2
 Put_TotalDrum
@@ -1602,6 +1640,7 @@ ResetSpark
 SJMEM_Create
 SJMEM_Destroy
 SJMEM_EntryErrFunc
+SJMEM_Error
 SJMEM_Finish
 SJMEM_GetBufPtr
 SJMEM_GetBufSize
@@ -1617,6 +1656,7 @@ SJMEM_Unlock
 SJRBF_Create
 SJRBF_Destroy
 SJRBF_EntryErrFunc
+SJRBF_Error
 SJRBF_Finish
 SJRBF_GetBufPtr
 SJRBF_GetBufSize
@@ -1634,6 +1674,7 @@ SJRBF_Unlock
 SJUNI_Create
 SJUNI_Destroy
 SJUNI_EntryErrFunc
+SJUNI_Error
 SJUNI_Finish
 SJUNI_GetChunk
 SJUNI_GetNumChainPool
@@ -1654,6 +1695,7 @@ SetCameraPosRatio
 SetCameraPosVelocity
 SetCameraTargetRatio
 SetColliObj
+SetEffect
 SetFadeColorBase
 SetFadeColorBaseMulti
 SetFadeColorMulti
@@ -1666,11 +1708,13 @@ SetSEvolume
 SetSpark
 SetStartCamera
 Set_StandWaitDist
+ShallWeHaveSomeRelaxation
 SklIpPlay
 SklPlay
 SklSfPlay
 Sound_Init
 Sound_Request
+Start_Fog
 Start_Proposal
 StopingCarInit
 TOANG
@@ -1765,6 +1809,7 @@ buIsFormat
 buIsReady
 buLoadFile
 buLoadFileEx
+buMakeBackupFileImage
 buMount
 buMountDisk
 buOpenFile
@@ -1799,6 +1844,7 @@ camSetEye
 camSetMode
 camSetTarget
 camSnapToCar
+camUpdate
 carBalance
 carColliReflection
 carEntry
@@ -1832,7 +1878,9 @@ drvAccelDot
 drvJolt
 entryCarPut
 execAdvSprite
+execDCmini
 execMiniLight
+exec_CarMain
 exec_KyakuMain
 exec_loop_Replay
 extRand
@@ -1964,15 +2012,18 @@ kmChangeContextClampUV
 kmChangeContextColorClamp
 kmChangeContextColorType
 kmChangeContextCullingMode
+kmChangeContextDSTBlendMode
 kmChangeContextDepthMode
 kmChangeContextFilterMode
 kmChangeContextFlipUV
 kmChangeContextFogMode
 kmChangeContextPaletteBank
+kmChangeContextSRCBlendMode
 kmChangeContextStripLength
 kmChangeContextSuperSample
 kmChangeContextUserClipMode
 kmChangeContextZWriteDisable
+kmChangeDisplayFilterMode
 kmChangeLatencyModel
 kmChangeVertexOffset
 kmChangeVertexPCW
@@ -2085,6 +2136,7 @@ kmiFBreset
 kmiFatalErrorEntry
 kmiFinalizeRender
 kmiFlipVertexBuffer
+kmiGetDisplayData
 kmiGetNativeRegOBPSize
 kmiGetPackOBPParam
 kmiGetProfileInt
@@ -2243,6 +2295,7 @@ mwRnaStop
 mwRnaUnlockCs
 mwlRnaAddFlshPos
 mwlRnaAddRdPos
+mwlRnaAddWrPos
 mwlRnaAlloc
 mwlRnaClearBuf
 mwlRnaExecSvrHndl
@@ -2360,6 +2413,7 @@ nlObjPutTrnsl
 nlObjPutUseViewMatrix
 nlObjPutUseViewMatrixTrnsl
 nlOuterProduct
+nlPerspective
 nlPopMatrix
 nlPow
 nlPrintColor
@@ -2512,6 +2566,7 @@ pdVibStart
 pdVmsLcdWrite
 pdVmsLcdWrite1
 pedDodgeCheck
+pedDraw
 pedInit
 pedPickIdle
 pedSpawn
@@ -2537,6 +2592,7 @@ psgFaceTaxi
 psgFrame
 psgFrameState0
 psgFrameState1
+psgFrameState2
 psgFrameState3
 psgFrameState4
 psgFrameState5
@@ -2603,6 +2659,7 @@ syCfgIIDCheckSum
 syCfgInit
 syCfgSetSoundMode
 syChainClx1Handler
+syChainDeleteHandler
 syChainInit
 syChainMasterHandler
 syChainMasterHandlerPVR_V
@@ -2613,6 +2670,7 @@ syG2DmaResume
 syG2DmaResumeAll
 syG2DmaSetProtect
 syG2DmaSuspendAll
+syG2Read
 syG2SysInit
 syHwCacheFinish
 syHwFinish
@@ -2661,6 +2719,7 @@ trafficControl
 trafficLevelControl
 trafficSectionControl
 trailerExec
+trainCarExec
 trainControlExec
 trainControlInit
 trainExec
@@ -2697,6 +2756,7 @@ vmsfs_diskfree
 vmsfs_exit
 vmsfs_fclose
 vmsfs_fcreate
+vmsfs_fdelete_ex
 vmsfs_fgetinfo
 vmsfs_fgetsize
 vmsfs_findfirst

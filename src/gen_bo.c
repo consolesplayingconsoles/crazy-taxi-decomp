@@ -41,46 +41,4 @@ float FUN_0c089de8(int a4)
     return u1;
 }
 
-float nlRotateAY(int a4)
-{
-    float u0;
-    float u1;
-    float u2[4];
-    float u3[4];
 
-    u0 = iaFscaS(a4);
-    u1 = iaFscaC(a4);
-    u2[0] = u1;
-    u2[1] = 0.0f;
-    u2[2] = (-u0);
-    u2[3] = 0.0f;
-    _builtin_ftrv(u2, u2);
-    u3[0] = u0;
-    u3[1] = 0.0f;
-    u3[2] = u1;
-    u3[3] = 0.0f;
-    _builtin_ftrv(u3, u3);
-    return u2[0];
-}
-
-float nlRotateAX(int a4)
-{
-    float u0;
-    float u1;
-    float u2[4];
-    float u3[4];
-
-    u0 = iaFscaS(a4);
-    u1 = iaFscaC(a4);
-    u2[0] = 0.0f;
-    u2[1] = u1;
-    u2[2] = u0;
-    u2[3] = 0.0f;
-    _builtin_ftrv(u2, u2);
-    u3[0] = 0.0f;
-    u3[1] = (-u0);
-    u3[2] = u1;
-    u3[3] = 0.0f;
-    _builtin_ftrv(u3, u3);
-    return u2[0];
-}

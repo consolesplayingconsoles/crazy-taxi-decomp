@@ -65,9 +65,10 @@ def build(name,ret,passthru=False):
             for dcl in list(decls):
                 nm=re.sub(r'\[.*','',dcl.split()[1].rstrip(';'))      # an array's name without its size
                 occ=len(re.findall(r'\b%s\b'%nm,text))
-                lhs=re.findall(r'^\s*%s = ([^\n]*);$'%nm,text,flags=re.M)
+                lhs=re.findall(r'(?:^[ \t]*|(?<=; ))%s = ([^;\n]*);'%nm,text,flags=re.M)      # one statement: a line can hold `t6 = t5; break;`
                 if occ==len(lhs) and all(('*(' not in r and not re.search(r'[A-Za-z_]\w*\s*\(',r)) for r in lhs):
-                    text=re.sub(r'^\s*%s = [^\n]*;\n?'%nm,'',text,flags=re.M); decls.remove(dcl); changed=True
+                    text=re.sub(r'(?:^[ \t]*|(?<=; ))%s = [^;\n]*; ?'%nm,lambda m_:re.match(r'[ \t]*',m_.group(0)).group(0),text,flags=re.M)
+                    text=re.sub(r'^[ \t]*\n','',text,flags=re.M); decls.remove(dcl); changed=True
             t2=re.sub(r'if \([^\n]*\) \{\s*\}(?!\s*else)','',text)      # an empty if that has an else stays: dropping it would leave the else standing alone
             t2=re.sub(r' else \{\s*\}','',t2)
             if t2!=text: text=t2; changed=True
@@ -79,6 +80,13 @@ def build(name,ret,passthru=False):
         if len(re.findall(r'\b%s\b'%nm,text))==1 and re.search(r'\b%s = [A-Za-z_]\w*\('%nm,text):
             text=re.sub(r'\b%s = '%nm,'',text); decls.remove(d)
     body=text.strip('\n').split('\n')
+    # a load whose value nothing uses: the original made the read anyway (the compiler keeps a read only when it is volatile, a device
+    # register or a dummy read), so it is written as a volatile read the compiler cannot drop
+    for i_,l_ in enumerate(body):
+        m_=re.match(r'^(\s*)([tu]\d+) = \*\(((?:unsigned |signed )?(?:char|short|int)|float) \*\)(.*);$',l_)
+        if m_ and len(re.findall(r'\b%s\b'%m_.group(2),'\n'.join(body)))==1:
+            body[i_]='%s*(volatile %s *)%s;'%(m_.group(1),m_.group(3),m_.group(4))
+            decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%m_.group(2),d)]
     if frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
@@ -103,7 +111,7 @@ def addr_vals(c,basemap):
     res=[]
     for kind,e in c.mem_addrs:
         if kind=='c': res.append(e); continue
-        if re.search(r'\b[tu]\d+\b|\bstk\b|\b[RF]\d+\b|\bT_\b',e): res.append(None); continue      # a temp, the frame, or a register variable of the flat form
+        if re.search(r'\b[tu]\d+\b|\bstk\b|\b[RF]\d+\b|\bT_\b|_builtin_get_gbr',e): res.append(None); continue      # a temp, the frame, or a register variable of the flat form
         ex=e
         for k,v in basemap.items(): ex=re.sub(r'\b%s\b'%k,str(v),ex)
         ex=re.sub(r'\(\s*(?:unsigned\s+|signed\s+)?(?:short|char|int|long)\s*\)','',ex)           # a cast only narrows the seed address
@@ -146,6 +154,10 @@ def _saved_words(name):
             elif re.search(r',r15$',t) or t.startswith(('rts','bra','jmp','jsr','bsr','b')): break      # the frame is made (any change to r15), or the code branches
         _SAVED[name]=(k,spill)
     return _SAVED[name]
+def _argc(t):
+    n=G.FUNCS.get(G.canon(t)) if hasattr(G,'canon') else G.FUNCS.get(t)
+    a=G.callee_arity(n) if n else None
+    return a[0] if a else None
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -156,7 +168,7 @@ def original_runs(name,case):
     except Exception: return 0,None
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
-    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=max(100000,size*60)),'.',deep=lambda t:t in RUNTIME)
+    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     LAST_READS[:]=r.get('reads',[])
     k,spill=_saved_words(name)
     if k and not r['error']:
@@ -164,7 +176,8 @@ def original_runs(name,case):
         hi=top+(0x40 if NOSTACK[0] else 0)        # above the saved words is the caller's frame: only a function that takes stack arguments reads there
         spilled={top-4*(i+1) for i in spill}            # an argument register the prologue pushed: the body may read it back
         seen=[a&~3 for a in r.get('reads',[]) if top-4*k<=a<hi and (a&~3) not in spilled]
-        if seen and seen!=sorted(top-4*(i+1) for i in range(k) if i not in spill):      # the only other reads there are the epilogue's pops, in order     # it read its own saved registers or return address beyond the epilogue's pops: an index past the end of a local table, which the game never makes
+        above=NOSTACK[0] and any(hi<=a<sh4sim.STACK_TOP for a in r.get('reads',[]))      # past the caller's frame: an index far beyond a local table
+        if above or (seen and seen!=sorted(top-4*(i+1) for i in range(k) if i not in spill)):      # the only other reads there are the epilogue's pops, in order     # it read its own saved registers or return address beyond the epilogue's pops: an index past the end of a local table, which the game never makes
             ERRS['reads its own saved registers']=ERRS.get('reads its own saved registers',0)+1
             return None,set()
     if r['error']:
@@ -307,7 +320,8 @@ def tests(name,c,src):
             d={'about':'case %d'%i,'poke':poke}
             if regs: d['regs']=regs
             if c.ncalls or c.tail:
-                d['calls']=[dict({'r0':'%08X'%rng.choice(pool)},**({'poke_arg':{r:struct.pack('<%dI'%pw,*[rng.choice(pool) for _ in range(pw)]).hex() for r in sorted(c.frame_regs)}} if c.frame_regs else {})) for _ in range(ncalls)]
+                d['calls']=[dict({'r0':'%08X'%rng.choice(pool),'fr0':'%08X'%struct.unpack('<I',struct.pack('<f',rng.choice((0.5,1.0,2.5,-3.0,100.0,0.1))))[0]},      # fr0 too: a callee that returns a float answers there
+                                 **({'poke_arg':{r:struct.pack('<%dI'%pw,*[rng.choice(pool) for _ in range(pw)]).hex() for r in sorted(c.frame_regs)}} if c.frame_regs else {})) for _ in range(ncalls)]
                 if getattr(c,'frame_stack_call',False):          # a call that returns a structure: the callee fills the buffer its stack argument names
                     for e_ in d['calls']: e_['poke_stack']=struct.pack('<4I',*[rng.choice(pool) for _ in range(4)]).hex()
             cases.append(d)

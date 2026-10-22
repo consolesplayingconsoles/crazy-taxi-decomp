@@ -1,0 +1,270 @@
+/* Straight-line functions with calls and guards (batch gen_fn): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int FUN_0c078a70(int, int, int);
+int FUN_0c07b980(void);
+int buIsFormat(int);
+int check_isopen(void);
+int clear_file(int, int);
+int nlAddVector(int, int);
+int nlObjPutUseViewMatrix(int);
+int nlScaleVector(int, int, float);
+int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
+int nlTriPutSetClipping(int, float, float, float, float);
+int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
+int nlTriPutTextureInit(int, int, int);
+int vmsfs_unmount(int);
+int vmsio_ismount(int);
+int vmsio_isready(int);
+int write_dir(int);
+int write_fat(int);
+int FUN_0c035304(int a4);
+int vmsfs_fdelete_ex(int a4, int a5, int a6);
+
+int FUN_0c035304(int a4)
+{
+    int t1;
+    int t2;
+    float u3;
+    float u4;
+    float u5;
+    int t7;
+    int t8;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t18;
+    float u21;
+    float u22;
+    float u23;
+    float u24;
+    float u25;
+    float u26;
+    float u28;
+    float u29;
+    float u30;
+    float u31;
+    int t34;
+    float u36;
+    int t39;
+    int stk[27] = {0};
+
+    nlTriPutTextureInit(0xC271258, 0xFFFFFFFF, 0x0);
+    t1 = *(int *)((a4 + 0x48));
+    t2 = *(int *)((a4 + 0x44));
+    u3 = *(float *)((((t2 * 0x1C) + 0xC08F748) + 0xC));
+    u4 = *(float *)((((t2 * 0x1C) + 0xC08F748) + 0x8));
+    u5 = *(float *)((((t2 * 0x1C) + 0xC08F748) + 0x4));
+    nlTriPutSetAttrib(0xC271258, 0x2, 0x0, 0xFFFFFFFF, 0x0, 0x0, 0x0, 0x0, 0x0, t1, 0.5f, 0.5f, u5, u4, u3, 0.0f, 0.0f, 0.0f);
+    t7 = *(int *)0xC271278;
+    *(unsigned int *)0xC271278 = (t7 | 0xC0);
+    t8 = *(int *)((a4 + 0x44));
+    *(volatile float *)((((t8 * 0x1C) + 0xC08F748) + 0x4));
+    *(volatile float *)((((t8 * 0x1C) + 0xC08F748) + 0x8));
+    *(volatile float *)((((t8 * 0x1C) + 0xC08F748) + 0xC));
+    nlScaleVector(((int)stk + 28), a4, 0.00999999978f);
+    t13 = *(int *)0xC0965F8;
+    *(unsigned int *)(((((int)stk + 28) + 0xC) + 0x8)) = t13;
+    t14 = *(int *)0xC0965F4;
+    *(unsigned int *)(((((int)stk + 28) + 0xC) + 0x4)) = t14;
+    t15 = *(int *)0xC0965F0;
+    *(unsigned int *)(((((int)stk + 28) + 0xC) + 0x0)) = t15;
+    t16 = 0x0;
+    for (;;) {
+        t17 = *(int *)((a4 + 0x48));
+        if ((int)t16 >= (int)t17) {
+            break;
+        }
+        t18 = *(int *)(((t16 << 2) + 0xC0ED910));
+        FUN_0c078a70((((int)stk + 28) + 0x18), ((int)stk + 28), ((signed char)(((t18 << 1) + t18) << 2) + (a4 + 0x14)));
+        nlAddVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0x18));
+        u21 = *(float *)((a4 + 0x8));
+        u22 = *(float *)((a4 + 0x4));
+        u23 = *(float *)(((int)stk + 60));
+        u24 = *(float *)(((int)stk + 56));
+        u25 = *(float *)(((int)stk + 52));
+        u26 = *(float *)((a4 + 0x0));
+        nlTriPutSetPoint(0xC271258, t16, u25, u24, u23, u26, u22, u21, 0.0f, 0.0f);
+        t16 = (t16 + 0x1);
+    }
+    u28 = *(float *)((a4 + 0x10));
+    u29 = *(float *)(((a4 + 0x14) + 0x8));
+    u30 = *(float *)(((a4 + 0x14) + 0x0));
+    u31 = *(float *)(((a4 + 0x14) + 0x4));
+    nlTriPutSetClipping(0xC271258, u30, u31, u29, u28);
+    nlObjPutUseViewMatrix(0xC271258);
+    t34 = *(int *)((a4 + 0x48));
+    nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), (1.0f / (float)t34));
+    u36 = *(float *)((a4 + 0x10));
+    nlScaleVector((((int)stk + 28) + 0x18), a4, (u36 * 0.099999994f));
+    nlAddVector((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC));
+    t39 = FUN_0c07b980();
+    return t39;
+}
+
+int vmsfs_fdelete_ex(int a4, int a5, int a6)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t90;
+    int t3;
+    int t5;
+    int t72;
+    int t6;
+    int t63;
+    int t7;
+    int t56;
+    int t8;
+    int t9;
+    int t11;
+    int t21;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t22;
+    int t28;
+    int t23;
+    int t26;
+    int t24;
+    int t40;
+    int t31;
+    int t32;
+    int t33;
+    int t34;
+    int t35;
+    int t41;
+    int t47;
+    int t42;
+    int t45;
+    int t43;
+    int t81;
+    int t50;
+
+    *(unsigned int *)((((a4 * 0x148) + 0xC2EE990) + 0x30)) = 0x1;
+    t0 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x4));
+    t1 = *(int *)((((((t0 << 2) + t0) << 2) << 2) + 0xC178524));
+    *(unsigned int *)((((a4 * 0x148) + 0xC2EE990) + 0x34)) = t1;
+    t2 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x2));
+    t90 = 0xFFFFFF01;
+    if (t2 != 0) {
+        t3 = vmsio_isready(a4);
+        if (t3 == 0) {
+            vmsfs_unmount(a4);
+            t81 = 0xFFFFFF01;
+        } else {
+            t5 = vmsio_ismount(a4);
+            t72 = 0xFFFFFF01;
+            if (t5 != 0) {
+                t6 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x8));
+                t63 = 0xFFFFFF01;
+                if (t6 == 0) {
+                } else {
+                    t7 = buIsFormat(a4);
+                    t56 = 0xFFFFFF03;
+                    if ((int)t7 < 0) {
+                    } else {
+                        if ((int)a6 > 0) {
+                            t8 = 0x0;
+                            t9 = a5;
+                            for (;;) {
+                                *(volatile int *)((t9 + 0x0));
+                                t11 = check_isopen();
+                                if ((int)t11 >= 0) {
+                                    t8 = (t8 + 0x1);
+                                    t9 = (t9 + 0x4);
+                                    if ((int)t8 >= (int)a6) {
+                                        break;
+                                    }
+                                    continue;
+                                }
+                                return 0xFFFFFF0A;
+                            }
+                            t21 = 0x0;
+                            if ((int)a6 > 0) {
+                                t12 = 0x0;
+                                t13 = 0x0;
+                                t14 = a5;
+                                for (;;) {
+                                    t15 = *(int *)((t14 + 0x0));
+                                    t16 = clear_file(a4, t15);
+                                    t13 = (t13 + 0x1);
+                                    if ((int)t16 < 0) {
+                                        t12 = 0x1;
+                                    }
+                                    t14 = (t14 + 0x4);
+                                    if ((int)t13 >= (int)a6) {
+                                        break;
+                                    }
+                                }
+                                t21 = t12;
+                            }
+                            t22 = write_dir(a4);
+                            t28 = t22;
+                            if ((int)t22 >= 0) {
+                                t23 = write_fat(a4);
+                                t26 = t23;
+                                if ((int)t23 < 0) {
+                                } else {
+                                    t24 = 0x0;
+                                    if (t21 != 0) {
+                                        t24 = 0xFFFFFF0A;
+                                    }
+                                    t26 = t24;
+                                }
+                                t28 = t26;
+                            }
+                            t50 = t28;
+                        } else {
+                            t40 = 0x0;
+                            if ((int)a6 > 0) {
+                                t31 = 0x0;
+                                t32 = 0x0;
+                                t33 = a5;
+                                for (;;) {
+                                    t34 = *(int *)((t33 + 0x0));
+                                    t35 = clear_file(a4, t34);
+                                    t32 = (t32 + 0x1);
+                                    if ((int)t35 < 0) {
+                                        t31 = 0x1;
+                                    }
+                                    t33 = (t33 + 0x4);
+                                    if ((int)t32 >= (int)a6) {
+                                        break;
+                                    }
+                                }
+                                t40 = t31;
+                            }
+                            t41 = write_dir(a4);
+                            t47 = t41;
+                            if ((int)t41 >= 0) {
+                                t42 = write_fat(a4);
+                                t45 = t42;
+                                if ((int)t42 < 0) {
+                                } else {
+                                    t43 = 0x0;
+                                    if (t40 != 0) {
+                                        t43 = 0xFFFFFF0A;
+                                    }
+                                    t45 = t43;
+                                }
+                                t47 = t45;
+                            }
+                            t50 = t47;
+                        }
+                        t56 = t50;
+                    }
+                    t63 = t56;
+                }
+                t72 = t63;
+            }
+            t81 = t72;
+        }
+        t90 = t81;
+    }
+    return t90;
+}

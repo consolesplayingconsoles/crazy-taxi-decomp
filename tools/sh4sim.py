@@ -460,7 +460,7 @@ class CPU:
         if self.inside and call != 'call':        # inside a deep callee: its branches are its own
             self.pc = target
             return
-        if call in ('call', 'jump') or not (self.lo <= target < self.hi):
+        if call == 'call' or not (self.lo <= target < self.hi):      # a braf / jmp to an address inside the function is a branch (a jump table, a long goto)
             if self.on_call and self.on_call(self, target, call or 'jump', at):
                 return
         self.pc = target
@@ -586,7 +586,7 @@ class CPU:
             r[n] = (r[n] - 8) & M32; store(r[n], *get(m_)); return
 
 
-def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
+def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=None):
     """Run one case. code = (address, bytes) puts other code (a compiled C unit) at its address;
     entry/end then name the function inside it (default: all of it). deep: True runs every call;
     a function of the target address runs the calls it accepts (the rest return the case's values)."""
@@ -625,6 +625,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
         else:
             cpu.r[int(k[1:])] = int(v, 16) & M32
     cpu.pr = SENTINEL
+    if case.get('gbr'):                          # the global base register the function's @(disp,gbr) accesses use
+        cpu.gbr = int(case['gbr'], 16) & M32
     cpu.pc = entry
     if case.get('trace'):
         cpu.trace = []
@@ -652,7 +654,10 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None):
             c.r[0] = 0                           # a call the case gives no answer for returns 0 (r0 and fr0): a leftover register is not a result, on the original or on the compiled C
             c.fr[0] = 0
         ret = returns.pop(0) if returns else {}
+        n_args = argc(target & M32) if argc else None             # the callee's integer argument count, when known
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
+            if n_args is not None and int(k[1:]) - 4 >= n_args:
+                continue                                         # not one of its arguments: the register only holds a leftover
             mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))
         if ret.get('poke_stack'):                                # a structure returned by value: the callee fills the buffer the stack word names
             mem.load(mem.read(c.r[15] & M32, 4, True) & M32, bytes.fromhex(ret['poke_stack']))

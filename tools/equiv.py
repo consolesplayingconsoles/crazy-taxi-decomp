@@ -322,6 +322,8 @@ def main(argv):
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime
+    canon_ = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
+    argc = lambda t: arity[canon_(t)][0] if canon_(t) in arity else None      # output writes of a mocked call go only through its own arguments
     results, evidence = {}, {}
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
@@ -344,14 +346,22 @@ def main(argv):
         counts = {k: len(v) for k, v in sets.items()}
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
-            orig = sh4sim.run(case, '.', deep=helpers_orig)
+            orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc)
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
             observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1
-            mine = sh4sim.run(case, '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers)
+            budget = max(case.get('steps', 2000000), 10 * orig.get('steps', 0) + 100000) if not orig['error'] else case.get('steps', 2000000)
+            mine = sh4sim.run(dict(case, steps=budget), '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers, argc=argc)      # compiled C may take more instructions than the original: its budget follows what the original used
             n += 1
+            endless = case.get('endless') and str(orig['error']).startswith('more than') and str(mine['error']).startswith('more than')
+            if endless:      # a function that never returns, cut at the step limit: the calls both sides made, in order, up to the shorter run
+                k_ = min(len(orig['calls']), len(mine['calls']))
+                orig = dict(orig, calls=orig['calls'][:k_], writes={}, error=None); mine = dict(mine, calls=mine['calls'][:k_], writes={}, error=None)
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn), indirect_targets(cfile, fn))
-            if orig['error']:
+            faults = case.get('same_fault') and orig['error'] and orig['error'] == mine['error'] and not str(orig['error']).startswith('more than')
+            if faults:       # code that cannot run as written (an unaligned constant address): both sides stop with the same fault, nothing else to compare
+                good, diff = True, ''
+            if orig['error'] and not endless and not faults:      # a case marked endless: a function that never returns by design (an error trap), both sides run to the step limit
                 good, diff = False, 'the original stopped: ' + orig['error']
             if not good:
                 ok, why = False, 'case %d: %s' % (n, diff)

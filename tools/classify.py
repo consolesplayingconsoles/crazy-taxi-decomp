@@ -343,6 +343,64 @@ def runs_off(exe, base, a, sz):
     return True
 
 
+_STARTS = None
+
+
+def jumps_into(exe, base, a, sz):
+    """The address inside another function that this one branches to with `bra` (not a call, not that function's start), or None:
+    the code is a piece of that function (it returns through its epilogue), not a function of its own."""
+    global _STARTS
+    if _STARTS is None:
+        _STARTS = sorted((int(l.split()[1], 16), int(l.split()[2])) for l in open('functions.txt') if l.startswith('F '))
+    pcs = sorted(reachable(exe, base, a, sz))
+    if any(struct.unpack_from('<H', exe, pc - base)[0] == 0x000B for pc in pcs):
+        return None                                          # it returns by itself: a branch into another function is a tail call
+    for pc in pcs:
+        w = struct.unpack_from('<H', exe, pc - base)[0]
+        if w >> 12 != 0xA:                                   # bra disp12
+            continue
+        d = w & 0xFFF
+        t = pc + 4 + 2 * (d - 0x1000 if d & 0x800 else d)
+        if a <= t < a + sz:
+            continue
+        for s0, n0 in _STARTS:
+            if s0 < t < s0 + n0:
+                pushed = sum(1 for q in pcs if (struct.unpack_from('<H', exe, q - base)[0] & 0xF00F) == 0x2006
+                             and (struct.unpack_from('<H', exe, q - base)[0] >> 8) & 15 == 15
+                             or struct.unpack_from('<H', exe, q - base)[0] & 0xF0FF == 0x4022)
+                pops, q = 0, t
+                while q < t + 64:                            # the target's way out: pops before its return
+                    w2 = struct.unpack_from('<H', exe, q - base)[0]
+                    if (w2 & 0xF00F) == 0x6006 and (w2 >> 4) & 15 == 15 or w2 & 0xF0FF == 0x4026:
+                        pops += 1
+                    if w2 == 0x000B:
+                        nx = struct.unpack_from('<H', exe, q + 2 - base)[0]
+                        pops += (nx & 0xF00F) == 0x6006 and (nx >> 4) & 15 == 15
+                        break
+                    q += 2
+                if pops > pushed:                            # it returns through that function's epilogue: registers it never saved
+                    return t
+    return None
+
+
+def pops_unsaved(exe, base, a, sz):
+    """The callee-saved registers (r8-r14, pr) this code pops from the stack and never pushes, sorted: it returns through a frame
+    another function built (an entry past that function's prologue), so it is a piece of that function, not one of its own."""
+    pushed, popped = set(), set()
+    for pc in reachable(exe, base, a, sz):
+        w = struct.unpack_from('<H', exe, pc - base)[0]
+        for x, at in ((w, pc),) + (((struct.unpack_from('<H', exe, pc + 2 - base)[0], pc + 2),) if w == 0x000B else ()):
+            if (x & 0xF00F) == 0x2006 and (x >> 8) & 15 == 15:
+                pushed.add((x >> 4) & 15)
+            elif x == 0x4F22:
+                pushed.add(16)
+            elif (x & 0xF00F) == 0x6006 and (x >> 4) & 15 == 15:
+                popped.add((x >> 8) & 15)
+            elif x == 0x4F26:
+                popped.add(16)
+    return sorted(r for r in popped - pushed if r >= 8)
+
+
 def no_c_form(exe, base, a, sz):
     """The instructions of one function that have no C form with this compiler (see above): ['ldc r3,r0_bank', ...], pools skipped."""
     out = []
@@ -350,6 +408,13 @@ def no_c_form(exe, base, a, sz):
         t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
         if t.startswith(('stc', 'ldc')) and any(k in t for k in NO_C_FORM) and t not in out:
             out.append(t)
+    ji = jumps_into(exe, base, a, sz)
+    if ji is not None:
+        out.append('branches into the middle of another function (%08X): a piece of that function, not one of its own' % ji)
+    pu = pops_unsaved(exe, base, a, sz)
+    if pu and ji is None:
+        out.append('pops %s, which it never pushed: it returns through a frame another function built (a piece of that function)'
+                   % ', '.join('pr' if r == 16 else 'r%d' % r for r in pu))
     if double_precision(exe, base, a, sz):
         out.append('runs double-precision code (FPSCR.PR = 1); this project compiles C with -fpu=single')
     if address_table(exe, base, a, sz):

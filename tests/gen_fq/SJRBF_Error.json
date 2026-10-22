@@ -1,0 +1,18 @@
+{
+ "dev": [
+  {
+   "about": "hand: the error trap never returns; both run to the step limit",
+   "regs": {},
+   "steps": 2000,
+   "endless": true
+  }
+ ],
+ "holdout": [
+  {
+   "about": "hand: the error trap never returns; both run to the step limit",
+   "regs": {},
+   "steps": 2000,
+   "endless": true
+  }
+ ]
+}

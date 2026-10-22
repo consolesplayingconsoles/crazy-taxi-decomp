@@ -1,0 +1,34 @@
+{
+ "dev": [
+  {
+   "about": "hand: reads a pointer table at the unaligned address 0C1EDF26: an address error on every input (dead code)",
+   "regs": {
+    "r4": "00000000"
+   },
+   "same_fault": true
+  },
+  {
+   "about": "hand: reads a pointer table at the unaligned address 0C1EDF26: an address error on every input (dead code)",
+   "regs": {
+    "r4": "0C800000"
+   },
+   "same_fault": true
+  }
+ ],
+ "holdout": [
+  {
+   "about": "hand: reads a pointer table at the unaligned address 0C1EDF26: an address error on every input (dead code)",
+   "regs": {
+    "r4": "00000001"
+   },
+   "same_fault": true
+  },
+  {
+   "about": "hand: reads a pointer table at the unaligned address 0C1EDF26: an address error on every input (dead code)",
+   "regs": {
+    "r4": "00000007"
+   },
+   "same_fault": true
+  }
+ ]
+}

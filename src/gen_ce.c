@@ -82,27 +82,6 @@ int syHwCacheFinish(void)
     return p2_cache_set();
 }
 
-float nlRotateAZ(int a4)
-{
-    float u0;
-    float u1;
-    float u2[4];
-    float u3[4];
-
-    u0 = iaFscaS(a4);
-    u1 = iaFscaC(a4);
-    u2[0] = u1;
-    u2[1] = u0;
-    u2[2] = 0.0f;
-    u2[3] = 0.0f;
-    _builtin_ftrv(u2, u2);
-    u3[0] = (-u0);
-    u3[1] = u1;
-    u3[2] = 0.0f;
-    u3[3] = 0.0f;
-    _builtin_ftrv(u3, u3);
-    return u2[0];
-}
 
 int FUN_0c05d21c(void)
 {

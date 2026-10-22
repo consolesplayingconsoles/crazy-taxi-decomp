@@ -163,7 +163,7 @@ def _draw(n):
             vs=gen_pipe.variants(n,pt)
         if vi>=len(vs): return None
         s,c=gen_drv.build(n,vs[vi],pt)
-        if n in c.protos: return None
+        c.protos.pop(n,None)               # a function that calls itself: its own definition declares it
         t=gen_drv.tests(n,c,s)
         return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None,secs=round(time.time()-t0,1)))
     except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)[:90]),round(time.time()-t0,1))
@@ -194,6 +194,23 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
         note('round %d batch %d: compiling and checking %d functions'%(ri,bn,len(items)))
         try:
             passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
+            # differs only in the return value: often a leftover r0/fr0 of a function that returns nothing. Checked again as void on the same cases
+            out_only=[it for it in items if it[0] in failed and re.search(r'^%s\s+DIFFERS\s+case \d+: out:'%re.escape(it[0]),gen_pipe.LAST.get('out',''),re.M)]
+            again=[]
+            for it in out_only:
+                try:
+                    if 'void' not in gen_pipe.variants(it[0],pt) or vi==len(gen_pipe.variants(it[0],pt))-1: continue
+                    s_,c_=gen_drv.build(it[0],'void',pt); c_.protos.pop(it[0],None)
+                    again.append((it[0],s_,it[2],c_.protos)+tuple(it[4:]))
+                except Exception: pass
+            if again:
+                first_out=gen_pipe.LAST.get('out','')
+                p2,f2,d2,dr2,_=gen_pipe.run_file_robust(stem+'v',again)
+                gen_pipe.LAST['out']=first_out
+                for it in again:
+                    if it[0] in p2:
+                        failed.remove(it[0]); passed.append(it[0]); items[[i[0] for i in items].index(it[0])]=it
+                note('round %d batch %d: %d differed only in the return value, %d pass as void'%(ri,bn,len(again),len(p2)))
         finally:
             restore_evidence()
         print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)

@@ -136,7 +136,7 @@ def callee_arity(fname):
     res=None
     try:
         out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
-        seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0
+        seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if not m: continue
@@ -167,12 +167,15 @@ def callee_arity(fname):
             else:
                 for t in a: reads+=regs(t)
             if mn=='fmac': reads.append('fr0')
+            if mn=='frchg': banked=not banked      # the other float bank: its registers are the saved matrix, not arguments
             for r in reads:
-                if r in wrote: continue
+                if r in wrote or (banked and r.startswith('fr')): continue
                 if re.fullmatch(r'r[4-7]',r): maxi=max(maxi,int(r[1:])-4)
                 elif re.fullmatch(r'fr(4|5|6|7|8|9|10|11)',r): maxf=max(maxf,int(r[2:])-4)
             if dest: wrote.add(dest)
-            if mn in ('jsr','bsr','bsrf','jmp','braf') and maxi<0 and maxf<0 and not ({'r4','r5','r6','r7'}&wrote) and SPANS.get(fname,(0,99))[1]<=32:
+            slot=next((re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',x) for x in out[out.index(l)+1:] if re.match(r'[0-9a-f]{8} ',x)),None)
+            slot_w=set(re.findall(r',\s*(r[4-7])\s*$',slot.group(4).split(';')[0])) if slot else set()      # the delay slot runs before the call: an argument it sets is the wrapper's own
+            if mn in ('jsr','bsr','bsrf','jmp','braf') and maxi<0 and maxf<0 and not ({'r4','r5','r6','r7'}&(wrote|slot_w)) and SPANS.get(fname,(0,99))[1]<=32:
                 raise _PassThrough()     # a call before it has read or written any argument register: a wrapper passing its arguments on, arity unknown
             if mn in ('jsr','bsr'):
                 wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
@@ -662,6 +665,17 @@ def _run(name,passthru=False,frame=False,flat=False):
                 c.FR[a[1]]=fload(memaddr(mm)); return
         if mn in('fadd','fsub','fmul','fdiv'):
             x=c.gf(a[1]); y=c.gf(a[0]); op={'fadd':'+','fsub':'-','fmul':'*','fdiv':'/'}[mn]
+            neg=lambda v: isint(v) and v&0x80000000 and (v&0x7F800000)!=0x7F800000
+            if mn=='fmul' and (neg(x) or neg(y)) and not (isint(x) and isint(y)):
+                # times a negative constant: SHC writes x * -k as -(x * k) (fmul then fneg, which flips the sign of a NaN); as
+                # a compound assignment it keeps the negative constant, as the original's fmul does
+                v,k=(x,y) if neg(y) else (y,x)
+                t=fresh(True); emit('float %s = %s;'%(t,fx(v))); emit('%s *= %s;'%(t,fx(k)))
+                c.FR[a[1]]=('e',t); return
+            if mn=='fmul':
+                # a product of a product: SHC reorders a chain of multiplies (rounding differs); a statement of its own keeps the order
+                if not isint(x) and ' * ' in fx(x): t=fresh(True); emit('float %s = %s;'%(t,fx(x))); x=('e',t)
+                if not isint(y) and ' * ' in fx(y): t=fresh(True); emit('float %s = %s;'%(t,fx(y))); y=('e',t)
             c.FR[a[1]]=('e','(%s %s %s)'%(fx(x),op,fx(y))); return
         if mn=='fsqrt':
             c.protos['_builtin_sqrtf']=('float','->float'); c.FR[a[0]]=('e','_builtin_sqrtf(%s)'%fx(c.gf(a[0]))); return
@@ -680,7 +694,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             t=fresh(True); emit('float %s = %s;'%(t,fx(acc))); emit('%s = %s + %s * %s;'%(t,t,fx(x),fx(y)))      # a statement of its own, as the source has it: the compiler then selects fmac (one rounding)
             c.FR[a[2]]=('e',t); return
         if mn=='fabs':
-            v=fx(c.gf(a[0])); c.FR[a[0]]=('e','(%s < 0.0f ? -%s : %s)'%(v,v,v)); return
+            c.FR[a[0]]=('e','_builtin_fabsf(%s)'%fx(c.gf(a[0]))); return      # the compiler's own fabs (it clears the sign bit: fabs(-0.0) is +0.0); built in, not declared
         if mn=='lds' and a[1]=='fpul': c.fpul=c.gi(a[0]); return
         if mn=='float' and a[0]=='fpul': c.FR[a[1]]=('e','(float)%s'%ex(c.fpul)); return
         if mn=='ftrc': c.fpul=('e','(int)%s'%fx(c.gf(a[0]))); return
@@ -718,7 +732,19 @@ def _run(name,passthru=False,frame=False,flat=False):
             n=c.gi('r0')
             if tail: raise Skip('block copy tail')
             d=c.gi('r1'); sr=c.gi('r2')
-            if isint(n) and n%4==0 and n<=256 and fname!='_slow_mvn':
+            if fname=='_quick_mvn' and isint(n) and n>64:
+                # its path for more than 64 bytes: whole words while the source pointer stays at or below source + size (unsigned, so a
+                # source near the top of the address space copies nothing), as the helper's loop does
+                p_=fresh(False); e_=fresh(False); d_=fresh(False); w_=fresh(False)
+                emit('int %s = %s;'%(p_,ex(sr))); emit('int %s = (%s + %s);'%(e_,ex(sr),n)); emit('int %s = %s;'%(d_,ex(d))); emit('int %s;'%w_)
+                emit('for (;;) { %s = *(int *)%s; %s = (%s + 4); if ((unsigned int)%s < (unsigned int)%s) break; *(unsigned int *)%s = %s; %s = (%s + 4); }'%(w_,p_,p_,p_,e_,p_,d_,w_,d_,d_))
+            elif isint(n) and n%4==0 and n<=256 and fname in ('_quick_odd_mvn','_quick_evn_mvn'):
+                # these two read one word ahead of the store (the last word is read before the jump into the copy)
+                w=load('l',addr_expr(sr,n-4))
+                for off in range(n-8,-1,-4):
+                    nw=load('l',addr_expr(sr,off)); store('l',addr_expr(d,off+4),w); w=nw
+                store('l',addr_expr(d,0),w)
+            elif isint(n) and n%4==0 and n<=256 and fname!='_slow_mvn':
                 for off in range(n-4,-1,-4): store('l',addr_expr(d,off),load('l',addr_expr(sr,off)))
             elif isint(n) and n<=64:
                 for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
@@ -1052,6 +1078,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 if own:         # an argument register an arm never touched, with no call made yet, still holds the function's own argument
                     if va is None and stA[8]==0: va=own
                     if vb is None and stB[8]==0: vb=own
+                    if own in (va,vb): (c.fuse if isf else c.iuse).add(int(own[1][1:]))      # the argument is now read: it is a parameter
                     if va==vb:
                         out[r]=va; continue
                 if va is None or vb is None:
@@ -1216,6 +1243,8 @@ def _run(name,passthru=False,frame=False,flat=False):
             set_regs((R,FR,st0[2] if all(st[2]==st0[2] for st,A,o in live) else None,stack,st0[4] if all(st[4]==st0[4] for st,A,o in live) else None,st0[5],list(st0[6]))); c.pcalls=max(st[8] for st,A,o in live)
             cur=regs_state()
         elif live: cur=live[0][0]
+        if any('@@BRK' in x for ks,A,st,o in arms for x in A if isinstance(x,str)) or any('@@BRK' in blk(A) for ks,A,st,o in arms):
+            raise Skip('unstructured: a loop exit inside a switch arm (a C break would only leave the switch)')
         txt='switch (%s) {\n'%idx
         for n,(ks,A,st,o) in enumerate(arms):
             last=n==len(arms)-1
@@ -1558,8 +1587,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                     b=SW0[i]; mv,rx,tg=SWV[b]
                     idx=c.gi(rx)
                     step(b+1)                                    # the delay slot of the braf runs before the jump
+                    sw_=fresh(False); emit('int %s = %s;'%(sw_,ex(idx)))      # taken before the registers are written back: idx is in terms of their values at the block's start
                     spill()
-                    emit('switch (%s) { %s }'%(ex(idx),' '.join('case %d: goto %s;'%(2*k,label(t)) for k,t in enumerate(tg))))
+                    emit('switch (%s) { %s }'%(sw_,' '.join('case %d: goto %s;'%(2*k,label(t)) for k,t in enumerate(tg))))
                     return [(t,c.D) for t in sorted(set(tg))]
                 mn,ops,pc=ins[i]
                 if mn in ('jsr','bsr','bsrf'):
