@@ -54,7 +54,7 @@ int *colliNodeAlloc(void)
 }
 
 /* 70 words below 0C275940 cleared, the count 70 at 0C275940. */
-void FUN_0c038ed0(void)
+void ResetPinFlag(void)
 {
     int *p = (int *)0x0C275940;
     int n = 70;
@@ -64,7 +64,7 @@ void FUN_0c038ed0(void)
     *(int *)0x0C275940 = 70;
 }
 
-void FUN_0c039280(void)
+void InitRenderTexture1st(void)
 {
     nlRenderTextureInit(0x0C286420, 2);
     nlRenderTextureSet(0, 120, 512, 512);
@@ -119,7 +119,7 @@ int pointEventGet(int i)
     return *(int *)(*(char **)0x0C2A447C + i * 32) != 0;
 }
 
-void FUN_0c04bef4(void)
+void cycleAdvCheck(void)
 {
     if (*(int *)0x0C179488 >= 4) {
         *(int *)0x0C2A4E54 = 2;

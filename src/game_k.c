@@ -14,7 +14,7 @@ int kmSetFogDensity(int x)
     return 0;
 }
 
-void FUN_0c02c6d8(void)
+void game_init(void)
 {
     *(char *)0x0C1EE35C = 1;
     *(int *)0x0C179488 = 0;

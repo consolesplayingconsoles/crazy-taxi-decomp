@@ -3,7 +3,7 @@
 
 int Chat_PickSomeoneUp(void);
 int FUN_0c0630a2(int, float);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c158860(int, int, int);
 int ResetFadeColor(void);
 int SetColliObj(int, int);
@@ -21,7 +21,7 @@ int pfSize(float, float);
 int set_event(int, int);
 int FUN_0c062f84(void);
 int FUN_0c062d26(void);
-int FUN_0c0580d2(void);
+int Put_Adv_Rating(void);
 void FUN_0c038a00(int a4);
 int FUN_0c080ae0(int a4, int a5, int a6);
 int FUN_0c022410(int a4);
@@ -53,7 +53,7 @@ int FUN_0c062d26(void)
     return Chat_PickSomeoneUp();
 }
 
-int FUN_0c0580d2(void)
+int Put_Adv_Rating(void)
 {
     int t0;
     int t1;
@@ -431,7 +431,7 @@ int FUN_0c080ae0(int a4, int a5, int a6)
             }
             t16 = *(int *)0xC2B7944;
             if (t16 != 0) {
-                FUN_0c0771b0(t15, (((int)stk + 4) + 0xC));
+                nlSqrt(t15, (((int)stk + 4) + 0xC));
                 u18 = *(float *)(((int)stk + 24));
                 u23 = u18;
             } else {

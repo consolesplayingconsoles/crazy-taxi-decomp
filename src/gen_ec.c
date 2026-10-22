@@ -3,7 +3,7 @@
 
 int CalcShadow2Matrix(int);
 int CalcShadow4Normal(int, int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c078310(void);
 int GetCollision2D(int, float);
 int GetRotVec(int);
@@ -689,7 +689,7 @@ float FUN_0c0370c4(int a4)
     GetRotVec((a4 + 0x2C));
     nlPushMatrix(0x0);
     FUN_0c078310();
-    FUN_0c0771b0(0xC274280, (((int)stk + 4) + 0xC));
+    nlSqrt(0xC274280, (((int)stk + 4) + 0xC));
     nlPopMatrix(0x1);
     t60 = *(int *)((a4 + 0x54));
     nlRotateAY(t60);

@@ -32,6 +32,7 @@ import sys
 
 M32 = 0xFFFFFFFF
 SENTINEL = 0x0EADBEE0          # return address the run ends on (outside RAM, never executed)
+ROM_HI = 0x00220000           # 0x00000000-0x0021FFFF: boot ROM and flash, read-only
 STACK_TOP = 0x0E000000         # a fresh stack page, so its writes are not effects
 RAM_LO, RAM_HI = 0x0C000000, 0x0D000000
 
@@ -113,6 +114,8 @@ class Memory:
             raise Stop('unaligned %d-byte read at %08X' % (size, addr))
         page = self.pages.get(a >> 12)
         if page is None:
+            if a < ROM_HI and not fetch and a not in self.device_reads:
+                return 0                         # the boot ROM and flash: a read has no side effect, so its order is not an effect (a null pointer's fields)
             if not (RAM_LO <= a < RAM_HI) and not fetch and not (self.stack[0] <= a < self.stack[1]):
                 vals = self.device_reads.get(a)
                 v = vals.pop(0) if vals else 0
@@ -637,7 +640,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     given_args = {int(k[1:]) for k in case.get('regs', {}) if re.match(r'r[4-7]$', k)}   # the arguments the case passes in are the function's own
     entry_fargs = [cpu.fr[i] for i in range(4, 12)]   # fr4-fr11 as the case gave them: a float argument register that still holds this was not set by the function
     given_fargs = {int(k[2:]) for k in case.get('regs', {}) if re.match(r'fr(4|5|6|7|8|9|10|11)$', k)}
+    after_call = []
     entry_args = [cpu.r[i] for i in range(4, 8)]      # r4-r7 as the case gave them: a call's argument register that still holds this was not set by the function
+    post_args = list(entry_args); post_fargs = list(entry_fargs)   # r4-r7 / fr4-fr11 right after the last call
 
     def on_call(c, target, kind, at):
         if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
@@ -647,13 +652,18 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
                       'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)],
-                      'chg': [i in given_args or c.r[i] != entry_args[i - 4] for i in range(4, 8)],
-                      'fchg': [i in given_fargs or c.fr[i] != entry_fargs[i - 4] for i in range(4, 12)],
-                      'stack': '%08X' % mem.read(c.r[15] & M32, 4, True)})   # the word on top of the stack: the first argument of a variadic call
+                      'chg': [(i in given_args and not after_call) or (c.r[i] != entry_args[i - 4] and c.r[i] != post_args[i - 4]) for i in range(4, 8)],
+                      'fchg': [(i in given_fargs and not after_call) or (c.fr[i] != entry_fargs[i - 4] and c.fr[i] != post_fargs[i - 4]) for i in range(4, 12)],
+                      'stack': '%08X' % mem.read(c.r[15] & M32, 4, True),
+                      'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(4)]})   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
         if not returns:
             c.r[0] = 0                           # a call the case gives no answer for returns 0 (r0 and fr0): a leftover register is not a result, on the original or on the compiled C
             c.fr[0] = 0
         ret = returns.pop(0) if returns else {}
+        if 'r0' not in ret:
+            c.r[0] = 0                           # an answer that gives no r0 / fr0: the callee's result is 0, not a leftover register
+        if 'fr0' not in ret:
+            c.fr[0] = 0
         n_args = argc(target & M32) if argc else None             # the callee's integer argument count, when known
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
             if n_args is not None and int(k[1:]) - 4 >= n_args:
@@ -668,6 +678,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                 c.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
             else:
                 c.r[int(k[1:])] = int(v, 16) & M32
+        post_args[:] = [c.r[i] for i in range(4, 8)]           # a real callee leaves r4-r7 and fr4-fr11 undefined: what still holds these values
+        post_fargs[:] = [c.fr[i] for i in range(4, 12)]        # at the next call was not set for it (a leftover, not an argument)
+        after_call.append(1)
         if kind == 'jump':                       # a tail jump: the callee returns for us
             c.pc = c.pr
         else:

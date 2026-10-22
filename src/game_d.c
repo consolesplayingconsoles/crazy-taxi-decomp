@@ -19,7 +19,7 @@ void FUN_0c05df5e(void)
     ADV_FLAGS &= 0xFFBF;
 }
 
-void FUN_0c06047c(void)
+void LCDAccessOK(void)
 {
     *(int *)0x0C2A9FF0 = 0;
 }
@@ -32,7 +32,7 @@ int FUN_0c06048c(void)
     return v;
 }
 
-void FUN_0c060616(int m)
+void End_LoadSave(int m)
 {
     if (m)
         *(int *)0x0C2A9FA8 &= ~4;

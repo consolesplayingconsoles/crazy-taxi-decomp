@@ -16,9 +16,9 @@ int FUN_0c02dd5a(void);
 int FUN_0c02e4b2(void);
 int FUN_0c041c14(void);
 int FUN_0c041cb4(void);
-int FUN_0c05ff66(void);
+int Exec_Fog(void);
 int FUN_0c060334(void);
-int FUN_0c060da6(void);
+int RinAqua_Execute(void);
 int GoiTool(int);
 int LightEffect(int);
 int PutCourse(void);
@@ -604,7 +604,7 @@ int gameStateDrive(void)
         return t0;
     }
     camUpdate(0x0);
-    FUN_0c05ff66();
+    Exec_Fog();
     t3 = *(int *)0xC1EE20C;
     if (t3 != 0) {
         if (t3 != 1) {
@@ -623,7 +623,7 @@ int gameStateDrive(void)
         if (-1237.0f > u11) {
             LightEffect(0x1);
             ResetSpark();
-            FUN_0c060da6();
+            RinAqua_Execute();
         } else {
             LightEffect(0x0);
         }

@@ -6,7 +6,7 @@ float FUN_0c0288f0(void);
 void FUN_0c028908(float f4);
 int FUN_0c038ee6(void);
 int FUN_0c038f80(void);
-int FUN_0c04bf14(void);
+int getKyakuOffFlag(void);
 int FUN_0c05273c(void);
 int FUN_0c05cb52(void);
 int FUN_0c05db72(void);
@@ -84,7 +84,7 @@ int FUN_0c038f80(void)
     return t0;
 }
 
-int FUN_0c04bf14(void)
+int getKyakuOffFlag(void)
 {
     int t0;
 

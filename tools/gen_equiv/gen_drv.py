@@ -26,9 +26,10 @@ def build(name,ret,passthru=False):
             off=int(m.group(1))+sum(int(x,0)*(-1 if sg=='-' else 1) for sg,x in re.findall(r' ([+-]) (0x[0-9A-Fa-f]+|\d+)\)',m.group(2)))
             if off>=0: up=max(up,off//4+1)      # an address above the function's own frame: words the caller left on the stack (arguments, a structure passed by value)
         if up:
-            up=min(max(up,4),16)
+            up=min(max(up,4),64)        # up to 64 words: a structure passed by value can be large
             for n in range(8,8+up): c.iuse.add(n)       # they come in as the stack parameters a8..: copied to the top of the frame array
             ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
+            if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
         W=(c.maxD+3)//4+1
         frame_decl='int stk[%d] = {0};'%(W+up+(8 if up else 0))         # zero, like the stack the original runs on in the simulator
@@ -59,35 +60,49 @@ def build(name,ret,passthru=False):
     if ret=='void': text=re.sub(r'\n?return;\Z','',text)
     # prune dead assignments of pure values (phi leftovers)
     def prune(text,decls):
+        import collections
         changed=True
         while changed:
             changed=False
+            occ=collections.Counter(re.findall(r'\b[A-Za-z_]\w*\b',text))     # every name's uses and assignments, in one scan per round
+            lhs=collections.defaultdict(list)
+            for m_ in re.finditer(r'(?:^[ \t]*|(?<=; ))([A-Za-z_]\w*) = ([^;\n]*);',text,flags=re.M):      # one statement: a line can hold `t6 = t5; break;`
+                lhs[m_.group(1)].append(m_.group(2))
+            dead=set()
             for dcl in list(decls):
                 nm=re.sub(r'\[.*','',dcl.split()[1].rstrip(';'))      # an array's name without its size
-                occ=len(re.findall(r'\b%s\b'%nm,text))
-                lhs=re.findall(r'(?:^[ \t]*|(?<=; ))%s = ([^;\n]*);'%nm,text,flags=re.M)      # one statement: a line can hold `t6 = t5; break;`
-                if occ==len(lhs) and all(('*(' not in r and not re.search(r'[A-Za-z_]\w*\s*\(',r)) for r in lhs):
-                    text=re.sub(r'(?:^[ \t]*|(?<=; ))%s = [^;\n]*; ?'%nm,lambda m_:re.match(r'[ \t]*',m_.group(0)).group(0),text,flags=re.M)
-                    text=re.sub(r'^[ \t]*\n','',text,flags=re.M); decls.remove(dcl); changed=True
+                rs=lhs.get(nm,[])
+                if occ[nm]==len(rs) and all(('*(' not in r and not re.search(r'[A-Za-z_]\w*\s*\(',r)) for r in rs):
+                    dead.add(nm); decls.remove(dcl)
+            if dead:
+                text=re.sub(r'(?:^[ \t]*|(?<=; ))(%s) = [^;\n]*; ?'%'|'.join(map(re.escape,sorted(dead))),lambda m_:re.match(r'[ \t]*',m_.group(0)).group(0),text,flags=re.M)
+                text=re.sub(r'^[ \t]*\n','',text,flags=re.M); changed=True
             t2=re.sub(r'if \([^\n]*\) \{\s*\}(?!\s*else)','',text)      # an empty if that has an else stays: dropping it would leave the else standing alone
             t2=re.sub(r' else \{\s*\}','',t2)
             if t2!=text: text=t2; changed=True
         return text
     text=prune(text,decls)
     # unused call results: drop the temp
+    import collections
+    occ=collections.Counter(re.findall(r'\b[A-Za-z_]\w*\b',text))
+    calls_=set(re.findall(r'\b([A-Za-z_]\w*) = [A-Za-z_]\w*\(',text))
+    drop_=set()
     for d in list(decls):
         nm=re.sub(r'\[.*','',d.split()[1].rstrip(';'))
-        if len(re.findall(r'\b%s\b'%nm,text))==1 and re.search(r'\b%s = [A-Za-z_]\w*\('%nm,text):
-            text=re.sub(r'\b%s = '%nm,'',text); decls.remove(d)
+        if occ[nm]==1 and nm in calls_:
+            drop_.add(nm); decls.remove(d)
+    if drop_: text=re.sub(r'\b(%s) = '%'|'.join(map(re.escape,sorted(drop_))),'',text)
     body=text.strip('\n').split('\n')
+    occ=collections.Counter(re.findall(r'\b[A-Za-z_]\w*\b','\n'.join(body)))
     # a load whose value nothing uses: the original made the read anyway (the compiler keeps a read only when it is volatile, a device
     # register or a dummy read), so it is written as a volatile read the compiler cannot drop
     for i_,l_ in enumerate(body):
         m_=re.match(r'^(\s*)([tu]\d+) = \*\(((?:unsigned |signed )?(?:char|short|int)|float) \*\)(.*);$',l_)
-        if m_ and len(re.findall(r'\b%s\b'%m_.group(2),'\n'.join(body)))==1:
+        if m_ and occ[m_.group(2)]==1:
             body[i_]='%s*(volatile %s *)%s;'%(m_.group(1),m_.group(3),m_.group(4))
             decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%m_.group(2),d)]
-    if frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
+    if frame_decl and up>16: body=['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body
+    elif frame_decl and up: body=['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))

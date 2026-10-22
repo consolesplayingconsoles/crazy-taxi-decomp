@@ -75,7 +75,7 @@ void FUN_0c02f870(void)
     }
 }
 
-void FUN_0c030914(void)
+void gdc_SpriteSetMBox(void)
 {
     if (*(int *)0x0C26E184 != 5) {
         nlSetCommonTextureOffset(480);

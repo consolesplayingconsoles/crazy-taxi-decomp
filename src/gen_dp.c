@@ -4,7 +4,7 @@
 int FUN_0c051992(void);
 int FUN_0c0519de(void);
 int FUN_0c051bc0(void);
-int FUN_0c052268(void);
+int Init_nd_Sprite(void);
 int FUN_0c05308c(int, int);
 int FUN_0c067960(int, int);
 int FUN_0c077df0(int);
@@ -2044,7 +2044,7 @@ int nd_CarSelInit(void)
     *(unsigned int *)0xC2A7534 = 0x9;
     *(unsigned int *)0xC2A75C0 = 0x0;
     *(float *)0xC130624 = 0.0f;
-    FUN_0c052268();
+    Init_nd_Sprite();
     FUN_0c051bc0();
     *(unsigned int *)0xC2A757C = 0x3BF;
     FUN_0c05308c(0xC2A757C, 0x0);

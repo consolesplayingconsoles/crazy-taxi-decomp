@@ -15,10 +15,10 @@ int FUN_0c0230bc(int);
 int FUN_0c0231b4(int);
 int FUN_0c02b146(int, int);
 int FUN_0c02bbf4(int, float);
-int FUN_0c02da42(float);
-int FUN_0c0310a0(void);
-int FUN_0c0310c0(int);
-int FUN_0c031158(int);
+int GS_TripMetor(float);
+int pfCleanString(void);
+int pfAddString(int);
+int pfAddNumber(int);
 float FUN_0c089de0(int);
 float FUN_0c089de8(int);
 int SetEffect(int, int, int);
@@ -979,11 +979,11 @@ int exec_CarMain(void)
     if ((int)t524 >= (int)0x5) {
         pfSetFont(0x0);
         pfSize(1.19999993f, 1.19999993f);
-        FUN_0c0310a0();
+        pfCleanString();
         u528 = *(float *)0xC1791F8;
         u529 = *(float *)0xC17922C;
-        FUN_0c031158((int)((((u529 * u528) * 0.0376979932f) < 0.0f ? -((u529 * u528) * 0.0376979932f) : ((u529 * u528) * 0.0376979932f)) * 0.799999952f));
-        FUN_0c0310c0(0xC08A9AC);
+        pfAddNumber((int)((((u529 * u528) * 0.0376979932f) < 0.0f ? -((u529 * u528) * 0.0376979932f) : ((u529 * u528) * 0.0376979932f)) * 0.799999952f));
+        pfAddString(0xC08A9AC);
         t532 = *(int *)0xC08D678;
         t533 = pfLength(t532);
         pfLocate(((-t533) + 540.0f), 425.0f);
@@ -1060,7 +1060,7 @@ int exec_CarMain(void)
     t593 = *(int *)0xC179144;
     *(unsigned int *)0xC179158 = t593;
     t594 = nlScalor(0xC1790D8);
-    FUN_0c02da42(t594);
+    GS_TripMetor(t594);
     t596 = *(int *)0xC1EE234;
     if (t596 == 1) {
         t597 = *(int *)0xC2A4E50;

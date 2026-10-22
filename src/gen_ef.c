@@ -3,7 +3,7 @@
 
 int FUN_0c0391fc(void);
 int FUN_0c049aa8(int, int, float);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c07b9e0(void);
 int FcvPlay(int, int, float);
@@ -279,7 +279,7 @@ int FUN_0c0200e4(int a4)
         nlTranslate(u165, ((u164 - u163) + -0.699999988f), u162);
         t167 = *(short *)((t151 + 0x80));
         nlRotateAY((unsigned short)t167);
-        FUN_0c0771b0(((signed char)(((t150 << 1) + t150) << 2) + 0xC08A8A4), (t151 + 0x5C));
+        nlSqrt(((signed char)(((t150 << 1) + t150) << 2) + 0xC08A8A4), (t151 + 0x5C));
         t170 = *(short *)((t151 + 0x82));
         nlRotateAX((unsigned short)t170);
         t172 = *(int *)((t148 + 0x0));

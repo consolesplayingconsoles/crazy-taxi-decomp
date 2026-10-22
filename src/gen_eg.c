@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Bezier(int, int, float);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078a70(int, int, int);
 int FUN_0c15e820(int);

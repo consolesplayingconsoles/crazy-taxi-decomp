@@ -2072,6 +2072,7 @@ kmQueryFinishFlushVertexBuffer
 kmReLoadMipmap
 kmRender
 kmRenderDirect
+kmRenderTexture
 kmRenderTextureDirect
 kmResetPointer
 kmResetRenderer

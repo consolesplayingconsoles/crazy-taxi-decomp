@@ -4,9 +4,9 @@
 int nlAddVector(int, int);
 int nlScaleUnitVector(int, int, float);
 int nlSubVector3op(int, int, int);
-int FUN_0c04d46c(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int HomingPos1(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int FUN_0c04d46c(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int HomingPos1(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     float u1;
     int t3;

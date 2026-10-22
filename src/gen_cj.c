@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_cj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0310a0(void);
+int pfCleanString(void);
 int FUN_0c0310ae(int);
-int FUN_0c031158(int);
+int pfAddNumber(int);
 int FUN_0c04a38a(int, int, int);
 int FUN_0c058b70(int, int, int, float);
 float FUN_0c076200(int, float);
@@ -980,19 +980,19 @@ int technicalBonusExec(int a4)
             pfSize(1.5f, 1.5f);
             t58 = (int)((int)((t0 * t1) * 0x19) / (int)0x64);
             *(unsigned int *)(((int)stk + 20)) = t58;
-            FUN_0c0310a0();
+            pfCleanString();
             FUN_0c0310ae(0x24);
             t61 = *(int *)(((int)stk + 20));
-            FUN_0c031158(t61);
+            pfAddNumber(t61);
             FUN_0c0310ae(0x2E);
             t64 = *(int *)0xC08D678;
             pfPuts(t64);
             pfSize(1.19999993f, 1.19999993f);
             t67 = (int)((int)((t0 * t1) * 0x19) % (int)0x64);
             *(unsigned int *)(((int)stk + 20)) = t67;
-            FUN_0c0310a0();
+            pfCleanString();
             t69 = *(int *)(((int)stk + 20));
-            FUN_0c031158(t69);
+            pfAddNumber(t69);
             t71 = *(int *)0xC08D678;
             t72 = pfPuts(t71);
             t73 = t72;
@@ -1083,19 +1083,19 @@ int technicalBonusExec(int a4)
         pfSize(1.5f, 1.5f);
         t126 = (int)((int)((t0 * t1) * 0x19) / (int)0x64);
         *(unsigned int *)(((int)stk + 20)) = t126;
-        FUN_0c0310a0();
+        pfCleanString();
         FUN_0c0310ae(0x24);
         t129 = *(int *)(((int)stk + 20));
-        FUN_0c031158(t129);
+        pfAddNumber(t129);
         FUN_0c0310ae(0x2E);
         t132 = *(int *)0xC08D678;
         pfPuts(t132);
         pfSize(1.19999993f, 1.19999993f);
         t135 = (int)((int)((t0 * t1) * 0x19) % (int)0x64);
         *(unsigned int *)(((int)stk + 20)) = t135;
-        FUN_0c0310a0();
+        pfCleanString();
         t137 = *(int *)(((int)stk + 20));
-        FUN_0c031158(t137);
+        pfAddNumber(t137);
         t139 = *(int *)0xC08D678;
         t140 = pfPuts(t139);
         t141 = t140;

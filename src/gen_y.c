@@ -191,7 +191,7 @@ void FUN_0c0287c2(int a4)
     *(unsigned int *)0xC179908 = t2;
 }
 
-int FUN_0c028fda(int a4, int a5)
+int SetAdvCamera(int a4, int a5)
 {
     int t1;
     int t0;

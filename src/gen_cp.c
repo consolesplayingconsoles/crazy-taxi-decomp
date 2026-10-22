@@ -21,7 +21,7 @@ int FUN_0c067c14(int, int, int, int, int);
 float FUN_0c0736c0(int, int, float);
 int FUN_0c07378e(int, int, int);
 int FUN_0c07387c(int, int, float);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077f70(void);
 int FUN_0c078310(void);
@@ -766,7 +766,7 @@ int SetSpark(int a4, int a5, int a6)
             *(unsigned int *)((((short)((short)t35 * (short)0x1C) + 0xC274DF8) + 0x18)) = 0x1E;
             t36 = *(int *)(((int)stk + 12));
             t16 = t36;
-            FUN_0c0771b0(t16, (((int)stk + 8) + 0xC));
+            nlSqrt(t16, (((int)stk + 8) + 0xC));
             t38 = *(int *)0xC2757D8;
             *(unsigned int *)((((((t38 << 2) << 2) << 1) + 0xC274298) + 0x0)) = 0x1;
             t39 = *(int *)0xC2757D8;
@@ -1110,7 +1110,7 @@ int colliBoxSphere(int a4, int a5)
         nlTranslateV((t23 + 0x60));
         nlPushMatrix(0x0);
         FUN_0c078310();
-        FUN_0c0771b0(a5, (((int)stk + 8) + 0x20));
+        nlSqrt(a5, (((int)stk + 8) + 0x20));
         nlPopMatrix(0x1);
         u29 = *(float *)(((int)stk + 40));
         if (u29 > (-(u13 + u15))) {
@@ -2233,7 +2233,7 @@ int BigOneSwims(void)
         t27 = *(int *)0xC2AEC4C;
         FUN_0c07378e(t27, t25, t26);
         nlPushMatrix(0x0);
-        FUN_0c0771b0((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x14));
+        nlSqrt((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x14));
         u31 = *(float *)0xC2AEC58;
         t32 = FUN_0c0736c0(0xC13F5D8, 0x2, u31);
         *(float *)(((int)stk + 12)) = t32;
@@ -2269,7 +2269,7 @@ int BigOneSwims(void)
         t57 = 0xC140EB8;
         do {
             t58 = *(int *)((t57 + 0x18));
-            FUN_0c0771b0(t57, ((t58 << 2) + 0xC13F898));
+            nlSqrt(t57, ((t58 << 2) + 0xC13F898));
             t60 = *(int *)((((t58 << 2) + 0xC13F898) + 0x0));
             *(unsigned int *)((((t58 << 2) + 0xC13F898) + 0x0)) = (t60 | 0x1);
             FUN_0c077210((t57 + 0xC), (((t58 << 2) + 0xC13F898) + 0xC));
@@ -2278,7 +2278,7 @@ int BigOneSwims(void)
             *(unsigned int *)(((int)stk + 4)) = (t62 + 0x1);
         } while ((unsigned int)(t62 + 0x1) < (unsigned int)0x2D);
         nlGetPushedMatrix(0x0);
-        FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
+        nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
         u65 = *(float *)0xC2AEC58;
         t66 = FUN_0c0736c0(0xC13F6A8, 0x2, u65);
         *(float *)(((int)stk + 12)) = t66;
@@ -2314,7 +2314,7 @@ int BigOneSwims(void)
         t91 = 0xC1413A4;
         do {
             t92 = *(int *)((t91 + 0x18));
-            FUN_0c0771b0(t91, ((t92 << 2) + 0xC13F898));
+            nlSqrt(t91, ((t92 << 2) + 0xC13F898));
             t94 = *(int *)((((t92 << 2) + 0xC13F898) + 0x0));
             *(unsigned int *)((((t92 << 2) + 0xC13F898) + 0x0)) = (t94 | 0x1);
             FUN_0c077210((t91 + 0xC), (((t92 << 2) + 0xC13F898) + 0xC));
@@ -2322,7 +2322,7 @@ int BigOneSwims(void)
             t91 = (t91 + 0x1C);
             *(unsigned int *)(((int)stk + 4)) = (t96 + 0x1);
         } while ((unsigned int)(t96 + 0x1) < (unsigned int)0x10);
-        FUN_0c0771b0((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x14));
+        nlSqrt((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x14));
         u98 = *(float *)0xC2AEC58;
         t99 = FUN_0c0736c0(0xC13F788, 0x2, u98);
         *(float *)(((int)stk + 12)) = t99;
@@ -2360,7 +2360,7 @@ int BigOneSwims(void)
         t126 = 0xC141564;
         do {
             t127 = *(int *)((t126 + 0x18));
-            FUN_0c0771b0(t126, ((t127 << 2) + 0xC13F898));
+            nlSqrt(t126, ((t127 << 2) + 0xC13F898));
             t129 = *(int *)((((t127 << 2) + 0xC13F898) + 0x0));
             *(unsigned int *)((((t127 << 2) + 0xC13F898) + 0x0)) = (t129 | 0x1);
             FUN_0c077210((t126 + 0xC), (((t127 << 2) + 0xC13F898) + 0xC));

@@ -12,6 +12,8 @@ def canon(a):
 def rd32(a): return struct.unpack_from('<I',BIN,a-BASE)[0]
 M=0xffffffff
 class Skip(Exception): pass
+class Restart(Exception): pass     # something learned mid-reading (a callee returns a float) that earlier call sites need: read again
+_FLOATRET=set()
 class Conflict(Exception):         # two call sites give one callee different argument types: it is called through a cast at every site
     def __init__(self,fname): Exception.__init__(self,fname); self.fname=fname
 _CONFLICTS=set()
@@ -67,6 +69,9 @@ class Ctx:
             if not lst[idx].startswith('int %s = '%t): raise Skip('read fr0')
             lst[idx]='float '+lst[idx][4:]
             s.protos[fname]=tuple(x for x in s.protos[fname] if x!='->float')+('->float',)
+            if fname not in _FLOATRET and s.ncalls_to.get(fname,0)>1:
+                _FLOATRET.add(fname); raise Restart()         # it was called before as returning an int: every site must take the float
+            _FLOATRET.add(fname)
             if s.R.get('r0')==('e',t): del s.R['r0']
             s.FR['fr0']=('e',t); return s.FR['fr0']
         if r not in s.FR and s.swapped:
@@ -123,6 +128,62 @@ def sr_get_fin(c,reg):
         t='t%d'%c.ntemp; c.ntemp+=1
         c.protos['_builtin_get_imask']=()
         c.blocks[-1].append('int %s = _builtin_get_imask();'%t); c.R[reg]=('e',t)
+_NOWRITE=('cmp','tst','mul','dmul','mac','jsr','jmp','bsrf','braf','lds','ldc','ocb','pref','movca','bra','bsr','bt','bf','rts','rte','nop','clrt','sett','clrmac','div0u','fcmp','ftst')
+def call_constants(ins,addr2idx):
+    """{index of a jsr: the address its register holds on every path to it}, from a forward scan of the code (reaching definitions of
+    integer registers: a pool constant, a small constant or a copy of one; anything else is unknown; a call leaves r0-r7 unknown).
+    The flat form keeps registers in variables, so a callee loaded in another block would otherwise be called as a pointer."""
+    n=len(ins); TOP='?'
+    def succ(i):
+        mn,ops,pc=ins[i]; t=gen_cfg.target_of(ops) if ops else None; ti=addr2idx.get(t) if t is not None else None
+        if mn in ('bra','jmp','braf','rts','rte'): return [i+1]
+        if mn in ('bt/s','bf/s'): return [i+1]
+        if mn in ('bt','bf'): return [i+1]+([ti] if ti is not None else [])
+        return [i+1]
+    slot_next={}                                                      # the instruction after a delay slot
+    for i,(mn,ops,pc) in enumerate(ins):
+        t=gen_cfg.target_of(ops) if ops else None; ti=addr2idx.get(t) if t is not None else None
+        if mn=='bra': slot_next[i+1]=[ti] if ti is not None else []
+        elif mn in ('jmp','braf','rts','rte'): slot_next[i+1]=[]
+        elif mn in ('bt/s','bf/s'): slot_next[i+1]=[i+2]+([ti] if ti is not None else [])
+        elif mn in ('jsr','bsr','bsrf'): slot_next[i+1]=[('call',i+2)]
+    def transfer(i,st):
+        mn,ops,pc=ins[i]; st=dict(st)
+        raw=(ops or '').split(';')[0].strip(); a=[x.strip() for x in re.split(r',(?![^(]*\))',raw)] if raw else []
+        for x in a:
+            m=re.fullmatch(r'@(?:-)?(r\d+)\+?',x)
+            if m and (x.endswith('+') or x.startswith('@-')): st[m.group(1)]=TOP
+        if not a or mn.split('/')[0].startswith(_NOWRITE): return st
+        d=a[-1]
+        if not re.fullmatch(r'r\d+',d): return st
+        if mn=='mov.l' and a[0].endswith(',pc)') and ';' in (ops or ''):
+            m=re.search(r'=\s*([0-9a-fA-F]{8})',ops); st[d]=int(m.group(1),16) if m else TOP
+        elif mn=='mov' and a[0].startswith('#'): st[d]=int(a[0][1:],0)&M
+        elif mn=='mov' and re.fullmatch(r'r\d+',a[0]): st[d]=st.get(a[0],TOP)
+        else: st[d]=TOP
+        return st
+    IN={0:{}}; work=[0]; seen=0
+    def meet(old,new):
+        if old is None: return dict(new),True
+        out={k:v for k,v in old.items() if new.get(k,TOP)==v}
+        return out,out!=old
+    while work and seen<200000:
+        i=work.pop(); seen+=1
+        if i>=n: continue
+        out=transfer(i,IN[i])
+        nxt=slot_next[i] if i in slot_next else succ(i)
+        for s in nxt:
+            st=out
+            if isinstance(s,tuple): s=s[1]; st={k:v for k,v in out.items() if not re.fullmatch(r'r[0-7]',k)}
+            if s is None or s>=n: continue
+            new,ch=meet(IN.get(s),st)
+            if ch or s not in IN: IN[s]=new; work.append(s)
+    res={}
+    for i,(mn,ops,pc) in enumerate(ins):
+        if mn=='jsr' and i in IN:
+            r=(ops or '').split(';')[0].strip().strip('@'); v=IN[i].get(r)
+            if isinstance(v,int): res[i]=v
+    return res
 _ARITY={}
 _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','neg','negc','not','swap.b','swap.w','sts','sts.l','float','mova',
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
@@ -137,13 +198,26 @@ def callee_arity(fname):
     try:
         out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False
+        targets=set(); skipping=False        # branch targets seen: code after a return that a branch reaches is read too (an early return)
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if not m: continue
             mn=m.group(3); ops=m.group(4).split(';')[0].strip()
+            pc_=int(m.group(1),16)
+            if skipping:
+                if pc_ not in targets:
+                    if pc_>max(targets): break
+                    continue
+                skipping=False
             if after_ret:
                 after_ret-=1
-                if after_ret==0: break
+                if after_ret==0:
+                    if targets and max(targets)>pc_-2:
+                        if pc_ not in targets: skipping=True; continue
+                    else: break
+            if mn in ('bra','bt','bf','bt/s','bf/s'):
+                tg=re.match(r'0x([0-9a-f]+)',ops)
+                if tg: targets.add(int(tg.group(1),16))
             a=[x.strip() for x in re.split(r',(?![^(]*\))',ops)] if ops else []
             regs=lambda t: re.findall(r'\b(f?r\d+)\b',t)
             base=mn.split('/')[0]
@@ -176,13 +250,25 @@ def callee_arity(fname):
             slot=next((re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',x) for x in out[out.index(l)+1:] if re.match(r'[0-9a-f]{8} ',x)),None)
             slot_w=set(re.findall(r',\s*(r[4-7])\s*$',slot.group(4).split(';')[0])) if slot else set()      # the delay slot runs before the call: an argument it sets is the wrapper's own
             if mn in ('jsr','bsr','bsrf','jmp','braf') and maxi<0 and maxf<0 and not ({'r4','r5','r6','r7'}&(wrote|slot_w)) and SPANS.get(fname,(0,99))[1]<=32:
-                raise _PassThrough()     # a call before it has read or written any argument register: a wrapper passing its arguments on, arity unknown
+                tgt_=None                # a call before it has read or written any argument register: a wrapper passing its arguments on
+                cm=l.split(';',1)[1].strip() if ';' in l else ''
+                if mn in ('bsr','bra') and re.fullmatch(r'\w+',cm): tgt_=cm
+                elif mn in ('jsr','jmp') and a:
+                    rg=a[0].strip('@')
+                    for x in reversed(out[:out.index(l)]):
+                        mm=re.match(r'[0-9a-f]{8} [0-9a-f]{4}\s+mov\.l\s+@\([^)]*,pc\),%s\s*;\s*=[0-9a-f]{8}\s+(\w+)'%rg,x)
+                        if mm: tgt_=mm.group(1); break
+                        if re.search(r',\s*%s\s*(;|$)'%rg,x.split(';')[0]+';'): break
+                raise _PassThrough(tgt_)  # its arity is the arity of what it calls (unknown when that is unknown)
             if mn in ('jsr','bsr'):
                 wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
             if mn=='rts': after_ret=2
         res=(maxi+1,maxf+1)
-    except _PassThrough:
+    except _PassThrough as e:
         res=None
+        if e.args and e.args[0] and e.args[0]!=fname:
+            _ARITY[fname]=None           # a cycle reads as unknown
+            res=callee_arity(e.args[0])
     except Exception:
         res=None
     _ARITY[fname]=res
@@ -196,11 +282,19 @@ def run(name,passthru=False):
     (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory). When the
     control flow has no if / while form (arms meeting at different joins, loops entered from a jump table, paths that multiply), the
     function is written flat: a label per block, every register a variable, goto between blocks."""
-    try: return _run_structured(name,passthru)
-    except RecursionError: pass
-    except Skip as e:
-        if not any(k in str(e) for k in FLATTY): raise
-    return _run(name,passthru,True,True)
+    _FLOATRET.clear()
+    for _ in range(4):
+        try: return _run_structured(name,passthru)
+        except Restart: continue
+        except RecursionError: break
+        except Skip as e:
+            if not any(k in str(e) for k in FLATTY): raise
+            break
+    for _ in range(10):
+        try: return _run(name,passthru,True,True)
+        except Conflict as e: _CONFLICTS.add(e.fname)
+        except Restart: continue        # two sites give one callee different arguments: a cast at every site
+    raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
 def _run_structured(name,passthru=False):
     _CONFLICTS.clear(); _IJOIN[0]=False
     for _ in range(10):
@@ -225,7 +319,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
-    c=Ctx(name); c.nemit=0; c.emit_limit=10**9 if flat else 6*(SPANS.get(name,(0,0))[1]//2)+300; c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
+    c=Ctx(name); c.nemit=0; c.emit_limit=10**9 if flat else 6*(SPANS.get(name,(0,0))[1]//2)+300; c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.ncalls_to={}; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
         # base: value; off: int or value
@@ -308,6 +402,9 @@ def _run(name,passthru=False,frame=False,flat=False):
             if (c.in_prologue and n>=8) or (n>=8 and a[0] not in c.R): return      # a callee-saved register saved in the prologue; r4-r7 pushed there are arguments
             v=c.gi(a[0])                       # an argument pushed for the next call (or a value kept for a pop)
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr arg')
+            if isinstance(v,tuple) and v[0]=='e' and re.fullmatch(r'[tR]\d+',v[1]):
+                # a variable the code may assign again before the pop (a loop's register variable): the word holds its value now
+                t=fresh(False); emit('int %s = %s;'%(t,v[1])); v=('e',t)
             c.pend.append(v); return
         if mn=='fmov.s' and a[0].startswith('fr') and a[1]=='@-r15':
             n=int(a[0][2:])
@@ -701,6 +798,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         if mn=='sts' and a[0]=='fpul': c.R[a[1]]=c.fpul; return
         raise Skip(mn+' '+rawops)
     addr2idx={x[2]:i for i,x in enumerate(ins)}
+    try: CALLC=call_constants(ins,addr2idx)        # a callee loaded into a register in another block
+    except Exception: CALLC={}
     def ind_variadic_hint(fname):
         return fname in ('nlPrintf','printf','sprintf','nlSprintf')
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
@@ -710,6 +809,11 @@ def _run(name,passthru=False,frame=False,flat=False):
             if tail: raise Skip('helper as a tail call')
             ty='int' if fname.endswith('s') else 'unsigned int'
             t=fresh(False); emit('int %s = (int)((%s)%s %s (%s)%s);'%(t,ty,ex(c.gi('r1')),'/' if fname.startswith('_div') else '%',ty,ex(c.gi('r0'))))
+            c.R['r0']=('e',t); c.R.pop('r1',None); return
+        if fname=='_divws':
+            # the 16-bit signed division helper: dividend r1, divisor r0 (both as shorts), result r0 as a short; r1 is used up
+            if tail: raise Skip('helper as a tail call')
+            t=fresh(False); emit('int %s = (int)(short)((short)%s / (short)%s);'%(t,ex(c.gi('r1')),ex(c.gi('r0'))))
             c.R['r0']=('e',t); c.R.pop('r1',None); return
         if fname=='_slow_strcpy':
             # the compiler's string copy: destination r0, source r1; the registers it uses come back unknown
@@ -848,11 +952,13 @@ def _run(name,passthru=False,frame=False,flat=False):
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         if hidden: args.append(hidden); types.append('...')
         sig=tuple(types)
-        isf=(not ind) and fname in c.protos and c.protos[fname][-1:]==('->float',)
+        isf=(not ind) and ((fname in c.protos and c.protos[fname][-1:]==('->float',)) or fname in _FLOATRET)
+        if not ind: c.ncalls_to[fname]=c.ncalls_to.get(fname,0)+1
         if not ind:
             if fname not in _CONFLICTS and fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Conflict(fname)
             if fname in _CONFLICTS: c.protos[fname]=('()',)+(('->float',) if isf else ())
             elif not isf: c.protos[fname]=sig
+            elif fname not in c.protos: c.protos[fname]=sig+('->float',)
         if ind: call='((int (*)(%s))(%s))(%s)'%(', '.join(sig) or 'void',ind,', '.join(args))
         elif fname in _CONFLICTS: call='((%s (*)(%s))(%s))(%s)'%('float' if isf else 'int',', '.join(sig) or 'void',fname,', '.join(args))
         else: call='%s(%s)'%(fname,', '.join(args))
@@ -1016,6 +1122,8 @@ def _run(name,passthru=False,frame=False,flat=False):
             left.remove(pick)
 
     def step(i):
+        c.nstep=getattr(c,'nstep',0)+1
+        if c.nstep>40*c.emit_limit: raise Skip('bloat: the reading walked %d instructions (paths that multiply)'%c.nstep)      # the flat form is linear in the function's size
         mn,ops,pc=ins[i]
         if c.in_prologue and not (mn=='sts.l' or (mn in('mov.l','fmov.s') and parse_ops(ops)[1:]==['@-r15']) or (mn=='add' and parse_ops(ops)[1:]==['r15'])):
             c.in_prologue=False
@@ -1256,6 +1364,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         set_regs(cur); return live[0][2]
 
     def exec_loop(h):
+        c.nloops=getattr(c,'nloops',0)+1
+        if c.nloops>400: raise Skip('bloat: nested loops read %d times (each pass re-reads the loops inside it)'%c.nloops)      # the flat form reads each block once
         E,_=G.loop_exit(h)
         if E is None and _ is None and not G.never_leaves(h): raise Skip('loop exits')
         stl={h:'cont'}
@@ -1284,7 +1394,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         for st in conts:
             if st[3]!=entS: raise Skip('stack local in a loop')
         cand=[]; undef=set()
-        for k,(ent,isf) in enumerate(((entR,False),(entF,True))):
+        def find_cand(conts):
+          for k,(ent,isf) in enumerate(((entR,False),(entF,True))):
             for st in conts:
                 for r,v in st[k].items():
                     if r in c.lv or (r,isf) in cand: continue
@@ -1295,17 +1406,21 @@ def _run(name,passthru=False,frame=False,flat=False):
                     elif e is not None and v!=e and v!=DIRTY: cand.append((r,isf))
                     elif e is None and r not in ent and v is not None and v!=DIRTY and not (isinstance(v,tuple) and v[0] in ('addr','srx')):
                         cand.append((r,isf)); undef.add((r,isf))       # undefined on entry, set by the loop and read on the next pass: a variable with no initial value
-        cand.sort(key=lambda w:(w[1],int(w[0][2:] if w[1] else w[0][1:])))
+        find_cand(conts)
         W=[]
-        if cand:
+        for _round in range(6):
+            if not cand: break
+            cand.sort(key=lambda w:(w[1],int(w[0][2:] if w[1] else w[0][1:])))
             for r,isf in cand:
                 if (r,isf) not in undef: c.gf(r) if isf else c.gi(r)         # an argument the loop changes is read here
             s1=snap()
-            conts,exits_,lb=run_pass(cand)
-            text='\n'.join(map(str,lb))+'\n'+repr([st[:2] for st in conts+exits_])
+            conts2,exits_,lb=run_pass(cand)
+            text='\n'.join(map(str,lb))+'\n'+repr([st[:2] for st in conts2+exits_])
             restore(s1)
             W=[(r,isf) for r,isf in cand if '@%s@'%r in text]
             restore(s0)
+            n0=len(cand); find_cand(conts2)          # a register that copies a loop variable (r5 = r4 each pass) changes too: found on the marked pass
+            if len(cand)==n0: break
         added=[]
         for r,isf in W:
             if (r,isf) in undef:
@@ -1412,6 +1527,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                     tgt=(pc+4+v)&0xFFFFFFFF
                 else:
                     v=c.gi(parse_ops(ops)[0].strip('@'))
+                    if not isinstance(v,int) and CALLC.get(i) is not None and canon(CALLC[i]) in FUNCS: v=CALLC[i]
                     if not isinstance(v,int):
                         # a call through an address worked out or loaded: the register holds it before the delay slot runs
                         if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect call')
@@ -1444,6 +1560,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if tgt in addr2idx: step(i+1); i=addr2idx[tgt]; continue
                 else:
                     v=c.gi(parse_ops(ops)[0].strip('@'))
+                    if not isinstance(v,int) and CALLC.get(i) is not None and canon(CALLC[i]) in FUNCS: v=CALLC[i]
                     if not isinstance(v,int):
                         # a tail call through a pointer (a callback, a method table): the delay slot restores the frame
                         if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect jmp')
@@ -1600,6 +1717,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                         tgt=(pc+4+v)&0xFFFFFFFF
                     else:
                         v=c.gi(parse_ops(ops)[0].strip('@'))
+                        if not isinstance(v,int) and CALLC.get(i) is not None and canon(CALLC[i]) in FUNCS: v=CALLC[i]
                         if not isinstance(v,int):
                             if isinstance(v,tuple) and v[0]=='addr': raise Skip('indirect call')
                             texpr=ex(v); step(i+1)
@@ -1615,6 +1733,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if mn=='bra': tgt=target_of(ops)
                     else:
                         v=c.gi(parse_ops(ops)[0].strip('@'))
+                        if not isinstance(v,int) and CALLC.get(i) is not None and canon(CALLC[i]) in FUNCS: v=CALLC[i]
                         if not isint(v):
                             if mn=='braf' or (isinstance(v,tuple) and v[0]=='addr'): raise Skip('flat: '+mn)
                             texpr=ex(v); step(i+1); do_call('@indirect',tail=True,ind=texpr); return []

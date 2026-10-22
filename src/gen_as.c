@@ -4,7 +4,7 @@
 int Act_Init(void);
 int Drv_StartAction(int, int, int);
 int FUN_0c031934(int);
-int FUN_0c04f1b0(int);
+int nd_peopleInitialize(int);
 int FUN_0c074200(int, int);
 int FUN_0c0770f0(int, int, int);
 int FUN_0c1573a0(void);
@@ -595,7 +595,7 @@ int Initialize_Replay(void)
                 FUN_0c031934(t13);
                 t15 = *(int *)0xC1EE20C;
                 PutCourse_Init(t15);
-                FUN_0c04f1b0(0x46);
+                nd_peopleInitialize(0x46);
             } else {
                 t18 = *(int *)0xC1EE214;
                 t19 = t13;
@@ -610,13 +610,13 @@ int Initialize_Replay(void)
             FUN_0c031934(t13);
             t25 = *(int *)0xC1EE20C;
             PutCourse_Init(t25);
-            FUN_0c04f1b0(0x32);
+            nd_peopleInitialize(0x32);
         }
     } else {
         FUN_0c031934(t13);
         t30 = *(int *)0xC1EE20C;
         PutCourse_Init(t30);
-        FUN_0c04f1b0(0x46);
+        nd_peopleInitialize(0x46);
     }
     init_CarMain();
     initCamera(0x0);

@@ -1,7 +1,7 @@
 /* Wrappers that pass a fifth or sixth argument on the stack. Where the original leaves r6/r7 as they
    came in, the C takes them as parameters and passes them on. */
 
-extern int kdSetDriverMode(int mode, int a, int b, int c, int d);
+extern int kdSetDriverMode(int mode, int a, int b, int c);
 extern int mpdrv_setcmd(int port, int cmd, void *p, int n, int e, int f);
 extern int syG2Write(void *src, unsigned int dst, int size, int n, int e, int f);
 extern int kmSetFogTableColor(int a, int b, int c, int d, int e);
@@ -10,17 +10,17 @@ extern void mwRnaErrCallFunc(int *h, int b, int c, int d, char *msg);
 
 int pdGunSetFlashColor(int color, int b, int c, int d)
 {
-    return kdSetDriverMode(9, color, c, d, color);
+    return kdSetDriverMode(9, color, c, d);
 }
 
 int pdSetMode(int mode, int b, int c, int d)
 {
-    return kdSetDriverMode(5, mode, c, d, mode);
+    return kdSetDriverMode(5, mode, c, d);
 }
 
 int pdSetOptimize(int on, int b, int c, int d)
 {
-    return kdSetDriverMode(0, on, c, d, on);
+    return kdSetDriverMode(0, on, c, d);
 }
 
 int mpdrv_set_dreq_ns(int port)

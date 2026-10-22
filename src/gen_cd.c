@@ -4,15 +4,15 @@
 int Act_Init(void);
 int FUN_0c0111e8(int, int);
 int FUN_0c0112c6(int, int);
-int FUN_0c02edd4(void);
-int FUN_0c02f02a(void);
-int FUN_0c030b10(int, int);
+int gdc_CourseLoadWait(void);
+int gdc_CourseStartLoadReq(void);
+int SetLight(int, int);
 int FUN_0c031480(void);
 int FUN_0c031934(int);
 int FUN_0c0357b0(void);
-int FUN_0c04bef4(void);
-int FUN_0c04f1b0(int);
-int FUN_0c052268(void);
+int cycleAdvCheck(void);
+int nd_peopleInitialize(int);
+int Init_nd_Sprite(void);
 int FUN_0c074680(void);
 int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
@@ -766,9 +766,9 @@ int gameState0(void)
     FUN_0c074680();
     t1 = *(int *)0xC1EE210;
     if (t1 == 2) {
-        FUN_0c02f02a();
+        gdc_CourseStartLoadReq();
     }
-    FUN_0c02edd4();
+    gdc_CourseLoadWait();
     t5 = *(int *)0xC1EE210;
     if (t5 != 2) {
         t6 = *(int *)0xC179488;
@@ -790,7 +790,7 @@ int gameState0(void)
     } else {
         initPlayerADV();
     }
-    FUN_0c052268();
+    Init_nd_Sprite();
     init_GameSystem();
     t23 = *(int *)0xC179488;
     InitColliObj(t23);
@@ -801,7 +801,7 @@ int gameState0(void)
                 FUN_0c031934(t25);
                 t27 = *(int *)0xC1EE20C;
                 PutCourse_Init(t27);
-                FUN_0c04f1b0(0x46);
+                nd_peopleInitialize(0x46);
             } else {
                 t30 = *(int *)0xC1EE214;
                 t31 = t25;
@@ -817,13 +817,13 @@ int gameState0(void)
             FUN_0c031934(t25);
             t37 = *(int *)0xC1EE20C;
             PutCourse_Init(t37);
-            FUN_0c04f1b0(0x32);
+            nd_peopleInitialize(0x32);
         }
     } else {
         FUN_0c031934(t25);
         t42 = *(int *)0xC1EE20C;
         PutCourse_Init(t42);
-        FUN_0c04f1b0(0x46);
+        nd_peopleInitialize(0x46);
     }
     init_CarMain();
     t47 = *(int *)0xC1EE210;
@@ -896,11 +896,11 @@ int gameState0(void)
         }
         t93 = t91;
     }
-    FUN_0c030b10(0x2200, t93);
+    SetLight(0x2200, t93);
     Init_Fog();
     t96 = *(int *)0xC1EE210;
     if ((int)t96 <= (int)0x1) {
-        t97 = FUN_0c04bef4();
+        t97 = cycleAdvCheck();
         t98 = t97;
     } else {
         *(unsigned int *)0xC2A4E54 = 0x0;

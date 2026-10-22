@@ -5,8 +5,8 @@ int CheckSoftReset(void);
 int FUN_0c0300b6(void);
 int FUN_0c040e1c(void);
 int FUN_0c06045c(void);
-int FUN_0c072218(void);
-int FUN_0c0738ae(int);
+int Sound_Execute(void);
+int LoadBigOne(int);
 int PutVMSMessage(void);
 int frameFlip(void);
 int gameInit(void);
@@ -242,7 +242,7 @@ void MainLoop(void)
     t40 = *(int *)0xC2A11C0;
     if (t40 == 0) {
         *(unsigned int *)0xC1EE244 = 0x0;
-        FUN_0c0738ae(0xC141868);
+        LoadBigOne(0xC141868);
         t42 = *(int *)0xC0E4E80;
         *(unsigned int *)0xC1EE27C = t42;
         t43 = *(int *)0xC0E4E7C;
@@ -337,7 +337,7 @@ void MainLoop(void)
                 t90 = *(signed char *)0xC1EE278;
                 nd_Exec_Puru2((unsigned char)t90);
                 FUN_0c0300b6();
-                FUN_0c072218();
+                Sound_Execute();
                 t94 = *(int *)0xC1EE330;
                 *(unsigned int *)0xC1EE330 = (t94 + 0x1);
                 t95 = *(int *)0xC1EE208;
@@ -359,7 +359,7 @@ void MainLoop(void)
             t106 = *(signed char *)0xC1EE278;
             nd_Exec_Puru2((unsigned char)t106);
             FUN_0c0300b6();
-            FUN_0c072218();
+            Sound_Execute();
             t110 = *(int *)0xC1EE330;
             *(unsigned int *)0xC1EE330 = (t110 + 0x1);
             t111 = *(int *)0xC1EE208;
@@ -376,7 +376,7 @@ void MainLoop(void)
         }
     }
     *(unsigned int *)0xC1EE244 = 0x1;
-    FUN_0c0738ae(0xC141868);
+    LoadBigOne(0xC141868);
     t120 = *(int *)0xC0E4E80;
     *(unsigned int *)0xC1EE27C = t120;
     t121 = *(int *)0xC0E4E7C;
@@ -471,7 +471,7 @@ void MainLoop(void)
             t168 = *(signed char *)0xC1EE278;
             nd_Exec_Puru2((unsigned char)t168);
             FUN_0c0300b6();
-            FUN_0c072218();
+            Sound_Execute();
             t172 = *(int *)0xC1EE330;
             *(unsigned int *)0xC1EE330 = (t172 + 0x1);
             t173 = *(int *)0xC1EE208;
@@ -493,7 +493,7 @@ void MainLoop(void)
         t184 = *(signed char *)0xC1EE278;
         nd_Exec_Puru2((unsigned char)t184);
         FUN_0c0300b6();
-        FUN_0c072218();
+        Sound_Execute();
         t188 = *(int *)0xC1EE330;
         *(unsigned int *)0xC1EE330 = (t188 + 0x1);
         t189 = *(int *)0xC1EE208;

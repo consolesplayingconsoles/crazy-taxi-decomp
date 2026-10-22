@@ -13,7 +13,7 @@ int FUN_0c06b1c0(void);
 int FUN_0c085dfc(int a4, int a5, int a6);
 int nlPopMatrix(int a4);
 int FUN_0c07e960(int a4, int a5, int a6, int a7);
-int FUN_0c0351da(void);
+int ColliWallTest(void);
 
 int FUN_0c06b1c0(void)
 {
@@ -222,7 +222,7 @@ int FUN_0c07e960(int a4, int a5, int a6, int a7)
     return t32;
 }
 
-int FUN_0c0351da(void)
+int ColliWallTest(void)
 {
     int t0;
     float t1;

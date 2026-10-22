@@ -53,7 +53,7 @@ What is known about the game's own code and data, from reading the executable. A
   `FUN_0c05dea8` include `Exec_Balloon` and the run `0x0C05EA98`-`0x0C05EEF4`; no code outside
   that run or `Init_DCmini` (`0x0C05B404`-`0x0C05B7A8`) loads from or branches into them.
 - Crazy Box code runs behind `Game_No == 2` (`gameState0`, the set-up: `Init_DCmini` and
-  `FUN_0c02f02a`; the driving frame: `execDCmini` (`0x0C05B914`), the mini game's update and 2D
+  `gdc_CourseStartLoadReq`; the driving frame: `execDCmini` (`0x0C05B914`), the mini game's update and 2D
   overlay, by `MiniGame_No`; the six functions at `0x0C05BE5C`-`0x0C05C72E`, `FUN_0c05be5c` to
   `FUN_0c05c614`, are reached only from it) and `CourseMode == 2` checks spread through the game
   (`IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
@@ -494,7 +494,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   then `[6]` (or `[5]` while `+0x58` is set) at the same matrix (position, the three angles,
   then `+0xAC`/`+0xB0` and 1.2 down), and places each wheel from the `+0x6C` table (x and z; the
   height comes from the suspension), computing the tyre contact points on the way
-  (`FUN_0c0771b0`). A model is drawn by `nlObjPutUseViewMatrix(model)`; its first word picks the mesh
+  (`nlSqrt`). A model is drawn by `nlObjPutUseViewMatrix(model)`; its first word picks the mesh
   kind (0 or 1; by the code, any other value only pops the matrix). The player car is drawn in a state that ignores
   the fade colour: with the base fade set to red (`0x0C0EA5BC`, which `ResetFadeColor` copies
   in), the city and the traffic turned red and the player car and the walker did not (seen
@@ -833,7 +833,7 @@ Code that cannot run once Crazy Box is unreachable (callers all behind `CourseMo
 `0x0C05E8C8-0x0C05EA98`, `0x0C04DF34-0x0C04E194`, `0x0C060930-0x0C060B84`. Live neighbours to keep:
 `FUN_0c05d852` (psgFrame's table) and its pools, `FUN_0c05e5cc` (`PutWindow`), `ndPuru2Reset`'s
 pool at `0x0C05F532`. `0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player) has no reference in the exe but is not
-used: nothing proves it is never reached through a computed pointer. `FUN_0c02f02a` is not Crazy Box only (also called from `0x0C02CCD0`,
+used: nothing proves it is never reached through a computed pointer. `gdc_CourseStartLoadReq` is not Crazy Box only (also called from `0x0C02CCD0`,
 `0x0C02CDAE`, `0x0C03E00C`).
 
 ## RAM map
@@ -857,7 +857,7 @@ Box (`loadCity`'s argument).
 | `0C1789C0-0C2B8C40` | 1,311,360 | game BSS (word-cleared by `FUN_0c14ab98`) |
 | `0C2B8C40-0C2FD460` | 280,608 | SDK BSS (byte-cleared); the BSS ends at `0C2FD460` |
 | `0C2FD460-0C30C000` | 60,320 | past the cleared BSS but not free: `ADX_DecodeSteFloat` uses `0C2FD460`, and `0C2FDE98-0C2FE100` is a live object (the only bytes that change between menu, Arcade and Original); the rest is non-zero but identical in all three dumps (floats, matrices, 16-bit texels; owner not identified). A 23 KB block placed at `0C2FD460` crashed the game 3 s into a run. `0C2FE100-0C30C000` stayed unchanged under a `0xA5` marker fill through an Arcade and an Original run, with no crash or visible corruption (the title/menu path and audio untested) |
-| `0C30C000-0C328000` | 114,688 | replay buffer: `RECADV*`/`RECEND*.BIN` (108,000 B each), 20-byte input records read by `replay` (`0C04BC00`); loaded by `FUN_0c02c528`. With those loads skipped it still holds 24,386 non-zero bytes, identical at the menu, in Arcade and in Original. A `0xA5` marker fill stayed unchanged through an Arcade and an Original run, with no crash or visible corruption (the title/menu path and audio untested) |
+| `0C30C000-0C328000` | 114,688 | replay buffer: `RECADV*`/`RECEND*.BIN` (108,000 B each), 20-byte input records read by `replay` (`0C04BC00`); loaded by `req_load`. With those loads skipped it still holds 24,386 non-zero bytes, identical at the menu, in Arcade and in Original. A `0xA5` marker fill stayed unchanged through an Arcade and an Original run, with no crash or visible corruption (the title/menu path and audio untested) |
 | `0C328000-0C390000` | | `SPLDCn.BIN`: Arcade ends `0C377800`, Original `0C385000` (`0C390000` follows) |
 | `0C390000-0C5D0000` | 2,359,296 | `POLDC0.BIN` (ends `0C5CFEB0` unrounded); `TEXDC0.BIN` is staged then uploaded |
 | `0C5D0000-0C5E0000` | 65,536 | not used |

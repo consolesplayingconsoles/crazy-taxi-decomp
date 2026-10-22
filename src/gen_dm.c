@@ -2,13 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckColliWall(int, float);
-int FUN_0c028fda(int, int);
+int SetAdvCamera(int, int);
 int FUN_0c036256(int, int, int);
 int FUN_0c04bb70(int);
 int FUN_0c04c104(int, int, int);
 int FUN_0c071d34(int, int, int);
 int FUN_0c071db8(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078310(void);
 float FUN_0c078c00(int);
@@ -569,7 +569,7 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
     u21 = 3.40282347e+38f;
     u22 = -3.40282347e+38f;
     for (;;) {
-        FUN_0c0771b0(((signed char)(((t18 << 1) + t18) << 2) + a7), (((int)stk + 4) + 0x3C));
+        nlSqrt(((signed char)(((t18 << 1) + t18) << 2) + a7), (((int)stk + 4) + 0x3C));
         u24 = *(float *)(((int)stk + 64));
         u25 = *(float *)(((int)stk + 12));
         if (u24 > u25) {
@@ -634,7 +634,7 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
                             if ((int)0x0 < (int)0x8) {
                                 t51 = 0x0;
                                 for (;;) {
-                                    FUN_0c0771b0(((signed char)(((t51 << 1) + t51) << 2) + a7), (((int)stk + 4) + 0x3C));
+                                    nlSqrt(((signed char)(((t51 << 1) + t51) << 2) + a7), (((int)stk + 4) + 0x3C));
                                     u53 = *(float *)(((int)stk + 64));
                                     u54 = *(float *)((a5 + 0x6C));
                                     if (!(u53 > u54)) {
@@ -738,7 +738,7 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
                                 t160 = *(int *)(((int)stk + 24));
                                 SetCameraPosVelocity(t160);
                                 nlTranslateV((a5 + 0x60));
-                                FUN_0c0771b0((((int)stk + 4) + 0x30), a8);
+                                nlSqrt((((int)stk + 4) + 0x30), a8);
                                 FUN_0c077210(t149, (a8 + 0x18));
                                 FUN_0c077210((((int)stk + 4) + 0x18), (a8 + 0xC));
                                 nlPopMatrix(0x1);
@@ -1055,7 +1055,7 @@ float SetObjFly(int a4)
                             t84 = 0xC0771B0;
                             t85 = t87;
                             t87 = (t87 + 0xC);
-                            FUN_0c0771b0(t85, (((int)stk + 4) + 0x2C));
+                            nlSqrt(t85, (((int)stk + 4) + 0x2C));
                             t85 = a4;
                             t85 = (t85 + 0x3C);
                             nlOuterProduct(t85, 0xC096644, (((int)stk + 4) + 0x20));
@@ -1301,7 +1301,7 @@ float SetObjFly(int a4)
                     if (u312 > u311) {
                         t307 = t309;
                         t309 = (t309 + 0xC);
-                        FUN_0c0771b0(t307, (((int)stk + 4) + 0x2C));
+                        nlSqrt(t307, (((int)stk + 4) + 0x2C));
                         t307 = a4;
                         t307 = (t307 + 0x3C);
                         nlOuterProduct(t307, 0xC096644, (((int)stk + 4) + 0x20));
@@ -2576,7 +2576,7 @@ int Init_Result(int a4)
                             t522 = *(int *)((((((int)stk + 32) + 0x1C) + 0x10) + 0x0));
                             *(unsigned int *)0xC179140 = t522;
                         }
-                        FUN_0c028fda(0xC179840, 0x0);
+                        SetAdvCamera(0xC179840, 0x0);
                         camSetMode(0x0);
                         t534 = 0x1;
                     }
@@ -2650,7 +2650,7 @@ int Init_Result(int a4)
                         t606 = *(int *)((((((int)stk + 32) + 0x1C) + 0x10) + 0x0));
                         *(unsigned int *)0xC179140 = t606;
                     }
-                    FUN_0c028fda(0xC179840, 0x0);
+                    SetAdvCamera(0xC179840, 0x0);
                     camSetMode(0x0);
                     t618 = 0x1;
                 }
@@ -2756,11 +2756,11 @@ int Init_Result(int a4)
                         if (t707 == 1) {
                             t708 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0xC));
                             if (t708 == 0) {
-                                FUN_0c028fda(0xC179840, 0x0);
+                                SetAdvCamera(0xC179840, 0x0);
                                 camSetMode(0x0);
                             } else {
                                 t711 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0xC));
-                                FUN_0c028fda(0xC179840, t711);
+                                SetAdvCamera(0xC179840, t711);
                             }
                             t804 = 0x0;
                         } else {
@@ -2818,12 +2818,12 @@ int Init_Result(int a4)
                             camSnapToCar(0x0);
                             t750 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0xC));
                             if (t750 == 0) {
-                                FUN_0c028fda(0xC179840, 0x0);
+                                SetAdvCamera(0xC179840, 0x0);
                                 camSetMode(0x0);
                             } else {
                                 t753 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0xC));
                                 if (t753 == -1) {
-                                    FUN_0c028fda(0xC179840, 0x0);
+                                    SetAdvCamera(0xC179840, 0x0);
                                     camSetMode(0x7);
                                 } else {
                                     t756 = *(int *)0xC2A62AC;
@@ -2831,7 +2831,7 @@ int Init_Result(int a4)
                                     t757 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x14));
                                     t758 = *(int *)(((int)stk + 32));
                                     t759 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0xC));
-                                    FUN_0c028fda(((((t757 << 1) + t757) << 2) + t758), t759);
+                                    SetAdvCamera(((((t757 << 1) + t757) << 2) + t758), t759);
                                 }
                             }
                             t765 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x10));

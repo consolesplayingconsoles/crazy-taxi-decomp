@@ -3,7 +3,7 @@
 
 int FUN_0c05778a(int, int, float, float);
 int FUN_0c074680(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c089e00(int);
 int GetCollision2D(int, float);
 int GetCollisionFirst(int, int);
@@ -72,8 +72,8 @@ int psgPickExitSide(int a4)
     t5 = *(int *)0xC0D6070;
     *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = t5;
     nlPushMatrix(0xC179180);
-    FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
-    FUN_0c0771b0((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14));
+    nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+    nlSqrt((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14));
     *(unsigned int *)(((int)stk + 8)) = 0xC2AD204;
     t9 = *(int *)(((int)stk + 4));
     t10 = *(short *)((t9 + 0x140));

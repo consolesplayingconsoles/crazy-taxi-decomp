@@ -5,7 +5,7 @@ int Bezier(int, int, float);
 int FUN_0c049aa8(int, int, float);
 int FUN_0c05778a(int, int, float, float);
 int FUN_0c074680(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078a70(int, int, int);
 int FUN_0c079f10(void);
@@ -1758,7 +1758,7 @@ int FUN_0c065bb8(void)
             t51 = *(int *)0xC2AD554;
             *(unsigned int *)(((((int)stk + 4) + 0x8) + 0x0)) = t51;
             *(unsigned int *)(((int)stk + 8)) = ((((int)stk + 4) + 0x8) + 0x24);
-            FUN_0c0771b0((((int)stk + 4) + 0x44), ((((int)stk + 4) + 0x8) + 0x24));
+            nlSqrt((((int)stk + 4) + 0x44), ((((int)stk + 4) + 0x8) + 0x24));
             FUN_0c077210((((int)stk + 4) + 0x50), (((int)stk + 4) + 0x74));
             t54 = *(int *)(((int)stk + 4));
             FUN_0c078a70(((((int)stk + 4) + 0x8) + 0xC), t54, (((int)stk + 4) + 0x74));
@@ -1770,7 +1770,7 @@ int FUN_0c065bb8(void)
             nlSubVector3op((((int)stk + 4) + 0x68), (((int)stk + 4) + 0x74), 0xC179840);
             nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x68), (0x8C + ((int)stk + 4)), 1.0f, 0.299999982f);
             camSetEye((0x8C + ((int)stk + 4)), 0x1);
-            FUN_0c0771b0((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x74));
+            nlSqrt((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x74));
             nlSubVector3op((((int)stk + 4) + 0x68), (((int)stk + 4) + 0x74), 0xC17984C);
             nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x68), (0x80 + ((int)stk + 4)), 1.0f, 0.049999997f);
             camSetTarget((0x80 + ((int)stk + 4)), 0x1);
@@ -1977,7 +1977,7 @@ int Put_SEGA_LOGO2(void)
             nlPushUnitMatrix();
             nlRotateAZ((t9 * 0x1999));
             *(unsigned int *)(((int)stk + 4)) = (signed char)(((t9 << 1) + t9) << 2);
-            FUN_0c0771b0(0xC2A93F8, ((signed char)(((t9 << 1) + t9) << 2) + (((int)stk + 4) + 0x4)));
+            nlSqrt(0xC2A93F8, ((signed char)(((t9 << 1) + t9) << 2) + (((int)stk + 4) + 0x4)));
             nlPopMatrix(0x1);
             u14 = *(float *)0xC2A93FC;
             if (u14 > 0.0f) {
@@ -2220,8 +2220,8 @@ int carMultiCollision(int a4, float f4)
     *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = t13;
     *(float *)(((int)stk + 24)) = (-f4);
     *(float *)(((int)stk + 12)) = f4;
-    FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
-    FUN_0c0771b0(((int)stk + 4), ((int)stk + 4));
+    nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+    nlSqrt(((int)stk + 4), ((int)stk + 4));
     nlPopMatrix(0x1);
     u17 = *(float *)0xC043B48;
     t18 = GetCollision2D((((int)stk + 4) + 0xC), u17);

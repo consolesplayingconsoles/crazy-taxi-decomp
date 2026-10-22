@@ -4,7 +4,7 @@
 void ResetSpark(void);
 void nlExecuteEvent(void);
 void FUN_0c059450(void);
-void FUN_0c02f02a(void);
+void gdc_CourseStartLoadReq(void);
 void FUN_0c02e800(void);
 void FUN_0c060b84(int n);
 void nlSetCommonTextureOffset(int ofs);
@@ -38,7 +38,7 @@ void camSetMode(int m)
     }
 }
 
-void FUN_0c0288ca(int a, int b, int c)
+void SetCameraAngleVelocity(int a, int b, int c)
 {
     int *g = (int *)0x0C179928;
 
@@ -70,7 +70,7 @@ void gameState9(void)
     (*(int *)0x0C1EE240)++;
     FUN_0c059450();
     nlExecuteEvent();
-    FUN_0c02f02a();
+    gdc_CourseStartLoadReq();
 }
 
 void gameState11(void)
@@ -168,7 +168,7 @@ void FUN_0c02f14c(void)
 }
 
 /* The print buffer empty: the pointer at its start, a terminating 0 there. */
-void FUN_0c0310a0(void)
+void pfCleanString(void)
 {
     PF_PTR = (char *)0x0C26E210;
     *(char *)0x0C26E210 = 0;
@@ -184,7 +184,7 @@ void FUN_0c0310ae(int c)
     *p = 0;
 }
 
-void FUN_0c0310c0(char *s)
+void pfAddString(char *s)
 {
     char *p;
 

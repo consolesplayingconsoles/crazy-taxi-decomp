@@ -35,7 +35,7 @@ int putString(int, int, float, float, float);
 int FUN_0c03d80a(int a4, int a5);
 int psgEnterState5(int a4, int a5);
 int psgEnterState6(int a4, int a5);
-int FUN_0c05ff66(void);
+int Exec_Fog(void);
 int PutCourse(void);
 
 int FUN_0c03d80a(int a4, int a5)
@@ -362,7 +362,7 @@ int psgEnterState6(int a4, int a5)
     return t57;
 }
 
-int FUN_0c05ff66(void)
+int Exec_Fog(void)
 {
     int t0;
     int t1;

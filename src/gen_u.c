@@ -18,14 +18,14 @@ int FUN_0c031934(int);
 int FUN_0c03bea0(int, int, int);
 int FUN_0c03c792(int, int, int, int);
 int FUN_0c041a3e(int);
-int FUN_0c04f1b0(int);
+int nd_peopleInitialize(int);
 int FUN_0c0512ac(void);
 int FUN_0c0530a0(int);
-int FUN_0c0532ea(int);
+int Start_Pass_Judgement(int);
 int FUN_0c05778a(int, int, float, float);
 int FUN_0c057e9e(void);
-int FUN_0c06047c(void);
-int FUN_0c060616(int);
+int LCDAccessOK(void);
+int End_LoadSave(int);
 int FUN_0c0713d8(int);
 int FUN_0c072e36(void);
 int FUN_0c074680(void);
@@ -113,7 +113,7 @@ int vmsfs_unmount(int);
 int vmsfs_write_retry(int, int, int);
 int vmsio_ismount(int);
 int vmsio_isready(int);
-int FUN_0c0208d6(void);
+int init_CarSound(void);
 int FUN_0c0210d4(int a4);
 int Initialize_Replay_Part(void);
 int FUN_0c02eb86(int a4, int a5, float f4);
@@ -154,7 +154,7 @@ int ADXSJD_Create(int a4, int a5, int a6);
 int kmiFinalizeRender(void);
 int frame_make(void);
 
-int FUN_0c0208d6(void)
+int init_CarSound(void)
 {
     float u0;
     int t1;
@@ -334,7 +334,7 @@ int Initialize_Replay_Part(void)
                 FUN_0c031934(t9);
                 t11 = *(int *)0xC1EE20C;
                 PutCourse_Init(t11);
-                FUN_0c04f1b0(0x46);
+                nd_peopleInitialize(0x46);
             } else {
                 t14 = *(int *)0xC1EE214;
                 t15 = t9;
@@ -349,13 +349,13 @@ int Initialize_Replay_Part(void)
             FUN_0c031934(t9);
             t21 = *(int *)0xC1EE20C;
             PutCourse_Init(t21);
-            FUN_0c04f1b0(0x32);
+            nd_peopleInitialize(0x32);
         }
     } else {
         FUN_0c031934(t9);
         t26 = *(int *)0xC1EE20C;
         PutCourse_Init(t26);
-        FUN_0c04f1b0(0x46);
+        nd_peopleInitialize(0x46);
     }
     init_CarMain();
     InitAdvCamera();
@@ -848,9 +848,9 @@ int CheckSoftReset(void)
                             Sound_Init();
                             *(unsigned int *)0xC2A4E50 = 0x0;
                             FUN_0c041a3e(0x0);
-                            FUN_0c060616(0x0);
-                            FUN_0c060616(0x1);
-                            FUN_0c06047c();
+                            End_LoadSave(0x0);
+                            End_LoadSave(0x1);
+                            LCDAccessOK();
                             FUN_0c031048();
                             *(unsigned int *)0xC0EF7F4 = 0x1;
                             t38 = 0x1;
@@ -899,9 +899,9 @@ int CheckSoftReset(void)
                         Sound_Init();
                         *(unsigned int *)0xC2A4E50 = 0x0;
                         FUN_0c041a3e(0x0);
-                        FUN_0c060616(0x0);
-                        FUN_0c060616(0x1);
-                        FUN_0c06047c();
+                        End_LoadSave(0x0);
+                        End_LoadSave(0x1);
+                        LCDAccessOK();
                         FUN_0c031048();
                         *(unsigned int *)0xC0EF7F4 = 0x1;
                         t65 = 0x1;
@@ -979,9 +979,9 @@ int CheckSoftReset(void)
                         Sound_Init();
                         *(unsigned int *)0xC2A4E50 = 0x0;
                         FUN_0c041a3e(0x0);
-                        FUN_0c060616(0x0);
-                        FUN_0c060616(0x1);
-                        FUN_0c06047c();
+                        End_LoadSave(0x0);
+                        End_LoadSave(0x1);
+                        LCDAccessOK();
                         FUN_0c031048();
                         *(unsigned int *)0xC0EF7F4 = 0x1;
                         t106 = 0x1;
@@ -1030,9 +1030,9 @@ int CheckSoftReset(void)
                     Sound_Init();
                     *(unsigned int *)0xC2A4E50 = 0x0;
                     FUN_0c041a3e(0x0);
-                    FUN_0c060616(0x0);
-                    FUN_0c060616(0x1);
-                    FUN_0c06047c();
+                    End_LoadSave(0x0);
+                    End_LoadSave(0x1);
+                    LCDAccessOK();
                     FUN_0c031048();
                     *(unsigned int *)0xC0EF7F4 = 0x1;
                     t136 = 0x1;
@@ -3936,7 +3936,7 @@ int psgFrameState5(int a4)
             if ((int)(u9 + 1.0f) == 5) {
                 t10 = *(int *)0xC1EE794;
                 if ((int)t10 > 0) {
-                    FUN_0c0532ea(0xFFFFFFFF);
+                    Start_Pass_Judgement(0xFFFFFFFF);
                 }
             }
             u14 = *(float *)0xC070884;

@@ -4,7 +4,7 @@
 int ADXT_SetOutVol(int, int);
 int ADXT_StartAfs(int, int, int);
 int FUN_0c02e494(void);
-int FUN_0c02f02a(void);
+int gdc_CourseStartLoadReq(void);
 int FUN_0c03012c(void);
 int FUN_0c03019a(void);
 int FUN_0c03b544(int);
@@ -58,7 +58,7 @@ int FUN_0c03dffa(void)
     *(unsigned int *)0xC1EE238 = 0x0;
     FUN_0c03012c();
     FUN_0c03019a();
-    FUN_0c02f02a();
+    gdc_CourseStartLoadReq();
     FUN_0c03b544(0x4);
     FUN_0c03b698(0x0);
     *(unsigned int *)0xC2A11B0 = 0x0;

@@ -3,7 +3,7 @@
 
 extern void _builtin_ftrv(float *, float *);
 void FUN_0c077170(int a4, int a5);
-void FUN_0c0771b0(int a4, int a5);
+void nlSqrt(int a4, int a5);
 float FUN_0c078600(float f4, float f5);
 float FUN_0c078450(float f4, float f5);
 
@@ -28,7 +28,7 @@ void FUN_0c077170(int a4, int a5)
     *(float *)(((((((a5 + 0x10) - 0x4) - 0x4) - 0x4) - 0x4) + 0x0)) = u3[0];
 }
 
-void FUN_0c0771b0(int a4, int a5)
+void nlSqrt(int a4, int a5)
 {
     float u0;
     float u1;

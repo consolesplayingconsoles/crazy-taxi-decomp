@@ -6,7 +6,7 @@ int FUN_0c03495c(int, int);
 int FUN_0c0349d8(int, int);
 int FUN_0c034a4a(int, int, int, float);
 int FUN_0c034b5e(int, int, int, int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c078310(void);
 int PutCollisionEffect(int, int, int);
 int SetCameraPosVelocity(int);
@@ -373,10 +373,10 @@ int CheckColliWallBox(int a4, int a5, float f4)
                         SetCameraPosVelocity(t51);
                         t53 = *(int *)(((int)stk + 24));
                         t54 = *(int *)(((int)stk + 4));
-                        FUN_0c0771b0(t54, t53);
+                        nlSqrt(t54, t53);
                         t56 = *(int *)(((int)stk + 4));
                         t57 = *(int *)(((int)stk + 20));
-                        FUN_0c0771b0((t56 + 0xC), t57);
+                        nlSqrt((t56 + 0xC), t57);
                         nlPopMatrix(0x1);
                         t60 = *(int *)(((int)stk + 4));
                         t61 = *(int *)((t43 + 0x0));
@@ -409,7 +409,7 @@ int CheckColliWallBox(int a4, int a5, float f4)
                         t73 = (t73 << 2);
                         t74 = *(int *)(((int)stk + 4));
                         t73 = (signed char)t73;
-                        FUN_0c0771b0((t74 + t73), ((((int)stk + 4) + 0x3C) + t73));
+                        nlSqrt((t74 + t73), ((((int)stk + 4) + 0x3C) + t73));
                         t43 = (t43 + 0x1);
                     }
                     nlPopMatrix(0x1);
@@ -485,10 +485,10 @@ int CheckColliWallBox(int a4, int a5, float f4)
                             SetCameraPosVelocity(t110);
                             nlPushMatrix(0x0);
                             FUN_0c078310();
-                            FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+                            nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
                             nlPopMatrix(0x1);
                             *(float *)(((int)stk + 40)) = 5.0f;
-                            FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+                            nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
                             nlPopMatrix(0x1);
                             t118 = *(int *)(((int)stk + 24));
                             t119 = *(int *)((t118 + 0x18));
@@ -538,10 +538,10 @@ int CheckColliWallBox(int a4, int a5, float f4)
                     SetCameraPosVelocity(t148);
                     nlPushMatrix(0x0);
                     FUN_0c078310();
-                    FUN_0c0771b0((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x40));
+                    nlSqrt((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x40));
                     nlPopMatrix(0x1);
                     *(float *)(((int)stk + 72)) = 5.0f;
-                    FUN_0c0771b0((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x40));
+                    nlSqrt((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x40));
                     nlPopMatrix(0x1);
                     t156 = *(int *)((t43 + 0x0));
                     t157 = *(int *)((t156 + 0x18));
@@ -569,7 +569,7 @@ int CheckColliWallBox(int a4, int a5, float f4)
                         t168 = (t168 << 2);
                         t170 = *(int *)(((int)stk + 4));
                         t168 = (signed char)t168;
-                        FUN_0c0771b0((t170 + t168), ((((int)stk + 4) + 0x3C) + t168));
+                        nlSqrt((t170 + t168), ((((int)stk + 4) + 0x3C) + t168));
                         t169 = (t169 + 0x1);
                     }
                     nlPopMatrix(0x1);
@@ -646,10 +646,10 @@ int CheckColliWallBox(int a4, int a5, float f4)
                             SetCameraPosVelocity(t207);
                             nlPushMatrix(0x0);
                             FUN_0c078310();
-                            FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+                            nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
                             nlPopMatrix(0x1);
                             *(float *)(((int)stk + 40)) = 5.0f;
-                            FUN_0c0771b0((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+                            nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
                             nlPopMatrix(0x1);
                             t215 = *(int *)(((int)stk + 24));
                             t216 = *(int *)((t215 + 0x18));

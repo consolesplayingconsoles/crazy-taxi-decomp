@@ -4,7 +4,7 @@
 int CheckColliWall(int, float);
 int FUN_0c028760(int);
 float FUN_0c0288f0(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int GetCollision(int, int, float, float);
 int GetCollision2D(int, float);
@@ -80,7 +80,7 @@ void ExecAdvCamera(void)
         *(float *)0xC179980 = 0.0f;
         *(float *)0xC179978 = 0.0f;
         *(float *)0xC17997C = 5.0f;
-        FUN_0c0771b0(0xC179978, 0xC179978);
+        nlSqrt(0xC179978, 0xC179978);
         t7 = nlRandom();
         *(float *)0xC179984 = ((t7 + -0.5f) * 68.0f);
         t8 = nlRandom();
@@ -141,7 +141,7 @@ void ExecAdvCamera(void)
         u59 = *(float *)(((int)stk + 12));
         *(float *)(((int)stk + 12)) = (u59 + 50.0f);
     }
-    FUN_0c0771b0(((int)stk + 4), ((int)stk + 4));
+    nlSqrt(((int)stk + 4), ((int)stk + 4));
     camSetTarget(((int)stk + 4), 0x2);
     nlPopMatrix(0x1);
     t67 = *(int *)0xC179990;

@@ -8,10 +8,10 @@ int nlGetTranslate(int);
 int nlMultiMatrix(int);
 int nlRotateAY(int);
 int nlTranslateV(int);
-int FUN_0c02f02a(void);
+int gdc_CourseStartLoadReq(void);
 int psgSeatMatrix(int a4);
 
-int FUN_0c02f02a(void)
+int gdc_CourseStartLoadReq(void)
 {
     int t0;
     int t9;

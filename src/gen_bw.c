@@ -2,11 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c03b600(void);
+int ExecScreen(void);
 int FUN_0c03b788(void);
 int FUN_0c03b81e(int);
 int FUN_0c03c10e(void);
-int FUN_0c06047c(void);
+int LCDAccessOK(void);
 int FUN_0c060484(void);
 int FUN_0c062da4(void);
 int FUN_0c063dc6(void);
@@ -30,7 +30,7 @@ int FUN_0c14f8de(int a4, int a5);
 int FUN_0c0638d0(void);
 int FUN_0c063750(void);
 int FUN_0c077fa0(int a4);
-int FUN_0c041e20(void);
+int Menu(void);
 
 int FUN_0c15f934(void)
 {
@@ -336,7 +336,7 @@ int FUN_0c077fa0(int a4)
     return t13;
 }
 
-int FUN_0c041e20(void)
+int Menu(void)
 {
     int t1;
     int t2;
@@ -352,11 +352,11 @@ int FUN_0c041e20(void)
         t3 = ((int (*)(int))(t2))(0xC1EE238);
     }
     FUN_0c03c10e();
-    FUN_0c03b600();
+    ExecScreen();
     FUN_0c03b788();
     t8 = *(int *)0xC2A1214;
     if (t8 == 1) {
         return FUN_0c060484();
     }
-    return FUN_0c06047c();
+    return LCDAccessOK();
 }

@@ -5,9 +5,9 @@ float nlLength(int, int);
 int nlLocate(int, int);
 int nlPrintColor(int);
 int nlPrintf(int, ...);
-int FUN_0c02ef24(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int gdc_CoursePointChk(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int FUN_0c02ef24(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int gdc_CoursePointChk(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     float u1;
     int t2;

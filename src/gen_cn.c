@@ -25,14 +25,14 @@ int FUN_0c053240(float, float, float);
 int FUN_0c05b7f0(int);
 int FUN_0c05d492(void);
 int FUN_0c060586(int, int);
-int FUN_0c060616(int);
+int End_LoadSave(int);
 int FUN_0c061b14(void);
 int FUN_0c070ede(int);
 int FUN_0c071258(int);
 int FUN_0c0713d8(int);
 int FUN_0c074740(void);
 int FUN_0c077170(int, int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077f60(void);
 int FUN_0c077f70(void);
@@ -120,7 +120,7 @@ void nlTranslate(float f4, float f5, float f6);
 int FUN_0c074970(void);
 void kmiDACControl(void);
 int FUN_0c059486(int a4);
-int FUN_0c03ab40(int a4, int a5, int a6);
+int DispBackupHeadInfo(int a4, int a5, int a6);
 int mwRnaCreate(int a4, int a5);
 int FUN_0c07bc00(int a4, int a5);
 int colliSphereSphere(int a4, int a5);
@@ -192,7 +192,7 @@ int FUN_0c059486(int a4)
     return t19;
 }
 
-int FUN_0c03ab40(int a4, int a5, int a6)
+int DispBackupHeadInfo(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1193,7 +1193,7 @@ void ExecSpark(void)
                     t24 = *(int *)(((int)stk + 8));
                     t25 = *(signed char *)0xC2757DC;
                     t6 = t7;
-                    t26 = FUN_0c0771b0(t6, ((signed char)(((t25 << 1) + t25) << 2) + (((((t24 << 2) << 2) << 1) + 0xC274298) + 0x8)));
+                    t26 = nlSqrt(t6, ((signed char)(((t25 << 1) + t25) << 2) + (((((t24 << 2) << 2) << 1) + 0xC274298) + 0x8)));
                     t5 = t26;
                     t5 = 0xC037874;
                     u27 = *(float *)((t5 + 0x0));
@@ -1734,7 +1734,7 @@ int FUN_0c03e254(void)
         }
         t22 = *(int *)0xC2A11B8;
         t23 = SaveBackupData(t22);
-        FUN_0c060616(0x1);
+        End_LoadSave(0x1);
         if (t23 != 0) {
             return FUN_0c040c58(t23);
         }
@@ -1805,7 +1805,7 @@ int FUN_0c03e254(void)
             }
             t61 = *(int *)0xC2A11B8;
             t62 = SaveBackupData(t61);
-            FUN_0c060616(0x1);
+            End_LoadSave(0x1);
             if (t62 != 0) {
                 return FUN_0c040c58(t62);
             }
@@ -1861,7 +1861,7 @@ int FUN_0c03e254(void)
             }
             t89 = *(int *)0xC2A11B8;
             t90 = SaveBackupData(t89);
-            FUN_0c060616(0x1);
+            End_LoadSave(0x1);
             if (t90 != 0) {
                 return FUN_0c040c58(t90);
             }
@@ -1910,7 +1910,7 @@ int FUN_0c03e254(void)
         }
         t114 = *(int *)0xC2A11B8;
         t115 = SaveBackupData(t114);
-        FUN_0c060616(0x1);
+        End_LoadSave(0x1);
         if (t115 != 0) {
             return FUN_0c040c58(t115);
         }
@@ -1966,7 +1966,7 @@ int FUN_0c03e254(void)
         }
         t142 = *(int *)0xC2A11B8;
         t143 = SaveBackupData(t142);
-        FUN_0c060616(0x1);
+        End_LoadSave(0x1);
         if (t143 != 0) {
             return FUN_0c040c58(t143);
         }
@@ -2015,7 +2015,7 @@ int FUN_0c03e254(void)
     }
     t167 = *(int *)0xC2A11B8;
     t168 = SaveBackupData(t167);
-    FUN_0c060616(0x1);
+    End_LoadSave(0x1);
     if (t168 != 0) {
         return FUN_0c040c58(t168);
     }
@@ -3137,7 +3137,7 @@ int psgFrameState4(int a4)
                 *(unsigned int *)(((((int)stk + 16) + 0x18) + 0x0)) = t110;
                 u111 = *(float *)((a4 + 0x38));
                 if ((int)u111 == 69) {
-                    FUN_0c0771b0((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
+                    nlSqrt((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
                     FUN_0c077210(((((int)stk + 16) + 0x18) + 0xC), ((int)stk + 16));
                     SetEffect((((int)stk + 16) + 0xC), ((int)stk + 16), 0x2);
                 }
@@ -3158,7 +3158,7 @@ int psgFrameState4(int a4)
                     *(unsigned int *)(((((int)stk + 16) + 0x18) + 0x0)) = t122;
                     u123 = *(float *)((a4 + 0x38));
                     if ((int)u123 == 69) {
-                        FUN_0c0771b0((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
+                        nlSqrt((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
                         FUN_0c077210(((((int)stk + 16) + 0x18) + 0xC), ((int)stk + 16));
                         SetEffect((((int)stk + 16) + 0xC), ((int)stk + 16), 0x2);
                     }

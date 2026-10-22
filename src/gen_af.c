@@ -3,8 +3,8 @@
 
 int ExecAdvCamera(void);
 int SetCameraTargetRatio(float, float);
-int FUN_0c0288ca(int, int, int);
-int FUN_0c0288d4(float, float);
+int SetCameraAngleVelocity(int, int, int);
+int SetCameraAngleRatio(float, float);
 int FUN_0c0288e0(float);
 int FUN_0c028b06(void);
 int FUN_0c028f50(void);
@@ -108,8 +108,8 @@ int FUN_0c0289be(void)
         }
         camSetAngles(0xFFFFC000, t21, 0xFFFFD000, 0x1);
         u23 = *(float *)0xC028BB8;
-        FUN_0c0288d4(u23, 1.0f);
-        FUN_0c0288ca(0x8, 0x90, 0x10);
+        SetCameraAngleRatio(u23, 1.0f);
+        SetCameraAngleVelocity(0x8, 0x90, 0x10);
         SetCameraMode(0x2);
         ResetSpark();
         *(unsigned int *)0xC179974 = 0x0;

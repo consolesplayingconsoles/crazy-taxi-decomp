@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_f): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c028fda(int, int);
+int SetAdvCamera(int, int);
 int FUN_0c03932e(void);
 int FUN_0c03934e(float);
 int FUN_0c039378(float, float, float);
@@ -14,7 +14,7 @@ int FUN_0c0597fc(void);
 int FUN_0c05aefc(void);
 int FUN_0c05af8e(void);
 int FUN_0c05b044(void);
-int FUN_0c05b0a0(void);
+int Result_SetBackColor(void);
 int FUN_0c074680(void);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
@@ -65,7 +65,7 @@ int gameState12(void)
     Init_Result(0xFFFFFFFF);
     Initialize_Replay();
     FUN_0c04bb70(0x3);
-    FUN_0c028fda(0xC179840, 0x1);
+    SetAdvCamera(0xC179840, 0x1);
     FUN_0c03932e();
     FUN_0c03932e();
     u9 = *(float *)0xC02D520;
@@ -117,7 +117,7 @@ int FUN_0c059450(void)
     FUN_0c0596ac();
     FUN_0c05af8e();
     FUN_0c05b044();
-    FUN_0c05b0a0();
+    Result_SetBackColor();
     FUN_0c05aefc();
     t7 = FUN_0c0597fc();
     t8 = *(int *)0xC2A96F4;

@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ek): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0310a0(void);
-int FUN_0c0310c0(int);
-int FUN_0c031158(int);
-int FUN_0c0771b0(int, int);
+int pfCleanString(void);
+int pfAddString(int);
+int pfAddNumber(int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078980(void);
 int FUN_0c079da0(void);
@@ -88,7 +88,7 @@ int FUN_0c07c740(int a4, int a5)
     if ((t9 & 1) != 0) {
         nlPushMatrix(0x0);
         nlInvertMatrix(0x0);
-        FUN_0c0771b0((a5 + 0x18), 0xC2B7688);
+        nlSqrt((a5 + 0x18), 0xC2B7688);
         nlPopMatrix(0x1);
     }
     FUN_0c079da0();
@@ -148,23 +148,23 @@ int FUN_0c058018(int a4, int a5, int a6)
     if ((int)a6 > (int)0x9) {
         t4 = 0x9;
     }
-    FUN_0c0310a0();
+    pfCleanString();
     pfSetFont(0x1);
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     pfSize(1.0f, 1.0f);
-    FUN_0c0310c0(0xC0D0AB4);
+    pfAddString(0xC0D0AB4);
     if (t0 == 0) {
         if (t2 == 0) {
-            FUN_0c031158(t0);
+            pfAddNumber(t0);
         }
     } else {
-        FUN_0c031158(t0);
+        pfAddNumber(t0);
     }
     if (t2 != 0) {
-        FUN_0c0310c0(0xC0D0AC0);
-        FUN_0c031158(t2);
-        FUN_0c0310c0(0xC0D0AC4);
-        FUN_0c031158(t4);
+        pfAddString(0xC0D0AC0);
+        pfAddNumber(t2);
+        pfAddString(0xC0D0AC4);
+        pfAddNumber(t4);
     }
     t23 = *(int *)0xC08D678;
     t24 = pfLength(t23);

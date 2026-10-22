@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXERR_CallErrFunc(int, ...);
-int FUN_0c039280(void);
+int InitRenderTexture1st(void);
 int FUN_0c0742c0(int);
 int FUN_0c074d10(int);
 int FUN_0c074d20(void);
@@ -77,7 +77,7 @@ int ADXSTM_OpenFname(int a4, int a5)
     return t12;
 }
 
-int FUN_0c0298f0(void)
+int InitNaolib(void)
 {
     int t12;
 
@@ -114,7 +114,7 @@ int FUN_0c0298f0(void)
     FUN_0c0742c0(0x1);
     nlObjPutInit();
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-    return FUN_0c039280();
+    return InitRenderTexture1st();
 }
 
 void FUN_0c04a8b6(int a4)

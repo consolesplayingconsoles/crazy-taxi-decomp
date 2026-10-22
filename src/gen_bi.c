@@ -7,7 +7,7 @@ int FUN_0c0630a2(int, float);
 int FUN_0c06b0ce(void);
 int FUN_0c071258(int);
 int FUN_0c0713d8(int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int GetAverageAngle(int, int, float);
@@ -390,7 +390,7 @@ void initCamera(int a4)
     nlRotateAX((unsigned short)t25);
     t27 = *(short *)0xC17985C;
     nlRotateAZ((unsigned short)t27);
-    FUN_0c0771b0(((int)stk + 4), 0xC1798D0);
+    nlSqrt(((int)stk + 4), 0xC1798D0);
     nlInvertMatrix(0x0);
     nlGetMatrix(0xC179864);
     nlPopMatrix(0x1);
@@ -618,7 +618,7 @@ int StopingCarInit(int a4, int a5, int a6)
         nlPushUnitMatrix();
         t23 = *(short *)((t0 + 0xA6));
         nlRotateAY((unsigned short)t23);
-        FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
         nlAddVector((0x8C + t0), (((int)stk + 4) + 0xC));
         nlAddVector((0xE0 + t0), (((int)stk + 4) + 0xC));
         nlPopMatrix(0x1);

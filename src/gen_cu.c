@@ -9,7 +9,7 @@ int FUN_0c05bb76(int);
 int FUN_0c05d662(void);
 int FUN_0c05d708(void);
 int FUN_0c05d862(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
 int FUN_0c078480(int, int);
@@ -559,7 +559,7 @@ int FUN_0c0655f0(void)
                 *(float *)(((int)stk + 20)) = u37;
                 u38 = *(float *)((((((int)stk + 4) + 0x78) + 0x24) + 0x8));
                 *(float *)(((int)stk + 24)) = u38;
-                FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+                nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
                 camSetEye((((int)stk + 4) + 0x30), 0x0);
                 t41 = *(int *)0xC2AD54C;
                 t42 = *(signed char *)((t41 + 0x14B));
@@ -573,7 +573,7 @@ int FUN_0c0655f0(void)
                 *(float *)(((int)stk + 20)) = u45;
                 u46 = *(float *)((((((int)stk + 4) + 0x3C) + 0x24) + 0x8));
                 *(float *)(((int)stk + 24)) = u46;
-                FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+                nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
                 camSetTarget((((int)stk + 4) + 0x24), 0x0);
                 nlPopMatrix(0x1);
                 t50 = *(int *)0xC2AD580;
@@ -581,7 +581,7 @@ int FUN_0c0655f0(void)
             } else {
                 if (t31 == 3) {
                     nlPushMatrix(0xC179180);
-                    FUN_0c0771b0(((((int)stk + 4) + 0x3C) + 0x18), (((int)stk + 4) + 0x24));
+                    nlSqrt(((((int)stk + 4) + 0x3C) + 0x18), (((int)stk + 4) + 0x24));
                     nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 0xC17984C);
                     nlScaleVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x18), 0.00999999978f);
                     FUN_0c078a70((((int)stk + 4) + 0x24), 0xC17984C, (((int)stk + 4) + 0x18));
@@ -631,7 +631,7 @@ int FUN_0c0655f0(void)
                             *(float *)(((int)stk + 20)) = u84;
                             u85 = *(float *)((((((int)stk + 4) + 0x78) + 0x30) + 0x8));
                             *(float *)(((int)stk + 24)) = u85;
-                            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+                            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
                             camSetEye((((int)stk + 4) + 0x30), 0x0);
                             t88 = *(int *)0xC2AD54C;
                             t89 = *(signed char *)((t88 + 0x14B));
@@ -645,7 +645,7 @@ int FUN_0c0655f0(void)
                             *(float *)(((int)stk + 20)) = u92;
                             u93 = *(float *)((((((int)stk + 4) + 0x3C) + 0x30) + 0x8));
                             *(float *)(((int)stk + 24)) = u93;
-                            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+                            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
                             camSetTarget((((int)stk + 4) + 0x24), 0x0);
                             nlPopMatrix(0x1);
                             t97 = *(int *)0xC2AD580;
@@ -677,7 +677,7 @@ int FUN_0c0655f0(void)
             *(float *)(((int)stk + 56)) = u136;
             u137 = *(float *)(((((int)stk + 4) + 0x78) + 0x8));
             *(float *)(((int)stk + 60)) = u137;
-            FUN_0c0771b0((((int)stk + 4) + 0x30), (((int)stk + 4) + 0xC));
+            nlSqrt((((int)stk + 4) + 0x30), (((int)stk + 4) + 0xC));
             t139 = *(int *)0xC2AD54C;
             t140 = *(signed char *)((t139 + 0x14B));
             u141 = (-1.0f);
@@ -690,7 +690,7 @@ int FUN_0c0655f0(void)
             *(float *)(((int)stk + 56)) = u143;
             u144 = *(float *)((((((int)stk + 4) + 0x78) + 0xC) + 0x8));
             *(float *)(((int)stk + 60)) = u144;
-            FUN_0c0771b0((((int)stk + 4) + 0x30), ((int)stk + 4));
+            nlSqrt((((int)stk + 4) + 0x30), ((int)stk + 4));
             nlSubVector(((int)stk + 4), (((int)stk + 4) + 0xC));
             nlScaleVector((((int)stk + 4) + 0x18), ((int)stk + 4), 0.0166666657f);
             FUN_0c078a70((((int)stk + 4) + 0x30), 0xC179840, (((int)stk + 4) + 0x18));
@@ -707,7 +707,7 @@ int FUN_0c0655f0(void)
             *(float *)(((int)stk + 44)) = u154;
             u155 = *(float *)(((((int)stk + 4) + 0x3C) + 0x8));
             *(float *)(((int)stk + 48)) = u155;
-            FUN_0c0771b0((((int)stk + 4) + 0x24), (((int)stk + 4) + 0xC));
+            nlSqrt((((int)stk + 4) + 0x24), (((int)stk + 4) + 0xC));
             t157 = *(int *)0xC2AD54C;
             t158 = *(signed char *)((t157 + 0x14B));
             u159 = (-1.0f);
@@ -720,7 +720,7 @@ int FUN_0c0655f0(void)
             *(float *)(((int)stk + 44)) = u161;
             u162 = *(float *)((((((int)stk + 4) + 0x3C) + 0xC) + 0x8));
             *(float *)(((int)stk + 48)) = u162;
-            FUN_0c0771b0((((int)stk + 4) + 0x24), ((int)stk + 4));
+            nlSqrt((((int)stk + 4) + 0x24), ((int)stk + 4));
             nlSubVector(((int)stk + 4), (((int)stk + 4) + 0xC));
             nlScaleVector((((int)stk + 4) + 0x18), ((int)stk + 4), 0.0166666657f);
             FUN_0c078a70((((int)stk + 4) + 0x24), 0xC17984C, (((int)stk + 4) + 0x18));
@@ -746,7 +746,7 @@ int FUN_0c0655f0(void)
         *(float *)(((int)stk + 20)) = u184;
         u185 = *(float *)(((((int)stk + 4) + 0x78) + 0x8));
         *(float *)(((int)stk + 24)) = u185;
-        FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
         camSetEye((((int)stk + 4) + 0x30), 0x0);
         t188 = *(int *)0xC2AD54C;
         t189 = *(signed char *)((t188 + 0x14B));
@@ -760,7 +760,7 @@ int FUN_0c0655f0(void)
         *(float *)(((int)stk + 20)) = u192;
         u193 = *(float *)(((((int)stk + 4) + 0x3C) + 0x8));
         *(float *)(((int)stk + 24)) = u193;
-        FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
         camSetTarget((((int)stk + 4) + 0x24), 0x0);
         nlPopMatrix(0x1);
         t197 = *(int *)0xC2AD580;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ga): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078a70(int, int, int);
 int GetCollision(int, int, float, float);
@@ -245,7 +245,7 @@ int FUN_0c0227c8(int a4, float f4, float f5)
     t19 = (0x1A0 + a4);
     t20 = t17;
     for (;;) {
-        FUN_0c0771b0(t20, (t19 + 0x68));
+        nlSqrt(t20, (t19 + 0x68));
         t18 = (t18 + 0x1);
         t19 = (t19 + 0x84);
         t20 = (t20 + 0xC);
@@ -276,7 +276,7 @@ int FUN_0c0227c8(int a4, float f4, float f5)
     u37 = 0.0f;
     for (;;) {
         t38 = *(int *)(((int)stk + 4));
-        FUN_0c0771b0(t38, 0xC1EE154);
+        nlSqrt(t38, 0xC1EE154);
         nlSubVector3op((((int)stk + 4) + 0x48), 0xC1EE154, (t36 + 0x68));
         t41 = *(int *)(((t36 + 0x68) + 0x8));
         *(unsigned int *)(((((int)stk + 4) + 0x54) + 0x8)) = t41;
@@ -428,7 +428,7 @@ int FUN_0c0227c8(int a4, float f4, float f5)
         t183 = *(int *)((a4 + 0x6C));
         u184 = *(float *)((((((t179 << 1) + t179) << 2) + t183) + 0x8));
         *(float *)0xC1EE150 = u184;
-        FUN_0c0771b0(0xC1EE148, (((int)stk + 4) + 0x54));
+        nlSqrt(0xC1EE148, (((int)stk + 4) + 0x54));
         t146 = 0xC0782E0;
         nlPushUnitMatrix();
         t187 = *(short *)((a4 + 0x86));

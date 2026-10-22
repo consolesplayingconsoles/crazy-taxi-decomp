@@ -10,7 +10,7 @@ int FUN_0c04a090(int, int, int, int, int);
 int FUN_0c04d49e(int, float, float);
 int FUN_0c05003c(void);
 int FUN_0c067c14(int, int, int, int, int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c0789c0(int);
 int FUN_0c078a70(int, int, int);
@@ -318,13 +318,13 @@ int FUN_0c031d62(int a4, int a5, int a6)
         if (u4 > ((((-t1) - u2) + u3) / t0)) {
             t81 = 0x0;
             if (!((u3 / t0) > ((((-t1) - u2) + u3) / t0))) {
-                FUN_0c0771b0((a5 + 0x14), (((int)stk + 4) + 0x18));
+                nlSqrt((a5 + 0x14), (((int)stk + 4) + 0x18));
                 u6 = *(float *)(((int)stk + 28));
                 u7 = *(float *)(((int)stk + 32));
                 u8 = *(float *)((a5 + 0x10));
                 t77 = 0x0;
                 if (!(((u7 * u7) + u6 * u6) > (u8 * u8))) {
-                    FUN_0c0771b0(((a5 + 0x14) + 0xC), (((int)stk + 4) + 0xC));
+                    nlSqrt(((a5 + 0x14) + 0xC), (((int)stk + 4) + 0xC));
                     t10 = *(int *)((a5 + 0x48));
                     if (t10 != 3) {
                         u11 = *(float *)(((int)stk + 20));
@@ -333,14 +333,14 @@ int FUN_0c031d62(int a4, int a5, int a6)
                         u14 = *(float *)(((int)stk + 32));
                         t41 = 0x0;
                         if (!(((u12 * u11) - (u14 * u13)) > 0.0f)) {
-                            FUN_0c0771b0((((a5 + 0x14) + 0xC) + 0xC), ((int)stk + 4));
+                            nlSqrt((((a5 + 0x14) + 0xC) + 0xC), ((int)stk + 4));
                             u16 = *(float *)(((int)stk + 8));
                             u17 = *(float *)(((int)stk + 16));
                             u18 = *(float *)(((int)stk + 20));
                             u19 = *(float *)(((int)stk + 4));
                             t37 = 0x0;
                             if (!(((u17 * u16) - (u18 * u19)) > 0.0f)) {
-                                FUN_0c0771b0(((((a5 + 0x14) + 0xC) + 0xC) + 0xC), (((int)stk + 4) + 0xC));
+                                nlSqrt(((((a5 + 0x14) + 0xC) + 0xC) + 0xC), (((int)stk + 4) + 0xC));
                                 u21 = *(float *)(((int)stk + 4));
                                 u22 = *(float *)(((int)stk + 20));
                                 u23 = *(float *)(((int)stk + 16));
@@ -373,14 +373,14 @@ int FUN_0c031d62(int a4, int a5, int a6)
                         *(float *)(((int)stk + 28)) = u45;
                         u46 = *(float *)(((int)stk + 20));
                         *(float *)(((int)stk + 32)) = u46;
-                        FUN_0c0771b0((((a5 + 0x14) + 0xC) + 0xC), ((int)stk + 4));
+                        nlSqrt((((a5 + 0x14) + 0xC) + 0xC), ((int)stk + 4));
                         u48 = *(float *)(((int)stk + 8));
                         u49 = *(float *)(((int)stk + 16));
                         u50 = *(float *)(((int)stk + 20));
                         u51 = *(float *)(((int)stk + 4));
                         t69 = 0x0;
                         if (!(((u49 * u48) - (u50 * u51)) > 0.0f)) {
-                            FUN_0c0771b0(((((a5 + 0x14) + 0xC) + 0xC) + 0xC), (((int)stk + 4) + 0xC));
+                            nlSqrt(((((a5 + 0x14) + 0xC) + 0xC) + 0xC), (((int)stk + 4) + 0xC));
                             u53 = *(float *)(((int)stk + 4));
                             u54 = *(float *)(((int)stk + 20));
                             u55 = *(float *)(((int)stk + 16));
@@ -4013,7 +4013,7 @@ int carBalance(int a4, float f4)
             while (t52 != 0) {
                 t55 = t51;
                 t51 = (t51 + 0xC);
-                t56 = FUN_0c0771b0(t55, (((int)stk + 4) + 0x4));
+                t56 = nlSqrt(t55, (((int)stk + 4) + 0x4));
                 t50 = t56;
                 t50 = 0x8;
                 u57 = *(float *)((((int)stk + 4) + t50));
@@ -4116,7 +4116,7 @@ int carBalance(int a4, float f4)
         while (t112 != 0) {
             t115 = t111;
             t111 = (t111 + 0xC);
-            t116 = FUN_0c0771b0(t115, (((int)stk + 4) + 0x4));
+            t116 = nlSqrt(t115, (((int)stk + 4) + 0x4));
             t110 = t116;
             t110 = 0x8;
             u117 = *(float *)((((int)stk + 4) + t110));
@@ -4416,7 +4416,7 @@ int crowdSpawn(int a4, int a5, float f4)
                                     t20 = (t20 + 0xC0C8420);
                                     t44 = (t44 + 0x20);
                                     t18 = t20;
-                                    t47 = FUN_0c0771b0(t18, t44);
+                                    t47 = nlSqrt(t18, t44);
                                     t42 = t47;
                                     t18 = 0xC1790CC;
                                     t44 = t20;
@@ -4514,7 +4514,7 @@ int crowdSpawn(int a4, int a5, float f4)
                             t73 = *(int *)0xC0CB0D0;
                             t74 = (int)((int)(t72 + t69) % (int)t73);
                             *(unsigned int *)(((int)stk + 24)) = ((((t74 << 2) + t74) << 2) + 0xC0C8420);
-                            FUN_0c0771b0(((((t74 << 2) + t74) << 2) + 0xC0C8420), (((int)stk + 20) + 0x20));
+                            nlSqrt(((((t74 << 2) + t74) << 2) + 0xC0C8420), (((int)stk + 20) + 0x20));
                             t76 = *(int *)(((int)stk + 24));
                             t77 = nlLength(0xC179144, t76);
                             if (t77 > 1000.0f) {
@@ -4632,7 +4632,7 @@ int crowdSpawn(int a4, int a5, float f4)
                                         t116 = (t116 + 0xC0CB0D4);
                                         t140 = (t140 + 0x20);
                                         t114 = t116;
-                                        t143 = FUN_0c0771b0(t114, t140);
+                                        t143 = nlSqrt(t114, t140);
                                         t138 = t143;
                                         t114 = 0xC1790CC;
                                         t140 = t116;
@@ -4729,7 +4729,7 @@ int crowdSpawn(int a4, int a5, float f4)
                                 t169 = *(int *)0xC0CB0D0;
                                 t170 = (int)((int)(t168 + t165) % (int)t169);
                                 *(unsigned int *)(((int)stk + 24)) = ((((t170 << 2) + t170) << 2) + 0xC0CB0D4);
-                                FUN_0c0771b0(((((t170 << 2) + t170) << 2) + 0xC0CB0D4), (((int)stk + 20) + 0x20));
+                                nlSqrt(((((t170 << 2) + t170) << 2) + 0xC0CB0D4), (((int)stk + 20) + 0x20));
                                 t172 = *(int *)(((int)stk + 24));
                                 t173 = nlLength(0xC179144, t172);
                                 if (t173 > 1000.0f) {
@@ -4964,7 +4964,7 @@ int pedDodgeCheck(int a4, float f4, float f5)
         t73 = *(short *)((a4 + 0x38));
         t74 = *(short *)0xC1791C0;
         nlRotateAY(((unsigned short)t73 + (unsigned short)t74));
-        FUN_0c0771b0(0xC12FF0C, (a4 + 0x2C));
+        nlSqrt(0xC12FF0C, (a4 + 0x2C));
         nlPopMatrix(0x1);
         u78 = *(float *)((a4 + 0x3C));
         nlScaleVector((((int)stk + 4) + 0xC), (a4 + 0x2C), (u78 * (1.0f + 1.0f)));

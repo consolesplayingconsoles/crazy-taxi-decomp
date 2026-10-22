@@ -3,9 +3,9 @@
 
 int ExecArrow(int, float);
 int FUN_0c03101a(float);
-int FUN_0c0310a0(void);
-int FUN_0c0310c0(int);
-int FUN_0c031158(int, int);
+int pfCleanString(void);
+int pfAddString(int);
+int pfAddNumber(int, int);
 int FUN_0c05d82a(int);
 int FUN_0c05fd70(int);
 int FUN_0c061da8(int);
@@ -523,7 +523,7 @@ void FUN_0c05d708(void)
     ResetFadeColor();
 }
 
-void FUN_0c060934(int a4, int a5, int a6)
+void pfCrazyBoxRecordTimePut(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -542,20 +542,20 @@ void FUN_0c060934(int a4, int a5, int a6)
     if ((int)(int)t3 < 0) {
         t4 = 0x0;
     }
-    FUN_0c0310a0();
+    pfCleanString();
     if (t0 != 0) {
-        FUN_0c031158(t0, 0x0);
-        FUN_0c0310c0(0xC0D3028);
+        pfAddNumber(t0, 0x0);
+        pfAddString(0xC0D3028);
     }
     if ((int)t1 < (int)0xA) {
-        FUN_0c0310c0(0xC0D302C);
+        pfAddString(0xC0D302C);
     }
-    FUN_0c031158(t1, 0x0);
-    FUN_0c0310c0(0xC0D3030);
+    pfAddNumber(t1, 0x0);
+    pfAddString(0xC0D3030);
     if ((int)t4 < (int)0xA) {
-        FUN_0c0310c0(0xC0D302C);
+        pfAddString(0xC0D302C);
     }
-    FUN_0c031158(t4, 0x0);
+    pfAddNumber(t4, 0x0);
     t16 = *(int *)0xC08D678;
     t17 = pfLength(t16);
     pfLocate(((float)a4 - (t17 * 0.5f)), (float)a5);

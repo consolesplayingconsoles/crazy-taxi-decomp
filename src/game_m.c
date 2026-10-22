@@ -12,7 +12,7 @@ void SetCameraTargetRatio(float a, float b)
     *(float *)(g + 40) = b;
 }
 
-void FUN_0c0288d4(float a, float b)
+void SetCameraAngleRatio(float a, float b)
 {
     char *g = (char *)0x0C179928;
 

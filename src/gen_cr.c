@@ -25,13 +25,13 @@ int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
 int pcarEnd(int);
 int technicalCheck(int);
-int FUN_0c031158(int a4, int a5);
+int pfAddNumber(int a4, int a5);
 int FUN_0c03bea0(int a4, int a5, int a6);
 int FUN_0c0417c0(int a4, int a5, int a6);
 int nlsndStreamGetParam(int a4, int a5, int a6);
 int stopingCarExec(int a4);
 
-int FUN_0c031158(int a4, int a5)
+int pfAddNumber(int a4, int a5)
 {
     int t3;
     int t0;

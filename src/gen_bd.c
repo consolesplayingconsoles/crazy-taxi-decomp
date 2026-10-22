@@ -16,9 +16,9 @@ int ADX_DecodeInfoWav(int, int, int, int);
 int FUN_0c028760(int);
 int FUN_0c02bbf4(int, float);
 int FUN_0c02e3c0(void);
-int FUN_0c02f02a(void);
-int FUN_0c0310a0(void);
-int FUN_0c031158(int);
+int gdc_CourseStartLoadReq(void);
+int pfCleanString(void);
+int pfAddNumber(int);
 int FUN_0c0504bc(void);
 int FUN_0c050bbe(void);
 int FUN_0c050c0a(void);
@@ -28,7 +28,7 @@ int FUN_0c071104(int);
 int FUN_0c0713d8(int);
 int FUN_0c071a7c(int, int);
 float FUN_0c0762d0(int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077a00(int, int, int);
 int FUN_0c077df0(int);
@@ -506,7 +506,7 @@ int FUN_0c02cd46(void)
         gdc_StopStreamSongAll();
     }
     FUN_0c02e3c0();
-    t14 = FUN_0c02f02a();
+    t14 = gdc_CourseStartLoadReq();
     return t14;
 }
 
@@ -847,7 +847,7 @@ int SetStartCamera(void)
     nlPushUnitMatrix();
     nlTranslateV(0xC179144);
     SetCameraPosVelocity(0xC1790FC);
-    FUN_0c0771b0(0xC1799A4, (((int)stk + 4) + 0xC));
+    nlSqrt(0xC1799A4, (((int)stk + 4) + 0xC));
     FUN_0c077210(0xC1799BC, ((int)stk + 4));
     camSetEye((((int)stk + 4) + 0xC), 0x0);
     SetCameraPosRatio(0.0f, 1.0f);
@@ -856,7 +856,7 @@ int SetStartCamera(void)
     u12 = *(float *)0xC0290F4;
     *(float *)0xC1799B4 = u12;
     *(float *)0xC1799B8 = 0.0f;
-    FUN_0c0771b0(0xC1799B0, 0xC1799B0);
+    nlSqrt(0xC1799B0, 0xC1799B0);
     camSetTarget(0xC1799B0, 0x0);
     SetCameraMode(0x1);
     camSetMode(0x8);
@@ -1530,8 +1530,8 @@ int FUN_0c063ca0(int a4, int a5)
     t5 = *(int *)0xC0D51DC;
     *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x0)) = t5;
     nlPushMatrix(0xC179180);
-    FUN_0c0771b0((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
-    FUN_0c0771b0((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10));
+    nlSqrt((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
+    nlSqrt((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10));
     t9 = *(int *)(((int)stk + 4));
     t10 = nlInnerProduct(t9, 0xC2AD1E0);
     t11 = 0x0;
@@ -1647,7 +1647,7 @@ int crowdTask(int a4)
     nlPushUnitMatrix();
     nlLoadMatrix(0xC2A6FE4);
     t16 = *(int *)((a4 + 0x18));
-    FUN_0c0771b0(t16, (((int)stk + 4) + 0x4));
+    nlSqrt(t16, (((int)stk + 4) + 0x4));
     nlPopMatrix(0x1);
     t19 = *(int *)(((int)stk + 4));
     t20 = *(int *)((a4 + 0x18));
@@ -1883,14 +1883,14 @@ int Put_Credits(int a4)
     if ((int)t12 >= (int)0x3C) {
         t13 = *(int *)(((int)stk + 4));
         if (t13 == 0) {
-            FUN_0c0310a0();
+            pfCleanString();
             pfSetFont(0x1);
             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
             pfSize(1.0f, 1.0f);
             t18 = *(int *)0xC2A8C4C;
             t19 = *(int *)((t18 + 0x0));
             t20 = (int)((int)t19 / (int)0x3C);
-            FUN_0c031158(t20);
+            pfAddNumber(t20);
             u22 = *(float *)0xC053884;
             u23 = *(float *)0xC053888;
             pfLocate(u23, u22);
@@ -1941,14 +1941,14 @@ int Put_Credits(int a4)
         }
         t73 = t59;
     } else {
-        FUN_0c0310a0();
+        pfCleanString();
         pfSetFont(0x1);
         pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
         pfSize(1.0f, 1.0f);
         t64 = *(int *)0xC2A8C4C;
         t65 = *(int *)((t64 + 0x0));
         t66 = (int)((int)t65 / (int)0x3C);
-        FUN_0c031158(t66);
+        pfAddNumber(t66);
         u68 = *(float *)0xC053884;
         u69 = *(float *)0xC053888;
         pfLocate(u69, u68);
@@ -2701,7 +2701,7 @@ int trafficControl(int a4)
         t67 = *(int *)0xC2A1B30;
         t68 = *(short *)((t67 + 0x86));
         nlRotateAY((unsigned short)t68);
-        FUN_0c0771b0((((int)stk + 8) + 0x4), 0xC2A1B34);
+        nlSqrt((((int)stk + 8) + 0x4), 0xC2A1B34);
         t71 = nlPopMatrix(0x1);
         t72 = t71;
     }

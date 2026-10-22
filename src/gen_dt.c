@@ -11,7 +11,7 @@ int FUN_0c07ca80(int, int, int);
 int FUN_0c07cc00(int, int, int, int);
 int FUN_0c07d240(int, int);
 int FUN_0c07d540(void);
-int FUN_0c07d5c0(int);
+int ChangeObjGroup(int);
 int FUN_0c07d5f0(int);
 int FUN_0c07f5c0(void);
 int Sound_Request(int, int);
@@ -31,7 +31,7 @@ int menuCursor(int a4, int a5, int a6);
 int FUN_0c07c870(int a4, int a5);
 int FUN_0c059f44(void);
 int menuCursorBox(int a4, int a5, int a6);
-int FUN_0c038ff8(void);
+int InitMV(void);
 int kmiFBgetfreemem(int a4, int a5, int a6, int a7);
 float navi_GetRouteTbl(int a4, int a5, int a6);
 float ExecColliObj(int a4, int a5, float f4);
@@ -8096,7 +8096,7 @@ int menuCursorBox(int a4, int a5, int a6)
     return t1666;
 }
 
-int FUN_0c038ff8(void)
+int InitMV(void)
 {
     int t0;
 
@@ -8111,21 +8111,21 @@ int FUN_0c038ff8(void)
     FUN_0c030b68(0xC286410);
     FUN_0c030e34(0x5, 0xC07D5C0);
     FUN_0c030e34(0x3, 0xC07D5C0);
-    FUN_0c07d5c0(0xC3938E8);
-    FUN_0c07d5c0(0xC3A60D0);
-    FUN_0c07d5c0(0xC3B1220);
-    FUN_0c07d5c0(0xC3C0CE8);
-    FUN_0c07d5c0(0xC3D32E0);
-    FUN_0c07d5c0(0xC3DE628);
-    FUN_0c07d5c0(0xC3E1568);
-    FUN_0c07d5c0(0xC3F3FE0);
-    FUN_0c07d5c0(0xC3FD880);
-    FUN_0c07d5c0(0xC3FF3C0);
-    FUN_0c07d5c0(0xC414120);
-    FUN_0c07d5c0(0xC421D18);
-    FUN_0c07d5c0(0xC3B7C10);
-    FUN_0c07d5c0(0xC3C05A8);
-    FUN_0c07d5c0(0xC3C07C8);
+    ChangeObjGroup(0xC3938E8);
+    ChangeObjGroup(0xC3A60D0);
+    ChangeObjGroup(0xC3B1220);
+    ChangeObjGroup(0xC3C0CE8);
+    ChangeObjGroup(0xC3D32E0);
+    ChangeObjGroup(0xC3DE628);
+    ChangeObjGroup(0xC3E1568);
+    ChangeObjGroup(0xC3F3FE0);
+    ChangeObjGroup(0xC3FD880);
+    ChangeObjGroup(0xC3FF3C0);
+    ChangeObjGroup(0xC414120);
+    ChangeObjGroup(0xC421D18);
+    ChangeObjGroup(0xC3B7C10);
+    ChangeObjGroup(0xC3C05A8);
+    ChangeObjGroup(0xC3C07C8);
     FUN_0c07d5f0(0xC3A15F0);
     FUN_0c07d5f0(0xC3A2540);
     FUN_0c07d5f0(0xC3A34F0);

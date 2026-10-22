@@ -19,9 +19,9 @@ int FUN_0c05e5cc(int, int, int, int, float, float, float, float);
 int FUN_0c05fd70(int);
 int FUN_0c0608ac(int, int);
 int FUN_0c0608de(int, int);
-int FUN_0c060934(int, int, int);
-int FUN_0c060a5c(int, int, int, float);
-int FUN_0c060aee(int, int, int);
+int pfCrazyBoxRecordTimePut(int, int, int);
+int pfCrazyBoxRecordDistPut(int, int, int, float);
+int pfCrazyBoxRecordComboPut(int, int, int);
 int FUN_0c07f5c0(void);
 int FUN_0c158894(int);
 int FUN_0c16c1c0(void);
@@ -1029,7 +1029,7 @@ int FUN_0c05dbdc(void)
                         }
                         FUN_0c0608de(0x140, 0x15E);
                         t153 = *(int *)0xC2A9BA4;
-                        return FUN_0c060934(0x140, 0x190, t153);
+                        return pfCrazyBoxRecordTimePut(0x140, 0x190, t153);
                     }
                     return t142;
                 }
@@ -1174,20 +1174,20 @@ int FUN_0c05df6a(void)
             t36 = *(int *)0xC1EE214;
             if (t36 == 4) {
                 t37 = *(int *)0xC2A7614;
-                FUN_0c060aee((t35 + 0x140), 0xE8, t37);
+                pfCrazyBoxRecordComboPut((t35 + 0x140), 0xE8, t37);
             } else {
                 t39 = *(int *)0xC1EE214;
                 if (t39 == 0) {
                     u40 = *(float *)0xC2A9A24;
-                    FUN_0c060a5c((t35 + 0x140), 0xE8, 0x1, u40);
+                    pfCrazyBoxRecordDistPut((t35 + 0x140), 0xE8, 0x1, u40);
                 } else {
                     t42 = *(int *)0xC2A98F8;
-                    FUN_0c060934((t35 + 0x140), 0xE8, t42);
+                    pfCrazyBoxRecordTimePut((t35 + 0x140), 0xE8, t42);
                 }
             }
         } else {
             t46 = *(int *)0xC2A7614;
-            FUN_0c060aee((t35 + 0x140), 0xE8, t46);
+            pfCrazyBoxRecordComboPut((t35 + 0x140), 0xE8, t46);
         }
         pfSetFont(0x0);
         pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);

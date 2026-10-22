@@ -3,7 +3,7 @@
 
 #define F(a)    (*(float *)(a))
 
-void FUN_0c04f1b0(int x)
+void nd_peopleInitialize(int x)
 {
     int i;
 

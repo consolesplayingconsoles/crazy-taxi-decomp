@@ -29,7 +29,7 @@ int FUN_0c02e074(void);
 int FUN_0c02e42a(void);
 int FUN_0c03012c(void);
 int FUN_0c03019a(void);
-int FUN_0c0310a0(void);
+int pfCleanString(void);
 int FUN_0c03b698(int);
 int FUN_0c0527ec(void);
 int FUN_0c052d28(void);
@@ -155,7 +155,7 @@ int FUN_0c02dfbc(void);
 int FUN_0c030b7a(float f4);
 int ResetLight(void);
 int FUN_0c036256(int a4, int a5, int a6, int a7);
-int FUN_0c03a640(void);
+int CfgInit(void);
 int thunk_syCfgExit(void);
 int saveBufferInit(int a4);
 int FUN_0c0409a6(void);
@@ -176,11 +176,11 @@ int thunk_FUN_0c0409d2(void);
 int FUN_0c05d4fc(void);
 int FUN_0c0608ac(int a4, int a5, int a6);
 int kmUnloadDevice(void);
-int FUN_0c060da6(void);
+int RinAqua_Execute(void);
 int camRestore(void);
 int drvAccelDot(void);
 int psgPutShadow(int a4);
-int FUN_0c0738ae(int a4);
+int LoadBigOne(int a4);
 int thunk_FUN_0c072fe8(void);
 int thunk_kmSetFogTable(void);
 int thunk_FUN_0c158b80(void);
@@ -422,7 +422,7 @@ int FUN_0c036256(int a4, int a5, int a6, int a7)
     return nlPopMatrix(0x1);
 }
 
-int FUN_0c03a640(void)
+int CfgInit(void)
 {
     return syCfgInit(0xC2864E8);
 }
@@ -667,7 +667,7 @@ int FUN_0c05d4fc(void)
 
 int FUN_0c0608ac(int a4, int a5, int a6)
 {
-    FUN_0c0310a0();
+    pfCleanString();
     pfLength(a6);
     pfLocate((float)a4, (float)a5);
     return pfPuts(a6);
@@ -679,7 +679,7 @@ int kmUnloadDevice(void)
     return FUN_0c072884();
 }
 
-int FUN_0c060da6(void)
+int RinAqua_Execute(void)
 {
     float u1;
 
@@ -724,7 +724,7 @@ int psgPutShadow(int a4)
     return nlPopMatrix(0x1);
 }
 
-int FUN_0c0738ae(int a4)
+int LoadBigOne(int a4)
 {
     return nlObjPutLoadTexture(0xC13F898, a4);
 }

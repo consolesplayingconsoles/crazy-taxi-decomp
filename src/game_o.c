@@ -27,7 +27,7 @@ void FUN_0c0211e0(float a, float b, float c)
 }
 
 /* Adds x / 10 to the two timers at +52 and +56 of the game system. */
-void FUN_0c02da42(float x)
+void GS_TripMetor(float x)
 {
     float d = x * 0.099999994f;
     char *g = (char *)0x0C1EE788;

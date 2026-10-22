@@ -209,29 +209,47 @@ def stackish(v):
     return 'STACK' if 0x0DFF0000 <= int(v, 16) < 0x0E000000 else v
 
 
-def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None):
+STACKN = {}      # {address: integer arguments passed on the stack (past the fourth)}, from the file's prototypes
+
+
+def stack_args(cfile):
+    """{name: integer arguments past the fourth} for the functions this file declares with more than four (passed on the stack)."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    out = {}
+    for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
+        ps = [p for p in m.group(2).split(',') if p.strip() and p.strip() != 'void']
+        if '...' in m.group(2):
+            continue
+        ni = sum(1 for p in ps if not re.search(r'\b(float|double)\b', p) or '*' in p)
+        out[m.group(1)] = max(0, min(ni - 4, 4))
+    return out
+
+
+def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
     to = '%08X' % (0x0C000000 | (int(to, 16) & 0x1FFFFFFF)) if 0x0C000000 <= (int(to, 16) & 0x1FFFFFFF) < 0x0D000000 else to   # the cached, uncached and plain addresses of the same RAM word
     a = arity.get(int(to, 16))
-    if a is None and indmap and int(to, 16) in indmap:      # a call through a literal address: its own cast says how many integer arguments it passes
-        r = r[:indmap[int(to, 16)]]
+    if a is None and indmap and int(to, 16) in indmap:      # a call through a literal address or a cast name: its own cast says what it passes
+        r, f = r[:indmap[int(to, 16)][0]], f[:indmap[int(to, 16)][1]]
     elif a is None and ind is not None:      # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers
         r = r[:ind]
-    if a is None and chg:                    # a callee of unknown arity: only the registers the function set are arguments, the rest are leftovers
-        r = [v if ch else '*' for v, ch in zip(r, chg)]
+    if chg:                                  # only the registers the function set (since its last call, which leaves r4-r7 undefined) are
+        r = [v if ch else '*' for v, ch in zip(r, chg)]       # arguments; the rest are leftovers the compiled code never relies on
         if fchg:
             f = [v if ch else '*' for v, ch in zip(f, fchg)]
     if a is not None:
         r, f = r[:a[0]], f[:a[1]]
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
             return (to, [stackish(stack)], [])
-    return (to, [stackish(v) for v in r], f)
+    extra = [stackish(v) for v in (stackw or [])[:STACKN.get(int(to, 16), 0)]]     # arguments past the fourth, on the stack
+    return (to, [stackish(v) for v in r] + extra, f)
 
 
-def indirect_targets(cfile, fn):
+def indirect_targets(cfile, fn, table=None):
     """{address: integer arguments} for the calls the C of one function makes through a cast on a literal address
-    ((int (*)(int))(0xAC01193A)(x) is {0x0C01193A: 1}); the most when one address is called with different counts."""
+    ((int (*)(int))(0xAC01193A)(x) is {0x0C01193A: 1}), or on a function's name (one declared with () because its call sites
+    pass different arguments); the most when one address is called with different counts."""
     text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
     m = re.search(r'\b%s\s*\([^;{)]*\)\s*\{' % re.escape(fn), text)
     if not m:
@@ -241,12 +259,18 @@ def indirect_targets(cfile, fn):
         depth += {'{': 1, '}': -1}.get(text[i], 0)
         i += 1
     out = {}
-    for c in re.finditer(r'\(\s*[\w\s\*]+\(\*\)\s*\(([^)]*)\)\s*\)\s*\(\s*0[xX]([0-9A-Fa-f]+)\s*\)', text[m.end():i]):
+    for c in re.finditer(r'\(\s*[\w\s\*]+\(\*\)\s*\(([^)]*)\)\s*\)\s*\(\s*(?:0[xX]([0-9A-Fa-f]+)|([A-Za-z_]\w*))\s*\)', text[m.end():i]):
         ps = c.group(1).strip()
         n = 0 if ps in ('', 'void') else len([q for q in ps.split(',') if not re.search(r'\b(float|double)\b', q) or '*' in q])
-        a = int(c.group(2), 16)
+        nf = 0 if ps in ('', 'void') else len(ps.split(',')) - n
+        if c.group(3) is not None:
+            if not table or c.group(3) not in table:
+                continue                     # a pointer variable: not a known address
+            a = table[c.group(3)]
+        else:
+            a = int(c.group(2), 16)
         a = 0x0C000000 | (a & 0x1FFFFFFF) if 0x0C000000 <= (a & 0x1FFFFFFF) < 0x0D000000 else a
-        out[a] = max(out.get(a, 0), n)
+        out[a] = (max(out.get(a, (0, 0))[0], n), max(out.get(a, (0, 0))[1], nf))
     return out
 
 
@@ -281,9 +305,10 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
             xs = x
-            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap) for c in xs]
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap, c.get('stackw')) for c in xs]
             y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None,
-                          xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None, indmap) for i, c in enumerate(y)]
+                          xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None, indmap,
+                          [fix(v) for v in c.get('stackw', [])]) for i, c in enumerate(y)]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
@@ -295,7 +320,7 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
 def main(argv):
     global SHOW
     quiet = '-q' in argv
-    if '--full' in argv: SHOW = 6000
+    if '--full' in argv: SHOW = int(os.environ.get('EQUIV_SHOW', '6000'))
     argv = [a for a in argv if a not in ('-q', '--full')]
     if len(argv) < 2:
         sys.exit(__doc__)
@@ -319,6 +344,8 @@ def main(argv):
     runtime_addrs = {a for n, a in table.items() if n.startswith('_')}
     helpers = lambda t: (SCRATCH <= t < SCRATCH + len(code) and t not in back) or t in runtime_addrs
     arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
+    STACKN.clear()
+    STACKN.update({table[n]: k for n, k in stack_args(cfile).items() if n in table and k})
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime
@@ -357,7 +384,7 @@ def main(argv):
             if endless:      # a function that never returns, cut at the step limit: the calls both sides made, in order, up to the shorter run
                 k_ = min(len(orig['calls']), len(mine['calls']))
                 orig = dict(orig, calls=orig['calls'][:k_], writes={}, error=None); mine = dict(mine, calls=mine['calls'][:k_], writes={}, error=None)
-            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn), indirect_targets(cfile, fn))
+            good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn), indirect_targets(cfile, fn, table))
             faults = case.get('same_fault') and orig['error'] and orig['error'] == mine['error'] and not str(orig['error']).startswith('more than')
             if faults:       # code that cannot run as written (an unaligned constant address): both sides stop with the same fault, nothing else to compare
                 good, diff = True, ''

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_bz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0208d6(void);
+int init_CarSound(void);
 int FUN_0c022102(int);
 int FUN_0c02238e(int);
 int FUN_0c0376b0(void);
@@ -643,7 +643,7 @@ int init_CarMain(void)
     *(unsigned int *)0xC1790F4 = 0xC1790FC;
     *(unsigned int *)0xC1790F8 = 0x0;
     SetColliObj(0xC1790CC, 0x0);
-    FUN_0c0208d6();
+    init_CarSound();
     InitEffect();
     t214 = FUN_0c0376b0();
     *(unsigned int *)0xC179490 = 0x0;

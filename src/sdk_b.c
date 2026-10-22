@@ -24,7 +24,7 @@ extern void nlPopMatrix(int n);
 extern float nlFloor(float x);
 extern float nlLog(float x);
 extern float nlScalor(float *v);
-extern void FUN_0c0771b0(int a, int b);
+extern void nlSqrt(int a, int b);
 extern void nlstripSetVertexContext(void *ctx);
 extern void FUN_0c080ae0(int a, int b, int c);
 extern void kmRender();
@@ -100,7 +100,7 @@ void nlScaleUnitVector(float *dst, float *src, float s)
 void nlProjectScreen3D(int a, int b)
 {
     nlPushMatrix(g_0c2b3390);
-    FUN_0c0771b0(a, b);
+    nlSqrt(a, b);
     nlPopMatrix(1);
 }
 

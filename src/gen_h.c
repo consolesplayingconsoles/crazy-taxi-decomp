@@ -3,7 +3,7 @@
 
 int FUN_0c02e2ca(int);
 int FUN_0c02e31e(int);
-int FUN_0c050fec(void);
+int CarSel_SetBackColor(void);
 int FUN_0c074680(void);
 int kmiInitializeDMA(void);
 int kmiWriteRegister(int, int);
@@ -12,7 +12,7 @@ int nlSprPut(int);
 int pfSetFont(int);
 int pfSize(float, float);
 int FUN_0c03a3e0(void);
-int FUN_0c05b0a0(void);
+int Result_SetBackColor(void);
 int kmiInitializeTA(void);
 
 int FUN_0c03a3e0(void)
@@ -27,7 +27,7 @@ int FUN_0c03a3e0(void)
     return 0xC2864E4;
 }
 
-int FUN_0c05b0a0(void)
+int Result_SetBackColor(void)
 {
     float u2;
     float u3;
@@ -37,7 +37,7 @@ int FUN_0c05b0a0(void)
     float u7;
     float u10;
 
-    FUN_0c050fec();
+    CarSel_SetBackColor();
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     *(unsigned int *)0xC2A96F8 = 0x62;
     *(unsigned int *)0xC2A972C = 0x2005;

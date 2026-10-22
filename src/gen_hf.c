@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_hf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int GetCollision2D(int, float);
 float getNearLineIndex(int, int, int, int);
 int getNearLineIndexAll(int);
@@ -174,7 +174,7 @@ void FUN_0c0231b4(int a4)
         *(float *)0xC1EE14C = ((u16 - u15) + -0.699999988f);
         u17 = *(float *)((t10 + 0x8));
         *(float *)0xC1EE150 = u17;
-        FUN_0c0771b0(0xC1EE148, 0xC1EE154);
+        nlSqrt(0xC1EE148, 0xC1EE154);
         nlPopMatrix(0x1);
         t20 = GetCollision2D(0xC1EE154, 20.0f);
         t21 = *(int *)((t20 + 0x1C));

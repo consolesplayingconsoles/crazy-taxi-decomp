@@ -19,7 +19,7 @@ int FUN_0c07ade0(int a4);
 int FUN_0c15fa1c(int a4, int a5);
 int kmChangeContextSuperSample(int a4);
 int FUN_0c089ad4(int a4, int a5, int a6);
-float nlRotateV(int a4, int a5);
+void nlRotateV(int a4, int a5);
 int FUN_0c089978(int a4, int a5);
 int gdFsSearchPath_dds(int a4, int a5, int a6, int a7, int a8);
 void FUN_0c05bc08(int a4);
@@ -98,7 +98,7 @@ int FUN_0c089ad4(int a4, int a5, int a6)
     return t8;
 }
 
-float nlRotateV(int a4, int a5)
+void nlRotateV(int a4, int a5)
 {
     float t1;
     int t2;
@@ -133,7 +133,7 @@ float nlRotateV(int a4, int a5)
         }
         u14 = u10;
     }
-    return u14;
+    return;
 }
 
 int FUN_0c089978(int a4, int a5)

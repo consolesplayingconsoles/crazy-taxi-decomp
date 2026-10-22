@@ -3,7 +3,7 @@
 
 int Drv_StartAction(int, int, int);
 int FUN_0c05328a(void);
-int FUN_0c0532ea(int);
+int Start_Pass_Judgement(int);
 int FUN_0c06f294(int, int, float);
 int FUN_0c071258(int);
 int FUN_0c0713d8(int);
@@ -404,7 +404,7 @@ int psgFrameState3(int a4)
                                                     if (u152 == 5.0f) {
                                                         t153 = *(int *)0xC1EE794;
                                                         if ((int)t153 > 0) {
-                                                            FUN_0c0532ea(0xFFFFFFFF);
+                                                            Start_Pass_Judgement(0xFFFFFFFF);
                                                             FUN_0c05328a();
                                                         }
                                                     }
@@ -424,7 +424,7 @@ int psgFrameState3(int a4)
                                                 if (u189 == 5.0f) {
                                                     t190 = *(int *)0xC1EE794;
                                                     if ((int)t190 > 0) {
-                                                        FUN_0c0532ea(0xFFFFFFFF);
+                                                        Start_Pass_Judgement(0xFFFFFFFF);
                                                         FUN_0c05328a();
                                                     }
                                                 }
@@ -444,7 +444,7 @@ int psgFrameState3(int a4)
                                             if (u226 == 5.0f) {
                                                 t227 = *(int *)0xC1EE794;
                                                 if ((int)t227 > 0) {
-                                                    FUN_0c0532ea(0xFFFFFFFF);
+                                                    Start_Pass_Judgement(0xFFFFFFFF);
                                                     FUN_0c05328a();
                                                 }
                                             }
@@ -464,7 +464,7 @@ int psgFrameState3(int a4)
                                         if (u263 == 5.0f) {
                                             t264 = *(int *)0xC1EE794;
                                             if ((int)t264 > 0) {
-                                                FUN_0c0532ea(0xFFFFFFFF);
+                                                Start_Pass_Judgement(0xFFFFFFFF);
                                                 FUN_0c05328a();
                                             }
                                         }
@@ -484,7 +484,7 @@ int psgFrameState3(int a4)
                                     if (u300 == 5.0f) {
                                         t301 = *(int *)0xC1EE794;
                                         if ((int)t301 > 0) {
-                                            FUN_0c0532ea(0xFFFFFFFF);
+                                            Start_Pass_Judgement(0xFFFFFFFF);
                                             FUN_0c05328a();
                                         }
                                     }
@@ -504,7 +504,7 @@ int psgFrameState3(int a4)
                                 if (u337 == 5.0f) {
                                     t338 = *(int *)0xC1EE794;
                                     if ((int)t338 > 0) {
-                                        FUN_0c0532ea(0xFFFFFFFF);
+                                        Start_Pass_Judgement(0xFFFFFFFF);
                                         FUN_0c05328a();
                                     }
                                 }
@@ -524,7 +524,7 @@ int psgFrameState3(int a4)
                             if (u374 == 5.0f) {
                                 t375 = *(int *)0xC1EE794;
                                 if ((int)t375 > 0) {
-                                    FUN_0c0532ea(0xFFFFFFFF);
+                                    Start_Pass_Judgement(0xFFFFFFFF);
                                     FUN_0c05328a();
                                 }
                             }
@@ -544,7 +544,7 @@ int psgFrameState3(int a4)
                         if (u411 == 5.0f) {
                             t412 = *(int *)0xC1EE794;
                             if ((int)t412 > 0) {
-                                FUN_0c0532ea(0xFFFFFFFF);
+                                Start_Pass_Judgement(0xFFFFFFFF);
                                 FUN_0c05328a();
                             }
                         }

@@ -35,7 +35,7 @@ int FUN_0c0399b8(int);
 int FUN_0c039ad4(int, float);
 int FUN_0c039c1c(void);
 int FUN_0c075930(float);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c07cb70(int, int, int);
 int FUN_0c07e8a0(int, int);
@@ -550,7 +550,7 @@ void FUN_0c07c9b0(int a4, int a5)
         t7 = t3;
         t8 = t0;
         do {
-            FUN_0c0771b0(t4, t8);
+            nlSqrt(t4, t8);
             u10 = *(float *)((t8 + 0x0));
             u11 = *(float *)0xC2B7698;
             *(float *)((t7 + 0x0)) = (u10 + u11);
@@ -618,7 +618,7 @@ void FUN_0c07ca80(int a4, int a5, int a6)
             nlSubVector3op(0xC2B7698, t5, 0xC2B7688);
             nlScaleUnitVector(0xC2B7698, 0xC2B7698, u1);
             FUN_0c077210(0xC2B7698, 0xC2B7698);
-            FUN_0c0771b0(t5, t9);
+            nlSqrt(t5, t9);
             u14 = *(float *)((t9 + 0x0));
             u15 = *(float *)0xC2B7698;
             *(float *)((t8 + 0x0)) = (u14 + u15);

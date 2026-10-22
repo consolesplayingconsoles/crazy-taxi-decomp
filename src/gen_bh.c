@@ -11,7 +11,7 @@ int ADXF_GetStat(int);
 int ADXF_LoadPartition(int, int, int, int);
 int CheckClipping(float);
 int FUN_0c02f220(int);
-int FUN_0c038ed0(void);
+int ResetPinFlag(void);
 int FUN_0c038f78(void);
 int FUN_0c03bea0(int, int, int);
 int FUN_0c03c792(int, int, int, int);
@@ -43,7 +43,7 @@ int FUN_0c05e8c8(void);
 int FUN_0c05f93c(void);
 int FUN_0c0713d8(int);
 int FUN_0c071a7c(int, int);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
 float FUN_0c078c00(int);
@@ -2230,7 +2230,7 @@ int pedUpdate(int a4)
     }
     nlPushUnitMatrix();
     nlLoadMatrix(0xC2A6FE4);
-    FUN_0c0771b0((((int)stk + 4) + 0xC), ((int)stk + 4));
+    nlSqrt((((int)stk + 4) + 0xC), ((int)stk + 4));
     nlPopMatrix(0x1);
     t12 = nlLength(0xC179144, (((int)stk + 4) + 0xC));
     u13 = *(float *)(((int)stk + 4));
@@ -4230,7 +4230,7 @@ int Init_DCmini(void)
     if (t22 == 3) {
         *(unsigned int *)0xC2A9964 = 0x78;
         *(unsigned int *)0xC2A9960 = 0x78;
-        FUN_0c038ed0();
+        ResetPinFlag();
         *(unsigned int *)0xC2A9954 = 0xFFFFFFFF;
         *(unsigned int *)0xC2A9958 = 0x46;
         *(unsigned int *)0xC2A995C = 0x0;
@@ -4254,7 +4254,7 @@ int Init_DCmini(void)
                                     t32 = 0xC131030;
                                 }
                                 InitArrow(t32);
-                                FUN_0c038ed0();
+                                ResetPinFlag();
                                 *(unsigned int *)0xC2A9968 = 0x78;
                                 *(unsigned int *)0xC2A9A34 = 0x0;
                             }
@@ -4269,7 +4269,7 @@ int Init_DCmini(void)
                             t40 = 0xC131030;
                         }
                         InitArrow(t40);
-                        FUN_0c038ed0();
+                        ResetPinFlag();
                         *(unsigned int *)0xC2A9968 = 0x78;
                         *(unsigned int *)0xC2A9A34 = 0x0;
                     }

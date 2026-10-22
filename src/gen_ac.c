@@ -8,7 +8,7 @@ int ExecArrow(int, float);
 float FUN_0c0217b4(int, float, float);
 float FUN_0c02187a(float);
 int FUN_0c03006a(int, int);
-int FUN_0c030914(void);
+int gdc_SpriteSetMBox(void);
 int FUN_0c03b674(int);
 int FUN_0c03bf42(int);
 int FUN_0c03bf76(int);
@@ -189,7 +189,7 @@ float FUN_0c022250(int a4)
     return t30;
 }
 
-int FUN_0c02c528(void)
+int req_load(void)
 {
     int t4;
     int t5;
@@ -217,7 +217,7 @@ int FUN_0c02c528(void)
     if (t4 != 0) {
         t5 = *(int *)0xC1EE20C;
         if (t5 == 2) {
-            FUN_0c030914();
+            gdc_SpriteSetMBox();
         } else {
             gdc_SpriteSetGame();
         }

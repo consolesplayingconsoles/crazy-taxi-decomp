@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Exec_Balloon(void);
-int FUN_0c0310a0(void);
-int FUN_0c031158(int);
+int pfCleanString(void);
+int pfAddNumber(int);
 int FUN_0c039cd2(void);
 int FUN_0c077210(int, int);
 int FUN_0c0813d0(int);
@@ -271,10 +271,10 @@ float FUN_0c03a07c(void)
     u4 = *(float *)0xC03A164;
     u5 = *(float *)0xC03A168;
     pfLocate(u5, u4);
-    FUN_0c0310a0();
+    pfCleanString();
     t8 = *(int *)0xC2864C4;
     t9 = (int)((int)t8 / (int)0x3C);
-    FUN_0c031158(t9);
+    pfAddNumber(t9);
     t11 = *(int *)0xC08D678;
     pfPuts(t11);
     u13 = *(float *)0xC03A188;

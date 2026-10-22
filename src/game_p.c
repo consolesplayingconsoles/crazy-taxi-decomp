@@ -327,7 +327,7 @@ void FUN_0c053ac0(void)
 }
 
 /* Run frames (FUN_0c02ea04, then a flip) until the busy flag at 0C26E0F8 drops; at least one. */
-void FUN_0c02edd4(void)
+void gdc_CourseLoadWait(void)
 {
     do {
         FUN_0c02ea04();
@@ -431,7 +431,7 @@ extern void FUN_0c05bb24(void);
 extern void FUN_0c05bb76(int on);
 
 /* One of four colours by (*(*0C2A751C)) % 4, the same for all three arguments. */
-void FUN_0c050fec(void)
+void CarSel_SetBackColor(void)
 {
     int c;
 
@@ -881,7 +881,7 @@ extern void Sound_Request(int id, int a);
 
 /* Mark the round counter state (0C2A8EB0 = 3, 0C2A8E98 = 1) and round the counter at *0C2A8C78 up
    to the end of its minute (x % 60 == 59). */
-void FUN_0c05324e(void)
+void Pass_Rideoff(void)
 {
     int *p;
 
@@ -956,7 +956,7 @@ void FUN_0c05d662(void)
 
 /* Start a HUD message (not in game 2): flag 0x400, its value, the counters reset, scale 0.5, and its
    sound. */
-void FUN_0c0532ea(int v)
+void Start_Pass_Judgement(int v)
 {
     if (*(int *)0x0C1EE210 != 2) {
         *(int *)0x0C2A75E0 |= 0x400;
@@ -978,7 +978,7 @@ extern void PutVM_Message(int a, int b, int c, float x, float y);
 extern void FUN_0c03bf76(int n);
 extern float nlLog10(float x);
 extern int gdFsSearchName(char *name, int dir, int c);
-extern void FUN_0c0310a0(int x, int y, char *s);
+extern void pfCleanString(int x, int y, char *s);
 extern float pfLength(char *s);
 extern void pfLocate(float x, float y);
 extern void pfPuts(char *s);
@@ -1083,7 +1083,7 @@ void FUN_0c0608de(int x, int y, char *s)
 {
     float half;
 
-    FUN_0c0310a0(x, y, s);
+    pfCleanString(x, y, s);
     half = pfLength(s) * 0.5f;
     pfLocate((float)x - half, (float)y);
     pfPuts(s);
@@ -1281,14 +1281,14 @@ extern float FUN_0c089de8(unsigned int a);
 extern void nlObjPutSetLightDirectionV(float *v);
 extern void FUN_0c053292(void);
 extern void FUN_0c057080(int n);
-extern void FUN_0c031158(char *s, int n);
-extern void FUN_0c0310c0(void *p);
+extern void pfAddNumber(char *s, int n);
+extern void pfAddString(void *p);
 extern int FUN_0c041016(int n);
 extern void menuPutSprites(int spr, void *pos, int x, int y);
 
 /* Light direction from two angles (64K units, kept at 0C0EA5B0/0C0EA5B4): (FUN_0c089de8(a) *
    FUN_0c089de0(b), FUN_0c089de0(a), FUN_0c089de8(a) * FUN_0c089de8(b)). */
-void FUN_0c030b10(int a, int b)
+void SetLight(int a, int b)
 {
     float *v = (float *)0x0C26E1D8;
     float t;
@@ -1328,16 +1328,16 @@ void FUN_0c056e80(void)
     }
 }
 
-/* Print the string at *0C08D678 centred on (x, y), after FUN_0c031158(s, 0) and, when flag is set,
-   FUN_0c0310c0(0C0D303C). */
-void FUN_0c060aee(int x, int y, char *s, int flag)
+/* Print the string at *0C08D678 centred on (x, y), after pfAddNumber(s, 0) and, when flag is set,
+   pfAddString(0C0D303C). */
+void pfCrazyBoxRecordComboPut(int x, int y, char *s, int flag)
 {
     float half;
 
-    FUN_0c0310a0(x, y, s);
-    FUN_0c031158(s, 0);
+    pfCleanString(x, y, s);
+    pfAddNumber(s, 0);
     if (flag) {
-        FUN_0c0310c0((void *)0x0C0D303C);
+        pfAddString((void *)0x0C0D303C);
     }
     half = pfLength(*(char **)0x0C08D678) * 0.5f;
     pfLocate((float)x - half, (float)y);
@@ -1502,12 +1502,12 @@ void colliBoxAhead(float *o, float *p, int bit)
 
 extern void nlRotateAY(unsigned int a);
 extern void nlRotateAX(unsigned int a);
-extern void FUN_0c0771b0(Vec3f *v, void *light);
+extern void nlSqrt(Vec3f *v, void *light);
 extern void nlObjPutSetGlobalAmbience(float a);
 extern void nlSetFontSize(int w, int h);
 extern void nlLocate(int x, int y);
 extern void nlPrintf(char *fmt, ...);
-extern void FUN_0c039280(void);
+extern void InitRenderTexture1st(void);
 extern void nlScaleVector(float *out, float *v, float s);
 extern float nlLength(void *a, float *b);
 
@@ -1521,7 +1521,7 @@ extern float nlLength(void *a, float *b);
         nlPushUnitMatrix();                                         \
         nlRotateAY(*(unsigned short *)(l + 18));                    \
         nlRotateAX(*(unsigned short *)(l + 16));                    \
-        FUN_0c0771b0(&v, l);                                        \
+        nlSqrt(&v, l);                                        \
         nlPopMatrix(1);                                             \
         nlObjPutSetLightDirectionV((float *)l);                     \
         nlObjPutSetGlobalAmbience(*(float *)(l + 12));              \
@@ -1543,7 +1543,7 @@ void FUN_0c05af8e(void)
 }
 
 /* The "loading" screen: a big message (two texts by 0C1EE228), two flips, then back to small type. */
-void FUN_0c0297fa(void)
+void InitNaolib3(void)
 {
     *(int *)0x0C1EE220 = 1;
     nlSetFontSize(16, 16);
@@ -1556,7 +1556,7 @@ void FUN_0c0297fa(void)
     frameFlip();
     frameFlip();
     nlSetFontSize(8, 8);
-    FUN_0c039280();
+    InitRenderTexture1st();
 }
 
 /* Move a walker (+28) by 5/8 of its step (+40) and count it (+24) once it is within 3 of its target
@@ -2011,7 +2011,7 @@ void FUN_0c050f80(int x)
     *(int *)0x0C2A751C = x;
     FUN_0c051992();
     FUN_0c0519de();
-    FUN_0c050fec();
+    CarSel_SetBackColor();
     if (*(int *)0x0C2A7518 == 0) {
         if (*(int *)0x0C2A757C < 944) {
             FUN_0c05137c();
@@ -2218,7 +2218,7 @@ int kyakuStopAreaVisible(char *k)
     return *(int *)0x0C179828 == 1 ? 0 : 1;
 }
 
-extern void FUN_0c02c528(void);
+extern void req_load(void);
 extern void FUN_0c03b544(int n);
 extern void FUN_0c057c3c(void);
 
@@ -2278,7 +2278,7 @@ void menuSetMode(void)
     } else {
         *(int *)0x0C1EE20C = *(int *)0x0C1EE210;
     }
-    FUN_0c02c528();
+    req_load();
     FUN_0c03b544(0);
     FUN_0c057c3c();
 }
@@ -2677,22 +2677,22 @@ void FUN_0c072884(void)
 
 /* Print a time v as "s.cc" centred on (x, y): whole seconds, the dot, a padding zero under ten
    hundredths, the hundredths, and an optional suffix (flag). */
-void FUN_0c060a5c(int x, int y, int flag, float v)
+void pfCrazyBoxRecordDistPut(int x, int y, int flag, float v)
 {
     int whole = (int)v;
     int cent;
     float half;
 
     cent = (int)(nlFraction(v) * 100.0f);
-    FUN_0c0310a0(x, y, (char *)flag);
-    FUN_0c031158((char *)whole, 0);
-    FUN_0c0310c0((void *)0x0C0D3034);
+    pfCleanString(x, y, (char *)flag);
+    pfAddNumber((char *)whole, 0);
+    pfAddString((void *)0x0C0D3034);
     if (cent < 10) {
-        FUN_0c0310c0((void *)0x0C0D302C);
+        pfAddString((void *)0x0C0D302C);
     }
-    FUN_0c031158((char *)cent, 0);
+    pfAddNumber((char *)cent, 0);
     if (flag) {
-        FUN_0c0310c0((void *)0x0C0D3038);
+        pfAddString((void *)0x0C0D3038);
     }
     half = pfLength(*(char **)0x0C08D678) * 0.5f;
     pfLocate((float)x - half, (float)y);
@@ -3057,7 +3057,7 @@ void FUN_0c028b06(void)
     v[1] = 5.0f;
     nlPushUnitMatrix();
     SetCameraPosVelocity((float *)(0x0C1790CC + 48));
-    FUN_0c0771b0((Vec3f *)v, v);
+    nlSqrt((Vec3f *)v, v);
     nlRotateAY(0x1800);
     nlRotateAX(0xFC00);
     GetAng4Mat(ang);
@@ -3153,7 +3153,7 @@ int FUN_0c0321c2(float *p, float *a, float *b)
 
 /* Scene set-up for the game: the 3D engine pieces, text printing, the projection (4/3, 0.3, 300),
    the texture, sprite and palette pools, and white fade. */
-void FUN_0c029748(void)
+void InitNaolib2(void)
 {
     FUN_0c075120();
     FUN_0c0775d0((void *)0x0C1C1A38, 16);
@@ -3309,7 +3309,7 @@ void FUN_0c0526a0(void);
 
 /* Start a HUD set: the ten pointers (0C2A8C4C..) to the default panel (0C1309F8), the ten flags
    cleared, the three on flags, then each part's own set-up, and the last counters cleared. */
-void FUN_0c052268(void)
+void Init_nd_Sprite(void)
 {
     int p = 0x0C1309F8;
     int i;

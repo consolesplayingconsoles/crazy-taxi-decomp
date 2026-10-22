@@ -2,13 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int FUN_0c028760(int);
-int FUN_0c0288ca(int, int, int);
-int FUN_0c0288d4(float, float);
+int SetCameraAngleVelocity(int, int, int);
+int SetCameraAngleRatio(float, float);
 int FUN_0c03b544(int);
 int FUN_0c03b698(int);
 int FUN_0c03bf42(void);
 int FUN_0c03bf76(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c081470(int, int);
 int PutVM_Message(int, int, int, float, float);
@@ -300,7 +300,7 @@ int ExecStartCamera(void)
         t4 = *(int *)0xC17999C;
         if (t4 == 0) {
             nlAddVector(0xC1799A4, 0xC1799BC);
-            FUN_0c0771b0(0xC1799A4, (((int)stk + 4) + 0xC));
+            nlSqrt(0xC1799A4, (((int)stk + 4) + 0xC));
             camSetEye((((int)stk + 4) + 0xC), 0x0);
             camSetTarget(0xC1799B0, 0x0);
         }
@@ -310,7 +310,7 @@ int ExecStartCamera(void)
             *(float *)(((int)stk + 16)) = 0.0f;
             *(float *)(((int)stk + 20)) = 5.0f;
             *(float *)(((int)stk + 24)) = 0.0f;
-            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
             camSetTarget((((int)stk + 4) + 0xC), 0x0);
             t13 = nlPopMatrix(0x1);
             t64 = t13;
@@ -321,7 +321,7 @@ int ExecStartCamera(void)
                 if ((t14 + 0x1) != 1) {
                     if ((t14 + 0x1) != 2) {
                         if ((t14 + 0x1) != 3) {
-                            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                             FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                             camSetEye((((int)stk + 4) + 0xC), 0x0);
                             SetCameraPosRatio(0.0f, 1.0f);
@@ -329,7 +329,7 @@ int ExecStartCamera(void)
                             *(float *)(((int)stk + 16)) = 0.0f;
                             *(float *)(((int)stk + 20)) = 5.0f;
                             *(float *)(((int)stk + 24)) = 0.0f;
-                            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                             camSetTarget((((int)stk + 4) + 0xC), 0x0);
                             t22 = nlPopMatrix(0x1);
                             t31 = t22;
@@ -344,7 +344,7 @@ int ExecStartCamera(void)
                             t25 = *(int *)0xC0965F0;
                             *(unsigned int *)((((int)stk + 4) + 0x0)) = t25;
                             camSetMode(0x0);
-                            FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                            nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                             camSetEye((((int)stk + 4) + 0xC), 0x0);
                             *(unsigned int *)0xC1799A0 = 0x2710;
                             t29 = nlPopMatrix(0x1);
@@ -362,12 +362,12 @@ int ExecStartCamera(void)
                         *(float *)(((int)stk + 12)) = -0.399999976f;
                         t32 = *(short *)0xC179152;
                         camSetAngles(0xF800, ((unsigned short)t32 + 0xC000), 0x0, 0x0);
-                        FUN_0c0288ca(0x0, 0xFFFFFFEB, 0x0);
-                        FUN_0c0288d4(0.0f, 1.04999995f);
+                        SetCameraAngleVelocity(0x0, 0xFFFFFFEB, 0x0);
+                        SetCameraAngleRatio(0.0f, 1.04999995f);
                         SetCameraMode(0x0);
                         *(float *)0xC1798A4 = 70.0f;
                         *(unsigned int *)0xC1799A0 = 0x46;
-                        FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                         FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                         camSetEye((((int)stk + 4) + 0xC), 0x0);
                         SetCameraPosRatio(0.0f, 1.0f);
@@ -375,7 +375,7 @@ int ExecStartCamera(void)
                         *(float *)(((int)stk + 16)) = 0.0f;
                         *(float *)(((int)stk + 20)) = 5.0f;
                         *(float *)(((int)stk + 24)) = 0.0f;
-                        FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                        nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                         camSetTarget((((int)stk + 4) + 0xC), 0x0);
                         t44 = nlPopMatrix(0x1);
                         t45 = t44;
@@ -389,7 +389,7 @@ int ExecStartCamera(void)
                     *(float *)(((int)stk + 8)) = 0.299999982f;
                     *(float *)(((int)stk + 12)) = 0.299999982f;
                     *(unsigned int *)0xC1799A0 = 0x28;
-                    FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                    nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                     FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                     camSetEye((((int)stk + 4) + 0xC), 0x0);
                     SetCameraPosRatio(0.0f, 1.0f);
@@ -397,7 +397,7 @@ int ExecStartCamera(void)
                     *(float *)(((int)stk + 16)) = 0.0f;
                     *(float *)(((int)stk + 20)) = 5.0f;
                     *(float *)(((int)stk + 24)) = 0.0f;
-                    FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                    nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                     camSetTarget((((int)stk + 4) + 0xC), 0x0);
                     t53 = nlPopMatrix(0x1);
                     t54 = t53;
@@ -405,7 +405,7 @@ int ExecStartCamera(void)
                 t63 = t54;
             } else {
                 *(unsigned int *)0xC1799A0 = 0x78;
-                FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                 FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                 camSetEye((((int)stk + 4) + 0xC), 0x0);
                 SetCameraPosRatio(0.0f, 1.0f);
@@ -413,7 +413,7 @@ int ExecStartCamera(void)
                 *(float *)(((int)stk + 16)) = 0.0f;
                 *(float *)(((int)stk + 20)) = 5.0f;
                 *(float *)(((int)stk + 24)) = 0.0f;
-                FUN_0c0771b0((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+                nlSqrt((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
                 camSetTarget((((int)stk + 4) + 0xC), 0x0);
                 t62 = nlPopMatrix(0x1);
                 t63 = t62;

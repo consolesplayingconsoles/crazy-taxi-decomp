@@ -22,7 +22,7 @@ int FUN_0c038ee6(void);
 int FUN_0c03b698(int, int);
 int FUN_0c041016(int);
 int FUN_0c049aa8(void);
-int FUN_0c04bf14(void);
+int getKyakuOffFlag(void);
 int FUN_0c04c0dc(int, int);
 int FUN_0c0500d8(int);
 int FUN_0c0532a4(void);
@@ -33,7 +33,7 @@ int FUN_0c0599fa(void);
 int FUN_0c059a80(void);
 int FUN_0c05bb24(void);
 int FUN_0c05bb76(int);
-int FUN_0c05ff66(void);
+int Exec_Fog(void);
 int FUN_0c060e18(void);
 int FUN_0c070e8a(int);
 int FUN_0c077210(int, int);
@@ -177,7 +177,7 @@ int exec_loop_Replay(void)
 
     FUN_0c0289be();
     camUpdate(0x0);
-    FUN_0c05ff66();
+    Exec_Fog();
     t3 = *(int *)0xC1EE234;
     if (t3 == 0) {
         FUN_0c02dd5a();
@@ -187,7 +187,7 @@ int exec_loop_Replay(void)
     t7 = replay(0x0);
     if (t7 != 4) {
         exec_CarMain();
-        t9 = FUN_0c04bf14();
+        t9 = getKyakuOffFlag();
         if (t9 == 0) {
             exec_KyakuMain();
         }

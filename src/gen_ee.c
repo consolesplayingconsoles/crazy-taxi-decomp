@@ -2,10 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int FUN_0c02f220(int);
-int FUN_0c0310a0(void);
+int pfCleanString(void);
 int FUN_0c0310ae(int);
-int FUN_0c0310c0(int);
-int FUN_0c031158(int);
+int pfAddString(int);
+int pfAddNumber(int);
 int nlSprPut(int, int, int);
 int pfColor(int, int, int, int);
 float pfLength(int);
@@ -269,20 +269,20 @@ int nd_CarSelMain(int a4)
                         t156 = *(int *)(((t154 << 2) + t155));
                         pfPuts(t156);
                         u158 = *(float *)0xC26E39C;
-                        FUN_0c0310a0();
+                        pfCleanString();
                         u160 = u158;
                         if (0.0f > u158) {
                             u160 = 0.0f;
                         }
                         if (!(10000.0f > u160)) {
-                            FUN_0c031158((int)(u160 / 10000.0f));
+                            pfAddNumber((int)(u160 / 10000.0f));
                             FUN_0c0310ae(0x2E);
                             *(unsigned int *)(((int)stk + 8)) = (int)(u160 * 0.00999999978f);
                             t164 = (int)((int)(int)(u160 * 0.00999999978f) % (int)0x64);
-                            FUN_0c031158(t164);
-                            FUN_0c0310c0(0xC08D6D8);
+                            pfAddNumber(t164);
+                            pfAddString(0xC08D6D8);
                         } else {
-                            FUN_0c031158((int)(u160 * 0.099999994f));
+                            pfAddNumber((int)(u160 * 0.099999994f));
                             FUN_0c0310ae(0x6D);
                         }
                         u172 = *(float *)0xC0ED2B8;

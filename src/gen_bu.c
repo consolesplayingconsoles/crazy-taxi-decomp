@@ -19,7 +19,7 @@ int CheckKyakuArea(int, int);
 int Drv_StartAction(int, int, int);
 int ExecKyakuArea(void);
 int FUN_0c02bc24(void);
-int FUN_0c02c528(void);
+int req_load(void);
 int FUN_0c02dcd8(void);
 int FUN_0c02e2ca(int);
 int FUN_0c02e31e(int);
@@ -32,8 +32,8 @@ int FUN_0c030a3e(void);
 int FUN_0c030a80(void);
 int FUN_0c03101a(float);
 int FUN_0c031048(void);
-int FUN_0c0310a0(void);
-int FUN_0c031158(int);
+int pfCleanString(void);
+int pfAddNumber(int);
 int FUN_0c031408(int);
 int FUN_0c035304(int);
 int FUN_0c0354f8(int, int, float, float, float);
@@ -97,7 +97,7 @@ int FUN_0c0753f0(void);
 int FUN_0c075400(int);
 int FUN_0c075410(int, int);
 int FUN_0c076f70(void);
-int FUN_0c0771b0(int, int);
+int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077290(int, int);
 int FUN_0c077470(int);
@@ -411,14 +411,14 @@ int FUN_0c04d548(int a4, int a5);
 void FUN_0c1524ee(int a4, int a5, int a6);
 int FUN_0c063bae(void);
 int FUN_0c172350(int a4, int a5, int a6, int a7);
-void FUN_0c02a312(void);
+void TaxiBlankInterrupt(void);
 int FUN_0c03ee76(void);
 float FUN_0c078c50(int a4, int a5, int a6, int a7);
 float FUN_0c078cf0(int a4, int a5, int a6, int a7);
 int FUN_0c1523da(int a4, int a5);
 void FUN_0c03aa00(int a4, int a5, int a6);
 void FUN_0c14f6f4(int a4, int a5, int a6);
-int FUN_0c03b080(int a4);
+int SaveVMSicon(int a4);
 int FUN_0c060804(int a4, int a5);
 int FUN_0c07f4b0(int a4, int a5, int a6);
 int FUN_0c14df90(void);
@@ -435,7 +435,7 @@ int FUN_0c151b9c(int a4, int a5, int a6);
 void FUN_0c168f00(int a4);
 int FUN_0c064b0e(void);
 int FUN_0c07a2e0(int a4, int a5, int a6);
-int FUN_0c03af70(int a4, int a5, int a6, int a7);
+int MakeBackupHeadInfo(int a4, int a5, int a6, int a7);
 int FUN_0c03a120(void);
 int FUN_0c0604a2(void);
 void FUN_0c038b08(int a4);
@@ -453,11 +453,11 @@ int FUN_0c0632ce(void);
 int FUN_0c169514(int a4);
 int FUN_0c040790(void);
 int FUN_0c071e10(int a4);
-void FUN_0c05f498(void);
+void ndPeriCheck(void);
 int FUN_0c03663c(int a4);
 int FUN_0c17195a(int a4);
 int FUN_0c03a41c(void);
-int FUN_0c05f65c(int a4, int a5);
+int ndPeriCheck2(int a4, int a5);
 int FUN_0c039e58(void);
 
 int FUN_0c064a06(void)
@@ -1610,7 +1610,7 @@ void FUN_0c0771d0(int a4, int a5, int a6)
         *(unsigned int *)(((int)stk + 8)) = (t1 + 0xC);
         t2 = *(int *)(((int)stk + 4));
         *(unsigned int *)(((int)stk + 4)) = (t2 + 0xC);
-        FUN_0c0771b0(((t2 + 0xC) - 12), ((t1 + 0xC) - 12));
+        nlSqrt(((t2 + 0xC) - 12), ((t1 + 0xC) - 12));
     }
 }
 
@@ -2977,7 +2977,7 @@ int FUN_0c172350(int a4, int a5, int a6, int a7)
     return t4;
 }
 
-void FUN_0c02a312(void)
+void TaxiBlankInterrupt(void)
 {
     int t0;
     int t8;
@@ -3358,7 +3358,7 @@ void FUN_0c14f6f4(int a4, int a5, int a6)
     _builtin_set_imask(((unsigned int)((((unsigned short)t0 & 0xF) << 2) << 2) >> 4));
 }
 
-int FUN_0c03b080(int a4)
+int SaveVMSicon(int a4)
 {
     int t0;
     int t13;
@@ -4517,7 +4517,7 @@ int FUN_0c07a2e0(int a4, int a5, int a6)
     return t33;
 }
 
-int FUN_0c03af70(int a4, int a5, int a6, int a7)
+int MakeBackupHeadInfo(int a4, int a5, int a6, int a7)
 {
     int t4;
     int t5;
@@ -5519,7 +5519,7 @@ int FUN_0c02bc7a(void)
         t38 = *(int *)0xC1EE240;
         if (t38 == 123) {
             *(unsigned int *)0xC1EE33C = 0x0;
-            FUN_0c02c528();
+            req_load();
             t40 = *(int *)0xC1EE240;
             t41 = *(int *)0xC1EE33C;
             *(unsigned int *)0xC1EE240 = (t40 + t41);
@@ -6709,7 +6709,7 @@ int FUN_0c071e10(int a4)
     return t41;
 }
 
-void FUN_0c05f498(void)
+void ndPeriCheck(void)
 {
     int t0;
     int t1;
@@ -7235,7 +7235,7 @@ int FUN_0c03a41c(void)
     return FUN_0c02e3c0();
 }
 
-int FUN_0c05f65c(int a4, int a5)
+int ndPeriCheck2(int a4, int a5)
 {
     int t0;
     int t1;
@@ -7644,10 +7644,10 @@ int FUN_0c039e58(void)
         *(unsigned int *)0xC2864B0 = 0x0;
     }
     pfLocate(560.0f, 420.0f);
-    FUN_0c0310a0();
+    pfCleanString();
     t5 = *(int *)0xC2864C4;
     t6 = (int)((int)t5 / (int)0x3C);
-    FUN_0c031158(t6);
+    pfAddNumber(t6);
     t8 = *(int *)0xC08D678;
     t9 = pfPuts(t8);
     t10 = *(int *)0xC2864A8;

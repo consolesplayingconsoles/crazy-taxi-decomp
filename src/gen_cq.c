@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_cq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05324e(void);
-int FUN_0c0532ea(int);
+int Pass_Rideoff(void);
+int Start_Pass_Judgement(int);
 int FUN_0c05a350(int);
 int FUN_0c07e580(int, int, float, float, float, float);
 float FUN_0c089de0(int);
@@ -93,8 +93,8 @@ int GS_GuestOut(void)
     *(unsigned int *)0xC1EE7B0 = (((t38 << 2) + t38) << 1);
     *(unsigned int *)0xC1EE7A0 = 0x0;
     *(unsigned int *)0xC1EE7CC = 0x0;
-    FUN_0c05324e();
-    FUN_0c0532ea(t32);
+    Pass_Rideoff();
+    Start_Pass_Judgement(t32);
     *(unsigned int *)0xC1EE7E8 = 0x384;
     *(unsigned int *)0xC1EE7F4 = 0x0;
     return t32;

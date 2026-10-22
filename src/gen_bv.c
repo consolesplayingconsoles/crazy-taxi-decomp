@@ -58,10 +58,10 @@ int FUN_0c03a9b8(void);
 int FUN_0c03a9ca(void);
 int FUN_0c03a9d0(void);
 int FUN_0c03a9c4(void);
-int FUN_0c03a9d6(void);
+int processResponse(void);
 int FUN_0c03a9dc(void);
 int FUN_0c03a9e2(void);
-int FUN_0c03a9e8(void);
+int BupGetOperationString(void);
 int FUN_0c07d7a0(void);
 int FUN_0c07f860(void);
 
@@ -350,7 +350,7 @@ int FUN_0c03a9c4(void)
     return 0xC09D9DC;
 }
 
-int FUN_0c03a9d6(void)
+int processResponse(void)
 {
     return 0xC09DA04;
 }
@@ -365,7 +365,7 @@ int FUN_0c03a9e2(void)
     return 0xC09DA18;
 }
 
-int FUN_0c03a9e8(void)
+int BupGetOperationString(void)
 {
     return 0xC09DA2C;
 }

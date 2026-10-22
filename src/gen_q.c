@@ -40,7 +40,7 @@ int FUN_0c04aac6(int);
 int FUN_0c04af54(int);
 int FUN_0c04bb70(int);
 int FUN_0c04d49e(int, float, float);
-int FUN_0c050fec(void);
+int CarSel_SetBackColor(void);
 int FUN_0c057728(int, int, int);
 int FUN_0c05778a(int, int, float, float);
 int FUN_0c059310(void);
@@ -442,7 +442,7 @@ int gameState14(void)
 
     Voice_ShutUp(0x0);
     Voice_Request(0xC0EEA08, 0x0, 0x7F, 0x0);
-    FUN_0c050fec();
+    CarSel_SetBackColor();
     FUN_0c02e31e(0x1);
     FUN_0c02e2ca(0x7F);
     *(unsigned int *)0xC2864AC = 0x0;
