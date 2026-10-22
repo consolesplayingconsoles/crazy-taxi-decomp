@@ -22,8 +22,8 @@ float nlLength(int, int);
 int nlMultiMatrix8(int);
 int putLevelCTFontAssist(int, int, int, int, int);
 int FUN_0c1676e4(int a4, int a5);
-int FUN_0c07378e(int a4, int a5, int a6);
-int FUN_0c040264(void);
+int BigOneRotate(int a4, int a5, int a6);
+int menuRecordsHandler(void);
 int texLoadIndexed(int a4, int a5);
 int FUN_0c07cd30(int a4, int a5, int a6, int a7);
 float kyakuInitStops(float f4);
@@ -36,7 +36,7 @@ int FUN_0c1676e4(int a4, int a5)
     return ((int (*)(int, int, int, int))(t0))(a4, a5, 0x0, 0x6);
 }
 
-int FUN_0c07378e(int a4, int a5, int a6)
+int BigOneRotate(int a4, int a5, int a6)
 {
     int t1;
     int t3;
@@ -121,7 +121,7 @@ int FUN_0c07378e(int a4, int a5, int a6)
     return t34;
 }
 
-int FUN_0c040264(void)
+int menuRecordsHandler(void)
 {
     int t1;
     int t5;

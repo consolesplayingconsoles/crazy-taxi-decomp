@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int pfSetZ(float);
-int FUN_0c03b544(int a4);
+int SetScreen(int a4);
 
-int FUN_0c03b544(int a4)
+int SetScreen(int a4)
 {
     int t7;
     int t5;

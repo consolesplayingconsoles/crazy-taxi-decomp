@@ -13,9 +13,9 @@ int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlSetTranslate(int);
-void FUN_0c0231b4(int a4);
+void carGroundCheck(int a4);
 
-void FUN_0c0231b4(int a4)
+void carGroundCheck(int a4)
 {
     int t2;
     int t4;

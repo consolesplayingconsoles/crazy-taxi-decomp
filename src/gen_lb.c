@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_lb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05d708(void);
-int FUN_0c05d862(int, int);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Exec_Remain_Arrow(void);
+int Put_Remain_Icon(int, int);
 int Sound_Request(int, int);
-int FUN_0c05d556(int a4, int a5, int a6, int a7);
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7);
 
-int FUN_0c05d556(int a4, int a5, int a6, int a7)
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -138,7 +138,7 @@ int FUN_0c05d556(int a4, int a5, int a6, int a7)
     if (t7) goto L_C05D5BC;
     goto L_C05D56E;
     L_C05D56E:;
-    t11 = FUN_0c05bb76(0x1);
+    t11 = Start_Fault(0x1);
     t12 = t11;
     R0 = t12;
     goto L_C05D626;
@@ -162,8 +162,8 @@ int FUN_0c05d556(int a4, int a5, int a6, int a7)
     if (t17) goto L_C05D65A;
     goto L_C05D64E;
     L_C05D64E:;
-    FUN_0c05d862(R4, R5);
-    return FUN_0c05d708();
+    Put_Remain_Icon(R4, R5);
+    return Exec_Remain_Arrow();
     L_C05D65A:;
     return R0;
     L_C05D5BC:;
@@ -289,12 +289,12 @@ int FUN_0c05d556(int a4, int a5, int a6, int a7)
     if (t74) goto L_C05D648;
     goto L_C05D620;
     L_C05D620:;
-    t78 = FUN_0c05bb24();
+    t78 = Start_Excellent();
     t79 = t78;
     R0 = t79;
     goto L_C05D626;
     L_C05D636:;
-    FUN_0c05bb76(0x2);
+    Start_Fault(0x2);
     *(unsigned int *)((R13 + 0x0)) = 0x1;
     t81 = Sound_Request(0x10FA9, 0x0);
     t82 = t81;

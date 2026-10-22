@@ -16,7 +16,7 @@ int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlSubVector3op(int, int, int);
 int kmiSetTAEnvironment(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c065bb8(void);
+int camGetOffShot4(void);
 
 int kmiSetTAEnvironment(int a4, int a5, int a6, int a7, int a8)
 {

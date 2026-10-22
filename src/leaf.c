@@ -11,10 +11,10 @@ extern int gCamSubMode;
 extern float gLandmarkDist;
 extern void *gPsgCurrent;
 extern int gRinSeed;
-extern int gPlayerAdv;
+extern int Coin_disp_mode;
 extern unsigned int gHudFlags;
-extern short gDestCount[];
-extern int gSystemFlag;
+extern short gKousyaCount[];
+extern int gSeaFogState;
 extern int g_0c2a4e68;
 extern int gRideOnA;
 extern int gRideOnCount;
@@ -80,13 +80,13 @@ void rinRandomSeed(int seed)
     gRinSeed = seed;
 }
 
-void initPlayer(void)
+void initPlayerADV(void)
 {
 }
 
-void initPlayerADV(void)
+void initPlayer(void)
 {
-    gPlayerAdv = 129;
+    Coin_disp_mode = 129;
 }
 
 void SetCameraPosRatio(float a, float b)
@@ -100,24 +100,24 @@ void hudHidePickUpNag(void)
     gHudFlags &= 0xFDFFFFFF;
 }
 
-void kyakuClearVoiceBit24(void)
+void End_ReverseDriving(void)
 {
     gHudFlags &= 0xFEFFFFFF;
 }
 
-void kyakuClearVoiceBit26(void)
+void End_OverArea(void)
 {
     gHudFlags &= 0xFBFFFFFF;
 }
 
-void kyakuCountDest(int i)
+void SetKousyaCount(int i)
 {
-    gDestCount[i]++;
+    gKousyaCount[i]++;
 }
 
-int acSystemGetSystemFlag(void)
+int IsSeaFog(void)
 {
-    return gSystemFlag == 3;
+    return gSeaFogState == 3;
 }
 
 int getGoiToolFlag(int mask)

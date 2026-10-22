@@ -3,9 +3,9 @@
 
 int Sound_Request(int, int);
 float nlLength(int, int);
-void FUN_0c038ef8(int a4);
+void setObjHitPin(int a4);
 
-void FUN_0c038ef8(int a4)
+void setObjHitPin(int a4)
 {
     int t0;
     int t1;

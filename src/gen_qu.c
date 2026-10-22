@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int set_event(int, int);
-void FUN_0c037534(void);
+void SetHelicopter(void);
 
-void FUN_0c037534(void)
+void SetHelicopter(void)
 {
     int t0;
     float u1;

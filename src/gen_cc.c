@@ -6,19 +6,19 @@ int ADX_DecodeInfo(int, int);
 int ADX_DecodeInfoExADPCM2(int, int);
 int ADX_DecodeInfoExLoop(int, int, int, int, int, int, int, int, int);
 int CheckKyakuArea(int, int);
-int FUN_0c039680(int);
-int FUN_0c0396dc(int);
-int FUN_0c03ce68(int, int, int, int, int, int, float, float);
-int FUN_0c0414b8(void);
-int FUN_0c0417c0(int, int, int);
-int FUN_0c0418b8(int);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05e2fa(void);
-int FUN_0c05e5cc(int, int, int, int, float, float, float, float);
-int FUN_0c05fd70(int);
-int FUN_0c0608ac(int, int);
-int FUN_0c0608de(int, int);
+int num2char(int);
+int char2num(int);
+int PutRecords(int, int, int, int, int, int, float, float);
+int SetTotalRecords(void);
+int SeachRankTotal(int, int, int);
+int CheckRanking(int);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Wobble_Record_Window(void);
+int Put_Window_SpriteXtoY(int, int, int, int, float, float, float, float);
+int Start_CrazyBox_Voice(int);
+int pfTextPut(int, int);
+int pfTextCenterPut(int, int);
 int pfCrazyBoxRecordTimePut(int, int, int);
 int pfCrazyBoxRecordDistPut(int, int, int, float);
 int pfCrazyBoxRecordComboPut(int, int, int);
@@ -52,12 +52,12 @@ int thunk_FUN_0c0409d2(void);
 void FUN_0c15888e(int a4);
 void FUN_0c077210(int a4, int a5);
 int mwRnaFinish(void);
-int FUN_0c05c304(void);
+int Exec_Fault(void);
 int ADXB_DecodeHeaderAdx(int a4, int a5, int a6);
-int FUN_0c0411a8(int a4);
+int EditEntryName(int a4);
 int kmiInterruptHandlerSH(void);
-int FUN_0c05dbdc(void);
-int FUN_0c05df6a(void);
+int Exec_Check_Point(void);
+int Put_Record_Window(void);
 
 void FUN_0c15888e(int a4)
 {
@@ -133,7 +133,7 @@ int mwRnaFinish(void)
     return FUN_0c1717d4();
 }
 
-int FUN_0c05c304(void)
+int Exec_Fault(void)
 {
     int t0;
     float u3;
@@ -156,7 +156,7 @@ int FUN_0c05c304(void)
     if ((int)(t0 + 0x1) >= (int)0xB4) {
         thunk_FUN_0c0409d2();
     }
-    FUN_0c05e2fa();
+    Wobble_Record_Window();
     *(unsigned int *)0xC2A9898 = 0x73;
     *(unsigned int *)0xC2A98CC = 0xA;
     *(float *)0xC2A989C = 320.0f;
@@ -173,16 +173,16 @@ int FUN_0c05c304(void)
             if (t6 != 1) {
                 if (t6 != 2) {
                     if (t6 == 3) {
-                        FUN_0c05fd70(0xC);
+                        Start_CrazyBox_Voice(0xC);
                     }
                 } else {
-                    FUN_0c05fd70(0xB);
+                    Start_CrazyBox_Voice(0xB);
                 }
             } else {
-                FUN_0c05fd70(0xA);
+                Start_CrazyBox_Voice(0xA);
             }
         } else {
-            FUN_0c05fd70(0x9);
+            Start_CrazyBox_Voice(0x9);
         }
     }
     t17 = *(int *)0xC1EE214;
@@ -293,7 +293,7 @@ int ADXB_DecodeHeaderAdx(int a4, int a5, int a6)
     return t18;
 }
 
-int FUN_0c0411a8(int a4)
+int EditEntryName(int a4)
 {
     int t0;
     int t1;
@@ -363,7 +363,7 @@ int FUN_0c0411a8(int a4)
                     }
                     t5 = *(int *)0xC2A1250;
                     t6 = *(signed char *)((0xC2A1248 + t5));
-                    t7 = FUN_0c0396dc(t6);
+                    t7 = char2num(t6);
                     *(unsigned int *)0xC2A1254 = t7;
                     FUN_0c07f5c0();
                 }
@@ -376,7 +376,7 @@ int FUN_0c0411a8(int a4)
             }
             t10 = *(int *)0xC2A1250;
             t11 = *(signed char *)((0xC2A1248 + t10));
-            t12 = FUN_0c0396dc(t11);
+            t12 = char2num(t11);
             *(unsigned int *)0xC2A1254 = t12;
             FUN_0c07f5c0();
         }
@@ -393,7 +393,7 @@ int FUN_0c0411a8(int a4)
                     }
                     t18 = *(int *)0xC2A1250;
                     t19 = *(signed char *)((0xC2A1248 + t18));
-                    t20 = FUN_0c0396dc(t19);
+                    t20 = char2num(t19);
                     *(unsigned int *)0xC2A1254 = t20;
                     FUN_0c07f5c0();
                 }
@@ -406,7 +406,7 @@ int FUN_0c0411a8(int a4)
             }
             t23 = *(int *)0xC2A1250;
             t24 = *(signed char *)((0xC2A1248 + t23));
-            t25 = FUN_0c0396dc(t24);
+            t25 = char2num(t24);
             *(unsigned int *)0xC2A1254 = t25;
             FUN_0c07f5c0();
         }
@@ -474,7 +474,7 @@ int FUN_0c0411a8(int a4)
         }
         t46 = *(int *)0xC2A1250;
         t47 = *(int *)0xC2A1254;
-        t48 = FUN_0c039680(t47);
+        t48 = num2char(t47);
         *(unsigned char *)(((t46 + 0xC2A1248) + 0x0)) = t48;
         PutVM_Message(0x20, 0x14, 0x0, 235.0f, 208.0f);
         PutStringFixPfont(0x26, 0xC2A1248, 320.0f, 260.0f, 32.0f, 1.0f);
@@ -680,7 +680,7 @@ int kmiInterruptHandlerSH(void)
     return 0x0;
 }
 
-int FUN_0c05dbdc(void)
+int Exec_Check_Point(void)
 {
     int t0;
     int t1;
@@ -784,7 +784,7 @@ int FUN_0c05dbdc(void)
     if (t0 == 0) {
         t1 = *(int *)0xC2A991C;
         if (t1 == 0) {
-            FUN_0c05bb76(0x0);
+            Start_Fault(0x0);
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
         } else {
@@ -821,14 +821,14 @@ int FUN_0c05dbdc(void)
                                     *(unsigned int *)0xC2A9BA0 = t18;
                                     t19 = *(int *)0xC2A98FC;
                                     if (t19 == 7) {
-                                        FUN_0c05bb24();
+                                        Start_Excellent();
                                         *(unsigned int *)0xC2A9A5C = 0x1;
                                         t23 = 0x3D;
                                     } else {
                                         *(unsigned int *)0xC1319E0 = 0x0;
                                         t23 = 0x35;
                                     }
-                                    FUN_0c05fd70(t23);
+                                    Start_CrazyBox_Voice(t23);
                                 }
                             }
                         }
@@ -848,14 +848,14 @@ int FUN_0c05dbdc(void)
                     *(unsigned int *)0xC2A9BA0 = t36;
                     t37 = *(int *)0xC2A98FC;
                     if (t37 == 7) {
-                        FUN_0c05bb24();
+                        Start_Excellent();
                         *(unsigned int *)0xC2A9A5C = 0x1;
                         t41 = 0x3D;
                     } else {
                         *(unsigned int *)0xC1319E0 = 0x0;
                         t41 = 0x35;
                     }
-                    FUN_0c05fd70(t41);
+                    Start_CrazyBox_Voice(t41);
                 }
                 t44 = *(int *)0xC2A98FC;
                 if ((int)t44 < (int)0x7) {
@@ -899,14 +899,14 @@ int FUN_0c05dbdc(void)
                                 *(unsigned int *)0xC2A9BA0 = t64;
                                 t65 = *(int *)0xC2A98FC;
                                 if (t65 == 7) {
-                                    FUN_0c05bb24();
+                                    Start_Excellent();
                                     *(unsigned int *)0xC2A9A5C = 0x1;
                                     t69 = 0x3D;
                                 } else {
                                     *(unsigned int *)0xC1319E0 = 0x0;
                                     t69 = 0x35;
                                 }
-                                FUN_0c05fd70(t69);
+                                Start_CrazyBox_Voice(t69);
                             }
                         }
                     }
@@ -926,14 +926,14 @@ int FUN_0c05dbdc(void)
                 *(unsigned int *)0xC2A9BA0 = t82;
                 t83 = *(int *)0xC2A98FC;
                 if (t83 == 7) {
-                    FUN_0c05bb24();
+                    Start_Excellent();
                     *(unsigned int *)0xC2A9A5C = 0x1;
                     t87 = 0x3D;
                 } else {
                     *(unsigned int *)0xC1319E0 = 0x0;
                     t87 = 0x35;
                 }
-                FUN_0c05fd70(t87);
+                Start_CrazyBox_Voice(t87);
             }
             t90 = *(int *)0xC2A98FC;
             if ((int)t90 < (int)0x7) {
@@ -954,7 +954,7 @@ int FUN_0c05dbdc(void)
     if (t99 == 59) {
         if (t100 == 0) {
             t101 = *(int *)0xC1319E4;
-            FUN_0c05fd70((t101 + 0x36));
+            Start_CrazyBox_Voice((t101 + 0x36));
             t103 = *(int *)0xC1319E4;
             t104 = (int)((int)(t103 + 0x1) % (int)0x2);
             *(unsigned int *)0xC1319E4 = t104;
@@ -962,14 +962,14 @@ int FUN_0c05dbdc(void)
         } else {
             if (t100 == 1) {
                 t105 = *(int *)0xC1319E8;
-                FUN_0c05fd70((t105 + 0x3A));
+                Start_CrazyBox_Voice((t105 + 0x3A));
                 t107 = *(int *)0xC1319E8;
                 t108 = (int)((int)(t107 + 0x1) % (int)0x2);
                 t113 = t108;
                 t114 = 0xC1319E8;
             } else {
                 t109 = *(int *)0xC1319EC;
-                FUN_0c05fd70((t109 + 0x38));
+                Start_CrazyBox_Voice((t109 + 0x38));
                 t111 = *(int *)0xC1319EC;
                 t112 = (int)((int)(t111 + 0x1) % (int)0x2);
                 t113 = t112;
@@ -1027,7 +1027,7 @@ int FUN_0c05dbdc(void)
                             }
                             pfColor(t148, t149, t148, t149);
                         }
-                        FUN_0c0608de(0x140, 0x15E);
+                        pfTextCenterPut(0x140, 0x15E);
                         t153 = *(int *)0xC2A9BA4;
                         return pfCrazyBoxRecordTimePut(0x140, 0x190, t153);
                     }
@@ -1042,7 +1042,7 @@ int FUN_0c05dbdc(void)
     return t119;
 }
 
-int FUN_0c05df6a(void)
+int Put_Record_Window(void)
 {
     int t0;
     int t1;
@@ -1110,14 +1110,14 @@ int FUN_0c05df6a(void)
     t0 = *(int *)0xC2A9950;
     if (t0 == 0) {
         t1 = *(int *)0xC2A98F0;
-        t2 = FUN_0c0418b8(t1);
+        t2 = CheckRanking(t1);
         *(unsigned int *)0xC2A9BB4 = t2;
-        FUN_0c0414b8();
+        SetTotalRecords();
         t4 = *(int *)0xC1EE210;
         t5 = *(int *)0xC1EE214;
         t6 = *(int *)0xC2A9BB4;
         t7 = *(int *)0xC2A11C4;
-        t8 = FUN_0c0417c0(t7, (t4 + t5), t6);
+        t8 = SeachRankTotal(t7, (t4 + t5), t6);
         *(unsigned int *)0xC2A9BB0 = t8;
         t9 = *(int *)0xC1EE214;
         if (t9 != 15) {
@@ -1126,7 +1126,7 @@ int FUN_0c05df6a(void)
             if (t10 == 0) {
                 t11 = 0x5;
             }
-            FUN_0c05fd70(t11);
+            Start_CrazyBox_Voice(t11);
         }
     }
     t14 = *(int *)0xC2A9950;
@@ -1138,7 +1138,7 @@ int FUN_0c05df6a(void)
             if (t16 == 0) {
                 t17 = 0x7;
             }
-            FUN_0c05fd70(t17);
+            Start_CrazyBox_Voice(t17);
         }
     }
     t21 = *(int *)0xC2A9BB0;
@@ -1147,7 +1147,7 @@ int FUN_0c05df6a(void)
     } else {
         *(unsigned int *)0xC2A9898 = 0x72;
     }
-    FUN_0c05e2fa();
+    Wobble_Record_Window();
     *(float *)0xC2A989C = 320.0f;
     *(float *)0xC2A98A0 = 88.0f;
     u25 = *(float *)0xC2A994C;
@@ -1159,7 +1159,7 @@ int FUN_0c05df6a(void)
     t27 = *(int *)0xC2A9950;
     t91 = 0x14;
     if ((int)t27 >= (int)0x57) {
-        FUN_0c05e5cc(0x140, 0x173, 0xA, 0x5, 0.5f, 20.0f, 6.0f, 0.399999976f);
+        Put_Window_SpriteXtoY(0x140, 0x173, 0xA, 0x5, 0.5f, 20.0f, 6.0f, 0.399999976f);
         t29 = *(int *)0xC2A9BAC;
         if ((int)t29 > 0) {
             t30 = *(int *)0xC2A9BAC;
@@ -1192,17 +1192,17 @@ int FUN_0c05df6a(void)
         pfSetFont(0x0);
         pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
         t51 = *(int *)0xC2A9BAC;
-        FUN_0c0608de((0x140 - t51), 0x90);
+        pfTextCenterPut((0x140 - t51), 0x90);
         pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
         t54 = *(int *)0xC2A9BAC;
-        FUN_0c0608de((0x140 - t54), 0xD6);
+        pfTextCenterPut((0x140 - t54), 0xD6);
         pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
         t57 = *(int *)0xC2A9BAC;
-        FUN_0c0608ac((0xAC - t57), 0x144);
+        pfTextPut((0xAC - t57), 0x144);
         t59 = *(int *)0xC2A9BAC;
-        FUN_0c0608de((0x140 - t59), 0x144);
+        pfTextCenterPut((0x140 - t59), 0x144);
         t61 = *(int *)0xC2A9BAC;
-        FUN_0c0608ac((0x1A4 - t61), 0x144);
+        pfTextPut((0x1A4 - t61), 0x144);
         t63 = *(short *)0xC2A11C4;
         t64 = PutStringFixPfont(0x26, ((short)((short)t63 * (short)0x788) + 0xC28A4F8), 320.0f, 164.0f, 32.0f, 1.0f);
         t65 = t64;
@@ -1226,7 +1226,7 @@ int FUN_0c05df6a(void)
             u68 = (float)(((((t66 << 1) + t66) << 2) << 1) + 0x15E);
             u67 = (float)(t71 + 0xBE);
             t75 = *(int *)((t65 + 0x0));
-            t76 = FUN_0c0417c0(t75, (t72 + t73), t74);
+            t76 = SeachRankTotal(t75, (t72 + t73), t74);
             t65 = t76;
             if (t66 == t65) {
                 t77 = *(int *)0xC1EE330;
@@ -1249,7 +1249,7 @@ int FUN_0c05df6a(void)
                 t88 = 0x27;
                 t89 = ((t85 << 2) + t86);
             }
-            t90 = FUN_0c03ce68(t88, 0xFFFFFFFF, t89, t66, t66, 0x1, u67, u68);
+            t90 = PutRecords(t88, 0xFFFFFFFF, t89, t66, t66, 0x1, u67, u68);
             t65 = t90;
             t66 = (t66 + 0x1);
         }

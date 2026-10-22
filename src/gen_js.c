@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_js): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c038ee6(void);
-int FUN_0c038eec(int);
-int FUN_0c05cdb4(void);
-int FUN_0c05ce38(void);
-int FUN_0c05fd70(int);
-int FUN_0c05cb80(int a4);
+int ReturnBreakPinNum(void);
+int ReturnBreakPin(int);
+int Start_Bowling_Message(void);
+int Reset_Bowling_Timer(void);
+int Start_CrazyBox_Voice(int);
+int Check_Bowling_Pins(int a4);
 
-int FUN_0c05cb80(int a4)
+int Check_Bowling_Pins(int a4)
 {
     int t0;
     int t1;
@@ -162,7 +162,7 @@ int FUN_0c05cb80(int a4)
     t1 = R13;
     t2 = R12;
     t3 = *(int *)0xC2A995C;
-    t4 = FUN_0c038eec((((((t3 - 1) << 2) + (t3 - 1)) << 1) + 0x1));
+    t4 = ReturnBreakPin((((((t3 - 1) << 2) + (t3 - 1)) << 1) + 0x1));
     t5 = t4 == 0;
     *(unsigned int *)(((int)stk + 12)) = t0;
     *(unsigned int *)(((int)stk + 8)) = t1;
@@ -181,7 +181,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CBA4;
     L_C05CBA4:;
     t11 = *(int *)0xC2A995C;
-    t12 = FUN_0c038eec((((((t11 - 1) << 2) + (t11 - 1)) << 1) + 0x2));
+    t12 = ReturnBreakPin((((((t11 - 1) << 2) + (t11 - 1)) << 1) + 0x2));
     t13 = t12 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -194,7 +194,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CBBA;
     L_C05CBBA:;
     t16 = *(int *)0xC2A995C;
-    t17 = FUN_0c038eec((((((t16 - 1) << 2) + (t16 - 1)) << 1) + 0x3));
+    t17 = ReturnBreakPin((((((t16 - 1) << 2) + (t16 - 1)) << 1) + 0x3));
     t18 = t17 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -207,7 +207,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CBD0;
     L_C05CBD0:;
     t21 = *(int *)0xC2A995C;
-    t22 = FUN_0c038eec((((((t21 - 1) << 2) + (t21 - 1)) << 1) + 0x4));
+    t22 = ReturnBreakPin((((((t21 - 1) << 2) + (t21 - 1)) << 1) + 0x4));
     t23 = t22 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -220,7 +220,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CBE6;
     L_C05CBE6:;
     t26 = *(int *)0xC2A995C;
-    t27 = FUN_0c038eec((((((t26 - 1) << 2) + (t26 - 1)) << 1) + 0x5));
+    t27 = ReturnBreakPin((((((t26 - 1) << 2) + (t26 - 1)) << 1) + 0x5));
     t28 = t27 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -233,7 +233,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CBFC;
     L_C05CBFC:;
     t31 = *(int *)0xC2A995C;
-    t32 = FUN_0c038eec((((((t31 - 1) << 2) + (t31 - 1)) << 1) + 0x6));
+    t32 = ReturnBreakPin((((((t31 - 1) << 2) + (t31 - 1)) << 1) + 0x6));
     t33 = t32 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -246,7 +246,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CC12;
     L_C05CC12:;
     t36 = *(int *)0xC2A995C;
-    t37 = FUN_0c038eec((((((t36 - 1) << 2) + (t36 - 1)) << 1) + 0x7));
+    t37 = ReturnBreakPin((((((t36 - 1) << 2) + (t36 - 1)) << 1) + 0x7));
     t38 = t37 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -259,7 +259,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CC28;
     L_C05CC28:;
     t41 = *(int *)0xC2A995C;
-    t42 = FUN_0c038eec((((((t41 - 1) << 2) + (t41 - 1)) << 1) + 0x8));
+    t42 = ReturnBreakPin((((((t41 - 1) << 2) + (t41 - 1)) << 1) + 0x8));
     t43 = t42 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -272,7 +272,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CC3E;
     L_C05CC3E:;
     t46 = *(int *)0xC2A995C;
-    t47 = FUN_0c038eec((((((t46 - 1) << 2) + (t46 - 1)) << 1) + 0x9));
+    t47 = ReturnBreakPin((((((t46 - 1) << 2) + (t46 - 1)) << 1) + 0x9));
     t48 = t47 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -285,7 +285,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CC54;
     L_C05CC54:;
     t51 = *(int *)0xC2A995C;
-    t52 = FUN_0c038eec((((((t51 - 1) << 2) + (t51 - 1)) << 1) + 0xA));
+    t52 = ReturnBreakPin((((((t51 - 1) << 2) + (t51 - 1)) << 1) + 0xA));
     t53 = t52 == 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -297,8 +297,8 @@ int FUN_0c05cb80(int a4)
     if (t53) goto L_C05CC90;
     goto L_C05CC6A;
     L_C05CC6A:;
-    FUN_0c05cdb4();
-    t57 = FUN_0c038ee6();
+    Start_Bowling_Message();
+    t57 = ReturnBreakPinNum();
     t58 = (int)t57 > 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -315,12 +315,12 @@ int FUN_0c05cb80(int a4)
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     goto L_C05CDA2;
     L_C05CDA2:;
-    t61 = FUN_0c038ee6();
+    t61 = ReturnBreakPinNum();
     *(unsigned int *)0xC2A9958 = t61;
     return t61;
     L_C05CC7A:;
     t62 = *(int *)0xC131204;
-    FUN_0c05fd70((t62 + 0x17));
+    Start_CrazyBox_Voice((t62 + 0x17));
     t64 = *(int *)0xC131204;
     t65 = (int)((int)(t64 + 0x1) % (int)0x3);
     *(unsigned int *)0xC131204 = t65;
@@ -336,7 +336,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CDA2;
     L_C05CC90:;
     t69 = *(int *)0xC2A995C;
-    t70 = FUN_0c038eec((((((t69 - 1) << 2) + (t69 - 1)) << 1) + 0x1));
+    t70 = ReturnBreakPin((((((t69 - 1) << 2) + (t69 - 1)) << 1) + 0x1));
     t71 = t70 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -349,7 +349,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CCA6;
     L_C05CCA6:;
     t74 = *(int *)0xC2A995C;
-    t75 = FUN_0c038eec((((((t74 - 1) << 2) + (t74 - 1)) << 1) + 0x2));
+    t75 = ReturnBreakPin((((((t74 - 1) << 2) + (t74 - 1)) << 1) + 0x2));
     t76 = t75 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -362,7 +362,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CCBC;
     L_C05CCBC:;
     t79 = *(int *)0xC2A995C;
-    t80 = FUN_0c038eec((((((t79 - 1) << 2) + (t79 - 1)) << 1) + 0x3));
+    t80 = ReturnBreakPin((((((t79 - 1) << 2) + (t79 - 1)) << 1) + 0x3));
     t81 = t80 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -375,7 +375,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CCD2;
     L_C05CCD2:;
     t84 = *(int *)0xC2A995C;
-    t85 = FUN_0c038eec((((((t84 - 1) << 2) + (t84 - 1)) << 1) + 0x4));
+    t85 = ReturnBreakPin((((((t84 - 1) << 2) + (t84 - 1)) << 1) + 0x4));
     t86 = t85 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -388,7 +388,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CCE8;
     L_C05CCE8:;
     t89 = *(int *)0xC2A995C;
-    t90 = FUN_0c038eec((((((t89 - 1) << 2) + (t89 - 1)) << 1) + 0x5));
+    t90 = ReturnBreakPin((((((t89 - 1) << 2) + (t89 - 1)) << 1) + 0x5));
     t91 = t90 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -401,7 +401,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CCFE;
     L_C05CCFE:;
     t94 = *(int *)0xC2A995C;
-    t95 = FUN_0c038eec((((((t94 - 1) << 2) + (t94 - 1)) << 1) + 0x6));
+    t95 = ReturnBreakPin((((((t94 - 1) << 2) + (t94 - 1)) << 1) + 0x6));
     t96 = t95 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -414,7 +414,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD14;
     L_C05CD14:;
     t99 = *(int *)0xC2A995C;
-    t100 = FUN_0c038eec((((((t99 - 1) << 2) + (t99 - 1)) << 1) + 0x7));
+    t100 = ReturnBreakPin((((((t99 - 1) << 2) + (t99 - 1)) << 1) + 0x7));
     t101 = t100 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -427,7 +427,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD2A;
     L_C05CD2A:;
     t104 = *(int *)0xC2A995C;
-    t105 = FUN_0c038eec((((((t104 - 1) << 2) + (t104 - 1)) << 1) + 0x8));
+    t105 = ReturnBreakPin((((((t104 - 1) << 2) + (t104 - 1)) << 1) + 0x8));
     t106 = t105 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -440,7 +440,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD40;
     L_C05CD40:;
     t109 = *(int *)0xC2A995C;
-    t110 = FUN_0c038eec((((((t109 - 1) << 2) + (t109 - 1)) << 1) + 0x9));
+    t110 = ReturnBreakPin((((((t109 - 1) << 2) + (t109 - 1)) << 1) + 0x9));
     t111 = t110 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -453,7 +453,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD56;
     L_C05CD56:;
     t114 = *(int *)0xC2A995C;
-    t115 = FUN_0c038eec((((((t114 - 1) << 2) + (t114 - 1)) << 1) + 0xA));
+    t115 = ReturnBreakPin((((((t114 - 1) << 2) + (t114 - 1)) << 1) + 0xA));
     t116 = t115 != 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -466,7 +466,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD6C;
     L_C05CD6C:;
     t119 = *(int *)0xC131208;
-    FUN_0c05fd70((t119 + 0x1D));
+    Start_CrazyBox_Voice((t119 + 0x1D));
     t121 = *(int *)0xC131208;
     t122 = (int)((int)(t121 + 0x1) % (int)0x2);
     *(unsigned int *)0xC131208 = t122;
@@ -481,7 +481,7 @@ int FUN_0c05cb80(int a4)
     R3 = t125;
     goto L_C05CD9E;
     L_C05CD9E:;
-    t126 = FUN_0c05ce38();
+    t126 = Reset_Bowling_Timer();
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
@@ -489,7 +489,7 @@ int FUN_0c05cb80(int a4)
     R0 = t127;
     goto L_C05CDA2;
     L_C05CD82:;
-    t128 = FUN_0c038ee6();
+    t128 = ReturnBreakPinNum();
     t129 = (int)t128 <= 0;
     *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
@@ -502,7 +502,7 @@ int FUN_0c05cb80(int a4)
     goto L_C05CD8A;
     L_C05CD8A:;
     t132 = *(int *)0xC13120C;
-    FUN_0c05fd70((t132 + 0x1A));
+    Start_CrazyBox_Voice((t132 + 0x1A));
     t134 = *(int *)0xC13120C;
     t135 = (int)((int)(t134 + 0x1) % (int)0x3);
     *(unsigned int *)0xC13120C = t135;

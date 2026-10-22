@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_mb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036b5a(int, int);
+int SetBubble(int, int);
 int SetEffect(int, int, int);
 int Sound_Request(int, int);
 int nlLocate(int, int);
@@ -840,7 +840,7 @@ int ExecEffect(int a4, int a5, int a6, float f4)
     goto L_C036E8C;
     L_C036E8C:;
     t210 = *(int *)(((int)stk + 8));
-    FUN_0c036b5a((R13 + 0x5C), t210);
+    SetBubble((R13 + 0x5C), t210);
     goto L_C036E94;
     L_C036E02:;
     u212 = *(float *)((R10 + 0x18C));

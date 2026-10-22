@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ln): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c052574(void);
+int Init_Time_Count(void);
 
-int FUN_0c052574(void)
+int Init_Time_Count(void)
 {
     float u0;
 

@@ -17,7 +17,7 @@ extern float g_vsklAxC[];
 extern void _quick_odd_mvn(void);
 
 void InitHomingVector(void *hv, void *v);
-void FUN_0c0364b8(void *p, Ang3 *a);
+void InitHomingAngle(void *p, Ang3 *a);
 void ResetSpark(void);
 void nlOuterProduct(float *a, float *b, float *out);
 void nlMultiMatrix8(void *m);
@@ -44,7 +44,7 @@ void camSetTarget(Vec3 *v, int mode)
     *(Vec3 *)(g_camTargetHV + 24) = *v;
 }
 
-/* camSnapToCar: not counted. Its stack temporary (the angles passed to FUN_0c0364b8) sits 8 bytes lower in the original, which saves two more registers; equiv.py DIFFERS on that argument only. */
+/* camSnapToCar: not counted. Its stack temporary (the angles passed to InitHomingAngle) sits 8 bytes lower in the original, which saves two more registers; equiv.py DIFFERS on that argument only. */
 void camSnapToCar(int n)
 {
     unsigned char *car = Car_Data + (short)((short)n * 956);
@@ -55,7 +55,7 @@ void camSnapToCar(int n)
     a.a = g_camAngles[0];
     a.b = g_camAngles[1];
     a.c = g_camAngles[2];
-    FUN_0c0364b8(g_camHV3, &a);
+    InitHomingAngle(g_camHV3, &a);
     ResetSpark();
     g_camSnapFlag = 1;
 }

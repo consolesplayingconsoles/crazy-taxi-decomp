@@ -3,9 +3,9 @@
 
 int Sound_Request(int, int);
 float nlPow(float, float);
-void FUN_0c054ffe(void);
+void hudUpdateFareState(void);
 
-void FUN_0c054ffe(void)
+void hudUpdateFareState(void)
 {
     int t0;
     int t1;

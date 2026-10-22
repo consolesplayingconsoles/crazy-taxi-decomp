@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_bi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0211e0(float, float, float);
-int FUN_0c062096(int, int);
-int FUN_0c0630a2(int, float);
-int FUN_0c06b0ce(void);
-int FUN_0c071258(int);
-int FUN_0c0713d8(int);
+int carSpreadWheelLoad(float, float, float);
+int Drv_CallActionStart(int, int);
+int Drv_SetMotion(int, float);
+int rinRand(void);
+int psgStepBlend(int);
+int psgUpdatePartTracks(int);
 int nlSqrt(int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
@@ -14,7 +14,7 @@ int GetAverageAngle(int, int, float);
 int GetCollision2D(int, float);
 int InitHomingVector(int, int);
 int PcarEvInit(int);
-int Put_Motion2D(int);
+int carBalance(int);
 int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
@@ -44,14 +44,14 @@ float psgRunToPoint(int);
 int set_event(int, int);
 int Chat_HeyTaxi(int a4);
 int Drv_StartAction(int a4, int a5, int a6);
-int FUN_0c061da8(int a4);
-int FUN_0c061e04(int a4);
+int Chat_DamnIt(int a4);
+int Chat_DontPass(int a4);
 int Chat_Choin(int a4, int a5);
 void initCamera(int a4);
 int nlTriPutSetAttrib(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
 int StopingCarInit(int a4, int a5, int a6);
 int psgFrameState2(int a4);
-int FUN_0c062824(void);
+int Drv_StartGetOff(void);
 
 int Chat_HeyTaxi(int a4)
 {
@@ -82,7 +82,7 @@ int Drv_StartAction(int a4, int a5, int a6)
     *(unsigned int *)0xC2AD01C = a6;
     *(unsigned int *)0xC2AD014 = 0x0;
     *(float *)0xC2AD0F4 = 0.0f;
-    FUN_0c062096(a4, 0x0);
+    Drv_CallActionStart(a4, 0x0);
     u1 = *(float *)0xC2AD0F8;
     t2 = *(int *)0xC2AD1DC;
     t3 = (int)((unsigned int)(((u1 > 0.0f)) ? 1 : 0) & 0x1);
@@ -93,7 +93,7 @@ int Drv_StartAction(int a4, int a5, int a6)
 }
 
 
-int FUN_0c061e04(int a4)
+int Chat_DontPass(int a4)
 {
     int t0;
     int t2;
@@ -508,7 +508,7 @@ int StopingCarInit(int a4, int a5, int a6)
                 *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x4)) = t47;
                 t48 = *(int *)0xC0A4788;
                 *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = t48;
-                Put_Motion2D(t0);
+                carBalance(t0);
                 t50 = *(signed char *)(((0x108 + t0) + 0x0));
                 *(unsigned char *)(((0xA4 + t0) + 0x0)) = t50;
                 t51 = *(signed char *)(((0x108 + t0) + 0x1));
@@ -543,7 +543,7 @@ int StopingCarInit(int a4, int a5, int a6)
 }
 
 
-int FUN_0c062824(void)
+int Drv_StartGetOff(void)
 {
     int t0;
     int t1;
@@ -708,7 +708,7 @@ int FUN_0c062824(void)
     t11 = *(int *)0xC0D511C;
     *(unsigned int *)((((int)stk + 4) + 0x0)) = t11;
     t12 = *(int *)0xC2AD018;
-    t13 = FUN_0c06b0ce();
+    t13 = rinRand();
     t14 = *(int *)0xC2AD014;
     if (t14 != 0) {
         t118 = t14;
@@ -1247,7 +1247,7 @@ int FUN_0c062824(void)
             }
             t320 = t317;
         }
-        FUN_0c0630a2(t320, 0.0f);
+        Drv_SetMotion(t320, 0.0f);
         t322 = *(signed char *)0xC2AD1DF;
         *(unsigned char *)0xC2AD1DF = (t322 | 0x80);
         *(float *)0xC2AD0F4 = 0.0f;

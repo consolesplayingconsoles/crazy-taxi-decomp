@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CalcShadow4Normal(int, int);
-int FUN_0c0500d8(int);
+int pedIsSpecialModel(int);
 int FUN_0c156f4c(int, int, int);
 int FUN_0c157ba0(int, int);
 int FUN_0c157cc8(void);

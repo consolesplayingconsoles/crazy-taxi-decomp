@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_lx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0211e0(float, float, float);
-int FUN_0c031492(int);
-int FUN_0c05d492(void);
-int FUN_0c070ede(int);
-int FUN_0c071258(int);
-int FUN_0c0713d8(int);
+int carSpreadWheelLoad(float, float, float);
+int SetLandmark(int);
+int Start_PoleMarriageKiss(void);
+int psgFreeIpBuff(int);
+int psgStepBlend(int);
+int psgUpdatePartTracks(int);
 int FUN_0c077210(int, int);
 int FcvPlay(int, int, float);
 int FcvPlayBuffer(int, int);
@@ -378,7 +378,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     L_C070140:;
     nlPushMatrix(0x0);
     psgPutShadow(R14);
-    FUN_0c0713d8(R14);
+    psgUpdatePartTracks(R14);
     u21 = *(float *)((R14 + 0x38));
     t22 = *(int *)((R14 + 0x34));
     FcvStoreBuffer(t22, (R14 + 0x3C), u21);
@@ -492,7 +492,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     *(unsigned char *)(((0x148 + R14) + 0x0)) = (t65 | 0x80);
     t66 = *(int *)((R11 + 0x0));
     *(unsigned int *)((R11 + 0x0)) = (t66 & 0xFFFFFFFD);
-    FUN_0c031492(0x3);
+    SetLandmark(0x3);
     goto L_C07067A;
     L_C070522:;
     t68 = *(signed char *)((R14 + 0x148));
@@ -588,7 +588,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F4 = u102;
     goto L_C0703A2;
     L_C0703A2:;
-    FUN_0c0211e0(F4, F5, F6);
+    carSpreadWheelLoad(F4, F5, F6);
     goto L_C0704A6;
     L_C0703A0:;
     u104 = 1.0f;
@@ -646,7 +646,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F4 = u121;
     goto L_C07043E;
     L_C07043E:;
-    FUN_0c0211e0(F4, F5, F6);
+    carSpreadWheelLoad(F4, F5, F6);
     goto L_C0704A6;
     L_C07043C:;
     u123 = 1.0f;
@@ -707,7 +707,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F4 = u142;
     goto L_C0704A2;
     L_C0704A2:;
-    FUN_0c0211e0(F4, F5, F6);
+    carSpreadWheelLoad(F4, F5, F6);
     goto L_C0704A6;
     L_C0704A0:;
     u144 = 1.0f;
@@ -799,7 +799,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C07057A;
     L_C07057A:;
     psgPutShadow(R14);
-    FUN_0c071258(R14);
+    psgStepBlend(R14);
     goto L_C070582;
     L_C070582:;
     t177 = *(int *)((R14 + 0x0));
@@ -811,7 +811,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t180) goto L_C0705D0;
     goto L_C0705CC;
     L_C0705CC:;
-    FUN_0c070ede(R14);
+    psgFreeIpBuff(R14);
     goto L_C0705D0;
     L_C0705D0:;
     t182 = *(int *)0xC1EE210;
@@ -821,7 +821,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     *(volatile int *)((R14 + 0x140));
     t187 = psgRunToPoint(R14);
     psgPutShadow(R14);
-    FUN_0c0713d8(R14);
+    psgUpdatePartTracks(R14);
     t190 = *(int *)((R14 + 0x0));
     u191 = *(float *)((R14 + 0x38));
     t192 = *(int *)((R14 + 0x34));
@@ -850,7 +850,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t203) goto L_C070644;
     goto L_C07063E;
     L_C07063E:;
-    FUN_0c05d492();
+    Start_PoleMarriageKiss();
     goto L_C070644;
     L_C070644:;
     t205 = *(int *)0xC1EE20C;
@@ -895,10 +895,10 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t220) goto L_C06FE40;
     goto L_C06FDEC;
     L_C06FDEC:;
-    FUN_0c071258(R14);
+    psgStepBlend(R14);
     goto L_C070582;
     L_C06FE40:;
-    FUN_0c0713d8(R14);
+    psgUpdatePartTracks(R14);
     u223 = *(float *)((R14 + 0x38));
     t224 = *(int *)((R14 + 0x34));
     FcvStoreBuffer(t224, (R14 + 0x3C), u223);
@@ -1045,7 +1045,7 @@ int psgFrameState4(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     *(unsigned char *)(((0x148 + R14) + 0x0)) = (t283 | 0x80);
     t284 = *(int *)((R11 + 0x0));
     *(unsigned int *)((R11 + 0x0)) = (t284 & 0xFFFFFFFD);
-    FUN_0c031492(0x3);
+    SetLandmark(0x3);
     goto L_C07067A;
     L_C06FEEE:;
     t286 = *(int *)((R14 + 0x80));

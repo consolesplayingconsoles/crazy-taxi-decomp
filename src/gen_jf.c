@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CalcShadow4Normal(int, int);
-int FUN_0c0500d8(int);
+int pedIsSpecialModel(int);
 int GetCollision2D(int, float);
 int nlAddVector(int, int);
 int nlRand(void);
@@ -218,7 +218,7 @@ int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, flo
     goto L_C04F8BC;
     L_C04F8BC:;
     t33 = *(int *)((R14 + 0x1C));
-    t34 = FUN_0c0500d8(t33);
+    t34 = pedIsSpecialModel(t33);
     t35 = t34 == 0;
     t36 = t34;
     t37 = ((t34 == 0));
@@ -248,7 +248,7 @@ int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, flo
     goto L_C04F8D2;
     L_C04F8D2:;
     t47 = *(int *)((R14 + 0x1C));
-    t48 = FUN_0c0500d8(t47);
+    t48 = pedIsSpecialModel(t47);
     t49 = t48 != 0;
     t50 = t48;
     t51 = ((t48 == 0));

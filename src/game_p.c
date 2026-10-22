@@ -1,18 +1,18 @@
 /* Game-side loops: sound channel resets, setup tables, decimal digit strings. */
 
-extern void FUN_0c05ea98(int i);
-extern void FUN_0c02e71e(int ch, int vol);
-extern void FUN_0c02e75a(int ch, int x);
+extern void Set_Balloon(int i);
+extern void gdc_StreamVoiceVol(int ch, int vol);
+extern void gdc_StreamVoicePan(int ch, int x);
 extern void gdc_StopStreamVoiceAll(void);
 
-/* Reset the 20 entries through FUN_0c05ea98, then the view block at 0C2A9C10. */
-void FUN_0c05e8c8(void)
+/* Reset the 20 entries through Set_Balloon, then the view block at 0C2A9C10. */
+void Init_Balloon(void)
 {
     float *v = (float *)0x0C2A9C10;
     int i;
 
     for (i = 0; i < 20; i++) {
-        FUN_0c05ea98(i);
+        Set_Balloon(i);
     }
     *(int *)0x0C1319F8 = 20;
     v[1] = 320.0f;
@@ -31,7 +31,7 @@ void FUN_0c05e8c8(void)
 }
 
 /* Reset the four voice channels to volume 75, then stop every streamed voice. */
-void FUN_0c072dd4(void)
+void Voice_Init(void)
 {
     int i;
     int *a;
@@ -46,8 +46,8 @@ void FUN_0c072dd4(void)
         b[1] = 75;
         b[2] = 0;
         b[3] = 0;
-        FUN_0c02e71e(i, 75);
-        FUN_0c02e75a(i, 0);
+        gdc_StreamVoiceVol(i, 75);
+        gdc_StreamVoicePan(i, 0);
     }
     gdc_StopStreamVoiceAll();
 }
@@ -133,13 +133,13 @@ extern void njSetRenderWidth(int w);
         thunk_kmSetFogTable(t);                         \
     } while (0)
 
-void FUN_0c050c0a(void)
+void nd_StartWait_SetFog(void)
 {
     FOG_TABLE(0x0C12FFC8, 0xFFFFFF);
     kmSetFogDensity(0x808F);
 }
 
-void FUN_0c0519de(void)
+void CarSel_SetFog(void)
 {
     FOG_TABLE(0x0C130624, 0xFFFFFF);
     kmSetFogDensity(0x808F);
@@ -147,14 +147,14 @@ void FUN_0c0519de(void)
 
 /* This one clears its base value first, so its table is all zeros, and passes its own argument as the
    first colour. */
-void FUN_0c058f38(int color)
+void SEGA_LOGO_SetFog(int color)
 {
     *(float *)0x0C130DB8 = 0.0f;
     FOG_TABLE(0x0C130DB8, color);
     kmSetFogDensity(0x808F);
 }
 
-void FUN_0c05b044(void)
+void Result_SetFog(void)
 {
     FOG_TABLE(0x0C130E14, 0xFFFFFF);
     njSetRenderWidth(0x808F);
@@ -164,7 +164,7 @@ extern void nlSprPut(void *spr);
 
 /* Set up the eight 80-byte view records at 0C2A89CC (their first word from the list at 0C0D0858),
    then clear the three words after them. */
-void FUN_0c052d7e(void)
+void Init_GameOver(void)
 {
     int *src = (int *)0x0C0D0858;
     float *v = (float *)0x0C2A89CC;
@@ -194,7 +194,7 @@ void FUN_0c052d7e(void)
 
 /* Once the counter at 0C2A96F4 passes 88, draw a row of sprite 93: 21 copies 17 apart from x 64,
    at y = 0C2A9748 + 250. */
-void FUN_0c059eb0(void)
+void Result_Score_Line_Put(void)
 {
     float *s = (float *)0x0C2A96F8;
     int x;
@@ -219,7 +219,7 @@ void FUN_0c059eb0(void)
 }
 
 /* The same row, 13 copies from x 366 at y = 0C2A9748 + 444. */
-void FUN_0c05ac4c(void)
+void Result_Ranking_Line_Put(void)
 {
     float *s = (float *)0x0C2A96F8;
     int x;
@@ -243,29 +243,30 @@ void FUN_0c05ac4c(void)
     }
 }
 
-extern void FUN_0c04eb4a(void);
-extern void PC_RenderSimpleTaxiShadow(void);
+extern void SetMVObjShadow(void);
+extern void Put_Course_Obj_Sound(void);
 extern void Put_Transporter(void);
-extern void Put_Course_Obj_Dist(void);
-extern void FUN_0c03b698(int v);
-extern void FUN_0c03df1a(void);
+extern void Put_Course_Obj_Fcv(void);
+extern void SetWindow(int v);
+extern void windowReturn(void);
 
-/* Shadows (not in course mode 2), then the transporters and course objects (course mode 0 only). */
-void SetMVShadow(void)
+/* Course objects by distance: object shadows and the fixed models near the camera (not in course mode 2),
+   then the transporters and the two animated objects (course mode 0 only). */
+void Put_Course_Obj_Dist(void)
 {
     if (*(int *)0x0C1EE20C != 2) {
-        FUN_0c04eb4a();
-        PC_RenderSimpleTaxiShadow();
+        SetMVObjShadow();
+        Put_Course_Obj_Sound();
     }
     if (*(int *)0x0C1EE20C == 0) {
         Put_Transporter();
-        Put_Course_Obj_Dist();
+        Put_Course_Obj_Fcv();
     }
 }
 
 /* Clamp x to 0..1 into 0C0EE904; when it had to be clamped and the flag at 0C0EE900 is set, the flag
    becomes -1. */
-void FUN_0c03934e(float x)
+void SetMotionBlurStrength(float x)
 {
     int *flag = (int *)0x0C0EE900;
     int f = *flag;
@@ -286,15 +287,15 @@ void FUN_0c03934e(float x)
     *(float *)0x0C0EE904 = x;
 }
 
-/* A pending request (0C2A1218) is handed to FUN_0c03b698 and cleared; otherwise the counter at
-   0C2A11F4 counts down by 2, and once it is 1 or less FUN_0c03df1a runs. */
-void FUN_0c03dfc8(void)
+/* A pending request (0C2A1218) is handed to SetWindow and cleared; otherwise the counter at
+   0C2A11F4 counts down by 2, and once it is 1 or less windowReturn runs. */
+void windowClose(void)
 {
     int *count = (int *)0x0C2A11F4;
     int v = *(int *)0x0C2A1218;
 
     if (v != 0) {
-        FUN_0c03b698(v);
+        SetWindow(v);
         *(int *)0x0C2A1218 = 0;
         return;
     }
@@ -302,35 +303,35 @@ void FUN_0c03dfc8(void)
         *count -= 2;
         return;
     }
-    FUN_0c03df1a();
+    windowReturn();
 }
 
 extern int GetMenuMode(int which);
-extern void FUN_0c053dec(void);
-extern void FUN_0c053b76(void);
+extern void Put_Remain_Time_Mode2(void);
+extern void Put_Remain_Time(void);
 extern void Put_GearBox(void);
-extern void FUN_0c02ea04(void);
+extern void gdc_CourseLoadExec(void);
 extern void frameFlip(void);
 extern int pdGetPeripheral(int port);
-extern void FUN_0c039434(int mode);
+extern void PutRenderTexture(int mode);
 extern void FUN_0c076f70(void);
 
-/* Game 2, or menu mode 1 set: FUN_0c053dec; otherwise FUN_0c053b76; the gear box either way. */
-void FUN_0c053ac0(void)
+/* Game 2, or menu mode 1 set: Put_Remain_Time_Mode2; otherwise Put_Remain_Time; the gear box either way. */
+void Put_Default2_Sprite(void)
 {
     if (*(int *)0x0C1EE210 == 2 || GetMenuMode(1) != 0) {
-        FUN_0c053dec();
+        Put_Remain_Time_Mode2();
     } else {
-        FUN_0c053b76();
+        Put_Remain_Time();
     }
     Put_GearBox();
 }
 
-/* Run frames (FUN_0c02ea04, then a flip) until the busy flag at 0C26E0F8 drops; at least one. */
+/* Run frames (gdc_CourseLoadExec, then a flip) until the busy flag at 0C26E0F8 drops; at least one. */
 void gdc_CourseLoadWait(void)
 {
     do {
-        FUN_0c02ea04();
+        gdc_CourseLoadExec();
         frameFlip();
     } while (*(int *)0x0C26E0F8 != 0);
 }
@@ -350,9 +351,9 @@ void padReadSlot(int slot)
     }
 }
 
-/* The flag at 0C0EE900 (set by FUN_0c03934e on a clamp): -1 resets it, 1 moves it to 2, 2 runs mode
+/* The flag at 0C0EE900 (set by SetMotionBlurStrength on a clamp): -1 resets it, 1 moves it to 2, 2 runs mode
    2; then FUN_0c076f70 and mode 0. Nothing while it is 0. */
-void FUN_0c039560(void)
+void ExecRenderTexture2nd(void)
 {
     int *flag = (int *)0x0C0EE900;
     int v = *flag;
@@ -365,10 +366,10 @@ void FUN_0c039560(void)
     } else if (v == 1) {
         *flag = 2;
     } else if (v == 2) {
-        FUN_0c039434(2);
+        PutRenderTexture(2);
     }
     FUN_0c076f70();
-    FUN_0c039434(0);
+    PutRenderTexture(0);
 }
 
 /* Is pos (x at +0, z at +8) inside the convex quad of four (x, z) pairs? Each edge, from the last
@@ -423,12 +424,12 @@ void Voice_Request(int voice, int ch, int a, int b)
 }
 
 extern void FUN_0c074680(int a, int b, int c);
-extern void FUN_0c05c8e8(void);
-extern void FUN_0c05ca3e(void);
-extern void FUN_0c05c81c(void);
-extern int FUN_0c038ee6(void);
-extern void FUN_0c05bb24(void);
-extern void FUN_0c05bb76(int on);
+extern void Exec_Bowling_Pins(void);
+extern void Exec_Bowling_Arrow(void);
+extern void Put_Pin_Count(void);
+extern int ReturnBreakPinNum(void);
+extern void Start_Excellent(void);
+extern void Start_Fault(int on);
 
 /* One of four colours by (*(*0C2A751C)) % 4, the same for all three arguments. */
 void CarSel_SetBackColor(void)
@@ -456,7 +457,7 @@ void CarSel_SetBackColor(void)
 
 /* For kinds 3-7, is any of the flags from that kind's word (+12 for 3 ... +28 for 7) up to +28 set?
    Kinds 0-2 always count; any other kind is returned as it is. */
-int FUN_0c058968(int *t, int kind)
+int Check_Digit_Disp(int *t, int kind)
 {
     switch (kind) {
     case 0:
@@ -478,21 +479,21 @@ int FUN_0c058968(int *t, int kind)
     return kind;
 }
 
-/* Per-frame step: three updates, then until 0C2A991C is set: FUN_0c05bb24 while FUN_0c038ee6 gives
-   nothing; once it does and 0C1EE794 is clear, switch FUN_0c05bb76 on, set 0C2A991C and clear
+/* Per-frame step: three updates, then until 0C2A991C is set: Start_Excellent while ReturnBreakPinNum gives
+   nothing; once it does and 0C1EE794 is clear, switch Start_Fault on, set 0C2A991C and clear
    Car_Data +84. */
-void FUN_0c05c7ac(void)
+void Exec_Crazy_Bowling(void)
 {
-    FUN_0c05c8e8();
-    FUN_0c05ca3e();
-    FUN_0c05c81c();
+    Exec_Bowling_Pins();
+    Exec_Bowling_Arrow();
+    Put_Pin_Count();
     if (*(int *)0x0C2A991C == 0) {
-        if (FUN_0c038ee6() <= 0) {
-            FUN_0c05bb24();
+        if (ReturnBreakPinNum() <= 0) {
+            Start_Excellent();
             return;
         }
         if (*(int *)0x0C1EE794 == 0) {
-            FUN_0c05bb76(1);
+            Start_Fault(1);
             *(int *)0x0C2A991C = 1;
             *(int *)(0x0C1790CC + 84) = 0;
         }
@@ -503,7 +504,7 @@ extern void FUN_0c07bde0(float *a, float *b, float *c);
 extern void camSave(void);
 extern int FUN_0c07dcf0(int *tbl, int x, int i, int one);
 extern char *GetCollision2D(float *pos, float h);
-extern int FUN_0c0321c2(float *p, float *b, float *a);
+extern int Check2DAreaEdge(float *p, float *b, float *a);
 
 /* Against the plane z at 0C2B7BDC (z at +8 of each point): both below it, 0; otherwise 1, after
    FUN_0c07bde0 with the point that is below (if any) as the third argument. */
@@ -552,7 +553,7 @@ int nlSpriteFreeTextureGI(int *tbl, int x)
 
 /* Copy the area state (0C2A9FA4) to 0C2A9D60 after checking the ground under the camera: kind 17+
    (except area 21) takes SubwayFlag; below that, a camera above the ground's +24 height clears it. */
-void FUN_0c0603a2(void)
+void Check_FogArea(void)
 {
     int *area = (int *)0x0C2A9FA4;
     int v = *area;
@@ -582,14 +583,14 @@ int Check2DAreaDX(float *p, float *pts, unsigned int n)
     int r;
 
     while (--n != 0) {
-        r = FUN_0c0321c2(p, q + 3, q);
+        r = Check2DAreaEdge(p, q + 3, q);
         q += 3;
         if (r == 2) {
             return 1;
         }
         sum += r;
     }
-    r = FUN_0c0321c2(p, pts, q);
+    r = Check2DAreaEdge(p, pts, q);
     if (r == 2) {
         return 1;
     }
@@ -598,7 +599,7 @@ int Check2DAreaDX(float *p, float *pts, unsigned int n)
 }
 
 /* Font index to ASCII: 0-25 'A'-'Z', 26-35 '0'-'9', then . & ! ? @ *; anything else a space. */
-int FUN_0c039680(int c)
+int num2char(int c)
 {
     if (c < 26) {
         return c + 65;
@@ -623,10 +624,10 @@ int FUN_0c039680(int c)
     return 32;
 }
 
-extern void FUN_0c05778a(float *spr, int id, float x, float y);
+extern void nd_SprPut(float *spr, int id, float x, float y);
 
-/* FUN_0c058968 for the table at 0C2A97AC, with entry k of 0C2A982C clear meaning 1 at once. */
-int FUN_0c05a350(int k)
+/* Check_Digit_Disp for the table at 0C2A97AC, with entry k of 0C2A982C clear meaning 1 at once. */
+int Result_Check_Digit_Disp(int k)
 {
     int *t = (int *)0x0C2A97AC;
 
@@ -655,7 +656,7 @@ int FUN_0c05a350(int k)
 
 /* A sprite that blinks once a second (counter at 0C2A8FB0 over 120 frames, shown for the first 60)
    at (320, 180): sprite 460, or 471 while 0C2A8FBC is set. */
-void FUN_0c0572de(void)
+void Put_ReverseDriving(void)
 {
     float *s = (float *)0x0C2A7EDC;
     int v;
@@ -670,14 +671,14 @@ void FUN_0c0572de(void)
         return;
     }
     if (*(int *)0x0C2A8FBC == 0) {
-        FUN_0c05778a(s, 460, 320.0f, 180.0f);
+        nd_SprPut(s, 460, 320.0f, 180.0f);
     } else {
-        FUN_0c05778a(s, 471, 320.0f, 180.0f);
+        nd_SprPut(s, 471, 320.0f, 180.0f);
     }
 }
 
 /* The same blink on counter 0C2A8FB8 with sprite 461 (471 while 0C2A8FBC is set). */
-void FUN_0c05741c(void)
+void Put_OverArea(void)
 {
     float *s = (float *)0x0C2A7EDC;
     int v;
@@ -692,9 +693,9 @@ void FUN_0c05741c(void)
         return;
     }
     if (*(int *)0x0C2A8FBC == 0) {
-        FUN_0c05778a(s, 461, 320.0f, 180.0f);
+        nd_SprPut(s, 461, 320.0f, 180.0f);
     } else {
-        FUN_0c05778a(s, 471, 320.0f, 180.0f);
+        nd_SprPut(s, 471, 320.0f, 180.0f);
     }
 }
 
@@ -705,7 +706,7 @@ typedef struct {
 } Short3;
 
 /* Store three shorts at dst (the fifth argument). */
-void FUN_0c04d30a(short x, short y, short z, int unused, Short3 *dst)
+void AngleR_Set(short x, short y, short z, int unused, Short3 *dst)
 {
     Short3 v;
 
@@ -716,26 +717,26 @@ void FUN_0c04d30a(short x, short y, short z, int unused, Short3 *dst)
 }
 
 extern void nlRenderTextureBegin(int n);
-extern void FUN_0c028908(float scale);
-extern void FUN_0c070ede(void *p);
+extern void SetScreenRatio(float scale);
+extern void psgFreeIpBuff(void *p);
 extern void nlCloseEvent(void *e);
 extern void Drv_StartAction(int action, int a, int b);
 extern void Chat_PickSomeoneUp(int n);
 
 /* While the clamp flag (0C0EE900) is set, draw with scale 16/15. */
-void FUN_0c039540(void)
+void ExecRenderTexture1st(void)
 {
     if (*(int *)0x0C0EE900 != 0) {
         nlRenderTextureBegin(0);
-        FUN_0c028908(1.0666666f);
+        SetScreenRatio(1.0666666f);
     }
 }
 
 /* Close an event (its sub-object at +28 first). */
-void FUN_0c071d98(char *e)
+void EndPsg_Kill(char *e)
 {
     if (e) {
-        FUN_0c070ede(e + 28);
+        psgFreeIpBuff(e + 28);
         nlCloseEvent(e);
     }
 }
@@ -749,18 +750,18 @@ void Drv_PickSomeoneUp(void)
     }
 }
 
-extern void FUN_0c05fd70(int i);
+extern void Start_CrazyBox_Voice(int i);
 extern void FUN_0c07d450(int a, int b, int c);
 extern void FcvStoreBuffer(int id, void *buf, float v);
 extern void nlObjPutSetFadeColorOffset(float r, float g, float b);
 
 /* Play the voice for the current entry of 0C2A98EC (also entry 0 in mini game 14). */
-void FUN_0c05d6e0(void)
+void Start_Party_Remain_Voice(void)
 {
     int v = *(int *)0x0C2A98EC;
 
     if (v != 0 || *(int *)0x0C1EE214 == 14) {
-        FUN_0c05fd70(((int *)0x0C131180)[v]);
+        Start_CrazyBox_Voice(((int *)0x0C131180)[v]);
     }
 }
 
@@ -773,7 +774,7 @@ void FUN_0c07d510(int a, int b, int c, int d, int e)
 }
 
 /* Store a new driver value (TaxiDriver +252 id, +256 value) and buffer it, unless it is unchanged. */
-void FUN_0c0630a2(int id, float v)
+void Drv_SetMotion(int id, float v)
 {
     char *td = (char *)0x0C2AD000;
 
@@ -794,7 +795,7 @@ void SetFadeColorOffsetMulti(float r, float g, float b)
 extern void ADXT_GetTime(int h, int *t, int *f);
 
 /* A stream channel's play time in frames: samples / 735 (44100 Hz at 60 frames a second). */
-int FUN_0c02e682(int ch)
+int gdc_GetStreamVoicePlayTime(int ch)
 {
     int t;
     int f;
@@ -804,7 +805,7 @@ int FUN_0c02e682(int ch)
 }
 
 /* Step the 4-frame cycle at 0C2A8F90 unless both words at 0C2A8F84 are set. */
-void FUN_0c055cf4(void)
+void hudStepRankRoll(void)
 {
     int *p = (int *)0x0C2A8F84;
 
@@ -817,9 +818,9 @@ extern int CheckAreaGrid(void *pos, int grid);
 extern void KillColliObj(void *o);
 extern void SetObjFly(void *o);
 extern void Voice_ShutUp(int ch);
-extern void FUN_0c05765c(void);
-extern void FUN_0c041ce2(int n);
-extern void FUN_0c040a50(void);
+extern void Put_GameOver2(void);
+extern void SetMenuClass(int n);
+extern void callRecordEntry(void);
 
 typedef struct {
     float x;
@@ -862,20 +863,20 @@ void Chat_PickSomeoneUp(int n)
     }
 }
 
-/* Count frames (0C1EE240) with FUN_0c05765c each; after 120 go to main mode 3. */
+/* Count frames (0C1EE240) with Put_GameOver2 each; after 120 go to main mode 3. */
 void gameState3(void)
 {
     (*(int *)0x0C1EE240)++;
-    FUN_0c05765c();
+    Put_GameOver2();
     if (*(int *)0x0C1EE240 > 120) {
         *(int *)0x0C1EE234 = 3;
         *(int *)0x0C1EE238 = 0;
-        FUN_0c041ce2(0);
-        FUN_0c040a50();
+        SetMenuClass(0);
+        callRecordEntry();
     }
 }
 
-extern void FUN_0c072e90(int ch);
+extern void Voice_ExecuteChannel(int ch);
 extern void gdc_StopStreamVoice(int ch);
 extern void Sound_Request(int id, int a);
 
@@ -894,15 +895,15 @@ void Pass_Rideoff(void)
 }
 
 /* Service the voice channels: channel 0 always, the others only in main mode 1; a busy slot
-   (0C2AEBE0) gets FUN_0c072e90. */
-int FUN_0c072e52(void)
+   (0C2AEBE0) gets Voice_ExecuteChannel. */
+int Voice_Execute(void)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
         if (i == 0 || *(int *)0x0C1EE234 == 1) {
             if (*(int *)(0x0C2AEBE0 + i * 16)) {
-                FUN_0c072e90(i);
+                Voice_ExecuteChannel(i);
             }
         }
     }
@@ -924,7 +925,7 @@ int CheckKyakuArea(float *p, int k)
 
 /* Once (0C2A9934 and 0C2A9930 both clear): flag 16 at 0C2A992C, state 2, 0C2A9904 set if the timer
    has started, and stop voice channel 0. */
-void FUN_0c05bb24(void)
+void Start_Excellent(void)
 {
     if (*(int *)0x0C2A9934 == 0 && *(int *)0x0C2A9930 == 0) {
         *(short *)0x0C2A992C |= 16;
@@ -940,7 +941,7 @@ void FUN_0c05bb24(void)
 
 /* A customer dropped since last time (kyakuDropCount moved): count down 0C2A98EC, clear gRideOnA,
    catch up the seen count, and play the next voice if any are left. */
-void FUN_0c05d662(void)
+void Count_Remain_Drop(void)
 {
     int *left = (int *)0x0C2A98EC;
 
@@ -949,7 +950,7 @@ void FUN_0c05d662(void)
         *(int *)0x0C2A9968 = 0;
         (*(int *)0x0C2A98FC)++;
         if (*left != 0) {
-            FUN_0c05fd70(((int *)0x0C131180)[*left]);
+            Start_CrazyBox_Voice(((int *)0x0C131180)[*left]);
         }
     }
 }
@@ -971,11 +972,11 @@ void Start_Pass_Judgement(int v)
 }
 
 extern void pdVmsLcdWrite1(unsigned int port, void *img, int c, int d);
-extern void FUN_0c03b698(int v);
-extern void FUN_0c03bf42(int n);
-extern void FUN_0c03b674(int n);
+extern void SetWindow(int v);
+extern void windowOpenStep(int n);
+extern void NextWindow(int n);
 extern void PutVM_Message(int a, int b, int c, float x, float y);
-extern void FUN_0c03bf76(int n);
+extern void windowEnterStep(int n);
 extern float nlLog10(float x);
 extern int gdFsSearchName(char *name, int dir, int c);
 extern void pfCleanString(int x, int y, char *s);
@@ -984,7 +985,7 @@ extern void pfLocate(float x, float y);
 extern void pfPuts(char *s);
 
 /* Show picture n on the VMU screen of port p: 6 ports in 3 pairs, 1536-byte images at 0C2A9FF8. */
-void FUN_0c060692(unsigned int p, int b, int c, int d)
+void lcdSync(unsigned int p, int b, int c, int d)
 {
     int n = (p / 6) * 2 + p % 6 - 1;
 
@@ -992,8 +993,8 @@ void FUN_0c060692(unsigned int p, int b, int c, int d)
 }
 
 /* Pause request: with no argument it also arms the pause flag (0C2A121C); when armed, save the main
-   and sub mode, switch to main mode 3 and run FUN_0c03b698(4). */
-void FUN_0c040b54(int keep)
+   and sub mode, switch to main mode 3 and run SetWindow(4). */
+void callLoadData(int keep)
 {
     *(int *)0x0C2A1224 = 0;
     if (keep == 0 && *(int *)0x0C2A121C == 0) {
@@ -1006,30 +1007,30 @@ void FUN_0c040b54(int keep)
             *(int *)0x0C1EE234 = 3;
             *(int *)0x0C1EE238 = 0;
         }
-        FUN_0c03b698(4);
+        SetWindow(4);
     }
 }
 
 /* The VM message screen 20: flag 8 when flag 4 is up and 0C2A11CC has bit 1 or 2, then message 32
    (22) at (149, 240). */
-void FUN_0c03f3ac(void)
+void windowNameExists(void)
 {
     int *p = (int *)0x0C2A11F4;
 
-    FUN_0c03bf42(20);
+    windowOpenStep(20);
     if (p[5] & 4) {
         if ((*(int *)0x0C2A11CC & 2) || (*(int *)0x0C2A11CC & 4)) {
             p[5] |= 8;
         }
     }
-    FUN_0c03b674(13);
+    NextWindow(13);
     PutVM_Message(32, 22, 0, 149.0f, 240.0f);
-    FUN_0c03bf76(20);
+    windowEnterStep(20);
 }
 
 /* A volume step (0-127, capped at 30 in mode 1 of 0C2A11B0) in decibels: 200 * log10(v / 127), and
    -999 for silence. */
-int FUN_0c02e282(int v)
+int gdc_GetVolGainMute(int v)
 {
     if (*(int *)0x0C2A11B0 == 1 && (signed char)v > 30) {
         v = 30;
@@ -1079,7 +1080,7 @@ void camSetAngles(int a, int b, int c, int mode)
 }
 
 /* Print s centred on (x, y). */
-void FUN_0c0608de(int x, int y, char *s)
+void pfTextCenterPut(int x, int y, char *s)
 {
     float half;
 
@@ -1091,7 +1092,7 @@ void FUN_0c0608de(int x, int y, char *s)
 
 extern float FUN_0c089de0(unsigned int a);
 extern void *set_event(int pri, void *func);
-extern void FUN_0c0563f8(void *e, int a, int b);
+extern void Init_Combo_Entry(void *e, int a, int b);
 extern float nlFloor(float x);
 extern float nlCeil(float x);
 extern float nlFraction(float x);
@@ -1102,7 +1103,7 @@ extern float nlTan(int a);
 /* A decaying wobble: while 0C2A8FA4 is 1 the angle (0C2A8FA0) turns a quarter each frame and the
    amplitude (0C2A8FA8) shrinks by 0.9; the offset (0C2A8FAC) is -amplitude * FUN_0c089de0(angle),
    0 once the amplitude is under 0.1. */
-void FUN_0c055aca(void)
+void hudJudgementWobble(void)
 {
     float v;
 
@@ -1119,7 +1120,7 @@ void FUN_0c055aca(void)
 }
 
 /* The same wobble on 0C2A9940..0C2A994C. */
-void FUN_0c05e2fa(void)
+void Wobble_Record_Window(void)
 {
     float v;
 
@@ -1137,7 +1138,7 @@ void FUN_0c05e2fa(void)
 
 /* Place the car at the mini game's start (16-byte entries at 0C0D0E10: position, heading): position
    at Car_Data +120 and +140, heading at +134, and a copy at 0C2A9B80. */
-void FUN_0c05b88a(void)
+void Init_DCmini_CarPos(void)
 {
     char *car = (char *)0x0C1790CC;
 
@@ -1158,7 +1159,7 @@ void Put_Combo_Entry(int a, int b)
         *(int *)0x0C2A91B4 = 0;
     }
     e = set_event(36, (void *)0x0C056460);
-    FUN_0c0563f8(e, a, b);
+    Init_Combo_Entry(e, a, b);
     *(int *)0x0C2A91B4 = 1;
     *(void **)0x0C2A91CC = e;
 }
@@ -1173,7 +1174,7 @@ void SklSfPlay(int a, int b, int c, float t)
 }
 
 /* Field of view in degrees to the projection scales: 1 / sin and 1 / tan of the angle in 64K units. */
-void FUN_0c06b028(float deg)
+void SetNewClippingAngle(float deg)
 {
     int a = ((int)(deg * 32768.0f / 360.0f + 0.5f) & 0xFFFF) - 1;
 
@@ -1181,11 +1182,11 @@ void FUN_0c06b028(float deg)
     *(float *)0x0C13EEC4 = 1.0f / nlTan(a);
 }
 
-extern void FUN_0c0630d2(void);
+extern void Drv_Execute(void);
 extern void Chat_Execute(void);
 extern void LetsPlayTennis(void);
 extern void HesLate(void);
-extern void FUN_0c057fe2(void);
+extern void Put_Press_Start(void);
 extern float nlScalor(float *v);
 extern void ChangeColliObj(void *o, int kind);
 extern void nlScaleUnitVector(float *dst, float *src, float s);
@@ -1200,7 +1201,7 @@ void Act_Execute(void)
         Drv_StartAction(5, 1, 0);
         Chat_PickSomeoneUp(0);
     }
-    FUN_0c0630d2();
+    Drv_Execute();
     Chat_Execute();
     LetsPlayTennis();
     HesLate();
@@ -1208,7 +1209,7 @@ void Act_Execute(void)
 
 /* In states 2-5 (0C2A8EB0), step the 4-frame cycle (0C2A8E8C) while any of the seven flags at
    0C2A8E6C is clear. */
-void FUN_0c055310(void)
+void hudStepFareRoll(void)
 {
     int s = *(int *)0x0C2A8EB0;
     int *f = (int *)0x0C2A8E6C;
@@ -1220,9 +1221,9 @@ void FUN_0c055310(void)
     }
 }
 
-/* The advertise blink: a reset request (bit 0 of gPlayerAdv) restarts the counter (0C0E5340); unless
-   x is 1, FUN_0c057fe2 runs for the first 50 frames of each second. Counts on; returns 1. */
-int FUN_0c02dc84(int x)
+/* The advertise blink: a reset request (bit 0 of Coin_disp_mode) restarts the counter (0C0E5340); unless
+   x is 1, Put_Press_Start runs for the first 50 frames of each second. Counts on; returns 1. */
+int DispCredit(int x)
 {
     int *q = (int *)0x0C0E5340;
 
@@ -1232,7 +1233,7 @@ int FUN_0c02dc84(int x)
     }
     if (x != 1) {
         if (*q % 60 < 50) {
-            FUN_0c057fe2();
+            Put_Press_Start();
         }
     }
     (*q)++;
@@ -1279,11 +1280,11 @@ void CalcShadow4Normal(float *out, float *n)
 
 extern float FUN_0c089de8(unsigned int a);
 extern void nlObjPutSetLightDirectionV(float *v);
-extern void FUN_0c053292(void);
-extern void FUN_0c057080(int n);
+extern void Start_Time_Bonus(void);
+extern void Start_Time_Sparks(int n);
 extern void pfAddNumber(char *s, int n);
 extern void pfAddString(void *p);
-extern int FUN_0c041016(int n);
+extern int GetNowLanguage(int n);
 extern void menuPutSprites(int spr, void *pos, int x, int y);
 
 /* Light direction from two angles (64K units, kept at 0C0EA5B0/0C0EA5B4): (FUN_0c089de8(a) *
@@ -1304,8 +1305,8 @@ void SetLight(int a, int b)
 }
 
 /* Count the clock (0C2A8E30) down half a second per call (29 on the 59th frame of a second), with
-   FUN_0c053292 once at the start (0C2A8F64) and FUN_0c057080 every third call (0C2A8F60). */
-void FUN_0c056e80(void)
+   Start_Time_Bonus once at the start (0C2A8F64) and Start_Time_Sparks every third call (0C2A8F60). */
+void Count_Down_Clock(void)
 {
     int *t = (int *)0x0C2A8E30;
     int *c = (int *)0x0C2A8F60;
@@ -1313,11 +1314,11 @@ void FUN_0c056e80(void)
     if (*t > 0) {
         if (*(int *)0x0C2A8F64 == 0) {
             *(int *)0x0C2A8F64 = 1;
-            FUN_0c053292();
+            Start_Time_Bonus();
         }
         (*c)++;
         if (*c == 3) {
-            FUN_0c057080(0);
+            Start_Time_Sparks(0);
             *c = 0;
         }
         if (*t % 60 == 59) {
@@ -1344,19 +1345,19 @@ void pfCrazyBoxRecordComboPut(int x, int y, char *s, int flag)
     pfPuts(*(char **)0x0C08D678);
 }
 
-/* Draw help bar k at (x, y): the sprite for the current language row (0C2A123C) and FUN_0c041016(1). */
+/* Draw help bar k at (x, y): the sprite for the current language row (0C2A123C) and GetNowLanguage(1). */
 void menuPutHelpBar(int k, float x, float y)
 {
     int *row = (int *)(0x0C0EF658 + k * 16 + *(int *)0x0C2A123C * 8);
     int ix = (int)x;
     int iy = (int)y;
 
-    menuPutSprites(row[FUN_0c041016(1)], (void *)0x0C2A1A84, ix, iy);
+    menuPutSprites(row[GetNowLanguage(1)], (void *)0x0C2A1A84, ix, iy);
 }
 
 extern int nlArcTan2(float y, float x);
-extern int CourseSplineGet(int n);
 extern int CourseSplineNumGet(int n);
+extern int CourseSplineGet(int n);
 extern void getNearLineIndex(int a, int n, int spline, int *index, float *pos);
 extern void CourseObj_Init(void);
 extern void nlSubVector3op(float *out, float *a, float *b);
@@ -1372,7 +1373,7 @@ extern void FUN_0c07c740(int obj, void *m);
 extern void nlPopMatrix(int n);
 
 /* Heading (64K units) from b to a on the ground plane; 0 when a is at the origin. */
-int FUN_0c04d3ee(Vec3f a, Vec3f b)
+int Current_to_Target_angleY(Vec3f a, Vec3f b)
 {
     float dx = a.x - b.x;
     float dz = a.z - b.z;
@@ -1394,8 +1395,8 @@ void PutCourse_Init(int course)
     *(int *)0x0C118670 = course;
     *(float *)0x0C2A6AC8 = 0.0f;
     *(int *)0x0C2A6EBC = 0;
-    spline = CourseSplineGet(0);
-    n = CourseSplineNumGet(0);
+    spline = CourseSplineNumGet(0);
+    n = CourseSplineGet(0);
     getNearLineIndex(0, n, spline, (int *)0x0C2A6EC0, (float *)0x0C179840);
     CourseObj_Init();
 }
@@ -1419,7 +1420,7 @@ void CalcHomingVector(float *o)
 
 /* A stream channel's volume: level (-128..127) times the master volume (byte at 0C28A4ED) / 8, in
    decibels. */
-void FUN_0c02e71e(int ch, int level)
+void gdc_StreamVoiceVol(int ch, int level)
 {
     int v = (int)((float)(signed char)level * ((float)*(unsigned char *)0x0C28A4ED / 8.0f));
 
@@ -1427,7 +1428,7 @@ void FUN_0c02e71e(int ch, int level)
 }
 
 /* Draw object i (table at 0C0EE7CC) in its own matrix set up from 0C286410 / 0C286404. */
-void FUN_0c0391fc(int i)
+void PutMVObj(int i)
 {
     nlPushUnitMatrix();
     FUN_0c077f70();
@@ -1443,13 +1444,13 @@ extern void nlLoadMatrix(float *m);
 
 /* Driver animation set i (three entries at 0C0D5178): both slots (+464, +468) to 0C0D3080, the new
    value with weight 0, and the blend speed (+248) to 15. */
-void FUN_0c062ff4(int i)
+void Drv_StartBikePedal(int i)
 {
     char *td = (char *)0x0C2AD000;
 
     *(int *)(td + 464) = 0x0C0D3080;
     *(int *)(td + 468) = 0x0C0D3080;
-    FUN_0c0630a2(((int *)0x0C0D5178)[i], 0.0f);
+    Drv_SetMotion(((int *)0x0C0D5178)[i], 0.0f);
     *(float *)(td + 248) = 15.0f;
 }
 
@@ -1527,17 +1528,17 @@ extern float nlLength(void *a, float *b);
         nlObjPutSetGlobalAmbience(*(float *)(l + 12));              \
     } while (0)
 
-void FUN_0c050bbe(void)
+void nd_StartWait_SetLight(void)
 {
     SET_LIGHT(0x0C0CF6FC, 0x0C2A72F4);
 }
 
-void FUN_0c051992(void)
+void CarSel_SetLight(void)
 {
     SET_LIGHT(0x0C0D07E8, 0x0C2A755C);
 }
 
-void FUN_0c05af8e(void)
+void Result_Light(void)
 {
     SET_LIGHT(0x0C0D0DC0, 0x0C2A9768);
 }
@@ -1561,7 +1562,7 @@ void InitNaolib3(void)
 
 /* Move a walker (+28) by 5/8 of its step (+40) and count it (+24) once it is within 3 of its target
    (12-byte points at 0C131B10, index +20). */
-void FUN_0c05fcc6(char *o)
+void Move_ProposalWalker(char *o)
 {
     float d[3];
 
@@ -1573,10 +1574,10 @@ void FUN_0c05fcc6(char *o)
 }
 
 extern int nlRand(void);
-extern void FUN_0c057130(void *e, int i);
+extern void Init_Time_Spark(void *e, int i);
 
-/* Spawn 0-3 sparkle events (at most 10) through FUN_0c057130; the argument is unused. */
-void FUN_0c057080(int unused)
+/* Spawn 0-3 sparkle events (at most 10) through Init_Time_Spark; the argument is unused. */
+void Start_Time_Sparks(int unused)
 {
     void *ev[10];
     int n = nlRand() % 4;
@@ -1587,7 +1588,7 @@ void FUN_0c057080(int unused)
             break;
         }
         ev[i] = set_event(64, (void *)0x0C0571F0);
-        FUN_0c057130(ev[i], i);
+        Init_Time_Spark(ev[i], i);
     }
 }
 
@@ -1595,7 +1596,7 @@ extern int ADXT_GetStat(int h);
 extern int ADXT_GetNumSmpl(int h);
 
 /* Frames left on a voice stream (samples / 735); 0x58764 while it is not playing yet. */
-int FUN_0c02e1ce(int ch)
+int gdc_GetStreamSongRemainTime(int ch)
 {
     int *h = (int *)0x0C1EE820 + ch;
     int t;
@@ -1608,14 +1609,14 @@ int FUN_0c02e1ce(int ch)
     return (int)((float)(ADXT_GetNumSmpl(*h) - t) * 0.0013605441199615598f);
 }
 
-extern void FUN_0c0523f8(void);
+extern void hudLoadRanking(void);
 extern int CheckClipping(float *p, float r);
-extern void FUN_0c072348(int which);
+extern void DrawTennisPlayers(int which);
 extern void nlInitEvent(void);
 extern void Sound_Init(void);
-extern void FUN_0c02e494(void);
-extern void FUN_0c041b04(void);
-extern void FUN_0c040b98(int n);
+extern void gdc_StopStreamSongDisk(void);
+extern void CheckSecretFlag(void);
+extern void callSaveData(int n);
 
 /* Reset the HUD: the second HUD on (0C2A7618) in game 2 or with menu mode 1 off; flags, scroll
    positions (-320, -320, 320) and combo state cleared, combo count 99. */
@@ -1623,7 +1624,7 @@ void hudInit(void)
 {
     if (*(int *)0x0C1EE210 == 2 || GetMenuMode(1) == 0) {
         *(int *)0x0C2A7618 = 1;
-        FUN_0c0523f8();
+        hudLoadRanking();
     } else {
         *(int *)0x0C2A7618 = 0;
     }
@@ -1647,12 +1648,12 @@ void LetsPlayTennis(void)
 
     if (750.0f > nlLength(p, (float *)0x0C179840)) {
         if (CheckClipping(p, 200.0f)) {
-            FUN_0c072348(0);
+            DrawTennisPlayers(0);
         }
     }
     if (750.0f > nlLength(p + 3, (float *)0x0C179840)) {
         if (CheckClipping(p + 3, 200.0f)) {
-            FUN_0c072348(1);
+            DrawTennisPlayers(1);
         }
     }
     (*(int *)0x0C13F4BC)++;
@@ -1665,24 +1666,24 @@ void gameState2(void)
     nlInitEvent();
     Sound_Init();
     gdc_StopStreamVoiceAll();
-    FUN_0c02e494();
+    gdc_StopStreamSongDisk();
     if (GetMenuMode(0) == 2) {
         *(int *)0x0C1EE234 = 3;
         *(int *)0x0C1EE238 = 0;
-        FUN_0c041ce2(1);
-        FUN_0c041b04();
-        FUN_0c040b98(1);
+        SetMenuClass(1);
+        CheckSecretFlag();
+        callSaveData(1);
         return;
     }
     (*(int *)0x0C1EE238)++;
     *(int *)0x0C1EE240 = 0;
     *(int *)0x0C2A4E50 = 0;
-    FUN_0c052d7e();
+    Init_GameOver();
 }
 
 /* Is this model id one of the special ones (ranges 486-490, 502-504, 630-639, 733-736, 786-788 and
    ids 590, 591, 687, 752)? */
-int FUN_0c0500d8(int id)
+int pedIsSpecialModel(int id)
 {
     if ((id >= 486 && id <= 490) || (id >= 502 && id <= 504) || (id >= 630 && id <= 639)
         || (id >= 733 && id <= 736) || (id >= 786 && id <= 788)
@@ -1692,24 +1693,24 @@ int FUN_0c0500d8(int id)
     return 0;
 }
 
-extern void FUN_0c057930(void);
+extern void Init_Adv_Title_LOGO(void);
 extern void nlRenderTextureFree(int i);
-extern int FUN_0c02dd3a(int n);
-extern void FUN_0c041ce8(void);
-extern void FUN_0c02c094(int n);
+extern int Start_chk(int n);
+extern void GotoMenu(void);
+extern void TitleWaitSet(int n);
 extern void FUN_0c07aad0(int n);
 extern void FUN_0c07ab30(int obj);
-extern void FUN_0c0532de(void);
+extern void End_Pass_Judgement2(void);
 extern void ResetSpark(void);
-extern int acSystemGetSystemFlag(void);
+extern int IsSeaFog(void);
 extern void Start_Fog(int kind);
 
-/* Show an advertise message k (value v): grey fog colour, FUN_0c057930, flag bit 0 of 0C2A9228; k 0
+/* Show an advertise message k (value v): grey fog colour, Init_Adv_Title_LOGO, flag bit 0 of 0C2A9228; k 0
    also plays its voice, k -1 raises the sprite flag. */
-void FUN_0c057bdc(int k, int v)
+void Start_Adv_Title_LOGO(int k, int v)
 {
     FUN_0c074680(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
-    FUN_0c057930();
+    Init_Adv_Title_LOGO();
     *(int *)0x0C2A9324 = v;
     *(short *)0x0C2A9228 |= 1;
     if (k == 0) {
@@ -1732,17 +1733,17 @@ void nlRenderTextureFreeAll(void)
 }
 
 /* The advertise screen step: once it is done (1), sub modes 7 and 9 wait 5 frames and leave through
-   FUN_0c041ce8; any other goes to sub mode 8. 0 while it runs. */
-int FUN_0c02dcd8(int a)
+   GotoMenu; any other goes to sub mode 8. 0 while it runs. */
+int Chk_DispCredit(int a)
 {
     int s;
 
     if (*(int *)0x0C1EE338) {
-        FUN_0c02dc84(a);
-        if (FUN_0c02dd3a(0) != 1) {
+        DispCredit(a);
+        if (Start_chk(0) != 1) {
             return 0;
         }
-    } else if (FUN_0c02dc84(a) == 0) {
+    } else if (DispCredit(a) == 0) {
         return 0;
     }
     s = *(int *)0x0C1EE238;
@@ -1750,17 +1751,17 @@ int FUN_0c02dcd8(int a)
         if (*(int *)0x0C1EE240 < 5) {
             return 0;
         }
-        FUN_0c041ce8();
+        GotoMenu();
         return 1;
     }
     *(int *)0x0C1EE238 = 8;
-    FUN_0c02c094(1);
+    TitleWaitSet(1);
     return 1;
 }
 
 /* Draw the course objects of the current range (0C2A6EE0..0C2A6EE4, table at 0C1188F8) within 3000
    of the camera. */
-void FUN_0c04eb4a(void)
+void SetMVObjShadow(void)
 {
     int i = *(int *)0x0C2A6EE0;
     int *p = (int *)0x0C1188F8 + i;
@@ -1776,8 +1777,8 @@ void FUN_0c04eb4a(void)
 }
 
 /* Draw the "combo" sprite for the current level (-1..2, sprites at 0C130B0C) at (320, 430); after 180
-   frames, FUN_0c0532de. */
-void FUN_0c0558a2(void)
+   frames, End_Pass_Judgement2. */
+void hudDrawJudgement2(void)
 {
     int v = *(int *)0x0C2A760C;
     float *s = (float *)0x0C2A7EDC;
@@ -1793,7 +1794,7 @@ void FUN_0c0558a2(void)
         ((int *)s)[13] = 10;
         nlSprPut(s);
         if (++*(int *)0x0C2A8F94 > 180) {
-            FUN_0c0532de();
+            End_Pass_Judgement2();
         }
     }
 }
@@ -1801,14 +1802,14 @@ void FUN_0c0558a2(void)
 /* Underground fog: with the camera below -30 and no subway flag, sparks are reset and, unless the
    system flag is up, fog 3 starts when one of the car's four wheels (132 bytes from +416) is on
    surface 14; above ground the system flag starts fog 0. */
-void FUN_0c060334(void)
+void Exec_SeaFog(void)
 {
     char *w = (char *)0x0C1790CC + 416;
     int i;
 
     if (!(*(float *)0x0C179844 > -30.0f) && *(int *)0x0C2A9D60 == 0) {
         ResetSpark();
-        if (acSystemGetSystemFlag() == 0) {
+        if (IsSeaFog() == 0) {
             for (i = 0; i < 4; i++) {
                 if (*(int *)w == 14) {
                     Start_Fog(3);
@@ -1819,7 +1820,7 @@ void FUN_0c060334(void)
         }
         return;
     }
-    if (acSystemGetSystemFlag()) {
+    if (IsSeaFog()) {
         Start_Fog(0);
     }
 }
@@ -1830,7 +1831,7 @@ extern void nlSpriteFreeTexture(void *tbl, int n);
 
 /* Song fade-out: wait out the delay (0C26A0BC), then step the volume down over 0C26A0C0 of
    0C26A0C4 frames from the master song volume (0C1EE80C); at the end stop every song. */
-void FUN_0c02e3c0(void)
+void gdc_FadeManStreamSong(void)
 {
     int t;
 
@@ -1882,14 +1883,14 @@ void PAL_FreeTexture(void)
     nlSpriteFreeTexture(tbl, 0);
 }
 
-extern void FUN_0c059866(void);
-extern void FUN_0c059d9c(void);
-extern void FUN_0c05a3ae(void);
-extern void FUN_0c05ab80(void);
-extern void FUN_0c059f44(void);
-extern void FUN_0c05a460(void);
-extern void FUN_0c05a5e0(void);
-extern void FUN_0c05acc8(void);
+extern void Result_Title_Put(void);
+extern void Result_Earned_Text_Put(void);
+extern void Result_Class_Text_Put(void);
+extern void Result_Ranking_Text_Put(void);
+extern void Result_Money_Put(void);
+extern void Result_Class_Line_Put(void);
+extern void Result_Class_Put(void);
+extern void Result_Rank_Put(void);
 extern void nlRotateV(float *out, float *v);
 extern void nlUnitMatrix(void);
 extern void menuOpenStep(void);
@@ -1900,29 +1901,29 @@ extern void menuEnterStep(void);
 
 /* Draw the result screen layers up to its stage (0C2A9788): base, then rows 1, 2 and 3 (the last two
    steps only with the second HUD). */
-void FUN_0c0597fc(void)
+void Result_Sprite_Put(void)
 {
     int *s = (int *)0x0C2A9788;
 
     if (*s >= 0) {
-        FUN_0c059866();
-        FUN_0c059d9c();
-        FUN_0c05a3ae();
+        Result_Title_Put();
+        Result_Earned_Text_Put();
+        Result_Class_Text_Put();
         if (*(int *)0x0C2A7618) {
-            FUN_0c05ab80();
+            Result_Ranking_Text_Put();
         }
     }
     if (*s >= 1) {
-        FUN_0c059eb0();
-        FUN_0c059f44();
+        Result_Score_Line_Put();
+        Result_Money_Put();
     }
     if (*s >= 2) {
-        FUN_0c05a460();
-        FUN_0c05a5e0();
+        Result_Class_Line_Put();
+        Result_Class_Put();
     }
     if (*s >= 3 && *(int *)0x0C2A7618) {
-        FUN_0c05ac4c();
-        FUN_0c05acc8();
+        Result_Ranking_Line_Put();
+        Result_Rank_Put();
     }
 }
 
@@ -1947,7 +1948,7 @@ void carColliReflection(char *c)
 
 /* The combo meter sprite (0C2A801C): off, or in mode 1 scaled by the meter (0C2A8C8C) and placed
    under the combo count (0C2A8D78 + 12). */
-void FUN_0c054a38(void)
+void Put_TotalDrum_Meter(void)
 {
     float *s = (float *)0x0C2A801C;
     int m = *(int *)0x0C2A8CBC;
@@ -1990,39 +1991,39 @@ void menuTopHandler(void)
     menuEnterStep();
 }
 
-extern void FUN_0c05137c(void);
+extern void CarSel_ChangeCar(void);
 extern void CarSel_Time_Count(void);
-extern void FUN_0c05130a(void);
+extern void CarSel_IO(void);
 extern void hudDraw(void);
-extern void FUN_0c051d22(void);
-extern void FUN_0c05153e(void);
+extern void selectDrawSprites(void);
+extern void CarSel_Select(void);
 extern void nlRotateAZ(int a);
 extern void FUN_0c0789c0(Vec3f *v);
 extern void FUN_0c078ff0(void);
 extern void ADXF_Stop(int h);
 extern void ADXF_Close(int h);
-void FUN_0c051a3a(void);
+void CarSel_Camera(void);
 
 /* The car select screen per frame: light and fog, the timer (until 944 frames), the HUD, the
    car, and the countdown (0C2A757C); keeps the speed readout (STR_ADc) as an int. */
-void FUN_0c050f80(int x)
+void nd_CarSelExec(int x)
 {
     nlUnitMatrix();
     *(int *)0x0C2A751C = x;
-    FUN_0c051992();
-    FUN_0c0519de();
+    CarSel_SetLight();
+    CarSel_SetFog();
     CarSel_SetBackColor();
     if (*(int *)0x0C2A7518 == 0) {
         if (*(int *)0x0C2A757C < 944) {
-            FUN_0c05137c();
+            CarSel_ChangeCar();
         }
         CarSel_Time_Count();
-        FUN_0c05130a();
+        CarSel_IO();
     }
     hudDraw();
-    FUN_0c051d22();
-    FUN_0c05153e();
-    FUN_0c051a3a();
+    selectDrawSprites();
+    CarSel_Select();
+    CarSel_Camera();
     if (*(int *)0x0C2A757C > 0) {
         (*(int *)0x0C2A757C)--;
     }
@@ -2049,19 +2050,19 @@ void FUN_0c050f80(int x)
         FUN_0c078ff0();                                             \
     } while (0)
 
-void FUN_0c050b4c(void)
+void nd_StartWait_Camera(void)
 {
     PLACE_VIEW(0x0C0CF6B4, 0x0C0CF6C0, 0x0C2A72E0, 0x0C2A72EC);
 }
 
-void FUN_0c051a3a(void)
+void CarSel_Camera(void)
 {
     PLACE_VIEW(0x0C0D07F4, 0x0C0D0800, 0x0C2A7548, 0x0C2A7554);
 }
 
 /* Stop the streamed file: a playing slot (state 3 in its 24-byte record at 0C26C5DC) is stopped and
    closed, then marked 1; the second file (0C26E174) is closed if open. */
-void FUN_0c03012c(void)
+void gdc_FileLoadStop(void)
 {
     *(int *)0x0C26E180 = 0;
     if (*(int *)0x0C26E0F8 == 1) {
@@ -2079,7 +2080,7 @@ void FUN_0c03012c(void)
 
 /* The result wobble (0C2A9750..0C2A9758), stopped at amplitude 0.5 when the count (0C2A96F4) reaches
    0C2A97A8 + 121 with 0C2A97E0 clear. */
-void FUN_0c05aefc(void)
+void Result_Wobble(void)
 {
     float *s = (float *)0x0C2A974C;
     short *a = (short *)0x0C2A9750;
@@ -2106,7 +2107,7 @@ extern void nlObjPutLoadTexture(int tex, void *table);
 extern int IsBoyFriend(int a, int b);
 
 /* ASCII to font index: '0'-'9' 26-35, 'A'-'Z' 0-25, then . & ! ? @ * (36-41); anything else 42. */
-int FUN_0c0396dc(int ch)
+int char2num(int ch)
 {
     int c = (signed char)ch;
 
@@ -2135,7 +2136,7 @@ int FUN_0c0396dc(int ch)
 
 /* Load the textures of model group k (all six groups for k 6): counts at 0C0D3048, texture lists at
    0C135134, into the texture table (0C141868). */
-void FUN_0c060b84(int k)
+void LoadGroupTexture(int k)
 {
     int first;
     int last;
@@ -2177,7 +2178,7 @@ void pedPickIdle(int *p)
 
 /* Start a walker on route k: lane k % 5 (+20), stopped (+24..+40), heading from the lane table
    (0C131BB8) turned by k / 5 half turns (+54, 0x8000 each), round k / 5 (+64). */
-void FUN_0c05fa48(char *o, int k)
+void Init_ProposalWalker(char *o, int k)
 {
     int m = k % 5;
     int q;
@@ -2219,8 +2220,8 @@ int kyakuStopAreaVisible(char *k)
 }
 
 extern void req_load(void);
-extern void FUN_0c03b544(int n);
-extern void FUN_0c057c3c(void);
+extern void SetScreen(int n);
+extern void End_Adv_Title_LOGO(void);
 
 /* Start a vibration (puru puru) effect while playing (main mode 1 or 3, sub mode 1) with vibration on
    (0C28A4EF): mask bit 28, 24 or 16 picks the slot for val (0C131B04/08/0C); in mode 1 of 0C2A11B0
@@ -2279,13 +2280,13 @@ void menuSetMode(void)
         *(int *)0x0C1EE20C = *(int *)0x0C1EE210;
     }
     req_load();
-    FUN_0c03b544(0);
-    FUN_0c057c3c();
+    SetScreen(0);
+    End_Adv_Title_LOGO();
 }
 
 /* The car select scene for a newly picked car (*0C2A751C): base light, its colour (0C130748, 16
    bytes per car) and the panel layout for the screen mode (0C2A759C). */
-void FUN_0c05130a(void)
+void CarSel_IO(void)
 {
     int *car = *(int **)0x0C2A751C;
     int m;
@@ -2308,12 +2309,12 @@ void FUN_0c05130a(void)
     }
 }
 
-extern void FUN_0c0414b8(void);
-extern void FUN_0c03ac62(void);
-extern int FUN_0c03ace8(void);
+extern void SetTotalRecords(void);
+extern void CopyBackupBuffer(void);
+extern int CompBackupBuffer(void);
 extern void FUN_0c07c150(int a, float *v, int d);
 extern void InitColliWall(int n);
-extern int FUN_0c038f80(void);
+extern int ReturnBreakBeachFlag(void);
 extern void nlObjPutSetFadeColor(float r, float g, float b);
 extern void ExecArrow(int on, float dist);
 extern void ResetFadeColor(void);
@@ -2325,8 +2326,8 @@ typedef struct {
 } Block32;
 
 /* Pause into the VM menu (main mode 3, previous modes saved): without a VMU flag go straight to
-   FUN_0c03ac62; with one, menu 5, or menu 0 when FUN_0c03ace8 says the card is not usable. */
-void FUN_0c040b98(int k)
+   CopyBackupBuffer; with one, menu 5, or menu 0 when CompBackupBuffer says the card is not usable. */
+void callSaveData(int k)
 {
     *(int *)0x0C2A1224 = 1;
     if (k == 0 && *(int *)0x0C2A121C == 0) {
@@ -2338,16 +2339,16 @@ void FUN_0c040b98(int k)
         *(int *)0x0C1EE234 = 3;
         *(int *)0x0C1EE238 = 0;
     }
-    FUN_0c0414b8();
+    SetTotalRecords();
     if (*(int *)0x0C2A121C == 0) {
-        FUN_0c03ac62();
+        CopyBackupBuffer();
         return;
     }
-    if (k != 0 && FUN_0c03ace8() != 1) {
-        FUN_0c03b698(0);
+    if (k != 0 && CompBackupBuffer() != 1) {
+        SetWindow(0);
         return;
     }
-    FUN_0c03b698(5);
+    SetWindow(5);
 }
 
 /* A thick line from p to q: the four corners offset by (dx, -dy) and (-dx, dy), drawn by
@@ -2373,7 +2374,7 @@ void FUN_0c07c2e0(int a, float *p, float *q, int d, float dy, float dx)
 
 /* Course collision set-up: the wall table and its 32-byte header for the course (Crazy Box: per mini
    game, and x kept at 0C0ED438), then the walls. */
-void FUN_0c031934(int x)
+void InitCollision(int x)
 {
     int cm = *(int *)0x0C1EE20C;
     int mg;
@@ -2395,19 +2396,19 @@ void FUN_0c031934(int x)
     }
 }
 
-/* Crazy Box goal step: start the result once time runs out or the goal is met (FUN_0c038f80), and
+/* Crazy Box goal step: start the result once time runs out or the goal is met (ReturnBreakBeachFlag), and
    show the green guide arrow within 2000 of the goal (0C1311BC). */
-void FUN_0c05c72e(void)
+void Exec_DCmini_Game1(void)
 {
     float d;
 
     if (*(int *)0x0C1EE794 == 0 && *(int *)0x0C2A991C == 0) {
-        FUN_0c05bb76(1);
+        Start_Fault(1);
         *(int *)0x0C2A991C = 1;
         *(int *)(0x0C1790CC + 84) = 0;
     }
-    if (FUN_0c038f80() && *(int *)0x0C2A991C == 0) {
-        FUN_0c05bb24();
+    if (ReturnBreakBeachFlag() && *(int *)0x0C2A991C == 0) {
+        Start_Excellent();
         *(int *)0x0C2A991C = 1;
     }
     d = nlLength((char *)0x0C1790CC + 120, (float *)0x0C1311BC);
@@ -2482,12 +2483,12 @@ void FUN_0c07c260(int a, float *p, float *q, int d, float dy, float dx)
 
 extern void SetColliObj(void *o, int kind);
 extern void adxStartAfs2(int ch, int file);
-extern int FUN_0c02e58a(int ch);
+extern int gdc_GetStreamVoiceStat2(int ch);
 extern void nlFogTableSet(float *t);
 
 /* Start a flying piece of kind k: its start offset (12-byte entries at 0C0D2988), cleared motion,
    an identity basis, zero spin, then its collision object (kind 17). */
-void FUN_0c05ead0(char *o, int k)
+void Init_Balloon_Obj(char *o, int k)
 {
     *(int *)(o + 20) = k;
     *(Vec3f *)(o + 72) = *(Vec3f *)(0x0C0D2988 + (unsigned char)(k * 12));
@@ -2513,17 +2514,17 @@ void FUN_0c05ead0(char *o, int k)
 /* Voice channel ch's script (12-byte steps, slot at 0C2AEBE0): at a step's start frame, start its
    stream with its volume and pan; once past it, stop when the stream outlasts the step, or move to
    the next step (ending at a zero entry). Counts frames (+12). */
-void FUN_0c072e90(int ch)
+void Voice_ExecuteChannel(int ch)
 {
     int *s = (int *)(0x0C2AEBE0 + ch * 16);
 
     if (((int *)s[0])[1] == s[3]) {
         adxStartAfs2(ch, *(int *)s[0]);
-        FUN_0c02e71e(ch, s[1]);
-        FUN_0c02e75a(ch, s[2]);
+        gdc_StreamVoiceVol(ch, s[1]);
+        gdc_StreamVoicePan(ch, s[2]);
     } else if (!(((int *)s[0])[1] > s[3])) {
-        if (FUN_0c02e58a(ch)) {
-            if (FUN_0c02e682(ch) >= ((int *)s[0])[2]) {
+        if (gdc_GetStreamVoiceStat2(ch)) {
+            if (gdc_GetStreamVoicePlayTime(ch) >= ((int *)s[0])[2]) {
                 gdc_StopStreamVoice(ch);
             }
         } else {
@@ -2630,9 +2631,9 @@ int getAreaFromPos(float *pos, int start)
     return -1;
 }
 
-extern void FUN_0c072580(float *p, int b);
-extern void FUN_0c07270c(float *p, int b);
-extern void FUN_0c07250c(void *a, void *b);
+extern void breathSteer(float *p, int b);
+extern void breathMove(float *p, int b);
+extern void breathResetOne(void *a, void *b);
 
 /* The result screen's icon rows: item i appears once the count (0C2A96F4) passes its threshold
    (3 frames apart), 33 pixels apart, at y = 0C2A9748 + 328 with scale 0C2A9758 + 1. */
@@ -2655,23 +2656,23 @@ extern void FUN_0c07250c(void *a, void *b);
         }                                                                   \
     } while (0)
 
-void FUN_0c05a3ae(void)
+void Result_Class_Text_Put(void)
 {
     RESULT_ROW(5, 0x0C130E6C, 98, 52);
 }
 
-void FUN_0c05ab80(void)
+void Result_Ranking_Text_Put(void)
 {
     RESULT_ROW(7, 0x0C130E9C, 375, 67);
 }
 
 /* Reset the three tennis players (40-byte records at 0C2AE710) from their starts (0C0D6134). */
-void FUN_0c072884(void)
+void KeepYourBreath(void)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        FUN_0c07250c((char *)0x0C2AE710 + (signed char)(i * 40), (char *)0x0C0D6134 + (signed char)(i * 12));
+        breathResetOne((char *)0x0C2AE710 + (signed char)(i * 40), (char *)0x0C0D6134 + (signed char)(i * 12));
     }
 }
 
@@ -2702,7 +2703,7 @@ void pfCrazyBoxRecordDistPut(int x, int y, int flag, float v)
 /* Advance the driver's two blend tracks (+464, +468; 8-byte keys, time at +4) past the motion time
    (+36, wrapped to the motion length at *(+32)), then set the motion table's two key frames (+8,
    +20) for the current driver (TaxiDriver +0) from 0C1337CC. */
-void FUN_0c064420(void)
+void drvUpdatePartTracks(void)
 {
     char *td = (char *)0x0C2AD000;
     float n = (float)**(int **)(td + 32);
@@ -2768,7 +2769,7 @@ void ChangeColliObj(void *obj, int kind)
 
 /* Tidy three-letter initials: SEX and anything made of X and blanks with at least two X become
    "***"; all blank becomes "*CT". */
-void FUN_0c03974c(char *s)
+void CheckXWord(char *s)
 {
     int nx = 0;
     int nb = 0;
@@ -2797,14 +2798,14 @@ void FUN_0c03974c(char *s)
     }
 }
 
-extern void FUN_0c02f870(void);
+extern void gdc_CourseTexFree(void);
 extern void gdc_SpriteFreeMenu(void);
 extern int gdc_FileLoad(int dst, int name, int size);
 extern void nlObjPutSetReplaceTextureDirName(void *tbl, void *dir);
 extern void Set_StandWaitDist(int mode);
 extern void kyakuInitStops(void);
-extern void FUN_0c0246dc(void);
-extern void FUN_0c031492(int n);
+extern void kyakuResetDropCount(void);
+extern void SetLandmark(int n);
 
 /* Load the in-game sprite set (state 3 at 0C26E184): free what the menu or state 5 held, load the
    common sprites and the language's own, and point their replacement texture names. */
@@ -2814,7 +2815,7 @@ void gdc_SpriteSetGame(void)
         return;
     }
     if (*(int *)0x0C26E184 == 5) {
-        FUN_0c02f870();
+        gdc_CourseTexFree();
         nlSetCommonTextureOffset(480);
         nlSpriteFreeTexture((void *)0x0C1469C8, 0);
     }
@@ -2862,9 +2863,9 @@ void init_KyakuMain(void)
         arrow = 1;
     }
     *(int *)0x0C179830 = arrow;
-    FUN_0c0246dc();
+    kyakuResetDropCount();
     *(int *)0x0C1794EC = 0;
-    FUN_0c031492(3);
+    SetLandmark(3);
     *(char *)0x0C1794E8 = 0;
     if (*(int *)0x0C1EE20C == 1) {
         *(float *)0x0C179820 = 700.0f;
@@ -2882,7 +2883,7 @@ extern int nlMalloc(int size);
 
 /* Draw tennis player pair k (two figures, positions at 0C0D60F8, headings at 0C13F4E4) with the
    current swing (0C13F4C0, models at 0C13F4C4/C8), stepping the swing every 60 frames (0C13F4BC). */
-void FUN_0c072348(int k)
+void DrawTennisPlayers(int k)
 {
     float *p = (float *)((char *)0x0C0D60F8 + (signed char)(k * 2 * 12));
     int *a = (int *)0x0C13F4E4 + k * 2;
@@ -2934,32 +2935,32 @@ void courseStatusInit(int again)
     }
 }
 
-extern void FUN_0c03b81e(int n);
-extern void FUN_0c0409a6(void);
-extern void FUN_0c03933e(void);
-extern void FUN_0c039378(float a, float b, float c);
-extern void FUN_0c03101a(float a);
-extern int FUN_0c03b788(void);
-extern void FUN_0c037534(void);
+extern void menuReadPad(int n);
+extern void callPause(void);
+extern void MotionBlurOff(void);
+extern void SetMotionBlurColor(float a, float b, float c);
+extern void pfSetAspectRatio(float a);
+extern int ExecWindow(void);
+extern void SetHelicopter(void);
 
 /* The VMU check screen: while nothing is pending (0C2A11B4) it waits (a card-out note when flag 1 is
    up) and on request 1 opens the dimmed message layer; a pending request is cancelled when the card
    went away at the warning, or runs mode 3. 1 once handed over. */
-int FUN_0c041c14(void)
+int Pause_ExecRenderTexture1st(void)
 {
     int f;
 
-    FUN_0c03b81e(1);
+    menuReadPad(1);
     f = *(int *)0x0C2A11CC & 1;
     if (*(int *)0x0C2A11B4 == 0) {
         if (f && *(int *)0x0C2A1214 == 0) {
-            FUN_0c0409a6();
+            callPause();
         }
         if (*(int *)0x0C2A11B0 == 1) {
             *(int *)0x0C2A11B4 = *(int *)0x0C2A11B0;
-            FUN_0c03933e();
-            FUN_0c039378(0.3999999761581421f, 0.3999999761581421f, 0.3999999761581421f);
-            FUN_0c03101a(0.7999999523162842f);
+            MotionBlurOff();
+            SetMotionBlurColor(0.3999999761581421f, 0.3999999761581421f, 0.3999999761581421f);
+            pfSetAspectRatio(0.7999999523162842f);
             nlRenderTextureBegin(0);
         }
         return 0;
@@ -2969,11 +2970,11 @@ int FUN_0c041c14(void)
     }
     if (*(int *)0x0C2A11B0 == 0) {
         *(int *)0x0C2A11B4 = 0;
-        FUN_0c03b698(0);
+        SetWindow(0);
         return 0;
     }
-    FUN_0c039434(3);
-    FUN_0c03b788();
+    PutRenderTexture(3);
+    ExecWindow();
     return 1;
 }
 
@@ -2987,7 +2988,7 @@ void ExecHelicopter(void)
 
     if (*(int *)0x0C27428C == 0) {
         if (*(int *)0x0C274290 == 0 && *(int *)(car + 100) == 8) {
-            FUN_0c037534();
+            SetHelicopter();
             Sound_Request(0x411A9, 0);
         }
         return;
@@ -3007,26 +3008,26 @@ void ExecHelicopter(void)
     v[1] = v[1] + 2000.0f;
 }
 
-extern int FUN_0c05db72(void);
-extern void SetCameraPosVelocity(float *v);
+extern int CheckNumRideon(void);
+extern void MultiRot4Vec(float *v);
 extern void GetAng4Mat(int *ang);
-extern void FUN_0c0288e0(int a, float b);
+extern void SetCameraDistance(int a, float b);
 extern void camSetTarget(float *pos, int mode);
 extern void SetCameraTargetRatio(float a, float b);
 extern void SetCameraMode(int mode);
 extern int GetAverageAngle(int a, int b, float w);
 
 /* Is customer stop k usable here? Crazy Box games 10/11 only at their current stop (0C2A98FC), game
-   14 also needs FUN_0c05db72 to match 0C2A9900; original-mode game 15 only at stop 7; other games
+   14 also needs CheckNumRideon to match 0C2A9900; original-mode game 15 only at stop 7; other games
    always. */
-int FUN_0c025b30(int a, int k)
+int kyakuStopAllowed(int a, int k)
 {
     if (*(int *)0x0C1EE20C == 2) {
         if ((*(int *)0x0C1EE214 == 11 || *(int *)0x0C1EE214 == 10) && *(int *)0x0C2A98FC == k) {
             return 1;
         }
         if (*(int *)0x0C1EE20C == 2 && *(int *)0x0C1EE214 == 14 && *(int *)0x0C2A98FC == k) {
-            if (FUN_0c05db72() == *(int *)0x0C2A9900) {
+            if (CheckNumRideon() == *(int *)0x0C2A9900) {
                 return 1;
             }
         }
@@ -3047,7 +3048,7 @@ int FUN_0c025b30(int a, int k)
 
 /* The chase camera behind the car: a point 5 up and 10 back turned with the car, its angles, and on a
    reset (0C179974) the camera mode 2 set-up first. */
-void FUN_0c028b06(void)
+void ExecAdvCameraChase(void)
 {
     float v[3];
     int ang[3];
@@ -3056,7 +3057,7 @@ void FUN_0c028b06(void)
     v[2] = 10.0f;
     v[1] = 5.0f;
     nlPushUnitMatrix();
-    SetCameraPosVelocity((float *)(0x0C1790CC + 48));
+    MultiRot4Vec((float *)(0x0C1790CC + 48));
     nlSqrt((Vec3f *)v, v);
     nlRotateAY(0x1800);
     nlRotateAX(0xFC00);
@@ -3064,7 +3065,7 @@ void FUN_0c028b06(void)
     nlPopMatrix(1);
     nlAddVector(v, (float *)(0x0C1790CC + 120));
     if (*(int *)0x0C179974) {
-        FUN_0c0288e0(0, 35.0f);
+        SetCameraDistance(0, 35.0f);
         camSetTarget(v, 0);
         SetCameraTargetRatio(0.7999999523162842f, 0.29999998211860657f);
         SetCameraMode(2);
@@ -3076,7 +3077,7 @@ void FUN_0c028b06(void)
 }
 
 /* Blend a pose toward another by t: five 12-byte positions, then twelve angle triples (from +60). */
-void FUN_0c066bf0(char *dst, char *src, float t)
+void FcvInterpolateBuffer(char *dst, char *src, float t)
 {
     float tmp[3];
     float u = 1.0f - t;
@@ -3122,7 +3123,7 @@ extern void setBorderColor(int c);
 /* Which side of the box edge (a, b) a point p is on, per axis: 0 above, 1 equal, 2 below for x and
    for z (3 apiece), combined into a table lookup (0C08DA64); a "3" entry is settled by the slope
    across the edge. */
-int FUN_0c0321c2(float *p, float *a, float *b)
+int Check2DAreaEdge(float *p, float *a, float *b)
 {
     int px;
     int pz;
@@ -3178,9 +3179,9 @@ void InitNaolib2(void)
     setBorderColor(0);
 }
 
-/* Enter the course-end menu (except in reverse mode): save the modes, main mode 3 with FUN_0c041ce2,
+/* Enter the course-end menu (except in reverse mode): save the modes, main mode 3 with SetMenuClass,
    menu 6, then step 10. */
-void FUN_0c040a50(void)
+void callRecordEntry(void)
 {
     if (*(int *)0x0C17948C == 1) {
         return;
@@ -3190,10 +3191,10 @@ void FUN_0c040a50(void)
     if (*(int *)0x0C1EE234 != 3) {
         *(int *)0x0C1EE234 = 3;
         *(int *)0x0C1EE238 = 0;
-        FUN_0c041ce2(0);
+        SetMenuClass(0);
     }
-    FUN_0c03b544(6);
-    FUN_0c03b698(10);
+    SetScreen(6);
+    SetWindow(10);
 }
 
 /* Print mode: stores the flag (+20) and sets the blend bits of two words: opaque (x != 0) leaves
@@ -3215,7 +3216,7 @@ void nlPrintSetOpaqueMode(int x)
 
 /* Reset the result popup: its sprite (0C2A91D8: scale 1, 0.2 start, flags), the 20 x 9 word grid at
    0C2A9404 (and the first five words of 0C2A9690), and the counters and 0.5 scale. */
-void FUN_0c057aac(void)
+void Init_Ranking(void)
 {
     float *s = (float *)0x0C2A91D8;
     int *grid = (int *)0x0C2A9404;
@@ -3254,27 +3255,27 @@ void FUN_0c057aac(void)
     *(int *)0x0C2A96C0 = 0;
 }
 
-extern void FUN_0c055bec(void);
-extern void FUN_0c055d48(void);
-extern void FUN_0c055ecc(void);
-extern void FUN_0c05614e(void);
+extern void hudRankPanelSlide(void);
+extern void hudScaleRankPanel(void);
+extern void hudUpdateRankDrum(void);
+extern void hudDrawRankDrum(void);
 
 /* The bonus panel's state machine (state 0C2A9178, timer 0C130CAC): states 1-5 run their updates
    (3 also steps the cycle); 2 lasts 60 frames, then 3 with a sound unless 0C2A9168 is 99; 3 goes to
    4 once both flags are up; 4 lasts 120 frames, then 5. The timer runs in states 2 and 4. */
-void FUN_0c055b38(void)
+void hudDrawPassRanking(void)
 {
     int *st = (int *)0x0C2A9178;
     int *t = (int *)0x0C130CAC;
 
-    FUN_0c055bec();
+    hudRankPanelSlide();
     if (*st >= 1 && *st <= 5) {
         if (*st == 3) {
-            FUN_0c055cf4();
+            hudStepRankRoll();
         }
-        FUN_0c055d48();
-        FUN_0c055ecc();
-        FUN_0c05614e();
+        hudScaleRankPanel();
+        hudUpdateRankDrum();
+        hudDrawRankDrum();
     }
     if (*st == 2 && *t > 60) {
         *st = 3;
@@ -3297,15 +3298,15 @@ void FUN_0c055b38(void)
 }
 
 extern void Init_Standard(void);
-extern void FUN_0c052574(void);
-extern void FUN_0c0525fc(void);
-extern void FUN_0c052a1c(void);
-extern void FUN_0c0528c8(void);
-extern void FUN_0c0527ec(void);
-extern void FUN_0c052c9e(void);
-extern void FUN_0c052d28(void);
-extern void FUN_0c0525b4(void);
-void FUN_0c0526a0(void);
+extern void Init_Time_Count(void);
+extern void Init_Remain_Time(void);
+extern void Init_Pass_Fare(void);
+extern void Init_Drum_Fare(void);
+extern void Init_RankDrum(void);
+extern void Init_Shift(void);
+extern void Init_TimeUp(void);
+extern void Init_sprCombo(void);
+void Init_TotalDrum(void);
 
 /* Start a HUD set: the ten pointers (0C2A8C4C..) to the default panel (0C1309F8), the ten flags
    cleared, the three on flags, then each part's own set-up, and the last counters cleared. */
@@ -3333,15 +3334,15 @@ void Init_nd_Sprite(void)
     *(int *)0x0C2A9188 = 1;
     hudInit();
     Init_Standard();
-    FUN_0c052574();
-    FUN_0c0525fc();
-    FUN_0c0526a0();
-    FUN_0c052a1c();
-    FUN_0c0528c8();
-    FUN_0c0527ec();
-    FUN_0c052c9e();
-    FUN_0c052d28();
-    FUN_0c0525b4();
+    Init_Time_Count();
+    Init_Remain_Time();
+    Init_TotalDrum();
+    Init_Pass_Fare();
+    Init_Drum_Fare();
+    Init_RankDrum();
+    Init_Shift();
+    Init_TimeUp();
+    Init_sprCombo();
     *(int *)0x0C2A7610 = 0;
     *(int *)0x0C2A7614 = 0;
     *(int *)0x0C2A91BC = 0;
@@ -3352,7 +3353,7 @@ void Init_nd_Sprite(void)
 
 /* The eight-slot gauge: its sprite (0C2A801C) set up, per slot: pointers 0 and the bars (10 from slot
    3 on), the on flags 1; and the gauge's counters. */
-void FUN_0c0526a0(void)
+void Init_TotalDrum(void)
 {
     float *s = (float *)0x0C2A801C;
     int i;
@@ -3389,7 +3390,7 @@ void FUN_0c0526a0(void)
 
 /* Draw the four car icons (rows at 0C1304CC, spaced 72 apart from x 376, y 42): the picked car
    (0C2A751C) at half size with its first image, the others full size with the second. */
-void FUN_0c051e4c(void)
+void selectDrawCarIcons(void)
 {
     float *s = (float *)0x0C2A7410;
     int i;
@@ -3414,14 +3415,14 @@ void FUN_0c051e4c(void)
 }
 
 extern void sysCfgRead(void);
-extern void FUN_0c040e1c(void);
+extern void CheckDrive(void);
 extern void saveBufferInit(void *buf);
-extern void FUN_0c041a3e(int n);
-extern void FUN_0c03b674(int n);
+extern void AnnounceSecretFlag(int n);
+extern void NextWindow(int n);
 
 /* Set up the 4-slot panel sprites (80-byte records at 0C2A9A6C, wrapped to 256): all four for k 4,
    else just slot k - 1; each at (320, 240) scale 0.2 with its counters cleared. */
-void FUN_0c05b7f0(int k)
+void Init_Window_Sprite(int k)
 {
     int i;
     int end;
@@ -3458,7 +3459,7 @@ void FUN_0c05b7f0(int k)
 /* On the result screen, once the count (0C2A96F4) is within 120 of the start (0C2A97A8) and the
    skip button (TaxiSW +4 bit 3) is pressed: stop the voice, jump the count past the start (+121),
    and fold the eight bonus tallies (0C2A97EC) into the totals (0C2A980C, mod 10). */
-void FUN_0c059514(void)
+void Result_Skip(void)
 {
     int a = *(int *)0x0C2A97A8;
     int *cnt = (int *)0x0C2A96F4;
@@ -3490,8 +3491,8 @@ void FUN_0c059514(void)
 }
 
 /* Reset the VM menu: its state words (0C2A11D8..), counters, the config, the save buffer and the
-   first screen, then start the pause (FUN_0c040b54(1)). */
-void FUN_0c041d68(void)
+   first screen, then start the pause (callLoadData(1)). */
+void InitMenu(void)
 {
     int *p = (int *)0x0C2A11D8;
     int i;
@@ -3502,7 +3503,7 @@ void FUN_0c041d68(void)
     *(int *)0x0C2A11B4 = 0;
     *(int *)0x0C2A11B0 = 0;
     *(int *)0x0C2A1214 = 0;
-    FUN_0c03b674(0);
+    NextWindow(0);
     *(int *)0x0C2A1228 = 0;
     *(int *)0x0C2A122C = 0;
     *(int *)0x0C2A1224 = -1;
@@ -3516,21 +3517,21 @@ void FUN_0c041d68(void)
     *(int *)0x0C2A1220 = 0;
     *(int *)0x0C2A11C8 = 0;
     *(int *)0x0C2A121C = 1;
-    FUN_0c040e1c();
-    FUN_0c03ac62();
+    CheckDrive();
+    CopyBackupBuffer();
     saveBufferInit((void *)0x0C2A1258);
-    FUN_0c0414b8();
+    SetTotalRecords();
     *(char *)0x0C2A1238 = 50;
     *(char *)0x0C2A1239 = 51;
     *(char *)0x0C2A123A = 0;
-    FUN_0c041a3e(0);
-    FUN_0c03b81e(0);
+    AnnounceSecretFlag(0);
+    menuReadPad(0);
     *(float *)0x0C2A1AD4 = 1.0f;
     *(int *)0x0C2A1ADC = 640;
     *(int *)0x0C2A1AD8 = 640;
-    FUN_0c03b544(0);
-    FUN_0c03b698(0);
-    FUN_0c040b54(1);
+    SetScreen(0);
+    SetWindow(0);
+    callLoadData(1);
 }
 
 /* May customer k be served in this Crazy Box game? Anything but mini games 10 and 8 always; game 8
@@ -3798,7 +3799,7 @@ int mwlRnaIsCopyEnd(char *h)
 
 /* Draw the four result-screen sprites (ids 413, 414, 412, then the table[idx] one) through the
    sprite state at 0C2A7EDC with an orange fade. */
-void FUN_0c056ff8(int idx)
+void Put_Time_Bonus_Sprite(int idx)
 {
     float *pf = (float *)0x0C2A7EDC;
     int *pi = (int *)0x0C2A7EDC;
@@ -3808,22 +3809,22 @@ void FUN_0c056ff8(int idx)
     pf[5] = 1.0f;
     pi[10] = 0;
     pi[13] = 0x200a;
-    FUN_0c05778a(pf, 413, 175.0f, 68.0f);
-    FUN_0c05778a(pf, 414, 242.0f, 74.0f);
-    FUN_0c05778a(pf, 412, 210.0f, 96.0f);
+    nd_SprPut(pf, 413, 175.0f, 68.0f);
+    nd_SprPut(pf, 414, 242.0f, 74.0f);
+    nd_SprPut(pf, 412, 210.0f, 96.0f);
     pf[4] = 0.7f;
     pf[5] = 0.7f;
     pi[13] = 0x2005;
     pf[11] = 1.0f;
-    FUN_0c05778a(pf, ((int *)0x0C0D0C30)[idx], 184.0f, 44.0f);
+    nd_SprPut(pf, ((int *)0x0C0D0C30)[idx], 184.0f, 44.0f);
     ResetFadeColor();
 }
 
 /* Once-only trigger for the end-of-game cue (flag 0C2A991C): with passengers dropped it runs
-   FUN_0c05bb24 and zeroes Car_Data+84; with 0C1EE794 clear it switches FUN_0c05bb76 on (1) and sets
+   Start_Excellent and zeroes Car_Data+84; with 0C1EE794 clear it switches Start_Fault on (1) and sets
    the flag; in mini-game 6 with Car_Data+124 not above 20, or mini-game 5 with it not above 0, it
    switches mode 2 on, sets the flag and plays sound 0x10FA9. */
-void FUN_0c05d076(void)
+void Check_DCmini_End(void)
 {
     int *flag = (int *)0x0C2A991C;
     int mg;
@@ -3833,11 +3834,11 @@ void FUN_0c05d076(void)
         return;
     }
     if (*(int *)0x0C1794D0 >= 1) {
-        FUN_0c05bb24();
+        Start_Excellent();
         *(int *)(0x0C1790CC + 84) = 0;
     }
     if (*(int *)0x0C1EE794 == 0) {
-        FUN_0c05bb76(1);
+        Start_Fault(1);
         *flag = 1;
         *(int *)(0x0C1790CC + 84) = 0;
         return;
@@ -3845,19 +3846,19 @@ void FUN_0c05d076(void)
     mg = *(int *)0x0C1EE214;
     v = *(float *)(0x0C1790CC + 124);
     if ((mg == 6 && !(v > 20.0f)) || (mg == 5 && !(v > 0.0f))) {
-        FUN_0c05bb76(2);
+        Start_Fault(2);
         *flag = 1;
         Sound_Request(0x10FA9, 0);
     }
 }
 
-extern void FUN_0c0606e2(int a, int b);
-extern void FUN_0c060740(int tbl, int a, int b, int c, int d);
+extern void lcdFillData(int a, int b);
+extern void lcdSetData(int tbl, int a, int b, int c, int d);
 
 /* Ports with a pad in slot 1 or 2 of a group of six whose first button word has bit 2 set: mark it
-   in the global mask 0C2A9FA8 (bit 2, or bit 1 when flag is 0), run FUN_0c0606e2, start the matching
-   table (0C0D2F64 for flag, 0C0D2EA0 otherwise) and finish with FUN_0c060692. 0 for any other port. */
-int FUN_0c060586(int port, int flag)
+   in the global mask 0C2A9FA8 (bit 2, or bit 1 when flag is 0), run lcdFillData, start the matching
+   table (0C0D2F64 for flag, 0C0D2EA0 otherwise) and finish with lcdSync. 0 for any other port. */
+int Start_LoadSave(int port, int flag)
 {
     unsigned int m = (unsigned int)port % 6;
     int *info;
@@ -3874,23 +3875,23 @@ int FUN_0c060586(int port, int flag)
     } else {
         *(int *)0x0C2A9FA8 |= 2;
     }
-    FUN_0c0606e2(0, port);
+    lcdFillData(0, port);
     if (flag) {
-        FUN_0c060740(0x0C0D2F64, 0, 0, 1, port);
+        lcdSetData(0x0C0D2F64, 0, 0, 1, port);
     } else {
-        FUN_0c060740(0x0C0D2EA0, 0, 0, 1, port);
+        lcdSetData(0x0C0D2EA0, 0, 0, 1, port);
     }
-    return ((int (*)(unsigned int, int, int, int))FUN_0c060692)(port, 0, 0, 1);
+    return ((int (*)(unsigned int, int, int, int))lcdSync)(port, 0, 0, 1);
 }
 
-extern float FUN_0c0288f0(void);
+extern float GetCameraDistance(void);
 extern void camSetEye(float *pos, int mode);
 
 /* Chase-camera step: target = the car position (Car_Data+120) raised by 5; a pending reset
    (0C179974) first re-seeds the eye, the speed state, the camera mode and the sparks; then the
-   target is set and the zoom (0C1798A4) becomes 30 x (1 + (400 - FUN_0c0288f0()) / 800), the
+   target is set and the zoom (0C1798A4) becomes 30 x (1 + (400 - GetCameraDistance()) / 800), the
    fraction kept at 0 or more. */
-void FUN_0c028f50(void)
+void ExecAdvCameraFixed(void)
 {
     float v[3];
     float t;
@@ -3907,7 +3908,7 @@ void FUN_0c028f50(void)
         *(int *)0x0C179974 = 0;
     }
     camSetTarget(v, 2);
-    t = (400.0f - FUN_0c0288f0()) / 800.0f;
+    t = (400.0f - GetCameraDistance()) / 800.0f;
     if (t < 0.0f) {
         t = 0.0f;
     }
@@ -4001,7 +4002,7 @@ extern float nlLdexpf(float x, int n);
    at 3, it jumps to the state's limit (a float at tbl + (signed byte)(state * 20)); with 0C2A9F9C set it grows
    by nlLdexpf(1, step) with the step counter at 0C2A9FA0 counting up, and is cut at the limit; otherwise it eases
    toward the limit by the factor at +16 of the state's entry. */
-void FUN_0c060160(void)
+void Exec_FogDensity(void)
 {
     char *tbl = (char *)0x0C1322C0;
     float *pf = (float *)0x0C2A9F70;
@@ -4031,14 +4032,14 @@ void FUN_0c060160(void)
     *(float *)0x0C0E4E48 = *pf;
 }
 
-extern void FUN_0c058f08(float *p);
+extern void SEGA_LOGO_SetColor(float *p);
 /* nlObjPutSetLightDirection(x, y, z): the second entry of nlObjPutSetLightDirectionV (0C07AE00), which loads the vector's components and falls into it */
 extern void nlObjPutSetLightDirection(float a, float b, float c);
 
 /* Set up the HUD sprite layer: a perspective for mode 3, ten sprite slots at 0C2A932C (20 bytes each: x 320,
    y 240, z 0 and three zero halfwords), the extra slot at 0C2A93F8 (0, 36, 0), colour 0x00FFFFFF, and the
    light direction (0, 0.6, 0.8). */
-void FUN_0c0579c0(void)
+void Init_SEGA_LOGO(void)
 {
     float *s = (float *)0x0C2A932C;
     float *e = (float *)0x0C2A93F8;
@@ -4061,8 +4062,8 @@ void FUN_0c0579c0(void)
     e[0] = 0.0f;
     e[2] = 0.0f;
     e[1] = 36.0f;
-    FUN_0c058f08(e);
-    FUN_0c058f38(0x00FFFFFF);
+    SEGA_LOGO_SetColor(e);
+    SEGA_LOGO_SetFog(0x00FFFFFF);
     nlObjPutSetLightDirection(0.0f, 0.59999996f, 0.79999995f);
 }
 
@@ -4071,7 +4072,7 @@ extern void hudHidePickUpNag(void);
 /* The pick-up nag's sprites, once a frame: a counter (0C2A8FB4) steps; in the first 50 of every 61 frames three
    sprites (ids 462-464, at 280/440/480 across, 240 down) are drawn, or one (470, at 320) while 0C2A8FBC is set.
    Past 180 frames the counter restarts and the nag is hidden; at 105 the passenger is picked up. */
-void FUN_0c057388(void)
+void Put_PickUp_Nag(void)
 {
     int *cnt = (int *)0x0C2A8FB4;
     float *p = (float *)0x0C2A7EDC;
@@ -4083,11 +4084,11 @@ void FUN_0c057388(void)
     *(int *)(p + 10) = 0;
     if (*cnt % 61 < 50) {
         if (*(int *)0x0C2A8FBC == 0) {
-            FUN_0c05778a(p, 462, 280.0f, 240.0f);
-            FUN_0c05778a(p, 463, 440.0f, 240.0f);
-            FUN_0c05778a(p, 464, 480.0f, 240.0f);
+            nd_SprPut(p, 462, 280.0f, 240.0f);
+            nd_SprPut(p, 463, 440.0f, 240.0f);
+            nd_SprPut(p, 464, 480.0f, 240.0f);
         } else {
-            FUN_0c05778a(p, 470, 320.0f, 240.0f);
+            nd_SprPut(p, 470, 320.0f, 240.0f);
         }
     }
     if (*cnt > 180) {

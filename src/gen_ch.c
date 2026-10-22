@@ -1,20 +1,20 @@
 /* Straight-line functions with calls and guards (batch gen_ch): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c028760(int);
+int SetCameraPosVelocity(int);
 int SetCameraAngleVelocity(int, int, int);
 int SetCameraAngleRatio(float, float);
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
+int SetScreen(int);
+int SetWindow(int);
+int windowOpenStep(void);
+int windowEnterStep(void);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c081470(int, int);
 int PutVM_Message(int, int, int, float, float);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int buCalcBackupFileSize(int, int);
 int buGetLastError(void);
 int buMakeBackupFileImage(int, int);
@@ -35,12 +35,12 @@ int nlPopMatrix(int);
 int nlPushUnitMatrix(void);
 int nlTranslateV(int);
 int syRtcGetDate(int);
-int FUN_0c03e8ac(void);
-int FUN_0c0496fc(int a4);
+int windowSaveOff(void);
+int signalExec(int a4);
 int SaveBackupData(int a4);
 int ExecStartCamera(void);
 
-int FUN_0c03e8ac(void)
+int windowSaveOff(void)
 {
     int t2;
     int t3;
@@ -48,25 +48,25 @@ int FUN_0c03e8ac(void)
     int t8;
     int t7;
 
-    FUN_0c03bf42();
+    windowOpenStep();
     PutVM_Message(0x20, 0x27, 0x0, 209.0f, 240.0f);
     t2 = *(int *)0xC2A1208;
     if ((t2 & 4) != 0) {
         t3 = *(int *)0xC2A1208;
         *(unsigned int *)0xC2A1208 = (t3 | 0x9);
     }
-    t5 = FUN_0c03bf76();
+    t5 = windowEnterStep();
     t8 = t5;
     if (t5 == 1) {
-        FUN_0c03b544(0x4);
-        t7 = FUN_0c03b698(0x0);
+        SetScreen(0x4);
+        t7 = SetWindow(0x0);
         *(unsigned int *)0xC2A121C = 0x0;
         t8 = t7;
     }
     return t8;
 }
 
-int FUN_0c0496fc(int a4)
+int signalExec(int a4)
 {
     int t0;
     int t1;

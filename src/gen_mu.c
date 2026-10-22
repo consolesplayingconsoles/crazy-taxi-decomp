@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_mu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05423a(int, int, int, int);
-int FUN_0c0543fc(void);
-int FUN_0c05778a(int, int, float, float);
+int Put_Remain_Time_Gauge(int, int, int, int);
+int Put_Remain_Time_Frame(void);
+int nd_SprPut(int, int, float, float);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
@@ -13,9 +13,9 @@ int nlSprPut(int, int, int);
 int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSize(float, float);
-int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int Put_Remain_Time_Mode2(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+int Put_Remain_Time_Mode2(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     int t0;
     int t1;
@@ -240,7 +240,7 @@ int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t35) goto L_C053F36;
     goto L_C053F32;
     L_C053F32:;
-    FUN_0c05423a(R4, R5, R6, R7);
+    Put_Remain_Time_Gauge(R4, R5, R6, R7);
     goto L_C053F36;
     L_C053F36:;
     *(unsigned int *)0xC2A7FB0 = 0x200E;
@@ -299,7 +299,7 @@ int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C054198;
     L_C054198:;
     u59 = *(float *)0xC05428C;
-    FUN_0c05778a(0xC2A7F7C, 0x10, u59, F13);
+    nd_SprPut(0xC2A7F7C, 0x10, u59, F13);
     u61 = *(float *)0xC054298;
     u62 = u61;
     u63 = F13;
@@ -307,7 +307,7 @@ int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F5 = u63;
     goto L_C0541AC;
     L_C0541AC:;
-    FUN_0c05778a(0xC2A7F7C, 0x10, F4, F5);
+    nd_SprPut(0xC2A7F7C, 0x10, F4, F5);
     t65 = (int)R13 > (int)0x258;
     if (t65) goto L_C0541C4;
     goto L_C0541BA;
@@ -315,7 +315,7 @@ int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     nlObjPutSetFadeColor(F15, F12, F12);
     goto L_C0541C4;
     L_C0541C4:;
-    FUN_0c0543fc();
+    Put_Remain_Time_Frame();
     ResetFadeColor();
     t69 = (int)R13 > (int)0x258;
     if (t69) goto L_C054202;
@@ -426,15 +426,15 @@ int FUN_0c053dec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t107) goto L_C0540D8;
     goto L_C0540B4;
     L_C0540B4:;
-    FUN_0c05778a(0xC2A7F7C, 0x10, 96.0f, F13);
-    FUN_0c05778a(0xC2A7F7C, 0x10, 174.0f, F13);
+    nd_SprPut(0xC2A7F7C, 0x10, 96.0f, F13);
+    nd_SprPut(0xC2A7F7C, 0x10, 174.0f, F13);
     u110 = 182.0f;
     u111 = F13;
     F4 = u110;
     F5 = u111;
     goto L_C0541AC;
     L_C0540D8:;
-    FUN_0c05778a(0xC2A7F7C, 0x10, 64.0f, F13);
+    nd_SprPut(0xC2A7F7C, 0x10, 64.0f, F13);
     goto L_C054198;
     L_C0540A0:;
     pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);

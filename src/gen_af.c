@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_af): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ExecAdvCamera(void);
+int ExecAdvCameraRandom(void);
 int SetCameraTargetRatio(float, float);
 int SetCameraAngleVelocity(int, int, int);
 int SetCameraAngleRatio(float, float);
-int FUN_0c0288e0(float);
-int FUN_0c028b06(void);
-int FUN_0c028f50(void);
+int SetCameraDistance(float);
+int ExecAdvCameraChase(void);
+int ExecAdvCameraFixed(void);
 int FUN_0c077f80(void);
 int FUN_0c1534a0(int, int, int);
 int FUN_0c1534ca(int);
@@ -30,14 +30,14 @@ int nlScale(float, float, float);
 int nlScaleUnitVector(int, int, float);
 int nlSubVector(int, int);
 int nlUnitRotation(void);
-int FUN_0c0289be(void);
+int ExecAdvCamera(void);
 int Put2DObj(int a4, float f4, float f5);
 void getReplayPassenger(int a4, int a5, int a6, int a7, int a8);
 int kmiProcessVertex_06(int a4);
 int kmiProcessVertex_14(int a4);
 int kmCreateFrameBufferSurface(int a4, int a5, int a6, int a7, int a8);
 
-int FUN_0c0289be(void)
+int ExecAdvCamera(void)
 {
     int t0;
     int t1;
@@ -66,11 +66,11 @@ int FUN_0c0289be(void)
                 if (t0 != 4) {
                     return t0;
                 }
-                return FUN_0c028f50();
+                return ExecAdvCameraFixed();
             }
-            return ExecAdvCamera();
+            return ExecAdvCameraRandom();
         }
-        return FUN_0c028b06();
+        return ExecAdvCameraChase();
     }
     t1 = *(int *)0xC17914C;
     *(unsigned int *)((((int)stk + 4) + 0x8)) = t1;
@@ -82,7 +82,7 @@ int FUN_0c0289be(void)
     *(float *)(((int)stk + 8)) = (u4 + 5.0f);
     t5 = *(int *)0xC179974;
     if (t5 != 0) {
-        FUN_0c0288e0(60.0f);
+        SetCameraDistance(60.0f);
         camSetTarget(((int)stk + 4), 0x0);
         SetCameraTargetRatio(0.299999982f, 0.299999982f);
         t9 = *(int *)0xC2A4E50;

@@ -24,33 +24,33 @@ int ADXPD_Create(void);
 int ADXRNA_SetOutPan(void);
 int ADXSTM_Tell(int);
 int ADXT_SetOutVol(int, int);
-int FUN_0c02e1ce(int);
-int FUN_0c02e282(int);
-int FUN_0c02e2ca(int);
-int FUN_0c02e31e(int);
-int FUN_0c031036(int, int, int, int);
-int FUN_0c031408(int);
-int FUN_0c03933e(void);
-int FUN_0c03934e(float);
-int FUN_0c040b98(int);
-int FUN_0c04a4d6(int, int);
-int FUN_0c04a52a(int);
-int FUN_0c04a8b6(int);
-int FUN_0c04aac6(int);
-int FUN_0c04af54(int);
-int FUN_0c04bb70(int);
-int FUN_0c04d49e(int, float, float);
+int gdc_GetStreamSongRemainTime(int);
+int gdc_GetVolGainMute(int);
+int gdc_VolStreamSong(int);
+int gdc_PlayStreamSong(int);
+int pfOffsetColor(int, int, int, int);
+int pfSetFilterMode(int);
+int MotionBlurOff(void);
+int SetMotionBlurStrength(float);
+int callSaveData(int);
+int goiToolPointEntry(int, int);
+int goiToolCourseMap(int);
+int goiToolCoursePoint(int);
+int goiToolLight(int);
+int goiToolCamData(int);
+int setReplayType(int);
+int HomingPosX(int, float, float);
 int CarSel_SetBackColor(void);
-int FUN_0c057728(int, int, int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c059310(void);
-int FUN_0c059486(int, int);
-int FUN_0c05af6c(void);
-int FUN_0c05af86(void);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c070e8a(int);
-int FUN_0c07284e(int, int);
+int Money_Array(int, int, int);
+int nd_SprPut(int, int, float, float);
+int Init_DramRoll(void);
+int Level_Calc(int, int);
+int Init_RS_Light(void);
+int Init_RS_Fog(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int psgAllocIpBuff(int);
+int breathExecOne(int, int);
 int FUN_0c074200(int, int);
 int FUN_0c074690(void);
 int FUN_0c074f10(void);
@@ -69,7 +69,7 @@ int FUN_0c17088c(int, int, int);
 int FUN_0c170908(int, int, int);
 int FUN_0c172f1e(int);
 int GetMenuMode(int);
-int GetRotVec4Ang(void);
+int BigOnePut(void);
 int KillColliObj(int);
 int LightEffect(int);
 int Psg_Init(int, int, int);
@@ -130,31 +130,31 @@ int syBtCfgSet(int);
 int syCfgSetSoundMode(int);
 int thunk_FUN_0c1708b2(void);
 int vmsfs_c_getstate(int);
-int FUN_0c02e458(void);
+int gdc_PlayStreamSongDisk(void);
 int fsInit(void);
-int FUN_0c02e940(void);
+int gdc_CourseBlockReadNext(void);
 int InitEffect(void);
 int gameState14(void);
-int FUN_0c03b544(int a4);
+int SetScreen(int a4);
 int menuEnterStep(void);
-int FUN_0c03f912(void);
+int menuGoBack(void);
 int stopingCarSpawn(int a4, int a5);
 int pcarEnd(int a4);
 int trainControlExec(int a4);
 void GoiTool(int a4);
-int FUN_0c04e194(void);
-int FUN_0c051c62(void);
-void FUN_0c051d44(void);
-int FUN_0c059254(void);
-int FUN_0c0595e8(void);
-int FUN_0c05da9c(void);
+int PutCourse_Sky(void);
+int selectInitIconSprite(void);
+void selectDrawPanels(void);
+int Init_Result_Parm(void);
+int Result_Next_State(void);
+int Exec_DCmini_Game12(void);
 int execMiniLight(void);
 int GetAverageAngle(int a4, int a5, float f4);
-int FUN_0c070bf8(int a4);
-int FUN_0c070c64(int a4);
-int FUN_0c071d34(int a4, int a5, int a6, int a7);
-int FUN_0c0728c8(void);
-int FUN_0c0738bc(void);
+int Psg_IsMotionSetA(int a4);
+int Psg_CheckCharaBit4(int a4);
+int EndPsg_Start(int a4, int a5, int a6, int a7);
+int AreYouBreathing(void);
+int BigOneSwims(void);
 int nlFreePalette(int a4);
 int nlSearchPalette(int a4, int a5);
 int FUN_0c074d20(void);
@@ -236,7 +236,7 @@ int FUN_0c17467c(int a4);
 void FUN_0c1747be(int a4);
 int FUN_0c1747f4(int a4);
 
-int FUN_0c02e458(void)
+int gdc_PlayStreamSongDisk(void)
 {
     int t1;
     int t2;
@@ -252,17 +252,17 @@ int FUN_0c02e458(void)
     t2 = *(int *)(((t1 << 2) + 0xC08C410));
     adxStartAfs1(0x0, t2);
     t4 = *(int *)0xC26A0D4;
-    t5 = FUN_0c02e1ce(t4);
+    t5 = gdc_GetStreamSongRemainTime(t4);
     *(unsigned int *)0xC26A0D0 = t5;
     *(unsigned int *)0xC26A0C8 = 0x1;
     t6 = *(signed char *)0xC1EE80C;
-    t7 = FUN_0c02e282(t6);
+    t7 = gdc_GetVolGainMute(t6);
     t8 = *(int *)0xC1EE820;
     return ADXT_SetOutVol(t8, t7);
 }
 
 
-int FUN_0c02e940(void)
+int gdc_CourseBlockReadNext(void)
 {
     int t0;
     int t1;
@@ -415,8 +415,8 @@ int gameState14(void)
     Voice_ShutUp(0x0);
     Voice_Request(0xC0EEA08, 0x0, 0x7F, 0x0);
     CarSel_SetBackColor();
-    FUN_0c02e31e(0x1);
-    FUN_0c02e2ca(0x7F);
+    gdc_PlayStreamSong(0x1);
+    gdc_VolStreamSong(0x7F);
     *(unsigned int *)0xC2864AC = 0x0;
     *(unsigned int *)0xC2864A8 = 0x0;
     *(unsigned int *)0xC2864A4 = 0x0;
@@ -437,10 +437,10 @@ int gameState14(void)
     *(unsigned char *)0xC2864D0 = 0x0;
     *(unsigned int *)0xC2864C8 = 0x0;
     pfSetFont(0x0);
-    FUN_0c031408(0x1);
+    pfSetFilterMode(0x1);
     pfSize((1.0f + 1.0f), (1.0f + 1.0f));
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    t10 = FUN_0c031036(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
+    t10 = pfOffsetColor(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
     t11 = *(int *)0xC1EE238;
     *(unsigned int *)0xC1EE238 = (t11 + 0x1);
     return t10;
@@ -483,7 +483,7 @@ int menuEnterStep(void)
                     *(unsigned int *)(((((t5 + 0x1) << 2) + 0xC2A11DC) + 0x0)) = 0x0;
                     t6 = *(int *)0xC2A11EC;
                     if ((t6 & 1) != 0) {
-                        FUN_0c03f912();
+                        menuGoBack();
                     }
                     t9 = *(int *)0xC2A11EC;
                     *(unsigned int *)0xC2A11EC = ((t9 & 0xFFFFFFF6) | 0x2);
@@ -509,7 +509,7 @@ int menuEnterStep(void)
     return t23;
 }
 
-int FUN_0c03f912(void)
+int menuGoBack(void)
 {
     int t0;
     int t1;
@@ -539,7 +539,7 @@ int FUN_0c03f912(void)
                     t6 = *(int *)0xC2A11BC;
                     syCfgSetSoundMode(t6);
                 }
-                return FUN_0c040b98(0x1);
+                return callSaveData(0x1);
             }
             return t3;
         }
@@ -549,7 +549,7 @@ int FUN_0c03f912(void)
             t11 = *(int *)0xC2A11BC;
             syCfgSetSoundMode(t11);
         }
-        return FUN_0c040b98(0x1);
+        return callSaveData(0x1);
     }
     return (t1 - 2);
 }
@@ -702,16 +702,16 @@ void GoiTool(int a4)
         *(unsigned int *)0xC0F2B30 = 0xFFFFFFFF;
         *(unsigned int *)0xC0F2B34 = 0x0;
         *(unsigned int *)0xC0F2B3C = 0x0;
-        FUN_0c04a4d6(0xFFFFFFFF, 0x0);
-        FUN_0c04a52a(0x0);
-        FUN_0c04a8b6(0x0);
-        FUN_0c04aac6(0x0);
-        FUN_0c04af54(0x0);
-        FUN_0c03933e();
+        goiToolPointEntry(0xFFFFFFFF, 0x0);
+        goiToolCourseMap(0x0);
+        goiToolCoursePoint(0x0);
+        goiToolLight(0x0);
+        goiToolCamData(0x0);
+        MotionBlurOff();
         u6 = *(float *)0xC049B48;
         *(float *)0xC2A6298 = u6;
-        FUN_0c03934e(u6);
-        FUN_0c04bb70(0x0);
+        SetMotionBlurStrength(u6);
+        setReplayType(0x0);
         replay(0x1);
         replay(0x5);
         t11 = *(int *)0xC1EE234;
@@ -729,7 +729,7 @@ void GoiTool(int a4)
     }
 }
 
-int FUN_0c04e194(void)
+int PutCourse_Sky(void)
 {
     int t0;
     int t1;
@@ -762,7 +762,7 @@ int FUN_0c04e194(void)
     return t0;
 }
 
-int FUN_0c051c62(void)
+int selectInitIconSprite(void)
 {
     float u0;
     int t1;
@@ -789,7 +789,7 @@ int FUN_0c051c62(void)
 }
 
 
-int FUN_0c059254(void)
+int Init_Result_Parm(void)
 {
     int t0;
     int t1;
@@ -812,23 +812,23 @@ int FUN_0c059254(void)
     } while ((int)t1 < (int)0x8);
     t2 = *(int *)0xC2A7600;
     t3 = *(int *)((t2 + 0x0));
-    FUN_0c057728(0xC2A97AC, t3, 0x8);
+    Money_Array(0xC2A97AC, t3, 0x8);
     t5 = *(int *)0xC1794D0;
     if ((int)t5 > (int)0x3E7) {
         *(unsigned int *)0xC1794D0 = 0x3E7;
     }
     t6 = *(int *)0xC2A7600;
     t7 = *(int *)((t6 + 0x0));
-    t8 = FUN_0c059486(t7, 0x3E7);
+    t8 = Level_Calc(t7, 0x3E7);
     *(unsigned int *)0xC2A97D8 = t8;
     if ((int)t8 <= (int)0x6) {
         *(unsigned int *)0xC2A97A8 = (((((0x6 - t8) << 2) + (0x6 - t8)) << 1) + 0x109);
     } else {
         *(unsigned int *)0xC2A97A8 = 0x145;
     }
-    FUN_0c059310();
-    FUN_0c05af6c();
-    FUN_0c05af86();
+    Init_DramRoll();
+    Init_RS_Light();
+    Init_RS_Fog();
     *(unsigned int *)0xC2A96F4 = 0x0;
     *(unsigned int *)0xC2A9788 = 0x0;
     *(unsigned int *)0xC2A97E0 = 0x0;
@@ -851,7 +851,7 @@ int FUN_0c059254(void)
 }
 
 
-int FUN_0c05da9c(void)
+int Exec_DCmini_Game12(void)
 {
     float u1;
     float u2;
@@ -874,19 +874,19 @@ int FUN_0c05da9c(void)
     *(float *)0xC2A98AC = 1.0f;
     u1 = *(float *)0xC05DB88;
     u2 = *(float *)0xC05DB90;
-    FUN_0c05778a(0xC2A9898, 0x53, u2, u1);
+    nd_SprPut(0xC2A9898, 0x53, u2, u1);
     u4 = *(float *)0xC05DB94;
-    FUN_0c05778a(0xC2A9898, 0x50, u4, u1);
+    nd_SprPut(0xC2A9898, 0x50, u4, u1);
     u6 = *(float *)0xC05DB98;
     nlObjPutSetFadeColor(0.0f, u6, 1.0f);
     u8 = *(float *)0xC05DB9C;
     u9 = *(float *)0xC05DBA0;
-    FUN_0c05778a(0xC2A9898, 0x1E6, u9, u8);
+    nd_SprPut(0xC2A9898, 0x1E6, u9, u8);
     u11 = *(float *)0xC05DBA4;
     u12 = *(float *)0xC05DBA8;
-    FUN_0c05778a(0xC2A9898, 0x1E3, u12, u11);
+    nd_SprPut(0xC2A9898, 0x1E3, u12, u11);
     u14 = *(float *)0xC05DBAC;
-    FUN_0c05778a(0xC2A9898, 0x1E4, u14, u11);
+    nd_SprPut(0xC2A9898, 0x1E4, u14, u11);
     ResetFadeColor();
     t17 = Put_Max_Combo();
     t18 = *(int *)0xC1EE794;
@@ -898,9 +898,9 @@ int FUN_0c05da9c(void)
             t20 = *(int *)0xC2A7614;
             if ((int)t20 >= (int)0x1E) {
                 *(unsigned int *)0xC2A98F4 = t20;
-                FUN_0c05bb24();
+                Start_Excellent();
             } else {
-                FUN_0c05bb76(0x0);
+                Start_Fault(0x0);
             }
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
@@ -1002,7 +1002,7 @@ int GetAverageAngle(int a4, int a5, float f4)
     return t2;
 }
 
-int FUN_0c070bf8(int a4)
+int Psg_IsMotionSetA(int a4)
 {
     int t0;
 
@@ -1073,7 +1073,7 @@ int FUN_0c070bf8(int a4)
     return 0x1;
 }
 
-int FUN_0c070c64(int a4)
+int Psg_CheckCharaBit4(int a4)
 {
     int t0;
 
@@ -1150,7 +1150,7 @@ int FUN_0c070c64(int a4)
     return 0x1;
 }
 
-int FUN_0c071d34(int a4, int a5, int a6, int a7)
+int EndPsg_Start(int a4, int a5, int a6, int a7)
 {
     int t0;
 
@@ -1162,26 +1162,26 @@ int FUN_0c071d34(int a4, int a5, int a6, int a7)
     *(unsigned int *)((t0 + 0x18)) = a7;
     Psg_Init((t0 + 0x1C), a4, a5);
     psgSetState((t0 + 0x1C), 0x3, 0x0, 0x0);
-    FUN_0c070e8a((t0 + 0x1C));
+    psgAllocIpBuff((t0 + 0x1C));
     *(unsigned int *)((t0 + 0x174)) = 0x0;
     *(unsigned int *)((t0 + 0x178)) = 0x0;
     return t0;
 }
 
-int FUN_0c0728c8(void)
+int AreYouBreathing(void)
 {
     int t0;
     int t1;
 
     t0 = 0x0;
     do {
-        t1 = FUN_0c07284e(((signed char)((((t0 << 2) + t0) << 2) << 1) + 0xC2AE710), ((signed char)(((t0 << 1) + t0) << 2) + 0xC0D6134));
+        t1 = breathExecOne(((signed char)((((t0 << 2) + t0) << 2) << 1) + 0xC2AE710), ((signed char)(((t0 << 1) + t0) << 2) + 0xC0D6134));
         t0 = (t0 + 0x1);
     } while ((int)t0 < (int)0x3);
     return t1;
 }
 
-int FUN_0c0738bc(void)
+int BigOneSwims(void)
 {
     int t0;
     float u1;
@@ -1194,7 +1194,7 @@ int FUN_0c0738bc(void)
     u1 = *(float *)0xC07392C;
     u2 = *(float *)0xC179148;
     if (!(u2 > u1)) {
-        return GetRotVec4Ang();
+        return BigOnePut();
     }
     return 0x7C;
 }

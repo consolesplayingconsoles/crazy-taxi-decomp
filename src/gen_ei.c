@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ei): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05778a(int, int, float, float);
+int nd_SprPut(int, int, float, float);
 int FUN_0c074680(void);
 int nlSqrt(int, int);
 int FUN_0c089e00(int);

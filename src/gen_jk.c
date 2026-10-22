@@ -2,13 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c031492(int);
-int FUN_0c05d6e0(void);
-int FUN_0c05d852(void);
-int FUN_0c0618da(void);
-int FUN_0c070ede(int);
-int FUN_0c0714f2(void);
-int FUN_0c07159c(void);
+int SetLandmark(int);
+int Start_Party_Remain_Voice(void);
+int Start_Remain_Icon_Flash(void);
+int Chat_Crush(void);
+int psgFreeIpBuff(int);
+int psgTimeDispInit(void);
+int psgTimeDispExec(void);
 int IsBoyFriend(int, int);
 int Psg_SetPosPtr(int, int);
 int Start_Proposal(int, int);

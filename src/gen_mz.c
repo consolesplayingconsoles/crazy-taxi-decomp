@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_mz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c067a28(void);
-int FUN_0c067a3e(void);
-int FUN_0c067c14(int, int, int, int, int);
+int fcvTranslateCurve(void);
+int fcvRotateCurve(void);
+int fcvSolveIK(int, int, int, int, int);
 float nlFloor(float);
 int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
@@ -71,32 +71,32 @@ int FcvPlay(int a4, int a5, float f4)
     nlPushMatrix(0x0);
     nlPushMatrix(0x0);
     *(volatile int *)((a4 + 0x18));
-    FUN_0c067a28();
+    fcvTranslateCurve();
     nlGetTranslate((((int)stk + 8) + 0x3C));
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     *(volatile int *)((a4 + 0x24));
-    FUN_0c067a28();
+    fcvTranslateCurve();
     nlGetTranslate((((int)stk + 8) + 0x30));
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     *(volatile int *)((a4 + 0x34));
-    FUN_0c067a28();
+    fcvTranslateCurve();
     nlGetTranslate((((int)stk + 8) + 0x24));
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     *(volatile int *)((a4 + 0x40));
-    FUN_0c067a28();
+    fcvTranslateCurve();
     nlGetTranslate((((int)stk + 8) + 0x18));
     nlPopMatrix(0x1);
     *(volatile int *)((a4 + 0x4));
-    FUN_0c067a28();
+    fcvTranslateCurve();
     *(volatile int *)((a4 + 0x8));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     nlRotateAY(0x4000);
     nlPushMatrix(0x0);
     *(volatile int *)((a4 + 0xC));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x20);
     t33 = *(int *)(((t1 + 0x20) + 0x0));
     if (t33 != 0) {
@@ -171,7 +171,7 @@ int FcvPlay(int a4, int a5, float f4)
     nlRotateAZ(0xFFFFC000);
     nlTranslate(0.0f, 4.4849f, 0.0f);
     *(volatile int *)((a4 + 0x10));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x4);
     t125 = *(int *)(((t1 + 0x4) + 0x0));
     if (t125 != 0) {
@@ -429,9 +429,9 @@ int FcvPlay(int a4, int a5, float f4)
     nlTranslate(3.66109991f, 0.055999998f, -1.78759992f);
     nlGetTranslate((((int)stk + 8) + 0xC));
     *(volatile int *)((a4 + 0x14));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x40), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x40), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t208 = *(int *)(((int)stk + 12));
     nlRotateAZ(t208);
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x10);
@@ -499,7 +499,7 @@ int FcvPlay(int a4, int a5, float f4)
     }
     nlTranslate(2.5144999f, 0.0f, 0.0f);
     *(volatile int *)((a4 + 0x1C));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x8);
     t290 = *(int *)(((t1 + 0x8) + 0x0));
     if (t290 != 0) {
@@ -522,9 +522,9 @@ int FcvPlay(int a4, int a5, float f4)
     nlTranslate(3.66109991f, 0.055999998f, 1.78759992f);
     nlGetTranslate((((int)stk + 8) + 0xC));
     *(volatile int *)((a4 + 0x20));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t323 = *(int *)(((int)stk + 12));
     nlRotateAZ(t323);
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x1C);
@@ -580,7 +580,7 @@ int FcvPlay(int a4, int a5, float f4)
     }
     nlTranslate(2.5144999f, 0.0f, 0.0f);
     *(volatile int *)((a4 + 0x28));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x14);
     t390 = *(int *)(((t1 + 0x14) + 0x0));
     if (t390 != 0) {
@@ -596,7 +596,7 @@ int FcvPlay(int a4, int a5, float f4)
     nlPopMatrix(0x2);
     nlGetPushedMatrix(0x0);
     *(volatile int *)((a4 + 0x2C));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x3C);
     t413 = *(int *)(((t1 + 0x3C) + 0x0));
     if (t413 != 0) {
@@ -679,9 +679,9 @@ int FcvPlay(int a4, int a5, float f4)
     nlTranslate(1.1602999f, 0.148599997f, -1.17639995f);
     nlGetTranslate((((int)stk + 8) + 0xC));
     *(volatile int *)((a4 + 0x30));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t518 = *(int *)(((int)stk + 12));
     nlRotateAZ(t518);
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x2C);
@@ -717,7 +717,7 @@ int FcvPlay(int a4, int a5, float f4)
     }
     nlTranslate(4.24659967f, 0.0f, 0.0f);
     *(volatile int *)((a4 + 0x38));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x24);
     t560 = *(int *)(((t1 + 0x24) + 0x0));
     if (t560 != 0) {
@@ -729,9 +729,9 @@ int FcvPlay(int a4, int a5, float f4)
     nlTranslate(1.1602999f, 0.148599997f, 1.17639995f);
     nlGetTranslate((((int)stk + 8) + 0xC));
     *(volatile int *)((a4 + 0x3C));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t575 = *(int *)(((int)stk + 12));
     nlRotateAZ(t575);
     *(unsigned int *)(((int)stk + 8)) = (t1 + 0x38);
@@ -766,7 +766,7 @@ int FcvPlay(int a4, int a5, float f4)
     }
     nlTranslate(4.24659967f, 0.0f, 0.0f);
     *(volatile int *)((a4 + 0x44));
-    FUN_0c067a3e();
+    fcvRotateCurve();
     t616 = *(int *)(((t1 + 0x30) + 0x0));
     if (t616 != 0) {
         t617 = *(int *)(((t1 + 0x30) + 0x0));

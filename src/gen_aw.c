@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_aw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02e2ca(int);
-int FUN_0c03bea0(int, int, int);
-int FUN_0c051746(void);
-int FUN_0c05187a(void);
-int FUN_0c072dd4(void);
+int gdc_VolStreamSong(int);
+int menuChangeValue(int, int, int);
+int selectSetDriverFace(void);
+int selectPlayPickMotion(void);
+int Voice_Init(void);
 int FUN_0c1573a0(void);
 int FUN_0c1573cc(int);
 int FUN_0c1573f2(int, int, int);
@@ -132,8 +132,8 @@ int selectDrawDriver(int a4)
             *(unsigned int *)((((a4 << 2) + 0xC2A7538) + 0x0)) = 0x0;
         }
     } else {
-        FUN_0c051746();
-        FUN_0c05187a();
+        selectSetDriverFace();
+        selectPlayPickMotion();
         t25 = *(int *)0xC2A7518;
         t26 = *(int *)0xC2A751C;
         if (t25 == 3) {

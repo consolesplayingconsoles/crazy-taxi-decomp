@@ -15,9 +15,9 @@ int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutSetReplaceTextureDirName(int, int);
 int nlSetCommonTextureOffset(int);
 extern int nlSprPut();
-int InitSys(int a4, int a5, int a6, float f4, float f5, float f6);
+int PAL_SettingLoop(int a4, int a5, int a6, float f4, float f5, float f6);
 
-int InitSys(int a4, int a5, int a6, float f4, float f5, float f6)
+int PAL_SettingLoop(int a4, int a5, int a6, float f4, float f5, float f6)
 {
     int t4;
     float u5;

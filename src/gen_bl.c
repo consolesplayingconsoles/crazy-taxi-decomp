@@ -7,7 +7,7 @@ int FUN_0c158860(int a4, int a5, int a6);
 void FUN_0c077b50(int a4);
 void FUN_0c079ed0(int a4);
 void nlLoadMatrix(int a4);
-int FUN_0c039434(int a4);
+int PutRenderTexture(int a4);
 
 int FUN_0c158860(int a4, int a5, int a6)
 {
@@ -38,7 +38,7 @@ int FUN_0c158860(int a4, int a5, int a6)
 
 
 
-int FUN_0c039434(int a4)
+int PutRenderTexture(int a4)
 {
     int t0;
     float u1;

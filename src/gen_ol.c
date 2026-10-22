@@ -4,9 +4,9 @@
 int nlRand(void);
 int nlScaleUnitVector(int, int, float);
 int nlSubVector(int, int);
-int FUN_0c057130(int a4, int a5);
+int Init_Time_Spark(int a4, int a5);
 
-int FUN_0c057130(int a4, int a5)
+int Init_Time_Spark(int a4, int a5)
 {
     int t0;
     int t1;

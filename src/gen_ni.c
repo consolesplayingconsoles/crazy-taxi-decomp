@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int End_LoadSave(int);
-int FUN_0c031048(void);
-int FUN_0c041a3e(int);
-int FUN_0c072e36(void);
+int pfOffsetOff(void);
+int AnnounceSecretFlag(int);
+int Voice_Clear(void);
 int LCDAccessOK(void);
 int Sound_Init(void);
 int buStat(int);
@@ -234,16 +234,16 @@ int CheckSoftReset(int a4, int a5)
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     goto L_C041158;
     L_C041158:;
-    FUN_0c072e36();
+    Voice_Clear();
     gdc_StopStreamVoiceAll();
     gdc_StopStreamSongAll();
     Sound_Init();
     *(unsigned int *)0xC2A4E50 = R13;
-    FUN_0c041a3e(0x0);
+    AnnounceSecretFlag(0x0);
     End_LoadSave(0x0);
     End_LoadSave(0x1);
     LCDAccessOK();
-    FUN_0c031048();
+    pfOffsetOff();
     *(unsigned int *)((R11 + 0x0)) = 0x1;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);

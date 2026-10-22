@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 float getNearLineIndex(int, int, int, int);
-float FUN_0c02b146(int a4, int a5, int a6, int a7, float f4);
+float navi_GetRouteDataC(int a4, int a5, int a6, int a7, float f4);
 
-float FUN_0c02b146(int a4, int a5, int a6, int a7, float f4)
+float navi_GetRouteDataC(int a4, int a5, int a6, int a7, float f4)
 {
     int t0;
     int t1;

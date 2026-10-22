@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_ij): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03ccca(int, int, int);
-int FUN_0c03cd2c(int, int, float, float);
-int FUN_0c059486(int, int, int);
+int putDriverName(int, int, int);
+int putRecordFrame(int, int, float, float);
+int Level_Calc(int, int, int);
 int PutStringFixPfont(int, int, float, float, float, float);
 extern int putRecordUnit();
 int putString(int, int, float, float, float);
-void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5);
+void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5);
 
-void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5)
+void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5)
 {
     float u12;
     float u13;
@@ -113,7 +113,7 @@ void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, floa
             t2 = (t0 + 0x1);
         }
         t4 = *(int *)(((int)stk + 20));
-        FUN_0c03cd2c(t2, ((a8 - t4) + 0x1), f4, f5);
+        putRecordFrame(t2, ((a8 - t4) + 0x1), f4, f5);
         u12 = (f4 + 40.0f);
         u13 = (f5 + 19.0f);
     }
@@ -236,7 +236,7 @@ void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, floa
                     t58 = ((int (*)(int, int, int, int, int, float, float))(putRecordUnit))(a4, t56, 0x8, t57, t54, u55, u34);
                     t59 = *(signed char *)((t32 + 0x8));
                     *(volatile float *)(((int)stk + 52));
-                    FUN_0c03ccca(a4, t59, 0x0);
+                    putDriverName(a4, t59, 0x0);
                     if ((int)a5 < 0) {
                         t62 = *(signed char *)((t32 + 0x9));
                         t66 = 0xC0A2044;
@@ -278,7 +278,7 @@ void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, floa
                     } else {
                         t92 = *(signed char *)((t32 + 0x8));
                         *(volatile float *)(((int)stk + 24));
-                        FUN_0c03ccca(a4, t92, 0x0);
+                        putDriverName(a4, t92, 0x0);
                     }
                 }
                 t101 = *(int *)(((int)stk + 8));
@@ -321,7 +321,7 @@ void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, floa
                 } else {
                     t116 = *(int *)(((int)stk + 8));
                     t117 = *(int *)((((((t110 << 1) + t110) << 2) + t116) + 0x0));
-                    t118 = FUN_0c059486(t117, 0x3, 0x4);
+                    t118 = Level_Calc(t117, 0x3, 0x4);
                     t109 = t118;
                     if (t109 == 0x3E7) {
                         t109 = 0x0;
@@ -347,7 +347,7 @@ void FUN_0c03ce68(int a4, int a5, int a6, int a7, int a8, int a9, float f4, floa
                 t133 = ((int (*)(int, int, int, int, int, float, float))(putRecordUnit))(a4, t131, 0x8, 0x1, t129, u132, u111);
                 t134 = *(signed char *)((t109 + 0x8));
                 *(volatile float *)(((int)stk + 56));
-                FUN_0c03ccca(a4, t134, 0x0);
+                putDriverName(a4, t134, 0x0);
                 if ((int)a5 < 0) {
                     t137 = *(int *)(((int)stk + 20));
                     t138 = *(signed char *)((t137 + 0x9));

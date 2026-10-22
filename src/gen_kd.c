@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_kd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
+int GetRotVec4Ang(int, int, int);
 int FUN_0c077210(int, int);
 int GetCollision2D(int, float);
-int Put_Motion2D(int);
+int carBalance(int);
 int calcCheck(int);
 int calcCheckExec(int, int);
 int carColliReflection(void);
@@ -301,7 +301,7 @@ int pcarExec(int a4, int a5, int a6, int a7, float f4)
     *(volatile short *)((R14 + 0xA8));
     t61 = *(short *)((R14 + 0xA6));
     t62 = *(short *)((R14 + 0xA4));
-    FUN_0c036256((R14 + 0x44), (unsigned short)t62, (unsigned short)t61);
+    GetRotVec4Ang((R14 + 0x44), (unsigned short)t62, (unsigned short)t61);
     *(unsigned int *)((R14 + 0x68)) = 0x0;
     t64 = 0x68;
     t65 = 0x0;
@@ -469,7 +469,7 @@ int pcarExec(int a4, int a5, int a6, int a7, float f4)
     *(float *)((R14 + 0xF8)) = (u139 - (u138 * (1.0f + 1.0f)));
     u140 = *(float *)((R14 + 0xF8));
     *(float *)((R14 + 0xF8)) = (u140 * 0.849999964f);
-    t141 = Put_Motion2D(R14);
+    t141 = carBalance(R14);
     t142 = t141;
     R0 = t142;
     goto L_C0467A6;

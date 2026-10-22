@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_at): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c053100(int, int, int, int);
+int Start_Default_Sprite(int, int, int, int);
 int GetMenuMode(int);
 int Sound_Request(int, int);
 int init_GameSystem(void);
@@ -104,7 +104,7 @@ int init_GameSystem(void)
     *(unsigned int *)0xC1EE7E4 = 0x0;
     *(unsigned int *)0xC1EE7E8 = 0x384;
     *(unsigned int *)0xC1EE7F4 = 0x0;
-    FUN_0c053100(0xC1EE794, 0xC1EE798, 0xC1EE7A8, 0xC1EE7AC);
+    Start_Default_Sprite(0xC1EE794, 0xC1EE798, 0xC1EE7A8, 0xC1EE7AC);
     t24 = *(int *)0xC1EE210;
     t25 = *(int *)0xC1EE214;
     t26 = *(int *)(((((t24 + t25) << 2) + 0xC0C3D04) + 0x0));

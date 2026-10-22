@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ai): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c060160(void);
-int FUN_0c0601f0(void);
-int FUN_0c0603a2(void);
+int Exec_FogDensity(void);
+int Exec_FogColor(void);
+int Check_FogArea(void);
 int FUN_0c0813d0(int);
 float nlLength(int, int);
 

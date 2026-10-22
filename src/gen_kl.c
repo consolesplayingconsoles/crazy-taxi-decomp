@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_kl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c038eec(int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05cdb4(void);
-int FUN_0c05fd70(int);
+int ReturnBreakPin(int);
+int nd_SprPut(int, int, float, float);
+int Start_Bowling_Message(void);
+int Start_CrazyBox_Voice(int);
 int ResetFadeColor(void);
 int nlObjPutSetFadeColor(float, float, float);
-int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6);
+int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6);
 
-int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
+int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6)
 {
     int t0;
     int t1;
@@ -158,7 +158,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     return ResetFadeColor();
     L_C05CE90:;
     t6 = *(int *)0xC2A995C;
-    t7 = FUN_0c038eec((((((t6 - 1) << 2) + (t6 - 1)) << 1) + 0x1));
+    t7 = ReturnBreakPin((((((t6 - 1) << 2) + (t6 - 1)) << 1) + 0x1));
     t8 = t7 == 0;
     t9 = t7;
     t10 = 0xC038EEC;
@@ -172,7 +172,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CEA8;
     L_C05CEA8:;
     t13 = *(int *)0xC2A995C;
-    t14 = FUN_0c038eec((((((t13 - 1) << 2) + (t13 - 1)) << 1) + 0x2));
+    t14 = ReturnBreakPin((((((t13 - 1) << 2) + (t13 - 1)) << 1) + 0x2));
     t15 = t14 == 0;
     t16 = t14;
     t17 = ((t14 == 0));
@@ -182,7 +182,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CEBE;
     L_C05CEBE:;
     t18 = *(int *)0xC2A995C;
-    t19 = FUN_0c038eec((((((t18 - 1) << 2) + (t18 - 1)) << 1) + 0x3));
+    t19 = ReturnBreakPin((((((t18 - 1) << 2) + (t18 - 1)) << 1) + 0x3));
     t20 = t19 == 0;
     t21 = t19;
     t22 = ((t19 == 0));
@@ -192,7 +192,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CED4;
     L_C05CED4:;
     t23 = *(int *)0xC2A995C;
-    t24 = FUN_0c038eec((((((t23 - 1) << 2) + (t23 - 1)) << 1) + 0x4));
+    t24 = ReturnBreakPin((((((t23 - 1) << 2) + (t23 - 1)) << 1) + 0x4));
     t25 = t24 == 0;
     t26 = t24;
     t27 = ((t24 == 0));
@@ -202,7 +202,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CEEA;
     L_C05CEEA:;
     t28 = *(int *)0xC2A995C;
-    t29 = FUN_0c038eec((((((t28 - 1) << 2) + (t28 - 1)) << 1) + 0x5));
+    t29 = ReturnBreakPin((((((t28 - 1) << 2) + (t28 - 1)) << 1) + 0x5));
     t30 = t29 == 0;
     t31 = t29;
     t32 = ((t29 == 0));
@@ -212,7 +212,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF00;
     L_C05CF00:;
     t33 = *(int *)0xC2A995C;
-    t34 = FUN_0c038eec((((((t33 - 1) << 2) + (t33 - 1)) << 1) + 0x6));
+    t34 = ReturnBreakPin((((((t33 - 1) << 2) + (t33 - 1)) << 1) + 0x6));
     t35 = t34 == 0;
     t36 = t34;
     t37 = ((t34 == 0));
@@ -222,7 +222,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF16;
     L_C05CF16:;
     t38 = *(int *)0xC2A995C;
-    t39 = FUN_0c038eec((((((t38 - 1) << 2) + (t38 - 1)) << 1) + 0x7));
+    t39 = ReturnBreakPin((((((t38 - 1) << 2) + (t38 - 1)) << 1) + 0x7));
     t40 = t39 == 0;
     t41 = t39;
     t42 = ((t39 == 0));
@@ -232,7 +232,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF2C;
     L_C05CF2C:;
     t43 = *(int *)0xC2A995C;
-    t44 = FUN_0c038eec((((((t43 - 1) << 2) + (t43 - 1)) << 1) + 0x8));
+    t44 = ReturnBreakPin((((((t43 - 1) << 2) + (t43 - 1)) << 1) + 0x8));
     t45 = t44 == 0;
     t46 = t44;
     t47 = ((t44 == 0));
@@ -242,7 +242,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF42;
     L_C05CF42:;
     t48 = *(int *)0xC2A995C;
-    t49 = FUN_0c038eec((((((t48 - 1) << 2) + (t48 - 1)) << 1) + 0x9));
+    t49 = ReturnBreakPin((((((t48 - 1) << 2) + (t48 - 1)) << 1) + 0x9));
     t50 = t49 == 0;
     t51 = t49;
     t52 = ((t49 == 0));
@@ -252,7 +252,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF58;
     L_C05CF58:;
     t53 = *(int *)0xC2A995C;
-    t54 = FUN_0c038eec((((((t53 - 1) << 2) + (t53 - 1)) << 1) + 0xA));
+    t54 = ReturnBreakPin((((((t53 - 1) << 2) + (t53 - 1)) << 1) + 0xA));
     t55 = t54 == 0;
     t56 = t54;
     t57 = ((t54 == 0));
@@ -262,9 +262,9 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     goto L_C05CF6E;
     L_C05CF6E:;
     *(unsigned int *)((R13 + 0x0)) = 0x78;
-    FUN_0c05cdb4();
+    Start_Bowling_Message();
     t59 = *(int *)0xC131204;
-    FUN_0c05fd70((t59 + 0x17));
+    Start_CrazyBox_Voice((t59 + 0x17));
     t61 = *(int *)0xC131204;
     t62 = (int)((int)(t61 + 0x1) % (int)0x3);
     *(unsigned int *)0xC131204 = t62;
@@ -307,7 +307,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     *(float *)((R13 + 0x14)) = F13;
     t77 = *(int *)((R9 + 0x0));
     t78 = *(int *)((((0xC131214 + (short)(((((t77 - 1) << 2) + (t77 - 1)) << 2) << 1)) + R12) + 0x0));
-    t79 = FUN_0c038eec(t78);
+    t79 = ReturnBreakPin(t78);
     t80 = t79 == 0;
     t81 = t79;
     t82 = ((t79 == 0));
@@ -330,7 +330,7 @@ int FUN_0c05ce64(int a4, int a5, float f4, float f5, float f6)
     *(unsigned int *)(((int)stk + 8)) = ((t87 + 0x8) - 8);
     t88 = *(int *)((((t87 + 0x8) - 8) + 0x4));
     t89 = *(int *)((((t87 + 0x8) - 8) + 0x0));
-    t90 = FUN_0c05778a(0xC2A9898, 0x1F6, (float)t89, (float)t88);
+    t90 = nd_SprPut(0xC2A9898, 0x1F6, (float)t89, (float)t88);
     t91 = (int)(R10 + 0x1) < (int)R8;
     t92 = t90;
     t93 = (R10 + 0x1);

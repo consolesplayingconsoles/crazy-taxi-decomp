@@ -4,32 +4,32 @@
 int Chat_Direction(void);
 int Chat_TellDestination(void);
 int Drv_StartAction(int, int, int);
-int FUN_0c0211e0(float, float, float);
-int FUN_0c031492(int);
-int FUN_0c039540(void);
-int FUN_0c039560(void);
-int FUN_0c03a41c(void);
-int FUN_0c03b544(int);
-extern int FUN_0c03b698();
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
-int FUN_0c03dfc8(void);
-int FUN_0c040b00(void);
-int FUN_0c040c58(int);
-int FUN_0c040cea(int);
-int FUN_0c041016(int);
-int FUN_0c05318a(int);
-int FUN_0c05322c(float, float);
-int FUN_0c053236(float, float);
-int FUN_0c053240(float, float, float);
-int FUN_0c05b7f0(int);
-int FUN_0c05d492(void);
-int FUN_0c060586(int, int);
+int carSpreadWheelLoad(float, float, float);
+int SetLandmark(int);
+int ExecRenderTexture1st(void);
+int ExecRenderTexture2nd(void);
+int ExecEndRoll(void);
+int SetScreen(int);
+extern int SetWindow();
+int windowOpenStep(void);
+int windowEnterStep(void);
+int windowClose(void);
+int callBoxAdvice(void);
+int callWarnning(int);
+int CheckBoxFlag(int);
+int GetNowLanguage(int);
+int Start_Pass_Default_Sprite(int);
+int PTime_Pos_Set(float, float);
+int PTime_Scale_Set(float, float);
+int PTime_Color_Set(float, float, float);
+int Init_Window_Sprite(int);
+int Start_PoleMarriageKiss(void);
+int Start_LoadSave(int, int);
 int End_LoadSave(int);
-int FUN_0c061b14(void);
-int FUN_0c070ede(int);
-int FUN_0c071258(int);
-int FUN_0c0713d8(int);
+int Chat_Iraira(void);
+int psgFreeIpBuff(int);
+int psgStepBlend(int);
+int psgUpdatePartTracks(int);
 int FUN_0c074740(void);
 int FUN_0c077170(int, int);
 int nlSqrt(int, int);
@@ -48,7 +48,7 @@ int FcvPlay(int, int, float);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int GetCollisionFirst(int, int);
-int Init_Result(int);
+int replayChangeControl(int);
 int IsBoyFriend(int, int);
 int Psg_SetPosPtr(int, int);
 int PutVM_Message(int, int, int, float, float);
@@ -119,7 +119,7 @@ int vmsio_ismount(int);
 void nlTranslate(float f4, float f5, float f6);
 int FUN_0c074970(void);
 void kmiDACControl(void);
-int FUN_0c059486(int a4);
+int Level_Calc(int a4);
 int DispBackupHeadInfo(int a4, int a5, int a6);
 int mwRnaCreate(int a4, int a5);
 int FUN_0c07bc00(int a4, int a5);
@@ -127,11 +127,11 @@ int colliSphereSphere(int a4, int a5);
 int vmsio_block_write(int a4, int a5, int a6);
 void carResistance(int a4);
 void ExecSpark(void);
-int FUN_0c044c64(int a4);
+int pcarLaneChange(int a4);
 int gameState13(void);
-int FUN_0c03e254(void);
-int FUN_0c07159c(void);
-int FUN_0c03fd2c(void);
+int windowSaveData(void);
+int psgTimeDispExec(void);
+int menuCrazyBoxHandler(void);
 int psgFrameState4(int a4);
 void psgEnterState3(int a4, int a5);
 
@@ -146,7 +146,7 @@ void kmiDACControl(void)
     
 }
 
-int FUN_0c059486(int a4)
+int Level_Calc(int a4)
 {
     int t19;
     int t17;
@@ -1263,7 +1263,7 @@ void ExecSpark(void)
     }
 }
 
-int FUN_0c044c64(int a4)
+int pcarLaneChange(int a4)
 {
     int t0;
     int t105;
@@ -1533,17 +1533,17 @@ int gameState13(void)
 
     t0 = *(int *)0xC1EE240;
     *(unsigned int *)0xC1EE240 = (t0 + 0x1);
-    FUN_0c039540();
-    t2 = Init_Result(0x3);
+    ExecRenderTexture1st();
+    t2 = replayChangeControl(0x3);
     if (t2 == 0) {
         exec_loop_Replay();
     }
-    FUN_0c039560();
-    return FUN_0c03a41c();
+    ExecRenderTexture2nd();
+    return ExecEndRoll();
 }
 
 
-int FUN_0c07159c(void)
+int psgTimeDispExec(void)
 {
     int t0;
     float u5;
@@ -1679,12 +1679,12 @@ int FUN_0c07159c(void)
                     u15 = *(float *)(((((int)stk + 4) + 0x18) + 0x0));
                     *(float *)0xC2AE370 = (u14 + 0.25f * (u15 - u13));
                     u16 = *(float *)0xC2AE36C;
-                    FUN_0c05322c(u16, (u14 + 0.25f * (u15 - u13)));
+                    PTime_Pos_Set(u16, (u14 + 0.25f * (u15 - u13)));
                     t18 = *(int *)0xC1EE7D4;
                     t19 = *(int *)0xC1EE7CC;
                     t22 = 0x44;
                     if ((int)t19 <= (int)t18) {
-                        t20 = FUN_0c053240(1.0f, 0.329999983f, 0.0f);
+                        t20 = PTime_Color_Set(1.0f, 0.329999983f, 0.0f);
                         t21 = *(int *)0xC2AE364;
                         *(unsigned int *)0xC2AE364 = (t21 + 0x1);
                         t22 = t20;
@@ -1714,7 +1714,7 @@ int FUN_0c07159c(void)
                         u38 = *(float *)(((((int)stk + 4) + 0x18) + 0x0));
                         *(float *)0xC2AE370 = (u37 + 0.25f * (u38 - u36));
                         u39 = *(float *)0xC2AE36C;
-                        FUN_0c05322c(u39, (u37 + 0.25f * (u38 - u36)));
+                        PTime_Pos_Set(u39, (u37 + 0.25f * (u38 - u36)));
                         t41 = *(int *)0xC1EE7CC;
                         if ((int)t41 <= 0) {
                             t42 = *(int *)0xC2AE364;
@@ -1775,7 +1775,7 @@ int FUN_0c07159c(void)
                         }
                         u85 = *(float *)0xC2AE380;
                         u86 = *(float *)0xC2AE37C;
-                        t87 = FUN_0c053236(u86, u85);
+                        t87 = PTime_Scale_Set(u86, u85);
                         t88 = t87;
                     }
                     t89 = t88;
@@ -1836,12 +1836,12 @@ int FUN_0c07159c(void)
                 u126 = *(float *)(((((int)stk + 4) + 0x18) + 0x0));
                 *(float *)0xC2AE370 = (u125 + 0.25f * (u126 - u124));
                 u127 = *(float *)0xC2AE36C;
-                FUN_0c05322c(u127, (u125 + 0.25f * (u126 - u124)));
+                PTime_Pos_Set(u127, (u125 + 0.25f * (u126 - u124)));
                 t129 = *(int *)0xC1EE7D4;
                 t130 = *(int *)0xC1EE7CC;
                 t133 = 0x44;
                 if ((int)t130 <= (int)t129) {
-                    t131 = FUN_0c053240(1.0f, 0.329999983f, 0.0f);
+                    t131 = PTime_Color_Set(1.0f, 0.329999983f, 0.0f);
                     t132 = *(int *)0xC2AE364;
                     *(unsigned int *)0xC2AE364 = (t132 + 0x1);
                     t133 = t131;
@@ -1859,11 +1859,11 @@ int FUN_0c07159c(void)
             u141 = *(float *)(((int)stk + 28));
             *(float *)0xC2AE370 = u141;
             u142 = *(float *)0xC2AE36C;
-            FUN_0c05322c(u142, u141);
+            PTime_Pos_Set(u142, u141);
             t144 = *(int *)0xC1EE210;
             t146 = t144;
             if (t144 != 2) {
-                t145 = FUN_0c05318a(0xC1EE7CC);
+                t145 = Start_Pass_Default_Sprite(0xC1EE7CC);
                 t146 = t145;
             }
             t147 = *(int *)0xC2AE364;
@@ -1879,7 +1879,7 @@ int FUN_0c07159c(void)
     return t150;
 }
 
-int FUN_0c03fd2c(void)
+int menuCrazyBoxHandler(void)
 {
     int t0;
     int t1;
@@ -1943,7 +1943,7 @@ int FUN_0c03fd2c(void)
         *(unsigned int *)0xC2A1230 = 0x0;
     }
     t1 = *(int *)0xC2A11C4;
-    t2 = FUN_0c040cea(t1);
+    t2 = CheckBoxFlag(t1);
     t3 = *(signed char *)0xC28A4F6;
     t4 = (t2 << 2);
     if (t3 == 0) {
@@ -1980,12 +1980,12 @@ int FUN_0c03fd2c(void)
         t25 = *(int *)0xC2A11D8;
         t26 = *(int *)((((t25 << 2) + 0xC2A11DC) + 0x0));
         if ((int)t26 < (int)0x2) {
-            FUN_0c05b7f0(0x1);
-            FUN_0c05b7f0(0x2);
+            Init_Window_Sprite(0x1);
+            Init_Window_Sprite(0x2);
         } else {
             if ((int)t26 > (int)0x11) {
-                FUN_0c05b7f0(0x1);
-                FUN_0c05b7f0(0x2);
+                Init_Window_Sprite(0x1);
+                Init_Window_Sprite(0x2);
             } else {
                 t31 = *(int *)0xC2A1ADC;
                 t32 = PutWindow(0x1, (float)(t31 + 0x138), 112.0f);
@@ -2003,7 +2003,7 @@ int FUN_0c03fd2c(void)
                     t43 = *(int *)0xC2A1ADC;
                     t44 = *(int *)0xC2A11D8;
                     t45 = *(int *)((0xC2A11DC + (t44 << 2)));
-                    t46 = FUN_0c041016(0x1);
+                    t46 = GetNowLanguage(0x1);
                     t47 = *(int *)(((0xC0EF6A8 + (((t45 - 2) << 2) << 1)) + (t46 << 2)));
                     menuPutSprites(t47, 0xC2A1A84, (t43 + 0x158), 0xB2);
                 }
@@ -2013,7 +2013,7 @@ int FUN_0c03fd2c(void)
                     if (t53 == 0) {
                         t54 = *(int *)0xC2A11CC;
                         if ((t54 & 1) != 0) {
-                            FUN_0c040b00();
+                            callBoxAdvice();
                         }
                         t57 = *(int *)0xC2A11CC;
                         if ((t57 & 2) != 0) {
@@ -2028,7 +2028,7 @@ int FUN_0c03fd2c(void)
             }
         }
     } else {
-        FUN_0c05b7f0(0x2);
+        Init_Window_Sprite(0x2);
         t72 = *(int *)0xC2A1ADC;
         t73 = PutWindow(0x1, (float)(t72 + 0x138), 112.0f);
         if (t73 == 1) {

@@ -2,10 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int pfCleanString(void);
-int FUN_0c0310ae(int);
+int pfAddChar(int);
 int pfAddNumber(int);
-int FUN_0c04a38a(int, int, int);
-int FUN_0c058b70(int, int, int, float);
+int getShortRootPoint(int, int, int);
+int Model_Put_Sprite3D(int, int, int, float);
 float FUN_0c076200(int, float);
 int FUN_0c077210(int, int);
 int FUN_0c0813d0(int);
@@ -43,17 +43,17 @@ void nlVoidUnitVector(int a4);
 float nlSinf(float f4);
 int FUN_0c07cb70(int a4, int a5, int a6);
 int FUN_0c079980(int a4);
-float FUN_0c020d20(float f4);
-float FUN_0c036378(int a4);
+float carEngineTorque(float f4);
+float CalcHomingAngle(int a4);
 int FUN_0c078480(int a4, int a5);
 int fcvRotate(int a4);
-float FUN_0c04a3d2(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
-int FUN_0c0601f0(void);
-int FUN_0c0397e8(void);
-float FUN_0c034b5e(int a4, int a5, int a6, int a7);
+float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
+int Exec_FogColor(void);
+int PutNameEntryScreen(void);
+float ReflectColliWallBox(int a4, int a5, int a6, int a7);
 int technicalBonusExec(int a4);
 int drvJolt(void);
-int FUN_0c021244(int a4);
+int carLoadTransfer(int a4);
 
 void nlVoidUnitVector(int a4)
 {
@@ -175,7 +175,7 @@ int FUN_0c079980(int a4)
 }
 
 
-float FUN_0c036378(int a4)
+float CalcHomingAngle(int a4)
 {
     int t0;
     int t1;
@@ -365,7 +365,7 @@ int fcvRotate(int a4)
     return t35;
 }
 
-float FUN_0c04a3d2(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
+float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
 {
     int t0;
     int t1;
@@ -395,7 +395,7 @@ float FUN_0c04a3d2(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
     int stk[13] = {0};
 
     *(unsigned int *)(((int)stk + 4)) = a7;
-    t0 = FUN_0c04a38a(a7, a9, a5);
+    t0 = getShortRootPoint(a7, a9, a5);
     t1 = FUN_0c0813d0(t0);
     if ((int)t1 <= (int)0x1) {
         t2 = nlLength(a6, a8);
@@ -441,7 +441,7 @@ float FUN_0c04a3d2(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
     return u25;
 }
 
-int FUN_0c0601f0(void)
+int Exec_FogColor(void)
 {
     int t0;
     int t1;
@@ -535,7 +535,7 @@ int FUN_0c0601f0(void)
     return 0xC;
 }
 
-int FUN_0c0397e8(void)
+int PutNameEntryScreen(void)
 {
     float u2;
     int t3;
@@ -610,7 +610,7 @@ int FUN_0c0397e8(void)
     return t15;
 }
 
-float FUN_0c034b5e(int a4, int a5, int a6, int a7)
+float ReflectColliWallBox(int a4, int a5, int a6, int a7)
 {
     float u0;
     int t1;

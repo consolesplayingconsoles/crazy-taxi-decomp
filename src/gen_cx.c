@@ -3,7 +3,7 @@
 
 int FUN_0c0108ea(int, int);
 int FUN_0c0113b4(int);
-int FUN_0c0606e2(int, int);
+int lcdFillData(int, int);
 float FUN_0c087ed4(void);
 int memmove(int, int, int);
 int menuCursor(int, int, int);
@@ -21,8 +21,8 @@ int FUN_0c156934(int a4, int a5, int a6, int a7);
 float FUN_0c087e40(void);
 int FUN_0c0103aa(int a4, int a5);
 int FUN_0c087db4(int a4, int a5, int a6);
-int FUN_0c040192(void);
-int FUN_0c06045c(void);
+int menuOptionHandler(void);
+int Exec_LCD(void);
 int FUN_0c010a98(void);
 int FUN_0c0115ba(void);
 
@@ -141,7 +141,7 @@ int FUN_0c087db4(int a4, int a5, int a6)
     return t20;
 }
 
-int FUN_0c040192(void)
+int menuOptionHandler(void)
 {
     int t1;
     int t2;
@@ -182,7 +182,7 @@ int FUN_0c040192(void)
     return menuEnterStep();
 }
 
-int FUN_0c06045c(void)
+int Exec_LCD(void)
 {
     int t0;
     int t1;
@@ -207,7 +207,7 @@ int FUN_0c06045c(void)
             t5 = *(int *)((t4 + 0x30));
             t6 = *(int *)((t5 + 0x0));
             if ((t6 & 4) != 0) {
-                FUN_0c0606e2(0x0, (((t2 << 1) + (t2 << 2)) + t3));
+                lcdFillData(0x0, (((t2 << 1) + (t2 << 2)) + t3));
                 t8 = *(int *)0xC2A9FAC;
                 t9 = (int)((int)t8 % (int)0x4);
                 if ((int)t9 < (int)0x2) {

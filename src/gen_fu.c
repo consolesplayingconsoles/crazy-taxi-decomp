@@ -12,12 +12,12 @@ int kmSetVSyncCallback(int, int);
 int memmove(int, int, int);
 int memset(int, int, int);
 int thunk_mwRnaCreate(int, int);
-int FUN_0c041b04(int a4, int a5);
+int CheckSecretFlag(int a4, int a5);
 int FUN_0c151cac(int a4, int a5, int a6);
 int buMakeBackupFileImage(int a4, int a5);
 void syChainDeleteHandler(int a4);
 
-int FUN_0c041b04(int a4, int a5)
+int CheckSecretFlag(int a4, int a5)
 {
     int t2;
     int t3;

@@ -2,14 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckClipping(float);
-int CourseSplineGet(int);
 int CourseSplineNumGet(int);
-int FUN_0c02eb86(int, int, float);
-int FUN_0c04e194(void);
+int CourseSplineGet(int);
+int gdc_CoursePut(int, int, float);
+int PutCourse_Sky(void);
 float FUN_0c089de0(int);
 int PutCourse_CheckPiece(int, int, int, int, float, float, float);
 int Put_Build_Patch(void);
-int SetMVShadow(void);
+int Put_Course_Obj_Dist(void);
 int findSplineSection(int, int, int);
 int getAreaFromPos(int, int);
 int getNearLineIndex(int, int, int, int);
@@ -396,7 +396,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F5 = f5;
     F6 = f6;
     L_C04D6F4:;
-    FUN_0c04e194();
+    PutCourse_Sky();
     t1 = *(int *)0xC1EE20C;
     t2 = t1 == 0;
     t3 = t1;
@@ -434,11 +434,11 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     u15 = *(float *)0xC1798A4;
     t16 = FUN_0c089de0((((int)(((u15 * 32768.0f) / 360.0f) + 0.5f) & 0xFFFF) + 0x1));
     *(float *)0xC2A6AC8 = (1.0f / t16);
-    t17 = CourseSplineGet(0x0);
+    t17 = CourseSplineNumGet(0x0);
     t18 = t17;
-    t19 = CourseSplineNumGet(0x0);
+    t19 = CourseSplineGet(0x0);
     getNearLineIndex(0x0, t19, t18, 0xC2A6EC0);
-    SetMVShadow();
+    Put_Course_Obj_Dist();
     t22 = *(int *)0xC1EE214;
     t23 = t22 == 0;
     *(unsigned int *)(((int)stk + 76)) = t8;
@@ -629,7 +629,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     nlProjectScreen3D((((int)stk + 44) + 0x10));
     t46 = *(int *)((R14 + 0x0));
     t47 = *(int *)(((t46 << 2) + 0xC0C835C));
-    t48 = FUN_0c02eb86(t47, 0x0, 1000000.0f);
+    t48 = gdc_CoursePut(t47, 0x0, 1000000.0f);
     *(unsigned int *)(((int)stk + 76)) = *(int *)((int)stk + 76);
     *(unsigned int *)(((int)stk + 72)) = *(int *)((int)stk + 72);
     *(unsigned int *)(((int)stk + 68)) = *(int *)((int)stk + 68);
@@ -733,7 +733,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t72) goto L_C04E0BE;
     goto L_C04E0B6;
     L_C04E0B6:;
-    FUN_0c02eb86(R13, 0x0, F15);
+    gdc_CoursePut(R13, 0x0, F15);
     *(unsigned int *)(((int)stk + 76)) = *(int *)((int)stk + 76);
     *(unsigned int *)(((int)stk + 72)) = *(int *)((int)stk + 72);
     *(unsigned int *)(((int)stk + 68)) = *(int *)((int)stk + 68);
@@ -841,7 +841,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t93) goto L_C04E040;
     goto L_C04E038;
     L_C04E038:;
-    FUN_0c02eb86(R13, 0x0, F15);
+    gdc_CoursePut(R13, 0x0, F15);
     *(unsigned int *)(((int)stk + 76)) = *(int *)((int)stk + 76);
     *(unsigned int *)(((int)stk + 72)) = *(int *)((int)stk + 72);
     *(unsigned int *)(((int)stk + 68)) = *(int *)((int)stk + 68);
@@ -880,7 +880,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     *(float *)(((int)stk + 80)) = F15;
     *(float *)(((int)stk + 76)) = F14;
     *(float *)(((int)stk + 72)) = F13;
-    SetMVShadow();
+    Put_Course_Obj_Dist();
     t105 = *(int *)0xC2A6EBC;
     t106 = getAreaFromPos(0xC179840, t105);
     t107 = (int)t106 < 0;
@@ -1249,7 +1249,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t157) goto L_C04DD82;
     goto L_C04DD7A;
     L_C04DD7A:;
-    FUN_0c02eb86(R12, R13, F14);
+    gdc_CoursePut(R12, R13, F14);
     *(unsigned int *)(((int)stk + 60)) = *(int *)((int)stk + 60);
     *(unsigned int *)(((int)stk + 56)) = *(int *)((int)stk + 56);
     *(unsigned int *)(((int)stk + 52)) = *(int *)((int)stk + 52);
@@ -1290,7 +1290,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t160) goto L_C04DD94;
     goto L_C04DD8C;
     L_C04DD8C:;
-    FUN_0c02eb86(R12, R13, F14);
+    gdc_CoursePut(R12, R13, F14);
     *(unsigned int *)(((int)stk + 60)) = *(int *)((int)stk + 60);
     *(unsigned int *)(((int)stk + 56)) = *(int *)((int)stk + 56);
     *(unsigned int *)(((int)stk + 52)) = *(int *)((int)stk + 52);
@@ -1360,7 +1360,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t166) goto L_C04DDB0;
     goto L_C04DDA8;
     L_C04DDA8:;
-    FUN_0c02eb86(R12, R13, F14);
+    gdc_CoursePut(R12, R13, F14);
     *(unsigned int *)(((int)stk + 60)) = *(int *)((int)stk + 60);
     *(unsigned int *)(((int)stk + 56)) = *(int *)((int)stk + 56);
     *(unsigned int *)(((int)stk + 52)) = *(int *)((int)stk + 52);
@@ -1652,7 +1652,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C04DEEA;
     L_C04DEEA:;
     t200 = nlLength((((int)stk + 24) + 0x20), 0xC179840);
-    t201 = FUN_0c02eb86(0x6F, 0x1, t200);
+    t201 = gdc_CoursePut(0x6F, 0x1, t200);
     *(unsigned int *)(((int)stk + 60)) = *(int *)((int)stk + 60);
     *(unsigned int *)(((int)stk + 56)) = *(int *)((int)stk + 56);
     *(unsigned int *)(((int)stk + 52)) = *(int *)((int)stk + 52);
@@ -1765,7 +1765,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 24) + 0x20)) = *(struct mv3 *)((((((t214 << 2) + t214) << 2) + t215) + 0x4)); }
     t216 = nlLength((((int)stk + 24) + 0x20), 0xC179840);
     t217 = *(int *)((R13 + 0x0));
-    t218 = FUN_0c02eb86(t217, 0x0, t216);
+    t218 = gdc_CoursePut(t217, 0x0, t216);
     *(unsigned int *)(((int)stk + 60)) = *(int *)((int)stk + 60);
     *(unsigned int *)(((int)stk + 56)) = *(int *)((int)stk + 56);
     *(unsigned int *)(((int)stk + 52)) = *(int *)((int)stk + 52);
@@ -1844,9 +1844,9 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     u234 = *(float *)0xC1798A4;
     t235 = FUN_0c089de0((((int)(((u234 * 32768.0f) / 360.0f) + 0.5f) & 0xFFFF) + 0x1));
     *(float *)0xC2A6AC8 = (1.0f / t235);
-    t236 = CourseSplineGet(0x0);
+    t236 = CourseSplineNumGet(0x0);
     t237 = t236;
-    t238 = CourseSplineNumGet(0x0);
+    t238 = CourseSplineGet(0x0);
     getNearLineIndex(0x0, t238, t237, 0xC2A6EC0);
     t240 = findSplineSection(0xC124358, 0xC0C8410, 0xC2A6EC0);
     t241 = t240 != -1;
@@ -1879,7 +1879,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     return R0;
     L_C04D7DC:;
     getPieceWindow((((int)stk + 4) + 0x28), 0xC1243F8, 0xC0C8410);
-    SetMVShadow();
+    Put_Course_Obj_Dist();
     t246 = *(int *)((R8 + 0x60));
     t247 = (int)t246 <= (int)0x32;
     *(unsigned int *)(((int)stk + 48)) = *(int *)((int)stk + 48);
@@ -2164,7 +2164,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t293) goto L_C04DBDA;
     goto L_C04DBD2;
     L_C04DBD2:;
-    t295 = FUN_0c02eb86(R8, 0x1, F15);
+    t295 = gdc_CoursePut(R8, 0x1, F15);
     *(unsigned int *)(((int)stk + 48)) = *(int *)((int)stk + 48);
     *(unsigned int *)(((int)stk + 44)) = *(int *)((int)stk + 44);
     *(unsigned int *)(((int)stk + 40)) = *(int *)((int)stk + 40);
@@ -2292,7 +2292,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C04DB2C;
     L_C04DB2C:;
     t320 = *(int *)(((int)stk + 20));
-    FUN_0c02eb86(t320, 0x1, F15);
+    gdc_CoursePut(t320, 0x1, F15);
     *(unsigned int *)(((int)stk + 48)) = *(int *)((int)stk + 48);
     *(unsigned int *)(((int)stk + 44)) = *(int *)((int)stk + 44);
     *(unsigned int *)(((int)stk + 40)) = *(int *)((int)stk + 40);
@@ -2359,7 +2359,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C04D9EE;
     L_C04D9EE:;
     t339 = *(int *)(((int)stk + 20));
-    FUN_0c02eb86(t339, 0x0, F15);
+    gdc_CoursePut(t339, 0x0, F15);
     *(unsigned int *)(((int)stk + 48)) = *(int *)((int)stk + 48);
     *(unsigned int *)(((int)stk + 44)) = *(int *)((int)stk + 44);
     *(unsigned int *)(((int)stk + 40)) = *(int *)((int)stk + 40);
@@ -2483,7 +2483,7 @@ int PutCourse(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C04D934;
     L_C04D934:;
     t363 = *(int *)(((int)stk + 20));
-    FUN_0c02eb86(t363, 0x0, F15);
+    gdc_CoursePut(t363, 0x0, F15);
     *(unsigned int *)(((int)stk + 48)) = *(int *)((int)stk + 48);
     *(unsigned int *)(((int)stk + 44)) = *(int *)((int)stk + 44);
     *(unsigned int *)(((int)stk + 40)) = *(int *)((int)stk + 40);

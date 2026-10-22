@@ -5,11 +5,11 @@ int ADXRNA_GetNumData(void);
 int ADXRNA_SetPlaySw(void);
 int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int, int);
-int FUN_0c05a742(void);
+int Result_Class_Shadow_Put(void);
 int nlObjPutSetLightDirectionV(int a4);
 int adxt_stat_decend(int a4);
 
-int FUN_0c05a742(void)
+int Result_Class_Shadow_Put(void)
 {
     float u1;
     int t2;

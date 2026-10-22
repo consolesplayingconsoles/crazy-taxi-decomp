@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_gw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0211e0(float, float, float);
-int FUN_0c071258(int);
-int FUN_0c0713d8(int);
+int carSpreadWheelLoad(float, float, float);
+int psgStepBlend(int);
+int psgUpdatePartTracks(int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int GetAverageAngle(int, int, float);
@@ -132,7 +132,7 @@ int psgFrameState2(int a4)
                     t10 = *(int *)((a4 + 0x10));
                     t11 = GetAverageAngle(t10, t9, 0.199999988f);
                     *(unsigned int *)((a4 + 0x10)) = (short)t11;
-                    FUN_0c071258(a4);
+                    psgStepBlend(a4);
                     psgPutShadow(a4);
                     t14 = *(int *)((a4 + 0x0));
                     FcvPlayBuffer((a4 + 0x3C), t14);
@@ -160,7 +160,7 @@ int psgFrameState2(int a4)
                         u31 = (-u27);
                     }
                     nlTranslate(u29, u30, u31);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     t35 = *(int *)((a4 + 0x0));
                     FcvPlayBuffer((a4 + 0x3C), t35);
                     u37 = *(float *)((a4 + 0x38));
@@ -184,7 +184,7 @@ int psgFrameState2(int a4)
                                                     if ((t41 & 4) != 0) {
                                                         u42 = 0.0f;
                                                     }
-                                                    FUN_0c0211e0(u42, 0.75f, 90.0f);
+                                                    carSpreadWheelLoad(u42, 0.75f, 90.0f);
                                                 }
                                             } else {
                                                 t48 = *(signed char *)((a4 + 0x14B));
@@ -192,7 +192,7 @@ int psgFrameState2(int a4)
                                                 if ((t48 & 4) != 0) {
                                                     u49 = 0.0f;
                                                 }
-                                                FUN_0c0211e0(u49, 0.75f, 60.0f);
+                                                carSpreadWheelLoad(u49, 0.75f, 60.0f);
                                             }
                                         } else {
                                             t55 = *(signed char *)((a4 + 0x14B));
@@ -200,7 +200,7 @@ int psgFrameState2(int a4)
                                             if ((t55 & 4) == 0) {
                                                 u56 = 1.0f;
                                             }
-                                            FUN_0c0211e0(u56, 0.75f, 30.0f);
+                                            carSpreadWheelLoad(u56, 0.75f, 30.0f);
                                         }
                                     }
                                 } else {
@@ -211,7 +211,7 @@ int psgFrameState2(int a4)
                                         if ((t66 & 4) != 0) {
                                             u67 = 0.0f;
                                         }
-                                        FUN_0c0211e0(u67, 0.75f, 90.0f);
+                                        carSpreadWheelLoad(u67, 0.75f, 90.0f);
                                     }
                                 }
                             } else {
@@ -224,7 +224,7 @@ int psgFrameState2(int a4)
                                         if ((t77 & 4) != 0) {
                                             u78 = 0.0f;
                                         }
-                                        FUN_0c0211e0(u78, 0.75f, 90.0f);
+                                        carSpreadWheelLoad(u78, 0.75f, 90.0f);
                                     }
                                 } else {
                                     t84 = *(signed char *)((a4 + 0x14B));
@@ -232,7 +232,7 @@ int psgFrameState2(int a4)
                                     if ((t84 & 4) != 0) {
                                         u85 = 0.0f;
                                     }
-                                    FUN_0c0211e0(u85, 0.75f, 30.0f);
+                                    carSpreadWheelLoad(u85, 0.75f, 30.0f);
                                 }
                             }
                         } else {
@@ -245,7 +245,7 @@ int psgFrameState2(int a4)
                                     if ((t95 & 4) != 0) {
                                         u96 = 0.0f;
                                     }
-                                    FUN_0c0211e0(u96, 0.75f, 90.0f);
+                                    carSpreadWheelLoad(u96, 0.75f, 90.0f);
                                 }
                             } else {
                                 t102 = *(signed char *)((a4 + 0x14B));
@@ -253,7 +253,7 @@ int psgFrameState2(int a4)
                                 if ((t102 & 4) != 0) {
                                     u103 = 0.0f;
                                 }
-                                FUN_0c0211e0(u103, 0.75f, 30.0f);
+                                carSpreadWheelLoad(u103, 0.75f, 30.0f);
                             }
                         }
                     }
@@ -308,13 +308,13 @@ int psgFrameState2(int a4)
             t196 = *(signed char *)((a4 + 0x149));
             if ((t196 & 128) != 0) {
                 psgPutShadow(a4);
-                FUN_0c071258(a4);
+                psgStepBlend(a4);
                 t199 = *(int *)((a4 + 0x0));
                 FcvPlayBuffer((a4 + 0x3C), t199);
             } else {
                 t201 = psgRunToPoint(a4);
                 psgPutShadow(a4);
-                FUN_0c0713d8(a4);
+                psgUpdatePartTracks(a4);
                 u204 = *(float *)((a4 + 0x38));
                 t205 = *(int *)((a4 + 0x34));
                 FcvStoreBuffer(t205, (a4 + 0x3C), u204);
@@ -352,7 +352,7 @@ int psgFrameState2(int a4)
     } else {
         nlPushMatrix(0x0);
         psgPutShadow(a4);
-        FUN_0c0713d8(a4);
+        psgUpdatePartTracks(a4);
         t256 = *(int *)((a4 + 0x0));
         FcvPlayBuffer((a4 + 0x3C), t256);
         u258 = *(float *)((a4 + 0x38));

@@ -11,12 +11,12 @@ int ADXF_OpenAfs(int a, int id);
 int ADXF_ReadNw32(int h, int a, int b);
 void gdc_FileLoad(int where, int name, int size);
 void nlObjPutSetReplaceTextureDirName(int a, int b);
-int FUN_0c02f830(int id);
+int gdc_CourseTexFreeOnce(int id);
 
 #define TEX_LIST        (*(int **)0x0C0EA3D8)           /* 16-byte entries ending at one whose word 2 is -1 */
 
 /* Opens AFS file id on drive 3 and starts reading its first 16 sectors to 0CE98000; -1 when it will not open. */
-int FUN_0c02f220(int id)
+int gdc_LandmarkReq(int id)
 {
     int h, r;
 
@@ -33,14 +33,14 @@ int FUN_0c02f220(int id)
 }
 
 /* Loads the textures of a list of models (ending at 0) from texture id 2000 on. */
-void FUN_0c02f362(int *list)
+void gdc_CourseObjTexLoad(int *list)
 {
     nlSetCommonTextureOffset(2000);
     while (*list)
         nlObjPutLoadTexture(*list++, (int)TEX_LIST);
 }
 
-void FUN_0c02f7e4(void)
+void gdc_CourseTexLoad(void)
 {
     int i;
 
@@ -50,7 +50,7 @@ void FUN_0c02f7e4(void)
 }
 
 /* Frees texture id until the free video memory has grown (1), at most 100 tries (0). */
-int FUN_0c02f830(int id)
+int gdc_CourseTexFreeOnce(int id)
 {
     unsigned int m = texFreeMem();
     int n = 100;
@@ -64,14 +64,14 @@ int FUN_0c02f830(int id)
     return 0;
 }
 
-void FUN_0c02f870(void)
+void gdc_CourseTexFree(void)
 {
     int i;
 
     nlSetCommonTextureOffset(2000);
     if (TEX_LIST) {
         for (i = 0; TEX_LIST[i * 4 + 2] != -1; i++)
-            FUN_0c02f830(2000 + i);
+            gdc_CourseTexFreeOnce(2000 + i);
     }
 }
 

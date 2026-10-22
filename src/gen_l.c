@@ -8,7 +8,7 @@ int kmiDefaultInterruptHandler(int);
 int kmiTXalloc(int, int);
 int kmiVQalloc(int);
 
-int FUN_0c05d82a(void)
+int Init_Remain_Arrow(void)
 {
     int t0;
     int t1;

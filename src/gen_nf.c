@@ -3,7 +3,7 @@
 
 int FUN_0c077210(int, int);
 int FUN_0c078310(void);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int colliBoxAhead(int, int, int);
 int nlAddVector(int, int);
 int nlGetAverageVector(int, int, int, float, float);
@@ -199,7 +199,7 @@ int colliBoxSphere(int a4, int a5, int a6, float f4, float f5)
     nlPushUnitMatrix();
     nlTranslateV(R13);
     t29 = *(int *)(((int)stk + 12));
-    SetCameraPosVelocity(t29);
+    MultiRot4Vec(t29);
     t31 = *(int *)0xC26ECF8;
     nlTranslateV((t31 + 0x60));
     nlPushMatrix(0x0);

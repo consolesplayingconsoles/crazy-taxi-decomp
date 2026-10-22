@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_on): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c034b5e(int, int, int, int);
+int ReflectColliWallBox(int, int, int, int);
 int FUN_0c07b980(void);
 float FUN_0c089de0(int);
 float FUN_0c089de8(int);
@@ -43,7 +43,7 @@ int ColliWallTest(void)
     u10 = *(float *)(((int)stk + 20));
     *(float *)(((int)stk + 12)) = (u10 * 10.0f);
     FUN_0c07b980();
-    FUN_0c034b5e(0xC0ED8DC, 0xC0ED8AC, (((int)stk + 4) + 0xC), 0x0);
+    ReflectColliWallBox(0xC0ED8DC, 0xC0ED8AC, (((int)stk + 4) + 0xC), 0x0);
     nlScaleVector(((int)stk + 4), 0xC0ED8E8, 100.0f);
     FUN_0c07b980();
     nlScaleVector(((int)stk + 4), 0xC0ED8D0, 100000.0f);

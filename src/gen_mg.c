@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_mg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c049b06(void);
+int convergeRotLimit(void);
 int FUN_0c077210(int, int);
 int FUN_0c0813d0(int);
 int Sound_Request(int, int);
@@ -428,7 +428,7 @@ void cableControlExec(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C047F3C:;
     *(volatile int *)((((R14 + 0x48) + (R13 << 2)) + 0x0));
     *(volatile int *)((((R14 + 0x40) + (R13 << 2)) + 0x0));
-    t73 = FUN_0c049b06();
+    t73 = convergeRotLimit();
     *(unsigned int *)(((int)stk + 8)) = t73;
     t74 = FUN_0c0813d0(t73);
     t75 = (int)t74 < (int)0x18;
@@ -531,7 +531,7 @@ void cableControlExec(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C047DE4:;
     *(volatile int *)((((R14 + 0x48) + (R13 << 2)) + 0x0));
     *(volatile int *)((((R14 + 0x40) + (R13 << 2)) + 0x0));
-    t119 = FUN_0c049b06();
+    t119 = convergeRotLimit();
     t120 = *(int *)((((R14 + 0x40) + (R13 << 2)) + 0x0));
     *(unsigned int *)((((R14 + 0x40) + (R13 << 2)) + 0x0)) = (t120 + t119);
     t121 = *(int *)((((R14 + 0x48) + (R13 << 2)) + 0x0));

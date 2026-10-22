@@ -4,12 +4,12 @@
 int CalcShadow4Normal(int, int);
 int CheckClipping(float);
 int CheckClippingProject3D(int, float);
-int FUN_0c043b68(void);
-int FUN_0c049aa8(int, int, float);
-int FUN_0c04a090(int, int, int, int, int);
-int FUN_0c04d49e(int, float, float);
-int FUN_0c05003c(void);
-int FUN_0c067c14(int, int, int, int, int);
+int carBoxVertexInit(void);
+int convergeRot(int, int, float);
+int getNearLinkedLine(int, int, int, int, int);
+int HomingPosX(int, float, float);
+int pedGetSubwayFlag(void);
+int fcvSolveIK(int, int, int, int, int);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c0789c0(int);
@@ -78,14 +78,14 @@ void nlUnitMatrix(void);
 int nlDispStripTexOfsTrnsl(int a4, int a5, int a6);
 int nlObjPutMLPreCalcLightRestore(void);
 int FUN_0c1696c4(int a4);
-int FUN_0c044f12(int a4);
-int FUN_0c031d62(int a4, int a5, int a6);
-int FUN_0c021600(int a4, int a5);
+int pcarRejoinLane(int a4);
+int CheckCollisionPoly(int a4, int a5, int a6);
+int carCorneringForce(int a4, int a5);
 int FUN_0c156f4c(int a4, int a5, int a6);
 int entryCarPut(int a4);
-int FUN_0c051eea(void);
+int selectDrawDriverTiles(void);
 int kmRenderTextureDirect(int a4);
-int carBalance(int a4, float f4);
+int carBalanceRoll(int a4, float f4);
 int crowdSpawn(int a4, int a5, float f4);
 int pedDodgeCheck(int a4, float f4, float f5);
 int SklPlay(int a4, int a5, int a6, int a7);
@@ -140,7 +140,7 @@ int FUN_0c1696c4(int a4)
     return FUN_0c169514(a4);
 }
 
-int FUN_0c044f12(int a4)
+int pcarRejoinLane(int a4)
 {
     int t0;
     int t1;
@@ -182,7 +182,7 @@ int FUN_0c044f12(int a4)
                 *(unsigned int *)((a4 + 0x11C)) = (t2 - 1);
                 t10 = 0x11C;
             } else {
-                FUN_0c04a090(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
+                getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
                 t4 = *(int *)((a4 + 0xD4));
                 t5 = *(int *)((a4 + 0x80));
                 t6 = courseStatusGet(t5, (t4 - 2), 0x0, 0x8);
@@ -228,7 +228,7 @@ int FUN_0c044f12(int a4)
             *(unsigned int *)((a4 + 0x11C)) = (t25 - 1);
             t33 = 0x11C;
         } else {
-            FUN_0c04a090(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
+            getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
             t27 = *(int *)((a4 + 0xD4));
             t28 = *(int *)((a4 + 0x80));
             t29 = courseStatusGet(t28, (t27 - 2), 0x0, 0x8);
@@ -248,7 +248,7 @@ int FUN_0c044f12(int a4)
     return t34;
 }
 
-int FUN_0c031d62(int a4, int a5, int a6)
+int CheckCollisionPoly(int a4, int a5, int a6)
 {
     float t0;
     int t87;
@@ -418,7 +418,7 @@ int FUN_0c031d62(int a4, int a5, int a6)
     return t87;
 }
 
-int FUN_0c021600(int a4, int a5)
+int carCorneringForce(int a4, int a5)
 {
     float u3;
     int t0;
@@ -821,7 +821,7 @@ int entryCarPut(int a4)
         *(float *)0xC2A44C0 = 20.0f;
         *(float *)0xC2A44C4 = -100.0f;
         courseStatusInit(0x0);
-        t6 = FUN_0c043b68();
+        t6 = carBoxVertexInit();
         t55 = t6;
     } else {
         courseStatusInit(0x2);
@@ -946,7 +946,7 @@ int entryCarPut(int a4)
     return t55;
 }
 
-int FUN_0c051eea(void)
+int selectDrawDriverTiles(void)
 {
     int t0;
     int t1;
@@ -1036,7 +1036,7 @@ int FUN_0c051eea(void)
             u5 = *(float *)0xC2A7500;
             *(float *)0xC2A7500 = (u5 + 90.0f);
         } else {
-            FUN_0c04d49e(0xC2A7500, 0.599999964f, 0.0f);
+            HomingPosX(0xC2A7500, 0.599999964f, 0.0f);
         }
     } else {
         if (t3 == 1) {
@@ -1044,14 +1044,14 @@ int FUN_0c051eea(void)
                 u8 = *(float *)0xC2A7500;
                 *(float *)0xC2A7500 = (u8 - 60.0f);
             } else {
-                FUN_0c04d49e(0xC2A7500, 0.599999964f, 0.0f);
+                HomingPosX(0xC2A7500, 0.599999964f, 0.0f);
             }
             u11 = *(float *)0xC2A7508;
             if (0.0f > u11) {
                 u12 = *(float *)0xC2A7508;
                 *(float *)0xC2A7508 = (u12 + (1.0f + 1.0f));
             } else {
-                FUN_0c04d49e(0xC2A7508, 0.599999964f, 0.0f);
+                HomingPosX(0xC2A7508, 0.599999964f, 0.0f);
             }
         }
     }
@@ -1062,7 +1062,7 @@ int FUN_0c051eea(void)
             u19 = *(float *)0xC2A7500;
             *(float *)0xC2A7500 = (u19 + 30.0f);
         } else {
-            FUN_0c04d49e(0xC2A7500, 0.599999964f, 0.0f);
+            HomingPosX(0xC2A7500, 0.599999964f, 0.0f);
         }
         u22 = *(float *)0xC2A7508;
         if (u22 > 0.0f) {

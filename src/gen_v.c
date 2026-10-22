@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_v): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02e83c(int);
+int gdc_CourseBlockFind(int);
 int Init_nd_StartWait(void);
 int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
@@ -13,7 +13,7 @@ int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
 int gdc_CourseReq(int a4, int a5, float f4);
 int Put_Build_Patch(void);
-int FUN_0c050542(void);
+int nd_StartWait_MoveCar(void);
 
 int gdc_CourseReq(int a4, int a5, float f4)
 {
@@ -74,7 +74,7 @@ int gdc_CourseReq(int a4, int a5, float f4)
         t12 = (t12 + t14);
         if ((int)t13 >= (int)0x120) {
             t12 = t10;
-            t18 = FUN_0c02e83c(t12);
+            t18 = gdc_CourseBlockFind(t12);
             t12 = t18;
             if (t18 != -1) {
                 t19 = t12;

@@ -9,8 +9,8 @@ What is known about the game's own code and data, from reading the executable. A
   the table at `0x0C08ACEC`; an empty entry moves on to the next `MainMode` and sets `SubMode`
   (`0x0C1EE238`) to 0. The game's handler (the Android build's `Game`) runs state `SubMode`
   (mod 16) from the table at `0x0C08AE64` (16 entries): `gameState0`-`gameState15`, with `gameStateDrive` (1, driving),
-  `FUN_0c02cd46` (5), `Initialize_Replay` (6) and `exec_loop_Replay` (7, replay) named so far.
-- `gameStateDrive`'s order each frame: `FUN_0c041c14`, `camUpdate`, per-`CourseMode` work (the
+  `gameState5` (5), `Initialize_Replay` (6) and `exec_loop_Replay` (7, replay) named so far.
+- `gameStateDrive`'s order each frame: `Pause_ExecRenderTexture1st`, `camUpdate`, per-`CourseMode` work (the
   Crazy Box: `execMiniLight`), the customers (`exec_KyakuMain`), `ExecSetObject`, `ExecKyakuArea`,
   `ExecHelicopter`, `Act_Execute` (the cab driver), `entryCarPut`, `trafficControl`, `nlExecuteEvent`
   (every event, so the traffic executors run on the `playerEV` point `trafficControl` has just
@@ -36,8 +36,8 @@ What is known about the game's own code and data, from reading the executable. A
   `MiniGame_No` (`0x0C1EE214`). `menuSetMode` (`0x0C03F89A`, a callback in the
   menu's handler table at `0x0C09DE08`; static in the Android build) applies the choice at
   `0x0C03F8E2`-`0x0C03F8FA`: `MiniGame_No` = item - 2, then `CourseMode` = the chosen mode (Crazy Box game 15
-  gives 0). That store (`0x0C03F8FA`) is the only place `CourseMode` becomes 2: `gameInit`,
-  `FUN_0c02bc24`, `FUN_0c03df1a` and `callGoBackAdvertise` (back to the attract demo) only write 0.
+  gives 0). That store (`0x0C03F8FA`) is the only place `CourseMode` becomes 2: `InitSys`,
+  `AdvNextCourseMode`, `windowReturn` and `callGoBackAdvertise` (back to the attract demo) only write 0.
 - The menu state (`0x0C2A11D8`): `+0` the depth, then one selected item per depth (`+4` the mode,
   0 Arcade, 1 Original, 2 Crazy Box; `+8` the item on the next screen). `menuSetMode` reads both:
   `Game_No` = the mode, and for the Crazy Box `MiniGame_No` = `+8` - 2.
@@ -46,7 +46,7 @@ What is known about the game's own code and data, from reading the executable. A
   `menuCursorBox(menu, 19, skip)`; `menuCursor(menu, count, skip)` (`0x0C03BB48`) is the plain
   list version the other menus use. Both wrap around and step over every item whose bit is set
   in `skip`. This screen's `skip` is `0x3FFFE` (only item 0) while the byte `0x0C28A4F6` is 0,
-  otherwise the locked games (`FUN_0c040cea`) shifted up by 2.
+  otherwise the locked games (`CheckBoxFlag`) shifted up by 2.
 - The driving frame (state 1, `0x0C02C9C0`) branches on `CourseMode`: with 2 it calls
   `FUN_0c05dea8` (lighting per mini game, `LightEffect`) and skips the crowd (`crowdSpawn`).
   `Init_DCmini` registers the mini game's tasks; functions reached only from `Init_DCmini` and
@@ -54,8 +54,8 @@ What is known about the game's own code and data, from reading the executable. A
   that run or `Init_DCmini` (`0x0C05B404`-`0x0C05B7A8`) loads from or branches into them.
 - Crazy Box code runs behind `Game_No == 2` (`gameState0`, the set-up: `Init_DCmini` and
   `gdc_CourseStartLoadReq`; the driving frame: `execDCmini` (`0x0C05B914`), the mini game's update and 2D
-  overlay, by `MiniGame_No`; the six functions at `0x0C05BE5C`-`0x0C05C72E`, `FUN_0c05be5c` to
-  `FUN_0c05c614`, are reached only from it) and `CourseMode == 2` checks spread through the game
+  overlay, by `MiniGame_No`; the six functions at `0x0C05BE5C`-`0x0C05C72E`, `Put_JumpDistance` to
+  `Exec_DCmini_Game4`, are reached only from it) and `CourseMode == 2` checks spread through the game
   (`IsBoyFriend`, `GetNumRideon`, `Start_Proposal`, the passenger mini game branches).
 
 ## Boot
@@ -70,8 +70,8 @@ What is known about the game's own code and data, from reading the executable. A
 
 | file | loaded at | by |
 |---|---|---|
-| `polDC0.BIN` | `0x0C390000` | `gameInit` (models shared by every city: humans, cars) |
-| `texDC0.BIN` | | `gameInit` |
+| `polDC0.BIN` | `0x0C390000` | `InitSys` (models shared by every city: humans, cars) |
+| `texDC0.BIN` | | `InitSys` |
 | `polDC1-3.BIN` | `0x0C5E0000` | `loadCity(city)`, city 0-2 |
 | `objDC1-3.BIN` | `0x0CE90000` | `loadCity` |
 | `splDC1-3.bin` | `0x0C328000` | `loadCity` |
@@ -167,12 +167,12 @@ running Arcade game):
   known here: `nlObjPut`, `nlObjPutSetFadeColor*`, `nlObjPutSetGlobalAmbience`, `nlObjPutSetLightDirectionV`). Translucent
   models have their own entries: `nlObjPutTrnsl` (`0x0C07AD30`) and `nlObjPutUseViewMatrixTrnsl` (`0x0C07AD70`), drawing through
   `nlobjput_sub_trnsl` (`0x0C07B3B0`). The Android build's name `nlObjPutUseViewMatrix` had been put on `0x0C067A28` (22 bytes:
-  a vector from `FUN_0c0678a4`, then `nlTranslateV`), which is not it: that function is `FUN_0c067a28` again.
+  a vector from `fcvCalcPosition`, then `nlTranslateV`), which is not it: that function is `fcvTranslateCurve` again.
 `gdc_FileLoad(where, name, size)` (`0x0C02DEFE`) reads a whole file when `size` is 0 (ADXF, waits
-for the read). Memory: `gameInit` loads `polDC0.BIN` at `0x0C390000` (2,358,960 bytes, ending at
+for the read). Memory: `InitSys` loads `polDC0.BIN` at `0x0C390000` (2,358,960 bytes, ending at
 `0x0C5CFEB0`), 65,872 bytes below the city models at `0x0C5E0000`; `0x0C5E0000`-`0x0C880000` holds the
 city's models and its streamed pieces; `motDC.BIN` from `0x0C880000`; sprites at `0x0CB40000`
-(`gdc_SpriteSetAdv`). The game's heap (`nlMalloc`, the events') is 0x30000 bytes (`gameInit`'s
+(`gdc_SpriteSetAdv`). The game's heap (`nlMalloc`, the events') is 0x30000 bytes (`InitSys`'s
 `nlInitHeapMemory` call). Shinobi's `malloc` (`0x0C14F61C`) is never set up: it calls through the
 interface word at `0x0C2B9334`, which stays 0, so calling it hangs.
 
@@ -234,7 +234,7 @@ appends it to the task list: `+0x04` previous, `+0x08` next, `+0x0C` callback, `
   `0x0CB17990` and `0x0CB035F0` (71 frames) barely move, the others gesture.
   There is no walk cycle: people stand, wave and jog. The crowd (`pedDraw`) takes its motions from
   the same sets, standing idles from the table at `0x0C0D6158` and the jog clips from `0x0C0D61AC`.
-  `0x0CA64554` / `0x0CA6A230` (in place, 60 frames) are the two tennis players `FUN_0c072348`
+  `0x0CA64554` / `0x0CA6A230` (in place, 60 frames) are the two tennis players `DrawTennisPlayers`
   draws (character `0x10`, table `0x0C13F4C4`).
 
 ## Skeleton and motions
@@ -247,7 +247,7 @@ Dreamcast functions sit in the same order, and the Android `VSklPlay` reads like
 |---|---|---|---|---|
 | V (`motDC.BIN`): rotation matrices | `VSklPlay` = `humanDraw` (`0x0C069800`) | `VSklIpPlay` (`0x0C06A204`) | `VSklSfPlay` (`0x0C06AF44`) | crowd, customers, tennis players |
 | Skl: `s16` Euler angles | `SklPlay` (`0x0C067DE0`) | `SklIpPlay` (`0x0C068730`) | `SklSfPlay` (`0x0C069590`) | nothing: no call or pointer reaches these three |
-| Fcv: key curves into a pose buffer | `FcvPlayBuffer` (`0x0C066D98`) | `FcvStoreBuffer` fills the buffer | | cab drivers (`Drv_Execute`); `FcvPlay` (`0x0C065E34`) draws a curve motion directly (the running customer) |
+| Fcv: key curves into a pose buffer | `FcvPlayBuffer` (`0x0C066D98`) | `FcvStoreBuffer` fills the buffer | | cab drivers (`Drv_Put`); `FcvPlay` (`0x0C065E34`) draws a curve motion directly (the running customer) |
 
 - Skeleton: 16 bones (a motion's `bones` field is 15 = the last index), the same for every
   character. Only the models differ: `mptbl_All` (`0x0C1331B0`, Android name) holds one pointer per
@@ -317,7 +317,7 @@ Dreamcast functions sit in the same order, and the Android `VSklPlay` reads like
   turn) for `fcvRotate` (`0x0C0695D8`, the same `Rz * Ry * Rx`). `FcvPlayBuffer` places root,
   `[5]`, `nlRotateAY(0x4000)`, then `[6]` torso, `[7]` head (after `nlRotateAZ(-0x4000)`), per arm
   a shoulder turn (`[8]`, `[10]`) then upper arm and forearm bent by `nlRotateAZ` angles from the
-  two-bone solver `FUN_0c067c14` aimed at the target, the hand `[9]`, `[11]`; `[12]` hips; per leg
+  two-bone solver `fcvSolveIK` aimed at the target, the hand `[9]`, `[11]`; `[12]` hips; per leg
   `[13]`, `[15]`, the solver, the foot `[14]`, `[16]`.
 - `nlMultiMatrix` (`0x0C077E40`) and `nlMultiMatrix8` (`0x0C077EA0`): current = current * M (16
   floats, column by column); checked against this game's own bytes.
@@ -365,7 +365,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 | `+0x12C` | counter near the curves of `HitDetectCurve` (`Psg_Continue`) |
 | `+0x134` | vector, zero at init |
 | `+0x140` | `Psg_Init`'s third argument |
-| `+0x148` | flags (bit field): bits 0-2 per character (`FUN_0c070cd0`), bit 3 animation set A |
+| `+0x148` | flags (bit field): bits 0-2 per character (`Psg_GetCharaKind`), bit 3 animation set A |
 | `+0x150` | int; `+0x154` ride-on index (mini games) |
 
 - `Psg_SetPosPtr(p, pos)` / `Psg_SetPosVal(p, x, y, z)` / `Psg_SetPosPtrSet(p, pos)` move a
@@ -407,8 +407,8 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   state 6, a dodge out of its way, after which they wait again where they stand), then the state's frame handler runs from a second table of seven (template at `0x0C0D5F64`,
   Android `0x821540`): `psgFrameState0`-`psgFrameState6`.
 - A customer draws itself in its frame handler (`psgFrameState0` and others): `nlPushMatrix(0)`
-  (a copy of the camera's view matrix), place it in the world (`FUN_0c071048`, or `FUN_0c071104`
-  for the mini game 8 boyfriend, then `FUN_0c070f04` and `FUN_0c0713d8`), then
+  (a copy of the camera's view matrix), place it in the world (`FUN_0c071048`, or `psgFaceBoyFriend`
+  for the mini game 8 boyfriend, then `FUN_0c070f04` and `psgUpdatePartTracks`), then
   `humanDraw(p->motion, p->chara, (int)p->frame, 0)` with the current motion at `+0x34` and the
   float frame at `+0x38`, then `nlPopMatrix(1)`. `nlPushUnitMatrix` (`0x0C0782E0`) pushes an
   identity matrix instead, which drops the camera: anything drawn under it is placed as if the
@@ -427,7 +427,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   (`VSklIpPlay`), the plain case draws with `humanDraw` (the Android build's `VSklPlay`).
   `VSklIpPlay(motion a, frame a, motion b, frame b, weight of b, character, mode)` mixes two poses
   (root included), so it can blend two frames of one motion as well as two motions.
-- Before each draw: `psgFaceTaxi` (or the mini game 8 boyfriend variant `FUN_0c071104`) turns the
+- Before each draw: `psgFaceTaxi` (or the mini game 8 boyfriend variant `psgFaceBoyFriend`) turns the
   heading toward the taxi when standing, and `psgPutShadow` moves the matrix to the customer
   (translate `+0x04`, rotate heading `+ 0x8000`) and draws the shadow (`CalcShadow2Matrix` from
   the ground normal `+0x14`, shadow model `0x0C5AA038`).
@@ -436,8 +436,8 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
 - `0x0C06B9D0` (state 2's entry) was named `VSklPlay` by the first matcher pass; the table and its
   calls show it is not.
 - Animation sets: characters 1-3, 0x18, 0x1A, 0x1F-0x21, 0x23, 0x24, 0x26, 0x29, 0x2A, 0x2C, 0x2E,
-  0x30, 0x31, 0x33, 0x34, 0x37 and 0x39 (`FUN_0c070bf8`, a bit mask in the Android build) play the
-  motions at `0x0C9726F4`, the others those at `0x0C972E68`. `FUN_0c070c64` is a second character
+  0x30, 0x31, 0x33, 0x34, 0x37 and 0x39 (`Psg_IsMotionSetA`, a bit mask in the Android build) play the
+  motions at `0x0C9726F4`, the others those at `0x0C972E68`. `Psg_CheckCharaBit4` is a second character
   list; the Android build replaced it with a table.
 
 - Boarding (`kyakuTaskExec`, `0x0C024878`, phase 1): the request event goes 1 to 3 when the
@@ -475,14 +475,14 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `ACC_BND`, 0 to 1; brake `BRK_ADc` = (left trigger - `BRK_MIN`) / `BRK_BND`, 0 to 1 (the `_AD`
   globals hold the same values before clamping). These three floats are what the taxi drives on.
 - Other readers of `TaxiSW`: `CheckSoftReset` (A+B+X+Y+Start), two cheat code checks (the Android
-  build's `DC_Chari_Command_Check` and `DC_Reverse_Command_Check`; `FUN_0c0511a4` is one of them),
+  build's `DC_Chari_Command_Check` and `DC_Reverse_Command_Check`; `DC_Chari_Command_Check` is one of them),
   menus, the camera, `technicalCheck`.
 
 ## Taxi
 
 - The player's taxi is the struct at `0x0C1790CC` (0x3BC bytes, indexed by player in code that
   takes a car number): `+0x64` (short) the area the crowd spawner reads, `+0x78` position.
-- `FUN_0c0200e4` (`0x0C0200E4`, 772 bytes) is the sibling of `putPlayerCar`: the same matrix calls (`nlPushMatrix`, `nlPopMatrix`, `nlRotateAX/AY/AZ`, `nlSetTranslate`, `nlTranslate`), the same literals (`0x0C1790CC`, `0x0C179488` = DRIVER) and `Put_Motion2D`. The Walking Tour mod hooks it for the four cabbies. It stays unnamed: no original symbol is known for it.
+- `putPlayerCarByView` (`0x0C0200E4`, 772 bytes) is the sibling of `putPlayerCar`: the same matrix calls (`nlPushMatrix`, `nlPopMatrix`, `nlRotateAX/AY/AZ`, `nlSetTranslate`, `nlTranslate`), the same literals (`0x0C1790CC`, `0x0C179488` = DRIVER) and `carBalance`. The Walking Tour mod hooks it for the four cabbies. It stays unnamed: no original symbol is known for it.
 - The player's car is drawn by `putPlayerCar(car)` (`0x0C0203E8`, the car index; called once,
   from `exec_CarMain`), not by `putCarModel`: at its
   position and rotation (`+0x86` yaw, `+0x84`, `+0x88`), with the models in the set `+0x74`
@@ -522,7 +522,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `getCarSpeed` / `setCarSpeed`, `+0x174` there). The car fields are the Android build's offsets
   minus 0x18 (the DC `init_CarMain` uses `0x86`, `0x8C`, `0xF6`, `0xFC` and `0x1A0`).
 - No function moves the player's car once the run has started, except the recovery (inline in
-  the Android build's `exec_CarMain`; on the DC in `FUN_0c0231b4`, `0x0C0234E0`-`0x0C023580`):
+  the Android build's `exec_CarMain`; on the DC in `carGroundCheck`, `0x0C0234E0`-`0x0C023580`):
   when none of the four wheels finds ground (the car is out of the world) it puts the position
   `+0x78` on the nearest course point (`getNearLineIndexAll`, or per mode the nearest of two
   course lines), copies it to `+0x8C`, lifts it by 30 (`+0x7C`), copies `F_ZERO` (`0x0C08AD94`)
@@ -534,17 +534,17 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   between 1 and 5 by the engine's revs. `carRumble` (`0x0C0206DC`) reads the same buttons and
   the stick and ends in `ndPuru2Start` (the Jump Pack).
 
-- The driver in the cab: `Drv_Execute` runs one action function per driver mode (`TaxiDriver`
+- The driver in the cab: `Drv_Put` runs one action function per driver mode (`TaxiDriver`
   `+0x10`, from a table, offset by 10 while flag bit `0x80` is set; `Drv_StartAction(action,
   a, b)` stores it with `a`, `b` at `+0x18`/`+0x1C` and runs the action's set-up,
-  `FUN_0c062096`). 2 is a customer getting in and 4 one getting out (`Psg_Execute`), 5 the "pick
+  `Drv_CallActionStart`). 2 is a customer getting in and 4 one getting out (`Psg_Execute`), 5 the "pick
   someone up" line (`Act_Execute`, when the timer reads 600 or 300 frames); the action changes on
   its own while driving, so it is not a "just driving" signal. The seated driver is drawn by one
   `FcvPlayBuffer(buffer, TaxiDriver + 0)` either way: in driver modes 2 and 4 (and with bit 0 of
   `+0x1DF`) from the animation buffer at `TaxiDriver + 0x28` (call at `0x0C06400E`); otherwise
   `drvJolt` (`0x0C064130`, inline in the Android build) turns the cab's acceleration, in its own
   axes, into a body lean and head turn in the buffer `FcvJoltD` (`0x0C2AD460`) and plays that
-  (call at `0x0C0643F0`). Before either, `Drv_Execute` pushes the car's matrix (`Car_Data + 0xB4`)
+  (call at `0x0C0643F0`). Before either, `Drv_Put` pushes the car's matrix (`Car_Data + 0xB4`)
   and moves to the seat: one x, y, z per cabbie in the car's axes (front is +z), copied every
   frame from `0x0C0D51E8` (4.36, 0, -1.01 / 4.36, 0, -0.12 / 4.36, 0, -1.67 / 4.36, 1.21, 0.73).
   The driver
@@ -553,29 +553,29 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   `0x0C13D404`, chosen by `TaxiDriver + 0x20`), put with `nlObjPutUseViewMatrix`, and only while bit 0 of
   the flags byte `TaxiDriver + 0x1DF` is set: that is the bicycle (the "chari" cheat; setting the bit
   in play puts the driver on a pedalling bike above the seat) (bit 1 is the hold flag the customers read, bit 7 is
-  tested in `Drv_Execute`). `Drv_Init` and the driver's action functions write that byte;
-  `Drv_Execute` only reads it.
+  tested in `Drv_Put`). `Drv_Init` and the driver's action functions write that byte;
+  `Drv_Put` only reads it.
 - The driver's fields by their original labels: the Dec 3, 1999 prototype (HDR-0053 V0.220) still
   has a debug readout ("Beta Version DEBUG ASCII", at `0x0C0614C0` in that build) printing the
   same struct (`0x0C2A9628` there): `+0x00` `ManType`, `+0x04`/`+0x08`/`+0x0C` `pos.x/y/z`,
   `+0x10` `Act`, `+0x14` `Mode`, `+0x18` `ParamA`, `+0x1C` `ParamB`, `+0x20` `Addr`, `+0x24`
   `Frm` (a float), bit 7 of `+0x1DF` `isIp`. They fit the retail code: `Act` is the action
-  `Drv_Execute` runs, `ParamA`/`ParamB` the two arguments `Drv_StartAction` stores, `Addr` the
+  `Drv_Put` runs, `ParamA`/`ParamB` the two arguments `Drv_StartAction` stores, `Addr` the
   model table it picks. Retail and the later prototypes dropped the readout.
 
 - Walls: `CheckColliWall(point, radius)` (`0x0C0341E8`; the point in `r4`, the radius in `fr4`)
   pushes a point out of the walls and poles of its collision grid cell, in place. A wall is a 2D
   line with a height range; it counts only while the point's y is within it (down to `radius`
-  below its bottom). Its callers are `ExecAdvCamera`, `SetObjFly` and `FUN_0c0730b4` (an object
+  below its bottom). Its callers are `ExecAdvCameraRandom`, `SetObjFly` and `BigOneFollowTaxi` (an object
   by the taxi, radius 21); the customers' own movement never calls it. A point at ground height
 with radius 5 (a person) is held back by building walls and poles.
   The wall grid is laid out like the ground grid: header at `0x0C27045C`, cell pointers behind `0x0C270458`; a cell
-  has a halfword count of walls at `+0` and of poles at `+2`, then the pointers (walls first). A wall (`FUN_0c034872`,
+  has a halfword count of walls at `+0` and of poles at `+2`, then the pointers (walls first). A wall (`CheckColliWallSegment`,
   floats): the line `a*x + b*z + d` at `+0`, `+4`, `+16` (the signed distance, so (a, b) is its normal), an end point
   (x, z) at `+8`, `+12`, the top at `+20`, the bottom at `+24` and the length at `+28`. A point at `y` counts only between
   the bottom (less its radius) and the top. Inside the radius of the line and past the end it came for, it is pushed away
   from the end point (type 2); along the wall within its length, along (a, b) (type 1); the push is the radius minus the
-  distance. A pole (`FUN_0c0349d8`): centre (x, z) at `+8`, `+12`, its radius at `+16`, top and bottom at `+20`, `+24`; it
+  distance. A pole (`CheckColliWallPole`): centre (x, z) at `+8`, `+12`, its radius at `+16`, top and bottom at `+20`, `+24`; it
   pushes the point away from the centre by the overlap of the two radii. `CheckColliWall` takes the deepest type 1 push, else
   the nearest type 1 beyond the radius (under twice the radius), else the nearest type 2; the first pole it is inside ends the check.
 
@@ -588,7 +588,7 @@ with radius 5 (a person) is held back by building walls and poles.
   corner are tried); four corners (x, y, z) at `+0x14`, `+0x20`, `+0x2C`, `+0x38`; `+0x44` its kind and `+0x48` its
   shape (3: the first edge is not tested).
 - `GetCollision2D(pos, tol)` (`0x0C031EF4`) is the ground lookup the walker and the passengers use: it turns x and
-  z into a cell, asks every surface of the cell (`FUN_0c032080`: inside the corners, and the height), skips kind 13,
+  z into a cell, asks every surface of the cell (`GetCollision2DHeight`: inside the corners, and the height), skips kind 13,
   and takes the highest surface not above `pos.y` (or the lowest when none is below), then any surface within `tol`
   above it. It returns `0x0C26E478`: x, height, z, the surface's normal at `+0x0C`, its kind at `+0x1C` (-1: no
   ground). `GetCollisionFirst(a, b, radius)` (`0x0C031B6A`) gives the first thing the move a to a + b meets (`0x0C26E458`:
@@ -596,7 +596,7 @@ with radius 5 (a person) is held back by building walls and poles.
   (`0x0C0319B2`) slides a point along a move through several surfaces: each hit moves it to the hit and takes the
   normal part off the rest of the vector, scaled by `1 + bounce * table[kind]` (the kinds' first float at
   `0x0C08F748`, 28 bytes each: kinds 2 and 6 are 1.0, the rest 0); it writes the first hit at `0x0C26E414` and the
-  last at `0x0C26E434` and the kinds met as a bit mask at `0x0C26E454`. Both search through `FUN_0c031c5a`, which
+  last at `0x0C26E434` and the kinds met as a bit mask at `0x0C26E454`. Both search through `FindCollisionHit`, which
   walks up to 10 cells along the move (the cell list at `0x0C26E3A0`, their far-side fractions at `0x0C26E3C8`) and
   stops when the hit found is nearer than the next cell. The walls (`CheckColliWall`, above) are a separate list.
 
@@ -711,7 +711,7 @@ with radius 5 (a person) is held back by building walls and poles.
 - A cable car is a physical car: `cableCarExec` (`0x0C0483E0`) runs only while the player car's
   `+0x64` is 0-5, and does not end its car (no `calcCheckExec` result). Each frame it calls
   `cableCarDrive`, then `carSteering`, `carResistance`, gravity (0.0735 off `+0x9C`), ground from
-  `GetCollision2D`, `carMultiCollision` and `Put_Motion2D`, and `carEntry`.
+  `GetCollision2D`, `carMultiCollision` and `carBalance`, and `carEntry`.
 - `cableCarDrive` (`0x0C046FF8`, ours) follows the course: nearest point (`getNearLineIndex`
   mode 1) into `+0xD4`, an aim 2 points ahead eased in by 0.2 at `+0xE0`, and a speed state in
   `+0x88`: 0 the course's speed (`0x0C0C3F04` by the course's flags & 15), 1-3 slower, 4 and 5
@@ -765,7 +765,7 @@ with radius 5 (a person) is held back by building walls and poles.
   `ColliObj` inside the `_car` (`+0x14`), with its type's collision entry from `carTbl` (`KillColliObj`, `0x0C03313A`, when the bit drops). A traffic executor ends its car with
   `KillColliObj(car + 0x14)`, `nlCloseEvent(car)` and `CarEntryNum` minus one. (`0x0C03313A` was
   first matched as `SetColliObj`; its body is the Android build's `KillColliObj`.) `entryCarPut(0)`
-  also builds (in `FUN_0c043b68`) a collision box per shape from `ColliObjBoxSimpleTbl`
+  also builds (in `carBoxVertexInit`) a collision box per shape from `ColliObjBoxSimpleTbl`
   (`0x0C0ED68C`, 15 entries): half-width, height, front, back (z extents, back negative).
   Entries 0-8 are car-sized (about 9-10 half-width, 20-35 long), 9 van-sized, 10 bus-sized
   (16 x 45 x 87), 11-14 longer still (up to 160). 15 entries for 15 named types: by size
@@ -831,7 +831,7 @@ Code that cannot run once Crazy Box is unreachable (callers all behind `CourseMo
 (the rest of the Crazy Box overlay), `0x0C05D8E8-0x0C05E5CC` (`execMiniLight` and helpers),
 `0x0C05F544-0x0C05FD9C`,
 `0x0C05E8C8-0x0C05EA98`, `0x0C04DF34-0x0C04E194`, `0x0C060930-0x0C060B84`. Live neighbours to keep:
-`FUN_0c05d852` (psgFrame's table) and its pools, `FUN_0c05e5cc` (`PutWindow`), `ndPuru2Reset`'s
+`Start_Remain_Icon_Flash` (psgFrame's table) and its pools, `Put_Window_SpriteXtoY` (`PutWindow`), `ndPuru2Reset`'s
 pool at `0x0C05F532`. `0x0C067DE0-0x0C0695D8` (`SklIpPlay` and a pose player) has no reference in the exe but is not
 used: nothing proves it is never reached through a computed pointer. `gdc_CourseStartLoadReq` is not Crazy Box only (also called from `0x0C02CCD0`,
 `0x0C02CDAE`, `0x0C03E00C`).
@@ -850,8 +850,8 @@ Box (`loadCity`'s argument).
 | `0C010000-0C011C28` | | exe boot block (`0C010100-0C014000` is copied to `0C004000`; the block is reused) |
 | `0C011C28-0C020000` | 58,328 | `0xFFFD` filler in the file; `0C014000-0C020000` (49,152) is outside the boot copy |
 | `0C020000-0C020080` | | real entry (`0C020000` jumps to `0C14AB60`) |
-| `0C020080-0C073050` | | game code |
-| `0C073050-0C089F26` | | NAOMI library and C runtime |
+| `0C020080-0C0739C0` | | game code (it ends with the whale, `BigOnePut`, `BigOneSwimMove`, `BigOneSwims`) |
+| `0C0739C0-0C089F26` | | NAOMI library and C runtime |
 | `0C08A9B8-0C14AB88` | ~770 KB | game data: tables, strings, models' pointer tables |
 | `0C14AB88-0C1789B0` | | Katana SDK libraries |
 | `0C1789C0-0C2B8C40` | 1,311,360 | game BSS (word-cleared by `FUN_0c14ab98`) |
@@ -862,7 +862,7 @@ Box (`loadCity`'s argument).
 | `0C390000-0C5D0000` | 2,359,296 | `POLDC0.BIN` (ends `0C5CFEB0` unrounded); `TEXDC0.BIN` is staged then uploaded |
 | `0C5D0000-0C5E0000` | 65,536 | not used |
 | `0C5E0000-` | | `POLDCn.BIN`: Arcade ends `0C63A800`, Original `0C605800` |
-| `0C640000-0C880000` | 2,359,296 | course pool, 288 blocks of 8192 (`FUN_0c02e800`); also the scratch for AFS headers while a city loads; the last 64 KB takes `SNDDC3.BIN` for a moment at a run's start |
+| `0C640000-0C880000` | 2,359,296 | course pool, 288 blocks of 8192 (`gdc_CourseBlockInit`); also the scratch for AFS headers while a city loads; the last 64 KB takes `SNDDC3.BIN` for a moment at a run's start |
 | `0C880000-0CB39000` | | `MOTDC.BIN` (`0CB39000-0CB40000` unused) |
 | `0CB40000-` | | staging for sound/texture/sprite files (read, uploaded, reused), then `COLDCn.BIN` stays: Arcade ends `0CE4F000`, Original `0CE5E800` |
 | `0CE5E800-0CE90000` | 202,752 | unused in both cities (Arcade: from `0CE4F000`, 266,240) |
@@ -872,7 +872,7 @@ Box (`loadCity`'s argument).
 
 Game BSS: the nlMalloc heap `0C1799E8-0C1A99E8` (0x30000; peak use polled every 5 s: 22,252 B in Arcade, 40,072 B in Original with a fare aboard, 96 events), peripheral buffers `0C1A99F8` and
 `0C1B5A18` (49,184 each), NAOMI library tables `0C1C1E78-0C1EDCE4`, three 67,716-byte buffers from
-`0C1EE824` (`FUN_0c02dfbc`), the course pool table at `0C26C5DC`. Katana's `malloc` is never set up (see Loading).
+`0C1EE824` (`gdc_StreamInit`), the course pool table at `0C26C5DC`. Katana's `malloc` is never set up (see Loading).
 
 ## Small wrappers
 
@@ -903,17 +903,17 @@ Thin game functions around the SDK, named from what they call. Grouped by subsys
   and a hide function (clears the bit). `hudDraw` runs every frame and calls one draw routine per
   set bit; it also prints the cheat-mode labels ("another day", "EXPERT", "no arrows",
   "no destination mark"). `hudInit` clears the HUD state for a run.
-- `hudDraw` draws one element per bit of the flags word `0x0C2A75E0`: `0x01` `Put_Credits`;
-  `0x80` the main game group: `Put_TotalDrum` (the money drum; skipped with bit `0x10000000` or
+- `hudDraw` draws one element per bit of the flags word `0x0C2A75E0`: `0x01` `Put_Time_Count`;
+  `0x80` the main game group: `Put_Pass_Time` (the money drum; skipped with bit `0x10000000` or
   in the Crazy Box) then `hudDrawTime` (the clock: its digits at `0x0C2A8C7C`-`0x0C2A8C84`, the
-  tick sound `0x4A9` when time runs low); `0x100` `FUN_0c056ed8`; `0x400`, `0x800`, `0x1000`
-  (not in the Crazy Box) `FUN_0c055950`, `FUN_0c0558a2`, `FUN_0c055b38`; `0x10`, `0x20`
-  `FUN_0c053ac0`, `FUN_0c053b44`; `0x01000000`, `0x02000000`, `0x04000000` `FUN_0c0572de`,
-  `FUN_0c057388`, `FUN_0c05741c`; `0x10000000` `Put_ReadySetGo`; then the cheat labels.
+  tick sound `0x4A9` when time runs low); `0x100` `Put_Time_Bonus`; `0x400`, `0x800`, `0x1000`
+  (not in the Crazy Box) `hudDrawJudgement`, `hudDrawJudgement2`, `hudDrawPassRanking`; `0x10`, `0x20`
+  `Put_Default2_Sprite`, `Put_Default_Sprite`; `0x01000000`, `0x02000000`, `0x04000000` `Put_ReverseDriving`,
+  `Put_PickUp_Nag`, `Put_OverArea`; `0x10000000` `Put_TimeUp`; then the cheat labels.
 - `hudDrawTime` and the functions only it calls fill `0x0C054E80`-`0x0C055688` (2,056 bytes);
   `hudDraw`'s call (`0x0C052E5E`) is their only way in, and no other code loads from them.
 - The driving frame handler calls `hudDraw` at its very end, after the scene is drawn; another
-  mode's frame (`FUN_0c050f80`) calls it too. No other function loads from `hudDraw`'s bytes
+  mode's frame (`nd_CarSelExec`) calls it too. No other function loads from `hudDraw`'s bytes
   (`0x0C052E1C`-`0x0C05308C`).
 - Bit 25 = "STOP AND PICK UP A CUSTOMER!" (`hudShowPickUpNag` / `hudHidePickUpNag`; voice clip
   188; called every 10 s with an empty cab). Bits 24 and 26 are two more messages with the same
@@ -974,23 +974,23 @@ V1.001, US) and Jan 14, 2000 (MK-51035 V1.005, E, six days before this disc), al
 `0x0C010000`, same compiler and options. Pairing this build's functions with them (allowing for
 moved pools, pool addresses and `bsr` offsets): Jan 14 has 2,109 of 2,167 unchanged, 43 changed
 (mostly constants: a camera script count 9 to 10 in `camPlayScript`, 7 to 8 in `SetStartCamera`,
-a pedestrian case 6 to 7 in `pedDraw`; `gameInit` reworked) and 15 not found as they are
-(`exec_CarMain`, `camUpdate`, `InitAdvCamera`, `gdc_CoursePointLoadReq`, `nd_CarSelMain`
+a pedestrian case 6 to 7 in `pedDraw`; `InitSys` reworked) and 15 not found as they are
+(`exec_CarMain`, `camUpdate`, `InitAdvCamera`, `gdc_CoursePointLoadReq`, `PutLandmark`
 rewritten in the last week). Dec 13: 1,841 unchanged; Dec 3: 1,655, with the customers' frame
-states, `trainCarExec`, `Drv_Execute` and `getNearCoursePoint` much changed. Only Dec 3 has a
+states, `trainCarExec`, `Drv_Put` and `getNearCoursePoint` much changed. Only Dec 3 has a
 debug readout (the driver's field labels, under Taxi); the discs carry no symbols or maps. The
 December builds lack the French, German and Spanish sprite files.
 
 ## The compiler
 
-- **Game code** (`0x0C020000-0x0C073050`) needs Sega's undocumented SHC option **`-extra=a=400`**,
+- **Game code** (`0x0C020000-0x0C0739C0`) needs Sega's undocumented SHC option **`-extra=a=400`**,
   listed as mandatory ("provisional workaround, do not remove") in the Katana SDK 1.0B2 compiler
   notes of April 1998 (`katana/shc/read_1st_j.txt`): it puts a `nop` after every `mov Rm,r0` that
   is not in a branch delay slot (863 of 950 in the game code). With it, plus `-macsave=1` (the game saves MACL, against Sega's advice), SHC 5.1
   Release 11 (SDK R10.1) reproduces game functions: `src/extrand.c` 5 of 6 functions exact (extRand is one register off),
   `src/event.c` 9 of 12. SHC 5.0 Release 28 (SDK 1.0B2, which also accepts `-cpu=sh4`) does
   slightly worse. A game unit's header: `/* @unit <start>-<end> -extra=a=400 -macsave=1 */`.
-- **Naomi library** (`nl*`, `0x0C073050-0x0C07C000`): SHC 5.1 with `-align16` matches
+- **Naomi library** (`nl*`, `0x0C0739C0-0x0C07C000`): SHC 5.1 with `-align16` matches
   (`src/palette.c`). Most of it is hand-written FPU assembly (vector and matrix routines).
 - `src/event.c` and `src/extrand.c` are reference C (no `@unit` header, not built) until all their
   functions match.
@@ -1006,7 +1006,7 @@ December builds lack the French, German and Spanish sprite files.
   0x248; 0x0C9EF530, `FcvStoreBuffer`, 0x0C0D5690, 5.0, 10.0, `Psg_SetMoveSpeed`): code the
   original compiler removed but whose literals it kept, like a block of `psgEnterState2`. Without
   them the pool fits further on and lands after case 1, not case 0. An `if (0)` block does not
-  keep its literals in SHC 5.1. Calling `FUN_0c061b14` in each case (not once after the switch)
+  keep its literals in SHC 5.1. Calling `Chat_Iraira` in each case (not once after the switch)
   was what gave the hoisted address in `r13`.
 - Units (the smallest address ranges no literal-pool load or branch crosses): 161 in the game code,
   86 in the Naomi library.
@@ -1017,8 +1017,8 @@ December builds lack the French, German and Spanish sprite files.
   (`0x0C0569E2`, 134 bytes; its literal pool sits mid-body): it reads the gear through the pointer at
   `0x0C2A8C60` (zero = reverse), plays voice/sound `2985` when the state changes (state word
   `0x0C2A8DE8`), sets the sprite record `0x0C2A892C`'s first word to 17 (D) or 18 (R) and tail-jumps to
-  `nlSprPut` (`0x0C07DF00`); the record is set up in `hudInit`'s `FUN_0c052c9e` (at 580, 420). It is called,
-  by a tail `jmp`, from the end of the HUD elements for flag bits `0x10` (`FUN_0c053ac0`, pool word
-  `0x0C053B40`) and `0x20` (`FUN_0c053b44`, pool word `0x0C053BDC`), so it shows while the Arcade HUD does.
+  `nlSprPut` (`0x0C07DF00`); the record is set up in `hudInit`'s `Init_Shift` (at 580, 420). It is called,
+  by a tail `jmp`, from the end of the HUD elements for flag bits `0x10` (`Put_Default2_Sprite`, pool word
+  `0x0C053B40`) and `0x20` (`Put_Default_Sprite`, pool word `0x0C053BDC`), so it shows while the Arcade HUD does.
   Earlier ruled out: the `D gear` / `R gear` strings are button-hint labels; `carGearbox` has no HUD copy.
 - What each camera mode is, and which one the normal chase camera uses.

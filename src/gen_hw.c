@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 extern int nlSprPut();
-int FUN_0c05614e(void);
+int hudDrawRankDrum(void);
 
-int FUN_0c05614e(void)
+int hudDrawRankDrum(void)
 {
     int t0;
     int t1;

@@ -1,7 +1,7 @@
 /* Small game functions (batch b): print and file-load state resets, course spline tables, HUD flags, audio and
    peripheral queries, state words. Globals are addressed directly where the decomp has no name for them yet. */
 
-void FUN_0c02e90e(void);
+void gdc_CourseBlockReset(void);
 void gdc_FileLoadInitAll(int a);
 int FUN_0c0813e0(void *a, void *b, int n);
 int *pdGetPeripheralInfo(int port);
@@ -9,28 +9,28 @@ int pdVibIsReady(int port);
 int nlRenderTextureInit(int a, int b);
 int nlRenderTextureSet(int a, int b, int c, int d);
 int nlsndSystemControl(int a, int b, int c);
-void FUN_0c051bd6(void);
-void FUN_0c051c22(void);
-void FUN_0c051c62(void);
-void FUN_0c051caa(void);
-void FUN_0c051cea(void);
-void FUN_0c051d38(void);
-void FUN_0c051d44(void);
-void FUN_0c051e4c(void);
-void FUN_0c051eea(void);
-void FUN_0c052138(void);
+void selectInitBarSprite(void);
+void selectInitPanelSprite(void);
+void selectInitIconSprite(void);
+void selectInitTileSprite(void);
+void selectInitFrontSprite(void);
+void selectDrawBar(void);
+void selectDrawPanels(void);
+void selectDrawCarIcons(void);
+void selectDrawDriverTiles(void);
+void selectPutHelpBar(void);
 
 #define HUD_FLAGS       (*(unsigned int *)0x0C2A75E0)
 #define COURSE_TABLE    (*(char **)0x0C2A6690)
 
-void FUN_0c0301bc(int a)
+void gdc_FileLoadSetup(int a)
 {
-    FUN_0c02e90e();
+    gdc_CourseBlockReset();
     gdc_FileLoadInitAll(a);
     *(int *)0x0C26E180 = 1;
 }
 
-void FUN_0c031480(void)
+void InitLandmark(void)
 {
     *(int *)0x0C26E398 = -1;
     *(int *)0x0C0ED2AC = 3;
@@ -70,19 +70,19 @@ void InitRenderTexture1st(void)
     nlRenderTextureSet(0, 120, 512, 512);
 }
 
-void FUN_0c03932e(void)
+void MotionBlurOn(void)
 {
     if (*(int *)0x0C0EE900 != 2)
         *(int *)0x0C0EE900 = 1;
 }
 
-void FUN_0c03933e(void)
+void MotionBlurOff(void)
 {
     if (*(int *)0x0C0EE900 > 0)
         *(int *)0x0C0EE900 = -1;
 }
 
-int FUN_0c03ace8(void)
+int CompBackupBuffer(void)
 {
     return FUN_0c0813e0((void *)0x0C28A4E8, (void *)0x0C28F8A0, 9648) != 0;
 }
@@ -98,7 +98,7 @@ int vibIsReady(void)
 }
 
 /* NowLanguage (0 means the first language); with m, any language but the first reads 1. */
-int FUN_0c041016(int m)
+int GetNowLanguage(int m)
 {
     int v = *(int *)0x0C2A11C0;
 
@@ -129,7 +129,7 @@ void cycleAdvCheck(void)
 }
 
 /* Course i's entry of the 8-byte table at 0C0C832C: its two words to 0C2A6690 and 0C2A6694. */
-void FUN_0c04d1ac(int i)
+void CourseTableSet(int i)
 {
     int *e = (int *)(0x0C0C832C + i * 8);
 
@@ -137,43 +137,43 @@ void FUN_0c04d1ac(int i)
     *(int *)0x0C2A6694 = e[1];
 }
 
-int CourseSplineNumGet(int i)
+int CourseSplineGet(int i)
 {
     return *(int *)(COURSE_TABLE + i * 12);
 }
 
-int CourseSplineGet(int i)
+int CourseSplineNumGet(int i)
 {
     return **(int **)(COURSE_TABLE + i * 12 + 4);
 }
 
-void FUN_0c05308c(int a, int b)
+void Start_Time_Count(int a, int b)
 {
     *(int *)0x0C2A8C4C = a;
     if (!b)
         HUD_FLAGS |= 1;
 }
 
-void FUN_0c0530a0(int m)
+void End_Time_Count(int m)
 {
     if (!m)
         HUD_FLAGS &= ~1u;
 }
 
-void FUN_0c051bc0(void)
+void selectInitSprites(void)
 {
-    FUN_0c051bd6();
-    FUN_0c051c22();
-    FUN_0c051c62();
-    FUN_0c051caa();
-    FUN_0c051cea();
+    selectInitBarSprite();
+    selectInitPanelSprite();
+    selectInitIconSprite();
+    selectInitTileSprite();
+    selectInitFrontSprite();
 }
 
-void FUN_0c051d22(void)
+void selectDrawSprites(void)
 {
-    FUN_0c051d38();
-    FUN_0c051d44();
-    FUN_0c051e4c();
-    FUN_0c051eea();
-    FUN_0c052138();
+    selectDrawBar();
+    selectDrawPanels();
+    selectDrawCarIcons();
+    selectDrawDriverTiles();
+    selectPutHelpBar();
 }

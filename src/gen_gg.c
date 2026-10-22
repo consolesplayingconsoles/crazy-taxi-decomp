@@ -3,9 +3,9 @@
 
 int nlLocate(int, int);
 int nlPrintf(int, ...);
-int FUN_0c04d240(void);
+int Set_AD(void);
 
-int FUN_0c04d240(void)
+int Set_AD(void)
 {
     int t0;
     int t1;

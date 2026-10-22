@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_pn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05322c(float, float);
-int FUN_0c053236(float, float);
-int FUN_0c053240(float, float, float);
-int FUN_0c0714f2(void);
+int PTime_Pos_Set(float, float);
+int PTime_Scale_Set(float, float);
+int PTime_Color_Set(float, float, float);
+int psgTimeDispInit(void);
 
-int FUN_0c0714f2(void)
+int psgTimeDispInit(void)
 {
     float u0;
     float u1;
@@ -22,7 +22,7 @@ int FUN_0c0714f2(void)
     *(float *)0xC2AE384 = 15.0f;
     u0 = *(float *)0xC2AE370;
     u1 = *(float *)0xC2AE36C;
-    FUN_0c05322c(u1, u0);
-    FUN_0c053236(0.5f, 0.5f);
-    return FUN_0c053240(0.899999976f, 0.899999976f, 0.599999964f);
+    PTime_Pos_Set(u1, u0);
+    PTime_Scale_Set(0.5f, 0.5f);
+    return PTime_Color_Set(0.899999976f, 0.899999976f, 0.599999964f);
 }

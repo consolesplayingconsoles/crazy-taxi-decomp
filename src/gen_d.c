@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_d): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c072e36(void);
+int SetScreen(int);
+int SetWindow(int);
+int Voice_Clear(void);
 int Sound_Init(void);
 int gdc_StopStreamSongAll(void);
 int gdc_StopStreamVoiceAll(void);

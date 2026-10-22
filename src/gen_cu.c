@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_cu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
-int FUN_0c04d3ee(int, ...);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05d662(void);
-int FUN_0c05d708(void);
-int FUN_0c05d862(void);
+int windowOpenStep(void);
+int windowEnterStep(void);
+int Current_to_Target_angleY(int, ...);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Count_Remain_Drop(void);
+int Exec_Remain_Arrow(void);
+int Put_Remain_Icon(void);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
@@ -38,9 +38,9 @@ float nlUnitVector(int);
 int nlPow(float f4, float f5);
 int FUN_0c0110e6(void);
 int FUN_0c076f70(void);
-int FUN_0c03ec76(void);
-int FUN_0c05d28e(int a4);
-int FUN_0c0655f0(void);
+int windowNameSelect(void);
+int Exec_DCmini_Game9(int a4);
+int camGetOffShot3(void);
 
 int nlPow(float f4, float f5)
 {
@@ -118,7 +118,7 @@ int FUN_0c076f70(void)
     return ((int (*)(int))(0xC077004))(t0);
 }
 
-int FUN_0c03ec76(void)
+int windowNameSelect(void)
 {
     int t1;
     int t2;
@@ -147,7 +147,7 @@ int FUN_0c03ec76(void)
     int t45;
     int t46;
 
-    FUN_0c03bf42();
+    windowOpenStep();
     t1 = *(int *)0xC2A11D8;
     t2 = *(int *)((((t1 << 2) + 0xC2A11DC) + 0x0));
     t18 = 0x0;
@@ -202,16 +202,16 @@ int FUN_0c03ec76(void)
                 if (t46 == 4) {
                     return ((int (*)(int))(0xC040A94))(0xC2A11D8);
                 }
-                return FUN_0c03bf76();
+                return windowEnterStep();
             }
             return ((int (*)(int))(0xC040A94))(0xC2A11D8);
         }
-        return FUN_0c03bf76();
+        return windowEnterStep();
     }
-    return FUN_0c03bf76();
+    return windowEnterStep();
 }
 
-int FUN_0c05d28e(int a4)
+int Exec_DCmini_Game9(int a4)
 {
     int t0;
     int t1;
@@ -271,7 +271,7 @@ int FUN_0c05d28e(int a4)
     if (t25 == 0) {
         t26 = *(int *)0xC1794D0;
         if ((int)t26 >= (int)a4) {
-            FUN_0c05bb24();
+            Start_Excellent();
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
             t28 = *(int *)0xC1EE214;
@@ -284,7 +284,7 @@ int FUN_0c05d28e(int a4)
         } else {
             t35 = *(int *)0xC1EE794;
             if (t35 == 0) {
-                FUN_0c05bb76(0x0);
+                Start_Fault(0x0);
                 *(unsigned int *)0xC2A991C = 0x1;
                 *(unsigned int *)0xC179120 = 0x0;
                 t37 = *(int *)0xC1EE214;
@@ -301,7 +301,7 @@ int FUN_0c05d28e(int a4)
                     if (-10.0f > u45) {
                         u46 = *(float *)0xC17914C;
                         if (!(4000.0f > u46)) {
-                            FUN_0c05bb76(0x3);
+                            Start_Fault(0x3);
                             *(unsigned int *)0xC2A991C = 0x1;
                         }
                     }
@@ -326,11 +326,11 @@ int FUN_0c05d28e(int a4)
     }
     t110 = *(int *)0xC1EE214;
     if (t110 != 9) {
-        FUN_0c05d708();
+        Exec_Remain_Arrow();
     } else {
-        FUN_0c05d662();
+        Count_Remain_Drop();
     }
-    FUN_0c05d862();
+    Put_Remain_Icon();
     t115 = *(int *)0xC1EE214;
     if (t115 == 10) {
         t116 = *(int *)0xC131978;
@@ -345,7 +345,7 @@ int FUN_0c05d28e(int a4)
         *(unsigned int *)((((int)stk + 4) + 0x4)) = t120;
         t121 = *(int *)0xC179144;
         *(unsigned int *)((((int)stk + 4) + 0x0)) = t121;
-        t122 = FUN_0c04d3ee(0x0, 0xC2A991C, 0xC1EE214);
+        t122 = Current_to_Target_angleY(0x0, 0xC2A991C, 0xC1EE214);
         *(unsigned short *)0xC2A9B94 = (t122 + 0x8000);
         nlPushMatrix(0x0);
         nlTranslateV(0xC131970);

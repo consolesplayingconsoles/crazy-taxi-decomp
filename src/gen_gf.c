@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_gf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0413c2(int, int, int, int);
+int InsertRankRecord(int, int, int, int);
 int FUN_0c0813d0(int);
 int syRtcGetDate(int);
-int FUN_0c0418b8(int a4);
+int CheckRanking(int a4);
 
-int FUN_0c0418b8(int a4)
+int CheckRanking(int a4)
 {
     int t0;
     int t2;
@@ -69,7 +69,7 @@ int FUN_0c0418b8(int a4)
                 t13 = *(int *)0xC1EE340;
                 *(unsigned char *)(((int)stk + 29)) = t13;
                 t14 = *(int *)0xC2A11E0;
-                t15 = FUN_0c0413c2(0x1, (((int)stk + 4) + 0x10), ((short)((short)t14 * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA);
+                t15 = InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)t14 * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA);
                 t37 = t15;
             } else {
                 t16 = *(int *)0xC2A11E0;
@@ -99,7 +99,7 @@ int FUN_0c0418b8(int a4)
                     t26 = 0x1;
                     t27 = ((short)((short)(t23 - 2) * (short)0x3C) + (0x3C8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8)));
                 }
-                t28 = FUN_0c0413c2(t26, (((int)stk + 4) + 0x10), t27, 0x5);
+                t28 = InsertRankRecord(t26, (((int)stk + 4) + 0x10), t27, 0x5);
                 if ((int)t28 >= 0) {
                     t29 = *(int *)0xC2A11E0;
                     t30 = *(int *)((((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x4));
@@ -112,7 +112,7 @@ int FUN_0c0418b8(int a4)
             t39 = *(int *)0xC1EE340;
             *(unsigned char *)(((int)stk + 29)) = t39;
             t40 = *(int *)0xC2A11E0;
-            t41 = FUN_0c0413c2(0x1, (((int)stk + 4) + 0x10), ((short)((short)t40 * (short)0x78) + (0x1E8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8))), 0xA);
+            t41 = InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)t40 * (short)0x78) + (0x1E8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8))), 0xA);
             t45 = t41;
         }
         t53 = t45;
@@ -120,7 +120,7 @@ int FUN_0c0418b8(int a4)
         t47 = *(int *)0xC1EE340;
         *(unsigned char *)(((int)stk + 29)) = t47;
         t48 = *(int *)0xC2A11E0;
-        t49 = FUN_0c0413c2(0x1, (((int)stk + 4) + 0x10), ((short)((short)t48 * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA);
+        t49 = InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)t48 * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA);
         t53 = t49;
     }
     return t53;

@@ -11,8 +11,8 @@ int ADXSTM_Close(int);
 int ADXSTM_Seek(int, int);
 int ADXSTM_Stop(int);
 int CheckColliWall(int, float);
-int FUN_0c02bb60(int, int, float);
-int FUN_0c033234(int, int, int, int, int, int);
+int HomingAngle1(int, int, float);
+int colliObjPairHit(int, int, int, int, int, int);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077f70(void);
@@ -27,7 +27,7 @@ int FUN_0c15f4e2(int);
 int FUN_0c16893a(int, int, int, int);
 int IsBoyFriend(int, int);
 int ResetFadeColor(void);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int SetSpark(int, int, int);
 extern float _builtin_sqrtf(float);
 extern int _builtin_tas(char *);
@@ -90,9 +90,9 @@ int FUN_0c1722c2(int a4, int a5, int a6, int a7, int a8);
 int FUN_0c160e88(void);
 int FUN_0c074a10(int a4);
 int syG2SysInit(void);
-int FUN_0c0730b4(float f4);
+int BigOneFollowTaxi(float f4);
 int nlRenderTextureSet_Sub(int a4, int a5, int a6, int a7);
-int FUN_0c071a7c(int a4, int a5);
+int psgPutMarker(int a4, int a5);
 int mpdrv_setcmd_force(int a4, int a5, int a6, int a7, int a8, int a9);
 int mpdrv_setcmd(int a4, int a5, int a6, int a7, int a8, int a9);
 int gdDecSubcode(int a4, int a5);
@@ -513,7 +513,7 @@ int syG2SysInit(void)
     return 0x0;
 }
 
-int FUN_0c0730b4(float f4)
+int BigOneFollowTaxi(float f4)
 {
     float u0;
     float u5;
@@ -546,7 +546,7 @@ int FUN_0c0730b4(float f4)
         u5 = *(float *)(((int)stk + 24));
         u6 = *(float *)(((int)stk + 16));
         t7 = nlArcTan2(u6, u5);
-        FUN_0c02bb60(t7, 0xC2AEC30, 0.00999999978f);
+        HomingAngle1(t7, 0xC2AEC30, 0.00999999978f);
         t9 = *(int *)0xC2AEC30;
         t10 = (t9 - t7);
         if ((int)t7 > (int)t9) {
@@ -1380,12 +1380,12 @@ int colliBoxBox(int a4, int a5)
         nlPushUnitMatrix();
         t19 = *(int *)0xC26ECF8;
         t20 = *(int *)0xC26ECFC;
-        t21 = FUN_0c033234(a4, t19, a5, t20, 0xC270408, 0x0);
+        t21 = colliObjPairHit(a4, t19, a5, t20, 0xC270408, 0x0);
         *(unsigned int *)(((int)stk + 16)) = t21;
         if (t21 != 0) {
             t22 = *(int *)0xC26ECFC;
             t23 = *(int *)0xC26ECF8;
-            t24 = FUN_0c033234(a5, t22, a4, t23, 0xC270430, 0x1);
+            t24 = colliObjPairHit(a5, t22, a4, t23, 0xC270430, 0x1);
             *(unsigned int *)(((int)stk + 12)) = t24;
         } else {
             *(unsigned int *)(((int)stk + 12)) = 0x0;
@@ -1514,7 +1514,7 @@ int colliBoxBox(int a4, int a5)
                             nlPushUnitMatrix();
                             nlTranslateV(a4);
                             t114 = *(int *)(((int)stk + 16));
-                            SetCameraPosVelocity(t114);
+                            MultiRot4Vec(t114);
                             nlPushMatrix(0x0);
                             FUN_0c078310();
                             nlSqrt((((int)stk + 12) + 0x5C), (((int)stk + 12) + 0x5C));

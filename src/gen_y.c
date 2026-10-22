@@ -13,36 +13,36 @@ int ADXRNA_GetTime(int, int, int);
 int ADXSTM_GetCurOfst(int, int);
 int ADXT_SetOutVol(int, int);
 int CalcShadow4Normal(int, int);
-int FUN_0c02e1ce(int);
-int FUN_0c02e282(int);
-int FUN_0c02e458(int);
-int FUN_0c038ee6(void);
-int FUN_0c038eec(int);
-int FUN_0c03b544(int, int);
-int FUN_0c03b698(int);
-int FUN_0c03bea0(int, int, int);
-int FUN_0c03c792(int, int, int, int);
-int FUN_0c03ce68(int, int, int, int, int, int, float, float);
-int FUN_0c040cea(int, int);
-int FUN_0c0525fc(int, int, int, int);
-int FUN_0c0526a0(void);
-int FUN_0c052c9e(void);
-int FUN_0c05317e(void);
-int FUN_0c0533ba(void);
-int FUN_0c0534ec(int, int, int, int);
-int FUN_0c0545ac(int, int);
-int FUN_0c054698(void);
-int FUN_0c054ffe(void);
-int FUN_0c0551c6(int, int);
-int FUN_0c0552b0(void);
-int FUN_0c057728(int, int, int);
-int FUN_0c059110(void);
-int FUN_0c0591ea(int, int, int);
-int FUN_0c059254(void);
-int FUN_0c05b11c(void);
-int FUN_0c05cdb4(void);
-int FUN_0c05ce38(void);
-int FUN_0c05fd70(int);
+int gdc_GetStreamSongRemainTime(int);
+int gdc_GetVolGainMute(int);
+int gdc_PlayStreamSongDisk(int);
+int ReturnBreakPinNum(void);
+int ReturnBreakPin(int);
+int SetScreen(int, int);
+int SetWindow(int);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
+int PutRecords(int, int, int, int, int, int, float, float);
+int CheckBoxFlag(int, int);
+int Init_Remain_Time(int, int, int, int);
+int Init_TotalDrum(void);
+int Init_Shift(void);
+int End_Pass_Default2_Sprite(void);
+int Start_Pass_Ranking(void);
+int rankingCalcDigitRoll(int, int, int, int);
+int Put_TotalDrum_SetDigits(int, int);
+int Put_TotalDrum(void);
+int hudUpdateFareState(void);
+int hudSplitFareDigits(int, int);
+int hudDrawFare(void);
+int Money_Array(int, int, int);
+int Result_Drop_Lowest_Rank(void);
+int Init_Result_Standard_Sprite(int, int, int);
+int Init_Result_Parm(void);
+int Result_Insert_Rank(void);
+int Start_Bowling_Message(void);
+int Reset_Bowling_Timer(void);
+int Start_CrazyBox_Voice(int);
 int FUN_0c076670(void);
 int FUN_0c077590(int, int, int);
 int FUN_0c077df0(int);
@@ -152,7 +152,7 @@ int vmsio_ismount(int);
 int vmsio_isready(int, int, int, int);
 
 
-void FUN_0c0287c2(int a4)
+void SetCameraTargetVelocity(int a4)
 {
     int t0;
     int t1;
@@ -196,7 +196,7 @@ int SetAdvCamera(int a4, int a5)
     return t6;
 }
 
-int FUN_0c02e494(void)
+int gdc_StopStreamSongDisk(void)
 {
     int t1;
     int t2;
@@ -209,7 +209,7 @@ int FUN_0c02e494(void)
     return t2;
 }
 
-int FUN_0c02e4b2(void)
+int gdc_ExecStreamSongDisk(void)
 {
     int t0;
     int t1;
@@ -238,14 +238,14 @@ int FUN_0c02e4b2(void)
     t0 = *(int *)0xC2A11B0;
     t1 = *(signed char *)0xC1EE80C;
     if (t0 == 1) {
-        t2 = FUN_0c02e282(t1);
+        t2 = gdc_GetVolGainMute(t1);
         t3 = *(int *)0xC1EE820;
         ADXT_SetOutVol(t3, t2);
         *(unsigned int *)0xC0E5348 = 0x1;
     } else {
         t5 = *(int *)0xC0E5348;
         if (t5 == 1) {
-            t6 = FUN_0c02e282(t1);
+            t6 = gdc_GetVolGainMute(t1);
             t7 = *(int *)0xC1EE820;
             ADXT_SetOutVol(t7, t6);
             *(unsigned int *)0xC0E5348 = 0x0;
@@ -264,11 +264,11 @@ int FUN_0c02e4b2(void)
                         t15 = *(int *)0xC26A0CC;
                         t16 = (int)((int)(t15 + 0x1) % (int)0x4);
                         *(unsigned int *)0xC26A0CC = t16;
-                        t17 = FUN_0c02e458(0xC26A0CC);
+                        t17 = gdc_PlayStreamSongDisk(0xC26A0CC);
                         t22 = t17;
                     } else {
                         t18 = *(signed char *)0xC1EE80C;
-                        t19 = FUN_0c02e282((int)(((float)t14 / 120.0f) * (float)t18));
+                        t19 = gdc_GetVolGainMute((int)(((float)t14 / 120.0f) * (float)t18));
                         t20 = *(int *)0xC1EE820;
                         t21 = ADXT_SetOutVol(t20, t19);
                         t22 = t21;
@@ -279,7 +279,7 @@ int FUN_0c02e4b2(void)
                 }
                 t28 = t24;
             } else {
-                t27 = FUN_0c02e1ce(0x0);
+                t27 = gdc_GetStreamSongRemainTime(0x0);
                 *(unsigned int *)0xC26A0D0 = t27;
                 if ((int)t27 <= (int)0x78) {
                     *(unsigned int *)0xC26A0C8 = 0x2;
@@ -294,7 +294,7 @@ int FUN_0c02e4b2(void)
     return t32;
 }
 
-void FUN_0c030b68(int a4)
+void GetLightVector(int a4)
 {
     int t0;
     int t1;
@@ -346,7 +346,7 @@ void InitHomingVector(int a4, int a5)
 
 
 
-int FUN_0c040b00(void)
+int callBoxAdvice(void)
 {
     int t0;
     int t1;
@@ -364,8 +364,8 @@ int FUN_0c040b00(void)
         *(unsigned int *)0xC1EE234 = 0x3;
         *(unsigned int *)0xC1EE238 = 0x0;
     }
-    FUN_0c03b544(0x6, 0xC1EE238);
-    FUN_0c03b698(0xF);
+    SetScreen(0x6, 0xC1EE238);
+    SetWindow(0xF);
     t7 = *(int *)0xC2A1AE0;
     t8 = (int)((int)(t7 + 0x1) % (int)0x3);
     *(unsigned int *)0xC2A1AE0 = t8;
@@ -493,7 +493,7 @@ int trafficLevelControl(int a4)
     return setTechnicalBonus(0xFFFFFFFF, 0x0, 0xC2A4498, 0xC2A1B70);
 }
 
-void FUN_0c043b68(void)
+void carBoxVertexInit(void)
 {
     int t0;
     int t1;
@@ -662,7 +662,7 @@ int pedStand(int a4)
     return t3;
 }
 
-void FUN_0c051aa8(void)
+void selectLoadAxes(void)
 {
     int t0;
     int t1;
@@ -704,7 +704,7 @@ void FUN_0c051aa8(void)
     *(unsigned int *)((((int)stk + 4) + 0x0)) = t11;
 }
 
-int FUN_0c0527ec(void)
+int Init_RankDrum(void)
 {
     int t0;
     int t1;
@@ -747,7 +747,7 @@ int FUN_0c0527ec(void)
     return t3;
 }
 
-int FUN_0c053100(int a4, int a5, int a6, int a7, int a8)
+int Start_Default_Sprite(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t2;
@@ -759,12 +759,12 @@ int FUN_0c053100(int a4, int a5, int a6, int a7, int a8)
     *(unsigned int *)0xC2A8C60 = a8;
     t0 = *(int *)0xC2A75E0;
     *(unsigned int *)0xC2A75E0 = (t0 | 0x20);
-    FUN_0c0525fc(0xC2A75E0, a5, a6, a7);
+    Init_Remain_Time(0xC2A75E0, a5, a6, a7);
     t2 = *(int *)0xC1EE20C;
     if (t2 != 2) {
-        FUN_0c0526a0();
+        Init_TotalDrum();
     }
-    return FUN_0c052c9e();
+    return Init_Shift();
 }
 
 int rankingInsert(void)
@@ -846,7 +846,7 @@ int rankingInsert(void)
                 t16 = *(int *)0xC2A9168;
                 t17 = (int)((int)t16 % (int)0xA);
                 *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = t17;
-                FUN_0c0534ec((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC), t1, t5);
+                rankingCalcDigitRoll((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC), t1, t5);
                 t19 = *(int *)0xC2A9168;
                 *(unsigned int *)0xC1EE340 = t19;
                 t20 = 0x1;
@@ -869,7 +869,7 @@ int rankingInsert(void)
             t31 = *(int *)0xC2A9168;
             t32 = (int)((int)t31 % (int)0xA);
             *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = t32;
-            FUN_0c0534ec((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC), t1, t5);
+            rankingCalcDigitRoll((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC), t1, t5);
             t34 = *(int *)0xC2A9168;
             *(unsigned int *)0xC1EE340 = t34;
             t35 = 0x1;
@@ -879,7 +879,7 @@ int rankingInsert(void)
     return t38;
 }
 
-int FUN_0c0544a8(void)
+int Put_TotalDrum_Update(void)
 {
     int t0;
     int t1;
@@ -974,15 +974,15 @@ int FUN_0c0544a8(void)
             }
             t26 = *(int *)0xC2A7600;
             t27 = *(int *)((t26 + 0x0));
-            FUN_0c057728(((int)stk + 4), t27, 0x8);
-            FUN_0c0545ac((((int)stk + 4) + 0x20), ((int)stk + 4));
+            Money_Array(((int)stk + 4), t27, 0x8);
+            Put_TotalDrum_SetDigits((((int)stk + 4) + 0x20), ((int)stk + 4));
             t30 = *(int *)0xC2A8C5C;
             *(unsigned int *)((t30 + 0x0)) = 0x0;
             Sound_Request(0x604A9, 0x0);
             *(unsigned int *)0xC2A9180 = 0x0;
             t32 = *(int *)0xC2A7618;
             if (t32 != 0) {
-                FUN_0c0533ba();
+                Start_Pass_Ranking();
             }
         }
     }
@@ -1027,13 +1027,13 @@ int FUN_0c0544a8(void)
             *(unsigned int *)0xC2A91BC = 0x1;
         }
     }
-    t68 = FUN_0c054698();
+    t68 = Put_TotalDrum();
     return t68;
 }
 
 
 
-void FUN_0c058f08(void)
+void SEGA_LOGO_SetColor(void)
 {
     int stk[45];
 
@@ -1047,7 +1047,7 @@ void FUN_0c058f08(void)
     *(float *)((((int)stk + 4) + 0x20)) = 1.0f;
 }
 
-int FUN_0c058ff0(int a4)
+int Init_Result(int a4)
 {
     int t4;
     int t5;
@@ -1088,11 +1088,11 @@ int FUN_0c058ff0(int a4)
     } while ((int)t9 < (int)0xA);
     t10 = (int)((int)a4 % (int)0x4);
     *(unsigned int *)0xC2A96F0 = t10;
-    FUN_0c0591ea(t8, t9, 0xA);
-    FUN_0c059254();
+    Init_Result_Standard_Sprite(t8, t9, 0xA);
+    Init_Result_Parm();
     t13 = *(int *)0xC1EE340;
     *(unsigned int *)0xC2A97DC = t13;
-    t14 = FUN_0c057728(0xC2A97CC, t13, 0x3);
+    t14 = Money_Array(0xC2A97CC, t13, 0x3);
     t15 = *(int *)0xC2A97DC;
     t22 = t14;
     if ((int)t15 < (int)0x64) {
@@ -1102,8 +1102,8 @@ int FUN_0c058ff0(int a4)
             t17 = *(int *)0xC2A7618;
             t20 = t17;
             if (t17 != 0) {
-                FUN_0c059110();
-                t19 = FUN_0c05b11c();
+                Result_Drop_Lowest_Rank();
+                t19 = Result_Insert_Rank();
                 t20 = t19;
             }
             t21 = t20;
@@ -1119,7 +1119,7 @@ int FUN_0c058ff0(int a4)
 }
 
 
-void FUN_0c0606e2(int a4, int a5)
+void lcdFillData(int a4, int a5)
 {
     int t0;
     int t1;

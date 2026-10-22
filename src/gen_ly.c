@@ -3,9 +3,9 @@
 
 int GetMenuMode(int);
 int nlPrintColor(int);
-int FUN_0c0595e8(int a4);
+int Result_Next_State(int a4);
 
-int FUN_0c0595e8(int a4)
+int Result_Next_State(int a4)
 {
     int t0;
     int t1;

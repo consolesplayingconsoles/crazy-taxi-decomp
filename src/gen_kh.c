@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_kh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c039680(int);
-int FUN_0c03974c(int);
-int FUN_0c039cd2(void);
+int num2char(int);
+int CheckXWord(int);
+int CheckNameEntryPad(void);
 int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
@@ -11,9 +11,9 @@ int pfAddNumber(int);
 int pfCleanString(void);
 int pfLocate(float, float);
 int pfPuts(int);
-int FUN_0c039e58(void);
+int ExecNameEntrySelect(void);
 
-int FUN_0c039e58(void)
+int ExecNameEntrySelect(void)
 {
     int t1;
     int t6;
@@ -70,7 +70,7 @@ int FUN_0c039e58(void)
     int t79;
     int t125;
 
-    FUN_0c039cd2();
+    CheckNameEntryPad();
     t1 = *(int *)0xC2864C4;
     *(unsigned int *)0xC2864C4 = (t1 - 1);
     if ((int)(t1 - 1) <= 0) {
@@ -106,7 +106,7 @@ int FUN_0c039e58(void)
                     t18 = *(int *)0xC2864C8;
                     *(unsigned int *)0xC2864C8 = (t18 + 0x1);
                     t19 = *(int *)0xC2864A0;
-                    t20 = FUN_0c039680(t19);
+                    t20 = num2char(t19);
                     *(unsigned char *)(((((t18 + 0x1) - 1) + 0xC2864D0) + 0x0)) = t20;
                     t21 = *(int *)0xC2864C8;
                     if ((int)t21 >= (int)0x3) {
@@ -216,7 +216,7 @@ int FUN_0c039e58(void)
         t139 = *(int *)0xC2864A8;
         t143 = t130;
         if (t139 == 0) {
-            FUN_0c03974c(0xC2864D0);
+            CheckXWord(0xC2864D0);
             Voice_ShutUp(0x0);
             t142 = Voice_Request(0xC0EE9F0, 0x0, 0x7F, 0x0);
             *(unsigned int *)0xC2864CC = 0xC03A120;

@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_mq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0413c2(int, int, int, int);
+int InsertRankRecord(int, int, int, int);
 int memmove(int, int, int);
 int memset(int, int, int);
-int FUN_0c0414b8(int a4, int a5, int a6, int a7);
+int SetTotalRecords(int a4, int a5, int a6, int a7);
 
-int FUN_0c0414b8(int a4, int a5, int a6, int a7)
+int SetTotalRecords(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -147,7 +147,7 @@ int FUN_0c0414b8(int a4, int a5, int a6, int a7)
     goto L_C041534;
     L_C041534:;
     *(unsigned char *)(((int)stk + 269)) = R9;
-    FUN_0c0413c2(0x1, (0x100 + ((int)stk + 4)), ((R12 + 0x8) + R8), 0xA);
+    InsertRankRecord(0x1, (0x100 + ((int)stk + 4)), ((R12 + 0x8) + R8), 0xA);
     t14 = (int)(R10 + 0x1) < (int)0xA;
     t15 = (R10 + 0x1);
     R10 = t15;
@@ -192,7 +192,7 @@ int FUN_0c0414b8(int a4, int a5, int a6, int a7)
     goto L_C0415B8;
     L_C0415B8:;
     *(unsigned char *)(((int)stk + 269)) = R9;
-    t29 = FUN_0c0413c2(0x1, (0x100 + ((int)stk + 4)), ((0x1E8 + R12) + R8), 0xA);
+    t29 = InsertRankRecord(0x1, (0x100 + ((int)stk + 4)), ((0x1E8 + R12) + R8), 0xA);
     t30 = (int)(R10 + 0x1) < (int)0xA;
     t31 = t29;
     t32 = (R10 + 0x1);
@@ -281,7 +281,7 @@ int FUN_0c0414b8(int a4, int a5, int a6, int a7)
     t61 = *(int *)(((int)stk + 4));
     *(unsigned char *)(((int)stk + 269)) = t61;
     t62 = *(int *)(((int)stk + 16));
-    FUN_0c0413c2(t62, (0x100 + ((int)stk + 4)), R10, 0x14);
+    InsertRankRecord(t62, (0x100 + ((int)stk + 4)), R10, 0x14);
     t64 = (int)(R8 + 0x1) < (int)0x5;
     t65 = (R8 + 0x1);
     R8 = t65;

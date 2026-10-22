@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlSprPut(int);
-int FUN_0c0543fc(void);
+int Put_Remain_Time_Frame(void);
 
-int FUN_0c0543fc(void)
+int Put_Remain_Time_Frame(void)
 {
     float u0;
     float u1;

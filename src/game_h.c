@@ -4,14 +4,14 @@
 void Init_Standard(void);
 void Voice_ShutUp(int a);
 int Voice_Request(int id, int a, int b, int c);
-int FUN_0c03bea0(int a, int *p, int n);
-int FUN_0c03c792(int id, int table, int n, int v);
+int menuChangeValue(int a, int *p, int n);
+int putMenuValue(int id, int table, int n, int v);
 void SetAudio(void);
 int FUN_0c0813d0(int x);
 
 #define HUD_FLAGS       (*(unsigned int *)0x0C2A75E0)
 
-void FUN_0c05355e(void)
+void Start_ReverseDriving(void)
 {
     if (*(int *)0x0C1EE210 == 2)
         return;
@@ -25,7 +25,7 @@ void FUN_0c05355e(void)
     *(int *)0x0C2A8FBC = *(int *)0x0C1EE244;
 }
 
-void FUN_0c0535fc(void)
+void Start_OverArea(void)
 {
     if (*(int *)0x0C1EE210 == 2)
         return;
@@ -41,32 +41,32 @@ void FUN_0c0535fc(void)
 
 /* The saved option byte at 0C28A4E9: read again from the save (m set) and written back when that succeeded, then passed to
    the option screen's set-up. */
-int FUN_0c03d678(int m)
+int menuItemTimeSetting(int m)
 {
     int v = *(unsigned char *)0x0C28A4E9;
 
     if (m) {
-        if (FUN_0c03bea0(0, &v, 8) == 1)
+        if (menuChangeValue(0, &v, 8) == 1)
             *(char *)0x0C28A4E9 = v;
     }
-    return FUN_0c03c792(m ? 0x8017 : 23, 0x0C09E99C, 8, v);
+    return putMenuValue(m ? 0x8017 : 23, 0x0C09E99C, 8, v);
 }
 
-int FUN_0c03d9b4(int m)
+int menuItemAudio(int m)
 {
     int v = *(int *)0x0C2A11BC;
 
     if (m) {
-        if (FUN_0c03bea0(0, &v, 2) == 1) {
+        if (menuChangeValue(0, &v, 2) == 1) {
             *(int *)0x0C2A11BC = v;
             SetAudio();
         }
     }
-    return FUN_0c03c792(m ? 0xC017 : 0x4017, 0x0C09EAFC, 2, v);
+    return putMenuValue(m ? 0xC017 : 0x4017, 0x0C09EAFC, 2, v);
 }
 
 /* The difference b - a, a full turn c nearer when it is more than half of it. */
-int FUN_0c04a38a(int a, int b, int c)
+int getShortRootPoint(int a, int b, int c)
 {
     int d = b - a;
 

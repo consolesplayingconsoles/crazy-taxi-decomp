@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_qj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c040de6(int, int);
+int CheckSetDrive(int, int);
 int buGetDiskInfo(int, int);
 int memset(int, int, int);
-void FUN_0c03aa00(int a4, int a5, int a6);
+void BupCompleteCallback(int a4, int a5, int a6);
 
-void FUN_0c03aa00(int a4, int a5, int a6)
+void BupCompleteCallback(int a4, int a5, int a6)
 {
     int t4;
 
@@ -34,6 +34,6 @@ void FUN_0c03aa00(int a4, int a5, int a6)
     }
     *(unsigned int *)((((short)((short)a4 * (short)0x4C) + 0xC291E50) + 0x10)) = 0x0;
     if (a5 == 2) {
-        FUN_0c040de6(a4, a5);
+        CheckSetDrive(a4, a5);
     }
 }

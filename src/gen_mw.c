@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_mw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c067c14(int, int, int, int, int);
+int fcvSolveIK(int, int, int, int, int);
 int fcvRotate(int);
 int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
@@ -415,7 +415,7 @@ int FcvPlayBuffer(int a4, int a5)
     nlGetTranslate((((int)stk + 8) + 0xC));
     fcvRotate((a4 + 0x60));
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x40), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x40), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t194 = *(int *)(((int)stk + 12));
     nlRotateAZ(t194);
     *(unsigned int *)(((int)stk + 8)) = (t0 + 0x10);
@@ -507,7 +507,7 @@ int FcvPlayBuffer(int a4, int a5)
     nlGetTranslate((((int)stk + 8) + 0xC));
     fcvRotate((a4 + 0x78));
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t308 = *(int *)(((int)stk + 12));
     nlRotateAZ(t308);
     *(unsigned int *)(((int)stk + 8)) = (t0 + 0x1C);
@@ -663,7 +663,7 @@ int FcvPlayBuffer(int a4, int a5)
     nlGetTranslate((((int)stk + 8) + 0xC));
     fcvRotate(((a4 + 0x3C) + 0x60));
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t502 = *(int *)(((int)stk + 12));
     nlRotateAZ(t502);
     *(unsigned int *)(((int)stk + 8)) = (t0 + 0x2C);
@@ -712,7 +712,7 @@ int FcvPlayBuffer(int a4, int a5)
     nlGetTranslate((((int)stk + 8) + 0xC));
     fcvRotate(((a4 + 0x3C) + 0x78));
     nlPushMatrix(0x0);
-    FUN_0c067c14(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
+    fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     t558 = *(int *)(((int)stk + 12));
     nlRotateAZ(t558);
     *(unsigned int *)(((int)stk + 8)) = (t0 + 0x38);

@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ns): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c051992(void);
-int FUN_0c0519de(void);
-int FUN_0c051bc0(void);
-int FUN_0c05308c(int, int);
+int CarSel_SetLight(void);
+int CarSel_SetFog(void);
+int selectInitSprites(void);
+int Start_Time_Count(int, int);
 int FUN_0c077df0(int);
 int Init_nd_Sprite(void);
 int Voice_Request(int, int, int, int);
@@ -37,8 +37,8 @@ int nd_CarSelInit(void)
     *(unsigned short *)0xC2A756E = 0xF200;
     *(float *)0xC2A7568 = 0.799999952f;
     *(unsigned int *)0xC2A7578 = 0x8;
-    FUN_0c051992();
-    FUN_0c0519de();
+    CarSel_SetLight();
+    CarSel_SetFog();
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A7548) = *(struct mv3 *)(0xC0D07DC); }
     *(unsigned short *)0xC2A7554 = 0x0;
     *(unsigned short *)0xC2A7556 = 0x0;
@@ -63,9 +63,9 @@ int nd_CarSelInit(void)
     *(unsigned int *)0xC2A75C0 = 0x0;
     *(float *)0xC130624 = 0.0f;
     Init_nd_Sprite();
-    FUN_0c051bc0();
+    selectInitSprites();
     *(unsigned int *)0xC2A757C = 0x3BF;
-    FUN_0c05308c(0xC2A757C, 0x0);
+    Start_Time_Count(0xC2A757C, 0x0);
     *(unsigned int *)0xC2A7518 = 0x0;
     *(unsigned int *)0xC2A7580 = 0x0;
     *(unsigned int *)0xC2A759C = 0x2;

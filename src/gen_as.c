@@ -3,7 +3,7 @@
 
 int Act_Init(void);
 int Drv_StartAction(int, int, int);
-int FUN_0c031934(int);
+int InitCollision(int);
 int nd_peopleInitialize(int);
 int FUN_0c074200(int, int);
 int FUN_0c0770f0(int, int, int);
@@ -29,8 +29,8 @@ int entryCarPut(int);
 int extRandomSeed(int);
 int humanDraw(int, int, int, int);
 int initCamera(int);
-int initPlayer(void);
 int initPlayerADV(void);
+int initPlayer(void);
 int init_CarMain(void);
 int init_GameSystem(void);
 int init_KyakuMain(void);
@@ -51,7 +51,7 @@ int nlSpriteSetVtxContext(int);
 int set_event(int, int);
 int trafficControl(int);
 
-int FUN_0c05187a(void)
+int selectPlayPickMotion(void)
 {
     int t0;
     int t1;
@@ -580,9 +580,9 @@ int Initialize_Replay(void)
     extRandomSeed(0x3039);
     t5 = *(int *)0xC1EE234;
     if (t5 == 0) {
-        initPlayer();
-    } else {
         initPlayerADV();
+    } else {
+        initPlayer();
     }
     Init_Standard();
     init_GameSystem();
@@ -592,7 +592,7 @@ int Initialize_Replay(void)
     if (t13 != 0) {
         if (t13 != 1) {
             if (t13 != 2) {
-                FUN_0c031934(t13);
+                InitCollision(t13);
                 t15 = *(int *)0xC1EE20C;
                 PutCourse_Init(t15);
                 nd_peopleInitialize(0x46);
@@ -602,18 +602,18 @@ int Initialize_Replay(void)
                 if (t18 != 15) {
                     t19 = t18;
                 }
-                FUN_0c031934(t19);
+                InitCollision(t19);
                 t21 = *(int *)0xC1EE20C;
                 PutCourse_Init(t21);
             }
         } else {
-            FUN_0c031934(t13);
+            InitCollision(t13);
             t25 = *(int *)0xC1EE20C;
             PutCourse_Init(t25);
             nd_peopleInitialize(0x32);
         }
     } else {
-        FUN_0c031934(t13);
+        InitCollision(t13);
         t30 = *(int *)0xC1EE20C;
         PutCourse_Init(t30);
         nd_peopleInitialize(0x46);

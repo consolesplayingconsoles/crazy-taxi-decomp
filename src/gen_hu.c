@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_hu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
+int windowOpenStep(void);
+int windowEnterStep(void);
 int PutVM_Message(int, int, int, float, float);
 int memmove(int, int, int);
 int menuCursor(int, int, int);
-int FUN_0c03eab8(int a4, int a5, float f4, float f5);
+int windowRecordEntry(int a4, int a5, float f4, float f5);
 
-int FUN_0c03eab8(int a4, int a5, float f4, float f5)
+int windowRecordEntry(int a4, int a5, float f4, float f5)
 {
     int t1;
     int t2;
@@ -65,7 +65,7 @@ int FUN_0c03eab8(int a4, int a5, float f4, float f5)
     float u32;
     float u33;
 
-    FUN_0c03bf42();
+    windowOpenStep();
     t1 = *(signed char *)0xC28A4F6;
     t2 = (((int)(unsigned char)t1 >= 0) ? (0xFFFFFFFF << ((unsigned char)t1 & 31)) : ((-(int)(unsigned char)t1 & 31) ? ((unsigned int)0xFFFFFFFF >> (-(int)(unsigned char)t1 & 31)) : 0));
     if ((int)(unsigned char)t1 < (int)0x4) {
@@ -186,7 +186,7 @@ int FUN_0c03eab8(int a4, int a5, float f4, float f5)
                 memmove(0xC2A1248, ((short)((short)t64 * (short)0x788) + 0xC28A4F8), 0x4);
                 t66 = *(int *)0xC2A11C4;
                 memmove(0xC2A124C, ((short)((short)t66 * (short)0x788) + 0xC28A4F8), 0x4);
-                return FUN_0c03bf76();
+                return windowEnterStep();
             }
             t68 = *(int *)0xC2A11F4;
             t69 = *(int *)((0xC2A11F8 + (t68 << 2)));
@@ -195,9 +195,9 @@ int FUN_0c03eab8(int a4, int a5, float f4, float f5)
                 *(unsigned int *)0xC2A11C4 = (unsigned char)t70;
                 return ((int (*)(int, int, float, float))(0xC040A94))(t54, t10, 0.0f, u14);
             }
-            return FUN_0c03bf76();
+            return windowEnterStep();
         }
-        return FUN_0c03bf76();
+        return windowEnterStep();
     }
-    return FUN_0c03bf76();
+    return windowEnterStep();
 }

@@ -6,5 +6,5 @@ int nlAddVector(int, int);
 float nlLength(int, int);
 int nlScaleVector(int, int, float);
 int set_event(int, int);
-void FUN_0c038a00(int a4);
+void setObjHitShed(int a4);
 

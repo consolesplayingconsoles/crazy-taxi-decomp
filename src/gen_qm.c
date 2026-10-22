@@ -2,12 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c063dc6(void);
-int FUN_0c064420(void);
+int Drv_ExecBlend(void);
+int drvUpdatePartTracks(void);
 int FcvStoreBuffer(int, int, float);
-int FUN_0c06350c(void);
+int Drv_ExecSeated(void);
 
-int FUN_0c06350c(void)
+int Drv_ExecSeated(void)
 {
     int t0;
     float u2;
@@ -19,9 +19,9 @@ int FUN_0c06350c(void)
 
     t0 = *(signed char *)0xC2AD1DF;
     if ((t0 & 128) != 0) {
-        return FUN_0c063dc6();
+        return Drv_ExecBlend();
     }
-    FUN_0c064420();
+    drvUpdatePartTracks();
     u2 = *(float *)0xC2AD024;
     t3 = *(int *)0xC2AD020;
     FcvStoreBuffer(t3, 0xC2AD028, u2);

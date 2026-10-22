@@ -3,5 +3,5 @@
 
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
-int FUN_0c060f38(int a4, int a5, int a6, int a7);
+int Chat_Getoff(int a4, int a5, int a6, int a7);
 

@@ -16,11 +16,11 @@ int nlRotateAX(int);
 int nlScale(float, float, float);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-int FUN_0c04a52a(int a4);
+int goiToolCourseMap(int a4);
 int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 int Chat_TellDestination(int a4);
 
-int FUN_0c04a52a(int a4)
+int goiToolCourseMap(int a4)
 {
     int t0;
     int t1;

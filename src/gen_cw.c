@@ -3,7 +3,7 @@
 
 int FUN_0c0868c0(void);
 int FUN_0c011afe(void);
-int FUN_0c054698(void);
+int Put_TotalDrum(void);
 int FUN_0c0105d4(void);
 int FUN_0c089a58(int a4, int a5, int a6);
 
@@ -37,7 +37,7 @@ int FUN_0c011afe(void)
     return t2;
 }
 
-int FUN_0c054698(void)
+int Put_TotalDrum(void)
 {
     int t0;
     int t1;

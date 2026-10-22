@@ -4,9 +4,9 @@
 int Exec_Balloon(int);
 int KillColliObj(int);
 int nlCloseEvent(int);
-int FUN_0c05eb52(int a4);
+int Exec_Balloon_Event(int a4);
 
-int FUN_0c05eb52(int a4)
+int Exec_Balloon_Event(int a4)
 {
     int t1;
     int t2;

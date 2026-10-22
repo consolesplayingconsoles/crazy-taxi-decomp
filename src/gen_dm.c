@@ -3,11 +3,11 @@
 
 int CheckColliWall(int, float);
 int SetAdvCamera(int, int);
-int FUN_0c036256(int, int, int);
-int FUN_0c04bb70(int);
-int FUN_0c04c104(int, int, int);
-int FUN_0c071d34(int, int, int);
-int FUN_0c071db8(void);
+int GetRotVec4Ang(int, int, int);
+int setReplayType(int);
+int gdc_CourseAdvLoadReq(int, int, int);
+int EndPsg_Start(int, int, int);
+int EndPsg_ClearIpBuff(void);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078310(void);
@@ -15,8 +15,8 @@ float FUN_0c078c00(int);
 int GetCollision2D(int, float);
 int GetRotVec(int);
 int Initialize_Replay_Part(void);
-int Put_Motion2D(int);
-int SetCameraPosVelocity(int);
+int carBalance(int);
+int MultiRot4Vec(int);
 int Sound_Request(int, int);
 extern float _builtin_sqrtf(float);
 int cableCarDrive(int);
@@ -56,9 +56,9 @@ int replay(int);
 int technicalCheck(int);
 void InitColliWall(int a4);
 int cableCarExec(int a4);
-int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9);
+int colliObjPairHit(int a4, int a5, int a6, int a7, int a8, int a9);
 float SetObjFly(int a4);
-int Init_Result(int a4);
+int replayChangeControl(int a4);
 
 
 int cableCarExec(int a4)
@@ -199,7 +199,7 @@ int cableCarExec(int a4)
                 *(float *)((a4 + 0xF8)) = (u65 - (u64 * (1.0f + 1.0f)));
                 u66 = *(float *)((a4 + 0xF8));
                 *(float *)((a4 + 0xF8)) = (u66 * 0.849999964f);
-                Put_Motion2D(a4);
+                carBalance(a4);
             }
             nlPushUnitMatrix();
             t72 = *(short *)((a4 + 0xA8));
@@ -232,7 +232,7 @@ int cableCarExec(int a4)
             t92 = *(short *)((a4 + 0xA8));
             t93 = *(short *)((a4 + 0xA6));
             t94 = *(short *)((a4 + 0xA4));
-            FUN_0c036256((a4 + 0x44), (unsigned short)t94, (unsigned short)t93);
+            GetRotVec4Ang((a4 + 0x44), (unsigned short)t94, (unsigned short)t93);
             *(unsigned int *)((a4 + 0x68)) = 0x0;
             t96 = 0x68;
         }
@@ -241,7 +241,7 @@ int cableCarExec(int a4)
     return t104;
 }
 
-int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
+int colliObjPairHit(int a4, int a5, int a6, int a7, int a8, int a9)
 {
     int t0;
     int t1;
@@ -336,13 +336,13 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
         t5 = *(int *)(((int)stk + 8));
         nlTranslateV(t5);
         t7 = *(int *)(((int)stk + 24));
-        SetCameraPosVelocity(t7);
+        MultiRot4Vec(t7);
         nlTranslateV((a5 + 0x60));
         FUN_0c078310();
         t11 = *(int *)(((int)stk + 20));
         nlTranslateV(t11);
         t13 = *(int *)(((int)stk + 4));
-        SetCameraPosVelocity(t13);
+        MultiRot4Vec(t13);
         nlTranslateV((a7 + 0x60));
     }
     *(float *)(((int)stk + 12)) = -3.40282347e+38f;
@@ -520,7 +520,7 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
                                 t158 = *(int *)(((int)stk + 8));
                                 nlTranslateV(t158);
                                 t160 = *(int *)(((int)stk + 24));
-                                SetCameraPosVelocity(t160);
+                                MultiRot4Vec(t160);
                                 nlTranslateV((a5 + 0x60));
                                 nlSqrt((((int)stk + 4) + 0x30), a8);
                                 FUN_0c077210(t149, (a8 + 0x18));
@@ -544,7 +544,7 @@ int FUN_0c033234(int a4, int a5, int a6, int a7, int a8, int a9)
 }
 
 
-int Init_Result(int a4)
+int replayChangeControl(int a4)
 {
     int t0;
     int t1;
@@ -1558,11 +1558,11 @@ int Init_Result(int a4)
                         if (t336 == 0) {
                             t454 = *(int *)(((int)stk + 32));
                             if (t454 == 1) {
-                                FUN_0c04bb70(0x1);
+                                setReplayType(0x1);
                             } else {
                                 t456 = *(int *)(((int)stk + 32));
                                 if (t456 == 2) {
-                                    FUN_0c04bb70(0x2);
+                                    setReplayType(0x2);
                                 }
                             }
                             t476 = *(int *)0xC0F4570;
@@ -1575,7 +1575,7 @@ int Init_Result(int a4)
                             *(unsigned int *)0xC179488 = t480;
                         } else {
                             if (t336 == 1) {
-                                FUN_0c04bb70(0x0);
+                                setReplayType(0x0);
                                 *(unsigned int *)0xC1EE33C = 0x0;
                                 *(unsigned int *)0xC2A62A0 = 0x0;
                             }
@@ -1632,11 +1632,11 @@ int Init_Result(int a4)
                     if (t336 == 0) {
                         t538 = *(int *)(((int)stk + 32));
                         if (t538 == 1) {
-                            FUN_0c04bb70(0x1);
+                            setReplayType(0x1);
                         } else {
                             t540 = *(int *)(((int)stk + 32));
                             if (t540 == 2) {
-                                FUN_0c04bb70(0x2);
+                                setReplayType(0x2);
                             }
                         }
                         t560 = *(int *)0xC0F4570;
@@ -1649,7 +1649,7 @@ int Init_Result(int a4)
                         *(unsigned int *)0xC179488 = t564;
                     } else {
                         if (t336 == 1) {
-                            FUN_0c04bb70(0x0);
+                            setReplayType(0x0);
                             *(unsigned int *)0xC1EE33C = 0x0;
                             *(unsigned int *)0xC2A62A0 = 0x0;
                         }
@@ -1790,7 +1790,7 @@ int Init_Result(int a4)
                     } else {
                         t696 = *(int *)0xC0F4570;
                         t697 = *(int *)0xC2A62A8;
-                        FUN_0c04c104(t697, (t88 + (((t654 << 2) << 2) << 1)), t696);
+                        gdc_CourseAdvLoadReq(t697, (t88 + (((t654 << 2) << 2) << 1)), t696);
                     }
                     t704 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x0));
                     t705 = *(int *)0xC1EE33C;
@@ -1884,14 +1884,14 @@ int Init_Result(int a4)
                             t765 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x10));
                             if ((int)t765 < (int)0x17) {
                             } else {
-                                FUN_0c071db8();
+                                EndPsg_ClearIpBuff();
                                 t767 = *(int *)0xC1EE234;
                                 if (t767 != 0) {
                                     t768 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x14));
                                     t769 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x1C));
                                     t770 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x18));
                                     t771 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x10));
-                                    FUN_0c071d34(t771, t768, t770);
+                                    EndPsg_Start(t771, t768, t770);
                                 } else {
                                     t773 = *(int *)0xC0F4570;
                                     t774 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x10));
@@ -1912,7 +1912,7 @@ int Init_Result(int a4)
                                     t792 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x14));
                                     t793 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x1C));
                                     t794 = *(int *)(((t88 + (((t654 << 2) << 2) << 1)) + 0x18));
-                                    FUN_0c071d34(t787, t792, t794);
+                                    EndPsg_Start(t787, t792, t794);
                                 }
                             }
                             t804 = 0x1;

@@ -13,20 +13,20 @@ int ADX_DecodeInfoAiff(int, int, int, int);
 int ADX_DecodeInfoAu(int, int, int, int);
 int ADX_DecodeInfoSpsd(int, int, int, int);
 int ADX_DecodeInfoWav(int, int, int, int);
-int FUN_0c028760(int);
-int FUN_0c02bbf4(int, float);
-int FUN_0c02e3c0(void);
+int SetCameraPosVelocity(int);
+int TOANG2(int, float);
+int gdc_FadeManStreamSong(void);
 int gdc_CourseStartLoadReq(void);
 int pfCleanString(void);
 int pfAddNumber(int);
-int FUN_0c0504bc(void);
-int FUN_0c050bbe(void);
-int FUN_0c050c0a(void);
-int FUN_0c050f80(void);
-int FUN_0c057728(int, int, int);
-int FUN_0c071104(int);
-int FUN_0c0713d8(int);
-int FUN_0c071a7c(int, int);
+int nd_StartWait_InitSprite(void);
+int nd_StartWait_SetLight(void);
+int nd_StartWait_SetFog(void);
+int nd_CarSelExec(void);
+int Money_Array(int, int, int);
+int psgFaceBoyFriend(int);
+int psgUpdatePartTracks(int);
+int psgPutMarker(int, int);
 float FUN_0c0762d0(int);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
@@ -50,7 +50,7 @@ int RailroadAreaCheck(int, int);
 int SJ_SplitChunk(int, int, int);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 extern float _builtin_sqrtf(float);
@@ -140,27 +140,27 @@ int mwRnaContinue(int a4);
 float nlTanf(void);
 int mwRnaDestroy(int a4);
 int mwRnaStart(int a4);
-int FUN_0c02cd46(void);
+int gameState5(void);
 void syG2DmaEndIntrruptHandler(int a4);
 int kmiFBfree(int a4);
 int adxf_SetFileInfo(int a4, int a5);
 int mwRnaAdjustBuf(int a4);
-float FUN_0c063450(int a4);
+float Drv_FacePsgFrame(int a4);
 int psgFaceTaxi(int a4);
 int SetStartCamera(void);
-int FUN_0c057130(int a4, int a5);
+int Init_Time_Spark(int a4, int a5);
 int vmsfs_rewrite_exec_file(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c0230bc(int a4);
+int carBodyTilt(int a4);
 int ADXB_DecodeHeaderSpsd(int a4, int a5, int a6);
 int ADXB_DecodeHeaderWav(int a4, int a5, int a6);
 int adxsjd_decode_prep(int a4);
 int ADXB_DecodeHeaderAu(int a4, int a5, int a6);
 int Init_nd_StartWait(void);
 int ADXB_DecodeHeaderAiff(int a4, int a5, int a6);
-int FUN_0c063ca0(int a4, int a5);
+int Drv_CheckSideClear(int a4, int a5);
 int crowdTask(int a4);
-int FUN_0c07270c(int a4, int a5);
-int Put_Credits(int a4);
+int breathMove(int a4, int a5);
+int Put_Time_Count(int a4);
 float colliBoxShapeInit(int a4, int a5);
 int FUN_0c15ce20(int a4, int a5, int a6);
 int FUN_0c15cace(int a4, int a5, int a6);
@@ -465,7 +465,7 @@ int mwRnaStart(int a4)
     return t7;
 }
 
-int FUN_0c02cd46(void)
+int gameState5(void)
 {
     int t0;
     int t1;
@@ -499,13 +499,13 @@ int FUN_0c02cd46(void)
     u7 = *(float *)0xC02CE34;
     *(float *)(((int)stk + 12)) = u7;
     FUN_0c077a00((((int)stk + 4) + 0xC), ((int)stk + 4), (((int)stk + 4) + 0x18));
-    FUN_0c050f80();
+    nd_CarSelExec();
     t10 = *(int *)0xC2A7518;
     if (t10 == 4) {
         *(unsigned int *)0xC1EE238 = 0x0;
         gdc_StopStreamSongAll();
     }
-    FUN_0c02e3c0();
+    gdc_FadeManStreamSong();
     t14 = gdc_CourseStartLoadReq();
     return t14;
 }
@@ -733,7 +733,7 @@ int mwRnaAdjustBuf(int a4)
     return t33;
 }
 
-float FUN_0c063450(int a4)
+float Drv_FacePsgFrame(int a4)
 {
     float t2;
     float t3;
@@ -846,12 +846,12 @@ int SetStartCamera(void)
     *(float *)0xC1799C4 = 0.0f;
     nlPushUnitMatrix();
     nlTranslateV(0xC179144);
-    SetCameraPosVelocity(0xC1790FC);
+    MultiRot4Vec(0xC1790FC);
     nlSqrt(0xC1799A4, (((int)stk + 4) + 0xC));
     FUN_0c077210(0xC1799BC, ((int)stk + 4));
     camSetEye((((int)stk + 4) + 0xC), 0x0);
     SetCameraPosRatio(0.0f, 1.0f);
-    FUN_0c028760(((int)stk + 4));
+    SetCameraPosVelocity(((int)stk + 4));
     *(float *)0xC1799B0 = 0.0f;
     u12 = *(float *)0xC0290F4;
     *(float *)0xC1799B4 = u12;
@@ -941,7 +941,7 @@ int vmsfs_rewrite_exec_file(int a4, int a5, int a6, int a7, int a8)
     return t41;
 }
 
-int FUN_0c0230bc(int a4)
+int carBodyTilt(int a4)
 {
     float u0;
     int t1;
@@ -982,7 +982,7 @@ int FUN_0c0230bc(int a4)
     u5 = *(float *)(((0x1A0 + a4) + 0x74));
     u6 = *(float *)(((0x18C + (0x1A0 + a4)) + 0x74));
     u7 = *(float *)(((0x108 + (0x1A0 + a4)) + 0x74));
-    FUN_0c02bbf4(((int)stk + 4), (((u4 + u5) * u0) - ((u6 + u7) * u0)));
+    TOANG2(((int)stk + 4), (((u4 + u5) * u0) - ((u6 + u7) * u0)));
     t9 = *(short *)(((int)stk + 4));
     t10 = *(short *)((a4 + 0xF8));
     *(unsigned short *)((a4 + 0xF8)) = (t10 + t9);
@@ -994,7 +994,7 @@ int FUN_0c0230bc(int a4)
     u15 = *(float *)(((0x1A0 + a4) + 0x78));
     u16 = *(float *)(((0x18C + (0x1A0 + a4)) + 0x78));
     u17 = *(float *)(((0x108 + (0x1A0 + a4)) + 0x78));
-    FUN_0c02bbf4(((int)stk + 4), (((u14 + u15) * u0) - ((u16 + u17) * u0)));
+    TOANG2(((int)stk + 4), (((u14 + u15) * u0) - ((u16 + u17) * u0)));
     t19 = *(short *)(((int)stk + 4));
     t20 = *(short *)((a4 + 0xF6));
     *(unsigned short *)((a4 + 0xF6)) = (t20 - t19);
@@ -1006,7 +1006,7 @@ int FUN_0c0230bc(int a4)
     u25 = *(float *)(((0x18C + (0x1A0 + a4)) + 0x78));
     u26 = *(float *)(((0x1A0 + a4) + 0x78));
     u27 = *(float *)(((0x108 + (0x1A0 + a4)) + 0x78));
-    FUN_0c02bbf4(((int)stk + 4), (((u24 + u25) * u0) - ((u26 + u27) * u0)));
+    TOANG2(((int)stk + 4), (((u24 + u25) * u0) - ((u26 + u27) * u0)));
     t29 = *(short *)(((int)stk + 4));
     t30 = *(short *)((a4 + 0xFA));
     *(unsigned short *)((a4 + 0xFA)) = (t30 - t29);
@@ -1355,9 +1355,9 @@ int Init_nd_StartWait(void)
     u15 = *(float *)0xC050488;
     *(float *)0xC2A7300 = u15;
     *(unsigned int *)0xC2A7310 = 0x8;
-    FUN_0c050bbe();
+    nd_StartWait_SetLight();
     *(float *)0xC12FFC8 = 0.0f;
-    FUN_0c050c0a();
+    nd_StartWait_SetFog();
     t18 = *(int *)0xC0CF5BC;
     *(unsigned int *)0xC2A72E8 = t18;
     t19 = *(int *)0xC0CF5B8;
@@ -1368,7 +1368,7 @@ int Init_nd_StartWait(void)
     *(unsigned short *)0xC2A72EE = 0x0;
     *(unsigned short *)0xC2A72F0 = 0x0;
     *(unsigned int *)0xC2A72DC = 0x0;
-    FUN_0c0504bc();
+    nd_StartWait_InitSprite();
     *(unsigned int *)0xC2A720C = 0x0;
     *(float *)(((int)stk + 4)) = 0.0f;
     *(float *)(((int)stk + 8)) = 0.0f;
@@ -1445,7 +1445,7 @@ int ADXB_DecodeHeaderAiff(int a4, int a5, int a6)
     return t14;
 }
 
-int FUN_0c063ca0(int a4, int a5)
+int Drv_CheckSideClear(int a4, int a5)
 {
     int t0;
     int t1;
@@ -1695,7 +1695,7 @@ int crowdTask(int a4)
     return t63;
 }
 
-int FUN_0c07270c(int a4, int a5)
+int breathMove(int a4, int a5)
 {
     int t1;
     int t3;
@@ -1766,7 +1766,7 @@ int FUN_0c07270c(int a4, int a5)
     return 0x4;
 }
 
-int Put_Credits(int a4)
+int Put_Time_Count(int a4)
 {
     int t0;
     int t1;
@@ -1825,7 +1825,7 @@ int Put_Credits(int a4)
     t2 = *(int *)0xC2A8C4C;
     t3 = *(int *)((t2 + 0x0));
     t4 = (int)((int)t3 / (int)0x3C);
-    FUN_0c057728((((int)stk + 4) + 0x4), t4, 0x2);
+    Money_Array((((int)stk + 4) + 0x4), t4, 0x2);
     t6 = *(int *)0xC2A8C4C;
     t7 = *(int *)((t6 + 0x0));
     t8 = (int)((int)t7 % (int)0x3C);

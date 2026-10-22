@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_lz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0630a2(int, float);
-float FUN_0c063450(int);
-int FUN_0c063ca0(int, int);
+int Drv_SetMotion(int, float);
+float Drv_FacePsgFrame(int);
+int Drv_CheckSideClear(int, int);
 float nlInnerProduct(int, int);
 int nlSubVector3op(int, int, int);
 float nlUnitVector(int);
-int FUN_0c0621a0(int a4);
+int Drv_StartGetOn(int a4);
 
-int FUN_0c0621a0(int a4)
+int Drv_StartGetOn(int a4)
 {
     int t0;
     int t1;
@@ -168,8 +168,8 @@ int FUN_0c0621a0(int a4)
             }
             *(unsigned int *)0xC2AD1D0 = 0xC0D3068;
             *(unsigned int *)0xC2AD1D4 = 0xC0D3080;
-            t4 = FUN_0c063450(t0);
-            FUN_0c0630a2(t2, t4);
+            t4 = Drv_FacePsgFrame(t0);
+            Drv_SetMotion(t2, t4);
             t6 = *(signed char *)0xC2AD1DF;
             *(unsigned char *)0xC2AD1DF = (t6 | 0x80);
             *(float *)0xC2AD0F4 = 0.0f;
@@ -184,7 +184,7 @@ int FUN_0c0621a0(int a4)
                 }
                 *(unsigned int *)0xC2AD1D0 = 0xC0D3068;
                 *(unsigned int *)0xC2AD1D4 = 0xC0D4A10;
-                FUN_0c0630a2(t8, 0.0f);
+                Drv_SetMotion(t8, 0.0f);
                 t11 = *(signed char *)0xC2AD1DF;
                 *(unsigned char *)0xC2AD1DF = (t11 | 0x80);
                 *(float *)0xC2AD0F4 = 0.0f;
@@ -215,7 +215,7 @@ int FUN_0c0621a0(int a4)
         t40 = nlUnitVector(((int)stk + 4));
         t41 = nlInnerProduct(0xC2AD1F8, ((int)stk + 4));
         t42 = nlInnerProduct(0xC2AD1E0, ((int)stk + 4));
-        t43 = FUN_0c063ca0(t0, ((int)stk + 4));
+        t43 = Drv_CheckSideClear(t0, ((int)stk + 4));
         t44 = *(int *)0xC2AD1DC;
         t45 = (int)((unsigned int)t43 & 0x1);
         *(unsigned int *)0xC2AD1DC = ((t44 & 0xDFFFFFFF) | ((unsigned int)t45 << 29));
@@ -433,7 +433,7 @@ int FUN_0c0621a0(int a4)
             }
             t183 = t179;
         }
-        FUN_0c0630a2(t183, 0.0f);
+        Drv_SetMotion(t183, 0.0f);
         t186 = *(signed char *)0xC2AD1DF;
         *(unsigned char *)0xC2AD1DF = (t186 | 0x80);
         *(float *)0xC2AD0F4 = 0.0f;

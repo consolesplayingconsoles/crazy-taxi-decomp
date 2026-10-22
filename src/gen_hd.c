@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckColliWall(int, float);
-int FUN_0c028760(int);
-float FUN_0c0288f0(void);
+int SetCameraPosVelocity(int);
+float GetCameraDistance(void);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int GetCollision(int, int, float, float);
@@ -11,7 +11,7 @@ int GetCollision2D(int, float);
 int ResetSpark(void);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int camSetAngles(int, int, int, int);
 int camSetEye(int, int);
 int camSetTarget(int, int);
@@ -21,9 +21,9 @@ int nlRand(void);
 float nlRandom(void);
 int nlScaleVector(int, int, float);
 int nlTranslateV(int);
-void ExecAdvCamera(void);
+void ExecAdvCameraRandom(void);
 
-void ExecAdvCamera(void)
+void ExecAdvCameraRandom(void)
 {
     float t3;
     int t5;
@@ -70,8 +70,8 @@ void ExecAdvCamera(void)
 
     nlPushUnitMatrix();
     nlTranslateV(0xC179144);
-    SetCameraPosVelocity(0xC1790FC);
-    t3 = FUN_0c0288f0();
+    MultiRot4Vec(0xC1790FC);
+    t3 = GetCameraDistance();
     if (t3 > 500.0f) {
         *(unsigned int *)0xC179974 = 0x1;
     }
@@ -94,7 +94,7 @@ void ExecAdvCamera(void)
         t13 = nlRandom();
         nlScaleVector(0xC179984, 0xC1791C8, (t13 + (1.0f + 1.0f)));
         camSetEye(0xC179978, 0x0);
-        FUN_0c028760(0xC179984);
+        SetCameraPosVelocity(0xC179984);
         SetCameraPosRatio(0.899999976f, 0.199999988f);
         t18 = nlRand();
         *(unsigned int *)0xC179990 = ((int)((t18 << 16) << 1) >> 19);

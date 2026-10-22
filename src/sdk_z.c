@@ -4,7 +4,7 @@ extern int buExit(void);
 extern void ADXSTMF_ExecHndl(void *stm);
 extern int vmsio_isready(int drive);
 extern int pdGetPeripheral(int port);
-extern int vibStart(int port);
+extern int ndPuru2Stop(int port);
 
 /* Fill n words at dst with val; returns n. */
 int mpdrv_memset_l(int *dst, int val, int n)
@@ -110,7 +110,7 @@ int vmsfs_isready(void)
 }
 
 /* Puru Puru (vibration) reset: in vibration mode 2 with the pack present (bit 8), restart it until
-   vibStart takes; then clear the pending flag. */
+   ndPuru2Stop takes; then clear the pending flag. */
 void ndPuru2Reset(int port)
 {
     pdGetPeripheral(port);
@@ -118,7 +118,7 @@ void ndPuru2Reset(int port)
         if ((**(int **)(*(int *)0x0C2A9C70 + 48) & 0x100) == 0) {
             return;
         }
-        while (vibStart(port) == 0) {
+        while (ndPuru2Stop(port) == 0) {
         }
     }
     *(int *)0x0C2A9C8C = 0;

@@ -114,7 +114,7 @@ int CheckClippingProject3D(float *v, float k)
     return (k * *(float *)0xC13EEC0 - v[2]) > a * *(float *)0xC13EEC4;
 }
 
-void FUN_0c02dc24(void)
+void exec_GameSystem(void)
 {
     void (*f)(void);
 
@@ -157,7 +157,7 @@ int FUN_0c07fbe0(int a)
     return 0;
 }
 
-int FUN_0c05008c(void)
+int pedCarNotInSubway(void)
 {
     int *hit;
 
@@ -177,9 +177,9 @@ typedef struct {
     short c;
 } Angles6;
 
-int FUN_0c040de6(void);
+int CheckSetDrive(void);
 
-int FUN_0c03aa9a(int a, int b, int c, int d)
+int BupProgressCallback(int a, int b, int c, int d)
 {
     int *e;
 
@@ -188,7 +188,7 @@ int FUN_0c03aa9a(int a, int b, int c, int d)
     e[3] = d;
     e[4] = b;
     if (b == 1) {
-        FUN_0c040de6();
+        CheckSetDrive();
     }
     return 0;
 }
@@ -209,7 +209,7 @@ typedef struct {
     int v[7];
 } Words7;
 
-void FUN_0c06468e(int a)
+void KyaCamera(int a)
 {
     Words2 t;
 

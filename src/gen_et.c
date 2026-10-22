@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckKyakuArea(int, int);
-int FUN_0c05db72(void);
+int CheckNumRideon(void);
 int FUN_0c07db90(int, int, int);
 int FUN_0c1573cc(int);
 int FUN_0c157d20(int);

@@ -7,7 +7,7 @@ float nlFloor(float);
 float nlFraction(float);
 float nlPow(float, float);
 int pfSetFont(int a4);
-int FUN_0c057728(int a4, int a5, int a6);
+int Money_Array(int a4, int a5, int a6);
 int VSklSfPlay(int a4, int a5, int a6, float f4);
 
 int pfSetFont(int a4)
@@ -72,7 +72,7 @@ int pfSetFont(int a4)
     return t16;
 }
 
-int FUN_0c057728(int a4, int a5, int a6)
+int Money_Array(int a4, int a5, int a6)
 {
     float u0;
     int t6;

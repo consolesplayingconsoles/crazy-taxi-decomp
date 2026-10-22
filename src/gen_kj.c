@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_kj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c071104(int);
-int FUN_0c0713d8(int);
-int FUN_0c071a7c(int, int);
+int psgFaceBoyFriend(int);
+int psgUpdatePartTracks(int);
+int psgPutMarker(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c078a70(int, int, int);
 int FcvPlay(int, int, float);
@@ -162,7 +162,7 @@ int psgFrameState1(int a4)
                 psgPutShadow(a4);
                 t49 = *(signed char *)((a4 + 0x149));
                 if ((t49 & 128) == 0) {
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     t51 = *(int *)((a4 + 0x0));
                     u52 = *(float *)((a4 + 0x38));
                     t53 = *(int *)((a4 + 0x34));
@@ -191,7 +191,7 @@ int psgFrameState1(int a4)
                     if ((t83 & 128) != 0) {
                         psgPlayBlend(a4, 0x1);
                     } else {
-                        FUN_0c0713d8(a4);
+                        psgUpdatePartTracks(a4);
                         t86 = *(int *)((a4 + 0x0));
                         u87 = *(float *)((a4 + 0x38));
                         t88 = *(int *)((a4 + 0x34));
@@ -208,7 +208,7 @@ int psgFrameState1(int a4)
             *(volatile int *)((a4 + 0x28));
             t108 = psgRunToPoint(a4);
             psgPutShadow(a4);
-            FUN_0c0713d8(a4);
+            psgUpdatePartTracks(a4);
             t111 = *(int *)((a4 + 0x0));
             u112 = *(float *)((a4 + 0x38));
             *(unsigned int *)(((int)stk + 4)) = t111;
@@ -236,7 +236,7 @@ int psgFrameState1(int a4)
                 t136 = *(int *)((a4 + 0x0));
                 t137 = IsBoyFriend(t136, 0x0);
                 if (t137 == 0) {
-                    FUN_0c071104(a4);
+                    psgFaceBoyFriend(a4);
                 } else {
                     psgFaceTaxi(a4);
                 }
@@ -251,7 +251,7 @@ int psgFrameState1(int a4)
         if ((t149 & 128) != 0) {
             psgPlayBlend(a4, 0x0);
         } else {
-            FUN_0c0713d8(a4);
+            psgUpdatePartTracks(a4);
             t152 = *(int *)((a4 + 0x0));
             u153 = *(float *)((a4 + 0x38));
             t154 = *(int *)((a4 + 0x34));
@@ -261,6 +261,6 @@ int psgFrameState1(int a4)
         }
         nlPopMatrix(0x1);
     }
-    t168 = FUN_0c071a7c(a4, 0x1);
+    t168 = psgPutMarker(a4, 0x1);
     return t168;
 }

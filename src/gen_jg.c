@@ -2,14 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckClipping(float);
-int CourseSplineGet(int);
 int CourseSplineNumGet(int);
-int FUN_0c02eb86(int, int, float);
-int FUN_0c04e194(void);
+int CourseSplineGet(int);
+int gdc_CoursePut(int, int, float);
+int PutCourse_Sky(void);
 float FUN_0c089de0(int);
 int PutCourse_CheckPiece(int, int, int, int, float, float, float);
 int Put_Build_Patch(void);
-int SetMVShadow(void);
+int Put_Course_Obj_Dist(void);
 int findSplineSection(int, int, int);
 int getAreaFromPos(int, int);
 int getNearLineIndex(int, int, int, int);

@@ -4,7 +4,7 @@
 extern float _builtin_sqrtf(float);
 int nlArcTan(float);
 int FUN_0c075930(float f4);
-int FUN_0c022102(int a4);
+int carInitDriveSplit(int a4);
 
 int FUN_0c075930(float f4)
 {
@@ -23,7 +23,7 @@ int FUN_0c075930(float f4)
     return t0;
 }
 
-int FUN_0c022102(int a4)
+int carInitDriveSplit(int a4)
 {
     int t0;
     int t1;

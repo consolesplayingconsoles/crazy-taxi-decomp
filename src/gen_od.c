@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_od): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0678a4(int, int, float);
-int FUN_0c067960(int, int, float);
+int fcvCalcPosition(int, int, float);
+int fcvCalcAngle(int, int, float);
 float nlFloor(float);
-int FUN_0c066b28(int a4, int a5, int a6, float f4);
+int FcvStorePartsBuffer(int a4, int a5, int a6, float f4);
 
-int FUN_0c066b28(int a4, int a5, int a6, float f4)
+int FcvStorePartsBuffer(int a4, int a5, int a6, float f4)
 {
     int t0;
     int t1;
@@ -109,7 +109,7 @@ int FUN_0c066b28(int a4, int a5, int a6, float f4)
     t20 = *(int *)(((int)stk + 8));
     t21 = *(int *)((R11 + R12));
     t22 = *(int *)((((R14 + 0x4) + R12) + 0x0));
-    t23 = FUN_0c067960((R13 + (t22 << 2)), ((unsigned char)(((t21 << 1) + t21) << 2) + (t20 + 0x3C)), F15);
+    t23 = fcvCalcAngle((R13 + (t22 << 2)), ((unsigned char)(((t21 << 1) + t21) << 2) + (t20 + 0x3C)), F15);
     t24 = t23;
     R0 = t24;
     goto L_C066BE0;
@@ -119,7 +119,7 @@ int FUN_0c066b28(int a4, int a5, int a6, float f4)
     t25 = *(int *)(((int)stk + 8));
     t26 = *(int *)((R11 + R12));
     t27 = *(int *)((((R14 + 0x4) + R12) + 0x0));
-    t28 = FUN_0c0678a4((R13 + (t27 << 2)), ((signed char)(((t26 << 1) + t26) << 2) + t25), F15);
+    t28 = fcvCalcPosition((R13 + (t27 << 2)), ((signed char)(((t26 << 1) + t26) << 2) + t25), F15);
     t29 = t28;
     R0 = t29;
     goto L_C066BE0;

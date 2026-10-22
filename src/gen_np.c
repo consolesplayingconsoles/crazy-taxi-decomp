@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_np): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0500d8(int);
+int pedIsSpecialModel(int);
 int nlRand(void);
 int pedPickIdle(int);
 int pedInit(int a4, int a5);
@@ -93,7 +93,7 @@ int pedInit(int a4, int a5)
             *(unsigned int *)((a4 + 0x50)) = 0x1;
             t28 = *(int *)0xC1EE20C;
             if (t28 == 1) {
-                t29 = FUN_0c0500d8(a5);
+                t29 = pedIsSpecialModel(a5);
                 if (t29 != 0) {
                     *(unsigned short *)((a4 + 0x60)) = 0x1;
                 } else {
@@ -149,7 +149,7 @@ int pedInit(int a4, int a5)
         *(unsigned int *)((a4 + 0x50)) = 0x1;
         t74 = *(int *)0xC1EE20C;
         if (t74 == 1) {
-            t75 = FUN_0c0500d8(a5);
+            t75 = pedIsSpecialModel(a5);
             if (t75 != 0) {
                 *(unsigned short *)((a4 + 0x60)) = 0x1;
             } else {

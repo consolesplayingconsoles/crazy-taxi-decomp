@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Chat_PickSomeoneUp(void);
-int FUN_0c0630a2(int, float);
+int Drv_SetMotion(int, float);
 int nlSqrt(int, int);
 int FUN_0c158860(int, int, int);
 int ResetFadeColor(void);
@@ -19,33 +19,33 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
 int set_event(int, int);
-int FUN_0c062f84(void);
-int FUN_0c062d26(void);
+int Drv_StartHorn(void);
+int Drv_StartPickUp(void);
 int Put_Adv_Rating(void);
-void FUN_0c038a00(int a4);
+void setObjHitShed(int a4);
 int FUN_0c080ae0(int a4, int a5, int a6);
-int FUN_0c022410(int a4);
+int carAngularMotion(int a4);
 
-int FUN_0c062f84(void)
+int Drv_StartHorn(void)
 {
     *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
     *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
-    FUN_0c0630a2(0xC8D5798, 14.0f);
+    Drv_SetMotion(0xC8D5798, 14.0f);
     *(float *)0xC2AD0F8 = (1.0f + 1.0f);
     return 0xF8;
 }
 
-int FUN_0c062d26(void)
+int Drv_StartPickUp(void)
 {
     int t0;
 
     t0 = *(int *)0xC2AD018;
     if (t0 != 0) {
         if (t0 == 1) {
-            FUN_0c0630a2(0xC8E3D50, 0.0f);
+            Drv_SetMotion(0xC8E3D50, 0.0f);
         }
     } else {
-        FUN_0c0630a2(0xC8D62BC, 0.0f);
+        Drv_SetMotion(0xC8D62BC, 0.0f);
     }
     *(float *)0xC2AD0F8 = 10.0f;
     *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ck): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05778a(int, int, float, float);
+int nd_SprPut(int, int, float, float);
 int FUN_0c077210(int, int);
 int FUN_0c078750(void);
 int FUN_0c07ab30(void);
@@ -40,16 +40,16 @@ float pfLength(int);
 int pfSetFont(int);
 int putString(int, int, float, float, float);
 float FUN_0c078de0(int a4, int a5);
-float FUN_0c067b30(int a4, int a5, float f4);
-float FUN_0c02238e(int a4);
-float FUN_0c0736c0(int a4, int a5, float f4);
+float fcvHermite(int a4, int a5, float f4);
+float carCalcInertia(int a4);
+float BigOneKeyValue(int a4, int a5, float f4);
 int sklRotate(int a4);
-int FUN_0c039ad4(int a4, float f4);
-void FUN_0c04ac8c(int a4);
-int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+int PutNameEntryDrum(int a4, float f4);
+void goiToolCamera(int a4);
+int Put_Window_SpriteXandY(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5);
 int putCarModel(int a4, int a5);
-int FUN_0c047330(int a4, int a5, int a6, int a7);
+int trainCarDrive(int a4, int a5, int a6, int a7);
 
 float FUN_0c078de0(int a4, int a5)
 {
@@ -80,7 +80,7 @@ float FUN_0c078de0(int a4, int a5)
     return _builtin_sqrtf(u5);
 }
 
-float FUN_0c067b30(int a4, int a5, float f4)
+float fcvHermite(int a4, int a5, float f4)
 {
     float u1;
     float u0;
@@ -106,7 +106,7 @@ float FUN_0c067b30(int a4, int a5, float f4)
     return ((((u3 * (((u1 * u1) * u2) - ((u1 * (u1 * u1)) * (1.0f + 1.0f)))) + ((((u1 * (u1 * u1)) * (1.0f + 1.0f)) - ((u1 * u1) * u2)) + 1.0f) * u4) + ((u1 - ((u1 * u1) * (1.0f + 1.0f))) + (u1 * (u1 * u1))) * u5) + ((u1 * (u1 * u1)) - (u1 * u1)) * u6);
 }
 
-float FUN_0c02238e(int a4)
+float carCalcInertia(int a4)
 {
     float u0;
     float u1;
@@ -133,7 +133,7 @@ float FUN_0c02238e(int a4)
     return u6;
 }
 
-float FUN_0c0736c0(int a4, int a5, float f4)
+float BigOneKeyValue(int a4, int a5, float f4)
 {
     float u0;
     int t1;
@@ -302,7 +302,7 @@ int sklRotate(int a4)
     return t35;
 }
 
-int FUN_0c039ad4(int a4, float f4)
+int PutNameEntryDrum(int a4, float f4)
 {
     int t0;
     int t1;
@@ -371,7 +371,7 @@ int FUN_0c039ad4(int a4, float f4)
     return t19;
 }
 
-void FUN_0c04ac8c(int a4)
+void goiToolCamera(int a4)
 {
     int t0;
     int t1;

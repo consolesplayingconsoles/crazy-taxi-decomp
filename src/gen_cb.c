@@ -10,21 +10,21 @@ int ExecColliObj(void);
 int ExecHelicopter(void);
 int ExecKyakuArea(void);
 int ExecSetObject(void);
-int FUN_0c02dc24(void);
-int FUN_0c02dd52(void);
-int FUN_0c02dd5a(void);
-int FUN_0c02e4b2(void);
-int FUN_0c041c14(void);
-int FUN_0c041cb4(void);
+int exec_GameSystem(void);
+int execPlayerADV(void);
+int execPlayer(void);
+int gdc_ExecStreamSongDisk(void);
+int Pause_ExecRenderTexture1st(void);
+int Pause_ExecRenderTexture2nd(void);
 int Exec_Fog(void);
-int FUN_0c060334(void);
+int Exec_SeaFog(void);
 int RinAqua_Execute(void);
 int GoiTool(int);
 int LightEffect(int);
 int PutCourse(void);
 int ResetSpark(void);
 int ShallWeHaveSomeRelaxation(float);
-int acSystemGetSystemFlag(void);
+int IsSeaFog(void);
 int adxf_ChkPrmPt(int);
 int adxf_LoadData(int, int, int);
 int camUpdate(int);
@@ -40,18 +40,18 @@ int rtcGetSeconds(void);
 int strlen(int);
 int trafficControl(int);
 void FUN_0c085c60(float f4, float f5, float f6, float f7, float f8, float f9, float f10);
-int FUN_0c04d504(int a4);
-int FUN_0c039cd2(void);
+int table(int a4);
+int CheckNameEntryPad(void);
 int ADXF_AddPartition(int a4, int a5, int a6, int a7);
 int gameStateDrive(void);
-int FUN_0c05b11c(void);
+int Result_Insert_Rank(void);
 
 void FUN_0c085c60(float f4, float f5, float f6, float f7, float f8, float f9, float f10)
 {
     
 }
 
-int FUN_0c04d504(int a4)
+int table(int a4)
 {
     int t0;
     int t1;
@@ -87,7 +87,7 @@ int FUN_0c04d504(int a4)
     return t7;
 }
 
-int FUN_0c039cd2(void)
+int CheckNameEntryPad(void)
 {
     int t0;
     float u1;
@@ -261,7 +261,7 @@ int gameStateDrive(void)
     int t66;
     int t69;
 
-    t0 = FUN_0c041c14();
+    t0 = Pause_ExecRenderTexture1st();
     if (t0 == 1) {
         return t0;
     }
@@ -274,8 +274,8 @@ int gameStateDrive(void)
                 execMiniLight();
             }
         } else {
-            FUN_0c060334();
-            t7 = acSystemGetSystemFlag();
+            Exec_SeaFog();
+            t7 = IsSeaFog();
             if (t7 != 0) {
                 ShallWeHaveSomeRelaxation(-30.0f);
             }
@@ -292,12 +292,12 @@ int gameStateDrive(void)
     }
     t18 = *(int *)0xC1EE234;
     if (t18 == 0) {
-        FUN_0c02dd5a();
+        execPlayer();
     } else {
-        FUN_0c02dd52();
+        execPlayerADV();
     }
-    FUN_0c02dc24();
-    FUN_0c02e4b2();
+    exec_GameSystem();
+    gdc_ExecStreamSongDisk();
     exec_CarMain();
     t25 = *(int *)0xC1EE20C;
     if (t25 == 2) {
@@ -362,6 +362,6 @@ int gameStateDrive(void)
     if (t69 != 0) {
         hudDraw();
     }
-    return FUN_0c041cb4();
+    return Pause_ExecRenderTexture2nd();
 }
 

@@ -4,7 +4,7 @@
 int Exec_Balloon(void);
 int pfCleanString(void);
 int pfAddNumber(int);
-int FUN_0c039cd2(void);
+int CheckNameEntryPad(void);
 int FUN_0c077210(int, int);
 int FUN_0c0813d0(int);
 float FUN_0c089de0(int);
@@ -26,10 +26,10 @@ int nlRotateAY(int);
 int nlSetEventNext(int, int, int);
 int pfLocate(float, float);
 int pfPuts(int);
-int FUN_0c05eb52(void);
-float FUN_0c02b146(int a4, int a5, float f4);
-float FUN_0c03a07c(void);
-float FUN_0c0713d8(int a4);
+int Exec_Balloon_Event(void);
+float navi_GetRouteDataC(int a4, int a5, float f4);
+float ExecNameEntryScroll(void);
+float psgUpdatePartTracks(int a4);
 int TrainInit(int a4, int a5);
 int courseStatusGet(int a4, int a5, int a6, int a7);
 int TrailerInit(int a4, int a5);
@@ -37,7 +37,7 @@ float getNearCoursePoint(int a4, int a5, int a6, int a7);
 
 
 
-float FUN_0c03a07c(void)
+float ExecNameEntryScroll(void)
 {
     int t1;
     float u4;
@@ -54,7 +54,7 @@ float FUN_0c03a07c(void)
     int t23;
     float u20;
 
-    FUN_0c039cd2();
+    CheckNameEntryPad();
     t1 = *(int *)0xC2864C4;
     *(unsigned int *)0xC2864C4 = (t1 - 1);
     if ((int)(t1 - 1) <= 0) {
@@ -93,7 +93,7 @@ float FUN_0c03a07c(void)
     return u20;
 }
 
-float FUN_0c0713d8(int a4)
+float psgUpdatePartTracks(int a4)
 {
     float u0;
     int t1;

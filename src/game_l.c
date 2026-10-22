@@ -1,7 +1,7 @@
 /* Game functions (batch l): the menu's open animation step and the step that closes it. Globals are addressed directly
    where the decomp has no name for them yet. */
 
-void FUN_0c03dfc8(void);
+void windowClose(void);
 
 int menuOpenStep(void)
 {
@@ -37,7 +37,7 @@ int menuOpenStep(void)
 
 /* The close step: counts down from m; when it reaches 0 the menu cursor list gets a new empty slot and the state moves on
    (2). Returns 0 when the menu is not in the closing state. */
-int FUN_0c03bf76(int m)
+int windowEnterStep(int m)
 {
     unsigned int *g = (unsigned int *)0x0C2A11F4;
     int *p = (int *)0x0C0EF54C;
@@ -55,7 +55,7 @@ int FUN_0c03bf76(int m)
         g[0] = n;
         g[1 + n] = 0;
         if ((g[5] & 1) || *(int *)0x0C2A1218)
-            FUN_0c03dfc8();
+            windowClose();
         g[5] = (g[5] & -10) | 2;
     }
     return 1;

@@ -3,7 +3,7 @@
 
 void FUN_0c075560(void);
 void FUN_0c0777ec(void);
-void FUN_0c05fa0c(void);
+void Const_Proposal(void);
 void FUN_0c077830(void);
 void FUN_0c07d230(void);
 void FUN_0c077884(void);
@@ -20,47 +20,47 @@ void FUN_0c158e8c(void);
 void FUN_0c158e90(void);
 void FUN_0c1717d4(void);
 int FUN_0c172498(void);
-int FUN_0c03a82c(void);
-int FUN_0c03a832(void);
-int FUN_0c03a838(void);
-int FUN_0c03a87c(void);
-int FUN_0c03a83e(void);
-int FUN_0c03a888(void);
-int FUN_0c03a894(void);
-int FUN_0c03a88e(void);
-int FUN_0c03a882(void);
-int FUN_0c03a89a(void);
-int FUN_0c03a8a6(void);
-int FUN_0c03a8ac(void);
-int FUN_0c03a8a0(void);
-int FUN_0c03a8b2(void);
-int FUN_0c03a8be(void);
-int FUN_0c03a8b8(void);
-int FUN_0c03a8c4(void);
-int FUN_0c03a8ca(void);
-int FUN_0c03a8d6(void);
-int FUN_0c03a8d0(void);
-int FUN_0c03a8dc(void);
-int FUN_0c03a970(void);
-int FUN_0c03a982(void);
-int FUN_0c03a976(void);
-int FUN_0c03a97c(void);
-int FUN_0c03a98e(void);
-int FUN_0c03a988(void);
-int FUN_0c03a994(void);
-int FUN_0c03a99a(void);
-int FUN_0c03a9a0(void);
-int FUN_0c03a9a6(void);
-int FUN_0c03a9b2(void);
-int FUN_0c03a9ac(void);
-int FUN_0c03a9be(void);
-int FUN_0c03a9b8(void);
-int FUN_0c03a9ca(void);
-int FUN_0c03a9d0(void);
-int FUN_0c03a9c4(void);
-int processResponse(void);
-int FUN_0c03a9dc(void);
-int FUN_0c03a9e2(void);
+int BupErrStrBusy(void);
+int BupErrStrInvalidParameter(void);
+int BupErrStrIllegalDisk(void);
+int BupErrStrNoDisk(void);
+int BupErrStrUnknownDisk(void);
+int BupErrStrDiskFull(void);
+int BupErrStrFileExist(void);
+int BupErrStrFileNotFound(void);
+int BupErrStrUnformat(void);
+int BupErrStrCannotOpen(void);
+int BupErrStrExecutableFileExist(void);
+int BupErrStrCannotDelete(void);
+int BupErrStrCannotCreate(void);
+int BupErrStrAccessDenied(void);
+int BupErrStrWriteError(void);
+int BupErrStrVerifyError(void);
+int BupErrStrFileBroken(void);
+int BupErrStrBupfileCrc(void);
+int BupErrStrGenericError(void);
+int BupErrStrBupfileIllegal(void);
+int BupErrStrUnknownError(void);
+int BupOpStrMounted(void);
+int BupOpStrCloseFile(void);
+int BupOpStrUnmounted(void);
+int BupOpStrFormatDisk(void);
+int BupOpStrWriteFile(void);
+int BupOpStrReadFile(void);
+int BupOpStrDeleteFile(void);
+int BupOpStrRenameFile(void);
+int BupOpStrDefragDisk(void);
+int BupOpStrSetFileAttr(void);
+int BupOpStrSaveFile(void);
+int BupOpStrLoadFile(void);
+int BupOpStrLoadFileEx(void);
+int BupOpStrSaveExecFile(void);
+int BupOpStrWriteImage(void);
+int BupOpStrDeleteFileEx(void);
+int BupOpStrReadImage(void);
+int BupOpStrConnect(void);
+int BupOpStrRemove(void);
+int BupOpStrRewriteExecFile(void);
 int BupGetOperationString(void);
 int FUN_0c07d7a0(void);
 int FUN_0c07f860(void);
@@ -75,7 +75,7 @@ void FUN_0c0777ec(void)
     
 }
 
-void FUN_0c05fa0c(void)
+void Const_Proposal(void)
 {
     
 }
@@ -160,207 +160,207 @@ int FUN_0c172498(void)
     return 0x0;
 }
 
-int FUN_0c03a82c(void)
+int BupErrStrBusy(void)
 {
     return 0xC09D7DC;
 }
 
-int FUN_0c03a832(void)
+int BupErrStrInvalidParameter(void)
 {
     return 0xC09D7E4;
 }
 
-int FUN_0c03a838(void)
+int BupErrStrIllegalDisk(void)
 {
     return 0xC09D7F8;
 }
 
-int FUN_0c03a87c(void)
+int BupErrStrNoDisk(void)
 {
     return 0xC09D818;
 }
 
-int FUN_0c03a83e(void)
+int BupErrStrUnknownDisk(void)
 {
     return 0xC09D808;
 }
 
-int FUN_0c03a888(void)
+int BupErrStrDiskFull(void)
 {
     return 0xC09D830;
 }
 
-int FUN_0c03a894(void)
+int BupErrStrFileExist(void)
 {
     return 0xC09D84C;
 }
 
-int FUN_0c03a88e(void)
+int BupErrStrFileNotFound(void)
 {
     return 0xC09D83C;
 }
 
-int FUN_0c03a882(void)
+int BupErrStrUnformat(void)
 {
     return 0xC09D824;
 }
 
-int FUN_0c03a89a(void)
+int BupErrStrCannotOpen(void)
 {
     return 0xC09D858;
 }
 
-int FUN_0c03a8a6(void)
+int BupErrStrExecutableFileExist(void)
 {
     return 0xC09D878;
 }
 
-int FUN_0c03a8ac(void)
+int BupErrStrCannotDelete(void)
 {
     return 0xC09D890;
 }
 
-int FUN_0c03a8a0(void)
+int BupErrStrCannotCreate(void)
 {
     return 0xC09D868;
 }
 
-int FUN_0c03a8b2(void)
+int BupErrStrAccessDenied(void)
 {
     return 0xC09D8A0;
 }
 
-int FUN_0c03a8be(void)
+int BupErrStrWriteError(void)
 {
     return 0xC09D8C0;
 }
 
-int FUN_0c03a8b8(void)
+int BupErrStrVerifyError(void)
 {
     return 0xC09D8B0;
 }
 
-int FUN_0c03a8c4(void)
+int BupErrStrFileBroken(void)
 {
     return 0xC09D8D0;
 }
 
-int FUN_0c03a8ca(void)
+int BupErrStrBupfileCrc(void)
 {
     return 0xC09D8E0;
 }
 
-int FUN_0c03a8d6(void)
+int BupErrStrGenericError(void)
 {
     return 0xC09D904;
 }
 
-int FUN_0c03a8d0(void)
+int BupErrStrBupfileIllegal(void)
 {
     return 0xC09D8F0;
 }
 
-int FUN_0c03a8dc(void)
+int BupErrStrUnknownError(void)
 {
     return 0xC09D914;
 }
 
-int FUN_0c03a970(void)
+int BupOpStrMounted(void)
 {
     return 0xC09D92C;
 }
 
-int FUN_0c03a982(void)
+int BupOpStrCloseFile(void)
 {
     return 0xC09D950;
 }
 
-int FUN_0c03a976(void)
+int BupOpStrUnmounted(void)
 {
     return 0xC09D938;
 }
 
-int FUN_0c03a97c(void)
+int BupOpStrFormatDisk(void)
 {
     return 0xC09D944;
 }
 
-int FUN_0c03a98e(void)
+int BupOpStrWriteFile(void)
 {
     return 0xC09D968;
 }
 
-int FUN_0c03a988(void)
+int BupOpStrReadFile(void)
 {
     return 0xC09D95C;
 }
 
-int FUN_0c03a994(void)
+int BupOpStrDeleteFile(void)
 {
     return 0xC09D974;
 }
 
-int FUN_0c03a99a(void)
+int BupOpStrRenameFile(void)
 {
     return 0xC09D980;
 }
 
-int FUN_0c03a9a0(void)
+int BupOpStrDefragDisk(void)
 {
     return 0xC09D98C;
 }
 
-int FUN_0c03a9a6(void)
+int BupOpStrSetFileAttr(void)
 {
     return 0xC09D998;
 }
 
-int FUN_0c03a9b2(void)
+int BupOpStrSaveFile(void)
 {
     return 0xC09D9B4;
 }
 
-int FUN_0c03a9ac(void)
+int BupOpStrLoadFile(void)
 {
     return 0xC09D9A8;
 }
 
-int FUN_0c03a9be(void)
+int BupOpStrLoadFileEx(void)
 {
     return 0xC09D9D0;
 }
 
-int FUN_0c03a9b8(void)
+int BupOpStrSaveExecFile(void)
 {
     return 0xC09D9C0;
 }
 
-int FUN_0c03a9ca(void)
+int BupOpStrWriteImage(void)
 {
     return 0xC09D9E8;
 }
 
-int FUN_0c03a9d0(void)
+int BupOpStrDeleteFileEx(void)
 {
     return 0xC09D9F4;
 }
 
-int FUN_0c03a9c4(void)
+int BupOpStrReadImage(void)
 {
     return 0xC09D9DC;
 }
 
-int processResponse(void)
+int BupOpStrConnect(void)
 {
     return 0xC09DA04;
 }
 
-int FUN_0c03a9dc(void)
+int BupOpStrRemove(void)
 {
     return 0xC09DA10;
 }
 
-int FUN_0c03a9e2(void)
+int BupOpStrRewriteExecFile(void)
 {
     return 0xC09DA18;
 }

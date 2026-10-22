@@ -2,24 +2,24 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int SetAdvCamera(int, int);
-int FUN_0c03932e(void);
-int FUN_0c03934e(float);
-int FUN_0c039378(float, float, float);
-int FUN_0c03a3e0(void);
-int FUN_0c04bb70(int);
-int FUN_0c059514(void);
-int FUN_0c0595e8(void);
-int FUN_0c0596ac(void);
-int FUN_0c0597fc(void);
-int FUN_0c05aefc(void);
-int FUN_0c05af8e(void);
-int FUN_0c05b044(void);
+int MotionBlurOn(void);
+int SetMotionBlurStrength(float);
+int SetMotionBlurColor(float, float, float);
+int InitEndRoll(void);
+int setReplayType(int);
+int Result_Skip(void);
+int Result_Next_State(void);
+int Result_Voice(void);
+int Result_Sprite_Put(void);
+int Result_Wobble(void);
+int Result_Light(void);
+int Result_SetFog(void);
 int Result_SetBackColor(void);
 int FUN_0c074680(void);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
 int FUN_0c078980(void);
-int Init_Result(int);
+int replayChangeControl(int);
 int Initialize_Replay(void);
 int Sound_Init(void);
 int gdc_StopStreamSongAll(void);
@@ -30,19 +30,19 @@ int mwRnaSetPlaySw(void);
 int nlObjPutLoadTexture(int, int);
 int nlScaleUnitVector(int, int, float);
 int nlSprPut(int, int);
-void FUN_0c020092(void);
+void InitBookkeep(void);
 int gameState12(void);
-int FUN_0c030e72(void);
-void FUN_0c03ac62(void);
-int FUN_0c05778a(int a4, int a5, float f4, float f5);
-int FUN_0c059450(void);
+int PatchPolygon(void);
+void CopyBackupBuffer(void);
+int nd_SprPut(int a4, int a5, float f4, float f5);
+int Exec_Result(void);
 int nlInvLightVectorUseViewMatrix(void);
 int FUN_0c158f00(void);
 int ADXRNA_SetPlaySw(void);
 int ADXRNA_GetNumData(void);
 int thunk_mwRnaErrEntryFunc(void);
 
-void FUN_0c020092(void)
+void InitBookkeep(void)
 {
     int t0;
 
@@ -62,25 +62,25 @@ int gameState12(void)
     gdc_StopStreamSongAll();
     FUN_0c074680();
     *(unsigned int *)0xC2A4E50 = 0x1;
-    Init_Result(0xFFFFFFFF);
+    replayChangeControl(0xFFFFFFFF);
     Initialize_Replay();
-    FUN_0c04bb70(0x3);
+    setReplayType(0x3);
     SetAdvCamera(0xC179840, 0x1);
-    FUN_0c03932e();
-    FUN_0c03932e();
+    MotionBlurOn();
+    MotionBlurOn();
     u9 = *(float *)0xC02D520;
-    FUN_0c03934e(u9);
+    SetMotionBlurStrength(u9);
     u11 = *(float *)0xC02D528;
     u12 = *(float *)0xC02D52C;
-    FUN_0c039378(u12, u11, u9);
-    t14 = FUN_0c03a3e0();
+    SetMotionBlurColor(u12, u11, u9);
+    t14 = InitEndRoll();
     t15 = *(int *)0xC1EE238;
     *(unsigned int *)0xC1EE238 = (t15 + 0x1);
     *(unsigned int *)0xC1EE240 = 0x0;
     return t14;
 }
 
-int FUN_0c030e72(void)
+int PatchPolygon(void)
 {
     int t3;
 
@@ -91,7 +91,7 @@ int FUN_0c030e72(void)
     return t3;
 }
 
-void FUN_0c03ac62(void)
+void CopyBackupBuffer(void)
 {
     int t0;
 
@@ -99,7 +99,7 @@ void FUN_0c03ac62(void)
     for (; t0 < (int)0x25B0; t0++) *(unsigned char *)(0xC28F8A0 + t0) = *(unsigned char *)(0xC28A4E8 + t0);
 }
 
-int FUN_0c05778a(int a4, int a5, float f4, float f5)
+int nd_SprPut(int a4, int a5, float f4, float f5)
 {
     *(unsigned int *)((a4 + 0x0)) = a5;
     *(float *)((a4 + 0x4)) = f4;
@@ -107,19 +107,19 @@ int FUN_0c05778a(int a4, int a5, float f4, float f5)
     return nlSprPut(a4, a5);
 }
 
-int FUN_0c059450(void)
+int Exec_Result(void)
 {
     int t7;
     int t8;
 
-    FUN_0c059514();
-    FUN_0c0595e8();
-    FUN_0c0596ac();
-    FUN_0c05af8e();
-    FUN_0c05b044();
+    Result_Skip();
+    Result_Next_State();
+    Result_Voice();
+    Result_Light();
+    Result_SetFog();
     Result_SetBackColor();
-    FUN_0c05aefc();
-    t7 = FUN_0c0597fc();
+    Result_Wobble();
+    t7 = Result_Sprite_Put();
     t8 = *(int *)0xC2A96F4;
     *(unsigned int *)0xC2A96F4 = (t8 + 0x1);
     return t7;

@@ -11,7 +11,7 @@ int nlLocate(int, int);
 extern int nlPrintf();
 int nlSetFontSize(int, int);
 int FUN_0c1726f0(int a4, int a5, int a6);
-int FUN_0c02a930(void);
+int Warning(void);
 int FUN_0c07c000(int a4, int a5);
 
 int FUN_0c1726f0(int a4, int a5, int a6)
@@ -41,7 +41,7 @@ int FUN_0c1726f0(int a4, int a5, int a6)
     return t10;
 }
 
-int FUN_0c02a930(void)
+int Warning(void)
 {
     int t3;
     int t4;

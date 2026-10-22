@@ -3,9 +3,9 @@
 
 int nlMultiMatrix8(int);
 int nlOuterProduct(int, int, int);
-int SetCameraPosVelocity(int a4);
+int MultiRot4Vec(int a4);
 
-int SetCameraPosVelocity(int a4)
+int MultiRot4Vec(int a4)
 {
     nlOuterProduct((a4 + 0xC), a4, 0xC0ED9F8);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC0EDA08) = *(struct mv3 *)((a4 + 0xC)); }

@@ -7,9 +7,9 @@ int nlAddVector(int, int);
 float nlLength(int, int);
 int nlOuterProduct(int, int, int);
 int nlScaleVector(int, int, float);
-void FUN_0c05ecae(int a4);
+void Move_Balloon(int a4);
 
-void FUN_0c05ecae(int a4)
+void Move_Balloon(int a4)
 {
     float u0;
     float u4;

@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_by): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c034cf2(int);
-int FUN_0c034fa8(int);
+int PutColliWall(int);
+int PutColliPole(int);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 float nlFloor(float);
 void FUN_0c14f5a2(int a4, int a5);
-float FUN_0c035134(float f4, float f5);
+float ViewColliWall(float f4, float f5);
 
 void FUN_0c14f5a2(int a4, int a5)
 {

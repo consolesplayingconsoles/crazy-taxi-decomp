@@ -3,9 +3,9 @@
 
 float FUN_0c089de0(int);
 int nlsndIcsControl(int, int, int);
-int FUN_0c020a10(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int exec_CarSound(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-int FUN_0c020a10(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+int exec_CarSound(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     int t0;
     int t1;

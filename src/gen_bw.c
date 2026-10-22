@@ -3,14 +3,14 @@
 
 int Drv_StartAction(int, int, int);
 int ExecScreen(void);
-int FUN_0c03b788(void);
-int FUN_0c03b81e(int);
-int FUN_0c03c10e(void);
+int ExecWindow(void);
+int menuReadPad(int);
+int menuPutBackground(void);
 int LCDAccessOK(void);
-int FUN_0c060484(void);
-int FUN_0c062da4(void);
-int FUN_0c063dc6(void);
-int FUN_0c064420(void);
+int DO_NOT_LCDAccess(void);
+int Drv_StartReady(void);
+int Drv_ExecBlend(void);
+int drvUpdatePartTracks(void);
 int FUN_0c077170(int, int);
 int FUN_0c1676d0(void);
 int FUN_0c167720(void);
@@ -27,8 +27,8 @@ int FUN_0c15f934(void);
 int FUN_0c14d2d2(int a4);
 int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6);
 int FUN_0c14f8de(int a4, int a5);
-int FUN_0c0638d0(void);
-int FUN_0c063750(void);
+int Drv_ExecHorn(void);
+int Drv_ExecReady(void);
 int FUN_0c077fa0(int a4);
 int Menu(void);
 
@@ -144,7 +144,7 @@ int FUN_0c14f8de(int a4, int a5)
     return t10;
 }
 
-int FUN_0c0638d0(void)
+int Drv_ExecHorn(void)
 {
     int t0;
     float u3;
@@ -165,9 +165,9 @@ int FUN_0c0638d0(void)
 
     t0 = *(signed char *)0xC2AD1DF;
     if ((t0 & 128) != 0) {
-        FUN_0c063dc6();
+        Drv_ExecBlend();
     } else {
-        FUN_0c064420();
+        drvUpdatePartTracks();
         u3 = *(float *)0xC2AD024;
         t4 = *(int *)0xC2AD020;
         FcvStoreBuffer(t4, 0xC2AD028, u3);

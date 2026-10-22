@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_nu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8);
+int nd_SprPut(int, int, float, float);
+int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8);
 
-int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8)
+int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8)
 {
     int t0;
     int t1;
@@ -197,19 +197,19 @@ int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, flo
     *(float *)(((int)stk + 24)) = (F14 * 8.0f);
     u26 = *(float *)(((int)stk + 4));
     *(float *)(((int)stk + 28)) = (u26 - (F14 * 8.0f));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u26 - (F14 * 8.0f)), (u25 - (F13 * 8.0f)));
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u26 - (F14 * 8.0f)), (u25 - (F13 * 8.0f)));
     *(unsigned int *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x28)) = 0xC000;
     u28 = *(float *)(((int)stk + 20));
     u29 = *(float *)(((int)stk + 24));
     u30 = *(float *)(((int)stk + 4));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u29 + u30), u28);
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u29 + u30), u28);
     *(unsigned int *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x28)) = 0x4000;
     u32 = *(float *)(((int)stk + 8));
     u33 = *(float *)(((int)stk + 32));
     u34 = *(float *)(((int)stk + 28));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u34, (u33 + u32));
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u34, (u33 + u32));
     *(unsigned int *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x28)) = 0x8000;
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u29 + u30), (u33 + u32));
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u29 + u30), (u33 + u32));
     *(unsigned int *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x28)) = 0x0;
     t37 = *(int *)((((R12 - 1) << 2) + 0xC2A9B5C));
     t38 = ((((int)t37 >= (int)(R11 + R10))) ? 1 : 0);
@@ -226,7 +226,7 @@ int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, flo
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x24)) = 0.899999976f;
     u40 = *(float *)(((int)stk + 4));
     u41 = *(float *)(((int)stk + 8));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u40, u41);
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u40, u41);
     u43 = (-1.0f);
     u43 = u43 + (1.0f + 1.0f) * (F14 + 0.5f);
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x10)) = u43;
@@ -238,13 +238,13 @@ int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, flo
     *(float *)(((int)stk + 16)) = ((F13 + 0.5f) * 8.0f);
     u44 = *(float *)(((int)stk + 8));
     u45 = *(float *)(((int)stk + 4));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u45, (u44 - ((F13 + 0.5f) * 8.0f)));
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u45, (u44 - ((F13 + 0.5f) * 8.0f)));
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x1C)) = F15;
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x24)) = F12;
     u47 = *(float *)(((int)stk + 8));
     u48 = *(float *)(((int)stk + 16));
     u49 = *(float *)(((int)stk + 4));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u49, (u48 + u47));
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, u49, (u48 + u47));
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x10)) = F15;
     u51 = (-1.0f);
     u51 = u51 + (1.0f + 1.0f) * (F13 + 0.5f);
@@ -256,13 +256,13 @@ int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, flo
     u52 = *(float *)(((int)stk + 8));
     *(float *)(((int)stk + 12)) = ((F14 + 0.5f) * 8.0f);
     u53 = *(float *)(((int)stk + 4));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u53 - ((F14 + 0.5f) * 8.0f)), u52);
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u53 - ((F14 + 0.5f) * 8.0f)), u52);
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x18)) = F15;
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x20)) = F12;
     u55 = *(float *)(((int)stk + 8));
     u56 = *(float *)(((int)stk + 12));
     u57 = *(float *)(((int)stk + 4));
-    FUN_0c05778a(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u56 + u57), u55);
+    nd_SprPut(((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9), 0x77, (u56 + u57), u55);
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x18)) = F12;
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x20)) = F15;
     *(float *)((((unsigned char)(((((R12 + R8) << 2) + (R12 + R8)) << 2) << 2) + R9) + 0x1C)) = F12;

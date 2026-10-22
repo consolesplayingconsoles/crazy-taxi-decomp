@@ -8,9 +8,9 @@ int nlPushMatrix(int);
 int nlRotateAY(int);
 float nlScalor(int);
 int nlSubVector3op(int, int, int);
-int FUN_0c021244(int a4);
+int carLoadTransfer(int a4);
 
-int FUN_0c021244(int a4)
+int carLoadTransfer(int a4)
 {
     int t1;
     int t6;

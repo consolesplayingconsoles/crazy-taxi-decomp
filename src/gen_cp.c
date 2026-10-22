@@ -2,25 +2,25 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CableControlInit(int);
-int FUN_0c036256(int, int, int);
-int FUN_0c03b674(int);
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
-int FUN_0c041016(int);
-int FUN_0c049aa8(int, int, float);
-int FUN_0c04a090(int, int, int, int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05b7f0(int);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05d708(void);
-int FUN_0c05d862(void);
-int FUN_0c067a28(void);
-int FUN_0c067a3e(void);
-int FUN_0c067c14(int, int, int, int, int);
-float FUN_0c0736c0(int, int, float);
-int FUN_0c07378e(int, int, int);
-int FUN_0c07387c(int, int, float);
+int GetRotVec4Ang(int, int, int);
+int NextWindow(int);
+int windowOpenStep(void);
+int windowEnterStep(void);
+int GetNowLanguage(int);
+int convergeRot(int, int, float);
+int getNearLinkedLine(int, int, int, int);
+int nd_SprPut(int, int, float, float);
+int Init_Window_Sprite(int);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Exec_Remain_Arrow(void);
+int Put_Remain_Icon(void);
+int fcvTranslateCurve(void);
+int fcvRotateCurve(void);
+int fcvSolveIK(int, int, int, int, int);
+float BigOneKeyValue(int, int, float);
+int BigOneRotate(int, int, int);
+int BigOneHomeAngle(int, int, float);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077f70(void);
@@ -42,7 +42,7 @@ int GetAverageAngle(int, int, float);
 int GetCollision2D(int, float);
 int KillColliObj(int);
 int PutWindow(int, float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int Sound_Request(int, int);
 extern float _builtin_sqrtf(float);
 int carColliReflection(void);
@@ -90,18 +90,18 @@ int trainControlInit(void);
 int vsklRotate(int);
 void nlUnitRotation(void);
 int kmiCopyTextureToTexture(void);
-float FUN_0c02187a(float f4);
-int FUN_0c03f430(void);
-int FUN_0c05d556(void);
+float carGripCurve(float f4);
+int windowBoxAdvice(void);
+int Exec_DCmini_Game7(void);
 void FUN_0c07cc00(int a4, int a5, int a6, int a7);
-int FUN_0c072580(int a4, int a5);
+int breathSteer(int a4, int a5);
 int SetSpark(int a4, int a5, int a6);
 int FUN_0c07c470(int a4, int a5, int a6, int a7);
 int colliBoxSphere(int a4, int a5);
-int FUN_0c05e5cc(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7);
+int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7);
 int FUN_0c16c1c0(void);
 int trailerExec(int a4);
-int BigOneSwims(void);
+int BigOneSwimMove(void);
 int trafficSectionControl(int a4, int a5, int a6, float f4);
 int humanDraw(int a4, int a5, int a6, int a7);
 int FcvPlay(int a4, int a5, float f4);
@@ -112,7 +112,7 @@ int kmiCopyTextureToTexture(void)
     return 0x1;
 }
 
-float FUN_0c02187a(float f4)
+float carGripCurve(float f4)
 {
     float u20;
     float u15;
@@ -146,7 +146,7 @@ float FUN_0c02187a(float f4)
     return u21;
 }
 
-int FUN_0c03f430(void)
+int windowBoxAdvice(void)
 {
     int t0;
     int t3;
@@ -158,9 +158,9 @@ int FUN_0c03f430(void)
     int t15;
     int t16;
 
-    t0 = FUN_0c03bf42();
+    t0 = windowOpenStep();
     if (t0 == 1) {
-        FUN_0c05b7f0(0x3);
+        Init_Window_Sprite(0x3);
     }
     t3 = *(int *)0xC2A1208;
     if ((t3 & 4) != 0) {
@@ -170,7 +170,7 @@ int FUN_0c03f430(void)
             *(unsigned int *)0xC2A1208 = (t5 | 0x8);
         }
     }
-    FUN_0c03b674(0x0);
+    NextWindow(0x0);
     t9 = PutWindow(0x3, 8.0f, 264.0f);
     if (t9 == 1) {
         putString(0x23, 0xC0A2090, 428.0f, 272.0f, 1.0f);
@@ -178,11 +178,11 @@ int FUN_0c03f430(void)
         putString(0x23, 0xC0A20A8, 32.0f, 272.0f, 1.0f);
         t13 = *(int *)0xC2A11D8;
         t14 = *(int *)(((t13 << 2) + 0xC2A11DC));
-        t15 = FUN_0c041016(0x1);
+        t15 = GetNowLanguage(0x1);
         t16 = *(int *)(((0xC0EF728 + (((t14 - 2) << 2) << 1)) + (t15 << 2)));
         menuPutSprites(t16, 0xC2A1A84, 0x40, 0x130);
     }
-    return FUN_0c03bf76();
+    return windowEnterStep();
 }
 
 
@@ -300,7 +300,7 @@ void FUN_0c07cc00(int a4, int a5, int a6, int a7)
     }
 }
 
-int FUN_0c072580(int a4, int a5)
+int breathSteer(int a4, int a5)
 {
     int t0;
     int t21;
@@ -1292,7 +1292,7 @@ int trailerExec(int a4)
         nlAddVector((0x8C + a4), (((int)stk + 8) + 0xC));
         t67 = *(short *)((t5 + 0xA6));
         t68 = *(short *)((a4 + 0xA6));
-        t69 = FUN_0c049aa8(t68, t67, 1.0f);
+        t69 = convergeRot(t68, t67, 1.0f);
         if (((float)t69 < 0.0f ? -(float)t69 : (float)t69) > 12288.0f) {
             t70 = (t69 - 12288);
             if ((int)t69 < 0) {
@@ -1322,7 +1322,7 @@ int trailerExec(int a4)
         *(unsigned char *)(((0x108 + a4) + 0x4)) = t87;
         t88 = *(signed char *)(((0xA4 + a4) + 0x5));
         *(unsigned char *)(((0x108 + a4) + 0x5)) = t88;
-        FUN_0c04a090(0x2, 0x0, (0x80 + a4), (0xD4 + a4));
+        getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4));
         nlPushUnitMatrix();
         t91 = *(short *)((a4 + 0xA8));
         nlRotateAZ((-(unsigned short)t91));
@@ -1356,14 +1356,14 @@ int trailerExec(int a4)
         t110 = *(short *)((a4 + 0xA8));
         t111 = *(short *)((a4 + 0xA6));
         t112 = *(short *)((a4 + 0xA4));
-        FUN_0c036256((a4 + 0x44), (unsigned short)t112, (unsigned short)t111);
+        GetRotVec4Ang((a4 + 0x44), (unsigned short)t112, (unsigned short)t111);
         *(unsigned int *)((a4 + 0x68)) = 0x0;
         t114 = 0x68;
     }
     return t114;
 }
 
-int BigOneSwims(void)
+int BigOneSwimMove(void)
 {
     int t0;
     int t1;
@@ -1496,40 +1496,40 @@ int BigOneSwims(void)
         t138 = t9;
     } else {
         u10 = *(float *)0xC2AEC58;
-        t11 = FUN_0c0736c0(0xC13F5B8, 0x2, u10);
+        t11 = BigOneKeyValue(0xC13F5B8, 0x2, u10);
         *(float *)0xC2AEC40 = t11;
         u12 = *(float *)0xC2AEC58;
-        t13 = FUN_0c0736c0(0xC13F578, 0x4, u12);
+        t13 = BigOneKeyValue(0xC13F578, 0x4, u12);
         *(float *)0xC2AEC44 = t13;
         u14 = *(float *)0xC2AEC40;
         *(float *)0xC2AEC48 = u14;
         u15 = *(float *)0xC2AEC58;
-        t16 = FUN_0c0736c0(0xC13F518, 0x4, u15);
+        t16 = BigOneKeyValue(0xC13F518, 0x4, u15);
         *(unsigned int *)(((int)stk + 4)) = ((int)(((t16 * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
         u17 = *(float *)0xC2AEC58;
-        t18 = FUN_0c0736c0(0xC13F558, 0x2, u17);
+        t18 = BigOneKeyValue(0xC13F558, 0x2, u17);
         *(unsigned int *)(((int)stk + 8)) = ((int)(((t18 * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
         t19 = *(int *)(((int)stk + 4));
-        FUN_0c07387c(t19, 0xC2AEC4C, 0.0749999955f);
+        BigOneHomeAngle(t19, 0xC2AEC4C, 0.0749999955f);
         t21 = *(int *)(((int)stk + 8));
-        FUN_0c07387c(t21, 0xC2AEC50, 0.0749999955f);
+        BigOneHomeAngle(t21, 0xC2AEC50, 0.0749999955f);
         t23 = *(int *)0xC2AEC50;
         *(unsigned int *)0xC2AEC54 = t23;
         nlPushUnitMatrix();
         t25 = *(int *)0xC2AEC50;
         t26 = *(int *)0xC2AEC54;
         t27 = *(int *)0xC2AEC4C;
-        FUN_0c07378e(t27, t25, t26);
+        BigOneRotate(t27, t25, t26);
         nlPushMatrix(0x0);
         nlSqrt((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x14));
         u31 = *(float *)0xC2AEC58;
-        t32 = FUN_0c0736c0(0xC13F5D8, 0x2, u31);
+        t32 = BigOneKeyValue(0xC13F5D8, 0x2, u31);
         *(float *)(((int)stk + 12)) = t32;
         u33 = *(float *)0xC2AEC58;
-        t34 = FUN_0c0736c0(0xC13F5F8, 0x6, u33);
+        t34 = BigOneKeyValue(0xC13F5F8, 0x6, u33);
         *(float *)(((int)stk + 16)) = t34;
         u35 = *(float *)0xC2AEC58;
-        t36 = FUN_0c0736c0(0xC13F658, 0x5, u35);
+        t36 = BigOneKeyValue(0xC13F658, 0x5, u35);
         *(float *)(((int)stk + 20)) = t36;
         nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
         u38 = *(float *)(((int)stk + 12));
@@ -1544,14 +1544,14 @@ int BigOneSwims(void)
         t46 = *(int *)0xC2AEC50;
         *(unsigned int *)(((int)stk + 8)) = ((t45 - t46) - t46);
         t47 = *(int *)(((int)stk + 4));
-        FUN_0c07387c(t47, 0xC2AEC60, 0.0749999955f);
+        BigOneHomeAngle(t47, 0xC2AEC60, 0.0749999955f);
         t49 = *(int *)(((int)stk + 8));
-        FUN_0c07387c(t49, 0xC2AEC64, 0.0749999955f);
+        BigOneHomeAngle(t49, 0xC2AEC64, 0.0749999955f);
         nlTranslateV((((int)stk + 4) + 0x38));
         t52 = *(int *)0xC2AEC68;
         t53 = *(int *)0xC2AEC64;
         t54 = *(int *)0xC2AEC60;
-        FUN_0c07378e(t54, t53, t52);
+        BigOneRotate(t54, t53, t52);
         FUN_0c0789c0((((int)stk + 4) + 0x38));
         *(unsigned int *)(((int)stk + 4)) = 0x0;
         t57 = 0xC140EB8;
@@ -1568,13 +1568,13 @@ int BigOneSwims(void)
         nlGetPushedMatrix(0x0);
         nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
         u65 = *(float *)0xC2AEC58;
-        t66 = FUN_0c0736c0(0xC13F6A8, 0x2, u65);
+        t66 = BigOneKeyValue(0xC13F6A8, 0x2, u65);
         *(float *)(((int)stk + 12)) = t66;
         u67 = *(float *)0xC2AEC58;
-        t68 = FUN_0c0736c0(0xC13F6C8, 0x6, u67);
+        t68 = BigOneKeyValue(0xC13F6C8, 0x6, u67);
         *(float *)(((int)stk + 16)) = t68;
         u69 = *(float *)0xC2AEC58;
-        t70 = FUN_0c0736c0(0xC13F728, 0x6, u69);
+        t70 = BigOneKeyValue(0xC13F728, 0x6, u69);
         *(float *)(((int)stk + 20)) = t70;
         nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
         u72 = *(float *)(((int)stk + 12));
@@ -1589,14 +1589,14 @@ int BigOneSwims(void)
         t80 = *(int *)0xC2AEC50;
         *(unsigned int *)(((int)stk + 8)) = (t79 - t80);
         t81 = *(int *)(((int)stk + 4));
-        FUN_0c07387c(t81, 0xC2AEC6C, 0.0749999955f);
+        BigOneHomeAngle(t81, 0xC2AEC6C, 0.0749999955f);
         t83 = *(int *)(((int)stk + 8));
-        FUN_0c07387c(t83, 0xC2AEC70, 0.0749999955f);
+        BigOneHomeAngle(t83, 0xC2AEC70, 0.0749999955f);
         nlTranslateV((((int)stk + 4) + 0x20));
         t86 = *(int *)0xC2AEC74;
         t87 = *(int *)0xC2AEC70;
         t88 = *(int *)0xC2AEC6C;
-        FUN_0c07378e(t88, t87, t86);
+        BigOneRotate(t88, t87, t86);
         FUN_0c0789c0((((int)stk + 4) + 0x20));
         *(unsigned int *)(((int)stk + 4)) = 0x0;
         t91 = 0xC1413A4;
@@ -1612,13 +1612,13 @@ int BigOneSwims(void)
         } while ((unsigned int)(t96 + 0x1) < (unsigned int)0x10);
         nlSqrt((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x14));
         u98 = *(float *)0xC2AEC58;
-        t99 = FUN_0c0736c0(0xC13F788, 0x2, u98);
+        t99 = BigOneKeyValue(0xC13F788, 0x2, u98);
         *(float *)(((int)stk + 12)) = t99;
         u100 = *(float *)0xC2AEC58;
-        t101 = FUN_0c0736c0(0xC13F7A8, 0x8, u100);
+        t101 = BigOneKeyValue(0xC13F7A8, 0x8, u100);
         *(float *)(((int)stk + 16)) = t101;
         u102 = *(float *)0xC2AEC58;
-        t103 = FUN_0c0736c0(0xC13F828, 0x7, u102);
+        t103 = BigOneKeyValue(0xC13F828, 0x7, u102);
         *(float *)(((int)stk + 20)) = t103;
         nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
         u105 = *(float *)(((int)stk + 12));
@@ -1635,14 +1635,14 @@ int BigOneSwims(void)
         t115 = *(int *)0xC2AEC70;
         *(unsigned int *)(((int)stk + 8)) = ((t113 - t114) - t115);
         t116 = *(int *)(((int)stk + 4));
-        FUN_0c07387c(t116, 0xC2AEC78, 0.0749999955f);
+        BigOneHomeAngle(t116, 0xC2AEC78, 0.0749999955f);
         t118 = *(int *)(((int)stk + 8));
-        FUN_0c07387c(t118, 0xC2AEC7C, 0.0749999955f);
+        BigOneHomeAngle(t118, 0xC2AEC7C, 0.0749999955f);
         nlTranslateV((((int)stk + 4) + 0x2C));
         t121 = *(int *)0xC2AEC80;
         t122 = *(int *)0xC2AEC7C;
         t123 = *(int *)0xC2AEC78;
-        FUN_0c07378e(t123, t122, t121);
+        BigOneRotate(t123, t122, t121);
         FUN_0c0789c0((((int)stk + 4) + 0x2C));
         *(unsigned int *)(((int)stk + 4)) = 0x0;
         t126 = 0xC141564;

@@ -2,11 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CalcHomingVector(int);
-int FUN_0c0288e0(float);
-int FUN_0c02bb60(int, int, float);
-int FUN_0c036378(int);
-int FUN_0c06468e(void);
-int FUN_0c06b028(float);
+int SetCameraDistance(float);
+int HomingAngle1(int, int, float);
+int CalcHomingAngle(int);
+int KyaCamera(void);
+int SetNewClippingAngle(float);
 int FUN_0c077210(int, int);
 int FUN_0c077890(int, int, int);
 int FUN_0c077df0(int);
@@ -20,7 +20,7 @@ int ResetSpark(void);
 int SetCameraAngleRatio(float, float);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int SetCameraTargetRatio(float, float);
 int camSetAngles(int, int, int, int);
 int camSetEye(int, int);
@@ -911,7 +911,7 @@ int camUpdate(int a4)
             if (t55 != 0) {
                 SetCameraAngleRatio(0.949999988f, 0.099999994f);
                 SetCameraTargetRatio(1.0f, 0.099999994f);
-                FUN_0c0288e0(120.0f);
+                SetCameraDistance(120.0f);
                 SetCameraMode(0x2);
                 t60 = *(int *)0xC179488;
                 if ((int)t60 < (int)0x4) {
@@ -975,7 +975,7 @@ int camUpdate(int a4)
                 if (t114 != 0) {
                     SetCameraAngleRatio(0.949999988f, 0.099999994f);
                     SetCameraTargetRatio(1.0f, 0.099999994f);
-                    FUN_0c0288e0(120.0f);
+                    SetCameraDistance(120.0f);
                     SetCameraMode(0x2);
                     t119 = *(int *)0xC179488;
                     if ((int)t119 < (int)0x4) {
@@ -1039,7 +1039,7 @@ int camUpdate(int a4)
                         *(float *)0xC1798A4 = 60.0f;
                         SetCameraAngleRatio(0.599999964f, 0.099999994f);
                         SetCameraTargetRatio(0.799999952f, 0.099999994f);
-                        FUN_0c0288e0(600.0f);
+                        SetCameraDistance(600.0f);
                         SetCameraMode(0x2);
                     }
                     t183 = *(int *)0xC1EE2B4;
@@ -1076,7 +1076,7 @@ int camUpdate(int a4)
                     if (t54 == 4) {
                         t213 = *(int *)0xC0E4A14;
                         if (t213 != 0) {
-                            FUN_0c0288e0(60.0f);
+                            SetCameraDistance(60.0f);
                         }
                         SetCameraMode(0x4);
                         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x44)) = *(struct mv3 *)(0xC08AA78); }
@@ -1328,7 +1328,7 @@ int camUpdate(int a4)
                                 *(float *)0xC1798A4 = 60.0f;
                                 SetCameraAngleRatio(0.399999976f, 0.099999994f);
                                 SetCameraTargetRatio(0.799999952f, 0.099999994f);
-                                FUN_0c0288e0(60.0f);
+                                SetCameraDistance(60.0f);
                                 SetCameraMode(0x2);
                             }
                             t489 = *(int *)0xC1EE2B4;
@@ -1386,7 +1386,7 @@ int camUpdate(int a4)
                                     t540 = *(int *)0xC0E4A00;
                                     if (t540 != 0) {
                                         t541 = *(int *)0xC0E4A00;
-                                        SetCameraPosVelocity(t541);
+                                        MultiRot4Vec(t541);
                                     } else {
                                         t543 = *(int *)0xC0E49FC;
                                         if (t543 != 0) {
@@ -1421,7 +1421,7 @@ int camUpdate(int a4)
                                     *(float *)0xC1798A4 = 60.0f;
                                     SetCameraAngleRatio(0.399999976f, 0.099999994f);
                                     SetCameraTargetRatio(0.799999952f, 0.099999994f);
-                                    FUN_0c0288e0(60.0f);
+                                    SetCameraDistance(60.0f);
                                     SetCameraMode(0x2);
                                 }
                                 t597 = *(int *)0xC1EE2B4;
@@ -1479,7 +1479,7 @@ int camUpdate(int a4)
                                         t648 = *(int *)0xC0E4A00;
                                         if (t648 != 0) {
                                             t649 = *(int *)0xC0E4A00;
-                                            SetCameraPosVelocity(t649);
+                                            MultiRot4Vec(t649);
                                         } else {
                                             t651 = *(int *)0xC0E49FC;
                                             if (t651 != 0) {
@@ -2592,10 +2592,10 @@ int camUpdate(int a4)
                                     if (t54 == 8) {
                                     } else {
                                         if (t54 == 10) {
-                                            FUN_0c06468e();
+                                            KyaCamera();
                                         } else {
                                             if (t54 == 11) {
-                                                FUN_0c06468e();
+                                                KyaCamera();
                                             }
                                         }
                                     }
@@ -2649,7 +2649,7 @@ int camUpdate(int a4)
         }
         t1562 = *(int *)(((int)stk + 88));
         t1563 = *(short *)((t1562 + 0x86));
-        FUN_0c02bb60(t1563, 0xC1798AE, 0.149999991f);
+        HomingAngle1(t1563, 0xC1798AE, 0.149999991f);
         t1565 = *(int *)(((int)stk + 88));
         t1566 = *(int *)((0x3B0 + t1565));
         if (t1566 == 4) {
@@ -2690,13 +2690,13 @@ int camUpdate(int a4)
                 t1605 = *(int *)(((int)stk + 88));
                 *(volatile float *)((t1605 + 0x15C));
                 t1607 = *(short *)((t1605 + 0xF4));
-                FUN_0c02bb60(t1607, 0xC17995C, 0.149999991f);
+                HomingAngle1(t1607, 0xC17995C, 0.149999991f);
             } else {
                 u1609 = *(float *)0xC179958;
                 if (u1609 == 0.0f) {
                     t1610 = *(int *)(((int)stk + 88));
                     t1611 = *(short *)((t1610 + 0xF4));
-                    FUN_0c02bb60(t1611, 0xC17995C, 0.149999991f);
+                    HomingAngle1(t1611, 0xC17995C, 0.149999991f);
                 } else {
                     t1613 = *(int *)(((int)stk + 88));
                     u1614 = *(float *)((t1613 + 0x15C));
@@ -2723,7 +2723,7 @@ int camUpdate(int a4)
             if (u1646 == 0.0f) {
                 t1647 = *(int *)(((int)stk + 88));
                 t1648 = *(short *)((t1647 + 0xF4));
-                FUN_0c02bb60(t1648, 0xC17995C, 0.149999991f);
+                HomingAngle1(t1648, 0xC17995C, 0.149999991f);
             } else {
                 t1650 = *(int *)(((int)stk + 88));
                 u1651 = *(float *)((t1650 + 0x15C));
@@ -2747,10 +2747,10 @@ int camUpdate(int a4)
         }
         t1683 = *(short *)0xC17995C;
         u1684 = *(float *)0xC179958;
-        FUN_0c02bb60(t1683, 0xC1798AE, u1684);
+        HomingAngle1(t1683, 0xC1798AE, u1684);
         t1686 = *(int *)(((int)stk + 88));
         t1687 = *(short *)((t1686 + 0x84));
-        FUN_0c02bb60(t1687, 0xC1798AC, 0.099999994f);
+        HomingAngle1(t1687, 0xC1798AC, 0.099999994f);
         u1689 = *(float *)0xC179958;
         if (u1689 == 0.0f) {
             t1690 = *(int *)0xC179960;
@@ -2897,7 +2897,7 @@ int camUpdate(int a4)
         t1833 = *(short *)((t1832 + 0x88));
         *(unsigned int *)0xC179948 = (int)((float)t1833 * 0.25f);
         SetCameraAngleRatio(0.125f, 0.125f);
-        FUN_0c036378(0xC179928);
+        CalcHomingAngle(0xC179928);
         SetCameraMode(0x1);
     }
     nlPopMatrix(0x1);
@@ -2939,7 +2939,7 @@ int camUpdate(int a4)
         } else {
             if (t1855 == 2) {
                 CalcHomingVector(0xC1798FC);
-                FUN_0c036378(0xC179928);
+                CalcHomingAngle(0xC179928);
                 nlTranslateV(0xC1798FC);
                 t1873 = *(int *)0xC17992C;
                 nlRotateAY(t1873);
@@ -2963,7 +2963,7 @@ int camUpdate(int a4)
                     t1888 = *(short *)0xC179858;
                     camSetAngles((unsigned short)t1888, (unsigned short)t1886, (unsigned short)t1887, 0x0);
                     CalcHomingVector(0xC1798D0);
-                    FUN_0c036378(0xC179928);
+                    CalcHomingAngle(0xC179928);
                     nlTranslateV(0xC1798D0);
                     t1893 = *(int *)0xC17992C;
                     nlRotateAY(t1893);
@@ -2985,7 +2985,7 @@ int camUpdate(int a4)
         }
     } else {
         CalcHomingVector(0xC1798D0);
-        FUN_0c036378(0xC179928);
+        CalcHomingAngle(0xC179928);
         nlTranslateV(0xC1798D0);
         t1921 = *(int *)0xC17992C;
         nlRotateAY(t1921);
@@ -3017,6 +3017,6 @@ int camUpdate(int a4)
     FUN_0c077df0(0x1);
     FUN_0c078ff0();
     u1948 = *(float *)0xC1798A4;
-    t1949 = FUN_0c06b028(u1948);
+    t1949 = SetNewClippingAngle(u1948);
     return t1949;
 }

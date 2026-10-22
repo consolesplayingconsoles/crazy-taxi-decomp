@@ -2,13 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c062da4(void);
-int FUN_0c063dc6(void);
-int FUN_0c064420(void);
+int Drv_StartReady(void);
+int Drv_ExecBlend(void);
+int drvUpdatePartTracks(void);
 int FcvStoreBuffer(int, int, float);
-int FUN_0c063750(void);
+int Drv_ExecReady(void);
 
-int FUN_0c063750(void)
+int Drv_ExecReady(void)
 {
     int t0;
     int t1;
@@ -35,10 +35,10 @@ int FUN_0c063750(void)
 
     t0 = *(signed char *)0xC2AD1DF;
     if ((t0 & 128) != 0) {
-        t1 = FUN_0c063dc6();
+        t1 = Drv_ExecBlend();
         t47 = t1;
     } else {
-        FUN_0c064420();
+        drvUpdatePartTracks();
         u3 = *(float *)0xC2AD024;
         t4 = *(int *)0xC2AD020;
         FcvStoreBuffer(t4, 0xC2AD028, u3);
@@ -69,7 +69,7 @@ int FUN_0c063750(void)
                 *(unsigned int *)0xC2AD1DC = ((t28 & 0xFF000000) | 0x0);
                 t29 = *(int *)0xC2AD014;
                 *(unsigned int *)0xC2AD014 = (t29 + 0x1);
-                FUN_0c062da4();
+                Drv_StartReady();
                 t31 = *(signed char *)0xC2AD1DF;
                 *(unsigned char *)0xC2AD1DF = (t31 | 0x80);
                 *(float *)0xC2AD0F4 = 0.0f;

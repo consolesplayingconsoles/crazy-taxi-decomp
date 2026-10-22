@@ -3,10 +3,10 @@
 
 int Drv_Init(void);
 int Drv_StartAction(int, int, int);
-int FUN_0c060dfc(void);
+int Chat_Init(void);
 int FcvStoreBuffer(int, int, float);
 int Sound_Init(void);
-int kmUnloadDevice(void);
+int RinAqua_Init(void);
 int nlRand(void);
 int rinRandomSeed(int);
 int Act_Init(void);
@@ -72,7 +72,7 @@ int Act_Init(void)
         }
     }
     Sound_Init();
-    FUN_0c060dfc();
+    Chat_Init();
     *(unsigned int *)0xC0E49E0 = 0x0;
-    return kmUnloadDevice();
+    return RinAqua_Init();
 }

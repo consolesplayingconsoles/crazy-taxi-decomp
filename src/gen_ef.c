@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_ef): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0391fc(void);
-int FUN_0c049aa8(int, int, float);
+int PutMVObj(void);
+int convergeRot(int, int, float);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c07b9e0(void);
 int FcvPlay(int, int, float);
 int GetRotVec(int);
-int carBalance(int);
+int carBalanceRoll(int);
 int getYXZrot(int);
 int nlArcTan2(float, float);
 int nlGetMatrix(int);
@@ -24,11 +24,11 @@ int nlRotateAZ(int);
 int nlSetTranslate(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-int FUN_0c0200e4(int a4);
-int Put_Motion2D(int a4, int a5);
-int FUN_0c050752(void);
+int putPlayerCarByView(int a4);
+int carBalance(int a4, int a5);
+int nd_StartWait_PutKyaku(void);
 
-int FUN_0c0200e4(int a4)
+int putPlayerCarByView(int a4)
 {
     int t0;
     int t57;
@@ -245,7 +245,7 @@ int FUN_0c0200e4(int a4)
     }
     nlObjPutUseViewMatrix(t136);
     t139 = *(int *)0xC179488;
-    FUN_0c0391fc();
+    PutMVObj();
     GetRotVec((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x30));
     nlPopMatrix(0x1);
     t143 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x6C));
@@ -297,7 +297,7 @@ int FUN_0c0200e4(int a4)
 }
 
 
-int FUN_0c050752(void)
+int nd_StartWait_PutKyaku(void)
 {
     int t0;
     int t11;

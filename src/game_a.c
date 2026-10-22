@@ -3,10 +3,10 @@
 
 void ResetSpark(void);
 void nlExecuteEvent(void);
-void FUN_0c059450(void);
+void Exec_Result(void);
 void gdc_CourseStartLoadReq(void);
-void FUN_0c02e800(void);
-void FUN_0c060b84(int n);
+void gdc_CourseBlockInit(void);
+void LoadGroupTexture(int n);
 void nlSetCommonTextureOffset(int ofs);
 void camSetMode(int m);
 int ADXT_StartAfs(int h, int a, int b);
@@ -19,12 +19,12 @@ void pfPutc(int c);
 #define ADXT_VOICE      ((int *)0x0C1EE810)             /* and of the voices */
 #define PF_PTR          (*(char **)0x0C26E310)          /* the print buffer's write pointer */
 
-void FUN_0c0200aa(int i)
+void SetKyakuCount(int i)
 {
     ((short *)0x0C178E70)[i]++;
 }
 
-void FUN_0c0246dc(void)
+void kyakuResetDropCount(void)
 {
     *(int *)0x0C1794D0 = 0;
 }
@@ -53,13 +53,13 @@ void InitAdvCamera(void)
     *(int *)0x0C179974 = 1;
 }
 
-void FUN_0c029a94(void)
+void car_texload(void)
 {
     nlSetCommonTextureOffset(1500);
-    FUN_0c060b84(6);
+    LoadGroupTexture(6);
 }
 
-void FUN_0c02c094(int m)
+void TitleWaitSet(int m)
 {
     *(int *)0x0C0E5310 = m ? 900 : 0;
     *(int *)0x0C2A4E54 = 0;
@@ -68,7 +68,7 @@ void FUN_0c02c094(int m)
 void gameState9(void)
 {
     (*(int *)0x0C1EE240)++;
-    FUN_0c059450();
+    Exec_Result();
     nlExecuteEvent();
     gdc_CourseStartLoadReq();
 }
@@ -81,7 +81,7 @@ void gameState11(void)
 }
 
 /* 0 below the limit at +76, 1 from it, 2 from the limit at +80 (compared with the value at +68). */
-int FUN_0c02d918(void)
+int GS_GuestResult(void)
 {
     int *g = (int *)0x0C1EE788;
 
@@ -92,16 +92,16 @@ int FUN_0c02d918(void)
     return 1;
 }
 
-int FUN_0c02dd3a(void)
+int Start_chk(void)
 {
     return (((int *)0x0C1EE24C)[1] & 8) ? 1 : 0;
 }
 
-void FUN_0c02dd52(void)
+void execPlayerADV(void)
 {
 }
 
-void FUN_0c02dd5a(void)
+void execPlayer(void)
 {
 }
 
@@ -115,7 +115,7 @@ void gdc_StopStreamSongAll(void)
     ADXT_Stop(ADXT_SONG[0]);
 }
 
-void FUN_0c02e36c(int a, int b)
+void gdc_FadeStopStreamSong(int a, int b)
 {
     *(int *)0x0C26A0B8 = 1;
     *(int *)0x0C26A0BC = a;
@@ -123,7 +123,7 @@ void FUN_0c02e36c(int a, int b)
     *(int *)0x0C26A0C4 = b;
 }
 
-int FUN_0c02e572(int i)
+int gdc_GetStreamVoiceStat(int i)
 {
     return ADXT_GetStat(ADXT_VOICE[i]);
 }
@@ -146,20 +146,20 @@ int adxStartAfs2(int i, int b)
     return ADXT_StartAfs(ADXT_VOICE[i], 2, b);
 }
 
-int FUN_0c02e75a(int i, char c)
+int gdc_StreamVoicePan(int i, char c)
 {
     return ADXT_SetOutPan(ADXT_VOICE[i], 0, c);
 }
 
-void FUN_0c02e90e(void)
+void gdc_CourseBlockReset(void)
 {
     *(int *)0x0C26E0F4 = -1;
     *(int *)0x0C26E0F8 = 0;
     *(int *)0x0C0EA3DC = 0;
-    FUN_0c02e800();
+    gdc_CourseBlockInit();
 }
 
-void FUN_0c02f14c(void)
+void gdc_LandmarkInit(void)
 {
     *(int *)0x0C1EE808 = -1;
     *(int *)0x0C26E17C = 0;
@@ -174,7 +174,7 @@ void pfCleanString(void)
     *(char *)0x0C26E210 = 0;
 }
 
-void FUN_0c0310ae(int c)
+void pfAddChar(int c)
 {
     char *p = PF_PTR;
 
@@ -203,7 +203,7 @@ void pfPuts(char *s)
         pfPutc(*s++);
 }
 
-void FUN_0c031408(int on)
+void pfSetFilterMode(int on)
 {
     if (on)
         *(int *)0x0C0ED1C8 |= 0x2000;
@@ -221,7 +221,7 @@ void pfColor(int a, int b, int c, int d)
     g[3] = d;
 }
 
-void FUN_0c031036(int a, int b, int c, int d)
+void pfOffsetColor(int a, int b, int c, int d)
 {
     int *g = (int *)0x0C0ED240;
 
@@ -232,7 +232,7 @@ void FUN_0c031036(int a, int b, int c, int d)
     *(int *)0x0C0ED1C0 = 0x8200000E;
 }
 
-void FUN_0c031048(void)
+void pfOffsetOff(void)
 {
     int *g = (int *)0x0C0ED240;
 

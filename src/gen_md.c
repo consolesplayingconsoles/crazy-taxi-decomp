@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_md): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c031408(int);
-int FUN_0c040cea(int);
+int pfSetFilterMode(int);
+int CheckBoxFlag(int);
 int menuPutSprites(int, int, int, int);
 int pfColor(int, int, int, int);
 float pfLength(int);
@@ -160,7 +160,7 @@ int putLevelCTFontAssist(int a4, int a5, int a6, int a7, int a8, float f4, float
     L_C03C388:;
     *(unsigned int *)(((int)stk + 12)) = R6;
     *(unsigned int *)(((int)stk + 16)) = R7;
-    FUN_0c031408(0x1);
+    pfSetFilterMode(0x1);
     u1 = *(float *)0xC2A1AD4;
     pfSetZ(u1);
     pfSetFont((0x3 & R4));
@@ -200,7 +200,7 @@ int putLevelCTFontAssist(int a4, int a5, int a6, int a7, int a8, float f4, float
     goto L_C03C3E6;
     L_C03C3E6:;
     t17 = *(int *)0xC2A11C4;
-    t18 = FUN_0c040cea(t17);
+    t18 = CheckBoxFlag(t17);
     t19 = ((((int)R14 >= 0) ? (R11 << (R14 & 31)) : ((-(int)R14 & 31) ? ((int)R11 >> (-(int)R14 & 31)) : ((int)R11 >> 31))) & (t18 << 2)) == 0;
     if (t19) goto L_C03C3FE;
     goto L_C03C3FA;
@@ -508,5 +508,5 @@ int putLevelCTFontAssist(int a4, int a5, int a6, int a7, int a8, float f4, float
     R7 = t122;
     goto L_C03C49E;
     L_C03C772:;
-    return FUN_0c031408(0x0);
+    return pfSetFilterMode(0x0);
 }

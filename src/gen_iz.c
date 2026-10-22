@@ -11,9 +11,9 @@ int frameFlip(void);
 int nlLocate(int, int);
 int nlPrintf(int, ...);
 int nlSetFontSize(int, int);
-void FUN_0c02fa50(int a4, int a5);
+void gdc_CourseSetupAll(int a4, int a5);
 
-void FUN_0c02fa50(int a4, int a5)
+void gdc_CourseSetupAll(int a4, int a5)
 {
     int t3;
     int t8;

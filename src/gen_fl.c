@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int putString(int, int, float, float, float);
-int FUN_0c03ccca(int a4, int a5, int a6, float f4, float f5);
+int putDriverName(int a4, int a5, int a6, float f4, float f5);
 
-int FUN_0c03ccca(int a4, int a5, int a6, float f4, float f5)
+int putDriverName(int a4, int a5, int a6, float f4, float f5)
 {
     int t12;
     int t7;

@@ -3,5 +3,5 @@
 
 int nlMultiMatrix8(int);
 int nlOuterProduct(int, int, int);
-int SetCameraPosVelocity(int a4);
+int MultiRot4Vec(int a4);
 

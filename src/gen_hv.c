@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_hv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0533e6(void);
+int End_Pass_Ranking(void);
 extern int nlSprPut();
-int FUN_0c055bec(void);
+int hudRankPanelSlide(void);
 
-int FUN_0c055bec(void)
+int hudRankPanelSlide(void)
 {
     int t0;
     int t1;
@@ -39,7 +39,7 @@ int FUN_0c055bec(void)
             *(unsigned int *)0xC2A9170 = (t4 - 1);
             if ((int)(t4 - 1) < 0) {
                 *(unsigned int *)0xC2A9170 = 0x0;
-                FUN_0c0533e6();
+                End_Pass_Ranking();
             } else {
                 t10 = 0xC2A9178;
             }

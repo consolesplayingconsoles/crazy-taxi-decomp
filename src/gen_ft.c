@@ -1,24 +1,24 @@
 /* Straight-line functions with calls and guards (batch gen_ft): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03b674(int);
-int FUN_0c05be5c(void);
-int FUN_0c05c2d4(void);
-int FUN_0c05c304(void);
-int FUN_0c05c3fe(void);
-int FUN_0c05c470(void);
-int FUN_0c05c614(void);
-int FUN_0c05c72e(void);
-int FUN_0c05c7ac(void);
-int FUN_0c05d076(void);
-int FUN_0c05d21c(void);
-int FUN_0c05d28e(int);
-int FUN_0c05d4fc(void);
-int FUN_0c05d556(void);
-int FUN_0c05da9c(void);
-int FUN_0c05dbdc(void);
-int FUN_0c05df6a(void);
-int FUN_0c05e944(void);
+int NextWindow(int);
+int Put_JumpDistance(void);
+int Exec_Excellent(void);
+int Exec_Fault(void);
+int Set_Record_Time(void);
+int Exec_Crazy_Jump(void);
+int Exec_DCmini_Game4(void);
+int Exec_DCmini_Game1(void);
+int Exec_Crazy_Bowling(void);
+int Check_DCmini_End(void);
+int Exec_DCmini_Game8(void);
+int Exec_DCmini_Game9(int);
+int Put_PoleMarriageKiss(void);
+int Exec_DCmini_Game7(void);
+int Exec_DCmini_Game12(void);
+int Exec_Check_Point(void);
+int Put_Record_Window(void);
+int Exec_Crazy_Balloons(void);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int gdc_StopStreamVoice(int);
@@ -37,7 +37,7 @@ static void iaOcbwb(void *p)
 {
     .DATA.W H'04B3
 }
-int FUN_0c03b698(int a4);
+int SetWindow(int a4);
 int FUN_0c14ecd0(int a4, int a5);
 void FUN_0c14ef2e(int a4, int a5);
 void FUN_0c14f182(int a4, int a5);
@@ -46,7 +46,7 @@ int execDCmini(void);
 int kmChangeContextDSTBlendMode(int a4);
 int kmChangeContextSRCBlendMode(int a4);
 
-int FUN_0c03b698(int a4)
+int SetWindow(int a4)
 {
     int t6;
     int t11;
@@ -165,7 +165,7 @@ int FUN_0c03b698(int a4)
         t11 = (t11 + 0x4);
         t12 = (t12 + 0x1);
     }
-    return FUN_0c03b674(0x0);
+    return NextWindow(0x0);
 }
 
 int FUN_0c14ecd0(int a4, int a5)
@@ -323,46 +323,46 @@ int execDCmini(void)
         switch ((t0 << 1)) {
             case 0:
             {
-                FUN_0c05c470();
+                Exec_Crazy_Jump();
             }
                 break;
             case 2:
             {
-                FUN_0c05c72e();
+                Exec_DCmini_Game1();
             }
                 break;
             case 4:
             {
-                FUN_0c05e944();
+                Exec_Crazy_Balloons();
             }
                 break;
             case 6:
             {
-                FUN_0c05c7ac();
+                Exec_Crazy_Bowling();
             }
                 break;
             case 8:
             {
-                FUN_0c05c614();
+                Exec_DCmini_Game4();
             }
                 break;
             case 10:
             case 12:
             case 26:
             {
-                FUN_0c05d076();
+                Check_DCmini_End();
             }
                 break;
             case 14:
             case 22:
             case 34:
             {
-                FUN_0c05d556();
+                Exec_DCmini_Game7();
             }
                 break;
             case 16:
             {
-                FUN_0c05d21c();
+                Exec_DCmini_Game8();
             }
                 break;
             case 18:
@@ -371,48 +371,48 @@ int execDCmini(void)
             case 36:
             {
                 t9 = *(int *)0xC2A9900;
-                FUN_0c05d28e(t9);
+                Exec_DCmini_Game9(t9);
             }
                 break;
             case 24:
             {
-                FUN_0c05da9c();
+                Exec_DCmini_Game12();
             }
                 break;
             case 30:
             {
-                FUN_0c05dbdc();
-                FUN_0c05d076();
+                Exec_Check_Point();
+                Check_DCmini_End();
             }
                 break;
             default:
             {
-                FUN_0c05d076();
+                Check_DCmini_End();
             }
                 break;
         }
     } else {
-        FUN_0c05d076();
+        Check_DCmini_End();
     }
     t18 = *(short *)0xC2A992C;
     if (((unsigned short)t18 & 0x4) == 4) {
-        FUN_0c05be5c();
+        Put_JumpDistance();
     }
     t22 = *(short *)0xC2A992C;
     if (((unsigned short)t22 & 0x10) == 16) {
-        FUN_0c05c2d4();
+        Exec_Excellent();
     }
     t26 = *(short *)0xC2A992C;
     if (((unsigned short)t26 & 0x20) == 32) {
-        FUN_0c05c304();
+        Exec_Fault();
     }
     t30 = *(short *)0xC2A992C;
     if (((unsigned short)t30 & 0x40) == 64) {
-        FUN_0c05df6a();
+        Put_Record_Window();
     }
     t34 = *(short *)0xC2A992C;
     if (((unsigned short)t34 & 0x100) == 0x100) {
-        FUN_0c05d4fc();
+        Put_PoleMarriageKiss();
     }
     t40 = *(int *)0xC1EE788;
     t58 = t40;
@@ -445,7 +445,7 @@ int execDCmini(void)
             if (t68 != 0) {
                 t70 = t68;
                 if (t68 != 20) {
-                    t69 = FUN_0c05c3fe();
+                    t69 = Set_Record_Time();
                     t70 = t69;
                 }
                 t79 = t70;

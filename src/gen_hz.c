@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_hz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c049aa8(int, int, float);
+int convergeRot(int, int, float);
 int FUN_0c077210(int, int);
-int carBalance(int);
+int carBalanceRoll(int);
 int getYXZrot(int);
 int nlArcTan2(float, float);
 int nlPopMatrix(int);
@@ -12,9 +12,9 @@ int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
-int Put_Motion2D(int a4, int a5);
+int carBalance(int a4, int a5);
 
-int Put_Motion2D(int a4, int a5)
+int carBalance(int a4, int a5)
 {
     int t1;
     int t3;
@@ -106,10 +106,10 @@ int Put_Motion2D(int a4, int a5)
     if (t31 != 0) {
         nlPushMatrix(0x0);
         t33 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-        t34 = FUN_0c049aa8(t33, 0x0, 0.349999994f);
+        t34 = convergeRot(t33, 0x0, 0.349999994f);
         nlRotateAX(t34);
         t36 = *(short *)(((((int)stk + 4) + 0x1C) + 0x4));
-        t37 = FUN_0c049aa8(t36, 0x0, 0.349999994f);
+        t37 = convergeRot(t36, 0x0, 0.349999994f);
         nlRotateAZ(t37);
         getYXZrot((0xA4 + a4));
         nlPopMatrix(0x1);
@@ -126,7 +126,7 @@ int Put_Motion2D(int a4, int a5)
         }
         t51 = *(short *)((a4 + 0x10C));
         t52 = *(short *)((a4 + 0xA8));
-        t53 = FUN_0c049aa8(t52, t51, 0.199999988f);
+        t53 = convergeRot(t52, t51, 0.199999988f);
         t54 = *(short *)(((0xA8 + a4) + 0x0));
         *(unsigned short *)(((0xA8 + a4) + 0x0)) = (t54 + t53);
     }
@@ -143,7 +143,7 @@ int Put_Motion2D(int a4, int a5)
         u66 = *(float *)(((((int)stk + 4) + 0x4) + 0x0));
         *(unsigned short *)((a4 + 0xAE)) = (t65 + ((int)(((u66 * 6553.59961f) / 6.28318501f) + 0.5f) & 0xFFFF));
         t67 = *(short *)((a4 + 0xAE));
-        t68 = FUN_0c049aa8(t67, 0x0, 0.149999991f);
+        t68 = convergeRot(t67, 0x0, 0.149999991f);
         t69 = *(short *)(((0xAE + a4) + 0x0));
         *(unsigned short *)(((0xAE + a4) + 0x0)) = (t69 + t68);
         t70 = *(short *)((a4 + 0xAE));
@@ -174,14 +174,14 @@ int Put_Motion2D(int a4, int a5)
         _builtin_fabsf(u91);
         t106 = ((_builtin_fabsf(u91) > 0.0014999999f));
     } else {
-        carBalance(a4);
+        carBalanceRoll(a4);
         t106 = (0);
     }
     t107 = *(short *)((a4 + 0xAA));
     u108 = *(float *)(((((int)stk + 4) + 0xC) + 0x0));
     *(unsigned short *)((a4 + 0xAA)) = (t107 - ((int)(((u108 * 1310.71997f) / 6.28318501f) + 0.5f) & 0xFFFF));
     t109 = *(short *)((a4 + 0xAA));
-    t110 = FUN_0c049aa8(t109, 0x0, 0.149999991f);
+    t110 = convergeRot(t109, 0x0, 0.149999991f);
     t111 = *(short *)(((0xAA + a4) + 0x0));
     *(unsigned short *)(((0xAA + a4) + 0x0)) = (t111 + t110);
     t112 = *(short *)((a4 + 0xAA));

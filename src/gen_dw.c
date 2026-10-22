@@ -2,22 +2,22 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckClipping(float);
-int CourseSplineGet(int);
 int CourseSplineNumGet(int);
-int FUN_0c02e2ca(int);
-int FUN_0c02eb86(int, int, float);
-int FUN_0c03bea0(int, int, int);
-int FUN_0c04e194(void);
-int FUN_0c060160(void);
-int FUN_0c0601f0(void);
-int FUN_0c0603a2(void);
-int FUN_0c061b14(void);
-int FUN_0c061da8(int);
-int FUN_0c072dd4(void);
+int CourseSplineGet(int);
+int gdc_VolStreamSong(int);
+int gdc_CoursePut(int, int, float);
+int menuChangeValue(int, int, int);
+int PutCourse_Sky(void);
+int Exec_FogDensity(void);
+int Exec_FogColor(void);
+int Check_FogArea(void);
+int Chat_Iraira(void);
+int Chat_DamnIt(int);
+int Voice_Init(void);
 float FUN_0c089de0(int);
 int PutCourse_CheckPiece(int, int, int, int, float, float, float);
 int Put_Build_Patch(void);
-int SetMVShadow(void);
+int Put_Course_Obj_Dist(void);
 int SetSEvolume(void);
 int extRand(void);
 int findSplineSection(int, int, int);
@@ -32,13 +32,13 @@ int nlRand(void);
 int nlSubVector3op(int, int, int);
 int nlUnitVector(int);
 int putString(int, int, float, float, float);
-int FUN_0c03d80a(int a4, int a5);
+int menuItemVolume(int a4, int a5);
 int psgEnterState5(int a4, int a5);
 int psgEnterState6(int a4, int a5);
 int Exec_Fog(void);
 int PutCourse(void);
 
-int FUN_0c03d80a(int a4, int a5)
+int menuItemVolume(int a4, int a5)
 {
     int t0;
     int t3;
@@ -67,13 +67,13 @@ int FUN_0c03d80a(int a4, int a5)
     t10 = *(signed char *)((t3 + 0x0));
     *(unsigned int *)(((int)stk + 4)) = (unsigned char)t10;
     if (a4 != 0) {
-        t11 = FUN_0c03bea0(0x0, ((int)stk + 4), 0x9);
+        t11 = menuChangeValue(0x0, ((int)stk + 4), 0x9);
         if (t11 == 1) {
             t12 = *(int *)(((int)stk + 4));
             *(unsigned char *)((t3 + 0x0)) = t12;
             SetSEvolume();
-            FUN_0c072dd4();
-            FUN_0c02e2ca(0x7F);
+            Voice_Init();
+            gdc_VolStreamSong(0x7F);
         }
     }
     putString(0x28, 0xC0A2058, (u6 + -82.0f), (u5 + -7.0f), 1.0f);
@@ -185,7 +185,7 @@ int psgEnterState5(int a4, int a5)
                 *(unsigned char *)(((0x149 + a4) + 0x0)) = (t19 & 0xF9);
                 *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
                 *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-                t20 = FUN_0c061b14();
+                t20 = Chat_Iraira();
                 t21 = t20;
             }
             t36 = t21;
@@ -205,7 +205,7 @@ int psgEnterState5(int a4, int a5)
             *(unsigned int *)(((0x124 + a4) + 0x0)) = t33;
             t34 = *(int *)((((t29 << 2) + (((int)stk + 4) + 0x18)) + 0x0));
             *(unsigned int *)((a4 + 0x128)) = t34;
-            t35 = FUN_0c061b14();
+            t35 = Chat_Iraira();
             t36 = t35;
         }
         t46 = t36;
@@ -220,7 +220,7 @@ int psgEnterState5(int a4, int a5)
         *(unsigned char *)(((0x149 + a4) + 0x0)) = (t44 & 0xF9);
         *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
         *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-        t45 = FUN_0c061b14();
+        t45 = Chat_Iraira();
         t46 = t45;
     }
     return t46;
@@ -356,7 +356,7 @@ int psgEnterState6(int a4, int a5)
         *(unsigned char *)(((0x149 + a4) + 0x0)) = ((t55 & 0xF9) | 0x4);
         *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
         *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-        t56 = FUN_0c061da8(a4);
+        t56 = Chat_DamnIt(a4);
         t57 = t56;
     }
     return t57;

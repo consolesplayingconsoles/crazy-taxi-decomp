@@ -3,7 +3,7 @@
 
 int GetRotVec(int);
 int KillColliObj(int);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int SetColliObj(int, int);
 int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
@@ -13,9 +13,9 @@ int nlPushUnitMatrix(void);
 int nlRotateAY(int);
 int nlTranslateV(int);
 int set_event(int, int);
-void FUN_0c038776(int a4);
+void setObjHitBreakSet(int a4);
 
-void FUN_0c038776(int a4)
+void setObjHitBreakSet(int a4)
 {
     int t0;
     int t1;
@@ -44,7 +44,7 @@ void FUN_0c038776(int a4)
         }
         nlPushUnitMatrix();
         nlTranslateV(a4);
-        SetCameraPosVelocity((a4 + 0x30));
+        MultiRot4Vec((a4 + 0x30));
         nlPushMatrix(0x0);
         if ((int)t2 > 0) {
             t8 = 0x0;

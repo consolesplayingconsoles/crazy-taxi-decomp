@@ -6,8 +6,8 @@ int ADXF_GetFsizeSct(int);
 int ADXF_GetStat(int);
 int ADXF_Open(int, int);
 int ADXF_ReadNw32(int, int, int);
-float FUN_0c067b30(int, int, float);
-int FUN_0c067b8e(int, int, float);
+float fcvHermite(int, int, float);
+int fcvHermiteAngle(int, int, float);
 int FUN_0c085160(int, int, int, int);
 int buInit(int, int, int, int);
 extern float getNearLineIndex();
@@ -24,10 +24,10 @@ int FUN_0c0781a0(int a4);
 int BupInit(void);
 int gdc_FileLoad(int a4, int a5, int a6);
 int getCoursePointMove(int a4, int a5, int a6);
-float FUN_0c02b220(int a4, int a5);
+float navi_GetRouteDataB(int a4, int a5);
 int FUN_0c075330(int a4);
-float FUN_0c0678a4(int a4, int a5, int a6, float f4);
-int FUN_0c067960(int a4, int a5, int a6, float f4);
+float fcvCalcPosition(int a4, int a5, int a6, float f4);
+int fcvCalcAngle(int a4, int a5, int a6, float f4);
 int FUN_0c07ab30(int a4);
 float GetStopPosCenter(int a4, int a5, int a6);
 
@@ -305,7 +305,7 @@ int getCoursePointMove(int a4, int a5, int a6)
     return t35;
 }
 
-float FUN_0c02b220(int a4, int a5)
+float navi_GetRouteDataB(int a4, int a5)
 {
     int t0;
     int t1;
@@ -437,7 +437,7 @@ int FUN_0c075330(int a4)
     return t16;
 }
 
-float FUN_0c0678a4(int a4, int a5, int a6, float f4)
+float fcvCalcPosition(int a4, int a5, int a6, float f4)
 {
     int t0;
     int t1;
@@ -551,7 +551,7 @@ float FUN_0c0678a4(int a4, int a5, int a6, float f4)
         }
         t24 = *(int *)((((t3 + 0x4) + t9) + 0x0));
         t25 = *(int *)(((((t3 + 0x4) + t9) + 0x10) + 0x0));
-        t26 = FUN_0c067b30(((t3 + 0x4) + t9), (((t3 + 0x4) + t9) + 0x10), ((f4 - (float)t24) / (float)(t25 - t24)));
+        t26 = fcvHermite(((t3 + 0x4) + t9), (((t3 + 0x4) + t9) + 0x10), ((f4 - (float)t24) / (float)(t25 - t24)));
         *(float *)((t1 + 0x0)) = t26;
         u4 = t26;
         t27 = *(int *)((t3 + 0x0));
@@ -567,7 +567,7 @@ float FUN_0c0678a4(int a4, int a5, int a6, float f4)
     return u4;
 }
 
-int FUN_0c067960(int a4, int a5, int a6, float f4)
+int fcvCalcAngle(int a4, int a5, int a6, float f4)
 {
     int t1;
     int t2;
@@ -686,7 +686,7 @@ int FUN_0c067960(int a4, int a5, int a6, float f4)
         }
         t26 = *(int *)((((t4 + 0x4) + t8) + 0x0));
         t27 = *(int *)(((((t4 + 0x4) + t8) + 0x10) + 0x0));
-        t28 = FUN_0c067b8e(((t4 + 0x4) + t8), (((t4 + 0x4) + t8) + 0x10), ((f4 - (float)t26) / (float)(t27 - t26)));
+        t28 = fcvHermiteAngle(((t4 + 0x4) + t8), (((t4 + 0x4) + t8) + 0x10), ((f4 - (float)t26) / (float)(t27 - t26)));
         t0 = t28;
         *(unsigned int *)((t2 + 0x0)) = t0;
         t29 = *(int *)((t4 + 0x0));

@@ -6,7 +6,7 @@ int FUN_0c077210(int, int);
 float FUN_0c078c00(int);
 int GetCollision2D(int, float);
 int GetRotVec(int);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int Sound_Request(int, int);
 extern float _builtin_sqrtf(float);
 int nlAddVector(int, int);
@@ -245,7 +245,7 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     nlRotate((R14 + 0x48), ((int)(((F15 * 65536.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
     goto L_C037C1C;
     L_C037C1C:;
-    SetCameraPosVelocity((R14 + 0x30));
+    MultiRot4Vec((R14 + 0x30));
     u30 = *(float *)((R14 + 0x18));
     t31 = !(1000.0f > u30);
     if (t31) goto L_C037C38;

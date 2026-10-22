@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_jx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05ef68(void);
+int ndPuru2Check(void);
 int FUN_0c14f182(int, int);
 int pdVibStart(int, int);
-int vibStart(void);
+int ndPuru2Stop(void);
 int nd_Exec_Puru2(int a4, int a5, int a6, int a7);
 
 int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
@@ -252,7 +252,7 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     L_C05F3B0:;
     return R0;
     L_C05F0CC:;
-    t19 = vibStart();
+    t19 = ndPuru2Stop();
     *(unsigned int *)((R11 + 0x0)) = 0x0;
     *(unsigned int *)((R12 + 0x0)) = 0x2;
     t20 = t19;
@@ -311,19 +311,19 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     if (t37) goto L_C05F3B0;
     goto L_C05F3A8;
     L_C05F3A8:;
-    t38 = vibStart();
+    t38 = ndPuru2Stop();
     *(unsigned int *)((R11 + 0x0)) = 0x0;
     t39 = t38;
     R0 = t39;
     goto L_C05F3B0;
     L_C05F114:;
-    t40 = vibStart();
+    t40 = ndPuru2Stop();
     t41 = t40;
     R0 = t41;
     goto L_C05F396;
     L_C05F11C:;
     *(unsigned int *)((R4 + 0x0)) = 0x0;
-    t42 = FUN_0c05ef68();
+    t42 = ndPuru2Check();
     t43 = t42 != 0;
     t44 = t42;
     R0 = t44;
@@ -437,7 +437,7 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     L_C05F1A0:;
     goto L_C05F2E0;
     L_C05F2E0:;
-    t87 = vibStart();
+    t87 = ndPuru2Stop();
     t88 = t87;
     R0 = t88;
     goto L_C05F3B0;

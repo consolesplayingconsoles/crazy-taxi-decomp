@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckKyakuArea(int, int);
-int FUN_0c05db72(void);
+int CheckNumRideon(void);
 int kyakuInDestArea(int a4);
 
 int kyakuInDestArea(int a4)
@@ -10,7 +10,7 @@ int kyakuInDestArea(int a4)
     int r;
     if (*(int *)0xC1EE20C == 2 && *(int *)0xC1EE214 == 11 && **(int **)(a4 + 0x198) == *(int *)0xC2A98FC) goto check;
     if (*(int *)0xC1EE20C == 2 && *(int *)0xC1EE214 == 14 && **(int **)(a4 + 0x198) == *(int *)0xC2A98FC) {
-        if (FUN_0c05db72() == *(int *)0xC2A9900) goto check;
+        if (CheckNumRideon() == *(int *)0xC2A9900) goto check;
     }
     if (*(int *)0xC1EE20C == 2) {
         if (*(int *)0xC1EE214 == 11 || *(int *)0xC1EE214 == 10 || *(int *)0xC1EE214 == 14 || *(int *)0xC1EE214 == 13) goto skip;

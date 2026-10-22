@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ji): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0200aa(int);
+int SetKyakuCount(int);
 int Sound_Request(int, int);
 int kyakuTaskStart(int, int);
-int nd_CarSelMain(int);
+int PutLandmark(int);
 float nlLength(int, int);
 int nlLocate(int, int);
 int nlPrintColor(int);
@@ -352,7 +352,7 @@ int exec_KyakuMain(int a4, int a5, int a6, float f4)
     t21 = *(int *)0xC179838;
     *(unsigned int *)0xC179838 = (t21 + 0x1);
     t22 = *(int *)0xC0E49DC;
-    t23 = nd_CarSelMain(t22);
+    t23 = PutLandmark(t22);
     t24 = *(int *)0xC0E49E0;
     *(unsigned int *)0xC0E49E0 = (t24 + 0x1);
     return t23;
@@ -554,7 +554,7 @@ int exec_KyakuMain(int a4, int a5, int a6, float f4)
     *(unsigned int *)((R8 + 0x54)) = R9;
     Sound_Request(0x2A9, 0x0);
     *(unsigned int *)0xC179828 = R13;
-    t106 = FUN_0c0200aa(R11);
+    t106 = SetKyakuCount(R11);
     t107 = t106;
     R0 = t107;
     goto L_C026414;

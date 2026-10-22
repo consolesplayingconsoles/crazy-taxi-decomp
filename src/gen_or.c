@@ -11,9 +11,9 @@ int nlRotateAY(int);
 int nlScale(float, float, float);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-void FUN_0c04a8b6(int a4);
+void goiToolCoursePoint(int a4);
 
-void FUN_0c04a8b6(int a4)
+void goiToolCoursePoint(int a4)
 {
     int t0;
     int t1;

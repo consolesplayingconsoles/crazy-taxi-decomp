@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_pa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c066bf0(int, int, float);
-int FUN_0c071258(int a4);
+int FcvInterpolateBuffer(int, int, float);
+int psgStepBlend(int a4);
 
-int FUN_0c071258(int a4)
+int psgStepBlend(int a4)
 {
     float u0;
     int t1;
@@ -28,7 +28,7 @@ int FUN_0c071258(int a4)
     u2 = *(float *)((a4 + 0x10C));
     u3 = *(float *)((a4 + 0x108));
     t4 = *(int *)((a4 + 0x118));
-    FUN_0c066bf0((a4 + 0x3C), t4, (u3 / u2));
+    FcvInterpolateBuffer((a4 + 0x3C), t4, (u3 / u2));
     u6 = *(float *)((a4 + 0x108));
     *(float *)((a4 + 0x108)) = (u6 + 1.0f);
     u7 = *(float *)((a4 + 0x10C));

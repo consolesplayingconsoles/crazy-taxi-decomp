@@ -2,10 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckAreaGrid(int, int);
-int FUN_0c0395a2(void);
-int FUN_0c03b674(int);
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
+int ShotLandmarkStub(void);
+int NextWindow(int);
+int windowOpenStep(void);
+int windowEnterStep(void);
 int FUN_0c07b970(void);
 int PutVM_Message(int, int, int, float, float);
 int get_fat(int, int);
@@ -15,17 +15,17 @@ int set_fat(int, int);
 int vmsfs_write_retry(int, int, int);
 int write_fat(int);
 int write_sys(int);
-int FUN_0c039610(void);
-int FUN_0c03e6a4(void);
-void FUN_0c03271e(int a4);
+int PutShotLandmark(void);
+int windowCardMissing(void);
+void PutGrid(int a4);
 int write_dir_all(int a4);
 
-int FUN_0c039610(void)
+int PutShotLandmark(void)
 {
     int t1;
     int stk[22] = {0};
 
-    FUN_0c0395a2();
+    ShotLandmarkStub();
     *(unsigned int *)(((int)stk + 4)) = 0x7A;
     *(float *)(((int)stk + 8)) = 500.0f;
     *(float *)(((int)stk + 12)) = 128.0f;
@@ -45,7 +45,7 @@ int FUN_0c039610(void)
 }
 
 
-void FUN_0c03271e(int a4)
+void PutGrid(int a4)
 {
     int t0;
     int t1;

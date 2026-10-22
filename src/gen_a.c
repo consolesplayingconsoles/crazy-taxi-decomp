@@ -7,23 +7,23 @@ void ADXSJD_SetInSj(int a4, int a5);
 void ADXSJD_SetMaxDecSmpl(int a4, int a5);
 void ADXSTM_EntryEosFunc(int a4, int a5, int a6);
 int ADXSTM_SetReqRdSize(int a4, int a5);
-void FUN_0c03b674(int a4);
-void FUN_0c041ce2(int a4);
-void FUN_0c04bf1a(int a4);
-int FUN_0c051bd6(void);
-int FUN_0c051c22(void);
-int FUN_0c051caa(void);
-int FUN_0c051cea(void);
-int FUN_0c052574(void);
-int FUN_0c0525b4(void);
-int FUN_0c0525fc(void);
-int FUN_0c052c9e(void);
-int FUN_0c052d28(void);
-int FUN_0c057930(void);
-int FUN_0c057980(void);
-int FUN_0c0591ea(void);
-int FUN_0c05b7a8(void);
-int FUN_0c072fe8(void);
+void NextWindow(int a4);
+void SetMenuClass(int a4);
+void getReplayGetOffNo(int a4);
+int selectInitBarSprite(void);
+int selectInitPanelSprite(void);
+int selectInitTileSprite(void);
+int selectInitFrontSprite(void);
+int Init_Time_Count(void);
+int Init_sprCombo(void);
+int Init_Remain_Time(void);
+int Init_Shift(void);
+int Init_TimeUp(void);
+int Init_Adv_Title_LOGO(void);
+int Init_Adv_Standard(void);
+int Init_Result_Standard_Sprite(void);
+int Init_DCmini_Standard_Sprite(void);
+int BigOneResetState(void);
 int FUN_0c074ca0(int a4);
 void FUN_0c167c24(int a4, int a5);
 void FUN_0c1687f6(int a4, int a5);
@@ -70,22 +70,22 @@ int ADXSTM_SetReqRdSize(int a4, int a5)
     return 0x1;
 }
 
-void FUN_0c03b674(int a4)
+void NextWindow(int a4)
 {
     *(unsigned int *)0xC2A1218 = a4;
 }
 
-void FUN_0c041ce2(int a4)
+void SetMenuClass(int a4)
 {
     *(unsigned int *)0xC2A11D8 = a4;
 }
 
-void FUN_0c04bf1a(int a4)
+void getReplayGetOffNo(int a4)
 {
     *(unsigned int *)0xC0F2B38 = a4;
 }
 
-int FUN_0c051bd6(void)
+int selectInitBarSprite(void)
 {
     float u0;
     float u1;
@@ -111,7 +111,7 @@ int FUN_0c051bd6(void)
     return 0x2C;
 }
 
-int FUN_0c051c22(void)
+int selectInitPanelSprite(void)
 {
     float u0;
     float u1;
@@ -133,7 +133,7 @@ int FUN_0c051c22(void)
     return 0x2C;
 }
 
-int FUN_0c051caa(void)
+int selectInitTileSprite(void)
 {
     float u0;
 
@@ -156,7 +156,7 @@ int FUN_0c051caa(void)
 
 
 
-int FUN_0c0525b4(void)
+int Init_sprCombo(void)
 {
     float u0;
     float u1;
@@ -181,7 +181,7 @@ int FUN_0c0525b4(void)
     return 0x2C;
 }
 
-int FUN_0c0525fc(void)
+int Init_Remain_Time(void)
 {
     float u0;
     float u1;
@@ -214,7 +214,7 @@ int FUN_0c0525fc(void)
 }
 
 
-int FUN_0c052d28(void)
+int Init_TimeUp(void)
 {
     float u0;
     float u1;
@@ -242,7 +242,7 @@ int FUN_0c052d28(void)
     return 0x2C;
 }
 
-int FUN_0c057930(void)
+int Init_Adv_Title_LOGO(void)
 {
     float u0;
 
@@ -267,7 +267,7 @@ int FUN_0c057930(void)
 }
 
 
-int FUN_0c0591ea(void)
+int Init_Result_Standard_Sprite(void)
 {
     float u0;
     float u1;
@@ -292,7 +292,7 @@ int FUN_0c0591ea(void)
     return 0x2C;
 }
 
-int FUN_0c05b7a8(void)
+int Init_DCmini_Standard_Sprite(void)
 {
     float u0;
     float u1;

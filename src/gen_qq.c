@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlSprPut(int, int);
-void FUN_0c0599fa(void);
+void Result_Name_Put(void);
 
-void FUN_0c0599fa(void)
+void Result_Name_Put(void)
 {
     int t0;
     int t1;

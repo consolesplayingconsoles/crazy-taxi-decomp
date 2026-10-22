@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_lv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c044b80(int);
-int FUN_0c044c64(int);
-int FUN_0c045058(int, int, int, int, int, float, float, float, float);
-int FUN_0c04a090(int, int, int, int, int, float, float, float, float);
+int pcarTurnSelect(int);
+int pcarLaneChange(int);
+int calcCurvePoint(int, int, int, int, int, float, float, float, float);
+int getNearLinkedLine(int, int, int, int, int, float, float, float, float);
 int FUN_0c077210(int, int);
 int FUN_0c0813d0(int);
 int Sound_Request(int, int);
@@ -322,7 +322,7 @@ float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, fl
     F6 = f6;
     F7 = f7;
     L_C04510E:;
-    FUN_0c044b80(R4);
+    pcarTurnSelect(R4);
     t1 = *(int *)((R4 + 0x84));
     t2 = (t1 & 0x200) == 0;
     t3 = 0x84;
@@ -355,10 +355,10 @@ float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, fl
     if (t14) goto L_C045154;
     goto L_C045150;
     L_C045150:;
-    FUN_0c044c64(R14);
+    pcarLaneChange(R14);
     goto L_C045154;
     L_C045154:;
-    FUN_0c04a090(0x2, R10, (0x80 + R14), (0xD4 + R14), (0x8C + R14), F4, F5, F6, F7);
+    getNearLinkedLine(0x2, R10, (0x80 + R14), (0xD4 + R14), (0x8C + R14), F4, F5, F6, F7);
     t17 = *(int *)((R14 + 0x80));
     *(unsigned int *)(((int)stk + 12)) = t17;
     t18 = *(int *)((R14 + 0x84));
@@ -1032,7 +1032,7 @@ float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, fl
     F14 = u267;
     goto L_C0452E8;
     L_C0452E8:;
-    FUN_0c045058(R13, R5, R6, R7, (((int)stk + 8) + 0x44), F14, F5, F6, F7);
+    calcCurvePoint(R13, R5, R6, R7, (((int)stk + 8) + 0x44), F14, F5, F6, F7);
     t269 = nlLength((0x8C + R14), (((int)stk + 8) + 0x44));
     u270 = *(float *)(((int)stk + 24));
     t271 = !(u270 > t269);
@@ -1053,7 +1053,7 @@ float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, fl
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0xE0 + R14)) = *(struct mv3 *)((((int)stk + 8) + 0x44)); }
     goto L_C045454;
     L_C045312:;
-    FUN_0c045058(R13, R5, R6, R7, (((int)stk + 8) + 0x44), (F14 + 0.199999988f), F5, F6, F7);
+    calcCurvePoint(R13, R5, R6, R7, (((int)stk + 8) + 0x44), (F14 + 0.199999988f), F5, F6, F7);
     goto L_C045358;
     L_C0451D0:;
     t276 = *(int *)((R14 + 0xD4));

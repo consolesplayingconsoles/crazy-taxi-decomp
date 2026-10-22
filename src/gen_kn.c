@@ -2,14 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ExecArrow(int, float);
-int FUN_0c05d82a(void);
-int FUN_0c05fd70(int);
+int Init_Remain_Arrow(void);
+int Start_CrazyBox_Voice(int);
 int ResetFadeColor(void);
 float nlLength(int, int);
 int nlObjPutSetFadeColor(float, float, float);
-void FUN_0c05d708(int a4, int a5, float f4, float f5, float f6);
+void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6);
 
-void FUN_0c05d708(int a4, int a5, float f4, float f5, float f6)
+void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
 {
     int t0;
     int t1;
@@ -238,7 +238,7 @@ void FUN_0c05d708(int a4, int a5, float f4, float f5, float f6)
     L_C05D760:;
     t40 = *(int *)((R14 + 0x0));
     *(unsigned int *)((R14 + 0x0)) = (t40 + 0x1);
-    t41 = FUN_0c05d82a();
+    t41 = Init_Remain_Arrow();
     *(float *)(((int)stk + 8)) = *(float *)((int)stk + 8);
     *(float *)(((int)stk + 4)) = *(float *)((int)stk + 4);
     t42 = t41;
@@ -271,7 +271,7 @@ void FUN_0c05d708(int a4, int a5, float f4, float f5, float f6)
     L_C05D784:;
     t52 = *(int *)((R13 + 0x0));
     t53 = *(int *)(((t52 << 2) + 0xC131180));
-    t54 = FUN_0c05fd70(t53);
+    t54 = Start_CrazyBox_Voice(t53);
     *(float *)(((int)stk + 8)) = *(float *)((int)stk + 8);
     *(float *)(((int)stk + 4)) = *(float *)((int)stk + 4);
     t55 = t54;

@@ -1,7 +1,7 @@
 /* Game functions (batch j): the course tables' selection, the reverse-mode button sequence, the combo timer step,
    the arrow mode. Globals are addressed directly where the decomp has no name for them yet. */
 
-int FUN_0c04bb70(int m)
+int setReplayType(int m)
 {
     *(int *)0x0C0F2B28 = m;
     *(int *)0x0C0F2B2C = 0x1518;
@@ -17,7 +17,7 @@ int FUN_0c04bb70(int m)
 
 /* The reverse-mode button sequence at 0C2A75BC: step 0 waits for button 0x10000 with 0x20000 not held, step 1 for its
    release, step 2 for the next press with the 4 flag, which turns the reverse mode on. */
-void FUN_0c0512ac(void)
+void DC_Reverse_Command_Check(void)
 {
     int *st = (int *)0x0C2A75BC;
     unsigned int *sw = (unsigned int *)0x0C1EE24C;
@@ -36,7 +36,7 @@ void FUN_0c0512ac(void)
     }
 }
 
-void FUN_0c051556(void)
+void CarSel_GotoMotion(void)
 {
     int **pp = (int **)0x0C2A751C;
     int *tbl = (int *)0x0C2A7538;
@@ -60,7 +60,7 @@ void FUN_0c051556(void)
         *(int *)0x0C2A75A8 = cnt + 1;
 }
 
-void FUN_0c031492(int m)
+void SetLandmark(int m)
 {
     int *s = (int *)0x0C0ED2AC;
     int *p = (int *)0x0C26E398;

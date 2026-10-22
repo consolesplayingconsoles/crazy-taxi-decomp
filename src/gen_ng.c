@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_ng): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03bea0(int, int, int);
-int FUN_0c03c792(int, int, int, int);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
 int PutStringFixPfont(int, int, float, float, float, float);
 int menuPutSprites(int, int, int, int);
-int FUN_0c03d44e(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int FUN_0c03d44e(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
+int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
     int t0;
     int t1;
@@ -106,7 +106,7 @@ int FUN_0c03d44e(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     R13 = t8;
     goto L_C03D472;
     L_C03D472:;
-    t9 = FUN_0c03bea0(0x0, R14, R13);
+    t9 = menuChangeValue(0x0, R14, R13);
     t10 = t9 != 1;
     if (t10) goto L_C03D486;
     goto L_C03D480;
@@ -151,7 +151,7 @@ int FUN_0c03d44e(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     goto L_C03D506;
     L_C03D506:;
     t24 = *(int *)((R14 + 0x0));
-    FUN_0c03c792(R4, 0xC09E448, R13, t24);
+    putMenuValue(R4, 0xC09E448, R13, t24);
     t26 = *(signed char *)((R12 + 0xE));
     t27 = *(int *)0xC2A1ADC;
     t28 = *(int *)((R14 + 0x0));

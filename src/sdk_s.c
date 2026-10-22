@@ -3,7 +3,7 @@
 
 int kmiRegisterCallback(int dev, int kind, void *f, void *p);
 void Voice_ShutUp(int i);
-void FUN_0c051556(void);
+void CarSel_GotoMotion(void);
 void selectDrawDriver(int d);
 
 #define KM_DEVICE       (*(int *)0x0C178268)
@@ -56,7 +56,7 @@ int FUN_0c15f4c8(signed char c)
     return ((c & 0xF0) >> 4) * 10 + (c & 15);
 }
 
-void FUN_0c072e36(void)
+void Voice_Clear(void)
 {
     int i = 0;
 
@@ -65,9 +65,9 @@ void FUN_0c072e36(void)
     while (i < 4);
 }
 
-void FUN_0c05153e(void)
+void CarSel_Select(void)
 {
     if (*(int *)0x0C2A7514 == 0)
-        FUN_0c051556();
+        CarSel_GotoMotion();
     selectDrawDriver(**(int **)0x0C2A751C);
 }

@@ -4,9 +4,9 @@
 int ADXT_GetNumSmpl(int);
 int ADXT_GetStat(int);
 int ADXT_GetTime(int, int, int);
-int FUN_0c02e6b2(int a4);
+int gdc_GetStreamVoiceRemainTime(int a4);
 
-int FUN_0c02e6b2(int a4)
+int gdc_GetStreamVoiceRemainTime(int a4)
 {
     int t0;
     int t1;

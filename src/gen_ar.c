@@ -83,7 +83,7 @@ int vmsio_isready(int);
 int write_dir(int);
 int write_fat(int);
 
-int FUN_0c040cea(int a4)
+int CheckBoxFlag(int a4)
 {
     int t0;
     int t1;
@@ -173,7 +173,7 @@ int trainControlInit(void)
     return t17;
 }
 
-void FUN_0c04bec2(int a4, int a5, int a6, int a7, int a8)
+void getReplayPoint(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;
@@ -269,7 +269,7 @@ int crowdCreate(int a4, int a5)
     return t19;
 }
 
-int FUN_0c05003c(void)
+int pedGetSubwayFlag(void)
 {
     int t0;
     int t1;

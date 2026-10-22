@@ -116,9 +116,9 @@ extern int CourseMode;
 extern int MiniGame_No;
 extern unsigned char RideonCamFlag;
 
-int FUN_0c070cd0(int chara);
-int FUN_0c070bf8(tagPASSENGER *p);
-int FUN_0c070c64(tagPASSENGER *p);
+int Psg_GetCharaKind(int chara);
+int Psg_IsMotionSetA(tagPASSENGER *p);
+int Psg_CheckCharaBit4(tagPASSENGER *p);
 void FcvStoreBuffer(void *motion, float t, void *buf);
 typedef void (*PsgEntry)(tagPASSENGER *p, int arg);
 typedef struct { PsgEntry f[7]; } PsgEntryTable;
@@ -177,13 +177,13 @@ void Psg_Init(tagPASSENGER *p, int chara, int param)
     p->f134 = vecZero;
     p->f140 = param;
     p->f144 = 0;
-    p->kind = FUN_0c070cd0(chara);
-    p->motA = FUN_0c070bf8(p) ? 1 : 0;
+    p->kind = Psg_GetCharaKind(chara);
+    p->motA = Psg_IsMotionSetA(p) ? 1 : 0;
     if (p->motA)
         FcvStoreBuffer(mot_0c9726f4, 0.0f, p->fcv);
     else
         FcvStoreBuffer(mot_0c972e68, 0.0f, p->fcv);
-    p->b4 = FUN_0c070c64(p) ? 1 : 0;
+    p->b4 = Psg_CheckCharaBit4(p) ? 1 : 0;
     p->b5 = 0;
     p->b6 = 0;
     p->b7 = 0;

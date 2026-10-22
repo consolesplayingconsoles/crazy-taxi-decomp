@@ -3,7 +3,7 @@
 
 
 
-void FUN_0c02bb60(int a4, int a5, float f4)
+void HomingAngle1(int a4, int a5, float f4)
 {
     int t0;
     int t1;
@@ -26,7 +26,7 @@ void FUN_0c02bb60(int a4, int a5, float f4)
     *(unsigned short *)((a5 + 0x0)) = t3;
 }
 
-void FUN_0c0534ec(int a4, int a5)
+void rankingCalcDigitRoll(int a4, int a5)
 {
     int t0;
     int t1;

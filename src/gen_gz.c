@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_gz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0396dc(int);
+int char2num(int);
 int nlSprPut(int);
-void FUN_0c039c1c(void);
+void PutNameEntryName(void);
 
-void FUN_0c039c1c(void)
+void PutNameEntryName(void)
 {
     float u0;
     float u1;
@@ -58,7 +58,7 @@ void FUN_0c039c1c(void)
         if (t13 != 0) {
             t14 = *(signed char *)((t9 + 0x0));
             t9 = (t9 + 0x1);
-            t15 = FUN_0c0396dc(t14);
+            t15 = char2num(t14);
             t6 = t15;
             t6 = (t6 << 2);
             t16 = *(int *)((0xC0EE918 + t6));

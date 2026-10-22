@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_pu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03bea0(int, int, int);
-int FUN_0c03c792(int, int, int, int);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
 int ndPuru2Start(int, int, int);
 int vibIsReady(void);
-int vibStart(void);
-int FUN_0c03da02(int a4);
+int ndPuru2Stop(void);
+int menuItemVibration(int a4);
 
-int FUN_0c03da02(int a4)
+int menuItemVibration(int a4)
 {
     int t0;
     int t1;
@@ -44,7 +44,7 @@ int FUN_0c03da02(int a4)
     t4 = *(int *)0xC2A1214;
     *(unsigned int *)(((int)stk + 4)) = (unsigned char)t3;
     if (a4 != 0) {
-        t5 = FUN_0c03bea0((((t4 == 1)) ? 1 : 0), ((int)stk + 4), 0x2);
+        t5 = menuChangeValue((((t4 == 1)) ? 1 : 0), ((int)stk + 4), 0x2);
         if (t5 == 1) {
             t6 = *(int *)(((int)stk + 4));
             *(unsigned char *)((t1 + 0x0)) = t6;
@@ -53,7 +53,7 @@ int FUN_0c03da02(int a4)
                 if (t7 != 0) {
                     ndPuru2Start(0x2, 0x1, 0x0);
                 } else {
-                    vibStart();
+                    ndPuru2Stop();
                 }
             }
         }
@@ -61,7 +61,7 @@ int FUN_0c03da02(int a4)
     if ((((t4 == 1)) ? 1 : 0) == 1) {
         if (a4 != 0) {
             t22 = *(int *)(((int)stk + 4));
-            t23 = FUN_0c03c792(0xA044, 0xC09E15C, 0x2, t22);
+            t23 = putMenuValue(0xA044, 0xC09E15C, 0x2, t22);
             t31 = t23;
         } else {
             t24 = vibIsReady();
@@ -74,7 +74,7 @@ int FUN_0c03da02(int a4)
                 t27 = 0x2084;
                 t28 = t26;
             }
-            t30 = FUN_0c03c792(t27, 0xC09E15C, 0x2, t28);
+            t30 = putMenuValue(t27, 0xC09E15C, 0x2, t28);
             t31 = t30;
         }
         t39 = t31;
@@ -88,7 +88,7 @@ int FUN_0c03da02(int a4)
             t35 = 0x4017;
             t36 = t34;
         }
-        t38 = FUN_0c03c792(t35, 0xC09EB54, 0x2, t36);
+        t38 = putMenuValue(t35, 0xC09EB54, 0x2, t36);
         t39 = t38;
     }
     return t39;

@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_kw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0310ae(int);
-int FUN_0c058b70(int, int, int, float);
+int pfAddChar(int);
+int Model_Put_Sprite3D(int, int, int, float);
 int ResetFadeColor(void);
 int nlCloseEvent(int);
 int nlObjPutSetFadeColorBase(float, float, float);
@@ -307,7 +307,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     u66 = *(float *)((R14 + 0x2C));
     u67 = *(float *)((R14 + 0x38));
     *(unsigned int *)(((int)stk + 20)) = (int)F14;
-    FUN_0c058b70((int)F14, (int)u67, 0xC0EA5D8, u66);
+    Model_Put_Sprite3D((int)F14, (int)u67, 0xC0EA5D8, u66);
     *(unsigned short *)((R13 + 0x2)) = 0x0;
     t69 = *(signed char *)((R13 + 0x0));
     *(unsigned char *)((((int)stk + 4) + 0x0)) = t69;
@@ -324,7 +324,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     u75 = *(float *)((R14 + 0x2C));
     u76 = *(float *)((R14 + 0x38));
     t77 = *(int *)(((int)stk + 20));
-    FUN_0c058b70(t77, (int)u76, 0xC0EB340, u75);
+    Model_Put_Sprite3D(t77, (int)u76, 0xC0EB340, u75);
     nlPopMatrix(0x1);
     ResetFadeColor();
     ResetFadeColor();
@@ -338,10 +338,10 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     t88 = (int)((int)R12 / (int)0x64);
     *(unsigned int *)(((int)stk + 20)) = t88;
     pfCleanString();
-    FUN_0c0310ae(0x24);
+    pfAddChar(0x24);
     t91 = *(int *)(((int)stk + 20));
     pfAddNumber(t91);
-    FUN_0c0310ae(0x2E);
+    pfAddChar(0x2E);
     t94 = *(int *)0xC08D678;
     pfPuts(t94);
     pfSize(1.19999993f, 1.19999993f);

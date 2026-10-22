@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Bezier(int, int, float);
-int FUN_0c049aa8(int, int, float);
-int FUN_0c05778a(int, int, float, float);
+int convergeRot(int, int, float);
+int nd_SprPut(int, int, float, float);
 int FUN_0c074680(void);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
@@ -21,7 +21,7 @@ int _pow10(int, int, int);
 int camRestore(void);
 int camSetEye(int, int);
 int camSetTarget(int, int);
-int carBalance(int);
+int carBalanceRoll(int);
 int get_fat(int, int);
 int kmiCopyToPVRMemory(int);
 int kmiCreateDummyRegionforAvoidCacheBug(void);
@@ -65,14 +65,14 @@ int set_fat(int, int);
 int vmsfs_write_retry(int, int, int);
 int write_fat(int);
 int write_sys(int);
-int FUN_0c034fa8(int a4);
-int FUN_0c05d862(void);
-int FUN_0c064788(void);
-int FUN_0c0648e0(void);
-int FUN_0c064a5c(void);
-int FUN_0c065bb8(void);
+int PutColliPole(int a4);
+int Put_Remain_Icon(void);
+int camGetOnNear(void);
+int camGetOnMid(void);
+int camGetOnReturn(void);
+int camGetOffShot4(void);
 int FUN_0c0792b0(int a4, float f4, float f5, float f6);
-int Put_Motion2D(int a4, int a5);
+int carBalance(int a4, int a5);
 int Put_SEGA_LOGO2(void);
 int _power(int a4, int a5, int a6);
 int carMultiCollision(int a4, float f4);
@@ -83,7 +83,7 @@ int kmiCreateRegionArray(int a4, int a5, int a6, int a7, int a8, int a9);
 int nd_CarSel_PutCar(int a4, int a5, int a6, int a7);
 int write_dir(int a4);
 
-int FUN_0c034fa8(int a4)
+int PutColliPole(int a4)
 {
     int t0;
     int t3;
@@ -168,7 +168,7 @@ int FUN_0c034fa8(int a4)
 }
 
 
-int FUN_0c064788(void)
+int camGetOnNear(void)
 {
     int t6;
     int t11;
@@ -209,7 +209,7 @@ int FUN_0c064788(void)
     return t24;
 }
 
-int FUN_0c0648e0(void)
+int camGetOnMid(void)
 {
     int t1;
     int t2;
@@ -278,7 +278,7 @@ int FUN_0c0648e0(void)
     return t40;
 }
 
-int FUN_0c064a5c(void)
+int camGetOnReturn(void)
 {
     int t0;
     int t1;
@@ -312,7 +312,7 @@ int FUN_0c064a5c(void)
     return t15;
 }
 
-int FUN_0c065bb8(void)
+int camGetOffShot4(void)
 {
     int t2;
     int t13;
@@ -624,7 +624,7 @@ int Put_SEGA_LOGO2(void)
         nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
         u5 = *(float *)0xC058FB0;
         u6 = *(float *)0xC058FB4;
-        FUN_0c05778a(0xC2A92CC, 0xED, u6, u5);
+        nd_SprPut(0xC2A92CC, 0xED, u6, u5);
         nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     } else {
         t9 = 0x0;

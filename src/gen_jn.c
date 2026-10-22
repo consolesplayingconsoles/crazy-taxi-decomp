@@ -16,5 +16,5 @@ int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int nlUnitMatrix(void);
-int FUN_0c071a7c(int a4, int a5, float f4, float f5, float f6);
+int psgPutMarker(int a4, int a5, float f4, float f5, float f6);
 

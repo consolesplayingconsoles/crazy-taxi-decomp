@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ee): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02f220(int);
+int gdc_LandmarkReq(int);
 int pfCleanString(void);
-int FUN_0c0310ae(int);
+int pfAddChar(int);
 int pfAddString(int);
 int pfAddNumber(int);
 int nlSprPut(int, int, int);
@@ -14,9 +14,9 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
-int nd_CarSelMain(int a4);
+int PutLandmark(int a4);
 
-int nd_CarSelMain(int a4)
+int PutLandmark(int a4)
 {
     int t0;
     int t305;
@@ -276,14 +276,14 @@ int nd_CarSelMain(int a4)
                         }
                         if (!(10000.0f > u160)) {
                             pfAddNumber((int)(u160 / 10000.0f));
-                            FUN_0c0310ae(0x2E);
+                            pfAddChar(0x2E);
                             *(unsigned int *)(((int)stk + 8)) = (int)(u160 * 0.00999999978f);
                             t164 = (int)((int)(int)(u160 * 0.00999999978f) % (int)0x64);
                             pfAddNumber(t164);
                             pfAddString(0xC08D6D8);
                         } else {
                             pfAddNumber((int)(u160 * 0.099999994f));
-                            FUN_0c0310ae(0x6D);
+                            pfAddChar(0x6D);
                         }
                         u172 = *(float *)0xC0ED2B8;
                         u173 = *(float *)0xC0318F8;
@@ -346,7 +346,7 @@ int nd_CarSelMain(int a4)
             } else {
                 t227 = *(int *)0xC0ED2A8;
                 if (t227 != a4) {
-                    t228 = FUN_0c02f220(a4);
+                    t228 = gdc_LandmarkReq(a4);
                     if (t228 == -1) {
                     } else {
                         *(unsigned int *)0xC0ED2A8 = a4;

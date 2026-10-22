@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_nw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9);
+int nd_SprPut(int, int, float, float);
+int Put_Window_SpriteXandY(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9);
 
-int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9)
+int Put_Window_SpriteXandY(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9)
 {
     int t0;
     int t1;
@@ -176,17 +176,17 @@ int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     *(float *)(((int)stk + 24)) = (F12 - (F13 * u26));
     u27 = *(float *)(((int)stk + 4));
     *(float *)(((int)stk + 16)) = (u27 - (F14 * u26));
-    FUN_0c05778a((R8 + R9), 0x77, (u27 - (F14 * u26)), (F12 - (F13 * u26)));
+    nd_SprPut((R8 + R9), 0x77, (u27 - (F14 * u26)), (F12 - (F13 * u26)));
     *(unsigned int *)(((R8 + R9) + 0x28)) = 0xC000;
     u29 = *(float *)(((int)stk + 4));
     u30 = *(float *)(((int)stk + 24));
-    FUN_0c05778a((R8 + R9), 0x77, ((F14 * u26) + u29), u30);
+    nd_SprPut((R8 + R9), 0x77, ((F14 * u26) + u29), u30);
     *(unsigned int *)(((R8 + R9) + 0x28)) = 0x4000;
     u32 = *(float *)(((int)stk + 20));
     u33 = *(float *)(((int)stk + 16));
-    FUN_0c05778a((R8 + R9), 0x77, u33, (u32 + F12));
+    nd_SprPut((R8 + R9), 0x77, u33, (u32 + F12));
     *(unsigned int *)(((R8 + R9) + 0x28)) = 0x8000;
-    FUN_0c05778a((R8 + R9), 0x77, ((F14 * u26) + u29), (u32 + F12));
+    nd_SprPut((R8 + R9), 0x77, ((F14 * u26) + u29), (u32 + F12));
     *(unsigned int *)(((R8 + R9) + 0x28)) = 0x0;
     t36 = *(int *)((R10 + R12));
     t37 = ((((int)t36 >= (int)R11)) ? 1 : 0);
@@ -202,7 +202,7 @@ int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     *(float *)(((R8 + R9) + 0x1C)) = 0.899999976f;
     *(float *)(((R8 + R9) + 0x24)) = 0.899999976f;
     u39 = *(float *)(((int)stk + 4));
-    FUN_0c05778a((R8 + R9), 0x77, u39, F12);
+    nd_SprPut((R8 + R9), 0x77, u39, F12);
     u41 = (-1.0f);
     u41 = u41 + (1.0f + 1.0f) * (F14 + 0.5f);
     *(float *)(((R8 + R9) + 0x10)) = u41;
@@ -213,12 +213,12 @@ int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     *(float *)(((R8 + R9) + 0x24)) = F15;
     *(float *)(((int)stk + 12)) = ((F13 + 0.5f) * 8.0f);
     u42 = *(float *)(((int)stk + 4));
-    FUN_0c05778a((R8 + R9), 0x77, u42, (F12 - ((F13 + 0.5f) * 8.0f)));
+    nd_SprPut((R8 + R9), 0x77, u42, (F12 - ((F13 + 0.5f) * 8.0f)));
     *(float *)(((R8 + R9) + 0x1C)) = F15;
     *(float *)(((R8 + R9) + 0x24)) = 0.0f;
     u44 = *(float *)(((int)stk + 12));
     u45 = *(float *)(((int)stk + 4));
-    FUN_0c05778a((R8 + R9), 0x77, u45, (u44 + F12));
+    nd_SprPut((R8 + R9), 0x77, u45, (u44 + F12));
     *(float *)(((R8 + R9) + 0x10)) = F15;
     u47 = (-1.0f);
     u47 = u47 + (1.0f + 1.0f) * (F13 + 0.5f);
@@ -229,12 +229,12 @@ int FUN_0c05e348(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     *(float *)(((R8 + R9) + 0x24)) = F15;
     *(float *)(((int)stk + 8)) = ((F14 + 0.5f) * 8.0f);
     u48 = *(float *)(((int)stk + 4));
-    FUN_0c05778a((R8 + R9), 0x77, (u48 - ((F14 + 0.5f) * 8.0f)), F12);
+    nd_SprPut((R8 + R9), 0x77, (u48 - ((F14 + 0.5f) * 8.0f)), F12);
     *(float *)(((R8 + R9) + 0x18)) = F15;
     *(float *)(((R8 + R9) + 0x20)) = 0.0f;
     u50 = *(float *)(((int)stk + 8));
     u51 = *(float *)(((int)stk + 4));
-    FUN_0c05778a((R8 + R9), 0x77, (u50 + u51), F12);
+    nd_SprPut((R8 + R9), 0x77, (u50 + u51), F12);
     *(float *)(((R8 + R9) + 0x18)) = 0.0f;
     *(float *)(((R8 + R9) + 0x20)) = F15;
     *(float *)(((R8 + R9) + 0x1C)) = 0.0f;

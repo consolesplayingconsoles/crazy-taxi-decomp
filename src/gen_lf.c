@@ -9,9 +9,9 @@ int nlOuterProduct(int, int, int);
 int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
 int set_event(int, int);
-void FUN_0c038b08(int a4);
+void setObjHitBreakSide(int a4);
 
-void FUN_0c038b08(int a4)
+void setObjHitBreakSide(int a4)
 {
     float t0;
     int t1;

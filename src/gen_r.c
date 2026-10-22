@@ -3,11 +3,11 @@
 
 int kmiWriteRegister(int, int);
 int nlSprPut(int, int);
-int FUN_0c05999c(void);
-int FUN_0c0599fa(void);
+int Result_Face_Put(void);
+int Result_Name_Put(void);
 int kmiInitializeFog(void);
 
-int FUN_0c05999c(void)
+int Result_Face_Put(void)
 {
     int t0;
     int t1;

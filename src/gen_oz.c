@@ -3,14 +3,14 @@
 
 int CheckKyakuArea(int, int);
 int Drv_StartAction(int, int, int);
-int FUN_0c071d98(int);
-int FUN_0c071fa4(int);
+int EndPsg_Kill(int);
+int EndPsg_CrushReact(int);
 int psgFrame(int);
 int psgSetState(int, int, int, int);
 int rinRandomSeed(int);
-void FUN_0c071e10(int a4);
+void EndPsg_Execute(int a4);
 
-void FUN_0c071e10(int a4)
+void EndPsg_Execute(int a4)
 {
     int t0;
     int t23;
@@ -64,7 +64,7 @@ void FUN_0c071e10(int a4)
                 t10 = *(int *)((a4 + 0x40));
                 t13 = a4;
                 if (t10 == 3) {
-                    FUN_0c071d98(a4);
+                    EndPsg_Kill(a4);
                     t13 = 0x0;
                 }
                 t18 = t13;
@@ -76,7 +76,7 @@ void FUN_0c071e10(int a4)
         t27 = *(int *)((a4 + 0x40));
         if (t27 != 13) {
             if (t27 != 14) {
-                FUN_0c071fa4(a4);
+                EndPsg_CrushReact(a4);
             }
         }
         t35 = *(int *)0xC1EE234;
@@ -126,7 +126,7 @@ void FUN_0c071e10(int a4)
             *(unsigned int *)((t80 + 0x178)) = (t90 + 0x1);
             t91 = *(int *)((t80 + 0x178));
             if ((int)t91 > (int)0x258) {
-                FUN_0c071d98(t80);
+                EndPsg_Kill(t80);
     return;
             }
             return;

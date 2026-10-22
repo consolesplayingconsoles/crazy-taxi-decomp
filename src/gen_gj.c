@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_gj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0630a2(int, float);
-int FUN_0c062da4(int a4);
+int Drv_SetMotion(int, float);
+int Drv_StartReady(int a4);
 
-int FUN_0c062da4(int a4)
+int Drv_StartReady(int a4)
 {
     int t0;
     int t1;
@@ -79,7 +79,7 @@ int FUN_0c062da4(int a4)
             t19 = *(int *)(((((int)stk + 4) + 0x4) + ((t13 - 1) << 2)));
             *(unsigned int *)0xC2AD1D4 = t19;
             t20 = *(int *)(((((int)stk + 4) + 0x24) + ((t13 - 1) << 2)));
-            FUN_0c0630a2(t20, 0.0f);
+            Drv_SetMotion(t20, 0.0f);
             *(float *)0xC2AD0F8 = 15.0f;
             t22 = 0xF8;
         }
@@ -89,7 +89,7 @@ int FUN_0c062da4(int a4)
         *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
         *(unsigned int *)(((int)stk + 4)) = (((t13 - 1) << 2) + (((int)stk + 4) + 0x24));
         t31 = *(int *)(((((t13 - 1) << 2) + (((int)stk + 4) + 0x24)) + 0x0));
-        FUN_0c0630a2(t31, 0.0f);
+        Drv_SetMotion(t31, 0.0f);
         *(float *)0xC2AD0F8 = 15.0f;
         t33 = *(int *)(((int)stk + 4));
         t34 = *(int *)((t33 + 0x0));

@@ -3,7 +3,7 @@
 
 int Pass_Rideoff(void);
 int Start_Pass_Judgement(int);
-int FUN_0c05a350(int);
+int Result_Check_Digit_Disp(int);
 int FUN_0c07e580(int, int, float, float, float, float);
 float FUN_0c089de0(int);
 int FUN_0c1566a0(int, int);
@@ -24,12 +24,12 @@ int nlSpriteF2C(float);
 int nlsndIcsControl(int, int, int);
 int GS_GuestOut(void);
 int FUN_0c14f7ac(int a4, int a5);
-int FUN_0c059310(void);
+int Init_DramRoll(void);
 int FUN_0c156742(int a4, int a5);
 int InitSetObject(float f4);
-int FUN_0c05a0f0(void);
+int Result_Money_Digit_Put(void);
 float FUN_0c077b80(int a4, int a5, float f4, float f5);
-int FUN_0c020a10(int a4);
+int exec_CarSound(int a4);
 int nlSprPut(int a4);
 
 int GS_GuestOut(void)
@@ -238,7 +238,7 @@ int FUN_0c14f7ac(int a4, int a5)
     return (t16 + 0x20);
 }
 
-int FUN_0c059310(void)
+int Init_DramRoll(void)
 {
     int t0;
     int t7;
@@ -473,7 +473,7 @@ int InitSetObject(float f4)
     return t58;
 }
 
-int FUN_0c05a0f0(void)
+int Result_Money_Digit_Put(void)
 {
     int t0;
     int t1;
@@ -572,7 +572,7 @@ int FUN_0c05a0f0(void)
         if ((int)t30 <= (int)0x1) {
             t29 = 0x20;
         }
-        t31 = FUN_0c05a350(t30);
+        t31 = Result_Check_Digit_Disp(t30);
         if (t31 == 1) {
             *(unsigned int *)(((int)stk + 4)) = (t30 << 2);
             t32 = *(int *)((0xC2A980C + (t30 << 2)));

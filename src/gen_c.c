@@ -2,12 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXT_SetOutVol(int, int);
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c05322c(float, float);
-int FUN_0c053236(float, float);
-int FUN_0c053240(float, float, float);
-int FUN_0c05778a(int, int, float, float);
+int SetScreen(int);
+int SetWindow(int);
+int PTime_Pos_Set(float, float);
+int PTime_Scale_Set(float, float);
+int PTime_Color_Set(float, float, float);
+int nd_SprPut(int, int, float, float);
 int FUN_0c074680(void);
 int ResetFadeColor(void);
 int SetFadeColorBase(float, float, float);
@@ -18,18 +18,18 @@ int nlObjPutSetFadeColorBase(float, float, float);
 int nlObjPutSetFadeColorOffset(float, float, float);
 int nlSprPut(int);
 int volumeToDb(int);
-int FUN_0c02e2ca(int a4);
-int FUN_0c030a3e(void);
-int FUN_0c030a80(void);
+int gdc_VolStreamSong(int a4);
+int InitAdvLogoSprite(void);
+int PutAdvLogoSprite(void);
 int SetFadeColorMulti(float f4, float f5, float f6);
 int LightEffect(int a4);
-int FUN_0c03c10e(void);
-int FUN_0c03df1a(void);
-int FUN_0c057e9e(void);
-void FUN_0c05cde4(void);
-int FUN_0c0714f2(void);
+int menuPutBackground(void);
+int windowReturn(void);
+int Put_Adv_Logo_Sprite(void);
+void Put_Bowling_Message(void);
+int psgTimeDispInit(void);
 
-int FUN_0c02e2ca(int a4)
+int gdc_VolStreamSong(int a4)
 {
     int t0;
     float u1;
@@ -52,7 +52,7 @@ int FUN_0c02e2ca(int a4)
     return 0xC02E3A8;
 }
 
-int FUN_0c030a3e(void)
+int InitAdvLogoSprite(void)
 {
     *(float *)0xC26E194 = 1.0f;
     *(float *)0xC26E1A0 = 0.0f;
@@ -68,7 +68,7 @@ int FUN_0c030a3e(void)
     return FUN_0c074680();
 }
 
-int FUN_0c030a80(void)
+int PutAdvLogoSprite(void)
 {
     float u0;
     float u1;
@@ -109,7 +109,7 @@ int LightEffect(int a4)
     return ResetFadeColor();
 }
 
-int FUN_0c03c10e(void)
+int menuPutBackground(void)
 {
     int t0;
     float u1;
@@ -135,7 +135,7 @@ int FUN_0c03c10e(void)
 }
 
 
-int FUN_0c057e9e(void)
+int Put_Adv_Logo_Sprite(void)
 {
     float u0;
     float u1;
@@ -156,7 +156,7 @@ int FUN_0c057e9e(void)
     return nlSprPut(0xC2A92CC);
 }
 
-void FUN_0c05cde4(void)
+void Put_Bowling_Message(void)
 {
     int t0;
     float u1;
@@ -172,9 +172,9 @@ void FUN_0c05cde4(void)
         *(float *)0xC2A98AC = u1;
         u2 = *(float *)0xC05CE50;
         u3 = *(float *)0xC05CE54;
-        FUN_0c05778a(0xC2A9898, 0x1F1, u2, u3);
+        nd_SprPut(0xC2A9898, 0x1F1, u2, u3);
         u5 = *(float *)0xC05CE5C;
-        FUN_0c05778a(0xC2A9898, 0x1F2, u2, u5);
+        nd_SprPut(0xC2A9898, 0x1F2, u2, u5);
         *(float *)0xC2A98A8 = 1.0f;
         *(float *)0xC2A98AC = 1.0f;
     }

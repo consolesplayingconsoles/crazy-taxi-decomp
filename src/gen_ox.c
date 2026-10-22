@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ox): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02e36c(int, int);
-int FUN_0c0511a4(void);
-int FUN_0c0512ac(void);
-int FUN_0c0530a0(int);
+int gdc_FadeStopStreamSong(int, int);
+int DC_Chari_Command_Check(void);
+int DC_Reverse_Command_Check(void);
+int End_Time_Count(int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 void CarSel_Time_Count(void);
@@ -51,13 +51,13 @@ void CarSel_Time_Count(void)
     t1 = *(int *)0xC2A757C;
     t14 = 0x0;
     if ((int)t1 < (int)0x3B0) {
-        FUN_0c0511a4();
+        DC_Chari_Command_Check();
         t3 = *(int *)0xC2A75C0;
         t4 = 0x0;
         if (t3 == 4) {
             t4 = 0x1;
         }
-        FUN_0c0512ac();
+        DC_Reverse_Command_Check();
         t7 = *(int *)0xC17948C;
         t10 = t4;
         if (t7 == 1) {
@@ -141,11 +141,11 @@ void CarSel_Time_Count(void)
         t98 = t95;
     }
     if (t98 != 0) {
-        FUN_0c0530a0(0x0);
+        End_Time_Count(0x0);
         *(unsigned int *)0xC2A7518 = 0x1;
         t101 = *(int *)0xC2A75A4;
         *(unsigned int *)0xC2A75A4 = (t101 + 0x1);
-        FUN_0c02e36c(0x3C, 0xF0);
+        gdc_FadeStopStreamSong(0x3C, 0xF0);
         Voice_ShutUp(0x0);
         t104 = *(int *)0xC2A751C;
         t105 = *(int *)((t104 + 0x0));

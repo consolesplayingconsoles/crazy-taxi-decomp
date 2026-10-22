@@ -6,9 +6,9 @@ int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int);
-int Put_ReadySetGo(void);
+int Put_TimeUp(void);
 
-int Put_ReadySetGo(void)
+int Put_TimeUp(void)
 {
     int t0;
     int t1;

@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_eh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c031408(int);
-int FUN_0c03bf42(void);
-int FUN_0c03bf76(void);
-int FUN_0c041016(int);
-int FUN_0c05778a(int, int, float, float);
+int pfSetFilterMode(int);
+int windowOpenStep(void);
+int windowEnterStep(void);
+int GetNowLanguage(int);
+int nd_SprPut(int, int, float, float);
 int FUN_0c074320(void);
 int FUN_0c074510(int);
 int FUN_0c0745e0(int);
@@ -32,12 +32,12 @@ int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
 int putLevelCTFontAssist(int, int, int, int, int);
-int FUN_0c03c792(int a4, int a5, int a6, int a7);
+int putMenuValue(int a4, int a5, int a6, int a7);
 void FUN_0c074740(int a4, int a5, int a6);
-int FUN_0c05d862(void);
-int FUN_0c03f038(void);
+int Put_Remain_Icon(void);
+int windowNameConfirm(void);
 
-int FUN_0c03c792(int a4, int a5, int a6, int a7)
+int putMenuValue(int a4, int a5, int a6, int a7)
 {
     float u1;
     float u4;
@@ -74,7 +74,7 @@ int FUN_0c03c792(int a4, int a5, int a6, int a7)
     if (((a5 + (a7 * 0x2C)) + 0xC) == 0) {
         return 0;
     }
-    FUN_0c031408(0x1);
+    pfSetFilterMode(0x1);
     u1 = *(float *)0xC2A1AD4;
     pfSetZ(u1);
     pfSetFont((0x3 & a4));
@@ -178,7 +178,7 @@ int FUN_0c03c792(int a4, int a5, int a6, int a7)
             }
         }
     }
-    return FUN_0c031408(0x0);
+    return pfSetFilterMode(0x0);
 }
 
 void FUN_0c074740(int a4, int a5, int a6)
@@ -301,7 +301,7 @@ void FUN_0c074740(int a4, int a5, int a6)
 }
 
 
-int FUN_0c03f038(void)
+int windowNameConfirm(void)
 {
     int t0;
     int t1;
@@ -341,7 +341,7 @@ int FUN_0c03f038(void)
     int t30;
     int stk[22] = {0};
 
-    t0 = FUN_0c03bf42();
+    t0 = windowOpenStep();
     if (t0 == 1) {
         t1 = *(short *)0xC2A11C4;
         memmove(0xC2A124C, ((short)((short)t1 * (short)0x788) + 0xC28A4F8), 0x4);
@@ -353,13 +353,13 @@ int FUN_0c03f038(void)
         if ((int)t7 > (int)0x1) {
             t8 = *(int *)0xC2A11F4;
             t9 = *(int *)((((t8 << 2) + 0xC2A11F8) + 0x0));
-            t10 = FUN_0c041016(0x0);
+            t10 = GetNowLanguage(0x0);
             putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t10 * (short)0x58)), 0x2, t9, 0x0);
             PutVM_Message(0x20, 0x15, 0xC2A1248, 197.0f, 208.0f);
         } else {
             t13 = *(int *)0xC2A11F4;
             t14 = *(int *)((((t13 << 2) + 0xC2A11F8) + 0x0));
-            t15 = FUN_0c041016(0x0);
+            t15 = GetNowLanguage(0x0);
             putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t15 * (short)0x58)), 0x2, t14, 0x0);
             PutVM_Message(0x20, 0x22, 0xC2A1248, 197.0f, 208.0f);
         }
@@ -368,7 +368,7 @@ int FUN_0c03f038(void)
         if ((int)t21 <= (int)0x1) {
             t22 = *(int *)0xC2A11F4;
             t23 = *(int *)((((t22 << 2) + 0xC2A11F8) + 0x0));
-            t24 = FUN_0c041016(0x0);
+            t24 = GetNowLanguage(0x0);
             putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t24 * (short)0x58)), 0x2, t23, 0x0);
             t52 = 0x22;
             t53 = 0xC2A1248;
@@ -376,7 +376,7 @@ int FUN_0c03f038(void)
         } else {
             t26 = *(int *)0xC2A11F4;
             t27 = *(int *)((((t26 << 2) + 0xC2A11F8) + 0x0));
-            t28 = FUN_0c041016(0x0);
+            t28 = GetNowLanguage(0x0);
             putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t28 * (short)0x58)), 0x2, t27, 0x0);
             t31 = 0x0;
             t32 = 0xC2A124C;
@@ -395,7 +395,7 @@ int FUN_0c03f038(void)
             t35 = 0x0;
             t36 = t33;
             for (;;) {
-                t37 = FUN_0c041016(0x0);
+                t37 = GetNowLanguage(0x0);
                 t38 = *(int *)((0xC0EF7A8 + (t37 << 2)));
                 if ((int)t35 >= (int)t38) {
                     break;
@@ -427,6 +427,6 @@ int FUN_0c03f038(void)
         }
         PutVM_Message(0x20, t52, t53, u55, 208.0f);
     }
-    t65 = FUN_0c03bf76();
+    t65 = windowEnterStep();
     return t65;
 }

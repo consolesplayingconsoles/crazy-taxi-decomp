@@ -3,7 +3,7 @@
 
 int GetCollision2D(int, float);
 int PcarEvInit(int);
-int Put_Motion2D(int);
+int carBalance(int);
 int TrailerInit(int, int);
 int calcCheckExec(int, int);
 int extRand(void);
@@ -135,7 +135,7 @@ int ParkingCarInit(int a4, int a5, int a6, int a7, int a8)
         t52 = *(int *)0xC0A4788;
         *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x4)) = t51;
         *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x0)) = t52;
-        Put_Motion2D(t1);
+        carBalance(t1);
         t54 = *(signed char *)(((0x108 + t1) + 0x0));
         *(unsigned char *)(((0xA4 + t1) + 0x0)) = t54;
         t55 = *(signed char *)(((0x108 + t1) + 0x1));

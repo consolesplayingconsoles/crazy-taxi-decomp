@@ -16,9 +16,9 @@ int nlScaleVector(int, int, float);
 int nlSqrt(int, int);
 int nlSubVector3op(int, int, int);
 float nlUnitVector(int);
-int FUN_0c0650b8(void);
+int camGetOffShot2(void);
 
-int FUN_0c0650b8(void)
+int camGetOffShot2(void)
 {
     int t1;
     int t2;

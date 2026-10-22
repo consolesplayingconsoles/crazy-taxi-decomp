@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_qd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c034cf2(int);
-int FUN_0c034fa8(int);
+int PutColliWall(int);
+int PutColliPole(int);
 float nlFloor(float);
-float FUN_0c035134(float f4, float f5);
+float ViewColliWall(float f4, float f5);
 
-float FUN_0c035134(float f4, float f5)
+float ViewColliWall(float f4, float f5)
 {
     float u0;
     float t1;
@@ -55,7 +55,7 @@ float FUN_0c035134(float f4, float f5)
                     }
                     t16 = *(int *)((t14 + 0x0));
                     t14 = (t14 + 0x4);
-                    FUN_0c034cf2(t16);
+                    PutColliWall(t16);
                     t15 = (t15 - 1);
                 }
                 t18 = *(int *)0xC270458;
@@ -69,7 +69,7 @@ float FUN_0c035134(float f4, float f5)
                     }
                     t24 = *(int *)((t22 + 0x0));
                     t22 = (t22 + 0x4);
-                    FUN_0c034fa8(t24);
+                    PutColliPole(t24);
                     t23 = (t23 - 1);
                 }
             }

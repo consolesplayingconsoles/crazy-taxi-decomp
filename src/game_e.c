@@ -17,7 +17,7 @@ void ConvertSwitch2(void)
     r4[2] = p[5];
 }
 
-void FUN_0c02bc24(void)
+void AdvNextCourseMode(void)
 {
     int v;
 
@@ -32,7 +32,7 @@ void FUN_0c02bc24(void)
     }
 }
 
-void GS_ComboReset(void)
+void GS_GuestEject(void)
 {
     int *g = (int *)0x0C1EE788;
 
@@ -70,7 +70,7 @@ void TrafficLevelChange(int d)
 }
 
 /* x stepped up by bit 5 and down by bit 4 of the word at 0C1EE284, kept in 0-21 (wrapping). */
-int FUN_0c043524(int x)
+int padStepIndex(int x)
 {
     int g = ((int *)0x0C1EE280)[1];
 
@@ -83,7 +83,7 @@ int FUN_0c043524(int x)
 }
 
 /* Moves up to 60 of the pending amount at **0C2A8C58 into *(*0C2A8C54). */
-void FUN_0c054452(void)
+void Put_Remain_Time_Add(void)
 {
     int **src = (int **)0x0C2A8C58;
     int *dst = *(int **)0x0C2A8C54;

@@ -107,7 +107,7 @@ extern void Voice_ShutUp(int ch);
 extern void Voice_Request(int voice, int ch, int a, int b);
 
 /* Cut the current voice, then play voice table entry i (0C1321C0) at full volume. */
-void FUN_0c05fd70(int i)
+void Start_CrazyBox_Voice(int i)
 {
     Voice_ShutUp(0);
     Voice_Request(((int *)0x0C1321C0)[i], 0, 127, 0);

@@ -7,9 +7,9 @@ int FUN_0c0112c6(int, int);
 int gdc_CourseLoadWait(void);
 int gdc_CourseStartLoadReq(void);
 int SetLight(int, int);
-int FUN_0c031480(void);
-int FUN_0c031934(int);
-int FUN_0c0357b0(void);
+int InitLandmark(void);
+int InitCollision(int);
+int InitKyakuStopArea(void);
 int cycleAdvCheck(void);
 int nd_peopleInitialize(int);
 int Init_nd_Sprite(void);
@@ -25,7 +25,7 @@ int InitHelicopter(void);
 int InitSetObject(void);
 int Init_DCmini(void);
 int Init_Fog(void);
-int Init_Result(int);
+int replayChangeControl(int);
 int LightEffect(int);
 int PutCourse_Init(int);
 int ResetLight(void);
@@ -56,8 +56,8 @@ static float iaFscaS(int a)
     return s;
 }
 int initCamera(int);
-int initPlayer(void);
 int initPlayerADV(void);
+int initPlayer(void);
 int init_CarMain(void);
 int init_GameSystem(void);
 int init_KyakuMain(void);
@@ -69,7 +69,7 @@ int gdFsInitG(int a4, int a5, int a6, int a7, int a8);
 int FUN_0c0113b4(int a4);
 int FUN_0c15c3c8(int a4, int a5, int a6, int a7);
 int gameState0(void);
-int FUN_0c060f38(int a4);
+int Chat_Getoff(int a4);
 
 float nlFastSinCos(int a4, int a5, int a6)
 {
@@ -786,9 +786,9 @@ int gameState0(void)
     extRandomSeed(0x3039);
     t17 = *(int *)0xC1EE234;
     if (t17 == 0) {
-        initPlayer();
-    } else {
         initPlayerADV();
+    } else {
+        initPlayer();
     }
     Init_nd_Sprite();
     init_GameSystem();
@@ -798,7 +798,7 @@ int gameState0(void)
     if (t25 != 0) {
         if (t25 != 1) {
             if (t25 != 2) {
-                FUN_0c031934(t25);
+                InitCollision(t25);
                 t27 = *(int *)0xC1EE20C;
                 PutCourse_Init(t27);
                 nd_peopleInitialize(0x46);
@@ -808,19 +808,19 @@ int gameState0(void)
                 if (t30 != 15) {
                     t31 = t30;
                 }
-                FUN_0c031934(t31);
+                InitCollision(t31);
                 t33 = *(int *)0xC1EE20C;
                 PutCourse_Init(t33);
                 *(unsigned int *)0xC2A6FD8 = 0x0;
             }
         } else {
-            FUN_0c031934(t25);
+            InitCollision(t25);
             t37 = *(int *)0xC1EE20C;
             PutCourse_Init(t37);
             nd_peopleInitialize(0x32);
         }
     } else {
-        FUN_0c031934(t25);
+        InitCollision(t25);
         t42 = *(int *)0xC1EE20C;
         PutCourse_Init(t42);
         nd_peopleInitialize(0x46);
@@ -835,7 +835,7 @@ int gameState0(void)
     if (t51 != 2) {
         SetStartCamera();
     }
-    FUN_0c0357b0();
+    InitKyakuStopArea();
     t55 = *(int *)0xC1EE20C;
     if (t55 == 2) {
         t56 = *(int *)0xC1EE214;
@@ -878,13 +878,13 @@ int gameState0(void)
         }
     }
     InitSetObject();
-    FUN_0c031480();
+    InitLandmark();
     InitHelicopter();
     Act_Init();
     entryCarPut(0x0);
     trafficControl(0x0);
     GoiTool(0x0);
-    Init_Result(0xFFFFFFFE);
+    replayChangeControl(0xFFFFFFFE);
     *(unsigned int *)0xC2A4E50 = 0x0;
     t89 = *(int *)0xC1EE20C;
     t93 = 0x2900;

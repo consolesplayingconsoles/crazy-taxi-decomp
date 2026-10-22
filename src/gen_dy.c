@@ -7,9 +7,9 @@ int nlArcTan2(float, float);
 float nlInnerProduct(int, int);
 int nlSubVector3op(int, int, int);
 int nlUnitVector(int);
-int FUN_0c071104(int a4);
+int psgFaceBoyFriend(int a4);
 
-int FUN_0c071104(int a4)
+int psgFaceBoyFriend(int a4)
 {
     int t0;
     int t1;

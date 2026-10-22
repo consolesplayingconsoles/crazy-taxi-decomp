@@ -2,18 +2,18 @@
    Globals are addressed directly where the decomp has no name for them yet. */
 
 void gdc_CourseReq(int a, int b, int c);
-void FUN_0c055310(void);
-void FUN_0c055362(void);
-void FUN_0c055688(void);
-void FUN_0c057930(void);
+void hudStepFareRoll(void);
+void hudDrawFareDigits(void);
+void hudDrawFareFrame(void);
+void Init_Adv_Title_LOGO(void);
 void Init_Adv_Global_Parm(void);
-void FUN_0c057980(void);
-void FUN_0c057aac(void);
+void Init_Adv_Standard(void);
+void Init_Ranking(void);
 
 #define HUD_FLAGS       (*(unsigned int *)0x0C2A75E0)
 #define ADV_FLAGS       (*(unsigned short *)0x0C2A992C)
 
-void FUN_0c0357b0(void)
+void InitKyakuStopArea(void)
 {
     *(int *)0x0C271D28 = -1;
 }
@@ -24,116 +24,116 @@ void InitHelicopter(void)
     *(int *)0x0C274290 = 0;
 }
 
-int FUN_0c038eec(int i)
+int ReturnBreakPin(int i)
 {
     return ((int *)0x0C275824)[i];
 }
 
-void FUN_0c038f78(void)
+void ResetBreakBeachFlag(void)
 {
     *(int *)0x0C275944 = 0;
 }
 
-void FUN_0c05317e(void)
+void End_Pass_Default2_Sprite(void)
 {
     HUD_FLAGS &= ~0x40u;
 }
 
-void FUN_0c05328a(void)
+void Pass_Angry(void)
 {
     *(int *)0x0C2A8F70 = 1;
 }
 
-void FUN_0c053292(void)
+void Start_Time_Bonus(void)
 {
     HUD_FLAGS |= 0x100;
     *(int *)0x0C2A8F68 = 0;
 }
 
-void FUN_0c0532a4(void)
+void End_Time_Bonus(void)
 {
     HUD_FLAGS &= ~0x100u;
 }
 
-void FUN_0c0532de(void)
+void End_Pass_Judgement2(void)
 {
     HUD_FLAGS &= ~0x800u;
 }
 
-void FUN_0c05332c(void)
+void End_Pass_Judgement(void)
 {
     HUD_FLAGS &= ~0x400u;
 }
 
-void FUN_0c0533e6(void)
+void End_Pass_Ranking(void)
 {
     HUD_FLAGS &= ~0x1000u;
 }
 
-void FUN_0c0552b0(void)
+void hudDrawFare(void)
 {
     if (*(int *)0x0C2A8EB0 >= 8)
         return;
-    FUN_0c055310();
-    FUN_0c055362();
-    FUN_0c055688();
+    hudStepFareRoll();
+    hudDrawFareDigits();
+    hudDrawFareFrame();
 }
 
-void FUN_0c0577dc(void)
+void Init_Adv_Sprite(void)
 {
-    FUN_0c057930();
+    Init_Adv_Title_LOGO();
     Init_Adv_Global_Parm();
-    FUN_0c057980();
-    FUN_0c057aac();
+    Init_Adv_Standard();
+    Init_Ranking();
 }
 
-void FUN_0c057b5c(void)
+void Start_Ranking(void)
 {
     *(short *)0x0C2A9228 = 8;
-    FUN_0c057aac();
+    Init_Ranking();
 }
 
-void FUN_0c057b64(void)
+void End_Ranking(void)
 {
     *(short *)0x0C2A9228 = 0;
 }
 
-void FUN_0c05bb12(void)
+void Reset_JumpDistance(void)
 {
     *(int *)0x0C1311B8 = 0;
     ADV_FLAGS &= 0xFFFB;
 }
 
-void FUN_0c05bb64(void)
+void End_Excellent(void)
 {
     ADV_FLAGS &= 0xFFEF;
     *(int *)0x0C1EE238 = 2;
 }
 
-void FUN_0c05d492(void)
+void Start_PoleMarriageKiss(void)
 {
     ADV_FLAGS |= 0x100;
     *(int *)0x0C2A9B90 = 0;
 }
 
-void FUN_0c05df48(void)
+void Start_Record_Window(void)
 {
     ADV_FLAGS |= 0x40;
     *(int *)0x0C2A9BAC = 640;
     *(int *)0x0C2A9BB0 = 100;
 }
 
-void FUN_0c05cdb4(void)
+void Start_Bowling_Message(void)
 {
     *(int *)0x0C2A9960 = 0;
 }
 
-void FUN_0c05ce38(void)
+void Reset_Bowling_Timer(void)
 {
     *(int *)0x0C2A9964 = 0;
 }
 
-int FUN_0c05d852(void)
+int Start_Remain_Icon_Flash(void)
 {
     *(int *)0x0C2A9928 = *(int *)0x0C2A98EC;
     *(int *)0x0C2A9A38 = 0;
@@ -141,7 +141,7 @@ int FUN_0c05d852(void)
 }
 
 /* Requests every course in a list ending at -1. */
-void FUN_0c04c0dc(int *p, int a)
+void gdc_CourseAdvLoadSub(int *p, int a)
 {
     while (*p != -1)
         gdc_CourseReq(*p++, a, 0);

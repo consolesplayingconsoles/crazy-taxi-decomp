@@ -2,14 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckSoftReset(void);
-int FUN_0c0300b6(void);
-int FUN_0c040e1c(void);
-int FUN_0c06045c(void);
+int gdc_FileLoadExec(void);
+int CheckDrive(void);
+int Exec_LCD(void);
 int LoadBigOne(int);
 int PutVMSMessage(void);
 int Sound_Execute(void);
 int frameFlip(void);
-int gameInit(void);
+int InitSys(void);
 int gdc_Err(void);
 int getSwitch(void);
 int getSystemMetrics(void);
@@ -46,7 +46,7 @@ void MainLoop(void)
     { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
     { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
     *(unsigned int *)0xC1EE244 = 0x0;
-    gameInit();
+    InitSys();
     t1 = *(int *)0xC2A11C0;
     if (t1 == 0) {
         *(unsigned int *)0xC1EE244 = 0x0;
@@ -58,7 +58,7 @@ void MainLoop(void)
             getSwitch();
             nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
             CheckSoftReset();
-            FUN_0c040e1c();
+            CheckDrive();
             t7 = *(int *)0xC1EE234;
             t8 = *(int *)((((t7 & 0x7) << 2) + 0xC08ACEC));
             if (t8 == 0) {
@@ -66,10 +66,10 @@ void MainLoop(void)
                 *(unsigned int *)0xC1EE234 = (t9 + 0x1);
                 *(unsigned int *)0xC1EE238 = 0x0;
                 PutVMSMessage();
-                FUN_0c06045c();
+                Exec_LCD();
                 t12 = *(signed char *)0xC1EE278;
                 nd_Exec_Puru2((unsigned char)t12);
-                FUN_0c0300b6();
+                gdc_FileLoadExec();
                 Sound_Execute();
                 t16 = *(int *)0xC1EE330;
                 *(unsigned int *)0xC1EE330 = (t16 + 0x1);
@@ -88,10 +88,10 @@ void MainLoop(void)
             }
             t25 = ((int (*)(void))(t8))();
             PutVMSMessage();
-            FUN_0c06045c();
+            Exec_LCD();
             t28 = *(signed char *)0xC1EE278;
             nd_Exec_Puru2((unsigned char)t28);
-            FUN_0c0300b6();
+            gdc_FileLoadExec();
             Sound_Execute();
             t32 = *(int *)0xC1EE330;
             *(unsigned int *)0xC1EE330 = (t32 + 0x1);
@@ -117,7 +117,7 @@ void MainLoop(void)
         getSwitch();
         nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
         CheckSoftReset();
-        FUN_0c040e1c();
+        CheckDrive();
         t46 = *(int *)0xC1EE234;
         t47 = *(int *)((((t46 & 0x7) << 2) + 0xC08ACEC));
         if (t47 == 0) {
@@ -125,10 +125,10 @@ void MainLoop(void)
             *(unsigned int *)0xC1EE234 = (t48 + 0x1);
             *(unsigned int *)0xC1EE238 = 0x0;
             PutVMSMessage();
-            FUN_0c06045c();
+            Exec_LCD();
             t51 = *(signed char *)0xC1EE278;
             nd_Exec_Puru2((unsigned char)t51);
-            FUN_0c0300b6();
+            gdc_FileLoadExec();
             Sound_Execute();
             t55 = *(int *)0xC1EE330;
             *(unsigned int *)0xC1EE330 = (t55 + 0x1);
@@ -147,10 +147,10 @@ void MainLoop(void)
         }
         t64 = ((int (*)(void))(t47))();
         PutVMSMessage();
-        FUN_0c06045c();
+        Exec_LCD();
         t67 = *(signed char *)0xC1EE278;
         nd_Exec_Puru2((unsigned char)t67);
-        FUN_0c0300b6();
+        gdc_FileLoadExec();
         Sound_Execute();
         t71 = *(int *)0xC1EE330;
         *(unsigned int *)0xC1EE330 = (t71 + 0x1);

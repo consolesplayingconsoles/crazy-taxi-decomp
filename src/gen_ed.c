@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ed): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02d918(void);
-int FUN_0c031408(int);
-int FUN_0c040cea(int);
-int FUN_0c056e80(void);
+int GS_GuestResult(void);
+int pfSetFilterMode(int);
+int CheckBoxFlag(int);
+int Count_Down_Clock(void);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 int menuPutSprites(int, int, int, int);
@@ -17,10 +17,10 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
-int Put_TotalDrum(void);
+int Put_Pass_Time(void);
 int putLevelCTFontAssist(int a4, int a5, int a6, int a7, float f4);
 
-int Put_TotalDrum(void)
+int Put_Pass_Time(void)
 {
     int t0;
     int t1;
@@ -290,7 +290,7 @@ int Put_TotalDrum(void)
     t149 = (int)((int)t145 % (int)0xA);
     t150 = *(int *)0xC2A8E98;
     if (t150 == 0) {
-        t151 = FUN_0c02d918();
+        t151 = GS_GuestResult();
         if (t151 == 2) {
             nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
         } else {
@@ -356,7 +356,7 @@ int Put_TotalDrum(void)
     t206 = *(int *)0xC2A8EB0;
     if (t206 == 3) {
         *(float *)0xC2A8098 = 0.0f;
-        FUN_0c056e80();
+        Count_Down_Clock();
     }
     u213 = *(float *)0xC2A7604;
     *(unsigned int *)0xC2A8DF4 = (int)u213;

@@ -7,7 +7,7 @@ extern float nlFloor(float x);
    +44, +56); the point must be on the inner side of each edge (cross products of the corner offsets, not negative).
    Kind 3 (+72) skips the first edge and takes the second corner for the last one. On a hit the height goes to
    *height and 1 comes back, else 0. */
-int FUN_0c032080(float *pos, float *e, float *height)
+int GetCollision2DHeight(float *pos, float *e, float *height)
 {
     float x = pos[0];
     float z = pos[2];
@@ -48,7 +48,7 @@ int FUN_0c032080(float *pos, float *e, float *height)
 }
 
 /* The ground under pos (x y z; a column of the course's grid, `tol` is how far above the best floor a higher surface
-   may still be taken). Looks the grid cell up, asks every surface in it (FUN_0c032080, which gives the height above
+   may still be taken). Looks the grid cell up, asks every surface in it (GetCollision2DHeight, which gives the height above
    pos; kind 13 is skipped) and picks the highest one not above pos.y, or when none is below, the lowest; a surface
    within `tol` above the pick is taken in turn. Returns the result at 0C26E478: x, height, z, the surface's first
    three words (its normal) at +12 and its kind at +28 (-1: nothing there). */
@@ -83,7 +83,7 @@ float *GetCollision2D(float *pos, float tol)
         e = (int *)*lst;
         lst++;
         if (e[17] != 13) {
-            if (FUN_0c032080(pos, (float *)e, &h)) {
+            if (GetCollision2DHeight(pos, (float *)e, &h)) {
                 if (h > hbelow) {
                     if (!(h > pos[1])) {
                         hbelow = h;
@@ -134,7 +134,7 @@ float *GetCollision2D(float *pos, float tol)
     return res;
 }
 
-/* What FUN_0c031c5a fills in: the surface it met, how deep the point is past it, and how much of the move
+/* What FindCollisionHit fills in: the surface it met, how deep the point is past it, and how much of the move
    (a fraction of the vector) it got before it. t goes in as the fraction still left. */
 typedef struct {
     int *e;
@@ -142,7 +142,7 @@ typedef struct {
     float t;
 } Hit;
 
-extern int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius);
+extern int FindCollisionHit(float *a, float *b, Hit *hit, float radius);
 
 /* Moves the point a along the vector b through the course's walls, sliding along each surface it meets, with
    `rest` the bounce (a surface kind's first float at 0C08F748 + 28 * kind scales it) and `radius` the point's size.
@@ -168,7 +168,7 @@ float *GetCollision(float *a, float *b, float rest, float radius)
     pos[1] = a[1];
     pos[2] = a[2];
     hit.t = 1.0f;
-    while (FUN_0c031c5a(pos, mv, &hit, radius)) {
+    while (FindCollisionHit(pos, mv, &hit, radius)) {
         f = hit.t;
         pos[0] = pos[0] + f * mv[0];
         pos[1] = pos[1] + f * mv[1];
@@ -229,7 +229,7 @@ float *GetCollisionFirst(float *a, float *b, float radius)
     float t;
 
     hit.t = 1.0f;
-    if (!FUN_0c031c5a(a, b, &hit, radius)) {
+    if (!FindCollisionHit(a, b, &hit, radius)) {
         *(int *)0x0C26E474 = -1;
         return (float *)0x0C26E458;
     }
@@ -250,12 +250,12 @@ extern void nlPushUnitMatrix(void);
 extern void FUN_0c078de0(float *v, float *out);
 extern void nlRotateV(float *v, float *m);
 extern void FUN_0c0789c0(float *p);
-extern void FUN_0c032432(float *a, float *b);
+extern void MakeCollisionCellList(float *a, float *b);
 extern float nlLength(float *a, float *b);
-extern int FUN_0c031d62(float *q, int *entry, Hit *hit);
+extern int CheckCollisionPoly(float *q, int *entry, Hit *hit);
 extern void nlPopMatrix(int n);
 
-/* The query FUN_0c031d62 gets: the move's start, the vector, the point's radius, the vector's length and the radius
+/* The query CheckCollisionPoly gets: the move's start, the vector, the point's radius, the vector's length and the radius
    plus the length (how far from the start a surface can still be touched). */
 typedef struct {
     float pos[3];
@@ -267,9 +267,9 @@ typedef struct {
 
 /* Finds what the move a -> a + b (radius) meets: it walks the grid cells on the move's way (up to 10, the list at
    0C26E3A0 with the distances to each cell's far side at 0C26E3C8), tests every surface near enough with
-   FUN_0c031d62 (which keeps the earliest hit in *hit) and stops when the hit found is nearer than the next cell.
+   CheckCollisionPoly (which keeps the earliest hit in *hit) and stops when the hit found is nearer than the next cell.
    0 when the move is zero, else a mask of what was found. */
-int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius)
+int FindCollisionHit(float *a, float *b, Hit *hit, float radius)
 {
     Query q;
     float v[3];
@@ -298,7 +298,7 @@ int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius)
     FUN_0c078de0(b, v);
     nlRotateV(v, (float *)0x0C08DA58);
     FUN_0c0789c0(a);
-    FUN_0c032432(a, b);
+    MakeCollisionCellList(a, b);
     t0 = hit->t;
     mask = 0;
     for (k = 0; k < 10; k++) {
@@ -311,7 +311,7 @@ int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius)
         for (p = (int **)((char *)cell + 12); n != 0; n--, p++) {
             e = *p;
             if (q.reach + ((float *)e)[4] > nlLength(a, (float *)((char *)e + 20))) {
-                mask |= FUN_0c031d62((float *)&q, e, hit);
+                mask |= CheckCollisionPoly((float *)&q, e, hit);
             }
         }
         if (!(hit->t > *lim * t0)) {
@@ -323,7 +323,7 @@ int FUN_0c031c5a(float *a, float *b, Hit *hit, float radius)
     return mask;
 }
 
-/* What the wall and pole tests (FUN_0c034872, FUN_0c0349d8) get: the point, what they give back (a push, x and z,
+/* What the wall and pole tests (CheckColliWallSegment, CheckColliWallPole) get: the point, what they give back (a push, x and z,
    and how far along it) and the point's radius. */
 typedef struct {
     float *pos;
@@ -334,8 +334,8 @@ typedef struct {
 } WallQuery;
 
 extern float _builtin_sqrtf(float);
-extern int FUN_0c034872(WallQuery *q, float *wall);
-extern int FUN_0c0349d8(WallQuery *q, float *pole);
+extern int CheckColliWallSegment(WallQuery *q, float *wall);
+extern int CheckColliWallPole(WallQuery *q, float *pole);
 
 /* Pushes the point out of the walls and poles of its cell in the wall grid (header at 0x0C27045C, cell pointers
    behind 0x0C270458: a cell has a halfword count of walls at +0, of poles at +2, then the pointers). A wall test
@@ -367,7 +367,7 @@ void CheckColliWall(float *pos, float radius)
     q.radius = radius;
     list = (int **)((char *)cell + 4);
     for (n = *(short *)cell; n != 0; n--) {
-        res = FUN_0c034872(&q, (float *)*list);
+        res = CheckColliWallSegment(&q, (float *)*list);
         list++;
         if (res == 1) {
             if (q.t > radius) {
@@ -400,7 +400,7 @@ void CheckColliWall(float *pos, float radius)
         pos[2] = pos[2] + third * other[1];
     }
     for (n = *(short *)((char *)cell + 2); n != 0; n--) {
-        if (FUN_0c0349d8(&q, (float *)*list++)) {
+        if (CheckColliWallPole(&q, (float *)*list++)) {
             pos[0] = pos[0] + q.t * q.push[0];
             pos[2] = pos[2] + q.t * q.push[1];
             return;
@@ -413,7 +413,7 @@ void CheckColliWall(float *pos, float radius)
    (+8, +12), the top at +20 and the bottom at +24, and the length at +28. Not touching: 0. Past the end it came for (the
    along-the-wall coordinate under 0): 2, pushed away from the end point, by radius minus its distance; along the wall
    inside the length: 1, pushed along the wall's normal (a, b) by radius minus the distance. The distance goes to q->spare. */
-int FUN_0c034872(WallQuery *q, float *w)
+int CheckColliWallSegment(WallQuery *q, float *w)
 {
     float *pos = q->pos;
     float y = pos[1];
@@ -464,7 +464,7 @@ int FUN_0c034872(WallQuery *q, float *w)
 
 /* Is the point against this pole (a post: its centre x, z at +8 and +12, its radius at +16, the top at +20 and the bottom at +24)?
    Inside the heights and closer than the radii added: 2, pushed away from the centre by the overlap (q->t) along q->push. */
-int FUN_0c0349d8(WallQuery *q, float *p)
+int CheckColliWallPole(WallQuery *q, float *p)
 {
     float *pos = q->pos;
     float y = pos[1];

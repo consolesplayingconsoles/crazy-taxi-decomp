@@ -7,9 +7,9 @@ int nlAddVector(int, int);
 float nlLength(int, int);
 int nlScaleVector(int, int, float);
 int set_event(int, int);
-void FUN_0c038688(int a4);
+void setObjHitSplitSleep(int a4);
 
-void FUN_0c038688(int a4)
+void setObjHitSplitSleep(int a4)
 {
     float t0;
     int t1;

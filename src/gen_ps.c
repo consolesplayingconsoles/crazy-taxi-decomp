@@ -6,9 +6,9 @@ int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlRotateAY(int);
 int nlTranslateV(int);
-int FUN_0c050716(void);
+int nd_StartWait_PutDriver(void);
 
-int FUN_0c050716(void)
+int nd_StartWait_PutDriver(void)
 {
     int t1;
     int t4;

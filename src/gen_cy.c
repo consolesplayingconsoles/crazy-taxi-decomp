@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_cy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c034b5e(int, int, int, int);
+int ReflectColliWallBox(int, int, int, int);
 int FUN_0c07b980(void);
 int FUN_0c087474(int, int, int, int, int);
 float FUN_0c089de0(int);
@@ -9,13 +9,13 @@ float FUN_0c089de8(int);
 int motionClearRootZ(int);
 int nlLineSetThickness(float);
 int nlScaleVector(int, int, float);
-int FUN_0c06b1c0(void);
+int PatchMotion(void);
 int FUN_0c085dfc(int a4, int a5, int a6);
 int nlPopMatrix(int a4);
 int FUN_0c07e960(int a4, int a5, int a6, int a7);
 int ColliWallTest(void);
 
-int FUN_0c06b1c0(void)
+int PatchMotion(void)
 {
     motionClearRootZ(0xCA75D74);
     return motionClearRootZ(0xCA7BBDC);

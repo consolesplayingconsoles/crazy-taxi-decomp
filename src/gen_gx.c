@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_gx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
-int FUN_0c047330(int);
+int GetRotVec4Ang(int, int, int);
+int trainCarDrive(int);
 int FUN_0c077210(int, int);
 int GetCollision2D(int, float);
-int Put_Motion2D(int);
+int carBalance(int);
 int TrainInit(int, int);
 int carColliReflection(void);
 int carEntry(int);
@@ -338,7 +338,7 @@ int trainCarExec(int a4)
             }
         }
     }
-    FUN_0c047330(a4);
+    trainCarDrive(a4);
     t200 = *(int *)(((0x98 + a4) + 0x8));
     t201 = *(int *)(((0x98 + a4) + 0x4));
     *(unsigned int *)(((((int)stk + 8) + 0x1C) + 0x8)) = t200;
@@ -411,7 +411,7 @@ int trainCarExec(int a4)
         t264 = *(int *)((t262 + 0x0));
         getNearLineIndex(0x2, t264, t263, (0xD4 + a4), (0x8C + a4));
         nlSubVector3op((((int)stk + 8) + 0x1C), (0x98 + a4), (((int)stk + 8) + 0x1C));
-        Put_Motion2D(a4);
+        carBalance(a4);
         t268 = *(signed char *)(((0xA4 + a4) + 0x0));
         *(unsigned char *)(((0x108 + a4) + 0x0)) = t268;
         t269 = *(signed char *)(((0xA4 + a4) + 0x1));
@@ -456,7 +456,7 @@ int trainCarExec(int a4)
     *(volatile short *)((a4 + 0xA8));
     t300 = *(short *)((a4 + 0xA6));
     t301 = *(short *)((a4 + 0xA4));
-    FUN_0c036256((a4 + 0x44), (unsigned short)t301, (unsigned short)t300);
+    GetRotVec4Ang((a4 + 0x44), (unsigned short)t301, (unsigned short)t300);
     *(unsigned int *)((a4 + 0x68)) = 0x0;
     t303 = *(int *)((a4 + 0x80));
     if (t303 == 0x13B) {

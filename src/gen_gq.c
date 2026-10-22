@@ -10,9 +10,9 @@ int nlOuterProduct(int, int, int);
 int nlRotateAX(int);
 int nlRotateV(int, int);
 int nlSubVector3op(int, int, int);
-int FUN_0c067c14(int a4, int a5, int a6, int a7, int a8);
+int fcvSolveIK(int a4, int a5, int a6, int a7, int a8);
 
-int FUN_0c067c14(int a4, int a5, int a6, int a7, int a8)
+int fcvSolveIK(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;

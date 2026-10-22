@@ -18,7 +18,7 @@ void psgEnterState5(tagPASSENGER *p, int arg)
         p->b21 = 0;
         p->f124 = g_0c0d5720;
         p->f128 = g_0c0d5728;
-        FUN_0c061b14(p, 1, 0);
+        Chat_Iraira(p, 1, 0);
         break;
     case 1:
         i = extRand() % 3;
@@ -30,7 +30,7 @@ void psgEnterState5(tagPASSENGER *p, int arg)
         p->b21 = 0;
         p->f124 = a1[i];
         p->f128 = b1[i];
-        FUN_0c061b14(p, 1, 1);
+        Chat_Iraira(p, 1, 1);
         break;
     case 2:
         i = extRand() % 3;
@@ -42,7 +42,7 @@ void psgEnterState5(tagPASSENGER *p, int arg)
         p->b21 = 0;
         p->f124 = g_0c0d5720;
         p->f128 = g_0c0d5728;
-        FUN_0c061b14(p, 2, 2);
+        Chat_Iraira(p, 2, 2);
         break;
     }
 }
@@ -93,7 +93,7 @@ void psgEnterState6(tagPASSENGER *p, int arg)
         p->b21 = 2;
         p->f124 = g_0c0d5720;
         p->f128 = g_0c0d5728;
-        FUN_0c061da8(p);
+        Chat_DamnIt(p);
         break;
     case 1:
         break;

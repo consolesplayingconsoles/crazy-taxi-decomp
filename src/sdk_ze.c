@@ -316,7 +316,7 @@ int kmChangeVertexPCW(int i, int v, int n)
 }
 
 /* Save a VMU file stamped with today's date. */
-int FUN_0c03a704(int a, int b, int c, int d)
+int BupSave(int a, int b, int c, int d)
 {
     Date8 date;
     Date8 copy;

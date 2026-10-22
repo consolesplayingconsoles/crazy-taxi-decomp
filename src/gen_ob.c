@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int extRand(void);
-int FUN_0c044b80(int a4, int a5, int a6);
+int pcarTurnSelect(int a4, int a5, int a6);
 
-int FUN_0c044b80(int a4, int a5, int a6)
+int pcarTurnSelect(int a4, int a5, int a6)
 {
     int t0;
     int t1;

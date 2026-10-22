@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int KillColliObj(int);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int SetColliObj(int, int);
 int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
@@ -11,9 +11,9 @@ int nlPushMatrix(int);
 int nlPushUnitMatrix(void);
 int nlTranslateV(int);
 int set_event(int, int);
-void FUN_0c0388a4(int a4);
+void setObjHitBreakCount(int a4);
 
-void FUN_0c0388a4(int a4)
+void setObjHitBreakCount(int a4)
 {
     int t0;
     int t1;
@@ -47,7 +47,7 @@ void FUN_0c0388a4(int a4)
         *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x0)) = t3;
         nlPushUnitMatrix();
         nlTranslateV(a4);
-        SetCameraPosVelocity((a4 + 0x30));
+        MultiRot4Vec((a4 + 0x30));
         nlPushMatrix(0x0);
         *(unsigned int *)(((int)stk + 4)) = 0xC0EE1E8;
         t8 = a4;

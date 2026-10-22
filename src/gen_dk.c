@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_dk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
-extern int FUN_0c048adc();
-int FUN_0c04a090(int, int, int, int);
+int GetRotVec4Ang(int, int, int);
+extern int getCourseDistPoint();
+int getNearLinkedLine(int, int, int, int);
 int FUN_0c077210(int, int);
 int GetCollision2D(int, float);
 int KillColliObj(int);
@@ -153,10 +153,10 @@ float trainExec(int a4)
         *(float *)((a4 + 0x9C)) = (u25 - 0.073499985f);
         t26 = *(int *)((t5 + 0xD4));
         t27 = *(int *)((a4 + 0x80));
-        t28 = ((int (*)(int, int, int, int, float))(FUN_0c048adc))(0xFFFFFFFF, (((int)stk + 16) + 0x3C), t27, t26, 40.0f);
+        t28 = ((int (*)(int, int, int, int, float))(getCourseDistPoint))(0xFFFFFFFF, (((int)stk + 16) + 0x3C), t27, t26, 40.0f);
         t29 = *(int *)((a4 + 0xD4));
         t30 = *(int *)((a4 + 0x80));
-        t31 = ((int (*)(int, int, int, int, int, int, float))(FUN_0c048adc))(0xFFFFFFFF, (((int)stk + 12) + 0x10), t30, t29, (((int)stk + 12) + 0x4), (((int)stk + 16) + 0xC), 90.0f);
+        t31 = ((int (*)(int, int, int, int, int, int, float))(getCourseDistPoint))(0xFFFFFFFF, (((int)stk + 12) + 0x10), t30, t29, (((int)stk + 12) + 0x4), (((int)stk + 16) + 0xC), 90.0f);
         t32 = GetCollision2D((((int)stk + 16) + 0xC), 10.0f);
         t33 = *(int *)((t32 + 0x1C));
         if (t33 != -1) {
@@ -205,11 +205,11 @@ float trainExec(int a4)
         nlSubVector3op((0x98 + a4), (0x8C + a4), (((int)stk + 16) + 0x30));
         t73 = *(int *)((a4 + 0xD4));
         t74 = *(int *)((a4 + 0x80));
-        t75 = ((int (*)(int, int, int, int, float))(FUN_0c048adc))(0x1, (((int)stk + 16) + 0xC), t74, t73, 30.0f);
+        t75 = ((int (*)(int, int, int, int, float))(getCourseDistPoint))(0x1, (((int)stk + 16) + 0xC), t74, t73, 30.0f);
         nlSubVector((((int)stk + 12) + 0x10), (((int)stk + 12) + 0x40));
         t77 = *(int *)((a4 + 0xD4));
         t78 = *(int *)((a4 + 0x80));
-        t79 = ((int (*)(int, int, int, int, float))(FUN_0c048adc))(0x1, (((int)stk + 12) + 0x4), t78, t77, 30.0f);
+        t79 = ((int (*)(int, int, int, int, float))(getCourseDistPoint))(0x1, (((int)stk + 12) + 0x4), t78, t77, 30.0f);
         nlSubVector((((int)stk + 8) + 0x8), (((int)stk + 8) + 0x44));
         nlPushUnitMatrix();
         t82 = *(short *)((a4 + 0xA8));
@@ -241,7 +241,7 @@ float trainExec(int a4)
         *(unsigned char *)(((0x108 + a4) + 0x4)) = t101;
         t102 = *(signed char *)(((0xA4 + a4) + 0x5));
         *(unsigned char *)(((0x108 + a4) + 0x5)) = t102;
-        FUN_0c04a090(0x2, 0x0, (0x80 + a4), (0xD4 + a4));
+        getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4));
         nlPushUnitMatrix();
         t105 = *(short *)((a4 + 0xA8));
         nlRotateAZ((-(unsigned short)t105));
@@ -275,7 +275,7 @@ float trainExec(int a4)
         t124 = *(short *)((a4 + 0xA8));
         t125 = *(short *)((a4 + 0xA6));
         t126 = *(short *)((a4 + 0xA4));
-        FUN_0c036256((a4 + 0x44), (unsigned short)t126, (unsigned short)t125);
+        GetRotVec4Ang((a4 + 0x44), (unsigned short)t126, (unsigned short)t125);
         *(unsigned int *)((a4 + 0x68)) = 0x0;
         t128 = *(int *)0xC2A1B30;
         t129 = nlLength((t128 + 0x78), (0x8C + a4));

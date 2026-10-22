@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 extern float _builtin_sqrtf(float);
-float FUN_0c034a4a(int a4, int a5, int a6, float f4);
+float CheckColliPoleEdge(int a4, int a5, int a6, float f4);
 
-float FUN_0c034a4a(int a4, int a5, int a6, float f4)
+float CheckColliPoleEdge(int a4, int a5, int a6, float f4)
 {
     float u0;
     float u1;

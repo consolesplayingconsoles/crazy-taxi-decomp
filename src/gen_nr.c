@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_nr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c061da8(int);
-int FUN_0c061e04(int);
+int Chat_DamnIt(int);
+int Chat_DontPass(int);
 int IsBoyFriend(int, int);
 float nlLength(int, int);
 int nlRand(void);
@@ -166,7 +166,7 @@ void psgEnterState1(int a4, int a5)
     *(unsigned char *)(((0x149 + R14) + 0x0)) = ((t22 & 0xF9) | 0x4);
     *(unsigned int *)((R14 + 0x124)) = R11;
     *(unsigned int *)((R14 + 0x128)) = R12;
-    t23 = FUN_0c061da8(R14);
+    t23 = Chat_DamnIt(R14);
     t24 = t23;
     R0 = t24;
     goto L_C06B9C0;
@@ -232,7 +232,7 @@ void psgEnterState1(int a4, int a5)
     L_C06B8A6:;
     goto L_C06B9C0;
     L_C06B8AA:;
-    t41 = FUN_0c061e04(R14);
+    t41 = Chat_DontPass(R14);
     t42 = t41;
     R0 = t42;
     goto L_C06B9C0;

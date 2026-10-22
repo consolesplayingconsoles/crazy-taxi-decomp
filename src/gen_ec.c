@@ -8,7 +8,7 @@ int FUN_0c078310(void);
 int GetCollision2D(int, float);
 int GetRotVec(int);
 int ParkingCarInit(int, int, int, int, int);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int Sound_Request(int, int);
 int courseCarType(void);
 int extRand(void);
@@ -34,7 +34,7 @@ int nlTranslate(float, float, float);
 int nlTranslateV(int);
 float nlUnitVector(int);
 float parkingControl(int a4, int a5);
-float FUN_0c0370c4(int a4);
+float MoveHelicopter(int a4);
 
 float parkingControl(int a4, int a5)
 {
@@ -593,7 +593,7 @@ float parkingControl(int a4, int a5)
     return u242;
 }
 
-float FUN_0c0370c4(int a4)
+float MoveHelicopter(int a4)
 {
     float t3;
     float u4;
@@ -682,7 +682,7 @@ float FUN_0c0370c4(int a4)
     if (t44 > 0.0f) {
         nlRotate((((int)stk + 4) + 0xC), (int)(t44 * 50.0f));
     }
-    SetCameraPosVelocity((a4 + 0x2C));
+    MultiRot4Vec((a4 + 0x2C));
     t52 = *(int *)((a4 + 0x58));
     nlRotateAY(t52);
     nlObjPutUseViewMatrix(0xC627F40);

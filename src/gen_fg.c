@@ -3,9 +3,9 @@
 
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
-int FUN_0c060e18(int a4);
+int Chat_Geton(int a4);
 
-int FUN_0c060e18(int a4)
+int Chat_Geton(int a4)
 {
     int t0;
     int t1;

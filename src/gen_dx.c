@@ -15,13 +15,13 @@ int nlSetScaleFactor(float);
 int nlSubVector3op(int, int, int);
 int nlTranslate(float, float, float);
 int nlUnitVector(int);
-int FUN_0c058b70(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
-int FUN_0c058c78(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 void Start_Proposal(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
-int FUN_0c0589b8(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
-int FUN_0c058a94(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Model_Put_Sprite2(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int FUN_0c058b70(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     int t6;
     int t7;
@@ -68,7 +68,7 @@ int FUN_0c058b70(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a1
     return t25;
 }
 
-int FUN_0c058c78(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     int t6;
     int t7;

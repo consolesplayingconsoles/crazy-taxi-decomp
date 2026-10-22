@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_km): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05cb80(void);
-int FUN_0c05cde4(void);
-int FUN_0c05ce64(void);
-int FUN_0c05c8e8(int a4, int a5, int a6, int a7, float f4);
+int Check_Bowling_Pins(void);
+int Put_Bowling_Message(void);
+int Put_Bowling_Pins(void);
+int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4);
 
-int FUN_0c05c8e8(int a4, int a5, int a6, int a7, float f4)
+int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
 {
     float u0;
     float u1;
@@ -166,15 +166,15 @@ int FUN_0c05c8e8(int a4, int a5, int a6, int a7, float f4)
     L_C05C90A:;
     goto L_C05CA36;
     L_C05CA36:;
-    FUN_0c05cde4();
-    return FUN_0c05ce64();
+    Put_Bowling_Message();
+    return Put_Bowling_Pins();
     L_C05C90E:;
     goto L_C05CA00;
     L_C05CA00:;
     *(unsigned int *)((R4 + 0x0)) = R6;
     goto L_C05CA32;
     L_C05CA32:;
-    t17 = FUN_0c05cb80();
+    t17 = Check_Bowling_Pins();
     t18 = t17;
     R0 = t18;
     goto L_C05CA36;

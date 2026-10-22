@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_fv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c04988a(int);
-int FUN_0c04ac8c(int);
+int getGoiToolSelect(int);
+int goiToolCamera(int);
 int FUN_0c077210(int, int);
 int TOANG(int, int, float, float, float);
 int nlAddVector(int, int);
@@ -15,9 +15,9 @@ int nlPopMatrix(int);
 int nlPrintf(int, ...);
 extern int nlPushUnitMatrix();
 int nlSubVector(int, int);
-void FUN_0c04af54(int a4);
+void goiToolCamData(int a4);
 
-void FUN_0c04af54(int a4)
+void goiToolCamData(int a4)
 {
     int t1;
     int t2;
@@ -350,7 +350,7 @@ void FUN_0c04af54(int a4)
     int stk[61] = {0};
 
     if (a4 == 0) {
-        FUN_0c04ac8c(0x0);
+        goiToolCamera(0x0);
         *(unsigned int *)0xC2A6294 = 0x0;
         *(unsigned int *)0xC2A6290 = 0x0;
         *(unsigned int *)0xC2A628C = 0x0;
@@ -403,10 +403,10 @@ void FUN_0c04af54(int a4)
         t20 = *(int *)0xC2A4E60;
         if (t20 == 0) {
             *(unsigned int *)(((int)stk + 60)) = 0x1;
-            t21 = FUN_0c04988a(((int)stk + 60));
+            t21 = getGoiToolSelect(((int)stk + 60));
             if (t21 == 16) {
                 *(unsigned int *)(((int)stk + 60)) = 0x2;
-                t22 = FUN_0c04988a(((int)stk + 60));
+                t22 = getGoiToolSelect(((int)stk + 60));
                 if (t22 == 0) {
                     t23 = *(int *)0xC2A628C;
                     t24 = *(int *)((0xC2A5AFC + (((t23 << 2) << 2) << 1)));
@@ -589,7 +589,7 @@ void FUN_0c04af54(int a4)
         t191 = *(int *)0xC2A6288;
         if (t191 == 0) {
             *(unsigned int *)(((int)stk + 60)) = 0x2;
-            t192 = FUN_0c04988a(((int)stk + 60));
+            t192 = getGoiToolSelect(((int)stk + 60));
             if (t192 == 0) {
                 t193 = *(int *)0xC2A628C;
                 t194 = *(int *)((0xC2A5AFC + (((t193 << 2) << 2) << 1)));
@@ -733,7 +733,7 @@ void FUN_0c04af54(int a4)
                         *(unsigned int *)(((((int)stk + 60) + 0x50) + 0x4)) = t330;
                         t331 = *(int *)0xC2A627C;
                         *(unsigned int *)(((((int)stk + 60) + 0x50) + 0x0)) = t331;
-                        FUN_0c04ac8c(0x1);
+                        goiToolCamera(0x1);
                         t333 = *(int *)0xC179848;
                         *(unsigned int *)(((((int)stk + 60) + 0x68) + 0x8)) = t333;
                         t334 = *(int *)0xC179844;

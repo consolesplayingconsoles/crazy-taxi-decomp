@@ -3,9 +3,9 @@
 
 int Sound_Request(int, int);
 extern int nlSprPut();
-int FUN_0c055ecc(int a4, int a5);
+int hudUpdateRankDrum(int a4, int a5);
 
-int FUN_0c055ecc(int a4, int a5)
+int hudUpdateRankDrum(int a4, int a5)
 {
     int t0;
     int t104;

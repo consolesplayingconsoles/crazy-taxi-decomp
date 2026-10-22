@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_mo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c034872(int, int);
-int FUN_0c03495c(int, int);
-int FUN_0c0349d8(int, int);
-int FUN_0c034a4a(int, int, int, float);
-int FUN_0c034b5e(int, int, int, int);
+int CheckColliWallSegment(int, int);
+int CheckColliWallEdge(int, int);
+int CheckColliWallPole(int, int);
+int CheckColliPoleEdge(int, int, int, float);
+int ReflectColliWallBox(int, int, int, int);
 int FUN_0c078310(void);
 int PutCollisionEffect(int, int, int);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 float nlFloor(float);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
@@ -307,7 +307,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     goto L_C03451C;
     L_C03451C:;
     t42 = *(int *)((R13 + 0x0));
-    t43 = FUN_0c0349d8((((int)stk + 4) + 0x6C), t42);
+    t43 = CheckColliWallPole((((int)stk + 4) + 0x6C), t42);
     t44 = t43 != 0;
     if (t44) goto L_C03452C;
     goto L_C034528;
@@ -325,7 +325,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     nlPushUnitMatrix();
     nlTranslateV(R14);
     t50 = *(int *)(((int)stk + 8));
-    SetCameraPosVelocity(t50);
+    MultiRot4Vec(t50);
     t52 = *(int *)(((int)stk + 24));
     t53 = *(int *)(((int)stk + 4));
     nlSqrt(t53, t52);
@@ -336,7 +336,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     t59 = *(int *)(((int)stk + 4));
     t60 = *(int *)((R13 + 0x0));
     u61 = *(float *)((t59 + 0x18));
-    t62 = FUN_0c034a4a((((int)stk + 4) + 0x6C), t60, (((int)stk + 4) + 0x54), u61);
+    t62 = CheckColliPoleEdge((((int)stk + 4) + 0x6C), t60, (((int)stk + 4) + 0x54), u61);
     t63 = t62 == 0;
     if (t63) goto L_C034644;
     goto L_C034568;
@@ -370,7 +370,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     u83 = u83 + u81 * u82;
     *(float *)(((int)stk + 84)) = u83;
     t84 = *(int *)(((int)stk + 12));
-    FUN_0c034b5e(R14, (((int)stk + 4) + 0x4C), (((int)stk + 4) + 0x70), t84);
+    ReflectColliWallBox(R14, (((int)stk + 4) + 0x4C), (((int)stk + 4) + 0x70), t84);
     t86 = *(int *)(((int)stk + 12));
     t87 = t86 != 0;
     if (t87) goto L_C034640;
@@ -387,7 +387,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     nlPushUnitMatrix();
     nlTranslateV(R14);
     t95 = *(int *)(((int)stk + 8));
-    SetCameraPosVelocity(t95);
+    MultiRot4Vec(t95);
     nlPushMatrix(0x0);
     FUN_0c078310();
     nlSqrt((((int)stk + 4) + 0x40), (((int)stk + 4) + 0x40));
@@ -419,7 +419,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     nlPushUnitMatrix();
     nlTranslateV(R14);
     t112 = *(int *)(((int)stk + 20));
-    SetCameraPosVelocity(t112);
+    MultiRot4Vec(t112);
     t114 = *(int *)(((int)stk + 12));
     *(unsigned int *)(((int)stk + 4)) = (0xC27047C + (short)(((((t114 << 2) << 1) + t114) << 2) << 1));
     t115 = R11;
@@ -459,7 +459,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     u130 = *(float *)((R14 + 0x8));
     *(float *)(((int)stk + 52)) = (u129 - u130);
     t131 = *(int *)(((int)stk + 12));
-    FUN_0c034b5e(R14, (((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x34), t131);
+    ReflectColliWallBox(R14, (((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x34), t131);
     t133 = *(int *)(((int)stk + 12));
     t134 = t133 != 0;
     if (t134) goto L_C034830;
@@ -476,7 +476,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     nlPushUnitMatrix();
     nlTranslateV(R14);
     t142 = *(int *)(((int)stk + 20));
-    SetCameraPosVelocity(t142);
+    MultiRot4Vec(t142);
     nlPushMatrix(0x0);
     FUN_0c078310();
     nlSqrt((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
@@ -505,7 +505,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     goto L_C034712;
     L_C034712:;
     t158 = *(int *)((R8 + 0x0));
-    t159 = FUN_0c03495c((((int)stk + 4) + 0x6C), t158);
+    t159 = CheckColliWallEdge((((int)stk + 4) + 0x6C), t158);
     t160 = t159 == 0;
     if (t160) goto L_C034744;
     goto L_C03471E;
@@ -551,7 +551,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     goto L_C0346AA;
     L_C03447E:;
     t176 = *(int *)((R13 + 0x0));
-    t177 = FUN_0c034872((((int)stk + 4) + 0x6C), t176);
+    t177 = CheckColliWallSegment((((int)stk + 4) + 0x6C), t176);
     t178 = t177 == 0;
     if (t178) goto L_C0344E0;
     goto L_C03448A;

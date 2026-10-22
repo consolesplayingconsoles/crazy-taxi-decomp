@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_lk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int Drv_Put(void);
+int drvPredictPath(void);
 int Drv_Execute(void);
-int FUN_0c0644cc(void);
-int FUN_0c0630d2(void);
 
-int FUN_0c0630d2(void)
+int Drv_Execute(void)
 {
     int t0;
     int t1;
@@ -34,7 +34,7 @@ int FUN_0c0630d2(void)
         t8 = t7;
     }
     t10 = ((int (*)(int, int, int))(t8))(((t5 << 2) + ((int)stk + 4)), ((int)stk + 4), 0xC2AD000);
-    Drv_Execute();
-    t12 = FUN_0c0644cc();
+    Drv_Put();
+    t12 = drvPredictPath();
     return t12;
 }

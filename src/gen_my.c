@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckClipping(float);
-int FUN_0c05003c(void);
+int pedGetSubwayFlag(void);
 int FUN_0c0789c0(int);
 int crowdCreate(int, int);
 int findSplineSection(int, int, int);
@@ -162,7 +162,7 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4)
     L_C04F1E8:;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 20) + 0x20)) = *(struct mv3 *)(0xC0CF584); }
     *(unsigned int *)(((int)stk + 32)) = 0x0;
-    t0 = FUN_0c05003c();
+    t0 = pedGetSubwayFlag();
     *(unsigned int *)0xC2A6FD8 = t0;
     t1 = *(int *)0xC179130;
     t2 = (int)t1 >= 0;

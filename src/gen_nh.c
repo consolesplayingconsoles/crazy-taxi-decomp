@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_nh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05317e(void);
-int FUN_0c054ffe(void);
-int FUN_0c0551c6(int, int);
-int FUN_0c0552b0(void);
-int FUN_0c057728(int, int, int);
+int End_Pass_Default2_Sprite(void);
+int hudUpdateFareState(void);
+int hudSplitFareDigits(int, int);
+int hudDrawFare(void);
+int Money_Array(int, int, int);
 int Sound_Request(int, int);
 int hudDrawTime(int a4, int a5, int a6);
 
@@ -127,7 +127,7 @@ int hudDrawTime(int a4, int a5, int a6)
     if (t1) goto L_C054EC0;
     goto L_C054EB4;
     L_C054EB4:;
-    t5 = FUN_0c05317e();
+    t5 = End_Pass_Default2_Sprite();
     *(unsigned int *)0xC2A8E98 = R14;
     t6 = t5;
     R0 = t6;
@@ -135,7 +135,7 @@ int hudDrawTime(int a4, int a5, int a6)
     L_C054FEE:;
     return R0;
     L_C054EC0:;
-    FUN_0c054ffe();
+    hudUpdateFareState();
     t8 = *(int *)0xC2A8EB0;
     t9 = (int)t8 < (int)0x2;
     t10 = 0xC072168;
@@ -197,7 +197,7 @@ int hudDrawTime(int a4, int a5, int a6)
     goto L_C054F26;
     L_C054F26:;
     t34 = *(int *)0xC2A8E94;
-    FUN_0c057728(R12, t34, 0x7);
+    Money_Array(R12, t34, 0x7);
     t36 = *(int *)0xC2A8C80;
     t37 = *(int *)0xC2A8C7C;
     t38 = *(int *)((t36 + 0x0));
@@ -220,8 +220,8 @@ int hudDrawTime(int a4, int a5, int a6)
     goto L_C054F5A;
     L_C054F5A:;
     t47 = *(int *)((R13 + 0x0));
-    FUN_0c057728(R11, t47, R6);
-    FUN_0c0551c6(R12, R11);
+    Money_Array(R11, t47, R6);
+    hudSplitFareDigits(R12, R11);
     t50 = *(int *)0xC2A8C7C;
     *(unsigned int *)((t50 + 0x0)) = R14;
     t51 = *(int *)0xC2A8C80;
@@ -232,7 +232,7 @@ int hudDrawTime(int a4, int a5, int a6)
     *(unsigned int *)0xC2A9184 = R14;
     goto L_C054F84;
     L_C054F84:;
-    FUN_0c0552b0();
+    hudDrawFare();
     t55 = *(int *)0xC2A8E84;
     t56 = t55 != 1;
     t57 = t55;

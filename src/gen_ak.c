@@ -12,30 +12,30 @@ int ExecColliObj(void);
 int ExecHelicopter(void);
 int ExecKyakuArea(void);
 int ExecSetObject(void);
-int FUN_0c0289be(void);
-int FUN_0c02dd52(void);
-int FUN_0c02dd5a(void);
-int FUN_0c02e940(void);
-int FUN_0c02f870(void);
-int FUN_0c031408(int);
-int FUN_0c038ee6(void);
-int FUN_0c03b698(int, int);
-int FUN_0c041016(int);
-int FUN_0c049aa8(void);
+int ExecAdvCamera(void);
+int execPlayerADV(void);
+int execPlayer(void);
+int gdc_CourseBlockReadNext(void);
+int gdc_CourseTexFree(void);
+int pfSetFilterMode(int);
+int ReturnBreakPinNum(void);
+int SetWindow(int, int);
+int GetNowLanguage(int);
+int convergeRot(void);
 int getKyakuOffFlag(void);
-int FUN_0c04c0dc(int, int);
-int FUN_0c0500d8(int);
-int FUN_0c0532a4(void);
-int FUN_0c056ff8(int, float);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05999c(void);
-int FUN_0c0599fa(void);
-int FUN_0c059a80(void);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
+int gdc_CourseAdvLoadSub(int, int);
+int pedIsSpecialModel(int);
+int End_Time_Bonus(void);
+int Put_Time_Bonus_Sprite(int, float);
+int nd_SprPut(int, int, float, float);
+int Result_Face_Put(void);
+int Result_Name_Put(void);
+int Result_Customer_Count_Put(void);
+int Start_Excellent(void);
+int Start_Fault(int);
 int Exec_Fog(void);
-int FUN_0c060e18(void);
-int FUN_0c070e8a(int);
+int Chat_Geton(void);
+int psgAllocIpBuff(int);
 int FUN_0c077210(int, int);
 int FUN_0c07a520(void);
 int FUN_0c07f5c0(void);
@@ -175,14 +175,14 @@ int exec_loop_Replay(void)
     int t76;
     int stk[14];
 
-    FUN_0c0289be();
+    ExecAdvCamera();
     camUpdate(0x0);
     Exec_Fog();
     t3 = *(int *)0xC1EE234;
     if (t3 == 0) {
-        FUN_0c02dd5a();
+        execPlayer();
     } else {
-        FUN_0c02dd52();
+        execPlayerADV();
     }
     t7 = replay(0x0);
     if (t7 != 4) {
@@ -277,7 +277,7 @@ int exec_loop_Replay(void)
     return t76;
 }
 
-int FUN_0c02ea04(void)
+int gdc_CourseLoadExec(void)
 {
     int t0;
     int t1;
@@ -395,7 +395,7 @@ int FUN_0c02ea04(void)
                 FUN_0c07a520();
                 nlSetCommonTextureOffset(0x0);
                 *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
-                return FUN_0c02e940();
+                return gdc_CourseBlockReadNext();
             }
             t39 = t24;
             if (t24 == 4) {
@@ -439,7 +439,7 @@ int FUN_0c02ea04(void)
                 FUN_0c07a520();
                 nlSetCommonTextureOffset(0x0);
                 *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
-                return FUN_0c02e940();
+                return gdc_CourseBlockReadNext();
             }
             t63 = t48;
             if (t48 == 4) {
@@ -479,7 +479,7 @@ int gdc_SpriteSetAdv(void)
         }
         t3 = *(int *)0xC26E184;
         if (t3 == 3) {
-            FUN_0c02f870();
+            gdc_CourseTexFree();
             nlSetCommonTextureOffset(0xF0);
             nlSpriteFreeTexture(0xC143EE8, 0xC08BFC0);
             t7 = *(int *)0xC2A11C0;
@@ -494,7 +494,7 @@ int gdc_SpriteSetAdv(void)
         }
         t14 = *(int *)0xC26E184;
         if (t14 == 5) {
-            FUN_0c02f870();
+            gdc_CourseTexFree();
             nlSetCommonTextureOffset(0x1E0);
             nlSpriteFreeTexture(0xC1469C8, 0x0);
             gdc_SpriteFreeMenu();
@@ -510,7 +510,7 @@ int gdc_SpriteSetAdv(void)
     return t24;
 }
 
-float FUN_0c032432(int a4, int a5)
+float MakeCollisionCellList(int a4, int a5)
 {
     float u0;
     float u1;
@@ -980,7 +980,7 @@ float FUN_0c032432(int a4, int a5)
     return u186;
 }
 
-int FUN_0c0399b8(int a4)
+int PutNameEntryRank(int a4)
 {
     float u0;
     int t2;
@@ -1046,7 +1046,7 @@ int putString(int a4, int a5, float f4, float f5, float f6)
 
     t0 = *(signed char *)((a5 + 0x0));
     if (t0 != 0) {
-        FUN_0c031408(0x1);
+        pfSetFilterMode(0x1);
         u2 = *(float *)0xC2A1AD4;
         pfSetZ(u2);
         pfSetFont((0x3 & a4));
@@ -1083,7 +1083,7 @@ int putString(int a4, int a5, float f4, float f5, float f6)
         }
         pfLocate(u18, f5);
         pfPuts(a5);
-        return FUN_0c031408(0x0);
+        return pfSetFilterMode(0x0);
     }
     return 0x8;
 }
@@ -1116,11 +1116,11 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
     u0 = *(float *)0xC2A1AD4;
     *(float *)0xC2A1AD4 = 0.099999994f;
     t1 = *(int *)(((int)stk + 4));
-    t2 = FUN_0c041016(0x0);
+    t2 = GetNowLanguage(0x0);
     t3 = *(int *)(((((short)((short)t1 * (short)0x3C) + 0xC0A1238) + (signed char)(((t2 << 1) + t2) << 2)) + 0x0));
     t26 = (signed char)(((t2 << 1) + t2) << 2);
     if (t3 != 0) {
-        t4 = FUN_0c041016(0x0);
+        t4 = GetNowLanguage(0x0);
         t5 = *(int *)((((short)((short)t1 * (short)0x3C) + 0xC0A1238) + (signed char)(((t4 << 1) + t4) << 2)));
         *(unsigned short *)(((int)stk + 12)) = t5;
         *(unsigned char *)(((int)stk + 14)) = 0x0;
@@ -1137,14 +1137,14 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
         }
         *(unsigned char *)(((int)stk + 15)) = 0x1;
         *(unsigned int *)(((int)stk + 4)) = ((short)((short)t1 * (short)0x3C) + 0xC0A1238);
-        t10 = FUN_0c041016(0x0);
+        t10 = GetNowLanguage(0x0);
         t11 = *(short *)((((signed char)(((t10 << 1) + t10) << 2) + ((short)((short)t1 * (short)0x3C) + 0xC0A1238)) + 0x4));
         *(unsigned short *)(((int)stk + 16)) = t11;
         *(unsigned short *)(((int)stk + 18)) = 0x0;
         *(unsigned int *)0xC2A1AB8 = 0x3009;
         menuPutSprites((((int)stk + 4) + 0x8), 0xC2A1A84, (int)f4, (int)f5);
         *(unsigned int *)0xC2A1AB8 = 0x300A;
-        t13 = FUN_0c041016(0x0);
+        t13 = GetNowLanguage(0x0);
         t14 = *(int *)(((int)stk + 4));
         t15 = *(int *)((((signed char)(((t13 << 1) + t13) << 2) + t14) + 0x8));
         t22 = ((signed char)(((t13 << 1) + t13) << 2) + t14);
@@ -1154,7 +1154,7 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
             if (t16 == 0) {
                 u17 = 6.0f;
             }
-            t18 = FUN_0c041016(0x0);
+            t18 = GetNowLanguage(0x0);
             t19 = *(int *)(((int)stk + 8));
             t20 = *(int *)(((((short)((short)t1 * (short)0x3C) + 0xC0A1238) + (signed char)(((t18 << 1) + t18) << 2)) + 0x8));
             t21 = PutStringFixPfont((a4 & 0x73), t19, (f4 + (float)t20), (f5 - u17), 14.0f, 1.0f);
@@ -1166,7 +1166,7 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
     return t26;
 }
 
-void FUN_0c03cd2c(int a4, int a5, float f4, float f5)
+void putRecordFrame(int a4, int a5, float f4, float f5)
 {
     float u8;
     int t9;
@@ -1207,7 +1207,7 @@ void FUN_0c03cd2c(int a4, int a5, float f4, float f5)
     *(float *)0xC2A1AD4 = (u13 - 0.0199999996f);
 }
 
-void FUN_0c041a3e(int a4)
+void AnnounceSecretFlag(int a4)
 {
     int t0;
     int t2;
@@ -1226,7 +1226,7 @@ void FUN_0c041a3e(int a4)
     } else {
         t0 = *(int *)0xC2A1234;
         if ((t0 & 1) != 0) {
-            FUN_0c03b698(0x10, 0x0);
+            SetWindow(0x10, 0x0);
             t2 = *(int *)0xC2A1234;
             *(unsigned int *)0xC2A1234 = (t2 & 0xFFFFFFFE);
         } else {
@@ -1331,13 +1331,13 @@ int calcCheckExec(int a4, int a5)
     return t22;
 }
 
-int FUN_0c049b06(float f4, float f5)
+int convergeRotLimit(float f4, float f5)
 {
     int t0;
     int t2;
     int t1;
 
-    t0 = FUN_0c049aa8();
+    t0 = convergeRot();
     t2 = (int)(-f5);
     if (!((-f5) > (float)t0)) {
         t1 = t0;
@@ -1893,7 +1893,7 @@ int replay(int a4)
     return t110;
 }
 
-int FUN_0c04c104(int a4, int a5, int a6)
+int gdc_CourseAdvLoadReq(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1975,30 +1975,30 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             if ((int)t1 < (int)(t3 - 60)) {
                                 return a6;
                             }
-                            FUN_0c04c0dc(0xC0F4458, 0x0);
-                            return FUN_0c04c0dc(0xC0F4468, 0x1);
+                            gdc_CourseAdvLoadSub(0xC0F4458, 0x0);
+                            return gdc_CourseAdvLoadSub(0xC0F4468, 0x1);
                         }
                         if (a6 == 10) {
                             t5 = *(int *)((a5 + 0x0));
                             if ((int)t1 < (int)(t5 - 40)) {
                                 return a6;
                             }
-                            FUN_0c04c0dc(0xC0F4478, 0x0);
-                            return FUN_0c04c0dc(0xC0F4484, 0x1);
+                            gdc_CourseAdvLoadSub(0xC0F4478, 0x0);
+                            return gdc_CourseAdvLoadSub(0xC0F4484, 0x1);
                         }
                         if (a6 == 14) {
                             t7 = *(int *)((a5 + 0x0));
                             if ((int)t1 < (int)(t7 - 60)) {
                                 return a6;
                             }
-                            FUN_0c04c0dc(0xC0F4490, 0x0);
-                            return FUN_0c04c0dc(0xC0F4498, 0x1);
+                            gdc_CourseAdvLoadSub(0xC0F4490, 0x0);
+                            return gdc_CourseAdvLoadSub(0xC0F4498, 0x1);
                         }
                         if (a6 == 18) {
                             t9 = *(int *)((a5 + 0x0));
                             if ((int)t1 >= (int)(t9 - 60)) {
-                                FUN_0c04c0dc(0xC0F44A8, 0x0);
-                                return FUN_0c04c0dc(0xC0F44B8, 0x1);
+                                gdc_CourseAdvLoadSub(0xC0F44A8, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F44B8, 0x1);
                             }
                             return a6;
                         }
@@ -2006,14 +2006,14 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             t11 = *(int *)((a5 + 0x0));
                             t14 = a6;
                             if ((int)t1 >= (int)(t11 - 120)) {
-                                FUN_0c04c0dc(0xC0F44E0, 0x0);
-                                t13 = FUN_0c04c0dc(0xC0F44EC, 0x1);
+                                gdc_CourseAdvLoadSub(0xC0F44E0, 0x0);
+                                t13 = gdc_CourseAdvLoadSub(0xC0F44EC, 0x1);
                                 t14 = t13;
                             }
                             t15 = *(int *)((a5 + 0x0));
                             t16 = *(int *)0xC1EE33C;
                             if ((int)t16 >= (int)(t15 - 60)) {
-                                return FUN_0c04c0dc(0xC0F4500, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F4500, 0x0);
                             }
                             return t14;
                         }
@@ -2021,14 +2021,14 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             t17 = *(int *)((a5 + 0x0));
                             t19 = a6;
                             if ((int)t1 >= (int)(t17 - 120)) {
-                                t18 = FUN_0c04c0dc(0xC0F4500, 0x0);
+                                t18 = gdc_CourseAdvLoadSub(0xC0F4500, 0x0);
                                 t19 = t18;
                             }
                             t20 = *(int *)((a5 + 0x0));
                             t21 = *(int *)0xC1EE33C;
                             if ((int)t21 >= (int)(t20 - 60)) {
                                 *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-                                return FUN_0c04c0dc(0xC0F4510, 0x1);
+                                return gdc_CourseAdvLoadSub(0xC0F4510, 0x1);
                             }
                             return t19;
                         }
@@ -2036,8 +2036,8 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             t22 = *(int *)((a5 + 0x0));
                             if ((int)t1 >= (int)(t22 - 60)) {
                                 *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-                                FUN_0c04c0dc(0xC0F44C8, 0x0);
-                                return FUN_0c04c0dc(0xC0F44D4, 0x1);
+                                gdc_CourseAdvLoadSub(0xC0F44C8, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F44D4, 0x1);
                             }
                             return a6;
                         }
@@ -2045,13 +2045,13 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             t24 = *(int *)((a5 + 0x0));
                             t26 = a6;
                             if ((int)t1 >= (int)(t24 - 60)) {
-                                t25 = FUN_0c04c0dc(0xC0F453C, 0x0);
+                                t25 = gdc_CourseAdvLoadSub(0xC0F453C, 0x0);
                                 t26 = t25;
                             }
                             t27 = *(int *)((a5 + 0x0));
                             t28 = *(int *)0xC1EE33C;
                             if ((int)t28 >= (int)(t27 - 90)) {
-                                return FUN_0c04c0dc(0xC0F452C, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F452C, 0x0);
                             }
                             return t26;
                         }
@@ -2059,15 +2059,15 @@ int FUN_0c04c104(int a4, int a5, int a6)
                             t29 = *(int *)((a5 + 0x0));
                             t30 = *(int *)0xC1EE33C;
                             if ((int)t30 >= (int)(t29 - 90)) {
-                                return FUN_0c04c0dc(0xC0F452C, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F452C, 0x0);
                             }
                             return a6;
                         }
                         if (a6 == 31) {
                             t31 = *(int *)((a5 + 0x0));
                             if ((int)t1 >= (int)(t31 - 60)) {
-                                FUN_0c04c0dc(0xC0F4548, 0x0);
-                                return FUN_0c04c0dc(0xC0F455C, 0x1);
+                                gdc_CourseAdvLoadSub(0xC0F4548, 0x0);
+                                return gdc_CourseAdvLoadSub(0xC0F455C, 0x1);
                             }
                             return a6;
                         }
@@ -2079,7 +2079,7 @@ int FUN_0c04c104(int a4, int a5, int a6)
                     t33 = *(int *)((a5 + 0x0));
                     t35 = (t33 - 60);
                     if ((int)t1 >= (int)(t33 - 60)) {
-                        t34 = FUN_0c04c0dc(0xC0F443C, 0x0);
+                        t34 = gdc_CourseAdvLoadSub(0xC0F443C, 0x0);
                         t35 = t34;
                     }
                     t36 = *(int *)((a5 + 0x0));
@@ -2087,13 +2087,13 @@ int FUN_0c04c104(int a4, int a5, int a6)
                     if ((int)t37 < (int)(t36 - 30)) {
                         return t35;
                     }
-                    return FUN_0c04c0dc(0xC0F4448, 0x1);
+                    return gdc_CourseAdvLoadSub(0xC0F4448, 0x1);
                 }
                 t38 = *(int *)((a5 + 0x0));
                 if ((int)t1 < (int)(t38 - 60)) {
                     return a6;
                 }
-                return FUN_0c04c0dc(0xC0F442C, 0x0);
+                return gdc_CourseAdvLoadSub(0xC0F442C, 0x0);
             }
             t39 = *(int *)((a5 + 0x0));
             if ((int)t1 >= (int)(t39 - 40)) {
@@ -2105,8 +2105,8 @@ int FUN_0c04c104(int a4, int a5, int a6)
         t43 = (t40 - 180);
         if ((int)t1 >= (int)(t40 - 180)) {
             *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-            FUN_0c04c0dc(0xC0F43EC, 0x0);
-            t42 = FUN_0c04c0dc(0xC0F43F4, 0x1);
+            gdc_CourseAdvLoadSub(0xC0F43EC, 0x0);
+            t42 = gdc_CourseAdvLoadSub(0xC0F43F4, 0x1);
             t43 = t42;
         }
         t44 = *(int *)((a5 + 0x0));
@@ -2114,8 +2114,8 @@ int FUN_0c04c104(int a4, int a5, int a6)
         if ((int)t45 < (int)(t44 - 120)) {
             return t43;
         }
-        FUN_0c04c0dc(0xC0F4404, 0x0);
-        return FUN_0c04c0dc(0xC0F4418, 0x1);
+        gdc_CourseAdvLoadSub(0xC0F4404, 0x0);
+        return gdc_CourseAdvLoadSub(0xC0F4418, 0x1);
     }
     if (a6 != 6) {
         if (a6 != 8) {
@@ -2126,7 +2126,7 @@ int FUN_0c04c104(int a4, int a5, int a6)
                         t49 = (t47 - 160);
                         if ((int)t1 >= (int)(t47 - 160)) {
                             *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-                            t48 = FUN_0c04c0dc(0xC0F430C, 0x0);
+                            t48 = gdc_CourseAdvLoadSub(0xC0F430C, 0x0);
                             t49 = t48;
                         }
                         t50 = *(int *)((a5 + 0x0));
@@ -2134,7 +2134,7 @@ int FUN_0c04c104(int a4, int a5, int a6)
                         if ((int)t51 < (int)(t50 - 90)) {
                             return t49;
                         }
-                        return FUN_0c04c0dc(0xC0F4330, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F4330, 0x0);
                     }
                     if (a6 == 12) {
                         t52 = *(int *)((a5 + 0x0));
@@ -2148,16 +2148,16 @@ int FUN_0c04c104(int a4, int a5, int a6)
                         if ((int)t55 < (int)(t54 - 60)) {
                             return t53;
                         }
-                        FUN_0c04c0dc(0xC0F4340, 0x0);
-                        return FUN_0c04c0dc(0xC0F4348, 0x1);
+                        gdc_CourseAdvLoadSub(0xC0F4340, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F4348, 0x1);
                     }
                     if (a6 == 21) {
                         t57 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t57 - 120)) {
                             return a6;
                         }
-                        FUN_0c04c0dc(0xC0F4354, 0x0);
-                        return FUN_0c04c0dc(0xC0F4368, 0x1);
+                        gdc_CourseAdvLoadSub(0xC0F4354, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F4368, 0x1);
                     }
                     if (a6 == 22) {
                         if (t2 != 2) {
@@ -2167,44 +2167,44 @@ int FUN_0c04c104(int a4, int a5, int a6)
                         if ((int)t1 < (int)(t59 - 60)) {
                             return (t59 - 60);
                         }
-                        return FUN_0c04c0dc(0xC0F4370, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F4370, 0x0);
                     }
                     if (a6 == 23) {
                         t60 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t60 - 60)) {
                             return a6;
                         }
-                        return FUN_0c04c0dc(0xC0F4380, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F4380, 0x0);
                     }
                     if (a6 == 24) {
                         t61 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t61 - 60)) {
                             return a6;
                         }
-                        return FUN_0c04c0dc(0xC0F438C, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F438C, 0x0);
                     }
                     if (a6 == 25) {
                         t62 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t62 - 60)) {
                             return a6;
                         }
-                        FUN_0c04c0dc(0xC0F43A0, 0x0);
-                        return FUN_0c04c0dc(0xC0F43B4, 0x1);
+                        gdc_CourseAdvLoadSub(0xC0F43A0, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F43B4, 0x1);
                     }
                     if (a6 == 27) {
                         t64 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t64 - 60)) {
                             return a6;
                         }
-                        FUN_0c04c0dc(0xC0F43C0, 0x0);
-                        return FUN_0c04c0dc(0xC0F43D0, 0x1);
+                        gdc_CourseAdvLoadSub(0xC0F43C0, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F43D0, 0x1);
                     }
                     if (a6 == 28) {
                         t66 = *(int *)((a5 + 0x0));
                         if ((int)t1 < (int)(t66 - 120)) {
                             return a6;
                         }
-                        return FUN_0c04c0dc(0xC0F43E0, 0x0);
+                        return gdc_CourseAdvLoadSub(0xC0F43E0, 0x0);
                     }
                     return a6;
                 }
@@ -2213,27 +2213,27 @@ int FUN_0c04c104(int a4, int a5, int a6)
                     return (t67 - 195);
                 }
                 *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-                FUN_0c04c0dc(0xC0F42D8, 0x0);
-                return FUN_0c04c0dc(0xC0F42F4, 0x1);
+                gdc_CourseAdvLoadSub(0xC0F42D8, 0x0);
+                return gdc_CourseAdvLoadSub(0xC0F42F4, 0x1);
             }
             t69 = *(int *)((a5 + 0x0));
             if ((int)t1 < (int)(t69 - 120)) {
                 return a6;
             }
-            FUN_0c04c0dc(0xC0F42C0, 0x0);
-            return FUN_0c04c0dc(0xC0F42CC, 0x1);
+            gdc_CourseAdvLoadSub(0xC0F42C0, 0x0);
+            return gdc_CourseAdvLoadSub(0xC0F42CC, 0x1);
         }
         t71 = *(int *)((a5 + 0x0));
         if ((int)t1 < (int)(t71 - 30)) {
             return a6;
         }
-        FUN_0c04c0dc(0xC0F42AC, 0x0);
-        return FUN_0c04c0dc(0xC0F42B8, 0x1);
+        gdc_CourseAdvLoadSub(0xC0F42AC, 0x0);
+        return gdc_CourseAdvLoadSub(0xC0F42B8, 0x1);
     }
     t73 = *(int *)((a5 + 0x0));
     t75 = a6;
     if ((int)t1 >= (int)(t73 - 120)) {
-        t74 = FUN_0c04c0dc(0xC0F4280, 0x0);
+        t74 = gdc_CourseAdvLoadSub(0xC0F4280, 0x0);
         t75 = t74;
     }
     t76 = *(int *)((a5 + 0x0));
@@ -2242,10 +2242,10 @@ int FUN_0c04c104(int a4, int a5, int a6)
         return t75;
     }
     *(unsigned int *)0xC1790C8 = 0xFFFFFFFF;
-    return FUN_0c04c0dc(0xC0F429C, 0x1);
+    return gdc_CourseAdvLoadSub(0xC0F429C, 0x1);
 }
 
-int Put_Course_Obj_Dist(void)
+int Put_Course_Obj_Fcv(void)
 {
     float t0;
     int t4;
@@ -2562,7 +2562,7 @@ int Put_Max_Combo(void)
     return t119;
 }
 
-int FUN_0c056ed8(void)
+int Put_Time_Bonus(void)
 {
     int t0;
     int t1;
@@ -2611,7 +2611,7 @@ int FUN_0c056ed8(void)
                         *(float *)0xC2A7EEC = 1.0f;
                         *(float *)0xC2A7EF0 = 1.0f;
                         *(unsigned int *)0xC2A7F10 = 0xA;
-                        t10 = FUN_0c056ff8(0x5, 1.0f);
+                        t10 = Put_Time_Bonus_Sprite(0x5, 1.0f);
                         t11 = t10;
                     }
                     t12 = t11;
@@ -2621,7 +2621,7 @@ int FUN_0c056ed8(void)
             t14 = *(int *)0xC2A8F68;
             *(unsigned int *)0xC2A8F68 = (t14 + 0x1);
             if ((int)(t14 + 0x1) >= (int)0xB4) {
-                return FUN_0c0532a4();
+                return End_Time_Bonus();
             }
             return t13;
         }
@@ -2649,7 +2649,7 @@ int FUN_0c056ed8(void)
                         *(float *)0xC2A7EEC = 1.0f;
                         *(float *)0xC2A7EF0 = 1.0f;
                         *(unsigned int *)0xC2A7F10 = 0xA;
-                        t24 = FUN_0c056ff8(0x2, 1.0f);
+                        t24 = Put_Time_Bonus_Sprite(0x2, 1.0f);
                         t25 = t24;
                     }
                     t26 = t25;
@@ -2659,16 +2659,16 @@ int FUN_0c056ed8(void)
             t28 = *(int *)0xC2A8F68;
             *(unsigned int *)0xC2A8F68 = (t28 + 0x1);
             if ((int)(t28 + 0x1) >= (int)0xB4) {
-                return FUN_0c0532a4();
+                return End_Time_Bonus();
             }
             return t27;
         }
         return t0;
     }
-    return FUN_0c0532a4();
+    return End_Time_Bonus();
 }
 
-int FUN_0c059866(void)
+int Result_Title_Put(void)
 {
     int t0;
     float u1;
@@ -2728,15 +2728,15 @@ int FUN_0c059866(void)
         }
         t4 = (t4 + 0x1);
     } while ((int)t4 < (int)0x6);
-    FUN_0c05999c();
-    FUN_0c0599fa();
-    t18 = FUN_0c059a80();
+    Result_Face_Put();
+    Result_Name_Put();
+    t18 = Result_Customer_Count_Put();
     t19 = *(int *)0xC2A9788;
     *(unsigned int *)0xC2A9788 = (t19 + 0x1);
     return t18;
 }
 
-int FUN_0c059d9c(void)
+int Result_Earned_Text_Put(void)
 {
     int t0;
     float u1;
@@ -2802,7 +2802,7 @@ int FUN_0c059d9c(void)
     return t3;
 }
 
-int FUN_0c05acc8(void)
+int Result_Rank_Put(void)
 {
     int t0;
     int t1;
@@ -3103,7 +3103,7 @@ int FUN_0c05acc8(void)
     return t140;
 }
 
-int FUN_0c05c81c(void)
+int Put_Pin_Count(void)
 {
     int t4;
     int t5;
@@ -3120,10 +3120,10 @@ int FUN_0c05c81c(void)
     nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    FUN_0c05778a(0xC2A9898, 0x1EA, 477.0f, 66.0f);
-    FUN_0c05778a(0xC2A9898, 0x1EB, 501.0f, 66.0f);
+    nd_SprPut(0xC2A9898, 0x1EA, 477.0f, 66.0f);
+    nd_SprPut(0xC2A9898, 0x1EB, 501.0f, 66.0f);
     ResetFadeColor();
-    t4 = FUN_0c038ee6();
+    t4 = ReturnBreakPinNum();
     *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x8) + 0x4);
     t5 = (int)((int)t4 / (int)0xA);
     *(unsigned int *)((((((int)stk + 4) + 0x8) + 0x4) + 0x0)) = t5;
@@ -3135,18 +3135,18 @@ int FUN_0c05c81c(void)
     if (t8 != 0) {
         t9 = *(int *)(((int)stk + 4));
         t10 = *(int *)((t9 + 0x0));
-        FUN_0c05778a(0xC2A9898, (t10 + 0x50), 474.0f, 90.0f);
+        nd_SprPut(0xC2A9898, (t10 + 0x50), 474.0f, 90.0f);
     }
     t12 = *(int *)(((int)stk + 8));
     t13 = *(int *)((t12 + 0x0));
-    FUN_0c05778a(0xC2A9898, (t13 + 0x50), 498.0f, 90.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E1, 523.0f, 90.0f);
-    FUN_0c05778a(0xC2A9898, 0x57, 550.0f, 90.0f);
-    t17 = FUN_0c05778a(0xC2A9898, 0x50, 574.0f, 90.0f);
+    nd_SprPut(0xC2A9898, (t13 + 0x50), 498.0f, 90.0f);
+    nd_SprPut(0xC2A9898, 0x1E1, 523.0f, 90.0f);
+    nd_SprPut(0xC2A9898, 0x57, 550.0f, 90.0f);
+    t17 = nd_SprPut(0xC2A9898, 0x50, 574.0f, 90.0f);
     return t17;
 }
 
-int FUN_0c05e944(void)
+int Exec_Crazy_Balloons(void)
 {
     int t0;
     int t2;
@@ -3166,20 +3166,20 @@ int FUN_0c05e944(void)
 
     t0 = *(int *)0xC1319F8;
     if (t0 == 0) {
-        FUN_0c05bb24();
+        Start_Excellent();
     }
     t2 = *(int *)0xC2A991C;
     if (t2 == 0) {
         t3 = *(int *)0xC1EE794;
         if ((int)t3 <= 0) {
-            FUN_0c05bb76(0x1);
+            Start_Fault(0x1);
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
         }
     }
     nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
-    FUN_0c05778a(0xC2A9898, 0x1EC, 506.0f, 55.0f);
-    FUN_0c05778a(0xC2A9898, 0x1ED, 602.0f, 55.0f);
+    nd_SprPut(0xC2A9898, 0x1EC, 506.0f, 55.0f);
+    nd_SprPut(0xC2A9898, 0x1ED, 602.0f, 55.0f);
     ResetFadeColor();
     *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x8) + 0x4);
     t12 = *(int *)0xC1319F8;
@@ -3194,18 +3194,18 @@ int FUN_0c05e944(void)
     if (t17 != 0) {
         t18 = *(int *)(((int)stk + 4));
         t19 = *(int *)((t18 + 0x0));
-        FUN_0c05778a(0xC2A9C10, (t19 + 0x50), 474.0f, 90.0f);
+        nd_SprPut(0xC2A9C10, (t19 + 0x50), 474.0f, 90.0f);
     }
     t21 = *(int *)(((int)stk + 8));
     t22 = *(int *)((t21 + 0x0));
-    FUN_0c05778a(0xC2A9C10, (t22 + 0x50), 498.0f, 90.0f);
-    FUN_0c05778a(0xC2A9C10, 0x1E1, 523.0f, 90.0f);
-    FUN_0c05778a(0xC2A9C10, 0x52, 550.0f, 90.0f);
-    t26 = FUN_0c05778a(0xC2A9C10, 0x50, 574.0f, 90.0f);
+    nd_SprPut(0xC2A9C10, (t22 + 0x50), 498.0f, 90.0f);
+    nd_SprPut(0xC2A9C10, 0x1E1, 523.0f, 90.0f);
+    nd_SprPut(0xC2A9C10, 0x52, 550.0f, 90.0f);
+    t26 = nd_SprPut(0xC2A9C10, 0x50, 574.0f, 90.0f);
     return t26;
 }
 
-int Drv_Execute(void)
+int Drv_Put(void)
 {
     int t1;
     int t2;
@@ -3724,14 +3724,14 @@ int psgEnterState2(int a4, int a5)
                     t117 = *(int *)0xC1EE788;
                     t119 = t117;
                     if (t117 == 1) {
-                        t118 = FUN_0c060e18();
+                        t118 = Chat_Geton();
                         t119 = t118;
                     }
                     t120 = t119;
                 }
                 t122 = t120;
             } else {
-                t121 = FUN_0c060e18();
+                t121 = Chat_Geton();
                 t122 = t121;
             }
             t123 = t122;
@@ -3746,7 +3746,7 @@ int psgEnterState2(int a4, int a5)
             t129 = (int)((int)t128 % (int)0x4);
             *(unsigned int *)0xC2AE33C = t129;
         }
-        FUN_0c070e8a(a4);
+        psgAllocIpBuff(a4);
         *(unsigned int *)((a4 + 0x34)) = 0xC9EF530;
         *(float *)((a4 + 0x38)) = 0.0f;
         t133 = *(int *)((a4 + 0x34));

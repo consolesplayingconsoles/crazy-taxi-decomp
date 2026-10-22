@@ -21,7 +21,7 @@ void nd_peopleInitialize(int x)
 }
 
 /* The engine sound's pitch from the car's speed word: 20 minus its share of 3434 times 20, kept between 0.1 and 38.9. */
-float FUN_0c0631c6(void)
+float Drv_DriveFrame(void)
 {
     short s = *(short *)(0x0C1790CC + 0x114);
     float f = -((float)s * 20.0f / 3434.0f) + 20.0f;
@@ -33,7 +33,7 @@ float FUN_0c0631c6(void)
     return f;
 }
 
-float FUN_0c063ad0(void)
+float Drv_BikePedalStep(void)
 {
     float x = F(0x0C2AD2B8);
     float y;

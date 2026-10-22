@@ -1,18 +1,18 @@
 /* Straight-line functions with calls and guards (batch gen_na): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c057728(int, int, int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c057b64(void);
-int FUN_0c058828(void);
-int FUN_0c05891a(void);
-int FUN_0c058968(int, int);
+int Money_Array(int, int, int);
+int nd_SprPut(int, int, float, float);
+int End_Ranking(void);
+int Put_Ranking_Header(void);
+int Reset_Ranking_Wave(void);
+int Check_Digit_Disp(int, int);
 int ResetFadeColor(void);
 int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int);
-int FUN_0c058234(int a4);
+int Put_Ranking(int a4);
 
-int FUN_0c058234(int a4)
+int Put_Ranking(int a4)
 {
     int t0;
     int t1;
@@ -184,11 +184,11 @@ int FUN_0c058234(int a4)
         t29 = *(int *)0xC2A96BC;
         *(unsigned int *)0xC2A96BC = (t29 + 0x1);
         if ((int)(t29 + 0x1) >= (int)0x3C) {
-            FUN_0c057b64();
+            End_Ranking();
         }
     }
-    FUN_0c058828();
-    FUN_0c05891a();
+    Put_Ranking_Header();
+    Reset_Ranking_Wave();
     t45 = *(int *)0xC2A96A4;
     t240 = 0xC2A96A4;
     if ((int)t45 < (int)0x1) {
@@ -406,7 +406,7 @@ int FUN_0c058234(int a4)
                                 t46 = 0xC0D0AF0;
                                 t132 = *(int *)(((int)stk + 4));
                                 t133 = *(int *)((t132 + t46));
-                                t134 = FUN_0c05778a(t120, t133, u131, u49);
+                                t134 = nd_SprPut(t120, t133, u131, u49);
                                 t46 = t134;
                             } else {
                                 t135 = t118;
@@ -425,12 +425,12 @@ int FUN_0c058234(int a4)
                         t142 = *(int *)((t46 + 0x0));
                         t143 = *(int *)(((((short)((short)t141 * (short)0x3C0) + 0xC28C318) + (((((t142 << 2) + t142) + t48) << 2) << 2)) + 0x0));
                         t144 = *(int *)(((int)stk + 16));
-                        t145 = FUN_0c057728(t144, t143, 0x8);
+                        t145 = Money_Array(t144, t143, 0x8);
                         t46 = t145;
                         t146 = *(int *)(((int)stk + 8));
                         t46 = t47;
                         t147 = *(int *)((0xC2A9690 + t46));
-                        t148 = FUN_0c05778a(0xC2A91D8, 0x5B, (float)(t147 + 0x112), (float)(t146 + 0x60));
+                        t148 = nd_SprPut(0xC2A91D8, 0x5B, (float)(t147 + 0x112), (float)(t146 + 0x60));
                         t46 = t148;
                         *(unsigned int *)(((int)stk + 12)) = (t47 + 0xC2A9690);
                         t149 = *(int *)(((int)stk + 8));
@@ -446,7 +446,7 @@ int FUN_0c058234(int a4)
                                 *(unsigned int *)(((int)stk + 4)) = (t153 + 0x8);
                             }
                             t156 = *(int *)(((int)stk + 16));
-                            t157 = FUN_0c058968(t156, t150);
+                            t157 = Check_Digit_Disp(t156, t150);
                             t46 = t157;
                             if (t46 == 1) {
                                 t158 = *(int *)(((int)stk + 12));
@@ -463,7 +463,7 @@ int FUN_0c058234(int a4)
                                 u164 = *(float *)((0xC2A91D8 + t46));
                                 t46 = 0xC0D0CF8;
                                 t165 = *(int *)(((t163 << 2) + t46));
-                                t166 = FUN_0c05778a(0xC2A91D8, t165, u164, u49);
+                                t166 = nd_SprPut(0xC2A91D8, t165, u164, u49);
                                 t46 = t166;
                             }
                             t150 = (t150 + 0x1);
@@ -483,26 +483,26 @@ int FUN_0c058234(int a4)
                                     t175 = *(int *)(((int)stk + 8));
                                     t46 = t47;
                                     t176 = *(int *)((0xC2A9690 + t46));
-                                    t177 = FUN_0c05778a(0xC2A91D8, 0x5A, (float)(t176 + 0x176), (float)(t175 + 0x72));
+                                    t177 = nd_SprPut(0xC2A91D8, 0x5A, (float)(t176 + 0x176), (float)(t175 + 0x72));
                                     t46 = t177;
                                 }
                             } else {
                                 t182 = *(int *)(((int)stk + 8));
                                 t46 = t47;
                                 t183 = *(int *)((0xC2A9690 + t46));
-                                t184 = FUN_0c05778a(0xC2A91D8, 0x5A, (float)(t183 + 0x176), (float)(t182 + 0x72));
+                                t184 = nd_SprPut(0xC2A91D8, 0x5A, (float)(t183 + 0x176), (float)(t182 + 0x72));
                                 t46 = t184;
                             }
                         } else {
                             t189 = *(int *)(((int)stk + 8));
                             t46 = t47;
                             t190 = *(int *)((0xC2A9690 + t46));
-                            t191 = FUN_0c05778a(0xC2A91D8, 0x5A, (float)(t190 + 0x176), (float)(t189 + 0x72));
+                            t191 = nd_SprPut(0xC2A91D8, 0x5A, (float)(t190 + 0x176), (float)(t189 + 0x72));
                             t46 = t191;
                         }
                         t196 = *(int *)(((int)stk + 8));
                         t197 = *(int *)(((t47 + 0xC2A9690) + 0x0));
-                        t198 = FUN_0c05778a(0xC2A91D8, 0x5C, (float)(t197 + 0x1CC), (float)(t196 + 0x72));
+                        t198 = nd_SprPut(0xC2A91D8, 0x5C, (float)(t197 + 0x1CC), (float)(t196 + 0x72));
                         t46 = t198;
                         t46 = 0xC2A96C0;
                         *(unsigned int *)0xC2A920C = 0xA;

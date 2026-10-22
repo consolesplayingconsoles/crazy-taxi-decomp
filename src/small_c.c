@@ -83,7 +83,7 @@ typedef struct {
 } Words36;
 
 int set_event(int a, int b);
-int FUN_0c05fa48(int a, int b);
+int Init_ProposalWalker(int a, int b);
 
 void FUN_0c010954(int a, int b, int c)
 {
@@ -112,7 +112,7 @@ void FUN_0c0119a8(signed char *out)
     }
 }
 
-int FUN_0c05fa10(int i)
+int Set_ProposalWalker(int i)
 {
     int h;
 
@@ -121,11 +121,11 @@ int FUN_0c05fa10(int i)
     if (h == 0) {
         return 0;
     }
-    FUN_0c05fa48(((int *)0xC2A9D30)[i], i);
+    Init_ProposalWalker(((int *)0xC2A9D30)[i], i);
     return 1;
 }
 
-void FUN_0c062096(int a, int b)
+void Drv_CallActionStart(int a, int b)
 {
     Words19 t;
     void (*f)(int);
@@ -139,7 +139,7 @@ void FUN_0c062096(int a, int b)
     f(b);
 }
 
-int FUN_0c070cd0(int a)
+int Psg_GetCharaKind(int a)
 {
     Words36 t;
 
@@ -236,7 +236,7 @@ void FUN_0c01117e(char *out)
     }
 }
 
-float FUN_0c021836(float x)
+float carSpeedGripScale(float x)
 {
     float t;
 
@@ -340,7 +340,7 @@ typedef struct {
     int c;
 } Vec12c;
 
-void FUN_0c036b5a(Vec12c *p, Vec12c *q)
+void SetBubble(Vec12c *p, Vec12c *q)
 {
     int e;
 

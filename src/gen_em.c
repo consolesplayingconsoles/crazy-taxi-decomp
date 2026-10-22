@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_em): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0200aa(int);
+int SetKyakuCount(int);
 int FUN_0c077210(int, int);
 int GetAverageAngle(int, int, float);
 int Psg_SetMoveSpeed(int, float);
@@ -10,7 +10,7 @@ int Sound_Request(int, int);
 int kmiFlipVertexBuffer(int);
 int kmiWriteRegister(int, int);
 int kyakuTaskStart(int, int);
-int nd_CarSelMain(int);
+int PutLandmark(int);
 int nlArcTan2(float, float);
 int nlGetAverageVector(int, int, int, float, float);
 float nlLength(int, int);

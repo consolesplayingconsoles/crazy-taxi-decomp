@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_ce): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int BigOneSwims(void);
-int FUN_0c02f870(void);
-int FUN_0c054a38(void);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05d662(void);
-int FUN_0c05d862(void);
-int FUN_0c05fa0c(void);
-int FUN_0c0730b4(float);
+int BigOneSwimMove(void);
+int gdc_CourseTexFree(void);
+int Put_TotalDrum_Meter(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Count_Remain_Drop(void);
+int Put_Remain_Icon(void);
+int Const_Proposal(void);
+int BigOneFollowTaxi(float);
 int FUN_0c079980(int);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
@@ -60,13 +60,13 @@ int p2_cache_set(void);
 int kmiFatalErrorEntry(int a4);
 int syHwCacheFinish(void);
 float nlRotateAZ(int a4);
-int FUN_0c05d21c(void);
-int GetRotVec4Ang(float f4);
-int FUN_0c0545ac(int a4, int a5);
+int Exec_DCmini_Game8(void);
+int BigOnePut(float f4);
+int Put_TotalDrum_SetDigits(int a4, int a5);
 int gdc_SpriteSetMenu(void);
 int FUN_0c079a60(float f4, float f5, float f6, float f7);
-int FUN_0c054786(void);
-int FUN_0c03b81e(int a4);
+int Put_TotalDrum_Digits(void);
+int menuReadPad(int a4);
 int kmSetSystemConfiguration(int a4);
 
 int kmiFatalErrorEntry(int a4)
@@ -83,7 +83,7 @@ int syHwCacheFinish(void)
 }
 
 
-int FUN_0c05d21c(void)
+int Exec_DCmini_Game8(void)
 {
     int t0;
     int t1;
@@ -93,23 +93,23 @@ int FUN_0c05d21c(void)
     if (t0 == 0) {
         t1 = *(int *)0xC1794D0;
         if ((int)t1 >= (int)0x5) {
-            FUN_0c05bb24();
+            Start_Excellent();
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
         }
         t5 = *(int *)0xC1EE794;
         if (t5 == 0) {
-            FUN_0c05bb76(0x1);
+            Start_Fault(0x1);
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
         }
     }
-    FUN_0c05d662();
-    FUN_0c05d862();
-    return FUN_0c05fa0c();
+    Count_Remain_Drop();
+    Put_Remain_Icon();
+    return Const_Proposal();
 }
 
-int GetRotVec4Ang(float f4)
+int BigOnePut(float f4)
 {
     int t4;
     int t7;
@@ -117,8 +117,8 @@ int GetRotVec4Ang(float f4)
     int t11;
 
     nlPushUnitMatrix();
-    FUN_0c0730b4(f4);
-    BigOneSwims();
+    BigOneFollowTaxi(f4);
+    BigOneSwimMove();
     nlTranslateV(0xC2AEC20);
     t4 = *(int *)0xC2AEC30;
     nlRotateAY(t4);
@@ -162,7 +162,7 @@ int gdc_SpriteSetMenu(void)
     if (t0 != 2) {
         t58 = t0;
         if (t0 != 5) {
-            FUN_0c02f870();
+            gdc_CourseTexFree();
             t2 = *(int *)0xC26E184;
             if (t2 == 3) {
                 nlSetCommonTextureOffset(0xF0);
@@ -425,7 +425,7 @@ int FUN_0c079a60(float f4, float f5, float f6, float f7)
     return t50;
 }
 
-int FUN_0c054786(void)
+int Put_TotalDrum_Digits(void)
 {
     int t0;
     int t1;
@@ -585,7 +585,7 @@ int FUN_0c054786(void)
         *(unsigned int *)0xC2A8D78 = (t29 * t28);
         t30 = *(int *)0xC2A8D78;
         *(float *)((0xC2A801C + t0)) = (float)(t30 + 0x1B);
-        t31 = FUN_0c054a38();
+        t31 = Put_TotalDrum_Meter();
         t0 = t31;
         *(unsigned int *)0xC2A8044 = 0x0;
         t32 = nlSprPut(0xC2A801C);
@@ -656,7 +656,7 @@ int FUN_0c054786(void)
     return t53;
 }
 
-int FUN_0c03b81e(int a4)
+int menuReadPad(int a4)
 {
     int t49;
     int t0;

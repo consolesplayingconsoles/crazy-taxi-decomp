@@ -4,18 +4,18 @@
 
 void gdc_StopStreamVoice(int i);
 void execAdvSprite(void);
-int FUN_0c058234(void);
-void FUN_0c05df48(void);
-void FUN_0c05df5e(void);
-void FUN_0c05bb64(void);
+int Put_Ranking(void);
+void Start_Record_Window(void);
+void End_Record_Window(void);
+void End_Excellent(void);
 int pdGetPeripheral(int port);
 int pdVibStart(int port, char *p, int n);
 int buIsReady(int drive);
-int FUN_0c05ef68(int port);
+int ndPuru2Check(int port);
 
 #define ADV_FLAGS       (*(unsigned short *)0x0C2A992C)
 
-void FUN_0c05bb76(int a)
+void Start_Fault(int a)
 {
     if (*(int *)0x0C2A9930 == 0 && *(int *)0x0C2A9934 == 0) {
         ADV_FLAGS |= 0x20;
@@ -36,25 +36,25 @@ int Advtise(void)
         execAdvSprite();
     v = *(unsigned short *)0x0C2A9228 & 8;
     if (v == 8)
-        return FUN_0c058234();
+        return Put_Ranking();
     return v;
 }
 
-void FUN_0c05c2d4(void)
+void Exec_Excellent(void)
 {
     int v;
 
     if (*(int *)0x0C2A9938 == 0)
-        FUN_0c05df48();
+        Start_Record_Window();
     v = *(int *)0x0C2A9938 + 1;
     *(int *)0x0C2A9938 = v;
     if (v >= 210) {
-        FUN_0c05df5e();
-        FUN_0c05bb64();
+        End_Record_Window();
+        End_Excellent();
     }
 }
 
-int FUN_0c03bf42(int m)
+int windowOpenStep(int m)
 {
     unsigned int *g = (unsigned int *)0x0C2A11F4;
     int *p = (int *)0x0C0EF54C;
@@ -71,7 +71,7 @@ int FUN_0c03bf42(int m)
     return 1;
 }
 
-int FUN_0c040de6(int a, int b)
+int CheckSetDrive(int a, int b)
 {
     int r;
 
@@ -86,7 +86,7 @@ int FUN_0c040de6(int a, int b)
 
 /* Whether the pad at port is in the state the mode needs (0x0C1EE24C bytes 43 and 44): 1 and the flag at 0C2A9C98 set or
    cleared accordingly, else 0. */
-int FUN_0c05ef68(int port)
+int ndPuru2Check(int port)
 {
     unsigned char a, b;
 
@@ -112,9 +112,9 @@ int FUN_0c05ef68(int port)
     return 0;
 }
 
-int vibStart(int port)
+int ndPuru2Stop(int port)
 {
-    int r = FUN_0c05ef68(port);
+    int r = ndPuru2Check(port);
     char *p;
 
     if (!r)

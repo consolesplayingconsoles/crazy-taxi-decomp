@@ -13,7 +13,7 @@ char *mwlSbAlloc(void)
 }
 
 /* Releases voice x from the 9-slot table (and clears its word at +280): 280 when it was found, else 9. */
-int FUN_0c070ede(int x)
+int psgFreeIpBuff(int x)
 {
     int *t = (int *)0x0C2AD594;
     int i;

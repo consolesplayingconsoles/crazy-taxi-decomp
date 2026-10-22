@@ -18,10 +18,10 @@ int nlPushUnitMatrix(void);
 int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
 float nlUnitVector(int);
-int FUN_0c0618da(int a4, int a5);
-int FUN_0c061b14(int a4, int a5, int a6);
+int Chat_Crush(int a4, int a5);
+int Chat_Iraira(int a4, int a5, int a6);
 int Chat_Direction(int a4);
-int FUN_0c0650b8(void);
+int camGetOffShot2(void);
 
 
 

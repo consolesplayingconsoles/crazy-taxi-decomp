@@ -18,10 +18,10 @@ int vmsio_ismount(int);
 int vmsio_isready(int);
 int write_dir(int);
 int write_fat(int);
-int FUN_0c035304(int a4);
+int PutCollisionPoly(int a4);
 int vmsfs_fdelete_ex(int a4, int a5, int a6);
 
-int FUN_0c035304(int a4)
+int PutCollisionPoly(int a4)
 {
     int t1;
     int t2;

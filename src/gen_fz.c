@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_fz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0210d4(int);
-int FUN_0c021244(int);
-int FUN_0c021600(int, int);
-float FUN_0c021836(float);
+int carSteerWheels(int);
+int carLoadTransfer(int);
+int carCorneringForce(int, int);
+float carSpeedGripScale(float);
 int FUN_0c077210(int, int);
 extern float _builtin_sqrtf(float);
 int nlPopMatrix(int);
@@ -12,9 +12,9 @@ int nlPushMatrix(int);
 int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
-int FUN_0c021970(int a4);
+int carWheelForces(int a4);
 
-int FUN_0c021970(int a4)
+int carWheelForces(int a4)
 {
     int t2;
     float u3;
@@ -220,8 +220,8 @@ int FUN_0c021970(int a4)
     float u227;
     int stk[24] = {0};
 
-    FUN_0c0210d4(a4);
-    FUN_0c021244(a4);
+    carSteerWheels(a4);
+    carLoadTransfer(a4);
     *(float *)(((int)stk + 28)) = 0.0f;
     *(float *)(((int)stk + 32)) = 0.0f;
     *(float *)(((int)stk + 36)) = 0.0f;
@@ -275,7 +275,7 @@ int FUN_0c021970(int a4)
                 t27 = *(short *)((a4 + 0xF4));
                 t29 = (((-t25) - t5) + t27);
             }
-            FUN_0c021600(t7, t29);
+            carCorneringForce(t7, t29);
             if ((int)t6 >= (int)0x2) {
                 u32 = *(float *)((t7 + 0x20));
                 u10 = u32;
@@ -387,7 +387,7 @@ int FUN_0c021970(int a4)
                         u10 = 6.28299999f;
                         u9 = (u9 * u10);
                         u9 = _builtin_fabsf(u9);
-                        t85 = FUN_0c021836(u9);
+                        t85 = carSpeedGripScale(u9);
                         u9 = 1.0f;
                         u86 = *(float *)((t7 + 0x2C));
                         u10 = u86;
@@ -408,7 +408,7 @@ int FUN_0c021970(int a4)
                         u10 = 6.28299999f;
                         u9 = (u9 * u10);
                         u9 = _builtin_fabsf(u9);
-                        t90 = FUN_0c021836(u9);
+                        t90 = carSpeedGripScale(u9);
                         u91 = *(float *)((t7 + 0x2C));
                         u10 = u91;
                         u92 = *(float *)(((int)stk + 8));
@@ -552,7 +552,7 @@ int FUN_0c021970(int a4)
                     u152 = *(float *)((a4 + 0x12C));
                     u9 = u152;
                     u10 = (u10 * u9);
-                    t153 = FUN_0c021836((u10 * 6.28299999f));
+                    t153 = carSpeedGripScale((u10 * 6.28299999f));
                     u154 = *(float *)((t7 + 0x2C));
                     u10 = u154;
                     u10 = (u10 * t153);
@@ -569,7 +569,7 @@ int FUN_0c021970(int a4)
                     u157 = *(float *)((a4 + 0x12C));
                     u9 = u157;
                     u10 = (u10 * u9);
-                    t158 = FUN_0c021836((u10 * 6.28299999f));
+                    t158 = carSpeedGripScale((u10 * 6.28299999f));
                     u159 = *(float *)((t7 + 0x2C));
                     u10 = u159;
                     u10 = (u10 * t158);
@@ -596,7 +596,7 @@ int FUN_0c021970(int a4)
                         u170 = *(float *)((a4 + 0x12C));
                         u10 = u170;
                         u11 = (u11 * u10);
-                        t171 = FUN_0c021836((u11 * 6.28299999f));
+                        t171 = carSpeedGripScale((u11 * 6.28299999f));
                         u172 = *(float *)((t7 + 0x2C));
                         u10 = u172;
                         u10 = (u10 * t171);
@@ -608,7 +608,7 @@ int FUN_0c021970(int a4)
                         u173 = *(float *)((a4 + 0x12C));
                         u10 = u173;
                         u11 = (u11 * u10);
-                        t174 = FUN_0c021836((u11 * 6.28299999f));
+                        t174 = carSpeedGripScale((u11 * 6.28299999f));
                         u175 = *(float *)((t7 + 0x2C));
                         u10 = u175;
                         u9 = 32.0f;
@@ -624,7 +624,7 @@ int FUN_0c021970(int a4)
                             u181 = *(float *)((a4 + 0x12C));
                             u10 = u181;
                             u11 = (u11 * u10);
-                            t182 = FUN_0c021836((u11 * 6.28299999f));
+                            t182 = carSpeedGripScale((u11 * 6.28299999f));
                             u183 = *(float *)((t7 + 0x2C));
                             u10 = u183;
                             u10 = (u10 * t182);
@@ -636,7 +636,7 @@ int FUN_0c021970(int a4)
                             u184 = *(float *)((a4 + 0x12C));
                             u10 = u184;
                             u11 = (u11 * u10);
-                            t185 = FUN_0c021836((u11 * 6.28299999f));
+                            t185 = carSpeedGripScale((u11 * 6.28299999f));
                             u9 = 1.0f;
                             u186 = *(float *)((t7 + 0x2C));
                             u10 = u186;
@@ -650,7 +650,7 @@ int FUN_0c021970(int a4)
                             u190 = *(float *)((a4 + 0x12C));
                             u10 = u190;
                             u11 = (u11 * u10);
-                            t191 = FUN_0c021836((u11 * 6.28299999f));
+                            t191 = carSpeedGripScale((u11 * 6.28299999f));
                             u192 = *(float *)((t7 + 0x2C));
                             u10 = u192;
                             u9 = 7.0f;
@@ -662,7 +662,7 @@ int FUN_0c021970(int a4)
                             u193 = *(float *)((a4 + 0x12C));
                             u10 = u193;
                             u11 = (u11 * u10);
-                            t194 = FUN_0c021836((u11 * 6.28299999f));
+                            t194 = carSpeedGripScale((u11 * 6.28299999f));
                             u195 = *(float *)((t7 + 0x2C));
                             u10 = u195;
                             u9 = 7.0f;

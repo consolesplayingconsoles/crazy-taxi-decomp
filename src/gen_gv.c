@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_gv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02bb60(int, int, float);
+int HomingAngle1(int, int, float);
 int FUN_0c077210(int, int);
 int FUN_0c078a70(int, int, int);
 int GetCollision2D(int, float);
@@ -378,7 +378,7 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
                     t0 = 0xC072C28;
                     u86 = *(float *)((t0 + 0x0));
                     u8 = u86;
-                    t87 = FUN_0c02bb60(t1, (t2 + 0xC), u8);
+                    t87 = HomingAngle1(t1, (t2 + 0xC), u8);
                     t0 = t87;
                     t88 = nlPushUnitMatrix();
                     t0 = t88;

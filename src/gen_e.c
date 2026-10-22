@@ -24,25 +24,25 @@ int ADXSTM_Start(int);
 int CalcShadow2Matrix(int);
 int ConvertSwitch(int);
 int ConvertSwitch2(void);
-int FUN_0c02c094(int);
-int FUN_0c02e074(void);
-int FUN_0c02e42a(void);
-int FUN_0c03012c(void);
-int FUN_0c03019a(void);
+int TitleWaitSet(int);
+int gdc_SetStreamAFS(void);
+int gdc_InitStreamSongDisk(void);
+int gdc_FileLoadStop(void);
+int gdc_FileLoadInit(void);
 int pfCleanString(void);
-int FUN_0c03b698(int);
-int FUN_0c0527ec(void);
-int FUN_0c052d28(void);
-int FUN_0c053b76(void);
-int FUN_0c053dec(void);
-int FUN_0c0544a8(void);
-int FUN_0c058ff0(int);
-int FUN_0c05b044(void);
-int FUN_0c072884(void);
-int FUN_0c0728c8(void);
-int FUN_0c072e36(void);
-int FUN_0c072fe8(void);
-int FUN_0c0738bc(void);
+int SetWindow(int);
+int Init_RankDrum(void);
+int Init_TimeUp(void);
+int Put_Remain_Time(void);
+int Put_Remain_Time_Mode2(void);
+int Put_TotalDrum_Update(void);
+int Init_Result(int);
+int Result_SetFog(void);
+int KeepYourBreath(void);
+int AreYouBreathing(void);
+int Voice_Clear(void);
+int BigOneResetState(void);
+int BigOneSwims(void);
 int FUN_0c080ae0(int, int, int);
 int FUN_0c151cac(int, int, int);
 int FUN_0c152292(int, int);
@@ -144,38 +144,38 @@ int thunk_mwRnaErrEntryFunc(void);
 int vmsfs_c_dispatch(int);
 int vmsfs_c_exit(void);
 int vmsfs_exit(void);
-int FUN_0c022358(int a4);
-int FUN_0c029aa6(void);
+int carFlipTravelDir(int a4);
+int padInitAnalog(void);
 int getSwitch(void);
 int thunk_FUN_0c02a9ac(void);
-int FUN_0c02bbf4(int a4, float f4);
+int TOANG2(int a4, float f4);
 int gameState8(void);
 int gameState10(void);
-int FUN_0c02dfbc(void);
-int FUN_0c030b7a(float f4);
+int gdc_StreamInit(void);
+int SetLightAmbience(float f4);
 int ResetLight(void);
-int FUN_0c036256(int a4, int a5, int a6, int a7);
+int GetRotVec4Ang(int a4, int a5, int a6, int a7);
 int CfgInit(void);
 int thunk_syCfgExit(void);
 int saveBufferInit(int a4);
-int FUN_0c0409a6(void);
+int callPause(void);
 int callTryAgain(void);
 int SetSEvolume(void);
-int FUN_0c041ce8(void);
-int FUN_0c050716(void);
-int FUN_0c051d38(void);
-int FUN_0c052138(void);
-int FUN_0c0533ba(void);
+int GotoMenu(void);
+int nd_StartWait_PutDriver(void);
+int selectDrawBar(void);
+int selectPutHelpBar(void);
+int Start_Pass_Ranking(void);
 int hudShowPickUpNag(void);
-int FUN_0c05364e(void);
-int FUN_0c053b44(void);
+int Start_TimeUp(void);
+int Put_Default_Sprite(void);
 int thunk_nlCloseEvent(void);
-int FUN_0c057fe2(void);
-int FUN_0c05af86(void);
+int Put_Press_Start(void);
+int Init_RS_Fog(void);
 int thunk_FUN_0c0409d2(void);
-int FUN_0c05d4fc(void);
-int FUN_0c0608ac(int a4, int a5, int a6);
-int kmUnloadDevice(void);
+int Put_PoleMarriageKiss(void);
+int pfTextPut(int a4, int a5, int a6);
+int RinAqua_Init(void);
 int RinAqua_Execute(void);
 int camRestore(void);
 int drvAccelDot(void);
@@ -248,7 +248,7 @@ int FUN_0c1720f4(int a4, int a5, int a6);
 int buFbrInit(void);
 int FUN_0c174394(void);
 
-int FUN_0c022358(int a4)
+int carFlipTravelDir(int a4)
 {
     int t0;
     int t1;
@@ -277,7 +277,7 @@ int FUN_0c022358(int a4)
     return t7;
 }
 
-int FUN_0c029aa6(void)
+int padInitAnalog(void)
 {
     float u0;
     float u1;
@@ -346,9 +346,9 @@ int gameState8(void)
     Sound_Init();
     gdc_StopStreamSongAll();
     t4 = *(int *)0xC179488;
-    FUN_0c058ff0(t4);
-    FUN_0c03012c();
-    return FUN_0c03019a();
+    Init_Result(t4);
+    gdc_FileLoadStop();
+    return gdc_FileLoadInit();
 }
 
 int gameState10(void)
@@ -363,7 +363,7 @@ int gameState10(void)
     return gdc_StopStreamSongAll();
 }
 
-int FUN_0c02dfbc(void)
+int gdc_StreamInit(void)
 {
     int t0;
     int t1;
@@ -385,11 +385,11 @@ int FUN_0c02dfbc(void)
     FUN_0c152292(t4, 0x19);
     t6 = *(int *)0xC1EE820;
     FUN_0c152330(t6, 0x2);
-    FUN_0c02e074();
-    return FUN_0c02e42a();
+    gdc_SetStreamAFS();
+    return gdc_InitStreamSongDisk();
 }
 
-int FUN_0c030b7a(float f4)
+int SetLightAmbience(float f4)
 {
     *(float *)0xC0EA5B8 = f4;
     return nlObjPutSetGlobalAmbience(f4);
@@ -404,7 +404,7 @@ int ResetLight(void)
     return nlObjPutSetGlobalAmbience(u1);
 }
 
-int FUN_0c036256(int a4, int a5, int a6, int a7)
+int GetRotVec4Ang(int a4, int a5, int a6, int a7)
 {
     nlPushUnitMatrix();
     nlRotateAY(a6);
@@ -427,7 +427,7 @@ int saveBufferInit(int a4)
     return memset((a4 + 0x8), 0xFFFFFFFF, 0x780);
 }
 
-int FUN_0c0409a6(void)
+int callPause(void)
 {
     int t0;
     int t1;
@@ -436,10 +436,10 @@ int FUN_0c0409a6(void)
     *(unsigned int *)0xC2A1228 = t0;
     t1 = *(int *)0xC1EE238;
     *(unsigned int *)0xC2A122C = t1;
-    FUN_0c072e36();
+    Voice_Clear();
     gdc_StopStreamVoiceAll();
     Sound_Init();
-    return FUN_0c03b698(0x1);
+    return SetWindow(0x1);
 }
 
 int callTryAgain(void)
@@ -451,11 +451,11 @@ int callTryAgain(void)
     *(unsigned int *)0xC2A1228 = t0;
     t1 = *(int *)0xC1EE238;
     *(unsigned int *)0xC2A122C = t1;
-    FUN_0c072e36();
+    Voice_Clear();
     gdc_StopStreamVoiceAll();
     gdc_StopStreamSongAll();
     Sound_Init();
-    FUN_0c03b698(0x2);
+    SetWindow(0x2);
     *(unsigned int *)0xC0EF550 = 0x275;
     return Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
 }
@@ -472,7 +472,7 @@ int SetSEvolume(void)
     return nlsndSystemControl(0x8, 0x10A0, (signed char)(int)(((float)(unsigned char)t1 / u0) * u2));
 }
 
-int FUN_0c041ce8(void)
+int GotoMenu(void)
 {
     int t0;
     int t1;
@@ -483,17 +483,17 @@ int FUN_0c041ce8(void)
     *(unsigned int *)0xC2A122C = t1;
     *(unsigned int *)0xC1EE234 = 0x3;
     *(unsigned int *)0xC1EE238 = 0x0;
-    return FUN_0c02c094(0x0);
+    return TitleWaitSet(0x0);
 }
 
 
-int FUN_0c051d38(void)
+int selectDrawBar(void)
 {
     *(unsigned int *)0xC2A7398 = 0x0;
     return nlSprPut(0xC2A7370);
 }
 
-int FUN_0c052138(void)
+int selectPutHelpBar(void)
 {
     float u0;
 
@@ -501,12 +501,12 @@ int FUN_0c052138(void)
     return menuPutHelpBar(0x3, 0.0f, u0);
 }
 
-int FUN_0c0533ba(void)
+int Start_Pass_Ranking(void)
 {
     int t1;
     int t2;
 
-    FUN_0c0527ec();
+    Init_RankDrum();
     t1 = rankingInsert();
     if (t1 != 0) {
         t2 = *(int *)0xC2A75E0;
@@ -541,13 +541,13 @@ int hudShowPickUpNag(void)
     return t6;
 }
 
-int FUN_0c05364e(void)
+int Start_TimeUp(void)
 {
     int t1;
     int t2;
     int t3;
 
-    FUN_0c052d28();
+    Init_TimeUp();
     t1 = *(int *)0xC2A75E0;
     *(unsigned int *)0xC2A75E0 = (t1 & 0xFEFFFFFF);
     t2 = *(int *)0xC2A75E0;
@@ -557,7 +557,7 @@ int FUN_0c05364e(void)
     return ((t3 & 0xFBFFFFFF) | 0x10000000);
 }
 
-int FUN_0c053b44(void)
+int Put_Default_Sprite(void)
 {
     int t0;
     int t1;
@@ -566,19 +566,19 @@ int FUN_0c053b44(void)
     if (t0 != 2) {
         t1 = GetMenuMode(0x1);
         if (t1 != 0) {
-            FUN_0c053dec();
+            Put_Remain_Time_Mode2();
         } else {
-            FUN_0c053b76();
+            Put_Remain_Time();
         }
-        FUN_0c0544a8();
+        Put_TotalDrum_Update();
     } else {
-        FUN_0c053dec();
+        Put_Remain_Time_Mode2();
     }
     return Put_GearBox();
 }
 
 
-int FUN_0c057fe2(void)
+int Put_Press_Start(void)
 {
     float u3;
     float u4;
@@ -592,10 +592,10 @@ int FUN_0c057fe2(void)
     return pfPuts(0xC0D0A40);
 }
 
-int FUN_0c05af86(void)
+int Init_RS_Fog(void)
 {
     *(float *)0xC130E14 = 0.0f;
-    return FUN_0c05b044();
+    return Result_SetFog();
 }
 
 int thunk_FUN_0c0409d2(void)
@@ -603,7 +603,7 @@ int thunk_FUN_0c0409d2(void)
     return callTryAgain();
 }
 
-int FUN_0c05d4fc(void)
+int Put_PoleMarriageKiss(void)
 {
     float u2;
     float u3;
@@ -634,7 +634,7 @@ int FUN_0c05d4fc(void)
     return t12;
 }
 
-int FUN_0c0608ac(int a4, int a5, int a6)
+int pfTextPut(int a4, int a5, int a6)
 {
     pfCleanString();
     pfLength(a6);
@@ -642,20 +642,20 @@ int FUN_0c0608ac(int a4, int a5, int a6)
     return pfPuts(a6);
 }
 
-int kmUnloadDevice(void)
+int RinAqua_Init(void)
 {
     thunk_FUN_0c072fe8();
-    return FUN_0c072884();
+    return KeepYourBreath();
 }
 
 int RinAqua_Execute(void)
 {
     float u1;
 
-    FUN_0c0728c8();
+    AreYouBreathing();
     u1 = *(float *)0xC060DF0;
     ShallWeHaveSomeRelaxation(u1);
-    return FUN_0c0738bc();
+    return BigOneSwims();
 }
 
 int camRestore(void)
@@ -700,7 +700,7 @@ int LoadBigOne(int a4)
 
 int thunk_FUN_0c072fe8(void)
 {
-    return FUN_0c072fe8();
+    return BigOneResetState();
 }
 
 int thunk_kmSetFogTable(void)

@@ -6,9 +6,9 @@ int nlTriPutSetAttrib(int);
 int nlTriPutSetClipping(int, float, float, float, float);
 int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
 int nlTriPutTextureInit(int, int, int);
-int FUN_0c0354f8(int a4, int a5, float f4, float f5, float f6);
+int PutGridPoly(int a4, int a5, float f4, float f5, float f6);
 
-int FUN_0c0354f8(int a4, int a5, float f4, float f5, float f6)
+int PutGridPoly(int a4, int a5, float f4, float f5, float f6)
 {
     int t2;
     float u13;

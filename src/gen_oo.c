@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_oo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c04d49e(int, float, float);
+int HomingPosX(int, float, float);
 int nlSprPut(int);
-void FUN_0c051d44(void);
+void selectDrawPanels(void);
 
-void FUN_0c051d44(void)
+void selectDrawPanels(void)
 {
     int t0;
     int t1;
@@ -40,7 +40,7 @@ void FUN_0c051d44(void)
                         u5 = *(float *)0xC2A750C;
                         *(float *)0xC2A750C = (u5 + 30.0f);
                     } else {
-                        FUN_0c04d49e(0xC2A750C, 0.599999964f, 0.0f);
+                        HomingPosX(0xC2A750C, 0.599999964f, 0.0f);
                     }
                 }
                 u15 = *(float *)0xC2A750C;
@@ -67,7 +67,7 @@ void FUN_0c051d44(void)
                 u23 = *(float *)0xC2A750C;
                 *(float *)0xC2A750C = (u23 + 30.0f);
             } else {
-                FUN_0c04d49e(0xC2A750C, 0.599999964f, 0.0f);
+                HomingPosX(0xC2A750C, 0.599999964f, 0.0f);
             }
         }
         u33 = *(float *)0xC2A750C;

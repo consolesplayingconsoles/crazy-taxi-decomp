@@ -98,7 +98,7 @@ void nlSubVector3op(NLpoint3 *out, NLpoint3 *a, NLpoint3 *b);
 void nlUnitVector(NLpoint3 *v);
 float nlInnerProduct(NLpoint3 *a, NLpoint3 *b);
 float nlLength(NLpoint3 *a, NLpoint3 *b);
-void FUN_0c061b14(tagPASSENGER *p, int a, int b);
-void FUN_0c061da8(tagPASSENGER *p);
+void Chat_Iraira(tagPASSENGER *p, int a, int b);
+void Chat_DamnIt(tagPASSENGER *p);
 
 

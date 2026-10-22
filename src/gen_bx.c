@@ -4,10 +4,10 @@
 int FUN_0c010954(int, int, int);
 int FUN_0c01098c(int, int, int);
 int FUN_0c0109c4(int);
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c040b54(int);
-int FUN_0c040b98(int);
+int SetScreen(int);
+int SetWindow(int);
+int callLoadData(int);
+int callSaveData(int);
 int FUN_0c07f5c0(void);
 int PutStringFixPfont(int, int, float, float, float, float);
 int buIsReady(void);
@@ -22,14 +22,14 @@ int nlCreateTextureParamA(int);
 int putLevelCTFontAssist(int, int, int, int);
 int putRecordUnit(int, int, int, int, float, float);
 int putString(int, int, float, float, float);
-int FUN_0c064718(void);
+int camGetOnScript(void);
 int FUN_0c073d10(void);
 int FUN_0c0107fe(int a4, int a5, int a6, int a7);
 int FUN_0c010754(int a4, int a5, int a6, int a7);
 int FUN_0c010682(int a4, int a5, int a6, int a7);
-int FUN_0c0403b8(void);
+int menuSaveLoadHandler(void);
 
-int FUN_0c064718(void)
+int camGetOnScript(void)
 {
     int t0;
     int t1;
@@ -285,7 +285,7 @@ int FUN_0c010682(int a4, int a5, int a6, int a7)
     return FUN_0c0109c4(a4);
 }
 
-int FUN_0c0403b8(void)
+int menuSaveLoadHandler(void)
 {
     int t1;
     int t2;
@@ -434,7 +434,7 @@ int FUN_0c0403b8(void)
                                     *(unsigned int *)0xC2A1228 = t58;
                                     t59 = *(int *)0xC1EE238;
                                     *(unsigned int *)0xC2A122C = t59;
-                                    FUN_0c03b698(0xB);
+                                    SetWindow(0xB);
                                     FUN_0c07f5c0();
                                 }
                             } else {
@@ -442,7 +442,7 @@ int FUN_0c0403b8(void)
                                 *(unsigned int *)0xC2A1228 = t63;
                                 t64 = *(int *)0xC1EE238;
                                 *(unsigned int *)0xC2A122C = t64;
-                                FUN_0c03b698(0xB);
+                                SetWindow(0xB);
                                 FUN_0c07f5c0();
                             }
                         } else {
@@ -450,16 +450,16 @@ int FUN_0c0403b8(void)
                             *(unsigned int *)0xC2A1228 = t68;
                             t69 = *(int *)0xC1EE238;
                             *(unsigned int *)0xC2A122C = t69;
-                            FUN_0c03b698(0xB);
+                            SetWindow(0xB);
                             FUN_0c07f5c0();
                         }
                     } else {
-                        FUN_0c03b544(0x3);
-                        FUN_0c040b54(0x0);
+                        SetScreen(0x3);
+                        callLoadData(0x0);
                     }
                 } else {
-                    FUN_0c03b544(0x3);
-                    FUN_0c040b98(0x0);
+                    SetScreen(0x3);
+                    callSaveData(0x0);
                 }
             }
         }

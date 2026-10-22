@@ -2,16 +2,16 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ExecArrow(int, float);
-int FUN_0c03101a(float);
+int pfSetAspectRatio(float);
 int pfCleanString(void);
 int pfAddString(int);
 int pfAddNumber(int, int);
-int FUN_0c05d82a(int);
-int FUN_0c05fd70(int);
-int FUN_0c061da8(int);
-int FUN_0c061e04(int);
-int FUN_0c0678a4(int, int, float);
-int FUN_0c067960(int, int, float);
+int Init_Remain_Arrow(int);
+int Start_CrazyBox_Voice(int);
+int Chat_DamnIt(int);
+int Chat_DontPass(int);
+int fcvCalcPosition(int, int, float);
+int fcvCalcAngle(int, int, float);
 int IsBoyFriend(int, int);
 int ResetFadeColor(void);
 float nlExp(int, float, float);
@@ -27,7 +27,7 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
 
-void FUN_0c030ebc(int a4)
+void InitProportionalText(int a4)
 {
     int t0;
     int t1;
@@ -45,7 +45,7 @@ void FUN_0c030ebc(int a4)
     *(unsigned int *)0xC26E310 = 0xC26E210;
     *(unsigned char *)0xC26E210 = 0x0;
     pfSetFont(0x0);
-    FUN_0c03101a(1.0f);
+    pfSetAspectRatio(1.0f);
     pfSize(1.0f, 1.0f);
 }
 
@@ -164,39 +164,39 @@ void FcvStoreBuffer(int a4, int a5, float f4)
     t1 = nlFloor(a4, a5, (f4 / (float)(t0 - 1)));
     t2 = *(int *)((a4 + 0x0));
     t3 = *(int *)((a4 + 0x18));
-    FUN_0c0678a4(((t3 << 2) + a4), (a5 + 0xC), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((t3 << 2) + a4), (a5 + 0xC), (f4 - (t1 * (float)(t2 - 1))));
     t5 = *(int *)((a4 + 0x24));
-    FUN_0c0678a4(((t5 << 2) + a4), (a5 + 0x18), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((t5 << 2) + a4), (a5 + 0x18), (f4 - (t1 * (float)(t2 - 1))));
     t7 = *(int *)((a4 + 0x34));
-    FUN_0c0678a4(((t7 << 2) + a4), (a5 + 0x24), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((t7 << 2) + a4), (a5 + 0x24), (f4 - (t1 * (float)(t2 - 1))));
     t9 = *(int *)((a4 + 0x40));
-    FUN_0c0678a4(((t9 << 2) + a4), (a5 + 0x30), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((t9 << 2) + a4), (a5 + 0x30), (f4 - (t1 * (float)(t2 - 1))));
     t11 = *(int *)((a4 + 0x4));
-    FUN_0c0678a4(((t11 << 2) + a4), a5, (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((t11 << 2) + a4), a5, (f4 - (t1 * (float)(t2 - 1))));
     t13 = *(int *)((a4 + 0x8));
-    FUN_0c067960(((t13 << 2) + a4), (a5 + 0x3C), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t13 << 2) + a4), (a5 + 0x3C), (f4 - (t1 * (float)(t2 - 1))));
     t15 = *(int *)((a4 + 0xC));
-    FUN_0c067960(((t15 << 2) + a4), (a5 + 0x48), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t15 << 2) + a4), (a5 + 0x48), (f4 - (t1 * (float)(t2 - 1))));
     t17 = *(int *)((a4 + 0x10));
-    FUN_0c067960(((t17 << 2) + a4), (a5 + 0x54), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t17 << 2) + a4), (a5 + 0x54), (f4 - (t1 * (float)(t2 - 1))));
     t19 = *(int *)((a4 + 0x14));
-    FUN_0c067960(((t19 << 2) + a4), (a5 + 0x60), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t19 << 2) + a4), (a5 + 0x60), (f4 - (t1 * (float)(t2 - 1))));
     t21 = *(int *)((a4 + 0x1C));
-    FUN_0c067960(((t21 << 2) + a4), (a5 + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t21 << 2) + a4), (a5 + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
     t23 = *(int *)((a4 + 0x20));
-    FUN_0c067960(((t23 << 2) + a4), (a5 + 0x78), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t23 << 2) + a4), (a5 + 0x78), (f4 - (t1 * (float)(t2 - 1))));
     t25 = *(int *)((a4 + 0x28));
-    FUN_0c067960(((t25 << 2) + a4), ((a5 + 0x3C) + 0x48), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t25 << 2) + a4), ((a5 + 0x3C) + 0x48), (f4 - (t1 * (float)(t2 - 1))));
     t27 = *(int *)((a4 + 0x2C));
-    FUN_0c067960(((t27 << 2) + a4), ((a5 + 0x3C) + 0x54), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t27 << 2) + a4), ((a5 + 0x3C) + 0x54), (f4 - (t1 * (float)(t2 - 1))));
     t29 = *(int *)((a4 + 0x30));
-    FUN_0c067960(((t29 << 2) + a4), ((a5 + 0x3C) + 0x60), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t29 << 2) + a4), ((a5 + 0x3C) + 0x60), (f4 - (t1 * (float)(t2 - 1))));
     t31 = *(int *)((a4 + 0x38));
-    FUN_0c067960(((t31 << 2) + a4), ((a5 + 0x3C) + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t31 << 2) + a4), ((a5 + 0x3C) + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
     t33 = *(int *)((a4 + 0x3C));
-    FUN_0c067960(((t33 << 2) + a4), ((a5 + 0x3C) + 0x78), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t33 << 2) + a4), ((a5 + 0x3C) + 0x78), (f4 - (t1 * (float)(t2 - 1))));
     t35 = *(int *)((a4 + 0x44));
-    FUN_0c067960(((t35 << 2) + a4), ((a5 + 0x3C) + 0x84), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((t35 << 2) + a4), ((a5 + 0x3C) + 0x84), (f4 - (t1 * (float)(t2 - 1))));
 }
 
 

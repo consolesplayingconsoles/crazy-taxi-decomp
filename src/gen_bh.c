@@ -10,39 +10,39 @@ int ADXF_Close(int);
 int ADXF_GetStat(int);
 int ADXF_LoadPartition(int, int, int, int);
 int CheckClipping(float);
-int FUN_0c02f220(int);
+int gdc_LandmarkReq(int);
 int ResetPinFlag(void);
-int FUN_0c038f78(void);
-int FUN_0c03bea0(int, int, int);
-int FUN_0c03c792(int, int, int, int);
-int FUN_0c05003c(void);
-int FUN_0c05008c(void);
-int FUN_0c050716(void);
-int FUN_0c05332c(void);
-int FUN_0c05423a(int, int);
-int FUN_0c0543fc(void);
-int FUN_0c054452(void);
-int FUN_0c055aca(void);
-int FUN_0c057728(int, int, int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c057b64(void);
-int FUN_0c058828(void);
-int FUN_0c05891a(void);
-int FUN_0c058968(int, int);
-int FUN_0c05b7a8(void);
-int FUN_0c05b7f0(int);
-int FUN_0c05b88a(void);
-int FUN_0c05baf4(int);
-int FUN_0c05bb12(void);
-int FUN_0c05bb24(void);
-int FUN_0c05bb76(int);
-int FUN_0c05cb80(void);
-int FUN_0c05cde4(void);
-int FUN_0c05ce64(void);
-int FUN_0c05e8c8(void);
-int FUN_0c05f93c(void);
-int FUN_0c0713d8(int);
-int FUN_0c071a7c(int, int);
+int ResetBreakBeachFlag(void);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
+int pedGetSubwayFlag(void);
+int pedCarNotInSubway(void);
+int nd_StartWait_PutDriver(void);
+int End_Pass_Judgement(void);
+int Put_Remain_Time_Gauge(int, int);
+int Put_Remain_Time_Frame(void);
+int Put_Remain_Time_Add(void);
+int hudJudgementWobble(void);
+int Money_Array(int, int, int);
+int nd_SprPut(int, int, float, float);
+int End_Ranking(void);
+int Put_Ranking_Header(void);
+int Reset_Ranking_Wave(void);
+int Check_Digit_Disp(int, int);
+int Init_DCmini_Standard_Sprite(void);
+int Init_Window_Sprite(int);
+int Init_DCmini_CarPos(void);
+int Start_JumpDistance(int);
+int Reset_JumpDistance(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Check_Bowling_Pins(void);
+int Put_Bowling_Message(void);
+int Put_Bowling_Pins(void);
+int Init_Balloon(void);
+int Proposal_Initialize(void);
+int psgUpdatePartTracks(int);
+int psgPutMarker(int, int);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077df0(int);
@@ -114,49 +114,49 @@ int syCfgGetLanguage(int);
 int syCfgGetSoundMode(int);
 int texLoadIndexed(int);
 int vibIsReady(void);
-int vibStart(void);
+int ndPuru2Stop(void);
 int vmsfs_fwrite1(int, int);
 int vmsfs_xwrite1(int, int);
 int pdGunSetCallback(void);
-int FUN_0c064ade(void);
+int camGetOffScript(void);
 int gdFsOpenRangeG(int a4, int a5);
 int Put_GearBox(void);
 int mwRnaSetNumChan(int a4, int a5);
 int FUN_0c073d60(int a4);
 int ADXB_ExecHndl(int a4);
-int FUN_0c02e074(void);
+int gdc_SetStreamAFS(void);
 int sysCfgRead(void);
-int FUN_0c050656(void);
+int nd_StartWait_PutCar(void);
 int vmsfs_fwrite(int a4, int a5, int a6);
 int FUN_0c1697c2(int a4);
 int psgRoadCheck(int a4);
-int FUN_0c02f26a(void);
+int gdc_LandmarkLoadExec(void);
 int PutStringFixPfont(int a4, int a5, float f4, float f5, float f6, float f7);
-int FUN_0c03da02(int a4);
+int menuItemVibration(int a4);
 int menuRuleHandler(void);
-int FUN_0c05c614(void);
-int FUN_0c05c8e8(void);
+int Exec_DCmini_Game4(void);
+int Exec_Bowling_Pins(void);
 int gdc_Err(void);
-int FUN_0c03db08(int a4);
-int FUN_0c055950(void);
+int menuItemController(int a4);
+int hudDrawJudgement(void);
 int FUN_0c07eb10(int a4, int a5);
-int FUN_0c05c470(void);
+int Exec_Crazy_Jump(void);
 int mpdrv_frame_send(void);
 int pedUpdate(int a4);
 int carRumble(int a4);
-int FUN_0c055688(void);
+int hudDrawFareFrame(void);
 int psgFrameState6(int a4);
-int FUN_0c053b76(void);
+int Put_Remain_Time(void);
 int Init_DCmini(void);
-int FUN_0c05be5c(void);
-int FUN_0c058234(void);
+int Put_JumpDistance(void);
+int Put_Ranking(void);
 
 int pdGunSetCallback(void)
 {
     return kdSetGunCallback();
 }
 
-int FUN_0c064ade(void)
+int camGetOffScript(void)
 {
     int t0;
     int t1;
@@ -370,7 +370,7 @@ int ADXB_ExecHndl(int a4)
     return ADXB_ExecOneAdx(a4);
 }
 
-int FUN_0c02e074(void)
+int gdc_SetStreamAFS(void)
 {
     int t0;
     int t1;
@@ -445,7 +445,7 @@ int sysCfgRead(void)
     return t3;
 }
 
-int FUN_0c050656(void)
+int nd_StartWait_PutCar(void)
 {
     int t0;
     int t1;
@@ -492,7 +492,7 @@ int FUN_0c050656(void)
     t7 = *(int *)0xC12FFF4;
     t8 = *(int *)0xC2A72D8;
     nd_CarSel_PutCar(t8, t5, t7, t6);
-    FUN_0c050716();
+    nd_StartWait_PutDriver();
     nlPopMatrix(0x1);
     t12 = *(int *)0xC2A720C;
     t15 = t12;
@@ -711,7 +711,7 @@ int psgRoadCheck(int a4)
     return t37;
 }
 
-int FUN_0c02f26a(void)
+int gdc_LandmarkLoadExec(void)
 {
     int t0;
     int t1;
@@ -744,7 +744,7 @@ int FUN_0c02f26a(void)
             t7 = *(int *)0xC0EA3E4;
             *(unsigned int *)0xC0EA3E4 = (t7 + 0x1);
             t8 = *(int *)0xC26E17C;
-            t9 = FUN_0c02f220(t8);
+            t9 = gdc_LandmarkReq(t8);
             t10 = *(int *)0xC0EA3E4;
             if ((int)t10 > (int)0xA) {
                 t11 = *(int *)0xC1EE208;
@@ -872,7 +872,7 @@ int menuRuleHandler(void)
     return menuEnterStep();
 }
 
-int FUN_0c05c614(void)
+int Exec_DCmini_Game4(void)
 {
     int t8;
     int t9;
@@ -884,12 +884,12 @@ int FUN_0c05c614(void)
     nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    FUN_0c05778a(0xC2A9898, 0x51, 483.0f, 55.0f);
-    FUN_0c05778a(0xC2A9898, 0x55, 509.0f, 55.0f);
+    nd_SprPut(0xC2A9898, 0x51, 483.0f, 55.0f);
+    nd_SprPut(0xC2A9898, 0x55, 509.0f, 55.0f);
     nlObjPutSetFadeColor(0.0f, 0.299999982f, 1.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E6, 458.0f, 67.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E3, 559.0f, 60.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E4, 595.0f, 60.0f);
+    nd_SprPut(0xC2A9898, 0x1E6, 458.0f, 67.0f);
+    nd_SprPut(0xC2A9898, 0x1E3, 559.0f, 60.0f);
+    nd_SprPut(0xC2A9898, 0x1E4, 595.0f, 60.0f);
     ResetFadeColor();
     t8 = Put_Max_Combo();
     t9 = *(int *)0xC1EE794;
@@ -901,9 +901,9 @@ int FUN_0c05c614(void)
             t11 = *(int *)0xC2A7614;
             if ((int)t11 >= (int)0xF) {
                 *(unsigned int *)0xC2A98F4 = t11;
-                FUN_0c05bb24();
+                Start_Excellent();
             } else {
-                FUN_0c05bb76(0x0);
+                Start_Fault(0x0);
             }
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
@@ -916,7 +916,7 @@ int FUN_0c05c614(void)
 
 
 
-int FUN_0c03db08(int a4)
+int menuItemController(int a4)
 {
     int t0;
     int t1;
@@ -964,7 +964,7 @@ int FUN_0c03db08(int a4)
     *(unsigned int *)(((int)stk + 4)) = (unsigned char)t0;
     t1 = *(int *)(((int)stk + 8));
     if (t1 != 0) {
-        t2 = FUN_0c03bea0(0x0, ((int)stk + 4), 0x2);
+        t2 = menuChangeValue(0x0, ((int)stk + 4), 0x2);
         if (t2 == 1) {
             t3 = *(int *)(((int)stk + 4));
             *(unsigned char *)0xC28A4EE = t3;
@@ -983,7 +983,7 @@ int FUN_0c03db08(int a4)
             t8 = 0x13;
             t9 = t7;
         }
-        FUN_0c03c792(t8, 0xC09F050, 0x2, t9);
+        putMenuValue(t8, 0xC09F050, 0x2, t9);
         t11 = *(int *)0xC2A123C;
         if (t11 == 1) {
             t12 = *(signed char *)0xC28A4EE;
@@ -1034,7 +1034,7 @@ int FUN_0c03db08(int a4)
     return t47;
 }
 
-int FUN_0c055950(void)
+int hudDrawJudgement(void)
 {
     int t0;
     int t2;
@@ -1059,7 +1059,7 @@ int FUN_0c055950(void)
     if ((int)t0 > (int)0x2) {
         return 0;
     }
-    FUN_0c055aca();
+    hudJudgementWobble();
     t2 = *(int *)0xC2A760C;
     t3 = *(int *)(((t2 << 2) + 0xC130B0C));
     *(unsigned int *)0xC2A7EDC = t3;
@@ -1112,7 +1112,7 @@ int FUN_0c055950(void)
     t25 = *(int *)0xC2A8F94;
     *(unsigned int *)0xC2A8F94 = (t25 + 0x1);
     if ((int)(t25 + 0x1) > (int)0xB4) {
-        return FUN_0c05332c();
+        return End_Pass_Judgement();
     }
     return t24;
 }
@@ -1324,7 +1324,7 @@ int FUN_0c07eb10(int a4, int a5)
     return t63;
 }
 
-int FUN_0c05c470(void)
+int Exec_Crazy_Jump(void)
 {
     float u5;
     int t6;
@@ -1366,9 +1366,9 @@ int FUN_0c05c470(void)
     nlObjPutSetFadeColor(1.0f, 0.699999988f, 0.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    FUN_0c05778a(0xC2A9898, 0x1E7, 491.0f, 57.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E8, 531.0f, 57.0f);
-    FUN_0c05778a(0xC2A9898, 0x1E2, 580.0f, 50.0f);
+    nd_SprPut(0xC2A9898, 0x1E7, 491.0f, 57.0f);
+    nd_SprPut(0xC2A9898, 0x1E8, 531.0f, 57.0f);
+    nd_SprPut(0xC2A9898, 0x1E2, 580.0f, 50.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98B8 = 1.0f;
     ResetFadeColor();
@@ -1399,7 +1399,7 @@ int FUN_0c05c470(void)
         if ((int)t19 <= (int)0x1) {
             t20 = *(int *)0xC2A991C;
             if (t20 == 0) {
-                FUN_0c05bb76(0x0);
+                Start_Fault(0x0);
                 *(unsigned int *)0xC2A991C = 0x1;
             }
         }
@@ -1415,7 +1415,7 @@ int FUN_0c05c470(void)
     if (t31 == 0) {
         t32 = *(int *)0xC2A991C;
         if (t32 == 0) {
-            FUN_0c05bb76(0x1);
+            Start_Fault(0x1);
             *(unsigned int *)0xC2A991C = 0x1;
             *(unsigned int *)0xC179120 = 0x0;
             t45 = 0x54;
@@ -1429,10 +1429,10 @@ int FUN_0c05c470(void)
                     u36 = *(float *)0xC2A9A24;
                     u37 = *(float *)0xC05C6C8;
                     if (!(u37 > u36)) {
-                        t38 = FUN_0c05bb24();
+                        t38 = Start_Excellent();
                         t40 = t38;
                     } else {
-                        t39 = FUN_0c05bb76(0x0);
+                        t39 = Start_Fault(0x0);
                         t40 = t39;
                     }
                     *(unsigned int *)0xC2A991C = 0x1;
@@ -1453,10 +1453,10 @@ int FUN_0c05c470(void)
                 u49 = *(float *)0xC2A9A24;
                 u50 = *(float *)0xC05C6C8;
                 if (!(u50 > u49)) {
-                    t51 = FUN_0c05bb24();
+                    t51 = Start_Excellent();
                     t53 = t51;
                 } else {
-                    t52 = FUN_0c05bb76(0x0);
+                    t52 = Start_Fault(0x0);
                     t53 = t52;
                 }
                 *(unsigned int *)0xC2A991C = 0x1;
@@ -1732,11 +1732,11 @@ int pedUpdate(int a4)
             if (t19 == 1) {
                 t20 = *(short *)((a4 + 0x60));
                 if (t20 != 0) {
-                    t21 = FUN_0c05003c();
+                    t21 = pedGetSubwayFlag();
                     if ((int)t21 < (int)0x1) {
                         t22 = *(short *)((a4 + 0x60));
                         if (t22 == 0) {
-                            t23 = FUN_0c05008c();
+                            t23 = pedCarNotInSubway();
                             if (t23 != 0) {
                                 pedDraw(a4, t15, t12);
                             }
@@ -1747,7 +1747,7 @@ int pedUpdate(int a4)
                 } else {
                     t29 = *(short *)((a4 + 0x60));
                     if (t29 == 0) {
-                        t30 = FUN_0c05008c();
+                        t30 = pedCarNotInSubway();
                         if (t30 != 0) {
                             pedDraw(a4, t15, t12);
                         }
@@ -2063,7 +2063,7 @@ int carRumble(int a4)
     return t66;
 }
 
-int FUN_0c055688(void)
+int hudDrawFareFrame(void)
 {
     int t0;
     float u1;
@@ -2273,7 +2273,7 @@ int psgFrameState6(int a4)
         if ((t37 & 128) != 0) {
             psgPlayBlend(a4, 0x1);
         } else {
-            FUN_0c0713d8(a4);
+            psgUpdatePartTracks(a4);
             u40 = *(float *)((a4 + 0x38));
             t41 = *(int *)((a4 + 0x0));
             t42 = *(int *)((a4 + 0x34));
@@ -2293,11 +2293,11 @@ int psgFrameState6(int a4)
         }
         nlPopMatrix(0x1);
     }
-    t55 = FUN_0c071a7c(a4, 0x1);
+    t55 = psgPutMarker(a4, 0x1);
     return t55;
 }
 
-int FUN_0c053b76(void)
+int Put_Remain_Time(void)
 {
     int t1;
     int t2;
@@ -2592,7 +2592,7 @@ int FUN_0c053b76(void)
     int t527;
     int t497;
 
-    FUN_0c054452();
+    Put_Remain_Time_Add();
     t1 = *(int *)0xC2A8C54;
     t2 = *(int *)((t1 + 0x0));
     t3 = (int)((int)t2 / (int)0x3C);
@@ -2615,7 +2615,7 @@ int FUN_0c053b76(void)
     }
     t13 = (int)((int)t11 / (int)0xA);
     t14 = (int)((int)t11 % (int)0xA);
-    FUN_0c05423a(t11, t12);
+    Put_Remain_Time_Gauge(t11, t12);
     *(unsigned int *)0xC2A7FB0 = 0x200E;
     *(float *)0xC2A7FA0 = 1.0f;
     *(float *)0xC2A7F90 = 1.0f;
@@ -3024,7 +3024,7 @@ int FUN_0c053b76(void)
     if ((int)t7 < (int)0xB) {
         nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
     }
-    FUN_0c0543fc();
+    Put_Remain_Time_Frame();
     t226 = ResetFadeColor();
     t227 = *(int *)0xC2A8CAC;
     if ((int)t227 > (int)0x14) {
@@ -3664,9 +3664,9 @@ int Init_DCmini(void)
     nlUnitMatrix();
     nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
     FUN_0c077df0(0x1);
-    FUN_0c05b7a8();
-    FUN_0c05b7f0(0x4);
-    FUN_0c05b88a();
+    Init_DCmini_Standard_Sprite();
+    Init_Window_Sprite(0x4);
+    Init_DCmini_CarPos();
     *(unsigned int *)0xC2A991C = 0x0;
     *(unsigned int *)0xC2A9920 = 0x0;
     *(unsigned int *)0xC2A9924 = 0x1E;
@@ -3726,7 +3726,7 @@ int Init_DCmini(void)
     t28 = *(int *)0xC1EE214;
     if (t28 == 1) {
         InitArrow(0xC1311BC);
-        FUN_0c038f78();
+        ResetBreakBeachFlag();
     } else {
         if (t28 != 8) {
             if (t28 != 9) {
@@ -3780,21 +3780,21 @@ int Init_DCmini(void)
                 *(unsigned int *)((t50 + 0x0)) = 0x0;
                 t50 = (t50 + 0x4);
             } while ((int)t51 < (int)0x5);
-            FUN_0c05f93c();
+            Proposal_Initialize();
         }
     }
     t55 = *(int *)0xC1EE214;
     if (t55 != 0) {
         if (t55 == 20) {
-            FUN_0c05bb12();
+            Reset_JumpDistance();
             *(float *)0xC2A9A24 = 0.0f;
-            FUN_0c05baf4(0xC2A9A24);
+            Start_JumpDistance(0xC2A9A24);
             *(unsigned int *)0xC2A9970 = 0x0;
         }
     } else {
-        FUN_0c05bb12();
+        Reset_JumpDistance();
         *(float *)0xC2A9A24 = 0.0f;
-        FUN_0c05baf4(0xC2A9A24);
+        Start_JumpDistance(0xC2A9A24);
         *(unsigned int *)0xC2A9970 = 0x0;
     }
     t62 = *(int *)0xC1EE214;
@@ -3805,7 +3805,7 @@ int Init_DCmini(void)
     }
     t66 = *(int *)0xC1EE214;
     if (t66 == 2) {
-        FUN_0c05e8c8();
+        Init_Balloon();
     }
     t69 = *(int *)0xC1EE214;
     if (t69 == 14) {
@@ -3831,7 +3831,7 @@ int Init_DCmini(void)
     return t71;
 }
 
-int FUN_0c05be5c(void)
+int Put_JumpDistance(void)
 {
     int t0;
     int t1;
@@ -3980,7 +3980,7 @@ int FUN_0c05be5c(void)
         u13 = 555.0f;
         u14 = 83.0f;
     }
-    FUN_0c05778a(0xC2A9898, t12, u13, u14);
+    nd_SprPut(0xC2A9898, t12, u13, u14);
     ResetFadeColor();
     t17 = *(int *)0xC2A996C;
     u18 = *(float *)((t17 + 0x0));
@@ -4025,7 +4025,7 @@ int FUN_0c05be5c(void)
     nlObjPutSetFadeColor(u40, 1.0f, u41);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    FUN_0c05778a(0xC2A9898, 0x1E9, 601.0f, 108.0f);
+    nd_SprPut(0xC2A9898, 0x1E9, 601.0f, 108.0f);
     *(float *)0xC2A98A0 = 102.0f;
     *(float *)0xC2A98C4 = 1.0f;
     *(unsigned int *)0xC2A98C0 = 0x0;

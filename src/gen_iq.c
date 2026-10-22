@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_iq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float FUN_0c020d20(float);
+float carEngineTorque(float);
 float carGearbox(int a4);
 
 float carGearbox(int a4)
@@ -98,11 +98,11 @@ float carGearbox(int a4)
     u1 = *(float *)((0xC08A8D4 + (t0 << 2)));
     u2 = *(float *)((a4 + 0x158));
     if (2900.0f > u2) {
-        t3 = FUN_0c020d20(2900.0f);
+        t3 = carEngineTorque(2900.0f);
         u6 = t3;
     } else {
         u4 = *(float *)((a4 + 0x158));
-        t5 = FUN_0c020d20(u4);
+        t5 = carEngineTorque(u4);
         u6 = t5;
     }
     u8 = *(float *)((a4 + 0x118));
@@ -136,13 +136,13 @@ float carGearbox(int a4)
                 *(unsigned int *)((a4 + 0x120)) = 0x1;
             } else {
                 u28 = *(float *)((a4 + 0x16C));
-                t29 = FUN_0c020d20((u1 * _builtin_fabsf(u28)));
+                t29 = carEngineTorque((u1 * _builtin_fabsf(u28)));
                 u30 = (u1 * _builtin_fabsf(u28));
                 t31 = *(int *)((a4 + 0x120));
                 if ((int)t31 > (int)0x1) {
                     t32 = *(int *)((a4 + 0x120));
                     u33 = *(float *)((0xC08A8D4 + ((t32 - 1) << 2)));
-                    t34 = FUN_0c020d20((_builtin_fabsf(u28) * u33));
+                    t34 = carEngineTorque((_builtin_fabsf(u28) * u33));
                     t35 = *(int *)((a4 + 0x120));
                     u36 = *(float *)((0xC08A8D4 + ((t35 - 1) << 2)));
                     u37 = (_builtin_fabsf(u28) * u36);
@@ -160,7 +160,7 @@ float carGearbox(int a4)
                         if ((int)t53 < (int)0x4) {
                             t54 = *(int *)((a4 + 0x120));
                             u55 = *(float *)(((0xC08A8D4 + (t54 << 2)) + 0x4));
-                            t56 = FUN_0c020d20((_builtin_fabsf(u28) * u55));
+                            t56 = carEngineTorque((_builtin_fabsf(u28) * u55));
                             t57 = *(int *)((a4 + 0x120));
                             u58 = *(float *)(((0xC08A8D4 + (t57 << 2)) + 0x4));
                             u59 = (_builtin_fabsf(u28) * u58);
@@ -181,7 +181,7 @@ float carGearbox(int a4)
                         if ((int)t78 < (int)0x5) {
                             t79 = *(int *)((a4 + 0x120));
                             u80 = *(float *)(((0xC08A8D4 + (t79 << 2)) + 0x4));
-                            t81 = FUN_0c020d20((_builtin_fabsf(u28) * u80));
+                            t81 = carEngineTorque((_builtin_fabsf(u28) * u80));
                             t82 = *(int *)((a4 + 0x120));
                             u83 = *(float *)(((0xC08A8D4 + (t82 << 2)) + 0x4));
                             u84 = (_builtin_fabsf(u28) * u83);
@@ -201,7 +201,7 @@ float carGearbox(int a4)
                         if ((int)t117 < (int)0x3) {
                             t118 = *(int *)((a4 + 0x120));
                             u119 = *(float *)(((0xC08A8D4 + (t118 << 2)) + 0x4));
-                            t120 = FUN_0c020d20((_builtin_fabsf(u28) * u119));
+                            t120 = carEngineTorque((_builtin_fabsf(u28) * u119));
                             t121 = *(int *)((a4 + 0x120));
                             u122 = *(float *)(((0xC08A8D4 + (t121 << 2)) + 0x4));
                             u123 = (_builtin_fabsf(u28) * u122);
@@ -221,7 +221,7 @@ float carGearbox(int a4)
                         if ((int)t142 < (int)0x4) {
                             t143 = *(int *)((a4 + 0x120));
                             u144 = *(float *)(((0xC08A8D4 + (t143 << 2)) + 0x4));
-                            t145 = FUN_0c020d20((_builtin_fabsf(u28) * u144));
+                            t145 = carEngineTorque((_builtin_fabsf(u28) * u144));
                             t146 = *(int *)((a4 + 0x120));
                             u147 = *(float *)(((0xC08A8D4 + (t146 << 2)) + 0x4));
                             u148 = (_builtin_fabsf(u28) * u147);

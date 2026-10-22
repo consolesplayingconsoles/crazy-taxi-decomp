@@ -1,17 +1,17 @@
 /* Straight-line functions with calls and guards (batch gen_qh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03012c(void);
-int FUN_0c03019a(void);
-int FUN_0c0577dc(void);
-int FUN_0c057bdc(int, int);
-int FUN_0c072e36(void);
+int gdc_FileLoadStop(void);
+int gdc_FileLoadInit(void);
+int Init_Adv_Sprite(void);
+int Start_Adv_Title_LOGO(int, int);
+int Voice_Clear(void);
 int Voice_Request(int, int, int, int);
 int gdc_StopStreamSongAll(void);
 int nlInitEvent(void);
-int FUN_0c02c42c(void);
+int AdvStateTitle2Init(void);
 
-int FUN_0c02c42c(void)
+int AdvStateTitle2Init(void)
 {
     int t0;
     int t6;
@@ -22,14 +22,14 @@ int FUN_0c02c42c(void)
     *(unsigned int *)0xC1EE334 = 0x11;
     nlInitEvent();
     gdc_StopStreamSongAll();
-    FUN_0c072e36();
-    FUN_0c0577dc();
-    FUN_0c057bdc(0x0, 0x0);
+    Voice_Clear();
+    Init_Adv_Sprite();
+    Start_Adv_Title_LOGO(0x0, 0x0);
     t6 = *(int *)0xC0E5310;
     if ((int)t6 > 0) {
         *(unsigned int *)0xC0E5310 = 0x384;
         Voice_Request(0xC130DC0, 0x0, 0x7F, 0x0);
     }
-    FUN_0c03012c();
-    return FUN_0c03019a();
+    gdc_FileLoadStop();
+    return gdc_FileLoadInit();
 }

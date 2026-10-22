@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_kg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
-int FUN_0c044f12(int, int, int, int);
+int GetRotVec4Ang(int, int, int);
+int pcarRejoinLane(int, int, int, int);
 int FUN_0c077210(int, int);
 int GetCollision2D(int, float);
-int Put_Motion2D(int);
+int carBalance(int);
 int calcCheck(int);
 int calcCheckExec(int, int);
 int carColliReflection(void);
@@ -200,7 +200,7 @@ int stopingCarExec(int a4, int a5, int a6, int a7, float f4)
     L_C046B08:;
     return R0;
     L_C0468E4:;
-    FUN_0c044f12(R14, R5, R6, R7);
+    pcarRejoinLane(R14, R5, R6, R7);
     t20 = *(int *)((R14 + 0x84));
     t21 = (t20 & 8) == 0;
     t22 = t20;
@@ -276,7 +276,7 @@ int stopingCarExec(int a4, int a5, int a6, int a7, float f4)
     *(volatile short *)((R14 + 0xA8));
     t61 = *(short *)((R14 + 0xA6));
     t62 = *(short *)((R14 + 0xA4));
-    FUN_0c036256((R14 + 0x44), (unsigned short)t62, (unsigned short)t61);
+    GetRotVec4Ang((R14 + 0x44), (unsigned short)t62, (unsigned short)t61);
     *(unsigned int *)((R14 + 0x68)) = 0x0;
     t64 = 0x68;
     t65 = 0x0;
@@ -391,7 +391,7 @@ int stopingCarExec(int a4, int a5, int a6, int a7, float f4)
     *(float *)((R14 + 0xF8)) = (u116 - (u115 * (1.0f + 1.0f)));
     u117 = *(float *)((R14 + 0xF8));
     *(float *)((R14 + 0xF8)) = (u117 * 0.799999952f);
-    t118 = Put_Motion2D(R14);
+    t118 = carBalance(R14);
     t119 = t118;
     R0 = t119;
     goto L_C046A58;

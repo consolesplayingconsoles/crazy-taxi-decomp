@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_nd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c060160(void);
-int FUN_0c0601f0(void);
-int FUN_0c0603a2(void);
+int Exec_FogDensity(void);
+int Exec_FogColor(void);
+int Check_FogArea(void);
 int Exec_Fog(void);
 
 int Exec_Fog(void)
@@ -114,7 +114,7 @@ int Exec_Fog(void)
     int t172;
     int t123;
 
-    t0 = FUN_0c0603a2();
+    t0 = Check_FogArea();
     t1 = *(int *)0xC2A9F6C;
     t180 = t0;
     if ((int)t1 >= (int)0x2) {
@@ -125,7 +125,7 @@ int Exec_Fog(void)
         u21 = _builtin_fabsf((u4 - u3));
         t23 = 0;
         if (!(100.0f > _builtin_fabsf((u4 - u3)))) {
-            FUN_0c060160();
+            Exec_FogDensity();
             t6 = *(int *)0xC2A9F64;
             u7 = *(float *)0xC2A9F70;
             u8 = *(float *)((((signed char)(((t6 << 2) + t6) << 2) + 0xC1322C0) + 0x0));
@@ -158,7 +158,7 @@ int Exec_Fog(void)
                 t74 = ((signed char)(((t30 << 2) + t30) << 2) + 0xC1322C0);
                 u79 = _builtin_fabsf((u32 - u31));
                 if (!((1.0f + 1.0f) > _builtin_fabsf((u32 - u31)))) {
-                    FUN_0c0601f0();
+                    Exec_FogColor();
                     t34 = *(int *)0xC2A9F64;
                     u35 = *(float *)0xC2A9F74;
                     u36 = *(float *)((((signed char)(((t34 << 2) + t34) << 2) + 0xC1322C0) + 0x4));
@@ -208,7 +208,7 @@ int Exec_Fog(void)
                 }
                 t123 = t74;
             } else {
-                FUN_0c0601f0();
+                Exec_FogColor();
                 t83 = *(int *)0xC2A9F64;
                 u84 = *(float *)0xC2A9F74;
                 u85 = *(float *)((((signed char)(((t83 << 2) + t83) << 2) + 0xC1322C0) + 0x4));
@@ -257,7 +257,7 @@ int Exec_Fog(void)
             }
             t172 = t123;
         } else {
-            FUN_0c0601f0();
+            Exec_FogColor();
             t132 = *(int *)0xC2A9F64;
             u133 = *(float *)0xC2A9F74;
             u134 = *(float *)((((signed char)(((t132 << 2) + t132) << 2) + 0xC1322C0) + 0x4));

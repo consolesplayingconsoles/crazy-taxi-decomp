@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ExecArrow(int, float);
-int FUN_0c0574c0(int, int);
+int Put_Stop_and_Brake(int, int);
 float FUN_0c089de0(int);
 int ResetFadeColor(void);
 int ResetLight(void);
@@ -18,9 +18,9 @@ float nlRoundUp(float);
 int nlScale(float, float, float);
 int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int kyakuTaskPut(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+int kyakuTaskPut(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     int t0;
     int t1;
@@ -349,7 +349,7 @@ int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, float f4, float f5, float
     goto L_C0266EA;
     L_C0266EA:;
     t75 = *(int *)0xC1EE244;
-    t76 = FUN_0c0574c0(((((int)(R4 & 0x7F) >= (int)0x3F)) ? 1 : 0), t75);
+    t76 = Put_Stop_and_Brake(((((int)(R4 & 0x7F) >= (int)0x3F)) ? 1 : 0), t75);
     t77 = t76;
     t78 = (((int)(R4 & 0x7F) >= (int)0x3F));
     R0 = t77;

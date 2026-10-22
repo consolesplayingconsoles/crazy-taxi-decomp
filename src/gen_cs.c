@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_cs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
-int FUN_0c044f12(int);
+int GetRotVec4Ang(int, int, int);
+int pcarRejoinLane(int);
 int FUN_0c077210(int, int);
 int GetCollision2D(int, float);
-int Put_Motion2D(int);
+int carBalance(int);
 int calcCheck(int);
 int calcCheckExec(int, int);
 int calcColliCheck(int);
@@ -37,7 +37,7 @@ int pcarEnd(int);
 int pointEventGet(int);
 int technicalCheck(int);
 void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5);
-int FUN_0c0413c2(int a4, int a5, int a6, int a7);
+int InsertRankRecord(int a4, int a5, int a6, int a7);
 int kmCreateTABuffer(int a4, int a5);
 int parkingCarExec(int a4);
 int pcarExec(int a4);
@@ -145,7 +145,7 @@ void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5)
     *(unsigned int *)((t8 + 0x0)) = t29;
 }
 
-int FUN_0c0413c2(int a4, int a5, int a6, int a7)
+int InsertRankRecord(int a4, int a5, int a6, int a7)
 {
     int t74;
     int t78;
@@ -641,7 +641,7 @@ int parkingCarExec(int a4)
         } else {
             t9 = *(int *)((a4 + 0x80));
             if (t9 != 0) {
-                FUN_0c044f12(a4);
+                pcarRejoinLane(a4);
             }
             t15 = *(int *)((a4 + 0x84));
             if ((t15 & 8) != 0) {
@@ -694,7 +694,7 @@ int parkingCarExec(int a4)
                 t51 = *(short *)((a4 + 0xA8));
                 t52 = *(short *)((a4 + 0xA6));
                 t53 = *(short *)((a4 + 0xA4));
-                FUN_0c036256((a4 + 0x44), (unsigned short)t53, (unsigned short)t52);
+                GetRotVec4Ang((a4 + 0x44), (unsigned short)t53, (unsigned short)t52);
                 *(unsigned int *)((a4 + 0x68)) = 0x0;
                 t154 = 0x68;
             } else {
@@ -738,7 +738,7 @@ int parkingCarExec(int a4)
                     *(float *)((a4 + 0xF8)) = (u89 - (u88 * (1.0f + 1.0f)));
                     u90 = *(float *)((a4 + 0xF8));
                     *(float *)((a4 + 0xF8)) = (u90 * 0.799999952f);
-                    Put_Motion2D(a4);
+                    carBalance(a4);
                     nlPushUnitMatrix();
                     t93 = *(short *)((a4 + 0xA8));
                     nlRotateAZ((-(unsigned short)t93));
@@ -770,7 +770,7 @@ int parkingCarExec(int a4)
                     t113 = *(short *)((a4 + 0xA8));
                     t114 = *(short *)((a4 + 0xA6));
                     t115 = *(short *)((a4 + 0xA4));
-                    FUN_0c036256((a4 + 0x44), (unsigned short)t115, (unsigned short)t114);
+                    GetRotVec4Ang((a4 + 0x44), (unsigned short)t115, (unsigned short)t114);
                     *(unsigned int *)((a4 + 0x68)) = 0x0;
                     t152 = 0x68;
                 } else {
@@ -789,7 +789,7 @@ int parkingCarExec(int a4)
                         *(float *)((a4 + 0xF8)) = (u122 - (u121 * (1.0f + 1.0f)));
                         u123 = *(float *)((a4 + 0xF8));
                         *(float *)((a4 + 0xF8)) = (u123 * 0.799999952f);
-                        Put_Motion2D(a4);
+                        carBalance(a4);
                         nlPushUnitMatrix();
                         t126 = *(short *)((a4 + 0xA8));
                         nlRotateAZ((-(unsigned short)t126));
@@ -821,7 +821,7 @@ int parkingCarExec(int a4)
                         t146 = *(short *)((a4 + 0xA8));
                         t147 = *(short *)((a4 + 0xA6));
                         t148 = *(short *)((a4 + 0xA4));
-                        FUN_0c036256((a4 + 0x44), (unsigned short)t148, (unsigned short)t147);
+                        GetRotVec4Ang((a4 + 0x44), (unsigned short)t148, (unsigned short)t147);
                         *(unsigned int *)((a4 + 0x68)) = 0x0;
                         t150 = 0x68;
                     }
@@ -835,7 +835,7 @@ int parkingCarExec(int a4)
     } else {
         t160 = *(int *)((a4 + 0x80));
         if (t160 != 0) {
-            FUN_0c044f12(a4);
+            pcarRejoinLane(a4);
         }
         t164 = *(int *)((a4 + 0x84));
         if ((t164 & 8) != 0) {
@@ -888,7 +888,7 @@ int parkingCarExec(int a4)
             t198 = *(short *)((a4 + 0xA8));
             t199 = *(short *)((a4 + 0xA6));
             t200 = *(short *)((a4 + 0xA4));
-            FUN_0c036256((a4 + 0x44), (unsigned short)t200, (unsigned short)t199);
+            GetRotVec4Ang((a4 + 0x44), (unsigned short)t200, (unsigned short)t199);
             *(unsigned int *)((a4 + 0x68)) = 0x0;
             t300 = 0x68;
         } else {
@@ -932,7 +932,7 @@ int parkingCarExec(int a4)
                 *(float *)((a4 + 0xF8)) = (u235 - (u234 * (1.0f + 1.0f)));
                 u236 = *(float *)((a4 + 0xF8));
                 *(float *)((a4 + 0xF8)) = (u236 * 0.799999952f);
-                Put_Motion2D(a4);
+                carBalance(a4);
                 nlPushUnitMatrix();
                 t239 = *(short *)((a4 + 0xA8));
                 nlRotateAZ((-(unsigned short)t239));
@@ -964,7 +964,7 @@ int parkingCarExec(int a4)
                 t259 = *(short *)((a4 + 0xA8));
                 t260 = *(short *)((a4 + 0xA6));
                 t261 = *(short *)((a4 + 0xA4));
-                FUN_0c036256((a4 + 0x44), (unsigned short)t261, (unsigned short)t260);
+                GetRotVec4Ang((a4 + 0x44), (unsigned short)t261, (unsigned short)t260);
                 *(unsigned int *)((a4 + 0x68)) = 0x0;
                 t298 = 0x68;
             } else {
@@ -983,7 +983,7 @@ int parkingCarExec(int a4)
                     *(float *)((a4 + 0xF8)) = (u268 - (u267 * (1.0f + 1.0f)));
                     u269 = *(float *)((a4 + 0xF8));
                     *(float *)((a4 + 0xF8)) = (u269 * 0.799999952f);
-                    Put_Motion2D(a4);
+                    carBalance(a4);
                     nlPushUnitMatrix();
                     t272 = *(short *)((a4 + 0xA8));
                     nlRotateAZ((-(unsigned short)t272));
@@ -1015,7 +1015,7 @@ int parkingCarExec(int a4)
                     t292 = *(short *)((a4 + 0xA8));
                     t293 = *(short *)((a4 + 0xA6));
                     t294 = *(short *)((a4 + 0xA4));
-                    FUN_0c036256((a4 + 0x44), (unsigned short)t294, (unsigned short)t293);
+                    GetRotVec4Ang((a4 + 0x44), (unsigned short)t294, (unsigned short)t293);
                     *(unsigned int *)((a4 + 0x68)) = 0x0;
                     t296 = 0x68;
                 }

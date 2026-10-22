@@ -2,13 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c031492(int);
-int FUN_0c05d6e0(void);
-int FUN_0c05d852(void);
-int FUN_0c0618da(void);
-int FUN_0c070ede(int);
-int FUN_0c0714f2(void);
-int FUN_0c07159c(void);
+int SetLandmark(int);
+int Start_Party_Remain_Voice(void);
+int Start_Remain_Icon_Flash(void);
+int Chat_Crush(void);
+int psgFreeIpBuff(int);
+int psgTimeDispInit(void);
+int psgTimeDispExec(void);
 int IsBoyFriend(int, int);
 int Psg_SetPosPtr(int, int);
 int Start_Proposal(int, int);
@@ -407,7 +407,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t21 * (unsigned short)0x1C) + 0xC2AE278) + 0x18)) = R13;
     *(unsigned int *)((((unsigned char)((unsigned short)t21 * (unsigned short)0x1C) + 0xC2AE278) + 0x14)) = R13;
     psgSetState(R14, 0x3, 0xC2AE344, 0x0);
-    FUN_0c031492(0x1);
+    SetLandmark(0x1);
     t24 = *(int *)0xC1EE20C;
     t25 = t24 != 2;
     if (t25) goto L_C06DE1E;
@@ -418,7 +418,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     if (t27) goto L_C06DE1E;
     goto L_C06DE18;
     L_C06DE18:;
-    FUN_0c05d6e0();
+    Start_Party_Remain_Voice();
     goto L_C06DE1E;
     L_C06DE1E:;
     t29 = *(int *)((R9 + 0x0));
@@ -436,7 +436,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     L_C06E22C:;
     return R0;
     L_C06DE28:;
-    FUN_0c0714f2();
+    psgTimeDispInit();
     goto L_C06E224;
     L_C06DE70:;
     t35 = *(int *)((R9 + 0x0));
@@ -444,7 +444,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     if (t36) goto L_C06DE7C;
     goto L_C06DE76;
     L_C06DE76:;
-    FUN_0c07159c();
+    psgTimeDispExec();
     goto L_C06DE7C;
     L_C06DE7C:;
     t38 = *(int *)0xC1EE7CC;
@@ -486,7 +486,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     L_C06E19E:;
     t51 = *(signed char *)(((0x149 + R14) + 0x0));
     *(unsigned char *)(((0x149 + R14) + 0x0)) = (t51 & 0xFE);
-    FUN_0c031492(0x3);
+    SetLandmark(0x3);
     goto L_C06E224;
     L_C06E156:;
     t53 = *(signed char *)(((0x149 + R14) + 0x0));
@@ -590,7 +590,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     R5 = t87;
     goto L_C06DF2C;
     L_C06DF2C:;
-    FUN_0c0618da();
+    Chat_Crush();
     goto L_C06E09C;
     L_C06E09C:;
     t89 = *(int *)((R14 + 0x130));
@@ -606,7 +606,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     L_C06DF42:;
     *(volatile int *)((R14 + 0x24));
     psgEnterState3(R14);
-    FUN_0c0618da();
+    Chat_Crush();
     goto L_C06E09C;
     L_C06DF0A:;
     t94 = -2.0f > F4;
@@ -797,7 +797,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     if (t160) goto L_C06E13C;
     goto L_C06E136;
     L_C06E136:;
-    FUN_0c07159c();
+    psgTimeDispExec();
     goto L_C06E13C;
     L_C06E13C:;
     psgSetState(R14, 0x5, 0xC2AE344, 0x0);
@@ -838,7 +838,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     if (t177) goto L_C06E1FE;
     goto L_C06E1E0;
     L_C06E1E0:;
-    FUN_0c05d852();
+    Start_Remain_Icon_Flash();
     t179 = *(int *)0xC1EE20C;
     t180 = t179 != 2;
     if (t180) goto L_C06E1F6;
@@ -854,7 +854,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     L_C06E1FE:;
     t184 = *(signed char *)(((0x149 + R14) + 0x0));
     *(unsigned char *)(((0x149 + R14) + 0x0)) = (t184 & 0xFE);
-    FUN_0c031492(0x2);
+    SetLandmark(0x2);
     *(unsigned int *)((R10 + 0x1D8)) = R13;
     goto L_C06E224;
     L_C06DA16:;
@@ -870,7 +870,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     L_C06DA22:;
     goto L_C06E214;
     L_C06E214:;
-    FUN_0c070ede(R14);
+    psgFreeIpBuff(R14);
     t189 = *(signed char *)(((0x149 + R14) + 0x0));
     t190 = (t189 & 0xFE);
     t191 = (0x149 + R14);
@@ -1073,7 +1073,7 @@ int Psg_Execute(int a4, int a5, int a6, int a7, float f4)
     *(unsigned char *)(((0x149 + R14) + 0x0)) = (t268 | 0x1);
     t269 = *(int *)((R14 + 0x140));
     *(unsigned int *)0xC0E49DC = t269;
-    FUN_0c031492(0x0);
+    SetLandmark(0x0);
     goto L_C06E224;
     L_C06DA88:;
     goto L_C06DC46;

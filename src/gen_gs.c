@@ -11,9 +11,9 @@ int nlTriPutSetAttribFaceColor(int, float, float, float);
 int nlTriPutSetClipping(int, float, float, float, float);
 int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
 int nlTriPutTextureInit(int, int, int);
-int FUN_0c034cf2(int a4);
+int PutColliWall(int a4);
 
-int FUN_0c034cf2(int a4)
+int PutColliWall(int a4)
 {
     int t0;
     int t3;

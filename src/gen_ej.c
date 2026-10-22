@@ -27,9 +27,9 @@ int set_fat(int, int);
 int vmsfs_write_retry(int, int, int);
 int write_fat(int);
 int write_sys(int);
-int FUN_0c034fa8(int a4);
+int PutColliPole(int a4);
 int write_dir(int a4);
-int FUN_0c0648e0(void);
+int camGetOnMid(void);
 int _power(int a4, int a5, int a6);
 
 

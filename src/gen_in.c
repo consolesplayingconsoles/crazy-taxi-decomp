@@ -15,9 +15,9 @@ int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-int FUN_0c05fb06(int a4);
+int Put_ProposalWalker(int a4);
 
-int FUN_0c05fb06(int a4)
+int Put_ProposalWalker(int a4)
 {
     float t0;
     int t3;

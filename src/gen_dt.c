@@ -2,16 +2,16 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckColliWallBox(int, int, float);
-int FUN_0c030b68(int);
-int FUN_0c030e34(int, int);
-int FUN_0c05a0f0(void);
+int GetLightVector(int);
+int ChangeObjGroup(int, int);
+int Result_Money_Digit_Put(void);
 int FUN_0c07c6b0(int, int);
 int FUN_0c07c9b0(int, int);
 int FUN_0c07ca80(int, int, int);
 int FUN_0c07cc00(int, int, int, int);
 int FUN_0c07d240(int, int);
 int FUN_0c07d540(void);
-int ChangeObjGroup(int);
+int nlMvSetShadowObjPutPol(int);
 int FUN_0c07d5f0(int);
 int FUN_0c07f5c0(void);
 int Sound_Request(int, int);
@@ -24,18 +24,18 @@ int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutSetVtxColorMode(int);
 int nlSprPut(int);
 int FUN_0c15ca40(int a4, int a5, int a6, int a7);
-int FUN_0c060740(int a4, int a5, int a6, int a7, int a8);
+int lcdSetData(int a4, int a5, int a6, int a7, int a8);
 int ADXF_GetFileRange(int a4, int a5, int a6, int a7);
-int FUN_0c050a12(void);
+int nd_StartWait_PutMessage(void);
 int menuCursor(int a4, int a5, int a6);
 int FUN_0c07c870(int a4, int a5);
-int FUN_0c059f44(void);
+int Result_Money_Put(void);
 int menuCursorBox(int a4, int a5, int a6);
 int InitMV(void);
 int kmiFBgetfreemem(int a4, int a5, int a6, int a7);
 float navi_GetRouteTbl(int a4, int a5, int a6);
 float ExecColliObj(int a4, int a5, float f4);
-void FUN_0c02b2d6(int a4);
+void navi_GetRouteYa(int a4);
 
 int FUN_0c15ca40(int a4, int a5, int a6, int a7)
 {
@@ -63,7 +63,7 @@ int FUN_0c15ca40(int a4, int a5, int a6, int a7)
     return kmiCopyFromFrameBuffer((a4 + t7), (a5 + 0x800), t6);
 }
 
-int FUN_0c060740(int a4, int a5, int a6, int a7, int a8)
+int lcdSetData(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;
@@ -284,7 +284,7 @@ int ADXF_GetFileRange(int a4, int a5, int a6, int a7)
     return t0;
 }
 
-int FUN_0c050a12(void)
+int nd_StartWait_PutMessage(void)
 {
     int t0;
     int t6;
@@ -484,7 +484,7 @@ int FUN_0c07c870(int a4, int a5)
     return FUN_0c07d540();
 }
 
-int FUN_0c059f44(void)
+int Result_Money_Put(void)
 {
     int t1;
     int t3;
@@ -543,7 +543,7 @@ int FUN_0c059f44(void)
         *(float *)0xC2A971C = 1.0f;
         *(unsigned int *)0xC2A9720 = 0x0;
         nlSprPut(0xC2A96F8);
-        FUN_0c05a0f0();
+        Result_Money_Digit_Put();
         *(unsigned int *)0xC2A972C = 0x200A;
         t30 = *(int *)0xC2A97C8;
         if (t30 == 0) {
@@ -622,24 +622,24 @@ int InitMV(void)
     *(unsigned int *)0xC2863EC = (t0 & 0xFFFFFFFE);
     *(float *)0xC286400 = 100.0f;
     FUN_0c07c6b0(0xC275948, 0xC2863EC);
-    FUN_0c030b68(0xC286410);
-    FUN_0c030e34(0x5, 0xC07D5C0);
-    FUN_0c030e34(0x3, 0xC07D5C0);
-    ChangeObjGroup(0xC3938E8);
-    ChangeObjGroup(0xC3A60D0);
-    ChangeObjGroup(0xC3B1220);
-    ChangeObjGroup(0xC3C0CE8);
-    ChangeObjGroup(0xC3D32E0);
-    ChangeObjGroup(0xC3DE628);
-    ChangeObjGroup(0xC3E1568);
-    ChangeObjGroup(0xC3F3FE0);
-    ChangeObjGroup(0xC3FD880);
-    ChangeObjGroup(0xC3FF3C0);
-    ChangeObjGroup(0xC414120);
-    ChangeObjGroup(0xC421D18);
-    ChangeObjGroup(0xC3B7C10);
-    ChangeObjGroup(0xC3C05A8);
-    ChangeObjGroup(0xC3C07C8);
+    GetLightVector(0xC286410);
+    ChangeObjGroup(0x5, 0xC07D5C0);
+    ChangeObjGroup(0x3, 0xC07D5C0);
+    nlMvSetShadowObjPutPol(0xC3938E8);
+    nlMvSetShadowObjPutPol(0xC3A60D0);
+    nlMvSetShadowObjPutPol(0xC3B1220);
+    nlMvSetShadowObjPutPol(0xC3C0CE8);
+    nlMvSetShadowObjPutPol(0xC3D32E0);
+    nlMvSetShadowObjPutPol(0xC3DE628);
+    nlMvSetShadowObjPutPol(0xC3E1568);
+    nlMvSetShadowObjPutPol(0xC3F3FE0);
+    nlMvSetShadowObjPutPol(0xC3FD880);
+    nlMvSetShadowObjPutPol(0xC3FF3C0);
+    nlMvSetShadowObjPutPol(0xC414120);
+    nlMvSetShadowObjPutPol(0xC421D18);
+    nlMvSetShadowObjPutPol(0xC3B7C10);
+    nlMvSetShadowObjPutPol(0xC3C05A8);
+    nlMvSetShadowObjPutPol(0xC3C07C8);
     FUN_0c07d5f0(0xC3A15F0);
     FUN_0c07d5f0(0xC3A2540);
     FUN_0c07d5f0(0xC3A34F0);

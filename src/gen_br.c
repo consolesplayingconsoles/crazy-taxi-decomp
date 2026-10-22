@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_br): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036b5a(int, int);
-int FUN_0c038eec(int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c05cdb4(void);
-int FUN_0c05ef68(void);
-int FUN_0c05fd70(int);
+int SetBubble(int, int);
+int ReturnBreakPin(int);
+int nd_SprPut(int, int, float, float);
+int Start_Bowling_Message(void);
+int ndPuru2Check(void);
+int Start_CrazyBox_Voice(int);
 int FUN_0c074200(int, int);
 int FUN_0c0770f0(int, int, int);
 int FUN_0c07f5c0(void);
@@ -62,7 +62,7 @@ int nlSetDummyTextureParameter(int);
 int nlSetTextureParameter(int, int);
 int pdVibStart(int, int);
 int setTechnicalBonus(int, int);
-int vibStart(void);
+int ndPuru2Stop(void);
 int vmsfb_sleep(void);
 int vmsfs_unmount(int);
 int vmsio_ismount(int);
@@ -77,8 +77,8 @@ int vmsfs_fsetparam(int a4, int a5, int a6);
 int vmsfs_setvolume(int a4, int a5);
 int trigger(int a4, int a5);
 int ADX_DecodeInfoSpsd(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14);
-int FUN_0c059110(void);
-int FUN_0c0523f8(void);
+int Result_Drop_Lowest_Rank(void);
+int hudLoadRanking(void);
 int vmsio_block_read(int a4, int a5, int a6);
 int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8);
 int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6);
@@ -87,7 +87,7 @@ int ADX_DecodeInfoExLoop(int a4, int a5, int a6, int a7, int a8, int a9, int a10
 int FUN_0c16c634(int a4);
 int mwlRnaStartTrans(int a4);
 int mpdrv_init_ex(int a4, int a5, int a6, int a7);
-int FUN_0c05ce64(void);
+int Put_Bowling_Pins(void);
 int FUN_0c07f870(int a4, int a5, int a6);
 int FUN_0c1724b8(int a4, int a5);
 int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8);
@@ -524,7 +524,7 @@ int ADX_DecodeInfoSpsd(int a4, int a5, int a6, int a7, int a8, int a9, int a10, 
     return 0x0;
 }
 
-int FUN_0c059110(void)
+int Result_Drop_Lowest_Rank(void)
 {
     int t0;
     int t1;
@@ -576,7 +576,7 @@ int FUN_0c059110(void)
     return (0x140 + ((short)((short)t26 * (short)0x3C0) + 0xC28C318));
 }
 
-int FUN_0c0523f8(void)
+int hudLoadRanking(void)
 {
     int t0;
     int t1;

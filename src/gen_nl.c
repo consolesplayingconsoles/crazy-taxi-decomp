@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_nl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c049aa8(int, int, float);
+int convergeRot(int, int, float);
 int FUN_0c0813d0(int);
 int Sound_Request(int, int);
 int nlPopMatrix(int);
@@ -11,9 +11,9 @@ int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlSetTranslate(int);
 int nlSqrt(int, int);
-int carBalance(int a4, int a5, int a6, int a7, float f4);
+int carBalanceRoll(int a4, int a5, int a6, int a7, float f4);
 
-int carBalance(int a4, int a5, int a6, int a7, float f4)
+int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
 {
     int t0;
     int t1;
@@ -177,7 +177,7 @@ int carBalance(int a4, int a5, int a6, int a7, float f4)
     L_C043CBC:;
     *(unsigned int *)((R14 + R0)) = R2;
     t11 = *(short *)((R14 + 0xAE));
-    t12 = FUN_0c049aa8(t11, R13, 1.0f);
+    t12 = convergeRot(t11, R13, 1.0f);
     u13 = *(float *)((R14 + 0x100));
     t14 = !(9.99999975e-06f > _builtin_fabsf(u13));
     t15 = t12;
@@ -217,7 +217,7 @@ int carBalance(int a4, int a5, int a6, int a7, float f4)
     t25 = *(short *)((R14 + 0xAE));
     *(unsigned short *)((R14 + 0xAE)) = (t25 + ((int)(((u24 * 3276800.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
     t26 = *(short *)((R14 + 0xAE));
-    t27 = FUN_0c049aa8(t26, R13, F15);
+    t27 = convergeRot(t26, R13, F15);
     nlPushUnitMatrix();
     nlSetTranslate((0x8C + R14));
     t30 = *(short *)((R14 + 0x10C));

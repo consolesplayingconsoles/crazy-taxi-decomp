@@ -5,9 +5,9 @@ int FUN_0c0813e0(int, int, int);
 int buGetFileInfo(int, int, int);
 int buIsReady(int);
 int buStat(int);
-void FUN_0c040e1c(int a4, int a5, int a6);
+void CheckDrive(int a4, int a5, int a6);
 
-void FUN_0c040e1c(int a4, int a5, int a6)
+void CheckDrive(int a4, int a5, int a6)
 {
     int t0;
     int t1;

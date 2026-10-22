@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_cr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c036256(int, int, int);
-int FUN_0c044f12(int);
+int GetRotVec4Ang(int, int, int);
+int pcarRejoinLane(int);
 int FUN_0c077210(int, int);
 int FUN_0c07f5c0(void);
 int GetCollision2D(int, float);
 int GetMenuMode(int);
-int Put_Motion2D(int);
+int carBalance(int);
 int calcCheck(int);
 int calcCheckExec(int, int);
 int carColliReflection(void);
@@ -26,8 +26,8 @@ int nlSubVector3op(int, int, int);
 int pcarEnd(int);
 int technicalCheck(int);
 int pfAddNumber(int a4, int a5);
-int FUN_0c03bea0(int a4, int a5, int a6);
-int FUN_0c0417c0(int a4, int a5, int a6);
+int menuChangeValue(int a4, int a5, int a6);
+int SeachRankTotal(int a4, int a5, int a6);
 int nlsndStreamGetParam(int a4, int a5, int a6);
 int stopingCarExec(int a4);
 
@@ -104,7 +104,7 @@ int pfAddNumber(int a4, int a5)
 }
 
 
-int FUN_0c0417c0(int a4, int a5, int a6)
+int SeachRankTotal(int a4, int a5, int a6)
 {
     int t48;
     int t36;

@@ -11,23 +11,23 @@ int ADXSTM_OpenRange(int, int, int);
 int ADXSTM_Start(int);
 int Act_Init(void);
 int Drv_StartAction(int, int, int);
-int FUN_0c02e36c(int, int);
-int FUN_0c02e83c(int);
-int FUN_0c031048(void);
-int FUN_0c031934(int);
-int FUN_0c03bea0(int, int, int);
-int FUN_0c03c792(int, int, int, int);
-int FUN_0c041a3e(int);
+int gdc_FadeStopStreamSong(int, int);
+int gdc_CourseBlockFind(int);
+int pfOffsetOff(void);
+int InitCollision(int);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
+int AnnounceSecretFlag(int);
 int nd_peopleInitialize(int);
-int FUN_0c0512ac(void);
-int FUN_0c0530a0(int);
+int DC_Reverse_Command_Check(void);
+int End_Time_Count(int);
 int Start_Pass_Judgement(int);
-int FUN_0c05778a(int, int, float, float);
-int FUN_0c057e9e(void);
+int nd_SprPut(int, int, float, float);
+int Put_Adv_Logo_Sprite(void);
 int LCDAccessOK(void);
 int End_LoadSave(int);
-int FUN_0c0713d8(int);
-int FUN_0c072e36(void);
+int psgUpdatePartTracks(int);
+int Voice_Clear(void);
 int FUN_0c074680(void);
 int FUN_0c156c32(int, int, int, int);
 int FcvPlayBuffer(int, int);
@@ -114,25 +114,25 @@ int vmsfs_write_retry(int, int, int);
 int vmsio_ismount(int);
 int vmsio_isready(int);
 int init_CarSound(void);
-int FUN_0c0210d4(int a4);
+int carSteerWheels(int a4);
 int Initialize_Replay_Part(void);
-int FUN_0c02eb86(int a4, int a5, float f4);
+int gdc_CoursePut(int a4, int a5, float f4);
 int gdc_CourseSet(int a4);
 int gdc_SpriteFreeMenu(void);
-int FUN_0c03d594(int a4);
+int menuItemCabbie(int a4);
 int CheckSoftReset(void);
-int FUN_0c044b80(int a4);
+int pcarTurnSelect(int a4);
 int CarSel_Time_Count(void);
-int FUN_0c0511a4(void);
-int FUN_0c051746(void);
-int FUN_0c0528c8(void);
-int FUN_0c05423a(void);
-int FUN_0c0551c6(int a4, int a5);
-int FUN_0c05765c(void);
+int DC_Chari_Command_Check(void);
+int selectSetDriverFace(void);
+int Init_Drum_Fare(void);
+int Put_Remain_Time_Gauge(void);
+int hudSplitFareDigits(int a4, int a5);
+int Put_GameOver2(void);
 int execAdvSprite(void);
-int FUN_0c058828(void);
-int FUN_0c0596ac(void);
-int FUN_0c05a460(void);
+int Put_Ranking_Header(void);
+int Result_Voice(void);
+int Result_Class_Line_Put(void);
 int psgFrameState5(int a4);
 int FUN_0c07e580(float f4, float f5, float f6, float f7);
 int kmSetUserClipLevelAdjust(int a4, int a5);
@@ -204,7 +204,7 @@ int init_CarSound(void)
     return t24;
 }
 
-int FUN_0c0210d4(int a4)
+int carSteerWheels(int a4)
 {
     int t0;
     int t1;
@@ -331,7 +331,7 @@ int Initialize_Replay_Part(void)
     if (t9 != 0) {
         if (t9 != 1) {
             if (t9 != 2) {
-                FUN_0c031934(t9);
+                InitCollision(t9);
                 t11 = *(int *)0xC1EE20C;
                 PutCourse_Init(t11);
                 nd_peopleInitialize(0x46);
@@ -341,18 +341,18 @@ int Initialize_Replay_Part(void)
                 if (t14 != 15) {
                     t15 = t14;
                 }
-                FUN_0c031934(t15);
+                InitCollision(t15);
                 t17 = *(int *)0xC1EE20C;
                 PutCourse_Init(t17);
             }
         } else {
-            FUN_0c031934(t9);
+            InitCollision(t9);
             t21 = *(int *)0xC1EE20C;
             PutCourse_Init(t21);
             nd_peopleInitialize(0x32);
         }
     } else {
-        FUN_0c031934(t9);
+        InitCollision(t9);
         t26 = *(int *)0xC1EE20C;
         PutCourse_Init(t26);
         nd_peopleInitialize(0x46);
@@ -455,7 +455,7 @@ int gdc_CourseSet(int a4)
 }
 
 
-int FUN_0c03d594(int a4)
+int menuItemCabbie(int a4)
 {
     int t0;
     int t1;
@@ -481,7 +481,7 @@ int FUN_0c03d594(int a4)
         *(unsigned int *)0xC2A1240 = 0x0;
     }
     if (a4 != 0) {
-        FUN_0c03bea0(0x0, 0xC2A1240, t1);
+        menuChangeValue(0x0, 0xC2A1240, t1);
     }
     t5 = *(int *)0xC2A1240;
     *(unsigned int *)0xC179488 = t5;
@@ -490,7 +490,7 @@ int FUN_0c03d594(int a4)
     if (a4 != 0) {
         t7 = 0x8017;
     }
-    t8 = FUN_0c03c792(t7, 0xC09E4F8, t1, t6);
+    t8 = putMenuValue(t7, 0xC09E4F8, t1, t6);
     t9 = *(int *)0xC2A1240;
     if ((int)(t9 - 4) >= 0) {
         u10 = *(float *)0xC03D700;
@@ -506,7 +506,7 @@ int FUN_0c03d594(int a4)
 
 
 
-int FUN_0c0511a4(void)
+int DC_Chari_Command_Check(void)
 {
     int t0;
     int t1;
@@ -619,7 +619,7 @@ int FUN_0c0511a4(void)
     return t49;
 }
 
-int FUN_0c051746(void)
+int selectSetDriverFace(void)
 {
     int t0;
     int t1;
@@ -760,7 +760,7 @@ int FUN_0c051746(void)
     return t57;
 }
 
-int FUN_0c0528c8(void)
+int Init_Drum_Fare(void)
 {
     float u0;
     float u1;
@@ -829,7 +829,7 @@ int FUN_0c0528c8(void)
 }
 
 
-int FUN_0c0551c6(int a4, int a5)
+int hudSplitFareDigits(int a4, int a5)
 {
     int t0;
     int t1;
@@ -956,7 +956,7 @@ int FUN_0c0551c6(int a4, int a5)
     return t38;
 }
 
-int FUN_0c05765c(void)
+int Put_GameOver2(void)
 {
     int t1;
     int t6;
@@ -1071,7 +1071,7 @@ int execAdvSprite(void)
 
     t0 = *(int *)0xC2A931C;
     if (t0 == 1) {
-        FUN_0c057e9e();
+        Put_Adv_Logo_Sprite();
     }
     t3 = *(int *)0xC2A9320;
     if ((int)t3 > 0) {
@@ -1086,16 +1086,16 @@ int execAdvSprite(void)
         t8 = *(int *)0xC2A9320;
         t9 = *(int *)((t6 + 0x0));
         t6 = (t6 + 0x4);
-        FUN_0c05778a(0xC2A922C, t9, (float)((t8 + t7) + 0x170), 208.0f);
+        nd_SprPut(0xC2A922C, t9, (float)((t8 + t7) + 0x170), 208.0f);
         t5 = (t5 + 0x1);
         t7 = (t7 + 0x80);
     } while ((int)t5 < (int)0x4);
     t11 = *(int *)0xC2A9320;
     t12 = *(int *)0xC130D90;
-    FUN_0c05778a(0xC2A922C, t12, (float)(t11 + 0x250), 176.0f);
+    nd_SprPut(0xC2A922C, t12, (float)(t11 + 0x250), 176.0f);
     t14 = *(int *)0xC2A9320;
     t15 = *(int *)0xC130D94;
-    FUN_0c05778a(0xC2A922C, t15, (float)(t14 + 0x250), 240.0f);
+    nd_SprPut(0xC2A922C, t15, (float)(t14 + 0x250), 240.0f);
     t17 = 0x0;
     t18 = 0xC130D98;
     t19 = 0xFFFFFF00;
@@ -1103,7 +1103,7 @@ int execAdvSprite(void)
         t20 = *(int *)0xC2A9320;
         t21 = *(int *)((t18 + 0x0));
         t18 = (t18 + 0x4);
-        FUN_0c05778a(0xC2A922C, t21, (float)((t20 + t19) + 0x150), 304.0f);
+        nd_SprPut(0xC2A922C, t21, (float)((t20 + t19) + 0x150), 304.0f);
         t17 = (t17 + 0x1);
         t19 = (t19 + 0x40);
     } while ((int)t17 < (int)0x7);
@@ -1111,19 +1111,19 @@ int execAdvSprite(void)
     *(float *)0xC2A9248 = 0.0f;
     *(float *)0xC2A9250 = 0.25f;
     t23 = *(int *)0xC2A9320;
-    FUN_0c05778a(0xC2A922C, 0xEC, (float)(t23 + 0x188), 440.0f);
+    nd_SprPut(0xC2A922C, 0xEC, (float)(t23 + 0x188), 440.0f);
     *(float *)0xC2A9248 = 0.25f;
     *(float *)0xC2A9250 = 0.5f;
     t25 = *(int *)0xC2A9320;
-    FUN_0c05778a(0xC2A922C, 0xEC, (float)(t25 + 0x1C8), 440.0f);
+    nd_SprPut(0xC2A922C, 0xEC, (float)(t25 + 0x1C8), 440.0f);
     *(float *)0xC2A9248 = 0.5f;
     *(float *)0xC2A9250 = 0.75f;
     t27 = *(int *)0xC2A9320;
-    FUN_0c05778a(0xC2A922C, 0xEC, (float)(t27 + 0x208), 440.0f);
+    nd_SprPut(0xC2A922C, 0xEC, (float)(t27 + 0x208), 440.0f);
     *(float *)0xC2A9248 = 0.75f;
     *(float *)0xC2A9250 = 1.0f;
     t29 = *(int *)0xC2A9320;
-    FUN_0c05778a(0xC2A922C, 0xEC, (float)(t29 + 0x248), 440.0f);
+    nd_SprPut(0xC2A922C, 0xEC, (float)(t29 + 0x248), 440.0f);
     *(float *)0xC2A9248 = 0.0f;
     *(float *)0xC2A9250 = 1.0f;
     *(float *)0xC2A9240 = 1.0f;
@@ -1144,7 +1144,7 @@ int execAdvSprite(void)
     return t31;
 }
 
-int FUN_0c058828(void)
+int Put_Ranking_Header(void)
 {
     int t0;
     int t1;
@@ -1214,7 +1214,7 @@ int FUN_0c058828(void)
     return t21;
 }
 
-int FUN_0c0596ac(void)
+int Result_Voice(void)
 {
     int t0;
     int t3;
@@ -1336,7 +1336,7 @@ int FUN_0c0596ac(void)
     return t72;
 }
 
-int FUN_0c05a460(void)
+int Result_Class_Line_Put(void)
 {
     int t0;
     int t1;
@@ -1455,7 +1455,7 @@ int psgFrameState5(int a4)
             }
             nlPushMatrix(0x0);
             psgSeatMatrix(a4);
-            FUN_0c0713d8(a4);
+            psgUpdatePartTracks(a4);
             u4 = *(float *)((a4 + 0x38));
             t5 = *(int *)((a4 + 0x34));
             FcvStoreBuffer(t5, (a4 + 0x3C), u4);
@@ -1484,7 +1484,7 @@ int psgFrameState5(int a4)
         }
         nlPushMatrix(0x0);
         psgSeatMatrix(a4);
-        FUN_0c0713d8(a4);
+        psgUpdatePartTracks(a4);
         u25 = *(float *)((a4 + 0x38));
         t26 = *(int *)((a4 + 0x34));
         FcvStoreBuffer(t26, (a4 + 0x3C), u25);
@@ -1511,7 +1511,7 @@ int psgFrameState5(int a4)
     }
     nlPushMatrix(0x0);
     psgSeatMatrix(a4);
-    FUN_0c0713d8(a4);
+    psgUpdatePartTracks(a4);
     u45 = *(float *)((a4 + 0x38));
     t46 = *(int *)((a4 + 0x34));
     u48 = 58.0f;

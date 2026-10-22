@@ -3,9 +3,9 @@
 
 int Sound_Request(int, int);
 int nlSprPut(int, int);
-int FUN_0c055362(int a4);
+int hudDrawFareDigits(int a4);
 
-int FUN_0c055362(int a4)
+int hudDrawFareDigits(int a4)
 {
     int t0;
     int t1;

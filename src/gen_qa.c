@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_qa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c03df1a(void);
+int SetScreen(int);
+int SetWindow(int);
+int windowReturn(void);
 
-int FUN_0c03df1a(void)
+int windowReturn(void)
 {
     int t0;
     int t1;
@@ -16,12 +16,12 @@ int FUN_0c03df1a(void)
 
     t0 = *(int *)0xC2A1218;
     if (t0 != 0) {
-        t1 = FUN_0c03b698(t0);
+        t1 = SetWindow(t0);
         *(unsigned int *)0xC2A1218 = 0x0;
         t11 = t1;
     } else {
-        FUN_0c03b544(0x4);
-        FUN_0c03b698(0x0);
+        SetScreen(0x4);
+        SetWindow(0x0);
         *(unsigned int *)0xC2A11B0 = 0x0;
         t4 = *(int *)0xC2A1228;
         *(unsigned int *)0xC1EE234 = t4;

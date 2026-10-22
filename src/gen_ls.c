@@ -2,34 +2,34 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c025b30(int, int);
-int FUN_0c02b220(int, int);
-int FUN_0c02b2d6(int);
-int FUN_0c02bb60(int, int, float);
-int FUN_0c02bbf4(int, float);
-int FUN_0c04bf1a(int);
-int FUN_0c05355e(void);
-int FUN_0c0535fc(void);
-int FUN_0c05cb52(void);
-int FUN_0c06b0ee(void);
+int kyakuStopAllowed(int, int);
+int navi_GetRouteDataB(int, int);
+int navi_GetRouteYa(int);
+int HomingAngle1(int, int, float);
+int TOANG2(int, float);
+int getReplayGetOffNo(int);
+int Start_ReverseDriving(void);
+int Start_OverArea(void);
+int Get_Bowling_Gate(void);
+int rinRandGetSeed(void);
 int FUN_0c07b9e0(void);
 int FUN_0c0813d0(int);
-int GS_ComboReset(void);
+int GS_GuestEject(void);
 int GS_GuestIn(int);
 int GS_GuestOut(void);
 int GetCollision2D(int, float);
 int InitArrow(int);
 int IsBoyFriend(int, int);
 int MakeKyakuTakeArea(int, int, int, float);
-int Model_Put_Sprite3D(int, int, float);
+int kyakuTaskPut(int, int, float);
 int Psg_Execute(int, float);
 int PutKyakuStopArea(int, int);
 int SetLandmarkDist(float);
 int Sound_Request(int, int);
 int getReplayPassenger(int, int, int, int, int);
-int kyakuClearVoiceBit24(void);
-int kyakuClearVoiceBit26(void);
-int kyakuCountDest(int);
+int End_ReverseDriving(void);
+int End_OverArea(void);
+int SetKousyaCount(int);
 int kyakuInDestArea(int);
 int kyakuInDestArea2(int);
 int kyakuMiniGameAreaOk(int);
@@ -637,7 +637,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C024D66;
     L_C024D66:;
     t20 = *(short *)(((int)stk + 8));
-    FUN_0c02bb60(t20, (0x182 + R14), 0.0799999982f);
+    HomingAngle1(t20, (0x182 + R14), 0.0799999982f);
     t22 = nlLength((((int)stk + 8) + 0x28), (((int)stk + 8) + 0x1C));
     t23 = *(short *)(((int)stk + 8));
     *(unsigned short *)0xC2AE344 = t23;
@@ -686,7 +686,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C0252A4;
     L_C0252A4:;
     t40 = *(short *)((R14 + 0x182));
-    Model_Put_Sprite3D(t40, 0x0, F15);
+    kyakuTaskPut(t40, 0x0, F15);
     goto L_C0252B0;
     L_C0252B0:;
     t42 = *(signed char *)(((0x166 + R14) + 0x0));
@@ -737,7 +737,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     nlPushMatrix(0x0);
     t58 = *(int *)((R14 + 0x198));
     t59 = *(int *)((t58 + 0x0));
-    t60 = FUN_0c025b30(R14, t59);
+    t60 = kyakuStopAllowed(R14, t59);
     t61 = t60 == 0;
     if (t61) goto L_C02536E;
     goto L_C025360;
@@ -775,8 +775,8 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t73) goto L_C025602;
     goto L_C02557A;
     L_C02557A:;
-    kyakuClearVoiceBit26();
-    t76 = kyakuClearVoiceBit24();
+    End_OverArea();
+    t76 = End_ReverseDriving();
     t77 = t76;
     R0 = t77;
     goto L_C025602;
@@ -815,8 +815,8 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t91) goto L_C025506;
     goto L_C0254FA;
     L_C0254FA:;
-    kyakuClearVoiceBit26();
-    kyakuClearVoiceBit24();
+    End_OverArea();
+    End_ReverseDriving();
     goto L_C025506;
     L_C025506:;
     t94 = *(int *)((R14 + 0x198));
@@ -928,10 +928,10 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t143) goto L_C0254E6;
     goto L_C0254DC;
     L_C0254DC:;
-    FUN_0c05355e();
+    Start_ReverseDriving();
     goto L_C025506;
     L_C0254E6:;
-    FUN_0c0535fc();
+    Start_OverArea();
     goto L_C025506;
     L_C0254B2:;
     t146 = *(int *)((R13 + 0x0));
@@ -974,7 +974,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C02528C;
     L_C02528C:;
     t166 = *(short *)((R14 + 0x182));
-    Model_Put_Sprite3D(t166, 0x1, F15);
+    kyakuTaskPut(t166, 0x1, F15);
     goto L_C025328;
     L_C025162:;
     t168 = *(int *)((R14 + 0x18));
@@ -1037,15 +1037,15 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t190) goto L_C025252;
     goto L_C025246;
     L_C025246:;
-    kyakuClearVoiceBit26();
-    kyakuClearVoiceBit24();
+    End_OverArea();
+    End_ReverseDriving();
     goto L_C025252;
     L_C025252:;
     t193 = *(int *)((R14 + 0x198));
     t194 = *(int *)((t193 + 0x0));
-    kyakuCountDest(t194);
+    SetKousyaCount(t194);
     t196 = *(int *)((R14 + 0x198));
-    t197 = FUN_0c06b0ee();
+    t197 = rinRandGetSeed();
     t198 = *(int *)(((0x164 + R14) + 0x0));
     t199 = (int)(((unsigned int)t198 >> 21) & 0x3);
     t200 = *(int *)((R14 + 0x15C));
@@ -1090,7 +1090,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C025544;
     L_C025544:;
     t216 = *(short *)((R14 + 0x182));
-    Model_Put_Sprite3D(t216, 0x1, F15);
+    kyakuTaskPut(t216, 0x1, F15);
     goto L_C02554E;
     L_C02554E:;
     t218 = *(signed char *)((R14 + 0x165));
@@ -1100,7 +1100,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t219) goto L_C025602;
     goto L_C025556;
     L_C025556:;
-    GS_ComboReset();
+    GS_GuestEject();
     *(unsigned int *)((R14 + 0x174)) = 0x6;
     t222 = *(int *)((R14 + 0x14));
     *(unsigned int *)((t222 + 0x0)) = 0x6;
@@ -1358,7 +1358,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned char *)(((0x164 + R14) + 0x0)) = (t321 | 0x40);
     t322 = *(int *)((R14 + 0x198));
     t323 = *(int *)((t322 + 0x0));
-    FUN_0c04bf1a(t323);
+    getReplayGetOffNo(t323);
     goto L_C025080;
     L_C025080:;
     t325 = *(int *)((R14 + 0x3C));
@@ -1377,7 +1377,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C025098;
     L_C025098:;
     t331 = *(short *)((R14 + 0x182));
-    Model_Put_Sprite3D(t331, 0x0, F15);
+    kyakuTaskPut(t331, 0x0, F15);
     goto L_C0250A4;
     L_C0250A4:;
     t333 = *(signed char *)((R14 + 0x164));
@@ -1470,7 +1470,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C024FCA;
     L_C024FCA:;
     t368 = *(int *)((R14 + 0x198));
-    FUN_0c02b220((t368 + 0x4), R5);
+    navi_GetRouteDataB((t368 + 0x4), R5);
     goto L_C024FD4;
     L_C024FD4:;
     t370 = *(int *)((R12 + 0x0));
@@ -1551,7 +1551,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t398) goto L_C024900;
     goto L_C0248F4;
     L_C0248F4:;
-    FUN_0c02b2d6((((int)stk + 8) + 0x28));
+    navi_GetRouteYa((((int)stk + 8) + 0x28));
     *(unsigned int *)(((int)stk + 16)) = R8;
     goto L_C024BEA;
     L_C024BEA:;
@@ -1576,7 +1576,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(volatile float *)(((int)stk + 56));
     u408 = *(float *)(((int)stk + 48));
     u409 = *(float *)(((int)stk + 36));
-    FUN_0c02bbf4(((int)stk + 8), ((-u408) + u409));
+    TOANG2(((int)stk + 8), ((-u408) + u409));
     t411 = *(int *)((R14 + 0x198));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)((t411 + 0x4)); }
     *(float *)(((int)stk + 52)) = F14;
@@ -1594,7 +1594,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t415) goto L_C024CE6;
     goto L_C024CC4;
     L_C024CC4:;
-    t416 = FUN_0c05cb52();
+    t416 = Get_Bowling_Gate();
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((signed char)(((t416 << 1) + t416) << 2) + 0xC13137C)); }
     goto L_C024CF6;
     L_C024CF6:;
@@ -1603,7 +1603,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(volatile float *)(((int)stk + 56));
     u419 = *(float *)(((int)stk + 48));
     u420 = *(float *)(((int)stk + 36));
-    FUN_0c02bbf4(((int)stk + 8), ((-u419) + u420));
+    TOANG2(((int)stk + 8), ((-u419) + u420));
     goto L_C024D66;
     L_C024CE6:;
     t422 = *(int *)((R14 + 0x198));
@@ -1672,7 +1672,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(volatile float *)(((int)stk + 56));
     u453 = *(float *)(((int)stk + 48));
     u454 = *(float *)(((int)stk + 36));
-    FUN_0c02bbf4(((int)stk + 8), ((-u453) + u454));
+    TOANG2(((int)stk + 8), ((-u453) + u454));
     t456 = *(int *)((R14 + 0x198));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)((t456 + 0x4)); }
     *(float *)(((int)stk + 52)) = F14;

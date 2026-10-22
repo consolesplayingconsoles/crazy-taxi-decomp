@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_dp): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c051992(void);
-int FUN_0c0519de(void);
-int FUN_0c051bc0(void);
+int CarSel_SetLight(void);
+int CarSel_SetFog(void);
+int selectInitSprites(void);
 int Init_nd_Sprite(void);
-int FUN_0c05308c(int, int);
-int FUN_0c067960(int, int);
+int Start_Time_Count(int, int);
+int fcvCalcAngle(int, int);
 int FUN_0c077df0(int);
 int FUN_0c07d450(int, int, int);
 int FUN_0c089270(int, int, int);
@@ -68,7 +68,7 @@ int FUN_0c077470(int a4);
 float FUN_0c079da0(void);
 float FUN_0c087ed4(float f4);
 int buFbrExecFiberServer(int a4);
-int FUN_0c067a3e(int a4);
+int fcvRotateCurve(int a4);
 int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5);
 int FUN_0c088928(int a4, int a5, int a6);
 int kmiChkActiveListType(int a4, int a5, int a6, int a7, int a8);
@@ -939,7 +939,7 @@ int buFbrExecFiberServer(int a4)
     return 0x204;
 }
 
-int FUN_0c067a3e(int a4)
+int fcvRotateCurve(int a4)
 {
     int t1;
     int t3;
@@ -976,7 +976,7 @@ int FUN_0c067a3e(int a4)
     int t36;
     int stk[12] = {0};
 
-    FUN_0c067960(a4, (((int)stk + 4) + 0x18));
+    fcvCalcAngle(a4, (((int)stk + 4) + 0x18));
     t1 = *(int *)(((int)stk + 28));
     nlFastSinCos(t1, (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10));
     t3 = *(int *)(((int)stk + 32));

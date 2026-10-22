@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_al): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05a79c(void);
-int FUN_0c05a9dc(void);
+int Result_Crazy_Put(void);
+int Result_Awesome_Put(void);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 float drvAccelDot(void);
@@ -10,7 +10,7 @@ int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int, int);
 int psgEnterState3(int);
 
-void FUN_0c05a5e0(void)
+void Result_Class_Put(void)
 {
     int t0;
     int t1;
@@ -91,13 +91,13 @@ void FUN_0c05a5e0(void)
         t20 = *(int *)0xC2A97D8;
         if (t20 == 0x3E7) {
             nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            FUN_0c05a79c();
+            Result_Crazy_Put();
             ResetFadeColor();
     return;
         }
         if (t20 == 99) {
             nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            FUN_0c05a9dc();
+            Result_Awesome_Put();
             ResetFadeColor();
     return;
         }
@@ -119,7 +119,7 @@ void FUN_0c05a5e0(void)
     *(unsigned int *)0xC2A96F4 = t1;
 }
 
-void FUN_0c071fa4(int a4)
+void EndPsg_CrushReact(int a4)
 {
     int t0;
     float t1;

@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_fd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05423a(int);
-int FUN_0c0543fc(void);
-int FUN_0c05778a(int, int, float, float);
+int Put_Remain_Time_Gauge(int);
+int Put_Remain_Time_Frame(void);
+int nd_SprPut(int, int, float, float);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
@@ -17,11 +17,11 @@ int pfLocate(float, float);
 int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
-int FUN_0c053dec(void);
-int FUN_0c056460(int a4);
+int Put_Remain_Time_Mode2(void);
+int Exec_Combo_Entry(int a4);
 
 
-int FUN_0c056460(int a4)
+int Exec_Combo_Entry(int a4)
 {
     int t0;
     int t1;

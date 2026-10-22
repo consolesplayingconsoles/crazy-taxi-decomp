@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_mc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05778a(int, int, float, float);
+int nd_SprPut(int, int, float, float);
 int ResetFadeColor(void);
 int nlObjPutSetFadeColor(float, float, float);
-int FUN_0c05d862(int a4, int a5, float f4, float f5, float f6, float f7);
+int Put_Remain_Icon(int a4, int a5, float f4, float f5, float f6, float f7);
 
-int FUN_0c05d862(int a4, int a5, float f4, float f5, float f6, float f7)
+int Put_Remain_Icon(int a4, int a5, float f4, float f5, float f6, float f7)
 {
     int t0;
     int t1;
@@ -403,7 +403,7 @@ int FUN_0c05d862(int a4, int a5, float f4, float f5, float f6, float f7)
     L_C05D9BA:;
     *(float *)((R13 + R0)) = F15;
     *(float *)((R13 + 0x14)) = F15;
-    FUN_0c05778a(0xC2A9898, 0x1E5, (float)(((((((R14 - 1) << 2) << 1) + (R14 - 1)) << 2) - (R12 << 2)) + 0x1D2), (float)(R12 + 0x4E));
+    nd_SprPut(0xC2A9898, 0x1E5, (float)(((((((R14 - 1) << 2) << 1) + (R14 - 1)) << 2) - (R12 << 2)) + 0x1D2), (float)(R12 + 0x4E));
     *(unsigned int *)(((int)stk + 36)) = *(int *)((int)stk + 36);
     *(unsigned int *)(((int)stk + 32)) = *(int *)((int)stk + 32);
     *(unsigned int *)(((int)stk + 28)) = *(int *)((int)stk + 28);
@@ -508,7 +508,7 @@ int FUN_0c05d862(int a4, int a5, float f4, float f5, float f6, float f7)
     nlObjPutSetFadeColor(F14, F15, F14);
     *(float *)((R13 + 0x10)) = F15;
     *(float *)((R13 + 0x14)) = F15;
-    FUN_0c05778a(0xC2A9898, 0x1EE, 490.0f, 45.0f);
-    FUN_0c05778a(0xC2A9898, 0x1EF, 586.0f, 45.0f);
+    nd_SprPut(0xC2A9898, 0x1EE, 490.0f, 45.0f);
+    nd_SprPut(0xC2A9898, 0x1EF, 586.0f, 45.0f);
     return ResetFadeColor();
 }

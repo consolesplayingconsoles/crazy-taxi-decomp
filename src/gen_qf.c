@@ -6,9 +6,9 @@ int InitArrow(int);
 int ResetFadeColor(void);
 float nlLength(int, int);
 int nlObjPutSetFadeColor(float, float, float);
-int FUN_0c05ca3e(void);
+int Exec_Bowling_Arrow(void);
 
-int FUN_0c05ca3e(void)
+int Exec_Bowling_Arrow(void)
 {
     float u0;
     float u1;

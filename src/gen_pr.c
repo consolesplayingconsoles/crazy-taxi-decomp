@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Init_nd_StartWait(void);
-int FUN_0c050542(void);
+int nd_StartWait_MoveCar(void);
 
-int FUN_0c050542(void)
+int nd_StartWait_MoveCar(void)
 {
     int t0;
     float u1;

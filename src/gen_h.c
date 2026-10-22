@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_h): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02e2ca(int);
-int FUN_0c02e31e(int);
+int gdc_VolStreamSong(int);
+int gdc_PlayStreamSong(int);
 int CarSel_SetBackColor(void);
 int FUN_0c074680(void);
 int kmiInitializeDMA(void);
@@ -11,17 +11,17 @@ int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int);
 int pfSetFont(int);
 int pfSize(float, float);
-int FUN_0c03a3e0(void);
+int InitEndRoll(void);
 int Result_SetBackColor(void);
 int kmiInitializeTA(void);
 
-int FUN_0c03a3e0(void)
+int InitEndRoll(void)
 {
     FUN_0c074680();
     pfSetFont(0x0);
     pfSize(1.0f, 1.0f);
-    FUN_0c02e31e(0x3);
-    FUN_0c02e2ca(0x6E);
+    gdc_PlayStreamSong(0x3);
+    gdc_VolStreamSong(0x6E);
     *(unsigned int *)0xC2864E0 = 0x0;
     *(unsigned int *)0xC2864E4 = 0x2;
     return 0xC2864E4;

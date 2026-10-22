@@ -8,15 +8,15 @@ typedef struct {
     int c;
 } Triple;
 
-void FUN_0c0395a2(void)
+void ShotLandmarkStub(void)
 {
 }
 
-void FUN_0c050bba(void)
+void nd_StartWait_Stub(void)
 {
 }
 
-void FUN_0c060dfc(void)
+void Chat_Init(void)
 {
 }
 
@@ -53,7 +53,7 @@ int FUN_0c1688da(int a)
     return a + 88;
 }
 
-void FUN_0c04d49e(float *p, float a, float b)
+void HomingPosX(float *p, float a, float b)
 {
     float v;
 
@@ -73,7 +73,7 @@ void kdSetHandler(unsigned int index, int handler)
     }
 }
 
-void FUN_0c028760(Triple *src)
+void SetCameraPosVelocity(Triple *src)
 {
     *(Triple *)0xC1798DC = *src;
 }
@@ -95,7 +95,7 @@ void Voice_ShutUp(int a)
     }
 }
 
-float FUN_0c049854(void)
+float usedCpuPowerCheck(void)
 {
     float now;
     float prev;
@@ -129,7 +129,7 @@ void GetRotVec(Triple *p)
 }
 
 int set_event(int a, int b);
-int FUN_0c05ead0(int a, int b);
+int Init_Balloon_Obj(int a, int b);
 
 void FUN_0c07bde0(float *a, float *b, float *c)
 {
@@ -143,7 +143,7 @@ void FUN_0c07bde0(float *a, float *b, float *c)
     c[1] = a[1] + t * (b[1] - a[1]);
 }
 
-int FUN_0c05ea98(int a)
+int Set_Balloon(int a)
 {
     int h;
 
@@ -152,7 +152,7 @@ int FUN_0c05ea98(int a)
     if (h == 0) {
         return 0;
     }
-    FUN_0c05ead0(*(int *)(0xC2A9BC0 + a * 4), a);
+    Init_Balloon_Obj(*(int *)(0xC2A9BC0 + a * 4), a);
     return 1;
 }
 
@@ -160,7 +160,7 @@ int ADXT_GetStat(int a);
 int ADXT_GetNumSmpl(int a);
 int nlArcTan2(float a, float b);
 
-int FUN_0c02e646(int index)
+int gdc_GetStreamVoiceTotalTime(int index)
 {
     int handle;
 
@@ -227,7 +227,7 @@ float nlRoundUp(float x)
     return (float)(-1 - n);
 }
 
-int FUN_0c04988a(int *out)
+int getGoiToolSelect(int *out)
 {
     int v;
     int count;
@@ -330,7 +330,7 @@ void kmytex_FBDeQueueEntry(int *head, int *tail, int *node)
 int FUN_0c0813d0(int a);
 int FUN_0c073d60(int a);
 
-int FUN_0c049aa8(int a, int b, float k)
+int convergeRot(int a, int b, float k)
 {
     int x;
     int y;

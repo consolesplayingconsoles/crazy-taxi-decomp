@@ -3,11 +3,11 @@
 
 int CalcHomingVector(int);
 int SetCameraAngleRatio(float, float);
-int FUN_0c0288e0(float);
-int FUN_0c02bb60(int, int, float);
-int FUN_0c036378(int);
-int FUN_0c06468e(void);
-int FUN_0c06b028(float);
+int SetCameraDistance(float);
+int HomingAngle1(int, int, float);
+int CalcHomingAngle(int);
+int KyaCamera(void);
+int SetNewClippingAngle(float);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
 int FUN_0c077890(int, int, int);
@@ -21,7 +21,7 @@ int GetCollision(int, int, float, float);
 int ResetSpark(void);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int SetCameraTargetRatio(float, float);
 int camSetAngles(int, int, int, int);
 int camSetEye(int, int);

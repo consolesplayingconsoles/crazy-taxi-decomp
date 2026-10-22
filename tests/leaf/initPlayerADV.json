@@ -1,39 +1,15 @@
 {
  "dev": [
   {
-   "about": "word clear",
-   "poke": {
-    "0C1EE334": "00000000"
-   }
-  },
-  {
-   "about": "word set",
-   "poke": {
-    "0C1EE334": "81000000"
-   }
+   "about": "nothing happens"
   }
  ],
  "holdout": [
   {
-   "about": "other value",
-   "poke": {
-    "0C1EE334": "ffffffff"
+   "about": "with a register set",
+   "regs": {
+    "r4": "00000005"
    }
-  },
-  {
-   "about": "live RAM (arcade, passenger on board, paused)",
-   "dump": "build/ram/live.bin",
-   "regs": {}
-  },
-  {
-   "about": "live RAM (Crazy Box 1-1, paused after go)",
-   "dump": "build/ram/box.bin",
-   "regs": {}
-  },
-  {
-   "about": "live RAM (Total Records screen)",
-   "dump": "build/ram/records.bin",
-   "regs": {}
   }
  ]
 }

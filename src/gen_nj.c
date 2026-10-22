@@ -6,9 +6,9 @@ int courseStatusGet(int, int, int, int);
 int extRand(void);
 int getNearLineIndex(int, int, int, int);
 int getSteering(int);
-int FUN_0c047330(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int FUN_0c047330(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
+int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
     int t0;
     int t1;

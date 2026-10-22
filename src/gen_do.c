@@ -3,38 +3,38 @@
 
 int ADXF_Init(void);
 int BupInit(void);
-int FUN_0c020080(void);
-int FUN_0c020092(void);
+int Init_EEPROM(void);
+int InitBookkeep(void);
 int InitNaolib2(void);
 int InitNaolib3(void);
 int InitNaolib(void);
-int FUN_0c029a94(void);
-int FUN_0c029aa6(void);
+int car_texload(void);
+int padInitAnalog(void);
 int game_init(void);
-int FUN_0c02dfbc(void);
-int FUN_0c02f362(int);
-int FUN_0c02f392(void);
-int FUN_0c02f7e4(void);
-int FUN_0c02f870(void);
-int FUN_0c03012c(void);
-int FUN_0c0301bc(void);
-int FUN_0c0302e6(void);
+int gdc_StreamInit(void);
+int gdc_CourseObjTexLoad(int);
+int gdc_CourseObjGroupSet(void);
+int gdc_CourseTexLoad(void);
+int gdc_CourseTexFree(void);
+int gdc_FileLoadStop(void);
+int gdc_FileLoadSetup(void);
+int gdc_SpriteSetInit(void);
 int SetLight(int, int);
-int FUN_0c030b7a(float);
-int FUN_0c030e72(void);
-int FUN_0c030ebc(int);
+int SetLightAmbience(float);
+int PatchPolygon(void);
+int InitProportionalText(int);
 int InitMV(void);
-int FUN_0c039298(int);
+int InitRenderTexture2nd(int);
 int CfgInit(void);
-int FUN_0c041d68(void);
-int FUN_0c044b80(int);
-int FUN_0c044c64(int);
-int FUN_0c045058(int, int, int, int, int, float, float, float, float);
-int FUN_0c04a090(int, int, int, int, int, float, float, float, float);
-int FUN_0c04d1ac(int);
-int FUN_0c0577dc(void);
-int FUN_0c060428(void);
-int FUN_0c072dd4(void);
+int InitMenu(void);
+int pcarTurnSelect(int);
+int pcarLaneChange(int);
+int calcCurvePoint(int, int, int, int, int, float, float, float, float);
+int getNearLinkedLine(int, int, int, int, int, float, float, float, float);
+int CourseTableSet(int);
+int Init_Adv_Sprite(void);
+int Init_LCD(void);
+int Voice_Init(void);
 int FUN_0c074300(int);
 int FUN_0c074970(int);
 int FUN_0c077210(int, int);
@@ -45,7 +45,7 @@ int FUN_0c07f5c0(void);
 int FUN_0c07f870(int, int, int);
 int FUN_0c0813d0(int);
 int FUN_0c1519be(void);
-int InitSys(void);
+int PAL_SettingLoop(void);
 int Init_Fog(void);
 int Sound_Init(void);
 int Sound_Request(int, int);
@@ -100,7 +100,7 @@ int sysCfgRead(void);
 int thunk_njSetConstantAttr(void);
 int loadCity(int a4, int a5);
 int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8);
-int gameInit(void);
+int InitSys(void);
 float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
 int loadCity(int a4, int a5)
@@ -112,7 +112,7 @@ int loadCity(int a4, int a5)
     int t61;
 
     if (a5 != -1) {
-        FUN_0c03012c();
+        gdc_FileLoadStop();
     }
     nlSetCommonTextureOffset(0x7D0);
     if (a4 != 0) {
@@ -132,11 +132,11 @@ int loadCity(int a4, int a5)
                 gdc_FileLoad(0xCB40000, 0xC08D570, 0x0);
                 gdc_FileLoad(0xC5E0000, 0xC08D57C, 0x0);
                 if (a5 != -1) {
-                    FUN_0c02f870();
+                    gdc_CourseTexFree();
                 }
                 gdc_CourseSet(a4);
-                FUN_0c02f7e4();
-                FUN_0c02f362(0xC0EA590);
+                gdc_CourseTexLoad();
+                gdc_CourseObjTexLoad(0xC0EA590);
                 gdc_FileLoad(0xCB40000, 0xC08D588, 0x0);
                 gdc_FileLoad(0xCE90000, 0xC08D594, 0x8000);
                 gdc_FileLoad(0xC328000, 0xC08D5A0, 0x0);
@@ -161,11 +161,11 @@ int loadCity(int a4, int a5)
             gdc_FileLoad(0xCB40000, 0xC08D528, 0x0);
             gdc_FileLoad(0xC5E0000, 0xC08D534, 0x0);
             if (a5 != -1) {
-                FUN_0c02f870();
+                gdc_CourseTexFree();
             }
             gdc_CourseSet(a4);
-            FUN_0c02f7e4();
-            FUN_0c02f362(0xC0EA478);
+            gdc_CourseTexLoad();
+            gdc_CourseObjTexLoad(0xC0EA478);
             gdc_FileLoad(0xCB40000, 0xC08D540, 0x0);
             gdc_FileLoad(0xCE90000, 0xC08D54C, 0x8000);
             gdc_FileLoad(0xC328000, 0xC08D558, 0x0);
@@ -190,18 +190,18 @@ int loadCity(int a4, int a5)
         gdc_FileLoad(0xCB40000, 0xC08D4E0, 0x0);
         gdc_FileLoad(0xC5E0000, 0xC08D4EC, 0x0);
         if (a5 != -1) {
-            FUN_0c02f870();
+            gdc_CourseTexFree();
         }
         gdc_CourseSet(a4);
-        FUN_0c02f7e4();
-        FUN_0c02f362(0xC0EA3E8);
+        gdc_CourseTexLoad();
+        gdc_CourseObjTexLoad(0xC0EA3E8);
         gdc_FileLoad(0xCB40000, 0xC08D4F8, 0x0);
         gdc_FileLoad(0xCE90000, 0xC08D504, 0x8000);
         gdc_FileLoad(0xC328000, 0xC08D510, 0x0);
     }
     nlSetCommonTextureOffset(0x5DC);
-    FUN_0c02f392();
-    return FUN_0c0301bc();
+    gdc_CourseObjGroupSet();
+    return gdc_FileLoadSetup();
 }
 
 int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8)
@@ -513,7 +513,7 @@ int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8)
     return t122;
 }
 
-int gameInit(void)
+int InitSys(void)
 {
     int t0;
     int t3;
@@ -573,9 +573,9 @@ int gameInit(void)
     *(unsigned int *)0xC1EE23C = 0x1;
     *(unsigned int *)0xC1EE330 = 0x0;
     *(unsigned int *)0xC1EE768 = 0x0;
-    FUN_0c020080();
-    FUN_0c020092();
-    FUN_0c029aa6();
+    Init_EEPROM();
+    InitBookkeep();
+    padInitAnalog();
     CfgInit();
     BupInit();
     nd_Init_Puru2();
@@ -586,7 +586,7 @@ int gameInit(void)
         InitNaolib2();
         frameFlip();
         *(unsigned int *)0xC1EE160 = 0x0;
-        InitSys();
+        PAL_SettingLoop();
         nlLoadDummyTexture();
         InitNaolib3();
     } else {
@@ -615,9 +615,9 @@ int gameInit(void)
     nlsndPackLoad(0xCB40000, 0x3);
     FUN_0c07f5c0();
     FUN_0c07f870(0x4, 0x1, 0x0);
-    FUN_0c02dfbc();
+    gdc_StreamInit();
     Sound_Init();
-    FUN_0c072dd4();
+    Voice_Init();
     nlSetFontSize(0x10, 0x10);
     nlLocate(0xA, 0xC);
     nlPrintf();
@@ -628,32 +628,32 @@ int gameInit(void)
     *(unsigned int *)0xC1EE20C = 0x0;
     gdc_FileLoad(0xC390000, 0xC08AB3C, 0x0);
     gdc_FileLoad(0xCB40000, 0xC08AB48, 0x0);
-    FUN_0c029a94();
-    FUN_0c030e72();
+    car_texload();
+    PatchPolygon();
     sysCfgRead();
-    FUN_0c0302e6();
+    gdc_SpriteSetInit();
     *(unsigned int *)0xC1EE76C = 0xFFFFFFFF;
     t79 = *(int *)0xC1EE20C;
-    FUN_0c04d1ac(t79);
+    CourseTableSet(t79);
     game_init();
     *(unsigned int *)0xC1EE230 = 0x1;
     *(unsigned int *)0xC1EE338 = 0x1;
     *(float *)0xC1A99F0 = 0.0f;
     SetLight(0x2200, 0x2900);
-    FUN_0c030b7a(0.399999976f);
+    SetLightAmbience(0.399999976f);
     Init_Fog();
     InitMV();
-    FUN_0c0577dc();
-    FUN_0c039298(0x0);
-    FUN_0c030ebc(0x0);
-    FUN_0c041d68();
+    Init_Adv_Sprite();
+    InitRenderTexture2nd(0x0);
+    InitProportionalText(0x0);
+    InitMenu();
     nlSetFontSize(0x10, 0x10);
     nlLocate(0xA, 0xC);
     nlPrintf();
     frameFlip();
     frameFlip();
     nlSetFontSize(0x8, 0x8);
-    FUN_0c060428();
+    Init_LCD();
     return nd_Init_Puru2();
 }
 

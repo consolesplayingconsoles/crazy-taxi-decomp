@@ -1,21 +1,21 @@
 /* Straight-line functions with calls and guards (batch gen_x): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c053ac0(void);
-int FUN_0c053b44(void);
-int FUN_0c0558a2(void);
-int FUN_0c055950(void);
-int FUN_0c055b38(void);
-int FUN_0c056ed8(int);
-int FUN_0c0572de(void);
-int FUN_0c057388(void);
-int FUN_0c05741c(void);
-int FUN_0c0608ac(int, int);
+int Put_Default2_Sprite(void);
+int Put_Default_Sprite(void);
+int hudDrawJudgement2(void);
+int hudDrawJudgement(void);
+int hudDrawPassRanking(void);
+int Put_Time_Bonus(int);
+int Put_ReverseDriving(void);
+int Put_PickUp_Nag(void);
+int Put_OverArea(void);
+int pfTextPut(int, int);
 int FUN_0c0770f0(int, int, int);
-int ChangeObjGroup(int);
-int Put_Credits(int);
-int Put_ReadySetGo(void);
-int Put_TotalDrum(void);
+int nlMvSetShadowObjPutPol(int);
+int Put_Time_Count(int);
+int Put_TimeUp(void);
+int Put_Pass_Time(void);
 int gdc_FileLoad(int, int, int);
 int gdc_StopStreamVoice(int);
 int hudDrawTime(void);
@@ -25,14 +25,14 @@ int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
-int FUN_0c02f392(void);
-int FUN_0c0302e6(void);
+int gdc_CourseObjGroupSet(void);
+int gdc_SpriteSetInit(void);
 int hudDraw(void);
 int kmiCreateGlobalParameter(void);
 int kmSetVertexRenderState(int a4);
 int kmSetModifierRenderState(int a4);
 
-int FUN_0c02f392(void)
+int gdc_CourseObjGroupSet(void)
 {
     int t0;
     int t68;
@@ -45,126 +45,126 @@ int FUN_0c02f392(void)
     t0 = *(int *)0xC1EE20C;
     if (t0 != 0) {
         if (t0 == 1) {
-            ChangeObjGroup(0xC5E9E28);
-            ChangeObjGroup(0xC5E9FA0);
-            ChangeObjGroup(0xC5EA118);
-            ChangeObjGroup(0xC5EA290);
-            ChangeObjGroup(0xC5EA408);
-            ChangeObjGroup(0xC5EA580);
-            ChangeObjGroup(0xC5EA6F8);
-            ChangeObjGroup(0xC5EA870);
-            ChangeObjGroup(0xC5EA9E8);
-            ChangeObjGroup(0xC5EAB60);
-            ChangeObjGroup(0xC5EACD8);
-            ChangeObjGroup(0xC5EAE50);
-            ChangeObjGroup(0xC5EAFC8);
-            ChangeObjGroup(0xC5EB140);
-            ChangeObjGroup(0xC5EB2B8);
-            ChangeObjGroup(0xC5EB430);
-            ChangeObjGroup(0xC5EB5A8);
-            ChangeObjGroup(0xC5EB720);
-            ChangeObjGroup(0xC5EB898);
-            ChangeObjGroup(0xC5EBA10);
-            ChangeObjGroup(0xC5EBB88);
-            ChangeObjGroup(0xC5EBD00);
-            ChangeObjGroup(0xC5EBE78);
-            ChangeObjGroup(0xC5EBFF0);
-            ChangeObjGroup(0xC5EC168);
-            ChangeObjGroup(0xC5EC2E0);
-            ChangeObjGroup(0xC5EC458);
-            ChangeObjGroup(0xC5EC5D0);
-            ChangeObjGroup(0xC5EC748);
-            ChangeObjGroup(0xC5EC8C0);
-            ChangeObjGroup(0xC5ECA38);
-            ChangeObjGroup(0xC5E0000);
-            ChangeObjGroup(0xC5E1D98);
-            ChangeObjGroup(0xC5E3650);
-            ChangeObjGroup(0xC5E5CA0);
-            ChangeObjGroup(0xC5E72A8);
-            ChangeObjGroup(0xC5E85A8);
-            ChangeObjGroup(0xC5E9CA8);
-            ChangeObjGroup(0xC5ECBB0);
-            ChangeObjGroup(0xC5ED4A0);
-            ChangeObjGroup(0xC5EDD90);
-            ChangeObjGroup(0xC5EE680);
-            ChangeObjGroup(0xC5EEF70);
-            ChangeObjGroup(0xC5EF860);
-            ChangeObjGroup(0xC5F0150);
-            ChangeObjGroup(0xC5F0A40);
-            ChangeObjGroup(0xC5F1330);
-            ChangeObjGroup(0xC5F1C20);
-            ChangeObjGroup(0xC5F2510);
-            ChangeObjGroup(0xC5F2E00);
-            ChangeObjGroup(0xC5F36F0);
-            ChangeObjGroup(0xC5F3FE0);
-            ChangeObjGroup(0xC5F48D0);
-            ChangeObjGroup(0xC5F51C0);
-            ChangeObjGroup(0xC5F5AB0);
-            ChangeObjGroup(0xC5F63A0);
-            ChangeObjGroup(0xC5F6C90);
-            ChangeObjGroup(0xC5F7580);
-            ChangeObjGroup(0xC5F7E70);
-            ChangeObjGroup(0xC5F8760);
-            ChangeObjGroup(0xC5F9050);
-            ChangeObjGroup(0xC5F9940);
-            ChangeObjGroup(0xC5FA230);
-            ChangeObjGroup(0xC5FAB20);
-            ChangeObjGroup(0xC5FB410);
-            ChangeObjGroup(0xC5FBD00);
-            ChangeObjGroup(0xC5FC5F0);
-            t68 = ChangeObjGroup(0xC5FCEE0);
+            nlMvSetShadowObjPutPol(0xC5E9E28);
+            nlMvSetShadowObjPutPol(0xC5E9FA0);
+            nlMvSetShadowObjPutPol(0xC5EA118);
+            nlMvSetShadowObjPutPol(0xC5EA290);
+            nlMvSetShadowObjPutPol(0xC5EA408);
+            nlMvSetShadowObjPutPol(0xC5EA580);
+            nlMvSetShadowObjPutPol(0xC5EA6F8);
+            nlMvSetShadowObjPutPol(0xC5EA870);
+            nlMvSetShadowObjPutPol(0xC5EA9E8);
+            nlMvSetShadowObjPutPol(0xC5EAB60);
+            nlMvSetShadowObjPutPol(0xC5EACD8);
+            nlMvSetShadowObjPutPol(0xC5EAE50);
+            nlMvSetShadowObjPutPol(0xC5EAFC8);
+            nlMvSetShadowObjPutPol(0xC5EB140);
+            nlMvSetShadowObjPutPol(0xC5EB2B8);
+            nlMvSetShadowObjPutPol(0xC5EB430);
+            nlMvSetShadowObjPutPol(0xC5EB5A8);
+            nlMvSetShadowObjPutPol(0xC5EB720);
+            nlMvSetShadowObjPutPol(0xC5EB898);
+            nlMvSetShadowObjPutPol(0xC5EBA10);
+            nlMvSetShadowObjPutPol(0xC5EBB88);
+            nlMvSetShadowObjPutPol(0xC5EBD00);
+            nlMvSetShadowObjPutPol(0xC5EBE78);
+            nlMvSetShadowObjPutPol(0xC5EBFF0);
+            nlMvSetShadowObjPutPol(0xC5EC168);
+            nlMvSetShadowObjPutPol(0xC5EC2E0);
+            nlMvSetShadowObjPutPol(0xC5EC458);
+            nlMvSetShadowObjPutPol(0xC5EC5D0);
+            nlMvSetShadowObjPutPol(0xC5EC748);
+            nlMvSetShadowObjPutPol(0xC5EC8C0);
+            nlMvSetShadowObjPutPol(0xC5ECA38);
+            nlMvSetShadowObjPutPol(0xC5E0000);
+            nlMvSetShadowObjPutPol(0xC5E1D98);
+            nlMvSetShadowObjPutPol(0xC5E3650);
+            nlMvSetShadowObjPutPol(0xC5E5CA0);
+            nlMvSetShadowObjPutPol(0xC5E72A8);
+            nlMvSetShadowObjPutPol(0xC5E85A8);
+            nlMvSetShadowObjPutPol(0xC5E9CA8);
+            nlMvSetShadowObjPutPol(0xC5ECBB0);
+            nlMvSetShadowObjPutPol(0xC5ED4A0);
+            nlMvSetShadowObjPutPol(0xC5EDD90);
+            nlMvSetShadowObjPutPol(0xC5EE680);
+            nlMvSetShadowObjPutPol(0xC5EEF70);
+            nlMvSetShadowObjPutPol(0xC5EF860);
+            nlMvSetShadowObjPutPol(0xC5F0150);
+            nlMvSetShadowObjPutPol(0xC5F0A40);
+            nlMvSetShadowObjPutPol(0xC5F1330);
+            nlMvSetShadowObjPutPol(0xC5F1C20);
+            nlMvSetShadowObjPutPol(0xC5F2510);
+            nlMvSetShadowObjPutPol(0xC5F2E00);
+            nlMvSetShadowObjPutPol(0xC5F36F0);
+            nlMvSetShadowObjPutPol(0xC5F3FE0);
+            nlMvSetShadowObjPutPol(0xC5F48D0);
+            nlMvSetShadowObjPutPol(0xC5F51C0);
+            nlMvSetShadowObjPutPol(0xC5F5AB0);
+            nlMvSetShadowObjPutPol(0xC5F63A0);
+            nlMvSetShadowObjPutPol(0xC5F6C90);
+            nlMvSetShadowObjPutPol(0xC5F7580);
+            nlMvSetShadowObjPutPol(0xC5F7E70);
+            nlMvSetShadowObjPutPol(0xC5F8760);
+            nlMvSetShadowObjPutPol(0xC5F9050);
+            nlMvSetShadowObjPutPol(0xC5F9940);
+            nlMvSetShadowObjPutPol(0xC5FA230);
+            nlMvSetShadowObjPutPol(0xC5FAB20);
+            nlMvSetShadowObjPutPol(0xC5FB410);
+            nlMvSetShadowObjPutPol(0xC5FBD00);
+            nlMvSetShadowObjPutPol(0xC5FC5F0);
+            t68 = nlMvSetShadowObjPutPol(0xC5FCEE0);
             t73 = t68;
         } else {
             t72 = t0;
             if (t0 == 2) {
-                ChangeObjGroup(0xC5E0000);
-                ChangeObjGroup(0xC5E1998);
-                t71 = ChangeObjGroup(0xC5E0600);
+                nlMvSetShadowObjPutPol(0xC5E0000);
+                nlMvSetShadowObjPutPol(0xC5E1998);
+                t71 = nlMvSetShadowObjPutPol(0xC5E0600);
                 t72 = t71;
             }
             t73 = t72;
         }
         t107 = t73;
     } else {
-        ChangeObjGroup(0xC5E0000);
-        ChangeObjGroup(0xC5E2630);
-        ChangeObjGroup(0xC5E4C60);
-        ChangeObjGroup(0xC5E7290);
-        ChangeObjGroup(0xC5E98C0);
-        ChangeObjGroup(0xC5EBEF0);
-        ChangeObjGroup(0xC5EE520);
-        ChangeObjGroup(0xC5F0B50);
-        ChangeObjGroup(0xC5F3180);
-        ChangeObjGroup(0xC5F57B0);
-        ChangeObjGroup(0xC5F7DE0);
-        ChangeObjGroup(0xC5FA410);
-        ChangeObjGroup(0xC5FCA40);
-        ChangeObjGroup(0xC5FF070);
-        ChangeObjGroup(0xC6016A0);
-        ChangeObjGroup(0xC603CD0);
-        ChangeObjGroup(0xC606300);
-        ChangeObjGroup(0xC608930);
-        ChangeObjGroup(0xC60AF60);
-        ChangeObjGroup(0xC60D590);
-        ChangeObjGroup(0xC60FBC0);
-        ChangeObjGroup(0xC6121F0);
-        ChangeObjGroup(0xC614820);
-        ChangeObjGroup(0xC616E50);
-        ChangeObjGroup(0xC619480);
-        ChangeObjGroup(0xC61BAB0);
-        ChangeObjGroup(0xC61E0E0);
-        ChangeObjGroup(0xC620710);
-        ChangeObjGroup(0xC622D40);
-        ChangeObjGroup(0xC625370);
-        ChangeObjGroup(0xC62A1E8);
-        ChangeObjGroup(0xC6279A0);
-        t106 = ChangeObjGroup(0xC627E48);
+        nlMvSetShadowObjPutPol(0xC5E0000);
+        nlMvSetShadowObjPutPol(0xC5E2630);
+        nlMvSetShadowObjPutPol(0xC5E4C60);
+        nlMvSetShadowObjPutPol(0xC5E7290);
+        nlMvSetShadowObjPutPol(0xC5E98C0);
+        nlMvSetShadowObjPutPol(0xC5EBEF0);
+        nlMvSetShadowObjPutPol(0xC5EE520);
+        nlMvSetShadowObjPutPol(0xC5F0B50);
+        nlMvSetShadowObjPutPol(0xC5F3180);
+        nlMvSetShadowObjPutPol(0xC5F57B0);
+        nlMvSetShadowObjPutPol(0xC5F7DE0);
+        nlMvSetShadowObjPutPol(0xC5FA410);
+        nlMvSetShadowObjPutPol(0xC5FCA40);
+        nlMvSetShadowObjPutPol(0xC5FF070);
+        nlMvSetShadowObjPutPol(0xC6016A0);
+        nlMvSetShadowObjPutPol(0xC603CD0);
+        nlMvSetShadowObjPutPol(0xC606300);
+        nlMvSetShadowObjPutPol(0xC608930);
+        nlMvSetShadowObjPutPol(0xC60AF60);
+        nlMvSetShadowObjPutPol(0xC60D590);
+        nlMvSetShadowObjPutPol(0xC60FBC0);
+        nlMvSetShadowObjPutPol(0xC6121F0);
+        nlMvSetShadowObjPutPol(0xC614820);
+        nlMvSetShadowObjPutPol(0xC616E50);
+        nlMvSetShadowObjPutPol(0xC619480);
+        nlMvSetShadowObjPutPol(0xC61BAB0);
+        nlMvSetShadowObjPutPol(0xC61E0E0);
+        nlMvSetShadowObjPutPol(0xC620710);
+        nlMvSetShadowObjPutPol(0xC622D40);
+        nlMvSetShadowObjPutPol(0xC625370);
+        nlMvSetShadowObjPutPol(0xC62A1E8);
+        nlMvSetShadowObjPutPol(0xC6279A0);
+        t106 = nlMvSetShadowObjPutPol(0xC627E48);
         t107 = t106;
     }
     return t107;
 }
 
-int FUN_0c0302e6(void)
+int gdc_SpriteSetInit(void)
 {
     int t8;
     int t15;
@@ -376,60 +376,60 @@ int hudDraw(void)
 
     t0 = *(int *)0xC2A75E0;
     if ((t0 & 0x1) == 1) {
-        Put_Credits(0x0);
+        Put_Time_Count(0x0);
     }
     t3 = *(int *)0xC2A75E0;
     if ((t3 & 0x80) == 0x80) {
         if ((t3 & 0x10000000) != 0x10000000) {
             t4 = *(int *)0xC1EE20C;
             if (t4 != 2) {
-                Put_TotalDrum();
+                Put_Pass_Time();
             }
         }
         hudDrawTime();
     }
     t10 = *(int *)0xC2A75E0;
     if ((t10 & 0x100) == 0x100) {
-        FUN_0c056ed8(0x100);
+        Put_Time_Bonus(0x100);
     }
     t13 = *(int *)0xC1EE20C;
     if (t13 != 2) {
         t14 = *(int *)0xC2A75E0;
         if ((t14 & 0x400) == 0x400) {
-            FUN_0c055950();
+            hudDrawJudgement();
         }
         t17 = *(int *)0xC2A75E0;
         if ((t17 & 0x800) == 0x800) {
-            FUN_0c0558a2();
+            hudDrawJudgement2();
         }
         t20 = *(int *)0xC2A75E0;
         if ((t20 & 0x1000) == 0x1000) {
-            FUN_0c055b38();
+            hudDrawPassRanking();
         }
     }
     t24 = *(int *)0xC2A75E0;
     if ((t24 & 0x10) == 16) {
-        FUN_0c053ac0();
+        Put_Default2_Sprite();
     }
     t27 = *(int *)0xC2A75E0;
     if ((t27 & 0x20) == 32) {
-        FUN_0c053b44();
+        Put_Default_Sprite();
     }
     t30 = *(int *)0xC2A75E0;
     if ((t30 & 0x1000000) == 0x1000000) {
-        FUN_0c0572de();
+        Put_ReverseDriving();
     }
     t33 = *(int *)0xC2A75E0;
     if ((t33 & 0x2000000) == 0x2000000) {
-        FUN_0c057388();
+        Put_PickUp_Nag();
     }
     t36 = *(int *)0xC2A75E0;
     if ((t36 & 0x4000000) == 0x4000000) {
-        FUN_0c05741c();
+        Put_OverArea();
     }
     t39 = *(int *)0xC2A75E0;
     if ((t39 & 0x10000000) == 0x10000000) {
-        Put_ReadySetGo();
+        Put_TimeUp();
     }
     t42 = *(int *)0xC17948C;
     t48 = 0xC052FF8;
@@ -438,7 +438,7 @@ int hudDraw(void)
         pfSize(1.0f, 1.0f);
         pfSetZ(0.149999991f);
         pfColor(0xFF00FF00, 0xFFFFFF00, 0xFF00FF00, 0xFFFFFF00);
-        t47 = FUN_0c0608ac(0x23, 0x1A9);
+        t47 = pfTextPut(0x23, 0x1A9);
         t48 = t47;
     }
     t49 = *(int *)0xC2A736C;
@@ -454,7 +454,7 @@ int hudDraw(void)
                 t55 = *(int *)0xC2A7368;
                 if (t55 == 0) {
                     pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
-                    t57 = FUN_0c0608ac(0x23, 0x197);
+                    t57 = pfTextPut(0x23, 0x197);
                     t74 = t57;
                 } else {
                     t58 = *(int *)0xC2A736C;
@@ -462,7 +462,7 @@ int hudDraw(void)
                         t59 = *(int *)0xC2A7368;
                         if (t59 != 0) {
                             pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                            t61 = FUN_0c0608ac(0x23, 0x197);
+                            t61 = pfTextPut(0x23, 0x197);
                             t67 = t61;
                         } else {
                             t66 = t53;
@@ -471,7 +471,7 @@ int hudDraw(void)
                                 t65 = t53;
                                 if (t62 != 0) {
                                     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                    t64 = FUN_0c0608ac(0x23, 0x197);
+                                    t64 = pfTextPut(0x23, 0x197);
                                     t65 = t64;
                                 }
                                 t66 = t65;
@@ -486,7 +486,7 @@ int hudDraw(void)
                             t71 = t53;
                             if (t68 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                t70 = FUN_0c0608ac(0x23, 0x197);
+                                t70 = pfTextPut(0x23, 0x197);
                                 t71 = t70;
                             }
                             t72 = t71;
@@ -502,7 +502,7 @@ int hudDraw(void)
                     t76 = *(int *)0xC2A7368;
                     if (t76 != 0) {
                         pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                        t78 = FUN_0c0608ac(0x23, 0x197);
+                        t78 = pfTextPut(0x23, 0x197);
                         t84 = t78;
                     } else {
                         t83 = t53;
@@ -511,7 +511,7 @@ int hudDraw(void)
                             t82 = t53;
                             if (t79 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                t81 = FUN_0c0608ac(0x23, 0x197);
+                                t81 = pfTextPut(0x23, 0x197);
                                 t82 = t81;
                             }
                             t83 = t82;
@@ -526,7 +526,7 @@ int hudDraw(void)
                         t88 = t53;
                         if (t85 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            t87 = FUN_0c0608ac(0x23, 0x197);
+                            t87 = pfTextPut(0x23, 0x197);
                             t88 = t87;
                         }
                         t89 = t88;
@@ -547,7 +547,7 @@ int hudDraw(void)
             t97 = *(int *)0xC2A7368;
             if (t97 == 0) {
                 pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
-                t99 = FUN_0c0608ac(0x23, 0x197);
+                t99 = pfTextPut(0x23, 0x197);
                 t116 = t99;
             } else {
                 t100 = *(int *)0xC2A736C;
@@ -555,7 +555,7 @@ int hudDraw(void)
                     t101 = *(int *)0xC2A7368;
                     if (t101 != 0) {
                         pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                        t103 = FUN_0c0608ac(0x23, 0x197);
+                        t103 = pfTextPut(0x23, 0x197);
                         t109 = t103;
                     } else {
                         t108 = t95;
@@ -564,7 +564,7 @@ int hudDraw(void)
                             t107 = t95;
                             if (t104 != 0) {
                                 pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                                t106 = FUN_0c0608ac(0x23, 0x197);
+                                t106 = pfTextPut(0x23, 0x197);
                                 t107 = t106;
                             }
                             t108 = t107;
@@ -579,7 +579,7 @@ int hudDraw(void)
                         t113 = t95;
                         if (t110 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            t112 = FUN_0c0608ac(0x23, 0x197);
+                            t112 = pfTextPut(0x23, 0x197);
                             t113 = t112;
                         }
                         t114 = t113;
@@ -595,7 +595,7 @@ int hudDraw(void)
                 t118 = *(int *)0xC2A7368;
                 if (t118 != 0) {
                     pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                    t120 = FUN_0c0608ac(0x23, 0x197);
+                    t120 = pfTextPut(0x23, 0x197);
                     t126 = t120;
                 } else {
                     t125 = t95;
@@ -604,7 +604,7 @@ int hudDraw(void)
                         t124 = t95;
                         if (t121 != 0) {
                             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                            t123 = FUN_0c0608ac(0x23, 0x197);
+                            t123 = pfTextPut(0x23, 0x197);
                             t124 = t123;
                         }
                         t125 = t124;
@@ -619,7 +619,7 @@ int hudDraw(void)
                     t130 = t95;
                     if (t127 != 0) {
                         pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-                        t129 = FUN_0c0608ac(0x23, 0x197);
+                        t129 = pfTextPut(0x23, 0x197);
                         t130 = t129;
                     }
                     t131 = t130;

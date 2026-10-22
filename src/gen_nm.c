@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_nm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c028760(int);
+int SetCameraPosVelocity(int);
 int FUN_0c077210(int, int);
 int SetCameraAngleRatio(float, float);
 int SetCameraAngleVelocity(int, int, int);
 int SetCameraMode(int);
 int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
+int MultiRot4Vec(int);
 int camSetAngles(int, int, int, int);
 int camSetEye(int, int);
 int camSetMode(int);
@@ -47,7 +47,7 @@ int ExecStartCamera(void)
     } else {
         nlPushUnitMatrix();
         nlTranslateV(0xC179144);
-        SetCameraPosVelocity(0xC1790FC);
+        MultiRot4Vec(0xC1790FC);
         t4 = *(int *)0xC17999C;
         if (t4 == 0) {
             nlAddVector(0xC1799A4, 0xC1799BC);
@@ -76,7 +76,7 @@ int ExecStartCamera(void)
                             FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                             camSetEye((((int)stk + 4) + 0xC), 0x0);
                             SetCameraPosRatio(0.0f, 1.0f);
-                            FUN_0c028760(((int)stk + 4));
+                            SetCameraPosVelocity(((int)stk + 4));
                             *(float *)(((int)stk + 16)) = 0.0f;
                             *(float *)(((int)stk + 20)) = 5.0f;
                             *(float *)(((int)stk + 24)) = 0.0f;
@@ -117,7 +117,7 @@ int ExecStartCamera(void)
                         FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                         camSetEye((((int)stk + 4) + 0xC), 0x0);
                         SetCameraPosRatio(0.0f, 1.0f);
-                        FUN_0c028760(((int)stk + 4));
+                        SetCameraPosVelocity(((int)stk + 4));
                         *(float *)(((int)stk + 16)) = 0.0f;
                         *(float *)(((int)stk + 20)) = 5.0f;
                         *(float *)(((int)stk + 24)) = 0.0f;
@@ -139,7 +139,7 @@ int ExecStartCamera(void)
                     FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                     camSetEye((((int)stk + 4) + 0xC), 0x0);
                     SetCameraPosRatio(0.0f, 1.0f);
-                    FUN_0c028760(((int)stk + 4));
+                    SetCameraPosVelocity(((int)stk + 4));
                     *(float *)(((int)stk + 16)) = 0.0f;
                     *(float *)(((int)stk + 20)) = 5.0f;
                     *(float *)(((int)stk + 24)) = 0.0f;
@@ -155,7 +155,7 @@ int ExecStartCamera(void)
                 FUN_0c077210(((int)stk + 4), ((int)stk + 4));
                 camSetEye((((int)stk + 4) + 0xC), 0x0);
                 SetCameraPosRatio(0.0f, 1.0f);
-                FUN_0c028760(((int)stk + 4));
+                SetCameraPosVelocity(((int)stk + 4));
                 *(float *)(((int)stk + 16)) = 0.0f;
                 *(float *)(((int)stk + 20)) = 5.0f;
                 *(float *)(((int)stk + 24)) = 0.0f;

@@ -2,11 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-int FUN_0c05328a(void);
+int Pass_Angry(void);
 int Start_Pass_Judgement(int);
-int FUN_0c06f294(int, int, float);
-int FUN_0c071258(int);
-int FUN_0c0713d8(int);
+int psgJolt(int, int, float);
+int psgStepBlend(int);
+int psgUpdatePartTracks(int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int Sound_Request(int, int);
@@ -174,9 +174,9 @@ int psgFrameState3(int a4)
     psgSeatMatrix(a4);
     t2 = *(signed char *)((a4 + 0x149));
     if ((t2 & 128) != 0) {
-        FUN_0c071258(a4);
+        psgStepBlend(a4);
         t4 = *(int *)((a4 + 0x118));
-        FUN_0c06f294(a4, t4, 0.5f);
+        psgJolt(a4, t4, 0.5f);
     } else {
         t6 = *(int *)((a4 + 0x24));
         u531 = 60.0f;
@@ -258,7 +258,7 @@ int psgFrameState3(int a4)
                 case 8:
                 {
                     t56 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u58 = *(float *)((a4 + 0x38));
                     t59 = *(int *)((a4 + 0x34));
                     u61 = 58.0f;
@@ -296,7 +296,7 @@ int psgFrameState3(int a4)
                 case 18:
                 {
                     t79 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u81 = *(float *)((a4 + 0x38));
                     t82 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t82, (a4 + 0x3C), u81);
@@ -343,7 +343,7 @@ int psgFrameState3(int a4)
                 case 14:
                 {
                     t117 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u119 = *(float *)((a4 + 0x38));
                     t120 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t120, (a4 + 0x3C), u119);
@@ -363,7 +363,7 @@ int psgFrameState3(int a4)
                 case 16:
                 {
                     t130 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u132 = *(float *)((a4 + 0x38));
                     t133 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t133, (a4 + 0x3C), u132);
@@ -383,7 +383,7 @@ int psgFrameState3(int a4)
                 case 20:
                 {
                     t144 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u146 = *(float *)((a4 + 0x38));
                     t147 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t147, (a4 + 0x3C), u146);
@@ -405,7 +405,7 @@ int psgFrameState3(int a4)
                                                         t153 = *(int *)0xC1EE794;
                                                         if ((int)t153 > 0) {
                                                             Start_Pass_Judgement(0xFFFFFFFF);
-                                                            FUN_0c05328a();
+                                                            Pass_Angry();
                                                         }
                                                     }
                                                     u168 = *(float *)((a4 + 0x38));
@@ -425,7 +425,7 @@ int psgFrameState3(int a4)
                                                     t190 = *(int *)0xC1EE794;
                                                     if ((int)t190 > 0) {
                                                         Start_Pass_Judgement(0xFFFFFFFF);
-                                                        FUN_0c05328a();
+                                                        Pass_Angry();
                                                     }
                                                 }
                                                 u205 = *(float *)((a4 + 0x38));
@@ -445,7 +445,7 @@ int psgFrameState3(int a4)
                                                 t227 = *(int *)0xC1EE794;
                                                 if ((int)t227 > 0) {
                                                     Start_Pass_Judgement(0xFFFFFFFF);
-                                                    FUN_0c05328a();
+                                                    Pass_Angry();
                                                 }
                                             }
                                             u242 = *(float *)((a4 + 0x38));
@@ -465,7 +465,7 @@ int psgFrameState3(int a4)
                                             t264 = *(int *)0xC1EE794;
                                             if ((int)t264 > 0) {
                                                 Start_Pass_Judgement(0xFFFFFFFF);
-                                                FUN_0c05328a();
+                                                Pass_Angry();
                                             }
                                         }
                                         u279 = *(float *)((a4 + 0x38));
@@ -485,7 +485,7 @@ int psgFrameState3(int a4)
                                         t301 = *(int *)0xC1EE794;
                                         if ((int)t301 > 0) {
                                             Start_Pass_Judgement(0xFFFFFFFF);
-                                            FUN_0c05328a();
+                                            Pass_Angry();
                                         }
                                     }
                                     u316 = *(float *)((a4 + 0x38));
@@ -505,7 +505,7 @@ int psgFrameState3(int a4)
                                     t338 = *(int *)0xC1EE794;
                                     if ((int)t338 > 0) {
                                         Start_Pass_Judgement(0xFFFFFFFF);
-                                        FUN_0c05328a();
+                                        Pass_Angry();
                                     }
                                 }
                                 u353 = *(float *)((a4 + 0x38));
@@ -525,7 +525,7 @@ int psgFrameState3(int a4)
                                 t375 = *(int *)0xC1EE794;
                                 if ((int)t375 > 0) {
                                     Start_Pass_Judgement(0xFFFFFFFF);
-                                    FUN_0c05328a();
+                                    Pass_Angry();
                                 }
                             }
                             u390 = *(float *)((a4 + 0x38));
@@ -545,7 +545,7 @@ int psgFrameState3(int a4)
                             t412 = *(int *)0xC1EE794;
                             if ((int)t412 > 0) {
                                 Start_Pass_Judgement(0xFFFFFFFF);
-                                FUN_0c05328a();
+                                Pass_Angry();
                             }
                         }
                         u427 = *(float *)((a4 + 0x38));
@@ -565,7 +565,7 @@ int psgFrameState3(int a4)
                 case 22:
                 {
                     t448 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u450 = *(float *)((a4 + 0x38));
                     t451 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t451, (a4 + 0x3C), u450);
@@ -584,7 +584,7 @@ int psgFrameState3(int a4)
                 case 24:
                 {
                     t461 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u463 = *(float *)((a4 + 0x38));
                     t464 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t464, (a4 + 0x3C), u463);
@@ -607,7 +607,7 @@ int psgFrameState3(int a4)
                 case 28:
                 {
                     t480 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u482 = *(float *)((a4 + 0x38));
                     t483 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t483, (a4 + 0x3C), u482);
@@ -627,7 +627,7 @@ int psgFrameState3(int a4)
                 default:
                 {
                     t497 = ((int (*)(int, float, float))(nlPushMatrix))(0x0, 0.299999982f, 0.099999994f);
-                    FUN_0c0713d8(a4);
+                    psgUpdatePartTracks(a4);
                     u499 = *(float *)((a4 + 0x38));
                     t500 = *(int *)((a4 + 0x34));
                     FcvStoreBuffer(t500, (a4 + 0x3C), u499);
@@ -658,7 +658,7 @@ int psgFrameState3(int a4)
                         if (t537 != 8) {
                             if (t537 != 9) {
                                 if (t537 != 10) {
-                                    FUN_0c06f294(a4, (a4 + 0x3C), u531);
+                                    psgJolt(a4, (a4 + 0x3C), u531);
                                 } else {
                                     t539 = *(int *)((a4 + 0x0));
                                     FcvPlayBuffer((a4 + 0x3C), t539);

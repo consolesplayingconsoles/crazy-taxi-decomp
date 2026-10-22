@@ -2,10 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int init_CarSound(void);
-int FUN_0c022102(int);
-int FUN_0c02238e(int);
-int FUN_0c0376b0(void);
-int FUN_0c04bec2(int, ...);
+int carInitDriveSplit(int);
+int carCalcInertia(int);
+int InitSpark(void);
+int getReplayPoint(int, ...);
 int InitEffect(void);
 int SetColliObj(int, int);
 int init_CarMain(void);
@@ -281,7 +281,7 @@ int init_CarMain(void)
                     if (t38 != 1) {
                         if (t38 == 2) {
                             *(unsigned short *)0xC179152 = 0x4000;
-                            FUN_0c04bec2(0xC179144);
+                            getReplayPoint(0xC179144);
                             u40 = *(float *)0xC179148;
                             *(float *)0xC179148 = (u40 + 20.0f);
                         }
@@ -375,7 +375,7 @@ int init_CarMain(void)
             if (t100 != 1) {
                 if (t100 == 2) {
                     *(unsigned short *)0xC179152 = 0x4000;
-                    FUN_0c04bec2(0xC179144);
+                    getReplayPoint(0xC179144);
                     u102 = *(float *)0xC179148;
                     *(float *)0xC179148 = (u102 + 20.0f);
                 }
@@ -541,7 +541,7 @@ int init_CarMain(void)
     }
     *(float *)0xC179208 = u188;
     *(float *)0xC17920C = 25.0f;
-    FUN_0c02238e(0xC1790CC);
+    carCalcInertia(0xC1790CC);
     *(float *)0xC179228 = 0.0f;
     *(float *)0xC179238 = 0.0f;
     *(float *)0xC179234 = 0.0f;
@@ -621,7 +621,7 @@ int init_CarMain(void)
         *(unsigned short *)((t192 + t190)) = 0x0;
         t192 = (t192 + 0x84);
     }
-    FUN_0c022102(0xC1790CC);
+    carInitDriveSplit(0xC1790CC);
     t202 = *(int *)0xC08AD9C;
     *(unsigned int *)0xC17911C = t202;
     t203 = *(int *)0xC08AD98;
@@ -645,7 +645,7 @@ int init_CarMain(void)
     SetColliObj(0xC1790CC, 0x0);
     init_CarSound();
     InitEffect();
-    t214 = FUN_0c0376b0();
+    t214 = InitSpark();
     *(unsigned int *)0xC179490 = 0x0;
     *(unsigned int *)0xC179494 = 0x0;
     return t214;

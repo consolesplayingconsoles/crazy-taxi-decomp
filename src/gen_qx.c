@@ -2,12 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Drv_StartAction(int, int, int);
-float FUN_0c063292(void);
-int FUN_0c063dc6(void);
+float Drv_ReverseFrame(void);
+int Drv_ExecBlend(void);
 int FcvStoreBuffer(int, int, float);
-int FUN_0c0631fe(void);
+int Drv_ExecReverse(void);
 
-int FUN_0c0631fe(void)
+int Drv_ExecReverse(void)
 {
     int t0;
     int t1;
@@ -21,9 +21,9 @@ int FUN_0c0631fe(void)
     *(unsigned char *)0xC2AD1DF = (t0 | 0x40);
     t1 = *(signed char *)0xC2AD1DF;
     if ((t1 & 128) != 0) {
-        FUN_0c063dc6();
+        Drv_ExecBlend();
     } else {
-        t3 = FUN_0c063292();
+        t3 = Drv_ReverseFrame();
         *(float *)0xC2AD024 = t3;
         t4 = *(int *)0xC2AD020;
         FcvStoreBuffer(t4, 0xC2AD028, t3);

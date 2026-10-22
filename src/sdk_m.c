@@ -99,7 +99,7 @@ void FUN_0c07d620(char *p, int mask, int val)
     } while (*(int *)p);
 }
 
-int ChangeObjGroup(int *m)
+int nlMvSetShadowObjPutPol(int *m)
 {
     if (m[0] >= 0 && m[6])
         FUN_0c07d620((char *)m + 24, 192, 128);

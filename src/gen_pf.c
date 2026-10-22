@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_pf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c052c9e(void);
+int Init_Shift(void);
 
-int FUN_0c052c9e(void)
+int Init_Shift(void)
 {
     *(float *)0xC2A8930 = 582.0f;
     *(float *)0xC2A8934 = 420.0f;

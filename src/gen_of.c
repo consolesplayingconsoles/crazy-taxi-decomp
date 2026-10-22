@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int rtcGetSeconds(void);
-int FUN_0c05b11c(int a4, int a5, int a6, int a7);
+int Result_Insert_Rank(int a4, int a5, int a6, int a7);
 
-int FUN_0c05b11c(int a4, int a5, int a6, int a7)
+int Result_Insert_Rank(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;

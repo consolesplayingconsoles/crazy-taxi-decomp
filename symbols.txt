@@ -106,10 +106,10 @@
 0C26E39C gLandmarkDist
 0C2AE360 gPsgCurrent
 0C13EEC8 gRinSeed
-0C1EE334 gPlayerAdv
+0C1EE334 Coin_disp_mode
 0C2A75E0 gHudFlags
-0C179078 gDestCount
-0C2A9F64 gSystemFlag
+0C179078 gKousyaCount
+0C2A9F64 gSeaFogState
 0C2A9968 gRideOnA
 0C2A9A2C gRideOnCount
 0C2B7BC4 g_0c2b7bc4

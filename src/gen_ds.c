@@ -3,9 +3,9 @@
 
 int ADXT_GetNumSmpl(int);
 int ADXT_GetStat(int);
-int FUN_0c02e162(int a4);
+int gdc_GetStreamSongTotalTime(int a4);
 
-int FUN_0c02e162(int a4)
+int gdc_GetStreamSongTotalTime(int a4)
 {
     int t0;
     int t1;

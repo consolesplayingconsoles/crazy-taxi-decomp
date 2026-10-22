@@ -4,9 +4,9 @@
 int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
 int gdc_FileLoad(int, int, int);
-int FUN_0c03006a(void);
+int gdc_CarSoundLoad(void);
 
-int FUN_0c03006a(void)
+int gdc_CarSoundLoad(void)
 {
     int t0;
     int t4;

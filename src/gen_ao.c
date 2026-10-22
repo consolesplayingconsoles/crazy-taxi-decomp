@@ -27,13 +27,13 @@ int ADXSTM_Start(int);
 int ADXSTM_Stop(int);
 int ADXT_GetNumChan(int);
 int ADXT_Stop(void);
-int FUN_0c02e3c0(void);
-int FUN_0c031036(int, int, int, int);
-int FUN_0c031048(void);
-int FUN_0c0397e8(void);
-int FUN_0c0399b8(int);
-int FUN_0c039ad4(int, float);
-int FUN_0c039c1c(void);
+int gdc_FadeManStreamSong(void);
+int pfOffsetColor(int, int, int, int);
+int pfOffsetOff(void);
+int PutNameEntryScreen(void);
+int PutNameEntryRank(int);
+int PutNameEntryDrum(int, float);
+int PutNameEntryName(void);
 int FUN_0c075930(float);
 int nlSqrt(int, int);
 int FUN_0c077210(int, int);
@@ -177,7 +177,7 @@ void padToAnalog(void)
     }
 }
 
-void FUN_0c039378(float f4, float f5, float f6)
+void SetMotionBlurColor(float f4, float f5, float f6)
 {
     float u1;
     float u0;
@@ -239,18 +239,18 @@ int gameState15(void)
     } else {
         *(unsigned int *)0xC1EE340 = 0x1;
     }
-    FUN_0c031036(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
-    FUN_0c0397e8();
+    pfOffsetColor(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
+    PutNameEntryScreen();
     t3 = *(int *)0xC2864A4;
     t4 = *(int *)0xC2864A0;
-    FUN_0c039ad4(t4, ((float)t3 / 16.0f));
-    FUN_0c039c1c();
+    PutNameEntryDrum(t4, ((float)t3 / 16.0f));
+    PutNameEntryName();
     t7 = *(int *)0xC1EE340;
-    FUN_0c0399b8(t7);
+    PutNameEntryRank(t7);
     t9 = *(int *)0xC2864CC;
     t10 = ((int (*)(void))(t9))();
-    FUN_0c031048();
-    return FUN_0c02e3c0();
+    pfOffsetOff();
+    return gdc_FadeManStreamSong();
 }
 
 

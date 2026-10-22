@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_cv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c04d49e(int, float, float);
-int FUN_0c05778a(int, int, float, float);
+int HomingPosX(int, float, float);
+int nd_SprPut(int, int, float, float);
 int FUN_0c15f9c4(int, int, int);
 int FUN_0c15fa6c(int, int);
 int ResetFadeColor(void);
@@ -22,7 +22,7 @@ int FUN_0c089ad4(int a4, int a5, int a6);
 void nlRotateV(int a4, int a5);
 int FUN_0c089978(int a4, int a5);
 int gdFsSearchPath_dds(int a4, int a5, int a6, int a7, int a8);
-void FUN_0c05bc08(int a4);
+void Put_ReadySetGo(int a4);
 
 int FUN_0c07ade0(int a4)
 {
@@ -228,7 +228,7 @@ int FUN_0c089978(int a4, int a5)
 }
 
 
-void FUN_0c05bc08(int a4)
+void Put_ReadySetGo(int a4)
 {
     int t0;
     int t1;
@@ -271,7 +271,7 @@ void FUN_0c05bc08(int a4)
                 u11 = *(float *)0xC2A98C4;
                 *(float *)0xC2A98C4 = u10;
                 nlObjPutSetFadeColor(1.0f, 0.643137217f, 0.160784304f);
-                FUN_0c04d49e(0xC2A9A48, 0.099999994f, 0.0f);
+                HomingPosX(0xC2A9A48, 0.099999994f, 0.0f);
                 u14 = *(float *)0xC2A9A48;
                 *(float *)0xC2A9A48 = (float)(int)u14;
                 *(float *)0xC2A98A8 = 1.0f;
@@ -284,9 +284,9 @@ void FUN_0c05bc08(int a4)
                 }
                 *(unsigned int *)0xC2A98C0 = 0x0;
                 u17 = *(float *)0xC2A9A48;
-                FUN_0c05778a(0xC2A9898, 0x75, (u17 + 320.0f), 240.0f);
+                nd_SprPut(0xC2A9898, 0x75, (u17 + 320.0f), 240.0f);
                 u19 = *(float *)0xC2A9A48;
-                FUN_0c05778a(0xC2A9898, 0x75, (320.0f - u19), 240.0f);
+                nd_SprPut(0xC2A9898, 0x75, (320.0f - u19), 240.0f);
                 ResetFadeColor();
                 u22 = *(float *)0xC2A98C4;
                 *(float *)0xC2A9A58 = u22;
@@ -322,7 +322,7 @@ void FUN_0c05bc08(int a4)
                         *(float *)0xC2A98C4 = (u42 - 0.0199999996f);
                     }
                     u46 = *(float *)0xC2A9A4C;
-                    FUN_0c05778a(0xC2A9898, 0x63, u46, 240.0f);
+                    nd_SprPut(0xC2A9898, 0x63, u46, 240.0f);
                     ResetFadeColor();
                     u49 = *(float *)0xC2A98A8;
                     *(float *)0xC2A9A54 = u49;

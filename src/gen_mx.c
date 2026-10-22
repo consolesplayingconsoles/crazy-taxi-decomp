@@ -2,21 +2,21 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int End_LoadSave(int);
-int FUN_0c03b544(int);
-extern int FUN_0c03b698();
-int FUN_0c03bf42(int);
-int FUN_0c03bf76(int);
-int FUN_0c03dfc8(void);
-int FUN_0c040c58(int);
-int FUN_0c041016(int);
-int FUN_0c060586(int, int);
+int SetScreen(int);
+extern int SetWindow();
+int windowOpenStep(int);
+int windowEnterStep(int);
+int windowClose(void);
+int callWarnning(int);
+int GetNowLanguage(int);
+int Start_LoadSave(int, int);
 int PutVM_Message(int, int, int, float, float);
 int SaveBackupData(int);
 int buIsExistFile(int, int);
 int putLevelCTFontAssist(int, int, int, int, int);
-int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9);
+int windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9);
 
-int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9)
+int windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9)
 {
     int t0;
     int t1;
@@ -164,9 +164,9 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     L_C03E292:;
     goto L_C03E5C0;
     L_C03E296:;
-    return ((int (*)(int, int, int, int))(FUN_0c03b698))(0x4, R5, R6, R7);
+    return ((int (*)(int, int, int, int))(SetWindow))(0x4, R5, R6, R7);
     L_C03E2FC:;
-    t9 = FUN_0c03bf42(0x0);
+    t9 = windowOpenStep(0x0);
     t10 = t9 != 1;
     t11 = 0xC2A19E0;
     t12 = 0xC0EF7E0;
@@ -206,7 +206,7 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     L_C03E32C:;
     goto L_C03E54E;
     L_C03E54E:;
-    return FUN_0c040c58(R13);
+    return callWarnning(R13);
     L_C03E330:;
     *(unsigned int *)((R12 + 0x0)) = R9;
     *(unsigned int *)((R10 + 0x0)) = 0x3;
@@ -237,7 +237,7 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     if (t34) goto L_C03E4D2;
     goto L_C03E4B2;
     L_C03E4B2:;
-    return ((int (*)(int, int, int, int))(FUN_0c03b698))(0x9, R5, R6, R7);
+    return ((int (*)(int, int, int, int))(SetWindow))(0x9, R5, R6, R7);
     L_C03E4D2:;
     t35 = *(int *)0xC2A1AEC;
     t36 = t35 != 0xFFFFFF05;
@@ -261,7 +261,7 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     t44 = *(int *)((R14 + 0x0));
     PutVM_Message(0x20, 0x7, ((((t44 << 2) << 2) << 1) + R11), F15, F13);
     t46 = *(int *)((R14 + 0x0));
-    t47 = FUN_0c060586(((((t46 >> 1) << 1) + ((t46 >> 1) << 2)) + 0x1), 0x1);
+    t47 = Start_LoadSave(((((t46 >> 1) << 1) + ((t46 >> 1) << 2)) + 0x1), 0x1);
     t48 = *(int *)((R10 + 0x0));
     t49 = (int)t48 <= 0;
     t50 = t47;
@@ -282,10 +282,10 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     if (t55) goto L_C03E598;
     goto L_C03E54E;
     L_C03E598:;
-    FUN_0c03bf76(0x14);
-    FUN_0c03dfc8();
-    FUN_0c03b544(0x4);
-    t60 = ((int (*)(int))(FUN_0c03b698))(0x0);
+    windowEnterStep(0x14);
+    windowClose();
+    SetScreen(0x4);
+    t60 = ((int (*)(int))(SetWindow))(0x0);
     t61 = *(int *)((R12 + 0x0));
     t62 = t61 != 1;
     t63 = t61;
@@ -336,7 +336,7 @@ int FUN_0c03e254(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     PutVM_Message(0x20, 0x24, 0x0, 190.0f, 176.0f);
     PutVM_Message(0x20, 0x25, 0x0, 190.0f, 208.0f);
     t80 = *(int *)((R12 + 0x0));
-    t81 = FUN_0c041016(0x0);
+    t81 = GetNowLanguage(0x0);
     putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)t81 * (short)0x58)), 0x2, (0x1 & (t80 + 0x1)), 0x0);
     t83 = *(int *)((R14 + 0x0));
     PutVM_Message(0x20, 0x7, ((((t83 << 2) << 2) << 1) + R11), F15, F13);

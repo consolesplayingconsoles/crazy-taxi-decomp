@@ -50,11 +50,11 @@ int carSteering(int a4);
 int carMultiCollision(int a4, float f4);
 int nd_CarSel_PutCar(int a4, int a5, int a6, int a7);
 int getSteering(int a4, int a5);
-int FUN_0c064788(void);
-int FUN_0c058018(int a4, int a5, int a6);
+int camGetOnNear(void);
+int Put_Adv_Credits(int a4, int a5, int a6);
 int kmLoadTextureBlock(int a4, int a5, int a6, int a7);
 int getYXZrot(int a4);
-int FUN_0c064a5c(void);
+int camGetOnReturn(void);
 
 int FUN_0c07c740(int a4, int a5)
 {
@@ -123,7 +123,7 @@ int FUN_0c07c740(int a4, int a5)
 
 
 
-int FUN_0c058018(int a4, int a5, int a6)
+int Put_Adv_Credits(int a4, int a5, int a6)
 {
     int t0;
     int t2;

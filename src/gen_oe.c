@@ -11,9 +11,9 @@ int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlScale(float, float, float);
 int nlTranslate(float, float, float);
-int FUN_0c0589b8(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int FUN_0c0589b8(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     int t6;
     int t7;

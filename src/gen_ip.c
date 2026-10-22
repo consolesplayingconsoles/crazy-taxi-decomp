@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_ip): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02bbf4(int, float);
-int FUN_0c0391fc(void);
+int TOANG2(int, float);
+int PutMVObj(void);
 int nlSqrt(int, int);
 int GetRotVec(int);
 int nlGetMatrix(int);
@@ -109,7 +109,7 @@ int putPlayerCar(int a4)
     }
     nlObjPutUseViewMatrix(t25);
     *(volatile int *)0xC179488;
-    FUN_0c0391fc();
+    PutMVObj();
     GetRotVec((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x30));
     nlPopMatrix(0x1);
     t32 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x6C));
@@ -180,7 +180,7 @@ int putPlayerCar(int a4)
     t91 = *(int *)(((int)stk + 8));
     u92 = *(float *)(((0x108 + (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC))) + 0x30));
     u93 = *(float *)((t91 + 0x30));
-    FUN_0c02bbf4((((int)stk + 4) + 0xC), (u92 - u93));
+    TOANG2((((int)stk + 4) + 0xC), (u92 - u93));
     t95 = *(short *)(((int)stk + 16));
     nlRotateAZ((unsigned short)t95);
     t97 = *(short *)(((0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x82));

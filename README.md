@@ -25,14 +25,14 @@ TOTAL TEST COVERAGE           81.3%  the instructions the cases ran, of all inst
 FUNCTIONS LEFT  (100.0% complete) 0  of the 3186 functions that can be C (60 with no C form are counted apart)
 BYTES LEFT      (100.0% complete) 0  of 541604 bytes of code that can be C
 FUNCTIONS                            
-  unnamed                      1447  functions still called FUN_... (1447 of 3246)
+  unnamed                       711  functions still called FUN_... (711 of 3246)
   Not written C                   0  0 bytes
   Written C with errors           0  0 bytes
   Not drawn                       0  0 bytes
   Drawn with errors               0  0 bytes
   Checked with errors             0  0 bytes
   No C form                    1.8%  an instruction or a register convention with no C form (tools/classify.py names it)
-  documented                  48.2%  1565 named functions in docs/*.md
+  documented                  70.5%  2287 named functions in docs/*.md
 GAME ASSETS (EXTRA)                  
   models named                37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named            15.5%  9 of 58 characters (note rules)

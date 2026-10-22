@@ -1,16 +1,16 @@
 /* Straight-line functions with loads (batch gen b): getters, copies and float parameter blocks, generated from the code and
    checked by tests. */
 
-void FUN_0c0288e0(float f4);
-float FUN_0c0288f0(void);
-void FUN_0c028908(float f4);
-int FUN_0c038ee6(void);
-int FUN_0c038f80(void);
+void SetCameraDistance(float f4);
+float GetCameraDistance(void);
+void SetScreenRatio(float f4);
+int ReturnBreakPinNum(void);
+int ReturnBreakBeachFlag(void);
 int getKyakuOffFlag(void);
-int FUN_0c05273c(void);
-int FUN_0c05cb52(void);
-int FUN_0c05db72(void);
-int FUN_0c06b0ee(void);
+int Init_Pass_Time(void);
+int Get_Bowling_Gate(void);
+int CheckNumRideon(void);
+int rinRandGetSeed(void);
 int nlIntrGetEvent(void);
 int kmChangeContextUserClipMode(int a4);
 int ADXAMP_GetStat(int a4);
@@ -50,12 +50,12 @@ int FUN_0c1721da(int a4);
 int ADXPD_GetStat(int a4);
 int ADXPD_GetNumBlk(int a4);
 
-void FUN_0c0288e0(float f4)
+void SetCameraDistance(float f4)
 {
     *(float *)0xC0E4A04 = f4;
 }
 
-float FUN_0c0288f0(void)
+float GetCameraDistance(void)
 {
     float u0;
 
@@ -63,12 +63,12 @@ float FUN_0c0288f0(void)
     return u0;
 }
 
-void FUN_0c028908(float f4)
+void SetScreenRatio(float f4)
 {
     *(float *)0xC0E49F4 = f4;
 }
 
-int FUN_0c038ee6(void)
+int ReturnBreakPinNum(void)
 {
     int t0;
 
@@ -76,7 +76,7 @@ int FUN_0c038ee6(void)
     return t0;
 }
 
-int FUN_0c038f80(void)
+int ReturnBreakBeachFlag(void)
 {
     int t0;
 
@@ -92,7 +92,7 @@ int getKyakuOffFlag(void)
     return t0;
 }
 
-int FUN_0c05273c(void)
+int Init_Pass_Time(void)
 {
     float u0;
     float u1;
@@ -123,7 +123,7 @@ int FUN_0c05273c(void)
     return 0xC2A8DF4;
 }
 
-int FUN_0c05cb52(void)
+int Get_Bowling_Gate(void)
 {
     int t0;
 
@@ -131,7 +131,7 @@ int FUN_0c05cb52(void)
     return t0;
 }
 
-int FUN_0c05db72(void)
+int CheckNumRideon(void)
 {
     int t0;
 
@@ -139,7 +139,7 @@ int FUN_0c05db72(void)
     return t0;
 }
 
-int FUN_0c06b0ee(void)
+int rinRandGetSeed(void)
 {
     int t0;
 

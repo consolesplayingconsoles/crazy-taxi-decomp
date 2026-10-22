@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_bj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c058b70(int, int, int, float);
-int FUN_0c05a742(void);
+int Model_Put_Sprite3D(int, int, int, float);
+int Result_Class_Shadow_Put(void);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 int mpdrv_clear_deviceinfo(int);
@@ -14,11 +14,11 @@ int nlObjPutSetFadeColor(float, float, float);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlSprPut(int, int);
-int FUN_0c05724c(int a4);
-int FUN_0c05a9dc(void);
+int Put_Time_Spark(int a4);
+int Result_Awesome_Put(void);
 int mpdrv_init_globals(void);
 
-int FUN_0c05724c(int a4)
+int Put_Time_Spark(int a4)
 {
     int t2;
     int t3;
@@ -58,7 +58,7 @@ int FUN_0c05724c(int a4)
     u8 = *(float *)0xC057354;
     u9 = *(float *)((a4 + 0x1C));
     u10 = *(float *)((a4 + 0x18));
-    FUN_0c058b70((int)u10, (int)u9, 0xC0EAC20, u8);
+    Model_Put_Sprite3D((int)u10, (int)u9, 0xC0EAC20, u8);
     t12 = *(signed char *)(((a4 + 0x30) + 0x0));
     *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x0)) = t12;
     t13 = *(signed char *)(((a4 + 0x30) + 0x1));
@@ -82,7 +82,7 @@ int FUN_0c05724c(int a4)
     return t23;
 }
 
-int FUN_0c05a9dc(void)
+int Result_Awesome_Put(void)
 {
     int t0;
     int t1;
@@ -175,7 +175,7 @@ int FUN_0c05a9dc(void)
             *(float *)0xC2A974C = 0.5f;
             *(float *)0xC2A9758 = 0.0f;
         }
-        FUN_0c05a742();
+        Result_Class_Shadow_Put();
     }
     u28 = *(float *)0xC05AC3C;
     *(float *)0xC2A9704 = u28;

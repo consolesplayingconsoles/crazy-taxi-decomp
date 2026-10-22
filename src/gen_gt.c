@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ExecArrow(int, float);
-int FUN_0c0574c0(int, int);
+int Put_Stop_and_Brake(int, int);
 float FUN_0c089de0(int);
 int ResetFadeColor(void);
 int ResetLight(void);
@@ -18,5 +18,5 @@ float nlRoundUp(float);
 int nlScale(float, float, float);
 int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
-int Model_Put_Sprite3D(int a4, int a5, float f4);
+int kyakuTaskPut(int a4, int a5, float f4);
 

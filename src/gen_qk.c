@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_qk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c03b674(int);
-int FUN_0c03bf42(int);
-int FUN_0c03bf76(int);
+int NextWindow(int);
+int windowOpenStep(int);
+int windowEnterStep(int);
 int PutVM_Message(int, int, int, float, float);
-int FUN_0c03e6a4(void);
+int windowCardMissing(void);
 
-int FUN_0c03e6a4(void)
+int windowCardMissing(void)
 {
     int t6;
     int t7;
@@ -17,7 +17,7 @@ int FUN_0c03e6a4(void)
     int t13;
     int t14;
 
-    FUN_0c03bf42(0x14);
+    windowOpenStep(0x14);
     PutVM_Message(0x20, 0x0, 0x0, 160.0f, 144.0f);
     PutVM_Message(0x20, 0x1, 0x0, 160.0f, 176.0f);
     PutVM_Message(0x20, 0x2, 0xC2A1238, 160.0f, 208.0f);
@@ -35,16 +35,16 @@ int FUN_0c03e6a4(void)
             if (t9 == 0) {
                 t10 = 0x4;
             }
-            FUN_0c03b674(t10);
+            NextWindow(t10);
         } else {
             t13 = *(int *)0xC2A11CC;
             if ((t13 & 1) != 0) {
                 t14 = *(int *)0xC2A1208;
                 *(unsigned int *)0xC2A1208 = (t14 | 0x9);
                 *(unsigned int *)0xC2A121C = 0x0;
-                FUN_0c03b674(0x9);
+                NextWindow(0x9);
             }
         }
     }
-    return FUN_0c03bf76(0x14);
+    return windowEnterStep(0x14);
 }

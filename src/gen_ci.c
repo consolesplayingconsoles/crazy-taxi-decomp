@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_ci): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c05a742(void);
+int Result_Class_Shadow_Put(void);
 int Sound_Request(int, int);
 int nlSprPut(int, int);
-int FUN_0c05a79c(void);
+int Result_Crazy_Put(void);
 
-int FUN_0c05a79c(void)
+int Result_Crazy_Put(void)
 {
     int t0;
     int t1;
@@ -101,7 +101,7 @@ int FUN_0c05a79c(void)
             *(float *)0xC2A974C = 0.5f;
             *(float *)0xC2A9758 = 0.0f;
         }
-        FUN_0c05a742();
+        Result_Class_Shadow_Put();
     }
     t38 = *(int *)0xC2A9864;
     *(unsigned int *)0xC2A9864 = (t38 + 0x1);

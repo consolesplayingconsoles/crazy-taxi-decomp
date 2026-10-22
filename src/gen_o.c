@@ -3,13 +3,13 @@
 
 int ADXT_SetOutVol(int, int);
 int ADXT_StartAfs(int, int, int);
-int FUN_0c02e494(void);
+int gdc_StopStreamSongDisk(void);
 int gdc_CourseStartLoadReq(void);
-int FUN_0c03012c(void);
-int FUN_0c03019a(void);
-int FUN_0c03b544(int);
-int FUN_0c03b698(int);
-int FUN_0c066bf0(int, int, float);
+int gdc_FileLoadStop(void);
+int gdc_FileLoadInit(void);
+int SetScreen(int);
+int SetWindow(int);
+int FcvInterpolateBuffer(int, int, float);
 int nlsndPackLoad(int, int);
 int FUN_0c07f0b0(void);
 int FUN_0c167800(void);
@@ -20,15 +20,15 @@ int kmiWriteRegister(int, int);
 int memmove(int, int, int);
 int syCfgIIDCheckSum(int);
 int volumeToDb(int);
-int FUN_0c02e31e(int a4);
-int FUN_0c03006a(void);
-int FUN_0c03dffa(void);
-int FUN_0c063dc6(void);
-int FUN_0c071258(int a4);
+int gdc_PlayStreamSong(int a4);
+int gdc_CarSoundLoad(void);
+int windowRetry(void);
+int Drv_ExecBlend(void);
+int psgStepBlend(int a4);
 int syCfgGetIndividualID(int a4);
 int kmBlankScreen(int a4);
 
-int FUN_0c02e31e(int a4)
+int gdc_PlayStreamSong(int a4)
 {
     int t0;
     float u1;
@@ -53,19 +53,19 @@ int FUN_0c02e31e(int a4)
 }
 
 
-int FUN_0c03dffa(void)
+int windowRetry(void)
 {
     *(unsigned int *)0xC1EE238 = 0x0;
-    FUN_0c03012c();
-    FUN_0c03019a();
+    gdc_FileLoadStop();
+    gdc_FileLoadInit();
     gdc_CourseStartLoadReq();
-    FUN_0c03b544(0x4);
-    FUN_0c03b698(0x0);
+    SetScreen(0x4);
+    SetWindow(0x0);
     *(unsigned int *)0xC2A11B0 = 0x0;
-    return FUN_0c02e494();
+    return gdc_StopStreamSongDisk();
 }
 
-int FUN_0c063dc6(void)
+int Drv_ExecBlend(void)
 {
     float u0;
     int t1;
@@ -85,7 +85,7 @@ int FUN_0c063dc6(void)
         return (t1 & 0x7F);
     }
     u2 = *(float *)0xC2AD0F4;
-    FUN_0c066bf0(0xC2AD028, 0xC2AD104, (u2 / u0));
+    FcvInterpolateBuffer(0xC2AD028, 0xC2AD104, (u2 / u0));
     u4 = *(float *)0xC2AD0F4;
     *(float *)0xC2AD0F4 = (u4 + 1.0f);
     u5 = *(float *)0xC2AD0F8;

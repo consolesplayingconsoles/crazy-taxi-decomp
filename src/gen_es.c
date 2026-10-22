@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_es): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c04a090(int, int, int, int, int, float);
+int getNearLinkedLine(int, int, int, int, int, float);
 int FUN_0c157ba0(int, int);
 int FUN_0c157d20(int);
 int FUN_0c157d58(int, int);
@@ -10,11 +10,11 @@ int getCoursePointMove(int, int, int);
 int kmiFBfree(int);
 int nlGetAverageVector(int, int, int, float, float);
 float nlLength(int, int);
-float FUN_0c048adc(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 int kmiVQFBfree(int a4, int a5);
 
-float FUN_0c048adc(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     int t1;
     int t2;
@@ -59,7 +59,7 @@ float FUN_0c048adc(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int 
     *(unsigned int *)(((int)stk + 52)) = a6;
     *(unsigned int *)(((int)stk + 48)) = a7;
     *(unsigned int *)(((int)stk + 8)) = a4;
-    FUN_0c04a090(0x2, 0x0, (((int)stk + 4) + 0x30), (((int)stk + 4) + 0x2C), a5, f4);
+    getNearLinkedLine(0x2, 0x0, (((int)stk + 4) + 0x30), (((int)stk + 4) + 0x2C), a5, f4);
     t1 = *(int *)(((int)stk + 52));
     t2 = *(int *)0xC2A6690;
     t3 = *(int *)(((int)stk + 48));

@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_pz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c02e83c(int);
+int gdc_CourseBlockFind(int);
 int nlObjPutUseViewMatrix(int);
-int FUN_0c02eb86(int a4, int a5, float f4);
+int gdc_CoursePut(int a4, int a5, float f4);
 
-int FUN_0c02eb86(int a4, int a5, float f4)
+int gdc_CoursePut(int a4, int a5, float f4)
 {
     int t0;
     int t1;
@@ -73,7 +73,7 @@ int FUN_0c02eb86(int a4, int a5, float f4)
         t13 = (t13 + t12);
         if ((int)t11 >= (int)0x120) {
             t11 = t10;
-            t17 = FUN_0c02e83c(t11);
+            t17 = gdc_CourseBlockFind(t11);
             t11 = t17;
             if (t17 != -1) {
                 t18 = t11;

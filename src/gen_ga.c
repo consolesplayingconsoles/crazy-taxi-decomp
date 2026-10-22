@@ -16,9 +16,9 @@ int nlRotateAZ(int);
 float nlScalor(int);
 int nlSetTranslate(int);
 int nlSubVector3op(int, int, int);
-int FUN_0c0227c8(int a4, float f4, float f5);
+int carWheelCollision(int a4, float f4, float f5);
 
-int FUN_0c0227c8(int a4, float f4, float f5)
+int carWheelCollision(int a4, float f4, float f5)
 {
     int t1;
     int t3;

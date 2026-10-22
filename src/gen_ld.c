@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int FUN_0c07f5c0(int);
-int FUN_0c03bea0(int a4, int a5, int a6, int a7);
+int menuChangeValue(int a4, int a5, int a6, int a7);
 
-int FUN_0c03bea0(int a4, int a5, int a6, int a7)
+int menuChangeValue(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
