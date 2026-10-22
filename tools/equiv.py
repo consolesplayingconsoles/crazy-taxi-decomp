@@ -30,8 +30,15 @@ the address the register holds when the call is made, as if the callee had fille
 that reads it can then run more than once).
     python3 tools/equiv.py -q src/<file>.c    prints only what is not EQUIVALENT, and a count.
 
+Every pass is remembered in state/proof-cache.json under a key made of everything the proof depends on: the
+compiled code, the function's place in it, its cases (and any RAM dump they load), the original's bytes, the
+prototypes, returns and casts the comparison reads, and the source of this file and sh4sim.py. A function whose
+key is already there passes without running its cases again: a rename or a comment changes no byte of the
+code, so it costs one compile. --fresh runs every case anyway (and remembers the passes again).
+
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
+import hashlib
 import json
 import os
 import re
@@ -317,11 +324,44 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
     return True, ''
 
 
+PROOF_CACHE = os.path.join('state', 'proof-cache.json')
+
+
+def proof_key(code, offset, case_path, sets, orig_bytes, compared):
+    """Everything a pass depends on, hashed: see the module notes."""
+    h = hashlib.sha1()
+    for f in (os.path.abspath(__file__), sh4sim.__file__):
+        h.update(open(f, 'rb').read())
+    h.update(code)
+    h.update(str(offset).encode())
+    h.update(open(case_path, 'rb').read())
+    for d in sorted({c['dump'] for k in ('dev', 'holdout') for c in sets.get(k, []) if c.get('dump')}):
+        h.update(open(d, 'rb').read() if os.path.exists(d) else b'missing ' + d.encode())
+    h.update(orig_bytes)
+    h.update(repr(compared).encode())
+    return h.hexdigest()
+
+
+def load_cache():
+    try:
+        return json.load(open(PROOF_CACHE))
+    except (OSError, ValueError):
+        return {}
+
+
+def save_cache(cache):
+    os.makedirs('state', exist_ok=True)
+    tmp = PROOF_CACHE + '.%d' % os.getpid()
+    json.dump(cache, open(tmp, 'w'), indent=0, sort_keys=True)
+    os.replace(tmp, PROOF_CACHE)
+
+
 def main(argv):
     global SHOW
     quiet = '-q' in argv
+    fresh = '--fresh' in argv
     if '--full' in argv: SHOW = int(os.environ.get('EQUIV_SHOW', '6000'))
-    argv = [a for a in argv if a not in ('-q', '--full')]
+    argv = [a for a in argv if a not in ('-q', '--full', '--fresh')]
     if len(argv) < 2:
         sys.exit(__doc__)
     cfile = argv[1]
@@ -352,6 +392,8 @@ def main(argv):
     canon_ = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
     argc = lambda t: arity[canon_(t)][0] if canon_(t) in arity else None      # output writes of a mocked call go only through its own arguments
     results, evidence = {}, {}
+    cache = load_cache()
+    compared_all = (sorted(arity.items()), sorted(STACKN.items()), sorted(back.items()))
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
         if fn not in funcs or '_' + fn not in syms:
@@ -371,6 +413,15 @@ def main(argv):
         if isinstance(sets, list):                   # a plain list: all development cases
             sets = {'dev': sets}
         counts = {k: len(v) for k, v in sets.items()}
+        key = proof_key(code, c_at - SCRATCH, case_path, sets, exe_bytes[start - base:start + size - base],
+                        (rets.get(fn), compared_all, indirect_arity(cfile, fn),
+                         sorted(indirect_targets(cfile, fn, table).items())))
+        hit = None if fresh else cache.get(key)
+        if hit:          # proven before on exactly this code, these cases and this checker
+            results[fn] = (True, hit['why'])
+            evidence[fn] = (start, size, cfile, counts,
+                            [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % hit['covtext']])
+            continue
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
             orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc)
@@ -406,6 +457,11 @@ def main(argv):
         if ok:
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
+            cache[key] = {'fn': fn, 'why': results[fn][1], 'covtext': covtext}
+    if any(ok for ok, _ in results.values()):
+        fresh_cache = load_cache()          # another run may have added keys meanwhile
+        fresh_cache.update(cache)
+        save_cache(fresh_cache)
     for fn, (ok, why) in results.items():
         if not quiet or ok is not True:
             print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
