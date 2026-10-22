@@ -305,44 +305,6 @@ int FUN_0c05003c(void)
     return ((((int)t8 >= (int)0x11)) ? 1 : 0);
 }
 
-int Psg_ChoinIt(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t9;
-
-    t0 = *(signed char *)0xC2AD1DF;
-    if ((-(((((t0 & 2) == 0)) ? 1 : 0) - 1)) == 1) {
-        t1 = *(int *)0xC2AD1D8;
-        if (t1 != 0) {
-            t2 = *(int *)0xC2AD1D8;
-            t3 = *(int *)((t2 + 0x20));
-            if (t3 == 3) {
-                t4 = *(int *)0xC2AD1D8;
-                t5 = *(int *)((t4 + 0x24));
-                if (t5 == 0) {
-                    *(unsigned int *)0xC2AE340 = a4;
-                    t6 = *(int *)0xC2AD1D8;
-                    *(unsigned int *)((t6 + 0x24)) = 0xF;
-                    t7 = *(int *)0xC2AD1D8;
-                    psgEnterState3(t7);
-                    t9 = *(int *)0xC2AD1D8;
-                    return Chat_Choin();
-                }
-                return 0x1D8;
-            }
-            return t3;
-        }
-        return 0x1D8;
-    }
-    return (-(((((t0 & 2) == 0)) ? 1 : 0) - 1));
-}
 
 int FUN_0c075700(int a4, int a5)
 {

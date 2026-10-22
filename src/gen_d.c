@@ -28,26 +28,4 @@ int menuPutFrame(void)
     return t3;
 }
 
-int callGoBackAdvertise(void)
-{
-    float u6;
-    int t7;
-
-    *(unsigned int *)0xC1EE234 = 0x0;
-    *(unsigned int *)0xC1EE238 = 0x8;
-    *(unsigned int *)0xC2A11D8 = 0x0;
-    *(unsigned int *)0xC2A11DC = 0x0;
-    FUN_0c03b544(0x0);
-    FUN_0c03b698(0x0);
-    FUN_0c072e36();
-    gdc_StopStreamVoiceAll();
-    gdc_StopStreamSongAll();
-    Sound_Init();
-    u6 = *(float *)0xC040D94;
-    t7 = pfSetZ(u6);
-    *(unsigned int *)0xC1EE210 = 0x0;
-    *(unsigned int *)0xC1EE214 = 0x0;
-    *(unsigned int *)0xC1EE20C = 0x0;
-    return t7;
-}
 

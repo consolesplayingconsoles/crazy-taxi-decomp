@@ -333,14 +333,6 @@ int thunk_FUN_0c02a9ac(void)
     return MainLoop();
 }
 
-int FUN_0c02bbf4(int a4, float f4)
-{
-    int t0;
-
-    t0 = nlArcTan2((-f4));
-    *(unsigned short *)((a4 + 0x0)) = t0;
-    return t0;
-}
 
 int gameState8(void)
 {
@@ -427,10 +419,6 @@ int CfgInit(void)
     return syCfgInit(0xC2864E8);
 }
 
-int thunk_syCfgExit(void)
-{
-    return syCfgExit();
-}
 
 int saveBufferInit(int a4)
 {
@@ -498,21 +486,6 @@ int FUN_0c041ce8(void)
     return FUN_0c02c094(0x0);
 }
 
-int FUN_0c050716(void)
-{
-    int t1;
-    int t4;
-    int t5;
-
-    nlPushMatrix(0x0);
-    t1 = *(signed char *)0xC2A72D8;
-    nlTranslateV(((signed char)(((t1 << 1) + t1) << 2) + 0xC0CF5F0));
-    nlRotateAY(0x8000);
-    t4 = *(int *)0xC2A72BC;
-    t5 = *(int *)0xC12FFE8;
-    FcvPlay(t5, t4, 0.0f);
-    return nlPopMatrix(0x1);
-}
 
 int FUN_0c051d38(void)
 {
@@ -604,10 +577,6 @@ int FUN_0c053b44(void)
     return Put_GearBox();
 }
 
-int thunk_nlCloseEvent(void)
-{
-    return nlCloseEvent();
-}
 
 int FUN_0c057fe2(void)
 {

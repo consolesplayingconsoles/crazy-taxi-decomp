@@ -1,0 +1,96 @@
+/* Straight-line functions with calls and guards (batch gen_og): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int FUN_0c078a70(int, int, int);
+int nlGetTranslate(int);
+int nlMultiMatrix(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+int psgSeatMatrix(int a4, int a5, int a6);
+
+int psgSeatMatrix(int a4, int a5, int a6)
+{
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t19;
+    int t20;
+    int stk[9] = {0};
+
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C070F7C:;
+    nlMultiMatrix(0xC179180);
+    t1 = *(int *)0xC1EE20C;
+    t2 = t1 != 2;
+    t3 = *(int *)0xC179488;
+    t4 = R4;
+    t5 = 0xC0D55C4;
+    t6 = t3;
+    R11 = t4;
+    R13 = t5;
+    R14 = t6;
+    if (t2) goto L_C070FAA;
+    goto L_C070FA2;
+    L_C070FA2:;
+    t7 = *(int *)0xC1EE214;
+    t8 = t7 == 11;
+    if (t8) goto L_C070FB2;
+    goto L_C070FAA;
+    L_C070FAA:;
+    t9 = *(int *)0xC1EE214;
+    t10 = t9 != 14;
+    if (t10) goto L_C07101A;
+    goto L_C070FB2;
+    L_C070FB2:;
+    t11 = *(int *)0xC1EE214;
+    t12 = t11 != 11;
+    t13 = 0xC13F3BC;
+    R12 = t13;
+    if (t12) goto L_C070FEC;
+    goto L_C070FBC;
+    L_C070FBC:;
+    t14 = *(signed char *)((R11 + 0x154));
+    t15 = *(signed char *)0xC2A98EC;
+    FUN_0c078a70(((int)stk + 4), ((unsigned char)(((R14 << 1) + R14) << 2) + R13), ((signed char)(((((t14 + t15) - 7) << 1) + ((t14 + t15) - 7)) << 2) + R12));
+    goto L_C071010;
+    L_C071010:;
+    nlTranslateV(((int)stk + 4));
+    goto L_C07102A;
+    L_C07102A:;
+    nlRotateAY(0x8000);
+    t19 = nlGetTranslate((R11 + 0x4));
+    return t19;
+    L_C070FEC:;
+    t20 = *(signed char *)((R11 + 0x154));
+    FUN_0c078a70(((int)stk + 4), ((unsigned char)(((R14 << 1) + R14) << 2) + R13), ((signed char)(((t20 << 1) + t20) << 2) + R12));
+    goto L_C071010;
+    L_C07101A:;
+    nlTranslateV(((((R14 << 1) + R14) << 2) + R13));
+    goto L_C07102A;
+}

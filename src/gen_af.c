@@ -118,14 +118,6 @@ int FUN_0c0289be(void)
     return t30;
 }
 
-int Put2DObj(int a4, float f4, float f5)
-{
-    FUN_0c077f80();
-    nlUnitRotation();
-    nlScale(f4, f5, 1.0f);
-    nlObjPut(a4);
-    return nlPopMatrix(0x1);
-}
 
 void getReplayPassenger(int a4, int a5, int a6, int a7, int a8)
 {

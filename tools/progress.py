@@ -188,7 +188,7 @@ if os.path.exists('model-map/game.dcgs'):
     if re_rows:
         rows += [('GAME ASSETS (EXTRA)', '', 'reverse engineering: what the model map identifies; it does not affect the measures above and is not done work')]
         rows += [row for n, row in re_rows]
-def write_badge(rows, label, path='badge.svg'):
+def write_badge(rows, label, path='badges/regular.svg', extra=()):
     """badge.svg beside the README, two rows in Pluto's colours: functions (a bar filled to the main metric, "done: ...", and its
     percentage) and bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of the slice is
     done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both rows, and
@@ -223,16 +223,21 @@ def write_badge(rows, label, path='badge.svg'):
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
     gtext = '%.1f%%' % wavg
     title = '%s: %s of functions, %s of code bytes done; the total test coverage over all of them is %s' % (label, ftext, btext, gtext)
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="60" role="img" aria-label="%s">'
-           '<title>%s</title><clipPath id="r"><rect width="304" height="60" rx="3"/></clipPath>'
-           '<g clip-path="url(#r)"><rect width="304" height="60" fill="#1a2233"/>'
+    H = 60 + 20 * len(extra)
+    lines = ''.join('<text x="71" y="%d">%s</text><text x="278" y="%d">%s</text>' % (74 + 20 * k, t, 74 + 20 * k, v)
+                    for k, (t, v) in enumerate(extra))
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="%d" role="img" aria-label="%%s">' % H +
+           '<title>%%s</title><clipPath id="r"><rect width="304" height="%d" rx="3"/></clipPath>' % H +
+           '<g clip-path="url(#r)"><rect width="304" height="%d" fill="#1a2233"/>' % H +
            '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
            '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#c87053"/>%s'
            '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
            '<text x="71" y="34">COVERED FUNCTIONS</text><text x="71" y="54">COVERED BYTES</text>'
-           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TOTAL TEST COVERAGE: %s</text></g></svg>\n'
-           % (title, title, X, bar, X, wd, strip, ftext, btext, gtext))
+           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TOTAL TEST COVERAGE: %s</text>' + lines + '</g></svg>\n'
+           ) % (title, title, X, bar, X, wd, strip, ftext, btext, gtext)
+    import os as _os
+    _os.makedirs(_os.path.dirname(path) or '.', exist_ok=True)
     try:
         open(path, 'w').write(svg)
     except OSError:
@@ -241,7 +246,12 @@ def write_badge(rows, label, path='badge.svg'):
     # never shows an old badge
     try:
         readme = open('README.md').read()
-        fresh = re.sub(r'\(badge\.svg(\?[^)\s]*)?\)', '(badge.svg?p=%.1f&b=%s&a=%d)' % (done, btext.rstrip('%'), int(round(wavg))), readme, count=1)
+        if path != 'badges/regular.svg':
+            return
+        # the badge the README links (regular, buildable or playable: the repo owner's choice) keeps its file; only the numbers change
+        fresh = re.sub(r'\((badges/(?:regular|buildable|playable)|badge)\.svg(\?[^)\s]*)?\)',
+                       lambda m: '(%s.svg?p=%.1f&b=%s&a=%d)' % (m.group(1) if m.group(1) != 'badge' else 'badges/regular', done, btext.rstrip('%'), int(round(wavg))),
+                       readme, count=1)
         if fresh != readme:
             open('README.md', 'w').write(fresh)
     except (IOError, OSError):
@@ -249,6 +259,10 @@ def write_badge(rows, label, path='badge.svg'):
 
 
 write_badge(rows, 'decomp')
+# two more versions of the badge with the milestone rows; which one the README links is the repo owner's call (the code cannot
+# tell whether the game builds from the C or plays), and the run above keeps whichever file the README links
+write_badge(rows, 'decomp', 'badges/buildable.svg', [('BUILDS FROM C', '\u2705')])
+write_badge(rows, 'decomp', 'badges/playable.svg', [('BUILDS FROM C', '\u2705'), ('PLAYABLE', '\u2705')])
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')

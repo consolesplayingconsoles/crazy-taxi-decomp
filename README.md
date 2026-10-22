@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badge.svg?p=100.0&b=100.0&a=81)
+![decomp progress](badges/regular.svg?p=100.0&b=100.0&a=81)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -130,7 +130,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 |---|---|
 | [tests/<file>/<function>.json](tests/) | The test cases of each function |
 | [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent |
-| [badge.svg](badge.svg) | The progress badge (written by [tools/progress.py](tools/progress.py)) |
+| [badges/](badges) | The progress badges, written by [tools/progress.py](tools/progress.py): `regular.svg`, `buildable.svg` (plus "builds from C") and `playable.svg` (plus "playable"). The README links the one that is true: your call |
 
 **Scripts and tools**
 

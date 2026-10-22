@@ -154,45 +154,7 @@ int FUN_0c051caa(void)
     return 0x2C;
 }
 
-int FUN_0c051cea(void)
-{
-    float u0;
 
-    u0 = *(float *)0xC051E24;
-    *(float *)0xC2A74BC = u0;
-    *(float *)0xC2A74C0 = 1.0f;
-    *(float *)0xC2A74C4 = 1.0f;
-    *(float *)0xC2A74C8 = 0.0f;
-    *(float *)0xC2A74CC = 0.0f;
-    *(float *)0xC2A74D0 = 1.0f;
-    *(float *)0xC2A74D4 = 1.0f;
-    *(unsigned int *)0xC2A74D8 = 0x0;
-    *(unsigned int *)0xC2A74E4 = 0xA;
-    *(float *)0xC2A74DC = 1.0f;
-    *(unsigned int *)0xC2A74E0 = 0x2;
-    return 0x2C;
-}
-
-int FUN_0c052574(void)
-{
-    float u0;
-
-    *(float *)0xC2A7F30 = 0.0f;
-    *(float *)0xC2A7F34 = 0.0f;
-    u0 = *(float *)0xC05266C;
-    *(float *)0xC2A7F38 = u0;
-    *(float *)0xC2A7F3C = 1.0f;
-    *(float *)0xC2A7F40 = 1.0f;
-    *(float *)0xC2A7F44 = 0.0f;
-    *(float *)0xC2A7F48 = 0.0f;
-    *(float *)0xC2A7F4C = 1.0f;
-    *(float *)0xC2A7F50 = 1.0f;
-    *(unsigned int *)0xC2A7F54 = 0x0;
-    *(unsigned int *)0xC2A7F60 = 0xA;
-    *(float *)0xC2A7F58 = 1.0f;
-    *(unsigned int *)0xC2A7F5C = 0x2;
-    return 0x2C;
-}
 
 int FUN_0c0525b4(void)
 {
@@ -251,33 +213,6 @@ int FUN_0c0525fc(void)
     return 0xC2A8CAC;
 }
 
-int FUN_0c052c9e(void)
-{
-    float u0;
-    float u1;
-    float u2;
-
-    u0 = *(float *)0xC052D10;
-    *(float *)0xC2A8930 = u0;
-    u1 = *(float *)0xC052D14;
-    *(float *)0xC2A8934 = u1;
-    u2 = *(float *)0xC052D18;
-    *(float *)0xC2A8938 = u2;
-    *(float *)0xC2A893C = 1.0f;
-    *(float *)0xC2A8940 = 1.0f;
-    *(float *)0xC2A8944 = 0.0f;
-    *(float *)0xC2A8948 = 0.0f;
-    *(float *)0xC2A894C = 1.0f;
-    *(float *)0xC2A8950 = 1.0f;
-    *(unsigned int *)0xC2A8954 = 0x0;
-    *(unsigned int *)0xC2A8960 = 0xA;
-    *(float *)0xC2A8958 = 1.0f;
-    *(unsigned int *)0xC2A895C = 0x2;
-    *(unsigned int *)0xC2A8DE8 = 0x0;
-    *(float *)0xC2A8DEC = 0.0f;
-    *(unsigned short *)0xC2A8DF0 = 0x0;
-    return 0x2C;
-}
 
 int FUN_0c052d28(void)
 {
@@ -331,26 +266,6 @@ int FUN_0c057930(void)
     return 0xC2A9328;
 }
 
-int FUN_0c057980(void)
-{
-    float u0;
-
-    *(float *)0xC2A92D0 = 0.0f;
-    *(float *)0xC2A92D4 = 0.0f;
-    u0 = *(float *)0xC057A60;
-    *(float *)0xC2A92D8 = u0;
-    *(float *)0xC2A92DC = 1.0f;
-    *(float *)0xC2A92E0 = 1.0f;
-    *(float *)0xC2A92E4 = 0.0f;
-    *(float *)0xC2A92E8 = 0.0f;
-    *(float *)0xC2A92EC = 1.0f;
-    *(float *)0xC2A92F0 = 1.0f;
-    *(unsigned int *)0xC2A92F4 = 0x0;
-    *(unsigned int *)0xC2A9300 = 0xA;
-    *(float *)0xC2A92F8 = 1.0f;
-    *(unsigned int *)0xC2A92FC = 0x2;
-    return 0x2C;
-}
 
 int FUN_0c0591ea(void)
 {
@@ -402,43 +317,6 @@ int FUN_0c05b7a8(void)
     return 0x2C;
 }
 
-int FUN_0c072fe8(void)
-{
-    float u0;
-    float u1;
-    float u2;
-    float u3;
-
-    u0 = *(float *)0xC073140;
-    *(float *)0xC2AEC20 = u0;
-    u1 = *(float *)0xC073144;
-    *(float *)0xC2AEC24 = u1;
-    u2 = *(float *)0xC073148;
-    *(float *)0xC2AEC28 = u2;
-    *(unsigned int *)0xC2AEC34 = 0x0;
-    *(unsigned int *)0xC2AEC30 = 0x0;
-    *(unsigned int *)0xC2AEC2C = 0x0;
-    *(unsigned int *)0xC2AEC3C = 0x0;
-    *(float *)0xC2AEC48 = 0.0f;
-    *(float *)0xC2AEC44 = 0.0f;
-    *(float *)0xC2AEC40 = 0.0f;
-    *(unsigned int *)0xC2AEC54 = 0x0;
-    *(unsigned int *)0xC2AEC50 = 0x0;
-    *(unsigned int *)0xC2AEC4C = 0x0;
-    *(float *)0xC2AEC58 = 0.0f;
-    u3 = *(float *)0xC07314C;
-    *(float *)0xC2AEC5C = u3;
-    *(unsigned int *)0xC2AEC68 = 0x0;
-    *(unsigned int *)0xC2AEC64 = 0x0;
-    *(unsigned int *)0xC2AEC60 = 0x0;
-    *(unsigned int *)0xC2AEC74 = 0x0;
-    *(unsigned int *)0xC2AEC70 = 0x0;
-    *(unsigned int *)0xC2AEC6C = 0x0;
-    *(unsigned int *)0xC2AEC80 = 0x0;
-    *(unsigned int *)0xC2AEC7C = 0x0;
-    *(unsigned int *)0xC2AEC78 = 0x0;
-    return 0x58;
-}
 
 int FUN_0c074ca0(int a4)
 {

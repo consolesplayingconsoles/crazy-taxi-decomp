@@ -103,47 +103,6 @@ int FUN_0c063dc6(void)
     return t10;
 }
 
-int FUN_0c071258(int a4)
-{
-    float u0;
-    int t1;
-    float u2;
-    float u3;
-    int t4;
-    float u6;
-    float u7;
-    float u8;
-    int t12;
-    int t9;
-    int t10;
-    float u11;
-
-    u0 = *(float *)((a4 + 0x10C));
-    if (u0 == 0.0f) {
-        t1 = *(signed char *)(((0x149 + a4) + 0x0));
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = (t1 & 0x7F);
-        return (t1 & 0x7F);
-    }
-    u2 = *(float *)((a4 + 0x10C));
-    u3 = *(float *)((a4 + 0x108));
-    t4 = *(int *)((a4 + 0x118));
-    FUN_0c066bf0((a4 + 0x3C), t4, (u3 / u2));
-    u6 = *(float *)((a4 + 0x108));
-    *(float *)((a4 + 0x108)) = (u6 + 1.0f);
-    u7 = *(float *)((a4 + 0x10C));
-    u8 = *(float *)((a4 + 0x108));
-    t12 = 0x108;
-    if (u8 == u7) {
-        t9 = *(signed char *)(((0x149 + a4) + 0x0));
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = (t9 & 0x7F);
-        t10 = *(int *)((a4 + 0x110));
-        *(unsigned int *)((a4 + 0x34)) = t10;
-        u11 = *(float *)((a4 + 0x114));
-        *(float *)((a4 + 0x38)) = u11;
-        t12 = 0x38;
-    }
-    return t12;
-}
 
 int syCfgGetIndividualID(int a4)
 {

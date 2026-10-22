@@ -87,24 +87,6 @@ int FUN_0c030a80(void)
     return nlSprPut(0xC26E188);
 }
 
-int SetFadeColorMulti(float f4, float f5, float f6)
-{
-    float u0;
-    float u1;
-    float u2;
-    float u4;
-    float u5;
-    float u6;
-
-    u0 = *(float *)0xC0EA5C4;
-    u1 = *(float *)0xC0EA5C0;
-    u2 = *(float *)0xC0EA5BC;
-    nlObjPutSetFadeColorBase((u2 * f4), (u1 * f5), (u0 * f6));
-    u4 = *(float *)0xC0EA5C8;
-    u5 = *(float *)0xC0EA5CC;
-    u6 = *(float *)0xC0EA5D0;
-    return nlObjPutSetFadeColorOffset((u4 * f4), (u5 * f5), (u6 * f6));
-}
 
 int LightEffect(int a4)
 {
@@ -152,38 +134,6 @@ int FUN_0c03c10e(void)
     return t5;
 }
 
-int FUN_0c03df1a(void)
-{
-    int t0;
-    int t1;
-    int t4;
-    int t5;
-    int t6;
-    int t10;
-
-    t0 = *(int *)0xC2A1218;
-    if (t0 != 0) {
-        t1 = FUN_0c03b698(t0);
-        *(unsigned int *)0xC2A1218 = 0x0;
-        t10 = t1;
-    } else {
-        FUN_0c03b544(0x4);
-        FUN_0c03b698(0x0);
-        *(unsigned int *)0xC2A11B0 = 0x0;
-        t4 = *(int *)0xC2A1228;
-        *(unsigned int *)0xC1EE234 = t4;
-        t5 = *(int *)0xC2A122C;
-        *(unsigned int *)0xC1EE238 = t5;
-        t6 = *(int *)0xC1EE234;
-        if (t6 == 0) {
-            *(unsigned int *)0xC1EE210 = 0x0;
-            *(unsigned int *)0xC1EE214 = 0x0;
-            *(unsigned int *)0xC1EE20C = 0x0;
-        }
-        t10 = t5;
-    }
-    return t10;
-}
 
 int FUN_0c057e9e(void)
 {
@@ -230,38 +180,4 @@ void FUN_0c05cde4(void)
     }
 }
 
-int FUN_0c0714f2(void)
-{
-    float u0;
-    float u1;
-    float u2;
-    float u3;
-    float u4;
-    float u5;
-    float u6;
-    float u9;
-    float u10;
-
-    *(unsigned int *)0xC2AE368 = 0x0;
-    *(unsigned int *)0xC2AE364 = 0x0;
-    u0 = *(float *)0xC071574;
-    *(float *)0xC2AE36C = u0;
-    u1 = *(float *)0xC071578;
-    *(float *)0xC2AE370 = u1;
-    *(float *)0xC2AE374 = (-1.0f);
-    u2 = *(float *)0xC07157C;
-    *(float *)0xC2AE378 = u2;
-    u3 = *(float *)0xC071580;
-    *(float *)0xC2AE380 = u3;
-    *(float *)0xC2AE37C = u3;
-    u4 = *(float *)0xC071584;
-    *(float *)0xC2AE384 = u4;
-    u5 = *(float *)0xC2AE370;
-    u6 = *(float *)0xC2AE36C;
-    FUN_0c05322c(u6, u5);
-    FUN_0c053236(u3, u3);
-    u9 = *(float *)0xC071590;
-    u10 = *(float *)0xC071594;
-    return FUN_0c053240(u9, u9, u10);
-}
 

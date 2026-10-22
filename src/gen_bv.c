@@ -375,8 +375,4 @@ int FUN_0c07d7a0(void)
     return 0xC0DAAC1;
 }
 
-int FUN_0c07f860(void)
-{
-    return 0xC0D68C0;
-}
 

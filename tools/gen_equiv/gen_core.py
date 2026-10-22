@@ -1,4 +1,4 @@
-import re,struct,subprocess,copy
+import os,re,struct,subprocess,copy
 import gen_cfg
 BIN=open('1ST_READ.BIN','rb').read(); BASE=int(open('BASE').read().strip(),16)
 def in_ram(a):
@@ -184,6 +184,78 @@ def call_constants(ins,addr2idx):
             r=(ops or '').split(';')[0].strip().strip('@'); v=IN[i].get(r)
             if isinstance(v,int): res[i]=v
     return res
+
+_ALLREGS=frozenset(['r%d'%i for i in range(15)]+['fr%d'%i for i in range(16)])
+_RW_ALU=('add','addc','addv','sub','subc','subv','and','or','xor','shad','shld','div1','fadd','fsub','fmul','fdiv','xtrct','rotcl','rotcr',
+         'shll','shlr','shal','shar','shll2','shll8','shll16','shlr2','shlr8','shlr16','rotl','rotr','dt','fneg','fabs','fsqrt','fmac')
+_READ_ONLY=('cmp','tst','fcmp','mul','mulu','muls','dmuls','dmulu','mac','lds','ldc','jmp','jsr','braf','bsrf','pref','ocbi','ocbp','ocbwb','ftrc','flds','div0s','fipr','ftrv')
+def reg_liveness(ins,addr2idx):
+    """{instruction index: registers live on entry} over the function's own code: a register a later instruction reads before
+    anything writes it. A call reads the argument registers and writes r0-r7 / fr0-fr11; a return reads r0, fr0 and r8-r14.
+    Anything not understood reads every register (conservative)."""
+    n=len(ins)
+    def expand(t):
+        out=set()
+        for r_ in re.findall(r'\b(f?r\d+|dr\d+)\b',t):
+            if r_.startswith('dr'): k=int(r_[2:]); out|={'fr%d'%k,'fr%d'%(k+1)}
+            else: out.add(r_)
+        return out
+    UD=[]
+    for mn,ops,pc in ins:
+        raw=(ops or '').split(';')[0].strip(); a=[x.strip() for x in re.split(r',(?![^(]*\))',raw)] if raw else []
+        base=mn.split('/')[0].split('.')[0]
+        use=set(); dfn=set()
+        for x in a:
+            if '@' in x:
+                use|=expand(x)
+                if x.endswith('+') or x.startswith('@-'): dfn|=expand(x)
+        if mn in ('jsr','bsr','bsrf'):
+            use|=expand(raw)|{'r4','r5','r6','r7'}|{'fr%d'%k for k in range(4,12)}; dfn|={'r%d'%k for k in range(8)}|{'fr%d'%k for k in range(12)}
+        elif mn in ('rts','rte'):
+            use|={'r0','fr0','fr1'}|{'r%d'%k for k in range(8,15)}
+        elif mn in ('nop','bra','bt','bf','bt/s','bf/s','clrt','sett','clrmac','fschg','frchg'):
+            pass
+        elif base in _READ_ONLY or mn.startswith(_READ_ONLY):
+            for x in a: use|=expand(x)
+        elif a and re.fullmatch(r'f?r\d+|dr\d+',a[-1]):
+            d=expand(a[-1]); dfn|=d
+            for x in a[:-1]: use|=expand(x)
+            if base in _RW_ALU or mn in _RW_ALU: use|=d
+            if mn=='fmac': use.add('fr0')
+        elif a and '@' in a[-1]:
+            for x in a: use|=expand(x)
+        elif mn in ('fldi0','fldi1') or (mn in ('movt','sts','stc','mova','float') and a):
+            if a: dfn|=expand(a[-1])
+            for x in a[:-1]: use|=expand(x)
+        else:
+            use=set(_ALLREGS)
+        # the T flag as one more register
+        if mn in ('bt','bf','bt/s','bf/s','movt') or base in ('addc','subc','negc','rotcl','rotcr','div1'): use.add('T')
+        if (base in ('cmp','tst','fcmp','dt','shll','shlr','shal','shar','rotl','rotr','rotcl','rotcr','addc','subc','negc',
+                     'addv','subv','div0s','div0u','div1','sett','clrt','tas') or mn.startswith(('cmp/','fcmp/'))
+                or mn in ('jsr','bsr','bsrf')): dfn.add('T')
+        if mn in ('rts','rte'): use.discard('T')
+        if use is _ALLREGS or use==set(_ALLREGS): use=set(_ALLREGS)|{'T'}
+        UD.append((use,dfn))
+    succ={}
+    for i,(mn,ops,pc) in enumerate(ins):
+        t=gen_cfg.target_of(ops) if ops else None; ti=addr2idx.get(t) if t is not None else None
+        if mn in ('bra',): succ[i]=[i+1]; succ[i+1]=[ti] if ti is not None else []
+        elif mn in ('jmp','braf','rts','rte'): succ[i]=[i+1]; succ[i+1]=[] if mn!='braf' else list(range(n))
+        elif mn in ('bt/s','bf/s'): succ[i]=[i+1]; succ[i+1]=[i+2]+([ti] if ti is not None else [])
+        elif mn in ('bt','bf'): succ.setdefault(i,[i+1]+([ti] if ti is not None else []))
+        else: succ.setdefault(i,[i+1])
+    LIN=[set() for _ in range(n+1)]
+    changed=True
+    while changed:
+        changed=False
+        for i in range(n-1,-1,-1):
+            out=set()
+            for s_ in succ.get(i,[i+1]):
+                if s_ is not None and s_<=n: out|=LIN[s_] if s_<n else set()
+            use,dfn=UD[i]; new=use|(out-dfn)
+            if new!=LIN[i]: LIN[i]=new; changed=True
+    return {i:LIN[i] for i in range(n)}
 _ARITY={}
 _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','neg','negc','not','swap.b','swap.w','sts','sts.l','float','mova',
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
@@ -284,7 +356,15 @@ def run(name,passthru=False):
     function is written flat: a label per block, every register a variable, goto between blocks."""
     _FLOATRET.clear()
     for _ in range(4):
-        try: return _run_structured(name,passthru)
+        try:
+            c_=_run_structured(name,passthru)
+            # arms that meet at different joins are written once per path: when that makes the text much longer than the
+            # flat form (each block once), the flat form compiles far smaller (pedSpawn: 26,328 bytes structured, 676 flat)
+            try:
+                f_=_run(name,passthru,True,True)
+                if len('\n'.join(map(str,c_.stmts)))>2*len('\n'.join(map(str,f_.stmts))): return f_
+            except Exception: pass
+            return c_
         except Restart: continue
         except RecursionError: break
         except Skip as e:
@@ -842,6 +922,11 @@ def _run(name,passthru=False,frame=False,flat=False):
                 p_=fresh(False); e_=fresh(False); d_=fresh(False); w_=fresh(False)
                 emit('int %s = %s;'%(p_,ex(sr))); emit('int %s = (%s + %s);'%(e_,ex(sr),n)); emit('int %s = %s;'%(d_,ex(d))); emit('int %s;'%w_)
                 emit('for (;;) { %s = *(int *)%s; %s = (%s + 4); if ((unsigned int)%s < (unsigned int)%s) break; *(unsigned int *)%s = %s; %s = (%s + 4); }'%(w_,p_,p_,p_,e_,p_,d_,w_,d_,d_))
+            elif isint(n) and n%4==0 and 8<=n<=256 and fname in ('_quick_odd_mvn','_quick_evn_mvn','_quick_mvn') and os.environ.get('GEN_STRUCT_COPY','1')=='1':
+                # a block of whole words: a struct assignment of that size, which the compiler turns back into the same helper call
+                # (what the source wrote: a vector or table copied as a struct), instead of one load and store per word
+                k_=n//4
+                emit('{ struct mv%d { int w[%d]; }; *(struct mv%d *)(%s) = *(struct mv%d *)(%s); }'%(k_,k_,k_,ex(d),k_,ex(sr)))
             elif isint(n) and n%4==0 and n<=256 and fname in ('_quick_odd_mvn','_quick_evn_mvn'):
                 # these two read one word ahead of the store (the last word is read before the jump into the copy)
                 w=load('l',addr_expr(sr,n-4))
@@ -1671,22 +1756,40 @@ def _run(name,passthru=False,frame=False,flat=False):
         for b_,v_ in SWV.items(): lead.update(v_[2])
         for v_ in GOTO.values(): lead.update(v_)
         lead={x for x in lead if x<len(ins)}
+        CARRY={}                 # stack depth -> the words pushed for a call that a later block makes: (depth, float?)
+        try: LIVE=reg_liveness(ins,addr2idx)
+        except Exception: LIVE=None
         def fresh_state(D):
             c.R={'r%d'%n:('e','R%d'%n) for n in ints}; c.FR={'fr%d'%n:('e','F%d'%n) for n in flts}
-            c.D=D; c.pend=[]; c.fpul=None; c.macl=None; c.stack={}; c.lastcall=None
+            c.D=D; c.fpul=None; c.macl=None; c.stack={}; c.lastcall=None
+            c.pend=[(('fpend',('e','*(float *)((int)stk + @@F:%d@@)'%(-d))) if f else ('e','*(int *)((int)stk + @@F:%d@@)'%(-d))) for d,f in CARRY.get(D,[])]
             setT('T_','!T_')
-        def spill():
-            if c.pend: raise Skip('flat: a pushed word crosses a block')
+        def spill(succ=None):
+            live=None
+            if LIVE is not None and succ: live=set().union(*[LIVE.get(x,_ALLREGS) for x in succ])
+            if c.pend:
+                # words pushed for a call a later block makes: they are in the frame (it is memory here); the next block reads them back
+                if not c.frame: raise Skip('flat: a pushed word crosses a block')
+                n_=len(c.pend); slots=[]
+                for k_,v_ in enumerate(c.pend):
+                    d_=c.D-4*(n_-1-k_); ad_=('expr','((int)stk + @@F:%d@@)'%(-d_))
+                    if isfp(v_): fstore(ad_,v_[1])
+                    else: store('l',ad_,v_)
+                    slots.append((d_,isfp(v_)))
+                if CARRY.get(c.D,slots)!=slots: raise Skip('flat: blocks push different words at one depth')
+                CARRY[c.D]=slots; c.pend=[]
             if c.sz or c.swapped: raise Skip('flat: FPU mode across a block')
             pairs=[]
             for r,v in sorted(c.R.items()):
                 if r=='r15' or r[1:]=='' or not r[1:].isdigit() or int(r[1:])>14 or v is None or v==DIRTY or v==('e',V(r)): continue
+                if live is not None and r not in live: continue      # nothing reads it on any path from here: no write-back
                 if isinstance(v,tuple) and v[0] in ('addr','srx'): raise Skip('flat: an address or SR value crosses a block')
                 pairs.append((V(r),ex(v),False))
             for f,v in sorted(c.FR.items()):
                 if v is None or v==DIRTY or v==('e',FV(f)): continue
+                if live is not None and f not in live: continue
                 pairs.append((FV(f),fx(v),True))
-            if c.T is not None and c.T!='T_': pairs.append(('T_','(%s)'%c.T,False))
+            if c.T is not None and c.T!='T_' and (live is None or 'T' in live): pairs.append(('T_','(%s)'%c.T,False))
             tmp=[]
             for var,e,isf in pairs:
                 t=fresh(isf); emit('%s %s = %s;'%('float' if isf else 'int',t,e)); tmp.append((var,t))
@@ -1699,13 +1802,13 @@ def _run(name,passthru=False,frame=False,flat=False):
             while True:
                 if i>=len(ins): raise Skip('runs off the code')
                 if i!=start and i in lead:
-                    spill(); emit('goto %s;'%label(i)); return [(i,c.D)]
+                    spill([i]); emit('goto %s;'%label(i)); return [(i,c.D)]
                 if i in SW0:
                     b=SW0[i]; mv,rx,tg=SWV[b]
                     idx=c.gi(rx)
                     step(b+1)                                    # the delay slot of the braf runs before the jump
                     sw_=fresh(False); emit('int %s = %s;'%(sw_,ex(idx)))      # taken before the registers are written back: idx is in terms of their values at the block's start
-                    spill()
+                    spill(list(tg))
                     emit('switch (%s) { %s }'%(sw_,' '.join('case %d: goto %s;'%(2*k,label(t)) for k,t in enumerate(tg))))
                     return [(t,c.D) for t in sorted(set(tg))]
                 mn,ops,pc=ins[i]
@@ -1740,7 +1843,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                         tgt=v if mn=='jmp' else (pc+4+v)&0xFFFFFFFF
                     step(i+1)
                     if tgt in addr2idx:
-                        spill(); emit('goto %s;'%label(addr2idx[tgt])); return [(addr2idx[tgt],c.D)]
+                        spill([addr2idx[tgt]]); emit('goto %s;'%label(addr2idx[tgt])); return [(addr2idx[tgt],c.D)]
                     tgt=canon(tgt)
                     if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
                     elif in_ram(tgt): do_call('@indirect',tail=True,ind='0x%X'%tgt)
@@ -1763,7 +1866,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                     delay=mn.endswith('/s')
                     if delay: step(i+1)
                     nxt=i+(2 if delay else 1)
-                    spill()
+                    spill([addr2idx[tgt],nxt])
                     emit('if (%s) goto %s;'%(k,label(addr2idx[tgt])))
                     emit('goto %s;'%label(nxt))
                     return [(addr2idx[tgt],c.D),(nxt,c.D)]

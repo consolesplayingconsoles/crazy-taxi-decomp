@@ -100,17 +100,4 @@ int FUN_0c057728(int a4, int a5, int a6)
     return t6;
 }
 
-int VSklSfPlay(int a4, int a5, int a6, float f4)
-{
-    float t0;
-    float t1;
-    float t2;
-    int t3;
-
-    t0 = nlFloor(f4);
-    t1 = nlCeil(f4);
-    t2 = nlFraction(f4);
-    t3 = VSklIpPlay(a4, (int)t0, a4, (int)t1, a5, a6, t2);
-    return t3;
-}
 
