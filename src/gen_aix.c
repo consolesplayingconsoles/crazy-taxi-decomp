@@ -1,9 +1,9 @@
 /* A function proven on cases written by hand (tools/handcase.py). */
 
 int nlFree(int);
-int FUN_0c032aac(void);
+int CleanColliObj(void);
 
-int FUN_0c032aac(void)
+int CleanColliObj(void)
 {
     int t1;
     int t2;

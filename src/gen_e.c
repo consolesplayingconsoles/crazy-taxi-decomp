@@ -43,18 +43,18 @@ int AreYouBreathing(void);
 int Voice_Clear(void);
 int BigOneResetState(void);
 int BigOneSwims(void);
-int FUN_0c080ae0(int, int, int);
-int FUN_0c151cac(int, int, int);
-int FUN_0c152292(int, int);
-int FUN_0c152330(int, int);
-int FUN_0c15fa1c(void);
-int FUN_0c167c4c(void);
-int FUN_0c16800c(void);
-int FUN_0c169710(void);
-int FUN_0c16c634(int);
-int FUN_0c170880(void);
-int FUN_0c1708b2(void);
-int FUN_0c171e62(int, int, int);
+int nldispstripSub(int, int, int);
+int ADXT_Create(int, int, int);
+int ADXT_SetReloadSct(int, int);
+int ADXT_SetAutoRcvr(int, int);
+int gdFsStrcmp_tail_0c15fa1c(void);
+int ADXCRS_Init(void);
+int ADXERR_Init(void);
+int adxf_purge_all(void);
+int kmiErrorRecover(int);
+int fmMngSncmp_tail_0c170880(void);
+int fmMngMcpy_tail_0c1708b2(void);
+int mwlSbGetStreamParam(int, int, int);
 int FcvPlay(int, int, float);
 int GetMenuMode(int);
 int GetRotVec(int);
@@ -109,7 +109,7 @@ int mwRnaSetStartSmpl(void);
 int mwRnaSetTransSw(void);
 int mwRnaStart(void);
 int mwRnaStop(void);
-int njSetConstantAttr(void);
+int ADXERR_EntryErrFunc(void);
 int nlArcTan2(float);
 int nlCloseEvent(void);
 int nlInitEvent(void);
@@ -183,16 +183,16 @@ int psgPutShadow(int a4);
 int LoadBigOne(int a4);
 int thunk_FUN_0c072fe8(void);
 int thunk_kmSetFogTable(void);
-int thunk_FUN_0c158b80(void);
+int nlIntrSetHSynchLine(void);
 int nlDispStripX(int a4, int a5, int a6);
 int kmResetRenderer(void);
 int buExitForce(void);
 int buUnmountDisk(void);
-int FUN_0c1519be(void);
+int ADXT_Init(void);
 int adxt_start_stm(int a4);
-int thunk_njSetConstantAttr(void);
+int thunk_ADXT_EntryErrFunc(void);
 int thunk_kmiWriteRegister(void);
-int thunk_FUN_0c15fa1c(void);
+int gdFsStrcmp(void);
 int vmsfs_c_synch(void);
 int vmsfs_c_fiber0(void);
 int vmsfs_c_fiber1(void);
@@ -200,9 +200,9 @@ int vmsfs_c_fiber2(void);
 int vmsfs_c_fiber3(void);
 int vmsfs_c_fiber4(void);
 int vmsfs_c_fiber5(void);
-int thunk_FUN_0c169a20(void);
-int thunk_FUN_0c169a7a(void);
-int thunk_mwRnaCreate(void);
+int ADXRNA_Init(void);
+int ADXRNA_Finish(void);
+int thunk_ADXRNA_Create(void);
 int ADXRNA_Start(void);
 int ADXRNA_Stop(void);
 int ADXRNA_SetTransSw(void);
@@ -222,31 +222,31 @@ int ADXRNA_GetBitPerSmpl(void);
 int ADXRNA_DiscardData(void);
 int ADXSJD_Finish(void);
 int ADXSJD_Stop(int a4);
-int FUN_0c168832(int a4);
-int FUN_0c16883e(int a4);
-int FUN_0c16884a(int a4);
-int FUN_0c168856(int a4);
-int FUN_0c168862(int a4);
-int FUN_0c16887a(int a4);
-int FUN_0c168892(int a4);
-int FUN_0c1688aa(int a4);
-int FUN_0c1688b6(int a4);
-int FUN_0c1688c2(int a4);
-int FUN_0c1688ce(int a4);
-int FUN_0c1697c4(int a4);
-int FUN_0c16c7ca(void);
+int ADXSJD_GetFormat(int a4);
+int ADXSJD_GetSfreq(int a4);
+int ADXSJD_GetNumChan(int a4);
+int ADXSJD_GetOutBps(int a4);
+int ADXSJD_GetBlkSmpl(int a4);
+int ADXSJD_GetTotalNumSmpl(int a4);
+int ADXSJD_GetNumLoop(int a4);
+int ADXSJD_GetLpStartPos(int a4);
+int ADXSJD_GetLpStartOfst(int a4);
+int ADXSJD_GetLpEndPos(int a4);
+int ADXSJD_GetLpEndOfst(int a4);
+int ADXF_InitCache_P2_(int a4);
+int kmiErrorISR08(void);
 int vmsfb_exec(void);
 int vmsfb_exit(void);
 int vmsfb_sleep(void);
 int vmsfb_end(void);
-int thunk_FUN_0c170880(void);
-int thunk_FUN_0c1708b2(void);
+int fmMngSncmp(void);
+int fmMngMcpy(void);
 void ADXB_Destroy(int a4);
 int ADXB_Reset(int a4);
-void FUN_0c17190c(int a4);
-int FUN_0c1720f4(int a4, int a5, int a6);
+void mwlSbFreeWork(int a4);
+int mwlSbGetFilter(int a4, int a5, int a6);
 int buFbrInit(void);
-int FUN_0c174394(void);
+int ADXPD_Init(void);
 
 int carFlipTravelDir(int a4)
 {
@@ -356,19 +356,19 @@ int gdc_StreamInit(void)
     int t4;
     int t6;
 
-    t0 = FUN_0c151cac(0x1, 0xC1EE824, 0x10884);
+    t0 = ADXT_Create(0x1, 0xC1EE824, 0x10884);
     *(unsigned int *)0xC1EE810 = t0;
-    t1 = FUN_0c151cac(0x1, 0xC1FF0A8, 0x10884);
+    t1 = ADXT_Create(0x1, 0xC1FF0A8, 0x10884);
     *(unsigned int *)0xC1EE814 = t1;
-    t2 = FUN_0c151cac(0x1, 0xC20F92C, 0x10884);
+    t2 = ADXT_Create(0x1, 0xC20F92C, 0x10884);
     *(unsigned int *)0xC1EE818 = t2;
-    t3 = FUN_0c151cac(0x1, 0xC2201B0, 0x10884);
+    t3 = ADXT_Create(0x1, 0xC2201B0, 0x10884);
     *(unsigned int *)0xC1EE81C = t3;
-    t4 = FUN_0c151cac(0x2, 0xC230A34, 0x390C4);
+    t4 = ADXT_Create(0x2, 0xC230A34, 0x390C4);
     *(unsigned int *)0xC1EE820 = t4;
-    FUN_0c152292(t4, 0x19);
+    ADXT_SetReloadSct(t4, 0x19);
     t6 = *(int *)0xC1EE820;
-    FUN_0c152330(t6, 0x2);
+    ADXT_SetAutoRcvr(t6, 0x2);
     gdc_SetStreamAFS();
     return gdc_InitStreamSongDisk();
 }
@@ -666,7 +666,7 @@ int thunk_kmSetFogTable(void)
     return kmSetFogTable();
 }
 
-int thunk_FUN_0c158b80(void)
+int nlIntrSetHSynchLine(void)
 {
     return kmSetHSyncLine();
 }
@@ -674,7 +674,7 @@ int thunk_FUN_0c158b80(void)
 int nlDispStripX(int a4, int a5, int a6)
 {
     nlstripSetVertexContext(0xC14AAC8);
-    return FUN_0c080ae0(a4, a5, a6);
+    return nldispstripSub(a4, a5, a6);
 }
 
 int kmResetRenderer(void)
@@ -700,17 +700,17 @@ int buUnmountDisk(void)
     return buUnmount();
 }
 
-int FUN_0c1519be(void)
+int ADXT_Init(void)
 {
     ADXF_Init();
     SJUNI_Init();
     SJRBF_Init();
     SJMEM_Init();
-    FUN_0c167c4c();
-    thunk_FUN_0c169a20();
+    ADXCRS_Init();
+    ADXRNA_Init();
     ADXSTM_Init();
     ADXSJD_Init();
-    FUN_0c16800c();
+    ADXERR_Init();
     thunk_mwRnaErrEntryFunc();
     return memset(0xC177AE0, 0x0, 0x460);
 }
@@ -738,9 +738,9 @@ int adxt_start_stm(int a4)
     return 0x0;
 }
 
-int thunk_njSetConstantAttr(void)
+int thunk_ADXT_EntryErrFunc(void)
 {
-    return njSetConstantAttr();
+    return ADXERR_EntryErrFunc();
 }
 
 int thunk_kmiWriteRegister(void)
@@ -748,9 +748,9 @@ int thunk_kmiWriteRegister(void)
     return kmiWriteRegister();
 }
 
-int thunk_FUN_0c15fa1c(void)
+int gdFsStrcmp(void)
 {
-    return FUN_0c15fa1c();
+    return gdFsStrcmp_tail_0c15fa1c();
 }
 
 int vmsfs_c_synch(void)
@@ -788,17 +788,17 @@ int vmsfs_c_fiber5(void)
     return vmsfs_c_dispatch(0x5);
 }
 
-int thunk_FUN_0c169a20(void)
+int ADXRNA_Init(void)
 {
     return mwRnaInit();
 }
 
-int thunk_FUN_0c169a7a(void)
+int ADXRNA_Finish(void)
 {
     return mwRnaFinish();
 }
 
-int thunk_mwRnaCreate(void)
+int thunk_ADXRNA_Create(void)
 {
     return mwRnaCreate();
 }
@@ -903,7 +903,7 @@ int ADXSJD_Stop(int a4)
     return 0x0;
 }
 
-int FUN_0c168832(int a4)
+int ADXSJD_GetFormat(int a4)
 {
     int t0;
 
@@ -911,7 +911,7 @@ int FUN_0c168832(int a4)
     return ADXB_GetFormat(t0);
 }
 
-int FUN_0c16883e(int a4)
+int ADXSJD_GetSfreq(int a4)
 {
     int t0;
 
@@ -919,7 +919,7 @@ int FUN_0c16883e(int a4)
     return ADXB_GetSfreq(t0);
 }
 
-int FUN_0c16884a(int a4)
+int ADXSJD_GetNumChan(int a4)
 {
     int t0;
 
@@ -927,7 +927,7 @@ int FUN_0c16884a(int a4)
     return ADXB_GetNumChan(t0);
 }
 
-int FUN_0c168856(int a4)
+int ADXSJD_GetOutBps(int a4)
 {
     int t0;
 
@@ -935,7 +935,7 @@ int FUN_0c168856(int a4)
     return ADXB_GetOutBps(t0);
 }
 
-int FUN_0c168862(int a4)
+int ADXSJD_GetBlkSmpl(int a4)
 {
     int t0;
 
@@ -943,7 +943,7 @@ int FUN_0c168862(int a4)
     return ADXB_GetBlkSmpl(t0);
 }
 
-int FUN_0c16887a(int a4)
+int ADXSJD_GetTotalNumSmpl(int a4)
 {
     int t0;
 
@@ -951,7 +951,7 @@ int FUN_0c16887a(int a4)
     return ADXB_GetTotalNumSmpl(t0);
 }
 
-int FUN_0c168892(int a4)
+int ADXSJD_GetNumLoop(int a4)
 {
     int t0;
 
@@ -959,7 +959,7 @@ int FUN_0c168892(int a4)
     return ADXB_GetNumLoop(t0);
 }
 
-int FUN_0c1688aa(int a4)
+int ADXSJD_GetLpStartPos(int a4)
 {
     int t0;
 
@@ -967,7 +967,7 @@ int FUN_0c1688aa(int a4)
     return ADXB_GetLpStartPos(t0);
 }
 
-int FUN_0c1688b6(int a4)
+int ADXSJD_GetLpStartOfst(int a4)
 {
     int t0;
 
@@ -975,7 +975,7 @@ int FUN_0c1688b6(int a4)
     return ADXB_GetLpStartOfst(t0);
 }
 
-int FUN_0c1688c2(int a4)
+int ADXSJD_GetLpEndPos(int a4)
 {
     int t0;
 
@@ -983,7 +983,7 @@ int FUN_0c1688c2(int a4)
     return ADXB_GetLpEndPos(t0);
 }
 
-int FUN_0c1688ce(int a4)
+int ADXSJD_GetLpEndOfst(int a4)
 {
     int t0;
 
@@ -991,18 +991,18 @@ int FUN_0c1688ce(int a4)
     return ADXB_GetLpEndOfst(t0);
 }
 
-int FUN_0c1697c4(int a4)
+int ADXF_InitCache_P2_(int a4)
 {
     int t1;
 
-    FUN_0c169710();
+    adxf_purge_all();
     *(unsigned int *)0xFF00001C = ((a4 & 0xFFFFF7FF) | 0x800);
     t1 = *(int *)0xFF00001C;
     *(unsigned int *)0xFF00001C = ((t1 & 0xFFFFFFF7) | 0x8);
     return ((t1 & 0xFFFFFFF7) | 0x8);
 }
 
-int FUN_0c16c7ca(void)
+int kmiErrorISR08(void)
 {
     int t0;
     int t1;
@@ -1015,7 +1015,7 @@ int FUN_0c16c7ca(void)
     if (t1 == 1) {
         t2 = *(int *)0xC2F91B8;
         *(unsigned int *)0xC2F91B8 = (t2 + 0x1);
-        FUN_0c16c634(0x1);
+        kmiErrorRecover(0x1);
     }
     return 0x0;
 }
@@ -1046,14 +1046,14 @@ int vmsfb_end(void)
     return buFbrEndFiber();
 }
 
-int thunk_FUN_0c170880(void)
+int fmMngSncmp(void)
 {
-    return FUN_0c170880();
+    return fmMngSncmp_tail_0c170880();
 }
 
-int thunk_FUN_0c1708b2(void)
+int fmMngMcpy(void)
 {
-    return FUN_0c1708b2();
+    return fmMngMcpy_tail_0c1708b2();
 }
 
 void ADXB_Destroy(int a4)
@@ -1086,7 +1086,7 @@ int ADXB_Reset(int a4)
     return t3;
 }
 
-void FUN_0c17190c(int a4)
+void mwlSbFreeWork(int a4)
 {
     int t0;
 
@@ -1098,16 +1098,16 @@ void FUN_0c17190c(int a4)
     }
 }
 
-int FUN_0c1720f4(int a4, int a5, int a6)
+int mwlSbGetFilter(int a4, int a5, int a6)
 {
     int t0;
     int t1;
     int t2;
     int t3;
 
-    t0 = FUN_0c171e62(a4, 0x9, 0x0);
+    t0 = mwlSbGetStreamParam(a4, 0x9, 0x0);
     *(unsigned short *)(((0x58 + a4) + 0x0)) = t0;
-    t1 = FUN_0c171e62(a4, 0xA, 0x0);
+    t1 = mwlSbGetStreamParam(a4, 0xA, 0x0);
     *(unsigned short *)(((0x5A + a4) + 0x0)) = t1;
     t2 = *(short *)((a4 + 0x58));
     *(unsigned int *)((a5 + 0x0)) = t2;
@@ -1125,7 +1125,7 @@ int buFbrInit(void)
     return 0xC2FD298;
 }
 
-int FUN_0c174394(void)
+int ADXPD_Init(void)
 {
     return memset(0xC2FD29C, 0x0, 0x1A0);
 }

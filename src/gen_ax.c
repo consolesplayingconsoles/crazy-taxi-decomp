@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_ax): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXT_Init(void);
-int FUN_0c07b710(void);
-int FUN_0c14f59e(void);
-int FUN_0c15887e(int, int, int);
-int FUN_0c158958(void);
-int FUN_0c16af38(void);
+int ADXT_Finish(void);
+int nlIntrDefaultFunction(void);
+int syMallocFinish(void);
+int kmiMemCopy4(int, int, int);
+int kmiResetCallback(void);
+int SJMEM_Lock(void);
 int SJMEM_Unlock(int, int);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
@@ -52,7 +52,7 @@ void mwRnaUnlockCs(int a4)
     _builtin_set_imask(((unsigned int)(((t0 & 0xF) << 2) << 2) >> 4));
 }
 
-int FUN_0c16af38(void)
+int SJMEM_Lock(void)
 {
     int t0;
 
@@ -79,7 +79,7 @@ int SJUNI_Lock(void)
     return t0;
 }
 
-void FUN_0c1717d8(int a4)
+void mwRnaLockCs(int a4)
 {
     int t0;
 
@@ -88,7 +88,7 @@ void FUN_0c1717d8(int a4)
     _builtin_set_imask(0xF);
 }
 
-void FUN_0c075120(void)
+void nlSysMetricsInit(void)
 {
     int t0;
 
@@ -119,7 +119,7 @@ int nlSetIntrFunction(int a4)
         t2 = ((int (*)(int))(t1))(a4);
         t4 = t2;
     } else {
-        t3 = FUN_0c07b710();
+        t3 = nlIntrDefaultFunction();
         t4 = t3;
     }
     _builtin_set_imask(((unsigned int)(((t0 & 0xF) << 2) << 2) >> 4));
@@ -136,7 +136,7 @@ void kmiRegisterCallback(int a4, int a5, int a6, int a7)
         *(unsigned int *)(((((a5 << 2) << 1) + (0x234 + a4)) + 0x0)) = a6;
         *(unsigned int *)((((0x234 + a4) + ((a5 << 2) << 1)) + 0x4)) = a7;
     } else {
-        FUN_0c158958();
+        kmiResetCallback();
     }
     _builtin_set_imask(((unsigned int)(((t0 & 0xF) << 2) << 2) >> 4));
 }
@@ -166,7 +166,7 @@ int SJMEM_UngetChunk(int a4, int a5, int a6)
     int t23;
     int t24;
 
-    t0 = FUN_0c16af38();
+    t0 = SJMEM_Lock();
     if (a5 == 0) {
         t1 = *(int *)((a4 + 0x1C));
         if (t1 != 0) {
@@ -362,7 +362,7 @@ void kmiCopyToFrameBuffer(int a4, int a5, int a6)
                     *(unsigned int *)0xC2EAAAC = 0x0;
                 }
                 if ((a6 & 0x1F) != 0) {
-                    FUN_0c15887e((0xA4000000 + (a4 + (0xFFFFFFE0 & a6))), (a5 + (0xFFFFFFE0 & a6)), (a6 & 0x1F));
+                    kmiMemCopy4((0xA4000000 + (a4 + (0xFFFFFFE0 & a6))), (a5 + (0xFFFFFFE0 & a6)), (a6 & 0x1F));
                 }
                 t11 = *(int *)0xC2EAAB0;
                 if (t11 == 1) {
@@ -370,13 +370,13 @@ void kmiCopyToFrameBuffer(int a4, int a5, int a6)
                     kmiWaitForFinishDMA(t12);
                 }
             } else {
-                FUN_0c15887e((0xA4000000 + a4), a5, a6);
+                kmiMemCopy4((0xA4000000 + a4), a5, a6);
             }
         } else {
-            FUN_0c15887e((0xA4000000 + a4), a5, a6);
+            kmiMemCopy4((0xA4000000 + a4), a5, a6);
         }
     } else {
-        FUN_0c15887e((0xA4000000 + a4), a5, a6);
+        kmiMemCopy4((0xA4000000 + a4), a5, a6);
     }
 }
 

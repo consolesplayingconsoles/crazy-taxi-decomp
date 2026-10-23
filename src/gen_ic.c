@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ic): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077df0(int);
+int nlMatrixMode(int);
 int InitArrow(int);
 int Init_Balloon(void);
 int Init_DCmini_CarPos(void);
@@ -29,10 +29,10 @@ int Init_DCmini(void)
     int t147;
     int t148;
 
-    FUN_0c077df0(0x3);
+    nlMatrixMode(0x3);
     nlUnitMatrix();
     nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
-    FUN_0c077df0(0x1);
+    nlMatrixMode(0x1);
     Init_DCmini_Standard_Sprite();
     Init_Window_Sprite(0x4);
     Init_DCmini_CarPos();

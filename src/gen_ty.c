@@ -1,3 +1,4 @@
+extern int trainExec();
 /* Straight-line functions with calls and guards (batch gen_ty): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -38,7 +39,7 @@ int TrainInit(int a4, int a5)
     int t31;
     int t33;
 
-    t0 = nlSetEventNext(0x12C, 0xC0490E0, a4);
+    t0 = nlSetEventNext(0x12C, ((int)trainExec), a4);
     if (t0 == 0) {
         return t0;
     }

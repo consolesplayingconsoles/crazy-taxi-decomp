@@ -1,8 +1,8 @@
 /* A function proven on cases written by hand (tools/handcase.py). */
 
-int FUN_0c038554(void);
+int MoveDefPosTbl(void);
 
-int FUN_0c038554(void)
+int MoveDefPosTbl(void)
 {
     int t0;
     int t1;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_io): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15887e(int, int, int);
+int kmiMemCopy4(int, int, int);
 extern void _builtin_prefetch(void *);
 int kmQueryFinishFlushVertexBuffer(void);
 int kmiFatalErrorEntry(int);
@@ -364,7 +364,7 @@ int kmRender(void)
                 t62 = *(int *)0xC2B8CBC;
                 t63 = *(int *)(((int)stk + 8));
                 t64 = *(int *)((t62 + t63));
-                FUN_0c15887e(t64, 0xC175D78, 0x4);
+                kmiMemCopy4(t64, 0xC175D78, 0x4);
                 t66 = *(int *)(((int)stk + 8));
                 t67 = *(int *)0xC2B8CBC;
                 t68 = *(int *)((t67 + t66));
@@ -427,11 +427,11 @@ int kmRender(void)
                     *(unsigned int *)(((int)stk + 8)) = (t103 + (((int)stk + 4) + 0x44));
                     t104 = *(int *)(((t103 + (((int)stk + 4) + 0x44)) + 0x0));
                     t105 = *(int *)((t104 + 0x0));
-                    FUN_0c15887e(t105, (((int)stk + 4) + 0x10), 0x20);
+                    kmiMemCopy4(t105, (((int)stk + 4) + 0x10), 0x20);
                     t107 = *(int *)(((int)stk + 8));
                     t108 = *(int *)((t107 + 0x0));
                     t109 = *(int *)((t108 + 0x0));
-                    FUN_0c15887e((t109 + 0x20), 0xC175D78, 0x4);
+                    kmiMemCopy4((t109 + 0x20), 0xC175D78, 0x4);
                     t111 = *(int *)(((int)stk + 4));
                     t112 = *(int *)(((((int)stk + 4) + 0x30) + t111));
                     *(unsigned int *)((t112 + 0x0)) = 0x20;
@@ -495,7 +495,7 @@ int kmRender(void)
                     t121 = t137;
                     t139 = *(int *)(((t136 << 2) + t121));
                     t122 = ((t139 & 0x3FFFFFF) | 0xE0000000);
-                    t140 = FUN_0c15887e(t122, (((int)stk + 4) + 0x10), 0x20);
+                    t140 = kmiMemCopy4(t122, (((int)stk + 4) + 0x10), 0x20);
                     t121 = t140;
                     _builtin_prefetch((void *)((t139 & 0x3FFFFFF) | 0xE0000000));
                     *(unsigned int *)0xC178278 = 0x0;
@@ -537,7 +537,7 @@ int kmRender(void)
                     t121 = t155;
                     t157 = *(int *)((t154 + t121));
                     t122 = t157;
-                    t158 = FUN_0c15887e(t122, 0xC175D78, 0x4);
+                    t158 = kmiMemCopy4(t122, 0xC175D78, 0x4);
                     t121 = t158;
                     t159 = *(int *)(((int)stk + 12));
                     t121 = t159;
@@ -611,7 +611,7 @@ int kmRender(void)
                     t121 = t191;
                     t193 = *(int *)(((t190 << 2) + t121));
                     t122 = ((t193 & 0x3FFFFFF) | 0xE0000000);
-                    t194 = FUN_0c15887e(t122, (((int)stk + 4) + 0x10), 0x20);
+                    t194 = kmiMemCopy4(t122, (((int)stk + 4) + 0x10), 0x20);
                     t121 = t194;
                     _builtin_prefetch((void *)((t193 & 0x3FFFFFF) | 0xE0000000));
                     *(unsigned int *)0xC178278 = 0x0;
@@ -671,7 +671,7 @@ int kmRender(void)
                 t121 = t210;
                 t212 = *(int *)(((t209 << 2) + t121));
                 t122 = ((t212 & 0x3FFFFFF) | 0xE0000000);
-                t213 = FUN_0c15887e(t122, (((int)stk + 4) + 0x10), 0x20);
+                t213 = kmiMemCopy4(t122, (((int)stk + 4) + 0x10), 0x20);
                 t121 = t213;
                 _builtin_prefetch((void *)((t212 & 0x3FFFFFF) | 0xE0000000));
                 *(unsigned int *)0xC178278 = 0x0;
@@ -710,7 +710,7 @@ int kmRender(void)
                         t217 = t223;
                         t224 = *(int *)((t217 + 0x0));
                         t217 = t224;
-                        FUN_0c15887e(t217, (((int)stk + 4) + 0x10), 0x20);
+                        kmiMemCopy4(t217, (((int)stk + 4) + 0x10), 0x20);
                         t226 = *(int *)(((int)stk + 12));
                         t217 = t226;
                         t227 = *(int *)((t217 + 0x0));
@@ -718,7 +718,7 @@ int kmRender(void)
                         t228 = *(int *)((t217 + 0x0));
                         t217 = t228;
                         t217 = (t217 + 0x20);
-                        FUN_0c15887e(t217, 0xC175D78, 0x4);
+                        kmiMemCopy4(t217, 0xC175D78, 0x4);
                         t230 = *(int *)(((int)stk + 4));
                         t231 = *(int *)(((((int)stk + 4) + 0x30) + t230));
                         *(unsigned int *)((t231 + 0x0)) = 0x20;
@@ -760,7 +760,7 @@ int kmRender(void)
                 t255 = *(int *)0xC2EAAA4;
                 t256 = *(int *)0xC2B8CBC;
                 t257 = *(int *)(((t255 << 2) + t256));
-                FUN_0c15887e(((t257 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x10), 0x20);
+                kmiMemCopy4(((t257 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x10), 0x20);
                 _builtin_prefetch((void *)((t257 & 0x3FFFFFF) | 0xE0000000));
             }
         }
@@ -793,7 +793,7 @@ int kmRender(void)
                 t289 = *(int *)(((int)stk + 4));
                 t290 = *(int *)((t288 + t289));
                 t274 = t290;
-                FUN_0c15887e(t274, t275, t276);
+                kmiMemCopy4(t274, t275, t276);
                 t292 = *(int *)(((int)stk + 4));
                 t293 = *(int *)0xC2B8CBC;
                 t294 = *(int *)((t293 + t292));
@@ -918,7 +918,7 @@ int kmRender(void)
                 t334 = (t334 + 0x10);
                 t342 = *(int *)((t333 + 0x0));
                 t333 = t342;
-                t343 = FUN_0c15887e(t333, t334, t335);
+                t343 = kmiMemCopy4(t333, t334, t335);
                 t332 = t343;
                 t344 = *(int *)(((int)stk + 8));
                 t333 = t344;
@@ -929,7 +929,7 @@ int kmRender(void)
                 t346 = *(int *)((t333 + 0x0));
                 t333 = t346;
                 t333 = (t333 + 0x20);
-                t347 = FUN_0c15887e(t333, t334, t335);
+                t347 = kmiMemCopy4(t333, t334, t335);
                 t332 = t347;
                 t348 = *(int *)(((int)stk + 12));
                 t332 = t348;

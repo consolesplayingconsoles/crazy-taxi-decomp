@@ -5,7 +5,7 @@ extern void _builtin_ftrv(float *, float *);
 extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
 void nlTranslate(float f4, float f5, float f6);
-void FUN_0c077b50(int a4);
+void nlLoadMatrix8(int a4);
 
 void nlTranslate(float f4, float f5, float f6)
 {
@@ -28,7 +28,7 @@ void nlTranslate(float f4, float f5, float f6)
     _builtin_ld_ext((float (*)[4])u2);
 }
 
-void FUN_0c077b50(int a4)
+void nlLoadMatrix8(int a4)
 {
     int t1;
     int t0;

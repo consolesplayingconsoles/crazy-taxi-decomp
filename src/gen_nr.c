@@ -3,9 +3,9 @@
 
 float nlInnerProduct(int, int);
 int nlMultiMatrix(int);
-int FUN_0c077fa0(int a4);
+int nlParallelProj(int a4);
 
-int FUN_0c077fa0(int a4)
+int nlParallelProj(int a4)
 {
     float u0;
     float u1;

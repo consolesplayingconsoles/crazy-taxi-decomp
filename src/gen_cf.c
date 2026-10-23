@@ -3,8 +3,8 @@
 
 int Chat_PickSomeoneUp(void);
 int Drv_SetMotion(int, float);
-int nlSqrt(int, int);
-int FUN_0c158860(int, int, int);
+int nlCalcPoint(int, int);
+int kmiMemCopy8(int, int, int);
 int ResetFadeColor(void);
 int SetColliObj(int, int);
 extern void _builtin_prefetch(void *);
@@ -23,7 +23,7 @@ int Drv_StartHorn(void);
 int Drv_StartPickUp(void);
 int Put_Adv_Rating(void);
 void setObjHitShed(int a4);
-int FUN_0c080ae0(int a4, int a5, int a6);
+int nldispstripSub(int a4, int a5, int a6);
 int carAngularMotion(int a4);
 
 int Drv_StartHorn(void)
@@ -36,57 +36,9 @@ int Drv_StartHorn(void)
 }
 
 
-int Put_Adv_Rating(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    float u9;
-    float u13;
-    float u17;
-    int t25;
-    int stk[9] = {0};
-
-    t0 = *(signed char *)0xC0D0AC6;
-    *(unsigned char *)((((int)stk + 4) + 0x0)) = t0;
-    t1 = *(signed char *)0xC0D0AC7;
-    *(unsigned char *)((((int)stk + 4) + 0x1)) = t1;
-    t2 = *(signed char *)0xC0D0AC8;
-    *(unsigned char *)((((int)stk + 4) + 0x2)) = t2;
-    t3 = *(signed char *)0xC0D0AC9;
-    *(unsigned char *)((((int)stk + 4) + 0x3)) = t3;
-    t4 = *(signed char *)0xC0D0ACA;
-    *(unsigned char *)((((int)stk + 4) + 0x4)) = t4;
-    t5 = *(signed char *)0xC0D0ACB;
-    *(unsigned char *)((((int)stk + 4) + 0x5)) = t5;
-    pfSetFont(0x1);
-    pfColor(0xFF00FF00, 0xFF00FF00, 0xFF00FF00, 0xFF00FF00);
-    pfSize(1.0f, 1.0f);
-    u9 = *(float *)0xC2A96D4;
-    pfLocate(u9, 70.0f);
-    pfPuts(0xC0D0A54);
-    pfSize(1.0f, 1.0f);
-    u13 = *(float *)0xC2A96D8;
-    pfLocate(u13, 200.0f);
-    pfPuts(0xC0D0A70);
-    pfSize(1.5f, 1.5f);
-    u17 = *(float *)0xC2A96DC;
-    pfLocate(u17, 250.0f);
-    pfPuts(0xC0D0A88);
-    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    pfSize(1.0f, 1.0f);
-    pfLocate(239.0f, 386.0f);
-    pfPutSEGALogo();
-    nlObjPutSetFadeColor(0.0f, 0.0f, 1.0f);
-    t25 = ResetFadeColor();
-    return t25;
-}
 
 
-int FUN_0c080ae0(int a4, int a5, int a6)
+int nldispstripSub(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -133,7 +85,7 @@ int FUN_0c080ae0(int a4, int a5, int a6)
     *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
     *(unsigned int *)(((int)stk + 4)) = ((t4 & 0x3FFFFFF) | 0xE0000000);
     t5 = *(int *)0xC2AF36C;
-    FUN_0c158860(((t4 & 0x3FFFFFF) | 0xE0000000), t5, t3);
+    kmiMemCopy8(((t4 & 0x3FFFFFF) | 0xE0000000), t5, t3);
     t7 = *(int *)(((int)stk + 4));
     _builtin_prefetch((void *)t7);
     t9 = t7;
@@ -160,7 +112,7 @@ int FUN_0c080ae0(int a4, int a5, int a6)
             }
             t16 = *(int *)0xC2B7944;
             if (t16 != 0) {
-                nlSqrt(t15, (((int)stk + 4) + 0xC));
+                nlCalcPoint(t15, (((int)stk + 4) + 0xC));
                 u18 = *(float *)(((int)stk + 24));
                 u23 = u18;
             } else {
@@ -184,7 +136,7 @@ int FUN_0c080ae0(int a4, int a5, int a6)
             t30 = *(int *)(((t28 << 2) + t29));
             *(unsigned int *)((t13 + 0x0)) = ((unsigned int)((unsigned int)t30 >> 16) >> 8);
             *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t30 >> 16) >> 8);
-            FUN_0c158860(((t30 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x8), 0x20);
+            kmiMemCopy8(((t30 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x8), 0x20);
             _builtin_prefetch((void *)((t30 & 0x3FFFFFF) | 0xE0000000));
             t32 = *(int *)0xC2AF368;
             t14 = (t14 - 1);

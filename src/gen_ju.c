@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ju): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07f5c0(int);
-int FUN_0c07f870(int a4, int a5, int a6, int a7);
+int nlsndSeqRequest(int);
+int nlsndStreamInit(int a4, int a5, int a6, int a7);
 
-int FUN_0c07f870(int a4, int a5, int a6, int a7)
+int nlsndStreamInit(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -423,7 +423,7 @@ int FUN_0c07f870(int a4, int a5, int a6, int a7)
     if (t102) goto L_C07FA5C;
     goto L_C07FA74;
     L_C07FA74:;
-    FUN_0c07f5c0(0xA1);
+    nlsndSeqRequest(0xA1);
     t110 = 0x0;
     R0 = t110;
     goto L_C07FA7C;

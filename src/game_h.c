@@ -7,7 +7,7 @@ int Voice_Request(int id, int a, int b, int c);
 int menuChangeValue(int a, int *p, int n);
 int putMenuValue(int id, int table, int n, int v);
 void SetAudio(void);
-int FUN_0c0813d0(int x);
+int abs(int x);
 
 #define HUD_FLAGS       (*(unsigned int *)0x0C2A75E0)
 
@@ -70,7 +70,7 @@ int getShortRootPoint(int a, int b, int c)
 {
     int d = b - a;
 
-    if (FUN_0c0813d0(d) > ((c - 1) >> 1)) {
+    if (abs(d) > ((c - 1) >> 1)) {
         if (b > a)
             return d - c;
         return d + c;

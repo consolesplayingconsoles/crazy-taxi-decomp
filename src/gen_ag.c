@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ag): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0789c0(int);
+int nlTranslateNV(int);
 int _quick_mvn(void);
 int buAnalyzeBackupFileImage(int, int);
 int buGetFileInfo(int, int, int);
@@ -16,7 +16,7 @@ int nlOuterProduct(int, int, int);
 int nlUnitVector(int);
 
 
-void FUN_0c077a00(int a4, int a5, int a6)
+void nlLookAtUp(int a4, int a5, int a6)
 {
     float u0;
     float u1;
@@ -78,10 +78,10 @@ void FUN_0c077a00(int a4, int a5, int a6)
     *(float *)(((int)stk + 88)) = 0.0f;
     *(float *)(((int)stk + 104)) = 1.0f;
     nlMultiMatrix((((int)stk + 4) + 0x28), 0.0f);
-    FUN_0c0789c0(a4);
+    nlTranslateNV(a4);
 }
 
-int FUN_0c15c8dc(int *a4)
+int kmtex_TextureSize_smallVQ(int *a4)
 {
     unsigned int w;
     unsigned int h;

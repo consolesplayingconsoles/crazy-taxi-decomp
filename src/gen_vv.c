@@ -3,9 +3,9 @@
 
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
-void FUN_0c14f6f4(int a4, int a5, int a6);
+void syMalloc_default_free(int a4, int a5, int a6);
 
-void FUN_0c14f6f4(int a4, int a5, int a6)
+void syMalloc_default_free(int a4, int a5, int a6)
 {
     int t0;
     int t2;

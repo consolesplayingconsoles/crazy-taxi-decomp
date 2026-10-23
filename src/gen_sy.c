@@ -3,9 +3,9 @@
 
 int gdFsGetDrvStatG(void);
 int gdFsReqDrvStatG(void);
-void FUN_0c14e2ac(void);
+void gdFsIsTrayOpenG(void);
 
-void FUN_0c14e2ac(void)
+void gdFsIsTrayOpenG(void)
 {
     int t2;
 

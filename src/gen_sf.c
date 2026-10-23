@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_sf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c158860(int, int, int);
+int kmiMemCopy8(int, int, int);
 extern void _builtin_prefetch(void *);
-int nlSqrt(int, int);
-int FUN_0c080c50(int a4, int a5);
+int nlCalcPoint(int, int);
+int nldispstripTexSub(int a4, int a5);
 
-int FUN_0c080c50(int a4, int a5)
+int nldispstripTexSub(int a4, int a5)
 {
     int t0;
     int t1;
@@ -33,7 +33,7 @@ int FUN_0c080c50(int a4, int a5)
     *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
     *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
     *(unsigned int *)(((int)stk + 4)) = ((t4 & 0x3FFFFFF) | 0xE0000000);
-    FUN_0c158860(((t4 & 0x3FFFFFF) | 0xE0000000), (*(int *)0xC2AF36C), t3);
+    kmiMemCopy8(((t4 & 0x3FFFFFF) | 0xE0000000), (*(int *)0xC2AF36C), t3);
     _builtin_prefetch((void *)(*(int *)(((int)stk + 4))));
     if (t3 == 64) {
         _builtin_prefetch((void *)((*(int *)(((int)stk + 4))) + 0x20));
@@ -54,7 +54,7 @@ int FUN_0c080c50(int a4, int a5)
             }
             if ((*(int *)0xC2B7944) != 0) {
                 t14 = 0xC0771B0;
-                nlSqrt(t16, (((int)stk + 4) + 0xC));
+                nlCalcPoint(t16, (((int)stk + 4) + 0xC));
                 u28 = (*(float *)(((int)stk + 24)));
             } else {
                 *(float *)(((int)stk + 16)) = (*(float *)((t16 + 0x0)));
@@ -74,7 +74,7 @@ int FUN_0c080c50(int a4, int a5)
             *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t36 >> 16) >> 8);
             *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t36 >> 16) >> 8);
             t14 = 0xC158860;
-            FUN_0c158860(((t36 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x8), 0x20);
+            kmiMemCopy8(((t36 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0x8), 0x20);
             _builtin_prefetch((void *)((t36 & 0x3FFFFFF) | 0xE0000000));
             t38 = *(int *)0xC2AF368;
             t15 = (t15 - 1);

@@ -1,130 +1,134 @@
 /* Straight-line functions with calls and guards (batch gen_bf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int End_Pass_Default2_Sprite(void);
-int Money_Array(int, int, int);
-int Sound_Request(int, int);
-int hudDrawFare(void);
-int hudSplitFareDigits(int, int);
-int hudUpdateFareState(void);
-int hudDrawTime(void);
+int ResetFadeColor(void);
+int nlCloseEvent(int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlSprPut(int);
+int pfColor(int, int, int, int);
+float pfLength(int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Exec_Combo_Entry(int a4);
 
-int hudDrawTime(void)
+int Exec_Combo_Entry(int a4)
 {
     int t1;
-    int t21;
-    int t22;
-    int t24;
-    int t25;
-    int t40;
-    int t100;
-    int t48;
-    int t96;
-    int t55;
-    int t92;
-    int t61;
-    int t88;
-    int t66;
-    int t84;
-    int t70;
-    int t80;
-    int t73;
-    int t76;
-    int t75;
-    int t110;
-    int t109;
-    int t114;
-    int t4;
     int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t74;
-    int t108;
-    int stk[21] = {0};
+    int t93;
+    int t90;
+    int t134;
+    float u15;
+    float u30;
+    float u45;
+    float u60;
+    int t68;
+    int t69;
+    int t110;
+    int stk[22];
 
-    { struct mv7 { int w[7]; }; *(struct mv7 *)((((int)stk + 4) + 0x1C)) = *(struct mv7 *)(0xC0D08F8); }
-    { struct mv7 { int w[7]; }; *(struct mv7 *)(((int)stk + 4)) = *(struct mv7 *)(0xC0D0914); }
-    if ((*(int *)0xC2A8EB0) == 9) {
-        t1 = End_Pass_Default2_Sprite();
-        *(unsigned int *)0xC2A8E98 = 0x0;
-        t114 = t1;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)(0xC0D0938); }
+    if ((int)(*(int *)((a4 + 0x20))) >= (int)0x50) {
+        *(unsigned int *)0xC2A91B8 = 0x63;
+        t1 = nlCloseEvent(a4);
+        *(unsigned int *)0xC2A91B4 = 0x0;
+        t134 = t1;
     } else {
-        hudUpdateFareState();
-        if (((int)(*(int *)0xC2A8EB0) >= (int)0x2) && (((t4 = *(int *)0xC2A8C7C, t5 = *(int *)((t4 + 0x0)), t5 != 0) || ((t6 = *(int *)0xC2A8C80, t7 = *(int *)((t6 + 0x0)), t7 != 0) || (t8 = *(int *)0xC2A8C84, t9 = *(int *)((t8 + 0x0)), t9 != 0))) && ((t10 = *(int *)0xC2A8E4C, t10 == 0) && ((t11 = *(int *)0xC2A8E48, t11 == 0) && ((t12 = *(int *)0xC2A8E44, t12 == 0) && ((t13 = *(int *)0xC2A8E40, t13 == 0) && ((t14 = *(int *)0xC2A8E3C, t14 == 0) && ((t15 = *(int *)0xC2A8E38, t15 == 0) && (t16 = *(int *)0xC2A8E34, t16 == 0))))))))) {
-            Money_Array((((int)stk + 4) + 0x1C), (*(int *)0xC2A8E94), 0x7);
-            t21 = *(int *)(((*(int *)0xC2A8C80) + 0x0));
-            t22 = *(int *)(((*(int *)0xC2A8C7C) + 0x0));
-            t24 = *(int *)(((*(int *)0xC2A8C84) + 0x0));
-            t25 = *(int *)0xC2A8E94;
-            *(unsigned int *)0xC2A8E94 = (t25 + ((t22 + t21) + t24));
-            if ((int)(t25 + ((t22 + t21) + t24)) > (int)0x98967F) {
-                *(unsigned int *)0xC2A8E94 = 0x98967F;
-            }
-            Money_Array(((int)stk + 4), (*(int *)0xC2A8E94), 0x7);
-            hudSplitFareDigits((((int)stk + 4) + 0x1C), ((int)stk + 4));
-            *(unsigned int *)(((*(int *)0xC2A8C7C) + 0x0)) = 0x0;
-            *(unsigned int *)(((*(int *)0xC2A8C80) + 0x0)) = 0x0;
-            *(unsigned int *)(((*(int *)0xC2A8C84) + 0x0)) = 0x0;
-            Sound_Request(0x604A9, 0x0);
-            *(unsigned int *)0xC2A9184 = 0x0;
-        }
-        hudDrawFare();
-        t40 = *(int *)0xC2A8E84;
-        t100 = t40;
-        if (t40 == 1) {
-            t48 = *(int *)0xC2A8E80;
-            t96 = t48;
-            if (t48 == 1) {
-                t55 = *(int *)0xC2A8E7C;
-                t92 = t55;
-                if (t55 == 1) {
-                    t61 = *(int *)0xC2A8E78;
-                    t88 = t61;
-                    if (t61 == 1) {
-                        t66 = *(int *)0xC2A8E74;
-                        t84 = t66;
-                        if (t66 == 1) {
-                            t70 = *(int *)0xC2A8E70;
-                            t80 = t70;
-                            if (t70 == 1) {
-                                t73 = *(int *)0xC2A8E6C;
-                                t76 = t73;
-                                if ((t73 == 1) && (t74 = *(int *)0xC2A9184, t74 == 0)) {
-                                    t75 = Sound_Request(0x704A9, 0x0);
-                                    *(unsigned int *)0xC2A9184 = 0x1;
-                                    t76 = t75;
-                                }
-                                t80 = t76;
-                            }
-                            t84 = t80;
+        pfSetFont(0x0);
+        pfColor(0xFFFFAA00, 0xFFFFFF00, 0xFFFFAA00, 0xFFFFFF00);
+        pfSize(1.0f, 1.0f);
+        t5 = *(int *)((a4 + 0x18));
+        if (t5 != 0) {
+            if (t5 != 1) {
+                if (t5 != 2) {
+                    if (t5 == 3) {
+                        *(float *)(((int)stk + 12)) = ((pfLength(0xC0D0990)) * 0.5f);
+                        if ((*(int *)0xC2A91B8) != (*(int *)((a4 + 0x18)))) {
+                            u15 = (((-(*(float *)(((int)stk + 12)))) + (*(float *)((a4 + 0x14)))) + 530.0f);
+                        } else {
+                            u15 = (530.0f - (*(float *)(((int)stk + 12))));
                         }
-                        t88 = t84;
+                        pfLocate(u15, 136.0f);
+                        pfPuts(0xC0D09A0);
                     }
-                    t92 = t88;
+                } else {
+                    *(float *)(((int)stk + 8)) = (pfLength(0xC0D0970));
+                    if ((*(int *)0xC2A91B8) != (*(int *)((a4 + 0x18)))) {
+                        u30 = (((-((*(float *)(((int)stk + 8))) * 0.5f)) + (*(float *)((a4 + 0x14)))) + 530.0f);
+                    } else {
+                        u30 = (530.0f - ((*(float *)(((int)stk + 8))) * 0.5f));
+                    }
+                    pfLocate(u30, 136.0f);
+                    pfPuts(0xC0D0980);
                 }
-                t96 = t92;
+            } else {
+                *(float *)(((int)stk + 4)) = (pfLength(0xC0D0954));
+                if ((*(int *)0xC2A91B8) != (*(int *)((a4 + 0x18)))) {
+                    u45 = (((-((*(float *)(((int)stk + 4))) * 0.5f)) + (*(float *)((a4 + 0x14)))) + 530.0f);
+                } else {
+                    u45 = (530.0f - ((*(float *)(((int)stk + 4))) * 0.5f));
+                }
+                pfLocate(u45, 136.0f);
+                pfPuts(0xC0D0960);
             }
-            t100 = t96;
+        } else {
+            *(float *)(((int)stk + 16)) = (pfLength(0xC0D0944));
+            if ((*(int *)0xC2A91B8) != (*(int *)((a4 + 0x18)))) {
+                u60 = (((-((*(float *)(((int)stk + 16))) * 0.5f)) + (*(float *)((a4 + 0x14)))) + 530.0f);
+            } else {
+                u60 = (530.0f - ((*(float *)(((int)stk + 16))) * 0.5f));
+            }
+            pfLocate(u60, 136.0f);
+            pfPuts(0xC0D0944);
         }
-        if ((*(int *)0xC2A11B0) == 0) {
-            *(unsigned int *)0xC2A91C0 = 0x0;
+        *(unsigned int *)0xC2A7610 = (*(int *)((a4 + 0x1C)));
+        if (((int)(*(int *)0xC1EE794) > 0) && (t68 = *(int *)0xC2A7610, t69 = *(int *)0xC2A7614, (int)t69 < (int)t68)) {
+            *(unsigned int *)0xC2A7614 = (*(int *)0xC2A7610);
         }
-        t110 = t100;
-        if (((*(int *)0xC2A11B0) != 0) && (t108 = *(int *)0xC2A91C0, t108 == 0)) {
-            t109 = Sound_Request(0x704A9, 0x0);
-            *(unsigned int *)0xC2A91C0 = 0x1;
-            t110 = t109;
+        if ((int)(*(int *)((a4 + 0x1C))) <= (int)0x1) {
+        } else {
+            if ((int)(*(int *)((a4 + 0x1C))) > (int)0x3E7) {
+                *(unsigned int *)((a4 + 0x1C)) = 0x3E7;
+            }
+            *(unsigned int *)((((((int)stk + 4) + 0x14) + 0x8) + 0x0)) = ((int)((int)(*(int *)((a4 + 0x1C))) / (int)0x64));
+            *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x4)) = ((int)((int)((int)((int)(*(int *)((a4 + 0x1C))) / (int)0xA)) % (int)0xA));
+            *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = ((int)((int)((*(int *)((a4 + 0x1C))) - ((*(int *)((((((int)stk + 4) + 0x14) + 0x8) + 0x0))) * 0x64)) % (int)0xA));
+            t93 = 0x0;
+            if ((*(int *)((((((int)stk + 4) + 0x14) + 0x8) + 0x0))) == 0) {
+                t90 = 0x18;
+                if ((*(int *)(((((int)stk + 4) + 0x14) + 0x4))) == 0) {
+                    t90 = 0x30;
+                }
+                t93 = t90;
+            }
+            pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
+            pfSize(1.0f, 1.0f);
+            pfLocate((float)(t93 + 0x1E0), 166.0f);
+            pfPuts(0xC0D09B0);
+            *(unsigned int *)(((int)stk + 20)) = ((((int)stk + 4) + 0x14) + 0x8);
+            *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x14) + 0x8) + 0x0))) + 0x50);
+            *(float *)0xC2A88E0 = ((*(float *)((a4 + 0x14))) + 564.0f);
+            *(float *)0xC2A88E4 = 166.0f;
+            nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+            if ((*(int *)(((*(int *)(((int)stk + 20))) + 0x0))) != 0) {
+                nlSprPut(0xC2A88DC);
+            }
+            if (((*(int *)((((((int)stk + 4) + 0x14) + 0x4) + 0x0))) == 0) && (t110 = *(int *)(((((int)stk + 4) + 0x14) + 0x8)), t110 == 0)) {
+            } else {
+                *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x14) + 0x4) + 0x0))) + 0x50);
+                *(float *)0xC2A88E0 = ((*(float *)((a4 + 0x14))) + 586.0f);
+                nlSprPut(0xC2A88DC);
+            }
+            *(unsigned int *)0xC2A88DC = ((*(int *)(((((int)stk + 4) + 0x14) + 0x0))) + 0x50);
+            *(float *)0xC2A88E0 = ((*(float *)((a4 + 0x14))) + (*(float *)0xC0568C4));
+            nlSprPut(0xC2A88DC);
+            ResetFadeColor();
         }
-        t114 = t110;
+        *(float *)((a4 + 0x14)) = ((*(float *)((a4 + 0x14))) * 0.699999988f);
+        *(unsigned int *)((a4 + 0x20)) = ((*(int *)((a4 + 0x20))) + 0x1);
+        t134 = 0x14;
     }
-    return t114;
+    return t134;
 }

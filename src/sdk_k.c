@@ -3,11 +3,11 @@
 
 int kmiWriteRegister(int off, int v);
 int kmiRegisterCallback(int dev, int kind, void *f, void *p);
-void FUN_0c16dd00(int v);
+void kmiEnableVSyncInterrupt(int v);
 int kmiVQFBfree(int *s);
 int kmiFBfree(int a);
-void FUN_0c15888e(void *p);
-void FUN_0c15887e(int *d, int *s, unsigned int n);
+void kmiPurgeCache(void *p);
+void kmiMemCopy4(int *d, int *s, unsigned int n);
 int kmiPurgeMemory(char *p, int n);
 int kmiCopyToPVRMemory(int off, int *src, unsigned int n);
 int vmsfs_c_getstate(int drive);
@@ -26,9 +26,9 @@ int gdFsTell(int h);
 int gdFsGetDirInfo(int h, int *info);
 int ADXSTM_Tell(int *h);
 int ADXSTM_Seek(int h, int pos);
-int FUN_0c1688b6(int a);
+int ADXSJD_GetLpStartOfst(int a);
 int toupper_(int c);
-int FUN_0c15f998(int c);
+int gdFsToUpper(int c);
 
 extern char g_8c464598[];
 
@@ -73,7 +73,7 @@ void kmSetBackGroundPlane(int a, int i)
     *(int *)0x0C2EA724 &= 0xFFF00000;
 }
 
-int FUN_0c14cfe2(char *p)
+int gdFsCheckMedia(char *p)
 {
     char *t = (char *)0x0C174E98;
     int i;
@@ -189,7 +189,7 @@ char *adxf_AllocAdxFs(void)
 }
 
 /* Clears bit 0 of the halfword of the entry that is e, in the table of 24-byte entries at 0C2BF67C. */
-void FUN_0c1573cc(char *e)
+void kmytex_FBFreeEntry(char *e)
 {
     char *p;
 
@@ -199,7 +199,7 @@ void FUN_0c1573cc(char *e)
 }
 
 /* The same in the table of 76-byte entries at 0C2D767C. */
-void FUN_0c157d20(char *e)
+void kmytex_VQFreeEntry(char *e)
 {
     char *p;
 
@@ -209,7 +209,7 @@ void FUN_0c157d20(char *e)
 }
 
 /* Puts node at the head of the list *head (its links at [1] and [2]); the first node also becomes *tail. */
-void FUN_0c1573f2(int **head, int **tail, int *node)
+void kmytex_FBEnQueueTop(int **head, int **tail, int *node)
 {
     if (!*head) {
         node[1] = 0;
@@ -228,7 +228,7 @@ void FUN_0c1573f2(int **head, int **tail, int *node)
 
 int kmSetVSyncCallback(void *f, void *p)
 {
-    FUN_0c16dd00(1);
+    kmiEnableVSyncInterrupt(1);
     kmiRegisterCallback(KM_DEVICE, 1, f, p);
     return 0;
 }
@@ -263,14 +263,14 @@ int kmiPurgeMemory(char *p, int n)
     char *end = p + n;
 
     while (p <= end) {
-        FUN_0c15888e(p);
+        kmiPurgeCache(p);
         p += 32;
     }
 }
 
 int kmiCopyFromFrameBuffer(int *dst, int off, int n)
 {
-    FUN_0c15887e(dst, (int *)(off + 0xA4000000), n);
+    kmiMemCopy4(dst, (int *)(off + 0xA4000000), n);
     kmiPurgeMemory((char *)dst, n);
     return 1;
 }
@@ -349,17 +349,17 @@ int kmiCreateDummyRegionforAvoidCacheBug(int off)
 }
 
 /* A name's hash: the sum of its upper-cased characters plus 218, shifted down by 2 and cut to a byte. */
-int FUN_0c15fa92(char *s)
+int gdFsGetSearchID(char *s)
 {
     unsigned int h = 218;
 
     while (*s)
-        h += (unsigned char)FUN_0c15f998(*s++);
+        h += (unsigned char)gdFsToUpper(*s++);
     return (unsigned char)(h >> 2);
 }
 
 /* 192 bytes from 8 source bytes each: bit 3 of each source byte, most significant first. */
-void FUN_0c162db6(char *dst, char *src)
+void pdVmsLcdBltAsm(char *dst, char *src)
 {
     int i, j;
 
@@ -429,7 +429,7 @@ int ADXSTM_GetFsizeByte(int h, int *out)
 int adxt_eos_entry(int *e)
 {
     int h = e[2];
-    int x = FUN_0c1688b6(e[1]);
+    int x = ADXSJD_GetLpStartOfst(e[1]);
 
     if (x < 0)
         x += 2047;

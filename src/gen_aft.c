@@ -14,7 +14,7 @@ void setObjHitPin(int a4)
 
     if ((*(int *)((((*(int *)((a4 + 0x6C))) << 2) + 0xC275824))) == 0) {
         t2 = nlLength((a4 + 0xC), (a4 + 0x58));
-        if (!(t2 > (1.0f + 1.0f)) && (u3 = *(float *)0xC038FDC, u4 = *(float *)((a4 + 0x40)), !(u3 > u4))) {
+        if (!(t2 > (1.0f + 1.0f)) && (u3 = 0.7f, u4 = *(float *)((a4 + 0x40)), !(u3 > u4))) {
             { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
             return;
         }
@@ -23,7 +23,7 @@ void setObjHitPin(int a4)
             *(unsigned int *)0xC275940 = ((*(int *)0xC275940) - 1);
         }
         t16 = 0x30FA9;
-        if (t2 > (*(float *)0xC038FE4)) {
+        if (t2 > (5.0f)) {
             t16 = 0xFA9;
         }
         Sound_Request(t16, 0x0);

@@ -1,3 +1,4 @@
+extern int callNameEntry();
 /* Straight-line functions with calls and guards (batch gen_hu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -123,7 +124,7 @@ int windowRecordEntry(int a4, int a5, float f4, float f5)
             } else {
                 t7 = t12;
                 if (t7 == 4) {
-                    t9 = 0xC03C208;
+                    t9 = ((int)PutVM_Message);
                     t10 = 0x20;
                     t25 = PutVM_Message(t19, t10, 0x0, u15, u14);
                     t7 = t25;
@@ -193,7 +194,7 @@ int windowRecordEntry(int a4, int a5, float f4, float f5)
             if (t69 == 4) {
                 t70 = *(signed char *)0xC28A4F6;
                 *(unsigned int *)0xC2A11C4 = (unsigned char)t70;
-                return ((int (*)(int, int, float, float))(0xC040A94))(t54, t10, 0.0f, u14);
+                return ((int (*)(int, int, float, float))(((int)callNameEntry)))(t54, t10, 0.0f, u14);
             }
             return windowEnterStep();
         }

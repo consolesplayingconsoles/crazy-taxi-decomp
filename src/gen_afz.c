@@ -56,7 +56,7 @@ int Exec_Crazy_Jump(void)
         t56 = *(int *)0xC2A9970;
         t68 = t56;
         if ((t56 == 3) && (t57 = *(int *)0xC2A991C, t57 == 0)) {
-            if (!((*(float *)0xC05C6C8) > (*(float *)0xC2A9A24))) {
+            if (!((150.0f) > (*(float *)0xC2A9A24))) {
                 t66 = (Start_Excellent());
             } else {
                 t66 = (Start_Fault(0x0));

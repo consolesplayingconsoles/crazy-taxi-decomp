@@ -1,59 +1,59 @@
 /* Small library functions (batch m): matrix setup sequences, model parameter walks, a 24-byte entry table, byte and
    halfword splitting, memcmp, palette and print-state setup. */
 
-void FUN_0c077470(void *m);
-void FUN_0c077f60(void);
+void nlGetMatrix8(void *m);
+void nlMultiPushedMatrix(void);
 void nlPushMatrix(void *m);
 void nlMultiMatrix(void *m);
 void nlMultiMatrix8(void *m);
 void nlGetMatrix(void *m);
 void nlPopMatrix(int n);
-void FUN_0c079ed0(void *m);
-void FUN_0c077b50(void *m);
-void FUN_0c0781a0(int n);
+void nlLoadRechangeMatrix(void *m);
+void nlLoadMatrix8(void *m);
+void nlDecMatrixPtr(int n);
 void nlPrintSetGarbagedTexture(void);
 int kmiWriteRegister(int off, int v);
 
 #define ENTRIES         ((char *)0x0C2B771C)            /* 24-byte entries: byte 0 in use (1), byte 1 locked, word 4 a pointer */
 
-void FUN_0c078fa0(void)
+void nlMakeModelProjectMatrix(void)
 {
     nlPushMatrix(*(void **)(0x0C2B3200 + 8));
-    FUN_0c077f60();
-    FUN_0c077470((void *)0x0C2B33D0);
+    nlMultiPushedMatrix();
+    nlGetMatrix8((void *)0x0C2B33D0);
     nlPopMatrix(1);
 }
 
-void FUN_0c078ff0(void)
+void nlMakeModelViewMatrix(void)
 {
     nlPushMatrix(*(void **)(0x0C2B31F4 + 8));
-    FUN_0c077f60();
+    nlMultiPushedMatrix();
     nlGetMatrix((void *)0x0C2B3390);
     nlPopMatrix(1);
 }
 
-void FUN_0c079e70(void)
+void nlMakeFastModelProjectMatrixVM(void)
 {
     nlPushMatrix((void *)0x0C2B3410);
     nlMultiMatrix(*(void **)(0x0C2B3200 + 8));
     nlMultiMatrix(*(void **)(0x0C2B31F4 + 8));
-    FUN_0c077f60();
-    FUN_0c0781a0(1);
+    nlMultiPushedMatrix();
+    nlDecMatrixPtr(1);
 }
 
-void FUN_0c079f10(void)
+void nl_set_cnv_proj_pers(void)
 {
-    FUN_0c077470((void *)0x0C2B3528);
-    FUN_0c079ed0((void *)0x0C2B3410);
+    nlGetMatrix8((void *)0x0C2B3528);
+    nlLoadRechangeMatrix((void *)0x0C2B3410);
     nlMultiMatrix8((void *)0x0C2B3528);
-    FUN_0c077470((void *)0x0C2B34A8);
-    FUN_0c077470((void *)0x0C2B34E8);
-    FUN_0c077b50((void *)0x0C2B3528);
+    nlGetMatrix8((void *)0x0C2B34A8);
+    nlGetMatrix8((void *)0x0C2B34E8);
+    nlLoadMatrix8((void *)0x0C2B3528);
 }
 
 /* The print state's defaults: a parameter block at 0C2AF118 (control, background, TSP words), the garbaged-texture set-up,
    then the colour index and flag. */
-void FUN_0c076670(void)
+void nlPrintInitFontTexture(void)
 {
     int *g = (int *)0x0C2AF118;
 
@@ -66,7 +66,7 @@ void FUN_0c076670(void)
 }
 
 /* The value the entry points to, when the entry is in use and locked; else 0. */
-int FUN_0c07fc10(short i)
+int nlsndStreamGetPlayPos(short i)
 {
     char *e = ENTRIES + i * 24;
 
@@ -78,7 +78,7 @@ int FUN_0c07fc10(short i)
 }
 
 /* Frees an entry in use and not locked. */
-void FUN_0c07fd00(short i)
+void nlsndStreamClose(short i)
 {
     char *e = ENTRIES + i * 24;
 
@@ -88,7 +88,7 @@ void FUN_0c07fd00(short i)
 
 /* For every record of a model from p on (records of 80 bytes plus the length at +76): sets the bits of mask to val in
    the first word unless the mask is already all set. */
-void FUN_0c07d620(char *p, int mask, int val)
+void nlMvChgObjPutPolAttr(char *p, int mask, int val)
 {
     do {
         int *w = (int *)p;
@@ -102,17 +102,17 @@ void FUN_0c07d620(char *p, int mask, int val)
 int nlMvSetShadowObjPutPol(int *m)
 {
     if (m[0] >= 0 && m[6])
-        FUN_0c07d620((char *)m + 24, 192, 128);
+        nlMvChgObjPutPolAttr((char *)m + 24, 192, 128);
 }
 
-int FUN_0c07d5f0(int *m)
+int nlMvNotShadowObjPutPol(int *m)
 {
     if (m[0] >= 0 && m[6])
-        FUN_0c07d620((char *)m + 24, 192, 0);
+        nlMvChgObjPutPolAttr((char *)m + 24, 192, 0);
 }
 
 /* A word split into 4 bytes, most significant first. */
-void FUN_0c0897f8(char *dst, int *src)
+void _mvito4b(char *dst, int *src)
 {
     int i, w = *src;
 
@@ -121,7 +121,7 @@ void FUN_0c0897f8(char *dst, int *src)
 }
 
 /* A halfword split into 2 bytes, most significant first. */
-void FUN_0c089cc8(char *dst, unsigned short *src)
+void _mvsto2b(char *dst, unsigned short *src)
 {
     int i, h = *src;
 
@@ -129,7 +129,7 @@ void FUN_0c089cc8(char *dst, unsigned short *src)
         *dst++ = h >> (8 - 8 * i);
 }
 
-int FUN_0c0813e0(unsigned char *a, unsigned char *b, unsigned int n)
+int memcmp(unsigned char *a, unsigned char *b, unsigned int n)
 {
     unsigned int i;
 
@@ -141,7 +141,7 @@ int FUN_0c0813e0(unsigned char *a, unsigned char *b, unsigned int n)
     return a[-1] - b[-1];
 }
 
-int FUN_0c0893b8(unsigned char *a, unsigned char *b, unsigned int n)
+int _umemcmp(unsigned char *a, unsigned char *b, unsigned int n)
 {
     unsigned int i;
 

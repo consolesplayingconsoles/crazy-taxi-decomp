@@ -6,10 +6,10 @@ int PutColliPole(int);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 float nlFloor(float);
-void FUN_0c14f5a2(int a4, int a5);
+void syMallocStat(int a4, int a5);
 float ViewColliWall(float f4, float f5);
 
-void FUN_0c14f5a2(int a4, int a5)
+void syMallocStat(int a4, int a5)
 {
     int t0;
     int t1;

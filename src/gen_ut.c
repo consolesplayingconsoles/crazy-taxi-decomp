@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Act_Init(void);
-int FUN_0c074680(int, int, int);
-int FUN_0c07f0b0(void);
+int nlSetBackColor(int, int, int);
+int nlsndPackFree(void);
 int GoiTool(int);
 int InitColliObj(int);
 int InitCollision(int);
@@ -69,7 +69,7 @@ int gameState0(void)
     int t88;
     int t96;
 
-    FUN_0c074680(0xFF000000, 0xFF000000, 0xFF000000);
+    nlSetBackColor(0xFF000000, 0xFF000000, 0xFF000000);
     t1 = *(int *)0xC1EE210;
     if (t1 == 2) {
         gdc_CourseStartLoadReq();
@@ -77,7 +77,7 @@ int gameState0(void)
     gdc_CourseLoadWait();
     t6 = *(int *)0xC1EE210;
     if ((t6 != 2) && (t7 = *(int *)0xC179488, (int)t7 < (int)0x4)) {
-        FUN_0c07f0b0();
+        nlsndPackFree();
         gdc_FileLoad(0xC870000, 0xC08AE58, 0x0);
         nlsndPackLoad(0xC870000, 0x5);
     }

@@ -135,8 +135,8 @@ running Arcade game):
   word is the next record's PCW (bit 31 is always set in a PCW). The strip's culling (`gflag` bits 0-1) becomes the ISP
   culling mode (bits 27-28: 0 none, 1 small, 2 and 3 one winding each), flipped (xor 1) when the word at `0x0C2B7948` is
   negative. Which routine draws the strip depends first on the record's depth test (below): a record wholly on one side
-  goes to `FUN_0c081a40` (`gflag` bit 3 clear) or `FUN_0c082440` (bit 3 set); a record across the bound goes to
-  `FUN_0c081da0` (bit 4 set) or `FUN_0c082240` (bit 4 clear), with bit 6 (gouraud) passed in `r12`. Bit 6 also becomes the
+  goes to `displayStrip_tex_sidx` (`gflag` bit 3 clear) or `displayTriangle_tex_sidx` (bit 3 set); a record across the bound goes to
+  `displayStrip_nc_sidx` (bit 4 set) or `displayTriangle_nc_sidx` (bit 4 clear), with bit 6 (gouraud) passed in `r12`. Bit 6 also becomes the
   PCW's gouraud bit (bit 1) of the parameter sent for the strip.
 - The record test, on the sphere transformed with the model-view-projection (`ftrv`, its w in `fr7`) and the radius times
   `|*0x0C2B7BE8|` (the scale `nlSetScaleFactor` sets; the loop puts it back to 1.0 when it starts): the word at `+12` of the
@@ -145,7 +145,7 @@ running Arcade game):
   `0x0C14A830` skip a record outside the view. A skipped record whose PCW has colour type 2 (intensity, face colour) still
   sends its face colour, since the records after it may use colour type 3 (intensity, the previous face colour).
 - The record's light: specular `-1` gives an ambient of 1.0 (no lighting); a value above 0 picks a light set at
-  `0x0C2B30A4 + 512 * value`; 0 uses `tex_ambient`; `-2` and `-3` call `FUN_0c085e40` and `FUN_0c0868c0`. The face colour is
+  `0x0C2B30A4 + 512 * value`; 0 uses `tex_ambient`; `-2` and `-3` call `nlObjPut_bumpbridge` and `nlObjPut_vtxcolbridge`. The face colour is
   multiplied by the model's alpha (1.0 from `nlObjPut`, the argument of the `Trnsl` entries) and by the fade colours at
   `0x0C14A948` and `0x0C14A958`. After the first strip of a record its PCW (kept at `0x0C2B7960`) switches from colour type 2
   to 3.
@@ -494,7 +494,7 @@ build has the same fields, shifted where its pointers are 8 bytes: +0 to +0x24 e
   then `[6]` (or `[5]` while `+0x58` is set) at the same matrix (position, the three angles,
   then `+0xAC`/`+0xB0` and 1.2 down), and places each wheel from the `+0x6C` table (x and z; the
   height comes from the suspension), computing the tyre contact points on the way
-  (`nlSqrt`). A model is drawn by `nlObjPutUseViewMatrix(model)`; its first word picks the mesh
+  (`nlCalcPoint`). A model is drawn by `nlObjPutUseViewMatrix(model)`; its first word picks the mesh
   kind (0 or 1; by the code, any other value only pops the matrix). The player car is drawn in a state that ignores
   the fade colour: with the base fade set to red (`0x0C0EA5BC`, which `ResetFadeColor` copies
   in), the city and the traffic turned red and the player car and the walker did not (seen
@@ -854,7 +854,7 @@ Box (`loadCity`'s argument).
 | `0C0739C0-0C089F26` | | NAOMI library and C runtime |
 | `0C08A9B8-0C14AB88` | ~770 KB | game data: tables, strings, models' pointer tables |
 | `0C14AB88-0C1789B0` | | Katana SDK libraries |
-| `0C1789C0-0C2B8C40` | 1,311,360 | game BSS (word-cleared by `FUN_0c14ab98`) |
+| `0C1789C0-0C2B8C40` | 1,311,360 | game BSS (word-cleared by `_INITSCT`) |
 | `0C2B8C40-0C2FD460` | 280,608 | SDK BSS (byte-cleared); the BSS ends at `0C2FD460` |
 | `0C2FD460-0C30C000` | 60,320 | past the cleared BSS but not free: `ADX_DecodeSteFloat` uses `0C2FD460`, and `0C2FDE98-0C2FE100` is a live object (the only bytes that change between menu, Arcade and Original); the rest is non-zero but identical in all three dumps (floats, matrices, 16-bit texels; owner not identified). A 23 KB block placed at `0C2FD460` crashed the game 3 s into a run. `0C2FE100-0C30C000` stayed unchanged under a `0xA5` marker fill through an Arcade and an Original run, with no crash or visible corruption (the title/menu path and audio untested) |
 | `0C30C000-0C328000` | 114,688 | replay buffer: `RECADV*`/`RECEND*.BIN` (108,000 B each), 20-byte input records read by `replay` (`0C04BC00`); loaded by `req_load`. With those loads skipped it still holds 24,386 non-zero bytes, identical at the menu, in Arcade and in Original. A `0xA5` marker fill stayed unchanged through an Arcade and an Original run, with no crash or visible corruption (the title/menu path and audio untested) |

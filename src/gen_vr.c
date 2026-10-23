@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_vr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07f5c0(int);
+int nlsndSeqRequest(int);
 int PutStringFixPfont(int, int, float, float, float, float);
 int PutVM_Message(int, int, int, float, float);
 int char2num(int);
@@ -80,7 +80,7 @@ int EditEntryName(int a4, float f4)
             t10 = *(signed char *)((0xC2A1248 + t9));
             t11 = char2num(t10);
             *(unsigned int *)0xC2A1254 = t11;
-            FUN_0c07f5c0(0x804A9);
+            nlsndSeqRequest(0x804A9);
         }
         t17 = *(int *)0xC2A11CC;
         if (((t17 & 0x40) == 0) && ((t18 = *(int *)0xC2A11D4, t18 != 0) || (t19 = *(int *)0xC2A11D0, (t19 & 0x40) == 0))) {
@@ -94,7 +94,7 @@ int EditEntryName(int a4, float f4)
             t23 = *(signed char *)((0xC2A1248 + t22));
             t24 = char2num(t23);
             *(unsigned int *)0xC2A1254 = t24;
-            FUN_0c07f5c0(0x804A9);
+            nlsndSeqRequest(0x804A9);
         }
         t30 = *(int *)0xC2A11CC;
         if (((t30 & 0x8) == 0) && ((t31 = *(int *)0xC2A11D4, t31 != 0) || (t32 = *(int *)0xC2A11D0, (t32 & 0x8) == 0))) {
@@ -105,7 +105,7 @@ int EditEntryName(int a4, float f4)
                 if ((int)(t41 - 1) < 0) {
                     *(unsigned int *)0xC2A1254 = 0x2A;
                 }
-                FUN_0c07f5c0(0x504A9);
+                nlsndSeqRequest(0x504A9);
             }
         } else {
             t51 = *(int *)0xC2A1254;
@@ -113,7 +113,7 @@ int EditEntryName(int a4, float f4)
             if ((int)(t51 + 0x1) > (int)0x2A) {
                 *(unsigned int *)0xC2A1254 = 0x0;
             }
-            FUN_0c07f5c0(0x504A9);
+            nlsndSeqRequest(0x504A9);
         }
         t62 = *(int *)0xC2A1250;
         t63 = *(int *)0xC2A1254;
@@ -145,7 +145,7 @@ int EditEntryName(int a4, float f4)
                 t77 = *(int *)((t68 + 0x0));
                 t67 = t77;
                 if ((t67 & 0x10) != 0) {
-                    t69 = 0xC03B324;
+                    t69 = ((int)putString);
                     t78 = putString(0x46, 0xC0A2150, u73, 276.0f, 1.0f);
                     t67 = t78;
                 } else {

@@ -6,7 +6,7 @@ int ShotLandmarkStub(void);
 int NextWindow(int);
 int windowOpenStep(void);
 int windowEnterStep(void);
-int FUN_0c07b970(void);
+int nlSingleLine(void);
 int PutVM_Message(int, int, int, float, float);
 int get_fat(int, int);
 int nlSprPut(int);
@@ -20,29 +20,6 @@ int windowCardMissing(void);
 void PutGrid(int a4);
 int write_dir_all(int a4);
 
-int PutShotLandmark(void)
-{
-    int t1;
-    int stk[22] = {0};
-
-    ShotLandmarkStub();
-    *(unsigned int *)(((int)stk + 4)) = 0x7A;
-    *(float *)(((int)stk + 8)) = 500.0f;
-    *(float *)(((int)stk + 12)) = 128.0f;
-    *(float *)(((int)stk + 16)) = 0.299999982f;
-    *(float *)(((int)stk + 24)) = 1.0f;
-    *(float *)(((int)stk + 20)) = 1.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
-    *(float *)(((int)stk + 36)) = 1.0f;
-    *(unsigned int *)(((int)stk + 44)) = 0x0;
-    *(float *)(((int)stk + 48)) = 1.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x725;
-    *(unsigned int *)(((int)stk + 52)) = 0x0;
-    t1 = nlSprPut(((int)stk + 4));
-    return t1;
-}
 
 
 

@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int memset(int, int, int);
-int FUN_0c17187c(void);
+int mwSbInit(void);
 
-int FUN_0c17187c(void)
+int mwSbInit(void)
 {
     memset(0xC2FAF54, 0x0, 0x800);
     memset(0xC2FB754, 0x0, 0x40);

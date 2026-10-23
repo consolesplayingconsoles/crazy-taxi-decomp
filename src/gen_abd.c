@@ -2,17 +2,17 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXERR_CallErrFunc(int, ...);
-int FUN_0c1687f6(int, int);
-int FUN_0c168812(int, int);
-int FUN_0c16881a(int, int);
-int FUN_0c168826(int, int);
-int FUN_0c1688aa(int);
-int FUN_0c1688b6(int);
-int FUN_0c1688c2(int);
-int FUN_0c1688ce(int);
-void FUN_0c168f00(int a4);
+int ADXSJD_SetDecPos(int, int);
+int ADXSJD_SetTrapNumSmpl(int, int);
+int ADXSJD_SetTrapCnt(int, int);
+int ADXSJD_SetTrapDtLen(int, int);
+int ADXSJD_GetLpStartPos(int);
+int ADXSJD_GetLpStartOfst(int);
+int ADXSJD_GetLpEndPos(int);
+int ADXSJD_GetLpEndOfst(int);
+void adxt_trap_entry(int a4);
 
-void FUN_0c168f00(int a4)
+void adxt_trap_entry(int a4)
 {
     int t0;
     int t1;
@@ -27,19 +27,19 @@ void FUN_0c168f00(int a4)
 
     t0 = *(int *)((a4 + 0x14));
     t1 = *(int *)((a4 + 0x4));
-    t2 = FUN_0c1688aa(t1);
-    t3 = FUN_0c1688b6(t1);
-    *(unsigned int *)(((int)stk + 8)) = (FUN_0c1688c2(t1));
-    FUN_0c1688ce(t1);
+    t2 = ADXSJD_GetLpStartPos(t1);
+    t3 = ADXSJD_GetLpStartOfst(t1);
+    *(unsigned int *)(((int)stk + 8)) = (ADXSJD_GetLpEndPos(t1));
+    ADXSJD_GetLpEndOfst(t1);
     t9 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x18)))))(t0, 0x1, (*(int *)((a4 + 0x50))), (((int)stk + 8) + 0x4));
     if ((int)(*(int *)(((int)stk + 16))) < (int)(*(int *)((a4 + 0x50)))) {
         ADXERR_CallErrFunc(0xC176558);
     }
     t19 = ((int (*)(int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x20)))))(t0, 0x0, (((int)stk + 8) + 0x4));
-    FUN_0c16881a(t1, 0x0);
-    FUN_0c168812(t1, ((*(int *)(((int)stk + 8))) - t2));
-    FUN_0c168826(t1, t3);
-    FUN_0c1687f6(t1, t2);
+    ADXSJD_SetTrapCnt(t1, 0x0);
+    ADXSJD_SetTrapNumSmpl(t1, ((*(int *)(((int)stk + 8))) - t2));
+    ADXSJD_SetTrapDtLen(t1, t3);
+    ADXSJD_SetDecPos(t1, t2);
     if ((*(signed char *)((a4 + 0x2))) == 2) {
         t28 = ((int (*)(int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x14)))))(t0);
         t31 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x18)))))(t0, 0x1, t3, (((int)stk + 8) + 0x4));

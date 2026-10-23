@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_dq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077df0(int);
-int FUN_0c079a60(float, float, float, float);
-int FUN_0c079f10(void);
-int FUN_0c089270(int, int, int);
+int nlMatrixMode(int);
+int nlSetWindowSize(float, float, float, float);
+int nl_set_cnv_proj_pers(void);
+int _lsfts(int, int, int);
 int _pow5(int, int);
 int memmove(int, int, int);
 int memset(int, int, int);
@@ -59,7 +59,7 @@ int _pow10(int a4, int a5, int a6)
         t8 = ((unsigned int)t8 >> 1);
     }
     *(unsigned int *)(((int)stk + 8)) = (0x8 - t4);
-    FUN_0c089270(t5, (0x8 - t4), t9);
+    _lsfts(t5, (0x8 - t4), t9);
     t13 = *(short *)((a5 + 0x0));
     *(unsigned short *)((a5 + 0x0)) = (t13 - t9);
     t14 = *(int *)(((int)stk + 8));
@@ -97,7 +97,7 @@ int nlRenderTextureBegin(int a4)
         u3 = *(float *)0xC2B31D0;
         u4 = *(float *)0xC2B31CC;
         u5 = *(float *)0xC2B31C8;
-        t6 = FUN_0c079a60(u5, u4, u3, u2);
+        t6 = nlSetWindowSize(u5, u4, u3, u2);
         t7 = t6;
     }
     t11 = *(int *)0xC2B31C0;
@@ -117,11 +117,11 @@ int nlRenderTextureBegin(int a4)
                 *(float *)0xC2B31D4 = u17;
                 t18 = *(short *)(((t1 + ((a4 << 2) << 2)) + 0xE));
                 t19 = *(short *)(((t1 + ((a4 << 2) << 2)) + 0xC));
-                FUN_0c079a60(0.0f, 0.0f, (float)t19, (float)t18);
+                nlSetWindowSize(0.0f, 0.0f, (float)t19, (float)t18);
                 t21 = *(signed char *)0xC2B31D8;
-                FUN_0c077df0(0x3);
-                FUN_0c079f10();
-                return FUN_0c077df0(t21);
+                nlMatrixMode(0x3);
+                nl_set_cnv_proj_pers();
+                return nlMatrixMode(t21);
             }
             return t7;
         }

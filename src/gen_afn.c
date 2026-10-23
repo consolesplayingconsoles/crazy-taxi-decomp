@@ -1,30 +1,55 @@
 /* Straight-line functions with calls and guards (batch gen_afn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_Put(void);
-int drvPredictPath(void);
-int Drv_Execute(void);
+int GetCollision2D(int, float);
+int GetCollisionFirst(int, int);
+int nlCalcPoint(int, int);
+float nlInnerProduct(int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlScaleVector(int, int, float);
+int Drv_CheckSideClear(int a4, int a5);
 
-int Drv_Execute(void)
+int Drv_CheckSideClear(int a4, int a5)
 {
-    int t0;
-    int t2;
     int t5;
-    int t10;
-    int t3;
-    int t8;
-    int stk[22] = {0};
+    int t15;
+    int t12;
+    int t25;
+    int t29;
+    int stk[14];
 
-    t0 = 0xC0D5184;
-    t2 = ((int)stk + 4);
-    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D5184 + 76)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
-    t5 = *(int *)0xC2AD010;
-    if (((*(signed char *)0xC2AD1DF) & 1) == 0) {
-        t8 = (*(int *)((((t5 << 2) + ((int)stk + 4)) + 0x0)));
-    } else {
-        t8 = (*(int *)((((t5 << 2) + ((int)stk + 4)) + 0x28)));
+    *(unsigned int *)(((int)stk + 4)) = a5;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(0xC0D51D0); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(0xC0D51DC); }
+    nlPushMatrix(0xC179180);
+    nlCalcPoint((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
+    nlCalcPoint((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10));
+    t5 = 0x0;
+    if (!(0.0f > (nlInnerProduct((*(int *)(((int)stk + 4))), 0xC2AD1E0)))) {
+        t5 = 0x1;
     }
-    t10 = ((int (*)(int, int, int))(t8))(((t5 << 2) + ((int)stk + 4)), ((int)stk + 4), 0xC2AD000);
-    Drv_Put();
-    return (drvPredictPath());
+    if (t5 == 1) {
+        t15 = (((t5 == 0)) ? 1 : 0);
+        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x1C), 0.0f)) + 0x1C))) != -1) {
+            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, 20.0f);
+            t12 = t5;
+            if ((*(int *)(((GetCollisionFirst((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4))) + 0x1C))) != -1) {
+                t12 = (((t5 == 0)) ? 1 : 0);
+            }
+            t15 = t12;
+        }
+        t29 = t15;
+    } else {
+        t25 = (((t5 == 0)) ? 1 : 0);
+        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x10), 0.0f)) + 0x1C))) == -1) {
+        } else {
+            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, (*(float *)0xC063E38));
+            *(volatile int *)(((GetCollisionFirst((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4))) + 0x1C));
+            t25 = t5;
+        }
+        t29 = t25;
+    }
+    nlPopMatrix(0x1);
+    return t29;
 }

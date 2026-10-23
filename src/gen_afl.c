@@ -35,7 +35,7 @@ int PutRenderTexture(int a4)
 
     t0 = *(int *)0xC2B8CBC;
     if (a4 != 0) {
-        u1 = *(float *)0xC0395B0;
+        u1 = 255.0f;
         u2 = *(float *)0xC0EE904;
         t3 = *(int *)(((t0 + 0x8) + 0x0));
         u5 = (u2 * u1);

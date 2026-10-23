@@ -1,35 +1,36 @@
 /* Straight-line functions with calls and guards (batch gen_ok): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlRand(void);
-int nlScaleUnitVector(int, int, float);
-int nlSubVector(int, int);
-int Init_Time_Spark(int a4, int a5);
+int Model_Put_Sprite3D(int, int, int, float);
+int ResetFadeColor(void);
+int nlAddVector(int, int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int Put_Time_Spark(int a4);
 
-int Init_Time_Spark(int a4, int a5)
+int Put_Time_Spark(int a4)
 {
-    float u2;
-    float u3;
-    int t13;
-    int stk[9] = {0};
+    int stk[8];
 
-    *(unsigned int *)((a4 + 0x14)) = a5;
-    *(float *)((a4 + 0x18)) = (float)(*(int *)0xC2A8DF4);
-    *(float *)((a4 + 0x1C)) = (float)(*(int *)0xC2A8DF8);
-    u2 = *(float *)0xC057228;
-    *(float *)((a4 + 0x20)) = u2;
-    *(unsigned short *)((a4 + 0x30)) = 0x0;
-    *(unsigned short *)((a4 + 0x32)) = 0x0;
-    *(unsigned short *)((a4 + 0x34)) = 0x0;
-    *(float *)((a4 + 0x38)) = 0.0f;
-    u3 = *(float *)0xC05722C;
-    *(float *)((a4 + 0x3C)) = (((float)((int)((int)(nlRand()) % (int)0x14)) / u3) + (*(float *)0xC057238));
-    *(float *)(((int)stk + 4)) = (float)(((int)((int)(nlRand()) % (int)0x80)) + 0x1C2);
-    *(float *)(((int)stk + 8)) = (*(float *)0xC05723C);
-    *(float *)(((int)stk + 12)) = u2;
-    nlSubVector(((int)stk + 4), (a4 + 0x18));
-    nlScaleUnitVector((a4 + 0x24), ((int)stk + 4), u3);
-    t13 = (int)((int)(nlRand()) % (int)0x4);
-    *(unsigned short *)(((0x36 + a4) + 0x0)) = ((t13 << 8) << 2);
-    return ((t13 << 8) << 2);
+    nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+    nlPushMatrix(0x0);
+    *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
+    *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
+    *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
+    *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
+    *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
+    *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
+    Model_Put_Sprite3D((int)(*(float *)((a4 + 0x18))), (int)(*(float *)((a4 + 0x1C))), 0xC0EAC20, (*(float *)0xC057354));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
+    *(unsigned short *)(((((int)stk + 4) + 0x8) + 0x2)) = ((*(short *)(((((int)stk + 4) + 0x8) + 0x2))) + 0x8000);
+    nlPopMatrix(0x1);
+    nlAddVector((a4 + 0x18), (a4 + 0x24));
+    *(unsigned short *)((a4 + 0x32)) = ((*(short *)((a4 + 0x32))) + (*(short *)(((0x36 + a4) + 0x0))));
+    return (ResetFadeColor());
 }

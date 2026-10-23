@@ -24,9 +24,9 @@ extern void nlPopMatrix(int n);
 extern float nlFloor(float x);
 extern float nlLog(float x);
 extern float nlScalor(float *v);
-extern void nlSqrt(int a, int b);
+extern void nlCalcPoint(int a, int b);
 extern void nlstripSetVertexContext(void *ctx);
-extern void FUN_0c080ae0(int a, int b, int c);
+extern void nldispstripSub(int a, int b, int c);
 extern void kmRender();
 extern void kmFlipFrameBuffer();
 extern void kmSetFogDensity(int w);
@@ -100,7 +100,7 @@ void nlScaleUnitVector(float *dst, float *src, float s)
 void nlProjectScreen3D(int a, int b)
 {
     nlPushMatrix(g_0c2b3390);
-    nlSqrt(a, b);
+    nlCalcPoint(a, b);
     nlPopMatrix(1);
 }
 
@@ -185,7 +185,7 @@ int *nlsndG2DmaHandleOpen(void)
 void nlDispStripTrnsl(int a, int b)
 {
     nlstripSetVertexContext(g_0c14aadc);
-    FUN_0c080ae0(a, 0, b);
+    nldispstripSub(a, 0, b);
 }
 
 void *memset(void *dst, int val, unsigned int n)

@@ -3,9 +3,9 @@
 
 int SJ_SplitChunk(int, int, int);
 int memset(int, int, int);
-int FUN_0c1525d4(int a4, int a5, int a6);
+int ADXT_InsertSilence(int a4, int a5, int a6);
 
-int FUN_0c1525d4(int a4, int a5, int a6)
+int ADXT_InsertSilence(int a4, int a5, int a6)
 {
     int t0;
     int t1;

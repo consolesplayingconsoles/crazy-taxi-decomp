@@ -1,6 +1,6 @@
 /* Draft: generated C that the check did not accept (DIFFERS case 1: out). Not proven equivalent. */
 
-int FUN_0c079f10(void);
+int nl_set_cnv_proj_pers(void);
 int nlArcTan(float);
 float nlCos(int);
 int nlMultiMatrix(int);
@@ -152,7 +152,7 @@ int nlPerspective(int a4, float f4, float f5, float f6)
     *(float *)0xC2B3178 = f6;
     *(float *)0xC2B3170 = (1.0f / f5);
     nlMultiMatrix((((int)stk + 4) + 0x18));
-    t40 = FUN_0c079f10();
+    t40 = nl_set_cnv_proj_pers();
     return t40;
 }
 

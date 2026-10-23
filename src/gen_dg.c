@@ -5,7 +5,7 @@ extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
 void nlUnitRotation(void);
 void nlUnitMatrix(void);
-void FUN_0c079ed0(int a4);
+void nlLoadRechangeMatrix(int a4);
 
 void nlUnitRotation(void)
 {
@@ -69,7 +69,7 @@ void nlUnitMatrix(void)
     _builtin_ld_ext((float (*)[4])u7);
 }
 
-void FUN_0c079ed0(int a4)
+void nlLoadRechangeMatrix(int a4)
 {
     float u0;
     float u1;

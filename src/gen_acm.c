@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int BupSave(int, int, int, int);
-int FUN_0c081470(int, int);
+int strcpy(int, int);
 int buStat(int);
 int memmove(int, int, int);
 int memset(int, int, int);
@@ -20,7 +20,7 @@ int SaveVMSicon(int a4)
     t13 = 0xFFFFFFFF;
     if (t0 != 0) {
         memset(t0, 0x0, 0x400);
-        FUN_0c081470(t0, 0xC09DB7C);
+        strcpy(t0, 0xC09DB7C);
         *(unsigned int *)((t0 + 0x10)) = 0x20;
         *(unsigned int *)((t0 + 0x14)) = 0xA0;
         memset((t0 + 0x18), 0x0, 0x8);

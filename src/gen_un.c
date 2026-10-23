@@ -7,7 +7,7 @@ int Init_Time_Count(void)
 {
     *(float *)0xC2A7F30 = 0.0f;
     *(float *)0xC2A7F34 = 0.0f;
-    *(float *)0xC2A7F38 = (*(float *)0xC05266C);
+    *(float *)0xC2A7F38 = (0.19999999f);
     *(float *)0xC2A7F3C = 1.0f;
     *(float *)0xC2A7F40 = 1.0f;
     *(float *)0xC2A7F44 = 0.0f;

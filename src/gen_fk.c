@@ -3,9 +3,9 @@
 
 int nlGetMatrix(int);
 int nlUnitMatrix(void);
-int FUN_0c077590(int a4, int a5, int a6);
+int nlInitMatrixStack(int a4, int a5, int a6);
 
-int FUN_0c077590(int a4, int a5, int a6)
+int nlInitMatrixStack(int a4, int a5, int a6)
 {
     int t0;
     int t2;

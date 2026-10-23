@@ -16,15 +16,15 @@ void ADXRNA_SetWavFname(void)
 {
 }
 
-void FUN_0c168936(void)
+void ADXSTM_Finish(void)
 {
 }
 
-void FUN_0c169a1c(void)
+void mwlRnaSetSvrInt(void)
 {
 }
 
-void FUN_0c1717d0(void)
+void mwRnaInitCs(void)
 {
 }
 
@@ -40,12 +40,12 @@ void mwlRnaClearBuf(void)
 {
 }
 
-int FUN_0c16dd00(void)
+int kmiEnableVSyncInterrupt(void)
 {
     return 1;
 }
 
-int FUN_0c16dd04(void)
+int kmiEnableHSyncInterrupt(void)
 {
     return 1;
 }
@@ -55,7 +55,7 @@ int mwRnaDiscardData(void)
     return 0;
 }
 
-int FUN_0c17249c(void)
+int mwlSbGetWorkTbl(void)
 {
     return 0x0C17872C;
 }
@@ -135,7 +135,7 @@ void syChainMasterHandler(int a)
     }
 }
 
-int FUN_0c07fbb0(int a)
+int nlsndStreamGetFreq(int a)
 {
     int e;
 
@@ -146,7 +146,7 @@ int FUN_0c07fbb0(int a)
     return 0;
 }
 
-int FUN_0c07fbe0(int a)
+int nlsndStreamGetBitSize(int a)
 {
     int e;
 

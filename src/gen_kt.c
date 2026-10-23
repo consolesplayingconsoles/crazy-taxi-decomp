@@ -1,165 +1,103 @@
 /* Straight-line functions with calls and guards (batch gen_kt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int ReturnBreakPin(int);
-int Start_Bowling_Message(void);
-int Start_CrazyBox_Voice(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6);
+int Count_Remain_Drop(void);
+int Current_to_Target_angleY(void);
+int Exec_Remain_Arrow(void);
+int FcvPlay(int, int, float);
+int Put_Remain_Icon(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int humanDraw(int, int, int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAY(int);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int Exec_DCmini_Game9(int a4);
 
-int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6)
+int Exec_DCmini_Game9(int a4)
 {
-    int t0;
-    int t3;
-    int t8;
-    int t11;
-    int t14;
-    int t17;
-    int t20;
-    int t23;
-    int t26;
-    int t29;
-    int t32;
-    int t39;
-    int t51;
-    int t59;
-    int t63;
-    int stk[15] = {0};
+    int t95;
+    int t1;
+    int t2;
+    float u3;
+    float u4;
+    int t24;
+    int t34;
+    float u42;
+    int t52;
+    int t78;
+    int t105;
+    int stk[12];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C05CE64:;
-    t0 = *(int *)0xC2A9964;
-    *(unsigned int *)0xC2A9964 = (t0 + 0x1);
-    R13 = (0xC2A9964);
-    if (((int)(t0 + 0x1) < (int)0x78)) goto L_C05CE90;
-    goto L_C05CE8C;
-    L_C05CE8C:;
-    goto L_C05D03C;
-    L_C05D03C:;
-    return ResetFadeColor();
-    L_C05CE90:;
-    t3 = *(int *)0xC2A995C;
-    R14 = (0xC038EEC);
-    R9 = (0xC2A995C);
-    if (((ReturnBreakPin((((((t3 - 1) << 2) + (t3 - 1)) << 1) + 0x1))) == 0)) goto L_C05CF8C;
-    goto L_C05CEA8;
-    L_C05CEA8:;
-    t8 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t8 - 1) << 2) + (t8 - 1)) << 1) + 0x2))) == 0)) goto L_C05CF8C;
-    goto L_C05CEBE;
-    L_C05CEBE:;
-    t11 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t11 - 1) << 2) + (t11 - 1)) << 1) + 0x3))) == 0)) goto L_C05CF8C;
-    goto L_C05CED4;
-    L_C05CED4:;
-    t14 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t14 - 1) << 2) + (t14 - 1)) << 1) + 0x4))) == 0)) goto L_C05CF8C;
-    goto L_C05CEEA;
-    L_C05CEEA:;
-    t17 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t17 - 1) << 2) + (t17 - 1)) << 1) + 0x5))) == 0)) goto L_C05CF8C;
-    goto L_C05CF00;
-    L_C05CF00:;
-    t20 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t20 - 1) << 2) + (t20 - 1)) << 1) + 0x6))) == 0)) goto L_C05CF8C;
-    goto L_C05CF16;
-    L_C05CF16:;
-    t23 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t23 - 1) << 2) + (t23 - 1)) << 1) + 0x7))) == 0)) goto L_C05CF8C;
-    goto L_C05CF2C;
-    L_C05CF2C:;
-    t26 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t26 - 1) << 2) + (t26 - 1)) << 1) + 0x8))) == 0)) goto L_C05CF8C;
-    goto L_C05CF42;
-    L_C05CF42:;
-    t29 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t29 - 1) << 2) + (t29 - 1)) << 1) + 0x9))) == 0)) goto L_C05CF8C;
-    goto L_C05CF58;
-    L_C05CF58:;
-    t32 = *(int *)0xC2A995C;
-    if (((ReturnBreakPin((((((t32 - 1) << 2) + (t32 - 1)) << 1) + 0xA))) == 0)) goto L_C05CF8C;
-    goto L_C05CF6E;
-    L_C05CF6E:;
-    *(unsigned int *)((R13 + 0x0)) = 0x78;
-    Start_Bowling_Message();
-    Start_CrazyBox_Voice(((*(int *)0xC131204) + 0x17));
-    t39 = (int)((int)((*(int *)0xC131204) + 0x1) % (int)0x3);
-    *(unsigned int *)0xC131204 = t39;
-    R0 = (t39);
-    R14 = (0xC131204);
-    goto L_C05D05A;
-    L_C05D05A:;
-    return R0;
-    L_C05CF8C:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC13132C;
-    R10 = (0x0);
-    R11 = (0xC07AEA0);
-    R12 = (0x0);
-    R13 = (0xC2A9898);
-    R8 = (0xA);
-    F12 = (0.0f);
-    F13 = ((1.0f + 1.0f));
-    F14 = (1.0f);
-    F15 = (0.75f);
-    goto L_C05CFA6;
-    L_C05CFA6:;
-    *(float *)((R13 + 0x10)) = F13;
-    *(float *)((R13 + 0x14)) = F13;
-    t51 = *(int *)((R9 + 0x0));
-    if (((ReturnBreakPin((*(int *)((((0xC131214 + (short)(((((t51 - 1) << 2) + (t51 - 1)) << 2) << 1)) + R12) + 0x0))))) == 0)) goto L_C05D000;
-    goto L_C05CFCC;
-    L_C05CFCC:;
-    F4 = (F15);
-    F5 = (F15);
-    F6 = (F15);
-    goto L_C05D006;
-    L_C05D006:;
-    nlObjPutSetFadeColor(F4, F5, F6);
-    t59 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t59 + 0x8);
-    *(unsigned int *)(((int)stk + 8)) = ((t59 + 0x8) - 8);
-    nd_SprPut(0xC2A9898, 0x1F6, (float)(*(int *)((((t59 + 0x8) - 8) + 0x0))), (float)(*(int *)((((t59 + 0x8) - 8) + 0x4))));
-    t63 = (int)(R10 + 0x1) < (int)R8;
-    R10 = ((R10 + 0x1));
-    R12 = ((R12 + 0x4));
-    if (t63) goto L_C05CFA6;
-    goto L_C05D034;
-    L_C05D034:;
-    *(float *)((R13 + 0x10)) = F14;
-    *(float *)((R13 + 0x14)) = F14;
-    goto L_C05D03C;
-    L_C05D000:;
-    F4 = (F14);
-    F5 = (F14);
-    F6 = (F12);
-    goto L_C05D006;
+    if (((*(int *)0xC1EE214) == 14) && ((t1 = *(int *)0xC2A9A2C, (int)t1 < (int)0x7) && ((t2 = *(int *)0xC1EE794, t2 != 0) && ((u3 = *(float *)0xC179148, !(-10.0f > u3)) || (u4 = *(float *)0xC17914C, 4000.0f > u4))))) {
+        *(unsigned int *)0xC2A991C = 0x0;
+    }
+    if ((*(int *)0xC2A991C) == 0) {
+        if ((int)(*(int *)0xC1794D0) >= (int)a4) {
+            Start_Excellent();
+            *(unsigned int *)0xC2A991C = 0x1;
+            *(unsigned int *)0xC179120 = 0x0;
+            if (((*(int *)0xC1EE214) == 14) && (t24 = *(int *)0xC1EE794, (int)t24 <= 0)) {
+                *(unsigned int *)0xC179120 = 0x0;
+            }
+        } else {
+            if ((*(int *)0xC1EE794) == 0) {
+                Start_Fault(0x0);
+                *(unsigned int *)0xC2A991C = 0x1;
+                *(unsigned int *)0xC179120 = 0x0;
+                if (((*(int *)0xC1EE214) == 14) && (t34 = *(int *)0xC1EE794, (int)t34 <= 0)) {
+                    *(unsigned int *)0xC179120 = 0x0;
+                }
+            } else {
+                if ((*(int *)0xC1EE214) == 14) {
+                    if ((-10.0f > (*(float *)0xC179148)) && (u42 = *(float *)0xC17914C, !(4000.0f > u42))) {
+                        Start_Fault(0x3);
+                        *(unsigned int *)0xC2A991C = 0x1;
+                    }
+                    if (((*(int *)0xC1EE214) == 14) && (t52 = *(int *)0xC1EE794, (int)t52 <= 0)) {
+                        *(unsigned int *)0xC179120 = 0x0;
+                    }
+                }
+            }
+        }
+    } else {
+        if (((*(int *)0xC1EE214) == 14) && (t78 = *(int *)0xC1EE794, (int)t78 <= 0)) {
+            *(unsigned int *)0xC179120 = 0x0;
+        }
+    }
+    if ((*(int *)0xC1EE214) != 9) {
+        Exec_Remain_Arrow();
+    } else {
+        Count_Remain_Drop();
+    }
+    Put_Remain_Icon();
+    t95 = *(int *)0xC1EE214;
+    if (t95 == 10) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)(0xC131970); }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC179144); }
+        *(unsigned short *)0xC2A9B94 = ((Current_to_Target_angleY()) + 0x8000);
+        nlPushMatrix(0x0);
+        nlTranslateV(0xC131970);
+        nlTranslate(0.0f, 0.0f, (*(float *)0xC05D4C8));
+        if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
+            t105 = (*(short *)0xC2A9A64);
+        } else {
+            t105 = (*(short *)0xC2A9B94);
+        }
+        nlRotateAY((unsigned short)t105);
+        if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
+            FcvPlay(0xC9C6C40, 0x16, (float)(*(int *)0xC2A9B90));
+        } else {
+            humanDraw(0xCADBCA8, 0x16, 0x0, 0x0);
+        }
+        nlPopMatrix(0x1);
+        nlPushMatrix(0x0);
+        nlTranslateV(0xC131988);
+        nlRotateAY((unsigned short)(*(short *)0xC2A9B94));
+        FcvPlay(0xC9EF530, 0x24, 0.0f);
+        return nlPopMatrix(0x1);
+    }
+    return t95;
 }

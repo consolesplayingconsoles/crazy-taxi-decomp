@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_ev): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c087bb0(int, int, int, int);
-int FUN_0c087db4(int, int, int);
-int FUN_0c087e1a(int);
-int FUN_0c087e2a(int);
-int FUN_0c087fcc(int, int, int, int);
+int _fmtout_intcnv(int, int, int, int);
+int _fmtout_putstr(int, int, int);
+int _fmtout_endstr(int);
+int _fmtout_outerr(int);
+int _xtostr(int, int, int, int);
 int strlen(int);
-int FUN_0c087474(int a4, int a5, int a6, int a7, int a8);
+int _fmtout(int a4, int a5, int a6, int a7, int a8);
 
-int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
+int _fmtout(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;
@@ -763,7 +763,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     *(unsigned int *)((R10 + 0x8)) = R11;
     *(unsigned char *)((R14 + 0x0)) = R11;
     *(unsigned char *)(((int)stk + 12)) = 0x30;
-    t29 = FUN_0c087e2a(R10);
+    t29 = _fmtout_outerr(R10);
     t30 = t29 == 0;
     t31 = t29;
     t32 = ((t29 == 0));
@@ -792,7 +792,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     if (t38) goto L_C087B94;
     goto L_C087B82;
     L_C087B82:;
-    t41 = FUN_0c087e2a(R10);
+    t41 = _fmtout_outerr(R10);
     t42 = t41 != 0;
     t43 = t41;
     t44 = ((t41 == 0));
@@ -845,7 +845,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     goto L_C087B70;
     L_C087B70:;
     t61 = *(int *)(((int)stk + 4));
-    t62 = FUN_0c087db4(R12, (t61 - R12), R10);
+    t62 = _fmtout_putstr(R12, (t61 - R12), R10);
     t63 = *(int *)(((int)stk + 4));
     t64 = t62;
     t65 = t63;
@@ -1304,7 +1304,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     L_C087A9A:;
     t243 = *(int *)(((int)stk + 16));
     t244 = *(int *)(((int)stk + 8));
-    t245 = FUN_0c087db4(t244, t243, R10);
+    t245 = _fmtout_putstr(t244, t243, R10);
     t246 = t245;
     R0 = t246;
     goto L_C087B28;
@@ -1342,7 +1342,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R12 = t259;
     goto L_C087B7C;
     L_C087B38:;
-    t260 = FUN_0c087db4((R14 + 0x1), 0x1, R10);
+    t260 = _fmtout_putstr((R14 + 0x1), 0x1, R10);
     t261 = *(int *)((R14 + 0x28));
     *(unsigned int *)((R14 + 0x28)) = (t261 - 1);
     t262 = t260;
@@ -1364,7 +1364,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     if (t266) goto L_C087ACC;
     goto L_C087AB2;
     L_C087AB2:;
-    t270 = FUN_0c087db4(R3, R5, R10);
+    t270 = _fmtout_putstr(R3, R5, R10);
     t271 = t270;
     R0 = t271;
     goto L_C087ACC;
@@ -1395,7 +1395,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     goto L_C087AE2;
     L_C087AE2:;
     t284 = *(int *)((R14 + 0x10));
-    t285 = FUN_0c087db4(t284, R5, R10);
+    t285 = _fmtout_putstr(t284, R5, R10);
     t286 = t285;
     R0 = t286;
     goto L_C087AFC;
@@ -1412,7 +1412,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     t291 = *(int *)(((int)stk + 16));
     t292 = *(int *)(((int)stk + 4));
     t293 = *(int *)((R14 + 0x14));
-    t294 = FUN_0c087db4(t293, (t291 - t292), R10);
+    t294 = _fmtout_putstr(t293, (t291 - t292), R10);
     t295 = t294;
     R0 = t295;
     goto L_C087B22;
@@ -1426,7 +1426,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     if (t297) goto L_C087B12;
     goto L_C087B28;
     L_C087B12:;
-    t300 = FUN_0c087db4((((int)stk + 4) + 0x8), 0x1, R10);
+    t300 = _fmtout_putstr((((int)stk + 4) + 0x8), 0x1, R10);
     t301 = *(int *)((R14 + 0x24));
     *(unsigned int *)((R14 + 0x24)) = (t301 - 1);
     t302 = t300;
@@ -1435,7 +1435,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R2 = t303;
     goto L_C087B22;
     L_C087AEC:;
-    t304 = FUN_0c087db4((((int)stk + 4) + 0x8), 0x1, R10);
+    t304 = _fmtout_putstr((((int)stk + 4) + 0x8), 0x1, R10);
     t305 = *(int *)((R14 + 0x20));
     *(unsigned int *)((R14 + 0x20)) = (t305 - 1);
     t306 = t304;
@@ -1444,7 +1444,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R3 = t307;
     goto L_C087AFC;
     L_C087ABC:;
-    t308 = FUN_0c087db4((((int)stk + 4) + 0x8), 0x1, R10);
+    t308 = _fmtout_putstr((((int)stk + 4) + 0x8), 0x1, R10);
     t309 = *(int *)((R14 + 0x1C));
     *(unsigned int *)((R14 + 0x1C)) = (t309 - 1);
     t310 = t308;
@@ -1453,7 +1453,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R2 = t311;
     goto L_C087ACC;
     L_C087A72:;
-    t312 = FUN_0c087db4((R14 + 0x1), 0x1, R10);
+    t312 = _fmtout_putstr((R14 + 0x1), 0x1, R10);
     t313 = *(int *)((R14 + 0x28));
     *(unsigned int *)((R14 + 0x28)) = (t313 - 1);
     t314 = t312;
@@ -1471,7 +1471,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     goto L_C0878E8;
     L_C0878E8:;
     t318 = *(signed char *)((R12 + 0x0));
-    FUN_0c087fcc((0xF0 + ((int)stk + 4)), R9, t318, R14);
+    _xtostr((0xF0 + ((int)stk + 4)), R9, t318, R14);
     t320 = _builtin_get_fpscr();
     *(unsigned int *)(((int)stk + 8)) = R9;
     _builtin_set_fpscr((t320 & 0xFFF7FFFF));
@@ -1712,7 +1712,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R2 = t401;
     goto L_C0879E2;
     L_C0879E2:;
-    FUN_0c087bb0(R4, R9, 0x78, R7);
+    _fmtout_intcnv(R4, R9, 0x78, R7);
     *(unsigned int *)(((int)stk + 8)) = R9;
     t403 = strlen(R9);
     t404 = t403;
@@ -1908,7 +1908,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     goto L_C0878D6;
     L_C0878D6:;
     t474 = *(signed char *)((R12 + 0x0));
-    FUN_0c087bb0(R4, R9, t474, R7);
+    _fmtout_intcnv(R4, R9, t474, R7);
     *(unsigned int *)(((int)stk + 8)) = R9;
     t476 = strlen(R9);
     t477 = t476;
@@ -2302,7 +2302,7 @@ int FUN_0c087474(int a4, int a5, int a6, int a7, int a8)
     R0 = t628;
     goto L_C087576;
     L_C087B94:;
-    FUN_0c087e1a(R10);
+    _fmtout_endstr(R10);
     t630 = *(int *)((R10 + 0x8));
     t631 = t630;
     R0 = t631;

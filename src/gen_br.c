@@ -7,22 +7,22 @@ int nd_SprPut(int, int, float, float);
 int Start_Bowling_Message(void);
 int ndPuru2Check(void);
 int Start_CrazyBox_Voice(int);
-int FUN_0c074200(int, int);
-int FUN_0c0770f0(int, int, int);
-int FUN_0c07f5c0(void);
-int FUN_0c081650(void);
-int FUN_0c14f182(int, int);
-int FUN_0c14f414(void);
-int FUN_0c1573a0(void);
-int FUN_0c1573cc(int);
-int FUN_0c1573f2(int, int, int);
-int FUN_0c1701c4(int, int, int);
-int FUN_0c1726f0(int, int);
-int FUN_0c1745b0(void);
-int FUN_0c17472e(void);
-int FUN_0c174768(void);
-int FUN_0c1747be(int);
-int FUN_0c1747f4(int);
+int nlSetPaletteMap(int, int);
+int nlSetPaletteData(int, int, int);
+int nlsndSeqRequest(void);
+int nlObjPutLoadTextureCallBack(void);
+int syCacheOCWB(int, int);
+int syCachePurgeAll(void);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBFreeEntry(int);
+int kmytex_FBEnQueueTop(int, int, int);
+int vmsfs_memcpyl(int, int, int);
+int syIntAdrChk_dumpline(int, int);
+int syIntAdrChk_init(void);
+int syIntAdrChk_getchar(void);
+int syIntAdrChk_finish(void);
+int syIntAdrChk_prints(int);
+int syIntAdrChk_printh(int);
 int ResetFadeColor(void);
 int SetEffect(int, int, int);
 int Sound_Request(int, int);
@@ -68,10 +68,10 @@ int vmsfs_unmount(int);
 int vmsio_ismount(int);
 int vmsio_isready(int);
 int write_sys(int);
-void FUN_0c074320(void);
+void sys_init(void);
 void syChainInit(void);
-void FUN_0c14ec64(int a4);
-int FUN_0c080370(int a4, int a5, int a6);
+void syCacheInit_P2_(int a4);
+int nlsndStreamChgFilter(int a4, int a5, int a6);
 int nlsndStreamChgFx(int a4, int a5, int a6);
 int vmsfs_fsetparam(int a4, int a5, int a6);
 int vmsfs_setvolume(int a4, int a5);
@@ -84,19 +84,19 @@ int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8);
 int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6);
 int vmsfs_init_work_normal(int a4, int a5, int a6);
 int ADX_DecodeInfoExLoop(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12);
-int FUN_0c16c634(int a4);
+int kmiErrorRecover(int a4);
 int mwlRnaStartTrans(int a4);
 int mpdrv_init_ex(int a4, int a5, int a6, int a7);
 int Put_Bowling_Pins(void);
-int FUN_0c07f870(int a4, int a5, int a6);
-int FUN_0c1724b8(int a4, int a5);
+int nlsndStreamInit(int a4, int a5, int a6);
+int syIntChkDump(int a4, int a5);
 int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c172c3c(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9);
+int adxb_DecodeInfoAiffSub(int a4, int a5, int a6, int a7, int a8);
+int kmiVQallocFB(int a4, int a5, int a6, int a7, int a8, int a9);
 int nd_Exec_Puru2(int a4);
 int ExecEffect(int a4, int a5);
 
-void FUN_0c074320(void)
+void sys_init(void)
 {
     int t0;
     int t1;
@@ -150,7 +150,7 @@ void syChainInit(void)
     _builtin_set_imask(((unsigned int)((((unsigned short)t3 & 0xF) << 2) << 2) >> 4));
 }
 
-void FUN_0c14ec64(int a4)
+void syCacheInit_P2_(int a4)
 {
     int t0;
     int t2;
@@ -163,7 +163,7 @@ void FUN_0c14ec64(int a4)
     t0 = _builtin_get_imask();
     *(unsigned short *)(((int)stk + 8)) = t0;
     _builtin_set_imask(0xF);
-    FUN_0c14f414();
+    syCachePurgeAll();
     t2 = *(int *)(((int)stk + 4));
     *(unsigned int *)0xFF00001C = t2;
     t3 = *(int *)0xFF00001C;
@@ -174,7 +174,7 @@ void FUN_0c14ec64(int a4)
     _builtin_set_imask(((unsigned int)(((t5 & 0xF) << 2) << 2) >> 4));
 }
 
-int FUN_0c080370(int a4, int a5, int a6)
+int nlsndStreamChgFilter(int a4, int a5, int a6)
 {
     int t0;
     int t2;
@@ -185,10 +185,10 @@ int FUN_0c080370(int a4, int a5, int a6)
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
         *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
-        FUN_0c07f5c0();
+        nlsndSeqRequest();
         t2 = *(short *)(((int)stk + 4));
         t3 = *(int *)(((int)stk + 8));
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
     return t0;
 }
@@ -205,14 +205,14 @@ int nlsndStreamChgFx(int a4, int a5, int a6)
     t0 = *(signed char *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C));
     if (t0 == 1) {
         *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
-        FUN_0c07f5c0();
+        nlsndSeqRequest();
         t2 = *(short *)(((int)stk + 4));
         t3 = *(int *)(((int)stk + 8));
-        FUN_0c07f5c0();
+        nlsndSeqRequest();
         t5 = *(int *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B7724));
         if (t5 != 0) {
-            FUN_0c07f5c0();
-            return FUN_0c07f5c0();
+            nlsndSeqRequest();
+            return nlsndSeqRequest();
         }
         return 0xC2B7724;
     }
@@ -525,86 +525,6 @@ int ADX_DecodeInfoSpsd(int a4, int a5, int a6, int a7, int a8, int a9, int a10, 
 }
 
 
-int hudLoadRanking(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int stk[8] = {0};
-
-    t0 = 0x0;
-    t1 = 0xC2A8FD8;
-    t2 = 0x0;
-    do {
-        t3 = *(int *)0xC1EE210;
-        t4 = *(int *)(((((short)((short)t3 * (short)0x3C0) + 0xC28C318) + t0) + 0x0));
-        t2 = (t2 + 0x1);
-        t0 = (t0 + 0x10);
-        *(unsigned int *)((t1 + 0x0)) = t4;
-        t1 = (t1 + 0x4);
-    } while ((int)t2 < (int)0x14);
-    t6 = 0x1;
-    t7 = 0x0;
-    do {
-        t8 = *(int *)0xC1EE210;
-        *(unsigned int *)(((int)stk + 4)) = ((short)((short)t8 * (short)0x3C0) + 0xC28C318);
-        t9 = *(int *)(((((t7 << 2) << 1) + (((short)((short)t8 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4));
-        t10 = *(int *)(((((t6 << 2) << 1) + (((short)((short)t8 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4));
-        if ((unsigned int)t9 > (unsigned int)t10) {
-            t7 = t6;
-        }
-        t6 = (t6 + 0x1);
-    } while ((int)t6 < (int)0x50);
-    if ((int)(t7 - 1) >= 0) {
-        t11 = 0xC2A9028;
-        t12 = 0x0;
-        t13 = 0x0;
-        do {
-            t12 = (t12 + 0x1);
-            t14 = *(int *)0xC1EE210;
-            t15 = *(int *)((((0x140 + ((short)((short)t14 * (short)0x3C0) + 0xC28C318)) + t13) + 0x0));
-            t13 = (t13 + 0x8);
-            *(unsigned int *)((t11 + 0x0)) = t15;
-            t11 = (t11 + 0x4);
-        } while ((int)t12 <= (int)(t7 - 1));
-    }
-    if (t7 != 79) {
-        if ((int)t7 < (int)0x4F) {
-            t23 = t7;
-            t24 = (((t7 << 2) + 0xC2A8FD8) + 0x50);
-            t25 = ((t7 << 2) << 1);
-            do {
-                t23 = (t23 + 0x1);
-                t26 = *(int *)0xC1EE210;
-                t27 = *(int *)((((0x140 + ((short)((short)t26 * (short)0x3C0) + 0xC28C318)) + t25) + 0x8));
-                t25 = (t25 + 0x8);
-                *(unsigned int *)((t24 + 0x0)) = t27;
-                t24 = (t24 + 0x4);
-            } while ((int)t23 < (int)0x4F);
-        }
-    }
-    *(unsigned int *)0xC2A9164 = 0x0;
-    *(unsigned int *)0xC2A9168 = 0x64;
-    *(unsigned int *)0xC1EE340 = 0x64;
-    return 0x18C;
-}
 
 int vmsio_block_read(int a4, int a5, int a6)
 {
@@ -692,7 +612,7 @@ int vmsio_block_read(int a4, int a5, int a6)
             }
             t22 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
             t23 = *(int *)((t22 + 0x44));
-            FUN_0c1701c4(t5, (t21 + 0xC), t23);
+            vmsfs_memcpyl(t5, (t21 + 0xC), t23);
             t25 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
             t6 = (t6 + 0x1);
             t26 = *(int *)((t25 + 0x44));
@@ -1065,7 +985,7 @@ int ADX_DecodeInfoExLoop(int a4, int a5, int a6, int a7, int a8, int a9, int a10
     return 0xFFFFFFFF;
 }
 
-int FUN_0c16c634(int a4)
+int kmiErrorRecover(int a4)
 {
     int t0;
     int t1;
@@ -1819,10 +1739,10 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                                             if ((int)t66 >= 0) {
                                                 *(unsigned short *)(((t58 + t2) + 0x0)) = t66;
                                                 t67 = *(int *)(((int)stk + 8));
-                                                FUN_0c074200(t66, t67);
+                                                nlSetPaletteMap(t66, t67);
                                                 t69 = *(int *)(((int)stk + 8));
                                                 t70 = *(int *)((((((t56 << 1) + t56) << 2) + t55) + 0x4));
-                                                FUN_0c0770f0(((t66 << 2) << 2), t70, t69);
+                                                nlSetPaletteData(((t66 << 2) << 2), t70, t69);
                                                 t73 = t66;
                                             }
                                             t75 = t73;
@@ -1863,10 +1783,10 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                                         if ((int)t98 >= 0) {
                                             *(unsigned short *)(((t90 + t2) + 0x0)) = t98;
                                             t99 = *(int *)(((int)stk + 8));
-                                            FUN_0c074200(t98, t99);
+                                            nlSetPaletteMap(t98, t99);
                                             t101 = *(int *)(((int)stk + 8));
                                             t102 = *(int *)((((((t88 << 1) + t88) << 2) + t55) + 0x4));
-                                            FUN_0c0770f0(((t98 << 2) << 2), t102, t101);
+                                            nlSetPaletteData(((t98 << 2) << 2), t102, t101);
                                             t105 = t98;
                                         }
                                         t107 = t105;
@@ -1880,7 +1800,7 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                             }
                         }
                     }
-                    FUN_0c081650();
+                    nlObjPutLoadTextureCallBack();
                     t131 = *(int *)((t5 + 0x4C));
                     t2 = t131;
                     t3 = (t3 + t2);
@@ -2007,10 +1927,10 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                                     if ((int)t206 >= 0) {
                                         *(unsigned short *)(((t198 + ((t196 << 2) << 1)) + 0x0)) = t206;
                                         t207 = *(int *)(((int)stk + 8));
-                                        FUN_0c074200(t206, t207);
+                                        nlSetPaletteMap(t206, t207);
                                         t209 = *(int *)(((int)stk + 8));
                                         t210 = *(int *)((((((t196 << 1) + t196) << 2) + t195) + 0x4));
-                                        FUN_0c0770f0(((t206 << 2) << 2), t210, t209);
+                                        nlSetPaletteData(((t206 << 2) << 2), t210, t209);
                                         t213 = t206;
                                     }
                                     t215 = t213;
@@ -2045,10 +1965,10 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                                 if ((int)t239 >= 0) {
                                     *(unsigned short *)(((t231 + ((t229 << 2) << 1)) + 0x0)) = t239;
                                     t240 = *(int *)(((int)stk + 8));
-                                    FUN_0c074200(t239, t240);
+                                    nlSetPaletteMap(t239, t240);
                                     t242 = *(int *)(((int)stk + 8));
                                     t243 = *(int *)((((((t229 << 1) + t229) << 2) + t195) + 0x4));
-                                    FUN_0c0770f0(((t239 << 2) << 2), t243, t242);
+                                    nlSetPaletteData(((t239 << 2) << 2), t243, t242);
                                     t246 = t239;
                                 }
                                 t248 = t246;
@@ -2059,7 +1979,7 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
                     }
                 }
             }
-            FUN_0c081650();
+            nlObjPutLoadTextureCallBack();
             t275 = *(int *)((t144 + 0x4C));
             t142 = (t142 + t275);
             t276 = *(int *)((t142 + 0x0));
@@ -2077,7 +1997,7 @@ int nlObjPutLoadTextureOnce_Sub(int a4, int a5, int a6, int a7, int a8)
     return t280;
 }
 
-int FUN_0c172c3c(int a4, int a5, int a6, int a7, int a8)
+int adxb_DecodeInfoAiffSub(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;
@@ -2291,7 +2211,7 @@ int FUN_0c172c3c(int a4, int a5, int a6, int a7, int a8)
     return t80;
 }
 
-int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
+int kmiVQallocFB(int a4, int a5, int a6, int a7, int a8, int a9)
 {
     int t0;
     int t1;
@@ -2424,7 +2344,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
         t18 = *(int *)((t14 + 0x10));
         if (t18 == t1) {
             kmytex_FBDeQueueEntry((((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x8), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0xC), t14);
-            FUN_0c1573f2(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t14);
+            kmytex_FBEnQueueTop(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t14);
             t21 = *(int *)((t14 + 0xC));
             *(unsigned int *)((a7 + 0x8)) = t21;
             *(unsigned int *)((t14 + 0x14)) = a7;
@@ -2452,7 +2372,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
         } else {
             t33 = *(int *)((t14 + 0xC));
             if (t33 == a5) {
-                t34 = FUN_0c1573a0();
+                t34 = kmytex_FBAllocEntry();
                 t52 = 0x3;
                 if (t34 != 0) {
                     t35 = *(int *)((t14 + 0xC));
@@ -2464,7 +2384,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
                     *(unsigned int *)((t14 + 0xC)) = (t37 + t1);
                     *(unsigned int *)(((int)stk + 4)) = ((((t2 << 2) + t2) << 2) + 0xC177FBC);
                     t38 = *(int *)(((int)stk + 4));
-                    FUN_0c1573f2(t38, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t34);
+                    kmytex_FBEnQueueTop(t38, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t34);
                     t40 = *(int *)((t34 + 0xC));
                     *(unsigned int *)((a7 + 0x8)) = t40;
                     *(unsigned int *)((t34 + 0x14)) = a7;
@@ -2494,7 +2414,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
                 t54 = *(int *)((t14 + 0xC));
                 t55 = *(int *)((t14 + 0x10));
                 if ((t54 + t55) == (a5 + a6)) {
-                    t56 = FUN_0c1573a0();
+                    t56 = kmytex_FBAllocEntry();
                     t72 = 0x3;
                     if (t56 != 0) {
                         t57 = *(int *)((t14 + 0x10));
@@ -2503,7 +2423,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
                         *(unsigned int *)((t56 + 0x10)) = t1;
                         *(unsigned int *)(((int)stk + 4)) = ((((t2 << 2) + t2) << 2) + 0xC177FBC);
                         t58 = *(int *)(((int)stk + 4));
-                        FUN_0c1573f2(t58, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t56);
+                        kmytex_FBEnQueueTop(t58, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t56);
                         t60 = *(int *)((t56 + 0xC));
                         *(unsigned int *)((a7 + 0x8)) = t60;
                         *(unsigned int *)((t56 + 0x14)) = a7;
@@ -2530,13 +2450,13 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
                     }
                     t107 = t72;
                 } else {
-                    t74 = FUN_0c1573a0();
+                    t74 = kmytex_FBAllocEntry();
                     t103 = 0x3;
                     if (t74 != 0) {
-                        t75 = FUN_0c1573a0();
+                        t75 = kmytex_FBAllocEntry();
                         *(unsigned int *)(((int)stk + 4)) = t75;
                         if (t75 == 0) {
-                            FUN_0c1573cc(t74);
+                            kmytex_FBFreeEntry(t74);
                             t99 = 0x3;
                         } else {
                             t77 = *(int *)((t14 + 0x10));
@@ -2546,7 +2466,7 @@ int FUN_0c157852(int a4, int a5, int a6, int a7, int a8, int a9)
                             *(unsigned int *)((t14 + 0x10)) = (a5 - t78);
                             *(unsigned int *)((t74 + 0xC)) = a5;
                             *(unsigned int *)((t74 + 0x10)) = t1;
-                            FUN_0c1573f2(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t74);
+                            kmytex_FBEnQueueTop(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t74);
                             t80 = *(int *)(((int)stk + 4));
                             *(unsigned int *)((t80 + 0xC)) = (a5 + t1);
                             t81 = *(int *)(((int)stk + 16));

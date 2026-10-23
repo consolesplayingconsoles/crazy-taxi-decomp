@@ -7,9 +7,9 @@ int ADXERR_CallErrFunc(int, ...);
 int ADXT_Stop(void);
 int SJMEM_Create(int, int);
 int adxt_start_sj(int, int);
-int FUN_0c151b9c(int a4, int a5, int a6);
+int ADXT_StartMemIdx(int a4, int a5, int a6);
 
-int FUN_0c151b9c(int a4, int a5, int a6)
+int ADXT_StartMemIdx(int a4, int a5, int a6)
 {
     int t1;
     int t3;

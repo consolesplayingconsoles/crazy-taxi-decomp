@@ -7,9 +7,9 @@ static void iaMovca(int v, void *p)
     MOV R4,R0
     .DATA.W H'05C3
 }
-int FUN_0c14f408(int a4, int a5);
+int syCacheMOVCAL(int a4, int a5);
 
-int FUN_0c14f408(int a4, int a5)
+int syCacheMOVCAL(int a4, int a5)
 {
     iaMovca(a5, (void *)a4);
     return a5;

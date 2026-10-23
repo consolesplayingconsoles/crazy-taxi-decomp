@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_adn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15e85c(int, int, int);
+int kmiSetupRegionRegisters(int, int, int);
 int kmiCopyToPVRMemory(int);
 int kmiCreateDummyRegionforAvoidCacheBug(void);
 int kmiCreateDummyTranslucentObject(int, int);
@@ -49,7 +49,7 @@ int kmiCreateRegionArray(int a4, int a5, int a6, int a7, int a8, int a9)
         t1 = 0x1;
     }
     if ((*(int *)0xC2EA88C) == 0) {
-        FUN_0c15e85c((*(int *)(((int)stk + 8))), (*(int *)(((int)stk + 4))), a8);
+        kmiSetupRegionRegisters((*(int *)(((int)stk + 8))), (*(int *)(((int)stk + 4))), a8);
     }
     t14 = *(int *)(((int)stk + 8));
     t15 = *(int *)(((int)stk + 4));

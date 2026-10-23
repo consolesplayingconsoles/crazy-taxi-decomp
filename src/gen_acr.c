@@ -1,3 +1,5 @@
+extern int cableCarExec();
+extern int trainCarExec();
 /* Straight-line functions with calls and guards (batch gen_acr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -17,9 +19,9 @@ int TrainCarInit(int a4, int a5, int a6)
     int t9;
     float u18;
 
-    t0 = 0xC048C48;
+    t0 = ((int)trainCarExec);
     if (a4 == 15) {
-        t0 = 0xC0483E0;
+        t0 = ((int)cableCarExec);
     }
     t2 = set_event(0x12C, t0);
     if (t2 != 0) {

@@ -43,11 +43,11 @@ int Init_Balloon(void);
 int Proposal_Initialize(void);
 int psgUpdatePartTracks(int);
 int psgPutMarker(int, int);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077df0(int);
-float FUN_0c078c00(int);
-int FUN_0c169710(void);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMatrixMode(int);
+float nlScalor2(int);
+int adxf_purge_all(void);
 int GetAverageAngle(int, int, float);
 int InitArrow(int);
 int MakeKyakuTakeArea(int, int, int, float);
@@ -122,13 +122,13 @@ int camGetOffScript(void);
 int gdFsOpenRangeG(int a4, int a5);
 int Put_GearBox(void);
 int mwRnaSetNumChan(int a4, int a5);
-int FUN_0c073d60(int a4);
+int nlCommonTextureConvertUVnum(int a4);
 int ADXB_ExecHndl(int a4);
 int gdc_SetStreamAFS(void);
 int sysCfgRead(void);
 int nd_StartWait_PutCar(void);
 int vmsfs_fwrite(int a4, int a5, int a6);
-int FUN_0c1697c2(int a4);
+int adxf_purge_all_tail_0c1697c2(int a4);
 int psgRoadCheck(int a4);
 int gdc_LandmarkLoadExec(void);
 int PutStringFixPfont(int a4, int a5, float f4, float f5, float f6, float f7);
@@ -139,7 +139,7 @@ int Exec_Bowling_Pins(void);
 int gdc_Err(void);
 int menuItemController(int a4);
 int hudDrawJudgement(void);
-int FUN_0c07eb10(int a4, int a5);
+int nlsndInit(int a4, int a5);
 int Exec_Crazy_Jump(void);
 int mpdrv_frame_send(void);
 int pedUpdate(int a4);
@@ -259,7 +259,7 @@ int mwRnaSetNumChan(int a4, int a5)
     return mwRnaSetOutPan(a4, 0x1);
 }
 
-int FUN_0c073d60(int a4)
+int nlCommonTextureConvertUVnum(int a4)
 {
     int t10;
     int t9;
@@ -552,11 +552,11 @@ int vmsfs_fwrite(int a4, int a5, int a6)
     return t25;
 }
 
-int FUN_0c1697c2(int a4)
+int adxf_purge_all_tail_0c1697c2(int a4)
 {
     int t1;
 
-    FUN_0c169710();
+    adxf_purge_all();
     *(unsigned int *)0xFF00001C = ((a4 & 0xFFFFF7FF) | 0x800);
     t1 = *(int *)0xFF00001C;
     *(unsigned int *)0xFF00001C = ((t1 & 0xFFFFFFF7) | 0x8);
@@ -709,126 +709,9 @@ int Exec_DCmini_Game4(void)
 
 
 
-int menuItemController(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t47;
-    int t5;
-    int t6;
-    int t7;
-    int t11;
-    int t12;
-    int t13;
-    int t20;
-    int t21;
-    int t42;
-    int t22;
-    int t23;
-    int t24;
-    int t25;
-    float u26;
-    float u27;
-    int t29;
-    int t30;
-    float u31;
-    float u32;
-    float u33;
-    float u34;
-    int t36;
-    float u37;
-    float u38;
-    float u39;
-    float u40;
-    int t41;
-    int t8;
-    int t9;
-    int t15;
-    int t16;
-    int t18;
-    int t19;
-    int stk[13] = {0};
-
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    t0 = *(signed char *)0xC28A4EE;
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)t0;
-    t1 = *(int *)(((int)stk + 8));
-    if (t1 != 0) {
-        t2 = menuChangeValue(0x0, ((int)stk + 4), 0x2);
-        if (t2 == 1) {
-            t3 = *(int *)(((int)stk + 4));
-            *(unsigned char *)0xC28A4EE = t3;
-        }
-    }
-    t4 = padPortAConnected();
-    t47 = t4;
-    if (t4 == 1) {
-        t5 = *(int *)(((int)stk + 8));
-        if (t5 != 0) {
-            t6 = *(int *)(((int)stk + 4));
-            t8 = 0x8013;
-            t9 = t6;
-        } else {
-            t7 = *(int *)(((int)stk + 4));
-            t8 = 0x13;
-            t9 = t7;
-        }
-        putMenuValue(t8, 0xC09F050, 0x2, t9);
-        t11 = *(int *)0xC2A123C;
-        if (t11 == 1) {
-            t12 = *(signed char *)0xC28A4EE;
-            t15 = (0xC0EF5A0 + (signed char)((((t12 << 1) + t12) << 2) << 1));
-            t16 = 0xC09EF48;
-            t18 = 0xC0A0888;
-            t19 = 0x6;
-        } else {
-            t13 = *(signed char *)0xC28A4EE;
-            t15 = (0xC0EF568 + (signed char)((short)t13 * (short)0x1C));
-            t16 = 0xC09EE14;
-            t18 = 0xC0A0878;
-            t19 = 0x7;
-        }
-        t20 = *(int *)0xC2A1ADC;
-        t21 = menuPutSprites(t18, 0xC2A1A84, (-t20), 0x0);
-        t42 = t21;
-        if ((int)t19 > 0) {
-            t22 = 0x0;
-            t23 = t15;
-            t24 = t16;
-            do {
-                t25 = *(int *)0xC2A1ADC;
-                u26 = *(float *)((t24 + 0x0));
-                u27 = *(float *)((t24 + 0x4));
-                putString(0x13, (t24 + 0xC), (u26 + (float)t25), u27, 1.0f);
-                t29 = *(int *)((t23 + 0x0));
-                t23 = (t23 + 0x4);
-                t30 = *(int *)0xC2A1ADC;
-                u31 = *(float *)((t24 + 0x4));
-                u32 = *(float *)((t24 + 0x0));
-                u33 = *(float *)((((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0x4));
-                u34 = *(float *)((((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0x0));
-                putString(0x20, (((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0xC), ((u32 + u34) + (float)t30), (u31 + u33), 1.0f);
-                t36 = *(int *)0xC2A1ADC;
-                u37 = *(float *)((t24 + 0x4));
-                u38 = *(float *)(((((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0x4));
-                u39 = *(float *)((t24 + 0x0));
-                u40 = *(float *)(((((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0x0));
-                t41 = putString(0x20, ((((short)((short)t29 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0xC), ((u39 + u40) + (float)t36), (u37 + u38), 1.0f);
-                t22 = (t22 + 0x1);
-                t24 = (t24 + 0x2C);
-            } while ((int)t22 < (int)t19);
-            t42 = t41;
-        }
-        t47 = t42;
-    }
-    return t47;
-}
 
 
-int FUN_0c07eb10(int a4, int a5)
+int nlsndInit(int a4, int a5)
 {
     int t0;
     int t63;

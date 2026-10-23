@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ajo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void FUN_0c0803d0(void);
+void nlsndG2DmaInit(void);
 
-void FUN_0c0803d0(void)
+void nlsndG2DmaInit(void)
 {
     int t0;
     int t1;

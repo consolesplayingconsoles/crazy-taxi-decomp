@@ -1,82 +1,66 @@
 /* Straight-line functions with calls and guards (batch gen_eb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int Chat_Iraira(int a4, int a5, int a6);
+int Drv_StartAction(int, int, int);
+int FcvStoreBuffer(int, int, float);
+int nlSubVector3op(int, int, int);
+void Drv_Init(void);
 
-int Chat_Iraira(int a4, int a5, int a6)
+void Drv_Init(void)
 {
-    int t0;
-    int t2;
-    int t15;
-    int t17;
-    int t63;
-    int t45;
-    int t54;
-    int t3;
-    int t80;
-    int t71;
-    int stk[68] = {0};
+    int t23;
+    int t19;
+    int stk[18];
 
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0xD4 + ((int)stk + 4))) = *(struct mv8 *)(0xC0D41A4); }
-    { struct mv6 { int w[6]; }; *(struct mv6 *)((0xBC + ((int)stk + 4))) = *(struct mv6 *)(0xC0D41C4); }
-    { struct mv6 { int w[6]; }; *(struct mv6 *)((0xA4 + ((int)stk + 4))) = *(struct mv6 *)(0xC0D41DC); }
-    { struct mv7 { int w[7]; }; *(struct mv7 *)((0x88 + ((int)stk + 4))) = *(struct mv7 *)(0xC0D41F4); }
-    { struct mv4 { int w[4]; }; *(struct mv4 *)((((int)stk + 4) + 0x78)) = *(struct mv4 *)(0xC0D4210); }
-    t0 = 0xC0D4220;
-    t2 = (((int)stk + 4) + 0x14);
-    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D4220 + 100)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
-    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 4)) = *(struct mv5 *)(0xC0D4284); }
-    if (a6 == 2) {
-        *(unsigned int *)0xC13ED20 = (*(int *)((((int)stk + 4) + (((int)(((unsigned int)(*(int *)(((0x148 + a4) + 0x0))) >> 29) & 0x7)) << 2))));
-        *(unsigned int *)0xC13ED38 = (*(int *)((((((*(int *)0xC2AD000) - 1) << 2) + (((int)stk + 4) + 0x78)) + 0x0)));
-        Voice_ShutUp(0x1);
-        Voice_Request(0xC13ED38, 0x1, 0x73, 0x0);
-        Voice_ShutUp(0x2);
-        t80 = (Voice_Request(0xC13ED20, 0x2, 0x73, 0x0));
+    { struct mv12 { int w[12]; }; *(struct mv12 *)(((int)stk + 4)) = *(struct mv12 *)(0xC0D4C78); }
+    *(unsigned int *)0xC2AD000 = (*(int *)((((int)stk + 4) + ((*(int *)0xC179488) << 2))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD004) = *(struct mv3 *)(0xC0D5530); }
+    *(unsigned int *)0xC2AD010 = 0x0;
+    *(unsigned int *)0xC2AD014 = 0x0;
+    *(unsigned int *)0xC2AD01C = 0x0;
+    *(unsigned int *)0xC2AD018 = 0x0;
+    *(unsigned int *)0xC2AD020 = 0xC8E2204;
+    *(float *)0xC2AD024 = 0.0f;
+    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, 0.0f);
+    *(float *)0xC2AD0F4 = 0.0f;
+    *(float *)0xC2AD0F8 = 0.0f;
+    *(unsigned int *)0xC2AD0FC = (*(int *)0xC2AD020);
+    *(float *)0xC2AD100 = (*(float *)0xC2AD024);
+    FcvStoreBuffer((*(int *)0xC2AD0FC), 0xC2AD104, (*(float *)0xC2AD100));
+    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
+    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
+    *(unsigned int *)0xC2AD1D8 = 0x0;
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0x7F);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x40);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xDF);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xE7);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xFB);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xFD);
+    *(unsigned int *)0xC2AD1DC = (((*(int *)0xC2AD1DC) & 0xFF000000) | 0x0);
+    if ((int)(*(int *)0xC179488) >= (int)0x4) {
+        t19 = ((*(signed char *)0xC2AD1DF) | 0x1);
     } else {
-        t15 = *(int *)0xC13EB90;
-        if (a5 == 0) {
-            t17 = *(int *)0xC2AD000;
-            if (t17 != 1) {
-                if (t17 != 2) {
-                    if (t17 != 3) {
-                        if (t17 != 4) {
-                            *(unsigned int *)0xC13ED20 = 0x0;
-                        } else {
-                            *(unsigned int *)0xC13ED20 = (*(int *)((((((int)((unsigned int)t15 % (unsigned int)0x7)) << 2) + (0x88 + ((int)stk + 4))) + 0x0)));
-                        }
-                    } else {
-                        *(unsigned int *)0xC13ED20 = (*(int *)(((0xA4 + ((int)stk + 4)) + (((int)((unsigned int)t15 % (unsigned int)0x6)) << 2))));
-                    }
-                } else {
-                    *(unsigned int *)0xC13ED20 = (*(int *)(((0xBC + ((int)stk + 4)) + (((int)((unsigned int)t15 % (unsigned int)0x6)) << 2))));
-                }
-            } else {
-                *(unsigned int *)0xC13ED20 = (*(int *)(((((t15 & 0x7) << 2) + (0xD4 + ((int)stk + 4))) + 0x0)));
-            }
-            Voice_ShutUp(0x1);
-            t71 = (Voice_Request(0xC13ED20, 0x1, 0x73, 0x0));
-        } else {
-            t63 = a5;
-            if (a5 == 1) {
-                if (a6 != 0) {
-                    if (a6 != 1) {
-                    } else {
-                        t45 = (int)(((unsigned int)(*(int *)(((0x148 + a4) + 0x0))) >> 29) & 0x7);
-                        *(unsigned int *)0xC13ED20 = (*(int *)(((((int)stk + 4) + 0x14) + (((((int)((int)t15 % (int)0x4)) + ((t45 << 2) + t45)) + 0x1) << 2))));
-                    }
-                } else {
-                    t54 = (int)(((unsigned int)(*(int *)(((0x148 + a4) + 0x0))) >> 29) & 0x7);
-                    *(unsigned int *)0xC13ED20 = (*(int *)(((((int)stk + 4) + 0x14) + (((t54 << 2) + t54) << 2))));
-                }
-                Voice_ShutUp(0x2);
-                t63 = (Voice_Request(0xC13ED20, 0x2, 0x73, 0x0));
-            }
-            t71 = t63;
-        }
-        t80 = t71;
+        t19 = ((*(signed char *)0xC2AD1DF) & 0xFE);
     }
-    return t80;
+    *(unsigned char *)0xC2AD1DF = t19;
+    Drv_StartAction(0x0, 0x0, 0x0);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)(0xC179144); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)(0xC1791C8); }
+    nlSubVector3op(0xC13ED80, 0xC1791C8, 0xC1791D4);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)(0xC13ED80); }
+    t23 = 0x0;
+    for (;;) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)(((t23 << 1) + t23) << 2) + 0xC2AD2BC)) = *(struct mv3 *)(0xC0D5530); }
+        t23 = (t23 + 0x1);
+        if ((int)t23 >= (int)0x23) {
+            break;
+        }
+    }
+    *(float *)0xC2AD52C = 0.0f;
+    *(unsigned int *)0xC2AD530 = 0x0;
+    *(unsigned int *)0xC2AD534 = 0x0;
+    *(unsigned int *)0xC2AD538 = 0x0;
+    *(unsigned int *)0xC2AD53C = 0x0;
+    *(unsigned int *)0xC2AD540 = 0x0;
+    *(unsigned int *)0xC2AD544 = 0x0;
 }

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_vo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c074680(int, int, int);
+int nlSetBackColor(int, int, int);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int nlSprPut(int);
@@ -34,7 +34,7 @@ int Put_GameOver2(void)
     float u20;
     float u21;
 
-    FUN_0c074680(0xFF000000, 0xFF000000, 0xFF000000);
+    nlSetBackColor(0xFF000000, 0xFF000000, 0xFF000000);
     t1 = *(int *)0xC2A8FD4;
     if (t1 == 0) {
         Voice_ShutUp(0x0);

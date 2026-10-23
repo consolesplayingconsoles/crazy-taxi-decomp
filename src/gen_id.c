@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_id): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c16e544(void);
+int syG2FifoWaitEmpty(void);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int syG2AicaFifoWaitEmpty(void);
@@ -91,7 +91,7 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
         t15 = t13;
     }
     syG2DmaSuspendAll();
-    FUN_0c16e544();
+    syG2FifoWaitEmpty();
     t19 = *(int *)(((int)stk + 8));
     if (t19 != 1) {
         if (t19 != 2) {
@@ -104,7 +104,7 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                     t24 = 0x0;
                     for (;;) {
                         if ((t24 & 0x7) == 0) {
-                            FUN_0c16e544();
+                            syG2FifoWaitEmpty();
                             syG2AicaFifoWaitEmpty();
                         } else {
                             t27 = t22;
@@ -139,7 +139,7 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                 t53 = 0x0;
                 for (;;) {
                     if ((t53 & 0x7) == 0) {
-                        FUN_0c16e544();
+                        syG2FifoWaitEmpty();
                         syG2AicaFifoWaitEmpty();
                     } else {
                         t56 = t51;
@@ -173,7 +173,7 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
             t82 = 0x0;
             for (;;) {
                 if ((t82 & 0x7) == 0) {
-                    FUN_0c16e544();
+                    syG2FifoWaitEmpty();
                     syG2AicaFifoWaitEmpty();
                 } else {
                     t85 = t80;

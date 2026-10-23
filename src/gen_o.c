@@ -11,8 +11,8 @@ int SetScreen(int);
 int SetWindow(int);
 int FcvInterpolateBuffer(int, int, float);
 int nlsndPackLoad(int, int);
-int FUN_0c07f0b0(void);
-int FUN_0c167800(void);
+int nlsndPackFree(void);
+int kbCfgGetId(void);
 int gdc_FileLoad(int, int, int);
 int gdc_StopStreamSongAll(void);
 int kbCfgIni(void);
@@ -114,7 +114,7 @@ int syCfgGetIndividualID(int a4)
         return 0x0;
     }
     kbCfgIni();
-    t1 = FUN_0c167800();
+    t1 = kbCfgGetId();
     memmove(a4, (t1 + 0x2), 0x6);
     t3 = syCfgIIDCheckSum(t1);
     t4 = 0x2;

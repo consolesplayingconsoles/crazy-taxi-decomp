@@ -1,3 +1,4 @@
+extern int pcarExec();
 /* Straight-line functions with calls and guards (batch gen_acc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -21,7 +22,7 @@ int PcarInit(int a4, int a5, int a6)
     int t26;
     int t38;
 
-    t0 = set_event(0x12C, 0xC0465A8);
+    t0 = set_event(0x12C, ((int)pcarExec));
     if (t0 == 0) {
         return t0;
     }

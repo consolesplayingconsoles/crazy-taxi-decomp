@@ -70,7 +70,7 @@ float breathFrameTime(float x)
 }
 
 /* out = a + b for 3-vectors. */
-void FUN_0c078a70(float *out, float *a, float *b)
+void nlAddVector3op(float *out, float *a, float *b)
 {
     out[0] = a[0] + b[0];
     out[1] = a[1] + b[1];

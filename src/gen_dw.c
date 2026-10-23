@@ -1,103 +1,114 @@
 /* Straight-line functions with calls and guards (batch gen_dw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckClipping(float);
-int CourseSplineNumGet(int);
-int CourseSplineGet(int);
-int gdc_VolStreamSong(int);
-int gdc_CoursePut(int, int, float);
 int menuChangeValue(int, int, int);
-int PutCourse_Sky(void);
-int Exec_FogDensity(void);
-int Exec_FogColor(void);
-int Check_FogArea(void);
-int Chat_Iraira(void);
-int Chat_DamnIt(int);
-int Voice_Init(void);
-float FUN_0c089de0(int);
-int PutCourse_CheckPiece(int, int, int, int, float, float, float);
-int Put_Build_Patch(void);
-int Put_Course_Obj_Dist(void);
-int SetSEvolume(void);
-int extRand(void);
-int findSplineSection(int, int, int);
-int getAreaFromPos(int, int);
-int getNearLineIndex(int, int, int, int);
-int getPieceWindow(int, int, int);
-int menuPutSprites(int, int, int, int);
-float nlInnerProduct(int, int);
-float nlLength(int, int);
-int nlProjectScreen3D(int);
-int nlRand(void);
-int nlSubVector3op(int, int, int);
-int nlUnitVector(int);
-int putString(int, int, float, float, float);
-int menuItemVolume(int a4, int a5);
-int psgEnterState5(int a4, int a5);
-int psgEnterState6(int a4, int a5);
-int Exec_Fog(void);
-int PutCourse(void);
+int ndPuru2Start(int, int, int);
+int ndPuru2Stop(void);
+int putMenuValue(int, int, int, int);
+int vibIsReady(void);
+int menuItemVibration(int a4, int a5, int a6, int a7);
 
-int menuItemVolume(int a4, int a5)
+int menuItemVibration(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    int t3;
-    float u5;
-    float u6;
-    int t10;
-    int t11;
-    int t12;
-    int t28;
-    int t35;
-    int t29;
-    int t30;
-    int t31;
-    int t33;
-    int stk[12] = {0};
+    int t5;
+    int stk[7];
 
-    t0 = *(int *)0xC2A1ADC;
-    t3 = 0xC28A4ED;
-    u5 = 290.0f;
-    u6 = (float)(t0 + 0x1DE);
-    if (a5 == 4) {
-        t3 = 0xC28A4EC;
-        u5 = 256.0f;
-        u6 = (float)(0x1DE - t0);
-    }
-    t10 = *(signed char *)((t3 + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)t10;
-    if (a4 != 0) {
-        t11 = menuChangeValue(0x0, ((int)stk + 4), 0x9);
-        if (t11 == 1) {
-            t12 = *(int *)(((int)stk + 4));
-            *(unsigned char *)((t3 + 0x0)) = t12;
-            SetSEvolume();
-            Voice_Init();
-            gdc_VolStreamSong(0x7F);
-        }
-    }
-    putString(0x28, 0xC0A2058, (u6 + -82.0f), (u5 + -7.0f), 1.0f);
-    t28 = putString(0x20, 0xC0A205C, (u6 + 82.0f), (u5 + -7.0f), 1.0f);
-    t35 = t28;
-    if ((int)0x8 > 0) {
-        t29 = 0x0;
-        for (;;) {
-            t30 = *(int *)(((int)stk + 4));
-            t31 = 0xC0A0868;
-            if ((int)t29 < (int)t30) {
-                t31 = 0xC0A0858;
-            }
-            t33 = menuPutSprites(t31, 0xC2A1A84, (int)((float)(((((t29 - 3) << 2) + (t29 - 3)) << 2) - 10) + u6), (int)u5);
-            t29 = (t29 + 0x1);
-            if ((int)t29 >= (int)0x8) {
-                break;
-            }
-        }
-        t35 = t33;
-    }
-    return t35;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C03DA02:;
+    *(unsigned char *)(((int)stk + 8)) = 0x0;
+    R12 = (R4);
+    if (((vibIsReady()) != 1)) goto L_C03DA20;
+    goto L_C03DA1A;
+    L_C03DA1A:;
+    R13 = (0xC28A4EF);
+    goto L_C03DA24;
+    L_C03DA24:;
+    t5 = *(int *)0xC2A1214;
+    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)((R13 + 0x0)));
+    R14 = ((((t5 == 1)) ? 1 : 0));
+    if ((R12 == 0)) goto L_C03DA66;
+    goto L_C03DA36;
+    L_C03DA36:;
+    if (((menuChangeValue(R14, ((int)stk + 4), 0x2)) != 1)) goto L_C03DA66;
+    goto L_C03DA44;
+    L_C03DA44:;
+    *(unsigned char *)((R13 + 0x0)) = (*(int *)(((int)stk + 4)));
+    if ((R14 != 0)) goto L_C03DA66;
+    goto L_C03DA4C;
+    L_C03DA4C:;
+    if (((*(int *)(((int)stk + 4))) == 0)) goto L_C03DA60;
+    goto L_C03DA52;
+    L_C03DA52:;
+    ndPuru2Start(0x2, 0x1, 0x0);
+    goto L_C03DA66;
+    L_C03DA66:;
+    if ((R14 != 1)) goto L_C03DAE2;
+    goto L_C03DA6E;
+    L_C03DA6E:;
+    R14 = (0xC09E15C);
+    if ((R12 == 0)) goto L_C03DA84;
+    goto L_C03DA74;
+    L_C03DA74:;
+    R0 = ((putMenuValue(0xA044, R14, 0x2, (*(int *)(((int)stk + 4))))));
+    goto L_C03DAFC;
+    L_C03DAFC:;
+    return R0;
+    L_C03DA84:;
+    if (((vibIsReady()) != 1)) goto L_C03DAD0;
+    goto L_C03DA8E;
+    L_C03DA8E:;
+    R4 = (0x2024);
+    R5 = (R14);
+    R6 = (0x2);
+    R7 = ((*(int *)(((int)stk + 4))));
+    goto L_C03DAD8;
+    L_C03DAD8:;
+    R0 = ((putMenuValue(R4, R5, R6, R7)));
+    goto L_C03DAFC;
+    L_C03DAD0:;
+    R4 = (0x2084);
+    R5 = (R14);
+    R6 = (0x2);
+    R7 = ((*(int *)(((int)stk + 4))));
+    goto L_C03DAD8;
+    L_C03DAE2:;
+    R5 = (0xC09EB54);
+    if ((R12 == 0)) goto L_C03DAF0;
+    goto L_C03DAE8;
+    L_C03DAE8:;
+    R4 = (0xC017);
+    R6 = (0x2);
+    R7 = ((*(int *)(((int)stk + 4))));
+    goto L_C03DAF6;
+    L_C03DAF6:;
+    R0 = ((putMenuValue(R4, R5, R6, R7)));
+    goto L_C03DAFC;
+    L_C03DAF0:;
+    R4 = (0x4017);
+    R6 = (0x2);
+    R7 = ((*(int *)(((int)stk + 4))));
+    goto L_C03DAF6;
+    L_C03DA60:;
+    ndPuru2Stop();
+    goto L_C03DA66;
+    L_C03DA20:;
+    R13 = ((((int)stk + 4) + 0x4));
+    goto L_C03DA24;
 }
-
-
-
-

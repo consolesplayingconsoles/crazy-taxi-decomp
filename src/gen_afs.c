@@ -1,30 +1,120 @@
 /* Straight-line functions with calls and guards (batch gen_afs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077a00(int, int, int);
-int gdc_CourseStartLoadReq(void);
-int gdc_FadeManStreamSong(void);
-int gdc_StopStreamSongAll(void);
-int nd_CarSelExec(void);
-int gameState5(void);
+int nlSprPut(int);
+int gdc_Err(int a4, float f4);
 
-int gameState5(void)
+int gdc_Err(int a4, float f4)
 {
-    int stk[11] = {0};
+    int t2;
+    int t5;
+    int stk[24];
 
-    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R10;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F15;
+    int T_;
+    R4 = a4;
+    F4 = f4;
+    L_C02DD8C:;
+    if (((*(int *)0xC1EE234) != 0)) goto L_C02DDA8;
+    goto L_C02DD9C;
+    L_C02DD9C:;
+    t2 = *(int *)0xC1EE238;
+    R0 = (t2);
+    if ((t2 != 1)) goto L_C02DDA8;
+    goto L_C02DDA4;
+    L_C02DDA4:;
+    goto L_C02DEF4;
+    L_C02DEF4:;
+    return R0;
+    L_C02DDA8:;
+    *(float *)(((int)stk + 16)) = 0.099999994f;
     *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 32)) = 1.0f;
-    *(float *)(((int)stk + 36)) = 0.0f;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC08AD94); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC08AD94); }
-    *(float *)(((int)stk + 12)) = 10.0f;
-    FUN_0c077a00((((int)stk + 4) + 0xC), ((int)stk + 4), (((int)stk + 4) + 0x18));
-    nd_CarSelExec();
-    if ((*(int *)0xC2A7518) == 4) {
-        *(unsigned int *)0xC1EE238 = 0x0;
-        gdc_StopStreamSongAll();
-    }
-    gdc_FadeManStreamSong();
-    return (gdc_CourseStartLoadReq());
+    *(float *)(((int)stk + 32)) = 0.0f;
+    *(float *)(((int)stk + 36)) = 1.0f;
+    *(float *)(((int)stk + 40)) = 1.0f;
+    *(unsigned int *)(((int)stk + 44)) = 0x0;
+    *(unsigned int *)(((int)stk + 56)) = 0x80A;
+    *(float *)(((int)stk + 48)) = 1.0f;
+    *(unsigned int *)(((int)stk + 52)) = 0xFFFFFFFF;
+    *(float *)(((int)stk + 24)) = 1.0f;
+    *(float *)(((int)stk + 20)) = 1.0f;
+    t5 = *(int *)0xC2A11C0;
+    R0 = (t5);
+    R14 = (0xC07DF00);
+    F15 = (360.0f);
+    F4 = (335.0f);
+    if ((t5 == 0)) goto L_C02DE02;
+    goto L_C02DDEE;
+    L_C02DDEE:;
+    if ((R0 == 1)) goto L_C02DECC;
+    goto L_C02DDF2;
+    L_C02DDF2:;
+    if ((R0 == 2)) goto L_C02DE20;
+    goto L_C02DDF6;
+    L_C02DDF6:;
+    if ((R0 == 3)) goto L_C02DE42;
+    goto L_C02DDFA;
+    L_C02DDFA:;
+    if ((R0 == 4)) goto L_C02DE60;
+    goto L_C02DDFE;
+    L_C02DDFE:;
+    goto L_C02DECC;
+    L_C02DECC:;
+    *(unsigned int *)(((int)stk + 4)) = 0xA7;
+    *(float *)(((int)stk + 8)) = (*(float *)0xC02DF9C);
+    *(float *)(((int)stk + 12)) = F4;
+    nlSprPut(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = 0xA8;
+    *(float *)(((int)stk + 8)) = (*(float *)0xC02DFA0);
+    goto L_C02DEEC;
+    L_C02DEEC:;
+    *(float *)(((int)stk + 12)) = F15;
+    R0 = ((nlSprPut(((int)stk + 4))));
+    goto L_C02DEF4;
+    L_C02DE60:;
+    *(unsigned int *)(((int)stk + 4)) = 0xBB;
+    *(float *)(((int)stk + 8)) = 350.0f;
+    *(float *)(((int)stk + 12)) = F4;
+    nlSprPut(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = 0xBC;
+    *(float *)(((int)stk + 8)) = 405.0f;
+    goto L_C02DEEC;
+    L_C02DE42:;
+    *(unsigned int *)(((int)stk + 4)) = 0xB0;
+    *(float *)(((int)stk + 8)) = F15;
+    *(float *)(((int)stk + 12)) = F4;
+    nlSprPut(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = 0xB1;
+    *(float *)(((int)stk + 8)) = 415.0f;
+    goto L_C02DEEC;
+    L_C02DE20:;
+    *(unsigned int *)(((int)stk + 4)) = 0xB5;
+    *(float *)(((int)stk + 8)) = 442.0f;
+    *(float *)(((int)stk + 12)) = F4;
+    nlSprPut(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = 0xB6;
+    F3 = (436.0f);
+    goto L_C02DE3C;
+    L_C02DE3C:;
+    *(float *)(((int)stk + 8)) = F3;
+    goto L_C02DEEC;
+    L_C02DE02:;
+    *(unsigned int *)(((int)stk + 4)) = 0x8E;
+    *(float *)(((int)stk + 8)) = 370.0f;
+    *(float *)(((int)stk + 12)) = F4;
+    nlSprPut(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = 0x8F;
+    F3 = (400.0f);
+    goto L_C02DE3C;
 }

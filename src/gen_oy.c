@@ -1,55 +1,114 @@
 /* Straight-line functions with calls and guards (batch gen_oy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int rankingCalcDigitRoll(int, int);
-int rankingInsert(void);
+int Money_Array(int, int, int);
+int nlSprPut(int, int, int);
+int pfAddNumber(int);
+int pfCleanString(void);
+int pfColor(int, int, int, int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5);
 
-int rankingInsert(void)
+int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5)
 {
-    int t0;
-    int t1;
-    int t5;
     int t6;
-    int t7;
-    int t8;
-    int t24;
-    int stk[16] = {0};
+    int t40;
+    int stk[10];
 
-    t0 = *(int *)0xC2A9168;
-    t1 = t0;
-    if (t0 == 100) {
-        t1 = 0x63;
-    }
-    *(unsigned int *)(((int)stk + 4)) = ((int)((int)t1 / (int)0xA));
-    *(unsigned int *)(((int)stk + 8)) = ((int)((int)t1 % (int)0xA));
-    *(unsigned int *)(((int)stk + 12)) = (((int)stk + 4) + 0x10);
-    t5 = 0x1;
-    t6 = 0x1;
-    t7 = 0x0;
-    t8 = 0xC2A8FD8;
-    for (;;) {
-        if ((int)t7 >= (int)t0) {
-            return 0x0;
-        }
-        if ((int)(*(int *)(((*(int *)0xC2A7600) + 0x0))) > (int)(*(int *)((t8 + 0x0)))) {
-            break;
-        }
-        t5 = (t5 + 0x1);
-        t8 = (t8 + 0x4);
-        t7 = (t7 + 0x1);
-        t6 = (t6 + 0x1);
-    }
-    t24 = 0x0;
-    if (((t5 == t1) && (t0 != 100)) || (t5 == 100)) {
-    } else {
-        *(unsigned int *)0xC2A9168 = t6;
-        *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x0)) = (*(int *)(((int)stk + 4)));
-        *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = (*(int *)(((int)stk + 8)));
-        *(unsigned int *)(((*(int *)(((int)stk + 12))) + 0x0)) = ((int)((int)(*(int *)0xC2A9168) / (int)0xA));
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = ((int)((int)(*(int *)0xC2A9168) % (int)0xA));
-        rankingCalcDigitRoll((((int)stk + 4) + 0x14), (((int)stk + 4) + 0xC));
-        *(unsigned int *)0xC1EE340 = (*(int *)0xC2A9168);
-        t24 = 0x1;
-    }
-    return t24;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F5;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    L_C053700:;
+    *(unsigned int *)(((int)stk + 4)) = R4;
+    { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x4)) = *(struct mv2 *)(0xC0D08AC); }
+    Money_Array((((int)stk + 4) + 0x4), ((int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) / (int)0x3C)), 0x2);
+    t6 = (int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) % (int)0x3C);
+    *(float *)0xC2A7F30 = 590.0f;
+    *(float *)0xC2A7F34 = 430.0f;
+    R11 = (0x3C);
+    R12 = ((((int)stk + 4) + 0x4));
+    R13 = (0xC2A8C4C);
+    R14 = (0xC2A7F2C);
+    R4 = (t6);
+    F15 = (1.0f);
+    if (((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) < (int)0x3C)) goto L_C05376E;
+    goto L_C053768;
+    L_C053768:;
+    if (((*(int *)(((int)stk + 4))) != 0)) goto L_C0537B8;
+    goto L_C05376E;
+    L_C05376E:;
+    pfCleanString();
+    pfSetFont(0x1);
+    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+    pfSize(F15, F15);
+    pfAddNumber(((int)((int)(*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) / (int)R11)));
+    pfLocate(574.0f, 414.0f);
+    R0 = ((pfPuts((*(int *)0xC08D678))));
+    goto L_C05383C;
+    L_C05383C:;
+    return R0;
+    L_C0537B8:;
+    R5 = (0x1E);
+    R6 = (0xC0D0BE0);
+    if (((int)R4 < (int)0x1E)) goto L_C0537CC;
+    goto L_C0537C0;
+    L_C0537C0:;
+    *(float *)((R14 + 0x10)) = F15;
+    R3 = ((*(int *)((R6 + ((*(int *)((R12 + 0x0))) << 2)))));
+    goto L_C05382A;
+    L_C05382A:;
+    *(unsigned int *)((R14 + 0x0)) = R3;
+    goto L_C053832;
+    L_C053832:;
+    *(unsigned int *)((R14 + 0x28)) = 0x0;
+    R0 = ((nlSprPut(0xC2A7F2C, R5, R6)));
+    goto L_C05383C;
+    L_C0537CC:;
+    t40 = (int)((int)(*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) % (int)R5);
+    *(float *)((R14 + 0x10)) = (_builtin_fabsf((float)((int)(float)t40 - 15)) / 15.0f);
+    R4 = (R12);
+    R5 = (R6);
+    R7 = (0xA);
+    F4 = ((float)t40);
+    F5 = (15.0f);
+    if ((!(15.0f > (float)t40))) goto L_C053818;
+    goto L_C053800;
+    L_C053800:;
+    if (((int)(*(int *)((R4 + 0x0))) <= 0)) goto L_C05382E;
+    goto L_C053806;
+    L_C053806:;
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + (((int)((int)((*(int *)((R4 + 0x0))) - 1) % (int)R7)) << 2))));
+    goto L_C053832;
+    L_C05382E:;
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + 0x0)));
+    goto L_C053832;
+    L_C053818:;
+    if (((int)(*(int *)((R4 + 0x0))) <= 0)) goto L_C05382E;
+    goto L_C05381E;
+    L_C05381E:;
+    R3 = ((*(int *)((R5 + (((int)((int)(*(int *)((R4 + 0x0))) % (int)R7)) << 2)))));
+    goto L_C05382A;
 }

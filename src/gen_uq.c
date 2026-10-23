@@ -91,11 +91,11 @@ int CheckNameEntryPad(float f4, float f5)
                     *(unsigned int *)0xC2864B4 = 0x1;
                     t76 = 0xC039E28;
                 } else {
-                    if ((*(float *)0xC039F88) > u48) {
+                    if ((-0.9f) > u48) {
                         *(unsigned int *)0xC2864B4 = 0xFFFFFFFC;
                         t72 = 0xC039F88;
                     } else {
-                        if ((*(float *)0xC039F8C) > u48) {
+                        if ((-0.19999999f) > u48) {
                             *(unsigned int *)0xC2864B4 = 0xFFFFFFFE;
                         } else {
                             if (0.0f > u48) {

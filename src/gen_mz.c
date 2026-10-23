@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmGetFreeTextureMem(int, int);
-int FUN_0c073c00(void);
+int nlCommonTextureGetFreeBlock(void);
 
-int FUN_0c073c00(void)
+int nlCommonTextureGetFreeBlock(void)
 {
     int stk[4] = {0};
 

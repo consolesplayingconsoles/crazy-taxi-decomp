@@ -4,8 +4,8 @@
 int ADXB_EntryData(int, int);
 int ADXB_GetFormat(int);
 int ADXB_Start(int);
-int FUN_0c168862(int);
-int FUN_0c16887a(int);
+int ADXSJD_GetBlkSmpl(int);
+int ADXSJD_GetTotalNumSmpl(int);
 int adxsjd_decexec_start(int a4, int a5, int a6, int a7);
 
 int adxsjd_decexec_start(int a4, int a5, int a6, int a7)
@@ -160,7 +160,7 @@ int adxsjd_decexec_start(int a4, int a5, int a6, int a7)
     if (t30) goto L_C168594;
     goto L_C16858A;
     L_C16858A:;
-    t36 = FUN_0c16887a(R14);
+    t36 = ADXSJD_GetTotalNumSmpl(R14);
     t37 = *(int *)((R14 + 0x34));
     t38 = (int)t37 < (int)t36;
     t39 = t36;
@@ -181,7 +181,7 @@ int adxsjd_decexec_start(int a4, int a5, int a6, int a7)
     t44 = *(int *)((t43 + 0x1C));
     return ((int (*)(int, int, int, int))(t44))(R13, 0x1, (R14 + 0x14), R7);
     L_C16859A:;
-    t45 = FUN_0c168862(R14);
+    t45 = ADXSJD_GetBlkSmpl(R14);
     *(unsigned int *)(((int)stk + 8)) = t45;
     t46 = *(int *)((R14 + 0xC));
     *(unsigned int *)(((int)stk + 4)) = t46;

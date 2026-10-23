@@ -1,18 +1,18 @@
 /* Straight-line functions with calls and guards (batch gen_ex): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c010682(int, int, int, int);
-int FUN_0c010754(int, int, int, int);
-int FUN_0c0107fe(int, int, int, int);
-int FUN_0c010954(int, int, int);
-int FUN_0c0109c4(int);
-int FUN_0c011088(void);
-int FUN_0c0110e6(void);
-int FUN_0c011afe(void);
-int FUN_0c010402(int a4, int a5);
-int FUN_0c010f3e(int a4);
+int bootCopyBuffer(int, int, int, int);
+int bootRecvToBuffer(int, int, int, int);
+int bootSendFromBuffer(int, int, int, int);
+int bootSendData(int, int, int);
+int bootEndTransfer(int);
+int bootDevInit(void);
+int bootDevCommand(void);
+int bootSerialGetByte(void);
+int bootDispatchPacket(int a4, int a5);
+int bootSelectDevice(int a4);
 
-int FUN_0c010402(int a4, int a5)
+int bootDispatchPacket(int a4, int a5)
 {
     int t0;
     int t31;
@@ -55,15 +55,15 @@ int FUN_0c010402(int a4, int a5)
                     if (((unsigned char)t0 & 0xF0) != 0xF0) {
                     } else {
                         t1 = ((int (*)(int, int))(0xAC010A26))(0xFF, a5);
-                        FUN_0c0109c4(a4);
+                        bootEndTransfer(a4);
                         t3 = *(int *)0xAC00F708;
                         if (t3 != 0) {
-                            FUN_0c0110e6();
+                            bootDevCommand();
                         }
                         t9 = ((int (*)(void))(0xAC010E3C))();
                         t10 = *(int *)0xAC00F708;
                         if (t10 != 0) {
-                            FUN_0c011088();
+                            bootDevInit();
                         }
                         t16 = *(int *)0x8C00FA1C;
                         t17 = *(int *)((t16 + 0x7C));
@@ -73,7 +73,7 @@ int FUN_0c010402(int a4, int a5)
                             t18 = ((int (*)(void))(0xAC011AEA))();
                             t21 = 0x0;
                             if (t18 != 0) {
-                                t19 = FUN_0c011afe();
+                                t19 = bootSerialGetByte();
                                 t21 = t19;
                             }
                             t23 = ((int (*)(int))(0xAC011B2C))((unsigned char)t21);
@@ -86,7 +86,7 @@ int FUN_0c010402(int a4, int a5)
                     t40 = *(signed char *)((a5 + 0x1));
                     t41 = *(int *)((a5 + 0x4));
                     t42 = *(short *)((a5 + 0x2));
-                    t43 = FUN_0c0107fe(a4, ((unsigned char)t40 & 0x7), t41, (unsigned short)t42);
+                    t43 = bootSendFromBuffer(a4, ((unsigned char)t40 & 0x7), t41, (unsigned short)t42);
                     t44 = t43;
                 }
                 t57 = t44;
@@ -94,7 +94,7 @@ int FUN_0c010402(int a4, int a5)
                 t53 = *(signed char *)((a5 + 0x1));
                 t54 = *(int *)((a5 + 0x4));
                 t55 = *(short *)((a5 + 0x2));
-                t56 = FUN_0c010754(a4, ((unsigned char)t53 & 0x7), t54, (unsigned short)t55);
+                t56 = bootRecvToBuffer(a4, ((unsigned char)t53 & 0x7), t54, (unsigned short)t55);
                 t57 = t56;
             }
             t70 = t57;
@@ -102,20 +102,20 @@ int FUN_0c010402(int a4, int a5)
             t66 = *(signed char *)((a5 + 0x1));
             t67 = *(int *)((a5 + 0x4));
             t68 = *(short *)((a5 + 0x2));
-            t69 = FUN_0c010682(a4, ((unsigned char)t66 & 0x7), t67, (unsigned short)t68);
+            t69 = bootCopyBuffer(a4, ((unsigned char)t66 & 0x7), t67, (unsigned short)t68);
             t70 = t69;
         }
         t82 = t70;
     } else {
         t79 = *(int *)0xAC00F700;
-        FUN_0c010954(a4, t79, 0x40);
-        t81 = FUN_0c0109c4(a4);
+        bootSendData(a4, t79, 0x40);
+        t81 = bootEndTransfer(a4);
         t82 = t81;
     }
     return t82;
 }
 
-int FUN_0c010f3e(int a4)
+int bootSelectDevice(int a4)
 {
     int t0;
     int t9;

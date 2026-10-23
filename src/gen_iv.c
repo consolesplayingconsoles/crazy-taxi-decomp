@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_iv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c08933c(int, int, int, int);
-int FUN_0c089738(int, int);
-int FUN_0c089ad4(int, int, int);
-int FUN_0c089c80(int, int);
+int _sub(int, int, int, int);
+int _lsft(int, int);
+int _add(int, int, int);
+int _rsft(int, int);
 int memmove(int, int, int);
 int memset(int, int, int);
-int FUN_0c089550(int a4, int a5, int a6, int a7);
+int _div64(int a4, int a5, int a6, int a7);
 
-int FUN_0c089550(int a4, int a5, int a6, int a7)
+int _div64(int a4, int a5, int a6, int a7)
 {
     int t1;
     int t4;
@@ -112,19 +112,19 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
         if (t8 == 0) {
             break;
         }
-        t9 = FUN_0c089738((((int)stk + 4) + 0x10), 0xC);
+        t9 = _lsft((((int)stk + 4) + 0x10), 0xC);
         t7 = t9;
-        t10 = FUN_0c08933c(0x0, (((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x20), 0xC);
+        t10 = _sub(0x0, (((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x20), 0xC);
         t7 = t10;
         if ((int)t7 >= 0) {
             t11 = *(int *)(((int)stk + 4));
             t12 = *(signed char *)((t11 + 0x0));
             *(unsigned char *)((t11 + 0x0)) = (t12 + 0x1);
         } else {
-            t13 = FUN_0c089ad4((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x20), 0xC);
+            t13 = _add((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x20), 0xC);
             t7 = t13;
         }
-        t17 = FUN_0c089738((((int)stk + 4) + 0x2C), 0xC);
+        t17 = _lsft((((int)stk + 4) + 0x2C), 0xC);
         t7 = t17;
         t8 = (t8 - 1);
     }
@@ -133,7 +133,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
         if (t20 == 0) {
             break;
         }
-        FUN_0c089c80((((int)stk + 4) + 0x10), 0x10);
+        _rsft((((int)stk + 4) + 0x10), 0x10);
         t20 = (t20 - 1);
     }
     t22 = *(signed char *)(((((int)stk + 4) + 0x2C) + 0x0));
@@ -244,7 +244,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                                             if (((unsigned char)t93 & 0x80) != 0) {
                                                 break;
                                             }
-                                            FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                                            _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                                             t95 = *(short *)((a4 + 0x0));
                                             t92 = t95;
                                             t92 = (t92 - 1);
@@ -258,7 +258,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                                         if (((unsigned char)t103 & 0x80) != 0) {
                                             break;
                                         }
-                                        FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                                        _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                                         t105 = *(short *)((a4 + 0x0));
                                         t102 = t105;
                                         t102 = (t102 - 1);
@@ -272,7 +272,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                                     if (((unsigned char)t113 & 0x80) != 0) {
                                         break;
                                     }
-                                    FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                                    _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                                     t115 = *(short *)((a4 + 0x0));
                                     t112 = t115;
                                     t112 = (t112 - 1);
@@ -286,7 +286,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                                 if (((unsigned char)t123 & 0x80) != 0) {
                                     break;
                                 }
-                                FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                                _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                                 t125 = *(short *)((a4 + 0x0));
                                 t122 = t125;
                                 t122 = (t122 - 1);
@@ -300,7 +300,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                             if (((unsigned char)t133 & 0x80) != 0) {
                                 break;
                             }
-                            FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                            _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                             t135 = *(short *)((a4 + 0x0));
                             t132 = t135;
                             t132 = (t132 - 1);
@@ -314,7 +314,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                         if (((unsigned char)t143 & 0x80) != 0) {
                             break;
                         }
-                        FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                        _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                         t145 = *(short *)((a4 + 0x0));
                         t142 = t145;
                         t142 = (t142 - 1);
@@ -328,7 +328,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                     if (((unsigned char)t153 & 0x80) != 0) {
                         break;
                     }
-                    FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                    _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                     t155 = *(short *)((a4 + 0x0));
                     t152 = t155;
                     t152 = (t152 - 1);
@@ -342,7 +342,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
                 if (((unsigned char)t163 & 0x80) != 0) {
                     break;
                 }
-                FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+                _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
                 t165 = *(short *)((a4 + 0x0));
                 t162 = t165;
                 t162 = (t162 - 1);
@@ -356,7 +356,7 @@ int FUN_0c089550(int a4, int a5, int a6, int a7)
             if (((unsigned char)t173 & 0x80) != 0) {
                 break;
             }
-            FUN_0c089738(((((int)stk + 4) + 0x10) + 0x4), 0x9);
+            _lsft(((((int)stk + 4) + 0x10) + 0x4), 0x9);
             t175 = *(short *)((a4 + 0x0));
             t172 = t175;
             t172 = (t172 - 1);

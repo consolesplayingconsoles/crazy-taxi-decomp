@@ -18,12 +18,12 @@ static float iaFscaS(int a)
     _builtin_fsca(a, &u0, &u1);
     return u0;
 }
-float FUN_0c089de0(int a4);
-float FUN_0c089de8(int a4);
+float nlFastSin(int a4);
+float nlFastCos(int a4);
 float nlRotateAY(int a4);
 float nlRotateAX(int a4);
 
-float FUN_0c089de0(int a4)
+float nlFastSin(int a4)
 {
     float u0;
 
@@ -32,7 +32,7 @@ float FUN_0c089de0(int a4)
     return u0;
 }
 
-float FUN_0c089de8(int a4)
+float nlFastCos(int a4)
 {
     float u1;
 

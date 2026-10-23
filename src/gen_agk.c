@@ -16,7 +16,7 @@ int InitRenderTexture2nd(int a4, int a5, int a6, float f4)
 
     *(unsigned int *)0xC0EE7FC = (*(int *)(((((*(int *)(((((((*(int *)0xC2B3184) + 0x78) << 2) << 1) + (*(int *)0xC2AEC84)) + 0x4))) * 0x3C) + (*(int *)0xC2B29C0)) + 0x34)));
     if (a4 != 0) {
-        u5 = *(float *)0xC0393A8;
+        u5 = 0.5f;
         t6 = 0xC0EE810;
         t7 = 0x0;
         for (;;) {
@@ -32,7 +32,7 @@ int InitRenderTexture2nd(int a4, int a5, int a6, float f4)
     t15 = *(int *)0xC1EE228;
     t23 = t15;
     if (t15 == 2) {
-        u16 = *(float *)0xC0393B8;
+        u16 = 1.066f;
         t17 = 0x0;
         t18 = 0x0;
         for (;;) {

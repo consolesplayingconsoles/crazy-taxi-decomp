@@ -2,10 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Bezier(int, int, float);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c078a70(int, int, int);
-int FUN_0c15e820(int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlAddVector3op(int, int, int);
+int kmiCalcTABufferSize(int);
 int SetCameraMode(int);
 int camRestore(void);
 int camSetEye(int, int);
@@ -75,7 +75,7 @@ int kmiSetTAEnvironment(int a4, int a5, int a6, int a7, int a8)
     *(unsigned int *)0xC2EAACC = ((((unsigned int)t2 >> 2) << 1) + ((unsigned int)t2 >> 2));
     t3 = *(int *)0xC2EAAE0;
     t4 = *(int *)0xC2EAADC;
-    t5 = FUN_0c15e820((t4 * t3));
+    t5 = kmiCalcTABufferSize((t4 * t3));
     t6 = 0x0;
     t7 = 0x0;
     t8 = 0x0;

@@ -11,7 +11,7 @@ int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlSetTranslate(int);
-int nlSqrt(int, int);
+int nlCalcPoint(int, int);
 int nlTranslate(float, float, float);
 int putPlayerCarByView(int a4);
 
@@ -111,7 +111,7 @@ int putPlayerCarByView(int a4)
         nlPushMatrix(0x0);
         nlTranslate((*(float *)((t86 + 0x0))), (((*(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C))) - (*(float *)((t88 + 0x30)))) + -0.699999988f), (*(float *)((t86 + 0x8))));
         nlRotateAY((unsigned short)(*(short *)((t88 + 0x80))));
-        nlSqrt(((signed char)(((t87 << 1) + t87) << 2) + 0xC08A8A4), (t88 + 0x5C));
+        nlCalcPoint(((signed char)(((t87 << 1) + t87) << 2) + 0xC08A8A4), (t88 + 0x5C));
         nlRotateAX((unsigned short)(*(short *)((t88 + 0x82))));
         t109 = *(int *)((t85 + 0x0));
         t85 = (t85 + 0x4);

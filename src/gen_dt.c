@@ -5,15 +5,15 @@ int CheckColliWallBox(int, int, float);
 int GetLightVector(int);
 int ChangeObjGroup(int, int);
 int Result_Money_Digit_Put(void);
-int FUN_0c07c6b0(int, int);
-int FUN_0c07c9b0(int, int);
-int FUN_0c07ca80(int, int, int);
-int FUN_0c07cc00(int, int, int, int);
-int FUN_0c07d240(int, int);
-int FUN_0c07d540(void);
+int nlMvSetWorkBuffer(int, int);
+int nlMvCalcEdgeA(int, int);
+int nlMvCalcEdgeB(int, int, int);
+int nlMvPutPolygon(int, int, int, int);
+int nlMvPutStrip(int, int);
+int nlMvEndList(void);
 int nlMvSetShadowObjPutPol(int);
-int FUN_0c07d5f0(int);
-int FUN_0c07f5c0(void);
+int nlMvNotShadowObjPutPol(int);
+int nlsndSeqRequest(void);
 int Sound_Request(int, int);
 int adxf_ChkPrmGfr(int);
 extern float getNearLineIndex();
@@ -23,12 +23,12 @@ float nlLength(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutSetVtxColorMode(int);
 int nlSprPut(int);
-int FUN_0c15ca40(int a4, int a5, int a6, int a7);
+int kmtex_ConvertSmallVQFromMem(int a4, int a5, int a6, int a7);
 int lcdSetData(int a4, int a5, int a6, int a7, int a8);
 int ADXF_GetFileRange(int a4, int a5, int a6, int a7);
 int nd_StartWait_PutMessage(void);
 int menuCursor(int a4, int a5, int a6);
-int FUN_0c07c870(int a4, int a5);
+int nlMvObjPutSub(int a4, int a5);
 int Result_Money_Put(void);
 int menuCursorBox(int a4, int a5, int a6);
 int InitMV(void);
@@ -37,7 +37,7 @@ float navi_GetRouteTbl(int a4, int a5, int a6);
 float ExecColliObj(int a4, int a5, float f4);
 void navi_GetRouteYa(int a4);
 
-int FUN_0c15ca40(int a4, int a5, int a6, int a7)
+int kmtex_ConvertSmallVQFromMem(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -218,7 +218,7 @@ int ADXF_GetFileRange(int a4, int a5, int a6, int a7)
 
 
 
-int FUN_0c07c870(int a4, int a5)
+int nlMvObjPutSub(int a4, int a5)
 {
     int t0;
     int t1;
@@ -277,7 +277,7 @@ int FUN_0c07c870(int a4, int a5)
     if ((t8 & 1) == 0) {
         t9 = *(short *)((a4 + 0xC));
         t10 = *(int *)((a4 + 0x0));
-        FUN_0c07c9b0(t10, t9);
+        nlMvCalcEdgeA(t10, t9);
     } else {
         u12 = *(float *)0xC2B768C;
         u13 = *(float *)0xC2B7690;
@@ -327,16 +327,16 @@ int FUN_0c07c870(int a4, int a5)
         }
         t31 = *(short *)((a4 + 0xC));
         t32 = *(int *)((a4 + 0x0));
-        FUN_0c07ca80(t32, t31, a5);
+        nlMvCalcEdgeB(t32, t31, a5);
     }
     t35 = *(short *)((a4 + 0x10));
     t36 = *(int *)((a4 + 0x4));
     t37 = *(int *)((a4 + 0x8));
-    FUN_0c07cc00(t37, t35, t36, a5);
+    nlMvPutPolygon(t37, t35, t36, a5);
     t39 = *(short *)((a4 + 0xE));
     t40 = *(int *)((a4 + 0x4));
-    FUN_0c07d240(t40, t39);
-    return FUN_0c07d540();
+    nlMvPutStrip(t40, t39);
+    return nlMvEndList();
 }
 
 

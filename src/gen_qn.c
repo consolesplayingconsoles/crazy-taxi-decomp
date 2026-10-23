@@ -3,7 +3,7 @@
 
 int pfSetAspectRatio(float);
 int PutRenderTexture(int);
-int FUN_0c076f70(void);
+int nlRenderTextureEnd(void);
 int Pause_ExecRenderTexture2nd(void);
 
 int Pause_ExecRenderTexture2nd(void)
@@ -12,7 +12,7 @@ int Pause_ExecRenderTexture2nd(void)
 
     t0 = *(int *)0xC2A11B0;
     if (t0 == 1) {
-        FUN_0c076f70();
+        nlRenderTextureEnd();
         pfSetAspectRatio(1.0f);
         return PutRenderTexture(0x3);
     }

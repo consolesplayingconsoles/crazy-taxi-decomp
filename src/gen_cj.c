@@ -6,9 +6,9 @@ int pfAddChar(int);
 int pfAddNumber(int);
 int getShortRootPoint(int, int, int);
 int Model_Put_Sprite3D(int, int, int, float);
-float FUN_0c076200(int, float);
-int FUN_0c077210(int, int);
-int FUN_0c0813d0(int);
+float nlSinfReduce(int, float);
+int nlCalcVector(int, int);
+int abs(int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int ResetFadeColor(void);
@@ -41,11 +41,11 @@ int pfSetFont(int);
 int pfSize(float, float);
 void nlVoidUnitVector(int a4);
 float nlSinf(float f4);
-int FUN_0c07cb70(int a4, int a5, int a6);
-int FUN_0c079980(int a4);
+int nlMvClipEdge(int a4, int a5, int a6);
+int nlMakeProjConvMat(int a4);
 float carEngineTorque(float f4);
 float CalcHomingAngle(int a4);
-int FUN_0c078480(int a4, int a5);
+int nlRotateAxe(int a4, int a5);
 int fcvRotate(int a4);
 float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 int Exec_FogColor(void);
@@ -91,7 +91,7 @@ float nlSinf(float f4)
     int stk[5] = {0};
 
     *(float *)(((int)stk + 8)) = f4;
-    t0 = FUN_0c076200(((int)stk + 4), (f4 / (1.0f + 1.0f)));
+    t0 = nlSinfReduce(((int)stk + 4), (f4 / (1.0f + 1.0f)));
     t1 = *(int *)(((int)stk + 4));
     t2 = ((~(((~t1) + 0x1) & 0x1)) + 0x1);
     if ((int)t1 >= 0) {
@@ -103,7 +103,7 @@ float nlSinf(float f4)
     return (-((t0 * (1.0f + 1.0f)) / (1.0f + t0 * t0)));
 }
 
-int FUN_0c07cb70(int a4, int a5, int a6)
+int nlMvClipEdge(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -140,7 +140,7 @@ int FUN_0c07cb70(int a4, int a5, int a6)
     return t10;
 }
 
-int FUN_0c079980(int a4)
+int nlMakeProjConvMat(int a4)
 {
     float u0;
     float u1;
@@ -176,7 +176,7 @@ int FUN_0c079980(int a4)
 
 
 
-int FUN_0c078480(int a4, int a5)
+int nlRotateAxe(int a4, int a5)
 {
     float t0;
     int t1;
@@ -305,80 +305,6 @@ int fcvRotate(int a4)
 
 
 
-int PutNameEntryScreen(void)
-{
-    float u2;
-    int t3;
-    int t4;
-    int t6;
-    int t7;
-    int t13;
-    int t15;
-    int stk[30] = {0};
-
-    *(float *)(((int)stk + 24)) = 1.0f;
-    *(float *)(((int)stk + 20)) = 1.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
-    *(float *)(((int)stk + 36)) = 1.0f;
-    *(unsigned int *)(((int)stk + 44)) = 0x0;
-    *(float *)(((int)stk + 48)) = 1.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x705;
-    *(unsigned int *)(((int)stk + 52)) = 0x2;
-    *(unsigned int *)(((int)stk + 4)) = 0x125;
-    *(float *)(((int)stk + 8)) = 32.0f;
-    *(float *)(((int)stk + 12)) = 32.0f;
-    *(float *)(((int)stk + 16)) = (1.0f + 1.0f);
-    nlSprPut(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = 0x126;
-    *(float *)(((int)stk + 8)) = 544.0f;
-    nlSprPut(((int)stk + 4));
-    u2 = *(float *)0xC2864D4;
-    *(float *)(((int)stk + 24)) = u2;
-    *(float *)(((int)stk + 20)) = u2;
-    t3 = *(int *)0xC179488;
-    t4 = *(int *)((0xC0EE9CC + ((t3 & 0x3) << 2)));
-    *(unsigned int *)(((int)stk + 4)) = t4;
-    *(float *)(((int)stk + 8)) = 528.0f;
-    *(float *)(((int)stk + 12)) = 190.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x270A;
-    nlSprPut(((int)stk + 4));
-    t6 = *(int *)0xC179488;
-    t7 = *(int *)((0xC0EE9DC + ((t6 & 0x3) << 2)));
-    *(unsigned int *)(((int)stk + 4)) = t7;
-    *(float *)(((int)stk + 12)) = 276.0f;
-    nlSprPut(((int)stk + 4));
-    nlObjPutSetFadeColor(0.699999988f, 0.699999988f, 0.699999988f);
-    *(unsigned int *)(((int)stk + 4)) = 0x127;
-    *(float *)(((int)stk + 8)) = 320.0f;
-    *(float *)(((int)stk + 12)) = 190.0f;
-    nlSprPut(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = 0x146;
-    *(float *)(((int)stk + 12)) = 320.0f;
-    nlSprPut(((int)stk + 4));
-    nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-    *(float *)(((int)stk + 24)) = 1.0f;
-    *(float *)(((int)stk + 20)) = 1.0f;
-    *(unsigned int *)(((int)stk + 4)) = 0x5D;
-    *(float *)(((int)stk + 12)) = 250.0f;
-    t13 = 0x0;
-    do {
-        *(float *)(((int)stk + 8)) = (38.0f + 17.0f * (float)t13);
-        nlSprPut(((int)stk + 4));
-        t13 = (t13 + 0x1);
-    } while ((int)t13 < (int)0xA);
-    *(unsigned int *)(((int)stk + 4)) = 0x62;
-    *(float *)(((int)stk + 8)) = 0.0f;
-    *(float *)(((int)stk + 12)) = 112.0f;
-    *(float *)(((int)stk + 16)) = 3.0f;
-    *(float *)(((int)stk + 20)) = 40.0f;
-    *(float *)(((int)stk + 24)) = 30.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x705;
-    *(unsigned int *)(((int)stk + 52)) = 0x0;
-    t15 = nlSprPut(((int)stk + 4));
-    return t15;
-}
 
 
 

@@ -3,9 +3,9 @@
 
 int Start_TimeUp(void);
 int hudShowPickUpNag(void);
-int FUN_0c02d5ea(void);
+int GS_GameMain(void);
 
-int FUN_0c02d5ea(void)
+int GS_GameMain(void)
 {
     int t23;
     int t33;

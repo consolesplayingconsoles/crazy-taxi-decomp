@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_bx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c010954(int, int, int);
-int FUN_0c01098c(int, int, int);
-int FUN_0c0109c4(int);
+int bootSendData(int, int, int);
+int bootRecvData(int, int, int);
+int bootEndTransfer(int);
 int SetScreen(int);
 int SetWindow(int);
 int callLoadData(int);
 int callSaveData(int);
-int FUN_0c07f5c0(void);
+int nlsndSeqRequest(void);
 int PutStringFixPfont(int, int, float, float, float, float);
 int buIsReady(void);
 int kmGarbageCollectTexture(void);
@@ -23,14 +23,14 @@ int putLevelCTFontAssist(int, int, int, int);
 int putRecordUnit(int, int, int, int, float, float);
 int putString(int, int, float, float, float);
 int camGetOnScript(void);
-int FUN_0c073d10(void);
-int FUN_0c0107fe(int a4, int a5, int a6, int a7);
-int FUN_0c010754(int a4, int a5, int a6, int a7);
-int FUN_0c010682(int a4, int a5, int a6, int a7);
+int nlCommonTextureGarbageCollection(void);
+int bootSendFromBuffer(int a4, int a5, int a6, int a7);
+int bootRecvToBuffer(int a4, int a5, int a6, int a7);
+int bootCopyBuffer(int a4, int a5, int a6, int a7);
 int menuSaveLoadHandler(void);
 
 
-int FUN_0c073d10(void)
+int nlCommonTextureGarbageCollection(void)
 {
     int t0;
     int t1;
@@ -60,7 +60,7 @@ int FUN_0c073d10(void)
     return t2;
 }
 
-int FUN_0c0107fe(int a4, int a5, int a6, int a7)
+int bootSendFromBuffer(int a4, int a5, int a6, int a7)
 {
     int t1;
     int t20;
@@ -74,8 +74,8 @@ int FUN_0c0107fe(int a4, int a5, int a6, int a7)
     int t15;
     int t16;
 
-    FUN_0c01098c(a4, 0xAC007800, a5);
-    t1 = FUN_0c0109c4(a4);
+    bootRecvData(a4, 0xAC007800, a5);
+    t1 = bootEndTransfer(a4);
     t20 = t1;
     if (a7 != 0) {
         if (a5 != 1) {
@@ -121,7 +121,7 @@ int FUN_0c0107fe(int a4, int a5, int a6, int a7)
     return t20;
 }
 
-int FUN_0c010754(int a4, int a5, int a6, int a7)
+int bootRecvToBuffer(int a4, int a5, int a6, int a7)
 {
     int t1;
     int t26;
@@ -138,8 +138,8 @@ int FUN_0c010754(int a4, int a5, int a6, int a7)
     int t20;
     int t21;
 
-    FUN_0c01098c(a4, 0xAC007800, (a5 * a7));
-    t1 = FUN_0c0109c4(a4);
+    bootRecvData(a4, 0xAC007800, (a5 * a7));
+    t1 = bootEndTransfer(a4);
     t26 = t1;
     if (a7 != 0) {
         if (a5 != 1) {
@@ -191,7 +191,7 @@ int FUN_0c010754(int a4, int a5, int a6, int a7)
     return t26;
 }
 
-int FUN_0c010682(int a4, int a5, int a6, int a7)
+int bootCopyBuffer(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -250,8 +250,8 @@ int FUN_0c010682(int a4, int a5, int a6, int a7)
             } while ((int)t21 < (int)a7);
         }
     }
-    FUN_0c010954(a4, 0xAC007800, (a5 * a7));
-    return FUN_0c0109c4(a4);
+    bootSendData(a4, 0xAC007800, (a5 * a7));
+    return bootEndTransfer(a4);
 }
 
 

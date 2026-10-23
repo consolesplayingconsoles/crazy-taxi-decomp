@@ -6,9 +6,9 @@ int Put_Here_We_Go(int);
 int Put_ReadySetGo(int);
 int camSetMode(int);
 int gdc_PlayStreamSongDisk(void);
-int FUN_0c02d558(void);
+int GS_StartWait(void);
 
-int FUN_0c02d558(void)
+int GS_StartWait(void)
 {
     int t1;
     int t18;

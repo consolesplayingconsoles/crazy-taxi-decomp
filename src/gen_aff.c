@@ -1,103 +1,103 @@
 /* Straight-line functions with calls and guards (batch gen_aff): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Count_Remain_Drop(void);
-int Current_to_Target_angleY(void);
 int Exec_Remain_Arrow(void);
-int FcvPlay(int, int, float);
-int Put_Remain_Icon(void);
+int Put_Remain_Icon(int, int);
+int Sound_Request(int, int);
 int Start_Excellent(void);
 int Start_Fault(int);
-int humanDraw(int, int, int, int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAY(int);
-int nlTranslate(float, float, float);
-int nlTranslateV(int);
-int Exec_DCmini_Game9(int a4);
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7);
 
-int Exec_DCmini_Game9(int a4)
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
 {
-    int t95;
-    int t1;
-    int t2;
-    float u3;
-    float u4;
-    int t24;
-    int t34;
-    float u42;
-    int t52;
-    int t78;
-    int t105;
-    int stk[12] = {0};
+    int t7;
+    float u28;
+    int stk[4];
 
-    if (((*(int *)0xC1EE214) == 14) && ((t1 = *(int *)0xC2A9A2C, (int)t1 < (int)0x7) && ((t2 = *(int *)0xC1EE794, t2 != 0) && ((u3 = *(float *)0xC179148, !(-10.0f > u3)) || (u4 = *(float *)0xC17914C, 4000.0f > u4))))) {
-        *(unsigned int *)0xC2A991C = 0x0;
-    }
-    if ((*(int *)0xC2A991C) == 0) {
-        if ((int)(*(int *)0xC1794D0) >= (int)a4) {
-            Start_Excellent();
-            *(unsigned int *)0xC2A991C = 0x1;
-            *(unsigned int *)0xC179120 = 0x0;
-            if (((*(int *)0xC1EE214) == 14) && (t24 = *(int *)0xC1EE794, (int)t24 <= 0)) {
-                *(unsigned int *)0xC179120 = 0x0;
-            }
-        } else {
-            if ((*(int *)0xC1EE794) == 0) {
-                Start_Fault(0x0);
-                *(unsigned int *)0xC2A991C = 0x1;
-                *(unsigned int *)0xC179120 = 0x0;
-                if (((*(int *)0xC1EE214) == 14) && (t34 = *(int *)0xC1EE794, (int)t34 <= 0)) {
-                    *(unsigned int *)0xC179120 = 0x0;
-                }
-            } else {
-                if ((*(int *)0xC1EE214) == 14) {
-                    if ((-10.0f > (*(float *)0xC179148)) && (u42 = *(float *)0xC17914C, !(4000.0f > u42))) {
-                        Start_Fault(0x3);
-                        *(unsigned int *)0xC2A991C = 0x1;
-                    }
-                    if (((*(int *)0xC1EE214) == 14) && (t52 = *(int *)0xC1EE794, (int)t52 <= 0)) {
-                        *(unsigned int *)0xC179120 = 0x0;
-                    }
-                }
-            }
-        }
-    } else {
-        if (((*(int *)0xC1EE214) == 14) && (t78 = *(int *)0xC1EE794, (int)t78 <= 0)) {
-            *(unsigned int *)0xC179120 = 0x0;
-        }
-    }
-    if ((*(int *)0xC1EE214) != 9) {
-        Exec_Remain_Arrow();
-    } else {
-        Count_Remain_Drop();
-    }
-    Put_Remain_Icon();
-    t95 = *(int *)0xC1EE214;
-    if (t95 == 10) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)(0xC131970); }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC179144); }
-        *(unsigned short *)0xC2A9B94 = ((Current_to_Target_angleY()) + 0x8000);
-        nlPushMatrix(0x0);
-        nlTranslateV(0xC131970);
-        nlTranslate(0.0f, 0.0f, (*(float *)0xC05D4C8));
-        if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
-            t105 = (*(short *)0xC2A9A64);
-        } else {
-            t105 = (*(short *)0xC2A9B94);
-        }
-        nlRotateAY((unsigned short)t105);
-        if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
-            FcvPlay(0xC9C6C40, 0x16, (float)(*(int *)0xC2A9B90));
-        } else {
-            humanDraw(0xCADBCA8, 0x16, 0x0, 0x0);
-        }
-        nlPopMatrix(0x1);
-        nlPushMatrix(0x0);
-        nlTranslateV(0xC131988);
-        nlRotateAY((unsigned short)(*(short *)0xC2A9B94));
-        FcvPlay(0xC9EF530, 0x24, 0.0f);
-        return nlPopMatrix(0x1);
-    }
-    return t95;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R7;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F1;
+    float F2;
+    float F3;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R7 = a7;
+    L_C05D556:;
+    R13 = (0xC2A991C);
+    R14 = (0xC1EE214);
+    if (((*(int *)0xC2A991C) != 0)) goto L_C05D648;
+    goto L_C05D566;
+    L_C05D566:;
+    if (((*(int *)0xC1EE794) != 0)) goto L_C05D5BC;
+    goto L_C05D56E;
+    L_C05D56E:;
+    Start_Fault(0x1);
+    goto L_C05D626;
+    L_C05D626:;
+    *(unsigned int *)((R13 + 0x0)) = 0x1;
+    *(unsigned int *)0xC179120 = 0x0;
+    goto L_C05D648;
+    L_C05D648:;
+    t7 = *(int *)((R14 + 0x0));
+    R0 = (t7);
+    if ((t7 != 11)) goto L_C05D65A;
+    goto L_C05D64E;
+    L_C05D64E:;
+    Put_Remain_Icon(R4, R5);
+    return Exec_Remain_Arrow();
+    L_C05D65A:;
+    return R0;
+    L_C05D5BC:;
+    if ((!((*(float *)0xC179148) > 0.0f))) goto L_C05D636;
+    goto L_C05D5C8;
+    L_C05D5C8:;
+    if (((*(int *)((R14 + 0x0))) != 11)) goto L_C05D5D8;
+    goto L_C05D5CE;
+    L_C05D5CE:;
+    if (((int)(*(int *)0xC1794D0) >= (int)0x7)) goto L_C05D5E8;
+    goto L_C05D5D8;
+    L_C05D5D8:;
+    if (((*(int *)((R14 + 0x0))) == 11)) goto L_C05D648;
+    goto L_C05D5DE;
+    L_C05D5DE:;
+    if (((int)(*(int *)0xC1794D0) < (int)0x1)) goto L_C05D648;
+    goto L_C05D5E8;
+    L_C05D5E8:;
+    if (((*(int *)((R14 + 0x0))) != 11)) goto L_C05D618;
+    goto L_C05D5EE;
+    L_C05D5EE:;
+    R2 = (0xC1790CC);
+    if ((!((*(float *)0xC05D6B0) > _builtin_fabsf((*(float *)0xC179228))))) goto L_C05D618;
+    goto L_C05D5FE;
+    L_C05D5FE:;
+    u28 = *(float *)0xC05D6B4;
+    F1 = (u28);
+    if ((!(u28 > _builtin_fabsf((float)(*(short *)((R2 + 0x198))))))) goto L_C05D618;
+    goto L_C05D610;
+    L_C05D610:;
+    if (((*(int *)0xC2A98FC) == 6)) goto L_C05D620;
+    goto L_C05D618;
+    L_C05D618:;
+    if (((*(int *)0xC1EE214) == 11)) goto L_C05D648;
+    goto L_C05D620;
+    L_C05D620:;
+    Start_Excellent();
+    goto L_C05D626;
+    L_C05D636:;
+    Start_Fault(0x2);
+    *(unsigned int *)((R13 + 0x0)) = 0x1;
+    Sound_Request(0x10FA9, 0x0);
+    goto L_C05D648;
 }

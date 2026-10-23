@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_it): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c14cfe2(int);
-int FUN_0c14d2fa(int);
+int gdFsCheckMedia(int);
+int gdFsLockDir(int);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int gdFsGetDirEnt(int, int, int, int);
@@ -12,9 +12,9 @@ int gdFsReadWG(int, int, int);
 int gdFsReopenHn(int, int, int, int);
 int gdFsWaitCompleteReq(int);
 int syChainAddHandler(int, int, int, int);
-int FUN_0c14d324(int a4, int a5, int a6, int a7);
+int gdFsInitSub(int a4, int a5, int a6, int a7);
 
-int FUN_0c14d324(int a4, int a5, int a6, int a7)
+int gdFsInitSub(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -240,7 +240,7 @@ int FUN_0c14d324(int a4, int a5, int a6, int a7)
                             if (t76 != 0) {
                             } else {
                                 t77 = *(int *)0xC177A8C;
-                                t78 = FUN_0c14cfe2((t77 + 0x40));
+                                t78 = gdFsCheckMedia((t77 + 0x40));
                                 t205 = 0xFFFFFFFB;
                                 if (t78 == 0) {
                                 } else {
@@ -338,7 +338,7 @@ int FUN_0c14d324(int a4, int a5, int a6, int a7)
                                                                 } else {
                                                                     t133 = *(int *)0xC177A8C;
                                                                     t134 = *(int *)((t133 + 0x10));
-                                                                    FUN_0c14d2fa(t134);
+                                                                    gdFsLockDir(t134);
                                                                     t136 = *(int *)0xC177A8C;
                                                                     *(unsigned short *)((t136 + 0x38)) = 0x1;
                                                                     t141 = 0x0;

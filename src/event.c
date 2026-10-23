@@ -1,5 +1,7 @@
+extern int InitNaolib2();
+extern int nlInitHeapMemory();
 /* Reference C, not built: heapInit/heapAlloc/heapFree need the original compiler (docs/engine.md, "The compiler"). Range 0C0293C8-0C029748. */
-/* The game's memory heap and event list (0x0C0293C8-0x0C029748).
+/* The game's memory heap and event list (((int)nlInitHeapMemory)-((int)InitNaolib2)).
 
    Heap: one block of RAM split into blocks with a size word before the payload and a tag after
    it (size + 4 while free, -(size + 4) in use); free blocks form a list and merge with free

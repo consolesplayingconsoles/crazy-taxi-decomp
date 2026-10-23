@@ -4,7 +4,7 @@
 int gdc_VolStreamSong(int);
 int gdc_PlayStreamSong(int);
 int CarSel_SetBackColor(void);
-int FUN_0c074680(void);
+int nlSetBackColor(void);
 int kmiInitializeDMA(void);
 int kmiWriteRegister(int, int);
 int nlObjPutSetFadeColor(float, float, float);
@@ -17,7 +17,7 @@ int kmiInitializeTA(void);
 
 int InitEndRoll(void)
 {
-    FUN_0c074680();
+    nlSetBackColor();
     pfSetFont(0x0);
     pfSize(1.0f, 1.0f);
     gdc_PlayStreamSong(0x3);

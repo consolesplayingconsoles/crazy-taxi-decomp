@@ -3,7 +3,7 @@
 
 int nlSpriteLoadTextureOnce_Sub(int, int, int, int);
 void kmiWaitVlank(void);
-int FUN_0c07db40(int a4, int a5);
+int nlSpriteLoadTextureGI(int a4, int a5);
 
 void kmiWaitVlank(void)
 {
@@ -19,7 +19,7 @@ void kmiWaitVlank(void)
     }
 }
 
-int FUN_0c07db40(int a4, int a5)
+int nlSpriteLoadTextureGI(int a4, int a5)
 {
     int t0;
     int t1;

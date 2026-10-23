@@ -1,18 +1,18 @@
 /* Straight-line functions with calls and guards (batch gen_abm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07fb70(int, int, int);
-int FUN_0c07fc40(int);
-int FUN_0c07fd00(int);
-int FUN_0c1718c4(int);
+int nlsndStreamGetBufInfo(int, int, int);
+int nlsndStreamOpen(int);
+int nlsndStreamClose(int);
+int mwlSbAllocWork(int);
 int mwRnaErrCallFunc(int, ...);
 int mwlSbAlloc(void);
 int nlsndG2DmaHandleClose(int);
 int nlsndG2DmaHandleOpen(void);
 int nlsndStreamGenerateHdInfo(int);
-int FUN_0c17195a(int a4);
+int mwSbOpenPort(int a4);
 
-int FUN_0c17195a(int a4)
+int mwSbOpenPort(int a4)
 {
     int t0;
     int t2;
@@ -42,14 +42,14 @@ int FUN_0c17195a(int a4)
                     t2 = 0x0;
                     for (;;) {
                         if ((int)t2 >= (int)a4) {
-                            *(unsigned short *)((t0 + 0x6)) = (FUN_0c07fc40(a4));
+                            *(unsigned short *)((t0 + 0x6)) = (nlsndStreamOpen(a4));
                             t4 = *(short *)((t0 + 0x6));
                             if (((int)t4 >= 0) && ((int)t4 <= (int)0x7)) {
-                                t6 = FUN_0c1718c4((*(short *)((t0 + 0x6))));
+                                t6 = mwlSbAllocWork((*(short *)((t0 + 0x6))));
                                 *(unsigned int *)((t0 + 0x1C)) = t6;
                                 if (t6 == 0) {
                                     mwRnaErrCallFunc(0xC176BB4);
-                                    FUN_0c07fd00((*(short *)((t0 + 0x6))));
+                                    nlsndStreamClose((*(short *)((t0 + 0x6))));
                                     return 0x0;
                                 }
                                 nlsndStreamGenerateHdInfo((*(int *)(((*(int *)((t0 + 0x1C))) + 0x4))));
@@ -58,8 +58,8 @@ int FUN_0c17195a(int a4)
                                 *(unsigned int *)((t0 + 0x18)) = 0x0;
                                 *(unsigned int *)((t0 + 0xC)) = a4;
                                 *(unsigned int *)((t0 + 0x8)) = a4;
-                                *(unsigned int *)((t0 + 0x20)) = (FUN_0c07fb70((*(short *)((t0 + 0x6))), 0x0, (((int)stk + 8) + 0x4)));
-                                *(unsigned int *)((t0 + 0x24)) = (FUN_0c07fb70((*(short *)((t0 + 0x6))), 0x1, (((int)stk + 8) + 0x4)));
+                                *(unsigned int *)((t0 + 0x20)) = (nlsndStreamGetBufInfo((*(short *)((t0 + 0x6))), 0x0, (((int)stk + 8) + 0x4)));
+                                *(unsigned int *)((t0 + 0x24)) = (nlsndStreamGetBufInfo((*(short *)((t0 + 0x6))), 0x1, (((int)stk + 8) + 0x4)));
                                 *(unsigned int *)((t0 + 0x28)) = (*(int *)(((int)stk + 12)));
                                 *(unsigned int *)((t0 + 0x48)) = 0xFFFFFFFF;
                                 *(unsigned int *)((t0 + 0x4C)) = 0x0;

@@ -2,7 +2,7 @@
    vibration init, and Kamui's fog density register. Globals are addressed directly where the decomp has no name for them yet. */
 
 void nlRandomSeed(int seed);
-void FUN_0c07f5c0(int a);
+void nlsndSeqRequest(int a);
 int pdVibSetStopTime(int t, char *a, char *b, int c);
 int kmiWriteRegister(int off, int v);
 
@@ -48,7 +48,7 @@ void CourseObj_Init(void)
 }
 
 /* Starts entry i when it is in use and not yet started (marking it started); else returns its byte 0 or 1. */
-int FUN_0c07fd30(short i)
+int nlsndStreamStart(short i)
 {
     char *e = ENTRIES + i * 24;
 
@@ -56,7 +56,7 @@ int FUN_0c07fd30(short i)
         return e[0];
     if (e[1])
         return e[1];
-    FUN_0c07f5c0((i << 12) + 0x1A1);
+    nlsndSeqRequest((i << 12) + 0x1A1);
     e[1] = 1;
     return 1;
 }

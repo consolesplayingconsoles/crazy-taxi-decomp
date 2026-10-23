@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_an): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c1534a0(int, int, int);
-int FUN_0c1534ca(int);
+int kmiBGPlaneSetPCW(int, int, int);
+int kmiBGPlaneCountWords(int);
 int Sound_Request(int, int);
 int TrafficLevelChange(int);
 int ndPuru2Start(int, int, int);
@@ -103,8 +103,8 @@ int kmiProcessVertex_02(int a4)
     u31 = *(float *)(((0x18 + t30) + 0x0));
     *(unsigned int *)0xC2EA75C = ((((((int)(u31 * u14) << 16) << 8) | ((int)(u31 * u14) << 16)) | ((int)(u31 * u14) << 8)) | (int)(u31 * u14));
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t32 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t32, 0x0, 0x0);
+    t32 = kmiBGPlaneCountWords(t3);
+    kmiBGPlaneSetPCW(t32, 0x0, 0x0);
     t34 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
     t35 = *(int *)((t34 + 0xC));
     *(unsigned int *)0xC2EA830 = t35;

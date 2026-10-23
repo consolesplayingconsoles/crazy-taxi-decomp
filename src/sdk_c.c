@@ -25,15 +25,15 @@ void nlCreateTextureParamA(void *s);
 void kmSetBorderColor(unsigned int c);
 float nlSin(int a);
 float nlLog(float x);
-void FUN_0c0770f0(int a, int b, int c);
+void nlSetPaletteData(int a, int b, int c);
 void nlUnitVector(float *v);
-void FUN_0c078480(float *v, int a);
+void nlRotateAxe(float *v, int a);
 int nlObjPutLoadTextureOnce_Sub(int a, int b, int i, int *pi, int z);
 void kmSetCheapShadowMode(void);
 void nlObjPutMvSetMode(int mode);
-void FUN_0c07aad0(int a);
+void nlObjPutMvSetClosingMode(int a);
 void nlstripSetVertexContext(void *a);
-void FUN_0c080ae0(int a, int b, int c);
+void nldispstripSub(int a, int b, int c);
 
 void nlLoadDummyTexture(void)
 {
@@ -47,7 +47,7 @@ void nlReloadPalette(int idx, int b)
     char *e = g_0c2b7bd8 + idx * 8;
 
     if (*(short *)(e + 4)) {
-        FUN_0c0770f0(*(short *)e << 4, b, *(unsigned char *)(e + 3) << 4);
+        nlSetPaletteData(*(short *)e << 4, b, *(unsigned char *)(e + 3) << 4);
     }
 }
 
@@ -99,7 +99,7 @@ void nlRotate(float *v, int ang)
     t.v[1] = v[1];
     t.v[2] = v[2];
     nlUnitVector(t.v);
-    FUN_0c078480(t.v, t.a);
+    nlRotateAxe(t.v, t.a);
 }
 
 float nlScalor(float *v)
@@ -138,7 +138,7 @@ void nlObjPutMvInit(void)
 {
     kmSetCheapShadowMode();
     nlObjPutMvSetMode(1);
-    FUN_0c07aad0(1);
+    nlObjPutMvSetClosingMode(1);
 }
 
 void nlObjPutSetFadeColor(float r, float g, float b)
@@ -189,7 +189,7 @@ int nlsndG2DmaHandleClose(int *h)
 void nlDispStripTrnslX(int a, int b, int c)
 {
     nlstripSetVertexContext(g_0c14aaf0);
-    FUN_0c080ae0(a, b, c);
+    nldispstripSub(a, b, c);
 }
 
 int strlen(const char *s)

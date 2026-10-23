@@ -14,22 +14,22 @@ int ADXSJD_SetMaxDecSmpl(int, int);
 int ADXSTM_EntryEosFunc(int, int, int);
 int ADXSTM_SetEos(int, int);
 int ADXT_Stop(void);
-int FUN_0c167c24(int, int);
-int FUN_0c168808(int, int, int);
-int FUN_0c168812(int, int);
-int FUN_0c16881a(int, int);
-int FUN_0c168826(int, int);
-int FUN_0c168832(int);
-int FUN_0c16883e(int);
-int FUN_0c16884a(int);
-int FUN_0c168856(int);
-int FUN_0c168862(int);
-int FUN_0c16887a(int);
-int FUN_0c168892(int);
-int FUN_0c1688c2(int);
-int FUN_0c1688ce(int);
-int FUN_0c1688da(int);
-int FUN_0c16d2c0(void);
+int ADXAMP_SetSfreq(int, int);
+int ADXSJD_EntryTrapFunc(int, int, int);
+int ADXSJD_SetTrapNumSmpl(int, int);
+int ADXSJD_SetTrapCnt(int, int);
+int ADXSJD_SetTrapDtLen(int, int);
+int ADXSJD_GetFormat(int);
+int ADXSJD_GetSfreq(int);
+int ADXSJD_GetNumChan(int);
+int ADXSJD_GetOutBps(int);
+int ADXSJD_GetBlkSmpl(int);
+int ADXSJD_GetTotalNumSmpl(int);
+int ADXSJD_GetNumLoop(int);
+int ADXSJD_GetLpEndPos(int);
+int ADXSJD_GetLpEndOfst(int);
+int ADXSJD_GetSpsdInfo(int);
+int kmiSetVideoTimings(void);
 int adxt_set_outpan(int);
 int buIsFormat(void);
 int get_fat(int, int);
@@ -333,15 +333,15 @@ int adxt_stat_decinfo(int a4)
     if (t1 != 2) {
         return t1;
     }
-    t2 = FUN_0c16884a(t0);
+    t2 = ADXSJD_GetNumChan(t0);
     t3 = *(signed char *)((a4 + 0x3));
     if ((int)t2 > (int)t3) {
         t4 = *(signed char *)((a4 + 0x3));
         ADXERR_CallErrFunc();
         return ADXT_Stop();
     }
-    t6 = FUN_0c16883e(t0);
-    t7 = FUN_0c168892(t0);
+    t6 = ADXSJD_GetSfreq(t0);
+    t7 = ADXSJD_GetNumLoop(t0);
     if ((int)t7 > 0) {
         t8 = *(int *)((a4 + 0x38));
         t9 = (int)((int)t6 / (int)t8);
@@ -354,7 +354,7 @@ int adxt_stat_decinfo(int a4)
         t15 = (t13 >> 1);
     }
     *(unsigned int *)(((0x48 + a4) + 0x0)) = t15;
-    t17 = FUN_0c168862(t0);
+    t17 = ADXSJD_GetBlkSmpl(t0);
     t18 = *(int *)((a4 + 0x48));
     t19 = (int)((int)(t18 + (t17 << 1)) / (int)(t17 << 1));
     *(unsigned int *)(((0x48 + a4) + 0x0)) = (t19 * (t17 << 1));
@@ -365,7 +365,7 @@ int adxt_stat_decinfo(int a4)
         if (t22 == 2) {
             *(unsigned int *)((a4 + 0x50)) = 0x0;
         } else {
-            t23 = FUN_0c1688ce(t0);
+            t23 = ADXSJD_GetLpEndOfst(t0);
             t24 = (int)((int)t23 % (int)0x800);
             *(unsigned int *)((a4 + 0x50)) = (0x800 - t24);
             t25 = *(int *)(((0x50 + a4) + 0x0));
@@ -377,11 +377,11 @@ int adxt_stat_decinfo(int a4)
             t30 = *(int *)((a4 + 0x8));
             ADXSTM_EntryEosFunc(t30, 0xC168FCC, a4);
         }
-        t33 = FUN_0c1688c2(t0);
-        FUN_0c168812(t0, t33);
-        FUN_0c168826(t0, 0x0);
-        FUN_0c16881a(t0, 0x0);
-        FUN_0c168808(t0, 0xC168F00, a4);
+        t33 = ADXSJD_GetLpEndPos(t0);
+        ADXSJD_SetTrapNumSmpl(t0, t33);
+        ADXSJD_SetTrapDtLen(t0, 0x0);
+        ADXSJD_SetTrapCnt(t0, 0x0);
+        ADXSJD_EntryTrapFunc(t0, 0xC168F00, a4);
     } else {
         t38 = *(int *)((a4 + 0x8));
         if (t38 != 0) {
@@ -389,10 +389,10 @@ int adxt_stat_decinfo(int a4)
             ADXSTM_SetEos(t39, 0x7FFFFFFF);
         }
     }
-    t43 = FUN_0c16883e(t0);
-    FUN_0c16884a(t0);
-    FUN_0c16887a(t0);
-    FUN_0c168856(t0);
+    t43 = ADXSJD_GetSfreq(t0);
+    ADXSJD_GetNumChan(t0);
+    ADXSJD_GetTotalNumSmpl(t0);
+    ADXSJD_GetOutBps(t0);
     t47 = *(int *)((a4 + 0xC));
     ADXRNA_SetBitPerSmpl();
     t49 = *(int *)((a4 + 0xC));
@@ -408,11 +408,11 @@ int adxt_stat_decinfo(int a4)
     t59 = *(int *)((a4 + 0x74));
     if (t59 != 0) {
         t60 = *(int *)((a4 + 0x74));
-        FUN_0c167c24(t60, t43);
+        ADXAMP_SetSfreq(t60, t43);
     }
-    t63 = FUN_0c168832(t0);
+    t63 = ADXSJD_GetFormat(t0);
     if (t63 == 2) {
-        FUN_0c1688da(t0);
+        ADXSJD_GetSpsdInfo(t0);
         t65 = *(int *)((a4 + 0xC));
         ADXRNA_SetStmHdInfo();
     }
@@ -810,7 +810,7 @@ int kmiInitNTSC(void)
     *(unsigned int *)((((int)stk + 4) + 0x4)) = t116;
     t117 = *(int *)((((int)stk + 256) + 0x0));
     *(unsigned int *)((((int)stk + 4) + 0x0)) = t117;
-    t118 = FUN_0c16d2c0();
+    t118 = kmiSetVideoTimings();
     return t118;
 }
 

@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_afo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c040a94(void);
-int FUN_0c040acc(void);
+int callNameEntry(void);
+int callNameDelete(void);
 int memmove(int, int, int);
 int menuCursor(int, int, int);
 int menuPutSprites(int, int, int, int);
@@ -52,14 +52,14 @@ int windowNameSelect(void)
         if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) != 2) {
             t52 = *(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)));
             if (t52 == 3) {
-                return FUN_0c040acc();
+                return callNameDelete();
             }
             if (t52 == 4) {
-                return FUN_0c040a94();
+                return callNameEntry();
             }
             return windowEnterStep(0x14);
         }
-        return FUN_0c040a94();
+        return callNameEntry();
     }
     return windowEnterStep(0x14);
 }

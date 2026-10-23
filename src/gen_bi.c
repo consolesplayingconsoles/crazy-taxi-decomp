@@ -7,7 +7,7 @@ int Drv_SetMotion(int, float);
 int rinRand(void);
 int psgStepBlend(int);
 int psgUpdatePartTracks(int);
-int nlSqrt(int, int);
+int nlCalcPoint(int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int GetAverageAngle(int, int, float);

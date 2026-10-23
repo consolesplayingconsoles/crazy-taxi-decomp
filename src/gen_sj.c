@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmiWriteRegister(int, int);
-void FUN_0c14ac40(int a4);
+void kmSetAlphaThreshold(int a4);
 
-void FUN_0c14ac40(int a4)
+void kmSetAlphaThreshold(int a4)
 {
     int t0;
     int t2;

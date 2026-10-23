@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ph): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void FUN_0c07b480(void);
+void nlIntrHandlerEvent900(void);
 
-void FUN_0c07b480(void)
+void nlIntrHandlerEvent900(void)
 {
     int t0;
     int t1;

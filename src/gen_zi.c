@@ -1,66 +1,71 @@
 /* Straight-line functions with calls and guards (batch gen_zi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int char2num(int);
 int nlSprPut(int);
-int PutNameEntryDrum(int a4, float f4);
+void PutNameEntryName(void);
 
-int PutNameEntryDrum(int a4, float f4)
+void PutNameEntryName(void)
 {
-    int t0;
-    float u4;
-    float u6;
-    float u7;
-    float u10;
-    int t23;
-    int stk[35] = {0};
+    float u0;
+    float u1;
+    float u2;
+    float u5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    float u11;
+    float u12;
+    int t14;
+    int t16;
+    float u19;
+    int stk[31];
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(float *)(((int)stk + 28)) = 420.0f;
-    *(float *)(((int)stk + 32)) = 1.0f;
+    u0 = *(float *)0xC039D0C;
+    u1 = *(float *)0xC2864D4;
+    u2 = *(float *)0xC039D10;
+    *(float *)(((int)stk + 12)) = (*(float *)0xC039D14);
+    *(float *)(((int)stk + 16)) = (*(float *)0xC039D18);
+    u5 = *(float *)0xC2864D4;
+    *(float *)(((int)stk + 24)) = (u5 * (1.0f + 1.0f));
+    *(float *)(((int)stk + 20)) = (u5 * (1.0f + 1.0f));
+    *(float *)(((int)stk + 32)) = 0.0f;
+    *(float *)(((int)stk + 28)) = 0.0f;
     *(float *)(((int)stk + 40)) = 1.0f;
     *(float *)(((int)stk + 36)) = 1.0f;
-    *(float *)(((int)stk + 48)) = 0.0f;
-    *(float *)(((int)stk + 44)) = 0.0f;
-    *(float *)(((int)stk + 56)) = 1.0f;
-    *(float *)(((int)stk + 52)) = 1.0f;
-    *(unsigned int *)(((int)stk + 60)) = 0x0;
-    *(float *)(((int)stk + 64)) = 1.0f;
-    *(unsigned int *)(((int)stk + 72)) = 0x70E;
-    *(unsigned int *)(((int)stk + 68)) = 0x2;
-    *(float *)(((int)stk + 16)) = ((1.0f + 1.0f) - f4);
-    *(float *)(((int)stk + 12)) = (32.0f - (f4 * 16.0f));
-    *(float *)(((int)stk + 8)) = (f4 + 1.0f);
-    t0 = 0xFFFFFFF6;
+    *(unsigned int *)(((int)stk + 44)) = 0x0;
+    *(float *)(((int)stk + 48)) = 1.0f;
+    *(unsigned int *)(((int)stk + 56)) = 0x70A;
+    *(unsigned int *)(((int)stk + 52)) = 0x2;
+    t6 = 0x2C;
+    t7 = 0x0;
+    t8 = 0xC2864D0;
+    t9 = 0xC2864D0;
+    u11 = (1.0f + 1.0f);
+    u12 = (u2 - (u1 * u0));
     for (;;) {
-        *(unsigned int *)(((int)stk + 20)) = (*(int *)((0xC0EE918 + (((int)((unsigned int)(((*(int *)(((int)stk + 4))) + t0) + 0x2D) % (unsigned int)0x2D)) << 2))));
-        u4 = 336.0f;
-        u4 = u4 + 32.0f * ((float)t0 + f4);
-        *(float *)(((int)stk + 24)) = u4;
-        if (t0 == 0) {
-            *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (16.0f - (f4 * 16.0f)));
-            u6 = *(float *)(((int)stk + 16));
-            u7 = *(float *)0xC2864D4;
-            *(float *)(((int)stk + 40)) = (u6 * u7);
-            *(float *)(((int)stk + 36)) = (u6 * u7);
-        } else {
-            if (t0 == -1) {
-                *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (*(float *)(((int)stk + 12))));
-                u10 = *(float *)(((int)stk + 8));
-                *(float *)(((int)stk + 40)) = u10;
-                *(float *)(((int)stk + 36)) = u10;
-            } else {
-                *(float *)(((int)stk + 40)) = 1.0f;
-                *(float *)(((int)stk + 36)) = 1.0f;
-                if ((int)t0 < 0) {
-                    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - 32.0f);
-                }
+        if ((*(signed char *)((t8 + 0x0))) != 0) {
+            t14 = *(signed char *)((t9 + 0x0));
+            t9 = (t9 + 0x1);
+            t6 = (char2num(t14));
+            t6 = (t6 << 2);
+            t16 = *(int *)((0xC0EE918 + t6));
+            t6 = 0x4;
+            *(unsigned int *)(((int)stk + 4)) = t16;
+            *(float *)((((int)stk + 4) + t6)) = u12;
+            t6 = (nlSprPut(((int)stk + 4)));
+            u11 = (*(float *)0xC2864D4);
+            t7 = (t7 + 0x1);
+            u19 = u12;
+            u19 = u19 + (u0) * u11;
+            u12 = u19;
+            t8 = (t8 + 0x1);
+            if ((int)t7 >= (int)0x3) {
+                break;
             }
+            continue;
         }
-        t23 = nlSprPut((((int)stk + 4) + 0x10));
-        t0 = (t0 + 0x1);
-        if ((int)t0 >= (int)0xA) {
-            break;
-        }
+        break;
     }
-    return t23;
 }

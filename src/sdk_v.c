@@ -1,26 +1,26 @@
 /* Small library functions (batch v): the two frame-buffer queues' sort and collect, the vmsfs work area's device kind. */
 
-void FUN_0c157580(int *a, int *b);
-int FUN_0c15762c(int *a, int *b, int *c, int *d);
+void FBSortQueue(int *a, int *b);
+int FBCompQueue(int *a, int *b, int *c, int *d);
 
 #define QUEUE_A         ((int *)0x0C177FBC)
 #define QUEUE_B         ((int *)0x0C177FD0)
 
 int kmiFBSortQueue(void)
 {
-    FUN_0c157580(QUEUE_A, QUEUE_A + 1);
-    FUN_0c157580(QUEUE_B, QUEUE_B + 1);
-    FUN_0c157580(QUEUE_A + 2, QUEUE_A + 3);
-    FUN_0c157580(QUEUE_B + 2, QUEUE_B + 3);
+    FBSortQueue(QUEUE_A, QUEUE_A + 1);
+    FBSortQueue(QUEUE_B, QUEUE_B + 1);
+    FBSortQueue(QUEUE_A + 2, QUEUE_A + 3);
+    FBSortQueue(QUEUE_B + 2, QUEUE_B + 3);
     return 0;
 }
 
 int kmiFBGarbageCollect(void)
 {
-    int r = FUN_0c15762c(QUEUE_A + 2, QUEUE_A + 3, QUEUE_A, QUEUE_A + 1);
+    int r = FBCompQueue(QUEUE_A + 2, QUEUE_A + 3, QUEUE_A, QUEUE_A + 1);
 
     if (r == 0)
-        r = FUN_0c15762c(QUEUE_B + 2, QUEUE_B + 3, QUEUE_B, QUEUE_B + 1);
+        r = FBCompQueue(QUEUE_B + 2, QUEUE_B + 3, QUEUE_B, QUEUE_B + 1);
     return r;
 }
 

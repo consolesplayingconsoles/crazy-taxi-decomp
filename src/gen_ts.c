@@ -1,3 +1,5 @@
+extern int usr_adx_err_func();
+extern int usr_gd_err_func();
 /* Straight-line functions with calls and guards (batch gen_ts): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -5,12 +7,12 @@ int ADXF_Init(void);
 int BupInit(void);
 int CfgInit(void);
 int CourseTableSet(int);
-int FUN_0c074300(int);
-int FUN_0c074970(int);
-int FUN_0c07eb10(int, int);
-int FUN_0c07f5c0(int);
-int FUN_0c07f870(int, int, int);
-int FUN_0c1519be(void);
+int nlSetPalExtMode(int);
+int nlInitLibraryDC(int);
+int nlsndInit(int, int);
+int nlsndSeqRequest(int);
+int nlsndStreamInit(int, int, int);
+int ADXT_Init(void);
 int InitBookkeep(void);
 int InitMV(void);
 int InitMenu(void);
@@ -44,8 +46,8 @@ int nlInitEvent(void);
 int nlInitHeapMemory(int, int);
 int nlLoadDummyTexture(void);
 int nlLocate(int, int);
-int nlObjPutLoadTextureCallBack(int);
-int nlObjPutMLPreCalcLightRestore(void);
+int nlSetIntrStack(int);
+int nlInitInterruptDC(void);
 int nlPrintf(int, ...);
 int nlSetFontSize(int, int);
 int nlSetIntrFunction(int);
@@ -57,7 +59,7 @@ int syHwInit(void);
 int syHwInit2(void);
 int syRtcInit(void);
 int sysCfgRead(void);
-int thunk_njSetConstantAttr(int, int);
+int thunk_ADXT_EntryErrFunc(int, int);
 int InitSys(void);
 
 int InitSys(void)
@@ -75,7 +77,7 @@ int InitSys(void)
 
     _builtin_set_imask(0xE);
     t0 = *(int *)0xC089F5C;
-    nlObjPutLoadTextureCallBack(t0);
+    nlSetIntrStack(t0);
     syHwInit();
     t3 = syCblCheck();
     if (t3 != 0) {
@@ -93,27 +95,27 @@ int InitSys(void)
     }
     t7 = *(int *)0xC1EE228;
     if (t7 == 1) {
-        FUN_0c074970(0x0);
+        nlInitLibraryDC(0x0);
     } else {
         t13 = 0x9;
         if (t7 == 2) {
-            FUN_0c074300(0x1);
+            nlSetPalExtMode(0x1);
             t13 = 0x1A;
         }
-        FUN_0c074970(t13);
+        nlInitLibraryDC(t13);
     }
     _builtin_set_imask(0xE);
     syHwInit2();
     pdInitPeripheral(0x0, 0xC1A99F8, 0xC1B5A18);
-    nlObjPutMLPreCalcLightRestore();
+    nlInitInterruptDC();
     nlSetIntrFunction(0x1);
     _builtin_set_imask(0x0);
     syRtcInit();
     fsInit();
-    gdFsEntryErrFuncAll(0xC02A3EC, 0x0);
-    FUN_0c1519be();
+    gdFsEntryErrFuncAll(((int)usr_gd_err_func), 0x0);
+    ADXT_Init();
     ADXF_Init();
-    thunk_njSetConstantAttr(0xC02A476, 0x0);
+    thunk_ADXT_EntryErrFunc(((int)usr_adx_err_func), 0x0);
     *(unsigned int *)0xC1EE208 = 0x0;
     sysCfgRead();
     *(unsigned int *)0xC1EE234 = 0x0;
@@ -144,7 +146,7 @@ int InitSys(void)
     nlInitHeapMemory(0xC1799E8, 0x30000);
     nlInitEvent();
     gdc_FileLoad(0xCB40000, 0xC08AAF0, 0x0);
-    t49 = FUN_0c07eb10(0xCB40000, 0x0);
+    t49 = nlsndInit(0xCB40000, 0x0);
     if (t49 != 0) {
         nlSetFontSize(0x10, 0x10);
         nlLocate(0xA, 0xC);
@@ -162,8 +164,8 @@ int InitSys(void)
     nlsndPackLoad(0xCB40000, 0x1);
     gdc_FileLoad(0xCB40000, 0xC08AB24, 0x0);
     nlsndPackLoad(0xCB40000, 0x3);
-    FUN_0c07f5c0(0xA8);
-    FUN_0c07f870(0x4, 0x1, 0x0);
+    nlsndSeqRequest(0xA8);
+    nlsndStreamInit(0x4, 0x1, 0x0);
     gdc_StreamInit();
     Sound_Init();
     Voice_Init();

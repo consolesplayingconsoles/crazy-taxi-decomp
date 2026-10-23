@@ -385,7 +385,7 @@ int replayChangeControl(int a4, int a5, int a6, int a7, float f4)
     goto L_C04CECA;
     L_C04CECA:;
     replay(R4);
-    *(unsigned int *)(((int)stk + 32)) = 0xC02D00C;
+    *(unsigned int *)(((int)stk + 32)) = ((int)Initialize_Replay_Part);
     Initialize_Replay_Part();
     if (((*(int *)((R8 + 0x0))) != 0)) goto L_C04CF52;
     goto L_C04CEDE;
@@ -825,7 +825,7 @@ int replayChangeControl(int a4, int a5, int a6, int a7, float f4)
     goto L_C04C9E0;
     L_C04C9E0:;
     *(unsigned char *)0xC1EE35C = 0x1;
-    *(unsigned int *)(((int)stk + 32)) = 0xC02D00C;
+    *(unsigned int *)(((int)stk + 32)) = ((int)Initialize_Replay_Part);
     Initialize_Replay_Part();
     *(unsigned int *)(((int)stk + 36)) = (((int)stk + 32) + 0x1C);
     *(unsigned int *)(((((int)stk + 32) + 0x1C) + 0x0)) = (*(int *)0xC1790F4);
@@ -941,3 +941,4 @@ int replayChangeControl(int a4, int a5, int a6, int a7, float f4)
     R14 = (0xC0F3A40);
     goto L_C04C744;
 }
+

@@ -1,3 +1,4 @@
+extern int setObjPieceExecSleep();
 /* setObjHitScatter: the callback that scatters the pieces of a broken object. Written from the generator's C with two changes the original needs:
    the float it returns is what its last call, KillColliObj, leaves in fr0 (that call is declared to return a float and its result is
    returned), and the sum added to each position is computed first (a volatile temporary), because the original adds old + (random - 0.5)
@@ -44,7 +45,7 @@ float setObjHitScatter(int a4)
         nlPushMatrix(0x0);
         t6 = 0x0;
         for (;;) {
-            t8 = set_event(0x84, 0xC0385E2);
+            t8 = set_event(0x84, ((int)setObjPieceExecSleep));
             if (t8 != 0) {
                 t7 = t8;
                 t7 = (t7 + 0x14);

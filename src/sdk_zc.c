@@ -83,12 +83,12 @@ int syRtcAicaSetDateHi(int hi)
     return 0;
 }
 
-int FUN_0c074990(int color, int b, int c, int d)
+int nlSetFogColor(int color, int b, int c, int d)
 {
     return kmSetFogTableColor(color, b, c, d, color);
 }
 
-int FUN_0c0749b0(int color, int b, int c, int d)
+int nlSetFogVertexColor(int color, int b, int c, int d)
 {
     return kmSetFogVertexColor(color, b, c, d, color);
 }
@@ -173,7 +173,7 @@ int mpdrv_set_bread_ns(int port, int block, int a, int b, int c)
 }
 
 /* G2 bus settings at 0C2EA82C: mode (low 3 bits of m) in bits 24-26, bit 28 for c, bit 27 for b. */
-void FUN_0c1534a0(int m, int b, int c)
+void kmiBGPlaneSetPCW(int m, int b, int c)
 {
     *(int *)0x0C2EA82C = (m & 7) << 24;
     if (c) {

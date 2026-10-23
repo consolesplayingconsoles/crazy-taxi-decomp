@@ -2,9 +2,9 @@
    wrappers. Globals are addressed directly where the decomp has no name for them yet. */
 
 void *memset(void *p, int c, unsigned int n);
-int FUN_0c16766c(int a, int b);
-int FUN_0c1676f8(void);
-int FUN_0c167694(void);
+int gdGdcReqCmd(int a, int b);
+int gdGdcCheckDmaTrans(void);
+int gdGdcExecServer(void);
 void nlsndStreamSetHdBitSize(int a, int b);
 
 #define VMS_SLOTS       ((char *)0x0C2EC578)            /* 128-byte slots a drive */
@@ -26,12 +26,12 @@ void vmsfs_c_setfunc(int d, int f)
     *(int *)(VMS_SLOTS + d * 128 + 8) = f;
 }
 
-void FUN_0c167c4c(void)
+void ADXCRS_Init(void)
 {
     *(int *)0x0C178628 = 0;
 }
 
-void njSetConstantAttr(int a, int b)
+void ADXERR_EntryErrFunc(int a, int b)
 {
     *(int *)0x0C178630 = a;
     *(int *)0x0C178634 = b;
@@ -42,7 +42,7 @@ void ADXSJD_SetOutSj(char *p, int i, int v)
     *(int *)(p + 12 + i * 4) = v;
 }
 
-void FUN_0c168808(char *p, int a, int b)
+void ADXSJD_EntryTrapFunc(char *p, int a, int b)
 {
     *(int *)(p + 72) = a;
     *(int *)(p + 76) = b;
@@ -85,7 +85,7 @@ void mpdrv_init_memory(void)
 }
 
 /* Copies n bytes (a multiple of 4, at least 4) word by word. */
-void FUN_0c1701c4(int *d, int *s, unsigned int n)
+void vmsfs_memcpyl(int *d, int *s, unsigned int n)
 {
     n >>= 2;
     do
@@ -105,13 +105,13 @@ void ADXB_EntryAddWrFunc(char *b, int f, int p)
     *(int *)(b + 148) = p;
 }
 
-int FUN_0c17277c(int *p)
+int syG2AicaFifoIsEmpty(int *p)
 {
     *p = (*(volatile int *)0xA05F688C & 1) == 0;
     return 0;
 }
 
-int FUN_0c1727d0(int *p)
+int syG2FifoIsEmpty(int *p)
 {
     *p = (*(volatile int *)0xA05F688C & 0x10) == 0;
     return 0;
@@ -123,7 +123,7 @@ int syG2DmaResume(int *p)
     return 0;
 }
 
-int FUN_0c1727b0(int *p)
+int syG2DmaSuspend(int *p)
 {
     *(int *)(G2DMA_BASE + *p * 32 + 28) = 1;
     return 0;
@@ -155,28 +155,28 @@ void adxpd_error(void)
     *(int *)0x0C1789AC = 1;
 }
 
-int FUN_0c15f818(void)
+int gdDcfReset_(void)
 {
-    return FUN_0c16766c(24, 0);
+    return gdGdcReqCmd(24, 0);
 }
 
-int FUN_0c15f868(void)
+int gdDcfChkDmaTrans_(void)
 {
-    return FUN_0c1676f8();
+    return gdGdcCheckDmaTrans();
 }
 
-int FUN_0c15f8ba(void)
+int gdDcfDaPause_(void)
 {
-    return FUN_0c16766c(22, 0);
+    return gdGdcReqCmd(22, 0);
 }
 
-int FUN_0c15f926(void)
+int gdDcfSvr_(void)
 {
-    FUN_0c167694();
+    gdGdcExecServer();
     return 1;
 }
 
-int FUN_0c1614de(void)
+int syTmrGetCount(void)
 {
     return -1 - *(volatile int *)0xFFD8000C;
 }
@@ -221,7 +221,7 @@ void mwlSbGetPitch(char *sb, int *p1, int *p2)
     *p2 = *(int *)(sb + 84);
 }
 
-void FUN_0c171db0(int *h, int x)
+void mwSbSetBitPerSmpl(int *h, int x)
 {
     nlsndStreamSetHdBitSize(((int *)h[7])[1], x);
     h[4] = x;

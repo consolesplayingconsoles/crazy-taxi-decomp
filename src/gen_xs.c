@@ -2,94 +2,81 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int menuChangeValue(int, int, int);
-int ndPuru2Start(int, int, int);
-int ndPuru2Stop(void);
+int menuPutSprites(int, int, int, int);
+int padPortAConnected(void);
 int putMenuValue(int, int, int, int);
-int vibIsReady(void);
-int menuItemVibration(int a4);
+int putString(int, int, float, float, float);
+int menuItemController(int a4);
 
-int menuItemVibration(int a4)
+int menuItemController(int a4)
 {
-    int t0;
-    int t1;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t8;
-    int t23;
+    int t11;
+    int t57;
+    int t21;
+    int t52;
+    int t32;
+    int t33;
+    int t34;
+    int t39;
+    int t51;
+    int t16;
+    int t17;
     int t24;
     int t25;
-    int t26;
     int t27;
-    int t31;
-    int t34;
-    int t35;
-    int t39;
-    int t40;
-    int t32;
     int t28;
-    int t29;
-    int t36;
-    int t37;
-    int stk[7] = {0};
+    int stk[13];
 
-    *(unsigned char *)(((int)stk + 8)) = 0x0;
-    t0 = vibIsReady();
-    t1 = (((int)stk + 4) + 0x4);
-    if (t0 == 1) {
-        t1 = 0xC28A4EF;
+    *(unsigned int *)(((int)stk + 8)) = a4;
+    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)0xC28A4EE);
+    if ((*(int *)(((int)stk + 8))) != 0) {
+        if ((menuChangeValue(0x0, ((int)stk + 4), 0x2)) == 1) {
+            *(unsigned char *)0xC28A4EE = (*(int *)(((int)stk + 4)));
+        }
     }
-    t3 = *(signed char *)((t1 + 0x0));
-    t4 = *(int *)0xC2A1214;
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)t3;
-    if (a4 != 0) {
-        t5 = menuChangeValue((((t4 == 1)) ? 1 : 0), ((int)stk + 4), 0x2);
-        if (t5 == 1) {
-            t6 = *(int *)(((int)stk + 4));
-            *(unsigned char *)((t1 + 0x0)) = t6;
-            if ((((t4 == 1)) ? 1 : 0) == 0) {
-                t8 = *(int *)(((int)stk + 4));
-                if (t8 != 0) {
-                    ndPuru2Start(0x2, 0x1, 0x0);
-                } else {
-                    ndPuru2Stop();
+    t11 = padPortAConnected();
+    t57 = t11;
+    if (t11 == 1) {
+        if ((*(int *)(((int)stk + 8))) != 0) {
+            t16 = 0x8013;
+            t17 = (*(int *)(((int)stk + 4)));
+        } else {
+            t16 = 0x13;
+            t17 = (*(int *)(((int)stk + 4)));
+        }
+        putMenuValue(t16, 0xC09F050, 0x2, t17);
+        if ((*(int *)0xC2A123C) == 1) {
+            t21 = *(signed char *)0xC28A4EE;
+            t24 = (0xC0EF5A0 + (signed char)((((t21 << 1) + t21) << 2) << 1));
+            t25 = 0xC09EF48;
+            t27 = 0xC0A0888;
+            t28 = 0x6;
+        } else {
+            t24 = (0xC0EF568 + (signed char)((short)(*(signed char *)0xC28A4EE) * (short)0x1C));
+            t25 = 0xC09EE14;
+            t27 = 0xC0A0878;
+            t28 = 0x7;
+        }
+        t52 = (menuPutSprites(t27, 0xC2A1A84, (-(*(int *)0xC2A1ADC)), 0x0));
+        if ((int)t28 > 0) {
+            t32 = 0x0;
+            t33 = t24;
+            t34 = t25;
+            for (;;) {
+                putString(0x13, (t34 + 0xC), ((*(float *)((t34 + 0x0))) + (float)(*(int *)0xC2A1ADC)), (*(float *)((t34 + 0x4))), 1.0f);
+                t39 = *(int *)((t33 + 0x0));
+                t33 = (t33 + 0x4);
+                putString(0x20, (((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0xC), (((*(float *)((t34 + 0x0))) + (*(float *)((((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0x0)))) + (float)(*(int *)0xC2A1ADC)), ((*(float *)((t34 + 0x4))) + (*(float *)((((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0x4)))), 1.0f);
+                t51 = putString(0x20, ((((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0xC), (((*(float *)((t34 + 0x0))) + (*(float *)(((((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0x0)))) + (float)(*(int *)0xC2A1ADC)), ((*(float *)((t34 + 0x4))) + (*(float *)(((((short)((short)t39 * (short)0x58) + 0xC09EBAC) + 0x2C) + 0x4)))), 1.0f);
+                t32 = (t32 + 0x1);
+                t34 = (t34 + 0x2C);
+                if ((int)t32 >= (int)t28) {
+                    break;
                 }
             }
+            t52 = t51;
         }
+        t57 = t52;
     }
-    if ((((t4 == 1)) ? 1 : 0) == 1) {
-        if (a4 != 0) {
-            t23 = *(int *)(((int)stk + 4));
-            t24 = putMenuValue(0xA044, 0xC09E15C, 0x2, t23);
-            t32 = t24;
-        } else {
-            t25 = vibIsReady();
-            if (t25 == 1) {
-                t26 = *(int *)(((int)stk + 4));
-                t28 = 0x2024;
-                t29 = t26;
-            } else {
-                t27 = *(int *)(((int)stk + 4));
-                t28 = 0x2084;
-                t29 = t27;
-            }
-            t31 = putMenuValue(t28, 0xC09E15C, 0x2, t29);
-            t32 = t31;
-        }
-        t40 = t32;
-    } else {
-        if (a4 != 0) {
-            t34 = *(int *)(((int)stk + 4));
-            t36 = 0xC017;
-            t37 = t34;
-        } else {
-            t35 = *(int *)(((int)stk + 4));
-            t36 = 0x4017;
-            t37 = t35;
-        }
-        t39 = putMenuValue(t36, 0xC09EB54, 0x2, t37);
-        t40 = t39;
-    }
-    return t40;
+    return t57;
 }

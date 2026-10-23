@@ -7,9 +7,9 @@ int ADXERR_CallErrFunc(int, ...);
 int ADXF_GetFileRange(int, int, int);
 int ADXSTM_OpenRange(int, int, int);
 int ADXT_Stop(void);
-int FUN_0c14d2fa(int);
-int FUN_0c158f00(void);
-int FUN_0c1717d8(int);
+int gdFsLockDir(int);
+int kmiWriteDispModeRegisters(void);
+int mwRnaLockCs(int);
 int adxt_start_stm(int);
 int gdFsGetDirEnt(int, int, int, int);
 int gdFsSearchName(int, int, int);
@@ -278,7 +278,7 @@ int mwRnaPause(int a4)
         t0 = mwRnaErrCallFunc(0xC176680);
         t15 = t0;
     } else {
-        FUN_0c1717d8(((int)stk + 8));
+        mwRnaLockCs(((int)stk + 8));
         t2 = *(signed char *)((a4 + 0x7));
         if (t2 == 0) {
             t3 = mwRnaGetPlaySw(a4);
@@ -292,7 +292,7 @@ int mwRnaPause(int a4)
                 *(unsigned int *)((a4 + 0x8C)) = 0x1;
                 mwRnaUnlockCs(((int)stk + 8));
                 mwlRnaWaitTransEnd(a4);
-                FUN_0c1717d8(((int)stk + 8));
+                mwRnaLockCs(((int)stk + 8));
                 *(unsigned int *)((a4 + 0x8C)) = 0x0;
             }
             mwRnaAdjustBuf(a4);
@@ -337,7 +337,7 @@ int mwRnaSetTransSw(int a4, int a5)
             }
             *(unsigned char *)((a4 + 0x5)) = 0x0;
         }
-        FUN_0c1717d8(((int)stk + 8));
+        mwRnaLockCs(((int)stk + 8));
         *(unsigned int *)((a4 + 0x8C)) = 0x0;
         t9 = *(int *)(((int)stk + 12));
         if (t9 == 0) {
@@ -467,10 +467,10 @@ int gdFsLoadDirG(int a4, int a5)
                     if (t18 == (0x96 + t12)) {
                         if (t14 != 0) {
                             if (t14 == -12) {
-                                FUN_0c14d2fa(t2);
+                                gdFsLockDir(t2);
                             }
                         } else {
-                            FUN_0c14d2fa(t2);
+                            gdFsLockDir(t2);
                         }
                     }
                 }
@@ -499,10 +499,10 @@ int gdFsLoadDirG(int a4, int a5)
                         if (t40 == (t33 + 0x96)) {
                             if (t36 != 0) {
                                 if (t36 == -12) {
-                                    FUN_0c14d2fa(t2);
+                                    gdFsLockDir(t2);
                                 }
                             } else {
-                                FUN_0c14d2fa(t2);
+                                gdFsLockDir(t2);
                             }
                         }
                     }
@@ -538,10 +538,10 @@ int gdFsLoadDirG(int a4, int a5)
                 if (t69 == (0x96 + t63)) {
                     if (t65 != 0) {
                         if (t65 == -12) {
-                            FUN_0c14d2fa(t2);
+                            gdFsLockDir(t2);
                         }
                     } else {
-                        FUN_0c14d2fa(t2);
+                        gdFsLockDir(t2);
                     }
                 }
             }
@@ -748,7 +748,7 @@ int kmSetDisplayMode(int a4, int a5, int a6, int a7)
         t74 = *(int *)(((int)stk + 16));
         t75 = *(int *)(((int)stk + 20));
         kmiFBControl(t75, t60, a5, t74, t73, t23);
-        FUN_0c158f00();
+        kmiWriteDispModeRegisters();
         t80 = t72;
     }
     return t80;

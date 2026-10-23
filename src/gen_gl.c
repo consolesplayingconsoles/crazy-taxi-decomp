@@ -1,99 +1,228 @@
 /* Straight-line functions with calls and guards (batch gen_gl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077210(int, int);
-int carBalanceRoll(int);
-int convergeRot(int, int, float);
-int getYXZrot(int);
-int nlArcTan2(float, float);
+int ResetFadeColor(void);
+int SetFadeColorBaseMulti(float, float, float);
+int nlObjPutMvClosedVolumeUseViewMatrix(void);
+int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
-int carBalance(int a4, int a5);
+int nlRotateRX(float);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int putCarModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-int carBalance(int a4, int a5)
+int putCarModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
-    int t42;
-    int t89;
-    int t65;
-    int t68;
-    float u74;
-    int t95;
-    int t98;
-    int stk[21] = {0};
+    int t0;
+    int t2;
+    int t35;
+    float u87;
+    int t102;
+    int t123;
+    int t147;
+    int stk[14];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
-    FUN_0c077210((0xEC + a4), (((int)stk + 4) + 0x10));
-    FUN_0c077210((*(int *)(((int)stk + 4))), (((int)stk + 4) + 0x4));
-    nlPopMatrix(0x1);
-    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x0)) = (-(nlArcTan2((*(float *)(((int)stk + 28))), (*(float *)(((int)stk + 24))))));
-    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x4)) = (nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 24)))));
-    nlPushUnitMatrix();
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C044248:;
+    *(unsigned int *)(((int)stk + 4)) = R5;
+    t0 = *(short *)((R4 + 0x78));
     nlPushMatrix(0x0);
-    nlRotateAX((-(unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x0)))));
-    nlRotateAZ((-(unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x4)))));
-    getYXZrot((0x108 + a4));
+    t2 = *(int *)(((int)stk + 4));
+    R10 = (0xC078250);
+    R11 = (0xC078200);
+    R13 = (((short)((short)t0 * (short)0xA8) + 0xC0A2628));
+    R14 = (R4);
+    R8 = ((t2 << 2));
+    R9 = (0xC0789B0);
+    if (((*(int *)((((((short)((short)t0 * (short)0xA8) + 0xC0A2628) + 0x8) + (t2 << 2)) + 0x0))) == 0)) goto L_C0442CE;
+    goto L_C04428C;
+    L_C04428C:;
+    nlPushUnitMatrix();
+    nlTranslate((*(float *)((R14 + 0x8C))), (*(float *)((R14 + 0x104))), (*(float *)((R14 + 0x94))));
+    nlRotateAY((unsigned short)(*(short *)((R14 + 0x10A))));
+    nlRotateAX((unsigned short)(*(short *)((R14 + 0x108))));
+    nlRotateAZ((unsigned short)(*(short *)((R14 + 0x10C))));
+    *(volatile int *)((((R13 + 0x8) + R8) + 0x0));
+    nlObjPutMvClosedVolumeUseViewMatrix();
     nlPopMatrix(0x1);
-    if ((*(int *)((a4 + 0x110))) != 0) {
-        nlPushMatrix(0x0);
-        nlRotateAX((convergeRot((*(short *)(((((int)stk + 4) + 0x1C) + 0x0))), 0x0, 0.349999994f)));
-        nlRotateAZ((convergeRot((*(short *)(((((int)stk + 4) + 0x1C) + 0x4))), 0x0, 0.349999994f)));
-        getYXZrot((0xA4 + a4));
-        nlPopMatrix(0x1);
-    } else {
-        t42 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
-        if (((int)(unsigned short)t42 >= (int)0x3000) && ((int)(unsigned short)t42 <= (int)0xD000)) {
-        } else {
-            *(unsigned short *)((a4 + 0xA4)) = ((*(short *)((a4 + 0xA4))) + 0x40);
-        }
-        *(unsigned short *)(((0xA8 + a4) + 0x0)) = ((*(short *)(((0xA8 + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xA8))), (*(short *)((a4 + 0x10C))), 0.199999988f)));
-    }
+    goto L_C0442CE;
+    L_C0442CE:;
+    nlTranslate(0.0f, ((*(float *)((R14 + 0xF8))) + (*(float *)((R14 + 0xFC)))), 0.0f);
+    nlRotateAX((unsigned short)(*(short *)((R14 + 0xAA))));
+    nlRotateAZ((unsigned short)(*(short *)((R14 + 0xAE))));
+    R0 = (0x7C);
+    if (((int)(*(int *)((R14 + 0x7C))) < 0)) goto L_C04431A;
+    goto L_C0442FC;
+    L_C0442FC:;
+    t35 = *(short *)((R14 + R0));
+    SetFadeColorBaseMulti((*(float *)((((short)(((t35 << 1) + t35) << 2) + 0xC0A3498) + 0x0))), (*(float *)((((short)(((t35 << 1) + t35) << 2) + 0xC0A3498) + 0x4))), (*(float *)((((short)(((t35 << 1) + t35) << 2) + 0xC0A3498) + 0x8))));
+    goto L_C04431A;
+    L_C04431A:;
+    nlObjPutUseViewMatrix((*(int *)(((R13 + R8) + 0x0))));
+    ResetFadeColor();
+    R0 = (0x128);
+    R12 = (0xC07AD00);
+    if (((*(int *)((R14 + 0x128))) == 0)) goto L_C044336;
+    goto L_C044332;
+    L_C044332:;
+    nlObjPutUseViewMatrix((*(int *)((R14 + R0))));
+    goto L_C044336;
+    L_C044336:;
+    if (((*(int *)((((R13 + 0x10) + R8) + 0x0))) == 0)) goto L_C04434C;
+    goto L_C044342;
+    L_C044342:;
+    nlObjPutUseViewMatrix((*(int *)((((R13 + 0x10) + R8) + 0x0))));
+    goto L_C04434C;
+    L_C04434C:;
+    if (((*(int *)((R13 + 0x1C))) == 0)) goto L_C044412;
+    goto L_C044352;
+    L_C044352:;
+    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    R8 = (0x0);
+    if ((((*(int *)0xC1EE330) & 16) == 0)) goto L_C0443CC;
+    goto L_C04435E;
+    L_C04435E:;
+    R4 = (0x1);
+    if ((((*(int *)((R14 + 0x84))) & 0x2400) == 0)) goto L_C04436C;
+    goto L_C04436A;
+    L_C04436A:;
+    *(unsigned int *)(((int)stk + 8)) = R4;
+    goto L_C04436C;
+    L_C04436C:;
+    T_ = (((((*(int *)((R14 + 0x84))) & 0x4800) == 0)));
+    goto L_C0443C8;
+    L_C0443C8:;
+    if ((T_)) goto L_C0443CC;
+    goto L_C0443CA;
+    L_C0443CA:;
+    R8 = (R4);
+    goto L_C0443CC;
+    L_C0443CC:;
+    if ((!((*(float *)((R14 + 0xC8))) > 0.00999999978f))) goto L_C0443E0;
+    goto L_C0443D8;
+    L_C0443D8:;
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x2);
+    R8 = ((R8 + 0x2));
+    goto L_C0443E0;
+    L_C0443E0:;
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 4))) << 2);
+    if (((*(int *)(((int)stk + 8))) == 0)) goto L_C0443FE;
+    goto L_C0443EC;
+    L_C0443EC:;
+    nlObjPutUseViewMatrix((*(int *)((((((*(int *)(((int)stk + 12))) + (*(int *)(((int)stk + 8)))) << 2) + (R13 + 0x18)) + 0x0))));
+    goto L_C0443FE;
+    L_C0443FE:;
+    if ((R8 == 0)) goto L_C044412;
+    goto L_C044402;
+    L_C044402:;
+    nlObjPutUseViewMatrix((*(int *)((((((*(int *)(((int)stk + 12))) + R8) << 2) + (R13 + 0x38)) + 0x0))));
+    goto L_C044412;
+    L_C044412:;
+    if (((*(int *)(((int)stk + 4))) == 0)) goto L_C04441C;
+    goto L_C044418;
+    L_C044418:;
+    goto L_C044558;
+    L_C044558:;
+    return (nlPopMatrix(0x1));
+    L_C04441C:;
+    if (((*(int *)((R13 + 0x60))) != 0)) goto L_C044428;
+    goto L_C044424;
+    L_C044424:;
+    goto L_C044558;
+    L_C044428:;
+    u87 = (*(float *)((R14 + 0xB8)));
+    u87 = u87 + 0.199999988f * (*(float *)(((0xCC + R14) + 0x0)));
+    *(float *)((R14 + 0xB8)) = u87;
+    R8 = (0xC078750);
+    if (((*(int *)(((R13 + 0x58) + 0x0))) == 0)) goto L_C04449A;
+    goto L_C04444A;
+    L_C04444A:;
+    *(unsigned int *)(((int)stk + 4)) = (R13 + 0x70);
+    nlPushMatrix(0x0);
+    nlTranslateV((*(int *)(((int)stk + 4))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)(((R13 + 0x58) + 0x0))));
     nlPopMatrix(0x1);
-    *(unsigned short *)((a4 + 0xA6)) = ((*(short *)((a4 + 0xA6))) + ((int)((((*(float *)(((0x60 + a4) + 0x0))) * 524288.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
-    *(float *)((a4 + 0x60)) = ((*(float *)((a4 + 0x60))) * 0.949999988f);
-    t89 = 0;
-    if (((*(int *)((a4 + 0x84))) & 64) == 0) {
-        *(unsigned short *)((a4 + 0xAE)) = ((*(short *)((a4 + 0xAE))) + ((int)((((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * 6553.59961f) / 6.28318501f) + 0.5f) & 0xFFFF));
-        *(unsigned short *)(((0xAE + a4) + 0x0)) = ((*(short *)(((0xAE + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xAE))), 0x0, 0.149999991f)));
-        t65 = *(short *)((a4 + 0xAE));
-        if (((int)(unsigned short)t65 < (int)0x8000) && ((int)(unsigned short)t65 > (int)0x400)) {
-            *(unsigned short *)((a4 + 0xAE)) = 0x400;
-        } else {
-            t68 = *(short *)((a4 + 0xAE));
-            if (((int)(unsigned short)t68 > (int)0x8000) && ((int)(unsigned short)t68 < (int)0xFC00)) {
-                *(unsigned short *)((a4 + 0xAE)) = 0xFC00;
-            }
-        }
-        u74 = *(float *)((a4 + 0x100));
-        if (_builtin_fabsf(u74) > 0.0014999999f) {
-            *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0x40);
-        }
-        _builtin_fabsf(u74);
-        t89 = ((_builtin_fabsf(u74) > 0.0014999999f));
-    } else {
-        carBalanceRoll(a4);
-        t89 = (0);
-    }
-    *(unsigned short *)((a4 + 0xAA)) = ((*(short *)((a4 + 0xAA))) - ((int)((((*(float *)(((((int)stk + 4) + 0xC) + 0x0))) * 1310.71997f) / 6.28318501f) + 0.5f) & 0xFFFF));
-    *(unsigned short *)(((0xAA + a4) + 0x0)) = ((*(short *)(((0xAA + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xAA))), 0x0, 0.149999991f)));
-    t95 = *(short *)((a4 + 0xAA));
-    if (((int)(unsigned short)t95 < (int)0x8000) && ((int)(unsigned short)t95 > (int)0x200)) {
-        *(unsigned short *)((a4 + 0xAA)) = 0x200;
-    } else {
-        t98 = *(short *)((a4 + 0xAA));
-        if (((int)(unsigned short)t98 > (int)0x8000) && ((int)(unsigned short)t98 < (int)0xFE00)) {
-            *(unsigned short *)((a4 + 0xAA)) = 0xFE00;
-        }
-    }
-    return 0xAA;
+    if (((*(int *)((R13 + 0x5C))) == 0)) goto L_C04449A;
+    goto L_C044474;
+    L_C044474:;
+    nlPushMatrix(0x0);
+    t102 = *(int *)(((int)stk + 4));
+    nlTranslate((-(*(float *)((t102 + 0x0)))), (*(float *)((t102 + 0x4))), (*(float *)((t102 + 0x8))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)((R13 + 0x5C))));
+    nlPopMatrix(0x1);
+    goto L_C04449A;
+    L_C04449A:;
+    *(unsigned int *)(((int)stk + 4)) = (R13 + 0x7C);
+    nlPushMatrix(0x0);
+    nlTranslateV((*(int *)(((int)stk + 4))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)((R13 + 0x60))));
+    nlPopMatrix(0x1);
+    if (((*(int *)((R13 + 0x64))) == 0)) goto L_C0444E8;
+    goto L_C0444C2;
+    L_C0444C2:;
+    nlPushMatrix(0x0);
+    t123 = *(int *)(((int)stk + 4));
+    nlTranslate((-(*(float *)((t123 + 0x0)))), (*(float *)((t123 + 0x4))), (*(float *)((t123 + 0x8))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)((R13 + 0x64))));
+    nlPopMatrix(0x1);
+    goto L_C0444E8;
+    L_C0444E8:;
+    if (((*(int *)((R13 + 0x68))) == 0)) goto L_C044558;
+    goto L_C0444F0;
+    L_C0444F0:;
+    *(unsigned int *)(((int)stk + 4)) = ((R13 + 0x70) + 0x18);
+    nlPushMatrix(0x0);
+    nlTranslateV((*(int *)(((int)stk + 4))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)((R13 + 0x68))));
+    nlPopMatrix(0x1);
+    T_ = ((((*(int *)((R13 + 0x6C))) == 0)));
+    goto L_C044530;
+    L_C044530:;
+    if ((T_)) goto L_C044558;
+    goto L_C044532;
+    L_C044532:;
+    nlPushMatrix(0x0);
+    t147 = *(int *)(((int)stk + 4));
+    nlTranslate((-(*(float *)((t147 + 0x0)))), (*(float *)((t147 + 0x4))), (*(float *)((t147 + 0x8))));
+    nlRotateRX((*(float *)((R14 + 0xB8))));
+    nlObjPutUseViewMatrix((*(int *)((R13 + 0x6C))));
+    nlPopMatrix(0x1);
+    goto L_C044558;
 }

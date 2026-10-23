@@ -3,16 +3,16 @@
 
 int ADXERR_CallErrFunc(int, ...);
 int InitRenderTexture1st(void);
-int FUN_0c0742c0(int);
-int FUN_0c074d10(int);
-int FUN_0c074d20(void);
-int FUN_0c074de0(int);
-int FUN_0c074eb0(int);
-int FUN_0c075090(void);
-int FUN_0c075120(void);
-int FUN_0c0775d0(int, int);
-int FUN_0c077df0(int);
-int FUN_0c16893a(int, int, int, int);
+int nlPaletteDirectMode(int);
+int nlSysSetTextureSize(int);
+int nlSysUseLatency2V(void);
+int nlSysSetDirectListTypeLatency2V(int);
+int nlSysSetVertexBufferBaseAddress(int);
+int nlCreateVertexBuffer(void);
+int nlSysMetricsInit(void);
+int nlInitMatrix(int, int);
+int nlMatrixMode(int);
+int ADXSTMF_Create(int, int, int, int);
 int frameFlip(void);
 int gdFsClose(int);
 int gdFsGetFileSize(int);
@@ -66,7 +66,7 @@ int ADXSTM_OpenFname(int a4, int a5)
         } else {
             t5 = *(int *)(((int)stk + 12));
             t6 = *(int *)(((int)stk + 16));
-            t7 = FUN_0c16893a(t0, 0x0, t5, t6);
+            t7 = ADXSTMF_Create(t0, 0x0, t5, t6);
             if (t7 != 0) {
                 strncpy((t7 + 0x40), a4, 0x20);
             }

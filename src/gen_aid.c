@@ -3,9 +3,9 @@
 
 int Init_Pass_Fare(void);
 int Init_Pass_Time(void);
-int FUN_0c05313e(int a4);
+int Start_Pass_Default2_Sprite(int a4);
 
-int FUN_0c05313e(int a4)
+int Start_Pass_Default2_Sprite(int a4)
 {
     *(unsigned int *)0xC2A8C78 = a4;
     *(unsigned int *)0xC2A8C7C = 0xC1EE7B0;

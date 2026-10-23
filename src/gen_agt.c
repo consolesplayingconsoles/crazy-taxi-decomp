@@ -26,16 +26,16 @@ int breathSteer(int a4, int a5)
                 if ((int)(*(int *)((a4 + 0x20))) >= 0) {
                     *(unsigned int *)((a4 + 0xC)) = (short)(GetAverageAngle((*(int *)((a4 + 0xC))), 0xFFFFDC72, 0.98999995f));
                     *(unsigned int *)((a4 + 0x20)) = ((*(int *)((a4 + 0x20))) - 1);
-                    if ((*(float *)0xC072784) > (*(float *)((a4 + 0x18)))) {
+                    if ((0.19999999f) > (*(float *)((a4 + 0x18)))) {
                         *(float *)((a4 + 0x18)) = ((*(float *)((a4 + 0x18))) + 0.00999999978f);
                     }
                     t26 = 0x18;
                 } else {
                     *(unsigned int *)((a4 + 0xC)) = (short)(GetAverageAngle((*(int *)((a4 + 0xC))), 0x31C7, 0.98999995f));
-                    if ((*(float *)0xC072788) > (*(float *)((a4 + 0x18)))) {
+                    if ((0.39999998f) > (*(float *)((a4 + 0x18)))) {
                         *(float *)((a4 + 0x18)) = ((*(float *)((a4 + 0x18))) + 0.00999999978f);
                     }
-                    if (!(((*(float *)((a5 + 0x4))) + (*(float *)0xC07278C)) > (*(float *)((a4 + 0x4))))) {
+                    if (!(((*(float *)((a5 + 0x4))) + (-0.5f)) > (*(float *)((a4 + 0x4))))) {
                         *(unsigned int *)((a4 + 0x24)) = 0x0;
                     }
                     t26 = 0x4;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ki): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c16d2c0(void);
+int kmiSetVideoTimings(void);
 int kmiInitPAL(void);
 
 int kmiInitPAL(void)
@@ -290,6 +290,6 @@ int kmiInitPAL(void)
     t135 = ((((int)stk + 256) + 0x14) + 252);
     t136 = ((int)stk + 4);
     for (;;) { t137 = *(int *)t134; t134 = (t134 + 4); if ((unsigned int)t135 < (unsigned int)t134) break; *(unsigned int *)t136 = t137; t136 = (t136 + 4); }
-    t138 = FUN_0c16d2c0();
+    t138 = kmiSetVideoTimings();
     return t138;
 }

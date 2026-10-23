@@ -1,16 +1,16 @@
 /* Straight-line functions with calls and guards (batch gen_abs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c171e62(int, int, int);
-int FUN_0c171e74(int a4);
+int mwlSbGetStreamParam(int, int, int);
+int mwSbGetVol(int a4);
 
-int FUN_0c171e74(int a4)
+int mwSbGetVol(int a4)
 {
     int t0;
     int t14;
     int t8;
 
-    t0 = FUN_0c171e62(a4, 0x5, 0x0);
+    t0 = mwlSbGetStreamParam(a4, 0x5, 0x0);
     t14 = 0xFFFFFC41;
     if ((int)t0 <= 0) {
     } else {

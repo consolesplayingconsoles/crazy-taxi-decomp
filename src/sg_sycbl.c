@@ -2,14 +2,14 @@
 
 int syCblCheckCable(void);
 void kbCfgIni(int a);
-char *FUN_0c167800(void);
+char *kbCfgGetId(void);
 
 int syCblCheckBroadcast(void)
 {
     char *p;
 
     kbCfgIni(0);
-    p = FUN_0c167800();
+    p = kbCfgGetId();
     switch (p[12]) {
     case 49: return 1;
     case 50: return 2;

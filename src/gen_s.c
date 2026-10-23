@@ -9,9 +9,9 @@ int ADXF_ReadNw32(int, int, int);
 int nlSetCommonTextureOffset(int);
 int texLoadIndexed(int);
 int gdc_FileLoadInitAll(int a4);
-void FUN_0c074200(int a4, int a5);
-void FUN_0c17088c(int a4, int a5, int a6);
-int FUN_0c170908(int a4, int a5, int a6);
+void nlSetPaletteMap(int a4, int a5);
+void fmMngMcpy4(int a4, int a5, int a6);
+int fmMngNum2Bit(int a4, int a5, int a6);
 
 int gdc_FileLoadInitAll(int a4)
 {
@@ -69,7 +69,7 @@ int gdc_FileLoadInitAll(int a4)
     return 0xC26E17C;
 }
 
-void FUN_0c074200(int a4, int a5)
+void nlSetPaletteMap(int a4, int a5)
 {
     int t0;
     int t1;
@@ -98,7 +98,7 @@ void FUN_0c074200(int a4, int a5)
     }
 }
 
-void FUN_0c17088c(int a4, int a5, int a6)
+void fmMngMcpy4(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -125,7 +125,7 @@ void FUN_0c17088c(int a4, int a5, int a6)
     }
 }
 
-int FUN_0c170908(int a4, int a5, int a6)
+int fmMngNum2Bit(int a4, int a5, int a6)
 {
     int t0;
     int t1;

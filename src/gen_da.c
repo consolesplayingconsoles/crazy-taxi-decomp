@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_da): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07d040(int, int);
-int FUN_0c07d450(int, int, int);
-int FUN_0c07d4f0(int, int, int, int);
-int FUN_0c07d510(int, int, int, int, int);
-int FUN_0c0813d0(int);
+int nlMvGetFaceVerts(int, int);
+int nlMvSendTriangle(int, int, int);
+int nlMvSendQuad(int, int, int, int);
+int nlMvSendFan3(int, int, int, int, int);
+int abs(int);
 int GetStopPosCenter(int, int, int);
 int PutStringFixPfont(int, int, float, float, float, float);
 extern int getNearLineIndex();
@@ -21,14 +21,14 @@ int nlFastSinCos(int, int, int);
 float nlLength(int, int);
 int nlMultiMatrix8(int);
 int putLevelCTFontAssist(int, int, int, int, int);
-int FUN_0c1676e4(int a4, int a5);
+int gdGdcReqDmaTrans(int a4, int a5);
 int BigOneRotate(int a4, int a5, int a6);
 int menuRecordsHandler(void);
 int texLoadIndexed(int a4, int a5);
-int FUN_0c07cd30(int a4, int a5, int a6, int a7);
+int nlMvPutFaceClip(int a4, int a5, int a6, int a7);
 float kyakuInitStops(float f4);
 
-int FUN_0c1676e4(int a4, int a5)
+int gdGdcReqDmaTrans(int a4, int a5)
 {
     int t0;
 
@@ -36,90 +36,6 @@ int FUN_0c1676e4(int a4, int a5)
     return ((int (*)(int, int, int, int))(t0))(a4, a5, 0x0, 0x6);
 }
 
-int BigOneRotate(int a4, int a5, int a6)
-{
-    int t1;
-    int t3;
-    float u5;
-    float u6;
-    float u7;
-    float u8;
-    float u9;
-    float u10;
-    float u11;
-    float u12;
-    float u13;
-    float u14;
-    float u15;
-    float u16;
-    float u17;
-    float u18;
-    float u19;
-    float u20;
-    float u21;
-    float u22;
-    float u23;
-    float u24;
-    float u25;
-    float u26;
-    float u27;
-    float u28;
-    float u29;
-    float u30;
-    float u31;
-    float u32;
-    float u33;
-    int t34;
-    int stk[11] = {0};
-
-    *(unsigned int *)(((int)stk + 28)) = a5;
-    *(unsigned int *)(((int)stk + 32)) = a6;
-    nlFastSinCos(a4, (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10));
-    t1 = *(int *)(((int)stk + 28));
-    nlFastSinCos(t1, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
-    t3 = *(int *)(((int)stk + 32));
-    nlFastSinCos(t3, ((int)stk + 4), (((int)stk + 4) + 0x4));
-    u5 = *(float *)(((int)stk + 8));
-    u6 = *(float *)(((int)stk + 24));
-    *(float *)0xC141820 = (u6 * u5);
-    u7 = *(float *)(((int)stk + 4));
-    u8 = *(float *)(((int)stk + 24));
-    *(float *)0xC141824 = (u7 * u8);
-    u9 = *(float *)(((int)stk + 12));
-    *(float *)0xC141828 = (-u9);
-    u10 = *(float *)(((int)stk + 12));
-    u11 = *(float *)(((int)stk + 16));
-    u12 = *(float *)(((int)stk + 8));
-    u13 = *(float *)(((int)stk + 20));
-    u14 = *(float *)(((int)stk + 4));
-    *(float *)0xC141830 = (((u11 * u10) * u12) - (u14 * u13));
-    u15 = *(float *)(((int)stk + 12));
-    u16 = *(float *)(((int)stk + 16));
-    u17 = *(float *)(((int)stk + 8));
-    u18 = *(float *)(((int)stk + 20));
-    u19 = *(float *)(((int)stk + 4));
-    *(float *)0xC141834 = ((u18 * u17) + u19 * (u16 * u15));
-    u20 = *(float *)(((int)stk + 24));
-    u21 = *(float *)(((int)stk + 16));
-    *(float *)0xC141838 = (u21 * u20);
-    u22 = *(float *)(((int)stk + 20));
-    u23 = *(float *)(((int)stk + 12));
-    u24 = *(float *)(((int)stk + 16));
-    u25 = *(float *)(((int)stk + 4));
-    u26 = *(float *)(((int)stk + 8));
-    *(float *)0xC141840 = ((u24 * u25) + u26 * (u23 * u22));
-    u27 = *(float *)(((int)stk + 12));
-    u28 = *(float *)(((int)stk + 20));
-    u29 = *(float *)(((int)stk + 4));
-    u30 = *(float *)(((int)stk + 8));
-    u31 = *(float *)(((int)stk + 16));
-    *(float *)0xC141844 = (((u27 * u29) * u28) - (u31 * u30));
-    u32 = *(float *)(((int)stk + 24));
-    u33 = *(float *)(((int)stk + 20));
-    *(float *)0xC141848 = (u33 * u32);
-    t34 = nlMultiMatrix8(0xC141820);
-    return t34;
-}
 
 
 int texLoadIndexed(int a4, int a5)
@@ -162,7 +78,7 @@ int texLoadIndexed(int a4, int a5)
     return t17;
 }
 
-int FUN_0c07cd30(int a4, int a5, int a6, int a7)
+int nlMvPutFaceClip(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -264,14 +180,14 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
     t1 = *(int *)0xC2B7668;
     if (a4 == 0) {
         if (a5 != 7) {
-            return FUN_0c07d040(t0, a6);
+            return nlMvGetFaceVerts(t0, a6);
         }
         t2 = *(int *)(((int)stk + 8));
         t3 = *(int *)(((int)stk + 12));
         t4 = *(short *)((a6 + 0x0));
         t5 = *(short *)((t3 + 0x0));
         t6 = *(short *)((t2 + 0x0));
-        return FUN_0c07d450((((t4 << 2) << 2) + t0), (((t6 << 2) << 2) + t0), (((t5 << 2) << 2) + t0));
+        return nlMvSendTriangle((((t4 << 2) << 2) + t0), (((t6 << 2) << 2) + t0), (((t5 << 2) << 2) + t0));
     }
     if (a4 == 7) {
         if (a5 == 7) {
@@ -283,14 +199,14 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
             t9 = *(short *)((a6 + 0x0));
             t10 = *(short *)((t8 + 0x0));
             t11 = *(short *)((t7 + 0x0));
-            return FUN_0c07d450((((t9 << 2) << 2) + t0), (((t11 << 2) << 2) + t0), (((t10 << 2) << 2) + t0));
+            return nlMvSendTriangle((((t9 << 2) << 2) + t0), (((t11 << 2) << 2) + t0), (((t10 << 2) << 2) + t0));
         }
-        return FUN_0c07d040(t0, a6);
+        return nlMvGetFaceVerts(t0, a6);
     }
     t12 = *(int *)0xC2B7664;
     if (a5 != 0) {
         if (a5 == 7) {
-            return FUN_0c07d040(t0, a6);
+            return nlMvGetFaceVerts(t0, a6);
         }
         if (a4 == a5) {
             if (a4 != 1) {
@@ -307,7 +223,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                                 *(unsigned int *)(((int)stk + 8)) = ((t14 << 2) << 2);
                                 t15 = *(int *)(((int)stk + 8));
                                 t16 = *(int *)(((int)stk + 12));
-                                return FUN_0c07d4f0((t16 + t12), (t15 + t12), (((t14 << 2) << 2) + t1), (((t13 << 2) << 2) + t1));
+                                return nlMvSendQuad((t16 + t12), (t15 + t12), (((t14 << 2) << 2) + t1), (((t13 << 2) << 2) + t1));
                             }
                             t17 = *(short *)(((a7 + 0x2) + 0x0));
                             *(unsigned int *)(((int)stk + 12)) = ((t17 << 2) << 2);
@@ -315,7 +231,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                             *(unsigned int *)(((int)stk + 8)) = ((t18 << 2) << 2);
                             t19 = *(int *)(((int)stk + 8));
                             t20 = *(int *)(((int)stk + 12));
-                            return FUN_0c07d4f0((t20 + t12), (t19 + t12), (((t18 << 2) << 2) + t1), (((t17 << 2) << 2) + t1));
+                            return nlMvSendQuad((t20 + t12), (t19 + t12), (((t18 << 2) << 2) + t1), (((t17 << 2) << 2) + t1));
                         }
                         t21 = *(short *)((a7 + 0x0));
                         *(unsigned int *)(((int)stk + 12)) = ((t21 << 2) << 2);
@@ -323,7 +239,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                         *(unsigned int *)(((int)stk + 8)) = ((t22 << 2) << 2);
                         t23 = *(int *)(((int)stk + 8));
                         t24 = *(int *)(((int)stk + 12));
-                        return FUN_0c07d4f0((t24 + t12), (t23 + t12), (((t22 << 2) << 2) + t1), (((t21 << 2) << 2) + t1));
+                        return nlMvSendQuad((t24 + t12), (t23 + t12), (((t22 << 2) << 2) + t1), (((t21 << 2) << 2) + t1));
                     }
                     t25 = *(short *)((a7 + 0x0));
                     *(unsigned int *)(((int)stk + 12)) = ((t25 << 2) << 2);
@@ -331,7 +247,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                     *(unsigned int *)(((int)stk + 8)) = ((t26 << 2) << 2);
                     t27 = *(int *)(((int)stk + 8));
                     t28 = *(int *)(((int)stk + 12));
-                    return FUN_0c07d4f0((t28 + t12), (t27 + t12), (((t26 << 2) << 2) + t1), (((t25 << 2) << 2) + t1));
+                    return nlMvSendQuad((t28 + t12), (t27 + t12), (((t26 << 2) << 2) + t1), (((t25 << 2) << 2) + t1));
                 }
                 t29 = *(short *)(((a7 + 0x2) + 0x0));
                 *(unsigned int *)(((int)stk + 12)) = ((t29 << 2) << 2);
@@ -339,7 +255,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                 *(unsigned int *)(((int)stk + 8)) = ((t30 << 2) << 2);
                 t31 = *(int *)(((int)stk + 8));
                 t32 = *(int *)(((int)stk + 12));
-                return FUN_0c07d4f0((t32 + t12), (t31 + t12), (((t30 << 2) << 2) + t1), (((t29 << 2) << 2) + t1));
+                return nlMvSendQuad((t32 + t12), (t31 + t12), (((t30 << 2) << 2) + t1), (((t29 << 2) << 2) + t1));
             }
             t33 = *(short *)(((a7 + 0x4) + 0x0));
             *(unsigned int *)(((int)stk + 12)) = ((t33 << 2) << 2);
@@ -347,7 +263,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
             *(unsigned int *)(((int)stk + 8)) = ((t34 << 2) << 2);
             t35 = *(int *)(((int)stk + 8));
             t36 = *(int *)(((int)stk + 12));
-            return FUN_0c07d4f0((t36 + t12), (t35 + t12), (((t34 << 2) << 2) + t1), (((t33 << 2) << 2) + t1));
+            return nlMvSendQuad((t36 + t12), (t35 + t12), (((t34 << 2) << 2) + t1), (((t33 << 2) << 2) + t1));
         }
         t39 = a4;
         t40 = a5;
@@ -386,7 +302,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                         t59 = (((t51 << 2) << 2) + t0);
                         t60 = (((t52 << 2) << 2) + t1);
                     }
-                    t61 = FUN_0c07d510((t57 + t12), t58, t59, t60, t54);
+                    t61 = nlMvSendFan3((t57 + t12), t58, t59, t60, t54);
                     t62 = t61;
                 }
                 t87 = t62;
@@ -414,7 +330,7 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                     t84 = (((t76 << 2) << 2) + t1);
                 }
                 t85 = *(int *)(((int)stk + 8));
-                t86 = FUN_0c07d510((t85 + t12), (((t82 << 2) << 2) + t12), t83, t84, t79);
+                t86 = nlMvSendFan3((t85 + t12), (((t82 << 2) << 2) + t12), t83, t84, t79);
                 t87 = t86;
             }
             t114 = t87;
@@ -445,11 +361,11 @@ int FUN_0c07cd30(int a4, int a5, int a6, int a7)
                 t111 = (((t103 << 2) << 2) + t0);
                 t112 = (((t102 << 2) << 2) + t1);
             }
-            t113 = FUN_0c07d510((t109 + t12), t110, t111, t112, t106);
+            t113 = nlMvSendFan3((t109 + t12), t110, t111, t112, t106);
             t114 = t113;
         }
         return t114;
     }
-    return FUN_0c07d040(t0, a6);
+    return nlMvGetFaceVerts(t0, a6);
 }
 

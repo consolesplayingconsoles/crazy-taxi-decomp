@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_wr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077210(int, int);
+int nlCalcVector(int, int);
 float carGripCurve(float);
 float carSlipRatio(float, float);
 int nlPopMatrix(int);
@@ -45,7 +45,7 @@ float carWheelSlip(int a4)
     *(float *)0xC1EE14C = 0.0f;
     u8 = *(float *)((a4 + 0x160));
     *(float *)0xC1EE150 = u8;
-    FUN_0c077210(0xC1EE148, 0xC1EE154);
+    nlCalcVector(0xC1EE148, 0xC1EE154);
     nlPopMatrix(0x1);
     t11 = *(int *)(((0x1A0 + a4) + 0x84));
     if ((t11 == -1) && (t12 = *(int *)(((0x1A0 + a4) + 0x0)), t12 == -1)) {

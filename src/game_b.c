@@ -3,7 +3,7 @@
 
 void gdc_CourseBlockReset(void);
 void gdc_FileLoadInitAll(int a);
-int FUN_0c0813e0(void *a, void *b, int n);
+int memcmp(void *a, void *b, int n);
 int *pdGetPeripheralInfo(int port);
 int pdVibIsReady(int port);
 int nlRenderTextureInit(int a, int b);
@@ -84,7 +84,7 @@ void MotionBlurOff(void)
 
 int CompBackupBuffer(void)
 {
-    return FUN_0c0813e0((void *)0x0C28A4E8, (void *)0x0C28F8A0, 9648) != 0;
+    return memcmp((void *)0x0C28A4E8, (void *)0x0C28F8A0, 9648) != 0;
 }
 
 int padPortAConnected(void)

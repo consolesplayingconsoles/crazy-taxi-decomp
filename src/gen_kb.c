@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_kb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15887e(int, int, int);
+int kmiMemCopy4(int, int, int);
 extern void _builtin_prefetch(void *);
 int kmiDMAtoTARequest(int, int, int, int);
 int kmiFatalErrorEntry(int);
@@ -457,7 +457,7 @@ void kmFlipFrameBuffer(int a4, int a5, int a6, int a7)
     L_C15A572:;
     *(unsigned int *)0xFF000038 = 0x10;
     *(unsigned int *)0xFF00003C = 0x10;
-    FUN_0c15887e(0xE0000000, 0xC175D78, 0x4);
+    kmiMemCopy4(0xE0000000, 0xC175D78, 0x4);
     _builtin_prefetch((void *)0xE0000000);
     t129 = *(int *)0xC2EAAA4;
     t130 = kmiReqRestOfDMA(t129);

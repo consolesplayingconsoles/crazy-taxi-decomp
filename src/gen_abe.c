@@ -3,12 +3,12 @@
 
 int ADXSJD_GetStat(int);
 int ADXT_Stop(void);
-int FUN_0c1687f2(int);
-int FUN_0c168e10(int);
+int ADXSJD_GetDecNumSmpl(int);
+int ADXSTM_GetStat(int);
 int adxt_RcvrReplay(void);
-int FUN_0c169514(int a4, int a5);
+int ADXT_ExecErrChk(int a4, int a5);
 
-int FUN_0c169514(int a4, int a5)
+int ADXT_ExecErrChk(int a4, int a5)
 {
     int t0;
     int t12;
@@ -50,7 +50,7 @@ int FUN_0c169514(int a4, int a5)
     if (((ADXSJD_GetStat((*(int *)((R14 + 0x4))))) == 3)) goto L_C16959E;
     goto L_C169540;
     L_C169540:;
-    t12 = FUN_0c1687f2((*(int *)((R14 + 0x4))));
+    t12 = ADXSJD_GetDecNumSmpl((*(int *)((R14 + 0x4))));
     R4 = (t12);
     if (((*(int *)((R14 + 0x64))) != t12)) goto L_C16956E;
     goto L_C169550;
@@ -146,7 +146,7 @@ int FUN_0c169514(int a4, int a5)
     if (((*(int *)((R14 + 0x8))) == 0)) goto L_C169682;
     goto L_C169650;
     L_C169650:;
-    t63 = FUN_0c168e10((*(int *)((R14 + 0x8))));
+    t63 = ADXSTM_GetStat((*(int *)((R14 + 0x8))));
     R0 = (t63);
     if ((t63 != 4)) goto L_C169682;
     goto L_C16965A;

@@ -4,9 +4,9 @@
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int malloc(int, int);
-int FUN_0c14f8de(int a4, int a5);
+int syMalloc_default_calloc(int a4, int a5);
 
-int FUN_0c14f8de(int a4, int a5)
+int syMalloc_default_calloc(int a4, int a5)
 {
     int t1;
     int t2;

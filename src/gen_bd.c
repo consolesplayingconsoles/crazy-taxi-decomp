@@ -27,18 +27,18 @@ int Money_Array(int, int, int);
 int psgFaceBoyFriend(int);
 int psgUpdatePartTracks(int);
 int psgPutMarker(int, int);
-float FUN_0c0762d0(int);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077a00(int, int, int);
-int FUN_0c077df0(int);
-int FUN_0c077f80(void);
-int FUN_0c078a70(int, int, int);
-int FUN_0c07fab0(int, int);
-int FUN_0c157220(int, int);
-int FUN_0c15725c(int, int);
-int FUN_0c15888e(int);
-int FUN_0c1717d8(int);
+float nlTanfReduce(int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlLookAtUp(int, int, int);
+int nlMatrixMode(int);
+int nlPushMultiViewMatrix(void);
+int nlAddVector3op(int, int, int);
+int nlsndStreamSetHdInfo(int, int);
+int SearchUsed(int, int);
+int FBfree(int, int);
+int kmiPurgeCache(int);
+int mwRnaLockCs(int);
 int FcvPlay(int, int, float);
 int GetAverageAngle(int, int, float);
 int GetCollision2D(int, float);
@@ -132,7 +132,7 @@ int trafficSectionControl(int, int, float);
 int vmsfs_fgetinfo(int, int, int);
 int vmsfs_write_retry(int, int, int);
 int ovLibOpen(int a4);
-int FUN_0c172180(int a4, int a5);
+int mwlSbSetDrctLvl(int a4, int a5);
 int CalcShadow2Matrix(int a4);
 int mwRnaSetPitch(int a4, int a5, int a6);
 int Put2DObjUp(int a4, float f4, float f5, float f6);
@@ -162,8 +162,8 @@ int crowdTask(int a4);
 int breathMove(int a4, int a5);
 int Put_Time_Count(int a4);
 float colliBoxShapeInit(int a4, int a5);
-int FUN_0c15ce20(int a4, int a5, int a6);
-int FUN_0c15cace(int a4, int a5, int a6);
+int kmtex_ReloadVQMM(int a4, int a5, int a6);
+int kmtex_ReloadPalettized4MM(int a4, int a5, int a6);
 int ADXF_LoadPartition(int a4, int a5, int a6, int a7);
 int trafficControl(int a4);
 int gdFsGetStatG(void);
@@ -198,7 +198,7 @@ int ovLibOpen(int a4)
     return t7;
 }
 
-int FUN_0c172180(int a4, int a5)
+int mwlSbSetDrctLvl(int a4, int a5)
 {
     int t13;
     int t0;
@@ -227,7 +227,7 @@ int FUN_0c172180(int a4, int a5)
         t8 = *(int *)((a4 + 0x1C));
         t9 = *(short *)((a4 + 0x6));
         t10 = *(int *)((t8 + 0x4));
-        FUN_0c07fab0(t9, t10);
+        nlsndStreamSetHdInfo(t9, t10);
         t12 = *(int *)(((int)stk + 8));
         *(unsigned int *)((a4 + 0x64)) = t12;
         t13 = 0x1;
@@ -236,45 +236,6 @@ int FUN_0c172180(int a4, int a5)
     return t13;
 }
 
-int CalcShadow2Matrix(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    float u4;
-    float u5;
-    int t7;
-    int t8;
-    int t9;
-    float t11;
-    int t12;
-    int stk[7] = {0};
-
-    t0 = nlGetMatrix(0x0);
-    t1 = *(int *)((a4 + 0x8));
-    *(unsigned int *)((t0 + 0x8)) = t1;
-    t2 = *(int *)((a4 + 0x4));
-    *(unsigned int *)((t0 + 0x4)) = t2;
-    t3 = *(int *)((a4 + 0x0));
-    *(unsigned int *)((t0 + 0x0)) = t3;
-    u4 = *(float *)((a4 + 0x8));
-    *(float *)(((int)stk + 4)) = (-u4);
-    u5 = *(float *)((a4 + 0x0));
-    *(float *)(((int)stk + 12)) = u5;
-    *(float *)(((int)stk + 8)) = 0.0f;
-    nlVoidUnitVector(((int)stk + 4));
-    t7 = *(int *)((((int)stk + 4) + 0x8));
-    *(unsigned int *)(((t0 + 0x20) + 0x8)) = t7;
-    t8 = *(int *)((((int)stk + 4) + 0x4));
-    *(unsigned int *)(((t0 + 0x20) + 0x4)) = t8;
-    t9 = *(int *)((((int)stk + 4) + 0x0));
-    *(unsigned int *)(((t0 + 0x20) + 0x0)) = t9;
-    nlLoadMatrix(0x0);
-    t11 = nlScalor(a4);
-    t12 = nlSetScaleFactor(t11);
-    return t12;
-}
 
 int mwRnaSetPitch(int a4, int a5, int a6)
 {
@@ -318,34 +279,6 @@ int mwRnaSetPitch(int a4, int a5, int a6)
     return 0x78;
 }
 
-int Put2DObjUp(int a4, float f4, float f5, float f6)
-{
-    float u2;
-    float u6;
-    float u7;
-    int t9;
-    int t13;
-    int stk[10] = {0};
-
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    *(float *)(((int)stk + 4)) = f4;
-    *(float *)(((int)stk + 12)) = f5;
-    FUN_0c077f80();
-    nlGetTranslate((((int)stk + 4) + 0xC));
-    u2 = *(float *)(((int)stk + 24));
-    if ((-f6) > u2) {
-        nlUnitMatrix();
-        nlScale(((u2 + f6) / u2), ((u2 + f6) / u2), ((u2 + f6) / u2));
-        nlTranslateV((((int)stk + 4) + 0xC));
-        u6 = *(float *)(((int)stk + 12));
-        u7 = *(float *)(((int)stk + 4));
-        nlScale(u7, u6, 1.0f);
-        t9 = *(int *)(((int)stk + 8));
-        nlObjPut(t9);
-    }
-    t13 = nlPopMatrix(0x1);
-    return t13;
-}
 
 int mwRnaContinue(int a4)
 {
@@ -359,7 +292,7 @@ int mwRnaContinue(int a4)
         t0 = mwRnaErrCallFunc(0xC176680);
         return t0;
     }
-    FUN_0c1717d8(((int)stk + 8));
+    mwRnaLockCs(((int)stk + 8));
     t2 = *(signed char *)((a4 + 0x7));
     if ((unsigned char)t2 == 1) {
         t3 = *(int *)((a4 + 0x88));
@@ -382,7 +315,7 @@ float nlTanf(void)
     float u3;
     int stk[3] = {0};
 
-    t0 = FUN_0c0762d0(((int)stk + 4));
+    t0 = nlTanfReduce(((int)stk + 4));
     t1 = *(int *)(((int)stk + 4));
     t2 = ((~(((~t1) + 0x1) & 0x1)) + 0x1);
     if ((int)t1 >= 0) {
@@ -416,7 +349,7 @@ int mwRnaDestroy(int a4)
         t0 = mwRnaErrCallFunc(0xC176680);
         return t0;
     }
-    FUN_0c1717d8(((int)stk + 8));
+    mwRnaLockCs(((int)stk + 8));
     t2 = *(signed char *)((a4 + 0x1));
     if (t2 != 0) {
         mwRnaStop(a4);
@@ -452,7 +385,7 @@ int mwRnaStart(int a4)
         t0 = mwRnaErrCallFunc(0xC176680);
         return t0;
     }
-    FUN_0c1717d8(((int)stk + 8));
+    mwRnaLockCs(((int)stk + 8));
     t2 = *(signed char *)((a4 + 0x1));
     if (t2 != 0) {
         mwRnaStop(a4);
@@ -528,7 +461,7 @@ int kmiFBfree(int a4)
     int t15;
     int stk[6] = {0};
 
-    t0 = FUN_0c157220(a4, ((int)stk + 4));
+    t0 = SearchUsed(a4, ((int)stk + 4));
     t21 = 0x7;
     if (t0 != 0) {
         t1 = *(short *)((t0 + 0x0));
@@ -539,10 +472,10 @@ int kmiFBfree(int a4)
             if (t2 == 0) {
                 t4 = (t3 + a4);
             }
-            t5 = FUN_0c157220(t4, (((int)stk + 4) + 0x4));
+            t5 = SearchUsed(t4, (((int)stk + 4) + 0x4));
             if (t5 == 0) {
                 t6 = *(short *)(((int)stk + 4));
-                FUN_0c15725c(t6, t0);
+                FBfree(t6, t0);
                 t16 = 0x0;
             } else {
                 t8 = *(short *)((t5 + 0x0));
@@ -552,9 +485,9 @@ int kmiFBfree(int a4)
                     t15 = 0x0;
                 } else {
                     t10 = *(short *)(((int)stk + 4));
-                    FUN_0c15725c(t10, t0);
+                    FBfree(t10, t0);
                     t12 = *(short *)(((int)stk + 8));
-                    t13 = FUN_0c15725c(t12, t5);
+                    t13 = FBfree(t12, t5);
                     t15 = t13;
                 }
                 t16 = t15;
@@ -562,7 +495,7 @@ int kmiFBfree(int a4)
             t19 = t16;
         } else {
             t17 = *(short *)(((int)stk + 4));
-            t18 = FUN_0c15725c(t17, t0);
+            t18 = FBfree(t17, t0);
             t19 = t18;
         }
         t21 = t19;
@@ -644,7 +577,7 @@ int mwRnaAdjustBuf(int a4)
         t0 = mwRnaErrCallFunc(0xC176680);
         return t0;
     }
-    FUN_0c1717d8((((int)stk + 8) + 0x4));
+    mwRnaLockCs((((int)stk + 8) + 0x4));
     t2 = *(signed char *)((a4 + 0x5));
     if ((unsigned char)t2 == 1) {
         t3 = mwRnaGetTransSw(a4);
@@ -690,33 +623,6 @@ int mwRnaAdjustBuf(int a4)
 }
 
 
-int psgFaceTaxi(int a4)
-{
-    float t2;
-    float u3;
-    float u4;
-    int t5;
-    float u6;
-    int t7;
-    int t8;
-    int stk[8] = {0};
-
-    nlSubVector3op(((int)stk + 4), 0xC179144, (a4 + 0x4));
-    *(float *)(((int)stk + 8)) = 0.0f;
-    nlUnitVector(((int)stk + 4));
-    t2 = nlInnerProduct(((int)stk + 4), 0xC0D5554);
-    u3 = *(float *)(((int)stk + 4));
-    u4 = (-_builtin_sqrtf((1.0f - (t2 * t2))));
-    if (u3 > 0.0f) {
-        u4 = _builtin_sqrtf((1.0f - (t2 * t2)));
-    }
-    t5 = nlArcTan2(u4, t2);
-    u6 = 0.95f;
-    t7 = *(int *)((a4 + 0x10));
-    t8 = GetAverageAngle(t7, t5, u6);
-    *(unsigned int *)((a4 + 0x10)) = (short)t8;
-    return (short)t8;
-}
 
 
 
@@ -1081,84 +987,6 @@ int ADXB_DecodeHeaderAu(int a4, int a5, int a6)
     return t14;
 }
 
-int Init_nd_StartWait(void)
-{
-    float u2;
-    float u3;
-    float u4;
-    int t7;
-    int t8;
-    float u9;
-    float u10;
-    float u11;
-    float u12;
-    int t13;
-    int t14;
-    float u15;
-    int t18;
-    int t19;
-    int t20;
-    float u22;
-    int t23;
-    int stk[7] = {0};
-
-    FUN_0c077df0(0x3);
-    nlUnitMatrix();
-    u2 = 300.0f;
-    u3 = 0.29999998f;
-    u4 = 1.3333333f;
-    nlPerspective(0x1D28, u4, u3, u2);
-    FUN_0c077df0(0x1);
-    *(unsigned int *)0xC2A7208 = 0x0;
-    *(unsigned int *)0xC2A72B8 = 0x0;
-    t7 = nlRand();
-    t8 = (int)((int)t7 % (int)0x100);
-    *(unsigned int *)0xC12FFCC = t8;
-    if (t8 == 88) {
-        *(unsigned int *)0xC2A72BC = 0x1E;
-    } else {
-        *(unsigned int *)0xC2A72BC = 0x0;
-    }
-    *(unsigned short *)0xC2A72C0 = 0x3C00;
-    u9 = 35.0f;
-    *(float *)0xC2A72C4 = u9;
-    u10 = 0.7f;
-    *(float *)0xC2A72C8 = u10;
-    u11 = -140.0f;
-    *(float *)0xC2A72CC = u11;
-    *(float *)0xC2A72D0 = 0.0f;
-    u12 = -160.0f;
-    *(float *)0xC2A72D4 = u12;
-    t13 = nlRand();
-    t14 = (int)((int)t13 % (int)0x4);
-    *(unsigned int *)0xC2A72D8 = t14;
-    *(unsigned short *)0xC2A7304 = 0xEB00;
-    *(unsigned short *)0xC2A7306 = 0xF200;
-    u15 = 1.1999999f;
-    *(float *)0xC2A7300 = u15;
-    *(unsigned int *)0xC2A7310 = 0x8;
-    nd_StartWait_SetLight();
-    *(float *)0xC12FFC8 = 0.0f;
-    nd_StartWait_SetFog();
-    t18 = *(int *)0xC0CF5BC;
-    *(unsigned int *)0xC2A72E8 = t18;
-    t19 = *(int *)0xC0CF5B8;
-    *(unsigned int *)0xC2A72E4 = t19;
-    t20 = *(int *)0xC0CF5B4;
-    *(unsigned int *)0xC2A72E0 = t20;
-    *(unsigned short *)0xC2A72EC = 0xF800;
-    *(unsigned short *)0xC2A72EE = 0x0;
-    *(unsigned short *)0xC2A72F0 = 0x0;
-    *(unsigned int *)0xC2A72DC = 0x0;
-    nd_StartWait_InitSprite();
-    *(unsigned int *)0xC2A720C = 0x0;
-    *(float *)(((int)stk + 4)) = 0.0f;
-    *(float *)(((int)stk + 8)) = 0.0f;
-    *(float *)(((int)stk + 12)) = 0.0f;
-    u22 = 50.0f;
-    t23 = MakeKyakuTakeArea(0xC2A7210, ((int)stk + 4), 0x0, u22);
-    return t23;
-}
 
 int ADXB_DecodeHeaderAiff(int a4, int a5, int a6)
 {
@@ -1227,161 +1055,12 @@ int ADXB_DecodeHeaderAiff(int a4, int a5, int a6)
     return t14;
 }
 
-int Drv_CheckSideClear(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t9;
-    float t10;
-    int t11;
-    int t12;
-    int t13;
-    int t19;
-    int t15;
-    int t16;
-    int t17;
-    int t21;
-    int t22;
-    int t28;
-    float u23;
-    int t25;
-    int t26;
-    int t31;
-    int stk[14] = {0};
-
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t0 = *(int *)0xC0D51D8;
-    *(unsigned int *)(((((int)stk + 4) + 0x1C) + 0x8)) = t0;
-    t1 = *(int *)0xC0D51D4;
-    *(unsigned int *)(((((int)stk + 4) + 0x1C) + 0x4)) = t1;
-    t2 = *(int *)0xC0D51D0;
-    *(unsigned int *)(((((int)stk + 4) + 0x1C) + 0x0)) = t2;
-    t3 = *(int *)0xC0D51E4;
-    *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x8)) = t3;
-    t4 = *(int *)0xC0D51E0;
-    *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x4)) = t4;
-    t5 = *(int *)0xC0D51DC;
-    *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x0)) = t5;
-    nlPushMatrix(0xC179180);
-    nlSqrt((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
-    nlSqrt((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10));
-    t9 = *(int *)(((int)stk + 4));
-    t10 = nlInnerProduct(t9, 0xC2AD1E0);
-    t11 = 0x0;
-    if (!(0.0f > t10)) {
-        t11 = 0x1;
-    }
-    if (t11 == 1) {
-        t12 = GetCollision2D((((int)stk + 4) + 0x1C), 0.0f);
-        t13 = *(int *)((t12 + 0x1C));
-        t19 = (((t11 == 0)) ? 1 : 0);
-        if (t13 != -1) {
-            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, 20.0f);
-            t15 = GetCollisionFirst((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4));
-            t16 = *(int *)((t15 + 0x1C));
-            t17 = t11;
-            if (t16 != -1) {
-                t17 = (((t11 == 0)) ? 1 : 0);
-            }
-            t19 = t17;
-        }
-        t31 = t19;
-    } else {
-        t21 = GetCollision2D((((int)stk + 4) + 0x10), 0.0f);
-        t22 = *(int *)((t21 + 0x1C));
-        t28 = (((t11 == 0)) ? 1 : 0);
-        if (t22 != -1) {
-            u23 = -20.0f;
-            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, u23);
-            t25 = GetCollisionFirst((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-            t26 = *(int *)((t25 + 0x1C));
-            t28 = t11;
-        }
-        t31 = t28;
-    }
-    nlPopMatrix(0x1);
-    return t31;
-}
-
-
-int breathMove(int a4, int a5)
-{
-    int t1;
-    int t3;
-    float u7;
-    float u9;
-    float u10;
-    float u11;
-    float u12;
-    float u15;
-    float u16;
-    float u17;
-    float u18;
-    int t21;
-    float u22;
-    float u23;
-    float u24;
-    float u25;
-    float u27;
-    float u28;
-    float u29;
-    int stk[7] = {0};
-
-    nlPushMatrix(0x0);
-    t1 = *(int *)((a4 + 0x10));
-    nlRotateAY(t1);
-    t3 = *(int *)((a4 + 0xC));
-    nlRotateAX(t3);
-    FUN_0c077210(0xC0D5578, ((int)stk + 4));
-    nlPopMatrix(0x1);
-    u7 = *(float *)((a4 + 0x18));
-    nlGetAverageVector(a4, ((int)stk + 4), a4, 1.0f, u7);
-    u9 = *(float *)((a5 + 0x0));
-    u10 = *(float *)((a4 + 0x0));
-    if ((u10 - u9) > 50.0f) {
-        u11 = *(float *)((a5 + 0x0));
-        *(float *)((a4 + 0x0)) = (u11 + 50.0f);
-    } else {
-        if (-50.0f > (u10 - u9)) {
-            u12 = *(float *)((a5 + 0x0));
-            *(float *)((a4 + 0x0)) = (u12 + -50.0f);
-        }
-    }
-    u15 = *(float *)((a4 + 0x8));
-    u16 = *(float *)((a5 + 0x8));
-    if ((u15 - u16) > 50.0f) {
-        u17 = *(float *)((a5 + 0x8));
-        *(float *)((a4 + 0x8)) = (u17 + 50.0f);
-    } else {
-        if (-50.0f > (u15 - u16)) {
-            u18 = *(float *)((a5 + 0x8));
-            *(float *)((a4 + 0x8)) = (u18 + -50.0f);
-        }
-    }
-    t21 = GetCollision2D(a4, 0.0f);
-    u22 = -2.5f;
-    u23 = *(float *)((t21 + 0x4));
-    u24 = *(float *)((a4 + 0x4));
-    if ((u23 + u22) > u24) {
-        u25 = *(float *)((t21 + 0x4));
-        *(float *)((a4 + 0x4)) = (u25 + u22);
-    }
-    u27 = *(float *)((a4 + 0x4));
-    u28 = *(float *)((a5 + 0x4));
-    if (u27 > u28) {
-        u29 = *(float *)((a5 + 0x4));
-        *(float *)((a4 + 0x4)) = u29;
-    }
-    return 0x4;
-}
 
 
 
-int FUN_0c15ce20(int a4, int a5, int a6)
+
+
+int kmtex_ReloadVQMM(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1466,8 +1145,8 @@ int FUN_0c15ce20(int a4, int a5, int a6)
             t21 = *(int *)((0xC175ED8 + ((t0 - 1) << 2)));
             t22 = *(int *)(((int)stk + 4));
             *(unsigned int *)(((int)stk + 4)) = (t22 + (t21 + 0x7FA));
-            FUN_0c15888e((((int)stk + 4) + 0x8));
-            FUN_0c15888e(((((int)stk + 4) + 0x8) + 0x20));
+            kmiPurgeCache((((int)stk + 4) + 0x8));
+            kmiPurgeCache(((((int)stk + 4) + 0x8) + 0x20));
             t25 = *(int *)(((int)stk + 4));
             kmiCopyToFrameBuffer(t25, (((int)stk + 4) + 0x8), 0x10);
             t27 = *(int *)(((t0 << 2) + 0xC175EAC));
@@ -1498,14 +1177,14 @@ int FUN_0c15ce20(int a4, int a5, int a6)
             t44 = *(int *)((a4 + 0x1C));
             t47 = (t44 + (t43 + 0x7FA));
         }
-        FUN_0c15888e((((int)stk + 4) + 0x8));
-        FUN_0c15888e(((((int)stk + 4) + 0x8) + 0x20));
+        kmiPurgeCache((((int)stk + 4) + 0x8));
+        kmiPurgeCache(((((int)stk + 4) + 0x8) + 0x20));
         kmiCopyToFrameBuffer(t47, (((int)stk + 4) + 0x8), 0x10);
     }
     return 0x0;
 }
 
-int FUN_0c15cace(int a4, int a5, int a6)
+int kmtex_ReloadPalettized4MM(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1585,8 +1264,8 @@ int FUN_0c15cace(int a4, int a5, int a6)
         }
         t16 = *(int *)((a4 + 0x1C));
         *(unsigned int *)(((int)stk + 8)) = t16;
-        FUN_0c15888e((((int)stk + 4) + 0xC));
-        FUN_0c15888e(((((int)stk + 4) + 0xC) + 0x20));
+        kmiPurgeCache((((int)stk + 4) + 0xC));
+        kmiPurgeCache(((((int)stk + 4) + 0xC) + 0x20));
         t19 = *(int *)(((int)stk + 8));
         t61 = t19;
     } else {
@@ -1610,9 +1289,9 @@ int FUN_0c15cace(int a4, int a5, int a6)
         t29 = *(int *)((0xC175F5C + (t0 << 2)));
         *(unsigned int *)(((int)stk + 12)) = (t28 + (t29 - 12));
         t30 = *(int *)(((int)stk + 4));
-        FUN_0c15888e(t30);
+        kmiPurgeCache(t30);
         t32 = *(int *)(((int)stk + 4));
-        FUN_0c15888e((t32 + 0x20));
+        kmiPurgeCache((t32 + 0x20));
         t34 = *(int *)(((int)stk + 4));
         t35 = *(int *)(((int)stk + 12));
         kmiCopyToFrameBuffer(t35, t34, 0x10);
@@ -1644,8 +1323,8 @@ int FUN_0c15cace(int a4, int a5, int a6)
         } while ((unsigned int)t51 < (unsigned int)((((int)stk + 4) + 0xC) + 0xC));
         t54 = *(int *)((a4 + 0x1C));
         t55 = *(int *)((0xC175F5C + ((t0 + 0x1) << 2)));
-        FUN_0c15888e((((int)stk + 4) + 0xC));
-        FUN_0c15888e(((((int)stk + 4) + 0xC) + 0x20));
+        kmiPurgeCache((((int)stk + 4) + 0xC));
+        kmiPurgeCache(((((int)stk + 4) + 0xC) + 0x20));
         t61 = (t54 + (t55 - 12));
     }
     kmiCopyToFrameBuffer(t61, (((int)stk + 4) + 0xC), 0x10);

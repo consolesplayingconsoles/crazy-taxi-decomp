@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_l): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c080370(int, int, int);
-int FUN_0c15c3c8(int);
+int nlsndStreamChgFilter(int, int, int);
+int kmtex_CheckTextureFormat(int);
 int InitArrow(int);
 int kmiDefaultInterruptHandler(int);
 int kmiTXalloc(int, int);
@@ -29,7 +29,7 @@ int kmCreateTextureSurface(int a4)
 {
     int r;
 
-    r = FUN_0c15c3c8(a4);
+    r = kmtex_CheckTextureFormat(a4);
     if (r != 0) {
         return r;
     }
@@ -44,7 +44,7 @@ int kmCreateTextureSurface(int a4)
     return r;
 }
 
-int FUN_0c1720ac(int a4, int a5, int a6)
+int mwlSbSetFilter(int a4, int a5, int a6)
 {
     int t0;
     int t3;
@@ -77,5 +77,5 @@ int FUN_0c1720ac(int a4, int a5, int a6)
         t4 = t3;
         }
     t6 = *(short *)((a4 + 0x6));
-    return FUN_0c080370(t6, t1, t4);
+    return nlsndStreamChgFilter(t6, t1, t4);
 }

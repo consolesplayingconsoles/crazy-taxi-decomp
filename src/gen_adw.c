@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_adw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c079f10(void);
+int nl_set_cnv_proj_pers(void);
 int nlArcTan(float);
 float nlCos(int);
 int nlMultiMatrix(int);
@@ -113,5 +113,5 @@ int nlPerspective(int a4, float f4, float f5, float f6)
     *(float *)0xC2B3178 = f6;
     *(float *)0xC2B3170 = (1.0f / f5);
     nlMultiMatrix((((int)stk + 4) + 0x18));
-    return (FUN_0c079f10());
+    return (nl_set_cnv_proj_pers());
 }

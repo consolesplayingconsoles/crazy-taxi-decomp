@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_od): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c079980(int);
+int nlMakeProjConvMat(int);
 int kmSetPixelClipping(int, int, int, int);
-int FUN_0c079a60(float f4, float f5, float f6, float f7);
+int nlSetWindowSize(float f4, float f5, float f6, float f7);
 
-int FUN_0c079a60(float f4, float f5, float f6, float f7)
+int nlSetWindowSize(float f4, float f5, float f6, float f7)
 {
     float u4;
     float u5;
@@ -65,7 +65,7 @@ int FUN_0c079a60(float f4, float f5, float f6, float f7)
     } else {
         *(float *)0xC14A818 = (u12 * u13);
     }
-    FUN_0c079980(0xC2B3410);
+    nlMakeProjConvMat(0xC2B3410);
     t17 = *(short *)0xC2B3190;
     t20 = 0x0;
     if ((int)(int)f4 < 0) {

@@ -1,154 +1,52 @@
 /* Straight-line functions with calls and guards (batch gen_jy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlInnerProduct(int, int);
-int nlSqrt(int, int);
-int CheckCollisionPoly(int a4, int a5, int a6, float f4, float f5, float f6);
+int CheckAreaGrid(int, int);
+int nlSingleLine(void);
+void PutGrid(int a4);
 
-int CheckCollisionPoly(int a4, int a5, int a6, float f4, float f5, float f6)
+void PutGrid(int a4)
 {
-    float t0;
-    float t9;
+    int t5;
+    float u9;
     float u10;
-    float u11;
-    int t17;
-    float u20;
-    float u21;
-    float u22;
-    float u23;
-    float u37;
-    float u38;
-    float u44;
-    float u45;
-    float u52;
-    float u53;
-    float u58;
-    float u59;
-    float u63;
-    float u64;
-    int stk[18] = {0};
+    int t14;
+    int t15;
+    int stk[19];
 
-    int R0;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C031D62:;
-    t0 = nlInnerProduct((R4 + 0xC), R5);
-    R11 = (R5);
-    R12 = (R6);
-    R13 = (R4);
-    R14 = (R5);
-    F0 = (t0);
-    F15 = (t0);
-    if ((0.0f > t0)) goto L_C031D8E;
-    goto L_C031D8A;
-    L_C031D8A:;
-    goto L_C031EA2;
-    L_C031EA2:;
-    R0 = (0x0);
-    goto L_C031EA4;
-    L_C031EA4:;
-    return R0;
-    L_C031D8E:;
-    t9 = nlInnerProduct(R11, R13);
-    u10 = *(float *)((R14 + 0xC));
-    u11 = *(float *)((R13 + 0x18));
-    F0 = ((((-t9) - u10) + u11));
-    F14 = (((((-t9) - u10) + u11) / F15));
-    F4 = (u11);
-    if ((!((*(float *)((R12 + 0x8))) > ((((-t9) - u10) + u11) / F15)))) goto L_C031EA2;
-    goto L_C031DB0;
-    L_C031DB0:;
-    t17 = (F4 / F15) > F14;
-    F4 = ((F4 / F15));
-    if (t17) goto L_C031EA2;
-    goto L_C031DB6;
-    L_C031DB6:;
-    nlSqrt((R14 + 0x14), (((int)stk + 4) + 0x18));
-    u20 = *(float *)(((int)stk + 28));
-    u21 = *(float *)(((int)stk + 32));
-    u22 = *(float *)((R14 + 0x10));
-    u23 = (u21 * u21);
-    u23 = u23 + u20 * u20;
-    R10 = (0xC0771B0);
-    R11 = ((R14 + 0x14));
-    F0 = (u20);
-    F4 = (u21);
-    F5 = (u22);
-    F6 = (u20);
-    if ((u23 > (u22 * u22))) goto L_C031EA2;
-    goto L_C031DE0;
-    L_C031DE0:;
-    nlSqrt((R11 + 0xC), (((int)stk + 4) + 0xC));
-    R11 = ((R11 + 0xC));
-    if (((*(int *)((R14 + 0x48))) == 3)) goto L_C031E12;
-    goto L_C031DF2;
-    L_C031DF2:;
-    u37 = *(float *)(((int)stk + 16));
-    u38 = *(float *)(((int)stk + 32));
-    F1 = ((u38 * u37));
-    if ((!((((*(float *)(((int)stk + 28))) * (*(float *)(((int)stk + 20)))) - (u38 * u37)) > 0.0f))) goto L_C031E22;
-    goto L_C031E0E;
-    L_C031E0E:;
-    goto L_C031EA2;
-    L_C031E22:;
-    nlSqrt((R11 + 0xC), ((int)stk + 4));
-    u44 = *(float *)(((int)stk + 20));
-    u45 = *(float *)(((int)stk + 4));
-    R11 = ((R11 + 0xC));
-    F1 = ((u44 * u45));
-    if (((((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 8)))) - (u44 * u45)) > 0.0f)) goto L_C031EA2;
-    goto L_C031E44;
-    L_C031E44:;
-    nlSqrt((R11 + 0xC), (((int)stk + 4) + 0xC));
-    u52 = *(float *)(((int)stk + 16));
-    u53 = *(float *)(((int)stk + 8));
-    F1 = ((u53 * u52));
-    if (((((*(float *)(((int)stk + 4))) * (*(float *)(((int)stk + 20)))) - (u53 * u52)) > 0.0f)) goto L_C031EA2;
-    goto L_C031E68;
-    L_C031E68:;
-    u58 = *(float *)(((int)stk + 28));
-    u59 = *(float *)(((int)stk + 20));
-    F1 = ((u59 * u58));
-    if (((((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 32)))) - (u59 * u58)) > 0.0f)) goto L_C031EA2;
-    goto L_C031E84;
-    L_C031E84:;
-    *(float *)((R12 + 0x8)) = F14;
-    *(unsigned int *)((R12 + 0x0)) = R14;
-    *(float *)((R12 + 0x4)) = F15;
-    u63 = *(float *)((R13 + 0x1C));
-    u64 = (*(float *)((R13 + 0x18)));
-    u64 = u64 + F14 * u63;
-    *(float *)((R13 + 0x20)) = u64;
-    R0 = (0x1);
-    F0 = (F14);
-    F1 = (u63);
-    goto L_C031EA4;
-    L_C031E12:;
-    *(float *)(((int)stk + 28)) = (*(float *)(((int)stk + 16)));
-    *(float *)(((int)stk + 32)) = (*(float *)(((int)stk + 20)));
-    goto L_C031E22;
+    *(unsigned int *)0xC0ED43C = (CheckAreaGrid(a4, (*(int *)0xC0ED43C)));
+    *(float *)(((int)stk + 4)) = ((*(float *)((a4 + 0x0))) * 9.99999975e-06f);
+    *(float *)(((int)stk + 8)) = (-((*(float *)((a4 + 0x8))) * 9.99999975e-06f));
+    *(float *)(((int)stk + 12)) = -0.5f;
+    nlSingleLine();
+    t5 = 0x0;
+    for (;;) {
+        u9 = (-1.0f);
+        u10 = 1.99999995e-05f;
+        if (t5 == (*(int *)0xC0ED43C)) {
+            u9 = -0.5f;
+            u10 = 9.99999975e-06f;
+        }
+        *(float *)(((int)stk + 16)) = ((*(float *)(((((((t5 << 2) << 2) << 1) + 0xC08DBA8) + 0x18) + 0x0))) * u10);
+        *(float *)(((int)stk + 20)) = (-((*(float *)(((((((t5 << 2) << 2) << 1) + 0xC08DBA8) + 0x18) + 0x4))) * u10));
+        *(float *)(((int)stk + 24)) = u9;
+        t14 = 0x0;
+        t15 = ((((t5 << 2) << 2) << 1) + 0xC08DBA8);
+        for (;;) {
+            *(float *)(((int)stk + 4)) = ((*(float *)((t15 + 0x0))) * u10);
+            *(float *)(((int)stk + 8)) = (-((*(float *)((t15 + 0x4))) * u10));
+            *(float *)(((int)stk + 12)) = u9;
+            nlSingleLine();
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(((int)stk + 4)); }
+            t14 = (t14 + 0x1);
+            t15 = (t15 + 0x8);
+            if ((int)t14 >= (int)0x4) {
+                break;
+            }
+        }
+        t5 = (t5 + 0x1);
+        if ((int)t5 >= (int)0x19) {
+            break;
+        }
+    }
 }

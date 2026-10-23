@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_ob): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c079f10(void);
+int nl_set_cnv_proj_pers(void);
 int nlArcTan(float);
 float nlCos(int);
 int nlMultiMatrix(int);
 float nlSin(int);
 float nlTan(int);
-int FUN_0c0792b0(int a4, float f4, float f5, float f6);
+int nlPerspectiveX(int a4, float f4, float f5, float f6);
 
-int FUN_0c0792b0(int a4, float f4, float f5, float f6)
+int nlPerspectiveX(int a4, float f4, float f5, float f6)
 {
     int t0;
     float u13;
@@ -109,5 +109,5 @@ int FUN_0c0792b0(int a4, float f4, float f5, float f6)
     *(float *)0xC2B3178 = (*(float *)(((int)stk + 4)));
     *(float *)0xC2B3170 = (1.0f / f5);
     nlMultiMatrix((((int)stk + 4) + 0x18));
-    return (FUN_0c079f10());
+    return (nl_set_cnv_proj_pers());
 }

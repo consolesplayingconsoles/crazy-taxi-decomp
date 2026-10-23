@@ -4,7 +4,7 @@
 int Exec_FogDensity(void);
 int Exec_FogColor(void);
 int Check_FogArea(void);
-int FUN_0c0813d0(int);
+int abs(int);
 float nlLength(int, int);
 
 

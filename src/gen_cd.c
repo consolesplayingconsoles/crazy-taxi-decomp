@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Act_Init(void);
-int FUN_0c0111e8(int, int);
-int FUN_0c0112c6(int, int);
+int bootDevRecv(int, int);
+int bootDevSend(int, int);
 int gdc_CourseLoadWait(void);
 int gdc_CourseStartLoadReq(void);
 int SetLight(int, int);
@@ -13,12 +13,12 @@ int InitKyakuStopArea(void);
 int cycleAdvCheck(void);
 int nd_peopleInitialize(int);
 int Init_nd_Sprite(void);
-int FUN_0c074680(void);
+int nlSetBackColor(void);
 int nlsndPackLoad(int, int);
-int FUN_0c07f0b0(void);
-int FUN_0c14d324(void);
-int FUN_0c15c746(int);
-int FUN_0c15f978(void);
+int nlsndPackFree(void);
+int gdFsInitSub(void);
+int kmtex_TextureSize(int);
+int gdFsGetGdDcf(void);
 int GoiTool(int);
 int InitColliObj(int);
 int InitHelicopter(void);
@@ -66,8 +66,8 @@ int nlInitHeapMemory(int, int);
 int trafficControl(int);
 float nlFastSinCos(int a4, int a5, int a6);
 int gdFsInitG(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c0113b4(int a4);
-int FUN_0c15c3c8(int a4, int a5, int a6, int a7);
+int bootParsePacket(int a4);
+int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7);
 int gameState0(void);
 int Chat_Getoff(int a4);
 
@@ -147,7 +147,7 @@ int gdFsInitG(int a4, int a5, int a6, int a7, int a8)
         if ((a5 & 31) != 0) {
             return 0xFFFFFFF2;
         }
-        t2 = FUN_0c15f978();
+        t2 = gdFsGetGdDcf();
         t3 = *(int *)((t2 + 0x0));
         t4 = ((int (*)(void))(t3))();
         t5 = _builtin_get_imask();
@@ -196,12 +196,12 @@ int gdFsInitG(int a4, int a5, int a6, int a7, int a8)
         t26 = *(int *)((t25 + 0x14));
         gdFsCreateHnG(t26);
         _builtin_set_imask(((unsigned int)(((t5 & 0xF) << 2) << 2) >> 4));
-        return FUN_0c14d324();
+        return gdFsInitSub();
     }
     if ((a5 & 31) != 0) {
         return 0xFFFFFFF2;
     }
-    t28 = FUN_0c15f978();
+    t28 = gdFsGetGdDcf();
     t29 = *(int *)((t28 + 0x0));
     t30 = ((int (*)(void))(t29))();
     t31 = _builtin_get_imask();
@@ -250,10 +250,10 @@ int gdFsInitG(int a4, int a5, int a6, int a7, int a8)
     t52 = *(int *)((t51 + 0x14));
     gdFsCreateHnG(t52);
     _builtin_set_imask(((unsigned int)(((t31 & 0xF) << 2) << 2) >> 4));
-    return FUN_0c14d324();
+    return gdFsInitSub();
 }
 
-int FUN_0c0113b4(int a4)
+int bootParsePacket(int a4)
 {
     int t0;
     int t47;
@@ -310,7 +310,7 @@ int FUN_0c0113b4(int a4)
                             *(unsigned char *)((t2 + 0x0)) = 0x0;
                             t2 = (t2 + 0x1);
                         } while (t1 != 0);
-                        t3 = FUN_0c0112c6((((int)stk + 4) + 0x4), 0x8);
+                        t3 = bootDevSend((((int)stk + 4) + 0x4), 0x8);
                         t28 = t3;
                     } else {
                         if ((unsigned char)t0 != 40) {
@@ -326,7 +326,7 @@ int FUN_0c0113b4(int a4)
                                 t10 = *(signed char *)(((a4 + 0x8) + 0x0));
                                 t12 = (unsigned char)t0;
                                 if ((unsigned int)((((unsigned char)t8 << 16) + ((unsigned char)t9 << 8)) + (unsigned char)t10) > (unsigned int)0x0) {
-                                    t11 = FUN_0c0111e8(((((((unsigned char)t4 << 16) << 8) + ((unsigned char)t5 << 16)) + ((unsigned char)t6 << 8)) + (unsigned char)t7), ((((unsigned char)t8 << 16) + ((unsigned char)t9 << 8)) + (unsigned char)t10));
+                                    t11 = bootDevRecv(((((((unsigned char)t4 << 16) << 8) + ((unsigned char)t5 << 16)) + ((unsigned char)t6 << 8)) + (unsigned char)t7), ((((unsigned char)t8 << 16) + ((unsigned char)t9 << 8)) + (unsigned char)t10));
                                     t12 = t11;
                                 }
                                 t14 = t12;
@@ -343,7 +343,7 @@ int FUN_0c0113b4(int a4)
                             t22 = *(signed char *)(((a4 + 0x8) + 0x0));
                             t24 = (unsigned char)t0;
                             if ((unsigned int)((((unsigned char)t20 << 16) + ((unsigned char)t21 << 8)) + (unsigned char)t22) > (unsigned int)0x0) {
-                                t23 = FUN_0c0112c6(((((((unsigned char)t16 << 16) << 8) + ((unsigned char)t17 << 16)) + ((unsigned char)t18 << 8)) + (unsigned char)t19), ((((unsigned char)t20 << 16) + ((unsigned char)t21 << 8)) + (unsigned char)t22));
+                                t23 = bootDevSend(((((((unsigned char)t16 << 16) << 8) + ((unsigned char)t17 << 16)) + ((unsigned char)t18 << 8)) + (unsigned char)t19), ((((unsigned char)t20 << 16) + ((unsigned char)t21 << 8)) + (unsigned char)t22));
                                 t24 = t23;
                             }
                             t26 = t24;
@@ -358,7 +358,7 @@ int FUN_0c0113b4(int a4)
                 t35 = (unsigned char)t0;
                 if ((unsigned int)(unsigned char)t32 > (unsigned int)0x0) {
                     t33 = *(int *)0xAC00F704;
-                    t34 = FUN_0c0112c6(t33, (unsigned char)t32);
+                    t34 = bootDevSend(t33, (unsigned char)t32);
                     t35 = t34;
                 }
                 t37 = t35;
@@ -375,7 +375,7 @@ int FUN_0c0113b4(int a4)
             t41 = *(signed char *)(((a4 + 0x4) + 0x0));
             t43 = (unsigned char)t0;
             if ((unsigned int)(unsigned char)t41 > (unsigned int)0x0) {
-                t42 = FUN_0c0112c6((((int)stk + 4) + 0x4), (unsigned char)t41);
+                t42 = bootDevSend((((int)stk + 4) + 0x4), (unsigned char)t41);
                 t43 = t42;
             }
             t45 = t43;
@@ -385,7 +385,7 @@ int FUN_0c0113b4(int a4)
     return t47;
 }
 
-int FUN_0c15c3c8(int a4, int a5, int a6, int a7)
+int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -724,7 +724,7 @@ int FUN_0c15c3c8(int a4, int a5, int a6, int a7)
         t137 = *(int *)((a4 + 0x18));
         *(unsigned int *)((a4 + 0x18)) = ((t137 | 0x20) | 0x4);
     }
-    FUN_0c15c746(a4);
+    kmtex_TextureSize(a4);
     return t80;
 }
 

@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nd_SprPut(int, int, float, float);
-int FUN_0c077210(int, int);
-int FUN_0c078750(void);
-int FUN_0c07ab30(void);
+int nlCalcVector(int, int);
+int nlRotateRX(void);
+int nlObjPutMvClosedVolumeUseViewMatrix(void);
 int PutStringFixPfont(int, int, float, float, float, float);
 int ResetFadeColor(void);
 int SetFadeColorBaseMulti(float, float, float);
@@ -39,7 +39,7 @@ int nlTranslateV(int);
 float pfLength(int);
 int pfSetFont(int);
 int putString(int, int, float, float, float);
-float FUN_0c078de0(int a4, int a5);
+float nlUnitVectorsd(int a4, int a5);
 float fcvHermite(int a4, int a5, float f4);
 float carCalcInertia(int a4);
 float BigOneKeyValue(int a4, int a5, float f4);

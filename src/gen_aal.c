@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_aal): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c16766c(void);
-int FUN_0c15f876(int a4, int a5, int a6);
+int gdGdcReqCmd(void);
+int gdDcfDaPlay_(int a4, int a5, int a6);
 
-int FUN_0c15f876(int a4, int a5, int a6)
+int gdDcfDaPlay_(int a4, int a5, int a6)
 {
     int stk[7] = {0};
 
@@ -12,5 +12,5 @@ int FUN_0c15f876(int a4, int a5, int a6)
     *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
     *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
     *(unsigned int *)((((int)stk + 4) + 0xC)) = 0x0;
-    return (FUN_0c16766c());
+    return (gdGdcReqCmd());
 }

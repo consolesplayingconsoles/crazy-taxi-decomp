@@ -7,7 +7,7 @@ int selectInitTileSprite(void)
 {
     *(float *)0xC2A7464 = 0.0f;
     *(float *)0xC2A7468 = 0.0f;
-    *(float *)0xC2A746C = (*(float *)0xC051E1C);
+    *(float *)0xC2A746C = (500.0f);
     *(float *)0xC2A7470 = 1.0f;
     *(float *)0xC2A7474 = 1.0f;
     *(float *)0xC2A7478 = 0.0f;

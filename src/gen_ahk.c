@@ -3,9 +3,9 @@
 
 int End_TimeUp(void);
 int SetLandmark(int);
-int FUN_0c02d744(void);
+int GS_GameOver(void);
 
-int FUN_0c02d744(void)
+int GS_GameOver(void)
 {
     int t2;
 

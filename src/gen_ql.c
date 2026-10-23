@@ -49,7 +49,7 @@ void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5)
         u20 = u13;
         u20 = u20 + f4 * u12;
         u13 = u20;
-        t9 = 0xC031EF4;
+        t9 = ((int)GetCollision2D);
         *(float *)((t11 + 0x0)) = u13;
         u12 = (*(float *)((t11 + 0x8)));
         u13 = (*(float *)((a5 + 0x8)));

@@ -9,9 +9,9 @@ int menuPutHelpBar(int, float, float);
 int padPortAConnected(void);
 int putLevelCTFontAssist(int, int, int, int);
 int putString(int, int, float, float, float);
-int FUN_0c03fb20(void);
+int menuControllerHandler(void);
 
-int FUN_0c03fb20(void)
+int menuControllerHandler(void)
 {
     int t2;
     int t8;

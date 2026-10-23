@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_aee): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07f5c0(int);
-float FUN_0c089de0(int);
+int nlsndSeqRequest(int);
+float nlFastSin(int);
 int NextWindow(int);
 int Voice_Request(int, int, int, int);
 int nlObjPut(int);
@@ -52,7 +52,7 @@ int windowGotBike(void)
         t8 = *(int *)0xC2A1AF0;
         if ((int)(int)((float)t8 - 30.0f) > 0) {
             *(float *)0xC2A1AF4 = ((*(float *)0xC2A1AF4) - 40.0f);
-            *(unsigned short *)0xC2A1B0A = (int)((FUN_0c089de0((0x10000 - ((int)((float)t8 - 30.0f) << 7)))) * 65536.0f);
+            *(unsigned short *)0xC2A1B0A = (int)((nlFastSin((0x10000 - ((int)((float)t8 - 30.0f) << 7)))) * 65536.0f);
             if ((*(float *)0xC2A1AFC) > 0.0f) {
                 *(float *)0xC2A1AFC = ((*(float *)0xC2A1AFC) - ((*(float *)0xC2A1AFC) / (float)(int)((float)t8 - 30.0f)));
             }
@@ -61,7 +61,7 @@ int windowGotBike(void)
                 *(float *)0xC2A1B04 = ((*(float *)0xC2A1B04) - (u17 / (float)(int)((float)t8 - 30.0f)));
             }
             if ((int)((float)t8 - 30.0f) == 30) {
-                FUN_0c07f5c0(0x40BA9);
+                nlsndSeqRequest(0x40BA9);
             }
         } else {
             *(float *)0xC2A1B10 = 1.0f;
@@ -84,13 +84,13 @@ int windowGotBike(void)
                 *(unsigned short *)0xC2A1B0C = ((*(short *)0xC2A1B0C) - 0x100);
             }
             if ((*(int *)0xC2A1AF0) == 10) {
-                FUN_0c07f5c0(0xA04A9);
+                nlsndSeqRequest(0xA04A9);
             }
         }
         if ((int)(*(int *)0xC2A1AF0) > 0) {
             if ((*(int *)0xC2A1AF0) == 1) {
                 *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x8);
-                FUN_0c07f5c0(0x308A9);
+                nlsndSeqRequest(0x308A9);
             }
             *(unsigned int *)0xC2A1AF0 = ((*(int *)0xC2A1AF0) - 1);
         }

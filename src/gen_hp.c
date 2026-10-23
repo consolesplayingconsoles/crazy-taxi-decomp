@@ -7,9 +7,9 @@ int SJ_SplitChunk(int, int, int);
 int adxstm_sj_internal_error(void);
 int gdFsGetStat(int);
 int gdFsReqRd32(int, int, int);
-int FUN_0c168c7c(int a4, int a5);
+int adxstmf_stat_exec(int a4, int a5);
 
-int FUN_0c168c7c(int a4, int a5)
+int adxstmf_stat_exec(int a4, int a5)
 {
     int t0;
     int t1;

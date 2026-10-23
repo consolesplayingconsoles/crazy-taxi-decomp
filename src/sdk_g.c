@@ -3,36 +3,36 @@
 extern int g_0c2af0bc;
 
 void nlMultiMatrix8(void *m);
-void FUN_0c077f20(void *m);
+void nlMultiMatrixRevOrder(void *m);
 void nlPushMatrix(void *m);
-void FUN_0c077f60(void);
+void nlMultiPushedMatrix(void);
 int nlRand(void);
 void kmSetFogTable(float *t);
 void nlRenderTextureSet_Sub(int a, int b, int c, int d, int e);
-void FUN_0c075600(float f);
-int FUN_0c0753f0(void);
-int FUN_0c075400(int t);
-int FUN_0c075410(int a, int b);
+void nlSetBackColorZ(float f);
+int nlSysMetricsReadTimer(void);
+int nlSysMetricsScaleTime(int t);
+int nlSysMetricsDiffTime(int a, int b);
 
 #define MATRIX_TOP_DC   (*(char **)(0x0C2B31DC + 8))    /* a matrix stack's current pointer (the entry above it) */
 #define VIEW_MATRIX     (*(void **)(0x0C2B31F4 + 8))
 #define RAND_SEED       (*(unsigned int *)0x0C14A7B4)
 
 /* Multiplies by the matrix one entry (64 bytes) below the top of the stack at 0C2B31DC. */
-void FUN_0c077f60(void)
+void nlMultiPushedMatrix(void)
 {
     nlMultiMatrix8(MATRIX_TOP_DC - 64);
 }
 
-void FUN_0c077f70(void)
+void nlMultiViewMatrix(void)
 {
-    FUN_0c077f20(VIEW_MATRIX);
+    nlMultiMatrixRevOrder(VIEW_MATRIX);
 }
 
-void FUN_0c077f80(void)
+void nlPushMultiViewMatrix(void)
 {
     nlPushMatrix(VIEW_MATRIX);
-    FUN_0c077f60();
+    nlMultiPushedMatrix();
 }
 
 void nlRandomSeed(int seed)
@@ -73,47 +73,47 @@ void nlRenderTextureSet_Stride(int a, int b, int c, int d)
     nlRenderTextureSet_Sub(a, b, c, d, 0);
 }
 
-int FUN_0c0742f0(void)
+int __nl_sysver_include__(void)
 {
     return 0x0C0D6A25;
 }
 
-void FUN_0c074300(int v)
+void nlSetPalExtMode(int v)
 {
     *(int *)0x0C14A64C = v;
 }
 
-void FUN_0c074680(void)
+void nlSetBackColor(void)
 {
-    FUN_0c075600(100000.0f);
+    nlSetBackColorZ(100000.0f);
 }
 
-void FUN_0c074d10(int v)
+void nlSysSetTextureSize(int v)
 {
     *(int *)0x0C2AECEC = v;
 }
 
 /* The count of timer 0 (TMU TCNT0). */
-int FUN_0c0753f0(void)
+int nlSysMetricsReadTimer(void)
 {
     return *(volatile int *)0xFFD8000C;
 }
 
 /* Ticks to a time: t times the factor at 0C2AEDBC, truncated. */
-int FUN_0c075400(int t)
+int nlSysMetricsScaleTime(int t)
 {
     return (int)((float)t * *(float *)0x0C2AEDBC);
 }
 
-int FUN_0c075410(int a, int b)
+int nlSysMetricsDiffTime(int a, int b)
 {
     return a - b;
 }
 
 /* The time since the count kept at 0C2AEEA8 (the timer counts down). */
-int FUN_0c075430(void)
+int nlSysMetricsCpuPowerGet(void)
 {
-    int now = FUN_0c0753f0();
+    int now = nlSysMetricsReadTimer();
 
-    return FUN_0c075400(FUN_0c075410(*(int *)0x0C2AEEA8, now));
+    return nlSysMetricsScaleTime(nlSysMetricsDiffTime(*(int *)0x0C2AEEA8, now));
 }

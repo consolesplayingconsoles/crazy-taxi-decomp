@@ -36,9 +36,9 @@ int Start_Fault(int);
 int Exec_Fog(void);
 int Chat_Geton(void);
 int psgAllocIpBuff(int);
-int FUN_0c077210(int, int);
-int FUN_0c07a520(void);
-int FUN_0c07f5c0(void);
+int nlCalcVector(int, int);
+int nlObjPutFreeTextureOnce(void);
+int nlsndSeqRequest(void);
 typedef struct {
     int w[36];
 } Block144;
@@ -46,19 +46,19 @@ typedef struct {
 typedef struct {
     int w[239];
 } Block956;
-int FUN_0c0813e0(int, int, int);
-int FUN_0c1534a0(int, int, int);
-int FUN_0c1534ca(int);
-int FUN_0c156c32(int, int, int, int);
-int FUN_0c1573a0(void);
-int FUN_0c157f40(int);
-int FUN_0c15cace(int);
-int FUN_0c15cc6e(int);
-int FUN_0c15cd40(int);
-int FUN_0c15ce20(int);
-int FUN_0c15f998(int);
-int FUN_0c1614de(void);
-int FUN_0c1614e8(int, int);
+int memcmp(int, int, int);
+int kmiBGPlaneSetPCW(int, int, int);
+int kmiBGPlaneCountWords(int);
+int kmiFBallocQueue(int, int, int, int);
+int kmytex_FBAllocEntry(void);
+int kmyConvertAddress32to64(int);
+int kmtex_ReloadPalettized4MM(int);
+int kmtex_ReloadPalettized8MM(int);
+int kmtex_ReloadTwiddledMM(int);
+int kmtex_ReloadVQMM(int);
+int gdFsToUpper(int);
+int syTmrGetCount(void);
+int syTmrDiffCount(int, int);
 int FcvPlay(int, int, float);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
@@ -510,37 +510,37 @@ int nlsndSystemControl(int a4, int a5, int a6)
                                                                 if (a5 != 0x3A0) {
                                                                     return 0xFFFFFFFE;
                                                                 }
-                                                                return FUN_0c07f5c0();
+                                                                return nlsndSeqRequest();
                                                             }
-                                                            return FUN_0c07f5c0();
+                                                            return nlsndSeqRequest();
                                                         }
-                                                        return FUN_0c07f5c0();
+                                                        return nlsndSeqRequest();
                                                     }
-                                                    return FUN_0c07f5c0();
+                                                    return nlsndSeqRequest();
                                                 }
-                                                return FUN_0c07f5c0();
+                                                return nlsndSeqRequest();
                                             }
-                                            return FUN_0c07f5c0();
+                                            return nlsndSeqRequest();
                                         }
-                                        return FUN_0c07f5c0();
+                                        return nlsndSeqRequest();
                                     }
-                                    return FUN_0c07f5c0();
+                                    return nlsndSeqRequest();
                                 }
-                                return FUN_0c07f5c0();
+                                return nlsndSeqRequest();
                             }
-                            return FUN_0c07f5c0();
+                            return nlsndSeqRequest();
                         }
-                        return FUN_0c07f5c0();
+                        return nlsndSeqRequest();
                     }
-                    return FUN_0c07f5c0();
+                    return nlsndSeqRequest();
                 }
-                return FUN_0c07f5c0();
+                return nlsndSeqRequest();
             }
-            return FUN_0c07f5c0();
+            return nlsndSeqRequest();
         }
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
-    return FUN_0c07f5c0();
+    return nlsndSeqRequest();
 }
 
 int nlsndIcsControl(int a4, int a5, int a6)
@@ -558,27 +558,27 @@ int nlsndIcsControl(int a4, int a5, int a6)
                                     if (a5 != 0xA6) {
                                         return 0xFFFFFFFE;
                                     }
-                                    return FUN_0c07f5c0();
+                                    return nlsndSeqRequest();
                                 }
-                                return FUN_0c07f5c0();
+                                return nlsndSeqRequest();
                             }
-                            return FUN_0c07f5c0();
+                            return nlsndSeqRequest();
                         }
-                        return FUN_0c07f5c0();
+                        return nlsndSeqRequest();
                     }
-                    return FUN_0c07f5c0();
+                    return nlsndSeqRequest();
                 }
-                return FUN_0c07f5c0();
+                return nlsndSeqRequest();
             }
-            return FUN_0c07f5c0();
+            return nlsndSeqRequest();
         }
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
-    t0 = FUN_0c07f5c0();
+    t0 = nlsndSeqRequest();
     if (t0 != 0) {
         return t0;
     }
-    return FUN_0c07f5c0();
+    return nlsndSeqRequest();
 }
 
 void kmiProcessVertex_00(int a4)
@@ -670,8 +670,8 @@ void kmiProcessVertex_00(int a4)
     t30 = *(int *)((t29 + 0x18));
     *(unsigned int *)0xC2EA75C = t30;
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t31 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t31, 0x0, 0x0);
+    t31 = kmiBGPlaneCountWords(t3);
+    kmiBGPlaneSetPCW(t31, 0x0, 0x0);
     t33 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
     t34 = *(int *)((t33 + 0xC));
     *(unsigned int *)0xC2EA830 = t34;
@@ -784,8 +784,8 @@ void kmiProcessVertex_01(int a4)
     u39 = *(float *)(((0x1C + t35) + 0x0));
     *(unsigned int *)0xC2EA75C = ((((((int)(u36 * 255.0f) << 16) << 8) | ((int)(u37 * 255.0f) << 16)) | ((int)(u38 * 255.0f) << 8)) | (int)(u39 * 255.0f));
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t40 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t40, 0x0, 0x0);
+    t40 = kmiBGPlaneCountWords(t3);
+    kmiBGPlaneSetPCW(t40, 0x0, 0x0);
     t42 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
     t43 = *(int *)((t42 + 0xC));
     *(unsigned int *)0xC2EA830 = t43;
@@ -880,8 +880,8 @@ void kmiProcessVertex_09(int a4)
     t30 = *(int *)((t29 + 0x10));
     *(unsigned int *)0xC2EA75C = t30;
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t31 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t31, 0x0, 0x0);
+    t31 = kmiBGPlaneCountWords(t3);
+    kmiBGPlaneSetPCW(t31, 0x0, 0x0);
     t33 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
     t34 = *(int *)((t33 + 0xC));
     *(unsigned int *)0xC2EA830 = t34;
@@ -976,8 +976,8 @@ void kmiProcessVertex_10(int a4)
     u30 = *(float *)(((0x10 + t29) + 0x0));
     *(unsigned int *)0xC2EA75C = ((((((int)(u30 * 255.0f) << 16) << 8) | ((int)(u30 * 255.0f) << 16)) | ((int)(u30 * 255.0f) << 8)) | (int)(u30 * 255.0f));
     *(unsigned int *)0xC2EA81C = 0x3C;
-    t31 = FUN_0c1534ca(t3);
-    FUN_0c1534a0(t31, 0x0, 0x0);
+    t31 = kmiBGPlaneCountWords(t3);
+    kmiBGPlaneSetPCW(t31, 0x0, 0x0);
     t33 = *(int *)(((((int)stk + 4) + 0x4) + 0x0));
     t34 = *(int *)((t33 + 0xC));
     *(unsigned int *)0xC2EA830 = t34;
@@ -1037,7 +1037,7 @@ int kmiFBinit(void)
         *(unsigned int *)0xC177FCC = t6;
         t7 = *(int *)0xC177FB8;
         *(unsigned int *)0xC177FE0 = t7;
-        t8 = FUN_0c1573a0();
+        t8 = kmytex_FBAllocEntry();
         t13 = 0x3;
         if (t8 != 0) {
             t9 = *(int *)0xC177FAC;
@@ -1077,7 +1077,7 @@ int kmiFBinit(void)
         *(unsigned int *)0xC177FCC = t19;
         t20 = *(int *)0xC177FB8;
         *(unsigned int *)0xC177FE0 = t20;
-        t21 = FUN_0c1573a0();
+        t21 = kmytex_FBAllocEntry();
         t32 = 0x3;
         if (t21 != 0) {
             t22 = *(int *)0xC177FAC;
@@ -1090,7 +1090,7 @@ int kmiFBinit(void)
             t25 = *(int *)0xC177FC8;
             *(unsigned int *)((t21 + 0x4)) = t25;
             *(unsigned int *)0xC177FC8 = t21;
-            t26 = FUN_0c1573a0();
+            t26 = kmytex_FBAllocEntry();
             t31 = 0x3;
             if (t26 != 0) {
                 t27 = *(int *)0xC177FB4;
@@ -1149,10 +1149,10 @@ int kmiFBalloc(int a4, int a5)
             if ((unsigned int)t4 < (unsigned int)t5) {
                 t6 = 0x1;
             }
-            t7 = FUN_0c156c32(t6, (t1 << 1), a5, 0x8);
+            t7 = kmiFBallocQueue(t6, (t1 << 1), a5, 0x8);
             t10 = t7;
         } else {
-            t8 = FUN_0c156c32(0x0, (t1 << 1), a5, 0x8);
+            t8 = kmiFBallocQueue(0x0, (t1 << 1), a5, 0x8);
             t10 = t8;
         }
         if (t10 == 0) {
@@ -1185,11 +1185,11 @@ int kmiFBfreeEx(int a4, int a5)
     int t2;
     int t3;
 
-    t0 = FUN_0c157f40(a4);
+    t0 = kmyConvertAddress32to64(a4);
     t1 = kmiFBfree(t0);
     t5 = t1;
     if (t1 != 0) {
-        t2 = FUN_0c157f40(a5);
+        t2 = kmyConvertAddress32to64(a5);
         t3 = kmiFBfree(t2);
         t5 = t3;
     }
@@ -1416,7 +1416,7 @@ int kmLoadYUVTexture(int a4, int a5, int a6, int a7, int a8, int a9)
 }
 
 
-int FUN_0c15f9c4(int a4, int a5, int a6)
+int gdFsStrncmpi(int a4, int a5, int a6)
 {
     int t10;
     int t0;
@@ -1440,10 +1440,10 @@ int FUN_0c15f9c4(int a4, int a5, int a6)
             if (t3 != 0) {
                 t4 = *(signed char *)((t1 + 0x0));
                 t1 = (t1 + 0x1);
-                t5 = FUN_0c15f998(t4);
+                t5 = gdFsToUpper(t4);
                 t6 = *(signed char *)((t0 + 0x0));
                 t0 = (t0 + 0x1);
-                t7 = FUN_0c15f998(t6);
+                t7 = gdFsToUpper(t6);
                 if ((signed char)t5 == (signed char)t7) {
                     t2 = (t2 - 1);
                     if ((int)t2 <= 0) {
@@ -1465,7 +1465,7 @@ int FUN_0c15f9c4(int a4, int a5, int a6)
     return t10;
 }
 
-int FUN_0c15fa32(int a4, int a5)
+int gdFsStrcmpi(int a4, int a5)
 {
     int t0;
     int t1;
@@ -1484,10 +1484,10 @@ int FUN_0c15fa32(int a4, int a5)
         if (t2 == 0) break;
         t3 = *(signed char *)((t1 + 0x0));
         t1 = (t1 + 0x1);
-        t4 = FUN_0c15f998(t3);
+        t4 = gdFsToUpper(t3);
         t5 = *(signed char *)((t0 + 0x0));
         t0 = (t0 + 0x1);
-        t6 = FUN_0c15f998(t5);
+        t6 = gdFsToUpper(t5);
         if ((signed char)t4 == (signed char)t6) continue;
         return 0x0;
     }
@@ -1512,11 +1512,11 @@ void ADXSTM_Stop(int a4)
     if (t0 == 1) {
         t1 = *(int *)((a4 + 0x8));
         if (t1 != 0) {
-            t2 = FUN_0c1614de();
+            t2 = syTmrGetCount();
             t3 = *(int *)((a4 + 0x8));
             gdFsStopRd(t3);
-            t5 = FUN_0c1614de();
-            t6 = FUN_0c1614e8(t2, t5);
+            t5 = syTmrGetCount();
+            t6 = syTmrDiffCount(t2, t5);
             *(unsigned int *)0xC178638 = t6;
             *(unsigned char *)((a4 + 0x2)) = 0x0;
         }
@@ -1632,7 +1632,7 @@ int ADX_DecodeInfoWav(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
         t0 = 0x0;
         for (;;) {
             t1 = *(int *)0xC1789A0;
-            t2 = FUN_0c0813e0((t0 + a4), t1, 0x4);
+            t2 = memcmp((t0 + a4), t1, 0x4);
             if (t2 != 0) {
                 t0 = (t0 + 0x1);
                 if ((int)t0 >= (int)a5) break;
@@ -1658,7 +1658,7 @@ int ADX_DecodeInfoWav(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
                     t6 = 0x0;
                     for (;;) {
                         t7 = *(int *)0xC1789A8;
-                        t8 = FUN_0c0813e0((t6 + a4), t7, 0x4);
+                        t8 = memcmp((t6 + a4), t7, 0x4);
                         if (t8 != 0) {
                             t6 = (t6 + 0x1);
                             if ((int)t6 >= (int)a5) break;

@@ -40,13 +40,13 @@ void ExecSetObject(int a4)
     if (t0 == 1) {
         t2 = *(int *)0xC179494;
         if (t2 != 0) {
-            *(float *)0xC2757E8 = (*(float *)0xC038470);
+            *(float *)0xC2757E8 = (1000.0f);
             t7 = 0xC038474;
-            u8 = (*(float *)0xC038474);
+            u8 = (1200.0f);
         } else {
-            *(float *)0xC2757E8 = (*(float *)0xC038478);
+            *(float *)0xC2757E8 = (1800.0f);
             t7 = 0xC03847C;
-            u8 = (*(float *)0xC03847C);
+            u8 = (2000.0f);
         }
         *(float *)0xC2757EC = u8;
         t10 = t7;

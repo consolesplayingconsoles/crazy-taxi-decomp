@@ -1,94 +1,132 @@
 /* Straight-line functions with calls and guards (batch gen_ads): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuReadPad(int a4);
+int nlsndSeqRequest(int);
+int menuCursor(int a4, int a5, int a6);
 
-int menuReadPad(int a4)
+int menuCursor(int a4, int a5, int a6)
 {
-    int t61;
     int t0;
-    int t2;
-    int t5;
-    int t25;
-    int t28;
-    int t38;
-    int t90;
-    int t76;
-    int t77;
-    int t78;
-    int stk[10] = {0};
+    int t23;
+    int t27;
+    int t30;
+    int t37;
+    int stk[11];
 
-    if (a4 == 0) {
-        *(unsigned int *)0xC2A11CC = 0x0;
-        *(unsigned int *)0xC2A11D0 = 0x0;
-        *(unsigned int *)0xC2A11D4 = 0x0;
-        *(unsigned short *)0xC2A1AEA = 0x0;
-        *(unsigned short *)0xC2A1AE8 = 0x0;
-        t90 = 0x0;
-    } else {
-        t61 = 0x0;
-        if (0x0 != 0) {
-        } else {
-            t0 = *(int *)0xC1EE250;
-            *(unsigned int *)0xC2A11CC = (((((((((((((((t0 & 0x8) == 0)) ? 1 : 0) ^ 0x1) | (((-(((((t0 & 0x10) == 0)) ? 1 : 0) - 1)) << 2) << 1)) | (((-(((((t0 & 0x20) == 0)) ? 1 : 0) - 1)) << 2) << 2)) | ((((-(((((t0 & 0x40) == 0)) ? 1 : 0) - 1)) << 2) << 2) << 1)) | ((((-(((((0x80 & t0) == 0)) ? 1 : 0) - 1)) << 2) << 2) << 2)) | ((-(((((0x400 & t0) == 0)) ? 1 : 0) - 1)) << 7)) | ((-(((((0x200 & t0) == 0)) ? 1 : 0) - 1)) << 8)) | (((-(((((0x20000 & t0) == 0)) ? 1 : 0) - 1)) << 8) << 1)) | (((-(((((0x10000 & t0) == 0)) ? 1 : 0) - 1)) << 8) << 2)) | ((-(((((0x2 & t0) == 0)) ? 1 : 0) - 1)) << 2)) | ((-(((((0x4 & t0) == 0)) ? 1 : 0) - 1)) << 1));
-            *(unsigned int *)(((int)stk + 8)) = (*(int *)0xC2A11D0);
-            t2 = *(int *)0xC1EE24C;
-            *(unsigned int *)0xC2A11D0 = (((((((((((((((t2 & 0x8) == 0)) ? 1 : 0) ^ 0x1) | (((-(((((t2 & 0x10) == 0)) ? 1 : 0) - 1)) << 2) << 1)) | (((-(((((t2 & 0x20) == 0)) ? 1 : 0) - 1)) << 2) << 2)) | ((((-(((((t2 & 0x40) == 0)) ? 1 : 0) - 1)) << 2) << 2) << 1)) | ((((-(((((0x80 & t2) == 0)) ? 1 : 0) - 1)) << 2) << 2) << 2)) | ((-(((((0x400 & t2) == 0)) ? 1 : 0) - 1)) << 7)) | ((-(((((0x200 & t2) == 0)) ? 1 : 0) - 1)) << 8)) | (((-(((((0x20000 & t2) == 0)) ? 1 : 0) - 1)) << 8) << 1)) | (((-(((((0x10000 & t2) == 0)) ? 1 : 0) - 1)) << 8) << 2)) | ((-(((((0x2 & t2) == 0)) ? 1 : 0) - 1)) << 2)) | ((-(((((0x4 & t2) == 0)) ? 1 : 0) - 1)) << 1));
-            *(unsigned short *)(((((int)stk + 4) + 0x8) + 0x0)) = (((unsigned int)(unsigned short)(*(short *)0xC1EE25C) >> 8) - 128);
-            *(unsigned short *)(((((int)stk + 4) + 0x8) + 0x2)) = (((unsigned int)(unsigned short)(*(short *)0xC1EE262) >> 8) - 128);
-            t5 = *(short *)0xC2A1AE8;
-            *(unsigned int *)(((int)stk + 4)) = t5;
-            if (((int)t5 > (int)0xFFFFFF9C) && ((int)t5 < (int)0x64)) {
-                if ((int)(*(short *)(((((int)stk + 4) + 0x8) + 0x0))) < (int)0xFFFFFF9C) {
-                    *(unsigned int *)0xC2A11CC = ((*(int *)0xC2A11CC) | 0x20);
-                } else {
-                    if ((int)(*(short *)(((((int)stk + 4) + 0x8) + 0x0))) > (int)0x64) {
-                        *(unsigned int *)0xC2A11CC = ((*(int *)0xC2A11CC) | 0x40);
-                    }
-                }
-            }
-            t25 = *(short *)0xC2A1AEA;
-            *(unsigned int *)(((int)stk + 4)) = t25;
-            if (((int)t25 > (int)0xFFFFFF9C) && ((int)t25 < (int)0x64)) {
-                t28 = *(short *)((((((int)stk + 4) + 0x8) + 0x2) + 0x0));
-                if ((int)t28 < (int)0xFFFFFF9C) {
-                    *(unsigned int *)0xC2A11CC = ((*(int *)0xC2A11CC) | 0x8);
-                } else {
-                    if ((int)t28 > (int)0x64) {
-                        *(unsigned int *)0xC2A11CC = ((*(int *)0xC2A11CC) | 0x10);
-                    }
-                }
-            }
-            *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
-            *(unsigned short *)0xC2A1AE8 = (*(short *)(((((int)stk + 4) + 0x8) + 0x0)));
-            t38 = *(short *)(((((int)stk + 4) + 0x8) + 0x2));
-            *(unsigned short *)0xC2A1AEA = t38;
-            if ((int)(*(short *)(((*(int *)(((int)stk + 4))) + 0x0))) < (int)0xFFFFFF9C) {
-                *(unsigned int *)0xC2A11D0 = ((*(int *)0xC2A11D0) | 0x20);
-            } else {
-                if ((int)(*(short *)(((((int)stk + 4) + 0x8) + 0x0))) > (int)0x64) {
-                    *(unsigned int *)0xC2A11D0 = ((*(int *)0xC2A11D0) | 0x40);
-                }
-            }
-            if ((int)(*(short *)((((((int)stk + 4) + 0x8) + 0x2) + 0x0))) < (int)0xFFFFFF9C) {
-                *(unsigned int *)0xC2A11D0 = ((*(int *)0xC2A11D0) | 0x8);
-            } else {
-                if ((int)(*(short *)((((((int)stk + 4) + 0x8) + 0x2) + 0x0))) > (int)0x64) {
-                    *(unsigned int *)0xC2A11D0 = ((*(int *)0xC2A11D0) | 0x10);
-                }
-            }
-            t61 = t38;
-        }
-        if (((*(int *)0xC2A11CC) == 0) && ((t76 = *(int *)0xC2A11D0, t76 != 0) && (t77 = *(int *)0xC2A11D0, t78 = *(int *)(((int)stk + 8)), t77 == t78))) {
-            if ((*(int *)0xC2A11D4) == 0) {
-                *(unsigned int *)0xC2A11D4 = 0x6;
-            } else {
-                *(unsigned int *)0xC2A11D4 = ((*(int *)0xC2A11D4) - 1);
-            }
-        } else {
-            *(unsigned int *)0xC2A11D4 = 0x14;
-        }
-        t90 = t61;
-    }
-    return t90;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C03BB48:;
+    *(unsigned int *)(((int)stk + 4)) = R5;
+    *(unsigned int *)(((int)stk + 8)) = R6;
+    t0 = *(int *)((((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x0));
+    *(unsigned int *)(((int)stk + 12)) = (*(int *)((((t0 << 2) + (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x4)) + 0x0)));
+    R12 = (0x0);
+    R14 = (((t0 << 2) + (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x4)));
+    R5 = (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8));
+    if (((*(int *)0xC2A1214) != 1)) goto L_C03BB84;
+    goto L_C03BB80;
+    L_C03BB80:;
+    if ((R4 == 0)) goto L_C03BC40;
+    goto L_C03BB84;
+    L_C03BB84:;
+    R10 = (0xC07F5C0);
+    R11 = (0x8);
+    R13 = (0xC2A11CC);
+    R4 = ((*(int *)0xC2A11CC));
+    R6 = (0x4);
+    if ((((*(int *)((R5 + 0x14))) & 0x4) == 0)) goto L_C03BC1A;
+    goto L_C03BB94;
+    L_C03BB94:;
+    if (((0x2 & R4) == 0)) goto L_C03BBB8;
+    goto L_C03BB9A;
+    L_C03BB9A:;
+    if (((*(int *)((((((*(int *)((R14 + 0x0))) << 2) << 1) + (*(int *)((R5 + 0x18)))) + 0x8))) == 0)) goto L_C03BC1A;
+    goto L_C03BBAA;
+    L_C03BBAA:;
+    *(unsigned int *)((R5 + 0x14)) = ((*(int *)((R5 + 0x14))) | R11);
+    nlsndSeqRequest(0x605A9);
+    goto L_C03BC1A;
+    L_C03BC1A:;
+    t23 = *(int *)((R14 + 0x0));
+    if ((((((int)t23 >= 0) ? (0x1 << (t23 & 31)) : ((-(int)t23 & 31) ? ((int)0x1 >> (-(int)t23 & 31)) : ((int)0x1 >> 31))) & (*(int *)(((int)stk + 8)))) == 0)) goto L_C03BC2E;
+    goto L_C03BC26;
+    L_C03BC26:;
+    if ((R12 != 0)) goto L_C03BBCA;
+    goto L_C03BC2A;
+    L_C03BC2A:;
+    goto L_C03BC0A;
+    L_C03BC0A:;
+    t27 = *(int *)((R14 + 0x0));
+    *(unsigned int *)((R14 + 0x0)) = (t27 + 0x1);
+    if (((int)(t27 + 0x1) < (int)(*(int *)(((int)stk + 4))))) goto L_C03BC1A;
+    goto L_C03BC16;
+    L_C03BC16:;
+    *(unsigned int *)((R14 + 0x0)) = 0x0;
+    goto L_C03BC1A;
+    L_C03BBCA:;
+    t30 = *(int *)((R13 + 0x0));
+    R4 = (t30);
+    if (((t30 & R11) != 0)) goto L_C03BBDE;
+    goto L_C03BBD2;
+    L_C03BBD2:;
+    if (((*(int *)((R13 + 0x8))) != 0)) goto L_C03BBF2;
+    goto L_C03BBD8;
+    L_C03BBD8:;
+    if ((((*(int *)((R13 + 0x4))) & R11) == 0)) goto L_C03BBF2;
+    goto L_C03BBDE;
+    L_C03BBDE:;
+    t37 = *(int *)((R14 + 0x0));
+    *(unsigned int *)((R14 + 0x0)) = (t37 - 1);
+    R12 = (0xFFFFFFFF);
+    if (((int)(t37 - 1) >= 0)) goto L_C03BC1A;
+    goto L_C03BBEA;
+    L_C03BBEA:;
+    *(unsigned int *)((R14 + 0x0)) = ((*(int *)(((int)stk + 4))) - 1);
+    goto L_C03BC1A;
+    L_C03BBF2:;
+    R5 = (0x10);
+    if (((R4 & 0x10) != 0)) goto L_C03BC08;
+    goto L_C03BBF8;
+    L_C03BBF8:;
+    if (((*(int *)0xC2A11D4) != 0)) goto L_C03BC1A;
+    goto L_C03BC00;
+    L_C03BC00:;
+    if ((((*(int *)0xC2A11D0) & R5) == 0)) goto L_C03BC1A;
+    goto L_C03BC08;
+    L_C03BC08:;
+    R12 = (0x1);
+    goto L_C03BC0A;
+    L_C03BC2E:;
+    if (((*(int *)((R14 + 0x0))) == (*(int *)(((int)stk + 12))))) goto L_C03BC40;
+    goto L_C03BC36;
+    L_C03BC36:;
+    nlsndSeqRequest(0x404A9);
+    R0 = (0x1);
+    goto L_C03BC42;
+    L_C03BC42:;
+    return R0;
+    L_C03BC40:;
+    R0 = (0x0);
+    goto L_C03BC42;
+    L_C03BBB8:;
+    if (((R4 & R6) == 0)) goto L_C03BBCA;
+    goto L_C03BBBC;
+    L_C03BBBC:;
+    *(unsigned int *)((R5 + 0x14)) = ((*(int *)((R5 + 0x14))) | 0x9);
+    nlsndSeqRequest(0xB04A9);
+    goto L_C03BC1A;
 }

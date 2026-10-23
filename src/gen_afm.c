@@ -1,52 +1,56 @@
 /* Straight-line functions with calls and guards (batch gen_afm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckClipping(float);
-int humanDraw(int, int, int, int);
-float nlLength(int, int);
+int GetCollision2D(int, float);
+int nlCalcVector(int, int);
+int nlGetAverageVector(int, int, int, float, float);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
+int nlRotateAX(int);
 int nlRotateAY(int);
-int nlTranslateV(int);
-void HesLate(void);
+int breathMove(int a4, int a5);
 
-void HesLate(void)
+int breathMove(int a4, int a5)
 {
-    float u0;
-    int t5;
-    int t30;
-    int t31;
-    int t32;
-    int stk[8] = {0};
+    float u9;
+    float u10;
+    float u17;
+    float u18;
+    int t25;
+    float u26;
+    int stk[7];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D6128); }
-    u0 = *(float *)0xC072540;
-    if (((*(int *)0xC13F4B8) & 1) == 0) {
-        if (((*(signed char *)0xC2AD1DF) & 2) != 0) {
-            if (u0 > (nlLength(((int)stk + 4), 0xC179840))) {
-                t5 = *(int *)0xC2AD1D8;
-                *(unsigned int *)0xC13F4F4 = t5;
-                if ((*(int *)((0x140 + t5))) == 15) {
-                    *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) | 0x1);
-                }
-            }
-        }
+    nlPushMatrix(0x0);
+    nlRotateAY((*(int *)((a4 + 0x10))));
+    nlRotateAX((*(int *)((a4 + 0xC))));
+    nlCalcVector(0xC0D5578, ((int)stk + 4));
+    nlPopMatrix(0x1);
+    nlGetAverageVector(a4, ((int)stk + 4), a4, 1.0f, (*(float *)((a4 + 0x18))));
+    u9 = *(float *)((a5 + 0x0));
+    u10 = *(float *)((a4 + 0x0));
+    if ((u10 - u9) > 50.0f) {
+        *(float *)((a4 + 0x0)) = ((*(float *)((a5 + 0x0))) + 50.0f);
     } else {
-        if ((CheckClipping((*(float *)0xC07255C))) != 0) {
-            nlPushMatrix(0x0);
-            nlTranslateV(((int)stk + 4));
-            nlRotateAY(0xD680);
-            humanDraw(0xCADBCA8, 0x16, 0x0, 0x0);
-            nlPopMatrix(0x1);
-        }
-        t30 = *(int *)0xC13F4F4;
-        if ((t30 != 0) && ((t31 = *(int *)((t30 + 0x20)), t31 == 4) && (t32 = *(int *)((t30 + 0x24)), t32 == 3))) {
-            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
-            *(unsigned int *)0xC13F4F4 = 0x0;
-        }
-        if ((nlLength(((int)stk + 4), 0xC179840)) > u0) {
-            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
-            *(unsigned int *)0xC13F4F4 = 0x0;
+        if (-50.0f > (u10 - u9)) {
+            *(float *)((a4 + 0x0)) = ((*(float *)((a5 + 0x0))) + -50.0f);
         }
     }
+    u17 = *(float *)((a4 + 0x8));
+    u18 = *(float *)((a5 + 0x8));
+    if ((u17 - u18) > 50.0f) {
+        *(float *)((a4 + 0x8)) = ((*(float *)((a5 + 0x8))) + 50.0f);
+    } else {
+        if (-50.0f > (u17 - u18)) {
+            *(float *)((a4 + 0x8)) = ((*(float *)((a5 + 0x8))) + -50.0f);
+        }
+    }
+    t25 = GetCollision2D(a4, 0.0f);
+    u26 = *(float *)0xC0729F4;
+    if (((*(float *)((t25 + 0x4))) + u26) > (*(float *)((a4 + 0x4)))) {
+        *(float *)((a4 + 0x4)) = ((*(float *)((t25 + 0x4))) + u26);
+    }
+    if ((*(float *)((a4 + 0x4))) > (*(float *)((a5 + 0x4)))) {
+        *(float *)((a4 + 0x4)) = (*(float *)((a5 + 0x4)));
+    }
+    return 0x4;
 }

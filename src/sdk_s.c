@@ -33,7 +33,7 @@ int kmSetStripLength(int n)
     return 0;
 }
 
-int FUN_0c07e880(void)
+int nlsndBlockMoveStatus(void)
 {
     if (*(volatile int *)0xA0800098)
         return 1;
@@ -51,7 +51,7 @@ void adxf_wait_1ms(void)
 }
 
 /* A packed decimal byte (two digits) as a number. */
-int FUN_0c15f4c8(signed char c)
+int bcd2bin(signed char c)
 {
     return ((c & 0xF0) >> 4) * 10 + (c & 15);
 }

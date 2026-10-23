@@ -4,17 +4,17 @@
 int ADXB_EntryData(int, int);
 int ADXB_GetFormat(int);
 int ADXB_Start(int);
-int FUN_0c168862(int);
-int FUN_0c16887a(int);
+int ADXSJD_GetBlkSmpl(int);
+int ADXSJD_GetTotalNumSmpl(int);
 int SJUNI_Lock(void);
 int SJUNI_Unlock(int, int);
-int FUN_0c010158(void);
+int bootJumpVector(void);
 int kmiDefaultInterruptHandler(int a4);
 int SJUNI_PutChunk(int a4, int a5, int a6);
 int SJUNI_UngetChunk(int a4, int a5, int a6);
 int adxsjd_decexec_start(int a4);
 
-int FUN_0c010158(void)
+int bootJumpVector(void)
 {
     int t0;
     int t1;

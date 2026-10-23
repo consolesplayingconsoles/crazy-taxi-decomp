@@ -1,3 +1,4 @@
+extern int kyakuTaskExec();
 /* Straight-line functions with calls and guards (batch gen_as): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -5,10 +6,10 @@ int Act_Init(void);
 int Drv_StartAction(int, int, int);
 int InitCollision(int);
 int nd_peopleInitialize(int);
-int FUN_0c074200(int, int);
-int FUN_0c0770f0(int, int, int);
-int FUN_0c1573a0(void);
-int FUN_0c1573f2(int, int, int);
+int nlSetPaletteMap(int, int);
+int nlSetPaletteData(int, int, int);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBEnQueueTop(int, int, int);
 int GoiTool(int);
 int InitColliObj(int);
 int InitHelicopter(void);
@@ -144,7 +145,7 @@ void kyakuTaskStart(int a4, int a5, int a6)
     int t32;
     int t33;
 
-    t0 = set_event(0x248, 0xC024878);
+    t0 = set_event(0x248, ((int)kyakuTaskExec));
     if (t0 != 0) {
         *(unsigned int *)((t0 + 0x174)) = 0x0;
         *(unsigned int *)((t0 + 0x14)) = a4;
@@ -217,7 +218,7 @@ void kyakuTaskStart(int a4, int a5, int a6)
     }
 }
 
-void FUN_0c16cb20(void)
+void kmiWriteFBRegister(void)
 {
     int t0;
     int t1;
@@ -562,7 +563,7 @@ int Initialize_Replay(void)
     return t57;
 }
 
-int FUN_0c156c32(int a4, int a5, int a6, int a7)
+int kmiFBallocQueue(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -635,7 +636,7 @@ int FUN_0c156c32(int a4, int a5, int a6, int a7)
         t9 = *(int *)((t7 + 0x10));
         if (t9 == t1) {
             kmytex_FBDeQueueEntry(((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x8), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0xC), t7);
-            FUN_0c1573f2((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t7);
+            kmytex_FBEnQueueTop((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t7);
             *(unsigned short *)((t7 + 0x0)) = 0x1;
             if ((short)a7 != 8) {
                 t17 = 0x3;
@@ -668,7 +669,7 @@ int FUN_0c156c32(int a4, int a5, int a6, int a7)
             }
             t50 = t25;
         } else {
-            t28 = FUN_0c1573a0();
+            t28 = kmytex_FBAllocEntry();
             t47 = 0x3;
             if (t28 != 0) {
                 t29 = *(int *)((t7 + 0xC));
@@ -678,7 +679,7 @@ int FUN_0c156c32(int a4, int a5, int a6, int a7)
                 *(unsigned int *)((t7 + 0x10)) = (t30 - t1);
                 t31 = *(int *)((t7 + 0xC));
                 *(unsigned int *)((t7 + 0xC)) = (t1 + t31);
-                FUN_0c1573f2((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t28);
+                kmytex_FBEnQueueTop((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t28);
                 if ((short)a7 != 8) {
                     t38 = 0x3;
                     if ((short)a7 == 0x2000) {
@@ -718,7 +719,7 @@ int FUN_0c156c32(int a4, int a5, int a6, int a7)
 }
 
 
-int FUN_0c1583c4(void)
+int kmiInitializeDriver(void)
 {
     int t0;
     int t1;

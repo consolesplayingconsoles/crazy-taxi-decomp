@@ -4,10 +4,10 @@
 int kmiCopyFromFrameBuffer(int, int, int);
 int kmiCopyToFrameBuffer(int, int, int);
 int kmtex_GetTextureLevel(int, int);
-int FUN_0c15c98a(int a4, int a5, int a6);
-int FUN_0c15c9e0(int a4, int a5, int a6, int a7);
+int kmtex_CopyTextureFromMem(int a4, int a5, int a6);
+int kmtex_ConvertSmallVQToMem(int a4, int a5, int a6, int a7);
 
-int FUN_0c15c98a(int a4, int a5, int a6)
+int kmtex_CopyTextureFromMem(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -17,7 +17,7 @@ int FUN_0c15c98a(int a4, int a5, int a6)
     return kmiCopyFromFrameBuffer(a4, (a5 + 0x4), t1);
 }
 
-int FUN_0c15c9e0(int a4, int a5, int a6, int a7)
+int kmtex_ConvertSmallVQToMem(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;

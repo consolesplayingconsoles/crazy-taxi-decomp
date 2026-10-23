@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ew): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0111e8(int a4, int a5);
-int FUN_0c0112c6(int a4, int a5);
+int bootDevRecv(int a4, int a5);
+int bootDevSend(int a4, int a5);
 
-int FUN_0c0111e8(int a4, int a5)
+int bootDevRecv(int a4, int a5)
 {
     int t0;
     int t1;
@@ -82,7 +82,7 @@ int FUN_0c0111e8(int a4, int a5)
     return t22;
 }
 
-int FUN_0c0112c6(int a4, int a5)
+int bootDevSend(int a4, int a5)
 {
     int t0;
     int t1;

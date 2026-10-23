@@ -1,3 +1,4 @@
+extern int callNameEntry();
 /* Straight-line functions with calls and guards (batch gen_adr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -38,7 +39,7 @@ int menuItemName(int a4)
             *(unsigned int *)0xC2A1230 = 0x0;
         }
         if ((((*(int *)0xC2A11EC) & 4) != 0) && ((t9 = *(int *)0xC2A11CC, (t9 & 2) != 0) && ((t10 = *(int *)0xC2A1214, t10 == 0) && (t11 = *(signed char *)0xC28A4F6, t12 = *(int *)0xC2A11C4, (int)t12 >= (int)(unsigned char)t11)))) {
-            return ((int (*)(void))(0xC040A94))();
+            return ((int (*)(void))(((int)callNameEntry)))();
         }
         t16 = 0x17;
         if ((a4 != 0) && (t13 = *(int *)0xC2A1214, t13 == 0)) {

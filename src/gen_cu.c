@@ -9,13 +9,13 @@ int Start_Fault(int);
 int Count_Remain_Drop(void);
 int Exec_Remain_Arrow(void);
 int Put_Remain_Icon(void);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077df0(int);
-int FUN_0c078480(int, int);
-int FUN_0c078a70(int, int, int);
-int FUN_0c079a60(float, float, float, float);
-int FUN_0c079f10(void);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMatrixMode(int);
+int nlRotateAxe(int, int);
+int nlAddVector3op(int, int, int);
+int nlSetWindowSize(float, float, float, float);
+int nl_set_cnv_proj_pers(void);
 int SetCameraMode(int);
 int camRestore(void);
 int camSetEye(int, int);
@@ -36,8 +36,8 @@ int nlTranslate(float, float, float);
 int nlTranslateV(int);
 float nlUnitVector(int);
 int nlPow(float f4, float f5);
-int FUN_0c0110e6(void);
-int FUN_0c076f70(void);
+int bootDevCommand(void);
+int nlRenderTextureEnd(void);
 int windowNameSelect(void);
 int Exec_DCmini_Game9(int a4);
 int camGetOffShot3(void);
@@ -53,7 +53,7 @@ int nlPow(float f4, float f5)
     return ((int (*)(int, float, float))(0xC075EF0))((int)f5, f4, f5);
 }
 
-int FUN_0c0110e6(void)
+int bootDevCommand(void)
 {
     int t0;
     int t1;
@@ -76,7 +76,7 @@ int FUN_0c0110e6(void)
     return 0x3C;
 }
 
-int FUN_0c076f70(void)
+int nlRenderTextureEnd(void)
 {
     int t0;
     int t1;
@@ -109,11 +109,11 @@ int FUN_0c076f70(void)
         u14 = *(float *)0xC2B31D0;
         u15 = *(float *)0xC2B31CC;
         u16 = *(float *)0xC2B31C8;
-        FUN_0c079a60(u16, u15, u14, u13);
+        nlSetWindowSize(u16, u15, u14, u13);
         t18 = *(signed char *)0xC2B31D8;
-        FUN_0c077df0(0x3);
-        FUN_0c079f10();
-        return FUN_0c077df0(t18);
+        nlMatrixMode(0x3);
+        nl_set_cnv_proj_pers();
+        return nlMatrixMode(t18);
     }
     return ((int (*)(int))(0xC077004))(t0);
 }

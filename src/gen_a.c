@@ -24,12 +24,12 @@ int Init_Adv_Standard(void);
 int Init_Result_Standard_Sprite(void);
 int Init_DCmini_Standard_Sprite(void);
 int BigOneResetState(void);
-int FUN_0c074ca0(int a4);
-void FUN_0c167c24(int a4, int a5);
-void FUN_0c1687f6(int a4, int a5);
-void FUN_0c168812(int a4, int a5);
-int FUN_0c16881a(int a4, int a5);
-int FUN_0c168826(int a4, int a5);
+int nl_system_config_init(int a4);
+void ADXAMP_SetSfreq(int a4, int a5);
+void ADXSJD_SetDecPos(int a4, int a5);
+void ADXSJD_SetTrapNumSmpl(int a4, int a5);
+int ADXSJD_SetTrapCnt(int a4, int a5);
+int ADXSJD_SetTrapDtLen(int a4, int a5);
 int Init_Standard(void);
 void SJMEM_EntryErrFunc(int a4, int a5, int a6);
 void SJRBF_EntryErrFunc(int a4, int a5, int a6);
@@ -247,7 +247,7 @@ int Init_Result_Standard_Sprite(void)
 
 
 
-int FUN_0c074ca0(int a4)
+int nl_system_config_init(int a4)
 {
     float u0;
     float u1;
@@ -280,28 +280,28 @@ int FUN_0c074ca0(int a4)
     return 0x5C;
 }
 
-void FUN_0c167c24(int a4, int a5)
+void ADXAMP_SetSfreq(int a4, int a5)
 {
     *(unsigned int *)((a4 + 0x20)) = a5;
 }
 
-void FUN_0c1687f6(int a4, int a5)
+void ADXSJD_SetDecPos(int a4, int a5)
 {
     *(unsigned int *)((a4 + 0x34)) = a5;
 }
 
-void FUN_0c168812(int a4, int a5)
+void ADXSJD_SetTrapNumSmpl(int a4, int a5)
 {
     *(unsigned int *)((a4 + 0x3C)) = a5;
 }
 
-int FUN_0c16881a(int a4, int a5)
+int ADXSJD_SetTrapCnt(int a4, int a5)
 {
     *(unsigned int *)((a4 + 0x40)) = a5;
     return 0x40;
 }
 
-int FUN_0c168826(int a4, int a5)
+int ADXSJD_SetTrapDtLen(int a4, int a5)
 {
     *(unsigned int *)((a4 + 0x44)) = a5;
     return 0x44;

@@ -30,20 +30,20 @@ int Chat_Iraira(void);
 int psgFreeIpBuff(int);
 int psgStepBlend(int);
 int psgUpdatePartTracks(int);
-int FUN_0c074740(void);
-int FUN_0c077170(int, int);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077f60(void);
-int FUN_0c077f70(void);
-int FUN_0c079d60(int, int);
-int FUN_0c079e70(void);
-int FUN_0c07b9d0(void);
-int FUN_0c07bd30(int);
-int FUN_0c07c000(int, int);
-int FUN_0c07c100(int, int);
-int FUN_0c07c470(int, int, int, int);
-int FUN_0c1717d8(int);
+int nlInitLibrary0(void);
+int nlCalcPoint4(int, int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMultiPushedMatrix(void);
+int nlMultiViewMatrix(void);
+int nlFastScreenPoint(int, int);
+int nlMakeFastModelProjectMatrixVM(void);
+int nlMultiLineTrnsl(void);
+int nlLineSendHeader(int);
+int nlLineCalcColor(int, int);
+int nlLineClipNear(int, int);
+int nlLineDrawThick(int, int, int, int);
+int mwRnaLockCs(int);
 int FcvPlay(int, int, float);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
@@ -117,12 +117,12 @@ int putString(int, int, float, float, float);
 int vmsfb_sleep(void);
 int vmsio_ismount(int);
 void nlTranslate(float f4, float f5, float f6);
-int FUN_0c074970(void);
+int nlInitLibraryDC(void);
 void kmiDACControl(void);
 int Level_Calc(int a4);
 int DispBackupHeadInfo(int a4, int a5, int a6);
 int mwRnaCreate(int a4, int a5);
-int FUN_0c07bc00(int a4, int a5);
+int nlMultiLineSub(int a4, int a5);
 int colliSphereSphere(int a4, int a5);
 int vmsio_block_write(int a4, int a5, int a6);
 void carResistance(int a4);
@@ -136,9 +136,9 @@ int psgFrameState4(int a4);
 void psgEnterState3(int a4, int a5);
 
 
-int FUN_0c074970(void)
+int nlInitLibraryDC(void)
 {
-    return FUN_0c074740();
+    return nlInitLibrary0();
 }
 
 void kmiDACControl(void)
@@ -253,7 +253,7 @@ int mwRnaCreate(int a4, int a5)
                         t1 = (t1 + 0x4);
                         if ((int)t2 >= (int)a5) {
                             t1 = ((int)stk + 8);
-                            FUN_0c1717d8(t1);
+                            mwRnaLockCs(t1);
                             t5 = mwlRnaAlloc();
                             if (t5 == 0) {
                                 mwRnaErrCallFunc(0xC17662C);
@@ -346,7 +346,7 @@ int mwRnaCreate(int a4, int a5)
                     mwRnaErrCallFunc(0xC176600);
                     t71 = 0x0;
                 } else {
-                    FUN_0c1717d8(((int)stk + 8));
+                    mwRnaLockCs(((int)stk + 8));
                     t43 = mwlRnaAlloc();
                     if (t43 == 0) {
                         mwRnaErrCallFunc(0xC17662C);
@@ -408,7 +408,7 @@ int mwRnaCreate(int a4, int a5)
     return t78;
 }
 
-int FUN_0c07bc00(int a4, int a5)
+int nlMultiLineSub(int a4, int a5)
 {
     int t0;
     int t2;
@@ -442,7 +442,7 @@ int FUN_0c07bc00(int a4, int a5)
     int t34;
     int stk[17] = {0};
 
-    t0 = FUN_0c07bd30(a5);
+    t0 = nlLineSendHeader(a5);
     nlPushMatrix(0xC14AA08);
     t2 = *(int *)0xC2B3208;
     nlMultiMatrix8(t2);
@@ -450,7 +450,7 @@ int FUN_0c07bc00(int a4, int a5)
         t4 = *(int *)0xC2B31FC;
         nlMultiMatrix8(t4);
     }
-    t7 = FUN_0c077f60();
+    t7 = nlMultiPushedMatrix();
     t8 = t7;
     t9 = a4;
     t10 = t0;
@@ -467,20 +467,20 @@ int FUN_0c07bc00(int a4, int a5)
         t15 = t9;
         while ((unsigned int)t15 < (unsigned int)t13) {
             t9 = t11;
-            t16 = FUN_0c077170(t9, (((int)stk + 4) + 0x14));
+            t16 = nlCalcPoint4(t9, (((int)stk + 4) + 0x14));
             t8 = t16;
             t9 = t11;
             t9 = (t9 + 0xC);
-            t17 = FUN_0c077170(t9, (((int)stk + 4) + 0x4));
+            t17 = nlCalcPoint4(t9, (((int)stk + 4) + 0x4));
             t8 = t17;
             t9 = ((int)stk + 4);
             t9 = (t9 + 0x14);
-            t18 = FUN_0c07c100(t9, (((int)stk + 4) + 0x4));
+            t18 = nlLineClipNear(t9, (((int)stk + 4) + 0x4));
             t8 = t18;
             if (t8 != 0) {
                 t9 = ((int)stk + 4);
                 t9 = (t9 + 0x14);
-                t19 = FUN_0c07c000(t9, (((int)stk + 4) + 0x4));
+                t19 = nlLineCalcColor(t9, (((int)stk + 4) + 0x4));
                 t8 = t19;
                 if (t8 != 0) {
                     t8 = 0x1C;
@@ -509,7 +509,7 @@ int FUN_0c07bc00(int a4, int a5)
                     t8 = 0x8;
                     *(float *)((((int)stk + 4) + t8)) = (u28 + (1.0f / u25) * u29);
                     t9 = t10;
-                    t30 = FUN_0c07c470(t9, (((int)stk + 4) + 0x14), (((int)stk + 4) + 0x4), ((int)stk + 4));
+                    t30 = nlLineDrawThick(t9, (((int)stk + 4) + 0x14), (((int)stk + 4) + 0x4), ((int)stk + 4));
                     t8 = t30;
                     t10 = t8;
                 }

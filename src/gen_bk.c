@@ -1,19 +1,19 @@
 /* Straight-line functions with calls and guards (batch gen_bk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c158860(int, int, int);
+int kmiMemCopy8(int, int, int);
 extern void _builtin_prefetch(void *);
 int kmGetCurrentVertexOffset(int);
-int FUN_0c085d20(int a4, int a5, int a6, float f4, float f5, float f6, float f7);
-void FUN_0c07d540(void);
+int nl_objput_mv_send_p0(int a4, int a5, int a6, float f4, float f5, float f6, float f7);
+void nlMvEndList(void);
 int kmiSetOpaqueDummy(void);
 int kmStartVertexStrip(int a4);
-int FUN_0c07d450(int a4, int a5, int a6);
+int nlMvSendTriangle(int a4, int a5, int a6);
 int kmSetUserClipping(int a4, int a5, int a6, int a7, int a8, int a9);
 int nlPuts(int a4);
 int nlCharacter(int a4, int a5, int a6, int a7);
 
-int FUN_0c085d20(int a4, int a5, int a6, float f4, float f5, float f6, float f7)
+int nl_objput_mv_send_p0(int a4, int a5, int a6, float f4, float f5, float f6, float f7)
 {
     _builtin_prefetch((void *)a6);
     *(float *)((((a6 - 4) - 0x4) + 0x0)) = f7;
@@ -23,7 +23,7 @@ int FUN_0c085d20(int a4, int a5, int a6, float f4, float f5, float f6, float f7)
     return ((((a6 - 4) - 0x4) - 0x4) - 0x4);
 }
 
-void FUN_0c07d540(void)
+void nlMvEndList(void)
 {
     int t0;
     int t1;
@@ -73,7 +73,7 @@ int kmiSetOpaqueDummy(void)
     t3 = ((0x3FFFFFF & t1) | 0xE0000000);
     t4 = 0xC17827C;
     do {
-        FUN_0c158860(t3, t4, 0x20);
+        kmiMemCopy8(t3, t4, 0x20);
         _builtin_prefetch((void *)t3);
         t2 = (t2 - 0x1);
         t3 = (t3 + 0x20);
@@ -104,7 +104,7 @@ int kmStartVertexStrip(int a4)
     t5 = *(int *)(((t1 << 2) + t3));
     *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t5 >> 16) >> 8);
     *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t5 >> 16) >> 8);
-    FUN_0c158860(((0x3FFFFFF & t5) | 0xE0000000), t4, t2);
+    kmiMemCopy8(((0x3FFFFFF & t5) | 0xE0000000), t4, t2);
     _builtin_prefetch((void *)((0x3FFFFFF & t5) | 0xE0000000));
     if (t2 == 64) {
         _builtin_prefetch((void *)(((0x3FFFFFF & t5) | 0xE0000000) + 0x20));
@@ -115,7 +115,7 @@ int kmStartVertexStrip(int a4)
     return 0x0;
 }
 
-int FUN_0c07d450(int a4, int a5, int a6)
+int nlMvSendTriangle(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -219,7 +219,7 @@ int kmSetUserClipping(int a4, int a5, int a6, int a7, int a8, int a9)
         t5 = *(int *)(((a5 << 2) + t4));
         *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t5 >> 16) >> 8);
         *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t5 >> 16) >> 8);
-        FUN_0c158860(((t5 & 0x3FFFFFF) | 0xE0000000), 0xC178444, 0x20);
+        kmiMemCopy8(((t5 & 0x3FFFFFF) | 0xE0000000), 0xC178444, 0x20);
         _builtin_prefetch((void *)((t5 & 0x3FFFFFF) | 0xE0000000));
         t7 = *(int *)((a4 + 0x0));
         t8 = *(int *)(((a5 << 2) + t7));
@@ -266,7 +266,7 @@ int kmSetUserClipping(int a4, int a5, int a6, int a7, int a8, int a9)
     t24 = *(int *)(((a5 << 2) + t23));
     *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t24 >> 16) >> 8);
     *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t24 >> 16) >> 8);
-    FUN_0c158860(((t24 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0xC), 0x20);
+    kmiMemCopy8(((t24 & 0x3FFFFFF) | 0xE0000000), (((int)stk + 4) + 0xC), 0x20);
     _builtin_prefetch((void *)((t24 & 0x3FFFFFF) | 0xE0000000));
     t26 = *(int *)((a4 + 0x0));
     t27 = *(int *)(((a5 << 2) + t26));

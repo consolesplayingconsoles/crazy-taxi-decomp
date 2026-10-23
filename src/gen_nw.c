@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_nw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c079f10(void);
+int nl_set_cnv_proj_pers(void);
 int nlMultiMatrix(int);
-int FUN_0c078e30(float f4, float f5, float f6, float f7, float f8, float f9);
+int nlFrustum(float f4, float f5, float f6, float f7, float f8, float f9);
 
-int FUN_0c078e30(float f4, float f5, float f6, float f7, float f8, float f9)
+int nlFrustum(float f4, float f5, float f6, float f7, float f8, float f9)
 {
     int stk[18] = {0};
 
@@ -33,5 +33,5 @@ int FUN_0c078e30(float f4, float f5, float f6, float f7, float f8, float f9)
     *(float *)0xC2B3178 = f9;
     *(float *)0xC2B3170 = (1.0f / f8);
     nlMultiMatrix(((int)stk + 4));
-    return (FUN_0c079f10());
+    return (nl_set_cnv_proj_pers());
 }

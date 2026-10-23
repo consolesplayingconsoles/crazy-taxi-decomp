@@ -1,6 +1,6 @@
 /* Draft: generated C that the check did not accept (DIFFERS case 1: calls). Not proven equivalent. */
 
-int FUN_0c16af38(void);
+int SJMEM_Lock(void);
 int SJMEM_Unlock(int, int);
 
 int SJMEM_UngetChunk(int a4, int a5, int a6)
@@ -28,7 +28,7 @@ int SJMEM_UngetChunk(int a4, int a5, int a6)
     int t23;
     int t24;
 
-    t0 = FUN_0c16af38();
+    t0 = SJMEM_Lock();
     if (a5 == 0) {
         t1 = *(int *)((a4 + 0x1C));
         if (t1 != 0) {

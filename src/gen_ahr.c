@@ -2,12 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int EditEntryName(int);
-int FUN_0c07f5c0(int);
+int nlsndSeqRequest(int);
 int SetScreen(int);
 int SetWindow(int);
-int FUN_0c040a94(void);
+int callNameEntry(void);
 
-int FUN_0c040a94(void)
+int callNameEntry(void)
 {
     *(unsigned int *)0xC2A1228 = (*(int *)0xC1EE234);
     *(unsigned int *)0xC2A122C = (*(int *)0xC1EE238);
@@ -18,5 +18,5 @@ int FUN_0c040a94(void)
     SetScreen(0x6);
     SetWindow(0xD);
     EditEntryName(0x0);
-    return FUN_0c07f5c0(0x605A9);
+    return nlsndSeqRequest(0x605A9);
 }

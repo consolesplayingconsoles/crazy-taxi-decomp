@@ -6,13 +6,13 @@ int windowOpenStep(void);
 int windowEnterStep(void);
 int GetNowLanguage(int);
 int nd_SprPut(int, int, float, float);
-int FUN_0c074320(void);
-int FUN_0c074510(int);
-int FUN_0c0745e0(int);
-int FUN_0c074ca0(int);
-int FUN_0c075570(int);
-int FUN_0c079a60(float, float, float, float);
-int FUN_0c0813e0(int, int, int);
+int sys_init(void);
+int nlSysInitStripContextVtx(int);
+int nlSysInitStripContextBG(int);
+int nl_system_config_init(int);
+int nlSetFatalErrorMode(int);
+int nlSetWindowSize(float, float, float, float);
+int memcmp(int, int, int);
 int PutVM_Message(int, int, int, float, float);
 int ResetFadeColor(void);
 extern void _builtin_set_imask(int);
@@ -33,7 +33,7 @@ int pfSetZ(float);
 int pfSize(float, float);
 int putLevelCTFontAssist(int, int, int, int, int);
 int putMenuValue(int a4, int a5, int a6, int a7);
-void FUN_0c074740(int a4, int a5, int a6);
+void nlInitLibrary0(int a4, int a5, int a6);
 int Put_Remain_Icon(void);
 int windowNameConfirm(void);
 
@@ -181,7 +181,7 @@ int putMenuValue(int a4, int a5, int a6, int a7)
     return pfSetFilterMode(0x0);
 }
 
-void FUN_0c074740(int a4, int a5, int a6)
+void nlInitLibrary0(int a4, int a5, int a6)
 {
     int t5;
     int t12;
@@ -228,7 +228,7 @@ void FUN_0c074740(int a4, int a5, int a6)
         *(unsigned int *)0xC2AED40 = 0x0;
     }
     _builtin_set_gbr((void *)(0xC2B7BC0));
-    FUN_0c074320();
+    sys_init();
     *(unsigned short *)0xC2B3194 = 0x0;
     *(unsigned short *)0xC2B3196 = 0x0;
     if ((0x80 & a5) != 0) {
@@ -254,8 +254,8 @@ void FUN_0c074740(int a4, int a5, int a6)
     *(unsigned short *)0xC2B3190 = t24;
     t25 = *(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA));
     *(unsigned short *)0xC2B3192 = t25;
-    FUN_0c0745e0(0xC2AF388);
-    FUN_0c074510(0xC2B29C8);
+    nlSysInitStripContextBG(0xC2AF388);
+    nlSysInitStripContextVtx(0xC2B29C8);
     *(unsigned int *)0xC2B2FC8 = 0xC2B29C8;
     *(unsigned int *)0xC2B2FCC = 0x0;
     *(unsigned int *)0xC2B3180 = 0xFFFFFFFF;
@@ -284,9 +284,9 @@ void FUN_0c074740(int a4, int a5, int a6)
             }
             t33 = t31;
         }
-        FUN_0c079a60(0.0f, 0.0f, (float)t29, (float)t33);
+        nlSetWindowSize(0.0f, 0.0f, (float)t29, (float)t33);
     } else {
-        FUN_0c079a60(0.0f, 0.0f, (float)t29, (float)(short)t28);
+        nlSetWindowSize(0.0f, 0.0f, (float)t29, (float)(short)t28);
     }
     u41 = 0.19999999f;
     kmSetCullingRegister(u41);
@@ -294,8 +294,8 @@ void FUN_0c074740(int a4, int a5, int a6)
     *(unsigned int *)0xFF00003C = 0xC;
     *(unsigned int *)0xC2AEDA0 = a6;
     kmSetWaitVsyncCount(a6);
-    FUN_0c074ca0(0x200000);
-    FUN_0c075570(0x0);
+    nl_system_config_init(0x200000);
+    nlSetFatalErrorMode(0x0);
     *(unsigned int *)0xC2AEDC0 = 0x0;
     _builtin_set_imask(0x0);
 }

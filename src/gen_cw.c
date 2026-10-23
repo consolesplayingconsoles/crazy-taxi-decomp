@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_cw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0868c0(void);
-int FUN_0c011afe(void);
+int nlObjPut_vtxcolbridge(void);
+int bootSerialGetByte(void);
 int Put_TotalDrum(void);
-int FUN_0c0105d4(void);
-int FUN_0c089a58(int a4, int a5, int a6);
+int bootTimerTick(void);
+int _setsbit(int a4, int a5, int a6);
 
-int FUN_0c0868c0(void)
+int nlObjPut_vtxcolbridge(void)
 {
     int t0;
     int stk[5] = {0};
@@ -19,7 +19,7 @@ int FUN_0c0868c0(void)
     return ((int (*)(void))(0xC0868DA))();
 }
 
-int FUN_0c011afe(void)
+int bootSerialGetByte(void)
 {
     int t0;
     int t1;
@@ -58,7 +58,7 @@ int Put_TotalDrum(void)
     return ((int (*)(void))(0xC054724))();
 }
 
-int FUN_0c0105d4(void)
+int bootTimerTick(void)
 {
     int t0;
     int t1;
@@ -98,7 +98,7 @@ int FUN_0c0105d4(void)
     return 0;
 }
 
-int FUN_0c089a58(int a4, int a5, int a6)
+int _setsbit(int a4, int a5, int a6)
 {
     int t0;
     int t1;

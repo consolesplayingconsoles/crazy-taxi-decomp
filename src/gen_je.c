@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_je): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15887e(int, int, int);
-int FUN_0c15a9a8(int);
+int kmiMemCopy4(int, int, int);
+int kmiCheckRenderTexture(int);
 extern void _builtin_prefetch(void *);
 int kmSetPixelClipping(int, int, int, int);
 int kmiFatalErrorEntry(int);
@@ -422,7 +422,7 @@ void kmRenderTexture(int a4, int a5, int a6, int a7)
     t19 = *(int *)0xC2EAAA4;
     t20 = *(int *)0xC2B8CBC;
     t21 = *(int *)(((t19 << 2) + t20));
-    t22 = FUN_0c15887e(((t21 & 0x3FFFFFF) | 0xE0000000), R14, 0x20);
+    t22 = kmiMemCopy4(((t21 & 0x3FFFFFF) | 0xE0000000), R14, 0x20);
     _builtin_prefetch((void *)((t21 & 0x3FFFFFF) | 0xE0000000));
     t23 = t22;
     t24 = ((t21 & 0x3FFFFFF) | 0xE0000000);
@@ -430,7 +430,7 @@ void kmRenderTexture(int a4, int a5, int a6, int a7)
     R13 = t24;
     goto L_C15B0E8;
     L_C15B0E8:;
-    t25 = FUN_0c15a9a8(R12);
+    t25 = kmiCheckRenderTexture(R12);
     t26 = t25 == 0;
     t27 = t25;
     t28 = 0xC14B720;
@@ -663,7 +663,7 @@ void kmRenderTexture(int a4, int a5, int a6, int a7)
     t133 = *(int *)(((int)stk + 4));
     t134 = *(int *)0xC2B8CBC;
     t135 = *(int *)((t134 + t133));
-    FUN_0c15887e(t135, 0xC175DA0, 0x4);
+    kmiMemCopy4(t135, 0xC175DA0, 0x4);
     t137 = *(int *)(((int)stk + 4));
     t138 = *(int *)0xC2B8CBC;
     t139 = *(int *)((t138 + t137));
@@ -1074,7 +1074,7 @@ void kmRenderTexture(int a4, int a5, int a6, int a7)
     t338 = *(int *)0xC2EAAA4;
     t339 = *(int *)0xC2B8CBC;
     t340 = *(int *)(((t338 << 2) + t339));
-    t341 = FUN_0c15887e(((t340 & 0x3FFFFFF) | 0xE0000000), 0xC175DA0, 0x4);
+    t341 = kmiMemCopy4(((t340 & 0x3FFFFFF) | 0xE0000000), 0xC175DA0, 0x4);
     _builtin_prefetch((void *)((t340 & 0x3FFFFFF) | 0xE0000000));
     t342 = *(int *)0xC2EAAA4;
     t343 = t341;

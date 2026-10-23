@@ -10,7 +10,7 @@ void gdc_CourseLoadExec(void);
 int gdc_LandmarkLoadExec(void);
 void gdc_CourseBlockInit(void);
 void gdc_LandmarkInit(void);
-void FUN_0c074680(int a, int b, int c);
+void nlSetBackColor(int a, int b, int c);
 
 #define ADV_FLAGS       (*(unsigned short *)0x0C2A992C)
 
@@ -79,7 +79,7 @@ void Proposal_Initialize(void)
 
 void End_Adv_Title_LOGO(void)
 {
-    FUN_0c074680(0xFF000000, 0xFF000000, 0xFF000000);
+    nlSetBackColor(0xFF000000, 0xFF000000, 0xFF000000);
     *(unsigned short *)0x0C2A9228 &= 0xFFFE;
 }
 

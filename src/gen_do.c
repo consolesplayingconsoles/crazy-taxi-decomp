@@ -35,16 +35,16 @@ int CourseTableSet(int);
 int Init_Adv_Sprite(void);
 int Init_LCD(void);
 int Voice_Init(void);
-int FUN_0c074300(int);
-int FUN_0c074970(int);
-int FUN_0c077210(int, int);
-int FUN_0c07eb10(int, int);
+int nlSetPalExtMode(int);
+int nlInitLibraryDC(int);
+int nlCalcVector(int, int);
+int nlsndInit(int, int);
 int nlsndPackLoad(int, int);
-int FUN_0c07f0b0(void);
-int FUN_0c07f5c0(void);
-int FUN_0c07f870(int, int, int);
-int FUN_0c0813d0(int);
-int FUN_0c1519be(void);
+int nlsndPackFree(void);
+int nlsndSeqRequest(void);
+int nlsndStreamInit(int, int, int);
+int abs(int);
+int ADXT_Init(void);
 int PAL_SettingLoop(void);
 int Init_Fog(void);
 int Sound_Init(void);
@@ -78,8 +78,8 @@ float nlInnerProduct(int, int);
 float nlLength(int, int);
 int nlLoadDummyTexture(void);
 int nlLocate(int, int);
-int nlObjPutLoadTextureCallBack(int);
-int nlObjPutMLPreCalcLightRestore(void);
+int nlSetIntrStack(int);
+int nlInitInterruptDC(void);
 int nlPopMatrix(int);
 int nlPrintf(void);
 int nlPushUnitMatrix(void);
@@ -97,7 +97,7 @@ int syHwInit(void);
 int syHwInit2(void);
 int syRtcInit(void);
 int sysCfgRead(void);
-int thunk_njSetConstantAttr(void);
+int thunk_ADXT_EntryErrFunc(void);
 int loadCity(int a4, int a5);
 int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8);
 int InitSys(void);
@@ -118,8 +118,8 @@ int loadCity(int a4, int a5)
     if (a4 != 0) {
         if (a4 != 1) {
             if (a4 == 2) {
-                FUN_0c07f0b0();
-                FUN_0c07f0b0();
+                nlsndPackFree();
+                nlsndPackFree();
                 gdc_FileLoad(0xCB40000, 0xC08D564, 0x0);
                 nlsndPackLoad(0xCB40000, 0x4);
                 t10 = *(int *)0xC179488;
@@ -142,8 +142,8 @@ int loadCity(int a4, int a5)
                 gdc_FileLoad(0xC328000, 0xC08D5A0, 0x0);
             }
         } else {
-            FUN_0c07f0b0();
-            FUN_0c07f0b0();
+            nlsndPackFree();
+            nlsndPackFree();
             gdc_FileLoad(0xCB40000, 0xC08D51C, 0x0);
             nlsndPackLoad(0xCB40000, 0x4);
             t33 = *(int *)0xC1EE210;
@@ -171,8 +171,8 @@ int loadCity(int a4, int a5)
             gdc_FileLoad(0xC328000, 0xC08D558, 0x0);
         }
     } else {
-        FUN_0c07f0b0();
-        FUN_0c07f0b0();
+        nlsndPackFree();
+        nlsndPackFree();
         gdc_FileLoad(0xCB40000, 0xC08D4BC, 0x0);
         nlsndPackLoad(0xCB40000, 0x4);
         t60 = *(int *)0xC1EE210;

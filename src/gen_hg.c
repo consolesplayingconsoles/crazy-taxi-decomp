@@ -22,10 +22,10 @@ static float iaFscaS(int a)
 }
 int nlPopMatrix(int a4);
 float nlRotateAX(int a4);
-float FUN_0c078450(float f4, float f5);
+float nlRotateXSC(float f4, float f5);
 float nlRotateAY(int a4);
 float nlRotateAZ(int a4);
-float FUN_0c078600(float f4, float f5);
+float nlRotateYSC(float f4, float f5);
 
 int nlPopMatrix(int a4)
 {
@@ -167,7 +167,7 @@ float nlRotateAX(int a4)
     return u2[0];
 }
 
-float FUN_0c078450(float f4, float f5)
+float nlRotateXSC(float f4, float f5)
 {
     float u0[4];
     float u1[4];
@@ -289,7 +289,7 @@ float nlRotateAZ(int a4)
     return u2[0];
 }
 
-float FUN_0c078600(float f4, float f5)
+float nlRotateYSC(float f4, float f5)
 {
     float u0[4];
     float u1[4];

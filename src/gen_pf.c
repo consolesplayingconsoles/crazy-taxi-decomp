@@ -5,9 +5,9 @@ int BigOneResetState(void);
 
 int BigOneResetState(void)
 {
-    *(float *)0xC2AEC20 = (*(float *)0xC073140);
-    *(float *)0xC2AEC24 = (*(float *)0xC073144);
-    *(float *)0xC2AEC28 = (*(float *)0xC073148);
+    *(float *)0xC2AEC20 = (10430.0f);
+    *(float *)0xC2AEC24 = (-1251.0f);
+    *(float *)0xC2AEC28 = (13740.0f);
     *(unsigned int *)0xC2AEC34 = 0x0;
     *(unsigned int *)0xC2AEC30 = 0x0;
     *(unsigned int *)0xC2AEC2C = 0x0;
@@ -19,7 +19,7 @@ int BigOneResetState(void)
     *(unsigned int *)0xC2AEC50 = 0x0;
     *(unsigned int *)0xC2AEC4C = 0x0;
     *(float *)0xC2AEC58 = 0.0f;
-    *(float *)0xC2AEC5C = (*(float *)0xC07314C);
+    *(float *)0xC2AEC5C = (0.39999998f);
     *(unsigned int *)0xC2AEC68 = 0x0;
     *(unsigned int *)0xC2AEC64 = 0x0;
     *(unsigned int *)0xC2AEC60 = 0x0;

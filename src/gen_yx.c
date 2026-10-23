@@ -1,210 +1,118 @@
 /* Straight-line functions with calls and guards (batch gen_yx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Put_Remain_Time_Frame(void);
-int Put_Remain_Time_Gauge(int);
-int ResetFadeColor(void);
+int Money_Array(int, int, int);
+int Put_TotalDrum(int, int, int);
+int Put_TotalDrum_SetDigits(int, int);
 int Sound_Request(int, int);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int);
-int pfColor(int, int, int, int);
-int pfSetFont(int);
-int pfSize(float, float);
-int Put_Remain_Time_Mode2(void);
+int Start_Pass_Ranking(void);
+int Put_TotalDrum_Update(int a4, int a5, int a6);
 
-int Put_Remain_Time_Mode2(void)
+int Put_TotalDrum_Update(int a4, int a5, int a6)
 {
-    int t0;
-    int t141;
-    int t9;
-    int t16;
-    int t18;
-    int t19;
-    int t21;
-    int t54;
-    int t55;
-    int t56;
-    int t57;
-    int t83;
-    int t84;
-    int t87;
-    int t130;
-    int t136;
-    int t132;
-    int t1;
+    int t5;
     int t10;
-    int t14;
-    int t48;
-    int t49;
-    float u111;
-    int t78;
-    float u107;
-    int t121;
-    int t122;
-    int stk[23] = {0};
+    int stk[22];
 
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
-    t0 = *(int *)0xC1EE20C;
-    t141 = t0;
-    if ((t0 == 2) && (t1 = *(int *)0xC1EE214, t1 == 0)) {
-    } else {
-        t9 = *(int *)0xC2A8C54;
-        if (((*(int *)0xC1EE210) == 2) && (t10 = *(int *)0xC2A9904, t10 != 0)) {
-            t14 = ((*(int *)((t9 + 0x0))) + 0x1);
-        } else {
-            t14 = (*(int *)((t9 + 0x0)));
-        }
-        t16 = t14;
-        if ((int)t14 >= (int)0x57E40) {
-            t16 = 0x57E3F;
-        }
-        t18 = (int)((int)t16 / (int)0xE10);
-        t19 = (int)((int)(t16 - (t18 * 0xE10)) / (int)0x3C);
-        t21 = (int)((int)(((int)((int)t16 % (int)0x3C)) * 0x64) / (int)0x3C);
-        if (t16 == 0x258) {
-            Voice_ShutUp(0x0);
-            Voice_Request(0xC130B78, 0x0, 0x7F, 0x0);
-        }
-        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = ((int)((int)t18 / (int)0xA));
-        *(unsigned int *)(((int)stk + 12)) = ((((int)stk + 4) + 0xC) + 0x4);
-        *(unsigned int *)((((((int)stk + 4) + 0xC) + 0x4) + 0x0)) = ((int)((int)t18 % (int)0xA));
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x8)) = ((int)((int)t19 / (int)0xA));
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0xC)) = ((int)((int)t19 % (int)0xA));
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x10)) = ((int)((int)t21 / (int)0xA));
-        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x14)) = ((int)((int)t21 % (int)0xA));
-        if ((*(int *)0xC1EE210) != 2) {
-            Put_Remain_Time_Gauge(0xA);
-        }
-        *(unsigned int *)0xC2A7FB0 = 0x200E;
-        *(float *)0xC2A7FA0 = 1.0f;
-        *(unsigned int *)0xC2A7FA4 = 0x0;
-        *(float *)0xC2A7F88 = 0.0399999991f;
-        if ((int)t16 <= (int)0x258) {
-            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
-        } else {
-            nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
-        }
-        *(float *)0xC2A7F84 = 84.0f;
-        if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0) && (t48 = *(int *)(((int)stk + 12)), t49 = *(int *)((t48 + 0x0)), t49 == 0)) {
-            t54 = 0xC054080;
-            t55 = 0x2;
-            for (;;) {
-                if ((int)t55 >= (int)0x6) {
-                    break;
-                }
-                t54 = 0xC130BEC;
-                t56 = *(int *)((((t55 - 2) << 2) + t54));
-                t54 = 0x4;
-                *(float *)((0xC2A7F7C + t54)) = (float)t56;
-                t54 = t55;
-                t54 = (t54 << 2);
-                t57 = *(int *)(((((int)stk + 4) + 0xC) + t54));
-                t54 = 0xC0D0C08;
-                *(unsigned int *)0xC2A7F7C = (*(int *)(((t57 << 2) + t54)));
-                if ((int)t55 >= (int)0x4) {
-                    t54 = 0x10;
-                    *(float *)((0xC2A7F7C + t54)) = 0.5f;
-                    t54 = 0x14;
-                    *(float *)((0xC2A7F7C + t54)) = 0.5f;
-                } else {
-                    t54 = 0x10;
-                    *(float *)((0xC2A7F7C + t54)) = 1.0f;
-                    t54 = 0x14;
-                    *(float *)((0xC2A7F7C + t54)) = 1.0f;
-                }
-                t54 = (nlSprPut(0xC2A7F7C));
-                t55 = (t55 + 0x1);
-            }
-            pfSetFont(0x2);
-            pfSize(1.0f, 1.0f);
-            if ((int)t16 <= (int)0x258) {
-                pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
-            } else {
-                pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
-            }
-            nd_SprPut(0xC2A7F7C, 0x10, (142.0f), 34.0f);
-            u111 = (150.0f);
-        } else {
-            if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
-                *(float *)0xC2A7F80 = (float)(*(int *)0xC130BD4);
-                *(unsigned int *)0xC2A7F7C = (*(int *)((((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) << 2) + 0xC0D0C08)));
-                *(float *)0xC2A7F8C = 1.0f;
-                *(float *)0xC2A7F90 = 1.0f;
-                t78 = (nlSprPut(0xC2A7F7C));
-            } else {
-                *(unsigned int *)(((int)stk + 8)) = 0x24;
-                t78 = 0xC054080;
-            }
-            t83 = t78;
-            t84 = 0x1;
-            for (;;) {
-                if ((int)t84 >= (int)0x6) {
-                    break;
-                }
-                t83 = 0xC130BD4;
-                *(float *)0xC2A7F80 = (float)((*(int *)(((t84 << 2) + t83))) - (*(int *)(((int)stk + 8))));
-                t83 = (t84 << 2);
-                t87 = *(int *)(((((int)stk + 4) + 0xC) + t83));
-                t83 = 0xC0D0C08;
-                *(unsigned int *)0xC2A7F7C = (*(int *)(((t87 << 2) + t83)));
-                if ((int)t84 >= (int)0x4) {
-                    t83 = 0x10;
-                    *(float *)((0xC2A7F7C + t83)) = 0.5f;
-                    t83 = 0x14;
-                    *(float *)((0xC2A7F7C + t83)) = 0.5f;
-                } else {
-                    t83 = 0x10;
-                    *(float *)((0xC2A7F7C + t83)) = 1.0f;
-                    t83 = 0x14;
-                    *(float *)((0xC2A7F7C + t83)) = 1.0f;
-                }
-                t83 = (nlSprPut(0xC2A7F7C));
-                t84 = (t84 + 0x1);
-            }
-            pfSetFont(0x2);
-            pfSize(1.0f, 1.0f);
-            if ((int)t16 <= (int)0x258) {
-                pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
-            } else {
-                pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
-            }
-            if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
-                nd_SprPut(0xC2A7F7C, 0x10, 96.0f, 34.0f);
-                nd_SprPut(0xC2A7F7C, 0x10, 174.0f, 34.0f);
-                u107 = 182.0f;
-            } else {
-                nd_SprPut(0xC2A7F7C, 0x10, 64.0f, 34.0f);
-                nd_SprPut(0xC2A7F7C, 0x10, (142.0f), 34.0f);
-                u107 = (150.0f);
-            }
-            u111 = u107;
-        }
-        nd_SprPut(0xC2A7F7C, 0x10, u111, 34.0f);
-        if ((int)t16 <= (int)0x258) {
-            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
-        }
-        Put_Remain_Time_Frame();
-        ResetFadeColor();
-        if (((int)t16 <= (int)0x258) && ((int)t16 > 0)) {
-            if ((((int)((int)t16 % (int)0x3C)) == 0) && ((t121 = *(int *)0xC2A8E98, t121 == 0) && (t122 = *(int *)0xC2A8CB0, t122 == 0))) {
-                Sound_Request(0x505A9, 0x0);
-                *(unsigned int *)0xC2A8CB0 = 0x1;
-            }
-        }
-        t130 = (int)((int)t16 % (int)0x3C);
-        t136 = t130;
-        if (t130 != 0) {
-            t132 = *(int *)0xC2A8CB0;
-            if (t132 == 1) {
-                *(unsigned int *)0xC2A8CB0 = 0x0;
-            }
-            t136 = t132;
-        }
-        t141 = t136;
-    }
-    return t141;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C0544A8:;
+    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x20)) = *(struct mv8 *)(0xC0D08B4); }
+    { struct mv8 { int w[8]; }; *(struct mv8 *)(((int)stk + 4)) = *(struct mv8 *)(0xC0D08D4); }
+    R11 = (((int)stk + 4));
+    R12 = (0xC072168);
+    R13 = (0x0);
+    if (((*(int *)0xC2A8EB0) != 9)) goto L_C05452E;
+    goto L_C0544D8;
+    L_C0544D8:;
+    t5 = *(int *)0xC2A8C5C;
+    R4 = (t5);
+    if (((*(int *)((t5 + 0x0))) == 0)) goto L_C05452E;
+    goto L_C0544E2;
+    L_C0544E2:;
+    t10 = *(int *)0xC2A7600;
+    *(unsigned int *)((t10 + 0x0)) = ((*(int *)((t10 + 0x0))) + (*(int *)((R4 + 0x0))));
+    R14 = (0xC2A7600);
+    R4 = (0x5F5E0FF);
+    R6 = (0x8);
+    if (((int)(*(int *)(((*(int *)0xC2A7600) + 0x0))) <= (int)0x5F5E0FF)) goto L_C0544FE;
+    goto L_C0544FA;
+    L_C0544FA:;
+    *(unsigned int *)(((*(int *)((R14 + 0x0))) + 0x0)) = R4;
+    goto L_C0544FE;
+    L_C0544FE:;
+    Money_Array(R11, (*(int *)(((*(int *)((R14 + 0x0))) + 0x0))), R6);
+    Put_TotalDrum_SetDigits((((int)stk + 4) + 0x20), R11);
+    *(unsigned int *)(((*(int *)0xC2A8C5C) + 0x0)) = R13;
+    Sound_Request(0x604A9, 0x0);
+    *(unsigned int *)0xC2A9180 = R13;
+    if (((*(int *)0xC2A7618) == 0)) goto L_C05452E;
+    goto L_C054528;
+    L_C054528:;
+    Start_Pass_Ranking();
+    goto L_C05452E;
+    L_C05452E:;
+    R4 = (0xC2A8DBC);
+    if (((*(int *)0xC2A8DD8) != 1)) goto L_C054574;
+    goto L_C054536;
+    L_C054536:;
+    if (((*(int *)((R4 + 0x18))) != 1)) goto L_C054574;
+    goto L_C05453C;
+    L_C05453C:;
+    if (((*(int *)((R4 + 0x14))) != 1)) goto L_C054574;
+    goto L_C054542;
+    L_C054542:;
+    if (((*(int *)((R4 + 0x10))) != 1)) goto L_C054574;
+    goto L_C054548;
+    L_C054548:;
+    if (((*(int *)((R4 + 0xC))) != 1)) goto L_C054574;
+    goto L_C05454E;
+    L_C05454E:;
+    if (((*(int *)((R4 + 0x8))) != 1)) goto L_C054574;
+    goto L_C054554;
+    L_C054554:;
+    if (((*(int *)((R4 + 0x4))) != 1)) goto L_C054574;
+    goto L_C05455A;
+    L_C05455A:;
+    if (((*(int *)((R4 + 0x0))) != 1)) goto L_C054574;
+    goto L_C054560;
+    L_C054560:;
+    if (((*(int *)0xC2A9180) != 0)) goto L_C054574;
+    goto L_C054568;
+    L_C054568:;
+    Sound_Request(0x704A9, 0x0);
+    *(unsigned int *)0xC2A9180 = 0x1;
+    goto L_C054574;
+    L_C054574:;
+    R4 = (0xC2A11B0);
+    if (((*(int *)0xC2A11B0) != 0)) goto L_C054580;
+    goto L_C05457C;
+    L_C05457C:;
+    *(unsigned int *)0xC2A91BC = R13;
+    goto L_C054580;
+    L_C054580:;
+    if (((*(int *)((R4 + 0x0))) == 0)) goto L_C05459A;
+    goto L_C054586;
+    L_C054586:;
+    if (((*(int *)0xC2A91BC) != 0)) goto L_C05459A;
+    goto L_C05458E;
+    L_C05458E:;
+    Sound_Request(0x704A9, 0x0);
+    *(unsigned int *)0xC2A91BC = 0x1;
+    goto L_C05459A;
+    L_C05459A:;
+    return (Put_TotalDrum(R4, R5, R6));
 }

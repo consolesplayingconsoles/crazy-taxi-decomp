@@ -13,12 +13,12 @@ void Put_Bowling_Message(float f4)
     t0 = *(int *)0xC2A9960;
     *(unsigned int *)0xC2A9960 = (t0 + 0x1);
     if ((int)(t0 + 0x1) < (int)0x78) {
-        u1 = *(float *)0xC05CE48;
+        u1 = 1.4f;
         *(float *)0xC2A98A8 = u1;
         *(float *)0xC2A98AC = u1;
-        u2 = *(float *)0xC05CE50;
-        nd_SprPut(0xC2A9898, 0x1F1, u2, (*(float *)0xC05CE54));
-        nd_SprPut(0xC2A9898, 0x1F2, u2, (*(float *)0xC05CE5C));
+        u2 = 525.0f;
+        nd_SprPut(0xC2A9898, 0x1F1, u2, (154.0f));
+        nd_SprPut(0xC2A9898, 0x1F2, u2, (221.0f));
         *(float *)0xC2A98A8 = 1.0f;
         *(float *)0xC2A98AC = 1.0f;
     }

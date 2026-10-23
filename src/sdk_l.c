@@ -15,18 +15,18 @@ int ADXCRS_Lock(void);
 int ADXCRS_Unlock(void);
 int adxf_read_sj32(int a, int b, int c);
 void adxf_ExecOne(char *p);
-int FUN_0c15f460(int a, int b, int c);
-int FUN_0c16dd04(int v);
+int ccitt_updcrc(int a, int b, int c);
+int kmiEnableHSyncInterrupt(int v);
 int kmiRegisterCallback(int dev, int kind, void *f, void *p);
 int kmiReadRegister(int off);
 int kmiWriteRegister(int off, int v);
 int kmtex_GetTextureLevel(int a);
 int kmiCopyToFrameBuffer(int a, int b, int c);
-void FUN_0c07d6e0(int a, int b, int c);
-void FUN_0c168026(void);
+void nlMvChgIndexPolAttr(int a, int b, int c);
+void ADXERR_Finish(void);
 void ADXSJD_Finish(void);
-void FUN_0c168936(void);
-void thunk_FUN_0c169a7a(void);
+void ADXSTM_Finish(void);
+void ADXRNA_Finish(void);
 void SJMEM_Finish(void);
 void SJRBF_Finish(void);
 void SJUNI_Finish(void);
@@ -120,7 +120,7 @@ int syCfgGetBroadcastType(int *p)
 }
 
 /* Takes the first free entry (halfword bit 0 clear) of the 24-byte entries at 0C2BF67C: marks it used and returns it, or 0. */
-char *FUN_0c1573a0(void)
+char *kmytex_FBAllocEntry(void)
 {
     char *p;
 
@@ -133,7 +133,7 @@ char *FUN_0c1573a0(void)
 }
 
 /* The same in the table of 76-byte entries at 0C2D767C. */
-char *FUN_0c157cc8(void)
+char *VQAllocEntry(void)
 {
     char *p;
 
@@ -146,7 +146,7 @@ char *FUN_0c157cc8(void)
 }
 
 /* Takes node out of the singly linked list at *head (link at [1]); returns the node that pointed to it. */
-int *FUN_0c157d58(int **head, int *node)
+int *VQDeQueueEntry(int **head, int *node)
 {
     int *pred = 0;
     int *p;
@@ -228,7 +228,7 @@ int ADXF_GetNumReqSct(int *adxf, int *out)
 
 int kmSetHSyncCallback(void *f, void *p)
 {
-    FUN_0c16dd04(f != 0);
+    kmiEnableHSyncInterrupt(f != 0);
     kmiRegisterCallback(KM_DEVICE, 2, f, p);
     return 0;
 }
@@ -242,16 +242,16 @@ int kmSetStrideWidth(int w)
     return 0;
 }
 
-int FUN_0c15f49a(int a, short b)
+int crcchk(int a, short b)
 {
-    int r = FUN_0c15f460(0, a, 10);
+    int r = ccitt_updcrc(0, a, 10);
 
     if ((unsigned short)b == (unsigned short)~r)
         return 0;
     return -1;
 }
 
-int FUN_0c15c960(int a, int b, int c)
+int kmtex_CopyTextureToMem(int a, int b, int c)
 {
     int lvl = kmtex_GetTextureLevel(c);
 
@@ -259,25 +259,25 @@ int FUN_0c15c960(int a, int b, int c)
 }
 
 /* Visits a node's resources (link [1]), its child list (link [11]) and its siblings (link [12]). */
-void FUN_0c07d6a0(int *n)
+void nlMvNotShadowIndexPol(int *n)
 {
     for (;;) {
         if (n[1])
-            FUN_0c07d6e0(n[1], 192, 0);
+            nlMvChgIndexPolAttr(n[1], 192, 0);
         if (n[11])
-            FUN_0c07d6a0((int *)n[11]);
+            nlMvNotShadowIndexPol((int *)n[11]);
         if (!n[12])
             return;
         n = (int *)n[12];
     }
 }
 
-int ADXT_Init(void)
+int ADXT_Finish(void)
 {
-    FUN_0c168026();
+    ADXERR_Finish();
     ADXSJD_Finish();
-    FUN_0c168936();
-    thunk_FUN_0c169a7a();
+    ADXSTM_Finish();
+    ADXRNA_Finish();
     SJMEM_Finish();
     SJRBF_Finish();
     SJUNI_Finish();

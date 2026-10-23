@@ -45,7 +45,7 @@ void vmsfs_c_setvolume(int drive, unsigned char *src)
 }
 
 /* Run every open ADX stream handle (32 handles of 100 bytes; byte 0 == 1 means in use). */
-void ADXAMP_ExecServer(void)
+void ADXSTM_ExecServer(void)
 {
     unsigned char *p = (unsigned char *)0x0C2F53DC;
     unsigned char *end = p + 3200;
@@ -124,7 +124,7 @@ void ndPuru2Reset(int port)
     *(int *)0x0C2A9C8C = 0;
 }
 
-extern int FUN_0c1727b0(void *ch);
+extern int syG2DmaSuspend(void *ch);
 extern int syG2DmaResume(void *ch);
 
 /* Suspend the four G2 DMA channels (52-byte records after a 4-byte header) and note it. */
@@ -133,7 +133,7 @@ int syG2DmaSuspendAll(void)
     unsigned int off;
 
     for (off = 0; off < 208; off += 52) {
-        FUN_0c1727b0((char *)*(int *)0x0C178700 + 4 + off);
+        syG2DmaSuspend((char *)*(int *)0x0C178700 + 4 + off);
     }
     *(int *)0x0C2F9338 = 1;
     return 0;

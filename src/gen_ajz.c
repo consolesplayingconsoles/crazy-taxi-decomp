@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_ajz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c14ecc6(void);
+int syCacheOCI_P2_(void);
 
-int FUN_0c14ecc6(void)
+int syCacheOCI_P2_(void)
 {
     int t0;
 

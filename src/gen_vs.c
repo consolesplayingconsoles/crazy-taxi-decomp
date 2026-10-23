@@ -3,7 +3,7 @@
 
 int CarSel_SetFog(void);
 int CarSel_SetLight(void);
-int FUN_0c077df0(int);
+int nlMatrixMode(int);
 int Init_nd_Sprite(void);
 int Start_Time_Count(int, int);
 int Voice_Request(int, int, int, int);
@@ -29,10 +29,10 @@ int nd_CarSelInit(void)
     int t24;
     int t22;
 
-    FUN_0c077df0(0x3);
+    nlMatrixMode(0x3);
     nlUnitMatrix();
     nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
-    FUN_0c077df0(0x1);
+    nlMatrixMode(0x1);
     *(unsigned short *)0xC2A756C = 0xEB00;
     *(unsigned short *)0xC2A756E = 0xF200;
     *(float *)0xC2A7568 = 0.799999952f;

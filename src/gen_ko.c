@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_ko): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15f9c4(int, int, int);
-int FUN_0c15fa6c(int, int);
+int gdFsStrncmpi(int, int, int);
+int gdFsGetTokenSize(int, int);
 int gdFsGetLE4(int);
 int gdFsMemcpy(int, int, int);
 int gdFsReadWG(int, int, int);
@@ -292,7 +292,7 @@ int gdFsSearchPath_dds(int a4, int a5, int a6, int a7, int a8)
     goto L_C15FE66;
     L_C15FE66:;
     t67 = *(int *)(((int)stk + 32));
-    t68 = FUN_0c15f9c4((R13 + 0x8), R5, t67);
+    t68 = gdFsStrncmpi((R13 + 0x8), R5, t67);
     t69 = t68 == 0;
     t70 = t68;
     t71 = ((t68 == 0));
@@ -344,7 +344,7 @@ int gdFsSearchPath_dds(int a4, int a5, int a6, int a7, int a8)
     R10 = t87;
     goto L_C15FEA8;
     L_C15FEA8:;
-    t88 = FUN_0c15fa6c(R12, 0xC176224);
+    t88 = gdFsGetTokenSize(R12, 0xC176224);
     *(unsigned int *)(((int)stk + 28)) = t88;
     t89 = t88;
     R0 = t89;

@@ -4,9 +4,9 @@
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int gdFsReopenHn(int, int, int, int);
-int FUN_0c14df90(void);
+int gdFsDaStopG(void);
 
-int FUN_0c14df90(void)
+int gdFsDaStopG(void)
 {
     int t2;
     int t23;

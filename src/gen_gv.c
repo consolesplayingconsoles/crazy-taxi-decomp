@@ -2,8 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int HomingAngle1(int, int, float);
-int FUN_0c077210(int, int);
-int FUN_0c078a70(int, int, int);
+int nlCalcVector(int, int);
+int nlAddVector3op(int, int, int);
 int GetCollision2D(int, float);
 int nlAddVector(int, int);
 int nlObjPutUseViewMatrix(int);
@@ -184,7 +184,7 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
                 t15 = nlRotateAX(t1);
                 t0 = t15;
                 t1 = 0xC2AD1F8;
-                t16 = FUN_0c077210(t1, (((int)stk + 4) + 0x10));
+                t16 = nlCalcVector(t1, (((int)stk + 4) + 0x10));
                 t0 = t16;
                 t2 = t3;
                 t2 = (t2 << 2);
@@ -237,7 +237,7 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
                 }
                 t1 = t2;
                 t1 = (t1 + 0xC2AE788);
-                t34 = FUN_0c078a70(t1, t32, (((int)stk + 4) + 0x10));
+                t34 = nlAddVector3op(t1, t32, (((int)stk + 4) + 0x10));
                 t0 = t34;
                 t1 = 0x1;
                 t35 = nlPopMatrix(t1);
@@ -387,7 +387,7 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
                     t90 = nlRotateAY(t1);
                     t0 = t90;
                     t1 = 0xC0D5554;
-                    t91 = FUN_0c077210(t1, (((int)stk + 4) + 0x10));
+                    t91 = nlCalcVector(t1, (((int)stk + 4) + 0x10));
                     t0 = t91;
                     t1 = 0x1;
                     t92 = nlPopMatrix(t1);
@@ -451,7 +451,7 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
                 t113 = nlRotateAY(t1);
                 t0 = t113;
                 t1 = 0xC0D5554;
-                t114 = FUN_0c077210(t1, (((int)stk + 4) + 0x10));
+                t114 = nlCalcVector(t1, (((int)stk + 4) + 0x10));
                 t0 = t114;
                 t1 = 0x1;
                 t115 = nlPopMatrix(t1);

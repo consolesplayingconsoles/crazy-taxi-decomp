@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmProcessVertexRenderState(int);
-int FUN_0c074390(int a4);
+int nlSetVertexMode(int a4);
 
-int FUN_0c074390(int a4)
+int nlSetVertexMode(int a4)
 {
     *(unsigned int *)(((*(int *)0xC2B2FC8) + 0x0)) = 0x600608;
     *(unsigned int *)(((*(int *)0xC2B2FC8) + 0x8)) = (*(int *)((((((a4 << 2) + a4) << 2) + 0xC0D63EC) + 0x0)));

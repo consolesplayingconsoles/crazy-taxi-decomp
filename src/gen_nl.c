@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmfSetTimeOutCount(int, int);
-int FUN_0c0755e0(int a4, int a5);
+int nlSysSetTimeOutCount(int a4, int a5);
 
-int FUN_0c0755e0(int a4, int a5)
+int nlSysSetTimeOutCount(int a4, int a5)
 {
     return kmfSetTimeOutCount(a4, a5);
 }

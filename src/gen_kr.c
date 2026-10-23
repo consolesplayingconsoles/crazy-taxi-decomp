@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_kr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c074200(int, int);
-int FUN_0c0770f0(int, int, int);
+int nlSetPaletteMap(int, int);
+int nlSetPaletteData(int, int, int);
 int nlCommonTextureGetNextTextureIndex(void);
 int nlCreateTextureParam(int);
 int nlLoadTextureMem(int, int, int);
@@ -487,9 +487,9 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     goto L_C07DA48;
     L_C07DA48:;
     *(unsigned short *)((R14 + 0x0)) = R12;
-    FUN_0c074200(R12, R10);
+    nlSetPaletteMap(R12, R10);
     t138 = *(int *)((R11 + 0x4));
-    t139 = FUN_0c0770f0(((R12 << 2) << 2), t138, R10);
+    t139 = nlSetPaletteData(((R12 << 2) << 2), t138, R10);
     t140 = t139;
     R0 = t140;
     goto L_C07DA72;

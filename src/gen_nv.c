@@ -7,9 +7,9 @@ static float iaFsrra(float x)
 {
     return _builtin_fsrra(x);
 }
-float FUN_0c078de0(int a4, int a5);
+float nlUnitVectorsd(int a4, int a5);
 
-float FUN_0c078de0(int a4, int a5)
+float nlUnitVectorsd(int a4, int a5)
 {
     float u0;
     float u1;

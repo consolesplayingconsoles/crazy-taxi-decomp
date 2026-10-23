@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_adh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15fab8(int, int);
+int gdFsGet1DirEnt(int, int);
 int gdFsReadWG(int, int, int);
 int gdFsGetDirEnt(int a4, int a5, int a6, int a7);
 
@@ -50,7 +50,7 @@ int gdFsGetDirEnt(int a4, int a5, int a6, int a7)
             t6 = (*(int *)(((int)stk + 8)));
             if ((int)t7 < (int)t3) {
                 for (;;) {
-                    t15 = FUN_0c15fab8(t6, t5);
+                    t15 = gdFsGet1DirEnt(t6, t5);
                     if (t15 != 0) {
                         if ((t7 == 0) && (t17 = *(int *)((t5 + 0x4)), t17 != t4)) {
                             t4 = (*(int *)((t5 + 0x4)));

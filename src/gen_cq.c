@@ -4,10 +4,10 @@
 int Pass_Rideoff(void);
 int Start_Pass_Judgement(int);
 int Result_Check_Digit_Disp(int);
-int FUN_0c07e580(int, int, float, float, float, float);
-float FUN_0c089de0(int);
-int FUN_0c1566a0(int, int);
-int FUN_0c1568cc(int, int, int);
+int nlSpriteF2ARGB(int, int, float, float, float, float);
+float nlFastSin(int);
+int kmiFBFitBlock(int, int);
+int kmiFBSearchFree(int, int, int);
 int GetMenuMode(int);
 int Sound_Request(int, int);
 extern int _builtin_get_imask(void);
@@ -23,17 +23,17 @@ int nlSprPutPosSet(float, float, float, float);
 int nlSpriteF2C(float);
 int nlsndIcsControl(int, int, int);
 int GS_GuestOut(void);
-int FUN_0c14f7ac(int a4, int a5);
+int syMalloc_default_realloc(int a4, int a5);
 int Init_DramRoll(void);
-int FUN_0c156742(int a4, int a5);
+int kmiFBallocSub(int a4, int a5);
 int InitSetObject(float f4);
 int Result_Money_Digit_Put(void);
-float FUN_0c077b80(int a4, int a5, float f4, float f5);
+float nlLUDecomp(int a4, int a5, float f4, float f5);
 int exec_CarSound(int a4);
 int nlSprPut(int a4);
 
 
-int FUN_0c14f7ac(int a4, int a5)
+int syMalloc_default_realloc(int a4, int a5)
 {
     int t0;
     int t1;
@@ -171,243 +171,11 @@ int FUN_0c14f7ac(int a4, int a5)
     return (t16 + 0x20);
 }
 
-int Init_DramRoll(void)
-{
-    int t0;
-    int t7;
-    int t3;
-    int t1;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t17;
-    int t15;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
-    int stk[10] = {0};
-
-    t0 = *(int *)0xC2A97D8;
-    t7 = ((((0x5 - t0) << 1) + (0x5 - t0)) + 0x14);
-    if ((int)t0 > (int)0x5) {
-        t3 = 0x28;
-        if (t0 != 0x3E7) {
-            t1 = 0x14;
-            if (t0 == 99) {
-                t1 = 0x28;
-            }
-            t3 = t1;
-        }
-        t7 = t3;
-    }
-    t8 = 0x0;
-    t9 = 0xC2A982C;
-    t10 = 0xC2A97AC;
-    t11 = ((0x0 + t7) + 0x1);
-    do {
-        *(unsigned int *)(((int)stk + 4)) = ((t8 + t7) + 0x1);
-        *(unsigned int *)(((t8 << 2) + 0xC2A97EC)) = ((t8 + t7) + 0x1);
-        t12 = *(int *)(((int)stk + 4));
-        t13 = *(int *)((0xC2A97AC + (t8 << 2)));
-        t14 = (int)((int)t12 % (int)0xA);
-        t17 = 0x0;
-        if ((int)(t13 - t14) < 0) {
-            t15 = *(int *)((0xC2A97AC + (t8 << 2)));
-            *(unsigned int *)((0xC2A97AC + (t8 << 2))) = (t15 + 0xA);
-            t17 = 0x1;
-        }
-        t19 = *(int *)((0xC2A97AC + (t8 << 2)));
-        t20 = (int)((int)t11 % (int)0xA);
-        t21 = (int)((int)(t19 - t20) % (int)0xA);
-        *(unsigned int *)(((0xC2A980C + (t8 << 2)) + 0x0)) = t21;
-        if ((int)t17 > 0) {
-            t22 = *(int *)((t10 + 0x0));
-            *(unsigned int *)((t10 + 0x0)) = (t22 - 10);
-        }
-        t8 = (t8 + 0x1);
-        *(unsigned int *)((t9 + 0x0)) = 0x0;
-        t10 = (t10 + 0x4);
-        t9 = (t9 + 0x4);
-        t11 = (t11 + 0x1);
-    } while ((int)t8 < (int)0x8);
-    return t21;
-}
 
 
-int InitSetObject(float f4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    float u5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    float u10;
-    int t11;
-    int t12;
-    float t13;
-    float u14;
-    float u15;
-    int t17;
-    int t18;
-    int t26;
-    int t27;
-    int t28;
-    int t29;
-    int t30;
-    int t31;
-    int t32;
-    int t37;
-    int t38;
-    int t23;
-    int t58;
-    int t53;
-    int t49;
-    int t45;
-    int t42;
-    int t39;
-    int stk[13] = {0};
-
-    t0 = 0xC038498;
-    t1 = 0x0;
-    t2 = 0xC0EDBC0;
-    t3 = 0xC0EDBC0;
-    t4 = 0xC0EDBC0;
-    u5 = f4;
-    while ((int)t1 < (int)0x1C) {
-        t6 = *(int *)((t3 + 0x0));
-        *(unsigned int *)(((int)stk + 4)) = t6;
-        t7 = *(int *)((t3 + 0x4));
-        t8 = 0x0;
-        t9 = t7;
-        u10 = 0.0f;
-        for (;;) {
-            t11 = *(int *)((t2 + 0x8));
-            if ((int)t8 >= (int)t11) break;
-            t12 = *(int *)(((int)stk + 4));
-            *(unsigned int *)(((int)stk + 4)) = (t12 + 0xC);
-            t13 = nlScalor(((t12 + 0xC) - 12));
-            t0 = t13;
-            t0 = 0x4;
-            u14 = *(float *)((t9 + t0));
-            u5 = t13;
-            if (u14 > 0.0f) {
-                u15 = *(float *)((t9 + t0));
-                u5 = (u5 + u15);
-            }
-            t9 = (t9 + 0x8);
-            if (u5 > u10) {
-                u10 = u5;
-            }
-            t8 = (t8 + 0x1);
-        }
-        t0 = 0x1C;
-        *(float *)((t4 + t0)) = u10;
-        t0 = 0x20;
-        t2 = (t2 + 0x24);
-        t3 = (t3 + 0x24);
-        t1 = (t1 + 0x1);
-        *(float *)((t4 + t0)) = (2.5f / (u10 * u10));
-        t4 = (t4 + 0x24);
-    }
-    t17 = *(int *)0xC1EE20C;
-    if (t17 == 2) {
-        t18 = *(int *)0xC1EE214;
-        if (t18 != 9) {
-            *(float *)0xC2757E8 = 3.40282347e+38f;
-            *(float *)0xC2757EC = 3.40282347e+38f;
-        } else {
-            *(float *)0xC2757E8 = 1800.0f;
-            *(float *)0xC2757EC = 2000.0f;
-        }
-        t23 = 0xC1EE214;
-    } else {
-        *(float *)0xC2757E8 = 1800.0f;
-        *(float *)0xC2757EC = 2000.0f;
-    }
-    t26 = t23;
-    t27 = 0x0;
-    t28 = 0x0;
-    while ((int)t28 < (int)0x3F) {
-        t29 = *(int *)0xC0EDBB8;
-        t26 = t29;
-        t28 = (t28 + 0x1);
-        t26 = (t26 + t27);
-        t27 = (t27 + 0x20);
-        *(unsigned int *)((t26 + 0x1C)) = 0x0;
-    }
-    t30 = *(int *)0xC1EE20C;
-    if (t30 == 0) {
-        t31 = *(int *)0xC0EDBB8;
-        *(unsigned int *)(((t31 + 0x300) + 0x14)) = 0x0;
-        t32 = *(int *)0xC0EDBB8;
-        *(unsigned short *)(((0x300 + t32) + 0x10)) = 0x0;
-    }
-    t37 = *(int *)0xC1EE20C;
-    if (t37 == 2) {
-        t38 = *(int *)0xC1EE214;
-        if (t38 == 3) {
-            *(unsigned int *)0xC2757F0 = 0x0;
-            *(unsigned int *)0xC2757F4 = 0x1;
-            t53 = t38;
-        } else {
-            if (t38 == 1) {
-                *(unsigned int *)0xC2757F0 = 0x1;
-                *(unsigned int *)0xC2757F4 = 0x3;
-                t49 = t38;
-            } else {
-                if (t38 == 8) {
-                    *(unsigned int *)0xC2757F0 = 0x3;
-                    *(unsigned int *)0xC2757F4 = 0x4;
-                    t45 = t38;
-                } else {
-                    if (t38 == 9) {
-                        *(unsigned int *)0xC2757F0 = 0x4;
-                        *(unsigned int *)0xC2757F4 = 0xA;
-                        t42 = t38;
-                    } else {
-                        if (t38 == 14) {
-                            *(unsigned int *)0xC2757F0 = 0xA;
-                            *(unsigned int *)0xC2757F4 = 0x18;
-                            t39 = t38;
-                        } else {
-                            *(unsigned int *)0xC2757F0 = 0x18;
-                            *(unsigned int *)0xC2757F4 = 0x3A;
-                            t39 = 0x18;
-                        }
-                        t42 = t39;
-                    }
-                    t45 = t42;
-                }
-                t49 = t45;
-            }
-            t53 = t49;
-        }
-        t58 = t53;
-    } else {
-        if (t37 == 1) {
-            *(unsigned int *)0xC2757F0 = 0x0;
-            *(unsigned int *)0xC2757F4 = 0x3F;
-        } else {
-            *(unsigned int *)0xC2757F0 = 0x0;
-            *(unsigned int *)0xC2757F4 = 0x3A;
-        }
-        t58 = t37;
-    }
-    return t58;
-}
 
 
-float FUN_0c077b80(int a4, int a5, float f4, float f5)
+float nlLUDecomp(int a4, int a5, float f4, float f5)
 {
     int t2;
     int t0;
@@ -842,7 +610,7 @@ int nlSprPut(int a4)
                 u78 = *(float *)0xC14A948;
                 u79 = *(float *)0xC14A950;
                 u80 = *(float *)0xC14A94C;
-                t81 = FUN_0c07e580((t59 << 29), 0x2000, u76, u78, u80, u79);
+                t81 = nlSpriteF2ARGB((t59 << 29), 0x2000, u76, u78, u80, u79);
                 *(unsigned int *)((((((t4 << 2) << 2) << 1) + t6) + 0x10)) = t81;
             } else {
                 t82 = *(int *)((a4 + 0x34));
@@ -851,7 +619,7 @@ int nlSprPut(int a4)
                     t84 = *(int *)((a4 + 0x38));
                     t86 = (((t83 << 16) << 8) | t84);
                 } else {
-                    t85 = FUN_0c07e580((t59 << 29), 0x2000, u76, 1.0f, 1.0f, 1.0f);
+                    t85 = nlSpriteF2ARGB((t59 << 29), 0x2000, u76, 1.0f, 1.0f, 1.0f);
                     t86 = t85;
                 }
                 *(unsigned int *)((((((t4 << 2) << 2) << 1) + t6) + 0x10)) = t86;

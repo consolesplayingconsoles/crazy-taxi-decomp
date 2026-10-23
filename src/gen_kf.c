@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_kf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c010a98(void);
-void FUN_0c010170(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10);
+int bootInstallVectors(void);
+void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10);
 
-void FUN_0c010170(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10)
+void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10)
 {
     int t0;
     int t2;
@@ -117,7 +117,7 @@ void FUN_0c010170(int a4, int a5, float f4, float f5, float f6, float f7, float 
     F10 = f10;
     L_C010170:;
     t0 = ((int (*)(int, int, float, float, float, float, float, float, float))(0xAC010A88))(R4, R5, f4, F5, f6, f7, f8, f9, F10);
-    FUN_0c010a98();
+    bootInstallVectors();
     t2 = ((int (*)(void))(0xAC010C18))();
     *(unsigned int *)0xAC00F718 = 0x2;
     t3 = *(short *)0x8C000070;

@@ -3,9 +3,9 @@
 
 int nlGetMatrix(int);
 int nlLoadMatrix(int);
-int FUN_0c077270(void);
+int nlClearMatrix(void);
 
-int FUN_0c077270(void)
+int nlClearMatrix(void)
 {
     nlGetMatrix(0x0);
     *(unsigned int *)0xC2B31E4 = (*(int *)0xC2B31E0);

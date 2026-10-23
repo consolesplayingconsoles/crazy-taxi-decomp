@@ -1,13 +1,13 @@
 /* Small SDK (nl*, km glue, libc) functions, batch e. */
 
 extern float nlAbsSqrt(float x);
-extern int FUN_0c085dfc(void *buf, char *fmt, void *args);
+extern int vsprintf(void *buf, char *fmt, void *args);
 extern int nlPuts(void *buf);
-extern int FUN_0c077b50(void *m);
-extern int FUN_0c077290(int n, void *m);
+extern int nlLoadMatrix8(void *m);
+extern int nlCopyMatrix(int n, void *m);
 extern int nlSpriteLoadTextureOnce_Sub(void *p, void *name, int i, int z);
-extern int FUN_0c080990(void *a, int b);
-extern int FUN_0c080c50(int a, int b);
+extern int nlstripSetVertexContextTex(void *a, int b);
+extern int nldispstripTexSub(int a, int b);
 extern int kmSetPaletteData(void *p);
 extern int kmDiscardVertexBuffer(void *p);
 
@@ -78,8 +78,8 @@ int nlGetPushedMatrix(int n)
 
     m = *(char **)(g_0c2b31dc + 8) - 64;
     if (n == 0)
-        return FUN_0c077b50(m);
-    return FUN_0c077290(n, m);
+        return nlLoadMatrix8(m);
+    return nlCopyMatrix(n, m);
 }
 
 void nlGetAverageVector(float *a, float *b, float *out, float w1, float w2)
@@ -163,9 +163,9 @@ int nlDispStripTexTrnsl(int a, int b, int c)
 {
     int r;
 
-    r = FUN_0c080990(g_0c14ab18, c);
+    r = nlstripSetVertexContextTex(g_0c14ab18, c);
     if (r == 0)
-        return FUN_0c080c50(a, b);
+        return nldispstripTexSub(a, b);
     return r;
 }
 

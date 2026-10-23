@@ -6,10 +6,10 @@ int menuChangeValue(int, int, int);
 int selectSetDriverFace(void);
 int selectPlayPickMotion(void);
 int Voice_Init(void);
-int FUN_0c1573a0(void);
-int FUN_0c1573cc(int);
-int FUN_0c1573f2(int, int, int);
-int FUN_0c15748a(int, int, int);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBFreeEntry(int);
+int kmytex_FBEnQueueTop(int, int, int);
+int FBmovedata(int, int, int);
 int SetSEvolume(void);
 int Sound_Request(int, int);
 int humanDraw(int, int, int, int);
@@ -23,7 +23,7 @@ int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int putString(int, int, float, float, float);
 
-void FUN_0c089270(int a4, int a5, int a6)
+void _lsfts(int a4, int a5, int a6)
 {
     int t8;
     int t0;
@@ -61,7 +61,7 @@ void FUN_0c089270(int a4, int a5, int a6)
 
 
 
-int FUN_0c15762c(int a4, int a5, int a6)
+int FBCompQueue(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -360,7 +360,7 @@ int FUN_0c15762c(int a4, int a5, int a6)
                     t58 = (t57 & 0x1F);
                 }
                 if (t58 != 0) {
-                    t59 = FUN_0c1573a0();
+                    t59 = kmytex_FBAllocEntry();
                     if (t59 == 0) break;
                     t60 = *(int *)((t2 + 0xC));
                     *(unsigned int *)((t59 + 0xC)) = t60;
@@ -373,14 +373,14 @@ int FUN_0c15762c(int a4, int a5, int a6)
                     *(unsigned int *)((t2 + 0x10)) = (t64 - (t62 - t63));
                     t65 = *(int *)((t2 + 0x4));
                     if (t65 == 0) {
-                        FUN_0c1573f2(a4, a5, t59);
+                        kmytex_FBEnQueueTop(a4, a5, t59);
                     } else {
                         kmytex_FBEnQueueEntry(a5, t59, t65);
                     }
                     t69 = *(int *)((t3 + 0xC));
                     t70 = *(int *)((t3 + 0x10));
                     t71 = *(int *)((t2 + 0xC));
-                    FUN_0c15748a(t71, t69, t70);
+                    FBmovedata(t71, t69, t70);
                     t73 = *(int *)((t3 + 0xC));
                     t74 = *(int *)((t2 + 0xC));
                     *(unsigned int *)((t3 + 0xC)) = t74;
@@ -423,7 +423,7 @@ int FUN_0c15762c(int a4, int a5, int a6)
                             t102 = *(int *)((t97 + 0x10));
                             *(unsigned int *)((t2 + 0x10)) = (t101 + t102);
                             kmytex_FBDeQueueEntry(a4, a5, t97);
-                            FUN_0c1573cc(t97);
+                            kmytex_FBFreeEntry(t97);
                         }
                     }
                     if (t3 != 0) {
@@ -456,7 +456,7 @@ int FUN_0c15762c(int a4, int a5, int a6)
                 t116 = *(int *)((t3 + 0xC));
                 t117 = *(int *)((t3 + 0x10));
                 t118 = *(int *)((t2 + 0xC));
-                FUN_0c15748a(t118, t116, t117);
+                FBmovedata(t118, t116, t117);
                 t120 = *(int *)((t3 + 0xC));
                 t121 = *(int *)((t2 + 0xC));
                 *(unsigned int *)((t3 + 0xC)) = t121;
@@ -499,7 +499,7 @@ int FUN_0c15762c(int a4, int a5, int a6)
                         t149 = *(int *)((t144 + 0x10));
                         *(unsigned int *)((t2 + 0x10)) = (t148 + t149);
                         kmytex_FBDeQueueEntry(a4, a5, t144);
-                        FUN_0c1573cc(t144);
+                        kmytex_FBFreeEntry(t144);
                     }
                 }
                 if (t3 != 0) {

@@ -1,3 +1,5 @@
+extern int Exec_Combo_Entry();
+extern int Exec_Time_Spark();
 /* Game-side loops: sound channel resets, setup tables, decimal digit strings. */
 
 extern void Set_Balloon(int i);
@@ -54,7 +56,7 @@ void Voice_Init(void)
 
 /* Round an ASCII decimal string at digit n: when s[n] > '4' it becomes '0', the digit before it goes
    up by one, and carries ripple left (s[0] last). */
-void FUN_0c0886cc(char *s, int n)
+void _xtostr_rounddigits(char *s, int n)
 {
     char *q;
     int k;
@@ -78,7 +80,7 @@ void FUN_0c0886cc(char *s, int n)
 
 /* a -= b over n bytes, most significant first. Returns -1 when it underflows and sign is 0,
    otherwise 0 for a zero result and 1 for a nonzero one. */
-int FUN_0c08933c(int sign, unsigned char *a, unsigned char *b, int n)
+int _sub(int sign, unsigned char *a, unsigned char *b, int n)
 {
     int borrow = 0;
     int zero = 1;
@@ -107,8 +109,8 @@ int FUN_0c08933c(int sign, unsigned char *a, unsigned char *b, int n)
     return 1;
 }
 
-extern void FUN_0c074990(int color);
-extern void FUN_0c0749b0(int color);
+extern void nlSetFogColor(int color);
+extern void nlSetFogVertexColor(int color);
 extern void thunk_kmSetFogTable(float *table);
 extern void kmSetFogDensity(int density);
 extern void njSetRenderWidth(int w);
@@ -121,8 +123,8 @@ extern void njSetRenderWidth(int w);
         float step = 0.005f;                            \
         float *t = (float *)0x0C1EE360;                 \
         int i;                                          \
-        FUN_0c074990(first);                            \
-        FUN_0c0749b0(0xFFFFFF);                         \
+        nlSetFogColor(first);                            \
+        nlSetFogVertexColor(0xFFFFFF);                         \
         for (i = 0; i <= 128; i++) {                    \
             t[i] = *(float *)(base) / d;                \
             d += step;                                  \
@@ -314,7 +316,7 @@ extern void gdc_CourseLoadExec(void);
 extern void frameFlip(void);
 extern int pdGetPeripheral(int port);
 extern void PutRenderTexture(int mode);
-extern void FUN_0c076f70(void);
+extern void nlRenderTextureEnd(void);
 
 /* Game 2, or menu mode 1 set: Put_Remain_Time_Mode2; otherwise Put_Remain_Time; the gear box either way. */
 void Put_Default2_Sprite(void)
@@ -352,7 +354,7 @@ void padReadSlot(int slot)
 }
 
 /* The flag at 0C0EE900 (set by SetMotionBlurStrength on a clamp): -1 resets it, 1 moves it to 2, 2 runs mode
-   2; then FUN_0c076f70 and mode 0. Nothing while it is 0. */
+   2; then nlRenderTextureEnd and mode 0. Nothing while it is 0. */
 void ExecRenderTexture2nd(void)
 {
     int *flag = (int *)0x0C0EE900;
@@ -368,7 +370,7 @@ void ExecRenderTexture2nd(void)
     } else if (v == 2) {
         PutRenderTexture(2);
     }
-    FUN_0c076f70();
+    nlRenderTextureEnd();
     PutRenderTexture(0);
 }
 
@@ -423,7 +425,7 @@ void Voice_Request(int voice, int ch, int a, int b)
     }
 }
 
-extern void FUN_0c074680(int a, int b, int c);
+extern void nlSetBackColor(int a, int b, int c);
 extern void Exec_Bowling_Pins(void);
 extern void Exec_Bowling_Arrow(void);
 extern void Put_Pin_Count(void);
@@ -452,7 +454,7 @@ void CarSel_SetBackColor(void)
     default:
         return;
     }
-    FUN_0c074680(c, c, c);
+    nlSetBackColor(c, c, c);
 }
 
 /* For kinds 3-7, is any of the flags from that kind's word (+12 for 3 ... +28 for 7) up to +28 set?
@@ -500,15 +502,15 @@ void Exec_Crazy_Bowling(void)
     }
 }
 
-extern void FUN_0c07bde0(float *a, float *b, float *c);
+extern void nlLineClipPoint(float *a, float *b, float *c);
 extern void camSave(void);
-extern int FUN_0c07dcf0(int *tbl, int x, int i, int one);
+extern int nlSpriteFreeTextureOnce_Sub(int *tbl, int x, int i, int one);
 extern char *GetCollision2D(float *pos, float h);
 extern int Check2DAreaEdge(float *p, float *b, float *a);
 
 /* Against the plane z at 0C2B7BDC (z at +8 of each point): both below it, 0; otherwise 1, after
-   FUN_0c07bde0 with the point that is below (if any) as the third argument. */
-int FUN_0c07c100(float *a, float *b)
+   nlLineClipPoint with the point that is below (if any) as the third argument. */
+int nlLineClipNear(float *a, float *b)
 {
     float z = *(float *)0x0C2B7BDC;
 
@@ -516,9 +518,9 @@ int FUN_0c07c100(float *a, float *b)
         if (z > b[2]) {
             return 0;
         }
-        FUN_0c07bde0(a, b, a);
+        nlLineClipPoint(a, b, a);
     } else if (z > b[2]) {
-        FUN_0c07bde0(a, b, b);
+        nlLineClipPoint(a, b, b);
     }
     return 1;
 }
@@ -544,7 +546,7 @@ int nlSpriteFreeTextureGI(int *tbl, int x)
     int i = 0;
 
     while (p[1] != -1) {
-        acc |= FUN_0c07dcf0(tbl, x, i, 1);
+        acc |= nlSpriteFreeTextureOnce_Sub(tbl, x, i, 1);
         i++;
         p += 4;
     }
@@ -751,7 +753,7 @@ void Drv_PickSomeoneUp(void)
 }
 
 extern void Start_CrazyBox_Voice(int i);
-extern void FUN_0c07d450(int a, int b, int c);
+extern void nlMvSendTriangle(int a, int b, int c);
 extern void FcvStoreBuffer(int id, void *buf, float v);
 extern void nlObjPutSetFadeColorOffset(float r, float g, float b);
 
@@ -765,12 +767,12 @@ void Start_Party_Remain_Voice(void)
     }
 }
 
-/* FUN_0c07d450 over the three consecutive pairs of four points (b-c, c-d, d-e). */
-void FUN_0c07d510(int a, int b, int c, int d, int e)
+/* nlMvSendTriangle over the three consecutive pairs of four points (b-c, c-d, d-e). */
+void nlMvSendFan3(int a, int b, int c, int d, int e)
 {
-    FUN_0c07d450(a, b, c);
-    FUN_0c07d450(a, c, d);
-    FUN_0c07d450(a, d, e);
+    nlMvSendTriangle(a, b, c);
+    nlMvSendTriangle(a, c, d);
+    nlMvSendTriangle(a, d, e);
 }
 
 /* Store a new driver value (TaxiDriver +252 id, +256 value) and buffer it, unless it is unchanged. */
@@ -1090,7 +1092,7 @@ void pfTextCenterPut(int x, int y, char *s)
     pfPuts(s);
 }
 
-extern float FUN_0c089de0(unsigned int a);
+extern float nlFastSin(unsigned int a);
 extern void *set_event(int pri, void *func);
 extern void Init_Combo_Entry(void *e, int a, int b);
 extern float nlFloor(float x);
@@ -1101,7 +1103,7 @@ extern float nlSin(int a);
 extern float nlTan(int a);
 
 /* A decaying wobble: while 0C2A8FA4 is 1 the angle (0C2A8FA0) turns a quarter each frame and the
-   amplitude (0C2A8FA8) shrinks by 0.9; the offset (0C2A8FAC) is -amplitude * FUN_0c089de0(angle),
+   amplitude (0C2A8FA8) shrinks by 0.9; the offset (0C2A8FAC) is -amplitude * nlFastSin(angle),
    0 once the amplitude is under 0.1. */
 void hudJudgementWobble(void)
 {
@@ -1114,7 +1116,7 @@ void hudJudgementWobble(void)
         if (0.09999999403953552f > v) {
             *(float *)0x0C2A8FAC = 0.0f;
         } else {
-            *(float *)0x0C2A8FAC = -(v * FUN_0c089de0(*(unsigned short *)0x0C2A8FA0));
+            *(float *)0x0C2A8FAC = -(v * nlFastSin(*(unsigned short *)0x0C2A8FA0));
         }
     }
 }
@@ -1131,7 +1133,7 @@ void Wobble_Record_Window(void)
         if (0.09999999403953552f > v) {
             *(float *)0x0C2A994C = 0.0f;
         } else {
-            *(float *)0x0C2A994C = -(v * FUN_0c089de0(*(unsigned short *)0x0C2A9940));
+            *(float *)0x0C2A994C = -(v * nlFastSin(*(unsigned short *)0x0C2A9940));
         }
     }
 }
@@ -1158,7 +1160,7 @@ void Put_Combo_Entry(int a, int b)
         nlCloseEvent(*(void **)0x0C2A91CC);
         *(int *)0x0C2A91B4 = 0;
     }
-    e = set_event(36, (void *)0x0C056460);
+    e = set_event(36, (void *)((int)Exec_Combo_Entry));
     Init_Combo_Entry(e, a, b);
     *(int *)0x0C2A91B4 = 1;
     *(void **)0x0C2A91CC = e;
@@ -1278,7 +1280,7 @@ void CalcShadow4Normal(float *out, float *n)
     nlScaleUnitVector(out, out, inv);
 }
 
-extern float FUN_0c089de8(unsigned int a);
+extern float nlFastCos(unsigned int a);
 extern void nlObjPutSetLightDirectionV(float *v);
 extern void Start_Time_Bonus(void);
 extern void Start_Time_Sparks(int n);
@@ -1287,8 +1289,8 @@ extern void pfAddString(void *p);
 extern int GetNowLanguage(int n);
 extern void menuPutSprites(int spr, void *pos, int x, int y);
 
-/* Light direction from two angles (64K units, kept at 0C0EA5B0/0C0EA5B4): (FUN_0c089de8(a) *
-   FUN_0c089de0(b), FUN_0c089de0(a), FUN_0c089de8(a) * FUN_0c089de8(b)). */
+/* Light direction from two angles (64K units, kept at 0C0EA5B0/0C0EA5B4): (nlFastCos(a) *
+   nlFastSin(b), nlFastSin(a), nlFastCos(a) * nlFastCos(b)). */
 void SetLight(int a, int b)
 {
     float *v = (float *)0x0C26E1D8;
@@ -1296,11 +1298,11 @@ void SetLight(int a, int b)
 
     *(int *)0x0C0EA5B0 = a;
     *(int *)0x0C0EA5B4 = b;
-    t = FUN_0c089de8(a);
-    v[0] = t * FUN_0c089de0(b);
-    v[1] = FUN_0c089de0(a);
-    t = FUN_0c089de8(a);
-    v[2] = t * FUN_0c089de8(b);
+    t = nlFastCos(a);
+    v[0] = t * nlFastSin(b);
+    v[1] = nlFastSin(a);
+    t = nlFastCos(a);
+    v[2] = t * nlFastCos(b);
     nlObjPutSetLightDirectionV(v);
 }
 
@@ -1366,10 +1368,10 @@ extern void nlAddVector(float *a, float *b);
 extern int volumeToDb(int level);
 extern void ADXT_SetOutVol(int h, int db);
 extern void nlPushUnitMatrix(void);
-extern void FUN_0c077f70(void);
-extern void FUN_0c077210(void *a, void *b);
+extern void nlMultiViewMatrix(void);
+extern void nlCalcVector(void *a, void *b);
 extern void nlGetPushedMatrix(int n);
-extern void FUN_0c07c740(int obj, void *m);
+extern void nlMvObjPut(int obj, void *m);
 extern void nlPopMatrix(int n);
 
 /* Heading (64K units) from b to a on the ground plane; 0 when a is at the origin. */
@@ -1431,11 +1433,11 @@ void gdc_StreamVoiceVol(int ch, int level)
 void PutMVObj(int i)
 {
     nlPushUnitMatrix();
-    FUN_0c077f70();
-    FUN_0c077210((void *)0x0C286410, (void *)0x0C286404);
+    nlMultiViewMatrix();
+    nlCalcVector((void *)0x0C286410, (void *)0x0C286404);
     nlGetPushedMatrix(0);
-    FUN_0c077f70();
-    FUN_0c07c740(((int *)0x0C0EE7CC)[i], (void *)0x0C2863EC);
+    nlMultiViewMatrix();
+    nlMvObjPut(((int *)0x0C0EE7CC)[i], (void *)0x0C2863EC);
     nlPopMatrix(1);
 }
 
@@ -1455,7 +1457,7 @@ void Drv_StartBikePedal(int i)
 }
 
 /* Replace each row's third element of the current matrix with its fourth. */
-void FUN_0c07c830(void)
+void nlMvLoadFlatMatrix(void)
 {
     float m[16];
 
@@ -1476,7 +1478,7 @@ typedef struct {
 
 /* Switch to matrix slot i (12-byte slots at 0C2B31DC, the current one at slot 0, its index at
    0C2B31D8): save slot 0 back to the old index, take slot i, and load its matrix (+8). */
-void FUN_0c077df0(int i)
+void nlMatrixMode(int i)
 {
     Mat12 *slot = (Mat12 *)0x0C2B31DC;
     signed char *cur = (signed char *)0x0C2B31D8;
@@ -1503,7 +1505,7 @@ void colliBoxAhead(float *o, float *p, int bit)
 
 extern void nlRotateAY(unsigned int a);
 extern void nlRotateAX(unsigned int a);
-extern void nlSqrt(Vec3f *v, void *light);
+extern void nlCalcPoint(Vec3f *v, void *light);
 extern void nlObjPutSetGlobalAmbience(float a);
 extern void nlSetFontSize(int w, int h);
 extern void nlLocate(int x, int y);
@@ -1522,7 +1524,7 @@ extern float nlLength(void *a, float *b);
         nlPushUnitMatrix();                                         \
         nlRotateAY(*(unsigned short *)(l + 18));                    \
         nlRotateAX(*(unsigned short *)(l + 16));                    \
-        nlSqrt(&v, l);                                        \
+        nlCalcPoint(&v, l);                                        \
         nlPopMatrix(1);                                             \
         nlObjPutSetLightDirectionV((float *)l);                     \
         nlObjPutSetGlobalAmbience(*(float *)(l + 12));              \
@@ -1587,7 +1589,7 @@ void Start_Time_Sparks(int unused)
         if (i >= 10) {
             break;
         }
-        ev[i] = set_event(64, (void *)0x0C0571F0);
+        ev[i] = set_event(64, (void *)((int)Exec_Time_Spark));
         Init_Time_Spark(ev[i], i);
     }
 }
@@ -1698,8 +1700,8 @@ extern void nlRenderTextureFree(int i);
 extern int Start_chk(int n);
 extern void GotoMenu(void);
 extern void TitleWaitSet(int n);
-extern void FUN_0c07aad0(int n);
-extern void FUN_0c07ab30(int obj);
+extern void nlObjPutMvSetClosingMode(int n);
+extern void nlObjPutMvClosedVolumeUseViewMatrix(int obj);
 extern void End_Pass_Judgement2(void);
 extern void ResetSpark(void);
 extern int IsSeaFog(void);
@@ -1709,7 +1711,7 @@ extern void Start_Fog(int kind);
    also plays its voice, k -1 raises the sprite flag. */
 void Start_Adv_Title_LOGO(int k, int v)
 {
-    FUN_0c074680(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
+    nlSetBackColor(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
     Init_Adv_Title_LOGO();
     *(int *)0x0C2A9324 = v;
     *(short *)0x0C2A9228 |= 1;
@@ -1766,10 +1768,10 @@ void SetMVObjShadow(void)
     int i = *(int *)0x0C2A6EE0;
     int *p = (int *)0x0C1188F8 + i;
 
-    FUN_0c07aad0(-1);
+    nlObjPutMvSetClosingMode(-1);
     while (i < *(int *)0x0C2A6EE4) {
         if (3000.0f > nlLength((char *)*p + 8, (float *)0x0C179840)) {
-            FUN_0c07ab30(*p);
+            nlObjPutMvClosedVolumeUseViewMatrix(*p);
         }
         p++;
         i++;
@@ -1938,11 +1940,11 @@ void carColliReflection(char *c)
     v[0] = 0.0f;
     v[1] = 1.0f;
     nlRotateV((float *)(c + 236), v);
-    FUN_0c077210(c + 152, c + 152);
+    nlCalcVector(c + 152, c + 152);
     *(float *)(c + 156) = -(*(float *)(c + 156) * 0.29999998211860657f);
     nlUnitMatrix();
     nlRotateV(v, (float *)(c + 236));
-    FUN_0c077210(c + 152, c + 152);
+    nlCalcVector(c + 152, c + 152);
     nlPopMatrix(1);
 }
 
@@ -1998,8 +2000,8 @@ extern void hudDraw(void);
 extern void selectDrawSprites(void);
 extern void CarSel_Select(void);
 extern void nlRotateAZ(int a);
-extern void FUN_0c0789c0(Vec3f *v);
-extern void FUN_0c078ff0(void);
+extern void nlTranslateNV(Vec3f *v);
+extern void nlMakeModelViewMatrix(void);
 extern void ADXF_Stop(int h);
 extern void ADXF_Close(int h);
 void CarSel_Camera(void);
@@ -2040,14 +2042,14 @@ void nd_CarSelExec(int x)
         p = *(Vec3f *)(base);                                       \
         q = *(Vec3f *)(other);                                      \
         nlAddVector((float *)&p, (float *)(offset));                \
-        FUN_0c077df0(2);                                            \
+        nlMatrixMode(2);                                            \
         nlUnitMatrix();                                             \
         nlRotateAZ(-(int)a[2]);                                     \
         nlRotateAX(-(int)a[0]);                                     \
         nlRotateAY(-(int)a[1]);                                     \
-        FUN_0c0789c0(&p);                                           \
-        FUN_0c077df0(1);                                            \
-        FUN_0c078ff0();                                             \
+        nlTranslateNV(&p);                                           \
+        nlMatrixMode(1);                                            \
+        nlMakeModelViewMatrix();                                             \
     } while (0)
 
 void nd_StartWait_Camera(void)
@@ -2098,7 +2100,7 @@ void Result_Wobble(void)
         if (0.09999999403953552f > v) {
             *(float *)0x0C2A9758 = 0.0f;
         } else {
-            *(float *)0x0C2A9758 = -(v * FUN_0c089de0(*(unsigned short *)a));
+            *(float *)0x0C2A9758 = -(v * nlFastSin(*(unsigned short *)a));
         }
     }
 }
@@ -2312,7 +2314,7 @@ void CarSel_IO(void)
 extern void SetTotalRecords(void);
 extern void CopyBackupBuffer(void);
 extern int CompBackupBuffer(void);
-extern void FUN_0c07c150(int a, float *v, int d);
+extern void nlLineSendVertex(int a, float *v, int d);
 extern void InitColliWall(int n);
 extern int ReturnBreakBeachFlag(void);
 extern void nlObjPutSetFadeColor(float r, float g, float b);
@@ -2352,8 +2354,8 @@ void callSaveData(int k)
 }
 
 /* A thick line from p to q: the four corners offset by (dx, -dy) and (-dx, dy), drawn by
-   FUN_0c07c150. */
-void FUN_0c07c2e0(int a, float *p, float *q, int d, float dy, float dx)
+   nlLineSendVertex. */
+void nlLineSendQuadC(int a, float *p, float *q, int d, float dy, float dx)
 {
     float v[12];
 
@@ -2369,7 +2371,7 @@ void FUN_0c07c2e0(int a, float *p, float *q, int d, float dy, float dx)
     v[9] = q[0] - dx;
     v[10] = q[1] + dy;
     v[11] = q[2];
-    FUN_0c07c150(a, v, d);
+    nlLineSendVertex(a, v, d);
 }
 
 /* Course collision set-up: the wall table and its 32-byte header for the course (Crazy Box: per mini
@@ -2441,8 +2443,8 @@ void PutVMSMessage(void)
     PutVM_Message(32, 15, 0, 138.0f, 414.0f);
 }
 
-/* A square of half side r around p (z kept), drawn by FUN_0c07c150. */
-void FUN_0c07c3f0(int a, float *p, int d, float r)
+/* A square of half side r around p (z kept), drawn by nlLineSendVertex. */
+void nlLineSendQuadE(int a, float *p, int d, float r)
 {
     float v[12];
 
@@ -2458,11 +2460,11 @@ void FUN_0c07c3f0(int a, float *p, int d, float r)
     v[9] = p[0] + r;
     v[10] = p[1] + r;
     v[11] = p[2];
-    FUN_0c07c150(a, v, d);
+    nlLineSendVertex(a, v, d);
 }
 
 /* An arrow-head quad: the near corners of p shifted by (dy, dx) more than the far ones at q. */
-void FUN_0c07c260(int a, float *p, float *q, int d, float dy, float dx)
+void nlLineSendQuadB(int a, float *p, float *q, int d, float dy, float dx)
 {
     float v[12];
 
@@ -2478,7 +2480,7 @@ void FUN_0c07c260(int a, float *p, float *q, int d, float dy, float dx)
     v[9] = q[0] - dx;
     v[10] = q[1] + dy;
     v[11] = q[2];
-    FUN_0c07c150(a, v, d);
+    nlLineSendVertex(a, v, d);
 }
 
 extern void SetColliObj(void *o, int kind);
@@ -3058,7 +3060,7 @@ void ExecAdvCameraChase(void)
     v[1] = 5.0f;
     nlPushUnitMatrix();
     MultiRot4Vec((float *)(0x0C1790CC + 48));
-    nlSqrt((Vec3f *)v, v);
+    nlCalcPoint((Vec3f *)v, v);
     nlRotateAY(0x1800);
     nlRotateAX(0xFC00);
     GetAng4Mat(ang);
@@ -3102,13 +3104,13 @@ void FcvInterpolateBuffer(char *dst, char *src, float t)
     }
 }
 
-extern void FUN_0c075120(void);
-extern void FUN_0c0775d0(void *p, int n);
-extern void FUN_0c074d20(void);
-extern void FUN_0c074de0(int n);
-extern void FUN_0c074d10(int n);
-extern void FUN_0c074eb0(int n);
-extern void FUN_0c075090(int a, int b, int c);
+extern void nlSysMetricsInit(void);
+extern void nlInitMatrix(void *p, int n);
+extern void nlSysUseLatency2V(void);
+extern void nlSysSetDirectListTypeLatency2V(int n);
+extern void nlSysSetTextureSize(int n);
+extern void nlSysSetVertexBufferBaseAddress(int n);
+extern void nlCreateVertexBuffer(int a, int b, int c);
 extern void nlInitPrint(void);
 extern void nlPrnIndentOn(void);
 extern void nlPerspective(float a, float b, float c, int d);
@@ -3116,7 +3118,7 @@ extern void nlInitCommonTexture(void *p, int a, int b);
 extern void nlInitSprite(void *p, int a, int b);
 extern void nlInitPalette(void *p, int n);
 extern void paletteSetMode(int m);
-extern void FUN_0c0742c0(int n);
+extern void nlPaletteDirectMode(int n);
 extern void nlObjPutInit(void);
 extern void setBorderColor(int c);
 
@@ -3156,24 +3158,24 @@ int Check2DAreaEdge(float *p, float *a, float *b)
    the texture, sprite and palette pools, and white fade. */
 void InitNaolib2(void)
 {
-    FUN_0c075120();
-    FUN_0c0775d0((void *)0x0C1C1A38, 16);
-    FUN_0c074d20();
-    FUN_0c074de0(0);
-    FUN_0c074d10(0x14A800);
-    FUN_0c074eb0(0x0CEA0000);
-    FUN_0c075090(0, 0x6000, 0x4C000);
+    nlSysMetricsInit();
+    nlInitMatrix((void *)0x0C1C1A38, 16);
+    nlSysUseLatency2V();
+    nlSysSetDirectListTypeLatency2V(0);
+    nlSysSetTextureSize(0x14A800);
+    nlSysSetVertexBufferBaseAddress(0x0CEA0000);
+    nlCreateVertexBuffer(0, 0x6000, 0x4C000);
     nlInitPrint();
     nlPrnIndentOn();
-    FUN_0c077df0(3);
+    nlMatrixMode(3);
     nlUnitMatrix();
     nlPerspective(1.3333332538604736f, 0.29999998211860657f, 300.0f, 7464);
-    FUN_0c077df0(1);
+    nlMatrixMode(1);
     nlInitCommonTexture((void *)0x0C1C1E78, 2000, 3000);
     nlInitSprite((void *)0x0C1E53AC, 1000, 1500);
     nlInitPalette((void *)0x0C1EDCE4, 64);
     paletteSetMode(2);
-    FUN_0c0742c0(1);
+    nlPaletteDirectMode(1);
     nlObjPutInit();
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     setBorderColor(0);
@@ -3591,27 +3593,27 @@ void ExecKyakuArea(void)
 
     *ph = nlFraction(*ph + 0.04999999701976776f);
     *ang += 2048;
-    out[0] = k3 + k2 * FUN_0c089de0(*ang);
+    out[0] = k3 + k2 * nlFastSin(*ang);
     if (*(int *)0x0C1EE20C == 2 && *(int *)0x0C1EE214 == 19) {
         if (*step < 2) {
-            v = k3 + k2 * FUN_0c089de0(*ang);
+            v = k3 + k2 * nlFastSin(*ang);
             out[2] = v;
         } else if (*step < 4) {
-            v = k3 + k2 * FUN_0c089de0(*ang);
+            v = k3 + k2 * nlFastSin(*ang);
             out[0] = v;
         } else {
-            v = k3 + k2 * FUN_0c089de0(*ang);
+            v = k3 + k2 * nlFastSin(*ang);
             out[3] = v;
         }
         *step = (*step + 1) % 15;
     } else {
-        out[0] = k3 + k2 * FUN_0c089de0(*ang);
+        out[0] = k3 + k2 * nlFastSin(*ang);
     }
 }
 
 /* A thick quad: p's near corners shifted by (dx, dy) and q's far corners by (-dx, -dy), with the two
-   edge directions flipped from FUN_0c07c260; drawn by FUN_0c07c150. */
-void FUN_0c07c1d0(int a, float *p, float *q, int d, float dy, float dx)
+   edge directions flipped from nlLineSendQuadB; drawn by nlLineSendVertex. */
+void nlLineSendQuadA(int a, float *p, float *q, int d, float dy, float dx)
 {
     float v[12];
 
@@ -3627,7 +3629,7 @@ void FUN_0c07c1d0(int a, float *p, float *q, int d, float dy, float dx)
     v[9] = q[0] - dx - dy;
     v[10] = q[1] + dy - dx;
     v[11] = q[2];
-    FUN_0c07c150(a, v, d);
+    nlLineSendVertex(a, v, d);
 }
 
 extern void TOANG(short *a, short *b, float x, float y, float z);
@@ -3703,12 +3705,12 @@ void getNearLineIndexAll(float *out)
 }
 
 extern void gdFsMemcpy(char *src, char *dst, int n);
-extern int FUN_0c15fa92(char *name);
+extern int gdFsGetSearchID(char *name);
 
 /* Parse one ISO 9660 directory record (rec) into out: +0 extent, +4 size, +8 flags, +9 the name's
    hash, +10 the name. Records shorter than 34 give 0. A plain file's name loses its ";1" (2 bytes);
    a directory's "." and ".." entries (names 0 and 1) become "." and "..". */
-int FUN_0c15fab8(unsigned char *rec, char *out)
+int gdFsGet1DirEnt(unsigned char *rec, char *out)
 {
     int n;
 
@@ -3733,18 +3735,18 @@ int FUN_0c15fab8(unsigned char *rec, char *out)
             out[12] = 0;
         }
     }
-    out[9] = FUN_0c15fa92(out + 10);
+    out[9] = gdFsGetSearchID(out + 10);
     return rec[0];
 }
 
 extern int kmSetCheapShadowMode(int mode);
-extern void FUN_0c07d430(void);
+extern void nlMvInitParam(void);
 extern int kmUseAnotherModifier(int m);
 
 /* Lay out the render regions from base: a table of cfg[1] x16-byte entries, cfg[2] x16-byte
    entries and cfg[3] x12-byte entries, one after another (starting 3 x cfg[1]*16 in), the
    boundaries kept in globals; then the cheap shadow mode of cfg[4] and the modifier switched on. */
-int FUN_0c07c6b0(int base, int *cfg)
+int nlMvSetWorkBuffer(int base, int *cfg)
 {
     int a = cfg[1] * 16;
     int b = cfg[2] * 16;
@@ -3761,7 +3763,7 @@ int FUN_0c07c6b0(int base, int *cfg)
     *(int *)0x0C2B7670 = base + 3 * a + 2 * b;
     *(int *)0x0C2B766C = base + 3 * a + 2 * b + c;
     kmSetCheapShadowMode(cfg[4]);
-    FUN_0c07d430();
+    nlMvInitParam();
     return kmUseAnotherModifier(1);
 }
 
@@ -3941,7 +3943,7 @@ void psgPlayBlend(char *h, int arg)
    in q the line is solved for z = t = (dz*px - dx*pz) / (k*dz - dx), x = k*t and y follows the line;
    with the same z, z stays p's, x = k*pz and y follows the line, or is out's own when q has the same
    x too. The result goes to out. (The factor k is the float argument.) */
-void FUN_0c07bee0(float *p, float *q, float *out, float k)
+void nlLineCalcFogB(float *p, float *q, float *out, float k)
 {
     float tmp[3];
     float dy = q[1] - p[1];
@@ -3969,7 +3971,7 @@ void FUN_0c07bee0(float *p, float *q, float *out, float k)
 }
 
 /* The same with x and y swapped: y = k*t, and x follows the line. */
-void FUN_0c07bf70(float *p, float *q, float *out, float k)
+void nlLineCalcFogC(float *p, float *q, float *out, float k)
 {
     float tmp[3];
     float dy = q[1] - p[1];
@@ -4045,10 +4047,10 @@ void Init_SEGA_LOGO(void)
     float *e = (float *)0x0C2A93F8;
     int i;
 
-    FUN_0c077df0(3);
+    nlMatrixMode(3);
     nlUnitMatrix();
     nlPerspective(1.3333332538604736f, 0.29999998f, 300.0f, 7464);
-    FUN_0c077df0(1);
+    nlMatrixMode(1);
     for (i = 0; i < 10; i++) {
         s[0] = 320.0f;
         s[1] = 240.0f;

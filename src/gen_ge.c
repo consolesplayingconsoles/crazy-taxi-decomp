@@ -1,18 +1,18 @@
 /* Straight-line functions with calls and guards (batch gen_ge): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077170(int, int);
-int FUN_0c077f60(void);
-int FUN_0c07bd30(int);
-int FUN_0c07c000(int, int);
-int FUN_0c07c100(int, int);
-int FUN_0c07c470(int, int, int, int);
+int nlCalcPoint4(int, int);
+int nlMultiPushedMatrix(void);
+int nlLineSendHeader(int);
+int nlLineCalcColor(int, int);
+int nlLineClipNear(int, int);
+int nlLineDrawThick(int, int, int, int);
 int nlMultiMatrix8(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int FUN_0c07ba90(int a4, int a5, int a6, int a7);
+int nlSingleLineSub(int a4, int a5, int a6, int a7);
 
-int FUN_0c07ba90(int a4, int a5, int a6, int a7)
+int nlSingleLineSub(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t2;
@@ -45,7 +45,7 @@ int FUN_0c07ba90(int a4, int a5, int a6, int a7)
     *(unsigned int *)(((int)stk + 48)) = a6;
     *(unsigned int *)(((int)stk + 4)) = a4;
     *(unsigned int *)(((int)stk + 8)) = a5;
-    t0 = FUN_0c07bd30(a7);
+    t0 = nlLineSendHeader(a7);
     *(unsigned int *)(((int)stk + 12)) = t0;
     nlPushMatrix(0xC14AA08);
     t2 = *(int *)0xC2B3208;
@@ -54,15 +54,15 @@ int FUN_0c07ba90(int a4, int a5, int a6, int a7)
         t4 = *(int *)0xC2B31FC;
         nlMultiMatrix8(t4);
     }
-    FUN_0c077f60();
+    nlMultiPushedMatrix();
     t10 = *(int *)(((int)stk + 4));
-    FUN_0c077170(t10, (((int)stk + 4) + 0x1C));
+    nlCalcPoint4(t10, (((int)stk + 4) + 0x1C));
     t12 = *(int *)(((int)stk + 8));
-    FUN_0c077170(t12, (((int)stk + 4) + 0xC));
+    nlCalcPoint4(t12, (((int)stk + 4) + 0xC));
     nlPopMatrix(0x1);
-    t15 = FUN_0c07c100((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC));
+    t15 = nlLineClipNear((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC));
     if (t15 != 0) {
-        t16 = FUN_0c07c000((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC));
+        t16 = nlLineCalcColor((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC));
         if (t16 == 0) {
             return 0x0;
         }
@@ -89,7 +89,7 @@ int FUN_0c07ba90(int a4, int a5, int a6, int a7)
         u30 = u30 + (1.0f / u24) * u29;
         *(float *)(((int)stk + 20)) = u30;
         t31 = *(int *)(((int)stk + 12));
-        t32 = FUN_0c07c470(t31, (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x2C));
+        t32 = nlLineDrawThick(t31, (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x2C));
         t33 = *(int *)0xC2B8CBC;
         t34 = t33;
         if ((a7 & 0x1) != 0) {

@@ -4,9 +4,9 @@
 int ADXRNA_SetPlaySw(int, int);
 int ADXT_GetStat(int);
 int mwRnaAdjustBuf(int);
-int FUN_0c1523da(int a4, int a5);
+int ADXT_Pause(int a4, int a5);
 
-int FUN_0c1523da(int a4, int a5)
+int ADXT_Pause(int a4, int a5)
 {
     int t0;
     int t3;

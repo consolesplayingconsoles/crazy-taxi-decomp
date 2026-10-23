@@ -3,10 +3,10 @@
 
 extern float _builtin_sqrtf(float);
 int nlArcTan(float);
-int FUN_0c075930(float f4);
+int nlArcSin(float f4);
 int carInitDriveSplit(int a4);
 
-int FUN_0c075930(float f4)
+int nlArcSin(float f4)
 {
     int t0;
 

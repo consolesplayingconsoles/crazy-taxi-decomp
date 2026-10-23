@@ -35,7 +35,7 @@ void buFbrKillFiberLevel(char *srv, int level)
 }
 
 /* Delete the 16 + 8 + 1 MMU entries listed at 0C2EBF10. */
-void syMmuDeleteAllEntries(void)
+void sySqFinish(void)
 {
     int *p;
 
@@ -124,7 +124,7 @@ extern void ADXCRS_Lock(void);
 extern void ADXCRS_Unlock(void);
 
 /* Clear a 100-byte handle. */
-void FUN_0c1689c0(void *h)
+void ADXSTMF_Destroy(void *h)
 {
     memset(h, 0, 100);
 }
@@ -267,7 +267,7 @@ int syRtcMakeDayOfWeek(int year, int month, int day)
 }
 
 extern void kmSetFogDensity(int d);
-extern void FUN_0c158860(int a, int *v, int n);
+extern void kmiMemCopy8(int a, int *v, int n);
 extern int buSaveFile(int a, int b, int c, int d, void *date, int flags);
 extern void syRtcGetDate(void *date);
 
@@ -310,7 +310,7 @@ int kmChangeVertexPCW(int i, int v, int n)
     int *e = (int *)(*(int *)0x0C2B8CBC + i * 4);
 
     *(int **)0x0C2B8CC0 = e;
-    FUN_0c158860(*e, &v, 4);
+    kmiMemCopy8(*e, &v, 4);
     **(int **)0x0C2B8CC0 += n * 4;
     return 0;
 }
@@ -326,7 +326,7 @@ int BupSave(int a, int b, int c, int d)
     return buSaveFile(a, b, c, d, &copy, 0x80000000);
 }
 
-extern int FUN_0c156934(int big, int size, int a, int *b, int e, int f);
+extern int kmytex_ABSalloc(int big, int size, int a, int *b, int e, int f);
 
 /* Age of the moon in days: seconds since a known new moon (count 0x5CB417D1) modulo the synodic
    month (2551423 s), counted back for earlier dates. */
@@ -349,12 +349,12 @@ unsigned int syRtcMakeAgeOfMoon(void *date)
 int kmiABSalloc(int a, int *b)
 {
     if (b[7] >= *(int *)0x0C177FB4) {
-        return FUN_0c156934(1, b[7], a, b, 0, 1);
+        return kmytex_ABSalloc(1, b[7], a, b, 0, 1);
     }
-    return FUN_0c156934(0, b[7], a, b, 0, 1);
+    return kmytex_ABSalloc(0, b[7], a, b, 0, 1);
 }
 
-extern void FUN_0c1717d8(int *cs);
+extern void mwRnaLockCs(int *cs);
 extern void mwRnaSetPlaySw(int *h, int on);
 extern void mwRnaSetTransSw(int *h, int on);
 extern void mwlRnaClearBuf(int *h);
@@ -372,7 +372,7 @@ void mwRnaStop(int *h, int b, int c, int d)
         return;
     }
     if (((unsigned char *)h)[1]) {
-        FUN_0c1717d8(&cs);
+        mwRnaLockCs(&cs);
         mwRnaSetPlaySw(h, 0);
         mwRnaSetTransSw(h, 0);
         mwlRnaClearBuf(h);
@@ -402,7 +402,7 @@ extern int syRtcAicaSetDateLo(int lo);
 extern int syRtcAicaSetDateHi(int hi);
 extern unsigned int syRtcGetCountForce(void);
 extern void kmiFBgetfreememEx(int *a, int *b);
-extern int FUN_0c156e0a(int big, int a, int b);
+extern int kmytex_TXalloc(int big, int a, int b);
 extern int vmsfs_c_getstate(int drive);
 extern void vmsfs_c_setfunc(int drive, int func);
 extern void vmsfs_c_setparam(int drive, int a, int b, int c, int d, int e, int f);
@@ -445,9 +445,9 @@ int kmiTXalloc(int a, int b)
 
     if (*(int *)0x0C2EA684 & 4) {
         kmiFBgetfreememEx(&f[0], &f[1]);
-        return FUN_0c156e0a((f[0] >= f[1]) ? 0 : 1, a, b);
+        return kmytex_TXalloc((f[0] >= f[1]) ? 0 : 1, a, b);
     }
-    return FUN_0c156e0a(1, a, b);
+    return kmytex_TXalloc(1, a, b);
 }
 
 /* Queue a VMU load (operation 11): file name, buffer and size; -1 while the drive is busy. */
@@ -509,7 +509,7 @@ void ADXF_Close(signed char *h)
 
 /* Clear the two BSS sections and copy the two initialised data sections (bounds at 0C089F34.. and
    0C174B54..). */
-void FUN_0c14ab98(void)
+void _INITSCT(void)
 {
     unsigned int *p;
     unsigned char *d;
@@ -543,28 +543,28 @@ int syRtcAicaGetCount(unsigned int *count)
     return 0;
 }
 
-extern int FUN_0c0813e0(void *a, void *b, int n);
+extern int memcmp(void *a, void *b, int n);
 extern void ovLibEntryTbl(void *e);
-extern void thunk_FUN_0c1708b2(void *d, void *s, int n);
+extern void fmMngMcpy(void *d, void *s, int n);
 extern unsigned int fmcalccrc(int n, unsigned char *p);
-extern int FUN_0c171e62(void *h, int item, int x);
-extern int FUN_0c1677d8(void);
-extern int FUN_0c170834(int addr, unsigned char *buf, int n);
-extern void FUN_0c14f182(void *p, int n);
+extern int mwlSbGetStreamParam(void *h, int item, int x);
+extern int kbCfgIni_sub(void);
+extern int syBtFlRead(int addr, unsigned char *buf, int n);
+extern void syCacheOCWB(void *p, int n);
 
 /* Register an overlay's libraries: its header id (+48) must match 0C174DC8; then each 32-byte entry
    after it whose id (+16) matches 0C174DD8 is entered. -1 for a foreign overlay. */
-int FUN_0c14ceee(char *ov)
+int ovMdlEntryTbl(char *ov)
 {
     char *e;
     int i;
 
-    if (FUN_0c0813e0(ov + 48, (void *)0x0C174DC8, 16)) {
+    if (memcmp(ov + 48, (void *)0x0C174DC8, 16)) {
         return -1;
     }
     for (i = 1;; i++) {
         e = ov + 32 + i * 32;
-        if (!FUN_0c0813e0(e + 16, (void *)0x0C174DD8, 16)) {
+        if (!memcmp(e + 16, (void *)0x0C174DD8, 16)) {
             return 0;
         }
         ovLibEntryTbl(e);
@@ -573,7 +573,7 @@ int FUN_0c14ceee(char *ov)
 
 /* Check the current 64-byte VMU block (+12, index +40): -6 when busy (+2), 0 for an unused block
    (0xFFFF) or a good CRC (+62), -4 for a bad one. */
-int FUN_0c170c10(char *v)
+int fmMngReadData(char *v)
 {
     char *b;
     unsigned int crc;
@@ -582,7 +582,7 @@ int FUN_0c170c10(char *v)
         return -6;
     }
     b = *(char **)(v + 12) + (*(int *)(v + 40) + 1) * 64;
-    thunk_FUN_0c1708b2(b + 2, *(void **)(v + 48), 60);
+    fmMngMcpy(b + 2, *(void **)(v + 48), 60);
     if (*(unsigned short *)b == 0xFFFF) {
         return 0;
     }
@@ -595,10 +595,10 @@ int FUN_0c170c10(char *v)
 
 /* Read items 7 and 8 of a stream header: the first as is, the second as a level in dB (3 per step
    under 15, -45 for none); both into out and the handle (+72, +76). */
-void FUN_0c171fe8(char *h, int *a, int *db)
+void mwlSbGetFx(char *h, int *a, int *db)
 {
-    int x = FUN_0c171e62(h, 7, 0);
-    int y = FUN_0c171e62(h, 8, 0);
+    int x = mwlSbGetStreamParam(h, 7, 0);
+    int y = mwlSbGetStreamParam(h, 8, 0);
 
     if (y <= 0) {
         *db = -45;
@@ -613,17 +613,17 @@ void FUN_0c171fe8(char *h, int *a, int *db)
 }
 
 /* Keyboard config: two bytes at 0x1A05E of the flash, copied to the system area (0x8C000070) unless
-   blank. Returns FUN_0c1677d8's value. */
+   blank. Returns kbCfgIni_sub's value. */
 int kbCfgIni(void)
 {
-    int r = FUN_0c1677d8();
+    int r = kbCfgIni_sub();
     unsigned char b[2];
 
-    if (FUN_0c170834(0x1A05E, b, 2) == 0) {
+    if (syBtFlRead(0x1A05E, b, 2) == 0) {
         if (!(b[0] == 0xFF && b[1] == 0xFF)) {
             *(unsigned char *)0x8C000070 = b[0];
             *(unsigned char *)0x8C000071 = b[1];
-            FUN_0c14f182((void *)0x8C000070, 2);
+            syCacheOCWB((void *)0x8C000070, 2);
         }
     }
     return r;
@@ -651,9 +651,9 @@ extern int mpdrv_get_optimize(int a, int b, int c, int d);
 extern int mpdrv_get_rootplay(int a, int b, int c, int d);
 extern int mpdrv_get_gunmode(int a, int b, int c, int d);
 extern int mpdrv_get_autoflash(int a, int b, int c, int d);
-extern int FUN_0c15fa92(char *name);
-extern int thunk_FUN_0c15fa1c(char *name, char *entry);
-extern int FUN_0c15fa32(char *name, char *entry);
+extern int gdFsGetSearchID(char *name);
+extern int gdFsStrcmp(char *name, char *entry);
+extern int gdFsStrcmpi(char *name, char *entry);
 
 /* Read a peripheral driver setting by number; -1 for an unknown one. */
 int kdGetDriverMode(int mode, int b, int c, int d)
@@ -713,16 +713,16 @@ int gdFsSearchName(char *name, int *dir, int mode)
 {
     int n = dir[0];
     char *e = (char *)dir + 16;
-    int h = FUN_0c15fa92(name);
+    int h = gdFsGetSearchID(name);
     int i;
 
     for (i = 0; i < n; i++) {
         if (((unsigned char *)e)[9] == (unsigned char)h) {
             if (mode == 1) {
-                if (thunk_FUN_0c15fa1c(name, e + 10) == 1) {
+                if (gdFsStrcmp(name, e + 10) == 1) {
                     return i + 1;
                 }
-            } else if (FUN_0c15fa32(name, e + 10) == 1) {
+            } else if (gdFsStrcmpi(name, e + 10) == 1) {
                 return i + 1;
             }
         }
@@ -751,7 +751,7 @@ extern void kmProcessVertexRenderState(int *s);
 extern void kmSetVertexRenderState(int *s);
 
 /* Fill a vertex render state with the defaults (opaque, no texture, colours 1.0) and apply it. */
-void FUN_0c074510(int *s)
+void nlSysInitStripContextVtx(int *s)
 {
     float *f = (float *)s;
     int i;
@@ -894,9 +894,9 @@ void pdInitPeripheral(int mode, int a, int b)
 
 extern int kmSetBackGroundRenderState(int *s);
 
-/* The background vertex render state defaults (colour white 1.0, flags as FUN_0c074510 but state 11
+/* The background vertex render state defaults (colour white 1.0, flags as nlSysInitStripContextVtx but state 11
    and 1), applied through kmProcessVertexRenderState, then as the background state. */
-void FUN_0c0745e0(int *s)
+void nlSysInitStripContextBG(int *s)
 {
     float *f = (float *)s;
     int i;
@@ -1063,14 +1063,14 @@ int ADXF_Seek(signed char *h, int off, int mode)
     return *(int *)(h + 24);
 }
 
-extern int FUN_0c17085c(int a);
-extern int FUN_0c170848(int a, char *b, int n);
-extern void FUN_0c1708bc(int a, int b);
-extern int FUN_0c1709a6(char *st);
+extern int syBtFlDeleteSct(int a);
+extern int syBtFlWrite(int a, char *b, int n);
+extern void fmMngClearBuf(int a, int b);
+extern int fmMngReadSctAllData(char *st);
 
 /* Format the memory-card file system (mode 0 or 1): -11 not initialised, -6 bad mode, -3 when
-   FUN_0c17085c refuses, -2 when the 18-byte header write is short; else the result of the final
-   FUN_0c1709a6 (0 on success). The header at state+52 is the 16-byte template, the mode and the
+   syBtFlDeleteSct refuses, -2 when the 18-byte header write is short; else the result of the final
+   fmMngReadSctAllData (0 on success). The header at state+52 is the 16-byte template, the mode and the
    state's first byte. */
 int fmMngFormat(int mode)
 {
@@ -1085,19 +1085,19 @@ int fmMngFormat(int mode)
     if (mode != 0 && mode != 1) {
         return -6;
     }
-    if (FUN_0c17085c(*(int *)(*g + 4)) != 0) {
+    if (syBtFlDeleteSct(*(int *)(*g + 4)) != 0) {
         return -3;
     }
     hdr = *g + 52;
-    thunk_FUN_0c1708b2((void *)0x0C17696C, hdr, 16);
+    fmMngMcpy((void *)0x0C17696C, hdr, 16);
     *(short *)(*g + 2) = mode;
     hdr[17] = mode;
     hdr[16] = **g;
-    if (FUN_0c170848(*(int *)(*g + 4), hdr, 18) != 18) {
+    if (syBtFlWrite(*(int *)(*g + 4), hdr, 18) != 18) {
         return -2;
     }
-    FUN_0c1708bc(*(int *)(*g + 12), *(int *)(*g + 8));
-    r = FUN_0c1709a6(*g);
+    fmMngClearBuf(*(int *)(*g + 12), *(int *)(*g + 8));
+    r = fmMngReadSctAllData(*g);
     if (r != 0) {
         return r;
     }
@@ -1145,12 +1145,12 @@ int mpdrv_check_port(int port)
 extern int kmtex_GetTextureLevel(int a, int b);
 extern int kmiCopyFromFrameBuffer(char *dst, int off, int n);
 extern int kmiCopyToFrameBuffer(int off, char *src, int n);
-extern void FUN_0c15888e(void *p);
+extern void kmiPurgeCache(void *p);
 
 /* Write a small texture level into the frame buffer: levels 1 and 2 (e) patch 1 or 4 bytes into an
-   8-byte block read back from it (st+28), run FUN_0c15888e on it and put it back; larger levels copy
+   8-byte block read back from it (st+28), run kmiPurgeCache on it and put it back; larger levels copy
    the source straight to the level's offset (table 0C175F04) with its length (table 0C175F30). */
-int FUN_0c15cc6e(char *st, char *src, int e)
+int kmtex_ReloadPalettized8MM(char *st, char *src, int e)
 {
     int lvl = kmtex_GetTextureLevel(e, e);
     char buf[8];
@@ -1170,8 +1170,8 @@ int FUN_0c15cc6e(char *st, char *src, int e)
                 s++;
             } while (d < buf + 8);
         }
-        FUN_0c15888e(buf);
-        FUN_0c15888e(buf + 32);
+        kmiPurgeCache(buf);
+        kmiPurgeCache(buf + 32);
         kmiCopyToFrameBuffer(*(int *)(st + 28), buf, 8);
     } else {
         kmiCopyToFrameBuffer(*(int *)(0x0C175F04 + lvl * 4) + *(int *)(st + 28), src, *(int *)(0x0C175F30 + lvl * 4));
@@ -1179,9 +1179,9 @@ int FUN_0c15cc6e(char *st, char *src, int e)
     return 0;
 }
 
-/* Same as FUN_0c15cc6e for a 16-byte block: level 1 patches 2 bytes at +6, level 2 patches 8 bytes at
+/* Same as kmtex_ReloadPalettized8MM for a 16-byte block: level 1 patches 2 bytes at +6, level 2 patches 8 bytes at
    +8 (tables 0C175DFC offsets, 0C175E28 lengths for the larger levels). */
-int FUN_0c15cd40(char *st, char *src, int e)
+int kmtex_ReloadTwiddledMM(char *st, char *src, int e)
 {
     int lvl = kmtex_GetTextureLevel(e, e);
     char buf[16];
@@ -1207,8 +1207,8 @@ int FUN_0c15cd40(char *st, char *src, int e)
                 s++;
             } while (d < buf + 16);
         }
-        FUN_0c15888e(buf);
-        FUN_0c15888e(buf + 32);
+        kmiPurgeCache(buf);
+        kmiPurgeCache(buf + 32);
         kmiCopyToFrameBuffer(*(int *)(st + 28), buf, 16);
     } else {
         kmiCopyToFrameBuffer(*(int *)(0x0C175DFC + lvl * 4) + *(int *)(st + 28), src, *(int *)(0x0C175E28 + lvl * 4));
@@ -1216,13 +1216,13 @@ int FUN_0c15cd40(char *st, char *src, int e)
     return 0;
 }
 
-extern int *FUN_0c157220(int pos, int *out);
+extern int *SearchUsed(int pos, int *out);
 
 /* Find, in chain a (a halfword index, 20 bytes a slot at 0C177FBC), the entry with the lowest value
    at +16 that is at least lim and below the best so far (0C177FA8): the flags (halfword at +0) must
-   have bit 2 clear, bit 1 set and one of 0x180 set, and FUN_0c157220 of its position (+12, moved by
+   have bit 2 clear, bit 1 set and one of 0x180 set, and SearchUsed of its position (+12, moved by
    0C177FB0 up for a == 0, down otherwise) must name an object whose +20 -> +24 equals h+24. */
-int FUN_0c157160(short a, int lim, int *h)
+int kmiMIPallocSub(short a, int lim, int *h)
 {
     int *node = *(int **)(0x0C177FBC + a * 20);
     int best = *(int *)0x0C177FA8;
@@ -1241,7 +1241,7 @@ int FUN_0c157160(short a, int lim, int *h)
                 } else {
                     x = node[3] - *(int *)0x0C177FB0;
                 }
-                p = FUN_0c157220(x, out);
+                p = SearchUsed(x, out);
                 if (p && *(int *)(*(int *)(p + 5) + 24) == h[6]) {
                     best = node[4];
                     found = node;
@@ -1254,12 +1254,12 @@ int FUN_0c157160(short a, int lim, int *h)
 }
 
 extern int kmiCopyFromPVRMemory(int a, int off, int n);
-extern int FUN_0c15ca40(int a, int off, int b, int c);
-extern int FUN_0c15c98a(int a, int off, int b);
+extern int kmtex_ConvertSmallVQFromMem(int a, int off, int b, int c);
+extern int kmtex_CopyTextureFromMem(int a, int off, int b);
 
 /* Read a texture back from video memory into a: by the texture's type (word 0): low bits 1, a copy from
-   PVR memory; type 3, FUN_0c15ca40; otherwise by its format flags (+24): flag 4 and 1 set and 8 and 32 clear
-   give FUN_0c15c98a, anything else a frame buffer copy. Always 0. */
+   PVR memory; type 3, kmtex_ConvertSmallVQFromMem; otherwise by its format flags (+24): flag 4 and 1 set and 8 and 32 clear
+   give kmtex_CopyTextureFromMem, anything else a frame buffer copy. Always 0. */
 int kmGetTexture(int a, int *t)
 {
     int fl;
@@ -1267,11 +1267,11 @@ int kmGetTexture(int a, int *t)
     if ((t[0] & 3) == 1) {
         kmiCopyFromPVRMemory(a, t[7], t[5]);
     } else if ((unsigned short)t[0] == 3) {
-        FUN_0c15ca40(a, t[7], t[3], t[6]);
+        kmtex_ConvertSmallVQFromMem(a, t[7], t[3], t[6]);
     } else {
         fl = t[6];
         if ((fl & 4) && (fl & 1) && !(fl & 8) && !(fl & 32)) {
-            FUN_0c15c98a(a, t[7], t[3]);
+            kmtex_CopyTextureFromMem(a, t[7], t[3]);
         } else {
             kmiCopyFromFrameBuffer((char *)a, t[7], t[5]);
         }

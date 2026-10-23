@@ -3,9 +3,9 @@
 
 extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
-int FUN_0c0773c0(int a4);
+int nlGetMatrix33(int a4);
 
-int FUN_0c0773c0(int a4)
+int nlGetMatrix33(int a4)
 {
     float u0[16];
     float u1[16];

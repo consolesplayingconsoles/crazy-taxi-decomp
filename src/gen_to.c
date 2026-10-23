@@ -1,76 +1,148 @@
 /* Straight-line functions with calls and guards (batch gen_to): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-float nlLength(int, int);
-float GetStopPosCenter(int a4, int a5, int a6);
+int CheckKyakuArea(int, int);
+int CheckNumRideon(void);
+int kyakuInDestArea2(int a4, int a5);
 
-float GetStopPosCenter(int a4, int a5, int a6)
+int kyakuInDestArea2(int a4, int a5)
 {
-    int t3;
-    int t4;
+    int t2;
     int t5;
-    int t6;
-    int t7;
-    float u17;
-    float u18;
-    float u19;
-    int t25;
-    float u41;
-    int t26;
+    int t9;
+    int t11;
+    int t13;
+    int t17;
+    int t20;
+    int t22;
+    int t24;
     int t27;
-    float u28;
-    float t29;
-    float u40;
-    int stk[13] = {0};
+    int t29;
+    int t31;
+    int t33;
+    int t38;
+    int t40;
+    int t42;
+    int t46;
+    int t48;
+    int t50;
+    int t53;
+    int stk[3];
 
-    *(unsigned int *)(((int)stk + 4)) = a6;
-    t3 = *(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED974 + ((*(int *)0xC1EE210) << 2))))));
-    *(unsigned int *)(((int)stk + 8)) = ((a4 << 2) << 1);
-    t4 = *(int *)(((t3 + ((a4 << 2) << 1)) + 0x4));
-    t5 = *(int *)(((t3 + ((a4 << 2) << 1)) + 0x0));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(0xC08AD94); }
-    if ((int)t5 > 0) {
-        t6 = 0x0;
-        t7 = t4;
-        for (;;) {
-            nlAddVector((((int)stk + 4) + 0x8), t7);
-            t6 = (t6 + 0x1);
-            t7 = (t7 + 0xC);
-            if ((int)t6 >= (int)t5) {
-                break;
-            }
-        }
-    }
-    u17 = *(float *)(((int)stk + 12));
-    *(float *)(((int)stk + 12)) = (u17 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x0)) = (u17 * (1.0f / (float)t5));
-    u18 = *(float *)(((int)stk + 16));
-    *(float *)(((int)stk + 16)) = (u18 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x4)) = (u18 * (1.0f / (float)t5));
-    u19 = *(float *)(((int)stk + 20));
-    *(float *)(((int)stk + 20)) = (u19 * (1.0f / (float)t5));
-    *(float *)((a5 + 0x8)) = (u19 * (1.0f / (float)t5));
-    t25 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED974 + ((*(int *)0xC1EE210) << 2))))))) + (*(int *)(((int)stk + 8)))) + 0x4));
-    u41 = 0.0f;
-    if ((int)t5 > 0) {
-        t26 = 0x0;
-        t27 = t25;
-        u28 = 0.0f;
-        for (;;) {
-            t29 = nlLength(a5, t27);
-            t27 = (t27 + 0xC);
-            if (t29 > u28) {
-                u28 = t29;
-            }
-            t26 = (t26 + 0x1);
-            if ((int)t26 >= (int)t5) {
-                break;
-            }
-        }
-        u40 = t29;
-        u41 = u28;
-    }
-    *(float *)(((*(int *)(((int)stk + 4))) + 0x0)) = (u41 * 1.19999993f);
-    return u40;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C025E74:;
+    t2 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = (R14);
+    R14 = (R4);
+    if (t2) goto L_C025E98;
+    goto L_C025E82;
+    L_C025E82:;
+    t5 = (*(int *)0xC1EE214) != 11;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t5) goto L_C025E98;
+    goto L_C025E8A;
+    L_C025E8A:;
+    t9 = (*(int *)0xC2A98FC) == (*(int *)(((*(int *)((R14 + 0x198))) + 0x0)));
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t9) goto L_C025EF0;
+    goto L_C025E98;
+    L_C025E98:;
+    t11 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t11) goto L_C025EC4;
+    goto L_C025EA0;
+    L_C025EA0:;
+    t13 = (*(int *)0xC1EE214) != 14;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t13) goto L_C025EC4;
+    goto L_C025EA8;
+    L_C025EA8:;
+    t17 = (*(int *)0xC2A98FC) != (*(int *)(((*(int *)((R14 + 0x198))) + 0x0)));
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t17) goto L_C025EC4;
+    goto L_C025EB6;
+    L_C025EB6:;
+    t20 = (CheckNumRideon()) == (*(int *)0xC2A9900);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t20) goto L_C025EF0;
+    goto L_C025EC4;
+    L_C025EC4:;
+    t22 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t22) goto L_C025EE0;
+    goto L_C025ECC;
+    L_C025ECC:;
+    t24 = (*(int *)0xC1EE214) == 11;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    R3 = (0xC1EE214);
+    if (t24) goto L_C025F02;
+    goto L_C025ED4;
+    L_C025ED4:;
+    t27 = (*(int *)((R3 + 0x0))) == 10;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t27) goto L_C025F02;
+    goto L_C025EDA;
+    L_C025EDA:;
+    t29 = (*(int *)((R3 + 0x0))) == 14;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t29) goto L_C025F02;
+    goto L_C025EE0;
+    L_C025EE0:;
+    t31 = (*(int *)0xC1EE20C) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t31) goto L_C025EF0;
+    goto L_C025EE8;
+    L_C025EE8:;
+    t33 = (*(int *)0xC1EE214) == 15;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t33) goto L_C025F02;
+    goto L_C025EF0;
+    L_C025EF0:;
+    t38 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), (*(int *)(((*(int *)((R14 + 0x198))) + 0x0))))) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t38) goto L_C025F48;
+    goto L_C025F02;
+    L_C025F02:;
+    t40 = (*(int *)0xC1EE20C) != 2;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t40) goto L_C025F22;
+    goto L_C025F0A;
+    L_C025F0A:;
+    t42 = (*(int *)0xC1EE214) != 10;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t42) goto L_C025F22;
+    goto L_C025F12;
+    L_C025F12:;
+    t46 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), (*(int *)0xC2A98FC))) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t46) goto L_C025F48;
+    goto L_C025F22;
+    L_C025F22:;
+    t48 = (*(int *)0xC1EE20C) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t48) goto L_C025F40;
+    goto L_C025F2A;
+    L_C025F2A:;
+    t50 = (*(int *)0xC1EE214) != 15;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t50) goto L_C025F40;
+    goto L_C025F32;
+    L_C025F32:;
+    t53 = (CheckKyakuArea(((*(int *)((R14 + 0x18))) + 0x78), 0x7)) != 0;
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if (t53) goto L_C025F48;
+    goto L_C025F40;
+    L_C025F40:;
+    return 0x0;
+    L_C025F48:;
+    return 0x1;
 }

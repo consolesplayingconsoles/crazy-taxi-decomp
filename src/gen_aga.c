@@ -8,7 +8,7 @@ int selectInitIconSprite(void)
     float u0;
     int t1;
 
-    u0 = *(float *)0xC051E10;
+    u0 = 500.8f;
     t1 = 0x3;
     for (;;) {
         *(float *)0xC2A7414 = 0.0f;

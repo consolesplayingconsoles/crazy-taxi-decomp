@@ -27,7 +27,7 @@ float carSlipRatio(float f4, float f5)
     float u19;
     float u39;
 
-    u0 = *(float *)0xC0218FC;
+    u0 = 80.0f;
     if (!(f5 > f4)) {
         t20 = 0;
         if (f4 != 0.0f) {
@@ -35,7 +35,7 @@ float carSlipRatio(float f4, float f5)
             u4 = f4;
             u5 = _builtin_fabsf(((f4 - f5) / f4));
             if (u0 > _builtin_fabsf(f4)) {
-                u1 = *(float *)0xC021900;
+                u1 = 75.0f;
                 u3 = u1;
                 u4 = _builtin_fabsf((f4 / u1));
                 u5 = (_builtin_fabsf(((f4 - f5) / f4)) * _builtin_fabsf((f4 / u1)));
@@ -47,7 +47,7 @@ float carSlipRatio(float f4, float f5)
             u10 = f5;
             u11 = 0.0f;
             if (f5 != 0.0f) {
-                u7 = *(float *)0xC021900;
+                u7 = 75.0f;
                 u10 = _builtin_fabsf((f5 / u7));
                 u11 = (_builtin_fabsf((f5 / u7)) * 1.0f);
             }
@@ -62,7 +62,7 @@ float carSlipRatio(float f4, float f5)
             u24 = f5;
             u25 = _builtin_fabsf(((f5 - f4) / f5));
             if (u0 > _builtin_fabsf(f5)) {
-                u21 = *(float *)0xC021900;
+                u21 = 75.0f;
                 u23 = u21;
                 u24 = _builtin_fabsf((f5 / u21));
                 u25 = (_builtin_fabsf(((f5 - f4) / f5)) * _builtin_fabsf((f5 / u21)));
@@ -75,7 +75,7 @@ float carSlipRatio(float f4, float f5)
             u31 = 0.0f;
             if (f4 == 0.0f) {
             } else {
-                u27 = *(float *)0xC021900;
+                u27 = 75.0f;
                 u30 = _builtin_fabsf((f4 / u27));
                 u31 = (_builtin_fabsf((f4 / u27)) * 1.0f);
             }

@@ -1,3 +1,5 @@
+extern int ExecNameEntryDecide();
+extern int ExecNameEntryScroll();
 /* Straight-line functions with calls and guards (batch gen_afa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -75,7 +77,7 @@ int ExecNameEntrySelect(void)
                 }
             }
             t51 = Sound_Request(0x405A9, 0x0);
-            *(unsigned int *)0xC2864CC = 0xC03A07C;
+            *(unsigned int *)0xC2864CC = ((int)ExecNameEntryScroll);
             t89 = t51;
         } else {
             t52 = *(int *)0xC2864B4;
@@ -137,7 +139,7 @@ int ExecNameEntrySelect(void)
         CheckXWord(0xC2864D0);
         Voice_ShutUp(0x0);
         t128 = Voice_Request(0xC0EE9F0, 0x0, 0x7F, 0x0);
-        *(unsigned int *)0xC2864CC = 0xC03A120;
+        *(unsigned int *)0xC2864CC = ((int)ExecNameEntryDecide);
         *(unsigned int *)0xC2864C4 = 0xE6;
         t129 = t128;
     }

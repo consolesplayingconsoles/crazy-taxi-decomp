@@ -8,7 +8,7 @@ int ADXF_Open(int, int);
 int ADXF_ReadNw32(int, int, int);
 float fcvHermite(int, int, float);
 int fcvHermiteAngle(int, int, float);
-int FUN_0c085160(int, int, int, int);
+int nlObjPutMVAsm(int, int, int, int);
 int buInit(int, int, int, int);
 extern float getNearLineIndex();
 int memset(int, int, int);
@@ -18,32 +18,32 @@ int nlMakeModelProjectMatrix_objput(void);
 int nlMakeModelViewProjectMatrix_objput(void);
 int nlPopMatrix(int);
 int saveBufferInit(int);
-int FUN_0c07aaf0(int a4);
-int FUN_0c07ab10(int a4);
-int FUN_0c0781a0(int a4);
+int nlObjPutMvClosedVolume(int a4);
+int nlObjPutMvOpenedVolume(int a4);
+int nlDecMatrixPtr(int a4);
 int BupInit(void);
 int gdc_FileLoad(int a4, int a5, int a6);
 int getCoursePointMove(int a4, int a5, int a6);
 float navi_GetRouteDataB(int a4, int a5);
-int FUN_0c075330(int a4);
+int nlSysMetricsGetFrameBufferUser(int a4);
 float fcvCalcPosition(int a4, int a5, int a6, float f4);
 int fcvCalcAngle(int a4, int a5, int a6, float f4);
-int FUN_0c07ab30(int a4);
+int nlObjPutMvClosedVolumeUseViewMatrix(int a4);
 float GetStopPosCenter(int a4, int a5, int a6);
 
-int FUN_0c07aaf0(int a4)
+int nlObjPutMvClosedVolume(int a4)
 {
     nlMakeModelProjectMatrix_objput();
     return ((int (*)(int, int))(0xC07AB60))(a4, 0x0);
 }
 
-int FUN_0c07ab10(int a4)
+int nlObjPutMvOpenedVolume(int a4)
 {
     nlMakeModelProjectMatrix_objput();
     return ((int (*)(int, int))(0xC07AB60))(a4, 0xFFFFFFFF);
 }
 
-int FUN_0c0781a0(int a4)
+int nlDecMatrixPtr(int a4)
 {
     int t0;
     int t1;
@@ -127,75 +127,8 @@ int gdc_FileLoad(int a4, int a5, int a6)
 }
 
 
-float navi_GetRouteDataB(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    float u4;
-    int t5;
-    int t6;
-    float u7;
-    int t8;
-    int t9;
-    int t10;
-    float t11;
-    int t12;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    float t20;
-    float u26;
-    int stk[13] = {0};
 
-    t0 = *(int *)((a4 + 0x8));
-    *(unsigned int *)0xC1EE1DC = t0;
-    t1 = *(int *)((a4 + 0x4));
-    *(unsigned int *)0xC1EE1D8 = t1;
-    t2 = *(int *)((a4 + 0x0));
-    *(unsigned int *)0xC1EE1D4 = t2;
-    t3 = *(int *)0xC2A6690;
-    if (a5 == -1) {
-        u4 = 999999.9f;
-        t5 = 0x0;
-        t6 = (0xEF4 + t3);
-        u7 = u4;
-        for (;;) {
-            t8 = *(int *)((t6 + 0x4));
-            t9 = *(int *)((t6 + 0x0));
-            t10 = *(int *)((t8 + 0x0));
-            t11 = ((int (*)(int, int, int, int))(getNearLineIndex))(0x0, t9, t10, (((int)stk + 4) + 0x4));
-            if (u7 > t11) {
-                u7 = t11;
-                *(unsigned int *)0xC1EE1E8 = (int)t11;
-                *(unsigned int *)0xC1EE1E0 = t5;
-                t12 = *(int *)(((int)stk + 8));
-                *(unsigned int *)0xC1EE1E4 = t12;
-            }
-            t5 = (t5 + 0x1);
-            t6 = (t6 + 0xC);
-            if ((int)t5 > (int)0x8) {
-                break;
-            }
-        }
-        u26 = t11;
-    } else {
-        *(unsigned int *)(((int)stk + 12)) = (((((a5 << 1) + a5) << 2) + t3) + 0xEF4);
-        t16 = *(int *)(((int)stk + 12));
-        t17 = *(int *)(((((((a5 << 1) + a5) << 2) + t3) + 0xEF4) + 0x4));
-        t18 = *(int *)((t16 + 0x0));
-        t19 = *(int *)((t17 + 0x0));
-        t20 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(0x0, t18, t19, 0xC1EE1E4, a4);
-        *(unsigned int *)0xC1EE1E8 = (int)t20;
-        *(unsigned int *)0xC1EE1E0 = a5;
-        u26 = t20;
-    }
-    return u26;
-}
-
-int FUN_0c075330(int a4)
+int nlSysMetricsGetFrameBufferUser(int a4)
 {
     int t0;
     int t1;
@@ -261,7 +194,7 @@ int FUN_0c075330(int a4)
 
 
 
-int FUN_0c07ab30(int a4)
+int nlObjPutMvClosedVolumeUseViewMatrix(int a4)
 {
     int t1;
     int t2;
@@ -286,7 +219,7 @@ int FUN_0c07ab30(int a4)
             t6 = *(int *)0xC2B356C;
             *(unsigned int *)0xC2B3158 = t6;
             t7 = *(int *)0xC2B3570;
-            FUN_0c085160(a4, 0xC2B3150, 0x0, t7);
+            nlObjPutMVAsm(a4, 0xC2B3150, 0x0, t7);
         }
     }
     return nlPopMatrix(0x1);

@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_cx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0108ea(int, int);
-int FUN_0c0113b4(int);
+int bootRecvHeader(int, int);
+int bootParsePacket(int);
 int lcdFillData(int, int);
-float FUN_0c087ed4(void);
+float _in_coss(void);
 int memmove(int, int, int);
 int menuCursor(int, int, int);
 int menuEnterStep(void);
@@ -17,21 +17,21 @@ int putLevelCTFontAssist(int, int, int, int, int);
 int vibIsReady(void);
 int vmsfs_c_dispatch(int);
 int vmsfs_c_fiber7(void);
-int FUN_0c156934(int a4, int a5, int a6, int a7);
-float FUN_0c087e40(void);
-int FUN_0c0103aa(int a4, int a5);
-int FUN_0c087db4(int a4, int a5, int a6);
+int kmytex_ABSalloc(int a4, int a5, int a6, int a7);
+float cos(void);
+int bootRunPacket(int a4, int a5);
+int _fmtout_putstr(int a4, int a5, int a6);
 int menuOptionHandler(void);
 int Exec_LCD(void);
-int FUN_0c010a98(void);
-int FUN_0c0115ba(void);
+int bootInstallVectors(void);
+int bootInitTables(void);
 
 int vmsfs_c_fiber7(void)
 {
     return vmsfs_c_dispatch(0x7);
 }
 
-int FUN_0c156934(int a4, int a5, int a6, int a7)
+int kmytex_ABSalloc(int a4, int a5, int a6, int a7)
 {
     int stk[13] = {0};
 
@@ -42,7 +42,7 @@ int FUN_0c156934(int a4, int a5, int a6, int a7)
     return ((int (*)(int, int, int, int))(0xC156980))(a4, a5, (a5 + a6), a7);
 }
 
-float FUN_0c087e40(void)
+float cos(void)
 {
     float t0;
     int t1;
@@ -50,7 +50,7 @@ float FUN_0c087e40(void)
     float u10;
     int stk[3] = {0};
 
-    t0 = FUN_0c087ed4();
+    t0 = _in_coss();
     *(float *)(((int)stk + 4)) = t0;
     t1 = *(int *)((((int)stk + 4) + 0x0));
     if ((t1 & 0x7F800000) == 0x7F800000) {
@@ -65,7 +65,7 @@ float FUN_0c087e40(void)
     return u10;
 }
 
-int FUN_0c0103aa(int a4, int a5)
+int bootRunPacket(int a4, int a5)
 {
     int t9;
     int t1;
@@ -73,13 +73,13 @@ int FUN_0c0103aa(int a4, int a5)
     int t3;
 
     *(unsigned int *)0xAC00F714 = 0x1;
-    FUN_0c0108ea(a4, a5);
+    bootRecvHeader(a4, a5);
     t9 = a4;
     if (a4 == 0) {
         t1 = *(signed char *)((a5 + 0x0));
         t6 = a4;
         if ((unsigned char)t1 != 41) {
-            FUN_0c0113b4(a5);
+            bootParsePacket(a5);
             t3 = ((int (*)(void))(0xC01138C))();
             t6 = 0xFF;
         }
@@ -88,7 +88,7 @@ int FUN_0c0103aa(int a4, int a5)
     return t9;
 }
 
-int FUN_0c087db4(int a4, int a5, int a6)
+int _fmtout_putstr(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -143,7 +143,7 @@ int FUN_0c087db4(int a4, int a5, int a6)
 
 
 
-int FUN_0c010a98(void)
+int bootInstallVectors(void)
 {
     int t0;
     int t1;
@@ -179,7 +179,7 @@ int FUN_0c010a98(void)
     return 0xC010B80;
 }
 
-int FUN_0c0115ba(void)
+int bootInitTables(void)
 {
     int t0;
     int t1;

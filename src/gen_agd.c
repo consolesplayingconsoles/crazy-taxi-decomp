@@ -5,9 +5,9 @@ int Init_TimeUp(void);
 
 int Init_TimeUp(void)
 {
-    *(float *)0xC2A8980 = (*(float *)0xC052DF0);
-    *(float *)0xC2A8984 = (*(float *)0xC052DF4);
-    *(float *)0xC2A8988 = (*(float *)0xC052DF8);
+    *(float *)0xC2A8980 = (320.0f);
+    *(float *)0xC2A8984 = (240.0f);
+    *(float *)0xC2A8988 = (0.19999999f);
     *(float *)0xC2A898C = 1.0f;
     *(float *)0xC2A8990 = 1.0f;
     *(float *)0xC2A8994 = 0.0f;

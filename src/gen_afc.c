@@ -3,39 +3,46 @@
 
 int SetColliObj(int, int);
 int nlAddVector(int, int);
+float nlInnerProduct(int, int);
 float nlLength(int, int);
+int nlOuterProduct(int, int, int);
 int nlScaleVector(int, int, float);
+int nlSubVector3op(int, int, int);
 int set_event(int, int);
-void setObjHitShed(int a4);
+void setObjHitBreakSide(int a4);
 
-void setObjHitShed(int a4)
+void setObjHitBreakSide(int a4)
 {
+    int t1;
     int t2;
-    int t3;
+    int t4;
     int t5;
-    float u1;
-    int t6;
-    int stk[7] = {0};
+    int t18;
+    int stk[12];
 
-    if (!((nlLength((a4 + 0xC), (a4 + 0x58))) > (1.0f + 1.0f)) && (u1 = *(float *)((a4 + 0x40)), !(0.699999988f > u1))) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
-    } else {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
-        t2 = set_event(0x84, 0xC0385AC);
-        if (t2 != 0) {
-            t3 = a4;
-            t5 = (t2 + 0x14);
-            for (;;) { t6 = *(int *)t3; t3 = (t3 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t3) break; *(unsigned int *)t5 = t6; t5 = (t5 + 4); }
-            nlScaleVector(((int)stk + 4), ((t2 + 0x14) + 0x3C), -8.0f);
-            nlAddVector((t2 + 0x14), ((int)stk + 4));
-            *(unsigned int *)(((t2 + 0x14) + 0x28)) = ((t2 + 0x14) + 0x30);
-            *(unsigned int *)(((t2 + 0x14) + 0x54)) = 0xC0EDC08;
-            *(unsigned int *)(((t2 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE1BC) + 0x0)));
-            SetColliObj((t2 + 0x14), 0x10);
-            nlScaleVector(((int)stk + 4), (a4 + 0x3C), 11.0f);
-            nlAddVector(a4, ((int)stk + 4));
-            *(unsigned int *)((a4 + 0x54)) = 0xC0EDCBC;
-            *(unsigned int *)((a4 + 0x64)) = (*(int *)(((*(int *)0xC0EE1D0) + 0x0)));
+    if ((nlLength((a4 + 0xC), (a4 + 0x58))) > (1.0f + 1.0f)) {
+        t1 = set_event(0x84, 0xC0385AC);
+        if (t1 != 0) {
+            t2 = a4;
+            t4 = (t1 + 0x14);
+            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
+            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 12.0f);
+            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
+            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
+            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDED8;
+            *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE20C) + 0x0)));
+            SetColliObj((t1 + 0x14), 0x10);
+            nlSubVector3op((((int)stk + 4) + 0xC), (a4 + 0xC), (a4 + 0x58));
+            nlOuterProduct((a4 + 0x3C), (a4 + 0x30), ((int)stk + 4));
+            if ((nlInnerProduct((((int)stk + 4) + 0xC), ((int)stk + 4))) > 0.0f) {
+                *(unsigned int *)((a4 + 0x54)) = 0xC0EDEFC;
+                t18 = (*(int *)(((*(int *)0xC0EE210) + 0x0)));
+            } else {
+                *(unsigned int *)((a4 + 0x54)) = 0xC0EDF20;
+                t18 = (*(int *)(((*(int *)0xC0EE214) + 0x0)));
+            }
+            *(unsigned int *)((a4 + 0x64)) = t18;
         }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
     }
 }

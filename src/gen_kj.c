@@ -1,118 +1,172 @@
 /* Straight-line functions with calls and guards (batch gen_kj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ndGetPeripheral(int);
 int nlLocate(int, int);
 int nlPrintf(int, ...);
-void ndPeriCheck(void);
+int pdGetPeripheral(int);
+int ndPeriCheck2(int a4, int a5);
 
-void ndPeriCheck(void)
+int ndPeriCheck2(int a4, int a5)
 {
-    int t1;
-    int t2;
-    int t3;
-    int t8;
-    int t26;
-    int t46;
+    int t10;
+    int t11;
+    int t13;
+    int t28;
+    int t31;
+    int t39;
     int t47;
-    int t48;
     int t49;
-    int t66;
-    int t79;
-    int t0;
-    int stk[19] = {0};
+    int t50;
+    int t52;
+    int t61;
+    int t68;
+    int t83;
+    int t103;
+    int stk[19];
 
-    *(unsigned int *)(((int)stk + 16)) = 0xC131A04;
-    *(unsigned int *)(((int)stk + 20)) = 0x28;
-    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B4C;
-    *(unsigned int *)(((int)stk + 28)) = 0xC131A48;
-    *(unsigned int *)(((int)stk + 32)) = 0xC0D2B48;
-    *(unsigned int *)(((int)stk + 36)) = 0xC131A44;
-    t1 = 0xC131A48;
-    t2 = 0xC131A04;
-    t3 = 0x0;
-    for (;;) {
-        if ((int)t3 >= (int)0x4) {
-            break;
-        }
-        t0 = 0xC0D2B18;
-        t0 = (ndGetPeripheral((*(int *)(((t3 << 2) + t0)))));
-        t1 = (*(int *)0xC2A9C70);
-        t8 = *(int *)((t1 + 0x30));
-        t1 = (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)));
-        if (((*(int *)((t8 + 0x0))) & t1) != 0) {
-            t0 = (nlLocate(0x5, (t3 + 0x28)));
-            t1 = (*(int *)(((*(int *)(((int)stk + 28))) + 0x0)));
-            t0 = t3;
-            t0 = (t0 << 2);
-            t0 = (nlPrintf(0xC0D2B5C, ((*(int *)((0xC131A04 + t0)))), (t1)));
-        } else {
-            t1 = (*(int *)0xC2A9C70);
-            t26 = *(int *)((t1 + 0x30));
-            t1 = (*(int *)(((*(int *)(((int)stk + 32))) + 0x0)));
-            if (((*(int *)((t26 + 0x0))) & t1) != 0) {
-                t0 = (nlLocate(0x5, (t3 + 0x28)));
-                t1 = (*(int *)(((*(int *)(((int)stk + 36))) + 0x0)));
-                t0 = (nlPrintf(0xC0D2B5C, ((*(int *)((t2 + 0x0)))), (t1)));
-            } else {
-                t0 = (nlLocate(0x5, (*(int *)(((int)stk + 20)))));
-                t1 = (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)));
-                t0 = (nlPrintf(0xC0D2B6C, (t1)));
-            }
-        }
-        t1 = (*(int *)(((int)stk + 16)));
-        t2 = (t2 + 0x4);
-        t3 = (t3 + 0x1);
-        t1 = (t1 + 0x4);
-        *(unsigned int *)(((int)stk + 16)) = t1;
-        *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + 0x1);
-    }
-    *(unsigned int *)(((int)stk + 20)) = 0x2C;
-    *(unsigned int *)(((int)stk + 16)) = 0xC131A14;
-    *(unsigned int *)(((int)stk + 32)) = 0xC0D2B50;
-    *(unsigned int *)(((int)stk + 40)) = 0xC131A4C;
-    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B54;
-    *(unsigned int *)(((int)stk + 28)) = 0xC131A50;
-    t46 = t0;
-    t47 = 0xC0D2B50;
-    t48 = 0xC131A14;
-    t49 = 0x4;
-    for (;;) {
-        if ((int)t49 >= (int)0xC) {
-            break;
-        }
-        t46 = 0xC0D2B18;
-        *(unsigned int *)(((int)stk + 36)) = (t49 << 2);
-        t46 = (ndGetPeripheral((*(int *)(((t49 << 2) + t46)))));
-        t47 = (*(int *)(((*(int *)0xC2A9C70) + 0x30)));
-        t47 = (*(int *)((t47 + 0x0)));
-        if ((t47 & (*(int *)(((*(int *)(((int)stk + 32))) + 0x0)))) != 0) {
-            t46 = (nlLocate(0x5, (t49 + 0x28)));
-            t47 = (*(int *)(((int)stk + 40)));
-            t66 = (*(int *)((t47 + 0x0)));
-            t46 = (*(int *)(((int)stk + 36)));
-            t47 = (*(int *)((0xC131A04 + t46)));
-            t46 = (nlPrintf(0xC0D2B5C, (t47), t66));
-        } else {
-            t47 = (*(int *)(((*(int *)0xC2A9C70) + 0x30)));
-            t47 = (*(int *)((t47 + 0x0)));
-            if ((t47 & (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)))) != 0) {
-                t46 = (nlLocate(0x5, (t49 + 0x28)));
-                t47 = (*(int *)(((int)stk + 28)));
-                t79 = (*(int *)((t47 + 0x0)));
-                t47 = (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)));
-                t46 = (nlPrintf(0xC0D2B5C, (t47), t79));
-            } else {
-                t46 = (nlLocate(0x5, (*(int *)(((int)stk + 20)))));
-                t47 = (*(int *)((t48 + 0x0)));
-                t46 = (nlPrintf(0xC0D2B6C, (t47)));
-            }
-        }
-        t49 = (t49 + 0x1);
-        t48 = (t48 + 0x4);
-        *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + 0x1);
-        t47 = (*(int *)(((int)stk + 16)));
-        t47 = (t47 + 0x4);
-        *(unsigned int *)(((int)stk + 16)) = t47;
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C05F65C:;
+    *(unsigned int *)(((int)stk + 20)) = R4;
+    *(unsigned int *)(((int)stk + 28)) = R5;
+    *(unsigned int *)(((int)stk + 40)) = 0x10000000;
+    *(unsigned short *)(((*(int *)(((int)stk + 20))) + 0x0)) = 0x0;
+    *(unsigned int *)(((*(int *)(((int)stk + 28))) + 0x0)) = 0x0;
+    *(unsigned int *)(((int)stk + 16)) = 0x28;
+    *(unsigned int *)(((int)stk + 12)) = 0xC0D2B4C;
+    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B48;
+    R10 = (0xC0769A0);
+    R11 = (0xC076A40);
+    R12 = (0x0);
+    R13 = (0xC131A34);
+    R14 = (0xC2A9C70);
+    R8 = (0xC131A34);
+    R9 = (0x0);
+    goto L_C05F69C;
+    L_C05F69C:;
+    t10 = pdGetPeripheral((*(int *)(((R12 << 2) + 0xC0D2B18))));
+    *(unsigned int *)((R14 + 0x0)) = t10;
+    t11 = *(int *)((t10 + 0x30));
+    *(unsigned int *)(((int)stk + 36)) = t11;
+    t13 = *(int *)((t11 + 0x0));
+    R0 = (t10);
+    R4 = ((((int)(-R9) >= 0) ? (0x1000 << ((-R9) & 31)) : ((-(int)(-R9) & 31) ? ((int)0x1000 >> (-(int)(-R9) & 31)) : ((int)0x1000 >> 31))));
+    R5 = (t13);
+    if ((((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))) & t13) != 0)) goto L_C05F6C8;
+    goto L_C05F6C0;
+    L_C05F6C0:;
+    if ((((*(int *)(((*(int *)(((int)stk + 24))) + 0x0))) & R5) == 0)) goto L_C05F6FE;
+    goto L_C05F6C8;
+    L_C05F6C8:;
+    if ((((*(int *)(((*(int *)(((*(int *)((R14 + 0x0))) + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 12))) + 0x0)))) == 0)) goto L_C05F6E4;
+    goto L_C05F6D6;
+    L_C05F6D6:;
+    t28 = *(int *)(((int)stk + 20));
+    *(unsigned short *)((t28 + 0x0)) = ((*(short *)((t28 + 0x0))) | (R4 << 1));
+    goto L_C05F710;
+    L_C05F710:;
+    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 16))) + 0x1);
+    t31 = (int)(R12 + 0x1) < (int)0x4;
+    R12 = ((R12 + 0x1));
+    R13 = ((R13 + 0x4));
+    R9 = ((R9 + 0x4));
+    if (t31) goto L_C05F69C;
+    goto L_C05F722;
+    L_C05F722:;
+    *(unsigned int *)(((int)stk + 16)) = 0xC0D2B50;
+    *(unsigned int *)(((int)stk + 12)) = 0xC0D2B54;
+    R13 = (0x4);
+    R4 = (0xC0D2B54);
+    R9 = (0x8);
+    goto L_C05F83A;
+    L_C05F83A:;
+    if (((int)R13 < (int)0xC)) goto L_C05F75C;
+    goto L_C05F840;
+    L_C05F840:;
+    return R0;
+    L_C05F75C:;
+    t39 = (int)((int)R13 % (int)0x4);
+    R0 = (0xC131A64);
+    R12 = (t39);
+    if ((((unsigned short)(*(short *)(((*(int *)(((int)stk + 20))) + 0x0))) & (*(int *)(((t39 << 2) + 0xC131A64)))) == 0)) goto L_C05F838;
+    goto L_C05F778;
+    L_C05F778:;
+    t47 = pdGetPeripheral((*(int *)(((R13 << 2) + 0xC0D2B18))));
+    *(unsigned int *)((R14 + 0x0)) = t47;
+    t49 = *(int *)(((int)stk + 40));
+    t50 = *(int *)(((*(int *)((R14 + 0x0))) + 0x30));
+    *(unsigned int *)(((int)stk + 32)) = t50;
+    t52 = *(int *)((t50 + 0x0));
+    R0 = (t47);
+    R4 = (t52);
+    R5 = ((((int)(-((R13 - 4) << 2)) >= 0) ? (t49 << ((-((R13 - 4) << 2)) & 31)) : ((-(int)(-((R13 - 4) << 2)) & 31) ? ((unsigned int)t49 >> (-(int)(-((R13 - 4) << 2)) & 31)) : 0)));
+    if ((((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))) & t52) != 0)) goto L_C05F7AA;
+    goto L_C05F7A2;
+    L_C05F7A2:;
+    if ((((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))) & R4) == 0)) goto L_C05F81A;
+    goto L_C05F7AA;
+    L_C05F7AA:;
+    t61 = *(int *)((R14 + 0x0));
+    R4 = (t61);
+    if ((((*(int *)(((*(int *)((t61 + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 12))) + 0x0)))) == 0)) goto L_C05F7C6;
+    goto L_C05F7B8;
+    L_C05F7B8:;
+    t68 = *(int *)(((int)stk + 28));
+    *(unsigned int *)((t68 + 0x0)) = ((*(int *)((t68 + 0x0))) | (R5 << 1));
+    R5 = ((R5 << 1));
+    goto L_C05F7FA;
+    L_C05F7FA:;
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F7FE;
+    L_C05F7FE:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2BAC, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F838:;
+    R13 = ((R13 + 0x1));
+    goto L_C05F83A;
+    L_C05F7C6:;
+    if ((((*(int *)(((*(int *)((R4 + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)))) == 0)) goto L_C05F7FA;
+    goto L_C05F7D2;
+    L_C05F7D2:;
+    t83 = *(int *)(((int)stk + 28));
+    *(unsigned int *)((t83 + 0x0)) = ((*(int *)((t83 + 0x0))) | R5);
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F7DE;
+    L_C05F7DE:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2B98, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F81A:;
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F81E;
+    L_C05F81E:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2BAC, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F6E4:;
+    if ((((*(int *)(((*(int *)(((*(int *)((R14 + 0x0))) + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)))) == 0)) goto L_C05F710;
+    goto L_C05F6F2;
+    L_C05F6F2:;
+    t103 = *(int *)(((int)stk + 20));
+    *(unsigned short *)((t103 + 0x0)) = ((*(short *)((t103 + 0x0))) | R4);
+    goto L_C05F710;
+    L_C05F6FE:;
+    nlLocate(0x5, (*(int *)(((int)stk + 16))));
+    R0 = ((nlPrintf(0xC0D2B84, ((*(int *)((R13 + 0x0)))))));
+    goto L_C05F710;
 }

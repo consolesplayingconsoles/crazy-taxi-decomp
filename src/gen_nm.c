@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_nm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float FUN_0c076200(int a4, float f4);
+float nlSinfReduce(int a4, float f4);
 
-float FUN_0c076200(int a4, float f4)
+float nlSinfReduce(int a4, float f4)
 {
     float u5;
     float u8;

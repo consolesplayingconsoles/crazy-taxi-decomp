@@ -1,36 +1,41 @@
 /* Straight-line functions with calls and guards (batch gen_on): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Model_Put_Sprite3D(int, int, int, float);
 int ResetFadeColor(void);
-int nlAddVector(int, int);
 int nlObjPutSetFadeColor(float, float, float);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int Put_Time_Spark(int a4);
+int pfColor(int, int, int, int);
+int pfLocate(float, float);
+int pfPutSEGALogo(void);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Put_Adv_Rating(void);
 
-int Put_Time_Spark(int a4)
+int Put_Adv_Rating(void)
 {
-    int stk[8] = {0};
+    int stk[9];
 
-    nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
-    nlPushMatrix(0x0);
-    *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
-    *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
-    *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
-    *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
-    *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
-    *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
-    Model_Put_Sprite3D((int)(*(float *)((a4 + 0x18))), (int)(*(float *)((a4 + 0x1C))), 0xC0EAC20, (*(float *)0xC057354));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
-    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
-    *(unsigned short *)(((((int)stk + 4) + 0x8) + 0x2)) = ((*(short *)(((((int)stk + 4) + 0x8) + 0x2))) + 0x8000);
-    nlPopMatrix(0x1);
-    nlAddVector((a4 + 0x18), (a4 + 0x24));
-    *(unsigned short *)((a4 + 0x32)) = ((*(short *)((a4 + 0x32))) + (*(short *)(((0x36 + a4) + 0x0))));
+    *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)0xC0D0AC6);
+    *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)0xC0D0AC7);
+    *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)0xC0D0AC8);
+    *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)0xC0D0AC9);
+    *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)0xC0D0ACA);
+    *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)0xC0D0ACB);
+    pfSetFont(0x1);
+    pfColor(0xFF00FF00, 0xFF00FF00, 0xFF00FF00, 0xFF00FF00);
+    pfSize(1.0f, 1.0f);
+    pfLocate((*(float *)0xC2A96D4), 70.0f);
+    pfPuts(0xC0D0A54);
+    pfSize(1.0f, 1.0f);
+    pfLocate((*(float *)0xC2A96D8), 200.0f);
+    pfPuts(0xC0D0A70);
+    pfSize(1.5f, 1.5f);
+    pfLocate((*(float *)0xC2A96DC), 250.0f);
+    pfPuts(0xC0D0A88);
+    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+    pfSize(1.0f, 1.0f);
+    pfLocate(239.0f, 386.0f);
+    pfPutSEGALogo();
+    nlObjPutSetFadeColor(0.0f, 0.0f, 1.0f);
     return (ResetFadeColor());
 }

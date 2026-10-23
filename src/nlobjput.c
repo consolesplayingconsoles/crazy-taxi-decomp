@@ -7,13 +7,13 @@ extern void nlInvLightVectorUseViewMatrix(void);         /* the same through the
 extern void nlPushMatrix(void *m);
 extern void nlPopMatrix(int n);
 extern void nlMultiMatrix(void *m);
-extern void FUN_0c077ee0(void *m);
-extern void FUN_0c077f60(void);
-extern void FUN_0c081660(void *model, void *light);   /* the record drawer (fldi1 fr4, then FUN_0c081662's loop) */
+extern void nlMultiMatrixRevOrder8(void *m);
+extern void nlMultiPushedMatrix(void);
+extern void displaypolygondata_sidx(void *model, void *light);   /* the record drawer (fldi1 fr4, then FUN_0c081662's loop) */
 extern void FUN_0c081662(void *model, void *light, float trs);   /* the same with the model's alpha in fr4 */
 extern void nlInvLightVectorUseViewMatrix(void);
-extern void FUN_0c078980(void);
-extern void FUN_0c077210(void *src, void *dst);
+extern void nlTransposeMatrix(void);
+extern void nlCalcVector(void *src, void *dst);
 extern void nlScaleUnitVector(float *dst, float *src, float s);
 
 #define MATRIX_0C2B34A8    ((void *)0x0C2B34A8)
@@ -30,9 +30,9 @@ void nlobjput_sub_trnsl(int *model, float trs);
 void nlobjput_sub(int *model)
 {
     if (model[0] == 0)
-        FUN_0c081660(model, LIGHTS);
+        displaypolygondata_sidx(model, LIGHTS);
     else if (model[0] == 1)
-        FUN_0c081660(model, LIGHTS);
+        displaypolygondata_sidx(model, LIGHTS);
     nlPopMatrix(1);
 }
 
@@ -49,7 +49,7 @@ void nlMakeModelViewProjectMatrix_objput(void)
 {
     nlPushMatrix(MATRIX_0C2B34A8);
     nlMultiMatrix(VIEW_MATRIX);
-    FUN_0c077f60();
+    nlMultiPushedMatrix();
 }
 
 /* The record drawer for a translucent put: as nlobjput_sub, the model's alpha (trs) passed on in fr4. */
@@ -68,7 +68,7 @@ void nlObjPutTrnsl(int *model, float trs)
     if (!(model[1] & 2))
         nlInvLightVector();
     nlPushMatrix(0);
-    FUN_0c077ee0(MATRIX_0C2B34A8);
+    nlMultiMatrixRevOrder8(MATRIX_0C2B34A8);
     nlobjput_sub_trnsl(model, trs);
 }
 
@@ -84,18 +84,18 @@ void nlObjPutUseViewMatrixTrnsl(int *model, float trs)
 void nlMakeModelProjectMatrix_objput(void)
 {
     nlPushMatrix(0);
-    FUN_0c077ee0(MATRIX_0C2B34A8);
+    nlMultiMatrixRevOrder8(MATRIX_0C2B34A8);
 }
 
 /* The light vectors for a put: the two at 0C14A918 and 0C14A928 through the current matrix into LIGHTS + 16 and LIGHTS, the
    second scaled to a length of 436.5. */
 void nlInvLightVector(void)
 {
-    FUN_0c078980();
-    FUN_0c077210((void *)0x0C14A918, (char *)LIGHTS + 16);
-    FUN_0c077210((void *)0x0C14A928, LIGHTS);
+    nlTransposeMatrix();
+    nlCalcVector((void *)0x0C14A918, (char *)LIGHTS + 16);
+    nlCalcVector((void *)0x0C14A928, LIGHTS);
     nlScaleUnitVector(LIGHTS, LIGHTS, 436.5f);
-    FUN_0c078980();
+    nlTransposeMatrix();
 }
 
 /* Which vertex colour routine puts use: 0 none, 1 and 2 two routines of the drawer (0C08392A, 0C08450A); other values leave

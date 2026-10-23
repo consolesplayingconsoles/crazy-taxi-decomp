@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_fv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0530b2(void);
+int Start_Here_We_Go(void);
 
-int FUN_0c0530b2(void)
+int Start_Here_We_Go(void)
 {
     int t0;
 

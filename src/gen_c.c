@@ -8,7 +8,7 @@ int PTime_Pos_Set(float, float);
 int PTime_Scale_Set(float, float);
 int PTime_Color_Set(float, float, float);
 int nd_SprPut(int, int, float, float);
-int FUN_0c074680(void);
+int nlSetBackColor(void);
 int ResetFadeColor(void);
 int SetFadeColorBase(float, float, float);
 int SetFadeColorOffset(float, float, float);
@@ -65,7 +65,7 @@ int InitAdvLogoSprite(void)
     *(unsigned int *)0xC26E1B8 = 0x2;
     *(float *)0xC26E19C = 1.0f;
     *(float *)0xC26E198 = 1.0f;
-    return FUN_0c074680();
+    return nlSetBackColor();
 }
 
 int PutAdvLogoSprite(void)

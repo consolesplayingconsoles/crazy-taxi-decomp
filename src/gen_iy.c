@@ -1,81 +1,156 @@
 /* Straight-line functions with calls and guards (batch gen_iy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0813d0(int);
-int InsertRankRecord(int, int, int, int);
-int syRtcGetDate(int);
-int CheckRanking(int a4);
+int abs(int);
+int courseStatusGet(int a4, int a5, int a6, int a7);
 
-int CheckRanking(int a4)
+int courseStatusGet(int a4, int a5, int a6, int a7)
 {
     int t0;
-    int t12;
-    int t19;
-    int t31;
-    int t32;
-    int t56;
-    int t48;
-    int t40;
+    int t2;
+    int t20;
+    int t26;
     int t29;
-    int t30;
-    int t24;
-    int t25;
-    int stk[12] = {0};
+    int t32;
+    int t35;
+    int t41;
+    int t42;
+    int t47;
+    int t52;
+    int t58;
+    int t61;
+    int t64;
+    int t67;
+    int t72;
+    int stk[14];
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    t0 = *(short *)0xC2A11C4;
-    syRtcGetDate((((int)stk + 4) + 0x4));
-    *(unsigned char *)(((int)stk + 29)) = 0xFFFFFFFF;
-    *(unsigned int *)(((int)stk + 20)) = (*(int *)(((*(int *)(((int)stk + 4))) + 0x0)));
-    *(unsigned char *)(((int)stk + 28)) = (*(signed char *)0xC179488);
-    *(unsigned int *)(((int)stk + 24)) = ((((((((FUN_0c0813d0((0xFFFFF85A + (unsigned short)(*(short *)(((int)stk + 8)))))) << 16) << 8) | ((((unsigned char)(*(signed char *)(((int)stk + 10))) << 16) << 2) << 2)) | ((unsigned char)(*(signed char *)(((int)stk + 11))) << 15)) | (((unsigned char)(*(signed char *)(((int)stk + 12))) << 8) << 2)) | (((unsigned char)(*(signed char *)(((int)stk + 13))) << 2) << 2)) | ((unsigned int)(unsigned char)(*(signed char *)(((int)stk + 14))) >> 2));
-    t12 = *(int *)0xC2A11DC;
-    if (t12 != 0) {
-        if (t12 != 1) {
-            if (t12 != 2) {
-                *(unsigned char *)(((int)stk + 29)) = (*(int *)0xC1EE340);
-                t40 = (InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)(*(int *)0xC2A11E0) * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA));
-            } else {
-                t19 = *(int *)0xC2A11E0;
-                if ((unsigned int)(t19 - 2) < (unsigned int)0x10) {
-                    switch (((t19 - 2) << 1)) {
-                        case 0:
-                        case 8:
-                        case 24:
-                        {
-                            t24 = 0x1;
-                            t25 = ((short)((short)((*(int *)0xC2A11E0) - 2) * (short)0x3C) + (0x3C8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8)));
-                        }
-                            break;
-                        default:
-                        {
-                            t24 = 0xFFFFFFFF;
-                            t25 = ((short)((short)((*(int *)0xC2A11E0) - 2) * (short)0x3C) + (0x3C8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8)));
-                        }
-                            break;
-                    }
-                    t29 = t24;
-                    t30 = t25;
-                } else {
-                    t29 = 0x1;
-                    t30 = ((short)((short)((*(int *)0xC2A11E0) - 2) * (short)0x3C) + (0x3C8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8)));
-                }
-                t31 = InsertRankRecord(t29, (((int)stk + 4) + 0x10), t30, 0x5);
-                if ((int)t31 >= 0) {
-                    t32 = *(int *)0xC2A11E0;
-                    *(unsigned int *)((((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x4)) = ((*(int *)((((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x4))) | (((int)(t32 - 2) >= 0) ? (0x1 << ((t32 - 2) & 31)) : ((-(int)(t32 - 2) & 31) ? ((int)0x1 >> (-(int)(t32 - 2) & 31)) : ((int)0x1 >> 31))));
-                }
-                t40 = t31;
-            }
-            t48 = t40;
-        } else {
-            *(unsigned char *)(((int)stk + 29)) = (*(int *)0xC1EE340);
-            t48 = (InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)(*(int *)0xC2A11E0) * (short)0x78) + (0x1E8 + ((short)((short)t0 * (short)0x788) + 0xC28A4F8))), 0xA));
-        }
-        t56 = t48;
-    } else {
-        *(unsigned char *)(((int)stk + 29)) = (*(int *)0xC1EE340);
-        t56 = (InsertRankRecord(0x1, (((int)stk + 4) + 0x10), ((short)((short)(*(int *)0xC2A11E0) * (short)0x78) + (((short)((short)t0 * (short)0x788) + 0xC28A4F8) + 0x8)), 0xA));
-    }
-    return t56;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C0421EC:;
+    *(unsigned int *)(((int)stk + 4)) = R5;
+    *(unsigned int *)(((int)stk + 20)) = R7;
+    *(unsigned int *)(((int)stk + 12)) = 0x0;
+    t0 = *(int *)((((R4 << 2) << 1) + 0xC2A3A40));
+    t2 = abs((*(int *)(((int)stk + 20))));
+    *(unsigned int *)(((int)stk + 8)) = t2;
+    *(unsigned int *)(((int)stk + 16)) = ((int)t2 >> 5);
+    R10 = (0x1);
+    R11 = (R4);
+    R12 = (0x0);
+    R13 = (R6);
+    R14 = (t0);
+    R8 = (0x1F);
+    R9 = ((*(int *)0xC2A6690));
+    if (((int)(*(int *)(((int)stk + 20))) < 0)) goto L_C0422FE;
+    goto L_C042230;
+    L_C042230:;
+    R6 = (R12);
+    R7 = ((*(int *)(((*(int *)((((((R11 << 1) + R11) << 2) + R9) + 0x4))) + 0x0))));
+    if (((int)(*(int *)(((int)stk + 8))) >= 0)) goto L_C04224C;
+    goto L_C042248;
+    L_C042248:;
+    goto L_C042382;
+    L_C042382:;
+    return (*(int *)(((int)stk + 12)));
+    L_C04224C:;
+    t20 = *(int *)(((int)stk + 4));
+    if ((((*(int *)((R14 + (((int)(*(int *)(((int)stk + 4))) >> 5) << 2)))) & (((int)(t20 & R8) >= 0) ? (R10 << ((t20 & R8) & 31)) : ((-(int)(t20 & R8) & 31) ? ((int)R10 >> (-(int)(t20 & R8) & 31)) : ((int)R10 >> 31)))) == 0)) goto L_C042282;
+    goto L_C042266;
+    L_C042266:;
+    R4 = (R6);
+    if ((R6 == 0)) goto L_C042278;
+    goto L_C04226C;
+    L_C04226C:;
+    t26 = *(int *)(((int)stk + 16));
+    R4 = (((((int)(-t26) >= 0) ? ((R6 - 1) << ((-t26) & 31)) : ((-(int)(-t26) & 31) ? ((int)(R6 - 1) >> (-(int)(-t26) & 31)) : ((int)(R6 - 1) >> 31))) + 0x1));
+    goto L_C042278;
+    L_C042278:;
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) | (((int)R4 >= 0) ? (R10 << (R4 & 31)) : ((-(int)R4 & 31) ? ((int)R10 >> (-(int)R4 & 31)) : ((int)R10 >> 31))));
+    goto L_C042282;
+    L_C042282:;
+    t29 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = (t29 + 0x1);
+    if (((int)(t29 + 0x1) < (int)R7)) goto L_C0422F2;
+    goto L_C04228C;
+    L_C04228C:;
+    t32 = *(short *)((((R13 << 1) + ((*(int *)((((((R11 << 1) + R11) << 2) + R9) + 0x8))) + 0x4)) + 0x0));
+    t35 = R11;
+    R11 = ((unsigned short)t32);
+    R4 = t35;
+    if (((unsigned short)t32 != 0)) goto L_C0422D2;
+    goto L_C0422B0;
+    L_C0422B0:;
+    R11 = ((unsigned short)(*(short *)((((((R13 + 0x1) & R10) << 1) + ((*(int *)((((((R4 << 1) + R4) << 2) + R9) + 0x8))) + 0x4)) + 0x0))));
+    R13 = ((R13 + 0x1));
+    goto L_C0422D2;
+    L_C0422D2:;
+    t41 = *(int *)(((*(int *)((((((R11 << 1) + R11) << 2) + R9) + 0x4))) + 0x0));
+    *(unsigned int *)(((int)stk + 4)) = R12;
+    t42 = *(int *)((((R11 << 2) << 1) + 0xC2A3A40));
+    R14 = (t42);
+    R7 = (t41);
+    if ((t42 == 0)) goto L_C042382;
+    goto L_C0422F2;
+    L_C0422F2:;
+    t47 = (int)(R6 + 0x1) <= (int)(*(int *)(((int)stk + 8)));
+    R6 = ((R6 + 0x1));
+    if (t47) goto L_C04224C;
+    goto L_C0422FA;
+    L_C0422FA:;
+    goto L_C042382;
+    L_C0422FE:;
+    R6 = (R12);
+    if (((int)(*(int *)(((int)stk + 8))) < 0)) goto L_C042382;
+    goto L_C042306;
+    L_C042306:;
+    t52 = *(int *)(((int)stk + 4));
+    if ((((*(int *)((R14 + (((int)(*(int *)(((int)stk + 4))) >> 5) << 2)))) & (((int)(t52 & R8) >= 0) ? (R10 << ((t52 & R8) & 31)) : ((-(int)(t52 & R8) & 31) ? ((int)R10 >> (-(int)(t52 & R8) & 31)) : ((int)R10 >> 31)))) == 0)) goto L_C04233C;
+    goto L_C042320;
+    L_C042320:;
+    R4 = (R6);
+    if ((R6 == 0)) goto L_C042332;
+    goto L_C042326;
+    L_C042326:;
+    t58 = *(int *)(((int)stk + 16));
+    R4 = (((((int)(-t58) >= 0) ? ((R6 - 1) << ((-t58) & 31)) : ((-(int)(-t58) & 31) ? ((int)(R6 - 1) >> (-(int)(-t58) & 31)) : ((int)(R6 - 1) >> 31))) + 0x1));
+    goto L_C042332;
+    L_C042332:;
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) | (((int)R4 >= 0) ? (R10 << (R4 & 31)) : ((-(int)R4 & 31) ? ((int)R10 >> (-(int)R4 & 31)) : ((int)R10 >> 31))));
+    goto L_C04233C;
+    L_C04233C:;
+    t61 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = (t61 - 1);
+    if (((int)(t61 - 1) >= 0)) goto L_C04237A;
+    goto L_C042346;
+    L_C042346:;
+    t64 = *(short *)(((*(int *)((((((R11 << 1) + R11) << 2) + R9) + 0x8))) + 0x8));
+    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((*(int *)(((((((unsigned short)t64 << 1) + (unsigned short)t64) << 2) + R9) + 0x4))) + 0x0))) - 1);
+    t67 = *(int *)(((((unsigned short)t64 << 2) << 1) + 0xC2A3A40));
+    R11 = ((unsigned short)t64);
+    R14 = (t67);
+    if ((t67 == 0)) goto L_C042382;
+    goto L_C04237A;
+    L_C04237A:;
+    t72 = (int)(R6 + 0x1) <= (int)(*(int *)(((int)stk + 8)));
+    R6 = ((R6 + 0x1));
+    if (t72) goto L_C042306;
+    goto L_C042382;
 }

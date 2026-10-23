@@ -21,9 +21,9 @@ void nlTranslate(float x, float y, float z);
 void nlObjPutLoadTexture(int *p, int tex);
 void kmSetCheapShadowMode(int mode);
 void nlFreePalette(int index);
-int FUN_0c080990(char *a, int b);
-void FUN_0c080c50(int a, int b);
-int FUN_0c088738(char *a, char *b);
+int nlstripSetVertexContextTex(char *a, int b);
+void nldispstripTexSub(int a, int b);
+int _slow_strcmp1(char *a, char *b);
 
 void nlSetDummyTextureParameter(int *p)
 {
@@ -135,11 +135,11 @@ void nlDispStripFreePalette(int i)
 
 void nlDispStripTex(int a, int b, int c)
 {
-    if (FUN_0c080990(g_0c14ab04, c) == 0)
-        FUN_0c080c50(a, b);
+    if (nlstripSetVertexContextTex(g_0c14ab04, c) == 0)
+        nldispstripTexSub(a, b);
 }
 
 int strcmp(char *a, char *b)
 {
-    return FUN_0c088738(a, b);
+    return _slow_strcmp1(a, b);
 }

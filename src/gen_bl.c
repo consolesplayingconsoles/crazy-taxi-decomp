@@ -1,15 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_bl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15887e(int, int, int);
+int kmiMemCopy4(int, int, int);
 extern void _builtin_prefetch(void *);
-int FUN_0c158860(int a4, int a5, int a6);
-void FUN_0c077b50(int a4);
-void FUN_0c079ed0(int a4);
+int kmiMemCopy8(int a4, int a5, int a6);
+void nlLoadMatrix8(int a4);
+void nlLoadRechangeMatrix(int a4);
 void nlLoadMatrix(int a4);
 int PutRenderTexture(int a4);
 
-int FUN_0c158860(int a4, int a5, int a6)
+int kmiMemCopy8(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -32,7 +32,7 @@ int FUN_0c158860(int a4, int a5, int a6)
         } while (t2 != 0);
         return ((a4 | a5) | a6);
     }
-    return FUN_0c15887e(a4, a5, a6);
+    return kmiMemCopy4(a4, a5, a6);
 }
 
 

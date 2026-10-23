@@ -11,7 +11,7 @@ int Put_ReverseDriving(void);
 int Put_PickUp_Nag(void);
 int Put_OverArea(void);
 int pfTextPut(int, int);
-int FUN_0c0770f0(int, int, int);
+int nlSetPaletteData(int, int, int);
 int nlMvSetShadowObjPutPol(int);
 int Put_Time_Count(int);
 int Put_TimeUp(void);
@@ -49,11 +49,11 @@ int gdc_SpriteSetInit(void)
     int t45;
     int t46;
 
-    FUN_0c0770f0(0x0, 0xC08AF98, 0x100);
-    FUN_0c0770f0(0x100, 0xC08B158, 0x100);
-    FUN_0c0770f0(0x200, 0xC08B358, 0x100);
-    FUN_0c0770f0(0x300, 0xC08B118, 0x10);
-    FUN_0c0770f0(0x310, 0xC08B138, 0x10);
+    nlSetPaletteData(0x0, 0xC08AF98, 0x100);
+    nlSetPaletteData(0x100, 0xC08B158, 0x100);
+    nlSetPaletteData(0x200, 0xC08B358, 0x100);
+    nlSetPaletteData(0x300, 0xC08B118, 0x10);
+    nlSetPaletteData(0x310, 0xC08B138, 0x10);
     nlSetCommonTextureOffset(0x0);
     gdc_FileLoad(0xCB40000, 0xC08D5AC, 0x0);
     nlObjPutSetReplaceTextureDirName(0xC1433D8, 0xC08B4F8);

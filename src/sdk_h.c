@@ -3,10 +3,10 @@
 
 extern int *g_8c46c264[];
 
-int FUN_0c07ba90(int a, int b, int c, int d);
-int FUN_0c07bc00(int a, int b);
-void FUN_0c14ceee(int a);
-void FUN_0c14cf46(int a);
+int nlSingleLineSub(int a, int b, int c, int d);
+int nlMultiLineSub(int a, int b);
+void ovMdlEntryTbl(int a);
+void ovMdlDeleteTbl(int a);
 int buExecServer(void);
 int buMount(int drive);
 int vmsfs_c_setcompletecallback(void *f);
@@ -20,42 +20,42 @@ int vmsfs_setretry(int n);
 #define HOLLY_REG(off)  (*(volatile int *)(0xA05F8000 + (off)))
 
 /* -1 kept, any other value stored as 1. */
-void FUN_0c07aad0(int v)
+void nlObjPutMvSetClosingMode(int v)
 {
     if (v != -1)
         v = 1;
     *(int *)0x0C2B3570 = v;
 }
 
-int FUN_0c07b710(void)
+int nlIntrDefaultFunction(void)
 {
     return 0;
 }
 
-void nlObjPutLoadTextureCallBack(int v)
+void nlSetIntrStack(int v)
 {
     *(int *)0x0C175060 = 0x80000000;
     *(int *)0x0C177A9C = v;
 }
 
-int FUN_0c07b970(int a, int b, int c)
+int nlSingleLine(int a, int b, int c)
 {
-    return FUN_0c07ba90(a, b, c, 0);
+    return nlSingleLineSub(a, b, c, 0);
 }
 
-int FUN_0c07b980(int a, int b, int c)
+int nlSingleLineUseViewMatrix(int a, int b, int c)
 {
-    return FUN_0c07ba90(a, b, c, 2);
+    return nlSingleLineSub(a, b, c, 2);
 }
 
-int FUN_0c07b9d0(int a)
+int nlMultiLineTrnsl(int a)
 {
-    return FUN_0c07bc00(a, 1);
+    return nlMultiLineSub(a, 1);
 }
 
-int FUN_0c07b9e0(int a)
+int nlMultiLineUseViewMatrixTrnsl(int a)
 {
-    return FUN_0c07bc00(a, 3);
+    return nlMultiLineSub(a, 3);
 }
 
 void nlLineSetDiv(float d)
@@ -74,36 +74,36 @@ void nlsndStreamSetHdOctFns(char *s, short oct, int fns)
     *(short *)(s + 34) = (oct << 11) | fns;
 }
 
-void FUN_0c07ff20(char *s, short i, char v)
+void nlsndStreamSetHdVol(char *s, short i, char v)
 {
     s[i * 4 + 49] = v;
 }
 
-int FUN_0c0813d0(int x)
+int abs(int x)
 {
     if (x > 0)
         return x;
     return -x;
 }
 
-void FUN_0c081650(void)
+void nlObjPutLoadTextureCallBack(void)
 {
 }
 
-void FUN_0c087e1a(int *p)
+void _fmtout_endstr(int *p)
 {
     if (p[0] == 1)
         *(char *)p[1] = 0;
 }
 
-void FUN_0c14ab88(void)
+void _INITLIBH(void)
 {
-    FUN_0c14ceee(*(int *)0x0C174B44);
+    ovMdlEntryTbl(*(int *)0x0C174B44);
 }
 
-void FUN_0c14ab90(void)
+void _FINISHLIBH(void)
 {
-    FUN_0c14cf46(*(int *)0x0C174B44);
+    ovMdlDeleteTbl(*(int *)0x0C174B44);
 }
 
 int kmSetWaitVsyncCount(int n)
@@ -131,7 +131,7 @@ unsigned int kmiGetSysConfigFlag(void)
     return KM_SYS_CONFIG;
 }
 
-void FUN_0c14f59e(void)
+void syMallocFinish(void)
 {
 }
 
@@ -207,12 +207,12 @@ int ADXT_GetOutPan(char *adxt, int ch)
     return ((short *)(adxt + 66))[ch];
 }
 
-void FUN_0c152292(char *p, short v)
+void ADXT_SetReloadSct(char *p, short v)
 {
     *(short *)(p + 62) = v;
 }
 
-void FUN_0c152330(char *p, char v)
+void ADXT_SetAutoRcvr(char *p, char v)
 {
     p[109] = v;
 }
@@ -231,7 +231,7 @@ void kmiUnloadDevice(void)
 }
 
 /* Copies n bytes (whole words) from s to d. */
-void FUN_0c15887e(int *d, int *s, unsigned int n)
+void kmiMemCopy4(int *d, int *s, unsigned int n)
 {
     n >>= 2;
     do
@@ -239,7 +239,7 @@ void FUN_0c15887e(int *d, int *s, unsigned int n)
     while (--n);
 }
 
-void FUN_0c159ae0(void)
+void kmiModuleInitialize(void)
 {
 }
 

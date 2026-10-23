@@ -28,8 +28,8 @@ int LCDAccessOK(void);
 int End_LoadSave(int);
 int psgUpdatePartTracks(int);
 int Voice_Clear(void);
-int FUN_0c074680(void);
-int FUN_0c156c32(int, int, int, int);
+int nlSetBackColor(void);
+int kmiFBallocQueue(int, int, int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);
 int GetMenuMode(int);
@@ -134,13 +134,13 @@ int Put_Ranking_Header(void);
 int Result_Voice(void);
 int Result_Class_Line_Put(void);
 int psgFrameState5(int a4);
-int FUN_0c07e580(float f4, float f5, float f6, float f7);
+int nlSpriteF2ARGB(float f4, float f5, float f6, float f7);
 int kmSetUserClipLevelAdjust(int a4, int a5);
 int buAnalyzeBackupFileImage(int a4, int a5);
 int adxf_read_sj32(int a4, int a5, int a6);
 int kmiExecuteDMAChain(void);
 int kmiFBallocEx(int a4, int a5, int a6);
-int FUN_0c158958(int a4, int a5);
+int kmiResetCallback(int a4, int a5);
 int kmfSetVirticalFilterMode(int a4);
 int kmActivateFrameBuffer(int a4, int a5, int a6, int a7);
 int kmSetFramebufferTexture(int a4);
@@ -703,7 +703,7 @@ int psgFrameState5(int a4)
     return nlPopMatrix(0x1);
 }
 
-int FUN_0c07e580(float f4, float f5, float f6, float f7)
+int nlSpriteF2ARGB(float f4, float f5, float f6, float f7)
 {
     float u1;
     float u3;
@@ -1172,10 +1172,10 @@ int kmiFBallocEx(int a4, int a5, int a6)
         if ((unsigned int)t3 <= (unsigned int)t4) {
             t5 = 0x1;
         }
-        t6 = FUN_0c156c32(t5, (t1 << 1), a5, 0x8);
+        t6 = kmiFBallocQueue(t5, (t1 << 1), a5, 0x8);
         t9 = t6;
     } else {
-        t7 = FUN_0c156c32(0x0, (t1 << 1), a5, 0x8);
+        t7 = kmiFBallocQueue(0x0, (t1 << 1), a5, 0x8);
         t9 = t7;
     }
     if (t9 == 0) {
@@ -1190,7 +1190,7 @@ int kmiFBallocEx(int a4, int a5, int a6)
     return t9;
 }
 
-int FUN_0c158958(int a4, int a5)
+int kmiResetCallback(int a4, int a5)
 {
     int t0;
     int t8;

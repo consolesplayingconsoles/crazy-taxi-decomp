@@ -3,42 +3,42 @@
 
 float nlCosf(float a);
 float nlSinf(float a);
-void FUN_0c078450(float s, float c);
+void nlRotateXSC(float s, float c);
 void nlTranslate(float x, float y, float z);
-void FUN_0c07d450(int a, int b, int c);
+void nlMvSendTriangle(int a, int b, int c);
 int kmiQueryFinishDMA(int ch);
 int kmiWriteRegister(int off, int v);
 void kmiUnloadDevice(void);
 void kmiRegisterCallback(int dev, int kind, void *f, void *p);
 int vmsfs_c_getstate(int drive);
 int kbCfgIni(int a);
-int FUN_0c167800(void);
-int FUN_0c16887a(int sjd);
-int FUN_0c16883e(int sjd);
-int FUN_0c16884a(int sjd);
+int kbCfgGetId(void);
+int ADXSJD_GetTotalNumSmpl(int sjd);
+int ADXSJD_GetSfreq(int sjd);
+int ADXSJD_GetNumChan(int sjd);
 void ADXERR_CallErrFunc(char *msg);
 
 #define KM_DEVICE       (*(int *)0x0C178268)
 #define VTX_TABLE       ((int *)0x0C2EA724)
 
 /* A turn about y by a (radians, as nlCosf/nlSinf take it). */
-void FUN_0c078750(float a)
+void nlRotateRX(float a)
 {
     float c = nlCosf(a);
 
-    FUN_0c078450(nlSinf(a), c);
+    nlRotateXSC(nlSinf(a), c);
 }
 
 /* A translation by minus the vector v. */
-void FUN_0c0789c0(float *v)
+void nlTranslateNV(float *v)
 {
     nlTranslate(-v[0], -v[1], -v[2]);
 }
 
-void FUN_0c07d4f0(int a, int b, int c, int d)
+void nlMvSendQuad(int a, int b, int c, int d)
 {
-    FUN_0c07d450(a, b, c);
-    FUN_0c07d450(a, c, d);
+    nlMvSendTriangle(a, b, c);
+    nlMvSendTriangle(a, c, d);
 }
 
 /* 0 when the vertex buffer's flush (DMA) is done, 13 while it runs. */
@@ -66,27 +66,27 @@ int syCfgGetIDAddress(void)
 {
     if (kbCfgIni(0))
         return 0;
-    return FUN_0c167800();
+    return kbCfgGetId();
 }
 
 int ADXT_GetNumSmpl(signed char *adxt)
 {
     if (adxt[1] >= 2)
-        return FUN_0c16887a(((int *)adxt)[1]);
+        return ADXSJD_GetTotalNumSmpl(((int *)adxt)[1]);
     return 0;
 }
 
 int ADXT_GetSfreq(signed char *adxt)
 {
     if (adxt[1] >= 2)
-        return FUN_0c16883e(((int *)adxt)[1]);
+        return ADXSJD_GetSfreq(((int *)adxt)[1]);
     return 0;
 }
 
 int ADXT_GetNumChan(signed char *adxt)
 {
     if (adxt[1] >= 2)
-        return FUN_0c16884a(((int *)adxt)[1]);
+        return ADXSJD_GetNumChan(((int *)adxt)[1]);
     return 0;
 }
 
@@ -136,7 +136,7 @@ int ADXF_GetStat(int *adxf)
 }
 
 /* How many vertex-table words a PCW's flags take (Kamui's table at 0C2EA724). */
-int FUN_0c1534ca(unsigned int flags)
+int kmiBGPlaneCountWords(unsigned int flags)
 {
     int n = 1;
 
@@ -150,7 +150,7 @@ int FUN_0c1534ca(unsigned int flags)
     return n;
 }
 
-int FUN_0c153530(unsigned int flags, int n, int a, int b)
+int kmiBGPlanePutColor2(unsigned int flags, int n, int a, int b)
 {
     if (flags & 0x02000000) {
         VTX_TABLE[n++] = a;

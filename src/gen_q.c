@@ -1,3 +1,5 @@
+extern int EndPsg_Execute();
+extern int ExecNameEntrySelect();
 /* Straight-line functions with calls and guards (batch gen_q): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -51,23 +53,23 @@ int Start_Excellent(void);
 int Start_Fault(int);
 int psgAllocIpBuff(int);
 int breathExecOne(int, int);
-int FUN_0c074200(int, int);
-int FUN_0c074690(void);
-int FUN_0c074f10(void);
-int FUN_0c0770f0(int, int, int);
-int FUN_0c0813e0(int, int, int);
-int FUN_0c08160a(int);
-int FUN_0c156c32(int, int, int, int);
-int FUN_0c1583c4(void);
-int FUN_0c158860(int, int, int);
-int FUN_0c16884a(int);
-int FUN_0c168c7c(int);
-int FUN_0c16c634(int);
-int FUN_0c170848(void);
-int FUN_0c17085c(void);
-int FUN_0c17088c(int, int, int);
-int FUN_0c170908(int, int, int);
-int FUN_0c172f1e(int);
+int nlSetPaletteMap(int, int);
+int nlCreateVertexBuffer_clx16(void);
+int nlCreateVertexBuffer_clx22(void);
+int nlSetPaletteData(int, int, int);
+int memcmp(int, int, int);
+int prefetch(int);
+int kmiFBallocQueue(int, int, int, int);
+int kmiInitializeDriver(void);
+int kmiMemCopy8(int, int, int);
+int ADXSJD_GetNumChan(int);
+int adxstmf_stat_exec(int);
+int kmiErrorRecover(int);
+int syBtFlWrite(void);
+int syBtFlDeleteSct(void);
+int fmMngMcpy4(int, int, int);
+int fmMngNum2Bit(int, int, int);
+int ADXB_CheckAiff(int);
 int GetMenuMode(int);
 int BigOnePut(void);
 int KillColliObj(int);
@@ -128,7 +130,7 @@ int set_event(int, int);
 int setjmp(int);
 int syBtCfgSet(int);
 int syCfgSetSoundMode(int);
-int thunk_FUN_0c1708b2(void);
+int fmMngMcpy(void);
 int vmsfs_c_getstate(int);
 int gdc_PlayStreamSongDisk(void);
 int fsInit(void);
@@ -157,26 +159,26 @@ int AreYouBreathing(void);
 int BigOneSwims(void);
 int nlFreePalette(int a4);
 int nlSearchPalette(int a4, int a5);
-int FUN_0c074d20(void);
-int FUN_0c074de0(int a4);
-int FUN_0c074eb0(int a4);
-int FUN_0c075090(void);
+int nlSysUseLatency2V(void);
+int nlSysSetDirectListTypeLatency2V(int a4);
+int nlSysSetVertexBufferBaseAddress(int a4);
+int nlCreateVertexBuffer(void);
 float nlTan(int a4);
-int FUN_0c077290(int a4, int a5);
-int FUN_0c07bd30(int a4);
-int FUN_0c07be20(int a4);
+int nlCopyMatrix(int a4, int a5);
+int nlLineSendHeader(int a4);
+int nlLineCalcFogA(int a4);
 int nlSpriteSetVtxContext(int a4);
 int nlSpriteF2C(float f4);
-int FUN_0c07e8a0(int a4, int a5);
-int FUN_0c07f5c0(int a4);
-int FUN_0c07fc40(int a4);
-int FUN_0c080470(int a4, int a5, int a6, int a7);
-int FUN_0c080500(int a4);
+int nlsndCheckPackLoadError(int a4, int a5);
+int nlsndSeqRequest(int a4);
+int nlsndStreamOpen(int a4);
+int nlsndG2DmaRequest(int a4, int a5, int a6, int a7);
+int nlsndG2DmaGetStatus(int a4);
 int nlDispStripLoadPalette(int a4, int a5);
 int nlstripSetVertexContext(int a4);
 int kmSetPaletteBankData(int a4, int a5, int a6);
 int kmSetPixelClipping(int a4, int a5, int a6, int a7);
-int FUN_0c14cf46(int a4);
+int ovMdlDeleteTbl(int a4);
 void p2_cache_set(void);
 int buExit(void);
 int syCfgGetSoundMode(int a4);
@@ -184,27 +186,27 @@ int kmiInitializeDMA(void);
 int kmiDMAHazardReset(void);
 int kmiCh2DMAtoTA(int a4, int a5);
 int kmiTAallocEx(int a4, int a5, int a6);
-int FUN_0c1566a0(int a4, int a5);
+int kmiFBFitBlock(int a4, int a5);
 int kmInitDevice(int a4);
 void kmiWriteRegisters(int a4, int a5, int a6, int a7);
 int kmfSetTimeOutCount(int a4, int a5);
-int FUN_0c15a9a8(int a4);
+int kmiCheckRenderTexture(int a4);
 int kmLoadVQCodebook(int a4, int a5);
-int FUN_0c15c7a0(int a4);
-int FUN_0c15c852(int a4);
+int kmtex_TextureSize_Twiddled(int a4);
+int kmtex_TextureSize_Palettized(int a4);
 int kmiConvertUVnum(int a4);
 int kmSetCheapShadowMode(int a4);
 int kmiPutGlobalParam(void);
 int kmChangeContextZWriteDisable(int a4);
 int kmChangeContextFogMode(int a4);
 int kmChangeContextPaletteBank(int a4);
-int FUN_0c15e820(int a4);
-int FUN_0c15f460(int a4, int a5, int a6, int a7);
-int FUN_0c15fa6c(int a4, int a5, int a6);
+int kmiCalcTABufferSize(int a4);
+int ccitt_updcrc(int a4, int a5, int a6, int a7);
+int gdFsGetTokenSize(int a4, int a5, int a6);
 int kdVbOverHandler(void);
-int FUN_0c162d2c(int a4, int a5);
-int FUN_0c162d5e(int a4, int a5);
-int FUN_0c162d8a(int a4, int a5);
+int pdVmsLcdBltAsmFlipV(int a4, int a5);
+int pdVmsLcdBltAsmFlipH(int a4, int a5);
+int pdVmsLcdBltAsmFlipHV(int a4, int a5);
 int check_caps(int a4);
 int ADX_DecodeInfoExADPCM2(int a4, int a5, int a6);
 int adxsjd_decode_exec(int a4);
@@ -217,24 +219,24 @@ void SJMEM_Finish(void);
 void SJRBF_Finish(void);
 void SJUNI_Finish(void);
 int kmiInitInterrupt(void);
-int FUN_0c16bb70(void);
-int FUN_0c16c796(void);
+int kmiUpdateRenderStatus(void);
+int kmiErrorISR04(void);
 int syG2DmaReset(int a4);
-int FUN_0c1708d0(int a4, int a5, int a6);
-int FUN_0c170956(int a4, int a5);
-int FUN_0c170a8c(int a4);
-int FUN_0c170b48(int a4);
-int FUN_0c170c68(int a4);
+int fmMngBit2Num(int a4, int a5, int a6);
+int fmMngChkEmptyData(int a4, int a5);
+int fmMngSctRefresh(int a4);
+int fmMngAddData(int a4);
+int fmMngWriteData(int a4);
 int ADXB_Create(int a4, int a5, int a6, int a7);
 int ADXB_DecodeHeader(int a4, int a5, int a6);
-int FUN_0c1718c4(int a4);
-int FUN_0c171cfe(int a4, int a5);
+int mwlSbAllocWork(int a4);
+int mwSbSetNumChan(int a4, int a5);
 int buFbrSleepFiber(int a4);
 int ADXB_ExecOneAiff(int a4);
 int ADXB_ExecOneAu(int a4);
-int FUN_0c17467c(int a4);
-void FUN_0c1747be(int a4);
-int FUN_0c1747f4(int a4);
+int syIntAdrChk_putchar(int a4);
+void syIntAdrChk_prints(int a4);
+int syIntAdrChk_printh(int a4);
 
 int gdc_PlayStreamSongDisk(void)
 {
@@ -288,7 +290,7 @@ int gameState14(void)
     *(float *)0xC2864D4 = 1.0f;
     *(unsigned int *)0xC2864D8 = 0x0;
     *(unsigned int *)0xC2864C4 = 0x744;
-    *(unsigned int *)0xC2864CC = 0xC039E58;
+    *(unsigned int *)0xC2864CC = ((int)ExecNameEntrySelect);
     *(unsigned char *)0xC2864D3 = 0x0;
     *(unsigned char *)0xC2864D2 = 0x0;
     *(unsigned char *)0xC2864D1 = 0x0;
@@ -487,7 +489,7 @@ int EndPsg_Start(int a4, int a5, int a6, int a7)
 {
     int t0;
 
-    t0 = set_event(0x17C, 0xC071E10);
+    t0 = set_event(0x17C, ((int)EndPsg_Execute));
     if (t0 == 0) {
         return 0x0;
     }
@@ -671,7 +673,7 @@ int nlSearchPalette(int a4, int a5)
     return t25;
 }
 
-int FUN_0c074d20(void)
+int nlSysUseLatency2V(void)
 {
     int t0;
     int t1;
@@ -687,7 +689,7 @@ int FUN_0c074d20(void)
     return kmChangeLatencyModel(0x1, 0x20);
 }
 
-int FUN_0c074de0(int a4)
+int nlSysSetDirectListTypeLatency2V(int a4)
 {
     int t2;
     int t1;
@@ -714,7 +716,7 @@ int FUN_0c074de0(int a4)
     return kmChangeLatencyModel(0x1, t2);
 }
 
-int FUN_0c074eb0(int a4)
+int nlSysSetVertexBufferBaseAddress(int a4)
 {
     int t0;
 
@@ -726,7 +728,7 @@ int FUN_0c074eb0(int a4)
     return kmfSetVertexBufferBaseAddress((0xA0000000 | a4), 0x0);
 }
 
-int FUN_0c075090(void)
+int nlCreateVertexBuffer(void)
 {
     int t0;
     int t1;
@@ -735,10 +737,10 @@ int FUN_0c075090(void)
 
     t0 = *(int *)0xC2AED40;
     if (t0 == 1) {
-        t1 = FUN_0c074f10();
+        t1 = nlCreateVertexBuffer_clx22();
         t3 = t1;
     } else {
-        t2 = FUN_0c074690();
+        t2 = nlCreateVertexBuffer_clx16();
         t3 = t2;
     }
     return t3;
@@ -786,7 +788,7 @@ float nlTan(int a4)
     return u9;
 }
 
-int FUN_0c077290(int a4, int a5)
+int nlCopyMatrix(int a4, int a5)
 {
     int t0;
     int t1;
@@ -815,7 +817,7 @@ int FUN_0c077290(int a4, int a5)
     return 0;
 }
 
-int FUN_0c07bd30(int a4)
+int nlLineSendHeader(int a4)
 {
     float u0;
     float u1;
@@ -874,11 +876,11 @@ int FUN_0c07bd30(int a4)
         *(unsigned int *)((t15 + 0x0)) = t17;
         t15 = (t15 + 0x4);
     } while ((unsigned int)t15 < (unsigned int)(((0x3FFFFFF & t10) | 0xE0000000) + 0x20));
-    FUN_0c08160a(((0x3FFFFFF & t10) | 0xE0000000));
+    prefetch(((0x3FFFFFF & t10) | 0xE0000000));
     return (((0x3FFFFFF & t10) | 0xE0000000) + 0x20);
 }
 
-int FUN_0c07be20(int a4)
+int nlLineCalcFogA(int a4)
 {
     float u0;
     float u1;
@@ -979,7 +981,7 @@ int nlSpriteF2C(float f4)
     return t5;
 }
 
-int FUN_0c07e8a0(int a4, int a5)
+int nlsndCheckPackLoadError(int a4, int a5)
 {
     int t0;
     int t1;
@@ -1040,7 +1042,7 @@ int FUN_0c07e8a0(int a4, int a5)
     return 0xFFFFFFFF;
 }
 
-int FUN_0c07f5c0(int a4)
+int nlsndSeqRequest(int a4)
 {
     int t0;
     int t10;
@@ -1076,7 +1078,7 @@ int FUN_0c07f5c0(int a4)
     return t10;
 }
 
-int FUN_0c07fc40(int a4)
+int nlsndStreamOpen(int a4)
 {
     int t0;
     int t1;
@@ -1161,7 +1163,7 @@ int FUN_0c07fc40(int a4)
     return t25;
 }
 
-int FUN_0c080470(int a4, int a5, int a6, int a7)
+int nlsndG2DmaRequest(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -1205,7 +1207,7 @@ int FUN_0c080470(int a4, int a5, int a6, int a7)
     return 0x0;
 }
 
-int FUN_0c080500(int a4)
+int nlsndG2DmaGetStatus(int a4)
 {
     int t0;
     int t1;
@@ -1270,10 +1272,10 @@ int nlDispStripLoadPalette(int a4, int a5)
                     *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x6)) = a4;
                     *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x0)) = t7;
                     t10 = *(int *)((a5 + 0x8));
-                    FUN_0c074200(t7, t10);
+                    nlSetPaletteMap(t7, t10);
                     t12 = *(int *)((a5 + 0x8));
                     t13 = *(int *)((a5 + 0x4));
-                    FUN_0c0770f0(((t7 << 2) << 2), t13, t12);
+                    nlSetPaletteData(((t7 << 2) << 2), t13, t12);
                     t15 = 0x0;
                 }
                 t16 = t15;
@@ -1417,19 +1419,19 @@ int kmSetPixelClipping(int a4, int a5, int a6, int a7)
     return 0xDDDD;
 }
 
-int FUN_0c14cf46(int a4)
+int ovMdlDeleteTbl(int a4)
 {
     int t0;
     int t5;
     int t1;
     int t2;
 
-    t0 = FUN_0c0813e0((a4 + 0x30), 0xC174DC8, 0x10);
+    t0 = memcmp((a4 + 0x30), 0xC174DC8, 0x10);
     t5 = 0xFFFFFFFF;
     if (t0 == 0) {
         t1 = 0x1;
         for (;;) {
-            t2 = FUN_0c0813e0((((((t1 << 2) << 2) << 1) + (a4 + 0x20)) + 0x10), 0xC174DD8, 0x10);
+            t2 = memcmp((((((t1 << 2) << 2) << 1) + (a4 + 0x20)) + 0x10), 0xC174DD8, 0x10);
             if (t2 != 0) {
                 ovLibDeleteTbl(((((t1 << 2) << 2) << 1) + (a4 + 0x20)));
                 t1 = (t1 + 0x1);
@@ -1601,7 +1603,7 @@ int kmiTAallocEx(int a4, int a5, int a6)
     if (t0 != 0) {
         t1 = (a4 + (0x20 - t0));
     }
-    t2 = FUN_0c156c32(0x0, (t1 << 1), a5, 0x2000);
+    t2 = kmiFBallocQueue(0x0, (t1 << 1), a5, 0x2000);
     if (t2 == 0) {
         t3 = *(int *)((a5 + 0x0));
         t4 = kmyConvertAddress64to32(t3);
@@ -1612,7 +1614,7 @@ int kmiTAallocEx(int a4, int a5, int a6)
     return t2;
 }
 
-int FUN_0c1566a0(int a4, int a5)
+int kmiFBFitBlock(int a4, int a5)
 {
     int t0;
     int t1;
@@ -1677,7 +1679,7 @@ int kmInitDevice(int a4)
 {
     int t1;
 
-    FUN_0c1583c4();
+    kmiInitializeDriver();
     if ((int)a4 <= (int)0x2) {
         if ((int)a4 < 0) {
             return 0x2;
@@ -1751,7 +1753,7 @@ int kmfSetTimeOutCount(int a4, int a5)
     return 0x0;
 }
 
-int FUN_0c15a9a8(int a4)
+int kmiCheckRenderTexture(int a4)
 {
     int t0;
     int t1;
@@ -1827,7 +1829,7 @@ int kmLoadVQCodebook(int a4, int a5)
     return t14;
 }
 
-int FUN_0c15c7a0(int a4)
+int kmtex_TextureSize_Twiddled(int a4)
 {
     int t0;
     int t1;
@@ -1888,7 +1890,7 @@ int FUN_0c15c7a0(int a4)
     return t21;
 }
 
-int FUN_0c15c852(int a4)
+int kmtex_TextureSize_Palettized(int a4)
 {
     int t0;
     int t1;
@@ -2037,7 +2039,7 @@ int kmiPutGlobalParam(void)
     *(unsigned int *)0xC2B8CC0 = ((t0 << 2) + t1);
     t2 = *(int *)0xC178300;
     t3 = *(int *)((((t0 << 2) + t1) + 0x0));
-    FUN_0c158860(t3, 0xC178304, (t2 << 2));
+    kmiMemCopy8(t3, 0xC178304, (t2 << 2));
     t5 = *(int *)0xC2B8CC0;
     t6 = *(int *)0xC178300;
     t7 = *(int *)((t5 + 0x0));
@@ -2101,7 +2103,7 @@ int kmChangeContextPaletteBank(int a4)
     return 0x0;
 }
 
-int FUN_0c15e820(int a4)
+int kmiCalcTABufferSize(int a4)
 {
     int t0;
     int t1;
@@ -2127,7 +2129,7 @@ int FUN_0c15e820(int a4)
     return ((((((t1 + t3) + t5) + t7) + t9) * a4) << 2);
 }
 
-int FUN_0c15f460(int a4, int a5, int a6, int a7)
+int ccitt_updcrc(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -2155,7 +2157,7 @@ int FUN_0c15f460(int a4, int a5, int a6, int a7)
     return t0;
 }
 
-int FUN_0c15fa6c(int a4, int a5, int a6)
+int gdFsGetTokenSize(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -2204,7 +2206,7 @@ int kdVbOverHandler(void)
     return (t2 + 0x1);
 }
 
-int FUN_0c162d2c(int a4, int a5)
+int pdVmsLcdBltAsmFlipV(int a4, int a5)
 {
     int t0;
     int t1;
@@ -2243,7 +2245,7 @@ int FUN_0c162d2c(int a4, int a5)
     return t7;
 }
 
-int FUN_0c162d5e(int a4, int a5)
+int pdVmsLcdBltAsmFlipH(int a4, int a5)
 {
     int t0;
     int t1;
@@ -2282,7 +2284,7 @@ int FUN_0c162d5e(int a4, int a5)
     return t7;
 }
 
-int FUN_0c162d8a(int a4, int a5)
+int pdVmsLcdBltAsmFlipHV(int a4, int a5)
 {
     int t0;
     int t1;
@@ -2519,7 +2521,7 @@ int ADXSTMF_ExecHndl(int a4)
 
     t0 = *(signed char *)((a4 + 0x1));
     if (t0 == 2) {
-        return FUN_0c168c7c(a4);
+        return adxstmf_stat_exec(a4);
     }
     return t0;
 }
@@ -2542,7 +2544,7 @@ int adxt_set_outpan(int a4)
     int t18;
 
     t0 = *(int *)((a4 + 0x4));
-    t1 = FUN_0c16884a(t0);
+    t1 = ADXSJD_GetNumChan(t0);
     if (t1 == 1) {
         t2 = *(short *)(((a4 + 0x42) + 0x0));
         t3 = *(int *)((a4 + 0xC));
@@ -2630,7 +2632,7 @@ int kmiInitInterrupt(void)
     return t0;
 }
 
-int FUN_0c16bb70(void)
+int kmiUpdateRenderStatus(void)
 {
     int t0;
     int t1;
@@ -2740,7 +2742,7 @@ int FUN_0c16bb70(void)
     return t61;
 }
 
-int FUN_0c16c796(void)
+int kmiErrorISR04(void)
 {
     int t0;
     int t1;
@@ -2756,7 +2758,7 @@ int FUN_0c16c796(void)
     if (t2 == 1) {
         t3 = *(int *)0xC2F91BC;
         *(unsigned int *)0xC2F91BC = (t3 + 0x1);
-        FUN_0c16c634(0x0);
+        kmiErrorRecover(0x0);
     }
     return 0x0;
 }
@@ -2834,7 +2836,7 @@ int syG2DmaReset(int a4)
     return 0x0;
 }
 
-int FUN_0c1708d0(int a4, int a5, int a6)
+int fmMngBit2Num(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -2868,7 +2870,7 @@ int FUN_0c1708d0(int a4, int a5, int a6)
     return t3;
 }
 
-int FUN_0c170956(int a4, int a5)
+int fmMngChkEmptyData(int a4, int a5)
 {
     int t0;
     int t1;
@@ -2907,7 +2909,7 @@ int FUN_0c170956(int a4, int a5)
     return t7;
 }
 
-int FUN_0c170a8c(int a4)
+int fmMngSctRefresh(int a4)
 {
     int t0;
     int t1;
@@ -2943,7 +2945,7 @@ int FUN_0c170a8c(int a4)
     t39 = 0xFFFFFFFA;
     if (t0 == 0) {
         t2 = *(int *)((a4 + 0xC));
-        t3 = FUN_0c170848();
+        t3 = syBtFlWrite();
         t35 = 0xFFFFFFFE;
         if (t3 == 64) {
             t4 = *(int *)((a4 + 0x14));
@@ -2956,10 +2958,10 @@ int FUN_0c170a8c(int a4)
                 for (;;) {
                     t10 = *(short *)((t9 + 0x0));
                     if ((unsigned short)t10 != 0xFFFF) {
-                        t11 = FUN_0c170956(a4, t9);
+                        t11 = fmMngChkEmptyData(a4, t9);
                         t5 = t11;
                         if (t5 == 0) {
-                            t12 = FUN_0c170848();
+                            t12 = syBtFlWrite();
                             t5 = t12;
                             if (t5 == 64) {
                                 t7 = (t7 + 0x1);
@@ -2983,9 +2985,9 @@ int FUN_0c170a8c(int a4)
                 }
                 t14 = *(int *)((a4 + 0x14));
                 t15 = *(int *)((a4 + 0x18));
-                FUN_0c170908(t7, t9, t15);
+                fmMngNum2Bit(t7, t9, t15);
                 t17 = *(int *)((a4 + 0x18));
-                t18 = FUN_0c170848();
+                t18 = syBtFlWrite();
                 t19 = *(int *)((a4 + 0x18));
                 t20 = 0xFFFFFFFE;
                 if (t18 == (((t19 << 2) << 2) << 2)) {
@@ -2996,9 +2998,9 @@ int FUN_0c170a8c(int a4)
             } else {
                 t21 = *(int *)((a4 + 0x14));
                 t22 = *(int *)((a4 + 0x18));
-                FUN_0c170908(0x0, (t2 + 0x40), t22);
+                fmMngNum2Bit(0x0, (t2 + 0x40), t22);
                 t24 = *(int *)((a4 + 0x18));
-                t25 = FUN_0c170848();
+                t25 = syBtFlWrite();
                 t26 = *(int *)((a4 + 0x18));
                 t27 = 0xFFFFFFFE;
                 if (t25 == (((t26 << 2) << 2) << 2)) {
@@ -3014,7 +3016,7 @@ int FUN_0c170a8c(int a4)
     return t39;
 }
 
-int FUN_0c170b48(int a4)
+int fmMngAddData(int a4)
 {
     int t0;
     int t28;
@@ -3048,12 +3050,12 @@ int FUN_0c170b48(int a4)
         t1 = *(int *)((a4 + 0x28));
         *(unsigned short *)(((a4 + 0x34) + 0x0)) = t1;
         t2 = *(int *)((a4 + 0x30));
-        thunk_FUN_0c1708b2();
+        fmMngMcpy();
         t4 = fmcalccrc(0x3E, (a4 + 0x34));
         *(unsigned short *)(((a4 + 0x34) + 0x3E)) = t4;
         t5 = *(int *)((a4 + 0x28));
         t6 = *(int *)((a4 + 0xC));
-        FUN_0c17088c((a4 + 0x34), (t6 + ((((t5 + 0x1) << 2) << 2) << 2)), 0x40);
+        fmMngMcpy4((a4 + 0x34), (t6 + ((((t5 + 0x1) << 2) << 2) << 2)), 0x40);
         t8 = *(int *)((a4 + 0x10));
         t9 = *(int *)((a4 + 0x14));
         t27 = 0xFFFFFFF6;
@@ -3062,11 +3064,11 @@ int FUN_0c170b48(int a4)
             t11 = *(int *)((a4 + 0xC));
             t12 = *(int *)((a4 + 0x10));
             t13 = *(int *)((a4 + 0x18));
-            FUN_0c170908((t12 + 0x1), (t11 + ((((t10 + 0x1) << 2) << 2) << 2)), t13);
+            fmMngNum2Bit((t12 + 0x1), (t11 + ((((t10 + 0x1) << 2) << 2) << 2)), t13);
             t15 = *(int *)((a4 + 0x18));
             t16 = *(int *)((a4 + 0xC));
             t17 = *(int *)((a4 + 0x4));
-            t18 = FUN_0c170848();
+            t18 = syBtFlWrite();
             t19 = *(int *)((a4 + 0x18));
             t25 = 0xFFFFFFFE;
             if (t18 == (((t19 << 2) << 2) << 2)) {
@@ -3074,7 +3076,7 @@ int FUN_0c170b48(int a4)
                 t21 = *(int *)((a4 + 0x10));
                 *(unsigned int *)((a4 + 0x10)) = (t21 + 0x1);
                 t22 = *(int *)((a4 + 0x4));
-                t23 = FUN_0c170848();
+                t23 = syBtFlWrite();
                 t24 = 0x0;
                 if (t23 != 64) {
                     t24 = 0xFFFFFFFE;
@@ -3088,7 +3090,7 @@ int FUN_0c170b48(int a4)
     return t28;
 }
 
-int FUN_0c170c68(int a4)
+int fmMngWriteData(int a4)
 {
     int t0;
     int t3;
@@ -3106,13 +3108,13 @@ int FUN_0c170c68(int a4)
         if (t0 != 1) {
             t3 = 0xFFFFFFFE;
             if (t0 == 2) {
-                t1 = FUN_0c170a8c(a4);
+                t1 = fmMngSctRefresh(a4);
                 t3 = t1;
             }
             t8 = t3;
         } else {
             t4 = *(int *)((a4 + 0x4));
-            t5 = FUN_0c17085c();
+            t5 = syBtFlDeleteSct();
             t6 = 0xFFFFFFFD;
             if (t5 != -1) {
                 *(unsigned int *)((a4 + 0x24)) = 0x2;
@@ -3122,7 +3124,7 @@ int FUN_0c170c68(int a4)
         }
         t12 = t8;
     } else {
-        t9 = FUN_0c170b48(a4);
+        t9 = fmMngAddData(a4);
         t10 = t9;
         if (t9 == -10) {
             *(unsigned int *)((a4 + 0x24)) = 0x1;
@@ -3196,7 +3198,7 @@ int ADXB_DecodeHeader(int a4, int a5, int a6)
     if (t2 != 0) {
         return ADXB_DecodeHeaderWav(a4, a5, a6);
     }
-    t3 = FUN_0c172f1e(a5);
+    t3 = ADXB_CheckAiff(a5);
     if (t3 != 0) {
         return ADXB_DecodeHeaderAiff(a4, a5, a6);
     }
@@ -3207,7 +3209,7 @@ int ADXB_DecodeHeader(int a4, int a5, int a6)
     return 0x0;
 }
 
-int FUN_0c1718c4(int a4)
+int mwlSbAllocWork(int a4)
 {
     int t5;
     int t0;
@@ -3240,7 +3242,7 @@ int FUN_0c1718c4(int a4)
     return t5;
 }
 
-int FUN_0c171cfe(int a4, int a5)
+int mwSbSetNumChan(int a4, int a5)
 {
     int t0;
     int t1;
@@ -3313,7 +3315,7 @@ int ADXB_ExecOneAu(int a4)
     return ADXB_ExecOneAu16(a4);
 }
 
-int FUN_0c17467c(int a4)
+int syIntAdrChk_putchar(int a4)
 {
     int t0;
     int t8;
@@ -3377,7 +3379,7 @@ int FUN_0c17467c(int a4)
     return t20;
 }
 
-void FUN_0c1747be(int a4)
+void syIntAdrChk_prints(int a4)
 {
     int t0;
     int t1;
@@ -3389,11 +3391,11 @@ void FUN_0c1747be(int a4)
         if (t1 == 0) break;
         t2 = *(signed char *)((t0 + 0x0));
         t0 = (t0 + 0x1);
-        FUN_0c17467c(t2);
+        syIntAdrChk_putchar(t2);
     }
 }
 
-int FUN_0c1747f4(int a4)
+int syIntAdrChk_printh(int a4)
 {
     int t0;
     int t1;
@@ -3405,7 +3407,7 @@ int FUN_0c1747f4(int a4)
         if ((int)(unsigned char)(0xF & (((int)(-t0) >= 0) ? (a4 << ((-t0) & 31)) : ((-(int)(-t0) & 31) ? ((unsigned int)a4 >> (-(int)(-t0) & 31)) : 0))) >= (int)0xA) {
             t1 = ((0xF & (((int)(-t0) >= 0) ? (a4 << ((-t0) & 31)) : ((-(int)(-t0) & 31) ? ((unsigned int)a4 >> (-(int)(-t0) & 31)) : 0))) + 0x37);
         }
-        t2 = FUN_0c17467c(t1);
+        t2 = syIntAdrChk_putchar(t1);
         t0 = (t0 - 4);
     } while ((int)t0 >= 0);
     return t2;

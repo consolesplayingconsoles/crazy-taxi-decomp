@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int AnnounceSecretFlag(int);
-int FUN_0c074680(int, int, int);
+int nlSetBackColor(int, int, int);
 int Init_Adv_Sprite(void);
 int Init_Window_Sprite(int);
 int LightEffect(int);
@@ -43,7 +43,7 @@ int menuModeInit(void)
     Init_Adv_Sprite();
     Init_Window_Sprite(0x4);
     *(unsigned int *)0xC1EE334 = 0x11;
-    FUN_0c074680(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
+    nlSetBackColor(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
     LightEffect(0x0);
     *(unsigned int *)0xC2A11EC = 0x2;
     *(unsigned int *)0xC2A1ADC = 0x280;

@@ -247,9 +247,9 @@ float *GetCollisionFirst(float *a, float *b, float radius)
 
 extern float nlScalor(float *v);
 extern void nlPushUnitMatrix(void);
-extern void FUN_0c078de0(float *v, float *out);
+extern void nlUnitVectorsd(float *v, float *out);
 extern void nlRotateV(float *v, float *m);
-extern void FUN_0c0789c0(float *p);
+extern void nlTranslateNV(float *p);
 extern void MakeCollisionCellList(float *a, float *b);
 extern float nlLength(float *a, float *b);
 extern int CheckCollisionPoly(float *q, int *entry, Hit *hit);
@@ -295,9 +295,9 @@ int FindCollisionHit(float *a, float *b, Hit *hit, float radius)
     q.reach = radius + len;
     q.radius = radius;
     nlPushUnitMatrix();
-    FUN_0c078de0(b, v);
+    nlUnitVectorsd(b, v);
     nlRotateV(v, (float *)0x0C08DA58);
-    FUN_0c0789c0(a);
+    nlTranslateNV(a);
     MakeCollisionCellList(a, b);
     t0 = hit->t;
     mask = 0;

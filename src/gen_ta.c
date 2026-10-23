@@ -1,59 +1,195 @@
 /* Straight-line functions with calls and guards (batch gen_ta): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int gdc_CoursePointLoadReq(float);
-int gdc_CourseReq(int, int, float);
-int gdc_CourseStartLoadReq(int a4);
+int ADXF_Close(int);
+int ADXF_GetFsizeSct(int);
+int ADXF_GetStat(int);
+int ADXF_LoadPartition(int, int, int, int);
+int ADXF_OpenAfs(int, int);
+int ADXF_ReadNw32(int, int, int);
+int frameFlip(void);
+int nlLocate(int, int);
+int nlPrintf(int, ...);
+int nlSetFontSize(int, int);
+void gdc_CourseSetupAll(int a4, int a5, int a6, int a7);
 
-int gdc_CourseStartLoadReq(int a4)
+void gdc_CourseSetupAll(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    int t11;
-    int t5;
-    int t6;
-    int t46;
-    int t32;
-    float u28;
-    int stk[13] = {0};
+    int t8;
+    int t26;
+    int t43;
+    int stk[15];
 
-    t0 = *(int *)0xC1EE20C;
-    if (t0 != 0) {
-        if (t0 != 1) {
-            t11 = t0;
-            if (t0 == 2) {
-                t5 = (*(int *)((0xC0C835C + ((*(int *)0xC1EE214) << 2))));
-                for (;;) {
-                    t6 = *(int *)0xC1EE214;
-                    if ((int)t5 >= (int)((*(int *)(((t6 << 2) + (*(int *)0xC1244E8)))) + (*(int *)((0xC0C835C + (t6 << 2)))))) {
-                        break;
-                    }
-                    gdc_CourseReq(t5, 0x0, 0.0f);
-                    t5 = (t5 + 0x1);
-                }
-                t11 = (t6 << 2);
-            }
-            t32 = t11;
-        } else {
-            if ((*(int *)0xC17948C) != 1) {
-                *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2CC);
-                *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2D0);
-                u28 = (*(float *)0xC02F2D4);
-            } else {
-                *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2D8);
-                *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2DC);
-                u28 = (*(float *)0xC02F2E0);
-            }
-            *(float *)((((int)stk + 16) + 0x8)) = u28;
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(((int)stk + 16)); }
-            t32 = (gdc_CoursePointLoadReq((*(float *)0xC02F2E4)));
-        }
-        t46 = t32;
-    } else {
-        *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2B4);
-        *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2B8);
-        *(float *)((((int)stk + 16) + 0x8)) = (*(float *)0xC02F2BC);
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(((int)stk + 16)); }
-        t46 = (gdc_CoursePointLoadReq((*(float *)0xC02F2C4)));
-    }
-    return t46;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C02FA50:;
+    *(unsigned int *)(((int)stk + 16)) = 0x0;
+    R10 = (0xC26E0FC);
+    R11 = (0x0);
+    R8 = (0xC26E108);
+    R9 = (0xC26E100);
+    goto L_C02FD36;
+    L_C02FD36:;
+    R12 = (0xC076830);
+    R4 = (0x3);
+    if (((int)(*(int *)(((int)stk + 16))) >= (int)0x3)) goto L_C02FD44;
+    goto L_C02FD40;
+    L_C02FD40:;
+    goto L_C02FA70;
+    L_C02FA70:;
+    t8 = *(int *)(((int)stk + 16));
+    R0 = (t8);
+    R4 = (0xC26C1C4);
+    R5 = (0xC26C1C4);
+    if ((t8 == 0)) goto L_C02FA86;
+    goto L_C02FA7A;
+    L_C02FA7A:;
+    if ((R0 == 1)) goto L_C02FB1C;
+    goto L_C02FA7E;
+    L_C02FA7E:;
+    if ((R0 == 2)) goto L_C02FB5A;
+    goto L_C02FA82;
+    L_C02FA82:;
+    goto L_C02FBA8;
+    L_C02FBA8:;
+    *(unsigned int *)(((int)stk + 8)) = R11;
+    *(unsigned int *)(((int)stk + 12)) = R11;
+    goto L_C02FC5E;
+    L_C02FC5E:;
+    if (((int)(*(int *)(((int)stk + 8))) < (int)(*(int *)0xC26E104))) goto L_C02FBF8;
+    goto L_C02FC68;
+    L_C02FC68:;
+    *(float *)((R13 + 0x4)) = 0.0f;
+    *(float *)((R13 + 0x8)) = 0.0f;
+    *(float *)((R13 + 0xC)) = 0.0f;
+    *(float *)((R13 + 0x0)) = 0.0f;
+    *(unsigned int *)((R13 + 0x10)) = 0xFFFFFFFF;
+    *(unsigned int *)(((int)stk + 8)) = R11;
+    *(unsigned int *)(((int)stk + 12)) = R11;
+    F15 = (0.0f);
+    goto L_C02FD16;
+    L_C02FD16:;
+    if (((int)(*(int *)(((int)stk + 8))) < (int)(*(int *)((R8 + 0x0))))) goto L_C02FCB0;
+    goto L_C02FD1E;
+    L_C02FD1E:;
+    *(float *)((R14 + 0x4)) = F15;
+    *(float *)((R14 + 0x8)) = F15;
+    *(float *)((R14 + 0xC)) = F15;
+    *(float *)((R14 + 0x0)) = F15;
+    *(unsigned int *)((R14 + 0x10)) = 0xFFFFFFFF;
+    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 16))) + 0x1);
+    goto L_C02FD36;
+    L_C02FCB0:;
+    t26 = ADXF_OpenAfs(0x0, (*(int *)(((*(int *)((R9 + 0x0))) + (*(int *)(((int)stk + 12)))))));
+    R12 = (t26);
+    if ((t26 == 0)) goto L_C02FCB0;
+    goto L_C02FCC2;
+    L_C02FCC2:;
+    *(unsigned int *)(((int)stk + 20)) = (ADXF_GetFsizeSct(R12));
+    ADXF_ReadNw32(R12, 0x4, 0xC640000);
+    goto L_C02FCD4;
+    L_C02FCD4:;
+    if (((ADXF_GetStat(R12)) != 3)) goto L_C02FCD4;
+    goto L_C02FCDE;
+    L_C02FCDE:;
+    ADXF_Close(R12);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x4)) = *(struct mv3 *)(0xC640008); }
+    *(float *)((R14 + 0x0)) = (*(float *)0xC640014);
+    *(unsigned int *)((R14 + 0x10)) = (((int)((int)((((*(int *)(((int)stk + 20))) << 8) << 2) << 1) / (int)0x2000)) + 0x1);
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0x4);
+    R14 = ((R14 + 0x14));
+    goto L_C02FD16;
+    L_C02FBF8:;
+    t43 = ADXF_OpenAfs(0x0, (*(int *)(((*(int *)((R10 + 0x0))) + (*(int *)(((int)stk + 12)))))));
+    R12 = (t43);
+    if ((t43 == 0)) goto L_C02FBF8;
+    goto L_C02FC0A;
+    L_C02FC0A:;
+    *(unsigned int *)(((int)stk + 20)) = (ADXF_GetFsizeSct(R12));
+    ADXF_ReadNw32(R12, 0x4, 0xC640000);
+    goto L_C02FC1C;
+    L_C02FC1C:;
+    if (((ADXF_GetStat(R12)) != 3)) goto L_C02FC1C;
+    goto L_C02FC26;
+    L_C02FC26:;
+    ADXF_Close(R12);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R13 + 0x4)) = *(struct mv3 *)(0xC640008); }
+    *(float *)((R13 + 0x0)) = (*(float *)0xC640014);
+    *(unsigned int *)((R13 + 0x10)) = (((int)((int)((((*(int *)(((int)stk + 20))) << 8) << 2) << 1) / (int)0x2000)) + 0x1);
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0x4);
+    R13 = ((R13 + 0x14));
+    goto L_C02FC5E;
+    L_C02FB5A:;
+    ADXF_LoadPartition(0x0, 0xC08D474, R5, 0x1F4);
+    *(unsigned int *)((R10 + 0x0)) = 0xC08D21C;
+    *(unsigned int *)((R9 + 0x0)) = 0xC08D424;
+    *(unsigned int *)0xC26E104 = 0x82;
+    *(unsigned int *)((R8 + 0x0)) = 0x0;
+    nlSetFontSize(0x10, 0x10);
+    nlLocate(0xA, 0xC);
+    nlPrintf(0xC08D4A0);
+    R13 = (0xC0E9988);
+    R14 = (0xC0EA3C4);
+    goto L_C02FB96;
+    L_C02FB96:;
+    frameFlip();
+    frameFlip();
+    nlSetFontSize(0x8, 0x8);
+    goto L_C02FBA8;
+    L_C02FB1C:;
+    ADXF_LoadPartition(0x0, 0xC08D468, R5, 0x1F4);
+    *(unsigned int *)((R10 + 0x0)) = 0xC08CBDC;
+    *(unsigned int *)((R9 + 0x0)) = 0xC08CF8C;
+    *(unsigned int *)0xC26E104 = 0xEC;
+    *(unsigned int *)((R8 + 0x0)) = 0xA4;
+    nlSetFontSize(0x10, 0x10);
+    nlLocate(0xA, 0xC);
+    R13 = (0xC0E7A20);
+    R14 = (0xC0E8CA4);
+    R2 = (0xC08D490);
+    goto L_C02FB50;
+    L_C02FB50:;
+    nlPrintf((R2));
+    goto L_C02FB96;
+    L_C02FA86:;
+    ADXF_LoadPartition(0x0, 0xC08D45C, R5, 0x1F4);
+    *(unsigned int *)((R10 + 0x0)) = 0xC08C420;
+    *(unsigned int *)((R9 + 0x0)) = 0xC08C81C;
+    *(unsigned int *)0xC26E104 = 0xFF;
+    *(unsigned int *)((R8 + 0x0)) = 0xF0;
+    nlSetFontSize(0x10, 0x10);
+    nlLocate(0xA, 0xC);
+    R13 = (0xC0E534C);
+    R14 = (0xC0E674C);
+    R2 = (0xC08D480);
+    goto L_C02FB50;
+    L_C02FD44:;
+    nlSetFontSize(0x10, 0x10);
+    nlLocate(0xA, 0xC);
+    nlPrintf(0xC08D4B0);
+    frameFlip();
+    frameFlip();
+    nlSetFontSize(0x8, 0x8);
 }

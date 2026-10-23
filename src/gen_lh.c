@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_lh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c157ba0(int, int);
-int FUN_0c157d20(int);
-int FUN_0c157d58(int, int);
+int kmytex_GetSmallVQprofile(int, int);
+int kmytex_VQFreeEntry(int);
+int VQDeQueueEntry(int, int);
 int kmiFBfree(int);
 int kmiVQFBfree(int a4, int a5);
 
@@ -38,7 +38,7 @@ int kmiVQFBfree(int a4, int a5)
     int t7;
     int stk[12] = {0};
 
-    FUN_0c157ba0(((int)stk + 4), a4);
+    kmytex_GetSmallVQprofile(((int)stk + 4), a4);
     t1 = *(int *)0xC177FE4;
     t2 = *(int *)(((int)stk + 20));
     t30 = 0x0;
@@ -118,8 +118,8 @@ int kmiVQFBfree(int a4, int a5)
             t50 = t47;
             if (t47 != 0) {
             } else {
-                FUN_0c157d58(0xC177FE4, t30);
-                FUN_0c157d20(t30);
+                VQDeQueueEntry(0xC177FE4, t30);
+                kmytex_VQFreeEntry(t30);
                 t50 = 0x0;
             }
             t53 = t50;

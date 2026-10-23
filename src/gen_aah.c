@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_aah): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c157220(int, int);
-int FUN_0c157dc0(int a4, int a5, int a6);
+int SearchUsed(int, int);
+int kmiMIPallocSub2(int a4, int a5, int a6);
 
-int FUN_0c157dc0(int a4, int a5, int a6)
+int kmiMIPallocSub2(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -57,7 +57,7 @@ int FUN_0c157dc0(int a4, int a5, int a6)
                     t22 = ((*(int *)((t9 + 0xC))) - t5);
                 }
                 t5 = ((int)stk + 4);
-                t2 = (FUN_0c157220(t22, t5));
+                t2 = (SearchUsed(t22, t5));
                 if ((t2 != 0) && (t25 = *(int *)((t2 + 0x14)), t4 = t25, t26 = *(short *)((t4 + 0x0)), t27 = *(int *)(((int)stk + 12)), t4 = t27, t28 = *(short *)((t4 + 0x0)), t3 = t28, t3 = (unsigned short)t3, t3 = (t3 & 0xF000), ((unsigned short)t26 & 0xF000) == t3)) {
                     t8 = (*(int *)((t9 + 0x10)));
                     t7 = t9;

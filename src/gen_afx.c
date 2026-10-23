@@ -1,8 +1,8 @@
 /* Straight-line functions with calls and guards (batch gen_afx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c078a70(int, int, int);
-int FUN_0c07b980(void);
+int nlAddVector3op(int, int, int);
+int nlSingleLineUseViewMatrix(void);
 int nlAddVector(int, int);
 int nlObjPutUseViewMatrix(int);
 int nlScaleVector(int, int, float);
@@ -36,7 +36,7 @@ int PutCollisionPoly(int a4)
             break;
         }
         t16 = *(int *)(((t14 << 2) + 0xC0ED910));
-        FUN_0c078a70((((int)stk + 28) + 0x18), ((int)stk + 28), ((signed char)(((t16 << 1) + t16) << 2) + (a4 + 0x14)));
+        nlAddVector3op((((int)stk + 28) + 0x18), ((int)stk + 28), ((signed char)(((t16 << 1) + t16) << 2) + (a4 + 0x14)));
         nlAddVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0x18));
         nlTriPutSetPoint(0xC271258, t14, (*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 56))), (*(float *)(((int)stk + 60))), (*(float *)((a4 + 0x0))), (*(float *)((a4 + 0x4))), (*(float *)((a4 + 0x8))), 0.0f, 0.0f);
         t14 = (t14 + 0x1);
@@ -46,5 +46,6 @@ int PutCollisionPoly(int a4)
     nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), (1.0f / (float)(*(int *)((a4 + 0x48)))));
     nlScaleVector((((int)stk + 28) + 0x18), a4, ((*(float *)((a4 + 0x10))) * 0.099999994f));
     nlAddVector((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC));
-    return (FUN_0c07b980());
+    return (nlSingleLineUseViewMatrix());
 }
+

@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_nb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void FUN_0c074310(int a4);
+void nl_pPalExtCallback(int a4);
 
-void FUN_0c074310(int a4)
+void nl_pPalExtCallback(int a4)
 {
     *(unsigned int *)((a4 + 0x4)) = (*(int *)0xC14A64C);
 }

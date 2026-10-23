@@ -15,8 +15,8 @@ int nlIntrGetEvent(void);
 int kmChangeContextUserClipMode(int a4);
 int ADXAMP_GetStat(int a4);
 int ADXSJD_GetStat(int a4);
-int FUN_0c1687f2(int a4);
-int FUN_0c168e10(int a4);
+int ADXSJD_GetDecNumSmpl(int a4);
+int ADXSTM_GetStat(int a4);
 int ADXSTM_GetSj(int a4);
 int ADXSTM_GetFileLen(int a4);
 int SJMEM_GetUuid(int a4);
@@ -45,8 +45,8 @@ int ADXB_GetStat(int a4);
 int ADXB_GetDecDtLen(int a4);
 int ADXB_GetDecNumSmpl(int a4);
 int ADXB_GetAdxpd(int a4);
-int FUN_0c17217a(int a4);
-int FUN_0c1721da(int a4);
+int mwlSbGetGain(int a4);
+int mwlSbGetDrctLvl(int a4);
 int ADXPD_GetStat(int a4);
 int ADXPD_GetNumBlk(int a4);
 
@@ -181,7 +181,7 @@ int ADXSJD_GetStat(int a4)
     return t0;
 }
 
-int FUN_0c1687f2(int a4)
+int ADXSJD_GetDecNumSmpl(int a4)
 {
     int t0;
 
@@ -189,7 +189,7 @@ int FUN_0c1687f2(int a4)
     return t0;
 }
 
-int FUN_0c168e10(int a4)
+int ADXSTM_GetStat(int a4)
 {
     int t0;
 
@@ -421,7 +421,7 @@ int ADXB_GetAdxpd(int a4)
     return t0;
 }
 
-int FUN_0c17217a(int a4)
+int mwlSbGetGain(int a4)
 {
     int t0;
 
@@ -429,7 +429,7 @@ int FUN_0c17217a(int a4)
     return t0;
 }
 
-int FUN_0c1721da(int a4)
+int mwlSbGetDrctLvl(int a4)
 {
     int t0;
 

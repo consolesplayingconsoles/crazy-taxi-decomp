@@ -1,3 +1,4 @@
+extern int cableControlExec();
 /* Straight-line functions with calls and guards (batch gen_wl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -24,7 +25,7 @@ int CableControlInit(int a4)
     int t17;
 
     *(unsigned int *)0xC2A4E44 = 0x0;
-    t0 = set_event(0x5C, 0xC047C84);
+    t0 = set_event(0x5C, ((int)cableControlExec));
     if (t0 != 0) {
         *(unsigned int *)((t0 + 0x14)) = a4;
         *(unsigned int *)((t0 + 0x18)) = 0x0;

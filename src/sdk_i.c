@@ -5,7 +5,7 @@ extern char g_8c462180[];
 extern char g_8c464598[];
 
 void *memset(void *p, int c, unsigned int n);
-void FUN_0c15887e(int *d, int *s, unsigned int n);
+void kmiMemCopy4(int *d, int *s, unsigned int n);
 int kmiFBSortQueue(void);
 int kmiFBGarbageCollect(void);
 int kmiWriteRegister(int off, int v);
@@ -14,23 +14,23 @@ int vmsfs_read_retry(int drive, int a, int b);
 int vmsfs_write_retry(int drive, int a, int b);
 void mwRnaStop(void *r);
 void mwRnaDestroy(void *r);
-void FUN_0c170fd0(void);
+void ADXB_Init(void);
 void adxsjd_clear(char *p);
 void adxsjd_decode_exec(char *p);
 void adxsjd_decode_prep(char *p);
-void FUN_0c174394(void);
+void ADXPD_Init(void);
 void buFbrInit(void);
 int buFbrCreateServer(int n);
 int buFbrCreateFiber(int server, int a, int b, int c);
 void memcpy2(short *d, short *s, int n);
 int nlsndStreamGetParam(int a, int b, int c);
-int FUN_0c0813e0(void *a, void *b, int n);
+int memcmp(void *a, void *b, int n);
 void ADX_GetCoefficient(int a, int b, void *c, void *d);
 void ADXRNA_SetOutVol(int rna, int vol);
 
 #define FIBER_SERVER    (*(int *)0x0C2FA53C)
 
-void FUN_0c07d430(void)
+void nlMvInitParam(void)
 {
     int *a = (int *)0x0C2B76A4, *b = (int *)0x0C2B76AC;
 
@@ -40,7 +40,7 @@ void FUN_0c07d430(void)
     b[1] = 0x20000000;
 }
 
-int FUN_0c087e2a(int *p)
+int _fmtout_outerr(int *p)
 {
     if (p[0] == 1)
         return 0;
@@ -63,7 +63,7 @@ int kmChangeVertexOffset(int i, int off)
     return 0;
 }
 
-void FUN_0c14d2fa(int *p)
+void gdFsLockDir(int *p)
 {
     if (p && p[0] >= 2)
         p[15] = p[4];
@@ -77,7 +77,7 @@ int syCfgInit(void *work)
     return 0;
 }
 
-int FUN_0c1534e8(unsigned int flags, int n, int v)
+int kmiBGPlanePutWord(unsigned int flags, int n, int v)
 {
     if (flags & 0x01000000) {
         ((int *)0x0C2EA724)[n] = v;
@@ -87,7 +87,7 @@ int FUN_0c1534e8(unsigned int flags, int n, int v)
 }
 
 /* Pushes node on the list at *head (node[1] the link). */
-void FUN_0c157d46(int **head, int *node)
+void VQEnQueueTop(int **head, int *node)
 {
     node[1] = *head ? (int)*head : 0;
     *head = node;
@@ -95,13 +95,13 @@ void FUN_0c157d46(int **head, int *node)
 
 int kmiCopyToPVRMemory(int off, int *src, unsigned int n)
 {
-    FUN_0c15887e((int *)(off + 0xA5000000), src, n);
+    kmiMemCopy4((int *)(off + 0xA5000000), src, n);
     return 1;
 }
 
 int kmiCopyFromPVRMemory(int *dst, int off, unsigned int n)
 {
-    FUN_0c15887e(dst, (int *)(off + 0xA5000000), n);
+    kmiMemCopy4(dst, (int *)(off + 0xA5000000), n);
     return 1;
 }
 
@@ -121,14 +121,14 @@ int kmChangeContextColorType(int type)
     return 0;
 }
 
-int kmyResetTA(void)
+int kmiResetTA(void)
 {
     kmiWriteRegister(8, 1);
     return kmiWriteRegister(8, 0);
 }
 
 /* toupper for a-z. */
-int FUN_0c15f998(int c)
+int gdFsToUpper(int c)
 {
     signed char s = c;
 
@@ -165,7 +165,7 @@ void ADXRNA_Destroy(void *rna)
 
 void ADXSJD_Init(void)
 {
-    FUN_0c170fd0();
+    ADXB_Init();
     memset((void *)0x0C2F4F1C, 0, 1216);
 }
 
@@ -191,9 +191,9 @@ int ADXSTM_Init(void)
     return 1;
 }
 
-void FUN_0c170fd0(void)
+void ADXB_Init(void)
 {
-    FUN_0c174394();
+    ADXPD_Init();
     memset((void *)0x0C2FA5B4, 0, 1376);
 }
 
@@ -208,7 +208,7 @@ int vmsfb_create(int a, int b, int c)
     return buFbrCreateFiber(FIBER_SERVER, a, b, c);
 }
 
-void FUN_0c1708bc(char *p, int n)
+void fmMngClearBuf(char *p, int n)
 {
     while (n > 0) {
         n--;
@@ -224,7 +224,7 @@ void memcpy2(short *d, short *s, int n)
     }
 }
 
-int FUN_0c171e62(char *s, int b, int c)
+int mwlSbGetStreamParam(char *s, int b, int c)
 {
     return nlsndStreamGetParam(((int *)*(int *)(s + 28))[1], b, c);
 }
@@ -243,7 +243,7 @@ int mpdrv_swaplong(unsigned int *p, int n)
 
 int ADXB_CheckSpsd(void *p)
 {
-    return FUN_0c0813e0(p, (void *)0x0C177210, 4) == 0;
+    return memcmp(p, (void *)0x0C177210, 4) == 0;
 }
 
 void ADXPD_Start(int *pd)

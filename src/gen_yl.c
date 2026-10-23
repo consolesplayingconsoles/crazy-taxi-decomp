@@ -3,9 +3,9 @@
 
 int kdSetGetMediaInfoEx(int, int, int, int);
 int pdVibGetInfo(int, int);
-int FUN_0c1518d2(int a4, int a5, int a6);
+int pdVibEnumerateUnit(int a4, int a5, int a6);
 
-int FUN_0c1518d2(int a4, int a5, int a6)
+int pdVibEnumerateUnit(int a4, int a5, int a6)
 {
     int t12;
     int t1;

@@ -3,9 +3,9 @@
 
 int nlLoadMatrix(int);
 int nlMultiMatrix(int);
-int FUN_0c079d40(void);
+int nlChangeFastProjectMatrix(void);
 
-int FUN_0c079d40(void)
+int nlChangeFastProjectMatrix(void)
 {
     nlLoadMatrix(0xC2B3410);
     return nlMultiMatrix(0xC2B33D0);

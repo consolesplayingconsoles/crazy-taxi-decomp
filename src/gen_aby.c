@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXPD_ExecHndl(int);
-int FUN_0c17457a(void);
+int ADXPD_ExecServer(void);
 
-int FUN_0c17457a(void)
+int ADXPD_ExecServer(void)
 {
     int t0;
     int t1;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ix): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15887e(int, int, int);
+int kmiMemCopy4(int, int, int);
 int kmiReadRegister(int);
 int kmiWriteRegister(int, int);
 int thunk_kmiWriteRegister(int, int);
@@ -156,7 +156,7 @@ void kmiInitializeDevice(void)
     t88 = 0x0;
     t89 = 0xA5000000;
     for (;;) {
-        FUN_0c15887e(t89, ((int)stk + 4), 0x4);
+        kmiMemCopy4(t89, ((int)stk + 4), 0x4);
         t88 = (t88 + 0x1);
         t89 = (t89 + 0x4);
         if ((int)t88 >= (int)0x200000) {

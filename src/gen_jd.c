@@ -1,267 +1,370 @@
 /* Straight-line functions with calls and guards (batch gen_jd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int Level_Calc(int, int, int);
 int PutStringFixPfont(int, int, float, float, float, float);
-float pfLength(int);
-int pfSetFont(int);
+int putDriverName(int, int, int);
+int putRecordFrame(int, int, float, float);
+extern int putRecordUnit();
 int putString(int, int, float, float, float);
-int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5);
+void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5, float f6, float f7);
 
-int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5)
+void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float f5, float f6, float f7)
 {
-    int t4;
-    int t5;
-    float t6;
-    int t7;
-    float u13;
-    float u17;
-    int t31;
-    int t32;
-    float t33;
-    int t34;
-    float u40;
-    float u44;
-    int t60;
-    int t75;
-    int t117;
-    int t76;
-    int t77;
-    int t78;
-    int t79;
-    int t80;
-    int t81;
-    int t82;
-    int t83;
-    int t84;
-    int t123;
-    int t70;
-    int t71;
-    int t72;
-    int t73;
-    float u26;
+    int t42;
+    int t46;
+    int t49;
+    int t55;
+    int t58;
     int t64;
     int t65;
-    int t66;
-    int t67;
-    float u53;
-    int t59;
-    int t61;
+    float u79;
+    int t87;
+    int t92;
     int t106;
-    int t107;
-    int t102;
-    int t103;
-    int t110;
     int t111;
-    int stk[26] = {0};
+    int t114;
+    int t115;
+    int t128;
+    int t131;
+    int t132;
+    int t150;
+    int t161;
+    int t164;
+    int stk[29];
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    *(unsigned char *)(((((int)stk + 4) + 0x2F) + 0x0)) = 0x0;
-    pfSetFont(((*(int *)(((int)stk + 4))) & 0x3));
-    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 4))) & 0x4);
-    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 4))) & 0x8);
-    if (a7 == 3) {
-        t4 = 0x2;
-        t5 = (((int)stk + 4) + 0x2F);
-        for (;;) {
-            if (t4 == 0) {
-                break;
-            }
-            t4 = (t4 - 1);
-            *(unsigned char *)(((t5 - 0x1) + 0x0)) = 0x20;
-            t5 = (t5 - 0x1);
-        }
-        t6 = pfLength(0xC0A202C);
-        t7 = *(int *)(((int)stk + 8));
-        if ((*(int *)(((int)stk + 12))) != 0) {
-            u13 = ((float)(((int)((unsigned int)((int)((unsigned int)((t7 + 0x2) * a8) + (unsigned int)0x0)) + ((((int)0x0 > (int)((t7 + 0x2) * a8))) ? 1u : 0u))) >> 1) - (float)(a8 << 1));
-            u13 = u13 + 0.5f * t6;
-            u26 = (u13 + f4);
-        } else {
-            u17 = (((float)((t7 + 0x2) * a8) - (float)(a8 << 1)) + f4);
-            if ((*(int *)(((int)stk + 16))) != 0) {
-                u17 = ((f4 - (float)(a8 << 1)) + t6);
-            }
-            u26 = u17;
-        }
-        putString((*(int *)(((int)stk + 4))), 0xC0A202C, u26, f5, 1.0f);
-        t71 = a5;
-        t72 = t5;
-    } else {
-        if (a7 == 4) {
-            t31 = 0x7;
-            t32 = (((int)stk + 4) + 0x2F);
-            for (;;) {
-                if (t31 == 0) {
-                    break;
-                }
-                t31 = (t31 - 1);
-                *(unsigned char *)(((t32 - 0x1) + 0x0)) = 0x20;
-                t32 = (t32 - 0x1);
-            }
-            t33 = pfLength(0xC0A2030);
-            t34 = *(int *)(((int)stk + 8));
-            if ((*(int *)(((int)stk + 12))) != 0) {
-                u40 = ((float)(((int)((unsigned int)((int)((unsigned int)((t34 + 0x7) * a8) + (unsigned int)0x0)) + ((((int)0x0 > (int)((t34 + 0x7) * a8))) ? 1u : 0u))) >> 1) - (float)(((a8 << 2) << 1) - a8));
-                u40 = u40 + 0.5f * t33;
-                u53 = (u40 + f4);
-            } else {
-                u44 = (((float)((t34 + 0x7) * a8) - (float)(((a8 << 2) << 1) - a8)) + f4);
-                if ((*(int *)(((int)stk + 16))) != 0) {
-                    u44 = ((f4 - (float)(((a8 << 2) << 1) - a8)) + t33);
-                }
-                u53 = u44;
-            }
-            putString((*(int *)(((int)stk + 4))), 0xC0A2030, u53, f5, 1.0f);
-            t65 = a5;
-            t66 = t32;
-        } else {
-            t60 = a5;
-            if ((a7 == 5) && (a5 != -1)) {
-                t59 = 0x2710;
-                t60 = (0x7A6 + ((((((unsigned int)((unsigned int)((unsigned int)a5 >> 16) >> 2) >> 2) & 0xF) * 0xF4240) + ((((unsigned int)a5 >> 15) & 0x1F) * 0x2710)) + (((unsigned int)((unsigned int)a5 >> 16) >> 8) & 0x7F)));
-                t61 = 0xFFFFFFF1;
-            }
-            t64 = t59;
-            t65 = t60;
-            t66 = (((int)stk + 4) + 0x2F);
-            t67 = t61;
-        }
-        t70 = t64;
-        t71 = t65;
-        t72 = t66;
-        t73 = t67;
-    }
-    t75 = *(int *)(((int)stk + 8));
-    t117 = t72;
-    if ((int)t75 <= 0) {
-    } else {
-        t76 = t70;
-        t77 = t73;
-        t78 = t75;
-        t79 = 0x0;
-        t80 = a5;
-        t81 = a6;
-        t82 = 0x1;
-        t83 = t71;
-        t84 = t72;
-        for (;;) {
-            if (a7 == 1) {
-                if ((int)t79 < (int)0x3) {
-                    t82 = 0x1;
-                }
-                if (t82 != 0) {
-                    if (t79 != 2) {
-                        if (t79 == 5) {
-                            t80 = 0x2C;
-                            *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                            t84 = (t84 - 0x1);
-                        }
-                    } else {
-                        t80 = 0x2E;
-                        *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                        t84 = (t84 - 0x1);
-                    }
-                } else {
-                    if (t79 == 5) {
-                        *(unsigned char *)(((t84 - 0x1) + 0x0)) = 0x20;
-                        t84 = (t84 - 0x1);
-                    }
-                }
-            } else {
-                if (a7 == 2) {
-                    t80 = 0x5;
-                    if ((int)t79 < (int)t80) {
-                        t82 = 0x1;
-                    }
-                    if (t79 == 2) {
-                        t80 = 0x22;
-                        *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                        t84 = (t84 - 0x1);
-                    } else {
-                        if (t79 == 4) {
-                            t80 = 0x27;
-                            *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                            t84 = (t84 - 0x1);
-                        }
-                    }
-                } else {
-                    if (a7 == 3) {
-                        if ((int)t79 < (int)0x3) {
-                            t82 = 0x1;
-                        }
-                        if (t79 == 2) {
-                            t80 = 0x2E;
-                            *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                            t84 = (t84 - 0x1);
-                        }
-                    } else {
-                        if (a7 == 5) {
-                            t78 = 0x8;
-                            if ((int)t79 < (int)t78) {
-                                t82 = 0x1;
-                            }
-                            if ((t79 == 4) || (t79 == 6)) {
-                                t80 = 0x2F;
-                                *(unsigned char *)(((t84 - 0x1) + 0x0)) = t80;
-                                t84 = (t84 - 0x1);
-                            }
-                        }
-                    }
-                }
-            }
-            t80 = 0xA;
-            if (t82 != 0) {
-                if (t83 != -1) {
-                    t78 = 0xC081134;
-                    t76 = t83;
-                    *(unsigned char *)(((t84 - 0x1) + 0x0)) = (((int)((unsigned int)t76 % (unsigned int)t80)) + 0x30);
-                    t84 = (t84 - 0x1);
-                    t103 = 0xC081134;
-                } else {
-                    t81 = 0x2D;
-                    *(unsigned char *)(((t84 - 0x1) + 0x0)) = t81;
-                    t84 = (t84 - 0x1);
-                    t102 = t76;
-                    t103 = t78;
-                }
-                t106 = t102;
-                t107 = t103;
-            } else {
-                *(unsigned char *)(((t84 - 0x1) + 0x0)) = 0x20;
-                t84 = (t84 - 0x1);
-                t106 = t76;
-                t107 = t78;
-            }
-            t76 = t106;
-            t78 = t107;
-            if (t83 != -1) {
-                t77 = 0xC080FC4;
-                t76 = t83;
-                t83 = ((int)((unsigned int)t76 / (unsigned int)t80));
-                if ((t83 == -1) || (t83 == 0)) {
-                    t82 = 0x0;
-                }
-                t111 = 0xC080FC4;
-            } else {
-                t82 = 0x0;
-                t110 = t76;
-                t111 = t77;
-            }
-            t76 = t110;
-            t77 = t111;
-            t78 = (*(int *)(((int)stk + 8)));
-            t79 = (t79 + 0x1);
-            if ((int)t79 >= (int)t78) {
-                break;
-            }
-        }
-        t117 = t84;
-    }
-    t123 = t117;
-    if (a7 == 1) {
-        *(unsigned char *)(((t117 - 0x1) + 0x0)) = 0x24;
-        t123 = (t117 - 0x1);
-    }
-    return (PutStringFixPfont((*(int *)(((int)stk + 4))), t123, f4, f5, (float)a8, 1.0f));
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    L_C03CE68:;
+    *(unsigned int *)(((int)stk + 20)) = R7;
+    R10 = (R5);
+    R13 = (R6);
+    R14 = (R4);
+    R9 = (0x2);
+    F13 = (F4);
+    F15 = (F5);
+    if (((a9 & 0x2) == 0)) goto L_C03CEC8;
+    goto L_C03CE9A;
+    L_C03CE9A:;
+    if (((int)R13 >= (int)0x8)) goto L_C03CEA4;
+    goto L_C03CEA0;
+    L_C03CEA0:;
+    R4 = (0x0);
+    goto L_C03CEA6;
+    L_C03CEA6:;
+    F5 = (F15);
+    if (((int)R10 < 0)) goto L_C03CEAE;
+    goto L_C03CEAC;
+    L_C03CEAC:;
+    R4 = ((R4 + 0x1));
+    goto L_C03CEAE;
+    L_C03CEAE:;
+    putRecordFrame(R4, ((a8 - (*(int *)(((int)stk + 20)))) + 0x1), F13, F5);
+    F13 = ((F13 + 40.0f));
+    F15 = ((F15 + 19.0f));
+    goto L_C03CEC8;
+    L_C03CEC8:;
+    R11 = (0x1);
+    R12 = (0xC);
+    R4 = (0xC);
+    R5 = (0x3);
+    if (((R14 & 0x1) == 0)) goto L_C03CEDA;
+    goto L_C03CED6;
+    L_C03CED6:;
+    R12 = (0xE);
+    goto L_C03CEEC;
+    L_C03CEEC:;
+    R6 = (0x4);
+    R8 = (0xC28A4E8);
+    if (((int)R10 >= 0)) goto L_C03CF34;
+    goto L_C03CEF4;
+    L_C03CEF4:;
+    R4 = (0xC2A1258);
+    goto L_C03CF42;
+    L_C03CF42:;
+    R3 = (0x8);
+    F12 = (((float)R12 * 1.29999995f));
+    F14 = (1.0f);
+    F2 = (1.29999995f);
+    F3 = ((float)R12);
+    if (((int)R13 < (int)0x8)) goto L_C03CF5A;
+    goto L_C03CF56;
+    L_C03CF56:;
+    goto L_C03D12C;
+    L_C03D12C:;
+    *(unsigned int *)(((int)stk + 12)) = ((short)((short)(R13 - 8) * (short)0x3C) + (0x3C8 + R4));
+    R0 = ((R13 - 8));
+    R2 = (0x3C);
+    if (((unsigned int)(R13 - 8) >= (unsigned int)0x10)) goto L_C03D17C;
+    goto L_C03D14C;
+    L_C03D14C:;
+    switch (((R0 << 1))) { case 0: goto L_C03D17C; case 2: goto L_C03D184; case 4: goto L_C03D184; case 6: goto L_C03D184; case 8: goto L_C03D180; case 10: goto L_C03D184; case 12: goto L_C03D184; case 14: goto L_C03D184; case 16: goto L_C03D184; case 18: goto L_C03D184; case 20: goto L_C03D184; case 22: goto L_C03D184; case 24: goto L_C03D180; case 26: goto L_C03D184; case 28: goto L_C03D184; case 30: goto L_C03D184; }
+    L_C03D184:;
+    *(unsigned int *)(((int)stk + 16)) = R9;
+    goto L_C03D186;
+    L_C03D186:;
+    *(unsigned int *)(((int)stk + 8)) = (*(int *)(((int)stk + 20)));
+    *(float *)(((int)stk + 48)) = (F13 + 116.0f);
+    *(float *)(((int)stk + 52)) = (F13 + 268.0f);
+    *(float *)(((int)stk + 28)) = (F13 + 384.0f);
+    *(float *)(((int)stk + 44)) = (F13 + 104.0f);
+    *(float *)(((int)stk + 24)) = (F13 + 252.0f);
+    F0 = ((F13 + 104.0f));
+    F1 = (104.0f);
+    goto L_C03D32C;
+    L_C03D32C:;
+    R0 = (0x6C);
+    if (((int)(*(int *)(((int)stk + 8))) > (int)a8)) goto L_C03D33A;
+    goto L_C03D336;
+    L_C03D336:;
+    goto L_C03D1C8;
+    L_C03D1C8:;
+    t42 = *(int *)(((int)stk + 8));
+    R13 = (((((t42 << 1) + t42) << 2) + (*(int *)(((int)stk + 12)))));
+    if (((int)R10 >= 0)) goto L_C03D21C;
+    goto L_C03D1DA;
+    L_C03D1DA:;
+    t46 = *(int *)(((int)stk + 8));
+    R9 = (t46);
+    if (((int)t46 < (int)R11)) goto L_C03D206;
+    goto L_C03D1E0;
+    L_C03D1E0:;
+    *(unsigned int *)(((int)stk + 40)) = R13;
+    t49 = *(int *)((R13 + 0x0));
+    R4 = (t49);
+    if ((t49 == -1)) goto L_C03D206;
+    goto L_C03D1EA;
+    L_C03D1EA:;
+    if ((R4 != (*(int *)(((((((R9 - 1) << 1) + (R9 - 1)) << 2) + (*(int *)(((int)stk + 12)))) + 0x0))))) goto L_C03D206;
+    goto L_C03D200;
+    L_C03D200:;
+    t55 = (int)(R9 - 1) >= (int)R11;
+    R9 = ((R9 - 1));
+    if (t55) goto L_C03D1E0;
+    goto L_C03D206;
+    L_C03D206:;
+    t58 = ((int (*)(int, int, int, int, float, float))(putRecordUnit))(R14, (R9 + 0x1), 0x3, 0x0, F13, F15);
+    *(unsigned int *)(((int)stk + 4)) = (R12);
+    goto L_C03D22E;
+    L_C03D22E:;
+    if (((a9 & R11) != 0)) goto L_C03D2C6;
+    goto L_C03D238;
+    L_C03D238:;
+    t64 = ((int (*)(int, int, int, int, int, float, float, float, float))(putRecordUnit))(R14, (*(int *)((R13 + 0x0))), 0x8, (*(int *)(((int)stk + 16))), (R12), (*(float *)(((int)stk + 48))), F15, F6, F7);
+    t65 = *(signed char *)((R13 + 0x8));
+    *(volatile float *)(((int)stk + 52));
+    putDriverName(R14, t65, 0x0);
+    if (((int)R10 >= 0)) goto L_C03D2B0;
+    goto L_C03D260;
+    L_C03D260:;
+    F5 = (F15);
+    if (((*(signed char *)((R13 + 0x9))) == -1)) goto L_C03D27E;
+    goto L_C03D268;
+    L_C03D268:;
+    R5 = (((short)((short)(*(signed char *)((R13 + 0x9))) * (short)0x788) + (R8 + 0x10)));
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D284;
+    L_C03D284:;
+    PutStringFixPfont(R14, R5, (*(float *)(((int)stk + 28))), F5, F6, F7);
+    goto L_C03D320;
+    L_C03D320:;
+    u79 = *(float *)0xC03D3D4;
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
+    F15 = ((F15 + u79));
+    goto L_C03D32C;
+    L_C03D27E:;
+    R5 = (0xC0A2044);
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D284;
+    L_C03D2B0:;
+    t87 = ((int (*)(int, int, int, int, int, float, float, float, float))(putRecordUnit))(R14, (*(int *)((R13 + 0x4))), 0x8, 0x5, (R12), (*(float *)(((int)stk + 28))), F15, F6, F7);
+    goto L_C03D320;
+    L_C03D2C6:;
+    t92 = ((int (*)(int, int, int, int, float, float))(putRecordUnit))(R14, (*(int *)((R13 + 0x0))), 0x8, (*(int *)(((int)stk + 16))), (*(float *)(((int)stk + 44))), F15);
+    if (((int)R10 >= 0)) goto L_C03D310;
+    goto L_C03D2DE;
+    L_C03D2DE:;
+    F5 = (F15);
+    if (((*(signed char *)((R13 + 0x9))) == -1)) goto L_C03D2FC;
+    goto L_C03D2E6;
+    L_C03D2E6:;
+    R5 = (((short)((short)(*(signed char *)((R13 + 0x9))) * (short)0x788) + (R8 + 0x10)));
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D302;
+    L_C03D302:;
+    PutStringFixPfont(R14, R5, (*(float *)(((int)stk + 24))), F5, F6, F7);
+    goto L_C03D320;
+    L_C03D2FC:;
+    R5 = (0xC0A2044);
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D302;
+    L_C03D310:;
+    t106 = *(signed char *)((R13 + 0x8));
+    *(volatile float *)(((int)stk + 24));
+    putDriverName(R14, t106, 0x0);
+    goto L_C03D320;
+    L_C03D21C:;
+    t111 = ((int (*)(int, int, int, int, int, float, float, float, float))(putRecordUnit))(R14, (*(signed char *)((R13 + 0x9))), 0x3, 0x0, (R12), F13, F15, F6, F7);
+    goto L_C03D22E;
+    L_C03D33A:;
+    return;
+    L_C03D180:;
+    *(unsigned int *)(((int)stk + 16)) = R6;
+    goto L_C03D186;
+    L_C03D17C:;
+    *(unsigned int *)(((int)stk + 16)) = R5;
+    goto L_C03D186;
+    L_C03CF5A:;
+    if (((int)R13 >= (int)R6)) goto L_C03CF70;
+    goto L_C03CF5E;
+    L_C03CF5E:;
+    R13 = (((short)((short)R13 * (short)0x78) + (R4 + 0x8)));
+    goto L_C03CF80;
+    L_C03CF80:;
+    *(unsigned int *)(((int)stk + 8)) = R13;
+    t114 = *(int *)(((int)stk + 20));
+    t115 = *(int *)(((int)stk + 8));
+    *(unsigned int *)(((int)stk + 16)) = ((((t114 << 1) + t114) << 2) + t115);
+    *(unsigned int *)(((int)stk + 12)) = ((((t114 << 1) + t114) << 2) + t115);
+    *(unsigned int *)(((int)stk + 20)) = ((((t114 << 1) + t114) << 2) + t115);
+    *(float *)(((int)stk + 36)) = (F13 + 16.0f);
+    *(float *)(((int)stk + 60)) = (F13 + 144.0f);
+    *(float *)(((int)stk + 56)) = (F13 + 284.0f);
+    *(float *)(((int)stk + 32)) = (F13 + 400.0f);
+    R0 = (0x6C);
+    R13 = (t114);
+    R4 = (((((t114 << 1) + t114) << 2) + t115));
+    F0 = ((F13 + 144.0f));
+    F1 = (400.0f);
+    if (((int)t114 <= (int)a8)) goto L_C03CFD2;
+    goto L_C03CFCE;
+    L_C03CFCE:;
+    goto L_C03D33A;
+    L_C03CFD2:;
+    if (((int)(*(signed char *)((((((R13 << 1) + R13) << 2) + (*(int *)(((int)stk + 8)))) + 0x8))) >= 0)) goto L_C03CFFA;
+    goto L_C03CFE6;
+    L_C03CFE6:;
+    putString(R14, 0xC0A2040, (*(float *)(((int)stk + 36))), F15, F14);
+    goto L_C03D068;
+    L_C03D068:;
+    t128 = *(int *)(((int)stk + 8));
+    t131 = ((int (*)(int, int, int, int, int, float, float, float, float))(putRecordUnit))(R14, (*(int *)((((((R13 << 1) + R13) << 2) + t128) + 0x0))), 0x8, 0x1, (R12), (*(float *)(((int)stk + 60))), F15, F6, F7);
+    t132 = *(signed char *)((((((R13 << 1) + R13) << 2) + t128) + 0x8));
+    *(volatile float *)(((int)stk + 56));
+    putDriverName(R14, t132, 0x0);
+    if (((int)R10 >= 0)) goto L_C03D0D4;
+    goto L_C03D09E;
+    L_C03D09E:;
+    F5 = (F15);
+    if (((*(signed char *)(((*(int *)(((int)stk + 20))) + 0x9))) == -1)) goto L_C03D0C0;
+    goto L_C03D0A8;
+    L_C03D0A8:;
+    R5 = (((short)((short)(*(signed char *)(((*(int *)(((int)stk + 12))) + 0x9))) * (short)0x788) + (R8 + 0x10)));
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D0C6;
+    L_C03D0C6:;
+    PutStringFixPfont(R14, R5, (*(float *)(((int)stk + 32))), F5, F6, F7);
+    goto L_C03D0EA;
+    L_C03D0EA:;
+    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 16))) + 0xC);
+    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0xC);
+    *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + 0xC);
+    t150 = (int)(R13 + 0x1) > (int)a8;
+    R0 = (0x6C);
+    R13 = ((R13 + 0x1));
+    F15 = ((F15 + 20.0f));
+    if (t150) goto L_C03D110;
+    goto L_C03D10C;
+    L_C03D10C:;
+    goto L_C03CFD2;
+    L_C03D110:;
+    goto L_C03D33A;
+    L_C03D0C0:;
+    R5 = (0xC0A2044);
+    F6 = (F12);
+    F7 = (F14);
+    goto L_C03D0C6;
+    L_C03D0D4:;
+    t161 = ((int (*)(int, int, int, int, int, float, float, float, float))(putRecordUnit))(R14, (*(int *)(((*(int *)(((int)stk + 16))) + 0x4))), 0x8, 0x5, (R12), (*(float *)(((int)stk + 32))), F15, F6, F7);
+    goto L_C03D0EA;
+    L_C03CFFA:;
+    t164 = Level_Calc((*(int *)((((((R13 << 1) + R13) << 2) + (*(int *)(((int)stk + 8)))) + 0x0))), R5, R6);
+    R9 = (t164);
+    if ((t164 != 0x3E7)) goto L_C03D01A;
+    goto L_C03D016;
+    L_C03D016:;
+    R9 = (0x0);
+    goto L_C03D04E;
+    L_C03D04E:;
+    putString(R14, ((((R9 << 2) << 2) << 1) + 0xC09FD50), (*(float *)(((int)stk + 36))), F15, F14);
+    goto L_C03D068;
+    L_C03D01A:;
+    if ((R9 != 99)) goto L_C03D04C;
+    goto L_C03D022;
+    L_C03D022:;
+    R9 = (R11);
+    goto L_C03D04E;
+    L_C03D04C:;
+    R9 = ((R9 + 0x2));
+    goto L_C03D04E;
+    L_C03CF70:;
+    R13 = (((short)((short)(R13 - 4) * (short)0x78) + (0x1E8 + R4)));
+    goto L_C03CF80;
+    L_C03CF34:;
+    R4 = (((short)((short)R10 * (short)0x788) + (R8 + 0x10)));
+    goto L_C03CF42;
+    L_C03CEDA:;
+    if (((R14 & R9) == 0)) goto L_C03CEE4;
+    goto L_C03CEE0;
+    L_C03CEE0:;
+    R12 = (0x12);
+    goto L_C03CEEC;
+    L_C03CEE4:;
+    if (((R14 & R5) == 0)) goto L_C03CEEC;
+    goto L_C03CEEA;
+    L_C03CEEA:;
+    R12 = (R4);
+    goto L_C03CEEC;
+    L_C03CEA4:;
+    R4 = (R9);
+    goto L_C03CEA6;
 }

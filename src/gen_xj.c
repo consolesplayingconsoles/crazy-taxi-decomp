@@ -2,58 +2,103 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlSprPut(int);
-int PutNameEntryRank(int a4);
+int PutNameEntryDrum(int a4, float f4, float f5);
 
-int PutNameEntryRank(int a4)
+int PutNameEntryDrum(int a4, float f4, float f5)
 {
-    float u0;
-    int t2;
-    int t4;
-    int t18;
-    int stk[25] = {0};
+    float u14;
+    int t21;
+    int stk[35];
 
-    *(float *)(((int)stk + 16)) = 1.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 28)) = 0.0f;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    F4 = f4;
+    F5 = f5;
+    L_C039AD4:;
+    *(unsigned int *)(((int)stk + 4)) = R4;
+    *(float *)(((int)stk + 28)) = 420.0f;
+    *(float *)(((int)stk + 32)) = 1.0f;
     *(float *)(((int)stk + 40)) = 1.0f;
     *(float *)(((int)stk + 36)) = 1.0f;
-    *(unsigned int *)(((int)stk + 44)) = 0x0;
-    *(float *)(((int)stk + 48)) = 1.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x70A;
-    *(unsigned int *)(((int)stk + 52)) = 0x2;
-    *(unsigned int *)(((int)stk + 4)) = 0x4B;
-    *(float *)(((int)stk + 8)) = 112.0f;
-    *(float *)(((int)stk + 12)) = 206.0f;
-    u0 = *(float *)0xC2864D4;
-    *(float *)(((int)stk + 24)) = (u0 * 0.75f);
-    *(float *)(((int)stk + 20)) = (u0 * 0.75f);
-    nlSprPut(((int)stk + 4));
-    t2 = (int)((int)a4 % (int)0xA);
-    *(unsigned int *)(((int)stk + 4)) = (t2 + 0x41);
-    *(float *)(((int)stk + 8)) = 120.0f;
-    *(float *)(((int)stk + 12)) = 204.0f;
-    nlSprPut(((int)stk + 4));
-    if ((int)a4 >= (int)0xA) {
-        t4 = (int)((int)a4 / (int)0xA);
-        *(unsigned int *)(((int)stk + 4)) = (t4 + 0x41);
-        *(float *)(((int)stk + 8)) = 88.0f;
-        nlSprPut(((int)stk + 4));
-    }
-    if (a4 != 1) {
-        if (a4 != 2) {
-            if (a4 != 3) {
-                *(unsigned int *)(((int)stk + 4)) = 0x4F;
-            } else {
-                *(unsigned int *)(((int)stk + 4)) = 0x4D;
-            }
-        } else {
-            *(unsigned int *)(((int)stk + 4)) = 0x4C;
-        }
-    } else {
-        *(unsigned int *)(((int)stk + 4)) = 0x4E;
-    }
-    *(float *)(((int)stk + 8)) = 168.0f;
-    *(float *)(((int)stk + 12)) = 214.0f;
-    t18 = nlSprPut(((int)stk + 4));
-    return t18;
+    *(float *)(((int)stk + 48)) = 0.0f;
+    *(float *)(((int)stk + 44)) = 0.0f;
+    *(float *)(((int)stk + 56)) = 1.0f;
+    *(float *)(((int)stk + 52)) = 1.0f;
+    *(unsigned int *)(((int)stk + 60)) = 0x0;
+    *(float *)(((int)stk + 64)) = 1.0f;
+    *(unsigned int *)(((int)stk + 72)) = 0x70E;
+    *(unsigned int *)(((int)stk + 68)) = 0x2;
+    *(float *)(((int)stk + 16)) = ((1.0f + 1.0f) - F4);
+    *(float *)(((int)stk + 12)) = (32.0f - (F4 * 16.0f));
+    *(float *)(((int)stk + 8)) = (F4 + 1.0f);
+    R10 = (0xC2864D4);
+    R11 = (0xC0EE918);
+    R12 = (0xC07DF00);
+    R13 = (0xA);
+    R14 = (0xFFFFFFF6);
+    F12 = ((16.0f - (F4 * 16.0f)));
+    F13 = (F4);
+    F14 = (32.0f);
+    F15 = (1.0f);
+    F4 = ((F4 * 16.0f));
+    F5 = (16.0f);
+    goto L_C039B5E;
+    L_C039B5E:;
+    *(unsigned int *)(((int)stk + 20)) = (*(int *)((R11 + (((int)((unsigned int)(((*(int *)(((int)stk + 4))) + R14) + 0x2D) % (unsigned int)0x2D)) << 2))));
+    u14 = 336.0f;
+    u14 = u14 + F14 * ((float)R14 + F13);
+    *(float *)(((int)stk + 24)) = u14;
+    if ((R14 != 0)) goto L_C039B9A;
+    goto L_C039B86;
+    L_C039B86:;
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - F12);
+    F2 = (((*(float *)(((int)stk + 16))) * (*(float *)((R10 + 0x0)))));
+    goto L_C039BB4;
+    L_C039BB4:;
+    *(float *)(((int)stk + 40)) = F2;
+    *(float *)(((int)stk + 36)) = F2;
+    goto L_C039BD4;
+    L_C039BD4:;
+    t21 = (int)(R14 + 0x1) < (int)R13;
+    R0 = ((nlSprPut((((int)stk + 4) + 0x10))));
+    R14 = ((R14 + 0x1));
+    if (t21) goto L_C039B5E;
+    goto L_C039BE0;
+    L_C039BE0:;
+    return R0;
+    L_C039B9A:;
+    if ((R14 != -1)) goto L_C039BBE;
+    goto L_C039BA2;
+    L_C039BA2:;
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (*(float *)(((int)stk + 12))));
+    F2 = ((*(float *)(((int)stk + 8))));
+    goto L_C039BB4;
+    L_C039BBE:;
+    *(float *)(((int)stk + 40)) = F15;
+    *(float *)(((int)stk + 36)) = F15;
+    if (((int)R14 >= 0)) goto L_C039BD4;
+    goto L_C039BCA;
+    L_C039BCA:;
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - F14);
+    goto L_C039BD4;
 }

@@ -4,12 +4,12 @@
 extern void _builtin_ftrv(float *, float *);
 extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
-float FUN_0c0785a0(float f4, float f5);
-float FUN_0c078660(float f4, float f5);
-float FUN_0c078720(float f4, float f5);
-float FUN_0c0786c0(float f4, float f5);
+float nlRotateXSC_L(float f4, float f5);
+float nlRotateYSC_L(float f4, float f5);
+float nlRotateZSC_L(float f4, float f5);
+float nlRotateZSC(float f4, float f5);
 
-float FUN_0c0785a0(float f4, float f5)
+float nlRotateXSC_L(float f4, float f5)
 {
     float u0[4];
     float u1[4];
@@ -47,7 +47,7 @@ float FUN_0c0785a0(float f4, float f5)
     return u0[0];
 }
 
-float FUN_0c078660(float f4, float f5)
+float nlRotateYSC_L(float f4, float f5)
 {
     float u0[4];
     float u1[4];
@@ -85,7 +85,7 @@ float FUN_0c078660(float f4, float f5)
     return u0[0];
 }
 
-float FUN_0c078720(float f4, float f5)
+float nlRotateZSC_L(float f4, float f5)
 {
     float u0[4];
     float u1[4];
@@ -123,7 +123,7 @@ float FUN_0c078720(float f4, float f5)
     return u0[0];
 }
 
-float FUN_0c0786c0(float f4, float f5)
+float nlRotateZSC(float f4, float f5)
 {
     float u0[4];
     float u1[4];

@@ -3,8 +3,8 @@
 
 int HomingPosX(int, float, float);
 int nd_SprPut(int, int, float, float);
-int FUN_0c15f9c4(int, int, int);
-int FUN_0c15fa6c(int, int);
+int gdFsStrncmpi(int, int, int);
+int gdFsGetTokenSize(int, int);
 int ResetFadeColor(void);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
@@ -15,16 +15,16 @@ float nlInnerProduct(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlOuterProduct(int, int, int);
 float nlUnitVector(int);
-int FUN_0c07ade0(int a4);
-int FUN_0c15fa1c(int a4, int a5);
+int nlObjPutSetSpecularEyeDirectionV(int a4);
+int gdFsStrcmp_tail_0c15fa1c(int a4, int a5);
 int kmChangeContextSuperSample(int a4);
-int FUN_0c089ad4(int a4, int a5, int a6);
+int _add(int a4, int a5, int a6);
 void nlRotateV(int a4, int a5);
-int FUN_0c089978(int a4, int a5);
+int _rnd(int a4, int a5);
 int gdFsSearchPath_dds(int a4, int a5, int a6, int a7, int a8);
 void Put_ReadySetGo(int a4);
 
-int FUN_0c07ade0(int a4)
+int nlObjPutSetSpecularEyeDirectionV(int a4)
 {
     float u0;
     float u1;
@@ -36,7 +36,7 @@ int FUN_0c07ade0(int a4)
     return ((int (*)(int, float, float, float))(0xC07ADB0))(a4, u1, u2, u0);
 }
 
-int FUN_0c15fa1c(int a4, int a5)
+int gdFsStrcmp_tail_0c15fa1c(int a4, int a5)
 {
     int t0;
     int t1;
@@ -64,7 +64,7 @@ int kmChangeContextSuperSample(int a4)
     return ((int (*)(int, int))(0xC15E4C0))(a4, 0xC2EAB9C);
 }
 
-int FUN_0c089ad4(int a4, int a5, int a6)
+int _add(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -136,7 +136,7 @@ void nlRotateV(int a4, int a5)
     return;
 }
 
-int FUN_0c089978(int a4, int a5)
+int _rnd(int a4, int a5)
 {
     int t0;
     int t1;

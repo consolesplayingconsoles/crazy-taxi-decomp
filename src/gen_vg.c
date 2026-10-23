@@ -1,64 +1,88 @@
 /* Straight-line functions with calls and guards (batch gen_vg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int nlAddVector(int, int);
-int nlScaleUnitVector(int, int, float);
-int nlSubVector(int, int);
-void getReplayPassenger(int a4, int a5, int a6, int a7, int a8);
+float general_spline_point(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
 
-void getReplayPassenger(int a4, int a5, int a6, int a7, int a8)
+float general_spline_point(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11)
 {
-    int t0;
-    int t2;
-    int t3;
-    int t5;
+    float u0;
+    float u1;
+    float u2;
+    float u4;
+    float u5;
     float u6;
-    float u8;
-    float u11;
-    int t12;
-    int t13;
-    float u16;
-    float u20;
-    float u21;
-    int t22;
-    int t23;
+    float u10;
+    float u12;
     float u14;
-    float u15;
-    int stk[7] = {0};
+    float u18;
+    float u20;
+    float u22;
+    float u27;
+    float u28;
+    float u30;
+    int stk[5];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t0 = *(int *)0xC0F2B30;
-    if ((int)t0 < (int)0xB) {
-        t2 = *(int *)0xC1EE20C;
-        t3 = 0xC0F3A40;
-        if (t2 == 0) {
-            t3 = 0xC0F3540;
-        }
-        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x10)) = a4;
-        t5 = *(int *)(((int)stk + 4));
-        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x14)) = t5;
-        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x18)) = a6;
-        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x1C)) = a7;
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(a8); }
-        u6 = *(float *)0xC179148;
-        *(float *)(((int)stk + 12)) = u6;
-        nlSubVector((((int)stk + 4) + 0x4), 0xC179144);
-        u8 = 50.0f;
-        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), u8);
-        nlAddVector((((int)stk + 4) + 0x4), 0xC179144);
-        u11 = 10.0f;
-        t12 = GetCollision2D((((int)stk + 4) + 0x4), u11);
-        t13 = *(int *)((t12 + 0x1C));
-        if ((t13 != -1) && (u14 = *(float *)((t12 + 0x18)), u15 = *(float *)(((int)stk + 12)), u14 > u15)) {
-            u16 = *(float *)((t12 + 0x18));
-            *(float *)(((int)stk + 12)) = u16;
-        }
-        u20 = 4.0f;
-        u21 = *(float *)(((int)stk + 12));
-        *(float *)(((int)stk + 12)) = (u21 + u20);
-        t22 = *(int *)(((int)stk + 4));
-        t23 = *(int *)0xC2A62AC;
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((((t22 << 1) + t22) << 2) + t23)) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F8;
+    float F9;
+    float F10;
+    float F11;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    F8 = f8;
+    F9 = f9;
+    F10 = f10;
+    F11 = f11;
+    L_C04D330:;
+    u0 = *(float *)0xC04D4D8;
+    u1 = *(float *)0xC04D4DC;
+    u2 = ((F4 + (-1.0f)) * (F4 + u1));
+    u4 = ((F4 + 1.0f) * (F4 + (-1.0f)));
+    u5 = ((((F4 + 1.0f) * (F4 + u1))) * F4);
+    u6 = ((F4 + 1.0f) * (F4 + (-1.0f)));
+    u10 = ((((u4 * (F4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((R4 + 0xC) + 0x0))));
+    u10 = u10 + ((-(u2 * F4)) / u0) * (*(float *)((R4 + 0x0)));
+    u12 = u10;
+    u12 = u12 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((R4 + 0x18) + 0x0)));
+    u14 = u12;
+    u14 = u14 + ((u6 * F4) / u0) * (*(float *)(((R4 + 0x24) + 0x0)));
+    *(float *)((((int)stk + 4) + 0x0)) = u14;
+    u18 = ((((u4 * (F4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((R4 + 0xC) + 0x4))));
+    u18 = u18 + ((-(u2 * F4)) / u0) * (*(float *)((R4 + 0x4)));
+    u20 = u18;
+    u20 = u20 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((R4 + 0x18) + 0x4)));
+    u22 = u20;
+    u22 = u22 + ((u6 * F4) / u0) * (*(float *)(((R4 + 0x24) + 0x4)));
+    *(float *)((((int)stk + 4) + 0x4)) = u22;
+    u27 = ((((u4 * (F4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((R4 + 0xC) + 0x8))));
+    u27 = u27 + ((-(u2 * F4)) / u0) * (*(float *)((R4 + 0x8)));
+    u28 = u27;
+    u28 = u28 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((R4 + 0x18) + 0x8)));
+    u30 = u28;
+    u30 = u30 + ((u6 * F4) / u0) * (*(float *)(((R4 + 0x24) + 0x8)));
+    *(float *)((((int)stk + 4) + 0x8)) = u30;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(a8) = *(struct mv3 *)(((int)stk + 4)); }
+    return ((u6 * F4) / u0);
 }

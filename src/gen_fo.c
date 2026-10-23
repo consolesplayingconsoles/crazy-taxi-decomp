@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_fo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07d6e0(int, int, int);
-int FUN_0c07d650(int a4);
+int nlMvChgIndexPolAttr(int, int, int);
+int nlMvSetShadowIndexPol(int a4);
 
-int FUN_0c07d650(int a4)
+int nlMvSetShadowIndexPol(int a4)
 {
     int t2;
     int t3;
@@ -29,7 +29,7 @@ int FUN_0c07d650(int a4)
         if (t4 != 0) {
             t5 = *(int *)((t3 + 0x4));
             t2 = t5;
-            t6 = FUN_0c07d6e0(t2, 0xC0, 0x80);
+            t6 = nlMvChgIndexPolAttr(t2, 0xC0, 0x80);
             t0 = t6;
             if (t0 != 0) {
                 break;
@@ -44,7 +44,7 @@ int FUN_0c07d650(int a4)
         if (t10 != 0) {
             t11 = *(int *)((t3 + 0x2C));
             t2 = t11;
-            t12 = FUN_0c07d650(t2);
+            t12 = nlMvSetShadowIndexPol(t2);
             t0 = t12;
         } else {
             t15 = t2;

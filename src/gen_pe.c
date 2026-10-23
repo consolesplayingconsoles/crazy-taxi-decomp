@@ -7,7 +7,7 @@ int Init_Adv_Standard(void)
 {
     *(float *)0xC2A92D0 = 0.0f;
     *(float *)0xC2A92D4 = 0.0f;
-    *(float *)0xC2A92D8 = (*(float *)0xC057A60);
+    *(float *)0xC2A92D8 = (0.14999999f);
     *(float *)0xC2A92DC = 1.0f;
     *(float *)0xC2A92E0 = 1.0f;
     *(float *)0xC2A92E4 = 0.0f;

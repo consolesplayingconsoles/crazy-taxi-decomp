@@ -3,9 +3,9 @@
 
 int CheckKyakuArea(int, int);
 int CheckNumRideon(void);
-int FUN_0c07db90(int, int, int);
-int FUN_0c1573cc(int);
-int FUN_0c157d20(int);
+int nlSpriteSetGarbagedTextureOnce_Sub(int, int, int);
+int kmytex_FBFreeEntry(int);
+int kmytex_VQFreeEntry(int);
 int kmiResetBoard(void);
 int kmiWriteRegister(int, int);
 int kmytex_FBDeQueueEntry(int, int, int);
@@ -14,18 +14,18 @@ int mwRnaErrCallFunc(int, ...);
 int mwlRnaIsCopyEnd(int);
 int nlObjPutLoadTextureOnce_Sub(int, int, int, int, int);
 int kyakuInDestArea(int a4);
-int FUN_0c157580(int a4, int a5);
+int FBSortQueue(int a4, int a5);
 int kmiFBreset(void);
 int kmiDiscardRenderPipeline(void);
 int kmiFBgetfreememEx(int a4, int a5);
 int kmStopDisplayFrameBuffer(void);
 int mwlRnaWaitTransEnd(int a4);
-int FUN_0c07dc10(int a4);
-int FUN_0c07dc60(int a4);
-int FUN_0c07a2a0(int a4, int a5);
+int nlSpriteSetGarbagedTexture(int a4);
+int nlSpriteSetGarbagedTextureGI(int a4);
+int nlObjPutLoadTextureGI(int a4, int a5);
 
 
-int FUN_0c157580(int a4, int a5)
+int FBSortQueue(int a4, int a5)
 {
     int t0;
     int t1;
@@ -193,7 +193,7 @@ int kmiFBreset(void)
         t1 = t0;
         for (;;) {
             t2 = *(int *)((t1 + 0x8));
-            FUN_0c1573cc(t1);
+            kmytex_FBFreeEntry(t1);
             t1 = t2;
             if (t1 == 0) {
                 break;
@@ -205,7 +205,7 @@ int kmiFBreset(void)
         t8 = t7;
         for (;;) {
             t9 = *(int *)((t8 + 0x8));
-            FUN_0c1573cc(t8);
+            kmytex_FBFreeEntry(t8);
             t8 = t9;
             if (t8 == 0) {
                 break;
@@ -217,7 +217,7 @@ int kmiFBreset(void)
         t15 = t14;
         for (;;) {
             t16 = *(int *)((t15 + 0x8));
-            FUN_0c1573cc(t15);
+            kmytex_FBFreeEntry(t15);
             t15 = t16;
             if (t15 == 0) {
                 break;
@@ -229,7 +229,7 @@ int kmiFBreset(void)
         t22 = t21;
         for (;;) {
             t23 = *(int *)((t22 + 0x8));
-            FUN_0c1573cc(t22);
+            kmytex_FBFreeEntry(t22);
             t22 = t23;
             if (t22 == 0) {
                 break;
@@ -259,7 +259,7 @@ int kmiFBreset(void)
         t30 = t29;
         for (;;) {
             t31 = *(int *)((t30 + 0x4));
-            FUN_0c157d20(t30);
+            kmytex_VQFreeEntry(t30);
             t30 = t31;
             if (t30 == 0) {
                 break;
@@ -543,7 +543,7 @@ int mwlRnaWaitTransEnd(int a4)
     return t9;
 }
 
-int FUN_0c07dc10(int a4)
+int nlSpriteSetGarbagedTexture(int a4)
 {
     int t0;
     int t1;
@@ -559,7 +559,7 @@ int FUN_0c07dc10(int a4)
         if (t3 == -1) {
             break;
         }
-        t4 = FUN_0c07db90(a4, t2, 0x0);
+        t4 = nlSpriteSetGarbagedTextureOnce_Sub(a4, t2, 0x0);
         t2 = (t2 + 0x1);
         t1 = (t1 + 0x10);
         t0 = (t0 | t4);
@@ -567,7 +567,7 @@ int FUN_0c07dc10(int a4)
     return t0;
 }
 
-int FUN_0c07dc60(int a4)
+int nlSpriteSetGarbagedTextureGI(int a4)
 {
     int t0;
     int t1;
@@ -583,7 +583,7 @@ int FUN_0c07dc60(int a4)
         if (t3 == -1) {
             break;
         }
-        t4 = FUN_0c07db90(a4, t2, 0x1);
+        t4 = nlSpriteSetGarbagedTextureOnce_Sub(a4, t2, 0x1);
         t2 = (t2 + 0x1);
         t1 = (t1 + 0x10);
         t0 = (t0 | t4);
@@ -591,7 +591,7 @@ int FUN_0c07dc60(int a4)
     return t0;
 }
 
-int FUN_0c07a2a0(int a4, int a5)
+int nlObjPutLoadTextureGI(int a4, int a5)
 {
     int t0;
     int t1;

@@ -1,37 +1,25 @@
 /* Straight-line functions with calls and guards (batch gen_ahc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077210(int, int);
-extern float _builtin_sqrtf(float);
-int nlArcTan2(float, float);
 int nlGetMatrix(int);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlUnitMatrix(void);
-int GetAng4Mat(int a4);
+int nlLoadMatrix(int);
+float nlScalor(int);
+int nlSetScaleFactor(float);
+int nlVoidUnitVector(int);
+int CalcShadow2Matrix(int a4);
 
-int GetAng4Mat(int a4)
+int CalcShadow2Matrix(int a4)
 {
     int t0;
-    float u4;
-    float u5;
-    float u6;
-    int t17;
-    int stk[10] = {0};
+    int stk[7];
 
     t0 = nlGetMatrix(0x0);
-    *(unsigned int *)((a4 + 0x4)) = (nlArcTan2((*(float *)((t0 + 0x20))), (*(float *)((t0 + 0x28)))));
-    u4 = *(float *)((t0 + 0x20));
-    u5 = *(float *)((t0 + 0x28));
-    u6 = (u5 * u5);
-    u6 = u6 + u4 * u4;
-    *(unsigned int *)((a4 + 0x0)) = (-(nlArcTan2((*(float *)((t0 + 0x24))), _builtin_sqrtf(u6))));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(t0); }
-    nlUnitMatrix();
-    nlRotateAX((-(*(int *)((a4 + 0x0)))));
-    nlRotateAY((-(*(int *)((a4 + 0x4)))));
-    FUN_0c077210(((int)stk + 4), ((int)stk + 4));
-    t17 = nlArcTan2((*(float *)(((int)stk + 8))), (*(float *)(((int)stk + 4))));
-    *(unsigned int *)((a4 + 0x8)) = t17;
-    return t17;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(t0) = *(struct mv3 *)(a4); }
+    *(float *)(((int)stk + 4)) = (-(*(float *)((a4 + 0x8))));
+    *(float *)(((int)stk + 12)) = (*(float *)((a4 + 0x0)));
+    *(float *)(((int)stk + 8)) = 0.0f;
+    nlVoidUnitVector(((int)stk + 4));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x20)) = *(struct mv3 *)(((int)stk + 4)); }
+    nlLoadMatrix(0x0);
+    return (nlSetScaleFactor((nlScalor(a4))));
 }

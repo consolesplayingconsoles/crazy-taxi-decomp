@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADX_DecodeInfo(int, int, int, int);
-void FUN_0c1524ee(int a4, int a5, int a6);
+void ADXT_IsHeader(int a4, int a5, int a6);
 
-void FUN_0c1524ee(int a4, int a5, int a6)
+void ADXT_IsHeader(int a4, int a5, int a6)
 {
     int t0;
     int stk[17] = {0};

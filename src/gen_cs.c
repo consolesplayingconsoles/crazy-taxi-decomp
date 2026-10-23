@@ -3,7 +3,7 @@
 
 int GetRotVec4Ang(int, int, int);
 int pcarRejoinLane(int);
-int FUN_0c077210(int, int);
+int nlCalcVector(int, int);
 int GetCollision2D(int, float);
 int carBalance(int);
 int calcCheck(int);

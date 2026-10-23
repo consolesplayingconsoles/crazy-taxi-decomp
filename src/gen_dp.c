@@ -7,23 +7,23 @@ int selectInitSprites(void);
 int Init_nd_Sprite(void);
 int Start_Time_Count(int, int);
 int fcvCalcAngle(int, int);
-int FUN_0c077df0(int);
-int FUN_0c07d450(int, int, int);
-int FUN_0c089270(int, int, int);
-int FUN_0c08933c(int, int, int, int);
-int FUN_0c0893b8(int, int, int);
-int FUN_0c0897f8(int, int);
-int FUN_0c089ad4(int, int, int);
-int FUN_0c089cc8(int, int);
-int FUN_0c171f6c(int, int, int);
-int FUN_0c171fe8(int, int, int);
-int FUN_0c172042(int, int, int);
-int FUN_0c1720ac(int, int, int);
-int FUN_0c1720f4(int, int, int);
-int FUN_0c172132(int, int);
-int FUN_0c17217a(void);
-int FUN_0c172180(int, int);
-int FUN_0c1721da(void);
+int nlMatrixMode(int);
+int nlMvSendTriangle(int, int, int);
+int _lsfts(int, int, int);
+int _sub(int, int, int, int);
+int _umemcmp(int, int, int);
+int _mvito4b(int, int);
+int _add(int, int, int);
+int _mvsto2b(int, int);
+int mwlSbSetFx(int, int, int);
+int mwlSbGetFx(int, int, int);
+int mwlSbSetPitch(int, int, int);
+int mwlSbSetFilter(int, int, int);
+int mwlSbGetFilter(int, int, int);
+int mwlSbSetGain(int, int);
+int mwlSbGetGain(void);
+int mwlSbSetDrctLvl(int, int);
+int mwlSbGetDrctLvl(void);
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 float _app_coss(float);
@@ -53,36 +53,36 @@ int nlMultiMatrix(int);
 int nlPerspective(int, float, float, float);
 int nlUnitMatrix(void);
 int setjmp(int);
-void FUN_0c1701e6(int a4, int a5, int a6);
-int FUN_0c1701d4(int a4, int a5);
-int FUN_0c1676f8(int a4, int a5);
+void vmsfs_setword_big(int a4, int a5, int a6);
+int vmsfs_getword_big(int a4, int a5);
+int gdGdcCheckDmaTrans(int a4, int a5);
 void nlGetTranslate(int a4);
-int FUN_0c1708b2(int a4, int a5, int a6);
+int fmMngMcpy_tail_0c1708b2(int a4, int a5, int a6);
 int __init_dteapi_cc_f(void);
 int _pow5(int a4, int a5);
-int FUN_0c1721e0(int a4, int a5, int a6, int a7);
-int FUN_0c17225c(int a4, int a5, int a6, int a7);
+int mwSbSetExPrm(int a4, int a5, int a6, int a7);
+int mwSbGetExPrm(int a4, int a5, int a6, int a7);
 int nlPushMatrix(int a4);
 int _mult(int a4, int a5, int a6);
-int FUN_0c077470(int a4);
-float FUN_0c079da0(void);
-float FUN_0c087ed4(float f4);
+int nlGetMatrix8(int a4);
+float nlMakeFastModelProjectMatrix(void);
+float _in_coss(float f4);
 int buFbrExecFiberServer(int a4);
 int fcvRotateCurve(int a4);
-int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5);
-int FUN_0c088928(int a4, int a5, int a6);
+int _unpack(int a4, int a5, int a6, float f4, float f5);
+int _its(int a4, int a5, int a6);
 int kmiChkActiveListType(int a4, int a5, int a6, int a7, int a8);
 int _pd_peripheral_set_data(int a4, int a5, int a6);
-void FUN_0c160cb0(int a4, int a5);
-int FUN_0c07d240(int a4, int a5, int a6, int a7);
+void syIntInit(int a4, int a5);
+int nlMvPutStrip(int a4, int a5, int a6, int a7);
 int nd_CarSelInit(void);
 
-void FUN_0c1701e6(int a4, int a5, int a6)
+void vmsfs_setword_big(int a4, int a5, int a6)
 {
     *(unsigned short *)(((a4 + a5) + 0x0)) = ((((unsigned int)a6) & 0xFFFF0000) | ((((unsigned int)a6) & 0xFF) << 8) | ((((unsigned int)a6) >> 8) & 0xFF));
 }
 
-int FUN_0c1701d4(int a4, int a5)
+int vmsfs_getword_big(int a4, int a5)
 {
     int t0;
 
@@ -90,7 +90,7 @@ int FUN_0c1701d4(int a4, int a5)
     return (unsigned short)((((unsigned int)t0) & 0xFFFF0000) | ((((unsigned int)t0) & 0xFF) << 8) | ((((unsigned int)t0) >> 8) & 0xFF));
 }
 
-int FUN_0c1676f8(int a4, int a5)
+int gdGdcCheckDmaTrans(int a4, int a5)
 {
     int t0;
 
@@ -127,7 +127,7 @@ void nlGetTranslate(int a4)
     _builtin_ld_ext((float (*)[4])u1);
 }
 
-int FUN_0c1708b2(int a4, int a5, int a6)
+int fmMngMcpy_tail_0c1708b2(int a4, int a5, int a6)
 {
     if ((int)a6 <= 0) {
         return 0;
@@ -146,49 +146,49 @@ int _pow5(int a4, int a5)
     return memmove(a5, (((a4 << 2) << 1) + 0xC0DAD38), 0x8);
 }
 
-int FUN_0c1721e0(int a4, int a5, int a6, int a7)
+int mwSbSetExPrm(int a4, int a5, int a6, int a7)
 {
     if (a5 == 0) {
-        return FUN_0c171f6c(a4, a6, a7);
+        return mwlSbSetFx(a4, a6, a7);
     }
     if (a5 == 1) {
-        return FUN_0c172042(a4, a6, a7);
+        return mwlSbSetPitch(a4, a6, a7);
     }
     if (a5 == 2) {
-        return FUN_0c172132(a4, a6);
+        return mwlSbSetGain(a4, a6);
     }
     if (a5 == 3) {
-        return FUN_0c1720ac(a4, a6, a7);
+        return mwlSbSetFilter(a4, a6, a7);
     }
     if (a5 == 4) {
-        return FUN_0c172180(a4, a6);
+        return mwlSbSetDrctLvl(a4, a6);
     }
     return a5;
 }
 
-int FUN_0c17225c(int a4, int a5, int a6, int a7)
+int mwSbGetExPrm(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
     int t2;
 
     if (a5 == 0) {
-        return FUN_0c171fe8(a4, a6, a7);
+        return mwlSbGetFx(a4, a6, a7);
     }
     if (a5 == 1) {
         return mwlSbGetPitch(a4, a6, a7);
     }
     if (a5 == 2) {
-        t0 = FUN_0c17217a();
+        t0 = mwlSbGetGain();
         *(unsigned int *)((a6 + 0x0)) = t0;
         *(unsigned int *)((a7 + 0x0)) = 0x0;
         return t0;
     }
     if (a5 == 3) {
-        return FUN_0c1720f4(a4, a6, a7);
+        return mwlSbGetFilter(a4, a6, a7);
     }
     if (a5 == 4) {
-        t1 = FUN_0c1721da();
+        t1 = mwlSbGetDrctLvl();
         *(unsigned int *)((a6 + 0x0)) = t1;
         t2 = t1;
     } else {
@@ -391,7 +391,7 @@ int _mult(int a4, int a5, int a6)
                 *(unsigned short *)(((int)stk + 4)) = (unsigned char)t8;
                 t9 = *(short *)(((int)stk + 4));
                 *(unsigned short *)(((int)stk + 4)) = (t9 + ((unsigned short)(unsigned char)t6 * (unsigned short)(unsigned char)t7));
-                FUN_0c089cc8((((short)t1 + (short)t2) + (((int)stk + 4) + 0x8)), ((int)stk + 4));
+                _mvsto2b((((short)t1 + (short)t2) + (((int)stk + 4) + 0x8)), ((int)stk + 4));
                 t2 = (t2 - 1);
                 if ((int)(short)t2 < 0) {
                     break;
@@ -401,7 +401,7 @@ int _mult(int a4, int a5, int a6)
                 t11 = memmove(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
                 t13 = t11;
             } else {
-                t12 = FUN_0c089ad4(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
+                t12 = _add(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
                 t13 = t12;
             }
             t15 = t13;
@@ -414,7 +414,7 @@ int _mult(int a4, int a5, int a6)
     return t15;
 }
 
-int FUN_0c077470(int a4)
+int nlGetMatrix8(int a4)
 {
     int t1;
     int t0;
@@ -446,7 +446,7 @@ int FUN_0c077470(int a4)
     return (((((((((t1 + 0x40) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8);
 }
 
-float FUN_0c079da0(void)
+float nlMakeFastModelProjectMatrix(void)
 {
     int t0;
     float u1;
@@ -754,7 +754,7 @@ float FUN_0c079da0(void)
     return u27;
 }
 
-float FUN_0c087ed4(float f4)
+float _in_coss(float f4)
 {
     int t0;
     int t1;
@@ -940,7 +940,7 @@ int buFbrExecFiberServer(int a4)
 }
 
 
-int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5)
+int _unpack(int a4, int a5, int a6, float f4, float f5)
 {
     int t0;
     int t1;
@@ -978,19 +978,19 @@ int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5)
     t5 = _builtin_get_fpscr();
     *(unsigned short *)((a5 + 0x0)) = ((int)(t4 & 0x7FF0) >> 4);
     _builtin_set_fpscr((t5 & 0xFFE7FFFF));
-    FUN_0c0897f8(((int)stk + 4), (((((int)stk + 4) + 0x4) + 0x6) - 2));
+    _mvito4b(((int)stk + 4), (((((int)stk + 4) + 0x4) + 0x6) - 2));
     t7 = _builtin_get_fpscr();
     _builtin_set_fpscr((t7 & 0xFFE7FFFF));
     memmove(a6, (((int)stk + 4) + 0x1), 0x3);
     t9 = _builtin_get_fpscr();
     _builtin_set_fpscr((t9 & 0xFFE7FFFF));
-    FUN_0c0897f8(((int)stk + 4), (((((int)stk + 4) + 0x4) + 0x6) - 6));
+    _mvito4b(((int)stk + 4), (((((int)stk + 4) + 0x4) + 0x6) - 6));
     t11 = _builtin_get_fpscr();
     _builtin_set_fpscr((t11 & 0xFFE7FFFF));
     memmove((a6 + 0x3), ((int)stk + 4), 0x4);
     t13 = _builtin_get_fpscr();
     _builtin_set_fpscr((t13 & 0xFFE7FFFF));
-    FUN_0c089270(a6, 0x7, 0x3);
+    _lsfts(a6, 0x7, 0x3);
     t15 = *(short *)((a5 + 0x0));
     if ((int)t15 > 0) {
         t16 = *(signed char *)((a6 + 0x0));
@@ -1012,7 +1012,7 @@ int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5)
             t20 = t22;
             t20 = (t20 & 0xFFE7FFFF);
             _builtin_set_fpscr(t20);
-            t23 = FUN_0c089270(a6, 0x7, 0x1);
+            t23 = _lsfts(a6, 0x7, 0x1);
             t19 = t23;
             t24 = *(short *)((a5 + 0x0));
             t20 = t24;
@@ -1024,7 +1024,7 @@ int FUN_0c0893ec(int a4, int a5, int a6, float f4, float f5)
     return t25;
 }
 
-int FUN_0c088928(int a4, int a5, int a6)
+int _its(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -1094,10 +1094,10 @@ int FUN_0c088928(int a4, int a5, int a6)
         *(unsigned int *)(((int)stk + 4)) = 0x0;
         t14 = 0x8;
         for (;;) {
-            t15 = FUN_0c0893b8((t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
+            t15 = _umemcmp((t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
             t5 = t15;
             if ((int)t5 >= 0) {
-                t16 = FUN_0c08933c(0x0, (t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
+                t16 = _sub(0x0, (t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
                 t5 = t16;
                 *(unsigned int *)(((int)stk + 28)) = t5;
                 t17 = *(int *)(((int)stk + 12));
@@ -1384,7 +1384,7 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
     return 0x22;
 }
 
-void FUN_0c160cb0(int a4, int a5)
+void syIntInit(int a4, int a5)
 {
     int t0;
     int t1;
@@ -1561,7 +1561,7 @@ void FUN_0c160cb0(int a4, int a5)
     _builtin_set_cr((_builtin_get_cr() & 0xEFFFFFFF));
 }
 
-int FUN_0c07d240(int a4, int a5, int a6, int a7)
+int nlMvPutStrip(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -1793,7 +1793,7 @@ int FUN_0c07d240(int a4, int a5, int a6, int a7)
                         t8 = t55;
                         t56 = *(int *)(((((int)stk + 4) + 0x20) + 0x0));
                         t6 = t56;
-                        t57 = FUN_0c07d450(t6, t7, t8);
+                        t57 = nlMvSendTriangle(t6, t7, t8);
                         t3 = t57;
                     } else {
                         if (t3 == 4) {
@@ -1807,7 +1807,7 @@ int FUN_0c07d240(int a4, int a5, int a6, int a7)
                             t8 = t61;
                             t62 = *(int *)(((((int)stk + 4) + 0x20) + 0x0));
                             t6 = t62;
-                            t63 = FUN_0c07d450(t6, t7, t8);
+                            t63 = nlMvSendTriangle(t6, t7, t8);
                             t3 = t63;
                             t64 = *(int *)(((int)stk + 12));
                             t8 = t64;
@@ -1830,7 +1830,7 @@ int FUN_0c07d240(int a4, int a5, int a6, int a7)
                             t8 = t71;
                             t72 = *(int *)(((((int)stk + 4) + 0x20) + 0x0));
                             t6 = t72;
-                            t73 = FUN_0c07d450(t6, t7, t8);
+                            t73 = nlMvSendTriangle(t6, t7, t8);
                             t3 = t73;
                             t75 = *(int *)(((int)stk + 4));
                             t7 = t75;
@@ -1842,7 +1842,7 @@ int FUN_0c07d240(int a4, int a5, int a6, int a7)
                             t8 = t78;
                             t79 = *(int *)(((((int)stk + 4) + 0x20) + 0x0));
                             t6 = t79;
-                            t80 = FUN_0c07d450(t6, t7, t8);
+                            t80 = nlMvSendTriangle(t6, t7, t8);
                             t3 = t80;
                             t81 = *(int *)(((int)stk + 32));
                             t8 = t81;
@@ -1855,7 +1855,7 @@ int FUN_0c07d240(int a4, int a5, int a6, int a7)
                         t7 = t85;
                         t86 = *(int *)(((((int)stk + 4) + 0x20) + 0x0));
                         t6 = t86;
-                        t87 = FUN_0c07d450(t6, t7, t8);
+                        t87 = nlMvSendTriangle(t6, t7, t8);
                         t3 = t87;
                     }
                 } else {

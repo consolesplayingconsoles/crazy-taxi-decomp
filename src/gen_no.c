@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_no): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077210(int, int);
-void FUN_0c077230(int a4, int a5, int a6);
+int nlCalcVector(int, int);
+void nlCalcVectors(int a4, int a5, int a6);
 
-void FUN_0c077230(int a4, int a5, int a6)
+void nlCalcVectors(int a4, int a5, int a6)
 {
     int t1;
     int t2;
@@ -24,6 +24,6 @@ void FUN_0c077230(int a4, int a5, int a6)
         *(unsigned int *)(((int)stk + 8)) = (t2 + 0xC);
         t3 = *(int *)(((int)stk + 4));
         *(unsigned int *)(((int)stk + 4)) = (t3 + 0xC);
-        FUN_0c077210(((t3 + 0xC) - 12), ((t2 + 0xC) - 12));
+        nlCalcVector(((t3 + 0xC) - 12), ((t2 + 0xC) - 12));
     }
 }

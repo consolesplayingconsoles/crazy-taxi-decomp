@@ -10,19 +10,19 @@ int getNearLinkedLine(int, int, int, int, int);
 int HomingPosX(int, float, float);
 int pedGetSubwayFlag(void);
 int fcvSolveIK(int, int, int, int, int);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c0789c0(int);
-int FUN_0c078a70(int, int, int);
-int FUN_0c07b570(int);
-int FUN_0c080990(int, int);
-int FUN_0c080d70(int, int);
-int FUN_0c0813d0(int);
-int FUN_0c1573a0(void);
-int FUN_0c1573f2(int, int, int);
-int FUN_0c157852(int, int, int, int, int, int);
-int FUN_0c15a9a8(int);
-int FUN_0c169514(int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlTranslateNV(int);
+int nlAddVector3op(int, int, int);
+int nlInitInterrupt0(int);
+int nlstripSetVertexContextTex(int, int);
+int nldispstripTexOfsSub(int, int);
+int abs(int);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBEnQueueTop(int, int, int);
+int kmiVQallocFB(int, int, int, int, int, int);
+int kmiCheckRenderTexture(int);
+int ADXT_ExecErrChk(int);
 int GetCollision2D(int, float);
 int Sound_Request(int, int);
 int adxt_stat_decend(int);
@@ -76,12 +76,12 @@ int sklRotate(int);
 void nlSetTranslate(int a4);
 void nlUnitMatrix(void);
 int nlDispStripTexOfsTrnsl(int a4, int a5, int a6);
-int nlObjPutMLPreCalcLightRestore(void);
-int FUN_0c1696c4(int a4);
+int nlInitInterruptDC(void);
+int ADXT_ExecHndl(int a4);
 int pcarRejoinLane(int a4);
 int CheckCollisionPoly(int a4, int a5, int a6);
 int carCorneringForce(int a4, int a5);
-int FUN_0c156f4c(int a4, int a5, int a6);
+int VQalloc(int a4, int a5, int a6);
 int entryCarPut(int a4);
 int selectDrawDriverTiles(void);
 int kmRenderTextureDirect(int a4);
@@ -97,19 +97,19 @@ int nlDispStripTexOfsTrnsl(int a4, int a5, int a6)
 {
     int t0;
 
-    t0 = FUN_0c080990(0xC14AB40, a6);
+    t0 = nlstripSetVertexContextTex(0xC14AB40, a6);
     if (t0 == 0) {
-        return FUN_0c080d70(a4, a5);
+        return nldispstripTexOfsSub(a4, a5);
     }
     return t0;
 }
 
-int nlObjPutMLPreCalcLightRestore(void)
+int nlInitInterruptDC(void)
 {
-    return FUN_0c07b570(0x0);
+    return nlInitInterrupt0(0x0);
 }
 
-int FUN_0c1696c4(int a4)
+int ADXT_ExecHndl(int a4)
 {
     int t0;
     int t3;
@@ -137,13 +137,13 @@ int FUN_0c1696c4(int a4)
             }
         }
     }
-    return FUN_0c169514(a4);
+    return ADXT_ExecErrChk(a4);
 }
 
 
 
 
-int FUN_0c156f4c(int a4, int a5, int a6)
+int VQalloc(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -316,13 +316,13 @@ int FUN_0c156f4c(int a4, int a5, int a6)
         if (t39 == 2) {
             t40 = *(short *)(((int)stk + 20));
             t41 = *(int *)(((int)stk + 16));
-            t42 = FUN_0c157852(t40, t33, t1, t41, 0x0, 0x1);
+            t42 = kmiVQallocFB(t40, t33, t1, t41, 0x0, 0x1);
             t79 = t42;
         } else {
             t43 = *(int *)((t38 + 0x10));
             if (t43 == t1) {
                 kmytex_FBDeQueueEntry((((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x8), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0xC), t38);
-                FUN_0c1573f2(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t38);
+                kmytex_FBEnQueueTop(((((t2 << 2) + t2) << 2) + 0xC177FBC), (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t38);
                 t46 = *(int *)((t38 + 0xC));
                 t47 = *(int *)(((int)stk + 16));
                 *(unsigned int *)((t47 + 0x8)) = t46;
@@ -344,7 +344,7 @@ int FUN_0c156f4c(int a4, int a5, int a6)
                 *(unsigned int *)((((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x10)) = (t56 - t55);
                 t76 = 0x0;
             } else {
-                t57 = FUN_0c1573a0();
+                t57 = kmytex_FBAllocEntry();
                 t74 = 0x3;
                 if (t57 != 0) {
                     t58 = *(int *)((t38 + 0xC));
@@ -356,7 +356,7 @@ int FUN_0c156f4c(int a4, int a5, int a6)
                     *(unsigned int *)((t38 + 0xC)) = (t60 + t1);
                     *(unsigned int *)(((int)stk + 12)) = ((((t2 << 2) + t2) << 2) + 0xC177FBC);
                     t61 = *(int *)(((int)stk + 12));
-                    FUN_0c1573f2(t61, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t57);
+                    kmytex_FBEnQueueTop(t61, (((((t2 << 2) + t2) << 2) + 0xC177FBC) + 0x4), t57);
                     t63 = *(int *)((t57 + 0xC));
                     t64 = *(int *)(((int)stk + 16));
                     *(unsigned int *)((t64 + 0x8)) = t63;
@@ -386,207 +386,6 @@ int FUN_0c156f4c(int a4, int a5, int a6)
     return t82;
 }
 
-int entryCarPut(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
-    int t23;
-    int t24;
-    float u25;
-    int t26;
-    float u27;
-    float u28;
-    int t29;
-    float u30;
-    int t34;
-    float u31;
-    float u32;
-    int t33;
-    float u37;
-    int t38;
-    int t39;
-    int t40;
-    int t41;
-    int t42;
-    int t43;
-    int t44;
-    int t45;
-    int t46;
-    int t47;
-    int t48;
-    int t49;
-    int t50;
-    int t51;
-    int t52;
-    int t53;
-    int t54;
-    int t55;
-    int stk[17] = {0};
-
-    if (a4 == 0) {
-        *(unsigned int *)0xC2A44C8 = 0x0;
-        *(unsigned int *)0xC2A44A8 = 0x0;
-        t0 = 0xC2A44CC;
-        t1 = 0x0;
-        do {
-            t1 = (t1 + 0x1);
-            *(unsigned int *)((t0 + 0x0)) = 0x0;
-            t0 = (t0 + 0x4);
-        } while ((int)t1 < (int)0x64);
-        *(unsigned int *)0xC2A44AC = 0x0;
-        t2 = *(int *)0xC0A4790;
-        *(unsigned int *)0xC2A44B8 = t2;
-        t3 = *(int *)0xC0A478C;
-        *(unsigned int *)0xC2A44B4 = t3;
-        t4 = *(int *)0xC0A4788;
-        *(unsigned int *)0xC2A44B0 = t4;
-        *(float *)0xC2A44BC = 0.0f;
-        *(float *)0xC2A44C0 = 20.0f;
-        *(float *)0xC2A44C4 = -100.0f;
-        courseStatusInit(0x0);
-        t6 = carBoxVertexInit();
-        t55 = t6;
-    } else {
-        courseStatusInit(0x2);
-        *(unsigned int *)(((int)stk + 12)) = 0x0;
-        t8 = 0xC0449C8;
-        t9 = 0xC2A44CC;
-        for (;;) {
-            t10 = *(int *)(((int)stk + 12));
-            t11 = *(int *)0xC2A44C8;
-            if ((unsigned int)t10 < (unsigned int)t11) {
-                t8 = 0x84;
-                t12 = *(int *)((t9 + 0x0));
-                t13 = *(int *)((t12 + t8));
-                if ((t13 & 0x10) == 0) {
-                    t8 = 0xD4;
-                    t14 = *(int *)((t12 + t8));
-                    t8 = (t8 - 84);
-                    t15 = *(int *)((t12 + t8));
-                    t16 = courseStatusEntry(t15, t14);
-                    t8 = t16;
-                    t8 = 0x78;
-                    t17 = *(int *)((t12 + t8));
-                    if ((int)t17 >= (int)0xA) {
-                        t8 = 0x80;
-                        t18 = *(int *)((t12 + t8));
-                        t8 = 0xD4;
-                        *(unsigned int *)(((int)stk + 8)) = t18;
-                        t19 = *(int *)((t12 + t8));
-                        *(unsigned int *)(((int)stk + 4)) = (t19 - 1);
-                        t20 = getCoursePointMove((((int)stk + 4) + 0x4), ((int)stk + 4), 0x0);
-                        t8 = t20;
-                        t21 = *(int *)(((int)stk + 4));
-                        t22 = *(int *)(((int)stk + 8));
-                        t23 = courseStatusEntry(t22, t21);
-                        t8 = t23;
-                    }
-                }
-                t24 = nlProjectScreen3D((0x8C + t12));
-                t8 = t24;
-                t8 = 0xB0;
-                u25 = *(float *)((t12 + t8));
-                t26 = CheckClippingProject3D((((int)stk + 4) + 0xC), u25);
-                t8 = t26;
-                if (t8 != 0) {
-                    t8 = 0xC044AD0;
-                    u27 = *(float *)((t8 + 0x0));
-                    t8 = 0x14;
-                    u28 = *(float *)((((int)stk + 4) + t8));
-                    if (u28 > u27) {
-                        t8 = 0x84;
-                        t29 = *(int *)((t12 + t8));
-                        *(unsigned int *)((t12 + t8)) = (t29 | 0x10000);
-                        t8 = 0x14;
-                        u30 = *(float *)((((int)stk + 4) + t8));
-                        t34 = 0x1;
-                        if (u30 > -400.0f) {
-                            t8 = 0xC;
-                            u31 = *(float *)((((int)stk + 4) + t8));
-                            t8 = 0xC044AD8;
-                            u32 = *(float *)((t8 + 0x0));
-                            t33 = 0x1;
-                            if (u32 > (u31 < 0.0f ? -u31 : u31)) {
-                                t33 = 0x0;
-                            }
-                            t34 = t33;
-                        }
-                        u37 = *(float *)0xC1798A4;
-                        t38 = t34;
-                        if (40.0f > u37) {
-                            t38 = 0x0;
-                        }
-                        t39 = nlPushMatrix(0x0);
-                        t8 = t39;
-                        t40 = nlTranslateV((0x8C + t12));
-                        t8 = t40;
-                        t8 = 0xA6;
-                        t41 = *(short *)((t12 + t8));
-                        t42 = nlRotateAY((unsigned short)t41);
-                        t8 = t42;
-                        t8 = 0xA4;
-                        t43 = *(short *)((t12 + t8));
-                        t44 = nlRotateAX((unsigned short)t43);
-                        t8 = t44;
-                        t8 = 0xA8;
-                        t45 = *(short *)((t12 + t8));
-                        t46 = nlRotateAZ((unsigned short)t45);
-                        t8 = t46;
-                        t8 = 0x78;
-                        t47 = *(int *)((t12 + t8));
-                        if ((int)t47 < (int)0x10) {
-                            t48 = putCarModel(t12, t38);
-                            t8 = t48;
-                        } else {
-                            t49 = putTrainModel(t12, t38);
-                            t8 = t49;
-                        }
-                        t50 = nlPopMatrix(0x1);
-                        t8 = t50;
-                    } else {
-                        t8 = 0x84;
-                        t51 = *(int *)((t12 + t8));
-                        *(unsigned int *)((t12 + t8)) = (t51 & 0xFFFEFFFF);
-                    }
-                } else {
-                    t8 = 0x84;
-                    t52 = *(int *)((t12 + t8));
-                    *(unsigned int *)((t12 + t8)) = (t52 & 0xFFFEFFFF);
-                }
-                t53 = *(int *)(((int)stk + 12));
-                t9 = (t9 + 0x4);
-                *(unsigned int *)(((int)stk + 12)) = (t53 + 0x1);
-                continue;
-            }
-            break;
-        }
-        t54 = replay(0x0);
-        if (t54 != 4) {
-            *(unsigned int *)0xC2A44C8 = 0x0;
-        }
-        t55 = t54;
-    }
-    return t55;
-}
 
 
 

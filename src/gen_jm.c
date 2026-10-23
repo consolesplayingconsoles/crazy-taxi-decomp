@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_jm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15a9a8(int);
+int kmiCheckRenderTexture(int);
 int kmSetPixelClipping(int, int, int, int);
 int kmiFlipVertexBuffer(int);
 int kmiReadRegister(int);
@@ -179,7 +179,7 @@ int kmRenderTextureDirect(int a4, int a5, int a6, int a7)
     R6 = a6;
     R7 = a7;
     L_C15B6B6:;
-    t0 = FUN_0c15a9a8(R4);
+    t0 = kmiCheckRenderTexture(R4);
     t1 = t0 == 0;
     t2 = t0;
     t3 = R4;

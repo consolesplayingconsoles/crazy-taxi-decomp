@@ -3,9 +3,9 @@
 
 int kmiReadRegister(int);
 int thunk_kmiWriteRegister(int, int);
-int FUN_0c16d2c0(int a4, int a5, int a6, int a7, int a8);
+int kmiSetVideoTimings(int a4, int a5, int a6, int a7, int a8);
 
-int FUN_0c16d2c0(int a4, int a5, int a6, int a7, int a8)
+int kmiSetVideoTimings(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;

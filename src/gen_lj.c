@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_lj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c15cace(int);
-int FUN_0c15cc6e(int);
-int FUN_0c15cd40(int);
-int FUN_0c15ce20(int);
+int kmtex_ReloadPalettized4MM(int);
+int kmtex_ReloadPalettized8MM(int);
+int kmtex_ReloadTwiddledMM(int);
+int kmtex_ReloadVQMM(int);
 int kmReLoadMipmap(int a4, int a5, int a6, int a7);
 
 int kmReLoadMipmap(int a4, int a5, int a6, int a7)
@@ -87,7 +87,7 @@ int kmReLoadMipmap(int a4, int a5, int a6, int a7)
     if (t6) goto L_C15C2D0;
     goto L_C15C2C8;
     L_C15C2C8:;
-    t9 = FUN_0c15cace(R4);
+    t9 = kmtex_ReloadPalettized4MM(R4);
     t10 = t9;
     R0 = t10;
     goto L_C15C316;
@@ -118,7 +118,7 @@ int kmReLoadMipmap(int a4, int a5, int a6, int a7)
     if (t18) goto L_C15C2E6;
     goto L_C15C2DE;
     L_C15C2DE:;
-    t21 = FUN_0c15cc6e(R4);
+    t21 = kmtex_ReloadPalettized8MM(R4);
     t22 = t21;
     R0 = t22;
     goto L_C15C316;
@@ -132,7 +132,7 @@ int kmReLoadMipmap(int a4, int a5, int a6, int a7)
     if (t24) goto L_C15C2F6;
     goto L_C15C2EE;
     L_C15C2EE:;
-    t27 = FUN_0c15ce20(R4);
+    t27 = kmtex_ReloadVQMM(R4);
     t28 = t27;
     R0 = t28;
     goto L_C15C316;
@@ -146,7 +146,7 @@ int kmReLoadMipmap(int a4, int a5, int a6, int a7)
     if (t30) goto L_C15C304;
     goto L_C15C2FC;
     L_C15C2FC:;
-    t33 = FUN_0c15ce20(R4);
+    t33 = kmtex_ReloadVQMM(R4);
     t34 = t33;
     R0 = t34;
     goto L_C15C316;
@@ -170,7 +170,7 @@ int kmReLoadMipmap(int a4, int a5, int a6, int a7)
     if (t40) goto L_C15C31A;
     goto L_C15C312;
     L_C15C312:;
-    t43 = FUN_0c15cd40(R4);
+    t43 = kmtex_ReloadTwiddledMM(R4);
     t44 = t43;
     R0 = t44;
     goto L_C15C316;

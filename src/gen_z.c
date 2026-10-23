@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_z): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c156742(int, int);
-int FUN_0c156934(int, int, int, int, int, int);
-int FUN_0c157160(int, int, int);
+int kmiFBallocSub(int, int);
+int kmytex_ABSalloc(int, int, int, int, int, int);
+int kmiMIPallocSub(int, int, int);
 typedef struct {
     int w[63];
 } Block252;
 
-int FUN_0c16d2c0(int a, int b, int c, int d, Block252 v);
+int kmiSetVideoTimings(int a, int b, int c, int d, Block252 v);
 int kmiCopyToFrameBuffer(int, int, int, int);
 int vmsfs_c_getstate(int, int, int, int);
 int vmsfs_c_setfname(int, int, int);
@@ -64,10 +64,10 @@ void kmiMIPalloc(int a4, int a5)
     if (t0 != 0) {
         t1 = (a4 + (0x20 - t0));
     }
-    t2 = FUN_0c157160(0x0, t1, a5);
+    t2 = kmiMIPallocSub(0x0, t1, a5);
     t5 = t2;
     if (t2 == 0) {
-        t3 = FUN_0c157160(0x1, t1, a5);
+        t3 = kmiMIPallocSub(0x1, t1, a5);
         t5 = t3;
     }
     if (t5 != 0) {
@@ -77,12 +77,12 @@ void kmiMIPalloc(int a4, int a5)
         t7 = *(short *)((t5 + 0x0));
         *(unsigned short *)((t5 + 0x0)) = (t7 | 0x4);
     } else {
-        t8 = FUN_0c156742(t1, a5);
+        t8 = kmiFBallocSub(t1, a5);
         if (t8 != -1) {
-            t9 = FUN_0c156934(0x0, t8, t1, a5, 0x1, 0x1);
+            t9 = kmytex_ABSalloc(0x0, t8, t1, a5, 0x1, 0x1);
             if (t9 == 0) {
                 t10 = *(int *)0xC177FB0;
-                FUN_0c156934(0x1, (t10 + t8), t1, (((int)stk + 4) + 0x8), 0x1, 0x0);
+                kmytex_ABSalloc(0x1, (t10 + t8), t1, (((int)stk + 4) + 0x8), 0x1, 0x0);
             }
         }
     }
@@ -185,5 +185,5 @@ void kmiInitVGA(void)
     *(unsigned int *)0xC2EA998 = (t3 + t2);
     t4 = *(int *)((((int)&v) + 0xC));
     *(unsigned int *)0xC2EA99C = t4;
-    FUN_0c16d2c0(0x1E0, 0x28, 0x23, 0, v);
+    kmiSetVideoTimings(0x1E0, 0x28, 0x23, 0, v);
 }

@@ -92,8 +92,11 @@ def reach_in(start, lo, hi):
     return seen, flags, outs
 
 
-def piece(i, F, entry):
+def piece(i, F, entry, rename=None, extra=()):
+    """rename: export the piece under another name (a second copy of a function that has C); extra: addresses inside it that also
+    get an exported label _ent_<address> (a place other code jumps to, in the middle)."""
     a, size, name = F[i]
+    ename = rename or name
     nxt = F[i + 1][0] if i + 1 < len(F) else G1
     first = B.word(a)
     if first == 0xEEEE or shdis.decode(first, a)[0].startswith('.word'):
@@ -158,6 +161,10 @@ def piece(i, F, entry):
                 redirected.add(x)
         else:
             lines[x] = ['          ' + re.sub(r'^(\S+)\s+', lambda mm: '%-10s ' % mm.group(1).upper(), text).upper().replace('0X', 'H\'') if False else '          ' + _upper(text)]
+    for x in extra:
+        if x not in seen:
+            return None, 'no instruction at %08x' % x
+        labels.setdefault(x, 'L_%08x' % x)
     # pass 2: bytes the code does not reach, as words (a pointer to a function becomes its symbol)
     covered = set()
     for x in seen:
@@ -168,6 +175,8 @@ def piece(i, F, entry):
         if x in covered:
             if x in labels:
                 out.append(labels[x] + ':')
+            if x in extra:
+                out.append('_ent_%08x:' % x)
             out += lines[x]
             x += 2
             continue
@@ -205,10 +214,10 @@ def piece(i, F, entry):
     body = [l for l in out if l != ''] + tail
     text = ['; %08x-%08x %s (%d bytes), instructions and symbols so that it can move' % (a, nxt, name, nxt - a),
             '          .SECTION    P, CODE, ALIGN=4',
-            '          .EXPORT     _%s' % name] + (['          .DATA.W    H\'0009'] if a % 4 == 2 else []) + [
-            '_%s:' % name] + body + ['          .END']
+            '          .EXPORT     _%s' % ename] + ['          .EXPORT     _ent_%08x' % x for x in extra] + (['          .DATA.W    H\'0009'] if a % 4 == 2 else []) + [
+            '_%s:' % ename] + body + ['          .END']
     # imports: every other function it names
-    imps = sorted({m_ for l in text for m_ in re.findall(r'\b_([A-Za-z_]\w*)', l)} - {name})
+    imps = sorted({m_ for l in text for m_ in re.findall(r'\b_([A-Za-z_]\w*)', l)} - {ename} - {'ent_%08x' % x for x in extra})
     text[3:3] = ['          .IMPORT     _%s' % n for n in imps]
     return ('\n'.join(text) + '\n', None) if not CHECK else ('\n'.join(text) + '\n', redirected)
 

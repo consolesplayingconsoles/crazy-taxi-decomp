@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_gb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c158f00(void);
+int kmiWriteDispModeRegisters(void);
 int kmiDiscardRenderPipeline(void);
 int kmiFBControl(int, int, int, int);
 int kmiResetBoard(void);
@@ -115,7 +115,7 @@ int kmChangeDisplayFilterMode(int a4, int a5)
     }
     t39 = *(int *)0xC2EA6A4;
     kmiFBControl(t33, t34, t39, t35);
-    FUN_0c158f00();
+    kmiWriteDispModeRegisters();
     t42 = *(int *)0xC2EA948;
     kmiWriteRegister(0x44, (t42 & 0xFFFFFFFE));
     t44 = *(int *)0xC2EA984;

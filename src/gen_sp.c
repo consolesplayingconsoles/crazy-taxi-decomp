@@ -3,9 +3,9 @@
 
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
-void FUN_0c14dd4c(int a4, int a5);
+void gdFsEntryErrFuncAllG(int a4, int a5);
 
-void FUN_0c14dd4c(int a4, int a5)
+void gdFsEntryErrFuncAllG(int a4, int a5)
 {
     int t0;
 

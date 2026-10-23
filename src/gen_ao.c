@@ -34,24 +34,24 @@ int PutNameEntryScreen(void);
 int PutNameEntryRank(int);
 int PutNameEntryDrum(int, float);
 int PutNameEntryName(void);
-int FUN_0c075930(float);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c07cb70(int, int, int);
-int FUN_0c07e8a0(int, int);
-int FUN_0c07e960(int, int, int, int);
-int FUN_0c07f5c0(void);
-int FUN_0c08160a(int);
-int FUN_0c085dfc(int, int, int);
-int FUN_0c15c3c8(int, int, int, int);
-int FUN_0c16884a(int);
-int FUN_0c168862(int);
-int FUN_0c1697ee(int, int);
-int FUN_0c16af38(void);
-int FUN_0c170834(void);
-int FUN_0c17088c(int, int, int);
-int FUN_0c1708d0(int, int);
-int FUN_0c173328(int, int, int, int, int, int, int);
+int nlArcSin(float);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMvClipEdge(int, int, int);
+int nlsndCheckPackLoadError(int, int);
+int nlsndPackLoadInit(int, int, int, int);
+int nlsndSeqRequest(void);
+int prefetch(int);
+int vsprintf(int, int, int);
+int kmtex_CheckTextureFormat(int, int, int, int);
+int ADXSJD_GetNumChan(int);
+int ADXSJD_GetBlkSmpl(int);
+int ADXF_Ocbi(int, int);
+int SJMEM_Lock(void);
+int syBtFlRead(void);
+int fmMngMcpy4(int, int, int);
+int fmMngBit2Num(int, int);
+int adxb_DecodeInfoAuSub(int, int, int, int, int, int, int);
 int SJMEM_Unlock(int, int);
 int SJRBF_Create(void);
 int SJRBF_GetBufPtr(int);
@@ -309,7 +309,7 @@ int nlInitCommonTexture(int a4, int a5, int a6)
     return t9;
 }
 
-void FUN_0c074ac0(int a4, int a5, int a6, int a7, int a8)
+void nlSetUserTileClip(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t1;
@@ -325,7 +325,7 @@ void FUN_0c074ac0(int a4, int a5, int a6, int a7, int a8)
     } while ((int)t0 < (int)0x5);
 }
 
-int FUN_0c075600(int a4, int a5, int a6, float f4)
+int nlSetBackColorZ(int a4, int a5, int a6, float f4)
 {
     int t0;
     int t1;
@@ -369,14 +369,14 @@ int FUN_0c075600(int a4, int a5, int a6, float f4)
     return t4;
 }
 
-int FUN_0c075860(float f4)
+int nlArcCos(float f4)
 {
     int t0;
 
     if ((f4 < 0.0f ? -f4 : f4) > 1.0f) {
         return 0x0;
     }
-    t0 = FUN_0c075930(f4);
+    t0 = nlArcSin(f4);
     return (((-t0) + 0x4000) & 0xFFFF);
 }
 
@@ -404,7 +404,7 @@ int nlExp(float f4)
     return nlLdexpf(((((f4 - ((float)(int)(u0 + (f4 / 0.693147123f)) * 0.693147123f)) + u2) + (1.0f + 1.0f)) / ((u2 - (f4 - ((float)(int)(u0 + (f4 / 0.693147123f)) * 0.693147123f))) + (1.0f + 1.0f))));
 }
 
-int FUN_0c07c150(int a4, int a5, int a6)
+int nlLineSendVertex(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -445,14 +445,14 @@ int FUN_0c07c150(int a4, int a5, int a6)
         *(unsigned int *)((t3 + 0x0)) = t0;
         t3 = (t3 + 0x4);
         *(unsigned int *)((t3 + 0x0)) = 0x0;
-        t7 = FUN_0c08160a(t3);
+        t7 = prefetch(t3);
         t1 = (t1 + 0x1);
         t3 = (t3 + 0x4);
     } while ((int)t1 < (int)0x4);
     return t7;
 }
 
-void FUN_0c07c9b0(int a4, int a5)
+void nlMvCalcEdgeA(int a4, int a5)
 {
     int t0;
     int t1;
@@ -483,7 +483,7 @@ void FUN_0c07c9b0(int a4, int a5)
         t7 = t3;
         t8 = t0;
         do {
-            nlSqrt(t4, t8);
+            nlCalcPoint(t4, t8);
             u10 = *(float *)((t8 + 0x0));
             u11 = *(float *)0xC2B7698;
             *(float *)((t7 + 0x0)) = (u10 + u11);
@@ -505,7 +505,7 @@ void FUN_0c07c9b0(int a4, int a5)
             } else {
                 *(float *)((t7 + 0xC)) = (1.0f / u18);
             }
-            FUN_0c07cb70(t8, t7, t6);
+            nlMvClipEdge(t8, t7, t6);
             t5 = (t5 + 0x1);
             t8 = (t8 + 0x10);
             t6 = (t6 + 0x10);
@@ -515,7 +515,7 @@ void FUN_0c07c9b0(int a4, int a5)
     }
 }
 
-void FUN_0c07ca80(int a4, int a5, int a6)
+void nlMvCalcEdgeB(int a4, int a5, int a6)
 {
     int t0;
     float u1;
@@ -550,8 +550,8 @@ void FUN_0c07ca80(int a4, int a5, int a6)
         do {
             nlSubVector3op(0xC2B7698, t5, 0xC2B7688);
             nlScaleUnitVector(0xC2B7698, 0xC2B7698, u1);
-            FUN_0c077210(0xC2B7698, 0xC2B7698);
-            nlSqrt(t5, t9);
+            nlCalcVector(0xC2B7698, 0xC2B7698);
+            nlCalcPoint(t5, t9);
             u14 = *(float *)((t9 + 0x0));
             u15 = *(float *)0xC2B7698;
             *(float *)((t8 + 0x0)) = (u14 + u15);
@@ -573,7 +573,7 @@ void FUN_0c07ca80(int a4, int a5, int a6)
             } else {
                 *(float *)((t8 + 0xC)) = (1.0f / u22);
             }
-            FUN_0c07cb70(t9, t8, t7);
+            nlMvClipEdge(t9, t8, t7);
             t6 = (t6 + 0x1);
             t9 = (t9 + 0x10);
             t7 = (t7 + 0x10);
@@ -626,7 +626,7 @@ int nlInitSprite(int a4, int a5, int a6)
     return t10;
 }
 
-void FUN_0c07e820(int a4, int a5, int a6)
+void nlsndBlockMove(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -646,7 +646,7 @@ void FUN_0c07e820(int a4, int a5, int a6)
         }
         t2 = 0x0;
         for (;;) {
-            t3 = FUN_0c07f5c0();
+            t3 = nlsndSeqRequest();
             if (t3 != 0) {
                 t2 = (t2 + 0x1);
                 if ((int)t2 >= (int)0x400000) break;
@@ -658,7 +658,7 @@ void FUN_0c07e820(int a4, int a5, int a6)
     }
 }
 
-int FUN_0c07ede0(int a4, int a5, int a6)
+int nlsndPackLoadBG(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -674,13 +674,13 @@ int FUN_0c07ede0(int a4, int a5, int a6)
     *(unsigned int *)(((int)stk + 8)) = a5;
     *(unsigned int *)(((int)stk + 12)) = a6;
     t0 = *(int *)(((int)stk + 8));
-    t1 = FUN_0c07e8a0(a4, t0);
+    t1 = nlsndCheckPackLoadError(a4, t0);
     t8 = t1;
     if (t1 == 0) {
         t2 = *(int *)((a4 + 0x8));
         t3 = *(int *)((a4 + 0x4));
         t4 = *(int *)(((int)stk + 8));
-        t5 = FUN_0c07e960(t4, t3, t2, ((int)stk + 4));
+        t5 = nlsndPackLoadInit(t4, t3, t2, ((int)stk + 4));
         *(unsigned int *)0xC2B7710 = t5;
         *(unsigned int *)0xC2B770C = a4;
         *(unsigned int *)0xC2B76FC = 0x1;
@@ -986,7 +986,7 @@ int ADXF_ReadNw32(int a4, int a5, int a6)
                                 if (t9 == 1) {
                                     t10 = *(int *)((a4 + 0x2C));
                                     t11 = *(int *)((a4 + 0x28));
-                                    FUN_0c1697ee(t11, t10);
+                                    ADXF_Ocbi(t11, t10);
                                 }
                                 ADXCRS_Lock();
                                 t15 = adxf_read_sj32(a4, a5, t8);
@@ -1300,7 +1300,7 @@ void kmfGetInternalSystemMetrics(int a4)
     *(unsigned int *)((a4 + 0xAC)) = t40;
 }
 
-int FUN_0c15bcd2(int a4, int a5, int a6, int a7, int a8)
+int kmCreateContiguousTextureSurface(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t44;
@@ -1328,7 +1328,7 @@ int FUN_0c15bcd2(int a4, int a5, int a6, int a7, int a8)
     int t26;
     int t38;
 
-    t0 = FUN_0c15c3c8(a4, a6, a7, a8);
+    t0 = kmtex_CheckTextureFormat(a4, a6, a7, a8);
     t44 = t0;
     if (t0 == 0) {
         t1 = *(int *)((a4 + 0x0));
@@ -1402,7 +1402,7 @@ int FUN_0c15bcd2(int a4, int a5, int a6, int a7, int a8)
     return t44;
 }
 
-int FUN_0c162cc0(int a4)
+int pdLcdGetDirection(int a4)
 {
     int t0;
     int t1;
@@ -1637,7 +1637,7 @@ int vmsfs_fclose(int a4, int a5)
     return t67;
 }
 
-int FUN_0c167bf8(void)
+int ADXAMP_ExecServer(void)
 {
     int t0;
     int t1;
@@ -1711,7 +1711,7 @@ int adxsjd_get_wr(int a4, int a5, int a6, int a7)
     return ADXB_GetPcmBuf(t19);
 }
 
-int FUN_0c16893a(int a4, int a5, int a6, int a7)
+int ADXSTMF_Create(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -1808,7 +1808,7 @@ int adxt_stat_prep(int a4)
     t5 = *(int *)((a4 + 0x48));
     if ((int)t4 < (int)t5) {
         t6 = *(int *)(((int)stk + 4));
-        t7 = FUN_0c168862(t6);
+        t7 = ADXSJD_GetBlkSmpl(t6);
         t8 = *(int *)(((int)stk + 12));
         if ((int)t8 > (int)t7) {
             t9 = *(int *)((a4 + 0x4));
@@ -1899,7 +1899,7 @@ int adxt_stat_playing(int a4)
     t14 = t1;
     if (t1 == 3) {
         t2 = *(int *)((a4 + 0x4));
-        t3 = FUN_0c16884a(t2);
+        t3 = ADXSJD_GetNumChan(t2);
         t9 = t3;
         t10 = 0x0;
         if ((int)t3 > 0) {
@@ -2155,7 +2155,7 @@ int SJMEM_GetChunk(int a4, int a5, int a6, int a7)
     int t11;
     int t12;
 
-    t0 = FUN_0c16af38();
+    t0 = SJMEM_Lock();
     if (a5 == 0) {
         *(unsigned int *)((a7 + 0x4)) = 0x0;
         *(unsigned int *)((a7 + 0x0)) = 0x0;
@@ -2198,7 +2198,7 @@ int SJMEM_PutChunk(int a4, int a5, int a6)
     int t3;
     int t4;
 
-    t0 = FUN_0c16af38();
+    t0 = SJMEM_Lock();
     if (a5 != 0) {
         if (a5 != 1) {
             *(unsigned int *)((a6 + 0x4)) = 0x0;
@@ -2618,7 +2618,7 @@ void mpdrv_make_deviceinfo(int a4, int a5, int a6)
     *(unsigned short *)((a4 + 0x76)) = (((unsigned char)t46 << 8) | (unsigned char)t47);
 }
 
-int FUN_0c1709a6(int a4)
+int fmMngReadSctAllData(int a4)
 {
     int t0;
     int t1;
@@ -2645,16 +2645,16 @@ int FUN_0c1709a6(int a4)
 
     t0 = *(int *)((a4 + 0xC));
     t1 = *(int *)((a4 + 0x4));
-    t2 = FUN_0c170834();
+    t2 = syBtFlRead();
     t31 = 0xFFFFFFFF;
     if (t2 != -1) {
         t3 = *(int *)((a4 + 0x14));
         t4 = *(int *)((a4 + 0x18));
-        t5 = FUN_0c170834();
+        t5 = syBtFlRead();
         t28 = 0xFFFFFFFF;
         if (t5 != -1) {
             t6 = *(int *)((a4 + 0x18));
-            t7 = FUN_0c1708d0((((((t3 + 0x1) << 2) << 2) << 2) + t0), t6);
+            t7 = fmMngBit2Num((((((t3 + 0x1) << 2) << 2) << 2) + t0), t6);
             *(unsigned int *)((a4 + 0x10)) = t7;
             t8 = *(short *)((a4 + 0x2));
             t24 = 0xFFFFFFFA;
@@ -2664,7 +2664,7 @@ int FUN_0c1709a6(int a4)
                     t9 = (t1 + 0x40);
                     t10 = t7;
                     for (;;) {
-                        t11 = FUN_0c170834();
+                        t11 = syBtFlRead();
                         if (t11 == -1) break;
                         t12 = *(short *)(((a4 + 0x34) + 0x0));
                         if ((unsigned short)t12 != 0xFFFF) {
@@ -2675,7 +2675,7 @@ int FUN_0c1709a6(int a4)
                                 t16 = *(int *)((a4 + 0x14));
                                 if ((int)(unsigned short)t15 < (int)t16) {
                                     t17 = *(short *)(((a4 + 0x34) + 0x0));
-                                    FUN_0c17088c((a4 + 0x34), ((((((unsigned short)t17 + 0x1) << 2) << 2) << 2) + t0), 0x40);
+                                    fmMngMcpy4((a4 + 0x34), ((((((unsigned short)t17 + 0x1) << 2) << 2) << 2) + t0), 0x40);
                                 }
                             }
                             t10 = (t10 - 1);
@@ -2770,7 +2770,7 @@ int mwRnaErrCallFunc(int a4, int a5, int a6, int a7, int a8)
     if ((0x3 & ((((int)stk + 4) + 0x8) + 0x4)) != 0) {
         t0 = ((((int)stk + 4) + 0x8) + 0x8);
     }
-    t1 = FUN_0c085dfc(0xC2FAB14, a8, t0);
+    t1 = vsprintf(0xC2FAB14, a8, t0);
     t2 = *(int *)0xC178724;
     t5 = t1;
     if (t2 != 0) {
@@ -3040,7 +3040,7 @@ void ADX_DecodeInfoAu(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
         return;
     }
     t1 = *(int *)(((int)stk + 36));
-    t2 = FUN_0c173328(t1, a5, (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10), (((int)stk + 8) + 0x10), (((int)stk + 12) + 0x10), a14);
+    t2 = adxb_DecodeInfoAuSub(t1, a5, (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10), (((int)stk + 8) + 0x10), (((int)stk + 12) + 0x10), a14);
     if (t2 != 0) {
         t3 = *(int *)(((int)stk + 36));
         t4 = *(int *)(((int)stk + 32));

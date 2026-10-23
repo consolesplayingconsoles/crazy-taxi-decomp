@@ -51,7 +51,7 @@ int ExecEndRoll(void)
         t3 = (t3 - (*(int *)0xC2864E0));
         t3 = (t3 + t2);
         if (((int)t3 > (int)0xFFFFFFE8) && (t1 = 0x1E0, (int)t3 < (int)t1)) {
-            t2 = 0xC030FA2;
+            t2 = ((int)pfLocate);
             t1 = (pfLocate(330.0f, (float)t3));
             t1 = t4;
             t1 = (t1 << 2);
@@ -80,7 +80,7 @@ int ExecEndRoll(void)
                 t1 = (pfSize(u18, 1.0f));
             }
             t1 = t4;
-            t2 = 0xC031390;
+            t2 = ((int)pfPuts);
             t1 = (t1 << 2);
             t1 = (pfPuts((*(int *)((0xC0EEA20 + t1)))));
         } else {

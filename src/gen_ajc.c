@@ -3,9 +3,9 @@
 
 extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
-void FUN_0c0783d0(void);
+void nlReverseZX(void);
 
-void FUN_0c0783d0(void)
+void nlReverseZX(void)
 {
     float u0[16];
     float u1[16];

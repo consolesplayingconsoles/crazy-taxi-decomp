@@ -1,3 +1,5 @@
+extern int ExecEffectSmoke();
+extern int ExecEffectSpray();
 /* Straight-line functions with calls and guards (batch gen_acq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -25,9 +27,9 @@ int SetEffect(int a4, int a5, int a6)
     int t40;
     int t31;
 
-    t0 = 0xC03663C;
+    t0 = ((int)ExecEffectSmoke);
     if (a6 == 3) {
-        t0 = 0xC036806;
+        t0 = ((int)ExecEffectSpray);
     }
     t2 = set_event(0x3C, t0);
     t46 = t2;

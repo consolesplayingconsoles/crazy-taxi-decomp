@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_pr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07b9e0(void);
+int nlMultiLineUseViewMatrixTrnsl(void);
 int FcvPlay(int, int, float);
 int nlObjPutSetFadeColor(float, float, float);
 int nlObjPutSetFadeColorBase(float, float, float);
@@ -67,7 +67,7 @@ int nd_StartWait_PutKyaku(void)
             *(float *)0xC2A72C8 = 0.699999988f;
         }
         *(float *)0xC2A72C8 = ((*(float *)0xC2A72C8) - 0.0249999985f);
-        FUN_0c07b9e0();
+        nlMultiLineUseViewMatrixTrnsl();
     } else {
         if (t5 == 1) {
             nlTranslateV(0xC2A72CC);

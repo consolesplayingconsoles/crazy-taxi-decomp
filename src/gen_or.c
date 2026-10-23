@@ -1,89 +1,93 @@
 /* Straight-line functions with calls and guards (batch gen_or): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c0813d0(int);
-float nlLength(int, int);
-void calcCheck(int a4, int a5, int a6);
+int Sound_Request(int, int);
+int TrafficLevelChange(int);
+int ndPuru2Start(int, int, int);
+int nlProjectScreen3D(int);
+int setTechnicalBonus(int, int);
+int technicalCheck(int a4);
 
-void calcCheck(int a4, int a5, int a6)
+int technicalCheck(int a4)
 {
-    float t0;
-    float u11;
+    float u9;
     float u15;
-    float u24;
-    float u25;
-    int t27;
-    int stk[3] = {0};
+    int t16;
+    int t38;
+    int t73;
+    int t64;
+    int t67;
+    int t1;
+    int t2;
+    int t97;
+    int t88;
+    int t79;
+    int t50;
+    int stk[10];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R9;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    L_C045A2E:;
-    t0 = nlLength(0xC2A1B34, (0x8C + R4));
-    R14 = (R4);
-    F0 = (t0);
-    if ((!(((*(float *)0xC2A1B18) + 30.0f) > t0))) goto L_C045A90;
-    goto L_C045A4C;
-    L_C045A4C:;
-    R0 = (0x84);
-    R2 = (((*(int *)((R14 + 0x84))) | 0xD));
-    goto L_C045A98;
-    L_C045A98:;
-    *(unsigned int *)((R14 + R0)) = R2;
-    if (((*(float *)((R14 + 0xC4))) != 0.0f)) goto L_C045B0A;
-    goto L_C045AA4;
-    L_C045AA4:;
-    u11 = *(float *)0xC045BB0;
-    F1 = (u11);
-    if ((!(u11 > _builtin_fabsf((*(float *)((R14 + 0xCC))))))) goto L_C045B0A;
-    goto L_C045AB2;
-    L_C045AB2:;
-    u15 = *(float *)0xC045BB4;
-    F0 = (u15);
-    if ((!(u15 > _builtin_fabsf((*(float *)((R14 + 0x60))))))) goto L_C045B0A;
-    goto L_C045AC0;
-    L_C045AC0:;
-    if (((int)(FUN_0c0813d0((*(short *)((R14 + 0xAA))))) >= (int)0x10)) goto L_C045B0A;
-    goto L_C045ACE;
-    L_C045ACE:;
-    if ((!((*(float *)0xC045BB4) > _builtin_fabsf((*(float *)((R14 + 0x100))))))) goto L_C045B0A;
-    goto L_C045ADC;
-    L_C045ADC:;
-    u24 = *(float *)((R14 + 0x104));
-    u25 = *(float *)((R14 + 0x90));
-    t27 = !((*(float *)0xC045BBC) > _builtin_fabsf((u25 - u24)));
-    F1 = (_builtin_fabsf((u25 - u24)));
-    if (t27) goto L_C045B0A;
-    goto L_C045AF0;
-    L_C045AF0:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) & 0xFFFFFFFB);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + R14)) = *(struct mv3 *)(0xC0A4788); }
-    goto L_C045B14;
-    L_C045B14:;
-    return;
-    L_C045B0A:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) | 0x4);
-    R0 = (0x84);
-    goto L_C045B14;
-    L_C045A90:;
-    R0 = (0x84);
-    R2 = (((*(int *)((R14 + 0x84))) & 0xFFFFFFF2));
-    goto L_C045A98;
+    if (((*(int *)0xC1EE20C) == 2) && ((t1 = *(int *)0xC1EE214, t1 != 12) && (t2 = *(int *)0xC1EE214, t2 != 9))) {
+        t97 = t2;
+    } else {
+        if (((*(int *)((a4 + 0x34))) & 0x1) != 0) {
+            u9 = *(float *)((a4 + 0x70));
+            if (!(u9 > 0.049999997f) && !(-0.099999994f > u9)) {
+                ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x1000000, 0x0);
+            } else {
+                *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
+                setTechnicalBonus(0xFFFFFFFF, 0x0);
+                TrafficLevelChange(0xFFFFFFFF);
+                if ((*(int *)0xC2A1B74) == 0) {
+                    u15 = *(float *)((a4 + 0x30));
+                    t16 = 0x6;
+                    if ((unsigned int)(int)(u15 * 1.5f) < (unsigned int)0x6) {
+                        t16 = (int)(u15 * 1.5f);
+                    }
+                    *(unsigned int *)(((int)stk + 4)) = t16;
+                    Sound_Request((*(int *)(((t16 << 2) + 0xC0A3788))), 0x1);
+                }
+                *(unsigned int *)0xC2A1B74 = 0x5;
+            }
+        }
+        if ((*(int *)((a4 + 0x124))) == -1) {
+            t38 = 0x68;
+            if ((*(int *)((a4 + 0x68))) == 0) {
+                *(unsigned int *)((a4 + 0x124)) = 0x0;
+                t38 = 0x124;
+            }
+            t88 = t38;
+        } else {
+            if ((*(int *)((a4 + 0x68))) != 0) {
+                if ((*(int *)((a4 + 0x124))) == 0) {
+                    nlProjectScreen3D((0x8C + a4));
+                    if (0.0f > (*(float *)(((int)stk + 8)))) {
+                        t50 = (*(int *)((((((*(int *)((a4 + 0x78))) & 0x1) << 2) + 0xC0A3778) + 0x0)));
+                    } else {
+                        t50 = (*(int *)((((((*(int *)((a4 + 0x78))) & 0x1) << 2) + 0xC0A3778) + 0x8)));
+                    }
+                    Sound_Request(t50, 0x2);
+                }
+                if ((*(float *)((a4 + 0x6C))) > 2.5f) {
+                    *(unsigned int *)((a4 + 0x124)) = 0x1;
+                } else {
+                    *(unsigned int *)((a4 + 0x124)) = 0xFFFFFFFF;
+                }
+                t79 = 0x124;
+            } else {
+                t73 = 0x124;
+                if ((*(int *)((a4 + 0x124))) != 0) {
+                    *(unsigned int *)((a4 + 0x124)) = 0x0;
+                    t64 = *(int *)((0x58 + (*(int *)0xC2A1B30)));
+                    t67 = t64;
+                    if (t64 == 1) {
+                        t67 = (setTechnicalBonus(0x0, ((int)((*(float *)((a4 + 0x6C))) * 0.199999988f) + 0x1)));
+                    }
+                    t73 = t67;
+                }
+                t79 = t73;
+            }
+            t88 = t79;
+        }
+        t97 = t88;
+    }
+    return t97;
 }

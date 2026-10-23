@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_hn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c14d324(void);
+int gdFsInitSub(void);
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 int gdFsClose(int);
@@ -91,5 +91,5 @@ int gdFsReinitG(void)
     t26 = *(int *)((t25 + 0x14));
     gdFsCreateHnG(t26);
     _builtin_set_imask(((unsigned int)(((t7 & 0xF) << 2) << 2) >> 4));
-    return FUN_0c14d324();
+    return gdFsInitSub();
 }

@@ -1,9 +1,9 @@
 /* Straight-line functions with calls and guards (batch gen_aai): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void FUN_0c158800(float f4);
+void kmiWaitAccurate(float f4);
 
-void FUN_0c158800(float f4)
+void kmiWaitAccurate(float f4)
 {
     float u0;
     int stk[2] = {0};

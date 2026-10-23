@@ -2,17 +2,17 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ReflectColliWallBox(int, int, int, int);
-int FUN_0c07b980(void);
-int FUN_0c087474(int, int, int, int, int);
-float FUN_0c089de0(int);
-float FUN_0c089de8(int);
+int nlSingleLineUseViewMatrix(void);
+int _fmtout(int, int, int, int, int);
+float nlFastSin(int);
+float nlFastCos(int);
 int motionClearRootZ(int);
 int nlLineSetThickness(float);
 int nlScaleVector(int, int, float);
 int PatchMotion(void);
-int FUN_0c085dfc(int a4, int a5, int a6);
+int vsprintf(int a4, int a5, int a6);
 int nlPopMatrix(int a4);
-int FUN_0c07e960(int a4, int a5, int a6, int a7);
+int nlsndPackLoadInit(int a4, int a5, int a6, int a7);
 int ColliWallTest(void);
 
 int PatchMotion(void)
@@ -21,16 +21,16 @@ int PatchMotion(void)
     return motionClearRootZ(0xCA7BBDC);
 }
 
-int FUN_0c085dfc(int a4, int a5, int a6)
+int vsprintf(int a4, int a5, int a6)
 {
     int t0;
 
-    t0 = FUN_0c087474(0x1, 0x0, a4, a5, a6);
+    t0 = _fmtout(0x1, 0x0, a4, a5, a6);
     return t0;
 }
 
 
-int FUN_0c07e960(int a4, int a5, int a6, int a7)
+int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;

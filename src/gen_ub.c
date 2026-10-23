@@ -1,38 +1,32 @@
 /* Straight-line functions with calls and guards (batch gen_ub): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c078a70(int, int, int);
-int nlGetTranslate(int);
-int nlMultiMatrix(int);
-int nlRotateAY(int);
-int nlTranslateV(int);
-int psgSeatMatrix(int a4);
+int GetAverageAngle(int, int, float);
+extern float _builtin_sqrtf(float);
+int nlArcTan2(float, float);
+float nlInnerProduct(int, int);
+int nlSubVector3op(int, int, int);
+int nlUnitVector(int);
+int psgFaceTaxi(int a4);
 
-int psgSeatMatrix(int a4)
+int psgFaceTaxi(int a4)
 {
-    int t2;
-    int t7;
-    int t8;
-    int t10;
-    int t3;
-    int t4;
-    int stk[9] = {0};
+    float t2;
+    float u3;
+    float u4;
+    int t9;
+    int stk[8];
 
-    nlMultiMatrix(0xC179180);
-    t2 = *(int *)0xC179488;
-    if ((((*(int *)0xC1EE20C) == 2) && (t3 = *(int *)0xC1EE214, t3 == 11)) || (t4 = *(int *)0xC1EE214, t4 == 14)) {
-        if ((*(int *)0xC1EE214) == 11) {
-            t7 = *(signed char *)((a4 + 0x154));
-            t8 = *(signed char *)0xC2A98EC;
-            FUN_0c078a70(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((((t7 + t8) - 7) << 1) + ((t7 + t8) - 7)) << 2) + 0xC13F3BC));
-        } else {
-            t10 = *(signed char *)((a4 + 0x154));
-            FUN_0c078a70(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((t10 << 1) + t10) << 2) + 0xC13F3BC));
-        }
-        nlTranslateV(((int)stk + 4));
-    } else {
-        nlTranslateV(((((t2 << 1) + t2) << 2) + 0xC0D55C4));
+    nlSubVector3op(((int)stk + 4), 0xC179144, (a4 + 0x4));
+    *(float *)(((int)stk + 8)) = 0.0f;
+    nlUnitVector(((int)stk + 4));
+    t2 = nlInnerProduct(((int)stk + 4), 0xC0D5554);
+    u3 = *(float *)(((int)stk + 4));
+    u4 = (-_builtin_sqrtf((1.0f - (t2 * t2))));
+    if (u3 > 0.0f) {
+        u4 = _builtin_sqrtf((1.0f - (t2 * t2)));
     }
-    nlRotateAY(0x8000);
-    return (nlGetTranslate((a4 + 0x4)));
+    t9 = GetAverageAngle((*(int *)((a4 + 0x10))), (nlArcTan2(u4, t2)), (*(float *)0xC071230));
+    *(unsigned int *)((a4 + 0x10)) = (short)t9;
+    return (short)t9;
 }

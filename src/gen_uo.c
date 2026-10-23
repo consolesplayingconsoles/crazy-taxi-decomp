@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_uo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07f5c0(int);
+int nlsndSeqRequest(int);
 int menuChangeValue(int a4, int a5, int a6);
 
 int menuChangeValue(int a4, int a5, int a6)
@@ -48,7 +48,7 @@ int menuChangeValue(int a4, int a5, int a6)
         }
         t41 = 0x0;
         if (t31 != 0) {
-            FUN_0c07f5c0(0x504A9);
+            nlsndSeqRequest(0x504A9);
             t39 = 0x0;
             if (t31 != 0) {
                 t39 = 0x1;

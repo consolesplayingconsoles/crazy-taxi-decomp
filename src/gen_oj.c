@@ -3,9 +3,9 @@
 
 int nlSetDummyTextureParameter(int);
 int nlSetTextureParameter(int, int);
-int FUN_0c07a2e0(int a4, int a5, int a6);
+int nlObjPutSetGarbagedTexture_Sub(int a4, int a5, int a6);
 
-int FUN_0c07a2e0(int a4, int a5, int a6)
+int nlObjPutSetGarbagedTexture_Sub(int a4, int a5, int a6)
 {
     int t0;
     int t35;

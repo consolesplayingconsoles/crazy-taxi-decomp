@@ -28,7 +28,7 @@ int psgFreeIpBuff(int x)
     return 9;
 }
 
-int FUN_0c16c7f2(void)
+int kmiErrorISR02(void)
 {
     *(volatile int *)0xA05F6908 = 2;
     if (*(int *)0x0C2F91FC == 0)

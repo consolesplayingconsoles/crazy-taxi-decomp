@@ -1,3 +1,4 @@
+extern int pcarExec();
 /* Straight-line functions with calls and guards (batch gen_oz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -43,7 +44,7 @@ int pcarRejoinLane(int a4)
             t22 = courseStatusGet((*(int *)((a4 + 0x80))), ((*(int *)((a4 + 0xD4))) - 2), 0x0, 0x8);
             t26 = t22;
             if (t22 == 0) {
-                *(unsigned int *)((a4 + 0xC)) = 0xC0465A8;
+                *(unsigned int *)((a4 + 0xC)) = ((int)pcarExec);
                 *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) & 0xFFFFFFEF);
                 u25 = 0.0599999987f;
                 u25 = u25 + 0.00999999978f * (1000.0f / (*(float *)((a4 + 0xB4))));

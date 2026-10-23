@@ -77,7 +77,7 @@ char *mwlRnaAlloc(void)
 }
 
 /* A texture memory address as the linear address Kamui uses: the 32-bit and 64-bit areas interleaved. */
-unsigned int FUN_0c157f40(unsigned int x)
+unsigned int kmyConvertAddress32to64(unsigned int x)
 {
     unsigned int five = 0;
 
@@ -97,7 +97,7 @@ unsigned int FUN_0c157f40(unsigned int x)
 
 /* Writes a polygon word into the vertex table at n (a whole word with the flag at 0x400000, else split into two halves, the
    top half of each kept); returns the new count. */
-int FUN_0c1534fc(unsigned int f, int n, unsigned int v)
+int kmiBGPlanePutColor(unsigned int f, int n, unsigned int v)
 {
     int *t = (int *)0x0C2EA724;
 

@@ -38,16 +38,16 @@ static void iaOcbwb(void *p)
     .DATA.W H'04B3
 }
 int SetWindow(int a4);
-int FUN_0c14ecd0(int a4, int a5);
-void FUN_0c14ef2e(int a4, int a5);
-void FUN_0c14f182(int a4, int a5);
-int FUN_0c1697ee(int a4, int a5);
+int syCacheOCBI(int a4, int a5);
+void syCacheOCBP(int a4, int a5);
+void syCacheOCWB(int a4, int a5);
+int ADXF_Ocbi(int a4, int a5);
 int execDCmini(void);
 int kmChangeContextDSTBlendMode(int a4);
 int kmChangeContextSRCBlendMode(int a4);
 
 
-int FUN_0c14ecd0(int a4, int a5)
+int syCacheOCBI(int a4, int a5)
 {
     int t0;
     int t1;
@@ -76,7 +76,7 @@ int FUN_0c14ecd0(int a4, int a5)
     return ((int (*)(int, int))(0xC14EF24))(t1, t2);
 }
 
-void FUN_0c14ef2e(int a4, int a5)
+void syCacheOCBP(int a4, int a5)
 {
     int t0;
     int t1;
@@ -105,7 +105,7 @@ void FUN_0c14ef2e(int a4, int a5)
     }
 }
 
-void FUN_0c14f182(int a4, int a5)
+void syCacheOCWB(int a4, int a5)
 {
     int t0;
     int t1;
@@ -134,7 +134,7 @@ void FUN_0c14f182(int a4, int a5)
     }
 }
 
-int FUN_0c1697ee(int a4, int a5)
+int ADXF_Ocbi(int a4, int a5)
 {
     int t0;
     int t1;

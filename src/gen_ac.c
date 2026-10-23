@@ -1,3 +1,4 @@
+extern int setObjGroupExec();
 /* Straight-line functions with calls and guards (batch gen_ac): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -23,8 +24,8 @@ int psgFaceBoyFriend(int);
 int psgUpdatePartTracks(int);
 int psgPutMarker(int, int);
 int Voice_Clear(void);
-int FUN_0c077210(int, int);
-int FUN_0c0813e0(int, int, int);
+int nlCalcVector(int, int);
+int memcmp(int, int, int);
 int FcvStoreBuffer(int, int, float);
 int GetRotVec(int);
 int InitArrow(int, int, int);
@@ -216,7 +217,7 @@ int setObjGroupOpen(int a4)
     int t5;
     int t6;
 
-    t0 = set_event(0x1C, 0xC038148);
+    t0 = set_event(0x1C, ((int)setObjGroupExec));
     if (t0 != 0) {
         t1 = *(short *)((a4 + 0x10));
         t2 = nlMalloc((((short)t1 * (short)0x70) + 0x4));
@@ -283,7 +284,7 @@ int windowNameSet(void)
     windowOpenStep(0x3C);
     t1 = *(int *)0xC2A1208;
     if ((t1 & 4) != 0) {
-        t2 = FUN_0c0813e0(0xC2A124C, 0xC0A2044, 0x4);
+        t2 = memcmp(0xC2A124C, 0xC0A2044, 0x4);
         if (t2 == 0) {
             t3 = *(signed char *)0xC28A4F6;
             *(unsigned char *)0xC28A4F6 = (t3 + 0x1);
@@ -294,7 +295,7 @@ int windowNameSet(void)
         *(unsigned int *)0xC2A1208 = (t6 | 0x8);
     }
     NextWindow(0x0);
-    t9 = FUN_0c0813e0(0xC2A124C, 0xC0A2044, 0x4);
+    t9 = memcmp(0xC2A124C, 0xC0A2044, 0x4);
     if (t9 == 0) {
         t10 = *(int *)0xC2A11DC;
         if ((int)t10 > (int)0x1) {
@@ -601,7 +602,7 @@ void nlRenderTextureFree(int a4)
     }
 }
 
-int FUN_0c080990(int a4, int a5)
+int nlstripSetVertexContextTex(int a4, int a5)
 {
     int t0;
     int t1;

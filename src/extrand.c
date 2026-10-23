@@ -5,7 +5,7 @@ extern unsigned int gExtRandSeed;
 extern float g_0c0f4274;
 extern int g_0c2a4e68;
 extern int g_0c2a4e64;
-int FUN_0c075430(void);
+int nlSysMetricsCpuPowerGet(void);
 
 void extRandomSeed(unsigned int seed)
 {

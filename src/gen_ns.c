@@ -4,9 +4,9 @@
 float nlInnerProduct(int, int);
 int nlMultiMatrix(int);
 int nlTranslateV(int);
-int FUN_0c078070(int a4, int a5, int a6);
+int nlPerspectiveProj(int a4, int a5, int a6);
 
-int FUN_0c078070(int a4, int a5, int a6)
+int nlPerspectiveProj(int a4, int a5, int a6)
 {
     float u6;
     float u9;

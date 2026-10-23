@@ -24,7 +24,7 @@ int callGoBackAdvertise(void)
     gdc_StopStreamVoiceAll();
     gdc_StopStreamSongAll();
     Sound_Init();
-    t7 = pfSetZ((*(float *)0xC040D94));
+    t7 = pfSetZ((0.099999994f));
     *(unsigned int *)0xC1EE210 = 0x0;
     *(unsigned int *)0xC1EE214 = 0x0;
     *(unsigned int *)0xC1EE20C = 0x0;

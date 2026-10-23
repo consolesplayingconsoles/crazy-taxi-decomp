@@ -1,3 +1,4 @@
+extern int trainControlExec();
 /* Straight-line functions with calls and guards (batch gen_xr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -24,7 +25,7 @@ int trainControlInit(void)
     int t14;
     int t16;
 
-    t0 = set_event(0x18, 0xC0482F4);
+    t0 = set_event(0x18, ((int)trainControlExec));
     t17 = t0;
     if (t0 != 0) {
         *(unsigned int *)((t0 + 0x14)) = 0x0;

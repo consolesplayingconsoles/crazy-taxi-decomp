@@ -3,14 +3,14 @@
 void *memset(void *p, int c, unsigned int n);
 int ADXSTM_Tell(int *h);
 
-void FUN_0c16800c(void)
+void ADXERR_Init(void)
 {
     memset((void *)0x0C2F4E1C, 0, 256);
     *(int *)0x0C178630 = 0;
     *(int *)0x0C178634 = 0;
 }
 
-void FUN_0c168026(void)
+void ADXERR_Finish(void)
 {
     memset((void *)0x0C2F4E1C, 0, 256);
     *(int *)0x0C178630 = 0;

@@ -1,13 +1,13 @@
 /* Straight-line functions with calls and guards (batch gen_oe): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077170(int, int);
+int nlCalcPoint4(int, int);
 int nlMultiMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6);
+int nlScreenPoint(int a4, int a5, int a6, float f4, float f5, float f6);
 
-int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6)
+int nlScreenPoint(int a4, int a5, int a6, float f4, float f5, float f6)
 {
     float u6;
     int stk[15] = {0};
@@ -23,7 +23,7 @@ int FUN_0c079cc0(int a4, int a5, int a6, float f4, float f5, float f6)
     *(float *)(((int)stk + 44)) = (*(float *)(((int)stk + 24)));
     *(float *)(((int)stk + 48)) = (*(float *)(((int)stk + 12)));
     *(float *)(((int)stk + 52)) = (*(float *)(((int)stk + 20)));
-    FUN_0c077170((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x18));
+    nlCalcPoint4((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x18));
     u6 = *(float *)(((int)stk + 40));
     *(float *)(((*(int *)(((int)stk + 16))) + 0x0)) = ((*(float *)(((int)stk + 28))) * (1.0f / u6));
     *(float *)(((*(int *)(((int)stk + 8))) + 0x0)) = ((*(float *)(((int)stk + 32))) * (1.0f / u6));

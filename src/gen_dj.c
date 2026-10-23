@@ -3,11 +3,11 @@
 
 int CalcShadow4Normal(int, int);
 int pedIsSpecialModel(int);
-int FUN_0c156f4c(int, int, int);
-int FUN_0c157ba0(int, int);
-int FUN_0c157cc8(void);
-int FUN_0c157d20(int);
-int FUN_0c157d46(int, int);
+int VQalloc(int, int, int);
+int kmytex_GetSmallVQprofile(int, int);
+int VQAllocEntry(void);
+int kmytex_VQFreeEntry(int);
+int VQEnQueueTop(int, int);
 int GetCollision2D(int, float);
 int ResetFadeColor(void);
 int kmiFBgetfreememEx(int, int);
@@ -59,7 +59,7 @@ int kmiVQalloc(int a4, int a5, int a6)
     int t51;
     int stk[13] = {0};
 
-    FUN_0c157ba0((((int)stk + 4) + 0x8), a4);
+    kmytex_GetSmallVQprofile((((int)stk + 4) + 0x8), a4);
     t1 = *(int *)0xC177FE4;
     t23 = 0x0;
     if (t1 != 0) {
@@ -105,7 +105,7 @@ int kmiVQalloc(int a4, int a5, int a6)
         t23 = t7;
     }
     if (t23 == 0) {
-        t30 = FUN_0c157cc8();
+        t30 = VQAllocEntry();
         t57 = 0x3;
         if (t30 != 0) {
             t31 = (t30 + 0xC);
@@ -116,7 +116,7 @@ int kmiVQalloc(int a4, int a5, int a6)
                     break;
                 }
             }
-            FUN_0c157d46(0xC177FE4, t30);
+            VQEnQueueTop(0xC177FE4, t30);
             t33 = *(short *)((t30 + 0x0));
             t34 = *(int *)(((int)stk + 12));
             *(unsigned short *)((t30 + 0x0)) = (t33 | t34);
@@ -130,14 +130,14 @@ int kmiVQalloc(int a4, int a5, int a6)
                 if ((int)t38 < (int)t39) {
                     t40 = 0x1;
                 }
-                t42 = FUN_0c156f4c(t40, t35, t30);
+                t42 = VQalloc(t40, t35, t30);
                 t45 = t42;
             } else {
-                t43 = FUN_0c156f4c(0x1, t35, t30);
+                t43 = VQalloc(0x1, t35, t30);
                 t45 = t43;
             }
             if (t45 != 0) {
-                FUN_0c157d20(t30);
+                kmytex_VQFreeEntry(t30);
                 t51 = 0x3;
             } else {
                 t48 = *(int *)(((int)stk + 16));

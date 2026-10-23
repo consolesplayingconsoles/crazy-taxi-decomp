@@ -3,8 +3,8 @@
 
 int GetRotVec4Ang(int, int, int);
 int pcarRejoinLane(int);
-int FUN_0c077210(int, int);
-int FUN_0c07f5c0(void);
+int nlCalcVector(int, int);
+int nlsndSeqRequest(void);
 int GetCollision2D(int, float);
 int GetMenuMode(int);
 int carBalance(int);

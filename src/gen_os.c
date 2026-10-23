@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_os): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077df0(int);
+int nlMatrixMode(int);
 int GetMenuMode(int);
 int Init_Result_Parm(void);
 int Init_Result_Standard_Sprite(void);
@@ -24,10 +24,10 @@ int Init_Result(int a4)
     int t26;
     int t29;
 
-    FUN_0c077df0(0x3);
+    nlMatrixMode(0x3);
     nlUnitMatrix();
     nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
-    FUN_0c077df0(0x1);
+    nlMatrixMode(0x1);
     if ((*(int *)0xC1EE210) != 2) {
         if ((GetMenuMode(0x1)) == 0) {
             *(unsigned int *)0xC2A7618 = 0x1;

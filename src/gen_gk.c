@@ -1,3 +1,4 @@
+extern int __init_dteapi_cc_f();
 /* Straight-line functions with calls and guards (batch gen_gk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -20,7 +21,7 @@ int BupInit(void)
     int t31;
 
     memset(0xC291E50, 0x0, 0x260);
-    buInit(0xF, 0xFF, 0xC2920B0, 0xC03A9EE);
+    buInit(0xF, 0xFF, 0xC2920B0, ((int)__init_dteapi_cc_f));
     *(unsigned char *)0xC28A4E8 = (*(signed char *)0xC09D048);
     *(unsigned char *)0xC28A4E9 = (*(signed char *)0xC09D049);
     *(unsigned char *)0xC28A4EA = (*(signed char *)0xC09D04A);

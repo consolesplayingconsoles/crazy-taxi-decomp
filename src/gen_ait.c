@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 extern void _builtin_ftrv(float *, float *);
-void FUN_0c077190(int a4, int a5);
+void nlCalcPoint44(int a4, int a5);
 
-void FUN_0c077190(int a4, int a5)
+void nlCalcPoint44(int a4, int a5)
 {
     float u4[4];
 

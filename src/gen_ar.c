@@ -1,17 +1,18 @@
+extern int crowdTask();
 /* Straight-line functions with calls and guards (batch gen_ar): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Chat_Choin(void);
-int FUN_0c074680(void);
-int FUN_0c079a60(float, float, float, float);
-int FUN_0c07e820(int, int, int);
-int FUN_0c07e880(void);
-int FUN_0c07ea70(int, int, int);
-int FUN_0c07f5c0(void);
-int FUN_0c080220(int, int, int);
-int FUN_0c1573a0(void);
-int FUN_0c1573f2(int, int, int);
-int FUN_0c16af38(void);
+int nlSetBackColor(void);
+int nlSetWindowSize(float, float, float, float);
+int nlsndBlockMove(int, int, int);
+int nlsndBlockMoveStatus(void);
+int nlsndPackFreeInit(int, int, int);
+int nlsndSeqRequest(void);
+int nlsndStreamChgPan(int, int, int);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBEnQueueTop(int, int, int);
+int SJMEM_Lock(void);
 int GetCollision2D(int, float);
 int SJMEM_Unlock(int, int);
 int SJRBF_Lock(void);
@@ -171,7 +172,7 @@ int crowdCreate(int a4, int a5)
     int t15;
     int t17;
 
-    t0 = set_event(0x24, 0xC04F68A);
+    t0 = set_event(0x24, ((int)crowdTask));
     t19 = 0x0;
     if (t0 != 0) {
         t1 = (int)((int)a5 % (int)0x20);
@@ -221,7 +222,7 @@ int crowdCreate(int a4, int a5)
 
 
 
-int FUN_0c075700(int a4, int a5)
+int nlChangeDisplayMode(int a4, int a5)
 {
     int t3;
     int t4;
@@ -286,7 +287,7 @@ int FUN_0c075700(int a4, int a5)
     t14 = *(int *)0xC14A658;
     t15 = *(int *)0xC14A65C;
     t16 = *(int *)0xC14A654;
-    FUN_0c074680();
+    nlSetBackColor();
     t18 = *(short *)0xC2B3192;
     t19 = *(short *)0xC2B3190;
     if (0x0 != 0) {
@@ -299,14 +300,14 @@ int FUN_0c075700(int a4, int a5)
             }
             t22 = t21;
         }
-        FUN_0c079a60(0.0f, 0.0f, (float)t19, (float)t22);
+        nlSetWindowSize(0.0f, 0.0f, (float)t19, (float)t22);
     } else {
-        FUN_0c079a60(0.0f, 0.0f, (float)t19, (float)(short)t18);
+        nlSetWindowSize(0.0f, 0.0f, (float)t19, (float)(short)t18);
     }
     return t13;
 }
 
-int FUN_0c07dcf0(int a4, int a5, int a6, int a7)
+int nlSpriteFreeTextureOnce_Sub(int a4, int a5, int a6, int a7)
 {
     int t1;
     int t0;
@@ -463,7 +464,7 @@ int FUN_0c07dcf0(int a4, int a5, int a6, int a7)
     return t66;
 }
 
-int FUN_0c07ea70(int a4, int a5, int a6)
+int nlsndPackFreeInit(int a4, int a5, int a6)
 {
     int t0;
     int t13;
@@ -520,7 +521,7 @@ int FUN_0c07ea70(int a4, int a5, int a6)
     return t14;
 }
 
-int FUN_0c07f0b0(int a4)
+int nlsndPackFree(int a4)
 {
     int t0;
     int t13;
@@ -542,10 +543,10 @@ int FUN_0c07f0b0(int a4)
     t13 = t0;
     if (t0 == 0) {
         t1 = *(int *)(((((a4 << 1) + a4) << 2) + 0xC2B77E4));
-        t2 = FUN_0c07ea70(a4, t1, ((int)stk + 4));
+        t2 = nlsndPackFreeInit(a4, t1, ((int)stk + 4));
         t3 = 0x0;
         for (;;) {
-            t4 = FUN_0c07f5c0();
+            t4 = nlsndSeqRequest();
             if (t4 != 0) {
                 t3 = (t3 + 0x1);
                 if ((int)t3 >= (int)0x400000) break;
@@ -563,14 +564,14 @@ int FUN_0c07f0b0(int a4)
                 if (t2 != 0) {
                     t7 = *(int *)(((int)stk + 4));
                     t5 = t2;
-                    t8 = FUN_0c07e820(t5, (t2 - t1), t7);
+                    t8 = nlsndBlockMove(t5, (t2 - t1), t7);
                     t5 = t8;
                     if (t8 != 0) {
                         return t5;
                     }
                     t9 = 0x0;
                     for (;;) {
-                        t10 = FUN_0c07e880();
+                        t10 = nlsndBlockMoveStatus();
                         if (t10 != 0) {
                             t9 = (t9 + 0x1);
                             if ((int)t9 >= (int)0x1000000) break;
@@ -619,7 +620,7 @@ int FUN_0c07f0b0(int a4)
     return t13;
 }
 
-int FUN_0c07fab0(int a4, int a5)
+int nlsndStreamSetHdInfo(int a4, int a5)
 {
     int t0;
     int t1;
@@ -670,7 +671,7 @@ int FUN_0c07fab0(int a4, int a5)
     return t0;
 }
 
-int FUN_0c07fb70(int a4, int a5, int a6)
+int nlsndStreamGetBufInfo(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -686,7 +687,7 @@ int FUN_0c07fb70(int a4, int a5, int a6)
     return t2;
 }
 
-int FUN_0c07fd80(int a4)
+int nlsndStreamStop(int a4)
 {
     int t0;
     int t19;
@@ -742,21 +743,21 @@ int FUN_0c07fd80(int a4)
                         *(unsigned int *)(((t11 | 0xA0000000) + 0x0)) = t9;
                         t3 = (t3 | 0x8000);
                         *(unsigned int *)(((t5 | 0xA0000000) + 0x0)) = t3;
-                        FUN_0c07f5c0();
+                        nlsndSeqRequest();
                         *(unsigned char *)((((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C) + 0x1)) = 0x0;
                         return 0x0;
                     }
-                    FUN_0c07f5c0();
+                    nlsndSeqRequest();
                     *(unsigned char *)((((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C) + 0x1)) = 0x0;
                     return 0x0;
                 }
                 t3 = (t3 | 0x8000);
                 *(unsigned int *)(((t5 | 0xA0000000) + 0x0)) = t3;
-                FUN_0c07f5c0();
+                nlsndSeqRequest();
                 *(unsigned char *)((((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C) + 0x1)) = 0x0;
                 return 0x0;
             }
-            FUN_0c07f5c0();
+            nlsndSeqRequest();
             *(unsigned char *)((((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C) + 0x1)) = 0x0;
             t17 = 0x0;
         }
@@ -765,46 +766,46 @@ int FUN_0c07fd80(int a4)
     return t19;
 }
 
-int FUN_0c080190(int a4, int a5, int a6)
+int nlsndStreamChgVol(int a4, int a5, int a6)
 {
     int t0;
 
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
     return t0;
 }
 
-int FUN_0c080220(int a4, int a5, int a6)
+int nlsndStreamChgPan(int a4, int a5, int a6)
 {
     int t0;
 
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
     return t0;
 }
 
-int FUN_0c080270(int a4, int a5)
+int nlsndStreamTranspose(int a4, int a5)
 {
     int t0;
 
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
     return t0;
 }
 
-int FUN_0c0802b0(int a4, int a5)
+int nlsndStreamDetune(int a4, int a5)
 {
     int t0;
 
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
-        return FUN_0c07f5c0();
+        return nlsndSeqRequest();
     }
     return t0;
 }
@@ -873,7 +874,7 @@ void adxf_SetCmdHstry(int a4, int a5, int a6, int a7, int a8)
     *(unsigned int *)0xC2BB35C = (t5 + 0x1);
 }
 
-void FUN_0c1568cc(int a4, int a5, int a6)
+void kmiFBSearchFree(int a4, int a5, int a6)
 {
     int t1;
     int t12;
@@ -930,7 +931,7 @@ void FUN_0c1568cc(int a4, int a5, int a6)
     }
 }
 
-int FUN_0c156e0a(int a4, int a5, int a6)
+int kmytex_TXalloc(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -993,7 +994,7 @@ int FUN_0c156e0a(int a4, int a5, int a6)
         t9 = *(int *)((t7 + 0x10));
         if (t9 == t1) {
             kmytex_FBDeQueueEntry(((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x8), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0xC), t7);
-            FUN_0c1573f2((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t7);
+            kmytex_FBEnQueueTop((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t7);
             t12 = *(int *)((t7 + 0xC));
             *(unsigned int *)((a6 + 0x1C)) = t12;
             *(unsigned int *)((t7 + 0x14)) = a6;
@@ -1013,7 +1014,7 @@ int FUN_0c156e0a(int a4, int a5, int a6)
             *(unsigned int *)(((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x10)) = (t18 - t17);
             t34 = 0x0;
         } else {
-            t19 = FUN_0c1573a0();
+            t19 = kmytex_FBAllocEntry();
             t31 = 0x3;
             if (t19 != 0) {
                 t20 = *(int *)((t7 + 0xC));
@@ -1023,7 +1024,7 @@ int FUN_0c156e0a(int a4, int a5, int a6)
                 *(unsigned int *)((t7 + 0x10)) = (t21 - t1);
                 t22 = *(int *)((t7 + 0xC));
                 *(unsigned int *)((t7 + 0xC)) = (t22 + t1);
-                FUN_0c1573f2((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t19);
+                kmytex_FBEnQueueTop((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC), ((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC) + 0x4), t19);
                 t24 = *(int *)((t19 + 0xC));
                 *(unsigned int *)((a6 + 0x1C)) = t24;
                 *(unsigned int *)((t19 + 0x14)) = a6;
@@ -1049,7 +1050,7 @@ int FUN_0c156e0a(int a4, int a5, int a6)
     return t38;
 }
 
-int FUN_0c15e85c(int a4, int a5, int a6)
+int kmiSetupRegionRegisters(int a4, int a5, int a6)
 {
     int t0;
     int t2;
@@ -2742,7 +2743,7 @@ int SJMEM_IsGetChunk(int a4, int a5, int a6, int a7)
     int t6;
     int t9;
 
-    t0 = FUN_0c16af38();
+    t0 = SJMEM_Lock();
     t11 = 0x0;
     if (a5 != 0) {
         if (a5 == 1) {
@@ -2934,7 +2935,7 @@ void SJUNI_GetChunk(int a4, int a5, int a6, int a7)
     }
 }
 
-int FUN_0c171ee8(int a4, int a5, int a6)
+int mwSbSetPan(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -2954,5 +2955,5 @@ int FUN_0c171ee8(int a4, int a5, int a6)
         return nlsndStreamSetHdPan(t3, a5, t0);
     }
     t4 = *(short *)((a4 + 0x6));
-    return FUN_0c080220(t4, a5, t0);
+    return nlsndStreamChgPan(t4, a5, t0);
 }

@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int psgUpdatePartTracks(int);
-int FUN_0c077210(int, int);
+int nlCalcVector(int, int);
 int FcvPlayBuffer(int, int);
 int Psg_ChoinIt(int);
 int Put_Combo_Entry(int, int);
@@ -29,13 +29,13 @@ int nlTranslateV(int);
 int nlUnitMatrix(void);
 int set_event(int, int);
 float nlUnitVector(int a4);
-float FUN_0c076200(int a4, float f4);
+float nlSinfReduce(int a4, float f4);
 float fcvHermiteAngle(int a4, int a5, float f4);
 int CheckColliWallEdge(int a4, int a5);
 int GetAng4Mat(int a4);
 int Put_TimeUp(void);
 float CheckColliPoleEdge(int a4, int a5, int a6, float f4);
-int FUN_0c078070(int a4, int a5, int a6);
+int nlPerspectiveProj(int a4, int a5, int a6);
 int setTechnicalBonus(int a4, int a5);
 int Put_TotalDrum_Money(void);
 int psgJolt(int a4, int a5, float f4);

@@ -1,12 +1,14 @@
+extern int ExecBubble();
+extern int Exec_ProposalWalker();
 /* Small functions, batch c. */
 
-int FUN_0c077170(int a, float *out);
+int nlCalcPoint4(int a, float *out);
 int nlProjectScreen3D(int a, float *out);
 int SetSpark(int a, int b, int c);
 int ndPuru2Start(int a, int b, int c);
-int FUN_0c17277c(int *r);
+int syG2AicaFifoIsEmpty(int *r);
 
-void FUN_0c0109c4(int a)
+void bootEndTransfer(int a)
 {
     if (a != 0) {
         ((void (*)(void))0xAC0119A4)();
@@ -15,12 +17,12 @@ void FUN_0c0109c4(int a)
     }
 }
 
-void FUN_0c079d60(int a, float *out)
+void nlFastScreenPoint(int a, float *out)
 {
     float f[4];
     float inv;
 
-    FUN_0c077170(a, f);
+    nlCalcPoint4(a, f);
     inv = 1.0f / f[3];
     out[0] = f[0] * inv;
     out[1] = f[1] * inv;
@@ -32,7 +34,7 @@ int syG2AicaFifoWaitEmpty(void)
     int r;
 
     do {
-        FUN_0c17277c(&r);
+        syG2AicaFifoIsEmpty(&r);
     } while (r != 1);
     *(int *)(*(int *)0xC178700 + 0x110) += 1;
     return 0;
@@ -85,7 +87,7 @@ typedef struct {
 int set_event(int a, int b);
 int Init_ProposalWalker(int a, int b);
 
-void FUN_0c010954(int a, int b, int c)
+void bootSendData(int a, int b, int c)
 {
     if (a != 0) {
         ((void (*)(int, int))0xAC011A1C)(b, c);
@@ -94,7 +96,7 @@ void FUN_0c010954(int a, int b, int c)
     }
 }
 
-void FUN_0c01098c(int a, int b, int c)
+void bootRecvData(int a, int b, int c)
 {
     if (a != 0) {
         ((void (*)(int, int))0xAC0119E0)(b, c);
@@ -103,7 +105,7 @@ void FUN_0c01098c(int a, int b, int c)
     }
 }
 
-void FUN_0c0119a8(signed char *out)
+void bootSerialRecvHeader(signed char *out)
 {
     int i;
 
@@ -116,7 +118,7 @@ int Set_ProposalWalker(int i)
 {
     int h;
 
-    h = set_event(80, 0x0C05FABA);
+    h = set_event(80, ((int)Exec_ProposalWalker));
     ((int *)0xC2A9D30)[i] = h;
     if (h == 0) {
         return 0;
@@ -147,7 +149,7 @@ int Psg_GetCharaKind(int a)
     return t.w[a - 23];
 }
 
-void FUN_0c0119e0(signed char *out, int n)
+void bootSerialRecv(signed char *out, int n)
 {
     int i;
 
@@ -160,7 +162,7 @@ void FUN_0c0119e0(signed char *out, int n)
     }
 }
 
-int FUN_0c157220(int key, short *idx)
+int SearchUsed(int key, short *idx)
 {
     int *n;
     int found;
@@ -208,7 +210,7 @@ void _pd_peripheral_set_null(int *p)
     p[9] = 0xC174F00;
 }
 
-int FUN_0c07d040(int base, short *p)
+int nlMvGetFaceVerts(int base, short *p)
 {
     int bits;
     int i;
@@ -221,11 +223,11 @@ int FUN_0c07d040(int base, short *p)
     return bits;
 }
 
-int FUN_0c1717d8(int *r);
+int mwRnaLockCs(int *r);
 int mwlRnaExecSvrHndl(char *p);
 int mwRnaUnlockCs(int *r);
 
-void FUN_0c01117e(char *out)
+void bootDevRead16(char *out)
 {
     int i;
 
@@ -256,7 +258,7 @@ void mwRnaExecServer(void)
     int cs;
     char *p;
 
-    FUN_0c1717d8(&cs);
+    mwRnaLockCs(&cs);
     for (p = (char *)0xC2F605C; (unsigned int)p < 0xC2F605C + 0x480; p += 144) {
         if (*(unsigned char *)p == 1) {
             mwlRnaExecSvrHndl(p);
@@ -265,7 +267,7 @@ void mwRnaExecServer(void)
     mwRnaUnlockCs(&cs);
 }
 
-int FUN_0c01089a(int a)
+int bootPollLink(int a)
 {
     int r;
 
@@ -301,7 +303,7 @@ int search_fat_backward(int disk, int fat, int lo, int hi)
     return -1;
 }
 
-void FUN_0c010630(void)
+void bootInitLink(void)
 {
     int m;
 
@@ -318,7 +320,7 @@ void FUN_0c010630(void)
     }
 }
 
-void FUN_0c011a1c(signed char *buf, int n)
+void bootSerialSend(signed char *buf, int n)
 {
     int i;
 
@@ -344,7 +346,7 @@ void SetBubble(Vec12c *p, Vec12c *q)
 {
     int e;
 
-    e = set_event(60, 0x0C0369DA);
+    e = set_event(60, ((int)ExecBubble));
     if (e == 0) {
         return;
     }

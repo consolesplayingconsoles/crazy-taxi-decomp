@@ -1,72 +1,210 @@
 /* Straight-line functions with calls and guards (batch gen_uj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckColliWall(int, float);
-int FUN_0c077210(int, int);
-int FUN_0c078a70(int, int, int);
-int HomingAngle1(int, int, float);
-int nlAddVector(int, int);
+int BigOneHomeAngle(int, int, float);
+float BigOneKeyValue(int, int, float);
+int BigOneRotate(int, int, int);
+extern float _builtin_sqrtf(float);
 int nlArcTan2(float, float);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+float nlFloor(float);
+int nlGetPushedMatrix(int);
 int nlPopMatrix(int);
+int nlPushMatrix(int);
 int nlPushUnitMatrix(void);
-int nlRotateAY(int);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int);
-int nlUnitVector(int);
-int BigOneFollowTaxi(int a4, float f4);
+int nlSubVector(int, int);
+int nlTranslateNV(int);
+int nlTranslateV(int);
+int BigOneSwimMove(int a4, int a5, int a6, float f4, float f5);
 
-int BigOneFollowTaxi(int a4, float f4)
+int BigOneSwimMove(int a4, int a5, int a6, float f4, float f5)
 {
-    int t8;
-    int t10;
-    int t11;
-    float u14;
-    float u16;
-    int stk[19] = {0};
+    int t0;
+    float u32;
+    float u33;
+    float u34;
+    int t41;
+    int t58;
+    int t62;
+    float u74;
+    float u75;
+    float u76;
+    int t95;
+    int t99;
+    float u110;
+    float u111;
+    float u112;
+    int t136;
+    int t140;
+    float u146;
+    float u147;
+    float t148;
+    int stk[29];
 
-    if ((f4 - (*(float *)0xC179148)) > 30.0f) {
-        nlScaleVector((((int)stk + 4) + 0xC), 0xC2AD1F8, 100.0f);
-        FUN_0c078a70((((int)stk + 4) + 0x18), 0xC179144, (((int)stk + 4) + 0xC));
-        nlSubVector3op((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x18), 0xC2AEC20);
-        *(float *)(((int)stk + 20)) = 0.0f;
-        nlUnitVector((((int)stk + 4) + 0xC));
-        t8 = nlArcTan2((*(float *)(((int)stk + 16))), (*(float *)(((int)stk + 24))));
-        HomingAngle1(t8, 0xC2AEC30, 0.00999999978f);
-        t10 = *(int *)0xC2AEC30;
-        t11 = (t10 - t8);
-        if ((int)t8 > (int)t10) {
-            t11 = (t8 - t10);
-        }
-        u14 = 1.0f;
-        if ((int)t11 > (int)0x2000) {
-            u14 = 0.399999976f;
-        }
-        u16 = *(float *)0xC2AEC38;
-        if (u14 > u16) {
-            *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) + 0.0199999996f);
-        } else {
-            if (!(u16 > u14)) {
-            } else {
-                *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) - 0.0199999996f);
-            }
-        }
-    } else {
-        if ((*(float *)0xC2AEC38) > 0.0f) {
-            *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) - 0.0199999996f);
-        } else {
-            *(float *)0xC2AEC38 = 0.0f;
-            if ((int)(*(float *)0xC2AEC58) != 10) {
-                *(float *)0xC2AEC58 = ((*(float *)0xC2AEC58) + 0.099999994f);
-            }
-        }
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F5 = f5;
+    L_C073288:;
+    { struct mv9 { int w[9]; }; *(struct mv9 *)((((int)stk + 4) + 0x20)) = *(struct mv9 *)(0xC0D61C0); }
+    t0 = *(int *)0xC2AEC3C;
+    R0 = (t0);
+    R14 = (0xC2AEC20);
+    if ((t0 == 0)) goto L_C0732B8;
+    goto L_C0732B4;
+    L_C0732B4:;
+    goto L_C0736A2;
+    L_C0736A2:;
+    *(unsigned int *)((R14 + 0x1C)) = 0x0;
+    goto L_C0736A6;
+    L_C0736A6:;
+    return R0;
+    L_C0732B8:;
+    *(float *)((R14 + 0x20)) = (BigOneKeyValue(0xC13F5B8, 0x2, (*(float *)((R14 + 0x38)))));
+    *(float *)((R14 + 0x24)) = (BigOneKeyValue(0xC13F578, 0x4, (*(float *)((R14 + 0x38)))));
+    *(float *)((R14 + 0x28)) = (*(float *)((R14 + 0x20)));
+    *(unsigned int *)(((int)stk + 4)) = ((int)((((BigOneKeyValue(0xC13F518, 0x4, (*(float *)((R14 + 0x38))))) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
+    *(unsigned int *)(((int)stk + 8)) = ((int)((((BigOneKeyValue(0xC13F558, 0x2, (*(float *)((R14 + 0x38))))) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
+    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x2C), 0.0749999955f);
+    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x30), 0.0749999955f);
+    *(unsigned int *)((R14 + 0x34)) = (*(int *)((R14 + 0x30)));
     nlPushUnitMatrix();
-    nlRotateAY((*(int *)0xC2AEC30));
-    FUN_0c077210(0xC0D5554, (((int)stk + 4) + 0xC));
-    nlScaleVector(((int)stk + 4), (((int)stk + 4) + 0xC), (*(float *)0xC2AEC38));
-    nlAddVector(0xC2AEC20, ((int)stk + 4));
-    CheckColliWall(0xC2AEC20, 21.0f);
-    nlPopMatrix(0x1);
-    *(float *)0xC2AEC5C = (((*(float *)0xC2AEC38) * 1.0f) / 1.0f);
-    return 0x3C;
+    BigOneRotate((*(int *)((R14 + 0x2C))), (*(int *)((R14 + 0x30))), (*(int *)((R14 + 0x34))));
+    nlPushMatrix(0x0);
+    nlCalcPoint((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x14));
+    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F5D8, 0x2, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F5F8, 0x6, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F658, 0x5, (*(float *)((R14 + 0x38)))));
+    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
+    u32 = *(float *)(((int)stk + 12));
+    u33 = *(float *)(((int)stk + 20));
+    u34 = (u33 * u33);
+    u34 = u34 + u32 * u32;
+    *(unsigned int *)(((int)stk + 4)) = ((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u34))) - (*(int *)((R14 + 0x2C))));
+    t41 = *(int *)((R14 + 0x30));
+    *(unsigned int *)(((int)stk + 8)) = (((nlArcTan2((*(float *)(((int)stk + 12))), (*(float *)(((int)stk + 20))))) - t41) - t41);
+    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x40), 0.0749999955f);
+    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x44), 0.0749999955f);
+    nlTranslateV((((int)stk + 4) + 0x38));
+    BigOneRotate((*(int *)((R14 + 0x40))), (*(int *)((R14 + 0x44))), (*(int *)((R14 + 0x48))));
+    nlTranslateNV((((int)stk + 4) + 0x38));
+    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R10 = (0xC13F898);
+    R11 = (0xC077210);
+    R12 = (0x1);
+    R13 = (0xC0771B0);
+    R8 = (0xC140EB8);
+    F15 = (0.0749999955f);
+    goto L_C0733FE;
+    L_C0733FE:;
+    t58 = *(int *)((R8 + 0x18));
+    nlCalcPoint(R8, ((t58 << 2) + R10));
+    *(unsigned int *)((((t58 << 2) + R10) + 0x0)) = ((*(int *)((((t58 << 2) + R10) + 0x0))) | R12);
+    nlCalcVector((R8 + 0xC), (((t58 << 2) + R10) + 0xC));
+    t62 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = (t62 + 0x1);
+    R8 = ((R8 + 0x1C));
+    if (((unsigned int)(t62 + 0x1) < (unsigned int)0x2D)) goto L_C0733FE;
+    goto L_C073428;
+    L_C073428:;
+    nlGetPushedMatrix(0x0);
+    nlCalcPoint((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
+    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F6A8, 0x2, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F6C8, 0x6, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F728, 0x6, (*(float *)((R14 + 0x38)))));
+    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
+    u74 = *(float *)(((int)stk + 12));
+    u75 = *(float *)(((int)stk + 20));
+    u76 = (u75 * u75);
+    u76 = u76 + u74 * u74;
+    *(unsigned int *)(((int)stk + 4)) = ((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u76))) - (*(int *)((R14 + 0x2C))));
+    *(unsigned int *)(((int)stk + 8)) = ((nlArcTan2((*(float *)(((int)stk + 12))), (-(*(float *)(((int)stk + 20)))))) - (*(int *)((R14 + 0x30))));
+    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x4C), F15);
+    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x50), F15);
+    nlTranslateV((((int)stk + 4) + 0x20));
+    BigOneRotate((*(int *)((R14 + 0x4C))), (*(int *)((R14 + 0x50))), (*(int *)((R14 + 0x54))));
+    nlTranslateNV((((int)stk + 4) + 0x20));
+    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R8 = (0xC1413A4);
+    goto L_C0734DA;
+    L_C0734DA:;
+    t95 = *(int *)((R8 + 0x18));
+    nlCalcPoint(R8, ((t95 << 2) + R10));
+    *(unsigned int *)((((t95 << 2) + R10) + 0x0)) = ((*(int *)((((t95 << 2) + R10) + 0x0))) | R12);
+    nlCalcVector((R8 + 0xC), (((t95 << 2) + R10) + 0xC));
+    t99 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = (t99 + 0x1);
+    R8 = ((R8 + 0x1C));
+    if (((unsigned int)(t99 + 0x1) < (unsigned int)0x10)) goto L_C0734DA;
+    goto L_C073504;
+    L_C073504:;
+    nlCalcPoint((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x14));
+    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F788, 0x2, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F7A8, 0x8, (*(float *)((R14 + 0x38)))));
+    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F828, 0x7, (*(float *)((R14 + 0x38)))));
+    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
+    u110 = *(float *)(((int)stk + 12));
+    u111 = *(float *)(((int)stk + 20));
+    u112 = (u111 * u111);
+    u112 = u112 + u110 * u110;
+    *(unsigned int *)(((int)stk + 4)) = (((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u112))) - (*(int *)((R14 + 0x2C)))) - (*(int *)(((0x4C + R14) + 0x0))));
+    R9 = ((((int)stk + 4) + 0x2C));
+    F4 = ((*(float *)(((int)stk + 12))));
+    F5 = ((-(*(float *)(((int)stk + 20)))));
+    goto L_C073600;
+    L_C073600:;
+    *(unsigned int *)(((int)stk + 8)) = (((nlArcTan2(F4, F5)) - (*(int *)((R14 + 0x30)))) - (*(int *)(((0x50 + R14) + 0x0))));
+    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x58), F15);
+    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x5C), F15);
+    nlTranslateV(R9);
+    BigOneRotate((*(int *)((R14 + 0x58))), (*(int *)((R14 + 0x5C))), (*(int *)((R14 + 0x60))));
+    nlTranslateNV(R9);
+    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R8 = (0xC141564);
+    goto L_C073648;
+    L_C073648:;
+    t136 = *(int *)((R8 + 0x18));
+    nlCalcPoint(R8, ((t136 << 2) + R10));
+    *(unsigned int *)((((t136 << 2) + R10) + 0x0)) = ((*(int *)((((t136 << 2) + R10) + 0x0))) | R12);
+    nlCalcVector((R8 + 0xC), (((t136 << 2) + R10) + 0xC));
+    t140 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 4)) = (t140 + 0x1);
+    R8 = ((R8 + 0x1C));
+    if (((unsigned int)(t140 + 0x1) < (unsigned int)0x19)) goto L_C073648;
+    goto L_C073672;
+    L_C073672:;
+    nlPopMatrix(0x2);
+    *(float *)((R14 + 0x38)) = ((*(float *)((R14 + 0x38))) + (*(float *)(((0x3C + R14) + 0x0))));
+    u146 = *(float *)0xC0738E8;
+    u147 = *(float *)((R14 + 0x38));
+    t148 = nlFloor((u147 / u146));
+    *(float *)((R14 + 0x38)) = (u147 - (t148 * u146));
+    R0 = (0x38);
+    F0 = ((t148 * u146));
+    goto L_C0736A6;
 }

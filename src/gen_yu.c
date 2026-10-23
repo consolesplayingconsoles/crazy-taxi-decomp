@@ -1,151 +1,116 @@
 /* Straight-line functions with calls and guards (batch gen_yu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c077210(int, int);
-int GetCollision2D(int, float);
-int GetRotVec4Ang(int, int, int);
-int calcColliCheck(int);
-int carBalance(int);
-int carColliReflection(void);
-int carEntry(int);
-int carResistance(void);
-int dropOutCheck(int);
-int nlAddVector(int, int);
-float nlInnerProduct(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int);
-int pcarEnd(int);
-int pcarRejoinLane(int);
-int pointEventGet(int);
-int technicalCheck(int);
-int parkingCarExec(int a4);
+int Start_Fog(int);
+float getNearLineIndex(int, int, int, int);
+void RailroadAreaCheck(int a4, int a5, int a6, int a7);
 
-int parkingCarExec(int a4)
+void RailroadAreaCheck(int a4, int a5, int a6, int a7)
 {
-    float t14;
-    int t53;
+    int t2;
     int t4;
-    int t132;
-    float u18;
-    int t129;
-    int t126;
-    int t123;
-    int stk[11] = {0};
+    int t7;
+    int t10;
+    int t11;
+    int t12;
+    int t16;
+    int t17;
+    int t26;
+    int t27;
+    int t52;
+    int t96;
+    int t97;
+    int t24;
+    int t35;
+    int t36;
+    int stk[15];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((0x98 + a4)); }
-    technicalCheck(a4);
-    calcColliCheck(a4);
-    if (((pointEventGet((*(int *)((a4 + 0xD8))))) == 0) && (t4 = *(int *)((a4 + 0x84)), (t4 & 0x10000) == 0)) {
-        t132 = (pcarEnd(a4));
+    *(unsigned int *)(((int)stk + 12)) = a5;
+    if (a4 == 0) {
+        *(unsigned int *)0xC2A4E40 = 0x0;
+        *(unsigned int *)0xC2A4E4C = 0x0;
+        t2 = 0x0;
+        for (;;) {
+            t4 = (signed char)(((t2 << 1) + t2) << 2);
+            t2 = (t2 + 0x1);
+            *(unsigned int *)(((t4 + 0xC0F2AE8) + 0x0)) = 0x0;
+            if ((int)t2 >= (int)0x4) {
+                break;
+            }
+        }
     } else {
-        if ((*(int *)((a4 + 0x80))) != 0) {
-            pcarRejoinLane(a4);
-        }
-        if (((*(int *)((a4 + 0x84))) & 8) != 0) {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + a4)) = *(struct mv3 *)((a4 + 0x14)); }
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + a4)) = *(struct mv3 *)((a4 + 0x20)); }
-            t14 = nlInnerProduct((a4 + 0x5C), (a4 + 0x44));
-            *(float *)((a4 + 0x100)) = t14;
-            u18 = t14;
-        }
-        if (((*(int *)((a4 + 0x84))) & 4) == 0) {
-            nlPushUnitMatrix();
-            nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-            nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-            nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
-            FUN_0c077210((0x98 + a4), (((int)stk + 4) + 0xC));
-            *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 24)));
-            nlPopMatrix(0x1);
-            carEntry(a4);
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x20)) = *(struct mv3 *)((0x98 + a4)); }
-            nlScaleVector((((int)stk + 4) + 0xC), (a4 + 0x44), ((*(float *)((a4 + 0x100))) - u18));
-            nlAddVector((a4 + 0x5C), (((int)stk + 4) + 0xC));
-            nlScaleVector((a4 + 0x5C), (a4 + 0x5C), 0.996999979f);
-            *(volatile short *)((a4 + 0xA8));
-            GetRotVec4Ang((a4 + 0x44), (unsigned short)(*(short *)((a4 + 0xA4))), (unsigned short)(*(short *)((a4 + 0xA6))));
-            *(unsigned int *)((a4 + 0x68)) = 0x0;
-            t129 = 0x68;
+        if ((*(int *)0xC1EE20C) != 1) {
         } else {
-            *(float *)((a4 + 0x9C)) = ((*(float *)((a4 + 0x9C))) - 0.073499985f);
-            if ((int)(*(int *)((a4 + 0x110))) > 0) {
-                *(unsigned int *)((a4 + 0x110)) = ((*(int *)((a4 + 0x110))) - 1);
-                carResistance();
-            }
-            nlScaleVector((0x98 + a4), (0x98 + a4), 0.999799967f);
-            nlAddVector((0x8C + a4), (0x98 + a4));
-            t53 = GetCollision2D((0x8C + a4), 30.0f);
-            if ((*(int *)((t53 + 0x1C))) != -1) {
-                { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)((t53 + 0xC)); }
-                *(float *)((a4 + 0x104)) = (*(float *)((t53 + 0x18)));
-                if ((*(float *)((a4 + 0x104))) > (*(float *)((a4 + 0x90)))) {
-                    *(float *)((a4 + 0x90)) = (*(float *)((a4 + 0x104)));
-                    carColliReflection();
-                    *(unsigned int *)((a4 + 0x110)) = (int)((float)(*(int *)((a4 + 0x110))) + 5.0f);
-                }
-                if ((int)(*(int *)((a4 + 0x110))) > (int)0xA) {
-                    *(unsigned int *)((a4 + 0x110)) = 0xA;
-                }
-                nlSubVector3op(((int)stk + 4), (0x98 + a4), ((int)stk + 4));
-                *(float *)((a4 + 0xF8)) = ((*(float *)((a4 + 0xF8))) - ((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * (1.0f + 1.0f)));
-                *(float *)((a4 + 0xF8)) = ((*(float *)((a4 + 0xF8))) * 0.799999952f);
-                carBalance(a4);
-                nlPushUnitMatrix();
-                nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-                nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-                nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
-                FUN_0c077210((0x98 + a4), (((int)stk + 4) + 0xC));
-                *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 24)));
-                nlPopMatrix(0x1);
-                carEntry(a4);
-                { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }
-                { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x20)) = *(struct mv3 *)((0x98 + a4)); }
-                nlScaleVector((((int)stk + 4) + 0xC), (a4 + 0x44), ((*(float *)((a4 + 0x100))) - u18));
-                nlAddVector((a4 + 0x5C), (((int)stk + 4) + 0xC));
-                nlScaleVector((a4 + 0x5C), (a4 + 0x5C), 0.996999979f);
-                *(volatile short *)((a4 + 0xA8));
-                GetRotVec4Ang((a4 + 0x44), (unsigned short)(*(short *)((a4 + 0xA4))), (unsigned short)(*(short *)((a4 + 0xA6))));
-                *(unsigned int *)((a4 + 0x68)) = 0x0;
-                t126 = 0x68;
+            t7 = *(int *)0xC2A4E40;
+            if (t7 == 1) {
+                *(unsigned int *)0xC2A4E40 = 0x0;
             } else {
-                if ((dropOutCheck(a4)) != 0) {
-                    t123 = (pcarEnd(a4));
-                } else {
-                    if ((int)(*(int *)((a4 + 0x110))) > (int)0xA) {
-                        *(unsigned int *)((a4 + 0x110)) = 0xA;
-                    }
-                    nlSubVector3op(((int)stk + 4), (0x98 + a4), ((int)stk + 4));
-                    *(float *)((a4 + 0xF8)) = ((*(float *)((a4 + 0xF8))) - ((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * (1.0f + 1.0f)));
-                    *(float *)((a4 + 0xF8)) = ((*(float *)((a4 + 0xF8))) * 0.799999952f);
-                    carBalance(a4);
-                    nlPushUnitMatrix();
-                    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-                    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-                    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
-                    FUN_0c077210((0x98 + a4), (((int)stk + 4) + 0xC));
-                    *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 24)));
-                    nlPopMatrix(0x1);
-                    carEntry(a4);
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x20)) = *(struct mv3 *)((0x98 + a4)); }
-                    nlScaleVector((((int)stk + 4) + 0xC), (a4 + 0x44), ((*(float *)((a4 + 0x100))) - u18));
-                    nlAddVector((a4 + 0x5C), (((int)stk + 4) + 0xC));
-                    nlScaleVector((a4 + 0x5C), (a4 + 0x5C), 0.996999979f);
-                    *(volatile short *)((a4 + 0xA8));
-                    GetRotVec4Ang((a4 + 0x44), (unsigned short)(*(short *)((a4 + 0xA4))), (unsigned short)(*(short *)((a4 + 0xA6))));
-                    *(unsigned int *)((a4 + 0x68)) = 0x0;
-                    t123 = 0x68;
+                if (t7 == 2) {
+                    *(unsigned int *)0xC2A4E40 = 0x3;
                 }
-                t126 = t123;
             }
-            t129 = t126;
+            t10 = 0x0;
+            t11 = 0xFFFFFFFF;
+            t12 = 0x0;
+            for (;;) {
+                *(unsigned int *)(((int)stk + 20)) = (*(int *)((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x0)));
+                *(unsigned int *)(((int)stk + 8)) = 0x0;
+                *(volatile int *)(((int)stk + 12));
+                t16 = *(int *)(((int)stk + 20));
+                t17 = *(int *)0xC2A6690;
+                *(unsigned int *)(((int)stk + 16)) = ((((t16 << 1) + t16) << 2) + t17);
+                if (100.0f > (getNearLineIndex(0x0, (*(int *)(((*(int *)(((int)stk + 16))) + 0x0))), (*(int *)(((*(int *)((((((t16 << 1) + t16) << 2) + t17) + 0x4))) + 0x0))), (((int)stk + 4) + 0x4)))) {
+                    t26 = (*(int *)((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x4)));
+                    t27 = 0x0;
+                    for (;;) {
+                        if ((int)t27 >= (int)(*(int *)(((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x8) + 0x0)))) {
+                            break;
+                        }
+                        if (((int)((*(int *)(((int)stk + 8)))) >= (int)(*(int *)((t26 + 0x0)))) && (t35 = *(int *)(((int)stk + 8)), t24 = t35, t36 = *(int *)((t26 + 0x4)), (int)t24 <= (int)t36)) {
+                            t11 = t12;
+                            t10 = 0x3;
+                        }
+                        t27 = (t27 + 0x1);
+                        t26 = (t26 + 0x8);
+                    }
+                }
+                t12 = (t12 + 0x1);
+                if ((unsigned int)t12 >= (unsigned int)0x2) {
+                    break;
+                }
+            }
+            if (t10 != (*(int *)0xC2A4E40)) {
+                if (t10 == 3) {
+                    *(unsigned int *)0xC2A4E40 = 0x2;
+                } else {
+                    *(unsigned int *)0xC2A4E40 = 0x1;
+                }
+            }
+            t52 = *(int *)0xC2A4E40;
+            if (t52 == 2) {
+                if (t11 == 0) {
+                    Start_Fog(0x2);
+                } else {
+                    if (t11 == 1) {
+                        Start_Fog(0x1);
+                    }
+                }
+            } else {
+                if (t52 == 1) {
+                    Start_Fog(0x0);
+                }
+            }
+            t96 = *(int *)0xC2A1B30;
+            t97 = *(int *)((t96 + 0x64));
+            if (((*(int *)(((((int)t97 >> 5) << 2) + 0xC0A37B8))) & (((int)(t97 & 0x1F) >= 0) ? (0x1 << ((t97 & 0x1F) & 31)) : ((-(int)(t97 & 0x1F) & 31) ? ((int)0x1 >> (-(int)(t97 & 0x1F) & 31)) : ((int)0x1 >> 31)))) != 0) {
+                if (2000.0f > (*(float *)((t96 + 0x7C)))) {
+                    *(unsigned int *)0xC2A4E4C = 0x1;
+                } else {
+                    *(unsigned int *)0xC2A4E4C = 0x0;
+                }
+            } else {
+                *(unsigned int *)0xC2A4E4C = 0x0;
+            }
         }
-        t132 = t129;
     }
-    return t132;
 }

@@ -21,23 +21,23 @@ int fcvSolveIK(int, int, int, int, int);
 float BigOneKeyValue(int, int, float);
 int BigOneRotate(int, int, int);
 int BigOneHomeAngle(int, int, float);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077f70(void);
-int FUN_0c078310(void);
-int FUN_0c0789c0(int);
-int FUN_0c078a70(int, int, int);
-int FUN_0c07c1d0(int, int, int, int, float, float);
-int FUN_0c07c260(int, int, int, int, float, float);
-int FUN_0c07c2e0(int, int, int, int, float, float);
-int FUN_0c07c360(int, int, int, int, float, float);
-int FUN_0c07c3f0(int, int, int, float);
-int FUN_0c07cb70(int, int, int);
-int FUN_0c07cd30(int, int, int, int);
-int FUN_0c07d040(int, int);
-int FUN_0c16bb70(void);
-int FUN_0c16bca0(void);
-int FUN_0c16bf4a(void);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMultiViewMatrix(void);
+int nlQuickInvertMatrix(void);
+int nlTranslateNV(int);
+int nlAddVector3op(int, int, int);
+int nlLineSendQuadA(int, int, int, int, float, float);
+int nlLineSendQuadB(int, int, int, int, float, float);
+int nlLineSendQuadC(int, int, int, int, float, float);
+int nlLineSendQuadD(int, int, int, int, float, float);
+int nlLineSendQuadE(int, int, int, float);
+int nlMvClipEdge(int, int, int);
+int nlMvPutFaceClip(int, int, int, int);
+int nlMvGetFaceVerts(int, int);
+int kmiUpdateRenderStatus(void);
+int kmiStartNextDMA(void);
+int kmiStartNextRender(void);
 int GetAverageAngle(int, int, float);
 int GetCollision2D(int, float);
 int KillColliObj(int);
@@ -93,13 +93,13 @@ int kmiCopyTextureToTexture(void);
 float carGripCurve(float f4);
 int windowBoxAdvice(void);
 int Exec_DCmini_Game7(void);
-void FUN_0c07cc00(int a4, int a5, int a6, int a7);
+void nlMvPutPolygon(int a4, int a5, int a6, int a7);
 int breathSteer(int a4, int a5);
 int SetSpark(int a4, int a5, int a6);
-int FUN_0c07c470(int a4, int a5, int a6, int a7);
+int nlLineDrawThick(int a4, int a5, int a6, int a7);
 int colliBoxSphere(int a4, int a5);
 int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7);
-int FUN_0c16c1c0(void);
+int kmiEndOfRenderISR(void);
 int trailerExec(int a4);
 int BigOneSwimMove(void);
 int trafficSectionControl(int a4, int a5, int a6, float f4);
@@ -153,7 +153,7 @@ int windowBoxAdvice(void)
 }
 
 
-void FUN_0c07cc00(int a4, int a5, int a6, int a7)
+void nlMvPutPolygon(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t1;
@@ -235,27 +235,27 @@ void FUN_0c07cc00(int a4, int a5, int a6, int a7)
                     t20 = *(int *)0xC2B7658;
                     t3 = t20;
                     *(unsigned int *)(((int)stk + 16)) = ((t19 << 2) << 2);
-                    FUN_0c07cb70((((t19 << 2) << 2) + t3), (((t17 << 2) << 2) + t3), (((t10 << 2) << 2) + t18));
+                    nlMvClipEdge((((t19 << 2) << 2) + t3), (((t17 << 2) << 2) + t3), (((t10 << 2) << 2) + t18));
                     t3 = 0xC2B7668;
                     t22 = *(int *)0xC2B765C;
                     t23 = *(int *)(((int)stk + 12));
                     t24 = *(int *)((t3 + 0x0));
                     t25 = *(int *)(((int)stk + 20));
                     t26 = *(int *)(((int)stk + 16));
-                    FUN_0c07cb70((t26 + t22), (t23 + t22), (t25 + t24));
+                    nlMvClipEdge((t26 + t22), (t23 + t22), (t25 + t24));
                 }
                 t9 = (t9 - 0x1);
             } while (t9 != 0);
             t3 = 0xC2B7658;
             t29 = *(int *)0xC2B7664;
             t30 = *(int *)((t3 + 0x0));
-            t31 = FUN_0c07d040(t30, (t4 + 0xC));
+            t31 = nlMvGetFaceVerts(t30, (t4 + 0xC));
             t3 = 0xC2B765C;
             t32 = *(int *)0xC2B7668;
             t33 = *(int *)((t3 + 0x0));
-            t34 = FUN_0c07d040(t33, (t4 + 0xC));
+            t34 = nlMvGetFaceVerts(t33, (t4 + 0xC));
             if ((t31 | t34) != 0) {
-                FUN_0c07cd30(t31, t34, (t4 + 0xC), (t4 + 0x12));
+                nlMvPutFaceClip(t31, t34, (t4 + 0xC), (t4 + 0x12));
             }
         }
         t37 = *(int *)(((int)stk + 4));
@@ -269,7 +269,7 @@ void FUN_0c07cc00(int a4, int a5, int a6, int a7)
 
 
 
-int FUN_0c07c470(int a4, int a5, int a6, int a7)
+int nlLineDrawThick(int a4, int a5, int a6, int a7)
 {
     float u0;
     float u1;
@@ -339,7 +339,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
         if (!(u5 > u6)) {
             t7 = a5;
         }
-        FUN_0c07c3f0(a4, t7, a7, (u4 * 0.5f));
+        nlLineSendQuadE(a4, t7, a7, (u4 * 0.5f));
         t65 = (a4 + 0x80);
         u66 = (u4 * 0.5f);
     } else {
@@ -361,7 +361,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
         u14 = *(float *)((a6 + 0x8));
         *(float *)((a6 + 0x8)) = (1.0f / u14);
         if ((int)t12 <= (int)0x1) {
-            FUN_0c07c1d0(a4, a5, a6, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
+            nlLineSendQuadA(a4, a5, a6, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
             t61 = a4;
         } else {
             *(float *)0xC2B7634 = ((1.0f / (float)t12) * (u0 - u1));
@@ -384,7 +384,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
             u25 = *(float *)0xC2B7648;
             u26 = *(float *)0xC2B763C;
             *(float *)0xC2B7654 = (u25 + u26);
-            FUN_0c07c360(a4, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
+            nlLineSendQuadD(a4, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
             t45 = (a4 + 0x80);
             if ((int)0x1 < (int)(t12 - 1)) {
                 t28 = 0x1;
@@ -408,7 +408,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
                     u40 = *(float *)0xC2B763C;
                     u41 = *(float *)0xC2B7654;
                     *(float *)0xC2B7654 = (u41 + u40);
-                    FUN_0c07c2e0(t29, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
+                    nlLineSendQuadC(t29, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
                     t28 = (t28 + 0x1);
                     t29 = (t29 + 0x80);
                 } while ((int)t28 < (int)(t12 - 1));
@@ -432,7 +432,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
             u56 = *(float *)0xC2B763C;
             u57 = *(float *)0xC2B7654;
             *(float *)0xC2B7654 = (u57 + u56);
-            FUN_0c07c260(t45, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
+            nlLineSendQuadB(t45, 0xC2B764C, 0xC2B7640, a7, ((u0 - u1) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))), ((u2 - u3) * ((1.0f / _builtin_sqrtf((((u2 - u3) * (u2 - u3)) + (u0 - u1) * (u0 - u1)))) * (u4 * 0.5f))));
             t61 = t45;
         }
         t65 = (t61 + 0x80);
@@ -443,7 +443,7 @@ int FUN_0c07c470(int a4, int a5, int a6, int a7)
 
 
 
-int FUN_0c16c1c0(void)
+int kmiEndOfRenderISR(void)
 {
     int t0;
     int t1;
@@ -797,11 +797,11 @@ int FUN_0c16c1c0(void)
         }
         t128 = 0x0;
         if (t122 == 0) {
-            FUN_0c16bb70();
-            t125 = FUN_0c16bca0();
+            kmiUpdateRenderStatus();
+            t125 = kmiStartNextDMA();
             t127 = 0x1;
             if (t125 != 0) {
-                FUN_0c16bf4a();
+                kmiStartNextRender();
                 *(unsigned int *)0xC2EA9F4 = 0x0;
                 t127 = 0x0;
             }

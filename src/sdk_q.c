@@ -61,7 +61,7 @@ int ADXB_GetOutBps(char *a)
 
 /* The G2 bus state read by mode (0C2FD444): mode 0 waits for the status halfword's low byte, then returns the signed byte
    at +20; mode 1 returns 13 when bit 2 of the byte at +28 of the other block is set; else b is returned unchanged. */
-int FUN_0c17472e(int a, int b)
+int syIntAdrChk_getchar(int a, int b)
 {
     int mode = *(int *)0x0C2FD444;
     char *p;
@@ -80,7 +80,7 @@ int FUN_0c17472e(int a, int b)
 }
 
 /* Mode 0 only: the block's halfwords set to their start values; then bit 0 of the status byte at FFC00004 set. */
-int FUN_0c174768(void)
+int syIntAdrChk_finish(void)
 {
     char *b;
     int v;

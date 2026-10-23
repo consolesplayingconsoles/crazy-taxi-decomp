@@ -10,7 +10,7 @@ int LetsMakeAquarium(void)
     int t2;
 
     *(unsigned int *)0xC13F514 = 0x0;
-    u0 = *(float *)0xC072A34;
+    u0 = 0.25f;
     t1 = 0x0;
     for (;;) {
         { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)((((t1 << 2) << 1) + t1) << 2) + 0xC2AE788)) = *(struct mv3 *)(0xC0D5530); }

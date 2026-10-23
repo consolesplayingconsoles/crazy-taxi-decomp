@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_act): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c089978(int, int);
+int _rnd(int, int);
 int _mult64(int, int, int, int);
 int _pow10(int, int, int);
 int memmove(int, int, int);
@@ -68,7 +68,7 @@ int _power(int a4, int a5, int a6)
         if ((t15 & 0x1) != 0) {
             t11 = (_mult64(((int)stk + 4), (((int)stk + 4) + 0x1C), (*(short *)((t17 + 0x0))), t16));
             t13 = 0xB4;
-            t11 = (FUN_0c089978((((int)stk + 4) + 0x1C), 0x40));
+            t11 = (_rnd((((int)stk + 4) + 0x1C), 0x40));
             if (t11 != 0) {
                 t13 = (*(short *)(((int)stk + 4)));
                 t13 = (t13 + 0x1);
@@ -96,7 +96,7 @@ int _power(int a4, int a5, int a6)
     if (t10 != 0) {
         _pow10(t10, (*(int *)(((int)stk + 12))), (*(int *)(((int)stk + 16))));
         _mult64(((int)stk + 4), (((int)stk + 4) + 0x1C), (*(short *)(((*(int *)(((int)stk + 12))) + 0x0))), (*(int *)(((int)stk + 16))));
-        if ((FUN_0c089978((((int)stk + 4) + 0x1C), 0x40)) == 1) {
+        if ((_rnd((((int)stk + 4) + 0x1C), 0x40)) == 1) {
             *(unsigned short *)(((int)stk + 4)) = ((*(short *)(((int)stk + 4))) + 0x1);
             t40 = *(int *)(((int)stk + 8));
             *(unsigned char *)((t40 + 0x0)) = ((*(signed char *)((t40 + 0x0))) | 0x80);

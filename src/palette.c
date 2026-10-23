@@ -23,7 +23,7 @@ void paletteSetMode(int mode)
     kmSetPaletteMode(gPaletteModeTable[mode]);
 }
 
-void FUN_0c0742c0(int value)
+void nlPaletteDirectMode(int value)
 {
     g_0c14a644 = value;
 }

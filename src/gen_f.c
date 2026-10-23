@@ -15,10 +15,10 @@ int Result_Wobble(void);
 int Result_Light(void);
 int Result_SetFog(void);
 int Result_SetBackColor(void);
-int FUN_0c074680(void);
-int FUN_0c077210(int, int);
-int FUN_0c077df0(int);
-int FUN_0c078980(void);
+int nlSetBackColor(void);
+int nlCalcVector(int, int);
+int nlMatrixMode(int);
+int nlTransposeMatrix(void);
 int replayChangeControl(int);
 int Initialize_Replay(void);
 int Sound_Init(void);
@@ -37,7 +37,7 @@ void CopyBackupBuffer(void);
 int nd_SprPut(int a4, int a5, float f4, float f5);
 int Exec_Result(void);
 int nlInvLightVectorUseViewMatrix(void);
-int FUN_0c158f00(void);
+int kmiWriteDispModeRegisters(void);
 int ADXRNA_SetPlaySw(void);
 int ADXRNA_GetNumData(void);
 int thunk_mwRnaErrEntryFunc(void);
@@ -60,7 +60,7 @@ int gameState12(void)
 
     Sound_Init();
     gdc_StopStreamSongAll();
-    FUN_0c074680();
+    nlSetBackColor();
     *(unsigned int *)0xC2A4E50 = 0x1;
     replayChangeControl(0xFFFFFFFF);
     Initialize_Replay();
@@ -136,13 +136,13 @@ int nlInvLightVectorUseViewMatrix(void)
     float u14;
     int t16;
 
-    FUN_0c077df0(0x2);
-    FUN_0c078980();
-    FUN_0c077210(0xC14A938, 0xC2B3150);
-    FUN_0c078980();
-    FUN_0c077df0(0x1);
-    FUN_0c078980();
-    FUN_0c077210(0xC14A918, 0xC2B3160);
+    nlMatrixMode(0x2);
+    nlTransposeMatrix();
+    nlCalcVector(0xC14A938, 0xC2B3150);
+    nlTransposeMatrix();
+    nlMatrixMode(0x1);
+    nlTransposeMatrix();
+    nlCalcVector(0xC14A918, 0xC2B3160);
     u7 = *(float *)0xC2B3150;
     u8 = *(float *)0xC14A918;
     *(float *)0xC2B3150 = (u7 + u8);
@@ -152,14 +152,14 @@ int nlInvLightVectorUseViewMatrix(void)
     u11 = *(float *)0xC2B3158;
     u12 = *(float *)0xC14A920;
     *(float *)0xC2B3158 = (u11 + u12);
-    FUN_0c077210(0xC2B3150, 0xC2B3150);
+    nlCalcVector(0xC2B3150, 0xC2B3150);
     u14 = 436.5f;
     nlScaleUnitVector(0xC2B3150, 0xC2B3150, u14);
-    t16 = FUN_0c078980();
+    t16 = nlTransposeMatrix();
     return t16;
 }
 
-int FUN_0c158f00(void)
+int kmiWriteDispModeRegisters(void)
 {
     int t0;
     int t2;

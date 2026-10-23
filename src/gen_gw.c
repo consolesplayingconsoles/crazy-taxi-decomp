@@ -1,38 +1,36 @@
 /* Straight-line functions with calls and guards (batch gen_gw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07b980(void);
-int nlAddVector(int, int);
-int nlLineSetThickness(float);
+int nlFastSinCos(int, int, int);
 int nlObjPutUseViewMatrix(int);
-int nlScaleVector(int, int, float);
 int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
 int nlTriPutSetAttribFaceColor(int, float, float, float);
 int nlTriPutSetClipping(int, float, float, float, float);
 int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
 int nlTriPutTextureInit(int, int, int);
-int PutColliWall(int a4);
+int PutColliPole(int a4);
 
-int PutColliWall(int a4)
+int PutColliPole(int a4)
 {
     float u9;
     float u10;
-    int t80;
-    float u30;
-    float u55;
-    float u56;
-    float u57;
-    float u66;
-    float u67;
-    float u71;
-    float u75;
-    int stk[22] = {0};
+    int t15;
+    int t16;
+    int t17;
+    float u19;
+    float u23;
+    float u24;
+    float u26;
+    float u33;
+    float u34;
+    float u37;
+    int stk[23];
 
-    if ((*(int *)0xC0ED89C) != 0) {
-        nlTriPutTextureInit(0xC270A98, 0xFFFFFFFF, 0x0);
-        nlTriPutSetAttrib(0xC270A98, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x4, 0.5f, 0.5f, 0.0f, 5.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-        *(unsigned int *)0xC270AB8 = ((*(int *)0xC270AB8) | 0xC0);
-        *(unsigned int *)0xC0ED89C = 0x0;
+    if ((*(int *)0xC0ED8A0) != 0) {
+        nlTriPutTextureInit(0xC270E78, 0xFFFFFFFF, 0x0);
+        nlTriPutSetAttrib(0xC270E78, 0x2, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x22, 0.5f, 0.5f, 1.0f, 0.0f, 0.699999988f, 0.0f, 0.0f, 0.0f);
+        *(unsigned int *)0xC270E98 = ((*(int *)0xC270E98) | 0xC0);
+        *(unsigned int *)0xC0ED8A0 = 0x0;
     }
     u9 = 0.0f;
     u10 = 0.699999988f;
@@ -40,49 +38,33 @@ int PutColliWall(int a4)
         u9 = 0.699999988f;
         u10 = 0.0f;
     }
-    nlTriPutSetAttribFaceColor(0xC270A98, 1.0f, u9, u10);
-    *(float *)(((int)stk + 40)) = (*(float *)((a4 + 0x8)));
-    *(float *)(((int)stk + 44)) = (*(float *)((a4 + 0x18)));
-    *(float *)(((int)stk + 48)) = (*(float *)((a4 + 0xC)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 28) + 0xC)); }
-    *(float *)(((int)stk + 32)) = (*(float *)((a4 + 0x14)));
-    nlLineSetThickness(3.0f);
-    FUN_0c07b980();
-    t80 = 0x1C;
-    if (!((*(float *)((a4 + 0x1C))) > 0.0f)) {
-    } else {
-        *(float *)(((int)stk + 32)) = (*(float *)(((int)stk + 44)));
-        *(float *)(((int)stk + 28)) = (*(float *)(((a4 + 0x20) + 0x8)));
-        *(float *)(((int)stk + 36)) = (*(float *)(((a4 + 0x20) + 0xC)));
-        FUN_0c07b980();
-        *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 40))) - ((*(float *)((a4 + 0x4))) * (*(float *)((a4 + 0x1C)))));
-        u30 = (*(float *)(((int)stk + 48)));
-        u30 = u30 + (*(float *)((a4 + 0x1C))) * (*(float *)((a4 + 0x0)));
-        *(float *)(((int)stk + 36)) = u30;
-        nlTriPutSetPoint(0xC270A98, 0x0, (*(float *)(((int)stk + 40))), (*(float *)((a4 + 0x18))), (*(float *)(((int)stk + 48))), (*(float *)((a4 + 0x0))), 0.0f, (*(float *)((a4 + 0x4))), 0.0f, 0.0f);
-        nlTriPutSetPoint(0xC270A98, 0x1, (*(float *)(((int)stk + 40))), (*(float *)((a4 + 0x14))), (*(float *)(((int)stk + 48))), (*(float *)((a4 + 0x0))), 0.0f, (*(float *)((a4 + 0x4))), 0.0f, 0.0f);
-        nlTriPutSetPoint(0xC270A98, 0x2, (*(float *)(((int)stk + 28))), (*(float *)((a4 + 0x18))), (*(float *)(((int)stk + 36))), (*(float *)((a4 + 0x0))), 0.0f, (*(float *)((a4 + 0x4))), 0.0f, 0.0f);
-        nlTriPutSetPoint(0xC270A98, 0x3, (*(float *)(((int)stk + 28))), (*(float *)((a4 + 0x14))), (*(float *)(((int)stk + 36))), (*(float *)((a4 + 0x0))), 0.0f, (*(float *)((a4 + 0x4))), 0.0f, 0.0f);
-        u55 = *(float *)((a4 + 0x14));
-        u56 = *(float *)((a4 + 0x1C));
-        u57 = *(float *)((a4 + 0x18));
-        nlTriPutSetClipping(0xC270A98, (((*(float *)(((int)stk + 40))) + (*(float *)(((int)stk + 28)))) * 0.5f), ((u55 + u57) * 0.5f), (((*(float *)(((int)stk + 48))) + (*(float *)(((int)stk + 36)))) * 0.5f), (((u56 + u55) - u57) * 0.5f));
-        nlObjPutUseViewMatrix(0xC270A98);
-        nlAddVector((((int)stk + 28) + 0xC), ((int)stk + 28));
-        nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), 0.5f);
-        u66 = *(float *)((a4 + 0x18));
-        u67 = *(float *)((a4 + 0x14));
-        *(float *)(((int)stk + 32)) = ((u67 + u66) * 0.5f);
-        *(float *)(((int)stk + 44)) = ((u67 + u66) * 0.5f);
-        u71 = (*(float *)(((int)stk + 40)));
-        u71 = u71 + 0.199999988f * ((*(float *)((a4 + 0x0))) * ((((u56 + u55) - u57) * 0.5f)));
-        *(float *)(((int)stk + 28)) = u71;
-        u75 = (*(float *)(((int)stk + 48)));
-        u75 = u75 + 0.199999988f * ((*(float *)((a4 + 0x4))) * ((((u56 + u55) - u57) * 0.5f)));
-        *(float *)(((int)stk + 36)) = u75;
-        *(volatile int *)((a4 + 0x14));
-        
-        t80 = (FUN_0c07b980());
+    nlTriPutSetAttribFaceColor(0xC270E78, 1.0f, u9, u10);
+    *(float *)(((int)stk + 36)) = (*(float *)((a4 + 0x8)));
+    *(float *)(((int)stk + 40)) = (*(float *)((a4 + 0xC)));
+    t15 = 0x0;
+    t16 = 0x0;
+    t17 = 0x0;
+    for (;;) {
+        nlFastSinCos(t16, ((int)stk + 28), (((int)stk + 28) + 0x4));
+        u19 = *(float *)((a4 + 0x10));
+        u23 = (*(float *)(((int)stk + 36)));
+        u23 = u23 + u19 * (*(float *)(((int)stk + 32)));
+        u24 = *(float *)(((int)stk + 28));
+        u26 = (*(float *)(((int)stk + 40)));
+        u26 = u26 + u19 * u24;
+        nlTriPutSetPoint(0xC270E78, t17, u23, (*(float *)((a4 + 0x14))), u26, (*(float *)(((int)stk + 32))), 0.0f, u24, 0.0f, 0.0f);
+        nlTriPutSetPoint(0xC270E78, (t17 + 0x1), u23, (*(float *)((a4 + 0x18))), u26, (*(float *)(((int)stk + 32))), 0.0f, (*(float *)(((int)stk + 28))), 0.0f, 0.0f);
+        t15 = (t15 + 0x1);
+        t17 = (t17 + 0x2);
+        t16 = (t16 + 0x1000);
+        if ((int)t15 > (int)0x10) {
+            break;
+        }
     }
-    return t80;
+    u33 = *(float *)((a4 + 0x14));
+    u34 = *(float *)((a4 + 0x18));
+    u37 = (*(float *)((a4 + 0x10)));
+    u37 = u37 + 0.5f * (u33 - u34);
+    nlTriPutSetClipping(0xC270E78, (*(float *)(((int)stk + 36))), ((u33 + u34) * 0.5f), (*(float *)(((int)stk + 40))), u37);
+    return (nlObjPutUseViewMatrix(0xC270E78));
 }

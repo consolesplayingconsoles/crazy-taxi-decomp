@@ -1,54 +1,28 @@
 /* Straight-line functions with calls and guards (batch gen_adl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float general_spline_point(int a4, int a5, int a6, int a7, int a8, float f4);
+float nlAbsSqrt(float);
+int nlArcTan2(float, float);
+int nlSubVector3op(int, int, int);
+int nlUnitVector(int);
+int Current_to_Target_angleX(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
 
-float general_spline_point(int a4, int a5, int a6, int a7, int a8, float f4)
+int Current_to_Target_angleX(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11)
 {
-    float u0;
-    float u1;
     float u2;
+    float u3;
     float u4;
-    float u5;
-    float u6;
-    float u10;
-    float u12;
-    float u14;
-    float u18;
-    float u20;
-    float u22;
-    float u27;
-    float u28;
-    float u30;
-    int stk[5] = {0};
+    int stk[19];
 
-    u0 = 6.0f;
-    u1 = -2.0f;
-    u2 = ((f4 + (-1.0f)) * (f4 + u1));
-    u4 = ((f4 + 1.0f) * (f4 + (-1.0f)));
-    u5 = ((((f4 + 1.0f) * (f4 + u1))) * f4);
-    u6 = ((f4 + 1.0f) * (f4 + (-1.0f)));
-    u10 = ((((u4 * (f4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((a4 + 0xC) + 0x0))));
-    u10 = u10 + ((-(u2 * f4)) / u0) * (*(float *)((a4 + 0x0)));
-    u12 = u10;
-    u12 = u12 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((a4 + 0x18) + 0x0)));
-    u14 = u12;
-    u14 = u14 + ((u6 * f4) / u0) * (*(float *)(((a4 + 0x24) + 0x0)));
-    *(float *)((((int)stk + 4) + 0x0)) = u14;
-    u18 = ((((u4 * (f4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((a4 + 0xC) + 0x4))));
-    u18 = u18 + ((-(u2 * f4)) / u0) * (*(float *)((a4 + 0x4)));
-    u20 = u18;
-    u20 = u20 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((a4 + 0x18) + 0x4)));
-    u22 = u20;
-    u22 = u22 + ((u6 * f4) / u0) * (*(float *)(((a4 + 0x24) + 0x4)));
-    *(float *)((((int)stk + 4) + 0x4)) = u22;
-    u27 = ((((u4 * (f4 + u1)) / (1.0f + 1.0f))) * (*(float *)(((a4 + 0xC) + 0x8))));
-    u27 = u27 + ((-(u2 * f4)) / u0) * (*(float *)((a4 + 0x8)));
-    u28 = u27;
-    u28 = u28 + ((-(u5 * 1.0f)) / (1.0f + 1.0f)) * (*(float *)(((a4 + 0x18) + 0x8)));
-    u30 = u28;
-    u30 = u30 + ((u6 * f4) / u0) * (*(float *)(((a4 + 0x24) + 0x8)));
-    *(float *)((((int)stk + 4) + 0x8)) = u30;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(a8) = *(struct mv3 *)(((int)stk + 4)); }
-    return ((u6 * f4) / u0);
+    stk[7] = a8;
+    stk[8] = a9;
+    stk[9] = a10;
+    stk[10] = a11;
+    nlSubVector3op(((int)stk + 4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24));
+    nlUnitVector(((int)stk + 4));
+    u2 = *(float *)(((int)stk + 4));
+    u3 = *(float *)(((int)stk + 12));
+    u4 = (u3 * u3);
+    u4 = u4 + u2 * u2;
+    return (-(nlArcTan2((*(float *)(((int)stk + 8))), (nlAbsSqrt(u4)))));
 }

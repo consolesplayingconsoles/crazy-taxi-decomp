@@ -13,18 +13,18 @@ int ADXSTM_Stop(int);
 int CheckColliWall(int, float);
 int HomingAngle1(int, int, float);
 int colliObjPairHit(int, int, int, int, int, int);
-int nlSqrt(int, int);
-int FUN_0c077210(int, int);
-int FUN_0c077f70(void);
-int FUN_0c078310(void);
-int FUN_0c078a70(int, int, int);
-float FUN_0c078c00(int);
-float FUN_0c078de0(int, int);
-int FUN_0c080470(int);
-int FUN_0c15f49a(int, int);
-int FUN_0c15f4c8(int);
-int FUN_0c15f4e2(int);
-int FUN_0c16893a(int, int, int, int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMultiViewMatrix(void);
+int nlQuickInvertMatrix(void);
+int nlAddVector3op(int, int, int);
+float nlScalor2(int);
+float nlUnitVectorsd(int, int);
+int nlsndG2DmaRequest(int);
+int crcchk(int, int);
+int bcd2bin(int);
+int bcdtime2fad(int);
+int ADXSTMF_Create(int, int, int, int);
 int IsBoyFriend(int, int);
 int ResetFadeColor(void);
 int MultiRot4Vec(int);
@@ -86,8 +86,8 @@ int kdSetSetConditionEx(int a4, int a5, int a6, int a7, int a8);
 int kdSetGetConditionEx(int a4, int a5, int a6);
 int kdSetARControlEx(int a4, int a5, int a6);
 int kdSetBlockWriteEx(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
-int FUN_0c1722c2(int a4, int a5, int a6, int a7, int a8);
-int FUN_0c160e88(void);
+int mwlSbTrnsDat(int a4, int a5, int a6, int a7, int a8);
+int sySqInit(void);
 int FUN_0c074a10(int a4);
 int syG2SysInit(void);
 int BigOneFollowTaxi(float f4);
@@ -121,7 +121,7 @@ int ADXSTM_OpenRange(int a4, int a5, int a6)
         ADXERR_CallErrFunc(0xC1764B4, a4, a5);
         return 0x0;
     }
-    t2 = FUN_0c16893a(t0, 0x0, (((a5 << 8) << 2) << 1), a6);
+    t2 = ADXSTMF_Create(t0, 0x0, (((a5 << 8) << 2) << 1), a6);
     if (t2 != 0) {
         strncpy((t2 + 0x40), 0xC1764EC, 0x20);
     }
@@ -139,7 +139,7 @@ int ADXSTM_OpenFileRange(int a4, int a5, int a6, int a7)
         ADXERR_CallErrFunc(0xC1764F8, a4);
         t6 = 0x0;
     } else {
-        t2 = FUN_0c16893a(t0, a5, (((a6 << 8) << 2) << 1), a7);
+        t2 = ADXSTMF_Create(t0, a5, (((a6 << 8) << 2) << 1), a7);
         if (t2 != 0) {
             strncpy((t2 + 0x40), a4, 0x20);
             ADXSTM_Seek(t2, 0x0);
@@ -310,7 +310,7 @@ int kdSetBlockWriteEx(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
     return t2;
 }
 
-int FUN_0c1722c2(int a4, int a5, int a6, int a7, int a8)
+int mwlSbTrnsDat(int a4, int a5, int a6, int a7, int a8)
 {
     int t0;
     int t2;
@@ -325,7 +325,7 @@ int FUN_0c1722c2(int a4, int a5, int a6, int a7, int a8)
     t0 = *(int *)((a4 + 0x10));
     t2 = *(int *)((((a5 << 2) + (a4 + 0x20)) + 0x0));
     t4 = *(int *)((((a4 + 0x2C) + (a5 << 2)) + 0x0));
-    t5 = FUN_0c080470(t4);
+    t5 = nlsndG2DmaRequest(t4);
     if ((int)t5 < 0) {
         if (t5 == -1) {
             t6 = mwRnaErrCallFunc(0xC176C54);
@@ -349,7 +349,7 @@ int FUN_0c1722c2(int a4, int a5, int a6, int a7, int a8)
     return t5;
 }
 
-int FUN_0c160e88(void)
+int sySqInit(void)
 {
     int t0;
     int t12;
@@ -1103,29 +1103,29 @@ int gdDecSubcode(int a4, int a5)
                     t3 = ((unsigned char)t5 << 8);
                     t6 = *(signed char *)((((((int)stk + 8) + 0x4) + 0xC) + 0xB));
                     t3 = (t3 | (unsigned char)t6);
-                    t7 = FUN_0c15f49a(((((int)stk + 8) + 0x4) + 0xC), t3);
+                    t7 = crcchk(((((int)stk + 8) + 0x4) + 0xC), t3);
                     if (t7 != 0) {
                         return 0xFFFFFFFD;
                     }
                     t8 = *(signed char *)(((((int)stk + 8) + 0x4) + 0xD));
-                    t9 = FUN_0c15f4c8(t8);
+                    t9 = bcd2bin(t8);
                     *(unsigned int *)((a5 + 0x0)) = t9;
                     t10 = *(signed char *)(((((int)stk + 8) + 0x4) + 0xF));
-                    t11 = FUN_0c15f4c8(t10);
+                    t11 = bcd2bin(t10);
                     *(unsigned int *)((a5 + 0x4)) = t11;
                     t12 = *(signed char *)(((((int)stk + 8) + 0x4) + 0x10));
-                    t13 = FUN_0c15f4c8(t12);
+                    t13 = bcd2bin(t12);
                     *(unsigned int *)((a5 + 0x8)) = t13;
                     t14 = *(signed char *)(((((int)stk + 8) + 0x4) + 0x11));
-                    t15 = FUN_0c15f4c8(t14);
+                    t15 = bcd2bin(t14);
                     *(unsigned int *)((a5 + 0xC)) = t15;
                     *(unsigned int *)(((int)stk + 8)) = ((((int)stk + 8) + 0x4) + 0xC);
                     t16 = *(signed char *)((((((int)stk + 8) + 0x4) + 0xC) + 0x0));
                     t17 = *(int *)(((int)stk + 8));
-                    t18 = FUN_0c15f4e2((t17 + 0x7));
+                    t18 = bcdtime2fad((t17 + 0x7));
                     *(unsigned int *)((a5 + 0x10)) = (t18 | ((t16 << 16) << 8));
                     t19 = *(signed char *)(((((int)stk + 8) + 0x4) + 0xE));
-                    t20 = FUN_0c15f4c8(t19);
+                    t20 = bcd2bin(t19);
                     *(unsigned int *)((a5 + 0x14)) = t20;
                     return 0x0;
                 }

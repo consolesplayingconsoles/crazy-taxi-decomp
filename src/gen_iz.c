@@ -6,7 +6,7 @@ int ADXF_GetFsizeSct(int);
 int ADXF_GetStat(int);
 int ADXF_OpenAfs(int, int);
 int ADXF_ReadNw32(int, int, int);
-int FUN_0c07a520(void);
+int nlObjPutFreeTextureOnce(void);
 int gdc_CourseBlockReadNext(void);
 int nlObjPutLoadTexture(int, int);
 int nlSetCommonTextureOffset(int);
@@ -97,7 +97,7 @@ int gdc_CourseLoadExec(void)
                 nlSetCommonTextureOffset(0x7D0);
                 nlObjPutLoadTexture((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))), (*(int *)0xC0EA3D8));
                 *(volatile int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14));
-                FUN_0c07a520();
+                nlObjPutFreeTextureOnce();
                 nlSetCommonTextureOffset(0x0);
                 *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
                 return gdc_CourseBlockReadNext();
@@ -130,7 +130,7 @@ int gdc_CourseLoadExec(void)
                 nlSetCommonTextureOffset(0x7D0);
                 nlObjPutLoadTexture((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))), (*(int *)0xC0EA3D8));
                 *(volatile int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14));
-                FUN_0c07a520();
+                nlObjPutFreeTextureOnce();
                 nlSetCommonTextureOffset(0x0);
                 *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
                 return gdc_CourseBlockReadNext();

@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmGetCurrentScanline(int);
-int FUN_0c074bb0(void);
+int nlGetCurrentScanLine(void);
 
-int FUN_0c074bb0(void)
+int nlGetCurrentScanLine(void)
 {
     int stk[3] = {0};
 

@@ -7,9 +7,9 @@ int ADXERR_CallErrFunc(int, ...);
 int ADXSTM_OpenFname(int, int);
 int ADXT_Stop(void);
 int adxt_start_stm(int);
-int FUN_0c151b04(int a4, int a5);
+int ADXT_StartFname(int a4, int a5);
 
-int FUN_0c151b04(int a4, int a5)
+int ADXT_StartFname(int a4, int a5)
 {
     int t3;
 

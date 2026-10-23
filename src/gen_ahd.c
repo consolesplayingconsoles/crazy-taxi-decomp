@@ -3,10 +3,10 @@
 
 int Init_Remain_Time(void);
 int Init_Shift(void);
-int FUN_0c0530ce(int a4, int a5, int a6, int a7, int a8);
-void FUN_0c0530c2(void);
+int Start_Default2_Sprite(int a4, int a5, int a6, int a7, int a8);
+void End_Here_We_Go(void);
 
-int FUN_0c0530ce(int a4, int a5, int a6, int a7, int a8)
+int Start_Default2_Sprite(int a4, int a5, int a6, int a7, int a8)
 {
     *(unsigned int *)0xC2A8C54 = a4;
     *(unsigned int *)0xC2A8C58 = a5;
@@ -18,7 +18,7 @@ int FUN_0c0530ce(int a4, int a5, int a6, int a7, int a8)
     return Init_Shift();
 }
 
-void FUN_0c0530c2(void)
+void End_Here_We_Go(void)
 {
     *(unsigned int *)0xC2A75E0 = ((*(int *)0xC2A75E0) & 0xFFFFFFFB);
 }

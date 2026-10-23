@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 extern void _builtin_prefetch(void *);
-int FUN_0c14f3d6(int a4, int a5);
+int syCachePREF(int a4, int a5);
 
-int FUN_0c14f3d6(int a4, int a5)
+int syCachePREF(int a4, int a5)
 {
     int t0;
     int t1;

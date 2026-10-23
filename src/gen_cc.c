@@ -22,13 +22,13 @@ int pfTextCenterPut(int, int);
 int pfCrazyBoxRecordTimePut(int, int, int);
 int pfCrazyBoxRecordDistPut(int, int, int, float);
 int pfCrazyBoxRecordComboPut(int, int, int);
-int FUN_0c07f5c0(void);
-int FUN_0c158894(int);
-int FUN_0c16c1c0(void);
-int FUN_0c16c796(void);
-int FUN_0c16c7ca(void);
-int FUN_0c16c7f2(void);
-int FUN_0c1717d4(void);
+int nlsndSeqRequest(void);
+int kmiExCallBackFunc(int);
+int kmiEndOfRenderISR(void);
+int kmiErrorISR04(void);
+int kmiErrorISR08(void);
+int kmiErrorISR02(void);
+int mwRnaFinishCs(void);
 int PutStringFixPfont(int, int, float, float, float, float);
 int PutVM_Message(int, int, int, float, float);
 extern void _builtin_ftrv(float *, float *);
@@ -49,8 +49,8 @@ int pfSetFont(int);
 int pfSize(float, float);
 int putString(int, int, float, float, float);
 int thunk_FUN_0c0409d2(void);
-void FUN_0c15888e(int a4);
-void FUN_0c077210(int a4, int a5);
+void kmiPurgeCache(int a4);
+void nlCalcVector(int a4, int a5);
 int mwRnaFinish(void);
 int Exec_Fault(void);
 int ADXB_DecodeHeaderAdx(int a4, int a5, int a6);
@@ -59,12 +59,12 @@ int kmiInterruptHandlerSH(void);
 int Exec_Check_Point(void);
 int Put_Record_Window(void);
 
-void FUN_0c15888e(int a4)
+void kmiPurgeCache(int a4)
 {
     iaOcbwb((void *)a4);
 }
 
-void FUN_0c077210(int a4, int a5)
+void nlCalcVector(int a4, int a5)
 {
     float u0;
     float u1;
@@ -130,7 +130,7 @@ int mwRnaFinish(void)
     t14 = *(int *)0xC178644;
     t15 = *(int *)((t14 + 0x10));
     t16 = ((int (*)(int, int, int, int))(t15))(t12, 0x80808080, 0x200, t13);
-    return FUN_0c1717d4();
+    return mwRnaFinishCs();
 }
 
 
@@ -239,7 +239,7 @@ int kmiInterruptHandlerSH(void)
 
     t0 = *(int *)0xA05F6900;
     if ((t0 & 0x8) != 0) {
-        t1 = FUN_0c16c1c0();
+        t1 = kmiEndOfRenderISR();
         if (t1 != 0) {
             kmiFatalErrorEntry(t1);
         }
@@ -339,19 +339,19 @@ int kmiInterruptHandlerSH(void)
     }
     t51 = *(int *)0xA05F6908;
     if ((0x4 & t51) != 0) {
-        t52 = FUN_0c16c796();
+        t52 = kmiErrorISR04();
         if (t52 != 0) {
             kmiFatalErrorEntry(t52);
         }
     }
     if ((0x8 & t51) != 0) {
-        t55 = FUN_0c16c7ca();
+        t55 = kmiErrorISR08();
         if (t55 != 0) {
             kmiFatalErrorEntry(t55);
         }
     }
     if ((t51 & 0x2) != 0) {
-        t58 = FUN_0c16c7f2();
+        t58 = kmiErrorISR02();
         if (t58 != 0) {
             kmiFatalErrorEntry(t58);
         }
@@ -368,7 +368,7 @@ int kmiInterruptHandlerSH(void)
             t61 = (t61 << 1);
             t65 = *(int *)((t61 + 0xC2EA8B4));
             t66 = *(int *)((t61 + 0xC2EA8B0));
-            FUN_0c158894(t66);
+            kmiExCallBackFunc(t66);
         }
         t62 = (t62 + 0x1);
     }

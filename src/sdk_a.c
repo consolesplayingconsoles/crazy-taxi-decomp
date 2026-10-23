@@ -8,13 +8,13 @@ extern void kmSetPaletteMode(int m);
 extern void nlFogTableSet(float *t);   /* the NAOMI library's stub that jumps to kmSetFogTable */
 extern void nlPushMatrix(int a);
 extern void nlInvLightVector(int a);
-extern void FUN_0c077ee0(void *a);
+extern void nlMultiMatrixRevOrder8(void *a);
 extern void nlobjput_sub(void *a);
-extern int FUN_0c07dcf0(void *a, int b, int c, int d);
+extern int nlSpriteFreeTextureOnce_Sub(void *a, int b, int c, int d);
 extern void nlstripSetVertexContext(void *a);
-extern void FUN_0c080ae0(void *a, int b, void *c);
-extern int FUN_0c080990(void *a, void *b);
-extern void FUN_0c080d70(void *a, void *b);
+extern void nldispstripSub(void *a, int b, void *c);
+extern int nlstripSetVertexContextTex(void *a, void *b);
+extern void nldispstripTexOfsSub(void *a, void *b);
 
 extern char gPaletteMode;
 extern int gPaletteModeTable[];
@@ -110,7 +110,7 @@ void nlObjPut(int *obj)
     if (!(obj[1] & 2))
         nlInvLightVector(obj[1]);
     nlPushMatrix(0);
-    FUN_0c077ee0(g_0c2b34a8);
+    nlMultiMatrixRevOrder8(g_0c2b34a8);
     nlobjput_sub(obj);
 }
 
@@ -130,7 +130,7 @@ int nlSpriteFreeTexture(char *p, int x)
     int acc = 0;
 
     for (i = 0; *(int *)(p + 16 * i + 4) != -1; i++)
-        acc |= FUN_0c07dcf0(p, x, i, 0);
+        acc |= nlSpriteFreeTextureOnce_Sub(p, x, i, 0);
     return acc;
 }
 
@@ -151,11 +151,11 @@ void nlsndStreamSetHdGain(char *p, int g)
 void nlDispStrip(void *a, void *b)
 {
     nlstripSetVertexContext(g_0c14aab4);
-    FUN_0c080ae0(a, 0, b);
+    nldispstripSub(a, 0, b);
 }
 
 void nlDispStripTexOfs(void *a, void *b, void *c)
 {
-    if (FUN_0c080990(g_0c14ab2c, c) == 0)
-        FUN_0c080d70(a, b);
+    if (nlstripSetVertexContextTex(g_0c14ab2c, c) == 0)
+        nldispstripTexOfsSub(a, b);
 }

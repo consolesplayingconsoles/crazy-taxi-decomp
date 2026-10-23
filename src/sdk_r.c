@@ -3,7 +3,7 @@
 int kmiFBfreeEx(int a, int b);
 
 /* Shifts the n-byte number at b (most significant byte first) left by one bit; 1 when a bit was shifted out. */
-int FUN_0c089738(unsigned char *b, int n)
+int _lsft(unsigned char *b, int n)
 {
     int i = n - 1;
     unsigned char *p = b + i;
@@ -23,7 +23,7 @@ int FUN_0c089738(unsigned char *b, int n)
 }
 
 /* The same to the right: a bit shifted out comes back as 1. */
-int FUN_0c089c80(unsigned char *b, int n)
+int _rsft(unsigned char *b, int n)
 {
     unsigned char *p = b;
     int carry = 0;

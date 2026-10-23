@@ -4,9 +4,9 @@
 float nlInnerProduct(int, int);
 float nlInvertSqrt(float);
 int nlOuterProduct(int, int, int);
-float FUN_0c078cf0(int a4, int a5, int a6, int a7);
+float nlUnitNormalVectorCW(int a4, int a5, int a6, int a7);
 
-float FUN_0c078cf0(int a4, int a5, int a6, int a7)
+float nlUnitNormalVectorCW(int a4, int a5, int a6, int a7)
 {
     float t13;
     float t14;

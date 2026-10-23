@@ -1,12 +1,12 @@
 /* Straight-line functions with calls and guards (batch gen_rr): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c07e820(int, int, int);
-int FUN_0c07e880(void);
-int FUN_0c07f5c0(int);
-int FUN_0c07ef40(int a4, int a5, int a6);
+int nlsndBlockMove(int, int, int);
+int nlsndBlockMoveStatus(void);
+int nlsndSeqRequest(int);
+int nlsndPackLoadStatus(int a4, int a5, int a6);
 
-int FUN_0c07ef40(int a4, int a5, int a6)
+int nlsndPackLoadStatus(int a4, int a5, int a6)
 {
     int t0;
     int t114;
@@ -90,7 +90,7 @@ int FUN_0c07ef40(int a4, int a5, int a6)
                     t65 = t30;
                 } else {
                     t57 = 0x1;
-                    if ((FUN_0c07e880()) == 0) {
+                    if ((nlsndBlockMoveStatus()) == 0) {
                         *(unsigned int *)0xC2B76FC = ((*(int *)0xC2B76FC) + 0x1);
                         t40 = *(int *)0xC2B76FC;
                         if ((t40 & 0xFF00) == 0) {
@@ -132,7 +132,7 @@ int FUN_0c07ef40(int a4, int a5, int a6)
                 if ((*(int *)0xA08000B4) != 0) {
                     t75 = *(int *)0xC2B7708;
                     if (t75 != 0) {
-                        FUN_0c07e820((*(int *)0xC2B7710), ((*(int *)0xC2B7710) + (*(int *)0xC2B7704)), t75);
+                        nlsndBlockMove((*(int *)0xC2B7710), ((*(int *)0xC2B7710) + (*(int *)0xC2B7704)), t75);
                     }
                     *(unsigned int *)0xC2B76FC = ((*(int *)0xC2B76FC) + 0x1);
                 }
@@ -142,7 +142,7 @@ int FUN_0c07ef40(int a4, int a5, int a6)
         } else {
             t101 = 0x0;
             for (;;) {
-                if ((FUN_0c07f5c0(0x18A0)) != 0) {
+                if ((nlsndSeqRequest(0x18A0)) != 0) {
                     t101 = (t101 + 0x1);
                     if ((int)t101 >= (int)0x400000) {
                         break;

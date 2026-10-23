@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXRNA_DiscardData(int, int, int, int);
-int FUN_0c152340(void);
+int ADXT_ExecServer(void);
 
 int ADXT_DiscardSmpl(int a4, int a5, int a6, int a7)
 {
@@ -12,6 +12,6 @@ int ADXT_DiscardSmpl(int a4, int a5, int a6, int a7)
         return 0;
     }
     r = ADXRNA_DiscardData(*(int *)(a4 + 0xC), a5, a6, a7);
-    FUN_0c152340();
+    ADXT_ExecServer();
     return r;
 }

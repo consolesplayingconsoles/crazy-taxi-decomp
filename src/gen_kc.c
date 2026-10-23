@@ -1,11 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_kc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FUN_0c1566a0(int, int);
-int FUN_0c1568cc(int, int, int);
-int FUN_0c156742(int a4, int a5, int a6);
+int kmiFBFitBlock(int, int);
+int kmiFBSearchFree(int, int, int);
+int kmiFBallocSub(int a4, int a5, int a6);
 
-int FUN_0c156742(int a4, int a5, int a6)
+int kmiFBallocSub(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -246,7 +246,7 @@ int FUN_0c156742(int a4, int a5, int a6)
     goto L_C1567EA;
     L_C1567EA:;
     *(volatile int *)(((int)stk + 4));
-    t46 = FUN_0c1566a0(R13, R11);
+    t46 = kmiFBFitBlock(R13, R11);
     t47 = (int)t46 < 0;
     t48 = t46;
     t49 = t46;
@@ -266,7 +266,7 @@ int FUN_0c156742(int a4, int a5, int a6)
     goto L_C1567FE;
     L_C1567FE:;
     t54 = *(int *)((R10 + 0x0));
-    t55 = FUN_0c1568cc(0x1, (t54 + R12), R11);
+    t55 = kmiFBSearchFree(0x1, (t54 + R12), R11);
     t56 = t55 == 0;
     t57 = t55;
     t58 = t55;
@@ -306,7 +306,7 @@ int FUN_0c156742(int a4, int a5, int a6)
     goto L_C156824;
     L_C156824:;
     t71 = *(int *)((R10 + 0x0));
-    t72 = FUN_0c1568cc(0x1, (t71 + R12), R11);
+    t72 = kmiFBSearchFree(0x1, (t71 + R12), R11);
     t73 = t72 != 0;
     t74 = t72;
     t75 = t72;
@@ -357,7 +357,7 @@ int FUN_0c156742(int a4, int a5, int a6)
     goto L_C156888;
     L_C156888:;
     t91 = *(int *)((R10 + 0x0));
-    t92 = FUN_0c1568cc(0x1, (t91 + R12), R11);
+    t92 = kmiFBSearchFree(0x1, (t91 + R12), R11);
     t93 = t92 != 0;
     t94 = t92;
     t95 = t92;

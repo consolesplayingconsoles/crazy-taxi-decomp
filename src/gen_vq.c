@@ -53,7 +53,7 @@ int Result_Crazy_Put(void)
                     t4 = (int)((int)t3 % (int)0x7);
                     t8 = 0xC08106C;
                     if (t4 == 0) {
-                        t0 = 0xC072168;
+                        t0 = ((int)Sound_Request);
                         Sound_Request(0xA00A9, 0x0);
                         t6 = *(int *)0xC2A9870;
                         t0 = 0xC2A9754;

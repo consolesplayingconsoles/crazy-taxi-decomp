@@ -2,7 +2,7 @@
 
 extern void ADXSTM_Stop(int *h);
 extern void gdFsClose(int fd);
-extern void FUN_0c1689c0(int *h);
+extern void ADXSTMF_Destroy(int *h);
 
 /* Stop the stream, close its file if it has one, then release the handle. */
 void ADXSTM_Close(int *h)
@@ -12,7 +12,7 @@ void ADXSTM_Close(int *h)
         if (h[2]) {
             gdFsClose(h[2]);
         }
-        FUN_0c1689c0(h);
+        ADXSTMF_Destroy(h);
     }
 }
 
@@ -60,7 +60,7 @@ unsigned int fmcalccrc(int n, unsigned char *p)
 extern void kmfSetFatalErrorCallback(void *f);
 
 /* Install one of the two fatal error handlers (0C075560 when on, 0C0754D0 when off). */
-void FUN_0c075570(int on)
+void nlSetFatalErrorMode(int on)
 {
     kmfSetFatalErrorCallback(on ? (void *)0x0C075560 : (void *)0x0C0754D0);
 }

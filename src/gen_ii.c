@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_ii): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXAMP_ExecServer(void);
+int ADXSTM_ExecServer(void);
 int ADXF_ExecServer(void);
 int ADXF_GetNumReadSct(int);
 int ADXF_GetStat(int);
@@ -23,7 +23,7 @@ int adxf_LoadData(int a4, int a5, int a6)
         t1 = ADXF_ReadNw32(a4, a5, a6);
         if ((int)t1 <= 0) {
             gdFsExecServer(t1);
-            ADXAMP_ExecServer();
+            ADXSTM_ExecServer();
             ADXF_ExecServer();
             adxf_wait_1ms();
             t0 = (t0 + 0x1);
@@ -40,7 +40,7 @@ int adxf_LoadData(int a4, int a5, int a6)
     t8 = 0x0;
     for (;;) {
         gdFsExecServer(t7);
-        ADXAMP_ExecServer();
+        ADXSTM_ExecServer();
         ADXF_ExecServer();
         t12 = ADXF_GetStat(a4);
         if (t12 != 3) {

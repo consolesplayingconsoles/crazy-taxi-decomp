@@ -1,3 +1,4 @@
+extern int setObjPieceExec();
 /* Straight-line functions with calls and guards (batch gen_ha): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
@@ -50,7 +51,7 @@ void setObjHitBreakSet(int a4)
             t8 = 0x0;
             t9 = 0x0;
             for (;;) {
-                t11 = set_event(0x84, 0xC0385AC);
+                t11 = set_event(0x84, ((int)setObjPieceExec));
                 if (t11 != 0) {
                     t10 = t11;
                     t10 = (t10 + 0x14);

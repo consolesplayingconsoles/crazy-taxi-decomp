@@ -1,3 +1,4 @@
+extern int Exec_Balloon_Event();
 /* Single functions between proven ones: empty bodies, constants and one-line stores. */
 
 extern int g_0c14a644;
@@ -24,21 +25,21 @@ void ADXSTM_EntryErrFunc(void)
 {
 }
 
-void FUN_0c08160a(void *p)
+void prefetch(void *p)
 {
 }
 
-void FUN_0c0742c0(int a)
+void nlPaletteDirectMode(int a)
 {
     g_0c14a644 = a;
 }
 
-int FUN_0c15f978(void)
+int gdFsGetGdDcf(void)
 {
     return 0x0C1761D4;
 }
 
-int FUN_0c1614e8(int a, int b)
+int syTmrDiffCount(int a, int b)
 {
     return b - a;
 }
@@ -48,7 +49,7 @@ int ADXRNA_GetNumRoom(void)
     return 0x7FFFFFFF;
 }
 
-int FUN_0c1688da(int a)
+int ADXSJD_GetSpsdInfo(int a)
 {
     return a + 88;
 }
@@ -61,7 +62,7 @@ void HomingPosX(float *p, float a, float b)
     *p = v + (b - v) * a;
 }
 
-float FUN_0c078c00(float *v)
+float nlScalor2(float *v)
 {
     return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
 }
@@ -79,7 +80,7 @@ void SetCameraPosVelocity(Triple *src)
 }
 
 int gdc_StopStreamVoice(int a);
-int FUN_0c075430(void);
+int nlSysMetricsCpuPowerGet(void);
 int buFbrWakeupFiber(int a, int b);
 int nlGetMatrix(int a);
 
@@ -100,7 +101,7 @@ float usedCpuPowerCheck(void)
     float now;
     float prev;
 
-    now = (float)FUN_0c075430();
+    now = (float)nlSysMetricsCpuPowerGet();
     prev = *(float *)0xC0F4274;
     *(float *)0xC0F4274 = now;
     return (now - prev) / 150.0f;
@@ -131,7 +132,7 @@ void GetRotVec(Triple *p)
 int set_event(int a, int b);
 int Init_Balloon_Obj(int a, int b);
 
-void FUN_0c07bde0(float *a, float *b, float *c)
+void nlLineClipPoint(float *a, float *b, float *c)
 {
     float g;
     float t;
@@ -147,7 +148,7 @@ int Set_Balloon(int a)
 {
     int h;
 
-    h = set_event(0x80, 0x0C05EB52);
+    h = set_event(0x80, ((int)Exec_Balloon_Event));
     *(int *)(0xC2A9BC0 + a * 4) = h;
     if (h == 0) {
         return 0;
@@ -259,7 +260,7 @@ int getGoiToolSelect(int *out)
 }
 
 int ADXF_GetFileRange(int a, int b, int *start, int *count);
-int FUN_0c1727d0(int *r);
+int syG2FifoIsEmpty(int *r);
 
 int adxf_SetAfsFileInfo(int *obj, int a, int b)
 {
@@ -274,12 +275,12 @@ int adxf_SetAfsFileInfo(int *obj, int a, int b)
     return 0;
 }
 
-int FUN_0c16e544(void)
+int syG2FifoWaitEmpty(void)
 {
     int r;
 
     do {
-        FUN_0c1727d0(&r);
+        syG2FifoIsEmpty(&r);
     } while (r != 1);
     *(int *)(*(int *)0xC178700 + 0x10C) += 1;
     return 0;
@@ -288,7 +289,7 @@ int FUN_0c16e544(void)
 typedef void (*Release)(int);
 
 int ADXSTM_Close(int a);
-int FUN_0c1697ee(int a, int b);
+int ADXF_Ocbi(int a, int b);
 
 void adxf_CloseSjStm(int *obj)
 {
@@ -300,7 +301,7 @@ void adxf_CloseSjStm(int *obj)
     }
     if (obj[2] != 0 && *(signed char *)((int)obj + 2) == 0) {
         if (*(int *)0xC2BA338 == 1) {
-            FUN_0c1697ee(obj[10], obj[11]);
+            ADXF_Ocbi(obj[10], obj[11]);
         }
         t = obj[2];
         ((Release)((int *)*(int *)t)[3])(t);
@@ -327,8 +328,8 @@ void kmytex_FBDeQueueEntry(int *head, int *tail, int *node)
     }
 }
 
-int FUN_0c0813d0(int a);
-int FUN_0c073d60(int a);
+int abs(int a);
+int nlCommonTextureConvertUVnum(int a);
 
 int convergeRot(int a, int b, float k)
 {
@@ -338,7 +339,7 @@ int convergeRot(int a, int b, float k)
 
     x = (unsigned short)a;
     y = (unsigned short)b;
-    if (FUN_0c0813d0(y - x) < 0x8000) {
+    if (abs(y - x) < 0x8000) {
         d = y - x;
     } else if (y > x) {
         d = 0xFFFF0000 + (y - x);
@@ -372,8 +373,8 @@ void nlCreateTextureParamA(unsigned int *p)
     unsigned int f;
     unsigned int hi;
 
-    hi = (FUN_0c073d60(p[3]) << 3) & 0xFFFFFFF8;
-    p[12] = hi | FUN_0c073d60(p[4]);
+    hi = (nlCommonTextureConvertUVnum(p[3]) << 3) & 0xFFFFFFF8;
+    p[12] = hi | nlCommonTextureConvertUVnum(p[4]);
     f = p[6];
     p[13] = ((f & 1) << 31) | ((f & 8) << 27) | (p[2] & 0x38000000) | ((~f & 4) << 24) | ((f & 16) << 21)
             | (p[7] >> 3);

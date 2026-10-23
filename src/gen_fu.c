@@ -11,14 +11,14 @@ int kmSetHSyncCallback(int, int);
 int kmSetVSyncCallback(int, int);
 int memmove(int, int, int);
 int memset(int, int, int);
-int thunk_mwRnaCreate(int, int);
+int thunk_ADXRNA_Create(int, int);
 int CheckSecretFlag(int a4, int a5);
-int FUN_0c151cac(int a4, int a5, int a6);
+int ADXT_Create(int a4, int a5, int a6);
 int buMakeBackupFileImage(int a4, int a5);
 void syChainDeleteHandler(int a4);
 
 
-int FUN_0c151cac(int a4, int a5, int a6)
+int ADXT_Create(int a4, int a5, int a6)
 {
     int t0;
     int t1;
@@ -111,7 +111,7 @@ int FUN_0c151cac(int a4, int a5, int a6)
                 t21 = ADXSJD_Create(t20, a4, (((t0 * 0x8C) + 0xC177AE0) + 0x18));
                 *(unsigned int *)((((t0 * 0x8C) + 0xC177AE0) + 0x4)) = t21;
                 if (t21 != 0) {
-                    t22 = thunk_mwRnaCreate((((t0 * 0x8C) + 0xC177AE0) + 0x18), a4);
+                    t22 = thunk_ADXRNA_Create((((t0 * 0x8C) + 0xC177AE0) + 0x18), a4);
                     *(unsigned int *)((((t0 * 0x8C) + 0xC177AE0) + 0xC)) = t22;
                     if (t22 == 0) {
                         ADXT_Destroy(((t0 * 0x8C) + 0xC177AE0));
@@ -165,7 +165,7 @@ int FUN_0c151cac(int a4, int a5, int a6)
                 t53 = ADXSJD_Create(t52, a4, (((t0 * 0x8C) + 0xC177AE0) + 0x18));
                 *(unsigned int *)((((t0 * 0x8C) + 0xC177AE0) + 0x4)) = t53;
                 if (t53 != 0) {
-                    t54 = thunk_mwRnaCreate((((t0 * 0x8C) + 0xC177AE0) + 0x18), a4);
+                    t54 = thunk_ADXRNA_Create((((t0 * 0x8C) + 0xC177AE0) + 0x18), a4);
                     *(unsigned int *)((((t0 * 0x8C) + 0xC177AE0) + 0xC)) = t54;
                     if (t54 == 0) {
                         ADXT_Destroy(((t0 * 0x8C) + 0xC177AE0));
