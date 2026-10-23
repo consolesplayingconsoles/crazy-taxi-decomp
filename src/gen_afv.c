@@ -1,32 +1,19 @@
 /* Straight-line functions with calls and guards (batch gen_afv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int BigOneFollowTaxi(float);
-int BigOneSwimMove(void);
-int ResetFadeColor(void);
-int nlObjPutSetFadeColor(float, float, float);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlTranslateV(int);
-int BigOnePut(float f4);
+int GetNowLanguage(int);
+int PutVM_Message(int, int, int, float, float);
+int menuCursor(int, int, int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int windowEnterStep(int);
+int windowOpenStep(int);
+int windowNameDelete(void);
 
-int BigOnePut(float f4)
+int windowNameDelete(void)
 {
-    nlPushUnitMatrix();
-    BigOneFollowTaxi(f4);
-    BigOneSwimMove();
-    nlTranslateV(0xC2AEC20);
-    nlRotateAY((*(int *)0xC2AEC30));
-    nlTranslateV(0xC2AEC40);
-    nlRotateAZ((*(int *)0xC2AEC54));
-    nlRotateAY((*(int *)0xC2AEC50));
-    nlRotateAX((*(int *)0xC2AEC4C));
-    nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-    nlObjPutUseViewMatrix(0xC13F898);
-    ResetFadeColor();
-    return nlPopMatrix(0x1);
+    windowOpenStep(0xA);
+    menuCursor(0x1, 0x2, 0x0);
+    putLevelCTFontAssist(0x24, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
+    PutVM_Message(0x20, 0x19, 0xC2A1248, (*(float *)0xC03EF30), (*(float *)0xC03EF2C));
+    return windowEnterStep(0x14);
 }

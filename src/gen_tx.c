@@ -1,101 +1,89 @@
 /* Straight-line functions with calls and guards (batch gen_tx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Sound_Request(int, int);
-int nlSprPut(int, int);
-int Result_Earned_Text_Put(void);
+int abs(int);
+float nlLength(int, int, float, float);
+void calcCheck(int a4, int a5, int a6, float f4, float f5);
 
-int Result_Earned_Text_Put(void)
+void calcCheck(int a4, int a5, int a6, float f4, float f5)
 {
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    float u7;
-    float u8;
-    int t9;
-    int t30;
-    float u31;
-    float u32;
-    int t23;
+    float t0;
+    float u11;
+    float u15;
     float u24;
     float u25;
-    int t40;
-    float u41;
-    float u42;
-    int t17;
-    float u18;
-    float u19;
+    int t27;
+    int stk[3];
 
-    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x9A);
-    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    *(unsigned int *)0xC2A972C = 0xA;
-    *(unsigned int *)0xC2A9720 = 0x0;
-    t3 = 0x24;
-    t4 = 0xC2A9758;
-    t5 = 0x0;
-    t6 = 0x0;
-    u7 = 0.0f;
-    u8 = 1.0f;
-    for (;;) {
-        t9 = *(int *)0xC2A96F4;
-        if ((int)t9 > (int)(((t6 << 1) + t6) + 0x34)) {
-            t30 = t4;
-            u31 = u7;
-            u32 = u8;
-            if ((int)t9 <= (int)0x58) {
-                t3 = 0x3;
-                t3 = ((int)((int)t9 % (int)t3));
-                t23 = t4;
-                u24 = u7;
-                u25 = u8;
-                if (t3 == 0) {
-                    t3 = 0x3;
-                    t3 = ((int)((int)t9 % (int)t3));
-                    if ((t3 == 0) && (t6 == 0)) {
-                        t4 = 0x0;
-                        t3 = (Sound_Request(0x304A9, t4));
-                        *(unsigned int *)0xC130DF4 = ((*(int *)0xC130DF4) + 0x1);
-                    } else {
-                        t17 = t4;
-                        u18 = u7;
-                        u19 = u8;
-                    }
-                    t23 = t17;
-                    u24 = u18;
-                    u25 = u19;
-                }
-                t30 = t23;
-                u31 = u24;
-                u32 = u25;
-            }
-            u7 = u31;
-            u8 = u32;
-            t4 = t30;
-            if ((int)t6 >= (int)0x5) {
-                t5 = 0x10;
-            }
-            t3 = 0x4;
-            u7 = (float)((((((t6 << 2) << 2) << 1) + t6) + t5) + 0x40);
-            *(float *)((0xC2A96F8 + t3)) = u7;
-            t3 = 0xC130E40;
-            *(unsigned int *)0xC2A96F8 = (*(int *)(((t6 << 2) + t3)));
-            t3 = (nlSprPut(0xC2A96F8, t4));
-        } else {
-            t40 = t4;
-            u41 = u7;
-            u42 = u8;
-        }
-        u7 = u41;
-        u8 = u42;
-        t6 = (t6 + 0x1);
-        t4 = t40;
-        if ((int)t6 >= (int)0xB) {
-            break;
-        }
-    }
-    return t3;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R9;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C045A2E:;
+    t0 = nlLength(0xC2A1B34, (0x8C + R4), f4, f5);
+    R14 = (R4);
+    F0 = (t0);
+    if ((!(((*(float *)0xC2A1B18) + 30.0f) > t0))) goto L_C045A90;
+    goto L_C045A4C;
+    L_C045A4C:;
+    R0 = (0x84);
+    R2 = (((*(int *)((R14 + 0x84))) | 0xD));
+    goto L_C045A98;
+    L_C045A98:;
+    *(unsigned int *)((R14 + R0)) = R2;
+    if (((*(float *)((R14 + 0xC4))) != 0.0f)) goto L_C045B0A;
+    goto L_C045AA4;
+    L_C045AA4:;
+    u11 = *(float *)0xC045BB0;
+    F1 = (u11);
+    if ((!(u11 > _builtin_fabsf((*(float *)((R14 + 0xCC))))))) goto L_C045B0A;
+    goto L_C045AB2;
+    L_C045AB2:;
+    u15 = *(float *)0xC045BB4;
+    F0 = (u15);
+    if ((!(u15 > _builtin_fabsf((*(float *)((R14 + 0x60))))))) goto L_C045B0A;
+    goto L_C045AC0;
+    L_C045AC0:;
+    if (((int)(abs((*(short *)((R14 + 0xAA))))) >= (int)0x10)) goto L_C045B0A;
+    goto L_C045ACE;
+    L_C045ACE:;
+    if ((!((*(float *)0xC045BB4) > _builtin_fabsf((*(float *)((R14 + 0x100))))))) goto L_C045B0A;
+    goto L_C045ADC;
+    L_C045ADC:;
+    u24 = *(float *)((R14 + 0x104));
+    u25 = *(float *)((R14 + 0x90));
+    t27 = !((*(float *)0xC045BBC) > _builtin_fabsf((u25 - u24)));
+    F1 = (_builtin_fabsf((u25 - u24)));
+    if (t27) goto L_C045B0A;
+    goto L_C045AF0;
+    L_C045AF0:;
+    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) & 0xFFFFFFFB);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + R14)) = *(struct mv3 *)(0xC0A4788); }
+    goto L_C045B14;
+    L_C045B14:;
+    return;
+    L_C045B0A:;
+    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) | 0x4);
+    R0 = (0x84);
+    goto L_C045B14;
+    L_C045A90:;
+    R0 = (0x84);
+    R2 = (((*(int *)((R14 + 0x84))) & 0xFFFFFFF2));
+    goto L_C045A98;
 }

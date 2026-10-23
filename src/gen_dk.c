@@ -1,372 +1,110 @@
 /* Straight-line functions with calls and guards (batch gen_dk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Bezier(int, int, float);
-int CheckClipping(float);
-int Sound_Request(int, int);
-int nlAddVector(int, int);
-int nlCalcPoint(int, int);
-float nlFastCos(int);
-int nlObjPut(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAZ(int);
-int nlRotateV(int, int);
-int nlScale(float, float, float);
-int nlScaleVector(int, int, float);
-float nlScalor(int);
-int nlSetScaleFactor(float);
-int nlSubVector3op(int, int, int);
-int nlTranslateV(int);
-int nlVoidUnitVector(int);
-void ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6);
+int CheckBoxFlag(int);
+int GetNowLanguage(int);
+int Init_Window_Sprite(int);
+int PutWindow(int, float, float);
+int Voice_Request(int, int, int, int);
+int callBoxAdvice(void);
+int menuCursorBox(int, int, int);
+int menuEnterStep(void);
+int menuOpenStep(void);
+int menuPutFrame(void);
+int menuPutHelpBar(int, float, float);
+int menuPutSprites(int, int, int, int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int putString(int, int, float, float, float);
+int menuCrazyBoxHandler(void);
 
-void ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
+int menuCrazyBoxHandler(void)
 {
-    float u0;
-    float u26;
-    int t28;
-    float u52;
-    float u74;
-    int stk[32];
+    int t6;
+    int t7;
+    int t14;
+    int t15;
+    int t22;
+    int t34;
+    int t109;
+    int t112;
+    int t116;
+    int t62;
+    int t113;
+    int t114;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C035CCA:;
-    u0 = 200.0f;
-    u0 = u0 + 0.099999994f * F4;
-    R11 = (0xC1EE20C);
-    R13 = (0x1);
-    R14 = (0xC274240);
-    R5 = (0x1);
-    R8 = (0x0);
-    F12 = (0.099999994f);
-    F14 = (u0);
-    F15 = (100.0f);
-    F5 = (u0);
-    if ((!(100.0f > u0))) goto L_C035D06;
-    goto L_C035D04;
-    L_C035D04:;
-    F14 = (F15);
-    goto L_C035D06;
-    L_C035D06:;
-    if ((R4 == 0)) goto L_C035D70;
-    goto L_C035D0A;
-    L_C035D0A:;
-    if (((*(int *)((R14 + 0x0))) == 0)) goto L_C035D14;
-    goto L_C035D10;
-    L_C035D10:;
-    goto L_C035EE0;
-    L_C035EE0:;
-    *(float *)(((((int)stk + 4) + 0x1C) + 0x0)) = 0.0f;
-    *(float *)(((((int)stk + 4) + 0x1C) + 0x4)) = 20.0f;
-    *(float *)(((((int)stk + 4) + 0x1C) + 0x8)) = -70.0f;
-    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x0)) = 0.0f;
-    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x4)) = 99.9999924f;
-    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x8)) = -870.0f;
-    nlPushMatrix(0xC179864);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(0xC274234); }
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F15);
-    *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x1C) + 0x24);
-    nlCalcPoint((((int)stk + 4) + 0x10), ((((int)stk + 4) + 0x1C) + 0x24));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((((int)stk + 4) + 0x1C) + 0x18)) = *(struct mv3 *)((*(int *)(((int)stk + 4)))); }
-    nlCalcPoint(0xC274234, (((int)stk + 4) + 0x10));
-    nlPopMatrix(0x1);
-    R12 = ((((int)stk + 4) + 0x1C));
-    R13 = (0xC27424C);
-    F13 = (0.0f);
-    if (((*(int *)((R14 + 0x0))) != 3)) goto L_C035F70;
-    goto L_C035F5E;
-    L_C035F5E:;
-    u26 = *(float *)((R13 + 0x0));
-    *(float *)((R13 + 0x0)) = (u26 - 50.0f);
-    if ((!(F15 > (u26 - 50.0f)))) goto L_C035F84;
-    goto L_C035F6C;
-    L_C035F6C:;
-    *(float *)((R13 + 0x0)) = F15;
-    goto L_C035F84;
-    L_C035F84:;
-    t28 = *(int *)((R14 + 0x0));
-    R0 = (t28);
-    R10 = (0xC274248);
-    R4 = ((*(int *)0xC274250));
-    R9 = (0xC274250);
-    if ((t28 == 0)) goto L_C035FA0;
-    goto L_C035F90;
-    L_C035F90:;
-    if ((R0 == 1)) goto L_C035FA6;
-    goto L_C035F94;
-    L_C035F94:;
-    if ((R0 == 2)) goto L_C036020;
-    goto L_C035F98;
-    L_C035F98:;
-    if ((R0 == 3)) goto L_C036038;
-    goto L_C035F9C;
-    L_C035F9C:;
-    goto L_C03607C;
-    L_C03607C:;
-    nlSubVector3op((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10), 0xC274228);
-    nlVoidUnitVector((((int)stk + 4) + 0x4));
-    if (((*(int *)((R14 + 0x0))) != 2)) goto L_C0360C2;
-    goto L_C036098;
-    L_C036098:;
-    nlScaleVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), (((((nlFastCos(((*(int *)((R9 + 0x0))) << 2))) + (-1.0f)) * F14)) * F12));
-    nlAddVector(0xC274228, (((int)stk + 4) + 0x10));
-    goto L_C0360C2;
-    L_C0360C2:;
-    nlPushUnitMatrix();
-    nlTranslateV(0xC274228);
-    nlRotateV(0xC096668, (((int)stk + 4) + 0x4));
-    nlRotateAZ((*(int *)((R9 + 0x0))));
-    u52 = *(float *)((R13 + 0x0));
-    nlScale(u52, u52, u52);
-    nlSetScaleFactor((*(float *)((R13 + 0x0))));
-    nlObjPut(0xC46BAB8);
-    nlPopMatrix(0x1);
-    R0 = (0x1);
-    goto L_C036100;
-    L_C036100:;
-    return;
-    L_C036038:;
-    if ((R4 == 0)) goto L_C036046;
-    goto L_C03603C;
-    L_C03603C:;
-    *(unsigned int *)((R9 + 0x0)) = ((R4 + 0x1000) & 0xF000);
-    goto L_C036046;
-    L_C036046:;
-    nlSubVector3op((((int)stk + 4) + 0x4), R12, 0xC274228);
-    nlScaleVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), F12);
-    nlAddVector(0xC274228, (((int)stk + 4) + 0x4));
-    if ((!(1.0f > (nlScalor((((int)stk + 4) + 0x4)))))) goto L_C03607C;
-    goto L_C036078;
-    L_C036078:;
-    *(unsigned int *)((R14 + 0x0)) = R8;
-    *(float *)((R10 + 0x0)) = F13;
-    goto L_C03607C;
-    L_C036020:;
-    *(unsigned int *)((R9 + 0x0)) = ((*(int *)((R9 + 0x0))) + 0x200);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC274228) = *(struct mv3 *)((R12 + 0x24)); }
-    goto L_C03607C;
-    L_C035FA6:;
-    *(float *)((R10 + 0x0)) = ((*(float *)((R10 + 0x0))) + 0.0249999985f);
-    *(unsigned int *)((R9 + 0x0)) = R8;
-    F2 = (1.0f);
-    if ((1.0f > (*(float *)((R10 + 0x0))))) goto L_C035FC2;
-    goto L_C035FBA;
-    L_C035FBA:;
-    *(float *)((R10 + 0x0)) = F2;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R14 + 0x0))) + 0x1);
-    goto L_C035FC2;
-    L_C035FC2:;
-    Bezier(R12, 0xC274228, (*(float *)((R10 + 0x0))));
-    goto L_C03607C;
-    L_C035FA0:;
-    *(float *)((R10 + 0x0)) = F13;
-    R0 = (0x0);
-    goto L_C036100;
-    L_C035F70:;
-    u74 = *(float *)((R13 + 0x0));
-    *(float *)((R13 + 0x0)) = (u74 + 25.0f);
-    F4 = (600.0f);
-    if ((!((u74 + 25.0f) > 600.0f))) goto L_C035F84;
-    goto L_C035F82;
-    L_C035F82:;
-    *(float *)((R13 + 0x0)) = F4;
-    goto L_C035F84;
-    L_C035D14:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R14 + 0x0))) + 0x1);
-    if (((*(int *)((R11 + 0x0))) == 2)) goto L_C035D24;
-    goto L_C035D20;
-    L_C035D20:;
-    goto L_C035E64;
-    L_C035E64:;
-    Sound_Request(0x805A9, 0x0);
-    goto L_C035EE0;
-    L_C035D24:;
-    if (((*(int *)((R11 + 0x0))) == 2)) goto L_C035D2E;
-    goto L_C035D2A;
-    L_C035D2A:;
-    goto L_C035EE0;
-    L_C035D2E:;
-    R2 = (0xC1EE214);
-    if (((*(int *)0xC1EE214) != 8)) goto L_C035D3A;
-    goto L_C035D36;
-    L_C035D36:;
-    goto L_C035E64;
-    L_C035D3A:;
-    if (((*(int *)((R2 + 0x0))) != 5)) goto L_C035D44;
-    goto L_C035D40;
-    L_C035D40:;
-    goto L_C035E64;
-    L_C035D44:;
-    if (((*(int *)((R2 + 0x0))) != 9)) goto L_C035D4E;
-    goto L_C035D4A;
-    L_C035D4A:;
-    goto L_C035E64;
-    L_C035D4E:;
-    if (((*(int *)((R2 + 0x0))) != 13)) goto L_C035D58;
-    goto L_C035D54;
-    L_C035D54:;
-    goto L_C035E64;
-    L_C035D58:;
-    if (((*(int *)((R2 + 0x0))) != 6)) goto L_C035D62;
-    goto L_C035D5E;
-    L_C035D5E:;
-    goto L_C035E64;
-    L_C035D62:;
-    if (((*(int *)((R2 + 0x0))) == 7)) goto L_C035D6C;
-    goto L_C035D68;
-    L_C035D68:;
-    goto L_C035EE0;
-    L_C035D6C:;
-    goto L_C035E64;
-    L_C035D70:;
-    R4 = (0xC1790CC);
-    if (((int)(*(int *)0xC179130) > (int)R5)) goto L_C035D82;
-    goto L_C035D7A;
-    L_C035D7A:;
-    if (((int)(*(int *)0xC274244) > (int)R5)) goto L_C035D96;
-    goto L_C035D82;
-    L_C035D82:;
-    if (((int)(*(int *)(((0x64 + R4) + 0x0))) >= (int)0xD)) goto L_C035D98;
-    goto L_C035D8E;
-    L_C035D8E:;
-    if (((*(int *)0xC274244) != 14)) goto L_C035D98;
-    goto L_C035D96;
-    L_C035D96:;
-    R13 = (R8);
-    goto L_C035D98;
-    L_C035D98:;
-    if (((*(int *)((R11 + 0x0))) != 2)) goto L_C035E04;
-    goto L_C035D9E;
-    L_C035D9E:;
-    R3 = (0xC1EE214);
-    if (((*(int *)0xC1EE214) == 3)) goto L_C035DBE;
-    goto L_C035DA6;
-    L_C035DA6:;
-    if (((*(int *)((R3 + 0x0))) == 11)) goto L_C035DBE;
-    goto L_C035DAC;
-    L_C035DAC:;
-    if (((*(int *)((R3 + 0x0))) == 1)) goto L_C035DBE;
-    goto L_C035DB2;
-    L_C035DB2:;
-    if (((*(int *)((R3 + 0x0))) == 13)) goto L_C035DBE;
-    goto L_C035DB8;
-    L_C035DB8:;
-    if (((*(int *)((R3 + 0x0))) != 10)) goto L_C035DC6;
-    goto L_C035DBE;
-    L_C035DBE:;
-    if (((*(int *)0xC274240) == 0)) goto L_C035E1A;
-    goto L_C035DC6;
-    L_C035DC6:;
-    if (((*(int *)((R11 + 0x0))) != 2)) goto L_C035E04;
-    goto L_C035DCC;
-    L_C035DCC:;
-    if (((*(int *)0xC1EE214) == 3)) goto L_C035E04;
-    goto L_C035DD4;
-    L_C035DD4:;
-    if (((*(int *)0xC1EE214) == 11)) goto L_C035E04;
-    goto L_C035DDC;
-    L_C035DDC:;
-    if (((*(int *)0xC1EE214) == 1)) goto L_C035E04;
-    goto L_C035DE4;
-    L_C035DE4:;
-    if (((*(int *)0xC1EE214) == 13)) goto L_C035E04;
-    goto L_C035DEC;
-    L_C035DEC:;
-    if (((*(int *)0xC1EE214) == 10)) goto L_C035E04;
-    goto L_C035DF4;
-    L_C035DF4:;
-    if (((*(int *)0xC274240) != 0)) goto L_C035E04;
-    goto L_C035DFC;
-    L_C035DFC:;
-    if ((1000.0f > F4)) goto L_C035E1A;
-    goto L_C035E04;
-    L_C035E04:;
-    if (((*(int *)((R11 + 0x0))) == 2)) goto L_C035EC0;
-    goto L_C035E0A;
-    L_C035E0A:;
-    if (((*(int *)0xC274240) != 0)) goto L_C035EC0;
-    goto L_C035E12;
-    L_C035E12:;
-    if ((!(1200.0f > F4))) goto L_C035EC0;
-    goto L_C035E1A;
-    L_C035E1A:;
-    if ((R13 == 0)) goto L_C035EE0;
-    goto L_C035E1E;
-    L_C035E1E:;
-    if (((CheckClipping(-25.0f)) == 0)) goto L_C035EE0;
-    goto L_C035E2C;
-    L_C035E2C:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R14 + 0x0))) + 0x1);
-    if (((*(int *)((R11 + 0x0))) != 2)) goto L_C035E64;
-    goto L_C035E38;
-    L_C035E38:;
-    if (((*(int *)((R11 + 0x0))) != 2)) goto L_C035EE0;
-    goto L_C035E3E;
-    L_C035E3E:;
-    R2 = (0xC1EE214);
-    if (((*(int *)0xC1EE214) == 8)) goto L_C035E64;
-    goto L_C035E46;
-    L_C035E46:;
-    if (((*(int *)((R2 + 0x0))) == 5)) goto L_C035E64;
-    goto L_C035E4C;
-    L_C035E4C:;
-    if (((*(int *)((R2 + 0x0))) == 9)) goto L_C035E64;
-    goto L_C035E52;
-    L_C035E52:;
-    if (((*(int *)((R2 + 0x0))) == 13)) goto L_C035E64;
-    goto L_C035E58;
-    L_C035E58:;
-    if (((*(int *)((R2 + 0x0))) == 6)) goto L_C035E64;
-    goto L_C035E5E;
-    L_C035E5E:;
-    if (((*(int *)((R2 + 0x0))) != 7)) goto L_C035EE0;
-    goto L_C035E64;
-    L_C035EC0:;
-    if (((*(int *)((R14 + 0x0))) == 1)) goto L_C035ECC;
-    goto L_C035EC6;
-    L_C035EC6:;
-    if (((*(int *)((R14 + 0x0))) != 2)) goto L_C035EE0;
-    goto L_C035ECC;
-    L_C035ECC:;
-    if ((R13 == 0)) goto L_C035EDC;
-    goto L_C035ED0;
-    L_C035ED0:;
-    if (((CheckClipping(0.0f)) != 0)) goto L_C035EE0;
-    goto L_C035EDC;
-    L_C035EDC:;
-    *(unsigned int *)((R14 + 0x0)) = 0x3;
-    goto L_C035EE0;
+    if ((menuOpenStep()) == 1) {
+        *(unsigned int *)0xC2A1230 = 0x0;
+    }
+    t6 = *(signed char *)0xC28A4F6;
+    t7 = ((CheckBoxFlag((*(int *)0xC2A11C4))) << 2);
+    if (t6 == 0) {
+        t7 = 0x3FFFE;
+    }
+    menuCursorBox(0x0, 0x13, t7);
+    menuPutFrame();
+    menuPutSprites(0xC0A0770, 0xC2A1A84, ((*(int *)0xC2A1AD8) + 0x8), 0x18);
+    t14 = *(int *)0xC2A1AD8;
+    t15 = *(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0));
+    if ((t15 != 0) && (t15 != 1)) {
+        t22 = 0x1;
+        if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 18) {
+            t22 = 0x0;
+        }
+        menuPutHelpBar(t22, (float)(-t14), 416.0f);
+    } else {
+        menuPutHelpBar(0x2, (float)(-t14), 416.0f);
+    }
+    putLevelCTFontAssist(0x1017, 0xC09E658, 0x13, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))), (t7));
+    if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) != 1) {
+        t34 = *(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0));
+        if ((int)t34 < (int)0x2) {
+            Init_Window_Sprite(0x1);
+            Init_Window_Sprite(0x2);
+        } else {
+            if ((int)t34 > (int)0x11) {
+                Init_Window_Sprite(0x1);
+                Init_Window_Sprite(0x2);
+            } else {
+                if ((PutWindow(0x1, (float)((*(int *)0xC2A1ADC) + 0x138), 112.0f)) == 1) {
+                    putString(0x23, 0xC0A2130, (float)((*(int *)0xC2A1ADC) + 0x190), 232.0f, 1.0f);
+                    putString(0x20, 0xC0A2098, (float)((*(int *)0xC2A1ADC) + 0x1FE), 232.0f, 1.0f);
+                    putString(0x4023, (((((*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) << 2) << 2) << 1) + 0xC09FAF0), (float)((*(int *)0xC2A1ADC) + 0x148), 120.0f, 1.0f);
+                    putString(0x23, 0xC0A213C, (float)(0x148 + (*(int *)0xC2A1ADC)), 146.0f, 1.0f);
+                    menuPutSprites((*(int *)(((0xC0EF6A8 + ((((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) - 2) << 2) << 1)) + ((GetNowLanguage(0x1)) << 2)))), 0xC2A1A84, ((*(int *)0xC2A1ADC) + 0x158), 0xB2);
+                }
+                if ((((*(int *)0xC2A11EC) & 4) != 0) && (t62 = *(int *)0xC2A1214, t62 == 0)) {
+                    if (((*(int *)0xC2A11CC) & 1) != 0) {
+                        callBoxAdvice();
+                    }
+                    if (((*(int *)0xC2A11CC) & 2) != 0) {
+                        *(unsigned int *)0xC0EF550 = (*(int *)(((((*(int *)((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC))) + 0x2) << 2) + 0xC0A1FC8)));
+                        Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
+                    }
+                }
+            }
+        }
+    } else {
+        Init_Window_Sprite(0x2);
+        if ((PutWindow(0x1, (float)((*(int *)0xC2A1ADC) + 0x138), 112.0f)) == 1) {
+            putString(0x4023, (((((*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) << 2) << 2) << 1) + 0xC09FAF0), (float)((*(int *)0xC2A1ADC) + 0x148), 120.0f, 1.0f);
+            putString(0x4020, ((short)((short)(0x3 & (*(int *)0xC2A1240)) * (short)0x2C) + 0xC09E504), (float)(0x148 + (*(int *)0xC2A1ADC)), 140.0f, 1.0f);
+            menuPutSprites((*(int *)(((((*(int *)0xC2A1240) & 0x3) << 2) + 0xC0EF648))), 0xC2A1A84, ((*(int *)0xC2A1ADC) + 0x23C), 0xC8);
+            t109 = 0x0;
+            for (;;) {
+                putString(0x4020, (0xC09FEB0 + (((t109 << 2) << 2) << 1)), (float)((*(int *)0xC2A1ADC) + 0x158), (float)(((((t109 << 2) << 1) + t109) << 1) + 0x9E), 1.0f);
+                t112 = *(int *)0xC2A1ADC;
+                if ((t109 == 3) && ((t113 = *(int *)0xC2A1240, (t113 & 0x3) == 2) && (t114 = *(signed char *)0xC28A4E8, ((unsigned char)t114 & 32) == 0))) {
+                    putString(0x4020, 0xC09FE70, (float)(t112 + 0x1BC), (float)(((((t109 << 2) << 1) + t109) << 1) + 0x9E), 1.0f);
+                } else {
+                    t116 = *(int *)0xC2A1240;
+                    putString(0x4020, (((short)(((((((0x3 & t116) + 0x1) << 2) + ((0x3 & t116) + 0x1)) << 2) << 2) << 1) + 0xC09FEB0) + (((t109 << 2) << 2) << 1)), (float)(t112 + 0x1BC), (float)(((((t109 << 2) << 1) + t109) << 1) + 0x9E), 1.0f);
+                }
+                t109 = (t109 + 0x1);
+                if ((int)t109 >= (int)0x5) {
+                    break;
+                }
+            }
+        }
+    }
+    return menuEnterStep();
 }

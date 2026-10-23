@@ -1,71 +1,44 @@
 /* Straight-line functions with calls and guards (batch gen_zn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int PcarEvInit(int);
-int calcCheckExec(int, int);
-int courseStatusEntry(int, int);
-int extRand(void);
-int nlAddVector(int, int);
-int nlCalcVector(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAY(int);
-int nlSetEventNext(int, int, int);
-int TrailerInit(int a4, int a5);
+int PutStringFixPfont(int, int, float, float, float, float);
+int menuCursor(int, int, int);
+int menuEnterStep(void);
+int menuOpenStep(void);
+int menuPutFrame(void);
+int menuPutHelpBar(int, float, float);
+int putLevelCTFontAssist(int, int, int, int, int);
+int putString(int, int, float, float, float);
+int menuRecordViewHandler(void);
 
-int TrailerInit(int a4, int a5)
+int menuRecordViewHandler(void)
 {
-    int t0;
-    int t47;
-    int t1;
-    int t15;
-    int t21;
+    int t9;
+    int t19;
+    float u20;
     int t23;
-    int stk[9];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t0 = nlSetEventNext(0x12C, 0xC0486D4, a4);
-    t47 = t0;
-    if (t0 == 0) {
-    } else {
-        t1 = *(int *)0xC2A1B1C;
-        *(unsigned int *)0xC2A1B1C = (t1 + 0x1);
-        *(unsigned int *)((t0 + 0x74)) = ((t1 + 0x1) - 1);
-        *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) + 0x1);
-        *(unsigned int *)(((0x78 + t0) + 0x0)) = (((extRand()) & 0x1) + 0xC);
-        *(unsigned int *)((t0 + 0x80)) = (*(int *)((a4 + 0x80)));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t0)) = *(struct mv3 *)((0x8C + a4)); }
-        *(unsigned int *)((t0 + 0xD4)) = (*(int *)((a4 + 0xD4)));
-        *(float *)(((int)stk + 12)) = 0.0f;
-        *(float *)(((int)stk + 8)) = 0.0f;
-        *(float *)(((int)stk + 16)) = (-((float)(*(int *)(((int)stk + 4))) * 100.0f));
-        nlPushUnitMatrix();
-        nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
-        nlCalcVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4));
-        nlAddVector((0x8C + t0), (((int)stk + 4) + 0x4));
-        nlPopMatrix(0x1);
-        PcarEvInit(t0);
-        if ((*(int *)((t0 + 0x80))) == 0) {
-            t15 = GetCollision2D((0x8C + t0), 30.0f);
-            if ((*(int *)((t15 + 0x1C))) != -1) {
-                *(float *)((t0 + 0x90)) = ((*(float *)((t15 + 0x18))) + 1.0f);
-            }
-        } else {
-            t21 = *(int *)((t0 + 0x80));
-            t23 = *(int *)((t0 + 0xD4));
-            *(float *)((t0 + 0x90)) = ((*(float *)((((*(int *)((((((t21 << 1) + t21) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t23 << 1) + t23) << 2)) + 0x4))) + 1.0f);
-        }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + t0)) = *(struct mv3 *)((0x98 + a4)); }
-        *(unsigned char *)(((0xA4 + t0) + 0x0)) = (*(signed char *)(((0xA4 + a4) + 0x0)));
-        *(unsigned char *)(((0xA4 + t0) + 0x1)) = (*(signed char *)(((0xA4 + a4) + 0x1)));
-        *(unsigned char *)(((0xA4 + t0) + 0x2)) = (*(signed char *)(((0xA4 + a4) + 0x2)));
-        *(unsigned char *)(((0xA4 + t0) + 0x3)) = (*(signed char *)(((0xA4 + a4) + 0x3)));
-        *(unsigned char *)(((0xA4 + t0) + 0x4)) = (*(signed char *)(((0xA4 + a4) + 0x4)));
-        *(unsigned char *)(((0xA4 + t0) + 0x5)) = (*(signed char *)(((0xA4 + a4) + 0x5)));
-        courseStatusEntry((*(int *)((t0 + 0x80))), (*(int *)((t0 + 0xD4))));
-        courseStatusEntry((*(int *)((t0 + 0x80))), ((*(int *)((t0 + 0xD4))) + 0x1));
-        t47 = (calcCheckExec(t0, (*(int *)((t0 + 0x84)))));
+    if ((menuOpenStep()) == 1) {
+        *(unsigned int *)0xC2A1244 = 0x0;
     }
-    return t47;
+    if ((menuCursor(0x0, 0x4, 0x0)) == 1) {
+        *(unsigned int *)0xC2A1244 = 0x0;
+    }
+    menuPutFrame();
+    t9 = *(int *)0xC2A1AD8;
+    if ((*(int *)0xC2A11E0) == 0) {
+        putString(0x20013, 0xC0A210C, (float)(t9 + 0x20), 36.0f, 1.51999998f);
+    } else {
+        PutStringFixPfont(0x20013, ((short)((short)((*(int *)0xC2A11E0) - 1) * (short)0x788) + 0xC28A4F8), (float)(t9 + 0x20), 36.0f, (*(float *)0xC03FBC4), 1.51999998f);
+        putString(0x20013, 0xC0A2060, (float)((*(int *)0xC2A1AD8) + 0x84), 36.0f, 1.51999998f);
+    }
+    t19 = *(int *)0xC2A1AD8;
+    u20 = *(float *)0xC03FBD8;
+    t23 = 0x4;
+    if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
+        t23 = 0x0;
+    }
+    menuPutHelpBar(t23, (float)(-t19), u20);
+    putLevelCTFontAssist(0x417, 0xC09F394, 0x4, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))), 0x0);
+    return menuEnterStep();
 }

@@ -1,25 +1,22 @@
 /* Straight-line functions with calls and guards (batch gen_ahc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlGetMatrix(int);
-int nlLoadMatrix(int);
-float nlScalor(int);
-int nlSetScaleFactor(float);
-int nlVoidUnitVector(int);
-int CalcShadow2Matrix(int a4);
+int nlSprPut(int, int, int);
+int Result_Face_Put(int a4, int a5, int a6);
 
-int CalcShadow2Matrix(int a4)
+int Result_Face_Put(int a4, int a5, int a6)
 {
-    int t0;
-    int stk[7];
-
-    t0 = nlGetMatrix(0x0);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(t0) = *(struct mv3 *)(a4); }
-    *(float *)(((int)stk + 4)) = (-(*(float *)((a4 + 0x8))));
-    *(float *)(((int)stk + 12)) = (*(float *)((a4 + 0x0)));
-    *(float *)(((int)stk + 8)) = 0.0f;
-    nlVoidUnitVector(((int)stk + 4));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x20)) = *(struct mv3 *)(((int)stk + 4)); }
-    nlLoadMatrix(0x0);
-    return (nlSetScaleFactor((nlScalor(a4))));
+    if ((int)(*(int *)0xC2A96F4) > (int)0x2A) {
+        *(unsigned int *)0xC2A96F8 = (*(int *)((((*(int *)0xC2A96F0) << 2) + 0xC0D0D48)));
+        *(unsigned int *)0xC2A972C = 0xA;
+        *(float *)0xC2A96FC = (*(float *)0xC059A6C);
+        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0xBE);
+        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
+        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
+        *(float *)0xC2A9714 = 0.0f;
+        *(float *)0xC2A971C = 1.0f;
+        *(unsigned int *)0xC2A9720 = 0x0;
+        return nlSprPut(0xC2A96F8, 0xC2A9758, a6);
+    }
+    return 0xC2A96F4;
 }

@@ -1,62 +1,81 @@
 /* Straight-line functions with calls and guards (batch gen_yg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Chat_Iraira(void);
-int extRand(void);
-int psgEnterState5(int a4, int a5);
+int Result_Class_Shadow_Put(void);
+int Sound_Request(int, int);
+int nlSprPut(int, int);
+int Result_Awesome_Put(void);
 
-int psgEnterState5(int a4, int a5)
+int Result_Awesome_Put(void)
 {
-    int t6;
-    int t14;
-    int t31;
-    int t21;
-    int stk[20];
+    int t0;
+    int t1;
+    int t18;
+    int t36;
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)(0xC0D5EEC); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x24)) = *(struct mv3 *)(0xC0D5EF8); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x18)) = *(struct mv3 *)(0xC0D5F04); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0D5F10); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D5F1C); }
-    if (a5 != 0) {
-        if (a5 != 1) {
-            t6 = a5;
-            if (a5 != 2) {
-            } else {
-                *(unsigned int *)((a4 + 0x34)) = (*(int *)((((((int)((unsigned int)(extRand()) % (unsigned int)0x3)) << 2) + ((int)stk + 4)) + 0x0)));
-                *(float *)((a4 + 0x38)) = 0.0f;
-                *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0x7F);
-                *(float *)((a4 + 0x108)) = 0.0f;
-                *(float *)((a4 + 0x10C)) = 0.0f;
-                *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xF9);
-                *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
-                *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-                t6 = (Chat_Iraira());
+    t0 = 0xC05AAA4;
+    t1 = 0x0;
+    for (;;) {
+        if ((int)(*(int *)0xC2A985C) > (int)(((t1 << 2) << 1) - t1)) {
+            if ((int)(*(int *)0xC2A985C) < (int)0x31) {
+                t0 = 0x7;
+                t0 = ((int)((int)(*(int *)0xC2A985C) % (int)t0));
+                if (t0 == 0) {
+                    t0 = (Sound_Request(0xA00A9, 0x0));
+                    *(unsigned int *)0xC2A9870 = ((*(int *)0xC2A9870) + 0x1);
+                    *(unsigned int *)0xC2A9754 = 0x1;
+                    *(unsigned short *)0xC2A9750 = 0x0;
+                    *(float *)0xC2A974C = 0.5f;
+                    *(float *)0xC2A9758 = 0.0f;
+                }
             }
-            t21 = t6;
-        } else {
-            t14 = (int)((unsigned int)(extRand()) % (unsigned int)0x3);
-            *(unsigned int *)((a4 + 0x34)) = (*(int *)((((t14 << 2) + (((int)stk + 4) + 0x30)) + 0x0)));
-            *(float *)((a4 + 0x38)) = 0.0f;
-            *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0x7F);
-            *(float *)((a4 + 0x108)) = 0.0f;
-            *(float *)((a4 + 0x10C)) = 0.0f;
-            *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xF9);
-            *(unsigned int *)(((0x124 + a4) + 0x0)) = (*(int *)((((((int)stk + 4) + 0x24) + (t14 << 2)) + 0x0)));
-            *(unsigned int *)((a4 + 0x128)) = (*(int *)((((t14 << 2) + (((int)stk + 4) + 0x18)) + 0x0)));
-            t21 = (Chat_Iraira());
+            t0 = 0xC131010;
+            *(unsigned int *)0xC2A96F8 = (*(int *)(((t1 << 2) + t0)));
+            if ((int)t1 > (int)0x3) {
+                t0 = 0x4;
+                *(float *)((0xC2A96F8 + t0)) = (float)(((((((t1 - 2) << 2) << 2) << 1) - (((t1 - 3) << 1) + (t1 - 3))) + (t1 << 1)) + 0x8E);
+            } else {
+                t0 = t1;
+                t18 = 0x9C;
+                if (t0 == 3) {
+                    t18 = 0x92;
+                }
+                t0 = 0x4;
+                *(float *)((0xC2A96F8 + t0)) = (float)((((((t1 - 2) << 2) << 2) << 1) + (t1 << 1)) + t18);
+            }
+            t0 = 0x8;
+            *(unsigned int *)0xC2A972C = 0x200A;
+            *(float *)((0xC2A96F8 + t0)) = (float)((*(int *)0xC2A9748) + 0x18C);
+            t0 = 0xC;
+            *(float *)((0xC2A96F8 + t0)) = 0.149999991f;
+            t0 = 0x10;
+            *(float *)((0xC2A96F8 + t0)) = ((*(float *)0xC2A9758) + 1.0f);
+            t0 = 0x14;
+            *(float *)((0xC2A96F8 + t0)) = ((*(float *)0xC2A9758) + 1.0f);
+            t0 = 0x1C;
+            *(float *)((0xC2A96F8 + t0)) = 0.0f;
+            t0 = 0x24;
+            *(float *)((0xC2A96F8 + t0)) = 1.0f;
+            *(unsigned int *)0xC2A9720 = 0x0;
+            t0 = (nlSprPut(0xC2A96F8, (t1 << 1)));
         }
-        t31 = t21;
-    } else {
-        *(unsigned int *)((a4 + 0x34)) = 0xC945094;
-        *(float *)((a4 + 0x38)) = 0.0f;
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0x7F);
-        *(float *)((a4 + 0x108)) = 0.0f;
-        *(float *)((a4 + 0x10C)) = 0.0f;
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xF9);
-        *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
-        *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-        t31 = (Chat_Iraira());
+        t1 = (t1 + 0x1);
+        if ((int)t1 < (int)0x7) continue;
+        break;
     }
-    return t31;
+    t36 = *(int *)0xC2A985C;
+    if ((int)t36 >= (int)0x31) {
+        if (t36 == 49) {
+            *(unsigned int *)0xC2A9874 = ((*(int *)0xC2A9874) + 0x1);
+            Sound_Request(0xE00A9, 0x0);
+            *(unsigned int *)0xC2A9754 = 0x1;
+            *(unsigned short *)0xC2A9750 = 0x0;
+            *(float *)0xC2A974C = 0.5f;
+            *(float *)0xC2A9758 = 0.0f;
+        }
+        Result_Class_Shadow_Put();
+    }
+    *(float *)0xC2A9704 = (*(float *)0xC05AC3C);
+    *(unsigned int *)0xC2A985C = ((*(int *)0xC2A985C) + 0x1);
+    return 0xC;
 }

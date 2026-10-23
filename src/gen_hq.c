@@ -1,61 +1,54 @@
 /* Straight-line functions with calls and guards (batch gen_hq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXF_GetFsizeSct(int);
-int ADXF_OpenAfs(int, int);
-int ADXF_ReadNw32(int, int, int);
-int gdc_CourseBlockReadNext(void);
+int CheckNameEntryPad(float, float);
+float nlFastSin(int);
+int pfAddNumber(int, int);
+int pfCleanString(void);
+int pfLocate(float, float);
+int pfPuts(int);
+float ExecNameEntryScroll(float f4, float f5);
 
-int gdc_CourseBlockReadNext(void)
+float ExecNameEntryScroll(float f4, float f5)
 {
     int t1;
-    int t2;
-    int t3;
-    int t7;
-    int t9;
-    int t10;
-    int t11;
-    int t13;
-    int t18;
-    int t17;
-    int t0;
-    int t5;
-    int t22;
+    float u14;
+    float u15;
+    float t17;
+    float u18;
+    float u19;
+    int t25;
+    float u21;
 
-    t1 = 0xC26C5DC;
-    t2 = 0x0;
-    t3 = 0x0;
-    for (;;) {
-        if (((unsigned char)(*(signed char *)((t1 + 0x0))) == 1) && (t5 = *(int *)((t1 + 0xC)), t0 = t5, (int)t3 < (int)t0)) {
-            *(unsigned int *)0xC26E0F4 = t2;
-            t3 = (*(int *)((t1 + 0xC)));
-        }
-        t7 = *(int *)((t1 + 0x8));
-        t2 = (t2 + t7);
-        t2 = (t2 + 0x1);
-        t1 = (t1 + (((((t7 + 0x1) << 1) + (t7 + 0x1)) << 2) << 1));
-        if ((int)t2 >= (int)0x120) {
-            break;
-        }
+    CheckNameEntryPad(f4, f5);
+    t1 = *(int *)0xC2864C4;
+    *(unsigned int *)0xC2864C4 = (t1 - 1);
+    if ((int)(t1 - 1) <= 0) {
+        *(unsigned int *)0xC2864C4 = 0x0;
+        *(unsigned int *)0xC2864B4 = 0x0;
+        *(unsigned int *)0xC2864B0 = 0x0;
     }
-    t9 = *(int *)0xC26E0F4;
-    if (t9 != -1) {
-        *(unsigned int *)0xC26E0F8 = 0x1;
-        t10 = *(int *)0xC26E0F4;
-        *(unsigned char *)((((short)((((t10 << 1) + t10) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-        t11 = *(int *)0xC26E0F4;
-        t13 = ADXF_OpenAfs(0x0, (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x4))));
-        *(unsigned int *)0xC26C5D8 = t13;
-        t18 = t13;
-        if (t13 != 0) {
-            t17 = ADXF_ReadNw32((*(int *)0xC26C5D8), (ADXF_GetFsizeSct(t13)), (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x14))));
-            *(unsigned char *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x3;
-            t18 = t17;
-        }
-        t22 = t18;
-    } else {
-        *(unsigned int *)0xC26E0F8 = 0x0;
-        t22 = t9;
+    pfLocate((*(float *)0xC03A168), (*(float *)0xC03A164));
+    pfCleanString();
+    pfAddNumber(((int)((int)(*(int *)0xC2864C4) / (int)0x3C)), 0x0);
+    pfPuts((*(int *)0xC08D678));
+    u14 = *(float *)0xC03A188;
+    u15 = *(float *)0xC2864D4;
+    *(float *)0xC2864D4 = (u15 * u14);
+    if (1.0f > (u15 * u14)) {
+        t17 = nlFastSin((((*(int *)0xC2864D8) << 8) << 2));
+        u18 = *(float *)0xC03A194;
+        u19 = *(float *)0xC03A198;
+        *(float *)0xC2864D4 = ((-(t17 * u18)) + u19);
+        u21 = ((-(t17 * u18)) + u19);
     }
-    return t22;
+    t25 = *(int *)0xC2864D8;
+    *(unsigned int *)0xC2864D8 = (t25 + 0x1);
+    if ((int)(t25 + 0x1) > (int)0x10) {
+        *(unsigned int *)0xC2864D8 = 0x0;
+        *(float *)0xC2864D4 = 1.0f;
+        *(unsigned int *)0xC2864CC = 0xC039E58;
+        *(unsigned int *)0xC2864B0 = 0x0;
+    }
+    return u21;
 }

@@ -1,120 +1,108 @@
 /* Straight-line functions with calls and guards (batch gen_mq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetMenuMode(int);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int gdc_FadeManStreamSong(void);
-int gdc_FadeStopStreamSong(int, int);
-int pfColor(int, int, int, int);
-int pfLocate(float, float);
-int pfPutSEGALogo(void);
-int pfPuts(int);
-int pfSize(float, float);
-int ExecEndRoll(void);
+int CheckClipping(int, float);
+int nlCalcPoint(int, int);
+float nlLength(int, int);
+int nlLoadMatrix(int);
+int nlPopMatrix(int);
+int nlProjectScreen3D(int, int);
+int nlPushUnitMatrix(void);
+int pedCarNotInSubway(void);
+int pedDodgeCheck(int, float, float);
+int pedDraw(int, float, float);
+int pedGetSubwayFlag(void);
+int pedPickIdle(int);
+int pedStand(int);
+int pedUpdate(int a4);
 
-int ExecEndRoll(void)
+int pedUpdate(int a4)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t4;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    float u18;
-    int t26;
-    int t3;
-    int t25;
-    int t35;
-    int t43;
-    int t54;
-    int t55;
+    float t7;
+    float t10;
+    int t69;
+    int t99;
+    int t104;
+    int t88;
+    int t89;
+    int t90;
+    int t91;
+    int t120;
+    int t112;
+    int stk[13];
 
-    t0 = *(int *)0xC1EE33C;
-    *(unsigned int *)0xC2864E0 = t0;
-    t1 = 0xC03A4F4;
-    t2 = t0;
-    t4 = 0x0;
-    for (;;) {
-        if ((unsigned int)t4 >= (unsigned int)0x87) {
-            break;
-        }
-        t3 = t4;
-        t3 = (t3 << 1);
-        t2 = t4;
-        t3 = (t3 + t2);
-        t3 = (t3 << 2);
-        t2 = 0x28A;
-        t3 = (t3 << 1);
-        t3 = (t3 - (*(int *)0xC2864E0));
-        t3 = (t3 + t2);
-        if (((int)t3 > (int)0xFFFFFFE8) && (t1 = 0x1E0, (int)t3 < (int)t1)) {
-            t2 = ((int)pfLocate);
-            t1 = (pfLocate(330.0f, (float)t3));
-            t1 = t4;
-            t1 = (t1 << 2);
-            t1 = (*(int *)((0xC0EEA20 + t1)));
-            t1 = (*(signed char *)((t1 + 0x0)));
-            t10 = 0xFFFFFF00;
-            t11 = 0xFFFFFF00;
-            t12 = 0xFFFFFF00;
-            t13 = 0xFFFFFF00;
-            if (t1 == 32) {
-                t10 = 0xFFFFFFFF;
-                t11 = 0xFFFFFFFF;
-                t12 = 0xFFFFFFFF;
-                t13 = 0xFFFFFFFF;
-            }
-            t1 = (pfColor(t10, t11, t12, t13));
-            t1 = t4;
-            if (t1 == 53) {
-                t1 = (pfSize(0.789999962f, 1.0f));
-            } else {
-                t2 = 0x85;
-                u18 = 1.0f;
-                if (t4 == t2) {
-                    u18 = 0.939999998f;
-                }
-                t1 = (pfSize(u18, 1.0f));
-            }
-            t1 = t4;
-            t2 = ((int)pfPuts);
-            t1 = (t1 << 2);
-            t1 = (pfPuts((*(int *)((0xC0EEA20 + t1)))));
-        } else {
-            t25 = t2;
-        }
-        t4 = (t4 + 0x1);
-        t2 = t25;
-    }
-    t26 = *(int *)0xC2864E0;
-    if (((int)(0xF2A - t26) <= (int)0xFFFFFFC0) && ((int)(0xF2A - t26) >= (int)0x1E0)) {
+    if ((*(int *)((a4 + 0x50))) == 2) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)((a4 + 0x40)); }
     } else {
-        pfLocate(330.0f, (float)(0xF2A - t26));
-        pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-        pfPutSEGALogo();
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)((a4 + 0xC)); }
     }
-    if (((int)(*(int *)0xC2864E0) >= (int)0xD8E) && (t35 = *(int *)0xC2864E4, t35 == 2)) {
-        Voice_ShutUp(0x0);
-        Voice_Request(0xC0EEC40, 0x0, 0x7F, 0x0);
-        *(unsigned int *)0xC2864E4 = 0x1;
-    }
-    if (((int)(*(int *)0xC2864E0) >= (int)0xE10) && (t43 = *(int *)0xC2864E4, t43 != 0)) {
-        gdc_FadeStopStreamSong(0x0, 0x104);
-        *(unsigned int *)0xC2864E4 = 0x0;
-    }
-    if (((*(int *)0xC1EE250) & 8) != 0) {
-        *(unsigned int *)0xC2864E0 = 0x2710;
-    }
-    if ((int)(*(int *)0xC2864E0) >= (int)0xFB4) {
-        *(unsigned int *)0xC2A4E50 = 0x0;
-        if (((GetMenuMode(0x1)) == 0) && ((t54 = *(int *)0xC1EE340, (int)t54 <= (int)0x14) && (t55 = *(int *)0xC17948C, t55 == 0))) {
-            *(unsigned int *)0xC1EE238 = 0xE;
+    nlPushUnitMatrix();
+    nlLoadMatrix(0xC2A6FE4);
+    nlCalcPoint((((int)stk + 4) + 0xC), ((int)stk + 4));
+    nlPopMatrix(0x1);
+    t7 = nlLength(0xC179144, (((int)stk + 4) + 0xC));
+    pedDodgeCheck(a4, t7, (*(float *)(((int)stk + 4))));
+    t10 = nlLength(0xC179840, (((int)stk + 4) + 0xC));
+    nlProjectScreen3D((((int)stk + 4) + 0xC), ((int)stk + 4));
+    if ((CheckClipping((((int)stk + 4) + 0xC), 5.0f)) != 0) {
+        if ((*(int *)0xC1EE20C) != 0) {
+            if ((*(int *)0xC1EE20C) == 1) {
+                if ((*(short *)((a4 + 0x60))) != 0) {
+                    if ((int)(pedGetSubwayFlag()) < (int)0x1) {
+                        if ((*(short *)((a4 + 0x60))) == 0) {
+                            if ((pedCarNotInSubway()) != 0) {
+                                pedDraw(a4, t10, t7);
+                            }
+                        }
+                    } else {
+                        pedDraw(a4, t10, t7);
+                    }
+                } else {
+                    if ((*(short *)((a4 + 0x60))) == 0) {
+                        if ((pedCarNotInSubway()) != 0) {
+                            pedDraw(a4, t10, t7);
+                        }
+                    }
+                }
+            }
         } else {
-            *(unsigned int *)0xC1EE238 = 0x2;
+            pedDraw(a4, t10, t7);
         }
     }
-    return gdc_FadeManStreamSong();
+    if ((*(int *)((a4 + 0x50))) == 2) {
+        t69 = *(int *)((a4 + 0x20));
+        *(unsigned int *)((a4 + 0x20)) = (t69 + 0x2);
+        if ((unsigned int)(*(int *)(((*(int *)((0xC0D61AC + ((*(int *)((a4 + 0x28))) << 2)))) + 0x0))) <= (unsigned int)((t69 + 0x2) + 0x1)) {
+            *(unsigned int *)((a4 + 0x20)) = ((*(int *)(((*(int *)((0xC0D61AC + ((*(int *)((a4 + 0x28))) << 2)))) + 0x0))) - 1);
+        }
+    } else {
+        *(unsigned int *)((a4 + 0x20)) = ((*(int *)((a4 + 0x20))) + 0x1);
+    }
+    if (((*(int *)((a4 + 0x50))) == 2) && (t88 = *(int *)((a4 + 0x28)), t89 = *(int *)((a4 + 0x20)), t90 = *(int *)(((t88 << 2) + 0xC0D61AC)), t91 = *(int *)((t90 + 0x0)), (unsigned int)t91 <= (unsigned int)(t89 + 0x1))) {
+        *(unsigned int *)((a4 + 0x50)) = 0x1;
+        *(unsigned int *)((a4 + 0x20)) = 0x0;
+        pedPickIdle(a4);
+        *(unsigned short *)((a4 + 0x38)) = 0x0;
+        *(float *)((a4 + 0x3C)) = 0.0f;
+        *(float *)((a4 + 0xC)) = (*(float *)((a4 + 0x40)));
+        *(float *)((a4 + 0x14)) = (*(float *)((a4 + 0x48)));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x40)) = *(struct mv3 *)(0xC12FF00); }
+        *(unsigned int *)((a4 + 0x4C)) = 0x0;
+        t99 = *(short *)0xC1791C0;
+        *(unsigned short *)((a4 + 0x1A)) = t99;
+        t120 = t99;
+    } else {
+        if (t7 > (*(float *)0xC04FCA0)) {
+            *(unsigned int *)((a4 + 0x50)) = 0x0;
+            t112 = 0x50;
+        } else {
+            t104 = 0xC04FCA4;
+            if (t7 > (*(float *)0xC04FCA4)) {
+                t104 = (pedStand(a4));
+            }
+            t112 = t104;
+        }
+        t120 = t112;
+    }
+    return t120;
 }

@@ -1,28 +1,25 @@
 /* Straight-line functions with calls and guards (batch gen_adl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlAbsSqrt(float);
-int nlArcTan2(float, float);
-int nlSubVector3op(int, int, int);
-int nlUnitVector(int);
-int Current_to_Target_angleX(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
+int Chat_PickSomeoneUp(int);
+int Drv_SetMotion(int, float);
+int Drv_StartPickUp(void);
 
-int Current_to_Target_angleX(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11)
+int Drv_StartPickUp(void)
 {
-    float u2;
-    float u3;
-    float u4;
-    int stk[19];
+    int t0;
 
-    stk[7] = a8;
-    stk[8] = a9;
-    stk[9] = a10;
-    stk[10] = a11;
-    nlSubVector3op(((int)stk + 4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24));
-    nlUnitVector(((int)stk + 4));
-    u2 = *(float *)(((int)stk + 4));
-    u3 = *(float *)(((int)stk + 12));
-    u4 = (u3 * u3);
-    u4 = u4 + u2 * u2;
-    return (-(nlArcTan2((*(float *)(((int)stk + 8))), (nlAbsSqrt(u4)))));
+    t0 = *(int *)0xC2AD018;
+    if (t0 != 0) {
+        if (t0 != 1) {
+        } else {
+            Drv_SetMotion(0xC8E3D50, 0.0f);
+        }
+    } else {
+        Drv_SetMotion(0xC8D62BC, 0.0f);
+    }
+    *(float *)0xC2AD0F8 = 10.0f;
+    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
+    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
+    return Chat_PickSomeoneUp(0x0);
 }

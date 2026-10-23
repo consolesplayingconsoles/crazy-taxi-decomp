@@ -2,89 +2,52 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int GetCollision2D(int, float);
-int nlFastSinCos(int, int, int);
-void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5);
+int nlCalcPoint(int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlSetTranslate(int);
+int carMultiCollision(int a4, float f4);
 
-void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5)
+int carMultiCollision(int a4, float f4)
 {
-    int t7;
-    int t10;
-    int t11;
-    float u13;
-    float u14;
-    float u15;
-    float u20;
-    float u24;
-    float u4;
-    float u5;
-    int t9;
-    float u12;
-    float u33;
-    float u34;
+    float u11;
+    int t12;
+    int t21;
+    int t22;
+    int t27;
+    float u23;
+    int stk[11];
 
-    *(unsigned int *)((a4 + 0x0)) = 0xC;
-    *(unsigned int *)(((a4 + 0x4) + 0x0)) = (*(int *)(((a6 << 2) + 0xC0ED9E0)));
-    *(unsigned int *)((((a4 + 0x4) + 0xA0) + 0x0)) = 0x0;
-    if ((*(int *)0xC1EE20C) == 0) {
-        u4 = (*(float *)((a5 + 0x4)));
-    } else {
-        u4 = ((*(float *)((a5 + 0x4))) + 40.0f);
-        u5 = 40.0f;
+    nlPushUnitMatrix();
+    nlSetTranslate((0x8C + a4));
+    nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
+    nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
+    nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0A4788); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
+    *(float *)(((int)stk + 24)) = (-f4);
+    *(float *)(((int)stk + 12)) = f4;
+    nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
+    nlCalcPoint(((int)stk + 4), ((int)stk + 4));
+    nlPopMatrix(0x1);
+    u11 = *(float *)0xC043B48;
+    t12 = GetCollision2D((((int)stk + 4) + 0xC), u11);
+    if ((*(int *)((t12 + 0x1C))) != -1) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)((t12 + 0xC)); }
+        *(float *)((a4 + 0x104)) = (*(float *)((t12 + 0x18)));
     }
-    t7 = ((a4 + 0x4) + 0xA0);
-    t10 = 0x0;
-    t11 = (a4 + 0x8);
-    u13 = u5;
-    u14 = f4;
-    u15 = f5;
-    for (;;) {
-        if ((int)t10 >= (int)0xC) {
-            break;
-        }
-        t9 = 0x1555;
-        t7 = (t10 * t9);
-        nlFastSinCos(t7, (t11 + 0x8), t11);
-        u12 = (*(float *)((t11 + 0x0)));
-        u13 = (*(float *)((a5 + 0x0)));
-        u20 = u13;
-        u20 = u20 + f4 * u12;
-        u13 = u20;
-        t9 = ((int)GetCollision2D);
-        *(float *)((t11 + 0x0)) = u13;
-        u12 = (*(float *)((t11 + 0x8)));
-        u13 = (*(float *)((a5 + 0x8)));
-        u24 = u13;
-        u24 = u24 + f4 * u12;
-        u13 = u24;
-        *(float *)((t11 + 0x8)) = u13;
-        *(float *)((t11 + 0x4)) = u4;
-        u14 = (5.0f);
-        t7 = t11;
-        t7 = (GetCollision2D(t7, u14));
-        u14 = 3.0f;
-        if ((*(int *)((t7 + 0x1C))) != -1) {
-            u15 = -50.0f;
-            u13 = (*(float *)((a5 + 0x4)));
-            u12 = (*(float *)((t7 + 0x18)));
-            u13 = (u13 + u15);
-            if (u13 > u12) {
-                u13 = (*(float *)((a5 + 0x4)));
-                u13 = (u13 + u14);
-            } else {
-                u13 = (*(float *)((t7 + 0x18)));
-                u13 = (u13 + u14);
-            }
-            u33 = u12;
-            u34 = u15;
-        } else {
-            u13 = (*(float *)((a5 + 0x4)));
-            u13 = (u13 + u14);
-        }
-        *(float *)((t11 + 0x4)) = u13;
-        u12 = u33;
-        u15 = u34;
-        t11 = (t11 + 0xC);
-        t10 = (t10 + 0x1);
+    t21 = GetCollision2D(((int)stk + 4), u11);
+    t22 = *(int *)((t21 + 0x1C));
+    t27 = t22;
+    if (t22 != -1) {
+        u23 = *(float *)0xC043B50;
+        nlGetAverageVector((0xEC + a4), (t21 + 0xC), (0xEC + a4), u23, u23);
+        *(float *)((a4 + 0x104)) = (((*(float *)((t21 + 0x18))) + (*(float *)((a4 + 0x104)))) * u23);
+        t27 = 0x104;
     }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(t11) = *(struct mv3 *)((a4 + 0x8)); }
+    return t27;
 }

@@ -1,170 +1,100 @@
 /* Straight-line functions with calls and guards (batch gen_lf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Result_Check_Digit_Disp(int);
-int Sound_Request(int, int);
-int nlSprPut(int, int);
-int Result_Money_Digit_Put(int a4, int a5, int a6, int a7);
+int Chk_DispCredit(int);
+int End_Adv_Title_LOGO(void);
+int Voice_Request(int, int, int, int);
+int gdc_CoursePointLoadReq(float);
+int getReplayChangePos(int, int, int);
+int AdvStateTitle(void);
 
-int Result_Money_Digit_Put(int a4, int a5, int a6, int a7)
+int AdvStateTitle(void)
 {
-    int t1;
-    int t17;
-    int t36;
-    int t43;
-    float u68;
-    int t74;
-    int stk[14];
+    int t10;
+    int t71;
+    int t63;
+    int t23;
+    float u58;
+    int t80;
+    int stk[29];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F2;
-    float F3;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R7 = a7;
-    L_C05A0F0:;
-    t1 = (int)((int)((*(int *)0xC2A978C) + 0x1) % (int)0x4);
-    *(unsigned int *)0xC2A978C = t1;
-    R10 = (0x8);
-    R11 = (0xC2A980C);
-    R12 = (0xC2A978C);
-    R9 = (0x1);
-    if ((t1 != 0)) goto L_C05A1A6;
-    goto L_C05A122;
-    L_C05A122:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC2A982C;
-    *(unsigned int *)(((int)stk + 8)) = 0xC130E00;
-    R13 = (0xC2A982C);
-    R14 = (0x0);
-    R8 = (0x0);
-    goto L_C05A130;
-    L_C05A130:;
-    R4 = (0xC2A97EC);
-    if (((int)(*(int *)((0xC2A97EC + (R8 << 2)))) <= 0)) goto L_C05A17C;
-    goto L_C05A13E;
-    L_C05A13E:;
-    *(unsigned int *)((R4 + R14)) = ((*(int *)((R4 + R14))) - 1);
-    *(unsigned int *)(((R14 + R11) + 0x0)) = ((int)((int)((*(int *)(((R14 + R11) + 0x0))) + 0x1) % (int)0xA));
-    goto L_C05A196;
-    L_C05A196:;
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x4);
-    t17 = (int)(R8 + 0x1) < (int)R10;
-    R13 = ((R13 + 0x4));
-    R14 = ((R14 + 0x4));
-    R8 = ((R8 + 0x1));
-    if (t17) goto L_C05A130;
-    goto L_C05A1A6;
-    L_C05A1A6:;
-    R13 = (0x0);
-    R14 = (0xC2A96F8);
-    F13 = (0.0f);
-    F14 = (0.25f);
-    F15 = (1.0f);
-    goto L_C05A1B2;
-    L_C05A1B2:;
-    R3 = (0x4);
-    if (((int)R13 < (int)0x5)) goto L_C05A1BC;
-    goto L_C05A1BA;
-    L_C05A1BA:;
-    R8 = (0xFFFFFFFC);
-    goto L_C05A1BC;
-    L_C05A1BC:;
-    if (((int)R13 > (int)R3)) goto L_C05A1C2;
-    goto L_C05A1C0;
-    L_C05A1C0:;
-    R8 = (0x10);
-    goto L_C05A1C2;
-    L_C05A1C2:;
-    R4 = (R13);
-    if (((int)R13 > (int)R9)) goto L_C05A1CA;
-    goto L_C05A1C8;
-    L_C05A1C8:;
-    R8 = (0x20);
-    goto L_C05A1CA;
-    L_C05A1CA:;
-    if (((Result_Check_Digit_Disp(R4)) == 1)) goto L_C05A1D6;
-    goto L_C05A1D2;
-    L_C05A1D2:;
-    goto L_C05A2DC;
-    L_C05A2DC:;
-    t36 = (int)(R13 + 0x1) >= (int)R10;
-    R13 = ((R13 + 0x1));
-    if (t36) goto L_C05A2E6;
-    goto L_C05A2E2;
-    L_C05A2E2:;
-    goto L_C05A1B2;
-    L_C05A2E6:;
-    R0 = (0xC2A96F4);
-    if (((int)(*(int *)0xC2A96F4) >= (int)(*(int *)0xC2A97A8))) goto L_C05A308;
-    goto L_C05A2F2;
-    L_C05A2F2:;
-    t43 = *(int *)((0xC2A982C + ((*(int *)0xC2A984C) << 2)));
-    R0 = (t43);
-    if ((t43 != 1)) goto L_C05A308;
-    goto L_C05A300;
-    L_C05A300:;
-    *(unsigned int *)0xC2A984C = ((*(int *)0xC2A984C) + 0x1);
-    goto L_C05A308;
-    L_C05A308:;
-    return R0;
-    L_C05A1D6:;
-    *(unsigned int *)(((int)stk + 4)) = (R13 << 2);
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((((*(int *)((R11 + (R13 << 2)))) << 2) + 0xC130E18)));
-    *(unsigned int *)((R14 + 0x34)) = 0x200E;
-    *(float *)((R14 + 0x1C)) = F13;
-    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0xC2A982C))) != 0)) goto L_C05A240;
-    goto L_C05A1FA;
-    L_C05A1FA:;
-    *(float *)((R14 + 0x24)) = (F15 - ((float)(*(int *)((R12 + 0x0))) * F14));
-    *(float *)((R14 + 0x14)) = (((*(float *)0xC2A9758) - ((float)(*(int *)((R12 + 0x0))) * F14)) + F15);
-    goto L_C05A248;
-    L_C05A248:;
-    *(float *)((R14 + 0x4)) = (float)(((((((0x7 - R13) << 2) << 2) + (0x7 - R13)) << 1) + R8) + 0x7A);
-    *(float *)((R14 + 0x8)) = (float)((*(int *)0xC2A9748) + 0xF8);
-    *(unsigned int *)((R14 + 0x28)) = 0x0;
-    nlSprPut(0xC2A96F8, R5);
-    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0xC2A982C))) != 0)) goto L_C05A2DC;
-    goto L_C05A286;
-    L_C05A286:;
-    *(float *)((R14 + 0x8)) = ((*(float *)((R14 + 0x8))) - (float)((*(int *)0xC2A9748) + 0x40));
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((0xC130E18 + (((int)((int)((*(int *)((R11 + (*(int *)(((int)stk + 4)))))) + 0x1) % (int)0xA)) << 2))));
-    *(unsigned int *)((R14 + 0x34)) = 0x2006;
-    u68 = (*(float *)0xC2A9758);
-    u68 = u68 + F14 * (float)(*(int *)((R12 + 0x0)));
-    *(float *)((R14 + 0x14)) = u68;
-    *(float *)((R14 + 0x1C)) = (F15 - ((float)(*(int *)((R12 + 0x0))) * F14));
-    *(float *)((R14 + 0x24)) = F15;
-    nlSprPut(0xC2A96F8, R5);
-    goto L_C05A2DC;
-    L_C05A240:;
-    *(float *)((R14 + 0x24)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C05A248;
-    L_C05A17C:;
-    if (((*(int *)((R13 + 0x0))) != 0)) goto L_C05A196;
-    goto L_C05A182;
-    L_C05A182:;
-    Sound_Request(0x205A9, 0x0);
-    t74 = *(int *)(((int)stk + 8));
-    *(unsigned int *)((t74 + 0x0)) = ((*(int *)((t74 + 0x0))) + 0x1);
-    *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x0)) = R9;
-    goto L_C05A196;
+    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    if ((int)(*(int *)0xC0E5310) > 0) {
+        *(unsigned int *)0xC0E5310 = ((*(int *)0xC0E5310) - 1);
+        if ((int)(*(int *)0xC1EE240) > (int)0x5) {
+            *(unsigned int *)0xC1EE240 = 0x5;
+        }
+    }
+    t10 = *(int *)0xC1EE240;
+    if ((*(int *)0xC1EE23C) != 0) {
+        if ((*(int *)0xC1EE23C) == 1) {
+            if (t10 == 30) {
+                Voice_Request(0xC0E52F8, 0x0, 0x7F, 0x0);
+            }
+            getReplayChangePos(0x2, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(800.0f);
+            t23 = 0x117;
+        }
+        t63 = t23;
+    } else {
+        if (t10 == 40) {
+            Voice_Request(0xC0E52F8, 0x0, 0x7F, 0x0);
+        }
+        if ((*(int *)0xC1EE20C) == 0) {
+            getReplayChangePos(0x1, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x1, (((int)stk + 64) + 0xC));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 52)) = *(struct mv3 *)((((int)stk + 64) + 0xC)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x2, (((int)stk + 52) + 0x18));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 40)) = *(struct mv3 *)((((int)stk + 52) + 0x18)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x3, (((int)stk + 40) + 0x24));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 40) + 0x24)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x4, (((int)stk + 28) + 0x30));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)((((int)stk + 28) + 0x30)); }
+            gdc_CoursePointLoadReq(1500.0f);
+            getReplayChangePos(0x1, 0x5, (((int)stk + 16) + 0x3C));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x3C)); }
+            u58 = 1500.0f;
+        } else {
+            getReplayChangePos(0x2, 0x0, ((int)stk + 76));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 64)) = *(struct mv3 *)(((int)stk + 76)); }
+            gdc_CoursePointLoadReq(1000.0f);
+            getReplayChangePos(0x2, 0x1, (((int)stk + 64) + 0xC));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 52)) = *(struct mv3 *)((((int)stk + 64) + 0xC)); }
+            gdc_CoursePointLoadReq(800.0f);
+            getReplayChangePos(0x2, 0x2, (((int)stk + 52) + 0x18));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 40)) = *(struct mv3 *)((((int)stk + 52) + 0x18)); }
+            gdc_CoursePointLoadReq(600.0f);
+            getReplayChangePos(0x2, 0x3, (((int)stk + 40) + 0x24));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 40) + 0x24)); }
+            gdc_CoursePointLoadReq(400.0f);
+            getReplayChangePos(0x2, 0x4, (((int)stk + 28) + 0x30));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 16)) = *(struct mv3 *)((((int)stk + 28) + 0x30)); }
+            gdc_CoursePointLoadReq(400.0f);
+            getReplayChangePos(0x2, 0x5, (((int)stk + 16) + 0x3C));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x3C)); }
+            u58 = 400.0f;
+        }
+        gdc_CoursePointLoadReq(u58);
+        t63 = 0x135;
+    }
+    if ((int)(*(int *)0xC1EE240) >= (int)t63) {
+        t71 = *(int *)0xC1EE23C;
+        if (t71 == 0) {
+            *(unsigned int *)0xC1EE238 = 0x2;
+        } else {
+            if (t71 == 1) {
+                *(unsigned int *)0xC1EE238 = 0x4;
+            }
+        }
+        t80 = (End_Adv_Title_LOGO());
+    } else {
+        t80 = (Chk_DispCredit(0x0));
+    }
+    return t80;
 }

@@ -1,53 +1,39 @@
 /* Straight-line functions with calls and guards (batch gen_tb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int nlCalcPoint(int, int);
-int nlGetAverageVector(int, int, int, float, float);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlSetTranslate(int);
-int carMultiCollision(int a4, float f4);
+int menuChangeValue(int, int, int);
+int menuPutSprites(int, int, int, int);
+int putMenuValue(int, int, int, int);
+int menuItemCabbie(int a4);
 
-int carMultiCollision(int a4, float f4)
+int menuItemCabbie(int a4)
 {
-    float u11;
-    int t12;
-    int t21;
-    int t22;
-    int t27;
-    float u23;
-    int stk[11];
+    int t1;
+    int t13;
+    int t14;
+    int t16;
+    int t17;
 
-    nlPushUnitMatrix();
-    nlSetTranslate((0x8C + a4));
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0A4788); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
-    *(float *)(((int)stk + 24)) = (-f4);
-    *(float *)(((int)stk + 12)) = f4;
-    nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0xC));
-    nlCalcPoint(((int)stk + 4), ((int)stk + 4));
-    nlPopMatrix(0x1);
-    u11 = *(float *)0xC043B48;
-    t12 = GetCollision2D((((int)stk + 4) + 0xC), u11);
-    if ((*(int *)((t12 + 0x1C))) != -1) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)((t12 + 0xC)); }
-        *(float *)((a4 + 0x104)) = (*(float *)((t12 + 0x18)));
+    t1 = 0x8;
+    if (((unsigned char)(*(signed char *)0xC28A4E8) & 1) == 0) {
+        t1 = 0x4;
     }
-    t21 = GetCollision2D(((int)stk + 4), u11);
-    t22 = *(int *)((t21 + 0x1C));
-    t27 = t22;
-    if (t22 != -1) {
-        u23 = *(float *)0xC043B50;
-        nlGetAverageVector((0xEC + a4), (t21 + 0xC), (0xEC + a4), u23, u23);
-        *(float *)((a4 + 0x104)) = (((*(float *)((t21 + 0x18))) + (*(float *)((a4 + 0x104)))) * u23);
-        t27 = 0x104;
+    if ((int)(*(int *)0xC2A1240) >= (int)t1) {
+        *(unsigned int *)0xC2A1240 = 0x0;
     }
-    return t27;
+    if (a4 != 0) {
+        menuChangeValue(0x0, 0xC2A1240, t1);
+    }
+    *(unsigned int *)0xC179488 = (*(int *)0xC2A1240);
+    t13 = *(int *)0xC2A1240;
+    t14 = 0x17;
+    if (a4 != 0) {
+        t14 = 0x8017;
+    }
+    t16 = putMenuValue(t14, 0xC09E4F8, t1, t13);
+    t17 = *(int *)0xC2A1240;
+    if ((int)(t17 - 4) >= 0) {
+        return menuPutSprites((*(int *)((((t17 - 4) << 2) + 0xC0EF638))), 0xC2A1A84, (int)((*(float *)0xC09E4F8) + (float)(*(int *)0xC2A1ADC)), (int)((*(float *)0xC09E4FC) + (*(float *)0xC03D700)));
+    }
+    return t16;
 }

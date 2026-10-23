@@ -1,35 +1,34 @@
 /* Straight-line functions with calls and guards (batch gen_op): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlRand(void);
-int nlScaleUnitVector(int, int, float);
-int nlSubVector(int, int);
-int Init_Time_Spark(int a4, int a5);
+int ReflectColliWallBox(int, int, int, int);
+float nlFastCos(int);
+float nlFastSin(int);
+int nlLineSetThickness(float);
+int nlScaleVector(int, int, float);
+int nlSingleLineUseViewMatrix(int, int, int);
+int ColliWallTest(void);
 
-int Init_Time_Spark(int a4, int a5)
+int ColliWallTest(void)
 {
-    float u2;
-    float u3;
-    int t13;
-    int stk[9];
+    int stk[11];
 
-    *(unsigned int *)((a4 + 0x14)) = a5;
-    *(float *)((a4 + 0x18)) = (float)(*(int *)0xC2A8DF4);
-    *(float *)((a4 + 0x1C)) = (float)(*(int *)0xC2A8DF8);
-    u2 = *(float *)0xC057228;
-    *(float *)((a4 + 0x20)) = u2;
-    *(unsigned short *)((a4 + 0x30)) = 0x0;
-    *(unsigned short *)((a4 + 0x32)) = 0x0;
-    *(unsigned short *)((a4 + 0x34)) = 0x0;
-    *(float *)((a4 + 0x38)) = 0.0f;
-    u3 = *(float *)0xC05722C;
-    *(float *)((a4 + 0x3C)) = (((float)((int)((int)(nlRand()) % (int)0x14)) / u3) + (*(float *)0xC057238));
-    *(float *)(((int)stk + 4)) = (float)(((int)((int)(nlRand()) % (int)0x80)) + 0x1C2);
-    *(float *)(((int)stk + 8)) = (*(float *)0xC05723C);
-    *(float *)(((int)stk + 12)) = u2;
-    nlSubVector(((int)stk + 4), (a4 + 0x18));
-    nlScaleUnitVector((a4 + 0x24), ((int)stk + 4), u3);
-    t13 = (int)((int)(nlRand()) % (int)0x4);
-    *(unsigned short *)(((0x36 + a4) + 0x0)) = ((t13 << 8) << 2);
-    return ((t13 << 8) << 2);
+    *(float *)(((int)stk + 16)) = (nlFastCos((*(int *)0xC0ED8B4)));
+    *(float *)(((int)stk + 20)) = (nlFastSin((*(int *)0xC0ED8B4)));
+    *(float *)0xC0ED8E8 = (*(float *)0xC0ED8A4);
+    *(float *)0xC0ED8EC = 0.0f;
+    *(float *)0xC0ED8F0 = (*(float *)0xC0ED8A8);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC0ED8D0) = *(struct mv3 *)(0xC0965F0); }
+    nlLineSetThickness(3.0f);
+    nlScaleVector(((int)stk + 4), 0xC0ED8E8, 100.0f);
+    nlSingleLineUseViewMatrix(0xC0965F0, ((int)stk + 4), 0xFFFF7F7F);
+    *(float *)(((int)stk + 4)) = ((*(float *)(((int)stk + 16))) * 10.0f);
+    *(float *)(((int)stk + 8)) = 0.0f;
+    *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 20))) * 10.0f);
+    nlSingleLineUseViewMatrix(0xC0965F0, ((int)stk + 4), 0xFF7FFFFF);
+    ReflectColliWallBox(0xC0ED8DC, 0xC0ED8AC, (((int)stk + 4) + 0xC), 0x0);
+    nlScaleVector(((int)stk + 4), 0xC0ED8E8, 100.0f);
+    nlSingleLineUseViewMatrix(0xC0965F0, ((int)stk + 4), 0xFFFF7FFF);
+    nlScaleVector(((int)stk + 4), 0xC0ED8D0, 100000.0f);
+    return (nlSingleLineUseViewMatrix(0xC0965F0, ((int)stk + 4), 0xFF7FFF7F));
 }

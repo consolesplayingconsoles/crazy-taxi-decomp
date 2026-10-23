@@ -84,3 +84,4 @@ float setObjHitScatter(int a4)
     }
     return u51;
 }
+

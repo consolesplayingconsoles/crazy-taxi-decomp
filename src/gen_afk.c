@@ -1,61 +1,103 @@
 /* Straight-line functions with calls and guards (batch gen_afk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int PutStringFixPfont(int, int, float, float, float, float);
-int menuCursor(int, int, int);
-int menuEnterStep(void);
-int menuOpenStep(void);
-int menuPutFrame(void);
-int menuPutHelpBar(int, float, float);
-int menuPutSprites(int, int, int, int);
-int putLevelCTFontAssist(int, int, int, int, int);
-int menuRecordsHandler(void);
+int Exec_Remain_Arrow(void);
+int Put_Remain_Icon(int, int);
+int Sound_Request(int, int);
+int Start_Excellent(void);
+int Start_Fault(int);
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7);
 
-int menuRecordsHandler(void)
+int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
 {
-    int t1;
-    int t5;
-    int t2;
-    int t3;
-    int t4;
-    int t18;
-    int t19;
-    int t22;
+    int t7;
+    float u28;
+    int stk[4];
 
-    menuOpenStep();
-    t1 = *(signed char *)0xC28A4F6;
-    t5 = 0x0;
-    if ((int)((unsigned char)t1 + 0x1) < (int)0x5) {
-        t2 = ((unsigned char)t1 + 0x1);
-        t3 = 0x0;
-        for (;;) {
-            t4 = (((int)t2 >= 0) ? (0x1 << (t2 & 31)) : ((-(int)t2 & 31) ? ((int)0x1 >> (-(int)t2 & 31)) : ((int)0x1 >> 31)));
-            t2 = (t2 + 0x1);
-            t3 = (t3 | t4);
-            if ((int)t2 >= (int)0x5) {
-                break;
-            }
-        }
-        t5 = t3;
-    }
-    menuCursor(0x0, 0x6, t5);
-    menuPutFrame();
-    menuPutSprites(0xC0A0898, 0xC2A1A84, ((*(int *)0xC2A1AD8) + 0x8), 0x18);
-    menuPutHelpBar(0x0, (float)(-(*(int *)0xC2A1AD8)), 416.0f);
-    putLevelCTFontAssist(0x117, 0xC09F28C, 0x6, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))), (t5));
-    t18 = 0x1;
-    for (;;) {
-        t19 = *(int *)0xC2A1ADC;
-        if ((t18 & 0x1) != 0) {
-            t22 = (t19 - 64);
-        } else {
-            t22 = (0xFFFFFFC0 - t19);
-        }
-        PutStringFixPfont(0x17, ((short)((short)(t18 - 1) * (short)0x788) + 0xC28A4F8), ((*(float *)((((short)((short)t18 * (short)0x2C) + 0xC09F28C) + 0x0))) + (float)t22), (*(float *)((((short)((short)t18 * (short)0x2C) + 0xC09F28C) + 0x4))), 20.0f, 1.0f);
-        t18 = (t18 + 0x1);
-        if ((int)t18 >= (int)0x5) {
-            break;
-        }
-    }
-    return menuEnterStep();
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R7;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F1;
+    float F2;
+    float F3;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R7 = a7;
+    L_C05D556:;
+    R13 = (0xC2A991C);
+    R14 = (0xC1EE214);
+    if (((*(int *)0xC2A991C) != 0)) goto L_C05D648;
+    goto L_C05D566;
+    L_C05D566:;
+    if (((*(int *)0xC1EE794) != 0)) goto L_C05D5BC;
+    goto L_C05D56E;
+    L_C05D56E:;
+    Start_Fault(0x1);
+    goto L_C05D626;
+    L_C05D626:;
+    *(unsigned int *)((R13 + 0x0)) = 0x1;
+    *(unsigned int *)0xC179120 = 0x0;
+    goto L_C05D648;
+    L_C05D648:;
+    t7 = *(int *)((R14 + 0x0));
+    R0 = (t7);
+    if ((t7 != 11)) goto L_C05D65A;
+    goto L_C05D64E;
+    L_C05D64E:;
+    Put_Remain_Icon(R4, R5);
+    return Exec_Remain_Arrow();
+    L_C05D65A:;
+    return R0;
+    L_C05D5BC:;
+    if ((!((*(float *)0xC179148) > 0.0f))) goto L_C05D636;
+    goto L_C05D5C8;
+    L_C05D5C8:;
+    if (((*(int *)((R14 + 0x0))) != 11)) goto L_C05D5D8;
+    goto L_C05D5CE;
+    L_C05D5CE:;
+    if (((int)(*(int *)0xC1794D0) >= (int)0x7)) goto L_C05D5E8;
+    goto L_C05D5D8;
+    L_C05D5D8:;
+    if (((*(int *)((R14 + 0x0))) == 11)) goto L_C05D648;
+    goto L_C05D5DE;
+    L_C05D5DE:;
+    if (((int)(*(int *)0xC1794D0) < (int)0x1)) goto L_C05D648;
+    goto L_C05D5E8;
+    L_C05D5E8:;
+    if (((*(int *)((R14 + 0x0))) != 11)) goto L_C05D618;
+    goto L_C05D5EE;
+    L_C05D5EE:;
+    R2 = (0xC1790CC);
+    if ((!((*(float *)0xC05D6B0) > _builtin_fabsf((*(float *)0xC179228))))) goto L_C05D618;
+    goto L_C05D5FE;
+    L_C05D5FE:;
+    u28 = *(float *)0xC05D6B4;
+    F1 = (u28);
+    if ((!(u28 > _builtin_fabsf((float)(*(short *)((R2 + 0x198))))))) goto L_C05D618;
+    goto L_C05D610;
+    L_C05D610:;
+    if (((*(int *)0xC2A98FC) == 6)) goto L_C05D620;
+    goto L_C05D618;
+    L_C05D618:;
+    if (((*(int *)0xC1EE214) == 11)) goto L_C05D648;
+    goto L_C05D620;
+    L_C05D620:;
+    Start_Excellent();
+    goto L_C05D626;
+    L_C05D636:;
+    Start_Fault(0x2);
+    *(unsigned int *)((R13 + 0x0)) = 0x1;
+    Sound_Request(0x10FA9, 0x0);
+    goto L_C05D648;
 }

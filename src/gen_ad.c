@@ -27,27 +27,6 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
 
-void InitProportionalText(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-
-    *(unsigned int *)0xC26E1F0 = a4;
-    t0 = *(int *)0xC2B3184;
-    t1 = *(int *)0xC2AEC84;
-    t2 = *(int *)((((((t0 + 0x3) << 2) << 1) + t1) + 0x4));
-    t3 = *(int *)0xC2B29C0;
-    t4 = *(int *)((((t2 * 0x3C) + t3) + 0x34));
-    *(unsigned int *)0xC0ED1CC = t4;
-    *(unsigned int *)0xC26E310 = 0xC26E210;
-    *(unsigned char *)0xC26E210 = 0x0;
-    pfSetFont(0x0);
-    pfSetAspectRatio(1.0f);
-    pfSize(1.0f, 1.0f);
-}
 
 
 

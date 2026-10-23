@@ -41,40 +41,6 @@ int syIntAdrChk_dumpline(int a4, int a5, int a6)
     return t10;
 }
 
-int Warning(void)
-{
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-
-    nlSetBackColor();
-    nlSetFontSize(0x10, 0x10);
-    nlLocate(0x1, 0x4);
-    t3 = ((int (*)(void))(nlPrintf))();
-    t4 = ((int (*)(void))(nlPrintf))();
-    t5 = ((int (*)(void))(nlPrintf))();
-    t6 = ((int (*)(void))(nlPrintf))();
-    t7 = ((int (*)(void))(nlPrintf))();
-    t8 = ((int (*)(void))(nlPrintf))();
-    t9 = ((int (*)(void))(nlPrintf))();
-    t10 = ((int (*)(void))(nlPrintf))();
-    t11 = ((int (*)(int, ...))(nlPrintf))(0xC08ACC4, 0xC08AC98, 0xC08AC6C, 0xC08AC40, 0xC08AC14, 0xC08ABE8, 0xC08ABBC, 0xC08AB90, 0xC08AB64);
-    t12 = nlSetFontSize(0x8, 0x8);
-    t13 = *(int *)0xC1EE330;
-    if ((int)t13 > (int)0x3C) {
-        *(unsigned int *)0xC1EE234 = 0x0;
-        *(unsigned int *)0xC1EE238 = 0x0;
-    }
-    return t12;
-}
 
 int nlLineCalcColor(int a4, int a5)
 {

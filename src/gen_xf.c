@@ -1,72 +1,33 @@
 /* Straight-line functions with calls and guards (batch gen_xf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlSprPut(int);
-int Put_Ranking_Header(void);
+int fcvCalcAngle(int, int, int, float);
+int nlFastSinCos(int, int, int);
+int nlMultiMatrix(int);
+int fcvRotateCurve(int a4, int a5, int a6, float f4);
 
-int Put_Ranking_Header(void)
+int fcvRotateCurve(int a4, int a5, int a6, float f4)
 {
-    int t0;
-    int t1;
-    int t4;
-    int t8;
-    float u9;
-    float u10;
-    float u11;
-    int t13;
-    int t15;
-    int t17;
-    int t19;
-    float u20;
-    int t22;
-    int t23;
-    int t5;
+    float u23;
+    float u31;
+    int stk[12];
 
-    t0 = *(int *)0xC2A968C;
-    if ((int)t0 > 0) {
-        t1 = *(int *)0xC2A968C;
-        *(unsigned int *)0xC2A968C = (t1 - 64);
-    }
-    t4 = *(int *)0xC2A96A4;
-    if ((t4 == 0) && (t5 = *(int *)0xC2A968C, t5 == 0)) {
-        *(unsigned int *)0xC2A96A4 = 0x1;
-    }
-    *(unsigned int *)0xC2A91D8 = 0xE3;
-    t8 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t8 + 0x8);
-    u9 = 50.0f;
-    *(float *)0xC2A91E0 = u9;
-    u10 = 0.099999994f;
-    *(float *)0xC2A91E4 = u10;
-    u11 = 1.4f;
-    *(float *)0xC2A91E8 = u11;
-    *(float *)0xC2A91EC = 1.0f;
-    *(unsigned int *)0xC2A9200 = 0x0;
-    *(unsigned int *)0xC2A920C = 0xA;
-    nlSprPut(0xC2A91D8);
-    *(unsigned int *)0xC2A91D8 = 0xE8;
-    *(float *)0xC2A91E8 = 1.0f;
-    t13 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t13 + 0x53);
-    nlSprPut(0xC2A91D8);
-    *(unsigned int *)0xC2A91D8 = 0xE7;
-    t15 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t15 + 0xD3);
-    nlSprPut(0xC2A91D8);
-    *(unsigned int *)0xC2A91D8 = 0xE9;
-    t17 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t17 + 0x146);
-    nlSprPut(0xC2A91D8);
-    *(unsigned int *)0xC2A91D8 = 0xE3;
-    t19 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t19 + 0x1CA);
-    u20 = 8.5f;
-    *(float *)0xC2A91E8 = u20;
-    nlSprPut(0xC2A91D8);
-    *(float *)0xC2A91E8 = 1.0f;
-    *(unsigned int *)0xC2A91D8 = 0xE4;
-    t22 = *(int *)0xC2A968C;
-    *(float *)0xC2A91DC = (float)(t22 + 0x24C);
-    t23 = nlSprPut(0xC2A91D8);
-    return t23;
+    fcvCalcAngle(a4, (((int)stk + 4) + 0x18), a6, f4);
+    nlFastSinCos((*(int *)(((int)stk + 28))), (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10));
+    nlFastSinCos((*(int *)(((int)stk + 32))), (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
+    nlFastSinCos((*(int *)(((int)stk + 36))), ((int)stk + 4), (((int)stk + 4) + 0x4));
+    *(float *)0xC13EDBC = ((*(float *)(((int)stk + 24))) * (*(float *)(((int)stk + 8))));
+    *(float *)0xC13EDC0 = ((*(float *)(((int)stk + 4))) * (*(float *)(((int)stk + 24))));
+    *(float *)0xC13EDC4 = (-(*(float *)(((int)stk + 12))));
+    *(float *)0xC13EDCC = (((((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 12))))) * (*(float *)(((int)stk + 8)))) - ((*(float *)(((int)stk + 4))) * (*(float *)(((int)stk + 20)))));
+    u23 = ((*(float *)(((int)stk + 20))) * (*(float *)(((int)stk + 8))));
+    u23 = u23 + (*(float *)(((int)stk + 4))) * ((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 12))));
+    *(float *)0xC13EDD0 = u23;
+    *(float *)0xC13EDD4 = ((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 24))));
+    u31 = ((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 4))));
+    u31 = u31 + (*(float *)(((int)stk + 8))) * ((*(float *)(((int)stk + 12))) * (*(float *)(((int)stk + 20))));
+    *(float *)0xC13EDDC = u31;
+    *(float *)0xC13EDE0 = (((((*(float *)(((int)stk + 12))) * (*(float *)(((int)stk + 4))))) * (*(float *)(((int)stk + 20)))) - ((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 8)))));
+    *(float *)0xC13EDE4 = ((*(float *)(((int)stk + 20))) * (*(float *)(((int)stk + 24))));
+    return (nlMultiMatrix(0xC13EDBC));
 }

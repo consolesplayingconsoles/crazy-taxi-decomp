@@ -70,27 +70,6 @@ int Chat_HeyTaxi(int a4)
     return t0;
 }
 
-int Drv_StartAction(int a4, int a5, int a6)
-{
-    float u1;
-    int t2;
-    int t3;
-    int t4;
-
-    *(unsigned int *)0xC2AD010 = a4;
-    *(unsigned int *)0xC2AD018 = a5;
-    *(unsigned int *)0xC2AD01C = a6;
-    *(unsigned int *)0xC2AD014 = 0x0;
-    *(float *)0xC2AD0F4 = 0.0f;
-    Drv_CallActionStart(a4, 0x0);
-    u1 = *(float *)0xC2AD0F8;
-    t2 = *(int *)0xC2AD1DC;
-    t3 = (int)((unsigned int)(((u1 > 0.0f)) ? 1 : 0) & 0x1);
-    *(unsigned int *)0xC2AD1DC = ((t2 & 0x7FFFFFFF) | ((unsigned int)t3 << 31));
-    t4 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t4 & 0xBF);
-    return (t4 & 0xBF);
-}
 
 
 

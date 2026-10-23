@@ -1,40 +1,42 @@
 /* Straight-line functions with calls and guards (batch gen_afu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-int nlAddVector3op(int, int, int);
-int nlGetAverageVector(int, int, int, float, float);
-int nlSubVector3op(int, int, int);
-int drvPredictPath(void);
+int Voice_Request(int, int, int, int);
+int menuCursor(int, int, int);
+int menuEnterStep(int);
+int menuOpenStep(void);
+int menuPutFrame(void);
+int menuPutHelpBar(int, float, float);
+int menuPutSprites(int, int, int, int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int menuRuleHandler(void);
 
-int drvPredictPath(void)
+int menuRuleHandler(void)
 {
-    float u1;
-    int t8;
-    int t10;
-    int stk[21];
+    int t4;
+    int t5;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t24;
 
-    nlSubVector3op((((int)stk + 4) + 0xC), 0xC1791C8, 0xC1791D4);
-    u1 = *(float *)0xC064618;
-    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED8C, (((int)stk + 4) + 0xC), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED80, (((int)stk + 4) + 0xC), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED80) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    nlGetAverageVector(0xC1791C8, 0xC1791D4, (((int)stk + 4) + 0x18), u1, u1);
-    nlGetAverageVector((((int)stk + 4) + 0x18), 0xC13ED74, (((int)stk + 4) + 0x18), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)((((int)stk + 4) + 0x18)); }
-    nlGetAverageVector(0xC179144, 0xC179158, (((int)stk + 4) + 0x24), u1, u1);
-    nlGetAverageVector((((int)stk + 4) + 0x24), 0xC13ED68, (((int)stk + 4) + 0x24), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2BC) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
-    t8 = 0x1;
-    for (;;) {
-        nlAddVector3op(((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC), (((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC) - 12), (((int)stk + 4) + 0x18));
-        t10 = nlAddVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC));
-        t8 = (t8 + 0x1);
-        if ((int)t8 >= (int)0x23) {
-            break;
-        }
+    menuOpenStep();
+    menuCursor(0x0, 0x5, 0x0);
+    menuPutFrame();
+    t4 = *(int *)0xC2A1AD8;
+    t5 = 0xC0A0758;
+    if ((*(int *)0xC2A11DC) == 0) {
+        t5 = 0xC0A0740;
     }
-    return t10;
+    menuPutSprites(t5, 0xC2A1A84, (t4 + 0x8), 0x18);
+    menuPutHelpBar(0x0, (float)(-(*(int *)0xC2A1AD8)), 416.0f);
+    putLevelCTFontAssist(0x817, 0xC09E36C, 0x5, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))), 0x0);
+    if ((((*(int *)0xC2A11EC) & 0x4) != 0) && ((t14 = *(int *)0xC2A11CC, (t14 & 2) != 0) && ((t15 = *(int *)0xC2A1214, t15 == 0) && (t16 = *(int *)0xC2A11D8, t17 = *(int *)((((t16 << 2) + 0xC2A11DC) + 0x0)), (int)t17 < (int)0x4)))) {
+        *(unsigned int *)0xC0EF550 = (*(int *)((0xC0A1FC8 + ((*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) << 2))));
+        Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
+    } else {
+        t24 = 0x4;
+    }
+    return menuEnterStep(t24);
 }

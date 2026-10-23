@@ -1,30 +1,21 @@
 /* Straight-line functions with calls and guards (batch gen_pn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Init_Adv_Sprite(void);
-int Start_Adv_Title_LOGO(int, int);
-int Voice_Clear(void);
-int Voice_Request(int, int, int, int);
-int gdc_FileLoadInit(void);
-int gdc_FileLoadStop(void);
-int gdc_StopStreamSongAll(void);
-int nlInitEvent(void);
-int AdvStateTitle2Init(void);
+int nlObjPutSetFadeColor(float, float, float);
+int nlSprPut(int, int);
+int Result_Class_Shadow_Put(void);
 
-int AdvStateTitle2Init(void)
+int Result_Class_Shadow_Put(void)
 {
-    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
-    *(unsigned int *)0xC1EE240 = 0x0;
-    *(unsigned int *)0xC1EE334 = 0x11;
-    nlInitEvent();
-    gdc_StopStreamSongAll();
-    Voice_Clear();
-    Init_Adv_Sprite();
-    Start_Adv_Title_LOGO(0x0, 0x0);
-    if ((int)(*(int *)0xC0E5310) > 0) {
-        *(unsigned int *)0xC0E5310 = 0x384;
-        Voice_Request(0xC130DC0, 0x0, 0x7F, 0x0);
-    }
-    gdc_FileLoadStop();
-    return gdc_FileLoadInit();
+    nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
+    *(unsigned int *)0xC2A972C = 0x200A;
+    *(unsigned int *)0xC2A96F8 = 0x13E;
+    *(float *)0xC2A96FC = (*(float *)0xC05A7D0);
+    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
+    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A9714 = 0.0f;
+    *(float *)0xC2A971C = 1.0f;
+    *(unsigned int *)0xC2A9720 = 0x0;
+    return nlSprPut(0xC2A96F8, 0xC2A9758);
 }

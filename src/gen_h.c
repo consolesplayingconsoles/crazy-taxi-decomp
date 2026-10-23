@@ -15,50 +15,7 @@ int InitEndRoll(void);
 int Result_SetBackColor(void);
 int kmiInitializeTA(void);
 
-int InitEndRoll(void)
-{
-    nlSetBackColor();
-    pfSetFont(0x0);
-    pfSize(1.0f, 1.0f);
-    gdc_PlayStreamSong(0x3);
-    gdc_VolStreamSong(0x6E);
-    *(unsigned int *)0xC2864E0 = 0x0;
-    *(unsigned int *)0xC2864E4 = 0x2;
-    return 0xC2864E4;
-}
 
-int Result_SetBackColor(void)
-{
-    float u2;
-    float u3;
-    float u4;
-    float u5;
-    int t6;
-    float u7;
-    float u10;
-
-    CarSel_SetBackColor();
-    nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-    *(unsigned int *)0xC2A96F8 = 0x62;
-    *(unsigned int *)0xC2A972C = 0x2005;
-    u2 = *(float *)0xC2A9758;
-    u3 = 40.0f;
-    *(float *)0xC2A9708 = (u2 + u3);
-    u4 = *(float *)0xC2A9758;
-    u5 = 30.0f;
-    *(float *)0xC2A970C = (u4 + u5);
-    *(float *)0xC2A96FC = 0.0f;
-    t6 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t6 + 0x70);
-    u7 = 0.27999997f;
-    *(float *)0xC2A9704 = u7;
-    *(unsigned int *)0xC2A9720 = 0x0;
-    nlSprPut(0xC2A96F8);
-    nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    u10 = 0.19999999f;
-    *(float *)0xC2A9704 = u10;
-    return 0xC;
-}
 
 int kmiInitializeTA(void)
 {

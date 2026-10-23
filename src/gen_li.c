@@ -1,66 +1,135 @@
 /* Straight-line functions with calls and guards (batch gen_li): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlPaletteDirectMode(int);
-int nlSysSetTextureSize(int);
-int nlSysUseLatency2V(void);
-int nlSysSetDirectListTypeLatency2V(int);
-int nlSysSetVertexBufferBaseAddress(int);
-int nlCreateVertexBuffer(void);
-int nlSysMetricsInit(void);
-int nlInitMatrix(int, int);
-int nlMatrixMode(int);
-int InitRenderTexture1st(void);
+int CheckDrive(void);
+int CheckSoftReset(void);
+int Exec_LCD(void);
+int InitSys(void);
+int LoadBigOne(int);
+int PutVMSMessage(void);
+int Sound_Execute(void);
 int frameFlip(void);
-int nlInitCommonTexture(int, int, int);
-int nlInitPalette(int, int);
-int nlInitPrint(void);
-int nlInitSprite(int, int, int);
-int nlLocate(int, int);
-int nlObjPutInit(void);
+int gdc_Err(void);
+int gdc_FileLoadExec(void);
+int getSwitch(void);
+int getSystemMetrics(void);
+int nd_Exec_Puru2(int);
 int nlObjPutSetFadeColor(float, float, float);
-int nlPerspective(int, float, float, float);
-int nlPrintf(int, ...);
-int nlPrnIndentOn(void);
-int nlSetFontSize(int, int);
-int nlUnitMatrix(void);
-int paletteSetMode(int);
-int setBorderColor(int);
-int InitNaolib(void);
+int paletteUpload(void);
+void MainLoop(void);
 
-int InitNaolib(void)
+void MainLoop(void)
 {
-    nlSysMetricsInit();
-    nlInitMatrix(0xC1C1A38, 0x10);
-    nlSysUseLatency2V();
-    nlSysSetDirectListTypeLatency2V(0x0);
-    nlSysSetTextureSize(0x14A800);
-    nlSysSetVertexBufferBaseAddress(0xCEA0000);
-    nlCreateVertexBuffer();
-    nlInitPrint();
-    nlPrnIndentOn();
-    setBorderColor(0x0);
-    *(unsigned int *)0xC1EE220 = 0x1;
-    nlSetFontSize(0x10, 0x10);
-    nlLocate(0xA, 0xC);
-    if ((*(int *)0xC1EE228) == 1) {
-        nlPrintf(0xC08AAB8);
-    } else {
-        nlPrintf(0xC08AAD4);
+    int t8;
+    int t25;
+    int t47;
+    int t64;
+
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
+    *(unsigned int *)0xC1EE244 = 0x0;
+    InitSys();
+    if ((*(int *)0xC2A11C0) == 0) {
+        *(unsigned int *)0xC1EE244 = 0x0;
+        LoadBigOne(0xC141868);
+        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
+        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
+        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
+        for (;;) {
+            getSwitch();
+            nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+            CheckSoftReset();
+            CheckDrive();
+            t8 = *(int *)(((((*(int *)0xC1EE234) & 0x7) << 2) + 0xC08ACEC));
+            if (t8 == 0) {
+                *(unsigned int *)0xC1EE234 = ((*(int *)0xC1EE234) + 0x1);
+                *(unsigned int *)0xC1EE238 = 0x0;
+                PutVMSMessage();
+                Exec_LCD();
+                nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
+                gdc_FileLoadExec();
+                Sound_Execute();
+                *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
+                if ((int)(*(int *)0xC1EE208) > (int)0x2) {
+                    gdc_Err();
+                    getSystemMetrics();
+                    frameFlip();
+                    paletteUpload();
+                    continue;
+                }
+                getSystemMetrics();
+                frameFlip();
+                paletteUpload();
+                continue;
+            }
+            t25 = ((int (*)(void))(t8))();
+            PutVMSMessage();
+            Exec_LCD();
+            nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
+            gdc_FileLoadExec();
+            Sound_Execute();
+            *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
+            if ((int)(*(int *)0xC1EE208) > (int)0x2) {
+                gdc_Err();
+                getSystemMetrics();
+                frameFlip();
+                paletteUpload();
+                continue;
+            }
+            getSystemMetrics();
+            frameFlip();
+            paletteUpload();
+        }
     }
-    frameFlip();
-    frameFlip();
-    nlSetFontSize(0x8, 0x8);
-    nlMatrixMode(0x3);
-    nlUnitMatrix();
-    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
-    nlMatrixMode(0x1);
-    nlInitCommonTexture(0xC1C1E78, 0x7D0, 0xBB8);
-    nlInitSprite(0xC1E53AC, 0x3E8, 0x5DC);
-    nlInitPalette(0xC1EDCE4, 0x40);
-    paletteSetMode(0x2);
-    nlPaletteDirectMode(0x1);
-    nlObjPutInit();
-    nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-    return InitRenderTexture1st();
+    *(unsigned int *)0xC1EE244 = 0x1;
+    LoadBigOne(0xC141868);
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
+    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
+    for (;;) {
+        getSwitch();
+        nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+        CheckSoftReset();
+        CheckDrive();
+        t47 = *(int *)(((((*(int *)0xC1EE234) & 0x7) << 2) + 0xC08ACEC));
+        if (t47 == 0) {
+            *(unsigned int *)0xC1EE234 = ((*(int *)0xC1EE234) + 0x1);
+            *(unsigned int *)0xC1EE238 = 0x0;
+            PutVMSMessage();
+            Exec_LCD();
+            nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
+            gdc_FileLoadExec();
+            Sound_Execute();
+            *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
+            if ((int)(*(int *)0xC1EE208) > (int)0x2) {
+                gdc_Err();
+                getSystemMetrics();
+                frameFlip();
+                paletteUpload();
+                continue;
+            }
+            getSystemMetrics();
+            frameFlip();
+            paletteUpload();
+            continue;
+        }
+        t64 = ((int (*)(void))(t47))();
+        PutVMSMessage();
+        Exec_LCD();
+        nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
+        gdc_FileLoadExec();
+        Sound_Execute();
+        *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
+        if ((int)(*(int *)0xC1EE208) > (int)0x2) {
+            gdc_Err();
+            getSystemMetrics();
+            frameFlip();
+            paletteUpload();
+            continue;
+        }
+        getSystemMetrics();
+        frameFlip();
+        paletteUpload();
+    }
 }

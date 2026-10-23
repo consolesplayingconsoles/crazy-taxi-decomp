@@ -37,8 +37,10 @@ extern void _builtin_st_ext(float (*)[4]);
 int _destructFiber(int, int);
 float _in_fmods(int, float, float);
 int _rsfts(int, int, int);
-int buSetCompleteCallback(void);
-int buSetProgressCallback(void);
+int buSetCompleteCallback(int);
+int buSetProgressCallback(int);
+int BupCompleteCallback();
+int BupProgressCallback();
 #pragma inline_asm(iaOcbp)
 static void iaOcbp(void *p)
 {
@@ -137,8 +139,8 @@ int fmMngMcpy_tail_0c1708b2(int a4, int a5, int a6)
 
 int __init_dteapi_cc_f(void)
 {
-    buSetCompleteCallback();
-    return buSetProgressCallback();
+    buSetCompleteCallback(((int)BupCompleteCallback));
+    return buSetProgressCallback(((int)BupProgressCallback));
 }
 
 int _pow5(int a4, int a5)

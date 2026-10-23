@@ -1,86 +1,86 @@
 /* Straight-line functions with calls and guards (batch gen_er): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int Result_Awesome_Put(void);
-int Result_Crazy_Put(void);
-int Sound_Request(int, int);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int, int, int);
-void Result_Class_Put(void);
+int Drv_ExecBlend(float, float, float, float, float);
+int Drv_StartAction(int, int, int);
+int Drv_StartGetOff(int, float);
+int FcvStoreBuffer(int, int, float);
+int drvUpdatePartTracks(void);
+int Drv_ExecGetOff(float f4, float f5, float f6, float f7, float f8);
 
-void Result_Class_Put(void)
+int Drv_ExecGetOff(float f4, float f5, float f6, float f7, float f8)
 {
+    int t0;
     int t1;
-    int t73;
-    int t70;
+    float u16;
+    int t17;
+    int t19;
+    int t22;
+    int t23;
+    int t25;
+    int t26;
+    int t29;
+    int t30;
+    int t32;
 
-    t1 = *(int *)0xC2A97A8;
-    if ((int)(*(int *)0xC2A96F4) <= (int)t1) {
-        return;
-    }
-    if ((*(int *)0xC2A982C) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9830) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9834) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9838) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A983C) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9840) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9844) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
-        return;
-    }
-    if ((*(int *)0xC2A9848) == 1) {
-        if ((*(int *)0xC2A97E0) == 1) {
-            *(unsigned int *)0xC2A97E4 = ((*(int *)0xC2A97E4) + 0x1);
+    t0 = *(int *)0xC2AD014;
+    t1 = *(int *)0xC2AD018;
+    if (t0 != 0) {
+        if (t0 == 1) {
+            drvUpdatePartTracks();
+            FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+            *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
+            if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+                return Drv_StartAction(0x0, 0x0, 0x0);
+            }
+            return 0x24;
         }
-        if ((*(int *)0xC2A96F4) == ((*(int *)0xC2A97A8) + 0x1)) {
-            Sound_Request(0x405A9, 0x0);
-            *(unsigned int *)0xC130E04 = ((*(int *)0xC130E04) + 0x1);
-            *(unsigned int *)0xC2A9754 = 0x1;
-        } else {
-            t70 = 0xC2A96F4;
-        }
-        t73 = *(int *)0xC2A97D8;
-        if (t73 == 0x3E7) {
-            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            Result_Crazy_Put();
-            ResetFadeColor();
-    return;
-        }
-        if (t73 == 99) {
-            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
-            Result_Awesome_Put();
-            ResetFadeColor();
-    return;
-        }
-        *(unsigned int *)0xC2A96F8 = (*(int *)(((t73 << 2) + 0xC130E80)));
-        *(float *)0xC2A96FC = (164.0f);
-        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
-        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        *(unsigned int *)0xC2A9720 = 0x0;
-        nlSprPut(0xC2A96F8, 0xC2A9758, t70);
-    return;
+        return t0;
     }
-    *(unsigned int *)0xC2A96F4 = t1;
+    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+        return Drv_ExecBlend(f4, f5, f6, f7, f8);
+    }
+    drvUpdatePartTracks();
+    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+    u16 = *(float *)0xC2AD024;
+    *(float *)0xC2AD024 = (u16 + 1.0f);
+    t17 = *(int *)0xC2AD020;
+    if ((float)((*(int *)((t17 + 0x0))) - 1) > (u16 + 1.0f)) {
+        if ((t17 != 0xC8D1824) && (t17 != 0xC8D2488)) {
+            return 0x24;
+        }
+        if (!(60.0f > (u16 + 1.0f))) {
+            t19 = *(int *)((t1 + 0x34));
+            if ((t19 != 0xC956FCC) && ((t19 != 0xC95A230) && ((t19 != 0xC95D7C4) && ((t19 != 0xC960308) && ((t19 != 0xC962F0C) && ((t19 != 0xC9659C0) && ((t19 != 0xC9684A4) && (t19 != 0xC96B138)))))))) {
+                *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
+                t22 = *(int *)((t1 + 0x24));
+                if (t22 == 1) {
+                    t23 = *(int *)0xC2AD014;
+                    *(unsigned int *)0xC2AD014 = (t23 + 0x1);
+                    return Drv_StartGetOff((t23 + 0x1), (u16 + 1.0f));
+                }
+                return t22;
+            }
+            Drv_StartAction(0x0, 0x0, 0x0);
+            t25 = *(signed char *)0xC2AD1DF;
+            *(unsigned char *)0xC2AD1DF = (t25 | 0x40);
+            return (t25 | 0x40);
+        }
+        return 0xC063668;
+    }
+    t26 = *(int *)((t1 + 0x34));
+    if ((t26 != 0xC956FCC) && ((t26 != 0xC95A230) && ((t26 != 0xC95D7C4) && ((t26 != 0xC960308) && ((t26 != 0xC962F0C) && ((t26 != 0xC9659C0) && ((t26 != 0xC9684A4) && (t26 != 0xC96B138)))))))) {
+        *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
+        t29 = *(int *)((t1 + 0x24));
+        if (t29 == 1) {
+            t30 = *(int *)0xC2AD014;
+            *(unsigned int *)0xC2AD014 = (t30 + 0x1);
+            return Drv_StartGetOff((t30 + 0x1), (u16 + 1.0f));
+        }
+        return t29;
+    }
+    Drv_StartAction(0x0, 0x0, 0x0);
+    t32 = *(signed char *)0xC2AD1DF;
+    *(unsigned char *)0xC2AD1DF = (t32 | 0x40);
+    return (t32 | 0x40);
 }

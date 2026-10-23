@@ -1,19 +1,29 @@
 /* Straight-line functions with calls and guards (batch gen_tq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetNowLanguage(int);
-int PutVM_Message(int, int, int, float, float);
-int menuCursor(int, int, int);
-int putLevelCTFontAssist(int, int, int, int);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowNameDelete(void);
+int FcvInterpolateBuffer(int, int, float, float, float, float, float);
+int Drv_ExecBlend(float f4, float f5, float f6, float f7, float f8);
 
-int windowNameDelete(void)
+int Drv_ExecBlend(float f4, float f5, float f6, float f7, float f8)
 {
-    windowOpenStep(0xA);
-    menuCursor(0x1, 0x2, 0x0);
-    putLevelCTFontAssist(0x24, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))));
-    PutVM_Message(0x20, 0x19, 0xC2A1248, (195.0f), (208.0f));
-    return windowEnterStep(0x14);
+    float u0;
+    int t1;
+    int t10;
+
+    u0 = *(float *)0xC2AD0F8;
+    if (u0 == 0.0f) {
+        t1 = *(signed char *)0xC2AD1DF;
+        *(unsigned char *)0xC2AD1DF = (t1 & 0x7F);
+        return (t1 & 0x7F);
+    }
+    FcvInterpolateBuffer(0xC2AD028, 0xC2AD104, ((*(float *)0xC2AD0F4) / u0), f5, f6, f7, f8);
+    *(float *)0xC2AD0F4 = ((*(float *)0xC2AD0F4) + 1.0f);
+    t10 = 0xF4;
+    if ((*(float *)0xC2AD0F4) == (*(float *)0xC2AD0F8)) {
+        *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0x7F);
+        *(unsigned int *)0xC2AD020 = (*(int *)0xC2AD0FC);
+        *(float *)0xC2AD024 = (*(float *)0xC2AD100);
+        t10 = 0x24;
+    }
+    return t10;
 }

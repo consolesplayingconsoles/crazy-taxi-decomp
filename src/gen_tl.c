@@ -1,8 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_tl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int fcvRotate(int);
+int fcvRotateCurve(int, float);
 int fcvSolveIK(int, int, int, int, int);
+int fcvTranslateCurve(int, float);
+float nlFloor(float);
 int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
 int nlObjPutUseViewMatrix(int);
@@ -11,37 +13,43 @@ int nlPushMatrix(int);
 int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlTranslate(float, float, float);
-int nlTranslateV(int);
-int FcvPlayBuffer(int a4, int a5);
+int FcvPlay(int a4, int a5, float f4);
 
-int FcvPlayBuffer(int a4, int a5)
+int FcvPlay(int a4, int a5, float f4)
 {
-    int t0;
+    int t1;
+    float t2;
+    int t3;
     int stk[32];
 
-    t0 = *(int *)(((a5 << 2) + 0xC1331B0));
+    t1 = *(int *)(((a5 << 2) + 0xC1331B0));
+    t2 = nlFloor((f4 / (float)((*(int *)((a4 + 0x0))) - 1)));
+    t3 = *(int *)((a4 + 0x0));
     nlPushMatrix(0x0);
     nlPushMatrix(0x0);
-    nlTranslateV((a4 + 0xC));
+    fcvTranslateCurve((((*(int *)((a4 + 0x18))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlGetTranslate((((int)stk + 8) + 0x3C));
-    nlGetPushedMatrix(0x0);
-    nlTranslateV((a4 + 0x18));
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
+    fcvTranslateCurve((((*(int *)((a4 + 0x24))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlGetTranslate((((int)stk + 8) + 0x30));
-    nlGetPushedMatrix(0x0);
-    nlTranslateV((a4 + 0x24));
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
+    fcvTranslateCurve((((*(int *)((a4 + 0x34))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlGetTranslate((((int)stk + 8) + 0x24));
-    nlGetPushedMatrix(0x0);
-    nlTranslateV((a4 + 0x30));
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
+    fcvTranslateCurve((((*(int *)((a4 + 0x40))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlGetTranslate((((int)stk + 8) + 0x18));
     nlPopMatrix(0x1);
-    nlTranslateV(a4);
-    fcvRotate((a4 + 0x3C));
+    fcvTranslateCurve((((*(int *)((a4 + 0x4))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    fcvRotateCurve((((*(int *)((a4 + 0x8))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlRotateAY(0x4000);
     nlPushMatrix(0x0);
-    fcvRotate((a4 + 0x48));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x20);
-    if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0xC))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x20);
+    if ((*(int *)(((t1 + 0x20) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x20) + 0x0))));
     }
     if (a5 != 1) {
         if (a5 != 3) {
@@ -110,10 +118,10 @@ int FcvPlayBuffer(int a4, int a5)
     nlPushMatrix(0x0);
     nlRotateAZ(0xFFFFC000);
     nlTranslate(0.0f, 4.4849f, 0.0f);
-    fcvRotate((a4 + 0x54));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x4);
-    if ((*(int *)(((t0 + 0x4) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x4) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0x10))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x4);
+    if ((*(int *)(((t1 + 0x4) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x4) + 0x0))));
     }
     if ((unsigned int)(a5 - 1) < (unsigned int)0x3E) {
         switch (((a5 - 1) << 1)) {
@@ -361,17 +369,16 @@ int FcvPlayBuffer(int a4, int a5)
     if ((*(int *)0xC13ED9C) != 0) {
         nlGetTranslate(0xC13EDA4);
     }
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
+    nlGetPushedMatrix(0x0);
     nlTranslate(3.66109991f, 0.055999998f, -1.78759992f);
     nlGetTranslate((((int)stk + 8) + 0xC));
-    fcvRotate((a4 + 0x60));
+    fcvRotateCurve((((*(int *)((a4 + 0x14))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlPushMatrix(0x0);
     fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x40), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     nlRotateAZ((*(int *)(((int)stk + 12))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x10);
-    if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x10);
+    if ((*(int *)(((t1 + 0x10) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x10) + 0x0))));
     }
     if (a5 != 1) {
         if (a5 != 2) {
@@ -411,9 +418,9 @@ int FcvPlayBuffer(int a4, int a5)
     }
     nlTranslate(2.5079999f, 0.0f, 0.0f);
     nlRotateAZ((*(int *)(((int)stk + 16))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0xC);
-    if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0xC);
+    if ((*(int *)(((t1 + 0xC) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0xC) + 0x0))));
     }
     if (a5 != 4) {
         if (a5 != 5) {
@@ -428,10 +435,10 @@ int FcvPlayBuffer(int a4, int a5)
         nlObjPutUseViewMatrix(0xC585FA0);
     }
     nlTranslate(2.5144999f, 0.0f, 0.0f);
-    fcvRotate((a4 + 0x6C));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x8);
-    if ((*(int *)(((t0 + 0x8) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x8) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0x1C))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x8);
+    if ((*(int *)(((t1 + 0x8) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x8) + 0x0))));
     }
     if ((*(int *)0xC13ED98) != 0) {
         if (a5 != 33) {
@@ -444,17 +451,16 @@ int FcvPlayBuffer(int a4, int a5)
         }
     }
     nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
+    nlGetPushedMatrix(0x0);
     nlTranslate(3.66109991f, 0.055999998f, 1.78759992f);
     nlGetTranslate((((int)stk + 8) + 0xC));
-    fcvRotate((a4 + 0x78));
+    fcvRotateCurve((((*(int *)((a4 + 0x20))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlPushMatrix(0x0);
     fcvSolveIK(0x0, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     nlRotateAZ((*(int *)(((int)stk + 12))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x1C);
-    if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x1C);
+    if ((*(int *)(((t1 + 0x1C) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x1C) + 0x0))));
     }
     if (a5 != 1) {
         if (a5 != 2) {
@@ -494,27 +500,25 @@ int FcvPlayBuffer(int a4, int a5)
     }
     nlTranslate(2.5079999f, 0.0f, 0.0f);
     nlRotateAZ((*(int *)(((int)stk + 16))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x18);
-    if ((*(int *)(((t0 + 0x18) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x18) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x18);
+    if ((*(int *)(((t1 + 0x18) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x18) + 0x0))));
     }
     nlTranslate(2.5144999f, 0.0f, 0.0f);
-    fcvRotate(((a4 + 0x3C) + 0x48));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x14);
-    if ((*(int *)(((t0 + 0x14) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x14) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0x28))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x14);
+    if ((*(int *)(((t1 + 0x14) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x14) + 0x0))));
     }
     if (((*(int *)0xC13ED98) != 0) && (a5 == 35)) {
         nlObjPutUseViewMatrix(0xC4FA698);
     }
-    nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    fcvRotate(((a4 + 0x3C) + 0x54));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x3C);
-    if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
+    nlPopMatrix(0x2);
+    nlGetPushedMatrix(0x0);
+    fcvRotateCurve((((*(int *)((a4 + 0x2C))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x3C);
+    if ((*(int *)(((t1 + 0x3C) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x3C) + 0x0))));
     }
     if (a5 != 2) {
         if (a5 != 3) {
@@ -590,13 +594,13 @@ int FcvPlayBuffer(int a4, int a5)
     nlPushMatrix(0x0);
     nlTranslate(1.1602999f, 0.148599997f, -1.17639995f);
     nlGetTranslate((((int)stk + 8) + 0xC));
-    fcvRotate(((a4 + 0x3C) + 0x60));
+    fcvRotateCurve((((*(int *)((a4 + 0x30))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlPushMatrix(0x0);
     fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     nlRotateAZ((*(int *)(((int)stk + 12))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x2C);
-    if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x2C);
+    if ((*(int *)(((t1 + 0x2C) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x2C) + 0x0))));
     }
     if (a5 != 25) {
         if (a5 != 35) {
@@ -616,28 +620,27 @@ int FcvPlayBuffer(int a4, int a5)
     }
     nlTranslate(4.05099964f, 0.0f, 0.0f);
     nlRotateAZ((*(int *)(((int)stk + 16))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x28);
-    if ((*(int *)(((t0 + 0x28) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x28) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x28);
+    if ((*(int *)(((t1 + 0x28) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x28) + 0x0))));
     }
     nlTranslate(4.24659967f, 0.0f, 0.0f);
-    fcvRotate(((a4 + 0x3C) + 0x6C));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x24);
-    if ((*(int *)(((t0 + 0x24) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x24) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0x38))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x24);
+    if ((*(int *)(((t1 + 0x24) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x24) + 0x0))));
     }
     nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
+    nlGetPushedMatrix(0x0);
     nlTranslate(1.1602999f, 0.148599997f, 1.17639995f);
     nlGetTranslate((((int)stk + 8) + 0xC));
-    fcvRotate(((a4 + 0x3C) + 0x78));
+    fcvRotateCurve((((*(int *)((a4 + 0x3C))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
     nlPushMatrix(0x0);
     fcvSolveIK(0x1, (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x8), (((int)stk + 8) + 0x8));
     nlRotateAZ((*(int *)(((int)stk + 12))));
-    *(unsigned int *)(((int)stk + 8)) = (t0 + 0x38);
-    if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
+    *(unsigned int *)(((int)stk + 8)) = (t1 + 0x38);
+    if ((*(int *)(((t1 + 0x38) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x38) + 0x0))));
     }
     if (a5 != 25) {
         if (a5 != 35) {
@@ -657,16 +660,13 @@ int FcvPlayBuffer(int a4, int a5)
     }
     nlTranslate(4.05099964f, 0.0f, 0.0f);
     nlRotateAZ((*(int *)(((int)stk + 16))));
-    if ((*(int *)(((t0 + 0x34) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x34) + 0x0))));
+    if ((*(int *)(((t1 + 0x34) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x34) + 0x0))));
     }
     nlTranslate(4.24659967f, 0.0f, 0.0f);
-    fcvRotate(((a4 + 0x3C) + 0x84));
-    if ((*(int *)(((t0 + 0x30) + 0x0))) != 0) {
-        nlObjPutUseViewMatrix((*(int *)(((t0 + 0x30) + 0x0))));
+    fcvRotateCurve((((*(int *)((a4 + 0x44))) << 2) + a4), (f4 - (t2 * (float)(t3 - 1))));
+    if ((*(int *)(((t1 + 0x30) + 0x0))) != 0) {
+        nlObjPutUseViewMatrix((*(int *)(((t1 + 0x30) + 0x0))));
     }
-    nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    nlPopMatrix(0x1);
-    return (nlPopMatrix(0x1));
+    return (nlPopMatrix(0x4));
 }

@@ -1,40 +1,55 @@
 /* Straight-line functions with calls and guards (batch gen_zb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int fcvCalcAngle(int, int, float);
-int fcvCalcPosition(int, int, float);
-float nlFloor(float);
-int FcvStorePartsBuffer(int a4, int a5, int a6, float f4);
+int nlArcTan2(float, float);
+int nlCalcVector(int, int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlSubVector(int, int);
+int getSteering(int a4, int a5);
 
-int FcvStorePartsBuffer(int a4, int a5, int a6, float f4)
+int getSteering(int a4, int a5)
 {
-    int t0;
-    int t2;
-    float t5;
-    int t6;
-    int t7;
-    int t8;
-    int t10;
-    int t14;
-    int t3;
-    int t17;
-    int stk[26];
+    int t15;
+    int t18;
+    int t16;
+    int t21;
+    int t24;
+    int t22;
+    int stk[8];
 
     *(unsigned int *)(((int)stk + 4)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    t0 = 0xC0D54CC;
-    t2 = (((int)stk + 4) + 0x8);
-    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D54CC + 68)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
-    t5 = nlFloor((f4 / (float)(*(int *)((a4 + 0x0)))));
-    t6 = *(int *)((a4 + 0x0));
-    t7 = *(int *)(((int)stk + 4));
-    t8 = *(int *)(((int)stk + 4));
-    if ((t7 != 0) && ((t7 != 5) && ((t7 != 8) && ((t7 != 12) && (t7 != 15))))) {
-        t10 = *(int *)(((((int)stk + 4) + 0x8) + (t8 << 2)));
-        t17 = (fcvCalcAngle((a4 + ((*(int *)((((a4 + 0x4) + (t8 << 2)) + 0x0))) << 2)), ((unsigned char)(((t10 << 1) + t10) << 2) + ((*(int *)(((int)stk + 8))) + 0x3C)), (f4 - (t5 * (float)t6))));
+    nlPushUnitMatrix();
+    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
+    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
+    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)((0xE0 + a4)); }
+    nlSubVector((((int)stk + 4) + 0x4), (0x8C + a4));
+    nlCalcVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4));
+    nlPopMatrix(0x1);
+    *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x0)) = (short)(nlArcTan2((*(float *)(((int)stk + 8))), (*(float *)(((int)stk + 16)))));
+    t15 = *(int *)(((*(int *)(((int)stk + 4))) + 0x0));
+    t18 = 0xFFFFEC00;
+    if ((int)(int)((float)t15 * 0.599999964f) < (int)0xFFFFEC00) {
     } else {
-        t14 = *(int *)(((((int)stk + 4) + 0x8) + (t8 << 2)));
-        t17 = (fcvCalcPosition((a4 + ((*(int *)((((a4 + 0x4) + (t8 << 2)) + 0x0))) << 2)), ((signed char)(((t14 << 1) + t14) << 2) + (*(int *)(((int)stk + 8)))), (f4 - (t5 * (float)t6))));
+        t16 = (int)((float)t15 * 0.599999964f);
+        if ((int)(int)((float)t15 * 0.599999964f) > (int)0x1400) {
+            t16 = 0x1400;
+        }
+        t18 = t16;
     }
-    return t17;
+    t21 = *(int *)((a4 + 0xC0));
+    t24 = 0xFFFFFFC0;
+    if ((int)(int)((float)(t18 - t21) * 0.399999976f) < (int)0xFFFFFFC0) {
+    } else {
+        t22 = (int)((float)(t18 - t21) * 0.399999976f);
+        if ((int)(int)((float)(t18 - t21) * 0.399999976f) > (int)0x40) {
+            t22 = 0x40;
+        }
+        t24 = t22;
+    }
+    return t24;
 }

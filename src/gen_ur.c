@@ -1,35 +1,44 @@
 /* Straight-line functions with calls and guards (batch gen_ur): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float Drv_DriveFrame(void);
-int Drv_ExecBlend(void);
-int Drv_StartAction(int, int, int);
-int FcvStoreBuffer(int, int, float);
-int Drv_ExecDrive(void);
+int Init_Adv_Sprite(void);
+int Start_Adv_Title_LOGO(int, int);
+int Voice_Clear(void);
+int Voice_Request(int, int, int, int);
+int gdc_FileLoadInit(void);
+int gdc_FileLoadStop(void);
+int gdc_StopStreamSongAll(void);
+int nlInitEvent(void);
+int setReplayType(int);
+int init_Title2(void);
 
-int Drv_ExecDrive(void)
+int init_Title2(void)
 {
-    float t3;
-    int t18;
-    float u9;
-    float u10;
+    int t21;
 
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x40);
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        Drv_ExecBlend();
-    } else {
-        t3 = Drv_DriveFrame();
-        *(float *)0xC2AD024 = t3;
-        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, t3);
+    *(unsigned int *)0xC1EE240 = 0x0;
+    *(unsigned int *)0xC1EE334 = 0x11;
+    *(unsigned char *)0xC1EE778 = (*(signed char *)0xC08ADAC);
+    *(unsigned char *)0xC1EE779 = (*(signed char *)0xC08ADAD);
+    *(unsigned char *)0xC1EE77A = (*(signed char *)0xC08ADAE);
+    *(unsigned char *)0xC1EE77B = (*(signed char *)0xC08ADAF);
+    *(unsigned char *)0xC1EE77C = (*(signed char *)0xC08ADB0);
+    *(unsigned char *)0xC1EE77D = (*(signed char *)0xC08ADB1);
+    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
+    nlInitEvent();
+    gdc_StopStreamSongAll();
+    Voice_Clear();
+    Init_Adv_Sprite();
+    Start_Adv_Title_LOGO(0x1, 0x0);
+    if ((int)(*(int *)0xC0E5310) > 0) {
+        *(unsigned int *)0xC0E5310 = 0x384;
+        Voice_Request(0xC130DC0, 0x0, 0x7F, 0x0);
     }
-    if (((*(int *)0xC1791EC) == 0) && (u9 = 0.099999994f, u10 = *(float *)0xC179228, u9 > u10)) {
-        Drv_StartAction(0x1, 0x0, 0x0);
+    gdc_FileLoadStop();
+    gdc_FileLoadInit();
+    t21 = 0x2;
+    if ((*(int *)0xC1EE20C) == 0) {
+        t21 = 0x1;
     }
-    t18 = 0x22;
-    if ((*(signed char *)0xC1EE26E) != 0) {
-        Drv_StartAction(0x9, 0x0, 0x0);
-        *(float *)0xC2AD024 = (14.0f);
-        t18 = 0x24;
-    }
-    return t18;
+    return setReplayType(t21);
 }

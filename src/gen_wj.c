@@ -1,132 +1,48 @@
 /* Straight-line functions with calls and guards (batch gen_wj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int gdc_CourseReq(int, int, float);
+int abs(int);
+int getShortRootPoint(int, int, int);
 float nlLength(int, int);
-float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 
-float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
 {
-    int t11;
-    float t24;
-    float t35;
-    float t47;
-    int stk[25];
+    int t0;
+    float t2;
+    int t3;
+    int t4;
+    int t7;
+    int t17;
+    float u19;
+    float u20;
+    float u22;
+    int stk[13];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F3;
-    float F4;
-    float F14;
-    float F15;
-    int T_;
-    stk[13] = a8;
-    stk[14] = a9;
-    stk[15] = a10;
-    stk[16] = a11;
-    R4 = a4;
-    R5 = a5;
-    F4 = f4;
-    L_C02EE20:;
-    R0 = (0x34);
-    R11 = (0xC26E104);
-    R12 = (0xC078AE0);
-    R14 = ((*(int *)0xC1EE800));
-    R9 = (0x0);
-    F14 = (F4);
-    F15 = (0.0f);
-    if (((*(int *)0xC1EE234) != 0)) goto L_C02EE9C;
-    goto L_C02EE4E;
-    L_C02EE4E:;
-    t11 = *(int *)0xC1EE20C;
-    R0 = (t11);
-    if ((t11 != 1)) goto L_C02EE9C;
-    goto L_C02EE56;
-    L_C02EE56:;
-    R10 = (0x9);
-    R13 = (R9);
-    goto L_C02EE92;
-    L_C02EE92:;
-    if (((int)R13 < (int)(*(int *)((R11 + 0x0))))) goto L_C02EE5C;
-    goto L_C02EE98;
-    L_C02EE98:;
-    goto L_C02EED2;
-    L_C02EED2:;
-    R11 = (0xC26E108);
-    R13 = ((*(int *)0xC1EE804));
-    R14 = (R9);
-    goto L_C02EF08;
-    L_C02EF08:;
-    if (((int)R14 < (int)(*(int *)((R11 + 0x0))))) goto L_C02EEDC;
-    goto L_C02EF0E;
-    L_C02EF0E:;
-    return F0;
-    L_C02EEDC:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((R13 + 0x4)); }
-    *(float *)(((int)stk + 8)) = F15;
-    t24 = nlLength(((int)stk + 4), (((int)stk + 4) + 0x30));
-    F0 = (t24);
-    F4 = (t24);
-    if ((!(((*(float *)((R13 + 0x0))) + F14) > t24))) goto L_C02EF04;
-    goto L_C02EEFE;
-    L_C02EEFE:;
-    R0 = ((gdc_CourseReq(R14, 0x1, F4)));
-    goto L_C02EF04;
-    L_C02EF04:;
-    R13 = ((R13 + 0x14));
-    R14 = ((R14 + 0x1));
-    goto L_C02EF08;
-    L_C02EE5C:;
-    if (((int)R13 < (int)R10)) goto L_C02EE66;
-    goto L_C02EE60;
-    L_C02EE60:;
-    if (((int)R13 <= (int)0x1C)) goto L_C02EE8E;
-    goto L_C02EE66;
-    L_C02EE66:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((R14 + 0x4)); }
-    *(float *)(((int)stk + 8)) = F15;
-    t35 = nlLength(((int)stk + 4), (((int)stk + 4) + 0x30));
-    F0 = (t35);
-    F4 = (t35);
-    if ((!(((*(float *)((R14 + 0x0))) + F14) > t35))) goto L_C02EE8E;
-    goto L_C02EE88;
-    L_C02EE88:;
-    R0 = ((gdc_CourseReq(R13, 0x0, F4)));
-    goto L_C02EE8E;
-    L_C02EE8E:;
-    R13 = ((R13 + 0x1));
-    R14 = ((R14 + 0x14));
-    goto L_C02EE92;
-    L_C02EE9C:;
-    R13 = (R9);
-    goto L_C02EECC;
-    L_C02EECC:;
-    if (((int)R13 < (int)(*(int *)((R11 + 0x0))))) goto L_C02EEA0;
-    goto L_C02EED2;
-    L_C02EEA0:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((R14 + 0x4)); }
-    *(float *)(((int)stk + 8)) = F15;
-    t47 = nlLength(((int)stk + 4), (((int)stk + 4) + 0x30));
-    F0 = (t47);
-    F4 = (t47);
-    if ((!(((*(float *)((R14 + 0x0))) + F14) > t47))) goto L_C02EEC8;
-    goto L_C02EEC2;
-    L_C02EEC2:;
-    R0 = ((gdc_CourseReq(R13, 0x0, F4)));
-    goto L_C02EEC8;
-    L_C02EEC8:;
-    R13 = ((R13 + 0x1));
-    R14 = ((R14 + 0x14));
-    goto L_C02EECC;
+    *(unsigned int *)(((int)stk + 4)) = a7;
+    t0 = getShortRootPoint(a7, a9, a5);
+    if ((int)(abs(t0)) <= (int)0x1) {
+        t2 = nlLength(a6, a8);
+        *(float *)((a10 + 0x0)) = t2;
+        u22 = t2;
+    } else {
+        if ((int)t0 < 0) {
+            t3 = (int)((int)(a9 + 0x1) % (int)a5);
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(((((t3 << 1) + t3) << 2) + a4)); }
+        } else {
+            t4 = (int)((int)(a9 - 1) % (int)a5);
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(((((t4 << 1) + t4) << 2) + a4)); }
+        }
+        t7 = *(int *)(((int)stk + 4));
+        *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + ((*(float *)((a6 + 0x0))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x0)))));
+        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + ((*(float *)((a6 + 0x4))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x4)))));
+        *(float *)(((int)stk + 16)) = ((*(float *)(((int)stk + 16))) + ((*(float *)((a6 + 0x8))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x8)))));
+        t17 = abs(t0);
+        u19 = *(float *)0xC04A4F4;
+        u20 = (nlLength((((int)stk + 4) + 0x4), a8));
+        u20 = u20 + u19 * (float)(t17 - 1);
+        *(float *)((a10 + 0x0)) = u20;
+        u22 = u19;
+    }
+    return u22;
 }

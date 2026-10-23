@@ -1,36 +1,21 @@
 /* Straight-line functions with calls and guards (batch gen_wg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_ExecBlend(void);
+int Drv_ExecBlend(float, float, float, float, float);
 int Drv_StartAction(int, int, int);
 int FcvStoreBuffer(int, int, float);
 int drvUpdatePartTracks(void);
-int Drv_ExecPickUp(void);
+int Drv_ExecPsgReact(float f4, float f5, float f6, float f7, float f8);
 
-int Drv_ExecPickUp(void)
+int Drv_ExecPsgReact(float f4, float f5, float f6, float f7, float f8)
 {
-    int t0;
-    float u2;
-    int t3;
-    float u5;
-    int t6;
-    float u7;
-    int t8;
-
-    t0 = *(signed char *)0xC2AD1DF;
-    if ((t0 & 128) != 0) {
-        return Drv_ExecBlend();
+    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+        return Drv_ExecBlend(f4, f5, f6, f7, f8);
     }
     drvUpdatePartTracks();
-    u2 = *(float *)0xC2AD024;
-    t3 = *(int *)0xC2AD020;
-    FcvStoreBuffer(t3, 0xC2AD028, u2);
-    u5 = *(float *)0xC2AD024;
-    *(float *)0xC2AD024 = (u5 + 1.0f);
-    t6 = *(int *)0xC2AD020;
-    u7 = *(float *)0xC2AD024;
-    t8 = *(int *)((t6 + 0x0));
-    if (!((float)(t8 - 1) > u7)) {
+    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+    *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
+    if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
         return Drv_StartAction(0x0, 0x0, 0x0);
     }
     return 0x24;

@@ -1,44 +1,38 @@
 /* Straight-line functions with calls and guards (batch gen_mb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_ExecBlend(void);
-int Drv_StartAction(int, int, int);
-int FcvStoreBuffer(int, int, float);
-int Sound_Request(int, int);
-int drvUpdatePartTracks(void);
-int Drv_ExecHorn(void);
+int SetColliObj(int, int);
+int nlAddVector(int, int);
+float nlLength(int, int, float, float);
+int nlScaleVector(int, int, float);
+int set_event(int, int);
+void setObjHitBreakOff(int a4, float f4, float f5);
 
-int Drv_ExecHorn(void)
+void setObjHitBreakOff(int a4, float f4, float f5)
 {
-    int t12;
-    int t42;
-    int t43;
+    int t1;
+    int t2;
+    int t4;
+    int t5;
+    int stk[10];
 
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        Drv_ExecBlend();
-    } else {
-        drvUpdatePartTracks();
-        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-        *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
-        if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
-            t12 = 0x1;
-            if ((*(int *)0xC1791EC) != 0) {
-                t12 = 0x0;
-            }
-            Drv_StartAction(t12, 0x0, 0x0);
+    if ((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) {
+        t1 = set_event(0x84, 0xC0385AC);
+        if (t1 != 0) {
+            t2 = a4;
+            t4 = (t1 + 0x14);
+            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
+            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 8.0f);
+            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
+            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
+            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDF44;
+            *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE218) + 0x0)));
+            SetColliObj((t1 + 0x14), 0x10);
+            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), (*(float *)0xC038D14));
+            nlAddVector(a4, (((int)stk + 4) + 0xC));
+            *(unsigned int *)((a4 + 0x54)) = 0xC0EDF68;
+            *(unsigned int *)((a4 + 0x64)) = (*(int *)(((*(int *)0xC0EE21C) + 0x0)));
         }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
     }
-    if ((*(signed char *)0xC1EE26E) != 0) {
-        Drv_StartAction(0x9, 0x0, 0x0);
-        *(float *)0xC2AD024 = (14.0f);
-    }
-    if ((*(float *)0xC2AD024) == (22.0f)) {
-        t42 = *(int *)0xC2AD000;
-        t43 = 0x501A9;
-        if ((t42 != 1) && (t42 != 3)) {
-            t43 = 0x401A9;
-        }
-        return Sound_Request(t43, 0x0);
-    }
-    return 0x24;
 }

@@ -1,41 +1,49 @@
 /* Straight-line functions with calls and guards (batch gen_aci): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int Put_Stop_and_Brake(int a4, int a5);
+int MotionBlurOff(void);
+int SetMotionBlurStrength(float);
+int goiToolCamData(int);
+int goiToolCourseMap(int);
+int goiToolCoursePoint(int);
+int goiToolLight(int);
+int goiToolPointEntry(int, int, int, int);
+int replay(int);
+int setReplayType(int);
+void GoiTool(int a4, int a5, int a6, int a7);
 
-int Put_Stop_and_Brake(int a4, int a5)
+void GoiTool(int a4, int a5, int a6, int a7)
 {
-    float u1;
-    float u2;
-    int t3;
-    int t6;
-    int t10;
+    float u6;
+    int t15;
+    int t12;
 
-    nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
-    *(float *)0xC2A7EEC = 1.0f;
-    *(float *)0xC2A7EF0 = 1.0f;
-    *(float *)0xC2A7F08 = 1.0f;
-    *(unsigned int *)0xC2A7F10 = 0x200A;
-    *(unsigned int *)0xC2A7F04 = 0x0;
-    u1 = 320.0f;
-    u2 = 70.0f;
     if (a4 == 0) {
-        t3 = 0x1D9;
-        if (a5 == 0) {
-            t3 = 0x1D2;
+        *(unsigned int *)0xC2A4E60 = 0x0;
+        *(unsigned int *)0xC2A4E64 = 0x0;
+        *(unsigned int *)0xC2A4E68 = 0x2;
+        *(unsigned int *)0xC2A4E58 = 0x0;
+        *(unsigned int *)0xC2A4E5C = 0x0;
+        *(unsigned int *)0xC0F2B30 = 0xFFFFFFFF;
+        *(unsigned int *)0xC0F2B34 = 0x0;
+        *(unsigned int *)0xC0F2B3C = 0x0;
+        goiToolPointEntry(0xFFFFFFFF, 0x0, a6, a7);
+        goiToolCourseMap(0x0);
+        goiToolCoursePoint(0x0);
+        goiToolLight(0x0);
+        goiToolCamData(0x0);
+        MotionBlurOff();
+        u6 = *(float *)0xC049B48;
+        *(float *)0xC2A6298 = u6;
+        SetMotionBlurStrength(u6);
+        setReplayType(0x0);
+        replay(0x1);
+        replay(0x5);
+        t15 = 0x3;
+        if (((*(int *)0xC1EE234) != 0) && (t12 = *(int *)0xC2A4E50, t12 != 1)) {
+            t15 = 0x2;
         }
-        nd_SprPut(0xC2A7EDC, t3, u1, u2);
-    } else {
-        t6 = 0x1D8;
-        if (a5 == 0) {
-            t6 = 0x1D1;
-        }
-        nd_SprPut(0xC2A7EDC, t6, u1, u2);
+        replay(t15);
+        *(unsigned int *)0xC2A62A4 = 0x0;
     }
-    t10 = ResetFadeColor();
-    *(unsigned int *)0xC2A7F10 = 0xA;
-    return t10;
 }

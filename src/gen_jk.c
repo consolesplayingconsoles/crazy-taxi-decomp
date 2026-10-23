@@ -1,24 +1,36 @@
 /* Straight-line functions with calls and guards (batch gen_jk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXT_GetNumSmpl(int);
-int ADXT_GetStat(int);
-int ADXT_GetTime(int, int, int);
-int gdc_GetStreamVoiceRemainTime(int a4);
+int SetScreen(int);
+extern int SetWindow();
+int windowReturn(int a4, int a5, int a6, int a7);
 
-int gdc_GetStreamVoiceRemainTime(int a4)
+int windowReturn(int a4, int a5, int a6, int a7)
 {
-    int t12;
-    int t2;
-    int stk[6];
+    int t0;
+    int t1;
+    int t3;
+    int t5;
+    int t11;
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    t12 = 0x58764;
-    if ((int)(ADXT_GetStat((*(int *)(((a4 << 2) + 0xC1EE810))))) >= (int)0x2) {
-        t2 = *(int *)(((int)stk + 8));
-        *(unsigned int *)(((int)stk + 16)) = ((t2 << 2) + 0xC1EE810);
-        ADXT_GetTime((*(int *)((((t2 << 2) + 0xC1EE810) + 0x0))), ((int)stk + 4), (((int)stk + 4) + 0x8));
-        t12 = (int)((float)((ADXT_GetNumSmpl((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))))) - (*(int *)(((int)stk + 4)))) * (*(float *)0xC02E7D4));
+    t0 = *(int *)0xC2A1218;
+    if (t0 != 0) {
+        t1 = ((int (*)(int, int, int, int))(SetWindow))(t0, a5, a6, a7);
+        *(unsigned int *)0xC2A1218 = 0x0;
+        t11 = t1;
+    } else {
+        SetScreen(0x4);
+        t3 = ((int (*)(int))(SetWindow))(0x0);
+        *(unsigned int *)0xC2A11B0 = 0x0;
+        *(unsigned int *)0xC1EE234 = (*(int *)0xC2A1228);
+        t5 = *(int *)0xC2A122C;
+        *(unsigned int *)0xC1EE238 = t5;
+        if ((*(int *)0xC1EE234) == 0) {
+            *(unsigned int *)0xC1EE210 = 0x0;
+            *(unsigned int *)0xC1EE214 = 0x0;
+            *(unsigned int *)0xC1EE20C = 0x0;
+        }
+        t11 = t5;
     }
-    return t12;
+    return t11;
 }

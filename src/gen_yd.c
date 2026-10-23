@@ -1,106 +1,59 @@
 /* Straight-line functions with calls and guards (batch gen_yd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlLength(int, int);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlTranslateV(int);
-float Put_Transporter(int a4, int a5);
+int gdc_CoursePointLoadReq(int, int, int, int, float);
+int gdc_CourseReq(int, int, float);
+int gdc_CourseStartLoadReq(int a4, int a5, int a6, int a7);
 
-float Put_Transporter(int a4, int a5)
+int gdc_CourseStartLoadReq(int a4, int a5, int a6, int a7)
 {
-    float t12;
-    int t18;
-    int t30;
-    int t31;
-    int stk[14];
+    int t0;
+    int t11;
+    int t5;
+    int t6;
+    int t46;
+    int t32;
+    float u28;
+    int stk[13];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F3;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    L_C04EDF0:;
-    R0 = (0xC04EF58);
-    R10 = (0xFFFF);
-    R11 = (0xC2A6F60);
-    R12 = (0x0);
-    R13 = (0xC07AD00);
-    R8 = (0xC2A6EE8);
-    R9 = (0xC1187E0);
-    F13 = (360.0f);
-    F14 = (65536.0f);
-    F15 = (0.5f);
-    goto L_C04EEEA;
-    L_C04EEEA:;
-    if (((int)R12 < (int)(*(int *)0xC0C83EC))) goto L_C04EE24;
-    goto L_C04EEF2;
-    L_C04EEF2:;
-    return F0;
-    L_C04EE24:;
-    *(unsigned int *)(((int)stk + 4)) = (short)(((R12 << 2) + R12) << 2);
-    t12 = nlLength(((short)(((R12 << 2) + R12) << 2) + R9), 0xC179840);
-    R0 = (0xC04EF64);
-    F0 = (t12);
-    F12 = (t12);
-    if ((!(3000.0f > t12))) goto L_C04EEE8;
-    goto L_C04EE44;
-    L_C04EE44:;
-    nlPushUnitMatrix();
-    t18 = *(int *)(((int)stk + 4));
-    nlTranslateV((t18 + R9));
-    nlRotateAY(((int)((((*(float *)(((t18 + R9) + 0x10))) * F14) / F13) + F15) & R10));
-    nlRotateAX(((int)((((*(float *)(((t18 + R9) + 0xC))) * F14) / F13) + F15) & R10));
-    R14 = ((R12 << 2));
-    if ((!(F12 > 500.0f))) goto L_C04EEA2;
-    goto L_C04EE88;
-    L_C04EE88:;
-    nlObjPutUseViewMatrix(0xC4537F8);
-    if (((*(int *)((R11 + R14))) != 1)) goto L_C04EEB8;
-    goto L_C04EE98;
-    L_C04EE98:;
-    nlObjPutUseViewMatrix(0xC457018);
-    goto L_C04EEB8;
-    L_C04EEB8:;
-    t30 = nlPopMatrix(0x1);
-    t31 = *(int *)(((R14 + R8) + 0x0));
-    *(unsigned int *)(((R14 + R8) + 0x0)) = (t31 + 0x1);
-    R0 = (t30);
-    if (((int)(t31 + 0x1) <= (int)0x32)) goto L_C04EEE8;
-    goto L_C04EED0;
-    L_C04EED0:;
-    *(unsigned int *)(((R14 + R11) + 0x0)) = ((int)((int)((*(int *)(((R14 + R11) + 0x0))) + 0x1) % (int)0x2));
-    *(unsigned int *)((R8 + R14)) = 0x0;
-    R0 = (R14);
-    goto L_C04EEE8;
-    L_C04EEE8:;
-    R12 = ((R12 + 0x1));
-    goto L_C04EEEA;
-    L_C04EEA2:;
-    nlObjPutUseViewMatrix(0xC4573C8);
-    if (((*(int *)((R11 + R14))) != 1)) goto L_C04EEB8;
-    goto L_C04EEB2;
-    L_C04EEB2:;
-    nlObjPutUseViewMatrix(0xC45E598);
-    goto L_C04EEB8;
+    t0 = *(int *)0xC1EE20C;
+    if (t0 != 0) {
+        if (t0 != 1) {
+            t11 = t0;
+            if (t0 == 2) {
+                t5 = (*(int *)((0xC0C835C + ((*(int *)0xC1EE214) << 2))));
+                for (;;) {
+                    t6 = *(int *)0xC1EE214;
+                    if ((int)t5 >= (int)((*(int *)(((t6 << 2) + (*(int *)0xC1244E8)))) + (*(int *)((0xC0C835C + (t6 << 2)))))) {
+                        break;
+                    }
+                    gdc_CourseReq(t5, 0x0, 0.0f);
+                    t5 = (t5 + 0x1);
+                }
+                t11 = (t6 << 2);
+            }
+            t32 = t11;
+        } else {
+            if ((*(int *)0xC17948C) != 1) {
+                *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2CC);
+                *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2D0);
+                u28 = (*(float *)0xC02F2D4);
+            } else {
+                *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2D8);
+                *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2DC);
+                u28 = (*(float *)0xC02F2E0);
+            }
+            *(float *)((((int)stk + 16) + 0x8)) = u28;
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(((int)stk + 16)); }
+            t32 = (gdc_CoursePointLoadReq(a4, a5, a6, a7, (*(float *)0xC02F2E4)));
+        }
+        t46 = t32;
+    } else {
+        *(float *)((((int)stk + 16) + 0x0)) = (*(float *)0xC02F2B4);
+        *(float *)((((int)stk + 16) + 0x4)) = (*(float *)0xC02F2B8);
+        *(float *)((((int)stk + 16) + 0x8)) = (*(float *)0xC02F2BC);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(((int)stk + 16)); }
+        t46 = (gdc_CoursePointLoadReq(a4, a5, a6, a7, (*(float *)0xC02F2C4)));
+    }
+    return t46;
 }

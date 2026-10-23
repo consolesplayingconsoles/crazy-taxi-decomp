@@ -1,22 +1,22 @@
 /* Straight-line functions with calls and guards (batch gen_qo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetWindow(int);
-int callWarnning(int a4);
+int nlAddVector(int, int);
+int nlScaleUnitVector(int, int, float);
+int nlSubVector3op(int, int, int, float, float, float);
+int HomingPos1(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4, float f5, float f6);
 
-int callWarnning(int a4)
+int HomingPos1(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4, float f5, float f6)
 {
-    int t4;
-    int t1;
+    int stk[16];
 
-    SetWindow(0x0);
-    t4 = 0x7;
-    if (a4 != 0xFFFFFF01) {
-        t1 = 0x8;
-        if (a4 != 0xFFFFFF04) {
-            t1 = 0x6;
-        }
-        t4 = t1;
-    }
-    return SetWindow(t4);
+    stk[4] = a8;
+    stk[5] = a9;
+    stk[6] = a10;
+    stk[7] = a11;
+    *(float *)(((int)stk + 8)) = f4;
+    *(unsigned int *)(((int)stk + 4)) = a4;
+    nlSubVector3op(0xC2A6AA0, (((int)stk + 4) + 0xC), a4, f4, f5, f6);
+    nlScaleUnitVector(0xC2A6AB8, 0xC2A6AA0, (*(float *)(((int)stk + 8))));
+    return (nlAddVector((*(int *)(((int)stk + 4))), 0xC2A6AB8));
 }

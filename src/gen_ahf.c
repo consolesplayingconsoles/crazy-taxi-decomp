@@ -1,54 +1,59 @@
 /* Straight-line functions with calls and guards (batch gen_ahf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int NextWindow(int);
-int PutVM_Message(int, int, int, float, float);
-int saveBufferInit(int);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowNameErase(void);
+int ADXF_Close(int);
+int ADXF_GetFsizeSct(int);
+int ADXF_GetStat(int);
+int ADXF_Open(int, int);
+int ADXF_ReadNw32(int, int, int);
+int gdc_FileLoad(int a4, int a5, int a6);
 
-int windowNameErase(void)
+int gdc_FileLoad(int a4, int a5, int a6)
 {
-    int t7;
-    int t8;
-    int t9;
-    int t12;
-    int t14;
-    int t5;
+    int t0;
+    int t1;
+    int t2;
     int t6;
+    int t10;
 
-    windowOpenStep(0x3C);
-    PutVM_Message(0x20, 0x1A, 0xC2A1248, 240.0f, 240.0f);
-    if (((*(int *)0xC2A1208) & 4) != 0) {
-        *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x8);
-        t7 = 0xC2A11C4;
-        t8 = 0xC2A11F4;
-        t9 = (*(int *)0xC2A11C4);
-        for (;;) {
-            t9 = (t9 + 0x1);
-            if ((int)t9 >= (int)(unsigned char)(*(signed char *)0xC28A4F6)) {
-                break;
+    t0 = 0x0;
+    t1 = 0x0;
+    for (;;) {
+        if ((int)t0 < (int)0xA) {
+            for (;;) {
+                t2 = ADXF_Open(a5, 0x0);
+                t1 = (t1 + 0x1);
+                if ((int)t1 <= (int)0x78) {
+                    if (t2 != 0) {
+                        break;
+                    }
+                    continue;
+                }
+                t0 = (t0 + 0x1);
+                if ((int)t0 < (int)0xA) continue;
+                *(unsigned int *)0xC1EE208 = ((*(int *)0xC1EE208) + 0x1);
+                return 0x0;
             }
-            t5 = t9;
-            t7 = 0x788;
-            t5 = (t5 - 1);
-            t8 = 0xC28A4E8;
-            t8 = (t8 + 0x10);
-            t5 = ((short)t5 * (short)t7);
-            t5 = (short)t5;
-            t5 = (t5 + t8);
-            t6 = ((short)t9 * (short)t7);
-            t6 = (short)t6;
-            t12 = t7;
-            t7 = 0xC081268;
-            t6 = (t6 + t8);
-            t14 = 0;
-            for (; t14 < (int)t12; t14++) *(unsigned char *)(t5 + t14) = *(unsigned char *)(t6 + t14);
+            t6 = ((unsigned int)((unsigned int)((unsigned int)a6 >> 8) >> 2) >> 1);
+            if (a6 == 0) {
+                t6 = (ADXF_GetFsizeSct(t2));
+            }
+            ADXF_ReadNw32(t2, t6, a4);
+            for (;;) {
+                t10 = ADXF_GetStat(t2);
+                if (t10 == 4) {
+                    break;
+                }
+                if (t10 == 3) {
+                    ADXF_Close(t2);
+                    return t6;
+                }
+            }
+            ADXF_Close(t2);
+            t0 = (t0 + 0x1);
+            continue;
         }
-        saveBufferInit(((short)((short)(t9 - 1) * (short)0x788) + 0xC28A4F8));
-        *(unsigned char *)0xC28A4F6 = ((*(signed char *)0xC28A4F6) - 1);
+        *(unsigned int *)0xC1EE208 = ((*(int *)0xC1EE208) + 0x1);
+        return 0x0;
     }
-    NextWindow(0x0);
-    return windowEnterStep(0x0);
 }

@@ -1,32 +1,42 @@
 /* Straight-line functions with calls and guards (batch gen_akx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlGetTranslate(int);
-int nlObjPut(int);
-int nlPopMatrix(int);
-int nlPushMultiViewMatrix(void);
-int nlScale(float, float, float);
-int nlTranslateV(int);
-int nlUnitMatrix(void);
-int Put2DObjUp(int a4, float f4, float f5, float f6);
+int CalcShadow4Normal(int, int);
+int GetCollision2D(int, float, float);
+int Psg_SetPosPtrSet(int a4, int a5, float f4, float f5);
 
-int Put2DObjUp(int a4, float f4, float f5, float f6)
+int Psg_SetPosPtrSet(int a4, int a5, float f4, float f5)
 {
-    float u2;
-    int stk[10];
+    int t0;
+    int t4;
+    int t13;
+    int t7;
+    int t10;
+    int t18;
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    *(float *)(((int)stk + 4)) = f4;
-    *(float *)(((int)stk + 12)) = f5;
-    nlPushMultiViewMatrix();
-    nlGetTranslate((((int)stk + 4) + 0xC));
-    u2 = *(float *)(((int)stk + 24));
-    if ((-f6) > u2) {
-        nlUnitMatrix();
-        nlScale(((u2 + f6) / u2), ((u2 + f6) / u2), ((u2 + f6) / u2));
-        nlTranslateV((((int)stk + 4) + 0xC));
-        nlScale((*(float *)(((int)stk + 4))), (*(float *)(((int)stk + 12))), 1.0f);
-        nlObjPut((*(int *)(((int)stk + 8))));
+    t0 = GetCollision2D(a5, 5.0f, f5);
+    if ((*(int *)((t0 + 0x1C))) != -1) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x4)) = *(struct mv3 *)(t0); }
+        return CalcShadow4Normal((a4 + 0x14), (t0 + 0xC));
     }
-    return (nlPopMatrix(0x1));
+    t4 = *(int *)((a4 + 0x20));
+    if (t4 != 2) {
+        t13 = t4;
+        if (t4 == 4) {
+            t7 = *(int *)((a4 + 0x24));
+            t10 = t7;
+            if (t7 == 2) {
+                *(float *)((a4 + 0x4)) = (*(float *)((a5 + 0x0)));
+                *(float *)((a4 + 0xC)) = (*(float *)((a5 + 0x8)));
+                t10 = 0xC;
+            }
+            t13 = t10;
+        }
+        t18 = t13;
+    } else {
+        *(float *)((a4 + 0x4)) = (*(float *)((a5 + 0x0)));
+        *(float *)((a4 + 0xC)) = (*(float *)((a5 + 0x8)));
+        t18 = 0xC;
+    }
+    return t18;
 }

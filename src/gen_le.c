@@ -1,29 +1,32 @@
 /* Straight-line functions with calls and guards (batch gen_le): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Initialize_Replay(void);
-int MotionBlurOn(void);
-int gdc_PlayStreamSong(int);
-int replayChangeControl(int);
-int setReplayType(int);
-void AdvStateReplayInit(void);
+int BigOneFollowTaxi(float);
+int BigOneSwimMove(void);
+int ResetFadeColor(void);
+int nlObjPutSetFadeColor(float, float, float);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlTranslateV(int);
+int BigOnePut(float f4);
 
-void AdvStateReplayInit(void)
+int BigOnePut(float f4)
 {
-    replayChangeControl(0xFFFFFFFF);
-    Initialize_Replay();
-    if ((*(int *)0xC1EE20C) == 0) {
-        setReplayType(0x1);
-        gdc_PlayStreamSong(0x7);
-    } else {
-        setReplayType(0x2);
-        gdc_PlayStreamSong(0x4);
-    }
-    *(unsigned int *)0xC179860 = 0x7;
-    MotionBlurOn();
-    *(unsigned int *)0xC1EE774 = 0x0;
-    *(unsigned int *)0xC1EE33C = 0x0;
-    *(unsigned int *)0xC1EE240 = 0x0;
-    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
-    *(unsigned int *)0xC1EE334 = 0x11;
+    nlPushUnitMatrix();
+    BigOneFollowTaxi(f4);
+    BigOneSwimMove();
+    nlTranslateV(0xC2AEC20);
+    nlRotateAY((*(int *)0xC2AEC30));
+    nlTranslateV(0xC2AEC40);
+    nlRotateAZ((*(int *)0xC2AEC54));
+    nlRotateAY((*(int *)0xC2AEC50));
+    nlRotateAX((*(int *)0xC2AEC4C));
+    nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+    nlObjPutUseViewMatrix(0xC13F898);
+    ResetFadeColor();
+    return nlPopMatrix(0x1);
 }

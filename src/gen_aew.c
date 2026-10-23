@@ -1,130 +1,66 @@
 /* Straight-line functions with calls and guards (batch gen_aew): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int InitAdvLogoSprite(void);
-int PatchMotion(void);
-int PutAdvLogoSprite(void);
-int Put_SEGA_LOGO2(void);
-int gdc_FileLoad(int, int, int);
-int gdc_PlayStreamSong(int);
-int req_load(void);
-int AdvStateLogo(void);
+int nlSprPut(int, int, int);
+int PutNameEntryDrum(int a4, int a5, int a6, float f4);
 
-int AdvStateLogo(void)
+int PutNameEntryDrum(int a4, int a5, int a6, float f4)
 {
-    int t1;
-    int t26;
-    int t5;
-    int t17;
-    int t7;
-    int t12;
+    int t0;
+    float u4;
+    float u6;
+    float u7;
+    float u10;
     int t23;
-    int t34;
-    int t46;
-    int t36;
-    int t41;
-    int t52;
-    int t80;
-    int t89;
-    int t86;
-    int t98;
-    int t55;
-    int t61;
-    int t74;
-    int t81;
-    int t94;
+    int stk[35];
 
-    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
-    t1 = *(int *)0xC1EE770;
-    if (t1 != 0) {
-        if (t1 != 1) {
-            t26 = t1;
-            if (t1 != 2) {
+    *(unsigned int *)(((int)stk + 4)) = a4;
+    *(float *)(((int)stk + 28)) = 420.0f;
+    *(float *)(((int)stk + 32)) = 1.0f;
+    *(float *)(((int)stk + 40)) = 1.0f;
+    *(float *)(((int)stk + 36)) = 1.0f;
+    *(float *)(((int)stk + 48)) = 0.0f;
+    *(float *)(((int)stk + 44)) = 0.0f;
+    *(float *)(((int)stk + 56)) = 1.0f;
+    *(float *)(((int)stk + 52)) = 1.0f;
+    *(unsigned int *)(((int)stk + 60)) = 0x0;
+    *(float *)(((int)stk + 64)) = 1.0f;
+    *(unsigned int *)(((int)stk + 72)) = 0x70E;
+    *(unsigned int *)(((int)stk + 68)) = 0x2;
+    *(float *)(((int)stk + 16)) = ((1.0f + 1.0f) - f4);
+    *(float *)(((int)stk + 12)) = (32.0f - (f4 * 16.0f));
+    *(float *)(((int)stk + 8)) = (f4 + 1.0f);
+    t0 = 0xFFFFFFF6;
+    for (;;) {
+        *(unsigned int *)(((int)stk + 20)) = (*(int *)((0xC0EE918 + (((int)((unsigned int)(((*(int *)(((int)stk + 4))) + t0) + 0x2D) % (unsigned int)0x2D)) << 2))));
+        u4 = 336.0f;
+        u4 = u4 + 32.0f * ((float)t0 + f4);
+        *(float *)(((int)stk + 24)) = u4;
+        if (t0 == 0) {
+            *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (16.0f - (f4 * 16.0f)));
+            u6 = *(float *)(((int)stk + 16));
+            u7 = *(float *)0xC2864D4;
+            *(float *)(((int)stk + 40)) = (u6 * u7);
+            *(float *)(((int)stk + 36)) = (u6 * u7);
+        } else {
+            if (t0 == -1) {
+                *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (*(float *)(((int)stk + 12))));
+                u10 = *(float *)(((int)stk + 8));
+                *(float *)(((int)stk + 40)) = u10;
+                *(float *)(((int)stk + 36)) = u10;
             } else {
-                PutAdvLogoSprite();
-                t5 = *(int *)0xC1EE240;
-                t17 = t5;
-                if (t5 == 5) {
-                    t7 = *(int *)0xC1EE76C;
-                    t12 = t7;
-                    if (t7 == -1) {
-                        *(unsigned int *)0xC1EE33C = 0x0;
-                        gdc_FileLoad(0xC880000, 0xC08ADB8, 0x0);
-                        PatchMotion();
-                        *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
-                        *(unsigned int *)0xC1EE76C = 0x1;
-                        t12 = 0xC1EE76C;
-                    }
-                    t17 = t12;
+                *(float *)(((int)stk + 40)) = 1.0f;
+                *(float *)(((int)stk + 36)) = 1.0f;
+                if ((int)t0 < 0) {
+                    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - 32.0f);
                 }
-                t23 = t17;
-                if ((int)(*(int *)0xC1EE240) >= (int)0xB4) {
-                    *(unsigned int *)0xC1EE238 = 0x6;
-                    t23 = 0x6;
-                }
-                t26 = t23;
             }
-            t55 = t26;
-        } else {
-            *(unsigned int *)0xC1EE770 = ((*(int *)0xC1EE770) + 0x1);
-            InitAdvLogoSprite();
-            PutAdvLogoSprite();
-            t34 = *(int *)0xC1EE240;
-            t46 = t34;
-            if (t34 == 5) {
-                t36 = *(int *)0xC1EE76C;
-                t41 = t36;
-                if (t36 == -1) {
-                    *(unsigned int *)0xC1EE33C = 0x0;
-                    gdc_FileLoad(0xC880000, 0xC08ADB8, 0x0);
-                    PatchMotion();
-                    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
-                    *(unsigned int *)0xC1EE76C = 0x1;
-                    t41 = 0xC1EE76C;
-                }
-                t46 = t41;
-            }
-            t52 = t46;
-            if ((int)(*(int *)0xC1EE240) >= (int)0xB4) {
-                *(unsigned int *)0xC1EE238 = 0x6;
-                t52 = 0x6;
-            }
-            t55 = t52;
         }
-        t98 = t55;
-    } else {
-        if (((int)(*(int *)0xC1EE240) < (int)0x78) && (t61 = *(int *)0xC1EE250, (t61 & 8) != 0)) {
-            *(unsigned int *)0xC2A93F4 = 0x78;
-            *(unsigned int *)0xC1EE240 = 0x78;
+        t23 = nlSprPut((((int)stk + 4) + 0x10), a5, a6);
+        t0 = (t0 + 0x1);
+        if ((int)t0 >= (int)0xA) {
+            break;
         }
-        Put_SEGA_LOGO2();
-        if ((*(int *)0xC1EE240) == 123) {
-            *(unsigned int *)0xC1EE33C = 0x0;
-            req_load();
-            *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
-        }
-        if (((*(int *)0xC1EE23C) == 1) && (t74 = *(int *)0xC1EE240, t74 == 120)) {
-            gdc_PlayStreamSong(0x4);
-        }
-        t80 = *(int *)0xC1EE23C;
-        if ((t80 == 0) && (t81 = *(int *)0xC1EE240, (int)t81 >= (int)0x12C)) {
-            *(unsigned int *)0xC1EE770 = 0x1;
-            *(unsigned int *)0xC1EE240 = 0x0;
-            t94 = 0xC1EE240;
-        } else {
-            t89 = t80;
-            if (t80 == 1) {
-                t86 = t80;
-                if ((int)(*(int *)0xC1EE240) < (int)0x19A) {
-                } else {
-                    *(unsigned int *)0xC1EE238 = 0x6;
-                    t86 = 0x6;
-                }
-                t89 = t86;
-            }
-            t94 = t89;
-        }
-        t98 = t94;
     }
-    return t98;
+    return t23;
 }

@@ -1,27 +1,27 @@
 /* Straight-line functions with calls and guards (batch gen_ux): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FcvInterpolateBuffer(int, int, float);
-int psgStepBlend(int a4);
+int menuCursor(int, int, int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int putString(int, int, float, float, float);
+int vibIsReady(void);
+int windowEnterStep(int);
+int windowOpenStep(int);
+int windowPause(void);
 
-int psgStepBlend(int a4)
+int windowPause(void)
 {
-    int t1;
-    int t12;
+    int t2;
 
-    if ((*(float *)((a4 + 0x10C))) == 0.0f) {
-        t1 = *(signed char *)(((0x149 + a4) + 0x0));
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = (t1 & 0x7F);
-        return (t1 & 0x7F);
+    windowOpenStep(0x1);
+    t2 = 0x0;
+    if ((vibIsReady()) == 0) {
+        t2 = 0x8;
     }
-    FcvInterpolateBuffer((a4 + 0x3C), (*(int *)((a4 + 0x118))), ((*(float *)((a4 + 0x108))) / (*(float *)((a4 + 0x10C)))));
-    *(float *)((a4 + 0x108)) = ((*(float *)((a4 + 0x108))) + 1.0f);
-    t12 = 0x108;
-    if ((*(float *)((a4 + 0x108))) == (*(float *)((a4 + 0x10C)))) {
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0x7F);
-        *(unsigned int *)((a4 + 0x34)) = (*(int *)((a4 + 0x110)));
-        *(float *)((a4 + 0x38)) = (*(float *)((a4 + 0x114)));
-        t12 = 0x38;
+    if (((*(int *)0xC2A11CC) & 4) == 0) {
+        menuCursor(0x1, 0x4, t2);
     }
-    return t12;
+    putLevelCTFontAssist(0x2020, 0xC09E0AC, 0x4, (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0))), (t2));
+    putString(0x24, 0xC0A2088, (*(float *)0xC03EA64), (*(float *)0xC03EA60), (*(float *)0xC03EA5C));
+    return windowEnterStep(0x14);
 }

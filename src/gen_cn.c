@@ -712,21 +712,6 @@ int vmsio_block_write(int a4, int a5, int a6)
 
 
 
-int gameState13(void)
-{
-    int t0;
-    int t2;
-
-    t0 = *(int *)0xC1EE240;
-    *(unsigned int *)0xC1EE240 = (t0 + 0x1);
-    ExecRenderTexture1st();
-    t2 = replayChangeControl(0x3);
-    if (t2 == 0) {
-        exec_loop_Replay();
-    }
-    ExecRenderTexture2nd();
-    return ExecEndRoll();
-}
 
 
 

@@ -1,37 +1,38 @@
 /* Straight-line functions with calls and guards (batch gen_hv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int ReturnBreakPinNum(void);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int Put_Pin_Count(void);
+int nlAddVector3op(int, int, int);
+int nlGetTranslate(int);
+int nlMultiMatrix(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+int psgSeatMatrix(int a4);
 
-int Put_Pin_Count(void)
+int psgSeatMatrix(int a4)
 {
-    float u1;
+    int t2;
     int t7;
-    float u11;
-    int stk[8];
+    int t8;
+    int t10;
+    int t3;
+    int t4;
+    int stk[9];
 
-    nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98AC = 1.0f;
-    u1 = *(float *)0xC05C954;
-    nd_SprPut(0xC2A9898, 0x1EA, (*(float *)0xC05C95C), u1);
-    nd_SprPut(0xC2A9898, 0x1EB, (*(float *)0xC05C960), u1);
-    ResetFadeColor();
-    t7 = ReturnBreakPinNum();
-    *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x8) + 0x4);
-    *(unsigned int *)((((((int)stk + 4) + 0x8) + 0x4) + 0x0)) = ((int)((int)t7 / (int)0xA));
-    *(unsigned int *)(((int)stk + 8)) = (((int)stk + 4) + 0x8);
-    *(unsigned int *)(((((int)stk + 4) + 0x8) + 0x0)) = ((int)((int)t7 % (int)0xA));
-    u11 = *(float *)0xC05C974;
-    if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
-        nd_SprPut(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50), (*(float *)0xC05C978), u11);
+    nlMultiMatrix(0xC179180);
+    t2 = *(int *)0xC179488;
+    if ((((*(int *)0xC1EE20C) == 2) && (t3 = *(int *)0xC1EE214, t3 == 11)) || (t4 = *(int *)0xC1EE214, t4 == 14)) {
+        if ((*(int *)0xC1EE214) == 11) {
+            t7 = *(signed char *)((a4 + 0x154));
+            t8 = *(signed char *)0xC2A98EC;
+            nlAddVector3op(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((((t7 + t8) - 7) << 1) + ((t7 + t8) - 7)) << 2) + 0xC13F3BC));
+        } else {
+            t10 = *(signed char *)((a4 + 0x154));
+            nlAddVector3op(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((t10 << 1) + t10) << 2) + 0xC13F3BC));
+        }
+        nlTranslateV(((int)stk + 4));
+    } else {
+        nlTranslateV(((((t2 << 1) + t2) << 2) + 0xC0D55C4));
     }
-    nd_SprPut(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))) + 0x50), (*(float *)0xC05C97C), u11);
-    nd_SprPut(0xC2A9898, 0x1E1, (*(float *)0xC05C980), u11);
-    nd_SprPut(0xC2A9898, 0x57, (*(float *)0xC05C984), u11);
-    return (nd_SprPut(0xC2A9898, 0x50, (*(float *)0xC05C988), u11));
+    nlRotateAY(0x8000);
+    return (nlGetTranslate((a4 + 0x4)));
 }

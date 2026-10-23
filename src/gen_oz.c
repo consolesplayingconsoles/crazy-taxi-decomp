@@ -1,59 +1,57 @@
-extern int pcarExec();
 /* Straight-line functions with calls and guards (batch gen_oz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int courseStatusGet(int, int, int, int);
-int extRand(void);
-int getNearLinkedLine(int, int, int, int, int);
-int pcarRejoinLane(int a4);
+int Chk_DispCredit(int);
+int Start_Ranking(void);
+int Voice_Request(int, int, int, int);
+int exec_loop_Replay(void);
+int gdc_FadeManStreamSong(void);
+int gdc_FadeStopStreamSong(int, int);
+int gdc_StopStreamSongAll(void);
+int replayChangeControl(int, int, int, int, float);
+int AdvStateReplay(int a4, int a5, int a6, int a7, float f4);
 
-int pcarRejoinLane(int a4)
+int AdvStateReplay(int a4, int a5, int a6, int a7, float f4)
 {
-    int t0;
-    int t1;
-    int t12;
-    int t3;
-    int t22;
-    int t26;
-    float u25;
-    int t41;
-    int t33;
+    int t2;
+    int t8;
+    int t17;
+    int t9;
+    int t14;
 
-    t0 = *(int *)((a4 + 0x84));
-    if (((t0 & 0xC00) != 0x400) && ((t0 & 0xC00) != 0x800)) {
-        t1 = extRand();
-        t12 = t1;
-        if ((t1 & 0x3FF) == 0) {
-            *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) & 0xFFFFF3FF);
-            t3 = *(int *)((a4 + 0x80));
-            if (((*(int *)(((*(int *)((((((t3 << 1) + t3) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0x4000) != 0) {
-                *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0x800);
-            } else {
-                *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0x400);
-            }
-            *(unsigned int *)((a4 + 0x11C)) = 0x10E;
-            t12 = 0x11C;
-        }
-        t41 = t12;
-    } else {
-        if ((float)(*(int *)((a4 + 0x11C))) > 150.0f) {
-            *(unsigned int *)((a4 + 0x11C)) = ((*(int *)((a4 + 0x11C))) - 1);
-            t33 = 0x11C;
-        } else {
-            getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
-            t22 = courseStatusGet((*(int *)((a4 + 0x80))), ((*(int *)((a4 + 0xD4))) - 2), 0x0, 0x8);
-            t26 = t22;
-            if (t22 == 0) {
-                *(unsigned int *)((a4 + 0xC)) = ((int)pcarExec);
-                *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) & 0xFFFFFFEF);
-                u25 = 0.0599999987f;
-                u25 = u25 + 0.00999999978f * (1000.0f / (*(float *)((a4 + 0xB4))));
-                *(float *)((a4 + 0xD0)) = u25;
-                t26 = 0xD0;
-            }
-            t33 = t26;
-        }
-        t41 = t33;
+    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    t2 = 0x2;
+    if ((*(int *)0xC1EE20C) == 0) {
+        t2 = 0x1;
     }
-    return t41;
+    if ((replayChangeControl(t2, a5, a6, a7, f4)) == 0) {
+        exec_loop_Replay();
+    }
+    t8 = *(int *)0xC1EE774;
+    if ((t8 == 0) && (t9 = *(int *)0xC1EE33C, (int)t9 >= (int)0xBB8)) {
+        Start_Ranking();
+        *(unsigned int *)0xC1EE774 = ((*(int *)0xC1EE774) + 0x1);
+    } else {
+        if ((t8 == 1) && (t14 = *(int *)0xC1EE33C, (int)t14 >= (int)0x105E)) {
+            Voice_Request(0xC0E52E0, 0x0, 0x7F, 0x0);
+            t17 = 0x384;
+            if ((*(int *)0xC1EE20C) == 0) {
+                t17 = 0x44C;
+            }
+            gdc_FadeStopStreamSong(0x0, t17);
+            *(unsigned int *)0xC1EE774 = ((*(int *)0xC1EE774) + 0x1);
+        } else {
+            if (t8 == 2) {
+                gdc_FadeManStreamSong();
+            }
+        }
+    }
+    if ((int)(*(int *)0xC1EE33C) >= (int)0x1298) {
+        *(unsigned int *)0xC1EE238 = 0x8;
+        if ((int)(*(int *)0xC2A4E54) > 0) {
+            *(unsigned int *)0xC2A4E54 = ((*(int *)0xC2A4E54) - 1);
+        }
+        return gdc_StopStreamSongAll();
+    }
+    return Chk_DispCredit(0x0);
 }

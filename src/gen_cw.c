@@ -37,26 +37,6 @@ int bootSerialGetByte(void)
     return t2;
 }
 
-int Put_TotalDrum(void)
-{
-    int t0;
-    int t1;
-    int t2;
-
-    t0 = *(int *)0xC2A8CB4;
-    if (t0 == 0) {
-        t1 = *(int *)0xC2A8EAC;
-        if ((int)t1 > 0) {
-            t2 = *(int *)0xC2A8CB8;
-            if (t2 == 48) {
-                return ((int (*)(void))(0xC054726))();
-            }
-            return ((int (*)(void))(0xC054724))();
-        }
-        return ((int (*)(void))(0xC054724))();
-    }
-    return ((int (*)(void))(0xC054724))();
-}
 
 int bootTimerTick(void)
 {

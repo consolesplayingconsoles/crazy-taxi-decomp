@@ -1,120 +1,70 @@
 /* Straight-line functions with calls and guards (batch gen_xh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetMenuMode(int);
-int Sound_Request(int, int);
-int Start_Default_Sprite(int, int, int, int);
-int init_GameSystem(void);
+int DispVector(int, int, int, float);
+float nlFastCos(int);
+float nlFastSin(int);
+int nlLocate(int, int);
+int nlObjPutSetGlobalAmbience(float);
+int nlObjPutSetLightDirectionV(int);
+int nlPrintf(int, ...);
+int goiToolLight(int a4);
 
-int init_GameSystem(void)
+int goiToolLight(int a4)
 {
-    int t0;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
+    int t2;
+    int t4;
     int t9;
-    int t10;
-    int t28;
-    int t29;
-    int t36;
-    int t44;
-    int t45;
-    int t46;
-    int t52;
-    int t53;
+    float u15;
+    int t16;
+    int t18;
+    float u49;
     int t55;
-    int t56;
-    int t57;
-    int t58;
-    int t59;
-    int t60;
-    int t61;
-    int t62;
-    int t63;
+    float u3;
+    float u8;
+    int stk[18];
 
-    *(unsigned int *)0xC1EE7EC = 0x0;
-    t0 = *(int *)0xC1EE210;
-    if (t0 != 2) {
-        *(unsigned int *)0xC1EE7F0 = 0x16E;
+    if (a4 == 0) {
+        *(unsigned int *)0xC2A5AF0 = 0x2200;
+        *(unsigned int *)0xC2A5AF4 = 0x2900;
+        *(float *)0xC2A5AF8 = 0.649999976f;
+        t55 = 0xC04AB74;
     } else {
-        *(unsigned int *)0xC1EE7F0 = 0xBE;
-    }
-    Sound_Request(0x605A9, 0x0);
-    *(unsigned int *)0xC1EE788 = 0x0;
-    *(unsigned int *)0xC1EE78C = 0x0;
-    *(unsigned int *)0xC1EE790 = 0x0;
-    t5 = *(int *)0xC1EE234;
-    if (t5 == 1) {
-        t6 = *(signed char *)0xC28A4E9;
-        t7 = *(int *)((0xC089F60 + ((unsigned char)t6 << 2)));
-        *(unsigned int *)0xC1EE794 = (t7 * 0x3C);
-        t8 = GetMenuMode(0x1);
-        if (t8 != 0) {
-            if (t8 != 1) {
-                if (t8 != 2) {
-                    if (t8 != 3) {
-                        t9 = *(signed char *)0xC28A4E9;
-                        t10 = *(int *)((0xC089F60 + ((unsigned char)t9 << 2)));
-                        *(unsigned int *)0xC1EE794 = (t10 * 0x3C);
-                    } else {
-                        *(unsigned int *)0xC1EE794 = 0x8CA0;
-                    }
-                } else {
-                    *(unsigned int *)0xC1EE794 = 0x4650;
-                }
-            } else {
-                *(unsigned int *)0xC1EE794 = 0x2A30;
+        if (((*(int *)0xC1EE24C) & 4) != 0) {
+            *(unsigned int *)(((int)stk + 20)) = 0xC1EE24C;
+            t2 = *(int *)0xC1EE24C;
+            t4 = 0x0;
+            if (((0x10 & t2) != 0) && (u3 = *(float *)0xC2A5AF8, 1.0f > u3)) {
+                t4 = 0x1;
             }
+            t9 = 0x0;
+            if (((0x20 & t2) != 0) && (u8 = *(float *)0xC2A5AF8, u8 > 0.0f)) {
+                t9 = 0x1;
+            }
+            u15 = (*(float *)0xC2A5AF8);
+            u15 = u15 + (*(float *)0xC04ACBC) * (float)(t4 - t9);
+            *(float *)0xC2A5AF8 = u15;
         } else {
-            t28 = *(signed char *)0xC28A4E9;
-            t29 = *(int *)((0xC089F60 + ((unsigned char)t28 << 2)));
-            *(unsigned int *)0xC1EE794 = (t29 * 0x3C);
+            t16 = *(int *)0xC1EE24C;
+            *(unsigned int *)0xC2A5AF0 = ((*(int *)0xC2A5AF0) + ((((((((((0x10 & t16) == 0)) ? 1 : 0) ^ 0x1) - (-(((((0x20 & t16) == 0)) ? 1 : 0) - 1))) << 2) << 2) << 2) << 1));
+            t18 = *(int *)0xC1EE24C;
+            *(unsigned int *)0xC2A5AF4 = ((*(int *)0xC2A5AF4) + ((((((((((0x80 & t18) == 0)) ? 1 : 0) ^ 0x1) - (-(((((0x40 & t18) == 0)) ? 1 : 0) - 1))) << 2) << 2) << 2) << 1));
+            *(unsigned int *)0xC2A5AF0 = (unsigned short)(*(int *)0xC2A5AF0);
+            *(unsigned int *)0xC2A5AF4 = (unsigned short)(*(int *)0xC2A5AF4);
         }
-    } else {
-        t36 = *(int *)0xC089F6C;
-        *(unsigned int *)0xC1EE794 = (t36 * 0x3C);
+        *(float *)(((int)stk + 36)) = ((nlFastCos((*(int *)0xC2A5AF0))) * (nlFastSin((*(int *)0xC2A5AF4))));
+        *(float *)(((int)stk + 40)) = (nlFastSin((*(int *)0xC2A5AF0)));
+        *(float *)(((int)stk + 44)) = ((nlFastCos((*(int *)0xC2A5AF0))) * (nlFastCos((*(int *)0xC2A5AF4))));
+        nlObjPutSetLightDirectionV((((int)stk + 20) + 0x10));
+        nlObjPutSetGlobalAmbience((*(float *)0xC2A5AF8));
+        *(float *)(((int)stk + 24)) = 0.0f;
+        *(float *)(((int)stk + 28)) = (*(float *)0xC04ACD0);
+        *(float *)(((int)stk + 32)) = (*(float *)0xC04ACD4);
+        DispVector((((int)stk + 20) + 0x10), (((int)stk + 20) + 0x4), 0x1, 1.0f);
+        nlLocate(0x1E, 0x28);
+        u49 = *(float *)0xC2A5AF8;
+        *(float *)(((int)stk + 16)) = u49;
+        t55 = (nlPrintf(0xC0C324C, ((*(int *)0xC2A5AF0)), ((*(int *)0xC2A5AF4)), u49));
     }
-    t44 = *(int *)0xC1EE210;
-    if (t44 == 2) {
-        t45 = *(int *)0xC1EE214;
-        t46 = *(int *)(((t45 << 2) + 0xC0D0DD0));
-        *(unsigned int *)0xC1EE794 = (t46 * 0x3C);
-    }
-    *(unsigned int *)0xC1EE798 = 0x0;
-    *(unsigned int *)0xC1EE79C = 0x0;
-    *(unsigned int *)0xC1EE7A0 = 0x0;
-    *(float *)0xC1EE7A4 = 0.0f;
-    *(unsigned int *)0xC1EE7AC = 0x0;
-    *(unsigned int *)0xC1EE7A8 = 0x0;
-    *(unsigned int *)0xC1EE7B4 = 0x0;
-    *(unsigned int *)0xC1EE7B0 = 0x0;
-    *(unsigned int *)0xC1EE7B8 = 0x0;
-    *(float *)0xC1EE7BC = 0.0f;
-    *(float *)0xC1EE7C0 = 0.0f;
-    *(unsigned int *)0xC1EE7C4 = 0x0;
-    *(unsigned int *)0xC1EE7C8 = 0x1;
-    *(unsigned int *)0xC1EE7CC = 0x0;
-    t52 = *(int *)0xC08AEA8;
-    *(unsigned int *)0xC1EE7D0 = t52;
-    t53 = *(int *)0xC08AED8;
-    *(unsigned int *)0xC1EE7D4 = t53;
-    *(unsigned int *)0xC1EE7DC = 0x1;
-    *(unsigned int *)0xC1EE7E0 = 0x0;
-    *(unsigned int *)0xC1EE7E4 = 0x0;
-    *(unsigned int *)0xC1EE7E8 = 0x384;
-    *(unsigned int *)0xC1EE7F4 = 0x0;
-    Start_Default_Sprite(0xC1EE794, 0xC1EE798, 0xC1EE7A8, 0xC1EE7AC);
-    t55 = *(int *)0xC1EE210;
-    t56 = *(int *)0xC1EE214;
-    t57 = *(int *)(((((t55 + t56) << 2) + 0xC0C3D04) + 0x0));
-    t58 = *(int *)0xC2A6690;
-    t59 = *(int *)(((((t57 << 1) + t57) << 2) + t58));
-    *(unsigned int *)0xC2A1B28 = t59;
-    t60 = *(int *)(((((t55 + t56) << 2) + 0xC0C3D04) + 0x0));
-    t61 = *(int *)0xC2A6690;
-    t62 = *(int *)((((((t60 << 1) + t60) << 2) + t61) + 0x4));
-    t63 = *(int *)((t62 + 0x0));
-    *(unsigned int *)0xC2A1B2C = t63;
-    return 0xC2A1B28;
+    return t55;
 }

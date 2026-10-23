@@ -1,89 +1,56 @@
 /* Straight-line functions with calls and guards (batch gen_ol): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int abs(int);
-float nlLength(int, int);
-void calcCheck(int a4, int a5, int a6);
+int KillColliObj(int);
+int SetColliObj(int, int);
+int nlAddVector(int, int);
+float nlLength(int, int, float, float);
+int nlScaleVector(int, int, float);
+int set_event(int, int);
+void setObjHitSplitSleep(int a4, float f4, float f5);
 
-void calcCheck(int a4, int a5, int a6)
+void setObjHitSplitSleep(int a4, float f4, float f5)
 {
-    float t0;
-    float u11;
-    float u15;
-    float u24;
-    float u25;
-    int t27;
-    int stk[3];
+    float u1;
+    int t2;
+    int t4;
+    int t5;
+    int t7;
+    int t3;
+    int t8;
+    int stk[15];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R9;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    L_C045A2E:;
-    t0 = nlLength(0xC2A1B34, (0x8C + R4));
-    R14 = (R4);
-    F0 = (t0);
-    if ((!(((*(float *)0xC2A1B18) + 30.0f) > t0))) goto L_C045A90;
-    goto L_C045A4C;
-    L_C045A4C:;
-    R0 = (0x84);
-    R2 = (((*(int *)((R14 + 0x84))) | 0xD));
-    goto L_C045A98;
-    L_C045A98:;
-    *(unsigned int *)((R14 + R0)) = R2;
-    if (((*(float *)((R14 + 0xC4))) != 0.0f)) goto L_C045B0A;
-    goto L_C045AA4;
-    L_C045AA4:;
-    u11 = *(float *)0xC045BB0;
-    F1 = (u11);
-    if ((!(u11 > _builtin_fabsf((*(float *)((R14 + 0xCC))))))) goto L_C045B0A;
-    goto L_C045AB2;
-    L_C045AB2:;
-    u15 = *(float *)0xC045BB4;
-    F0 = (u15);
-    if ((!(u15 > _builtin_fabsf((*(float *)((R14 + 0x60))))))) goto L_C045B0A;
-    goto L_C045AC0;
-    L_C045AC0:;
-    if (((int)(abs((*(short *)((R14 + 0xAA))))) >= (int)0x10)) goto L_C045B0A;
-    goto L_C045ACE;
-    L_C045ACE:;
-    if ((!((*(float *)0xC045BB4) > _builtin_fabsf((*(float *)((R14 + 0x100))))))) goto L_C045B0A;
-    goto L_C045ADC;
-    L_C045ADC:;
-    u24 = *(float *)((R14 + 0x104));
-    u25 = *(float *)((R14 + 0x90));
-    t27 = !((*(float *)0xC045BBC) > _builtin_fabsf((u25 - u24)));
-    F1 = (_builtin_fabsf((u25 - u24)));
-    if (t27) goto L_C045B0A;
-    goto L_C045AF0;
-    L_C045AF0:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) & 0xFFFFFFFB);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + R14)) = *(struct mv3 *)(0xC0A4788); }
-    goto L_C045B14;
-    L_C045B14:;
-    return;
-    L_C045B0A:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) | 0x4);
-    R0 = (0x84);
-    goto L_C045B14;
-    L_C045A90:;
-    R0 = (0x84);
-    R2 = (((*(int *)((R14 + 0x84))) & 0xFFFFFFF2));
-    goto L_C045A98;
+    if ((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+        *(unsigned int *)(((int)stk + 4)) = 0xC0EDEB4;
+        u1 = *(float *)0xC0387B0;
+        t2 = 0x0;
+        for (;;) {
+            t4 = set_event(0x84, 0xC0385E2);
+            if (t4 != 0) {
+                t3 = t4;
+                t3 = (t3 + 0x14);
+                t5 = a4;
+                t7 = t3;
+                for (;;) { t8 = *(int *)t5; t5 = (t5 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t5) break; *(unsigned int *)t7 = t8; t7 = (t7 + 4); }
+                if (t2 != 0) {
+                    nlScaleVector((t3 + 0x30), (t3 + 0x30), (-1.0f));
+                }
+                nlScaleVector((((int)stk + 4) + 0x4), (t3 + 0x30), u1);
+                nlAddVector(t3, (((int)stk + 4) + 0x4));
+                *(unsigned int *)((t3 + 0x28)) = (t3 + 0x30);
+                *(unsigned int *)((t3 + 0x54)) = (*(int *)(((int)stk + 4)));
+                *(unsigned int *)((t3 + 0x64)) = (*(int *)(((((*(int *)((a4 + 0x6C))) << 2) + (*(int *)0xC0EE208)) + 0x0)));
+                SetColliObj(t3, 0x10);
+            }
+            t2 = (t2 + 0x1);
+            if ((int)t2 >= (int)0x2) {
+                break;
+            }
+        }
+        KillColliObj(a4);
+        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
+    } else {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+    }
 }

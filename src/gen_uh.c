@@ -1,22 +1,19 @@
 /* Straight-line functions with calls and guards (batch gen_uh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Init_DCmini_Standard_Sprite(void);
+int VSklIpPlay(int, int, int, int, int, int, float);
+float nlCeil(float);
+float nlFloor(float);
+float nlFraction(float);
+int VSklSfPlay(int a4, int a5, int a6, float f4);
 
-int Init_DCmini_Standard_Sprite(void)
+int VSklSfPlay(int a4, int a5, int a6, float f4)
 {
-    *(float *)0xC2A989C = (320.0f);
-    *(float *)0xC2A98A0 = (240.0f);
-    *(float *)0xC2A98A4 = (0.19999999f);
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98AC = 1.0f;
-    *(float *)0xC2A98B0 = 0.0f;
-    *(float *)0xC2A98B4 = 0.0f;
-    *(float *)0xC2A98B8 = 1.0f;
-    *(float *)0xC2A98BC = 1.0f;
-    *(unsigned int *)0xC2A98C0 = 0x0;
-    *(unsigned int *)0xC2A98CC = 0x200A;
-    *(float *)0xC2A98C4 = 1.0f;
-    *(unsigned int *)0xC2A98C8 = 0x2;
-    return 0x2C;
+    int fl;
+    int ce;
+
+    fl = (int)nlFloor(f4);
+    ce = (int)nlCeil(f4);
+    return VSklIpPlay(a4, fl, a4, ce, a5, a6, nlFraction(f4));
 }
+

@@ -1,114 +1,43 @@
 /* Straight-line functions with calls and guards (batch gen_dw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuChangeValue(int, int, int);
-int ndPuru2Start(int, int, int);
-int ndPuru2Stop(void);
-int putMenuValue(int, int, int, int);
-int vibIsReady(void);
-int menuItemVibration(int a4, int a5, int a6, int a7);
+float carGripCurve(float);
+float carSlipRatio(float, float);
+int nlCalcVector(int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+float carWheelSlip(int a4);
 
-int menuItemVibration(int a4, int a5, int a6, int a7)
+float carWheelSlip(int a4)
 {
-    int t5;
-    int stk[7];
+    float t28;
+    int t12;
+    int t19;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    L_C03DA02:;
-    *(unsigned char *)(((int)stk + 8)) = 0x0;
-    R12 = (R4);
-    if (((vibIsReady()) != 1)) goto L_C03DA20;
-    goto L_C03DA1A;
-    L_C03DA1A:;
-    R13 = (0xC28A4EF);
-    goto L_C03DA24;
-    L_C03DA24:;
-    t5 = *(int *)0xC2A1214;
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)((R13 + 0x0)));
-    R14 = ((((t5 == 1)) ? 1 : 0));
-    if ((R12 == 0)) goto L_C03DA66;
-    goto L_C03DA36;
-    L_C03DA36:;
-    if (((menuChangeValue(R14, ((int)stk + 4), 0x2)) != 1)) goto L_C03DA66;
-    goto L_C03DA44;
-    L_C03DA44:;
-    *(unsigned char *)((R13 + 0x0)) = (*(int *)(((int)stk + 4)));
-    if ((R14 != 0)) goto L_C03DA66;
-    goto L_C03DA4C;
-    L_C03DA4C:;
-    if (((*(int *)(((int)stk + 4))) == 0)) goto L_C03DA60;
-    goto L_C03DA52;
-    L_C03DA52:;
-    ndPuru2Start(0x2, 0x1, 0x0);
-    goto L_C03DA66;
-    L_C03DA66:;
-    if ((R14 != 1)) goto L_C03DAE2;
-    goto L_C03DA6E;
-    L_C03DA6E:;
-    R14 = (0xC09E15C);
-    if ((R12 == 0)) goto L_C03DA84;
-    goto L_C03DA74;
-    L_C03DA74:;
-    R0 = ((putMenuValue(0xA044, R14, 0x2, (*(int *)(((int)stk + 4))))));
-    goto L_C03DAFC;
-    L_C03DAFC:;
-    return R0;
-    L_C03DA84:;
-    if (((vibIsReady()) != 1)) goto L_C03DAD0;
-    goto L_C03DA8E;
-    L_C03DA8E:;
-    R4 = (0x2024);
-    R5 = (R14);
-    R6 = (0x2);
-    R7 = ((*(int *)(((int)stk + 4))));
-    goto L_C03DAD8;
-    L_C03DAD8:;
-    R0 = ((putMenuValue(R4, R5, R6, R7)));
-    goto L_C03DAFC;
-    L_C03DAD0:;
-    R4 = (0x2084);
-    R5 = (R14);
-    R6 = (0x2);
-    R7 = ((*(int *)(((int)stk + 4))));
-    goto L_C03DAD8;
-    L_C03DAE2:;
-    R5 = (0xC09EB54);
-    if ((R12 == 0)) goto L_C03DAF0;
-    goto L_C03DAE8;
-    L_C03DAE8:;
-    R4 = (0xC017);
-    R6 = (0x2);
-    R7 = ((*(int *)(((int)stk + 4))));
-    goto L_C03DAF6;
-    L_C03DAF6:;
-    R0 = ((putMenuValue(R4, R5, R6, R7)));
-    goto L_C03DAFC;
-    L_C03DAF0:;
-    R4 = (0x4017);
-    R6 = (0x2);
-    R7 = ((*(int *)(((int)stk + 4))));
-    goto L_C03DAF6;
-    L_C03DA60:;
-    ndPuru2Stop();
-    goto L_C03DA66;
-    L_C03DA20:;
-    R13 = ((((int)stk + 4) + 0x4));
-    goto L_C03DA24;
+    nlPushMatrix(0x0);
+    nlRotateAY(((unsigned short)(*(short *)((a4 + 0x86))) - (unsigned short)(*(short *)((a4 + 0xF4)))));
+    nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
+    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
+    *(float *)0xC1EE148 = 0.0f;
+    *(float *)0xC1EE14C = 0.0f;
+    *(float *)0xC1EE150 = (*(float *)((a4 + 0x160)));
+    nlCalcVector(0xC1EE148, 0xC1EE154);
+    nlPopMatrix(0x1);
+    if (((*(int *)(((0x1A0 + a4) + 0x84))) == -1) && (t12 = *(int *)(((0x1A0 + a4) + 0x0)), t12 == -1)) {
+        *(float *)((a4 + 0x180)) = 0.0f;
+    } else {
+        *(float *)((a4 + 0x180)) = (carSlipRatio((*(float *)((a4 + 0x168))), (*(float *)0xC1EE15C)));
+    }
+    if (((*(int *)(((0x1A0 + a4) + 0x18C))) == -1) && (t19 = *(int *)(((0x1A0 + a4) + 0x108)), t19 == -1)) {
+        *(float *)((a4 + 0x18C)) = 0.0f;
+    } else {
+        *(float *)((a4 + 0x18C)) = (carSlipRatio((*(float *)((a4 + 0x16C))), (*(float *)0xC1EE15C)));
+    }
+    *(float *)((a4 + 0x184)) = (carGripCurve((*(float *)((a4 + 0x180)))));
+    t28 = carGripCurve((*(float *)((a4 + 0x18C))));
+    *(float *)((a4 + 0x190)) = t28;
+    return t28;
 }

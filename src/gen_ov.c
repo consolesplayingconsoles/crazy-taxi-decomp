@@ -1,82 +1,60 @@
 /* Straight-line functions with calls and guards (batch gen_ov): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_ExecBlend(void);
-int Drv_StartAction(int, int, int);
-int Drv_StartGetOff(void);
-int FcvStoreBuffer(int, int, float);
-int drvUpdatePartTracks(void);
-int Drv_ExecGetOff(void);
+int SetSEvolume(void);
+int Voice_Init(void);
+int gdc_VolStreamSong(int);
+int menuChangeValue(int, int, int);
+int menuPutSprites(int, int, int, int);
+int putString(int, int, float, float, float);
+int menuItemVolume(int a4, int a5);
 
-int Drv_ExecGetOff(void)
+int menuItemVolume(int a4, int a5)
 {
     int t0;
-    int t1;
-    float u16;
-    int t17;
-    int t19;
-    int t22;
-    int t25;
-    int t26;
+    int t3;
+    float u5;
+    float u6;
+    int t35;
     int t29;
-    int t32;
+    int t31;
+    int t33;
+    int stk[12];
 
-    t0 = *(int *)0xC2AD014;
-    t1 = *(int *)0xC2AD018;
-    if (t0 != 0) {
-        if (t0 == 1) {
-            drvUpdatePartTracks();
-            FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-            *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
-            if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
-                return Drv_StartAction(0x0, 0x0, 0x0);
+    t0 = *(int *)0xC2A1ADC;
+    t3 = 0xC28A4ED;
+    u5 = 290.0f;
+    u6 = (float)(t0 + 0x1DE);
+    if (a5 == 4) {
+        t3 = 0xC28A4EC;
+        u5 = 256.0f;
+        u6 = (float)(0x1DE - t0);
+    }
+    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
+    if (a4 != 0) {
+        if ((menuChangeValue(0x0, ((int)stk + 4), 0x9)) == 1) {
+            *(unsigned char *)((t3 + 0x0)) = (*(int *)(((int)stk + 4)));
+            SetSEvolume();
+            Voice_Init();
+            gdc_VolStreamSong(0x7F);
+        }
+    }
+    putString(0x28, 0xC0A2058, (u6 + -82.0f), (u5 + -7.0f), 1.0f);
+    t35 = (putString(0x20, 0xC0A205C, (u6 + 82.0f), (u5 + -7.0f), 1.0f));
+    if ((int)0x8 > 0) {
+        t29 = 0x0;
+        for (;;) {
+            t31 = 0xC0A0868;
+            if ((int)t29 < (int)(*(int *)(((int)stk + 4)))) {
+                t31 = 0xC0A0858;
             }
-            return 0x24;
-        }
-        return t0;
-    }
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        return Drv_ExecBlend();
-    }
-    drvUpdatePartTracks();
-    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-    u16 = *(float *)0xC2AD024;
-    *(float *)0xC2AD024 = (u16 + 1.0f);
-    t17 = *(int *)0xC2AD020;
-    if ((float)((*(int *)((t17 + 0x0))) - 1) > (u16 + 1.0f)) {
-        if ((t17 != 0xC8D1824) && (t17 != 0xC8D2488)) {
-            return 0x24;
-        }
-        if (!(60.0f > (u16 + 1.0f))) {
-            t19 = *(int *)((t1 + 0x34));
-            if ((t19 != 0xC956FCC) && ((t19 != 0xC95A230) && ((t19 != 0xC95D7C4) && ((t19 != 0xC960308) && ((t19 != 0xC962F0C) && ((t19 != 0xC9659C0) && ((t19 != 0xC9684A4) && (t19 != 0xC96B138)))))))) {
-                *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
-                t22 = *(int *)((t1 + 0x24));
-                if (t22 == 1) {
-                    *(unsigned int *)0xC2AD014 = ((*(int *)0xC2AD014) + 0x1);
-                    return Drv_StartGetOff();
-                }
-                return t22;
+            t33 = menuPutSprites(t31, 0xC2A1A84, (int)((float)(((((t29 - 3) << 2) + (t29 - 3)) << 2) - 10) + u6), (int)u5);
+            t29 = (t29 + 0x1);
+            if ((int)t29 >= (int)0x8) {
+                break;
             }
-            Drv_StartAction(0x0, 0x0, 0x0);
-            t25 = *(signed char *)0xC2AD1DF;
-            *(unsigned char *)0xC2AD1DF = (t25 | 0x40);
-            return (t25 | 0x40);
         }
-        return 0xC063668;
+        t35 = t33;
     }
-    t26 = *(int *)((t1 + 0x34));
-    if ((t26 != 0xC956FCC) && ((t26 != 0xC95A230) && ((t26 != 0xC95D7C4) && ((t26 != 0xC960308) && ((t26 != 0xC962F0C) && ((t26 != 0xC9659C0) && ((t26 != 0xC9684A4) && (t26 != 0xC96B138)))))))) {
-        *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
-        t29 = *(int *)((t1 + 0x24));
-        if (t29 == 1) {
-            *(unsigned int *)0xC2AD014 = ((*(int *)0xC2AD014) + 0x1);
-            return Drv_StartGetOff();
-        }
-        return t29;
-    }
-    Drv_StartAction(0x0, 0x0, 0x0);
-    t32 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t32 | 0x40);
-    return (t32 | 0x40);
+    return t35;
 }

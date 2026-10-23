@@ -1,33 +1,76 @@
 /* Straight-line functions with calls and guards (batch gen_jc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckKyakuArea(int, int);
-int CheckNumRideon(void);
-int kyakuInDestArea(int a4);
+int ndPuru2Start(int, int, int);
+int nlRand(void);
+float nlRandom(void);
+float nlScalor(int);
+int set_event(int, int);
+int SetEffect(int a4, int a5, int a6);
 
-int kyakuInDestArea(int a4)
+int SetEffect(int a4, int a5, int a6)
 {
-    int r;
-    if (*(int *)0xC1EE20C == 2 && *(int *)0xC1EE214 == 11 && **(int **)(a4 + 0x198) == *(int *)0xC2A98FC) goto check;
-    if (*(int *)0xC1EE20C == 2 && *(int *)0xC1EE214 == 14 && **(int **)(a4 + 0x198) == *(int *)0xC2A98FC) {
-        if (CheckNumRideon() == *(int *)0xC2A9900) goto check;
+    int t0;
+    int t2;
+    int t46;
+    float u4;
+    float u6;
+    int t22;
+    float t8;
+    float u9;
+    float u10;
+    float u14;
+    float u15;
+    float u16;
+    int t40;
+    int t31;
+
+    t0 = 0xC03663C;
+    if (a6 == 3) {
+        t0 = 0xC036806;
     }
-    if (*(int *)0xC1EE20C == 2) {
-        if (*(int *)0xC1EE214 == 11 || *(int *)0xC1EE214 == 10 || *(int *)0xC1EE214 == 14 || *(int *)0xC1EE214 == 13) goto skip;
-    }
-    if (*(int *)0xC1EE20C == 0 && *(int *)0xC1EE214 == 15) goto skip;
-check:
-    r = CheckKyakuArea(*(int *)(a4 + 24) + 120, **(int **)(a4 + 0x198));
-    if (r != 0) return 1;
-skip:
-    if (*(int *)0xC1EE20C == 0 && *(int *)0xC1EE214 == 15 && *(int *)0xC2A98FC == 7) {
-        if (CheckKyakuArea(*(int *)(a4 + 24) + 120, 7) != 0) return 1;
-    }
-    if (*(int *)0xC1EE20C == 2) {
-        if (*(int *)0xC1EE214 == 10) {
-            if (CheckKyakuArea(*(int *)(a4 + 24) + 120, *(int *)0xC2A98FC) != 0) return 1;
+    t2 = set_event(0x3C, t0);
+    t46 = t2;
+    if (t2 != 0) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x14)) = *(struct mv3 *)(a4); }
+        *(float *)((t2 + 0x18)) = ((*(float *)((t2 + 0x18))) - (1.0f + 1.0f));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x20)) = *(struct mv3 *)(a5); }
+        u4 = *(float *)0xC036AA8;
+        u6 = u4;
+        u6 = u6 + u4 * (nlRandom());
+        *(float *)((t2 + 0x2C)) = u6;
+        *(unsigned int *)((t2 + 0x34)) = ((nlRand()) & 0x3);
+        *(unsigned int *)((t2 + 0x30)) = 0x1E;
+        *(unsigned int *)((t2 + 0x38)) = a6;
+        if (a6 != 1) {
+            if (a6 != 2) {
+                t22 = a6;
+                if (a6 != 3) {
+                } else {
+                    t8 = nlScalor(a5);
+                    u9 = *(float *)0xC036AC8;
+                    u10 = *(float *)0xC036ACC;
+                    *(float *)(((0x20 + t2) + 0x0)) = ((*(float *)(((0x20 + t2) + 0x0))) + ((nlRandom()) + u10));
+                    u14 = *(float *)0xC036AD0;
+                    u15 = *(float *)0xC036AD4;
+                    u16 = (nlRandom());
+                    u16 = u16 + u14 * (t8 + u9);
+                    *(float *)(((0x24 + t2) + 0x0)) = ((*(float *)(((0x24 + t2) + 0x0))) + (u16 + u15));
+                    *(float *)(((0x28 + t2) + 0x0)) = ((*(float *)(((0x28 + t2) + 0x0))) + ((nlRandom()) + u10));
+                    *(unsigned int *)((t2 + 0x30)) = 0x14;
+                    t22 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x2));
+                }
+                t31 = t22;
+            } else {
+                *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * (1.0f + 1.0f));
+                t31 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x1));
+            }
+            t40 = t31;
+        } else {
+            *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * 1.5f);
+            t40 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x0));
         }
-        if (*(int *)0xC1EE20C == 2 && *(int *)0xC1EE214 == 13 && *(float *)(*(int *)(a4 + 24) + 124) > 130.0f) return 1;
+        t46 = t40;
     }
-    return 0;
+    return t46;
 }

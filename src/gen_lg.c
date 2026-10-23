@@ -1,38 +1,44 @@
 /* Straight-line functions with calls and guards (batch gen_lg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector3op(int, int, int);
-int nlGetTranslate(int);
-int nlMultiMatrix(int);
-int nlRotateAY(int);
-int nlTranslateV(int);
-int psgSeatMatrix(int a4);
+int GetCollision2D(int, float);
+int nlAddVector(int, int);
+int nlScaleUnitVector(int, int, float);
+int nlSubVector(int, int, float, float);
+void getReplayPassenger(int a4, int a5, int a6, int a7, int a8, float f4, float f5);
 
-int psgSeatMatrix(int a4)
+void getReplayPassenger(int a4, int a5, int a6, int a7, int a8, float f4, float f5)
 {
-    int t2;
-    int t7;
-    int t8;
-    int t10;
+    int t0;
     int t3;
-    int t4;
-    int stk[9];
+    int t12;
+    int t22;
+    float u14;
+    float u15;
+    int stk[7];
 
-    nlMultiMatrix(0xC179180);
-    t2 = *(int *)0xC179488;
-    if ((((*(int *)0xC1EE20C) == 2) && (t3 = *(int *)0xC1EE214, t3 == 11)) || (t4 = *(int *)0xC1EE214, t4 == 14)) {
-        if ((*(int *)0xC1EE214) == 11) {
-            t7 = *(signed char *)((a4 + 0x154));
-            t8 = *(signed char *)0xC2A98EC;
-            nlAddVector3op(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((((t7 + t8) - 7) << 1) + ((t7 + t8) - 7)) << 2) + 0xC13F3BC));
-        } else {
-            t10 = *(signed char *)((a4 + 0x154));
-            nlAddVector3op(((int)stk + 4), ((unsigned char)(((t2 << 1) + t2) << 2) + 0xC0D55C4), ((signed char)(((t10 << 1) + t10) << 2) + 0xC13F3BC));
+    *(unsigned int *)(((int)stk + 4)) = a5;
+    t0 = *(int *)0xC0F2B30;
+    if ((int)t0 < (int)0xB) {
+        t3 = 0xC0F3A40;
+        if ((*(int *)0xC1EE20C) == 0) {
+            t3 = 0xC0F3540;
         }
-        nlTranslateV(((int)stk + 4));
-    } else {
-        nlTranslateV(((((t2 << 1) + t2) << 2) + 0xC0D55C4));
+        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x10)) = a4;
+        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x14)) = (*(int *)(((int)stk + 4)));
+        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x18)) = a6;
+        *(unsigned int *)((((((t0 << 2) << 2) << 1) + t3) + 0x1C)) = a7;
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(a8); }
+        *(float *)(((int)stk + 12)) = (*(float *)0xC179148);
+        nlSubVector((((int)stk + 4) + 0x4), 0xC179144, f4, f5);
+        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), (*(float *)0xC04C08C));
+        nlAddVector((((int)stk + 4) + 0x4), 0xC179144);
+        t12 = GetCollision2D((((int)stk + 4) + 0x4), (*(float *)0xC04C098));
+        if (((*(int *)((t12 + 0x1C))) != -1) && (u14 = *(float *)((t12 + 0x18)), u15 = *(float *)(((int)stk + 12)), u14 > u15)) {
+            *(float *)(((int)stk + 12)) = (*(float *)((t12 + 0x18)));
+        }
+        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + (*(float *)0xC04C0A0));
+        t22 = *(int *)(((int)stk + 4));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(((((t22 << 1) + t22) << 2) + (*(int *)0xC2A62AC))) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
     }
-    nlRotateAY(0x8000);
-    return (nlGetTranslate((a4 + 0x4)));
 }

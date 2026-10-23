@@ -1,73 +1,95 @@
 /* Straight-line functions with calls and guards (batch gen_ach): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int HomingPosX(int, float, float);
-int ResetFadeColor(void);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-void Put_Here_We_Go(int a4);
+int RailroadAreaCheck(int, int);
+int getGoiToolFlag(int);
+int getNearLineIndex(int, int, int, int, int, float);
+int nlCalcPoint(int, int);
+int nlObjPutMvInit(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+int parkingControl(int, int);
+int trafficLevelControl(int);
+int trafficSectionControl(int, int, float);
+int trafficControl(int a4);
 
-void Put_Here_We_Go(int a4)
+int trafficControl(int a4)
 {
-    int t10;
-    float u30;
-    float u31;
-    float u41;
+    int t11;
+    int t12;
+    int t13;
+    int t16;
+    int t20;
+    float u36;
+    int t82;
+    int t5;
+    int t31;
+    int t57;
+    int t66;
+    int stk[11];
 
-    if (((int)a4 > 0) && ((int)a4 <= (int)0x150)) {
-        *(unsigned int *)0xC2A8C94 = ((*(int *)0xC2A8C94) + 0x1);
-        *(unsigned int *)0xC2A7F10 = 0x200A;
-        if ((*(int *)0xC2A8C94) == 1) {
-            Voice_ShutUp(0x0);
-            Voice_Request(0xC130B18, 0x0, 0x7F, 0x0);
+    if (a4 == 0) {
+        *(unsigned int *)0xC2A1B1C = 0x0;
+        *(unsigned int *)0xC2A1B20 = 0x0;
+        *(unsigned int *)0xC2A1B24 = 0x0;
+        *(unsigned int *)0xC2A44AC = 0x4;
+        *(unsigned int *)0xC2A1B74 = 0x0;
+        if (((*(int *)0xC1EE234) == 1) && (t5 = *(int *)0xC2A4E50, t5 == 0)) {
+            *(float *)0xC2A1B18 = 1200.0f;
+        } else {
+            *(float *)0xC2A1B18 = 1700.0f;
         }
-        t10 = *(int *)0xC2A8C94;
-        if (((int)t10 > (int)0xDD) && ((int)t10 <= (int)0xF1)) {
-            nlObjPutSetFadeColor(1.0f, 0.643137217f, 0.160784304f);
-            HomingPosX(0xC2A8C98, 0.199999988f, 0.0f);
-            if (!(-6.0f > (*(float *)0xC2A8C98))) {
-                *(float *)0xC2A7F08 = 1.0f;
-            } else {
-                *(float *)0xC2A7F08 = 0.5f;
+        *(unsigned int *)0xC2A1B30 = 0xC1790CC;
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A1B34) = *(struct mv3 *)(0xC179144); }
+        *(unsigned int *)0xC2A1B40 = 0x0;
+        *(unsigned int *)(((*(int *)0xC2A1B30) + 0x60)) = 0x0;
+        t11 = *(int *)0xC1EE210;
+        t12 = *(int *)0xC1EE214;
+        t13 = *(int *)(((((t11 + t12) << 2) + 0xC0C3D04) + 0x0));
+        *(unsigned int *)0xC2A1B28 = (*(int *)((((((t13 << 1) + t13) << 2) + (*(int *)0xC2A6690)) + 0x0)));
+        t16 = *(int *)(((((t11 + t12) << 2) + 0xC0C3D04) + 0x0));
+        *(unsigned int *)0xC2A1B2C = (*(int *)(((*(int *)((((((t16 << 1) + t16) << 2) + (*(int *)0xC2A6690)) + 0x4))) + 0x0)));
+        t20 = *(int *)0xC2A1B30;
+        *(unsigned int *)(((int)stk + 8)) = t20;
+        getNearLineIndex(0x0, (*(int *)0xC2A1B28), (*(int *)0xC2A1B2C), ((*(int *)(((int)stk + 8))) + 0x60), (t20 + 0x78), 1700.0f);
+        trafficLevelControl(0x0);
+        trafficSectionControl(0x0, 0x0, 0.0f);
+        parkingControl(0x0, 0xC2A1B34);
+        nlObjPutMvInit(0x50);
+        t82 = (RailroadAreaCheck(0x0, 0x0));
+    } else {
+        if (((*(int *)0xC1EE234) == 1) && (t31 = *(int *)0xC2A4E50, t31 == 0)) {
+            u36 = 900.0f;
+            if ((*(int *)0xC179494) == 0) {
+                u36 = 1100.0f;
             }
-            *(unsigned int *)0xC2A7F04 = 0x0;
-            nd_SprPut(0xC2A7EDC, 0x19A, ((*(float *)0xC2A8C98) + 320.0f), 240.0f);
-            nd_SprPut(0xC2A7EDC, 0x19A, (320.0f - (*(float *)0xC2A8C98)), 240.0f);
-            ResetFadeColor();
-    return;
+            *(float *)0xC2A1B18 = u36;
+        } else {
+            *(float *)0xC2A1B18 = 1700.0f;
         }
-        if (((int)t10 > (int)0xF3) && ((int)t10 <= (int)0x107)) {
-            nlObjPutSetFadeColor(1.0f, (0.6431372f), (0.1607843f));
-            HomingPosX(0xC2A8C9C, (0.19999999f), 0.0f);
-            *(unsigned int *)0xC2A7F04 = 0x0;
-            if (!((-6.0f) > (*(float *)0xC2A8C9C))) {
-                *(float *)0xC2A7F08 = 1.0f;
-            } else {
-                *(float *)0xC2A7F08 = (0.5f);
-            }
-            u30 = 320.0f;
-            u31 = 240.0f;
-            nd_SprPut(0xC2A7EDC, 0x19B, ((*(float *)0xC2A8C9C) + u30), u31);
-            nd_SprPut(0xC2A7EDC, 0x19B, (u30 - (*(float *)0xC2A8C9C)), u31);
-            ResetFadeColor();
-    return;
+        if ((*(int *)0xC2A1B74) != 0) {
+            *(unsigned int *)0xC2A1B74 = ((*(int *)0xC2A1B74) - 1);
         }
-        if (((int)t10 >= (int)0x10A) && ((int)t10 <= (int)0x146)) {
-            *(unsigned int *)0xC2A8CA4 = ((int)((int)((*(int *)0xC2A8CA4) + 0x1) % (int)0x1E));
-            nlObjPutSetFadeColor((0.9960784f), (0.2862745f), 0.0f);
-            u41 = *(float *)0xC2A7EEC;
-            *(float *)0xC2A7EEC = (u41 + 0.099999994f);
-            *(float *)0xC2A7EF0 = (u41 + 0.099999994f);
-            *(unsigned int *)0xC2A7F04 = 0x0;
-            if ((*(float *)0xC2A7F08) > 0.0f) {
-                *(float *)0xC2A7F08 = ((*(float *)0xC2A7F08) - 0.0199999996f);
-            }
-            nd_SprPut(0xC2A7EDC, 0x63, (*(float *)0xC2A8CA0), (240.0f));
-            ResetFadeColor();
-    return;
+        if ((*(int *)0xC2A6FD8) != 2) {
+            trafficLevelControl(0x1);
         }
-        return;
+        if (((getGoiToolFlag(0x2)) == 1) && (t57 = *(int *)0xC2A6FD8, t57 != 2)) {
+            trafficSectionControl(0x1, 0xC2A1B34, (*(float *)0xC2A1B18));
+        }
+        parkingControl(0x1, 0xC2A1B34);
+        RailroadAreaCheck(0x1, 0xC179840);
+        *(unsigned int *)0xC2A1B40 = (*(int *)(((*(int *)0xC2A1B30) + 0x60)));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x4)) = *(struct mv3 *)(0xC0A4788); }
+        if (((*(int *)0xC1EE234) == 1) && (t66 = *(int *)0xC2A4E50, t66 == 0)) {
+            *(float *)(((int)stk + 20)) = ((*(float *)0xC2A1B18) + (*(float *)0xC042AA8));
+        }
+        nlPushMatrix(0x0);
+        nlTranslateV(((*(int *)0xC2A1B30) + 0x78));
+        nlRotateAY((unsigned short)(*(short *)(((*(int *)0xC2A1B30) + 0x86))));
+        nlCalcPoint((((int)stk + 8) + 0x4), 0xC2A1B34);
+        t82 = (nlPopMatrix(0x1));
     }
+    return t82;
 }

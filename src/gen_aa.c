@@ -1,294 +1,210 @@
 /* Straight-line functions with calls and guards (batch gen_aa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int Put_Remain_Time_Frame(void);
+int Put_Remain_Time_Gauge(int);
 int ResetFadeColor(void);
+int Sound_Request(int, int);
+int Voice_Request(int, int, int, int);
+int Voice_ShutUp(int);
 int nd_SprPut(int, int, float, float);
 int nlObjPutSetFadeColor(float, float, float);
-extern int nlSprPut();
+int nlSprPut(int);
 int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSize(float, float);
-int Put_JumpDistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int Put_Remain_Time_Mode2(void);
 
-int Put_JumpDistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+int Put_Remain_Time_Mode2(void)
 {
-    float u21;
-    int t35;
-    int t79;
-    int t91;
-    int t93;
-    int t106;
-    int t118;
-    int t120;
-    int stk[18];
+    int t0;
+    int t141;
+    int t9;
+    int t16;
+    int t18;
+    int t19;
+    int t21;
+    int t54;
+    int t55;
+    int t56;
+    int t57;
+    int t83;
+    int t84;
+    int t87;
+    int t130;
+    int t136;
+    int t132;
+    int t1;
+    int t10;
+    int t14;
+    int t48;
+    int t49;
+    float u111;
+    int t78;
+    float u107;
+    int t121;
+    int t122;
+    int stk[23];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C05BE5C:;
-    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 4)) = *(struct mv5 *)(0xC0D0F14); }
-    pfSetFont(0x0);
-    pfColor(0xFFFFAA00, 0xFFFFFFFF, 0xFFFFAA00, 0xFFFFFFFF);
-    pfSize(1.0f, 1.0f);
-    R10 = (0xC07DF00);
-    R11 = (((int)stk + 4));
-    R12 = (0xC1EE214);
-    R13 = (0xC1790CC);
-    R14 = (0xC2A9898);
-    R8 = (0xC07AEA0);
-    R9 = (0x1E0);
-    F14 = (0.0f);
-    F15 = (1.0f);
-    if (((*(int *)0xC1EE214) != 0)) goto L_C05BF10;
-    goto L_C05BEB2;
-    L_C05BEB2:;
-    nlObjPutSetFadeColor(F14, 0.799999952f, 0.399999976f);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    R5 = (0x1F5);
-    F4 = (523.0f);
-    F5 = (80.0f);
-    goto L_C05BF2E;
-    L_C05BF2E:;
-    nd_SprPut(0xC2A9898, R5, F4, F5);
-    ResetFadeColor();
-    u21 = *(float *)(((*(int *)0xC2A996C) + 0x0));
-    *(unsigned int *)0xC1311B8 = (int)(u21 * 100.0f);
-    R4 = ((int)(u21 * 100.0f));
-    if (((int)(int)(u21 * 100.0f) >= 0)) goto L_C05BF58;
-    goto L_C05BF56;
-    L_C05BF56:;
-    R4 = (0x0);
-    goto L_C05BF58;
-    L_C05BF58:;
-    R5 = (0x1869F);
-    if (((int)R4 <= (int)0x1869F)) goto L_C05BF60;
-    goto L_C05BF5E;
-    L_C05BF5E:;
-    R4 = (R5);
-    goto L_C05BF60;
-    L_C05BF60:;
-    *(unsigned int *)(((R11 + 0x10) + 0x0)) = ((int)((int)R4 / (int)0x2710));
-    *(unsigned int *)((R11 + 0xC)) = ((int)((int)((int)((int)R4 / (int)0x3E8)) % (int)0xA));
-    *(unsigned int *)((R11 + 0x8)) = ((int)((int)((int)((int)R4 / (int)0x64)) % (int)0xA));
-    *(unsigned int *)((R11 + 0x4)) = ((int)((int)((int)((int)R4 / (int)0xA)) % (int)0xA));
-    t35 = *(int *)(((R11 + 0x10) + 0x0));
-    *(unsigned int *)((R11 + 0x0)) = ((int)((int)(R4 - (t35 * 0x2710)) % (int)0xA));
-    R4 = ((R4 - (t35 * 0x2710)));
-    R5 = (0xA);
-    R6 = ((t35 * 0x2710));
-    R7 = ((R11 + 0x10));
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C02C;
-    goto L_C05BFD8;
-    L_C05BFD8:;
-    if ((150.0f > (*(float *)(((*(int *)0xC2A996C) + 0x0))))) goto L_C05C02C;
-    goto L_C05BFE6;
-    L_C05BFE6:;
-    F4 = (F14);
-    F5 = (F15);
-    F6 = (F15);
-    goto L_C05C032;
-    L_C05C032:;
-    nlObjPutSetFadeColor(F4, F5, F6);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    nd_SprPut(0xC2A9898, 0x1E9, 601.0f, 108.0f);
-    *(float *)((R14 + 0x8)) = 102.0f;
-    *(float *)((R14 + 0x2C)) = F15;
-    *(unsigned int *)((R14 + 0x28)) = 0x0;
-    *(unsigned int *)((R14 + 0x34)) = 0x200A;
-    *(float *)((R14 + 0x4)) = 464.0f;
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C07C;
-    goto L_C05C070;
-    L_C05C070:;
-    if (((*(float *)((R13 + 0x7C))) > -5100.0f)) goto L_C05C09A;
-    goto L_C05C07C;
-    L_C05C07C:;
-    if (((*(int *)((R12 + 0x0))) != 20)) goto L_C05C0E0;
-    goto L_C05C082;
-    L_C05C082:;
-    if ((1350.0f > (*(float *)((R13 + 0x80))))) goto L_C05C0E0;
-    goto L_C05C08E;
-    L_C05C08E:;
-    if (((*(float *)((R13 + 0x80))) > 1950.0f)) goto L_C05C0E0;
-    goto L_C05C09A;
-    L_C05C09A:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)(((R11 + 0x10) + 0x0))) + 0x50);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    if (((*(int *)(((R11 + 0x10) + 0x0))) != 0)) goto L_C05C0E8;
-    goto L_C05C0B2;
-    L_C05C0B2:;
-    goto L_C05C0EE;
-    L_C05C0EE:;
-    *(float *)((R14 + 0x4)) = 488.0f;
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C108;
-    goto L_C05C0FC;
-    L_C05C0FC:;
-    if (((*(float *)((R13 + 0x7C))) > -5100.0f)) goto L_C05C126;
-    goto L_C05C108;
-    L_C05C108:;
-    if (((*(int *)((R12 + 0x0))) != 20)) goto L_C05C148;
-    goto L_C05C10E;
-    L_C05C10E:;
-    if ((1350.0f > (*(float *)((R13 + 0x80))))) goto L_C05C148;
-    goto L_C05C11A;
-    L_C05C11A:;
-    if (((*(float *)((R13 + 0x80))) > 1950.0f)) goto L_C05C148;
-    goto L_C05C126;
-    L_C05C126:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)(((R11 + 0xC) + 0x0))) + 0x50);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    if (((*(int *)(((R11 + 0xC) + 0x0))) != 0)) goto L_C05C14A;
-    goto L_C05C13E;
-    L_C05C13E:;
-    if (((*(int *)((R11 + 0x10))) == 0)) goto L_C05C150;
-    goto L_C05C144;
-    L_C05C144:;
-    goto L_C05C14A;
-    L_C05C14A:;
-    t79 = ((int (*)(int, int, int))(nlSprPut))(0xC2A9898, R5, R6);
-    goto L_C05C150;
-    L_C05C150:;
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C162;
-    goto L_C05C156;
-    L_C05C156:;
-    if (((*(float *)((R13 + 0x7C))) > -5100.0f)) goto L_C05C180;
-    goto L_C05C162;
-    L_C05C162:;
-    if (((*(int *)((R12 + 0x0))) != 20)) goto L_C05C1A8;
-    goto L_C05C168;
-    L_C05C168:;
-    if ((1350.0f > (*(float *)((R13 + 0x80))))) goto L_C05C1A8;
-    goto L_C05C174;
-    L_C05C174:;
-    if (((*(float *)((R13 + 0x80))) > 1950.0f)) goto L_C05C1A8;
-    goto L_C05C180;
-    L_C05C180:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R11 + 0x8))) + 0x50);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C05C1AA;
-    L_C05C1AA:;
-    *(float *)((R14 + 0x4)) = 512.0f;
-    t91 = ((int (*)(int, int, int))(nlSprPut))(0xC2A9898, R5, R6);
-    *(unsigned int *)((R14 + 0x0)) = 0x5C;
-    *(float *)((R14 + 0x4)) = 532.0f;
-    *(float *)((R14 + 0x8)) = ((*(float *)((R14 + 0x8))) + 16.0f);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    t93 = ((int (*)(int))(nlSprPut))(0xC2A9898);
-    *(float *)((R14 + 0x8)) = ((*(float *)((R14 + 0x8))) - 16.0f);
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C1F4;
-    goto L_C05C1E8;
-    L_C05C1E8:;
-    if (((*(float *)((R13 + 0x7C))) > -5100.0f)) goto L_C05C212;
-    goto L_C05C1F4;
-    L_C05C1F4:;
-    if (((*(int *)((R12 + 0x0))) != 20)) goto L_C05C222;
-    goto L_C05C1FA;
-    L_C05C1FA:;
-    if ((1350.0f > (*(float *)((R13 + 0x80))))) goto L_C05C222;
-    goto L_C05C206;
-    L_C05C206:;
-    if (((*(float *)((R13 + 0x80))) > 1950.0f)) goto L_C05C222;
-    goto L_C05C212;
-    L_C05C212:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R11 + 0x4))) + 0x50);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C05C224;
-    L_C05C224:;
-    *(float *)((R14 + 0x4)) = 548.0f;
-    t106 = ((int (*)(int, int, int))(nlSprPut))(0xC2A9898, R5, R6);
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C242;
-    goto L_C05C236;
-    L_C05C236:;
-    if (((*(float *)((R13 + 0x7C))) > -5100.0f)) goto L_C05C260;
-    goto L_C05C242;
-    L_C05C242:;
-    if (((*(int *)((R12 + 0x0))) != 20)) goto L_C05C270;
-    goto L_C05C248;
-    L_C05C248:;
-    if ((1350.0f > (*(float *)((R13 + 0x80))))) goto L_C05C270;
-    goto L_C05C254;
-    L_C05C254:;
-    if (((*(float *)((R13 + 0x80))) > 1950.0f)) goto L_C05C270;
-    goto L_C05C260;
-    L_C05C260:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R11 + 0x0))) + 0x50);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C05C272;
-    L_C05C272:;
-    *(float *)((R14 + 0x4)) = 572.0f;
-    t118 = ((int (*)(int, int, int))(nlSprPut))(0xC2A9898, R5, R6);
-    ResetFadeColor();
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    return 0x14;
-    L_C05C270:;
-    *(unsigned int *)((R14 + 0x0)) = R9;
-    goto L_C05C272;
-    L_C05C222:;
-    *(unsigned int *)((R14 + 0x0)) = R9;
-    goto L_C05C224;
-    L_C05C1A8:;
-    *(unsigned int *)((R14 + 0x0)) = R9;
-    goto L_C05C1AA;
-    L_C05C148:;
-    *(unsigned int *)((R14 + 0x0)) = R9;
-    goto L_C05C14A;
-    L_C05C0E8:;
-    t120 = ((int (*)(int, int, int))(nlSprPut))(0xC2A9898, R5, R6);
-    goto L_C05C0EE;
-    L_C05C0E0:;
-    if (((*(int *)((R12 + 0x0))) != 0)) goto L_C05C0EE;
-    goto L_C05C0E6;
-    L_C05C0E6:;
-    *(unsigned int *)((R14 + 0x0)) = R9;
-    goto L_C05C0E8;
-    L_C05C02C:;
-    F4 = (F15);
-    F5 = (F15);
-    F6 = (F14);
-    goto L_C05C032;
-    L_C05BF10:;
-    nlObjPutSetFadeColor(F15, 0.5f, 0.899999976f);
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    R5 = (0x1F4);
-    F4 = (555.0f);
-    F5 = (83.0f);
-    goto L_C05BF2E;
+    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    t0 = *(int *)0xC1EE20C;
+    t141 = t0;
+    if ((t0 == 2) && (t1 = *(int *)0xC1EE214, t1 == 0)) {
+    } else {
+        t9 = *(int *)0xC2A8C54;
+        if (((*(int *)0xC1EE210) == 2) && (t10 = *(int *)0xC2A9904, t10 != 0)) {
+            t14 = ((*(int *)((t9 + 0x0))) + 0x1);
+        } else {
+            t14 = (*(int *)((t9 + 0x0)));
+        }
+        t16 = t14;
+        if ((int)t14 >= (int)0x57E40) {
+            t16 = 0x57E3F;
+        }
+        t18 = (int)((int)t16 / (int)0xE10);
+        t19 = (int)((int)(t16 - (t18 * 0xE10)) / (int)0x3C);
+        t21 = (int)((int)(((int)((int)t16 % (int)0x3C)) * 0x64) / (int)0x3C);
+        if (t16 == 0x258) {
+            Voice_ShutUp(0x0);
+            Voice_Request(0xC130B78, 0x0, 0x7F, 0x0);
+        }
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = ((int)((int)t18 / (int)0xA));
+        *(unsigned int *)(((int)stk + 12)) = ((((int)stk + 4) + 0xC) + 0x4);
+        *(unsigned int *)((((((int)stk + 4) + 0xC) + 0x4) + 0x0)) = ((int)((int)t18 % (int)0xA));
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x8)) = ((int)((int)t19 / (int)0xA));
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0xC)) = ((int)((int)t19 % (int)0xA));
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x10)) = ((int)((int)t21 / (int)0xA));
+        *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x14)) = ((int)((int)t21 % (int)0xA));
+        if ((*(int *)0xC1EE210) != 2) {
+            Put_Remain_Time_Gauge(0xA);
+        }
+        *(unsigned int *)0xC2A7FB0 = 0x200E;
+        *(float *)0xC2A7FA0 = 1.0f;
+        *(unsigned int *)0xC2A7FA4 = 0x0;
+        *(float *)0xC2A7F88 = 0.0399999991f;
+        if ((int)t16 <= (int)0x258) {
+            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
+        } else {
+            nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+        }
+        *(float *)0xC2A7F84 = 84.0f;
+        if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0) && (t48 = *(int *)(((int)stk + 12)), t49 = *(int *)((t48 + 0x0)), t49 == 0)) {
+            t54 = 0xC054080;
+            t55 = 0x2;
+            for (;;) {
+                if ((int)t55 >= (int)0x6) {
+                    break;
+                }
+                t54 = 0xC130BEC;
+                t56 = *(int *)((((t55 - 2) << 2) + t54));
+                t54 = 0x4;
+                *(float *)((0xC2A7F7C + t54)) = (float)t56;
+                t54 = t55;
+                t54 = (t54 << 2);
+                t57 = *(int *)(((((int)stk + 4) + 0xC) + t54));
+                t54 = 0xC0D0C08;
+                *(unsigned int *)0xC2A7F7C = (*(int *)(((t57 << 2) + t54)));
+                if ((int)t55 >= (int)0x4) {
+                    t54 = 0x10;
+                    *(float *)((0xC2A7F7C + t54)) = 0.5f;
+                    t54 = 0x14;
+                    *(float *)((0xC2A7F7C + t54)) = 0.5f;
+                } else {
+                    t54 = 0x10;
+                    *(float *)((0xC2A7F7C + t54)) = 1.0f;
+                    t54 = 0x14;
+                    *(float *)((0xC2A7F7C + t54)) = 1.0f;
+                }
+                t54 = (nlSprPut(0xC2A7F7C));
+                t55 = (t55 + 0x1);
+            }
+            pfSetFont(0x2);
+            pfSize(1.0f, 1.0f);
+            if ((int)t16 <= (int)0x258) {
+                pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
+            } else {
+                pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
+            }
+            nd_SprPut(0xC2A7F7C, 0x10, (*(float *)0xC05428C), 34.0f);
+            u111 = (*(float *)0xC054298);
+        } else {
+            if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
+                *(float *)0xC2A7F80 = (float)(*(int *)0xC130BD4);
+                *(unsigned int *)0xC2A7F7C = (*(int *)((((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) << 2) + 0xC0D0C08)));
+                *(float *)0xC2A7F8C = 1.0f;
+                *(float *)0xC2A7F90 = 1.0f;
+                t78 = (nlSprPut(0xC2A7F7C));
+            } else {
+                *(unsigned int *)(((int)stk + 8)) = 0x24;
+                t78 = 0xC054080;
+            }
+            t83 = t78;
+            t84 = 0x1;
+            for (;;) {
+                if ((int)t84 >= (int)0x6) {
+                    break;
+                }
+                t83 = 0xC130BD4;
+                *(float *)0xC2A7F80 = (float)((*(int *)(((t84 << 2) + t83))) - (*(int *)(((int)stk + 8))));
+                t83 = (t84 << 2);
+                t87 = *(int *)(((((int)stk + 4) + 0xC) + t83));
+                t83 = 0xC0D0C08;
+                *(unsigned int *)0xC2A7F7C = (*(int *)(((t87 << 2) + t83)));
+                if ((int)t84 >= (int)0x4) {
+                    t83 = 0x10;
+                    *(float *)((0xC2A7F7C + t83)) = 0.5f;
+                    t83 = 0x14;
+                    *(float *)((0xC2A7F7C + t83)) = 0.5f;
+                } else {
+                    t83 = 0x10;
+                    *(float *)((0xC2A7F7C + t83)) = 1.0f;
+                    t83 = 0x14;
+                    *(float *)((0xC2A7F7C + t83)) = 1.0f;
+                }
+                t83 = (nlSprPut(0xC2A7F7C));
+                t84 = (t84 + 0x1);
+            }
+            pfSetFont(0x2);
+            pfSize(1.0f, 1.0f);
+            if ((int)t16 <= (int)0x258) {
+                pfColor(0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
+            } else {
+                pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
+            }
+            if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
+                nd_SprPut(0xC2A7F7C, 0x10, 96.0f, 34.0f);
+                nd_SprPut(0xC2A7F7C, 0x10, 174.0f, 34.0f);
+                u107 = 182.0f;
+            } else {
+                nd_SprPut(0xC2A7F7C, 0x10, 64.0f, 34.0f);
+                nd_SprPut(0xC2A7F7C, 0x10, (*(float *)0xC05428C), 34.0f);
+                u107 = (*(float *)0xC054298);
+            }
+            u111 = u107;
+        }
+        nd_SprPut(0xC2A7F7C, 0x10, u111, 34.0f);
+        if ((int)t16 <= (int)0x258) {
+            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
+        }
+        Put_Remain_Time_Frame();
+        ResetFadeColor();
+        if (((int)t16 <= (int)0x258) && ((int)t16 > 0)) {
+            if ((((int)((int)t16 % (int)0x3C)) == 0) && ((t121 = *(int *)0xC2A8E98, t121 == 0) && (t122 = *(int *)0xC2A8CB0, t122 == 0))) {
+                Sound_Request(0x505A9, 0x0);
+                *(unsigned int *)0xC2A8CB0 = 0x1;
+            }
+        }
+        t130 = (int)((int)t16 % (int)0x3C);
+        t136 = t130;
+        if (t130 != 0) {
+            t132 = *(int *)0xC2A8CB0;
+            if (t132 == 1) {
+                *(unsigned int *)0xC2A8CB0 = 0x0;
+            }
+            t136 = t132;
+        }
+        t141 = t136;
+    }
+    return t141;
 }

@@ -13,61 +13,6 @@ void nlSetPaletteMap(int a4, int a5);
 void fmMngMcpy4(int a4, int a5, int a6);
 int fmMngNum2Bit(int a4, int a5, int a6);
 
-int gdc_FileLoadInitAll(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t9;
-    int t11;
-    int t12;
-    int t13;
-
-    *(unsigned int *)0xC0EA3E4 = 0x0;
-    if (a4 == 0) {
-        t0 = 0x0;
-        for (;;) {
-            t1 = ADXF_LoadPartition(0x3, 0xC08D444, 0xC26E10C, 0x29);
-            if (t1 == 0) break;
-            t0 = (t0 + 0x1);
-            if ((int)t0 > (int)0xA) {
-                t2 = *(int *)0xC1EE208;
-                *(unsigned int *)0xC1EE208 = (t2 + 0x1);
-            }
-        }
-    } else {
-        t3 = 0x0;
-        for (;;) {
-            t4 = ADXF_LoadPartition(0x3, 0xC08D450, 0xC26E10C, 0x29);
-            if (t4 == 0) break;
-            t3 = (t3 + 0x1);
-            if ((int)t3 > (int)0xA) {
-                t5 = *(int *)0xC1EE208;
-                *(unsigned int *)0xC1EE208 = (t5 + 0x1);
-            }
-        }
-    }
-    do {
-        t9 = ADXF_OpenAfs(0x3, 0x0);
-        *(unsigned int *)0xC26E174 = t9;
-    } while (t9 == 0);
-    ADXF_ReadNw32(t9, 0x10, 0xCE98000);
-    do {
-        t11 = *(int *)0xC26E174;
-        t12 = ADXF_GetStat(t11);
-    } while (t12 != 3);
-    t13 = *(int *)0xC26E174;
-    ADXF_Close(t13);
-    nlSetCommonTextureOffset(0x0);
-    texLoadIndexed(0x7A);
-    *(unsigned int *)0xC1EE808 = 0x0;
-    *(unsigned int *)0xC26E17C = 0x0;
-    *(unsigned int *)0xC26E178 = 0x0;
-    return 0xC26E17C;
-}
 
 void nlSetPaletteMap(int a4, int a5)
 {

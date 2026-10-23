@@ -1,46 +1,44 @@
 /* Straight-line functions with calls and guards (batch gen_ia): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int humanDraw(int, int, int, int);
-int nlMatrixMode(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlScale(float, float, float);
-int nlTranslate(float, float, float);
-int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Drv_ExecBlend(float, float, float, float, float);
+int Drv_StartAction(int, int, int);
+int FcvStoreBuffer(int, int, float);
+int Sound_Request(int, int);
+int drvUpdatePartTracks(void);
+int Drv_ExecHorn(float f4, float f5, float f6, float f7, float f8);
 
-int Put_Motion2D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Drv_ExecHorn(float f4, float f5, float f6, float f7, float f8)
 {
-    int stk[21];
+    int t12;
+    int t42;
+    int t43;
 
-    stk[9] = a8;
-    stk[10] = a9;
-    stk[11] = a10;
-    stk[12] = a11;
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(unsigned int *)(((int)stk + 16)) = a5;
-    *(unsigned int *)(((int)stk + 12)) = a6;
-    *(unsigned int *)(((int)stk + 8)) = a7;
-    nlMatrixMode(0x3);
-    nlPushMatrix(0xC0D09D0);
-    nlMatrixMode(0x2);
-    nlPushUnitMatrix();
-    nlMatrixMode(0x1);
-    nlPushUnitMatrix();
-    nlTranslate((float)((*(int *)(((int)stk + 4))) - 320), (float)(0xF0 - (*(int *)(((int)stk + 16)))), -0.299999982f);
-    nlRotateAY((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x2))));
-    nlRotateAX((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x0))));
-    nlRotateAZ((unsigned short)(*(short *)(((((int)stk + 4) + 0x20) + 0x4))));
-    nlScale(f4, f4, f4);
-    humanDraw((*(int *)(((int)stk + 12))), (*(int *)(((int)stk + 8))), a10, 0x0);
-    nlPopMatrix(0x1);
-    nlMatrixMode(0x2);
-    nlPopMatrix(0x1);
-    nlMatrixMode(0x3);
-    nlPopMatrix(0x1);
-    return (nlMatrixMode(0x1));
+    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+        Drv_ExecBlend(f4, f5, f6, f7, f8);
+    } else {
+        drvUpdatePartTracks();
+        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+        *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
+        if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+            t12 = 0x1;
+            if ((*(int *)0xC1791EC) != 0) {
+                t12 = 0x0;
+            }
+            Drv_StartAction(t12, 0x0, 0x0);
+        }
+    }
+    if ((*(signed char *)0xC1EE26E) != 0) {
+        Drv_StartAction(0x9, 0x0, 0x0);
+        *(float *)0xC2AD024 = (*(float *)0xC0639BC);
+    }
+    if ((*(float *)0xC2AD024) == (*(float *)0xC0639C0)) {
+        t42 = *(int *)0xC2AD000;
+        t43 = 0x501A9;
+        if ((t42 != 1) && (t42 != 3)) {
+            t43 = 0x401A9;
+        }
+        return Sound_Request(t43, 0x0);
+    }
+    return 0x24;
 }

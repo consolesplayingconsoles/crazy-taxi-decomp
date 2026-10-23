@@ -1,158 +1,156 @@
 /* Straight-line functions with calls and guards (batch gen_zc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int RailroadAreaCheck(int, int);
-int getGoiToolFlag(int);
-int getNearLineIndex(int, int, int, int, int, float);
-int nlCalcPoint(int, int);
-int nlObjPutMvInit(int);
+int CheckClippingProject3D(int, float);
+int carBoxVertexInit(void);
+int courseStatusEntry(int, int);
+int courseStatusInit(int);
+int getCoursePointMove(int, int, int);
 int nlPopMatrix(int);
+int nlProjectScreen3D(int, int);
 int nlPushMatrix(int);
+int nlRotateAX(int);
 int nlRotateAY(int);
+int nlRotateAZ(int);
 int nlTranslateV(int);
-int parkingControl(int, int);
-int trafficLevelControl(int);
-int trafficSectionControl(int, int, float);
-int trafficControl(int a4, int a5, int a6, int a7, float f4);
+int putCarModel(int, int);
+int putTrainModel(int, int);
+int replay(int);
+int entryCarPut(int a4);
 
-int trafficControl(int a4, int a5, int a6, int a7, float f4)
+int entryCarPut(int a4)
 {
-    int t12;
-    int t13;
+    int t0;
+    int t1;
+    int t5;
+    int t7;
     int t14;
-    int t17;
-    int t21;
-    int stk[11];
+    int t18;
+    float u38;
+    float u43;
+    int t44;
+    float u39;
+    float u40;
+    int t64;
+    int t66;
+    int t6;
+    int t8;
+    int t9;
+    int t27;
+    int t34;
+    float u35;
+    float u36;
+    int stk[17];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F2;
-    float F3;
-    float F4;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    L_C04283C:;
-    R11 = (0xC1EE234);
-    R13 = (0xC2A1B18);
-    R14 = (0xC2A1B30);
-    R5 = (0xC2A1B74);
-    F4 = (1700.0f);
-    if ((R4 != 0)) goto L_C04291E;
-    goto L_C042858;
-    L_C042858:;
-    *(unsigned int *)0xC2A1B1C = 0x0;
-    *(unsigned int *)0xC2A1B20 = 0x0;
-    *(unsigned int *)0xC2A1B24 = 0x0;
-    *(unsigned int *)0xC2A44AC = 0x4;
-    *(unsigned int *)((R5 + 0x0)) = 0x0;
-    R12 = (0x0);
-    if (((*(int *)((R11 + 0x0))) != 1)) goto L_C042884;
-    goto L_C042874;
-    L_C042874:;
-    if (((*(int *)0xC2A4E50) != 0)) goto L_C042884;
-    goto L_C04287C;
-    L_C04287C:;
-    *(float *)((R13 + 0x0)) = 1200.0f;
-    goto L_C042886;
-    L_C042886:;
-    *(unsigned int *)((R14 + 0x0)) = 0xC1790CC;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x4)) = *(struct mv3 *)(0xC179144); }
-    *(unsigned int *)((R14 + 0x10)) = R12;
-    *(unsigned int *)(((*(int *)((R14 + 0x0))) + 0x60)) = R12;
-    t12 = *(int *)0xC1EE210;
-    t13 = *(int *)0xC1EE214;
-    t14 = *(int *)(((((t12 + t13) << 2) + 0xC0C3D04) + 0x0));
-    *(unsigned int *)0xC2A1B28 = (*(int *)((((((t14 << 1) + t14) << 2) + (*(int *)0xC2A6690)) + 0x0)));
-    t17 = *(int *)(((((t12 + t13) << 2) + 0xC0C3D04) + 0x0));
-    *(unsigned int *)0xC2A1B2C = (*(int *)(((*(int *)((((((t17 << 1) + t17) << 2) + (*(int *)0xC2A6690)) + 0x4))) + 0x0)));
-    t21 = *(int *)((R14 + 0x0));
-    *(unsigned int *)(((int)stk + 8)) = t21;
-    getNearLineIndex(0x0, (*(int *)0xC2A1B28), (*(int *)0xC2A1B2C), ((*(int *)(((int)stk + 8))) + 0x60), (t21 + 0x78), F4);
-    trafficLevelControl(0x0);
-    trafficSectionControl(0x0, 0x0, 0.0f);
-    parkingControl(0x0, (R14 + 0x4));
-    nlObjPutMvInit(0x50);
-    R0 = ((RailroadAreaCheck(0x0, 0x0)));
-    goto L_C042A4C;
-    L_C042A4C:;
-    return R0;
-    L_C042884:;
-    *(float *)((R13 + 0x0)) = F4;
-    goto L_C042886;
-    L_C04291E:;
-    if (((*(int *)((R11 + 0x0))) != 1)) goto L_C0429AC;
-    goto L_C042924;
-    L_C042924:;
-    if (((*(int *)0xC2A4E50) != 0)) goto L_C0429AC;
-    goto L_C04292C;
-    L_C04292C:;
-    if (((*(int *)0xC179494) != 0)) goto L_C04293A;
-    goto L_C042934;
-    L_C042934:;
-    F3 = (1100.0f);
-    goto L_C04293E;
-    L_C04293E:;
-    *(float *)((R13 + 0x0)) = F3;
-    goto L_C0429AE;
-    L_C0429AE:;
-    if (((*(int *)((R5 + 0x0))) == 0)) goto L_C0429BA;
-    goto L_C0429B4;
-    L_C0429B4:;
-    *(unsigned int *)((R5 + 0x0)) = ((*(int *)((R5 + 0x0))) - 1);
-    goto L_C0429BA;
-    L_C0429BA:;
-    if (((*(int *)0xC2A6FD8) == 2)) goto L_C0429C6;
-    goto L_C0429C2;
-    L_C0429C2:;
-    trafficLevelControl(0x1);
-    goto L_C0429C6;
-    L_C0429C6:;
-    if (((getGoiToolFlag(0x2)) != 1)) goto L_C0429E2;
-    goto L_C0429D0;
-    L_C0429D0:;
-    if (((*(int *)0xC2A6FD8) == 2)) goto L_C0429E2;
-    goto L_C0429D8;
-    L_C0429D8:;
-    trafficSectionControl(0x1, (R14 + 0x4), (*(float *)((R13 + 0x0))));
-    goto L_C0429E2;
-    L_C0429E2:;
-    parkingControl(0x1, (R14 + 0x4));
-    RailroadAreaCheck(0x1, 0xC179840);
-    *(unsigned int *)((R14 + 0x10)) = (*(int *)(((*(int *)((R14 + 0x0))) + 0x60)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x4)) = *(struct mv3 *)(0xC0A4788); }
-    if (((*(int *)((R11 + 0x0))) != 1)) goto L_C042A20;
-    goto L_C042A0C;
-    L_C042A0C:;
-    if (((*(int *)0xC2A4E50) != 0)) goto L_C042A20;
-    goto L_C042A14;
-    L_C042A14:;
-    *(float *)(((int)stk + 20)) = ((*(float *)((R13 + 0x0))) + (*(float *)0xC042AA8));
-    goto L_C042A20;
-    L_C042A20:;
-    nlPushMatrix(0x0);
-    nlTranslateV(((*(int *)((R14 + 0x0))) + 0x78));
-    nlRotateAY((unsigned short)(*(short *)(((*(int *)((R14 + 0x0))) + 0x86))));
-    nlCalcPoint((((int)stk + 8) + 0x4), (R14 + 0x4));
-    R0 = ((nlPopMatrix(0x1)));
-    goto L_C042A4C;
-    L_C04293A:;
-    F3 = (900.0f);
-    goto L_C04293E;
-    L_C0429AC:;
-    *(float *)((R13 + 0x0)) = F4;
-    goto L_C0429AE;
+    if (a4 == 0) {
+        *(unsigned int *)0xC2A44C8 = 0x0;
+        *(unsigned int *)0xC2A44A8 = 0x0;
+        t0 = 0xC2A44CC;
+        t1 = 0x0;
+        for (;;) {
+            t1 = (t1 + 0x1);
+            *(unsigned int *)((t0 + 0x0)) = 0x0;
+            t0 = (t0 + 0x4);
+            if ((int)t1 >= (int)0x64) {
+                break;
+            }
+        }
+        *(unsigned int *)0xC2A44AC = 0x0;
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A44B0) = *(struct mv3 *)(0xC0A4788); }
+        *(float *)0xC2A44BC = 0.0f;
+        *(float *)0xC2A44C0 = 20.0f;
+        *(float *)0xC2A44C4 = -100.0f;
+        courseStatusInit(0x0);
+        t66 = (carBoxVertexInit());
+    } else {
+        courseStatusInit(0x2);
+        *(unsigned int *)(((int)stk + 12)) = 0x0;
+        t5 = 0xC0449C8;
+        t7 = 0xC2A44CC;
+        for (;;) {
+            if ((unsigned int)(*(int *)(((int)stk + 12))) < (unsigned int)(*(int *)0xC2A44C8)) {
+                t5 = 0x84;
+                t9 = (*(int *)((t7 + 0x0)));
+                if (((*(int *)((t9 + t5))) & 0x10) == 0) {
+                    t5 = 0xD4;
+                    t14 = *(int *)((t9 + t5));
+                    t5 = (t5 - 84);
+                    t5 = (courseStatusEntry((*(int *)((t9 + t5))), t14));
+                    t5 = 0x78;
+                    if ((int)(*(int *)((t9 + t5))) >= (int)0xA) {
+                        t5 = 0x80;
+                        t18 = *(int *)((t9 + t5));
+                        t5 = 0xD4;
+                        *(unsigned int *)(((int)stk + 8)) = t18;
+                        t6 = (*(int *)((t9 + t5)));
+                        t6 = (t6 - 1);
+                        *(unsigned int *)(((int)stk + 4)) = t6;
+                        t5 = (getCoursePointMove((((int)stk + 4) + 0x4), ((int)stk + 4), 0x0));
+                        t5 = (courseStatusEntry((*(int *)(((int)stk + 8))), (*(int *)(((int)stk + 4)))));
+                    }
+                } else {
+                    t27 = t6;
+                }
+                t6 = t27;
+                t5 = (nlProjectScreen3D((0x8C + t9), (((int)stk + 4) + 0xC)));
+                t5 = 0xB0;
+                t5 = (CheckClippingProject3D((((int)stk + 4) + 0xC), (*(float *)((t9 + t5)))));
+                if ((t5 != 0) && (t34 = (t5 == 0), t5 = 0xC044AD0, u35 = *(float *)((t5 + 0x0)), t5 = 0x14, u36 = *(float *)((((int)stk + 4) + t5)), u36 > u35)) {
+                    t5 = 0x84;
+                    *(unsigned int *)((t9 + t5)) = ((*(int *)((t9 + t5))) | 0x10000);
+                    t5 = 0x14;
+                    u38 = *(float *)((((int)stk + 4) + t5));
+                    t8 = 0x1;
+                    u43 = u38;
+                    t44 = 0;
+                    if (u38 > -400.0f) {
+                        t5 = 0xC;
+                        u39 = *(float *)((((int)stk + 4) + t5));
+                        t5 = 0xC044AD8;
+                        u40 = *(float *)((t5 + 0x0));
+                        if (u40 > _builtin_fabsf(u39)) {
+                            t8 = 0x0;
+                        }
+                        u43 = _builtin_fabsf(u39);
+                        t44 = ((u40 > _builtin_fabsf(u39)));
+                    } else {
+                        t44 = (0);
+                    }
+                    if (40.0f > (*(float *)0xC1798A4)) {
+                        t8 = 0x0;
+                    }
+                    t5 = (nlPushMatrix(0x0));
+                    t5 = (nlTranslateV((0x8C + t9)));
+                    t5 = 0xA6;
+                    t5 = (nlRotateAY((unsigned short)(*(short *)((t9 + t5)))));
+                    t5 = 0xA4;
+                    t5 = (nlRotateAX((unsigned short)(*(short *)((t9 + t5)))));
+                    t5 = 0xA8;
+                    t5 = (nlRotateAZ((unsigned short)(*(short *)((t9 + t5)))));
+                    t5 = 0x78;
+                    if ((int)(*(int *)((t9 + t5))) < (int)0x10) {
+                        t5 = (putCarModel(t9, t8));
+                    } else {
+                        t5 = (putTrainModel(t9, t8));
+                    }
+                    t5 = (nlPopMatrix(0x1));
+                } else {
+                    t5 = 0x84;
+                    *(unsigned int *)((t9 + t5)) = ((*(int *)((t9 + t5))) & 0xFFFEFFFF);
+                }
+                t6 = (*(int *)(((int)stk + 12)));
+                t7 = (t7 + 0x4);
+                t6 = (t6 + 0x1);
+                *(unsigned int *)(((int)stk + 12)) = t6;
+                continue;
+            }
+            break;
+        }
+        t64 = replay(0x0);
+        if (t64 != 4) {
+            *(unsigned int *)0xC2A44C8 = 0x0;
+        }
+        t66 = t64;
+    }
+    return t66;
 }

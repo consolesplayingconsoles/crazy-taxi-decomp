@@ -1,87 +1,156 @@
-extern int setObjPieceExec();
 /* Straight-line functions with calls and guards (batch gen_ha): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetRotVec(int);
-int KillColliObj(int);
-int MultiRot4Vec(int);
-int SetColliObj(int, int);
-int nlGetPushedMatrix(int);
-int nlGetTranslate(int);
+int nlCalcPoint(int, int);
+int nlCloseEvent(int);
+float nlLength(int, int);
+int nlLoadMatrix(int);
 int nlPopMatrix(int);
-int nlPushMatrix(int);
 int nlPushUnitMatrix(void);
-int nlRotateAY(int);
-int nlTranslateV(int);
-int set_event(int, int);
-void setObjHitBreakSet(int a4);
+int pedSpawn(int, int, float);
+int pedUpdate(int, int, float);
+int crowdTask(int a4, int a5, float f4);
 
-void setObjHitBreakSet(int a4)
+int crowdTask(int a4, int a5, float f4)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t8;
-    int t9;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t17;
-    int t19;
-    int t20;
-    int t24;
-    int t25;
-    int t10;
-    int t15;
+    float t16;
+    float u21;
+    int t30;
+    int t34;
+    int t37;
+    int t40;
+    float u45;
+    int t51;
+    int t55;
+    int stk[14];
 
-    t0 = *(int *)((a4 + 0x20));
-    if (t0 == 0) {
-    } else {
-        t1 = *(int *)((a4 + 0x6C));
-        t2 = 0x8;
-        if ((int)t1 < (int)0x3) {
-            t2 = 0x3;
-        }
-        nlPushUnitMatrix();
-        nlTranslateV(a4);
-        MultiRot4Vec((a4 + 0x30));
-        nlPushMatrix(0x0);
-        if ((int)t2 > 0) {
-            t8 = 0x0;
-            t9 = 0x0;
-            for (;;) {
-                t11 = set_event(0x84, ((int)setObjPieceExec));
-                if (t11 != 0) {
-                    t10 = t11;
-                    t10 = (t10 + 0x14);
-                    t12 = a4;
-                    t13 = (a4 + 112);
-                    t14 = t10;
-                    for (;;) { t15 = *(int *)t12; t12 = (t12 + 4); if ((unsigned int)t13 < (unsigned int)t12) break; *(unsigned int *)t14 = t15; t14 = (t14 + 4); }
-                    nlGetPushedMatrix(0x0);
-                    t17 = *(int *)((a4 + 0x6C));
-                    nlTranslateV(((((((t17 << 2) << 2) << 2) << 1) + 0xC0EE224) + t9));
-                    t19 = *(int *)((a4 + 0x6C));
-                    t20 = *(int *)((((((((t19 << 2) << 2) << 2) << 1) + 0xC0EE224) + t9) + 0xC));
-                    nlRotateAY(t20);
-                    nlGetTranslate(t10);
-                    GetRotVec((t10 + 0x30));
-                    *(unsigned int *)((t10 + 0x54)) = 0xC0EDBC0;
-                    t24 = *(int *)0xC0EE1B4;
-                    t25 = *(int *)((t24 + 0x0));
-                    *(unsigned int *)((t10 + 0x64)) = t25;
-                    SetColliObj(t10, 0x10);
-                }
-                t8 = (t8 + 0x1);
-                t9 = (t9 + 0x10);
-                if ((int)t8 >= (int)t2) {
-                    break;
-                }
-            }
-        }
-        nlPopMatrix(0x2);
-        KillColliObj(a4);
-        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    F4 = f4;
+    L_C04F68A:;
+    *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;
+    R10 = (0x0);
+    R12 = (0x64);
+    R13 = (0x0);
+    R14 = (R4);
+    R8 = (0x0);
+    R9 = (0x0);
+    goto L_C04F6D8;
+    L_C04F6D8:;
+    if (((int)R9 < (int)(*(short *)(((*(int *)((R14 + 0x18))) + 0x10))))) goto L_C04F6B0;
+    goto L_C04F6E0;
+    L_C04F6E0:;
+    nlPushUnitMatrix();
+    nlLoadMatrix(0xC2A6FE4);
+    nlCalcPoint((*(int *)((R14 + 0x18))), (((int)stk + 4) + 0x4));
+    nlPopMatrix(0x1);
+    t16 = nlLength((*(int *)((R14 + 0x18))), ((*(int *)(((int)stk + 4))) + 0x78));
+    F0 = (t16);
+    F4 = (t16);
+    if ((!((*(float *)0xC04F854) > t16))) goto L_C04F75C;
+    goto L_C04F712;
+    L_C04F712:;
+    u21 = *(float *)(((int)stk + 16));
+    R0 = (0xC);
+    F1 = (u21);
+    if ((!(0.0f > u21))) goto L_C04F75C;
+    goto L_C04F71C;
+    L_C04F71C:;
+    R11 = (R8);
+    R9 = (0x6);
+    goto L_C04F748;
+    L_C04F748:;
+    if (((int)R11 >= (int)R9)) goto L_C04F7A2;
+    goto L_C04F74C;
+    L_C04F74C:;
+    if (((int)R10 <= 0)) goto L_C04F7A2;
+    goto L_C04F750;
+    L_C04F750:;
+    t30 = *(short *)(((*(int *)((R14 + 0x18))) + 0x10));
+    R0 = (t30);
+    if (((int)R13 < (int)t30)) goto L_C04F722;
+    goto L_C04F758;
+    L_C04F758:;
+    goto L_C04F7A2;
+    L_C04F7A2:;
+    return R0;
+    L_C04F722:;
+    t34 = *(int *)((0x50 + ((R13 * R12) + (*(int *)((R14 + 0x20))))));
+    R0 = (t34);
+    if ((t34 != -1)) goto L_C04F746;
+    goto L_C04F732;
+    L_C04F732:;
+    t37 = pedSpawn(R14, R13, F4);
+    R0 = (t37);
+    if ((t37 != 1)) goto L_C04F746;
+    goto L_C04F73C;
+    L_C04F73C:;
+    t40 = *(short *)((R14 + 0x16));
+    *(unsigned short *)((R14 + 0x16)) = (t40 + 0x1);
+    R0 = ((t40 + 0x1));
+    R10 = ((R10 - 1));
+    R13 = ((R13 + 0x1));
+    goto L_C04F746;
+    L_C04F746:;
+    R11 = ((R11 + 0x1));
+    goto L_C04F748;
+    L_C04F75C:;
+    u45 = *(float *)0xC04F858;
+    R0 = (0xC);
+    F4 = (u45);
+    if ((!((*(float *)(((int)stk + 16))) > u45))) goto L_C04F7A2;
+    goto L_C04F768;
+    L_C04F768:;
+    t51 = (int)((int)(*(int *)((R14 + 0x1C))) % (int)0x20);
+    R4 = (t51);
+    if (((int)t51 <= 0)) goto L_C04F77E;
+    goto L_C04F776;
+    L_C04F776:;
+    R5 = ((((int)(R4 - 1) >= 0) ? (0x1 << ((R4 - 1) & 31)) : ((-(int)(R4 - 1) & 31) ? ((int)0x1 >> (-(int)(R4 - 1) & 31)) : ((int)0x1 >> 31))));
+    goto L_C04F780;
+    L_C04F780:;
+    t55 = *(int *)((R14 + 0x1C));
+    *(unsigned int *)(((((int)t55 >> 5) << 2) + 0xC2A7064)) = ((*(int *)(((((int)t55 >> 5) << 2) + 0xC2A7064))) & (~R5));
+    *(unsigned int *)0xC2A6FE0 = ((*(int *)0xC2A6FE0) - (*(short *)((R14 + 0x16))));
+    R0 = ((nlCloseEvent(R14)));
+    goto L_C04F7A2;
+    L_C04F77E:;
+    R5 = (R8);
+    goto L_C04F780;
+    L_C04F6B0:;
+    R0 = (0x50);
+    R11 = ((R9 * R12));
+    if (((int)(*(int *)((((*(int *)((R14 + 0x20))) + (R9 * R12)) + 0x50))) < 0)) goto L_C04F6D4;
+    goto L_C04F6C0;
+    L_C04F6C0:;
+    if (((*(int *)((((*(int *)((R14 + 0x20))) + R11) + R0))) == 0)) goto L_C04F6D6;
+    goto L_C04F6CA;
+    L_C04F6CA:;
+    pedUpdate(((*(int *)((R14 + 0x20))) + R11), R5, F4);
+    goto L_C04F6D6;
+    L_C04F6D6:;
+    R9 = ((R9 + 0x1));
+    goto L_C04F6D8;
+    L_C04F6D4:;
+    R10 = ((R10 + 0x1));
+    goto L_C04F6D6;
 }

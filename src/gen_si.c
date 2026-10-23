@@ -1,286 +1,218 @@
 /* Straight-line functions with calls and guards (batch gen_si): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Put_Remain_Time_Frame(void);
-int Put_Remain_Time_Gauge(int, int, int, int);
-int ResetFadeColor(void);
+int Bezier(int, int, float);
+int CheckClipping(int, float);
 int Sound_Request(int, int);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int, int, int);
-int pfColor(int, int, int, int);
-int pfSetFont(int);
-int pfSize(float, float);
-int Put_Remain_Time_Mode2(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int nlAddVector(int, int);
+int nlCalcPoint(int, int);
+float nlFastCos(int);
+int nlObjPut(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAZ(int);
+int nlRotateV(int, int);
+int nlScale(float, float, float);
+int nlScaleVector(int, int, float);
+float nlScalor(int);
+int nlSetScaleFactor(float);
+int nlSubVector3op(int, int, int, float);
+int nlTranslateV(int);
+int nlVoidUnitVector(int);
+void ExecArrow(int a4, float f4);
 
-int Put_Remain_Time_Mode2(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+void ExecArrow(int a4, float f4)
 {
-    int t0;
-    int t17;
-    int t78;
-    int t81;
-    int stk[23];
+    float u0;
+    float u1;
+    int t140;
+    float u240;
+    float u242;
+    int t249;
+    int t250;
+    float u308;
+    int t135;
+    int t136;
+    int t137;
+    int t144;
+    int t145;
+    int t146;
+    int t147;
+    int t148;
+    int t149;
+    int t150;
+    int t151;
+    int t152;
+    int t153;
+    int t154;
+    int t155;
+    int t156;
+    int t157;
+    int t158;
+    int t168;
+    int t169;
+    int t170;
+    int t171;
+    int t172;
+    int t173;
+    int t174;
+    int t190;
+    float u247;
+    float u291;
+    float u275;
+    float u265;
+    int stk[32];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C053DEC:;
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
-    t0 = *(int *)0xC1EE20C;
-    R0 = (t0);
-    F12 = (0.0f);
-    F15 = (1.0f);
-    if ((t0 != 2)) goto L_C053E24;
-    goto L_C053E18;
-    L_C053E18:;
-    if (((*(int *)0xC1EE214) != 0)) goto L_C053E24;
-    goto L_C053E20;
-    L_C053E20:;
-    goto L_C05421C;
-    L_C05421C:;
-    return R0;
-    L_C053E24:;
-    R4 = ((*(int *)0xC2A8C54));
-    if (((*(int *)0xC1EE210) != 2)) goto L_C053E70;
-    goto L_C053E30;
-    L_C053E30:;
-    if (((*(int *)0xC2A9904) == 0)) goto L_C053E70;
-    goto L_C053E38;
-    L_C053E38:;
-    R13 = (((*(int *)((R4 + 0x0))) + 0x1));
-    goto L_C053E72;
-    L_C053E72:;
-    if (((int)R13 < (int)0x57E40)) goto L_C053E7A;
-    goto L_C053E78;
-    L_C053E78:;
-    R13 = (0x57E3F);
-    goto L_C053E7A;
-    L_C053E7A:;
-    t17 = (int)((int)R13 / (int)0xE10);
-    R10 = (((int)((int)(((int)((int)R13 % (int)0x3C)) * 0x64) / (int)0x3C)));
-    R11 = (((int)((int)(R13 - (t17 * 0xE10)) / (int)0x3C)));
-    R14 = (t17);
-    R4 = ((t17 * 0xE10));
-    if ((R13 != 0x258)) goto L_C053EC8;
-    goto L_C053EB6;
-    L_C053EB6:;
-    Voice_ShutUp(0x0);
-    Voice_Request(0xC130B78, 0x0, 0x7F, 0x0);
-    goto L_C053EC8;
-    L_C053EC8:;
-    *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = ((int)((int)R14 / (int)0xA));
-    *(unsigned int *)(((int)stk + 12)) = ((((int)stk + 4) + 0xC) + 0x4);
-    *(unsigned int *)((((((int)stk + 4) + 0xC) + 0x4) + 0x0)) = ((int)((int)R14 % (int)0xA));
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x8)) = ((int)((int)R11 / (int)0xA));
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0xC)) = ((int)((int)R11 % (int)0xA));
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x10)) = ((int)((int)R10 / (int)0xA));
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x14)) = ((int)((int)R10 % (int)0xA));
-    R12 = ((((int)stk + 4) + 0xC));
-    R4 = (0xA);
-    if (((*(int *)0xC1EE210) == 2)) goto L_C053F36;
-    goto L_C053F32;
-    L_C053F32:;
-    Put_Remain_Time_Gauge(R4, R5, R6, R7);
-    goto L_C053F36;
-    L_C053F36:;
-    *(unsigned int *)0xC2A7FB0 = 0x200E;
-    *(float *)0xC2A7FA0 = F15;
-    *(unsigned int *)0xC2A7FA4 = 0x0;
-    *(float *)0xC2A7F88 = 0.0399999991f;
-    R14 = (0xC2A7F7C);
-    if (((int)R13 > (int)0x258)) goto L_C053F94;
-    goto L_C053F52;
-    L_C053F52:;
-    nlObjPutSetFadeColor(F15, F12, F12);
-    goto L_C053F9E;
-    L_C053F9E:;
-    *(float *)((R14 + 0x8)) = 84.0f;
-    R10 = (0xFFFF0000);
-    R8 = (0x4);
-    R9 = (0x6);
-    F13 = (34.0f);
-    F14 = (0.5f);
-    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0)) goto L_C053FC8;
-    goto L_C053FBC;
-    L_C053FBC:;
-    if (((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))) != 0)) goto L_C053FC8;
-    goto L_C053FC4;
-    L_C053FC4:;
-    goto L_C0540EA;
-    L_C0540EA:;
-    R11 = (0x2);
-    goto L_C054130;
-    L_C054130:;
-    if (((int)R11 < (int)R9)) goto L_C0540EE;
-    goto L_C054134;
-    L_C054134:;
-    pfSetFont(0x2);
-    pfSize(F15, F15);
-    if (((int)R13 > (int)0x258)) goto L_C05418C;
-    goto L_C054148;
-    L_C054148:;
-    pfColor(R10, R10, R10, R10);
-    goto L_C054198;
-    L_C054198:;
-    nd_SprPut(0xC2A7F7C, 0x10, (*(float *)0xC05428C), F13);
-    F4 = ((*(float *)0xC054298));
-    F5 = (F13);
-    goto L_C0541AC;
-    L_C0541AC:;
-    nd_SprPut(0xC2A7F7C, 0x10, F4, F5);
-    if (((int)R13 > (int)0x258)) goto L_C0541C4;
-    goto L_C0541BA;
-    L_C0541BA:;
-    nlObjPutSetFadeColor(F15, F12, F12);
-    goto L_C0541C4;
-    L_C0541C4:;
-    Put_Remain_Time_Frame();
-    ResetFadeColor();
-    if (((int)R13 > (int)0x258)) goto L_C054202;
-    goto L_C0541D4;
-    L_C0541D4:;
-    if (((int)R13 <= 0)) goto L_C054202;
-    goto L_C0541D8;
-    L_C0541D8:;
-    if ((((int)((int)R13 % (int)0x3C)) != 0)) goto L_C054202;
-    goto L_C0541E4;
-    L_C0541E4:;
-    if (((*(int *)0xC2A8E98) != 0)) goto L_C054202;
-    goto L_C0541EC;
-    L_C0541EC:;
-    if (((*(int *)0xC2A8CB0) != 0)) goto L_C054202;
-    goto L_C0541F4;
-    L_C0541F4:;
-    Sound_Request(0x505A9, 0x0);
-    *(unsigned int *)0xC2A8CB0 = 0x1;
-    goto L_C054202;
-    L_C054202:;
-    t78 = (int)((int)R13 % (int)0x3C);
-    R0 = (t78);
-    if ((t78 == 0)) goto L_C05421C;
-    goto L_C05420E;
-    L_C05420E:;
-    t81 = *(int *)0xC2A8CB0;
-    R0 = (t81);
-    if ((t81 != 1)) goto L_C05421C;
-    goto L_C054216;
-    L_C054216:;
-    *(unsigned int *)0xC2A8CB0 = 0x0;
-    goto L_C05421C;
-    L_C05418C:;
-    pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
-    goto L_C054198;
-    L_C0540EE:;
-    *(float *)((R14 + 0x4)) = (float)(*(int *)((((R11 - 2) << 2) + 0xC130BEC)));
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((((*(int *)((R12 + (R11 << 2)))) << 2) + 0xC0D0C08)));
-    if (((int)R11 < (int)R8)) goto L_C05411E;
-    goto L_C054114;
-    L_C054114:;
-    *(float *)((R14 + 0x10)) = F14;
-    *(float *)((R14 + 0x14)) = F14;
-    goto L_C054126;
-    L_C054126:;
-    nlSprPut(0xC2A7F7C, R5, R6);
-    R11 = ((R11 + 0x1));
-    goto L_C054130;
-    L_C05411E:;
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C054126;
-    L_C053FC8:;
-    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0)) goto L_C053FFA;
-    goto L_C053FD0;
-    L_C053FD0:;
-    *(float *)((R14 + 0x4)) = (float)(*(int *)0xC130BD4);
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) << 2) + 0xC0D0C08)));
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    nlSprPut(0xC2A7F7C, R5, R6);
-    goto L_C053FFE;
-    L_C053FFE:;
-    R11 = (0x1);
-    goto L_C054046;
-    L_C054046:;
-    if (((int)R11 < (int)R9)) goto L_C054002;
-    goto L_C05404A;
-    L_C05404A:;
-    pfSetFont(0x2);
-    pfSize(F15, F15);
-    if (((int)R13 > (int)0x258)) goto L_C0540A0;
-    goto L_C05405E;
-    L_C05405E:;
-    pfColor(R10, R10, R10, R10);
-    goto L_C0540AC;
-    L_C0540AC:;
-    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0)) goto L_C0540D8;
-    goto L_C0540B4;
-    L_C0540B4:;
-    nd_SprPut(0xC2A7F7C, 0x10, 96.0f, F13);
-    nd_SprPut(0xC2A7F7C, 0x10, 174.0f, F13);
-    F4 = (182.0f);
-    F5 = (F13);
-    goto L_C0541AC;
-    L_C0540D8:;
-    nd_SprPut(0xC2A7F7C, 0x10, 64.0f, F13);
-    goto L_C054198;
-    L_C0540A0:;
-    pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
-    goto L_C0540AC;
-    L_C054002:;
-    *(float *)(((0x4 + R14) + 0x0)) = (float)((*(int *)(((R11 << 2) + 0xC130BD4))) - (*(int *)(((int)stk + 8))));
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((((*(int *)((R12 + (R11 << 2)))) << 2) + 0xC0D0C08)));
-    if (((int)R11 < (int)R8)) goto L_C054034;
-    goto L_C05402A;
-    L_C05402A:;
-    *(float *)((R14 + 0x10)) = F14;
-    *(float *)((R14 + 0x14)) = F14;
-    goto L_C05403C;
-    L_C05403C:;
-    nlSprPut(0xC2A7F7C, R5, R6);
-    R11 = ((R11 + 0x1));
-    goto L_C054046;
-    L_C054034:;
-    *(float *)((R14 + 0x10)) = F15;
-    *(float *)((R14 + 0x14)) = F15;
-    goto L_C05403C;
-    L_C053FFA:;
-    *(unsigned int *)(((int)stk + 8)) = 0x24;
-    goto L_C053FFE;
-    L_C053F94:;
-    nlObjPutSetFadeColor(F15, F15, F12);
-    goto L_C053F9E;
-    L_C053E70:;
-    R13 = ((*(int *)((R4 + 0x0))));
-    goto L_C053E72;
+    u0 = 200.0f;
+    u0 = u0 + 0.099999994f * f4;
+    u1 = u0;
+    if (100.0f > u0) {
+        u1 = 100.0f;
+    }
+    if (a4 != 0) {
+        if ((*(int *)0xC274240) != 0) {
+        } else {
+            *(unsigned int *)0xC274240 = ((*(int *)0xC274240) + 0x1);
+            if ((*(int *)0xC1EE20C) != 2) {
+                Sound_Request(0x805A9, 0x0);
+            } else {
+                if ((*(int *)0xC1EE20C) != 2) {
+                } else {
+                    if ((*(int *)0xC1EE214) == 8) {
+                        Sound_Request(0x805A9, 0x0);
+                    } else {
+                        if ((*(int *)0xC1EE214) == 5) {
+                            Sound_Request(0x805A9, 0x0);
+                        } else {
+                            if ((*(int *)0xC1EE214) == 9) {
+                                Sound_Request(0x805A9, 0x0);
+                            } else {
+                                if ((*(int *)0xC1EE214) == 13) {
+                                    Sound_Request(0x805A9, 0x0);
+                                } else {
+                                    if ((*(int *)0xC1EE214) == 6) {
+                                        Sound_Request(0x805A9, 0x0);
+                                    } else {
+                                        if ((*(int *)0xC1EE214) != 7) {
+                                        } else {
+                                            Sound_Request(0x805A9, 0x0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        t140 = 0x1;
+        if ((((int)(*(int *)0xC179130) <= (int)0x1) && (t135 = *(int *)0xC274244, (int)t135 > (int)0x1)) || ((t136 = *(int *)0xC179130, (int)t136 < (int)0xD) && (t137 = *(int *)0xC274244, t137 == 14))) {
+            t140 = 0x0;
+        }
+        if ((((*(int *)0xC1EE20C) == 2) && ((((t144 = *(int *)0xC1EE214, t144 == 3) || ((t145 = *(int *)0xC1EE214, t145 == 11) || ((t146 = *(int *)0xC1EE214, t146 == 1) || ((t147 = *(int *)0xC1EE214, t147 == 13) || (t148 = *(int *)0xC1EE214, t148 == 10))))) && (t149 = *(int *)0xC274240, t149 == 0)) || ((t150 = *(int *)0xC1EE20C, t150 == 2) && ((t151 = *(int *)0xC1EE214, t151 != 3) && ((t152 = *(int *)0xC1EE214, t152 != 11) && ((t153 = *(int *)0xC1EE214, t153 != 1) && ((t154 = *(int *)0xC1EE214, t154 != 13) && ((t155 = *(int *)0xC1EE214, t155 != 10) && ((t156 = *(int *)0xC274240, t156 == 0) && (1000.0f > f4)))))))))) || ((t157 = *(int *)0xC1EE20C, t157 != 2) && ((t158 = *(int *)0xC274240, t158 == 0) && (1200.0f > f4)))) {
+            if (t140 != 0) {
+                if ((CheckClipping(0xC274234, -25.0f)) != 0) {
+                    *(unsigned int *)0xC274240 = ((*(int *)0xC274240) + 0x1);
+                    if (((*(int *)0xC1EE20C) == 2) && ((t168 = *(int *)0xC1EE20C, t168 != 2) || ((t169 = *(int *)0xC1EE214, t169 != 8) && ((t170 = *(int *)0xC1EE214, t170 != 5) && ((t171 = *(int *)0xC1EE214, t171 != 9) && ((t172 = *(int *)0xC1EE214, t172 != 13) && ((t173 = *(int *)0xC1EE214, t173 != 6) && (t174 = *(int *)0xC1EE214, t174 != 7)))))))) {
+                    } else {
+                        Sound_Request(0x805A9, 0x0);
+                    }
+                }
+            }
+        } else {
+            if (((*(int *)0xC274240) != 1) && (t190 = *(int *)0xC274240, t190 != 2)) {
+            } else {
+                if (t140 != 0) {
+                    if ((CheckClipping(0xC274234, 0.0f)) == 0) {
+                        *(unsigned int *)0xC274240 = 0x3;
+                    }
+                } else {
+                    *(unsigned int *)0xC274240 = 0x3;
+                }
+            }
+        }
+    }
+    *(float *)(((((int)stk + 4) + 0x1C) + 0x0)) = 0.0f;
+    *(float *)(((((int)stk + 4) + 0x1C) + 0x4)) = 20.0f;
+    *(float *)(((((int)stk + 4) + 0x1C) + 0x8)) = -70.0f;
+    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x0)) = 0.0f;
+    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x4)) = 99.9999924f;
+    *(float *)((((((int)stk + 4) + 0x1C) + 0xC) + 0x8)) = -870.0f;
+    nlPushMatrix(0xC179864);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(0xC274234); }
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + 100.0f);
+    *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x1C) + 0x24);
+    nlCalcPoint((((int)stk + 4) + 0x10), ((((int)stk + 4) + 0x1C) + 0x24));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((((int)stk + 4) + 0x1C) + 0x18)) = *(struct mv3 *)((*(int *)(((int)stk + 4)))); }
+    nlCalcPoint(0xC274234, (((int)stk + 4) + 0x10));
+    nlPopMatrix(0x1);
+    if ((*(int *)0xC274240) == 3) {
+        u240 = *(float *)0xC27424C;
+        *(float *)0xC27424C = (u240 - 50.0f);
+        if (100.0f > (u240 - 50.0f)) {
+            *(float *)0xC27424C = 100.0f;
+        }
+    } else {
+        u242 = *(float *)0xC27424C;
+        *(float *)0xC27424C = (u242 + 25.0f);
+        if ((u242 + 25.0f) > 600.0f) {
+            *(float *)0xC27424C = 600.0f;
+        }
+        u247 = 600.0f;
+    }
+    t249 = *(int *)0xC274240;
+    t250 = *(int *)0xC274250;
+    if (t249 != 0) {
+        if (t249 != 1) {
+            if (t249 != 2) {
+                if (t249 != 3) {
+                    u265 = u247;
+                } else {
+                    if (t250 != 0) {
+                        *(unsigned int *)0xC274250 = ((t250 + 0x1000) & 0xF000);
+                    }
+                    nlSubVector3op((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x1C), 0xC274228, u247);
+                    nlScaleVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), 0.099999994f);
+                    nlAddVector(0xC274228, (((int)stk + 4) + 0x4));
+                    if (1.0f > (nlScalor((((int)stk + 4) + 0x4)))) {
+                        *(unsigned int *)0xC274240 = 0x0;
+                        *(float *)0xC274248 = 0.0f;
+                    }
+                }
+                u275 = u265;
+            } else {
+                *(unsigned int *)0xC274250 = ((*(int *)0xC274250) + 0x200);
+                { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC274228) = *(struct mv3 *)(((((int)stk + 4) + 0x1C) + 0x24)); }
+                u275 = u247;
+            }
+            u291 = u275;
+        } else {
+            *(float *)0xC274248 = ((*(float *)0xC274248) + 0.0249999985f);
+            *(unsigned int *)0xC274250 = 0x0;
+            if (!(1.0f > (*(float *)0xC274248))) {
+                *(float *)0xC274248 = 1.0f;
+                *(unsigned int *)0xC274240 = ((*(int *)0xC274240) + 0x1);
+            }
+            Bezier((((int)stk + 4) + 0x1C), 0xC274228, (*(float *)0xC274248));
+        }
+        nlSubVector3op((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10), 0xC274228, u291);
+        nlVoidUnitVector((((int)stk + 4) + 0x4));
+        if ((*(int *)0xC274240) == 2) {
+            nlScaleVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), (((((nlFastCos(((*(int *)0xC274250) << 2))) + (-1.0f)) * u1)) * 0.099999994f));
+            nlAddVector(0xC274228, (((int)stk + 4) + 0x10));
+        }
+        nlPushUnitMatrix();
+        nlTranslateV(0xC274228);
+        nlRotateV(0xC096668, (((int)stk + 4) + 0x4));
+        nlRotateAZ((*(int *)0xC274250));
+        u308 = *(float *)0xC27424C;
+        nlScale(u308, u308, u308);
+        nlSetScaleFactor((*(float *)0xC27424C));
+        nlObjPut(0xC46BAB8);
+        nlPopMatrix(0x1);
+    } else {
+        *(float *)0xC274248 = 0.0f;
+    }
 }

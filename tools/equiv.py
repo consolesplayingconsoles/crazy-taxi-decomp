@@ -21,7 +21,8 @@ The compiler's own runtime helpers (names starting with `_`: _divls, _quick_odd_
 they run, in the original and in the C, so a division the original does through _divls and the C inlines
 agree, and a struct copy is compared by what it writes.
 Calls out are compared by target and by the arguments the callee takes, read from the prototype the C
-file declares for it (an int or pointer takes the next of r4-r7, a float the next of fr4-fr11): registers a
+file declares for it, raised to the callee's own definition in src/ when that takes more (an int or pointer
+takes the next of r4-r7, a float the next of fr4-fr11, past the fourth int the stack): registers a
 call merely leaves over are not arguments. A callee with no prototype in the file is compared on all of
 r4-r7 and fr4-fr11, as before. An argument that points into the simulator's stack is compared as "the
 stack": a local's address depends on the frame layout, which is the compiler's business.
@@ -41,6 +42,7 @@ Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
 import toolpath  # noqa: E402,F401
+import glob
 import hashlib
 import json
 import os
@@ -244,6 +246,36 @@ def stack_args(cfile):
     return out
 
 
+def definitions():
+    """{name: integer and pointer parameters, float parameters} of every function defined in src/: what the callee as built reads."""
+    out = {}
+    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(path, errors='replace').read(), flags=re.S)
+        for m in re.finditer(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', text, flags=re.M):
+            ps = [p for p in m.group(2).split(',') if p.strip() and p.strip() != 'void']
+            if '...' in m.group(2) or not m.group(2).strip():
+                continue
+            nf = sum(1 for p in ps if re.search(r'\b(float|double)\b', p) and '*' not in p)
+            out.setdefault(m.group(1), (len(ps) - nf, nf))
+    return out
+
+
+def compared_arity(cfile, table):
+    """What each call out is compared on: ({address: (integer, float) register arguments}, {address: arguments on the stack}).
+    The caller's file's prototype, raised to the callee's own definition in src/: a call that passes fewer than the callee takes
+    fails, wherever the caller's file declares fewer (the build links every caller against that one definition)."""
+    arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
+    stackn = {table[n]: k for n, k in stack_args(cfile).items() if n in table and k}
+    for n, (ni, nf) in definitions().items():
+        a = arity.get(table.get(n))
+        if a is None or len(a) > 2:
+            continue                          # no prototype here (every register is compared) or a variadic one
+        arity[table[n]] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
+        if ni > 4:
+            stackn[table[n]] = max(stackn.get(table[n], 0), min(ni - 4, 4))
+    return arity, stackn
+
+
 def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
@@ -395,9 +427,9 @@ def main(argv):
     # (a static the original inlined, not in the map): part of the C version, so it runs
     runtime_addrs = {a for n, a in table.items() if n.startswith('_')}
     helpers = lambda t: (SCRATCH <= t < SCRATCH + len(code) and t not in back) or t in runtime_addrs
-    arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
+    arity, stackn = compared_arity(cfile, table)
     STACKN.clear()
-    STACKN.update({table[n]: k for n, k in stack_args(cfile).items() if n in table and k})
+    STACKN.update(stackn)
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime

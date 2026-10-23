@@ -1,135 +1,56 @@
 /* Straight-line functions with calls and guards (batch gen_de): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckDrive(void);
-int CheckSoftReset(void);
-int Exec_LCD(void);
-int InitSys(void);
-int LoadBigOne(int);
-int PutVMSMessage(void);
-int Sound_Execute(void);
-int frameFlip(void);
-int gdc_Err(void);
-int gdc_FileLoadExec(void);
-int getSwitch(void);
-int getSystemMetrics(void);
-int nd_Exec_Puru2(int);
-int nlObjPutSetFadeColor(float, float, float);
-int paletteUpload(void);
-void MainLoop(void);
+int NextWindow(int);
+int PutVM_Message(int, int, int, float, float);
+int windowEnterStep(int, int, int);
+int windowOpenStep(int);
+int windowCardDriveError(void);
 
-void MainLoop(void)
+int windowCardDriveError(void)
 {
-    int t8;
-    int t25;
-    int t47;
-    int t64;
+    float u1;
+    int t49;
+    int t27;
+    int t48;
+    int t42;
+    int t43;
+    int t36;
+    int t37;
 
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
-    *(unsigned int *)0xC1EE244 = 0x0;
-    InitSys();
-    if ((*(int *)0xC2A11C0) == 0) {
-        *(unsigned int *)0xC1EE244 = 0x0;
-        LoadBigOne(0xC141868);
-        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
-        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
-        { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
-        for (;;) {
-            getSwitch();
-            nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-            CheckSoftReset();
-            CheckDrive();
-            t8 = *(int *)(((((*(int *)0xC1EE234) & 0x7) << 2) + 0xC08ACEC));
-            if (t8 == 0) {
-                *(unsigned int *)0xC1EE234 = ((*(int *)0xC1EE234) + 0x1);
-                *(unsigned int *)0xC1EE238 = 0x0;
-                PutVMSMessage();
-                Exec_LCD();
-                nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
-                gdc_FileLoadExec();
-                Sound_Execute();
-                *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
-                if ((int)(*(int *)0xC1EE208) > (int)0x2) {
-                    gdc_Err();
-                    getSystemMetrics();
-                    frameFlip();
-                    paletteUpload();
-                    continue;
-                }
-                getSystemMetrics();
-                frameFlip();
-                paletteUpload();
-                continue;
+    windowOpenStep(0x14);
+    u1 = *(float *)0xC03E904;
+    PutVM_Message(0x20, 0x9, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, (*(float *)0xC03E908));
+    PutVM_Message(0x20, 0xA, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, (*(float *)0xC03E910));
+    PutVM_Message(0x20, 0x1, 0x0, u1, (*(float *)0xC03E914));
+    PutVM_Message(0x20, 0x2, 0xC2A1238, u1, (*(float *)0xC03E91C));
+    PutVM_Message(0x20, 0x3, 0x0, u1, (*(float *)0xC03E920));
+    PutVM_Message(0x20, 0x4, 0x0, u1, (*(float *)0xC03E924));
+    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), (*(float *)0xC03E92C), (*(float *)0xC03E928));
+    t49 = 0xC2A11D8;
+    if (((*(int *)0xC2A1208) & 4) != 0) {
+        if ((*(int *)0xC2A121C) == 1) {
+            *(unsigned int *)0xC2A121C = 0x2;
+            *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x9);
+            t27 = 0x5;
+            if ((*(int *)0xC2A1224) == 0) {
+                t27 = 0x4;
             }
-            t25 = ((int (*)(void))(t8))();
-            PutVMSMessage();
-            Exec_LCD();
-            nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
-            gdc_FileLoadExec();
-            Sound_Execute();
-            *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
-            if ((int)(*(int *)0xC1EE208) > (int)0x2) {
-                gdc_Err();
-                getSystemMetrics();
-                frameFlip();
-                paletteUpload();
-                continue;
+            NextWindow(t27);
+        } else {
+            if (((*(int *)0xC2A11CC) & 1) != 0) {
+                *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x9);
+                *(unsigned int *)0xC2A121C = 0x0;
+                NextWindow(0x9);
+            } else {
+                t36 = 0xC2A121C;
+                t37 = 0xC2A11D8;
             }
-            getSystemMetrics();
-            frameFlip();
-            paletteUpload();
+            t42 = t36;
+            t43 = t37;
         }
+        t48 = t42;
+        t49 = t43;
     }
-    *(unsigned int *)0xC1EE244 = 0x1;
-    LoadBigOne(0xC141868);
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE24C) = *(struct mv13 *)(0xC0E4E50); }
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE280) = *(struct mv13 *)(0xC0E4E50); }
-    { struct mv13 { int w[13]; }; *(struct mv13 *)(0xC1EE2B4) = *(struct mv13 *)(0xC0E4E50); }
-    for (;;) {
-        getSwitch();
-        nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
-        CheckSoftReset();
-        CheckDrive();
-        t47 = *(int *)(((((*(int *)0xC1EE234) & 0x7) << 2) + 0xC08ACEC));
-        if (t47 == 0) {
-            *(unsigned int *)0xC1EE234 = ((*(int *)0xC1EE234) + 0x1);
-            *(unsigned int *)0xC1EE238 = 0x0;
-            PutVMSMessage();
-            Exec_LCD();
-            nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
-            gdc_FileLoadExec();
-            Sound_Execute();
-            *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
-            if ((int)(*(int *)0xC1EE208) > (int)0x2) {
-                gdc_Err();
-                getSystemMetrics();
-                frameFlip();
-                paletteUpload();
-                continue;
-            }
-            getSystemMetrics();
-            frameFlip();
-            paletteUpload();
-            continue;
-        }
-        t64 = ((int (*)(void))(t47))();
-        PutVMSMessage();
-        Exec_LCD();
-        nd_Exec_Puru2((unsigned char)(*(signed char *)0xC1EE278));
-        gdc_FileLoadExec();
-        Sound_Execute();
-        *(unsigned int *)0xC1EE330 = ((*(int *)0xC1EE330) + 0x1);
-        if ((int)(*(int *)0xC1EE208) > (int)0x2) {
-            gdc_Err();
-            getSystemMetrics();
-            frameFlip();
-            paletteUpload();
-            continue;
-        }
-        getSystemMetrics();
-        frameFlip();
-        paletteUpload();
-    }
+    return windowEnterStep(0x14, t48, t49);
 }

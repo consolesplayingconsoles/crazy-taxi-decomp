@@ -238,98 +238,14 @@ int syIntAdrChk_putchar(int a4);
 void syIntAdrChk_prints(int a4);
 int syIntAdrChk_printh(int a4);
 
-int gdc_PlayStreamSongDisk(void)
-{
-    int t1;
-    int t2;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-
-    gdc_StopStreamSongAll();
-    *(unsigned int *)0xC26A0D4 = 0x0;
-    t1 = *(int *)0xC26A0CC;
-    t2 = *(int *)(((t1 << 2) + 0xC08C410));
-    adxStartAfs1(0x0, t2);
-    t4 = *(int *)0xC26A0D4;
-    t5 = gdc_GetStreamSongRemainTime(t4);
-    *(unsigned int *)0xC26A0D0 = t5;
-    *(unsigned int *)0xC26A0C8 = 0x1;
-    t6 = *(signed char *)0xC1EE80C;
-    t7 = gdc_GetVolGainMute(t6);
-    t8 = *(int *)0xC1EE820;
-    return ADXT_SetOutVol(t8, t7);
-}
 
 
 
 
-int gameState14(void)
-{
-    float u5;
-    int t10;
-    int t11;
-
-    Voice_ShutUp(0x0);
-    Voice_Request(0xC0EEA08, 0x0, 0x7F, 0x0);
-    CarSel_SetBackColor();
-    gdc_PlayStreamSong(0x1);
-    gdc_VolStreamSong(0x7F);
-    *(unsigned int *)0xC2864AC = 0x0;
-    *(unsigned int *)0xC2864A8 = 0x0;
-    *(unsigned int *)0xC2864A4 = 0x0;
-    *(unsigned int *)0xC2864A0 = 0x0;
-    *(unsigned int *)0xC2864BC = 0x0;
-    *(unsigned int *)0xC2864B8 = 0x0;
-    *(unsigned int *)0xC2864B4 = 0x0;
-    *(unsigned int *)0xC2864B0 = 0x0;
-    u5 = 0.39999998f;
-    *(float *)0xC2864C0 = u5;
-    *(float *)0xC2864D4 = 1.0f;
-    *(unsigned int *)0xC2864D8 = 0x0;
-    *(unsigned int *)0xC2864C4 = 0x744;
-    *(unsigned int *)0xC2864CC = ((int)ExecNameEntrySelect);
-    *(unsigned char *)0xC2864D3 = 0x0;
-    *(unsigned char *)0xC2864D2 = 0x0;
-    *(unsigned char *)0xC2864D1 = 0x0;
-    *(unsigned char *)0xC2864D0 = 0x0;
-    *(unsigned int *)0xC2864C8 = 0x0;
-    pfSetFont(0x0);
-    pfSetFilterMode(0x1);
-    pfSize((1.0f + 1.0f), (1.0f + 1.0f));
-    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    t10 = pfOffsetColor(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
-    t11 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t11 + 0x1);
-    return t10;
-}
 
 
 
 
-int stopingCarSpawn(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-
-    t0 = *(int *)0xC2A6690;
-    t1 = *(int *)((((((a4 << 1) + a4) << 2) + t0) + 0x8));
-    t2 = *(int *)((t1 + 0x0));
-    if ((t2 & 0x2000) != 0) {
-        t3 = *(int *)0xC2A1B1C;
-        if ((t3 & 24) != 0) {
-            t4 = courseCarType();
-            return StopingCarInit(t4, a4);
-        }
-        return t3;
-    }
-    return t1;
-}
 
 int pcarEnd(int a4)
 {
@@ -354,123 +270,12 @@ int pcarEnd(int a4)
 
 
 
-int PutCourse_Sky(void)
-{
-    int t0;
-    int t1;
-    int t9;
-
-    t0 = *(int *)0xC1EE20C;
-    if (t0 != 2) {
-        t1 = *(int *)0xC2A6FD8;
-        if (t1 != 2) {
-            nlPushMatrix(0x0);
-            nlTranslateV(0xC179840);
-            nlScale((1.0f + 1.0f), (1.0f + 1.0f), (1.0f + 1.0f));
-            nlSetScaleFactor((1.0f + 1.0f));
-            nlObjPutUseViewMatrix(0xC462B70);
-            nlSetScaleFactor((1.0f + 1.0f));
-            nlObjPutUseViewMatrix(0xC46C730);
-            return nlPopMatrix(0x1);
-        }
-        return t1;
-    }
-    t9 = *(int *)0xC1EE214;
-    if (t9 != 0) {
-        nlPushMatrix(0x0);
-        nlTranslateV(0xC179840);
-        nlScale((1.0f + 1.0f), (1.0f + 1.0f), (1.0f + 1.0f));
-        nlSetScaleFactor((1.0f + 1.0f));
-        nlObjPutUseViewMatrix(0xC46C730);
-        return nlPopMatrix(0x1);
-    }
-    return t0;
-}
 
 
 
 
 
 
-int execMiniLight(void)
-{
-    int t0;
-    float u1;
-    int t3;
-    int t2;
-    int t4;
-    int t6;
-    int t8;
-    int t10;
-    int t12;
-    int t15;
-    int t14;
-    int t11;
-    int t9;
-    int t7;
-    int t5;
-
-    t0 = *(int *)0xC1EE214;
-    u1 = *(float *)0xC179844;
-    if (t0 != 1) {
-        if (t0 != 5) {
-            if (t0 != 6) {
-                if (t0 != 7) {
-                    if (t0 != 11) {
-                        t3 = 0x0;
-                        if (t0 == 17) {
-                            t2 = 0x0;
-                            if (0.0f > u1) {
-                                t2 = 0x1;
-                            }
-                            t3 = t2;
-                        }
-                        t5 = t3;
-                    } else {
-                        t4 = 0x0;
-                        if (0.0f > u1) {
-                            t4 = 0x1;
-                        }
-                        t5 = t4;
-                    }
-                    t7 = t5;
-                } else {
-                    t6 = 0x0;
-                    if (0.0f > u1) {
-                        t6 = 0x1;
-                    }
-                    t7 = t6;
-                }
-                t9 = t7;
-            } else {
-                t8 = 0x0;
-                if (0.0f > u1) {
-                    t8 = 0x1;
-                }
-                t9 = t8;
-            }
-            t11 = t9;
-        } else {
-            t10 = 0x0;
-            if (0.0f > u1) {
-                t10 = 0x1;
-            }
-            t11 = t10;
-        }
-        t14 = t11;
-    } else {
-        t12 = 0x1;
-        if (!(-9.79999924f > u1)) {
-            t12 = 0x0;
-        }
-        t14 = t12;
-    }
-    t15 = LightEffect(t14);
-    if (t14 != 0) {
-        return ResetSpark();
-    }
-    return t15;
-}
 
 int GetAverageAngle(int a4, int a5, float f4)
 {
@@ -503,36 +308,7 @@ int EndPsg_Start(int a4, int a5, int a6, int a7)
     return t0;
 }
 
-int AreYouBreathing(void)
-{
-    int t0;
-    int t1;
 
-    t0 = 0x0;
-    do {
-        t1 = breathExecOne(((signed char)((((t0 << 2) + t0) << 2) << 1) + 0xC2AE710), ((signed char)(((t0 << 1) + t0) << 2) + 0xC0D6134));
-        t0 = (t0 + 0x1);
-    } while ((int)t0 < (int)0x3);
-    return t1;
-}
-
-int BigOneSwims(void)
-{
-    int t0;
-    float u1;
-    float u2;
-
-    t0 = *(int *)0xC1EE210;
-    if (t0 != 0) {
-        return t0;
-    }
-    u1 = -1237.0f;
-    u2 = *(float *)0xC179148;
-    if (!(u2 > u1)) {
-        return BigOnePut();
-    }
-    return 0x7C;
-}
 
 int nlFreePalette(int a4)
 {

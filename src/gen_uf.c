@@ -1,57 +1,66 @@
 /* Straight-line functions with calls and guards (batch gen_uf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetSpark(int, int, int);
-int Sound_Request(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int);
-int nlOuterProduct(int, int, int);
+int GetCollision2D(int, float);
+int GetCollisionFirst(int, int, float);
+int nlCalcPoint(int, int);
+float nlInnerProduct(int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
 int nlScaleVector(int, int, float);
-void Move_Balloon(int a4);
+int nlSubVector3op(int, int, int);
+int psgPickExitSide(int a4);
 
-void Move_Balloon(int a4)
+int psgPickExitSide(int a4)
 {
-    float u14;
-    float u40;
-    int t21;
-    int stk[18];
+    int t4;
+    int t12;
+    int t15;
+    int t25;
+    int t22;
+    int t37;
+    int t34;
+    int t41;
+    int stk[15];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x18)) = *(struct mv3 *)(0xC0D2AF0); }
-    *(float *)((a4 + 0x58)) = ((*(float *)((a4 + 0x58))) - 0.166599989f);
-    nlScaleVector((a4 + 0x54), (a4 + 0x54), 0.994999945f);
-    nlScaleVector((((int)stk + 8) + 0x24), (a4 + 0x54), 1.0f);
-    nlAddVector((a4 + 0x48), (((int)stk + 8) + 0x24));
-    if (11.999999f > (*(float *)((a4 + 0x4C)))) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0xC)) = *(struct mv3 *)(0xC0D2AFC); }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x24)) = *(struct mv3 *)((a4 + 0x54)); }
-        nlOuterProduct((((int)stk + 8) + 0x24), (((int)stk + 8) + 0xC), (((int)stk + 8) + 0x24));
-        if (((*(float *)((a4 + 0x58))) * 0.899999976f) > -0.166599989f) {
-            nlScaleVector((a4 + 0x30), (((int)stk + 8) + 0x24), 0.00694444589f);
-        } else {
-            nlScaleVector((((int)stk + 8) + 0x24), (((int)stk + 8) + 0x24), 0.000578703883f);
-            nlAddVector((a4 + 0x30), (((int)stk + 8) + 0x24));
-        }
-        nlScaleVector((a4 + 0x54), (a4 + 0x54), 0.979999959f);
-        *(float *)((a4 + 0x4C)) = 11.999999f;
-        u14 = (*(float *)((a4 + 0x58)));
-        u14 *= -0.899999976f;
-        *(float *)((a4 + 0x58)) = u14;
+    *(unsigned int *)(((int)stk + 4)) = a4;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x20)) = *(struct mv3 *)(0xC0D6064); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)(0xC0D6070); }
+    nlPushMatrix(0xC179180);
+    nlCalcPoint((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+    nlCalcPoint((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14));
+    *(unsigned int *)(((int)stk + 8)) = 0xC2AD204;
+    t4 = *(short *)(((*(int *)(((int)stk + 4))) + 0x140));
+    nlSubVector3op((((int)stk + 4) + 0x8), ((short)(((t4 << 1) + t4) << 2) + 0xC13EEE8), 0xC2AD204);
+    t12 = *(int *)(((*(int *)(((int)stk + 4))) + 0x140));
+    nlSubVector3op((((int)stk + 4) + 0x8), ((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC13F3B0 + ((*(int *)0xC1EE210) << 2))))))) + (((t12 << 1) + t12) << 2)), (*(int *)(((int)stk + 8))));
+    t15 = 0x0;
+    if (!(0.0f > (nlInnerProduct((((int)stk + 4) + 0x8), 0xC2AD1E0)))) {
+        t15 = 0x1;
     }
-    if ((((*(int *)((a4 + 0x68))) & 0x1) != 0) && (t21 = *(int *)((a4 + 0x7C)), t21 == 0)) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0xC)) = *(struct mv3 *)(0xC0D2B08); }
-        *(unsigned int *)((a4 + 0x7C)) = 0x1;
-        if ((int)(*(int *)0xC1319F8) > 0) {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 8)) = *(struct mv3 *)((a4 + 0x48)); }
-            *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) - 20.0f);
-            SetSpark(((int)stk + 8), (((int)stk + 8) + 0xC), 0x32);
-            if ((*(int *)0xC2A991C) == 0) {
-                *(unsigned int *)0xC1319F8 = ((*(int *)0xC1319F8) - 1);
+    if (t15 == 1) {
+        t25 = (((t15 == 0)) ? 1 : 0);
+        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x20), 0.0f)) + 0x1C))) != -1) {
+            nlScaleVector((((int)stk + 4) + 0x8), 0xC2AD1E0, 20.0f);
+            t22 = t15;
+            if ((*(int *)(((GetCollisionFirst((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), 0.0f)) + 0x1C))) != -1) {
+                t22 = (((t15 == 0)) ? 1 : 0);
             }
-            Sound_Request(0x20FA9, 0x0);
+            t25 = t22;
         }
-        u40 = (*(float *)(((a4 + 0x58) + 0x0)));
-        u40 = u40 + 0.399999976f * (nlLength((a4 + 0x54), (a4 + 0x3C)));
-        *(float *)(((a4 + 0x58) + 0x0)) = u40;
+        t41 = t25;
+    } else {
+        t37 = (((t15 == 0)) ? 1 : 0);
+        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x14), 0.0f)) + 0x1C))) != -1) {
+            nlScaleVector((((int)stk + 4) + 0x8), 0xC2AD1E0, (*(float *)0xC070F44));
+            t34 = t15;
+            if ((*(int *)(((GetCollisionFirst((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x8), 0.0f)) + 0x1C))) != -1) {
+                t34 = (((t15 == 0)) ? 1 : 0);
+            }
+            t37 = t34;
+        }
+        t41 = t37;
     }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x3C)) = *(struct mv3 *)((a4 + 0x54)); }
+    nlPopMatrix(0x1);
+    return t41;
 }

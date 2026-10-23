@@ -5,7 +5,7 @@ int nlAddVector(int, int);
 int nlLineSetThickness(float);
 int nlObjPutUseViewMatrix(int);
 int nlScaleVector(int, int, float);
-int nlSingleLineUseViewMatrix(void);
+int nlSingleLineUseViewMatrix(int, int, int);
 int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
 int nlTriPutSetAttribFaceColor(int, float, float, float);
 int nlTriPutSetClipping(int, float, float, float, float);
@@ -47,14 +47,14 @@ int PutColliWall(int a4)
     { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 28)) = *(struct mv3 *)((((int)stk + 28) + 0xC)); }
     *(float *)(((int)stk + 32)) = (*(float *)((a4 + 0x14)));
     nlLineSetThickness(3.0f);
-    nlSingleLineUseViewMatrix();
+    nlSingleLineUseViewMatrix(((int)stk + 40), ((int)stk + 28), 0xFFFF0000);
     t80 = 0x1C;
     if (!((*(float *)((a4 + 0x1C))) > 0.0f)) {
     } else {
         *(float *)(((int)stk + 32)) = (*(float *)(((int)stk + 44)));
         *(float *)(((int)stk + 28)) = (*(float *)(((a4 + 0x20) + 0x8)));
         *(float *)(((int)stk + 36)) = (*(float *)(((a4 + 0x20) + 0xC)));
-        nlSingleLineUseViewMatrix();
+        nlSingleLineUseViewMatrix(((int)stk + 40), ((int)stk + 28), 0xFFFF0000);
         *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 40))) - ((*(float *)((a4 + 0x4))) * (*(float *)((a4 + 0x1C)))));
         u30 = (*(float *)(((int)stk + 48)));
         u30 = u30 + (*(float *)((a4 + 0x1C))) * (*(float *)((a4 + 0x0)));
@@ -80,9 +80,8 @@ int PutColliWall(int a4)
         u75 = (*(float *)(((int)stk + 48)));
         u75 = u75 + 0.199999988f * ((*(float *)((a4 + 0x4))) * ((((u56 + u55) - u57) * 0.5f)));
         *(float *)(((int)stk + 36)) = u75;
-        *(volatile int *)((a4 + 0x14));
-        
-        t80 = (nlSingleLineUseViewMatrix());
+        t80 = nlSingleLineUseViewMatrix(((int)stk + 40), ((int)stk + 28), (((*(int *)((a4 + 0x14))) & 1) ? 0xFF007F00 : 0xFF00FF00));
     }
     return t80;
 }
+

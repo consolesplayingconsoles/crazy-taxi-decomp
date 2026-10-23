@@ -1,24 +1,36 @@
 /* Straight-line functions with calls and guards (batch gen_agv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlsndPackFree(void);
-int gdc_FileLoad(int, int, int);
-int nlsndPackLoad(int, int);
-int gdc_CarSoundLoad(void);
+int Move_ProposalWalker(int);
+int Put_ProposalWalker(int, float, float);
+void Exec_ProposalWalker(int a4, float f4, float f5);
 
-int gdc_CarSoundLoad(void)
+void Exec_ProposalWalker(int a4, float f4, float f5)
 {
-    int t4;
+    int t1;
+    int t3;
 
-    if ((int)(*(int *)0xC179488) < (int)0x4) {
-        nlsndPackFree();
-        t4 = 0xC08D4C8;
-    } else {
-        nlsndPackFree();
-        t4 = 0xC08D4D4;
+    if ((*(int *)((a4 + 0x18))) != 0) {
+        t1 = *(int *)((a4 + 0x14));
+        if ((((*(int *)0xC2A9D58) & (((int)(t1 << 2) >= 0) ? (0x1 << ((t1 << 2) & 31)) : ((-(int)(t1 << 2) & 31) ? ((unsigned int)0x1 >> (-(int)(t1 << 2) & 31)) : 0))) != 0) && (t3 = *(int *)((a4 + 0x40)), t3 == 0)) {
+            Put_ProposalWalker(a4, f4, f5);
+            if ((*(int *)((a4 + 0x18))) == 1) {
+                Move_ProposalWalker(a4);
+    return;
+            }
+            return;
+        }
+        if (((*(int *)0xC2A9D5C) & (((int)(t1 << 2) >= 0) ? (0x1 << ((t1 << 2) & 31)) : ((-(int)(t1 << 2) & 31) ? ((unsigned int)0x1 >> (-(int)(t1 << 2) & 31)) : 0))) != 0) {
+            if ((*(int *)((a4 + 0x40))) == 1) {
+                Put_ProposalWalker(a4, f4, f5);
+                if ((*(int *)((a4 + 0x18))) == 1) {
+                    Move_ProposalWalker(a4);
+    return;
+                }
+                return;
+            }
+            return;
+        }
+        return;
     }
-    gdc_FileLoad(0xCB40000, t4, 0x0);
-    nlsndPackLoad(0xCB40000, 0x5);
-    gdc_FileLoad(0xCB40000, 0xC08D588, 0x0);
-    return gdc_FileLoad(0xCE90000, 0xC08D594, 0x8000);
 }

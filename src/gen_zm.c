@@ -11,9 +11,9 @@ int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlScale(float, float, float);
 int nlTranslate(float, float, float);
-int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Model_Put_Sprite2(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Model_Put_Sprite2(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
     int stk[20];
 
@@ -30,7 +30,7 @@ int Model_Put_Sprite(int a4, int a5, int a6, int a7, int a8, int a9, int a10, in
     nlPushUnitMatrix();
     nlMatrixMode(0x1);
     nlPushUnitMatrix();
-    nlTranslate((float)((*(int *)(((int)stk + 4))) - 320), (float)(0xF0 - (*(int *)(((int)stk + 12)))), -0.299999982f);
+    nlTranslate((float)((*(int *)(((int)stk + 4))) - 320), (float)(0xF0 - (*(int *)(((int)stk + 12)))), 10.0f);
     nlRotateAY((unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x2))));
     nlRotateAX((unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x0))));
     nlRotateAZ((unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x4))));

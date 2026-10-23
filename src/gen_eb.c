@@ -1,66 +1,74 @@
 /* Straight-line functions with calls and guards (batch gen_eb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_StartAction(int, int, int);
-int FcvStoreBuffer(int, int, float);
+int CheckColliWall(int, float);
+int HomingAngle1(int, int, float);
+int nlAddVector(int, int);
+int nlAddVector3op(int, int, int);
+int nlArcTan2(float, float);
+int nlCalcVector(int, int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAY(int);
+extern int nlScaleVector();
 int nlSubVector3op(int, int, int);
-void Drv_Init(void);
+int nlUnitVector(int);
+int BigOneFollowTaxi(int a4, float f4, float f5, float f6);
 
-void Drv_Init(void)
+int BigOneFollowTaxi(int a4, float f4, float f5, float f6)
 {
-    int t23;
-    int t19;
-    int stk[18];
+    int t2;
+    int t8;
+    int t10;
+    int t11;
+    float u14;
+    float u16;
+    int t56;
+    int stk[19];
 
-    { struct mv12 { int w[12]; }; *(struct mv12 *)(((int)stk + 4)) = *(struct mv12 *)(0xC0D4C78); }
-    *(unsigned int *)0xC2AD000 = (*(int *)((((int)stk + 4) + ((*(int *)0xC179488) << 2))));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD004) = *(struct mv3 *)(0xC0D5530); }
-    *(unsigned int *)0xC2AD010 = 0x0;
-    *(unsigned int *)0xC2AD014 = 0x0;
-    *(unsigned int *)0xC2AD01C = 0x0;
-    *(unsigned int *)0xC2AD018 = 0x0;
-    *(unsigned int *)0xC2AD020 = 0xC8E2204;
-    *(float *)0xC2AD024 = 0.0f;
-    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, 0.0f);
-    *(float *)0xC2AD0F4 = 0.0f;
-    *(float *)0xC2AD0F8 = 0.0f;
-    *(unsigned int *)0xC2AD0FC = (*(int *)0xC2AD020);
-    *(float *)0xC2AD100 = (*(float *)0xC2AD024);
-    FcvStoreBuffer((*(int *)0xC2AD0FC), 0xC2AD104, (*(float *)0xC2AD100));
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
-    *(unsigned int *)0xC2AD1D8 = 0x0;
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0x7F);
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x40);
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xDF);
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xE7);
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xFB);
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0xFD);
-    *(unsigned int *)0xC2AD1DC = (((*(int *)0xC2AD1DC) & 0xFF000000) | 0x0);
-    if ((int)(*(int *)0xC179488) >= (int)0x4) {
-        t19 = ((*(signed char *)0xC2AD1DF) | 0x1);
+    if ((f4 - (*(float *)0xC179148)) > 30.0f) {
+        t2 = ((int (*)(int, int, float, float, float))(nlScaleVector))((((int)stk + 4) + 0xC), 0xC2AD1F8, 100.0f, f5, f6);
+        nlAddVector3op((((int)stk + 4) + 0x18), 0xC179144, (((int)stk + 4) + 0xC));
+        nlSubVector3op((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x18), 0xC2AEC20);
+        *(float *)(((int)stk + 20)) = 0.0f;
+        nlUnitVector((((int)stk + 4) + 0xC));
+        t8 = nlArcTan2((*(float *)(((int)stk + 16))), (*(float *)(((int)stk + 24))));
+        HomingAngle1(t8, 0xC2AEC30, 0.00999999978f);
+        t10 = *(int *)0xC2AEC30;
+        t11 = (t10 - t8);
+        if ((int)t8 > (int)t10) {
+            t11 = (t8 - t10);
+        }
+        u14 = 1.0f;
+        if ((int)t11 > (int)0x2000) {
+            u14 = 0.399999976f;
+        }
+        u16 = *(float *)0xC2AEC38;
+        if (u14 > u16) {
+            *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) + 0.0199999996f);
+        } else {
+            if (!(u16 > u14)) {
+            } else {
+                *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) - 0.0199999996f);
+            }
+        }
     } else {
-        t19 = ((*(signed char *)0xC2AD1DF) & 0xFE);
-    }
-    *(unsigned char *)0xC2AD1DF = t19;
-    Drv_StartAction(0x0, 0x0, 0x0);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)(0xC179144); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)(0xC1791C8); }
-    nlSubVector3op(0xC13ED80, 0xC1791C8, 0xC1791D4);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)(0xC13ED80); }
-    t23 = 0x0;
-    for (;;) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)(((t23 << 1) + t23) << 2) + 0xC2AD2BC)) = *(struct mv3 *)(0xC0D5530); }
-        t23 = (t23 + 0x1);
-        if ((int)t23 >= (int)0x23) {
-            break;
+        if ((*(float *)0xC2AEC38) > 0.0f) {
+            *(float *)0xC2AEC38 = ((*(float *)0xC2AEC38) - 0.0199999996f);
+        } else {
+            *(float *)0xC2AEC38 = 0.0f;
+            if ((int)(*(float *)0xC2AEC58) != 10) {
+                *(float *)0xC2AEC58 = ((*(float *)0xC2AEC58) + 0.099999994f);
+            }
         }
     }
-    *(float *)0xC2AD52C = 0.0f;
-    *(unsigned int *)0xC2AD530 = 0x0;
-    *(unsigned int *)0xC2AD534 = 0x0;
-    *(unsigned int *)0xC2AD538 = 0x0;
-    *(unsigned int *)0xC2AD53C = 0x0;
-    *(unsigned int *)0xC2AD540 = 0x0;
-    *(unsigned int *)0xC2AD544 = 0x0;
+    nlPushUnitMatrix();
+    nlRotateAY((*(int *)0xC2AEC30));
+    nlCalcVector(0xC0D5554, (((int)stk + 4) + 0xC));
+    t56 = ((int (*)(int, int, float))(nlScaleVector))(((int)stk + 4), (((int)stk + 4) + 0xC), (*(float *)0xC2AEC38));
+    nlAddVector(0xC2AEC20, ((int)stk + 4));
+    CheckColliWall(0xC2AEC20, 21.0f);
+    nlPopMatrix(0x1);
+    *(float *)0xC2AEC5C = (((*(float *)0xC2AEC38) * 1.0f) / 1.0f);
+    return 0x3C;
 }

@@ -1,48 +1,56 @@
 /* Straight-line functions with calls and guards (batch gen_afc): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlInnerProduct(int, int);
-float nlLength(int, int);
-int nlOuterProduct(int, int, int);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int);
-int set_event(int, int);
-void setObjHitBreakSide(int a4);
+extern int nlSprPut();
+int PutNameEntryRank(int a4, int a5, int a6);
 
-void setObjHitBreakSide(int a4)
+int PutNameEntryRank(int a4, int a5, int a6)
 {
+    float u0;
     int t1;
-    int t2;
-    int t4;
+    int t3;
     int t5;
-    int t18;
-    int stk[12];
+    int stk[25];
 
-    if ((nlLength((a4 + 0xC), (a4 + 0x58))) > (1.0f + 1.0f)) {
-        t1 = set_event(0x84, 0xC0385AC);
-        if (t1 != 0) {
-            t2 = a4;
-            t4 = (t1 + 0x14);
-            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
-            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 12.0f);
-            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
-            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
-            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDED8;
-            *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE20C) + 0x0)));
-            SetColliObj((t1 + 0x14), 0x10);
-            nlSubVector3op((((int)stk + 4) + 0xC), (a4 + 0xC), (a4 + 0x58));
-            nlOuterProduct((a4 + 0x3C), (a4 + 0x30), ((int)stk + 4));
-            if ((nlInnerProduct((((int)stk + 4) + 0xC), ((int)stk + 4))) > 0.0f) {
-                *(unsigned int *)((a4 + 0x54)) = 0xC0EDEFC;
-                t18 = (*(int *)(((*(int *)0xC0EE210) + 0x0)));
-            } else {
-                *(unsigned int *)((a4 + 0x54)) = 0xC0EDF20;
-                t18 = (*(int *)(((*(int *)0xC0EE214) + 0x0)));
-            }
-            *(unsigned int *)((a4 + 0x64)) = t18;
-        }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+    *(float *)(((int)stk + 16)) = 1.0f;
+    *(float *)(((int)stk + 32)) = 0.0f;
+    *(float *)(((int)stk + 28)) = 0.0f;
+    *(float *)(((int)stk + 40)) = 1.0f;
+    *(float *)(((int)stk + 36)) = 1.0f;
+    *(unsigned int *)(((int)stk + 44)) = 0x0;
+    *(float *)(((int)stk + 48)) = 1.0f;
+    *(unsigned int *)(((int)stk + 56)) = 0x70A;
+    *(unsigned int *)(((int)stk + 52)) = 0x2;
+    *(unsigned int *)(((int)stk + 4)) = 0x4B;
+    *(float *)(((int)stk + 8)) = 112.0f;
+    *(float *)(((int)stk + 12)) = 206.0f;
+    u0 = *(float *)0xC2864D4;
+    *(float *)(((int)stk + 24)) = (u0 * 0.75f);
+    *(float *)(((int)stk + 20)) = (u0 * 0.75f);
+    t1 = ((int (*)(int, int, int))(nlSprPut))(((int)stk + 4), a5, a6);
+    *(unsigned int *)(((int)stk + 4)) = (((int)((int)a4 % (int)0xA)) + 0x41);
+    *(float *)(((int)stk + 8)) = 120.0f;
+    *(float *)(((int)stk + 12)) = 204.0f;
+    t3 = ((int (*)(int))(nlSprPut))(((int)stk + 4));
+    if ((int)a4 >= (int)0xA) {
+        *(unsigned int *)(((int)stk + 4)) = (((int)((int)a4 / (int)0xA)) + 0x41);
+        *(float *)(((int)stk + 8)) = 88.0f;
+        t5 = ((int (*)(int))(nlSprPut))(((int)stk + 4));
     }
+    if (a4 != 1) {
+        if (a4 != 2) {
+            if (a4 != 3) {
+                *(unsigned int *)(((int)stk + 4)) = 0x4F;
+            } else {
+                *(unsigned int *)(((int)stk + 4)) = 0x4D;
+            }
+        } else {
+            *(unsigned int *)(((int)stk + 4)) = 0x4C;
+        }
+    } else {
+        *(unsigned int *)(((int)stk + 4)) = 0x4E;
+    }
+    *(float *)(((int)stk + 8)) = 168.0f;
+    *(float *)(((int)stk + 12)) = 214.0f;
+    return (((int (*)(int))(nlSprPut))(((int)stk + 4)));
 }

@@ -14,6 +14,7 @@ import toolpath  # noqa: E402,F401
 import glob
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -37,8 +38,12 @@ def c_size(name, src, protos):
             return None
         if code is None or '_' + name not in syms:
             return None
-        a = syms['_' + name]
-        return min([x for x in syms.values() if x > a] + [equiv.SCRATCH + len(code)]) - a
+        # the whole of the file's code and constant sections (the literal pools and constants count, as they do in the
+        # build), less the 4 bytes of the marker function
+        stem = os.path.splitext(os.path.basename(f))[0]
+        m = open('build/equiv/%s.map' % stem, errors='replace').read()
+        total = sum(int(x.group(2), 16) for x in re.finditer(r"^(P|C)\s+H'[0-9A-F]{8}\s+-\s+H'[0-9A-F]{8}\s+H'([0-9A-F]{8})", m, re.M))
+        return total - 4 if total else None
     finally:
         if os.path.exists(f):
             os.remove(f)

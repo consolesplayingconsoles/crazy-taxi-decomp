@@ -1,133 +1,106 @@
 /* Straight-line functions with calls and guards (batch gen_ie): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Bezier(int, int, float);
-int SetCameraMode(int);
-int camRestore(void);
-int camSetEye(int, int);
-int camSetTarget(int, int);
-int nlAddVector3op(int, int, int);
-int nlCalcPoint(int, int);
-int nlCalcVector(int, int);
-int nlGetAverageVector(int, int, int, float, float);
+int Model_Put_Sprite3D(int, int, int, float);
+int ResetFadeColor(void);
+int nlCloseEvent(int);
+int nlObjPutSetFadeColorBase(float, float, float);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int nlSubVector3op(int, int, int);
-int camGetOffShot4(int a4, int a5, int a6, float f4, float f5);
+int pfAddChar(int);
+int pfAddNumber(int, int);
+int pfCleanString(void);
+int pfColor(int, int, int, int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int technicalBonusExec(int a4);
 
-int camGetOffShot4(int a4, int a5, int a6, float f4, float f5)
+int technicalBonusExec(int a4)
 {
-    int t2;
-    int t22;
-    int stk[47];
+    int t0;
+    int t1;
+    float u12;
+    float u67;
+    float u68;
+    float u86;
+    float u3;
+    int t104;
+    float u57;
+    int stk[16];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    F4 = f4;
-    F5 = f5;
-    L_C065BB8:;
-    SetCameraMode(0x1);
-    nlPushMatrix(0xC179180);
-    t2 = *(int *)0xC2AD578;
-    R10 = (0xC2AD578);
-    R11 = (0xC078A90);
-    R12 = (0xC078C30);
-    R4 = (t2);
-    F14 = (0.049999997f);
-    F15 = (1.0f);
-    if (((int)t2 > (int)0x7)) goto L_C065BF4;
-    goto L_C065BF0;
-    L_C065BF0:;
-    goto L_C065D7C;
-    L_C065D7C:;
-    if (((int)R4 <= (int)0x6E)) goto L_C065DCC;
-    goto L_C065D82;
-    L_C065D82:;
-    nlSubVector3op((((int)stk + 4) + 0x74), 0xC2AD554, 0xC179840);
-    nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x74), (0x8C + ((int)stk + 4)), F15, F14);
-    camSetEye((0x8C + ((int)stk + 4)), 0x1);
-    nlSubVector3op((((int)stk + 4) + 0x74), 0xC2AD560, 0xC17984C);
-    R5 = ((((int)stk + 4) + 0x74));
-    R6 = ((0x80 + ((int)stk + 4)));
-    F4 = (F15);
-    F5 = (F14);
-    goto L_C065DBC;
-    L_C065DBC:;
-    nlGetAverageVector(0xC17984C, R5, R6, F4, F5);
-    camSetTarget((0x80 + ((int)stk + 4)), 0x1);
-    goto L_C065DCC;
-    L_C065DCC:;
-    nlPopMatrix(0x1);
-    t22 = *(int *)0xC2AD590;
-    R0 = (t22);
-    if (((t22 & 2) != 0)) goto L_C065DE0;
-    goto L_C065DDA;
-    L_C065DDA:;
-    R0 = ((camRestore()));
-    goto L_C065DE0;
-    L_C065DE0:;
-    return R0;
-    L_C065BF4:;
-    if (((int)(*(int *)((R10 + 0x0))) < (int)0x50)) goto L_C065C00;
-    goto L_C065BFC;
-    L_C065BFC:;
-    goto L_C065D7C;
-    L_C065C00:;
-    { struct mv6 { int w[6]; }; *(struct mv6 *)((((int)stk + 4) + 0x50)) = *(struct mv6 *)(0xC0D53FC); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x44)) = *(struct mv3 *)(0xC0D5414); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x38)) = *(struct mv3 *)(0xC0D5420); }
-    R13 = ((((int)stk + 4) + 0x50));
-    if ((((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0)) goto L_C065C5A;
-    goto L_C065C34;
-    L_C065C34:;
-    *(float *)((R13 + 0x0)) = ((*(float *)((R13 + 0x0))) * (-1.0f));
-    *(float *)((R13 + 0xC)) = ((*(float *)((R13 + 0xC))) * (-1.0f));
-    *(float *)(((int)stk + 72)) = ((*(float *)(((int)stk + 72))) * (-1.0f));
-    *(float *)(((int)stk + 60)) = ((*(float *)(((int)stk + 60))) * (-1.0f));
-    F4 = ((-1.0f));
-    goto L_C065C5A;
-    L_C065C5A:;
-    *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(0xC2AD554); }
-    *(unsigned int *)(((int)stk + 8)) = ((((int)stk + 4) + 0x8) + 0x24);
-    nlCalcPoint((((int)stk + 4) + 0x44), ((((int)stk + 4) + 0x8) + 0x24));
-    nlCalcVector(R13, (((int)stk + 4) + 0x74));
-    nlAddVector3op(((((int)stk + 4) + 0x8) + 0xC), (*(int *)(((int)stk + 4))), (((int)stk + 4) + 0x74));
-    nlCalcVector((R13 + 0xC), (((int)stk + 4) + 0x74));
-    nlAddVector3op(((((int)stk + 4) + 0x8) + 0x18), (*(int *)(((int)stk + 8))), (((int)stk + 4) + 0x74));
-    Bezier((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x74), ((float)((*(int *)((R10 + 0x0))) - 7) / 72.0f));
-    nlSubVector3op((((int)stk + 4) + 0x68), (((int)stk + 4) + 0x74), 0xC179840);
-    nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x68), (0x8C + ((int)stk + 4)), F15, 0.299999982f);
-    camSetEye((0x8C + ((int)stk + 4)), 0x1);
-    nlCalcPoint((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x74));
-    nlSubVector3op((((int)stk + 4) + 0x68), (((int)stk + 4) + 0x74), 0xC17984C);
-    R14 = ((((int)stk + 4) + 0x8));
-    R6 = ((0x80 + ((int)stk + 4)));
-    F5 = (F14);
-    goto L_C065D74;
-    L_C065D74:;
-    R5 = ((((int)stk + 4) + 0x68));
-    F4 = (F15);
-    goto L_C065DBC;
+    t0 = *(int *)((a4 + 0x18));
+    t1 = *(int *)((a4 + 0x1C));
+    if ((0.0f > (*(float *)((a4 + 0x24)))) && (u3 = *(float *)((a4 + 0x38)), u3 > 100.0f)) {
+        *(unsigned int *)0xC1EE7B8 = ((*(int *)0xC1EE7B8) + ((t0 * t1) * 0x19));
+        t104 = (nlCloseEvent(a4));
+    } else {
+        *(float *)((a4 + 0x24)) = ((*(float *)((a4 + 0x24))) - 0.5f);
+        *(float *)((a4 + 0x20)) = (*(float *)((a4 + 0x28)));
+        *(float *)((a4 + 0x34)) = ((*(float *)((a4 + 0x34))) + (*(float *)(((0x20 + a4) + 0x0))));
+        *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) - (*(float *)(((0x24 + a4) + 0x0))));
+        *(unsigned short *)(((((int)stk + 20) + 0x4) + 0x4)) = 0x0;
+        *(unsigned short *)(((((int)stk + 20) + 0x4) + 0x2)) = 0x0;
+        *(unsigned short *)(((((int)stk + 20) + 0x4) + 0x0)) = 0x0;
+        u12 = *(float *)((a4 + 0x24));
+        *(unsigned short *)(((((int)stk + 20) + 0x4) + 0x2)) = ((((int)(u12 * u12) << 8) << 2) << 1);
+        *(float *)((a4 + 0x2C)) = ((*(float *)((a4 + 0x2C))) + 0.0249999985f);
+        if ((int)(*(int *)((a4 + 0x18))) <= (int)0x1) {
+            nlObjPutSetFadeColorBase(1.0f, 0.699999988f, 0.299999982f);
+        } else {
+            if ((*(int *)((a4 + 0x18))) == 2) {
+                nlObjPutSetFadeColorBase(0.899999976f, 0.899999976f, 0.899999976f);
+            } else {
+                if ((int)(*(int *)((a4 + 0x18))) >= (int)0x3) {
+                    nlObjPutSetFadeColorBase(1.0f, 1.0f, 0.5f);
+                }
+            }
+        }
+        nlPushMatrix(0x0);
+        if ((int)(*(int *)((a4 + 0x18))) < (int)0x4) {
+            u57 = (*(float *)((a4 + 0x34)));
+        } else {
+            u57 = ((*(float *)((a4 + 0x34))) - ((*(float *)((a4 + 0x2C))) * 12.0f));
+        }
+        *(unsigned char *)((((int)stk + 12) + 0x0)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x0)));
+        *(unsigned char *)((((int)stk + 12) + 0x1)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x1)));
+        *(unsigned char *)((((int)stk + 12) + 0x2)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x2)));
+        *(unsigned char *)((((int)stk + 12) + 0x3)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x3)));
+        *(unsigned char *)((((int)stk + 12) + 0x4)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x4)));
+        *(unsigned char *)((((int)stk + 12) + 0x5)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x5)));
+        u67 = *(float *)((a4 + 0x2C));
+        u68 = *(float *)((a4 + 0x38));
+        *(unsigned int *)(((int)stk + 20)) = (int)u57;
+        Model_Put_Sprite3D((int)u57, (int)u68, 0xC0EA5D8, u67);
+        *(unsigned short *)(((((int)stk + 20) + 0x4) + 0x2)) = 0x0;
+        *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x0)));
+        *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x1)));
+        *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x2)));
+        *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x3)));
+        *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x4)));
+        *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)(((((int)stk + 20) + 0x4) + 0x5)));
+        Model_Put_Sprite3D((*(int *)(((int)stk + 20))), (int)(*(float *)((a4 + 0x38))), 0xC0EB340, (*(float *)((a4 + 0x2C))));
+        nlPopMatrix(0x1);
+        ResetFadeColor();
+        ResetFadeColor();
+        pfSetFont(0x0);
+        pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
+        u86 = 140.0f;
+        u86 = u86 + 0.5f * ((*(float *)((a4 + 0x38))) + -140.0f);
+        pfLocate(320.0f, u86);
+        pfSize(1.5f, 1.5f);
+        *(unsigned int *)(((int)stk + 20)) = ((int)((int)((t0 * t1) * 0x19) / (int)0x64));
+        pfCleanString();
+        pfAddChar(0x24);
+        pfAddNumber((*(int *)(((int)stk + 20))), 0x0);
+        pfAddChar(0x2E);
+        pfPuts((*(int *)0xC08D678));
+        pfSize(1.19999993f, 1.19999993f);
+        *(unsigned int *)(((int)stk + 20)) = ((int)((int)((t0 * t1) * 0x19) % (int)0x64));
+        pfCleanString();
+        pfAddNumber((*(int *)(((int)stk + 20))), 0x2);
+        t104 = (pfPuts((*(int *)0xC08D678)));
+    }
+    return t104;
 }

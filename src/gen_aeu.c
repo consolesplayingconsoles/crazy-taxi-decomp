@@ -1,172 +1,69 @@
 /* Straight-line functions with calls and guards (batch gen_aeu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Check_DCmini_End(void);
-int Exec_Check_Point(void);
-int Exec_Crazy_Balloons(void);
-int Exec_Crazy_Bowling(void);
-int Exec_Crazy_Jump(void);
-int Exec_DCmini_Game1(void);
-int Exec_DCmini_Game12(void);
-int Exec_DCmini_Game4(void);
-int Exec_DCmini_Game7(void);
-int Exec_DCmini_Game8(void);
-int Exec_DCmini_Game9(int);
-int Exec_Excellent(void);
-int Exec_Fault(void);
-int Put_JumpDistance(void);
-int Put_PoleMarriageKiss(void);
-int Put_Record_Window(void);
-int Set_Record_Time(void);
-int gdc_StopStreamVoice(int);
-int execDCmini(void);
+int CheckBoxFlag(int);
+int PutRecords(int, int, int, int, int, int, float, float);
+int menuChangeValue(int, int, int);
+int putMenuValue(int, int, int, int);
+void menuItemRecords(int a4, int a5);
 
-int execDCmini(void)
+void menuItemRecords(int a4, int a5)
 {
-    int t0;
-    int t40;
-    int t59;
-    int t41;
-    int t53;
-    int t45;
-    int t48;
-    int t46;
-    int t80;
-    int t105;
-    int t96;
-    int t95;
-    int t68;
-    int t69;
-    int t71;
+    int t1;
+    int t8;
+    int t9;
+    int t10;
+    int t15;
+    int t17;
+    int t20;
+    int t21;
+    int t13;
 
-    t0 = *(int *)0xC1EE214;
-    if ((unsigned int)t0 < (unsigned int)0x13) {
-        switch ((t0 << 1)) {
-            case 0:
-            {
-                Exec_Crazy_Jump();
-            }
-                break;
-            case 2:
-            {
-                Exec_DCmini_Game1();
-            }
-                break;
-            case 4:
-            {
-                Exec_Crazy_Balloons();
-            }
-                break;
-            case 6:
-            {
-                Exec_Crazy_Bowling();
-            }
-                break;
-            case 8:
-            {
-                Exec_DCmini_Game4();
-            }
-                break;
-            case 10:
-            case 12:
-            case 26:
-            {
-                Check_DCmini_End();
-            }
-                break;
-            case 14:
-            case 22:
-            case 34:
-            {
-                Exec_DCmini_Game7();
-            }
-                break;
-            case 16:
-            {
-                Exec_DCmini_Game8();
-            }
-                break;
-            case 18:
-            case 20:
-            case 28:
-            case 36:
-            {
-                Exec_DCmini_Game9((*(int *)0xC2A9900));
-            }
-                break;
-            case 24:
-            {
-                Exec_DCmini_Game12();
-            }
-                break;
-            case 30:
-            {
-                Exec_Check_Point();
-                Check_DCmini_End();
-            }
-                break;
-            default:
-            {
-                Check_DCmini_End();
-            }
-                break;
-        }
+    if (a4 == 0) {
     } else {
-        Check_DCmini_End();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x4) == 4) {
-        Put_JumpDistance();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x10) == 16) {
-        Exec_Excellent();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x20) == 32) {
-        Exec_Fault();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x40) == 64) {
-        Put_Record_Window();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
-        Put_PoleMarriageKiss();
-    }
-    t40 = *(int *)0xC1EE788;
-    t59 = t40;
-    if (t40 == 1) {
-        t41 = *(int *)0xC1EE214;
-        t53 = t40;
-        if ((int)((*(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0))) * 0x3C) > (int)(*(int *)0xC2A98F8)) {
-            t45 = *(int *)0xC2A9904;
-            t48 = t45;
-            if (t45 == 0) {
-                t46 = *(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0));
-                *(unsigned int *)0xC2A98F8 = ((t46 * 0x3C) - (*(int *)0xC1EE794));
-                t48 = t46;
-            }
-            t53 = t48;
-        }
-        t59 = t53;
-    }
-    t80 = t59;
-    if (((*(int *)0xC2A9934) == 0) && ((t68 = *(int *)0xC2A9930, t68 == 0) && (t69 = *(int *)0xC1EE214, t69 != 0))) {
-        if (t69 != 20) {
-            t71 = (Set_Record_Time());
+        t1 = *(int *)0xC2A11E0;
+        if (a5 != 2) {
+            menuChangeValue(0x0, 0xC2A1244, 0x4);
+            putMenuValue(0x8013, 0xC09F444, 0x4, (*(int *)0xC2A1244));
+            PutRecords(0x24, (t1 - 1), ((*(int *)0xC2A1244) + (a5 << 2)), 0x0, 0x9, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 128.0f);
         } else {
-            t71 = t69;
+            if ((int)(t1 - 1) < 0) {
+                t8 = 0xFFFF;
+                t9 = 0x0;
+                for (;;) {
+                    t10 = CheckBoxFlag(t9);
+                    t9 = (t9 + 0x1);
+                    t8 = (t8 & t10);
+                    if ((int)t9 >= (int)0x4) {
+                        break;
+                    }
+                }
+                t13 = t8;
+            } else {
+                t13 = (CheckBoxFlag((t1 - 1)));
+            }
+            t15 = 0x8;
+            if ((0x3000 & t13) == 0x3000) {
+                t15 = 0x7;
+            }
+            t17 = t15;
+            if ((t13 & 0xC000) == 0xC000) {
+                t17 = (t15 - 1);
+            }
+            menuChangeValue(0x0, 0xC2A1244, t17);
+            t20 = *(int *)0xC2A1244;
+            t21 = t20;
+            if (((0x3000 & t13) == 0x3000) && (((t13 & 0xC000) != 0xC000) && (t20 == (t17 - 1)))) {
+                t21 = (t20 + 0x1);
+            }
+            if (((((int)(t21 << 1) >= 0) ? (0x1 << ((t21 << 1) & 31)) : ((-(int)(t21 << 1) & 31) ? ((int)0x1 >> (-(int)(t21 << 1) & 31)) : ((int)0x1 >> 31))) & t13) == 0) {
+                putMenuValue(0x8013, 0xC09F4F4, t17, t21);
+                PutRecords(0x24, (t1 - 1), ((a5 << 2) + (t21 << 1)), 0x0, 0x4, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 128.0f);
+            }
+            if (((((int)((t21 << 1) + 0x1) >= 0) ? (0x1 << (((t21 << 1) + 0x1) & 31)) : ((-(int)((t21 << 1) + 0x1) & 31) ? ((int)0x1 >> (-(int)((t21 << 1) + 0x1) & 31)) : ((int)0x1 >> 31))) & t13) == 0) {
+                putMenuValue(0x8013, 0xC09F654, t17, t21);
+                PutRecords(0x24, (t1 - 1), (((a5 << 2) + (t21 << 1)) + 0x1), 0x0, 0x4, 0x2, (float)((*(int *)0xC2A1ADC) + 0x78), 268.0f);
+            }
         }
-        t80 = t71;
     }
-    if ((*(int *)0xC2A11B0) == 0) {
-        *(unsigned int *)0xC2A9A68 = 0x0;
-    }
-    t105 = t80;
-    if ((*(int *)0xC2A11B0) != 0) {
-        t96 = 0xC2A9A68;
-        if ((*(int *)0xC2A9A68) == 0) {
-            t95 = gdc_StopStreamVoice(0x0);
-            *(unsigned int *)0xC2A9A68 = 0x1;
-            t96 = t95;
-        }
-        t105 = t96;
-    }
-    return t105;
 }

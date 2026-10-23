@@ -1,87 +1,172 @@
 /* Straight-line functions with calls and guards (batch gen_km): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int);
-int pfColor(int, int, int, int);
-int pfLocate(float, float);
-int pfPuts(int);
-int pfSetFont(int);
-int pfSize(float, float);
-int Put_Max_Combo(void);
+int nlLocate(int, int);
+int nlPrintf(int, ...);
+int pdGetPeripheral(int);
+int ndPeriCheck2(int a4, int a5);
 
-int Put_Max_Combo(void)
+int ndPeriCheck2(int a4, int a5)
 {
-    int t15;
+    int t10;
+    int t11;
     int t13;
-    int t29;
-    int t30;
-    float u33;
-    float u48;
-    float u49;
-    int t20;
-    int t21;
-    int t22;
-    int t23;
-    int t24;
+    int t28;
+    int t31;
     int t39;
-    int t40;
-    int t41;
-    int t42;
-    int t43;
-    int t57;
-    int stk[13];
+    int t47;
+    int t49;
+    int t50;
+    int t52;
+    int t61;
+    int t68;
+    int t83;
+    int t103;
+    int stk[19];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(0xC0D09B8); }
-    if ((int)(*(int *)0xC2A7614) > (int)0x3E7) {
-        *(unsigned int *)0xC2A7614 = 0x3E7;
-    }
-    *(unsigned int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0)) = ((int)((int)(*(int *)0xC2A7614) / (int)0x64));
-    *(unsigned int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0)) = ((int)((int)((int)((int)(*(int *)0xC2A7614) / (int)0xA)) % (int)0xA));
-    *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x4);
-    *(unsigned int *)(((((int)stk + 4) + 0x4) + 0x0)) = ((int)((int)((*(int *)0xC2A7614) - ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) * 0x64)) % (int)0xA));
-    t15 = 0x0;
-    if ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) == 0) {
-        t13 = 0x18;
-        if ((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) == 0) {
-            t13 = 0x30;
-        }
-        t15 = t13;
-    }
-    pfSetFont(0x0);
-    t29 = 0xFFFFFF00;
-    t30 = 0xFFFFFFFF;
-    if (((*(int *)0xC1EE20C) == 2) && (((t20 = *(int *)0xC1EE214, t20 == 12) && (t21 = *(int *)0xC2A7614, (int)t21 >= (int)0x1E)) || ((t22 = *(int *)0xC1EE20C, t22 == 2) && ((t23 = *(int *)0xC1EE214, t23 == 4) && (t24 = *(int *)0xC2A7614, (int)t24 >= (int)0xF))))) {
-        t29 = 0xFF0088FF;
-        t30 = 0xFF88FFFF;
-    }
-    pfColor(t29, t30, t29, t30);
-    pfSize(1.0f, 1.0f);
-    u33 = *(float *)0xC056A00;
-    pfLocate((float)(t15 + 0x1B4), u33);
-    pfPuts(0xC0D09C4);
-    *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = (*(float *)0xC056A14);
-    *(float *)0xC2A88E4 = u33;
-    u48 = 1.0f;
-    u49 = 0.0f;
-    if (((*(int *)0xC1EE20C) == 2) && (((t39 = *(int *)0xC1EE214, t39 == 12) && (t40 = *(int *)0xC2A7614, (int)t40 >= (int)0x1E)) || ((t41 = *(int *)0xC1EE20C, t41 == 2) && ((t42 = *(int *)0xC1EE214, t42 == 4) && (t43 = *(int *)0xC2A7614, (int)t43 >= (int)0xF))))) {
-        u48 = 0.0f;
-        u49 = 1.0f;
-    }
-    nlObjPutSetFadeColor(u48, 1.0f, u49);
-    if ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) != 0) {
-        nlSprPut(0xC2A88DC);
-    }
-    if (((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) == 0) && (t57 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0)), t57 == 0)) {
-    } else {
-        *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) + 0x50);
-        *(float *)0xC2A88E0 = (*(float *)0xC056A28);
-        nlSprPut(0xC2A88DC);
-    }
-    *(unsigned int *)0xC2A88DC = ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = (*(float *)0xC056A2C);
-    nlSprPut(0xC2A88DC);
-    return (ResetFadeColor());
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C05F65C:;
+    *(unsigned int *)(((int)stk + 20)) = R4;
+    *(unsigned int *)(((int)stk + 28)) = R5;
+    *(unsigned int *)(((int)stk + 40)) = 0x10000000;
+    *(unsigned short *)(((*(int *)(((int)stk + 20))) + 0x0)) = 0x0;
+    *(unsigned int *)(((*(int *)(((int)stk + 28))) + 0x0)) = 0x0;
+    *(unsigned int *)(((int)stk + 16)) = 0x28;
+    *(unsigned int *)(((int)stk + 12)) = 0xC0D2B4C;
+    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B48;
+    R10 = (0xC0769A0);
+    R11 = (0xC076A40);
+    R12 = (0x0);
+    R13 = (0xC131A34);
+    R14 = (0xC2A9C70);
+    R8 = (0xC131A34);
+    R9 = (0x0);
+    goto L_C05F69C;
+    L_C05F69C:;
+    t10 = pdGetPeripheral((*(int *)(((R12 << 2) + 0xC0D2B18))));
+    *(unsigned int *)((R14 + 0x0)) = t10;
+    t11 = *(int *)((t10 + 0x30));
+    *(unsigned int *)(((int)stk + 36)) = t11;
+    t13 = *(int *)((t11 + 0x0));
+    R0 = (t10);
+    R4 = ((((int)(-R9) >= 0) ? (0x1000 << ((-R9) & 31)) : ((-(int)(-R9) & 31) ? ((int)0x1000 >> (-(int)(-R9) & 31)) : ((int)0x1000 >> 31))));
+    R5 = (t13);
+    if ((((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))) & t13) != 0)) goto L_C05F6C8;
+    goto L_C05F6C0;
+    L_C05F6C0:;
+    if ((((*(int *)(((*(int *)(((int)stk + 24))) + 0x0))) & R5) == 0)) goto L_C05F6FE;
+    goto L_C05F6C8;
+    L_C05F6C8:;
+    if ((((*(int *)(((*(int *)(((*(int *)((R14 + 0x0))) + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 12))) + 0x0)))) == 0)) goto L_C05F6E4;
+    goto L_C05F6D6;
+    L_C05F6D6:;
+    t28 = *(int *)(((int)stk + 20));
+    *(unsigned short *)((t28 + 0x0)) = ((*(short *)((t28 + 0x0))) | (R4 << 1));
+    goto L_C05F710;
+    L_C05F710:;
+    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 16))) + 0x1);
+    t31 = (int)(R12 + 0x1) < (int)0x4;
+    R12 = ((R12 + 0x1));
+    R13 = ((R13 + 0x4));
+    R9 = ((R9 + 0x4));
+    if (t31) goto L_C05F69C;
+    goto L_C05F722;
+    L_C05F722:;
+    *(unsigned int *)(((int)stk + 16)) = 0xC0D2B50;
+    *(unsigned int *)(((int)stk + 12)) = 0xC0D2B54;
+    R13 = (0x4);
+    R4 = (0xC0D2B54);
+    R9 = (0x8);
+    goto L_C05F83A;
+    L_C05F83A:;
+    if (((int)R13 < (int)0xC)) goto L_C05F75C;
+    goto L_C05F840;
+    L_C05F840:;
+    return R0;
+    L_C05F75C:;
+    t39 = (int)((int)R13 % (int)0x4);
+    R0 = (0xC131A64);
+    R12 = (t39);
+    if ((((unsigned short)(*(short *)(((*(int *)(((int)stk + 20))) + 0x0))) & (*(int *)(((t39 << 2) + 0xC131A64)))) == 0)) goto L_C05F838;
+    goto L_C05F778;
+    L_C05F778:;
+    t47 = pdGetPeripheral((*(int *)(((R13 << 2) + 0xC0D2B18))));
+    *(unsigned int *)((R14 + 0x0)) = t47;
+    t49 = *(int *)(((int)stk + 40));
+    t50 = *(int *)(((*(int *)((R14 + 0x0))) + 0x30));
+    *(unsigned int *)(((int)stk + 32)) = t50;
+    t52 = *(int *)((t50 + 0x0));
+    R0 = (t47);
+    R4 = (t52);
+    R5 = ((((int)(-((R13 - 4) << 2)) >= 0) ? (t49 << ((-((R13 - 4) << 2)) & 31)) : ((-(int)(-((R13 - 4) << 2)) & 31) ? ((unsigned int)t49 >> (-(int)(-((R13 - 4) << 2)) & 31)) : 0)));
+    if ((((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))) & t52) != 0)) goto L_C05F7AA;
+    goto L_C05F7A2;
+    L_C05F7A2:;
+    if ((((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))) & R4) == 0)) goto L_C05F81A;
+    goto L_C05F7AA;
+    L_C05F7AA:;
+    t61 = *(int *)((R14 + 0x0));
+    R4 = (t61);
+    if ((((*(int *)(((*(int *)((t61 + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 12))) + 0x0)))) == 0)) goto L_C05F7C6;
+    goto L_C05F7B8;
+    L_C05F7B8:;
+    t68 = *(int *)(((int)stk + 28));
+    *(unsigned int *)((t68 + 0x0)) = ((*(int *)((t68 + 0x0))) | (R5 << 1));
+    R5 = ((R5 << 1));
+    goto L_C05F7FA;
+    L_C05F7FA:;
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F7FE;
+    L_C05F7FE:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2BAC, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F838:;
+    R13 = ((R13 + 0x1));
+    goto L_C05F83A;
+    L_C05F7C6:;
+    if ((((*(int *)(((*(int *)((R4 + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)))) == 0)) goto L_C05F7FA;
+    goto L_C05F7D2;
+    L_C05F7D2:;
+    t83 = *(int *)(((int)stk + 28));
+    *(unsigned int *)((t83 + 0x0)) = ((*(int *)((t83 + 0x0))) | R5);
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F7DE;
+    L_C05F7DE:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2B98, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F81A:;
+    if (((int)R13 >= (int)R9)) goto L_C05F838;
+    goto L_C05F81E;
+    L_C05F81E:;
+    nlLocate(0x5, (R12 + 0x28));
+    R0 = ((nlPrintf(0xC0D2BAC, ((*(int *)((R8 + (R12 << 2))))))));
+    goto L_C05F838;
+    L_C05F6E4:;
+    if ((((*(int *)(((*(int *)(((*(int *)((R14 + 0x0))) + 0x30))) + 0x0))) & (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)))) == 0)) goto L_C05F710;
+    goto L_C05F6F2;
+    L_C05F6F2:;
+    t103 = *(int *)(((int)stk + 20));
+    *(unsigned short *)((t103 + 0x0)) = ((*(short *)((t103 + 0x0))) | R4);
+    goto L_C05F710;
+    L_C05F6FE:;
+    nlLocate(0x5, (*(int *)(((int)stk + 16))));
+    R0 = ((nlPrintf(0xC0D2B84, ((*(int *)((R13 + 0x0)))))));
+    goto L_C05F710;
 }

@@ -1,52 +1,41 @@
 /* Straight-line functions with calls and guards (batch gen_tm): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckClipping(float);
-int humanDraw(int, int, int, int);
-float nlLength(int, int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAY(int);
-int nlTranslateV(int);
-void HesLate(void);
+int SetColliObj(int, int);
+int nlAddVector(int, int);
+float nlLength(int, int, float, float);
+int nlScaleVector(int, int, float);
+int set_event(int, int);
+void setObjHitShed(int a4, float f4, float f5);
 
-void HesLate(void)
+void setObjHitShed(int a4, float f4, float f5)
 {
-    float u0;
+    int t2;
+    int t3;
     int t5;
-    int t30;
-    int t31;
-    int t32;
-    int stk[8];
+    float u1;
+    int t6;
+    int stk[7];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D6128); }
-    u0 = *(float *)0xC072540;
-    if (((*(int *)0xC13F4B8) & 1) == 0) {
-        if (((*(signed char *)0xC2AD1DF) & 2) != 0) {
-            if (u0 > (nlLength(((int)stk + 4), 0xC179840))) {
-                t5 = *(int *)0xC2AD1D8;
-                *(unsigned int *)0xC13F4F4 = t5;
-                if ((*(int *)((0x140 + t5))) == 15) {
-                    *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) | 0x1);
-                }
-            }
-        }
+    if (!((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) && (u1 = *(float *)((a4 + 0x40)), !(0.699999988f > u1))) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
     } else {
-        if ((CheckClipping((*(float *)0xC07255C))) != 0) {
-            nlPushMatrix(0x0);
-            nlTranslateV(((int)stk + 4));
-            nlRotateAY(0xD680);
-            humanDraw(0xCADBCA8, 0x16, 0x0, 0x0);
-            nlPopMatrix(0x1);
-        }
-        t30 = *(int *)0xC13F4F4;
-        if ((t30 != 0) && ((t31 = *(int *)((t30 + 0x20)), t31 == 4) && (t32 = *(int *)((t30 + 0x24)), t32 == 3))) {
-            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
-            *(unsigned int *)0xC13F4F4 = 0x0;
-        }
-        if ((nlLength(((int)stk + 4), 0xC179840)) > u0) {
-            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
-            *(unsigned int *)0xC13F4F4 = 0x0;
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+        t2 = set_event(0x84, 0xC0385AC);
+        if (t2 != 0) {
+            t3 = a4;
+            t5 = (t2 + 0x14);
+            for (;;) { t6 = *(int *)t3; t3 = (t3 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t3) break; *(unsigned int *)t5 = t6; t5 = (t5 + 4); }
+            nlScaleVector(((int)stk + 4), ((t2 + 0x14) + 0x3C), -8.0f);
+            nlAddVector((t2 + 0x14), ((int)stk + 4));
+            *(unsigned int *)(((t2 + 0x14) + 0x28)) = ((t2 + 0x14) + 0x30);
+            *(unsigned int *)(((t2 + 0x14) + 0x54)) = 0xC0EDC08;
+            *(unsigned int *)(((t2 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE1BC) + 0x0)));
+            SetColliObj((t2 + 0x14), 0x10);
+            nlScaleVector(((int)stk + 4), (a4 + 0x3C), 11.0f);
+            nlAddVector(a4, ((int)stk + 4));
+            *(unsigned int *)((a4 + 0x54)) = 0xC0EDCBC;
+            *(unsigned int *)((a4 + 0x64)) = (*(int *)(((*(int *)0xC0EE1D0) + 0x0)));
         }
     }
 }

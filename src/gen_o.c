@@ -28,80 +28,9 @@ int psgStepBlend(int a4);
 int syCfgGetIndividualID(int a4);
 int kmBlankScreen(int a4);
 
-int gdc_PlayStreamSong(int a4)
-{
-    int t0;
-    float u1;
-    float u2;
-    int t4;
-    int t6;
-    int t7;
-    int t8;
-
-    *(unsigned int *)0xC26A0B8 = 0x0;
-    t0 = *(signed char *)0xC28A4EC;
-    u1 = 8.0f;
-    u2 = 76.0f;
-    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)t0 / u1) * u2);
-    gdc_StopStreamSongAll();
-    t4 = *(int *)0xC1EE820;
-    ADXT_StartAfs(t4, 0x1, a4);
-    t6 = *(signed char *)0xC1EE80C;
-    t7 = volumeToDb(t6);
-    t8 = *(int *)0xC1EE820;
-    return ADXT_SetOutVol(t8, t7);
-}
 
 
-int windowRetry(void)
-{
-    *(unsigned int *)0xC1EE238 = 0x0;
-    gdc_FileLoadStop();
-    gdc_FileLoadInit();
-    gdc_CourseStartLoadReq();
-    SetScreen(0x4);
-    SetWindow(0x0);
-    *(unsigned int *)0xC2A11B0 = 0x0;
-    return gdc_StopStreamSongDisk();
-}
 
-int Drv_ExecBlend(void)
-{
-    float u0;
-    int t1;
-    float u2;
-    float u4;
-    float u5;
-    float u6;
-    int t10;
-    int t7;
-    int t8;
-    float u9;
-
-    u0 = *(float *)0xC2AD0F8;
-    if (u0 == 0.0f) {
-        t1 = *(signed char *)0xC2AD1DF;
-        *(unsigned char *)0xC2AD1DF = (t1 & 0x7F);
-        return (t1 & 0x7F);
-    }
-    u2 = *(float *)0xC2AD0F4;
-    FcvInterpolateBuffer(0xC2AD028, 0xC2AD104, (u2 / u0));
-    u4 = *(float *)0xC2AD0F4;
-    *(float *)0xC2AD0F4 = (u4 + 1.0f);
-    u5 = *(float *)0xC2AD0F8;
-    u6 = *(float *)0xC2AD0F4;
-    t10 = 0xF4;
-    if (u6 == u5) {
-        t7 = *(signed char *)0xC2AD1DF;
-        *(unsigned char *)0xC2AD1DF = (t7 & 0x7F);
-        t8 = *(int *)0xC2AD0FC;
-        *(unsigned int *)0xC2AD020 = t8;
-        u9 = *(float *)0xC2AD100;
-        *(float *)0xC2AD024 = u9;
-        t10 = 0x24;
-    }
-    return t10;
-}
 
 
 int syCfgGetIndividualID(int a4)

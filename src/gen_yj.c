@@ -1,229 +1,303 @@
 /* Straight-line functions with calls and guards (batch gen_yj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int MultiRot4Vec(int);
-int nlAddVector(int, int);
-int nlCalcPoint(int, int);
-int nlCalcVector(int, int);
-int nlGetTranslate(int);
-float nlInnerProduct(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlQuickInvertMatrix(void);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int);
-int nlTranslateV(int);
-int colliObjPairHit(int a4, int a5, int a6, int a7, int a8, int a9);
+int Sound_Request(int, int);
+int courseStatusGet(int, int, int, int);
+int extRand(void);
+int getNearLineIndex(int, int, int, int, int, float, float, float, float);
+int getSteering(int, int);
+int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int colliObjPairHit(int a4, int a5, int a6, int a7, int a8, int a9)
+int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
-    int t18;
-    float u19;
+    int t0;
+    int t1;
+    int t3;
+    int t4;
+    int t6;
+    float u16;
     float u20;
-    float u21;
-    float u22;
     float u24;
-    float u36;
-    float u44;
-    int t207;
-    int t196;
-    int t185;
-    int t173;
-    int t51;
-    float u53;
-    float u54;
-    float u61;
-    float u69;
-    float u65;
-    int t162;
-    float u106;
-    float u107;
-    float u108;
-    int t110;
-    int t116;
-    float u112;
+    int t25;
+    int t34;
+    int t39;
+    float u81;
+    float u84;
+    float u99;
+    int t109;
     int t114;
-    float u127;
-    float u128;
-    float u129;
-    int t131;
-    int t138;
-    float u133;
-    int t135;
-    float u46;
-    float u48;
-    float u49;
-    float u55;
-    float u56;
-    int t121;
-    int t144;
-    int stk[31];
+    int t115;
+    int t119;
+    int t127;
+    int stk[15];
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    *(unsigned int *)(((int)stk + 20)) = a6;
-    *(unsigned int *)(((int)stk + 24)) = (*(int *)(((*(int *)(((int)stk + 8))) + 0x28)));
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)(((*(int *)(((int)stk + 20))) + 0x28)));
-    if (a9 != 0) {
-        nlQuickInvertMatrix();
-    } else {
-        nlTranslateV((*(int *)(((int)stk + 8))));
-        MultiRot4Vec((*(int *)(((int)stk + 24))));
-        nlTranslateV((a5 + 0x60));
-        nlQuickInvertMatrix();
-        nlTranslateV((*(int *)(((int)stk + 20))));
-        MultiRot4Vec((*(int *)(((int)stk + 4))));
-        nlTranslateV((a7 + 0x60));
-    }
-    *(float *)(((int)stk + 12)) = -3.40282347e+38f;
-    *(float *)(((int)stk + 16)) = 3.40282347e+38f;
-    t18 = 0x0;
-    u19 = 3.40282347e+38f;
-    u20 = -3.40282347e+38f;
-    u21 = 3.40282347e+38f;
-    u22 = -3.40282347e+38f;
-    for (;;) {
-        nlCalcPoint(((signed char)(((t18 << 1) + t18) << 2) + a7), (((int)stk + 4) + 0x3C));
-        u24 = *(float *)(((int)stk + 64));
-        if (u24 > (*(float *)(((int)stk + 12)))) {
-            *(float *)(((int)stk + 12)) = u24;
-        } else {
-            if (u19 > u24) {
-                u19 = u24;
-            }
-        }
-        if ((*(float *)(((int)stk + 68))) > u22) {
-            u22 = (*(float *)(((int)stk + 68)));
-        } else {
-            if (u21 > (*(float *)(((int)stk + 68)))) {
-                u21 = (*(float *)(((int)stk + 68)));
-            }
-        }
-        u36 = *(float *)(((int)stk + 72));
-        if (u36 > u20) {
-            u20 = u36;
-        } else {
-            if ((*(float *)(((int)stk + 16))) > u36) {
-                *(float *)(((int)stk + 16)) = u36;
-            }
-        }
-        t18 = (t18 + 0x1);
-        if ((int)t18 >= (int)0x8) {
-            break;
-        }
-    }
-    u44 = *(float *)((a5 + 0x6C));
-    t207 = 0x0;
-    if (!(u19 > u44)) {
-        t196 = 0x0;
-        if (!((-u44) > (*(float *)(((int)stk + 12)))) && (u46 = *(float *)((a5 + 0x70)), !(u21 > u46))) {
-            t185 = 0x0;
-            if (!((-(*(float *)((a5 + 0x70)))) > u22) && (u48 = *(float *)((a5 + 0x74)), u49 = *(float *)(((int)stk + 16)), !(u49 > u48))) {
-                t173 = 0x0;
-                if ((-(*(float *)((a5 + 0x74)))) > u20) {
-                } else {
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)(0xC0965F0); }
-                    *(unsigned int *)(((int)stk + 4)) = 0x0;
-                    if ((int)0x0 < (int)0x8) {
-                        t51 = 0x0;
-                        for (;;) {
-                            nlCalcPoint(((signed char)(((t51 << 1) + t51) << 2) + a7), (((int)stk + 4) + 0x3C));
-                            u53 = *(float *)(((int)stk + 64));
-                            u54 = *(float *)((a5 + 0x6C));
-                            if (!(u53 > u54)) {
-                                if (!((-u54) > u53) && (u55 = *(float *)((a5 + 0x74)), u56 = *(float *)(((int)stk + 72)), !(u56 > u55))) {
-                                    if (!((-(*(float *)((a5 + 0x74)))) > (*(float *)(((int)stk + 72))))) {
-                                        u61 = *(float *)(((int)stk + 68));
-                                        u69 = 0.0f;
-                                        if (!(0.0f > u61)) {
-                                            u65 = u61;
-                                            if (u61 > (*(float *)((a5 + 0x70)))) {
-                                                u65 = (*(float *)((a5 + 0x70)));
-                                            }
-                                            u69 = u65;
-                                        }
-                                        *(float *)(((int)stk + 68)) = u69;
-                                        nlAddVector((((int)stk + 4) + 0x30), (((int)stk + 4) + 0x3C));
-                                        *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x1);
-                                    }
-                                }
-                            }
-                            t51 = (t51 + 0x1);
-                            if ((int)t51 >= (int)0x8) {
-                                break;
-                            }
-                        }
-                    }
-                    t162 = 0x1;
-                    if ((*(int *)(((int)stk + 4))) == 0) {
-                    } else {
-                        nlScaleVector((((int)stk + 4) + 0x30), (((int)stk + 4) + 0x30), (1.0f / (float)(*(int *)(((int)stk + 4)))));
-                        nlGetTranslate((((int)stk + 4) + 0x24));
-                        nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), (((int)stk + 4) + 0x24));
-                        *(float *)((a8 + 0x24)) = -3.40282347e+38f;
-                        u106 = *(float *)(((int)stk + 28));
-                        u107 = *(float *)(((int)stk + 40));
-                        if (u106 > 0.0f) {
-                            u108 = *(float *)((a5 + 0x6C));
-                            t110 = 0xC0965F0;
-                            if ((((-u108) - u107) / u106) > (*(float *)((a8 + 0x24)))) {
-                                *(float *)((a8 + 0x24)) = (((-u108) - u107) / u106);
-                                t110 = 0xC096638;
-                            }
-                            t121 = t110;
-                        } else {
-                            t116 = 0xC0965F0;
-                            if (0.0f > u106) {
-                                u112 = *(float *)((a5 + 0x6C));
-                                t114 = 0xC0965F0;
-                                if (((u112 - u107) / u106) > (*(float *)((a8 + 0x24)))) {
-                                    *(float *)((a8 + 0x24)) = ((u112 - u107) / u106);
-                                    t114 = 0xC09662C;
-                                }
-                                t116 = t114;
-                            }
-                            t121 = t116;
-                        }
-                        u127 = *(float *)(((int)stk + 36));
-                        u128 = *(float *)(((int)stk + 48));
-                        if (u127 > 0.0f) {
-                            u129 = *(float *)((a5 + 0x74));
-                            t131 = t121;
-                            if ((((-u129) - u128) / u127) > (*(float *)((a8 + 0x24)))) {
-                                *(float *)((a8 + 0x24)) = (((-u129) - u128) / u127);
-                                t131 = 0xC096668;
-                            }
-                            t144 = t131;
-                        } else {
-                            t138 = t121;
-                            if (0.0f > u127) {
-                                u133 = *(float *)((a5 + 0x74));
-                                t135 = t121;
-                                if (((u133 - u128) / u127) > (*(float *)((a8 + 0x24)))) {
-                                    *(float *)((a8 + 0x24)) = ((u133 - u128) / u127);
-                                    t135 = 0xC09665C;
-                                }
-                                t138 = t135;
-                            }
-                            t144 = t138;
-                        }
-                        *(float *)((a8 + 0x24)) = ((nlInnerProduct(t144, (((int)stk + 4) + 0x18))) * ((-(*(float *)((a8 + 0x24)))) + 1.0f));
-                        nlPushUnitMatrix();
-                        nlTranslateV((*(int *)(((int)stk + 8))));
-                        MultiRot4Vec((*(int *)(((int)stk + 24))));
-                        nlTranslateV((a5 + 0x60));
-                        nlCalcPoint((((int)stk + 4) + 0x30), a8);
-                        nlCalcVector(t144, (a8 + 0x18));
-                        nlCalcVector((((int)stk + 4) + 0x18), (a8 + 0xC));
-                        nlPopMatrix(0x1);
-                        t162 = 0x2;
-                    }
-                    t173 = t162;
-                }
-                t185 = t173;
-            }
-            t196 = t185;
-        }
-        t207 = t196;
-    }
-    return t207;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    L_C047330:;
+    t0 = *(int *)((R4 + 0x80));
+    t1 = *(int *)0xC2A6690;
+    t3 = *(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x0));
+    t4 = *(int *)(((*(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x4))) + 0x0));
+    getNearLineIndex(0x1, t3, t4, (0xD4 + R4), (0x8C + R4), F4, F5, F6, F7);
+    t6 = *(int *)((R4 + 0xD4));
+    R12 = (t4);
+    R13 = (t3);
+    R14 = (R4);
+    R4 = ((t6 + 0x2));
+    if (((int)(t6 + 0x2) < (int)t4)) goto L_C047380;
+    goto L_C04737E;
+    L_C04737E:;
+    R4 = ((R4 - R12));
+    goto L_C047380;
+    L_C047380:;
+    u16 = (*(float *)((R14 + 0xE0)));
+    u16 = u16 + 0.199999988f * ((*(float *)((((((R4 << 1) + R4) << 2) + R13) + 0x0))) - (*(float *)(((0xE0 + R14) + 0x0))));
+    *(float *)((R14 + 0xE0)) = u16;
+    u20 = (*(float *)((R14 + 0xE4)));
+    u20 = u20 + 0.199999988f * ((*(float *)(((0x4 + ((((R4 << 1) + R4) << 2) + R13)) + 0x0))) - (*(float *)(((0xE4 + R14) + 0x0))));
+    *(float *)((R14 + 0xE4)) = u20;
+    u24 = (*(float *)((R14 + 0xE8)));
+    u24 = u24 + 0.199999988f * ((*(float *)(((0x8 + ((((R4 << 1) + R4) << 2) + R13)) + 0x0))) - (*(float *)(((0xE8 + R14) + 0x0))));
+    *(float *)((R14 + 0xE8)) = u24;
+    t25 = *(int *)((R14 + 0x88));
+    *(unsigned int *)((R14 + 0x88)) = 0x0;
+    R10 = (0x0);
+    R11 = (t25);
+    R12 = (0x3);
+    F4 = (0.199999988f);
+    if ((((*(int *)((R14 + 0x38))) & 0x3FFF) == 0)) goto L_C0473EE;
+    goto L_C0473E6;
+    L_C0473E6:;
+    *(unsigned int *)((R14 + 0x88)) = 0x5;
+    goto L_C0474C6;
+    L_C0474C6:;
+    *(unsigned int *)(((0xC0 + R14) + 0x0)) = ((*(int *)(((0xC0 + R14) + 0x0))) + (getSteering(R14, ((int)stk + 8))));
+    t34 = *(int *)((R14 + 0x80));
+    t39 = *(int *)((R14 + 0x88));
+    R0 = (t39);
+    F4 = ((*(float *)((0xC0C3F04 + (((*(int *)(((*(int *)((((((t34 << 1) + t34) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0xF) << 2)))));
+    F6 = (0.0f);
+    if ((t39 == 0)) goto L_C04754C;
+    goto L_C047500;
+    L_C047500:;
+    if ((R0 == 1)) goto L_C047548;
+    goto L_C047504;
+    L_C047504:;
+    if ((R0 == 2)) goto L_C04751E;
+    goto L_C047508;
+    L_C047508:;
+    if ((R0 == 3)) goto L_C047518;
+    goto L_C04750C;
+    L_C04750C:;
+    if ((R0 == 4)) goto L_C047514;
+    goto L_C047510;
+    L_C047510:;
+    if ((R0 != 5)) goto L_C04754C;
+    goto L_C047514;
+    L_C047514:;
+    F4 = (F6);
+    goto L_C04754C;
+    L_C04754C:;
+    *(float *)((R14 + 0xC8)) = F6;
+    F7 = (_builtin_fabsf((F4 - (*(float *)((R14 + 0xCC))))));
+    if ((F4 != 0.0f)) goto L_C047570;
+    goto L_C047562;
+    L_C047562:;
+    *(float *)((R14 + 0xC4)) = F6;
+    *(float *)((R14 + 0xC8)) = (*(float *)((R14 + 0xD0)));
+    goto L_C0475F4;
+    L_C0475F4:;
+    R0 = (0x2C);
+    if ((!(800.0f > (*(float *)((R14 + 0x2C)))))) goto L_C047682;
+    goto L_C047600;
+    L_C047600:;
+    R0 = (0x88);
+    R13 = (0xC072168);
+    if (((int)((*(int *)((R14 + 0x88))) - R11) <= 0)) goto L_C047674;
+    goto L_C04760C;
+    L_C04760C:;
+    if (((*(int *)((R14 + R0))) != 5)) goto L_C047618;
+    goto L_C047612;
+    L_C047612:;
+    Sound_Request(0x90AA9, 0x1);
+    goto L_C047618;
+    L_C047618:;
+    R0 = (0x88);
+    if (((int)((*(int *)((R14 + 0x88))) - R11) < (int)R12)) goto L_C047660;
+    goto L_C047622;
+    L_C047622:;
+    R0 = ((Sound_Request(0x60AA9, 0x1)));
+    goto L_C047682;
+    L_C047682:;
+    return R0;
+    L_C047660:;
+    if (((int)((*(int *)((R14 + R0))) - R11) < (int)0x2)) goto L_C047682;
+    goto L_C04766A;
+    L_C04766A:;
+    R0 = ((Sound_Request(0x50AA9, 0x1)));
+    goto L_C047682;
+    L_C047674:;
+    if (((int)((*(int *)((R14 + R0))) - R11) >= 0)) goto L_C047682;
+    goto L_C04767C;
+    L_C04767C:;
+    R0 = ((Sound_Request(0x40AA9, 0x1)));
+    goto L_C047682;
+    L_C047570:;
+    F5 = ((1.0f + 1.0f));
+    if (((*(float *)((R14 + 0xCC))) > F4)) goto L_C0475B2;
+    goto L_C04757C;
+    L_C04757C:;
+    u81 = *(float *)((R14 + 0xC4));
+    F1 = (u81);
+    if ((!(((*(float *)((R14 + 0xD0))) * F5) > u81))) goto L_C0475DE;
+    goto L_C04758A;
+    L_C04758A:;
+    u84 = *(float *)(((0xD0 + R14) + 0x0));
+    R0 = (0xC4);
+    F3 = ((*(float *)((R14 + 0xC4))));
+    F4 = ((u84 * 0.0299999993f));
+    F6 = (0.000999999931f);
+    if ((!(0.000999999931f > (u84 * 0.0299999993f)))) goto L_C0475AA;
+    goto L_C0475A6;
+    L_C0475A6:;
+    F2 = (F4);
+    goto L_C0475AC;
+    L_C0475AC:;
+    *(float *)((R14 + R0)) = (F3 + F2);
+    goto L_C0475DE;
+    L_C0475DE:;
+    if ((!((*(float *)((R14 + 0xC4))) > ((*(float *)((R14 + 0xD0))) * F5)))) goto L_C0475F4;
+    goto L_C0475EC;
+    L_C0475EC:;
+    *(float *)((R14 + 0xC4)) = (*(float *)((R14 + 0xD0)));
+    goto L_C0475F4;
+    L_C0475AA:;
+    F2 = (F6);
+    goto L_C0475AC;
+    L_C0475B2:;
+    F4 = (0.5f);
+    if ((!(0.231481507f > F7))) goto L_C0475C8;
+    goto L_C0475BE;
+    L_C0475BE:;
+    u99 = *(float *)((R14 + 0xC4));
+    *(float *)((R14 + 0xC4)) = (u99 * F4);
+    F1 = ((u99 * F4));
+    goto L_C0475DE;
+    L_C0475C8:;
+    *(float *)((R14 + 0xC4)) = F6;
+    F1 = (0.462963015f);
+    if ((!(F7 > 0.462963015f))) goto L_C0475DE;
+    goto L_C0475D4;
+    L_C0475D4:;
+    *(float *)((R14 + 0xC8)) = ((*(float *)((R14 + 0xD0))) * F4);
+    goto L_C0475DE;
+    L_C047518:;
+    F4 = (0.92592603f);
+    goto L_C04754C;
+    L_C04751E:;
+    F4 = (1.85185206f);
+    goto L_C04754C;
+    L_C047548:;
+    F4 = (2.77777815f);
+    goto L_C04754C;
+    L_C0473EE:;
+    t109 = courseStatusGet((*(int *)((R14 + 0x80))), (*(int *)((R14 + 0xD4))), 0x0, 0xA);
+    R4 = ((t109 >> 1));
+    R5 = (0x4);
+    if (((0x1F & (t109 >> 1)) == 0)) goto L_C047410;
+    goto L_C04740A;
+    L_C04740A:;
+    *(unsigned int *)((R14 + 0x88)) = R5;
+    goto L_C0474C6;
+    L_C047410:;
+    if ((R4 == 0)) goto L_C04741A;
+    goto L_C047414;
+    L_C047414:;
+    *(unsigned int *)((R14 + 0x88)) = R12;
+    goto L_C0474C6;
+    L_C04741A:;
+    t114 = *(signed char *)((R14 + 0x80));
+    t115 = *(int *)((((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8) + 0x4));
+    *(unsigned int *)(((int)stk + 8)) = R10;
+    t119 = R10;
+    R10 = (0x1);
+    R13 = (((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8));
+    R4 = (t115);
+    R6 = t119;
+    R9 = ((((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8) + 0x8));
+    goto L_C0474AA;
+    L_C0474AA:;
+    if (((int)R6 < (int)(*(int *)((R9 + 0x0))))) goto L_C047460;
+    goto L_C0474B0;
+    L_C0474B0:;
+    if (((*(int *)(((int)stk + 8))) != 0)) goto L_C0474C6;
+    goto L_C0474B6;
+    L_C0474B6:;
+    *(unsigned int *)((R13 + 0x0)) = (((extRand()) & R10) * 0x12C);
+    goto L_C0474C6;
+    L_C047460:;
+    t127 = *(int *)((R14 + 0xD4));
+    R0 = (0xD4);
+    R7 = (t127);
+    if (((int)t127 <= (int)(*(int *)((R4 + 0x0))))) goto L_C0474A6;
+    goto L_C04746A;
+    L_C04746A:;
+    if (((int)R7 >= (int)(*(int *)((R4 + 0x4))))) goto L_C0474A6;
+    goto L_C047470;
+    L_C047470:;
+    if (((int)(*(int *)((R13 + 0x0))) <= 0)) goto L_C0474A0;
+    goto L_C047476;
+    L_C047476:;
+    if (((int)(*(int *)((R14 + R0))) < (int)((*(int *)((R4 + 0x4))) - 2))) goto L_C04748C;
+    goto L_C047480;
+    L_C047480:;
+    *(unsigned int *)((R13 + 0x0)) = ((*(int *)((R13 + 0x0))) - 1);
+    *(unsigned int *)((R14 + 0x88)) = R5;
+    goto L_C0474A0;
+    L_C0474A0:;
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
+    goto L_C0474A6;
+    L_C0474A6:;
+    R4 = ((R4 + 0x8));
+    R6 = ((R6 + 0x1));
+    goto L_C0474AA;
+    L_C04748C:;
+    if (((int)(*(int *)((R14 + R0))) < (int)((*(int *)((R4 + 0x4))) - 10))) goto L_C04749C;
+    goto L_C047496;
+    L_C047496:;
+    *(unsigned int *)((R14 + 0x88)) = R12;
+    goto L_C0474A0;
+    L_C04749C:;
+    *(unsigned int *)((R14 + 0x88)) = R10;
+    goto L_C0474A0;
 }

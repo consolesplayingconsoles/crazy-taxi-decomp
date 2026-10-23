@@ -1,20 +1,17 @@
 /* Straight-line functions with calls and guards (batch gen_qn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int pfSetAspectRatio(float);
-int PutRenderTexture(int);
-int nlRenderTextureEnd(void);
-int Pause_ExecRenderTexture2nd(void);
+int menuPutSprites(int, int, int, int, float, float, float);
+int menuPutFrame(float f4, float f5, float f6);
 
-int Pause_ExecRenderTexture2nd(void)
+int menuPutFrame(float f4, float f5, float f6)
 {
-    int t0;
+    float u1;
+    int t3;
 
-    t0 = *(int *)0xC2A11B0;
-    if (t0 == 1) {
-        nlRenderTextureEnd();
-        pfSetAspectRatio(1.0f);
-        return PutRenderTexture(0x3);
-    }
-    return t0;
+    u1 = *(float *)0xC2A1AD4;
+    *(float *)0xC2A1AD4 = (*(float *)0xC03C1F0);
+    t3 = menuPutSprites(0xC0A06E8, 0xC2A1A84, (*(int *)0xC2A1AD8), 0x0, f4, f5, f6);
+    *(float *)0xC2A1AD4 = u1;
+    return t3;
 }

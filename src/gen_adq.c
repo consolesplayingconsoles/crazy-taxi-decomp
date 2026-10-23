@@ -1,60 +1,82 @@
 /* Straight-line functions with calls and guards (batch gen_adq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetSEvolume(void);
-int Voice_Init(void);
-int gdc_VolStreamSong(int);
-int menuChangeValue(int, int, int);
-int menuPutSprites(int, int, int, int);
-int putString(int, int, float, float, float);
-int menuItemVolume(int a4, int a5);
+int Drv_ExecBlend(float, float, float, float, float);
+float Drv_FacePsgFrame(int, float, float, float);
+int Drv_StartAction(int, int, int);
+int Drv_StartGetOn(int);
+int FcvStoreBuffer(int, int, float);
+int drvUpdatePartTracks(void);
+int Drv_ExecGetOn(float f4, float f5, float f6, float f7, float f8);
 
-int menuItemVolume(int a4, int a5)
+int Drv_ExecGetOn(float f4, float f5, float f6, float f7, float f8)
 {
-    int t0;
+    int t1;
     int t3;
-    float u5;
-    float u6;
+    int t27;
+    int t28;
+    int t34;
     int t35;
-    int t29;
-    int t31;
-    int t33;
-    int stk[12];
+    int t41;
+    float u44;
+    int t48;
 
-    t0 = *(int *)0xC2A1ADC;
-    t3 = 0xC28A4ED;
-    u5 = 290.0f;
-    u6 = (float)(t0 + 0x1DE);
-    if (a5 == 4) {
-        t3 = 0xC28A4EC;
-        u5 = 256.0f;
-        u6 = (float)(0x1DE - t0);
+    t1 = *(int *)0xC2AD018;
+    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+        return Drv_ExecBlend(f4, f5, f6, f7, f8);
     }
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
-    if (a4 != 0) {
-        if ((menuChangeValue(0x0, ((int)stk + 4), 0x9)) == 1) {
-            *(unsigned char *)((t3 + 0x0)) = (*(int *)(((int)stk + 4)));
-            SetSEvolume();
-            Voice_Init();
-            gdc_VolStreamSong(0x7F);
-        }
-    }
-    putString(0x28, 0xC0A2058, (u6 + -82.0f), (u5 + -7.0f), 1.0f);
-    t35 = (putString(0x20, 0xC0A205C, (u6 + 82.0f), (u5 + -7.0f), 1.0f));
-    if ((int)0x8 > 0) {
-        t29 = 0x0;
-        for (;;) {
-            t31 = 0xC0A0868;
-            if ((int)t29 < (int)(*(int *)(((int)stk + 4)))) {
-                t31 = 0xC0A0858;
+    t3 = *(int *)0xC2AD014;
+    if (t3 != 0) {
+        if (t3 != 1) {
+            if (t3 != 2) {
+                if (t3 != 3) {
+                    return t3;
+                }
+                drvUpdatePartTracks();
+                FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+                *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
+                if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+                    return Drv_StartAction(0x0, 0x0, 0x0);
+                }
+                return 0x24;
             }
-            t33 = menuPutSprites(t31, 0xC2A1A84, (int)((float)(((((t29 - 3) << 2) + (t29 - 3)) << 2) - 10) + u6), (int)u5);
-            t29 = (t29 + 0x1);
-            if ((int)t29 >= (int)0x8) {
-                break;
+            drvUpdatePartTracks();
+            FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+            *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.5f);
+            if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+                *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
             }
+            t27 = *(int *)((t1 + 0x20));
+            if (t27 == 3) {
+                t28 = *(int *)0xC2AD014;
+                *(unsigned int *)0xC2AD014 = (t28 + 0x1);
+                return Drv_StartGetOn((t28 + 0x1));
+            }
+            return t27;
         }
-        t35 = t33;
+        *(float *)0xC2AD024 = (Drv_FacePsgFrame(t1, f4, f5, f6));
+        drvUpdatePartTracks();
+        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+        t34 = *(int *)((t1 + 0x24));
+        if (t34 == 2) {
+            t35 = *(int *)0xC2AD014;
+            *(unsigned int *)0xC2AD014 = (t35 + 0x1);
+            return Drv_StartGetOn((t35 + 0x1));
+        }
+        return t34;
     }
-    return t35;
+    drvUpdatePartTracks();
+    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+    *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
+    t41 = *(int *)0xC2AD01C;
+    u44 = (float)t41;
+    if ((int)t41 < 0) {
+        u44 = ((float)t41 + 4.2949673e+09f);
+    }
+    if (u44 > (*(float *)0xC2AD024)) {
+        return 0x24;
+    }
+    t48 = *(int *)0xC2AD014;
+    *(unsigned int *)0xC2AD014 = (t48 + 0x1);
+    return Drv_StartGetOn((t48 + 0x1));
 }

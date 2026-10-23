@@ -1,41 +1,47 @@
 /* Straight-line functions with calls and guards (batch gen_ahz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int nlObjPutSetFadeColor(float, float, float);
-int pfColor(int, int, int, int);
-int pfLocate(float, float);
-int pfPutSEGALogo(void);
-int pfPuts(int);
-int pfSetFont(int);
-int pfSize(float, float);
-int Put_Adv_Rating(void);
+int MultiRot4Vec(int);
+int SetCameraMode(int);
+int SetCameraPosRatio(float, float);
+int SetCameraPosVelocity(int);
+int camSetEye(int, int);
+int camSetMode(int);
+int camSetTarget(int, int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlTranslateV(int);
+int SetStartCamera(void);
 
-int Put_Adv_Rating(void)
+int SetStartCamera(void)
 {
-    int stk[9];
+    int stk[10];
 
-    *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)0xC0D0AC6);
-    *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)0xC0D0AC7);
-    *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)0xC0D0AC8);
-    *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)0xC0D0AC9);
-    *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)0xC0D0ACA);
-    *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)0xC0D0ACB);
-    pfSetFont(0x1);
-    pfColor(0xFF00FF00, 0xFF00FF00, 0xFF00FF00, 0xFF00FF00);
-    pfSize(1.0f, 1.0f);
-    pfLocate((*(float *)0xC2A96D4), 70.0f);
-    pfPuts(0xC0D0A54);
-    pfSize(1.0f, 1.0f);
-    pfLocate((*(float *)0xC2A96D8), 200.0f);
-    pfPuts(0xC0D0A70);
-    pfSize(1.5f, 1.5f);
-    pfLocate((*(float *)0xC2A96DC), 250.0f);
-    pfPuts(0xC0D0A88);
-    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    pfSize(1.0f, 1.0f);
-    pfLocate(239.0f, 386.0f);
-    pfPutSEGALogo();
-    nlObjPutSetFadeColor(0.0f, 0.0f, 1.0f);
-    return (ResetFadeColor());
+    *(unsigned int *)0xC17999C = 0xFFFFFFFF;
+    *(unsigned int *)0xC1799A0 = 0x0;
+    *(float *)0xC1799A4 = -16.0f;
+    *(float *)0xC1799A8 = 1.0f;
+    *(float *)0xC1799AC = 30.0f;
+    *(float *)0xC1799BC = 0.199999988f;
+    *(float *)0xC1799C0 = -0.00999999978f;
+    *(float *)0xC1799C4 = 0.0f;
+    nlPushUnitMatrix();
+    nlTranslateV(0xC179144);
+    MultiRot4Vec(0xC1790FC);
+    nlCalcPoint(0xC1799A4, (((int)stk + 4) + 0xC));
+    nlCalcVector(0xC1799BC, ((int)stk + 4));
+    camSetEye((((int)stk + 4) + 0xC), 0x0);
+    SetCameraPosRatio(0.0f, 1.0f);
+    SetCameraPosVelocity(((int)stk + 4));
+    *(float *)0xC1799B0 = 0.0f;
+    *(float *)0xC1799B4 = 5.0f;
+    *(float *)0xC1799B8 = 0.0f;
+    nlCalcPoint(0xC1799B0, 0xC1799B0);
+    camSetTarget(0xC1799B0, 0x0);
+    SetCameraMode(0x1);
+    camSetMode(0x8);
+    *(float *)0xC1798A4 = 60.0f;
+    return (nlPopMatrix(0x1));
 }

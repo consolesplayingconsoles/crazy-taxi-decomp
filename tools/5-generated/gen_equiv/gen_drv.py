@@ -117,6 +117,8 @@ def build(name,ret,passthru=False):
     return src,c
 _ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
 _IDENT=re.compile(r'\b[A-Za-z_]\w*\b')
+_CAST=re.compile(r'\((?:unsigned |signed )?(?:int|float|char|short)\s*\**\)')
+_CALL=re.compile(r'\b(?!_builtin_)[A-Za-z_]\w*\s*\((?!\s*(?:int|float|unsigned|signed|char|short)\b)')      # a call (not a compiler intrinsic)
 def inline_single(body,decls):
     """A temporary set once and read once, further down the same straight run of statements, with nothing in between that
     changes what it reads, is written into its one use: `t9 = R4 != 0; ... if (t9) goto L;` becomes `if (R4 != 0) goto L;`.
@@ -141,7 +143,11 @@ def inline_single(body,decls):
             while j<len(body):
                 l=body[j]
                 if re.search(r'\b%s\b'%v,l):
-                    ok=len(re.findall(r'\b%s\b'%v,l))==1 and not re.match(r'^\s*(?:L_\w+:|\}|case |default:)',l); break
+                    ok=len(re.findall(r'\b%s\b'%v,l))==1 and not re.match(r'^\s*(?:L_\w+:|\}|case |default:)',l)
+                    # two calls in one statement run in an order C leaves open (SHC: right to left): a value that calls or reads memory
+                    # stays a statement of its own when its use would then hold two calls
+                    if ok and reads_mem and len(_CALL.findall(_CAST.sub('',l)))+len(_CALL.findall(_CAST.sub('',e)))>=2: ok=False
+                    break
                 if re.search(r'[{}]|^\s*L_\w+:|\bgoto\b|\breturn\b|\bbreak\b|\bcontinue\b',l): break
                 a=re.match(r'^\s*([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*[-+*/&|^]?=',l)
                 if a and a.group(1) in names: break

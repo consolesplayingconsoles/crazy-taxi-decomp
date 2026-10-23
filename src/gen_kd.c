@@ -1,48 +1,48 @@
 /* Straight-line functions with calls and guards (batch gen_kd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlMatrixMode(int);
-int nlObjPut(int);
+int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
-int nlRotateAZ(int);
 int nlScale(float, float, float);
 int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+int Put_Build_Patch(void);
 
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+int Put_Build_Patch(void)
 {
-    int stk[22];
+    int t8;
+    int t9;
+    float u11;
+    int t18;
 
-    stk[10] = a8;
-    stk[11] = a9;
-    stk[12] = a10;
-    stk[13] = a11;
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(unsigned int *)(((int)stk + 12)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    nlMatrixMode(0x3);
-    nlPushMatrix(0xC0D09D0);
-    nlMatrixMode(0x2);
-    nlPushUnitMatrix();
-    nlMatrixMode(0x1);
-    nlPushUnitMatrix();
-    nlTranslate(((float)((*(int *)(((int)stk + 4))) - 320) * 0.000999999931f), ((float)(0xF0 - (*(int *)(((int)stk + 12)))) * 0.000999999931f), -0.599999964f);
-    nlRotateAY((unsigned short)(*(short *)(((((int)stk + 4) + 0x24) + 0x2))));
-    nlRotateAX((unsigned short)(*(short *)(((((int)stk + 4) + 0x24) + 0x0))));
-    nlRotateAZ((unsigned short)(*(short *)(((((int)stk + 4) + 0x24) + 0x4))));
-    nlScale(f4, f4, f4);
-    nlScale((f4 * 0.000999999931f), (f4 * 0.000999999931f), (f4 * 0.000999999931f));
-    nlSetScaleFactor((f4 * 0.000999999931f));
-    nlObjPut((*(int *)(((int)stk + 8))));
+    nlPushMatrix(0x0);
+    nlTranslate(-3666.0f, 103.5f, -3888.0f);
+    nlRotateAY(0xC000);
+    nlRotateAX(0x4AAA);
+    nlScale(25.0f, 25.0f, 25.0f);
+    nlSetScaleFactor(25.0f);
+    nlObjPutUseViewMatrix(0xC5BDE50);
     nlPopMatrix(0x1);
-    nlMatrixMode(0x2);
-    nlPopMatrix(0x1);
-    nlMatrixMode(0x3);
-    nlPopMatrix(0x1);
-    return (nlMatrixMode(0x1));
+    t8 = 0x0;
+    t9 = 0xC11894C;
+    for (;;) {
+        nlPushMatrix(0x0);
+        u11 = *(float *)((t9 + 0x0));
+        t9 = (t9 + 0x4);
+        nlTranslate(-3845.00977f, 118.668198f, u11);
+        nlRotateAY(0xC000);
+        nlRotateAX(0xAAA);
+        nlScale(7.0f, 3.5f, 3.5f);
+        nlSetScaleFactor(7.0f);
+        nlObjPutUseViewMatrix(0xC5C55D8);
+        t18 = nlPopMatrix(0x1);
+        t8 = (t8 + 0x1);
+        if ((int)t8 >= (int)0x3) {
+            break;
+        }
+    }
+    return t18;
 }

@@ -1,56 +1,91 @@
 /* Straight-line functions with calls and guards (batch gen_vj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern float _builtin_sqrtf(float);
-int getYXZrot(int);
-int nlAddVector(int, int);
-int nlArcTan2(float, float);
-int nlCalcVector(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-float nlTan(int);
-int nlTranslate(float, float, float);
-int carSteering(int a4);
+int Result_Customer_Count_Put(void);
+int Result_Face_Put(int);
+int Result_Name_Put(void);
+int Sound_Request(int, int);
+int nlSprPut(int);
+int Result_Title_Put(void);
 
-int carSteering(int a4)
+int Result_Title_Put(void)
 {
-    float u9;
-    float t12;
-    float u13;
+    int t3;
+    int t4;
+    float u5;
+    float u6;
+    int t7;
+    float u26;
+    float u27;
+    float u20;
+    float u21;
+    int t38;
+    int t33;
+    float u34;
+    float u35;
     float u15;
-    int t16;
-    int t17;
-    float u25;
-    int stk[11];
+    float u16;
 
-    nlPushUnitMatrix();
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
-    if ((*(int *)((a4 + 0xC0))) != 0) {
-        u9 = *(float *)(((short)((short)(*(short *)((a4 + 0x78))) * (short)0xA8) + 0xC0A26C0));
-        nlTranslate(0.0f, 0.0f, (-u9));
-        t12 = nlTan((*(int *)((a4 + 0xC0))));
-        u13 = *(float *)((a4 + 0xCC));
-        u15 = (u13 * u13);
-        u15 = u15 + (u9 / t12) * (u9 / t12);
-        t16 = nlArcTan2(((*(float *)((a4 + 0xCC))) * (1.0f / _builtin_sqrtf(u15))), (_builtin_fabsf((u9 / t12)) * (1.0f / _builtin_sqrtf(u15))));
-        t17 = t16;
-        if (0.0f > (u9 / t12)) {
-            t17 = (-t16);
+    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x5C);
+    *(unsigned int *)0xC2A972C = 0xE;
+    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A9714 = 0.0f;
+    *(float *)0xC2A971C = 1.0f;
+    *(unsigned int *)0xC2A9720 = 0x0;
+    t3 = 0x24;
+    t4 = 0x0;
+    u5 = 0.0f;
+    u6 = 1.0f;
+    for (;;) {
+        t7 = *(int *)0xC2A96F4;
+        if ((int)t7 > (int)(((t4 << 2) << 1) - t4)) {
+            u26 = u5;
+            u27 = u6;
+            if ((int)t7 <= (int)0x2A) {
+                t3 = 0x7;
+                t3 = ((int)((int)t7 % (int)t3));
+                u20 = u5;
+                u21 = u6;
+                if (t3 == 0) {
+                    t3 = 0x7;
+                    t3 = ((int)((int)t7 % (int)t3));
+                    if ((t3 == 0) && (t4 == 0)) {
+                        t3 = (Sound_Request(0xA00A9, 0x0));
+                        *(unsigned int *)0xC130DF0 = ((*(int *)0xC130DF0) + 0x1);
+                    } else {
+                        u15 = u5;
+                        u16 = u6;
+                    }
+                    u20 = u15;
+                    u21 = u16;
+                }
+                u26 = u20;
+                u27 = u21;
+            }
+            u5 = u26;
+            u6 = u27;
+            t3 = 0x4;
+            u5 = (float)((((t4 << 2) << 2) << 2) + 0x50);
+            *(float *)((0xC2A96F8 + t3)) = u5;
+            t3 = 0xC0D0D30;
+            *(unsigned int *)0xC2A96F8 = (*(int *)(((t4 << 2) + t3)));
+            t3 = (nlSprPut(0xC2A96F8));
+        } else {
+            t33 = t7;
+            u34 = u5;
+            u35 = u6;
         }
-        nlRotateAY(t17);
-        nlTranslate(0.0f, 0.0f, u9);
-        u25 = (1.0f / _builtin_sqrtf(u15));
+        u5 = u34;
+        u6 = u35;
+        t4 = (t4 + 0x1);
+        if ((int)t4 >= (int)0x6) {
+            break;
+        }
     }
-    getYXZrot((0xA4 + a4));
-    *(float *)(((int)stk + 8)) = 0.0f;
-    *(float *)(((int)stk + 4)) = 0.0f;
-    *(float *)(((int)stk + 12)) = (*(float *)((a4 + 0xC4)));
-    nlCalcVector(((int)stk + 4), ((int)stk + 4));
-    nlPopMatrix(0x1);
-    return (nlAddVector((0x98 + a4), ((int)stk + 4)));
+    Result_Face_Put(t33);
+    Result_Name_Put();
+    t38 = Result_Customer_Count_Put();
+    *(unsigned int *)0xC2A9788 = ((*(int *)0xC2A9788) + 0x1);
+    return t38;
 }

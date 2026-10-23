@@ -166,35 +166,6 @@ void SetCameraTargetVelocity(int a4)
     *(unsigned int *)0xC179908 = t2;
 }
 
-int SetAdvCamera(int a4, int a5)
-{
-    int t1;
-    int t0;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-
-    t1 = 0x3;
-    if ((int)a5 >= 0) {
-        t0 = a5;
-        if ((int)a5 > (int)0x4) {
-            t0 = 0x3;
-        }
-        t1 = t0;
-    }
-    *(unsigned int *)0xC0E4E38 = t1;
-    t2 = *(int *)((a4 + 0x8));
-    *(unsigned int *)0xC179970 = t2;
-    t3 = *(int *)((a4 + 0x4));
-    *(unsigned int *)0xC17996C = t3;
-    t4 = *(int *)((a4 + 0x0));
-    *(unsigned int *)0xC179968 = t4;
-    camSetAngles(0x0, 0x0, 0x0, 0x0);
-    t6 = camSetMode(0x8);
-    *(unsigned int *)0xC179974 = 0x1;
-    return t6;
-}
 
 int gdc_StopStreamSongDisk(void)
 {
@@ -225,39 +196,6 @@ void GetLightVector(int a4)
 }
 
 
-void InitHomingVector(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-
-    t0 = *(int *)((a5 + 0x8));
-    *(unsigned int *)(((a4 + 0x18) + 0x8)) = t0;
-    t1 = *(int *)((a5 + 0x4));
-    *(unsigned int *)(((a4 + 0x18) + 0x4)) = t1;
-    t2 = *(int *)((a5 + 0x0));
-    *(unsigned int *)(((a4 + 0x18) + 0x0)) = t2;
-    t3 = *(int *)((a5 + 0x8));
-    *(unsigned int *)((a4 + 0x8)) = t3;
-    t4 = *(int *)((a5 + 0x4));
-    *(unsigned int *)((a4 + 0x4)) = t4;
-    t5 = *(int *)((a5 + 0x0));
-    *(unsigned int *)((a4 + 0x0)) = t5;
-    t6 = *(int *)0xC0965F8;
-    *(unsigned int *)(((a4 + 0xC) + 0x8)) = t6;
-    t7 = *(int *)0xC0965F4;
-    *(unsigned int *)(((a4 + 0xC) + 0x4)) = t7;
-    t8 = *(int *)0xC0965F0;
-    *(unsigned int *)(((a4 + 0xC) + 0x0)) = t8;
-    *(float *)((a4 + 0x24)) = 1.0f;
-    *(float *)((a4 + 0x28)) = 0.0f;
-}
 
 
 
@@ -304,47 +242,6 @@ int pedStand(int a4)
     return t3;
 }
 
-void selectLoadAxes(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int stk[14];
-
-    t0 = *(int *)0xC0D0814;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x8)) = t0;
-    t1 = *(int *)0xC0D0810;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x4)) = t1;
-    t2 = *(int *)0xC0D080C;
-    *(unsigned int *)(((((int)stk + 4) + 0x24) + 0x0)) = t2;
-    t3 = *(int *)0xC0D0820;
-    *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x8)) = t3;
-    t4 = *(int *)0xC0D081C;
-    *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x4)) = t4;
-    t5 = *(int *)0xC0D0818;
-    *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x0)) = t5;
-    t6 = *(int *)0xC0D082C;
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x8)) = t6;
-    t7 = *(int *)0xC0D0828;
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x4)) = t7;
-    t8 = *(int *)0xC0D0824;
-    *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x0)) = t8;
-    t9 = *(int *)0xC0D0838;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = t9;
-    t10 = *(int *)0xC0D0834;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = t10;
-    t11 = *(int *)0xC0D0830;
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = t11;
-}
 
 int Init_RankDrum(void)
 {
@@ -455,59 +352,6 @@ void lcdFillData(int a4, int a5)
     } while ((int)t3 < (int)0x20);
 }
 
-int Psg_SetPosPtrSet(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t10;
-    int t6;
-    int t9;
-    float u7;
-    float u8;
-    float u11;
-    float u12;
-    int t13;
-
-    t0 = GetCollision2D(a5, a5, 5.0f);
-    t1 = *(int *)((t0 + 0x1C));
-    if (t1 != -1) {
-        t2 = *(int *)((t0 + 0x8));
-        *(unsigned int *)(((a4 + 0x4) + 0x8)) = t2;
-        t3 = *(int *)((t0 + 0x4));
-        *(unsigned int *)(((a4 + 0x4) + 0x4)) = t3;
-        t4 = *(int *)((t0 + 0x0));
-        *(unsigned int *)(((a4 + 0x4) + 0x0)) = t4;
-        return CalcShadow4Normal((a4 + 0x14), (t0 + 0xC));
-    }
-    t5 = *(int *)((a4 + 0x20));
-    if (t5 != 2) {
-        t10 = t5;
-        if (t5 == 4) {
-            t6 = *(int *)((a4 + 0x24));
-            t9 = t6;
-            if (t6 == 2) {
-                u7 = *(float *)((a5 + 0x0));
-                *(float *)((a4 + 0x4)) = u7;
-                u8 = *(float *)((a5 + 0x8));
-                *(float *)((a4 + 0xC)) = u8;
-                t9 = 0xC;
-            }
-            t10 = t9;
-        }
-        t13 = t10;
-    } else {
-        u11 = *(float *)((a5 + 0x0));
-        *(float *)((a4 + 0x4)) = u11;
-        u12 = *(float *)((a5 + 0x8));
-        *(float *)((a4 + 0xC)) = u12;
-        t13 = 0xC;
-    }
-    return t13;
-}
 
 
 void nlCreateVertexBuffer_clx16(int a4, int a5, int a6, int a7)

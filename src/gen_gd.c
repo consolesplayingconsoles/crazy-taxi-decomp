@@ -1,44 +1,32 @@
 /* Straight-line functions with calls and guards (batch gen_gd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Init_Adv_Sprite(void);
-int Start_Adv_Title_LOGO(int, int);
-int Voice_Clear(void);
-int Voice_Request(int, int, int, int);
-int gdc_FileLoadInit(void);
-int gdc_FileLoadStop(void);
-int gdc_StopStreamSongAll(void);
-int nlInitEvent(void);
-int setReplayType(int);
-int init_Title2(void);
+int nlLocate(int, int);
+int nlPrintf(int, ...);
+int nlSetBackColor(int, int, int, float);
+int nlSetFontSize(int, int);
+int Warning(float f4);
 
-int init_Title2(void)
+int Warning(float f4)
 {
-    int t21;
+    int t12;
 
-    *(unsigned int *)0xC1EE240 = 0x0;
-    *(unsigned int *)0xC1EE334 = 0x11;
-    *(unsigned char *)0xC1EE778 = (*(signed char *)0xC08ADAC);
-    *(unsigned char *)0xC1EE779 = (*(signed char *)0xC08ADAD);
-    *(unsigned char *)0xC1EE77A = (*(signed char *)0xC08ADAE);
-    *(unsigned char *)0xC1EE77B = (*(signed char *)0xC08ADAF);
-    *(unsigned char *)0xC1EE77C = (*(signed char *)0xC08ADB0);
-    *(unsigned char *)0xC1EE77D = (*(signed char *)0xC08ADB1);
-    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
-    nlInitEvent();
-    gdc_StopStreamSongAll();
-    Voice_Clear();
-    Init_Adv_Sprite();
-    Start_Adv_Title_LOGO(0x1, 0x0);
-    if ((int)(*(int *)0xC0E5310) > 0) {
-        *(unsigned int *)0xC0E5310 = 0x384;
-        Voice_Request(0xC130DC0, 0x0, 0x7F, 0x0);
+    nlSetBackColor(0xFF000000, 0xFF000000, 0xFF000000, f4);
+    nlSetFontSize(0x10, 0x10);
+    nlLocate(0x1, 0x4);
+    nlPrintf(0xC08AB64);
+    nlPrintf(0xC08AB90);
+    nlPrintf(0xC08ABBC);
+    nlPrintf(0xC08ABE8);
+    nlPrintf(0xC08AC14);
+    nlPrintf(0xC08AC40);
+    nlPrintf(0xC08AC6C);
+    nlPrintf(0xC08AC98);
+    nlPrintf(0xC08ACC4);
+    t12 = nlSetFontSize(0x8, 0x8);
+    if ((int)(*(int *)0xC1EE330) > (int)0x3C) {
+        *(unsigned int *)0xC1EE234 = 0x0;
+        *(unsigned int *)0xC1EE238 = 0x0;
     }
-    gdc_FileLoadStop();
-    gdc_FileLoadInit();
-    t21 = 0x2;
-    if ((*(int *)0xC1EE20C) == 0) {
-        t21 = 0x1;
-    }
-    return setReplayType(t21);
+    return t12;
 }

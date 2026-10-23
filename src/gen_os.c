@@ -1,77 +1,49 @@
 /* Straight-line functions with calls and guards (batch gen_os): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlMatrixMode(int);
-int GetMenuMode(int);
-int Init_Result_Parm(void);
-int Init_Result_Standard_Sprite(void);
-int Money_Array(int, int, int);
-int Result_Drop_Lowest_Rank(void);
-int Result_Insert_Rank(void);
-int nlPerspective(int, float, float, float);
-int nlUnitMatrix(void);
-int Init_Result(int a4);
+int menuGoBack(int);
+int menuEnterStep(int a4, int a5);
 
-int Init_Result(int a4)
+int menuEnterStep(int a4, int a5)
 {
-    int t14;
-    int t15;
-    int t19;
-    int t21;
-    int t39;
-    int t24;
-    int t34;
-    int t26;
-    int t29;
+    int t33;
+    int t3;
+    int t6;
+    int t25;
+    int t28;
+    int t1;
 
-    nlMatrixMode(0x3);
-    nlUnitMatrix();
-    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
-    nlMatrixMode(0x1);
-    if ((*(int *)0xC1EE210) != 2) {
-        if ((GetMenuMode(0x1)) == 0) {
-            *(unsigned int *)0xC2A7618 = 0x1;
+    t33 = 0x0;
+    if (((*(int *)0xC2A1214) != 1) && (t1 = *(int *)0xC2A11EC, (t1 & 8) != 0)) {
+        *(unsigned int *)0xC2A11EC = ((*(int *)0xC2A11EC) & 0xFFFFFFFB);
+        t3 = *(int *)0xC0EF548;
+        *(unsigned int *)0xC0EF548 = (t3 - 1);
+        if ((int)(t3 - 1) < 0) {
+            *(unsigned int *)0xC0EF548 = 0x14;
         } else {
-            *(unsigned int *)0xC2A7618 = 0x0;
-        }
-    } else {
-        *(unsigned int *)0xC2A7618 = 0x1;
-    }
-    t14 = 0xC2A986C;
-    t15 = 0x0;
-    for (;;) {
-        t15 = (t15 + 0x1);
-        *(unsigned int *)((t14 + 0x0)) = 0x0;
-        t14 = (t14 + 0x4);
-        if ((int)t15 >= (int)0xA) {
-            break;
-        }
-    }
-    *(unsigned int *)0xC2A96F0 = ((int)((int)a4 % (int)0x4));
-    Init_Result_Standard_Sprite();
-    Init_Result_Parm();
-    t19 = *(int *)0xC1EE340;
-    *(unsigned int *)0xC2A97DC = t19;
-    t21 = *(int *)0xC2A97DC;
-    t39 = (Money_Array(0xC2A97CC, t19, 0x3));
-    if ((int)t21 < (int)0x64) {
-        t24 = *(int *)0xC17948C;
-        t34 = t24;
-        if (t24 == 0) {
-            t26 = *(int *)0xC2A7618;
-            t29 = t26;
-            if (t26 != 0) {
-                Result_Drop_Lowest_Rank();
-                t29 = (Result_Insert_Rank());
+            if ((*(int *)0xC0EF548) == 0) {
+                t6 = *(int *)0xC2A11D8;
+                *(unsigned int *)0xC2A11D8 = (t6 + 0x1);
+                *(unsigned int *)(((((t6 + 0x1) << 2) + 0xC2A11DC) + 0x0)) = 0x0;
+                if (((*(int *)0xC2A11EC) & 1) != 0) {
+                    menuGoBack(a4);
+                }
+                *(unsigned int *)0xC2A11EC = (((*(int *)0xC2A11EC) & 0xFFFFFFF6) | 0x2);
             }
-            t34 = t29;
         }
-        t39 = t34;
+        t25 = *(int *)0xC2A1AD8;
+        *(unsigned int *)0xC2A1AD8 = (t25 + 0x40);
+        if ((int)(t25 + 0x40) > (int)0x280) {
+            *(unsigned int *)0xC2A1AD8 = 0x280;
+        }
+        if ((int)(*(int *)0xC0EF548) < (int)0xF) {
+            t28 = *(int *)0xC2A1ADC;
+            *(unsigned int *)0xC2A1ADC = (t28 + 0x40);
+            if ((int)(t28 + 0x40) > (int)0x280) {
+                *(unsigned int *)0xC2A1ADC = 0x280;
+            }
+        }
+        t33 = 0x1;
     }
-    *(unsigned int *)0xC2A9858 = 0x0;
-    *(unsigned int *)0xC2A985C = 0x0;
-    *(unsigned int *)0xC2A9860 = 0x0;
-    *(unsigned int *)0xC2A9864 = 0x0;
-    *(unsigned int *)0xC2A9868 = 0x0;
-    return t39;
+    return t33;
 }

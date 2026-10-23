@@ -1,116 +1,175 @@
 /* Straight-line functions with calls and guards (batch gen_yu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Start_Fog(int);
-float getNearLineIndex(int, int, int, int);
-void RailroadAreaCheck(int a4, int a5, int a6, int a7);
+int ResetFadeColor(float);
+int nlObjPutSetFadeColor(float, float, float);
+extern int nlSprPut();
+int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-void RailroadAreaCheck(int a4, int a5, int a6, int a7)
+int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
-    int t2;
-    int t4;
-    int t7;
-    int t10;
-    int t11;
     int t12;
-    int t16;
-    int t17;
-    int t26;
+    int t15;
+    int t22;
     int t27;
-    int t52;
-    int t96;
-    int t97;
-    int t24;
-    int t35;
-    int t36;
-    int stk[15];
+    int t37;
+    int t42;
+    int t49;
+    int t50;
+    int t51;
+    int t56;
+    int stk[16];
 
-    *(unsigned int *)(((int)stk + 12)) = a5;
-    if (a4 == 0) {
-        *(unsigned int *)0xC2A4E40 = 0x0;
-        *(unsigned int *)0xC2A4E4C = 0x0;
-        t2 = 0x0;
-        for (;;) {
-            t4 = (signed char)(((t2 << 1) + t2) << 2);
-            t2 = (t2 + 0x1);
-            *(unsigned int *)(((t4 + 0xC0F2AE8) + 0x0)) = 0x0;
-            if ((int)t2 >= (int)0x4) {
-                break;
-            }
-        }
-    } else {
-        if ((*(int *)0xC1EE20C) != 1) {
-        } else {
-            t7 = *(int *)0xC2A4E40;
-            if (t7 == 1) {
-                *(unsigned int *)0xC2A4E40 = 0x0;
-            } else {
-                if (t7 == 2) {
-                    *(unsigned int *)0xC2A4E40 = 0x3;
-                }
-            }
-            t10 = 0x0;
-            t11 = 0xFFFFFFFF;
-            t12 = 0x0;
-            for (;;) {
-                *(unsigned int *)(((int)stk + 20)) = (*(int *)((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x0)));
-                *(unsigned int *)(((int)stk + 8)) = 0x0;
-                *(volatile int *)(((int)stk + 12));
-                t16 = *(int *)(((int)stk + 20));
-                t17 = *(int *)0xC2A6690;
-                *(unsigned int *)(((int)stk + 16)) = ((((t16 << 1) + t16) << 2) + t17);
-                if (100.0f > (getNearLineIndex(0x0, (*(int *)(((*(int *)(((int)stk + 16))) + 0x0))), (*(int *)(((*(int *)((((((t16 << 1) + t16) << 2) + t17) + 0x4))) + 0x0))), (((int)stk + 4) + 0x4)))) {
-                    t26 = (*(int *)((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x4)));
-                    t27 = 0x0;
-                    for (;;) {
-                        if ((int)t27 >= (int)(*(int *)(((((signed char)(((t12 << 1) + t12) << 2) + 0xC0A380C) + 0x8) + 0x0)))) {
-                            break;
-                        }
-                        if (((int)((*(int *)(((int)stk + 8)))) >= (int)(*(int *)((t26 + 0x0)))) && (t35 = *(int *)(((int)stk + 8)), t24 = t35, t36 = *(int *)((t26 + 0x4)), (int)t24 <= (int)t36)) {
-                            t11 = t12;
-                            t10 = 0x3;
-                        }
-                        t27 = (t27 + 0x1);
-                        t26 = (t26 + 0x8);
-                    }
-                }
-                t12 = (t12 + 0x1);
-                if ((unsigned int)t12 >= (unsigned int)0x2) {
-                    break;
-                }
-            }
-            if (t10 != (*(int *)0xC2A4E40)) {
-                if (t10 == 3) {
-                    *(unsigned int *)0xC2A4E40 = 0x2;
-                } else {
-                    *(unsigned int *)0xC2A4E40 = 0x1;
-                }
-            }
-            t52 = *(int *)0xC2A4E40;
-            if (t52 == 2) {
-                if (t11 == 0) {
-                    Start_Fog(0x2);
-                } else {
-                    if (t11 == 1) {
-                        Start_Fog(0x1);
-                    }
-                }
-            } else {
-                if (t52 == 1) {
-                    Start_Fog(0x0);
-                }
-            }
-            t96 = *(int *)0xC2A1B30;
-            t97 = *(int *)((t96 + 0x64));
-            if (((*(int *)(((((int)t97 >> 5) << 2) + 0xC0A37B8))) & (((int)(t97 & 0x1F) >= 0) ? (0x1 << ((t97 & 0x1F) & 31)) : ((-(int)(t97 & 0x1F) & 31) ? ((int)0x1 >> (-(int)(t97 & 0x1F) & 31)) : ((int)0x1 >> 31)))) != 0) {
-                if (2000.0f > (*(float *)((t96 + 0x7C)))) {
-                    *(unsigned int *)0xC2A4E4C = 0x1;
-                } else {
-                    *(unsigned int *)0xC2A4E4C = 0x0;
-                }
-            } else {
-                *(unsigned int *)0xC2A4E4C = 0x0;
-            }
-        }
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C03B192:;
+    *(unsigned int *)(((int)stk + 4)) = R6;
+    *(unsigned int *)(((int)stk + 8)) = R7;
+    *(float *)((R5 + 0xC)) = (*(float *)0xC2A1AD4);
+    R0 = (0xC03B29C);
+    R11 = (0xC);
+    R12 = (R4);
+    R13 = (0xC07AEA0);
+    R14 = (R5);
+    R8 = (0xC0EF5D0);
+    R9 = (0xC07DF00);
+    F12 = (0.099999994f);
+    F13 = (0.5f);
+    F14 = (0.0f);
+    F15 = (1.0f);
+    goto L_C03B2FC;
+    L_C03B2FC:;
+    t12 = *(short *)((R12 + 0x0));
+    R3 = (t12);
+    if ((t12 == 0)) goto L_C03B306;
+    goto L_C03B302;
+    L_C03B302:;
+    goto L_C03B1D4;
+    L_C03B1D4:;
+    *(unsigned int *)((R14 + 0x0)) = (unsigned short)R3;
+    t15 = *(signed char *)((R12 + 0x2));
+    *(float *)((R14 + 0x10)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x0)));
+    *(float *)((R14 + 0x14)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x4)));
+    *(float *)((R14 + 0x18)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x8)));
+    *(float *)((R14 + 0x1C)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0xC)));
+    *(float *)((R14 + 0x20)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x10)));
+    *(float *)((R14 + 0x24)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x14)));
+    t22 = *(signed char *)((R12 + 0x3));
+    *(float *)((R14 + 0x4)) = (float)((*(short *)((R12 + 0x4))) + (*(int *)(((int)stk + 4))));
+    *(float *)((R14 + 0x8)) = (float)((*(short *)((R12 + 0x6))) + (*(int *)(((int)stk + 8))));
+    t27 = *(int *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x18));
+    R0 = (t27);
+    R10 = ((unsigned char)t22);
+    R4 = (((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0));
+    if ((t27 == 0)) goto L_C03B2EE;
+    goto L_C03B23C;
+    L_C03B23C:;
+    if ((R0 == 1)) goto L_C03B254;
+    goto L_C03B240;
+    L_C03B240:;
+    if ((R0 == 2)) goto L_C03B25A;
+    goto L_C03B244;
+    L_C03B244:;
+    if ((R0 == 3)) goto L_C03B262;
+    goto L_C03B248;
+    L_C03B248:;
+    if ((R0 == 4)) goto L_C03B26A;
+    goto L_C03B24C;
+    L_C03B24C:;
+    if ((R0 == 5)) goto L_C03B27A;
+    goto L_C03B250;
+    L_C03B250:;
+    goto L_C03B2EE;
+    L_C03B2EE:;
+    t37 = R10 != 0;
+    R10 = ((R10 - 1));
+    if (t37) goto L_C03B2B0;
+    goto L_C03B2F4;
+    L_C03B2F4:;
+    R0 = ((ResetFadeColor(F4)));
+    R12 = ((R12 + 0x8));
+    goto L_C03B2FC;
+    L_C03B2B0:;
+    t42 = ((int (*)(int, int, int))(nlSprPut))(R14, R5, R6);
+    R4 = ((0x60 + R8));
+    R5 = ((0x60 + R8));
+    R6 = (R11);
+    goto L_C03B2BC;
+    L_C03B2BC:;
+    if (((int)(*(int *)((R14 + 0x0))) < (int)(*(int *)((R4 + 0x0))))) goto L_C03B2E4;
+    goto L_C03B2C4;
+    L_C03B2C4:;
+    t49 = *(int *)((R5 + 0x0));
+    t50 = *(int *)((R14 + 0x0));
+    t51 = *(int *)((R5 + 0x4));
+    *(float *)((R14 + 0x4)) = ((*(float *)((R14 + 0x4))) + (float)(*(short *)(((t51 + (((t50 - t49) << 2) << 2)) + 0x0))));
+    R4 = ((t51 + (((t50 - t49) << 2) << 2)));
+    R6 = (R5);
+    goto L_C03B2EE;
+    L_C03B2E4:;
+    t56 = (int)(R6 - 1) >= 0;
+    R4 = ((R4 - 8));
+    R5 = ((R5 - 8));
+    R6 = ((R6 - 1));
+    if (t56) goto L_C03B2BC;
+    goto L_C03B2EE;
+    L_C03B27A:;
+    nlObjPutSetFadeColor(F12, 0.399999976f, F15);
+    goto L_C03B2EE;
+    L_C03B26A:;
+    F5 = (0.769999981f);
+    F6 = (F14);
+    goto L_C03B270;
+    L_C03B270:;
+    F4 = (F15);
+    goto L_C03B272;
+    L_C03B272:;
+    nlObjPutSetFadeColor(F4, F5, F6);
+    goto L_C03B2EE;
+    L_C03B262:;
+    F4 = (F13);
+    F5 = (F13);
+    F6 = (F13);
+    goto L_C03B272;
+    L_C03B25A:;
+    F4 = (F14);
+    F5 = (F14);
+    F6 = (F14);
+    goto L_C03B272;
+    L_C03B254:;
+    F5 = (F15);
+    F6 = (F15);
+    goto L_C03B270;
+    L_C03B306:;
+    return R0;
 }

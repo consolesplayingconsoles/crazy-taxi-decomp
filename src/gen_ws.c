@@ -1,109 +1,63 @@
 /* Straight-line functions with calls and guards (batch gen_ws): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Result_Customer_Count_Put(void);
-int Result_Face_Put(void);
-int Result_Name_Put(void);
-int Sound_Request(int, int);
-int nlSprPut(int);
-int Result_Title_Put(void);
+int lcdFillData(int, int);
+int lcdSetData(int, int, int, int, int);
+int lcdSync(int);
+int pdGetPeripheral(int);
+int Exec_LCDLogoDemo(void);
 
-int Result_Title_Put(void)
+int Exec_LCDLogoDemo(void)
 {
     int t0;
-    float u1;
-    float u2;
-    int t3;
-    int t4;
-    float u5;
-    float u6;
-    int t7;
-    float u26;
-    float u27;
+    int t1;
     int t8;
-    float u20;
-    float u21;
-    int t9;
-    int t10;
-    int t11;
-    int t28;
-    int t29;
-    int t38;
-    int t39;
-    float u34;
-    float u35;
-    float u15;
-    float u16;
+    int t15;
+    int t26;
+    int t17;
+    int t21;
+    int t18;
+    int t19;
+    int t31;
+    int t34;
+    int t33;
 
-    t0 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t0 + 0x5C);
-    *(unsigned int *)0xC2A972C = 0xE;
-    u1 = *(float *)0xC2A9758;
-    *(float *)0xC2A9708 = (u1 + 1.0f);
-    u2 = *(float *)0xC2A9758;
-    *(float *)0xC2A970C = (u2 + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    *(unsigned int *)0xC2A9720 = 0x0;
-    t3 = 0x24;
-    t4 = 0x0;
-    u5 = 0.0f;
-    u6 = 1.0f;
-    for (;;) {
-        t7 = *(int *)0xC2A96F4;
-        if ((int)t7 > (int)(((t4 << 2) << 1) - t4)) {
-            u26 = u5;
-            u27 = u6;
-            if ((int)t7 <= (int)0x2A) {
-                t3 = 0x7;
-                t8 = (int)((int)t7 % (int)t3);
-                t3 = t8;
-                u20 = u5;
-                u21 = u6;
-                if (t3 == 0) {
-                    t3 = 0x7;
-                    t9 = (int)((int)t7 % (int)t3);
-                    t3 = t9;
-                    if ((t3 == 0) && (t4 == 0)) {
-                        t10 = Sound_Request(0xA00A9, 0x0);
-                        t3 = t10;
-                        t11 = *(int *)0xC130DF0;
-                        *(unsigned int *)0xC130DF0 = (t11 + 0x1);
-                    } else {
-                        u15 = u5;
-                        u16 = u6;
-                    }
-                    u20 = u15;
-                    u21 = u16;
-                }
-                u26 = u20;
-                u27 = u21;
-            }
-            u5 = u26;
-            u6 = u27;
-            t3 = 0x4;
-            u5 = (float)((((t4 << 2) << 2) << 2) + 0x50);
-            *(float *)((0xC2A96F8 + t3)) = u5;
-            t3 = 0xC0D0D30;
-            t28 = *(int *)(((t4 << 2) + t3));
-            *(unsigned int *)0xC2A96F8 = t28;
-            t29 = nlSprPut(0xC2A96F8);
-            t3 = t29;
-        } else {
-            u34 = u5;
-            u35 = u6;
+    t0 = *(int *)0xC132320;
+    t1 = *(int *)0xC132324;
+    if (((*(int *)(((*(int *)(((pdGetPeripheral((((t0 << 1) + (t0 << 2)) + t1))) + 0x30))) + 0x0))) & 4) != 0) {
+        lcdFillData(0x0, (((t0 << 1) + (t0 << 2)) + t1));
+        t8 = 0xC0D2DDC;
+        if ((int)((int)((int)(*(int *)0xC2A9FAC) % (int)0x4)) < (int)0x2) {
+            t8 = 0xC0D2D18;
         }
-        u5 = u34;
-        u6 = u35;
-        t4 = (t4 + 0x1);
-        if ((int)t4 >= (int)0x6) {
-            break;
-        }
+        lcdSetData(t8, 0x0, 0x0, 0x1, (((t0 << 1) + (t0 << 2)) + t1));
+        lcdSync((((t0 << 1) + (t0 << 2)) + t1));
     }
-    Result_Face_Put();
-    Result_Name_Put();
-    t38 = Result_Customer_Count_Put();
-    t39 = *(int *)0xC2A9788;
-    *(unsigned int *)0xC2A9788 = (t39 + 0x1);
-    return t38;
+    t15 = *(int *)0xC132320;
+    t26 = t15;
+    if (t15 == 3) {
+        t17 = *(int *)0xC132324;
+        t21 = t17;
+        if (t17 == 2) {
+            t18 = *(int *)0xC2A9FAC;
+            *(unsigned int *)0xC2A9FAC = (t18 + 0x1);
+            t19 = t17;
+            if ((t18 + 0x1) == 0x280) {
+                *(unsigned int *)0xC2A9FAC = 0x0;
+                t19 = 0x0;
+            }
+            t21 = t19;
+        }
+        t26 = t21;
+    }
+    t31 = *(int *)0xC132324;
+    *(unsigned int *)0xC132324 = (t31 + 0x1);
+    t34 = t26;
+    if ((int)(t31 + 0x1) > (int)0x2) {
+        *(unsigned int *)0xC132324 = 0x1;
+        t33 = (int)((int)((*(int *)0xC132320) + 0x1) % (int)0x4);
+        *(unsigned int *)0xC132320 = t33;
+        t34 = t33;
+    }
+    return t34;
 }

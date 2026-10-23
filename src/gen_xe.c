@@ -1,61 +1,48 @@
 /* Straight-line functions with calls and guards (batch gen_xe): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuGoBack(void);
-int menuEnterStep(int a4, int a5);
+int Put_Max_Combo(void);
+int ResetFadeColor(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int nd_SprPut(int, int, float, float);
+int nlObjPutSetFadeColor(float, float, float);
+int Exec_DCmini_Game12(void);
 
-int menuEnterStep(int a4, int a5)
+int Exec_DCmini_Game12(void)
 {
-    int t0;
-    int t33;
-    int t2;
-    int t3;
-    int t5;
-    int t6;
-    int t7;
-    int t14;
-    int t25;
+    float u1;
+    float u11;
+    int t18;
     int t27;
-    int t28;
-    int t1;
+    int t22;
+    int t19;
 
-    t0 = *(int *)0xC2A1214;
-    t33 = 0x0;
-    if ((t0 != 1) && (t1 = *(int *)0xC2A11EC, (t1 & 8) != 0)) {
-        t2 = *(int *)0xC2A11EC;
-        *(unsigned int *)0xC2A11EC = (t2 & 0xFFFFFFFB);
-        t3 = *(int *)0xC0EF548;
-        *(unsigned int *)0xC0EF548 = (t3 - 1);
-        if ((int)(t3 - 1) < 0) {
-            *(unsigned int *)0xC0EF548 = 0x14;
+    nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    u1 = *(float *)0xC05DB88;
+    nd_SprPut(0xC2A9898, 0x53, (*(float *)0xC05DB90), u1);
+    nd_SprPut(0xC2A9898, 0x50, (*(float *)0xC05DB94), u1);
+    nlObjPutSetFadeColor(0.0f, (*(float *)0xC05DB98), 1.0f);
+    nd_SprPut(0xC2A9898, 0x1E6, (*(float *)0xC05DBA0), (*(float *)0xC05DB9C));
+    u11 = *(float *)0xC05DBA4;
+    nd_SprPut(0xC2A9898, 0x1E3, (*(float *)0xC05DBA8), u11);
+    nd_SprPut(0xC2A9898, 0x1E4, (*(float *)0xC05DBAC), u11);
+    ResetFadeColor();
+    t18 = *(int *)0xC1EE794;
+    t27 = (Put_Max_Combo());
+    if ((t18 == 0) && (t19 = *(int *)0xC2A991C, t19 == 0)) {
+        t22 = *(int *)0xC2A7614;
+        if ((int)t22 >= (int)0x1E) {
+            *(unsigned int *)0xC2A98F4 = t22;
+            Start_Excellent();
         } else {
-            t5 = *(int *)0xC0EF548;
-            if (t5 == 0) {
-                t6 = *(int *)0xC2A11D8;
-                *(unsigned int *)0xC2A11D8 = (t6 + 0x1);
-                *(unsigned int *)(((((t6 + 0x1) << 2) + 0xC2A11DC) + 0x0)) = 0x0;
-                t7 = *(int *)0xC2A11EC;
-                if ((t7 & 1) != 0) {
-                    menuGoBack();
-                }
-                t14 = *(int *)0xC2A11EC;
-                *(unsigned int *)0xC2A11EC = ((t14 & 0xFFFFFFF6) | 0x2);
-            }
+            Start_Fault(0x0);
         }
-        t25 = *(int *)0xC2A1AD8;
-        *(unsigned int *)0xC2A1AD8 = (t25 + 0x40);
-        if ((int)(t25 + 0x40) > (int)0x280) {
-            *(unsigned int *)0xC2A1AD8 = 0x280;
-        }
-        t27 = *(int *)0xC0EF548;
-        if ((int)t27 < (int)0xF) {
-            t28 = *(int *)0xC2A1ADC;
-            *(unsigned int *)0xC2A1ADC = (t28 + 0x40);
-            if ((int)(t28 + 0x40) > (int)0x280) {
-                *(unsigned int *)0xC2A1ADC = 0x280;
-            }
-        }
-        t33 = 0x1;
+        *(unsigned int *)0xC2A991C = 0x1;
+        *(unsigned int *)0xC179120 = 0x0;
+        t27 = 0x54;
     }
-    return t33;
+    return t27;
 }

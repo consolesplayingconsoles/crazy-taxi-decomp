@@ -1,68 +1,36 @@
 /* Straight-line functions with calls and guards (batch gen_yt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXT_Finish(void);
-extern void _builtin_set_imask(int);
-int buStat(int);
-int discardVertexBuffer(void);
-int pdExitPeripheral(void);
-int pdVibSetStopTime(int, int, int, int);
-int syBtExit(void);
-int syHwFinish(void);
-int syMallocFinish(void);
-int syRtcFinish(void);
-int thunk_syCfgExit(void);
-int vmuExit(void);
-int usr_gd_err_func(int a4, int a5, int a6, int a7);
+int Model_Put_Sprite3D(int, int, int, float);
+int ResetFadeColor(void);
+int nlAddVector(int, int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int Put_Time_Spark(int a4);
 
-int usr_gd_err_func(int a4, int a5, int a6, int a7)
+int Put_Time_Spark(int a4)
 {
-    int t1;
-    int t6;
-    int stk[5];
+    int stk[8];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    L_C02A3EC:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
-    t1 = buStat((*(int *)0xC2A11B8));
-    R0 = (t1);
-    if ((t1 == -1)) goto L_C02A46E;
-    goto L_C02A3FE;
-    L_C02A3FE:;
-    if (((*(int *)(((int)stk + 4))) == -23)) goto L_C02A40A;
-    goto L_C02A404;
-    L_C02A404:;
-    t6 = *(int *)(((int)stk + 4));
-    R0 = (t6);
-    if ((t6 != -33)) goto L_C02A46E;
-    goto L_C02A40A;
-    L_C02A40A:;
-    *(unsigned char *)(((int)stk + 12)) = (*(signed char *)0xC08AAEE);
-    *(unsigned char *)(((int)stk + 8)) = (*(signed char *)0xC08AAEF);
-    pdVibSetStopTime(0x2, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x1);
-    ADXT_Finish();
-    thunk_syCfgExit();
-    vmuExit();
-    syRtcFinish();
-    pdExitPeripheral();
-    discardVertexBuffer();
-    syMallocFinish();
-    syHwFinish();
-    _builtin_set_imask(0xF);
-    R0 = ((syBtExit()));
-    goto L_C02A46E;
-    L_C02A46E:;
-    return R0;
+    nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+    nlPushMatrix(0x0);
+    *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
+    *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
+    *(unsigned char *)((((int)stk + 4) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
+    *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
+    *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
+    *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
+    Model_Put_Sprite3D((int)(*(float *)((a4 + 0x18))), (int)(*(float *)((a4 + 0x1C))), 0xC0EAC20, (*(float *)0xC057354));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x3)) = (*(signed char *)(((a4 + 0x30) + 0x3)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x4)) = (*(signed char *)(((a4 + 0x30) + 0x4)));
+    *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x5)) = (*(signed char *)(((a4 + 0x30) + 0x5)));
+    *(unsigned short *)(((((int)stk + 4) + 0x8) + 0x2)) = ((*(short *)(((((int)stk + 4) + 0x8) + 0x2))) + 0x8000);
+    nlPopMatrix(0x1);
+    nlAddVector((a4 + 0x18), (a4 + 0x24));
+    *(unsigned short *)((a4 + 0x32)) = ((*(short *)((a4 + 0x32))) + (*(short *)(((0x36 + a4) + 0x0))));
+    return (ResetFadeColor());
 }

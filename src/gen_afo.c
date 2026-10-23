@@ -1,65 +1,63 @@
 /* Straight-line functions with calls and guards (batch gen_afo): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int callNameEntry(void);
-int callNameDelete(void);
-int memmove(int, int, int);
-int menuCursor(int, int, int);
-int menuPutSprites(int, int, int, int);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowNameSelect(void);
+int nlAddVector(int, int);
+int nlScaleVector(int, int, float);
+int set_event(int, int);
+int signalInit(int a4, int a5);
 
-int windowNameSelect(void)
+int signalInit(int a4, int a5)
 {
-    int t27;
+    int t0;
+    int t4;
+    int t5;
+    int t6;
     int t10;
-    int t20;
-    int t15;
-    int t30;
-    int t37;
-    int t52;
-    int t35;
-    int t36;
-    int t44;
+    int t23;
+    int t25;
+    int t27;
+    int t29;
 
-    windowOpenStep(0xA);
-    t27 = 0x0;
-    if ((int)(*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) <= (int)0x1) {
+    t0 = set_event(0x8C, 0xC0496FC);
+    if (t0 == 0) {
+        return t0;
+    }
+    if ((a5 & 0x1) != 0) {
+        *(unsigned int *)((t0 + 0x14)) = 0x0;
     } else {
-        t10 = *(signed char *)0xC28A4F6;
-        t20 = (~(((int)(unsigned char)t10 >= 0) ? (0x1 << ((unsigned char)t10 & 31)) : ((-(int)(unsigned char)t10 & 31) ? ((int)0x1 >> (-(int)(unsigned char)t10 & 31)) : ((int)0x1 >> 31))));
-        if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 2) {
+        *(unsigned int *)((t0 + 0x14)) = 0x1000;
+    }
+    *(unsigned int *)((t0 + 0x84)) = 0x258;
+    *(unsigned int *)((t0 + 0x88)) = (*(int *)((t0 + 0x84)));
+    t4 = *(int *)(((a4 << 2) + 0xC0F2B18));
+    t5 = 0xC0F2B18;
+    t6 = 0x0;
+    for (;;) {
+        *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = (*(int *)((((t4 + ((((a5 << 1) + a5) << 2) << 2)) + (t6 << 2)) + 0x0)));
+        if ((int)(*(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0))) >= 0) {
+            t5 = (*(int *)0xC2A6690);
+            t10 = *(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0));
+            t5 = (*(int *)(((*(int *)((((((t10 << 1) + t10) << 2) + t5) + 0x4))) + 0x0)));
+            t5 = (t5 - 2);
+            *(unsigned int *)((((t0 + 0x48) + (t6 << 2)) + 0x0)) = t5;
         } else {
-            t15 = 0xF;
-            if ((int)(*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) <= (int)0x4) {
-                t15 = (((int)(unsigned char)t10 >= 0) ? (0xFFFFFFFF << ((unsigned char)t10 & 31)) : ((-(int)(unsigned char)t10 & 31) ? ((unsigned int)0xFFFFFFFF >> (-(int)(unsigned char)t10 & 31)) : 0));
+            *(unsigned int *)((((t0 + 0x48) + (t6 << 2)) + 0x0)) = (-(*(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0))));
+            if ((t6 & 0x1) == 0) {
+                *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = 0x120;
+            } else {
+                *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = 0x121;
             }
-            t20 = t15;
         }
-        t27 = t20;
-    }
-    t30 = *(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0));
-    menuCursor(0x1, 0x4, t27);
-    *(unsigned int *)0xC2A11C4 = (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)));
-    if ((((*(int *)0xC1EE330) & 16) == 0) && (t35 = *(int *)0xC2A11F4, t36 = *(int *)((((t35 << 2) + 0xC2A11F8) + 0x0)), t36 == t30)) {
-    } else {
-        t37 = *(int *)0xC2A11C4;
-        menuPutSprites(0xC0A1D98, 0xC2A1A84, 0x190, (((((t37 << 2) + t37) << 2) << 2) + 0x88));
-    }
-    if ((((*(int *)0xC2A1208) & 4) != 0) && (t44 = *(int *)0xC2A11CC, (t44 & 2) != 0)) {
-        memmove(0xC2A1248, ((short)((short)(*(int *)0xC2A11C4) * (short)0x788) + 0xC28A4F8), 0x4);
-        if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) != 2) {
-            t52 = *(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)));
-            if (t52 == 3) {
-                return callNameDelete();
-            }
-            if (t52 == 4) {
-                return callNameEntry();
-            }
-            return windowEnterStep(0x14);
+        t6 = (t6 + 0x1);
+        if ((int)t6 >= (int)0xC) {
+            break;
         }
-        return callNameEntry();
     }
-    return windowEnterStep(0x14);
+    t23 = *(int *)((t0 + 0x18));
+    t25 = *(int *)(((t0 + 0x48) + 0x0));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x78)) = *(struct mv3 *)(((*(int *)((((((t23 << 1) + t23) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t25 << 1) + t25) << 2))); }
+    t27 = *(int *)((t0 + 0x30));
+    t29 = *(int *)((t0 + 0x60));
+    nlAddVector((t0 + 0x78), ((*(int *)((((((t27 << 1) + t27) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t29 << 1) + t29) << 2)));
+    return nlScaleVector((t0 + 0x78), (t0 + 0x78), 0.5f);
 }

@@ -1,22 +1,25 @@
 /* Straight-line functions with calls and guards (batch gen_ll): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Chk_DispCredit(void);
-int End_Adv_Title_LOGO(void);
-int AdvStateTitle2(void);
+int pfPutc(int, int, float);
+int pfSetFont(int);
+int pfPutSEGALogo(void);
 
-int AdvStateTitle2(void)
+int pfPutSEGALogo(void)
 {
-    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
-    if ((int)(*(int *)0xC0E5310) > 0) {
-        *(unsigned int *)0xC0E5310 = ((*(int *)0xC0E5310) - 1);
-        if ((int)(*(int *)0xC1EE240) > (int)0x5) {
-            *(unsigned int *)0xC1EE240 = 0x5;
-        }
+    int t0;
+    float u3;
+    float u7;
+
+    t0 = *(int *)0xC26E1EC;
+    pfSetFont(0x1);
+    *(float *)0xC26E208 = 64.0f;
+    u3 = *(float *)0xC26E1F8;
+    u7 = (u3 * 64.0f);
+    if ((*(int *)0xC26E1F0) != 0) {
+        u7 = (((u3 * 64.0f)) * 0.5f);
     }
-    if ((int)(*(int *)0xC1EE240) >= (int)0xF0) {
-        *(unsigned int *)0xC1EE238 = 0x0;
-        return End_Adv_Title_LOGO();
-    }
-    return Chk_DispCredit();
+    *(float *)0xC26E204 = u7;
+    pfPutc(0x7F, 0xC26E204, u7);
+    return pfSetFont(t0);
 }

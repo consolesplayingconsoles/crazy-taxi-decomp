@@ -1,32 +1,40 @@
 /* Straight-line functions with calls and guards (batch gen_aft): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Sound_Request(int, int);
-float nlLength(int, int);
-void setObjHitPin(int a4);
+int SetCameraMode(int);
+int camRestore(void);
+int camSetEye(int, int);
+int camSetTarget(int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlSubVector3op(int, int, int);
+int camGetOnReturn(void);
 
-void setObjHitPin(int a4)
+int camGetOnReturn(void)
 {
-    float t2;
-    int t16;
-    float u3;
+    int t1;
+    int t15;
     float u4;
+    int t10;
+    int t12;
+    int stk[13];
 
-    if ((*(int *)((((*(int *)((a4 + 0x6C))) << 2) + 0xC275824))) == 0) {
-        t2 = nlLength((a4 + 0xC), (a4 + 0x58));
-        if (!(t2 > (1.0f + 1.0f)) && (u3 = 0.7f, u4 = *(float *)((a4 + 0x40)), !(u3 > u4))) {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
-            return;
+    t1 = *(signed char *)(((*(int *)0xC2AD54C) + 0x149));
+    t15 = t1;
+    if ((t1 & 128) == 0) {
+        SetCameraMode(0x1);
+        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
+        u4 = *(float *)0xC064B4C;
+        nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u4);
+        camSetEye((((int)stk + 4) + 0xC), 0x1);
+        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);
+        nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), ((int)stk + 4), 1.0f, u4);
+        camSetTarget(((int)stk + 4), 0x1);
+        t10 = *(int *)0xC2AD590;
+        t12 = t10;
+        if ((t10 & 1) == 0) {
+            t12 = (camRestore());
         }
-        if ((*(int *)0xC2A991C) == 0) {
-            *(unsigned int *)((((*(int *)((a4 + 0x6C))) << 2) + 0xC275824)) = 0x1;
-            *(unsigned int *)0xC275940 = ((*(int *)0xC275940) - 1);
-        }
-        t16 = 0x30FA9;
-        if (t2 > (5.0f)) {
-            t16 = 0xFA9;
-        }
-        Sound_Request(t16, 0x0);
-    return;
+        t15 = t12;
     }
+    return t15;
 }

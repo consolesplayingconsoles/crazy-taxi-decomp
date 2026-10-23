@@ -1,182 +1,117 @@
 /* Straight-line functions with calls and guards (batch gen_yh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ExecArrow(int, float);
-int Put_Stop_and_Brake(int, int);
-int ResetFadeColor(void);
-int ResetLight(void);
-float nlFastSin(int);
-float nlFraction(float);
-int nlObjPut(int);
-int nlObjPutSetFadeColor(float, float, float);
-int nlObjPutSetLightDirectionV(int);
-int nlObjPutTrnsl(int, float);
+int FcvPlayBuffer(int, int);
+int drvJolt(void);
+int nlCalcVector(int, int);
+int nlGetPushedMatrix(int);
+int nlGetTranslate(int);
+int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
+int nlRotateAX(int);
 int nlRotateAY(int);
-float nlRoundUp(float);
-int nlScale(float, float, float);
-int nlSetScaleFactor(float);
+float nlScalor(int);
+extern int nlSubVector3op();
 int nlTranslate(float, float, float);
-int kyakuTaskPut(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int nlTranslateV(int);
+int Drv_Put(float f4, float f5, float f6);
 
-int kyakuTaskPut(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+int Drv_Put(float f4, float f5, float f6)
 {
     int t0;
-    int t44;
-    float t54;
-    float u58;
-    float u62;
-    float u66;
-    float u70;
-    float t72;
-    int stk[19];
+    int t2;
+    int t5;
+    int t7;
+    int t13;
+    int t16;
+    int t17;
+    float u28;
+    int t29;
+    int t41;
+    int t33;
+    int t36;
+    int t34;
+    float u48;
+    float u59;
+    int t3;
+    int stk[50];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    L_C026456:;
-    *(unsigned short *)(((int)stk + 4)) = R4;
-    t0 = *(int *)0xC2A4E50;
-    R0 = (t0);
-    R13 = (R5);
-    F14 = (F4);
-    if ((t0 != 1)) goto L_C02647E;
-    goto L_C02647A;
-    L_C02647A:;
-    goto L_C026710;
-    L_C026710:;
-    return R0;
-    L_C02647E:;
-    if (((*(int *)0xC1EE234) != 0)) goto L_C026492;
-    goto L_C026486;
-    L_C026486:;
-    R0 = (0xC179860);
-    if (((*(int *)0xC179860) == 0)) goto L_C026492;
-    goto L_C02648E;
-    L_C02648E:;
-    goto L_C026710;
-    L_C026492:;
-    R10 = (0xC0E49E4);
-    R12 = (0xC0E49EC);
-    R5 = (0xC0E49E8);
-    if (((*(int *)0xC0E49E8) == R13)) goto L_C0264A4;
-    goto L_C02649E;
-    L_C02649E:;
-    *(unsigned int *)((R12 + 0x0)) = 0x0;
-    *(unsigned short *)((R10 + 0x0)) = 0x0;
-    R4 = (0x0);
-    goto L_C0264A4;
-    L_C0264A4:;
-    *(unsigned int *)((R5 + 0x0)) = R13;
-    R11 = (0xC0E49A0);
-    F12 = (1800.0f);
-    F13 = (0.0f);
-    if ((1800.0f > F14)) goto L_C0264C4;
-    goto L_C0264B2;
-    L_C0264B2:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)((R11 + 0x30)); }
-    F15 = (1.0f);
-    goto L_C0265E2;
-    L_C0265E2:;
-    nlObjPutSetFadeColor((*(float *)(((int)stk + 24))), (*(float *)(((int)stk + 28))), (*(float *)(((int)stk + 32))));
-    *(unsigned int *)(((int)stk + 8)) = (ExecArrow(R13, F14));
-    if ((R13 != 0)) goto L_C0266DE;
-    goto L_C026600;
-    L_C026600:;
-    nlPushMatrix(0x0);
-    nlTranslate(F13, 0.199999988f, -0.699999988f);
-    nlRotateAY((((-(unsigned short)(*(short *)0xC17985A)) + (unsigned short)(*(short *)(((int)stk + 4)))) - 32768));
-    *(float *)(((int)stk + 24)) = -0.149999991f;
-    *(float *)(((int)stk + 28)) = -0.399999976f;
-    *(float *)(((int)stk + 32)) = 0.5f;
-    nlObjPutSetLightDirectionV((((int)stk + 4) + 0x14));
-    nlScale(F15, F15, F15);
-    nlSetScaleFactor(F15);
-    F14 = (0.5f);
-    if (((*(int *)(((int)stk + 8))) == 0)) goto L_C0266CC;
-    goto L_C026660;
-    L_C026660:;
-    nlObjPutTrnsl(0xC46BAB8, F14);
-    goto L_C0266D4;
-    L_C0266D4:;
-    nlPopMatrix(0x1);
-    goto L_C026704;
-    L_C026704:;
-    ResetFadeColor();
-    R0 = ((ResetLight()));
-    goto L_C026710;
-    L_C0266CC:;
-    nlObjPut(0xC46BAB8);
-    goto L_C0266D4;
-    L_C0266DE:;
-    t44 = *(int *)((R12 + 0x0));
-    R4 = (t44);
-    if (((int)(0x1F & t44) >= (int)0x1B)) goto L_C0266FE;
-    goto L_C0266EA;
-    L_C0266EA:;
-    Put_Stop_and_Brake(((((int)(R4 & 0x7F) >= (int)0x3F)) ? 1 : 0), (*(int *)0xC1EE244));
-    goto L_C0266FE;
-    L_C0266FE:;
-    *(unsigned int *)((R12 + 0x0)) = ((*(int *)((R12 + 0x0))) + 0x1);
-    goto L_C026704;
-    L_C0264C4:;
-    R14 = ((((int)stk + 4) + 0x8));
-    F15 = ((((F14 + -200.0f) / 1600.0f) * 4.0f));
-    if ((!(0.0f > (((F14 + -200.0f) / 1600.0f) * 4.0f)))) goto L_C02653C;
-    goto L_C0264E4;
-    L_C0264E4:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R14) = *(struct mv3 *)(R11); }
-    F15 = (F13);
-    goto L_C02655A;
-    L_C02655A:;
-    t54 = nlFraction(F15);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)(((signed char)((((int)F15 << 1) + (int)F15) << 2) + 0xC0E49A0)); }
-    u58 = (*(float *)(((int)stk + 24)));
-    u58 = u58 + t54 * ((*(float *)((R14 + 0x0))) - (*(float *)(((int)stk + 24))));
-    *(float *)(((int)stk + 24)) = u58;
-    u62 = (*(float *)(((int)stk + 28)));
-    u62 = u62 + t54 * ((*(float *)((R14 + 0x4))) - (*(float *)(((int)stk + 28))));
-    *(float *)(((int)stk + 28)) = u62;
-    u66 = (*(float *)(((int)stk + 32)));
-    u66 = u66 + t54 * ((*(float *)((R14 + 0x8))) - (*(float *)(((int)stk + 32))));
-    *(float *)(((int)stk + 32)) = u66;
-    *(unsigned short *)((R10 + 0x0)) = ((*(short *)((R10 + 0x0))) + ((int)(F12 - F14) + 0x120));
-    u70 = 1.19999993f;
-    u70 = u70 + 0.269999981f * (nlFastSin((unsigned short)(*(short *)((R10 + 0x0)))));
-    F15 = (u70);
-    goto L_C0265E2;
-    L_C02653C:;
-    t72 = nlRoundUp(F15);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R14) = *(struct mv3 *)(((signed char)((((int)t72 << 1) + (int)t72) << 2) + R11)); }
-    goto L_C02655A;
+    t0 = 0xC0D51E8;
+    t2 = (((int)stk + 4) + 0x14);
+    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D51E8 + 144)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD240) = *(struct mv3 *)(0xC2AD234); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD234) = *(struct mv3 *)(0xC2AD228); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD228) = *(struct mv3 *)(0xC2AD21C); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD21C) = *(struct mv3 *)(0xC2AD210); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD210) = *(struct mv3 *)(0xC2AD204); }
+    *(unsigned int *)(((int)stk + 8)) = 0xC1790CC;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD204) = *(struct mv3 *)(0xC179144); }
+    *(unsigned int *)(((int)stk + 4)) = 0xC2AD270;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD27C) = *(struct mv3 *)(0xC2AD270); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((*(int *)(((int)stk + 4)))) = *(struct mv3 *)(0xC2AD264); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD264) = *(struct mv3 *)(0xC2AD258); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD258) = *(struct mv3 *)(0xC2AD24C); }
+    t5 = ((int (*)(int, int, int, float, float, float))(nlSubVector3op))(0xC2AD24C, 0xC2AD204, 0xC2AD210, f4, f5, f6);
+    *(float *)0xC2AD2B8 = (nlScalor(0xC2AD24C));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2AC) = *(struct mv3 *)(0xC2AD2A0); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2A0) = *(struct mv3 *)(0xC2AD294); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD294) = *(struct mv3 *)(0xC2AD288); }
+    t7 = ((int (*)(int, int, int))(nlSubVector3op))(0xC2AD288, 0xC2AD24C, 0xC2AD258);
+    nlPushMatrix(((*(int *)(((int)stk + 8))) + 0xB4));
+    nlCalcVector(0xC0D553C, 0xC2AD1E0);
+    nlCalcVector(0xC0D5548, 0xC2AD1EC);
+    nlCalcVector(0xC0D5554, 0xC2AD1F8);
+    t13 = *(signed char *)0xC179488;
+    nlTranslateV(((unsigned char)(((t13 << 1) + t13) << 2) + (((int)stk + 4) + 0x14)));
+    nlRotateAY(0x8000);
+    t16 = *(int *)0xC2AD010;
+    t17 = *(int *)0xC2AD000;
+    if ((t16 != 2) && (t16 != 4)) {
+        if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+            FcvPlayBuffer(0xC2AD028, t17);
+        } else {
+            drvJolt();
+        }
+    } else {
+        FcvPlayBuffer(0xC2AD028, t17);
+    }
+    nlGetTranslate(0xC2AD004);
+    if (((*(signed char *)0xC2AD1DF) & 1) != 0) {
+        nlTranslate(0.0f, 3.5f, -3.25999999f);
+        u28 = *(float *)0xC2AD024;
+        t29 = *(int *)0xC2AD020;
+        t41 = ((-(int)((u28 * 65535.0f) / 60.0f)) + 0x8000);
+        if ((t29 != 0xC136BE4) && ((t29 != 0xC138BF8) && (t29 != 0xC13A3BC))) {
+            t33 = *(int *)0xC2AD020;
+            t36 = (0xFFFF8000 + (int)((u28 * 65535.0f) / 60.0f));
+            if (t33 == 0xC13BB20) {
+            } else {
+                t34 = 0xC2AD258;
+                if (t33 == 0xC13D404) {
+                    t34 = 0x8000;
+                }
+                t36 = t34;
+            }
+            t41 = t36;
+        }
+        nlRotateAX(t41);
+        nlObjPutUseViewMatrix(0xC3BFFE0);
+        nlPushMatrix(0x0);
+        u48 = *(float *)0xC0641C0;
+        nlTranslate(u48, u48, 0.0f);
+        if ((*(int *)0xC2AD020) != 0xC135150) {
+            nlRotateAX(((*(int *)0xC2AD0D0) - t41));
+        }
+        nlObjPutUseViewMatrix(0xC3C05A8);
+        nlGetPushedMatrix(0x0);
+        u59 = *(float *)0xC0641D0;
+        nlTranslate(u59, u59, 0.0f);
+        if ((*(int *)0xC2AD020) != 0xC135150) {
+            nlRotateAX(((*(int *)0xC2AD0E8) - t41));
+        }
+        nlObjPutUseViewMatrix(0xC3C07C8);
+        nlPopMatrix(0x1);
+    }
+    return (nlPopMatrix(0x1));
 }

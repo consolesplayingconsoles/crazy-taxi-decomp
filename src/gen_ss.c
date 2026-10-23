@@ -1,65 +1,67 @@
 /* Straight-line functions with calls and guards (batch gen_ss): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Result_Money_Digit_Put(void);
-int Sound_Request(int, int);
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int);
-int Result_Money_Put(void);
+int nlGetAverageVector(int, int, int, float, float);
+extern float nlInnerProduct();
+int nlSubVector3op(int, int, int, float, float, float);
+int nlUnitVector(int);
+int colliSphereSphere(int a4, int a5, float f4, float f5, float f6);
 
-int Result_Money_Put(void)
+int colliSphereSphere(int a4, int a5, float f4, float f5, float f6)
 {
-    int t1;
+    float u0;
     int t10;
-    int t24;
-    int t25;
+    int t17;
+    float u25;
+    float u26;
+    float u28;
+    float t46;
+    float t47;
+    float u50;
+    float u51;
+    int t64;
+    int t66;
+    int stk[16];
 
-    nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    t1 = *(int *)0xC2A96F4;
-    if ((int)t1 <= (int)0x58) {
+    u0 = *(float *)0xC26ECE0;
+    if (u0 == 0.0f) {
+        *(float *)((a4 + 0x0)) = ((*(float *)((a4 + 0x0))) + (*(float *)((((short)((short)(*(int *)0xC26ECD8) * (short)0x1C) + 0xC0ED440) + 0x4))));
+        *(float *)((a5 + 0x0)) = ((*(float *)((a5 + 0x0))) - (*(float *)((((short)((short)(*(int *)0xC26ECDC) * (short)0x1C) + 0xC0ED440) + 0x4))));
     } else {
-        if (t1 == 89) {
-            Sound_Request(0x104A9, 0x0);
-            *(unsigned int *)0xC130DF8 = ((*(int *)0xC130DF8) + 0x1);
-        }
-        if (((*(int *)0xC2A9848) == 1) && (t10 = *(int *)0xC2A9858, t10 == 0)) {
-            Sound_Request(0x204A9, 0x0);
-            *(unsigned int *)0xC130DFC = ((*(int *)0xC130DFC) + 0x1);
-            *(unsigned int *)0xC2A9858 = 0x1;
-        }
-        *(unsigned int *)0xC2A96F8 = 0xFB;
-        *(unsigned int *)0xC2A972C = 0x200A;
-        *(float *)0xC2A96FC = 80.0f;
-        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0xD8);
-        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        *(unsigned int *)0xC2A9720 = 0x0;
-        nlSprPut(0xC2A96F8);
-        Result_Money_Digit_Put();
-        *(unsigned int *)0xC2A972C = 0x200A;
-        if (((*(int *)0xC2A97C8) == 0) && ((t24 = *(int *)0xC2A97C4, t24 == 0) && (t25 = *(int *)0xC2A97C0, t25 == 0))) {
+        if (!((*(float *)0xC26ECE8) > u0)) {
+            if ((*(float *)0xC26ECEC) > u0) {
+                t10 = *(int *)0xC26ECDC;
+                *(unsigned int *)((a4 + 0x24)) = ((*(int *)((a4 + 0x24))) | (((int)t10 >= 0) ? (0x1 << (t10 & 31)) : ((-(int)t10 & 31) ? ((int)0x1 >> (-(int)t10 & 31)) : ((int)0x1 >> 31))));
+            }
+            if ((*(float *)0xC26ECF0) > (*(float *)0xC26ECE0)) {
+                t17 = *(int *)0xC26ECD8;
+                *(unsigned int *)((a5 + 0x24)) = ((*(int *)((a5 + 0x24))) | (((int)t17 >= 0) ? (0x1 << (t17 & 31)) : ((-(int)t17 & 31) ? ((int)0x1 >> (-(int)t17 & 31)) : ((int)0x1 >> 31))));
+            }
         } else {
-            *(unsigned int *)0xC2A96F8 = 0xFA;
-            *(float *)0xC2A96FC = 214.0f;
-            *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0xEA);
-            *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-            *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-            *(float *)0xC2A9714 = 0.0f;
-            *(float *)0xC2A971C = 1.0f;
-            *(unsigned int *)0xC2A9720 = 0x0;
-            nlSprPut(0xC2A96F8);
+            nlSubVector3op(((int)stk + 4), a5, a4, u0, f5, f6);
+            nlUnitVector(((int)stk + 4));
+            u25 = *(float *)0xC26ECE0;
+            u26 = *(float *)0xC26ECE8;
+            u28 = *(float *)0xC26ECF4;
+            *(float *)((a4 + 0x0)) = ((*(float *)((a4 + 0x0))) - ((*(float *)(((int)stk + 4))) * ((u28 * (u26 - u25)))));
+            *(float *)((a4 + 0x4)) = ((*(float *)((a4 + 0x4))) - ((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * ((u28 * (u26 - u25)))));
+            *(float *)((a4 + 0x8)) = ((*(float *)((a4 + 0x8))) - ((*(float *)(((((int)stk + 4) + 0x8) + 0x0))) * ((u28 * (u26 - u25)))));
+            *(float *)((a5 + 0x0)) = ((*(float *)((a5 + 0x0))) - ((*(float *)(((int)stk + 4))) * (((u28 * (u26 - u25)) - (u26 - u25)))));
+            *(float *)((a5 + 0x4)) = ((*(float *)((a5 + 0x4))) - ((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * (((u28 * (u26 - u25)) - (u26 - u25)))));
+            *(float *)((a5 + 0x8)) = ((*(float *)((a5 + 0x8))) - ((*(float *)(((((int)stk + 4) + 0x8) + 0x0))) * (((u28 * (u26 - u25)) - (u26 - u25)))));
+            t46 = ((float (*)(int, int, float, float))(nlInnerProduct))(((int)stk + 4), (a4 + 0xC), ((u28 * (u26 - u25)) - (u26 - u25)), (u26 - u25));
+            t47 = ((float (*)(int, int))(nlInnerProduct))(((int)stk + 4), (a5 + 0xC));
+            if ((t46 - t47) > 0.0f) {
+                u50 = *(float *)((((short)((short)(*(int *)0xC26ECD8) * (short)0x1C) + 0xC0ED440) + 0xC));
+                u51 = *(float *)((((short)((short)(*(int *)0xC26ECDC) * (short)0x1C) + 0xC0ED440) + 0xC));
+                nlGetAverageVector((a4 + 0xC), ((int)stk + 4), (a4 + 0xC), 1.0f, (-((*(float *)0xC26ECF4) * (((t46 - t47) * (u50 + u51))))));
+                nlGetAverageVector((a5 + 0xC), ((int)stk + 4), (a5 + 0xC), 1.0f, ((1.0f - (*(float *)0xC26ECF4)) * (((t46 - t47) * (u50 + u51)))));
+            }
+            t64 = *(int *)0xC26ECDC;
+            *(unsigned int *)((a4 + 0x20)) = ((*(int *)((a4 + 0x20))) | (((int)t64 >= 0) ? (0x1 << (t64 & 31)) : ((-(int)t64 & 31) ? ((int)0x1 >> (-(int)t64 & 31)) : ((int)0x1 >> 31))));
+            t66 = *(int *)0xC26ECD8;
+            *(unsigned int *)((a5 + 0x20)) = ((*(int *)((a5 + 0x20))) | (((int)t66 >= 0) ? (0x1 << (t66 & 31)) : ((-(int)t66 & 31) ? ((int)0x1 >> (-(int)t66 & 31)) : ((int)0x1 >> 31))));
         }
-        *(unsigned int *)0xC2A96F8 = 0xFC;
-        *(float *)0xC2A96FC = 332.0f;
-        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0xEA);
-        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        nlSprPut(0xC2A96F8);
-        *(unsigned int *)0xC2A9788 = ((*(int *)0xC2A9788) + 0x1);
     }
-    return nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+    return 0x1;
 }

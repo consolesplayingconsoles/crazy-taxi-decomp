@@ -347,31 +347,6 @@ int gameState10(void)
     return gdc_StopStreamSongAll();
 }
 
-int gdc_StreamInit(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-
-    t0 = ADXT_Create(0x1, 0xC1EE824, 0x10884);
-    *(unsigned int *)0xC1EE810 = t0;
-    t1 = ADXT_Create(0x1, 0xC1FF0A8, 0x10884);
-    *(unsigned int *)0xC1EE814 = t1;
-    t2 = ADXT_Create(0x1, 0xC20F92C, 0x10884);
-    *(unsigned int *)0xC1EE818 = t2;
-    t3 = ADXT_Create(0x1, 0xC2201B0, 0x10884);
-    *(unsigned int *)0xC1EE81C = t3;
-    t4 = ADXT_Create(0x2, 0xC230A34, 0x390C4);
-    *(unsigned int *)0xC1EE820 = t4;
-    ADXT_SetReloadSct(t4, 0x19);
-    t6 = *(int *)0xC1EE820;
-    ADXT_SetAutoRcvr(t6, 0x2);
-    gdc_SetStreamAFS();
-    return gdc_InitStreamSongDisk();
-}
 
 int SetLightAmbience(float f4)
 {
@@ -388,15 +363,6 @@ int ResetLight(void)
     return nlObjPutSetGlobalAmbience(u1);
 }
 
-int GetRotVec4Ang(int a4, int a5, int a6, int a7)
-{
-    nlPushUnitMatrix();
-    nlRotateAY(a6);
-    nlRotateAX(a5);
-    nlRotateAZ(a7);
-    GetRotVec(a4);
-    return nlPopMatrix(0x1);
-}
 
 int CfgInit(void)
 {
@@ -405,38 +371,7 @@ int CfgInit(void)
 
 
 
-int callPause(void)
-{
-    int t0;
-    int t1;
 
-    t0 = *(int *)0xC1EE234;
-    *(unsigned int *)0xC2A1228 = t0;
-    t1 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC2A122C = t1;
-    Voice_Clear();
-    gdc_StopStreamVoiceAll();
-    Sound_Init();
-    return SetWindow(0x1);
-}
-
-int callTryAgain(void)
-{
-    int t0;
-    int t1;
-
-    t0 = *(int *)0xC1EE234;
-    *(unsigned int *)0xC2A1228 = t0;
-    t1 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC2A122C = t1;
-    Voice_Clear();
-    gdc_StopStreamVoiceAll();
-    gdc_StopStreamSongAll();
-    Sound_Init();
-    SetWindow(0x2);
-    *(unsigned int *)0xC0EF550 = 0x275;
-    return Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
-}
 
 int SetSEvolume(void)
 {
@@ -465,11 +400,6 @@ int GotoMenu(void)
 }
 
 
-int selectDrawBar(void)
-{
-    *(unsigned int *)0xC2A7398 = 0x0;
-    return nlSprPut(0xC2A7370);
-}
 
 int selectPutHelpBar(void)
 {
@@ -519,90 +449,16 @@ int Start_TimeUp(void)
     return ((t3 & 0xFBFFFFFF) | 0x10000000);
 }
 
-int Put_Default_Sprite(void)
-{
-    int t0;
-    int t1;
-
-    t0 = *(int *)0xC1EE210;
-    if (t0 != 2) {
-        t1 = GetMenuMode(0x1);
-        if (t1 != 0) {
-            Put_Remain_Time_Mode2();
-        } else {
-            Put_Remain_Time();
-        }
-        Put_TotalDrum_Update();
-    } else {
-        Put_Remain_Time_Mode2();
-    }
-    return Put_GearBox();
-}
 
 
-int Put_Press_Start(void)
-{
-    float u3;
-    float u4;
 
-    pfSetFont(0x1);
-    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-    pfSize(1.0f, 1.0f);
-    u3 = 378.0f;
-    u4 = *(float *)0xC2A96D0;
-    pfLocate(u4, u3);
-    return pfPuts(0xC0D0A40);
-}
-
-int Init_RS_Fog(void)
-{
-    *(float *)0xC130E14 = 0.0f;
-    return Result_SetFog();
-}
 
 int thunk_FUN_0c0409d2(void)
 {
     return callTryAgain();
 }
 
-int Put_PoleMarriageKiss(void)
-{
-    float u2;
-    float u3;
-    int t5;
-    int t7;
-    int t9;
-    int t10;
-    int t12;
-    int t11;
 
-    nlPushMatrix(0x0);
-    nlTranslateV(0xC13197C);
-    u2 = 26.0f;
-    u3 = -3.0f;
-    nlTranslate(u3, 0.0f, u2);
-    t5 = *(short *)0xC2A9A64;
-    nlRotateAY(((unsigned short)t5 + 0x8000));
-    t7 = *(int *)0xC2A9B90;
-    FcvPlay(0xC9C6C40, 0x21, (float)t7);
-    t9 = nlPopMatrix(0x1);
-    t10 = *(int *)0xC2A9B90;
-    t12 = t9;
-    if ((int)t10 < (int)0x40) {
-        t11 = *(int *)0xC2A9B90;
-        *(unsigned int *)0xC2A9B90 = (t11 + 0x1);
-        t12 = (t11 + 0x1);
-    }
-    return t12;
-}
-
-int pfTextPut(int a4, int a5, int a6)
-{
-    pfCleanString();
-    pfLength(a6);
-    pfLocate((float)a4, (float)a5);
-    return pfPuts(a6);
-}
 
 int RinAqua_Init(void)
 {
@@ -610,50 +466,9 @@ int RinAqua_Init(void)
     return KeepYourBreath();
 }
 
-int RinAqua_Execute(void)
-{
-    float u1;
 
-    AreYouBreathing();
-    u1 = -1240.0f;
-    ShallWeHaveSomeRelaxation(u1);
-    return BigOneSwims();
-}
 
-int camRestore(void)
-{
-    int t0;
-    int t4;
-    int t5;
-    int t6;
 
-    t0 = *(int *)0xC2AD550;
-    camSetMode(t0);
-    camSetEye(0xC2AD554, 0x0);
-    camSetTarget(0xC2AD560, 0x0);
-    t4 = *(short *)0xC2AD570;
-    t5 = *(short *)0xC2AD56C;
-    t6 = *(short *)0xC2AD56E;
-    return camSetAngles((unsigned short)t5, (unsigned short)t6, (unsigned short)t4, 0x0);
-}
-
-int drvAccelDot(void)
-{
-    return nlInnerProduct(0xC2AD288, 0xC2AD1F8);
-}
-
-int psgPutShadow(int a4)
-{
-    int t1;
-
-    nlTranslateV((a4 + 0x4));
-    t1 = *(int *)((a4 + 0x10));
-    nlRotateAY((t1 + 0x8000));
-    nlPushMatrix(0x0);
-    CalcShadow2Matrix((a4 + 0x14));
-    nlObjPutUseViewMatrix(0xC5AA038);
-    return nlPopMatrix(0x1);
-}
 
 int LoadBigOne(int a4)
 {

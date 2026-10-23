@@ -1,69 +1,76 @@
 /* Straight-line functions with calls and guards (batch gen_uv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Chat_DamnIt(int);
-float nlInnerProduct(int, int);
-float nlLength(int, int);
-int nlRand(void);
-int nlSubVector3op(int, int, int);
-int nlUnitVector(int);
-int psgEnterState6(int a4, int a5);
+int nd_SprPut(int, int, float, float);
+int nlCalcPoint(int, int);
+int nlObjPut(int);
+int nlObjPutCheapEnvMap(int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAZ(int);
+int nlSetBackColor(int, int, int);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int Put_SEGA_LOGO2(void);
 
-int psgEnterState6(int a4, int a5)
+int Put_SEGA_LOGO2(void)
 {
-    int t3;
-    int t4;
-    int t25;
-    int t43;
-    int stk[27];
+    int t9;
+    int t50;
+    int t51;
+    int t52;
+    int t17;
+    int stk[42];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    { struct mv4 { int w[4]; }; *(struct mv4 *)((((int)stk + 4) + 0x48)) = *(struct mv4 *)(0xC0D5F28); }
-    { struct mv4 { int w[4]; }; *(struct mv4 *)((((int)stk + 4) + 0x38)) = *(struct mv4 *)(0xC0D5F38); }
-    { struct mv4 { int w[4]; }; *(struct mv4 *)((((int)stk + 4) + 0x28)) = *(struct mv4 *)(0xC0D5F48); }
-    *(unsigned int *)(((int)stk + 40)) = (*(int *)0xC0D5F58);
-    *(unsigned int *)(((int)stk + 36)) = (*(int *)0xC0D5F5C);
-    *(unsigned int *)(((int)stk + 32)) = (*(int *)0xC0D5F60);
-    t3 = nlRand();
-    t4 = *(int *)(((int)stk + 4));
-    if (t4 != 0) {
-        
-        t43 = t4;
+    nlPushMatrix(0x0);
+    nlTranslate(0.0f, 0.0f, -50.0f);
+    if ((int)(*(int *)0xC2A93F4) >= (int)0x78) {
+        nlObjPut(0xC464170);
+        *(unsigned int *)0xC2A9300 = 0x200A;
+        nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
+        nd_SprPut(0xC2A92CC, 0xED, (*(float *)0xC058FB4), (*(float *)0xC058FB0));
+        nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+        t50 = 0xFFFFFFFF;
+        t51 = 0xFFFFFFFF;
+        t52 = 0xFFFFFFFF;
     } else {
-        nlSubVector3op((((int)stk + 4) + 0x10), (a4 + 0x4), 0xC179144);
-        *(float *)(((int)stk + 24)) = 0.0f;
-        nlUnitVector((((int)stk + 4) + 0x10));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(0xC2AD1E0); }
-        *(float *)(((int)stk + 12)) = 0.0f;
-        nlUnitVector((((int)stk + 4) + 0x4));
-        if ((nlInnerProduct((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4))) > 0.0f) {
-            *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) & 0xFB);
-        } else {
-            *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x4);
-        }
-        if (75.0f > (nlLength(0xC179144, (a4 + 0x4)))) {
-            if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                *(unsigned int *)((a4 + 0x110)) = (*(int *)(((int)stk + 40)));
-            } else {
-                *(unsigned int *)((a4 + 0x110)) = (*(int *)(((int)stk + 36)));
+        t9 = 0x0;
+        for (;;) {
+            nlPushUnitMatrix();
+            nlRotateAZ((t9 * 0x1999));
+            *(unsigned int *)(((int)stk + 4)) = (signed char)(((t9 << 1) + t9) << 2);
+            nlCalcPoint(0xC2A93F8, ((signed char)(((t9 << 1) + t9) << 2) + (((int)stk + 4) + 0x4)));
+            nlPopMatrix(0x1);
+            if ((*(float *)0xC2A93FC) > 0.0f) {
+                if (((int)t9 >= (int)0x3) && ((int)t9 <= (int)0x7)) {
+                    t17 = ((*(short *)((((unsigned char)(((t9 << 2) + t9) << 2) + 0xC2A932C) + 0xC))) + 0x222);
+                } else {
+                    t17 = ((*(short *)((((unsigned char)(((t9 << 2) + t9) << 2) + 0xC2A932C) + 0xC))) - 0x222);
+                }
+                *(unsigned short *)((((unsigned char)(((t9 << 2) + t9) << 2) + 0xC2A932C) + 0xC)) = t17;
             }
-            *(float *)((a4 + 0x114)) = (*(float *)(((int)stk + 32)));
-        } else {
-            t25 = (int)((unsigned int)t3 % (unsigned int)0x4);
-            if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                *(unsigned int *)(((0x110 + a4) + 0x0)) = (*(int *)((((((int)stk + 4) + 0x48) + (t25 << 2)) + 0x0)));
-            } else {
-                *(unsigned int *)(((0x110 + a4) + 0x0)) = (*(int *)((((((int)stk + 4) + 0x38) + (t25 << 2)) + 0x0)));
+            nlPushMatrix(0x0);
+            nlTranslateV(((*(int *)(((int)stk + 4))) + (((int)stk + 4) + 0x4)));
+            nlRotateAX((unsigned short)(*(short *)((((unsigned char)(((t9 << 2) + t9) << 2) + 0xC2A932C) + 0xC))));
+            nlObjPutCheapEnvMap((*(int *)((((t9 << 2) + 0xC130D58) + 0x0))));
+            nlObjPut((*(int *)((((t9 << 2) + 0xC130D58) + 0x0))));
+            nlPopMatrix(0x1);
+            t9 = (t9 + 0x1);
+            if ((int)t9 >= (int)0xA) {
+                break;
             }
-            *(float *)(((0x114 + a4) + 0x0)) = (*(float *)((((t25 << 2) + (((int)stk + 4) + 0x28)) + 0x0)));
         }
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x80);
-        *(float *)((a4 + 0x108)) = 0.0f;
-        *(float *)((a4 + 0x10C)) = 10.0f;
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = (((*(signed char *)(((0x149 + a4) + 0x0))) & 0xF9) | 0x4);
-        *(unsigned int *)((a4 + 0x124)) = 0xC0D5720;
-        *(unsigned int *)((a4 + 0x128)) = 0xC0D5728;
-        t43 = (Chat_DamnIt(a4));
+        if ((*(float *)0xC2A93FC) > 0.0f) {
+            *(float *)0xC2A93FC = ((*(float *)0xC2A93FC) - 0.299999982f);
+        }
+        *(unsigned int *)0xC2A93F4 = ((*(int *)0xC2A93F4) + 0x1);
+        t50 = 0xFF000000;
+        t51 = 0xFF000000;
+        t52 = 0xFF000000;
     }
-    return t43;
+    nlSetBackColor(t50, t51, t52);
+    return (nlPopMatrix(0x1));
 }

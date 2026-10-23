@@ -1,36 +1,43 @@
 /* Straight-line functions with calls and guards (batch gen_ahq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuCursor(int, int, int);
-int menuEnterStep(void);
-int menuOpenStep(void);
-int menuPutFrame(void);
-int menuPutHelpBar(int, float, float);
-int padPortAConnected(void);
-int putLevelCTFontAssist(int, int, int, int);
-int putString(int, int, float, float, float);
-int menuControllerHandler(void);
+int buAnalyzeBackupFileImage(int, int);
+int buGetFileInfo(int, int, int);
+int buGetFileSize(int, int);
+int buGetLastError(int);
+int buLoadFile(int, int, int, int);
+int buStat(int);
+int memmove(int, int, int);
+void LoadBackupData(int a4);
 
-int menuControllerHandler(void)
+void LoadBackupData(int a4)
 {
-    int t2;
-    int t8;
-    int t11;
+    int t0;
+    int t7;
+    int t9;
+    int t10;
+    int stk[34];
 
-    menuOpenStep();
-    t2 = 0x0;
-    if ((padPortAConnected()) == 0) {
-        t2 = 0x1;
+    t0 = buGetFileSize(a4, 0xC09DB4C);
+    if (t0 != 23) {
+    } else {
+        if ((buLoadFile(a4, 0xC09DB4C, 0xC28CAA0, t0)) == 0) {
+            for (;;) {
+                if ((buStat(a4)) != -1) {
+                    break;
+                }
+            }
+            if ((buGetLastError(a4)) == 0) {
+                if ((buAnalyzeBackupFileImage((((int)stk + 4) + 0x14), 0xC28CAA0)) == 0) {
+                    memmove(0xC28F8A0, (*(int *)(((int)stk + 112))), 0x25B0);
+                    t7 = 0xC28F8A0;
+                    t9 = 0xC28A4E8;
+                    for (;;) { t10 = *(int *)t7; t7 = (t7 + 4); if ((unsigned int)((0xC28F8A0 + 9648)) < (unsigned int)t7) break; *(unsigned int *)t9 = t10; t9 = (t9 + 4); }
+                    if ((buGetFileInfo(a4, 0xC09DB4C, ((int)stk + 4))) == 0) {
+                        memmove(0xC28CA98, (((int)stk + 4) + 0xA), 0x8);
+                    }
+                }
+            }
+        }
     }
-    menuCursor(0x0, 0x2, t2);
-    menuPutFrame();
-    putString(0x20013, 0xC0A211C, (float)((*(int *)0xC2A1AD8) + 0x20), 36.0f, 1.51999998f);
-    t8 = *(int *)0xC2A1AD8;
-    t11 = 0x0;
-    if ((*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) == 0) {
-        t11 = 0x2;
-    }
-    menuPutHelpBar(t11, (float)(-t8), 416.0f);
-    putLevelCTFontAssist(0x217, 0xC09F0A8, 0x2, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))));
-    return menuEnterStep();
 }

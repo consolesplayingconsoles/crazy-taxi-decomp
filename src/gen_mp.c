@@ -1,46 +1,64 @@
 /* Straight-line functions with calls and guards (batch gen_mp): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Put2DObjUp(int, float, float);
-int ResetFadeColor(void);
-int nlAddVector(int, int);
-int nlCloseEvent(int);
-int nlObjPutSetFadeColorBase(float, float, float);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlScaleVector(int, int, float);
-int nlTranslateV(int);
-int ExecEffectSpray(int a4);
+int SetWindow(int, int, int, int);
+int Voice_Request(int, int, int, int);
+int Voice_ShutUp(int);
+void AnnounceSecretFlag(int a4, int a5, int a6, int a7);
 
-int ExecEffectSpray(int a4)
+void AnnounceSecretFlag(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    float u1;
-    float u7;
-    int t11;
+    int t1;
+    int t4;
+    int t6;
+    int t7;
+    int t8;
+    int t5;
+    int t17;
+    int t18;
 
-    t0 = *(int *)((a4 + 0x30));
-    u1 = 10.0f;
-    *(float *)0xC462ABC = ((float)t0 / u1);
-    if (((float)t0 / u1) > 1.0f) {
-        *(float *)0xC462ABC = 1.0f;
+    if (a4 == 0) {
+        *(unsigned int *)0xC2A1234 = 0x0;
+    } else {
+        t1 = *(int *)0xC2A1234;
+        if ((t1 & 1) != 0) {
+            SetWindow(0x10, 0x0, a6, a7);
+            *(unsigned int *)0xC2A1234 = ((*(int *)0xC2A1234) & 0xFFFFFFFE);
+        } else {
+            t4 = t1;
+            t6 = a4;
+            t7 = 0x0;
+            t8 = 0x0;
+            for (;;) {
+                if (((*(int *)0xC2A1234) & (((int)t8 >= 0) ? (0x2 << (t8 & 31)) : ((-(int)t8 & 31) ? ((int)0x2 >> (-(int)t8 & 31)) : ((int)0x2 >> 31)))) != 0) {
+                    t6 = 0x0;
+                    t4 = (Voice_ShutUp(t6));
+                    t4 = 0xC0A2154;
+                    t5 = t8;
+                    t5 = (t5 << 2);
+                    t7 = 0x0;
+                    *(unsigned int *)0xC0EF550 = (*(int *)((t5 + t4)));
+                    t6 = 0xC0EF550;
+                    t4 = (Voice_Request(t6, t7, 0x7F, 0x0));
+                    *(unsigned int *)0xC2A1234 = ((*(int *)0xC2A1234) & (~(((int)t8 >= 0) ? (0x2 << (t8 & 31)) : ((-(int)t8 & 31) ? ((int)0x2 >> (-(int)t8 & 31)) : ((int)0x2 >> 31)))));
+                } else {
+                    t17 = t6;
+                    t18 = t7;
+                }
+                t5 = 0x4;
+                t6 = t17;
+                t7 = t18;
+                t8 = (t8 + 0x1);
+                if ((int)t8 >= (int)t5) {
+                    break;
+                }
+            }
+            if (((*(int *)0xC2A1234) & 32) != 0) {
+                Voice_ShutUp(0x0);
+                *(unsigned int *)0xC0EF550 = 0xA1;
+                Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
+                *(unsigned int *)0xC2A1234 = ((*(int *)0xC2A1234) & 0xFFFFFFDF);
+            }
+        }
     }
-    nlPushUnitMatrix();
-    nlTranslateV((a4 + 0x14));
-    nlObjPutSetFadeColorBase(1.0f, 1.0f, 1.0f);
-    *(volatile float *)0xC036A70;
-    u7 = *(float *)((a4 + 0x2C));
-    Put2DObjUp(0xC462A78, u7, u7);
-    ResetFadeColor();
-    nlPopMatrix(0x1);
-    t11 = *(int *)((a4 + 0x30));
-    *(unsigned int *)((a4 + 0x30)) = (t11 - 1);
-    if ((int)(t11 - 1) <= 0) {
-        return nlCloseEvent(a4);
-    }
-    nlAddVector((a4 + 0x14), (a4 + 0x20));
-    nlScaleVector((a4 + 0x20), (a4 + 0x20), (0.95f));
-    *(float *)((a4 + 0x24)) = ((*(float *)((a4 + 0x24))) - 0.166665986f);
-    *(float *)((a4 + 0x2C)) = ((*(float *)((a4 + 0x2C))) + 0.0799999982f);
-    return 0x2C;
 }

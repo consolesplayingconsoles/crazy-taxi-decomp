@@ -1,118 +1,58 @@
 /* Straight-line functions with calls and guards (batch gen_uz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int buCalcBackupFileSize(int, int, int);
-int buGetLastError(void);
-int buMakeBackupFileImage(int, int);
-int buSaveFile(int, int, int, int);
-int buStat(int);
-int memmove(int, int, int);
-int memset(int, int, int);
-int nlFree(int);
-int nlMalloc(int);
-int strcpy(int, int);
-int syRtcGetDate(int);
-int SaveBackupData(int a4, int a5, int a6, int a7);
+int pfColor(int, int, int, int);
+float pfLength(int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFilterMode(int);
+int pfSetFont(int);
+int pfSetZ(float);
+int pfSize(float, float);
+int putString(int a4, int a5, float f4, float f5, float f6);
 
-int SaveBackupData(int a4, int a5, int a6, int a7)
+int putString(int a4, int a5, float f4, float f5, float f6)
 {
-    int t4;
-    int t6;
-    int t10;
-    int t15;
-    int t18;
-    int t33;
-    int t7;
-    int stk[38];
+    float u7;
+    float u41;
+    float u48;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    L_C03ADE4:;
-    memset((((int)stk + 12) + 0x14), 0x0, 0x60);
-    strcpy((((int)stk + 12) + 0x14), 0xC0EEC58);
-    strcpy((((int)stk + 12) + 0x26), 0xC0EEC68);
-    memmove((((int)stk + 12) + 0x48), 0xC0EEC73, 0x10);
-    *(unsigned int *)(((int)stk + 100)) = 0xC0EEC83;
-    *(unsigned int *)(((int)stk + 104)) = 0xC0EECA3;
-    *(unsigned short *)(((int)stk + 108)) = 0x3;
-    *(unsigned short *)(((int)stk + 110)) = 0x2;
-    *(unsigned int *)(((int)stk + 112)) = 0x0;
-    *(unsigned short *)(((int)stk + 116)) = 0x0;
-    t4 = 0xC28A4E8;
-    t6 = 0xC28F8A0;
-    for (;;) { t7 = *(int *)t4; t4 = (t4 + 4); if ((unsigned int)((0xC28A4E8 + 9648)) < (unsigned int)t4) break; *(unsigned int *)t6 = t7; t6 = (t6 + 4); }
-    *(unsigned int *)(((int)stk + 120)) = 0xC28F8A0;
-    *(unsigned int *)(((int)stk + 124)) = 0x25B0;
-    t10 = buCalcBackupFileSize((unsigned short)(*(short *)(((int)stk + 108))), (unsigned short)(*(short *)(((int)stk + 116))), 0x25B0);
-    R11 = (R4);
-    R12 = (0xC081414);
-    R14 = (t10);
-    if ((t10 != 23)) goto L_C03AE9A;
-    goto L_C03AE74;
-    L_C03AE74:;
-    t15 = nlMalloc(((R14 << 8) << 1));
-    R14 = (t15);
-    if ((t15 == 0)) goto L_C03AE9A;
-    goto L_C03AE84;
-    L_C03AE84:;
-    t18 = buMakeBackupFileImage(R14, (((int)stk + 12) + 0x14));
-    R10 = (t18);
-    R13 = (0xC02948C);
-    if (((int)t18 > 0)) goto L_C03AEA0;
-    goto L_C03AE96;
-    L_C03AE96:;
-    nlFree(R14);
-    goto L_C03AE9A;
-    L_C03AE9A:;
-    R0 = (0xFFFF0000);
-    goto L_C03AEFC;
-    L_C03AEFC:;
-    return R0;
-    L_C03AEA0:;
-    syRtcGetDate(((int)stk + 12));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x0)) = (*(signed char *)((((int)stk + 12) + 0x0)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x1)) = (*(signed char *)((((int)stk + 12) + 0x1)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x2)) = (*(signed char *)((((int)stk + 12) + 0x2)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x3)) = (*(signed char *)((((int)stk + 12) + 0x3)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x4)) = (*(signed char *)((((int)stk + 12) + 0x4)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x5)) = (*(signed char *)((((int)stk + 12) + 0x5)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x6)) = (*(signed char *)((((int)stk + 12) + 0x6)));
-    *(unsigned char *)(((((int)stk + 12) + 0xC) + 0x7)) = (*(signed char *)((((int)stk + 12) + 0x7)));
-    t33 = buSaveFile(R11, 0xC09DB4C, R14, R10);
-    R10 = (t33);
-    if ((t33 == 0)) goto L_C03AED8;
-    goto L_C03AED0;
-    L_C03AED0:;
-    nlFree(R14);
-    goto L_C03AEF8;
-    L_C03AEF8:;
-    R0 = (R10);
-    goto L_C03AEFC;
-    L_C03AED8:;
-    R10 = (0xC150B14);
-    goto L_C03AEDA;
-    L_C03AEDA:;
-    if (((buStat(R11)) == -1)) goto L_C03AEDA;
-    goto L_C03AEE2;
-    L_C03AEE2:;
-    memmove(0xC28CA98, (((int)stk + 12) + 0xC), 0x8);
-    nlFree(R14);
-    R10 = ((buGetLastError()));
-    goto L_C03AEF8;
+    if ((*(signed char *)((a5 + 0x0))) != 0) {
+        pfSetFilterMode(0x1);
+        pfSetZ((*(float *)0xC2A1AD4));
+        pfSetFont((0x3 & a4));
+        u7 = f6;
+        if ((0x20000 & a4) != 0) {
+            u7 = (f6 * 1.5f);
+        }
+        pfSize(f6, u7);
+        if ((0x10 & a4) != 0) {
+            pfColor(0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000);
+        } else {
+            if ((0x20 & a4) != 0) {
+                pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+            } else {
+                if ((0x40 & a4) != 0) {
+                    pfColor(0xFFFFC500, 0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
+                } else {
+                    if ((0x80 & a4) != 0) {
+                        pfColor(0xFF707070, 0xFF707070, 0xFF707070, 0xFF707070);
+                    }
+                }
+            }
+        }
+        if ((0x4 & a4) != 0) {
+            u48 = (f4 - ((pfLength(a5)) * (*(float *)0xC03B4C8)));
+        } else {
+            u41 = f4;
+            if ((a4 & 0x8) != 0) {
+                u41 = (f4 - (pfLength(a5)));
+            }
+            u48 = u41;
+        }
+        pfLocate(u48, f5);
+        pfPuts(a5);
+        return pfSetFilterMode(0x0);
+    }
+    return 0x8;
 }

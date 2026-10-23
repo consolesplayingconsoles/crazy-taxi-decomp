@@ -1,97 +1,120 @@
 /* Straight-line functions with calls and guards (batch gen_uu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckKyakuArea(int, int);
-int Drv_StartAction(int, int, int);
-int EndPsg_CrushReact(int);
-int EndPsg_Kill(int);
-int psgFrame(int);
-int psgSetState(int, int, int, int);
-int rinRandomSeed(int);
-void EndPsg_Execute(int a4);
+int CheckRanking(int);
+int GetNowLanguage(int);
+int NextWindow(int);
+int PutVM_Message(int, int, int, float, float);
+int callSaveData(int);
+int memcmp(int, int, int);
+int memmove(int, int, int);
+int windowEnterStep(int);
+int windowOpenStep(int);
+int windowNameSet(void);
 
-void EndPsg_Execute(int a4)
+int windowNameSet(void)
 {
-    int t2;
+    int t22;
     int t24;
-    int t19;
-    int t14;
-    int t28;
-    float u39;
-    float u64;
-    int t65;
-    int t40;
-    int t50;
-    int t81;
-    int t8;
-    float u58;
+    int t25;
+    int t26;
+    int t27;
+    int t29;
+    int t30;
+    int t33;
+    int t34;
+    int t35;
+    int t36;
+    int t37;
+    int t57;
+    int t68;
+    int t61;
+    int t64;
+    int t47;
+    int t48;
+    float u50;
+    int t58;
+    int stk[20];
 
-    if (a4 == 0) {
-        return;
-    }
-    t2 = *(int *)((a4 + 0x174));
-    if (t2 != 0) {
-        t24 = a4;
-        if (t2 == 1) {
-            t19 = a4;
-            if ((*(int *)((a4 + 0x3C))) == 4) {
-                if ((((*(signed char *)((a4 + 0x164))) & 128) != 0) && (t8 = *(signed char *)((a4 + 0x164)), (t8 & 64) == 0)) {
-                    *(unsigned int *)0xC179120 = 0x1;
-                }
-                t14 = a4;
-                if ((*(int *)((a4 + 0x40))) == 3) {
-                    EndPsg_Kill(a4);
-                    t14 = 0x0;
-                }
-                t19 = t14;
-            }
-            t24 = t19;
+    windowOpenStep(0x3C);
+    if (((*(int *)0xC2A1208) & 4) != 0) {
+        if ((memcmp(0xC2A124C, 0xC0A2044, 0x4)) == 0) {
+            *(unsigned char *)0xC28A4F6 = ((*(signed char *)0xC28A4F6) + 0x1);
         }
-        t81 = t24;
+        memmove(((short)((short)(*(short *)0xC2A11C4) * (short)0x788) + 0xC28A4F8), 0xC2A1248, 0x4);
+        *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x8);
+    }
+    NextWindow(0x0);
+    if ((memcmp(0xC2A124C, 0xC0A2044, 0x4)) == 0) {
+        if ((int)(*(int *)0xC2A11DC) > (int)0x1) {
+            PutVM_Message(0x20, 0x17, 0xC2A1248, 237.0f, 240.0f);
+        } else {
+            PutVM_Message(0x20, 0x23, 0xC2A1248, (*(float *)0xC03F3F4), 240.0f);
+        }
     } else {
-        t28 = *(int *)((a4 + 0x40));
-        if (t28 != 13) {
-            if (t28 != 14) {
-                EndPsg_CrushReact(a4);
-            }
-        }
-        if ((*(int *)0xC1EE234) != 0) {
-            if ((CheckKyakuArea(0xC179144, (*(int *)((a4 + 0x15C))))) != 0) {
-                u39 = *(float *)0xC179228;
-                u64 = _builtin_fabsf(u39);
-                t65 = 0;
-                if (0.149999991f > _builtin_fabsf(u39)) {
-                    t40 = *(short *)0xC179264;
-                    if (16.0f > _builtin_fabsf((float)t40)) {
-                        *(unsigned int *)0xC179120 = 0x0;
-                        rinRandomSeed((*(int *)((a4 + 0x18))));
-                        *(unsigned int *)(((0x164 + a4) + 0x0)) = (((*(int *)(((0x164 + a4) + 0x0))) & 0xFF9FFFFF) | ((unsigned int)((int)((unsigned int)(*(int *)((a4 + 0x14))) & 0x3)) << 21));
-                        t50 = *(int *)((a4 + 0x15C));
-                        psgSetState((a4 + 0x1C), 0x4, ((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC13F3B0 + ((*(int *)0xC1EE210) << 2))))))) + (((t50 << 1) + t50) << 2)), 0x0);
-                        Drv_StartAction(0x4, (a4 + 0x1C), 0x0);
-                        *(unsigned int *)((a4 + 0x174)) = ((*(int *)((a4 + 0x174))) + 0x1);
-                    } else {
-                        u58 = _builtin_fabsf((float)t40);
-                    }
-                    u64 = u58;
-                    t65 = ((16.0f > _builtin_fabsf((float)t40)));
-                } else {
-                    t65 = (0);
+        t22 = *(int *)0xC2A11DC;
+        if ((int)t22 <= (int)0x1) {
+            t47 = 0x23;
+            t48 = 0xC2A1248;
+            u50 = (*(float *)0xC03F3F4);
+        } else {
+            t24 = t22;
+            t25 = 0x0;
+            t26 = 0xC2A124C;
+            t27 = (((int)stk + 4) + 0x4);
+            for (;;) {
+                if ((int)t25 >= (int)0x3) {
+                    break;
                 }
+                t24 = (*(signed char *)((t26 + 0x0)));
+                t26 = (t26 + 0x1);
+                t25 = (t25 + 0x1);
+                *(unsigned char *)((t27 + 0x0)) = t24;
+                t27 = (t27 + 0x1);
             }
-        }
-        t81 = a4;
-    }
-    if (t81 != 0) {
-        psgFrame((t81 + 0x1C));
-        if ((*(int *)0xC1EE234) != 0) {
-            *(unsigned int *)((t81 + 0x178)) = ((*(int *)((t81 + 0x178))) + 0x1);
-            if ((int)(*(int *)((t81 + 0x178))) > (int)0x258) {
-                EndPsg_Kill(t81);
-    return;
+            *(unsigned int *)(((int)stk + 4)) = 0xC0EF7A8;
+            t29 = 0x0;
+            t30 = t27;
+            for (;;) {
+                t33 = *(int *)(((((GetNowLanguage(0x0)) << 2) + (*(int *)(((int)stk + 4)))) + 0x14));
+                if ((int)t29 >= (int)t33) {
+                    break;
+                }
+                *(unsigned char *)((t30 + 0x0)) = 0x20;
+                t29 = (t29 + 0x1);
+                t30 = (t30 + 0x1);
             }
-            return;
+            t34 = t33;
+            t35 = 0x0;
+            t36 = 0xC2A1248;
+            t37 = t30;
+            for (;;) {
+                if ((int)t35 >= (int)0x3) {
+                    break;
+                }
+                t34 = (*(signed char *)((t36 + 0x0)));
+                t36 = (t36 + 0x1);
+                t35 = (t35 + 0x1);
+                *(unsigned char *)((t37 + 0x0)) = t34;
+                t37 = (t37 + 0x1);
+            }
+            *(unsigned char *)((t37 + 0x0)) = 0x0;
+            t47 = 0x1D;
+            t48 = (((int)stk + 4) + 0x4);
+            u50 = (*(float *)0xC03F400);
         }
-        return;
+        PutVM_Message(0x20, t47, t48, u50, 240.0f);
     }
+    t57 = windowEnterStep(0x0);
+    t68 = t57;
+    if ((t57 == 1) && (t58 = *(int *)0xC2A11DC, (int)t58 <= (int)0x1)) {
+        t61 = *(int *)0xC2A1208;
+        t64 = t61;
+        if ((t61 & 2) != 0) {
+            CheckRanking(0xC2A11C8);
+            t64 = (callSaveData(0x1));
+        }
+        t68 = t64;
+    }
+    return t68;
 }

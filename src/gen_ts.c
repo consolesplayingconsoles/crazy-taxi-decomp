@@ -1,209 +1,243 @@
-extern int usr_adx_err_func();
-extern int usr_gd_err_func();
 /* Straight-line functions with calls and guards (batch gen_ts): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXF_Init(void);
-int BupInit(void);
-int CfgInit(void);
-int CourseTableSet(int);
-int nlSetPalExtMode(int);
-int nlInitLibraryDC(int);
-int nlsndInit(int, int);
-int nlsndSeqRequest(int);
-int nlsndStreamInit(int, int, int);
-int ADXT_Init(void);
-int InitBookkeep(void);
-int InitMV(void);
-int InitMenu(void);
-int InitNaolib(void);
-int InitNaolib2(void);
-int InitNaolib3(void);
-int InitProportionalText(int);
-int InitRenderTexture2nd(int);
-int Init_Adv_Sprite(void);
-int Init_EEPROM(void);
-int Init_Fog(void);
-int Init_LCD(void);
-int PAL_SettingLoop(void);
-int PatchPolygon(void);
-int SetLight(int, int);
-int SetLightAmbience(float);
-int Sound_Init(void);
-int Voice_Init(void);
-extern void _builtin_set_imask(int);
-int car_texload(void);
-int frameFlip(void);
-int fsInit(void);
-int game_init(void);
-int gdFsEntryErrFuncAll(int, int);
-int gdc_FileLoad(int, int, int);
-int gdc_SpriteSetInit(void);
-int gdc_StreamInit(void);
-int nd_Exec_Puru2(int);
-int nd_Init_Puru2(void);
-int nlInitEvent(void);
-int nlInitHeapMemory(int, int);
-int nlLoadDummyTexture(void);
-int nlLocate(int, int);
-int nlSetIntrStack(int);
-int nlInitInterruptDC(void);
-int nlPrintf(int, ...);
-int nlSetFontSize(int, int);
-int nlSetIntrFunction(int);
-int nlsndPackLoad(int, int);
-int padInitAnalog(void);
-int pdInitPeripheral(int, int, int);
-int syCblCheck(void);
-int syHwInit(void);
-int syHwInit2(void);
-int syRtcInit(void);
-int sysCfgRead(void);
-int thunk_ADXT_EntryErrFunc(int, int);
-int InitSys(void);
+int Count_Down_Clock(void);
+int GS_GuestResult(void);
+int ResetFadeColor(float);
+int Sound_Request(int, int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlSprPut(int);
+int Put_Pass_Time(void);
 
-int InitSys(void)
+int Put_Pass_Time(void)
 {
-    int t0;
-    int t3;
-    int t4;
-    int t7;
-    int t13;
-    int t35;
-    int t37;
-    int t49;
-    int t52;
-    int t80;
+    int t69;
+    int t75;
+    int t71;
+    int t102;
+    int t187;
+    int t188;
+    int t192;
+    int t193;
+    int t190;
+    int t196;
+    int t197;
+    int t200;
+    float u204;
+    float u205;
+    float u206;
+    int t224;
+    float u228;
+    float u229;
+    float u230;
+    float u247;
+    float u269;
+    float u272;
+    int t293;
+    float u294;
+    float u296;
+    float u299;
+    float u297;
+    int t1;
+    int t181;
+    int t64;
+    int t79;
+    int t83;
+    int t177;
+    float u278;
+    float u302;
+    float u317;
 
-    _builtin_set_imask(0xE);
-    t0 = *(int *)0xC089F5C;
-    nlSetIntrStack(t0);
-    syHwInit();
-    t3 = syCblCheck();
-    if (t3 != 0) {
-        t4 = 0x1;
-        if (t3 != 1) {
-            if (t3 != 2) {
-                for (;;) {
+    if (((*(int *)0xC2A8E98) == 0) && (t1 = *(int *)0xC2A8EB0, (int)t1 <= (int)0x3)) {
+        *(unsigned int *)0xC2A8E30 = (*(int *)(((*(int *)0xC2A8C78) + 0x0)));
+    }
+    if ((int)(*(int *)0xC2A8E30) <= 0) {
+        if (((*(int *)0xC2A75E0) & 0x80) == 0x80) {
+            if (((*(int *)0xC2A8EB0) == 2) && (t64 = *(int *)0xC2A8F70, t64 == 1)) {
+                *(unsigned int *)0xC2A8EB0 = 0x6;
+                t79 = t64;
+            } else {
+                t69 = *(int *)0xC2A8EB0;
+                t75 = t69;
+                if (t69 != 3) {
+                } else {
+                    t71 = *(int *)0xC2A8E88;
+                    if (t71 != 7) {
+                    } else {
+                        *(unsigned int *)0xC2A8EB0 = 0x4;
+                        *(unsigned int *)0xC2A8F64 = 0x0;
+                        *(unsigned int *)0xC2A8F60 = 0x0;
+                    }
+                    t75 = t71;
                 }
+                t79 = t75;
             }
-            t4 = 0x2;
+            t181 = t79;
+        } else {
+            if (((*(int *)0xC2A8EB0) == 2) && (t83 = *(int *)0xC2A8F70, t83 == 1)) {
+                *(unsigned int *)0xC2A8EB0 = 0x6;
+                t177 = t83;
+            } else {
+                t102 = *(int *)0xC2A8EB0;
+                if (t102 != 3) {
+                } else {
+                    if ((*(int *)0xC2A8EDC) != 0) {
+                    } else {
+                        if ((*(int *)0xC2A8EE0) != 0) {
+                        } else {
+                            if ((*(int *)0xC2A8EE4) != 0) {
+                            } else {
+                                if ((*(int *)0xC2A8EE8) != 0) {
+                                } else {
+                                    if ((*(int *)0xC2A8EEC) != 0) {
+                                    } else {
+                                        if ((*(int *)0xC2A8EF0) != 0) {
+                                        } else {
+                                            if ((*(int *)0xC2A8EF4) != 0) {
+                                            } else {
+                                                if ((*(int *)0xC2A8EF8) != 0) {
+                                                } else {
+                                                    *(unsigned int *)0xC2A8EB0 = 0x4;
+                                                    *(unsigned int *)0xC2A8F64 = 0x0;
+                                                    *(unsigned int *)0xC2A8F60 = 0x0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                t177 = t102;
+            }
+            t181 = t177;
         }
-        *(unsigned int *)0xC1EE228 = t4;
-    } else {
-        *(unsigned int *)0xC1EE228 = 0x0;
+        return t181;
     }
-    t7 = *(int *)0xC1EE228;
-    if (t7 == 1) {
-        nlInitLibraryDC(0x0);
-    } else {
-        t13 = 0x9;
-        if (t7 == 2) {
-            nlSetPalExtMode(0x1);
-            t13 = 0x1A;
+    t187 = (int)((int)(*(int *)0xC2A8E30) / (int)0x3C);
+    t188 = t187;
+    if ((int)t187 > (int)0x3E7) {
+        t188 = 0x3E7;
+    }
+    t192 = 0x0;
+    t193 = t188;
+    if ((int)t187 >= (int)0x64) {
+        t190 = (int)((int)t188 / (int)0x64);
+        t192 = t190;
+        t193 = (t188 - (t190 * 0x64));
+    }
+    t196 = (int)((int)t193 / (int)0xA);
+    t197 = (int)((int)t193 % (int)0xA);
+    if ((*(int *)0xC2A8E98) == 0) {
+        t200 = GS_GuestResult();
+        if (t200 == 2) {
+            nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
+        } else {
+            if (t200 == 1) {
+                nlObjPutSetFadeColor(1.0f, 0.901960731f, 0.0f);
+            } else {
+                u204 = 0.988235235f;
+                u205 = 0.0f;
+                u206 = 0.0f;
+                if ((t200 != 0) && (t200 == -1)) {
+                    u204 = 0.686274469f;
+                    u205 = 0.0980392098f;
+                    u206 = 0.56078428f;
+                }
+                nlObjPutSetFadeColor(u204, u205, u206);
+            }
         }
-        nlInitLibraryDC(t13);
-    }
-    _builtin_set_imask(0xE);
-    syHwInit2();
-    pdInitPeripheral(0x0, 0xC1A99F8, 0xC1B5A18);
-    nlInitInterruptDC();
-    nlSetIntrFunction(0x1);
-    _builtin_set_imask(0x0);
-    syRtcInit();
-    fsInit();
-    gdFsEntryErrFuncAll(((int)usr_gd_err_func), 0x0);
-    ADXT_Init();
-    ADXF_Init();
-    thunk_ADXT_EntryErrFunc(((int)usr_adx_err_func), 0x0);
-    *(unsigned int *)0xC1EE208 = 0x0;
-    sysCfgRead();
-    *(unsigned int *)0xC1EE234 = 0x0;
-    *(unsigned int *)0xC1EE238 = 0x0;
-    *(unsigned int *)0xC1EE23C = 0x1;
-    *(unsigned int *)0xC1EE330 = 0x0;
-    *(unsigned int *)0xC1EE768 = 0x0;
-    Init_EEPROM();
-    InitBookkeep();
-    padInitAnalog();
-    CfgInit();
-    BupInit();
-    nd_Init_Puru2();
-    t35 = *(signed char *)0xC1EE278;
-    nd_Exec_Puru2((unsigned char)t35);
-    t37 = *(int *)0xC1EE228;
-    if (t37 == 2) {
-        InitNaolib2();
-        frameFlip();
-        *(unsigned int *)0xC1EE160 = 0x0;
-        PAL_SettingLoop();
-        nlLoadDummyTexture();
-        InitNaolib3();
+        if ((int)(*(int *)0xC2A8E30) <= (int)(*(int *)0xC1EE7D4)) {
+            if (((int)((int)(*(int *)0xC2A8E30) % (int)0x3C)) == 0) {
+                Sound_Request(0x4A9, 0x0);
+            }
+        }
     } else {
-        InitNaolib();
-    }
-    *(unsigned int *)0xC1799E4 = 0xC1799E8;
-    nlInitHeapMemory(0xC1799E8, 0x30000);
-    nlInitEvent();
-    gdc_FileLoad(0xCB40000, 0xC08AAF0, 0x0);
-    t49 = nlsndInit(0xCB40000, 0x0);
-    if (t49 != 0) {
-        nlSetFontSize(0x10, 0x10);
-        nlLocate(0xA, 0xC);
-        t52 = t49;
-        nlPrintf(0xC08AAFC, t52);
-        frameFlip();
-        frameFlip();
-        nlSetFontSize(0x8, 0x8);
-        for (;;) {
+        t224 = *(int *)0xC2A760C;
+        if (t224 == 2) {
+            nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
+        } else {
+            if (t224 == 1) {
+                nlObjPutSetFadeColor(1.0f, 0.901960731f, 0.0f);
+            } else {
+                u228 = 0.988235235f;
+                u229 = 0.0f;
+                u230 = 0.0f;
+                if ((t224 != 0) && (t224 == -1)) {
+                    u228 = 0.686274469f;
+                    u229 = 0.0980392098f;
+                    u230 = 0.56078428f;
+                }
+                nlObjPutSetFadeColor(u228, u229, u230);
+            }
         }
     }
-    gdc_FileLoad(0xCB40000, 0xC08AB0C, 0x0);
-    nlsndPackLoad(0xCB40000, 0x0);
-    gdc_FileLoad(0xCB40000, 0xC08AB18, 0x0);
-    nlsndPackLoad(0xCB40000, 0x1);
-    gdc_FileLoad(0xCB40000, 0xC08AB24, 0x0);
-    nlsndPackLoad(0xCB40000, 0x3);
-    nlsndSeqRequest(0xA8);
-    nlsndStreamInit(0x4, 0x1, 0x0);
-    gdc_StreamInit();
-    Sound_Init();
-    Voice_Init();
-    nlSetFontSize(0x10, 0x10);
-    nlLocate(0xA, 0xC);
-    nlPrintf(0xC08AB30);
-    frameFlip();
-    frameFlip();
-    nlSetFontSize(0x8, 0x8);
-    *(unsigned int *)0xC1EE210 = 0x0;
-    *(unsigned int *)0xC1EE20C = 0x0;
-    gdc_FileLoad(0xC390000, 0xC08AB3C, 0x0);
-    gdc_FileLoad(0xCB40000, 0xC08AB48, 0x0);
-    car_texload();
-    PatchPolygon();
-    sysCfgRead();
-    gdc_SpriteSetInit();
-    *(unsigned int *)0xC1EE76C = 0xFFFFFFFF;
-    t80 = *(int *)0xC1EE20C;
-    CourseTableSet(t80);
-    game_init();
-    *(unsigned int *)0xC1EE230 = 0x1;
-    *(unsigned int *)0xC1EE338 = 0x1;
-    *(float *)0xC1A99F0 = 0.0f;
-    SetLight(0x2200, 0x2900);
-    SetLightAmbience(0.399999976f);
-    Init_Fog();
-    InitMV();
-    Init_Adv_Sprite();
-    InitRenderTexture2nd(0x0);
-    InitProportionalText(0x0);
-    InitMenu();
-    nlSetFontSize(0x10, 0x10);
-    nlLocate(0xA, 0xC);
-    nlPrintf(0xC08AB54);
-    frameFlip();
-    frameFlip();
-    nlSetFontSize(0x8, 0x8);
-    Init_LCD();
-    return nd_Init_Puru2();
+    if ((*(int *)0xC2A8EB0) == 3) {
+        *(float *)0xC2A8098 = 0.0f;
+        Count_Down_Clock();
+    }
+    *(unsigned int *)0xC2A8DF4 = (int)(*(float *)0xC2A7604);
+    *(unsigned int *)0xC2A8DF8 = (int)(*(float *)0xC2A7608);
+    u247 = *(float *)0xC056F04;
+    if ((*(float *)0xC2A8C64) > u247) {
+        *(float *)0xC2A8C64 = u247;
+    }
+    if ((*(float *)0xC2A8C68) > u247) {
+        *(float *)0xC2A8C68 = u247;
+    }
+    *(float *)0xC2A807C = (*(float *)0xC2A8C64);
+    *(float *)0xC2A8080 = (*(float *)0xC2A8C68);
+    *(float *)0xC2A8098 = 1.0f;
+    *(unsigned int *)0xC2A8094 = 0x0;
+    if (t192 != 0) {
+        *(float *)0xC2A8070 = (float)(*(int *)0xC2A8DF4);
+        *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
+        *(float *)0xC2A8078 = (*(float *)0xC056F10);
+        *(unsigned int *)0xC2A806C = (*(int *)(((t192 << 2) + 0xC0D0C08)));
+        nlSprPut(0xC2A806C);
+    }
+    u269 = *(float *)0xC056F1C;
+    if ((t192 == 0) && (t196 == 0)) {
+    } else {
+        if (t192 != 0) {
+            u272 = (float)(*(int *)0xC2A8DF4);
+            u272 = u272 + u269 * (*(float *)0xC2A8C64);
+            u278 = u272;
+        } else {
+            u278 = (float)(*(int *)0xC2A8DF4);
+        }
+        *(float *)0xC2A8070 = u278;
+        *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
+        *(float *)0xC2A8078 = (*(float *)0xC056F20);
+        *(unsigned int *)0xC2A806C = (*(int *)(((t196 << 2) + 0xC0D0C08)));
+        nlSprPut(0xC2A806C);
+    }
+    t293 = *(int *)0xC2A8DF4;
+    u294 = *(float *)0xC2A8C64;
+    if (t192 != 0) {
+        u296 = (float)t293;
+        u296 = u296 + (*(float *)0xC056F24) * u294;
+        *(float *)0xC2A8070 = u296;
+        u302 = u296;
+    } else {
+        u299 = (float)t293;
+        if (t196 != 0) {
+            u297 = (float)t293;
+            u297 = u297 + u269 * u294;
+            u299 = u297;
+        }
+        *(float *)0xC2A8070 = u299;
+        u302 = u299;
+    }
+    *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
+    *(float *)0xC2A8078 = (*(float *)0xC056F28);
+    *(unsigned int *)0xC2A806C = (*(int *)(((t197 << 2) + 0xC0D0C08)));
+    if ((int)(*(int *)0xC2A8E30) > 0) {
+        nlSprPut(0xC2A806C);
+    } else {
+        u317 = u302;
+    }
+    *(float *)0xC2A8098 = 1.0f;
+    return ResetFadeColor(u317);
 }

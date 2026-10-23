@@ -1,66 +1,71 @@
 /* Straight-line functions with calls and guards (batch gen_gi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-void setObjHitBreakOff(int a4, int a5, float f4);
+int char2num(int);
+int nlSprPut(int);
+void PutNameEntryName(void);
 
-void setObjHitBreakOff(int a4, int a5, float f4)
+void PutNameEntryName(void)
 {
-    float t0;
-    int t4;
+    float u0;
+    float u1;
+    float u2;
+    float u5;
+    int t6;
     int t7;
+    int t8;
     int t9;
-    int t10;
-    int stk[10];
+    float u11;
+    float u12;
+    int t14;
+    int t16;
+    float u19;
+    int stk[31];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R13;
-    int R14;
-    float F0;
-    float F3;
-    float F4;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    F4 = f4;
-    L_C038C34:;
-    t0 = nlLength((R4 + 0xC), (R4 + 0x58));
-    R13 = (R4);
-    F0 = (t0);
-    if ((!(t0 > (1.0f + 1.0f)))) goto L_C038CDE;
-    goto L_C038C50;
-    L_C038C50:;
-    t4 = set_event(0x84, 0xC0385AC);
-    R4 = (t4);
-    if ((t4 == 0)) goto L_C038CD0;
-    goto L_C038C60;
-    L_C038C60:;
-    t7 = R13;
-    t9 = (R4 + 0x14);
-    for (;;) { t10 = *(int *)t7; t7 = (t7 + 4); if ((unsigned int)((R13 + 112)) < (unsigned int)t7) break; *(unsigned int *)t9 = t10; t9 = (t9 + 4); }
-    nlScaleVector((((int)stk + 4) + 0xC), ((R4 + 0x14) + 0x3C), 8.0f);
-    nlAddVector((R4 + 0x14), (((int)stk + 4) + 0xC));
-    *(unsigned int *)(((R4 + 0x14) + 0x28)) = ((R4 + 0x14) + 0x30);
-    *(unsigned int *)(((R4 + 0x14) + 0x54)) = 0xC0EDF44;
-    *(unsigned int *)(((R4 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE218) + 0x0)));
-    SetColliObj((R4 + 0x14), 0x10);
-    nlScaleVector((((int)stk + 4) + 0xC), ((R4 + 0x14) + 0x3C), (*(float *)0xC038D14));
-    nlAddVector(R13, (((int)stk + 4) + 0xC));
-    *(unsigned int *)((R13 + 0x54)) = 0xC0EDF68;
-    *(unsigned int *)((R13 + 0x64)) = (*(int *)(((*(int *)0xC0EE21C) + 0x0)));
-    R14 = ((R4 + 0x14));
-    goto L_C038CD0;
-    L_C038CD0:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R13 + 0x58)) = *(struct mv3 *)((R13 + 0xC)); }
-    goto L_C038CDE;
-    L_C038CDE:;
+    u0 = *(float *)0xC039D0C;
+    u1 = *(float *)0xC2864D4;
+    u2 = *(float *)0xC039D10;
+    *(float *)(((int)stk + 12)) = (*(float *)0xC039D14);
+    *(float *)(((int)stk + 16)) = (*(float *)0xC039D18);
+    u5 = *(float *)0xC2864D4;
+    *(float *)(((int)stk + 24)) = (u5 * (1.0f + 1.0f));
+    *(float *)(((int)stk + 20)) = (u5 * (1.0f + 1.0f));
+    *(float *)(((int)stk + 32)) = 0.0f;
+    *(float *)(((int)stk + 28)) = 0.0f;
+    *(float *)(((int)stk + 40)) = 1.0f;
+    *(float *)(((int)stk + 36)) = 1.0f;
+    *(unsigned int *)(((int)stk + 44)) = 0x0;
+    *(float *)(((int)stk + 48)) = 1.0f;
+    *(unsigned int *)(((int)stk + 56)) = 0x70A;
+    *(unsigned int *)(((int)stk + 52)) = 0x2;
+    t6 = 0x2C;
+    t7 = 0x0;
+    t8 = 0xC2864D0;
+    t9 = 0xC2864D0;
+    u11 = (1.0f + 1.0f);
+    u12 = (u2 - (u1 * u0));
+    for (;;) {
+        if ((*(signed char *)((t8 + 0x0))) != 0) {
+            t14 = *(signed char *)((t9 + 0x0));
+            t9 = (t9 + 0x1);
+            t6 = (char2num(t14));
+            t6 = (t6 << 2);
+            t16 = *(int *)((0xC0EE918 + t6));
+            t6 = 0x4;
+            *(unsigned int *)(((int)stk + 4)) = t16;
+            *(float *)((((int)stk + 4) + t6)) = u12;
+            t6 = (nlSprPut(((int)stk + 4)));
+            u11 = (*(float *)0xC2864D4);
+            t7 = (t7 + 0x1);
+            u19 = u12;
+            u19 = u19 + (u0) * u11;
+            u12 = u19;
+            t8 = (t8 + 0x1);
+            if ((int)t7 >= (int)0x3) {
+                break;
+            }
+            continue;
+        }
+        break;
+    }
 }

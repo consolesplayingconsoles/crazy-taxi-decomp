@@ -1,85 +1,60 @@
 /* Straight-line functions with calls and guards (batch gen_hh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int PcarEvInit(int);
-int TrailerInit(int, int);
-int calcCheckExec(int, int);
-int carBalance(int);
-int extRand(void);
+int Psg_Init(int, int, int);
+int Psg_SetPosPtrSet(int, int);
 int set_event(int, int);
-int ParkingCarInit(int a4, int a5, int a6, int a7, int a8);
+void kyakuTaskStart(int a4, int a5, int a6);
 
-int ParkingCarInit(int a4, int a5, int a6, int a7, int a8)
+void kyakuTaskStart(int a4, int a5, int a6)
 {
     int t0;
-    int t1;
-    int t51;
-    int t2;
-    int t10;
-    int t26;
-    int t29;
-    float u31;
-    int t5;
-    int stk[12];
+    int t3;
+    int t4;
+    int t33;
+    int t36;
 
-    *(unsigned int *)(((int)stk + 16)) = a4;
-    *(unsigned int *)(((int)stk + 12)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    *(unsigned int *)(((int)stk + 4)) = a7;
-    t0 = extRand();
-    t1 = set_event(0x12C, 0xC046B60);
-    t51 = 0x0;
-    if (t1 == 0) {
-    } else {
-        t2 = *(int *)0xC2A1B1C;
-        *(unsigned int *)0xC2A1B1C = (t2 + 0x1);
-        *(unsigned int *)((t1 + 0x74)) = ((t2 + 0x1) - 1);
-        *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) + 0x1);
-        *(unsigned int *)((t1 + 0x78)) = (*(int *)(((int)stk + 16)));
-        *(unsigned int *)((t1 + 0x80)) = 0x0;
-        if (((0x8000 & ((t0 << 2) << 2)) == 0) && (t5 = *(int *)(((int)stk + 8)), t5 != 0)) {
-            *(unsigned int *)((t1 + 0x80)) = (*(int *)(((int)stk + 8)));
+    t0 = set_event(0x248, 0xC024878);
+    if (t0 != 0) {
+        *(unsigned int *)((t0 + 0x174)) = 0x0;
+        *(unsigned int *)((t0 + 0x14)) = a4;
+        *(unsigned int *)((t0 + 0x18)) = a5;
+        t3 = (int)((int)((int)((int)(*(int *)0xC1794EC) / (int)0x258)) % (int)0x3);
+        *(unsigned int *)((t0 + 0x19C)) = t3;
+        t4 = *(signed char *)((((a4 + 0x18) + t3) + 0x0));
+        *(unsigned int *)((t0 + 0x198)) = (((short)((((t4 << 1) + t4) << 2) << 1) + 0xC1794F0) + 0x18);
+        Psg_Init((t0 + 0x1C), (*(int *)((((*(int *)(((*(int *)((t0 + 0x14))) + 0x4))) << 2) + 0xC08A9B8))), (*(int *)(((*(int *)((t0 + 0x198))) + 0x0))));
+        Psg_SetPosPtrSet((t0 + 0x1C), ((*(int *)((t0 + 0x14))) + 0x8));
+        *(float *)((t0 + 0x178)) = 0.699999988f;
+        *(float *)((t0 + 0x17C)) = 35.0f;
+        *(unsigned short *)((t0 + 0x180)) = 0x0;
+        *(float *)((t0 + 0x194)) = (((*(float *)((((t3 << 2) + ((*(int *)((t0 + 0x14))) + 0x1C)) + 0x0))) + -2000.0f) * 5.88235271e-05f);
+        if ((*(float *)((t0 + 0x194))) > 1.0f) {
+            *(float *)((t0 + 0x194)) = 1.0f;
         }
-        if ((*(int *)(((int)stk + 4))) == 0) {
-            t10 = *(int *)((t1 + 0x80));
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t1)) = *(struct mv3 *)((*(int *)((((((t10 << 1) + t10) << 2) + (*(int *)0xC2A6690)) + 0x0)))); }
-        } else {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t1)) = *(struct mv3 *)((*(int *)(((int)stk + 4)))); }
+        if (0.0f > (*(float *)((t0 + 0x194)))) {
+            *(float *)((t0 + 0x194)) = 0.0f;
         }
-        PcarEvInit(t1);
-        *(unsigned int *)((t1 + 0x84)) = ((*(int *)((t1 + 0x84))) | 0x10);
-        if ((*(int *)((t1 + 0x78))) == 0) {
-            *(unsigned int *)((t1 + 0x84)) = ((*(int *)((t1 + 0x84))) | 0x2);
-        }
-        *(unsigned int *)((t1 + 0xD8)) = (*(int *)(((int)stk + 12)));
-        *(float *)((t1 + 0xC8)) = 0.00999999978f;
-        t26 = (((t0 << 2) << 2) & 0x83FF);
-        if ((0x80000000 & a8) != 0) {
-            t26 = (((t0 << 2) << 2) & 0x3FF);
-        }
-        *(unsigned short *)((t1 + 0xA6)) = (t26 + a8);
-        t29 = GetCollision2D((0x8C + t1), 30.0f);
-        if ((*(int *)((t29 + 0x1C))) != -1) {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + t1)) = *(struct mv3 *)((t29 + 0xC)); }
-            *(unsigned int *)((t1 + 0x110)) = 0xA;
-            u31 = *(float *)((t29 + 0x18));
-            *(float *)((t1 + 0x104)) = u31;
-            *(float *)((t1 + 0x90)) = u31;
-        }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(0xC0A4788); }
-        carBalance(t1);
-        *(unsigned char *)(((0xA4 + t1) + 0x0)) = (*(signed char *)(((0x108 + t1) + 0x0)));
-        *(unsigned char *)(((0xA4 + t1) + 0x1)) = (*(signed char *)(((0x108 + t1) + 0x1)));
-        *(unsigned char *)(((0xA4 + t1) + 0x2)) = (*(signed char *)(((0x108 + t1) + 0x2)));
-        *(unsigned char *)(((0xA4 + t1) + 0x3)) = (*(signed char *)(((0x108 + t1) + 0x3)));
-        *(unsigned char *)(((0xA4 + t1) + 0x4)) = (*(signed char *)(((0x108 + t1) + 0x4)));
-        *(unsigned char *)(((0xA4 + t1) + 0x5)) = (*(signed char *)(((0x108 + t1) + 0x5)));
-        calcCheckExec(t1, (*(int *)((t1 + 0x84))));
-        if ((*(int *)((t1 + 0x78))) == 11) {
-            TrailerInit(t1, 0x1);
-        }
-        t51 = t1;
     }
-    return t51;
+    if ((*(int *)0xC1EE20C) == 2) {
+        if (((*(int *)0xC1EE214) == 8) && ((int)a6 < (int)0x5)) {
+            *(unsigned int *)(((a6 << 2) + 0xC1794D4)) = t0;
+        }
+        t33 = *(int *)0xC1EE214;
+        if (t33 == 8) {
+            *(float *)((t0 + 0x194)) = 1.0f;
+        } else {
+            if ((t33 == 12) || (t33 == 10)) {
+                *(float *)((t0 + 0x194)) = 0.0f;
+            }
+        }
+        t36 = *(int *)0xC1EE214;
+        if ((t36 != 11) && (t36 != 8)) {
+            *(unsigned int *)((t0 + 0x170)) = 0x0;
+        } else {
+            *(unsigned int *)((t0 + 0x170)) = (*(signed char *)((((*(int *)((t0 + 0x14))) + 0x18) + 0x0)));
+        }
+    } else {
+        *(unsigned int *)((t0 + 0x170)) = 0x0;
+    }
 }

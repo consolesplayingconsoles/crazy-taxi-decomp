@@ -1,48 +1,52 @@
 /* Straight-line functions with calls and guards (batch gen_lk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Put_Max_Combo(void);
-int ResetFadeColor(void);
-int Start_Excellent(void);
-int Start_Fault(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int Exec_DCmini_Game12(void);
+int CheckClipping(int, float);
+int humanDraw(int, int, int, int);
+extern float nlLength();
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+void HesLate(float f4, float f5);
 
-int Exec_DCmini_Game12(void)
+void HesLate(float f4, float f5)
 {
-    float u1;
-    float u11;
-    int t18;
-    int t27;
-    int t22;
-    int t19;
+    float u0;
+    int t5;
+    int t30;
+    int t31;
+    int t32;
+    int stk[8];
 
-    nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98AC = 1.0f;
-    u1 = 55.0f;
-    nd_SprPut(0xC2A9898, 0x53, (483.0f), u1);
-    nd_SprPut(0xC2A9898, 0x50, (509.0f), u1);
-    nlObjPutSetFadeColor(0.0f, (0.29999998f), 1.0f);
-    nd_SprPut(0xC2A9898, 0x1E6, (458.0f), (67.0f));
-    u11 = 60.0f;
-    nd_SprPut(0xC2A9898, 0x1E3, (559.0f), u11);
-    nd_SprPut(0xC2A9898, 0x1E4, (595.0f), u11);
-    ResetFadeColor();
-    t18 = *(int *)0xC1EE794;
-    t27 = (Put_Max_Combo());
-    if ((t18 == 0) && (t19 = *(int *)0xC2A991C, t19 == 0)) {
-        t22 = *(int *)0xC2A7614;
-        if ((int)t22 >= (int)0x1E) {
-            *(unsigned int *)0xC2A98F4 = t22;
-            Start_Excellent();
-        } else {
-            Start_Fault(0x0);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D6128); }
+    u0 = *(float *)0xC072540;
+    if (((*(int *)0xC13F4B8) & 1) == 0) {
+        if (((*(signed char *)0xC2AD1DF) & 2) != 0) {
+            if (u0 > (((float (*)(int, int, float, float))(nlLength))(((int)stk + 4), 0xC179840, f4, f5))) {
+                t5 = *(int *)0xC2AD1D8;
+                *(unsigned int *)0xC13F4F4 = t5;
+                if ((*(int *)((0x140 + t5))) == 15) {
+                    *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) | 0x1);
+                }
+            }
         }
-        *(unsigned int *)0xC2A991C = 0x1;
-        *(unsigned int *)0xC179120 = 0x0;
-        t27 = 0x54;
+    } else {
+        if ((CheckClipping(((int)stk + 4), (*(float *)0xC07255C))) != 0) {
+            nlPushMatrix(0x0);
+            nlTranslateV(((int)stk + 4));
+            nlRotateAY(0xD680);
+            humanDraw(0xCADBCA8, 0x16, 0x0, 0x0);
+            nlPopMatrix(0x1);
+        }
+        t30 = *(int *)0xC13F4F4;
+        if ((t30 != 0) && ((t31 = *(int *)((t30 + 0x20)), t31 == 4) && (t32 = *(int *)((t30 + 0x24)), t32 == 3))) {
+            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
+            *(unsigned int *)0xC13F4F4 = 0x0;
+        }
+        if ((((float (*)(int, int))(nlLength))(((int)stk + 4), 0xC179840)) > u0) {
+            *(unsigned int *)0xC13F4B8 = ((*(int *)0xC13F4B8) & 0xFFFFFFFE);
+            *(unsigned int *)0xC13F4F4 = 0x0;
+        }
     }
-    return t27;
 }

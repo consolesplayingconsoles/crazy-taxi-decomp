@@ -1,23 +1,21 @@
 /* Straight-line functions with calls and guards (batch gen_ada): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlLength(int, int);
-float camGetOnSelect(void);
+int nlSetBackColor(int, int, int, float);
+int InitAdvLogoSprite(void);
 
-float camGetOnSelect(void)
+int InitAdvLogoSprite(void)
 {
-    float t2;
-
-    *(unsigned int *)0xC2AD580 = 0x0;
-    t2 = nlLength(((*(int *)0xC2AD548) + 0x4), ((*(int *)0xC2AD54C) + 0x4));
-    if ((40.0f) > t2) {
-        *(unsigned int *)0xC2AD57C = 0x1;
-    } else {
-        if ((80.0f) > t2) {
-            *(unsigned int *)0xC2AD57C = 0x2;
-        } else {
-            *(unsigned int *)0xC2AD57C = 0x3;
-        }
-    }
-    return t2;
+    *(float *)0xC26E194 = 1.0f;
+    *(float *)0xC26E1A0 = 0.0f;
+    *(float *)0xC26E1A4 = 0.0f;
+    *(float *)0xC26E1A8 = 1.0f;
+    *(float *)0xC26E1AC = 1.0f;
+    *(unsigned int *)0xC26E1B0 = 0x0;
+    *(unsigned int *)0xC26E1BC = 0x80A;
+    *(float *)0xC26E1B4 = 1.0f;
+    *(unsigned int *)0xC26E1B8 = 0x2;
+    *(float *)0xC26E19C = 1.0f;
+    *(float *)0xC26E198 = 1.0f;
+    return nlSetBackColor(0xFFBFBFBF, 0xFFBFBFBF, 0xFFBFBFBF, 1.0f);
 }

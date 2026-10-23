@@ -7,37 +7,6 @@ int Result_Face_Put(void);
 int Result_Name_Put(void);
 int kmiInitializeFog(void);
 
-int Result_Face_Put(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    float u3;
-    int t4;
-    float u5;
-    float u6;
-
-    t0 = *(int *)0xC2A96F4;
-    if ((int)t0 > (int)0x2A) {
-        t1 = *(int *)0xC2A96F0;
-        t2 = *(int *)(((t1 << 2) + 0xC0D0D48));
-        *(unsigned int *)0xC2A96F8 = t2;
-        *(unsigned int *)0xC2A972C = 0xA;
-        u3 = 528.0f;
-        *(float *)0xC2A96FC = u3;
-        t4 = *(int *)0xC2A9748;
-        *(float *)0xC2A9700 = (float)(t4 + 0xBE);
-        u5 = *(float *)0xC2A9758;
-        *(float *)0xC2A9708 = (u5 + 1.0f);
-        u6 = *(float *)0xC2A9758;
-        *(float *)0xC2A970C = (u6 + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        *(unsigned int *)0xC2A9720 = 0x0;
-        return nlSprPut(0xC2A96F8, 0xC2A9758);
-    }
-    return 0xC2A96F4;
-}
 
 
 int kmiInitializeFog(void)

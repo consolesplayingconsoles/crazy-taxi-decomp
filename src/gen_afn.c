@@ -1,55 +1,60 @@
 /* Straight-line functions with calls and guards (batch gen_afn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int GetCollisionFirst(int, int);
-int nlCalcPoint(int, int);
+int SetCameraMode(int);
+int camRestore(void);
+int camSetEye(int, int);
+int camSetTarget(int, int);
+int nlGetAverageVector(int, int, int, float, float);
 float nlInnerProduct(int, int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlScaleVector(int, int, float);
-int Drv_CheckSideClear(int a4, int a5);
+int nlSubVector3op(int, int, int);
+int nlUnitVector(int);
+int camGetOnMid(void);
 
-int Drv_CheckSideClear(int a4, int a5)
+int camGetOnMid(void)
 {
-    int t5;
-    int t15;
-    int t12;
-    int t25;
-    int t29;
-    int stk[14];
+    float t8;
+    float u9;
+    float u12;
+    float u14;
+    float u17;
+    float u21;
+    int t35;
+    int t37;
+    int t30;
+    int t31;
+    int stk[19];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(0xC0D51D0); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(0xC0D51DC); }
-    nlPushMatrix(0xC179180);
-    nlCalcPoint((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x1C));
-    nlCalcPoint((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10));
-    t5 = 0x0;
-    if (!(0.0f > (nlInnerProduct((*(int *)(((int)stk + 4))), 0xC2AD1E0)))) {
-        t5 = 0x1;
+    SetCameraMode(0x1);
+    nlSubVector3op((((int)stk + 4) + 0x18), ((*(int *)0xC2AD54C) + 0x4), ((*(int *)0xC2AD548) + 0x4));
+    nlUnitVector((((int)stk + 4) + 0x18));
+    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, (*(float *)0xC064A24));
+    t8 = nlInnerProduct(0xC2AD1F8, (((int)stk + 4) + 0x18));
+    u9 = (t8 * (-1.0f));
+    if (t8 > 0.0f) {
+        u9 = 0.0f;
     }
-    if (t5 == 1) {
-        t15 = (((t5 == 0)) ? 1 : 0);
-        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x1C), 0.0f)) + 0x1C))) != -1) {
-            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, 20.0f);
-            t12 = t5;
-            if ((*(int *)(((GetCollisionFirst((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4))) + 0x1C))) != -1) {
-                t12 = (((t5 == 0)) ? 1 : 0);
-            }
-            t15 = t12;
-        }
-        t29 = t15;
-    } else {
-        t25 = (((t5 == 0)) ? 1 : 0);
-        if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x10), 0.0f)) + 0x1C))) == -1) {
-        } else {
-            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, (*(float *)0xC063E38));
-            *(volatile int *)(((GetCollisionFirst((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4))) + 0x1C));
-            t25 = t5;
-        }
-        t29 = t25;
+    u12 = *(float *)0xC064A30;
+    u14 = (*(float *)0xC064A34);
+    u14 = u14 + u12 * u9;
+    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC2AD1EC, (((int)stk + 4) + 0xC), 1.0f, u14);
+    nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 0xC179840);
+    u17 = *(float *)0xC064A40;
+    nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u17);
+    camSetEye((((int)stk + 4) + 0xC), 0x1);
+    u21 = *(float *)0xC064A48;
+    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), ((*(int *)0xC2AD54C) + 0x4), ((int)stk + 4), u21, u21);
+    nlGetAverageVector(((int)stk + 4), 0xC2AD1EC, ((int)stk + 4), 1.0f, u12);
+    nlSubVector3op((((int)stk + 4) + 0x18), ((int)stk + 4), 0xC17984C);
+    nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), ((int)stk + 4), 1.0f, u17);
+    camSetTarget(((int)stk + 4), 0x1);
+    if (((*(int *)(((*(int *)0xC2AD54C) + 0x20))) == 2) && (t30 = *(int *)0xC2AD54C, t31 = *(int *)((t30 + 0x24)), t31 == 2)) {
+        *(unsigned int *)0xC2AD57C = 0x4;
     }
-    nlPopMatrix(0x1);
-    return t29;
+    t35 = *(int *)0xC2AD590;
+    t37 = t35;
+    if ((t35 & 1) == 0) {
+        t37 = (camRestore());
+    }
+    return t37;
 }

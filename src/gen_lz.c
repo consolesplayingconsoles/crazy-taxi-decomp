@@ -1,22 +1,24 @@
 /* Straight-line functions with calls and guards (batch gen_lz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_ExecBlend(void);
-int Drv_StartAction(int, int, int);
-int FcvStoreBuffer(int, int, float);
-int drvUpdatePartTracks(void);
-int Drv_ExecChoin(void);
+int nlSprPut(int, int, int);
+int Put_Remain_Time_Frame(int a4, int a5, int a6);
 
-int Drv_ExecChoin(void)
+int Put_Remain_Time_Frame(int a4, int a5, int a6)
 {
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        return Drv_ExecBlend();
-    }
-    drvUpdatePartTracks();
-    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-    *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
-    if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
-        return Drv_StartAction(0x0, 0x0, 0x0);
-    }
-    return 0x24;
+    *(float *)0xC2A7F80 = (*(float *)0xC054494);
+    *(float *)0xC2A7F84 = (*(float *)0xC054498);
+    *(unsigned int *)0xC2A7FB0 = 0x200B;
+    *(unsigned int *)0xC2A7F7C = 0xF;
+    *(float *)0xC2A7F94 = 0.0f;
+    *(float *)0xC2A7F9C = 1.0f;
+    *(float *)0xC2A7F98 = 0.0f;
+    *(float *)0xC2A7FA0 = 1.0f;
+    *(float *)0xC2A7F8C = 1.0f;
+    *(float *)0xC2A7F90 = 1.0f;
+    *(unsigned int *)0xC2A7FA4 = 0x0;
+    nlSprPut(0xC2A7F7C, a5, a6);
+    *(float *)0xC2A7F8C = 1.0f;
+    *(float *)0xC2A7F90 = 1.0f;
+    return 0x14;
 }

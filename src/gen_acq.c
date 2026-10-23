@@ -1,78 +1,70 @@
-extern int ExecEffectSmoke();
-extern int ExecEffectSpray();
 /* Straight-line functions with calls and guards (batch gen_acq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ndPuru2Start(int, int, int);
-int nlRand(void);
-float nlRandom(void);
-float nlScalor(int);
+int GetRotVec(int);
+int KillColliObj(int);
+int MultiRot4Vec(int);
+int SetColliObj(int, int);
+int nlGetPushedMatrix(int);
+int nlGetTranslate(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAY(int);
+int nlTranslateV(int);
 int set_event(int, int);
-int SetEffect(int a4, int a5, int a6);
+void setObjHitBreakSet(int a4);
 
-int SetEffect(int a4, int a5, int a6)
+void setObjHitBreakSet(int a4)
 {
-    int t0;
-    int t2;
-    int t46;
-    float u4;
-    float u6;
-    int t22;
-    float t8;
-    float u9;
-    float u10;
-    float u14;
-    float u15;
-    float u16;
-    int t40;
-    int t31;
+    int t3;
+    int t9;
+    int t10;
+    int t12;
+    int t13;
+    int t15;
+    int t11;
+    int t16;
 
-    t0 = ((int)ExecEffectSmoke);
-    if (a6 == 3) {
-        t0 = ((int)ExecEffectSpray);
-    }
-    t2 = set_event(0x3C, t0);
-    t46 = t2;
-    if (t2 != 0) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x14)) = *(struct mv3 *)(a4); }
-        *(float *)((t2 + 0x18)) = ((*(float *)((t2 + 0x18))) - (1.0f + 1.0f));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x20)) = *(struct mv3 *)(a5); }
-        u4 = 0.19999999f;
-        u6 = u4;
-        u6 = u6 + u4 * (nlRandom());
-        *(float *)((t2 + 0x2C)) = u6;
-        *(unsigned int *)((t2 + 0x34)) = ((nlRand()) & 0x3);
-        *(unsigned int *)((t2 + 0x30)) = 0x1E;
-        *(unsigned int *)((t2 + 0x38)) = a6;
-        if (a6 != 1) {
-            if (a6 != 2) {
-                t22 = a6;
-                if (a6 != 3) {
-                } else {
-                    t8 = nlScalor(a5);
-                    u9 = -0.39999998f;
-                    u10 = -0.5f;
-                    *(float *)(((0x20 + t2) + 0x0)) = ((*(float *)(((0x20 + t2) + 0x0))) + ((nlRandom()) + u10));
-                    u14 = 0.099999994f;
-                    u15 = 0.29999998f;
-                    u16 = (nlRandom());
-                    u16 = u16 + u14 * (t8 + u9);
-                    *(float *)(((0x24 + t2) + 0x0)) = ((*(float *)(((0x24 + t2) + 0x0))) + (u16 + u15));
-                    *(float *)(((0x28 + t2) + 0x0)) = ((*(float *)(((0x28 + t2) + 0x0))) + ((nlRandom()) + u10));
-                    *(unsigned int *)((t2 + 0x30)) = 0x14;
-                    t22 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x2));
-                }
-                t31 = t22;
-            } else {
-                *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * (1.0f + 1.0f));
-                t31 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x1));
-            }
-            t40 = t31;
-        } else {
-            *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * 1.5f);
-            t40 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x0));
+    if ((*(int *)((a4 + 0x20))) == 0) {
+    } else {
+        t3 = 0x8;
+        if ((int)(*(int *)((a4 + 0x6C))) < (int)0x3) {
+            t3 = 0x3;
         }
-        t46 = t40;
+        nlPushUnitMatrix();
+        nlTranslateV(a4);
+        MultiRot4Vec((a4 + 0x30));
+        nlPushMatrix(0x0);
+        if ((int)t3 > 0) {
+            t9 = 0x0;
+            t10 = 0x0;
+            for (;;) {
+                t12 = set_event(0x84, 0xC0385AC);
+                if (t12 != 0) {
+                    t11 = t12;
+                    t11 = (t11 + 0x14);
+                    t13 = a4;
+                    t15 = t11;
+                    for (;;) { t16 = *(int *)t13; t13 = (t13 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t13) break; *(unsigned int *)t15 = t16; t15 = (t15 + 4); }
+                    nlGetPushedMatrix(0x0);
+                    nlTranslateV((((((((*(int *)((a4 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10));
+                    nlRotateAY((*(int *)(((((((((*(int *)((a4 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10) + 0xC))));
+                    nlGetTranslate(t11);
+                    GetRotVec((t11 + 0x30));
+                    *(unsigned int *)((t11 + 0x54)) = 0xC0EDBC0;
+                    *(unsigned int *)((t11 + 0x64)) = (*(int *)(((*(int *)0xC0EE1B4) + 0x0)));
+                    SetColliObj(t11, 0x10);
+                }
+                t9 = (t9 + 0x1);
+                t10 = (t10 + 0x10);
+                if ((int)t9 >= (int)t3) {
+                    break;
+                }
+            }
+        }
+        nlPopMatrix(0x2);
+        KillColliObj(a4);
+        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
     }
-    return t46;
 }

@@ -1,128 +1,78 @@
 /* Straight-line functions with calls and guards (batch gen_vh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Check_Bowling_Pins(void);
-int Put_Bowling_Message(void);
-int Put_Bowling_Pins(void);
-int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4);
+int GetRotVec(int);
+int SetColliObj(int, int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int setObjPlace(int a4, int a5);
 
-int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
+int setObjPlace(int a4, int a5)
 {
-    float u21;
-    float u31;
-    int stk[2];
+    int t0;
+    int t55;
+    int t4;
+    int t9;
+    int t12;
+    int t18;
+    int t39;
+    int t44;
+    int t46;
+    int t54;
+    int t52;
+    int t49;
 
-    int R0;
-    int R1;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R12;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    L_C05C8E8:;
-    R1 = (0xC1790CC);
-    R4 = (0xC2A995C);
-    R5 = ((*(int *)0xC2A995C));
-    R6 = (0xC13137C);
-    if ((!((*(float *)0xC17914C) > ((*(float *)0xC1313CC) + 50.0f)))) goto L_C05C912;
-    goto L_C05C904;
-    L_C05C904:;
-    R6 = (0x7);
-    if (((int)R5 < (int)0x7)) goto L_C05C90E;
-    goto L_C05C90A;
-    L_C05C90A:;
-    goto L_C05CA36;
-    L_C05CA36:;
-    Put_Bowling_Message();
-    return Put_Bowling_Pins();
-    L_C05C90E:;
-    goto L_C05CA00;
-    L_C05CA00:;
-    *(unsigned int *)((R4 + 0x0)) = R6;
-    goto L_C05CA32;
-    L_C05CA32:;
-    Check_Bowling_Pins();
-    goto L_C05CA36;
-    L_C05C912:;
-    if ((!(((*(float *)((R6 + 0x30))) + 450.0f) > (*(float *)((R1 + 0x78)))))) goto L_C05C9A4;
-    goto L_C05C924;
-    L_C05C924:;
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x44))) + 100.0f)))) goto L_C05C9A4;
-    goto L_C05C936;
-    L_C05C936:;
-    R6 = (0x6);
-    if (((int)R5 < (int)0x6)) goto L_C05C940;
-    goto L_C05C93C;
-    L_C05C93C:;
-    goto L_C05CA36;
-    L_C05C940:;
-    *(unsigned int *)((R4 + 0x0)) = R6;
-    goto L_C05CA32;
-    L_C05C9A4:;
-    u21 = *(float *)0xC05CB58;
-    R7 = ((R6 + 0x30));
-    F4 = (u21);
-    if ((!(((*(float *)(((R6 + 0x30) + 0x0))) + u21) > (*(float *)((R1 + 0x78)))))) goto L_C05C9D0;
-    goto L_C05C9B8;
-    L_C05C9B8:;
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R7 + 0x8))) + F4)))) goto L_C05C9D0;
-    goto L_C05C9C6;
-    L_C05C9C6:;
-    R6 = (0x5);
-    if (((int)R5 >= (int)0x5)) goto L_C05CA36;
-    goto L_C05C9CC;
-    L_C05C9CC:;
-    goto L_C05C940;
-    L_C05C9D0:;
-    u31 = *(float *)0xC05CB5C;
-    F4 = (u31);
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x2C))) + u31)))) goto L_C05C9EC;
-    goto L_C05C9E2;
-    L_C05C9E2:;
-    R6 = (0x4);
-    if (((int)R5 >= (int)0x4)) goto L_C05CA36;
-    goto L_C05C9E8;
-    L_C05C9E8:;
-    goto L_C05C940;
-    L_C05C9EC:;
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x20))) + F4)))) goto L_C05CA04;
-    goto L_C05C9FA;
-    L_C05C9FA:;
-    R6 = (0x3);
-    if (((int)R5 >= (int)0x3)) goto L_C05CA36;
-    goto L_C05CA00;
-    L_C05CA04:;
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x14))) + F4)))) goto L_C05CA1C;
-    goto L_C05CA12;
-    L_C05CA12:;
-    R6 = (0x2);
-    if (((int)R5 >= (int)0x2)) goto L_C05CA36;
-    goto L_C05CA18;
-    L_C05CA18:;
-    *(unsigned int *)((R4 + 0x0)) = R6;
-    goto L_C05CA32;
-    L_C05CA1C:;
-    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x8))) + F4)))) goto L_C05CA36;
-    goto L_C05CA2A;
-    L_C05CA2A:;
-    R6 = (0x1);
-    if (((int)R5 >= (int)0x1)) goto L_C05CA36;
-    goto L_C05CA30;
-    L_C05CA30:;
-    *(unsigned int *)((R4 + 0x0)) = R6;
-    goto L_C05CA32;
+    t0 = *(short *)((a4 + 0x10));
+    t55 = t0;
+    if (t0 == -1) {
+    } else {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)(a5) = *(struct mv3 *)(a4); }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a5 + 0xC)) = *(struct mv3 *)(0xC0965F0); }
+        *(float *)((a5 + 0x18)) = 0.0f;
+        nlPushUnitMatrix();
+        nlRotateAY((*(int *)((a4 + 0xC))));
+        t4 = *(short *)((a4 + 0x10));
+        nlRotateAX((*(int *)((0xC0EDBCC + ((((t4 << 2) << 1) + t4) << 2)))));
+        GetRotVec((a5 + 0x30));
+        nlPopMatrix(0x1);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a5 + 0x48)) = *(struct mv3 *)(0xC0965F0); }
+        *(unsigned int *)((a5 + 0x28)) = (a5 + 0x30);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a5 + 0x58)) = *(struct mv3 *)(0xC0965F0); }
+        t9 = *(short *)((a4 + 0x10));
+        if ((t9 != 17) && ((t9 != 20) && ((t9 != 19) && ((t9 != 7) && (t9 != 16))))) {
+            *(unsigned int *)((a5 + 0x68)) = 0x1;
+        } else {
+            *(unsigned int *)((a5 + 0x68)) = 0x0;
+        }
+        t12 = *(short *)((a4 + 0x10));
+        *(unsigned int *)(((0x54 + a5) + 0x0)) = (((((t12 << 2) << 1) + t12) << 2) + 0xC0EDBC0);
+        *(unsigned int *)(((0x6C + a5) + 0x0)) = (*(short *)((a4 + 0x12)));
+        *(unsigned int *)(((0x64 + a5) + 0x0)) = (*(int *)(((*(int *)((0xC0EE1B4 + ((*(short *)((a4 + 0x10))) << 2)))) + ((*(short *)((a4 + 0x12))) << 2))));
+        t18 = *(short *)((a4 + 0x10));
+        if ((t18 != 7) && ((t18 != 8) && ((t18 != 10) && (t18 != 14)))) {
+            t39 = *(short *)((a4 + 0x10));
+            if ((t39 != 11) && ((t39 != 12) && ((t39 != 15) && (t39 != 16)))) {
+                t44 = *(short *)((a4 + 0x10));
+                if (t44 == 19) {
+                    t49 = (SetColliObj(a5, 0x13));
+                } else {
+                    t46 = 0x10;
+                    if (t44 == 20) {
+                        t46 = 0x14;
+                    }
+                    t49 = (SetColliObj(a5, t46));
+                }
+                t52 = t49;
+            } else {
+                t52 = (SetColliObj(a5, 0x12));
+            }
+            t54 = t52;
+        } else {
+            t54 = (SetColliObj(a5, 0x11));
+        }
+        t55 = t54;
+    }
+    return t55;
 }

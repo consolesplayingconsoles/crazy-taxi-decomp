@@ -222,36 +222,6 @@ void SetMotionBlurColor(float f4, float f5, float f6)
     *(unsigned int *)0xC0EE914 = ((((int)(u6 * 255.0f) << 16) | ((int)(u7 * 255.0f) << 8)) | (int)(u8 * 255.0f));
 }
 
-int gameState15(void)
-{
-    int t0;
-    int t3;
-    int t4;
-    int t7;
-    int t9;
-    int t10;
-
-    t0 = *(int *)0xC1EE340;
-    if ((int)t0 >= (int)0x1) {
-        if ((int)t0 > (int)0x14) {
-            *(unsigned int *)0xC1EE340 = 0x1;
-        }
-    } else {
-        *(unsigned int *)0xC1EE340 = 0x1;
-    }
-    pfOffsetColor(0x3F3F3F, 0x3F3F3F, 0x3F3F3F, 0x3F3F3F);
-    PutNameEntryScreen();
-    t3 = *(int *)0xC2864A4;
-    t4 = *(int *)0xC2864A0;
-    PutNameEntryDrum(t4, ((float)t3 / 16.0f));
-    PutNameEntryName();
-    t7 = *(int *)0xC1EE340;
-    PutNameEntryRank(t7);
-    t9 = *(int *)0xC2864CC;
-    t10 = ((int (*)(void))(t9))();
-    pfOffsetOff();
-    return gdc_FadeManStreamSong();
-}
 
 
 int nlInitCommonTexture(int a4, int a5, int a6)

@@ -1,71 +1,127 @@
 /* Straight-line functions with calls and guards (batch gen_lu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float Drv_BikePedalStep(void);
-int Drv_ExecBlend(void);
-int Drv_StartAction(int, int, int);
-int Drv_StartBikePedal(int);
-int FcvStoreBuffer(int, int, float);
-int Sound_Request(int, int);
-int Drv_ExecBikePedal(void);
+int gdc_CourseBlockFind(int, int, int, int);
+int nlObjPutUseViewMatrix(int);
+int gdc_CoursePut(int a4, int a5, float f4);
 
-int Drv_ExecBikePedal(void)
+int gdc_CoursePut(int a4, int a5, float f4)
 {
-    float u13;
-    int t14;
-    float u15;
-    float u63;
-    float u94;
-    float u95;
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t20;
+    int t21;
+    int t22;
+    float u23;
+    float u24;
+    int t29;
+    int t36;
+    int t35;
+    int t5;
+    int t6;
+    int t45;
 
-    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x40);
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        Drv_ExecBlend();
+    if (a5 == 0) {
+        t5 = (*(int *)(((a4 << 2) + (*(int *)0xC26E0FC))));
+        t6 = 0xC1EE800;
     } else {
-        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-        *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + (Drv_BikePedalStep()));
-        if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
-            *(float *)0xC2AD024 = 0.0f;
+        t5 = (*(int *)(((a4 << 2) + (*(int *)0xC26E100))));
+        t6 = 0xC1EE804;
+    }
+    t10 = *(int *)((((*(int *)((t6 + 0x0))) + (((a4 << 2) + a4) << 2)) + 0x10));
+    t11 = 0x0;
+    t12 = a5;
+    t13 = 0xC26C5DC;
+    for (;;) {
+        if ((*(int *)((t13 + 0x4))) == t5) {
+            break;
         }
-        u13 = *(float *)0xC2AD024;
-        t14 = *(int *)0xC2AD014;
-        u15 = *(float *)0xC2AD2B8;
-        if (t14 != 0) {
-            if (t14 != 1) {
-                if (t14 != 2) {
-                } else {
-                    if ((7.0f) > u15) {
-                        *(unsigned int *)0xC2AD014 = 0x0;
-                        Drv_StartBikePedal(0x0);
-                        *(float *)0xC2AD100 = u13;
+        t12 = (*(int *)((t13 + 0x8)));
+        t11 = (t11 + t12);
+        t12 = (t12 + 0x1);
+        t20 = t12;
+        t12 = (t12 << 1);
+        t12 = (t12 + t20);
+        t11 = (t11 + 0x1);
+        t12 = (t12 << 2);
+        t12 = (t12 << 1);
+        t13 = (t13 + t12);
+        if ((int)t11 >= (int)0x120) {
+            t11 = t10;
+            t21 = gdc_CourseBlockFind(t11, t12, 0x120, (((a4 << 2) + a4) << 2));
+            t11 = t21;
+            if (t21 != -1) {
+                t22 = t11;
+                t11 = (t11 << 1);
+                t11 = (t11 + t22);
+                t11 = (t11 << 2);
+                t11 = (t11 << 1);
+                t11 = (short)t11;
+                t11 = (t11 + 0xC26C5DC);
+                t12 = 0x1;
+                *(unsigned char *)((t11 + 0x0)) = t12;
+                *(unsigned int *)((t11 + 0x4)) = t5;
+                u23 = *(float *)0xC02ED04;
+                u24 = *(float *)0xC02ED08;
+                if (0.0f > (u24 - (f4 * u23))) {
+                    *(unsigned int *)((t11 + 0xC)) = (int)(0.0f + (*(float *)0xC02ED0C));
+                    *(unsigned int *)((t11 + 0x10)) = ((*(int *)((t11 + 0x10))) + 0x1);
+                    *(unsigned int *)((t11 + 0x8)) = (t10 - 1);
+                    if (((int)t10 > (int)t12) && (t11 = (t11 + 0x18), (int)t12 < (int)t10)) {
+                        for (;;) {
+                            t12 = (t12 + 0x1);
+                            *(unsigned char *)((t11 + 0x0)) = 0x0;
+                            *(unsigned int *)((t11 + 0xC)) = 0x3E8;
+                            *(unsigned int *)((t11 + 0x10)) = 0x0;
+                            *(unsigned int *)((t11 + 0x8)) = 0x0;
+                            *(unsigned int *)((t11 + 0x4)) = 0xFFFFFFFF;
+                            t11 = (t11 + 0x18);
+                            if ((int)t12 >= (int)t10) {
+                                break;
+                            }
+                        }
+                        return 0xC02ED0C;
                     }
+                    return 0xC02ED0C;
                 }
-            } else {
-                if (u15 > (1.0f + 1.0f)) {
-                    *(unsigned int *)0xC2AD014 = 0x0;
-                    Drv_StartBikePedal(0x0);
-                    *(float *)0xC2AD100 = u13;
+                *(unsigned int *)((t11 + 0xC)) = (int)((u24 - (f4 * u23)) + (*(float *)0xC02ED0C));
+                *(unsigned int *)((t11 + 0x10)) = ((*(int *)((t11 + 0x10))) + 0x1);
+                *(unsigned int *)((t11 + 0x8)) = (t10 - 1);
+                if (((int)t10 > (int)t12) && (t11 = (t11 + 0x18), (int)t12 < (int)t10)) {
+                    for (;;) {
+                        t12 = (t12 + 0x1);
+                        *(unsigned char *)((t11 + 0x0)) = 0x0;
+                        *(unsigned int *)((t11 + 0xC)) = 0x3E8;
+                        *(unsigned int *)((t11 + 0x10)) = 0x0;
+                        *(unsigned int *)((t11 + 0x8)) = 0x0;
+                        *(unsigned int *)((t11 + 0x4)) = 0xFFFFFFFF;
+                        t11 = (t11 + 0x18);
+                        if ((int)t12 >= (int)t10) {
+                            break;
+                        }
+                    }
+                    return 0xC02ED0C;
                 }
+                return 0xC02ED0C;
             }
-        } else {
-            if ((u15 > 0.099999994f) && (1.5f > u15)) {
-                *(unsigned int *)0xC2AD014 = 0x1;
-                Drv_StartBikePedal(0x1);
-                *(float *)0xC2AD100 = u13;
-            }
-            if ((*(float *)0xC2AD2B8) > 6.0f) {
-                u63 = *(float *)0xC2AD024;
-                *(unsigned int *)0xC2AD014 = 0x2;
-                Drv_StartBikePedal(0x2);
-                *(float *)0xC2AD100 = u63;
-            }
+            return t21;
         }
     }
-    if (((*(int *)0xC1791EC) == 0) && (u94 = 0.099999994f, u95 = *(float *)0xC179228, u94 > u95)) {
-        Drv_StartAction(0x1, 0x0, 0x0);
+    t29 = *(signed char *)((t13 + 0x0));
+    if ((unsigned char)t29 == 4) {
+        t45 = (nlObjPutUseViewMatrix((*(int *)((t13 + 0x14)))));
+    } else {
+        t36 = (unsigned char)t29;
+        if ((*(signed char *)((t13 + 0x0))) == 0) {
+            t35 = nlObjPutUseViewMatrix((*(int *)((t13 + 0x14))));
+            *(unsigned char *)((t13 + 0x0)) = 0x4;
+            *(unsigned int *)((t13 + 0xC)) = 0x0;
+            t36 = t35;
+        }
+        t45 = t36;
     }
-    if ((*(signed char *)0xC1EE26E) != 0) {
-        return Sound_Request(0x308A9, 0x0);
-    }
-    return 0x22;
+    *(unsigned int *)((t13 + 0x10)) = ((*(int *)((t13 + 0x10))) + 0x1);
+    return t45;
 }

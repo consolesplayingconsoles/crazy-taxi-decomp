@@ -1,20 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_ln): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int selectInitFrontSprite(void);
+void selectLoadAxes(void);
 
-int selectInitFrontSprite(void)
+void selectLoadAxes(void)
 {
-    *(float *)0xC2A74BC = (499.5f);
-    *(float *)0xC2A74C0 = 1.0f;
-    *(float *)0xC2A74C4 = 1.0f;
-    *(float *)0xC2A74C8 = 0.0f;
-    *(float *)0xC2A74CC = 0.0f;
-    *(float *)0xC2A74D0 = 1.0f;
-    *(float *)0xC2A74D4 = 1.0f;
-    *(unsigned int *)0xC2A74D8 = 0x0;
-    *(unsigned int *)0xC2A74E4 = 0xA;
-    *(float *)0xC2A74DC = 1.0f;
-    *(unsigned int *)0xC2A74E0 = 0x2;
-    return 0x2C;
+    int stk[14];
+
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x24)) = *(struct mv3 *)(0xC0D080C); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x18)) = *(struct mv3 *)(0xC0D0818); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0D0824); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D0830); }
 }

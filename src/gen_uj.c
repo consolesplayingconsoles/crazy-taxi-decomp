@@ -1,210 +1,166 @@
 /* Straight-line functions with calls and guards (batch gen_uj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int BigOneHomeAngle(int, int, float);
-float BigOneKeyValue(int, int, float);
-int BigOneRotate(int, int, int);
-extern float _builtin_sqrtf(float);
-int nlArcTan2(float, float);
-int nlCalcPoint(int, int);
-int nlCalcVector(int, int);
-float nlFloor(float);
-int nlGetPushedMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlSubVector(int, int);
-int nlTranslateNV(int);
-int nlTranslateV(int);
-int BigOneSwimMove(int a4, int a5, int a6, float f4, float f5);
+int ResetFadeColor(void);
+int nd_SprPut(int, int, float, float);
+int nlObjPutSetFadeColor(float, float, float);
+int nlSprPut(int);
+int pfColor(int, int, int, int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Put_JumpDistance(void);
 
-int BigOneSwimMove(int a4, int a5, int a6, float f4, float f5)
+int Put_JumpDistance(void)
 {
-    int t0;
-    float u32;
-    float u33;
-    float u34;
-    int t41;
-    int t58;
-    int t62;
-    float u74;
+    float u14;
+    int t15;
+    int t17;
+    float u36;
+    float u37;
+    int t7;
+    float u8;
+    float u9;
+    int t29;
+    float u30;
+    float u41;
+    int t42;
+    float u43;
+    float u44;
+    float u73;
+    int t74;
     float u75;
     float u76;
-    int t95;
-    int t99;
-    float u110;
-    float u111;
-    float u112;
-    int t136;
-    int t140;
-    float u146;
-    float u147;
-    float t148;
-    int stk[29];
+    float u105;
+    int t106;
+    float u107;
+    float u108;
+    float u119;
+    int t120;
+    float u121;
+    float u122;
+    float u130;
+    int t131;
+    float u132;
+    float u133;
+    int stk[18];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    F4 = f4;
-    F5 = f5;
-    L_C073288:;
-    { struct mv9 { int w[9]; }; *(struct mv9 *)((((int)stk + 4) + 0x20)) = *(struct mv9 *)(0xC0D61C0); }
-    t0 = *(int *)0xC2AEC3C;
-    R0 = (t0);
-    R14 = (0xC2AEC20);
-    if ((t0 == 0)) goto L_C0732B8;
-    goto L_C0732B4;
-    L_C0732B4:;
-    goto L_C0736A2;
-    L_C0736A2:;
-    *(unsigned int *)((R14 + 0x1C)) = 0x0;
-    goto L_C0736A6;
-    L_C0736A6:;
-    return R0;
-    L_C0732B8:;
-    *(float *)((R14 + 0x20)) = (BigOneKeyValue(0xC13F5B8, 0x2, (*(float *)((R14 + 0x38)))));
-    *(float *)((R14 + 0x24)) = (BigOneKeyValue(0xC13F578, 0x4, (*(float *)((R14 + 0x38)))));
-    *(float *)((R14 + 0x28)) = (*(float *)((R14 + 0x20)));
-    *(unsigned int *)(((int)stk + 4)) = ((int)((((BigOneKeyValue(0xC13F518, 0x4, (*(float *)((R14 + 0x38))))) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
-    *(unsigned int *)(((int)stk + 8)) = ((int)((((BigOneKeyValue(0xC13F558, 0x2, (*(float *)((R14 + 0x38))))) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF);
-    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x2C), 0.0749999955f);
-    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x30), 0.0749999955f);
-    *(unsigned int *)((R14 + 0x34)) = (*(int *)((R14 + 0x30)));
-    nlPushUnitMatrix();
-    BigOneRotate((*(int *)((R14 + 0x2C))), (*(int *)((R14 + 0x30))), (*(int *)((R14 + 0x34))));
-    nlPushMatrix(0x0);
-    nlCalcPoint((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x14));
-    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F5D8, 0x2, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F5F8, 0x6, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F658, 0x5, (*(float *)((R14 + 0x38)))));
-    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
-    u32 = *(float *)(((int)stk + 12));
-    u33 = *(float *)(((int)stk + 20));
-    u34 = (u33 * u33);
-    u34 = u34 + u32 * u32;
-    *(unsigned int *)(((int)stk + 4)) = ((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u34))) - (*(int *)((R14 + 0x2C))));
-    t41 = *(int *)((R14 + 0x30));
-    *(unsigned int *)(((int)stk + 8)) = (((nlArcTan2((*(float *)(((int)stk + 12))), (*(float *)(((int)stk + 20))))) - t41) - t41);
-    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x40), 0.0749999955f);
-    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x44), 0.0749999955f);
-    nlTranslateV((((int)stk + 4) + 0x38));
-    BigOneRotate((*(int *)((R14 + 0x40))), (*(int *)((R14 + 0x44))), (*(int *)((R14 + 0x48))));
-    nlTranslateNV((((int)stk + 4) + 0x38));
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    R10 = (0xC13F898);
-    R11 = (0xC077210);
-    R12 = (0x1);
-    R13 = (0xC0771B0);
-    R8 = (0xC140EB8);
-    F15 = (0.0749999955f);
-    goto L_C0733FE;
-    L_C0733FE:;
-    t58 = *(int *)((R8 + 0x18));
-    nlCalcPoint(R8, ((t58 << 2) + R10));
-    *(unsigned int *)((((t58 << 2) + R10) + 0x0)) = ((*(int *)((((t58 << 2) + R10) + 0x0))) | R12);
-    nlCalcVector((R8 + 0xC), (((t58 << 2) + R10) + 0xC));
-    t62 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t62 + 0x1);
-    R8 = ((R8 + 0x1C));
-    if (((unsigned int)(t62 + 0x1) < (unsigned int)0x2D)) goto L_C0733FE;
-    goto L_C073428;
-    L_C073428:;
-    nlGetPushedMatrix(0x0);
-    nlCalcPoint((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
-    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F6A8, 0x2, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F6C8, 0x6, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F728, 0x6, (*(float *)((R14 + 0x38)))));
-    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
-    u74 = *(float *)(((int)stk + 12));
-    u75 = *(float *)(((int)stk + 20));
-    u76 = (u75 * u75);
-    u76 = u76 + u74 * u74;
-    *(unsigned int *)(((int)stk + 4)) = ((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u76))) - (*(int *)((R14 + 0x2C))));
-    *(unsigned int *)(((int)stk + 8)) = ((nlArcTan2((*(float *)(((int)stk + 12))), (-(*(float *)(((int)stk + 20)))))) - (*(int *)((R14 + 0x30))));
-    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x4C), F15);
-    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x50), F15);
-    nlTranslateV((((int)stk + 4) + 0x20));
-    BigOneRotate((*(int *)((R14 + 0x4C))), (*(int *)((R14 + 0x50))), (*(int *)((R14 + 0x54))));
-    nlTranslateNV((((int)stk + 4) + 0x20));
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    R8 = (0xC1413A4);
-    goto L_C0734DA;
-    L_C0734DA:;
-    t95 = *(int *)((R8 + 0x18));
-    nlCalcPoint(R8, ((t95 << 2) + R10));
-    *(unsigned int *)((((t95 << 2) + R10) + 0x0)) = ((*(int *)((((t95 << 2) + R10) + 0x0))) | R12);
-    nlCalcVector((R8 + 0xC), (((t95 << 2) + R10) + 0xC));
-    t99 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t99 + 0x1);
-    R8 = ((R8 + 0x1C));
-    if (((unsigned int)(t99 + 0x1) < (unsigned int)0x10)) goto L_C0734DA;
-    goto L_C073504;
-    L_C073504:;
-    nlCalcPoint((((int)stk + 4) + 0x2C), (((int)stk + 4) + 0x14));
-    *(float *)(((int)stk + 12)) = (BigOneKeyValue(0xC13F788, 0x2, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 16)) = (BigOneKeyValue(0xC13F7A8, 0x8, (*(float *)((R14 + 0x38)))));
-    *(float *)(((int)stk + 20)) = (BigOneKeyValue(0xC13F828, 0x7, (*(float *)((R14 + 0x38)))));
-    nlSubVector((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x14));
-    u110 = *(float *)(((int)stk + 12));
-    u111 = *(float *)(((int)stk + 20));
-    u112 = (u111 * u111);
-    u112 = u112 + u110 * u110;
-    *(unsigned int *)(((int)stk + 4)) = (((nlArcTan2((*(float *)(((int)stk + 16))), _builtin_sqrtf(u112))) - (*(int *)((R14 + 0x2C)))) - (*(int *)(((0x4C + R14) + 0x0))));
-    R9 = ((((int)stk + 4) + 0x2C));
-    F4 = ((*(float *)(((int)stk + 12))));
-    F5 = ((-(*(float *)(((int)stk + 20)))));
-    goto L_C073600;
-    L_C073600:;
-    *(unsigned int *)(((int)stk + 8)) = (((nlArcTan2(F4, F5)) - (*(int *)((R14 + 0x30)))) - (*(int *)(((0x50 + R14) + 0x0))));
-    BigOneHomeAngle((*(int *)(((int)stk + 4))), (R14 + 0x58), F15);
-    BigOneHomeAngle((*(int *)(((int)stk + 8))), (R14 + 0x5C), F15);
-    nlTranslateV(R9);
-    BigOneRotate((*(int *)((R14 + 0x58))), (*(int *)((R14 + 0x5C))), (*(int *)((R14 + 0x60))));
-    nlTranslateNV(R9);
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    R8 = (0xC141564);
-    goto L_C073648;
-    L_C073648:;
-    t136 = *(int *)((R8 + 0x18));
-    nlCalcPoint(R8, ((t136 << 2) + R10));
-    *(unsigned int *)((((t136 << 2) + R10) + 0x0)) = ((*(int *)((((t136 << 2) + R10) + 0x0))) | R12);
-    nlCalcVector((R8 + 0xC), (((t136 << 2) + R10) + 0xC));
-    t140 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t140 + 0x1);
-    R8 = ((R8 + 0x1C));
-    if (((unsigned int)(t140 + 0x1) < (unsigned int)0x19)) goto L_C073648;
-    goto L_C073672;
-    L_C073672:;
-    nlPopMatrix(0x2);
-    *(float *)((R14 + 0x38)) = ((*(float *)((R14 + 0x38))) + (*(float *)(((0x3C + R14) + 0x0))));
-    u146 = *(float *)0xC0738E8;
-    u147 = *(float *)((R14 + 0x38));
-    t148 = nlFloor((u147 / u146));
-    *(float *)((R14 + 0x38)) = (u147 - (t148 * u146));
-    R0 = (0x38);
-    F0 = ((t148 * u146));
-    goto L_C0736A6;
+    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 4)) = *(struct mv5 *)(0xC0D0F14); }
+    pfSetFont(0x0);
+    pfColor(0xFFFFAA00, 0xFFFFFFFF, 0xFFFFAA00, 0xFFFFFFFF);
+    pfSize(1.0f, 1.0f);
+    if ((*(int *)0xC1EE214) == 0) {
+        nlObjPutSetFadeColor(0.0f, 0.799999952f, 0.399999976f);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+        t7 = 0x1F5;
+        u8 = 523.0f;
+        u9 = 80.0f;
+    } else {
+        nlObjPutSetFadeColor(1.0f, 0.5f, 0.899999976f);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+        t7 = 0x1F4;
+        u8 = 555.0f;
+        u9 = 83.0f;
+    }
+    nd_SprPut(0xC2A9898, t7, u8, u9);
+    ResetFadeColor();
+    u14 = *(float *)(((*(int *)0xC2A996C) + 0x0));
+    *(unsigned int *)0xC1311B8 = (int)(u14 * 100.0f);
+    t15 = (int)(u14 * 100.0f);
+    if ((int)(int)(u14 * 100.0f) < 0) {
+        t15 = 0x0;
+    }
+    t17 = t15;
+    if ((int)t15 > (int)0x1869F) {
+        t17 = 0x1869F;
+    }
+    *(unsigned int *)(((((int)stk + 4) + 0x10) + 0x0)) = ((int)((int)t17 / (int)0x2710));
+    *(unsigned int *)((((int)stk + 4) + 0xC)) = ((int)((int)((int)((int)t17 / (int)0x3E8)) % (int)0xA));
+    *(unsigned int *)((((int)stk + 4) + 0x8)) = ((int)((int)((int)((int)t17 / (int)0x64)) % (int)0xA));
+    *(unsigned int *)((((int)stk + 4) + 0x4)) = ((int)((int)((int)((int)t17 / (int)0xA)) % (int)0xA));
+    *(unsigned int *)((((int)stk + 4) + 0x0)) = ((int)((int)(t17 - ((*(int *)(((((int)stk + 4) + 0x10) + 0x0))) * 0x2710)) % (int)0xA));
+    u36 = 1.0f;
+    u37 = 0.0f;
+    if (((*(int *)0xC1EE214) == 0) && (t29 = *(int *)0xC2A996C, u30 = *(float *)((t29 + 0x0)), !(150.0f > u30))) {
+        u36 = 0.0f;
+        u37 = 1.0f;
+    }
+    nlObjPutSetFadeColor(u36, 1.0f, u37);
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    nd_SprPut(0xC2A9898, 0x1E9, 601.0f, 108.0f);
+    *(float *)0xC2A98A0 = 102.0f;
+    *(float *)0xC2A98C4 = 1.0f;
+    *(unsigned int *)0xC2A98C0 = 0x0;
+    *(unsigned int *)0xC2A98CC = 0x200A;
+    *(float *)0xC2A989C = 464.0f;
+    if ((((*(int *)0xC1EE214) == 0) && (u41 = *(float *)0xC179148, u41 > -5100.0f)) || ((t42 = *(int *)0xC1EE214, t42 == 20) && ((u43 = *(float *)0xC17914C, !(1350.0f > u43)) && (u44 = *(float *)0xC17914C, !(u44 > 1950.0f))))) {
+        *(unsigned int *)0xC2A9898 = ((*(int *)(((((int)stk + 4) + 0x10) + 0x0))) + 0x50);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+        if ((*(int *)(((((int)stk + 4) + 0x10) + 0x0))) == 0) {
+        } else {
+            nlSprPut(0xC2A9898);
+        }
+    } else {
+        if ((*(int *)0xC1EE214) == 0) {
+            *(unsigned int *)0xC2A9898 = 0x1E0;
+            nlSprPut(0xC2A9898);
+        }
+    }
+    *(float *)0xC2A989C = 488.0f;
+    if ((((*(int *)0xC1EE214) == 0) && (u73 = *(float *)0xC179148, u73 > -5100.0f)) || ((t74 = *(int *)0xC1EE214, t74 == 20) && ((u75 = *(float *)0xC17914C, !(1350.0f > u75)) && (u76 = *(float *)0xC17914C, !(u76 > 1950.0f))))) {
+        *(unsigned int *)0xC2A9898 = ((*(int *)(((((int)stk + 4) + 0xC) + 0x0))) + 0x50);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+        if ((*(int *)(((((int)stk + 4) + 0xC) + 0x0))) == 0) {
+            if ((*(int *)((((int)stk + 4) + 0x10))) != 0) {
+                nlSprPut(0xC2A9898);
+            }
+        } else {
+            nlSprPut(0xC2A9898);
+        }
+    } else {
+        *(unsigned int *)0xC2A9898 = 0x1E0;
+        nlSprPut(0xC2A9898);
+    }
+    if ((((*(int *)0xC1EE214) == 0) && (u105 = *(float *)0xC179148, u105 > -5100.0f)) || ((t106 = *(int *)0xC1EE214, t106 == 20) && ((u107 = *(float *)0xC17914C, !(1350.0f > u107)) && (u108 = *(float *)0xC17914C, !(u108 > 1950.0f))))) {
+        *(unsigned int *)0xC2A9898 = ((*(int *)((((int)stk + 4) + 0x8))) + 0x50);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+    } else {
+        *(unsigned int *)0xC2A9898 = 0x1E0;
+    }
+    *(float *)0xC2A989C = 512.0f;
+    nlSprPut(0xC2A9898);
+    *(unsigned int *)0xC2A9898 = 0x5C;
+    *(float *)0xC2A989C = 532.0f;
+    *(float *)0xC2A98A0 = ((*(float *)0xC2A98A0) + 16.0f);
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    nlSprPut(0xC2A9898);
+    *(float *)0xC2A98A0 = ((*(float *)0xC2A98A0) - 16.0f);
+    if ((((*(int *)0xC1EE214) == 0) && (u119 = *(float *)0xC179148, u119 > -5100.0f)) || ((t120 = *(int *)0xC1EE214, t120 == 20) && ((u121 = *(float *)0xC17914C, !(1350.0f > u121)) && (u122 = *(float *)0xC17914C, !(u122 > 1950.0f))))) {
+        *(unsigned int *)0xC2A9898 = ((*(int *)((((int)stk + 4) + 0x4))) + 0x50);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+    } else {
+        *(unsigned int *)0xC2A9898 = 0x1E0;
+    }
+    *(float *)0xC2A989C = 548.0f;
+    nlSprPut(0xC2A9898);
+    if ((((*(int *)0xC1EE214) == 0) && (u130 = *(float *)0xC179148, u130 > -5100.0f)) || ((t131 = *(int *)0xC1EE214, t131 == 20) && ((u132 = *(float *)0xC17914C, !(1350.0f > u132)) && (u133 = *(float *)0xC17914C, !(u133 > 1950.0f))))) {
+        *(unsigned int *)0xC2A9898 = ((*(int *)((((int)stk + 4) + 0x0))) + 0x50);
+        *(float *)0xC2A98A8 = 1.0f;
+        *(float *)0xC2A98AC = 1.0f;
+    } else {
+        *(unsigned int *)0xC2A9898 = 0x1E0;
+    }
+    *(float *)0xC2A989C = 572.0f;
+    nlSprPut(0xC2A9898);
+    ResetFadeColor();
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    return 0x14;
 }

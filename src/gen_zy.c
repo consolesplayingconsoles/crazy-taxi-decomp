@@ -1,102 +1,48 @@
 /* Straight-line functions with calls and guards (batch gen_zy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int SetColliObj(int, int);
+int nlAddVector(int, int);
 float nlInnerProduct(int, int);
-float nlScalor2(int);
+float nlLength(int, int, float, float);
+int nlOuterProduct(int, int, int);
+int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
-float nlUnitVector(int);
-int psgSetState(int, int, int, int);
-int psgRoadCheck(int a4, int a5, int a6, int a7, float f4);
+int set_event(int, int);
+void setObjHitBreakSide(int a4, float f4, float f5);
 
-int psgRoadCheck(int a4, int a5, int a6, int a7, float f4)
+void setObjHitBreakSide(int a4, float f4, float f5)
 {
-    float t13;
-    float t15;
-    float t21;
-    int t32;
-    int stk[22];
+    int t1;
+    int t2;
+    int t4;
+    int t5;
+    int t18;
+    int stk[12];
 
-    int R0;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F3;
-    float F4;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    L_C071966:;
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    R0 = (0x12C);
-    R13 = (0x0);
-    R14 = (R4);
-    R8 = (0x0);
-    if (((int)(*(int *)((R4 + 0x12C))) <= 0)) goto L_C071994;
-    goto L_C07198E;
-    L_C07198E:;
-    *(unsigned int *)((R14 + R0)) = ((*(int *)((R14 + R0))) - 2);
-    goto L_C071994;
-    L_C071994:;
-    R10 = (0x22);
-    R11 = (0xC078C30);
-    R9 = (0x23);
-    F13 = (225.0f);
-    F15 = (0.0f);
-    goto L_C0719A0;
-    L_C0719A0:;
-    nlSubVector3op((((int)stk + 4) + 0x1C), (((short)(((R13 << 1) + R13) << 2) + 0xC2AD2BC) + 0xC), ((short)(((R13 << 1) + R13) << 2) + 0xC2AD2BC));
-    *(float *)(((int)stk + 36)) = F15;
-    t13 = nlUnitVector((((int)stk + 4) + 0x1C));
-    nlSubVector3op((((int)stk + 4) + 0x10), (R14 + 0x4), ((short)(((R13 << 1) + R13) << 2) + 0xC2AD2BC));
-    *(float *)(((int)stk + 24)) = F15;
-    t15 = nlInnerProduct((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x10));
-    F0 = (t15);
-    F14 = (t13);
-    F4 = (t15);
-    if ((0.0f > t15)) goto L_C071A0E;
-    goto L_C0719EE;
-    L_C0719EE:;
-    if ((F4 > F14)) goto L_C071A0E;
-    goto L_C0719F2;
-    L_C0719F2:;
-    t21 = nlScalor2((((int)stk + 4) + 0x10));
-    F0 = (t21);
-    F4 = (t21);
-    if ((!(F13 > t21))) goto L_C071A0E;
-    goto L_C071A00;
-    L_C071A00:;
-    *(unsigned int *)((R14 + 0x12C)) = ((*(int *)((R14 + 0x12C))) + (R9 - R13));
-    goto L_C071A14;
-    L_C071A14:;
-    if (((int)(*(int *)((R14 + 0x12C))) <= (int)0xF)) goto L_C071A32;
-    goto L_C071A1E;
-    L_C071A1E:;
-    psgSetState(R14, 0x6, (*(int *)((R14 + 0x28))), (*(int *)((R14 + 0x2C))));
-    *(unsigned int *)((R14 + 0x12C)) = R8;
-    *(unsigned int *)(((int)stk + 4)) = 0x1;
-    goto L_C071A32;
-    L_C071A32:;
-    return (*(int *)(((int)stk + 4)));
-    L_C071A0E:;
-    t32 = (int)(R13 + 0x1) < (int)R10;
-    R13 = ((R13 + 0x1));
-    if (t32) goto L_C0719A0;
-    goto L_C071A14;
+    if ((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) {
+        t1 = set_event(0x84, 0xC0385AC);
+        if (t1 != 0) {
+            t2 = a4;
+            t4 = (t1 + 0x14);
+            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
+            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 12.0f);
+            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
+            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
+            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDED8;
+            *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE20C) + 0x0)));
+            SetColliObj((t1 + 0x14), 0x10);
+            nlSubVector3op((((int)stk + 4) + 0xC), (a4 + 0xC), (a4 + 0x58));
+            nlOuterProduct((a4 + 0x3C), (a4 + 0x30), ((int)stk + 4));
+            if ((nlInnerProduct((((int)stk + 4) + 0xC), ((int)stk + 4))) > 0.0f) {
+                *(unsigned int *)((a4 + 0x54)) = 0xC0EDEFC;
+                t18 = (*(int *)(((*(int *)0xC0EE210) + 0x0)));
+            } else {
+                *(unsigned int *)((a4 + 0x54)) = 0xC0EDF20;
+                t18 = (*(int *)(((*(int *)0xC0EE214) + 0x0)));
+            }
+            *(unsigned int *)((a4 + 0x64)) = t18;
+        }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+    }
 }

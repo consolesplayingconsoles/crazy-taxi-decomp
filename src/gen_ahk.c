@@ -1,24 +1,23 @@
 /* Straight-line functions with calls and guards (batch gen_ahk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int End_TimeUp(void);
-int SetLandmark(int);
-int GS_GameOver(void);
+int SetWindow(int);
+int Sound_Init(void);
+int Voice_Clear(void);
+int Voice_Request(int, int, int, int);
+int gdc_StopStreamSongAll(void);
+int gdc_StopStreamVoiceAll(void);
+int callTryAgain(void);
 
-int GS_GameOver(void)
+int callTryAgain(void)
 {
-    int t2;
-
-    *(unsigned int *)0xC179120 = 0x0;
-    SetLandmark(0x3);
-    *(unsigned int *)0xC2A11C8 = (*(int *)0xC1EE7A8);
-    t2 = *(int *)0xC1EE7F0;
-    *(unsigned int *)0xC1EE7F0 = (t2 - 1);
-    if ((int)(t2 - 1) < 0) {
-        if ((*(int *)0xC1EE210) != 2) {
-            *(unsigned int *)0xC1EE238 = 0x8;
-        }
-        return End_TimeUp();
-    }
-    return (t2 - 1);
+    *(unsigned int *)0xC2A1228 = (*(int *)0xC1EE234);
+    *(unsigned int *)0xC2A122C = (*(int *)0xC1EE238);
+    Voice_Clear();
+    gdc_StopStreamVoiceAll();
+    gdc_StopStreamSongAll();
+    Sound_Init();
+    SetWindow(0x2);
+    *(unsigned int *)0xC0EF550 = 0x275;
+    return Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
 }

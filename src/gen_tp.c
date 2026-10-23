@@ -1,33 +1,56 @@
 /* Straight-line functions with calls and guards (batch gen_tp): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int fcvCalcAngle(int, int, float);
-int fcvCalcPosition(int, int, float);
-float nlFloor(float);
-void FcvStoreBuffer(int a4, int a5, float f4);
+int GetCollision2D(int, float, float);
+int nlCalcVector(int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int breathMove(int a4, int a5);
 
-void FcvStoreBuffer(int a4, int a5, float f4)
+int breathMove(int a4, int a5)
 {
-    float t1;
-    int t2;
+    float u9;
+    float u10;
+    float u17;
+    float u18;
+    int t25;
+    float u26;
+    int stk[7];
 
-    t1 = nlFloor((f4 / (float)((*(int *)((a4 + 0x0))) - 1)));
-    t2 = *(int *)((a4 + 0x0));
-    fcvCalcPosition((((*(int *)((a4 + 0x18))) << 2) + a4), (a5 + 0xC), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcPosition((((*(int *)((a4 + 0x24))) << 2) + a4), (a5 + 0x18), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcPosition((((*(int *)((a4 + 0x34))) << 2) + a4), (a5 + 0x24), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcPosition((((*(int *)((a4 + 0x40))) << 2) + a4), (a5 + 0x30), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcPosition((((*(int *)((a4 + 0x4))) << 2) + a4), a5, (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x8))) << 2) + a4), (a5 + 0x3C), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0xC))) << 2) + a4), (a5 + 0x48), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x10))) << 2) + a4), (a5 + 0x54), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x14))) << 2) + a4), (a5 + 0x60), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x1C))) << 2) + a4), (a5 + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x20))) << 2) + a4), (a5 + 0x78), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x28))) << 2) + a4), ((a5 + 0x3C) + 0x48), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x2C))) << 2) + a4), ((a5 + 0x3C) + 0x54), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x30))) << 2) + a4), ((a5 + 0x3C) + 0x60), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x38))) << 2) + a4), ((a5 + 0x3C) + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x3C))) << 2) + a4), ((a5 + 0x3C) + 0x78), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x44))) << 2) + a4), ((a5 + 0x3C) + 0x84), (f4 - (t1 * (float)(t2 - 1))));
+    nlPushMatrix(0x0);
+    nlRotateAY((*(int *)((a4 + 0x10))));
+    nlRotateAX((*(int *)((a4 + 0xC))));
+    nlCalcVector(0xC0D5578, ((int)stk + 4));
+    nlPopMatrix(0x1);
+    nlGetAverageVector(a4, ((int)stk + 4), a4, 1.0f, (*(float *)((a4 + 0x18))));
+    u9 = *(float *)((a5 + 0x0));
+    u10 = *(float *)((a4 + 0x0));
+    if ((u10 - u9) > 50.0f) {
+        *(float *)((a4 + 0x0)) = ((*(float *)((a5 + 0x0))) + 50.0f);
+    } else {
+        if (-50.0f > (u10 - u9)) {
+            *(float *)((a4 + 0x0)) = ((*(float *)((a5 + 0x0))) + -50.0f);
+        }
+    }
+    u17 = *(float *)((a4 + 0x8));
+    u18 = *(float *)((a5 + 0x8));
+    if ((u17 - u18) > 50.0f) {
+        *(float *)((a4 + 0x8)) = ((*(float *)((a5 + 0x8))) + 50.0f);
+    } else {
+        if (-50.0f > (u17 - u18)) {
+            *(float *)((a4 + 0x8)) = ((*(float *)((a5 + 0x8))) + -50.0f);
+        }
+    }
+    t25 = GetCollision2D(a4, 0.0f, 50.0f);
+    u26 = *(float *)0xC0729F4;
+    if (((*(float *)((t25 + 0x4))) + u26) > (*(float *)((a4 + 0x4)))) {
+        *(float *)((a4 + 0x4)) = ((*(float *)((t25 + 0x4))) + u26);
+    }
+    if ((*(float *)((a4 + 0x4))) > (*(float *)((a5 + 0x4)))) {
+        *(float *)((a4 + 0x4)) = (*(float *)((a5 + 0x4)));
+    }
+    return 0x4;
 }

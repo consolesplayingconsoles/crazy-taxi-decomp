@@ -1,19 +1,20 @@
 /* Straight-line functions with calls and guards (batch gen_kv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Advtise(void);
-int AdvExecState(void);
+int PutRenderTexture(int);
+int nlRenderTextureEnd(int, int, int, int);
+int pfSetAspectRatio(float);
+int Pause_ExecRenderTexture2nd(int a4, int a5, int a6, int a7);
 
-int AdvExecState(void)
+int Pause_ExecRenderTexture2nd(int a4, int a5, int a6, int a7)
 {
-    int t1;
-    int t2;
+    int t0;
 
-    t1 = *(int *)((((*(int *)0xC1EE238) << 2) + 0xC08ADC4));
-    if (t1 == 0) {
-        *(unsigned int *)0xC1EE238 = 0x0;
-    } else {
-        t2 = ((int (*)(int))(t1))(0xC1EE238);
+    t0 = *(int *)0xC2A11B0;
+    if (t0 == 1) {
+        nlRenderTextureEnd(a4, a5, a6, a7);
+        pfSetAspectRatio(1.0f);
+        return PutRenderTexture(0x3);
     }
-    return Advtise();
+    return t0;
 }

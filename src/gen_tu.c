@@ -1,85 +1,132 @@
 /* Straight-line functions with calls and guards (batch gen_tu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int InitHomingVector(int, int);
-int camSnapToCar(int);
-int nlCalcPoint(int, int);
-int nlGetMatrix(int);
-int nlInvertMatrix(int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlTranslateV(int);
-void initCamera(int a4, int a5, float f4, float f5);
+int InitAdvLogoSprite(void);
+int PatchMotion(void);
+extern int PutAdvLogoSprite();
+int Put_SEGA_LOGO2(int, int, int, float, float, float);
+int gdc_FileLoad(int, int, int);
+int gdc_PlayStreamSong(int);
+int req_load(void);
+int AdvStateLogo(int a4, int a5, int a6, float f4, float f5, float f6);
 
-void initCamera(int a4, int a5, float f4, float f5)
+int AdvStateLogo(int a4, int a5, int a6, float f4, float f5, float f6)
 {
-    int stk[8];
+    int t1;
+    int t26;
+    int t4;
+    int t5;
+    int t17;
+    int t7;
+    int t12;
+    int t23;
+    int t33;
+    int t34;
+    int t46;
+    int t36;
+    int t41;
+    int t52;
+    int t80;
+    int t89;
+    int t86;
+    int t98;
+    int t55;
+    int t61;
+    int t74;
+    int t81;
+    int t94;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R13;
-    int R14;
-    float F3;
-    float F4;
-    float F5;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    F4 = f4;
-    F5 = f5;
-    L_C026744:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC08AA58); }
-    *(unsigned int *)0xC1798A8 = 0x7;
-    *(float *)0xC1798A4 = 60.0f;
-    *(unsigned int *)0xC179860 = 0x0;
-    *(unsigned int *)0xC0E4A14 = 0x1;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179840) = *(struct mv3 *)((((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x78)); }
-    *(unsigned char *)0xC179858 = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x0)));
-    *(unsigned char *)0xC179859 = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x1)));
-    *(unsigned char *)0xC17985A = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x2)));
-    *(unsigned char *)0xC17985B = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x3)));
-    *(unsigned char *)0xC17985C = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x4)));
-    *(unsigned char *)0xC17985D = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x5)));
-    *(unsigned char *)0xC1798AC = (*(signed char *)0xC08ADAC);
-    *(unsigned char *)0xC1798AD = (*(signed char *)0xC08ADAD);
-    *(unsigned char *)0xC1798AE = (*(signed char *)0xC08ADAE);
-    *(unsigned char *)0xC1798AF = (*(signed char *)0xC08ADAF);
-    *(unsigned char *)0xC1798B0 = (*(signed char *)0xC08ADB0);
-    *(unsigned char *)0xC1798B1 = (*(signed char *)0xC08ADB1);
-    *(float *)0xC1798B4 = 0.0f;
-    *(float *)0xC179958 = 0.0f;
-    *(unsigned short *)0xC17995C = (*(short *)((((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x86)));
-    *(unsigned int *)0xC179960 = 0x0;
-    *(unsigned int *)0xC179964 = 0x0;
-    *(float *)0xC0E49F4 = 1.33333325f;
-    *(unsigned int *)0xC1798B8 = 0x1;
-    *(float *)0xC0E4A04 = 60.0f;
-    *(unsigned int *)0xC0E49F8 = (((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x78);
-    *(unsigned int *)0xC0E49FC = (0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC));
-    *(unsigned int *)0xC0E4A00 = 0x0;
-    *(float *)0xC1798BC = 0.0f;
-    *(float *)0xC1798C0 = 5.0f;
-    *(float *)0xC1798C4 = 0.0f;
-    *(unsigned short *)0xC1798C8 = 0x0;
-    *(unsigned short *)0xC1798CA = 0x0;
-    *(unsigned short *)0xC1798CC = 0x0;
-    camSnapToCar(R4);
-    InitHomingVector(0xC1798D0, 0xC0965F0);
-    nlPushUnitMatrix();
-    nlTranslateV(0xC179840);
-    nlRotateAY((unsigned short)(*(short *)0xC17985A));
-    nlRotateAX((unsigned short)(*(short *)0xC179858));
-    nlRotateAZ((unsigned short)(*(short *)0xC17985C));
-    nlCalcPoint(((int)stk + 4), 0xC1798D0);
-    nlInvertMatrix(0x0);
-    nlGetMatrix(0xC179864);
-    nlPopMatrix(0x1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1798E8) = *(struct mv3 *)(0xC1798D0); }
+    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    t1 = *(int *)0xC1EE770;
+    if (t1 != 0) {
+        if (t1 != 1) {
+            t26 = t1;
+            if (t1 != 2) {
+            } else {
+                t4 = ((int (*)(int, int, int))(PutAdvLogoSprite))(a4, a5, a6);
+                t5 = *(int *)0xC1EE240;
+                t17 = t5;
+                if (t5 == 5) {
+                    t7 = *(int *)0xC1EE76C;
+                    t12 = t7;
+                    if (t7 == -1) {
+                        *(unsigned int *)0xC1EE33C = 0x0;
+                        gdc_FileLoad(0xC880000, 0xC08ADB8, 0x0);
+                        PatchMotion();
+                        *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
+                        *(unsigned int *)0xC1EE76C = 0x1;
+                        t12 = 0xC1EE76C;
+                    }
+                    t17 = t12;
+                }
+                t23 = t17;
+                if ((int)(*(int *)0xC1EE240) >= (int)0xB4) {
+                    *(unsigned int *)0xC1EE238 = 0x6;
+                    t23 = 0x6;
+                }
+                t26 = t23;
+            }
+            t55 = t26;
+        } else {
+            *(unsigned int *)0xC1EE770 = ((*(int *)0xC1EE770) + 0x1);
+            InitAdvLogoSprite();
+            t33 = ((int (*)(void))(PutAdvLogoSprite))();
+            t34 = *(int *)0xC1EE240;
+            t46 = t34;
+            if (t34 == 5) {
+                t36 = *(int *)0xC1EE76C;
+                t41 = t36;
+                if (t36 == -1) {
+                    *(unsigned int *)0xC1EE33C = 0x0;
+                    gdc_FileLoad(0xC880000, 0xC08ADB8, 0x0);
+                    PatchMotion();
+                    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
+                    *(unsigned int *)0xC1EE76C = 0x1;
+                    t41 = 0xC1EE76C;
+                }
+                t46 = t41;
+            }
+            t52 = t46;
+            if ((int)(*(int *)0xC1EE240) >= (int)0xB4) {
+                *(unsigned int *)0xC1EE238 = 0x6;
+                t52 = 0x6;
+            }
+            t55 = t52;
+        }
+        t98 = t55;
+    } else {
+        if (((int)(*(int *)0xC1EE240) < (int)0x78) && (t61 = *(int *)0xC1EE250, (t61 & 8) != 0)) {
+            *(unsigned int *)0xC2A93F4 = 0x78;
+            *(unsigned int *)0xC1EE240 = 0x78;
+        }
+        Put_SEGA_LOGO2(0x78, a5, a6, f4, f5, f6);
+        if ((*(int *)0xC1EE240) == 123) {
+            *(unsigned int *)0xC1EE33C = 0x0;
+            req_load();
+            *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + (*(int *)0xC1EE33C));
+        }
+        if (((*(int *)0xC1EE23C) == 1) && (t74 = *(int *)0xC1EE240, t74 == 120)) {
+            gdc_PlayStreamSong(0x4);
+        }
+        t80 = *(int *)0xC1EE23C;
+        if ((t80 == 0) && (t81 = *(int *)0xC1EE240, (int)t81 >= (int)0x12C)) {
+            *(unsigned int *)0xC1EE770 = 0x1;
+            *(unsigned int *)0xC1EE240 = 0x0;
+            t94 = 0xC1EE240;
+        } else {
+            t89 = t80;
+            if (t80 == 1) {
+                t86 = t80;
+                if ((int)(*(int *)0xC1EE240) < (int)0x19A) {
+                } else {
+                    *(unsigned int *)0xC1EE238 = 0x6;
+                    t86 = 0x6;
+                }
+                t89 = t86;
+            }
+            t94 = t89;
+        }
+        t98 = t94;
+    }
+    return t98;
 }

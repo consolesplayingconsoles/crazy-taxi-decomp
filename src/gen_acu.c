@@ -1,20 +1,22 @@
 /* Straight-line functions with calls and guards (batch gen_acu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckClipping(float);
-int breathMove(int, int);
-int breathSteer(int, int);
-int breathExecOne(int a4, int a5);
+int Chk_DispCredit(int);
+int End_Adv_Title_LOGO(float);
+int AdvStateTitle2(float f4);
 
-int breathExecOne(int a4, int a5)
+int AdvStateTitle2(float f4)
 {
-    int t1;
-
-    t1 = CheckClipping((10.0f));
-    if (t1 != 0) {
-        breathSteer(a4, a5);
-        breathMove(a4, a5);
-        return ((int (*)(int))(0xC0727F4))(a4);
+    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
+    if ((int)(*(int *)0xC0E5310) > 0) {
+        *(unsigned int *)0xC0E5310 = ((*(int *)0xC0E5310) - 1);
+        if ((int)(*(int *)0xC1EE240) > (int)0x5) {
+            *(unsigned int *)0xC1EE240 = 0x5;
+        }
     }
-    return t1;
+    if ((int)(*(int *)0xC1EE240) >= (int)0xF0) {
+        *(unsigned int *)0xC1EE238 = 0x0;
+        return End_Adv_Title_LOGO(f4);
+    }
+    return Chk_DispCredit(0x0);
 }

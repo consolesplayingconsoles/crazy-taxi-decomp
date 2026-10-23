@@ -1,61 +1,29 @@
 /* Straight-line functions with calls and guards (batch gen_vi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckXWord(int);
-int EditEntryName(int);
-int NextWindow(int);
-int menuCursor(int, int, int);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowNameEntry(void);
+float Drv_BikePedalStep(void);
+int Drv_ExecBlend(float, float, float, float, float);
+int Drv_StartAction(int, int, int);
+int FcvStoreBuffer(int, int, float);
+int Drv_ExecBikeReverse(float f4, float f5, float f6, float f7, float f8);
 
-int windowNameEntry(void)
+int Drv_ExecBikeReverse(float f4, float f5, float f6, float f7, float f8)
 {
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t18;
-    int t5;
-
-    windowOpenStep(0x14);
-    menuCursor(0x1, 0x1, 0x0);
-    if (((*(int *)0xC2A1208) & 0x4) != 0) {
-        EditEntryName(0x1);
-        if ((((*(int *)0xC2A11CC) & 0x4) != 0) && (t5 = *(int *)0xC2A11DC, (int)t5 <= (int)0x1)) {
-            NextWindow(0xA);
-        }
-        if (((*(int *)0xC2A11CC) & 2) != 0) {
-            CheckXWord(0xC2A1248);
-            t12 = 0x0;
-            for (;;) {
-                if ((int)t12 >= (int)0x4) {
-                    return windowEnterStep(0x14);
-                }
-                t13 = 0x0;
-                t14 = ((short)((short)t12 * (short)0x788) + 0xC28A4F8);
-                t15 = 0xC2A1248;
-                t16 = 0x0;
-                for (;;) {
-                    t18 = *(signed char *)((t14 + 0x0));
-                    t14 = (t14 + 0x1);
-                    t16 = (t16 + 0x1);
-                    if (t18 == (*(signed char *)((t15 + 0x0)))) {
-                        t13 = (t13 + 0x1);
-                    }
-                    t15 = (t15 + 0x1);
-                    if ((int)t16 >= (int)0x3) {
-                        break;
-                    }
-                }
-                if ((int)t13 >= (int)0x3) {
-                    break;
-                }
-                t12 = (t12 + 0x1);
-            }
-            NextWindow(0xE);
+    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x40);
+    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+        Drv_ExecBlend(f4, f5, f6, f7, f8);
+    } else {
+        FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
+        *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + (Drv_BikePedalStep()));
+        if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+            *(float *)0xC2AD024 = 0.0f;
         }
     }
-    return windowEnterStep(0x14);
+    if ((*(int *)0xC1791EC) != 0) {
+        if ((*(float *)0xC179228) > (*(float *)0xC063C50)) {
+            return Drv_StartAction(0x0, 0x0, 0x0);
+        }
+        return 0x15C;
+    }
+    return 0x120;
 }

@@ -6,7 +6,7 @@ int End_OverArea(void);
 int End_ReverseDriving(void);
 int GS_GuestEject(void);
 int GS_GuestIn(int);
-int GS_GuestOut(void);
+int GS_GuestOut(int);
 int GetCollision2D(int, float);
 int Get_Bowling_Gate(void);
 int HomingAngle1(int, int, float);
@@ -34,7 +34,7 @@ int navi_GetRouteDataB(int, int);
 int navi_GetRouteYa(int);
 int nlCloseEvent(int);
 float nlLength(int, int);
-int nlMultiLineUseViewMatrixTrnsl(void);
+int nlMultiLineUseViewMatrixTrnsl(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
 int rinRandGetSeed(void);
@@ -444,7 +444,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned char *)(((0x166 + R14) + 0x0)) = ((*(signed char *)(((0x166 + R14) + 0x0))) & 0x9F);
     goto L_C0251E4;
     L_C0251D0:;
-    *(unsigned int *)(((0x164 + R14) + 0x0)) = (((*(int *)(((0x164 + R14) + 0x0))) & 0xFF9FFFFF) | ((unsigned int)((int)((unsigned int)((-(GS_GuestOut())) + 0x2) & 0x3)) << 21));
+    *(unsigned int *)(((0x164 + R14) + 0x0)) = (((*(int *)(((0x164 + R14) + 0x0))) & 0xFF9FFFFF) | ((unsigned int)((int)((unsigned int)((-(GS_GuestOut(R14))) + 0x2) & 0x3)) << 21));
     goto L_C0251E4;
     L_C024DB0:;
     if ((R0 != 3)) goto L_C024DB8;
@@ -605,7 +605,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((!(450.0f > F15))) goto L_C025006;
     goto L_C024F56;
     L_C024F56:;
-    nlMultiLineUseViewMatrixTrnsl();
+    nlMultiLineUseViewMatrixTrnsl((R14 + 0x1A0));
     goto L_C025006;
     L_C025006:;
     if (((*(int *)((R14 + 0x3C))) != 2)) goto L_C025104;
@@ -1022,3 +1022,4 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((*(int *)((R10 + 0x0))) + 0x348)); }
     goto L_C024A74;
 }
+

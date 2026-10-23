@@ -104,7 +104,7 @@ void nlSysMetricsInit(void)
     _builtin_set_imask(0x0);
 }
 
-int nlSetIntrFunction(int a4)
+int nlSetIntrFunction(int a4, int a5)
 {
     int t0;
     int t1;
@@ -116,7 +116,7 @@ int nlSetIntrFunction(int a4)
     _builtin_set_imask(0xE);
     if ((int)a4 < (int)0xD) {
         t1 = *(int *)(((a4 << 2) + 0xC14A974));
-        t2 = ((int (*)(int))(t1))(a4);
+        t2 = ((int (*)(int, int))(t1))(a4, a5);
         t4 = t2;
     } else {
         t3 = nlIntrDefaultFunction();

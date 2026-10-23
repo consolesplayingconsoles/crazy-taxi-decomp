@@ -1,57 +1,40 @@
 /* Straight-line functions with calls and guards (batch gen_kw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Chk_DispCredit(void);
-int Start_Ranking(void);
-int Voice_Request(int, int, int, int);
-int exec_loop_Replay(void);
-int gdc_FadeManStreamSong(void);
-int gdc_FadeStopStreamSong(int, int);
-int gdc_StopStreamSongAll(void);
-int replayChangeControl(int);
-int AdvStateReplay(void);
+int nlAddVector(int, int);
+int nlAddVector3op(int, int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlSubVector3op(int, int, int, float, float, float);
+int drvPredictPath(float f4, float f5, float f6);
 
-int AdvStateReplay(void)
+int drvPredictPath(float f4, float f5, float f6)
 {
-    int t2;
+    float u1;
     int t8;
-    int t17;
-    int t9;
-    int t14;
+    int t10;
+    int stk[21];
 
-    *(unsigned int *)0xC1EE240 = ((*(int *)0xC1EE240) + 0x1);
-    t2 = 0x2;
-    if ((*(int *)0xC1EE20C) == 0) {
-        t2 = 0x1;
-    }
-    if ((replayChangeControl(t2)) == 0) {
-        exec_loop_Replay();
-    }
-    t8 = *(int *)0xC1EE774;
-    if ((t8 == 0) && (t9 = *(int *)0xC1EE33C, (int)t9 >= (int)0xBB8)) {
-        Start_Ranking();
-        *(unsigned int *)0xC1EE774 = ((*(int *)0xC1EE774) + 0x1);
-    } else {
-        if ((t8 == 1) && (t14 = *(int *)0xC1EE33C, (int)t14 >= (int)0x105E)) {
-            Voice_Request(0xC0E52E0, 0x0, 0x7F, 0x0);
-            t17 = 0x384;
-            if ((*(int *)0xC1EE20C) == 0) {
-                t17 = 0x44C;
-            }
-            gdc_FadeStopStreamSong(0x0, t17);
-            *(unsigned int *)0xC1EE774 = ((*(int *)0xC1EE774) + 0x1);
-        } else {
-            if (t8 == 2) {
-                gdc_FadeManStreamSong();
-            }
+    nlSubVector3op((((int)stk + 4) + 0xC), 0xC1791C8, 0xC1791D4, f4, f5, f6);
+    u1 = *(float *)0xC064618;
+    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED8C, (((int)stk + 4) + 0xC), u1, u1);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
+    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED80, (((int)stk + 4) + 0xC), u1, u1);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED80) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
+    nlGetAverageVector(0xC1791C8, 0xC1791D4, (((int)stk + 4) + 0x18), u1, u1);
+    nlGetAverageVector((((int)stk + 4) + 0x18), 0xC13ED74, (((int)stk + 4) + 0x18), u1, u1);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)((((int)stk + 4) + 0x18)); }
+    nlGetAverageVector(0xC179144, 0xC179158, (((int)stk + 4) + 0x24), u1, u1);
+    nlGetAverageVector((((int)stk + 4) + 0x24), 0xC13ED68, (((int)stk + 4) + 0x24), u1, u1);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2BC) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
+    t8 = 0x1;
+    for (;;) {
+        nlAddVector3op(((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC), (((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC) - 12), (((int)stk + 4) + 0x18));
+        t10 = nlAddVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC));
+        t8 = (t8 + 0x1);
+        if ((int)t8 >= (int)0x23) {
+            break;
         }
     }
-    if ((int)(*(int *)0xC1EE33C) >= (int)0x1298) {
-        *(unsigned int *)0xC1EE238 = 0x8;
-        if ((int)(*(int *)0xC2A4E54) > 0) {
-            *(unsigned int *)0xC2A4E54 = ((*(int *)0xC2A4E54) - 1);
-        }
-        return gdc_StopStreamSongAll();
-    }
-    return Chk_DispCredit();
+    return t10;
 }

@@ -1,303 +1,207 @@
 /* Straight-line functions with calls and guards (batch gen_jb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Sound_Request(int, int);
-int courseStatusGet(int, int, int, int);
-int extRand(void);
-int getNearLineIndex(int, int, int, int);
-int getSteering(int);
-int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+int End_LoadSave(int);
+int GetNowLanguage(int);
+int PutVM_Message(int, int, int, float, float);
+int SaveBackupData(int);
+int SetScreen(int);
+extern int SetWindow();
+int Start_LoadSave(int, int);
+int buIsExistFile(int, int);
+int callWarnning(int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int windowClose(void);
+int windowEnterStep(int);
+int windowOpenStep(int);
+void windowSaveData(int a4, int a5, int a6, int a7);
 
-int trainCarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
+void windowSaveData(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    int t1;
-    int t3;
-    int t4;
-    int t6;
-    float u16;
-    float u20;
-    float u24;
-    int t25;
-    int t34;
-    int t39;
-    float u81;
-    float u84;
-    float u99;
-    int t109;
-    int t114;
-    int t115;
-    int t119;
-    int t127;
-    int stk[15];
+    int t10;
+    int t12;
+    int t20;
+    int t21;
+    float u22;
+    int t27;
+    int t32;
+    int t37;
+    int t47;
+    int t69;
+    int t70;
+    float u71;
+    int t76;
+    int t81;
+    int t86;
+    int t105;
+    int t106;
+    float u107;
+    int t112;
+    int t117;
+    int t122;
+    int t48;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F7;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    F7 = f7;
-    L_C047330:;
-    t0 = *(int *)((R4 + 0x80));
-    t1 = *(int *)0xC2A6690;
-    t3 = *(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x0));
-    t4 = *(int *)(((*(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x4))) + 0x0));
-    getNearLineIndex(0x1, t3, t4, (0xD4 + R4));
-    t6 = *(int *)((R4 + 0xD4));
-    R12 = (t4);
-    R13 = (t3);
-    R14 = (R4);
-    R4 = ((t6 + 0x2));
-    if (((int)(t6 + 0x2) < (int)t4)) goto L_C047380;
-    goto L_C04737E;
-    L_C04737E:;
-    R4 = ((R4 - R12));
-    goto L_C047380;
-    L_C047380:;
-    u16 = (*(float *)((R14 + 0xE0)));
-    u16 = u16 + 0.199999988f * ((*(float *)((((((R4 << 1) + R4) << 2) + R13) + 0x0))) - (*(float *)(((0xE0 + R14) + 0x0))));
-    *(float *)((R14 + 0xE0)) = u16;
-    u20 = (*(float *)((R14 + 0xE4)));
-    u20 = u20 + 0.199999988f * ((*(float *)(((0x4 + ((((R4 << 1) + R4) << 2) + R13)) + 0x0))) - (*(float *)(((0xE4 + R14) + 0x0))));
-    *(float *)((R14 + 0xE4)) = u20;
-    u24 = (*(float *)((R14 + 0xE8)));
-    u24 = u24 + 0.199999988f * ((*(float *)(((0x8 + ((((R4 << 1) + R4) << 2) + R13)) + 0x0))) - (*(float *)(((0xE8 + R14) + 0x0))));
-    *(float *)((R14 + 0xE8)) = u24;
-    t25 = *(int *)((R14 + 0x88));
-    *(unsigned int *)((R14 + 0x88)) = 0x0;
-    R10 = (0x0);
-    R11 = (t25);
-    R12 = (0x3);
-    F4 = (0.199999988f);
-    if ((((*(int *)((R14 + 0x38))) & 0x3FFF) == 0)) goto L_C0473EE;
-    goto L_C0473E6;
-    L_C0473E6:;
-    *(unsigned int *)((R14 + 0x88)) = 0x5;
-    goto L_C0474C6;
-    L_C0474C6:;
-    *(unsigned int *)(((0xC0 + R14) + 0x0)) = ((*(int *)(((0xC0 + R14) + 0x0))) + (getSteering(R14)));
-    t34 = *(int *)((R14 + 0x80));
-    t39 = *(int *)((R14 + 0x88));
-    R0 = (t39);
-    F4 = ((*(float *)((0xC0C3F04 + (((*(int *)(((*(int *)((((((t34 << 1) + t34) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0xF) << 2)))));
-    F6 = (0.0f);
-    if ((t39 == 0)) goto L_C04754C;
-    goto L_C047500;
-    L_C047500:;
-    if ((R0 == 1)) goto L_C047548;
-    goto L_C047504;
-    L_C047504:;
-    if ((R0 == 2)) goto L_C04751E;
-    goto L_C047508;
-    L_C047508:;
-    if ((R0 == 3)) goto L_C047518;
-    goto L_C04750C;
-    L_C04750C:;
-    if ((R0 == 4)) goto L_C047514;
-    goto L_C047510;
-    L_C047510:;
-    if ((R0 != 5)) goto L_C04754C;
-    goto L_C047514;
-    L_C047514:;
-    F4 = (F6);
-    goto L_C04754C;
-    L_C04754C:;
-    *(float *)((R14 + 0xC8)) = F6;
-    F7 = (_builtin_fabsf((F4 - (*(float *)((R14 + 0xCC))))));
-    if ((F4 != 0.0f)) goto L_C047570;
-    goto L_C047562;
-    L_C047562:;
-    *(float *)((R14 + 0xC4)) = F6;
-    *(float *)((R14 + 0xC8)) = (*(float *)((R14 + 0xD0)));
-    goto L_C0475F4;
-    L_C0475F4:;
-    R0 = (0x2C);
-    if ((!(800.0f > (*(float *)((R14 + 0x2C)))))) goto L_C047682;
-    goto L_C047600;
-    L_C047600:;
-    R0 = (0x88);
-    R13 = (0xC072168);
-    if (((int)((*(int *)((R14 + 0x88))) - R11) <= 0)) goto L_C047674;
-    goto L_C04760C;
-    L_C04760C:;
-    if (((*(int *)((R14 + R0))) != 5)) goto L_C047618;
-    goto L_C047612;
-    L_C047612:;
-    Sound_Request(0x90AA9, 0x1);
-    goto L_C047618;
-    L_C047618:;
-    R0 = (0x88);
-    if (((int)((*(int *)((R14 + 0x88))) - R11) < (int)R12)) goto L_C047660;
-    goto L_C047622;
-    L_C047622:;
-    R0 = ((Sound_Request(0x60AA9, 0x1)));
-    goto L_C047682;
-    L_C047682:;
-    return R0;
-    L_C047660:;
-    if (((int)((*(int *)((R14 + R0))) - R11) < (int)0x2)) goto L_C047682;
-    goto L_C04766A;
-    L_C04766A:;
-    R0 = ((Sound_Request(0x50AA9, 0x1)));
-    goto L_C047682;
-    L_C047674:;
-    if (((int)((*(int *)((R14 + R0))) - R11) >= 0)) goto L_C047682;
-    goto L_C04767C;
-    L_C04767C:;
-    R0 = ((Sound_Request(0x40AA9, 0x1)));
-    goto L_C047682;
-    L_C047570:;
-    F5 = ((1.0f + 1.0f));
-    if (((*(float *)((R14 + 0xCC))) > F4)) goto L_C0475B2;
-    goto L_C04757C;
-    L_C04757C:;
-    u81 = *(float *)((R14 + 0xC4));
-    F1 = (u81);
-    if ((!(((*(float *)((R14 + 0xD0))) * F5) > u81))) goto L_C0475DE;
-    goto L_C04758A;
-    L_C04758A:;
-    u84 = *(float *)(((0xD0 + R14) + 0x0));
-    R0 = (0xC4);
-    F3 = ((*(float *)((R14 + 0xC4))));
-    F4 = ((u84 * 0.0299999993f));
-    F6 = (0.000999999931f);
-    if ((!(0.000999999931f > (u84 * 0.0299999993f)))) goto L_C0475AA;
-    goto L_C0475A6;
-    L_C0475A6:;
-    F2 = (F4);
-    goto L_C0475AC;
-    L_C0475AC:;
-    *(float *)((R14 + R0)) = (F3 + F2);
-    goto L_C0475DE;
-    L_C0475DE:;
-    if ((!((*(float *)((R14 + 0xC4))) > ((*(float *)((R14 + 0xD0))) * F5)))) goto L_C0475F4;
-    goto L_C0475EC;
-    L_C0475EC:;
-    *(float *)((R14 + 0xC4)) = (*(float *)((R14 + 0xD0)));
-    goto L_C0475F4;
-    L_C0475AA:;
-    F2 = (F6);
-    goto L_C0475AC;
-    L_C0475B2:;
-    F4 = (0.5f);
-    if ((!(0.231481507f > F7))) goto L_C0475C8;
-    goto L_C0475BE;
-    L_C0475BE:;
-    u99 = *(float *)((R14 + 0xC4));
-    *(float *)((R14 + 0xC4)) = (u99 * F4);
-    F1 = ((u99 * F4));
-    goto L_C0475DE;
-    L_C0475C8:;
-    *(float *)((R14 + 0xC4)) = F6;
-    F1 = (0.462963015f);
-    if ((!(F7 > 0.462963015f))) goto L_C0475DE;
-    goto L_C0475D4;
-    L_C0475D4:;
-    *(float *)((R14 + 0xC8)) = ((*(float *)((R14 + 0xD0))) * F4);
-    goto L_C0475DE;
-    L_C047518:;
-    F4 = (0.92592603f);
-    goto L_C04754C;
-    L_C04751E:;
-    F4 = (1.85185206f);
-    goto L_C04754C;
-    L_C047548:;
-    F4 = (2.77777815f);
-    goto L_C04754C;
-    L_C0473EE:;
-    t109 = courseStatusGet((*(int *)((R14 + 0x80))), (*(int *)((R14 + 0xD4))), 0x0, 0xA);
-    R4 = ((t109 >> 1));
-    R5 = (0x4);
-    if (((0x1F & (t109 >> 1)) == 0)) goto L_C047410;
-    goto L_C04740A;
-    L_C04740A:;
-    *(unsigned int *)((R14 + 0x88)) = R5;
-    goto L_C0474C6;
-    L_C047410:;
-    if ((R4 == 0)) goto L_C04741A;
-    goto L_C047414;
-    L_C047414:;
-    *(unsigned int *)((R14 + 0x88)) = R12;
-    goto L_C0474C6;
-    L_C04741A:;
-    t114 = *(signed char *)((R14 + 0x80));
-    t115 = *(int *)((((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8) + 0x4));
-    *(unsigned int *)(((int)stk + 8)) = R10;
-    t119 = R10;
-    R10 = (0x1);
-    R13 = (((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8));
-    R4 = (t115);
-    R6 = t119;
-    R9 = ((((signed char)((((t114 - 59) << 1) + (t114 - 59)) << 2) + 0xC0F2AE8) + 0x8));
-    goto L_C0474AA;
-    L_C0474AA:;
-    if (((int)R6 < (int)(*(int *)((R9 + 0x0))))) goto L_C047460;
-    goto L_C0474B0;
-    L_C0474B0:;
-    if (((*(int *)(((int)stk + 8))) != 0)) goto L_C0474C6;
-    goto L_C0474B6;
-    L_C0474B6:;
-    *(unsigned int *)((R13 + 0x0)) = (((extRand()) & R10) * 0x12C);
-    goto L_C0474C6;
-    L_C047460:;
-    t127 = *(int *)((R14 + 0xD4));
-    R0 = (0xD4);
-    R7 = (t127);
-    if (((int)t127 <= (int)(*(int *)((R4 + 0x0))))) goto L_C0474A6;
-    goto L_C04746A;
-    L_C04746A:;
-    if (((int)R7 >= (int)(*(int *)((R4 + 0x4))))) goto L_C0474A6;
-    goto L_C047470;
-    L_C047470:;
-    if (((int)(*(int *)((R13 + 0x0))) <= 0)) goto L_C0474A0;
-    goto L_C047476;
-    L_C047476:;
-    if (((int)(*(int *)((R14 + R0))) < (int)((*(int *)((R4 + 0x4))) - 2))) goto L_C04748C;
-    goto L_C047480;
-    L_C047480:;
-    *(unsigned int *)((R13 + 0x0)) = ((*(int *)((R13 + 0x0))) - 1);
-    *(unsigned int *)((R14 + 0x88)) = R5;
-    goto L_C0474A0;
-    L_C0474A0:;
-    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
-    goto L_C0474A6;
-    L_C0474A6:;
-    R4 = ((R4 + 0x8));
-    R6 = ((R6 + 0x1));
-    goto L_C0474AA;
-    L_C04748C:;
-    if (((int)(*(int *)((R14 + R0))) < (int)((*(int *)((R4 + 0x4))) - 10))) goto L_C04749C;
-    goto L_C047496;
-    L_C047496:;
-    *(unsigned int *)((R14 + 0x88)) = R12;
-    goto L_C0474A0;
-    L_C04749C:;
-    *(unsigned int *)((R14 + 0x88)) = R10;
-    goto L_C0474A0;
+    if ((*(int *)0xC2A1220) != 0) {
+        return;
+    }
+    if ((*(int *)0xC2A121C) == 1) {
+        *(unsigned int *)0xC2A121C = 0x2;
+        *(unsigned int *)0xC2A1208 = 0x2;
+        if ((*(int *)0xC2A1224) != 0) {
+            return;
+        }
+        ((int (*)(int, int, int, int))(SetWindow))(0x4, a5, a6, a7);
+    return;
+    }
+    if ((windowOpenStep(0x0)) == 1) {
+        for (;;) {
+            t10 = buIsExistFile((*(int *)0xC2A11B8), 0xC0A2078);
+            if (t10 != -1) {
+                break;
+            }
+        }
+        *(unsigned int *)0xC2A1AEC = t10;
+        if ((t10 != 0) && (t10 != 0xFFFFFF05)) {
+            callWarnning(t10);
+    return;
+        }
+        *(unsigned int *)0xC0EF7E0 = 0x1;
+        *(unsigned int *)0xC2A19E0 = 0x3;
+        return;
+    }
+    t12 = *(int *)0xC2A1AEC;
+    if (((*(int *)0xC2A1208) & 0x4) == 0) {
+        if ((*(int *)0xC0EF7E0) == 0) {
+            ((int (*)(int, int, int))(SetWindow))(0x9, t12, 0x4);
+    return;
+        }
+        t20 = 0x6;
+        t21 = 0x0;
+        u22 = 135.0f;
+        if ((*(int *)0xC2A1AEC) == 0xFFFFFF05) {
+            t20 = 0x8;
+            t21 = (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0);
+            u22 = 191.0f;
+        }
+        PutVM_Message(0x20, t20, t21, u22, 240.0f);
+        PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 220.0f, 368.0f);
+        t27 = *(int *)0xC2A11B8;
+        Start_LoadSave(((((t27 >> 1) << 1) + ((t27 >> 1) << 2)) + 0x1), 0x1);
+        if ((int)(*(int *)0xC2A19E0) > 0) {
+            *(unsigned int *)0xC2A19E0 = ((*(int *)0xC2A19E0) - 1);
+            return;
+        }
+        t32 = SaveBackupData((*(int *)0xC2A11B8));
+        End_LoadSave(0x1);
+        if (t32 != 0) {
+            callWarnning(t32);
+    return;
+        }
+        windowEnterStep(0x14);
+        windowClose();
+        SetScreen(0x4);
+        t37 = ((int (*)(int))(SetWindow))(0x0);
+        if ((*(int *)0xC0EF7E0) == 1) {
+            if ((*(int *)0xC2A121C) == 2) {
+                *(unsigned int *)0xC2A121C = 0x3;
+            }
+        }
+        return;
+    }
+    t47 = *(int *)0xC2A11CC;
+    if ((t12 == 0) && (t48 = *(int *)0xC2A121C, t48 == 2)) {
+        if ((0x18 & t47) != 0) {
+            *(unsigned int *)0xC0EF7E0 = (((*(int *)0xC0EF7E0) + 0x1) & 0x1);
+        } else {
+            if ((t47 & 0x4) != 0) {
+                *(unsigned int *)0xC0EF7E0 = 0x0;
+            }
+        }
+        PutVM_Message(0x20, 0x24, 0x0, 190.0f, 176.0f);
+        PutVM_Message(0x20, 0x25, 0x0, 190.0f, 208.0f);
+        putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, (0x1 & ((*(int *)0xC0EF7E0) + 0x1)), 0x0);
+        PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 220.0f, 368.0f);
+        if (((*(int *)0xC2A11CC) & 6) == 0) {
+            return;
+        }
+        *(unsigned int *)0xC2A1208 = (((*(int *)0xC2A1208) & 0xFFFFFFFB) | 0x8);
+        if ((*(int *)0xC0EF7E0) == 0) {
+            ((int (*)(int))(SetWindow))(0x9);
+    return;
+        }
+        t69 = 0x6;
+        t70 = 0x0;
+        u71 = 135.0f;
+        if ((*(int *)0xC2A1AEC) == 0xFFFFFF05) {
+            t69 = 0x8;
+            t70 = (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0);
+            u71 = 191.0f;
+        }
+        PutVM_Message(0x20, t69, t70, u71, 240.0f);
+        PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 220.0f, 368.0f);
+        t76 = *(int *)0xC2A11B8;
+        Start_LoadSave(((((t76 >> 1) << 1) + ((t76 >> 1) << 2)) + 0x1), 0x1);
+        if ((int)(*(int *)0xC2A19E0) > 0) {
+            *(unsigned int *)0xC2A19E0 = ((*(int *)0xC2A19E0) - 1);
+            return;
+        }
+        t81 = SaveBackupData((*(int *)0xC2A11B8));
+        End_LoadSave(0x1);
+        if (t81 != 0) {
+            callWarnning(t81);
+    return;
+        }
+        windowEnterStep(0x14);
+        windowClose();
+        SetScreen(0x4);
+        t86 = ((int (*)(int))(SetWindow))(0x0);
+        if ((*(int *)0xC0EF7E0) == 1) {
+            if ((*(int *)0xC2A121C) == 2) {
+                *(unsigned int *)0xC2A121C = 0x3;
+            }
+        }
+        return;
+    }
+    if ((t12 == 0xFFFFFF05) && ((t47 & 0x2) == 0)) {
+        PutVM_Message(0x20, 0x5, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 118.0f, 240.0f);
+        PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 220.0f, 368.0f);
+    return;
+    }
+    *(unsigned int *)0xC0EF7E0 = 0x1;
+    *(unsigned int *)0xC2A1208 = (((*(int *)0xC2A1208) & 0xFFFFFFFB) | 0x8);
+    if ((*(int *)0xC0EF7E0) == 0) {
+        ((int (*)(int, int, int))(SetWindow))(0x9, t12, 0x4);
+    return;
+    }
+    t105 = 0x6;
+    t106 = 0x0;
+    u107 = 135.0f;
+    if ((*(int *)0xC2A1AEC) == 0xFFFFFF05) {
+        t105 = 0x8;
+        t106 = (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0);
+        u107 = 191.0f;
+    }
+    PutVM_Message(0x20, t105, t106, u107, 240.0f);
+    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 220.0f, 368.0f);
+    t112 = *(int *)0xC2A11B8;
+    Start_LoadSave(((((t112 >> 1) << 1) + ((t112 >> 1) << 2)) + 0x1), 0x1);
+    if ((int)(*(int *)0xC2A19E0) > 0) {
+        *(unsigned int *)0xC2A19E0 = ((*(int *)0xC2A19E0) - 1);
+        return;
+    }
+    t117 = SaveBackupData((*(int *)0xC2A11B8));
+    End_LoadSave(0x1);
+    if (t117 != 0) {
+        callWarnning(t117);
+    return;
+    }
+    windowEnterStep(0x14);
+    windowClose();
+    SetScreen(0x4);
+    t122 = ((int (*)(int))(SetWindow))(0x0);
+    if ((*(int *)0xC0EF7E0) == 1) {
+        if ((*(int *)0xC2A121C) == 2) {
+            *(unsigned int *)0xC2A121C = 0x3;
+        }
+    }
 }

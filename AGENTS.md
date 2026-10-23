@@ -8,7 +8,7 @@ same memory writes, same result on every test case, checked by `tools/equiv.py`)
 rebuilds the original bytes (Matching) is the bonus tier: it goes into the build as a unit.
 
 ## The steps of this decomp
-    
+
 This repo follows the steps of the dc-decomp-kickoff skill: six to proven C for every function, then two to build the game from it. They are the milestones of the run: say which step you are in, announce
 each by its title before you start it (`=== Step N of 8: <title> ===`), and end it by printing the results
 (`python3 tools/progress.py`, with generated and hand-written C apart). The user decides at each boundary whether to go on.
@@ -22,7 +22,7 @@ each by its title before you start it (`=== Step N of 8: <title> ===`), and end 
 | 5 | Incremental script-generated decomp | `tools/5-generated/sdk_source.py <folder>`, `python3 tools/5-generated/gen_equiv`, `python3 tools/5-generated/gen_equiv --retest` |
 | 6 | Experience-driven agentic decomp | you: pocket by pocket (library without source, the game's own code, runtime routines and tables), writing cases for the branches `equiv.py` says no case ran; RAM dumps (`"dump"`) for what depends on run-time state |
 | 7 | Code size reduction | `tools/7-reduction/`: `shrink.py <name> ...` writes a function again and keeps the new C only when it compiles smaller and still passes its cases; `hoist.py [--loose] [--apply] <name> ...` holds a value the C reloads at every use in a local, as the original did. The target is the room the original code had: `make c` stops at `layout` while the C does not fit |
-| 8 | Build from C | `make c` (the executable from the C, build/cbuild/game.bin), `make disc GDI="<disc>.gdi"` (a disc image with it). The steps are `tools/8-build/cbuild.py` prep, compile, prelim, unity, layout, link. The check: the image has the original size, and outside the game code only the pointer words to game functions differ |
+| 8 | Build from C | `make c` (the executable from the C, build/cbuild/game.bin), `make disc GDI="<disc>.gdi"` (a disc image with it). The steps are `tools/8-build/cbuild.py` prep, compile, prelim, unity, layout, link; the regions come from `layout.txt` (`tools/layout.py`). The check: the image has the original size, and outside the game code only the pointer words to game functions differ |
 
 If you are the session that ran the kickoff and the user chose to continue, this file is your instructions. If you are a new session,
 you are a guided agent: read this file, run `python3 tools/progress.py` to see where the run stands, and start at the first step not done.

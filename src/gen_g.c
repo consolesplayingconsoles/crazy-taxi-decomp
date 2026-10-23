@@ -9,29 +9,6 @@ int Result_Class_Shadow_Put(void);
 int nlObjPutSetLightDirectionV(int a4);
 int adxt_stat_decend(int a4);
 
-int Result_Class_Shadow_Put(void)
-{
-    float u1;
-    int t2;
-    float u3;
-    float u4;
-
-    nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    *(unsigned int *)0xC2A972C = 0x200A;
-    *(unsigned int *)0xC2A96F8 = 0x13E;
-    u1 = 164.0f;
-    *(float *)0xC2A96FC = u1;
-    t2 = *(int *)0xC2A9748;
-    *(float *)0xC2A9700 = (float)(t2 + 0x18C);
-    u3 = *(float *)0xC2A9758;
-    *(float *)0xC2A9708 = (u3 + 1.0f);
-    u4 = *(float *)0xC2A9758;
-    *(float *)0xC2A970C = (u4 + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    *(unsigned int *)0xC2A9720 = 0x0;
-    return nlSprPut(0xC2A96F8, 0xC2A9758);
-}
 
 int nlObjPutSetLightDirectionV(int a4)
 {

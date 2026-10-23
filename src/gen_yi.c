@@ -1,93 +1,94 @@
 /* Straight-line functions with calls and guards (batch gen_yi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetAverageAngle(int, int, float);
-int Psg_SetPosPtr(int, int);
-int humanDraw(int, int, int, int);
-int nlAddVector(int, int);
+int extRand(void);
+int getCoursePointMove(int, int, int);
+int getNearLineIndex(int, int, int, int, int, float);
 int nlArcTan2(float, float);
-int nlCalcVector(int, int);
-int nlGetAverageVector(int, int, int, float, float);
-int nlGetPushedMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAY(int);
-int nlScaleVector(int, int, float);
-int nlSubVector(int, int);
-int nlSubVector3op(int, int, int);
-float nlUnitVector(int);
-int psgPlayBlend(int, int);
-int psgPutMarker(int, int);
-int psgPutShadow(int);
-int psgSetState(int, int, int, int);
-int psgUpdatePartTracks(int);
-int psgFrameState6(int a4);
+int PcarEvInit(int a4);
 
-int psgFrameState6(int a4)
+int PcarEvInit(int a4)
 {
-    int t12;
     int t14;
-    float u15;
-    int t16;
     int t18;
-    float u19;
-    int t20;
-    float t25;
-    float u26;
-    int t42;
-    float u45;
-    int stk[14];
+    int t49;
+    int t50;
+    int t58;
+    int t60;
+    float u47;
+    int stk[13];
 
-    if ((*(int *)((a4 + 0x24))) != 0) {
+    *(float *)((a4 + 0x90)) = ((*(float *)((a4 + 0x90))) + 1.0f);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + a4)) = *(struct mv3 *)(0xC0A4788); }
+    *(unsigned char *)(((0xA4 + a4) + 0x0)) = (*(signed char *)0xC0A4794);
+    *(unsigned char *)(((0xA4 + a4) + 0x1)) = (*(signed char *)0xC0A4795);
+    *(unsigned char *)(((0xA4 + a4) + 0x2)) = (*(signed char *)0xC0A4796);
+    *(unsigned char *)(((0xA4 + a4) + 0x3)) = (*(signed char *)0xC0A4797);
+    *(unsigned char *)(((0xA4 + a4) + 0x4)) = (*(signed char *)0xC0A4798);
+    *(unsigned char *)(((0xA4 + a4) + 0x5)) = (*(signed char *)0xC0A4799);
+    *(unsigned char *)(((0xAA + a4) + 0x0)) = (*(signed char *)0xC0A4794);
+    *(unsigned char *)(((0xAA + a4) + 0x1)) = (*(signed char *)0xC0A4795);
+    *(unsigned char *)(((0xAA + a4) + 0x2)) = (*(signed char *)0xC0A4796);
+    *(unsigned char *)(((0xAA + a4) + 0x3)) = (*(signed char *)0xC0A4797);
+    *(unsigned char *)(((0xAA + a4) + 0x4)) = (*(signed char *)0xC0A4798);
+    *(unsigned char *)(((0xAA + a4) + 0x5)) = (*(signed char *)0xC0A4799);
+    t14 = *(int *)(((((*(int *)((a4 + 0x78))) * 0xA8) + 0xC0A2628) + 0x0));
+    *(float *)((a4 + 0xB0)) = ((*(float *)((t14 + 0x14))) + (*(float *)((t14 + 0x10))));
+    t18 = *(int *)(((((*(int *)((a4 + 0x78))) * 0xA8) + 0xC0A2628) + 0x9C));
+    *(unsigned int *)(((int)stk + 16)) = t18;
+    if (t18 != 0) {
+        *(unsigned int *)((a4 + 0x7C)) = (*(int *)(((*(int *)(((int)stk + 16))) + (((extRand()) & 0x1F) << 2))));
     } else {
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
-        *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x2);
-        nlPushMatrix(0x0);
-        nlSubVector3op((((int)stk + 4) + 0x4), (a4 + 0x4), 0xC179144);
-        nlUnitVector((((int)stk + 4) + 0x4));
-        *(unsigned int *)(((int)stk + 4)) = (nlArcTan2((-(*(float *)(((int)stk + 8)))), (-(*(float *)(((int)stk + 16))))));
-        t12 = GetAverageAngle((*(int *)((a4 + 0x10))), (*(int *)(((int)stk + 4))), 0.849999964f);
-        *(unsigned int *)((a4 + 0x10)) = (short)t12;
-        nlRotateAY(((short)t12 + 0x8000));
-        t14 = *(int *)((a4 + 0x34));
-        u15 = *(float *)((a4 + 0x38));
-        t16 = *(int *)((t14 + 0x4));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(((*(int *)((t14 + 0x8))) + ((((((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1)) << 1) + (((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1))) << 2))); }
-        t18 = *(int *)((a4 + 0x34));
-        u19 = *(float *)((a4 + 0x38));
-        t20 = *(int *)((t18 + 0x4));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(((*(int *)((t18 + 0x8))) + (((((int)u19 * (((t20 + 0x1) << 1) + 0x1)) << 1) + ((int)u19 * (((t20 + 0x1) << 1) + 0x1))) << 2))); }
-        *(float *)(((int)stk + 24)) = 0.0f;
-        *(float *)(((int)stk + 36)) = 0.0f;
-        nlSubVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
-        nlCalcVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
-        nlGetAverageVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10), 1.3499999f, 0.75f);
-        t25 = nlUnitVector((((int)stk + 4) + 0x10));
-        u26 = t25;
-        if (t25 > 2.75f) {
-            u26 = 2.75f;
-        }
-        nlScaleVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10), u26);
-        nlAddVector((((int)stk + 4) + 0x10), (a4 + 0x4));
-        Psg_SetPosPtr(a4, (((int)stk + 4) + 0x10));
-        nlGetPushedMatrix(0x0);
-        psgPutShadow(a4);
-        if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
-            psgPlayBlend(a4, 0x1);
-        } else {
-            psgUpdatePartTracks(a4);
-            humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x1);
-            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
-            t42 = *(int *)(((*(int *)((a4 + 0x34))) + 0x0));
-            u45 = (float)(t42 - 2);
-            if ((int)(t42 - 2) < 0) {
-                u45 = ((float)(t42 - 2) + 4.2949673e+09f);
-            }
-            if (!(u45 > (*(float *)((a4 + 0x38))))) {
-                psgSetState(a4, 0x0, 0x0, 0x0);
-            }
-        }
-        nlPopMatrix(0x1);
+        *(unsigned int *)((a4 + 0x7C)) = 0xFFFFFFFF;
     }
-    return (psgPutMarker(a4, 0x1));
+    *(float *)((a4 + 0xB4)) = (*(float *)(((0xC0A2628 + ((*(int *)((a4 + 0x78))) * 0xA8)) + 0x94)));
+    *(float *)((a4 + 0xB8)) = 0.0f;
+    *(unsigned int *)((a4 + 0xBC)) = 0x1;
+    *(unsigned int *)((a4 + 0xC0)) = 0x0;
+    *(float *)((a4 + 0xC4)) = 0.0f;
+    *(float *)((a4 + 0xC8)) = 0.0f;
+    *(float *)((a4 + 0xCC)) = 0.0f;
+    *(float *)((a4 + 0xD0)) = 0.0f;
+    *(unsigned int *)((a4 + 0xDC)) = 0x0;
+    *(float *)((a4 + 0xF8)) = 0.0f;
+    *(float *)((a4 + 0xFC)) = 0.0f;
+    *(float *)((a4 + 0x100)) = 0.0f;
+    *(float *)((a4 + 0x104)) = 0.0f;
+    *(unsigned char *)(((0x108 + a4) + 0x0)) = (*(signed char *)0xC0A4794);
+    *(unsigned char *)(((0x108 + a4) + 0x1)) = (*(signed char *)0xC0A4795);
+    *(unsigned char *)(((0x108 + a4) + 0x2)) = (*(signed char *)0xC0A4796);
+    *(unsigned char *)(((0x108 + a4) + 0x3)) = (*(signed char *)0xC0A4797);
+    *(unsigned char *)(((0x108 + a4) + 0x4)) = (*(signed char *)0xC0A4798);
+    *(unsigned char *)(((0x108 + a4) + 0x5)) = (*(signed char *)0xC0A4799);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)(0xC0A4788); }
+    *(float *)((a4 + 0xF0)) = 1.0f;
+    *(unsigned int *)((a4 + 0x110)) = 0x0;
+    *(unsigned int *)((a4 + 0x114)) = 0x0;
+    *(unsigned int *)((a4 + 0x118)) = 0x0;
+    *(unsigned int *)((a4 + 0x11C)) = 0x0;
+    *(unsigned int *)((a4 + 0x120)) = 0x0;
+    *(unsigned int *)((a4 + 0x88)) = 0x0;
+    *(unsigned int *)((a4 + 0x84)) = 0xD;
+    *(unsigned int *)((a4 + 0x124)) = 0x0;
+    if ((*(int *)((a4 + 0x78))) == 10) {
+        *(unsigned int *)((a4 + 0x128)) = (*(int *)((0xC0F2AD8 + (((int)((int)(extRand()) % (int)0x4)) << 2))));
+    } else {
+        *(unsigned int *)((a4 + 0x128)) = 0x0;
+        u47 = 0.0f;
+    }
+    t49 = *(int *)((a4 + 0x80));
+    t50 = *(int *)0xC2A6690;
+    getNearLineIndex(0x0, (*(int *)((((((t49 << 1) + t49) << 2) + t50) + 0x0))), (*(int *)(((*(int *)((((((t49 << 1) + t49) << 2) + t50) + 0x4))) + 0x0))), (0xD4 + a4), (0x8C + a4), u47);
+    *(unsigned int *)(((int)stk + 12)) = (*(int *)((a4 + 0x80)));
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)((a4 + 0xD4))) + 0x3);
+    getCoursePointMove((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x0);
+    t58 = *(int *)(((int)stk + 12));
+    t60 = *(int *)(((int)stk + 8));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0xE0 + a4)) = *(struct mv3 *)(((((t60 << 1) + t60) << 2) + (*(int *)((((((t58 << 1) + t58) << 2) + (*(int *)0xC2A6690)) + 0x0))))); }
+    *(unsigned short *)(((0xA6 + a4) + 0x0)) = (nlArcTan2(((*(float *)((a4 + 0xE0))) - (*(float *)((a4 + 0x8C)))), ((*(float *)((a4 + 0xE8))) - (*(float *)((a4 + 0x94))))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x5C)) = *(struct mv3 *)(0xC0A4788); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x44)) = *(struct mv3 *)(0xC0A4788); }
+    *(unsigned int *)((a4 + 0x40)) = 0x0;
+    *(unsigned int *)((a4 + 0x3C)) = (a4 + 0x44);
+    return 0x40;
 }

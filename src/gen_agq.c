@@ -1,69 +1,55 @@
 /* Straight-line functions with calls and guards (batch gen_agq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ExecArrow(int, float);
-int InitArrow(int);
-int ResetFadeColor(void);
-float nlLength(int, int);
-int nlObjPutSetFadeColor(float, float, float);
-int Exec_Bowling_Arrow(void);
+int Sound_Request(int, int);
+int VSklIpPlay(int, int, int, int, int, int, float);
+int Voice_Request(int, int, int, int);
+int Voice_ShutUp(int);
+int humanDraw(int, int, int, int);
+int selectPlayPickMotion(void);
 
-int Exec_Bowling_Arrow(void)
+int selectPlayPickMotion(void)
 {
+    int t0;
+    int t1;
     int t2;
-    int t141;
-    float t142;
+    int t10;
+    int t18;
+    int t29;
+    int t31;
+    int t36;
 
-    t2 = *(int *)0xC2A9954;
-    if ((*(float *)0xC17914C) > (*(float *)0xC1313C0)) {
-        if ((int)t2 < (int)0x6) {
-            *(unsigned int *)0xC2A9954 = 0x6;
-            InitArrow(0xC1313C4);
+    t0 = *(int *)0xC2A75A4;
+    t1 = *(int *)0xC2A751C;
+    if (t0 != 1) {
+        if (t0 != 2) {
+            return t0;
         }
-    } else {
-        if ((*(float *)0xC17914C) > (*(float *)0xC1313B4)) {
-            if ((int)t2 < (int)0x5) {
-                *(unsigned int *)0xC2A9954 = 0x5;
-                InitArrow(0xC1313B8);
-            }
-        } else {
-            if ((*(float *)0xC17914C) > (*(float *)0xC1313A8)) {
-                if ((int)t2 < (int)0x4) {
-                    *(unsigned int *)0xC2A9954 = 0x4;
-                    InitArrow(0xC1313AC);
-                }
-            } else {
-                if ((*(float *)0xC17914C) > (*(float *)0xC13139C)) {
-                    if ((int)t2 < (int)0x3) {
-                        *(unsigned int *)0xC2A9954 = 0x3;
-                        InitArrow(0xC1313A0);
-                    }
-                } else {
-                    if ((*(float *)0xC17914C) > (*(float *)0xC131390)) {
-                        if ((int)t2 < (int)0x2) {
-                            *(unsigned int *)0xC2A9954 = 0x2;
-                            InitArrow(0xC131394);
-                        }
-                    } else {
-                        if ((*(float *)0xC17914C) > (*(float *)0xC131384)) {
-                            if ((int)t2 < (int)0x1) {
-                                *(unsigned int *)0xC2A9954 = 0x1;
-                                InitArrow(0xC131388);
-                            }
-                        } else {
-                            if ((int)t2 < 0) {
-                                *(unsigned int *)0xC2A9954 = 0x0;
-                                InitArrow(0xC13137C);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        t2 = *(int *)((t1 + 0x0));
+        return humanDraw((*(int *)(((((t2 << 2) << 2) + 0xC130748) + 0x8))), (*(int *)(((((t2 << 2) << 2) + 0xC130748) + 0xC))), (*(int *)((0xC2A7538 + ((*(int *)((t1 + 0x0))) << 2)))), 0x0);
     }
-    t141 = *(int *)0xC2A9954;
-    t142 = nlLength(0xC179144, ((signed char)(((t141 << 1) + t141) << 2) + 0xC13137C));
-    nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-    ExecArrow(0x1, t142);
-    return ResetFadeColor();
+    t10 = *(int *)((t1 + 0x0));
+    VSklIpPlay((*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0x4))), (*(int *)0xC2A75AC), (*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0x8))), 0x0, ((*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0xC)))), 0x0, ((float)(*(int *)((0xC2A7538 + ((*(int *)((t1 + 0x0))) << 2)))) / (float)(*(int *)0xC2A75B0)));
+    t18 = *(int *)(((*(int *)0xC2A751C) + 0x0));
+    if ((*(int *)((0xC2A7538 + (t18 << 2)))) == ((*(int *)0xC2A75B0) - 1)) {
+        *(unsigned int *)0xC2A75A4 = ((*(int *)0xC2A75A4) + 0x1);
+        *(unsigned int *)((0xC2A7538 + ((*(int *)(((*(int *)0xC2A751C) + 0x0))) << 2))) = 0x0;
+        *(unsigned int *)0xC2A7518 = 0x3;
+        Voice_ShutUp(0x0);
+        Voice_Request((*(int *)((((*(int *)(((*(int *)0xC2A751C) + 0x0))) << 2) + 0xC130710))), 0x0, 0x7F, 0x0);
+        t29 = *(int *)0xC2A75C0;
+        t31 = t29;
+        if (t29 == 4) {
+            t31 = (Sound_Request(0x308A9, 0x0));
+        }
+        if ((*(int *)0xC17948C) != 0) {
+            t36 = *(int *)0xC2A75C0;
+            if (t36 != 4) {
+                return Sound_Request(0x501A9, 0x0);
+            }
+            return t36;
+        }
+        return t31;
+    }
+    return (t18 << 2);
 }

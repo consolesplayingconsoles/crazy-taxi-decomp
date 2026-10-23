@@ -1,64 +1,86 @@
-extern int signalExec();
 /* Straight-line functions with calls and guards (batch gen_qq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-int signalInit(int a4, int a5);
+int ResetFadeColor(void);
+int Result_Awesome_Put(void);
+int Result_Crazy_Put(void);
+int Sound_Request(int, int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlSprPut(int, int, int);
+void Result_Class_Put(void);
 
-int signalInit(int a4, int a5)
+void Result_Class_Put(void)
 {
-    int t0;
-    int t4;
-    int t5;
-    int t6;
-    int t10;
-    int t23;
-    int t25;
-    int t27;
-    int t29;
+    int t1;
+    int t73;
+    int t70;
 
-    t0 = set_event(0x8C, ((int)signalExec));
-    if (t0 == 0) {
-        return t0;
+    t1 = *(int *)0xC2A97A8;
+    if ((int)(*(int *)0xC2A96F4) <= (int)t1) {
+        return;
     }
-    if ((a5 & 0x1) != 0) {
-        *(unsigned int *)((t0 + 0x14)) = 0x0;
-    } else {
-        *(unsigned int *)((t0 + 0x14)) = 0x1000;
+    if ((*(int *)0xC2A982C) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
     }
-    *(unsigned int *)((t0 + 0x84)) = 0x258;
-    *(unsigned int *)((t0 + 0x88)) = (*(int *)((t0 + 0x84)));
-    t4 = *(int *)(((a4 << 2) + 0xC0F2B18));
-    t5 = 0xC0F2B18;
-    t6 = 0x0;
-    for (;;) {
-        *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = (*(int *)((((t4 + ((((a5 << 1) + a5) << 2) << 2)) + (t6 << 2)) + 0x0)));
-        if ((int)(*(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0))) >= 0) {
-            t5 = (*(int *)0xC2A6690);
-            t10 = *(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0));
-            t5 = (*(int *)(((*(int *)((((((t10 << 1) + t10) << 2) + t5) + 0x4))) + 0x0)));
-            t5 = (t5 - 2);
-            *(unsigned int *)((((t0 + 0x48) + (t6 << 2)) + 0x0)) = t5;
+    if ((*(int *)0xC2A9830) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A9834) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A9838) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A983C) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A9840) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A9844) != 1) {
+        *(unsigned int *)0xC2A96F4 = t1;
+        return;
+    }
+    if ((*(int *)0xC2A9848) == 1) {
+        if ((*(int *)0xC2A97E0) == 1) {
+            *(unsigned int *)0xC2A97E4 = ((*(int *)0xC2A97E4) + 0x1);
+        }
+        if ((*(int *)0xC2A96F4) == ((*(int *)0xC2A97A8) + 0x1)) {
+            Sound_Request(0x405A9, 0x0);
+            *(unsigned int *)0xC130E04 = ((*(int *)0xC130E04) + 0x1);
+            *(unsigned int *)0xC2A9754 = 0x1;
         } else {
-            *(unsigned int *)((((t0 + 0x48) + (t6 << 2)) + 0x0)) = (-(*(int *)((((t0 + 0x18) + (t6 << 2)) + 0x0))));
-            if ((t6 & 0x1) == 0) {
-                *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = 0x120;
-            } else {
-                *(unsigned int *)((((t0 + 0x18) + (t6 << 2)) + 0x0)) = 0x121;
-            }
+            t70 = 0xC2A96F4;
         }
-        t6 = (t6 + 0x1);
-        if ((int)t6 >= (int)0xC) {
-            break;
+        t73 = *(int *)0xC2A97D8;
+        if (t73 == 0x3E7) {
+            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
+            Result_Crazy_Put();
+            ResetFadeColor();
+    return;
         }
+        if (t73 == 99) {
+            nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
+            Result_Awesome_Put();
+            ResetFadeColor();
+    return;
+        }
+        *(unsigned int *)0xC2A96F8 = (*(int *)(((t73 << 2) + 0xC130E80)));
+        *(float *)0xC2A96FC = (*(float *)0xC05A7D0);
+        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
+        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
+        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
+        *(float *)0xC2A9714 = 0.0f;
+        *(float *)0xC2A971C = 1.0f;
+        *(unsigned int *)0xC2A9720 = 0x0;
+        nlSprPut(0xC2A96F8, 0xC2A9758, t70);
+    return;
     }
-    t23 = *(int *)((t0 + 0x18));
-    t25 = *(int *)(((t0 + 0x48) + 0x0));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x78)) = *(struct mv3 *)(((*(int *)((((((t23 << 1) + t23) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t25 << 1) + t25) << 2))); }
-    t27 = *(int *)((t0 + 0x30));
-    t29 = *(int *)((t0 + 0x60));
-    nlAddVector((t0 + 0x78), ((*(int *)((((((t27 << 1) + t27) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t29 << 1) + t29) << 2)));
-    return nlScaleVector((t0 + 0x78), (t0 + 0x78), 0.5f);
+    *(unsigned int *)0xC2A96F4 = t1;
 }

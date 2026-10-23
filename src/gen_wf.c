@@ -1,122 +1,188 @@
 /* Straight-line functions with calls and guards (batch gen_wf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckColliWall(int, float);
-float GetCameraDistance(void);
-int GetCollision(int, int, float, float);
-int GetCollision2D(int, float);
-int MultiRot4Vec(int);
-int ResetSpark(void);
-int SetCameraMode(int);
-int SetCameraPosRatio(float, float);
-int SetCameraPosVelocity(int);
-int camSetAngles(int, int, int, int);
-int camSetEye(int, int);
-int camSetTarget(int, int);
-int nlCalcPoint(int, int);
-int nlCalcVector(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRand(void);
-float nlRandom(void);
-int nlScaleVector(int, int, float);
-int nlTranslateV(int);
-void ExecAdvCameraRandom(void);
+int InitArrow(int);
+int Init_Balloon(void);
+int Init_DCmini_CarPos(void);
+int Init_DCmini_Standard_Sprite(void);
+int Init_Window_Sprite(int);
+int MakeKyakuTakeArea(int, int, int, float);
+int Proposal_Initialize(void);
+int ResetBreakBeachFlag(void);
+int ResetPinFlag(void);
+int Reset_JumpDistance(void);
+int Start_JumpDistance(int);
+int nlMatrixMode(int);
+int nlPerspective(int, float, float, float);
+int nlUnitMatrix(void);
+int Init_DCmini(void);
 
-void ExecAdvCameraRandom(void)
+int Init_DCmini(void)
 {
-    float t3;
-    float u10;
-    int t33;
-    int t64;
-    int t65;
-    int t69;
-    float u83;
-    float u84;
-    float u85;
-    float u88;
-    int t66;
-    int stk[16];
+    int t7;
+    int t31;
+    int t35;
+    int t58;
+    int t90;
+    int t91;
+    int t109;
+    int t147;
+    int t148;
 
-    nlPushUnitMatrix();
-    nlTranslateV(0xC179144);
-    MultiRot4Vec(0xC1790FC);
-    t3 = GetCameraDistance();
-    if (t3 > 500.0f) {
-        *(unsigned int *)0xC179974 = 0x1;
-    }
-    if ((*(int *)0xC179974) != 0) {
-        *(float *)0xC179980 = 0.0f;
-        *(float *)0xC179978 = 0.0f;
-        *(float *)0xC17997C = 5.0f;
-        nlCalcPoint(0xC179978, 0xC179978);
-        *(float *)0xC179984 = (((nlRandom()) + -0.5f) * 68.0f);
-        *(float *)0xC179988 = (((nlRandom()) + -0.5f) * 16.0f);
-        u10 = 27.0f;
-        u10 = u10 + 27.0f * (nlRandom());
-        *(float *)0xC17998C = u10;
-        nlCalcVector(0xC179984, 0xC179984);
-        GetCollision(0xC179978, 0xC179984, 1.0f, 5.0f);
-        nlScaleVector(0xC179984, 0xC1791C8, ((nlRandom()) + (1.0f + 1.0f)));
-        camSetEye(0xC179978, 0x0);
-        SetCameraPosVelocity(0xC179984);
-        SetCameraPosRatio(0.899999976f, 0.199999988f);
-        *(unsigned int *)0xC179990 = ((int)(((nlRand()) << 16) << 1) >> 19);
-        *(unsigned int *)0xC179994 = ((int)(((nlRand()) << 16) << 1) >> 25);
-        *(unsigned int *)0xC179998 = ((nlRand()) & 0x3);
-        SetCameraMode(0x1);
-        ResetSpark();
-        *(unsigned int *)0xC179974 = 0x0;
-    }
-    nlScaleVector(0xC179984, 0xC179984, 0.979999959f);
-    GetCollision(0xC179978, 0xC179984, 0.0f, 5.0f);
-    CheckColliWall(0xC179978, 5.0f);
-    t33 = GetCollision2D(0xC179978, 5.0f);
-    if ((*(int *)((t33 + 0x1C))) != -1) {
-        if ((*(float *)((t33 + 0x18))) > ((*(float *)0xC17997C) + -5.0f)) {
-            *(float *)0xC17997C = ((*(float *)((t33 + 0x18))) + 5.0f);
-        }
-        if (((*(float *)0xC17997C) + -100.0f) > (*(float *)((t33 + 0x18)))) {
-            *(float *)0xC17997C = ((*(float *)((t33 + 0x18))) + 100.0f);
-        }
+    nlMatrixMode(0x3);
+    nlUnitMatrix();
+    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
+    nlMatrixMode(0x1);
+    Init_DCmini_Standard_Sprite();
+    Init_Window_Sprite(0x4);
+    Init_DCmini_CarPos();
+    *(unsigned int *)0xC2A991C = 0x0;
+    *(unsigned int *)0xC2A9920 = 0x0;
+    *(unsigned int *)0xC2A9924 = 0x1E;
+    *(unsigned int *)0xC2A98E8 = 0x0;
+    *(unsigned int *)0xC2A98F4 = 0x0;
+    *(unsigned int *)0xC2A98F8 = 0x0;
+    *(unsigned int *)0xC2A98F0 = 0xC2A98F4;
+    *(unsigned int *)0xC2A9928 = 0x3E7;
+    *(unsigned int *)0xC2A9A38 = 0xB4;
+    *(unsigned short *)0xC2A9940 = 0x0;
+    *(unsigned int *)0xC2A9944 = 0x1;
+    *(float *)0xC2A9948 = 0.5f;
+    *(float *)0xC2A994C = 0.0f;
+    *(unsigned int *)0xC2A9950 = 0x0;
+    *(unsigned int *)0xC2A9904 = 0x0;
+    t7 = *(int *)0xC1EE214;
+    if (t7 == 10) {
+        *(unsigned int *)0xC2A9900 = 0x8;
     } else {
-        *(unsigned int *)0xC179974 = 0x1;
-    }
-    camSetEye(0xC179978, 0x2);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0965F0); }
-    *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + 5.0f);
-    if (((*(int *)0xC179998) & 2) != 0) {
-        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + 50.0f);
-    }
-    nlCalcPoint(((int)stk + 4), ((int)stk + 4));
-    camSetTarget(((int)stk + 4), 0x2);
-    nlPopMatrix(0x1);
-    t64 = *(int *)0xC179990;
-    t65 = *(int *)0xC179994;
-    *(unsigned int *)0xC179990 = (t64 + t65);
-    if (((int)(t64 + t65) >= (int)0xFFFFE800) && (t66 = *(int *)0xC179990, (int)t66 <= (int)0x1800)) {
-    } else {
-        t69 = *(int *)0xC179994;
-        if ((int)t69 < 0) {
-            *(unsigned int *)0xC179994 = ((*(int *)0xC179994) + 0x1);
+        if (t7 == 8) {
+            *(unsigned int *)0xC2A9900 = 0x5;
         } else {
-            if ((int)t69 > 0) {
-                *(unsigned int *)0xC179994 = ((*(int *)0xC179994) - 1);
+            if (t7 == 9) {
+                *(unsigned int *)0xC2A9900 = 0x3;
+            } else {
+                if ((t7 != 14) && (t7 != 11)) {
+                    *(unsigned int *)0xC2A9900 = 0x1;
+                } else {
+                    *(unsigned int *)0xC2A9900 = 0x7;
+                }
             }
         }
     }
-    camSetAngles(0x0, 0x0, (*(int *)0xC179990), 0x0);
-    if ((0x1 & (*(int *)0xC179998)) != 0) {
-        u83 = *(float *)0xC0290DC;
-        u84 = *(float *)0xC0290E0;
-        u85 = ((u83 - t3) / u84);
-        if (0.0f > ((u83 - t3) / u84)) {
-            u85 = 0.0f;
-        }
-        u88 = 27.0f;
-        u88 = u88 + (*(float *)0xC0290E4) * u85;
-        *(float *)0xC1798A4 = u88;
-    } else {
-        *(float *)0xC1798A4 = (*(float *)0xC0290E8);
+    *(unsigned short *)0xC2A992C = 0x0;
+    *(unsigned int *)0xC2A996C = 0xC1311C8;
+    *(unsigned int *)0xC2A9A40 = 0x122;
+    *(unsigned int *)0xC2A9A44 = 0x0;
+    *(float *)0xC2A9A48 = -320.0f;
+    *(float *)0xC2A9A4C = 320.0f;
+    *(unsigned int *)0xC2A9A50 = 0x0;
+    *(float *)0xC2A9A54 = 1.0f;
+    *(float *)0xC2A9A58 = 1.0f;
+    if ((*(int *)0xC1EE214) == 3) {
+        *(unsigned int *)0xC2A9964 = 0x78;
+        *(unsigned int *)0xC2A9960 = 0x78;
+        ResetPinFlag();
+        *(unsigned int *)0xC2A9954 = 0xFFFFFFFF;
+        *(unsigned int *)0xC2A9958 = 0x46;
+        *(unsigned int *)0xC2A995C = 0x0;
     }
+    *(unsigned int *)0xC2A98FC = 0x0;
+    t31 = *(int *)0xC1EE214;
+    if (t31 == 1) {
+        InitArrow(0xC1311BC);
+        ResetBreakBeachFlag();
+    } else {
+        if (t31 != 8) {
+            if (t31 != 9) {
+                if (t31 != 10) {
+                    if (t31 != 11) {
+                        if (t31 != 13) {
+                            if (t31 != 14) {
+                            } else {
+                                *(unsigned int *)0xC2A98EC = 0x7;
+                                t35 = 0xC1310E4;
+                                if ((*(int *)0xC1EE214) == 11) {
+                                    t35 = 0xC131030;
+                                }
+                                InitArrow(t35);
+                                ResetPinFlag();
+                                *(unsigned int *)0xC2A9968 = 0x78;
+                                *(unsigned int *)0xC2A9A34 = 0x0;
+                            }
+                        } else {
+                            *(unsigned int *)0xC2A9A3C = 0x0;
+                        }
+                    } else {
+                        *(unsigned int *)0xC2A98EC = 0x7;
+                        t58 = 0xC1310E4;
+                        if ((*(int *)0xC1EE214) == 11) {
+                            t58 = 0xC131030;
+                        }
+                        InitArrow(t58);
+                        ResetPinFlag();
+                        *(unsigned int *)0xC2A9968 = 0x78;
+                        *(unsigned int *)0xC2A9A34 = 0x0;
+                    }
+                } else {
+                    *(unsigned int *)0xC2A98EC = 0x8;
+                    InitArrow(0xC131084);
+                    *(unsigned int *)0xC2A9968 = 0x78;
+                    *(unsigned short *)0xC2A9A64 = 0xC000;
+                }
+            } else {
+                *(unsigned int *)0xC2A98EC = 0x3;
+                *(unsigned int *)0xC2A9968 = 0x78;
+            }
+        } else {
+            *(unsigned int *)0xC2A98EC = 0x5;
+            *(unsigned int *)0xC2A9968 = 0x78;
+            t90 = 0xC2A9908;
+            t91 = 0x0;
+            for (;;) {
+                t91 = (t91 + 0x1);
+                *(unsigned int *)((t90 + 0x0)) = 0x0;
+                t90 = (t90 + 0x4);
+                if ((int)t91 >= (int)0x5) {
+                    break;
+                }
+            }
+            Proposal_Initialize();
+        }
+    }
+    t109 = *(int *)0xC1EE214;
+    if ((t109 != 0) && (t109 != 20)) {
+    } else {
+        Reset_JumpDistance();
+        *(float *)0xC2A9A24 = 0.0f;
+        Start_JumpDistance(0xC2A9A24);
+        *(unsigned int *)0xC2A9970 = 0x0;
+    }
+    if ((*(int *)0xC1EE214) == 20) {
+        MakeKyakuTakeArea(0xC2A9978, 0xC1311AC, 0x0, 250.0f);
+        *(unsigned int *)0xC2A9974 = 0x0;
+    }
+    if ((*(int *)0xC1EE214) == 2) {
+        Init_Balloon();
+    }
+    if ((*(int *)0xC1EE214) == 14) {
+        *(unsigned int *)0xC2A9A2C = 0x0;
+        *(unsigned int *)0xC2A9A30 = 0xFFFFFFFF;
+    }
+    *(unsigned int *)0xC2A9930 = 0x0;
+    *(unsigned int *)0xC2A9934 = 0x0;
+    *(unsigned int *)0xC2A9938 = 0x0;
+    *(unsigned int *)0xC2A993C = 0x0;
+    *(unsigned int *)0xC2A7614 = 0x0;
+    t147 = *(int *)0xC1EE214;
+    t148 = t147;
+    if (t147 == 15) {
+        *(unsigned int *)0xC2A9A5C = 0x0;
+        *(unsigned int *)0xC2A9A60 = 0x0;
+        t148 = 0xC2A9A5C;
+    }
+    *(unsigned int *)0xC17948C = 0x0;
+    *(unsigned int *)0xC2A7368 = 0x0;
+    *(unsigned int *)0xC2A736C = 0x0;
+    *(unsigned int *)0xC2A9A68 = 0x0;
+    return t148;
 }

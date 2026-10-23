@@ -2,10 +2,12 @@
 """Write proven functions again with the current generator and keep the new C only when it is smaller and still proven.
 Run in the repo.
 
-    python3 tools/7-reduction/shrink.py [--keep 0.95] <name> ...
+    python3 tools/7-reduction/shrink.py [--keep 1.0] [--regen] <name> ...
 
-For each name: the generator writes the function again; when the new C compiles to under KEEP times the size in
-build/sizes.json (tools/sizes.py), it replaces the old C and is checked on the function's existing cases
+--regen keeps the new C whatever its size, as long as it is proven: for when the generator itself was fixed.
+
+For each name: the generator writes the function again; when the new C compiles smaller than the current C (both measured
+by tools/sizes.py, literal pools included), and under KEEP times its size (default 1.0: any saving), it replaces the old C and is checked on the function's existing cases
 (gen_equiv --recheck, through state/kept). If it fails, the old C and cases go back. One line per function goes to
 build/shrink.log. The size table is updated as functions shrink.
 """
@@ -23,7 +25,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_equiv'))
 args = sys.argv[1:]
-KEEP = 0.95
+KEEP = 1.0
+REGEN = '--regen' in args          # keep the new C at any size when it is proven (a generator fix, not a size one)
+if REGEN:
+    args.remove('--regen')
 if '--keep' in args:
     k = args.index('--keep')
     KEEP = float(args[k + 1])
@@ -75,7 +80,7 @@ def main():
         except Exception as e:
             log.write('%s build failed %s\n' % (fn, str(e)[:80])); log.flush(); continue
         best = None                         # the generator picks flat or structured by text length: compile each and keep the smaller
-        for form in ('', 'flat', 'structured'):
+        for form in (('',) if REGEN else ('', 'flat', 'structured')):      # a regeneration takes the generator's own choice
             if form:
                 os.environ['GEN_FORM'] = form
             else:
@@ -93,8 +98,8 @@ def main():
         if best is None:
             log.write('%s build failed (no form compiles)\n' % fn); log.flush(); continue
         s, c, n_new = best
-        o_c = table[fn][2] if fn in table else None
-        if n_new is None or (o_c and n_new > KEEP * o_c):
+        o_c = sizes.c_size(fn, old, c.protos)          # the current C, measured the same way as the new
+        if n_new is None or (not REGEN and (not o_c or n_new >= o_c or n_new > KEEP * o_c)):      # strictly smaller than the current C, measured the same way
             why = 'not smaller' if (n_new is None or not o_c or n_new >= o_c) else 'smaller by under %d%%' % round(100 * (1 - KEEP))
             log.write('%s %s (%s -> %s)\n' % (fn, why, o_c, n_new)); log.flush(); continue
         tp = 'tests/%s/%s.json' % (stem, fn)
@@ -111,11 +116,11 @@ def main():
         rr = subprocess.run(['python3', 'tools/5-generated/gen_equiv', '--recheck', fn], capture_output=True, text=True)
         out = rr.stdout + rr.stderr
         if '1 pass' in out:
-            log.write('%s SHRUNK %s -> %s\n' % (fn, o_c, n_new)); log.flush()
+            log.write('%s %s %s -> %s\n' % (fn, 'REGENERATED' if REGEN else 'SHRUNK', o_c, n_new)); log.flush()
             t = open('src/%s.c' % stem, errors='replace').read()
             if not re.search(r'^\{', t, flags=re.M) and not glob.glob('tests/%s/*.json' % stem):      # its last function moved out: an empty shell
                 os.remove('src/%s.c' % stem)
-                if os.path.isdir('tests/%s' % stem):
+                if os.path.isdir('tests/%s' % stem) and not os.listdir('tests/%s' % stem):
                     os.rmdir('tests/%s' % stem)
             if fn in table:
                 table[fn][2] = n_new

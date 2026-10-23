@@ -1,217 +1,172 @@
 /* Straight-line functions with calls and guards (batch gen_lb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int PutStringFixPfont(int, int, float, float, float, float);
-int SetScreen(int);
-int SetWindow(int, int, int, int);
-int buIsReady(int);
-int callLoadData(int);
-int callSaveData(int);
-int menuCursor(int, int, int);
-int menuEnterStep(float, float);
-int menuOpenStep(void);
-int menuPutFrame(void);
-int menuPutHelpBar(int, float, float);
-int menuPutSprites(int, int, int, int);
-int nlsndSeqRequest(int);
-int putLevelCTFontAssist(int, int, int, int);
-int putRecordUnit(int, int, int, int, float, float);
-int putString(int, int, float, float, float);
-int menuSaveLoadHandler(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+int Sound_Request(int, int);
+int courseStatusGet(int, int, int, int);
+extern int getNearLineIndex();
+int getSteering(int, int);
+int cableCarDrive(int a4);
 
-int menuSaveLoadHandler(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
+int cableCarDrive(int a4)
 {
-    int t7;
-    float u37;
-    float u46;
-    int t53;
-    int t62;
-    int t81;
-    int stk[19];
+    int t0;
+    int t1;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    float u10;
+    float u14;
+    float u18;
+    int t22;
+    int t26;
+    int t29;
+    int t30;
+    int t32;
+    int t34;
+    int t35;
+    int t51;
+    int t93;
+    float u97;
+    int t98;
+    float u107;
+    float u105;
+    float u103;
+    float u101;
+    float u99;
+    float u108;
+    float u113;
+    float u114;
+    float u115;
+    int t130;
+    float u153;
+    int t172;
+    float u182;
+    int t155;
+    int t159;
+    int t23;
+    int t24;
+    float u169;
+    int stk[12];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F7;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    F7 = f7;
-    L_C0403B8:;
-    menuOpenStep();
-    R13 = (0xC2A11D8);
-    R14 = (0x0);
-    if (((buIsReady((*(int *)0xC2A11B8))) != 0)) goto L_C0403EA;
-    goto L_C0403E8;
-    L_C0403E8:;
-    R14 = (0x3);
-    goto L_C0403EA;
-    L_C0403EA:;
-    t7 = *(signed char *)0xC28A4F6;
-    R10 = (0x4);
-    R4 = ((unsigned char)t7);
-    R9 = (0xC28A4E8);
-    if (((int)(unsigned char)t7 < (int)0x4)) goto L_C0403FA;
-    goto L_C0403F6;
-    L_C0403F6:;
-    R14 = ((R14 | R10));
-    goto L_C040402;
-    L_C040402:;
-    menuCursor(0x0, 0x6, R14);
-    menuPutFrame();
-    menuPutSprites(0xC0A08C8, 0xC2A1A84, ((*(int *)0xC2A1AD8) + 0x8), 0x18);
-    menuPutHelpBar(0x0, (float)(-(*(int *)0xC2A1AD8)), 416.0f);
-    putLevelCTFontAssist(0x117, 0xC09F7B4, 0x6, (*(int *)(((((*(int *)((R13 + 0x0))) << 2) + (R13 + 0x4)) + 0x0))));
-    R11 = (0x1);
-    if (((int)(*(int *)(((((*(int *)((R13 + 0x0))) << 2) + (R13 + 0x4)) + 0x0))) > (int)0x1)) goto L_C04046A;
-    goto L_C040464;
-    L_C040464:;
-    *(unsigned int *)(((int)stk + 20)) = 0x0;
-    goto L_C0404DC;
-    L_C0404DC:;
-    R12 = (0xC2A1AD4);
-    R14 = (0x0);
-    R8 = (0xC2A1A84);
-    F12 = (0.0199999996f);
-    F15 = (1.0f);
-    goto L_C0404E8;
-    L_C0404E8:;
-    R4 = ((*(int *)0xC2A1ADC));
-    if (((R14 & R11) != 0)) goto L_C0404F4;
-    goto L_C0404F2;
-    L_C0404F2:;
-    R4 = ((-R4));
-    goto L_C0404F4;
-    L_C0404F4:;
-    *(float *)(((int)stk + 8)) = (float)(((((R14 << 2) + R14) << 2) << 2) + 0x88);
-    *(float *)((R12 + 0x0)) = ((*(float *)((R12 + 0x0))) + F12);
-    u37 = *(float *)(((int)stk + 8));
-    *(unsigned int *)(((int)stk + 12)) = (int)u37;
-    *(float *)(((int)stk + 16)) = ((float)R4 + 504.0f);
-    menuPutSprites((*(int *)(((R14 << 2) + 0xC0EF7D0))), 0xC2A1A84, (int)((float)R4 + 504.0f), (int)u37);
-    F14 = (((float)R4 + 364.0f));
-    if ((((((int)R14 >= 0) ? (R11 << (R14 & 31)) : ((-(int)R14 & 31) ? ((int)R11 >> (-(int)R14 & 31)) : ((int)R11 >> 31))) & (*(int *)(((int)stk + 20)))) != 0)) goto L_C040560;
-    goto L_C04054E;
-    L_C04054E:;
-    menuPutSprites(0xC0A1D78, 0xC2A1A84, (int)F14, (*(int *)(((int)stk + 12))));
-    goto L_C04057A;
-    L_C04057A:;
-    *(float *)((R12 + 0x0)) = ((*(float *)((R12 + 0x0))) - F12);
-    u46 = *(float *)(((int)stk + 8));
-    putRecordUnit(0x17, (R14 + 0x1), 0x1, 0x0, F14, (u46 + -8.0f));
-    F13 = ((u46 + -8.0f));
-    if (((int)R14 >= (int)(unsigned char)(*(signed char *)((R9 + 0xE))))) goto L_C040610;
-    goto L_C0405AA;
-    L_C0405AA:;
-    PutStringFixPfont(0x17, ((short)((short)R14 * (short)0x788) + (R9 + 0x10)), (*(float *)(((int)stk + 16))), F13, 20.0f, F15);
-    goto L_C040620;
-    L_C040620:;
-    t53 = (int)(R14 + 0x1) >= (int)R10;
-    R14 = ((R14 + 0x1));
-    if (t53) goto L_C04062A;
-    goto L_C040626;
-    L_C040626:;
-    goto L_C0404E8;
-    L_C04062A:;
-    if (((R10 & (*(int *)((R13 + 0x14)))) == 0)) goto L_C04069C;
-    goto L_C040630;
-    L_C040630:;
-    if ((((*(int *)0xC2A11CC) & 2) == 0)) goto L_C04069C;
-    goto L_C040638;
-    L_C040638:;
-    if (((*(int *)0xC2A1214) != 0)) goto L_C04069C;
-    goto L_C040640;
-    L_C040640:;
-    t62 = *(int *)(((R13 + 0x4) + ((*(int *)((R13 + 0x0))) << 2)));
-    R0 = (t62);
-    if ((t62 == 0)) goto L_C040662;
-    goto L_C04064E;
-    L_C04064E:;
-    if ((R0 == 1)) goto L_C040670;
-    goto L_C040652;
-    L_C040652:;
-    if ((R0 == 2)) goto L_C04067E;
-    goto L_C040656;
-    L_C040656:;
-    if ((R0 == 3)) goto L_C04067E;
-    goto L_C04065A;
-    L_C04065A:;
-    if ((R0 == 4)) goto L_C04067E;
-    goto L_C04065E;
-    L_C04065E:;
-    goto L_C04069C;
-    L_C04069C:;
-    return menuEnterStep(F4, F5);
-    L_C04067E:;
-    *(unsigned int *)0xC2A1228 = (*(int *)0xC1EE234);
-    *(unsigned int *)0xC2A122C = (*(int *)0xC1EE238);
-    SetWindow(0xB, R5, R6, R7);
-    nlsndSeqRequest(0x605A9);
-    goto L_C04069C;
-    L_C040670:;
-    SetScreen(0x3);
-    callLoadData(0x0);
-    goto L_C04069C;
-    L_C040662:;
-    SetScreen(0x3);
-    callSaveData(0x0);
-    goto L_C04069C;
-    L_C040610:;
-    putString(0x17, 0xC0A2144, (*(float *)(((int)stk + 16))), F13, F15);
-    goto L_C040620;
-    L_C040560:;
-    *(float *)((R8 + 0x2C)) = 0.799999952f;
-    menuPutSprites(0xC0A1D88, 0xC2A1A84, (int)F14, (*(int *)(((int)stk + 12))));
-    *(float *)((R8 + 0x2C)) = F15;
-    goto L_C04057A;
-    L_C04046A:;
-    t81 = *(signed char *)((R9 + 0xE));
-    R4 = ((((int)(unsigned char)t81 >= 0) ? (0xFFFFFFFF << ((unsigned char)t81 & 31)) : ((-(int)(unsigned char)t81 & 31) ? ((unsigned int)0xFFFFFFFF >> (-(int)(unsigned char)t81 & 31)) : 0)));
-    if (((*(int *)(((R13 + 0x4) + ((*(int *)((R13 + 0x0))) << 2)))) != 2)) goto L_C040484;
-    goto L_C040480;
-    L_C040480:;
-    R4 = ((~R4));
-    goto L_C040494;
-    L_C040494:;
-    *(unsigned int *)(((int)stk + 20)) = R4;
-    goto L_C0404DC;
-    L_C040484:;
-    if (((int)(*(int *)(((((*(int *)((R13 + 0x0))) << 2) + (R13 + 0x4)) + 0x0))) > (int)R10)) goto L_C0404D8;
-    goto L_C040494;
-    L_C0404D8:;
-    *(unsigned int *)(((int)stk + 20)) = 0xF;
-    goto L_C0404DC;
-    L_C0403FA:;
-    if (((int)R4 > 0)) goto L_C040402;
-    goto L_C0403FE;
-    L_C0403FE:;
-    R14 = ((R14 | 0x18));
-    goto L_C040402;
+    t0 = *(int *)((a4 + 0x80));
+    t1 = *(int *)0xC2A6690;
+    t3 = *(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x0));
+    t4 = *(int *)(((*(int *)((((((t0 << 1) + t0) << 2) + t1) + 0x4))) + 0x0));
+    t5 = ((int (*)(int, int, int, int, int))(getNearLineIndex))(0x1, t3, t4, (0xD4 + a4), (0x8C + a4));
+    t6 = *(int *)((a4 + 0xD4));
+    u10 = (*(float *)((a4 + 0xE0)));
+    u10 = u10 + 0.199999988f * ((*(float *)(((((((t6 + 0x2) << 1) + (t6 + 0x2)) << 2) + t3) + 0x0))) - (*(float *)(((0xE0 + a4) + 0x0))));
+    *(float *)((a4 + 0xE0)) = u10;
+    u14 = (*(float *)((a4 + 0xE4)));
+    u14 = u14 + 0.199999988f * ((*(float *)(((0x4 + (((((t6 + 0x2) << 1) + (t6 + 0x2)) << 2) + t3)) + 0x0))) - (*(float *)(((0xE4 + a4) + 0x0))));
+    *(float *)((a4 + 0xE4)) = u14;
+    u18 = (*(float *)((a4 + 0xE8)));
+    u18 = u18 + 0.199999988f * ((*(float *)(((0x8 + (((((t6 + 0x2) << 1) + (t6 + 0x2)) << 2) + t3)) + 0x0))) - (*(float *)(((0xE8 + a4) + 0x0))));
+    *(float *)((a4 + 0xE8)) = u18;
+    *(unsigned int *)((a4 + 0x88)) = 0x0;
+    if ((int)(*(int *)((a4 + 0xD4))) >= (int)(t4 - 3)) {
+        *(unsigned int *)((a4 + 0x88)) = 0x4;
+        t22 = *(int *)((a4 + 0x80));
+        if (((t22 == 0x120) && (t23 = *(int *)0xC2A4E44, (t23 & 0xF0) == 96)) || ((t22 == 0x121) && (t24 = *(int *)0xC2A4E44, (t24 & 0xF) == 6))) {
+            t26 = *(int *)((a4 + 0x80));
+            *(unsigned int *)(((0x80 + a4) + 0x0)) = (unsigned short)(*(short *)(((*(int *)((((((t26 << 1) + t26) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x4)));
+            *(unsigned int *)((a4 + 0xD4)) = 0x0;
+            t29 = *(int *)((a4 + 0x80));
+            t30 = *(int *)0xC2A6690;
+            t32 = *(int *)((((((t29 << 1) + t29) << 2) + t30) + 0x0));
+            t34 = ((int (*)(int, int, int, int, int, float))(getNearLineIndex))(0x1, t32, (*(int *)(((*(int *)((((((t29 << 1) + t29) << 2) + t30) + 0x4))) + 0x0))), (0xD4 + a4), (0x8C + a4), 0.199999988f);
+            t35 = *(int *)((a4 + 0xD4));
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((0xE0 + a4)) = *(struct mv3 *)((((((t35 << 1) + t35) << 2) + t32) + 0x18)); }
+        }
+    } else {
+        if ((int)(*(int *)((a4 + 0xD4))) > (int)(t4 - 8)) {
+            *(unsigned int *)((a4 + 0x88)) = 0x2;
+        } else {
+            if (((*(int *)((a4 + 0x38))) & 0x5FFF) != 0) {
+                *(unsigned int *)((a4 + 0x88)) = 0x5;
+            } else {
+                t51 = courseStatusGet((*(int *)((a4 + 0x80))), (*(int *)((a4 + 0xD4))), 0x0, 0xA);
+                if ((0x1F & (t51 >> 1)) != 0) {
+                    *(unsigned int *)((a4 + 0x88)) = 0x4;
+                } else {
+                    if ((t51 >> 1) != 0) {
+                        *(unsigned int *)((a4 + 0x88)) = 0x3;
+                    }
+                }
+            }
+        }
+    }
+    *(unsigned int *)(((0xC0 + a4) + 0x0)) = ((*(int *)(((0xC0 + a4) + 0x0))) + (getSteering(a4, ((int)stk + 8))));
+    t93 = *(int *)((a4 + 0x80));
+    u97 = *(float *)((0xC0C3F04 + (((*(int *)(((*(int *)((((((t93 << 1) + t93) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0xF) << 2)));
+    t98 = *(int *)((a4 + 0x88));
+    u107 = u97;
+    if (t98 != 0) {
+        u105 = 0.462963015f;
+        if (t98 != 1) {
+            u103 = 0.324074119f;
+            if (t98 != 2) {
+                u101 = 0.13888891f;
+                if (t98 != 3) {
+                    u99 = 0.0f;
+                    if ((t98 != 4) && (t98 != 5)) {
+                        u99 = u97;
+                    }
+                    u101 = u99;
+                }
+                u103 = u101;
+            }
+            u105 = u103;
+        }
+        u107 = u105;
+    }
+    *(float *)((a4 + 0xC8)) = 0.0f;
+    u108 = *(float *)((a4 + 0xCC));
+    if (u107 == 0.0f) {
+        *(float *)((a4 + 0xC4)) = 0.0f;
+        *(float *)((a4 + 0xC8)) = (*(float *)((a4 + 0xD0)));
+    } else {
+        if (!((*(float *)((a4 + 0xCC))) > u107)) {
+            if (((*(float *)((a4 + 0xD0))) * (1.0f + 1.0f)) > (*(float *)((a4 + 0xC4)))) {
+                u113 = *(float *)(((0xD0 + a4) + 0x0));
+                u114 = *(float *)((a4 + 0xC4));
+                u115 = 0.000999999931f;
+                if (0.000999999931f > (u113 * 0.0299999993f)) {
+                    u115 = (u113 * 0.0299999993f);
+                }
+                *(float *)((a4 + 0xC4)) = (u114 + u115);
+            }
+        } else {
+            t130 = 0;
+            if (0.231481507f > _builtin_fabsf((u107 - u108))) {
+                *(float *)((a4 + 0xC4)) = ((*(float *)((a4 + 0xC4))) * 0.5f);
+                t130 = (1);
+            } else {
+                *(float *)((a4 + 0xC4)) = 0.0f;
+                if (_builtin_fabsf((u107 - u108)) > 0.462963015f) {
+                    *(float *)((a4 + 0xC8)) = ((*(float *)((a4 + 0xD0))) * 0.5f);
+                }
+                t130 = ((_builtin_fabsf((u107 - u108)) > 0.462963015f));
+            }
+        }
+        if ((*(float *)((a4 + 0xC4))) > ((*(float *)((a4 + 0xD0))) * (1.0f + 1.0f))) {
+            *(float *)((a4 + 0xC4)) = (*(float *)((a4 + 0xD0)));
+        }
+    }
+    u153 = *(float *)((a4 + 0x2C));
+    t172 = 0x2C;
+    u182 = _builtin_fabsf((u107 - u108));
+    if (800.0f > u153) {
+        t155 = *(int *)0xC1EE330;
+        t159 = t155;
+        if ((t155 & 127) == 0) {
+            t159 = (Sound_Request((*(int *)(((((int)((*(int *)0xC1EE330) & 0x180) >> 7) << 2) + 0xC0A37A8))), 0x2));
+        } else {
+            u169 = _builtin_fabsf((u107 - u108));
+        }
+        t172 = t159;
+        u182 = u169;
+    }
+    return t172;
 }

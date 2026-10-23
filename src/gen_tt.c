@@ -1,28 +1,37 @@
 /* Straight-line functions with calls and guards (batch gen_tt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ShotLandmarkStub(void);
-int nlSprPut(int);
-int PutShotLandmark(void);
+int GetMenuMode(int);
+int callGoBackAdvertise(void);
+int callSaveData(int);
+int syCfgSetSoundMode(int);
+int menuGoBack(void);
 
-int PutShotLandmark(void)
+int menuGoBack(void)
 {
-    int stk[22];
+    int t1;
+    int t3;
 
-    ShotLandmarkStub();
-    *(unsigned int *)(((int)stk + 4)) = 0x7A;
-    *(float *)(((int)stk + 8)) = 500.0f;
-    *(float *)(((int)stk + 12)) = 128.0f;
-    *(float *)(((int)stk + 16)) = 0.299999982f;
-    *(float *)(((int)stk + 24)) = 1.0f;
-    *(float *)(((int)stk + 20)) = 1.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
-    *(float *)(((int)stk + 36)) = 1.0f;
-    *(unsigned int *)(((int)stk + 44)) = 0x0;
-    *(float *)(((int)stk + 48)) = 1.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x725;
-    *(unsigned int *)(((int)stk + 52)) = 0x0;
-    return (nlSprPut(((int)stk + 4)));
+    if ((int)(*(int *)0xC2A11D8) <= (int)0x1) {
+        return callGoBackAdvertise();
+    }
+    t1 = *(int *)0xC2A11D8;
+    *(unsigned int *)0xC2A11D8 = (t1 - 2);
+    if ((t1 - 2) == 0) {
+        if ((GetMenuMode(0x0)) != 3) {
+            t3 = GetMenuMode(0x0);
+            if (t3 == 5) {
+                if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
+                    syCfgSetSoundMode((*(int *)0xC2A11BC));
+                }
+                return callSaveData(0x1);
+            }
+            return t3;
+        }
+        if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
+            syCfgSetSoundMode((*(int *)0xC2A11BC));
+        }
+        return callSaveData(0x1);
+    }
+    return (t1 - 2);
 }

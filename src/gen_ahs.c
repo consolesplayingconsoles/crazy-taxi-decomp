@@ -1,20 +1,18 @@
 /* Straight-line functions with calls and guards (batch gen_ahs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlsndSeqRequest(int);
-int SetScreen(int);
-int SetWindow(int);
-int callNameDelete(void);
+int pfColor(int, int, int, int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Put_Press_Start(void);
 
-int callNameDelete(void)
+int Put_Press_Start(void)
 {
-    *(unsigned int *)0xC2A1228 = (*(int *)0xC1EE234);
-    *(unsigned int *)0xC2A122C = (*(int *)0xC1EE238);
-    if ((*(int *)0xC1EE234) != 3) {
-        *(unsigned int *)0xC1EE234 = 0x3;
-        *(unsigned int *)0xC1EE238 = 0x0;
-    }
-    SetScreen(0x6);
-    SetWindow(0xC);
-    return nlsndSeqRequest(0x605A9);
+    pfSetFont(0x1);
+    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+    pfSize(1.0f, 1.0f);
+    pfLocate((*(float *)0xC2A96D0), (*(float *)0xC0581B0));
+    return pfPuts(0xC0D0A40);
 }

@@ -1,65 +1,27 @@
 /* Straight-line functions with calls and guards (batch gen_xg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float drvAccelDot(void);
-int psgEnterState3(int);
-void EndPsg_CrushReact(int a4);
+int TOANG2(int, float, float);
+int carBodyTilt(int a4);
 
-void EndPsg_CrushReact(int a4)
+int carBodyTilt(int a4)
 {
     int t0;
-    float t8;
-    int t9;
-    int t14;
-    int t18;
-    int t25;
-    int t32;
-    int t34;
-    int t15;
-    int t26;
+    int t10;
+    int t20;
+    int stk[11];
 
-    t0 = *(int *)0xC1790EC;
-    if (t0 != 0) {
-        t8 = drvAccelDot();
-        t9 = *(int *)0xC1790EC;
-        if (((0x7FFE & t9) == 0) && ((0x80000000 & t9) == 0)) {
-            t14 = *(int *)0xC1790EC;
-            if (((t14 & 0x1F0000) == 0) && (t15 = *(int *)0xC1790EC, (t15 & 0x20000) == 0)) {
-                return;
-            }
-            *(unsigned int *)((a4 + 0x40)) = 0xE;
-            *(volatile int *)((a4 + 0x40));
-            psgEnterState3((a4 + 0x1C));
-    return;
-        }
-        if (!(-6.0f > t8) && !(-4.0f > t8)) {
-            return;
-        }
-        *(unsigned int *)((a4 + 0x40)) = 0xD;
-        *(volatile int *)((a4 + 0x40));
-        psgEnterState3((a4 + 0x1C));
-    return;
-    }
-    t18 = *(int *)((a4 + 0x40));
-    if (t18 != 12) {
-        t25 = *(int *)((a4 + 0x40));
-        if ((t25 != 11) && (t26 = *(int *)0xC2AD010, t26 == 1)) {
-            *(unsigned int *)((a4 + 0x40)) = 0xB;
-            *(volatile int *)((a4 + 0x40));
-            psgEnterState3((a4 + 0x1C));
-    return;
-        }
-        t32 = *(int *)((a4 + 0x40));
-        if (t32 == 11) {
-            t34 = *(int *)0xC2AD010;
-            if (t34 != 1) {
-                *(unsigned int *)((a4 + 0x40)) = 0xC;
-                *(volatile int *)((a4 + 0x40));
-                psgEnterState3((a4 + 0x1C));
-    return;
-            }
-            return;
-        }
-        return;
-    }
+    t0 = *(int *)((a4 + 0x70));
+    *(unsigned int *)(((int)stk + 8)) = t0;
+    TOANG2(((int)stk + 4), ((((*(float *)(((0x84 + (0x1A0 + a4)) + 0x74))) + (*(float *)(((0x1A0 + a4) + 0x74)))) * 0.5f) - (((*(float *)(((0x18C + (0x1A0 + a4)) + 0x74))) + (*(float *)(((0x108 + (0x1A0 + a4)) + 0x74)))) * 0.5f)), ((*(float *)((t0 + 0x14))) - (*(float *)(((t0 + 0x24) + 0x8)))));
+    *(unsigned short *)((a4 + 0xF8)) = ((*(short *)((a4 + 0xF8))) + (*(short *)(((int)stk + 4))));
+    t10 = *(int *)((a4 + 0x70));
+    *(unsigned int *)(((int)stk + 8)) = t10;
+    TOANG2(((int)stk + 4), ((((*(float *)(((0x84 + (0x1A0 + a4)) + 0x78))) + (*(float *)(((0x1A0 + a4) + 0x78)))) * 0.5f) - (((*(float *)(((0x18C + (0x1A0 + a4)) + 0x78))) + (*(float *)(((0x108 + (0x1A0 + a4)) + 0x78)))) * 0.5f)), ((*(float *)((t10 + 0x14))) - (*(float *)(((t10 + 0x24) + 0x8)))));
+    *(unsigned short *)((a4 + 0xF6)) = ((*(short *)((a4 + 0xF6))) - (*(short *)(((int)stk + 4))));
+    t20 = *(int *)((a4 + 0x70));
+    *(unsigned int *)(((int)stk + 8)) = t20;
+    TOANG2(((int)stk + 4), ((((*(float *)(((0x84 + (0x1A0 + a4)) + 0x78))) + (*(float *)(((0x18C + (0x1A0 + a4)) + 0x78)))) * 0.5f) - (((*(float *)(((0x1A0 + a4) + 0x78))) + (*(float *)(((0x108 + (0x1A0 + a4)) + 0x78)))) * 0.5f)), ((*(float *)((t20 + 0x0))) - (*(float *)(((t20 + 0xC) + 0x0)))));
+    *(unsigned short *)((a4 + 0xFA)) = ((*(short *)((a4 + 0xFA))) - (*(short *)(((int)stk + 4))));
+    return 0xFA;
 }

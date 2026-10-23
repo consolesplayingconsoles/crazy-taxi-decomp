@@ -1,0 +1,5 @@
+# The executable's layout for the tools (tools/layout.py): <name> <start hex> [<end hex>]
+game    0C020080 0C0739C0    # the game's own code: what the build from C replaces
+fill    0C011C28 0C020000    # 0xFFFD fill in the file before it: the build may use it
+code    0C020000 0C089F26    # entry stub, game code, NAOMI library and runtime: the cases may not write there
+spare   0C5D0000             # unused RAM (docs/engine.md, RAM map): test builds only

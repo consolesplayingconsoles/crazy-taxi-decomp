@@ -88,7 +88,7 @@ int nlRotateAY(int, float, float);
 int nlScaleUnitVector(int, int, float);
 int nlSetCommonTextureOffset(int);
 int nlSetFontSize(int, int);
-int nlSetIntrFunction(int);
+int nlSetIntrFunction(int, int);
 int nlSubVector(int, int);
 int nlUnitVector(int);
 int pdInitPeripheral(int, int, int);
@@ -103,106 +103,6 @@ int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8);
 int InitSys(void);
 float pcarDrive(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int loadCity(int a4, int a5)
-{
-    int t10;
-    int t33;
-    int t34;
-    int t60;
-    int t61;
-
-    if (a5 != -1) {
-        gdc_FileLoadStop();
-    }
-    nlSetCommonTextureOffset(0x7D0);
-    if (a4 != 0) {
-        if (a4 != 1) {
-            if (a4 == 2) {
-                nlsndPackFree();
-                nlsndPackFree();
-                gdc_FileLoad(0xCB40000, 0xC08D564, 0x0);
-                nlsndPackLoad(0xCB40000, 0x4);
-                t10 = *(int *)0xC179488;
-                if ((int)t10 < (int)0x4) {
-                    gdc_FileLoad(0xCB40000, 0xC08D4C8, 0x0);
-                } else {
-                    gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
-                }
-                nlsndPackLoad(0xCB40000, 0x5);
-                gdc_FileLoad(0xCB40000, 0xC08D570, 0x0);
-                gdc_FileLoad(0xC5E0000, 0xC08D57C, 0x0);
-                if (a5 != -1) {
-                    gdc_CourseTexFree();
-                }
-                gdc_CourseSet(a4);
-                gdc_CourseTexLoad();
-                gdc_CourseObjTexLoad(0xC0EA590);
-                gdc_FileLoad(0xCB40000, 0xC08D588, 0x0);
-                gdc_FileLoad(0xCE90000, 0xC08D594, 0x8000);
-                gdc_FileLoad(0xC328000, 0xC08D5A0, 0x0);
-            }
-        } else {
-            nlsndPackFree();
-            nlsndPackFree();
-            gdc_FileLoad(0xCB40000, 0xC08D51C, 0x0);
-            nlsndPackLoad(0xCB40000, 0x4);
-            t33 = *(int *)0xC1EE210;
-            if (t33 == 2) {
-                t34 = *(int *)0xC179488;
-                if ((int)t34 < (int)0x4) {
-                    gdc_FileLoad(0xCB40000, 0xC08D4C8, 0x0);
-                } else {
-                    gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
-                }
-            } else {
-                gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
-            }
-            nlsndPackLoad(0xCB40000, 0x5);
-            gdc_FileLoad(0xCB40000, 0xC08D528, 0x0);
-            gdc_FileLoad(0xC5E0000, 0xC08D534, 0x0);
-            if (a5 != -1) {
-                gdc_CourseTexFree();
-            }
-            gdc_CourseSet(a4);
-            gdc_CourseTexLoad();
-            gdc_CourseObjTexLoad(0xC0EA478);
-            gdc_FileLoad(0xCB40000, 0xC08D540, 0x0);
-            gdc_FileLoad(0xCE90000, 0xC08D54C, 0x8000);
-            gdc_FileLoad(0xC328000, 0xC08D558, 0x0);
-        }
-    } else {
-        nlsndPackFree();
-        nlsndPackFree();
-        gdc_FileLoad(0xCB40000, 0xC08D4BC, 0x0);
-        nlsndPackLoad(0xCB40000, 0x4);
-        t60 = *(int *)0xC1EE210;
-        if (t60 == 2) {
-            t61 = *(int *)0xC179488;
-            if ((int)t61 < (int)0x4) {
-                gdc_FileLoad(0xCB40000, 0xC08D4C8, 0x0);
-            } else {
-                gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
-            }
-        } else {
-            gdc_FileLoad(0xCB40000, 0xC08D4D4, 0x0);
-        }
-        nlsndPackLoad(0xCB40000, 0x5);
-        gdc_FileLoad(0xCB40000, 0xC08D4E0, 0x0);
-        gdc_FileLoad(0xC5E0000, 0xC08D4EC, 0x0);
-        if (a5 != -1) {
-            gdc_CourseTexFree();
-        }
-        gdc_CourseSet(a4);
-        gdc_CourseTexLoad();
-        gdc_CourseObjTexLoad(0xC0EA3E8);
-        gdc_FileLoad(0xCB40000, 0xC08D4F8, 0x0);
-        gdc_FileLoad(0xCE90000, 0xC08D504, 0x8000);
-        gdc_FileLoad(0xC328000, 0xC08D510, 0x0);
-    }
-    nlSetCommonTextureOffset(0x5DC);
-    gdc_CourseObjGroupSet();
-    return gdc_FileLoadSetup();
-}
 
 int kmCreateVertexBuffer(int a4, int a5, int a6, int a7, int a8)
 {

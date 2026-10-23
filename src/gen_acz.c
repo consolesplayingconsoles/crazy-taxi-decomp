@@ -1,60 +1,81 @@
 /* Straight-line functions with calls and guards (batch gen_acz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetCameraMode(int);
-int camRestore(void);
-int camSetEye(int, int);
-int camSetTarget(int, int);
-int nlGetAverageVector(int, int, int, float, float);
-float nlInnerProduct(int, int);
-int nlSubVector3op(int, int, int);
-int nlUnitVector(int);
-int camGetOnMid(void);
+int buCalcBackupFileSize(int, int, int);
+int buGetLastError(int);
+int buMakeBackupFileImage(int, int);
+int buSaveFile(int, int, int, int, int, int);
+int buStat(int);
+int memmove(int, int, int);
+int memset(int, int, int);
+int nlFree(int);
+int nlMalloc(int);
+int strcpy(int, int);
+int syRtcGetDate(int);
+int SaveBackupData(int a4);
 
-int camGetOnMid(void)
+int SaveBackupData(int a4)
 {
-    float t8;
-    float u9;
-    float u12;
-    float u14;
-    float u17;
-    float u21;
-    int t35;
-    int t37;
-    int t30;
-    int t31;
-    int stk[19];
+    int t4;
+    int t6;
+    int t10;
+    int t28;
+    int t11;
+    int t25;
+    int t12;
+    int t15;
+    int t7;
+    int t23;
+    int t22;
+    int stk[38];
 
-    SetCameraMode(0x1);
-    nlSubVector3op((((int)stk + 4) + 0x18), ((*(int *)0xC2AD54C) + 0x4), ((*(int *)0xC2AD548) + 0x4));
-    nlUnitVector((((int)stk + 4) + 0x18));
-    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, (*(float *)0xC064A24));
-    t8 = nlInnerProduct(0xC2AD1F8, (((int)stk + 4) + 0x18));
-    u9 = (t8 * (-1.0f));
-    if (t8 > 0.0f) {
-        u9 = 0.0f;
+    memset((((int)stk + 12) + 0x14), 0x0, 0x60);
+    strcpy((((int)stk + 12) + 0x14), 0xC0EEC58);
+    strcpy((((int)stk + 12) + 0x26), 0xC0EEC68);
+    memmove((((int)stk + 12) + 0x48), 0xC0EEC73, 0x10);
+    *(unsigned int *)(((int)stk + 100)) = 0xC0EEC83;
+    *(unsigned int *)(((int)stk + 104)) = 0xC0EECA3;
+    *(unsigned short *)(((int)stk + 108)) = 0x3;
+    *(unsigned short *)(((int)stk + 110)) = 0x2;
+    *(unsigned int *)(((int)stk + 112)) = 0x0;
+    *(unsigned short *)(((int)stk + 116)) = 0x0;
+    t4 = 0xC28A4E8;
+    t6 = 0xC28F8A0;
+    for (;;) { t7 = *(int *)t4; t4 = (t4 + 4); if ((unsigned int)((0xC28A4E8 + 9648)) < (unsigned int)t4) break; *(unsigned int *)t6 = t7; t6 = (t6 + 4); }
+    *(unsigned int *)(((int)stk + 120)) = 0xC28F8A0;
+    *(unsigned int *)(((int)stk + 124)) = 0x25B0;
+    t10 = buCalcBackupFileSize((unsigned short)(*(short *)(((int)stk + 108))), (unsigned short)(*(short *)(((int)stk + 116))), 0x25B0);
+    t28 = 0xFFFF0000;
+    if (t10 == 23) {
+        t11 = nlMalloc(((t10 << 8) << 1));
+        t25 = 0xFFFF0000;
+        if (t11 != 0) {
+            t12 = buMakeBackupFileImage(t11, (((int)stk + 12) + 0x14));
+            if ((int)t12 <= 0) {
+                nlFree(t11);
+                t23 = 0xFFFF0000;
+            } else {
+                syRtcGetDate(((int)stk + 12));
+                { struct mvb8 { char b[8]; }; *(struct mvb8 *)((((int)stk + 12) + 0xC)) = *(struct mvb8 *)(((int)stk + 12)); }
+                t15 = buSaveFile(a4, 0xC09DB4C, t11, t12, (((int)stk + 8) + 0x10), 0x80000000);
+                if (t15 != 0) {
+                    nlFree(t11);
+                    t22 = t15;
+                } else {
+                    for (;;) {
+                        if ((buStat(a4)) != -1) {
+                            break;
+                        }
+                    }
+                    memmove(0xC28CA98, (((int)stk + 12) + 0xC), 0x8);
+                    nlFree(t11);
+                    t22 = (buGetLastError(a4));
+                }
+                t23 = t22;
+            }
+            t25 = t23;
+        }
+        t28 = t25;
     }
-    u12 = *(float *)0xC064A30;
-    u14 = (*(float *)0xC064A34);
-    u14 = u14 + u12 * u9;
-    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC2AD1EC, (((int)stk + 4) + 0xC), 1.0f, u14);
-    nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 0xC179840);
-    u17 = *(float *)0xC064A40;
-    nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u17);
-    camSetEye((((int)stk + 4) + 0xC), 0x1);
-    u21 = *(float *)0xC064A48;
-    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), ((*(int *)0xC2AD54C) + 0x4), ((int)stk + 4), u21, u21);
-    nlGetAverageVector(((int)stk + 4), 0xC2AD1EC, ((int)stk + 4), 1.0f, u12);
-    nlSubVector3op((((int)stk + 4) + 0x18), ((int)stk + 4), 0xC17984C);
-    nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), ((int)stk + 4), 1.0f, u17);
-    camSetTarget(((int)stk + 4), 0x1);
-    if (((*(int *)(((*(int *)0xC2AD54C) + 0x20))) == 2) && (t30 = *(int *)0xC2AD54C, t31 = *(int *)((t30 + 0x24)), t31 == 2)) {
-        *(unsigned int *)0xC2AD57C = 0x4;
-    }
-    t35 = *(int *)0xC2AD590;
-    t37 = t35;
-    if ((t35 & 1) == 0) {
-        t37 = (camRestore());
-    }
-    return t37;
+    return t28;
 }

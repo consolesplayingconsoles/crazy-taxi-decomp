@@ -1,50 +1,65 @@
 /* Straight-line functions with calls and guards (batch gen_aea): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+int GetAverageAngle(int, int, float);
 int nlGetAverageVector(int, int, int, float, float);
-int nlGetPushedMatrix(int);
 int nlGetTranslate(int);
 int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-int nlUnitVector(int);
-int vsklRotate(int);
-int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4);
+int sklRotate(int);
+int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4);
 
-int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
+int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
 {
     int t0;
-    int t2;
-    int t4;
-    int t5;
-    int t6;
-    int stk[19];
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t17;
+    int t20;
+    int t23;
+    int stk[20];
 
+    *(unsigned int *)(((int)stk + 8)) = a4;
+    *(unsigned int *)(((int)stk + 12)) = a5;
+    *(unsigned int *)(((int)stk + 4)) = a6;
+    *(unsigned int *)(((int)stk + 16)) = a7;
     t0 = *(int *)(((a8 << 2) + 0xC1331B0));
-    t2 = (int)((unsigned int)a5 % (unsigned int)((*(int *)((a4 + 0x0))) - 1));
-    t4 = (int)((unsigned int)a7 % (unsigned int)((*(int *)((a6 + 0x0))) - 1));
-    t5 = *(int *)((a4 + 0x8));
-    t6 = *(int *)((a6 + 0x8));
+    *(unsigned int *)(((int)stk + 12)) = (((int)((int)(*(int *)(((int)stk + 12))) % (int)((unsigned short)(*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) - 1))) + 0x1);
+    *(unsigned int *)(((int)stk + 16)) = (((int)((int)(*(int *)(((int)stk + 16))) % (int)((unsigned short)(*(short *)(((*(int *)(((int)stk + 4))) + 0x0))) - 1))) + 0x1);
+    t10 = *(int *)(((int)stk + 12));
+    t11 = *(int *)(((int)stk + 8));
+    t12 = *(int *)(((*(int *)(((int)stk + 8))) + 0x8));
+    t13 = *(int *)(((int)stk + 4));
+    t14 = *(int *)((t13 + 0x8));
+    t15 = *(int *)(((int)stk + 16));
     nlPushMatrix(0x0);
-    nlGetAverageVector((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5), (((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
+    t17 = *(int *)(((int)stk + 4));
+    t20 = *(int *)(((int)stk + 16));
+    t23 = *(int *)(((int)stk + 12));
+    nlGetAverageVector((((*(int *)(((int)stk + 8))) - (*(int *)(((*(int *)(((int)stk + 8))) + 0x4)))) + (((t23 << 1) + t23) << 2)), ((t17 - (*(int *)((t17 + 0x4)))) + (((t20 << 1) + t20) << 2)), (((int)stk + 4) + 0x18), (1.0f - f4), f4);
     if (a9 == 0) {
-        nlTranslateV((((int)stk + 4) + 0x10));
+        nlTranslateV((((int)stk + 4) + 0x18));
     } else {
-        nlTranslate(0.0f, (*(float *)(((int)stk + 24))), 0.0f);
+        nlTranslate(0.0f, (*(float *)(((int)stk + 32))), 0.0f);
     }
-    nlGetAverageVector(((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC), ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlGetAverageVector(((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0x18), ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0x18), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x0))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x2))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     nlPushMatrix(0x0);
-    nlGetAverageVector((0xC0 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xC0 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0xCC + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xCC + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x30);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x20);
     if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
@@ -115,11 +130,12 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5430);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x18), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x18), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x24), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x24), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x6);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x4);
     if ((*(int *)(((t0 + 0x4) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x4) + 0x0))));
@@ -370,13 +386,15 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     if ((*(int *)0xC13ED9C) != 0) {
         nlGetTranslate(0xC13EDA4);
     }
-    nlGetPushedMatrix(0x0);
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
     nlTranslateV(0xC0D543C);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x60), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x60), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x6C), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x6C), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x18);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x10);
     if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
@@ -418,11 +436,12 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC5654D8);
     }
     nlTranslateV(0xC0D5448);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x48), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x48), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x54), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x54), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x12);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0xC);
     if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
@@ -440,11 +459,12 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC585FA0);
     }
     nlTranslateV(0xC0D5454);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x30), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x30), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x3C), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x3C), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0xC);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x8);
     if ((*(int *)(((t0 + 0x8) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x8) + 0x0))));
@@ -459,13 +479,15 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
             nlObjPutUseViewMatrix(0xC4EA2A8);
         }
     }
-    nlGetPushedMatrix(0x0);
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
     nlTranslateV(0xC0D5460);
-    nlGetAverageVector((0xA8 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xA8 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0xB4 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xB4 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x2A);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x1C);
     if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
@@ -507,21 +529,23 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC566CB0);
     }
     nlTranslateV(0xC0D546C);
-    nlGetAverageVector((0x90 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x90 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x9C + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x9C + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x24);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x18);
     if ((*(int *)(((t0 + 0x18) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x18) + 0x0))));
     }
     nlTranslateV(0xC0D5478);
-    nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x78), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x78), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x84 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x84 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x1E);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x14);
     if ((*(int *)(((t0 + 0x14) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x14) + 0x0))));
@@ -529,13 +553,15 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     if (((*(int *)0xC13ED98) != 0) && (a8 == 35)) {
         nlObjPutUseViewMatrix(0xC4FA698);
     }
-    nlPopMatrix(0x2);
+    nlPopMatrix(0x1);
+    nlPopMatrix(0x1);
     nlPushMatrix(0x0);
-    nlGetAverageVector((0x168 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x168 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x174 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x174 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x5A);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x3C);
     if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
@@ -613,11 +639,12 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5484);
-    nlGetAverageVector((0x108 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x108 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x114 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x114 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x42);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x2C);
     if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
@@ -639,32 +666,36 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC4BC440);
     }
     nlTranslateV(0xC0D5490);
-    nlGetAverageVector((0xF0 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xF0 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0xFC + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xFC + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x3C);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x28);
     if ((*(int *)(((t0 + 0x28) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x28) + 0x0))));
     }
     nlTranslateV(0xC0D549C);
-    nlGetAverageVector((0xD8 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xD8 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0xE4 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xE4 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x36);
+    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x24);
     if ((*(int *)(((t0 + 0x24) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x24) + 0x0))));
     }
-    nlGetPushedMatrix(0x0);
+    nlPopMatrix(0x1);
+    nlPushMatrix(0x0);
     nlTranslateV(0xC0D54A8);
-    nlGetAverageVector((0x150 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x150 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x15C + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x15C + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x54);
+    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     *(unsigned int *)(((int)stk + 4)) = (t0 + 0x38);
     if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
@@ -686,23 +717,23 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC4BC8C8);
     }
     nlTranslateV(0xC0D54B4);
-    nlGetAverageVector((0x138 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x138 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x144 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x144 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x34);
+    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4E);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4E) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     if ((*(int *)(((t0 + 0x34) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x34) + 0x0))));
     }
     nlTranslateV(0xC0D54C0);
-    nlGetAverageVector((0x120 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x120 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
-    nlGetAverageVector((0x12C + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x12C + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x4), (1.0f - f4), f4);
-    nlUnitVector((((int)stk + 4) + 0x10));
-    nlUnitVector((((int)stk + 4) + 0x4));
-    vsklRotate((((int)stk + 4) + 0x10));
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x48) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x48) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x48) + 0x2))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x48) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x48) + 0x4))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x48) + 0x4))), (1.0f - f4)));
+    sklRotate((((int)stk + 4) + 0x10));
     if ((*(int *)(((t0 + 0x30) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x30) + 0x0))));
     }
-    return (nlPopMatrix(0x3));
+    nlPopMatrix(0x1);
+    nlPopMatrix(0x1);
+    return (nlPopMatrix(0x1));
 }

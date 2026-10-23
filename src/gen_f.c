@@ -50,35 +50,6 @@ void InitBookkeep(void)
     for (; t0 < (int)0x6E8; t0++) *(unsigned char *)(0xC1789E0 + t0) = *(unsigned char *)(0xC089F80 + t0);
 }
 
-int gameState12(void)
-{
-    float u9;
-    float u11;
-    float u12;
-    int t14;
-    int t15;
-
-    Sound_Init();
-    gdc_StopStreamSongAll();
-    nlSetBackColor();
-    *(unsigned int *)0xC2A4E50 = 0x1;
-    replayChangeControl(0xFFFFFFFF);
-    Initialize_Replay();
-    setReplayType(0x3);
-    SetAdvCamera(0xC179840, 0x1);
-    MotionBlurOn();
-    MotionBlurOn();
-    u9 = 0.5f;
-    SetMotionBlurStrength(u9);
-    u11 = 0.79999995f;
-    u12 = 0.9f;
-    SetMotionBlurColor(u12, u11, u9);
-    t14 = InitEndRoll();
-    t15 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t15 + 0x1);
-    *(unsigned int *)0xC1EE240 = 0x0;
-    return t14;
-}
 
 int PatchPolygon(void)
 {
@@ -99,31 +70,7 @@ void CopyBackupBuffer(void)
     for (; t0 < (int)0x25B0; t0++) *(unsigned char *)(0xC28F8A0 + t0) = *(unsigned char *)(0xC28A4E8 + t0);
 }
 
-int nd_SprPut(int a4, int a5, float f4, float f5)
-{
-    *(unsigned int *)((a4 + 0x0)) = a5;
-    *(float *)((a4 + 0x4)) = f4;
-    *(float *)((a4 + 0x8)) = f5;
-    return nlSprPut(a4, a5);
-}
 
-int Exec_Result(void)
-{
-    int t7;
-    int t8;
-
-    Result_Skip();
-    Result_Next_State();
-    Result_Voice();
-    Result_Light();
-    Result_SetFog();
-    Result_SetBackColor();
-    Result_Wobble();
-    t7 = Result_Sprite_Put();
-    t8 = *(int *)0xC2A96F4;
-    *(unsigned int *)0xC2A96F4 = (t8 + 0x1);
-    return t7;
-}
 
 int nlInvLightVectorUseViewMatrix(void)
 {

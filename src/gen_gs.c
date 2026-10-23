@@ -1,53 +1,128 @@
 /* Straight-line functions with calls and guards (batch gen_gs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int PcarEvInit(int);
-int calcCheckExec(int, int);
-int courseStatusEntry(int, int);
-int getCoursePointMove(int, int, int);
-int nlSetEventNext(int, int, int);
-int TrainInit(int a4, int a5);
+int Check_Bowling_Pins(int);
+int Put_Bowling_Message(int, int, int, float);
+int Put_Bowling_Pins(void);
+int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4);
 
-int TrainInit(int a4, int a5)
+int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
 {
-    int t0;
-    int t1;
-    int t11;
-    int t13;
-    int t16;
-    int t18;
+    float u21;
+    float u31;
+    int stk[2];
 
-    t0 = nlSetEventNext(0x12C, 0xC0490E0, a4);
-    if (t0 == 0) {
-        return t0;
-    }
-    t1 = *(int *)0xC2A1B1C;
-    *(unsigned int *)0xC2A1B1C = (t1 + 0x1);
-    *(unsigned int *)((t0 + 0x74)) = ((t1 + 0x1) - 1);
-    *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) + 0x1);
-    if (a5 == 5) {
-        *(unsigned int *)((t0 + 0x78)) = ((*(int *)((a4 + 0x78))) + 0x2);
-    } else {
-        *(unsigned int *)((t0 + 0x78)) = ((*(int *)((a4 + 0x78))) + 0x1);
-    }
-    *(unsigned int *)((t0 + 0x80)) = (*(int *)((a4 + 0x80)));
-    *(unsigned int *)((t0 + 0xD4)) = ((*(int *)((a4 + 0xD4))) - ((a5 << 1) + (a5 << 2)));
-    getCoursePointMove((0x80 + t0), (0xD4 + t0), 0x0);
-    t11 = *(int *)((t0 + 0x80));
-    t13 = *(int *)((t0 + 0xD4));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t0)) = *(struct mv3 *)(((((t13 << 1) + t13) << 2) + (*(int *)((((((t11 << 1) + t11) << 2) + (*(int *)0xC2A6690)) + 0x0))))); }
-    PcarEvInit(t0);
-    t16 = *(int *)((t0 + 0x80));
-    t18 = *(int *)((t0 + 0xD4));
-    *(float *)((t0 + 0x90)) = ((*(float *)((((*(int *)((((((t16 << 1) + t16) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t18 << 1) + t18) << 2)) + 0x4))) + 1.0f);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + t0)) = *(struct mv3 *)((0x98 + a4)); }
-    *(unsigned char *)(((0xA4 + t0) + 0x0)) = (*(signed char *)(((0xA4 + a4) + 0x0)));
-    *(unsigned char *)(((0xA4 + t0) + 0x1)) = (*(signed char *)(((0xA4 + a4) + 0x1)));
-    *(unsigned char *)(((0xA4 + t0) + 0x2)) = (*(signed char *)(((0xA4 + a4) + 0x2)));
-    *(unsigned char *)(((0xA4 + t0) + 0x3)) = (*(signed char *)(((0xA4 + a4) + 0x3)));
-    *(unsigned char *)(((0xA4 + t0) + 0x4)) = (*(signed char *)(((0xA4 + a4) + 0x4)));
-    *(unsigned char *)(((0xA4 + t0) + 0x5)) = (*(signed char *)(((0xA4 + a4) + 0x5)));
-    courseStatusEntry((*(int *)((t0 + 0x80))), (*(int *)((t0 + 0xD4))));
-    courseStatusEntry((*(int *)((t0 + 0x80))), ((*(int *)((t0 + 0xD4))) + 0x1));
-    return calcCheckExec(t0, (*(int *)((t0 + 0x84))));
+    int R0;
+    int R1;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R12;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    L_C05C8E8:;
+    R1 = (0xC1790CC);
+    R4 = (0xC2A995C);
+    R5 = ((*(int *)0xC2A995C));
+    R6 = (0xC13137C);
+    if ((!((*(float *)0xC17914C) > ((*(float *)0xC1313CC) + 50.0f)))) goto L_C05C912;
+    goto L_C05C904;
+    L_C05C904:;
+    R6 = (0x7);
+    if (((int)R5 < (int)0x7)) goto L_C05C90E;
+    goto L_C05C90A;
+    L_C05C90A:;
+    goto L_C05CA36;
+    L_C05CA36:;
+    Put_Bowling_Message(R4, R5, R6, F4);
+    return Put_Bowling_Pins();
+    L_C05C90E:;
+    goto L_C05CA00;
+    L_C05CA00:;
+    *(unsigned int *)((R4 + 0x0)) = R6;
+    goto L_C05CA32;
+    L_C05CA32:;
+    Check_Bowling_Pins(R4);
+    goto L_C05CA36;
+    L_C05C912:;
+    if ((!(((*(float *)((R6 + 0x30))) + 450.0f) > (*(float *)((R1 + 0x78)))))) goto L_C05C9A4;
+    goto L_C05C924;
+    L_C05C924:;
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x44))) + 100.0f)))) goto L_C05C9A4;
+    goto L_C05C936;
+    L_C05C936:;
+    R6 = (0x6);
+    if (((int)R5 < (int)0x6)) goto L_C05C940;
+    goto L_C05C93C;
+    L_C05C93C:;
+    goto L_C05CA36;
+    L_C05C940:;
+    *(unsigned int *)((R4 + 0x0)) = R6;
+    goto L_C05CA32;
+    L_C05C9A4:;
+    u21 = *(float *)0xC05CB58;
+    R7 = ((R6 + 0x30));
+    F4 = (u21);
+    if ((!(((*(float *)(((R6 + 0x30) + 0x0))) + u21) > (*(float *)((R1 + 0x78)))))) goto L_C05C9D0;
+    goto L_C05C9B8;
+    L_C05C9B8:;
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R7 + 0x8))) + F4)))) goto L_C05C9D0;
+    goto L_C05C9C6;
+    L_C05C9C6:;
+    R6 = (0x5);
+    if (((int)R5 >= (int)0x5)) goto L_C05CA36;
+    goto L_C05C9CC;
+    L_C05C9CC:;
+    goto L_C05C940;
+    L_C05C9D0:;
+    u31 = *(float *)0xC05CB5C;
+    F4 = (u31);
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x2C))) + u31)))) goto L_C05C9EC;
+    goto L_C05C9E2;
+    L_C05C9E2:;
+    R6 = (0x4);
+    if (((int)R5 >= (int)0x4)) goto L_C05CA36;
+    goto L_C05C9E8;
+    L_C05C9E8:;
+    goto L_C05C940;
+    L_C05C9EC:;
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x20))) + F4)))) goto L_C05CA04;
+    goto L_C05C9FA;
+    L_C05C9FA:;
+    R6 = (0x3);
+    if (((int)R5 >= (int)0x3)) goto L_C05CA36;
+    goto L_C05CA00;
+    L_C05CA04:;
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x14))) + F4)))) goto L_C05CA1C;
+    goto L_C05CA12;
+    L_C05CA12:;
+    R6 = (0x2);
+    if (((int)R5 >= (int)0x2)) goto L_C05CA36;
+    goto L_C05CA18;
+    L_C05CA18:;
+    *(unsigned int *)((R4 + 0x0)) = R6;
+    goto L_C05CA32;
+    L_C05CA1C:;
+    if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x8))) + F4)))) goto L_C05CA36;
+    goto L_C05CA2A;
+    L_C05CA2A:;
+    R6 = (0x1);
+    if (((int)R5 >= (int)0x1)) goto L_C05CA36;
+    goto L_C05CA30;
+    L_C05CA30:;
+    *(unsigned int *)((R4 + 0x0)) = R6;
+    goto L_C05CA32;
 }

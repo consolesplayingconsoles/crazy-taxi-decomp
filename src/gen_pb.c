@@ -1,34 +1,77 @@
 /* Straight-line functions with calls and guards (batch gen_pb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ReflectColliWallBox(int, int, int, int);
-float nlFastCos(int);
-float nlFastSin(int);
-int nlLineSetThickness(float);
-int nlScaleVector(int, int, float);
-int nlSingleLineUseViewMatrix(void);
-int ColliWallTest(void);
+int GetMenuMode(int);
+int Init_Result_Parm(void);
+int Init_Result_Standard_Sprite(void);
+int Money_Array(int, int, int);
+int Result_Drop_Lowest_Rank(void);
+int Result_Insert_Rank(void);
+int nlMatrixMode(int);
+int nlPerspective(int, float, float, float);
+int nlUnitMatrix(void);
+int Init_Result(int a4);
 
-int ColliWallTest(void)
+int Init_Result(int a4)
 {
-    int stk[11];
+    int t14;
+    int t15;
+    int t19;
+    int t21;
+    int t39;
+    int t24;
+    int t34;
+    int t26;
+    int t29;
 
-    *(float *)(((int)stk + 16)) = (nlFastCos((*(int *)0xC0ED8B4)));
-    *(float *)(((int)stk + 20)) = (nlFastSin((*(int *)0xC0ED8B4)));
-    *(float *)0xC0ED8E8 = (*(float *)0xC0ED8A4);
-    *(float *)0xC0ED8EC = 0.0f;
-    *(float *)0xC0ED8F0 = (*(float *)0xC0ED8A8);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC0ED8D0) = *(struct mv3 *)(0xC0965F0); }
-    nlLineSetThickness(3.0f);
-    nlScaleVector(((int)stk + 4), 0xC0ED8E8, 100.0f);
-    nlSingleLineUseViewMatrix();
-    *(float *)(((int)stk + 4)) = ((*(float *)(((int)stk + 16))) * 10.0f);
-    *(float *)(((int)stk + 8)) = 0.0f;
-    *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 20))) * 10.0f);
-    nlSingleLineUseViewMatrix();
-    ReflectColliWallBox(0xC0ED8DC, 0xC0ED8AC, (((int)stk + 4) + 0xC), 0x0);
-    nlScaleVector(((int)stk + 4), 0xC0ED8E8, 100.0f);
-    nlSingleLineUseViewMatrix();
-    nlScaleVector(((int)stk + 4), 0xC0ED8D0, 100000.0f);
-    return (nlSingleLineUseViewMatrix());
+    nlMatrixMode(0x3);
+    nlUnitMatrix();
+    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
+    nlMatrixMode(0x1);
+    if ((*(int *)0xC1EE210) != 2) {
+        if ((GetMenuMode(0x1)) == 0) {
+            *(unsigned int *)0xC2A7618 = 0x1;
+        } else {
+            *(unsigned int *)0xC2A7618 = 0x0;
+        }
+    } else {
+        *(unsigned int *)0xC2A7618 = 0x1;
+    }
+    t14 = 0xC2A986C;
+    t15 = 0x0;
+    for (;;) {
+        t15 = (t15 + 0x1);
+        *(unsigned int *)((t14 + 0x0)) = 0x0;
+        t14 = (t14 + 0x4);
+        if ((int)t15 >= (int)0xA) {
+            break;
+        }
+    }
+    *(unsigned int *)0xC2A96F0 = ((int)((int)a4 % (int)0x4));
+    Init_Result_Standard_Sprite();
+    Init_Result_Parm();
+    t19 = *(int *)0xC1EE340;
+    *(unsigned int *)0xC2A97DC = t19;
+    t21 = *(int *)0xC2A97DC;
+    t39 = (Money_Array(0xC2A97CC, t19, 0x3));
+    if ((int)t21 < (int)0x64) {
+        t24 = *(int *)0xC17948C;
+        t34 = t24;
+        if (t24 == 0) {
+            t26 = *(int *)0xC2A7618;
+            t29 = t26;
+            if (t26 != 0) {
+                Result_Drop_Lowest_Rank();
+                t29 = (Result_Insert_Rank());
+            }
+            t34 = t29;
+        }
+        t39 = t34;
+    }
+    *(unsigned int *)0xC2A9858 = 0x0;
+    *(unsigned int *)0xC2A985C = 0x0;
+    *(unsigned int *)0xC2A9860 = 0x0;
+    *(unsigned int *)0xC2A9864 = 0x0;
+    *(unsigned int *)0xC2A9868 = 0x0;
+    return t39;
 }

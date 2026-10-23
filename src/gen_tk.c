@@ -1,118 +1,107 @@
 /* Straight-line functions with calls and guards (batch gen_tk): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Sound_Request(int, int);
-float nlLength(int, int);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlTranslate(float, float, float);
-int Put_Course_Obj_Sound(int a4, int a5);
+int CarSel_SetFog(void);
+int CarSel_SetLight(void);
+int Init_nd_Sprite(void);
+int Start_Time_Count(int, int);
+int Voice_Request(int, int, int, int);
+int Voice_ShutUp(int);
+int nlMatrixMode(int);
+int nlPerspective(int, float, float, float);
+int nlUnitMatrix(void);
+int selectInitSprites(void);
+int nd_CarSelInit(void);
 
-int Put_Course_Obj_Sound(int a4, int a5)
+int nd_CarSelInit(void)
 {
-    int t0;
-    float t1;
+    int t6;
+    int t7;
+    int t18;
+    int t20;
     int t24;
-    int t28;
-    int t27;
-    int t103;
-    float t31;
-    int t41;
-    int t59;
-    float t66;
-    int t75;
-    int t96;
-    int t100;
-    int t99;
-    int t113;
+    int t22;
 
-    t0 = *(int *)0xC1EE20C;
-    if (t0 == 0) {
-        t1 = nlLength(0xC5E0008, 0xC179840);
-        if (3000.0f > t1) {
-            nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC2A6ED0) << 2) + 0xC118678))));
-            if (400.0f > t1) {
-                if ((*(int *)0xC2A6ED8) == 0) {
-                    *(unsigned int *)0xC2A6ED8 = 0x1;
-                    Sound_Request(0x211A9, 0x0);
-                }
-            } else {
-                if ((*(int *)0xC2A6ED8) == 1) {
-                    *(unsigned int *)0xC2A6ED8 = 0x0;
-                    Sound_Request(0x311A9, 0x0);
-                }
-            }
+    nlMatrixMode(0x3);
+    nlUnitMatrix();
+    nlPerspective(0x1D28, 1.33333325f, 0.299999982f, 300.0f);
+    nlMatrixMode(0x1);
+    *(unsigned short *)0xC2A756C = 0xEB00;
+    *(unsigned short *)0xC2A756E = 0xF200;
+    *(float *)0xC2A7568 = 0.799999952f;
+    *(unsigned int *)0xC2A7578 = 0x8;
+    CarSel_SetLight();
+    CarSel_SetFog();
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A7548) = *(struct mv3 *)(0xC0D07DC); }
+    *(unsigned short *)0xC2A7554 = 0x0;
+    *(unsigned short *)0xC2A7556 = 0x0;
+    *(unsigned short *)0xC2A7558 = 0x0;
+    t6 = 0xC2A7538;
+    t7 = 0x0;
+    for (;;) {
+        t7 = (t7 + 0x1);
+        *(unsigned int *)((t6 + 0x0)) = 0x0;
+        t6 = (t6 + 0x4);
+        if ((int)t7 >= (int)0x4) {
+            break;
         }
-        t24 = (int)((int)((*(int *)0xC2A6EC8) + 0x1) % (int)0x2);
-        *(unsigned int *)0xC2A6EC8 = t24;
-        t28 = t24;
-        if (t24 != 1) {
-        } else {
-            t27 = (int)((int)((*(int *)0xC2A6ED0) + 0x1) % (int)(*(int *)0xC0C83E0));
-            *(unsigned int *)0xC2A6ED0 = t27;
-            t28 = t27;
-        }
-        t113 = t28;
-    } else {
-        t103 = t0;
-        if (t0 != 1) {
-        } else {
-            t31 = nlLength(0xC5E9FA8, 0xC179840);
-            if (3000.0f > t31) {
-                nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC2A6ED0) << 2) + 0xC1186F0))));
-                nlPushMatrix(0x0);
-                nlTranslate(300.0f, 0.0f, 0.0f);
-                nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC2A6ED0) << 2) + 0xC1186F0))));
-                nlPopMatrix(0x1);
-                t41 = *(int *)0xC2A6ED8;
-                if (400.0f > t31) {
-                    if (t41 == 0) {
-                        *(unsigned int *)0xC2A6ED8 = 0x1;
-                        Sound_Request(0x211A9, 0x0);
-                    }
-                } else {
-                    if (t41 == 1) {
-                        *(unsigned int *)0xC2A6ED8 = 0x0;
-                        Sound_Request(0x311A9, 0x0);
-                    }
-                }
-            }
-            t59 = (int)((int)((*(int *)0xC2A6EC8) + 0x1) % (int)0x2);
-            *(unsigned int *)0xC2A6EC8 = t59;
-            if (t59 == 1) {
-                *(unsigned int *)0xC2A6ED0 = ((int)((int)((*(int *)0xC2A6ED0) + 0x1) % (int)(*(int *)0xC0C83E4)));
-            }
-            t66 = nlLength(0xC5ECBB8, 0xC179840);
-            if (3000.0f > t66) {
-                nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC2A6ED4) << 2) + 0xC118768))));
-                nlPushMatrix(0x0);
-                nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC2A6ED4) << 2) + 0xC118768))));
-                nlPopMatrix(0x1);
-                t75 = *(int *)0xC2A6EDC;
-                if (400.0f > t66) {
-                    if (t75 == 0) {
-                        *(unsigned int *)0xC2A6EDC = 0x1;
-                        Sound_Request(0x211A9, 0x0);
-                    }
-                } else {
-                    if (t75 == 1) {
-                        *(unsigned int *)0xC2A6EDC = 0x0;
-                        Sound_Request(0x311A9, 0x0);
-                    }
-                }
-            }
-            t96 = (int)((int)((*(int *)0xC2A6ECC) + 0x1) % (int)0x2);
-            *(unsigned int *)0xC2A6ECC = t96;
-            t100 = t96;
-            if (t96 == 1) {
-                t99 = (int)((int)((*(int *)0xC2A6ED4) + 0x1) % (int)(*(int *)0xC0C83E8));
-                *(unsigned int *)0xC2A6ED4 = t99;
-                t100 = t99;
-            }
-            t103 = t100;
-        }
-        t113 = t103;
     }
-    return t113;
+    *(unsigned int *)0xC2A7510 = 0x0;
+    *(unsigned int *)0xC2A7514 = 0x0;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A7520) = *(struct mv3 *)(0xC0D07D0); }
+    *(unsigned short *)0xC2A752C = (*(short *)0xC130748);
+    *(unsigned int *)0xC2A7530 = 0x9;
+    *(unsigned int *)0xC2A7534 = 0x9;
+    *(unsigned int *)0xC2A75C0 = 0x0;
+    *(float *)0xC130624 = 0.0f;
+    Init_nd_Sprite();
+    selectInitSprites();
+    *(unsigned int *)0xC2A757C = 0x3BF;
+    Start_Time_Count(0xC2A757C, 0x0);
+    *(unsigned int *)0xC2A7518 = 0x0;
+    *(unsigned int *)0xC2A7580 = 0x0;
+    *(unsigned int *)0xC2A759C = 0x2;
+    *(unsigned int *)0xC2A7590 = 0x0;
+    *(unsigned int *)0xC2A7594 = 0x0;
+    *(unsigned char *)0xC2A7584 = 0x0;
+    *(unsigned int *)0xC2A7588 = 0x0;
+    *(unsigned int *)0xC2A7598 = 0x0;
+    *(unsigned int *)0xC2A75A0 = 0x0;
+    *(unsigned int *)0xC2A75A4 = 0x0;
+    *(unsigned int *)0xC2A75A8 = 0x0;
+    *(unsigned int *)0xC2A75AC = 0x0;
+    *(unsigned int *)0xC2A75B0 = 0x0;
+    *(unsigned int *)0xC1330C4 = (*(int *)0xC133750);
+    *(unsigned int *)0xC133104 = (*(int *)0xC133778);
+    *(unsigned int *)0xC1330F8 = (*(int *)0xC133784);
+    *(unsigned int *)0xC133144 = (*(int *)0xC133790);
+    *(unsigned int *)0xC133184 = (*(int *)0xC1337B8);
+    Voice_ShutUp(0x0);
+    t18 = Voice_Request(0xC130628, 0x0, 0x7F, 0x0);
+    *(unsigned int *)0xC2A75B4 = (int)(*(float *)0xC1EE2F4);
+    *(unsigned int *)0xC2A75B8 = 0x0;
+    *(unsigned int *)0xC2A75BC = 0x0;
+    t20 = *(int *)0xC1EE24C;
+    if ((0x20000 & t20) != 0) {
+        if ((0x8 & t20) != 0) {
+            *(unsigned int *)0xC2A7368 = 0x1;
+        } else {
+            *(unsigned int *)0xC2A7368 = 0x0;
+        }
+        t22 = 0x8;
+    } else {
+        *(unsigned int *)0xC2A7368 = 0x0;
+        t22 = t18;
+    }
+    t24 = *(int *)0xC1EE24C;
+    if (((0x10000 & t24) != 0) && ((0x8 & t24) != 0)) {
+        *(unsigned int *)0xC2A736C = 0x1;
+    } else {
+        *(unsigned int *)0xC2A736C = 0x0;
+    }
+    *(unsigned int *)0xC17948C = 0x0;
+    *(float *)0xC2A7500 = 0.0f;
+    *(float *)0xC2A7504 = 0.0f;
+    *(unsigned int *)0xC2A75C4 = 0x0;
+    return t22;
 }

@@ -175,25 +175,33 @@ def pieces():
             open('%s/%08x_%s.src' % (asm, a, n), 'w').write(txt)
     open(asm + '/boot_tail.src', 'w').write(words_piece('bootSerialGetByte', 0x0C011AFE, FILL0, entry, section='P', align=2))
     open(asm + '/boot_stub.src', 'w').write(words_piece('bootEntryStub', FILL1, G0, entry, section='PS'))
+    nrep = 0
     for f in glob.glob(OUT + '/src/*.c'):
         t = open(f, errors='replace').read()
-        used = []
+        used, funcs = [], set()
 
         def sub(m):
             v = int(m.group(1), 16)
             a = v & 0x1FFFFFFF | 0x0C000000
-            if (v >> 24) in CODE_TOP and a in rep:
+            if (v >> 24) not in CODE_TOP:
+                return m.group(0)
+            if a in rep:                                   # inside a function: a table or an entry in the middle
                 used.append(rep[a])
                 return rep[a]
+            if a in entry and v == a:                      # a game function's own address: its name, so that it follows the function
+                funcs.add(entry[a])
+                return '((int)%s)' % entry[a]
             return m.group(0)
         out = []
         for l in t.split('\n'):
             out.append(l if l.lstrip().startswith(('/*', '*')) else LIT.sub(sub, l))
-        if used:
+        if used or funcs:
             names = sorted({m.group(1) for u in used for m in re.finditer(r'\(int\)(\w+)', u)})
             head = ''.join('extern char %s[];\n' % n for n in names)
+            head += ''.join('int %s();\n' % n for n in sorted(funcs) if not re.search(r'\b%s\s*\(' % re.escape(n), t))
+            nrep += len(used) + len(funcs)
             open(f, 'w').write(head + '\n'.join(out))
-    print('%d table pieces, %d second copies, %d literals rewritten' % (len(cl), len(alt), len(rep)))
+    print('%d table pieces, %d second copies, %d literals rewritten' % (len(cl), len(alt), nrep))
 
 
 def prep_sources():

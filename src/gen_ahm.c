@@ -7,10 +7,10 @@ int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
-int sklRotate(int);
-int SklPlay(int a4, int a5, int a6, int a7);
+int vsklRotate(int, int);
+int humanDraw(int a4, int a5, int a6, int a7);
 
-int SklPlay(int a4, int a5, int a6, int a7)
+int humanDraw(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t2;
@@ -18,18 +18,18 @@ int SklPlay(int a4, int a5, int a6, int a7)
     int t4;
 
     t0 = *(int *)(((a5 << 2) + 0xC1331B0));
-    t2 = (int)((int)a6 % (int)(unsigned short)(*(short *)((a4 + 0x0))));
+    t2 = (int)((unsigned int)a6 % (unsigned int)((*(int *)((a4 + 0x0))) - 1));
     t3 = *(int *)((a4 + 0x4));
     t4 = *(int *)((a4 + 0x8));
     nlPushMatrix(0x0);
     if (a7 == 0) {
-        nlTranslateV(((a4 - t3) + (((t2 << 1) + t2) << 2)));
+        nlTranslateV(((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4));
     } else {
-        nlTranslate(0.0f, (*(float *)((((a4 - t3) + (((t2 << 1) + t2) << 2)) + 0x4))), 0.0f);
+        nlTranslate(0.0f, (*(float *)((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0x4))), 0.0f);
     }
-    sklRotate(((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))));
+    vsklRotate((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC), (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0x18));
     nlPushMatrix(0x0);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x30));
+    vsklRotate((0xC0 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0xCC + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
     }
@@ -99,7 +99,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5430);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x6));
+    vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x18), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x24));
     if ((*(int *)(((t0 + 0x4) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x4) + 0x0))));
     }
@@ -352,7 +352,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D543C);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x18));
+    vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x60), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x6C));
     if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
     }
@@ -393,7 +393,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
         nlObjPutUseViewMatrix(0xC5654D8);
     }
     nlTranslateV(0xC0D5448);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x12));
+    vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x48), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x54));
     if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
     }
@@ -410,7 +410,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
         nlObjPutUseViewMatrix(0xC585FA0);
     }
     nlTranslateV(0xC0D5454);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0xC));
+    vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x30), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x3C));
     if ((*(int *)(((t0 + 0x8) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x8) + 0x0))));
     }
@@ -427,7 +427,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5460);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x2A));
+    vsklRotate((0xA8 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0xB4 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
     }
@@ -468,12 +468,12 @@ int SklPlay(int a4, int a5, int a6, int a7)
         nlObjPutUseViewMatrix(0xC566CB0);
     }
     nlTranslateV(0xC0D546C);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x24));
+    vsklRotate((0x90 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x9C + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x18) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x18) + 0x0))));
     }
     nlTranslateV(0xC0D5478);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x1E));
+    vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x78), (0x84 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x14) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x14) + 0x0))));
     }
@@ -481,8 +481,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
         nlObjPutUseViewMatrix(0xC4FA698);
     }
     nlPopMatrix(0x2);
-    nlPushMatrix(0x0);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x5A));
+    vsklRotate((0x168 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x174 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
     }
@@ -559,7 +558,7 @@ int SklPlay(int a4, int a5, int a6, int a7)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5484);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x42));
+    vsklRotate((0x108 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x114 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
     }
@@ -580,19 +579,18 @@ int SklPlay(int a4, int a5, int a6, int a7)
         nlObjPutUseViewMatrix(0xC4BC440);
     }
     nlTranslateV(0xC0D5490);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x3C));
+    vsklRotate((0xF0 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0xFC + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x28) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x28) + 0x0))));
     }
     nlTranslateV(0xC0D549C);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x36));
+    vsklRotate((0xD8 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0xE4 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x24) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x24) + 0x0))));
     }
     nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
     nlTranslateV(0xC0D54A8);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x54));
+    vsklRotate((0x150 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x15C + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
     }
@@ -612,15 +610,16 @@ int SklPlay(int a4, int a5, int a6, int a7)
     } else {
         nlObjPutUseViewMatrix(0xC4BC8C8);
     }
+    nlPushMatrix(0x0);
     nlTranslateV(0xC0D54B4);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x4E));
+    vsklRotate((0x138 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x144 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x34) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x34) + 0x0))));
     }
     nlTranslateV(0xC0D54C0);
-    sklRotate((((a4 - t4) + ((((t2 << 2) << 2) << 1) + (((t2 << 2) << 2) << 2))) + 0x48));
+    vsklRotate((0x120 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x12C + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
     if ((*(int *)(((t0 + 0x30) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x30) + 0x0))));
     }
-    return (nlPopMatrix(0x3));
+    return (nlPopMatrix(0x2));
 }

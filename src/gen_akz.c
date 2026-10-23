@@ -1,56 +1,44 @@
 /* Straight-line functions with calls and guards (batch gen_akz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int KillColliObj(int);
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-void setObjHitSplitSleep(int a4);
+int NextWindow(int);
+int Voice_Request(int, int, int, int);
+int menuCursor(int, int, int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int windowEnterStep(int, int);
+int windowOpenStep(int);
+int windowTryAgain(void);
 
-void setObjHitSplitSleep(int a4)
+int windowTryAgain(void)
 {
-    float u1;
-    int t2;
-    int t4;
-    int t5;
-    int t7;
-    int t3;
-    int t8;
-    int stk[15];
+    int t13;
+    int t41;
+    int t14;
+    int t15;
+    int t34;
+    int t21;
+    int t22;
+    int t29;
 
-    if ((nlLength((a4 + 0xC), (a4 + 0x58))) > (1.0f + 1.0f)) {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
-        *(unsigned int *)(((int)stk + 4)) = 0xC0EDEB4;
-        u1 = *(float *)0xC0387B0;
-        t2 = 0x0;
-        for (;;) {
-            t4 = set_event(0x84, 0xC0385E2);
-            if (t4 != 0) {
-                t3 = t4;
-                t3 = (t3 + 0x14);
-                t5 = a4;
-                t7 = t3;
-                for (;;) { t8 = *(int *)t5; t5 = (t5 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t5) break; *(unsigned int *)t7 = t8; t7 = (t7 + 4); }
-                if (t2 != 0) {
-                    nlScaleVector((t3 + 0x30), (t3 + 0x30), (-1.0f));
-                }
-                nlScaleVector((((int)stk + 4) + 0x4), (t3 + 0x30), u1);
-                nlAddVector(t3, (((int)stk + 4) + 0x4));
-                *(unsigned int *)((t3 + 0x28)) = (t3 + 0x30);
-                *(unsigned int *)((t3 + 0x54)) = (*(int *)(((int)stk + 4)));
-                *(unsigned int *)((t3 + 0x64)) = (*(int *)(((((*(int *)((a4 + 0x6C))) << 2) + (*(int *)0xC0EE208)) + 0x0)));
-                SetColliObj(t3, 0x10);
+    windowOpenStep(0x1);
+    menuCursor(0x1, 0x2, 0x0);
+    putLevelCTFontAssist(0x2026, 0xC09E028, 0x3, (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0))), 0x0);
+    if (((*(int *)0xC2A1208) & 4) != 0) {
+        t13 = *(int *)0xC2A11CC;
+        if (((t13 & 0x2) != 0) && (t14 = *(int *)0xC2A11F4, t15 = *(int *)((((t14 << 2) + 0xC2A11F8) + 0x0)), t15 == 0)) {
+            *(unsigned int *)0xC0EF550 = 0x277;
+            Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
+        } else {
+            if ((((0x2 & t13) != 0) && (t21 = *(int *)0xC2A11F4, t22 = *(int *)((0xC2A11F8 + (t21 << 2))), t22 == 1)) || ((0x4 & t13) != 0)) {
+                *(unsigned int *)0xC0EF550 = 0x25D;
+                Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
+                NextWindow(0x3);
+            } else {
+                t29 = 0x2;
             }
-            t2 = (t2 + 0x1);
-            if ((int)t2 >= (int)0x2) {
-                break;
-            }
+            t34 = t29;
         }
-        KillColliObj(a4);
-        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
-    } else {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+        t41 = t34;
     }
+    return windowEnterStep(0x5A, t41);
 }

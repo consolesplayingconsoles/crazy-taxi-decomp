@@ -1,7 +1,7 @@
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
-import os,re,struct,subprocess,copy
+import glob,json,os,re,struct,subprocess,copy
 import gen_cfg
 BIN=open('1ST_READ.BIN','rb').read(); BASE=int(open('BASE').read().strip(),16)
 def in_ram(a):
@@ -269,12 +269,18 @@ _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
 _COMPARE=('cmp','tst','fcmp')
 class _PassThrough(Exception): pass
+_SCAN_FILE=os.path.join('state','arity_scan.json')
+try: _SCAN=json.load(open(_SCAN_FILE))
+except Exception: _SCAN={}
 def callee_arity(fname):
     """(integer arguments, float arguments) a function reads before it writes them, from a straight scan of its code up to its
     first return: r4-r7 and fr4-fr11. None when the code cannot be read. A guess for the prototype, not a proof: the call is
     compared on these arguments only."""
     if fname in _ARITY: return _ARITY[fname]
     res=None
+    if fname in _SCAN:                   # the scan of the code (the original never changes), cached across runs
+        res=tuple(_SCAN[fname]) if _SCAN[fname] is not None else None
+        return _combine_def(fname,res)
     try:
         out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False
@@ -340,6 +346,28 @@ def callee_arity(fname):
                         if mm: tgt_=mm.group(1); break
                         if re.search(r',\s*%s\s*(;|$)'%rg,x.split(';')[0]+';'): break
                 raise _PassThrough(tgt_)  # its arity is the arity of what it calls (unknown when that is unknown)
+            if mn in ('jsr','bsr','jmp'):
+                # an argument register this function has not written goes on to the callee as it came in: an argument here
+                # too when the callee reads it (when the callee is unknown, a register this function never touches at all)
+                tgt_=None
+                cm=l.split(';',1)[1].strip() if ';' in l else ''
+                if mn=='bsr' and re.fullmatch(r'\w+',cm): tgt_=cm
+                elif a:
+                    rg=a[0].strip('@')
+                    for x in reversed(out[:out.index(l)]):
+                        mm=re.match(r'[0-9a-f]{8} [0-9a-f]{4}\s+mov\.l\s+@\([^)]*,pc\),%s\s*;\s*=[0-9a-f]{8}\s+(\w+)'%rg,x)
+                        if mm: tgt_=mm.group(1); break
+                        if re.search(r',\s*%s\s*(;|$)'%rg,x.split(';')[0]+';'): break
+                sub=callee_arity(tgt_) if tgt_ and tgt_!=fname else None
+                if tgt_ and sub:
+                    for i in range(min(sub[0],4)):        # r4-r7 only: further arguments are on the stack
+                        if 'r%d'%(4+i) not in wrote|slot_w: maxi=max(maxi,i)
+                    for i in range(min(sub[1],8)):
+                        if 'fr%d'%(4+i) not in wrote|slot_w: maxf=max(maxf,i)
+                elif not tgt_:
+                    touched=set(re.findall(r'\b(r[4-7])\b',' '.join(x.split(';')[0] for x in out)))
+                    for i in range(4):
+                        if 'r%d'%(4+i) not in wrote|slot_w and 'r%d'%(4+i) not in touched: maxi=max(maxi,i)
             if mn in ('jsr','bsr'):
                 wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
             if mn=='rts': after_ret=2
@@ -351,8 +379,33 @@ def callee_arity(fname):
             res=callee_arity(e.args[0])
     except Exception:
         res=None
+    _SCAN[fname]=res
+    try:
+        os.makedirs('state',exist_ok=True)
+        json.dump(_SCAN,open(_SCAN_FILE+'.tmp','w')); os.replace(_SCAN_FILE+'.tmp',_SCAN_FILE)
+    except Exception: pass
+    return _combine_def(fname,res)
+
+def _combine_def(fname,res):
+    d=def_arity(fname)                      # the function's own proven definition: what it reads on every path
+    if d and res:
+        res=(max(res[0],d[0]),max(res[1],d[1]))
+    elif d:
+        res=d
     _ARITY[fname]=res
     return res
+
+_DEFS=None
+def def_arity(fname):
+    """(integer, float) parameters of the function's definition in src/, or None."""
+    global _DEFS
+    if _DEFS is None:
+        _DEFS={}
+        for f in glob.glob('src/*.c'):
+            for m in re.finditer(r'^[A-Za-z_][\w \*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\n\{',open(f,errors='replace').read(),re.M):
+                ps=[x.strip() for x in m.group(2).split(',') if x.strip() and x.strip()!='void']
+                _DEFS.setdefault(m.group(1),(sum(1 for x in ps if not (x.startswith('float') and '*' not in x)),sum(1 for x in ps if x.startswith('float') and '*' not in x)))      # a float pointer is an integer argument
+    return _DEFS.get(fname)
 
 def isfp(v): return isinstance(v,tuple) and v[0]=='fpend'      # a float kept on the pending stack
 STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'addr\'')
@@ -1008,6 +1061,14 @@ def _run(name,passthru=False,frame=False,flat=False):
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
+        if ar and not c.pend and c.pcalls==0 and not c.pt:
+            # the callee reads more argument registers than this function set: one it has not touched (and no call has
+            # changed) is its own incoming argument, passed on as it came (a wrapper, a thunk, a dispatcher)
+            for n in range(4,4+min(ar[0],4)):
+                if n not in avail and 'r%d'%n not in c.R: avail.append(n)
+            for n in range(4,4+min(ar[1],8)):
+                if n not in fav and 'fr%d'%n not in c.FR: fav.append(n)
+            avail.sort(); fav.sort()
         if avail and c.pcalls==0 and not c.pt:           # a register below the highest one set that the function never touched is its own incoming argument, passed straight on
             hole=[n for n in range(4,max(avail)) if n not in avail and 'r%d'%n not in c.R]
             if hole and all(n in (4,5,6,7) for n in hole): avail=sorted(set(avail)|set(hole))

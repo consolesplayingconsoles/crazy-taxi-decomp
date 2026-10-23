@@ -1,57 +1,69 @@
 /* Straight-line functions with calls and guards (batch gen_th): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int);
-int Result_Class_Line_Put(void);
+int getCoursePointMove(int, int, int);
+int getNearLinkedLine(int, int, int, int, int, float);
+int nlGetAverageVector(int, int, int, float, float);
+float nlLength(int, int);
+float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
 
-int Result_Class_Line_Put(void)
+float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
-    int t4;
-    int t5;
+    int t1;
+    int t3;
+    int t6;
+    int t10;
+    int t12;
+    float t14;
+    float u15;
+    float u16;
+    float t18;
+    int stk[37];
 
-    if ((int)(*(int *)0xC2A96F4) <= (int)0x58) {
-        return 0xC2A96F4;
+    stk[25] = a8;
+    stk[26] = a9;
+    stk[27] = a10;
+    stk[28] = a11;
+    *(unsigned int *)(((int)stk + 52)) = a6;
+    *(unsigned int *)(((int)stk + 48)) = a7;
+    *(unsigned int *)(((int)stk + 8)) = a4;
+    getNearLinkedLine(0x2, 0x0, (((int)stk + 4) + 0x30), (((int)stk + 4) + 0x2C), a5, f4);
+    t1 = *(int *)(((int)stk + 52));
+    t3 = *(int *)(((int)stk + 48));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x1C)) = *(struct mv3 *)(((*(int *)((((((t1 << 1) + t1) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t3 << 1) + t3) << 2))); }
+    t6 = 0xFFFFFFFF;
+    if ((int)(*(int *)(((int)stk + 8))) >= 0) {
+        t6 = 0x1;
     }
-    *(unsigned int *)0xC2A96F8 = 0x5D;
-    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x1BC);
-    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    *(unsigned int *)0xC2A9720 = 0x0;
-    *(unsigned int *)0xC2A972C = 0xA;
-    t4 = 0x0;
-    t5 = 0x68;
     for (;;) {
-        *(float *)0xC2A96FC = (float)t5;
-        nlSprPut(0xC2A96F8);
-        t4 = (t4 + 0x1);
-        t5 = (t5 + 0x11);
-        if ((int)t4 >= (int)0x8) {
+        *(unsigned int *)(((int)stk + 48)) = ((*(int *)(((int)stk + 48))) + t6);
+        getCoursePointMove((((int)stk + 8) + 0x2C), (((int)stk + 8) + 0x28), 0x0);
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x10)) = *(struct mv3 *)((((int)stk + 8) + 0x1C)); }
+        t10 = *(int *)(((int)stk + 52));
+        t12 = *(int *)(((int)stk + 48));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x1C)) = *(struct mv3 *)(((*(int *)((((((t10 << 1) + t10) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t12 << 1) + t12) << 2))); }
+        t14 = nlLength(a5, (((int)stk + 8) + 0x1C));
+        if (t14 > f4) {
             break;
         }
     }
-    *(unsigned int *)0xC2A96F8 = 0x146;
-    *(float *)0xC2A96FC = 172.0f;
-    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
-    *(float *)0xC2A9704 = 0.199999988f;
-    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    *(unsigned int *)0xC2A972C = 0x200A;
-    nlObjPutSetFadeColor(0.699999988f, 0.699999988f, 0.699999988f);
-    nlSprPut(0xC2A96F8);
-    *(float *)0xC2A9704 = 0.199999988f;
-    *(unsigned int *)0xC2A972C = 0xA;
-    *(unsigned int *)0xC2A96F8 = 0x12E;
-    *(float *)0xC2A96FC = 276.0f;
-    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x1B4);
-    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-    *(float *)0xC2A9714 = 0.0f;
-    *(float *)0xC2A971C = 1.0f;
-    nlSprPut(0xC2A96F8);
-    return nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
+    u15 = t14;
+    for (;;) {
+        u16 = u15;
+        u15 = 0.5f;
+        nlGetAverageVector((((int)stk + 8) + 0x1C), (((int)stk + 8) + 0x10), (((int)stk + 8) + 0x4), u15, 0.5f);
+        t18 = nlLength(a5, (((int)stk + 8) + 0x4));
+        u15 = t18;
+        if (u15 > f4) {
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x1C)) = *(struct mv3 *)((((int)stk + 8) + 0x4)); }
+        } else {
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x10)) = *(struct mv3 *)((((int)stk + 8) + 0x4)); }
+        }
+        u15 = (u15 - f4);
+        u15 = _builtin_fabsf(u15);
+        if (!(0.000999999931f > _builtin_fabsf((u15 - u16)))) continue;
+        break;
+    }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((*(int *)(((((int)stk + 8) + 0x5C) + 0x0)))) = *(struct mv3 *)((((int)stk + 8) + 0x4)); }
+    return t18;
 }

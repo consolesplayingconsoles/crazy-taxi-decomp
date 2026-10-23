@@ -23,7 +23,7 @@ def split_params(p):
 def body_of(src,end):
     m=re.compile(r'^\}',re.M).search(src,end)
     return src[end:m.start()] if m else src[end:]
-def draw_one(name,params,body,rng):
+def draw_one(name,params,body,rng,pw=None):
     ints=[];floats=[];ptrs=[]
     ir,fr=4,4
     for p in params:
@@ -60,6 +60,7 @@ def draw_one(name,params,body,rng):
     small=[v for v in V if v<=0x100 or v>=0xFFFFFF00]
     arrays=re.search(r'\w\s+\w+\[\d+\]\s*;',body)                            # a local array handed to a call
     outslots=bool(re.search(r'&\s*\w',body)) or bool(arrays)                         # an address passed to a call: the callee may fill it
+    if pw is None: pw=4 if arrays else 1                                          # words a call writes through each argument register
     ncalls=len([m for m in re.findall(r'\b(\w+)\s*\(',body) if m not in KEYWORDS])+4
     if re.search(r'\b(for|while|do)\b',body): ncalls=max(ncalls,24)           # a loop may call as often as it goes round
     pool=small+fbits+[0x0C900000,0x0C910000]
@@ -77,7 +78,7 @@ def draw_one(name,params,body,rng):
         for k_ in [k_ for k_ in poke if 0x0C020000<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<0x0C089F26]: del poke[k_]       # the code is read-only on the console
         d={'about':'case %d'%i,'poke':poke}
         if regs: d['regs']=regs
-        if ncalls>4: d['calls']=[dict({'r0':'%08X'%(rng.choice([0x0C900000,0x0C910000]) if rng.random()<0.4 else rng.choice(pool))},**({'poke_arg':{r:struct.pack('<4I' if arrays else '<I',*[rng.choice(small+fbits) for _ in range(4 if arrays else 1)]).hex() for r in ('r4','r5','r6','r7')}} if outslots else {})) for _ in range(ncalls)]
+        if ncalls>4: d['calls']=[dict({'r0':'%08X'%(rng.choice([0x0C900000,0x0C910000]) if rng.random()<0.4 else rng.choice(pool))},**({'poke_arg':{r:struct.pack('<%dI'%pw,*[rng.choice(small+fbits) for _ in range(pw)]).hex() for r in ('r4','r5','r6','r7')}} if outslots else {})) for _ in range(ncalls)]
         cases.append(d)
     return cases,V,sorted(set(consts)|{0,1,2,0xFFFFFFFF}|set(ptrs_ok))
 def main(args):
@@ -92,11 +93,14 @@ def main(args):
         if name in KEYWORDS or (names and name not in names) or name not in G.SPANS: continue
         path='tests/%s/%s.json'%(stem,name)
         if os.path.exists(path) and not force: continue
-        rng=random.Random(zlib.crc32(name.encode())&0xffff)
-        try: cases,V,hot=draw_one(name,split_params(m.group(2)),body_of(src,m.end()),rng)
+        try:
+            for pw in (None,1):       # a call answering through a pointer into the frame may overwrite the saved registers: fewer words then
+                rng=random.Random(zlib.crc32(name.encode())&0xffff)
+                cases,V,hot=draw_one(name,split_params(m.group(2)),body_of(src,m.end()),rng,pw)
+                chosen=gen_drv.pick(name,cases,36,V,rng,hot)
+                if len(chosen)>=4: break
         except ValueError as e:
             print('%-28s skipped: %s'%(name,e)); continue
-        chosen=gen_drv.pick(name,cases,36,V,rng,hot)
         if len(chosen)<4:
             print('%-28s skipped: the original does not finish on the cases'%name); continue
         ledger.archive_cases(_os.path.basename(path)[:-5],path,'drawn-before')

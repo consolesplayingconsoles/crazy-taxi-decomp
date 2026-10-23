@@ -1,189 +1,115 @@
 /* Straight-line functions with calls and guards (batch gen_ny): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlMultiLineUseViewMatrixTrnsl(void);
+int FcvPlay(int, int, float);
+int nlMultiLineUseViewMatrixTrnsl(int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlObjPutSetFadeColorBase(float, float, float);
 int nlObjPutUseViewMatrix(int);
 int nlPopMatrix(int);
 int nlPushMatrix(int);
+int nlRotateAY(int);
 int nlTranslate(float, float, float);
-int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
-int nlTriPutSetAttribFaceColor(int, float, float, float);
-int nlTriPutSetClipping(int, float, float, float, float);
-int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
-int nlTriPutTextureInit(int, int, int);
-int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
+int nlTranslateV(int);
+int nd_StartWait_PutKyaku(void);
 
-int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11)
+int nd_StartWait_PutKyaku(void)
 {
-    float u9;
-    float u19;
-    int t33;
+    int t0;
+    int t5;
+    int t7;
+    float u25;
+    float u26;
+    int t34;
+    int t38;
+    int t49;
+    int t50;
+    int t72;
+    int t73;
     int t43;
-    int t57;
-    float u82;
-    float u83;
-    float u84;
-    int t92;
-    float u96;
-    float u97;
-    float u98;
-    int stk[21];
+    int t51;
+    int t64;
+    float u66;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F2;
-    float F3;
-    float F4;
-    float F5;
-    float F6;
-    float F7;
-    float F8;
-    float F9;
-    float F10;
-    float F11;
-    float F12;
-    float F13;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    F5 = f5;
-    F6 = f6;
-    F7 = f7;
-    F8 = f8;
-    F9 = f9;
-    F10 = f10;
-    F11 = f11;
-    L_C0357F8:;
-    *(unsigned int *)(((int)stk + 32)) = R5;
-    R10 = (0xC273F10);
-    R13 = (0xC271D30);
-    F12 = (10.0f);
-    F13 = ((*(float *)0xC0ED920));
-    F14 = (0.0f);
-    if (((*(int *)0xC271D28) != R4)) goto L_C03582E;
-    goto L_C03582A;
-    L_C03582A:;
-    goto L_C035A22;
-    L_C035A22:;
-    u9 = *(float *)0xC0ED920;
-    nlTriPutSetAttribFaceColor(R13, F14, (*(float *)0xC271D18), F14);
-    *(unsigned int *)((R10 + 0x4)) = (((int)((*(float *)0xC271D18) * 255.0f) << 8) | 0xDF000000);
+    t0 = *(int *)0xC2A720C;
+    if ((t0 != 2) && (t0 != 3)) {
+        if ((t0 != 0) && (t0 != 1)) {
+            *(unsigned int *)0xC130468 = 0x2;
+        } else {
+            *(unsigned int *)0xC130468 = 0x0;
+        }
+    } else {
+        *(unsigned int *)0xC130468 = 0x1;
+    }
+    nlObjPutSetFadeColorBase(1.0f, 1.0f, 0.0f);
     nlPushMatrix(0x0);
-    R12 = (0xC07B9E0);
-    R14 = (0xC0789B0);
-    F15 = (u9);
-    if (((*(int *)0xC2A7368) != 0)) goto L_C035A88;
-    goto L_C035A5C;
-    L_C035A5C:;
-    nlObjPutUseViewMatrix(R13);
-    u19 = F12;
-    u19 = u19 + F12 * F15;
-    nlTranslate(F14, u19, F14);
-    R13 = ((*(int *)(((int)stk + 32))));
-    goto L_C035A80;
-    L_C035A80:;
-    if ((R13 != 0)) goto L_C035A72;
-    goto L_C035A84;
-    L_C035A84:;
-    goto L_C035A96;
-    L_C035A96:;
-    return nlPopMatrix(0x1);
-    L_C035A72:;
-    nlMultiLineUseViewMatrixTrnsl();
-    nlTranslate(F14, F12, F14);
-    R13 = ((R13 - 1));
-    goto L_C035A80;
-    L_C035A88:;
-    nlTranslate(F14, 3.0f, F14);
-    nlMultiLineUseViewMatrixTrnsl();
-    goto L_C035A96;
-    L_C03582E:;
-    *(unsigned int *)0xC271D28 = R4;
-    t33 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + ((R4 << 2) << 1)) + 0x0));
-    *(float *)0xC271D1C = F12;
-    R4 = (((R4 << 2) << 1));
-    R9 = (t33);
-    if (((*(int *)0xC2A7368) == 0)) goto L_C03585C;
-    goto L_C035858;
-    L_C035858:;
-    goto L_C0359C4;
-    L_C0359C4:;
-    t43 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + (((*(int *)0xC271D28) << 2) << 1)) + 0x4));
-    *(unsigned int *)((R10 + 0x0)) = R9;
-    *(unsigned int *)((R10 + 0x4)) = 0xDF007F00;
-    *(unsigned int *)(((((((R9 + 0x1) << 1) + (R9 + 0x1)) << 2) + R10) + 0x8)) = 0x0;
-    R4 = (R9);
-    R5 = ((R10 + 0x8));
-    R6 = (t43);
-    R7 = ((R10 + 0x8));
-    goto L_C035A14;
-    L_C035A14:;
-    if ((R4 != 0)) goto L_C035A04;
-    goto L_C035A18;
-    L_C035A18:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R5) = *(struct mv3 *)(R7); }
-    goto L_C035A22;
-    L_C035A04:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R5) = *(struct mv3 *)(R6); }
-    R4 = ((R4 - 1));
-    R5 = ((R5 + 0xC));
-    R6 = ((R6 + 0xC));
-    goto L_C035A14;
-    L_C03585C:;
-    t57 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + (((*(int *)0xC271D28) << 2) << 1)) + 0x4));
-    nlTriPutTextureInit(R13, 0xFFFFFFFF, 0x0);
-    nlTriPutSetAttrib(R13, 0x1, 0x0, 0xFFFFFFFF, 0x1, 0x0, 0x1, 0x1, 0x0, ((R9 << 1) + 0x2), 1.0f, 0.799999952f, F14, 0.5f, F14, F14, F14, F14);
-    nlTriPutSetClipping(R13, (*(float *)((t57 + 0x0))), (*(float *)((t57 + 0x4))), (*(float *)((t57 + 0x8))), 2000.0f);
-    *(unsigned int *)(((R13 + 0x20) + 0x0)) = ((*(int *)(((R13 + 0x20) + 0x0))) & 0x3FFFF3F);
-    *(unsigned int *)(((R13 + 0x20) + 0x0)) = ((*(int *)(((R13 + 0x20) + 0x0))) | 0x300000C0);
-    nlTriPutSetPoint(R13, 0x0, (*(float *)((t57 + 0x0))), (*(float *)((t57 + 0x4))), (*(float *)((t57 + 0x8))), 1.0f, 1.0f, 1.0f, F13, F14);
-    nlTriPutSetPoint(R13, 0x1, (*(float *)((t57 + 0x0))), ((*(float *)((t57 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((t57 + 0x8))), 1.0f, 1.0f, 1.0f, F13, 0.979999959f);
-    R11 = (0xC07AA20);
-    R12 = (t57);
-    R14 = ((t57 + 0xC));
-    R8 = (0x1);
-    F13 = ((F13 + 0.5f));
-    F15 = (1.0f);
-    if (((int)0x1 >= (int)R9)) goto L_C035982;
-    goto L_C035932;
-    L_C035932:;
-    u82 = *(float *)((R14 + 0x8));
-    u83 = *(float *)((R14 + 0x4));
-    u84 = *(float *)((R14 + 0x0));
-    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
-    nlTriPutSetPoint(R13, (R8 << 1), u84, u83, u82, F15, F15, F15, F13, F14);
-    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R14 + 0x0))), ((*(float *)((R14 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R14 + 0x8))), F15, F15, F15, F13, 0.979999959f);
-    t92 = (int)(R8 + 0x1) < (int)R9;
-    R14 = ((R14 + 0xC));
-    R8 = ((R8 + 0x1));
-    F13 = ((F13 + 0.5f));
-    if (t92) goto L_C035932;
-    goto L_C035982;
-    L_C035982:;
-    u96 = *(float *)((R12 + 0x8));
-    u97 = *(float *)((R12 + 0x4));
-    u98 = *(float *)((R12 + 0x0));
-    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
-    nlTriPutSetPoint(R13, (R8 << 1), u98, u97, u96, F15, F15, F15, F13, F14);
-    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R12 + 0x0))), ((*(float *)((R12 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R12 + 0x8))), F15, F15, F15, F13, 0.979999959f);
-    goto L_C0359C4;
+    t5 = *(int *)0xC130468;
+    if (t5 == 0) {
+        nlTranslate(-20.0f, 0.0f, -160.0f);
+        t7 = *(signed char *)0xC2A72D8;
+        nlTranslateV(((signed char)(((t7 << 1) + t7) << 2) + 0xC0CF624));
+        nlRotateAY(0x8000);
+        if ((int)(*(int *)0xC2A7208) <= (int)0x33) {
+            nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
+            nlPushMatrix(0x0);
+            nlTranslate(0.0f, (*(float *)0xC2A72C4), 0.0f);
+            nlRotateAY(0x8000);
+            nlObjPutUseViewMatrix(0xC46D618);
+            nlPopMatrix(0x1);
+        }
+        nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
+        nlRotateAY((-(unsigned short)(*(short *)0xC2A72C0)));
+        u25 = *(float *)0xC2A72C4;
+        u26 = *(float *)0xC2A72C8;
+        *(float *)0xC2A72C4 = (u25 + u26);
+        if (35.0f > (u25 + u26)) {
+            *(float *)0xC2A72C4 = 35.0f;
+            *(float *)0xC2A72C8 = 0.699999988f;
+        }
+        *(float *)0xC2A72C8 = ((*(float *)0xC2A72C8) - 0.0249999985f);
+        nlMultiLineUseViewMatrixTrnsl(0xC2A7210);
+    } else {
+        if (t5 == 1) {
+            nlTranslateV(0xC2A72CC);
+            nlRotateAY(0x4000);
+            t34 = *(signed char *)0xC2A72D8;
+            nlTranslateV(((signed char)(((t34 << 1) + t34) << 2) + 0xC0CF654));
+            t43 = 0x8000;
+        } else {
+            nlTranslate((*(float *)0xC050A34), 0.0f, -160.0f);
+            t38 = *(signed char *)0xC2A72D8;
+            nlTranslateV(((signed char)(((t38 << 1) + t38) << 2) + 0xC0CF684));
+            t43 = ((unsigned short)(*(short *)0xC2A72C0) + 0x8000);
+        }
+        nlRotateAY(t43);
+    }
+    t49 = *(int *)0xC2A720C;
+    t50 = *(int *)0xC2A7208;
+    if ((t49 == 1) && (t51 = *(int *)0xC2A7208, (int)t51 > (int)0x33)) {
+        if (t50 == 52) {
+            *(unsigned int *)0xC12FFC0 = 0x0;
+        }
+        nlRotateAY(0x4000);
+        FcvPlay(0xC9CE170, 0x0, (float)(*(int *)0xC12FFC0));
+    } else {
+        if ((t49 == 3) && ((int)t50 > (int)0xAB)) {
+            if (t50 == 0xAC) {
+                *(unsigned int *)0xC12FFC0 = 0x0;
+            }
+            t64 = 0xC954D58;
+            u66 = (float)(*(int *)0xC12FFC0);
+        } else {
+            t64 = (*(int *)(((t49 << 2) + 0xC12FFFC)));
+            u66 = (float)(*(int *)0xC12FFC0);
+        }
+        FcvPlay(t64, 0x0, u66);
+    }
+    t72 = *(int *)0xC12FFC0;
+    t73 = (t72 + 0x1);
+    if ((*(int *)0xC2A720C) == 4) {
+        t73 = (t72 + 0x2);
+    }
+    *(unsigned int *)0xC12FFC0 = ((int)((int)t73 % (int)0xC8));
+    nlPopMatrix(0x1);
+    return nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
 }

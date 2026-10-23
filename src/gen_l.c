@@ -8,22 +8,6 @@ int kmiDefaultInterruptHandler(int);
 int kmiTXalloc(int, int);
 int kmiVQalloc(int);
 
-int Init_Remain_Arrow(void)
-{
-    int t0;
-    int t1;
-    int t2;
-
-    t0 = *(signed char *)0xC2A98FC;
-    t1 = *(int *)0xC1EE214;
-    
-    if ((t1 == 10)) {
-        t2 = 0xC131084;
-        } else {
-        t2 = 0xC131030;
-        }
-    return InitArrow((t2 + (signed char)(((t0 << 1) + t0) << 2)));
-}
 
 int kmCreateTextureSurface(int a4)
 {

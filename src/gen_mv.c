@@ -1,59 +1,43 @@
 /* Straight-line functions with calls and guards (batch gen_mv): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int lcdFillData(int, int);
-int lcdSetData(int, ...);
-int lcdSync(int);
-int pdGetPeripheral(int);
-int Exec_LCDLogoDemo(void);
+float nlRoundUp(float);
+int pfAddNumber(int, int);
+int pfAddString(int);
+int pfCleanString(void);
+float pfLength(int);
+int pfLocate(float, float);
+int pfPuts(int);
+void pfCrazyBoxRecordTimePut(int a4, int a5, int a6);
 
-int Exec_LCDLogoDemo(void)
+void pfCrazyBoxRecordTimePut(int a4, int a5, int a6)
 {
     int t0;
     int t1;
-    int t15;
-    int t26;
-    int t17;
-    int t21;
-    int t18;
-    int t19;
-    int t31;
-    int t34;
-    int t33;
+    float t3;
+    int t4;
 
-    t0 = *(int *)0xC132320;
-    t1 = *(int *)0xC132324;
-    if (((*(int *)(((*(int *)(((pdGetPeripheral((((t0 << 1) + (t0 << 2)) + t1))) + 0x30))) + 0x0))) & 4) != 0) {
-        lcdFillData(0x0, (((t0 << 1) + (t0 << 2)) + t1));
-        *(volatile int *)0xC2A9FAC;
-        lcdSetData((((t0 << 1) + (t0 << 2)) + t1));
-        lcdSync((((t0 << 1) + (t0 << 2)) + t1));
+    t0 = (int)((int)a6 / (int)0xE10);
+    t1 = (int)((int)(a6 - (t0 * 0xE10)) / (int)0x3C);
+    t3 = nlRoundUp((((float)((int)((int)(a6 - (t0 * 0xE10)) % (int)0x3C)) / 60.0f) * 100.0f));
+    t4 = (int)t3;
+    if ((int)(int)t3 < 0) {
+        t4 = 0x0;
     }
-    t15 = *(int *)0xC132320;
-    t26 = t15;
-    if (t15 == 3) {
-        t17 = *(int *)0xC132324;
-        t21 = t17;
-        if (t17 == 2) {
-            t18 = *(int *)0xC2A9FAC;
-            *(unsigned int *)0xC2A9FAC = (t18 + 0x1);
-            t19 = t17;
-            if ((t18 + 0x1) == 0x280) {
-                *(unsigned int *)0xC2A9FAC = 0x0;
-                t19 = 0x0;
-            }
-            t21 = t19;
-        }
-        t26 = t21;
+    pfCleanString();
+    if (t0 != 0) {
+        pfAddNumber(t0, 0x0);
+        pfAddString(0xC0D3028);
     }
-    t31 = *(int *)0xC132324;
-    *(unsigned int *)0xC132324 = (t31 + 0x1);
-    t34 = t26;
-    if ((int)(t31 + 0x1) > (int)0x2) {
-        *(unsigned int *)0xC132324 = 0x1;
-        t33 = (int)((int)((*(int *)0xC132320) + 0x1) % (int)0x4);
-        *(unsigned int *)0xC132320 = t33;
-        t34 = t33;
+    if ((int)t1 < (int)0xA) {
+        pfAddString(0xC0D302C);
     }
-    return t34;
+    pfAddNumber(t1, 0x0);
+    pfAddString(0xC0D3030);
+    if ((int)t4 < (int)0xA) {
+        pfAddString(0xC0D302C);
+    }
+    pfAddNumber(t4, 0x0);
+    pfLocate(((float)a4 - ((pfLength((*(int *)0xC08D678))) * 0.5f)), (float)a5);
+    pfPuts((*(int *)0xC08D678));
 }

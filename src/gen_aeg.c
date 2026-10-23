@@ -1,27 +1,32 @@
 /* Straight-line functions with calls and guards (batch gen_aeg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int menuCursor(int, int, int);
-int putLevelCTFontAssist(int, int, int, int);
-int putString(int, int, float, float, float);
-int vibIsReady(void);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowPause(void);
+int nlGetTranslate(int);
+int nlObjPut(int);
+int nlPopMatrix(int);
+int nlPushMultiViewMatrix(void);
+int nlScale(float, float, float);
+int nlTranslateV(int);
+int nlUnitMatrix(void);
+int Put2DObjUp(int a4, float f4, float f5, float f6);
 
-int windowPause(void)
+int Put2DObjUp(int a4, float f4, float f5, float f6)
 {
-    int t2;
+    float u2;
+    int stk[10];
 
-    windowOpenStep(0x1);
-    t2 = 0x0;
-    if ((vibIsReady()) == 0) {
-        t2 = 0x8;
+    *(unsigned int *)(((int)stk + 8)) = a4;
+    *(float *)(((int)stk + 4)) = f4;
+    *(float *)(((int)stk + 12)) = f5;
+    nlPushMultiViewMatrix();
+    nlGetTranslate((((int)stk + 4) + 0xC));
+    u2 = *(float *)(((int)stk + 24));
+    if ((-f6) > u2) {
+        nlUnitMatrix();
+        nlScale(((u2 + f6) / u2), ((u2 + f6) / u2), ((u2 + f6) / u2));
+        nlTranslateV((((int)stk + 4) + 0xC));
+        nlScale((*(float *)(((int)stk + 4))), (*(float *)(((int)stk + 12))), 1.0f);
+        nlObjPut((*(int *)(((int)stk + 8))));
     }
-    if (((*(int *)0xC2A11CC) & 4) == 0) {
-        menuCursor(0x1, 0x4, t2);
-    }
-    putLevelCTFontAssist(0x2020, 0xC09E0AC, 0x4, (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0))));
-    putString(0x24, 0xC0A2088, (310.0f), (62.0f), (1.1999999f));
-    return windowEnterStep(0x14);
+    return (nlPopMatrix(0x1));
 }

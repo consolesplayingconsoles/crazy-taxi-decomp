@@ -1,112 +1,99 @@
 /* Straight-line functions with calls and guards (batch gen_sb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nd_SprPut(int, int, float, float);
-int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7);
+int carBalanceRoll(int);
+int convergeRot(int, int, float);
+int getYXZrot(int);
+int nlArcTan2(float, float);
+int nlCalcVector(int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int carBalance(int a4, int a5);
 
-int Put_Window_SpriteXtoY(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7)
+int carBalance(int a4, int a5)
 {
-    int t75;
-    float u8;
-    int t5;
-    int t12;
-    int t15;
-    float u20;
-    float u21;
-    int t17;
-    float u47;
-    float u50;
-    float u39;
-    float u40;
-    float u28;
-    float u29;
+    int t42;
+    int t89;
+    int t65;
+    int t68;
+    float u74;
+    int t95;
+    int t98;
+    int stk[21];
 
-    t75 = 0xFFFFFFFF;
-    if (((int)a8 > 0) && ((int)a8 <= (int)0x3)) {
-        if (a7 == 0) {
-            u8 = f5;
-            if ((int)(*(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0))) < (int)a6) {
-                t5 = *(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0));
-                *(unsigned int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0)) = (t5 + 0x1);
-                u8 = ((f5 / (float)a6) * (float)(t5 + 0x1));
-            }
-            u39 = f6;
-            u40 = u8;
+    *(unsigned int *)(((int)stk + 4)) = a5;
+    nlPushUnitMatrix();
+    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
+    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
+    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+    nlCalcVector((0xEC + a4), (((int)stk + 4) + 0x10));
+    nlCalcVector((*(int *)(((int)stk + 4))), (((int)stk + 4) + 0x4));
+    nlPopMatrix(0x1);
+    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x0)) = (-(nlArcTan2((*(float *)(((int)stk + 28))), (*(float *)(((int)stk + 24))))));
+    *(unsigned short *)(((((int)stk + 4) + 0x1C) + 0x4)) = (nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 24)))));
+    nlPushUnitMatrix();
+    nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
+    nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
+    nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
+    nlPushMatrix(0x0);
+    nlRotateAX((-(unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x0)))));
+    nlRotateAZ((-(unsigned short)(*(short *)(((((int)stk + 4) + 0x1C) + 0x4)))));
+    getYXZrot((0x108 + a4));
+    nlPopMatrix(0x1);
+    if ((*(int *)((a4 + 0x110))) != 0) {
+        nlPushMatrix(0x0);
+        nlRotateAX((convergeRot((*(short *)(((((int)stk + 4) + 0x1C) + 0x0))), 0x0, 0.349999994f)));
+        nlRotateAZ((convergeRot((*(short *)(((((int)stk + 4) + 0x1C) + 0x4))), 0x0, 0.349999994f)));
+        getYXZrot((0xA4 + a4));
+        nlPopMatrix(0x1);
+    } else {
+        t42 = *(short *)(((((int)stk + 4) + 0x1C) + 0x0));
+        if (((int)(unsigned short)t42 >= (int)0x3000) && ((int)(unsigned short)t42 <= (int)0xD000)) {
         } else {
-            t12 = *(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0));
-            if (((int)t12 >= (int)a6) && ((int)t12 < (int)(a6 + a7))) {
-                t15 = *(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0));
-                *(unsigned int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0)) = (t15 + 0x1);
-                u28 = ((float)((t15 + 0x1) - a6) * (f6 / (float)a7));
-                u29 = f5;
-            } else {
-                u20 = f6;
-                u21 = f5;
-                if ((int)(*(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0))) < (int)a6) {
-                    t17 = *(int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0));
-                    *(unsigned int *)(((((a8 - 1) << 2) + 0xC2A9B5C) + 0x0)) = (t17 + 0x1);
-                    u20 = 0.0f;
-                    u21 = ((f5 / (float)a6) * (float)(t17 + 0x1));
-                }
-                u28 = u20;
-                u29 = u21;
-            }
-            u39 = u28;
-            u40 = u29;
+            *(unsigned short *)((a4 + 0xA4)) = ((*(short *)((a4 + 0xA4))) + 0x40);
         }
-        *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0xC)) = f4;
-        *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x2C)) = f7;
-        *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x10)) = 1.0f;
-        *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x14)) = 1.0f;
-        if (!(u40 > 0.0f) && !(u39 > 0.0f)) {
-        } else {
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x10)) = (u40 * (1.0f + 1.0f));
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x14)) = (u39 * (1.0f + 1.0f));
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x18)) = 0.899999976f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x20)) = 0.899999976f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x1C)) = 0.899999976f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x24)) = 0.899999976f;
-            nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (float)a4, (float)a5);
-            u47 = (-1.0f);
-            u47 = u47 + (1.0f + 1.0f) * (u40 + 0.5f);
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x10)) = u47;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x14)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x18)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x20)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x1C)) = 0.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x24)) = 1.0f;
-            nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (float)a4, ((float)a5 - ((u39 + 0.5f) * 8.0f)));
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x1C)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x24)) = 0.0f;
-            nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (float)a4, (((u39 + 0.5f) * 8.0f) + (float)a5));
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x10)) = 1.0f;
-            u50 = (-1.0f);
-            u50 = u50 + (1.0f + 1.0f) * (u39 + 0.5f);
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x14)) = u50;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x18)) = 0.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x20)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x1C)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x24)) = 1.0f;
-            nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, ((float)a4 - ((u40 + 0.5f) * 8.0f)), (float)a5);
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x18)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x20)) = 0.0f;
-            nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (((u40 + 0.5f) * 8.0f) + (float)a4), (float)a5);
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x18)) = 0.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x20)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x1C)) = 0.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x24)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x10)) = 1.0f;
-            *(float *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x14)) = 1.0f;
-        }
-        nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, ((float)a4 - ((u40 + 0.5f) * 8.0f)), ((float)a5 - ((u39 + 0.5f) * 8.0f)));
-        *(unsigned int *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x28)) = 0xC000;
-        nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (((u40 + 0.5f) * 8.0f) + (float)a4), ((float)a5 - ((u39 + 0.5f) * 8.0f)));
-        *(unsigned int *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x28)) = 0x4000;
-        nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, ((float)a4 - ((u40 + 0.5f) * 8.0f)), (((u39 + 0.5f) * 8.0f) + (float)a5));
-        *(unsigned int *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x28)) = 0x8000;
-        nd_SprPut(((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C), 0x77, (((u40 + 0.5f) * 8.0f) + (float)a4), (((u39 + 0.5f) * 8.0f) + (float)a5));
-        *(unsigned int *)((((unsigned char)(((((a8 + 0xFF) << 2) + (a8 + 0xFF)) << 2) << 2) + 0xC2A9A6C) + 0x28)) = 0x0;
-        t75 = ((((int)(*(int *)((((a8 - 1) << 2) + 0xC2A9B5C))) >= (int)(a6 + a7))) ? 1 : 0);
+        *(unsigned short *)(((0xA8 + a4) + 0x0)) = ((*(short *)(((0xA8 + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xA8))), (*(short *)((a4 + 0x10C))), 0.199999988f)));
     }
-    return t75;
+    nlPopMatrix(0x1);
+    *(unsigned short *)((a4 + 0xA6)) = ((*(short *)((a4 + 0xA6))) + ((int)((((*(float *)(((0x60 + a4) + 0x0))) * 524288.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
+    *(float *)((a4 + 0x60)) = ((*(float *)((a4 + 0x60))) * 0.949999988f);
+    t89 = 0;
+    if (((*(int *)((a4 + 0x84))) & 64) == 0) {
+        *(unsigned short *)((a4 + 0xAE)) = ((*(short *)((a4 + 0xAE))) + ((int)((((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * 6553.59961f) / 6.28318501f) + 0.5f) & 0xFFFF));
+        *(unsigned short *)(((0xAE + a4) + 0x0)) = ((*(short *)(((0xAE + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xAE))), 0x0, 0.149999991f)));
+        t65 = *(short *)((a4 + 0xAE));
+        if (((int)(unsigned short)t65 < (int)0x8000) && ((int)(unsigned short)t65 > (int)0x400)) {
+            *(unsigned short *)((a4 + 0xAE)) = 0x400;
+        } else {
+            t68 = *(short *)((a4 + 0xAE));
+            if (((int)(unsigned short)t68 > (int)0x8000) && ((int)(unsigned short)t68 < (int)0xFC00)) {
+                *(unsigned short *)((a4 + 0xAE)) = 0xFC00;
+            }
+        }
+        u74 = *(float *)((a4 + 0x100));
+        if (_builtin_fabsf(u74) > 0.0014999999f) {
+            *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0x40);
+        }
+        _builtin_fabsf(u74);
+        t89 = ((_builtin_fabsf(u74) > 0.0014999999f));
+    } else {
+        carBalanceRoll(a4);
+        t89 = (0);
+    }
+    *(unsigned short *)((a4 + 0xAA)) = ((*(short *)((a4 + 0xAA))) - ((int)((((*(float *)(((((int)stk + 4) + 0xC) + 0x0))) * 1310.71997f) / 6.28318501f) + 0.5f) & 0xFFFF));
+    *(unsigned short *)(((0xAA + a4) + 0x0)) = ((*(short *)(((0xAA + a4) + 0x0))) + (convergeRot((*(short *)((a4 + 0xAA))), 0x0, 0.149999991f)));
+    t95 = *(short *)((a4 + 0xAA));
+    if (((int)(unsigned short)t95 < (int)0x8000) && ((int)(unsigned short)t95 > (int)0x200)) {
+        *(unsigned short *)((a4 + 0xAA)) = 0x200;
+    } else {
+        t98 = *(short *)((a4 + 0xAA));
+        if (((int)(unsigned short)t98 > (int)0x8000) && ((int)(unsigned short)t98 < (int)0xFE00)) {
+            *(unsigned short *)((a4 + 0xAA)) = 0xFE00;
+        }
+    }
+    return 0xAA;
 }
