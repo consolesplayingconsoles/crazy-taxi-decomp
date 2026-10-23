@@ -84,44 +84,6 @@ int vmsio_isready(int);
 int write_dir(int);
 int write_fat(int);
 
-int CheckBoxFlag(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t7;
-    int t8;
-    int t12;
-
-    t0 = *(int *)(((short)((short)a4 * (short)0x788) + 0xC28A4FC));
-    t1 = 0x0;
-    t2 = 0xF888;
-    t3 = 0x0;
-    t4 = 0x0;
-    do {
-        t4 = (t4 + 0x1);
-        if (((((int)t1 >= 0) ? (0x7 << (t1 & 31)) : ((-(int)t1 & 31) ? ((int)0x7 >> (-(int)t1 & 31)) : ((int)0x7 >> 31))) & (unsigned short)t0) == (((int)t1 >= 0) ? (0x7 << (t1 & 31)) : ((-(int)t1 & 31) ? ((int)0x7 >> (-(int)t1 & 31)) : ((int)0x7 >> 31)))) {
-            t2 = (t2 & (~(((int)t3 >= 0) ? (0x8 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x8 >> (-(int)t3 & 31)) : ((int)0x8 >> 31)))));
-        }
-        t3 = (t3 + 0x4);
-        t1 = (t1 + 0x4);
-    } while ((int)t4 < (int)0x4);
-    t7 = 0x0;
-    t8 = t2;
-    do {
-        if (((((int)t7 >= 0) ? (0x111 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x111 >> (-(int)t7 & 31)) : ((int)0x111 >> 31))) & (unsigned short)t0) == (((int)t7 >= 0) ? (0x111 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x111 >> (-(int)t7 & 31)) : ((int)0x111 >> 31)))) {
-            t8 = (t8 & (~(((int)t7 >= 0) ? (0x1000 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x1000 >> (-(int)t7 & 31)) : ((int)0x1000 >> 31)))));
-        }
-        t7 = (t7 + 0x1);
-    } while ((int)t7 < (int)0x4);
-    t12 = (t8 | 0x8000);
-    if (((unsigned short)t0 & 0x7FFF) == 0x7FFF) {
-        t12 = (t8 & 0xFFFF7FFF);
-    }
-    return t12;
-}
 
 
 void getReplayPoint(int a4, int a5, int a6, int a7, int a8)
@@ -152,73 +114,6 @@ void getReplayPoint(int a4, int a5, int a6, int a7, int a8)
     *(unsigned int *)((a8 + 0x0)) = t7;
 }
 
-int crowdCreate(int a4, int a5)
-{
-    int t0;
-    int t19;
-    int t1;
-    int t2;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t17;
-
-    t0 = set_event(0x24, ((int)crowdTask));
-    t19 = 0x0;
-    if (t0 != 0) {
-        t1 = (int)((int)a5 % (int)0x20);
-        t2 = 0x0;
-        if ((int)t1 > 0) {
-            t2 = (((int)(t1 - 1) >= 0) ? (0x1 << ((t1 - 1) & 31)) : ((-(int)(t1 - 1) & 31) ? ((int)0x1 >> (-(int)(t1 - 1) & 31)) : ((int)0x1 >> 31)));
-        }
-        t4 = *(short *)((a4 + 0x10));
-        t5 = nlMalloc((((short)t4 * (short)0x64) + 0x4));
-        if (t5 != 0) {
-            t6 = *(int *)(((((int)a5 >> 5) << 2) + 0xC2A7064));
-            *(unsigned int *)(((((int)a5 >> 5) << 2) + 0xC2A7064)) = (t6 | t2);
-            *(unsigned int *)((t0 + 0x0)) = t5;
-            *(unsigned int *)((t5 + 0x0)) = 0x0;
-            *(unsigned int *)((t0 + 0x18)) = a4;
-            *(unsigned int *)((t0 + 0x20)) = (t5 + 0x4);
-            t7 = *(short *)((a4 + 0x10));
-            *(unsigned short *)((t0 + 0x14)) = t7;
-            *(unsigned int *)((t0 + 0x1C)) = a5;
-            *(unsigned short *)((t0 + 0x16)) = 0x0;
-            t8 = (t6 | t2);
-            t9 = (((int)a5 >> 5) << 2);
-            t10 = 0x0;
-            for (;;) {
-                t11 = *(short *)((a4 + 0x10));
-                if ((int)t10 >= (int)t11) break;
-                t12 = *(int *)((t0 + 0x20));
-                t9 = t12;
-                t13 = (t10 * 0x64);
-                t10 = (t10 + 0x1);
-                t8 = t13;
-                t8 = (t8 + t9);
-                *(unsigned int *)((t8 + 0x50)) = 0xFFFFFFFF;
-            }
-            t14 = *(short *)((t0 + 0x14));
-            t17 = t14;
-        } else {
-            t15 = *(int *)(((((int)a5 >> 5) << 2) + 0xC2A7064));
-            *(unsigned int *)(((((int)a5 >> 5) << 2) + 0xC2A7064)) = (t15 & (~t2));
-            nlCloseEvent(t0);
-            t17 = 0x0;
-        }
-        t19 = t17;
-    }
-    return t19;
-}
 
 
 

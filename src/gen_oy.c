@@ -1,67 +1,114 @@
 /* Straight-line functions with calls and guards (batch gen_oy): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector3op(int, int, int, float, float, float);
-float nlScalor(int);
-float colliBoxShapeInit(int a4, int a5, float f4, float f5, float f6);
+int Money_Array(int, int, int, float);
+int nlSprPut(int, int, int);
+int pfAddNumber(int, int);
+int pfCleanString(void);
+int pfColor(int, int, int, int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFont(int);
+int pfSize(float, float);
+int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5);
 
-float colliBoxShapeInit(int a4, int a5, float f4, float f5, float f6)
+int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5)
 {
-    float u4;
-    float u10;
-    int t14;
-    float u19;
-    int t21;
-    int t24;
-    float u25;
-    float t27;
-    int t30;
-    int stk[13];
+    int t6;
+    int t40;
+    int stk[10];
 
-    *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x6C)) = (*(float *)((a5 + 0x0)));
-    *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x70)) = (*(float *)((a5 + 0x4)));
-    u4 = *(float *)0xC032A14;
-    *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x74)) = (((*(float *)(((a5 + 0x8) + 0x0))) - (*(float *)(((a5 + 0xC) + 0x0)))) * u4);
-    *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x60)) = 0.0f;
-    if (a4 == 0) {
-        *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x64)) = (*(float *)0xC032A18);
-    } else {
-        *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x64)) = 0.0f;
-    }
-    *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x68)) = (((*(float *)(((a5 + 0x8) + 0x0))) + (*(float *)(((a5 + 0xC) + 0x0)))) * u4);
-    u10 = *(float *)0xC032A1C;
-    *(float *)(((int)stk + 8)) = ((*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x6C))) + u10);
-    *(float *)(((int)stk + 12)) = (*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x70)));
-    *(float *)(((int)stk + 16)) = ((*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x74))) + u10);
-    t14 = 0x0;
-    for (;;) {
-        *(float *)(((((short)((short)a4 * (short)0x78) + 0xC26ED00) + (signed char)(((t14 << 1) + t14) << 2)) + 0x0)) = ((*(float *)(((int)stk + 8))) * (*(float *)((((signed char)(((t14 << 1) + t14) << 2) + 0xC0902A0) + 0x0))));
-        *(float *)(((((short)((short)a4 * (short)0x78) + 0xC26ED00) + (signed char)(((t14 << 1) + t14) << 2)) + 0x4)) = ((*(float *)(((int)stk + 12))) * (*(float *)((((signed char)(((t14 << 1) + t14) << 2) + 0xC0902A0) + 0x4))));
-        u19 = *(float *)((((signed char)(((t14 << 1) + t14) << 2) + 0xC0902A0) + 0x8));
-        t21 = ((signed char)(((t14 << 1) + t14) << 2) + ((short)((short)a4 * (short)0x78) + 0xC26ED00));
-        t14 = (t14 + 0x1);
-        *(float *)((t21 + 0x8)) = ((*(float *)(((int)stk + 16))) * u19);
-        if ((int)t14 >= (int)0x8) {
-            break;
-        }
-    }
-    *(unsigned int *)(((int)stk + 4)) = (short)((short)a4 * (short)0x1C);
-    *(float *)((((short)((short)a4 * (short)0x1C) + 0xC0ED440) + 0x4)) = 0.0f;
-    t24 = 0x0;
-    u25 = 0.0f;
-    for (;;) {
-        nlAddVector3op((((int)stk + 4) + 0x4), ((signed char)(((t24 << 1) + t24) << 2) + (0xC26ED00 + (short)((short)a4 * (short)0x78))), ((0xC26ED00 + (short)((short)a4 * (short)0x78)) + 0x60), u25, u10, f6);
-        t27 = nlScalor((((int)stk + 4) + 0x4));
-        u25 = t27;
-        t24 = (t24 + 0x1);
-        if (u25 > (*(float *)((((short)((short)a4 * (short)0x1C) + 0xC0ED440) + 0x4)))) {
-            *(float *)((((short)((short)a4 * (short)0x1C) + 0xC0ED440) + 0x4)) = u25;
-        }
-        if ((int)t24 >= (int)0x8) {
-            break;
-        }
-    }
-    t30 = *(int *)(((int)stk + 4));
-    *(float *)(((t30 + 0xC0ED440) + 0x10)) = ((*(float *)(((t30 + 0xC0ED440) + 0x10))) / (*(float *)(((0x8 + (t30 + 0xC0ED440)) + 0x0))));
-    return t27;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F5;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    L_C053700:;
+    *(unsigned int *)(((int)stk + 4)) = R4;
+    { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x4)) = *(struct mv2 *)(0xC0D08AC); }
+    Money_Array((((int)stk + 4) + 0x4), ((int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) / (int)0x3C)), 0x2, F4);
+    t6 = (int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) % (int)0x3C);
+    *(float *)0xC2A7F30 = 590.0f;
+    *(float *)0xC2A7F34 = 430.0f;
+    R11 = (0x3C);
+    R12 = ((((int)stk + 4) + 0x4));
+    R13 = (0xC2A8C4C);
+    R14 = (0xC2A7F2C);
+    R4 = (t6);
+    F15 = (1.0f);
+    if (((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) < (int)0x3C)) goto L_C05376E;
+    goto L_C053768;
+    L_C053768:;
+    if (((*(int *)(((int)stk + 4))) != 0)) goto L_C0537B8;
+    goto L_C05376E;
+    L_C05376E:;
+    pfCleanString();
+    pfSetFont(0x1);
+    pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+    pfSize(F15, F15);
+    pfAddNumber(((int)((int)(*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) / (int)R11)), 0x1);
+    pfLocate(574.0f, 414.0f);
+    R0 = ((pfPuts((*(int *)0xC08D678))));
+    goto L_C05383C;
+    L_C05383C:;
+    return R0;
+    L_C0537B8:;
+    R5 = (0x1E);
+    R6 = (0xC0D0BE0);
+    if (((int)R4 < (int)0x1E)) goto L_C0537CC;
+    goto L_C0537C0;
+    L_C0537C0:;
+    *(float *)((R14 + 0x10)) = F15;
+    R3 = ((*(int *)((R6 + ((*(int *)((R12 + 0x0))) << 2)))));
+    goto L_C05382A;
+    L_C05382A:;
+    *(unsigned int *)((R14 + 0x0)) = R3;
+    goto L_C053832;
+    L_C053832:;
+    *(unsigned int *)((R14 + 0x28)) = 0x0;
+    R0 = ((nlSprPut(0xC2A7F2C, R5, R6)));
+    goto L_C05383C;
+    L_C0537CC:;
+    t40 = (int)((int)(*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) % (int)R5);
+    *(float *)((R14 + 0x10)) = (_builtin_fabsf((float)((int)(float)t40 - 15)) / 15.0f);
+    R4 = (R12);
+    R5 = (R6);
+    R7 = (0xA);
+    F4 = ((float)t40);
+    F5 = (15.0f);
+    if ((!(15.0f > (float)t40))) goto L_C053818;
+    goto L_C053800;
+    L_C053800:;
+    if (((int)(*(int *)((R4 + 0x0))) <= 0)) goto L_C05382E;
+    goto L_C053806;
+    L_C053806:;
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + (((int)((int)((*(int *)((R4 + 0x0))) - 1) % (int)R7)) << 2))));
+    goto L_C053832;
+    L_C05382E:;
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + 0x0)));
+    goto L_C053832;
+    L_C053818:;
+    if (((int)(*(int *)((R4 + 0x0))) <= 0)) goto L_C05382E;
+    goto L_C05381E;
+    L_C05381E:;
+    R3 = ((*(int *)((R5 + (((int)((int)(*(int *)((R4 + 0x0))) % (int)R7)) << 2)))));
+    goto L_C05382A;
 }

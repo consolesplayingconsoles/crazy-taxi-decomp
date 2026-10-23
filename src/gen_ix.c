@@ -1,166 +1,189 @@
 /* Straight-line functions with calls and guards (batch gen_ix): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int kmiMemCopy4(int, int, int);
-int kmiReadRegister(int);
-int kmiWriteRegister(int, int);
-int thunk_kmiWriteRegister(int, int);
-void kmiInitializeDevice(void);
+int nlMultiLineUseViewMatrixTrnsl(int);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlTranslate(float, float, float);
+int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
+int nlTriPutSetAttribFaceColor(int, float, float, float);
+int nlTriPutSetClipping(int, float, float, float, float);
+int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
+int nlTriPutTextureInit(int, int, int);
+int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
 
-void kmiInitializeDevice(void)
+int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t4;
-    int t17;
-    int t53;
-    int t61;
-    int t66;
-    int t67;
-    int t63;
-    int t83;
-    int t84;
-    int t85;
-    int t88;
-    int t89;
-    int t14;
-    int t9;
-    int t45;
-    int t41;
-    int t37;
+    float u9;
+    float u19;
     int t33;
-    int t29;
-    int t25;
-    int stk[8] = {0};
+    int t43;
+    int t57;
+    float u82;
+    float u83;
+    float u84;
+    int t92;
+    float u96;
+    float u97;
+    float u98;
+    int stk[21];
 
-    *(unsigned int *)0xC2EA994 = 0x0;
-    t0 = kmiReadRegister(0x0);
-    *(unsigned int *)(((int)stk + 8)) = t0;
-    t1 = kmiReadRegister(0x4);
-    *(unsigned int *)0xC2EA680 = 0x5;
-    t2 = *(int *)(((int)stk + 8));
-    if (t2 != 0x17FD11DB) {
-        *(unsigned int *)0xC2EA680 = 0x5;
-        t14 = 0xDD18957;
-    } else {
-        if (t1 == 1) {
-            *(unsigned int *)0xC2EA680 = 0x5;
-            t9 = 0xDD18957;
-        } else {
-            t4 = 0xDD18957;
-            if ((unsigned int)t1 >= (unsigned int)0x11) {
-                *(unsigned int *)0xC2EA680 = 0x6;
-                *(unsigned int *)0xC2EA994 = 0x800408;
-                t4 = 0x15D1C951;
-            }
-            t9 = t4;
-        }
-        t14 = t9;
-    }
-    t17 = *(int *)0xA05F689C;
-    if (t17 != 0) {
-        if (t17 != 1) {
-            if (t17 != 2) {
-                if (t17 != 4) {
-                    if (t17 != 5) {
-                        if (t17 != 6) {
-                            if (t17 != 8) {
-                                if (t17 != 9) {
-                                    *(unsigned int *)0xC2EA684 = 0x8F;
-                                } else {
-                                    *(unsigned int *)0xC2EA684 = 0xF;
-                                }
-                            } else {
-                                *(unsigned int *)0xC2EA684 = 0x1F;
-                            }
-                            t25 = 0x101;
-                        } else {
-                            *(unsigned int *)0xC2EA684 = 0x7F;
-                            t25 = 0x10101;
-                        }
-                        t29 = t25;
-                    } else {
-                        *(unsigned int *)0xC2EA684 = 0x7F;
-                        t29 = 0x10101;
-                    }
-                    t33 = t29;
-                } else {
-                    *(unsigned int *)0xC2EA684 = 0x7F;
-                    t33 = 0x10101;
-                }
-                t37 = t33;
-            } else {
-                *(unsigned int *)0xC2EA684 = 0x3;
-                t37 = 0x101;
-            }
-            t41 = t37;
-        } else {
-            *(unsigned int *)0xC2EA684 = 0x1;
-            t41 = 0x0;
-        }
-        t45 = t41;
-    } else {
-        *(unsigned int *)0xC2EA684 = 0x0;
-        t45 = 0x0;
-    }
-    kmiWriteRegister(0xA8, t14);
-    kmiWriteRegister(0xA0, 0x20);
-    kmiWriteRegister(0x8, 0x0);
-    kmiWriteRegister(0xE4, 0x3);
-    kmiWriteRegister(0x48, 0x9);
-    t53 = *(int *)0xC2EA69C;
-    if ((t53 & 1) != 0) {
-        thunk_kmiWriteRegister(0x44, 0x800000);
-    } else {
-        thunk_kmiWriteRegister(0x44, 0x0);
-    }
-    kmiWriteRegister(0x5C, 0x0);
-    kmiWriteRegister(0x68, 0x2800000);
-    kmiWriteRegister(0x6C, 0x1E00000);
-    t61 = *(int *)0xC2EA680;
-    t66 = 0x110;
-    t67 = 0x92039;
-    if (t61 == 6) {
-        kmiWriteRegister(0x110, 0x93F39);
-        t63 = *(int *)0xC2EA994;
-        t66 = 0x98;
-        t67 = t63;
-    }
-    kmiWriteRegister(t66, t67);
-    kmiWriteRegister(0x4C, 0xA0);
-    kmiWriteRegister(0x74, 0x0);
-    kmiWriteRegister(0x78, 0x3F800000);
-    kmiWriteRegister(0x84, 0x0);
-    kmiWriteRegister(0x30, t45);
-    kmiWriteRegister(0xB0, 0x7F7F7F);
-    kmiWriteRegister(0xB4, 0x7F7F7F);
-    kmiWriteRegister(0xC0, 0x0);
-    kmiWriteRegister(0xBC, 0xFFFFFFFF);
-    kmiWriteRegister(0x80, 0x7);
-    kmiWriteRegister(0x88, 0x3727C5A0);
-    kmiWriteRegister(0x8C, 0x1203000);
-    kmiWriteRegister(0x74, 0x1);
-    t83 = *(int *)0xC2EA680;
-    if (t83 != 6) {
-        for (;;) {
-        }
-    }
-    t84 = *(int *)0xC2EA680;
-    t85 = 0x7DF77;
-    if (t84 == 6) {
-        t85 = 0x27DF77;
-    }
-    kmiWriteRegister(0x7C, t85);
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    t88 = 0x0;
-    t89 = 0xA5000000;
-    for (;;) {
-        kmiMemCopy4(t89, ((int)stk + 4), 0x4);
-        t88 = (t88 + 0x1);
-        t89 = (t89 + 0x4);
-        if ((int)t88 >= (int)0x200000) {
-            break;
-        }
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F8;
+    float F9;
+    float F10;
+    float F11;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    F8 = f8;
+    F9 = f9;
+    F10 = f10;
+    F11 = f11;
+    L_C0357F8:;
+    *(unsigned int *)(((int)stk + 32)) = R5;
+    R10 = (0xC273F10);
+    R13 = (0xC271D30);
+    F12 = (10.0f);
+    F13 = ((*(float *)0xC0ED920));
+    F14 = (0.0f);
+    if (((*(int *)0xC271D28) != R4)) goto L_C03582E;
+    goto L_C03582A;
+    L_C03582A:;
+    goto L_C035A22;
+    L_C035A22:;
+    u9 = *(float *)0xC0ED920;
+    nlTriPutSetAttribFaceColor(R13, F14, (*(float *)0xC271D18), F14);
+    *(unsigned int *)((R10 + 0x4)) = (((int)((*(float *)0xC271D18) * 255.0f) << 8) | 0xDF000000);
+    nlPushMatrix(0x0);
+    R12 = (0xC07B9E0);
+    R14 = (0xC0789B0);
+    F15 = (u9);
+    if (((*(int *)0xC2A7368) != 0)) goto L_C035A88;
+    goto L_C035A5C;
+    L_C035A5C:;
+    nlObjPutUseViewMatrix(R13);
+    u19 = F12;
+    u19 = u19 + F12 * F15;
+    nlTranslate(F14, u19, F14);
+    R13 = ((*(int *)(((int)stk + 32))));
+    goto L_C035A80;
+    L_C035A80:;
+    if ((R13 != 0)) goto L_C035A72;
+    goto L_C035A84;
+    L_C035A84:;
+    goto L_C035A96;
+    L_C035A96:;
+    return nlPopMatrix(0x1);
+    L_C035A72:;
+    nlMultiLineUseViewMatrixTrnsl(R10);
+    nlTranslate(F14, F12, F14);
+    R13 = ((R13 - 1));
+    goto L_C035A80;
+    L_C035A88:;
+    nlTranslate(F14, 3.0f, F14);
+    nlMultiLineUseViewMatrixTrnsl(R10);
+    goto L_C035A96;
+    L_C03582E:;
+    *(unsigned int *)0xC271D28 = R4;
+    t33 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + ((R4 << 2) << 1)) + 0x0));
+    *(float *)0xC271D1C = F12;
+    R4 = (((R4 << 2) << 1));
+    R9 = (t33);
+    if (((*(int *)0xC2A7368) == 0)) goto L_C03585C;
+    goto L_C035858;
+    L_C035858:;
+    goto L_C0359C4;
+    L_C0359C4:;
+    t43 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + (((*(int *)0xC271D28) << 2) << 1)) + 0x4));
+    *(unsigned int *)((R10 + 0x0)) = R9;
+    *(unsigned int *)((R10 + 0x4)) = 0xDF007F00;
+    *(unsigned int *)(((((((R9 + 0x1) << 1) + (R9 + 0x1)) << 2) + R10) + 0x8)) = 0x0;
+    R4 = (R9);
+    R5 = ((R10 + 0x8));
+    R6 = (t43);
+    R7 = ((R10 + 0x8));
+    goto L_C035A14;
+    L_C035A14:;
+    if ((R4 != 0)) goto L_C035A04;
+    goto L_C035A18;
+    L_C035A18:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R5) = *(struct mv3 *)(R7); }
+    goto L_C035A22;
+    L_C035A04:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R5) = *(struct mv3 *)(R6); }
+    R4 = ((R4 - 1));
+    R5 = ((R5 + 0xC));
+    R6 = ((R6 + 0xC));
+    goto L_C035A14;
+    L_C03585C:;
+    t57 = *(int *)((((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC0ED9C8 + ((*(int *)0xC1EE210) << 2))))))) + (((*(int *)0xC271D28) << 2) << 1)) + 0x4));
+    nlTriPutTextureInit(R13, 0xFFFFFFFF, 0x0);
+    nlTriPutSetAttrib(R13, 0x1, 0x0, 0xFFFFFFFF, 0x1, 0x0, 0x1, 0x1, 0x0, ((R9 << 1) + 0x2), 1.0f, 0.799999952f, F14, 0.5f, F14, F14, F14, F14);
+    nlTriPutSetClipping(R13, (*(float *)((t57 + 0x0))), (*(float *)((t57 + 0x4))), (*(float *)((t57 + 0x8))), 2000.0f);
+    *(unsigned int *)(((R13 + 0x20) + 0x0)) = ((*(int *)(((R13 + 0x20) + 0x0))) & 0x3FFFF3F);
+    *(unsigned int *)(((R13 + 0x20) + 0x0)) = ((*(int *)(((R13 + 0x20) + 0x0))) | 0x300000C0);
+    nlTriPutSetPoint(R13, 0x0, (*(float *)((t57 + 0x0))), (*(float *)((t57 + 0x4))), (*(float *)((t57 + 0x8))), 1.0f, 1.0f, 1.0f, F13, F14);
+    nlTriPutSetPoint(R13, 0x1, (*(float *)((t57 + 0x0))), ((*(float *)((t57 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((t57 + 0x8))), 1.0f, 1.0f, 1.0f, F13, 0.979999959f);
+    R11 = (0xC07AA20);
+    R12 = (t57);
+    R14 = ((t57 + 0xC));
+    R8 = (0x1);
+    F13 = ((F13 + 0.5f));
+    F15 = (1.0f);
+    if (((int)0x1 >= (int)R9)) goto L_C035982;
+    goto L_C035932;
+    L_C035932:;
+    u82 = *(float *)((R14 + 0x8));
+    u83 = *(float *)((R14 + 0x4));
+    u84 = *(float *)((R14 + 0x0));
+    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
+    nlTriPutSetPoint(R13, (R8 << 1), u84, u83, u82, F15, F15, F15, F13, F14);
+    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R14 + 0x0))), ((*(float *)((R14 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R14 + 0x8))), F15, F15, F15, F13, 0.979999959f);
+    t92 = (int)(R8 + 0x1) < (int)R9;
+    R14 = ((R14 + 0xC));
+    R8 = ((R8 + 0x1));
+    F13 = ((F13 + 0.5f));
+    if (t92) goto L_C035932;
+    goto L_C035982;
+    L_C035982:;
+    u96 = *(float *)((R12 + 0x8));
+    u97 = *(float *)((R12 + 0x4));
+    u98 = *(float *)((R12 + 0x0));
+    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
+    nlTriPutSetPoint(R13, (R8 << 1), u98, u97, u96, F15, F15, F15, F13, F14);
+    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R12 + 0x0))), ((*(float *)((R12 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R12 + 0x8))), F15, F15, F15, F13, 0.979999959f);
+    goto L_C0359C4;
 }

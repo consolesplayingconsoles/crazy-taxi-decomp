@@ -1,44 +1,95 @@
 /* Straight-line functions with calls and guards (batch gen_akz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int NextWindow(int);
-int Voice_Request(int, int, int, int);
-int menuCursor(int, int, int);
-int putLevelCTFontAssist(int, int, int, int, int);
-int windowEnterStep(int, int);
-int windowOpenStep(int);
-int windowTryAgain(void);
+int Sound_Request(int, int);
+int nlSprPut(int, int);
+int Result_Earned_Text_Put(int a4, int a5, float f4);
 
-int windowTryAgain(void)
+int Result_Earned_Text_Put(int a4, int a5, float f4)
 {
     int t13;
-    int t41;
-    int t14;
-    int t15;
-    int t34;
-    int t21;
-    int t22;
-    int t29;
+    int t23;
+    int t31;
+    int stk[10];
 
-    windowOpenStep(0x1);
-    menuCursor(0x1, 0x2, 0x0);
-    putLevelCTFontAssist(0x2026, 0xC09E028, 0x3, (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0))), 0x0);
-    if (((*(int *)0xC2A1208) & 4) != 0) {
-        t13 = *(int *)0xC2A11CC;
-        if (((t13 & 0x2) != 0) && (t14 = *(int *)0xC2A11F4, t15 = *(int *)((((t14 << 2) + 0xC2A11F8) + 0x0)), t15 == 0)) {
-            *(unsigned int *)0xC0EF550 = 0x277;
-            Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
-        } else {
-            if ((((0x2 & t13) != 0) && (t21 = *(int *)0xC2A11F4, t22 = *(int *)((0xC2A11F8 + (t21 << 2))), t22 == 1)) || ((0x4 & t13) != 0)) {
-                *(unsigned int *)0xC0EF550 = 0x25D;
-                Voice_Request(0xC0EF550, 0x0, 0x7F, 0x0);
-                NextWindow(0x3);
-            } else {
-                t29 = 0x2;
-            }
-            t34 = t29;
-        }
-        t41 = t34;
-    }
-    return windowEnterStep(0x5A, t41);
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    F4 = f4;
+    L_C059D9C:;
+    *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x9A);
+    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
+    *(float *)0xC2A9714 = 0.0f;
+    *(float *)0xC2A971C = 1.0f;
+    *(unsigned int *)0xC2A972C = 0xA;
+    *(unsigned int *)0xC2A9720 = 0x0;
+    *(unsigned int *)(((int)stk + 4)) = 0xC130DF4;
+    R0 = (0x24);
+    R10 = (0x58);
+    R11 = (0xB);
+    R12 = (0x0);
+    R13 = (0xC2A96F8);
+    R14 = (0x0);
+    R5 = (0xC2A9758);
+    R8 = (0x3);
+    R9 = (0x304A9);
+    F4 = (1.0f);
+    goto L_C059DF6;
+    L_C059DF6:;
+    t13 = *(int *)0xC2A96F4;
+    R4 = (t13);
+    if (((int)t13 <= (int)(((R14 << 1) + R14) + 0x34))) goto L_C059E6C;
+    goto L_C059E08;
+    L_C059E08:;
+    if (((int)R4 > (int)R10)) goto L_C059E3C;
+    goto L_C059E0C;
+    L_C059E0C:;
+    if ((((int)((int)R4 % (int)0x3)) != 0)) goto L_C059E3C;
+    goto L_C059E18;
+    L_C059E18:;
+    if ((((int)((int)R4 % (int)R8)) != 0)) goto L_C059E3C;
+    goto L_C059E28;
+    L_C059E28:;
+    if ((R14 != 0)) goto L_C059E3C;
+    goto L_C059E2C;
+    L_C059E2C:;
+    Sound_Request(R9, 0x0);
+    t23 = *(int *)(((int)stk + 4));
+    *(unsigned int *)((t23 + 0x0)) = ((*(int *)((t23 + 0x0))) + 0x1);
+    goto L_C059E3C;
+    L_C059E3C:;
+    R2 = (R14);
+    if (((int)R14 < (int)0x5)) goto L_C059E46;
+    goto L_C059E44;
+    L_C059E44:;
+    R12 = (0x10);
+    goto L_C059E46;
+    L_C059E46:;
+    *(float *)((R13 + 0x4)) = (float)((((((R2 << 2) << 2) << 1) + R14) + R12) + 0x40);
+    *(unsigned int *)((R13 + 0x0)) = (*(int *)(((R14 << 2) + 0xC130E40)));
+    R0 = ((nlSprPut(0xC2A96F8, R5)));
+    goto L_C059E6C;
+    L_C059E6C:;
+    t31 = (int)(R14 + 0x1) < (int)R11;
+    R14 = ((R14 + 0x1));
+    if (t31) goto L_C059DF6;
+    goto L_C059E72;
+    L_C059E72:;
+    return R0;
 }

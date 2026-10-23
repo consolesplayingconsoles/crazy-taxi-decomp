@@ -1,86 +1,67 @@
 /* Straight-line functions with calls and guards (batch gen_lp): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float BigOneKeyValue(int a4, int a5, float f4);
+int ResetFadeColor(void);
+int ReturnBreakPinNum(void);
+extern int nd_SprPut();
+int nlObjPutSetFadeColor(float, float, float);
+int Put_Pin_Count(int a4, int a5, int a6, float f4, float f5, float f6);
 
-float BigOneKeyValue(int a4, int a5, float f4)
+int Put_Pin_Count(int a4, int a5, int a6, float f4, float f5, float f6)
 {
-    float u0;
-    int t1;
-    int t2;
+    float u1;
     int t3;
-    int t4;
     int t5;
-    float u17;
-    float u18;
-    float u21;
-    float u19;
-    float u24;
-    float u25;
-    float u27;
-    float u30;
-    float u32;
-    float u34;
+    int t7;
+    int t20;
+    int t24;
+    int t26;
+    int t28;
+    int stk[8];
 
-    u0 = 3.0f;
-    if ((int)(a5 - 1) > 0) {
-        t1 = 0xC0738F0;
-        t2 = ((0x0 + a4) + 0x10);
-        t3 = (0x0 + a4);
-        t4 = 0x0;
-        t5 = ((0x0 + a4) + 0x10);
-        for (;;) {
-            if (!((*(float *)(((((t4 << 2) << 2) + a4) + 0x0))) > f4)) {
-                t1 = 0x10;
-                if ((*(float *)(((((t4 << 2) << 2) + a4) + t1))) > f4) {
-                    break;
-                }
-                if ((*(float *)((t2 + 0x0))) == f4) {
-                    t1 = 0x4;
-                    return (*(float *)((t5 + t1)));
-                }
-                t4 = (t4 + 0x1);
-                t2 = (t2 + 0x10);
-                t5 = (t5 + 0x10);
-                t3 = (t3 + 0x10);
-                if ((int)t4 >= (int)(a5 - 1)) {
-                    return 0.0f;
-                }
-                continue;
-            }
-            if ((*(float *)((t2 + 0x0))) == f4) {
-                t1 = 0x4;
-                return (*(float *)((t5 + t1)));
-            }
-            t4 = (t4 + 0x1);
-            t2 = (t2 + 0x10);
-            t5 = (t5 + 0x10);
-            t3 = (t3 + 0x10);
-            if ((int)t4 >= (int)(a5 - 1)) {
-                return 0.0f;
-            }
-        }
-        u17 = *(float *)(((((t4 << 2) << 2) + a4) + t1));
-        u18 = *(float *)(((((t4 << 2) << 2) + a4) + 0x0));
-        u21 = 0.0f;
-        if (0.0f > ((f4 - u18) / (u17 - u18))) {
-        } else {
-            u19 = ((f4 - u18) / (u17 - u18));
-            if (((f4 - u18) / (u17 - u18)) > 1.0f) {
-                u19 = 1.0f;
-            }
-            u21 = u19;
-        }
-        u24 = (u21 * u21);
-        u25 = (u21 * u21);
-        u27 = (u21 * u24);
-        u30 = ((*(float *)((t3 + 0x14))) * (((u25 * u0) - (u27 * (1.0f + 1.0f)))));
-        u30 = u30 + (((u27 * (1.0f + 1.0f)) - (u25 * u0)) + 1.0f) * (*(float *)((t3 + 0x4)));
-        u32 = u30;
-        u32 = u32 + ((u21 - (((u21 * u21)) * (1.0f + 1.0f))) + (u21 * u24)) * (*(float *)((t3 + 0xC)));
-        u34 = u32;
-        u34 = u34 + ((u21 * u24) - (u21 * u21)) * (*(float *)((t3 + 0x8)));
-        return u34;
-    }
-    return 0.0f;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R14;
+    float F4;
+    float F5;
+    float F6;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C05C81C:;
+    nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
+    *(float *)0xC2A98A8 = 1.0f;
+    *(float *)0xC2A98AC = 1.0f;
+    u1 = *(float *)0xC05C954;
+    t3 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EA, (*(float *)0xC05C95C), u1);
+    t5 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EB, (*(float *)0xC05C960), u1);
+    ResetFadeColor();
+    t7 = ReturnBreakPinNum();
+    *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x8) + 0x4);
+    *(unsigned int *)((((((int)stk + 4) + 0x8) + 0x4) + 0x0)) = ((int)((int)t7 / (int)0xA));
+    *(unsigned int *)(((int)stk + 8)) = (((int)stk + 4) + 0x8);
+    *(unsigned int *)(((((int)stk + 4) + 0x8) + 0x0)) = ((int)((int)t7 % (int)0xA));
+    R14 = (0xC05778A);
+    R6 = ((((int)stk + 4) + 0x8));
+    F15 = ((*(float *)0xC05C974));
+    if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0)) goto L_C05C8AA;
+    goto L_C05C89A;
+    L_C05C89A:;
+    t20 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50), R6, (*(float *)0xC05C978), F15);
+    goto L_C05C8AA;
+    L_C05C8AA:;
+    t24 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))) + 0x50), R6, (*(float *)0xC05C97C), F15);
+    t26 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1E1, (*(float *)0xC05C980), F15);
+    t28 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x57, (*(float *)0xC05C984), F15);
+    return (((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x50, (*(float *)0xC05C988), F15));
 }

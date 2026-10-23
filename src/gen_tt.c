@@ -1,37 +1,23 @@
 /* Straight-line functions with calls and guards (batch gen_tt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetMenuMode(int);
-int callGoBackAdvertise(void);
-int callSaveData(int);
-int syCfgSetSoundMode(int);
-int menuGoBack(void);
+int nlArcTan2(float, float);
+float screenOutCheck(int a4);
 
-int menuGoBack(void)
+float screenOutCheck(int a4)
 {
-    int t1;
+    float u16;
     int t3;
+    float u7;
 
-    if ((int)(*(int *)0xC2A11D8) <= (int)0x1) {
-        return callGoBackAdvertise();
-    }
-    t1 = *(int *)0xC2A11D8;
-    *(unsigned int *)0xC2A11D8 = (t1 - 2);
-    if ((t1 - 2) == 0) {
-        if ((GetMenuMode(0x0)) != 3) {
-            t3 = GetMenuMode(0x0);
-            if (t3 == 5) {
-                if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
-                    syCfgSetSoundMode((*(int *)0xC2A11BC));
-                }
-                return callSaveData(0x1);
-            }
-            return t3;
+    u16 = 0.0f;
+    if (0.0f > (*(float *)((a4 + 0x8)))) {
+        t3 = nlArcTan2(_builtin_fabsf((*(float *)((a4 + 0x0)))), (-(*(float *)((a4 + 0x8)))));
+        u7 = 0.0f;
+        if ((int)(unsigned short)t3 < (int)((int)((((*(float *)0xC1798A4) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF)) {
+            u7 = (*(float *)((a4 + 0x8)));
         }
-        if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
-            syCfgSetSoundMode((*(int *)0xC2A11BC));
-        }
-        return callSaveData(0x1);
+        u16 = u7;
     }
-    return (t1 - 2);
+    return u16;
 }

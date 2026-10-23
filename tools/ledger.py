@@ -5,6 +5,7 @@
                                        in state/cases-history/<function>/<time>-<why>.json
     rotate(path, label)                a report the next run would overwrite, kept in state/reports/<time>-<label>-<name>
     keep_text(name, text)              text that would be dropped (evidence of a function that fails again), appended to state/<name>
+    last_failure(fn, since)            the latest failure the recheck recorded for a function (DIFFERS or did not compile), as (outcome, detail)
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
@@ -64,3 +65,19 @@ def keep_text(name, text):
             fh.write(text if text.endswith('\n') else text + '\n')
     except OSError:
         pass
+
+
+def last_failure(fn, since=''):
+    """(outcome, detail) of the latest row in state/results.jsonl for fn that is DIFFERS or did not compile and is not older than
+    since (a time as record writes it, '2026-10-23T19:06:18'); None when there is none."""
+    try:
+        for line in reversed(open('state/results.jsonl').read().splitlines()):
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get('fn') == fn and r.get('outcome') in ('DIFFERS', 'did not compile') and r.get('t', '') >= since:
+                return r['outcome'], r.get('detail', '')
+    except OSError:
+        pass
+    return None

@@ -1,383 +1,438 @@
 /* Straight-line functions with calls and guards (batch gen_aet): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision(int, int, float, float);
-int GetCollisionFirst(int, int, float);
-int PutCollisionEffect(int, int, int);
-int nlAddVector3op(int, int, int);
-int nlCalcPoint(int, int);
-int nlCalcVector(int, int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-float nlScalor(int);
-int nlSetTranslate(int);
-int nlSubVector3op(int, int, int);
-int carWheelCollision(int a4, float f4, float f5);
+int kmiConvertUVnum(int);
+int kmProcessVertexRenderState(int a4);
 
-int carWheelCollision(int a4, float f4, float f5)
+int kmProcessVertexRenderState(int a4)
 {
-    int t18;
-    int t19;
-    int t20;
-    int t33;
-    float u34;
-    int t39;
-    int t40;
-    int t48;
-    int t42;
-    float u82;
-    float u77;
-    float u78;
-    float t93;
-    int t98;
-    int t111;
-    float u115;
-    float u120;
-    float u134;
-    float u136;
-    int t149;
-    int t167;
-    float u169;
-    float u170;
-    int t180;
-    int t183;
-    int t184;
-    float u187;
-    float u188;
-    float u189;
-    float u190;
-    float u191;
-    float u207;
-    float u200;
-    float u202;
-    float u204;
-    float u209;
-    float u210;
-    float u217;
-    float u232;
-    float u251;
-    float u253;
-    float u262;
-    float u292;
-    float u293;
-    float u294;
-    float u295;
-    int t296;
-    int t308;
-    float u76;
-    int t110;
-    float u130;
+    int t0;
+    int t1;
+    int t3;
+    int t5;
+    int t6;
+    int t8;
+    int t12;
+    int t17;
+    int t27;
+    int t23;
+    int t31;
+    int t38;
+    int t43;
+    int t49;
+    int t61;
+    int t56;
+    int t70;
+    int t87;
+    int t74;
+    int t82;
+    int t97;
+    int t93;
+    int t104;
+    int t102;
+    int t108;
+    int t120;
+    int t116;
+    int t130;
+    int t126;
+    int t140;
+    int t136;
+    int t145;
+    int t151;
+    int t157;
+    int t168;
+    int t164;
+    int t175;
+    int t172;
     int t173;
-    int t182;
-    float u185;
-    float u186;
-    int stk[37];
+    int t180;
+    int t194;
+    int t188;
+    int t204;
+    int t205;
+    int t206;
+    int t209;
+    int t207;
+    int t210;
+    int t211;
+    int t212;
+    int t248;
+    int t237;
+    int t238;
+    int t241;
+    int t244;
+    int t255;
+    int t268;
+    int t273;
+    int t281;
+    int t286;
+    int t298;
+    int t289;
+    int t293;
+    int t310;
+    int t305;
+    int t315;
+    int t64;
+    int t65;
+    int t77;
+    int t185;
+    int t219;
+    int t262;
+    int t271;
+    int t274;
+    int stk[18];
 
-    *(float *)(((int)stk + 12)) = 0.0f;
-    *(float *)(((int)stk + 16)) = 0.0f;
-    *(float *)(((int)stk + 24)) = 0.0f;
-    nlPushMatrix(0x0);
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
-    *(float *)0xC1EE150 = 0.0f;
-    *(float *)0xC1EE148 = 0.0f;
-    *(float *)0xC1EE14C = -0.109999999f;
-    nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x30));
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    nlSetTranslate((0x8C + a4));
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x9A))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x98))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x9C))));
-    t18 = 0x0;
-    t19 = (0x1A0 + a4);
-    t20 = (*(int *)((a4 + 0x70)));
-    for (;;) {
-        nlCalcPoint(t20, (t19 + 0x68));
-        t18 = (t18 + 0x1);
-        t19 = (t19 + 0x84);
-        t20 = (t20 + 0xC);
-        if ((int)t18 >= (int)0x4) {
-            break;
-        }
+    t0 = *(int *)((a4 + 0x94));
+    t1 = *(int *)((a4 + 0x98));
+    *(unsigned int *)(((int)stk + 12)) = (*(int *)((a4 + 0x9C)));
+    t3 = *(int *)((a4 + 0x90));
+    t5 = *(int *)0xC175FB8;
+    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x0)) = (*(int *)0xC175FB4);
+    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x4)) = t5;
+    t6 = *(int *)0xC175FC0;
+    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0x8)) = (*(int *)0xC175FBC);
+    *(unsigned int *)(((((int)stk + 4) + 0x14) + 0xC)) = t6;
+    t8 = *(int *)((a4 + 0x0));
+    t12 = t0;
+    if ((0x1 & t8) != 0) {
+        t12 = ((t0 & 0x1FFFFFFF) | ((*(int *)((a4 + 0x14))) << 29));
     }
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    nlAddVector3op(0xC1EE148, (a4 + 0x78), (0xFC + a4));
-    nlSetTranslate(0xC1EE148);
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x24)) = *(struct mv3 *)(0xC08AD94); }
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)((a4 + 0x70)));
-    t33 = (0x1A0 + a4);
-    u34 = 0.0f;
-    for (;;) {
-        nlCalcPoint((*(int *)(((int)stk + 4))), 0xC1EE154);
-        nlSubVector3op((((int)stk + 4) + 0x48), 0xC1EE154, (t33 + 0x68));
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x54)) = *(struct mv3 *)((t33 + 0x68)); }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x3C)) = *(struct mv3 *)((((int)stk + 4) + 0x48)); }
-        *(unsigned int *)((t33 + 0x4)) = (*(int *)((t33 + 0x0)));
-        t39 = GetCollision((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x48), 1.0f, 4.0f);
-        t40 = *(int *)((t39 + 0x40));
-        *(unsigned int *)(((int)stk + 20)) = t40;
-        t48 = t39;
-        if ((0.0f > (*(float *)((t39 + 0x18)))) && ((t40 & 0x54) == 0)) {
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x54)) = *(struct mv3 *)((t33 + 0x68)); }
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x48)) = *(struct mv3 *)((((int)stk + 4) + 0x3C)); }
-            t42 = GetCollision((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x48), 1.0f, 0.0f);
-            *(unsigned int *)((t42 + 0x40)) = ((*(int *)((t42 + 0x40))) | (*(int *)(((int)stk + 20))));
-            t48 = t42;
+    t17 = t12;
+    if ((0x2 & t8) != 0) {
+        t17 = ((0xE7FFFFFF & t12) | ((*(int *)((a4 + 0x18))) << 27));
+    }
+    t27 = t17;
+    if ((0x20 & t8) != 0) {
+        t23 = (t17 & 0xFBFFFFFF);
+        if ((*(int *)((a4 + 0x28))) != 0) {
+            t23 = (t17 | 0x4000000);
         }
-        if (((*(int *)((t48 + 0x40))) & 0x3C57) != 0) {
-            PutCollisionEffect((((int)stk + 4) + 0x54), (0xFC + a4), 0x0);
-        } else {
-            if (((*(int *)((t48 + 0x40))) & 0x3A8) != 0) {
-                PutCollisionEffect((((int)stk + 4) + 0x54), (0xFC + a4), 0x1);
+        t27 = t23;
+    }
+    t31 = t27;
+    if ((0x8 & t8) != 0) {
+        t31 = ((0xFDFFFFFF & t27) | (((((unsigned int)(*(int *)((a4 + 0x20))) >> 1) << 16) << 8) << 1));
+    }
+    *(unsigned int *)(((int)stk + 16)) = (0x200 & t8);
+    t38 = t31;
+    if ((0x200 & t8) != 0) {
+        t38 = ((t31 & 0xFEFFFFFF) | (((*(int *)((a4 + 0x40))) << 16) << 8));
+    }
+    t43 = t38;
+    if ((0x8 & t8) != 0) {
+        t43 = ((0xFF7FFFFF & t38) | (((*(int *)((a4 + 0x20))) & 0x1) << 23));
+    }
+    *(unsigned int *)(((int)stk + 8)) = (0x800000 & t8);
+    t49 = t43;
+    if ((0x800000 & t8) != 0) {
+        t49 = ((0xFFBFFFFF & t43) | ((*(int *)((a4 + 0x10))) << 22));
+    }
+    t61 = t49;
+    if ((t8 & 0x4000000) != 0) {
+        t56 = (t49 & 0xFFEFFFFF);
+        if ((*(int *)((a4 + 0xB4))) != 0) {
+            t56 = (t49 | 0x100000);
+        }
+        t61 = t56;
+    }
+    t70 = t1;
+    if (((0x40 & t8) != 0) && (t64 = *(int *)((a4 + 0x2C)), (unsigned int)t64 < (unsigned int)0xC)) {
+        switch ((t64 << 1)) {
+            case 0:
+            {
+                t65 = ((((t1 & 0x1FFFFFFF) | 0xA0000000) & 0xE3FFFFFF) | 0x10000000);
             }
+                break;
+            case 2:
+            {
+                t65 = ((((t1 & 0x1FFFFFFF) | 0x80000000) & 0xE3FFFFFF) | 0x14000000);
+            }
+                break;
+            case 4:
+            {
+                t65 = (0xC0000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 6:
+            {
+                t65 = (0x40000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 8:
+            {
+                t65 = (0xE0000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 10:
+            {
+                t65 = (0x60000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 12:
+            {
+                t65 = (0xA0000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 14:
+            case 18:
+            {
+                t65 = t1;
+            }
+                break;
+            case 16:
+            {
+                t65 = (0x80000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            case 20:
+            {
+                t65 = (0x20000000 | (t1 & 0x1FFFFFFF));
+            }
+                break;
+            default:
+            {
+                t65 = (t1 & 0x1FFFFFFF);
+            }
+                break;
         }
-        u82 = 0.0f;
-        if ((0.0f > (*(float *)(((((int)stk + 4) + 0x3C) + 0x4)))) && (u76 = *(float *)(((int)stk + 80)), !(0.0f > u76))) {
-            u77 = *(float *)((a4 + 0x100));
-            u78 = u34;
-            u78 = u78 + 0.049999997f * _builtin_fabsf(u77);
-            u34 = u78;
-            u82 = _builtin_fabsf(u77);
-        }
-        nlPushUnitMatrix();
-        nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0x88)))));
-        nlRotateAX((-(unsigned short)(*(short *)((a4 + 0x84)))));
-        nlRotateAY((-(unsigned short)(*(short *)((a4 + 0x86)))));
-        nlSubVector3op(0xC1EE148, 0xC1EE154, (((int)stk + 4) + 0x54));
-        nlCalcVector(0xC1EE148, (t33 + 0x74));
-        nlPopMatrix(0x1);
-        t93 = nlScalor((t33 + 0x74));
-        if (!((*(float *)(((int)stk + 24))) > t93) && (20.0f > t93)) {
-            nlSubVector3op((((int)stk + 4) + 0x24), (((int)stk + 4) + 0x54), (t33 + 0x68));
-            *(float *)(((int)stk + 24)) = t93;
-        }
-        t98 = *(int *)(((int)stk + 8));
-        t33 = (t33 + 0x84);
-        *(unsigned int *)(((int)stk + 8)) = (t98 + 0x1);
-        *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0xC);
-        if ((int)(t98 + 0x1) < (int)0x4) continue;
-        break;
+        t70 = t65;
     }
-    nlPopMatrix(0x1);
-    nlPushMatrix(0x0);
-    nlAddVector3op(0xC1EE148, (a4 + 0x78), (((int)stk + 4) + 0x24));
-    nlSetTranslate(0xC1EE148);
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    t111 = (0x1A0 + a4);
-    for (;;) {
-        *(float *)((t111 + 0x30)) = ((*(float *)((t111 + 0x30))) + (*(float *)(((0x34 + t111) + 0x0))));
-        *(float *)((t111 + 0x3C)) = 0.0f;
-        u115 = *(float *)0xC1794C0;
-        if ((*(float *)((t111 + 0x30))) > u115) {
-            *(float *)((t111 + 0x30)) = u115;
-            u120 = (*(float *)((t111 + 0x34)));
-            u120 *= -0.049999997f;
-            *(float *)((t111 + 0x34)) = u120;
-        } else {
-            if ((*(float *)0xC1794C8) > (*(float *)((t111 + 0x30)))) {
-                if ((int)(*(int *)(((int)stk + 4))) < (int)0x2) {
-                    t110 = 0xC1794B0;
-                    u130 = ((*(float *)0xC1794C8) - (*(float *)(((0x30 + t111) + 0x0))));
-                } else {
-                    t110 = 0xC1794B4;
-                    u130 = ((*(float *)0xC1794C8) - (*(float *)(((0x30 + t111) + 0x0))));
+    t87 = t70;
+    if ((0x80 & t8) != 0) {
+        *(unsigned int *)(((int)stk + 4)) = (t70 & 0x1FFFFFFF);
+        t74 = *(int *)((a4 + 0x30));
+        t82 = t70;
+        if ((unsigned int)t74 < (unsigned int)0xC) {
+            switch ((t74 << 1)) {
+                case 0:
+                {
+                    t77 = ((((*(int *)(((int)stk + 4))) | 0xA0000000) & 0xE3FFFFFF) | 0x10000000);
                 }
-                u134 = (*(float *)((t111 + 0x3C)));
-                u134 = u134 + 0.099999994f * (u130 * (*(float *)((t110 + 0x0))));
-                *(float *)((t111 + 0x3C)) = u134;
-                u136 = (*(float *)((t111 + 0x34)));
-                u136 *= -0.099999994f;
-                *(float *)((t111 + 0x34)) = u136;
-                *(float *)((t111 + 0x30)) = (*(float *)0xC1794C8);
+                    break;
+                case 2:
+                {
+                    t77 = ((((*(int *)(((int)stk + 4))) | 0x80000000) & 0xE3FFFFFF) | 0x14000000);
+                }
+                    break;
+                case 4:
+                {
+                    t77 = (0x18000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 6:
+                case 10:
+                {
+                    t77 = t70;
+                }
+                    break;
+                case 8:
+                {
+                    t77 = (0x1C000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 12:
+                {
+                    t77 = (0x14000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 14:
+                {
+                    t77 = (0xC000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 16:
+                {
+                    t77 = (0x10000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 18:
+                {
+                    t77 = (0x8000000 | (t70 & 0xE3FFFFFF));
+                }
+                    break;
+                case 20:
+                {
+                    t77 = ((t70 & 0xE3FFFFFF) | 0x4000000);
+                }
+                    break;
+                default:
+                {
+                    t77 = (t70 & 0xE3FFFFFF);
+                }
+                    break;
             }
+            t82 = t77;
         }
-        t149 = *(int *)(((int)stk + 4));
-        t110 = (*(int *)((a4 + 0x6C)));
-        t110 = (t110 + (((t149 << 1) + t149) << 2));
-        *(float *)0xC1EE148 = (*(float *)((t110 + 0x0)));
-        *(float *)0xC1EE14C = ((*(float *)((a4 + 0x12C))) + 3.29999995f);
-        *(float *)0xC1EE150 = (*(float *)((((((t149 << 1) + t149) << 2) + (*(int *)((a4 + 0x6C)))) + 0x8)));
-        nlCalcPoint(0xC1EE148, (((int)stk + 4) + 0x54));
-        t110 = 0xC0782E0;
-        nlPushUnitMatrix();
-        nlRotateAY((unsigned short)(*(short *)((a4 + 0x86))));
-        nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
-        nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
-        *(float *)0xC1EE148 = 0.0f;
-        *(float *)0xC1EE14C = (((-(*(float *)((t111 + 0x30)))) - (*(float *)((a4 + 0x12C)))) + -5.0f);
-        *(float *)0xC1EE150 = 0.0f;
-        nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x48));
-        t110 = 0xC078200;
-        nlPopMatrix(0x1);
-        t167 = GetCollisionFirst((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x48), 0.0f);
-        if ((*(int *)((t167 + 0x1C))) != -1) {
-            u169 = *(float *)((t111 + 0x30));
-            u170 = *(float *)((a4 + 0x12C));
-            *(float *)((t111 + 0x38)) = ((((((u169 + u170) + 5.0f) * (*(float *)((t167 + 0x18)))) - u170) - u169) + -4.0f);
-            t173 = (*(int *)((t167 + 0x1C)));
-        } else {
-            *(float *)((t111 + 0x38)) = 0.0f;
-            t173 = 0xFFFFFFFF;
-        }
-        *(unsigned int *)((t111 + 0x0)) = t173;
-        t180 = *(int *)(((int)stk + 4));
-        t110 = 0x84;
-        t111 = (t111 + t110);
-        *(unsigned int *)(((int)stk + 4)) = (t180 + 0x1);
-        if ((int)(t180 + 0x1) < (int)0x4) continue;
-        break;
+        t87 = t82;
     }
-    nlPopMatrix(0x1);
-    t183 = (0x1A0 + a4);
-    t184 = 0x0;
-    u187 = f5;
-    u188 = u34;
-    for (;;) {
-        u189 = *(float *)(((0x38 + t183) + 0x0));
-        u190 = *(float *)((t183 + 0x30));
-        *(float *)((t183 + 0x30)) = (u190 + u189);
-        u191 = *(float *)0xC1794C8;
-        u207 = u191;
-        if (u191 > (u190 + u189)) {
-            if ((int)t184 < (int)0x2) {
-                t182 = 0xC1794B0;
-            } else {
-                t182 = 0xC1794B4;
-            }
-            u186 = (*(float *)((t183 + 0x3C)));
-            u186 = (u186 - ((((*(float *)(((0x38 + t183) + 0x0))) * (*(float *)((t182 + 0x0))))) * 0.5f));
-            *(float *)((t183 + 0x3C)) = u186;
-            u187 = (*(float *)0xC1794C8);
-            u187 = (u187 - (*(float *)((t183 + 0x30))));
-            u185 = u187;
-            u200 = u188;
-            u200 = u200 + u185 * 0.25f;
-            u188 = u200;
-            *(float *)(((int)stk + 16)) = ((*(float *)(((int)stk + 16))) + u187);
-            u202 = (*(float *)((t183 + 0x78)));
-            u202 = u202 + u185 * 1.0f;
-            *(float *)((t183 + 0x78)) = u202;
-            *(float *)((t183 + 0x30)) = (*(float *)0xC1794C8);
-            u204 = *(float *)((t183 + 0x34));
-            *(float *)((t183 + 0x34)) = (_builtin_fabsf(u204) * 0.099999994f);
-            u207 = (_builtin_fabsf(u204) * 0.099999994f);
+    t97 = t87;
+    if ((t8 & 0x1000000) != 0) {
+        t93 = (t87 & 0xFDFFFFFF);
+        if ((*(int *)((a4 + 0x34))) != 0) {
+            t93 = (t87 | 0x2000000);
         }
-        t182 = 0xC1794B4;
-        u209 = *(float *)0xC1794B0;
-        u210 = *(float *)0xC1794C4;
-        u187 = (*(float *)((t182 + 0x0)));
-        if ((int)t184 < (int)0x2) {
-            if ((*(int *)((t183 + 0x0))) != -1) {
-                u185 = u209;
-                t182 = 0x34;
-                t182 = (t182 + t183);
-                u217 = (*(float *)((t183 + 0x8)));
-                u217 = u217 + u185 * ((*(float *)(((0x30 + t183) + 0x0))) - u210);
-                *(float *)((t182 + 0x0)) = ((*(float *)((t182 + 0x0))) - (u217 / u209));
-            } else {
-                *(float *)((t183 + 0x34)) = ((*(float *)((t183 + 0x34))) - ((((*(float *)(((0x30 + t183) + 0x0))) - u210) * u209) / u209));
-            }
-            u187 = (*(float *)0xC1794B8);
-            if (!(0.0f > (*(float *)((t183 + 0x34))))) {
-                u187 = (u187 * 0.799999952f);
-            }
-            *(float *)((t183 + 0x34)) = ((*(float *)((t183 + 0x34))) * u187);
-        } else {
-            if ((*(int *)((t183 + 0x0))) != -1) {
-                u185 = u187;
-                t182 = 0x34;
-                t182 = (t182 + t183);
-                u232 = (*(float *)((t183 + 0x8)));
-                u232 = u232 + u185 * ((*(float *)(((0x30 + t183) + 0x0))) - u210);
-                *(float *)((t182 + 0x0)) = ((*(float *)((t182 + 0x0))) - (u232 / u187));
-            } else {
-                *(float *)((t183 + 0x34)) = ((*(float *)((t183 + 0x34))) - ((((*(float *)(((0x30 + t183) + 0x0))) - u210) * u187) / u187));
-            }
-            u187 = (*(float *)0xC1794BC);
-            if (!(0.0f > (*(float *)((t183 + 0x34))))) {
-                u187 = (u187 * 0.799999952f);
-            }
-            *(float *)((t183 + 0x34)) = ((*(float *)((t183 + 0x34))) * u187);
-        }
-        if ((*(int *)((t183 + 0x0))) != -1) {
-            if ((int)t184 < (int)0x2) {
-                t182 = 0xC1794B0;
-            } else {
-                t182 = 0xC1794B4;
-            }
-            u185 = (*(float *)((t182 + 0x0)));
-            u251 = (*(float *)((t183 + 0x3C)));
-            u251 = u251 + u185 * (*(float *)(((0x34 + t183) + 0x0)));
-            u185 = 0.25f;
-            *(float *)((t183 + 0x3C)) = u251;
-            u253 = u188;
-            u253 = u253 + u185 * (*(float *)((t183 + 0x34)));
-            u188 = u253;
-        } else {
-            *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) - 0.0274999999f);
-            u186 = (*(float *)((t183 + 0x34)));
-            u186 = (u186 - ((*(float *)(((((int)stk + 4) + 0x34) + 0x0))) * 0.899999976f));
-            *(float *)((t183 + 0x34)) = u186;
-            u187 = (*(float *)(((int)stk + 56)));
-            if ((int)t184 < (int)0x2) {
-                u185 = (*(float *)(((0x128 + a4) + 0x0)));
-                u187 = (u187 * u185);
-                u185 = 0.3125f;
-            } else {
-                u185 = (*(float *)(((0x128 + a4) + 0x0)));
-                u187 = (u187 * u185);
-                u185 = 0.25f;
-            }
-            u262 = (*(float *)((t183 + 0x3C)));
-            u262 = u262 + u185 * u187;
-            *(float *)((t183 + 0x3C)) = u262;
-        }
-        t184 = (t184 + 0x1);
-        t182 = 0x84;
-        t183 = (t183 + t182);
-        if ((int)t184 < (int)0x4) continue;
-        break;
+        t97 = t93;
     }
-    nlPushMatrix(0x0);
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x88))));
-    *(float *)0xC1EE150 = 0.0f;
-    *(float *)0xC1EE148 = 0.0f;
-    *(float *)0xC1EE14C = u188;
-    nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x48));
-    *(float *)((a4 + 0x100)) = ((*(float *)((a4 + 0x100))) + (*(float *)(((((int)stk + 4) + 0x4C) + 0x0))));
-    *(float *)0xC1EE14C = ((*(float *)0xC1EE14C) + (*(float *)(((((int)stk + 4) + 0xC) + 0x0))));
-    nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x48));
-    nlPopMatrix(0x1);
-    *(float *)((a4 + 0x100)) = ((*(float *)((a4 + 0x100))) + (*(float *)(((((int)stk + 4) + 0x8) + 0x0))));
-    *(float *)((a4 + 0x78)) = ((*(float *)((a4 + 0x78))) + ((*(float *)(((((int)stk + 4) + 0x24) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x48) + 0x0)))));
-    *(float *)((a4 + 0x80)) = ((*(float *)((a4 + 0x80))) + ((*(float *)(((((int)stk + 4) + 0x2C) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x50) + 0x0)))));
-    *(float *)((a4 + 0x7C)) = ((*(float *)((a4 + 0x7C))) + ((*(float *)(((((int)stk + 4) + 0x28) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x4C) + 0x0)))));
-    u292 = *(float *)(((0x1A0 + a4) + 0x3C));
-    u293 = *(float *)(((0x84 + (0x1A0 + a4)) + 0x3C));
-    u294 = *(float *)(((0x18C + (0x1A0 + a4)) + 0x3C));
-    u295 = *(float *)(((0x108 + (0x1A0 + a4)) + 0x3C));
-    t296 = *(int *)((a4 + 0x6C));
-    *(unsigned int *)(((int)stk + 4)) = t296;
-    *(unsigned short *)((a4 + 0x19C)) = (int)((float)(*(short *)((a4 + 0x19C))) - ((((((((u293 + u292) - (u294 + u295)) * ((*(float *)((t296 + 0x14))) - (*(float *)(((t296 + 0x24) + 0x8)))))) * (*(float *)((a4 + 0x148)))) / 6.28317976f)) * 65535.0f));
-    *(unsigned short *)((a4 + 0x19C)) = (int)((float)(*(short *)((a4 + 0x19C))) * 0.729999959f);
-    t308 = *(int *)((a4 + 0x6C));
-    *(unsigned short *)((a4 + 0x19A)) = (int)((float)(*(short *)((a4 + 0x19A))) - (((((((((*(float *)(((0x84 + (0x1A0 + a4)) + 0x3C))) + (*(float *)(((0x18C + (0x1A0 + a4)) + 0x3C)))) - ((*(float *)(((0x1A0 + a4) + 0x3C))) + (*(float *)(((0x108 + (0x1A0 + a4)) + 0x3C))))) * ((*(float *)((t308 + 0x0))) - (*(float *)((t308 + 0xC)))))) * (*(float *)((a4 + 0x150)))) / 6.28317976f)) * 65535.0f));
-    *(unsigned short *)((a4 + 0x19A)) = (int)((float)(*(short *)((a4 + 0x19A))) * 0.75999999f);
-    return 0x19A;
+    t104 = t97;
+    if ((0x2000000 & t8) != 0) {
+        t102 = (t97 & 0xFEFFFFFF);
+        if ((*(int *)((a4 + 0x38))) != 0) {
+            t102 = (t97 | 0x1000000);
+        }
+        t104 = t102;
+    }
+    t108 = t104;
+    if ((0x100 & t8) != 0) {
+        t108 = ((0xFF3FFFFF & t104) | (((*(int *)((a4 + 0x3C))) & 0x3) << 22));
+    }
+    t120 = t108;
+    if ((0x40000 & t8) != 0) {
+        t116 = (t108 & 0xFFDFFFFF);
+        if ((*(int *)((a4 + 0x64))) != 0) {
+            t116 = (t108 | 0x200000);
+        }
+        t120 = t116;
+    }
+    t130 = t120;
+    if ((0x400 & t8) != 0) {
+        t126 = (t120 & 0xFFEFFFFF);
+        if ((*(int *)((a4 + 0x44))) != 0) {
+            t126 = (t120 | 0x100000);
+        }
+        t130 = t126;
+    }
+    t140 = t130;
+    if ((0x800 & t8) != 0) {
+        t136 = (t130 & 0xFFF7FFFF);
+        if ((*(int *)((a4 + 0x48))) != 0) {
+            t136 = (t130 | 0x80000);
+        }
+        t140 = t136;
+    }
+    t145 = t140;
+    if ((t8 & 0x1000) != 0) {
+        t145 = ((0xFFFE7FFF & t140) | ((*(int *)((a4 + 0x4C))) << 15));
+    }
+    t151 = t145;
+    if ((0x2000 & t8) != 0) {
+        t151 = ((0xFFF9FFFF & t145) | (((*(int *)((a4 + 0x50))) << 16) << 1));
+    }
+    t157 = t151;
+    if ((0x4000 & t8) != 0) {
+        t157 = ((0xFFFF9FFF & t151) | ((*(int *)(((((*(int *)((a4 + 0x54))) << 2) + (((int)stk + 4) + 0x14)) + 0x0))) << 13));
+    }
+    t168 = t157;
+    if ((0x8000 & t8) != 0) {
+        t164 = (t157 & 0xFFFFEFFF);
+        if ((*(int *)((a4 + 0x58))) != 0) {
+            t164 = (t157 | 0x1000);
+        }
+        t168 = t164;
+    }
+    t175 = t168;
+    if ((0x10000 & t8) != 0) {
+        t172 = *(int *)((a4 + 0x5C));
+        t173 = (t172 & 0xF);
+        if ((t172 & 0xF) == 0) {
+            t173 = 0x4;
+        }
+        t175 = ((0xFFFFF0FF & t168) | (t173 << 8));
+    }
+    t180 = t175;
+    if ((0x20000 & t8) != 0) {
+        t180 = ((0xFFFFFF3F & t175) | (((((*(int *)((a4 + 0x60))) & 0x3) << 2) << 2) << 2));
+    }
+    t194 = t180;
+    if ((((*(int *)((a4 + 0x20))) >> 1) == 1) && (t185 = *(int *)((a4 + 0x6C)), t185 != 0)) {
+        t188 = kmiConvertUVnum((*(int *)(((*(int *)((a4 + 0x6C))) + 0xC))));
+        *(unsigned int *)(((int)stk + 4)) = ((t180 & 0xFFFFFFC7) | ((t188 << 2) << 1));
+        t194 = ((((t180 & 0xFFFFFFC7) | ((t188 << 2) << 1)) & 0xFFFFFFF8) | (kmiConvertUVnum((*(int *)(((*(int *)((a4 + 0x6C))) + 0x10))))));
+    }
+    if (((*(int *)((a4 + 0x20))) >> 1) == 1) {
+        if ((*(int *)((a4 + 0x6C))) != 0) {
+            t204 = *(int *)((a4 + 0x6C));
+            t205 = *(int *)(((int)stk + 12));
+            t206 = *(int *)((t204 + 0x18));
+            t209 = ((0x1 & t206) & 0x1);
+            t207 = (int)(((unsigned int)t209 >> 1) | ((unsigned int)t209 << 31));
+            t210 = *(int *)((t204 + 0x8));
+            if (((((((((t205 & 0x7FFFFFFF) | t207) & 0xBFFFFFFF) | ((t206 & 0x8) << 27)) & 0xC7FFFFFF) | (t210 & 0x38000000)) & 0x38000000) != 0x28000000) && ((((((((t205 & 0x7FFFFFFF) | t207) & 0xBFFFFFFF) | ((t206 & 0x8) << 27)) & 0xC7FFFFFF) | (t210 & 0x38000000)) & 0x38000000) != 0x30000000)) {
+                t211 = *(int *)((a4 + 0x6C));
+                *(unsigned int *)(((int)stk + 20)) = t211;
+                t212 = *(int *)((t211 + 0x18));
+                t219 = ((0xFDFFFFFF & ((((((((t205 & 0x7FFFFFFF) | t207) & 0xBFFFFFFF) | ((t206 & 0x8) << 27)) & 0xC7FFFFFF) | (t210 & 0x38000000)) & 0xFBFFFFFF) | ((((~(0x4 & t212)) & 0x4) << 16) << 8))) | ((t212 & 0x10) << 21));
+            } else {
+                t219 = ((0xF81FFFFF & ((((((t205 & 0x7FFFFFFF) | t207) & 0xBFFFFFFF) | ((t206 & 0x8) << 27)) & 0xC7FFFFFF) | (t210 & 0x38000000))) | (((*(int *)((a4 + 0x68))) & 0x3F) << 21));
+            }
+            *(unsigned int *)(((int)stk + 12)) = ((t219 & 0xFFE00000) | ((unsigned int)((unsigned int)(*(int *)(((*(int *)((a4 + 0x6C))) + 0x1C))) >> 2) >> 1));
+        }
+    }
+    t248 = t3;
+    if ((0x100000 & t8) != 0) {
+        t237 = *(int *)((a4 + 0x4));
+        t238 = t3;
+        if (t237 == 0) {
+            t238 = (0x80000000 | (t3 & 0x1FFFFFFF));
+        }
+        t241 = t238;
+        if (t237 == 1) {
+            t241 = (0x80000000 | (t238 & 0x1FFFFFFF));
+        }
+        t244 = t241;
+        if (t237 == 2) {
+            t244 = (0xA0000000 | (0x1FFFFFFF & t241));
+        }
+        t248 = t244;
+    }
+    t255 = t248;
+    if ((0x200000 & t8) != 0) {
+        t255 = ((0xF8FFFFFF & t248) | (((*(int *)((a4 + 0x8))) << 16) << 8));
+    }
+    if ((0x8000000 & t8) != 0) {
+        t262 = (*(int *)((a4 + 0xB8)));
+    } else {
+        t262 = (*(int *)0xC2EA85C);
+    }
+    t268 = (((t262 << 16) << 2) | (0xFFF3FFFF & (t255 | 0x800000)));
+    if ((0x10000000 & t8) != 0) {
+        t268 = ((0xFFFCFFFF & (((t262 << 16) << 2) | (0xFFF3FFFF & (t255 | 0x800000)))) | ((*(int *)((a4 + 0xBC))) << 16));
+    }
+    t273 = (0xFFFFFF3F & t268);
+    if ((((*(int *)((a4 + 0xA0))) & 0x60000000) != 0) && (t271 = *(int *)((a4 + 0x8)), (t271 & 1) != 0)) {
+        t273 = (0x40 | (0xFFFFFF3F & t268));
+    }
+    t281 = t273;
+    if (((0x10 & t8) != 0) && (t274 = *(int *)((a4 + 0x24)), (t274 & 1) != 0)) {
+        t281 = ((0xFFFFFFBF & ((0xFFFFFF7F & t273) | ((*(int *)((a4 + 0x24))) << 7))) | ((((*(int *)0xC1782FC) << 2) << 2) << 2));
+    }
+    t286 = t281;
+    if ((t8 & 0x400000) != 0) {
+        t286 = ((0xFFFFFFCF & t281) | (((*(int *)((a4 + 0xC))) << 2) << 2));
+    }
+    t298 = t286;
+    if ((0x8 & t8) != 0) {
+        t289 = *(int *)((a4 + 0x20));
+        t293 = ((0xFFFFFFF7 & t286) | ((((unsigned int)t289 >> 1) << 2) << 1));
+        if ((0x8 & t8) != 0) {
+            t293 = ((0xFFFFFFFD & ((0xFFFFFFF7 & t286) | ((((unsigned int)t289 >> 1) << 2) << 1))) | (((*(int *)((a4 + 0x20))) & 0x1) << 1));
+        }
+        t298 = t293;
+    }
+    t310 = t298;
+    if ((*(int *)(((int)stk + 16))) != 0) {
+        t305 = (t298 & 0xFFFFFFFB);
+        if ((*(int *)((a4 + 0x40))) != 0) {
+            t305 = (t298 | 0x4);
+        }
+        t310 = t305;
+    }
+    t315 = t310;
+    if ((*(int *)(((int)stk + 8))) != 0) {
+        t315 = ((*(int *)((a4 + 0x10))) | (0xFFFFFFFE & t310));
+    }
+    *(unsigned int *)((a4 + 0x94)) = (t61 & 0xFFD00000);
+    *(unsigned int *)((a4 + 0x98)) = t194;
+    *(unsigned int *)((a4 + 0x9C)) = (*(int *)(((int)stk + 12)));
+    *(unsigned int *)((a4 + 0x90)) = (t315 & 0xE78F00FF);
+    return 0x0;
 }

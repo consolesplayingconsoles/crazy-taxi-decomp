@@ -1,88 +1,186 @@
 /* Straight-line functions with calls and guards (batch gen_ly): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-extern int nlGetAverageVector();
-void InitColliWall(int a4, float f4, float f5, float f6, float f7, float f8);
+int kdGetDevice(int);
+int kdGetStatus(int, int);
+int kdIsChanged(int);
+int kdSetBlockWrite(void);
+int kdSetGetLastError(void);
+int vmsfb_sleep(void);
+int vmsio_ismount(int);
+int vmsio_block_write(int a4, int a5, int a6, int a7);
 
-void InitColliWall(int a4, float f4, float f5, float f6, float f7, float f8)
+int vmsio_block_write(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    int t20;
-    int t21;
-    int t22;
-    int t23;
-    int t25;
+    int t3;
+    int t11;
+    int t26;
     int t28;
-    int t30;
-    int t31;
     int t33;
-    int t34;
-    int stk[15];
+    int t37;
+    int t39;
+    int t44;
+    int t49;
+    int t57;
+    int t64;
+    int t69;
+    int t73;
+    int t75;
+    int stk[20];
 
-    t0 = *(int *)0xC1EE20C;
-    if (t0 != -1) {
-        if (t0 != 0) {
-            if (t0 != 1) {
-                if (t0 != 2) {
-                    *(unsigned int *)0xC270458 = 0xCDF6150;
-                    { struct mv8 { int w[8]; }; *(struct mv8 *)(0xC27045C) = *(struct mv8 *)(0xC08F6E8); }
-                } else {
-                    *(unsigned int *)0xC270458 = (*(int *)(((a4 << 2) + 0xC0ED810)));
-                    { struct mv8 { int w[8]; }; *(struct mv8 *)(0xC27045C) = *(struct mv8 *)((((((*(int *)(((a4 << 2) + 0xC0ED84C))) << 2) << 2) << 1) + 0xC08FC78)); }
-                }
-            } else {
-                *(unsigned int *)0xC270458 = 0xCE36B90;
-                { struct mv8 { int w[8]; }; *(struct mv8 *)(0xC27045C) = *(struct mv8 *)(0xC08F9D0); }
-            }
-        } else {
-            *(unsigned int *)0xC270458 = 0xCDF6150;
-            { struct mv8 { int w[8]; }; *(struct mv8 *)(0xC27045C) = *(struct mv8 *)(0xC08F6E8); }
-        }
-    } else {
-        *(unsigned int *)0xC270458 = 0xCE4E9C4;
-        { struct mv8 { int w[8]; }; *(struct mv8 *)(0xC27045C) = *(struct mv8 *)(0xC08FA48); }
-    }
-    if ((*(int *)0xC0ED898) == 0) {
-    } else {
-        t20 = 0x0;
-        for (;;) {
-            *(unsigned int *)(((int)stk + 12)) = (0xC27047C + (short)(((((t20 << 2) << 1) + t20) << 2) << 1));
-            t21 = 0x0;
-            for (;;) {
-                *(unsigned int *)(((int)stk + 16)) = (signed char)(((t21 << 1) + t21) << 2);
-                t22 = *(int *)(((int)stk + 12));
-                *(unsigned int *)(((int)stk + 8)) = ((signed char)(((t21 << 1) + t21) << 2) + t22);
-                t23 = *(int *)(((int)stk + 16));
-                *(unsigned int *)(((int)stk + 4)) = (t23 + ((t20 * 0x78) + 0xC26ED00));
-                t25 = ((int (*)(int, int, int, float, float, float, float, float))(nlGetAverageVector))((*(int *)(((int)stk + 4))), ((t23 + ((t20 * 0x78) + 0xC26ED00)) + 0x30), ((signed char)(((t21 << 1) + t21) << 2) + t22), 0.5f, 0.5f, f6, f7, f8);
-                nlAddVector((*(int *)(((int)stk + 8))), (((t20 * 0x78) + 0xC26ED00) + 0x60));
-                t21 = (t21 + 0x1);
-                if ((int)t21 >= (int)0x4) {
-                    break;
-                }
-            }
-            *(unsigned int *)(((int)stk + 8)) = ((short)((short)t20 * (short)0x1C) + 0xC2708B4);
-            *(unsigned int *)(((int)stk + 4)) = ((short)(((((t20 << 2) << 1) + t20) << 2) << 1) + 0xC27047C);
-            t28 = 0x0;
-            for (;;) {
-                t30 = *(int *)(((int)stk + 4));
-                t31 = ((int (*)(int, int, int, float, float))(nlGetAverageVector))(((signed char)((((t28 << 1) + t28) << 2) << 1) + t30), (((signed char)((((t28 << 1) + t28) << 2) << 1) + t30) + 0xC), ((*(int *)(((int)stk + 8))) + (signed char)(((t28 << 1) + t28) << 2)), 0.5f, 0.5f);
-                t28 = (t28 + 0x1);
-                if ((int)t28 >= (int)0x2) {
-                    break;
-                }
-            }
-            t33 = ((short)t20 * (short)0x1C);
-            t34 = (t20 * 0x78);
-            t20 = (t20 + 0x1);
-            *(float *)((((short)t33 + 0xC2708B4) + 0x18)) = (*(float *)(((t34 + 0xC26ED00) + 0x6C)));
-            *(float *)((((short)t33 + 0xC2708B4) + 0x8)) = ((*(float *)((((short)t33 + 0xC2708B4) + 0x8))) - (*(float *)(((0x18 + ((short)t33 + 0xC2708B4)) + 0x0))));
-            *(float *)((((short)t33 + 0xC2708B4) + 0x14)) = ((*(float *)((((short)t33 + 0xC2708B4) + 0x14))) + (*(float *)(((0x18 + ((short)t33 + 0xC2708B4)) + 0x0))));
-            if ((int)t20 >= (int)0xF) {
-                break;
-            }
-        }
-        *(unsigned int *)0xC0ED898 = 0x0;
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F3;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C170576:;
+    *(unsigned int *)(((int)stk + 24)) = R4;
+    *(unsigned int *)(((int)stk + 16)) = R6;
+    *(unsigned int *)(((int)stk + 36)) = (((*(int *)(((int)stk + 24))) * 0x148) + 0xC2EE990);
+    t3 = (vmsio_ismount((*(int *)(((int)stk + 24))))) != 0;
+    R10 = (0xC1620C2);
+    R11 = (0xC16236E);
+    R13 = (0xC170232);
+    R8 = (R5);
+    if (t3) goto L_C1705DC;
+    goto L_C1705AA;
+    L_C1705AA:;
+    vmsfb_sleep();
+    goto L_C17073E;
+    L_C17073E:;
+    R0 = (0xFFFFFF01);
+    goto L_C170740;
+    L_C170740:;
+    return R0;
+    L_C1705DC:;
+    t11 = *(int *)((((*(int *)(((int)stk + 24))) << 2) + 0xC176948));
+    kdGetDevice(t11);
+    *(unsigned int *)(((int)stk + 20)) = (*(int *)(((int)stk + 16)));
+    *(unsigned int *)(((int)stk + 16)) = (*(int *)(((*(int *)(((*(int *)(((int)stk + 36))) + 0x1C))) + 0x48)));
+    *(unsigned int *)(((int)stk + 44)) = 0x0;
+    R14 = (t11);
+    R4 = (0x0);
+    R9 = (0x0);
+    goto L_C17067C;
+    L_C17067C:;
+    if (((int)(*(int *)(((int)stk + 44))) < (int)(*(int *)(((*(int *)(((*(int *)(((int)stk + 36))) + 0x1C))) + 0x40))))) goto L_C170600;
+    goto L_C17068A;
+    L_C17068A:;
+    t26 = (kdIsChanged(R14)) != 0;
+    if (t26) goto L_C1706D2;
+    goto L_C170692;
+    L_C170692:;
+    t28 = kdSetGetLastError();
+    R12 = (t28);
+    if (((int)t28 >= 0)) goto L_C1706B0;
+    goto L_C1706A8;
+    L_C1706A8:;
+    vmsfb_sleep();
+    goto L_C17068A;
+    L_C1706B0:;
+    t33 = (kdGetStatus(R14, R12)) != 0;
+    if (t33) goto L_C1706C2;
+    goto L_C1706BA;
+    L_C1706BA:;
+    vmsfb_sleep();
+    goto L_C1706B0;
+    L_C1706C2:;
+    *(unsigned int *)(((int)stk + 20)) = (kdGetDevice(R14));
+    t37 = (kdIsChanged(R14)) == 0;
+    if (t37) goto L_C1706F0;
+    goto L_C1706D2;
+    L_C1706D2:;
+    R0 = (0xFFFFFF30);
+    goto L_C170740;
+    L_C1706F0:;
+    t39 = *(int *)0xC17871C;
+    *(unsigned int *)(((int)stk + 16)) = t39;
+    if ((t39 == 0)) goto L_C170710;
+    goto L_C1706FC;
+    L_C1706FC:;
+    t44 = (((int (*)(int, int, int, int))((*(int *)(((int)stk + 16)))))((*(int *)(((int)stk + 24))), R8, (((int)stk + 16) + 0xC), (((int)stk + 16) + 0x10))) != 0;
+    if (t44) goto L_C17071C;
+    goto L_C170710;
+    L_C170710:;
+    *(unsigned char *)(((int)stk + 28)) = (*(signed char *)(((*(int *)(((int)stk + 20))) + 0x4)));
+    *(unsigned int *)(((int)stk + 32)) = (*(int *)(((*(int *)(((int)stk + 20))) + 0xC)));
+    goto L_C17071C;
+    L_C17071C:;
+    t49 = *(signed char *)(((int)stk + 28));
+    R0 = ((unsigned char)t49);
+    if (((unsigned char)t49 == 7)) goto L_C170734;
+    goto L_C170724;
+    L_C170724:;
+    if ((R0 == 0xFC)) goto L_C17068A;
+    goto L_C17072A;
+    L_C17072A:;
+    if ((R0 == 0xFB)) goto L_C170738;
+    goto L_C170730;
+    L_C170730:;
+    goto L_C17073E;
+    L_C170738:;
+    R0 = (0xFFFFFF40);
+    goto L_C170740;
+    L_C170734:;
+    R0 = (0x0);
+    goto L_C170740;
+    L_C170600:;
+    t57 = (kdIsChanged(R14)) != 0;
+    if (t57) goto L_C1706D2;
+    goto L_C170608;
+    L_C170608:;
+    *(volatile int *)(((int)stk + 16));
+    *(volatile int *)(((int)stk + 20));
+    t64 = kdSetBlockWrite();
+    R12 = (t64);
+    if (((int)t64 >= 0)) goto L_C170636;
+    goto L_C17062E;
+    L_C17062E:;
+    vmsfb_sleep();
+    goto L_C170600;
+    L_C170636:;
+    t69 = (kdGetStatus(R14, R12)) != 0;
+    if (t69) goto L_C170648;
+    goto L_C170640;
+    L_C170640:;
+    vmsfb_sleep();
+    goto L_C170636;
+    L_C170648:;
+    *(unsigned int *)(((int)stk + 40)) = (kdGetDevice(R14));
+    t73 = (kdIsChanged(R14)) != 0;
+    if (t73) goto L_C1706D2;
+    goto L_C170658;
+    L_C170658:;
+    t75 = *(signed char *)(((*(int *)(((int)stk + 40))) + 0x4));
+    R0 = ((unsigned char)t75);
+    if (((unsigned char)t75 == 7)) goto L_C17066C;
+    goto L_C170662;
+    L_C170662:;
+    if ((R0 == 0xFC)) goto L_C170600;
+    goto L_C170668;
+    L_C170668:;
+    goto L_C17073E;
+    L_C17066C:;
+    *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + (*(int *)(((int)stk + 16))));
+    *(unsigned int *)(((int)stk + 44)) = ((*(int *)(((int)stk + 44))) + 0x1);
+    R9 = ((R9 + 0x1));
+    goto L_C17067C;
 }

@@ -1,226 +1,69 @@
 /* Straight-line functions with calls and guards (batch gen_in): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern float nlLength();
-float getNearCoursePoint(int a4, int a5, int a6, int a7, float f4, float f5);
+int kmiWriteRegister(int, int);
+int kmSetUserClipLevelAdjust(int a4, int a5);
 
-float getNearCoursePoint(int a4, int a5, int a6, int a7, float f4, float f5)
+int kmSetUserClipLevelAdjust(int a4, int a5)
 {
-    int t0;
-    float t16;
+    int t1;
+    int t2;
+    int t14;
     int t21;
-    float t33;
+    int t22;
+    int t35;
     int t38;
-    float t46;
-    int t51;
-    int t55;
-    float t56;
-    int t61;
-    float t65;
-    int t72;
-    float t77;
-    int t85;
-    int t89;
-    float t94;
-    int stk[13];
+    int t39;
+    int t41;
+    int t49;
+    int t16;
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R8;
-    int R9;
-    int R10;
-    int R11;
-    int R12;
-    int R13;
-    int R14;
-    float F0;
-    float F4;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    L_C049ECE:;
-    *(unsigned int *)(((int)stk + 8)) = R6;
-    t0 = *(int *)0xC2A6690;
-    R0 = (R4);
-    R10 = (0x0);
-    R11 = (R7);
-    R12 = ((*(int *)((((((R5 << 1) + R5) << 2) + t0) + 0x0))));
-    R13 = ((*(int *)(((*(int *)((((((R5 << 1) + R5) << 2) + t0) + 0x4))) + 0x0))));
-    R14 = (0xC078AE0);
-    R6 = (((((R5 << 1) + R5) << 2) + t0));
-    R9 = (0x0);
-    F15 = (1000000.0f);
-    if ((R4 != 0)) goto L_C049F14;
-    goto L_C049F10;
-    L_C049F10:;
-    goto L_C04A04C;
-    L_C04A04C:;
-    R8 = (R9);
-    if (((int)R13 <= 0)) goto L_C04A072;
-    goto L_C04A052;
-    L_C04A052:;
-    t16 = ((float (*)(int, int, float, float))(nlLength))(R11, ((((R8 << 1) + R8) << 2) + R12), F4, f5);
-    F4 = (t16);
-    if ((!(F15 > t16))) goto L_C04A06C;
-    goto L_C04A068;
-    L_C04A068:;
-    R10 = (R8);
-    F15 = (F4);
-    goto L_C04A06C;
-    L_C04A06C:;
-    t21 = (int)(R8 + 0x1) < (int)R13;
-    R8 = ((R8 + 0x1));
-    if (t21) goto L_C04A052;
-    goto L_C04A072;
-    L_C04A072:;
-    *(unsigned int *)(((*(int *)(((int)stk + 8))) + 0x0)) = R10;
-    return F15;
-    L_C049F14:;
-    if ((R0 == 1)) goto L_C049F98;
-    goto L_C049F18;
-    L_C049F18:;
-    if ((R0 == 2)) goto L_C049F28;
-    goto L_C049F1C;
-    L_C049F1C:;
-    if ((R0 == 3)) goto L_C04A008;
-    goto L_C049F20;
-    L_C049F20:;
-    if ((R0 == 4)) goto L_C049FD4;
-    goto L_C049F24;
-    L_C049F24:;
-    goto L_C04A04C;
-    L_C049FD4:;
-    *(unsigned int *)(((int)stk + 4)) = R9;
-    R8 = ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))));
-    goto L_C049FDA;
-    L_C049FDA:;
-    if (((int)R8 >= 0)) goto L_C049FE0;
-    goto L_C049FDE;
-    L_C049FDE:;
-    R8 = ((R8 + R13));
-    goto L_C049FE0;
-    L_C049FE0:;
-    t33 = ((float (*)(int, int, float))(nlLength))(R11, ((((R8 << 1) + R8) << 2) + R12), F4);
-    F4 = (t33);
-    if ((!(F15 > t33))) goto L_C049FFA;
-    goto L_C049FF6;
-    L_C049FF6:;
-    R10 = (R8);
-    F15 = (F4);
-    goto L_C049FFA;
-    L_C049FFA:;
-    t38 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t38 + 0x1);
-    R8 = ((R8 - 1));
-    if (((int)(t38 + 0x1) < (int)0x7)) goto L_C049FDA;
-    goto L_C04A008;
-    L_C04A008:;
-    *(unsigned int *)(((int)stk + 4)) = R9;
-    R8 = ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))));
-    goto L_C04A00E;
-    L_C04A00E:;
-    if (((int)R8 < (int)R13)) goto L_C04A014;
-    goto L_C04A012;
-    L_C04A012:;
-    R8 = ((R8 - R13));
-    goto L_C04A014;
-    L_C04A014:;
-    t46 = ((float (*)(int, int, float))(nlLength))(R11, ((((R8 << 1) + R8) << 2) + R12), F4);
-    F4 = (t46);
-    if ((!(F15 > t46))) goto L_C04A02E;
-    goto L_C04A02A;
-    L_C04A02A:;
-    R10 = (R8);
-    F15 = (F4);
-    goto L_C04A02E;
-    L_C04A02E:;
-    t51 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t51 + 0x1);
-    R8 = ((R8 + 0x1));
-    if (((int)(t51 + 0x1) < (int)0x7)) goto L_C04A00E;
-    goto L_C04A03C;
-    L_C04A03C:;
-    goto L_C04A072;
-    L_C049F28:;
-    t55 = *(int *)(((*(int *)(((int)stk + 8))) + 0x0));
-    t56 = ((float (*)(int, int, float))(nlLength))(R11, ((((t55 << 1) + t55) << 2) + R12), F4);
-    R10 = (t55);
-    R8 = ((R13 - 1));
-    F15 = (t56);
-    F4 = (t56);
-    goto L_C049F44;
-    L_C049F44:;
-    *(unsigned int *)(((int)stk + 4)) = R10;
-    t61 = (int)(R10 - 1) >= 0;
-    R10 = ((R10 - 1));
-    F14 = (F4);
-    if (t61) goto L_C049F50;
-    goto L_C049F4E;
-    L_C049F4E:;
-    R10 = (R8);
-    goto L_C049F50;
-    L_C049F50:;
-    t65 = ((float (*)(int, int, float))(nlLength))(R11, ((((R10 << 1) + R10) << 2) + R12), F4);
-    F4 = (t65);
-    if ((F14 > t65)) goto L_C049F44;
-    goto L_C049F66;
-    L_C049F66:;
-    R8 = ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))));
-    F4 = (F15);
-    goto L_C049F6C;
-    L_C049F6C:;
-    t72 = (int)(R8 + 0x1) < (int)R13;
-    R10 = (R8);
-    R8 = ((R8 + 0x1));
-    F15 = (F4);
-    if (t72) goto L_C049F78;
-    goto L_C049F76;
-    L_C049F76:;
-    R8 = (R9);
-    goto L_C049F78;
-    L_C049F78:;
-    t77 = ((float (*)(int, int, float))(nlLength))(R11, ((((R8 << 1) + R8) << 2) + R12), F4);
-    F4 = (t77);
-    if ((F15 > t77)) goto L_C049F6C;
-    goto L_C049F8E;
-    L_C049F8E:;
-    if ((!(F15 > F14))) goto L_C04A072;
-    goto L_C049F92;
-    L_C049F92:;
-    R10 = ((*(int *)(((int)stk + 4))));
-    F15 = (F14);
-    goto L_C04A072;
-    L_C049F98:;
-    t85 = *(int *)(((*(int *)(((int)stk + 8))) + 0x0));
-    R8 = (t85);
-    F4 = ((((float (*)(int, int, float))(nlLength))(R11, ((((t85 << 1) + t85) << 2) + R12), F4)));
-    goto L_C049FAE;
-    L_C049FAE:;
-    t89 = (int)(R8 + 0x1) < (int)R13;
-    R10 = (R8);
-    R8 = ((R8 + 0x1));
-    F15 = (F4);
-    if (t89) goto L_C049FBA;
-    goto L_C049FB8;
-    L_C049FB8:;
-    R8 = (R9);
-    goto L_C049FBA;
-    L_C049FBA:;
-    t94 = ((float (*)(int, int, float))(nlLength))(R11, ((((R8 << 1) + R8) << 2) + R12), F4);
-    F4 = (t94);
-    if ((F15 > t94)) goto L_C049FAE;
-    goto L_C049FD0;
-    L_C049FD0:;
-    goto L_C04A072;
+    if ((*(int *)0xC2EA6B8) == 1) {
+        t1 = *(int *)0xC2EA944;
+        t2 = *(int *)0xC2EA6BC;
+        *(unsigned int *)0xC2EA898 = ((*(int *)0xC2EA898) - (((t2 * t1) << 2) << 1));
+        *(unsigned int *)0xC2EA89C = ((*(int *)0xC2EA89C) - (((t2 * t1) << 2) << 1));
+    }
+    if (a4 != 0) {
+        if (a4 == 1) {
+            t14 = 0x0;
+            if (((*(int *)0xC2EA6A0) & 0x1) == 1) {
+                t14 = 0x1;
+            }
+            if ((t14 != 1) && (t16 = *(int *)0xC2EA6A0, (t16 & 32) == 0)) {
+                *(unsigned int *)0xC2EA6BC = 0x8;
+            } else {
+                *(unsigned int *)0xC2EA6BC = 0x10;
+            }
+            t21 = *(int *)0xC2EA944;
+            t22 = *(int *)0xC2EA6BC;
+            *(unsigned int *)0xC2EA898 = ((*(int *)0xC2EA898) + (((t22 * t21) << 2) << 1));
+            *(unsigned int *)0xC2EA89C = ((((t22 * t21) << 2) << 1) + (*(int *)0xC2EA89C));
+        }
+    } else {
+        *(unsigned int *)0xC2EA6BC = 0x0;
+    }
+    t35 = *(int *)0xC2EA940;
+    t38 = *(int *)0xC2EA6C4;
+    t39 = 0xC2EA6BC;
+    if ((int)(*(int *)0xC2EA6BC) < (int)(*(int *)0xC2EA6D4)) {
+        t39 = 0xC2EA6D4;
+    }
+    t41 = *(int *)((t39 + 0x0));
+    t49 = (t38 - t41);
+    if ((unsigned int)((*(int *)0xC2EA6D4) + (t38 - t41)) > (unsigned int)(*(int *)0xC2EA6C4)) {
+        t49 = ((*(int *)0xC2EA6C4) - (*(int *)0xC2EA6BC));
+    }
+    if ((unsigned int)(*(int *)0xC2EA6C4) < (unsigned int)t49) {
+        *(unsigned int *)0xC2EA6C4 = t49;
+    }
+    *(unsigned int *)0xC2EA940 = ((((t49 & 0x3FF) << 8) << 2) | (t35 & 0xFFF003FF));
+    kmiWriteRegister(0x44, 0x0);
+    kmiWriteRegister(0x5C, (*(int *)0xC2EA940));
+    kmiWriteRegister(0x44, (*(int *)0xC2EA948));
+    *(unsigned int *)0xC2EA6B8 = a4;
+    if (a5 != 0) {
+        *(unsigned int *)((a5 + 0x0)) = (*(int *)0xC2EA6BC);
+    }
+    return 0x0;
 }

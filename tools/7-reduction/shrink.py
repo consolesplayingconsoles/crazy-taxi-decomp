@@ -38,6 +38,8 @@ import consistency   # noqa: E402
 import gen_drv       # noqa: E402
 import gen_pipe      # noqa: E402
 import keep          # noqa: E402
+import ledger        # noqa: E402
+import time
 import sizes         # noqa: E402
 
 LOG = os.path.join('build', 'shrink.log')
@@ -100,7 +102,8 @@ def main():
         if best is None:
             log.write('%s build failed (no form compiles)\n' % fn); log.flush(); continue
         s, c, n_new = best
-        o_c = sizes.c_size_any(fn, old, [c.protos] + [p for p in all_protos if p is not c.protos])      # the current C, measured the same way as the new
+        o_c = sizes.c_size_any(fn, old, [c.protos] + [p for p in all_protos if p is not c.protos],
+                               sizes.unit_head(open('src/%s.c' % stem, errors='replace').read()))      # the current C, measured the same way as the new
         if n_new is None or (not REGEN and (not o_c or n_new >= o_c or n_new > KEEP * o_c)):      # strictly smaller than the current C, measured the same way
             why = ('new C not measurable' if n_new is None else 'current C not measurable' if not o_c       # no size is not "not smaller"
                    else 'not smaller' if n_new >= o_c else 'smaller by under %d%%' % round(100 * (1 - KEEP)))
@@ -116,6 +119,7 @@ def main():
             open('tests/equivalent.txt', 'w').writelines(eq)
         finally:
             fcntl.flock(lock, fcntl.LOCK_UN)
+        since = time.strftime('%Y-%m-%dT%H:%M:%S')       # the recheck's own failure row is not older than this
         rr = subprocess.run(['python3', 'tools/5-generated/gen_equiv', '--recheck', fn], capture_output=True, text=True)
         out = rr.stdout + rr.stderr
         if '1 pass' in out:
@@ -138,7 +142,11 @@ def main():
             r = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True).stdout.strip()
         finally:
             fcntl.flock(lock, fcntl.LOCK_UN)
-        log.write('%s new C differs, old restored: %s | recheck said: %s\n' % (fn, r[-80:], ' / '.join(out.strip().splitlines()[-3:])[-300:])); log.flush()
+        fail = ledger.last_failure(fn, since)          # what the recheck found, from state/results.jsonl, and the new C that failed
+        os.makedirs(os.path.join('build', 'shrink-failed'), exist_ok=True)
+        open(os.path.join('build', 'shrink-failed', fn + '.c'), 'w').write(s)
+        log.write('%s new C failed, old restored (%s): %s | new C: build/shrink-failed/%s.c | old C check: %s\n' % (
+            fn, fail[0] if fail else 'no row', fail[1] if fail else ' / '.join(out.strip().splitlines()[-3:])[-300:], fn, r[-80:])); log.flush()
     log.write('done\n')
 
 

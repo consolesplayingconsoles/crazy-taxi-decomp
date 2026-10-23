@@ -1,172 +1,184 @@
 /* Straight-line functions with calls and guards (batch gen_afx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Check_DCmini_End(void);
-int Exec_Check_Point(void);
-int Exec_Crazy_Balloons(void);
-int Exec_Crazy_Bowling(int, int, int, int, float);
-int Exec_Crazy_Jump(float);
-int Exec_DCmini_Game1(void);
-int Exec_DCmini_Game12(float);
-int Exec_DCmini_Game4(float);
-int Exec_DCmini_Game7(int, int, int, int);
-int Exec_DCmini_Game8(void);
-int Exec_DCmini_Game9(int);
-int Exec_Excellent(void);
-int Exec_Fault(void);
-int Put_JumpDistance(void);
-int Put_PoleMarriageKiss(void);
-int Put_Record_Window(void);
-int Set_Record_Time(void);
-int gdc_StopStreamVoice(int);
-int execDCmini(int a4, int a5, int a6, int a7, float f4);
+extern int ADXERR_CallErrFunc();
+int ADXF_Close(int);
+int ADXF_Open(int, int);
+int ADXSTM_GetFad(int, int);
+int adxf_ChkPrmPt(int, int, int, int);
+int adxf_LoadData(int, int, int);
+int memset(int, int, int);
+int ADXF_LoadPartition(int a4, int a5, int a6, int a7);
 
-int execDCmini(int a4, int a5, int a6, int a7, float f4)
+int ADXF_LoadPartition(int a4, int a5, int a6, int a7)
 {
-    int t0;
-    int t40;
-    int t59;
-    int t41;
-    int t53;
-    int t45;
-    int t48;
-    int t46;
-    int t80;
-    int t105;
-    int t96;
-    int t95;
+    int t1;
+    int t8;
+    int t11;
+    int t13;
+    int t27;
+    int t29;
+    int t34;
+    int t47;
+    int t60;
     int t68;
-    int t69;
-    int t71;
+    int stk[18];
 
-    t0 = *(int *)0xC1EE214;
-    if ((unsigned int)t0 < (unsigned int)0x13) {
-        switch ((t0 << 1)) {
-            case 0:
-            {
-                Exec_Crazy_Jump(f4);
-            }
-                break;
-            case 2:
-            {
-                Exec_DCmini_Game1();
-            }
-                break;
-            case 4:
-            {
-                Exec_Crazy_Balloons();
-            }
-                break;
-            case 6:
-            {
-                Exec_Crazy_Bowling(a4, a5, a6, a7, f4);
-            }
-                break;
-            case 8:
-            {
-                Exec_DCmini_Game4(f4);
-            }
-                break;
-            case 10:
-            case 12:
-            case 26:
-            {
-                Check_DCmini_End();
-            }
-                break;
-            case 14:
-            case 22:
-            case 34:
-            {
-                Exec_DCmini_Game7(a4, a5, a6, a7);
-            }
-                break;
-            case 16:
-            {
-                Exec_DCmini_Game8();
-            }
-                break;
-            case 18:
-            case 20:
-            case 28:
-            case 36:
-            {
-                Exec_DCmini_Game9((*(int *)0xC2A9900));
-            }
-                break;
-            case 24:
-            {
-                Exec_DCmini_Game12(f4);
-            }
-                break;
-            case 30:
-            {
-                Exec_Check_Point();
-                Check_DCmini_End();
-            }
-                break;
-            default:
-            {
-                Check_DCmini_End();
-            }
-                break;
-        }
-    } else {
-        Check_DCmini_End();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x4) == 4) {
-        Put_JumpDistance();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x10) == 16) {
-        Exec_Excellent();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x20) == 32) {
-        Exec_Fault();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x40) == 64) {
-        Put_Record_Window();
-    }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
-        Put_PoleMarriageKiss();
-    }
-    t40 = *(int *)0xC1EE788;
-    t59 = t40;
-    if (t40 == 1) {
-        t41 = *(int *)0xC1EE214;
-        t53 = t40;
-        if ((int)((*(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0))) * 0x3C) > (int)(*(int *)0xC2A98F8)) {
-            t45 = *(int *)0xC2A9904;
-            t48 = t45;
-            if (t45 == 0) {
-                t46 = *(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0));
-                *(unsigned int *)0xC2A98F8 = ((t46 * 0x3C) - (*(int *)0xC1EE794));
-                t48 = t46;
-            }
-            t53 = t48;
-        }
-        t59 = t53;
-    }
-    t80 = t59;
-    if (((*(int *)0xC2A9934) == 0) && ((t68 = *(int *)0xC2A9930, t68 == 0) && (t69 = *(int *)0xC1EE214, t69 != 0))) {
-        if (t69 != 20) {
-            t71 = (Set_Record_Time());
-        } else {
-            t71 = t69;
-        }
-        t80 = t71;
-    }
-    if ((*(int *)0xC2A11B0) == 0) {
-        *(unsigned int *)0xC2A9A68 = 0x0;
-    }
-    t105 = t80;
-    if ((*(int *)0xC2A11B0) != 0) {
-        t96 = 0xC2A9A68;
-        if ((*(int *)0xC2A9A68) == 0) {
-            t95 = gdc_StopStreamVoice(0x0);
-            *(unsigned int *)0xC2A9A68 = 0x1;
-            t96 = t95;
-        }
-        t105 = t96;
-    }
-    return t105;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C1528BA:;
+    *(unsigned int *)(((int)stk + 8)) = R4;
+    *(unsigned int *)(((int)stk + 24)) = R7;
+    t1 = adxf_ChkPrmPt((*(int *)(((int)stk + 8))), R6, R6, R7);
+    R12 = (t1);
+    R14 = (R6);
+    R9 = (R5);
+    if (((int)t1 >= 0)) goto L_C1528E4;
+    goto L_C1528E0;
+    L_C1528E0:;
+    goto L_C152A48;
+    L_C152A48:;
+    R0 = (R12);
+    goto L_C152A4A;
+    L_C152A4A:;
+    return R0;
+    L_C1528E4:;
+    t8 = (int)(ADXSTM_GetFad(R9, (((int)stk + 4) + 0x8))) >= 0;
+    if (t8) goto L_C1528F8;
+    goto L_C1528F2;
+    L_C1528F2:;
+    R4 = (0xC1755CC);
+    R5 = (R9);
+    goto L_C15290A;
+    L_C15290A:;
+    t11 = ((int (*)(int, int, int, int))(ADXERR_CallErrFunc))(R4, R5, R6, R7);
+    R0 = (0xFFFFFFFF);
+    goto L_C152A4A;
+    L_C1528F8:;
+    t13 = ADXF_Open(R9, (((int)stk + 4) + 0x18));
+    *(unsigned int *)(((int)stk + 20)) = t13;
+    if ((t13 != 0)) goto L_C152914;
+    goto L_C152906;
+    L_C152906:;
+    R4 = (0xC175604);
+    R5 = (R9);
+    goto L_C15290A;
+    L_C152914:;
+    memset(R14, 0x0, 0x18);
+    *(unsigned int *)((((*(int *)(((int)stk + 8))) << 2) + 0xC2B9F38)) = R14;
+    *(unsigned int *)((R14 + 0x0)) = 0x0;
+    *(unsigned int *)((R14 + 0x8)) = (*(int *)(((int)stk + 12)));
+    *(unsigned char *)((R14 + 0x12)) = 0x0;
+    *(unsigned int *)(((int)stk + 16)) = (R14 + 0x14);
+    *(unsigned int *)(((int)stk + 36)) = ((R14 + 0x14) + 0x2);
+    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    *(unsigned int *)((R14 + 0xC)) = 0x0;
+    *(unsigned int *)(((int)stk + 4)) = 0xC2BB384;
+    *(unsigned int *)(((int)stk + 32)) = 0xC2BB388;
+    R11 = (0x0);
+    R12 = (0xFFFFFFFF);
+    R13 = (0x0);
+    R8 = (0xC2BB380);
+    goto L_C152A22;
+    L_C152A22:;
+    R10 = (0x3);
+    if (((int)R11 < (int)0x3)) goto L_C15295A;
+    goto L_C152A28;
+    L_C152A28:;
+    if ((R11 != 3)) goto L_C152A36;
+    goto L_C152A2E;
+    L_C152A2E:;
+    t27 = ((int (*)(int, int, int, int))(ADXERR_CallErrFunc))(0xC175634, R9, R6, R7);
+    goto L_C152A36;
+    L_C152A36:;
+    if ((R12 != -4)) goto L_C152A44;
+    goto L_C152A3C;
+    L_C152A3C:;
+    t29 = ((int (*)(int, int, int, int))(ADXERR_CallErrFunc))(0xC175664, R9, R6, R7);
+    goto L_C152A44;
+    L_C152A44:;
+    ADXF_Close((*(int *)(((int)stk + 20))));
+    goto L_C152A48;
+    L_C15295A:;
+    t34 = (int)(adxf_LoadData((*(int *)(((int)stk + 20))), 0x1, R8)) <= 0;
+    if (t34) goto L_C152A20;
+    goto L_C152966;
+    L_C152966:;
+    R6 = (0x800);
+    if (((*(int *)((R14 + 0xC))) != 0)) goto L_C1529DC;
+    goto L_C15296E;
+    L_C15296E:;
+    R4 = (0x10000);
+    if (((int)(*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) <= (int)0x10000)) goto L_C1529A4;
+    goto L_C152978;
+    L_C152978:;
+    *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x0)) = R4;
+    R12 = (0xFFFFFFFC);
+    R4 = (0xFFFFFFFC);
+    goto L_C152A36;
+    L_C1529A4:;
+    t47 = *(int *)(((*(int *)(((int)stk + 4))) + 0x0));
+    R4 = (t47);
+    if (((int)(*(int *)(((int)stk + 24))) >= (int)t47)) goto L_C1529B2;
+    goto L_C1529AE;
+    L_C1529AE:;
+    R0 = ((*(int *)(((int)stk + 24))));
+    goto L_C1529B4;
+    L_C1529B4:;
+    *(unsigned short *)((R14 + 0x10)) = R0;
+    *(unsigned int *)((R14 + 0xC)) = (unsigned short)R0;
+    *(unsigned int *)((R14 + 0x4)) = (((unsigned int)((((unsigned short)R0 + 0x1) << 1) + 0x16) >> 2) << 2);
+    *(unsigned short *)(((*(int *)(((int)stk + 16))) + 0x0)) = ((int)((int)(*(int *)(((*(int *)(((int)stk + 32))) + 0x0))) / (int)R6));
+    R4 = (R10);
+    goto L_C1529E0;
+    L_C1529E0:;
+    R5 = (((R4 << 2) + R8));
+    R7 = (0x200);
+    if (((int)R4 >= (int)0x200)) goto L_C152A1C;
+    goto L_C1529EC;
+    L_C1529EC:;
+    t60 = *(int *)(((int)stk + 8));
+    *(unsigned int *)(((int)stk + 8)) = (t60 + 0x1);
+    *(unsigned short *)((((((t60 + 0x1) - 1) << 1) + (*(int *)(((int)stk + 36)))) + 0x0)) = ((int)((int)((*(int *)((R5 + 0x0))) + 0x7FF) / (int)R6));
+    if (((int)(*(int *)(((int)stk + 8))) < (int)(*(int *)((R14 + 0xC))))) goto L_C152A14;
+    goto L_C152A10;
+    L_C152A10:;
+    R12 = (R13);
+    goto L_C152A36;
+    L_C152A14:;
+    t68 = (int)(R4 + 0x2) < (int)R7;
+    R4 = ((R4 + 0x2));
+    R5 = ((R5 + 0x8));
+    if (t68) goto L_C1529EC;
+    goto L_C152A1C;
+    L_C152A1C:;
+    R11 = (R13);
+    goto L_C152A22;
+    L_C1529B2:;
+    R0 = (R4);
+    goto L_C1529B4;
+    L_C1529DC:;
+    R4 = (0x1);
+    goto L_C1529E0;
+    L_C152A20:;
+    R11 = ((R11 + 0x1));
+    goto L_C152A22;
 }

@@ -1,119 +1,57 @@
 /* Straight-line functions with calls and guards (batch gen_uq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckNameEntryPad(float f4, float f5);
+int SetSpark(int, int, int);
+int Sound_Request(int, int);
+int nlAddVector(int, int);
+float nlLength(int, int);
+int nlOuterProduct(int, int, int);
+int nlScaleVector(int, int, float);
+void Move_Balloon(int a4);
 
-int CheckNameEntryPad(float f4, float f5)
+void Move_Balloon(int a4)
 {
-    int t22;
-    float u23;
-    int t24;
-    float u48;
-    int t31;
-    float u35;
-    float u32;
-    float u39;
-    float u37;
-    float u1;
-    int t93;
-    int t87;
-    int t81;
-    int t76;
-    int t72;
+    float u14;
+    float u40;
+    int t21;
+    int stk[18];
 
-    if ((((*(int *)0xC1EE250) & 4) == 0) && (u1 = *(float *)0xC1EE2F8, !(u1 > 0.699999988f))) {
-        if ((*(float *)0xC1EE2FC) > 0.699999988f) {
-            if ((*(int *)0xC2864B8) == 0) {
-                *(unsigned int *)0xC2864B0 = 0x1;
-            }
-            *(unsigned int *)0xC2864B8 = 0x1;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x18)) = *(struct mv3 *)(0xC0D2AF0); }
+    *(float *)((a4 + 0x58)) = ((*(float *)((a4 + 0x58))) - 0.166599989f);
+    nlScaleVector((a4 + 0x54), (a4 + 0x54), 0.994999945f);
+    nlScaleVector((((int)stk + 8) + 0x24), (a4 + 0x54), 1.0f);
+    nlAddVector((a4 + 0x48), (((int)stk + 8) + 0x24));
+    if (11.999999f > (*(float *)((a4 + 0x4C)))) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0xC)) = *(struct mv3 *)(0xC0D2AFC); }
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x24)) = *(struct mv3 *)((a4 + 0x54)); }
+        nlOuterProduct((((int)stk + 8) + 0x24), (((int)stk + 8) + 0xC), (((int)stk + 8) + 0x24));
+        if (((*(float *)((a4 + 0x58))) * 0.899999976f) > -0.166599989f) {
+            nlScaleVector((a4 + 0x30), (((int)stk + 8) + 0x24), 0.00694444589f);
         } else {
-            *(unsigned int *)0xC2864B8 = 0x0;
+            nlScaleVector((((int)stk + 8) + 0x24), (((int)stk + 8) + 0x24), 0.000578703883f);
+            nlAddVector((a4 + 0x30), (((int)stk + 8) + 0x24));
         }
-    } else {
-        if ((*(int *)0xC2864B8) == 0) {
-            *(unsigned int *)0xC2864B0 = 0x1;
-        }
-        *(unsigned int *)0xC2864B8 = 0x1;
+        nlScaleVector((a4 + 0x54), (a4 + 0x54), 0.979999959f);
+        *(float *)((a4 + 0x4C)) = 11.999999f;
+        u14 = (*(float *)((a4 + 0x58)));
+        u14 *= -0.899999976f;
+        *(float *)((a4 + 0x58)) = u14;
     }
-    t22 = *(int *)0xC1EE250;
-    u23 = *(float *)0xC1EE2F4;
-    t24 = *(int *)0xC1EE24C;
-    if (t22 != 0) {
-        *(unsigned int *)0xC0EE9EC = 0x0;
-    }
-    u48 = u23;
-    if ((0xC0 & (t24 | t22)) != 0) {
-        if ((int)(*(int *)0xC0EE9EC) <= (int)0x64) {
-            *(unsigned int *)0xC0EE9EC = ((*(int *)0xC0EE9EC) + 0x1);
-        }
-        t31 = *(int *)0xC0EE9EC;
-        u35 = (u23 - ((float)t31 * 0.00999999978f));
-        if ((0x40 & (t24 | t22)) != 0) {
-        } else {
-            u32 = u23;
-            if (((t24 | t22) & 0x80) != 0) {
-                u32 = (u23 + ((float)t31 * 0.00999999978f));
+    if ((((*(int *)((a4 + 0x68))) & 0x1) != 0) && (t21 = *(int *)((a4 + 0x7C)), t21 == 0)) {
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0xC)) = *(struct mv3 *)(0xC0D2B08); }
+        *(unsigned int *)((a4 + 0x7C)) = 0x1;
+        if ((int)(*(int *)0xC1319F8) > 0) {
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 8)) = *(struct mv3 *)((a4 + 0x48)); }
+            *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) - 20.0f);
+            SetSpark(((int)stk + 8), (((int)stk + 8) + 0xC), 0x32);
+            if ((*(int *)0xC2A991C) == 0) {
+                *(unsigned int *)0xC1319F8 = ((*(int *)0xC1319F8) - 1);
             }
-            u35 = u32;
+            Sound_Request(0x20FA9, 0x0);
         }
-        u39 = (-1.0f);
-        if ((-1.0f) > u35) {
-        } else {
-            u37 = u35;
-            if (u35 > 1.0f) {
-                u37 = 1.0f;
-            }
-            u39 = u37;
-        }
-        u48 = u39;
+        u40 = (*(float *)(((a4 + 0x58) + 0x0)));
+        u40 = u40 + 0.399999976f * (nlLength((a4 + 0x54), (a4 + 0x3C)));
+        *(float *)(((a4 + 0x58) + 0x0)) = u40;
     }
-    if (_builtin_fabsf(u48) > (*(float *)0xC2864C0)) {
-        *(float *)0xC2864C0 = _builtin_fabsf(u48);
-    }
-    if ((*(float *)0xC2864C0) > (_builtin_fabsf(u48) * 1.29999995f)) {
-        *(float *)0xC2864C0 = (_builtin_fabsf(u48) * 1.29999995f);
-    }
-    if (0.099999994f > (*(float *)0xC2864C0)) {
-        *(float *)0xC2864C0 = 0.099999994f;
-    }
-    if (_builtin_fabsf(u48) > ((*(float *)0xC2864C0) * 0.899999976f)) {
-        *(float *)0xC2864C0 = ((*(float *)0xC2864C0) * 0.979999959f);
-        if (u48 > 0.899999976f) {
-            *(unsigned int *)0xC2864B4 = 0x4;
-            t87 = 0xC039E24;
-        } else {
-            if (u48 > 0.199999988f) {
-                *(unsigned int *)0xC2864B4 = 0x2;
-                t81 = 0xC039E28;
-            } else {
-                if (u48 > 0.0f) {
-                    *(unsigned int *)0xC2864B4 = 0x1;
-                    t76 = 0xC039E28;
-                } else {
-                    if ((-0.9f) > u48) {
-                        *(unsigned int *)0xC2864B4 = 0xFFFFFFFC;
-                        t72 = 0xC039F88;
-                    } else {
-                        if ((-0.19999999f) > u48) {
-                            *(unsigned int *)0xC2864B4 = 0xFFFFFFFE;
-                        } else {
-                            if (0.0f > u48) {
-                                *(unsigned int *)0xC2864B4 = 0xFFFFFFFF;
-                            }
-                        }
-                        t72 = 0xC039F8C;
-                    }
-                    t76 = t72;
-                }
-                t81 = t76;
-            }
-            t87 = t81;
-        }
-        t93 = t87;
-    } else {
-        *(unsigned int *)0xC2864B4 = 0x0;
-        t93 = 0xC039E1C;
-    }
-    return t93;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x3C)) = *(struct mv3 *)((a4 + 0x54)); }
 }

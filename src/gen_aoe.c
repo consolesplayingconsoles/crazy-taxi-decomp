@@ -1,152 +1,126 @@
 /* Straight-line functions with calls and guards (batch gen_aoe): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXF_Close(int);
-int ADXF_GetFsizeSct(int);
-extern int ADXF_GetStat();
-int ADXF_OpenAfs(int, int);
-int ADXF_ReadNw32(int, int, int);
-int gdc_CourseBlockReadNext(void);
-int nlObjPutFreeTextureOnce(int);
-int nlObjPutLoadTexture(int, int);
-int nlSetCommonTextureOffset(int);
-int gdc_CourseLoadExec(void);
+int kmActivateFrameBuffer(int, int, int, int);
+int kmCreateFrameBufferSurface(int, int, int, int, int);
+int kmCreateTABuffer(int, int);
+int kmCreateVertexBuffer(int, int, int, int, int);
+int kmiReadRegister(int);
+int kmiWriteRegister(int, int);
+int kmiAllocSysConfig(int a4, int a5, int a6, int a7);
 
-int gdc_CourseLoadExec(void)
+int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
 {
-    int t2;
-    int t3;
-    int t4;
+    int t9;
     int t16;
-    int t22;
-    int t30;
-    int t31;
-    int t32;
-    int t34;
-    int t51;
-    int t45;
+    int t35;
+    int t39;
     int t46;
     int t58;
-    int t65;
-    int t82;
-    int t76;
-    int t77;
-    int t0;
-    int t1;
-    int t14;
+    int stk[11];
 
-    t2 = 0xC26C5DC;
-    t3 = 0x0;
-    t4 = 0x0;
-    for (;;) {
-        if ((int)(*(int *)((t2 + 0x10))) <= 0) {
-            t0 = (*(signed char *)((t2 + 0x0)));
-            t0 = (unsigned char)t0;
-            if (t0 == 4) {
-                *(unsigned char *)((t2 + 0x0)) = 0x0;
-            }
-            t1 = (*(int *)((t2 + 0xC)));
-            t1 = (t1 + 0x1);
-            *(unsigned int *)((t2 + 0xC)) = t1;
-        }
-        t0 = (*(signed char *)((t2 + 0x0)));
-        t0 = (unsigned char)t0;
-        if (t0 == 1) {
-            t1 = (*(int *)((t2 + 0xC)));
-            t1 = (t1 + 0x1);
-            *(unsigned int *)((t2 + 0xC)) = t1;
-            t0 = (*(int *)0xC26E0F8);
-            if ((t0 != 1) && (t14 = *(int *)((t2 + 0xC)), t1 = t14, (int)t4 < (int)t1)) {
-                *(unsigned int *)0xC26E0F4 = t3;
-                t4 = (*(int *)((t2 + 0xC)));
-            }
-        }
-        *(unsigned int *)((t2 + 0x10)) = 0x0;
-        t16 = *(int *)((t2 + 0x8));
-        t3 = (t3 + t16);
-        t3 = (t3 + 0x1);
-        t2 = (t2 + (((((t16 + 0x1) << 1) + (t16 + 0x1)) << 2) << 1));
-        if ((int)t3 >= (int)0x120) {
-            break;
-        }
-    }
-    if ((*(int *)0xC26E0F8) != 1) {
-        if ((*(int *)0xC26E0F4) != -1) {
-            *(unsigned int *)0xC26E0F8 = 0x1;
-            t22 = *(int *)0xC26E0F4;
-            *(unsigned char *)((((short)((((t22 << 1) + t22) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-        } else {
-            *(unsigned int *)0xC26E0F8 = 0x0;
-        }
-    }
-    t30 = *(int *)0xC26E0F8;
-    if (t30 == 1) {
-        t31 = *(int *)0xC26E0F4;
-        t32 = *(signed char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0));
-        if ((unsigned char)t32 != 2) {
-            if ((unsigned char)t32 != 3) {
-                return (unsigned char)t32;
-            }
-            t34 = ((int (*)(int, int, int, int))(ADXF_GetStat))((*(int *)0xC26C5D8), t3, t4, 0xC26C5DC);
-            if (t34 == 3) {
-                *(unsigned int *)0xC0EA3DC = 0x0;
-                *(unsigned char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x4;
-                *(unsigned int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0xC)) = 0x0;
-                *(unsigned int *)0xC26E0F8 = 0x2;
-                ADXF_Close((*(int *)0xC26C5D8));
-                nlSetCommonTextureOffset(0x7D0);
-                nlObjPutLoadTexture((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))), (*(int *)0xC0EA3D8));
-                nlObjPutFreeTextureOnce((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))));
-                nlSetCommonTextureOffset(0x0);
-                *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
-                return gdc_CourseBlockReadNext();
-            }
-            t51 = t34;
-            if (t34 == 4) {
-                t45 = ADXF_Close((*(int *)0xC26C5D8));
-                *(unsigned char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-                t46 = *(int *)0xC0EA3DC;
-                *(unsigned int *)0xC0EA3DC = (t46 + 0x1);
-                if ((int)(t46 + 0x1) > (int)0xA) {
-                    *(unsigned int *)0xC1EE208 = ((*(int *)0xC1EE208) + 0x1);
-                }
-                t51 = t45;
-            }
-            return t51;
-        }
-        t58 = ADXF_OpenAfs(0x0, (*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x4))));
-        *(unsigned int *)0xC26C5D8 = t58;
-        if (t58 != 0) {
-            ADXF_ReadNw32((*(int *)0xC26C5D8), (ADXF_GetFsizeSct((*(int *)0xC26C5D8))), (*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))));
-            *(unsigned char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x3;
-            t65 = ((int (*)(int))(ADXF_GetStat))((*(int *)0xC26C5D8));
-            if (t65 == 3) {
-                *(unsigned int *)0xC0EA3DC = 0x0;
-                *(unsigned char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x4;
-                *(unsigned int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0xC)) = 0x0;
-                *(unsigned int *)0xC26E0F8 = 0x2;
-                ADXF_Close((*(int *)0xC26C5D8));
-                nlSetCommonTextureOffset(0x7D0);
-                nlObjPutLoadTexture((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))), (*(int *)0xC0EA3D8));
-                nlObjPutFreeTextureOnce((*(int *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x14))));
-                nlSetCommonTextureOffset(0x0);
-                *(unsigned int *)0xC26E0F4 = 0xFFFFFFFF;
-                return gdc_CourseBlockReadNext();
-            }
-            t82 = t65;
-            if (t65 == 4) {
-                t76 = ADXF_Close((*(int *)0xC26C5D8));
-                *(unsigned char *)((((short)((((t31 << 1) + t31) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-                t77 = *(int *)0xC0EA3DC;
-                *(unsigned int *)0xC0EA3DC = (t77 + 0x1);
-                if ((int)(t77 + 0x1) > (int)0xA) {
-                    *(unsigned int *)0xC1EE208 = ((*(int *)0xC1EE208) + 0x1);
-                }
-                t82 = t76;
-            }
-            return t82;
-        }
-        return t58;
-    }
-    return t30;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C14C9A0:;
+    *(unsigned int *)(((int)stk + 8)) = R4;
+    R11 = (0x2);
+    R14 = (0xC2B8C40);
+    if ((R4 != 1)) goto L_C14C9D6;
+    goto L_C14C9BE;
+    L_C14C9BE:;
+    t9 = kmCreateVertexBuffer((*(int *)((R14 + 0x0))), (*(int *)((R14 + 0x4))), (*(int *)((R14 + 0x8))), (*(int *)((R14 + 0xC))), ((*(int *)((R14 + 0x10)))));
+    R4 = (t9);
+    if ((t9 != 0)) goto L_C14CA24;
+    goto L_C14C9D6;
+    L_C14C9D6:;
+    if (((*(int *)(((int)stk + 8))) != 2)) goto L_C14C9EC;
+    goto L_C14C9DC;
+    L_C14C9DC:;
+    t16 = kmCreateTABuffer((*(int *)((R14 + 0x0))), (*(int *)((R14 + 0x58))));
+    R4 = (t16);
+    if ((t16 != 0)) goto L_C14CA24;
+    goto L_C14C9EC;
+    L_C14C9EC:;
+    R4 = ((R14 + 0x1C));
+    R8 = (0x1);
+    if (((*(int *)(((R14 + 0x1C) + 0x0))) != (*(int *)(((R14 + 0x1C) + 0x10))))) goto L_C14C9FC;
+    goto L_C14C9FA;
+    L_C14C9FA:;
+    R11 = (R8);
+    goto L_C14C9FC;
+    L_C14C9FC:;
+    R10 = (0x0);
+    R12 = (0x0);
+    if (((unsigned int)0x0 >= (unsigned int)R11)) goto L_C14CA68;
+    goto L_C14CA06;
+    L_C14CA06:;
+    R9 = (0xC159740);
+    goto L_C14CA08;
+    L_C14CA08:;
+    t35 = kmCreateFrameBufferSurface((*(int *)((((R14 + 0x1C) + R12) + 0x0))), (*(int *)((((R14 + 0x1C) + R12) + 0x4))), (*(int *)((((R14 + 0x1C) + R12) + 0x8))), (*(int *)((R14 + 0x18))), ((*(int *)((((R14 + 0x1C) + R12) + 0xC)))));
+    R4 = (t35);
+    if ((t35 == 0)) goto L_C14CA60;
+    goto L_C14CA24;
+    L_C14CA24:;
+    R0 = (R4);
+    goto L_C14CB0C;
+    L_C14CB0C:;
+    return R0;
+    L_C14CA60:;
+    t39 = (unsigned int)(R10 + 0x1) < (unsigned int)R11;
+    R10 = ((R10 + 0x1));
+    R12 = ((R12 + 0x10));
+    if (t39) goto L_C14CA08;
+    goto L_C14CA68;
+    L_C14CA68:;
+    t46 = kmActivateFrameBuffer((*(int *)((R14 + 0x3C))), (*(int *)((R14 + 0x40))), (*(int *)((R14 + 0x18))), (*(int *)((R14 + 0x44))));
+    R13 = (t46);
+    if ((t46 != 0)) goto L_C14CB0A;
+    goto L_C14CA7E;
+    L_C14CA7E:;
+    if (((*(int *)0xC2EA9C4) == 1)) goto L_C14CA8E;
+    goto L_C14CA86;
+    L_C14CA86:;
+    if (((*(int *)0xC177A88) != 1)) goto L_C14CB0A;
+    goto L_C14CA8E;
+    L_C14CA8E:;
+    *(unsigned int *)0xC2EA9E4 = (*(int *)0xC2EA9DC);
+    *(unsigned int *)((((*(int *)0xC2EA9DC) << 2) + 0xC2EA9CC)) = 0x0;
+    *(unsigned int *)0xC2EA9F4 = R8;
+    *(unsigned int *)(((int)stk + 8)) = (R8 & (*(int *)0xC2EA9DC));
+    kmiWriteRegister(0x8, 0x1);
+    kmiWriteRegister(0x8, 0x0);
+    t58 = *(int *)(((int)stk + 8));
+    kmiWriteRegister(0x124, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAAF8))));
+    kmiWriteRegister(0x12C, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAAFC))));
+    kmiWriteRegister(0x128, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAB04))));
+    kmiWriteRegister(0x130, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAB08))));
+    kmiWriteRegister(0x164, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAB00))));
+    kmiWriteRegister(0x144, 0x80000000);
+    kmiReadRegister(0x144);
+    *(unsigned int *)0xC2EA9EC = 0x0;
+    *(unsigned int *)0xC2EA9E8 = (*(int *)0xC2EAAE8);
+    R14 = (0xC159AE4);
+    goto L_C14CB0A;
+    L_C14CB0A:;
+    R0 = (R13);
+    goto L_C14CB0C;
 }

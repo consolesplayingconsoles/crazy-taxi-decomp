@@ -2,110 +2,91 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int KillColliObj(int);
-int SetObjFly(int, int, int, int, float);
-int nlCloseEvent(int);
-float nlLength(int, int, float, float);
-int setObjPlace(int, int);
-void setObjGroupExec(int a4, int a5, int a6, int a7, float f4, float f5);
+int MultiRot4Vec(int);
+int SetColliObj(int, int);
+int nlGetPushedMatrix(int);
+int nlGetTranslate(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlTranslateV(int);
+int set_event(int, int);
+void setObjHitBreakCount(int a4, int a5, int a6);
 
-void setObjGroupExec(int a4, int a5, int a6, int a7, float f4, float f5)
+void setObjHitBreakCount(int a4, int a5, int a6)
 {
-    int t2;
-    int t4;
-    int t5;
+    int t18;
+    int t21;
     int t23;
-    int t33;
-    int t34;
-    int t37;
-    int t38;
-    int t39;
-    int t40;
-    int t41;
-    int t0;
-    int t1;
-    int t3;
-    int t22;
-    int t25;
-    int t19;
-    int t47;
+    int t24;
+    int stk[13];
 
-    t2 = a4;
-    t4 = 0x0;
-    t5 = 0x0;
-    for (;;) {
-        if ((int)t5 >= (int)(*(short *)(((*(int *)((a4 + 0x14))) + 0x10)))) {
-            break;
-        }
-        t1 = (t5 * 0x70);
-        t1 = (t1 + (*(int *)((a4 + 0x18))));
-        t0 = (*(int *)((t1 + 0x68)));
-        t23 = t1;
-        if ((int)t0 >= 0) {
-            t0 = 0xC2757EC;
-            t1 = (t5 * 0x70);
-            t1 = (t1 + (*(int *)((a4 + 0x18))));
-            if ((*(float *)((t1 + 0x18))) > (*(float *)((t0 + 0x0)))) {
-                t2 = (*(int *)((a4 + 0x18)));
-                t3 = (t5 * 0x70);
-                t2 = (t2 + t3);
-                KillColliObj(t2);
-                t1 = (*(int *)((a4 + 0x18)));
-                t3 = (t3 + t1);
-                *(unsigned int *)((t3 + 0x68)) = 0xFFFFFFFF;
-                t19 = t1;
-            } else {
-                t2 = (t5 * 0x70);
-                t2 = (t2 + (*(int *)((a4 + 0x18))));
-                SetObjFly(t2, a5, a6, a7, f4);
-                t4 = (t4 + 0x1);
-            }
-            t23 = t19;
-        } else {
-            t22 = t0;
-            t25 = t2;
-        }
-        t0 = t22;
-        t5 = (t5 + 0x1);
-        t1 = t23;
-        t2 = t25;
-    }
-    if ((*(float *)0xC2757E8) > (nlLength((*(int *)((a4 + 0x14))), 0xC179144, f4, f5))) {
-        t33 = *(int *)((a4 + 0x14));
-        t34 = *(short *)((t33 + 0x10));
-        if ((int)t4 < (int)t34) {
-            t37 = t34;
-            t38 = t33;
-            t39 = 0x0;
-            t40 = 0x0;
-            t41 = (*(int *)(((*(int *)((a4 + 0x14))) + 0x14)));
-            for (;;) {
-                if (t41 == 0) {
-                    break;
-                }
-                t37 = (*(int *)((a4 + 0x18)));
-                t38 = 0x68;
-                t39 = (t40 * 0x70);
-                t37 = (t37 + t39);
-                t37 = (*(int *)((t38 + t37)));
-                if (t37 == -1) {
-                    t37 = (setObjPlace(t41, ((*(int *)((a4 + 0x18))) + t39)));
-                    t37 = (*(int *)0xC1EE234);
-                    if ((t37 == 1) && (t47 = *(int *)0xC2A4E50, t47 == 0)) {
-                        return;
-                    }
-                    t41 = (*(int *)((t41 + 0x14)));
-                    t40 = (t40 + 0x1);
-                    continue;
-                }
-                t41 = (*(int *)((t41 + 0x14)));
-                t40 = (t40 + 0x1);
-            }
-        }
-        return;
-    }
-    if (t4 == 0) {
-        *(unsigned int *)(((*(int *)((a4 + 0x14))) + 0x1C)) = 0x0;
-        nlCloseEvent(a4);
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C0388A4:;
+    R13 = (R4);
+    if (((*(int *)((R4 + 0x20))) != 0)) goto L_C0388C2;
+    goto L_C0388BE;
+    L_C0388BE:;
+    goto L_C0389C8;
+    L_C0389C8:;
     return;
-    }
+    L_C0388C2:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(0xC097210); }
+    nlPushUnitMatrix();
+    nlTranslateV(R13);
+    MultiRot4Vec((R13 + 0x30));
+    nlPushMatrix(0x0);
+    *(unsigned int *)(((int)stk + 4)) = 0xC0EE1E8;
+    R10 = (0xC0789E0);
+    R11 = (0x84);
+    R12 = (0x0);
+    R8 = (0xC0EDD94);
+    R9 = ((((int)stk + 4) + 0x4));
+    goto L_C0389AA;
+    L_C0389AA:;
+    if (((int)R12 < (int)(*(int *)((R9 + ((*(int *)((R13 + 0x6C))) << 2)))))) goto L_C038950;
+    goto L_C0389B6;
+    L_C0389B6:;
+    nlPopMatrix(0x2);
+    KillColliObj(R13);
+    *(unsigned int *)((R13 + 0x68)) = 0xFFFFFFFE;
+    R0 = (0x68);
+    goto L_C0389C8;
+    L_C038950:;
+    t18 = set_event(R11, 0xC0385AC);
+    R4 = (t18);
+    if ((t18 == 0)) goto L_C0389A8;
+    goto L_C03895E;
+    L_C03895E:;
+    t21 = R13;
+    t23 = (R4 + 0x14);
+    for (;;) { t24 = *(int *)t21; t21 = (t21 + 4); if ((unsigned int)((R13 + 112)) < (unsigned int)t21) break; *(unsigned int *)t23 = t24; t23 = (t23 + 4); }
+    nlGetPushedMatrix(0x0);
+    nlTranslateV((((((((*(int *)((R13 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + ((R12 << 2) << 2)));
+    nlGetTranslate((R4 + 0x14));
+    *(unsigned int *)(((R4 + 0x14) + 0x54)) = R8;
+    *(unsigned int *)(((R4 + 0x14) + 0x64)) = (*(int *)(((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x0)));
+    SetColliObj((R4 + 0x14), 0x10);
+    R14 = ((R4 + 0x14));
+    goto L_C0389A8;
+    L_C0389A8:;
+    R12 = ((R12 + 0x1));
+    goto L_C0389AA;
 }

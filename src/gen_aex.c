@@ -1,164 +1,143 @@
 /* Straight-line functions with calls and guards (batch gen_aex): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlCalcPoint(int, int);
-int nlMultiViewMatrix(void);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-float nlRandom(void);
-float nlScalor(int, float);
-int SetSpark(int a4, int a5, int a6, float f4);
+int kdDevGetStorageInfo(int, int);
+int kdGetDevice(int);
+int kdGetDeviceInfo(int);
+int kdGetStatus(int, int);
+int kdIsChanged(int);
+int kdRecognizeChanged(int);
+int kdSetGetMediaInfo(void);
+int vmsfb_sleep(void);
+int vmsio_get_media_info(int a4, int a5, int a6);
 
-int SetSpark(int a4, int a5, int a6, float f4)
+int vmsio_get_media_info(int a4, int a5, int a6)
 {
     int t0;
-    float t1;
-    int t63;
-    int t2;
-    float u23;
-    int t27;
+    int t5;
+    int t18;
+    int t24;
+    int t26;
     int t28;
     int t32;
-    int t34;
-    float u39;
-    int t41;
-    int t42;
-    float u46;
-    int t48;
-    int t49;
-    float u53;
-    int t16;
-    int t24;
-    int t25;
-    int t26;
-    float u29;
-    int stk[20];
+    int t70;
+    int t72;
+    int stk[13];
 
-    *(unsigned int *)(((int)stk + 12)) = a4;
-    *(unsigned int *)(((int)stk + 8)) = a5;
-    t0 = *(int *)0xC2757D0;
-    t1 = nlScalor(a5, f4);
-    t63 = 0xC0379D8;
-    if (0.199999988f > (t1 * 0.5f)) {
-    } else {
-        if ((int)a6 > (int)(0x5A - t0)) {
-            if ((int)((a6 + 0x1) >> 1) > (int)(0x5A - t0)) {
-                *(unsigned int *)0xC2757D0 = 0x5A;
-                t2 = *(int *)0xC2757D4;
-                *(unsigned int *)0xC2757D4 = (t2 + (((a6 + 0x1) >> 1) - (0x5A - t0)));
-                if ((int)(t2 + (((a6 + 0x1) >> 1) - (0x5A - t0))) >= (int)0x5A) {
-                    *(unsigned int *)0xC2757D4 = ((*(int *)0xC2757D4) - 0x5A);
-                }
-            } else {
-                *(unsigned int *)0xC2757D0 = ((*(int *)0xC2757D0) + ((a6 + 0x1) >> 1));
-            }
-            t16 = ((a6 + 0x1) >> 1);
-        } else {
-            *(unsigned int *)0xC2757D0 = ((*(int *)0xC2757D0) + a6);
-            t16 = a6;
-        }
-        nlPushUnitMatrix();
-        nlMultiViewMatrix();
-        u23 = *(float *)0xC037B24;
-        t27 = a4;
-        t28 = t16;
-        for (;;) {
-            if (t28 == 0) {
-                break;
-            }
-            t24 = (*(int *)0xC2757D8);
-            t26 = 0x1C;
-            t25 = (*(int *)(((int)stk + 12)));
-            t32 = ((short)t24 * (short)t26);
-            t26 = 0xC081324;
-            t24 = t32;
-            t24 = (short)t24;
-            t24 = (t24 + 0xC274DF8);
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(t24) = *(struct mv3 *)(t25); }
-            t26 = 0x1C;
-            t34 = ((short)(*(int *)0xC2757D8) * (short)t26);
-            t26 = 0xC;
-            t26 = (t26 + ((short)t34 + 0xC274DF8));
-            t25 = (*(int *)(((int)stk + 8)));
-            u29 = (*(float *)((t25 + 0x0)));
-            t25 = (t26);
-            u39 = u29;
-            u39 = u39 + (t1 * 0.5f) * ((nlRandom()) + u23);
-            u29 = u39;
-            *(float *)((t25 + 0x0)) = u29;
-            t25 = 0x1C;
-            t26 = (*(int *)0xC2757D8);
-            t41 = ((short)t26 * (short)t25);
-            t25 = 0x10;
-            t26 = t41;
-            t26 = (short)t26;
-            t26 = (t26 + 0xC274DF8);
-            t25 = (t25 + t26);
-            t42 = t25;
-            t24 = (*(int *)(((int)stk + 8)));
-            u29 = (*(float *)((t24 + 0x4)));
-            t25 = 0x1C;
-            t24 = t42;
-            u46 = u29;
-            u46 = u46 + (t1 * 0.5f) * ((nlRandom()) + u23);
-            u29 = u46;
-            *(float *)((t24 + 0x0)) = u29;
-            t26 = (*(int *)0xC2757D8);
-            t48 = ((short)t26 * (short)t25);
-            t25 = 0x14;
-            t26 = t48;
-            t26 = (short)t26;
-            t26 = (t26 + 0xC274DF8);
-            t25 = (t25 + t26);
-            t49 = t25;
-            t24 = (*(int *)(((int)stk + 8)));
-            u29 = (*(float *)((t24 + 0x8)));
-            t25 = 0x1C;
-            t24 = t49;
-            u53 = u29;
-            u53 = u53 + (t1 * 0.5f) * ((nlRandom()) + u23);
-            u29 = u53;
-            *(float *)((t24 + 0x0)) = u29;
-            t26 = (*(int *)0xC2757D8);
-            t26 = ((short)t26 * (short)t25);
-            t26 = (short)t26;
-            t26 = (t26 + 0xC274DF8);
-            *(unsigned int *)((t26 + 0x18)) = 0x1E;
-            t26 = 0xC0771B0;
-            t27 = (*(int *)(((int)stk + 12)));
-            nlCalcPoint(t27, (((int)stk + 8) + 0xC));
-            t25 = (*(int *)0xC2757D8);
-            t26 = 0x1;
-            t25 = (t25 << 2);
-            t25 = (t25 << 2);
-            t25 = (t25 << 1);
-            t25 = (t25 + 0xC274298);
-            *(unsigned int *)((t25 + 0x0)) = t26;
-            t25 = ((int)stk + 8);
-            t27 = (*(int *)0xC2757D8);
-            t25 = (t25 + 0xC);
-            t26 = 0xC081324;
-            t27 = (t27 << 2);
-            t27 = (t27 << 2);
-            t27 = (t27 << 1);
-            t27 = (t27 + 0xC274298);
-            *(unsigned int *)(((int)stk + 16)) = t27;
-            t27 = (t27 + 0x8);
-            t24 = t27;
-            t24 = (t24 + 0xC);
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(t24) = *(struct mv3 *)(t25); }
-            t24 = t27;
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(t24) = *(struct mv3 *)(t25); }
-            t24 = (*(int *)0xC2757D8);
-            t26 = 0x5A;
-            t24 = (t24 + 0x1);
-            *(unsigned int *)0xC2757D8 = t24;
-            if ((int)t24 >= (int)t26) {
-                *(unsigned int *)0xC2757D8 = 0x0;
-            }
-            t28 = (t28 - 1);
-        }
-        t63 = (nlPopMatrix(0x1));
-    }
-    return t63;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C17026C:;
+    t0 = *(int *)(((R4 << 2) + 0xC176948));
+    *(unsigned int *)(((int)stk + 4)) = (kdGetDevice(t0));
+    t5 = (*(signed char *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0;
+    R10 = (0xC162094);
+    R11 = (0xC170232);
+    R13 = (t0);
+    R14 = (R5);
+    R4 = ((kdGetDeviceInfo(t0)));
+    if (t5) goto L_C1702A6;
+    goto L_C1702A2;
+    L_C1702A2:;
+    goto L_C17042C;
+    L_C17042C:;
+    vmsfb_sleep();
+    goto L_C170430;
+    L_C170430:;
+    R0 = (0xFFFFFF01);
+    goto L_C170432;
+    L_C170432:;
+    return R0;
+    L_C1702A6:;
+    if ((((*(int *)((R4 + 0x0))) & 2) != 0)) goto L_C1702B0;
+    goto L_C1702AC;
+    L_C1702AC:;
+    goto L_C17042C;
+    L_C1702B0:;
+    kdRecognizeChanged(R13);
+    goto L_C1702B6;
+    L_C1702B6:;
+    R12 = (0xC1621BA);
+    goto L_C1702B8;
+    L_C1702B8:;
+    kdGetDevice(R13);
+    t18 = kdSetGetMediaInfo();
+    R9 = (t18);
+    if (((int)t18 >= 0)) goto L_C1702D2;
+    goto L_C1702CA;
+    L_C1702CA:;
+    vmsfb_sleep();
+    goto L_C1702B8;
+    L_C1702D2:;
+    R12 = (0xC1620C2);
+    goto L_C1702D4;
+    L_C1702D4:;
+    t24 = (kdGetStatus(R13, R9)) != 0;
+    if (t24) goto L_C1702E6;
+    goto L_C1702DE;
+    L_C1702DE:;
+    vmsfb_sleep();
+    goto L_C1702D4;
+    L_C1702E6:;
+    t26 = kdGetDevice(R13);
+    t28 = (kdIsChanged(R13)) == 0;
+    R8 = (t26);
+    if (t28) goto L_C170300;
+    goto L_C1702F6;
+    L_C1702F6:;
+    vmsfb_sleep();
+    R0 = (0xFFFFFF30);
+    goto L_C170432;
+    L_C170300:;
+    t32 = *(signed char *)((R8 + 0x4));
+    R0 = ((unsigned char)t32);
+    R12 = (((*(int *)((R8 + 0x8))) + 0x8));
+    if (((unsigned char)t32 == 8)) goto L_C170340;
+    goto L_C17030C;
+    L_C17030C:;
+    if ((R0 == 0xFC)) goto L_C1702B6;
+    goto L_C170312;
+    L_C170312:;
+    goto L_C170430;
+    L_C170340:;
+    *(unsigned int *)((R14 + 0x0)) = (unsigned short)(((int (*)(int, int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x0, R6));
+    *(unsigned int *)((R14 + 0x4)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x2));
+    *(unsigned int *)((R14 + 0x8)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x4));
+    *(unsigned int *)((R14 + 0xC)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x6));
+    *(unsigned int *)((R14 + 0x10)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x8));
+    *(unsigned int *)((R14 + 0x14)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0xA));
+    *(unsigned int *)((R14 + 0x18)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0xC));
+    *(unsigned int *)((R14 + 0x1C)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x10));
+    *(unsigned int *)((R14 + 0x20)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x12));
+    *(unsigned int *)((R14 + 0x34)) = (unsigned short)(((int (*)(int, int))((*(int *)(((*(int *)0xC2EE98C) + 0xC)))))(R12, 0x14));
+    *(unsigned int *)((R14 + 0x38)) = 0x80;
+    *(unsigned int *)((R14 + 0x24)) = (unsigned char)(*(signed char *)((R12 + 0xE)));
+    *(unsigned int *)((R14 + 0x28)) = (unsigned char)(*(signed char *)((R12 + 0xF)));
+    *(unsigned int *)((R14 + 0x2C)) = 0x1FF;
+    t70 = kdGetDeviceInfo(R13);
+    t72 = (int)(kdDevGetStorageInfo((((int)stk + 4) + 0x4), t70)) < 0;
+    if (t72) goto L_C17042C;
+    goto L_C1703F6;
+    L_C1703F6:;
+    *(unsigned int *)((R14 + 0x3C)) = (unsigned short)(*(short *)(((int)stk + 14)));
+    *(unsigned int *)(((0x40 + R14) + 0x0)) = (unsigned short)(*(short *)(((int)stk + 12)));
+    *(unsigned int *)(((0x44 + R14) + 0x0)) = ((int)((int)0x200 / (int)(unsigned short)(*(short *)(((int)stk + 14)))));
+    *(unsigned int *)(((0x48 + R14) + 0x0)) = ((int)((int)0x200 / (int)(unsigned short)(*(short *)(((int)stk + 12)))));
+    R0 = (0x0);
+    goto L_C170432;
 }

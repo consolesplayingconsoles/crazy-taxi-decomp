@@ -1,410 +1,278 @@
 /* Straight-line functions with calls and guards (batch gen_agh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ParkingCarInit(int, int, int, int, int);
-int courseCarType(int);
-int extRand(void);
-float nlLength(int, int, float, float);
-float parkingControl(int a4, int a5, int a6, int a7, float f4, float f5);
+int CheckColliWall(int, float);
+int GetCollision2D(int, float);
+int GetRotVec(int);
+int MultiRot4Vec(int, float);
+int Sound_Request(int, int);
+extern float _builtin_sqrtf(float);
+int nlAddVector(int, int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+float nlInnerProduct(int, int);
+int nlObjPutUseViewMatrix(int);
+int nlOuterProduct(int, int, int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotate(int, int);
+int nlScaleUnitVector(int, int, float);
+int nlScaleVector(int, int, float);
+float nlScalor(int);
+float nlScalor2(int);
+int nlSubVector(int, int);
+int nlTranslateV(int);
+float SetObjFly(int a4, int a5, int a6, int a7, float f4);
 
-float parkingControl(int a4, int a5, int a6, int a7, float f4, float f5)
+float SetObjFly(int a4, int a5, int a6, int a7, float f4)
 {
-    int t0;
-    int t1;
-    int t22;
-    int t23;
-    int t26;
-    int t27;
-    int t71;
-    float u82;
-    float u83;
-    int t32;
-    int t33;
-    float u34;
-    int t37;
-    float u38;
-    int t39;
-    int t40;
-    int t41;
-    int t42;
-    int t43;
-    float u44;
-    int t85;
-    int t86;
-    int t87;
-    int t88;
-    int t89;
-    int t90;
-    float u92;
-    float u93;
-    int t103;
-    int t112;
-    int t168;
-    int t178;
-    int t188;
-    int t205;
-    int t220;
-    float u252;
-    int t74;
-    float u80;
-    float u81;
-    int t58;
-    int t61;
-    float u67;
-    float u68;
+    float t13;
     int t46;
+    int t48;
     int t49;
-    float u55;
-    float u91;
-    int t236;
-    int t158;
-    float u161;
-    float u162;
-    float u163;
-    int t128;
-    int t130;
-    int t131;
-    int t151;
-    float u154;
-    float u155;
-    float u156;
-    int t145;
-    int t147;
-    int t148;
-    int stk[15];
+    int t71;
+    float u75;
+    float u76;
+    float u88;
+    float u89;
+    float t109;
+    float t116;
+    float u119;
+    float u120;
+    int stk[30];
 
-    *(unsigned int *)(((int)stk + 20)) = a5;
-    t0 = *(int *)0xC1EE210;
-    t1 = *(int *)0xC1EE214;
-    if (a4 == 0) {
-        *(unsigned int *)0xC2A447C = 0x0;
-        *(unsigned int *)0xC2A4480 = 0x0;
-        *(unsigned int *)0xC2A4484 = 0x0;
-        if (((t0 + t1) != 0) && ((t0 + t1) != 17)) {
-            if ((t0 + t1) == 1) {
-                *(unsigned int *)0xC2A447C = 0xC0F1A78;
-                *(unsigned int *)0xC2A4480 = 0xA;
-                *(unsigned int *)0xC2A4484 = 0xC0F0BF8;
-            } else {
-                if ((t0 + t1) == 16) {
-                    *(unsigned int *)0xC2A447C = 0xC0F1BB8;
-                    *(unsigned int *)0xC2A4480 = 0x2;
-                    *(unsigned int *)0xC2A4484 = 0xC0F1BF8;
-                } else {
-                    if ((t0 + t1) == 15) {
-                        *(unsigned int *)0xC2A447C = 0xC0F1E78;
-                        *(unsigned int *)0xC2A4480 = 0x9;
-                        *(unsigned int *)0xC2A4484 = 0xC0F1F98;
-                    }
-                }
-            }
-        } else {
-            *(unsigned int *)0xC2A447C = 0xC0F1878;
-            *(unsigned int *)0xC2A4480 = 0x10;
-            *(unsigned int *)0xC2A4484 = 0xC0EF7F8;
-        }
-        t22 = 0x0;
-        t23 = 0x0;
-        for (;;) {
-            if ((int)t23 >= (int)(*(int *)0xC2A4480)) {
-                break;
-            }
-            t23 = (t23 + 0x1);
-            t26 = ((*(int *)0xC2A447C) + t22);
-            t22 = (t22 + 0x20);
-            *(unsigned int *)((t26 + 0x0)) = 0x0;
-        }
-    } else {
-        t27 = *(int *)0xC2A447C;
-        t71 = 0xC1EE210;
-        u82 = f4;
-        u83 = f5;
-        if ((t0 + t1) == 15) {
-            if (35.0f > (*(float *)(((*(int *)(((int)stk + 20))) + 0x4)))) {
-                *(float *)((t27 + 0x58)) = 500.0f;
-                *(float *)((t27 + 0x38)) = 500.0f;
-                *(float *)((t27 + 0x18)) = 500.0f;
-                t32 = *(int *)0xC2A447C;
-                t33 = *(int *)0xC2A447C;
-                u34 = *(float *)0xC2A1B18;
-                *(float *)(((0x100 + t32) + 0x18)) = (-30.0f - u34);
-                *(float *)(((0xE0 + t32) + 0x18)) = (-30.0f - u34);
-                *(float *)(((0xC0 + t32) + 0x18)) = (-30.0f - u34);
-                *(float *)(((0xA0 + t32) + 0x18)) = (-30.0f - u34);
-                *(float *)(((0x80 + t32) + 0x18)) = (-30.0f - u34);
-                *(float *)(((t33 + 0x60) + 0x18)) = (-30.0f - u34);
-                t58 = 0xC2A1B18;
-                t61 = (0xC0 + t32);
-                u67 = u34;
-                u68 = (-30.0f - u34);
-            } else {
-                if (105.0f > (*(float *)(((*(int *)(((int)stk + 20))) + 0x4)))) {
-                    *(float *)(((0xA0 + t27) + 0x18)) = 500.0f;
-                    *(float *)(((0x80 + t27) + 0x18)) = 500.0f;
-                    *(float *)((t27 + 0x78)) = 500.0f;
-                    t37 = *(int *)0xC2A447C;
-                    u38 = *(float *)0xC2A1B18;
-                    *(float *)(((0x100 + t37) + 0x18)) = (-30.0f - u38);
-                    *(float *)(((0xE0 + t37) + 0x18)) = (-30.0f - u38);
-                    *(float *)(((0xC0 + t37) + 0x18)) = (-30.0f - u38);
-                    *(float *)(((t37 + 0x40) + 0x18)) = (-30.0f - u38);
-                    *(float *)(((t37 + 0x20) + 0x18)) = (-30.0f - u38);
-                    *(float *)((t37 + 0x18)) = (-30.0f - u38);
-                    t46 = (t37 + 0x40);
-                    t49 = (0xC0 + t37);
-                    u55 = (-30.0f - u38);
-                } else {
-                    *(float *)(((0x100 + t27) + 0x18)) = 500.0f;
-                    *(float *)(((0xE0 + t27) + 0x18)) = 500.0f;
-                    *(float *)(((0xC0 + t27) + 0x18)) = 500.0f;
-                    t39 = *(int *)0xC2A447C;
-                    t40 = *(int *)0xC2A447C;
-                    t41 = *(int *)0xC2A447C;
-                    t42 = *(int *)0xC2A447C;
-                    t43 = *(int *)0xC2A447C;
-                    u44 = *(float *)0xC2A1B18;
-                    *(float *)(((0x18 + (0xA0 + t41)) + 0x0)) = (-30.0f - u44);
-                    *(float *)(((0x18 + (0x80 + t41)) + 0x0)) = (-30.0f - u44);
-                    *(float *)((0x18 + (t42 + 0x60))) = (-30.0f - u44);
-                    *(float *)(((t43 + 0x40) + 0x18)) = (-30.0f - u44);
-                    *(float *)(((0x18 + (t40 + 0x20)) + 0x0)) = (-30.0f - u44);
-                    *(float *)(((0x18 + t39) + 0x0)) = (-30.0f - u44);
-                    t46 = (0x18 + t39);
-                    t49 = (0xC0 + t27);
-                    u55 = (-30.0f - u44);
-                }
-                t58 = t46;
-                t61 = t49;
-                u67 = 105.0f;
-                u68 = u55;
-            }
-            t71 = t58;
-            t74 = t61;
-            u80 = u67;
-            u81 = 35.0f;
-            u82 = u68;
-            u83 = 500.0f;
-        }
-        t85 = *(int *)0xC2A447C;
-        *(unsigned int *)(((int)stk + 16)) = 0xC0A2220;
-        *(unsigned int *)(((int)stk + 16)) = 0xC0A2220;
-        t86 = 0xC0425E0;
-        t87 = t71;
-        t88 = 0x0;
-        t89 = t85;
-        t90 = t74;
-        u92 = u80;
-        u93 = u81;
-        for (;;) {
-            if ((int)t88 < (int)(*(int *)0xC2A4480)) {
-                u91 = (nlLength((*(int *)(((int)stk + 20))), (t89 + 0xC), u82, u83));
-                t86 = 0x18;
-                u93 = (*(float *)((t89 + t86)));
-                u92 = (*(float *)0xC2A1B18);
-                u92 = (u92 + u93);
-                u92 = (u92 + 30.0f);
-                if (!(u92 > u91)) {
-                    *(unsigned int *)((t89 + 0x0)) = 0x0;
-                } else {
-                    t87 = (*(int *)((t89 + 0x0)));
-                    if (t87 != 0) {
-                    } else {
-                        t90 = t88;
-                        t90 = (t90 << 2);
-                        t90 = (t90 + t88);
-                        t90 = (t90 << 2);
-                        t86 = (*(int *)((t89 + 0x4)));
-                        t90 = (t90 << 2);
-                        t87 = (*(int *)0xC2A4484);
-                        t90 = (t90 << 2);
-                        t90 = (t90 + t87);
-                        if (t86 != 1) {
-                            if (t86 != 2) {
-                                if (t86 == 3) {
-                                    *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                    t103 = 0xC2A4484;
-                                    for (;;) {
-                                        t87 = (*(int *)(((int)stk + 12)));
-                                        if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                            break;
-                                        }
-                                        t103 = (*(int *)((t90 + 0xC)));
-                                        t86 = (courseCarType(0x1));
-                                        t86 = (ParkingCarInit(t86, t88, (*(int *)((t89 + 0x1C))), t90, (t103)));
-                                        t103 = (*(int *)(((int)stk + 12)));
-                                        t90 = (t90 + 0x10);
-                                        t103 = (t103 + 0x1);
-                                        *(unsigned int *)(((int)stk + 12)) = t103;
-                                    }
-                                } else {
-                                    if (t86 != 4) {
-                                        if (t86 != 5) {
-                                            if (t86 != 6) {
-                                                if (t86 == 7) {
-                                                    *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                                    t112 = 0xC2A1B18;
-                                                    for (;;) {
-                                                        t87 = (*(int *)(((int)stk + 12)));
-                                                        if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                                            break;
-                                                        }
-                                                        if (t88 == 0) {
-                                                            t112 = 0xB;
-                                                            if ((int)(*(int *)(((int)stk + 12))) < (int)t112) {
-                                                                t128 = ((*(int *)((t90 + 0xC))) | 0x80000000);
-                                                                t130 = (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)));
-                                                                t131 = (*(int *)((t89 + 0x1C)));
-                                                            } else {
-                                                                t128 = ((*(int *)((t90 + 0xC))) | 0x80000000);
-                                                                t130 = ((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))) + 0x1);
-                                                                t131 = (*(int *)((t89 + 0x1C)));
-                                                            }
-                                                            t86 = (ParkingCarInit(t130, t88, t131, t90, t128));
-                                                        } else {
-                                                            t86 = t88;
-                                                            if (t86 == 1) {
-                                                                t112 = (*(int *)(((int)stk + 12)));
-                                                                if ((int)t112 < (int)0x7) {
-                                                                    t87 = (*(int *)((t90 + 0xC)));
-                                                                    t87 = (t87 | 0x80000000);
-                                                                    t145 = (t87);
-                                                                    t147 = ((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))) + 0x1);
-                                                                    t148 = (*(int *)((t89 + 0x1C)));
-                                                                } else {
-                                                                    t145 = ((*(int *)((t90 + 0xC))) | 0x80000000);
-                                                                    t147 = ((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))) + 0x2);
-                                                                    t148 = (*(int *)((t89 + 0x1C)));
-                                                                }
-                                                                t86 = (ParkingCarInit(t147, t88, t148, t90, t145));
-                                                            } else {
-                                                                t151 = t87;
-                                                                u154 = u91;
-                                                                u155 = u92;
-                                                                u156 = u93;
-                                                            }
-                                                            t158 = t151;
-                                                            u161 = u154;
-                                                            u162 = u155;
-                                                            u163 = u156;
-                                                        }
-                                                        u91 = u161;
-                                                        u92 = u162;
-                                                        u93 = u163;
-                                                        t87 = t158;
-                                                        t112 = (*(int *)(((int)stk + 12)));
-                                                        t90 = (t90 + 0x10);
-                                                        t112 = (t112 + 0x1);
-                                                        *(unsigned int *)(((int)stk + 12)) = t112;
-                                                    }
-                                                }
-                                            } else {
-                                                *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                                t168 = 0xC2A1B18;
-                                                for (;;) {
-                                                    t87 = (*(int *)(((int)stk + 12)));
-                                                    if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                                        break;
-                                                    }
-                                                    t86 = (ParkingCarInit(0xB, t88, (*(int *)((t89 + 0x1C))), t90, ((*(int *)((t90 + 0xC))))));
-                                                    t168 = (*(int *)(((int)stk + 12)));
-                                                    t90 = (t90 + 0x10);
-                                                    t168 = (t168 + 0x1);
-                                                    *(unsigned int *)(((int)stk + 12)) = t168;
-                                                }
-                                            }
-                                        } else {
-                                            *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                            t178 = 0xC2A1B18;
-                                            for (;;) {
-                                                t87 = (*(int *)(((int)stk + 12)));
-                                                if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                                    break;
-                                                }
-                                                t86 = (ParkingCarInit(0x0, t88, (*(int *)((t89 + 0x1C))), t90, ((*(int *)((t90 + 0xC))))));
-                                                t178 = (*(int *)(((int)stk + 12)));
-                                                t90 = (t90 + 0x10);
-                                                t178 = (t178 + 0x1);
-                                                *(unsigned int *)(((int)stk + 12)) = t178;
-                                            }
-                                        }
-                                    } else {
-                                        *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                        t188 = 0xC2A1B18;
-                                        for (;;) {
-                                            t87 = (*(int *)(((int)stk + 12)));
-                                            if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                                break;
-                                            }
-                                            t86 = (extRand());
-                                            t188 = 0x6;
-                                            t86 = (t86 & 0x7);
-                                            if ((int)t86 < (int)t188) {
-                                                t87 = (*(int *)((t90 + 0xC)));
-                                                t86 = (courseCarType(0x3));
-                                                t86 = (ParkingCarInit(t86, t88, (*(int *)((t89 + 0x1C))), t90, (t87)));
-                                            }
-                                            t188 = (*(int *)(((int)stk + 12)));
-                                            t90 = (t90 + 0x10);
-                                            t188 = (t188 + 0x1);
-                                            *(unsigned int *)(((int)stk + 12)) = t188;
-                                        }
-                                    }
-                                }
-                            } else {
-                                *(unsigned int *)(((int)stk + 12)) = 0x0;
-                                t205 = 0xC2A1B18;
-                                for (;;) {
-                                    t87 = (*(int *)(((int)stk + 12)));
-                                    if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                        break;
-                                    }
-                                    t86 = (extRand());
-                                    t205 = 0x6;
-                                    t86 = (t86 & 0x7);
-                                    if ((int)t86 < (int)t205) {
-                                        t87 = (*(int *)((t90 + 0xC)));
-                                        t86 = (courseCarType(0x1));
-                                        t86 = (ParkingCarInit(t86, t88, (*(int *)((t89 + 0x1C))), t90, (t87)));
-                                    }
-                                    t205 = (*(int *)(((int)stk + 12)));
-                                    t90 = (t90 + 0x10);
-                                    t205 = (t205 + 0x1);
-                                    *(unsigned int *)(((int)stk + 12)) = t205;
-                                }
-                            }
-                        } else {
-                            *(unsigned int *)(((int)stk + 12)) = 0x0;
-                            t220 = 0xC2A4484;
-                            for (;;) {
-                                t87 = (*(int *)(((int)stk + 12)));
-                                if ((int)t87 >= (int)(*(int *)((t89 + 0x8)))) {
-                                    break;
-                                }
-                                t220 = 0xC04981E;
-                                t86 = (extRand());
-                                if ((t86 & 3) == 0) {
-                                    t220 = (*(int *)((t90 + 0xC)));
-                                    t86 = (courseCarType(0x1));
-                                    t86 = (ParkingCarInit(t86, t88, (*(int *)((t89 + 0x1C))), t90, (t220)));
-                                }
-                                t220 = (*(int *)(((int)stk + 12)));
-                                t90 = (t90 + 0x10);
-                                t220 = (t220 + 0x1);
-                                *(unsigned int *)(((int)stk + 12)) = t220;
-                            }
-                        }
-                    }
-                    *(unsigned int *)((t89 + 0x0)) = 0x1;
-                    t236 = t87;
-                }
-                t87 = t236;
-                t88 = (t88 + 0x1);
-                t89 = (t89 + 0x20);
-                continue;
-            }
-            break;
-        }
-        u252 = u91;
-    }
-    return u252;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    L_C037B40:;
+    R14 = (R4);
+    F13 = (0.00999999978f);
+    if (((*(int *)((R4 + 0x20))) == 0)) goto L_C037B90;
+    goto L_C037B66;
+    L_C037B66:;
+    *(unsigned int *)((R14 + 0x68)) = 0x1;
+    if ((((*(int *)((R14 + 0x20))) & 1) == 0)) goto L_C037B90;
+    goto L_C037B72;
+    L_C037B72:;
+    if (((*(int *)((R14 + 0x64))) == 0xC5E0600)) goto L_C037B90;
+    goto L_C037B7C;
+    L_C037B7C:;
+    if ((!((*(float *)((R14 + 0x1C))) > F13))) goto L_C037B90;
+    goto L_C037B84;
+    L_C037B84:;
+    Sound_Request((*(int *)(((*(int *)((R14 + 0x54))) + 0x14))), 0x1);
+    goto L_C037B90;
+    L_C037B90:;
+    t13 = nlScalor((R14 + 0x48));
+    F0 = (t13);
+    F14 = (0.000999999931f);
+    F15 = (t13);
+    if ((t13 > 0.000999999931f)) goto L_C037BD0;
+    goto L_C037BA2;
+    L_C037BA2:;
+    if (((*(int *)((R14 + 0x68))) != 5)) goto L_C037BD0;
+    goto L_C037BAA;
+    L_C037BAA:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x58)) = *(struct mv3 *)(0xC0965F0); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0xC)) = *(struct mv3 *)(0xC0965F0); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x48)) = *(struct mv3 *)(0xC0965F0); }
+    *(unsigned int *)((R14 + 0x68)) = 0x0;
+    goto L_C037BD0;
+    L_C037BD0:;
+    if (((*(int *)((R14 + 0x68))) != 0)) goto L_C037BE8;
+    goto L_C037BD8;
+    L_C037BD8:;
+    R0 = (0x18);
+    if ((1000.0f > (*(float *)((R14 + 0x18))))) goto L_C037BE8;
+    goto L_C037BE4;
+    L_C037BE4:;
+    goto L_C037FA0;
+    L_C037FA0:;
+    return F0;
+    L_C037BE8:;
+    nlPushUnitMatrix();
+    nlTranslateV(R14);
+    if ((!(F15 > F14))) goto L_C037C1C;
+    goto L_C037BF8;
+    L_C037BF8:;
+    nlRotate((R14 + 0x48), ((int)(((F15 * 65536.0f) / 6.28318501f) + 0.5f) & 0xFFFF));
+    goto L_C037C1C;
+    L_C037C1C:;
+    MultiRot4Vec((R14 + 0x30), F4);
+    if ((!(1000.0f > (*(float *)((R14 + 0x18)))))) goto L_C037C38;
+    goto L_C037C30;
+    L_C037C30:;
+    nlObjPutUseViewMatrix((*(int *)((R14 + 0x64))));
+    goto L_C037C38;
+    L_C037C38:;
+    if (((*(int *)((R14 + 0x68))) != 0)) goto L_C037C4A;
+    goto L_C037C40;
+    L_C037C40:;
+    R0 = ((nlPopMatrix(0x1)));
+    goto L_C037FA0;
+    L_C037C4A:;
+    GetRotVec((R14 + 0x30));
+    nlScaleVector((R14 + 0xC), (R14 + 0xC), 0.979999959f);
+    nlScaleVector((R14 + 0x48), (R14 + 0x48), 0.959999979f);
+    *(float *)((R14 + 0x10)) = ((*(float *)((R14 + 0x10))) - 0.166666657f);
+    nlAddVector(R14, (R14 + 0xC));
+    CheckColliWall(R14, (*(float *)(((*(int *)((R14 + 0x54))) + 0x1C))));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x38)) = *(struct mv3 *)(0xC0965F0); }
+    t46 = *(int *)((R14 + 0x54));
+    t48 = *(int *)((t46 + 0x4));
+    t49 = *(int *)((t46 + 0x0));
+    *(unsigned int *)(((int)stk + 4)) = (*(int *)((t46 + 0x8)));
+    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    R11 = (0xC078BC0);
+    R12 = (t48);
+    R13 = (0xC078A50);
+    R4 = (t46);
+    R8 = (0x0);
+    R9 = (t49);
+    F15 = (0.0f);
+    goto L_C037DDC;
+    L_C037DDC:;
+    R10 = (0xC078B00);
+    F14 = (10.0f);
+    if (((*(int *)(((int)stk + 4))) == 0)) goto L_C037DEC;
+    goto L_C037DE8;
+    L_C037DE8:;
+    goto L_C037CB8;
+    L_C037CB8:;
+    if ((!(0.0f > (*(float *)((R12 + 0x4)))))) goto L_C037D70;
+    goto L_C037CC2;
+    L_C037CC2:;
+    nlCalcPoint(R9, (((int)stk + 4) + 0x2C));
+    nlOuterProduct((R14 + 0x3C), 0xC096644, (((int)stk + 4) + 0x20));
+    nlOuterProduct((R14 + 0x3C), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+    nlScaleUnitVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-(*(float *)((R12 + 0x4)))));
+    R5 = ((((int)stk + 4) + 0x20));
+    R9 = ((R9 + 0xC));
+    goto L_C037D92;
+    L_C037D92:;
+    nlAddVector((((int)stk + 4) + 0x2C), R5);
+    t71 = GetCollision2D((((int)stk + 4) + 0x2C), F14);
+    R4 = (t71);
+    if (((*(int *)((t71 + 0x1C))) == -1)) goto L_C037DD4;
+    goto L_C037DAA;
+    L_C037DAA:;
+    u75 = *(float *)((R4 + 0x18));
+    u76 = *(float *)(((int)stk + 52));
+    F14 = ((u76 - u75));
+    if ((!(0.0f > (u76 - u75)))) goto L_C037DD4;
+    goto L_C037DBA;
+    L_C037DBA:;
+    nlAddVector((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x2C));
+    R8 = ((R8 + 0x1));
+    if ((!(F15 > F14))) goto L_C037DCC;
+    goto L_C037DCA;
+    L_C037DCA:;
+    F15 = (F14);
+    goto L_C037DCC;
+    L_C037DCC:;
+    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + (*(int *)((R12 + 0x0))));
+    goto L_C037DD4;
+    L_C037DD4:;
+    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) - 1);
+    R12 = ((R12 + 0x8));
+    goto L_C037DDC;
+    L_C037D70:;
+    nlCalcVector(R9, (((int)stk + 4) + 0x2C));
+    u88 = *(float *)((R12 + 0x4));
+    u89 = *(float *)(((int)stk + 52));
+    *(float *)(((int)stk + 52)) = (u89 - u88);
+    R9 = ((R9 + 0xC));
+    if (((u89 - u88) > 0.0f)) goto L_C037DD4;
+    goto L_C037D90;
+    L_C037D90:;
+    R5 = (R14);
+    goto L_C037D92;
+    L_C037DEC:;
+    if ((R8 != 0)) goto L_C037DF4;
+    goto L_C037DF0;
+    L_C037DF0:;
+    goto L_C037F88;
+    L_C037F88:;
+    nlPopMatrix(0x1);
+    R0 = (0x54);
+    if (((*(int *)(((*(int *)((R14 + 0x54))) + 0x10))) == 0)) goto L_C037FA0;
+    goto L_C037F98;
+    L_C037F98:;
+    R0 = ((((int (*)(int, int, int, int, float))((*(int *)(((*(int *)((R14 + R0))) + 0x10)))))(R14, R5, R6, R7, F4)));
+    goto L_C037FA0;
+    L_C037DF4:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(((GetCollision2D((((int)stk + 4) + 0x2C), F14)) + 0xC)); }
+    nlScaleVector((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x38), (1.0f / (float)R8));
+    nlSubVector((((int)stk + 4) + 0x38), R14);
+    *(float *)((R14 + 0x4)) = ((*(float *)((R14 + 0x4))) - F15);
+    nlOuterProduct((R14 + 0x48), (((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20));
+    nlAddVector((((int)stk + 4) + 0x20), (R14 + 0xC));
+    t109 = nlInnerProduct((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8));
+    R12 = (0xC078C10);
+    F12 = (1.0f);
+    F15 = ((-t109));
+    if (((-t109) > 0.0f)) goto L_C037E66;
+    goto L_C037E62;
+    L_C037E62:;
+    goto L_C037F82;
+    L_C037F82:;
+    *(unsigned int *)((R14 + 0x68)) = 0x1;
+    goto L_C037F88;
+    L_C037E66:;
+    if (((int)(*(int *)((R14 + 0x68))) >= (int)0x3)) goto L_C037F2A;
+    goto L_C037E70;
+    L_C037E70:;
+    t116 = nlInnerProduct((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x38));
+    u119 = *(float *)(((*(int *)((R14 + 0x54))) + 0x20));
+    u120 = _builtin_sqrtf(((t116 * (-t116)) + (nlScalor2((((int)stk + 4) + 0x38)))));
+    nlScaleVector((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x8), F15);
+    nlAddVector((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x20));
+    nlScaleVector((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14), F13);
+    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), (((F12 - (u120 * u119))) * ((F15 * 1.5999999f))));
+    nlSubVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
+    nlAddVector((R14 + 0xC), (((int)stk + 4) + 0x20));
+    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), ((((F15 * 1.5999999f)) * ((u120 * u119))) / (*(float *)(((*(int *)((R14 + 0x54))) + 0x18)))));
+    nlSubVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
+    nlOuterProduct((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+    nlAddVector((R14 + 0x48), (((int)stk + 4) + 0x20));
+    *(unsigned int *)((R14 + 0x68)) = ((*(int *)((R14 + 0x68))) + 0x1);
+    goto L_C037F88;
+    L_C037F2A:;
+    nlSubVector((R14 + 0xC), (((int)stk + 4) + 0x20));
+    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-0.333333284f / (*(float *)(((*(int *)((R14 + 0x54))) + 0x18)))));
+    nlOuterProduct((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+    nlAddVector((R14 + 0x48), (((int)stk + 4) + 0x20));
+    if (((int)(*(int *)(((int)stk + 8))) <= (int)0x2)) goto L_C037F88;
+    goto L_C037F6C;
+    L_C037F6C:;
+    nlScaleVector((R14 + 0x48), (R14 + 0x48), 0.899999976f);
+    *(unsigned int *)((R14 + 0x68)) = 0x5;
+    goto L_C037F88;
 }

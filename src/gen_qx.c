@@ -1,33 +1,68 @@
 /* Straight-line functions with calls and guards (batch gen_qx): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetAverageAngle(int, int, float);
-extern float _builtin_sqrtf(float);
-int nlArcTan2(float, float);
-float nlInnerProduct(int, int);
-int nlSubVector3op(int, int, int, float, float, float);
-int nlUnitVector(int);
-int psgFaceBoyFriend(int a4, float f4, float f5, float f6);
+int ADXT_Finish(void);
+extern void _builtin_set_imask(int);
+int buStat(int);
+int discardVertexBuffer(void);
+int pdExitPeripheral(void);
+int pdVibSetStopTime(int, int, int, int);
+int syBtExit(void);
+int syHwFinish(void);
+int syMallocFinish(void);
+int syRtcFinish(void);
+int thunk_syCfgExit(void);
+int vmuExit(void);
+int usr_gd_err_func(int a4, int a5, int a6, int a7);
 
-int psgFaceBoyFriend(int a4, float f4, float f5, float f6)
+int usr_gd_err_func(int a4, int a5, int a6, int a7)
 {
-    float t5;
-    float u6;
-    float u7;
-    int t12;
-    int stk[11];
+    int t1;
+    int t6;
+    int stk[5];
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(((*(int *)(((((int)((int)(*(int *)((a4 + 0x154))) % (int)0x5)) << 2) + 0xC1794D4))) + 0x20)); }
-    nlSubVector3op((((int)stk + 4) + 0xC), ((int)stk + 4), (a4 + 0x4), f4, f5, f6);
-    *(float *)(((int)stk + 20)) = 0.0f;
-    nlUnitVector((((int)stk + 4) + 0xC));
-    t5 = nlInnerProduct((((int)stk + 4) + 0xC), 0xC0D5554);
-    u6 = *(float *)(((int)stk + 16));
-    u7 = (-_builtin_sqrtf((1.0f - (t5 * t5))));
-    if (u6 > 0.0f) {
-        u7 = _builtin_sqrtf((1.0f - (t5 * t5)));
-    }
-    t12 = GetAverageAngle((*(int *)((a4 + 0x10))), (nlArcTan2(u7, t5)), (*(float *)0xC071230));
-    *(unsigned int *)((a4 + 0x10)) = (short)t12;
-    return (short)t12;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C02A3EC:;
+    *(unsigned int *)(((int)stk + 4)) = R5;
+    t1 = buStat((*(int *)0xC2A11B8));
+    R0 = (t1);
+    if ((t1 == -1)) goto L_C02A46E;
+    goto L_C02A3FE;
+    L_C02A3FE:;
+    if (((*(int *)(((int)stk + 4))) == -23)) goto L_C02A40A;
+    goto L_C02A404;
+    L_C02A404:;
+    t6 = *(int *)(((int)stk + 4));
+    R0 = (t6);
+    if ((t6 != -33)) goto L_C02A46E;
+    goto L_C02A40A;
+    L_C02A40A:;
+    *(unsigned char *)(((int)stk + 12)) = (*(signed char *)0xC08AAEE);
+    *(unsigned char *)(((int)stk + 8)) = (*(signed char *)0xC08AAEF);
+    pdVibSetStopTime(0x2, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x1);
+    ADXT_Finish();
+    thunk_syCfgExit();
+    vmuExit();
+    syRtcFinish();
+    pdExitPeripheral();
+    discardVertexBuffer();
+    syMallocFinish();
+    syHwFinish();
+    _builtin_set_imask(0xF);
+    R0 = ((syBtExit()));
+    goto L_C02A46E;
+    L_C02A46E:;
+    return R0;
 }

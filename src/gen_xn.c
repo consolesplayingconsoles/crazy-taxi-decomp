@@ -1,70 +1,170 @@
 /* Straight-line functions with calls and guards (batch gen_xn): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(void);
-int Start_Excellent(void);
-int Start_Fault(int);
-int nd_SprPut(int, int, float, float);
-int nlObjPutSetFadeColor(float, float, float);
-int Exec_Crazy_Jump(void);
+int _add(int, int, int);
+int _sub(int, int, int, int);
+int memmove(int, int, int);
+int memset(int, int, int);
+int _div64(int a4, int a5, int a6, int a7);
 
-int Exec_Crazy_Jump(void)
+int _div64(int a4, int a5, int a6, int a7)
 {
-    int t56;
-    int t68;
-    int t6;
-    int t16;
-    int t22;
-    int t23;
-    int t42;
-    int t74;
-    int t57;
-    int t66;
+    int t1;
+    int t71;
+    int t73;
+    int t75;
+    int t77;
+    int t78;
+    int t80;
+    int stk[23];
 
-    nlObjPutSetFadeColor(1.0f, 0.699999988f, 0.0f);
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98AC = 1.0f;
-    nd_SprPut(0xC2A9898, 0x1E7, 491.0f, 57.0f);
-    nd_SprPut(0xC2A9898, 0x1E8, 531.0f, 57.0f);
-    nd_SprPut(0xC2A9898, 0x1E2, 580.0f, 50.0f);
-    *(float *)0xC2A98A8 = 1.0f;
-    *(float *)0xC2A98B8 = 1.0f;
-    ResetFadeColor();
-    if (!(0.0f > (*(float *)0xC17914C)) && (t6 = *(int *)0xC2A9970, t6 == 0)) {
-        *(unsigned int *)0xC2A9970 = ((*(int *)0xC2A9970) + 0x1);
-    }
-    if ((int)(*(int *)0xC2A9970) < (int)0x2) {
-        *(float *)0xC2A9A24 = ((*(float *)0xC17914C) * 0.099999994f);
-    }
-    if (((*(int *)0xC17926C) == 0) && (t16 = *(int *)0xC2A9970, t16 == 1)) {
-        *(unsigned int *)0xC2A9970 = ((*(int *)0xC2A9970) + 0x1);
-    }
-    if (!((*(float *)0xC179148) > 0.0f) && ((t22 = *(int *)0xC2A9970, (int)t22 <= (int)0x1) && (t23 = *(int *)0xC2A991C, t23 == 0))) {
-        Start_Fault(0x0);
-        *(unsigned int *)0xC2A991C = 0x1;
-    }
-    if ((*(int *)0xC2A9970) == 2) {
-        *(unsigned int *)0xC2A98F4 = (int)((*(float *)0xC2A9A24) * 100.0f);
-        *(unsigned int *)0xC2A9970 = ((*(int *)0xC2A9970) + 0x1);
-    }
-    if (((*(int *)0xC1EE794) == 0) && (t42 = *(int *)0xC2A991C, t42 == 0)) {
-        Start_Fault(0x1);
-        *(unsigned int *)0xC2A991C = 0x1;
-        *(unsigned int *)0xC179120 = 0x0;
-        t74 = 0x54;
-    } else {
-        t56 = *(int *)0xC2A9970;
-        t68 = t56;
-        if ((t56 == 3) && (t57 = *(int *)0xC2A991C, t57 == 0)) {
-            if (!((*(float *)0xC05C6C8) > (*(float *)0xC2A9A24))) {
-                t66 = (Start_Excellent());
-            } else {
-                t66 = (Start_Fault(0x0));
-            }
-            *(unsigned int *)0xC2A991C = 0x1;
-            t68 = t66;
-        }
-        t74 = t68;
-    }
-    return t74;
+    int R0;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C089550:;
+    *(unsigned int *)(((int)stk + 8)) = R5;
+    *(unsigned short *)(((int)stk + 12)) = R6;
+    *(unsigned int *)(((int)stk + 4)) = R7;
+    memset((((int)stk + 4) + 0x2C), 0x0, 0x4);
+    t1 = *(int *)(((int)stk + 4));
+    *(unsigned int *)(((int)stk + 16)) = ((((int)stk + 4) + 0x2C) + 0x4);
+    memmove(((((int)stk + 4) + 0x2C) + 0x4), t1, 0x8);
+    memset((((int)stk + 4) + 0x20), 0x0, 0x4);
+    memmove(((((int)stk + 4) + 0x20) + 0x4), (*(int *)(((int)stk + 8))), 0x8);
+    memset((((int)stk + 4) + 0x10), 0x0, 0x10);
+    *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x10) + 0xB);
+    R10 = (R4);
+    R11 = ((((int)stk + 4) + 0x20));
+    R12 = (0xC089738);
+    R13 = ((((int)stk + 4) + 0x10));
+    R14 = ((((int)stk + 4) + 0x2C));
+    R8 = (0xC081414);
+    R9 = (0x42);
+    goto L_C0895F6;
+    L_C0895F6:;
+    if ((R9 != 0)) goto L_C0895C2;
+    goto L_C0895FA;
+    L_C0895FA:;
+    R11 = (0x2);
+    R9 = (0xC089C80);
+    goto L_C089624;
+    L_C089624:;
+    if ((R11 != 0)) goto L_C08961C;
+    goto L_C089628;
+    L_C089628:;
+    if (((*(signed char *)((R14 + 0x0))) != 0)) goto L_C089672;
+    goto L_C08962E;
+    L_C08962E:;
+    if (((*(signed char *)((R14 + 0x1))) != 0)) goto L_C089672;
+    goto L_C089634;
+    L_C089634:;
+    if (((*(signed char *)((R14 + 0x2))) != 0)) goto L_C089672;
+    goto L_C08963A;
+    L_C08963A:;
+    if (((*(signed char *)((R14 + 0x3))) != 0)) goto L_C089672;
+    goto L_C089640;
+    L_C089640:;
+    if (((*(signed char *)(((*(int *)(((int)stk + 16))) + 0x0))) != 0)) goto L_C089672;
+    goto L_C089648;
+    L_C089648:;
+    if (((*(signed char *)((R14 + 0x5))) != 0)) goto L_C089672;
+    goto L_C08964E;
+    L_C08964E:;
+    if (((*(signed char *)((R14 + 0x6))) != 0)) goto L_C089672;
+    goto L_C089654;
+    L_C089654:;
+    if (((*(signed char *)((R14 + 0x7))) != 0)) goto L_C089672;
+    goto L_C08965A;
+    L_C08965A:;
+    if (((*(signed char *)((R14 + 0x8))) != 0)) goto L_C089672;
+    goto L_C089660;
+    L_C089660:;
+    if (((*(signed char *)((R14 + 0x9))) != 0)) goto L_C089672;
+    goto L_C089666;
+    L_C089666:;
+    if (((*(signed char *)((R14 + 0xA))) != 0)) goto L_C089672;
+    goto L_C08966C;
+    L_C08966C:;
+    if (((*(signed char *)((R14 + 0xB))) == 0)) goto L_C089678;
+    goto L_C089672;
+    L_C089672:;
+    *(unsigned char *)((R13 + 0xC)) = ((*(signed char *)((R13 + 0xC))) | 0x20);
+    goto L_C089678;
+    L_C089678:;
+    *(unsigned short *)((R10 + 0x0)) = ((*(short *)(((int)stk + 12))) - (*(short *)((R10 + 0x0))));
+    if (((*(signed char *)((R13 + 0x4))) != 0)) goto L_C0896B8;
+    goto L_C089686;
+    L_C089686:;
+    if (((*(signed char *)((R13 + 0x5))) != 0)) goto L_C0896B8;
+    goto L_C08968C;
+    L_C08968C:;
+    if (((*(signed char *)((R13 + 0x6))) != 0)) goto L_C0896B8;
+    goto L_C089692;
+    L_C089692:;
+    if (((*(signed char *)((R13 + 0x7))) != 0)) goto L_C0896B8;
+    goto L_C089698;
+    L_C089698:;
+    if (((*(signed char *)((R13 + 0x8))) != 0)) goto L_C0896B8;
+    goto L_C08969E;
+    L_C08969E:;
+    if (((*(signed char *)((R13 + 0x9))) != 0)) goto L_C0896B8;
+    goto L_C0896A4;
+    L_C0896A4:;
+    if (((*(signed char *)((R13 + 0xA))) != 0)) goto L_C0896B8;
+    goto L_C0896AA;
+    L_C0896AA:;
+    if (((*(signed char *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0)) goto L_C0896B8;
+    goto L_C0896B2;
+    L_C0896B2:;
+    if (((*(signed char *)((R13 + 0xC))) == 0)) goto L_C0896D6;
+    goto L_C0896B8;
+    L_C0896B8:;
+    R11 = (0x80);
+    R14 = ((R13 + 0x4));
+    goto L_C0896CE;
+    L_C0896CE:;
+    if ((((unsigned char)(*(signed char *)((R14 + 0x0))) & R11) == 0)) goto L_C0896C2;
+    goto L_C0896D6;
+    L_C0896D6:;
+    return (((int (*)(int, int, int, int))(R8))((*(int *)(((int)stk + 8))), (R13 + 0x4), 0x9, R7));
+    L_C0896C2:;
+    t71 = ((int (*)(int, int, int, int))(R12))(R14, 0x9, R6, R7);
+    *(unsigned short *)((R10 + 0x0)) = ((*(short *)((R10 + 0x0))) - 1);
+    goto L_C0896CE;
+    L_C08961C:;
+    t73 = ((int (*)(int, int, int, int))(R9))(R13, 0x10, R6, R7);
+    R11 = ((R11 - 1));
+    goto L_C089624;
+    L_C0895C2:;
+    t75 = ((int (*)(int, int, int, int))(R12))(R13, 0xC, R6, R7);
+    t77 = (int)(_sub(0x0, R14, R11, 0xC)) < 0;
+    if (t77) goto L_C0895E4;
+    goto L_C0895D8;
+    L_C0895D8:;
+    t78 = *(int *)(((int)stk + 4));
+    *(unsigned char *)((t78 + 0x0)) = ((*(signed char *)((t78 + 0x0))) + 0x1);
+    goto L_C0895EE;
+    L_C0895EE:;
+    t80 = ((int (*)(int, int, int, int))(R12))(R14, 0xC, R6, R7);
+    R9 = ((R9 - 1));
+    goto L_C0895F6;
+    L_C0895E4:;
+    _add(R14, R11, 0xC);
+    goto L_C0895EE;
 }

@@ -1,82 +1,131 @@
 /* Straight-line functions with calls and guards (batch gen_zf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CalcShadow2Matrix(int);
-int humanDraw(int, int, int, int);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAY(int);
-int nlTranslateV(int);
-int pedDraw(int a4, float f4, float f5);
+int pfColor(int, int, int, int);
+float pfLength(int);
+int pfLocate(float, float);
+int pfPuts(int);
+int pfSetFilterMode(int);
+int pfSetFont(int);
+int pfSetZ(float);
+int pfSize(float, float);
+int putString(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
-int pedDraw(int a4, float f4, float f5)
+int putString(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
-    int t3;
-    int t52;
-    int t9;
-    int t58;
+    float u9;
+    float t25;
+    float u26;
+    float t33;
+    int stk[10];
 
-    if (!(300.0f > f4)) {
-        if ((*(int *)0xC179860) == 7) {
-            if (300.0f > f5) {
-                nlPushMatrix(0x0);
-                t3 = *(int *)((a4 + 0x50));
-                if (t3 == 1) {
-                    nlTranslateV((a4 + 0xC));
-                    if ((*(int *)((a4 + 0x1C))) == 1) {
-                        t9 = (unsigned short)(*(short *)((a4 + 0x1A)));
-                    } else {
-                        t9 = ((unsigned short)(*(short *)((a4 + 0x1A))) + 0x8000);
-                    }
-                    nlRotateAY(t9);
-                    humanDraw((*(int *)((((*(int *)((a4 + 0x28))) << 2) + 0xC0D6158))), ((*(int *)((a4 + 0x24))) + 0x5), (*(int *)((a4 + 0x20))), 0x0);
-                    CalcShadow2Matrix((a4 + 0x54));
-                    nlObjPutUseViewMatrix(0xC5AA038);
-                } else {
-                    if (t3 == 2) {
-                        nlTranslateV((a4 + 0x40));
-                        nlRotateAY((unsigned short)(*(short *)((a4 + 0x1A))));
-                        humanDraw((*(int *)((((*(int *)((a4 + 0x28))) << 2) + 0xC0D61AC))), ((*(int *)((a4 + 0x24))) + 0x5), (*(int *)((a4 + 0x20))), 0x1);
-                        CalcShadow2Matrix((a4 + 0x54));
-                        nlObjPutUseViewMatrix(0xC5AA038);
-                    }
-                }
-            } else {
-                nlPushMatrix(0x0);
-                nlTranslateV((a4 + 0xC));
-                nlRotateAY(((unsigned short)(*(short *)0xC17985A) + 0x8000));
-                nlObjPutUseViewMatrix((*(int *)((((*(int *)((a4 + 0x24))) << 2) + 0xC12FF3C))));
-            }
-        } else {
-            nlPushMatrix(0x0);
-            nlTranslateV((a4 + 0xC));
-            nlRotateAY(((unsigned short)(*(short *)0xC17985A) + 0x8000));
-            nlObjPutUseViewMatrix((*(int *)((((*(int *)((a4 + 0x24))) << 2) + 0xC12FF3C))));
-        }
-    } else {
-        nlPushMatrix(0x0);
-        t52 = *(int *)((a4 + 0x50));
-        if (t52 == 1) {
-            nlTranslateV((a4 + 0xC));
-            if ((*(int *)((a4 + 0x1C))) == 1) {
-                t58 = (unsigned short)(*(short *)((a4 + 0x1A)));
-            } else {
-                t58 = ((unsigned short)(*(short *)((a4 + 0x1A))) + 0x8000);
-            }
-            nlRotateAY(t58);
-            humanDraw((*(int *)((((*(int *)((a4 + 0x28))) << 2) + 0xC0D6158))), ((*(int *)((a4 + 0x24))) + 0x5), (*(int *)((a4 + 0x20))), 0x0);
-            CalcShadow2Matrix((a4 + 0x54));
-            nlObjPutUseViewMatrix(0xC5AA038);
-        } else {
-            if (t52 == 2) {
-                nlTranslateV((a4 + 0x40));
-                nlRotateAY((unsigned short)(*(short *)((a4 + 0x1A))));
-                humanDraw((*(int *)((((*(int *)((a4 + 0x28))) << 2) + 0xC0D61AC))), ((*(int *)((a4 + 0x24))) + 0x5), (*(int *)((a4 + 0x20))), 0x1);
-                CalcShadow2Matrix((a4 + 0x54));
-                nlObjPutUseViewMatrix(0xC5AA038);
-            }
-        }
-    }
-    return nlPopMatrix(0x1);
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C03B324:;
+    *(float *)(((int)stk + 4)) = F4;
+    *(float *)(((int)stk + 8)) = F5;
+    *(float *)(((int)stk + 12)) = F6;
+    R0 = (0x8);
+    R13 = (R5);
+    R14 = (R4);
+    if (((*(signed char *)((R5 + 0x0))) == 0)) goto L_C03B43C;
+    goto L_C03B346;
+    L_C03B346:;
+    pfSetFilterMode(0x1);
+    pfSetZ((*(float *)0xC2A1AD4));
+    pfSetFont((0x3 & R14));
+    u9 = *(float *)(((int)stk + 12));
+    F4 = (u9);
+    F5 = (u9);
+    if (((0x20000 & R14) == 0)) goto L_C03B36E;
+    goto L_C03B368;
+    L_C03B368:;
+    F5 = ((F5 * 1.5f));
+    goto L_C03B36E;
+    L_C03B36E:;
+    pfSize(F4, F5);
+    R12 = (0xC03102A);
+    if (((0x10 & R14) == 0)) goto L_C03B388;
+    goto L_C03B37C;
+    L_C03B37C:;
+    R4 = (0xFF000000);
+    R5 = (0xFF000000);
+    R6 = (0xFF000000);
+    R7 = (0xFF000000);
+    goto L_C03B3AA;
+    L_C03B3AA:;
+    pfColor(R4, R5, R6, R7);
+    goto L_C03B3EE;
+    L_C03B3EE:;
+    F15 = ((*(float *)(((int)stk + 4))));
+    if (((0x4 & R14) == 0)) goto L_C03B408;
+    goto L_C03B3F6;
+    L_C03B3F6:;
+    t25 = pfLength(R13);
+    u26 = *(float *)0xC03B4C8;
+    F15 = ((F15 - (t25 * u26)));
+    F4 = ((t25 * u26));
+    goto L_C03B418;
+    L_C03B418:;
+    pfLocate(F15, (*(float *)(((int)stk + 8))));
+    pfPuts(R13);
+    return pfSetFilterMode(0x0);
+    L_C03B408:;
+    if (((R14 & 0x8) == 0)) goto L_C03B418;
+    goto L_C03B40E;
+    L_C03B40E:;
+    t33 = pfLength(R13);
+    F15 = ((F15 - t33));
+    F4 = (t33);
+    goto L_C03B418;
+    L_C03B388:;
+    if (((0x20 & R14) == 0)) goto L_C03B39A;
+    goto L_C03B38E;
+    L_C03B38E:;
+    R4 = (0xFFFFFFFF);
+    R5 = (0xFFFFFFFF);
+    R6 = (0xFFFFFFFF);
+    R7 = (0xFFFFFFFF);
+    goto L_C03B3AA;
+    L_C03B39A:;
+    if (((0x40 & R14) == 0)) goto L_C03B3DC;
+    goto L_C03B3A0;
+    L_C03B3A0:;
+    R4 = (0xFFFFC500);
+    R5 = (0xFFFFC500);
+    R6 = (0xFFFFC500);
+    R7 = (0xFFFFC500);
+    goto L_C03B3AA;
+    L_C03B3DC:;
+    if (((0x80 & R14) == 0)) goto L_C03B3EE;
+    goto L_C03B3E2;
+    L_C03B3E2:;
+    pfColor(0xFF707070, 0xFF707070, 0xFF707070, 0xFF707070);
+    goto L_C03B3EE;
+    L_C03B43C:;
+    return R0;
 }

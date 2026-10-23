@@ -1,117 +1,156 @@
 /* Straight-line functions with calls and guards (batch gen_yh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int FcvPlayBuffer(int, int);
-int drvJolt(void);
-int nlCalcVector(int, int);
-int nlGetPushedMatrix(int);
-int nlGetTranslate(int);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAX(int);
-int nlRotateAY(int);
-float nlScalor(int);
-extern int nlSubVector3op();
-int nlTranslate(float, float, float);
-int nlTranslateV(int);
-int Drv_Put(float f4, float f5, float f6);
+int rtcGetSeconds(void);
+int Result_Insert_Rank(int a4, int a5, int a6, int a7);
 
-int Drv_Put(float f4, float f5, float f6)
+int Result_Insert_Rank(int a4, int a5, int a6, int a7)
 {
     int t0;
-    int t2;
-    int t5;
-    int t7;
-    int t13;
-    int t16;
-    int t17;
-    float u28;
-    int t29;
-    int t41;
-    int t33;
-    int t36;
-    int t34;
-    float u48;
-    float u59;
-    int t3;
-    int stk[50];
+    int t20;
+    int t27;
+    int t35;
+    int t40;
+    int t54;
+    int t55;
+    int t59;
+    int t61;
+    int t63;
+    int t66;
+    int t67;
+    int t68;
+    int stk[10];
 
-    t0 = 0xC0D51E8;
-    t2 = (((int)stk + 4) + 0x14);
-    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D51E8 + 144)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD240) = *(struct mv3 *)(0xC2AD234); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD234) = *(struct mv3 *)(0xC2AD228); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD228) = *(struct mv3 *)(0xC2AD21C); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD21C) = *(struct mv3 *)(0xC2AD210); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD210) = *(struct mv3 *)(0xC2AD204); }
-    *(unsigned int *)(((int)stk + 8)) = 0xC1790CC;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD204) = *(struct mv3 *)(0xC179144); }
-    *(unsigned int *)(((int)stk + 4)) = 0xC2AD270;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD27C) = *(struct mv3 *)(0xC2AD270); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((*(int *)(((int)stk + 4)))) = *(struct mv3 *)(0xC2AD264); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD264) = *(struct mv3 *)(0xC2AD258); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD258) = *(struct mv3 *)(0xC2AD24C); }
-    t5 = ((int (*)(int, int, int, float, float, float))(nlSubVector3op))(0xC2AD24C, 0xC2AD204, 0xC2AD210, f4, f5, f6);
-    *(float *)0xC2AD2B8 = (nlScalor(0xC2AD24C));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2AC) = *(struct mv3 *)(0xC2AD2A0); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2A0) = *(struct mv3 *)(0xC2AD294); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD294) = *(struct mv3 *)(0xC2AD288); }
-    t7 = ((int (*)(int, int, int))(nlSubVector3op))(0xC2AD288, 0xC2AD24C, 0xC2AD258);
-    nlPushMatrix(((*(int *)(((int)stk + 8))) + 0xB4));
-    nlCalcVector(0xC0D553C, 0xC2AD1E0);
-    nlCalcVector(0xC0D5548, 0xC2AD1EC);
-    nlCalcVector(0xC0D5554, 0xC2AD1F8);
-    t13 = *(signed char *)0xC179488;
-    nlTranslateV(((unsigned char)(((t13 << 1) + t13) << 2) + (((int)stk + 4) + 0x14)));
-    nlRotateAY(0x8000);
-    t16 = *(int *)0xC2AD010;
-    t17 = *(int *)0xC2AD000;
-    if ((t16 != 2) && (t16 != 4)) {
-        if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-            FcvPlayBuffer(0xC2AD028, t17);
-        } else {
-            drvJolt();
-        }
-    } else {
-        FcvPlayBuffer(0xC2AD028, t17);
-    }
-    nlGetTranslate(0xC2AD004);
-    if (((*(signed char *)0xC2AD1DF) & 1) != 0) {
-        nlTranslate(0.0f, 3.5f, -3.25999999f);
-        u28 = *(float *)0xC2AD024;
-        t29 = *(int *)0xC2AD020;
-        t41 = ((-(int)((u28 * 65535.0f) / 60.0f)) + 0x8000);
-        if ((t29 != 0xC136BE4) && ((t29 != 0xC138BF8) && (t29 != 0xC13A3BC))) {
-            t33 = *(int *)0xC2AD020;
-            t36 = (0xFFFF8000 + (int)((u28 * 65535.0f) / 60.0f));
-            if (t33 == 0xC13BB20) {
-            } else {
-                t34 = 0xC2AD258;
-                if (t33 == 0xC13D404) {
-                    t34 = 0x8000;
-                }
-                t36 = t34;
-            }
-            t41 = t36;
-        }
-        nlRotateAX(t41);
-        nlObjPutUseViewMatrix(0xC3BFFE0);
-        nlPushMatrix(0x0);
-        u48 = *(float *)0xC0641C0;
-        nlTranslate(u48, u48, 0.0f);
-        if ((*(int *)0xC2AD020) != 0xC135150) {
-            nlRotateAX(((*(int *)0xC2AD0D0) - t41));
-        }
-        nlObjPutUseViewMatrix(0xC3C05A8);
-        nlGetPushedMatrix(0x0);
-        u59 = *(float *)0xC0641D0;
-        nlTranslate(u59, u59, 0.0f);
-        if ((*(int *)0xC2AD020) != 0xC135150) {
-            nlRotateAX(((*(int *)0xC2AD0E8) - t41));
-        }
-        nlObjPutUseViewMatrix(0xC3C07C8);
-        nlPopMatrix(0x1);
-    }
-    return (nlPopMatrix(0x1));
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C05B11C:;
+    t0 = rtcGetSeconds();
+    R0 = (t0);
+    R10 = (0xC2A97DC);
+    R12 = (0xC2A7600);
+    R13 = (0x3);
+    R4 = (0xC28A4E8);
+    R5 = (0xC1EE210);
+    R6 = (0x63);
+    R8 = (t0);
+    R9 = (0x0);
+    goto L_C05B3D0;
+    L_C05B3D0:;
+    if (((int)R6 < (int)((*(int *)((R10 + 0x0))) - 1))) goto L_C05B3DC;
+    goto L_C05B3D8;
+    L_C05B3D8:;
+    goto L_C05B1B0;
+    L_C05B1B0:;
+    R11 = (((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4)));
+    R14 = ((((R6 - 20) << 2) << 1));
+    if ((R6 != 99)) goto L_C05B1FE;
+    goto L_C05B1D0;
+    L_C05B1D0:;
+    if (((*(int *)0xC2A97DC) != 100)) goto L_C05B1FE;
+    goto L_C05B1D8;
+    L_C05B1D8:;
+    *(unsigned int *)((((0x140 + R11) + R14) + 0x0)) = (*(int *)(((*(int *)((R12 + 0x0))) + 0x0)));
+    t20 = *(int *)((R5 + 0x0));
+    *(unsigned int *)((((0x140 + ((short)((short)t20 * (short)0x3C0) + (0x1E30 + R4))) + R14) + 0x4)) = R8;
+    R0 = (((0x140 + ((short)((short)t20 * (short)0x3C0) + (0x1E30 + R4))) + R14));
+    goto L_C05B3CE;
+    L_C05B3CE:;
+    R6 = ((R6 - 1));
+    goto L_C05B3D0;
+    L_C05B1FE:;
+    if (((int)R6 < (int)0x14)) goto L_C05B208;
+    goto L_C05B204;
+    L_C05B204:;
+    goto L_C05B368;
+    L_C05B368:;
+    R0 = (R6);
+    if ((R6 == 99)) goto L_C05B394;
+    goto L_C05B370;
+    L_C05B370:;
+    *(unsigned int *)((((0x140 + R11) + R14) + 0x8)) = (*(int *)((((0x140 + R11) + R14) + 0x0)));
+    t27 = *(int *)((R5 + 0x0));
+    *(unsigned int *)((((((short)((short)t27 * (short)0x3C0) + (0x1E30 + R4)) + 0x140) + R14) + 0xC)) = (*(int *)((((((short)((short)t27 * (short)0x3C0) + (0x1E30 + R4)) + 0x140) + R14) + 0x4)));
+    R0 = (0x140);
+    goto L_C05B394;
+    L_C05B394:;
+    if ((R6 != ((*(int *)((R10 + 0x0))) - 1))) goto L_C05B3CE;
+    goto L_C05B39C;
+    L_C05B39C:;
+    *(unsigned int *)((((0x140 + ((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4))) + R14) + 0x0)) = (*(int *)(((*(int *)((R12 + 0x0))) + 0x0)));
+    t35 = *(int *)((R5 + 0x0));
+    *(unsigned int *)((((0x140 + ((short)((short)t35 * (short)0x3C0) + (0x1E30 + R4))) + R14) + 0x4)) = R8;
+    R0 = (((0x140 + ((short)((short)t35 * (short)0x3C0) + (0x1E30 + R4))) + R14));
+    goto L_C05B3CE;
+    L_C05B208:;
+    R14 = (((R6 << 2) << 2));
+    if ((R6 != 19)) goto L_C05B248;
+    goto L_C05B216;
+    L_C05B216:;
+    *(unsigned int *)((R11 + 0x140)) = (*(int *)(((R11 + R14) + 0x0)));
+    t40 = *(int *)((R5 + 0x0));
+    *(unsigned int *)((((short)((short)t40 * (short)0x3C0) + (0x1E30 + R4)) + 0x144)) = (*(int *)(((((short)((short)t40 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0xC)));
+    R0 = (0x144);
+    goto L_C05B2C0;
+    L_C05B2C0:;
+    if ((R6 == ((*(int *)((R10 + 0x0))) - 1))) goto L_C05B2CC;
+    goto L_C05B2C8;
+    L_C05B2C8:;
+    goto L_C05B3CE;
+    L_C05B2CC:;
+    *(unsigned int *)(((((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x0)) = (*(int *)(((*(int *)((R12 + 0x0))) + 0x0)));
+    *(unsigned char *)(((0x4 + (((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4)) + R14)) + 0x0)) = (*(signed char *)0xC1794D0);
+    *(unsigned char *)(((((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x5)) = (*(signed char *)0xC2A96F0);
+    *(unsigned int *)(((((short)((short)(*(int *)((R5 + 0x0))) * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0xC)) = R8;
+    R7 = (R9);
+    goto L_C05B336;
+    L_C05B336:;
+    t54 = *(int *)((R5 + 0x0));
+    *(unsigned char *)(((((((short)((short)t54 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x6) + R7) + 0x0)) = 0x2A;
+    t55 = (int)(R7 + 0x1) < (int)R13;
+    R0 = ((((short)((short)t54 * (short)0x3C0) + (0x1E30 + R4)) + R14));
+    R7 = ((R7 + 0x1));
+    if (t55) goto L_C05B336;
+    goto L_C05B358;
+    L_C05B358:;
+    goto L_C05B3CE;
+    L_C05B248:;
+    *(unsigned int *)(((R11 + R14) + 0x10)) = (*(int *)(((R11 + R14) + 0x0)));
+    t59 = *(int *)((R5 + 0x0));
+    *(unsigned char *)(((0x14 + (((short)((short)t59 * (short)0x3C0) + (0x1E30 + R4)) + R14)) + 0x0)) = (*(signed char *)(((((short)((short)t59 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x4)));
+    t61 = *(int *)((R5 + 0x0));
+    *(unsigned char *)(((0x15 + (((short)((short)t61 * (short)0x3C0) + (0x1E30 + R4)) + R14)) + 0x0)) = (*(signed char *)(((((short)((short)t61 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x5)));
+    t63 = *(int *)((R5 + 0x0));
+    *(unsigned int *)(((((short)((short)t63 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x1C)) = (*(int *)(((((short)((short)t63 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0xC)));
+    R7 = (R9);
+    goto L_C05B298;
+    L_C05B298:;
+    t66 = *(int *)((R5 + 0x0));
+    t67 = *(signed char *)(((((((short)((short)t66 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x6) + R7) + 0x0));
+    t68 = (int)(R7 + 0x1) < (int)R13;
+    *(unsigned char *)(((((((short)((short)t66 * (short)0x3C0) + (0x1E30 + R4)) + R14) + 0x16) + R7) + 0x0)) = t67;
+    R0 = (t67);
+    R7 = ((R7 + 0x1));
+    if (t68) goto L_C05B298;
+    goto L_C05B2C0;
+    L_C05B3DC:;
+    *(unsigned int *)0xC1789C0 = ((*(int *)0xC1789C0) + 0x1);
+    return R0;
 }

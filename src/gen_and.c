@@ -1,21 +1,15 @@
 /* Straight-line functions with calls and guards (batch gen_and): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector3op(int, int, int);
-float nlInnerProduct(int, int, float, float);
-int nlScaleUnitVector(int, int, float);
-void Reflection(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, float f4, float f5);
+int extRand(void);
+int courseCarType(int a4);
 
-void Reflection(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, float f4, float f5)
+int courseCarType(int a4)
 {
-    int stk[22];
+    int t0;
+    int t1;
 
-    stk[9] = a8;
-    stk[10] = a9;
-    stk[11] = a10;
-    stk[12] = a11;
-    stk[13] = a12;
-    nlScaleUnitVector((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24), (-((nlInnerProduct((((int)stk + 4) + 0x24), (((int)stk + 4) + 0x30), f4, f5)) * (1.0f + 1.0f))));
-    nlAddVector3op(((int)stk + 4), (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(a8) = *(struct mv3 *)(((int)stk + 4)); }
+    t0 = extRand();
+    t1 = *(int *)(((((0x7 & t0) << 2) + (0xC0C3E24 + (((a4 << 2) << 2) << 1))) + 0x0));
+    return (((int)((int)((int)t0 >> 4) % (int)(*(int *)(((((t1 << 2) << 1) + 0xC0A21F8) + 0x4))))) + (*(int *)(((((t1 << 2) << 1) + 0xC0A21F8) + 0x0))));
 }

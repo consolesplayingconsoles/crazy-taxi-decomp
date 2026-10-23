@@ -1,120 +1,206 @@
 /* Straight-line functions with calls and guards (batch gen_afa): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlCalcVector(int, int);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlScaleUnitVector(int, int, float);
-float nlScalor(int);
-int nlSubVector(int, int);
-void carResistance(int a4);
+int buCalcCRC(int, int);
+int memmove(int, int, int);
+int memset(int, int, int);
+int buMakeBackupFileImage(int a4, int a5, int a6, int a7);
 
-void carResistance(int a4)
+int buMakeBackupFileImage(int a4, int a5, int a6, int a7)
 {
-    float t9;
-    float u50;
-    float u53;
-    int t72;
-    float u57;
-    int t60;
-    int t58;
-    float u62;
-    float u74;
-    float u75;
-    float u77;
-    float u93;
-    float u96;
-    float u87;
-    float u66;
-    float u68;
-    float u70;
-    int stk[9];
+    int t32;
+    int t44;
+    int t54;
+    int t59;
+    int t61;
+    int t62;
+    int stk[12];
 
-    nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
-    nlCalcVector((0x98 + a4), (((int)stk + 4) + 0xC));
-    nlPopMatrix(0x1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    *(float *)(((int)stk + 8)) = 0.0f;
-    t9 = nlScalor(((int)stk + 4));
-    if (!(t9 > 0.0f)) {
-    } else {
-        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0A4788); }
-        if (((*(int *)((a4 + 0x84))) & 32) == 0) {
-            if (!(0.00999999978f > t9)) {
-                if ((*(float *)((a4 + 0xC8))) != 0.0f) {
-                    if (t9 > (*(float *)((a4 + 0xC8)))) {
-                        nlScaleUnitVector(((int)stk + 4), (((int)stk + 4) + 0xC), (*(float *)((a4 + 0xC8))));
-                    } else {
-                        { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-                        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
-                    }
-                }
-            } else {
-                { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-                { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
-            }
-            u50 = *(float *)(((int)stk + 16));
-            u53 = 1.0f;
-            if (5000.0f > (*(float *)((a4 + 0xB4)))) {
-                u53 = 0.5f;
-            }
-            t72 = 0;
-            if (u53 > _builtin_fabsf(u50)) {
-                u66 = 0.899999976f;
-                u68 = (*(float *)(((int)stk + 16)));
-                t72 = (1);
-            } else {
-                u57 = *(float *)(((int)stk + 16));
-                t60 = 0x1;
-                if (u57 > 0.0f) {
-                } else {
-                    t58 = 0x0;
-                    if (0.0f > u57) {
-                        t58 = 0xFFFFFFFF;
-                    }
-                    t60 = t58;
-                }
-                u62 = 0.099999994f;
-                if (0.099999994f > (_builtin_fabsf(u50) * 0.399999976f)) {
-                    u62 = (_builtin_fabsf(u50) * 0.399999976f);
-                }
-                u66 = u62;
-                u68 = (float)t60;
-                u70 = (_builtin_fabsf(u50) * 0.399999976f);
-                t72 = ((0.099999994f > (_builtin_fabsf(u50) * 0.399999976f)));
-            }
-            u74 = (*(float *)(((int)stk + 4)));
-            u74 = u74 + u66 * u68;
-            *(float *)(((int)stk + 4)) = u74;
-            u87 = 0.0149999997f;
-        } else {
-            u75 = *(float *)((a4 + 0x100));
-            u77 = _builtin_fabsf((float)(((9.99999994e-09f > u75)) ? 1 : 0));
-            if ((_builtin_fabsf((float)(((9.99999994e-09f > u75)) ? 1 : 0)) != 0.0f) && (0.399999976f > t9)) {
-                { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-                { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC0A4788); }
-                u77 = 0.399999976f;
-            }
-            u87 = 0.049999997f;
-        }
-        u93 = (*(float *)(((int)stk + 4)));
-        u93 = u93 + u87 * (*(float *)(((int)stk + 16)));
-        *(float *)(((int)stk + 4)) = u93;
-        u96 = (*(float *)(((int)stk + 12)));
-        u96 = u96 + u87 * (*(float *)(((int)stk + 24)));
-        *(float *)(((int)stk + 12)) = u96;
-        nlPushUnitMatrix();
-        nlRotateAY((unsigned short)(*(short *)((a4 + 0xA6))));
-        nlRotateAX((unsigned short)(*(short *)((a4 + 0xA4))));
-        nlRotateAZ((unsigned short)(*(short *)((a4 + 0xA8))));
-        nlCalcVector(((int)stk + 4), ((int)stk + 4));
-        nlPopMatrix(0x1);
-        nlSubVector((0x98 + a4), ((int)stk + 4));
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C150ED0:;
+    R0 = (0x4C);
+    R12 = (R4);
+    R14 = (R5);
+    if (((*(short *)((R5 + 0x4C))) == 0)) goto L_C150F22;
+    goto L_C150EEE;
+    L_C150EEE:;
+    R10 = (0x3);
+    if (((int)(unsigned short)(*(short *)((R14 + R0))) > (int)0x3)) goto L_C150F22;
+    goto L_C150EF8;
+    L_C150EF8:;
+    if (((int)(unsigned short)(*(short *)((R14 + 0x54))) > (int)R10)) goto L_C150F22;
+    goto L_C150F02;
+    L_C150F02:;
+    if (((*(int *)((R14 + 0x44))) == 0)) goto L_C150F22;
+    goto L_C150F0A;
+    L_C150F0A:;
+    if (((*(int *)((R14 + 0x48))) == 0)) goto L_C150F22;
+    goto L_C150F12;
+    L_C150F12:;
+    if (((*(short *)((R14 + 0x54))) == 0)) goto L_C150F2A;
+    goto L_C150F1A;
+    L_C150F1A:;
+    if (((*(int *)((R14 + 0x50))) != 0)) goto L_C150F2A;
+    goto L_C150F22;
+    L_C150F22:;
+    R0 = (0xFFFFFF00);
+    goto L_C1510B4;
+    L_C1510B4:;
+    return R0;
+    L_C150F2A:;
+    memset(R12, 0x0, 0x60);
+    memset(R12, 0x20, 0x10);
+    memset((R12 + 0x10), 0x20, 0x20);
+    memset((R12 + 0x30), 0x0, 0x10);
+    R11 = (0xC081458);
+    R13 = (R12);
+    R4 = (0x10);
+    R5 = (R14);
+    R6 = (0x0);
+    R7 = (R12);
+    goto L_C150F5A;
+    L_C150F5A:;
+    if (((*(signed char *)((R5 + 0x0))) == 0)) goto L_C150F6C;
+    goto L_C150F60;
+    L_C150F60:;
+    *(unsigned char *)((R7 + 0x0)) = (*(signed char *)((R5 + 0x0)));
+    t32 = (int)(R6 + 0x1) < (int)R4;
+    R5 = ((R5 + 0x1));
+    R6 = ((R6 + 0x1));
+    R7 = ((R7 + 0x1));
+    if (t32) goto L_C150F5A;
+    goto L_C150F6C;
+    L_C150F6C:;
+    R5 = (0x0);
+    R6 = ((R14 + 0x12));
+    R7 = (0x0);
+    R8 = ((R13 + 0x10));
+    R9 = (0x20);
+    goto L_C150F7A;
+    L_C150F7A:;
+    if (((*(signed char *)((R6 + 0x0))) == 0)) goto L_C150F8C;
+    goto L_C150F80;
+    L_C150F80:;
+    *(unsigned char *)((R8 + 0x0)) = (*(signed char *)((R6 + 0x0)));
+    t44 = (int)(R7 + 0x1) < (int)R9;
+    R6 = ((R6 + 0x1));
+    R7 = ((R7 + 0x1));
+    R8 = ((R8 + 0x1));
+    if (t44) goto L_C150F7A;
+    goto L_C150F8C;
+    L_C150F8C:;
+    R6 = (R5);
+    R7 = ((R14 + 0x34));
+    R9 = ((R13 + 0x30));
+    goto L_C150F96;
+    L_C150F96:;
+    if (((*(signed char *)((R7 + 0x0))) == 0)) goto L_C150FA8;
+    goto L_C150F9C;
+    L_C150F9C:;
+    *(unsigned char *)((R9 + 0x0)) = (*(signed char *)((R7 + 0x0)));
+    t54 = (int)(R6 + 0x1) < (int)R4;
+    R6 = ((R6 + 0x1));
+    R7 = ((R7 + 0x1));
+    R9 = ((R9 + 0x1));
+    if (t54) goto L_C150F96;
+    goto L_C150FA8;
+    L_C150FA8:;
+    t59 = *(int *)(((((unsigned short)(*(short *)((R14 + 0x4C))) & R10) << 2) + 0xC177AA8));
+    t61 = *(int *)(((((unsigned short)(*(short *)((R14 + 0x54))) & R10) << 2) + 0xC177AB8));
+    t62 = *(int *)((R14 + 0x5C));
+    *(unsigned short *)((R13 + 0x42)) = (*(short *)((R14 + 0x4E)));
+    *(unsigned short *)((R13 + 0x40)) = (*(short *)((R14 + 0x4C)));
+    *(unsigned int *)(((int)stk + 4)) = 0x80;
+    R10 = (((t62 + (t59 + t61)) + 0x80));
+    R4 = (0x80);
+    R6 = ((t59 + t61));
+    R8 = (t61);
+    R9 = (t59);
+    if (((*(short *)((R14 + 0x54))) == 0)) goto L_C150FF4;
+    goto L_C150FEC;
+    L_C150FEC:;
+    if (((*(int *)((R14 + 0x50))) != 0)) goto L_C150FFC;
+    goto L_C150FF4;
+    L_C150FF4:;
+    *(unsigned short *)((R13 + 0x44)) = R5;
+    *(unsigned int *)(((int)stk + 12)) = R5;
+    goto L_C15100A;
+    L_C15100A:;
+    if (((*(int *)((R14 + 0x5C))) == 0)) goto L_C15101A;
+    goto L_C151012;
+    L_C151012:;
+    if (((*(int *)((R14 + 0x58))) != 0)) goto L_C151030;
+    goto L_C15101A;
+    L_C15101A:;
+    *(unsigned int *)((R13 + 0x48)) = R5;
+    *(unsigned int *)(((int)stk + 8)) = R5;
+    goto L_C15103C;
+    L_C15103C:;
+    if ((R9 == 0)) goto L_C15105C;
+    goto L_C151040;
+    L_C151040:;
+    memmove((R12 + 0x60), (*(int *)((R14 + 0x44))), 0x20);
+    memmove(((*(int *)(((int)stk + 4))) + R12), (*(int *)((R14 + 0x48))), R9);
+    goto L_C15105C;
+    L_C15105C:;
+    if ((R8 == 0)) goto L_C15106E;
+    goto L_C151060;
+    L_C151060:;
+    memmove(((*(int *)(((int)stk + 12))) + R12), (*(int *)((R14 + 0x50))), R8);
+    goto L_C15106E;
+    L_C15106E:;
+    R0 = (0x5C);
+    if (((*(int *)((R14 + 0x5C))) == 0)) goto L_C151084;
+    goto L_C151076;
+    L_C151076:;
+    memmove(((*(int *)(((int)stk + 8))) + R12), (*(int *)((R14 + 0x58))), (*(int *)((R14 + R0))));
+    goto L_C151084;
+    L_C151084:;
+    R14 = ((0x1FF & R10));
+    if (((0x1FF & R10) == 0)) goto L_C151098;
+    goto L_C15108C;
+    L_C15108C:;
+    memset((R12 + R10), 0x0, (0x200 - R14));
+    goto L_C151098;
+    L_C151098:;
+    *(unsigned short *)(((0x46 + R13) + 0x0)) = (buCalcCRC(R12, R10));
+    if ((R14 == 0)) goto L_C1510AC;
+    goto L_C1510A8;
+    L_C1510A8:;
+    R0 = (0x1);
+    goto L_C1510AE;
+    L_C1510AE:;
+    R0 = ((R0 + ((unsigned int)((unsigned int)R10 >> 8) >> 1)));
+    goto L_C1510B4;
+    L_C1510AC:;
+    R0 = (0x0);
+    goto L_C1510AE;
+    L_C151030:;
+    *(unsigned int *)((R13 + 0x48)) = (*(int *)((R14 + 0x5C)));
+    *(unsigned int *)(((int)stk + 8)) = (R6 + R4);
+    R6 = ((R6 + R4));
+    goto L_C15103C;
+    L_C150FFC:;
+    *(unsigned short *)((R13 + 0x44)) = (*(short *)((R14 + 0x54)));
+    *(unsigned int *)(((int)stk + 12)) = (R9 + R4);
+    goto L_C15100A;
 }

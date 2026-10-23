@@ -1,127 +1,183 @@
 /* Straight-line functions with calls and guards (batch gen_ij): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetRotVec(int);
-int PutMVObj(int);
-int nlCalcPoint(int, int);
-int nlGetMatrix(int);
-int nlObjPutUseViewMatrix(int);
-int nlPopMatrix(int);
-int nlPushMatrix(int);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlSetTranslate(int);
-int nlTranslate(float, float, float);
-int putPlayerCarByView(int a4);
+int nlMvGetFaceVerts(int, int, int, int);
+int nlMvSendFan3(int, int, int, int, int);
+int nlMvSendQuad(int, int, int, int);
+int nlMvSendTriangle(int, int, int);
+int nlMvPutFaceClip(int a4, int a5, int a6, int a7);
 
-int putPlayerCarByView(int a4)
+int nlMvPutFaceClip(int a4, int a5, int a6, int a7)
 {
-    int t15;
-    int t29;
-    int t80;
-    int t85;
-    int t86;
-    int t87;
-    int t88;
-    int t109;
+    int t0;
     int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
+    int t14;
+    int t15;
+    int t16;
     int t19;
     int t20;
-    int t21;
-    int t22;
     int t23;
     int t24;
-    int t25;
-    int t26;
+    int t27;
+    int t28;
+    int t31;
+    int t32;
+    int t37;
+    int t38;
+    int t62;
+    int t41;
+    int t47;
+    int t71;
+    int t76;
+    int t98;
+    int t104;
+    int t118;
+    int t89;
     int t53;
-    int t63;
-    int t73;
+    int t56;
+    int t57;
+    int t58;
+    int t59;
+    int t80;
     int t83;
-    int t93;
+    int t84;
+    int t85;
+    int t109;
+    int t112;
+    int t113;
+    int t114;
+    int t115;
+    int stk[12];
 
-    t15 = 0x0;
-    if (((*(int *)0xC179860) == 0) && ((t1 = *(short *)0xC17985A, t2 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86)), (int)(unsigned short)(t1 - t2) > (int)0x6800) && ((t3 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86)), t4 = *(short *)0xC17985A, (int)(unsigned short)(t4 - t3) < (int)0x9800) && (((t5 = *(short *)0xC179858, t6 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x84)), (int)(unsigned short)(t5 - t6) < (int)0x380) || (t7 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x84)), t8 = *(short *)0xC179858, (int)(unsigned short)(t8 - t7) > (int)0xD000)) && ((t9 = *(short *)0xC17985C, t10 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88)), (int)(unsigned short)(t9 - t10) < (int)0x1800) || (t11 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88)), t12 = *(short *)0xC17985C, (int)(unsigned short)(t12 - t11) > (int)0xE800)))))) {
-        t15 = 0x1;
+    *(unsigned int *)(((int)stk + 12)) = (a6 + 0x4);
+    t0 = *(int *)0xC2B7660;
+    *(unsigned int *)(((int)stk + 8)) = (a6 + 0x2);
+    t1 = *(int *)0xC2B7668;
+    if (a4 == 0) {
+        if (a5 != 7) {
+            return nlMvGetFaceVerts(t0, a6, t1, a7);
+        }
+        return nlMvSendTriangle(((((*(short *)((a6 + 0x0))) << 2) << 2) + t0), ((((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2) << 2) + t0), ((((*(short *)(((*(int *)(((int)stk + 12))) + 0x0))) << 2) << 2) + t0));
     }
-    t29 = 0x0;
-    if (((*(int *)0xC179860) == 0) && ((t19 = *(short *)0xC17985A, t20 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86)), (int)(unsigned short)(t19 - t20) > (int)0x6800) && ((t21 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86)), t22 = *(short *)0xC17985A, (int)(unsigned short)(t22 - t21) < (int)0x9800) && ((t23 = *(short *)0xC17985C, t24 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88)), (int)(unsigned short)(t23 - t24) < (int)0x2000) || (t25 = *(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88)), t26 = *(short *)0xC17985C, (int)(unsigned short)(t26 - t25) > (int)0xE000))))) {
-        t29 = 0x1;
+    if (a4 == 7) {
+        if (a5 == 7) {
+            return a5;
+        }
+        if (a5 == 0) {
+            return nlMvSendTriangle(((((*(short *)((a6 + 0x0))) << 2) << 2) + t0), ((((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2) << 2) + t0), ((((*(short *)(((*(int *)(((int)stk + 12))) + 0x0))) << 2) << 2) + t0));
+        }
+        return nlMvGetFaceVerts(t0, a6, t1, a7);
     }
-    nlPushMatrix(0x0);
-    nlSetTranslate((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x78));
-    nlRotateAY((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x88))));
-    nlPushMatrix(0x0);
-    nlRotateAX((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0xAC))));
-    nlRotateAZ((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0xB0))));
-    nlTranslate(0.0f, -2.29999995f, 0.0f);
-    nlGetMatrix((0xB4 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)));
-    if (t15 == 1) {
-        t53 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x34)));
-    } else {
-        t53 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x10)));
-    }
-    nlObjPutUseViewMatrix(t53);
-    if ((*(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x11C))) == 0.0f) {
-        t63 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x14)));
-    } else {
-        t63 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x18)));
-    }
-    nlObjPutUseViewMatrix(t63);
-    if ((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x58))) == 0) {
-        t73 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x20)));
-    } else {
-        t73 = (*(int *)(((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x1C)));
-    }
-    nlObjPutUseViewMatrix(t73);
-    PutMVObj((*(int *)0xC179488));
-    GetRotVec((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x30));
-    nlPopMatrix(0x1);
-    t80 = *(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x6C));
-    if (t29 == 1) {
-        t83 = ((*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74))) + 0x24);
-    } else {
-        t83 = (*(int *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x74)));
-    }
-    t85 = t83;
-    t86 = t80;
-    t87 = 0x0;
-    t88 = (0x1A0 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC));
-    for (;;) {
-        if ((int)t87 < (int)0x2) {
-            t93 = ((*(short *)((t88 + 0x82))) + (int)((*(float *)(((0x168 + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x0))) * 18.2041664f));
+    t14 = *(int *)0xC2B7664;
+    if ((a5 != 0) && (a5 != 7)) {
+        if (a4 == a5) {
+            if (a4 != 1) {
+                if (a4 != 2) {
+                    if ((a4 != 3) && (a4 != 4)) {
+                        if (a4 != 5) {
+                            if (a4 != 6) {
+                                return a4;
+                            }
+                            t15 = *(short *)(((a7 + 0x4) + 0x0));
+                            *(unsigned int *)(((int)stk + 12)) = ((t15 << 2) << 2);
+                            t16 = *(short *)(((a7 + 0x2) + 0x0));
+                            *(unsigned int *)(((int)stk + 8)) = ((t16 << 2) << 2);
+                            return nlMvSendQuad(((*(int *)(((int)stk + 12))) + t14), ((*(int *)(((int)stk + 8))) + t14), (((t16 << 2) << 2) + t1), (((t15 << 2) << 2) + t1));
+                        }
+                        t19 = *(short *)(((a7 + 0x2) + 0x0));
+                        *(unsigned int *)(((int)stk + 12)) = ((t19 << 2) << 2);
+                        t20 = *(short *)((a7 + 0x0));
+                        *(unsigned int *)(((int)stk + 8)) = ((t20 << 2) << 2);
+                        return nlMvSendQuad(((*(int *)(((int)stk + 12))) + t14), ((*(int *)(((int)stk + 8))) + t14), (((t20 << 2) << 2) + t1), (((t19 << 2) << 2) + t1));
+                    }
+                    t23 = *(short *)((a7 + 0x0));
+                    *(unsigned int *)(((int)stk + 12)) = ((t23 << 2) << 2);
+                    t24 = *(short *)(((a7 + 0x4) + 0x0));
+                    *(unsigned int *)(((int)stk + 8)) = ((t24 << 2) << 2);
+                    return nlMvSendQuad(((*(int *)(((int)stk + 12))) + t14), ((*(int *)(((int)stk + 8))) + t14), (((t24 << 2) << 2) + t1), (((t23 << 2) << 2) + t1));
+                }
+                t27 = *(short *)(((a7 + 0x2) + 0x0));
+                *(unsigned int *)(((int)stk + 12)) = ((t27 << 2) << 2);
+                t28 = *(short *)((a7 + 0x0));
+                *(unsigned int *)(((int)stk + 8)) = ((t28 << 2) << 2);
+                return nlMvSendQuad(((*(int *)(((int)stk + 12))) + t14), ((*(int *)(((int)stk + 8))) + t14), (((t28 << 2) << 2) + t1), (((t27 << 2) << 2) + t1));
+            }
+            t31 = *(short *)(((a7 + 0x4) + 0x0));
+            *(unsigned int *)(((int)stk + 12)) = ((t31 << 2) << 2);
+            t32 = *(short *)(((a7 + 0x2) + 0x0));
+            *(unsigned int *)(((int)stk + 8)) = ((t32 << 2) << 2);
+            return nlMvSendQuad(((*(int *)(((int)stk + 12))) + t14), ((*(int *)(((int)stk + 8))) + t14), (((t32 << 2) << 2) + t1), (((t31 << 2) << 2) + t1));
+        }
+        t37 = a4;
+        t38 = a5;
+        if ((0x4 & a4) != 0) {
+            t37 = ((~a4) & 0x7);
+            t38 = ((~a5) & 0x7);
+        }
+        if (t37 != 1) {
+            if (t37 != 2) {
+                t62 = t37;
+                if (t37 == 3) {
+                    if (t38 == 2) {
+                        t41 = *(short *)((a7 + 0x0));
+                        *(unsigned int *)(((int)stk + 8)) = ((t41 << 2) << 2);
+                        t53 = (((t41 << 2) << 2) + t1);
+                        t56 = (*(int *)(((int)stk + 8)));
+                        t57 = ((((*(short *)(((a7 + 0x4) + 0x0))) << 2) << 2) + t14);
+                        t58 = ((((*(short *)(((*(int *)(((int)stk + 12))) + 0x0))) << 2) << 2) + t0);
+                        t59 = ((((*(short *)(((a7 + 0x2) + 0x0))) << 2) << 2) + t1);
+                    } else {
+                        t47 = *(short *)(((a7 + 0x4) + 0x0));
+                        *(unsigned int *)(((int)stk + 12)) = ((t47 << 2) << 2);
+                        t53 = (((t47 << 2) << 2) + t1);
+                        t56 = (*(int *)(((int)stk + 12)));
+                        t57 = ((((*(short *)((a7 + 0x0))) << 2) << 2) + t14);
+                        t58 = ((((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2) << 2) + t0);
+                        t59 = ((((*(short *)(((a7 + 0x2) + 0x0))) << 2) << 2) + t1);
+                    }
+                    t62 = (nlMvSendFan3((t56 + t14), t57, t58, t59, t53));
+                }
+                t89 = t62;
+            } else {
+                if (t38 == 3) {
+                    t71 = *(short *)((a7 + 0x0));
+                    *(unsigned int *)(((int)stk + 8)) = ((t71 << 2) << 2);
+                    t80 = (((t71 << 2) << 2) + t1);
+                    t83 = (*(short *)(((a7 + 0x2) + 0x0)));
+                    t84 = ((((*(short *)(((*(int *)(((int)stk + 12))) + 0x0))) << 2) << 2) + t0);
+                    t85 = ((((*(short *)(((a7 + 0x4) + 0x0))) << 2) << 2) + t1);
+                } else {
+                    t76 = *(short *)(((a7 + 0x2) + 0x0));
+                    *(unsigned int *)(((int)stk + 8)) = ((t76 << 2) << 2);
+                    t80 = (((t76 << 2) << 2) + t1);
+                    t83 = (*(short *)((a7 + 0x0)));
+                    t84 = ((((*(short *)((a6 + 0x0))) << 2) << 2) + t0);
+                    t85 = ((((*(short *)(((a7 + 0x4) + 0x0))) << 2) << 2) + t1);
+                }
+                t89 = (nlMvSendFan3(((*(int *)(((int)stk + 8))) + t14), (((t83 << 2) << 2) + t14), t84, t85, t80));
+            }
+            t118 = t89;
         } else {
-            t93 = ((*(short *)((t88 + 0x82))) + (int)((*(float *)(((0x16C + ((short)((short)a4 * (short)0x3BC) + 0xC1790CC)) + 0x0))) * 18.2041664f));
+            if (t38 == 3) {
+                t98 = *(short *)(((a7 + 0x4) + 0x0));
+                *(unsigned int *)(((int)stk + 12)) = ((t98 << 2) << 2);
+                t109 = (((t98 << 2) << 2) + t1);
+                t112 = (*(int *)(((int)stk + 12)));
+                t113 = ((((*(short *)(((a7 + 0x2) + 0x0))) << 2) << 2) + t14);
+                t114 = ((((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2) << 2) + t0);
+                t115 = ((((*(short *)((a7 + 0x0))) << 2) << 2) + t1);
+            } else {
+                t104 = *(short *)(((a7 + 0x2) + 0x0));
+                *(unsigned int *)(((int)stk + 8)) = ((t104 << 2) << 2);
+                t109 = (((t104 << 2) << 2) + t1);
+                t112 = (*(int *)(((int)stk + 8)));
+                t113 = ((((*(short *)(((a7 + 0x4) + 0x0))) << 2) << 2) + t14);
+                t114 = ((((*(short *)((a6 + 0x0))) << 2) << 2) + t0);
+                t115 = ((((*(short *)((a7 + 0x0))) << 2) << 2) + t1);
+            }
+            t118 = (nlMvSendFan3((t112 + t14), t113, t114, t115, t109));
         }
-        *(unsigned short *)((t88 + 0x82)) = t93;
-        nlPushMatrix(0x0);
-        nlTranslate((*(float *)((t86 + 0x0))), (((*(float *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x12C))) - (*(float *)((t88 + 0x30)))) + -0.699999988f), (*(float *)((t86 + 0x8))));
-        nlRotateAY((unsigned short)(*(short *)((t88 + 0x80))));
-        nlCalcPoint(((signed char)(((t87 << 1) + t87) << 2) + 0xC08A8A4), (t88 + 0x5C));
-        nlRotateAX((unsigned short)(*(short *)((t88 + 0x82))));
-        t109 = *(int *)((t85 + 0x0));
-        t85 = (t85 + 0x4);
-        nlObjPutUseViewMatrix(t109);
-        nlPopMatrix(0x1);
-        t87 = (t87 + 0x1);
-        t88 = (t88 + 0x84);
-        t86 = (t86 + 0xC);
-        if ((int)t87 >= (int)0x4) {
-            break;
-        }
+        return t118;
     }
-    return nlPopMatrix(0x1);
+    return nlMvGetFaceVerts(t0, a6, t14, a7);
 }

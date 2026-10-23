@@ -44,81 +44,6 @@ int adxt_stat_decinfo(int a4);
 int kmiInitNTSC(void);
 int kmiInitPAL(void);
 
-int findSplineSection(int a4, int a5, int a6, int a7)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t14;
-    int t11;
-    int t12;
-    int t13;
-    int t18;
-    int t22;
-    int t19;
-    int t20;
-    int t21;
-    int t25;
-
-    t0 = *(int *)((a5 + 0x0));
-    if ((int)(t0 - 1) >= 0) {
-        t1 = 0x0;
-        t2 = (t0 - 1);
-        for (;;) {
-            t3 = (int)((unsigned int)(t1 + t2) + (unsigned int)0x0);
-            t4 = (int)((unsigned int)t3 + ((((int)0x0 > (int)(t1 + t2))) ? 1u : 0u));
-            t6 = *(int *)((a6 + 0x0));
-            t7 = *(int *)((a4 + ((t4 >> 1) << 2)));
-            if (t7 != t6) {
-                t8 = *(int *)((a6 + 0x0));
-                t9 = *(int *)((a4 + ((t4 >> 1) << 2)));
-                if ((int)t9 < (int)t8) {
-                    t1 = (t4 >> 1);
-                    t1 = (t1 + 0x1);
-                } else {
-                    t2 = (t4 >> 1);
-                    t2 = (t2 - 1);
-                }
-                if ((int)t1 > (int)t2) break;
-                continue;
-            }
-            return (t4 >> 1);
-        }
-        t10 = *(int *)((a5 + 0x0));
-        t14 = 0xFFFFFFFF;
-        if ((int)(t4 >> 1) <= (int)t10) {
-            t11 = *(int *)((a6 + 0x0));
-            t12 = *(int *)((a4 + ((t4 >> 1) << 2)));
-            t13 = (t4 >> 1);
-            if ((int)t12 < (int)t11) {
-                t13 = ((t4 >> 1) + 0x1);
-            }
-            t14 = t13;
-        }
-        t25 = t14;
-    } else {
-        t18 = *(int *)((a5 + 0x0));
-        t22 = 0xFFFFFFFF;
-        if ((int)a7 <= (int)t18) {
-            t19 = *(int *)((a6 + 0x0));
-            t20 = *(int *)((a4 + (a7 << 2)));
-            t21 = a7;
-            if ((int)t20 < (int)t19) {
-                t21 = (a7 + 0x1);
-            }
-            t22 = t21;
-        }
-        t25 = t22;
-    }
-    return t25;
-}
 
 int vmsfs_sysdiskfree(int a4)
 {
@@ -813,5 +738,4 @@ int kmiInitNTSC(void)
     t118 = kmiSetVideoTimings();
     return t118;
 }
-
 

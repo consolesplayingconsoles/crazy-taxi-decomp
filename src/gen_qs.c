@@ -1,74 +1,71 @@
 /* Straight-line functions with calls and guards (batch gen_qs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlSetCommonTextureOffset(int);
-int nlSpriteFreeTexture(int, int);
-int gdc_SpriteFreeMenu(void);
+int End_Pass_Ranking(void);
+extern int nlSprPut();
+int hudRankPanelSlide(void);
 
-int gdc_SpriteFreeMenu(void)
+int hudRankPanelSlide(void)
 {
-    int t2;
+    int t0;
+    int t1;
+    int t16;
     int t4;
-    int t32;
-    int t33;
-    int t29;
+    int t28;
+    float u29;
     int t30;
-    int t24;
-    int t25;
-    int t17;
-    int t18;
+    int t35;
+    int t23;
     int t10;
-    int t11;
 
-    nlSetCommonTextureOffset(0x208);
-    nlSpriteFreeTexture(0xC144D58, 0xC08B700);
-    t2 = *(int *)0xC2A11C0;
-    if (t2 == 0) {
-        nlSetCommonTextureOffset(0x244);
-        t4 = nlSpriteFreeTexture(0xC1450C8, 0xC08B700);
-        t33 = t4;
-    } else {
-        if (t2 != 1) {
-            if (t2 != 2) {
-                if (t2 != 3) {
-                    if (t2 != 4) {
-                        nlSetCommonTextureOffset(0x2A8);
-                        t10 = 0xC1456D8;
-                        t11 = 0xC08B890;
-                    } else {
-                        nlSetCommonTextureOffset(0x2A8);
-                        nlSpriteFreeTexture(0xC145DF8, 0xC08B890);
-                        nlSetCommonTextureOffset(0x384);
-                        t10 = 0xC146778;
-                        t11 = 0xC08BA70;
-                    }
-                    t17 = t10;
-                    t18 = t11;
-                } else {
-                    nlSetCommonTextureOffset(0x2A8);
-                    nlSpriteFreeTexture(0xC145DF8, 0xC08B890);
-                    nlSetCommonTextureOffset(0x320);
-                    t17 = 0xC1462B8;
-                    t18 = 0xC08BA70;
-                }
-                t24 = t17;
-                t25 = t18;
-            } else {
-                nlSetCommonTextureOffset(0x2A8);
-                nlSpriteFreeTexture(0xC145DF8, 0xC08B890);
-                nlSetCommonTextureOffset(0x352);
-                t24 = 0xC146518;
-                t25 = 0xC08BA70;
-            }
-            t29 = t24;
-            t30 = t25;
-        } else {
-            nlSetCommonTextureOffset(0x2A8);
-            t29 = 0xC1456D8;
-            t30 = 0xC08B890;
+    t0 = *(int *)0xC2A9178;
+    if (t0 == 0) {
+        t1 = *(int *)0xC2A9170;
+        *(unsigned int *)0xC2A9170 = (t1 + 0x1);
+        if ((int)(t1 + 0x1) > (int)0xA) {
+            *(unsigned int *)0xC2A9178 = 0x1;
+            *(unsigned int *)0xC2A9170 = 0xA;
         }
-        t32 = nlSpriteFreeTexture(t29, t30);
-        t33 = t32;
+        t23 = 0xC2A9178;
+    } else {
+        t16 = 0xC2A9178;
+        if (t0 == 6) {
+            t4 = *(int *)0xC2A9170;
+            *(unsigned int *)0xC2A9170 = (t4 - 1);
+            if ((int)(t4 - 1) < 0) {
+                *(unsigned int *)0xC2A9170 = 0x0;
+                End_Pass_Ranking();
+            } else {
+                t10 = 0xC2A9178;
+            }
+            t16 = t10;
+        }
+        t23 = t16;
     }
-    return t33;
+    *(float *)0xC2A80C0 = (*(float *)0xC055D24);
+    *(float *)0xC2A80C4 = (*(float *)0xC055D28);
+    *(float *)0xC2A80C8 = (*(float *)0xC055D2C);
+    *(float *)0xC2A80D4 = 0.0f;
+    t28 = *(int *)0xC2A9170;
+    u29 = *(float *)0xC055D30;
+    *(float *)0xC2A80CC = ((float)t28 * u29);
+    *(float *)0xC2A80DC = ((float)t28 * u29);
+    *(float *)0xC2A80D0 = 1.0f;
+    *(float *)0xC2A80D8 = 0.0f;
+    *(float *)0xC2A80E0 = 1.0f;
+    *(unsigned int *)0xC2A80F0 = 0xB;
+    t30 = *(int *)0xC2A917C;
+    *(unsigned int *)0xC2A917C = (t30 + 0x1);
+    if ((int)((int)((int)(t30 + 0x1) % (int)0x3D)) < (int)0x32) {
+        *(unsigned int *)0xC2A80BC = 0x157;
+    } else {
+        *(unsigned int *)0xC2A80BC = 0x158;
+    }
+    *(float *)0xC2A80E8 = 1.0f;
+    *(unsigned int *)0xC2A80E4 = 0x0;
+    t35 = ((int (*)(int, int))(nlSprPut))(0xC2A80BC, t23);
+    *(unsigned int *)0xC2A80F0 = 0x9;
+    *(float *)0xC2A80D4 = (1.0f - ((float)(*(int *)0xC2A9170) * u29));
+    *(float *)0xC2A80DC = 1.0f;
+    return ((int (*)(int))(nlSprPut))(0xC2A80BC);
 }

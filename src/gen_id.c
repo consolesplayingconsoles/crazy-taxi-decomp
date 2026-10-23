@@ -1,209 +1,170 @@
 /* Straight-line functions with calls and guards (batch gen_id): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int syG2FifoWaitEmpty(void);
-extern int _builtin_get_imask(void);
-extern void _builtin_set_imask(int);
-int syG2AicaFifoWaitEmpty(void);
-int syG2DmaResumeAll(void);
-int syG2DmaSuspendAll(void);
-int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9);
+int memcmp(int, int, int);
+int ADX_DecodeInfoWav(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14);
 
-int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
+int ADX_DecodeInfoWav(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t9;
-    int t7;
-    int t15;
-    int t13;
-    int t19;
-    int t20;
-    int t24;
+    int t10;
+    int t11;
+    int t26;
+    int t27;
     int t31;
+    int t32;
     int t33;
     int t34;
-    int t35;
-    int t36;
-    int t37;
-    int t49;
-    int t53;
-    int t60;
-    int t62;
-    int t63;
-    int t64;
-    int t65;
-    int t78;
-    int t81;
-    int t82;
-    int t89;
-    int t91;
-    int t92;
-    int t93;
-    int t94;
-    int t108;
-    int t109;
-    int t110;
-    int t5;
-    int t11;
-    int t22;
-    int t23;
-    int t27;
-    int t51;
-    int t52;
-    int t56;
-    int t80;
-    int t85;
-    int stk[13] = {0};
+    int t45;
+    int t55;
+    int stk[11];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    t0 = *(int *)0xC178700;
-    t1 = *(int *)((0xD4 + t0));
-    if (t1 == 1) {
-        t2 = _builtin_get_imask();
-        *(unsigned int *)(((int)stk + 16)) = t2;
-        _builtin_set_imask(0xF);
-    }
-    t9 = 0x0;
-    if (a8 != 0) {
-        t7 = 0x1;
-        if (a8 != 1) {
-            if (a8 != 2) {
-            } else {
-                t5 = 0xFFFFFFFF;
-            }
-            t7 = t5;
-        }
-        t9 = t7;
-    }
-    t15 = 0x0;
-    if (a9 != 0) {
-        t13 = 0x1;
-        if (a9 != 1) {
-            if (a9 != 2) {
-            } else {
-                t11 = 0xFFFFFFFF;
-            }
-            t13 = t11;
-        }
-        t15 = t13;
-    }
-    syG2DmaSuspendAll();
-    syG2FifoWaitEmpty();
-    t19 = *(int *)(((int)stk + 8));
-    if (t19 != 1) {
-        if (t19 != 2) {
-            if (t19 == 4) {
-                t20 = *(int *)(((int)stk + 4));
-                *(unsigned int *)(((int)stk + 8)) = t20;
-                *(unsigned int *)(((int)stk + 4)) = a4;
-                *(unsigned int *)(((int)stk + 12)) = (t9 << 2);
-                if ((int)a7 > 0) {
-                    t24 = 0x0;
-                    for (;;) {
-                        if ((t24 & 0x7) == 0) {
-                            syG2FifoWaitEmpty();
-                            syG2AicaFifoWaitEmpty();
-                        } else {
-                            t27 = t22;
-                        }
-                        t31 = *(int *)(((int)stk + 4));
-                        t22 = t27;
-                        t23 = t31;
-                        t24 = (t24 + 0x1);
-                        t33 = *(int *)(((int)stk + 8));
-                        t22 = t33;
-                        t34 = *(int *)((t23 + 0x0));
-                        *(unsigned int *)((t22 + 0x0)) = t34;
-                        t35 = *(int *)(((int)stk + 4));
-                        t22 = t35;
-                        t36 = *(int *)(((int)stk + 12));
-                        t23 = t36;
-                        t22 = (t22 + t23);
-                        *(unsigned int *)(((int)stk + 4)) = t22;
-                        t37 = *(int *)(((int)stk + 8));
-                        *(unsigned int *)(((int)stk + 8)) = (t37 + (t15 << 2));
-                        if ((int)t24 >= (int)a7) {
-                            break;
-                        }
-                    }
-                }
-            }
-        } else {
-            t49 = *(int *)(((int)stk + 4));
-            *(unsigned int *)(((int)stk + 8)) = t49;
-            *(unsigned int *)(((int)stk + 4)) = a4;
-            if ((int)a7 > 0) {
-                t53 = 0x0;
-                for (;;) {
-                    if ((t53 & 0x7) == 0) {
-                        syG2FifoWaitEmpty();
-                        syG2AicaFifoWaitEmpty();
-                    } else {
-                        t56 = t51;
-                    }
-                    t60 = *(int *)(((int)stk + 4));
-                    t51 = t56;
-                    t52 = t60;
-                    t53 = (t53 + 0x1);
-                    t62 = *(int *)(((int)stk + 8));
-                    t51 = t62;
-                    t63 = *(short *)((t52 + 0x0));
-                    *(unsigned short *)((t51 + 0x0)) = t63;
-                    t64 = *(int *)(((int)stk + 4));
-                    t52 = t64;
-                    t52 = (t52 + (t9 << 1));
-                    *(unsigned int *)(((int)stk + 4)) = t52;
-                    t65 = *(int *)(((int)stk + 8));
-                    *(unsigned int *)(((int)stk + 8)) = (t65 + (t15 << 1));
-                    if ((int)t53 >= (int)a7) {
-                        break;
-                    }
-                }
-            }
-        }
-    } else {
-        t78 = *(int *)(((int)stk + 4));
-        *(unsigned int *)(((int)stk + 8)) = t78;
-        *(unsigned int *)(((int)stk + 4)) = a4;
-        if ((int)a7 > 0) {
-            t81 = t78;
-            t82 = 0x0;
-            for (;;) {
-                if ((t82 & 0x7) == 0) {
-                    syG2FifoWaitEmpty();
-                    syG2AicaFifoWaitEmpty();
-                } else {
-                    t85 = t80;
-                }
-                t89 = *(int *)(((int)stk + 4));
-                t80 = t85;
-                t81 = t89;
-                t82 = (t82 + 0x1);
-                t91 = *(int *)(((int)stk + 8));
-                t80 = t91;
-                t92 = *(signed char *)((t81 + 0x0));
-                *(unsigned char *)((t80 + 0x0)) = t92;
-                t93 = *(int *)(((int)stk + 4));
-                t81 = t93;
-                t81 = (t81 + t9);
-                *(unsigned int *)(((int)stk + 4)) = t81;
-                t94 = *(int *)(((int)stk + 8));
-                *(unsigned int *)(((int)stk + 8)) = (t94 + t15);
-                if ((int)t82 >= (int)a7) {
-                    break;
-                }
-            }
-        }
-    }
-    syG2DmaResumeAll();
-    t108 = *(int *)0xC178700;
-    t109 = *(int *)((0xD4 + t108));
-    if (t109 == 1) {
-        t110 = *(int *)(((int)stk + 16));
-        _builtin_set_imask(((unsigned int)(((t110 & 0xF) << 2) << 2) >> 4));
-    }
-    return 0x0;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C173D54:;
+    *(unsigned int *)(((int)stk + 4)) = R6;
+    *(unsigned int *)(((int)stk + 8)) = R7;
+    R10 = (a8);
+    R11 = (R4);
+    R13 = (R5);
+    R14 = (0x0);
+    R8 = (a10);
+    R9 = (0xC0813E0);
+    if (((int)R5 <= 0)) goto L_C173D90;
+    goto L_C173D7A;
+    L_C173D7A:;
+    R12 = (0xC1789A0);
+    goto L_C173D7C;
+    L_C173D7C:;
+    t10 = (memcmp((R14 + R11), (*(int *)((R12 + 0x0))), 0x4)) == 0;
+    if (t10) goto L_C173D90;
+    goto L_C173D8A;
+    L_C173D8A:;
+    t11 = (int)(R14 + 0x1) < (int)R13;
+    R14 = ((R14 + 0x1));
+    if (t11) goto L_C173D7C;
+    goto L_C173D90;
+    L_C173D90:;
+    if ((R14 != R13)) goto L_C173D98;
+    goto L_C173D94;
+    L_C173D94:;
+    goto L_C173EDC;
+    L_C173EDC:;
+    R0 = (0xFFFFFFFF);
+    goto L_C173EE2;
+    L_C173EE2:;
+    return R0;
+    L_C173D98:;
+    R0 = (R14);
+    if (((int)R14 < 0)) goto L_C173DA2;
+    goto L_C173D9E;
+    L_C173D9E:;
+    R0 = ((R0 & 0x3));
+    goto L_C173DAC;
+    L_C173DAC:;
+    if ((R0 == 0)) goto L_C173DB4;
+    goto L_C173DB0;
+    L_C173DB0:;
+    goto L_C173EDC;
+    L_C173DB4:;
+    R12 = (((R14 + 0x8) + R11));
+    if (((int)(unsigned short)(*(short *)((((R14 + 0x8) + R11) + 0x0))) <= (int)0x1)) goto L_C173DC8;
+    goto L_C173DC4;
+    L_C173DC4:;
+    goto L_C173EDC;
+    L_C173DC8:;
+    R14 = (0x0);
+    if (((int)R13 <= 0)) goto L_C173DE4;
+    goto L_C173DCE;
+    L_C173DCE:;
+    t26 = (memcmp((R14 + R11), (*(int *)0xC1789A8), 0x4)) == 0;
+    if (t26) goto L_C173DE4;
+    goto L_C173DDE;
+    L_C173DDE:;
+    t27 = (int)(R14 + 0x1) < (int)R13;
+    R14 = ((R14 + 0x1));
+    if (t27) goto L_C173DCE;
+    goto L_C173DE4;
+    L_C173DE4:;
+    if ((R14 == R13)) goto L_C173EDC;
+    goto L_C173DE8;
+    L_C173DE8:;
+    t31 = *(signed char *)((((R14 + 0x4) + R11) + 0x1));
+    t32 = *(signed char *)((((R14 + 0x4) + R11) + 0x0));
+    t33 = *(signed char *)((((R14 + 0x4) + R11) + 0x2));
+    t34 = *(signed char *)((((R14 + 0x4) + R11) + 0x3));
+    *(unsigned short *)(((*(int *)(((int)stk + 4))) + 0x0)) = (R14 + 0x8);
+    *(unsigned char *)(((*(int *)(((int)stk + 8))) + 0x0)) = 0xFFFFFFFF;
+    *(unsigned int *)((a11 + 0x0)) = (((((unsigned char)(*(signed char *)(((R12 + 0x4) + 0x1))) << 8) | ((unsigned char)(*(signed char *)(((R12 + 0x4) + 0x2))) << 16)) | (((unsigned char)(*(signed char *)(((R12 + 0x4) + 0x3))) << 16) << 8)) | (unsigned char)(*(signed char *)(((R12 + 0x4) + 0x0))));
+    *(unsigned char *)((R8 + 0x0)) = (*(short *)((R12 + 0x2)));
+    *(unsigned char *)((R10 + 0x0)) = (*(short *)((R12 + 0xE)));
+    *(unsigned char *)((a9 + 0x0)) = (*(short *)((R12 + 0xC)));
+    *(unsigned int *)((a12 + 0x0)) = ((int)((int)(((((unsigned char)t31 << 8) | ((unsigned char)t33 << 16)) | (((unsigned char)t34 << 16) << 8)) | (unsigned char)t32) / (int)(*(signed char *)((a9 + 0x0)))));
+    *(unsigned int *)((a13 + 0x0)) = 0x1;
+    t45 = *(signed char *)((R10 + 0x0));
+    R0 = (t45);
+    R14 = ((R14 + 0x8));
+    R4 = ((R12 + 0x4));
+    R5 = ((((((unsigned char)t31 << 8) | ((unsigned char)t33 << 16)) | (((unsigned char)t34 << 16) << 8)) | (unsigned char)t32));
+    if ((t45 != 16)) goto L_C173E7C;
+    goto L_C173E70;
+    L_C173E70:;
+    *(unsigned short *)((a14 + 0x0)) = 0x0;
+    goto L_C173EBA;
+    L_C173EBA:;
+    if (((*(signed char *)((R10 + 0x0))) == 0)) goto L_C173EDC;
+    goto L_C173EC0;
+    L_C173EC0:;
+    if (((*(signed char *)((a9 + 0x0))) == 0)) goto L_C173EDC;
+    goto L_C173EC8;
+    L_C173EC8:;
+    t55 = *(signed char *)((R8 + 0x0));
+    R4 = (t55);
+    if (((int)t55 <= 0)) goto L_C173EDC;
+    goto L_C173ECE;
+    L_C173ECE:;
+    if (((int)R4 > (int)0x2)) goto L_C173EDC;
+    goto L_C173ED4;
+    L_C173ED4:;
+    if (((*(int *)((a11 + 0x0))) != 0)) goto L_C173EE0;
+    goto L_C173EDC;
+    L_C173EE0:;
+    R0 = (0x0);
+    goto L_C173EE2;
+    L_C173E7C:;
+    if ((R0 != 8)) goto L_C173E8C;
+    goto L_C173E80;
+    L_C173E80:;
+    *(unsigned short *)((a14 + 0x0)) = 0x1;
+    goto L_C173EBA;
+    L_C173E8C:;
+    if (((*(signed char *)((R10 + 0x0))) != 4)) goto L_C173EBA;
+    goto L_C173E92;
+    L_C173E92:;
+    *(unsigned char *)((a9 + 0x0)) = ((*(signed char *)((R8 + 0x0))) << 1);
+    *(unsigned int *)((a13 + 0x0)) = 0x4;
+    *(unsigned int *)((a12 + 0x0)) = ((int)((unsigned int)((unsigned int)R5 >> 1) / (unsigned int)(*(signed char *)((R8 + 0x0)))));
+    *(unsigned char *)((R10 + 0x0)) = 0x10;
+    *(unsigned short *)((a14 + 0x0)) = 0x2;
+    goto L_C173EBA;
+    L_C173DA2:;
+    R0 = (((~(((~R0) + 0x1) & 0x3)) + 0x1));
+    goto L_C173DAC;
 }

@@ -1,66 +1,85 @@
 /* Straight-line functions with calls and guards (batch gen_aew): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlSprPut(int, int, int);
-int PutNameEntryDrum(int a4, int a5, int a6, float f4);
+int InitHomingVector(int, int);
+int camSnapToCar(int);
+int nlCalcPoint(int, int);
+int nlGetMatrix(int);
+int nlInvertMatrix(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlTranslateV(int);
+void initCamera(int a4, int a5, float f4, float f5);
 
-int PutNameEntryDrum(int a4, int a5, int a6, float f4)
+void initCamera(int a4, int a5, float f4, float f5)
 {
-    int t0;
-    float u4;
-    float u6;
-    float u7;
-    float u10;
-    int t23;
-    int stk[35];
+    int stk[8];
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(float *)(((int)stk + 28)) = 420.0f;
-    *(float *)(((int)stk + 32)) = 1.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
-    *(float *)(((int)stk + 36)) = 1.0f;
-    *(float *)(((int)stk + 48)) = 0.0f;
-    *(float *)(((int)stk + 44)) = 0.0f;
-    *(float *)(((int)stk + 56)) = 1.0f;
-    *(float *)(((int)stk + 52)) = 1.0f;
-    *(unsigned int *)(((int)stk + 60)) = 0x0;
-    *(float *)(((int)stk + 64)) = 1.0f;
-    *(unsigned int *)(((int)stk + 72)) = 0x70E;
-    *(unsigned int *)(((int)stk + 68)) = 0x2;
-    *(float *)(((int)stk + 16)) = ((1.0f + 1.0f) - f4);
-    *(float *)(((int)stk + 12)) = (32.0f - (f4 * 16.0f));
-    *(float *)(((int)stk + 8)) = (f4 + 1.0f);
-    t0 = 0xFFFFFFF6;
-    for (;;) {
-        *(unsigned int *)(((int)stk + 20)) = (*(int *)((0xC0EE918 + (((int)((unsigned int)(((*(int *)(((int)stk + 4))) + t0) + 0x2D) % (unsigned int)0x2D)) << 2))));
-        u4 = 336.0f;
-        u4 = u4 + 32.0f * ((float)t0 + f4);
-        *(float *)(((int)stk + 24)) = u4;
-        if (t0 == 0) {
-            *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (16.0f - (f4 * 16.0f)));
-            u6 = *(float *)(((int)stk + 16));
-            u7 = *(float *)0xC2864D4;
-            *(float *)(((int)stk + 40)) = (u6 * u7);
-            *(float *)(((int)stk + 36)) = (u6 * u7);
-        } else {
-            if (t0 == -1) {
-                *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (*(float *)(((int)stk + 12))));
-                u10 = *(float *)(((int)stk + 8));
-                *(float *)(((int)stk + 40)) = u10;
-                *(float *)(((int)stk + 36)) = u10;
-            } else {
-                *(float *)(((int)stk + 40)) = 1.0f;
-                *(float *)(((int)stk + 36)) = 1.0f;
-                if ((int)t0 < 0) {
-                    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - 32.0f);
-                }
-            }
-        }
-        t23 = nlSprPut((((int)stk + 4) + 0x10), a5, a6);
-        t0 = (t0 + 0x1);
-        if ((int)t0 >= (int)0xA) {
-            break;
-        }
-    }
-    return t23;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F5;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    F4 = f4;
+    F5 = f5;
+    L_C026744:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC08AA58); }
+    *(unsigned int *)0xC1798A8 = 0x7;
+    *(float *)0xC1798A4 = 60.0f;
+    *(unsigned int *)0xC179860 = 0x0;
+    *(unsigned int *)0xC0E4A14 = 0x1;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179840) = *(struct mv3 *)((((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x78)); }
+    *(unsigned char *)0xC179858 = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x0)));
+    *(unsigned char *)0xC179859 = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x1)));
+    *(unsigned char *)0xC17985A = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x2)));
+    *(unsigned char *)0xC17985B = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x3)));
+    *(unsigned char *)0xC17985C = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x4)));
+    *(unsigned char *)0xC17985D = (*(signed char *)(((0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC)) + 0x5)));
+    *(unsigned char *)0xC1798AC = (*(signed char *)0xC08ADAC);
+    *(unsigned char *)0xC1798AD = (*(signed char *)0xC08ADAD);
+    *(unsigned char *)0xC1798AE = (*(signed char *)0xC08ADAE);
+    *(unsigned char *)0xC1798AF = (*(signed char *)0xC08ADAF);
+    *(unsigned char *)0xC1798B0 = (*(signed char *)0xC08ADB0);
+    *(unsigned char *)0xC1798B1 = (*(signed char *)0xC08ADB1);
+    *(float *)0xC1798B4 = 0.0f;
+    *(float *)0xC179958 = 0.0f;
+    *(unsigned short *)0xC17995C = (*(short *)((((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x86)));
+    *(unsigned int *)0xC179960 = 0x0;
+    *(unsigned int *)0xC179964 = 0x0;
+    *(float *)0xC0E49F4 = 1.33333325f;
+    *(unsigned int *)0xC1798B8 = 0x1;
+    *(float *)0xC0E4A04 = 60.0f;
+    *(unsigned int *)0xC0E49F8 = (((short)((short)R4 * (short)0x3BC) + 0xC1790CC) + 0x78);
+    *(unsigned int *)0xC0E49FC = (0x84 + ((short)((short)R4 * (short)0x3BC) + 0xC1790CC));
+    *(unsigned int *)0xC0E4A00 = 0x0;
+    *(float *)0xC1798BC = 0.0f;
+    *(float *)0xC1798C0 = 5.0f;
+    *(float *)0xC1798C4 = 0.0f;
+    *(unsigned short *)0xC1798C8 = 0x0;
+    *(unsigned short *)0xC1798CA = 0x0;
+    *(unsigned short *)0xC1798CC = 0x0;
+    camSnapToCar(R4);
+    InitHomingVector(0xC1798D0, 0xC0965F0);
+    nlPushUnitMatrix();
+    nlTranslateV(0xC179840);
+    nlRotateAY((unsigned short)(*(short *)0xC17985A));
+    nlRotateAX((unsigned short)(*(short *)0xC179858));
+    nlRotateAZ((unsigned short)(*(short *)0xC17985C));
+    nlCalcPoint(((int)stk + 4), 0xC1798D0);
+    nlInvertMatrix(0x0);
+    nlGetMatrix(0xC179864);
+    nlPopMatrix(0x1);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1798E8) = *(struct mv3 *)(0xC1798D0); }
 }

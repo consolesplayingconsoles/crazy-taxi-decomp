@@ -1,120 +1,82 @@
 /* Straight-line functions with calls and guards (batch gen_uu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int CheckRanking(int);
-int GetNowLanguage(int);
-int NextWindow(int);
-int PutVM_Message(int, int, int, float, float);
-int callSaveData(int);
-int memcmp(int, int, int);
-int memmove(int, int, int);
-int windowEnterStep(int);
-int windowOpenStep(int);
-int windowNameSet(void);
+int GetMenuMode(int);
+int hudHidePickUpNag(void);
+int GS_GuestIn(int a4);
 
-int windowNameSet(void)
+int GS_GuestIn(int a4)
 {
-    int t22;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int t29;
-    int t30;
-    int t33;
+    float u2;
+    int t13;
+    int t14;
+    float u16;
+    float u17;
+    float u18;
+    int t20;
     int t34;
     int t35;
-    int t36;
-    int t37;
-    int t57;
-    int t68;
-    int t61;
-    int t64;
-    int t47;
-    int t48;
-    float u50;
-    int t58;
-    int stk[20];
+    int t43;
+    int t10;
+    int t32;
 
-    windowOpenStep(0x3C);
-    if (((*(int *)0xC2A1208) & 4) != 0) {
-        if ((memcmp(0xC2A124C, 0xC0A2044, 0x4)) == 0) {
-            *(unsigned char *)0xC28A4F6 = ((*(signed char *)0xC28A4F6) + 0x1);
-        }
-        memmove(((short)((short)(*(short *)0xC2A11C4) * (short)0x788) + 0xC28A4F8), 0xC2A1248, 0x4);
-        *(unsigned int *)0xC2A1208 = ((*(int *)0xC2A1208) | 0x8);
+    *(unsigned int *)0xC1EE78C = 0x1;
+    u2 = *(float *)(((((*(int *)(((0x19C + a4) + 0x0))) << 2) + ((*(int *)((a4 + 0x14))) + 0x1C)) + 0x0));
+    *(float *)0xC1EE7A4 = u2;
+    if ((*(int *)0xC1EE234) == 1) {
+        t10 = (*(int *)((0xC08AF68 + ((unsigned char)(*(signed char *)0xC28A4EA) << 2))));
+    } else {
+        t10 = (*(int *)0xC08AF74);
     }
-    NextWindow(0x0);
-    if ((memcmp(0xC2A124C, 0xC0A2044, 0x4)) == 0) {
-        if ((int)(*(int *)0xC2A11DC) > (int)0x1) {
-            PutVM_Message(0x20, 0x17, 0xC2A1248, 237.0f, 240.0f);
-        } else {
-            PutVM_Message(0x20, 0x23, 0xC2A1248, (*(float *)0xC03F3F4), 240.0f);
+    t13 = (int)((int)(*(int *)0xC1EE790) / (int)0xE10);
+    t14 = 0x28;
+    if ((int)t13 < (int)0xA) {
+        t14 = (t13 << 2);
+    }
+    u16 = *(float *)((0xC08AF38 + t14));
+    u17 = ((u2 * 0.109999999f) + ((float)t10 + 240.0f));
+    u18 = (u17 * u16);
+    if (300.0f > (u17 * u16)) {
+        u18 = 300.0f;
+    }
+    t20 = *(int *)0xC1EE7C4;
+    if ((int)t20 < (int)0xA) {
+        *(unsigned int *)0xC1EE7D0 = (*(int *)((0xC08AEA8 + (t20 << 2))));
+        *(unsigned int *)0xC1EE7D4 = (*(int *)((0xC08AED8 + ((*(int *)0xC1EE7C4) << 2))));
+        t32 = (*(int *)((((*(int *)0xC1EE7C4) << 2) + 0xC08AF08)));
+    } else {
+        *(unsigned int *)0xC1EE7D0 = (*(int *)0xC08AED0);
+        *(unsigned int *)0xC1EE7D4 = (*(int *)0xC08AF00);
+        t32 = (*(int *)0xC08AF30);
+    }
+    *(unsigned int *)0xC1EE7D8 = t32;
+    t34 = *(int *)0xC1EE794;
+    t35 = *(int *)0xC1EE798;
+    if ((int)(*(int *)0xC1EE7D0) > (int)(t34 + t35)) {
+        *(unsigned int *)0xC1EE7D0 = (t34 + t35);
+    }
+    *(unsigned int *)0xC1EE7CC = ((int)u18 + (*(int *)0xC1EE7D0));
+    *(unsigned int *)0xC1EE798 = (int)((float)(*(int *)0xC1EE798) + u18);
+    if ((*(int *)0xC1EE210) != 2) {
+        if ((*(int *)0xC1EE210) != 2) {
+            t43 = GetMenuMode(0x1);
+            if (t43 != 0) {
+                if ((*(int *)0xC1EE210) == 2) {
+                    *(unsigned int *)0xC1EE7CC = (*(int *)0xC1EE794);
+                }
+                *(unsigned int *)0xC1EE798 = 0x0;
+            }
         }
     } else {
-        t22 = *(int *)0xC2A11DC;
-        if ((int)t22 <= (int)0x1) {
-            t47 = 0x23;
-            t48 = 0xC2A1248;
-            u50 = (*(float *)0xC03F3F4);
-        } else {
-            t24 = t22;
-            t25 = 0x0;
-            t26 = 0xC2A124C;
-            t27 = (((int)stk + 4) + 0x4);
-            for (;;) {
-                if ((int)t25 >= (int)0x3) {
-                    break;
-                }
-                t24 = (*(signed char *)((t26 + 0x0)));
-                t26 = (t26 + 0x1);
-                t25 = (t25 + 0x1);
-                *(unsigned char *)((t27 + 0x0)) = t24;
-                t27 = (t27 + 0x1);
-            }
-            *(unsigned int *)(((int)stk + 4)) = 0xC0EF7A8;
-            t29 = 0x0;
-            t30 = t27;
-            for (;;) {
-                t33 = *(int *)(((((GetNowLanguage(0x0)) << 2) + (*(int *)(((int)stk + 4)))) + 0x14));
-                if ((int)t29 >= (int)t33) {
-                    break;
-                }
-                *(unsigned char *)((t30 + 0x0)) = 0x20;
-                t29 = (t29 + 0x1);
-                t30 = (t30 + 0x1);
-            }
-            t34 = t33;
-            t35 = 0x0;
-            t36 = 0xC2A1248;
-            t37 = t30;
-            for (;;) {
-                if ((int)t35 >= (int)0x3) {
-                    break;
-                }
-                t34 = (*(signed char *)((t36 + 0x0)));
-                t36 = (t36 + 0x1);
-                t35 = (t35 + 0x1);
-                *(unsigned char *)((t37 + 0x0)) = t34;
-                t37 = (t37 + 0x1);
-            }
-            *(unsigned char *)((t37 + 0x0)) = 0x0;
-            t47 = 0x1D;
-            t48 = (((int)stk + 4) + 0x4);
-            u50 = (*(float *)0xC03F400);
+        if ((*(int *)0xC1EE210) == 2) {
+            *(unsigned int *)0xC1EE7CC = (*(int *)0xC1EE794);
         }
-        PutVM_Message(0x20, t47, t48, u50, 240.0f);
+        *(unsigned int *)0xC1EE798 = 0x0;
     }
-    t57 = windowEnterStep(0x0);
-    t68 = t57;
-    if ((t57 == 1) && (t58 = *(int *)0xC2A11DC, (int)t58 <= (int)0x1)) {
-        t61 = *(int *)0xC2A1208;
-        t64 = t61;
-        if ((t61 & 2) != 0) {
-            CheckRanking(0xC2A11C8);
-            t64 = (callSaveData(0x1));
-        }
-        t68 = t64;
+    *(unsigned int *)0xC1EE7B4 = ((*(int *)0xC1EE7B4) + (int)((*(float *)0xC1EE7A4) * (*(float *)0xC02D990)));
+    if ((*(int *)0xC1EE210) != 2) {
+        hudHidePickUpNag();
     }
-    return t68;
+    *(unsigned int *)0xC1EE7E4 = ((*(int *)0xC1EE7E4) + 0x1);
+    return 0x5C;
 }

@@ -22,12 +22,21 @@ OUT = os.path.join('build', 'sizes.json')
 MARK = '\n\nvoid zz_size_end(void)\n{\n}\n'
 
 
-def c_size(name, src, protos):
-    """Compiled size of one function's C text (written to a scratch file under src/, removed after); None when it does not compile."""
+def unit_head(text):
+    """The declarations at the top of a unit: everything before its first function definition. The C in the unit was proven
+    against them, so it compiles under them."""
+    blank = re.sub(r'/\*.*?\*/', lambda m: ' ' * len(m.group()), text, flags=re.S)
+    m = re.search(r'^[A-Za-z_][\w \t\*]*?\b\w+\s*\([^;{]*\)\s*\{', blank, re.M)
+    return text[:m.start()].rstrip('\n') if m else text
+
+
+def c_size(name, src, protos, head=None):
+    """Compiled size of one function's C text (written to a scratch file under src/, removed after); None when it does not compile.
+    head: the declarations to put above it (a unit's own, see unit_head); without it, the ones protos give."""
     import equiv
     import gen_drv
     f = 'src/zz_size%d.c' % os.getpid()
-    open(f, 'w').write('/* scratch */\n' + gen_drv.head_protos([(name, src, None, protos)]) + '\n\n' + src + MARK)
+    open(f, 'w').write('/* scratch */\n' + (head if head is not None else gen_drv.head_protos([(name, src, None, protos)])) + '\n\n' + src + MARK)
     try:
         table = equiv.names()
         defines, defined = equiv.outside_names(f, table)
@@ -49,9 +58,14 @@ def c_size(name, src, protos):
             os.remove(f)
 
 
-def c_size_any(name, src, protos_list):
-    """c_size of src against each set of prototypes in turn, the first that compiles: the size does not depend on which
-    declarations compiled it, and a set written for other code can make this src fail (an int where the set says float)."""
+def c_size_any(name, src, protos_list, head=None):
+    """c_size of src measured the way it compiles: under head (the declarations of its own unit) first, then against each set of
+    prototypes in turn, the first that compiles. The size does not depend on which declarations compiled it, and a set written
+    for other code can make this src fail (an int where the set says float, a callee returning float where src tests it with !)."""
+    if head is not None:
+        n = c_size(name, src, None, head)
+        if n is not None:
+            return n
     for protos in protos_list:
         n = c_size(name, src, protos)
         if n is not None:

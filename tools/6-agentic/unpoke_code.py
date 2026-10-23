@@ -19,7 +19,9 @@ import json
 import os
 import sys
 
-LO, HI = 0x0C020000, 0x0C089F26
+import layout  # noqa: E402
+
+LO, HI = layout.region('code') or (0, 0)            # the code the cases may not write to (layout.txt; none: nothing taken out)
 
 
 def main(argv):

@@ -1,38 +1,33 @@
 /* Straight-line functions with calls and guards (batch gen_mb): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int SetColliObj(int, int);
-int nlAddVector(int, int);
-float nlLength(int, int, float, float);
-int nlScaleVector(int, int, float);
-int set_event(int, int);
-void setObjHitBreakOff(int a4, float f4, float f5);
+int HomingPosX(int, float, float);
+int nlSprPut(int);
+void selectDrawPanels(void);
 
-void setObjHitBreakOff(int a4, float f4, float f5)
+void selectDrawPanels(void)
 {
-    int t1;
-    int t2;
-    int t4;
-    int t5;
-    int stk[10];
+    int t0;
 
-    if ((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) {
-        t1 = set_event(0x84, 0xC0385AC);
-        if (t1 != 0) {
-            t2 = a4;
-            t4 = (t1 + 0x14);
-            for (;;) { t5 = *(int *)t2; t2 = (t2 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t2) break; *(unsigned int *)t4 = t5; t4 = (t4 + 4); }
-            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), 8.0f);
-            nlAddVector((t1 + 0x14), (((int)stk + 4) + 0xC));
-            *(unsigned int *)(((t1 + 0x14) + 0x28)) = ((t1 + 0x14) + 0x30);
-            *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDF44;
-            *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE218) + 0x0)));
-            SetColliObj((t1 + 0x14), 0x10);
-            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), (*(float *)0xC038D14));
-            nlAddVector(a4, (((int)stk + 4) + 0xC));
-            *(unsigned int *)((a4 + 0x54)) = 0xC0EDF68;
-            *(unsigned int *)((a4 + 0x64)) = (*(int *)(((*(int *)0xC0EE21C) + 0x0)));
+    t0 = 0x0;
+    for (;;) {
+        if (((*(int *)(((*(int *)0xC2A751C) + 0x0))) == 3) && (t0 == 2)) {
+            break;
         }
-        { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
+        if ((*(int *)0xC2A759C) == 1) {
+            if (0.0f > (*(float *)0xC2A750C)) {
+                *(float *)0xC2A750C = ((*(float *)0xC2A750C) + 30.0f);
+            } else {
+                HomingPosX(0xC2A750C, 0.599999964f, 0.0f);
+            }
+        }
+        *(float *)0xC2A73C4 = ((float)(((((t0 << 2) << 2) << 2) << 1) + 0x50) + (*(float *)0xC2A750C));
+        *(unsigned int *)0xC2A73C0 = (*(int *)(((t0 << 2) + (*(int *)((0xC13049C + ((*(int *)(((*(int *)0xC2A751C) + 0x0))) << 2)))))));
+        *(unsigned int *)0xC2A73E8 = 0x0;
+        nlSprPut(0xC2A73C0);
+        t0 = (t0 + 0x1);
+        if ((int)t0 >= (int)0x3) {
+            break;
+        }
     }
 }

@@ -1,68 +1,126 @@
 /* Straight-line functions with calls and guards (batch gen_ej): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Money_Array(int, int, int, float);
-int nlSprPut(int, int, int);
-int pfAddNumber(int, int);
-int pfCleanString(void);
-int pfColor(int, int, int, int);
-int pfLocate(float, float);
-int pfPuts(int);
-int pfSetFont(int);
-int pfSize(float, float);
-int Put_Time_Count(int a4, float f4);
+int PutStringFixPfont(int, int, float, float, float, float);
+int callNameEntry(void);
+int menuChangeValue(int, int, int);
+int menuPutSprites(int, int, int, int, float, float, float);
+int putMenuValue(int, int, int, int);
+int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int Put_Time_Count(int a4, float f4)
+int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
-    int t6;
-    int t14;
-    int t9;
-    int t65;
-    int t47;
-    float u49;
-    int stk[10];
+    int t0;
+    int t1;
+    int t10;
+    int t36;
+    int stk[7];
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x4)) = *(struct mv2 *)(0xC0D08AC); }
-    Money_Array((((int)stk + 4) + 0x4), ((int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) / (int)0x3C)), 0x2, f4);
-    t6 = (int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) % (int)0x3C);
-    *(float *)0xC2A7F30 = 590.0f;
-    *(float *)0xC2A7F34 = 430.0f;
-    if (((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) >= (int)0x3C) && (t9 = *(int *)(((int)stk + 4)), t9 != 0)) {
-        if ((int)t6 >= (int)0x1E) {
-            *(float *)0xC2A7F3C = 1.0f;
-            *(unsigned int *)0xC2A7F2C = (*(int *)((0xC0D0BE0 + ((*(int *)(((((int)stk + 4) + 0x4) + 0x0))) << 2))));
-            t47 = 0x1E;
-            u49 = 430.0f;
-        } else {
-            t14 = (int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) % (int)0x1E);
-            *(float *)0xC2A7F3C = (_builtin_fabsf((float)((int)(float)t14 - 15)) / 15.0f);
-            if (15.0f > (float)t14) {
-                if ((int)(*(int *)(((((int)stk + 4) + 0x4) + 0x0))) > 0) {
-                    *(unsigned int *)0xC2A7F2C = (*(int *)((0xC0D0BE0 + (((int)((int)((*(int *)(((((int)stk + 4) + 0x4) + 0x0))) - 1) % (int)0xA)) << 2))));
-                } else {
-                    *(unsigned int *)0xC2A7F2C = (*(int *)0xC0D0BE0);
-                }
-            } else {
-                if ((int)(*(int *)(((((int)stk + 4) + 0x4) + 0x0))) > 0) {
-                    *(unsigned int *)0xC2A7F2C = (*(int *)((0xC0D0BE0 + (((int)((int)(*(int *)(((((int)stk + 4) + 0x4) + 0x0))) % (int)0xA)) << 2))));
-                } else {
-                    *(unsigned int *)0xC2A7F2C = (*(int *)0xC0D0BE0);
-                }
-            }
-            t47 = 0xC0D0BE0;
-            u49 = (_builtin_fabsf((float)((int)(float)t14 - 15)) / 15.0f);
-        }
-        *(unsigned int *)0xC2A7F54 = 0x0;
-        t65 = (nlSprPut(0xC2A7F2C, t47, 0xC0D0BE0));
-    } else {
-        pfCleanString();
-        pfSetFont(0x1);
-        pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-        pfSize(1.0f, 1.0f);
-        pfAddNumber(((int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) / (int)0x3C)), 0x1);
-        pfLocate(574.0f, 414.0f);
-        t65 = (pfPuts((*(int *)0xC08D678)));
-    }
-    return t65;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R9;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    L_C03D44E:;
+    t0 = *(signed char *)0xC28A4F6;
+    t1 = R4 == 0;
+    R11 = (R4);
+    R12 = (0xC28A4E8);
+    R13 = ((unsigned char)t0);
+    R14 = (0xC2A11C4);
+    R4 = ((unsigned char)t0);
+    if (t1) goto L_C03D4B8;
+    goto L_C03D46A;
+    L_C03D46A:;
+    if (((int)R13 >= (int)0x4)) goto L_C03D472;
+    goto L_C03D470;
+    L_C03D470:;
+    R13 = ((R13 + 0x1));
+    goto L_C03D472;
+    L_C03D472:;
+    t10 = (menuChangeValue(0x0, R14, R13)) != 1;
+    if (t10) goto L_C03D486;
+    goto L_C03D480;
+    L_C03D480:;
+    *(unsigned int *)0xC2A1230 = 0x0;
+    goto L_C03D486;
+    L_C03D486:;
+    if ((((*(int *)0xC2A11EC) & 4) == 0)) goto L_C03D4C2;
+    goto L_C03D48E;
+    L_C03D48E:;
+    if ((((*(int *)0xC2A11CC) & 2) == 0)) goto L_C03D4C2;
+    goto L_C03D496;
+    L_C03D496:;
+    if (((*(int *)0xC2A1214) != 0)) goto L_C03D4C2;
+    goto L_C03D49E;
+    L_C03D49E:;
+    if (((int)(*(int *)((R14 + 0x0))) < (int)(unsigned char)(*(signed char *)((R12 + 0xE))))) goto L_C03D4C2;
+    goto L_C03D4A8;
+    L_C03D4A8:;
+    return callNameEntry();
+    L_C03D4C2:;
+    if ((R11 == 0)) goto L_C03D504;
+    goto L_C03D4C6;
+    L_C03D4C6:;
+    if (((*(int *)0xC2A1214) != 0)) goto L_C03D504;
+    goto L_C03D4CE;
+    L_C03D4CE:;
+    R4 = (0x8017);
+    goto L_C03D506;
+    L_C03D506:;
+    putMenuValue(R4, 0xC09E448, R13, (*(int *)((R14 + 0x0))));
+    R13 = (((*(int *)0xC2A1ADC) + 0xE8));
+    if (((int)(*(int *)((R14 + 0x0))) < (int)(unsigned char)(*(signed char *)((R12 + 0xE))))) goto L_C03D554;
+    goto L_C03D520;
+    L_C03D520:;
+    if ((R11 == 0)) goto L_C03D53C;
+    goto L_C03D524;
+    L_C03D524:;
+    if (((*(signed char *)0xC28A4F6) != 0)) goto L_C03D53C;
+    goto L_C03D52C;
+    L_C03D52C:;
+    if ((((*(int *)0xC1EE330) & 16) != 0)) goto L_C03D53C;
+    goto L_C03D534;
+    L_C03D534:;
+    t36 = *(int *)0xC2A1214;
+    R0 = (t36);
+    if ((t36 != 1)) goto L_C03D586;
+    goto L_C03D53C;
+    L_C03D53C:;
+    return menuPutSprites(0xC0A08E8, 0xC2A1A84, R13, 0x88, F4, F5, F6);
+    L_C03D586:;
+    return R0;
+    L_C03D554:;
+    return PutStringFixPfont(0x17, ((short)((short)(*(int *)((R14 + 0x0))) * (short)0x788) + (R12 + 0x10)), (float)R13, (*(float *)0xC03D608), (*(float *)0xC03D604), 1.0f);
+    L_C03D504:;
+    R4 = (0x17);
+    goto L_C03D506;
+    L_C03D4B8:;
+    if (((int)(*(int *)((R14 + 0x0))) < (int)R4)) goto L_C03D4C2;
+    goto L_C03D4BE;
+    L_C03D4BE:;
+    *(unsigned int *)((R14 + 0x0)) = 0x0;
+    goto L_C03D4C2;
 }

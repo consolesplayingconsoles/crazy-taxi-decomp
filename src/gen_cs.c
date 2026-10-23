@@ -42,8 +42,6 @@ int kmCreateTABuffer(int a4, int a5);
 int parkingCarExec(int a4);
 int pcarExec(int a4);
 
-
-
 int kmCreateTABuffer(int a4, int a5)
 {
     int t0;
@@ -151,5 +149,4 @@ int kmCreateTABuffer(int a4, int a5)
     }
     return t49;
 }
-
 

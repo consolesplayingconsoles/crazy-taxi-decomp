@@ -1,40 +1,131 @@
 /* Straight-line functions with calls and guards (batch gen_kw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlAddVector(int, int);
-int nlAddVector3op(int, int, int);
-int nlGetAverageVector(int, int, int, float, float);
-int nlSubVector3op(int, int, int, float, float, float);
-int drvPredictPath(float f4, float f5, float f6);
+int DC_Chari_Command_Check(int a4, int a5, int a6, int a7);
 
-int drvPredictPath(float f4, float f5, float f6)
+int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
 {
-    float u1;
-    int t8;
-    int t10;
-    int stk[21];
+    int t14;
+    int t22;
+    int t43;
+    int t46;
+    int stk[4];
 
-    nlSubVector3op((((int)stk + 4) + 0xC), 0xC1791C8, 0xC1791D4, f4, f5, f6);
-    u1 = *(float *)0xC064618;
-    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED8C, (((int)stk + 4) + 0xC), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED80, (((int)stk + 4) + 0xC), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED80) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    nlGetAverageVector(0xC1791C8, 0xC1791D4, (((int)stk + 4) + 0x18), u1, u1);
-    nlGetAverageVector((((int)stk + 4) + 0x18), 0xC13ED74, (((int)stk + 4) + 0x18), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED74) = *(struct mv3 *)((((int)stk + 4) + 0x18)); }
-    nlGetAverageVector(0xC179144, 0xC179158, (((int)stk + 4) + 0x24), u1, u1);
-    nlGetAverageVector((((int)stk + 4) + 0x24), 0xC13ED68, (((int)stk + 4) + 0x24), u1, u1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED68) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2BC) = *(struct mv3 *)((((int)stk + 4) + 0x24)); }
-    t8 = 0x1;
-    for (;;) {
-        nlAddVector3op(((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC), (((short)(((t8 << 1) + t8) << 2) + 0xC2AD2BC) - 12), (((int)stk + 4) + 0x18));
-        t10 = nlAddVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC));
-        t8 = (t8 + 0x1);
-        if ((int)t8 >= (int)0x23) {
-            break;
-        }
-    }
-    return t10;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R10;
+    int R12;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C0511A4:;
+    R4 = (0xC2A75B8);
+    if (((*(int *)0xC2A75B8) != 0)) goto L_C0511C6;
+    goto L_C0511AE;
+    L_C0511AE:;
+    R3 = (0xC1EE24C);
+    if ((((*(int *)0xC1EE24C) & 0x20000) == 0)) goto L_C0511C6;
+    goto L_C0511B8;
+    L_C0511B8:;
+    if ((((*(int *)((R3 + 0x0))) & 0x10000) == 0)) goto L_C0511C6;
+    goto L_C0511C0;
+    L_C0511C0:;
+    *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
+    goto L_C0511C6;
+    L_C0511C6:;
+    R5 = (0x20000);
+    R6 = (0xC1EE24C);
+    R7 = (0x0);
+    if (((*(int *)((R4 + 0x0))) != 1)) goto L_C0511F6;
+    goto L_C0511D2;
+    L_C0511D2:;
+    *(unsigned int *)(((int)stk + 12)) = R6;
+    t14 = *(int *)((R6 + 0x0));
+    *(unsigned int *)(((int)stk + 4)) = t14;
+    if (((t14 & R5) != 0)) goto L_C0511EC;
+    goto L_C0511DC;
+    L_C0511DC:;
+    if ((((*(int *)(((int)stk + 4))) & 0x10000) == 0)) goto L_C0511EC;
+    goto L_C0511E4;
+    L_C0511E4:;
+    *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
+    goto L_C0511F6;
+    L_C0511F6:;
+    R6 = (0xC1EE24C);
+    if (((*(int *)((R4 + 0x0))) != 2)) goto L_C051258;
+    goto L_C0511FE;
+    L_C0511FE:;
+    *(unsigned int *)(((int)stk + 8)) = R6;
+    t22 = *(int *)((R6 + 0x0));
+    *(unsigned int *)(((int)stk + 4)) = t22;
+    if (((t22 & R5) != 0)) goto L_C051250;
+    goto L_C051208;
+    L_C051208:;
+    if ((((*(int *)(((int)stk + 4))) & 0x10000) != 0)) goto L_C051250;
+    goto L_C051210;
+    L_C051210:;
+    *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
+    goto L_C051258;
+    L_C051258:;
+    if (((*(int *)((R4 + 0x0))) != 3)) goto L_C051276;
+    goto L_C05125E;
+    L_C05125E:;
+    R3 = (0xC1EE24C);
+    if ((((*(int *)0xC1EE24C) & 0x20000) == 0)) goto L_C051276;
+    goto L_C051268;
+    L_C051268:;
+    if ((((*(int *)((R3 + 0x0))) & 0x10000) == 0)) goto L_C051276;
+    goto L_C051270;
+    L_C051270:;
+    *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
+    goto L_C051276;
+    L_C051276:;
+    if (((*(int *)((R4 + 0x0))) != 4)) goto L_C051294;
+    goto L_C05127C;
+    L_C05127C:;
+    R3 = (0xC1EE24C);
+    if ((((*(int *)0xC1EE24C) & 0x20000) != 0)) goto L_C051294;
+    goto L_C051286;
+    L_C051286:;
+    if ((((*(int *)((R3 + 0x0))) & 0x10000) != 0)) goto L_C051294;
+    goto L_C05128E;
+    L_C05128E:;
+    *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
+    goto L_C051294;
+    L_C051294:;
+    t43 = *(int *)((R4 + 0x0));
+    R0 = (t43);
+    if ((t43 != 5)) goto L_C0512A8;
+    goto L_C05129A;
+    L_C05129A:;
+    t46 = *(int *)0xC1EE250;
+    R0 = (t46);
+    if (((t46 & 4) == 0)) goto L_C0512A8;
+    goto L_C0512A2;
+    L_C0512A2:;
+    *(unsigned int *)0xC2A75C0 = 0x4;
+    goto L_C0512A8;
+    L_C0512A8:;
+    return R0;
+    L_C051250:;
+    if (((R5 & (*(int *)((R6 + 0x0)))) == 0)) goto L_C051258;
+    goto L_C051256;
+    L_C051256:;
+    *(unsigned int *)((R4 + 0x0)) = R7;
+    goto L_C051258;
+    L_C0511EC:;
+    if ((((*(int *)((R6 + 0x0))) & 0x10000) != 0)) goto L_C0511F6;
+    goto L_C0511F4;
+    L_C0511F4:;
+    *(unsigned int *)((R4 + 0x0)) = R7;
+    goto L_C0511F6;
 }

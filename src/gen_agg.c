@@ -1,167 +1,93 @@
 /* Straight-line functions with calls and guards (batch gen_agg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollisionFirst(int, int, float);
+int GetAverageAngle(int, int, float);
+int Psg_SetPosPtr(int, int);
+int humanDraw(int, int, int, int);
 int nlAddVector(int, int);
-int nlCalcPoint(int, int);
-float nlInnerProduct(int, int);
-int nlLineBlendFunc(int, int);
-int nlLineSetDiv(float);
-int nlLineSetThickness(float);
-int nlMultiLineTrnsl(int);
-int nlMultiViewMatrix(void);
+int nlArcTan2(float, float);
+int nlCalcVector(int, int);
+int nlGetAverageVector(int, int, int, float, float);
+int nlGetPushedMatrix(int);
 int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
+int nlPushMatrix(int);
+int nlRotateAY(int);
 int nlScaleVector(int, int, float);
-void ExecSpark(void);
+int nlSubVector(int, int);
+int nlSubVector3op(int, int, int);
+float nlUnitVector(int);
+int psgPlayBlend(int, int);
+int psgPutMarker(int, int);
+int psgPutShadow(int);
+int psgSetState(int, int, int, int);
+int psgUpdatePartTracks(int);
+int psgFrameState6(int a4);
 
-void ExecSpark(void)
+int psgFrameState6(int a4)
 {
-    int t2;
-    int t4;
-    int t5;
-    int t8;
-    int t11;
+    int t12;
+    int t14;
+    float u15;
     int t16;
-    float t24;
-    int t31;
-    float u33;
-    int t6;
-    int t7;
-    int t9;
-    int t10;
-    float u12;
-    int t39;
+    int t18;
+    float u19;
+    int t20;
+    float t25;
+    float u26;
     int t42;
-    int t26;
-    int t69;
-    int stk[16];
+    float u45;
+    int stk[14];
 
-    if ((int)(*(int *)0xC2757D0) < (int)0x1) {
+    if ((*(int *)((a4 + 0x24))) != 0) {
     } else {
-        nlPushUnitMatrix();
-        t2 = nlMultiViewMatrix();
-        *(unsigned int *)(((int)stk + 4)) = (*(int *)0xC2757D0);
-        t4 = *(int *)0xC2757D4;
-        *(unsigned int *)(((int)stk + 8)) = t4;
-        t5 = t2;
-        t8 = t4;
-        t11 = ((short)((short)t4 * (short)0x1C) + 0xC274DF8);
-        for (;;) {
-            if ((*(int *)(((int)stk + 4))) != 0) {
-                t6 = (*(int *)((t11 + 0x18)));
-                t6 = (t6 - 1);
-                *(unsigned int *)((t11 + 0x18)) = t6;
-                if ((int)t6 < 0) {
-                    t7 = (*(int *)0xC2757D0);
-                    t7 = (t7 - 1);
-                    *(unsigned int *)0xC2757D0 = t7;
-                    t7 = 0x5A;
-                    t16 = *(int *)0xC2757D4;
-                    *(unsigned int *)0xC2757D4 = (t16 + 0x1);
-                    if ((int)(t16 + 0x1) >= (int)t7) {
-                        *(unsigned int *)0xC2757D4 = 0x0;
-                    }
-                    t39 = t6;
-                    t42 = t10;
-                } else {
-                    u12 = 0.0f;
-                    t10 = 0xC031B6A;
-                    t8 = t11;
-                    t5 = (GetCollisionFirst(t8, (t11 + 0xC), u12));
-                    t9 = t5;
-                    t5 = (*(int *)((t9 + 0x1C)));
-                    t10 = 0xC078BC0;
-                    if (t5 == -1) {
-                        t8 = t11;
-                        t26 = (t11 + 0xC);
-                    } else {
-                        t5 = 0x18;
-                        t8 = ((int)stk + 4);
-                        t8 = (t8 + 0x8);
-                        t5 = (nlScaleVector(t8, (t11 + 0xC), (*(float *)((t9 + t5)))));
-                        t8 = t11;
-                        t5 = (nlAddVector(t8, (((int)stk + 4) + 0x8)));
-                        t5 = 0xC037868;
-                        u12 = (*(float *)((t5 + 0x0)));
-                        t8 = t11;
-                        t8 = (t8 + 0xC);
-                        t24 = nlInnerProduct(t8, (t9 + 0xC));
-                        t8 = ((int)stk + 4);
-                        t8 = (t8 + 0x8);
-                        t5 = (nlScaleVector(t8, (t9 + 0xC), (-(t24 * u12))));
-                        t8 = t11;
-                        t8 = (t8 + 0xC);
-                        t26 = (((int)stk + 4) + 0x8);
-                    }
-                    t7 = 0xC078A50;
-                    t5 = (nlAddVector(t8, t26));
-                    t7 = 0xC2757DC;
-                    t9 = (*(int *)(((int)stk + 8)));
-                    t31 = *(signed char *)((t7 + 0x0));
-                    t9 = (t9 << 2);
-                    t6 = 0xC0771B0;
-                    t9 = (t9 << 2);
-                    t9 = (t9 << 1);
-                    t9 = (t9 + 0xC274298);
-                    t8 = t11;
-                    t5 = (nlCalcPoint(t8, ((signed char)(((t31 << 1) + t31) << 2) + (t9 + 0x8))));
-                    t5 = 0xC037874;
-                    u33 = *(float *)((t5 + 0x0));
-                    t5 = 0x10;
-                    t8 = t11;
-                    *(float *)((t11 + t5)) = ((*(float *)((t11 + t5))) - u33);
-                    t5 = 0xC037878;
-                    u12 = (*(float *)((t5 + 0x0)));
-                    t8 = (t8 + 0xC);
-                    t5 = (nlScaleVector(t8, (t11 + 0xC), u12));
-                    t5 = (*(int *)((t11 + 0x18)));
-                    t8 = 0xC0EDB40;
-                    t5 = (t5 << 2);
-                    *(unsigned int *)((t9 + 0x4)) = (*(int *)((t8 + t5)));
-                    t42 = 0xC078BC0;
-                }
-                t6 = t39;
-                t7 = (*(int *)(((int)stk + 8)));
-                t10 = t42;
-                t7 = (t7 + 0x1);
-                *(unsigned int *)(((int)stk + 8)) = t7;
-                if ((int)t7 >= (int)0x5A) {
-                    t11 = 0xC274DF8;
-                    *(unsigned int *)(((int)stk + 8)) = 0x0;
-                } else {
-                    t11 = (t11 + 0x1C);
-                }
-                *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) - 1);
-                continue;
+        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
+        *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x2);
+        nlPushMatrix(0x0);
+        nlSubVector3op((((int)stk + 4) + 0x4), (a4 + 0x4), 0xC179144);
+        nlUnitVector((((int)stk + 4) + 0x4));
+        *(unsigned int *)(((int)stk + 4)) = (nlArcTan2((-(*(float *)(((int)stk + 8)))), (-(*(float *)(((int)stk + 16))))));
+        t12 = GetAverageAngle((*(int *)((a4 + 0x10))), (*(int *)(((int)stk + 4))), 0.849999964f);
+        *(unsigned int *)((a4 + 0x10)) = (short)t12;
+        nlRotateAY(((short)t12 + 0x8000));
+        t14 = *(int *)((a4 + 0x34));
+        u15 = *(float *)((a4 + 0x38));
+        t16 = *(int *)((t14 + 0x4));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(((*(int *)((t14 + 0x8))) + ((((((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1)) << 1) + (((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1))) << 2))); }
+        t18 = *(int *)((a4 + 0x34));
+        u19 = *(float *)((a4 + 0x38));
+        t20 = *(int *)((t18 + 0x4));
+        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(((*(int *)((t18 + 0x8))) + (((((int)u19 * (((t20 + 0x1) << 1) + 0x1)) << 1) + ((int)u19 * (((t20 + 0x1) << 1) + 0x1))) << 2))); }
+        *(float *)(((int)stk + 24)) = 0.0f;
+        *(float *)(((int)stk + 36)) = 0.0f;
+        nlSubVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
+        nlCalcVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x1C));
+        nlGetAverageVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10), 1.3499999f, 0.75f);
+        t25 = nlUnitVector((((int)stk + 4) + 0x10));
+        u26 = t25;
+        if (t25 > 2.75f) {
+            u26 = 2.75f;
+        }
+        nlScaleVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x10), u26);
+        nlAddVector((((int)stk + 4) + 0x10), (a4 + 0x4));
+        Psg_SetPosPtr(a4, (((int)stk + 4) + 0x10));
+        nlGetPushedMatrix(0x0);
+        psgPutShadow(a4);
+        if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
+            psgPlayBlend(a4, 0x1);
+        } else {
+            psgUpdatePartTracks(a4);
+            humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x1);
+            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+            t42 = *(int *)(((*(int *)((a4 + 0x34))) + 0x0));
+            u45 = (float)(t42 - 2);
+            if ((int)(t42 - 2) < 0) {
+                u45 = ((float)(t42 - 2) + 4.2949673e+09f);
             }
-            break;
+            if (!(u45 > (*(float *)((a4 + 0x38))))) {
+                psgSetState(a4, 0x0, 0x0, 0x0);
+            }
         }
         nlPopMatrix(0x1);
-        if ((int)(*(int *)0xC2757D0) > 0) {
-            if ((*(int *)0xC2757E0) == 0) {
-                nlLineBlendFunc(0x1, 0x4);
-                nlLineSetThickness((1.0f + 1.0f));
-                nlLineSetDiv((*(float *)0xC0379BC));
-                if ((*(int *)0xC2757D0) == 90) {
-                    *(unsigned int *)0xC274DD8 = 0x0;
-                    t69 = 0xC274298;
-                } else {
-                    *(unsigned int *)(((((((*(int *)0xC2757D8) << 2) << 2) << 1) + 0xC274298) + 0x0)) = 0x0;
-                    if ((int)(*(int *)0xC2757D4) > (int)(*(int *)0xC2757D8)) {
-                        *(unsigned int *)0xC274DD8 = 0x0;
-                        nlMultiLineTrnsl(0xC274298);
-                    }
-                    t69 = (((((*(int *)0xC2757D4) << 2) << 2) << 1) + 0xC274298);
-                }
-                nlMultiLineTrnsl(t69);
-            }
-        } else {
-            *(unsigned int *)0xC2757D8 = 0x0;
-            *(unsigned int *)0xC2757D4 = 0x0;
-            *(unsigned int *)0xC2757D0 = 0x0;
-        }
-        *(unsigned int *)0xC2757DC = ((*(int *)0xC2757DC) ^ 0x1);
-        *(unsigned int *)0xC2757E0 = 0x0;
     }
+    return (psgPutMarker(a4, 0x1));
 }

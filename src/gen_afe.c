@@ -1,166 +1,125 @@
 /* Straight-line functions with calls and guards (batch gen_afe): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern void _builtin_prefetch(void *);
-float pfPutc(int a4, int a5, int a6, int a7, float f4);
+int kmiCopyFromFrameBuffer(int, int, int);
+int kmiCopyToFrameBuffer(int, int, int);
+int kmiPurgeCache(int);
+int kmtex_GetTextureLevel(int, int);
+int kmtex_ReloadPalettized4MM(int a4, int a5, int a6);
 
-float pfPutc(int a4, int a5, int a6, int a7, float f4)
+int kmtex_ReloadPalettized4MM(int a4, int a5, int a6)
 {
-    int t1;
-    float u7;
-    float u8;
-    float u9;
-    float u14;
-    float u15;
-    float u16;
-    float u17;
-    float u19;
-    float u20;
-    int t21;
-    float u22;
-    float u23;
-    float u24;
-    float u27;
-    float u30;
-    float u34;
-    float u35;
-    int t36;
-    int t37;
-    int t38;
-    int t39;
-    int t40;
-    int t41;
-    int t42;
+    int t0;
+    int t3;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t30;
+    int t31;
+    int t32;
+    int t33;
     int t43;
     int t44;
     int t45;
-    int t46;
-    int t47;
-    int t56;
-    float u110;
-    float u90;
-    float u72;
+    int t59;
+    int t60;
+    int t61;
+    int t62;
+    int t63;
+    int t70;
+    int stk[16];
 
-    t1 = *(int *)(((*(int *)0xC2B8CBC) + 0x8));
-    if ((int)(signed char)a4 < (int)0x20) {
-    } else {
-        if ((int)(signed char)a4 > (int)0x7F) {
+    *(unsigned int *)(((int)stk + 8)) = a5;
+    t0 = kmtex_GetTextureLevel(a6, a6);
+    *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+    if ((int)a6 <= (int)0x4) {
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+        kmiCopyFromFrameBuffer((((int)stk + 4) + 0xC), (*(int *)((a4 + 0x1C))), 0x10);
+        t3 = *(int *)(((int)stk + 8));
+        if (a6 == 1) {
+            *(unsigned char *)(((((int)stk + 4) + 0xC) + 0x1)) = (*(signed char *)((t3 + 0x0)));
         } else {
-            if (0.0f > (*(float *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x0)))) {
-                u7 = *(float *)0xC26E1F4;
-                u8 = (*(float *)0xC0ED250);
-                u8 = u8 + u7 * ((*(float *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x4))) + (-1.0f));
-                *(float *)0xC0ED250 = u8;
-                u72 = u7;
+            if (a6 == 2) {
+                t5 = ((((int)stk + 4) + 0xC) + 0x2);
+                t6 = t3;
+                for (;;) {
+                    t7 = *(signed char *)((t6 + 0x0));
+                    t6 = (t6 + 0x1);
+                    *(unsigned char *)((t5 + 0x0)) = t7;
+                    t5 = (t5 + 0x1);
+                    if ((unsigned int)t5 >= (unsigned int)((((int)stk + 4) + 0xC) + 0x4)) {
+                        break;
+                    }
+                }
             } else {
-                u9 = *(float *)0xC0ED250;
-                *(float *)0xC0ED1F4 = u9;
-                *(float *)0xC0ED1E0 = u9;
-                u14 = (*(float *)0xC0ED250);
-                u14 = u14 + (*(float *)0xC26E1F4) * (*(float *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x4)));
-                *(float *)0xC0ED21C = u14;
-                *(float *)0xC0ED208 = u14;
-                u15 = *(float *)0xC0ED254;
-                *(float *)0xC0ED20C = u15;
-                *(float *)0xC0ED1E4 = u15;
-                u16 = *(float *)0xC0ED254;
-                u17 = *(float *)0xC26E204;
-                *(float *)0xC0ED220 = (u16 + u17);
-                *(float *)0xC0ED1F8 = (u16 + u17);
-                u19 = *(float *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x0));
-                u20 = *(float *)0xC26E20C;
-                *(float *)0xC0ED200 = (u19 * u20);
-                *(float *)0xC0ED1EC = (u19 * u20);
-                t21 = *(int *)0xC26E1E8;
-                u22 = *(float *)(((t21 + (((signed char)(a4 - 32) << 2) << 2)) + 0x0));
-                u23 = *(float *)(((t21 + (((signed char)(a4 - 32) << 2) << 2)) + 0x4));
-                u24 = *(float *)0xC26E20C;
-                *(float *)0xC0ED228 = ((u22 + u23) * u24);
-                *(float *)0xC0ED214 = ((u22 + u23) * u24);
-                u27 = *(float *)((0xC08D67C + ((*(int *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x8))) << 2)));
-                *(float *)0xC0ED218 = u27;
-                *(float *)0xC0ED1F0 = u27;
-                u30 = *(float *)((0xC08D6A8 + ((*(int *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x8))) << 2)));
-                *(float *)0xC0ED22C = u30;
-                *(float *)0xC0ED204 = u30;
-                u34 = *(float *)0xC26E1F4;
-                u35 = (*(float *)0xC0ED250);
-                u35 = u35 + u34 * ((*(float *)((((*(int *)0xC26E1E8) + (((signed char)(a4 - 32) << 2) << 2)) + 0x4))) + (-1.0f));
-                *(float *)0xC0ED250 = u35;
-                *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t1 >> 16) >> 8);
-                *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t1 >> 16) >> 8);
-                t36 = ((unsigned int)((unsigned int)t1 >> 16) >> 8);
-                t37 = 0x8;
-                t38 = 0xC0ED1C0;
-                t39 = ((0x3FFFFFF & t1) | 0xE0000000);
+                t8 = ((((int)stk + 4) + 0xC) + 0x4);
+                t9 = t3;
                 for (;;) {
-                    if (t37 == 0) {
+                    t10 = *(signed char *)((t9 + 0x0));
+                    t9 = (t9 + 0x1);
+                    *(unsigned char *)((t8 + 0x0)) = t10;
+                    t8 = (t8 + 0x1);
+                    if ((unsigned int)t8 >= (unsigned int)((((int)stk + 4) + 0xC) + 0xC)) {
                         break;
                     }
-                    t40 = *(int *)((t38 + 0x0));
-                    t38 = (t38 + 0x4);
-                    t36 = t40;
-                    t37 = (t37 - 1);
-                    *(unsigned int *)((t39 + 0x0)) = t36;
-                    t39 = (t39 + 0x4);
                 }
-                _builtin_prefetch((void *)((0x3FFFFFF & t1) | 0xE0000000));
-                t41 = 0xFF000038;
-                t42 = t36;
-                t43 = (((0x3FFFFFF & t1) | 0xE0000000) + 0x20);
-                t44 = 0xC0ED1E0;
-                t45 = 0x4;
-                t46 = 0xC0ED240;
-                t47 = 0xC0ED230;
-                for (;;) {
-                    if (t45 == 0) {
-                        break;
-                    }
-                    t41 = t45;
-                    if (t41 == 1) {
-                        *(unsigned int *)((t43 + 0x0)) = 0xF0000000;
-                    } else {
-                        *(unsigned int *)((t43 + 0x0)) = 0xE0000000;
-                    }
-                    t42 = (*(int *)((t44 + 0x0)));
-                    t44 = (t44 + 0x4);
-                    t43 = (t43 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t44 + 0x0)));
-                    t44 = (t44 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t44 + 0x0)));
-                    t44 = (t44 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t44 + 0x0)));
-                    t44 = (t44 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t44 + 0x0)));
-                    t44 = (t44 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t47 + 0x0)));
-                    t47 = (t47 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    t43 = (t43 + 0x4);
-                    t42 = (*(int *)((t46 + 0x0)));
-                    t46 = (t46 + 0x4);
-                    *(unsigned int *)((t43 + 0x0)) = t42;
-                    _builtin_prefetch((void *)t43);
-                    t45 = (t45 - 1);
-                    t43 = (t43 + 0x4);
-                }
-                t56 = *(int *)0xC2B8CBC;
-                *(unsigned int *)(((t56 + 0x8) + 0x0)) = (((*(int *)(((t56 + 0x8) + 0x0))) & 0xFC000000) | (t43 & 0x3FFFFFF));
-                u72 = u34;
             }
-            u90 = u72;
         }
-        u110 = u90;
+        *(unsigned int *)(((int)stk + 8)) = (*(int *)((a4 + 0x1C)));
+        kmiPurgeCache((((int)stk + 4) + 0xC));
+        kmiPurgeCache(((((int)stk + 4) + 0xC) + 0x20));
+        t70 = (*(int *)(((int)stk + 8)));
+    } else {
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+        kmiCopyFromFrameBuffer((*(int *)(((int)stk + 4))), ((*(int *)((a4 + 0x1C))) + ((*(int *)((0xC175F5C + (t0 << 2)))) - 12)), 0x10);
+        t30 = ((((int)stk + 4) + 0xC) + 0xC);
+        t31 = (*(int *)(((int)stk + 8)));
+        for (;;) {
+            t32 = *(signed char *)((t31 + 0x0));
+            t31 = (t31 + 0x1);
+            *(unsigned char *)((t30 + 0x0)) = t32;
+            t30 = (t30 + 0x1);
+            if ((unsigned int)t30 >= (unsigned int)((((int)stk + 4) + 0xC) + 0x10)) {
+                break;
+            }
+        }
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+        t33 = *(int *)((a4 + 0x1C));
+        *(unsigned int *)(((int)stk + 12)) = t33;
+        *(unsigned int *)(((int)stk + 12)) = (t33 + ((*(int *)((0xC175F5C + (t0 << 2)))) - 12));
+        kmiPurgeCache((*(int *)(((int)stk + 4))));
+        kmiPurgeCache(((*(int *)(((int)stk + 4))) + 0x20));
+        kmiCopyToFrameBuffer((*(int *)(((int)stk + 12))), (*(int *)(((int)stk + 4))), 0x10);
+        *(unsigned int *)(((int)stk + 4)) = 0xC175F88;
+        if ((unsigned int)((*(int *)(((t0 << 2) + 0xC175F88))) - 16) > (unsigned int)0x0) {
+            t43 = *(int *)((0xC175F5C + (t0 << 2)));
+            t44 = *(int *)(((int)stk + 8));
+            t45 = *(int *)((a4 + 0x1C));
+            *(unsigned int *)(((int)stk + 12)) = (t44 + 0x4);
+            kmiCopyToFrameBuffer((t45 + (t43 + 0x4)), (t44 + 0x4), ((*(int *)(((t0 << 2) + (*(int *)(((int)stk + 4)))))) - 16));
+        }
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0xC);
+        kmiCopyFromFrameBuffer((*(int *)(((int)stk + 4))), ((*(int *)((a4 + 0x1C))) + ((*(int *)((0xC175F5C + ((t0 + 0x1) << 2)))) - 12)), 0x10);
+        t59 = (((int)stk + 4) + 0xC);
+        t60 = (((*(int *)(((t0 << 2) + 0xC175F88))) + (*(int *)(((int)stk + 8)))) - 12);
+        for (;;) {
+            t61 = *(signed char *)((t60 + 0x0));
+            t60 = (t60 + 0x1);
+            *(unsigned char *)((t59 + 0x0)) = t61;
+            t59 = (t59 + 0x1);
+            if ((unsigned int)t59 >= (unsigned int)((((int)stk + 4) + 0xC) + 0xC)) {
+                break;
+            }
+        }
+        t62 = *(int *)((a4 + 0x1C));
+        t63 = *(int *)((0xC175F5C + ((t0 + 0x1) << 2)));
+        kmiPurgeCache((((int)stk + 4) + 0xC));
+        kmiPurgeCache(((((int)stk + 4) + 0xC) + 0x20));
+        t70 = (t62 + (t63 - 12));
     }
-    return u110;
+    kmiCopyToFrameBuffer(t70, (((int)stk + 4) + 0xC), 0x10);
+    return 0x0;
 }

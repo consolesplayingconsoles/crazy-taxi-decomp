@@ -1,140 +1,99 @@
 /* Straight-line functions with calls and guards (batch gen_xd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetMenuMode(int);
-int hudHidePickUpNag(void);
-int GS_GuestIn(int a4);
+int kmiCopyFromFrameBuffer(int, int, int);
+int kmiCopyToFrameBuffer(int, int, int);
+int kmiPurgeCache(int);
+int kmtex_GetTextureLevel(int, int);
+int kmtex_ReloadVQMM(int a4, int a5, int a6);
 
-int GS_GuestIn(int a4)
+int kmtex_ReloadVQMM(int a4, int a5, int a6)
 {
     int t0;
-    int t1;
-    float u2;
-    int t3;
     int t4;
-    int t5;
     int t6;
-    int t12;
-    int t13;
-    int t14;
-    float u16;
-    float u17;
-    float u18;
+    int t7;
+    int t8;
     int t20;
     int t21;
     int t22;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int t28;
-    int t34;
-    int t35;
-    int t36;
-    int t38;
-    int t39;
-    int t40;
-    int t42;
-    int t43;
-    int t44;
-    int t45;
-    int t66;
-    int t67;
-    int t84;
-    float u85;
-    float u86;
-    int t87;
-    int t102;
-    int t10;
+    int t31;
     int t32;
+    int t33;
+    int t46;
+    int t47;
+    int t48;
+    int t54;
+    int stk[15];
 
-    *(unsigned int *)0xC1EE78C = 0x1;
-    t0 = *(int *)((a4 + 0x14));
-    t1 = *(int *)(((0x19C + a4) + 0x0));
-    u2 = *(float *)((((t1 << 2) + (t0 + 0x1C)) + 0x0));
-    *(float *)0xC1EE7A4 = u2;
-    t3 = *(int *)0xC1EE234;
-    if (t3 == 1) {
-        t4 = *(signed char *)0xC28A4EA;
-        t5 = *(int *)((0xC08AF68 + ((unsigned char)t4 << 2)));
-        t10 = t5;
-    } else {
-        t6 = *(int *)0xC08AF74;
-        t10 = t6;
-    }
-    t12 = *(int *)0xC1EE790;
-    t13 = (int)((int)t12 / (int)0xE10);
-    t14 = 0x28;
-    if ((int)t13 < (int)0xA) {
-        t14 = (t13 << 2);
-    }
-    u16 = *(float *)((0xC08AF38 + t14));
-    u17 = ((u2 * 0.109999999f) + ((float)t10 + 240.0f));
-    u18 = (u17 * u16);
-    if (300.0f > (u17 * u16)) {
-        u18 = 300.0f;
-    }
-    t20 = *(int *)0xC1EE7C4;
-    if ((int)t20 < (int)0xA) {
-        t21 = *(int *)((0xC08AEA8 + (t20 << 2)));
-        *(unsigned int *)0xC1EE7D0 = t21;
-        t22 = *(int *)0xC1EE7C4;
-        t23 = *(int *)((0xC08AED8 + (t22 << 2)));
-        *(unsigned int *)0xC1EE7D4 = t23;
-        t24 = *(int *)0xC1EE7C4;
-        t25 = *(int *)(((t24 << 2) + 0xC08AF08));
-        t32 = t25;
-    } else {
-        t26 = *(int *)0xC08AED0;
-        *(unsigned int *)0xC1EE7D0 = t26;
-        t27 = *(int *)0xC08AF00;
-        *(unsigned int *)0xC1EE7D4 = t27;
-        t28 = *(int *)0xC08AF30;
-        t32 = t28;
-    }
-    *(unsigned int *)0xC1EE7D8 = t32;
-    t34 = *(int *)0xC1EE794;
-    t35 = *(int *)0xC1EE798;
-    t36 = *(int *)0xC1EE7D0;
-    if ((int)t36 > (int)(t34 + t35)) {
-        *(unsigned int *)0xC1EE7D0 = (t34 + t35);
-    }
-    t38 = *(int *)0xC1EE7D0;
-    *(unsigned int *)0xC1EE7CC = ((int)u18 + t38);
-    t39 = *(int *)0xC1EE798;
-    *(unsigned int *)0xC1EE798 = (int)((float)t39 + u18);
-    t40 = *(int *)0xC1EE210;
-    if (t40 != 2) {
-        t42 = *(int *)0xC1EE210;
-        if (t42 != 2) {
-            t43 = GetMenuMode(0x1);
-            if (t43 != 0) {
-                t44 = *(int *)0xC1EE210;
-                if (t44 == 2) {
-                    t45 = *(int *)0xC1EE794;
-                    *(unsigned int *)0xC1EE7CC = t45;
+    *(unsigned int *)(((int)stk + 8)) = a5;
+    t0 = kmtex_GetTextureLevel(a6, a6);
+    if (a6 != 1) {
+        *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
+        if ((int)a6 <= (int)0x4) {
+            *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
+            kmiCopyFromFrameBuffer((*(int *)(((int)stk + 4))), ((*(int *)((a4 + 0x1C))) + 0x800), 0x10);
+            t4 = *(int *)(((int)stk + 8));
+            if (a6 == 2) {
+                *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x1)) = (*(signed char *)((t4 + 0x0)));
+            } else {
+                t6 = ((((int)stk + 4) + 0x8) + 0x2);
+                t7 = t4;
+                for (;;) {
+                    t8 = *(signed char *)((t7 + 0x0));
+                    t7 = (t7 + 0x1);
+                    *(unsigned char *)((t6 + 0x0)) = t8;
+                    t6 = (t6 + 0x1);
+                    if ((unsigned int)t6 >= (unsigned int)((((int)stk + 4) + 0x8) + 0x6)) {
+                        break;
+                    }
                 }
-                *(unsigned int *)0xC1EE798 = 0x0;
             }
+            t54 = ((*(int *)((a4 + 0x1C))) + 0x800);
+        } else {
+            *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
+            kmiCopyFromFrameBuffer((*(int *)(((int)stk + 4))), ((*(int *)((a4 + 0x1C))) + ((*(int *)((0xC175ED8 + ((t0 - 1) << 2)))) + 0x7FA)), 0x10);
+            t20 = ((((int)stk + 4) + 0x8) + 0x6);
+            t21 = (*(int *)(((int)stk + 8)));
+            for (;;) {
+                t22 = *(signed char *)((t21 + 0x0));
+                t21 = (t21 + 0x1);
+                *(unsigned char *)((t20 + 0x0)) = t22;
+                t20 = (t20 + 0x1);
+                if ((unsigned int)t20 >= (unsigned int)((((int)stk + 4) + 0x8) + 0x10)) {
+                    break;
+                }
+            }
+            *(unsigned int *)(((int)stk + 4)) = (*(int *)((a4 + 0x1C)));
+            *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + ((*(int *)((0xC175ED8 + ((t0 - 1) << 2)))) + 0x7FA));
+            kmiPurgeCache((((int)stk + 4) + 0x8));
+            kmiPurgeCache(((((int)stk + 4) + 0x8) + 0x20));
+            kmiCopyToFrameBuffer((*(int *)(((int)stk + 4))), (((int)stk + 4) + 0x8), 0x10);
+            if ((unsigned int)((*(int *)(((t0 << 2) + 0xC175EAC))) - 16) > (unsigned int)0x0) {
+                t31 = *(int *)((0xC175ED8 + ((t0 - 1) << 2)));
+                t32 = *(int *)((a4 + 0x1C));
+                t33 = *(int *)(((int)stk + 8));
+                *(unsigned int *)(((int)stk + 4)) = (t33 + 0xA);
+                kmiCopyToFrameBuffer((t32 + (t31 + 0x80A)), (t33 + 0xA), ((*(int *)(((t0 << 2) + 0xC175EAC))) - 16));
+            }
+            *(unsigned int *)(((int)stk + 4)) = (((int)stk + 4) + 0x8);
+            kmiCopyFromFrameBuffer((*(int *)(((int)stk + 4))), ((*(int *)((a4 + 0x1C))) + ((*(int *)((0xC175ED8 + (t0 << 2)))) + 0x7FA)), 0x10);
+            t46 = (((int)stk + 4) + 0x8);
+            t47 = (((*(int *)(((t0 << 2) + 0xC175EAC))) + (*(int *)(((int)stk + 8)))) - 6);
+            for (;;) {
+                t48 = *(signed char *)((t47 + 0x0));
+                t47 = (t47 + 0x1);
+                *(unsigned char *)((t46 + 0x0)) = t48;
+                t46 = (t46 + 0x1);
+                if ((unsigned int)t46 >= (unsigned int)((((int)stk + 4) + 0x8) + 0x6)) {
+                    break;
+                }
+            }
+            t54 = ((*(int *)((a4 + 0x1C))) + ((*(int *)((0xC175ED8 + (t0 << 2)))) + 0x7FA));
         }
-    } else {
-        t66 = *(int *)0xC1EE210;
-        if (t66 == 2) {
-            t67 = *(int *)0xC1EE794;
-            *(unsigned int *)0xC1EE7CC = t67;
-        }
-        *(unsigned int *)0xC1EE798 = 0x0;
+        kmiPurgeCache((((int)stk + 4) + 0x8));
+        kmiPurgeCache(((((int)stk + 4) + 0x8) + 0x20));
+        kmiCopyToFrameBuffer(t54, (((int)stk + 4) + 0x8), 0x10);
     }
-    t84 = *(int *)0xC1EE7B4;
-    u85 = 2.5f;
-    u86 = *(float *)0xC1EE7A4;
-    *(unsigned int *)0xC1EE7B4 = (t84 + (int)(u86 * u85));
-    t87 = *(int *)0xC1EE210;
-    if (t87 != 2) {
-        hudHidePickUpNag();
-    }
-    t102 = *(int *)0xC1EE7E4;
-    *(unsigned int *)0xC1EE7E4 = (t102 + 0x1);
-    return 0x5C;
+    return 0x0;
 }

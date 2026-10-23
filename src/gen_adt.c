@@ -1,156 +1,167 @@
 /* Straight-line functions with calls and guards (batch gen_adt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetCollision2D(int, float);
-int GetRotVec4Ang(int, int, int, int);
-int calcCheck(int);
-int calcCheckExec(int, int);
-int carBalance(int, int);
-int carColliReflection(int);
-int carEntry(int);
-int carResistance(int, int, int, int, float);
-int dropOutCheck(int);
-int nlAddVector(int, int);
-int nlCalcVector(int, int);
-float nlInnerProduct(int, int, float);
-int nlPopMatrix(int);
-int nlPushUnitMatrix(void);
-int nlRotateAX(int);
-int nlRotateAY(int);
-int nlRotateAZ(int);
-int nlScaleVector(int, int, float);
-int nlSubVector3op(int, int, int, float);
-int pcarEnd(int);
-int pcarRejoinLane(int, int, int, int, float);
-int technicalCheck(int, int, int);
-int stopingCarExec(int a4, int a5, int a6, int a7, float f4);
+int mpdrv_insertnop(int);
+int mpdrv_v2p(int);
+int mpdrv_setcmd(int a4, int a5, int a6, int a7, int a8, int a9);
 
-int stopingCarExec(int a4, int a5, int a6, int a7, float f4)
+int mpdrv_setcmd(int a4, int a5, int a6, int a7, int a8, int a9)
 {
-    int t1;
+    int t0;
+    int t115;
     int t3;
-    float t14;
-    int t46;
-    int stk[11];
+    int t4;
+    int t19;
+    int t22;
+    int t24;
+    int t25;
+    int t26;
+    int t30;
+    int t31;
+    int t41;
+    int t37;
+    int t38;
+    int t39;
+    int t40;
+    int t52;
+    int t47;
+    int t48;
+    int t49;
+    int t50;
+    int t68;
+    int t69;
+    int t70;
+    int t81;
+    int t82;
+    int t83;
+    int t84;
+    int t99;
+    int t102;
+    int t103;
+    int t104;
+    int t105;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t60;
+    int stk[17];
 
-    int R0;
-    int R1;
-    int R2;
-    int R3;
-    int R4;
-    int R5;
-    int R6;
-    int R7;
-    int R13;
-    int R14;
-    float F0;
-    float F1;
-    float F2;
-    float F3;
-    float F4;
-    float F14;
-    float F15;
-    int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
-    L_C0468A8:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((0x98 + R4)); }
-    technicalCheck(R4, R5, R6);
-    t1 = *(int *)((R4 + 0x84));
-    calcCheck(R4);
-    t3 = *(int *)((R4 + 0x84));
-    R13 = ((t1 ^ t3));
-    R14 = (R4);
-    if (((t1 ^ t3) == 0)) goto L_C0468E4;
-    goto L_C0468D6;
-    L_C0468D6:;
-    if (((calcCheckExec(R14, R13)) != 0)) goto L_C0468E4;
-    goto L_C0468E0;
-    L_C0468E0:;
-    goto L_C046A10;
-    L_C046A10:;
-    R0 = ((pcarEnd(R14)));
-    goto L_C046B08;
-    L_C046B08:;
-    return R0;
-    L_C0468E4:;
-    pcarRejoinLane(R14, R5, R6, R7, F4);
-    if ((((*(int *)((R14 + 0x84))) & 8) == 0)) goto L_C046920;
-    goto L_C0468F2;
-    L_C0468F2:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + R14)) = *(struct mv3 *)((R14 + 0x14)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + R14)) = *(struct mv3 *)((R14 + 0x20)); }
-    t14 = nlInnerProduct((R14 + 0x5C), (R14 + 0x44), F4);
-    *(float *)((R14 + 0x100)) = t14;
-    F15 = (t14);
-    goto L_C046920;
-    L_C046920:;
-    R13 = (0xC078BC0);
-    if ((((*(int *)((R14 + 0x84))) & 4) != 0)) goto L_C04692E;
-    goto L_C04692A;
-    L_C04692A:;
-    goto L_C046A58;
-    L_C046A58:;
-    nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((R14 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((R14 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((R14 + 0xA6)))));
-    nlCalcVector((0x98 + R14), (((int)stk + 4) + 0xC));
-    *(float *)((R14 + 0xCC)) = (*(float *)(((int)stk + 24)));
-    nlPopMatrix(0x1);
-    carEntry(R14);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x14)) = *(struct mv3 *)((0x8C + R14)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x20)) = *(struct mv3 *)((0x98 + R14)); }
-    nlScaleVector((((int)stk + 4) + 0xC), (R14 + 0x44), ((*(float *)((R14 + 0x100))) - F15));
-    nlAddVector((R14 + 0x5C), (((int)stk + 4) + 0xC));
-    nlScaleVector((R14 + 0x5C), (R14 + 0x5C), 0.996999979f);
-    GetRotVec4Ang((R14 + 0x44), (unsigned short)(*(short *)((R14 + 0xA4))), (unsigned short)(*(short *)((R14 + 0xA6))), (unsigned short)(*(short *)((R14 + 0xA8))));
-    *(unsigned int *)((R14 + 0x68)) = 0x0;
-    R0 = (0x68);
-    goto L_C046B08;
-    L_C04692E:;
-    *(float *)((R14 + 0x9C)) = ((*(float *)((R14 + 0x9C))) - 0.073499985f);
-    if (((int)(*(int *)((R14 + 0x110))) <= 0)) goto L_C046952;
-    goto L_C046944;
-    L_C046944:;
-    *(unsigned int *)((R14 + 0x110)) = ((*(int *)((R14 + 0x110))) - 1);
-    carResistance(R14, R5, R6, R7, F4);
-    goto L_C046952;
-    L_C046952:;
-    nlScaleVector((0x98 + R14), (0x98 + R14), 0.999799967f);
-    nlAddVector((0x8C + R14), (0x98 + R14));
-    t46 = GetCollision2D((0x8C + R14), 30.0f);
-    R4 = (t46);
-    if (((*(int *)((t46 + 0x1C))) == -1)) goto L_C046A08;
-    goto L_C046980;
-    L_C046980:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + R14)) = *(struct mv3 *)((R4 + 0xC)); }
-    *(float *)((R14 + 0x104)) = (*(float *)((R4 + 0x18)));
-    if ((!((*(float *)((R14 + 0x104))) > (*(float *)((R14 + 0x90)))))) goto L_C046A18;
-    goto L_C0469A0;
-    L_C0469A0:;
-    *(float *)((R14 + 0x90)) = (*(float *)((R14 + 0x104)));
-    carColliReflection(R14);
-    *(unsigned int *)((R14 + 0x110)) = (int)((float)(*(int *)((R14 + 0x110))) + 5.0f);
-    goto L_C046A18;
-    L_C046A18:;
-    R0 = (0x110);
-    R4 = (0xA);
-    if (((int)(*(int *)((R14 + 0x110))) <= (int)0xA)) goto L_C046A24;
-    goto L_C046A22;
-    L_C046A22:;
-    *(unsigned int *)((R14 + R0)) = R4;
-    goto L_C046A24;
-    L_C046A24:;
-    nlSubVector3op(((int)stk + 4), (0x98 + R14), ((int)stk + 4), F4);
-    *(float *)((R14 + 0xF8)) = ((*(float *)((R14 + 0xF8))) - ((*(float *)(((((int)stk + 4) + 0x4) + 0x0))) * (1.0f + 1.0f)));
-    *(float *)((R14 + 0xF8)) = ((*(float *)((R14 + 0xF8))) * 0.799999952f);
-    carBalance(R14, ((int)stk + 4));
-    goto L_C046A58;
-    L_C046A08:;
-    if (((dropOutCheck(R14)) == 0)) goto L_C046A18;
-    goto L_C046A10;
+    *(unsigned char *)(((int)stk + 12)) = a5;
+    *(unsigned int *)(((int)stk + 32)) = a6;
+    t0 = *(int *)0xC2FA538;
+    t115 = 0xFFFFFFFF;
+    if ((*(signed char *)((((t0 + 0x28) + (a4 * 0x2C)) + 0x6))) != 0) {
+    } else {
+        *(unsigned char *)((((t0 + 0x28) + (a4 * 0x2C)) + 0x6)) = (*(signed char *)(((int)stk + 12)));
+        *(unsigned int *)(((int)stk + 16)) = ((a7 + a9) + 0x3);
+        t3 = *(signed char *)((a4 + 0xC176918));
+        *(unsigned char *)(((((int)stk + 8) + 0x10) + 0x0)) = t3;
+        *(unsigned int *)(((int)stk + 20)) = (unsigned char)(0xC0 & t3);
+        *(unsigned int *)(((int)stk + 8)) = (((int)(unsigned char)(0xC0 & t3) >> 6) & 0x3);
+        t4 = *(int *)0xC2FA538;
+        if (((int)(*(int *)((t4 + 0x10CC))) > 0) && ((t6 = *(int *)((t4 + 0xFD8)), (int)t6 > 0) && (t7 = *(int *)((t4 + 0xFCC)), t8 = *(int *)((t7 + 0x0)), t9 = *(int *)(((int)stk + 8)), t9 == (0x3 & (short)((unsigned int)t8 >> 16))))) {
+            mpdrv_insertnop((*(int *)((t4 + 0x10CC))));
+        }
+        t19 = *(int *)0xC2FA538;
+        *(unsigned int *)((t19 + 0xFCC)) = ((*(int *)((t19 + 0xFCC))) + ((*(int *)(((0xFD8 + t19) + 0x0))) << 2));
+        t22 = *(int *)(((int)stk + 8));
+        t24 = *(int *)(((*(int *)0xC2FA538) + 0xFCC));
+        *(unsigned int *)(((int)stk + 28)) = (unsigned char)(a7 + a9);
+        *(unsigned int *)((t24 + 0x0)) = ((t22 << 16) | (unsigned char)(a7 + a9));
+        t25 = *(int *)0xC2FA538;
+        t26 = *(int *)(((0x10B4 + t25) + 0x0));
+        *(unsigned int *)(((t24 + 0x4) + 0x0)) = (mpdrv_v2p((*(int *)(((a4 << 2) + ((t25 + 0xFE8) + (((((t26 << 1) + t26) << 2) << 2) << 1)))))));
+        t30 = *(int *)(((int)stk + 32));
+        *(unsigned int *)(((int)stk + 8)) = (unsigned char)(*(signed char *)(((int)stk + 12)));
+        t31 = *(signed char *)(((int)stk + 24));
+        if ((*(int *)((0x10C4 + (*(int *)0xC2FA538)))) == 1) {
+            *(unsigned int *)((((t24 + 0x4) + 0x4) + 0x0)) = (((((((*(int *)(((int)stk + 8))) << 16) << 8) & 0xFF000000) | (((unsigned char)t31 << 16) & 0xFF0000)) | (((*(int *)(((int)stk + 20))) << 8) & 0xFF00)) | (*(int *)(((int)stk + 28))));
+            t41 = (((t24 + 0x4) + 0x4) + 0x4);
+            if ((int)a7 > 0) {
+                t37 = t30;
+                t38 = 0x0;
+                t39 = (((t24 + 0x4) + 0x4) + 0x4);
+                for (;;) {
+                    t40 = *(int *)((t37 + 0x0));
+                    t37 = (t37 + 0x4);
+                    t38 = (t38 + 0x1);
+                    *(unsigned int *)((t39 + 0x0)) = t40;
+                    t39 = (t39 + 0x4);
+                    if ((int)t38 >= (int)a7) {
+                        break;
+                    }
+                }
+                t41 = t39;
+            }
+            t60 = t41;
+        } else {
+            *(unsigned int *)((((t24 + 0x4) + 0x4) + 0x0)) = ((((((*(int *)(((int)stk + 20))) << 16) & 0xFF0000) | (((unsigned char)t31 << 8) & 0xFF00)) | ((((a7 + a9) << 16) << 8) & 0xFF000000)) | (*(int *)(((int)stk + 8))));
+            t52 = (((t24 + 0x4) + 0x4) + 0x4);
+            if ((int)a7 > 0) {
+                t47 = t30;
+                t48 = 0x0;
+                t49 = (((t24 + 0x4) + 0x4) + 0x4);
+                for (;;) {
+                    t50 = *(int *)((t47 + 0x0));
+                    t47 = (t47 + 0x4);
+                    t48 = (t48 + 0x1);
+                    *(unsigned int *)((t49 + 0x0)) = ((((((t50 << 16) << 8) & 0xFF000000) | ((t50 << 8) & 0xFF0000)) | (((int)t50 >> 8) & 0xFF00)) | (unsigned char)(signed char)((unsigned int)((unsigned int)t50 >> 16) >> 8));
+                    t49 = (t49 + 0x4);
+                    if ((int)t48 >= (int)a7) {
+                        break;
+                    }
+                }
+                t52 = t49;
+            }
+            t60 = t52;
+        }
+        if ((*(int *)((0x10C4 + (*(int *)0xC2FA538)))) == 1) {
+            if ((int)a9 > 0) {
+                t68 = a8;
+                t69 = 0x0;
+                t70 = t60;
+                for (;;) {
+                    t69 = (t69 + 0x1);
+                    *(unsigned int *)((t70 + 0x0)) = ((((((*(signed char *)((t68 + 0x1))) << 16) & 0xFF0000) | (((*(signed char *)((t68 + 0x2))) << 8) & 0xFF00)) | ((((*(signed char *)((t68 + 0x0))) << 16) << 8) & 0xFF000000)) | (unsigned char)(*(signed char *)((t68 + 0x3))));
+                    t70 = (t70 + 0x4);
+                    t68 = (t68 + 0x4);
+                    if ((int)t69 >= (int)a9) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            if ((int)a9 > 0) {
+                t81 = 0x0;
+                t82 = a8;
+                t83 = t60;
+                for (;;) {
+                    t84 = *(int *)((t82 + 0x0));
+                    t82 = (t82 + 0x4);
+                    t81 = (t81 + 0x1);
+                    *(unsigned int *)((t83 + 0x0)) = t84;
+                    t83 = (t83 + 0x4);
+                    if ((int)t81 >= (int)a9) {
+                        break;
+                    }
+                }
+            }
+        }
+        *(unsigned int *)(((*(int *)0xC2FA538) + 0xFD8)) = (*(int *)(((int)stk + 16)));
+        t99 = *(int *)0xC2FA538;
+        *(unsigned int *)((t99 + 0xFDC)) = ((*(int *)((t99 + 0xFDC))) + ((*(int *)(((int)stk + 16))) << 2));
+        t102 = *(int *)0xC2FA538;
+        t103 = *(int *)0xC2FA538;
+        t104 = *(int *)((t102 + 0xFE0));
+        *(unsigned int *)((t102 + 0xFE0)) = (t104 + 0x1);
+        *(unsigned int *)((((t103 + 0x28) + (a4 * 0x2C)) + 0x18)) = ((t104 + 0x1) - 1);
+        t105 = *(int *)0xC2FA538;
+        *(unsigned int *)((t105 + 0xFE0)) = ((*(int *)((t105 + 0xFE0))) & 0x7FFFFFFF);
+        if ((*(int *)(((*(int *)0xC2FA538) + 0xFE0))) == 0) {
+            *(unsigned int *)(((*(int *)0xC2FA538) + 0xFE0)) = 0x1;
+        }
+        t115 = (*(int *)(((((*(int *)0xC2FA538) + 0x28) + (a4 * 0x2C)) + 0x18)));
+    }
+    return t115;
 }

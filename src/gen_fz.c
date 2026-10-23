@@ -1,154 +1,106 @@
 /* Straight-line functions with calls and guards (batch gen_fz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ExecArrow(int, float);
-int Init_Remain_Arrow(void);
-int ResetFadeColor(void);
-int Start_CrazyBox_Voice(int);
-extern float nlLength();
-int nlObjPutSetFadeColor(float, float, float);
-void Exec_Remain_Arrow(float f4, float f5);
+float nlLength(int, int);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+float Put_Transporter(int a4, int a5);
 
-void Exec_Remain_Arrow(float f4, float f5)
+float Put_Transporter(int a4, int a5)
 {
+    float t12;
+    int t18;
     int t30;
     int t31;
-    int t33;
-    int t39;
-    int t74;
-    int t75;
-    int t77;
-    int t83;
-    int t94;
-    int t95;
-    int t97;
-    int t103;
-    int t2;
-    int t21;
-    float u37;
-    int t45;
-    int t52;
-    int t65;
-    float u81;
-    int t89;
-    float u101;
-    int t109;
+    int stk[14];
 
-    if (((*(int *)0xC1794D0) != (*(int *)0xC2A98FC)) && (t2 = *(int *)0xC1EE214, t2 != 14)) {
-        if ((*(int *)0xC2A98EC) != 0) {
-            *(unsigned int *)0xC2A98EC = ((*(int *)0xC2A98EC) - 1);
-            *(unsigned int *)0xC2A9968 = 0x0;
-            if ((*(int *)0xC1EE214) != 14) {
-                *(unsigned int *)0xC2A98FC = ((*(int *)0xC2A98FC) + 0x1);
-                Init_Remain_Arrow();
-            } else {
-                *(unsigned int *)0xC2A9A34 = 0x1;
-                *(unsigned int *)0xC2A9A38 = 0x0;
-            }
-            if (((*(int *)0xC1EE214) != 14) && (t21 = *(int *)0xC2A98EC, t21 != 0)) {
-                Start_CrazyBox_Voice((*(int *)((((*(int *)0xC2A98EC) << 2) + 0xC131180))));
-            }
-            t30 = *(int *)0xC2A98FC;
-            t31 = *(int *)0xC1EE214;
-            if (t31 == 10) {
-                u37 = (((float (*)(int, int))(nlLength))(0xC179144, (0xC131084 + (signed char)(((t30 << 1) + t30) << 2))));
-            } else {
-                t33 = (0xC131030 + (signed char)(((t30 << 1) + t30) << 2));
-                if (t31 == 14) {
-                    t33 = 0xC1310E4;
-                }
-                u37 = (((float (*)(int, int))(nlLength))(0xC179144, t33));
-            }
-            t39 = *(int *)0xC1EE214;
-            if (t39 == 14) {
-                if (t39 == 14) {
-                    if (((*(float *)0xC05D8D0) > u37) && (t45 = *(int *)0xC2A9A2C, (int)t45 >= (int)0x7)) {
-                        nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-                        ExecArrow(0x1, u37);
-                        ResetFadeColor();
-    return;
-                    }
-                    return;
-                }
-                return;
-            }
-            nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-            ExecArrow(0x1, u37);
-            ResetFadeColor();
-    return;
-        }
-        return;
-    }
-    if (((*(int *)0xC2A9A2C) != (0x7 - (*(int *)0xC2A98EC))) && (t52 = *(int *)0xC1EE214, t52 == 14)) {
-        if ((*(int *)0xC2A98EC) != 0) {
-            *(unsigned int *)0xC2A98EC = ((*(int *)0xC2A98EC) - 1);
-            *(unsigned int *)0xC2A9968 = 0x0;
-            if ((*(int *)0xC1EE214) != 14) {
-                *(unsigned int *)0xC2A98FC = ((*(int *)0xC2A98FC) + 0x1);
-                Init_Remain_Arrow();
-            } else {
-                *(unsigned int *)0xC2A9A34 = 0x1;
-                *(unsigned int *)0xC2A9A38 = 0x0;
-            }
-            if (((*(int *)0xC1EE214) != 14) && (t65 = *(int *)0xC2A98EC, t65 != 0)) {
-                Start_CrazyBox_Voice((*(int *)((((*(int *)0xC2A98EC) << 2) + 0xC131180))));
-            }
-            t74 = *(int *)0xC2A98FC;
-            t75 = *(int *)0xC1EE214;
-            if (t75 == 10) {
-                u81 = (((float (*)(int, int))(nlLength))(0xC179144, (0xC131084 + (signed char)(((t74 << 1) + t74) << 2))));
-            } else {
-                t77 = (0xC131030 + (signed char)(((t74 << 1) + t74) << 2));
-                if (t75 == 14) {
-                    t77 = 0xC1310E4;
-                }
-                u81 = (((float (*)(int, int))(nlLength))(0xC179144, t77));
-            }
-            t83 = *(int *)0xC1EE214;
-            if (t83 == 14) {
-                if (t83 == 14) {
-                    if (((*(float *)0xC05D8D0) > u81) && (t89 = *(int *)0xC2A9A2C, (int)t89 >= (int)0x7)) {
-                        nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-                        ExecArrow(0x1, u81);
-                        ResetFadeColor();
-    return;
-                    }
-                    return;
-                }
-                return;
-            }
-            nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-            ExecArrow(0x1, u81);
-            ResetFadeColor();
-    return;
-        }
-        return;
-    }
-    t94 = *(int *)0xC2A98FC;
-    t95 = *(int *)0xC1EE214;
-    if (t95 == 10) {
-        u101 = (((float (*)(int, int, float, float))(nlLength))(0xC179144, (0xC131084 + (signed char)(((t94 << 1) + t94) << 2)), f4, f5));
-    } else {
-        t97 = (0xC131030 + (signed char)(((t94 << 1) + t94) << 2));
-        if (t95 == 14) {
-            t97 = 0xC1310E4;
-        }
-        u101 = (((float (*)(int, int, float, float))(nlLength))(0xC179144, t97, f4, f5));
-    }
-    t103 = *(int *)0xC1EE214;
-    if (t103 == 14) {
-        if (t103 == 14) {
-            if (((*(float *)0xC05D8D0) > u101) && (t109 = *(int *)0xC2A9A2C, (int)t109 >= (int)0x7)) {
-                nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-                ExecArrow(0x1, u101);
-                ResetFadeColor();
-    return;
-            }
-            return;
-        }
-        return;
-    }
-    nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
-    ExecArrow(0x1, u101);
-    ResetFadeColor();
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F3;
+    float F12;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C04EDF0:;
+    R0 = (0xC04EF58);
+    R10 = (0xFFFF);
+    R11 = (0xC2A6F60);
+    R12 = (0x0);
+    R13 = (0xC07AD00);
+    R8 = (0xC2A6EE8);
+    R9 = (0xC1187E0);
+    F13 = (360.0f);
+    F14 = (65536.0f);
+    F15 = (0.5f);
+    goto L_C04EEEA;
+    L_C04EEEA:;
+    if (((int)R12 < (int)(*(int *)0xC0C83EC))) goto L_C04EE24;
+    goto L_C04EEF2;
+    L_C04EEF2:;
+    return F0;
+    L_C04EE24:;
+    *(unsigned int *)(((int)stk + 4)) = (short)(((R12 << 2) + R12) << 2);
+    t12 = nlLength(((short)(((R12 << 2) + R12) << 2) + R9), 0xC179840);
+    R0 = (0xC04EF64);
+    F0 = (t12);
+    F12 = (t12);
+    if ((!(3000.0f > t12))) goto L_C04EEE8;
+    goto L_C04EE44;
+    L_C04EE44:;
+    nlPushUnitMatrix();
+    t18 = *(int *)(((int)stk + 4));
+    nlTranslateV((t18 + R9));
+    nlRotateAY(((int)((((*(float *)(((t18 + R9) + 0x10))) * F14) / F13) + F15) & R10));
+    nlRotateAX(((int)((((*(float *)(((t18 + R9) + 0xC))) * F14) / F13) + F15) & R10));
+    R14 = ((R12 << 2));
+    if ((!(F12 > 500.0f))) goto L_C04EEA2;
+    goto L_C04EE88;
+    L_C04EE88:;
+    nlObjPutUseViewMatrix(0xC4537F8);
+    if (((*(int *)((R11 + R14))) != 1)) goto L_C04EEB8;
+    goto L_C04EE98;
+    L_C04EE98:;
+    nlObjPutUseViewMatrix(0xC457018);
+    goto L_C04EEB8;
+    L_C04EEB8:;
+    t30 = nlPopMatrix(0x1);
+    t31 = *(int *)(((R14 + R8) + 0x0));
+    *(unsigned int *)(((R14 + R8) + 0x0)) = (t31 + 0x1);
+    R0 = (t30);
+    if (((int)(t31 + 0x1) <= (int)0x32)) goto L_C04EEE8;
+    goto L_C04EED0;
+    L_C04EED0:;
+    *(unsigned int *)(((R14 + R11) + 0x0)) = ((int)((int)((*(int *)(((R14 + R11) + 0x0))) + 0x1) % (int)0x2));
+    *(unsigned int *)((R8 + R14)) = 0x0;
+    R0 = (R14);
+    goto L_C04EEE8;
+    L_C04EEE8:;
+    R12 = ((R12 + 0x1));
+    goto L_C04EEEA;
+    L_C04EEA2:;
+    nlObjPutUseViewMatrix(0xC4573C8);
+    if (((*(int *)((R11 + R14))) != 1)) goto L_C04EEB8;
+    goto L_C04EEB2;
+    L_C04EEB2:;
+    nlObjPutUseViewMatrix(0xC45E598);
+    goto L_C04EEB8;
 }

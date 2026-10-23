@@ -1,47 +1,53 @@
 /* Straight-line functions with calls and guards (batch gen_wi): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float carGripCurve(float f4, float f5, float f6);
+int Drv_Put(void);
+int drvPredictPath(void);
+int Drv_Execute(int a4, int a5, int a6, int a7);
 
-float carGripCurve(float f4, float f5, float f6)
+int Drv_Execute(int a4, int a5, int a6, int a7)
 {
-    float u30;
-    float u0;
-    float u1;
-    float u5;
-    float u6;
-    float u33;
-    float u22;
-    float u14;
+    int t0;
+    int t2;
+    int t12;
+    int t3;
+    int stk[22];
 
-    u30 = (1.06999993f - (f4 * 21.0f));
-    if (0.00999999978f > f4) {
-    } else {
-        if (0.0599999987f > f4) {
-            u0 = 0.859999955f;
-            u0 = u0 + (1.0f + 1.0f) * (f4 + -0.00999999978f);
-            u22 = u0;
-        } else {
-            if (0.109999999f > f4) {
-                u1 = 0.959999979f;
-                u1 = u1 + (1.0f + 1.0f) * (f4 + -0.0599999987f);
-                u14 = u1;
-            } else {
-                u5 = ((f4 + -0.209999993f) * 0.424999982f);
-                u6 = 0.909999967f;
-                if (0.209999993f > f4) {
-                    u5 = ((f4 + -0.109999999f) * 1.5f);
-                    u6 = 1.05999994f;
-                }
-                u14 = (u6 - u5);
-            }
-            u22 = u14;
-        }
-        u30 = u22;
-    }
-    u33 = u30;
-    if (0.719999969f > u30) {
-        u33 = 0.719999969f;
-    }
-    return u33;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C0630D2:;
+    t0 = 0xC0D5184;
+    t2 = ((int)stk + 4);
+    for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D5184 + 76)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
+    R4 = ((((*(int *)0xC2AD010) << 2) + ((int)stk + 4)));
+    R5 = (((int)stk + 4));
+    R6 = (0xC2AD000);
+    if ((((*(signed char *)0xC2AD1DF) & 1) != 0)) goto L_C063138;
+    goto L_C0630F4;
+    L_C0630F4:;
+    R14 = ((*(int *)((R4 + 0x0))));
+    goto L_C06313A;
+    L_C06313A:;
+    t12 = ((int (*)(int, int, int, int))(R14))(R4, R5, R6, R7);
+    Drv_Put();
+    return (drvPredictPath());
+    L_C063138:;
+    R14 = ((*(int *)((R4 + 0x28))));
+    goto L_C06313A;
 }

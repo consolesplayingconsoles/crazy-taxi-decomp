@@ -1,21 +1,31 @@
 /* Straight-line functions with calls and guards (batch gen_ef): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlArcTan2(float, float);
-float screenOutCheck(int a4);
+int nlLineBlendFunc(int, int);
+int nlLineSetDiv(float);
+int nlLineSetThickness(float);
+int InitSpark(void);
 
-float screenOutCheck(int a4)
+int InitSpark(void)
 {
-    float u16;
-    float u7;
+    int t0;
+    int t1;
 
-    u16 = 0.0f;
-    if (0.0f > (*(float *)((a4 + 0x8)))) {
-        u7 = 0.0f;
-        if ((int)(unsigned short)(nlArcTan2(_builtin_fabsf((*(float *)((a4 + 0x0)))), (-(*(float *)((a4 + 0x8)))))) < (int)((int)((((*(float *)0xC1798A4) * 65536.0f) / 360.0f) + 0.5f) & 0xFFFF)) {
-            u7 = (*(float *)((a4 + 0x8)));
+    t0 = 0x0;
+    for (;;) {
+        t1 = ((short)t0 * (short)0x1C);
+        t0 = (t0 + 0x1);
+        *(unsigned int *)((((short)t1 + 0xC274DF8) + 0x18)) = 0xFFFFFFFF;
+        if ((int)t0 >= (int)0x5A) {
+            break;
         }
-        u16 = u7;
     }
-    return u16;
+    *(unsigned int *)0xC2757E0 = 0x0;
+    *(unsigned int *)0xC2757DC = 0x0;
+    *(unsigned int *)0xC2757D8 = 0x0;
+    *(unsigned int *)0xC2757D4 = 0x0;
+    *(unsigned int *)0xC2757D0 = 0x0;
+    nlLineBlendFunc(0x1, 0x4);
+    nlLineSetThickness((1.0f + 1.0f));
+    return nlLineSetDiv((*(float *)0xC03784C));
 }

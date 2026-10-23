@@ -304,9 +304,3 @@ int fcvRotate(int a4)
     return t35;
 }
 
-
-
-
-
-
-

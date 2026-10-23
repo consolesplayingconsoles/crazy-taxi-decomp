@@ -22,7 +22,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import boundaries as B
 import shdis
 
-G0, G1 = 0x0C020080, 0x0C0739C0
+import layout  # noqa: E402
+
+G0, G1 = layout.region('game', True)                  # the game's own code (layout.txt)
 
 
 def main(argv):

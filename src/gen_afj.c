@@ -1,68 +1,65 @@
 /* Straight-line functions with calls and guards (batch gen_afj): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlInnerProduct(int, int);
-float nlScalor2(int, float);
-extern int nlSubVector3op();
-float nlUnitVector(int);
-int psgSetState(int, int, int, int);
-int psgRoadCheck(int a4, float f4, float f5, float f6);
+int lcdFillData(int, int);
+int lcdSetData(int, int, int, int, int);
+int lcdSync(int);
+int pdGetPeripheral(int);
+int Exec_LCDLogoDemo(void);
 
-int psgRoadCheck(int a4, float f4, float f5, float f6)
+int Exec_LCDLogoDemo(void)
 {
+    int t0;
+    int t1;
     int t4;
-    float u5;
-    int t6;
-    float t7;
     int t8;
-    int stk[22];
+    int t15;
+    int t26;
+    int t17;
+    int t21;
+    int t18;
+    int t19;
+    int t31;
+    int t34;
+    int t33;
 
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
-    if ((int)(*(int *)((a4 + 0x12C))) > 0) {
-        *(unsigned int *)((a4 + 0x12C)) = ((*(int *)((a4 + 0x12C))) - 2);
-    }
-    t4 = 0x0;
-    u5 = f4;
-    for (;;) {
-        t6 = ((int (*)(int, int, int, float, float, float))(nlSubVector3op))((((int)stk + 4) + 0x1C), (((short)(((t4 << 1) + t4) << 2) + 0xC2AD2BC) + 0xC), ((short)(((t4 << 1) + t4) << 2) + 0xC2AD2BC), u5, f5, f6);
-        *(float *)(((int)stk + 36)) = 0.0f;
-        t7 = nlUnitVector((((int)stk + 4) + 0x1C));
-        t8 = ((int (*)(int, int, int))(nlSubVector3op))((((int)stk + 4) + 0x10), (a4 + 0x4), ((short)(((t4 << 1) + t4) << 2) + 0xC2AD2BC));
-        *(float *)(((int)stk + 24)) = 0.0f;
-        u5 = (nlInnerProduct((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x10)));
-        if (!(0.0f > u5) && !(u5 > t7)) {
-            u5 = (nlScalor2((((int)stk + 4) + 0x10), u5));
-            if (225.0f > u5) {
-                break;
-            }
-            t4 = (t4 + 0x1);
-            if ((int)t4 >= (int)0x22) {
-                if ((int)(*(int *)((a4 + 0x12C))) > (int)0xF) {
-                    psgSetState(a4, 0x6, (*(int *)((a4 + 0x28))), (*(int *)((a4 + 0x2C))));
-                    *(unsigned int *)((a4 + 0x12C)) = 0x0;
-                    *(unsigned int *)(((int)stk + 4)) = 0x1;
-                    return (*(int *)(((int)stk + 4)));
-                }
-                return (*(int *)(((int)stk + 4)));
-            }
-            continue;
+    t0 = *(int *)0xC132320;
+    t1 = *(int *)0xC132324;
+    t4 = *(int *)(((*(int *)(((pdGetPeripheral((((t0 << 1) + (t0 << 2)) + t1))) + 0x30))) + 0x0));
+    if ((t4 & 4) != 0) {
+        lcdFillData(0x0, (((t0 << 1) + (t0 << 2)) + t1));
+        t8 = 0xC0D2DDC;
+        if ((int)((int)((int)(*(int *)0xC2A9FAC) % (int)0x4)) < (int)0x2) {
+            t8 = 0xC0D2D18;
         }
-        t4 = (t4 + 0x1);
-        if ((int)t4 >= (int)0x22) {
-            if ((int)(*(int *)((a4 + 0x12C))) > (int)0xF) {
-                psgSetState(a4, 0x6, (*(int *)((a4 + 0x28))), (*(int *)((a4 + 0x2C))));
-                *(unsigned int *)((a4 + 0x12C)) = 0x0;
-                *(unsigned int *)(((int)stk + 4)) = 0x1;
-                return (*(int *)(((int)stk + 4)));
+        lcdSetData(t8, 0x0, 0x0, 0x1, (((t0 << 1) + (t0 << 2)) + t1));
+        lcdSync((((t0 << 1) + (t0 << 2)) + t1));
+    }
+    t15 = *(int *)0xC132320;
+    t26 = t15;
+    if (t15 == 3) {
+        t17 = *(int *)0xC132324;
+        t21 = t17;
+        if (t17 == 2) {
+            t18 = *(int *)0xC2A9FAC;
+            *(unsigned int *)0xC2A9FAC = (t18 + 0x1);
+            t19 = t17;
+            if ((t18 + 0x1) == 0x280) {
+                *(unsigned int *)0xC2A9FAC = 0x0;
+                t19 = 0x0;
             }
-            return (*(int *)(((int)stk + 4)));
+            t21 = t19;
         }
+        t26 = t21;
     }
-    *(unsigned int *)((a4 + 0x12C)) = ((*(int *)((a4 + 0x12C))) + (0x23 - t4));
-    if ((int)(*(int *)((a4 + 0x12C))) > (int)0xF) {
-        psgSetState(a4, 0x6, (*(int *)((a4 + 0x28))), (*(int *)((a4 + 0x2C))));
-        *(unsigned int *)((a4 + 0x12C)) = 0x0;
-        *(unsigned int *)(((int)stk + 4)) = 0x1;
+    t31 = *(int *)0xC132324;
+    *(unsigned int *)0xC132324 = (t31 + 0x1);
+    t34 = t26;
+    if ((int)(t31 + 0x1) > (int)0x2) {
+        *(unsigned int *)0xC132324 = 0x1;
+        t33 = (int)((int)((*(int *)0xC132320) + 0x1) % (int)0x4);
+        *(unsigned int *)0xC132320 = t33;
+        t34 = t33;
     }
-    return (*(int *)(((int)stk + 4)));
+    return t34;
 }

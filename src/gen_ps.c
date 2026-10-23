@@ -1,130 +1,201 @@
 /* Straight-line functions with calls and guards (batch gen_ps): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int End_Pass_Default2_Sprite(void);
-int Money_Array(int, int, int);
-int Sound_Request(int, int);
-int hudDrawFare(void);
-int hudSplitFareDigits(int, int);
-int hudUpdateFareState(void);
-int hudDrawTime(void);
+int ADXSJD_GetDecNumSmpl(int);
+int ADXSJD_GetStat(int);
+int ADXSTM_GetStat(int);
+int ADXT_Stop(int);
+int adxt_RcvrReplay(int);
+int ADXT_ExecErrChk(int a4, int a5);
 
-int hudDrawTime(void)
+int ADXT_ExecErrChk(int a4, int a5)
 {
-    int t1;
-    int t21;
-    int t22;
-    int t24;
-    int t25;
-    int t40;
-    int t100;
-    int t48;
-    int t96;
-    int t55;
-    int t92;
-    int t61;
-    int t88;
-    int t66;
-    int t84;
-    int t70;
-    int t80;
-    int t73;
-    int t76;
-    int t75;
-    int t110;
-    int t109;
-    int t114;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
+    int t0;
     int t10;
-    int t11;
     int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t74;
-    int t108;
-    int stk[21];
+    int t17;
+    int t22;
+    int t35;
+    int t38;
+    int t46;
+    int t52;
+    int t63;
+    int t66;
+    int t78;
+    int stk[7];
 
-    { struct mv7 { int w[7]; }; *(struct mv7 *)((((int)stk + 4) + 0x1C)) = *(struct mv7 *)(0xC0D08F8); }
-    { struct mv7 { int w[7]; }; *(struct mv7 *)(((int)stk + 4)) = *(struct mv7 *)(0xC0D0914); }
-    if ((*(int *)0xC2A8EB0) == 9) {
-        t1 = End_Pass_Default2_Sprite();
-        *(unsigned int *)0xC2A8E98 = 0x0;
-        t114 = t1;
-    } else {
-        hudUpdateFareState();
-        if (((int)(*(int *)0xC2A8EB0) >= (int)0x2) && (((t4 = *(int *)0xC2A8C7C, t5 = *(int *)((t4 + 0x0)), t5 != 0) || ((t6 = *(int *)0xC2A8C80, t7 = *(int *)((t6 + 0x0)), t7 != 0) || (t8 = *(int *)0xC2A8C84, t9 = *(int *)((t8 + 0x0)), t9 != 0))) && ((t10 = *(int *)0xC2A8E4C, t10 == 0) && ((t11 = *(int *)0xC2A8E48, t11 == 0) && ((t12 = *(int *)0xC2A8E44, t12 == 0) && ((t13 = *(int *)0xC2A8E40, t13 == 0) && ((t14 = *(int *)0xC2A8E3C, t14 == 0) && ((t15 = *(int *)0xC2A8E38, t15 == 0) && (t16 = *(int *)0xC2A8E34, t16 == 0))))))))) {
-            Money_Array((((int)stk + 4) + 0x1C), (*(int *)0xC2A8E94), 0x7);
-            t21 = *(int *)(((*(int *)0xC2A8C80) + 0x0));
-            t22 = *(int *)(((*(int *)0xC2A8C7C) + 0x0));
-            t24 = *(int *)(((*(int *)0xC2A8C84) + 0x0));
-            t25 = *(int *)0xC2A8E94;
-            *(unsigned int *)0xC2A8E94 = (t25 + ((t22 + t21) + t24));
-            if ((int)(t25 + ((t22 + t21) + t24)) > (int)0x98967F) {
-                *(unsigned int *)0xC2A8E94 = 0x98967F;
-            }
-            Money_Array(((int)stk + 4), (*(int *)0xC2A8E94), 0x7);
-            hudSplitFareDigits((((int)stk + 4) + 0x1C), ((int)stk + 4));
-            *(unsigned int *)(((*(int *)0xC2A8C7C) + 0x0)) = 0x0;
-            *(unsigned int *)(((*(int *)0xC2A8C80) + 0x0)) = 0x0;
-            *(unsigned int *)(((*(int *)0xC2A8C84) + 0x0)) = 0x0;
-            Sound_Request(0x604A9, 0x0);
-            *(unsigned int *)0xC2A9184 = 0x0;
-        }
-        hudDrawFare();
-        t40 = *(int *)0xC2A8E84;
-        t100 = t40;
-        if (t40 == 1) {
-            t48 = *(int *)0xC2A8E80;
-            t96 = t48;
-            if (t48 == 1) {
-                t55 = *(int *)0xC2A8E7C;
-                t92 = t55;
-                if (t55 == 1) {
-                    t61 = *(int *)0xC2A8E78;
-                    t88 = t61;
-                    if (t61 == 1) {
-                        t66 = *(int *)0xC2A8E74;
-                        t84 = t66;
-                        if (t66 == 1) {
-                            t70 = *(int *)0xC2A8E70;
-                            t80 = t70;
-                            if (t70 == 1) {
-                                t73 = *(int *)0xC2A8E6C;
-                                t76 = t73;
-                                if ((t73 == 1) && (t74 = *(int *)0xC2A9184, t74 == 0)) {
-                                    t75 = Sound_Request(0x704A9, 0x0);
-                                    *(unsigned int *)0xC2A9184 = 0x1;
-                                    t76 = t75;
-                                }
-                                t80 = t76;
-                            }
-                            t84 = t80;
-                        }
-                        t88 = t84;
-                    }
-                    t92 = t88;
-                }
-                t96 = t92;
-            }
-            t100 = t96;
-        }
-        if ((*(int *)0xC2A11B0) == 0) {
-            *(unsigned int *)0xC2A91C0 = 0x0;
-        }
-        t110 = t100;
-        if (((*(int *)0xC2A11B0) != 0) && (t108 = *(int *)0xC2A91C0, t108 == 0)) {
-            t109 = Sound_Request(0x704A9, 0x0);
-            *(unsigned int *)0xC2A91C0 = 0x1;
-            t110 = t109;
-        }
-        t114 = t110;
-    }
-    return t114;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    L_C169514:;
+    t0 = *(signed char *)((R4 + 0x1));
+    R11 = (0xC152096);
+    R12 = (t0);
+    R13 = (0x0);
+    R14 = (R4);
+    if ((t0 != 3)) goto L_C16959E;
+    goto L_C16952E;
+    L_C16952E:;
+    if (((*(signed char *)((R14 + 0x72))) != 0)) goto L_C16959E;
+    goto L_C169536;
+    L_C169536:;
+    t10 = (ADXSJD_GetStat((*(int *)((R14 + 0x4))))) == 3;
+    if (t10) goto L_C16959E;
+    goto L_C169540;
+    L_C169540:;
+    t12 = ADXSJD_GetDecNumSmpl((*(int *)((R14 + 0x4))));
+    R4 = (t12);
+    if (((*(int *)((R14 + 0x64))) != t12)) goto L_C16956E;
+    goto L_C169550;
+    L_C169550:;
+    *(unsigned short *)((R14 + 0x68)) = ((*(short *)((R14 + 0x68))) + 0x1);
+    t17 = *(int *)((R14 + 0x38));
+    if (((int)(*(short *)((R14 + 0x68))) <= (int)((t17 << 2) + t17))) goto L_C169572;
+    goto L_C169566;
+    L_C169566:;
+    *(unsigned short *)((R14 + 0x60)) = 0xFFFFFFFE;
+    goto L_C169572;
+    L_C169572:;
+    *(unsigned int *)((R14 + 0x64)) = R4;
+    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C1695A2;
+    goto L_C16957E;
+    L_C16957E:;
+    t22 = *(signed char *)((R14 + 0x6D));
+    R4 = (t22);
+    if ((t22 == 1)) goto L_C16958E;
+    goto L_C169588;
+    L_C169588:;
+    if ((R4 != 2)) goto L_C169592;
+    goto L_C16958E;
+    L_C16958E:;
+    ADXT_Stop(R14);
+    goto L_C169592;
+    L_C169592:;
+    if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C1695A2;
+    goto L_C16959A;
+    L_C16959A:;
+    *(unsigned short *)((R14 + 0x60)) = R13;
+    goto L_C16959E;
+    L_C16959E:;
+    *(unsigned short *)((R14 + 0x68)) = R13;
+    goto L_C1695A2;
+    L_C1695A2:;
+    if (((int)R12 < (int)0x1)) goto L_C169646;
+    goto L_C1695A8;
+    L_C1695A8:;
+    if (((int)R12 > (int)0x3)) goto L_C169646;
+    goto L_C1695AE;
+    L_C1695AE:;
+    if (((*(signed char *)((R14 + 0x72))) != 0)) goto L_C169646;
+    goto L_C1695B6;
+    L_C1695B6:;
+    t35 = (ADXSJD_GetStat((*(int *)((R14 + 0x4))))) == 3;
+    if (t35) goto L_C169646;
+    goto L_C1695C0;
+    L_C1695C0:;
+    if (((*(int *)((R14 + 0x14))) == 0)) goto L_C1695D8;
+    goto L_C1695C6;
+    L_C1695C6:;
+    t38 = *(int *)((R14 + 0x14));
+    *(unsigned int *)(((int)stk + 4)) = t38;
+    R4 = ((((int (*)(int, int))((*(int *)(((*(int *)((t38 + 0x0))) + 0x24)))))(t38, 0x1)));
+    goto L_C1695DA;
+    L_C1695DA:;
+    if (((int)R4 >= (int)0x40)) goto L_C169646;
+    goto L_C1695E0;
+    L_C1695E0:;
+    *(unsigned short *)((R14 + 0x6A)) = ((*(short *)((R14 + 0x6A))) + 0x1);
+    if ((R12 != 3)) goto L_C169602;
+    goto L_C1695EE;
+    L_C1695EE:;
+    t46 = *(int *)((R14 + 0x38));
+    if (((int)(*(short *)((R14 + 0x6A))) > (int)((t46 << 2) + t46))) goto L_C169614;
+    goto L_C1695FE;
+    L_C1695FE:;
+    goto L_C16961A;
+    L_C16961A:;
+    R0 = (0x60);
+    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C16964A;
+    goto L_C169622;
+    L_C169622:;
+    t52 = *(signed char *)((R14 + 0x6D));
+    R0 = (t52);
+    if ((t52 != 1)) goto L_C169632;
+    goto L_C16962A;
+    L_C16962A:;
+    ADXT_Stop(R14);
+    goto L_C16963A;
+    L_C16963A:;
+    R0 = (0x6D);
+    if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C16964A;
+    goto L_C169642;
+    L_C169642:;
+    *(unsigned short *)((R14 + 0x60)) = R13;
+    goto L_C169646;
+    L_C169646:;
+    *(unsigned short *)((R14 + 0x6A)) = R13;
+    R0 = (0x6A);
+    goto L_C16964A;
+    L_C16964A:;
+    if (((*(int *)((R14 + 0x8))) == 0)) goto L_C169682;
+    goto L_C169650;
+    L_C169650:;
+    t63 = ADXSTM_GetStat((*(int *)((R14 + 0x8))));
+    R0 = (t63);
+    if ((t63 != 4)) goto L_C169682;
+    goto L_C16965A;
+    L_C16965A:;
+    t66 = *(signed char *)((R14 + 0x6D));
+    R0 = (t66);
+    if ((t66 != 1)) goto L_C16966A;
+    goto L_C169662;
+    L_C169662:;
+    ADXT_Stop(R14);
+    goto L_C169672;
+    L_C169672:;
+    R0 = (0x6D);
+    if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C169682;
+    goto L_C16967A;
+    L_C16967A:;
+    *(unsigned short *)((R14 + 0x60)) = R13;
+    *(unsigned short *)((R14 + 0x6A)) = R13;
+    R0 = (0x6A);
+    goto L_C169682;
+    L_C169682:;
+    return R0;
+    L_C16966A:;
+    if ((R0 != 2)) goto L_C169672;
+    goto L_C16966E;
+    L_C16966E:;
+    adxt_RcvrReplay(R14);
+    goto L_C169672;
+    L_C169632:;
+    if ((R0 != 2)) goto L_C16963A;
+    goto L_C169636;
+    L_C169636:;
+    adxt_RcvrReplay(R14);
+    goto L_C16963A;
+    L_C169614:;
+    *(unsigned short *)((R14 + 0x60)) = 0xFFFFFFFF;
+    goto L_C16961A;
+    L_C169602:;
+    t78 = *(int *)((R14 + 0x38));
+    if (((int)(*(short *)((R14 + 0x6A))) <= (int)(((t78 << 2) + t78) << 2))) goto L_C16961A;
+    goto L_C169614;
+    L_C1695D8:;
+    R4 = (R13);
+    goto L_C1695DA;
+    L_C16956E:;
+    *(unsigned short *)((R14 + 0x68)) = R13;
+    goto L_C169572;
 }

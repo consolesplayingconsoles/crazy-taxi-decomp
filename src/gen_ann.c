@@ -1,50 +1,87 @@
 /* Straight-line functions with calls and guards (batch gen_ann): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXT_Finish(void);
-extern void _builtin_set_imask(int);
-int buStat(int);
-int discardVertexBuffer(void);
-int pdExitPeripheral(void);
-int pdVibSetStopTime(int, int, int, int);
-int syBtExit(void);
-int syHwFinish(void);
-int syMallocFinish(void);
-int syRtcFinish(void);
-int thunk_syCfgExit(void);
-int vmuExit(void);
-int usr_gd_err_func(int a4, int a5);
+float carSlipRatio(float f4, float f5, float f6, float f7, float f8);
 
-int usr_gd_err_func(int a4, int a5)
+float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
 {
-    int t1;
-    int t19;
-    int t5;
-    int t18;
-    int stk[5];
+    int t7;
+    int t22;
+    int stk[1];
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    t1 = buStat((*(int *)0xC2A11B8));
-    t19 = t1;
-    if (t1 != -1) {
-        if (((*(int *)(((int)stk + 4))) != -23) && (t5 = *(int *)(((int)stk + 4)), t5 != -33)) {
-            t18 = t5;
-        } else {
-            *(unsigned char *)(((int)stk + 12)) = (*(signed char *)0xC08AAEE);
-            *(unsigned char *)(((int)stk + 8)) = (*(signed char *)0xC08AAEF);
-            pdVibSetStopTime(0x2, (((int)stk + 4) + 0x8), (((int)stk + 4) + 0x4), 0x1);
-            ADXT_Finish();
-            thunk_syCfgExit();
-            vmuExit();
-            syRtcFinish();
-            pdExitPeripheral();
-            discardVertexBuffer();
-            syMallocFinish();
-            syHwFinish();
-            _builtin_set_imask(0xF);
-            t18 = (syBtExit());
-        }
-        t19 = t18;
-    }
-    return t19;
+    int R0;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F8;
+    int T_;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    F8 = f8;
+    L_C0217B4:;
+    R0 = (0xC0218FC);
+    F7 = (1.0f);
+    F8 = ((*(float *)0xC0218FC));
+    if ((F5 > F4)) goto L_C0217F4;
+    goto L_C0217BE;
+    L_C0217BE:;
+    F3 = (0.0f);
+    if ((F4 == 0.0f)) goto L_C0217E2;
+    goto L_C0217C4;
+    L_C0217C4:;
+    t7 = !(F8 > _builtin_fabsf(F4));
+    F1 = (_builtin_fabsf(F4));
+    F6 = (_builtin_fabsf(((F4 - F5) / F4)));
+    if (t7) goto L_C02182C;
+    goto L_C0217D6;
+    L_C0217D6:;
+    R0 = (0xC021900);
+    F6 = ((F6 * _builtin_fabsf((F4 / (*(float *)0xC021900)))));
+    goto L_C02182C;
+    L_C02182C:;
+    if ((!(F6 > F7))) goto L_C021832;
+    goto L_C021830;
+    L_C021830:;
+    F6 = (F7);
+    goto L_C021832;
+    L_C021832:;
+    return F6;
+    L_C0217E2:;
+    if ((F5 == F3)) goto L_C02181C;
+    goto L_C0217E6;
+    L_C0217E6:;
+    R0 = (0xC021900);
+    F6 = ((_builtin_fabsf((F5 / (*(float *)0xC021900))) * F7));
+    goto L_C02182C;
+    L_C02181C:;
+    F6 = (0.0f);
+    goto L_C02182C;
+    L_C0217F4:;
+    F3 = (0.0f);
+    if ((F5 == 0.0f)) goto L_C021818;
+    goto L_C0217FA;
+    L_C0217FA:;
+    t22 = !(F8 > _builtin_fabsf(F5));
+    F1 = (_builtin_fabsf(F5));
+    F6 = (_builtin_fabsf(((F5 - F4) / F5)));
+    if (t22) goto L_C02182C;
+    goto L_C02180C;
+    L_C02180C:;
+    R0 = (0xC021900);
+    F6 = ((F6 * _builtin_fabsf((F5 / (*(float *)0xC021900)))));
+    goto L_C02182C;
+    L_C021818:;
+    if ((F4 != F3)) goto L_C021820;
+    goto L_C02181C;
+    L_C021820:;
+    R0 = (0xC021900);
+    F6 = ((_builtin_fabsf((F4 / (*(float *)0xC021900))) * F7));
+    goto L_C02182C;
 }

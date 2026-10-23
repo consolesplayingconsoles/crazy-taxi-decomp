@@ -1,195 +1,156 @@
 /* Straight-line functions with calls and guards (batch gen_hl): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int kdDevGetStorageInfo(int, int);
-int kdGetDevice(int);
-int kdGetDeviceInfo(int);
-int kdGetStatus(int, int);
-int kdIsChanged(int);
-int kdRecognizeChanged(int);
-int kdSetGetMediaInfo(void);
-extern int vmsfb_sleep();
-int vmsio_get_media_info(int a4, int a5);
+int kmytex_FBAllocEntry(void);
+int kmytex_FBDeQueueEntry(int, int, int, float, float, float, float);
+int kmytex_FBEnQueueTop(int, int, int);
+int kmiFBallocQueue(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
 
-int vmsio_get_media_info(int a4, int a5)
+int kmiFBallocQueue(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
-    int t23;
-    int t24;
-    int t25;
-    int t26;
-    int t27;
-    int t28;
-    int t29;
-    int t30;
-    int t31;
-    int t32;
-    int t33;
-    int t34;
-    int t35;
-    int t36;
-    int t37;
-    int t38;
-    int t39;
+    int t8;
     int t40;
-    int t41;
-    int t42;
-    int t43;
-    int t44;
-    int t45;
-    int t46;
-    int t47;
-    int t48;
-    int t49;
-    int t50;
-    int t51;
-    int t52;
-    int t53;
-    int t54;
-    int t55;
-    int t56;
-    int t57;
-    int t58;
-    int t59;
-    int t64;
-    int t60;
-    int stk[13] = {0};
+    int stk[10];
 
-    t0 = *(int *)(((a4 << 2) + 0xC176948));
-    t1 = kdGetDevice(t0);
-    *(unsigned int *)(((int)stk + 4)) = t1;
-    t2 = kdGetDeviceInfo(t0);
-    t3 = *(int *)(((int)stk + 4));
-    t4 = *(signed char *)((t3 + 0x0));
-    if (t4 == 0) {
-        t5 = ((int (*)(int))(vmsfb_sleep))(t2);
-        t64 = 0xFFFFFF01;
-    } else {
-        t6 = *(int *)((t2 + 0x0));
-        if ((t6 & 2) == 0) {
-            t7 = ((int (*)(int))(vmsfb_sleep))(t2);
-            t60 = 0xFFFFFF01;
-        } else {
-            kdRecognizeChanged(t0);
-            for (;;) {
-                for (;;) {
-                    kdGetDevice(t0);
-                    t10 = kdSetGetMediaInfo();
-                    if ((int)t10 < 0) {
-                        t11 = ((int (*)(void))(vmsfb_sleep))();
-                        continue;
-                    }
-                    break;
-                }
-                for (;;) {
-                    t12 = kdGetStatus(t0, t10);
-                    if (t12 == 0) {
-                        t13 = ((int (*)(void))(vmsfb_sleep))();
-                        continue;
-                    }
-                    break;
-                }
-                t14 = kdGetDevice(t0);
-                t15 = kdIsChanged(t0);
-                if (t15 != 0) {
-                    break;
-                }
-                t16 = *(signed char *)((t14 + 0x4));
-                t17 = *(int *)((t14 + 0x8));
-                if ((unsigned char)t16 != 8) {
-                    if ((unsigned char)t16 != 0xFC) {
-                        return 0xFFFFFF01;
-                    }
-                    continue;
-                }
-                t18 = *(int *)0xC2EE98C;
-                t19 = *(int *)((t18 + 0xC));
-                t20 = ((int (*)(int, int))(t19))((t17 + 0x8), 0x0);
-                *(unsigned int *)((a5 + 0x0)) = (unsigned short)t20;
-                t21 = *(int *)0xC2EE98C;
-                t22 = *(int *)((t21 + 0xC));
-                t23 = ((int (*)(int, int))(t22))((t17 + 0x8), 0x2);
-                *(unsigned int *)((a5 + 0x4)) = (unsigned short)t23;
-                t24 = *(int *)0xC2EE98C;
-                t25 = *(int *)((t24 + 0xC));
-                t26 = ((int (*)(int, int))(t25))((t17 + 0x8), 0x4);
-                *(unsigned int *)((a5 + 0x8)) = (unsigned short)t26;
-                t27 = *(int *)0xC2EE98C;
-                t28 = *(int *)((t27 + 0xC));
-                t29 = ((int (*)(int, int))(t28))((t17 + 0x8), 0x6);
-                *(unsigned int *)((a5 + 0xC)) = (unsigned short)t29;
-                t30 = *(int *)0xC2EE98C;
-                t31 = *(int *)((t30 + 0xC));
-                t32 = ((int (*)(int, int))(t31))((t17 + 0x8), 0x8);
-                *(unsigned int *)((a5 + 0x10)) = (unsigned short)t32;
-                t33 = *(int *)0xC2EE98C;
-                t34 = *(int *)((t33 + 0xC));
-                t35 = ((int (*)(int, int))(t34))((t17 + 0x8), 0xA);
-                *(unsigned int *)((a5 + 0x14)) = (unsigned short)t35;
-                t36 = *(int *)0xC2EE98C;
-                t37 = *(int *)((t36 + 0xC));
-                t38 = ((int (*)(int, int))(t37))((t17 + 0x8), 0xC);
-                *(unsigned int *)((a5 + 0x18)) = (unsigned short)t38;
-                t39 = *(int *)0xC2EE98C;
-                t40 = *(int *)((t39 + 0xC));
-                t41 = ((int (*)(int, int))(t40))((t17 + 0x8), 0x10);
-                *(unsigned int *)((a5 + 0x1C)) = (unsigned short)t41;
-                t42 = *(int *)0xC2EE98C;
-                t43 = *(int *)((t42 + 0xC));
-                t44 = ((int (*)(int, int))(t43))((t17 + 0x8), 0x12);
-                *(unsigned int *)((a5 + 0x20)) = (unsigned short)t44;
-                t45 = *(int *)0xC2EE98C;
-                t46 = *(int *)((t45 + 0xC));
-                t47 = ((int (*)(int, int))(t46))((t17 + 0x8), 0x14);
-                *(unsigned int *)((a5 + 0x34)) = (unsigned short)t47;
-                *(unsigned int *)((a5 + 0x38)) = 0x80;
-                t48 = *(signed char *)(((t17 + 0x8) + 0xE));
-                *(unsigned int *)((a5 + 0x24)) = (unsigned char)t48;
-                t49 = *(signed char *)(((t17 + 0x8) + 0xF));
-                *(unsigned int *)((a5 + 0x28)) = (unsigned char)t49;
-                *(unsigned int *)((a5 + 0x2C)) = 0x1FF;
-                t50 = kdGetDeviceInfo(t0);
-                t51 = kdDevGetStorageInfo((((int)stk + 4) + 0x4), t50);
-                if ((int)t51 >= 0) {
-                    t52 = *(short *)(((int)stk + 14));
-                    *(unsigned int *)((a5 + 0x3C)) = (unsigned short)t52;
-                    t53 = *(short *)(((int)stk + 12));
-                    *(unsigned int *)(((0x40 + a5) + 0x0)) = (unsigned short)t53;
-                    t54 = *(short *)(((int)stk + 14));
-                    t55 = (int)((int)0x200 / (int)(unsigned short)t54);
-                    *(unsigned int *)(((0x44 + a5) + 0x0)) = t55;
-                    t56 = *(short *)(((int)stk + 12));
-                    t57 = (int)((int)0x200 / (int)(unsigned short)t56);
-                    *(unsigned int *)(((0x48 + a5) + 0x0)) = t57;
-                    return 0x0;
-                }
-                t58 = ((int (*)(void))(vmsfb_sleep))();
-                return 0xFFFFFF01;
-            }
-            t59 = ((int (*)(void))(vmsfb_sleep))();
-            t60 = 0xFFFFFF30;
-        }
-        t64 = t60;
-    }
-    return t64;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C156C32:;
+    R0 = (R5);
+    R12 = (R5);
+    R9 = (R6);
+    if (((int)R5 < 0)) goto L_C156C80;
+    goto L_C156C4E;
+    L_C156C4E:;
+    R0 = ((R0 & 0x1F));
+    goto L_C156C8A;
+    L_C156C8A:;
+    R5 = (R0);
+    if ((R0 == 0)) goto L_C156C96;
+    goto L_C156C90;
+    L_C156C90:;
+    R12 = ((R12 + (0x20 - R5)));
+    goto L_C156C96;
+    L_C156C96:;
+    t8 = *(int *)(((((((short)R4 << 2) + (short)R4) << 2) + 0xC177FBC) + 0x8));
+    R10 = (((((short)R4 << 2) + (short)R4) << 2));
+    R11 = (0xC177FBC);
+    R14 = (0x0);
+    R4 = (t8);
+    R5 = (0x0);
+    if ((t8 == 0)) goto L_C156CC2;
+    goto L_C156CB0;
+    L_C156CB0:;
+    if (((int)(*(int *)((R4 + 0x10))) < (int)R12)) goto L_C156CBC;
+    goto L_C156CB6;
+    L_C156CB6:;
+    R14 = (R4);
+    R4 = (R5);
+    goto L_C156CBE;
+    L_C156CBE:;
+    if ((R4 != 0)) goto L_C156CB0;
+    goto L_C156CC2;
+    L_C156CC2:;
+    if ((R14 != 0)) goto L_C156CCA;
+    goto L_C156CC6;
+    L_C156CC6:;
+    goto L_C156DE0;
+    L_C156DE0:;
+    R0 = (0x3);
+    goto L_C156DF6;
+    L_C156DF6:;
+    return R0;
+    L_C156CCA:;
+    R8 = ((short)R7);
+    if (((*(int *)((R14 + 0x10))) != R12)) goto L_C156D5C;
+    goto L_C156CD2;
+    L_C156CD2:;
+    kmytex_FBDeQueueEntry(((R10 + R11) + 0x8), ((R10 + R11) + 0xC), R14, f4, f5, f6, f7);
+    kmytex_FBEnQueueTop((R10 + R11), ((R10 + R11) + 0x4), R14);
+    *(unsigned short *)((R14 + 0x0)) = 0x1;
+    R0 = (R8);
+    if ((R8 == 8)) goto L_C156D00;
+    goto L_C156CF6;
+    L_C156CF6:;
+    if ((R0 == 0x2000)) goto L_C156D40;
+    goto L_C156CFC;
+    L_C156CFC:;
+    goto L_C156DE0;
+    L_C156D40:;
+    *(unsigned int *)((R9 + 0x0)) = (*(int *)((R14 + 0xC)));
+    *(unsigned int *)((R14 + 0x14)) = R9;
+    *(unsigned short *)((R14 + 0x0)) = ((*(short *)((R14 + 0x0))) | 0x2000);
+    goto L_C156D50;
+    L_C156D50:;
+    *(unsigned short *)((R14 + 0x0)) = ((*(short *)((R14 + 0x0))) | 0x4);
+    R10 = ((R10 + R11));
+    R3 = ((*(int *)((R14 + 0x10))));
+    goto L_C156DEE;
+    L_C156DEE:;
+    *(unsigned int *)((R10 + 0x10)) = ((*(int *)((R10 + 0x10))) - R3);
+    R0 = (0x0);
+    goto L_C156DF6;
+    L_C156D00:;
+    *(unsigned int *)((R9 + 0x1C)) = (*(int *)((R14 + 0xC)));
+    *(unsigned int *)((R14 + 0x14)) = R9;
+    *(unsigned short *)((R14 + 0x0)) = ((*(short *)((R14 + 0x0))) | 0x8);
+    goto L_C156D50;
+    L_C156D5C:;
+    t40 = kmytex_FBAllocEntry();
+    R13 = (t40);
+    if ((t40 == 0)) goto L_C156DE0;
+    goto L_C156D66;
+    L_C156D66:;
+    *(unsigned int *)((R13 + 0xC)) = (*(int *)((R14 + 0xC)));
+    *(unsigned int *)((R13 + 0x10)) = R12;
+    *(unsigned int *)((R14 + 0x10)) = ((*(int *)((R14 + 0x10))) - R12);
+    *(unsigned int *)((R14 + 0xC)) = (R12 + (*(int *)((R14 + 0xC))));
+    *(unsigned int *)(((int)stk + 4)) = (R10 + R11);
+    kmytex_FBEnQueueTop((*(int *)(((int)stk + 4))), ((R10 + R11) + 0x4), R13);
+    R0 = (R8);
+    if ((R8 == 8)) goto L_C156D96;
+    goto L_C156D8C;
+    L_C156D8C:;
+    if ((R0 == 0x2000)) goto L_C156DA6;
+    goto L_C156D92;
+    L_C156D92:;
+    goto L_C156DE0;
+    L_C156DA6:;
+    *(unsigned int *)((R9 + 0x0)) = (*(int *)((R13 + 0xC)));
+    *(unsigned int *)((R13 + 0x14)) = R9;
+    *(unsigned short *)((R13 + 0x0)) = ((*(short *)((R13 + 0x0))) | 0x2000);
+    goto L_C156DE4;
+    L_C156DE4:;
+    *(unsigned short *)((R13 + 0x0)) = ((*(short *)((R13 + 0x0))) | 0x4);
+    R10 = ((R10 + R11));
+    R3 = ((*(int *)((R13 + 0x10))));
+    goto L_C156DEE;
+    L_C156D96:;
+    *(unsigned int *)((R9 + 0x1C)) = (*(int *)((R13 + 0xC)));
+    *(unsigned int *)((R13 + 0x14)) = R9;
+    *(unsigned short *)((R13 + 0x0)) = ((*(short *)((R13 + 0x0))) | 0x8);
+    goto L_C156DE4;
+    L_C156CBC:;
+    R4 = ((*(int *)((R4 + 0x8))));
+    goto L_C156CBE;
+    L_C156C80:;
+    R0 = (((~(((~R0) + 0x1) & 0x1F)) + 0x1));
+    goto L_C156C8A;
 }

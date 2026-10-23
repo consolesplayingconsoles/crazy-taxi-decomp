@@ -1,63 +1,105 @@
 /* Straight-line functions with calls and guards (batch gen_ws): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int lcdFillData(int, int);
-int lcdSetData(int, int, int, int, int);
-int lcdSync(int);
-int pdGetPeripheral(int);
-int Exec_LCDLogoDemo(void);
+int GetCollision2D(int, float);
+int nlFastSinCos(int, int, int);
+void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5);
 
-int Exec_LCDLogoDemo(void)
+void MakeKyakuTakeArea(int a4, int a5, int a6, float f4, float f5)
 {
-    int t0;
-    int t1;
-    int t8;
-    int t15;
-    int t26;
-    int t17;
-    int t21;
-    int t18;
-    int t19;
-    int t31;
-    int t34;
-    int t33;
+    float u18;
+    float u21;
+    int t22;
+    float u39;
+    int stk[13];
 
-    t0 = *(int *)0xC132320;
-    t1 = *(int *)0xC132324;
-    if (((*(int *)(((*(int *)(((pdGetPeripheral((((t0 << 1) + (t0 << 2)) + t1))) + 0x30))) + 0x0))) & 4) != 0) {
-        lcdFillData(0x0, (((t0 << 1) + (t0 << 2)) + t1));
-        t8 = 0xC0D2DDC;
-        if ((int)((int)((int)(*(int *)0xC2A9FAC) % (int)0x4)) < (int)0x2) {
-            t8 = 0xC0D2D18;
-        }
-        lcdSetData(t8, 0x0, 0x0, 0x1, (((t0 << 1) + (t0 << 2)) + t1));
-        lcdSync((((t0 << 1) + (t0 << 2)) + t1));
-    }
-    t15 = *(int *)0xC132320;
-    t26 = t15;
-    if (t15 == 3) {
-        t17 = *(int *)0xC132324;
-        t21 = t17;
-        if (t17 == 2) {
-            t18 = *(int *)0xC2A9FAC;
-            *(unsigned int *)0xC2A9FAC = (t18 + 0x1);
-            t19 = t17;
-            if ((t18 + 0x1) == 0x280) {
-                *(unsigned int *)0xC2A9FAC = 0x0;
-                t19 = 0x0;
-            }
-            t21 = t19;
-        }
-        t26 = t21;
-    }
-    t31 = *(int *)0xC132324;
-    *(unsigned int *)0xC132324 = (t31 + 0x1);
-    t34 = t26;
-    if ((int)(t31 + 0x1) > (int)0x2) {
-        *(unsigned int *)0xC132324 = 0x1;
-        t33 = (int)((int)((*(int *)0xC132320) + 0x1) % (int)0x4);
-        *(unsigned int *)0xC132320 = t33;
-        t34 = t33;
-    }
-    return t34;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F13;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F5 = f5;
+    L_C035B78:;
+    *(unsigned int *)(((int)stk + 4)) = (R4 + 0x8);
+    *(unsigned int *)((R4 + 0x0)) = 0xC;
+    *(unsigned int *)(((R4 + 0x4) + 0x0)) = (*(int *)(((R6 << 2) + 0xC0ED9E0)));
+    *(unsigned int *)((((R4 + 0x4) + 0xA0) + 0x0)) = 0x0;
+    R11 = (0xC);
+    R13 = (R5);
+    R14 = ((R4 + 0x8));
+    R4 = (((R4 + 0x4) + 0xA0));
+    R5 = (0x0);
+    R6 = ((R6 << 2));
+    F15 = (F4);
+    if (((*(int *)0xC1EE20C) != 0)) goto L_C035BBE;
+    goto L_C035BB8;
+    L_C035BB8:;
+    F14 = ((*(float *)((R13 + 0x4))));
+    goto L_C035BC8;
+    L_C035BC8:;
+    R12 = (R5);
+    goto L_C035C32;
+    L_C035C32:;
+    if (((int)R12 < (int)R11)) goto L_C035BCC;
+    goto L_C035C36;
+    L_C035C36:;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R14) = *(struct mv3 *)((*(int *)(((int)stk + 4)))); }
+    return;
+    L_C035BCC:;
+    nlFastSinCos((R12 * 0x1555), (R14 + 0x8), R14);
+    u18 = (*(float *)((R13 + 0x0)));
+    u18 = u18 + F15 * (*(float *)((R14 + 0x0)));
+    *(float *)((R14 + 0x0)) = u18;
+    u21 = (*(float *)((R13 + 0x8)));
+    u21 = u21 + F15 * (*(float *)((R14 + 0x8)));
+    *(float *)((R14 + 0x8)) = u21;
+    *(float *)((R14 + 0x4)) = F14;
+    t22 = GetCollision2D(R14, 5.0f);
+    R4 = (t22);
+    F4 = (3.0f);
+    if (((*(int *)((t22 + 0x1C))) == -1)) goto L_C035C1E;
+    goto L_C035C0C;
+    L_C035C0C:;
+    R0 = (0x18);
+    F5 = (-50.0f);
+    if ((!(((*(float *)((R13 + 0x4))) + -50.0f) > (*(float *)((R4 + 0x18)))))) goto L_C035C26;
+    goto L_C035C1E;
+    L_C035C1E:;
+    R0 = (0x4);
+    F3 = (((*(float *)((R13 + 0x4))) + F4));
+    goto L_C035C2C;
+    L_C035C2C:;
+    *(float *)((R14 + R0)) = F3;
+    R12 = ((R12 + 0x1));
+    R14 = ((R14 + 0xC));
+    goto L_C035C32;
+    L_C035C26:;
+    u39 = ((*(float *)((R4 + R0))) + F4);
+    R0 = (0x4);
+    F3 = u39;
+    goto L_C035C2C;
+    L_C035BBE:;
+    F14 = (((*(float *)((R13 + 0x4))) + 40.0f));
+    goto L_C035BC8;
 }

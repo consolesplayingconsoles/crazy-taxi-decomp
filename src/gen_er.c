@@ -1,86 +1,154 @@
 /* Straight-line functions with calls and guards (batch gen_er): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_ExecBlend(float, float, float, float, float);
-int Drv_StartAction(int, int, int);
-int Drv_StartGetOff(int, float);
-int FcvStoreBuffer(int, int, float);
-int drvUpdatePartTracks(void);
-int Drv_ExecGetOff(float f4, float f5, float f6, float f7, float f8);
+int nlCalcPoint(int, int);
+float nlInnerProduct(int, int);
+int CheckCollisionPoly(int a4, int a5, int a6, float f4, float f5, float f6);
 
-int Drv_ExecGetOff(float f4, float f5, float f6, float f7, float f8)
+int CheckCollisionPoly(int a4, int a5, int a6, float f4, float f5, float f6)
 {
-    int t0;
-    int t1;
-    float u16;
+    float t0;
+    float t9;
+    float u10;
+    float u11;
     int t17;
-    int t19;
-    int t22;
-    int t23;
-    int t25;
-    int t26;
-    int t29;
-    int t30;
-    int t32;
+    float u20;
+    float u21;
+    float u22;
+    float u23;
+    float u37;
+    float u38;
+    float u44;
+    float u45;
+    float u52;
+    float u53;
+    float u58;
+    float u59;
+    float u63;
+    float u64;
+    int stk[18];
 
-    t0 = *(int *)0xC2AD014;
-    t1 = *(int *)0xC2AD018;
-    if (t0 != 0) {
-        if (t0 == 1) {
-            drvUpdatePartTracks();
-            FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-            *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
-            if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
-                return Drv_StartAction(0x0, 0x0, 0x0);
-            }
-            return 0x24;
-        }
-        return t0;
-    }
-    if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
-        return Drv_ExecBlend(f4, f5, f6, f7, f8);
-    }
-    drvUpdatePartTracks();
-    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-    u16 = *(float *)0xC2AD024;
-    *(float *)0xC2AD024 = (u16 + 1.0f);
-    t17 = *(int *)0xC2AD020;
-    if ((float)((*(int *)((t17 + 0x0))) - 1) > (u16 + 1.0f)) {
-        if ((t17 != 0xC8D1824) && (t17 != 0xC8D2488)) {
-            return 0x24;
-        }
-        if (!(60.0f > (u16 + 1.0f))) {
-            t19 = *(int *)((t1 + 0x34));
-            if ((t19 != 0xC956FCC) && ((t19 != 0xC95A230) && ((t19 != 0xC95D7C4) && ((t19 != 0xC960308) && ((t19 != 0xC962F0C) && ((t19 != 0xC9659C0) && ((t19 != 0xC9684A4) && (t19 != 0xC96B138)))))))) {
-                *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
-                t22 = *(int *)((t1 + 0x24));
-                if (t22 == 1) {
-                    t23 = *(int *)0xC2AD014;
-                    *(unsigned int *)0xC2AD014 = (t23 + 0x1);
-                    return Drv_StartGetOff((t23 + 0x1), (u16 + 1.0f));
-                }
-                return t22;
-            }
-            Drv_StartAction(0x0, 0x0, 0x0);
-            t25 = *(signed char *)0xC2AD1DF;
-            *(unsigned char *)0xC2AD1DF = (t25 | 0x40);
-            return (t25 | 0x40);
-        }
-        return 0xC063668;
-    }
-    t26 = *(int *)((t1 + 0x34));
-    if ((t26 != 0xC956FCC) && ((t26 != 0xC95A230) && ((t26 != 0xC95D7C4) && ((t26 != 0xC960308) && ((t26 != 0xC962F0C) && ((t26 != 0xC9659C0) && ((t26 != 0xC9684A4) && (t26 != 0xC96B138)))))))) {
-        *(float *)0xC2AD024 = (float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 2);
-        t29 = *(int *)((t1 + 0x24));
-        if (t29 == 1) {
-            t30 = *(int *)0xC2AD014;
-            *(unsigned int *)0xC2AD014 = (t30 + 0x1);
-            return Drv_StartGetOff((t30 + 0x1), (u16 + 1.0f));
-        }
-        return t29;
-    }
-    Drv_StartAction(0x0, 0x0, 0x0);
-    t32 = *(signed char *)0xC2AD1DF;
-    *(unsigned char *)0xC2AD1DF = (t32 | 0x40);
-    return (t32 | 0x40);
+    int R0;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C031D62:;
+    t0 = nlInnerProduct((R4 + 0xC), R5);
+    R11 = (R5);
+    R12 = (R6);
+    R13 = (R4);
+    R14 = (R5);
+    F0 = (t0);
+    F15 = (t0);
+    if ((0.0f > t0)) goto L_C031D8E;
+    goto L_C031D8A;
+    L_C031D8A:;
+    goto L_C031EA2;
+    L_C031EA2:;
+    R0 = (0x0);
+    goto L_C031EA4;
+    L_C031EA4:;
+    return R0;
+    L_C031D8E:;
+    t9 = nlInnerProduct(R11, R13);
+    u10 = *(float *)((R14 + 0xC));
+    u11 = *(float *)((R13 + 0x18));
+    F0 = ((((-t9) - u10) + u11));
+    F14 = (((((-t9) - u10) + u11) / F15));
+    F4 = (u11);
+    if ((!((*(float *)((R12 + 0x8))) > ((((-t9) - u10) + u11) / F15)))) goto L_C031EA2;
+    goto L_C031DB0;
+    L_C031DB0:;
+    t17 = (F4 / F15) > F14;
+    F4 = ((F4 / F15));
+    if (t17) goto L_C031EA2;
+    goto L_C031DB6;
+    L_C031DB6:;
+    nlCalcPoint((R14 + 0x14), (((int)stk + 4) + 0x18));
+    u20 = *(float *)(((int)stk + 28));
+    u21 = *(float *)(((int)stk + 32));
+    u22 = *(float *)((R14 + 0x10));
+    u23 = (u21 * u21);
+    u23 = u23 + u20 * u20;
+    R10 = (0xC0771B0);
+    R11 = ((R14 + 0x14));
+    F0 = (u20);
+    F4 = (u21);
+    F5 = (u22);
+    F6 = (u20);
+    if ((u23 > (u22 * u22))) goto L_C031EA2;
+    goto L_C031DE0;
+    L_C031DE0:;
+    nlCalcPoint((R11 + 0xC), (((int)stk + 4) + 0xC));
+    R11 = ((R11 + 0xC));
+    if (((*(int *)((R14 + 0x48))) == 3)) goto L_C031E12;
+    goto L_C031DF2;
+    L_C031DF2:;
+    u37 = *(float *)(((int)stk + 16));
+    u38 = *(float *)(((int)stk + 32));
+    F1 = ((u38 * u37));
+    if ((!((((*(float *)(((int)stk + 28))) * (*(float *)(((int)stk + 20)))) - (u38 * u37)) > 0.0f))) goto L_C031E22;
+    goto L_C031E0E;
+    L_C031E0E:;
+    goto L_C031EA2;
+    L_C031E22:;
+    nlCalcPoint((R11 + 0xC), ((int)stk + 4));
+    u44 = *(float *)(((int)stk + 20));
+    u45 = *(float *)(((int)stk + 4));
+    R11 = ((R11 + 0xC));
+    F1 = ((u44 * u45));
+    if (((((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 8)))) - (u44 * u45)) > 0.0f)) goto L_C031EA2;
+    goto L_C031E44;
+    L_C031E44:;
+    nlCalcPoint((R11 + 0xC), (((int)stk + 4) + 0xC));
+    u52 = *(float *)(((int)stk + 16));
+    u53 = *(float *)(((int)stk + 8));
+    F1 = ((u53 * u52));
+    if (((((*(float *)(((int)stk + 4))) * (*(float *)(((int)stk + 20)))) - (u53 * u52)) > 0.0f)) goto L_C031EA2;
+    goto L_C031E68;
+    L_C031E68:;
+    u58 = *(float *)(((int)stk + 28));
+    u59 = *(float *)(((int)stk + 20));
+    F1 = ((u59 * u58));
+    if (((((*(float *)(((int)stk + 16))) * (*(float *)(((int)stk + 32)))) - (u59 * u58)) > 0.0f)) goto L_C031EA2;
+    goto L_C031E84;
+    L_C031E84:;
+    *(float *)((R12 + 0x8)) = F14;
+    *(unsigned int *)((R12 + 0x0)) = R14;
+    *(float *)((R12 + 0x4)) = F15;
+    u63 = *(float *)((R13 + 0x1C));
+    u64 = (*(float *)((R13 + 0x18)));
+    u64 = u64 + F14 * u63;
+    *(float *)((R13 + 0x20)) = u64;
+    R0 = (0x1);
+    F0 = (F14);
+    F1 = (u63);
+    goto L_C031EA4;
+    L_C031E12:;
+    *(float *)(((int)stk + 28)) = (*(float *)(((int)stk + 16)));
+    *(float *)(((int)stk + 32)) = (*(float *)(((int)stk + 20)));
+    goto L_C031E22;
 }

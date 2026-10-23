@@ -107,63 +107,8 @@ int stopingCarSpawn(int, int);
 
 
 
-int InitSpark(void)
-{
-    int t0;
-    int t1;
-
-    t0 = 0x0;
-    do {
-        t1 = ((short)t0 * (short)0x1C);
-        t0 = (t0 + 0x1);
-        *(unsigned int *)((((short)t1 + 0xC274DF8) + 0x18)) = 0xFFFFFFFF;
-    } while ((int)t0 < (int)0x5A);
-    *(unsigned int *)0xC2757E0 = 0x0;
-    *(unsigned int *)0xC2757DC = 0x0;
-    *(unsigned int *)0xC2757D8 = 0x0;
-    *(unsigned int *)0xC2757D4 = 0x0;
-    *(unsigned int *)0xC2757D0 = 0x0;
-    nlLineBlendFunc(0x1, 0x4, 0x5A, 0xC274DF8);
-    nlLineSetThickness((1.0f + 1.0f));
-    return nlLineSetDiv(128.0f);
-}
 
 
-int setObjGroupOpen(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-
-    t0 = set_event(0x1C, ((int)setObjGroupExec));
-    if (t0 != 0) {
-        t1 = *(short *)((a4 + 0x10));
-        t2 = nlMalloc((((short)t1 * (short)0x70) + 0x4));
-        if (t2 != 0) {
-            *(unsigned int *)((t0 + 0x0)) = t2;
-            *(unsigned int *)((t2 + 0x0)) = 0x0;
-            *(unsigned int *)((t0 + 0x14)) = a4;
-            *(unsigned int *)((a4 + 0x1C)) = (t2 + 0x4);
-            *(unsigned int *)((t0 + 0x18)) = (t2 + 0x4);
-            t3 = 0x0;
-            for (;;) {
-                t4 = *(short *)((a4 + 0x10));
-                if ((int)t3 >= (int)t4) break;
-                t5 = *(int *)((t0 + 0x18));
-                t6 = (t3 * 0x70);
-                t3 = (t3 + 0x1);
-                *(unsigned int *)(((t6 + t5) + 0x68)) = 0xFFFFFFFF;
-            }
-            return t4;
-        }
-        return nlCloseEvent(t0);
-    }
-    return t0;
-}
 
 
 

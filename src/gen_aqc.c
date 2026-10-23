@@ -1,0 +1,101 @@
+/* Straight-line functions with calls and guards (batch gen_aqc): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int nlAddVector(int, int);
+int nlAddVector3op(int, int, int);
+int nlObjPutUseViewMatrix(int);
+int nlScaleVector(int, int, float);
+int nlSingleLineUseViewMatrix(int, int, int);
+int nlTriPutSetAttrib(int, int, int, int, int, int, int, int, int, int, float, float, float, float, float, float, float, float);
+int nlTriPutSetClipping(int, float, float, float, float);
+int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, float);
+int nlTriPutTextureInit(int, int, int);
+int PutCollisionPoly(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
+
+int PutCollisionPoly(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11)
+{
+    int t3;
+    int t9;
+    float u10;
+    float u11;
+    float u12;
+    int t36;
+    int stk[27];
+
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R8;
+    int R9;
+    int R10;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F8;
+    float F9;
+    float F10;
+    float F11;
+    float F14;
+    float F15;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    F8 = f8;
+    F9 = f9;
+    F10 = f10;
+    F11 = f11;
+    L_C035304:;
+    nlTriPutTextureInit(0xC271258, 0xFFFFFFFF, 0x0);
+    t3 = *(int *)((R4 + 0x44));
+    nlTriPutSetAttrib(0xC271258, 0x2, 0x0, 0xFFFFFFFF, 0x0, 0x0, 0x0, 0x0, 0x0, ((*(int *)((R4 + 0x48)))), 0.5f, 0.5f, (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0x4))), (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0x8))), (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0xC))), 0.0f, 0.0f, 0.0f);
+    *(unsigned int *)0xC271278 = ((*(int *)0xC271278) | 0xC0);
+    t9 = *(int *)((R4 + 0x44));
+    u10 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0x4));
+    u11 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0x8));
+    u12 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0xC));
+    nlScaleVector(((int)stk + 28), R4, 0.00999999978f);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 28) + 0xC)) = *(struct mv3 *)(0xC0965F0); }
+    R10 = (0xC078A50);
+    R11 = ((((0xFF000000 | ((unsigned char)(int)(u10 * 255.0f) << 16)) | ((unsigned char)(int)(u11 * 255.0f) << 8)) | (unsigned char)(int)(u12 * 255.0f)));
+    R12 = (0x0);
+    R13 = (0xC271258);
+    R14 = (R4);
+    R8 = (0xC078A70);
+    R9 = (0xC078BC0);
+    F15 = (0.0f);
+    goto L_C03542A;
+    L_C03542A:;
+    if (((int)R12 < (int)(*(int *)((R14 + 0x48))))) goto L_C0353DC;
+    goto L_C035432;
+    L_C035432:;
+    nlTriPutSetClipping(R13, (*(float *)(((R14 + 0x14) + 0x0))), (*(float *)(((R14 + 0x14) + 0x4))), (*(float *)(((R14 + 0x14) + 0x8))), (*(float *)((R14 + 0x10))));
+    nlObjPutUseViewMatrix(R13);
+    nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), (1.0f / (float)(*(int *)((R14 + 0x48)))));
+    nlScaleVector((((int)stk + 28) + 0x18), R14, ((*(float *)((R14 + 0x10))) * 0.099999994f));
+    nlAddVector((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC));
+    return (nlSingleLineUseViewMatrix((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC), R11));
+    L_C0353DC:;
+    t36 = *(int *)(((R12 << 2) + 0xC0ED910));
+    nlAddVector3op((((int)stk + 28) + 0x18), ((int)stk + 28), ((signed char)(((t36 << 1) + t36) << 2) + (R14 + 0x14)));
+    nlAddVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0x18));
+    nlTriPutSetPoint(R13, R12, (*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 56))), (*(float *)(((int)stk + 60))), (*(float *)((R14 + 0x0))), (*(float *)((R14 + 0x4))), (*(float *)((R14 + 0x8))), F15, F15);
+    R12 = ((R12 + 0x1));
+    goto L_C03542A;
+}

@@ -293,3 +293,4 @@ int kmiInitPAL(void)
     t138 = kmiSetVideoTimings();
     return t138;
 }
+

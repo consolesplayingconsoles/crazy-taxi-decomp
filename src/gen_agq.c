@@ -1,55 +1,138 @@
 /* Straight-line functions with calls and guards (batch gen_agq): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Sound_Request(int, int);
-int VSklIpPlay(int, int, int, int, int, int, float);
-int Voice_Request(int, int, int, int);
-int Voice_ShutUp(int);
-int humanDraw(int, int, int, int);
-int selectPlayPickMotion(void);
+extern float _builtin_sqrtf(float);
+float CheckColliPoleEdge(int a4, int a5, int a6, float f4, float f5, float f6, float f7, float f8, float f9, float f10);
 
-int selectPlayPickMotion(void)
+float CheckColliPoleEdge(int a4, int a5, int a6, float f4, float f5, float f6, float f7, float f8, float f9, float f10)
 {
-    int t0;
-    int t1;
-    int t2;
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+    float u4;
+    float u9;
     int t10;
-    int t18;
-    int t29;
-    int t31;
-    int t36;
+    float u25;
+    float u26;
+    int t27;
+    int t32;
+    float u42;
+    float u45;
+    float u46;
+    float u47;
+    int stk[2];
 
-    t0 = *(int *)0xC2A75A4;
-    t1 = *(int *)0xC2A751C;
-    if (t0 != 1) {
-        if (t0 != 2) {
-            return t0;
-        }
-        t2 = *(int *)((t1 + 0x0));
-        return humanDraw((*(int *)(((((t2 << 2) << 2) + 0xC130748) + 0x8))), (*(int *)(((((t2 << 2) << 2) + 0xC130748) + 0xC))), (*(int *)((0xC2A7538 + ((*(int *)((t1 + 0x0))) << 2)))), 0x0);
-    }
-    t10 = *(int *)((t1 + 0x0));
-    VSklIpPlay((*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0x4))), (*(int *)0xC2A75AC), (*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0x8))), 0x0, ((*(int *)(((((t10 << 2) << 2) + 0xC130748) + 0xC)))), 0x0, ((float)(*(int *)((0xC2A7538 + ((*(int *)((t1 + 0x0))) << 2)))) / (float)(*(int *)0xC2A75B0)));
-    t18 = *(int *)(((*(int *)0xC2A751C) + 0x0));
-    if ((*(int *)((0xC2A7538 + (t18 << 2)))) == ((*(int *)0xC2A75B0) - 1)) {
-        *(unsigned int *)0xC2A75A4 = ((*(int *)0xC2A75A4) + 0x1);
-        *(unsigned int *)((0xC2A7538 + ((*(int *)(((*(int *)0xC2A751C) + 0x0))) << 2))) = 0x0;
-        *(unsigned int *)0xC2A7518 = 0x3;
-        Voice_ShutUp(0x0);
-        Voice_Request((*(int *)((((*(int *)(((*(int *)0xC2A751C) + 0x0))) << 2) + 0xC130710))), 0x0, 0x7F, 0x0);
-        t29 = *(int *)0xC2A75C0;
-        t31 = t29;
-        if (t29 == 4) {
-            t31 = (Sound_Request(0x308A9, 0x0));
-        }
-        if ((*(int *)0xC17948C) != 0) {
-            t36 = *(int *)0xC2A75C0;
-            if (t36 != 4) {
-                return Sound_Request(0x501A9, 0x0);
-            }
-            return t36;
-        }
-        return t31;
-    }
-    return (t18 << 2);
+    int R0;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    float F7;
+    float F8;
+    float F9;
+    float F10;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    F7 = f7;
+    F8 = f8;
+    F9 = f9;
+    F10 = f10;
+    L_C034A4A:;
+    *(unsigned int *)(((int)stk + 4)) = (R6 + 0xC);
+    u0 = *(float *)(((R6 + 0xC) + 0x0));
+    u1 = *(float *)((R6 + 0x0));
+    u2 = *(float *)(((R6 + 0xC) + 0x8));
+    u3 = *(float *)((R6 + 0x8));
+    u4 = ((u2 - u3) * (u2 - u3));
+    u4 = u4 + (u0 - u1) * (u0 - u1);
+    u9 = (((*(float *)((R5 + 0xC))) - (*(float *)((R6 + 0x8)))) * (u2 - u3));
+    u9 = u9 + (u0 - u1) * ((*(float *)((R5 + 0x8))) - (*(float *)((R6 + 0x0))));
+    t10 = (u9 * (1.0f / _builtin_sqrtf(u4))) > 0.0f;
+    R0 = (0xC);
+    F10 = (1.0f);
+    F5 = ((u0 - u1));
+    F6 = ((u2 - u3));
+    F7 = ((1.0f / _builtin_sqrtf(u4)));
+    F8 = ((u9 * (1.0f / _builtin_sqrtf(u4))));
+    F9 = (_builtin_sqrtf(u4));
+    if (t10) goto L_C034AA2;
+    goto L_C034A90;
+    L_C034A90:;
+    F2 = ((*(float *)((R5 + 0xC))));
+    F5 = ((*(float *)((R6 + 0x8))));
+    F6 = (((*(float *)((R6 + 0x0))) - (*(float *)((R5 + 0x8)))));
+    goto L_C034ABA;
+    L_C034ABA:;
+    u25 = *(float *)((R5 + 0x10));
+    u26 = ((F5 - F2) * (F5 - F2));
+    u26 = u26 + F6 * F6;
+    t27 = !(((u25 + F4) - _builtin_sqrtf(u26)) > 0.0f);
+    *(float *)((R4 + 0xC)) = ((u25 + F4) - _builtin_sqrtf(u26));
+    F0 = (F6);
+    F5 = ((F5 - F2));
+    F8 = ((F10 / _builtin_sqrtf(u26)));
+    if (t27) goto L_C034B58;
+    goto L_C034ADE;
+    L_C034ADE:;
+    *(float *)((R4 + 0x4)) = (F8 * F6);
+    *(float *)((R4 + 0x8)) = (F8 * F5);
+    return F0;
+    L_C034B58:;
+    return F0;
+    L_C034AA2:;
+    if ((F9 > F8)) goto L_C034AF2;
+    goto L_C034AA6;
+    L_C034AA6:;
+    t32 = *(int *)(((int)stk + 4));
+    F2 = ((*(float *)((R5 + 0xC))));
+    F5 = ((*(float *)((t32 + 0x8))));
+    F6 = (((*(float *)((t32 + 0x0))) - (*(float *)((R5 + 0x8)))));
+    goto L_C034ABA;
+    L_C034AF2:;
+    u42 = *(float *)((R6 + 0x8));
+    u45 = (F5 * F7);
+    u46 = *(float *)((R6 + 0x0));
+    u47 = (((*(float *)((R5 + R0))) * ((F5 * F7))) - ((*(float *)((R5 + 0x8))) * ((F6 * F7))));
+    u47 = u47 + (F6 * F7) * u46;
+    F0 = ((F6 * F7));
+    F1 = (u46);
+    F5 = ((F5 * F7));
+    F6 = ((F6 * F7));
+    F7 = ((u47 - (u42 * u45)));
+    if ((!(0.0f > (u47 - (u42 * u45))))) goto L_C034B34;
+    goto L_C034B16;
+    L_C034B16:;
+    R0 = (0x10);
+    if ((!(F7 > ((-(*(float *)((R5 + 0x10)))) - F4)))) goto L_C034B58;
+    goto L_C034B22;
+    L_C034B22:;
+    *(float *)((R4 + 0xC)) = (((*(float *)((R5 + R0))) + F4) + F7);
+    *(float *)((R4 + 0x4)) = (-F6);
+    goto L_C034B4E;
+    L_C034B4E:;
+    *(float *)((R4 + 0x8)) = F5;
+    return F0;
+    L_C034B34:;
+    R0 = (0x10);
+    if ((!(((*(float *)((R5 + 0x10))) + F4) > F7))) goto L_C034B58;
+    goto L_C034B3E;
+    L_C034B3E:;
+    *(float *)((R4 + 0xC)) = (((*(float *)((R5 + R0))) + F4) - F7);
+    *(float *)((R4 + 0x4)) = F6;
+    F5 = ((-F5));
+    goto L_C034B4E;
 }

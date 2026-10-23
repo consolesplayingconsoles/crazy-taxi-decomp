@@ -1,107 +1,111 @@
 /* Straight-line functions with calls and guards (batch gen_gz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float nlLength(int, int, float, float);
-int setObjGroupOpen(int);
-void ExecSetObject(int a4, float f4, float f5);
+int CheckSetDrive(int, int);
+int buGetDiskInfo(int, int);
+int memset(int, int, int);
+void BupCompleteCallback(int a4, int a5, int a6);
 
-void ExecSetObject(int a4, float f4, float f5)
+void BupCompleteCallback(int a4, int a5, int a6)
 {
-    int t0;
-    int t10;
-    int t2;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
-    int t21;
-    int t22;
-    int t23;
-    int t24;
-    float u26;
-    float u47;
-    float u48;
-    int t11;
-    float u14;
-    int t7;
-    float u8;
-    int t20;
-    float u25;
-    int t33;
-    int t42;
-    int t43;
-    int t46;
-    int t38;
-    float u39;
-    float u40;
+    int t15;
+    int stk[7];
 
-    t0 = *(int *)0xC1EE20C;
-    t10 = t0;
-    if (t0 == 1) {
-        t2 = *(int *)0xC179494;
-        if (t2 != 0) {
-            *(float *)0xC2757E8 = (*(float *)0xC038470);
-            t7 = 0xC038474;
-            u8 = (*(float *)0xC038474);
-        } else {
-            *(float *)0xC2757E8 = (*(float *)0xC038478);
-            t7 = 0xC03847C;
-            u8 = (*(float *)0xC03847C);
-        }
-        *(float *)0xC2757EC = u8;
-        t10 = t7;
-        t11 = t2;
-        u14 = u8;
-    }
-    t16 = *(int *)0xC2757F0;
-    t17 = t10;
-    t18 = t11;
-    t19 = (((t16 << 2) << 2) << 1);
-    t21 = t16;
-    t22 = (((t16 << 2) << 2) << 1);
-    t23 = (((t16 << 2) << 2) << 1);
-    t24 = (((t16 << 2) << 2) << 1);
-    u26 = u14;
-    for (;;) {
-        if ((int)t21 >= (int)(*(int *)0xC2757F4)) {
-            break;
-        }
-        t20 = (*(int *)0xC0EDBB8);
-        t19 = t22;
-        t19 = (t19 + t20);
-        t17 = (*(short *)((t19 + 0x10)));
-        u47 = u25;
-        u48 = u26;
-        if (((int)t17 > 0) && (t33 = *(int *)((t19 + 0x1C)), t33 == 0)) {
-            t19 = t24;
-            t19 = (t19 + t20);
-            u25 = (nlLength(t19, 0xC179144, f4, f5));
-            u26 = (*(float *)0xC2757E8);
-            if (u26 > u25) {
-                t19 = (*(int *)0xC0EDBB8);
-                t19 = (t19 + t23);
-                t17 = (setObjGroupOpen(t19));
-                t38 = t17;
-            } else {
-                u39 = u25;
-                u40 = u26;
-            }
-            t42 = t38;
-            u47 = u39;
-            u48 = u40;
-        } else {
-            t42 = t17;
-            t43 = t18;
-            t46 = t19;
-        }
-        u25 = u47;
-        u26 = u48;
-        t17 = t42;
-        t18 = t43;
-        t24 = (t24 + 0x20);
-        t19 = t46;
-        t22 = (t22 + 0x20);
-        t21 = (t21 + 0x1);
-        t23 = (t23 + 0x20);
-    }
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C03AA00:;
+    *(unsigned int *)(((int)stk + 12)) = (R13);
+    *(unsigned int *)(((int)stk + 8)) = (R12);
+    *(unsigned int *)(((int)stk + 4)) = (R11);
+    R0 = (R5);
+    R11 = (R5);
+    R12 = (R4);
+    R13 = (0x0);
+    R14 = (((short)((short)R4 * (short)0x4C) + 0xC291E50));
+    if ((R5 == 1)) goto L_C03AA2E;
+    goto L_C03AA26;
+    L_C03AA26:;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if ((R0 == 2)) goto L_C03AA4E;
+    goto L_C03AA2A;
+    L_C03AA2A:;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA6C;
+    L_C03AA6C:;
+    *(unsigned int *)((R14 + 0x4)) = R6;
+    buGetDiskInfo(R12, (R14 + 0x14));
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA78;
+    L_C03AA78:;
+    *(unsigned int *)((R14 + 0x10)) = R13;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if ((R11 != 2)) goto L_C03AA8A;
+    goto L_C03AA82;
+    L_C03AA82:;
+    CheckSetDrive(R12, R11);
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA8A;
+    L_C03AA8A:;
+    return;
+    L_C03AA4E:;
+    *(unsigned short *)((R14 + 0x0)) = R13;
+    *(unsigned short *)((R14 + 0x2)) = R13;
+    *(unsigned int *)((R14 + 0x8)) = R13;
+    *(unsigned int *)((R14 + 0xC)) = R13;
+    *(unsigned int *)((R14 + 0x10)) = R13;
+    memset((R14 + 0x14), 0x0, 0x38);
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA78;
+    L_C03AA2E:;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    if ((R6 != 0)) goto L_C03AA78;
+    goto L_C03AA32;
+    L_C03AA32:;
+    *(unsigned short *)((R14 + 0x0)) = 0x1;
+    t15 = buGetDiskInfo(R12, (R14 + 0x14));
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    R4 = (t15);
+    if ((t15 != 0)) goto L_C03AA4A;
+    goto L_C03AA46;
+    L_C03AA46:;
+    *(unsigned short *)((R14 + 0x2)) = 0x1;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA4A;
+    L_C03AA4A:;
+    *(unsigned int *)((R14 + 0x4)) = R13;
+    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
+    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
+    *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
+    goto L_C03AA78;
 }

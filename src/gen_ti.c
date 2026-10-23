@@ -1,92 +1,77 @@
 /* Straight-line functions with calls and guards (batch gen_ti): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-float carSlipRatio(float f4, float f5);
+float carGripCurve(float f4, float f5, float f6);
 
-float carSlipRatio(float f4, float f5)
+float carGripCurve(float f4, float f5, float f6)
 {
-    float u0;
-    int t20;
-    float u3;
-    float u4;
-    float u5;
-    float u1;
     float u10;
-    float u11;
-    float u7;
-    int t40;
-    float u23;
-    float u24;
-    float u25;
-    float u21;
-    float u30;
-    float u31;
-    float u27;
-    float u49;
-    float u47;
-    float u19;
-    float u39;
+    int stk[1];
 
-    u0 = 80.0f;
-    if (!(f5 > f4)) {
-        t20 = 0;
-        if (f4 != 0.0f) {
-            u3 = _builtin_fabsf(((f4 - f5) / f4));
-            u4 = f4;
-            u5 = _builtin_fabsf(((f4 - f5) / f4));
-            if (u0 > _builtin_fabsf(f4)) {
-                u1 = 75.0f;
-                u3 = u1;
-                u4 = _builtin_fabsf((f4 / u1));
-                u5 = (_builtin_fabsf(((f4 - f5) / f4)) * _builtin_fabsf((f4 / u1)));
-            }
-            _builtin_fabsf(f4);
-            u19 = u5;
-            t20 = ((u0 > _builtin_fabsf(f4)));
-        } else {
-            u10 = f5;
-            u11 = 0.0f;
-            if (f5 != 0.0f) {
-                u7 = 75.0f;
-                u10 = _builtin_fabsf((f5 / u7));
-                u11 = (_builtin_fabsf((f5 / u7)) * 1.0f);
-            }
-            u19 = u11;
-            t20 = ((f5 == 0.0f));
-        }
-        u47 = u19;
-    } else {
-        t40 = 0;
-        if (f5 != 0.0f) {
-            u23 = _builtin_fabsf(((f5 - f4) / f5));
-            u24 = f5;
-            u25 = _builtin_fabsf(((f5 - f4) / f5));
-            if (u0 > _builtin_fabsf(f5)) {
-                u21 = 75.0f;
-                u23 = u21;
-                u24 = _builtin_fabsf((f5 / u21));
-                u25 = (_builtin_fabsf(((f5 - f4) / f5)) * _builtin_fabsf((f5 / u21)));
-            }
-            _builtin_fabsf(f5);
-            u39 = u25;
-            t40 = ((u0 > _builtin_fabsf(f5)));
-        } else {
-            u30 = f4;
-            u31 = 0.0f;
-            if (f4 == 0.0f) {
-            } else {
-                u27 = 75.0f;
-                u30 = _builtin_fabsf((f4 / u27));
-                u31 = (_builtin_fabsf((f4 / u27)) * 1.0f);
-            }
-            u39 = u31;
-            t40 = ((f4 == 0.0f));
-        }
-        u47 = u39;
-    }
-    u49 = u47;
-    if (u47 > 1.0f) {
-        u49 = 1.0f;
-    }
-    return u49;
+    int R0;
+    float F0;
+    float F1;
+    float F2;
+    float F3;
+    float F4;
+    float F5;
+    float F6;
+    int T_;
+    F4 = f4;
+    F5 = f5;
+    F6 = f6;
+    L_C02187A:;
+    if ((!(0.00999999978f > F4))) goto L_C021890;
+    goto L_C021882;
+    L_C021882:;
+    F5 = ((1.06999993f - (F4 * 21.0f)));
+    goto L_C0218EC;
+    L_C0218EC:;
+    R0 = (0xC02196C);
+    F4 = (0.719999969f);
+    if ((!(0.719999969f > F5))) goto L_C0218F6;
+    goto L_C0218F4;
+    L_C0218F4:;
+    F5 = (F4);
+    goto L_C0218F6;
+    L_C0218F6:;
+    return F5;
+    L_C021890:;
+    F6 = ((1.0f + 1.0f));
+    if ((!(0.0599999987f > F4))) goto L_C0218A8;
+    goto L_C02189C;
+    L_C02189C:;
+    F4 = ((F4 + -0.00999999978f));
+    F5 = (0.859999955f);
+    goto L_C0218BA;
+    L_C0218BA:;
+    u10 = F5;
+    u10 = u10 + F6 * F4;
+    F0 = (F6);
+    F5 = (u10);
+    goto L_C0218EC;
+    L_C0218A8:;
+    F1 = (0.109999999f);
+    if ((!(0.109999999f > F4))) goto L_C0218C0;
+    goto L_C0218B0;
+    L_C0218B0:;
+    F4 = ((F4 + -0.0599999987f));
+    F5 = (0.959999979f);
+    goto L_C0218BA;
+    L_C0218C0:;
+    if ((!(0.209999993f > F4))) goto L_C0218DA;
+    goto L_C0218C8;
+    L_C0218C8:;
+    F1 = (1.5f);
+    F4 = (((F4 + -0.109999999f) * 1.5f));
+    F5 = (1.05999994f);
+    goto L_C0218EA;
+    L_C0218EA:;
+    F5 = ((F5 - F4));
+    goto L_C0218EC;
+    L_C0218DA:;
+    F1 = (0.424999982f);
+    F4 = (((F4 + -0.209999993f) * 0.424999982f));
+    F5 = (0.909999967f);
+    goto L_C0218EA;
 }

@@ -1,61 +1,102 @@
 /* Straight-line functions with calls and guards (batch gen_aev): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXF_GetFsizeSct(int);
-int ADXF_OpenAfs(int, int);
-int ADXF_ReadNw32(int, int, int);
-int gdc_CourseBlockReadNext(void);
+int nlsndSeqRequest(int);
+int menuChangeValue(int a4, int a5, int a6, int a7);
 
-int gdc_CourseBlockReadNext(void)
+int menuChangeValue(int a4, int a5, int a6, int a7)
 {
-    int t1;
-    int t2;
-    int t3;
-    int t7;
-    int t9;
-    int t10;
-    int t11;
-    int t13;
-    int t18;
-    int t17;
-    int t0;
-    int t5;
-    int t22;
+    int t8;
+    int t32;
+    int stk[5];
 
-    t1 = 0xC26C5DC;
-    t2 = 0x0;
-    t3 = 0x0;
-    for (;;) {
-        if (((unsigned char)(*(signed char *)((t1 + 0x0))) == 1) && (t5 = *(int *)((t1 + 0xC)), t0 = t5, (int)t3 < (int)t0)) {
-            *(unsigned int *)0xC26E0F4 = t2;
-            t3 = (*(int *)((t1 + 0xC)));
-        }
-        t7 = *(int *)((t1 + 0x8));
-        t2 = (t2 + t7);
-        t2 = (t2 + 0x1);
-        t1 = (t1 + (((((t7 + 0x1) << 1) + (t7 + 0x1)) << 2) << 1));
-        if ((int)t2 >= (int)0x120) {
-            break;
-        }
-    }
-    t9 = *(int *)0xC26E0F4;
-    if (t9 != -1) {
-        *(unsigned int *)0xC26E0F8 = 0x1;
-        t10 = *(int *)0xC26E0F4;
-        *(unsigned char *)((((short)((((t10 << 1) + t10) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-        t11 = *(int *)0xC26E0F4;
-        t13 = ADXF_OpenAfs(0x0, (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x4))));
-        *(unsigned int *)0xC26C5D8 = t13;
-        t18 = t13;
-        if (t13 != 0) {
-            t17 = ADXF_ReadNw32((*(int *)0xC26C5D8), (ADXF_GetFsizeSct(t13)), (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x14))));
-            *(unsigned char *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x3;
-            t18 = t17;
-        }
-        t22 = t18;
-    } else {
-        *(unsigned int *)0xC26E0F8 = 0x0;
-        t22 = t9;
-    }
-    return t22;
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R7;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    R7 = a7;
+    L_C03BEA0:;
+    *(unsigned int *)(((int)stk + 4)) = ((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8);
+    R14 = (0x0);
+    R7 = (0x0);
+    if (((*(int *)0xC2A1214) != 1)) goto L_C03BEC6;
+    goto L_C03BEC2;
+    L_C03BEC2:;
+    if ((R4 == 0)) goto L_C03BF36;
+    goto L_C03BEC6;
+    L_C03BEC6:;
+    if ((((*(int *)(((*(int *)(((int)stk + 4))) + 0x14))) & 4) == 0)) goto L_C03BF22;
+    goto L_C03BECE;
+    L_C03BECE:;
+    t8 = *(int *)((R5 + 0x0));
+    R4 = (t8);
+    if (((int)t8 < 0)) goto L_C03BED8;
+    goto L_C03BED4;
+    L_C03BED4:;
+    if (((int)R4 < (int)R6)) goto L_C03BEDA;
+    goto L_C03BED8;
+    L_C03BED8:;
+    *(unsigned int *)((R5 + 0x0)) = R7;
+    goto L_C03BEDA;
+    L_C03BEDA:;
+    R4 = (0xC2A11CC);
+    R7 = (0x20);
+    if ((((*(int *)0xC2A11CC) & 0x20) != 0)) goto L_C03BEF0;
+    goto L_C03BEE4;
+    L_C03BEE4:;
+    if (((*(int *)((R4 + 0x8))) != 0)) goto L_C03BEFE;
+    goto L_C03BEEA;
+    L_C03BEEA:;
+    if ((((*(int *)((R4 + 0x4))) & R7) == 0)) goto L_C03BEFE;
+    goto L_C03BEF0;
+    L_C03BEF0:;
+    if (((int)(*(int *)((R5 + 0x0))) <= 0)) goto L_C03BEFE;
+    goto L_C03BEF6;
+    L_C03BEF6:;
+    *(unsigned int *)((R5 + 0x0)) = ((*(int *)((R5 + 0x0))) - 1);
+    R14 = ((R14 + 0x1));
+    goto L_C03BEFE;
+    L_C03BEFE:;
+    R7 = (0x40);
+    if ((((*(int *)((R4 + 0x0))) & 0x40) != 0)) goto L_C03BF12;
+    goto L_C03BF06;
+    L_C03BF06:;
+    if (((*(int *)((R4 + 0x8))) != 0)) goto L_C03BF22;
+    goto L_C03BF0C;
+    L_C03BF0C:;
+    if ((((*(int *)((R4 + 0x4))) & R7) == 0)) goto L_C03BF22;
+    goto L_C03BF12;
+    L_C03BF12:;
+    t32 = (int)(*(int *)((R5 + 0x0))) >= (int)(R6 - 1);
+    R6 = ((R6 - 1));
+    if (t32) goto L_C03BF22;
+    goto L_C03BF1A;
+    L_C03BF1A:;
+    *(unsigned int *)((R5 + 0x0)) = ((*(int *)((R5 + 0x0))) + 0x1);
+    R14 = ((R14 + 0x1));
+    goto L_C03BF22;
+    L_C03BF22:;
+    if ((R14 == 0)) goto L_C03BF36;
+    goto L_C03BF26;
+    L_C03BF26:;
+    nlsndSeqRequest(0x504A9);
+    if ((R14 == 0)) goto L_C03BF36;
+    goto L_C03BF32;
+    L_C03BF32:;
+    R0 = (0x1);
+    goto L_C03BF38;
+    L_C03BF38:;
+    return R0;
+    L_C03BF36:;
+    R0 = (0x0);
+    goto L_C03BF38;
 }

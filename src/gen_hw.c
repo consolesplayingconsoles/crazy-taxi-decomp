@@ -1,71 +1,118 @@
 /* Straight-line functions with calls and guards (batch gen_hw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int End_Pass_Ranking(void);
-extern int nlSprPut();
-int hudRankPanelSlide(void);
+int Money_Array(int, int, int, float);
+int Put_TotalDrum(int, int, int);
+int Put_TotalDrum_SetDigits(int, int);
+int Sound_Request(int, int);
+int Start_Pass_Ranking(void);
+int Put_TotalDrum_Update(int a4, int a5, int a6, float f4);
 
-int hudRankPanelSlide(void)
+int Put_TotalDrum_Update(int a4, int a5, int a6, float f4)
 {
-    int t0;
-    int t1;
-    int t16;
-    int t4;
-    int t28;
-    float u29;
-    int t30;
-    int t35;
-    int t23;
+    int t5;
     int t10;
+    int stk[22];
 
-    t0 = *(int *)0xC2A9178;
-    if (t0 == 0) {
-        t1 = *(int *)0xC2A9170;
-        *(unsigned int *)0xC2A9170 = (t1 + 0x1);
-        if ((int)(t1 + 0x1) > (int)0xA) {
-            *(unsigned int *)0xC2A9178 = 0x1;
-            *(unsigned int *)0xC2A9170 = 0xA;
-        }
-        t23 = 0xC2A9178;
-    } else {
-        t16 = 0xC2A9178;
-        if (t0 == 6) {
-            t4 = *(int *)0xC2A9170;
-            *(unsigned int *)0xC2A9170 = (t4 - 1);
-            if ((int)(t4 - 1) < 0) {
-                *(unsigned int *)0xC2A9170 = 0x0;
-                End_Pass_Ranking();
-            } else {
-                t10 = 0xC2A9178;
-            }
-            t16 = t10;
-        }
-        t23 = t16;
-    }
-    *(float *)0xC2A80C0 = (532.0f);
-    *(float *)0xC2A80C4 = (190.0f);
-    *(float *)0xC2A80C8 = (0.099999994f);
-    *(float *)0xC2A80D4 = 0.0f;
-    t28 = *(int *)0xC2A9170;
-    u29 = 0.049999997f;
-    *(float *)0xC2A80CC = ((float)t28 * u29);
-    *(float *)0xC2A80DC = ((float)t28 * u29);
-    *(float *)0xC2A80D0 = 1.0f;
-    *(float *)0xC2A80D8 = 0.0f;
-    *(float *)0xC2A80E0 = 1.0f;
-    *(unsigned int *)0xC2A80F0 = 0xB;
-    t30 = *(int *)0xC2A917C;
-    *(unsigned int *)0xC2A917C = (t30 + 0x1);
-    if ((int)((int)((int)(t30 + 0x1) % (int)0x3D)) < (int)0x32) {
-        *(unsigned int *)0xC2A80BC = 0x157;
-    } else {
-        *(unsigned int *)0xC2A80BC = 0x158;
-    }
-    *(float *)0xC2A80E8 = 1.0f;
-    *(unsigned int *)0xC2A80E4 = 0x0;
-    t35 = ((int (*)(int, int))(nlSprPut))(0xC2A80BC, t23);
-    *(unsigned int *)0xC2A80F0 = 0x9;
-    *(float *)0xC2A80D4 = (1.0f - ((float)(*(int *)0xC2A9170) * u29));
-    *(float *)0xC2A80DC = 1.0f;
-    return ((int (*)(int))(nlSprPut))(0xC2A80BC);
+    int R0;
+    int R1;
+    int R2;
+    int R3;
+    int R4;
+    int R5;
+    int R6;
+    int R11;
+    int R12;
+    int R13;
+    int R14;
+    int T_;
+    R4 = a4;
+    R5 = a5;
+    R6 = a6;
+    L_C0544A8:;
+    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x20)) = *(struct mv8 *)(0xC0D08B4); }
+    { struct mv8 { int w[8]; }; *(struct mv8 *)(((int)stk + 4)) = *(struct mv8 *)(0xC0D08D4); }
+    R11 = (((int)stk + 4));
+    R12 = (0xC072168);
+    R13 = (0x0);
+    if (((*(int *)0xC2A8EB0) != 9)) goto L_C05452E;
+    goto L_C0544D8;
+    L_C0544D8:;
+    t5 = *(int *)0xC2A8C5C;
+    R4 = (t5);
+    if (((*(int *)((t5 + 0x0))) == 0)) goto L_C05452E;
+    goto L_C0544E2;
+    L_C0544E2:;
+    t10 = *(int *)0xC2A7600;
+    *(unsigned int *)((t10 + 0x0)) = ((*(int *)((t10 + 0x0))) + (*(int *)((R4 + 0x0))));
+    R14 = (0xC2A7600);
+    R4 = (0x5F5E0FF);
+    R6 = (0x8);
+    if (((int)(*(int *)(((*(int *)0xC2A7600) + 0x0))) <= (int)0x5F5E0FF)) goto L_C0544FE;
+    goto L_C0544FA;
+    L_C0544FA:;
+    *(unsigned int *)(((*(int *)((R14 + 0x0))) + 0x0)) = R4;
+    goto L_C0544FE;
+    L_C0544FE:;
+    Money_Array(R11, (*(int *)(((*(int *)((R14 + 0x0))) + 0x0))), R6, f4);
+    Put_TotalDrum_SetDigits((((int)stk + 4) + 0x20), R11);
+    *(unsigned int *)(((*(int *)0xC2A8C5C) + 0x0)) = R13;
+    Sound_Request(0x604A9, 0x0);
+    *(unsigned int *)0xC2A9180 = R13;
+    if (((*(int *)0xC2A7618) == 0)) goto L_C05452E;
+    goto L_C054528;
+    L_C054528:;
+    Start_Pass_Ranking();
+    goto L_C05452E;
+    L_C05452E:;
+    R4 = (0xC2A8DBC);
+    if (((*(int *)0xC2A8DD8) != 1)) goto L_C054574;
+    goto L_C054536;
+    L_C054536:;
+    if (((*(int *)((R4 + 0x18))) != 1)) goto L_C054574;
+    goto L_C05453C;
+    L_C05453C:;
+    if (((*(int *)((R4 + 0x14))) != 1)) goto L_C054574;
+    goto L_C054542;
+    L_C054542:;
+    if (((*(int *)((R4 + 0x10))) != 1)) goto L_C054574;
+    goto L_C054548;
+    L_C054548:;
+    if (((*(int *)((R4 + 0xC))) != 1)) goto L_C054574;
+    goto L_C05454E;
+    L_C05454E:;
+    if (((*(int *)((R4 + 0x8))) != 1)) goto L_C054574;
+    goto L_C054554;
+    L_C054554:;
+    if (((*(int *)((R4 + 0x4))) != 1)) goto L_C054574;
+    goto L_C05455A;
+    L_C05455A:;
+    if (((*(int *)((R4 + 0x0))) != 1)) goto L_C054574;
+    goto L_C054560;
+    L_C054560:;
+    if (((*(int *)0xC2A9180) != 0)) goto L_C054574;
+    goto L_C054568;
+    L_C054568:;
+    Sound_Request(0x704A9, 0x0);
+    *(unsigned int *)0xC2A9180 = 0x1;
+    goto L_C054574;
+    L_C054574:;
+    R4 = (0xC2A11B0);
+    if (((*(int *)0xC2A11B0) != 0)) goto L_C054580;
+    goto L_C05457C;
+    L_C05457C:;
+    *(unsigned int *)0xC2A91BC = R13;
+    goto L_C054580;
+    L_C054580:;
+    if (((*(int *)((R4 + 0x0))) == 0)) goto L_C05459A;
+    goto L_C054586;
+    L_C054586:;
+    if (((*(int *)0xC2A91BC) != 0)) goto L_C05459A;
+    goto L_C05458E;
+    L_C05458E:;
+    Sound_Request(0x704A9, 0x0);
+    *(unsigned int *)0xC2A91BC = 0x1;
+    goto L_C05459A;
+    L_C05459A:;
+    return (Put_TotalDrum(R4, R5, R6));
 }
