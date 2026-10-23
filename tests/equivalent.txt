@@ -2626,6 +2626,7 @@ psgJolt
 psgPickExitSide
 psgPlayBlend
 psgPutMarker
+psgPutShadow
 psgRoadCheck
 psgRunToPoint
 psgSeatMatrix
