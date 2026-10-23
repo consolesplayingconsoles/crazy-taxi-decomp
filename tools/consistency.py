@@ -42,6 +42,30 @@ def definitions():
     return out
 
 
+MANUAL = re.compile(r'/\*\s*manual:[^*]*(?:\*(?!/)[^*]*)*\*/\s*$')
+
+
+def manual(text, name):
+    """The reason when name's definition in text is marked by hand, a comment `/* manual: <reason> */` on the lines just above it;
+    None otherwise. Tools that write C (the shrink, hoist, the generator's rebuild) leave such a function alone."""
+    b = block(text, name)
+    if not b:
+        return None
+    m = MANUAL.search(text[max(0, b[0] - 600):b[0]])
+    return m.group(0).split('manual:', 1)[1].rstrip(' */\n') .strip() if m else None
+
+
+def manual_names():
+    """{name: reason} of every function marked by hand in src/*.c."""
+    import glob
+    out = {}
+    for f in glob.glob('src/*.c'):
+        t = open(f, errors='replace').read()
+        for m in re.finditer(r'/\*\s*manual:([^*]*(?:\*(?!/)[^*]*)*)\*/\s*\n[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(', t):
+            out[m.group(2)] = m.group(1).strip()
+    return out
+
+
 def block(text, name):
     """(start, end) of the definition of name in text, the closing brace and its newline included, or None."""
     m = re.search(r'^[A-Za-z_][\w \t\*]*?\b%s\s*\([^;{]*\)\s*\{' % re.escape(name), text, re.M)

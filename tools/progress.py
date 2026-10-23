@@ -18,8 +18,9 @@ The project's main metric ("done: equivalent C") is the FIRST row of the first s
 stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/homebrew/decompMetric.ts,
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 
-It also writes badge.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
-hook stages it with the Progress block.
+It also writes badges/progress.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
+hook stages it with the Progress block. Once status.txt ticks BUILDS FROM C, the badge also lists the statuses in it, ticked or
+crossed; before that it shows the measures only.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
@@ -191,7 +192,7 @@ if os.path.exists('model-map/game.dcgs'):
     if re_rows:
         rows += [('GAME ASSETS (EXTRA)', '', 'reverse engineering: what the model map identifies; it does not affect the measures above and is not done work')]
         rows += [row for n, row in re_rows]
-def write_badge(rows, label, path='badges/regular.svg', extra=()):
+def write_badge(rows, label, path='badges/progress.svg', extra=()):
     """badge.svg beside the README, two rows in Pluto's colours: functions (a bar filled to the main metric, "done: ...", and its
     percentage) and bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of the slice is
     done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both rows, and
@@ -249,11 +250,9 @@ def write_badge(rows, label, path='badges/regular.svg', extra=()):
     # never shows an old badge
     try:
         readme = open('README.md').read()
-        if path != 'badges/regular.svg':
-            return
-        # the badge the README links (regular, buildable or playable: the repo owner's choice) keeps its file; only the numbers change
-        fresh = re.sub(r'\((badges/(?:regular|buildable|playable)|badge)\.svg(\?[^)\s]*)?\)',
-                       lambda m: '(%s.svg?p=%.1f&b=%s&a=%d)' % (m.group(1) if m.group(1) != 'badge' else 'badges/regular', done, btext.rstrip('%'), int(round(wavg))),
+        # the README's badge (an older name too: badge.svg, badges/regular, buildable or playable) becomes this one, with its numbers
+        fresh = re.sub(r'\((badges/(?:regular|buildable|playable|progress)|badge)\.svg(\?[^)\s]*)?\)',
+                       lambda m: '(badges/progress.svg?p=%.1f&b=%s&a=%d&s=%d)' % (done, btext.rstrip('%'), int(round(wavg)), len(reached)),
                        readme, count=1)
         if fresh != readme:
             open('README.md', 'w').write(fresh)
@@ -261,11 +260,30 @@ def write_badge(rows, label, path='badges/regular.svg', extra=()):
         pass
 
 
-write_badge(rows, 'decomp')
-# two more versions of the badge with the milestone rows; which one the README links is the repo owner's call (the code cannot
-# tell whether the game builds from the C or plays), and the run above keeps whichever file the README links
-write_badge(rows, 'decomp', 'badges/buildable.svg', [('BUILDS FROM C', '\u2705'), ('PLAYABLE', '\u274c')])
-write_badge(rows, 'decomp', 'badges/playable.svg', [('BUILDS FROM C', '\u2705'), ('PLAYABLE', '\u2705')])
+def statuses(path='status.txt'):
+    """[(status, reached)] from status.txt, in its order: one status a line, "[x] NAME" reached, "[ ] NAME" not yet; # starts a
+    comment. Each status needs the ones above it, so a ticked line under an unticked one stops the report. No file: no statuses."""
+    if not os.path.exists(path):
+        return []
+    out = []
+    for i, l in enumerate(open(path), 1):
+        l = l.split('#')[0].strip()
+        if not l:
+            continue
+        m = re.match(r'^\[([ xX])\]\s+(\S.*)$', l)
+        if not m:
+            sys.exit('[ERROR] %s line %d: expected "[x] NAME" or "[ ] NAME", found: %s' % (path, i, l))
+        out.append((m.group(2).strip(), m.group(1) != ' '))
+    for k, (n, on) in enumerate(out):
+        if on and not all(o for _, o in out[:k]):
+            sys.exit('[ERROR] %s: "%s" is ticked but %s above it is not' % (path, n, ', '.join('"%s"' % x for x, o in out[:k] if not o)))
+    return out
+
+
+status = statuses()
+reached = [n for n, on in status if on]
+# the statuses show once the game builds from the C (the first status); before that the badge carries the measures only
+write_badge(rows, 'decomp', extra=[(n, '\u2705' if on else '\u274c') for n, on in status] if reached else ())
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')

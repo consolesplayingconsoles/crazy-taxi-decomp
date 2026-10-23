@@ -21,8 +21,7 @@ c:
 	python3 tools/8-build/cbuild.py prelim
 	python3 tools/8-build/cbuild.py unity
 	python3 tools/8-build/cbuild.py prelim
-	python3 tools/8-build/cbuild.py layout
-	python3 tools/8-build/cbuild.py link
+	python3 tools/8-build/cbuild.py fit
 
 disc:
 	@test -n "$(GDI)" || { echo 'usage: make disc GDI="your disc.gdi"'; exit 1; }

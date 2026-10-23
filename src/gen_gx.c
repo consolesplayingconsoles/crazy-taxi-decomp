@@ -40,6 +40,7 @@ int nlPushMatrix(int);
 int rinRandGetSeed(void);
 float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5);
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
 {
     int h0;

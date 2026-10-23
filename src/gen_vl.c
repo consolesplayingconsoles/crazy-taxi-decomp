@@ -3,9 +3,11 @@
 
 int nlSubVector3op(int, int, int);
 int nlUnitVector(int);
-void Start_Proposal(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
+typedef struct { float x, y, z; } NLpoint3;
+void Start_Proposal(int a4, int a5, NLpoint3 at);
 
-void Start_Proposal(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11)
+/* manual: the point is one structure passed by value on the stack; r6 and r7 are not arguments (overwritten before use) */
+void Start_Proposal(int a4, int a5, NLpoint3 at)
 {
     int t0;
     int t5;
@@ -23,14 +25,9 @@ void Start_Proposal(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int
     int R13;
     int R14;
     int T_;
-    stk[8] = a8;
-    stk[9] = a9;
-    stk[10] = a10;
-    stk[11] = a11;
+    *(NLpoint3 *)&stk[8] = at;
     R4 = a4;
     R5 = a5;
-    R6 = a6;
-    R7 = a7;
     L_C05F962:;
     *(unsigned int *)(((int)stk + 4)) = 0x1;
     t0 = *(int *)(((int)stk + 4));

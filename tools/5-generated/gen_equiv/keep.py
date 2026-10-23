@@ -66,7 +66,11 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
     import gen_drv
     import gen_pipe
     have = tool_versions()
-    todo = [n for n in names() if not wanted or n in wanted]
+    import consistency
+    manual = consistency.manual_names()          # written by hand: never written again by a tool
+    for n in sorted(set(names()) & set(manual)):
+        note('  manual, left alone: %s (%s)' % (n, manual[n]))
+    todo = [n for n in names() if (not wanted or n in wanted) and n not in manual]
     items, stale, kept_rec = [], [], {}
     for n in todo:
         if not os.path.exists('%s/%s.json' % (KEPT, n)):

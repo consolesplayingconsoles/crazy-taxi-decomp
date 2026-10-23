@@ -20651,8 +20651,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 38
 - the cases run 49 of 49 instructions
 
-### Psg_Execute (`0C06D9C4`, 2178 bytes, `src/gen_ady.c`)
-- equivalent on 19 development and 19 holdout cases, in `tests/gen_ady/Psg_Execute.json`
+### Psg_Execute (`0C06D9C4`, 2178 bytes, `src/psg_b.c`)
+- equivalent on 30 development and 30 holdout cases, in `tests/psg_b/Psg_Execute.json`
 - case 82
 - case 122
 - case 82
@@ -20672,6 +20672,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 27
 - case 29
 - widen 285
+- directed: flips 0C06DD9A (not taken)
+- directed: flips 0C06E122 (taken)
+- directed: flips 0C06DE16 (taken)
+- directed: flips 0C06DEA4 (not taken)
+- directed: flips 0C06E134 (taken)
+- directed: flips 0C06DEAE (taken)
+- directed: flips 0C06DEC8 (not taken)
+- directed: flips 0C06DF90 (taken)
+- directed: flips 0C06DFA2 (taken)
+- directed: flips 0C06DF1E (taken)
+- directed: flips 0C06E044 (taken)
 - case 53
 - case 0
 - case 152
@@ -20691,7 +20702,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 28
 - case 30
 - widen 2
-- the cases run 207 of 869 instructions
+- directed: flips 0C06DE0E (taken)
+- directed: flips 0C06E1DE (taken)
+- directed: flips 0C06DE82 (taken)
+- directed: flips 0C06E0C4 (taken)
+- directed: flips 0C06E1EC (taken)
+- directed: flips 0C06DEBC (taken)
+- directed: flips 0C06DEDC (taken)
+- directed: flips 0C06DEE4 (not taken)
+- directed: flips 0C06DF9A (not taken)
+- directed: flips 0C06E008 (not taken)
+- directed: flips 0C06E02A (taken)
+- the cases run 493 of 883 instructions
 
 ### Psg_GetCharaKind (`0C070CD0`, 38 bytes, `src/small_c.c`)
 - equivalent on 6 development and 6 holdout cases, in `tests/small_c/Psg_GetCharaKind.json`
@@ -21183,8 +21205,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 237
 - the cases run 211 of 211 instructions
 
-### PutCourse (`0C04D6F4`, 2614 bytes, `src/gen_aib.c`)
-- equivalent on 20 development and 18 holdout cases, in `tests/gen_aib/PutCourse.json`
+### PutCourse (`0C04D6F4`, 2614 bytes, `src/course_b.c`)
+- equivalent on 42 development and 22 holdout cases, in `tests/course_b/PutCourse.json`
 - case 3
 - case 3
 - case 4
@@ -21205,6 +21227,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - widen 88
 - widen 206
+- directed: flips 0C04D7D4 (taken)
+- city: no area found, subway camera 0
+- city: area 5, subway camera 1, the always-drawn list
+- city: area 20 (draw distance 2200), subway camera 2
+- city: area 37, 109 and 110 left out of the always-drawn list
+- city: area 67, the 0x6F piece in view
+- city: area 68, the 0x6F piece clipped
+- city: area 76 (Put_Build_Patch)
+- city: pieces too far (distance over the draw distance)
+- city: pieces clipped
+- city: only B pieces, area 13
+- directed: flips 0C04DE28 (not taken)
+- directed: flips 0C04DEC4 (taken)
+- spline: section not found
+- spline: grid 10, A and B lists
+- spline: grid 0x40, A list, B window
+- spline: grid 0x60, A window, B window
+- spline: grid 0x98, A list, B list
+- spline: grid 0x100, A list, B list, CheckPiece says no
+- spline: grid 0x150, A list, B list
+- spline: grid 0x190, A window, B window
+- directed: flips 0C04D932 (taken)
 - case 94
 - case 137
 - case 46
@@ -21223,10 +21267,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 131
 - case 127
 - case 120
-- the cases run 321 of 1094 instructions
+- directed: flips 0C04DFC8 (not taken)
+- directed: flips 0C04DE40 (taken)
+- directed: flips 0C04DEE8 (taken)
+- directed: flips 0C04DB2A (taken)
+- the cases run 857 of 1110 instructions
 
-### PutCourse_CheckPiece (`0C04E30E`, 1934 bytes, `src/gen_alm.c`)
-- equivalent on 30 development and 30 holdout cases, in `tests/gen_alm/PutCourse_CheckPiece.json`
+### PutCourse_CheckPiece (`0C04E30E`, 1934 bytes, `src/checkpiece_b.c`)
+- equivalent on 37 development and 37 holdout cases, in `tests/checkpiece_b/PutCourse_CheckPiece.json`
 - case 8
 - case 9
 - case 23
@@ -21257,6 +21305,13 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - directed: flips 0C04E8A8 (taken)
 - directed: flips 0C04E8F0 (taken)
 - directed: flips 0C04E97E (taken)
+- directed: flips 0C04E436 (taken)
+- directed: flips 0C04E4F4 (taken)
+- directed: flips 0C04E61C (taken)
+- directed: flips 0C04E672 (not taken)
+- directed: flips 0C04E69E (not taken)
+- directed: flips 0C04E756 (taken)
+- directed: flips 0C04E7BC (taken)
 - case 56
 - case 83
 - case 51
@@ -21287,7 +21342,14 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - directed: flips 0C04E8CC (taken)
 - directed: flips 0C04E974 (taken)
 - directed: flips 0C04E992 (taken)
-- the cases run 569 of 784 instructions
+- directed: flips 0C04E376 (taken)
+- directed: flips 0C04E456 (not taken)
+- directed: flips 0C04E5F8 (not taken)
+- directed: flips 0C04E638 (taken)
+- directed: flips 0C04E682 (taken)
+- directed: flips 0C04E6A6 (taken)
+- directed: flips 0C04E7E2 (taken)
+- the cases run 675 of 795 instructions
 
 ### PutCourse_Init (`0C04D6BC`, 56 bytes, `src/game_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_p/PutCourse_Init.json`
@@ -41169,6 +41231,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - hand 11
 - the cases run 126 of 283 instructions
 
+### gdc_CourseStartLoadReq (`0C02F02A`, 290 bytes, `src/courseload_b.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/courseload_b/gdc_CourseStartLoadReq.json`
+- case 24
+- case 74
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 0
+- case 1
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 99 of 104 instructions
+
 ### gdc_CourseTexFree (`0C02F870`, 66 bytes, `src/game_g.c`)
 - equivalent on 2 development and 4 holdout cases, in `tests/game_g/gdc_CourseTexFree.json`
 - two entries
@@ -49734,6 +49836,86 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 40 of 40 instructions
+
+### kmiInitNTSC (`0C16D8E4`, 732 bytes, `src/gen_bn.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_bn/kmiInitNTSC.json`
+- case 118
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- the cases run 239 of 241 instructions
+
+### kmiInitPAL (`0C16D5A0`, 836 bytes, `src/gen_ki.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ki/kmiInitPAL.json`
+- case 20
+- case 44
+- case 6
+- case 1
+- case 3
+- case 5
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 32
+- case 34
+- case 130
+- case 0
+- case 2
+- case 4
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 33
+- the cases run 293 of 312 instructions
 
 ### kmiInitRenderer (`0C15AA1A`, 4 bytes, `src/small_b.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/small_b/kmiInitRenderer.json`
@@ -71757,8 +71939,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 36
 - the cases run 228 of 502 instructions
 
-### pcarDrive (`0C04510E`, 2174 bytes, `src/gen_hj.c`)
-- equivalent on 19 development and 20 holdout cases, in `tests/gen_hj/pcarDrive.json`
+### pcarDrive (`0C04510E`, 2174 bytes, `src/pcar_b.c`)
+- equivalent on 19 development and 20 holdout cases, in `tests/pcar_b/pcarDrive.json`
 - case 203
 - case 4
 - case 58
@@ -75138,8 +75320,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - directed: flips 0C04BD0C (not taken)
 - the cases run 202 of 296 instructions
 
-### replayChangeControl (`0C04C6AA`, 2726 bytes, `src/gen_ya.c`)
-- equivalent on 23 development and 22 holdout cases, in `tests/gen_ya/replayChangeControl.json`
+### replayChangeControl (`0C04C6AA`, 2726 bytes, `src/replay_b.c`)
+- equivalent on 63 development and 27 holdout cases, in `tests/replay_b/replayChangeControl.json`
 - case 42
 - case 92
 - case 150
@@ -75163,6 +75345,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 190
 - widen 173
 - widen 30
+- directed: flips 0C04CBBA (taken)
+- directed: flips 0C04CC1E (not taken)
+- directed: flips 0C04CC2A (not taken)
+- directed: flips 0C04CE3A (taken)
+- directed: flips 0C04CF84 (taken)
+- directed: flips 0C04CCA6 (not taken)
+- debug: cursor down (0x20), page 0
+- debug: cursor up (0x10), page 1
+- debug: cursor at the last row, page 0
+- debug: edit turned on (0x80)
+- debug: edit turned off (0x40)
+- debug: page 0, edit row 0 up (0x10)
+- debug: page 0, edit row 0 down (0x20)
+- debug: page 0, edit row 1 up (0x10)
+- debug: page 0, edit row 1 down (0x20)
+- debug: page 0, edit row 2 up (0x10)
+- debug: page 0, edit row 2 down (0x20)
+- debug: page 0, edit row 3 up (0x10)
+- debug: page 0, edit row 3 down (0x20)
+- debug: page 0, edit row 4 up (0x10)
+- debug: page 0, edit row 4 down (0x20)
+- debug: page 1, edit row 0 up (0x10)
+- debug: page 1, edit row 0 down (0x20)
+- debug: page 1, edit row 1 up (0x10)
+- debug: page 1, edit row 1 down (0x20)
+- debug: page 1, edit row 2 up (0x10)
+- debug: page 1, edit row 2 down (0x20)
+- debug: page 1, row 2, save the car data (0x10000)
+- debug: apply 0x200 on page 0, mode 1
+- debug: apply 0x200 on page 0, mode 2
+- debug: apply 0x20000 on page 0, mode 3 (course mode 0)
+- debug: apply 0x20000 on page 0, mode 3 (course mode 1)
+- debug: apply 0x200 on page 1
+- debug: apply on page 2 (no page)
+- debug: the held pad (0C2A4E58 >= 30)
+- debug: page 2, nothing printed for it
+- debug: blinking cursor off (edit on, frame & 8 = 0)
+- debug: blinking cursor on (edit on, frame & 8 = 8)
+- debug: change number at the last record (next frame from 0C0F2B2C)
+- debug: a record one frame ahead plays replay(4)
 - case 81
 - case 107
 - case 155
@@ -75185,7 +75407,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 8
 - widen 162
 - widen 108
-- the cases run 591 of 1118 instructions
+- directed: flips 0C04CC1A (not taken)
+- directed: flips 0C04CC22 (not taken)
+- directed: flips 0C04CCDC (not taken)
+- directed: flips 0C04CE4A (taken)
+- directed: flips 0C04CC6E (not taken)
+- the cases run 746 of 1120 instructions
 
 ### req_load (`0C02C528`, 294 bytes, `src/gen_xj.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_xj/req_load.json`

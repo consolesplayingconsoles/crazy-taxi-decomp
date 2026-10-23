@@ -41,8 +41,16 @@ def functions():
     return sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F '))
 
 
+def asm_only():
+    """Functions the build takes from the original asm although their C is proven: asm-functions.txt in the repo, one name per
+    line (# starts a comment). None when there is no such file."""
+    if not os.path.exists('asm-functions.txt'):
+        return set()
+    return {l.split('#')[0].strip() for l in open('asm-functions.txt') if l.split('#')[0].strip()}
+
+
 def moved_names():
-    eq = set(open('tests/equivalent.txt').read().split())
+    eq = set(open('tests/equivalent.txt').read().split()) - asm_only()
     F = functions()
     out = []
     for i, (a, s, n) in enumerate(F):

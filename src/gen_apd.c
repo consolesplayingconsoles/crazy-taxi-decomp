@@ -3,16 +3,19 @@
 
 int kmiReadRegister(int);
 int thunk_kmiWriteRegister(int, int);
-int kmiSetVideoTimings(int a4, int a5, int a6, int a7, int a8);
+typedef struct { int w[63]; } KmVideoTimings;                                 /* 252 bytes, passed by value on the stack */
+int kmiSetVideoTimings(KmVideoTimings t);
 
-int kmiSetVideoTimings(int a4, int a5, int a6, int a7, int a8)
+/* manual: the timings are one structure passed by value on the stack (the callers copy 252 bytes there); the generated form
+   declared r4-r7 as arguments it never reads */
+int kmiSetVideoTimings(KmVideoTimings t)
 {
     int t41;
     int t42;
     int t64;
     int stk[76];
 
-    { int *ap = &a8; int k; for (k = 0; k < 63; k++) stk[5 + k] = ap[k]; }
+    { int *ap = t.w; int k; for (k = 0; k < 63; k++) stk[5 + k] = ap[k]; }
     *(unsigned int *)0xC2EA6D8 = (*(int *)(((((int)stk + 4) + 0x10) + 0xF8)));
     *(unsigned int *)0xC2EA6DC = (*(int *)(((((int)stk + 4) + 0x10) + 0xF0)));
     *(unsigned int *)0xC2EA6E0 = (*(int *)(((((int)stk + 4) + 0x10) + 0xF4)));

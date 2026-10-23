@@ -177,7 +177,7 @@ typedef struct {
     short c;
 } Angles6;
 
-int CheckSetDrive(void);
+int CheckSetDrive(int, int);
 
 int BupProgressCallback(int a, int b, int c, int d)
 {
@@ -188,7 +188,7 @@ int BupProgressCallback(int a, int b, int c, int d)
     e[3] = d;
     e[4] = b;
     if (b == 1) {
-        CheckSetDrive();
+        CheckSetDrive(a, b);                                 /* the drive and the operation, as the library gave them */
     }
     return 0;
 }

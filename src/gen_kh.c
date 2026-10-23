@@ -13,6 +13,7 @@ int nlTriPutSetPoint(int, int, float, float, float, float, float, float, float, 
 int nlTriPutTextureInit(int, int, int);
 int PutColliWall(int a4);
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 int PutColliWall(int a4)
 {
     float u9;

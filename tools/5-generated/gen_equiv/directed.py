@@ -223,6 +223,8 @@ def apply(case, prov, want, size_bits=None):
     if prov[0] == 'farg':
         c.setdefault('regs', {})['fr%d' % prov[1]] = '%08X' % fb(want)
         return c
+    if prov[0] in ('mem', 'fmem') and CTX['range'] and prov[1] < CTX['range'][1] and CTX['range'][0] < prov[1] + prov[2]:
+        return None                                          # the function's own bytes (a constant in its pool): code, not an input
     if prov[0] == 'mem':
         addr, size, off = prov[1], prov[2], prov[3]
         v = (want - off) & ((1 << (8 * size)) - 1)

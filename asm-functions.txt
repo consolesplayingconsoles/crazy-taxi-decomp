@@ -1,0 +1,2 @@
+# Functions the build from C takes from the original asm although their C is proven (tools/8-build/relocasm.py asm_only).
+# Empty: the build is all C.

@@ -1,9 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_ki): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int kmiSetVideoTimings(void);
+typedef struct { int w[63]; } KmVideoTimings;                                 /* 252 bytes, passed by value on the stack */
+int kmiSetVideoTimings(KmVideoTimings);
 int kmiInitPAL(void);
 
+/* manual: the timings go to kmiSetVideoTimings as one structure by value; the generated form copied them one word off */
 int kmiInitPAL(void)
 {
     int t0;
@@ -286,11 +288,7 @@ int kmiInitPAL(void)
     *(unsigned int *)0xC2EA998 = ((t130 >> 1) + t132);
     t133 = *(int *)(((((int)stk + 256) + 0x14) + 0xC));
     *(unsigned int *)0xC2EA99C = t133;
-    t134 = (((int)stk + 256) + 0x14);
-    t135 = ((((int)stk + 256) + 0x14) + 252);
-    t136 = ((int)stk + 4);
-    for (;;) { t137 = *(int *)t134; t134 = (t134 + 4); if ((unsigned int)t135 < (unsigned int)t134) break; *(unsigned int *)t136 = t137; t136 = (t136 + 4); }
-    t138 = kmiSetVideoTimings();
+    t138 = kmiSetVideoTimings(*(KmVideoTimings *)(((int)stk + 256) + 0x14));
     return t138;
 }
 

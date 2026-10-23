@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/buildable.svg?p=100.0&b=100.0&a=81)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=1)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -135,7 +135,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 |---|---|
 | [tests/<file>/<function>.json](tests/) | The test cases of each function |
 | [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent |
-| [badges/](badges) | The progress badges, written by [tools/progress.py](tools/progress.py): `regular.svg`, `buildable.svg` (plus "builds from C" ticked and "playable" crossed) and `playable.svg` (plus "playable"). The README links the one that is true: your call |
+| [badges/](badges) | The progress badge, written by [tools/progress.py](tools/progress.py): `progress.svg`. Once [status.txt](status.txt) ticks BUILDS FROM C it also lists the statuses there (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE), ticked or crossed; each needs the ones above it |
 
 **Scripts and tools**
 

@@ -170,25 +170,58 @@ def returns(cfile):
     return out
 
 
+def struct_words(text):
+    """{typedef name: its size in 4-byte words} for the `typedef struct { ... } Name;` in a file's text. A structure passed by value
+    goes on the stack (SHC), so its words are stack arguments, not a register. Fields count 4 bytes each, arrays by their length,
+    a field of an earlier typedef by that one's words."""
+    out = {}
+    for m in re.finditer(r'typedef\s+struct\s*\w*\s*\{([^{}]*)\}\s*(\w+)\s*;', text):
+        n = 0
+        for decl in m.group(1).split(';'):
+            d = decl.strip()
+            if not d:
+                continue
+            ty = d.split()[0]
+            per = out.get(ty, 1)
+            for v in d[len(ty):].split(','):
+                k = re.search(r'\[(\d+)\]', v)
+                n += per * (int(k.group(1)) if k else 1)
+        out[m.group(2)] = n
+    return out
+
+
+def param_kinds(params, structs):
+    """(integer and pointer arguments, float arguments, words on the stack) of a parameter list: the integers past the fourth and
+    every structure passed by value go on the stack, in order."""
+    ni = nf = sw = 0
+    for p in params.split(','):
+        p = p.strip()
+        if not p or p == 'void':
+            continue
+        ty = p.split()[0] if p.split()[0] not in ('const', 'struct') else p.split()[1]
+        if '*' not in p and ty in structs:
+            sw += structs[ty]
+        elif re.search(r'\b(float|double)\b', p) and '*' not in p:
+            nf += 1
+        else:
+            ni += 1
+    return ni, nf, sw + max(0, ni - 4)
+
+
 def prototypes(cfile):
     """The argument registers each function this file declares or defines takes, from its prototype:
     {name: (ints and pointers, floats)}; a name starting with an underscore is a runtime helper: (0, 0)."""
     text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    structs = struct_words(text)
     out = {}
     for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
         name, params = m.group(1), m.group(2).strip()
         if params == '' and not re.search(r'\bstatic\b', m.group(0)):
             continue                        # declared with (): the arguments are the call site's (a cast gives them), the arity is not known here
-        ni = nf = 0
         if '...' in params:                # variadic: every argument goes on the stack, the registers are not arguments
             out[name] = (0, 0, True)
             continue
-        if params not in ('', 'void'):
-            for p in params.split(','):
-                if re.search(r'\b(float|double)\b', p) and '*' not in p:
-                    nf += 1
-                else:
-                    ni += 1
+        ni, nf, sw = param_kinds(params, structs)
         out[name] = (min(ni, 4), min(nf, 8))
     return out
 
@@ -237,29 +270,29 @@ STACKN = {}      # {address: integer arguments passed on the stack (past the fou
 
 
 def stack_args(cfile):
-    """{name: integer arguments past the fourth} for the functions this file declares with more than four (passed on the stack)."""
+    """{name: words passed on the stack (integer arguments past the fourth, structures by value), at most 4} for the functions this
+    file declares."""
     text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    structs = struct_words(text)
     out = {}
     for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
-        ps = [p for p in m.group(2).split(',') if p.strip() and p.strip() != 'void']
         if '...' in m.group(2):
             continue
-        ni = sum(1 for p in ps if not re.search(r'\b(float|double)\b', p) or '*' in p)
-        out[m.group(1)] = max(0, min(ni - 4, 4))
+        out[m.group(1)] = min(param_kinds(m.group(2), structs)[2], 4)
     return out
 
 
 def definitions():
-    """{name: integer and pointer parameters, float parameters} of every function defined in src/: what the callee as built reads."""
+    """{name: (integer and pointer parameters, float parameters, words on the stack)} of every function defined in src/: what the
+    callee as built reads. The integer count is not capped (compared_arity caps it)."""
     out = {}
     for path in sorted(glob.glob(os.path.join('src', '*.c'))):
         text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(path, errors='replace').read(), flags=re.S)
+        structs = struct_words(text)
         for m in re.finditer(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', text, flags=re.M):
-            ps = [p for p in m.group(2).split(',') if p.strip() and p.strip() != 'void']
             if '...' in m.group(2) or not m.group(2).strip():
                 continue
-            nf = sum(1 for p in ps if re.search(r'\b(float|double)\b', p) and '*' not in p)
-            out.setdefault(m.group(1), (len(ps) - nf, nf))
+            out.setdefault(m.group(1), param_kinds(m.group(2), structs))
     return out
 
 
@@ -269,13 +302,13 @@ def compared_arity(cfile, table):
     fails, wherever the caller's file declares fewer (the build links every caller against that one definition)."""
     arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
     stackn = {table[n]: k for n, k in stack_args(cfile).items() if n in table and k}
-    for n, (ni, nf) in definitions().items():
+    for n, (ni, nf, sw) in definitions().items():
         a = arity.get(table.get(n))
         if a is None or len(a) > 2:
             continue                          # no prototype here (every register is compared) or a variadic one
         arity[table[n]] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
-        if ni > 4:
-            stackn[table[n]] = max(stackn.get(table[n], 0), min(ni - 4, 4))
+        if sw:
+            stackn[table[n]] = max(stackn.get(table[n], 0), min(sw, 4))
     return arity, stackn
 
 

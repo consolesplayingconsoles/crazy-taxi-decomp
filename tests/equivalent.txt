@@ -1417,6 +1417,7 @@ gdc_CoursePut
 gdc_CourseReq
 gdc_CourseSet
 gdc_CourseSetupAll
+gdc_CourseStartLoadReq
 gdc_CourseTexFree
 gdc_CourseTexFreeOnce
 gdc_CourseTexLoad
@@ -1718,6 +1719,8 @@ kmiGetSysConfigFlag
 kmiGetVertexBasePointer
 kmiInitCallback
 kmiInitInterrupt
+kmiInitNTSC
+kmiInitPAL
 kmiInitRenderer
 kmiInitTimer
 kmiInitVGA

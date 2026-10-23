@@ -148,6 +148,8 @@ def main():
     names = [a for a in args if not a.startswith('--')]
     if '--file' in args:
         names = [l.split()[0] for l in open(names.pop(0)) if l.strip()]
+    manual = consistency.manual_names()          # written by hand: never rewritten by a tool
+    names = [n for n in names if n not in manual or print('%s skip (manual: %s)' % (n, manual[n]))]
     for fn in names:
         stem, t, b = where(fn)
         if not stem:

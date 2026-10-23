@@ -4,9 +4,9 @@
 int CheckKyakuArea(int, int, float, float, float);
 int extRand(void);
 int nlRand(void);
-int replay(int a4, int a5, int a6, float f4, float f5, float f6);
+int replay(int a4, float f4, float f5, float f6);
 
-int replay(int a4, int a5, int a6, float f4, float f5, float f6)
+int replay(int a4, float f4, float f5, float f6)
 {
     int t14;
     int t158;

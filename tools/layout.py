@@ -11,7 +11,7 @@
 
 Crazy Taxi's, for example:
     game    0C020080 0C0739C0
-    fill    0C011C28 0C020000
+    fill    0C014000 0C020000
     code    0C020000 0C089F26
     spare   0C5D0000
 """

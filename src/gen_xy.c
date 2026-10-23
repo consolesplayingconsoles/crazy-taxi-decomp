@@ -60,6 +60,7 @@ int sysCfgRead(void);
 int thunk_ADXT_EntryErrFunc(int, int);
 int InitSys(void);
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 int InitSys(void)
 {
     int t3;

@@ -68,9 +68,12 @@ def locked():
 def main():
     os.makedirs('build', exist_ok=True)
     log = open(LOG, 'a')
+    manual = consistency.manual_names()          # written by hand: never written again by a tool
     table = {r[0]: r for r in json.load(open(sizes.OUT))} if os.path.exists(sizes.OUT) else {}
     for fn in NAMES:
         stem, old = where(fn)
+        if fn in manual:
+            log.write('%s skip (manual: %s)\n' % (fn, manual[fn])); log.flush(); continue
         if not stem or not stem.startswith('gen_'):
             log.write('%s skip (not generated C)\n' % fn); log.flush(); continue
         head = old.split('(')[0]

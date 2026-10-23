@@ -137,6 +137,7 @@ int fmMngMcpy_tail_0c1708b2(int a4, int a5, int a6)
     return ((int (*)(int, int, int))(0xC1708AC))(a4, a5, (a6 - 1));
 }
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 int __init_dteapi_cc_f(void)
 {
     buSetCompleteCallback(((int)BupCompleteCallback));

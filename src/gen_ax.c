@@ -104,6 +104,7 @@ void nlSysMetricsInit(void)
     _builtin_set_imask(0x0);
 }
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 int nlSetIntrFunction(int a4, int a5)
 {
     int t0;

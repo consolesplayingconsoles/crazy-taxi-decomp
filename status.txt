@@ -1,0 +1,5 @@
+# The decomp's status, read by tools/progress.py for the badge. Tick each one reached: [x]. Each needs the ones above it.
+[x] BUILDS FROM C
+[ ] BOOTS TO MENU
+[ ] PLAYABLE
+[ ] STABLE

@@ -7,6 +7,7 @@ float nlFloor(float);
 float nlFraction(float);
 int VSklSfPlay(int a4, int a5, int a6, float f4);
 
+/* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
 int VSklSfPlay(int a4, int a5, int a6, float f4)
 {
     int fl;

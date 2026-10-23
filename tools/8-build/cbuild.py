@@ -8,9 +8,13 @@ The steps, in the order `make c` runs them:
     unity      merge generated files into units (shared literal pools, short calls), compile them
     layout     place the objects in the fill block and the old game code (and say what does not fit)
     link       compile each part into its section, link the whole executable at its base (build/cbuild/game.bin)
+    fit        layout and link, then read from the linked map whether every part lies in its place (what `make c` runs)
+
+With OPTIMIZE set, the C is compiled with -goptimize and linked with Hitachi's inter-module optimizer (optlnksh, SDK r10.1)
+instead of lnk: prelim links both ways to measure what it saves, layout fills each part by that ratio, and fit checks the result.
 
 src/ is not changed: the build works on copies in build/cbuild/. Layout (CT): the boot code stays where it is; the fill block
-0C011C28-0C020000 and the game code 0C020080-0C0739C0 hold the game block (compiled C, the pieces that have no C, tables and tails
+0C014000-0C020000 (the boot block before it is cleared at run time) and the game code 0C020080-0C0739C0 hold the game block (compiled C, the pieces that have no C, tables and tails
 the C names by address); the entry stub at 0C020000, the NAOMI library, the data and the SDK stay at their addresses.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -28,11 +32,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_equiv'))
 import boundaries as B
 import consistency
+import fit as fitmod
 import shdis
 
 G0, G1 = 0x0C020080, 0x0C0739C0
-FILL0, FILL1 = 0x0C011C28, 0x0C020000
+FILL0, FILL1 = 0x0C014000, 0x0C020000        # 0C010100-0C014000 is the boot block: copied to 0C004000 and cleared at run time
 OUT = 'build/cbuild'
+# optlnksh -optimize=<items> for the links ('' links with lnk.exe). Not symbol_delete: functions reached only by address would go.
+OPTIMIZE = 'branch,same_code,register,string_unify'
+MARGINS = (0.998, 0.995, 0.99, 0.985, 0.98)          # fit: how much of the prelim ratio a part is filled by, while nothing is measured
+MEASURED_MARGIN = 0.999                              # once a link measured each part's own ratio
+FIT_TRIES = 6
 DEF = re.compile(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\n?\{', re.M)
 
 
@@ -42,7 +52,8 @@ def functions():
 
 def game_set():
     """{function: file stem} for the proven game-region functions that have C: the stem is the one whose cases prove it."""
-    eq = set(open('tests/equivalent.txt').read().split())
+    import relocasm
+    eq = set(open('tests/equivalent.txt').read().split()) - relocasm.asm_only()
     out = {}
     for a, s, n in functions():
         if G0 <= a < G1 and n in eq:
@@ -249,10 +260,12 @@ one() {
   s=$1; me=cb.$s
   mkdir -p build/tmp/$me
   if grep -q '#pragma inline_asm' build/cbuild/src/$s.c; then
-    if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -code=asm -object="build\\cbuild\\$OBJD\\$s.s" $FLAGS > build/cbuild/log/$s.log 2>&1 && wibo "/sdk/$REL/asmsh.exe" "build\\cbuild\\$OBJD\\$s.s" -object="build\\cbuild\\$OBJD\\$s.obj" -cpu=sh4 -endian=little >> build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; else echo "FAIL $s"; fi
+    if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -code=asm -object="build\\cbuild\\$OBJD\\$s.s" ${FLAGS_PLAIN:-$FLAGS} > build/cbuild/log/$s.log 2>&1 && wibo "/sdk/$REL/asmsh.exe" "build\\cbuild\\$OBJD\\$s.s" -object="build\\cbuild\\$OBJD\\$s.obj" -cpu=sh4 -endian=little >> build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; else echo "FAIL $s"; fi
     rm -rf build/tmp/$me; return
   fi
-  if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; else echo "FAIL $s"; fi
+  if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log
+  elif [ -n "$FLAGS_PLAIN" ] && SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS_PLAIN > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; echo "PLAIN $s"
+  else echo "FAIL $s"; fi
   rm -rf build/tmp/$me
 }
 export -f one
@@ -276,6 +289,9 @@ def compile_all(stems=None, objd='obj', flags_edit=None):
     flags = flags.replace('c=C,', 'c=P,')        # constants beside the code: they are counted and placed with it
     if flags_edit:
         flags = flags.replace(*flags_edit)
+    plain = ''
+    if OPTIMIZE:                                 # the optimizer's information (shciop/*.iop beside the objects); the code does not change.
+        plain, flags = flags, flags + ' -goptimize'      # a file that does not compile with it is compiled without (then not optimized)
     all_ = stems is None
     if all_:
         stems = sorted(os.path.basename(f)[:-2] for f in glob.glob(OUT + '/src/*.c'))
@@ -284,7 +300,7 @@ def compile_all(stems=None, objd='obj', flags_edit=None):
     shutil.rmtree('%s/%s' % (OUT, objd), ignore_errors=True)
     os.makedirs('%s/%s' % (OUT, objd))
     open(OUT + '/list.txt', 'w').write('\n'.join(stems) + '\n')
-    r = docker("export FLAGS='%s' OBJD=%s PIECES=%d LIST=build/cbuild/list.txt; " % (flags, objd, 1 if all_ else 0) + COMPILE)
+    r = docker("export FLAGS='%s' FLAGS_PLAIN='%s' OBJD=%s PIECES=%d LIST=build/cbuild/list.txt; " % (flags, plain, objd, 1 if all_ else 0) + COMPILE)
     print(r.stdout[-3000:], r.stderr[-1500:])
     print('%d objects of %d' % (len(glob.glob('%s/%s/*.obj' % (OUT, objd))), len(stems)))
 
@@ -299,7 +315,7 @@ def game_objects():
     return [o for o in sorted(glob.glob(OUT + '/obj/*.obj')) if not os.path.basename(o).startswith(('p_', 'boot_', 'pad'))]
 
 
-def lnk(sub_name, start, objs):
+def lnk(sub_name, start, objs, optimize=''):
     """A link of the game objects alone (sizes only): every name outside the game block is defined at its original address."""
     import equiv
     have = provided()
@@ -307,8 +323,46 @@ def lnk(sub_name, start, objs):
     sub = ['elf', 'start %s' % start, 'output build\\cbuild\\%s.elf' % sub_name, 'print build\\cbuild\\%s.map' % sub_name]
     sub += ['input %s' % o.replace('/', '\\') for o in objs]
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(d.items())] + ['exit']
-    open('%s/%s.sub' % (OUT, sub_name), 'w').write('\n'.join(sub) + '\n')
-    docker('wibo "/sdk/$REL/lnk.exe" -subcommand="build\\cbuild\\%s.sub" > build/cbuild/%s.lnk.log 2>&1 || true' % (sub_name, sub_name))
+    run_link(sub_name, sub, optimize)
+
+
+def run_link(name, sub, optimize=''):
+    """Write build/cbuild/<name>.sub (paths from the repo root) and link it: with lnk.exe, or with optlnksh -optimize=<optimize>.
+    optlnksh starts OPTSH.EXE and lnk.exe itself and finds them only in the current folder (not on PATH, Unix or Windows), so it
+    runs inside build/cbuild with copies of the three, and its paths are made relative to that folder."""
+    if not optimize:
+        open('%s/%s.sub' % (OUT, name), 'w').write('\n'.join(sub) + '\n')
+        return docker('wibo "/sdk/$REL/lnk.exe" -subcommand="build\\cbuild\\%s.sub" > build/cbuild/%s.lnk.log 2>&1 || true' % (name, name))
+
+    def rel(p):
+        for a, b in (('build\\cbuild\\', ''), ('build\\', '..\\')):
+            if p.startswith(a):
+                return b + p[len(a):]
+        return '..\\..\\' + p
+    out = []
+    for line in sub:
+        k, _, v = line.partition(' ')
+        out.append(k + ' ' + rel(v) if k in ('input', 'output', 'print') else line)
+    open('%s/%s.sub' % (OUT, name), 'w').write('\n'.join(out) + '\n')
+    return docker('cd build/cbuild && cp /sdk/$REL/OPTLNKSH.EXE /sdk/$REL/OPTSH.EXE /sdk/$REL/lnk.exe . && '
+                  'PATH="$PWD:$PATH" wibo ./OPTLNKSH.EXE -optimize=%s -subcommand=%s.sub > %s.lnk.log 2>&1 || true' % (optimize, name, name))
+
+
+def prelim():
+    """The game block alone at one address, to measure every object; with OPTIMIZE also through the optimizer, whose saving
+    (build/cbuild/opt.json: plain and optimized totals) layout uses to fill the parts."""
+    start = 'P(0C020080),C(0E000000),D(0E100000),B(0E200000)'
+    objs = game_objects()
+    lnk('prelim', start, objs)
+    if os.path.exists(OUT + '/opt.json'):
+        os.remove(OUT + '/opt.json')
+    if OPTIMIZE:
+        lnk('prelim_opt', start, objs, OPTIMIZE)
+        plain = sum(module_sizes(OUT + '/prelim.map').values())
+        opt = sum(module_sizes(OUT + '/prelim_opt.map').values()) if os.path.exists(OUT + '/prelim_opt.map') else 0
+        if opt:
+            json.dump({'plain': plain, 'opt': opt}, open(OUT + '/opt.json', 'w'))
+        print('prelim: %d bytes; through the optimizer (-optimize=%s): %s' % (plain, OPTIMIZE, opt or 'did not link (see build/cbuild/prelim_opt.lnk.log)'))
 
 
 # Units: generated files whose declarations agree are compiled together, in address order, up to UNIT bytes: one literal pool per
@@ -408,8 +462,11 @@ def r4(n):
     return (n + 3) & ~3
 
 
-def layout():
-    """Which object goes where: part 1 = the fill block, part 2 = the old game code, part 3 = P3 (stems only). Writes layout.json."""
+def layout(margin=1.0, soft=False, ratios=None):
+    """Which object goes where: part 1 = the fill block, part 2 = the old game code, part 3 = P3 (stems only). Writes layout.json.
+    With the optimizer's saving measured (opt.json), a part takes its room times that ratio (times margin) of plain-linked bytes, and
+    no pad objects are added (the optimized size of a part is only known after the link). ratios: ([plain bytes], [linked bytes])
+    of each part as the last link measured them, used instead of the prelim ratio. soft: return False instead of stopping."""
     sizes = module_sizes(OUT + '/prelim.map')
     gs = game_set()
     if os.path.exists(OUT + '/units.json'):            # after the unit step a file's functions are in its unit
@@ -438,6 +495,11 @@ def layout():
     only_stems = sorted([u for u in units if not any(x in pieces_ for x in u)], key=lambda u: -usize(u))
     parts = [[], [], []]
     room = [CAP1, CAP2]
+    opt = json.load(open(OUT + '/opt.json')) if OPTIMIZE and os.path.exists(OUT + '/opt.json') else None
+    if opt and ratios:
+        room = fitmod.room(room, ratios[0], ratios[1], margin)
+    elif opt:
+        room = fitmod.room(room, opt['plain'], opt['opt'], margin)
     for u in with_piece + only_stems:
         n = usize(u)
         for k in (0, 1):
@@ -449,11 +511,17 @@ def layout():
             if any(x in pieces_ for x in u):
                 sys.exit('[ERROR] a piece did not fit in place: %s' % u)
             parts[2] += u
-    json.dump({'parts': parts, 'pad': room}, open(OUT + '/layout.json', 'w'))
-    print('part 1: %d objects, %d bytes spare; part 2: %d objects, %d bytes spare; part 3: %d objects, %d bytes at %08X' % (
+    json.dump({'parts': parts, 'pad': [0, 0] if opt else room}, open(OUT + '/layout.json', 'w'))
+    print('%spart 1: %d objects, %d bytes spare; part 2: %d objects, %d bytes spare; part 3: %d objects, %d bytes at %08X' % (
+        ('plain-linked sizes, filled to %.4f of the optimizer ratio: ' % margin) if opt else '',
         len(parts[0]), room[0], len(parts[1]), room[1], len(parts[2]), sum(r4(sizes[x]) for x in parts[2]), P3))
     if parts[2]:
-        sys.exit('[ERROR] the game block does not fit the original space: %d bytes over' % sum(r4(sizes[x]) for x in parts[2]))
+        msg = '[ERROR] the game block does not fit the original space: %d bytes over' % sum(r4(sizes[x]) for x in parts[2])
+        if soft:
+            print(msg)
+            return False
+        sys.exit(msg)
+    return True
 
 
 def pad_object(name, nbytes):
@@ -555,20 +623,61 @@ def link():
            'output build\\cbuild\\game.elf', 'print build\\cbuild\\game.map']
     sub += ['input %s' % o.replace('/', '\\') for o in ins]
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(d.items())] + ['exit']
-    open(OUT + '/game.sub', 'w').write('\n'.join(sub) + '\n')
     for f in ('game.elf', 'game.bin', 'game.map'):
         if os.path.exists('%s/%s' % (OUT, f)):
             os.remove('%s/%s' % (OUT, f))
-    docker('wibo "/sdk/$REL/lnk.exe" -subcommand="build\\cbuild\\game.sub" > build/cbuild/game.lnk.log 2>&1 || true; '
-           'wibo "/sdk/$REL/elf2bin.exe" -s %s "build\\cbuild\\game.elf" "build\\cbuild\\game.bin" > build/cbuild/game.e2b.log 2>&1 || true' % base)
+    run_link('game', sub, OPTIMIZE)
+    docker('wibo "/sdk/$REL/elf2bin.exe" -s %s "build\\cbuild\\game.elf" "build\\cbuild\\game.bin" > build/cbuild/game.e2b.log 2>&1 || true' % base)
     log = open(OUT + '/game.lnk.log', errors='replace').read().replace('\r', '')
     bad = [l for l in log.split('\n') if l.startswith('**') and 'CANNOT FIND SECTION' not in l]
     print('\n'.join(bad[:40]), '\n%d linker messages' % len(bad))
     print(open(OUT + '/game.e2b.log', errors='replace').read()[-300:])
 
 
+def fit_build():
+    """layout, link, and read the fit from the linked map: every part inside its place, nothing left for P3, and no short branch the
+    linker could not reach. With the optimizer each part shrinks by its own ratio, so a part that comes out over is filled less."""
+    optimized = OPTIMIZE and os.path.exists(OUT + '/opt.json')
+    ratios, guess = None, list(MARGINS if optimized else (1.0,))
+    margin = guess.pop(0)
+    for attempt in range(FIT_TRIES if optimized else 1):
+        if attempt:
+            if ratios:
+                margin = MEASURED_MARGIN                 # each part's own ratio, as measured: only a small margin
+            elif guess:
+                margin = guess.pop(0)                    # nothing measured (the link failed): a smaller margin changes the input
+            else:
+                break
+        if not layout(margin, soft=True, ratios=ratios):
+            break
+        link()
+        log = ''.join(open(OUT + f, errors='replace').read() for f in ('/game.lnk.log', '/game.e2b.log') if os.path.exists(OUT + f))
+        bad = fitmod.fatal(log)
+        if bad or not os.path.exists(OUT + '/game.map'):
+            print('margin %.3f: the link failed: %s' % (margin, '; '.join(bad[:3]) or 'no map'))
+            if not any('address space duplicate' in b.lower() for b in bad):
+                continue                                 # nothing to measure: the next margin changes the input
+        secs = fitmod.sections(open(OUT + '/game.map', errors='replace').read())
+        ok, lines = fitmod.check(secs, {'PB1': (FILL0, FILL1), 'PB2': (G0, G1)}, ('P3',))
+        miss = fitmod.unreached(log)
+        print('margin %.3f: %s%s' % (margin, '; '.join(lines), ('; short branches that do not reach: ' + ', '.join(miss)) if miss else ''))
+        ov = fitmod.overlaps(open(OUT + '/game.elf', 'rb').read()) if os.path.exists(OUT + '/game.elf') else [('no ELF', '')]
+        if ov:
+            print('  overlapping segments in the linked file: %s' % ov[:3])
+        if ok and not miss and not bad and not ov and os.path.exists(OUT + '/game.bin'):
+            print('fits: the game block lies in the original space')
+            return
+        if 'PB1' in secs and 'PB2' in secs:           # each part's own ratio, from what this link made of it, for the next layout
+            sizes = module_sizes(OUT + '/prelim.map')
+            parts = json.load(open(OUT + '/layout.json'))['parts']
+            plain = [sum(r4(sizes.get(x, 0)) for x in parts[k]) for k in (0, 1)]
+            ratios = (plain, [secs['PB1'][2], secs['PB2'][2]])
+            print('  measured: part 1 %d plain -> %d, part 2 %d plain -> %d' % (plain[0], ratios[1][0], plain[1], ratios[1][1]))
+    sys.exit('[ERROR] the game block does not fit the original space')
+
+
 def main(argv):
-    if len(argv) < 2 or argv[1] not in ('prep', 'tables', 'prelim', 'unity', 'layout', 'compile', 'link'):
+    if len(argv) < 2 or argv[1] not in ('prep', 'tables', 'prelim', 'unity', 'layout', 'compile', 'link', 'fit'):
         sys.exit(__doc__)
     if argv[1] == 'prep':
         prep_sources()
@@ -579,7 +688,9 @@ def main(argv):
             print('%08X-%08X %4d bytes %s %s' % (s, e, e - s, n, ' '.join('%X' % x for x in v)))
         print('%d clusters, %d bytes; labels in code: %s' % (len(cl), sum(e - s for s, e, _, _ in cl), ' '.join('%X:%s' % kv for kv in sorted(lab.items()))))
     elif argv[1] == 'prelim':
-        lnk('prelim', 'P(0C020080),C(0E000000),D(0E100000),B(0E200000)', game_objects())
+        prelim()
+    elif argv[1] == 'fit':
+        fit_build()
     elif argv[1] == 'unity':
         unity()
     elif argv[1] == 'link':
