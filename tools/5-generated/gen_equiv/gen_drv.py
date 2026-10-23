@@ -1,6 +1,8 @@
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout as _layout  # noqa: E402
+_CODE=_layout.region('code') or (0,0)      # the code the cases may not write to (layout.txt)
 import sys,re,json,os,subprocess,struct,random,zlib
 sys.path.insert(0,os.path.dirname(__file__))
 import gen_core as G
@@ -386,7 +388,7 @@ def tests(name,c,src):
             for n in fp: regs['fr%d'%n]=rng.choice(floats)
             if getattr(c,'xf_entry',False):
                 for i in range(16): regs['xf%d'%i]=rng.choice(floats)
-            for k_ in [k_ for k_ in poke if 0x0C020000<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<0x0C089F26]: del poke[k_]       # the code is read-only on the console: a case may not change a literal pool
+            for k_ in [k_ for k_ in poke if _CODE[0]<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<_CODE[1]]: del poke[k_]       # the code is read-only on the console: a case may not change a literal pool
             d={'about':'case %d'%i,'poke':poke}
             if regs: d['regs']=regs
             if c.ncalls or c.tail:

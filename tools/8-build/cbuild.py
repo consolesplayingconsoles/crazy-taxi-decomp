@@ -14,7 +14,7 @@ With OPTIMIZE set, the C is compiled with -goptimize and linked with Hitachi's i
 instead of lnk: prelim links both ways to measure what it saves, layout fills each part by that ratio, and fit checks the result.
 
 src/ is not changed: the build works on copies in build/cbuild/. Layout (CT): the boot code stays where it is; the fill block
-0C014000-0C020000 (the boot block before it is cleared at run time) and the game code 0C020080-0C0739C0 hold the game block (compiled C, the pieces that have no C, tables and tails
+The fill block and the game code (layout.txt: fill, game) hold the game block (compiled C, the pieces that have no C, tables and tails
 the C names by address); the entry stub at 0C020000, the NAOMI library, the data and the SDK stay at their addresses.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -35,8 +35,22 @@ import consistency
 import fit as fitmod
 import shdis
 
-G0, G1 = 0x0C020080, 0x0C0739C0
-FILL0, FILL1 = 0x0C014000, 0x0C020000        # 0C010100-0C014000 is the boot block: copied to 0C004000 and cleared at run time
+import layout  # noqa: E402
+
+G0, G1 = layout.region('game', True)                     # the game's own code (layout.txt)
+FILL0, FILL1 = layout.region('fill') or (G0, G0)          # spare room in the file before it (none: the game code alone)
+_SPARE = layout.region('spare')
+P3 = _SPARE[0] if _SPARE else None                         # unused RAM for what does not fit, test builds only
+
+
+def boot_split():
+    """(start, name) of the asm file that runs into the fill block: its head stays, its fill part is given up; None when
+    the fill block starts on a file boundary (or there is none)."""
+    files = sorted((int(l[:8], 16), l.strip()[9:-4]) for l in open('objects.txt') if l.strip())
+    for (a, n), nxt in zip(files, files[1:] + [(1 << 32, None)]):
+        if a < FILL0 < nxt[0]:
+            return a, n
+    return None
 OUT = 'build/cbuild'
 # optlnksh -optimize=<items> for the links ('' links with lnk.exe). Not symbol_delete: functions reached only by address would go.
 OPTIMIZE = 'branch,same_code,register,string_unify'
@@ -184,8 +198,11 @@ def pieces():
             if txt is None:
                 sys.exit('[ERROR] %s: %s' % (n, why))
             open('%s/%08x_%s.src' % (asm, a, n), 'w').write(txt)
-    open(asm + '/boot_tail.src', 'w').write(words_piece('bootSerialGetByte', 0x0C011AFE, FILL0, entry, section='P', align=2))
-    open(asm + '/boot_stub.src', 'w').write(words_piece('bootEntryStub', FILL1, G0, entry, section='PS'))
+    b = boot_split()
+    if b:                         # the head of the file that runs into the fill block, as words, where it was
+        open(asm + '/boot_tail.src', 'w').write(words_piece(b[1], b[0], FILL0, entry, section='P', align=2))
+    if FILL1 < G0:                # between the fill block and the game code (an entry stub): as words, where it was
+        open(asm + '/boot_stub.src', 'w').write(words_piece('fillEndStub', FILL1, G0, entry, section='PS'))
     nrep = 0
     for f in glob.glob(OUT + '/src/*.c'):
         t = open(f, errors='replace').read()
@@ -351,7 +368,7 @@ def run_link(name, sub, optimize=''):
 def prelim():
     """The game block alone at one address, to measure every object; with OPTIMIZE also through the optimizer, whose saving
     (build/cbuild/opt.json: plain and optimized totals) layout uses to fill the parts."""
-    start = 'P(0C020080),C(0E000000),D(0E100000),B(0E200000)'
+    start = 'P(%08X),C(0E000000),D(0E100000),B(0E200000)' % G0
     objs = game_objects()
     lnk('prelim', start, objs)
     if os.path.exists(OUT + '/opt.json'):
@@ -444,7 +461,6 @@ def unity():
 
 CAP1 = FILL1 - FILL0                 # the fill block: boot code ends at FILL0, the entry stub starts at FILL1
 CAP2 = G1 - G0                       # the old game code
-P3 = 0x0C5D0000                      # unused RAM (docs/engine.md, RAM map): the code that does not fit in place
 
 
 def module_sizes(mapfile):
@@ -514,7 +530,7 @@ def layout(margin=1.0, soft=False, ratios=None):
     json.dump({'parts': parts, 'pad': [0, 0] if opt else room}, open(OUT + '/layout.json', 'w'))
     print('%spart 1: %d objects, %d bytes spare; part 2: %d objects, %d bytes spare; part 3: %d objects, %d bytes at %08X' % (
         ('plain-linked sizes, filled to %.4f of the optimizer ratio: ' % margin) if opt else '',
-        len(parts[0]), room[0], len(parts[1]), room[1], len(parts[2]), sum(r4(sizes[x]) for x in parts[2]), P3))
+        len(parts[0]), room[0], len(parts[1]), room[1], len(parts[2]), sum(r4(sizes[x]) for x in parts[2]), P3 or 0))
     if parts[2]:
         msg = '[ERROR] the game block does not fit the original space: %d bytes over' % sum(r4(sizes[x]) for x in parts[2])
         if soft:
@@ -597,14 +613,18 @@ def link():
             if not os.path.exists(dst) or open(dst).read() != re.sub(r'(\.SECTION\s+)P(\s*,)', lambda m: m.group(1) + 'PT' + m.group(2), open(src).read()):
                 renamed(src, dst, 'PT')
             jobs.append((dst, '%s/obj_t/%s.obj' % (OUT, f[:-4])))
-    jobs.append((OUT + '/asm/boot_tail.src', OUT + '/obj/boot_tail.obj'))
-    jobs.append((OUT + '/asm/boot_stub.src', OUT + '/obj/boot_stub.obj'))
+    b = boot_split()
+    for n in ('boot_tail', 'boot_stub'):
+        if os.path.exists('%s/asm/%s.src' % (OUT, n)):
+            jobs.append(('%s/asm/%s.src' % (OUT, n), '%s/obj/%s.obj' % (OUT, n)))
     assemble(jobs)
-    lo = 0x0C011AFE
+    lo = b[0] if b else FILL0
     ins = ['build/obj/%s.obj' % f[:-4] for f in order if int(f[:8], 16) < lo]
-    ins.append(OUT + '/obj/boot_tail.obj')
+    if b:
+        ins.append(OUT + '/obj/boot_tail.obj')
     ins += ['%s/obj1/%s.obj' % (OUT, x) for x in parts[0]] + (['%s/obj1/pad1.obj' % OUT] if pad[0] else [])
-    ins.append(OUT + '/obj/boot_stub.obj')
+    if FILL1 < G0:
+        ins.append(OUT + '/obj/boot_stub.obj')
     ins += ['%s/obj2/%s.obj' % (OUT, x) for x in parts[1]] + (['%s/obj2/pad2.obj' % OUT] if pad[1] else [])
     ins += ['%s/obj_t/%s.obj' % (OUT, f[:-4]) for f in order if int(f[:8], 16) >= G1]
     ins += ['%s/obj3/%s.obj' % (OUT, x) for x in parts[2]]
@@ -619,7 +639,9 @@ def link():
                 exported.add(m.group(1))
     d = {'_' + n: a for n, a in named_addresses().items() if n in used and n not in exported}
     base = open('BASE').read().strip()
-    sub = ['elf', 'start P(%s),PB1(%08X),PS(%08X),PB2(%08X),PT(%08X),P3(%08X)' % (base, FILL0, FILL1, G0, G1, P3),
+    start = ['P(%s)' % base] + (['PB1(%08X)' % FILL0] if FILL1 > FILL0 else []) + (['PS(%08X)' % FILL1] if FILL1 < G0 else [])
+    start += ['PB2(%08X)' % G0, 'PT(%08X)' % G1] + (['P3(%08X)' % P3] if P3 is not None and parts[2] else [])
+    sub = ['elf', 'start ' + ','.join(start),
            'output build\\cbuild\\game.elf', 'print build\\cbuild\\game.map']
     sub += ['input %s' % o.replace('/', '\\') for o in ins]
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(d.items())] + ['exit']

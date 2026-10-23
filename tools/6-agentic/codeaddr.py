@@ -19,7 +19,9 @@ import os
 import re
 import sys
 
-G0, G1 = 0x0C014000, 0x0C0739C0
+import layout  # noqa: E402
+
+G0, G1 = layout.region('game', True)                  # the game's own code (layout.txt)
 LIT = re.compile(r'(?<![\w.])0[xX]([0-9A-Fa-f]{7,8})\b(?![.\w])')
 
 

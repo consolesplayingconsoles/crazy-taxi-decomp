@@ -8,6 +8,8 @@ Run equiv.py on the file afterwards: DIFFERS names the case, and `equiv.py` prin
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout as _layout  # noqa: E402
+_CODE=_layout.region('code') or (0,0)      # the code the cases may not write to (layout.txt)
 import os as _os, sys as _sys
 _sys.path.insert(0,_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..'))
 import ledger
@@ -75,7 +77,7 @@ def draw_one(name,params,body,rng,pw=None):
             poke['%08X'%a]=struct.pack('<1024I',*[rng.choice(pool) if rng.random()<0.3 else rng.choice(small) for _ in range(1024)]).hex()
         for pa in (0x0C900000,0x0C910000):                      # what a call's result may point at
             poke['%08X'%pa]=struct.pack('<256I',*[rng.choice(small) for _ in range(256)]).hex()
-        for k_ in [k_ for k_ in poke if 0x0C020000<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<0x0C089F26]: del poke[k_]       # the code is read-only on the console
+        for k_ in [k_ for k_ in poke if _CODE[0]<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<_CODE[1]]: del poke[k_]       # the code is read-only on the console
         d={'about':'case %d'%i,'poke':poke}
         if regs: d['regs']=regs
         if ncalls>4: d['calls']=[dict({'r0':'%08X'%(rng.choice([0x0C900000,0x0C910000]) if rng.random()<0.4 else rng.choice(pool))},**({'poke_arg':{r:struct.pack('<%dI'%pw,*[rng.choice(small+fbits) for _ in range(pw)]).hex() for r in ('r4','r5','r6','r7')}} if outslots else {})) for _ in range(ncalls)]
