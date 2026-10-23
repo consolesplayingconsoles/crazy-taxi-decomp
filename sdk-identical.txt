@@ -1,4 +1,4 @@
-# functions whose bytes are verbatim in the SDK's compiled library code (tools/sdk_identical.py): name size file offset
+# functions whose bytes are verbatim in the SDK's compiled library code (tools/1-2-baseline/sdk_identical.py): name size file offset
 nlFreeCommonTextureAll 84 libnaomi.lib 22766
 nlSetCommonTextureParameter 52 libnaomi.lib 23415
 nlCreateVertexBuffer_clx22 384 libnaomi.elf 22864

@@ -9,6 +9,9 @@ exist). Prints one instruction per line; pc-relative loads show the pool value (
 is one, else as a number and, for a 32-bit value, as a float), branches and calls their target.
 FPU moves are decoded as single precision (the games are built with -fpu=single).
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import os
 import re
 import struct

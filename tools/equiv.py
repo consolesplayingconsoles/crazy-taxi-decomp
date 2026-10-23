@@ -38,6 +38,9 @@ code, so it costs one compile. --fresh runs every case anyway (and remembers the
 
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import hashlib
 import json
 import os
@@ -511,7 +514,7 @@ def write_evidence(new, failed):
     head = ('# Equivalent functions\n\nFunctions whose C behaves like the original on every test case '
             '(`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; '
             'the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need '
-            'your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/live.py`.\n')
+            'your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/4-boosts/live.py`.\n')
     open(path, 'w').write(head + ''.join('\n' + entries[k] for k in sorted(entries)))
 
 

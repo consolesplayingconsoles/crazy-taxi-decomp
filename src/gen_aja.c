@@ -1,4 +1,4 @@
-/* A function proven on cases written by hand (tools/handcase.py). */
+/* A function proven on cases written by hand (tools/6-agentic/handcase.py). */
 
 int MoveDefPosTbl(void);
 

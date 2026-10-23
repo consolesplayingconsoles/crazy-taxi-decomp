@@ -1,4 +1,4 @@
-b# Curated model tables for Crazy Taxi (European release). See tools/model_map.py for the syntax.
+b# Curated model tables for Crazy Taxi (European release). See tools/3-assets/model_map.py for the syntax.
 # Character parts (docs/engine.md): the character table, each entry a pointer to 16 part pointers.
 chars 0C1331B0 64 Characters 1:head,2:left_hand,3:left_forearm,4:left_upper_arm,5:right_hand,6:right_forearm,7:right_upper_arm,8:torso,9:left_foot,10:left_shin,11:left_thigh,12:right_foot,13:right_shin,14:right_thigh,15:hips
 # FcvPlay draws one more model on the torso's matrix for some characters, picked by character number (0x0C065F42):

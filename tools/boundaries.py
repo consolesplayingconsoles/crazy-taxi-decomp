@@ -18,6 +18,9 @@ The function that holds a new one is cut to what it reaches itself. New entries 
 gives a name. The size of an entry is the byte count the C proof runs to (tools/equiv.py), so a changed size is a changed
 proof range: re-prove the files of the entries that were cut.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import os
 import re
 import struct

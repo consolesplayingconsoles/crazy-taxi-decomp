@@ -9,6 +9,9 @@ The ISO9660 volume starts at LBA 45000 (high-density area), but file extents can
 data track (Dreamkey 3.1 keeps every file in track 5). Readers that only open the track at 45000
 return empty files for those without any error, so each extent is resolved to its own track here.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import os
 import struct
 import sys

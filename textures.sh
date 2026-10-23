@@ -6,5 +6,5 @@ set -euo pipefail
 cd "$(dirname "$0")"
 GDI="${1:?usage: bash textures.sh <your disc .gdi>}"
 echo "Decoding textures (seconds to a minute; progress every 50 files)"
-"${PYTHON:-python3}" tools/textures.py "$GDI" text-map/textures
+"${PYTHON:-python3}" tools/3-assets/textures.py "$GDI" text-map/textures
 echo "Open: $PWD/text-map/textures/index.html"

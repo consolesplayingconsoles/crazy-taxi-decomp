@@ -1,4 +1,4 @@
-# functions whose bytes the SDK source reproduces (tools/sdk_source.py); the C is in sdk-source/, git-ignored
+# functions whose bytes the SDK source reproduces (tools/5-generated/sdk_source.py); the C is in sdk-source/, git-ignored
 buCalcBackupFileSize
 buCalcCRC
 buCloseFile

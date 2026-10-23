@@ -1,5 +1,5 @@
 /* Reconstructed: the Shinobi backup library's private header (sg_bup2.h) is not in the supplied sources. Only what the
-   sources use and the game's code shows. Values and layouts are checked by the byte comparison in tools/sdk_source.py. */
+   sources use and the game's code shows. Values and layouts are checked by the byte comparison in tools/5-generated/sdk_source.py. */
 #ifndef _SG_BUP2_H_
 #define _SG_BUP2_H_
 

@@ -6,6 +6,9 @@
     rotate(path, label)                a report the next run would overwrite, kept in state/reports/<time>-<label>-<name>
     keep_text(name, text)              text that would be dropped (evidence of a function that fails again), appended to state/<name>
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import hashlib
 import json
 import os

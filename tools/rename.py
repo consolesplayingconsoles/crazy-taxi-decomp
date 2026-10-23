@@ -9,8 +9,11 @@ Lines starting with # are skipped. Without --apply it checks the map and prints 
 Checks: every address is a function in functions.txt; the names it gives are unique and are C identifiers; no new name
 is already a global or symbol. Then every whole-word use in the repo's tracked and untracked text files changes in one
 pass (chains and swaps such as a->b, b->a come out right), and tests/<file>/<old>.json and state/kept/<old>.json move
-to the new name. Afterwards the asm pieces carry old labels: run setup.sh's split (tools/split_asm.py) and build.sh.
+to the new name. Afterwards the asm pieces carry old labels: run setup.sh's split (tools/1-2-baseline/split_asm.py) and build.sh.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import os
 import re
 import subprocess

@@ -6,6 +6,9 @@
 Meant to run under a monitor, so whoever started the jobs is woken at every line. The estimate is rough: the drawing phase from its
 own rate so far, the checking phase from a fixed cost per function (CHECK_S). A line starting DONE ends the watch.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import json
 import os
 import re

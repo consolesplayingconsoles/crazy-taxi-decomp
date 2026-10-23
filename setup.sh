@@ -14,13 +14,13 @@ SHA1="2756d6c828b5a3848189cd84cac62bc9cb0a94b7"                                 
 "$PY" tools/gdi_read.py "$GDI" "$BOOT" 1ST_READ.BIN
 got="$( (sha1sum 1ST_READ.BIN 2>/dev/null || shasum -a 1 1ST_READ.BIN) | cut -d' ' -f1)"
 [ "$got" = "$SHA1" ] || { echo "[ERROR] $BOOT has SHA-1 $got, expected $SHA1: not the supported release (see README)"; exit 1; }
-"$PY" tools/split_asm.py 1ST_READ.BIN "$(cat BASE)" functions.txt .
+"$PY" tools/1-2-baseline/split_asm.py 1ST_READ.BIN "$(cat BASE)" functions.txt .
 echo "Text map: strings, text per file, the list of images ($TIER tier)"
-"$PY" tools/text_map.py 1ST_READ.BIN "$(cat BASE)" text-map "$GDI" "$TIER"
+"$PY" tools/3-assets/text_map.py 1ST_READ.BIN "$(cat BASE)" text-map "$GDI" "$TIER"
 echo "Text files: the disc files models.txt lists as text (text-dump/)"
-"$PY" tools/text_dump.py "$GDI" models.txt text-dump
+"$PY" tools/3-assets/text_dump.py "$GDI" models.txt text-dump
 echo "Model map: the 3D models, textures and sounds in the disc files, models named by the tables that hold them (models.txt: known tables)"
-"$PY" tools/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "$GDI" model-map
+"$PY" tools/3-assets/model_map.py 1ST_READ.BIN "$(cat BASE)" functions.txt "$GDI" model-map
 chmod +x build.sh setup.sh 2>/dev/null || true
 echo "Textures (optional, to find text drawn into images): bash \"$PWD/textures.sh\" \"$GDI\""
 if grep -q '^SDK_PATH=' .env 2>/dev/null; then

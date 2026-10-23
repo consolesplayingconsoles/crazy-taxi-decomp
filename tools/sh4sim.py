@@ -23,6 +23,9 @@ The case (JSON): {"exe": path, "base": hex, "dump": path, "entry": hex, "end": h
 "fr0": float, "poke_arg": {"r7": hexbytes}}, ...], "steps": max}. Paths are relative to the case file.
 A call's "poke_arg" writes those bytes at the address the named register holds when the call is made.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import json
 import math
 import os

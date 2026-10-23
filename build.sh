@@ -24,14 +24,14 @@ mkdir -p build/obj
 # symbols.txt gives the linker the addresses of globals they use that no file defines.
 {
   printf '%s\n' elf "start P($BASE)" "output build\\out.elf"
-  python3 tools/units.py objects.txt | while read -r o; do printf 'input %s\n' "$o"; done
+  python3 tools/1-2-baseline/units.py objects.txt | while read -r o; do printf 'input %s\n' "$o"; done
   if ls src/*.c >/dev/null 2>&1; then
     grep -hoE '[A-Za-z_][A-Za-z0-9_]*' $(grep -l '@unit' src/*.c 2>/dev/null) /dev/null | sort -u > build/c_idents.txt || true
     [ -f symbols.txt ] && awk 'NR==FNR{u[$1]=1; next} !/^#/ && NF==2 && ($2 in u) {printf "define _%s(%s)\n", $2, $1}' build/c_idents.txt symbols.txt
   fi
   printf '%s\n' exit
 } > build/link.sub
-python3 tools/units.py --units > build/units.txt
+python3 tools/1-2-baseline/units.py --units > build/units.txt
 
 # The steps, run with $T = the tools folder and the repo as the working directory.
 STEPS='
@@ -49,7 +49,7 @@ STEPS='
     fi
   done < objects.txt
   echo "assembled $n files"
-  # C units: shc -> asm, gaps filled with 0xEE and padded to the unit size (tools/fill.py), asmsh
+  # C units: shc -> asm, gaps filled with 0xEE and padded to the unit size (tools/1-2-baseline/fill.py), asmsh
   mkdir -p build/tmp
   while read -r name start end dstart dend opts; do
     [ -n "$name" ] || continue
@@ -60,9 +60,9 @@ STEPS='
         -string=const -section=p=P,c=C,d=D,b=B -include=src $opts > build/shc.log 2>&1 || { cat build/shc.log; exit 1; }
       # code at <start>-<end>; with @data, the constant data (C section) as its own piece at <dstart>-<dend>
       if [ "$dstart" = - ]; then
-        python3 tools/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" || exit 1
+        python3 tools/1-2-baseline/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" || exit 1
       else
-        python3 tools/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" \
+        python3 tools/1-2-baseline/fill.py "build/obj/c_$name.s" "build/obj/c_${name}_f.s" "$start" "$end" \
           "build/obj/c_${name}_data.s" "$dstart" "$dend" "$name" || exit 1
         wibo "$(tool asmsh)" "build\\obj\\c_${name}_data.s" -object="build\\obj\\c_${name}_data.obj" -cpu=sh4 -endian=little > build/asm.log 2>&1 \
           || { cat build/asm.log; exit 1; }

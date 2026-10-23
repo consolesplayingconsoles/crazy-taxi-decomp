@@ -15,5 +15,5 @@ if [ -d disc ]; then
   while IFS= read -r -d '' f; do args+=("${f#disc/}=$f"); done < <(find disc -type f ! -name '.*' -print0)
 fi
 echo "Writing ${#args[@]} file(s) into a copy of your disc (about a minute: the image is copied first)"
-"$PY" tools/disc_patch.py "$GDI" "$OUT" "${args[@]}"
+"$PY" tools/8-build/disc_patch.py "$GDI" "$OUT" "${args[@]}"
 echo "Play it: $OUT/$(basename "$GDI")"

@@ -21,10 +21,13 @@ MAIN_METRICS) and prints and formats this report. Renaming or reordering it mean
 It also writes badge.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
 hook stages it with the Progress block.
 """
+import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+import toolpath  # noqa: E402,F401
 import os, re, subprocess, sys
 
 here = os.path.dirname(os.path.abspath(__file__))
-units = [l.split() for l in subprocess.run([sys.executable, os.path.join(here, 'units.py'), '--units'],
+units = [l.split() for l in subprocess.run([sys.executable, os.path.join(here, '1-2-baseline', 'units.py'), '--units'],
                                            capture_output=True, text=True).stdout.splitlines() if l.strip()]
 funcs = [(int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F ')]
 total = os.path.getsize('1ST_READ.BIN')
@@ -40,9 +43,9 @@ def in_c(a):
     return any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
 
 equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
-# functions whose bytes the SDK's own source reproduces (tools/sdk_source.py, from the source the user supplied)
+# functions whose bytes the SDK's own source reproduces (tools/5-generated/sdk_source.py, from the source the user supplied)
 verified = set(l.strip() for l in open('sdk-verified.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-verified.txt') else set()
-# functions whose bytes are verbatim in the SDK's compiled library code (tools/sdk_identical.py): the library's own code, not C
+# functions whose bytes are verbatim in the SDK's compiled library code (tools/1-2-baseline/sdk_identical.py): the library's own code, not C
 identical = set(l.split()[0] for l in open('sdk-identical.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-identical.txt') else set()
 verified_src = set(verified)
 verified |= identical
@@ -84,7 +87,7 @@ for pf in glob.glob('partial/*.c'):
     text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(pf, errors='replace').read(), flags=re.S)
     partial |= set(re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', text, flags=re.M))
 partial = set(x[2] for x in funcs if x[2] in partial and not is_done(x))
-# no C form: functions with an instruction this compiler has no C for (tools/classify.py); done by the proof that the instruction
+# no C form: functions with an instruction this compiler has no C for (tools/5-generated/classify.py); done by the proof that the instruction
 # exists, not by C. Its own row; the main number stays equivalent C
 sys.path.insert(0, here)
 import classify
@@ -110,9 +113,9 @@ if os.path.exists('docs/equivalent.md'):
         if _fn in equivalent and _m and int(_m.group(2)):
             _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1
 wavg = 100.0 * _run / _all if _all else 0.0
-state_rows = []                                   # where the functions that are not done stand, from tools/remaining.py --table (it reads nothing)
+state_rows = []                                   # where the functions that are not done stand, from tools/5-generated/remaining.py --table (it reads nothing)
 try:
-    _t = subprocess.run([sys.executable, os.path.join(here, 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
+    _t = subprocess.run([sys.executable, os.path.join(here, '5-generated', 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
     for _l in _t:
         _m = re.match(r'^(\S.*?)\s+(\d+)\s+(\d+)$', _l)
         if _m and _m.group(1) != 'State':
@@ -136,7 +139,7 @@ rows = [
      % (g[9], g[10])),
     ('    of which SDK object code', pct(g[11], doable), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt)'
      % (g[11], g[12])),
-    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction or a register convention with no C form (tools/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
+    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction or a register convention with no C form (tools/5-generated/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
     ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
      % (med([x[1] for x in funcs if is_done(x)]), med([x[1] for x in funcs if not is_done(x)]),
         sum(1 for x in funcs if not is_done(x) and x[1] >= 1000), sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000),
