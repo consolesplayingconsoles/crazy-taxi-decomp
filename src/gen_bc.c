@@ -88,7 +88,7 @@ int kdSetARControlEx(int a4, int a5, int a6);
 int kdSetBlockWriteEx(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
 int mwlSbTrnsDat(int a4, int a5, int a6, int a7, int a8);
 int sySqInit(void);
-int FUN_0c074a10(int a4);
+int setBorderColor(int a4);
 int syG2SysInit(void);
 int BigOneFollowTaxi(float f4);
 int nlRenderTextureSet_Sub(int a4, int a5, int a6, int a7);
@@ -399,7 +399,7 @@ int sySqInit(void)
     return t12;
 }
 
-int FUN_0c074a10(int a4)
+int setBorderColor(int a4)
 {
     int t0;
 

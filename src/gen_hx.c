@@ -1,0 +1,20 @@
+/* Straight-line functions with calls and guards (batch gen_hx): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int CalcShadow2Matrix(int);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+int psgPutShadow(int a4);
+
+int psgPutShadow(int a4)
+{
+    nlTranslateV((a4 + 0x4));
+    nlRotateAY(((*(int *)((a4 + 0x10))) + 0x8000));
+    nlPushMatrix(0x0);
+    CalcShadow2Matrix((a4 + 0x14));
+    nlObjPutUseViewMatrix(0xC5AA038);
+    return nlPopMatrix(0x1);
+}

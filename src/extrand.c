@@ -24,7 +24,7 @@ float extRandom(void)
 }
 
 
-int FUN_0c049878(int mask)
+int getGoiToolFlag(int mask)
 {
     if (g_0c2a4e68 & mask)
         return 1;

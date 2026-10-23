@@ -49,6 +49,16 @@ def c_size(name, src, protos):
             os.remove(f)
 
 
+def c_size_any(name, src, protos_list):
+    """c_size of src against each set of prototypes in turn, the first that compiles: the size does not depend on which
+    declarations compiled it, and a set written for other code can make this src fail (an int where the set says float)."""
+    for protos in protos_list:
+        n = c_size(name, src, protos)
+        if n is not None:
+            return n
+    return None
+
+
 def measure():
     import equiv
     table, funcs = equiv.names(), equiv.functions()

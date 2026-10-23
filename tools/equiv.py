@@ -36,6 +36,9 @@ compiled code, the function's place in it, its cases (and any RAM dump they load
 prototypes, returns and casts the comparison reads, and the source of this file and sh4sim.py. A function whose
 key is already there passes without running its cases again: a rename or a comment changes no byte of the
 code, so it costs one compile. --fresh runs every case anyway (and remembers the passes again).
+A change to this file that cannot alter some functions' results (one that only acts on calls through a pointer) need not
+void their passes: save the checker as it was in state/proof-key-equiv.py, and a function with no call through a pointer
+keeps hashing that file, so its key and its pass are unchanged. Functions it can affect hash this file and run again.
 
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
@@ -283,8 +286,11 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=
     a = arity.get(int(to, 16))
     if a is None and indmap and int(to, 16) in indmap:      # a call through a literal address or a cast name: its own cast says what it passes
         r, f = r[:indmap[int(to, 16)][0]], f[:indmap[int(to, 16)][1]]
-    elif a is None and ind is not None:      # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers
-        r = r[:ind]
+    elif a is None and ind is not None:      # a call through a pointer: the C's cast says how many integer arguments it passes, the rest are leftovers,
+        n = 0                                # except the run of registers from r4 that this side set for the call: a cast that names fewer must not hide them
+        while chg and n < len(chg) and chg[n]:
+            n += 1
+        r = r[:max(ind, n)]
     if chg:                                  # only the registers the function set (since its last call, which leaves r4-r7 undefined) are
         r = [v if ch else '*' for v, ch in zip(r, chg)]       # arguments; the rest are leftovers the compiled code never relies on
         if fchg:
@@ -371,10 +377,15 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
 PROOF_CACHE = os.path.join('state', 'proof-cache.json')
 
 
-def proof_key(code, offset, case_path, sets, orig_bytes, compared):
-    """Everything a pass depends on, hashed: see the module notes."""
+PROOF_KEY_LEGACY = os.path.join('state', 'proof-key-equiv.py')
+
+
+def proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected=False):
+    """Everything a pass depends on, hashed: see the module notes. `unaffected`: a later change to this file cannot alter this
+    function's result (it only acts on calls through a pointer, and the function has none), so its key keeps hashing the
+    checker source saved in state/proof-key-equiv.py, when there is one, and its earlier passes still count."""
     h = hashlib.sha1()
-    for f in (os.path.abspath(__file__), sh4sim.__file__):
+    for f in (PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else os.path.abspath(__file__), sh4sim.__file__):
         h.update(open(f, 'rb').read())
     h.update(code)
     h.update(str(offset).encode())
@@ -459,7 +470,8 @@ def main(argv):
         counts = {k: len(v) for k, v in sets.items()}
         key = proof_key(code, c_at - SCRATCH, case_path, sets, exe_bytes[start - base:start + size - base],
                         (rets.get(fn), compared_all, indirect_arity(cfile, fn),
-                         sorted(indirect_targets(cfile, fn, table).items())))
+                         sorted(indirect_targets(cfile, fn, table).items())),
+                        unaffected=indirect_arity(cfile, fn) is None)
         hit = None if fresh else cache.get(key)
         if hit:          # proven before on exactly this code, these cases and this checker
             results[fn] = (True, hit['why'])

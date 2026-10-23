@@ -80,6 +80,7 @@ def main():
         except Exception as e:
             log.write('%s build failed %s\n' % (fn, str(e)[:80])); log.flush(); continue
         best = None                         # the generator picks flat or structured by text length: compile each and keep the smaller
+        all_protos = []                     # every form's prototypes: the current C is measured against the first that compiles it
         for form in (('',) if REGEN else ('', 'flat', 'structured')):      # a regeneration takes the generator's own choice
             if form:
                 os.environ['GEN_FORM'] = form
@@ -89,6 +90,7 @@ def main():
                 s_, c_ = gen_drv.build(fn, var, False)
             except Exception:
                 continue
+            all_protos.append(c_.protos)
             if best and s_ == best[0]:
                 continue
             n_ = sizes.c_size(fn, s_, c_.protos)
@@ -98,9 +100,10 @@ def main():
         if best is None:
             log.write('%s build failed (no form compiles)\n' % fn); log.flush(); continue
         s, c, n_new = best
-        o_c = sizes.c_size(fn, old, c.protos)          # the current C, measured the same way as the new
+        o_c = sizes.c_size_any(fn, old, [c.protos] + [p for p in all_protos if p is not c.protos])      # the current C, measured the same way as the new
         if n_new is None or (not REGEN and (not o_c or n_new >= o_c or n_new > KEEP * o_c)):      # strictly smaller than the current C, measured the same way
-            why = 'not smaller' if (n_new is None or not o_c or n_new >= o_c) else 'smaller by under %d%%' % round(100 * (1 - KEEP))
+            why = ('new C not measurable' if n_new is None else 'current C not measurable' if not o_c       # no size is not "not smaller"
+                   else 'not smaller' if n_new >= o_c else 'smaller by under %d%%' % round(100 * (1 - KEEP)))
             log.write('%s %s (%s -> %s)\n' % (fn, why, o_c, n_new)); log.flush(); continue
         tp = 'tests/%s/%s.json' % (stem, fn)
         cases = json.load(open(tp))
