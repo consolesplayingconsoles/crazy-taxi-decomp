@@ -261,7 +261,7 @@ def write_badge(rows, label, path='badges/regular.svg', extra=()):
 write_badge(rows, 'decomp')
 # two more versions of the badge with the milestone rows; which one the README links is the repo owner's call (the code cannot
 # tell whether the game builds from the C or plays), and the run above keeps whichever file the README links
-write_badge(rows, 'decomp', 'badges/buildable.svg', [('BUILDS FROM C', '\u2705')])
+write_badge(rows, 'decomp', 'badges/buildable.svg', [('BUILDS FROM C', '\u2705'), ('PLAYABLE', '\u274c')])
 write_badge(rows, 'decomp', 'badges/playable.svg', [('BUILDS FROM C', '\u2705'), ('PLAYABLE', '\u2705')])
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',

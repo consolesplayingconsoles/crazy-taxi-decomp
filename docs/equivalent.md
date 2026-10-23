@@ -17531,8 +17531,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 6 of 6 instructions
 
-### HomingPosXY (`0C04D4AA`, 22 bytes, `src/gen_ahz.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_ahz/HomingPosXY.json`
+### HomingPosXY (`0C04D4AA`, 22 bytes, `src/gen_fb.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_fb/HomingPosXY.json`
 - case 0
 - case 1
 - case 2
@@ -20330,8 +20330,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - other
 - the cases run 5 of 5 instructions
 
-### ParkingCarInit (`0C0463E4`, 402 bytes, `src/gen_gs.c`)
-- equivalent on 16 development and 15 holdout cases, in `tests/gen_gs/ParkingCarInit.json`
+### ParkingCarInit (`0C0463E4`, 402 bytes, `src/gen_hh.c`)
+- equivalent on 16 development and 15 holdout cases, in `tests/gen_hh/ParkingCarInit.json`
 - case 1
 - case 16
 - case 8
@@ -20518,8 +20518,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 18 of 18 instructions
 
-### PcarEvInit (`0C045E0C`, 570 bytes, `src/gen_gj.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_gj/PcarEvInit.json`
+### PcarEvInit (`0C045E0C`, 570 bytes, `src/gen_ka.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ka/PcarEvInit.json`
 - case 4
 - case 0
 - case 8
@@ -21964,8 +21964,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 34 of 34 instructions
 
-### Put_Adv_Rating (`0C0580D2`, 190 bytes, `src/gen_on.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_on/Put_Adv_Rating.json`
+### Put_Adv_Rating (`0C0580D2`, 190 bytes, `src/gen_ahz.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_ahz/Put_Adv_Rating.json`
 - case 0
 - case 1
 - case 2
@@ -28704,8 +28704,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 8 of 8 instructions
 
-### StopingCarInit (`0C0461BC`, 468 bytes, `src/gen_hh.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_hh/StopingCarInit.json`
+### StopingCarInit (`0C0461BC`, 468 bytes, `src/gen_gj.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_gj/StopingCarInit.json`
 - case 60
 - case 174
 - case 4
@@ -28966,8 +28966,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 101
 - the cases run 78 of 102 instructions
 
-### TrainInit (`0C047B2E`, 342 bytes, `src/gen_ty.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/gen_ty/TrainInit.json`
+### TrainInit (`0C047B2E`, 342 bytes, `src/gen_gs.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_gs/TrainInit.json`
 - rescue: empty case
 - rescue: empty case
 - the cases run 21 of 146 instructions
@@ -33893,8 +33893,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 158
 - the cases run 25 of 290 instructions
 
-### cableControlExec (`0C047C84`, 1602 bytes, `src/gen_dz.c`)
-- equivalent on 20 development and 19 holdout cases, in `tests/gen_dz/cableControlExec.json`
+### cableControlExec (`0C047C84`, 1602 bytes, `src/gen_ty.c`)
+- equivalent on 20 development and 19 holdout cases, in `tests/gen_ty/cableControlExec.json`
 - case 116
 - case 12
 - case 13
@@ -34764,8 +34764,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 150
 - the cases run 142 of 147 instructions
 
-### camGetOnNear (`0C064788`, 200 bytes, `src/gen_aha.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_aha/camGetOnNear.json`
+### camGetOnNear (`0C064788`, 200 bytes, `src/gen_kg.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_kg/camGetOnNear.json`
 - case 169
 - case 0
 - case 4
@@ -35057,8 +35057,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - car 0, other angles
 - the cases run 45 of 45 instructions
 
-### camUpdate (`0C026918`, 7650 bytes, `src/gen_gd.c`)
-- equivalent on 26 development and 24 holdout cases, in `tests/gen_gd/camUpdate.json`
+### camUpdate (`0C026918`, 7650 bytes, `src/gen_hx.c`)
+- equivalent on 26 development and 24 holdout cases, in `tests/gen_hx/camUpdate.json`
 - case 4
 - case 22
 - case 89
@@ -35111,8 +35111,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 221
 - the cases run 1367 of 2970 instructions
 
-### carAngularMotion (`0C022410`, 926 bytes, `src/gen_zx.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_zx/carAngularMotion.json`
+### carAngularMotion (`0C022410`, 926 bytes, `src/gen_zd.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_zd/carAngularMotion.json`
 - case 80
 - case 4
 - case 20
@@ -35572,8 +35572,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 82
 - the cases run 41 of 64 instructions
 
-### carGroundCheck (`0C0231B4`, 1250 bytes, `src/gen_tu.c`)
-- equivalent on 15 development and 14 holdout cases, in `tests/gen_tu/carGroundCheck.json`
+### carGroundCheck (`0C0231B4`, 1250 bytes, `src/gen_zx.c`)
+- equivalent on 15 development and 14 holdout cases, in `tests/gen_zx/carGroundCheck.json`
 - case 22
 - case 12
 - case 25
@@ -44064,8 +44064,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 20 of 20 instructions
 
-### initCamera (`0C026744`, 292 bytes, `src/gen_hx.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_hx/initCamera.json`
+### initCamera (`0C026744`, 292 bytes, `src/gen_tu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_tu/initCamera.json`
 - case 0
 - case 2
 - case 4
@@ -44120,8 +44120,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - with a register set
 - the cases run 2 of 2 instructions
 
-### init_CarMain (`0C023696`, 1628 bytes, `src/gen_zd.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_zd/init_CarMain.json`
+### init_CarMain (`0C023696`, 1628 bytes, `src/gen_alm.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_alm/init_CarMain.json`
 - case 150
 - case 1
 - case 15
@@ -44254,8 +44254,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 81 of 81 instructions
 
-### init_Title2 (`0C02C0DC`, 120 bytes, `src/gen_rt.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_rt/init_Title2.json`
+### init_Title2 (`0C02C0DC`, 120 bytes, `src/gen_gd.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_gd/init_Title2.json`
 - case 16
 - case 0
 - case 3
@@ -58734,8 +58734,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 156
 - the cases run 109 of 109 instructions
 
-### nd_Exec_Puru2 (`0C05F07A`, 842 bytes, `src/gen_kg.c`)
-- equivalent on 20 development and 19 holdout cases, in `tests/gen_kg/nd_Exec_Puru2.json`
+### nd_Exec_Puru2 (`0C05F07A`, 842 bytes, `src/gen_on.c`)
+- equivalent on 20 development and 19 holdout cases, in `tests/gen_on/nd_Exec_Puru2.json`
 - case 1
 - case 1
 - case 1
@@ -80191,8 +80191,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 150
 - the cases run 34 of 34 instructions
 
-### technicalBonusExec (`0C043284`, 576 bytes, `src/gen_ka.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_ka/technicalBonusExec.json`
+### technicalBonusExec (`0C043284`, 576 bytes, `src/gen_rt.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_rt/technicalBonusExec.json`
 - case 56
 - case 0
 - case 2
@@ -80835,8 +80835,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - directed: flips 0C042E42 (taken)
 - the cases run 326 of 564 instructions
 
-### trailerExec (`0C0486D4`, 962 bytes, `src/gen_jn.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_jn/trailerExec.json`
+### trailerExec (`0C0486D4`, 962 bytes, `src/gen_dz.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_dz/trailerExec.json`
 - case 0
 - case 2
 - case 4
@@ -80892,8 +80892,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 188
 - the cases run 276 of 371 instructions
 
-### trainCarExec (`0C048C48`, 1176 bytes, `src/gen_es.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_es/trainCarExec.json`
+### trainCarExec (`0C048C48`, 1176 bytes, `src/gen_jn.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_jn/trainCarExec.json`
 - case 77
 - case 172
 - case 0
@@ -80991,8 +80991,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 148
 - the cases run 86 of 86 instructions
 
-### trainExec (`0C0490E0`, 1130 bytes, `src/gen_fb.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_fb/trainExec.json`
+### trainExec (`0C0490E0`, 1130 bytes, `src/gen_es.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_es/trainExec.json`
 - case 0
 - case 1
 - case 3

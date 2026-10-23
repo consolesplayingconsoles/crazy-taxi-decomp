@@ -25,8 +25,9 @@ int putPlayerCar(int a4)
     float u70;
     int t88;
     int t25;
-    int stk[18] = {0};
+    int stk[18];
 
+    { int z_; for (z_ = 0; z_ < 18; z_++) stk[z_] = 0; }
     nlPushMatrix(0x0);
     nlSetTranslate((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x78));
     nlRotateAY((unsigned short)(*(short *)((((short)((short)a4 * (short)0x3BC) + 0xC1790CC) + 0x86))));

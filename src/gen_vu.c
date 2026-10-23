@@ -28,8 +28,9 @@ float Drv_FacePsgFrame(int a4)
     int t24;
     float u16;
     float u17;
-    int stk[9] = {0};
+    int stk[9];
 
+    { int z_; for (z_ = 0; z_ < 9; z_++) stk[z_] = 0; }
     *(unsigned int *)(((int)stk + 4)) = a4;
     nlSubVector3op((((int)stk + 4) + 0x4), (a4 + 0x4), 0xC2AD004);
     *(float *)(((int)stk + 12)) = 0.0f;

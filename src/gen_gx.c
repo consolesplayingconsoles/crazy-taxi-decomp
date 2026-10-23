@@ -42,6 +42,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5);
 
 float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
 {
+    int h0;
     int t15;
     int t16;
     float t22;
@@ -234,10 +235,11 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C02534C;
     L_C02534C:;
     nlPushMatrix(0x0);
-    if (((kyakuStopAllowed(R14, (*(int *)(((*(int *)((R14 + 0x198))) + 0x0))))) == 0)) goto L_C02536E;
+    h0 = (*(int *)(((*(int *)((R14 + 0x198))) + 0x0)));
+    if (((kyakuStopAllowed(R14, h0)) == 0)) goto L_C02536E;
     goto L_C025360;
     L_C025360:;
-    PutKyakuStopArea((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))), 0x5);
+    PutKyakuStopArea(h0, 0x5);
     goto L_C02536E;
     L_C02536E:;
     nlPopMatrix(0x1);
@@ -431,7 +433,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     End_ReverseDriving();
     goto L_C025252;
     L_C025252:;
-    SetKousyaCount((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))));
+    SetKousyaCount(h0);
     R0 = ((getReplayPassenger((*(int *)((R14 + 0x1C))), (*(int *)((R14 + 0x15C))), ((int)(((unsigned int)(*(int *)(((0x164 + R14) + 0x0))) >> 21) & 0x3)), (rinRandGetSeed()), ((*(int *)((R14 + 0x198))) + 0x4))));
     goto L_C025602;
     L_C02522C:;
@@ -555,7 +557,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((!(500.0f > F15))) goto L_C024F1C;
     goto L_C024ECC;
     L_C024ECC:;
-    if (((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) == -1)) goto L_C024F1C;
+    if ((h0 == -1)) goto L_C024F1C;
     goto L_C024ED6;
     L_C024ED6:;
     if ((!(((-((*(float *)((R14 + 0x194))) * F13)) + 130.0f) > F15))) goto L_C024F1C;
@@ -594,7 +596,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R2 + 0x0))) != 11)) goto L_C025006;
     goto L_C024F3C;
     L_C024F3C:;
-    if (((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) == -1)) goto L_C025006;
+    if ((h0 == -1)) goto L_C025006;
     goto L_C024F46;
     L_C024F46:;
     if (((kyakuStopAreaVisible(R14)) == 0)) goto L_C025006;
@@ -635,7 +637,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)(((*(int *)((R14 + 0x18))) + 0x58)) = R9;
     *(unsigned int *)0xC17982C = R11;
     *(unsigned char *)(((0x164 + R14) + 0x0)) = ((*(signed char *)(((0x164 + R14) + 0x0))) | 0x40);
-    getReplayGetOffNo((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))));
+    getReplayGetOffNo(h0);
     goto L_C025080;
     L_C025080:;
     if (((*(int *)((R14 + 0x3C))) != 2)) goto L_C025104;
@@ -704,7 +706,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R12 + 0x0))) != 1)) goto L_C024FD4;
     goto L_C024F8C;
     L_C024F8C:;
-    if (((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) != 26)) goto L_C024FC8;
+    if ((h0 != 26)) goto L_C024FC8;
     goto L_C024F96;
     L_C024F96:;
     R5 = (0x1);
@@ -902,7 +904,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((0x64 + (*(int *)((R14 + 0x18)))))) != 17)) goto L_C024B66;
     goto L_C024B24;
     L_C024B24:;
-    if (((*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) != 25)) goto L_C024B40;
+    if ((h0 != 25)) goto L_C024B40;
     goto L_C024B2E;
     L_C024B2E:;
     *(unsigned int *)(((int)stk + 16)) = 0x2;
@@ -911,7 +913,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((0x64 + (*(int *)((R14 + 0x18)))))) != 4)) goto L_C024B96;
     goto L_C024B70;
     L_C024B70:;
-    if (((int)(*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) < (int)0x4)) goto L_C024B96;
+    if (((int)h0 < (int)0x4)) goto L_C024B96;
     goto L_C024B7C;
     L_C024B7C:;
     *(unsigned int *)(((int)stk + 16)) = R8;
@@ -930,7 +932,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)R4 > (int)0x8C)) goto L_C024BD0;
     goto L_C024BAA;
     L_C024BAA:;
-    if (((int)(*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) < (int)0xF)) goto L_C024BD0;
+    if (((int)h0 < (int)0xF)) goto L_C024BD0;
     goto L_C024BB6;
     L_C024BB6:;
     *(unsigned int *)(((int)stk + 16)) = R8;
@@ -948,7 +950,7 @@ float kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)(((int)stk + 16)) = R9;
     goto L_C024BEA;
     L_C024B40:;
-    if (((int)(*(int *)(((*(int *)((R14 + 0x198))) + 0x0))) <= (int)0x19)) goto L_C024B66;
+    if (((int)h0 <= (int)0x19)) goto L_C024B66;
     goto L_C024B4C;
     L_C024B4C:;
     *(unsigned int *)(((int)stk + 16)) = R8;

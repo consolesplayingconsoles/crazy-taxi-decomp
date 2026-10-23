@@ -190,6 +190,8 @@ def pieces():
 
 
 def prep_sources():
+    if os.path.exists(OUT + '/units.json'):
+        os.remove(OUT + '/units.json')
     gs = game_set()
     os.makedirs(OUT + '/src', exist_ok=True)
     for f in glob.glob(OUT + '/src/*.c'):
@@ -211,7 +213,6 @@ def prep_sources():
                     stripped += 1
             elif n in gs:
                 kept += 1
-        t = ZERO.sub(r'\1;', t)
         open('%s/src/%s.c' % (OUT, stem), 'w').write(t)
     print('%d files; %d game functions kept, %d other definitions stripped' % (len(stems), kept, stripped))
     return gs
@@ -257,6 +258,7 @@ def compile_all(stems=None, objd='obj', flags_edit=None):
     import equiv
     import subprocess
     flags = equiv.FLAGS.replace('-include=src', '-include=build\\\\cbuild\\\\src,src')
+    flags = flags.replace('c=C,', 'c=P,')        # constants beside the code: they are counted and placed with it
     if flags_edit:
         flags = flags.replace(*flags_edit)
     all_ = stems is None
@@ -294,6 +296,97 @@ def lnk(sub_name, start, objs):
     docker('wibo "/sdk/$REL/lnk.exe" -subcommand="build\\cbuild\\%s.sub" > build/cbuild/%s.lnk.log 2>&1 || true' % (sub_name, sub_name))
 
 
+# Units: generated files whose declarations agree (or differ only in int parameters and an int or void return, which
+# one old-style declaration covers) are compiled together, in address order, up to UNIT bytes: one literal pool per
+# unit instead of per file, and calls inside a unit can be bsr. No function changes; only what is compiled together.
+UNIT = 12000
+U_PROTO = re.compile(r'^(?:extern\s+)?([A-Za-z_][\w \*]*?)\s*\b(\w+)\s*\(([^;{]*)\)\s*;', re.M)
+U_DEFN = re.compile(r'^([A-Za-z_][\w \*]*?)\s*\b(\w+)\s*\(([^;{]*)\)\s*\n\{', re.M)
+U_EXT = re.compile(r'^extern\s+(.*?)\s*\b(\w+)\s*(\[\])?;', re.M)
+
+
+def u_sigs(t):
+    d = {}
+    for m in list(U_PROTO.finditer(t)) + list(U_DEFN.finditer(t)):
+        d.setdefault(m.group(2), set()).add(re.sub(r'\s+', ' ', m.group(1).strip() + '(' + re.sub(r'\b[a-z]\d+\b', '', m.group(3)) + ')'))
+    for m in U_EXT.finditer(t):
+        d.setdefault(m.group(2), set()).add('ext ' + m.group(1))
+    return d
+
+
+def u_loose(vs):
+    if any(s.startswith('ext ') for s in vs):
+        return False
+    return {s.split('(')[0] for s in vs} <= {'int', 'void'} and not any('float' in s or 'double' in s for s in vs)
+
+
+def u_text(texts):
+    al, defined = {}, {}
+    for tx in texts:
+        for k, v in u_sigs(tx).items():
+            al.setdefault(k, set()).update(v)
+        for m in U_DEFN.finditer(tx):
+            defined[m.group(2)] = re.sub(r'\s+', ' ', m.group(1).strip())
+    loose = [k for k, v in al.items() if len(v) > 1]
+    head = ['%s %s();' % (defined.get(k, 'int'), k) for k in loose]
+    if loose:
+        pat = re.compile(r'^(?:extern\s+)?[A-Za-z_][\w \*]*?\s*\b(%s)\s*\([^;{]*\)\s*;\s*$' % '|'.join(map(re.escape, loose)), re.M)
+        texts = [pat.sub('', tx) for tx in texts]
+    return '\n'.join(head) + '\n' + '\n'.join(texts)
+
+
+def unity():
+    """Replace build/cbuild/src/ by units (members kept in src_files/), compile them; a unit that does not compile goes back to its files."""
+    gs = game_set()
+    F = {n: a for a, s, n in functions()}
+    sizes = module_sizes(OUT + '/prelim.map')
+    first = {}
+    for n, s in gs.items():
+        first[s] = min(first.get(s, 1 << 40), F[n])
+    shutil.rmtree(OUT + '/src_files', ignore_errors=True)
+    shutil.copytree(OUT + '/src', OUT + '/src_files')
+    stems = sorted([os.path.basename(f)[:-2] for f in glob.glob(OUT + '/src_files/*.c')], key=lambda s: first.get(s, 0))
+    near = set()                                       # files a piece reaches with bsr/bra (4 KB): kept on their own, next to the piece
+    for f in glob.glob(OUT + '/asm/*.src'):
+        for tgt in re.findall(r'\b(?:BSR|BRA)\s+_(\w+)', open(f).read()):
+            if tgt in gs:
+                near.add(gs[tgt])
+    units, cur, curs, tot = {}, [], {}, 0
+    for s in stems:
+        t = open('%s/src_files/%s.c' % (OUT, s), errors='replace').read()
+        sg = u_sigs(t)
+        if s in near or not s.startswith('gen_') or re.search(r'^\s*#\s*(define|pragma)|^typedef|^static|^struct', t, re.M) or any(len(v) > 1 for v in sg.values()):
+            units[s] = [s]
+            continue
+        if cur and (tot + sizes.get(s, 0) > UNIT or any(x in curs and curs[x] != v and not u_loose(curs[x] | v) for x, v in sg.items())):
+            units['u%03d' % len(units)] = cur
+            cur, curs, tot = [], {}, 0
+        cur.append(s)
+        tot += sizes.get(s, 0)
+        for x, v in sg.items():
+            curs[x] = curs.get(x, set()) | v
+    if cur:
+        units['u%03d' % len(units)] = cur
+    for f in glob.glob(OUT + '/src/*.c'):
+        os.remove(f)
+    for n, m in units.items():
+        texts = [open('%s/src_files/%s.c' % (OUT, s), errors='replace').read() for s in m]
+        open('%s/src/%s.c' % (OUT, n), 'w').write(texts[0] if len(m) == 1 else u_text(texts))
+    compile_all()
+    failed = [n for n in units if len(units[n]) > 1 and not os.path.exists('%s/obj/%s.obj' % (OUT, n))]
+    for n in failed:
+        os.remove('%s/src/%s.c' % (OUT, n))
+        for s in units.pop(n):
+            shutil.copy('%s/src_files/%s.c' % (OUT, s), '%s/src/%s.c' % (OUT, s))
+            units[s] = [s]
+    if failed:
+        compile_all([s for s in units if len(units[s]) == 1 and not os.path.exists('%s/obj/%s.obj' % (OUT, s))], 'obj_f')
+        for f in glob.glob(OUT + '/obj_f/*.obj'):
+            shutil.copy(f, OUT + '/obj/')
+    json.dump(units, open(OUT + '/units.json', 'w'))
+    print('%d files in %d units (%d merged, %d did not compile and stay apart)' % (len(stems), len(units), sum(1 for m in units.values() if len(m) > 1), len(failed)))
+
+
 CAP1 = FILL1 - FILL0                 # the fill block: boot code ends at FILL0, the entry stub starts at FILL1
 CAP2 = G1 - G0                       # the old game code
 P3 = 0x0C5D0000                      # unused RAM (docs/engine.md, RAM map): the code that does not fit in place
@@ -318,6 +411,9 @@ def layout():
     """Which object goes where: part 1 = the fill block, part 2 = the old game code, part 3 = P3 (stems only). Writes layout.json."""
     sizes = module_sizes(OUT + '/prelim.map')
     gs = game_set()
+    if os.path.exists(OUT + '/units.json'):            # after the unit step a file's functions are in its unit
+        unit_of_file = {s: u for u, m in json.load(open(OUT + '/units.json')).items() for s in m}
+        gs = {n: unit_of_file.get(s, s) for n, s in gs.items()}
     pieces_ = {os.path.basename(f)[:-4] for f in glob.glob(OUT + '/asm/*.src')} - {'boot_tail', 'boot_stub', 'pad1', 'pad2'}
     stems = {os.path.basename(f)[:-2] for f in glob.glob(OUT + '/src/*.c')}
     unit_of = {o: [o] for o in pieces_ | stems}
@@ -407,7 +503,7 @@ def link():
     pieces_ = {os.path.basename(f)[:-4] for f in glob.glob(OUT + '/asm/*.src')}
     for k in range(3):
         stems = [x for x in parts[k] if x not in pieces_]
-        compile_all(stems, 'obj%d' % (k + 1), ('p=P,c=C,d=D,b=B', 'p=%s,c=%sC,d=D,b=B' % (sect[k], sect[k])))
+        compile_all(stems, 'obj%d' % (k + 1), ('p=P,c=P,d=D,b=B', 'p=%s,c=%s,d=D,b=B' % (sect[k], sect[k])))
     for k, n in ((0, 'pad1'), (1, 'pad2')):
         if pad[k]:
             pad_object(n, pad[k])
@@ -469,7 +565,7 @@ def link():
 
 
 def main(argv):
-    if len(argv) < 2 or argv[1] not in ('prep', 'tables', 'prelim', 'layout', 'compile', 'link'):
+    if len(argv) < 2 or argv[1] not in ('prep', 'tables', 'prelim', 'unity', 'layout', 'compile', 'link'):
         sys.exit(__doc__)
     if argv[1] == 'prep':
         prep_sources()
@@ -482,6 +578,8 @@ def main(argv):
     elif argv[1] == 'prelim':
         lnk('prelim', 'P(0C020080),C(0E000000),D(0E100000),B(0E200000)', game_objects())
         print(open(OUT + '/prelim.lnk.log', errors='replace').read()[-1500:])
+    elif argv[1] == 'unity':
+        unity()
     elif argv[1] == 'link':
         link()
     elif argv[1] == 'layout':

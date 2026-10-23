@@ -253,8 +253,9 @@ int fcvRotate(int a4)
     float u33;
     float u34;
     int t35;
-    int stk[10] = {0};
+    int stk[10];
 
+    { int z_; for (z_ = 0; z_ < 10; z_++) stk[z_] = 0; }
     t0 = *(int *)((a4 + 0x0));
     nlFastSinCos(t0, (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x10));
     t2 = *(int *)((a4 + 0x4));

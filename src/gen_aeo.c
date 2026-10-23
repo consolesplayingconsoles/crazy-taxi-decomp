@@ -39,8 +39,9 @@ float calcCurvePoint(int a4, int a5, int a6, int a7, int a8, float f4)
     float u31;
     float u32;
     float u33;
-    int stk[5] = {0};
+    int stk[5];
 
+    { int z_; for (z_ = 0; z_ < 5; z_++) stk[z_] = 0; }
     u0 = 0.16666666f;
     u1 = 0.5f;
     u2 = (f4 * (f4 + (-1.0f)));

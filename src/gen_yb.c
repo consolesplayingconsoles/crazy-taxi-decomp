@@ -8,6 +8,7 @@ int psgJolt(int a4, int a5, float f4);
 
 int psgJolt(int a4, int a5, float f4)
 {
+    int jb;
     float u12;
     float u16;
     float u20;
@@ -83,7 +84,8 @@ int psgJolt(int a4, int a5, float f4)
         }
     }
     u20 = *(float *)((a5 + 0x4));
-    u21 = *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x4));
+    jb = ((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4);
+    u21 = *(float *)((jb + 0x4));
     if (((u21 - u20) > -0.5f) && (0.5f > (u21 - u20))) {
         t22 = *(signed char *)((a4 + 0x154));
         u25 = (*(float *)((((unsigned char)((unsigned short)t22 * (unsigned short)0x1C) + 0xC2AE278) + 0x0)));
@@ -121,10 +123,10 @@ int psgJolt(int a4, int a5, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t74 * (unsigned short)0x1C) + 0xC2AE278) + 0x4)) = (int)((float)(*(int *)((((unsigned char)((unsigned short)t74 * (unsigned short)0x1C) + 0xC2AE278) + 0x4))) * 0.849999964f);
     t76 = *(int *)((a4 + 0x154));
     *(unsigned int *)((((short)((short)t76 * (short)0xCC) + 0xC2ADCE4) + 0x44)) = ((*(int *)((((short)((short)t76 * (short)0xCC) + 0xC2ADCE4) + 0x44))) + (*(int *)((((unsigned char)((unsigned short)t76 * (unsigned short)0x1C) + 0xC2AE278) + 0x4))));
-    if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x44))) > (int)0xE39) {
+    if ((int)(*(int *)((jb + 0x44))) > (int)0xE39) {
         *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x44)) = 0xE39;
     } else {
-        if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x44))) < (int)0xFFFFF1C7) {
+        if ((int)(*(int *)((jb + 0x44))) < (int)0xFFFFF1C7) {
             *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x44)) = 0xFFFFF1C7;
         }
     }
@@ -140,10 +142,10 @@ int psgJolt(int a4, int a5, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t103 * (unsigned short)0x1C) + 0xC2AE278) + 0xC)) = (int)((float)(*(int *)((((unsigned char)((unsigned short)t103 * (unsigned short)0x1C) + 0xC2AE278) + 0xC))) * 0.799999952f);
     t105 = *(int *)((a4 + 0x154));
     *(unsigned int *)((((short)((short)t105 * (short)0xCC) + 0xC2ADCE4) + 0x4C)) = ((*(int *)((((short)((short)t105 * (short)0xCC) + 0xC2ADCE4) + 0x4C))) + (*(int *)((((unsigned char)((unsigned short)t105 * (unsigned short)0x1C) + 0xC2AE278) + 0xC))));
-    if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x4C))) > (int)0xE39) {
+    if ((int)(*(int *)((jb + 0x4C))) > (int)0xE39) {
         *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x4C)) = 0xE39;
     } else {
-        if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x4C))) < (int)0xFFFFF1C7) {
+        if ((int)(*(int *)((jb + 0x4C))) < (int)0xFFFFF1C7) {
             *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x4C)) = 0xFFFFF1C7;
         }
     }
@@ -157,10 +159,10 @@ int psgJolt(int a4, int a5, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t132 * (unsigned short)0x1C) + 0xC2AE278) + 0x10)) = (int)((float)(*(int *)((((unsigned char)((unsigned short)t132 * (unsigned short)0x1C) + 0xC2AE278) + 0x10))) * 0.949999988f);
     t134 = *(int *)((a4 + 0x154));
     *(unsigned int *)((((short)((short)t134 * (short)0xCC) + 0xC2ADCE4) + 0x50)) = ((*(int *)((((short)((short)t134 * (short)0xCC) + 0xC2ADCE4) + 0x50))) + (*(int *)((((unsigned char)((unsigned short)t134 * (unsigned short)0x1C) + 0xC2AE278) + 0x10))));
-    if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x50))) > (int)0x4E39) {
+    if ((int)(*(int *)((jb + 0x50))) > (int)0x4E39) {
         *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x50)) = 0x4E39;
     } else {
-        if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x50))) < (int)0x2000) {
+        if ((int)(*(int *)((jb + 0x50))) < (int)0x2000) {
             *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x50)) = 0x2000;
         }
     }
@@ -174,10 +176,10 @@ int psgJolt(int a4, int a5, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t160 * (unsigned short)0x1C) + 0xC2AE278) + 0x14)) = (int)((float)(*(int *)((((unsigned char)((unsigned short)t160 * (unsigned short)0x1C) + 0xC2AE278) + 0x14))) * 0.799999952f);
     t162 = *(int *)((a4 + 0x154));
     *(unsigned int *)((((short)((short)t162 * (short)0xCC) + 0xC2ADCE4) + 0x54)) = ((*(int *)((((short)((short)t162 * (short)0xCC) + 0xC2ADCE4) + 0x54))) + (*(int *)((((unsigned char)((unsigned short)t162 * (unsigned short)0x1C) + 0xC2AE278) + 0x14))));
-    if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x54))) > (int)0x1555) {
+    if ((int)(*(int *)((jb + 0x54))) > (int)0x1555) {
         *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x54)) = 0x1555;
     } else {
-        if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x54))) < (int)0xFFFFEAAB) {
+        if ((int)(*(int *)((jb + 0x54))) < (int)0xFFFFEAAB) {
             *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x54)) = 0xFFFFEAAB;
         }
     }
@@ -191,58 +193,58 @@ int psgJolt(int a4, int a5, float f4)
     *(unsigned int *)((((unsigned char)((unsigned short)t189 * (unsigned short)0x1C) + 0xC2AE278) + 0x18)) = (int)((float)(*(int *)((((unsigned char)((unsigned short)t189 * (unsigned short)0x1C) + 0xC2AE278) + 0x18))) * 0.919999957f);
     t191 = *(int *)((a4 + 0x154));
     *(unsigned int *)((((short)((short)t191 * (short)0xCC) + 0xC2ADCE4) + 0x5C)) = ((*(int *)((((short)((short)t191 * (short)0xCC) + 0xC2ADCE4) + 0x5C))) + (*(int *)(((0xC2AE278 + (unsigned char)((unsigned short)t191 * (unsigned short)0x1C)) + 0x18))));
-    if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x5C))) > (int)0x2000) {
+    if ((int)(*(int *)((jb + 0x5C))) > (int)0x2000) {
         *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x5C)) = 0x2000;
     } else {
-        if ((int)(*(int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x5C))) < (int)0xFFFFE000) {
+        if ((int)(*(int *)((jb + 0x5C))) < (int)0xFFFFE000) {
             *(unsigned int *)(((0xC2ADCE4 + (short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC)) + 0x5C)) = 0xFFFFE000;
         }
     }
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x0)) = (*(float *)((a5 + 0x0)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x8)) = (*(float *)((a5 + 0x8)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xC)) = (*(float *)((a5 + 0xC)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x10)) = (*(float *)((a5 + 0x10)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x14)) = (*(float *)((a5 + 0x14)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x18)) = (*(float *)((a5 + 0x18)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x1C)) = (*(float *)((a5 + 0x1C)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x20)) = (*(float *)((a5 + 0x20)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x24)) = (*(float *)((a5 + 0x24)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x28)) = (*(float *)((a5 + 0x28)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x2C)) = (*(float *)((a5 + 0x2C)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x30)) = (*(float *)((a5 + 0x30)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x34)) = (*(float *)((a5 + 0x34)));
-    *(float *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x38)) = (*(float *)((a5 + 0x38)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x3C)) = (*(int *)((a5 + 0x3C)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x40)) = (*(int *)((a5 + 0x40)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x48)) = (*(int *)((a5 + 0x48)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x58)) = (*(int *)((a5 + 0x58)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x60)) = (*(int *)((a5 + 0x60)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x64)) = (*(int *)((a5 + 0x64)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x68)) = (*(int *)((a5 + 0x68)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x6C)) = (*(int *)((a5 + 0x6C)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x70)) = (*(int *)((a5 + 0x70)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x74)) = (*(int *)((a5 + 0x74)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x78)) = (*(int *)((a5 + 0x78)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x7C)) = (*(int *)((a5 + 0x7C)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x80)) = (*(int *)((a5 + 0x80)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x84)) = (*(int *)((a5 + 0x84)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x88)) = (*(int *)((a5 + 0x88)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x8C)) = (*(int *)((a5 + 0x8C)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x90)) = (*(int *)((a5 + 0x90)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x94)) = (*(int *)((a5 + 0x94)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x98)) = (*(int *)((a5 + 0x98)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x9C)) = (*(int *)((a5 + 0x9C)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xA0)) = (*(int *)((a5 + 0xA0)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xA4)) = (*(int *)((a5 + 0xA4)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xA8)) = (*(int *)((a5 + 0xA8)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xAC)) = (*(int *)((a5 + 0xAC)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xB0)) = (*(int *)((a5 + 0xB0)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xB4)) = (*(int *)((a5 + 0xB4)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xB8)) = (*(int *)((a5 + 0xB8)));
-    *(unsigned int *)((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0xBC)) = (*(int *)((a5 + 0xBC)));
-    *(unsigned int *)((((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x0)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x0)));
-    *(unsigned int *)((((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x4)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x4)));
-    *(unsigned int *)((((((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x8)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x8)));
+    *(float *)((jb + 0x0)) = (*(float *)((a5 + 0x0)));
+    *(float *)((jb + 0x8)) = (*(float *)((a5 + 0x8)));
+    *(float *)((jb + 0xC)) = (*(float *)((a5 + 0xC)));
+    *(float *)((jb + 0x10)) = (*(float *)((a5 + 0x10)));
+    *(float *)((jb + 0x14)) = (*(float *)((a5 + 0x14)));
+    *(float *)((jb + 0x18)) = (*(float *)((a5 + 0x18)));
+    *(float *)((jb + 0x1C)) = (*(float *)((a5 + 0x1C)));
+    *(float *)((jb + 0x20)) = (*(float *)((a5 + 0x20)));
+    *(float *)((jb + 0x24)) = (*(float *)((a5 + 0x24)));
+    *(float *)((jb + 0x28)) = (*(float *)((a5 + 0x28)));
+    *(float *)((jb + 0x2C)) = (*(float *)((a5 + 0x2C)));
+    *(float *)((jb + 0x30)) = (*(float *)((a5 + 0x30)));
+    *(float *)((jb + 0x34)) = (*(float *)((a5 + 0x34)));
+    *(float *)((jb + 0x38)) = (*(float *)((a5 + 0x38)));
+    *(unsigned int *)((jb + 0x3C)) = (*(int *)((a5 + 0x3C)));
+    *(unsigned int *)((jb + 0x40)) = (*(int *)((a5 + 0x40)));
+    *(unsigned int *)((jb + 0x48)) = (*(int *)((a5 + 0x48)));
+    *(unsigned int *)((jb + 0x58)) = (*(int *)((a5 + 0x58)));
+    *(unsigned int *)((jb + 0x60)) = (*(int *)((a5 + 0x60)));
+    *(unsigned int *)((jb + 0x64)) = (*(int *)((a5 + 0x64)));
+    *(unsigned int *)((jb + 0x68)) = (*(int *)((a5 + 0x68)));
+    *(unsigned int *)((jb + 0x6C)) = (*(int *)((a5 + 0x6C)));
+    *(unsigned int *)((jb + 0x70)) = (*(int *)((a5 + 0x70)));
+    *(unsigned int *)((jb + 0x74)) = (*(int *)((a5 + 0x74)));
+    *(unsigned int *)((jb + 0x78)) = (*(int *)((a5 + 0x78)));
+    *(unsigned int *)((jb + 0x7C)) = (*(int *)((a5 + 0x7C)));
+    *(unsigned int *)((jb + 0x80)) = (*(int *)((a5 + 0x80)));
+    *(unsigned int *)((jb + 0x84)) = (*(int *)((a5 + 0x84)));
+    *(unsigned int *)((jb + 0x88)) = (*(int *)((a5 + 0x88)));
+    *(unsigned int *)((jb + 0x8C)) = (*(int *)((a5 + 0x8C)));
+    *(unsigned int *)((jb + 0x90)) = (*(int *)((a5 + 0x90)));
+    *(unsigned int *)((jb + 0x94)) = (*(int *)((a5 + 0x94)));
+    *(unsigned int *)((jb + 0x98)) = (*(int *)((a5 + 0x98)));
+    *(unsigned int *)((jb + 0x9C)) = (*(int *)((a5 + 0x9C)));
+    *(unsigned int *)((jb + 0xA0)) = (*(int *)((a5 + 0xA0)));
+    *(unsigned int *)((jb + 0xA4)) = (*(int *)((a5 + 0xA4)));
+    *(unsigned int *)((jb + 0xA8)) = (*(int *)((a5 + 0xA8)));
+    *(unsigned int *)((jb + 0xAC)) = (*(int *)((a5 + 0xAC)));
+    *(unsigned int *)((jb + 0xB0)) = (*(int *)((a5 + 0xB0)));
+    *(unsigned int *)((jb + 0xB4)) = (*(int *)((a5 + 0xB4)));
+    *(unsigned int *)((jb + 0xB8)) = (*(int *)((a5 + 0xB8)));
+    *(unsigned int *)((jb + 0xBC)) = (*(int *)((a5 + 0xBC)));
+    *(unsigned int *)((((jb + 0x3C) + 0x84) + 0x0)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x0)));
+    *(unsigned int *)((((jb + 0x3C) + 0x84) + 0x4)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x4)));
+    *(unsigned int *)((((jb + 0x3C) + 0x84) + 0x8)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x8)));
     psgUpdatePartTracks(a4);
-    return (FcvPlayBuffer(((short)((short)(*(short *)((a4 + 0x154))) * (short)0xCC) + 0xC2ADCE4), (*(int *)((a4 + 0x0)))));
+    return (FcvPlayBuffer(jb, (*(int *)((a4 + 0x0)))));
 }

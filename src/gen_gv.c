@@ -148,8 +148,9 @@ float ShallWeHaveSomeRelaxation(int a4, float f4)
     float u161;
     float u162;
     float u156;
-    int stk[36] = {0};
+    int stk[36];
 
+    { int z_; for (z_ = 0; z_ < 36; z_++) stk[z_] = 0; }
     *(float *)(((int)stk + 8)) = f4;
     *(unsigned int *)(((int)stk + 12)) = 0x0;
     *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;

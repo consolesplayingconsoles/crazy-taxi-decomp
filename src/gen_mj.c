@@ -73,8 +73,9 @@ int Drv_StartGetOn(int a4)
     int t173;
     int t167;
     int t169;
-    int stk[268] = {0};
+    int stk[268];
 
+    { int z_; for (z_ = 0; z_ < 268; z_++) stk[z_] = 0; }
     { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3EC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4CF4); }
     { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3CC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D14); }
     { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3AC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D34); }

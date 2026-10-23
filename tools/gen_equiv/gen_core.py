@@ -949,6 +949,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                 store('l',addr_expr(d,0),w)
             elif isint(n) and n%4==0 and n<=256 and fname!='_slow_mvn':
                 for off in range(n-4,-1,-4): store('l',addr_expr(d,off),load('l',addr_expr(sr,off)))
+            elif isint(n) and fname=='_slow_mvn' and 8<=n<=256 and os.environ.get('GEN_STRUCT_COPY','1')=='1':
+                # the byte mover: a struct of chars assigned, which the compiler turns back into the same call (one call, not a load and a store per byte)
+                emit('{ struct mvb%d { char b[%d]; }; *(struct mvb%d *)(%s) = *(struct mvb%d *)(%s); }'%(n,n,n,ex(d),n,ex(sr)))
             elif isint(n) and n<=64:
                 for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
             else:                                   # any other length: a byte loop

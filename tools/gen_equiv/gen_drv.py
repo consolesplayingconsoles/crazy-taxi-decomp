@@ -32,7 +32,7 @@ def build(name,ret,passthru=False):
             if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
         W=(c.maxD+3)//4+1
-        frame_decl='int stk[%d];'%(W+up+(8 if up else 0))         # the simulator's stack starts zeroed, so the proof does not need an initialiser (which costs a copy from a constant)
+        frame_decl=('int stk[%d] = {0};' if os.environ.get('GEN_ZERO_STK')=='1' else 'int stk[%d];')%(W+up+(8 if up else 0))         # the simulator's stack starts zeroed, so the proof does not need an initialiser (which costs a copy from a constant)
         text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))),text)
     rt='void'
     if '@@TAIL:' in text:

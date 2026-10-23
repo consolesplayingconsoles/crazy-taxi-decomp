@@ -18,8 +18,9 @@ int PutCollisionPoly(int a4)
     int t9;
     int t14;
     int t16;
-    int stk[27] = {0};
+    int stk[27];
 
+    { int z_; for (z_ = 0; z_ < 27; z_++) stk[z_] = 0; }
     nlTriPutTextureInit(0xC271258, 0xFFFFFFFF, 0x0);
     t3 = *(int *)((a4 + 0x44));
     nlTriPutSetAttrib(0xC271258, 0x2, 0x0, 0xFFFFFFFF, 0x0, 0x0, 0x0, 0x0, 0x0, ((*(int *)((a4 + 0x48)))), 0.5f, 0.5f, (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0x4))), (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0x8))), (*(float *)((((t3 * 0x1C) + 0xC08F748) + 0xC))), 0.0f, 0.0f, 0.0f);
