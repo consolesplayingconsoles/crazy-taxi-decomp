@@ -11,6 +11,10 @@ What it looks at, for the functions of functions.txt that src/*.c defines (match
   no recorded pass   C and cases, but the function is not in tests/equivalent.txt: the file is checked
                      again (tools/equiv.py); what still fails leaves src/
   no cases           C with no case file anywhere
+  stale size         generated C that calls an address inside its own function's span in functions.txt: it was proven while the
+                     size was short (code past a literal pool in the middle of the body was left out), so a jump to that code was
+                     written as a call; the proof stays in tests/equivalent.txt and the current checker fails it. Dropped with its
+                     cases and its proof, so the generator writes it again with the right size
 C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the generator writes it again; hand-written C moves to
 partial/<file>.c, where progress.py counts it as partial work. Nothing written by hand is deleted.
 """
@@ -91,6 +95,28 @@ def lists():
     return eq
 
 
+CALL_ADDR = re.compile(r'\(\(\w[\w ]*\(\*\)\([^)]*\)\)\((0x[0-9A-Fa-f]+)\)\)')
+
+
+def spans():
+    """{function: (start, size)} from functions.txt."""
+    out = {}
+    for l in open('functions.txt'):
+        p = l.split()
+        if len(p) > 3 and p[0] == 'F':
+            out[p[3]] = (int(p[1], 16), int(p[2]))
+    return out
+
+
+def calls_itself(text, name, span):
+    """True when the definition of name in text calls a fixed address inside its own span."""
+    b = block(text, name)
+    if not b or name not in span:
+        return False
+    a, size = span[name]
+    return any(a < int(t, 16) < a + size for t in CALL_ADDR.findall(text[b[0]:b[1]]))
+
+
 def survey():
     funcs = {l.split()[3] for l in open('functions.txt') if l.startswith('F ') and len(l.split()) > 3}
     defs = {n: s for n, s in definitions().items() if n in funcs}
@@ -100,7 +126,11 @@ def survey():
         if fn in funcs and not stem.startswith(('gen_tmp', 'zz_')):
             cases.setdefault(fn, []).append(stem)
     eq = lists()
-    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': []}
+    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': []}
+    span = spans()
+    for n, stems in sorted(defs.items()):
+        if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open('src/%s.c' % stems[0], errors='replace').read(), n, span):
+            found['stale size'].append((n, stems[0]))
     for n, stems in sorted(defs.items()):
         if len(stems) > 1:
             found['defined twice'].append((n, stems))
@@ -141,6 +171,12 @@ def leave_src(name, stem):
         os.remove(p)
 
 
+def say(done, msg):
+    """A repair is printed as it is made (flushed: the output is a log file), and counted."""
+    done.append(msg)
+    print(msg, flush=True)
+
+
 def fix():
     lock = open('state/.gen.lock', 'w')
     fcntl.flock(lock, fcntl.LOCK_EX)
@@ -152,7 +188,7 @@ def fix():
             keep = next((s for s in stems if s in cases.get(n, [])), stems[0])
             for s in stems:
                 if s != keep:
-                    remove_def(s, n); done.append('%s: second copy removed from src/%s.c (kept in %s.c)' % (n, s, keep))
+                    remove_def(s, n); say(done, '%s: second copy removed from src/%s.c (kept in %s.c)' % (n, s, keep))
         defs, cases, found = survey()
         # stray cases: to the file that defines the function, or away
         for n, st in found['stray cases']:
@@ -160,25 +196,32 @@ def fix():
             home = defs.get(n, [None])[0]
             if home and home not in cases.get(n, []):
                 os.makedirs('tests/%s' % home, exist_ok=True)
-                os.rename(src, 'tests/%s/%s.json' % (home, n)); done.append('%s: cases moved from tests/%s to tests/%s' % (n, st, home))
+                os.rename(src, 'tests/%s/%s.json' % (home, n)); say(done, '%s: cases moved from tests/%s to tests/%s' % (n, st, home))
             else:
-                os.remove(src); done.append('%s: stray cases removed from tests/%s' % (n, st))
+                os.remove(src); say(done, '%s: stray cases removed from tests/%s' % (n, st))
         defs, cases, found = survey()
         # no recorded pass: check the files again; what still fails leaves src/
         stems = sorted({st for n, st in found['no recorded pass']})
         for st in stems:
+            print('checking src/%s.c ...' % st, flush=True)
             subprocess.run([sys.executable, 'tools/equiv.py', '-q', 'src/%s.c' % st], capture_output=True, text=True)
         eq = lists()
         for n, st in found['no recorded pass']:
             if n not in eq:
-                leave_src(n, st); done.append('%s: does not pass in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
+                leave_src(n, st); say(done, '%s: does not pass in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
         for n, st in found['no cases']:
-            leave_src(n, st); done.append('%s: C with no cases in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
+            leave_src(n, st); say(done, '%s: C with no cases in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
+        defs, cases, found = survey()
+        stale = [(n, st) for n, st in found['stale size']]
+        for n, st in stale:
+            leave_src(n, st); say(done, '%s: calls an address inside itself in src/%s.c (the size was short when it was proven): dropped for the generator' % (n, st))
+        if stale and os.path.exists('tests/equivalent.txt'):
+            gone = {n for n, st in stale}
+            lines = open('tests/equivalent.txt').read().split('\n')
+            open('tests/equivalent.txt', 'w').write('\n'.join(l for l in lines if l.strip() not in gone))
     finally:
         fcntl.flock(lock, fcntl.LOCK_UN)
-    for d in done:
-        print(d)
-    print('%d repairs' % len(done))
+    print('%d repairs' % len(done), flush=True)
 
 
 def main():

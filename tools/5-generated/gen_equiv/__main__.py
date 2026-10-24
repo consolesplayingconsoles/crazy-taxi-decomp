@@ -90,6 +90,8 @@ args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs','--
 ONLY=[x for x in args if not x.isdigit()]            # function names: run only these (a quick look at a few, a debug run)
 args=[x for x in args if x.isdigit()]
 maxsize=int(args[0]) if args else (100000 if ONLY else 200)
+os.makedirs('tests',exist_ok=True)
+if not os.path.exists('tests/equivalent.txt'): open('tests/equivalent.txt','w').close()      # a first run has none: an empty one is a repo with nothing proven yet
 eq=set(open('tests/equivalent.txt').read().split())
 defined=set()
 for f in glob.glob('src/*.c'):
