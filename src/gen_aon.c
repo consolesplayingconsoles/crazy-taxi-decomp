@@ -18,7 +18,8 @@ int carWheelCollision(int);
 int carWheelForces(int);
 int carWheelSlip(int);
 int exec_CarSound(int);
-int gdc_CoursePointLoadReq(float);
+typedef struct { float x, y, z; } NLpoint3;
+int gdc_CoursePointLoadReq(NLpoint3, float);
 int getAreaFromPos(int, int);
 int getNearLineIndex(int, int, int, int, int);
 int navi_GetRouteDataC(int, int);
@@ -41,6 +42,7 @@ int pfSize(float, float);
 int putPlayerCar(int);
 int putPlayerCarByView(int);
 int replay(int);
+/* manual: the point goes to gdc_CoursePointLoadReq by value (the generated form dropped it and passed only the float) */
 int exec_CarMain(void);
 
 int exec_CarMain(void)
@@ -392,8 +394,7 @@ int exec_CarMain(void)
             u296 = (*(float *)(((int)stk + 44)));
             u296 = u296 + 600.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
             *(float *)(((int)stk + 44)) = u296;
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x14)); }
-            t298 = (gdc_CoursePointLoadReq(1800.0f));
+            t298 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 1800.0f));
         }
         t349 = t298;
     } else {
@@ -406,8 +407,7 @@ int exec_CarMain(void)
             u311 = (*(float *)(((int)stk + 44)));
             u311 = u311 + 200.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
             *(float *)(((int)stk + 44)) = u311;
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x14)); }
-            t343 = (gdc_CoursePointLoadReq(520.0f));
+            t343 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 520.0f));
         } else {
             if (t303 == 2) {
                 { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 16) + 0x14)) = *(struct mv3 *)(0xC179144); }
@@ -417,8 +417,7 @@ int exec_CarMain(void)
                 u320 = (*(float *)(((int)stk + 44)));
                 u320 = u320 + 220.0f * (nlFastCos(((unsigned short)(*(short *)0xC1791C0) - 3072)));
                 *(float *)(((int)stk + 44)) = u320;
-                { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x14)); }
-                t337 = (gdc_CoursePointLoadReq(560.0f));
+                t337 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 560.0f));
             } else {
                 t331 = t303;
                 if (t303 == 3) {
@@ -429,8 +428,7 @@ int exec_CarMain(void)
                     u329 = (*(float *)(((int)stk + 44)));
                     u329 = u329 + 30.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
                     *(float *)(((int)stk + 44)) = u329;
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 16) + 0x14)); }
-                    t331 = (gdc_CoursePointLoadReq(50.0f));
+                    t331 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 50.0f));
                 }
                 t337 = t331;
             }

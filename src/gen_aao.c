@@ -4,11 +4,3 @@
 int gdGdcReqCmd(void);
 int gdDcfGetToc_(int a4, int a5);
 
-int gdDcfGetToc_(int a4, int a5)
-{
-    int stk[5] = {0};
-
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    return (gdGdcReqCmd());
-}

@@ -1,9 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_ht): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-void Start_Fog(int a4, int a5, int a6, int a7, float f4);
+void Start_Fog(int a4);
 
-void Start_Fog(int a4, int a5, int a6, int a7, float f4)
+/* manual: one argument: r5-r7 and fr4 are overwritten before use */
+void Start_Fog(int a4)
 {
     int t3;
     int t8;
@@ -29,10 +30,6 @@ void Start_Fog(int a4, int a5, int a6, int a7, float f4)
     float F4;
     int T_;
     R4 = a4;
-    R5 = a5;
-    R6 = a6;
-    R7 = a7;
-    F4 = f4;
     L_C05FE22:;
     t3 = R4 != (*(int *)0xC2A9F68);
     *(unsigned int *)(((int)stk + 8)) = (R14);

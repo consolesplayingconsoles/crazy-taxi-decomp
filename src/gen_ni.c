@@ -4,7 +4,3 @@
 int kmSetColorClampValue(void);
 int nlSetColorClampValue(int a4, int a5);
 
-int nlSetColorClampValue(int a4, int a5)
-{
-    return (kmSetColorClampValue());
-}

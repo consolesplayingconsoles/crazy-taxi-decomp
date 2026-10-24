@@ -176,43 +176,6 @@ int mwRnaSetOutVol(int a4, int a5)
     return t8;
 }
 
-int ADXT_StartAfs(int a4, int a5, int a6)
-{
-    int t2;
-    int t3;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t10;
-    int t11;
-    int t15;
-    int stk[10] = {0};
-
-    *(unsigned int *)(((int)stk + 24)) = a5;
-    *(unsigned int *)(((int)stk + 28)) = a6;
-    ADXT_Stop();
-    ADXCRS_Lock();
-    t2 = *(int *)(((int)stk + 28));
-    t3 = *(int *)(((int)stk + 24));
-    ADXF_GetFileRange(t3, t2, ((int)stk + 16));
-    t5 = *(int *)(((int)stk + 20));
-    t6 = *(int *)((a4 + 0x10));
-    t7 = *(int *)(((int)stk + 16));
-    t8 = ADXSTM_OpenRange(t7, t5, t6);
-    *(unsigned int *)((a4 + 0x8)) = t8;
-    if (t8 == 0) {
-        ADXCRS_Unlock();
-        t10 = *(int *)(((int)stk + 28));
-        t11 = *(int *)(((int)stk + 24));
-        ADXERR_CallErrFunc(0xC175458, t11, t10);
-    } else {
-        adxt_start_stm(a4);
-    }
-    t15 = ADXCRS_Unlock();
-    return t15;
-}
-
 int mwRnaSetFx(int a4, int a5, int a6)
 {
     int t0;

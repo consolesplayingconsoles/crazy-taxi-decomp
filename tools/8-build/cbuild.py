@@ -53,7 +53,10 @@ def boot_split():
     return None
 OUT = 'build/cbuild'
 # optlnksh -optimize=<items> for the links ('' links with lnk.exe). Not symbol_delete: functions reached only by address would go.
-OPTIMIZE = 'branch,same_code,register,string_unify'
+# Not register: it drops a function's saves of r8-r14 when it believes it sees every caller, but the original's pointer tables
+# (task callbacks, interrupt hooks) are rewritten after the link (relocasm.py), so those callers keep their registers in r8-r14
+# and lose them (Crazy Taxi vmuExit: the compiler saves r14, the optimized link did not; 609 functions, the game froze).
+OPTIMIZE = 'branch,same_code,string_unify'
 MARGINS = (0.998, 0.995, 0.99, 0.985, 0.98)          # fit: how much of the prelim ratio a part is filled by, while nothing is measured
 MEASURED_MARGIN = 0.999                              # once a link measured each part's own ratio
 FIT_TRIES = 6

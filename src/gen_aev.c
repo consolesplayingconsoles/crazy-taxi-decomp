@@ -2,9 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlsndSeqRequest(int);
-int menuChangeValue(int a4, int a5, int a6, int a7);
+int menuChangeValue(int a4, int a5, int a6);
 
-int menuChangeValue(int a4, int a5, int a6, int a7)
+/* manual: three integer arguments: r7 is written before it is read */
+int menuChangeValue(int a4, int a5, int a6)
 {
     int t8;
     int t32;
@@ -23,7 +24,6 @@ int menuChangeValue(int a4, int a5, int a6, int a7)
     R4 = a4;
     R5 = a5;
     R6 = a6;
-    R7 = a7;
     L_C03BEA0:;
     *(unsigned int *)(((int)stk + 4)) = ((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8);
     R14 = (0x0);

@@ -9,9 +9,10 @@ int pfSetFilterMode(int);
 int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
-int putString(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int putString(int a4, int a5, float f4, float f5, float f6);
 
-int putString(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+/* manual: two integer arguments: r6 and r7 are written before they are read */
+int putString(int a4, int a5, float f4, float f5, float f6)
 {
     float u9;
     float t25;
@@ -40,8 +41,6 @@ int putString(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     int T_;
     R4 = a4;
     R5 = a5;
-    R6 = a6;
-    R7 = a7;
     F4 = f4;
     F5 = f5;
     F6 = f6;

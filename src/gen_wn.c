@@ -12,16 +12,15 @@ int nlRotateAZ(int);
 int nlScale(float, float, float);
 int nlSetScaleFactor(float);
 int nlTranslate(float, float, float);
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+typedef struct { short x, y, z; } AngleR;
+int Model_Put_Sprite3D(int a4, int a5, AngleR ang, float f4, int a6);
 
-int Model_Put_Sprite3D(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+/* manual: (x, y, angle by value on the stack, scale, object): the generated form gave it r4-r7 and four stack words */
+int Model_Put_Sprite3D(int a4, int a5, AngleR ang, float f4, int a6)
 {
     int stk[22];
 
-    stk[10] = a8;
-    stk[11] = a9;
-    stk[12] = a10;
-    stk[13] = a11;
+    *(AngleR *)&stk[10] = ang;
     *(unsigned int *)(((int)stk + 4)) = a4;
     *(unsigned int *)(((int)stk + 12)) = a5;
     *(unsigned int *)(((int)stk + 8)) = a6;

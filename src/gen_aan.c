@@ -4,11 +4,3 @@
 int gdGdcReqCmd(void);
 int gdDcfDaRelease_(int a4);
 
-int gdDcfDaRelease_(int a4)
-{
-    int stk[5] = {0};
-
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = 0x0;
-    return (gdGdcReqCmd());
-}

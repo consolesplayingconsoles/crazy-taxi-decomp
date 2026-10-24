@@ -649,8 +649,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
 
     def on_call(c, target, kind, at):
         if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
-            if kind == 'call':
-                c.inside.append(c.pr)            # runs until it returns here; not a call out
+            if kind in ('call', 'jump'):
+                c.inside.append(c.pr)            # runs until it returns here (a tail jump: to our caller); not a call out
             return False
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],

@@ -251,13 +251,6 @@ int crcchk(int a, short b)
     return -1;
 }
 
-int kmtex_CopyTextureToMem(int a, int b, int c)
-{
-    int lvl = kmtex_GetTextureLevel(c);
-
-    return kmiCopyToFrameBuffer(a + 4, b, ((int *)0x0C175E54)[lvl] + 4);
-}
-
 /* Visits a node's resources (link [1]), its child list (link [11]) and its siblings (link [12]). */
 void nlMvNotShadowIndexPol(int *n)
 {

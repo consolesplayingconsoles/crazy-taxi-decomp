@@ -250,7 +250,7 @@ extern void Put_Course_Obj_Sound(void);
 extern void Put_Transporter(void);
 extern void Put_Course_Obj_Fcv(void);
 extern void SetWindow(int v);
-extern void windowReturn(void);
+extern int windowReturn(int, int);
 
 /* Course objects by distance: object shadows and the fixed models near the camera (not in course mode 2),
    then the transporters and the two animated objects (course mode 0 only). */
@@ -305,7 +305,7 @@ void windowClose(void)
         *count -= 2;
         return;
     }
-    windowReturn();
+    windowReturn(v, (int)count);                            /* as the original jumps there: r4 and r5 still set */
 }
 
 extern int GetMenuMode(int which);

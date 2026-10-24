@@ -172,21 +172,35 @@ def returns(cfile):
 
 def struct_words(text):
     """{typedef name: its size in 4-byte words} for the `typedef struct { ... } Name;` in a file's text. A structure passed by value
-    goes on the stack (SHC), so its words are stack arguments, not a register. Fields count 4 bytes each, arrays by their length,
-    a field of an earlier typedef by that one's words."""
-    out = {}
+    goes on the stack (SHC), so its words are stack arguments, not a register. Field sizes are the SH ones (char 1, short 2,
+    int / float / pointer 4, double 8), each field aligned to its own size, the structure rounded up to its largest alignment
+    (at most 4) and then to whole words: three shorts are 6 bytes, 2 words. A field of an earlier typedef takes that one's size."""
+    prim = {'char': 1, 'short': 2, 'int': 4, 'long': 4, 'float': 4, 'double': 8, 'unsigned': 4, 'signed': 4, 'void': 4}
+    out, sizes = {}, {}
     for m in re.finditer(r'typedef\s+struct\s*\w*\s*\{([^{}]*)\}\s*(\w+)\s*;', text):
-        n = 0
+        off, al = 0, 1
         for decl in m.group(1).split(';'):
             d = decl.strip()
             if not d:
                 continue
-            ty = d.split()[0]
-            per = out.get(ty, 1)
-            for v in d[len(ty):].split(','):
+            fm = re.match(r'^((?:(?:unsigned|signed|const|volatile|struct)\s+)*)([A-Za-z_]\w*)(.*)$', d, re.S)
+            if not fm:
+                continue
+            mods, ty, rest = fm.group(1), fm.group(2), fm.group(3)
+            if ty not in prim and ty not in sizes and ('unsigned' in mods or 'signed' in mods) and not rest.strip().lstrip('*').strip():
+                ty, rest = 'int', fm.group(2) + rest              # `unsigned x;`: an int named x
+            base, ba = sizes[ty] if ty in sizes else ((prim[ty], min(prim[ty], 4)) if ty in prim else (4, 4))    # an unknown type: a word
+            for v in rest.split(','):
+                if not v.strip():
+                    continue
+                sz, a = (4, 4) if '*' in v else (base, ba)
                 k = re.search(r'\[(\d+)\]', v)
-                n += per * (int(k.group(1)) if k else 1)
-        out[m.group(2)] = n
+                n = int(k.group(1)) if k else 1
+                off = (off + a - 1) // a * a + sz * n
+                al = max(al, a)
+        size = (off + al - 1) // al * al
+        sizes[m.group(2)] = (size, al)
+        out[m.group(2)] = (size + 3) // 4
     return out
 
 

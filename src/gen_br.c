@@ -174,51 +174,6 @@ void syCacheInit_P2_(int a4)
     _builtin_set_imask(((unsigned int)(((t5 & 0xF) << 2) << 2) >> 4));
 }
 
-int nlsndStreamChgFilter(int a4, int a5, int a6)
-{
-    int t0;
-    int t2;
-    int t3;
-    int stk[4] = {0};
-
-    *(unsigned short *)(((int)stk + 4)) = a6;
-    t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
-    if (t0 == 1) {
-        *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
-        nlsndSeqRequest();
-        t2 = *(short *)(((int)stk + 4));
-        t3 = *(int *)(((int)stk + 8));
-        return nlsndSeqRequest();
-    }
-    return t0;
-}
-
-int nlsndStreamChgFx(int a4, int a5, int a6)
-{
-    int t0;
-    int t2;
-    int t3;
-    int t5;
-    int stk[7] = {0};
-
-    *(unsigned short *)(((int)stk + 4)) = a5;
-    t0 = *(signed char *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C));
-    if (t0 == 1) {
-        *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
-        nlsndSeqRequest();
-        t2 = *(short *)(((int)stk + 4));
-        t3 = *(int *)(((int)stk + 8));
-        nlsndSeqRequest();
-        t5 = *(int *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B7724));
-        if (t5 != 0) {
-            nlsndSeqRequest();
-            return nlsndSeqRequest();
-        }
-        return 0xC2B7724;
-    }
-    return t0;
-}
-
 int vmsfs_fsetparam(int a4, int a5, int a6)
 {
     int t0;

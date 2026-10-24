@@ -7,9 +7,10 @@ int Sound_Request(int, int);
 int hudDrawFare(void);
 int hudSplitFareDigits(int, int);
 int hudUpdateFareState(void);
-int hudDrawTime(int a4, int a5, int a6);
+int hudDrawTime(void);
 
-int hudDrawTime(int a4, int a5, int a6)
+/* manual: no arguments: r4-r6 are written before they are read */
+int hudDrawTime(void)
 {
     int t5;
     int t38;
@@ -40,9 +41,6 @@ int hudDrawTime(int a4, int a5, int a6)
     int R13;
     int R14;
     int T_;
-    R4 = a4;
-    R5 = a5;
-    R6 = a6;
     L_C054E80:;
     { struct mv7 { int w[7]; }; *(struct mv7 *)((((int)stk + 4) + 0x1C)) = *(struct mv7 *)(0xC0D08F8); }
     { struct mv7 { int w[7]; }; *(struct mv7 *)(((int)stk + 4)) = *(struct mv7 *)(0xC0D0914); }

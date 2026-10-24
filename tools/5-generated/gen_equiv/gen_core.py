@@ -204,7 +204,30 @@ def reg_liveness(ins,addr2idx):
             else: out.add(r_)
         return out
     UD=[]
-    for mn,ops,pc in ins:
+    def call_args(i):
+        # the argument registers a call really reads: the block copy and division helpers their own registers, a named callee its
+        # known arity (callee_arity: its code or its proven definition), anything else all of r4-r7 and fr4-fr11
+        mn,ops,pc=ins[i]
+        nm=None
+        m_=re.search(r';\s*(?:=\s*[0-9a-fA-F]+\s+)?([A-Za-z_]\w*)\s*$',ops or '')
+        if m_ and mn in ('bsr',): nm=m_.group(1)
+        if mn=='jsr':
+            rr=re.search(r'@(r\d+)',ops or '')
+            for j in range(i-1,max(-1,i-8),-1):
+                mj,oj,_=ins[j]
+                if rr and re.search(r',\s*%s\s*(?:;|$)'%rr.group(1),(oj or '')):
+                    m2=re.search(r';\s*=\s*[0-9a-fA-F]+\s+([A-Za-z_]\w*)',oj or '')
+                    nm=m2.group(1) if (m2 and mj.startswith('mov')) else None
+                    break
+        if nm in ('_quick_mvn','_quick_odd_mvn','_quick_evn_mvn','_slow_mvn'): return {'r0','r1','r2'}
+        if nm in ('_divls','_divlu','_modls','_modlu','_divws'): return {'r0','r1'}
+        ar=None
+        if nm and not nm.startswith('_'):
+            try: ar=callee_arity(nm)
+            except Exception: ar=None
+        if ar: return {'r%d'%k for k in range(4,4+min(ar[0],4))}|{'fr%d'%k for k in range(4,4+min(ar[1],8))}
+        return {'r4','r5','r6','r7'}|{'fr%d'%k for k in range(4,12)}
+    for i_ud,(mn,ops,pc) in enumerate(ins):
         raw=(ops or '').split(';')[0].strip(); a=[x.strip() for x in re.split(r',(?![^(]*\))',raw)] if raw else []
         base=mn.split('/')[0].split('.')[0]
         use=set(); dfn=set()
@@ -213,7 +236,7 @@ def reg_liveness(ins,addr2idx):
                 use|=expand(x)
                 if x.endswith('+') or x.startswith('@-'): dfn|=expand(x)
         if mn in ('jsr','bsr','bsrf'):
-            use|=expand(raw)|{'r4','r5','r6','r7'}|{'fr%d'%k for k in range(4,12)}; dfn|={'r%d'%k for k in range(8)}|{'fr%d'%k for k in range(12)}
+            use|=expand(raw)|call_args(i_ud); dfn|={'r%d'%k for k in range(8)}|{'fr%d'%k for k in range(12)}
         elif mn in ('rts','rte'):
             use|={'r0','fr0','fr1'}|{'r%d'%k for k in range(8,15)}
         elif mn in ('nop','bra','bt','bf','bt/s','bf/s','clrt','sett','clrmac','fschg','frchg'):
@@ -272,6 +295,37 @@ class _PassThrough(Exception): pass
 _SCAN_FILE=os.path.join('state','arity_scan.json')
 try: _SCAN=json.load(open(_SCAN_FILE))
 except Exception: _SCAN={}
+_STACKW={}
+def callee_stack_words(fname):
+    """Words a function reads from the stack above its own frame, its stack arguments: loads at @r15 / @(k,r15) that, once the pushes and
+    the frame it has made so far are counted, lie at or above the stack pointer it was called with. From a straight scan of its code
+    up to its first return; 0 when it reads none or the code cannot be read. The compiler defers the stack adjustment of a call to a
+    later one, so which of the words still on the stack are a call's own is told by what its callee reads."""
+    if fname in _STACKW: return _STACKW[fname]
+    n=0
+    try:
+        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        delta=0; seen=set()
+        for l in out:
+            m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+            if not m: continue
+            mn=m.group(3); ops=m.group(4).split(';')[0].strip()
+            if mn in ('rts','rte'): break
+            a=[x.strip() for x in re.split(r',(?![^(]*\))',ops)] if ops else []
+            if len(a)==2 and a[1]=='@-r15' and mn in ('mov.l','sts.l','fmov.s','stc.l'): delta+=4; continue
+            if mn=='add' and len(a)==2 and a[1]=='r15' and a[0].startswith('#'): delta-=int(a[0][1:],0); continue
+            if len(a)==2 and a[0]=='@r15+' and mn in ('mov.l','lds.l','ldc.l','fmov.s'):
+                if -delta>=0 and mn in ('mov.l','fmov.s'): seen.add(-delta//4)
+                delta-=4; continue
+            if len(a)==2 and mn in ('mov.l','fmov.s'):
+                mm=re.fullmatch(r'@\((\d+),r15\)',a[0]); k=int(mm.group(1)) if mm else (0 if a[0]=='@r15' else None)
+                if k is not None and k-delta>=0 and (k-delta)%4==0: seen.add((k-delta)//4)
+        n=min(8,max(seen)+1) if seen else 0
+    except Exception:
+        n=0
+    _STACKW[fname]=n
+    return n
+
 def callee_arity(fname):
     """(integer arguments, float arguments) a function reads before it writes them, from a straight scan of its code up to its
     first return: r4-r7 and fr4-fr11. None when the code cannot be read. A guess for the prototype, not a proof: the call is
@@ -402,14 +456,39 @@ def def_arity(fname):
     if _DEFS is None:
         _DEFS={}
         for f in glob.glob('src/*.c'):
-            for m in re.finditer(r'^[A-Za-z_][\w \*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\n\{',open(f,errors='replace').read(),re.M):
-                ps=[x.strip() for x in m.group(2).split(',') if x.strip() and x.strip()!='void']
+            txt=open(f,errors='replace').read()
+            structs=set(re.findall(r'typedef\s+struct\s*\w*\s*\{[^{}]*\}\s*(\w+)\s*;',txt))|{'Stk%d'%k for k in range(1,65)}
+            for m in re.finditer(r'^[A-Za-z_][\w \*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\n\{',txt,re.M):
+                ps=[x.strip() for x in m.group(2).split(',') if x.strip() and x.strip()!='void' and not (x.split()[0] in structs and '*' not in x)]      # a structure by value goes on the stack
                 _DEFS.setdefault(m.group(1),(sum(1 for x in ps if not (x.startswith('float') and '*' not in x)),sum(1 for x in ps if x.startswith('float') and '*' not in x)))      # a float pointer is an integer argument
     return _DEFS.get(fname)
 
+_DEFSW=None
+def def_stack_words(fname):
+    """Words a function's definition in src/ takes from the stack as a leading structure by value (`Stk4 s` is 4), or 0."""
+    global _DEFSW
+    if _DEFSW is None:
+        _DEFSW={}
+        for f in glob.glob('src/*.c'):
+            txt=open(f,errors='replace').read()
+            for m in re.finditer(r'^[A-Za-z_][\w \*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\n\{',txt,re.M):
+                w=[int(k.group(1)) for x in m.group(2).split(',') for k in [re.match(r'\s*Stk(\d+)\s+\w+\s*$',x)] if k]
+                if w: _DEFSW.setdefault(m.group(1),w[0])
+    return _DEFSW.get(fname,0)
+
+def int_stack_words(fname):
+    """Plain int words a callee takes past r4-r7: what its code reads above its frame (callee_stack_words), else what its definition in
+    src/ declares past the fourth integer parameter (`int a4, ..., int a7, int a8` is 1). 0 for a definition taking a `Stk` structure
+    (def_stack_words covers it)."""
+    if def_stack_words(fname): return 0
+    d=def_arity(fname)
+    return callee_stack_words(fname) or (max(0,d[0]-4) if d else 0)
+
+
+def variadic_seen(types): return '...' in types
 def isfp(v): return isinstance(v,tuple) and v[0]=='fpend'      # a float kept on the pending stack
 STACKY=('stack','read r15','addr of local','fpush','addr loop variable','ex (\'addr\'')
-FLATTY=('bloat','unstructured','too long','stack pointer differs','loop exits','recursion','stack local in a loop')
+FLATTY=('flow braf','bloat','unstructured','too long','stack pointer differs','loop exits','recursion','stack local in a loop')
 def run(name,passthru=False):
     """The first reading keeps the stack as symbolic values; when that fails on the stack, the whole frame becomes a C array
     (narrow accesses, locals changed in loops, addresses of locals and reads of unwritten slots are then plain memory). When the
@@ -952,6 +1031,12 @@ def _run(name,passthru=False,frame=False,flat=False):
     except Exception: CALLC={}
     def ind_variadic_hint(fname):
         return fname in ('nlPrintf','printf','sprintf','nlSprintf')
+    def note_sarg(n,d,sr):
+        # a block copy whose destination is the stack pointer itself: a structure passed by value (SHC builds the outgoing arguments
+        # there), taken by the next call at the same stack depth as its argument after the register ones
+        try:
+            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D): c.sarg=(n//4,ex(sr),c.D)
+        except Exception: pass
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
         if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
         if fname in ('_divls','_divlu','_modls','_modlu'):
@@ -997,6 +1082,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 # (what the source wrote: a vector or table copied as a struct), instead of one load and store per word
                 k_=n//4
                 emit('{ struct mv%d { int w[%d]; }; *(struct mv%d *)(%s) = *(struct mv%d *)(%s); }'%(k_,k_,k_,ex(d),k_,ex(sr)))
+                note_sarg(n,d,sr)
             elif isint(n) and n%4==0 and n<=256 and fname in ('_quick_odd_mvn','_quick_evn_mvn'):
                 # these two read one word ahead of the store (the last word is read before the jump into the copy)
                 w=load('l',addr_expr(sr,n-4))
@@ -1008,6 +1094,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             elif isint(n) and fname=='_slow_mvn' and 8<=n<=256 and os.environ.get('GEN_STRUCT_COPY','1')=='1':
                 # the byte mover: a struct of chars assigned, which the compiler turns back into the same call (one call, not a load and a store per byte)
                 emit('{ struct mvb%d { char b[%d]; }; *(struct mvb%d *)(%s) = *(struct mvb%d *)(%s); }'%(n,n,n,ex(d),n,ex(sr)))
+                note_sarg(n,d,sr)
             elif isint(n) and n<=64:
                 for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
             else:                                   # any other length: a byte loop
@@ -1055,8 +1142,11 @@ def _run(name,passthru=False,frame=False,flat=False):
             return True
         def teardown(x):                 # an instruction of the epilogue: the add before it frees the frame, not the call's arguments
             return bool(x) and (x[0]=='rts' or (x[0] in ('lds.l','mov.l','fmov.s') and '@r15+' in (x[1] or '')))
+        nsw=0 if ind else callee_stack_words(fname)
+        own_stack=bool(nsw) and len(c.pend)>=nsw
+        if own_stack: c.pend=c.pend[-nsw:]      # the words below this callee's own are earlier calls': their stack adjustment was deferred to this one
         cleanup=(isadd(after) and not teardown(after2)) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
-        spill=bool(c.pend) and not cleanup and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
+        spill=bool(c.pend) and not cleanup and not own_stack and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
         if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
@@ -1079,6 +1169,16 @@ def _run(name,passthru=False,frame=False,flat=False):
             if hole and all(n in (4,5,6,7) for n in hole):
                 for n in hole: c.R['r%d'%n]=0
                 avail=sorted(set(avail)|set(hole))
+        if (c.pend and not spill and avail and len(avail)<4 and not c.pt
+                and not (len(c.pend)==1 and not isfp(c.pend[0]) and '@@F' in ex(c.pend[0]))):
+            # a word pushed for this call is an argument past the fourth, so r4-r7 are all positional: one this function never touched
+            # (and no call has changed) is its own incoming argument, passed on as it came (mwlRnaStartCopy, serveGetPos in playerInit).
+            # The hidden pointer of a returned structure is the one pushed word that is not
+            for n in range(4,8):
+                if n not in avail and 'r%d'%n not in c.R:
+                    if c.pcalls: c.R['r%d'%n]=0         # an earlier call has changed it: a leftover, passed as 0 (the check compares only registers the function set)
+                    avail.append(n)
+            avail.sort()
         ia=[]
         k=4
         while k in avail: ia.append(k); k+=1
@@ -1099,6 +1199,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             args.append(ex(v)); types.append('int')
             if '@@F' in args[-1]: c.frame_regs.add('r%d'%n)
         hidden=None
+        pushed=bool(c.pend) and not spill
         if c.pend and not spill:
             # arguments pushed on the stack: the first of them was pushed last
             variadic=False
@@ -1115,6 +1216,23 @@ def _run(name,passthru=False,frame=False,flat=False):
                 else: args.append(ex(v)); types.append('int')
             if variadic: types=['int','...']
             c.pend=[]
+        sa=getattr(c,'sarg',None); c.sarg=None
+        if sa and not ind and not hidden and sa[2]==c.D and not variadic_seen(types):
+            args.append('*(Stk%d *)(%s)'%(sa[0],sa[1])); types.append('Stk%d'%sa[0])       # the structure, by value, after the integer arguments
+        elif not sa and not pushed and not ind and not hidden and not variadic_seen(types) and not tail and def_stack_words(fname):
+            # nothing pushed and nothing copied to SP, but the callee's definition takes words from the stack: it reads the caller's own frame
+            # at SP (a debug print called without its pushed arguments). The frame the C keeps holds the same words
+            if not c.frame: raise Skip('stack words of the callee read from the frame')      # the first reading keeps the stack symbolic: read again with the frame as an array
+            n_=def_stack_words(fname); args.append('*(Stk%d *)((int)stk + @@F:%d@@)'%(n_,-c.D)); types.append('Stk%d'%n_)
+        elif (not sa and not pushed and not ind and not hidden and not variadic_seen(types) and not tail and ia==list(range(4,4+len(ia)))
+              and (len(ia)==4 or c.pcalls) and not fa and int_stack_words(fname)):
+            # the same with a definition that takes its stack words as plain ints past a7 (adxf_read_sj32 -> ADXERR_CallErrFunc, Crazy Taxi).
+            # r4-r7 are then positional: after an earlier call one not set here is a leftover and goes as 0, as for pushed words (stackclobberfn)
+            if not c.frame: raise Skip('stack words of the callee read from the frame')
+            for n in range(4+len(ia),8):
+                args.append('0x0'); types.append('int')
+            for k_ in range(int_stack_words(fname)):
+                args.append('*(int *)((int)stk + @@F:%d@@%s)'%(-c.D,' + %d'%(4*k_) if k_ else '')); types.append('int')
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         if hidden: args.append(hidden); types.append('...')
         sig=tuple(types)
@@ -1932,10 +2050,11 @@ def _run(name,passthru=False,frame=False,flat=False):
         for n in ints: emit('int R%d;'%n)
         for n in flts: emit('float F%d;'%n)
         emit('int T_;')
+        live0=c.live.get(0) if c.live else None      # the registers live at entry: only those are parameters (one written before it is read is not)
         for n in ints:
-            if 4<=n<=7: c.iuse.add(n); emit('R%d = a%d;'%(n,n))
+            if 4<=n<=7 and (live0 is None or 'r%d'%n in live0): c.iuse.add(n); emit('R%d = a%d;'%(n,n))
         for n in flts:
-            if 4<=n<=11: c.fuse.add(n); emit('F%d = f%d;'%(n,n))
+            if 4<=n<=11 and (live0 is None or 'fr%d'%n in live0): c.fuse.add(n); emit('F%d = f%d;'%(n,n))
         lead={0}
         for i_,(mn_,ops_,pc_) in enumerate(ins):
             if mn_ in ('bt','bf','bt/s','bf/s','bra'):

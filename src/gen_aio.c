@@ -4,8 +4,3 @@
 int texLoadIndexed(void);
 int nlCommonTextureReloadI(int a4, int a5, int a6);
 
-int nlCommonTextureReloadI(int a4, int a5, int a6)
-{
-    *(volatile int *)(((((a6 << 2) << 2) + a5) + 0x8));
-    return texLoadIndexed();
-}

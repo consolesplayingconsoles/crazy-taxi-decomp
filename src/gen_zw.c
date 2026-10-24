@@ -4,7 +4,3 @@
 int ADXERR_CallErrFunc(void);
 int adxini_rnaerr_cbfn(int a4, int a5);
 
-int adxini_rnaerr_cbfn(int a4, int a5)
-{
-    return (ADXERR_CallErrFunc());
-}

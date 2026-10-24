@@ -4,13 +4,3 @@
 int gdGdcReqCmd(void);
 int gdDcfReqStat_(int a4, int a5, int a6, int a7);
 
-int gdDcfReqStat_(int a4, int a5, int a6, int a7)
-{
-    int stk[7] = {0};
-
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = a7;
-    return (gdGdcReqCmd());
-}

@@ -3,9 +3,10 @@
 
 int nlSetCommonTextureOffset(int);
 int nlSpriteFreeTexture(int, int);
-int gdc_SpriteFreeMenu(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+int gdc_SpriteFreeMenu(void);
 
-int gdc_SpriteFreeMenu(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+/* manual: no arguments: the registers are overwritten before use */
+int gdc_SpriteFreeMenu(void)
 {
     int t2;
     int stk[8];
@@ -28,11 +29,6 @@ int gdc_SpriteFreeMenu(int a4, int a5, int a6, int a7, float f4, float f5, float
     float F4;
     float F6;
     int T_;
-    R4 = a4;
-    R5 = a5;
-    R7 = a7;
-    F4 = f4;
-    F6 = f6;
     L_C0301DE:;
     nlSetCommonTextureOffset(0x208);
     nlSpriteFreeTexture(0xC144D58, 0xC08B700);

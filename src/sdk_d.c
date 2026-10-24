@@ -139,7 +139,3 @@ void nlDispStripTex(int a, int b, int c)
         nldispstripTexSub(a, b);
 }
 
-int strcmp(char *a, char *b)
-{
-    return _slow_strcmp1(a, b);
-}

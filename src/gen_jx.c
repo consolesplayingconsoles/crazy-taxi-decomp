@@ -3,9 +3,11 @@
 
 int gdc_CourseReq(int, int, float);
 float nlLength(int, int);
-float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+typedef struct { float x, y, z; } NLpoint3;
+float gdc_CoursePointLoadReq(NLpoint3 p, float f4);
 
-float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
+/* manual: the point goes on the stack by value (3 words, read through its address); r4 and r5 are overwritten before use */
+float gdc_CoursePointLoadReq(NLpoint3 p, float f4)
 {
     int t11;
     float t24;
@@ -31,12 +33,7 @@ float gdc_CoursePointLoadReq(int a4, int a5, int a6, int a7, int a8, int a9, int
     float F14;
     float F15;
     int T_;
-    stk[13] = a8;
-    stk[14] = a9;
-    stk[15] = a10;
-    stk[16] = a11;
-    R4 = a4;
-    R5 = a5;
+    *(NLpoint3 *)&stk[13] = p;
     F4 = f4;
     L_C02EE20:;
     R0 = (0x34);

@@ -4,15 +4,3 @@
 int gdGdcG1DmaEnd(void);
 int gdFsHdlG1DmaEnd(int a4);
 
-int gdFsHdlG1DmaEnd(int a4)
-{
-    int t0;
-    int t1;
-
-    t0 = *(int *)((a4 + 0x1C));
-    if ((t0 != 0) && (t1 = *(int *)((t0 + 0x2C)), t1 != 0)) {
-        *(volatile int *)((t0 + 0x30));
-        *(volatile int *)((t0 + 0x2C));
-    }
-    return gdGdcG1DmaEnd();
-}

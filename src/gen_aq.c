@@ -9,27 +9,6 @@ int gdFsExecServerG(void);
 int adxt_start_sj(int a4, int a5);
 int mwlRnaAddRdPos(int a4);
 
-int gdFsExecServerG(void)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-
-    t0 = *(int *)0xC177A8C;
-    t1 = *(int *)((t0 + 0xC));
-    t2 = *(int *)((t1 + 0x40));
-    t3 = ((int (*)(void))(t2))();
-    t4 = *(int *)0xC177A8C;
-    t5 = *(int *)((t4 + 0x1C));
-    if (t5 != 0) {
-        return gdFsGetStatG();
-    }
-    return t3;
-}
-
 int adxt_start_sj(int a4, int a5)
 {
     int t0;

@@ -4,7 +4,3 @@
 int nlObjPutLoadTextureOnce_Sub(void);
 int nlObjPutLoadTextureOnceGI(void);
 
-int nlObjPutLoadTextureOnceGI(void)
-{
-    return (nlObjPutLoadTextureOnce_Sub());
-}

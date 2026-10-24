@@ -3,7 +3,7 @@ _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname
 import toolpath  # noqa: E402,F401
 import layout as _layout  # noqa: E402
 _CODE=_layout.region('code') or (0,0)      # the code the cases may not write to (layout.txt)
-import sys,re,json,os,subprocess,struct,random,zlib
+import sys,re,json,os,subprocess,struct,random,zlib,time
 sys.path.insert(0,os.path.dirname(__file__))
 import gen_core as G
 Skip=G.Skip
@@ -11,11 +11,15 @@ def build(name,ret,passthru=False):
     c=G.run(name,passthru)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
     params=[]
-    if ip:
+    stkonly=bool(ip) and not [n for n in ip if n<8]      # only words the caller left on the stack are read: one structure passed by value, not r4-r7 as parameters (every caller would be compared on them)
+    if stkonly:
+        params.append('Stk%d s'%max(max(ip)-8+1,4))
+    elif ip:
         for n in range(4,max(ip)+1): params.append('int a%d'%n)
     if fp:
         for n in range(4,max(fp)+1): params.append('float f%d'%n)
     text='\n'.join(c.stmts)
+    if stkonly: text=re.sub(r'\ba(\d+)\b',lambda m:'s.w[%d]'%(int(m.group(1))-8) if int(m.group(1))>=8 else m.group(0),text)
     decls=[]
     def hoist(m):
         decls.append('%s %s;'%(m.group(1),m.group(2))); return '%s = '%m.group(2)
@@ -25,6 +29,7 @@ def build(name,ret,passthru=False):
     text=re.sub(r'^\s*(int|float) ([tu]\d+(?:\[\d+\])?);$',hoist2,text,flags=re.M)
     text=re.sub(r'\n[ \t]*(?=\n)','',text)
     frame_decl=None
+    stkstruct=0
     if c.frame:
         up=0
         for m in re.finditer(r'\(int\)stk \+ @@F:(-?\d+)@@\)((?: [+-] (?:0x[0-9A-Fa-f]+|\d+)\))*)',text):
@@ -32,9 +37,13 @@ def build(name,ret,passthru=False):
             if off>=0: up=max(up,off//4+1)      # an address above the function's own frame: words the caller left on the stack (arguments, a structure passed by value)
         if up:
             up=min(max(up,4),64)        # up to 64 words: a structure passed by value can be large
-            for n in range(8,8+up): c.iuse.add(n)       # they come in as the stack parameters a8..: copied to the top of the frame array
-            ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
-            if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
+            if not [n for n in c.iuse if n<8]:      # only the stack is read: no register argument at all, so the words are one structure passed by value (r4-r7 as parameters would be compared at every caller)
+                stkstruct=up
+                params=['Stk%d s'%up]
+            else:
+                for n in range(8,8+up): c.iuse.add(n)       # they come in as the stack parameters a8..: copied to the top of the frame array
+                ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
+                if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
         W=(c.maxD+3)//4+1
         frame_decl=('int stk[%d] = {0};' if os.environ.get('GEN_ZERO_STK')=='1' else 'int stk[%d];')%(W+up+(8 if up else 0))         # the simulator's stack starts zeroed, so the proof does not need an initialiser (which costs a copy from a constant)
@@ -111,7 +120,8 @@ def build(name,ret,passthru=False):
     # variables there), or a C89 compiler rejects every declaration that follows them
     k_=0
     while k_<len(body) and (not body[k_].strip() or re.match(r'^\s*(?:int|float|double|unsigned int|struct \w+)\s+[\w\[\]\s,*]+;$',body[k_])): k_+=1
-    if frame_decl and up>16: body=body[:k_]+['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body[k_:]
+    if frame_decl and stkstruct: body=body[:k_]+['stk[%d] = s.w[%d];'%(W+i,i) for i in range(up)]+body[k_:]
+    elif frame_decl and up>16: body=body[:k_]+['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body[k_:]
     elif frame_decl and up: body=body[:k_]+['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body[k_:]
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
@@ -261,18 +271,21 @@ def grow(name,runs,V,rng,HOT,budget=int(os.environ.get('GEN_BUDGET','1200'))):
     result of a call) to a value from V, and keep the new case when it runs an instruction no case has run yet. A chain of guards
     (a flag that must be 1, then the next one) is reached one step at a time this way, where random inputs never get through."""
     seen=set()
+    t0=time.time()
     for d,n,c in runs:
         if c: seen|=c
     pool=[(d,c) for d,n,c in runs if n is not None and c]
     stale=0                                     # tries in a row that reached nothing new: past ~250 the function is done
     for _ in range(budget):
         if not pool or stale>=int(os.environ.get('GEN_STALE','250')): break
+        if time.time()>(DEADLINE[0] or t0+draw_seconds(name)): break         # a function whose runs mostly hit the step cap: keep what was found (the coverage is reported), not nothing
         top=sorted(pool,key=lambda dc:-len(dc[1]))[:6]
         d,c=top[0] if rng.random()<0.7 else rng.choice(top)
         e=json.loads(json.dumps(d))
         n0,c0=original_runs(name,e)
         start,size=G.SPANS[name]
-        late=[a&~3 for a in LAST_READS if 0x0C000000<=(a&0x1FFFFFFF)<0x0D000000 and not start-0x1000<=a<start+size+0x1000][-10:]
+        ph=lambda x:x&0x1FFFFFFF      # the simulator reports reads at 0C..., functions.txt may say 8C...: the same bytes, compared as physical addresses
+        late=[a&~3 for a in LAST_READS if 0x0C000000<=(a&0x1FFFFFFF)<0x0D000000 and not ph(start)-0x1000<=ph(a)<ph(start)+size+0x1000][-10:]
         v=rng.choice(HOT) if rng.random()<0.7 else rng.choice(V)
         if late and rng.random()<0.8:
             # the words the original read last are the ones its final guard looked at: set one of them
@@ -294,11 +307,21 @@ def grow(name,runs,V,rng,HOT,budget=int(os.environ.get('GEN_BUDGET','1200'))):
         else:
             stale+=1
     return runs
+def draw_seconds(name):
+    """How long a function's whole drawing (every attempt, its candidates and its growth) may take: two thirds of the time the run gives
+    the function (gen_equiv/__main__.py: max(60, size/8) seconds times GEN_TIME_FACTOR), the last third left to directed.rescue and the
+    rest. GEN_DRAW_SECONDS sets it outright."""
+    if os.environ.get('GEN_DRAW_SECONDS'): return float(os.environ['GEN_DRAW_SECONDS'])
+    return max(60,G.SPANS.get(name,(0,0))[1]//8)*float(os.environ.get('GEN_TIME_FACTOR','1'))*2/3
+DEADLINE=[None]      # set when a function's drawing starts (tests); pick and grow stop at it
 LAST={}              # the last pick's numbers: cases drawn, cases the original survived (the rest crashed it or never ended)
 def pick(name,cases,want,V=None,rng=None,HOT=None):
     """Of many candidate cases, the ones the original finishes on, chosen greedily by the new instructions each reaches (the
     instruction coverage the equivalence check then rests on), padded with the rest up to want."""
-    runs=[(d,)+original_runs(name,d) for d in cases]
+    runs=[]; t0=time.time()
+    for d in cases:
+        runs.append((d,)+original_runs(name,d))
+        if time.time()>(DEADLINE[0] or t0+draw_seconds(name)): break      # at the deadline, however few ended: a loop that random cases rarely end (a wait on a word a callee sets) would run every candidate to the step cap and time out with nothing
     if V and rng and all(c is not None for d,n,c in runs): runs=grow(name,runs,V,rng,HOT or V)
     ok=[(d,c) for d,n,c in runs if n is not None]
     LAST['drawn']=len(runs); LAST['survived']=len(ok); LAST['pool']=[d for d,c in ok]      # how many cases the original survived, and which
@@ -313,6 +336,7 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         chosen.append(d)
     return chosen
 def tests(name,c,src):
+    DEADLINE[0]=time.time()+draw_seconds(name)
     NOSTACK[0]=not any(n>=8 for n in c.iuse)
     HW[0]=_names_hardware(src)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
@@ -342,6 +366,7 @@ def tests(name,c,src):
     ncalls=len(re.findall(r'\b(?:t\d+ = |return )?[A-Za-z_]\w*\([^()]*\);',src))+4
     if loopy: ncalls=max(ncalls,48)
     for attempt in (0,1,2):               # more candidates and mostly pointers when few survive: the original must finish on them
+        if attempt and time.time()>DEADLINE[0]: break      # past the deadline: what is left goes to directed.rescue (a wait loop), not to more random candidates
         mult=(1,3,8)[attempt]; ncand=(1,1.6,2.6)[attempt]
         pw=(8,4,1)[attempt]                  # words a callee writes through a pointer to the frame: fewer when it would overwrite the saved registers
         cases=[]
@@ -461,4 +486,7 @@ def head_protos(items):
     mine=[it[1].split('\n')[0].strip() for it in items]
     names={it[0] for it in items}
     out=protos_text({k:v for k,v in protos.items() if k not in names})
-    return (out+'\n' if out else '')+'\n'.join(l+';' for l in mine if l.endswith(')'))
+    # a structure passed by value is typed StkN (N words): the typedef goes first, for the prototypes and the definitions below it
+    words=sorted({int(w) for w in re.findall(r'\bStk(\d+)\b',out+' '.join(it[1] for it in items))})
+    tds=''.join('typedef struct { int w[%d]; } Stk%d;\n'%(w,w) for w in words)
+    return tds+(out+'\n' if out else '')+'\n'.join(l+';' for l in mine if l.endswith(')'))

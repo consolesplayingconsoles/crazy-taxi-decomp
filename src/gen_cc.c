@@ -134,67 +134,6 @@ int mwRnaFinish(void)
 }
 
 
-int ADXB_DecodeHeaderAdx(int a4, int a5, int a6)
-{
-    int t0;
-    int t18;
-    int t1;
-    int t17;
-    int t2;
-    int t3;
-    int t4;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t16;
-    int stk[12] = {0};
-
-    *(unsigned short *)((a4 + 0x2)) = 0x1;
-    t0 = ADX_DecodeInfo(a5, a6);
-    t18 = 0x0;
-    if ((int)t0 >= 0) {
-        t1 = ADX_DecodeInfoExADPCM2(a5, a6);
-        t17 = 0x0;
-        if ((int)t1 >= 0) {
-            t2 = *(short *)((a4 + 0x1C));
-            t3 = *(int *)((a4 + 0x14));
-            t4 = *(int *)((a4 + 0x8));
-            ADXPD_SetCoef(t4, t3, t2);
-            ADX_DecodeInfoExLoop(a5, a6, (a4 + 0x20), (a4 + 0x24), (a4 + 0x26), (a4 + 0x28), (a4 + 0x2C), (a4 + 0x30), (a4 + 0x34));
-            t7 = *(signed char *)((a4 + 0xE));
-            *(unsigned int *)(((0x58 + a4) + 0x0)) = t7;
-            t8 = *(signed char *)((a4 + 0xF));
-            *(unsigned int *)(((0x5C + a4) + 0x0)) = t8;
-            t9 = *(int *)((a4 + 0x10));
-            *(unsigned int *)((a4 + 0x60)) = t9;
-            t10 = *(int *)((a4 + 0x3C));
-            *(unsigned int *)((a4 + 0x64)) = t10;
-            t11 = *(int *)((a4 + 0x40));
-            *(unsigned int *)((a4 + 0x68)) = t11;
-            t12 = *(int *)((a4 + 0x44));
-            *(unsigned int *)((a4 + 0x6C)) = t12;
-            t13 = *(short *)((a4 + 0x48));
-            *(unsigned short *)(((a4 + 0x7C) + 0x0)) = t13;
-            t14 = *(short *)((a4 + 0x4A));
-            *(unsigned short *)((a4 + 0x7E)) = t14;
-            *(unsigned int *)((a4 + 0x80)) = (a4 + 0x4C);
-            *(unsigned int *)((a4 + 0x9C)) = 0x0;
-            *(unsigned short *)((a4 + 0xA8)) = 0x0;
-            memset((a4 + 0x4C), 0x0, 0x4);
-            t16 = *(short *)(((int)stk + 28));
-            t17 = t16;
-        }
-        t18 = t17;
-    }
-    return t18;
-}
-
-
 int kmiInterruptHandlerSH(void)
 {
     int t0;
