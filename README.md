@@ -4,7 +4,7 @@
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
-A complete decompilation of the Dreamcast **Crazy Taxi**. It builds and plays normally. Small bugs are expected and the project is undergoing maintenance work towards higher test coverage and confidence in stability.
+A complete decompilation of the Dreamcast **Crazy Taxi**. It builds and plays normally. The rebuild currently runs on Flycast but not on GDEMU/CD yet. Small bugs are expected and the project is undergoing maintenance work towards higher test coverage and confidence in stability.
 
 It rebuilds the game's executable byte for byte.
 A function is **done** when its C behaves like the original (Equivalent);
