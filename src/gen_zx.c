@@ -210,9 +210,9 @@ void carGroundCheck(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     *(float *)((R14 + 0xFC)) = ((*(float *)((R14 + 0xFC))) * (*(float *)(((0x15C + R14) + 0x0))));
     *(float *)((R14 + 0x104)) = ((*(float *)((R14 + 0x104))) * (*(float *)(((0x15C + R14) + 0x0))));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x108 + R14)) = *(struct mv3 *)((0xFC + R14)); }
-    u89 = *(float *)0xC023760;
+    u89 = 6.283f;
     u90 = *(float *)((R14 + 0x12C));
-    *(float *)((R14 + 0x160)) = (((*(float *)((R14 + 0x15C))) * (*(float *)0xC02375C)) / (u90 * u89));
+    *(float *)((R14 + 0x160)) = (((*(float *)((R14 + 0x15C))) * 3.6e+03f) / (u90 * u89));
     R0 = (0x160);
     F0 = ((u90 * u89));
     F1 = (u89);

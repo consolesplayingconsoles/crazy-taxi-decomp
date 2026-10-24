@@ -129,11 +129,11 @@ int psgEnterState4(int a4, int a5)
             if (a5 == 2) {
                 FcvStoreBuffer(0xC9EF530, (a4 + 0x3C), 0.0f);
                 *(unsigned int *)((a4 + 0x110)) = (*(int *)(((((*(int *)((a4 + 0x0))) - 23) << 2) + 0xC0D5690)));
-                *(float *)((a4 + 0x114)) = (*(float *)0xC06D6EC);
+                *(float *)((a4 + 0x114)) = 5.0f;
                 FcvStoreBuffer((*(int *)((a4 + 0x110))), (*(int *)((a4 + 0x118))), (*(float *)((a4 + 0x114))));
                 *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x80);
                 *(float *)((a4 + 0x108)) = 0.0f;
-                *(float *)((a4 + 0x10C)) = (*(float *)0xC06D6F0);
+                *(float *)((a4 + 0x10C)) = 1e+01f;
                 *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xF9);
                 *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
                 t18 = (Psg_SetMoveSpeed(a4, 0.0f));

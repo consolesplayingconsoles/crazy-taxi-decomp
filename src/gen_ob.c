@@ -130,10 +130,10 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     goto L_C053D0A;
     L_C053D0A:;
     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((*(int *)(((int)stk + 4))) << 2))));
-    *(float *)((R13 + 0x4)) = (*(float *)0xC053E44);
+    *(float *)((R13 + 0x4)) = 74.0f;
     t47 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((*(int *)(((int)stk + 8))) << 2))));
-    *(float *)((R13 + 0x4)) = (*(float *)0xC053E48);
+    *(float *)((R13 + 0x4)) = 116.0f;
     t51 = ((int (*)(int))(nlSprPut))(0xC2A7F7C);
     goto L_C053D32;
     L_C053D32:;

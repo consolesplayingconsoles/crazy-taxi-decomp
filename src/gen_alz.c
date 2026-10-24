@@ -5,9 +5,9 @@ int Init_sprCombo(void);
 
 int Init_sprCombo(void)
 {
-    *(float *)0xC2A88E0 = (*(float *)0xC052664);
-    *(float *)0xC2A88E4 = (*(float *)0xC052668);
-    *(float *)0xC2A88E8 = (*(float *)0xC05266C);
+    *(float *)0xC2A88E0 = 3.2e+02f;
+    *(float *)0xC2A88E4 = 2.4e+02f;
+    *(float *)0xC2A88E8 = 0.19999999f;
     *(float *)0xC2A88EC = 1.0f;
     *(float *)0xC2A88F0 = 1.0f;
     *(float *)0xC2A88F4 = 0.0f;

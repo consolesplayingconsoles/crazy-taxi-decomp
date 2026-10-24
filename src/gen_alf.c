@@ -99,7 +99,7 @@ int CarSel_ChangeCar(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C051458;
     L_C051458:;
     u23 = *(float *)0xC1EE2F4;
-    t24 = u23 > (*(float *)0xC0515D0);
+    t24 = u23 > 0.29999998f;
     t25 = *(int *)0xC2A751C;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
@@ -200,7 +200,7 @@ int CarSel_ChangeCar(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     goto L_C051532;
     L_C0514C8:;
-    t58 = (*(float *)0xC0515DC) > F4;
+    t58 = (-0.29999998f) > F4;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     R0 = (0xC0515DC);
@@ -286,7 +286,7 @@ int CarSel_ChangeCar(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     goto L_C051532;
     L_C05143C:;
-    t84 = !((F5 + (*(float *)0xC0515B8)) > F4);
+    t84 = !((F5 + 0.099999994f) > F4);
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     R0 = (0xC0515B8);

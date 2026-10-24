@@ -56,8 +56,8 @@ float general_spline_point(int a4, int a5, int a6, int a7, int a8, float f4, flo
     F10 = f10;
     F11 = f11;
     L_C04D330:;
-    u0 = *(float *)0xC04D4D8;
-    u1 = *(float *)0xC04D4DC;
+    u0 = 6.0f;
+    u1 = (-2.0f);
     u2 = ((F4 + (-1.0f)) * (F4 + u1));
     u4 = ((F4 + 1.0f) * (F4 + (-1.0f)));
     u5 = ((((F4 + 1.0f) * (F4 + u1))) * F4);

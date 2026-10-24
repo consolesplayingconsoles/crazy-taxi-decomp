@@ -29,9 +29,9 @@ int gameState12(void)
     SetAdvCamera(0xC179840, 0x1);
     MotionBlurOn();
     MotionBlurOn();
-    u9 = *(float *)0xC02D520;
+    u9 = 0.5f;
     SetMotionBlurStrength(u9);
-    SetMotionBlurColor((*(float *)0xC02D52C), (*(float *)0xC02D528), u9);
+    SetMotionBlurColor(0.9f, 0.79999995f, u9);
     t14 = InitEndRoll();
     *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
     *(unsigned int *)0xC1EE240 = 0x0;

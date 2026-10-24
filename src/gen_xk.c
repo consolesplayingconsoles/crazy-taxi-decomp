@@ -7,7 +7,7 @@ int Init_Adv_Title_LOGO(void)
 {
     *(float *)0xC2A9230 = 0.0f;
     *(float *)0xC2A9234 = 0.0f;
-    *(float *)0xC2A9238 = (*(float *)0xC057A4C);
+    *(float *)0xC2A9238 = 5e+02f;
     *(float *)0xC2A923C = 1.0f;
     *(float *)0xC2A9240 = 1.0f;
     *(float *)0xC2A9244 = 0.0f;

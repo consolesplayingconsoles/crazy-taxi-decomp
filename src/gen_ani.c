@@ -18,7 +18,7 @@ int ExecScreen(float f4)
     float u11;
     float u15;
 
-    u0 = *(float *)0xC03B67C;
+    u0 = 0.049999997f;
     u1 = *(float *)0xC2A1A10;
     u2 = *(float *)0xC2A1AE4;
     if (u0 > _builtin_fabsf((u2 - u1))) {

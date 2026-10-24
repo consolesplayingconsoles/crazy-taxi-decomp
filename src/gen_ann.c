@@ -28,7 +28,7 @@ float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
     L_C0217B4:;
     R0 = (0xC0218FC);
     F7 = (1.0f);
-    F8 = ((*(float *)0xC0218FC));
+    F8 = (8e+01f);
     if ((F5 > F4)) goto L_C0217F4;
     goto L_C0217BE;
     L_C0217BE:;
@@ -43,7 +43,7 @@ float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
     goto L_C0217D6;
     L_C0217D6:;
     R0 = (0xC021900);
-    F6 = ((F6 * _builtin_fabsf((F4 / (*(float *)0xC021900)))));
+    F6 = ((F6 * _builtin_fabsf((F4 / 75.0f))));
     goto L_C02182C;
     L_C02182C:;
     if ((!(F6 > F7))) goto L_C021832;
@@ -58,7 +58,7 @@ float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
     goto L_C0217E6;
     L_C0217E6:;
     R0 = (0xC021900);
-    F6 = ((_builtin_fabsf((F5 / (*(float *)0xC021900))) * F7));
+    F6 = ((_builtin_fabsf((F5 / 75.0f)) * F7));
     goto L_C02182C;
     L_C02181C:;
     F6 = (0.0f);
@@ -75,13 +75,13 @@ float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
     goto L_C02180C;
     L_C02180C:;
     R0 = (0xC021900);
-    F6 = ((F6 * _builtin_fabsf((F5 / (*(float *)0xC021900)))));
+    F6 = ((F6 * _builtin_fabsf((F5 / 75.0f))));
     goto L_C02182C;
     L_C021818:;
     if ((F4 != F3)) goto L_C021820;
     goto L_C02181C;
     L_C021820:;
     R0 = (0xC021900);
-    F6 = ((_builtin_fabsf((F4 / (*(float *)0xC021900))) * F7));
+    F6 = ((_builtin_fabsf((F4 / 75.0f)) * F7));
     goto L_C02182C;
 }

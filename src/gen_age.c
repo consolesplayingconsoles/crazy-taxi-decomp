@@ -34,7 +34,7 @@ int Drv_ExecBikePedal(float f4, float f5, float f6, float f7, float f8)
             if (t14 != 1) {
                 if (t14 != 2) {
                 } else {
-                    if ((*(float *)0xC063B24) > u15) {
+                    if (7.0f > u15) {
                         *(unsigned int *)0xC2AD014 = 0x0;
                         Drv_StartBikePedal(0x0);
                         *(float *)0xC2AD100 = u13;
@@ -61,7 +61,7 @@ int Drv_ExecBikePedal(float f4, float f5, float f6, float f7, float f8)
             }
         }
     }
-    if (((*(int *)0xC1791EC) == 0) && (u94 = *(float *)0xC063B2C, u95 = *(float *)0xC179228, u94 > u95)) {
+    if (((*(int *)0xC1791EC) == 0) && (u94 = 0.099999994f, u95 = *(float *)0xC179228, u94 > u95)) {
         Drv_StartAction(0x1, 0x0, 0x0);
     }
     if ((*(signed char *)0xC1EE26E) != 0) {

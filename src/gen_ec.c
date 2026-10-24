@@ -153,7 +153,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if ((R4 != 14)) goto L_C05D818;
     goto L_C05D7DE;
     L_C05D7DE:;
-    t46 = !((*(float *)0xC05D8D0) > F15);
+    t46 = !(5e+03f > F15);
     *(float *)(((int)stk + 8)) = *(float *)((int)stk + 8);
     *(float *)(((int)stk + 4)) = *(float *)((int)stk + 4);
     R0 = (0xC05D8D0);

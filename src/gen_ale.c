@@ -89,7 +89,7 @@ int pcarLaneChange(int a4, int a5, int a6, int a7, float f4)
     goto L_C044EDC;
     L_C044EDC:;
     R0 = (0xCC);
-    if ((!((*(float *)0xC044F68) > (*(float *)((R14 + 0xCC)))))) goto L_C044F02;
+    if ((!(0.462963f > (*(float *)((R14 + 0xCC)))))) goto L_C044F02;
     goto L_C044EE8;
     L_C044EE8:;
     goto L_C044EF4;
@@ -104,7 +104,7 @@ int pcarLaneChange(int a4, int a5, int a6, int a7, float f4)
     goto L_C044EF4;
     L_C044E30:;
     t29 = *(int *)((R14 + 0x11C));
-    u30 = *(float *)0xC044F5C;
+    u30 = 3.3e+02f;
     F1 = (u30);
     F4 = ((float)t29);
     if ((!(u30 > (float)t29))) goto L_C044ECC;

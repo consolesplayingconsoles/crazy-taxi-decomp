@@ -69,7 +69,7 @@ void putMenuValue(int a4, int a5, int a6, int a7)
     }
     t41 = pfLength(((a5 + (a7 * 0x2C)) + 0xC));
     if ((0x4 & a4) != 0) {
-        u46 = (-(t41 * (*(float *)0xC03CAA0)));
+        u46 = (-(t41 * 0.5f));
     } else {
         if ((0x8 & a4) != 0) {
             u43 = (-t41);
@@ -97,15 +97,15 @@ void putMenuValue(int a4, int a5, int a6, int a7)
             }
             u65 = u56;
         }
-        u67 = *(float *)0xC03CAA0;
+        u67 = 0.5f;
         if ((int)a7 > 0) {
             if ((0x4 & a4) != 0) {
-                u80 = (((-(u65 * u67)) - (pfLength(0xC0A2024))) + (*(float *)0xC03CAB8));
+                u80 = (((-(u65 * u67)) - (pfLength(0xC0A2024))) + (-5.0f));
             } else {
                 if ((0x8 & a4) != 0) {
-                    u75 = (((-u65) - (pfLength(0xC0A2024))) + (*(float *)0xC03CAB8));
+                    u75 = (((-u65) - (pfLength(0xC0A2024))) + (-5.0f));
                 } else {
-                    u75 = ((-(pfLength(0xC0A2024))) + (*(float *)0xC03CAB8));
+                    u75 = ((-(pfLength(0xC0A2024))) + (-5.0f));
                 }
                 u80 = u75;
             }
@@ -113,7 +113,7 @@ void putMenuValue(int a4, int a5, int a6, int a7)
             pfPuts(0xC0A2028);
         }
         if ((int)a7 < (int)(a6 - 1)) {
-            u96 = *(float *)0xC03CAC0;
+            u96 = 5.0f;
             u99 = ((u65 * u67) + u96);
             if ((0x4 & a4) != 0) {
             } else {

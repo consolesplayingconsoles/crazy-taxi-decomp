@@ -145,12 +145,12 @@ float MoveHelicopter(int a4)
     u120 = u120 + 1000.0f * (*(float *)((a4 + 0x50)));
     *(unsigned int *)(((0x54 + a4) + 0x0)) = (int)((float)(*(int *)(((0x54 + a4) + 0x0))) + u120);
     t122 = nlLength((a4 + 0x14), 0xC179144);
-    if ((t122 > (*(float *)0xC037654)) && (t124 = *(int *)0xC274290, t124 != 0)) {
+    if ((t122 > 2e+03f) && (t124 = *(int *)0xC274290, t124 != 0)) {
         Sound_Request(0x511A9, 0x0);
     } else {
         u127 = t122;
     }
-    if (t122 > (*(float *)0xC037664)) {
+    if (t122 > 4e+03f) {
         nlCloseEvent(a4);
         *(unsigned int *)0xC27428C = 0x0;
     } else {

@@ -77,11 +77,11 @@ int gdc_Err(int a4, int a5, int a6, float f4)
     goto L_C02DECC;
     L_C02DECC:;
     *(unsigned int *)(((int)stk + 4)) = 0xA7;
-    *(float *)(((int)stk + 8)) = (*(float *)0xC02DF9C);
+    *(float *)(((int)stk + 8)) = 355.0f;
     *(float *)(((int)stk + 12)) = F4;
     t16 = ((int (*)(int, int, int))(nlSprPut))(((int)stk + 4), a5, a6);
     *(unsigned int *)(((int)stk + 4)) = 0xA8;
-    *(float *)(((int)stk + 8)) = (*(float *)0xC02DFA0);
+    *(float *)(((int)stk + 8)) = 385.0f;
     goto L_C02DEEC;
     L_C02DEEC:;
     *(float *)(((int)stk + 12)) = F15;

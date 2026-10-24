@@ -45,8 +45,8 @@ int PcarInit(int a4, int a5, int a6)
         { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t0)) = *(struct mv3 *)(a6); }
     }
     PcarEvInit(t0);
-    u19 = (*(float *)0xC046240);
-    u19 = u19 + (*(float *)0xC046244) * ((*(float *)0xC04623C) / (*(float *)((t0 + 0xB4))));
+    u19 = 0.06f;
+    u19 = u19 + 0.01f * (1e+03f / (*(float *)((t0 + 0xB4))));
     *(float *)((t0 + 0xD0)) = u19;
     if (t4 != 0) {
         *(unsigned int *)((t0 + 0x84)) = ((*(int *)((t0 + 0x84))) | 0x2);
@@ -54,7 +54,7 @@ int PcarInit(int a4, int a5, int a6)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + t0)) = *(struct mv3 *)((0xE0 + t0)); }
     nlSubVector((0x98 + t0), (0x8C + t0));
     t26 = *(int *)((t0 + 0x80));
-    nlScaleUnitVector((0x98 + t0), (0x98 + t0), ((*(float *)((0xC0C3F04 + (((*(int *)(((*(int *)((((((t26 << 1) + t26) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0xF) << 2)))) * (*(float *)0xC046254)));
+    nlScaleUnitVector((0x98 + t0), (0x98 + t0), ((*(float *)((0xC0C3F04 + (((*(int *)(((*(int *)((((((t26 << 1) + t26) << 2) + (*(int *)0xC2A6690)) + 0x8))) + 0x0))) & 0xF) << 2)))) * 0.7f));
     courseStatusEntry((*(int *)((t0 + 0x80))), (*(int *)((t0 + 0xD4))));
     calcCheckExec(t0, (*(int *)((t0 + 0x84))));
     t38 = *(int *)((t0 + 0x78));

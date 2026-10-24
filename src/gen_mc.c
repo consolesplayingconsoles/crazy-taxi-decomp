@@ -122,7 +122,7 @@ int Exec_Combo_Entry(int a4)
                 nlSprPut(0xC2A88DC);
             }
             *(unsigned int *)0xC2A88DC = ((*(int *)(((((int)stk + 4) + 0x14) + 0x0))) + 0x50);
-            *(float *)0xC2A88E0 = ((*(float *)((a4 + 0x14))) + (*(float *)0xC0568C4));
+            *(float *)0xC2A88E0 = ((*(float *)((a4 + 0x14))) + 6.1e+02f);
             nlSprPut(0xC2A88DC);
             ResetFadeColor();
         }

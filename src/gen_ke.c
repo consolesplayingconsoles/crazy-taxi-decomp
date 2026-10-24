@@ -20,7 +20,7 @@ int ExecEffectSpray(int a4)
     int t11;
 
     t0 = *(int *)((a4 + 0x30));
-    u1 = *(float *)0xC036A60;
+    u1 = 1e+01f;
     *(float *)0xC462ABC = ((float)t0 / u1);
     if (((float)t0 / u1) > 1.0f) {
         *(float *)0xC462ABC = 1.0f;
@@ -29,7 +29,7 @@ int ExecEffectSpray(int a4)
     nlTranslateV((a4 + 0x14));
     nlObjPutSetFadeColorBase(1.0f, 1.0f, 1.0f);
     u7 = *(float *)((a4 + 0x2C));
-    Put2DObjUp(0xC462A78, u7, u7, (*(float *)0xC036A70));
+    Put2DObjUp(0xC462A78, u7, u7, 4.0f);
     ResetFadeColor();
     nlPopMatrix(0x1);
     t11 = *(int *)((a4 + 0x30));
@@ -38,7 +38,7 @@ int ExecEffectSpray(int a4)
         return nlCloseEvent(a4);
     }
     nlAddVector((a4 + 0x14), (a4 + 0x20));
-    nlScaleVector((a4 + 0x20), (a4 + 0x20), (*(float *)0xC036A88));
+    nlScaleVector((a4 + 0x20), (a4 + 0x20), 0.95f);
     *(float *)((a4 + 0x24)) = ((*(float *)((a4 + 0x24))) - 0.166665986f);
     *(float *)((a4 + 0x2C)) = ((*(float *)((a4 + 0x2C))) + 0.0799999982f);
     return 0x2C;

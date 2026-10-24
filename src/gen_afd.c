@@ -10,7 +10,7 @@ int gdc_PlayStreamSong(int a4);
 int gdc_PlayStreamSong(int a4)
 {
     *(unsigned int *)0xC26A0B8 = 0x0;
-    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)(*(signed char *)0xC28A4EC) / (*(float *)0xC02E394)) * (*(float *)0xC02E3A8));
+    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)(*(signed char *)0xC28A4EC) / 8.0f) * 76.0f);
     gdc_StopStreamSongAll();
     ADXT_StartAfs((*(int *)0xC1EE820), 0x1, a4);
     return ADXT_SetOutVol((*(int *)0xC1EE820), (volumeToDb((*(signed char *)0xC1EE80C))));

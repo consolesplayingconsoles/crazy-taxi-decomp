@@ -61,7 +61,7 @@ float BigOneKeyValue(int a4, int a5, int a6, int a7, float f4, float f5, float f
     F5 = (1.0f);
     F6 = (0.0f);
     F7 = ((1.0f + 1.0f));
-    F9 = ((*(float *)0xC0738F0));
+    F9 = (3.0f);
     if (((int)(R5 - 1) <= 0)) goto L_C073786;
     goto L_C0736E8;
     L_C0736E8:;

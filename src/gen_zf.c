@@ -85,7 +85,7 @@ int putString(int a4, int a5, float f4, float f5, float f6)
     goto L_C03B3F6;
     L_C03B3F6:;
     t25 = pfLength(R13);
-    u26 = *(float *)0xC03B4C8;
+    u26 = 0.5f;
     F15 = ((F15 - (t25 * u26)));
     F4 = ((t25 * u26));
     goto L_C03B418;

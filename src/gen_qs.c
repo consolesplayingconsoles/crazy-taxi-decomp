@@ -42,12 +42,12 @@ int hudRankPanelSlide(void)
         }
         t23 = t16;
     }
-    *(float *)0xC2A80C0 = (*(float *)0xC055D24);
-    *(float *)0xC2A80C4 = (*(float *)0xC055D28);
-    *(float *)0xC2A80C8 = (*(float *)0xC055D2C);
+    *(float *)0xC2A80C0 = 532.0f;
+    *(float *)0xC2A80C4 = 1.9e+02f;
+    *(float *)0xC2A80C8 = 0.099999994f;
     *(float *)0xC2A80D4 = 0.0f;
     t28 = *(int *)0xC2A9170;
-    u29 = *(float *)0xC055D30;
+    u29 = 0.049999997f;
     *(float *)0xC2A80CC = ((float)t28 * u29);
     *(float *)0xC2A80DC = ((float)t28 * u29);
     *(float *)0xC2A80D0 = 1.0f;

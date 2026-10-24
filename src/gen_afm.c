@@ -45,7 +45,7 @@ int breathMove(int a4, int a5)
         }
     }
     t25 = GetCollision2D(a4, 0.0f);
-    u26 = *(float *)0xC0729F4;
+    u26 = (-2.5f);
     if (((*(float *)((t25 + 0x4))) + u26) > (*(float *)((a4 + 0x4)))) {
         *(float *)((a4 + 0x4)) = ((*(float *)((t25 + 0x4))) + u26);
     }

@@ -29,11 +29,11 @@ int menuRecordViewHandler(void)
     if ((*(int *)0xC2A11E0) == 0) {
         putString(0x20013, 0xC0A210C, (float)(t9 + 0x20), 36.0f, 1.51999998f);
     } else {
-        PutStringFixPfont(0x20013, ((short)((short)((*(int *)0xC2A11E0) - 1) * (short)0x788) + 0xC28A4F8), (float)(t9 + 0x20), 36.0f, (*(float *)0xC03FBC4), 1.51999998f);
+        PutStringFixPfont(0x20013, ((short)((short)((*(int *)0xC2A11E0) - 1) * (short)0x788) + 0xC28A4F8), (float)(t9 + 0x20), 36.0f, 3e+01f, 1.51999998f);
         putString(0x20013, 0xC0A2060, (float)((*(int *)0xC2A1AD8) + 0x84), 36.0f, 1.51999998f);
     }
     t19 = *(int *)0xC2A1AD8;
-    u20 = *(float *)0xC03FBD8;
+    u20 = 416.0f;
     t23 = 0x4;
     if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 3) {
         t23 = 0x0;

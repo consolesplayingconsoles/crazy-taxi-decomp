@@ -6,11 +6,11 @@ int selectInitBarSprite(void);
 int selectInitBarSprite(void)
 {
     *(unsigned int *)0xC2A7370 = 0x62;
-    *(float *)0xC2A737C = (*(float *)0xC051DF8);
+    *(float *)0xC2A737C = 501.0f;
     *(float *)0xC2A7374 = 0.0f;
     *(float *)0xC2A7378 = 0.0f;
-    *(float *)0xC2A7380 = (*(float *)0xC051DFC);
-    *(float *)0xC2A7384 = (*(float *)0xC051E00);
+    *(float *)0xC2A7380 = 4e+01f;
+    *(float *)0xC2A7384 = 8.5f;
     *(float *)0xC2A7388 = 0.0f;
     *(float *)0xC2A738C = 0.0f;
     *(float *)0xC2A7390 = 1.0f;

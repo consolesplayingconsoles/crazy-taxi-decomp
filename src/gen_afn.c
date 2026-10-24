@@ -28,21 +28,21 @@ int camGetOnMid(void)
     SetCameraMode(0x1);
     nlSubVector3op((((int)stk + 4) + 0x18), ((*(int *)0xC2AD54C) + 0x4), ((*(int *)0xC2AD548) + 0x4));
     nlUnitVector((((int)stk + 4) + 0x18));
-    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, (*(float *)0xC064A24));
+    nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, (-2e+01f));
     t8 = nlInnerProduct(0xC2AD1F8, (((int)stk + 4) + 0x18));
     u9 = (t8 * (-1.0f));
     if (t8 > 0.0f) {
         u9 = 0.0f;
     }
-    u12 = *(float *)0xC064A30;
-    u14 = (*(float *)0xC064A34);
+    u12 = 1e+01f;
+    u14 = 15.0f;
     u14 = u14 + u12 * u9;
     nlGetAverageVector((((int)stk + 4) + 0xC), 0xC2AD1EC, (((int)stk + 4) + 0xC), 1.0f, u14);
     nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 0xC179840);
-    u17 = *(float *)0xC064A40;
+    u17 = 0.29999998f;
     nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u17);
     camSetEye((((int)stk + 4) + 0xC), 0x1);
-    u21 = *(float *)0xC064A48;
+    u21 = 0.5f;
     nlGetAverageVector(((*(int *)0xC2AD548) + 0x4), ((*(int *)0xC2AD54C) + 0x4), ((int)stk + 4), u21, u21);
     nlGetAverageVector(((int)stk + 4), 0xC2AD1EC, ((int)stk + 4), 1.0f, u12);
     nlSubVector3op((((int)stk + 4) + 0x18), ((int)stk + 4), 0xC17984C);

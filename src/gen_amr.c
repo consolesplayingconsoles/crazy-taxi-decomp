@@ -13,7 +13,7 @@ int gdc_GetStreamSongPlayTime(int a4, int a5, int a6, int a7)
     *(unsigned int *)(((int)stk + 12)) = a4;
     ADXT_GetTime((*(int *)(((a4 << 2) + 0xC1EE820))), ((int)stk + 4), (((int)stk + 4) + 0x4), a7);
     t2 = *(int *)(((int)stk + 4));
-    u3 = *(float *)0xC02E260;
+    u3 = 0.0013605441f;
     *(unsigned int *)(((int)stk + 4)) = (int)((float)t2 * u3);
     return (int)((float)t2 * u3);
 }

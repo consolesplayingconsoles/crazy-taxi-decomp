@@ -15,12 +15,12 @@ int pedGetSubwayFlag(float f4, float f5)
     int t13;
     int t8;
 
-    t1 = GetCollision2D(0xC179144, (*(float *)0xC0500C8), f5);
+    t1 = GetCollision2D(0xC179144, 2e+01f, f5);
     t16 = 0;
     if ((*(int *)((t1 + 0x1C))) != -1) {
         u3 = *(float *)0xC179148;
         u4 = *(float *)((t1 + 0x4));
-        u5 = *(float *)0xC0500D4;
+        u5 = 8e+01f;
         if (!(_builtin_fabsf((u4 - u3)) > u5)) {
             t6 = *(int *)((t1 + 0x1C));
             *(unsigned int *)0xC12FFBC = t6;

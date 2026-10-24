@@ -57,7 +57,7 @@ int Init_Result_Parm(float f4)
     *(unsigned int *)0xC2A984C = 0x0;
     *(unsigned int *)0xC2A9748 = 0x0;
     *(float *)0xC2A9758 = 0.0f;
-    *(float *)0xC2A974C = (*(float *)0xC059390);
+    *(float *)0xC2A974C = 0.5f;
     *(unsigned short *)0xC2A9750 = 0x0;
     *(unsigned int *)0xC2A9754 = 0x0;
     return 0xC059390;

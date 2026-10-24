@@ -20,7 +20,7 @@ int Drv_ExecReverse(float f4, float f5, float f6, float f7, float f8)
         FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, t3);
     }
     if ((*(int *)0xC1791EC) != 0) {
-        if ((*(float *)0xC179228) > (*(float *)0xC063320)) {
+        if ((*(float *)0xC179228) > (-0.099999994f)) {
             return Drv_StartAction(0x0, 0x0, 0x0);
         }
         return 0x15C;

@@ -45,6 +45,6 @@ int Put_Adv_Credits(int a4, int a5, int a6)
         pfAddString(0xC0D0AC4);
         pfAddNumber(t4, 0x0);
     }
-    pfLocate((nlRoundOff(((*(float *)0xC0581E0) - ((pfLength((*(int *)0xC08D678))) * (*(float *)0xC0581DC))))), (*(float *)0xC0581E8));
+    pfLocate((nlRoundOff((3.2e+02f - ((pfLength((*(int *)0xC08D678))) * 0.5f)))), 422.0f);
     return pfPuts((*(int *)0xC08D678));
 }

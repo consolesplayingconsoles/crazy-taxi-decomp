@@ -22,13 +22,13 @@ int Drv_ExecDrive(float f4, float f5, float f6, float f7, float f8)
         *(float *)0xC2AD024 = t3;
         FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, t3);
     }
-    if (((*(int *)0xC1791EC) == 0) && (u9 = *(float *)0xC063238, u10 = *(float *)0xC179228, u9 > u10)) {
+    if (((*(int *)0xC1791EC) == 0) && (u9 = 0.099999994f, u10 = *(float *)0xC179228, u9 > u10)) {
         Drv_StartAction(0x1, 0x0, 0x0);
     }
     t18 = 0x22;
     if ((*(signed char *)0xC1EE26E) != 0) {
         Drv_StartAction(0x9, 0x0, 0x0);
-        *(float *)0xC2AD024 = (*(float *)0xC063244);
+        *(float *)0xC2AD024 = 14.0f;
         t18 = 0x24;
     }
     return t18;

@@ -58,11 +58,11 @@ int Put_Max_Combo(void)
     }
     pfColor(t29, t30, t29, t30);
     pfSize(1.0f, 1.0f);
-    u33 = *(float *)0xC056A00;
+    u33 = 98.0f;
     pfLocate((float)(t15 + 0x1B4), u33);
     pfPuts(0xC0D09C4);
     *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = (*(float *)0xC056A14);
+    *(float *)0xC2A88E0 = 564.0f;
     *(float *)0xC2A88E4 = u33;
     u48 = 1.0f;
     u49 = 0.0f;
@@ -77,11 +77,11 @@ int Put_Max_Combo(void)
     if (((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) == 0) && (t57 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0)), t57 == 0)) {
     } else {
         *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) + 0x50);
-        *(float *)0xC2A88E0 = (*(float *)0xC056A28);
+        *(float *)0xC2A88E0 = 586.0f;
         nlSprPut(0xC2A88DC);
     }
     *(unsigned int *)0xC2A88DC = ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = (*(float *)0xC056A2C);
+    *(float *)0xC2A88E0 = 6.1e+02f;
     nlSprPut(0xC2A88DC);
     return (ResetFadeColor());
 }

@@ -748,6 +748,7 @@ Put_Record_Window
 Put_Remain_Icon
 Put_Remain_Time
 Put_Remain_Time_Add
+Put_Remain_Time_Flash
 Put_Remain_Time_Frame
 Put_Remain_Time_Gauge
 Put_Remain_Time_Mode2
@@ -1095,6 +1096,7 @@ bootTimerTick
 breathExecOne
 breathFrameTime
 breathMove
+breathPut
 breathResetOne
 breathSteer
 buAnalyzeBackupFileImage

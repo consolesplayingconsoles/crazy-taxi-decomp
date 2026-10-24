@@ -23,7 +23,7 @@ void setObjHitSplitSleep(int a4, float f4, float f5)
     if ((nlLength((a4 + 0xC), (a4 + 0x58), f4, f5)) > (1.0f + 1.0f)) {
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x58)) = *(struct mv3 *)((a4 + 0xC)); }
         *(unsigned int *)(((int)stk + 4)) = 0xC0EDEB4;
-        u1 = *(float *)0xC0387B0;
+        u1 = 1.8f;
         t2 = 0x0;
         for (;;) {
             t4 = set_event(0x84, 0xC0385E2);

@@ -13,10 +13,10 @@ float Drv_ReverseFrame(void)
     float u4;
     float u11;
 
-    u0 = *(float *)0xC063328;
+    u0 = 2e+01f;
     t1 = *(short *)0xC1791E0;
-    u2 = *(float *)0xC06332C;
-    u3 = *(float *)0xC063330;
+    u2 = 3434.0f;
+    u3 = (-2e+01f);
     u6 = u3;
     if (u3 > ((-((float)t1 * u0)) / u2)) {
     } else {
@@ -28,7 +28,7 @@ float Drv_ReverseFrame(void)
     }
     u11 = u6;
     if (0.0f > u6) {
-        u11 = (u6 + (*(float *)0xC063334));
+        u11 = (u6 + 6e+01f);
     }
     return u11;
 }

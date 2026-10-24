@@ -30,9 +30,9 @@ int Drv_ExecHorn(float f4, float f5, float f6, float f7, float f8)
     }
     if ((*(signed char *)0xC1EE26E) != 0) {
         Drv_StartAction(0x9, 0x0, 0x0);
-        *(float *)0xC2AD024 = (*(float *)0xC0639BC);
+        *(float *)0xC2AD024 = 14.0f;
     }
-    if ((*(float *)0xC2AD024) == (*(float *)0xC0639C0)) {
+    if ((*(float *)0xC2AD024) == 22.0f) {
         t42 = *(int *)0xC2AD000;
         t43 = 0x501A9;
         if ((t42 != 1) && (t42 != 3)) {

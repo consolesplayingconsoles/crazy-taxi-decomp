@@ -28,7 +28,7 @@ int psgFaceTaxi(int a4)
         u4 = _builtin_sqrtf((1.0f - (t2 * t2)));
     }
     t6 = nlArcTan2(u4, t2);
-    t9 = GetAverageAngle((*(int *)((a4 + 0x10))), t6, (*(float *)0xC071230));
+    t9 = GetAverageAngle((*(int *)((a4 + 0x10))), t6, 0.95f);
     *(unsigned int *)((a4 + 0x10)) = (short)t9;
     return (short)t9;
 }

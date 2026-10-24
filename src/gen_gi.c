@@ -22,11 +22,11 @@ void PutNameEntryName(void)
     float u19;
     int stk[31];
 
-    u0 = *(float *)0xC039D0C;
+    u0 = 66.0f;
     u1 = *(float *)0xC2864D4;
-    u2 = *(float *)0xC039D10;
-    *(float *)(((int)stk + 12)) = (*(float *)0xC039D14);
-    *(float *)(((int)stk + 16)) = (*(float *)0xC039D18);
+    u2 = 3.2e+02f;
+    *(float *)(((int)stk + 12)) = 1.9e+02f;
+    *(float *)(((int)stk + 16)) = 0.5f;
     u5 = *(float *)0xC2864D4;
     *(float *)(((int)stk + 24)) = (u5 * (1.0f + 1.0f));
     *(float *)(((int)stk + 20)) = (u5 * (1.0f + 1.0f));

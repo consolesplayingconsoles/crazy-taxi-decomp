@@ -15,7 +15,7 @@ int drvPredictPath(void)
     int stk[21];
 
     nlSubVector3op((((int)stk + 4) + 0xC), 0xC1791C8, 0xC1791D4);
-    u1 = *(float *)0xC064618;
+    u1 = 0.5f;
     nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED8C, (((int)stk + 4) + 0xC), u1, u1);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC13ED8C) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
     nlGetAverageVector((((int)stk + 4) + 0xC), 0xC13ED80, (((int)stk + 4) + 0xC), u1, u1);

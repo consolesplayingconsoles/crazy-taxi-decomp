@@ -94,7 +94,7 @@ int goiToolLight(int a4, int a5, int a6, int a7, float f4)
     goto L_C04AB92;
     L_C04AB92:;
     u26 = (*(float *)((R12 + 0x0)));
-    u26 = u26 + (*(float *)0xC04ACBC) * (float)(R1 - R0);
+    u26 = u26 + 0.01f * (float)(R1 - R0);
     *(float *)((R12 + 0x0)) = u26;
     goto L_C04ABFC;
     L_C04ABFC:;
@@ -106,8 +106,8 @@ int goiToolLight(int a4, int a5, int a6, int a7, float f4)
     nlObjPutSetLightDirectionV((((int)stk + 20) + 0x10));
     nlObjPutSetGlobalAmbience((*(float *)((R12 + 0x0))));
     *(float *)(((int)stk + 24)) = 0.0f;
-    *(float *)(((int)stk + 28)) = (*(float *)0xC04ACD0);
-    *(float *)(((int)stk + 32)) = (*(float *)0xC04ACD4);
+    *(float *)(((int)stk + 28)) = 2e+01f;
+    *(float *)(((int)stk + 32)) = (-5e+01f);
     DispVector((((int)stk + 20) + 0x10), (((int)stk + 20) + 0x4), 0x1, 1.0f);
     nlLocate(0x1E, 0x28);
     u44 = *(float *)((R12 + 0x0));

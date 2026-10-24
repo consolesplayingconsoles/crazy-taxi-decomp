@@ -26,9 +26,9 @@ int gdc_CourseReq(int a4, int a5, float f4)
         t5 = (*(int *)(((a4 << 2) + (*(int *)0xC26E100))));
         t6 = 0xC1EE804;
     }
-    u10 = *(float *)0xC02EE10;
+    u10 = 0.19999999f;
     t11 = *(int *)((((*(int *)((t6 + 0x0))) + (((a4 << 2) + a4) << 2)) + 0x10));
-    u12 = *(float *)0xC02EE14;
+    u12 = 9e+01f;
     t13 = 0xC26C5DC;
     t14 = 0x0;
     t15 = (a4 << 2);

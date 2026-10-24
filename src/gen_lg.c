@@ -31,13 +31,13 @@ void getReplayPassenger(int a4, int a5, int a6, int a7, int a8, float f4, float 
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(a8); }
         *(float *)(((int)stk + 12)) = (*(float *)0xC179148);
         nlSubVector((((int)stk + 4) + 0x4), 0xC179144, f4, f5);
-        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), (*(float *)0xC04C08C));
+        nlScaleUnitVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), 5e+01f);
         nlAddVector((((int)stk + 4) + 0x4), 0xC179144);
-        t12 = GetCollision2D((((int)stk + 4) + 0x4), (*(float *)0xC04C098));
+        t12 = GetCollision2D((((int)stk + 4) + 0x4), 1e+01f);
         if (((*(int *)((t12 + 0x1C))) != -1) && (u14 = *(float *)((t12 + 0x18)), u15 = *(float *)(((int)stk + 12)), u14 > u15)) {
             *(float *)(((int)stk + 12)) = (*(float *)((t12 + 0x18)));
         }
-        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + (*(float *)0xC04C0A0));
+        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + 4.0f);
         t22 = *(int *)(((int)stk + 4));
         { struct mv3 { int w[3]; }; *(struct mv3 *)(((((t22 << 1) + t22) << 2) + (*(int *)0xC2A62AC))) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
     }

@@ -39,16 +39,16 @@ void Put_Here_We_Go(int a4)
     return;
         }
         if (((int)t10 > (int)0xF3) && ((int)t10 <= (int)0x107)) {
-            nlObjPutSetFadeColor(1.0f, (*(float *)0xC053AEC), (*(float *)0xC053AE8));
-            HomingPosX(0xC2A8C9C, (*(float *)0xC053AF8), 0.0f);
+            nlObjPutSetFadeColor(1.0f, 0.6431372f, 0.1607843f);
+            HomingPosX(0xC2A8C9C, 0.19999999f, 0.0f);
             *(unsigned int *)0xC2A7F04 = 0x0;
-            if (!((*(float *)0xC053B04) > (*(float *)0xC2A8C9C))) {
+            if (!((-6.0f) > (*(float *)0xC2A8C9C))) {
                 *(float *)0xC2A7F08 = 1.0f;
             } else {
-                *(float *)0xC2A7F08 = (*(float *)0xC053B08);
+                *(float *)0xC2A7F08 = 0.5f;
             }
-            u30 = *(float *)0xC053B0C;
-            u31 = *(float *)0xC053B10;
+            u30 = 3.2e+02f;
+            u31 = 2.4e+02f;
             nd_SprPut(0xC2A7EDC, 0x19B, ((*(float *)0xC2A8C9C) + u30), u31);
             nd_SprPut(0xC2A7EDC, 0x19B, (u30 - (*(float *)0xC2A8C9C)), u31);
             ResetFadeColor();
@@ -56,7 +56,7 @@ void Put_Here_We_Go(int a4)
         }
         if (((int)t10 >= (int)0x10A) && ((int)t10 <= (int)0x146)) {
             *(unsigned int *)0xC2A8CA4 = ((int)((int)((*(int *)0xC2A8CA4) + 0x1) % (int)0x1E));
-            nlObjPutSetFadeColor((*(float *)0xC053B28), (*(float *)0xC053B24), 0.0f);
+            nlObjPutSetFadeColor(0.9960784f, 0.2862745f, 0.0f);
             u41 = *(float *)0xC2A7EEC;
             *(float *)0xC2A7EEC = (u41 + 0.099999994f);
             *(float *)0xC2A7EF0 = (u41 + 0.099999994f);
@@ -64,7 +64,7 @@ void Put_Here_We_Go(int a4)
             if ((*(float *)0xC2A7F08) > 0.0f) {
                 *(float *)0xC2A7F08 = ((*(float *)0xC2A7F08) - 0.0199999996f);
             }
-            nd_SprPut(0xC2A7EDC, 0x63, (*(float *)0xC2A8CA0), (*(float *)0xC053B10));
+            nd_SprPut(0xC2A7EDC, 0x63, (*(float *)0xC2A8CA0), 2.4e+02f);
             ResetFadeColor();
     return;
         }

@@ -10,10 +10,10 @@ float camGetOnSelect(float f4, float f5)
 
     *(unsigned int *)0xC2AD580 = 0x0;
     t2 = nlLength(((*(int *)0xC2AD548) + 0x4), ((*(int *)0xC2AD54C) + 0x4), f4, f5);
-    if ((*(float *)0xC0648B0) > t2) {
+    if (4e+01f > t2) {
         *(unsigned int *)0xC2AD57C = 0x1;
     } else {
-        if ((*(float *)0xC0648B4) > t2) {
+        if (8e+01f > t2) {
             *(unsigned int *)0xC2AD57C = 0x2;
         } else {
             *(unsigned int *)0xC2AD57C = 0x3;

@@ -99,7 +99,7 @@ int SetSpark(int a4, int a5, int a6, int a7)
     R14 = t24;
     R8 = (0x0);
     R9 = (0x1E);
-    F15 = ((*(float *)0xC037B24));
+    F15 = ((-0.5f));
     goto L_C037AE4;
     L_C037AE4:;
     if ((R14 != 0)) goto L_C037A06;

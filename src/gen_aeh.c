@@ -21,9 +21,9 @@ int Put_Ranking_Header(int a4, int a5, int a6)
     }
     *(unsigned int *)0xC2A91D8 = 0xE3;
     *(float *)0xC2A91DC = (float)((*(int *)0xC2A968C) + 0x8);
-    *(float *)0xC2A91E0 = (*(float *)0xC05894C);
-    *(float *)0xC2A91E4 = (*(float *)0xC058950);
-    *(float *)0xC2A91E8 = (*(float *)0xC058954);
+    *(float *)0xC2A91E0 = 5e+01f;
+    *(float *)0xC2A91E4 = 0.099999994f;
+    *(float *)0xC2A91E8 = 1.4f;
     *(float *)0xC2A91EC = 1.0f;
     *(unsigned int *)0xC2A9200 = 0x0;
     *(unsigned int *)0xC2A920C = 0xA;
@@ -40,7 +40,7 @@ int Put_Ranking_Header(int a4, int a5, int a6)
     t18 = ((int (*)(int))(nlSprPut))(0xC2A91D8);
     *(unsigned int *)0xC2A91D8 = 0xE3;
     *(float *)0xC2A91DC = (float)((*(int *)0xC2A968C) + 0x1CA);
-    *(float *)0xC2A91E8 = (*(float *)0xC05895C);
+    *(float *)0xC2A91E8 = 8.5f;
     t21 = ((int (*)(int))(nlSprPut))(0xC2A91D8);
     *(float *)0xC2A91E8 = 1.0f;
     *(unsigned int *)0xC2A91D8 = 0xE4;

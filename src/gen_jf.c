@@ -48,10 +48,10 @@ void putRecordFrame(int a4, int a5, float f4, float f5, float f6)
         u25 = u19;
         u26 = u20;
     }
-    u28 = *(float *)0xC03CF08;
+    u28 = 0.02f;
     *(float *)0xC2A1AD4 = ((*(float *)0xC2A1AD4) + u28);
-    *(float *)0xC2A1AB0 = (*(float *)0xC03CF10);
-    u31 = *(float *)0xC03CF20;
+    *(float *)0xC2A1AB0 = 0.79999995f;
+    u31 = 16.0f;
     if ((int)a5 > 0) {
         t32 = 0x0;
         for (;;) {

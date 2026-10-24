@@ -6,8 +6,8 @@ int Put_Remain_Time_Frame(int a4, int a5, int a6);
 
 int Put_Remain_Time_Frame(int a4, int a5, int a6)
 {
-    *(float *)0xC2A7F80 = (*(float *)0xC054494);
-    *(float *)0xC2A7F84 = (*(float *)0xC054498);
+    *(float *)0xC2A7F80 = 158.0f;
+    *(float *)0xC2A7F84 = 96.0f;
     *(unsigned int *)0xC2A7FB0 = 0x200B;
     *(unsigned int *)0xC2A7F7C = 0xF;
     *(float *)0xC2A7F94 = 0.0f;

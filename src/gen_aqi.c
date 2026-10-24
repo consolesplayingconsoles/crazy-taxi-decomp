@@ -156,14 +156,14 @@ int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float 
     goto L_C039E54;
     L_C039E2C:;
     R0 = (0xC039F88);
-    if ((!((*(float *)0xC039F88) > F4))) goto L_C039E38;
+    if ((!((-0.9f) > F4))) goto L_C039E38;
     goto L_C039E34;
     L_C039E34:;
     R2 = (0xFFFFFFFC);
     goto L_C039E42;
     L_C039E38:;
     R0 = (0xC039F8C);
-    if ((!((*(float *)0xC039F8C) > F4))) goto L_C039E46;
+    if ((!((-0.19999999f) > F4))) goto L_C039E46;
     goto L_C039E40;
     L_C039E40:;
     R2 = (0xFFFFFFFE);

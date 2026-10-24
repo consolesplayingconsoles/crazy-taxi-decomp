@@ -113,7 +113,7 @@ int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     L_C03D586:;
     return R0;
     L_C03D554:;
-    return PutStringFixPfont(0x17, ((short)((short)(*(int *)((R14 + 0x0))) * (short)0x788) + (R12 + 0x10)), (float)R13, (*(float *)0xC03D608), (*(float *)0xC03D604), 1.0f);
+    return PutStringFixPfont(0x17, ((short)((short)(*(int *)((R14 + 0x0))) * (short)0x788) + (R12 + 0x10)), (float)R13, 128.0f, 18.0f, 1.0f);
     L_C03D504:;
     R4 = (0x17);
     goto L_C03D506;

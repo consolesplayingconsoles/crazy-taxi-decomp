@@ -41,9 +41,9 @@ int nd_StartWait_MoveCar(void)
         return t18;
     }
     if (t0 == 2) {
-        if ((*(float *)0xC05069C) > u1) {
-            *(float *)0xC2A72CC = ((*(float *)0xC2A72CC) + (*(float *)0xC0506A0));
-            *(float *)0xC2A72E0 = ((*(float *)0xC2A72E0) + (*(float *)0xC0506A8));
+        if (2e+02f > u1) {
+            *(float *)0xC2A72CC = ((*(float *)0xC2A72CC) + 4.3999996f);
+            *(float *)0xC2A72E0 = ((*(float *)0xC2A72E0) + 3.1999998f);
             t27 = 0xC0506A8;
         } else {
             *(unsigned int *)0xC2A720C = 0x3;
@@ -63,7 +63,7 @@ int nd_StartWait_MoveCar(void)
         return t36;
     }
     if (t0 == 4) {
-        if ((*(float *)0xC0506B4) > u1) {
+        if (3e+02f > u1) {
             *(float *)0xC2A72CC = ((*(float *)0xC2A72CC) + (1.0f + 1.0f));
             t44 = 0xC0506B4;
             if ((int)(unsigned short)(*(short *)0xC2A72C0) < (int)0x4000) {

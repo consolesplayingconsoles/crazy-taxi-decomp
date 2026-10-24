@@ -42,7 +42,7 @@ int menuItemBoxRecord(int a4, int a5, int a6, int a7, float f4, float f5, float 
     if ((R4 == 0)) goto L_C03DF08;
     goto L_C03DE6A;
     L_C03DE6A:;
-    t3 = PutWindow(0x2, (float)((*(int *)0xC2A1ADC) + 0x138), (*(float *)0xC03DF78));
+    t3 = PutWindow(0x2, (float)((*(int *)0xC2A1ADC) + 0x138), 264.0f);
     R0 = (t3);
     R14 = (0xC2A1ADC);
     if ((t3 != 1)) goto L_C03DF08;
@@ -50,9 +50,9 @@ int menuItemBoxRecord(int a4, int a5, int a6, int a7, float f4, float f5, float 
     L_C03DE84:;
     R12 = (((*(int *)(((int)stk + 12))) + 0x6));
     R13 = (0x148);
-    F13 = ((*(float *)0xC03DF7C));
+    F13 = (3e+02f);
     F14 = (1.0f);
-    F15 = ((*(float *)0xC03DF80));
+    F15 = (272.0f);
     F4 = ((float)((*(int *)((R14 + 0x0))) + 0x148));
     if ((((*(int *)0xC2A11D0) & 0x600) != 0)) goto L_C03DEDA;
     goto L_C03DEA8;

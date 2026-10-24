@@ -96,14 +96,14 @@ int Drv_Put(void)
         nlRotateAX(t41);
         nlObjPutUseViewMatrix(0xC3BFFE0);
         nlPushMatrix(0x0);
-        u48 = *(float *)0xC0641C0;
+        u48 = (-2.3f);
         nlTranslate(u48, u48, 0.0f);
         if ((*(int *)0xC2AD020) != 0xC135150) {
             nlRotateAX(((*(int *)0xC2AD0D0) - t41));
         }
         nlObjPutUseViewMatrix(0xC3C05A8);
         nlGetPushedMatrix(0x0);
-        u59 = *(float *)0xC0641D0;
+        u59 = 2.3f;
         nlTranslate(u59, u59, 0.0f);
         if ((*(int *)0xC2AD020) != 0xC135150) {
             nlRotateAX(((*(int *)0xC2AD0E8) - t41));

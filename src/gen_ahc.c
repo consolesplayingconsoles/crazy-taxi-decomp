@@ -9,7 +9,7 @@ int Result_Face_Put(int a4, int a5, int a6)
     if ((int)(*(int *)0xC2A96F4) > (int)0x2A) {
         *(unsigned int *)0xC2A96F8 = (*(int *)((((*(int *)0xC2A96F0) << 2) + 0xC0D0D48)));
         *(unsigned int *)0xC2A972C = 0xA;
-        *(float *)0xC2A96FC = (*(float *)0xC059A6C);
+        *(float *)0xC2A96FC = 528.0f;
         *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0xBE);
         *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
         *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);

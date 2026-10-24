@@ -28,17 +28,17 @@ float ExecNameEntryScroll(float f4, float f5)
         *(unsigned int *)0xC2864B4 = 0x0;
         *(unsigned int *)0xC2864B0 = 0x0;
     }
-    pfLocate((*(float *)0xC03A168), (*(float *)0xC03A164));
+    pfLocate(5.6e+02f, 4.2e+02f);
     pfCleanString();
     pfAddNumber(((int)((int)(*(int *)0xC2864C4) / (int)0x3C)), 0x0);
     pfPuts((*(int *)0xC08D678));
-    u14 = *(float *)0xC03A188;
+    u14 = 0.9f;
     u15 = *(float *)0xC2864D4;
     *(float *)0xC2864D4 = (u15 * u14);
     if (1.0f > (u15 * u14)) {
         t17 = nlFastSin((((*(int *)0xC2864D8) << 8) << 2));
-        u18 = *(float *)0xC03A194;
-        u19 = *(float *)0xC03A198;
+        u18 = 0.5f;
+        u19 = 1.5f;
         *(float *)0xC2864D4 = ((-(t17 * u18)) + u19);
         u21 = ((-(t17 * u18)) + u19);
     }

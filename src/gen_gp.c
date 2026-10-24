@@ -105,16 +105,16 @@ int windowGotBike(void)
     }
     nlPushUnitMatrix();
     nlSetTranslate(0xC2A1AFC);
-    nlTranslate(0.0f, (*(float *)0xC03F9F0), (*(float *)0xC03F9EC));
+    nlTranslate(0.0f, (-8.0f), (-6e+01f));
     nlRotateAY((0xF000 + (unsigned short)(*(short *)0xC2A1B0A)));
     nlRotateAY((unsigned short)(*(short *)0xC2A1B0A));
-    u137 = *(float *)0xC03F9FC;
+    u137 = (-3.5f);
     t138 = 0x0;
     for (;;) {
         nlPushMatrix(0x0);
         nlTranslate((*(float *)((((signed char)(((t138 << 1) + t138) << 2) + 0xC0A20B0) + 0x0))), (*(float *)((((signed char)(((t138 << 1) + t138) << 2) + 0xC0A20B0) + 0x4))), (*(float *)((((signed char)(((t138 << 1) + t138) << 2) + 0xC0A20B0) + 0x8))));
         if ((int)t138 < (int)0x2) {
-            if ((float)(*(int *)0xC2A1AF0) > (*(float *)0xC03FA0C)) {
+            if ((float)(*(int *)0xC2A1AF0) > 3e+01f) {
                 nlRotateAX((unsigned short)(((*(int *)0xC1EE330) << 8) << 2));
             }
         }

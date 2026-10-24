@@ -131,14 +131,14 @@ int psgPutMarker(int a4, int a5, float f4, float f5, float f6)
     nlObjPut(0xC0EB340);
     t60 = *(int *)((R14 + 0x144));
     *(float *)((t60 + 0x17C)) = ((*(float *)((t60 + 0x17C))) + (*(float *)(((0x178 + t60) + 0x0))));
-    u63 = *(float *)0xC071D10;
+    u63 = 35.0f;
     R4 = (t60);
     F4 = (u63);
     if ((!(u63 > (*(float *)(((*(int *)((R14 + 0x144))) + 0x17C)))))) goto L_C071C40;
     goto L_C071C2C;
     L_C071C2C:;
     *(float *)(((*(int *)((R14 + 0x144))) + 0x17C)) = F4;
-    *(float *)(((*(int *)((R14 + 0x144))) + 0x178)) = (*(float *)0xC071D14);
+    *(float *)(((*(int *)((R14 + 0x144))) + 0x178)) = 0.7f;
     goto L_C071C40;
     L_C071C40:;
     t72 = *(int *)((R14 + 0x144));

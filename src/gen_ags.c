@@ -17,7 +17,7 @@ int Put_PoleMarriageKiss(void)
 
     nlPushMatrix(0x0);
     nlTranslateV(0xC13197C);
-    nlTranslate((*(float *)0xC05D588), 0.0f, (*(float *)0xC05D584));
+    nlTranslate((-3.0f), 0.0f, 26.0f);
     nlRotateAY(((unsigned short)(*(short *)0xC2A9A64) + 0x8000));
     FcvPlay(0xC9C6C40, 0x21, (float)(*(int *)0xC2A9B90));
     t10 = *(int *)0xC2A9B90;

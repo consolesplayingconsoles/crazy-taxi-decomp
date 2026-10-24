@@ -33,7 +33,7 @@ int menuItemCabbie(int a4)
     t16 = putMenuValue(t14, 0xC09E4F8, t1, t13);
     t17 = *(int *)0xC2A1240;
     if ((int)(t17 - 4) >= 0) {
-        return menuPutSprites((*(int *)((((t17 - 4) << 2) + 0xC0EF638))), 0xC2A1A84, (int)((*(float *)0xC09E4F8) + (float)(*(int *)0xC2A1ADC)), (int)((*(float *)0xC09E4FC) + (*(float *)0xC03D700)));
+        return menuPutSprites((*(int *)((((t17 - 4) << 2) + 0xC0EF638))), 0xC2A1A84, (int)((*(float *)0xC09E4F8) + (float)(*(int *)0xC2A1ADC)), (int)((*(float *)0xC09E4FC) + 8.0f));
     }
     return t16;
 }

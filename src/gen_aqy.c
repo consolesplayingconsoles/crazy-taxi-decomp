@@ -14,7 +14,7 @@ int Money_Array(int a4, int a5, int a6)
     int t4;
     int t5;
 
-    u0 = *(float *)0xC0577D4;
+    u0 = 1e+01f;
     t6 = 0xC0577D4;
     if ((int)(a6 - 1) >= 0) {
         t1 = a5;

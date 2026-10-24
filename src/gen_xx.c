@@ -48,7 +48,7 @@ int ExecAdvCamera(void)
             t15 = (unsigned short)(*(short *)0xC179152);
         }
         camSetAngles(0xFFFFC000, t15, 0xFFFFD000, 0x1);
-        SetCameraAngleRatio((*(float *)0xC028BB8), 1.0f);
+        SetCameraAngleRatio(1e-05f, 1.0f);
         SetCameraAngleVelocity(0x8, 0x90, 0x10);
         SetCameraMode(0x2);
         ResetSpark();

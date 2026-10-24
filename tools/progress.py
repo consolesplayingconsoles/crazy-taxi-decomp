@@ -261,8 +261,9 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
 
 
 def statuses(path='status.txt'):
-    """[(status, reached)] from status.txt, in its order: one status a line, "[x] NAME" reached, "[ ] NAME" not yet; # starts a
-    comment. Each status needs the ones above it, so a ticked line under an unticked one stops the report. No file: no statuses."""
+    """[(status, state)] from status.txt, in its order: one status a line, "[x] NAME" reached (state True), "[ ] NAME" not reached
+    (False), "[?] NAME" unknown, not tested yet (None); # starts a comment. Each status needs the ones above it, so a ticked line
+    under an unticked or unknown one stops the report. No file: no statuses."""
     if not os.path.exists(path):
         return []
     out = []
@@ -270,10 +271,10 @@ def statuses(path='status.txt'):
         l = l.split('#')[0].strip()
         if not l:
             continue
-        m = re.match(r'^\[([ xX])\]\s+(\S.*)$', l)
+        m = re.match(r'^\[([ xX?])\]\s+(\S.*)$', l)
         if not m:
-            sys.exit('[ERROR] %s line %d: expected "[x] NAME" or "[ ] NAME", found: %s' % (path, i, l))
-        out.append((m.group(2).strip(), m.group(1) != ' '))
+            sys.exit('[ERROR] %s line %d: expected "[x] NAME", "[ ] NAME" or "[?] NAME", found: %s' % (path, i, l))
+        out.append((m.group(2).strip(), None if m.group(1) == '?' else m.group(1) != ' '))
     for k, (n, on) in enumerate(out):
         if on and not all(o for _, o in out[:k]):
             sys.exit('[ERROR] %s: "%s" is ticked but %s above it is not' % (path, n, ', '.join('"%s"' % x for x, o in out[:k] if not o)))
@@ -283,7 +284,7 @@ def statuses(path='status.txt'):
 status = statuses()
 reached = [n for n, on in status if on]
 # the statuses show once the game builds from the C (the first status); before that the badge carries the measures only
-write_badge(rows, 'decomp', extra=[(n, '\u2705' if on else '\u274c') for n, on in status] if reached else ())
+write_badge(rows, 'decomp', extra=[(n, '\u2753' if on is None else '\u2705' if on else '\u274c') for n, on in status] if reached else ())
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')

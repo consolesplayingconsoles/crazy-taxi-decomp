@@ -10,7 +10,7 @@ int breathExecOne(int a4, int a5)
 {
     int t1;
 
-    t1 = CheckClipping(a4, (*(float *)0xC072A18));
+    t1 = CheckClipping(a4, 1e+01f);
     if (t1 != 0) {
         breathSteer(a4, a5);
         breathMove(a4, a5);

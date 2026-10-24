@@ -17,7 +17,7 @@ int Put_Time_Spark(int a4)
 
     nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
     nlPushMatrix(0x0);
-    Model_Put_Sprite3D((int)(*(float *)((a4 + 0x18))), (int)(*(float *)((a4 + 0x1C))), *(AngleR *)(a4 + 0x30), (*(float *)0xC057354), 0xC0EAC20);
+    Model_Put_Sprite3D((int)(*(float *)((a4 + 0x18))), (int)(*(float *)((a4 + 0x1C))), *(AngleR *)(a4 + 0x30), 1.1999999f, 0xC0EAC20);
     *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x0)) = (*(signed char *)(((a4 + 0x30) + 0x0)));
     *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x1)) = (*(signed char *)(((a4 + 0x30) + 0x1)));
     *(unsigned char *)(((((int)stk + 4) + 0x8) + 0x2)) = (*(signed char *)(((a4 + 0x30) + 0x2)));

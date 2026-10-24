@@ -27,5 +27,5 @@ int InitSpark(void)
     *(unsigned int *)0xC2757D0 = 0x0;
     nlLineBlendFunc(0x1, 0x4);
     nlLineSetThickness((1.0f + 1.0f));
-    return nlLineSetDiv((*(float *)0xC03784C));
+    return nlLineSetDiv(128.0f);
 }

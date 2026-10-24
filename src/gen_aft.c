@@ -23,7 +23,7 @@ int camGetOnReturn(void)
     if ((t1 & 128) == 0) {
         SetCameraMode(0x1);
         nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
-        u4 = *(float *)0xC064B4C;
+        u4 = 0.049999997f;
         nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u4);
         camSetEye((((int)stk + 4) + 0xC), 0x1);
         nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);

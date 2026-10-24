@@ -103,7 +103,7 @@ void Start_Fog(int a4)
     if ((R7 != 0)) goto L_C05FF60;
     goto L_C05FEEA;
     L_C05FEEA:;
-    u31 = *(float *)0xC06012C;
+    u31 = 15.0f;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     F3 = (u31);
@@ -114,7 +114,7 @@ void Start_Fog(int a4)
     *(float *)((R6 + 0x4)) = 0.0f;
     *(float *)((R6 + 0x8)) = 0.0f;
     *(float *)((R6 + 0xC)) = 0.0f;
-    *(float *)((R6 + 0x0)) = (*(float *)0xC060130);
+    *(float *)((R6 + 0x0)) = 1e+03f;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     goto L_C05FF10;
@@ -124,7 +124,7 @@ void Start_Fog(int a4)
     if ((R7 != 0)) goto L_C05FF60;
     goto L_C05FEE0;
     L_C05FEE0:;
-    u35 = *(float *)0xC060128;
+    u35 = 8.0f;
     *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     *(unsigned int *)(((int)stk + 4)) = *(int *)((int)stk + 4);
     F3 = (u35);

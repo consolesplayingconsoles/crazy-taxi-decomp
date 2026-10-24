@@ -19,14 +19,14 @@ int windowCardDriveError(void)
     int t37;
 
     windowOpenStep(0x14);
-    u1 = *(float *)0xC03E904;
-    PutVM_Message(0x20, 0x9, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, (*(float *)0xC03E908));
-    PutVM_Message(0x20, 0xA, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, (*(float *)0xC03E910));
-    PutVM_Message(0x20, 0x1, 0x0, u1, (*(float *)0xC03E914));
-    PutVM_Message(0x20, 0x2, 0xC2A1238, u1, (*(float *)0xC03E91C));
-    PutVM_Message(0x20, 0x3, 0x0, u1, (*(float *)0xC03E920));
-    PutVM_Message(0x20, 0x4, 0x0, u1, (*(float *)0xC03E924));
-    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), (*(float *)0xC03E92C), (*(float *)0xC03E928));
+    u1 = 1.6e+02f;
+    PutVM_Message(0x20, 0x9, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, 112.0f);
+    PutVM_Message(0x20, 0xA, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), u1, 144.0f);
+    PutVM_Message(0x20, 0x1, 0x0, u1, 176.0f);
+    PutVM_Message(0x20, 0x2, 0xC2A1238, u1, 208.0f);
+    PutVM_Message(0x20, 0x3, 0x0, u1, 272.0f);
+    PutVM_Message(0x20, 0x4, 0x0, u1, 304.0f);
+    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 2.2e+02f, 368.0f);
     t49 = 0xC2A11D8;
     if (((*(int *)0xC2A1208) & 4) != 0) {
         if ((*(int *)0xC2A121C) == 1) {

@@ -12,14 +12,14 @@ int Result_SetBackColor(int a4)
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     *(unsigned int *)0xC2A96F8 = 0x62;
     *(unsigned int *)0xC2A972C = 0x2005;
-    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + (*(float *)0xC05B184));
-    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + (*(float *)0xC05B188));
+    *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 4e+01f);
+    *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 3e+01f);
     *(float *)0xC2A96FC = 0.0f;
     *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x70);
-    *(float *)0xC2A9704 = (*(float *)0xC05B190);
+    *(float *)0xC2A9704 = 0.27999997f;
     *(unsigned int *)0xC2A9720 = 0x0;
     nlSprPut(0xC2A96F8);
     nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
-    *(float *)0xC2A9704 = (*(float *)0xC05B198);
+    *(float *)0xC2A9704 = 0.19999999f;
     return 0xC;
 }

@@ -20,7 +20,7 @@ float navi_GetRouteDataB(int a4, int a5)
     if (a5 == -1) {
         t2 = 0x0;
         t3 = (0xEF4 + t0);
-        u4 = (*(float *)0xC02B34C);
+        u4 = 999999.9f;
         for (;;) {
             t8 = ((float (*)(int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t3 + 0x0))), (*(int *)(((*(int *)((t3 + 0x4))) + 0x0))), (((int)stk + 4) + 0x4));
             if (u4 > t8) {

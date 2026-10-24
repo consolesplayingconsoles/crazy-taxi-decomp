@@ -128,10 +128,10 @@ void goiToolCoursePoint(int a4, int a5, int a6, int a7, float f4, float f5, floa
     t42 = *(int *)((R14 + 0x0));
     nlTranslateV(((((t42 << 1) + t42) << 2) + (*(int *)(((int)stk + 44)))));
     nlRotateAY((((*(int *)0xC1EE330) << 8) << 2));
-    u47 = *(float *)0xC04AB2C;
+    u47 = 4e+01f;
     nlScale(u47, u47, u47);
     nlRotateAX(0xC000);
-    nlTranslate(0.0f, 0.0f, (*(float *)0xC04AB3C));
+    nlTranslate(0.0f, 0.0f, 0.099999994f);
     nlObjPutUseViewMatrix(0xC46BAB8);
     nlPopMatrix(0x1);
     nlLocate(0x1E, 0x28);

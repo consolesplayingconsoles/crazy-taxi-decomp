@@ -73,7 +73,7 @@ int GS_GuestIn(int a4)
         }
         *(unsigned int *)0xC1EE798 = 0x0;
     }
-    *(unsigned int *)0xC1EE7B4 = ((*(int *)0xC1EE7B4) + (int)((*(float *)0xC1EE7A4) * (*(float *)0xC02D990)));
+    *(unsigned int *)0xC1EE7B4 = ((*(int *)0xC1EE7B4) + (int)((*(float *)0xC1EE7A4) * 2.5f));
     if ((*(int *)0xC1EE210) != 2) {
         hudHidePickUpNag();
     }

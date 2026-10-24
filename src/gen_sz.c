@@ -53,11 +53,11 @@ int InitEffect(void)
     *(unsigned int *)0xC274264 = 0x1;
     t9 = *(int *)0xC1EE20C;
     if (t9 == 0) {
-        *(float *)0xC274258 = (*(float *)0xC03676C);
+        *(float *)0xC274258 = (-1237.0f);
         t23 = 0xC03676C;
     } else {
         if (t9 == 1) {
-            *(float *)0xC274258 = (*(float *)0xC036770);
+            *(float *)0xC274258 = (-3e+01f);
             t19 = 0xC036770;
         } else {
             t14 = *(int *)0xC1EE214;
@@ -65,7 +65,7 @@ int InitEffect(void)
             u17 = 0.0f;
             if (t14 == 1) {
                 t16 = 0xC036778;
-                u17 = (*(float *)0xC036778);
+                u17 = (-9.799999f);
             }
             *(float *)0xC274258 = u17;
             t19 = t16;

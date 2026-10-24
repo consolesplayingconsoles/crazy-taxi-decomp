@@ -5,8 +5,8 @@ int selectInitPanelSprite(void);
 
 int selectInitPanelSprite(void)
 {
-    *(float *)0xC2A73C8 = (*(float *)0xC051E08);
-    *(float *)0xC2A73CC = (*(float *)0xC051E0C);
+    *(float *)0xC2A73C8 = 72.0f;
+    *(float *)0xC2A73CC = 500.9f;
     *(float *)0xC2A73D0 = 1.0f;
     *(float *)0xC2A73D4 = 1.0f;
     *(float *)0xC2A73D8 = 0.0f;

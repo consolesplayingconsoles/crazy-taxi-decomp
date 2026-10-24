@@ -179,7 +179,7 @@ int psgFrameState2(int a4)
                             }
                         }
                     } else {
-                        if (!((*(float *)0xC06ED24) > (*(float *)((a4 + 0x38))))) {
+                        if (!(48.0f > (*(float *)((a4 + 0x38))))) {
                             *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                             *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFE);
                             if (((*(int *)0xC1EE20C) == 2) && (t168 = *(int *)0xC1EE214, t168 == 8)) {

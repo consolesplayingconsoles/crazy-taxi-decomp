@@ -59,18 +59,18 @@ int hudDrawFareFrame(int a4, int a5, int a6)
         *(unsigned int *)0xC2A7E8C = 0xFE;
     }
     *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7E90 = (*(float *)0xC055914);
+    *(float *)0xC2A7E90 = 512.0f;
     t16 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
     *(unsigned int *)0xC2A7E8C = 0x10F;
     *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7E90 = (*(float *)0xC05591C);
+    *(float *)0xC2A7E90 = 568.0f;
     t18 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
     *(unsigned int *)0xC2A7E8C = 0x102;
     *(unsigned int *)0xC2A7EC0 = 0x200E;
     *(float *)0xC2A7EA4 = 0.0f;
     *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7E90 = (*(float *)0xC055920);
-    *(float *)0xC2A7E94 = ((*(float *)0xC055924) - (*(float *)0xC2A8EB8));
+    *(float *)0xC2A7E90 = 606.0f;
+    *(float *)0xC2A7E94 = (79.0f - (*(float *)0xC2A8EB8));
     *(float *)0xC2A7E98 = 0.289999992f;
     *(float *)0xC2A7E9C = 1.0f;
     *(float *)0xC2A7EA0 = (*(float *)0xC2A8EA0);
@@ -82,7 +82,7 @@ int hudDrawFareFrame(int a4, int a5, int a6)
     *(float *)0xC2A7EA4 = 0.0f;
     *(float *)0xC2A7EAC = 1.0f;
     *(float *)0xC2A7E90 = 532.0f;
-    *(float *)0xC2A7E94 = ((*(float *)0xC05592C) - (*(float *)0xC2A8EB8));
+    *(float *)0xC2A7E94 = (111.0f - (*(float *)0xC2A8EB8));
     *(float *)0xC2A7E98 = 0.289999992f;
     *(float *)0xC2A7E9C = 1.0f;
     *(float *)0xC2A7EA0 = (*(float *)0xC2A8EA0);

@@ -37,10 +37,10 @@ int psgFrameState5(int a4)
             if (((int)(u9 + 1.0f) == 5) && (t10 = *(int *)0xC1EE794, (int)t10 > 0)) {
                 Start_Pass_Judgement(0xFFFFFFFF);
             }
-            if ((*(float *)((a4 + 0x38))) == (*(float *)0xC070884)) {
+            if ((*(float *)((a4 + 0x38))) == 1.2e+02f) {
                 Drv_StartAction(0x7, 0x0, 0x1);
             }
-            if (!((*(float *)0xC07088C) > (*(float *)((a4 + 0x38))))) {
+            if (!(1.5e+02f > (*(float *)((a4 + 0x38))))) {
                 *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x20);
             }
             return nlPopMatrix(0x1);

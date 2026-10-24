@@ -101,7 +101,7 @@ int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7
     L_C03F2FC:;
     R5 = (0x23);
     R6 = (R9);
-    F4 = ((*(float *)0xC03F3F4));
+    F4 = (238.0f);
     F5 = (F15);
     goto L_C03F368;
     L_C03F368:;
@@ -140,7 +140,7 @@ int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7
     *(unsigned char *)((R14 + 0x0)) = 0x0;
     R5 = (0x1D);
     R6 = ((((int)stk + 4) + 0x4));
-    F4 = ((*(float *)0xC03F400));
+    F4 = (191.0f);
     F5 = (F15);
     goto L_C03F368;
     L_C03F34C:;

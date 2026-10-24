@@ -38,8 +38,8 @@ int TrainCarInit(int a4, int a5, int a6)
             { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + t2)) = *(struct mv3 *)(a6); }
         }
         PcarEvInit(t2);
-        u18 = (*(float *)0xC047A74);
-        u18 = u18 + (*(float *)0xC047A78) * ((*(float *)0xC047A70) / (*(float *)((t2 + 0xB4))));
+        u18 = 0.06f;
+        u18 = u18 + 0.01f * (1e+03f / (*(float *)((t2 + 0xB4))));
         *(float *)((t2 + 0xD0)) = u18;
         courseStatusEntry((*(int *)((t2 + 0x80))), (*(int *)((t2 + 0xD4))));
         calcCheckExec(t2, (*(int *)((t2 + 0x84))));

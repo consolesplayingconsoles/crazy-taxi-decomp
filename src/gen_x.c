@@ -75,24 +75,24 @@ int hudDrawRankDrum(int a4, int a5, int a6)
         }
     }
     *(unsigned int *)0xC2A80BC = 0x128;
-    *(float *)0xC2A80C0 = (*(float *)0xC05641C);
-    u60 = (*(float *)0xC056420);
-    u60 = u60 + (*(float *)0xC056424) * (*(float *)0xC2A9174);
+    *(float *)0xC2A80C0 = 532.0f;
+    u60 = 212.0f;
+    u60 = u60 + 26.0f * (*(float *)0xC2A9174);
     *(float *)0xC2A80C4 = u60;
-    *(float *)0xC2A80C8 = (*(float *)0xC056428);
-    *(float *)0xC2A80CC = (*(float *)0xC05642C);
+    *(float *)0xC2A80C8 = 0.049999997f;
+    *(float *)0xC2A80CC = 6.0f;
     *(float *)0xC2A80D0 = ((*(float *)0xC2A9174) * (1.0f + 1.0f));
     *(float *)0xC2A80D8 = (1.0f - ((*(float *)0xC2A9174) * 0.5f));
     *(float *)0xC2A80E0 = 1.0f;
-    *(float *)0xC2A80E8 = (*(float *)0xC056430);
+    *(float *)0xC2A80E8 = 0.7f;
     *(unsigned int *)0xC2A80F0 = 0x200E;
     *(unsigned int *)0xC2A80E4 = 0x0;
-    if (!((*(float *)0xC056434) > (*(float *)0xC2A9174))) {
+    if (!(1.4f > (*(float *)0xC2A9174))) {
         t68 = ((int (*)(int))(nlSprPut))(0xC2A80BC);
     }
     *(float *)0xC2A80C4 = 200.0f;
-    *(float *)0xC2A80D0 = ((*(float *)0xC2A9174) * (*(float *)0xC056438));
-    u79 = *(float *)0xC05643C;
+    *(float *)0xC2A80D0 = ((*(float *)0xC2A9174) * 3.0f);
+    u79 = 4.0f;
     if ((*(float *)0xC2A80D0) > u79) {
         *(float *)0xC2A80D0 = u79;
     }

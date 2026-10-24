@@ -42,9 +42,9 @@ int Put_Pin_Count(int a4, int a5, int a6, float f4, float f5, float f6)
     nlObjPutSetFadeColor(0.0f, 1.0f, 1.0f);
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
-    u1 = *(float *)0xC05C954;
-    t3 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EA, (*(float *)0xC05C95C), u1);
-    t5 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EB, (*(float *)0xC05C960), u1);
+    u1 = 66.0f;
+    t3 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EA, 477.0f, u1);
+    t5 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1EB, 501.0f, u1);
     ResetFadeColor();
     t7 = ReturnBreakPinNum();
     *(unsigned int *)(((int)stk + 4)) = ((((int)stk + 4) + 0x8) + 0x4);
@@ -53,15 +53,15 @@ int Put_Pin_Count(int a4, int a5, int a6, float f4, float f5, float f6)
     *(unsigned int *)(((((int)stk + 4) + 0x8) + 0x0)) = ((int)((int)t7 % (int)0xA));
     R14 = (0xC05778A);
     R6 = ((((int)stk + 4) + 0x8));
-    F15 = ((*(float *)0xC05C974));
+    F15 = (9e+01f);
     if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0)) goto L_C05C8AA;
     goto L_C05C89A;
     L_C05C89A:;
-    t20 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50), R6, (*(float *)0xC05C978), F15);
+    t20 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50), R6, 474.0f, F15);
     goto L_C05C8AA;
     L_C05C8AA:;
-    t24 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))) + 0x50), R6, (*(float *)0xC05C97C), F15);
-    t26 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1E1, (*(float *)0xC05C980), F15);
-    t28 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x57, (*(float *)0xC05C984), F15);
-    return (((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x50, (*(float *)0xC05C988), F15));
+    t24 = ((int (*)(int, int, int, float, float))(nd_SprPut))(0xC2A9898, ((*(int *)(((*(int *)(((int)stk + 8))) + 0x0))) + 0x50), R6, 498.0f, F15);
+    t26 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x1E1, 523.0f, F15);
+    t28 = ((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x57, 5.5e+02f, F15);
+    return (((int (*)(int, int, float, float))(nd_SprPut))(0xC2A9898, 0x50, 574.0f, F15));
 }

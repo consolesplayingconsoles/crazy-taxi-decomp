@@ -836,12 +836,13 @@ F 0c053ac0 38 Put_Default2_Sprite
 F 0c053b44 50 Put_Default_Sprite
 F 0c053b76 630 Put_Remain_Time
 F 0c053dec 1102 Put_Remain_Time_Mode2
-F 0c05423a 416 Put_Remain_Time_Gauge
+F 0c05423a 170 Put_Remain_Time_Gauge
+F 0c0542e4 246 Put_Remain_Time_Flash
 F 0c0543fc 86 Put_Remain_Time_Frame
 F 0c054452 58 Put_Remain_Time_Add
 F 0c0544a8 260 Put_TotalDrum_Update
 F 0c0545ac 236 Put_TotalDrum_SetDigits
-F 0c054698 60 Put_TotalDrum
+F 0c054698 166 Put_TotalDrum
 F 0c05473e 72 Put_TotalDrum_Roll
 F 0c054786 690 Put_TotalDrum_Digits
 F 0c054a38 102 Put_TotalDrum_Meter
@@ -1039,7 +1040,7 @@ F 0c060334 98 Exec_SeaFog
 F 0c060396 12 IsSeaFog
 F 0c0603a2 86 Check_FogArea
 F 0c060428 52 Init_LCD
-F 0c06045c 210 Exec_LCD
+F 0c06045c 32 Exec_LCD
 F 0c06047c 8 LCDAccessOK
 F 0c060484 8 DO_NOT_LCDAccess
 F 0c06048c 10 Set_LCDLogoFlag
@@ -1229,7 +1230,8 @@ F 0c07243c 198 HesLate
 F 0c072502 10 breathFrameTime
 F 0c07250c 40 breathResetOne
 F 0c072580 396 breathSteer
-F 0c07270c 322 breathMove
+F 0c07270c 232 breathMove
+F 0c0727f4 90 breathPut
 F 0c07284e 54 breathExecOne
 F 0c072884 68 KeepYourBreath
 F 0c0728c8 68 AreYouBreathing

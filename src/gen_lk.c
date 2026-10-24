@@ -20,7 +20,7 @@ void HesLate(float f4, float f5)
     int stk[8];
 
     { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0D6128); }
-    u0 = *(float *)0xC072540;
+    u0 = 3.5e+02f;
     if (((*(int *)0xC13F4B8) & 1) == 0) {
         if (((*(signed char *)0xC2AD1DF) & 2) != 0) {
             if (u0 > (((float (*)(int, int, float, float))(nlLength))(((int)stk + 4), 0xC179840, f4, f5))) {
@@ -32,7 +32,7 @@ void HesLate(float f4, float f5)
             }
         }
     } else {
-        if ((CheckClipping(((int)stk + 4), (*(float *)0xC07255C))) != 0) {
+        if ((CheckClipping(((int)stk + 4), 1e+01f)) != 0) {
             nlPushMatrix(0x0);
             nlTranslateV(((int)stk + 4));
             nlRotateAY(0xD680);

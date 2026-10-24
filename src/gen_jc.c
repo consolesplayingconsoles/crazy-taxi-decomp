@@ -35,7 +35,7 @@ int SetEffect(int a4, int a5, int a6)
         { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x14)) = *(struct mv3 *)(a4); }
         *(float *)((t2 + 0x18)) = ((*(float *)((t2 + 0x18))) - (1.0f + 1.0f));
         { struct mv3 { int w[3]; }; *(struct mv3 *)((t2 + 0x20)) = *(struct mv3 *)(a5); }
-        u4 = *(float *)0xC036AA8;
+        u4 = 0.19999999f;
         u6 = u4;
         u6 = u6 + u4 * (nlRandom());
         *(float *)((t2 + 0x2C)) = u6;
@@ -48,11 +48,11 @@ int SetEffect(int a4, int a5, int a6)
                 if (a6 != 3) {
                 } else {
                     t8 = nlScalor(a5);
-                    u9 = *(float *)0xC036AC8;
-                    u10 = *(float *)0xC036ACC;
+                    u9 = (-0.39999998f);
+                    u10 = (-0.5f);
                     *(float *)(((0x20 + t2) + 0x0)) = ((*(float *)(((0x20 + t2) + 0x0))) + ((nlRandom()) + u10));
-                    u14 = *(float *)0xC036AD0;
-                    u15 = *(float *)0xC036AD4;
+                    u14 = 0.099999994f;
+                    u15 = 0.29999998f;
                     u16 = (nlRandom());
                     u16 = u16 + u14 * (t8 + u9);
                     *(float *)(((0x24 + t2) + 0x0)) = ((*(float *)(((0x24 + t2) + 0x0))) + (u16 + u15));

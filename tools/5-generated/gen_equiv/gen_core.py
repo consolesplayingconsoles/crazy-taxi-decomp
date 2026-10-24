@@ -627,6 +627,10 @@ def _run(name,passthru=False,frame=False,flat=False):
         if mn in('mov.l',) and a[0].startswith('r') and a[1]=='@-r15':
             n=int(a[0][1:])
             c.D+=4; c.maxD=max(c.maxD,c.D)
+            if n==15 and not c.in_prologue:
+                # the stack pointer itself pushed: the address of the frame, the hidden pointer a function returning a structure by value takes
+                if not c.frame: raise Skip('stack address of the frame pushed')      # the first reading keeps the stack symbolic: read again with the frame as an array
+                c.pend.append(('e','((int)stk + @@F:%d@@)'%(-(c.D-4)))); return
             if (c.in_prologue and n>=8) or (n>=8 and a[0] not in c.R): return      # a callee-saved register saved in the prologue; r4-r7 pushed there are arguments
             v=c.gi(a[0])                       # an argument pushed for the next call (or a value kept for a pop)
             if isinstance(v,tuple) and v[0]=='addr': raise Skip('addr arg')
@@ -665,6 +669,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             if a[0].startswith('#'): n=int(a[0][1:])
             else:
                 v=c.R.get(a[0])
+                if isinstance(v,tuple) and v[0]=='e' and v[1] in c.lvconst: v=c.lvconst[v[1]]      # a loop variable the code just set to a constant
                 if not isint(v): raise Skip('stack pointer step')
                 n=v-(1<<32) if v&0x80000000 else v
                 if mn=='sub': n=-n
@@ -714,6 +719,8 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if (mn=='mov.w' and part%2) : raise Skip('stack argument read')
                     c.iuse.add(n)
                     c.R[a[1]]=('e','((%s)(a%d >> %d))'%('short' if mn=='mov.w' else 'signed char',n,8*part)); return
+                if isf and mn=='fmov.s' and ab%4==0:        # a float the caller left on the stack: the stack parameter's bits, read as a float
+                    n=8+ab//4; c.iuse.add(n); c.FR[a[1]]=('e','*(float *)&a%d'%n); return
                 if isf or mn!='mov.l' or ab%4: raise Skip('stack argument read')
                 n=8+ab//4
                 c.iuse.add(n); c.R[a[1]]=('s','a%d'%n); return
@@ -1069,6 +1076,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         if fname in ('_quick_odd_mvn','_quick_evn_mvn','_quick_mvn','_slow_mvn'):
             # a block copy: length r0 (bytes), destination r1, source r2; r0 is left unknown (and r1 for the byte copy), r2-r7 are kept
             n=c.gi('r0')
+            if isinstance(n,tuple) and n[0]=='e' and n[1] in c.lvconst: n=c.lvconst[n[1]]      # a loop variable the code just set to the length
             if tail: raise Skip('block copy tail')
             d=c.gi('r1'); sr=c.gi('r2')
             if fname=='_quick_mvn' and isint(n) and n>64:
@@ -1145,7 +1153,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         nsw=0 if ind else callee_stack_words(fname)
         own_stack=bool(nsw) and len(c.pend)>=nsw
         if own_stack: c.pend=c.pend[-nsw:]      # the words below this callee's own are earlier calls': their stack adjustment was deferred to this one
-        cleanup=(isadd(after) and not teardown(after2)) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
+        cleanup=(isadd(after) and (not teardown(after2) or (bool(c.pend) and c.D-4*len(c.pend)>=getattr(c,'pro_D',0)))) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
         spill=bool(c.pend) and not cleanup and not own_stack and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
         if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
@@ -1169,10 +1177,12 @@ def _run(name,passthru=False,frame=False,flat=False):
             if hole and all(n in (4,5,6,7) for n in hole):
                 for n in hole: c.R['r%d'%n]=0
                 avail=sorted(set(avail)|set(hole))
-        if (c.pend and not spill and avail and len(avail)<4 and not c.pt
-                and not (len(c.pend)==1 and not isfp(c.pend[0]) and '@@F' in ex(c.pend[0]))):
+        five=bool(ar) and ar[0]>4          # a callee whose definition takes five or more integers: the pushed word is its fifth, not a hidden pointer or a variadic argument
+        if (c.pend and not spill and (avail or five) and len(avail)<4 and not c.pt
+                and (five or not (len(c.pend)==1 and not isfp(c.pend[0]) and '@@F' in ex(c.pend[0])))):
             # a word pushed for this call is an argument past the fourth, so r4-r7 are all positional: one this function never touched
-            # (and no call has changed) is its own incoming argument, passed on as it came (mwlRnaStartCopy, serveGetPos in playerInit).
+            # is its own incoming argument, passed on as it came (mwlRnaStartCopy, serveGetPos in playerInit); one an earlier call has changed
+            # is a leftover and goes as 0.
             # The hidden pointer of a returned structure is the one pushed word that is not
             for n in range(4,8):
                 if n not in avail and 'r%d'%n not in c.R:
@@ -1399,6 +1409,8 @@ def _run(name,passthru=False,frame=False,flat=False):
                 q=[q for q in left if isinstance(q[2],tuple) and any(o is not q and re.search(r'\b%s\b'%o[1],q[2][1]) for o in left)][0]
                 q[2]=keep(q[2][1],q[3]); continue
             emit('%s = %s;'%(pick[1],fx(pick[2]) if pick[3] else ex(pick[2])))
+            if isinstance(pick[2],int) and not pick[3]: c.lvconst[pick[1]]=pick[2]      # the variable holds this constant until it is assigned again
+            else: c.lvconst.pop(pick[1],None)
             if isinstance(pick[2],int) and not pick[3] and canon(pick[2]) in FUNCS:
                 c.lvk[pick[0]]=pick[2]           # a call target: the call must still see the constant, so the register keeps it (the variable has it too)
             else:
@@ -1410,7 +1422,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         if c.nstep>40*c.emit_limit: raise Skip('bloat: the reading walked %d instructions (paths that multiply)'%c.nstep)      # the flat form is linear in the function's size
         mn,ops,pc=ins[i]
         if c.in_prologue and not (mn=='sts.l' or (mn in('mov.l','fmov.s') and parse_ops(ops)[1:]==['@-r15']) or (mn=='add' and parse_ops(ops)[1:]==['r15'])):
-            c.in_prologue=False
+            c.in_prologue=False; c.pro_D=c.D      # the depth the prologue left: an add that stays at or above it frees pushed words, not the frame
         if mn in ('tst.b','and.b','or.b','xor.b') and parse_ops(ops)[1:]==['@(r0,gbr)']:
             # a byte at GBR + r0 read, combined with an immediate and written back (tst.b only sets T)
             imm=int(parse_ops(ops)[0].lstrip('#'),0)&0xff
@@ -1473,6 +1485,8 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if own in (va,vb): (c.fuse if isf else c.iuse).add(int(own[1][1:]))      # the argument is now read: it is a parameter
                     if va==vb:
                         out[r]=va; continue
+                if isf and r=='fr0' and ((va is None and stA[8]) or (vb is None and stB[8])):
+                    out[r]=DIRTY; c.dwhy[r]='fr0 left by a call on one arm'; continue      # the arm that called holds its callee's float result, which C cannot name (a void callee)
                 if va is None or vb is None:
                     # one arm never sets the register: the code after the join reads it only where it was set (the compiler keeps the two
                     # in step), so it becomes a variable assigned on the arm that sets it
@@ -1990,7 +2004,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             step(i); i+=1
 
     c.D=0; c.maxD=0; c.pend=[]; c.frame_regs=set(); c.frame=bool(frame) or any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
-    c.rets=[]; c.lvk={}; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
+    c.rets=[]; c.lvk={}; c.lvconst={}; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
     # jump tables: `mova table,r0; mov.w @(r0,rX),r0; braf r0` and a table of 16-bit offsets from the braf + 4; rX holds twice the index
     def find_switches():
         sw={}

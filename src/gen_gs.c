@@ -73,7 +73,7 @@ int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)((R4 + 0x0)) = R6;
     goto L_C05CA32;
     L_C05C9A4:;
-    u21 = *(float *)0xC05CB58;
+    u21 = (-3e+02f);
     R7 = ((R6 + 0x30));
     F4 = (u21);
     if ((!(((*(float *)(((R6 + 0x30) + 0x0))) + u21) > (*(float *)((R1 + 0x78)))))) goto L_C05C9D0;
@@ -88,7 +88,7 @@ int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
     L_C05C9CC:;
     goto L_C05C940;
     L_C05C9D0:;
-    u31 = *(float *)0xC05CB5C;
+    u31 = 1.5e+02f;
     F4 = (u31);
     if ((!((*(float *)((R1 + 0x80))) > ((*(float *)((R6 + 0x2C))) + u31)))) goto L_C05C9EC;
     goto L_C05C9E2;

@@ -38,9 +38,9 @@ int ExecBubble(int a4)
     if (!((*(float *)0xC274258) > (*(float *)((a4 + 0x18))))) {
         return nlCloseEvent(a4);
     }
-    nlScaleVector((a4 + 0x20), (a4 + 0x20), (*(float *)0xC036BAC));
-    u14 = *(float *)0xC036BB4;
-    u15 = *(float *)0xC036BB8;
+    nlScaleVector((a4 + 0x20), (a4 + 0x20), 0.9f);
+    u14 = (-0.5f);
+    u15 = 0.099999994f;
     u18 = (*(float *)(((a4 + 0x20) + 0x0)));
     u18 = u18 + u15 * ((nlRandom()) + u14);
     *(float *)(((a4 + 0x20) + 0x0)) = u18;

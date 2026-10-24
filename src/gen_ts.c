@@ -179,7 +179,7 @@ int Put_Pass_Time(void)
     }
     *(unsigned int *)0xC2A8DF4 = (int)(*(float *)0xC2A7604);
     *(unsigned int *)0xC2A8DF8 = (int)(*(float *)0xC2A7608);
-    u247 = *(float *)0xC056F04;
+    u247 = 0.79999995f;
     if ((*(float *)0xC2A8C64) > u247) {
         *(float *)0xC2A8C64 = u247;
     }
@@ -193,11 +193,11 @@ int Put_Pass_Time(void)
     if (t192 != 0) {
         *(float *)0xC2A8070 = (float)(*(int *)0xC2A8DF4);
         *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-        *(float *)0xC2A8078 = (*(float *)0xC056F10);
+        *(float *)0xC2A8078 = 0.14999999f;
         *(unsigned int *)0xC2A806C = (*(int *)(((t192 << 2) + 0xC0D0C08)));
         nlSprPut(0xC2A806C);
     }
-    u269 = *(float *)0xC056F1C;
+    u269 = 4e+01f;
     if ((t192 == 0) && (t196 == 0)) {
     } else {
         if (t192 != 0) {
@@ -209,7 +209,7 @@ int Put_Pass_Time(void)
         }
         *(float *)0xC2A8070 = u278;
         *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-        *(float *)0xC2A8078 = (*(float *)0xC056F20);
+        *(float *)0xC2A8078 = 0.225f;
         *(unsigned int *)0xC2A806C = (*(int *)(((t196 << 2) + 0xC0D0C08)));
         nlSprPut(0xC2A806C);
     }
@@ -217,7 +217,7 @@ int Put_Pass_Time(void)
     u294 = *(float *)0xC2A8C64;
     if (t192 != 0) {
         u296 = (float)t293;
-        u296 = u296 + (*(float *)0xC056F24) * u294;
+        u296 = u296 + 8e+01f * u294;
         *(float *)0xC2A8070 = u296;
         u302 = u296;
     } else {
@@ -231,7 +231,7 @@ int Put_Pass_Time(void)
         u302 = u299;
     }
     *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-    *(float *)0xC2A8078 = (*(float *)0xC056F28);
+    *(float *)0xC2A8078 = 0.19999999f;
     *(unsigned int *)0xC2A806C = (*(int *)(((t197 << 2) + 0xC0D0C08)));
     if ((int)(*(int *)0xC2A8E30) > 0) {
         nlSprPut(0xC2A806C);

@@ -79,10 +79,10 @@ int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
     goto L_C05D5EE;
     L_C05D5EE:;
     R2 = (0xC1790CC);
-    if ((!((*(float *)0xC05D6B0) > _builtin_fabsf((*(float *)0xC179228))))) goto L_C05D618;
+    if ((!(0.14999999f > _builtin_fabsf((*(float *)0xC179228))))) goto L_C05D618;
     goto L_C05D5FE;
     L_C05D5FE:;
-    u28 = *(float *)0xC05D6B4;
+    u28 = 16.0f;
     F1 = (u28);
     if ((!(u28 > _builtin_fabsf((float)(*(short *)((R2 + 0x198))))))) goto L_C05D618;
     goto L_C05D610;

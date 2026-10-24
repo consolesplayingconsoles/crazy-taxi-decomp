@@ -198,6 +198,6 @@ float navi_GetRouteTbl(int a4, int a5, int a6)
         t122 = t109;
     }
     u136 = u5;
-    u136 = u136 + (*(float *)0xC02BC14) * (float)t122;
+    u136 = u136 + 5e+02f * (float)t122;
     return (u136 + u43);
 }

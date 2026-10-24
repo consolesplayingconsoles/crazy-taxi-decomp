@@ -114,14 +114,14 @@ int Result_Customer_Count_Put(void)
         *(float *)0xC2A9714 = 0.0f;
         *(float *)0xC2A971C = 1.0f;
         if ((int)(*(int *)0xC2A9850) >= (int)0x2) {
-            *(float *)0xC2A96FC = (*(float *)0xC059D7C);
-            *(float *)0xC2A9710 = (*(float *)0xC059D80);
-            *(float *)0xC2A9718 = (*(float *)0xC059D84);
-            *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + (*(float *)0xC059D88));
+            *(float *)0xC2A96FC = 588.0f;
+            *(float *)0xC2A9710 = 0.26799998f;
+            *(float *)0xC2A9718 = 0.376f;
+            *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 0.103999995f);
             t118 = ((int (*)(int))(nlSprPut))(0xC2A96F8);
             *(float *)0xC2A9710 = 0.0f;
             *(float *)0xC2A9718 = 1.0f;
-            *(float *)0xC2A96FC = (*(float *)0xC059D8C);
+            *(float *)0xC2A96FC = 5.2e+02f;
         } else {
             *(float *)0xC2A96FC = 528.0f;
         }

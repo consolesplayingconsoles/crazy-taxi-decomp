@@ -44,7 +44,7 @@ int Drv_CheckSideClear(int a4, int a5)
         t25 = (((t5 == 0)) ? 1 : 0);
         if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x10), 0.0f)) + 0x1C))) == -1) {
         } else {
-            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, (*(float *)0xC063E38));
+            nlScaleVector((((int)stk + 4) + 0x4), 0xC2AD1E0, (-2e+01f));
             *(volatile int *)(((GetCollisionFirst((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), 0.0f)) + 0x1C));
             t25 = t5;
         }

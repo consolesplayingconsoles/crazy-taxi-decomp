@@ -22,6 +22,6 @@ int windowPause(void)
         menuCursor(0x1, 0x4, t2);
     }
     putLevelCTFontAssist(0x2020, 0xC09E0AC, 0x4, (*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0))), (t2));
-    putString(0x24, 0xC0A2088, (*(float *)0xC03EA64), (*(float *)0xC03EA60), (*(float *)0xC03EA5C));
+    putString(0x24, 0xC0A2088, 3.1e+02f, 62.0f, 1.1999999f);
     return windowEnterStep(0x14);
 }

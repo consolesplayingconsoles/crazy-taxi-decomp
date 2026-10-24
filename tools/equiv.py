@@ -314,15 +314,17 @@ def compared_arity(cfile, table):
     """What each call out is compared on: ({address: (integer, float) register arguments}, {address: arguments on the stack}).
     The caller's file's prototype, raised to the callee's own definition in src/: a call that passes fewer than the callee takes
     fails, wherever the caller's file declares fewer (the build links every caller against that one definition)."""
-    arity = {table[n]: a for n, a in prototypes(cfile).items() if n in table}
-    stackn = {table[n]: k for n, k in stack_args(cfile).items() if n in table and k}
+    canon = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t      # callview looks a call up by this address: a game linked at 8C... (the cached mirror) keys the same
+    arity = {canon(table[n]): a for n, a in prototypes(cfile).items() if n in table}
+    stackn = {canon(table[n]): k for n, k in stack_args(cfile).items() if n in table and k}
     for n, (ni, nf, sw) in definitions().items():
-        a = arity.get(table.get(n))
+        key = canon(table[n]) if n in table else None
+        a = arity.get(key)
         if a is None or len(a) > 2:
             continue                          # no prototype here (every register is compared) or a variadic one
-        arity[table[n]] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
+        arity[key] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
         if sw:
-            stackn[table[n]] = max(stackn.get(table[n], 0), min(sw, 4))
+            stackn[key] = max(stackn.get(key, 0), min(sw, 4))
     return arity, stackn
 
 
@@ -488,10 +490,10 @@ def main(argv):
     arity, stackn = compared_arity(cfile, table)
     STACKN.clear()
     STACKN.update(stackn)
-    runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
-    arity.update({a: (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
-    helpers_orig = lambda t: t in runtime
     canon_ = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
+    runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
+    arity.update({canon_(a): (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
+    helpers_orig = lambda t: t in runtime
     argc = lambda t: arity[canon_(t)][0] if canon_(t) in arity else None      # output writes of a mocked call go only through its own arguments
     results, evidence = {}, {}
     cache = load_cache()

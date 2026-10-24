@@ -33,7 +33,7 @@ int selectInitIconSprite(int a4, int a5, int a6, int a7, float f4, float f5, flo
     R7 = (0x0);
     F4 = (1.0f);
     F5 = (0.0f);
-    F6 = ((*(float *)0xC051E10));
+    F6 = (500.8f);
     goto L_C051C74;
     L_C051C74:;
     *(float *)((R4 + 0x4)) = F5;

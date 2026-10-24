@@ -20,8 +20,8 @@ int Put_Stop_and_Brake(int a4, int a5)
     *(float *)0xC2A7F08 = 1.0f;
     *(unsigned int *)0xC2A7F10 = 0x200A;
     *(unsigned int *)0xC2A7F04 = 0x0;
-    u1 = *(float *)0xC05757C;
-    u2 = *(float *)0xC057580;
+    u1 = 3.2e+02f;
+    u2 = 7e+01f;
     if (a4 == 0) {
         t3 = 0x1D9;
         if (a5 == 0) {

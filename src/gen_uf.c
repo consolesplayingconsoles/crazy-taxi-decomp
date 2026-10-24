@@ -52,7 +52,7 @@ int psgPickExitSide(int a4)
     } else {
         t37 = (((t15 == 0)) ? 1 : 0);
         if ((*(int *)(((GetCollision2D((((int)stk + 4) + 0x14), 0.0f)) + 0x1C))) != -1) {
-            nlScaleVector((((int)stk + 4) + 0x8), 0xC2AD1E0, (*(float *)0xC070F44));
+            nlScaleVector((((int)stk + 4) + 0x8), 0xC2AD1E0, (-2e+01f));
             t34 = t15;
             if ((*(int *)(((GetCollisionFirst((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x8), 0.0f)) + 0x1C))) != -1) {
                 t34 = (((t15 == 0)) ? 1 : 0);

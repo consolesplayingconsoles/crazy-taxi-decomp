@@ -39,7 +39,7 @@ float psgRunToPoint(int a4, int a5, float f4, float f5, float f6)
                 u4 = 0.924999952f;
                 if (125.0f > t1) {
                 } else {
-                    u4 = (*(float *)0xC071438);
+                    u4 = 0.95f;
                 }
                 u7 = u4;
             }
@@ -50,8 +50,8 @@ float psgRunToPoint(int a4, int a5, float f4, float f5, float f6)
     t23 = nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 28))));
     *(unsigned int *)(((int)stk + 4)) = t23;
     *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), t23, u17));
-    if ((*(float *)0xC071444) > (*(float *)((a4 + 0x11C)))) {
-        Psg_SetMoveSpeed(a4, ((*(float *)((a4 + 0x11C))) + (*(float *)0xC071448)));
+    if (0.625f > (*(float *)((a4 + 0x11C)))) {
+        Psg_SetMoveSpeed(a4, ((*(float *)((a4 + 0x11C))) + 0.02f));
     }
     nlPushUnitMatrix();
     nlRotateAY(((*(int *)((a4 + 0x10))) + 0x8000));

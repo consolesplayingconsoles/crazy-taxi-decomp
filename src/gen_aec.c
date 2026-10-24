@@ -134,7 +134,7 @@ int camGetOffShot2(void)
                             } else {
                                 if (t1 == 7) {
                                     nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
-                                    u85 = *(float *)0xC065698;
+                                    u85 = 0.08f;
                                     nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 1.0f, u85);
                                     camSetEye((((int)stk + 4) + 0x30), 0x0);
                                     nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);

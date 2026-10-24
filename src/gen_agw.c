@@ -254,7 +254,7 @@ int ExecEffect(int a4, int a5, int a6, float f4)
     goto L_C036FBE;
     L_C036FBE:;
     R0 = (0xC037144);
-    if ((!((*(float *)0xC037144) > F15))) goto L_C036FDA;
+    if ((!(0.39999998f > F15))) goto L_C036FDA;
     goto L_C036FC6;
     L_C036FC6:;
     Sound_Request(0x30CA9, 0x0);
@@ -265,7 +265,7 @@ int ExecEffect(int a4, int a5, int a6, float f4)
     goto L_C036FDE;
     L_C036FDE:;
     R0 = (0xC037144);
-    if ((!(F15 > (*(float *)0xC037144)))) goto L_C036FF2;
+    if ((!(F15 > 0.39999998f))) goto L_C036FF2;
     goto L_C036FE6;
     L_C036FE6:;
     R4 = (0x20CA9);

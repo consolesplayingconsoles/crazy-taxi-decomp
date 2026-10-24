@@ -132,7 +132,7 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     pfSetFont(0x2);
     pfSize(F15, F15);
     pfSetZ(F14);
-    pfLocate(((*(float *)((R14 + 0x0))) - ((pfLength((*(int *)((((*(int *)((R12 + 0x0))) << 2) + (*(int *)((0xC0ED3B4 + ((*(int *)((R10 + 0x0))) << 2))))))))) * (*(float *)0xC031924))), (*(float *)0xC031928));
+    pfLocate(((*(float *)((R14 + 0x0))) - ((pfLength((*(int *)((((*(int *)((R12 + 0x0))) << 2) + (*(int *)((0xC0ED3B4 + ((*(int *)((R10 + 0x0))) << 2))))))))) * 0.5f)), 4e+02f);
     pfColor(0xFFFFFF7F, 0xFF7F7F00, R11, 0xFF7F7F00);
     R0 = ((pfPuts((*(int *)((((*(int *)((R12 + 0x0))) << 2) + (*(int *)((0xC0ED3B4 + ((*(int *)((R10 + 0x0))) << 2))))))))));
     goto L_C0318D0;
@@ -185,9 +185,9 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C03183E;
     L_C03183E:;
     u85 = *(float *)((R9 + 0x0));
-    u86 = *(float *)0xC0318F8;
+    u86 = 146.0f;
     *(float *)(((int)stk + 4)) = (u85 + u86);
-    pfLocate((((*(float *)((R14 + 0x0))) - (pfLength((*(int *)0xC08D678)))) + (*(float *)0xC031904)), (u85 + u86));
+    pfLocate((((*(float *)((R14 + 0x0))) - (pfLength((*(int *)0xC08D678)))) + 64.0f), (u85 + u86));
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     R0 = ((pfPuts((*(int *)0xC08D678))));
     goto L_C0318D0;

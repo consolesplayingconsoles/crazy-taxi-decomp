@@ -66,7 +66,7 @@ int crowdTask(int a4, int a5, float f4)
     t16 = nlLength((*(int *)((R14 + 0x18))), ((*(int *)(((int)stk + 4))) + 0x78));
     F0 = (t16);
     F4 = (t16);
-    if ((!((*(float *)0xC04F854) > t16))) goto L_C04F75C;
+    if ((!(1e+03f > t16))) goto L_C04F75C;
     goto L_C04F712;
     L_C04F712:;
     u21 = *(float *)(((int)stk + 16));
@@ -114,7 +114,7 @@ int crowdTask(int a4, int a5, float f4)
     R11 = ((R11 + 0x1));
     goto L_C04F748;
     L_C04F75C:;
-    u45 = *(float *)0xC04F858;
+    u45 = 1.2e+03f;
     R0 = (0xC);
     F4 = (u45);
     if ((!((*(float *)(((int)stk + 16))) > u45))) goto L_C04F7A2;

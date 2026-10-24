@@ -103,7 +103,7 @@ void psgEnterState1(int a4, int a5)
     *(float *)((R14 + 0x114)) = F15;
     *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) | 0x80);
     *(float *)((R14 + 0x108)) = F15;
-    F3 = ((*(float *)0xC06BA78));
+    F3 = (5.0f);
     goto L_C06B9A8;
     L_C06B9A8:;
     *(float *)((R14 + 0x10C)) = F3;

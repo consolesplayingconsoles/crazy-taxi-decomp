@@ -54,7 +54,7 @@ int Drv_StartPsgReact(int a4, float f4)
     Drv_SetMotion((*(int *)(((int)stk + 12))), F15);
     goto L_C062F4A;
     L_C062F4A:;
-    *(float *)((R14 + 0xF8)) = (*(float *)0xC062FDC);
+    *(float *)((R14 + 0xF8)) = 15.0f;
     R0 = (0xF8);
     goto L_C062F52;
     L_C062EFE:;

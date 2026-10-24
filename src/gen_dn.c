@@ -114,14 +114,14 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     CalcShadow4Normal((R14 + 0x54), (R12 + 0xC), F4, F5);
     goto L_C04FF4C;
     L_C04FF4C:;
-    u37 = *(float *)0xC0500A8;
+    u37 = 25.0f;
     R0 = (0xC0500A8);
     F12 = (u37);
     if ((!(u37 > F15))) goto L_C050026;
     goto L_C04FF54;
     L_C04FF54:;
     R0 = (0xC0500AC);
-    if ((!((*(float *)0xC0500AC) > _builtin_fabsf(F14)))) goto L_C050026;
+    if ((!(35.0f > _builtin_fabsf(F14)))) goto L_C050026;
     goto L_C04FF5E;
     L_C04FF5E:;
     if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FF78;

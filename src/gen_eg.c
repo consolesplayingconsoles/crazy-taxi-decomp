@@ -111,12 +111,12 @@ int Put_Window_SpriteXandY(int a4, int a5, int a6, int a7, float f4, float f5, f
     L_C05E414:;
     goto L_C05E534;
     L_C05E534:;
-    u23 = *(float *)0xC05E674;
+    u23 = 0.5f;
     F13 = ((F13 + u23));
     F14 = ((F14 + u23));
     goto L_C05E53C;
     L_C05E53C:;
-    u26 = *(float *)0xC05E678;
+    u26 = 8.0f;
     *(float *)(((int)stk + 20)) = (F13 * u26);
     *(float *)(((int)stk + 24)) = (F12 - (F13 * u26));
     u27 = *(float *)(((int)stk + 4));

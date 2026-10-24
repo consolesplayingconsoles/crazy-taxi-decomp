@@ -5,7 +5,7 @@ int selectInitFrontSprite(void);
 
 int selectInitFrontSprite(void)
 {
-    *(float *)0xC2A74BC = (*(float *)0xC051E24);
+    *(float *)0xC2A74BC = 499.5f;
     *(float *)0xC2A74C0 = 1.0f;
     *(float *)0xC2A74C4 = 1.0f;
     *(float *)0xC2A74C8 = 0.0f;

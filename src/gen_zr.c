@@ -81,7 +81,7 @@ int execAdvSprite(float f4)
             pfSetFont(0x1);
             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
             pfSize(1.0f, 1.0f);
-            pfLocate((*(float *)0xC057F68), (*(float *)0xC057F64));
+            pfLocate(3.8e+02f, 3.2e+02f);
             return pfPuts(0xC0D0AA0);
         }
         return t37;

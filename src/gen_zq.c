@@ -29,7 +29,7 @@ int psgFaceBoyFriend(int a4)
         u7 = _builtin_sqrtf((1.0f - (t5 * t5)));
     }
     t9 = nlArcTan2(u7, t5);
-    t12 = GetAverageAngle((*(int *)((a4 + 0x10))), t9, (*(float *)0xC071230));
+    t12 = GetAverageAngle((*(int *)((a4 + 0x10))), t9, 0.95f);
     *(unsigned int *)((a4 + 0x10)) = (short)t12;
     return (short)t12;
 }

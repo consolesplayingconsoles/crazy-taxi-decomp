@@ -85,7 +85,7 @@ int trafficControl(int a4)
         *(unsigned int *)0xC2A1B40 = (*(int *)(((*(int *)0xC2A1B30) + 0x60)));
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x4)) = *(struct mv3 *)(0xC0A4788); }
         if (((*(int *)0xC1EE234) == 1) && (t66 = *(int *)0xC2A4E50, t66 == 0)) {
-            *(float *)(((int)stk + 20)) = ((*(float *)0xC2A1B18) + (*(float *)0xC042AA8));
+            *(float *)(((int)stk + 20)) = ((*(float *)0xC2A1B18) + (-6e+02f));
         }
         nlPushMatrix(0x0);
         nlTranslateV(((*(int *)0xC2A1B30) + 0x78));

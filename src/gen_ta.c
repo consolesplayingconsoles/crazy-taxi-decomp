@@ -107,16 +107,16 @@ void ExecAdvCameraRandom(void)
     }
     camSetAngles(0x0, 0x0, (*(int *)0xC179990), 0x0);
     if ((0x1 & (*(int *)0xC179998)) != 0) {
-        u83 = *(float *)0xC0290DC;
-        u84 = *(float *)0xC0290E0;
+        u83 = 4e+02f;
+        u84 = 8e+02f;
         u85 = ((u83 - t3) / u84);
         if (0.0f > ((u83 - t3) / u84)) {
             u85 = 0.0f;
         }
         u88 = 27.0f;
-        u88 = u88 + (*(float *)0xC0290E4) * u85;
+        u88 = u88 + 28.0f * u85;
         *(float *)0xC1798A4 = u88;
     } else {
-        *(float *)0xC1798A4 = (*(float *)0xC0290E8);
+        *(float *)0xC1798A4 = 43.0f;
     }
 }

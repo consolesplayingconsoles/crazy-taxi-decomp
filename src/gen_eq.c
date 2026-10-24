@@ -5,9 +5,9 @@ int Init_DCmini_Standard_Sprite(void);
 
 int Init_DCmini_Standard_Sprite(void)
 {
-    *(float *)0xC2A989C = (*(float *)0xC05B8E4);
-    *(float *)0xC2A98A0 = (*(float *)0xC05B8E8);
-    *(float *)0xC2A98A4 = (*(float *)0xC05B8EC);
+    *(float *)0xC2A989C = 3.2e+02f;
+    *(float *)0xC2A98A0 = 2.4e+02f;
+    *(float *)0xC2A98A4 = 0.19999999f;
     *(float *)0xC2A98A8 = 1.0f;
     *(float *)0xC2A98AC = 1.0f;
     *(float *)0xC2A98B0 = 0.0f;

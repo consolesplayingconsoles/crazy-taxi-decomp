@@ -53,9 +53,9 @@ void windowLoadData(int a4, int a5)
     if (((*(int *)0xC2A1228) == 0) && (t18 = *(int *)0xC2A122C, t18 == 0)) {
         PutVM_Message(0x20, 0xB, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 98.0f, 240.0f);
     } else {
-        PutVM_Message(0x20, 0x11, 0x0, (*(float *)0xC03E2B8), 240.0f);
+        PutVM_Message(0x20, 0x11, 0x0, 134.0f, 240.0f);
     }
-    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), (*(float *)0xC03E2C8), (*(float *)0xC03E2C4));
+    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 2.2e+02f, 368.0f);
     t28 = *(int *)0xC2A11B8;
     Start_LoadSave(((((t28 >> 1) << 1) + ((t28 >> 1) << 2)) + 0x1), 0x0);
     if ((int)(*(int *)0xC2A19E0) > 0) {

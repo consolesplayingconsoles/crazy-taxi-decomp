@@ -9,9 +9,9 @@ int gdc_VolStreamSong(int a4)
 {
     float u1;
 
-    u1 = *(float *)0xC02E394;
+    u1 = 8.0f;
     *(unsigned char *)0xC1EE80C = (int)((float)(signed char)a4 * ((float)(unsigned char)(*(signed char *)0xC28A4EC) / u1));
     ADXT_SetOutVol((*(int *)0xC1EE820), (volumeToDb((*(signed char *)0xC1EE80C))));
-    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)(*(signed char *)0xC28A4EC) / u1) * (*(float *)0xC02E3A8));
+    *(unsigned char *)0xC1EE80C = (int)(((float)(unsigned char)(*(signed char *)0xC28A4EC) / u1) * 76.0f);
     return 0xC02E3A8;
 }

@@ -62,7 +62,7 @@ int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6)
     nlObjPut(0xC464170);
     *(unsigned int *)0xC2A9300 = 0x200A;
     nlObjPutSetFadeColor(F15, F15, F15);
-    nd_SprPut(0xC2A92CC, 0xED, (*(float *)0xC058FB4), (*(float *)0xC058FB0));
+    nd_SprPut(0xC2A92CC, 0xED, 3.2e+02f, 176.0f);
     nlObjPutSetFadeColor(1.0f, 1.0f, 1.0f);
     R4 = (0xFFFFFFFF);
     R5 = (0xFFFFFFFF);

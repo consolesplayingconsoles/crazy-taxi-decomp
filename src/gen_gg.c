@@ -190,7 +190,7 @@ void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float 
     PutStringFixPfont(R14, R5, (*(float *)(((int)stk + 28))), F5, F6, F7);
     goto L_C03D320;
     L_C03D320:;
-    u79 = *(float *)0xC03D3D4;
+    u79 = 2e+01f;
     *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
     F15 = ((F15 + u79));
     goto L_C03D32C;

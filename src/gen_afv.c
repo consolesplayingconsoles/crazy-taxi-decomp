@@ -14,6 +14,6 @@ int windowNameDelete(void)
     windowOpenStep(0xA);
     menuCursor(0x1, 0x2, 0x0);
     putLevelCTFontAssist(0x24, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
-    PutVM_Message(0x20, 0x19, 0xC2A1248, (*(float *)0xC03EF30), (*(float *)0xC03EF2C));
+    PutVM_Message(0x20, 0x19, 0xC2A1248, 195.0f, 208.0f);
     return windowEnterStep(0x14);
 }

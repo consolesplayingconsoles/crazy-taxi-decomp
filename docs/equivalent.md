@@ -11356,8 +11356,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 16 of 16 instructions
 
-### CheckColliPoleEdge (`0C034A4A`, 276 bytes, `src/gen_agq.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_agq/CheckColliPoleEdge.json`
+### CheckColliPoleEdge (`0C034A4A`, 276 bytes, `src/colli_b.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/colli_b/CheckColliPoleEdge.json`
 - case 42
 - case 101
 - case 18
@@ -15950,45 +15950,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live records
 - the cases run 72 of 72 instructions
 
-### Exec_LCD (`0C06045C`, 210 bytes, `src/gen_iq.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_iq/Exec_LCD.json`
-- case 5
-- case 1
-- case 2
-- case 3
-- case 4
-- case 5
-- case 6
-- case 7
-- case 8
-- case 9
-- case 10
-- case 11
-- case 12
-- case 13
-- case 14
-- case 15
-- case 16
-- case 17
-- case 37
-- case 102
-- case 115
-- case 134
-- case 38
-- case 96
-- case 74
-- case 68
-- case 67
-- case 81
-- case 143
-- case 71
-- case 114
-- case 105
-- case 108
-- case 61
-- case 121
-- case 98
-- the cases run 16 of 56 instructions
+### Exec_LCD (`0C06045C`, 32 bytes, `src/lcd_b.c`)
+- equivalent on 5 development and 5 holdout cases, in `tests/lcd_b/Exec_LCD.json`
+- LCD access off: returns at once
+- flag bit 2 set: returns
+- flag bit 4 set (load/save owns the LCD): returns
+- access on, no flags: runs the logo demo
+- bits 2 and 4: returns on bit 2
+- access flag 5: returns
+- other bits only: runs the logo demo
+- bit 2 with others: returns
+- bit 4 with others: returns
+- bit 1 only: runs the logo demo
+- the cases run 16 of 16 instructions
 
 ### Exec_LCDLogoDemo (`0C0604A2`, 228 bytes, `src/gen_afj.c`)
 - equivalent on 15 development and 15 holdout cases, in `tests/gen_afj/Exec_LCDLogoDemo.json`
@@ -23084,6 +23058,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Total Records screen)
 - the cases run 29 of 29 instructions
 
+### Put_Remain_Time_Flash (`0C0542E4`, 246 bytes, `src/gen_arn.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_arn/Put_Remain_Time_Flash.json`
+- case 25
+- case 14
+- case 31
+- case 28
+- case 25
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 93
+- case 118
+- case 74
+- case 67
+- case 73
+- case 89
+- case 103
+- case 49
+- case 86
+- case 75
+- case 80
+- case 98
+- case 94
+- case 69
+- case 61
+- case 84
+- case 91
+- case 43
+- the cases run 117 of 123 instructions
+
 ### Put_Remain_Time_Frame (`0C0543FC`, 86 bytes, `src/gen_lz.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_lz/Put_Remain_Time_Frame.json`
 - case 0
@@ -23124,7 +23138,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 43 of 43 instructions
 
-### Put_Remain_Time_Gauge (`0C05423A`, 416 bytes, `src/gen_sk.c`)
+### Put_Remain_Time_Gauge (`0C05423A`, 170 bytes, `src/gen_sk.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_sk/Put_Remain_Time_Gauge.json`
 - case 36
 - case 39
@@ -23162,7 +23176,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 24
 - case 26
 - case 28
-- the cases run 167 of 173 instructions
+- the cases run 36 of 36 instructions
 
 ### Put_Remain_Time_Mode2 (`0C053DEC`, 1102 bytes, `src/gen_aa.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_aa/Put_Remain_Time_Mode2.json`
@@ -23467,45 +23481,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 70 of 70 instructions
 
-### Put_TotalDrum (`0C054698`, 60 bytes, `src/gen_alu.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_alu/Put_TotalDrum.json`
-- case 22
-- case 0
-- case 1
-- case 2
-- case 3
-- case 4
-- case 5
-- case 6
-- case 7
-- case 8
-- case 9
-- case 10
-- case 11
-- case 12
-- case 13
-- case 14
-- case 15
-- case 16
-- case 60
-- case 68
-- case 96
-- case 69
-- case 63
-- case 80
-- case 65
-- case 57
-- case 61
-- case 82
-- case 115
-- case 54
-- case 35
-- case 92
-- case 38
-- case 37
-- case 111
-- case 49
-- the cases run 17 of 17 instructions
+### Put_TotalDrum (`0C054698`, 166 bytes, `src/hud_b.c`)
+- equivalent on 4 development and 4 holdout cases, in `tests/hud_b/Put_TotalDrum.json`
+- all three conditions: dimmed drum
+- flag set: full colour
+- time not positive: full colour
+- digit not 48: full colour
+- time negative: full colour
+- flag -1: full colour
+- conditions met, large time
+- digit 49: full colour
+- the cases run 30 of 30 instructions
 
 ### Put_TotalDrum_Digits (`0C054786`, 690 bytes, `src/gen_acj.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_acj/Put_TotalDrum_Digits.json`
@@ -32856,7 +32842,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - big
 - the cases run 5 of 5 instructions
 
-### breathMove (`0C07270C`, 322 bytes, `src/gen_afm.c`)
+### breathMove (`0C07270C`, 232 bytes, `src/gen_afm.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_afm/breathMove.json`
 - case 173
 - case 8
@@ -32895,6 +32881,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 83 of 90 instructions
+
+### breathPut (`0C0727F4`, 90 bytes, `src/gen_arn.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_arn/breathPut.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 47
+- case 117
+- case 80
+- case 65
+- case 86
+- case 59
+- case 55
+- case 100
+- case 38
+- case 40
+- case 68
+- case 89
+- case 75
+- case 77
+- case 102
+- case 61
+- case 50
+- case 114
+- the cases run 45 of 45 instructions
 
 ### breathResetOne (`0C07250C`, 40 bytes, `src/gen_rd.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_rd/breathResetOne.json`
@@ -37522,8 +37548,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 83
 - the cases run 47 of 47 instructions
 
-### fcvHermiteAngle (`0C067B8E`, 106 bytes, `src/gen_adg.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_adg/fcvHermiteAngle.json`
+### fcvHermiteAngle (`0C067B8E`, 106 bytes, `src/fcv_b.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/fcv_b/fcvHermiteAngle.json`
 - case 25
 - case 0
 - case 1

@@ -119,7 +119,7 @@ int Exec_Crazy_Jump(int a4, int a5, float f4, float f5, float f6)
     if (((*(int *)0xC2A991C) != 0)) goto L_C05C602;
     goto L_C05C5E8;
     L_C05C5E8:;
-    if (((*(float *)0xC05C6C8) > (*(float *)((R12 + 0x0))))) goto L_C05C5FA;
+    if ((1.5e+02f > (*(float *)((R12 + 0x0))))) goto L_C05C5FA;
     goto L_C05C5F2;
     L_C05C5F2:;
     R0 = ((Start_Excellent()));

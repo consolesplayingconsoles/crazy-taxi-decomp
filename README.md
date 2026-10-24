@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=1)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=3)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -21,18 +21,18 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE           81.7%  the instructions the cases ran, of all instructions, over the 2910 functions that reached the check
-FUNCTIONS LEFT  (100.0% complete) 0  of the 3321 functions that can be C (61 with no C form are counted apart)
-BYTES LEFT      (100.0% complete) 0  of 544542 bytes of code that can be C
+TOTAL TEST COVERAGE           81.7%  the instructions the cases ran, of all instructions, over the 2912 functions that reached the check
+FUNCTIONS LEFT  (100.0% complete) 0  of the 3323 functions that can be C (61 with no C form are counted apart)
+BYTES LEFT      (100.0% complete) 0  of 544470 bytes of code that can be C
 FUNCTIONS                            
-  unnamed                         0  functions still called FUN_... (0 of 3382)
+  unnamed                         0  functions still called FUN_... (0 of 3384)
   Not written C                   0  0 bytes
   Written C with errors           0  0 bytes
   Not drawn                       0  0 bytes
   Drawn with errors               0  0 bytes
   Checked with errors             0  0 bytes
   No C form                    1.8%  an instruction or a register convention with no C form (tools/5-generated/classify.py names it)
-  documented                  87.7%  2967 named functions in docs/*.md
+  documented                  87.7%  2969 named functions in docs/*.md
 GAME ASSETS (EXTRA)                  
   models named                37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named            15.5%  9 of 58 characters (note rules)
@@ -135,7 +135,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 |---|---|
 | [tests/<file>/<function>.json](tests/) | The test cases of each function |
 | [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent |
-| [badges/](badges) | The progress badge, written by [tools/progress.py](tools/progress.py): `progress.svg`. Once [status.txt](status.txt) ticks BUILDS FROM C it also lists the statuses there (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE), ticked or crossed; each needs the ones above it |
+| [badges/](badges) | The progress badge, written by [tools/progress.py](tools/progress.py): `progress.svg`. Once [status.txt](status.txt) ticks BUILDS FROM C it also lists the statuses there (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE), ticked, crossed, or a question mark where not tested yet (`[?]`); each needs the ones above it |
 
 **Scripts and tools**
 

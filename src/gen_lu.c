@@ -19,16 +19,16 @@ float colliBoxShapeInit(int a4, int a5)
 
     *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x6C)) = (*(float *)((a5 + 0x0)));
     *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x70)) = (*(float *)((a5 + 0x4)));
-    u4 = *(float *)0xC032A14;
+    u4 = 0.5f;
     *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x74)) = (((*(float *)(((a5 + 0x8) + 0x0))) - (*(float *)(((a5 + 0xC) + 0x0)))) * u4);
     *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x60)) = 0.0f;
     if (a4 == 0) {
-        *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x64)) = (*(float *)0xC032A18);
+        *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x64)) = (-3.0f);
     } else {
         *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x64)) = 0.0f;
     }
     *(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x68)) = (((*(float *)(((a5 + 0x8) + 0x0))) + (*(float *)(((a5 + 0xC) + 0x0)))) * u4);
-    u10 = *(float *)0xC032A1C;
+    u10 = (-2.0f);
     *(float *)(((int)stk + 8)) = ((*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x6C))) + u10);
     *(float *)(((int)stk + 12)) = (*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x70)));
     *(float *)(((int)stk + 16)) = ((*(float *)((((short)((short)a4 * (short)0x78) + 0xC26ED00) + 0x74))) + u10);

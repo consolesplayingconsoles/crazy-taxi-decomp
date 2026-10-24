@@ -90,7 +90,7 @@ int windowNameConfirm(void)
             *(unsigned char *)((t48 + 0x0)) = 0x0;
             t58 = 0x1C;
             t59 = ((int)stk + 12);
-            u61 = (*(float *)0xC03F2B4);
+            u61 = 154.0f;
         }
         PutVM_Message(0x20, t58, t59, u61, 208.0f);
     }

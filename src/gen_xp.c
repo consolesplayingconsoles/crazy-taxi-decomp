@@ -68,6 +68,6 @@ int PutWindow(int a4, int a5, int a6, int a7, float f4, float f5, float f6, floa
     if ((R13 != 3)) goto L_C03D42A;
     goto L_C03D404;
     L_C03D404:;
-    R4 = ((Put_Window_SpriteXtoY((int)((*(float *)(((int)stk + 8))) + (*(float *)0xC03D4D8)), R5, 0x6, 0x3, (R13), F14, (*(float *)0xC03D4D4), F12, F15)));
+    R4 = ((Put_Window_SpriteXtoY((int)((*(float *)(((int)stk + 8))) + 312.0f), R5, 0x6, 0x3, (R13), F14, 38.0f, F12, F15)));
     goto L_C03D42A;
 }

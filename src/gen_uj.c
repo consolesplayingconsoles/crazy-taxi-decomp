@@ -200,7 +200,7 @@ int BigOneSwimMove(int a4, int a5, int a6, float f4, float f5)
     L_C073672:;
     nlPopMatrix(0x2);
     *(float *)((R14 + 0x38)) = ((*(float *)((R14 + 0x38))) + (*(float *)(((0x3C + R14) + 0x0))));
-    u146 = *(float *)0xC0738E8;
+    u146 = 38.0f;
     u147 = *(float *)((R14 + 0x38));
     t148 = nlFloor((u147 / u146));
     *(float *)((R14 + 0x38)) = (u147 - (t148 * u146));

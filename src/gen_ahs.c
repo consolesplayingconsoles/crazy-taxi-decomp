@@ -13,6 +13,6 @@ int Put_Press_Start(void)
     pfSetFont(0x1);
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     pfSize(1.0f, 1.0f);
-    pfLocate((*(float *)0xC2A96D0), (*(float *)0xC0581B0));
+    pfLocate((*(float *)0xC2A96D0), 378.0f);
     return pfPuts(0xC0D0A40);
 }

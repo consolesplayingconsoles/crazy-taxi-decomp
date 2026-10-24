@@ -45,7 +45,7 @@ int Drv_ExecReady(float f4, float f5, float f6, float f7, float f8)
                 Drv_StartReady((t31 + 0x1));
                 *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
                 *(float *)0xC2AD0F4 = 0.0f;
-                *(float *)0xC2AD0F8 = (*(float *)0xC0638C0);
+                *(float *)0xC2AD0F8 = 15.0f;
                 t35 = 0xF8;
             }
             t41 = t35;

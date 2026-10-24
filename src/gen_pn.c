@@ -10,7 +10,7 @@ int Result_Class_Shadow_Put(void)
     nlObjPutSetFadeColor(0.0f, 0.0f, 0.0f);
     *(unsigned int *)0xC2A972C = 0x200A;
     *(unsigned int *)0xC2A96F8 = 0x13E;
-    *(float *)0xC2A96FC = (*(float *)0xC05A7D0);
+    *(float *)0xC2A96FC = 164.0f;
     *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
     *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
     *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);

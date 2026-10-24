@@ -30,7 +30,7 @@ void setObjHitBreakOff(int a4)
             *(unsigned int *)(((t1 + 0x14) + 0x54)) = 0xC0EDF44;
             *(unsigned int *)(((t1 + 0x14) + 0x64)) = (*(int *)(((*(int *)0xC0EE218) + 0x0)));
             SetColliObj((t1 + 0x14), 0x10);
-            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), (*(float *)0xC038D14));
+            nlScaleVector((((int)stk + 4) + 0xC), ((t1 + 0x14) + 0x3C), (-8.0f));
             nlAddVector(a4, (((int)stk + 4) + 0xC));
             *(unsigned int *)((a4 + 0x54)) = 0xC0EDF68;
             *(unsigned int *)((a4 + 0x64)) = (*(int *)(((*(int *)0xC0EE21C) + 0x0)));

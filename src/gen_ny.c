@@ -76,7 +76,7 @@ int nd_StartWait_PutKyaku(void)
             nlTranslateV(((signed char)(((t34 << 1) + t34) << 2) + 0xC0CF654));
             t43 = 0x8000;
         } else {
-            nlTranslate((*(float *)0xC050A34), 0.0f, -160.0f);
+            nlTranslate(204.4f, 0.0f, -160.0f);
             t38 = *(signed char *)0xC2A72D8;
             nlTranslateV(((signed char)(((t38 << 1) + t38) << 2) + 0xC0CF684));
             t43 = ((unsigned short)(*(short *)0xC2A72C0) + 0x8000);

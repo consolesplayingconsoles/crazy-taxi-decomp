@@ -38,7 +38,7 @@ float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
         *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + ((*(float *)((a6 + 0x4))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x4)))));
         *(float *)(((int)stk + 16)) = ((*(float *)(((int)stk + 16))) + ((*(float *)((a6 + 0x8))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x8)))));
         t17 = abs(t0);
-        u19 = *(float *)0xC04A4F4;
+        u19 = 3e+02f;
         u20 = (nlLength((((int)stk + 4) + 0x4), a8));
         u20 = u20 + u19 * (float)(t17 - 1);
         *(float *)((a10 + 0x0)) = u20;

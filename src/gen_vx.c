@@ -32,15 +32,15 @@ int windowCardError(void)
             }
         }
     }
-    u32 = *(float *)0xC03E780;
-    u34 = *(float *)0xC03E784;
+    u32 = 208.0f;
+    u34 = 1.6e+02f;
     t35 = 0xD;
     if ((*(int *)0xC2A1224) == 0) {
         t35 = 0x13;
     }
     PutVM_Message(0x20, t35, 0x0, u34, u32);
-    PutVM_Message(0x20, 0x3, 0x0, u34, (*(float *)0xC03E78C));
-    PutVM_Message(0x20, 0x4, 0x0, u34, (*(float *)0xC03E790));
-    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), (*(float *)0xC03E7A0), (*(float *)0xC03E79C));
+    PutVM_Message(0x20, 0x3, 0x0, u34, 272.0f);
+    PutVM_Message(0x20, 0x4, 0x0, u34, 304.0f);
+    PutVM_Message(0x20, 0x7, (((((*(int *)0xC2A11B8) << 2) << 2) << 1) + 0xC09F9F0), 2.2e+02f, 368.0f);
     return windowEnterStep(0x14);
 }

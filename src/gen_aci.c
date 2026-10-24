@@ -33,7 +33,7 @@ void GoiTool(int a4, int a5, int a6, int a7)
         goiToolLight(0x0);
         goiToolCamData(0x0);
         MotionBlurOff();
-        u6 = *(float *)0xC049B48;
+        u6 = 0.5f;
         *(float *)0xC2A6298 = u6;
         SetMotionBlurStrength(u6);
         setReplayType(0x0);

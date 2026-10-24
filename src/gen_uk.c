@@ -43,10 +43,10 @@ int Put_GameOver2(float f4)
     }
     t32 = t9;
     if ((int)(*(int *)0xC2A8FCC) < (int)0x8) {
-        u12 = *(float *)0xC0577BC;
-        u13 = *(float *)0xC0577C0;
-        u14 = *(float *)0xC0577C4;
-        u15 = *(float *)0xC0577C8;
+        u12 = 0.16666666f;
+        u13 = 64.0f;
+        u14 = 6.0f;
+        u15 = (-3.5f);
         t16 = 0xC0577C8;
         t18 = 0xC2A89CC;
         t19 = 0x0;

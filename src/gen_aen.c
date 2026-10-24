@@ -25,7 +25,7 @@ int pfSetFont(int a4)
     *(unsigned int *)0xC0ED1C8 = ((*(int *)0xC0ED1C8) | (*(int *)(((t1 << 2) + 0xC0ED268))));
     t16 = 0xC0ED268;
     if ((*(int *)0xC26E1F0) != 0) {
-        *(float *)0xC26E204 = ((*(float *)0xC26E204) * (*(float *)0xC03112C));
+        *(float *)0xC26E204 = ((*(float *)0xC26E204) * 0.5f);
         t16 = 0xC03112C;
     }
     *(unsigned int *)0xC0ED1CC = (*(int *)((((t6 * 0x3C) + (*(int *)0xC2B29C0)) + 0x34)));

@@ -120,7 +120,7 @@ int Drv_StartGetOn(int a4, float f4, float f5, float f6)
             Drv_SetMotion(t2, (Drv_FacePsgFrame(t0, f4, f5, f6)));
             *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
             *(float *)0xC2AD0F4 = 0.0f;
-            *(float *)0xC2AD0F8 = (*(float *)0xC0627F4);
+            *(float *)0xC2AD0F8 = 3e+01f;
             t28 = 0xF8;
         } else {
             if (a4 == 2) {
@@ -133,7 +133,7 @@ int Drv_StartGetOn(int a4, float f4, float f5, float f6)
                 Drv_SetMotion(t8, 0.0f);
                 *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
                 *(float *)0xC2AD0F4 = 0.0f;
-                *(float *)0xC2AD0F8 = (*(float *)0xC062804);
+                *(float *)0xC2AD0F8 = 1e+01f;
                 t18 = 0xF8;
             } else {
                 t14 = a4;

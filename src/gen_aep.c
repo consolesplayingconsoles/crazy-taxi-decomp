@@ -26,10 +26,10 @@ float Drv_FacePsgFrame(int a4)
     t3 = nlInnerProduct(0xC2AD1F8, (((int)stk + 4) + 0x4));
     t4 = nlArcTan2(_builtin_fabsf(t2), t3);
     if (((*(signed char *)0xC2AD1DF) & 32) != 0) {
-        u16 = (*(float *)0xC063580);
+        u16 = 15045.0f;
         u17 = ((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) * (float)t4);
     } else {
-        u16 = (*(float *)0xC063584);
+        u16 = 11686.0f;
         u17 = ((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) * (float)t4);
     }
     u39 = 0.0f;
@@ -37,7 +37,7 @@ float Drv_FacePsgFrame(int a4)
     } else {
         u30 = (u17 / u16);
         if (!(((float)(*(int *)(((*(int *)0xC2AD020) + 0x0))) + (-1.0f)) > (u17 / u16))) {
-            u30 = ((float)(*(int *)(((*(int *)0xC2AD020) + 0x0))) + (*(float *)0xC063588));
+            u30 = ((float)(*(int *)(((*(int *)0xC2AD020) + 0x0))) + (-2.0f));
         }
         u39 = u30;
     }

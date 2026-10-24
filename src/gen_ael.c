@@ -18,7 +18,7 @@ int gdc_GetStreamVoiceRemainTime(int a4)
         t2 = *(int *)(((int)stk + 8));
         *(unsigned int *)(((int)stk + 16)) = ((t2 << 2) + 0xC1EE810);
         ADXT_GetTime((*(int *)((((t2 << 2) + 0xC1EE810) + 0x0))), ((int)stk + 4), (((int)stk + 4) + 0x8));
-        t12 = (int)((float)((ADXT_GetNumSmpl((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))))) - (*(int *)(((int)stk + 4)))) * (*(float *)0xC02E7D4));
+        t12 = (int)((float)((ADXT_GetNumSmpl((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))))) - (*(int *)(((int)stk + 4)))) * 0.0013605441f);
     }
     return t12;
 }

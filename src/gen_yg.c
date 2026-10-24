@@ -75,7 +75,7 @@ int Result_Awesome_Put(void)
         }
         Result_Class_Shadow_Put();
     }
-    *(float *)0xC2A9704 = (*(float *)0xC05AC3C);
+    *(float *)0xC2A9704 = 0.19999999f;
     *(unsigned int *)0xC2A985C = ((*(int *)0xC2A985C) + 0x1);
     return 0xC;
 }

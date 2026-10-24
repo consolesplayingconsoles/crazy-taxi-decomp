@@ -87,13 +87,18 @@ CODE_TOP = (0x0C, 0x8C, 0xAC)
 ZERO = re.compile(r'^(    int stk\[\d+\]) = \{0\};', re.M)
 
 
+def is_comment(l):
+    """A comment line: `/*` opens one, ` * ` continues it, `*/` closes it. A line starting with `*(` is code, a store through a pointer."""
+    return l.lstrip().startswith(('/*', '*/', '* '))
+
+
 def in_code_numbers(srcdir):
     """{address: [(file, line)]} for the numbers in the C that point inside the game code region but are not a function's entry."""
     ent = {a for a, s, n in functions()}
     out = {}
     for f in sorted(glob.glob(srcdir + '/*.c')):
         for i, l in enumerate(open(f, errors='replace').read().split('\n'), 1):
-            if l.lstrip().startswith(('/*', '*')):
+            if is_comment(l):
                 continue
             for m in LIT.finditer(l):
                 v = int(m.group(1), 16)
@@ -184,6 +189,17 @@ def pieces():
         if n in moved:
             del labels[a]
             rep[a] = '((int)%s%s)' % (n, (' + %d' % (a - start_of[n])) if a != start_of[n] else '')
+    if labels:
+        # A call or jump into the middle of a function cannot be right: the original's frame is pushed there (Crazy Taxi Exec_LCD into
+        # Exec_LCDLogoDemo+140: six pops that were never pushed, the game froze at the memory card window). The address is either a
+        # function functions.txt does not list yet (list it; the C then names it) or a function cut short (fix its size, rewrite its C).
+        nums = in_code_numbers(OUT + '/src')
+        lines = ['[ERROR] the C calls into the middle of a function (%d addresses):' % len(labels)]
+        for a, n in sorted(labels.items()):
+            where = ', '.join('%s:%d' % (os.path.basename(f), i) for f, i in nums.get(a, [])[:4])
+            lines.append('  %08X = %s+%d  (%s)' % (a, n, a - start_of[n], where))
+        lines.append('list it in functions.txt as its own function, or fix the caller\'s size in functions.txt and its C')
+        sys.exit('\n'.join(lines))
     alt = {}
     for a, n in labels.items():
         alt.setdefault(n, []).append(a)
@@ -225,7 +241,7 @@ def pieces():
             return m.group(0)
         out = []
         for l in t.split('\n'):
-            out.append(l if l.lstrip().startswith(('/*', '*')) else LIT.sub(sub, l))
+            out.append(l if is_comment(l) else LIT.sub(sub, l))
         if used or funcs:
             names = sorted({m.group(1) for u in used for m in re.finditer(r'\(int\)(\w+)', u)})
             head = ''.join('extern char %s[];\n' % n for n in names)

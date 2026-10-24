@@ -1,0 +1,91 @@
+{
+ "dev": [
+  {
+   "about": "LCD access off: returns at once",
+   "poke": {
+    "0C2A9FF0": "01000000",
+    "0C2A9FA8": "00000000"
+   }
+  },
+  {
+   "about": "flag bit 2 set: returns",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "02000000"
+   }
+  },
+  {
+   "about": "flag bit 4 set (load/save owns the LCD): returns",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "04000000"
+   }
+  },
+  {
+   "about": "access on, no flags: runs the logo demo",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "00000000"
+   },
+   "calls": [
+    {
+     "r0": "0"
+    }
+   ]
+  },
+  {
+   "about": "bits 2 and 4: returns on bit 2",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "06000000"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "access flag 5: returns",
+   "poke": {
+    "0C2A9FF0": "05000000",
+    "0C2A9FA8": "00000000"
+   }
+  },
+  {
+   "about": "other bits only: runs the logo demo",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "10000000"
+   },
+   "calls": [
+    {
+     "r0": "0"
+    }
+   ]
+  },
+  {
+   "about": "bit 2 with others: returns",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "12000000"
+   }
+  },
+  {
+   "about": "bit 4 with others: returns",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "14000000"
+   }
+  },
+  {
+   "about": "bit 1 only: runs the logo demo",
+   "poke": {
+    "0C2A9FF0": "00000000",
+    "0C2A9FA8": "01000000"
+   },
+   "calls": [
+    {
+     "r0": "0"
+    }
+   ]
+  }
+ ]
+}

@@ -126,8 +126,8 @@ int Put_Remain_Time_Mode2(void)
             } else {
                 pfColor(0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
             }
-            nd_SprPut(0xC2A7F7C, 0x10, (*(float *)0xC05428C), 34.0f);
-            u111 = (*(float *)0xC054298);
+            nd_SprPut(0xC2A7F7C, 0x10, 142.0f, 34.0f);
+            u111 = 1.5e+02f;
         } else {
             if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
                 *(float *)0xC2A7F80 = (float)(*(int *)0xC130BD4);
@@ -178,8 +178,8 @@ int Put_Remain_Time_Mode2(void)
                 u107 = 182.0f;
             } else {
                 nd_SprPut(0xC2A7F7C, 0x10, 64.0f, 34.0f);
-                nd_SprPut(0xC2A7F7C, 0x10, (*(float *)0xC05428C), 34.0f);
-                u107 = (*(float *)0xC054298);
+                nd_SprPut(0xC2A7F7C, 0x10, 142.0f, 34.0f);
+                u107 = 1.5e+02f;
             }
             u111 = u107;
         }

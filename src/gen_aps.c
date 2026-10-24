@@ -135,7 +135,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C04FC4A:;
     return R0;
     L_C04FC30:;
-    if ((!(F15 > (*(float *)0xC04FCA0)))) goto L_C04FC3E;
+    if ((!(F15 > 1.5e+03f))) goto L_C04FC3E;
     goto L_C04FC38;
     L_C04FC38:;
     *(unsigned int *)((R14 + 0x50)) = R12;
@@ -143,7 +143,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C04FC4A;
     L_C04FC3E:;
     R0 = (0xC04FCA4);
-    if ((!(F15 > (*(float *)0xC04FCA4)))) goto L_C04FC4A;
+    if ((!(F15 > 1.2e+03f))) goto L_C04FC4A;
     goto L_C04FC46;
     L_C04FC46:;
     R0 = ((pedStand(R14)));

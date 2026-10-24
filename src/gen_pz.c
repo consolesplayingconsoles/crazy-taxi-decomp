@@ -102,9 +102,9 @@ int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4)
     L_C02EC64:;
     *(unsigned char *)((((short)((((R4 << 1) + R4) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x1;
     *(unsigned int *)((((short)((((R4 << 1) + R4) << 2) << 1) + 0xC26C5DC) + 0x4)) = R10;
-    u39 = *(float *)0xC02ED04;
+    u39 = 0.39999998f;
     u40 = *(float *)(((int)stk + 4));
-    u41 = *(float *)0xC02ED08;
+    u41 = 1.2e+02f;
     R4 = (((short)((((R4 << 1) + R4) << 2) << 1) + 0xC26C5DC));
     R5 = (0x1);
     F2 = (0.0f);
@@ -115,7 +115,7 @@ int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4)
     F4 = (F2);
     goto L_C02EC90;
     L_C02EC90:;
-    *(unsigned int *)((R4 + 0xC)) = (int)(F4 + (*(float *)0xC02ED0C));
+    *(unsigned int *)((R4 + 0xC)) = (int)(F4 + 9e+01f);
     *(unsigned int *)((R4 + 0x10)) = ((*(int *)((R4 + 0x10))) + 0x1);
     *(unsigned int *)((R4 + 0x8)) = (R12 - 1);
     R0 = (0xC02ED0C);

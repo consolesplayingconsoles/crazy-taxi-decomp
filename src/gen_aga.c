@@ -5,9 +5,9 @@ int Init_Standard(void);
 
 int Init_Standard(void)
 {
-    *(float *)0xC2A7EE0 = (*(float *)0xC052664);
-    *(float *)0xC2A7EE4 = (*(float *)0xC052668);
-    *(float *)0xC2A7EE8 = (*(float *)0xC05266C);
+    *(float *)0xC2A7EE0 = 3.2e+02f;
+    *(float *)0xC2A7EE4 = 2.4e+02f;
+    *(float *)0xC2A7EE8 = 0.19999999f;
     *(float *)0xC2A7EEC = 1.0f;
     *(float *)0xC2A7EF0 = 1.0f;
     *(float *)0xC2A7EFC = 1.0f;

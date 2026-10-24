@@ -149,7 +149,7 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C0378AC:;
     nlLineBlendFunc(0x1, 0x4);
     nlLineSetThickness((1.0f + 1.0f));
-    nlLineSetDiv((*(float *)0xC0379BC));
+    nlLineSetDiv(128.0f);
     R4 = (0xB40);
     R9 = (0xC07B9D0);
     if (((*(int *)((R11 + 0x0))) != 90)) goto L_C0378D6;

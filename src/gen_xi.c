@@ -80,7 +80,7 @@ int Exec_DCmini_Game9(int a4)
         *(unsigned short *)0xC2A9B94 = ((Current_to_Target_angleY()) + 0x8000);
         nlPushMatrix(0x0);
         nlTranslateV(0xC131970);
-        nlTranslate(0.0f, 0.0f, (*(float *)0xC05D4C8));
+        nlTranslate(0.0f, 0.0f, (-1e+01f));
         if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
             t105 = (*(short *)0xC2A9A64);
         } else {

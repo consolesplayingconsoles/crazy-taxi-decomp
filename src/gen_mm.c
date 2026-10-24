@@ -40,7 +40,7 @@ int gdc_ExecStreamSongDisk(void)
                     *(unsigned int *)0xC26A0CC = ((int)((int)((*(int *)0xC26A0CC) + 0x1) % (int)0x4));
                     t32 = (gdc_PlayStreamSongDisk());
                 } else {
-                    t32 = (ADXT_SetOutVol((*(int *)0xC1EE820), (gdc_GetVolGainMute((int)(((float)t23 / (*(float *)0xC02E614)) * (float)(*(signed char *)0xC1EE80C))))));
+                    t32 = (ADXT_SetOutVol((*(int *)0xC1EE820), (gdc_GetVolGainMute((int)(((float)t23 / 1.2e+02f) * (float)(*(signed char *)0xC1EE80C))))));
                 }
                 *(unsigned int *)0xC26A0D8 = ((*(int *)0xC26A0D8) - 1);
                 t35 = t32;

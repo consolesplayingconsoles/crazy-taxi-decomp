@@ -34,7 +34,7 @@ int menuItemDifficulty(int a4, int a5)
         if (a5 == 2) {
             t3 = 0x8;
             t4 = 0xC28A4EB;
-            u6 = (*(float *)0xC03D84C);
+            u6 = 188.0f;
             u7 = (float)(0x1DE - t0);
         }
         t12 = t3;
@@ -48,9 +48,9 @@ int menuItemDifficulty(int a4, int a5)
             *(unsigned char *)((t13 + 0x0)) = (*(int *)(((int)stk + 4)));
         }
     }
-    u35 = *(float *)0xC03D858;
-    putString(0x28, 0xC0A2048, (u17 + (*(float *)0xC03D85C)), (u16 + u35), 1.0f);
-    t46 = (putString(0x20, 0xC0A2050, (u17 + (*(float *)0xC03D868)), (u16 + u35), 1.0f));
+    u35 = (-7.0f);
+    putString(0x28, 0xC0A2048, (u17 + (-82.0f)), (u16 + u35), 1.0f);
+    t46 = (putString(0x20, 0xC0A2050, (u17 + 82.0f), (u16 + u35), 1.0f));
     if ((int)t12 > 0) {
         t40 = 0x0;
         for (;;) {

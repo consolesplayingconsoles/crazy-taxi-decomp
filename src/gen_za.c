@@ -45,7 +45,7 @@ int gdc_CoursePointChk(int a4, int a5, int a6, int a7, int a8, int a9, int a10, 
     R14 = (0xC0EA3E0);
     R4 = (0xC1EE24C);
     F15 = (0.0f);
-    F4 = ((*(float *)0xC02F074));
+    F4 = (1e+01f);
     if ((((*(int *)0xC1EE284) & 16) == 0)) goto L_C02EF56;
     goto L_C02EF50;
     L_C02EF50:;
