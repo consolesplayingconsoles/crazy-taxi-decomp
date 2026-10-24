@@ -15,6 +15,11 @@ if [ "${SKIP_BUILD_CHECK:-}" != "1" ] && [ -f build.sh ]; then
            echo "[pre-commit] build.sh did not print MATCH: commit refused (SKIP_BUILD_CHECK=1 skips the check)" >&2
            exit 1;;
     esac
+    if [ -f tools/8-build/retcheck.py ] && ! python3 tools/8-build/retcheck.py >/dev/null 2>&1; then
+        python3 tools/8-build/retcheck.py >&2 || true
+        echo "[pre-commit] commit refused: a function's C returns in the other register than the original (tools/8-build/retcheck.py)" >&2
+        exit 1
+    fi
     if [ -f tools/equiv.py ]; then
         for f in $(git diff --cached --name-only --diff-filter=AM -- 'src/*.c'); do
             res="$(python3 tools/equiv.py -q "$f" 2>&1 | tail -1)" || true

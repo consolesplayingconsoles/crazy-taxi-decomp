@@ -69248,8 +69248,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 15
 - the cases run 18 of 18 instructions
 
-### nlUnitNormalVectorCCW (`0C078C50`, 152 bytes, `src/gen_nt.c`)
-- equivalent on 19 development and 18 holdout cases, in `tests/gen_nt/nlUnitNormalVectorCCW.json`
+### nlUnitNormalVectorCCW (`0C078C50`, 152 bytes, `src/vec_b.c`)
+- equivalent on 19 development and 18 holdout cases, in `tests/vec_b/nlUnitNormalVectorCCW.json`
 - case 0
 - case 2
 - case 4
@@ -69289,8 +69289,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 76 of 76 instructions
 
-### nlUnitNormalVectorCW (`0C078CF0`, 152 bytes, `src/gen_nu.c`)
-- equivalent on 19 development and 18 holdout cases, in `tests/gen_nu/nlUnitNormalVectorCW.json`
+### nlUnitNormalVectorCW (`0C078CF0`, 152 bytes, `src/vec_b.c`)
+- equivalent on 19 development and 18 holdout cases, in `tests/vec_b/nlUnitNormalVectorCW.json`
 - case 0
 - case 2
 - case 4

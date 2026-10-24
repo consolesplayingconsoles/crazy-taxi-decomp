@@ -16,6 +16,7 @@ setup:
 	bash setup.sh "$(GDI)"
 
 c:
+	python3 tools/8-build/retcheck.py
 	python3 tools/8-build/cbuild.py prep
 	python3 tools/8-build/cbuild.py compile
 	python3 tools/8-build/cbuild.py prelim
