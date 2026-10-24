@@ -4,7 +4,9 @@
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
-A decompilation of the Dreamcast **Crazy Taxi**, in progress. It rebuilds the game's executable byte for byte.
+A complete decompilation of the Dreamcast **Crazy Taxi**. It builds and plays normally. Small bugs are expected and the project is undergoing maintenance work towards higher test coverage and confidence in stability.
+
+It rebuilds the game's executable byte for byte.
 A function is **done** when its C behaves like the original (Equivalent);
 byte-identical C (Matching) is the bonus tier.
 
@@ -21,7 +23,7 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE           81.7%  the instructions the cases ran, of all instructions, over the 2912 functions that reached the check
+TOTAL TEST COVERAGE           82.3%  the instructions the cases ran, of all instructions, over the 2912 functions that reached the check
 FUNCTIONS LEFT  (100.0% complete) 0  of the 3323 functions that can be C (61 with no C form are counted apart)
 BYTES LEFT      (100.0% complete) 0  of 544470 bytes of code that can be C
 FUNCTIONS                            

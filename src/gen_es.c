@@ -20,9 +20,11 @@ int nlSetScaleFactor(float);
 int nlSubVector3op(int, int, int);
 int nlTranslateV(int);
 int nlVoidUnitVector(int);
-void ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6);
+int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6);
 
-void ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
+/* manual: ExecArrow returns its status in r0 (1 after it drew the arrow, 0 on its state-0 path; one exit, 0C036100): kyakuTaskPut draws the
+   arrow translucent or opaque by it. The generated form was void and dropped it. */
+int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
 {
     float u0;
     float u26;
@@ -162,7 +164,7 @@ void ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
     R0 = (0x1);
     goto L_C036100;
     L_C036100:;
-    return;
+    return R0;
     L_C036038:;
     if ((R4 == 0)) goto L_C036046;
     goto L_C03603C;

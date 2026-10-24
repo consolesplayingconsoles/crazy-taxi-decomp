@@ -3,15 +3,6 @@
 
 float nlExp(int, float);
 
-void nlFraction(float f4)
-{
-    if (!(8388608.0f > (f4 < 0.0f ? -f4 : f4))) {
-        return;
-    }
-    if (0.0f > f4) {
-        return;
-    }
-}
 
 void nlSinh(int a4)
 {

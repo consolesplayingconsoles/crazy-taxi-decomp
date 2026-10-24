@@ -53351,7 +53351,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 58 of 58 instructions
 
 ### kyakuTaskExec (`0C024878`, 3492 bytes, `src/gen_gx.c`)
-- equivalent on 19 development and 18 holdout cases, in `tests/gen_gx/kyakuTaskExec.json`
+- equivalent on 31 development and 30 holdout cases, in `tests/gen_gx/kyakuTaskExec.json`
 - case 1
 - case 10
 - case 1
@@ -53371,6 +53371,18 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 42
 - case 44
 - widen 199
+- directed: flips 0C0248C0 (not taken)
+- directed: flips 0C024DAA (taken)
+- directed: flips 0C024DBA (taken)
+- directed: flips 0C024DCA (taken)
+- directed: flips 0C024902 (not taken)
+- directed: flips 0C02498C (not taken)
+- directed: flips 0C024E8A (not taken)
+- directed: flips 0C024F34 (taken)
+- directed: flips 0C025108 (not taken)
+- directed: flips 0C02515C (taken)
+- directed: flips 0C025184 (not taken)
+- directed: flips 0C025554 (taken)
 - case 265
 - case 261
 - case 316
@@ -53389,7 +53401,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 382
 - case 1
 - case 112
-- the cases run 176 of 1395 instructions
+- directed: flips 0C024DA6 (not taken)
+- directed: flips 0C024DB2 (taken)
+- directed: flips 0C024DC2 (taken)
+- directed: flips 0C0248F2 (taken)
+- directed: flips 0C02490A (taken)
+- directed: flips 0C024CC2 (taken)
+- directed: flips 0C024E9A (taken)
+- directed: flips 0C02500A (taken)
+- directed: flips 0C025142 (taken)
+- directed: flips 0C025170 (taken)
+- directed: flips 0C02532E (not taken)
+- directed: flips 0C02558E (taken)
+- the cases run 1009 of 1434 instructions
 
 ### kyakuTaskPut (`0C026456`, 722 bytes, `src/gen_yn.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_yn/kyakuTaskPut.json`
@@ -61125,8 +61149,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - another table
 - the cases run 3 of 3 instructions
 
-### nlFraction (`0C075CF0`, 54 bytes, `src/gen_aj.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_aj/nlFraction.json`
+### nlFraction (`0C075CF0`, 54 bytes, `src/frac_b.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/frac_b/nlFraction.json`
 - case 0
 - case 3
 - case 2
@@ -74262,7 +74286,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 193 of 432 instructions
 
 ### psgEnterState3 (`0C06BE28`, 2746 bytes, `src/gen_im.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_im/psgEnterState3.json`
+- equivalent on 41 development and 40 holdout cases, in `tests/gen_im/psgEnterState3.json`
+- case 0
+- case 58
+- case 0
+- case 64
+- case 96
+- case 77
+- case 3
+- case 5
+- case 8
+- case 10
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 24
+- case 26
+- case 29
 - case 0
 - case 1
 - case 2
@@ -74281,6 +74323,29 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 16
 - case 17
 - case 18
+- directed: flips 0C06BF40 (not taken)
+- directed: flips 0C06C01C (not taken)
+- directed: flips 0C06C08E (not taken)
+- directed: flips 0C06C2DA (taken)
+- directed: flips 0C06C09C (taken)
+- case 64
+- case 23
+- case 64
+- case 0
+- case 1
+- case 2
+- case 4
+- case 7
+- case 9
+- case 11
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 25
+- case 28
+- case 30
 - case 99
 - case 131
 - case 45
@@ -74299,7 +74364,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 91
 - case 138
 - case 159
-- the cases run 0 of 1014 instructions (nothing compared: no case showed a write, a call, a device access or a change of SR, and the C returns nothing)
+- directed: arguments changed together for 0C06BF40
+- directed: flips 0C06C024 (taken)
+- directed: flips 0C06C1AE (taken)
+- directed: arguments changed together for 0C06C1CA
+- the cases run 587 of 1024 instructions
 
 ### psgEnterState4 (`0C06C904`, 3386 bytes, `src/gen_wh.c`)
 - equivalent on 19 development and 18 holdout cases, in `tests/gen_wh/psgEnterState4.json`
