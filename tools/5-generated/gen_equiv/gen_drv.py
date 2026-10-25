@@ -32,9 +32,14 @@ def build(name,ret,passthru=False):
     stkstruct=0
     if c.frame:
         up=0
-        for m in re.finditer(r'\(int\)stk \+ @@F:(-?\d+)@@\)((?: [+-] (?:0x[0-9A-Fa-f]+|\d+)\))*)',text):
-            off=int(m.group(1))+sum(int(x,0)*(-1 if sg=='-' else 1) for sg,x in re.findall(r' ([+-]) (0x[0-9A-Fa-f]+|\d+)\)',m.group(2)))
+        AT=r'\(int\)stk \+ @@F:(-?\d+)@@\)((?: [+-] (?:0x[0-9A-Fa-f]+|\d+)\))*)'
+        def at(m): return int(m.group(1))+sum(int(x,0)*(-1 if sg=='-' else 1) for sg,x in re.findall(r' ([+-]) (0x[0-9A-Fa-f]+|\d+)\)',m.group(2)))
+        for m in re.finditer(AT,text):
+            off=at(m)
             if off>=0: up=max(up,off//4+1)      # an address above the function's own frame: words the caller left on the stack (arguments, a structure passed by value)
+        for e,n in getattr(c,'spans',[]):       # a block copy covers n bytes from its address
+            m=re.search(AT,e)
+            if m and at(m)>=0: up=max(up,(at(m)+n-1)//4+1)
         if up:
             up=min(up,64)        # up to 64 words: a structure passed by value can be large; only the words the code reads (padded to four, a callee that
                                  # read three declared a phantom fourth parameter and its callers were compared on the caller's own local there: sprPutAtAlpha)

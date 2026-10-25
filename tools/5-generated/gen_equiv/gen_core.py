@@ -1038,11 +1038,17 @@ def _run(name,passthru=False,frame=False,flat=False):
     except Exception: CALLC={}
     def ind_variadic_hint(fname):
         return fname in ('nlPrintf','printf','sprintf','nlSprintf')
+    def note_span(n,d,sr):
+        # a block copy reads n bytes from its source and writes n to its destination, but only their first addresses appear in the C:
+        # the stack words counted from the C would stop at the first (hudFontNumPut, Virtua Tennis: a 12-byte point copied from the caller's area)
+        c.spans=getattr(c,'spans',[])+[(ex(d),n),(ex(sr),n)]
     def note_sarg(n,d,sr):
         # a block copy whose destination is the stack pointer itself: a structure passed by value (SHC builds the outgoing arguments
         # there), taken by the next call at the same stack depth as its argument after the register ones
         try:
-            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D): c.sarg=(n//4,ex(sr),c.D)
+            # the argument is the copy at SP, the bytes the callee receives: not the source, whose register (a C variable in the flat and
+            # loop forms) can be reused before the call (hudFontNumPut, Virtua Tennis: r2 held the point, then the callee's address)
+            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D): c.sarg=(n//4,ex(d),c.D)
         except Exception: pass
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
         if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
@@ -1090,7 +1096,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 # (what the source wrote: a vector or table copied as a struct), instead of one load and store per word
                 k_=n//4
                 emit('{ struct mv%d { int w[%d]; }; *(struct mv%d *)(%s) = *(struct mv%d *)(%s); }'%(k_,k_,k_,ex(d),k_,ex(sr)))
-                note_sarg(n,d,sr)
+                note_sarg(n,d,sr); note_span(n,d,sr)
             elif isint(n) and n%4==0 and n<=256 and fname in ('_quick_odd_mvn','_quick_evn_mvn'):
                 # these two read one word ahead of the store (the last word is read before the jump into the copy)
                 w=load('l',addr_expr(sr,n-4))
@@ -1102,7 +1108,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             elif isint(n) and fname=='_slow_mvn' and 8<=n<=256 and os.environ.get('GEN_STRUCT_COPY','1')=='1':
                 # the byte mover: a struct of chars assigned, which the compiler turns back into the same call (one call, not a load and a store per byte)
                 emit('{ struct mvb%d { char b[%d]; }; *(struct mvb%d *)(%s) = *(struct mvb%d *)(%s); }'%(n,n,n,ex(d),n,ex(sr)))
-                note_sarg(n,d,sr)
+                note_sarg(n,d,sr); note_span(n,d,sr)
             elif isint(n) and n<=64:
                 for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
             else:                                   # any other length: a byte loop
@@ -2003,7 +2009,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 i=r[1]; continue
             step(i); i+=1
 
-    c.D=0; c.maxD=0; c.pend=[]; c.frame_regs=set(); c.frame=bool(frame) or any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
+    c.D=0; c.maxD=0; c.spans=[]; c.pend=[]; c.frame_regs=set(); c.frame=bool(frame) or any(x[0]=='mov' and x[1].startswith('r15,') for x in ins)
     c.rets=[]; c.lvk={}; c.lvconst={}; c.lv={}; c.exits=[]; c.conts=[]; c.nbreak=[]; c.ncont=[]; c.active=[]; c.loopstack=[]; c.steps=0; c.macl=None; c.direct=False; c.has_loop=False
     # jump tables: `mova table,r0; mov.w @(r0,rX),r0; braf r0` and a table of 16-bit offsets from the braf + 4; rX holds twice the index
     def find_switches():
