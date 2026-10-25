@@ -11557,7 +11557,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 33 of 170 instructions
 
 ### CheckDrive (`0C040E1C`, 170 bytes, `src/gen_at.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_at/CheckDrive.json`
+- equivalent on 36 development and 36 holdout cases, in `tests/gen_at/CheckDrive.json`
+- case 3
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
 - case 11
 - case 0
 - case 1
@@ -11576,6 +11594,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 16
 - case 17
 - case 18
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
 - case 145
 - case 127
 - case 101
@@ -11594,7 +11630,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 153
 - case 111
 - case 99
-- the cases run 52 of 84 instructions
+- the cases run 75 of 85 instructions
 
 ### CheckKyakuArea (`0C035B38`, 64 bytes, `src/game_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_p/CheckKyakuArea.json`
@@ -18178,7 +18214,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 40 of 40 instructions
 
 ### InitSys (`0C02A480`, 1036 bytes, `src/gen_xy.c`)
-- equivalent on 7 development and 7 holdout cases, in `tests/gen_xy/InitSys.json`
+- equivalent on 14 development and 14 holdout cases, in `tests/gen_xy/InitSys.json`
 - case 58
 - case 35
 - case 119
@@ -18186,6 +18222,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 321
 - case 333
 - case 347
+- case 58
+- case 35
+- case 119
+- case 205
+- case 321
+- case 333
+- case 347
+- case 70
+- case 96
+- case 174
+- case 259
+- case 325
+- case 346
+- case 406
 - case 70
 - case 96
 - case 174
@@ -20248,7 +20298,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 52 of 52 instructions
 
 ### PAL_SettingLoop (`0C02ABB4`, 1426 bytes, `src/gen_hk.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_hk/PAL_SettingLoop.json`
+- equivalent on 20 development and 20 holdout cases, in `tests/gen_hk/PAL_SettingLoop.json`
 - case 64
 - case 8
 - case 64
@@ -20267,6 +20317,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 20
 - case 21
 - case 22
+- directed: flips 0C02AC8E (not taken)
+- directed: flips 0C02AC96 (not taken)
 - case 98
 - case 89
 - case 125
@@ -20285,7 +20337,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 105
 - case 142
 - case 79
-- the cases run 446 of 526 instructions
+- directed: flips 0C02AC92 (not taken)
+- directed: flips 0C02AE4E (taken)
+- the cases run 533 of 538 instructions
 
 ### PTime_Color_Set (`0C053240`, 14 bytes, `src/game_m.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_m/PTime_Color_Set.json`
@@ -58900,7 +58954,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 109 of 109 instructions
 
 ### nd_Exec_Puru2 (`0C05F07A`, 842 bytes, `src/gen_ic.c`)
-- equivalent on 20 development and 19 holdout cases, in `tests/gen_ic/nd_Exec_Puru2.json`
+- equivalent on 42 development and 40 holdout cases, in `tests/gen_ic/nd_Exec_Puru2.json`
+- case 0
+- case 0
+- case 0
+- case 0
+- case 0
+- case 0
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
 - case 1
 - case 1
 - case 1
@@ -58921,6 +58993,28 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 30
 - directed: flips 0C05F126 (not taken)
 - directed: flips 0C05F146 (not taken)
+- directed: flips 0C05F19E (taken)
+- directed: flips 0C05F244 (taken)
+- directed: flips 0C05F2A8 (taken)
+- directed: flips 0C05F368 (taken)
+- case 0
+- case 0
+- case 0
+- case 0
+- case 0
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
 - case 67
 - case 3
 - case 1
@@ -58940,7 +59034,10 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 29
 - case 31
 - directed: flips 0C05F13A (taken)
-- the cases run 193 of 340 instructions
+- directed: flips 0C05F1AA (taken)
+- directed: flips 0C05F288 (taken)
+- directed: flips 0C05F2EE (taken)
+- the cases run 353 of 356 instructions
 
 ### nd_Init_Puru2 (`0C05EEF4`, 116 bytes, `src/game_k.c`)
 - equivalent on 1 development and 4 holdout cases, in `tests/game_k/nd_Init_Puru2.json`
@@ -81460,7 +81557,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 5 of 5 instructions
 
 ### usr_gd_err_func (`0C02A3EC`, 138 bytes, `src/gen_qx.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_qx/usr_gd_err_func.json`
+- equivalent on 20 development and 20 holdout cases, in `tests/gen_qx/usr_gd_err_func.json`
 - case 0
 - case 2
 - case 4
@@ -81479,6 +81576,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 30
 - case 32
 - case 34
+- GD error -23 (the drive is not ready): the whole shutdown sequence runs, interrupts masked, syBtExit last
+- GD error -23 while the backup unit is busy (buStat -1): nothing happens
 - case 1
 - case 3
 - case 5
@@ -81497,7 +81596,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 31
 - case 33
 - case 35
-- the cases run 19 of 58 instructions
+- GD error -33: the same shutdown sequence
+- another error code, backup unit idle: nothing happens
+- the cases run 69 of 69 instructions
 
 ### vibIsReady (`0C040F44`, 18 bytes, `src/game_b.c`)
 - equivalent on 2 development and 4 holdout cases, in `tests/game_b/vibIsReady.json`
