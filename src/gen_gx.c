@@ -20,7 +20,7 @@ int SetLandmarkDist(float);
 int Sound_Request(int, int);
 int Start_OverArea(void);
 int Start_ReverseDriving(void);
-int TOANG2(int, float);
+int TOANG2(int, float, float);
 int abs(int);
 int getReplayGetOffNo(int);
 int getReplayPassenger(int, int, int, int, int);
@@ -792,7 +792,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C024D34:;
     *(volatile float *)(((int)stk + 44));
     *(volatile float *)(((int)stk + 56));
-    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))));
+    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))), ((*(float *)(((int)stk + 56))) - (*(float *)(((int)stk + 44)))));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((*(int *)((R14 + 0x198))) + 0x4)); }
     *(float *)(((int)stk + 52)) = F14;
     goto L_C024D66;
@@ -812,7 +812,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(float *)(((int)stk + 52)) = F14;
     *(volatile float *)(((int)stk + 44));
     *(volatile float *)(((int)stk + 56));
-    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))));
+    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))), ((*(float *)(((int)stk + 56))) - (*(float *)(((int)stk + 44)))));
     goto L_C024D66;
     L_C024CE6:;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((*(int *)((R14 + 0x198))) + 0x4)); }
@@ -856,7 +856,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)(((int)stk + 16)) = R11;
     *(volatile float *)(((int)stk + 44));
     *(volatile float *)(((int)stk + 56));
-    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))));
+    TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))), ((*(float *)(((int)stk + 56))) - (*(float *)(((int)stk + 44)))));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((*(int *)((R14 + 0x198))) + 0x4)); }
     *(float *)(((int)stk + 52)) = F14;
     goto L_C024BEA;

@@ -14,7 +14,7 @@ int ADX_DecodeInfoAu(int, int, int, int);
 int ADX_DecodeInfoSpsd(int, int, int, int);
 int ADX_DecodeInfoWav(int, int, int, int);
 int SetCameraPosVelocity(int);
-int TOANG2(int, float);
+int TOANG2(int, float, float);
 int gdc_FadeManStreamSong(void);
 int gdc_CourseStartLoadReq(void);
 int pfCleanString(void);

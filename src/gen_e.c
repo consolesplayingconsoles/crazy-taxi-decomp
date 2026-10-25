@@ -148,7 +148,7 @@ int carFlipTravelDir(int a4);
 int padInitAnalog(void);
 int getSwitch(void);
 int thunk_FUN_0c02a9ac(void);
-int TOANG2(int a4, float f4);
+int TOANG2(int a4, float f4, float f5);
 int gameState8(void);
 int gameState10(void);
 int gdc_StreamInit(void);

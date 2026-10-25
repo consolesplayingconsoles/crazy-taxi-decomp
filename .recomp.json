@@ -9,7 +9,7 @@
     "serial": "MK-51035"
   },
   "project": "Crazy Taxi decomp",
-  "status": "complete",
+  "status": "in-progress",
   "toolchain": "dc-decomp-kickoff",
   "approach": "Names applied from the SDK, one assembly file per function, rebuilt byte for byte; a function is done when its C behaves like the original",
   "maintainers": [

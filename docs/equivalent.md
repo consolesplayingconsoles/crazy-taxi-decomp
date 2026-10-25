@@ -14768,7 +14768,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 284 of 296 instructions
 
 ### ExecArrow (`0C035CCA`, 1106 bytes, `src/gen_es.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_es/ExecArrow.json`
+- equivalent on 45 development and 44 holdout cases, in `tests/gen_es/ExecArrow.json`
+- case 10
+- case 0
+- case 10
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
 - case 3
 - case 2
 - case 0
@@ -14787,6 +14805,33 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 14
 - case 15
 - case 16
+- directed: flips 0C035D1E (not taken)
+- directed: flips 0C035D8C (taken)
+- directed: flips 0C035E10 (taken)
+- directed: arguments changed together for 0C035FB8
+- directed: flips 0C035D3E (taken)
+- directed: flips 0C035D52 (taken)
+- directed: flips 0C035D66 (not taken)
+- directed: flips 0C035DFA (taken)
+- directed: flips 0C035E2A (taken)
+- case 0
+- case 10
+- case 47
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
 - case 94
 - case 397
 - case 335
@@ -14805,7 +14850,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 118
 - case 364
 - case 224
-- the cases run 313 of 463 instructions
+- directed: flips 0C035D78 (taken)
+- directed: flips 0C035D9C (taken)
+- directed: flips 0C035EC4 (not taken)
+- directed: flips 0C035D34 (taken)
+- directed: flips 0C035D48 (taken)
+- directed: flips 0C035D5C (taken)
+- directed: flips 0C035DA4 (not taken)
+- directed: flips 0C035DC4 (not taken)
+- the cases run 469 of 470 instructions
 
 ### ExecBubble (`0C0369DA`, 384 bytes, `src/gen_agr.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_agr/ExecBubble.json`
@@ -15014,11 +15067,47 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 81 of 81 instructions
 
 ### ExecKyakuArea (`0C0356F8`, 184 bytes, `src/game_p.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/game_p/ExecKyakuArea.json`
+- equivalent on 22 development and 20 holdout cases, in `tests/game_p/ExecKyakuArea.json`
+- case 0
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
 - plain
 - mg19 step0
 - mg19 step3
 - mg19 step9
+- case 0
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
 - mg19 wrap
 - cm 1
 - the cases run 92 of 92 instructions
@@ -53613,43 +53702,43 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 
 ### kyakuTaskPut (`0C026456`, 722 bytes, `src/gen_yn.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_yn/kyakuTaskPut.json`
+- case 28
 - case 0
-- case 8
-- case 1
-- case 80
 - case 2
-- case 3
 - case 4
-- case 5
 - case 6
-- case 7
-- case 9
-- case 10
+- case 8
 - case 11
-- case 12
 - case 13
-- case 14
 - case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 30
+- case 32
+- case 34
+- case 9
+- case 1
+- case 3
+- case 5
+- case 7
+- case 10
+- case 12
+- case 14
 - case 16
-- case 89
-- case 75
-- case 114
-- case 78
-- case 106
-- case 65
-- case 98
-- case 143
-- case 147
-- case 99
-- case 61
-- case 41
-- case 56
-- case 67
-- case 141
-- case 116
-- case 52
-- case 132
-- the cases run 197 of 270 instructions
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 207 of 268 instructions
 
 ### kyakuTaskStart (`0C0246E4`, 404 bytes, `src/gen_hh.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_hh/kyakuTaskStart.json`
@@ -58745,10 +58834,47 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 62 of 67 instructions
 
 ### navi_GetRouteDataB (`0C02B220`, 182 bytes, `src/gen_la.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/gen_la/navi_GetRouteDataB.json`
+- equivalent on 20 development and 19 holdout cases, in `tests/gen_la/navi_GetRouteDataB.json`
+- case 0
+- case 8
+- case 12
+- case 17
+- case 20
+- case 25
+- case 31
+- case 36
+- case 42
+- case 46
+- case 56
+- case 61
+- case 71
+- case 80
+- case 88
+- case 95
+- case 99
+- case 103
 - rescue: empty case
+- directed: flips 0C02B250 (taken)
+- case 3
+- case 9
+- case 15
+- case 19
+- case 24
+- case 28
+- case 32
+- case 38
+- case 45
+- case 52
+- case 60
+- case 65
+- case 76
+- case 86
+- case 91
+- case 96
+- case 100
+- case 105
 - rescue: empty case
-- the cases run 59 of 90 instructions
+- the cases run 91 of 91 instructions
 
 ### navi_GetRouteDataC (`0C02B146`, 150 bytes, `src/gen_agn.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/gen_agn/navi_GetRouteDataC.json`
@@ -58757,13 +58883,73 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 69 of 74 instructions
 
 ### navi_GetRouteTbl (`0C02B8C4`, 668 bytes, `src/gen_iw.c`)
-- equivalent on 1 development and 1 holdout cases, in `tests/gen_iw/navi_GetRouteTbl.json`
+- equivalent on 22 development and 22 holdout cases, in `tests/gen_iw/navi_GetRouteTbl.json`
+- case 1
+- case 6
+- case 2
+- case 4
+- case 7
+- case 9
+- case 11
+- case 13
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
 - rescue: empty case
+- directed: flips 0C02B92A (taken)
+- directed: flips 0C02B9CA (not taken)
+- directed: flips 0C02BAEC (not taken)
+- case 15
+- case 0
+- case 3
+- case 5
+- case 8
+- case 10
+- case 12
+- case 14
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
 - rescue: empty case
-- the cases run 107 of 293 instructions
+- directed: flips 0C02B994 (not taken)
+- directed: flips 0C02BAB8 (taken)
+- directed: flips 0C02BAFA (taken)
+- the cases run 305 of 305 instructions
 
 ### navi_GetRouteYa (`0C02B2D6`, 1502 bytes, `src/gen_akw.c`)
-- equivalent on 11 development and 11 holdout cases, in `tests/gen_akw/navi_GetRouteYa.json`
+- equivalent on 32 development and 32 holdout cases, in `tests/gen_akw/navi_GetRouteYa.json`
+- case 5
+- case 5
+- case 5
+- case 5
+- case 18
+- case 20
+- case 24
+- case 29
+- case 31
+- case 33
+- case 36
+- case 42
+- case 46
+- case 53
+- case 66
+- case 74
+- case 78
+- case 81
 - case 242
 - case 4
 - case 66
@@ -58775,6 +58961,27 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 137
 - widen 24
 - widen 47
+- directed: flips 0C02B55E (taken)
+- directed: flips 0C02B824 (taken)
+- route copy of the mirrored link: the link flag reads 1 in the scan and 0 at the copy
+- case 5
+- case 5
+- case 5
+- case 14
+- case 19
+- case 21
+- case 25
+- case 30
+- case 32
+- case 35
+- case 39
+- case 43
+- case 49
+- case 60
+- case 72
+- case 76
+- case 80
+- case 82
 - case 43
 - case 62
 - case 79
@@ -58786,7 +58993,10 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - widen 17
 - widen 16
 - widen 101
-- the cases run 522 of 702 instructions
+- directed: flips 0C02B6DA (not taken)
+- directed: flips 0C02B734 (not taken)
+- same, holdout
+- the cases run 711 of 711 instructions
 
 ### ndCheckButtonFrame (`0C05F854`, 108 bytes, `src/gen_qb.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_qb/ndCheckButtonFrame.json`

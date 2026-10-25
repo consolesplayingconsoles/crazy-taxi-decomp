@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_es): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Bezier(int, int, float, float, float);
+int Bezier(int, int, float);
 int CheckClipping(int, float);
 int Sound_Request(int, int);
 int nlAddVector(int, int);
@@ -20,11 +20,11 @@ int nlSetScaleFactor(float);
 int nlSubVector3op(int, int, int);
 int nlTranslateV(int);
 int nlVoidUnitVector(int);
-int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6);
+int ExecArrow(int a4, float f4);
 
 /* manual: ExecArrow returns its status in r0 (1 after it drew the arrow, 0 on its state-0 path; one exit, 0C036100): kyakuTaskPut draws the
    arrow translucent or opaque by it. The generated form was void and dropped it. */
-int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
+int ExecArrow(int a4, float f4)
 {
     float u0;
     float u26;
@@ -57,18 +57,13 @@ int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
     float F3;
     float F4;
     float F5;
-    float F6;
     float F12;
     float F13;
     float F14;
     float F15;
     int T_;
     R4 = a4;
-    R5 = a5;
-    R6 = a6;
     F4 = f4;
-    F5 = f5;
-    F6 = f6;
     L_C035CCA:;
     u0 = 200.0f;
     u0 = u0 + 0.099999994f * F4;
@@ -197,7 +192,7 @@ int ExecArrow(int a4, int a5, int a6, float f4, float f5, float f6)
     *(unsigned int *)((R14 + 0x0)) = ((*(int *)((R14 + 0x0))) + 0x1);
     goto L_C035FC2;
     L_C035FC2:;
-    Bezier(R12, 0xC274228, (*(float *)((R10 + 0x0))), F5, F6);
+    Bezier(R12, 0xC274228, (*(float *)((R10 + 0x0))));
     goto L_C03607C;
     L_C035FA0:;
     *(float *)((R10 + 0x0)) = F13;
