@@ -328,10 +328,6 @@ int getSwitch(void)
     return padToAnalog();
 }
 
-int thunk_FUN_0c02a9ac(void)
-{
-    return MainLoop();
-}
 
 
 
@@ -364,10 +360,6 @@ int ResetLight(void)
 }
 
 
-int CfgInit(void)
-{
-    return syCfgInit(0xC2864E8);
-}
 
 
 
@@ -470,21 +462,9 @@ int RinAqua_Init(void)
 
 
 
-int LoadBigOne(int a4)
-{
-    return nlObjPutLoadTexture(0xC13F898, a4);
-}
 
 
-int thunk_kmSetFogTable(void)
-{
-    return kmSetFogTable();
-}
 
-int nlIntrSetHSynchLine(void)
-{
-    return kmSetHSyncLine();
-}
 
 int nlDispStripX(int a4, int a5, int a6)
 {
@@ -510,25 +490,7 @@ int buExitForce(void)
     return vmsfs_exit();
 }
 
-int buUnmountDisk(void)
-{
-    return buUnmount();
-}
 
-int ADXT_Init(void)
-{
-    ADXF_Init();
-    SJUNI_Init();
-    SJRBF_Init();
-    SJMEM_Init();
-    ADXCRS_Init();
-    ADXRNA_Init();
-    ADXSTM_Init();
-    ADXSJD_Init();
-    ADXERR_Init();
-    thunk_mwRnaErrEntryFunc();
-    return memset(0xC177AE0, 0x0, 0x460);
-}
 
 int adxt_start_stm(int a4)
 {
@@ -553,55 +515,15 @@ int adxt_start_stm(int a4)
     return 0x0;
 }
 
-int thunk_ADXT_EntryErrFunc(void)
-{
-    return ADXERR_EntryErrFunc();
-}
 
-int thunk_kmiWriteRegister(void)
-{
-    return kmiWriteRegister();
-}
 
-int gdFsStrcmp(void)
-{
-    return gdFsStrcmp_tail_0c15fa1c();
-}
 
-int vmsfs_c_synch(void)
-{
-    return vmsfb_exec();
-}
 
-int vmsfs_c_fiber0(void)
-{
-    return vmsfs_c_dispatch(0x0);
-}
 
-int vmsfs_c_fiber1(void)
-{
-    return vmsfs_c_dispatch(0x1);
-}
 
-int vmsfs_c_fiber2(void)
-{
-    return vmsfs_c_dispatch(0x2);
-}
 
-int vmsfs_c_fiber3(void)
-{
-    return vmsfs_c_dispatch(0x3);
-}
 
-int vmsfs_c_fiber4(void)
-{
-    return vmsfs_c_dispatch(0x4);
-}
 
-int vmsfs_c_fiber5(void)
-{
-    return vmsfs_c_dispatch(0x5);
-}
 
 int ADXRNA_Init(void)
 {
@@ -613,100 +535,32 @@ int ADXRNA_Finish(void)
     return mwRnaFinish();
 }
 
-int thunk_ADXRNA_Create(void)
-{
-    return mwRnaCreate();
-}
 
-int ADXRNA_Start(void)
-{
-    return mwRnaStart();
-}
 
-int ADXRNA_Stop(void)
-{
-    return mwRnaStop();
-}
 
-int ADXRNA_SetTransSw(void)
-{
-    return mwRnaSetTransSw();
-}
 
-int ADXRNA_GetTime(void)
-{
-    return mwRnaGetTime();
-}
 
-int ADXRNA_GetStat(void)
-{
-    return mwRnaGetStat();
-}
 
 int ADXRNA_ExecServer(void)
 {
     return mwRnaExecServer();
 }
 
-int ADXRNA_SetStartSmpl(void)
-{
-    return mwRnaSetStartSmpl();
-}
 
-int ADXRNA_SetNumChan(void)
-{
-    return mwRnaSetNumChan();
-}
 
-int ADXRNA_SetSfreq(void)
-{
-    return mwRnaSetSfreq();
-}
 
-int ADXRNA_SetOutVol(void)
-{
-    return mwRnaSetOutVol();
-}
 
-int ADXRNA_SetOutPan(void)
-{
-    return mwRnaSetOutPan();
-}
 
-int ADXRNA_SetBitPerSmpl(void)
-{
-    return mwRnaSetBitPerSmpl();
-}
 
-int ADXRNA_GetSfreq(void)
-{
-    return mwRnaGetSfreq();
-}
 
-int ADXRNA_GetOutVol(void)
-{
-    return mwRnaGetOutVol();
-}
 
-int ADXRNA_GetOutPan(void)
-{
-    return mwRnaGetOutPan();
-}
 
-int ADXRNA_GetBitPerSmpl(void)
-{
-    return mwRnaGetBitPerSmpl();
-}
 
 int ADXRNA_DiscardData(void)
 {
     return mwRnaDiscardData();
 }
 
-int ADXSJD_Finish(void)
-{
-    return memset(0xC2F4F1C, 0x0, 0x4C0);
-}
 
 int ADXSJD_Stop(int a4)
 {
@@ -835,21 +689,7 @@ int kmiErrorISR08(void)
     return 0x0;
 }
 
-int vmsfb_exec(void)
-{
-    int t0;
 
-    t0 = *(int *)0xC2FA53C;
-    return buFbrExecFiberServer(t0);
-}
-
-int vmsfb_exit(void)
-{
-    int t0;
-
-    t0 = *(int *)0xC2FA53C;
-    return buFbrDestroyServer(t0);
-}
 
 int vmsfb_sleep(void)
 {
@@ -866,10 +706,6 @@ int fmMngSncmp(void)
     return fmMngSncmp_tail_0c170880();
 }
 
-int fmMngMcpy(void)
-{
-    return fmMngMcpy_tail_0c1708b2();
-}
 
 void ADXB_Destroy(int a4)
 {
@@ -940,8 +776,4 @@ int buFbrInit(void)
     return 0xC2FD298;
 }
 
-int ADXPD_Init(void)
-{
-    return memset(0xC2FD29C, 0x0, 0x1A0);
-}
 

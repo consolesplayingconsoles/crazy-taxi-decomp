@@ -38,7 +38,7 @@ int nd_Init_Puru2(void);
 int nlInitEvent(void);
 int nlInitHeapMemory(int, int);
 int nlInitInterruptDC(void);
-int nlInitLibraryDC(int);
+void nlInitLibraryDC(int, int, int);
 int nlLoadDummyTexture(void);
 int nlLocate(int, int);
 int nlPrintf(int, ...);
@@ -61,6 +61,8 @@ int thunk_ADXT_EntryErrFunc(int, int);
 int InitSys(void);
 
 /* manual: hand fix (2026-10-23 handover), tools must not regenerate it */
+/* manual: both nlInitLibraryDC calls pass the display flags 0x80 in r5 and 1 in r6 (0C02A4E0, 0C02A55C); the generated form
+   passed only the mode. */
 int InitSys(void)
 {
     int t3;
@@ -88,14 +90,14 @@ int InitSys(void)
     }
     t7 = *(int *)0xC1EE228;
     if (t7 == 1) {
-        nlInitLibraryDC(0x0);
+        nlInitLibraryDC(0x0, 0x80, 0x1);
     } else {
         t13 = 0x9;
         if (t7 == 2) {
             nlSetPalExtMode(0x1);
             t13 = 0x1A;
         }
-        nlInitLibraryDC(t13);
+        nlInitLibraryDC(t13, 0x80, 0x1);
     }
     _builtin_set_imask(0xE);
     syHwInit2();

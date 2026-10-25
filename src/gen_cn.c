@@ -30,7 +30,7 @@ int Chat_Iraira(void);
 int psgFreeIpBuff(int);
 int psgStepBlend(int);
 int psgUpdatePartTracks(int);
-int nlInitLibrary0(void);
+void nlInitLibrary0(int, int, int);
 int nlCalcPoint4(int, int);
 int nlCalcPoint(int, int);
 int nlCalcVector(int, int);
@@ -117,7 +117,7 @@ int putString(int, int, float, float, float);
 int vmsfb_sleep(void);
 int vmsio_ismount(int);
 void nlTranslate(float f4, float f5, float f6);
-int nlInitLibraryDC(void);
+void nlInitLibraryDC(int, int, int);
 void kmiDACControl(void);
 int Level_Calc(int a4);
 int DispBackupHeadInfo(int a4, int a5, int a6);
@@ -136,9 +136,13 @@ int psgFrameState4(int a4);
 void psgEnterState3(int a4, int a5);
 
 
-int nlInitLibraryDC(void)
+/* manual: nlInitLibraryDC is a trampoline: `bra nlInitLibrary0` with r4 (the mode), r5 (the display flags) and r6 passed
+   through untouched and r7 = 0. The generated form was void and called nlInitLibrary0() with nothing, so its callers dropped
+   the flags too: nlInitLibrary0 then read a leftover r5, kmSetDisplayMode refused the frame-buffer mode it indexed, and the
+   console never got its display registers (black screen after the licence screen on hardware; Flycast drew anyway). */
+void nlInitLibraryDC(int a4, int a5, int a6)
 {
-    return nlInitLibrary0();
+    nlInitLibrary0(a4, a5, a6);
 }
 
 void kmiDACControl(void)

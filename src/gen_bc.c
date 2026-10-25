@@ -37,7 +37,7 @@ int gdFsOpenRange(void);
 int kdRecvFrame(void);
 int kdSetCallback(int, int, int);
 int kmCreateTextureSurface(void);
-int kmSetBorderColor(int, ...);
+int kmSetBorderColor(int, int, int, int, int);
 int memset(int, int, int);
 int mpdrv_dpf(int, ...);
 int mpdrv_insertnop(int);
@@ -128,58 +128,6 @@ int ADXSTM_OpenRange(int a4, int a5, int a6)
     return t2;
 }
 
-int ADXT_Stop(int a4)
-{
-    int t1;
-    int t3;
-    int t5;
-    int t7;
-    int t8;
-    int t10;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t17;
-    int t18;
-    int t19;
-    int t20;
-    int t21;
-    int t22;
-
-    ADXCRS_Lock();
-    t1 = *(int *)((a4 + 0xC));
-    ADXRNA_SetTransSw();
-    t3 = *(int *)((a4 + 0xC));
-    ADXRNA_SetPlaySw();
-    t5 = *(int *)((a4 + 0x4));
-    ADXSJD_Stop(t5);
-    t7 = *(int *)((a4 + 0x8));
-    if (t7 != 0) {
-        t8 = *(int *)((a4 + 0x8));
-        ADXSTM_Stop(t8);
-        t10 = *(int *)((a4 + 0x8));
-        ADXSTM_Close(t10);
-        t12 = *(int *)((a4 + 0x14));
-        t13 = *(int *)((t12 + 0x0));
-        t14 = *(int *)((t13 + 0x14));
-        t15 = ((int (*)(int))(t14))(t12);
-        *(unsigned int *)((a4 + 0x8)) = 0x0;
-    }
-    t17 = *(signed char *)((a4 + 0x2));
-    if (t17 == 2) {
-        t18 = *(int *)((a4 + 0x14));
-        if (t18 != 0) {
-            t19 = *(int *)((a4 + 0x14));
-            t20 = *(int *)((t19 + 0x0));
-            t21 = *(int *)((t20 + 0xC));
-            t22 = ((int (*)(int))(t21))(t19);
-        }
-    }
-    *(unsigned int *)((a4 + 0x14)) = 0x0;
-    *(unsigned char *)((a4 + 0x1)) = 0x0;
-    return ADXCRS_Unlock();
-}
 
 int kdSetSetConditionEx(int a4, int a5, int a6, int a7, int a8)
 {
@@ -339,11 +287,13 @@ int sySqInit(void)
     return t12;
 }
 
+/* manual: kmSetBorderColor reads its colour from the stack (its fifth argument), and the caller also leaves it in r4; the generated form passed
+   it only in r4, so the border register took a stack leftover. */
 int setBorderColor(int a4)
 {
     int t0;
 
-    t0 = kmSetBorderColor((a4 | 0xFF000000));
+    t0 = kmSetBorderColor((a4 | 0xFF000000), 0, 0, 0, (a4 | 0xFF000000));
     return t0;
 }
 

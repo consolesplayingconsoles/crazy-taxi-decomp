@@ -1,13 +1,10 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/progress.svg?p=99.9&b=99.2&a=82&s=3)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=83&s=4)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
-A decompilation of the Dreamcast **Crazy Taxi**. It builds and plays. Small bugs are expected and the project is undergoing maintenance work towards higher test coverage and confidence in stability.
-
-**Known issues:**
-- The rebuild currently runs on Flycast but not on GDEMU/CD yet
+**A complete decompilation of the Dreamcast Crazy Taxi**. It builds and plays. No issues are known, please report any.
 
 It rebuilds the game's executable byte for byte.
 A function is **done** when its C behaves like the original (Equivalent);
@@ -26,23 +23,23 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE          82.1%  the instructions the cases ran, of all instructions, over the 3323 functions that can be C; the 2908 functions that reached the check are measured, the others count 0
-FUNCTIONS LEFT  (99.9% complete) 4  of the 3323 functions that can be C (61 with no C form are counted apart)
-BYTES LEFT   (99.2% complete) 4400  of 544470 bytes of code that can be C
-FUNCTIONS                           
-  unnamed                        0  functions still called FUN_... (0 of 3384)
-  Not written C                  4  4400 bytes
-  Written C with errors          0  0 bytes
-  Not drawn                      0  0 bytes
-  Drawn with errors              0  0 bytes
-  Checked with errors            0  0 bytes
-  No C form                   1.8%  an instruction or a register convention with no C form (tools/5-generated/classify.py names it)
-  documented                 87.6%  2966 named functions in docs/*.md
-GAME ASSETS (EXTRA)                 
-  models named               37.1%  1010 of 2723 models: a name, or a named table or collection
-  characters named           15.5%  9 of 58 characters (note rules)
-  sounds named                3.1%  22 of 716 sounds (sound rules)
-  tables named                1.1%  1 of 95 model tables (table rules)
+TOTAL TEST COVERAGE           82.8%  the instructions the cases ran, of all instructions, over the 3323 functions that can be C; the 2912 functions that reached the check are measured, the others count 0
+FUNCTIONS LEFT  (100.0% complete) 0  of the 3323 functions that can be C (61 with no C form are counted apart)
+BYTES LEFT      (100.0% complete) 0  of 544470 bytes of code that can be C
+FUNCTIONS                            
+  unnamed                         0  functions still called FUN_... (0 of 3384)
+  Not written C                   0  0 bytes
+  Written C with errors           0  0 bytes
+  Not drawn                       0  0 bytes
+  Drawn with errors               0  0 bytes
+  Checked with errors             0  0 bytes
+  No C form                    1.8%  an instruction or a register convention with no C form (tools/5-generated/classify.py names it)
+  documented                  87.7%  2969 named functions in docs/*.md
+GAME ASSETS (EXTRA)                  
+  models named                37.1%  1010 of 2723 models: a name, or a named table or collection
+  characters named            15.5%  9 of 58 characters (note rules)
+  sounds named                 3.1%  22 of 716 sounds (sound rules)
+  tables named                 1.1%  1 of 95 model tables (table rules)
 ```
 <!-- /progress -->
 

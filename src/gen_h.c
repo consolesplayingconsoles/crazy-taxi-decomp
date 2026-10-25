@@ -4,7 +4,7 @@
 int gdc_VolStreamSong(int);
 int gdc_PlayStreamSong(int);
 int CarSel_SetBackColor(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int kmiInitializeDMA(void);
 int kmiWriteRegister(int, int);
 int nlObjPutSetFadeColor(float, float, float);

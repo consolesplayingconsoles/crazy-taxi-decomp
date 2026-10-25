@@ -92,7 +92,7 @@ int EndPsg_Kill(int);
 int EndPsg_CrushReact(int);
 int Voice_Clear(void);
 int Voice_Execute(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int nlSysMetricsReadTimer(void);
 int nlSysMetricsScaleTime(int);
 int nlSysMetricsDiffTime(int, int);

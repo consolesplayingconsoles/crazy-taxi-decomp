@@ -9,7 +9,7 @@ void nlMultiPushedMatrix(void);
 int nlRand(void);
 void kmSetFogTable(float *t);
 void nlRenderTextureSet_Sub(int a, int b, int c, int d, int e);
-void nlSetBackColorZ(float f);
+void nlSetBackColorZ(int r, int g, int b, float z);
 int nlSysMetricsReadTimer(void);
 int nlSysMetricsScaleTime(int t);
 int nlSysMetricsDiffTime(int a, int b);
@@ -83,9 +83,11 @@ void nlSetPalExtMode(int v)
     *(int *)0x0C14A64C = v;
 }
 
-void nlSetBackColor(void)
+/* The original is `jmp nlSetBackColorZ` with r4-r6 (the colour) passed through and fr4 loaded with 100000.0: the earlier form
+   dropped the colour. */
+void nlSetBackColor(int r, int g, int b)
 {
-    nlSetBackColorZ(100000.0f);
+    nlSetBackColorZ(r, g, b, 100000.0f);
 }
 
 void nlSysSetTextureSize(int v)

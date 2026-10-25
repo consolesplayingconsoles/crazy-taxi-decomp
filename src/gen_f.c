@@ -15,7 +15,7 @@ int Result_Wobble(void);
 int Result_Light(void);
 int Result_SetFog(void);
 int Result_SetBackColor(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int nlCalcVector(int, int);
 int nlMatrixMode(int);
 int nlTransposeMatrix(void);
@@ -140,18 +140,6 @@ int kmiWriteDispModeRegisters(void)
     return t17;
 }
 
-int ADXRNA_SetPlaySw(void)
-{
-    return mwRnaSetPlaySw();
-}
 
-int ADXRNA_GetNumData(void)
-{
-    return mwRnaGetNumData();
-}
 
-int thunk_mwRnaErrEntryFunc(void)
-{
-    return mwRnaErrEntryFunc();
-}
 

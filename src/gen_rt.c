@@ -1,6 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_rt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
+typedef struct { short x, y, z; } AngleR;
 extern int Model_Put_Sprite3D();
 int ResetFadeColor(void);
 int nlCloseEvent(int);
@@ -17,6 +18,8 @@ int pfSetFont(int);
 int pfSize(float, float);
 int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
+/* manual: both Model_Put_Sprite3D calls pass the 6-byte angle by value on the stack (copied there by _quick_odd_mvn before the
+   call, 0C0433CC and 0C0433F6); the generated casts dropped it and the callee read a leftover. */
 int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     float u17;
@@ -100,6 +103,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     goto L_C04336C;
     L_C04336C:;
     nlPushMatrix(0x0);
+    R2 = R13;                                   /* the delay slot of the bt/s at 0C043378 runs on both paths; the generated form lost it */
     if (((int)(*(int *)((R14 + 0x18))) >= (int)0x4)) goto L_C0433B4;
     goto L_C04337C;
     L_C04337C:;
@@ -115,7 +119,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     u41 = *(float *)((R14 + 0x2C));
     u42 = *(float *)((R14 + 0x38));
     *(unsigned int *)(((int)stk + 20)) = (int)F14;
-    t43 = ((int (*)(int, int, int, int, float))(Model_Put_Sprite3D))((int)F14, (int)u42, 0xC0EA5D8, R7, u41);
+    t43 = ((int (*)(int, int, int, AngleR, float))(Model_Put_Sprite3D))((int)F14, (int)u42, 0xC0EA5D8, *(AngleR *)R2, u41);
     *(unsigned short *)((R13 + 0x2)) = 0x0;
     *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)((R13 + 0x0)));
     *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)((R13 + 0x1)));
@@ -123,7 +127,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)((R13 + 0x3)));
     *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)((R13 + 0x4)));
     *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)((R13 + 0x5)));
-    t53 = ((int (*)(int, int, int, float))(Model_Put_Sprite3D))((*(int *)(((int)stk + 20))), (int)(*(float *)((R14 + 0x38))), 0xC0EB340, (*(float *)((R14 + 0x2C))));
+    t53 = ((int (*)(int, int, int, AngleR, float))(Model_Put_Sprite3D))((*(int *)(((int)stk + 20))), (int)(*(float *)((R14 + 0x38))), 0xC0EB340, *(AngleR *)R13, (*(float *)((R14 + 0x2C))));
     nlPopMatrix(0x1);
     ResetFadeColor();
     ResetFadeColor();
@@ -163,3 +167,4 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     nlObjPutSetFadeColorBase(F14, F14, F15);
     goto L_C04336C;
 }
+

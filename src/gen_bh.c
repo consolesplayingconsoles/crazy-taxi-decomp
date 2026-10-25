@@ -151,10 +151,6 @@ int Init_DCmini(void);
 int Put_JumpDistance(void);
 int Put_Ranking(void);
 
-int pdGunSetCallback(void)
-{
-    return kdSetGunCallback();
-}
 
 
 

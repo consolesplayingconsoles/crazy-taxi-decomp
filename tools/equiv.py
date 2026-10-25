@@ -310,6 +310,47 @@ def definitions():
     return out
 
 
+_USED = {}
+
+
+def used_definitions():
+    """{name: (integer, float, stack) parameters} of every definition in src/, counting a parameter only when the body reads it:
+    the highest register parameter read (and every one before it) and the stack words read. A generated definition declares every
+    register the generator saw; a variadic callee (printf-style) reads its arguments from the stack and none of r4-r7."""
+    if _USED:
+        return _USED
+    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(path, errors='replace').read(), flags=re.S)
+        structs = struct_words(text)
+        for m in re.finditer(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', text, flags=re.M):
+            if '...' in m.group(2) or not m.group(2).strip():
+                continue
+            depth, i = 1, m.end()
+            while i < len(text) and depth:
+                depth += {'{': 1, '}': -1}.get(text[i], 0)
+                i += 1
+            body = text[m.end():i]
+            ints, floats, stack = [], [], 0
+            for p in m.group(2).split(','):
+                p = p.strip()
+                if not p or p == 'void':
+                    continue
+                name = re.sub(r'\[.*', '', p.split()[-1]).lstrip('*')
+                used = re.search(r'(?<![\w.])%s(?![\w])' % re.escape(name), body) is not None
+                ty = p.split()[0] if p.split()[0] not in ('const', 'struct') else p.split()[1]
+                if '*' not in p and ty in structs:
+                    stack += structs[ty] if used else 0
+                elif re.search(r'\b(float|double)\b', p) and '*' not in p:
+                    floats.append(used)
+                else:
+                    ints.append(used)
+            ni = max([k + 1 for k, u in enumerate(ints[:4]) if u] + [0])
+            nf = max([k + 1 for k, u in enumerate(floats[:8]) if u] + [0])
+            sw = stack + sum(1 for u in ints[4:] if u)
+            _USED.setdefault(m.group(1), (ni, nf, sw))
+    return _USED
+
+
 def compared_arity(cfile, table):
     """What each call out is compared on: ({address: (integer, float) register arguments}, {address: arguments on the stack}).
     The caller's file's prototype, raised to the callee's own definition in src/: a call that passes fewer than the callee takes
@@ -326,14 +367,16 @@ def compared_arity(cfile, table):
         a = arity.get(key)
         if a is None:
             continue                          # no prototype here: every register is compared
-        if len(a) > 2:                        # a variadic prototype in the caller's file: the definition says what the callee takes
-            arity[key] = (min(ni, 4), min(nf, 8))
+        if len(a) > 2:                        # a variadic prototype in the caller's file: the definition says what the callee takes,
+            ui, uf, usw = used_definitions().get(n, (ni, nf, sw))      # counting only the parameters its body reads (a printf-style
+            arity[key] = (min(ui, 4), min(uf, 8))                      # function reads its stack word and none of r4-r7)
+            stackn[key] = max(stackn.get(key, 0), min(usw, 4)) if usw else stackn.get(key, 0)
             continue
         arity[key] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
     return arity, stackn
 
 
-def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None):
+def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None, stackchg=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
     to = '%08X' % (0x0C000000 | (int(to, 16) & 0x1FFFFFFF)) if 0x0C000000 <= (int(to, 16) & 0x1FFFFFFF) < 0x0D000000 else to   # the cached, uncached and plain addresses of the same RAM word
@@ -353,7 +396,9 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=
         r, f = r[:a[0]], f[:a[1]]
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
             return (to, [stackish(stack)], [])
-    extra = [stackish(v) for v in (stackw or [])[:STACKN.get(int(to, 16), 0)]]     # arguments past the fourth, on the stack
+    extra = [stackish(v) if stackchg is None or (k < len(stackchg) and stackchg[k]) else '*'      # arguments past the fourth, on the
+             for k, v in enumerate((stackw or [])[:STACKN.get(int(to, 16), 0)])]                 # stack: a word the caller did not
+                                                                                                 # store since its last call is a leftover
     return (to, [stackish(v) for v in r] + extra, f)
 
 
@@ -416,10 +461,10 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
             x, y = [x[r] for r in outs], [y[r] for r in outs]
         if k == 'calls':
             xs = x
-            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap, c.get('stackw')) for c in xs]
+            x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap, c.get('stackw'), c.get('stackchg')) for c in xs]
             y = [callview(fix(c['to']), [fix(v) for v in c['r4-r7']], c['fr4-fr11'], arity, fix(c['stack']) if c.get('stack') else None,
                           xs[i].get('chg') if i < len(xs) else None, ind, xs[i].get('fchg') if i < len(xs) else None, indmap,
-                          [fix(v) for v in c.get('stackw', [])]) for i, c in enumerate(y)]
+                          [fix(v) for v in c.get('stackw', [])], xs[i].get('stackchg') if i < len(xs) else None) for i, c in enumerate(y)]
         if k == 'writes':                 # the final value at each address: the order of plain stores
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])

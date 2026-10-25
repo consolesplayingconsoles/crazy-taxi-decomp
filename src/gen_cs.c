@@ -16,11 +16,11 @@ int carResistance(void);
 int carSteering(void);
 int dropOutCheck(int);
 int kmiAllocSysConfig(int);
-int kmiChkActiveListType(int, int, int, int);
+int kmiChkActiveListType(int, int, int, int, int);
 int kmiGetDisplayData(int, int, int);
 int kmiGetNativeRegOBPSize(int);
 int kmiGetPackOBPParam(int, int, int, int, int, int, int);
-int kmiSetTAEnvironment(int, ...);
+int kmiSetTAEnvironment(int, int, int, int, int, int);
 int kmiTAallocEx(int, int, int);
 int nlAddVector(int, int);
 int nlFastSinCos(int, int, int);
@@ -42,6 +42,9 @@ int kmCreateTABuffer(int a4, int a5);
 int parkingCarExec(int a4);
 int pcarExec(int a4);
 
+/* manual: kmiChkActiveListType also takes a fifth argument (0, pushed on the stack) that the generated form dropped.
+   kmiSetTAEnvironment takes the four TA region words (each >> 7) in r4-r7 and two stack words; the generated form was variadic and
+   passed only the last two, so the Tile Accelerator was configured from leftover registers. */
 int kmCreateTABuffer(int a4, int a5)
 {
     int t0;
@@ -115,7 +118,7 @@ int kmCreateTABuffer(int a4, int a5)
         t18 = *(int *)((((((int)stk + 16) + 0x4) + 0x8) + 0x0));
         t19 = *(int *)((((((int)stk + 16) + 0x4) + 0x4) + 0x0));
         t20 = *(int *)(((((int)stk + 16) + 0x4) + 0x0));
-        kmiChkActiveListType(t20, t19, t18, t17);
+        kmiChkActiveListType(t20, t19, t18, t17, 0x0);
         t22 = *(int *)((((((int)stk + 16) + 0x4) + 0xC) + 0x0));
         t23 = *(int *)((((((int)stk + 16) + 0x4) + 0x8) + 0x0));
         t24 = *(int *)((((((int)stk + 16) + 0x4) + 0x4) + 0x0));
@@ -142,7 +145,7 @@ int kmCreateTABuffer(int a4, int a5)
             t39 = *(int *)0xC2EA6F4;
             t40 = *(int *)0xC2EA6F0;
             t41 = *(int *)0xC2EA6EC;
-            kmiSetTAEnvironment((t26 & (~t37)), 0x0);
+            kmiSetTAEnvironment(((unsigned int)t41 >> 7), ((unsigned int)t40 >> 7), ((unsigned int)t39 >> 7), ((unsigned int)t38 >> 7), (t26 & (~t37)), 0x0);
             *(unsigned int *)0xC2EA88C = 0x1;
         }
         t49 = t35;

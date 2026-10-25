@@ -28,7 +28,7 @@ int LCDAccessOK(void);
 int End_LoadSave(int);
 int psgUpdatePartTracks(int);
 int Voice_Clear(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int kmiFBallocQueue(int, int, int, int);
 int FcvPlayBuffer(int, int);
 int FcvStoreBuffer(int, int, float);

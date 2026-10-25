@@ -3,7 +3,7 @@ extern int crowdTask();
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Chat_Choin(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int nlSetWindowSize(float, float, float, float);
 int nlsndBlockMove(int, int, int);
 int nlsndBlockMoveStatus(void);
@@ -117,90 +117,6 @@ void getReplayPoint(int a4, int a5, int a6, int a7, int a8)
 
 
 
-int nlChangeDisplayMode(int a4, int a5)
-{
-    int t3;
-    int t4;
-    int t7;
-    int t8;
-    int t9;
-    int t11;
-    int t12;
-    int t13;
-    int t14;
-    int t15;
-    int t16;
-    int t18;
-    int t19;
-    int t20;
-    int t22;
-    int t21;
-
-    *(unsigned int *)0xC2AED98 = 0x0;
-    if (a4 == 0) {
-        *(unsigned int *)0xC2AED98 = 0x1;
-    }
-    *(unsigned int *)0xC2AED9C = 0x0;
-    if (a4 != 25) {
-        if (a4 != 24) {
-            if (a4 != 26) {
-                if (a4 == 27) {
-                    *(unsigned int *)0xC2AED9C = 0x1;
-                }
-            } else {
-                *(unsigned int *)0xC2AED9C = 0x1;
-            }
-        } else {
-            *(unsigned int *)0xC2AED9C = 0x1;
-        }
-    } else {
-        *(unsigned int *)0xC2AED9C = 0x1;
-    }
-    kmStopDisplayFrameBuffer();
-    *(unsigned short *)0xC2B3194 = 0x0;
-    *(unsigned short *)0xC2B3196 = 0x0;
-    if ((0x80 & a5) != 0) {
-        *(unsigned short *)0xC2B3194 = 0x1;
-    }
-    if ((0x8000 & a5) != 0) {
-        *(unsigned short *)0xC2B3196 = 0x1;
-    }
-    t3 = *(int *)((((a5 & 0xF) << 2) + 0xC0D63D4));
-    t4 = *(int *)0xC2AED9C;
-    if (t4 == 1) {
-        kmSetPALEXTCallback(0xC074310);
-    }
-    t7 = *(short *)0xC2B3196;
-    t8 = *(short *)0xC2B3194;
-    t9 = *(int *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x4));
-    kmSetDisplayMode(t9, t3, t8, t7);
-    t11 = *(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x8));
-    *(unsigned short *)0xC2B3190 = t11;
-    t12 = *(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA));
-    *(unsigned short *)0xC2B3192 = t12;
-    t13 = kmSetSystemConfiguration(0xC2AECD0);
-    t14 = *(int *)0xC14A658;
-    t15 = *(int *)0xC14A65C;
-    t16 = *(int *)0xC14A654;
-    nlSetBackColor();
-    t18 = *(short *)0xC2B3192;
-    t19 = *(short *)0xC2B3190;
-    if (0x0 != 0) {
-        t20 = *(short *)0xC2B3196;
-        t22 = (short)t18;
-        if (t20 == 1) {
-            t21 = ((short)t18 + (short)t18);
-            if ((int)((short)t18 + (short)t18) > (int)0x1E0) {
-                t21 = 0x1E0;
-            }
-            t22 = t21;
-        }
-        nlSetWindowSize(0.0f, 0.0f, (float)t19, (float)t22);
-    } else {
-        nlSetWindowSize(0.0f, 0.0f, (float)t19, (float)(short)t18);
-    }
-    return t13;
-}
 
 int nlSpriteFreeTextureOnce_Sub(int a4, int a5, int a6, int a7)
 {

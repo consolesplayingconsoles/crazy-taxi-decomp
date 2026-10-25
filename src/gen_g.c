@@ -32,22 +32,4 @@ int nlObjPutSetLightDirectionV(int a4)
     return 0x8;
 }
 
-int adxt_stat_decend(int a4)
-{
-    int t0;
-    int t1;
-    int t4;
-    int t2;
-
-    t0 = *(int *)((a4 + 0xC));
-    t1 = ADXRNA_GetNumData();
-    t4 = t1;
-    if ((int)t1 <= 0) {
-        t2 = *(int *)((a4 + 0xC));
-        ADXRNA_SetPlaySw();
-        *(unsigned char *)((a4 + 0x1)) = 0x5;
-        t4 = 0x5;
-    }
-    return t4;
-}
 

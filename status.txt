@@ -2,4 +2,4 @@
 [x] BUILDS FROM C
 [x] BOOTS TO MENU
 [x] PLAYABLE
-[?] STABLE
+[x] STABLE

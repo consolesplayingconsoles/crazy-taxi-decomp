@@ -2285,50 +2285,6 @@ int ADXSTMF_ExecHndl(int a4)
     return t0;
 }
 
-int adxt_set_outpan(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t6;
-    int t7;
-    int t8;
-    int t10;
-    int t12;
-    int t13;
-    int t16;
-    int t17;
-    int t18;
-
-    t0 = *(int *)((a4 + 0x4));
-    t1 = ADXSJD_GetNumChan(t0);
-    if (t1 == 1) {
-        t2 = *(short *)(((a4 + 0x42) + 0x0));
-        t3 = *(int *)((a4 + 0xC));
-        if (t2 != -128) {
-            t4 = *(short *)(((a4 + 0x42) + 0x0));
-        }
-        t6 = ADXRNA_SetOutPan();
-        t18 = t6;
-    } else {
-        t7 = *(short *)(((a4 + 0x42) + 0x0));
-        if (t7 != -128) {
-            t8 = *(short *)(((a4 + 0x42) + 0x0));
-        }
-        t10 = *(int *)((a4 + 0xC));
-        ADXRNA_SetOutPan();
-        t12 = *(short *)((a4 + 0x44));
-        if (t12 != -128) {
-            t13 = *(short *)((a4 + 0x44));
-        }
-        t16 = *(int *)((a4 + 0xC));
-        t17 = ADXRNA_SetOutPan();
-        t18 = t17;
-    }
-    return t18;
-}
 
 void mwRnaSetupSnd(int a4, int a5)
 {

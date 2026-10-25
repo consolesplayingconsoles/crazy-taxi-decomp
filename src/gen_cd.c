@@ -13,7 +13,7 @@ int InitKyakuStopArea(void);
 int cycleAdvCheck(void);
 int nd_peopleInitialize(int);
 int Init_nd_Sprite(void);
-int nlSetBackColor(void);
+void nlSetBackColor(int, int, int);
 int nlsndPackLoad(int, int);
 int nlsndPackFree(void);
 int gdFsInitSub(void);

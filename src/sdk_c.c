@@ -22,7 +22,7 @@ extern char g_0c14aaf0[];
 void kmCreateTextureSurface(void *s, int w, int h, int fmt);
 void kmLoadTexture(void *s, int data, int a, int b);
 void nlCreateTextureParamA(void *s);
-void kmSetBorderColor(unsigned int c);
+void kmSetBorderColor(unsigned int c, int a5, int a6, int a7, unsigned int stack_c);
 float nlSin(int a);
 float nlLog(float x);
 void nlSetPaletteData(int a, int b, int c);
@@ -53,7 +53,8 @@ void nlReloadPalette(int idx, int b)
 
 void setBorderColor(unsigned int c)
 {
-    kmSetBorderColor(c | 0xFF000000);
+    /* the colour is the callee's fifth (stack) argument; r4 carries it too, as in the original */
+    kmSetBorderColor(c | 0xFF000000, 0, 0, 0, c | 0xFF000000);
 }
 
 float nlCosec(int a)

@@ -888,55 +888,6 @@ int pdVibSetUnitInfo(int a4, int a5, int a6, int a7, int a8, int a9)
     return t30;
 }
 
-void ADXT_GetTime(int a4, int a5, int a6)
-{
-    int t0;
-    int t1;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t15;
-    int t18;
-    int t19;
-
-    t0 = *(signed char *)((a4 + 0x1));
-    if (t0 != 3) {
-        if (t0 == 4) {
-            t1 = *(int *)((a4 + 0xC));
-            ADXRNA_GetTime(t1, a5, a6);
-        } else {
-            t3 = *(signed char *)((a4 + 0x1));
-            if (t3 == 5) {
-                t4 = *(int *)((a4 + 0x4));
-                t5 = ADXSJD_GetTotalNumSmpl(t4, a5, a6);
-                *(unsigned int *)((a5 + 0x0)) = t5;
-                t6 = *(int *)((a4 + 0x4));
-                t7 = ADXSJD_GetSfreq(t6);
-                *(unsigned int *)((a6 + 0x0)) = t7;
-                t8 = *(int *)((a4 + 0x4));
-                t9 = ADXSJD_GetOutBps(t8);
-                t10 = (int)((int)0x10 / (int)t9);
-                t11 = *(int *)((a5 + 0x0));
-                *(unsigned int *)((a5 + 0x0)) = (t11 * t10);
-            } else {
-                *(unsigned int *)((a5 + 0x0)) = 0x0;
-                *(unsigned int *)((a6 + 0x0)) = 0x1;
-            }
-        }
-    } else {
-        t15 = *(int *)((a4 + 0xC));
-        ADXRNA_GetTime(t15, a5, a6);
-    }
-    t18 = *(int *)((a5 + 0x0));
-    t19 = *(int *)((a4 + 0x88));
-    *(unsigned int *)((a5 + 0x0)) = (t18 + t19);
-}
 
 int ADXF_Open(int a4, int a5)
 {

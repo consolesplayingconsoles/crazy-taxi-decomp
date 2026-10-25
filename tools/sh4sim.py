@@ -79,6 +79,7 @@ class Stop(Exception):
 
 class Memory:
     def __init__(self):
+        self.stack_written = set()
         self.pages = {}
         self.writes = []          # (addr, size, value), stack excluded
         self.devices = []         # ('r'/'w', addr, size, value)
@@ -144,6 +145,8 @@ class Memory:
         page[o:o + size] = value.to_bytes(size, 'little')
         if not in_stack:
             self.writes.append((a, size, value))
+        else:
+            self.stack_written.add(a & ~3)      # the words of the stack written since the last call: what a call passes there
 
 
 class CPU:
@@ -658,7 +661,10 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                       'chg': [(i in given_args and not after_call) or (c.r[i] != entry_args[i - 4] and c.r[i] != post_args[i - 4]) for i in range(4, 8)],
                       'fchg': [(i in given_fargs and not after_call) or (c.fr[i] != entry_fargs[i - 4] and c.fr[i] != post_fargs[i - 4]) for i in range(4, 12)],
                       'stack': '%08X' % mem.read(c.r[15] & M32, 4, True),
-                      'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(4)]})   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
+                      'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(4)],
+                      # which of those words this function stored since its last call: the others are leftovers, not arguments
+                      'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(4)]})
+        mem.stack_written.clear()   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
         if not returns:
             c.r[0] = 0                           # a call the case gives no answer for returns 0 (r0 and fr0): a leftover register is not a result, on the original or on the compiled C
             c.fr[0] = 0
