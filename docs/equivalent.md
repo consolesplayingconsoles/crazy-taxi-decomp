@@ -11808,7 +11808,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 27 of 27 instructions
 
 ### CheckSoftReset (`0C041068`, 320 bytes, `src/gen_tp.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_tp/CheckSoftReset.json`
+- equivalent on 37 development and 37 holdout cases, in `tests/gen_tp/CheckSoftReset.json`
+- case 5
+- case 0
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
 - case 106
 - case 1
 - case 0
@@ -11827,6 +11845,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 27
 - case 29
 - case 31
+- directed: flips 0C0410A0 (not taken)
+- case 2
+- case 5
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
 - case 106
 - case 106
 - case 2
@@ -11845,7 +11882,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 28
 - case 30
 - case 32
-- the cases run 125 of 132 instructions
+- directed: flips 0C0410BC (taken)
+- the cases run 133 of 133 instructions
 
 ### CheckXWord (`0C03974C`, 156 bytes, `src/game_p.c`)
 - equivalent on 6 development and 5 holdout cases, in `tests/game_p/CheckXWord.json`
@@ -16001,7 +16039,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 16 of 16 instructions
 
 ### Exec_LCDLogoDemo (`0C0604A2`, 228 bytes, `src/gen_afj.c`)
-- equivalent on 15 development and 15 holdout cases, in `tests/gen_afj/Exec_LCDLogoDemo.json`
+- equivalent on 34 development and 34 holdout cases, in `tests/gen_afj/Exec_LCDLogoDemo.json`
+- case 4
+- case 4
+- case 4
+- case 7
+- case 12
+- case 17
+- case 20
+- case 24
+- case 29
+- case 32
+- case 35
+- case 42
+- case 44
+- case 48
+- case 50
+- case 52
+- case 59
+- case 63
 - case 18
 - case 61
 - case 8
@@ -16017,6 +16073,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 138
 - case 148
 - case 152
+- directed: flips 0C060548 (taken)
+- case 7
+- case 4
+- case 6
+- case 11
+- case 14
+- case 19
+- case 21
+- case 25
+- case 30
+- case 33
+- case 36
+- case 43
+- case 46
+- case 49
+- case 51
+- case 57
+- case 62
+- case 64
 - case 148
 - case 1
 - case 12
@@ -16032,7 +16107,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 144
 - case 151
 - case 157
-- the cases run 80 of 89 instructions
+- directed: flips 0C060556 (taken)
+- the cases run 89 of 89 instructions
 
 ### Exec_ProposalWalker (`0C05FABA`, 76 bytes, `src/gen_agv.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_agv/Exec_ProposalWalker.json`
@@ -18212,38 +18288,6 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 40 of 40 instructions
-
-### InitSys (`0C02A480`, 1036 bytes, `src/gen_xy.c`)
-- equivalent on 14 development and 14 holdout cases, in `tests/gen_xy/InitSys.json`
-- case 58
-- case 35
-- case 119
-- case 205
-- case 321
-- case 333
-- case 347
-- case 58
-- case 35
-- case 119
-- case 205
-- case 321
-- case 333
-- case 347
-- case 70
-- case 96
-- case 174
-- case 259
-- case 325
-- case 346
-- case 406
-- case 70
-- case 96
-- case 174
-- case 259
-- case 325
-- case 346
-- case 406
-- the cases run 351 of 370 instructions
 
 ### Init_Adv_Global_Parm (`0C0577EE`, 228 bytes, `src/gen_afq.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_afq/Init_Adv_Global_Parm.json`
@@ -21920,7 +21964,16 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 63 of 63 instructions
 
 ### PutVM_Message (`0C03C208`, 384 bytes, `src/gen_hd.c`)
-- equivalent on 38 development and 38 holdout cases, in `tests/gen_hd/PutVM_Message.json`
+- equivalent on 47 development and 47 holdout cases, in `tests/gen_hd/PutVM_Message.json`
+- case 2
+- case 22
+- case 40
+- case 53
+- case 61
+- case 68
+- case 92
+- case 97
+- case 108
 - case 0
 - case 7
 - case 18
@@ -21959,6 +22012,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - hand: message 0x11 flags 0x40 languageFlag 0
 - hand: message 0x11 flags 0x0 languageFlag 0
 - hand: message 0x11 flags 0x73 languageFlag 0
+- case 19
+- case 24
+- case 52
+- case 55
+- case 66
+- case 76
+- case 93
+- case 99
+- case 113
 - case 6
 - case 9
 - case 21
@@ -27890,7 +27952,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 342 of 342 instructions
 
 ### SetWindow (`0C03B698`, 240 bytes, `src/gen_vm.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_vm/SetWindow.json`
+- equivalent on 36 development and 36 holdout cases, in `tests/gen_vm/SetWindow.json`
+- case 13
+- case 20
+- case 4
+- case 43
+- case 49
+- case 59
+- case 0
+- case 2
+- case 5
+- case 7
+- case 9
+- case 11
+- case 14
+- case 16
+- case 18
+- case 21
+- case 23
+- case 25
 - case 2
 - case 0
 - case 1
@@ -27909,6 +27989,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 15
 - case 16
 - case 17
+- case 32
+- case 30
+- case 26
+- case 45
+- case 52
+- case 65
+- case 1
+- case 3
+- case 6
+- case 8
+- case 10
+- case 12
+- case 15
+- case 17
+- case 19
+- case 22
+- case 24
+- case 27
 - case 120
 - case 158
 - case 113
@@ -27927,7 +28025,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 83
 - case 102
 - case 61
-- the cases run 70 of 89 instructions
+- the cases run 95 of 97 instructions
 
 ### Set_AD (`0C04D240`, 202 bytes, `src/gen_hy.c`)
 - equivalent on 2 development and 2 holdout cases, in `tests/gen_hy/Set_AD.json`
@@ -41803,7 +41901,20 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 10 of 10 instructions
 
 ### gdc_FileLoad (`0C02DEFE`, 152 bytes, `src/gen_ahf.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_ahf/gdc_FileLoad.json`
+- equivalent on 31 development and 31 holdout cases, in `tests/gen_ahf/gdc_FileLoad.json`
+- case 27
+- case 3
+- case 10
+- case 14
+- case 17
+- case 21
+- case 26
+- case 29
+- case 42
+- case 46
+- case 52
+- case 60
+- case 64
 - case 42
 - case 0
 - case 1
@@ -41822,6 +41933,19 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 14
 - case 15
 - case 16
+- case 9
+- case 7
+- case 11
+- case 16
+- case 19
+- case 25
+- case 28
+- case 37
+- case 44
+- case 50
+- case 53
+- case 62
+- case 70
 - case 147
 - case 102
 - case 110
@@ -41840,7 +41964,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 59
 - case 113
 - case 81
-- the cases run 71 of 76 instructions
+- the cases run 76 of 76 instructions
 
 ### gdc_FileLoadExec (`0C0300B6`, 26 bytes, `src/game_d.c`)
 - equivalent on 2 development and 5 holdout cases, in `tests/game_d/gdc_FileLoadExec.json`
@@ -53689,7 +53813,25 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 31 of 31 instructions
 
 ### loadCity (`0C02FDC0`, 682 bytes, `src/gen_aol.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_aol/loadCity.json`
+- equivalent on 38 development and 38 holdout cases, in `tests/gen_aol/loadCity.json`
+- case 31
+- case 4
+- case 0
+- case 2
+- case 5
+- case 7
+- case 9
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 33
 - case 42
 - case 9
 - case 40
@@ -53708,6 +53850,26 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 12
 - case 13
 - case 14
+- directed: flips 0C02FE28 (taken)
+- directed: flips 0C02FE32 (taken)
+- case 11
+- case 31
+- case 1
+- case 3
+- case 6
+- case 8
+- case 10
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 32
+- case 34
 - case 99
 - case 69
 - case 82
@@ -53726,7 +53888,9 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 88
 - case 104
 - case 71
-- the cases run 242 of 264 instructions
+- directed: flips 0C02FF06 (taken)
+- directed: flips 0C02FF10 (taken)
+- the cases run 266 of 266 instructions
 
 ### make_header (`0C16F922`, 94 bytes, `src/gen_am.c`)
 - equivalent on 19 development and 18 holdout cases, in `tests/gen_am/make_header.json`
