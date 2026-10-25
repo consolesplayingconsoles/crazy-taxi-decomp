@@ -105,15 +105,26 @@ def med(v):
     return v[len(v) // 2] if v else 0
 
 
-# the quality figure: the instructions the cases ran, of all the instructions, over every function that reached the check (weighted by size)
+def coverage_all(proven, unproven_sizes):
+    """TOTAL TEST COVERAGE in percent: the instructions the cases ran, of all instructions, over every function that can be C. proven is
+    [(instructions run, instructions in all), ...] for the functions that reached the check; unproven_sizes the byte sizes of the others,
+    which ran nothing and count with half their bytes as instructions. What has not been done counts as 0."""
+    run = sum(r for r, a in proven)
+    total = sum(a for r, a in proven) + sum(sz // 2 for sz in unproven_sizes)
+    return 100.0 * run / total if total else 0.0
+
+
+# the quality figure: the instructions the cases ran, of all the instructions, over every function that can be C (what has no cases counts as 0)
 _run = _all = _nfn = 0
+_proven = []
 if os.path.exists('docs/equivalent.md'):
     for _b in open('docs/equivalent.md').read().split('\n### ')[1:]:
         _fn = _b.split(' ', 1)[0]
         _m = re.search(r'the cases run (\d+) of (\d+) instructions', _b)
         if _fn in equivalent and _m and int(_m.group(2)):
-            _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1
-wavg = 100.0 * _run / _all if _all else 0.0
+            _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1; _proven.append((int(_m.group(1)), int(_m.group(2))))
+_unproven = [x[1] for x in funcs if not is_done(x) and x[2] not in nocform]
+wavg = coverage_all(_proven, _unproven)
 state_rows = []                                   # where the functions that are not done stand, from tools/5-generated/remaining.py --table (it reads nothing)
 try:
     _t = subprocess.run([sys.executable, os.path.join(here, '5-generated', 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
@@ -125,7 +136,7 @@ except Exception:
     state_rows = []
 unnamed_all = sum(1 for x in funcs if x[2].startswith('FUN_'))              # every function still called FUN_..., done or not
 rows = [
-    ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that reached the check' % _nfn),
+    ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that can be C; the %d functions that reached the check are measured, the others count 0' % (doable, _nfn)),
     ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),
     ('  functions left', '%d' % (doable - g[7]), 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
     ('  bytes left', '%d' % (doable_bytes - g[8]), 'of %d bytes of code that can be C' % doable_bytes),
