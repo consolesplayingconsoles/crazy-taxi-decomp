@@ -590,6 +590,7 @@ InitRenderTexture1st
 InitRenderTexture2nd
 InitSetObject
 InitSpark
+InitSys
 Init_Adv_Global_Parm
 Init_Adv_Sprite
 Init_Adv_Standard

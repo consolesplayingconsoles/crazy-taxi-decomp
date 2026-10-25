@@ -18289,6 +18289,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 40 of 40 instructions
 
+### InitSys (`0C02A480`, 1036 bytes, `src/gen_xy.c`)
+- equivalent on 7 development and 7 holdout cases, in `tests/gen_xy/InitSys.json`
+- case 58
+- case 35
+- case 119
+- case 205
+- case 321
+- case 333
+- case 347
+- case 70
+- case 96
+- case 174
+- case 259
+- case 325
+- case 346
+- case 406
+- the cases run 351 of 370 instructions
+
 ### Init_Adv_Global_Parm (`0C0577EE`, 228 bytes, `src/gen_afq.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_afq/Init_Adv_Global_Parm.json`
 - case 0
