@@ -319,12 +319,17 @@ def compared_arity(cfile, table):
     stackn = {canon(table[n]): k for n, k in stack_args(cfile).items() if n in table and k}
     for n, (ni, nf, sw) in definitions().items():
         key = canon(table[n]) if n in table else None
-        a = arity.get(key)
-        if a is None or len(a) > 2:
-            continue                          # no prototype here (every register is compared) or a variadic one
-        arity[key] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
-        if sw:
+        if key is None:
+            continue
+        if sw:                                # the stack words the callee reads are compared whatever the caller's file declares
             stackn[key] = max(stackn.get(key, 0), min(sw, 4))
+        a = arity.get(key)
+        if a is None:
+            continue                          # no prototype here: every register is compared
+        if len(a) > 2:                        # a variadic prototype in the caller's file: the definition says what the callee takes
+            arity[key] = (min(ni, 4), min(nf, 8))
+            continue
+        arity[key] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
     return arity, stackn
 
 
