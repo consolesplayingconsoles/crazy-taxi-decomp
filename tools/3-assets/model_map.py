@@ -1957,15 +1957,17 @@ def audio_rows(disc, rules):
 
 
 def skill_version():
-    """The version game.dcgs states: the KICKOFF file of the repo this tool is in (tools/..), or the skill's VERSION
-    file when run from the skill (scripts/..). The map format is the skill version: no separate format number."""
-    for name in ("KICKOFF", "VERSION"):
-        path = os.path.join(os.path.dirname(HERE), name)
-        if os.path.isfile(path):
-            v = open(path).read().strip()
-            if v:
-                return v
-    sys.exit("[ERROR] no version: %s has no KICKOFF (in a repo) or VERSION (in the skill) file" % os.path.dirname(HERE))
+    """The version game.dcgs states: the KICKOFF file of the repo this tool is in (tools/3-assets/../..), or the skill's VERSION
+    file when run from the skill (scripts/tools/3-assets/../../..). The map format is the skill version: no separate format number."""
+    up = os.path.dirname(HERE)                             # tools/ (a repo) or scripts/tools/ (the skill)
+    for root in (os.path.dirname(up), os.path.dirname(os.path.dirname(up))):
+        for name in ("KICKOFF", "VERSION"):
+            path = os.path.join(root, name)
+            if os.path.isfile(path):
+                v = open(path).read().strip()
+                if v:
+                    return v
+    sys.exit("[ERROR] no version: no KICKOFF (in a repo) or VERSION (in the skill) file above %s" % HERE)
 
 
 def main():
