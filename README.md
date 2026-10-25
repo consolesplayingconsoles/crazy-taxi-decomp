@@ -8,7 +8,6 @@ A decompilation of the Dreamcast **Crazy Taxi**. It builds and plays. Small bugs
 
 **Known issues:**
 - The rebuild currently runs on Flycast but not on GDEMU/CD yet
-- The arrow pointing to each destination doesn't behave correctly
 
 It rebuilds the game's executable byte for byte.
 A function is **done** when its C behaves like the original (Equivalent);

@@ -1,9 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_la): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern float getNearLineIndex();
+float getNearLineIndex(int, int, int, int, int, float);
 float navi_GetRouteDataB(int a4, int a5);
 
+/* manual: the first getNearLineIndex call pushes its fifth argument (the position, a4) on the stack; the generated form dropped it. */
 float navi_GetRouteDataB(int a4, int a5)
 {
     int t0;
@@ -22,7 +23,7 @@ float navi_GetRouteDataB(int a4, int a5)
         t3 = (0xEF4 + t0);
         u4 = 999999.9f;
         for (;;) {
-            t8 = ((float (*)(int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t3 + 0x0))), (*(int *)(((*(int *)((t3 + 0x4))) + 0x0))), (((int)stk + 4) + 0x4));
+            t8 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t3 + 0x0))), (*(int *)(((*(int *)((t3 + 0x4))) + 0x0))), (((int)stk + 4) + 0x4), a4);
             if (u4 > t8) {
                 u4 = t8;
                 *(unsigned int *)0xC1EE1E8 = (int)t8;

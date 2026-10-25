@@ -1,9 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_hf): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern float getNearLineIndex();
+float getNearLineIndex(int, int, int, int, int, float);
 float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4);
 
+/* manual: every getNearLineIndex call pushes its fifth argument (the position, a8) on the stack; the generated form dropped it. */
 float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4)
 {
     int t0;
@@ -127,7 +128,7 @@ float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4)
     t39 = *(int *)((((((R14 << 1) + R14) << 2) + t37) + 0x0));
     t40 = *(int *)(((*(int *)((((((R14 << 1) + R14) << 2) + t37) + 0x4))) + 0x0));
     *(unsigned int *)(((int)stk + 8)) = 0x0;
-    t42 = ((float (*)(int, int, int, int))(getNearLineIndex))(R9, t39, t40, (((int)stk + 4) + 0x4));
+    t42 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(R9, t39, t40, (((int)stk + 4) + 0x4), a8);
     R12 = (t40);
     F4 = (t42);
     if ((!(F15 > t42))) goto L_C04A1EA;
@@ -164,7 +165,7 @@ float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4)
     t65 = *(int *)((((((R14 << 1) + R14) << 2) + R4) + 0x0));
     t67 = *(int *)(((*(int *)((((((R14 << 1) + R14) << 2) + R4) + 0x4))) + 0x0));
     *(unsigned int *)(((int)stk + 8)) = 0x0;
-    t69 = ((float (*)(int, int, int, int))(getNearLineIndex))(R9, t65, t67, (((int)stk + 4) + 0x4));
+    t69 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(R9, t65, t67, (((int)stk + 4) + 0x4), a8);
     F4 = (t69);
     if ((!(F15 > t69))) goto L_C04A2D0;
     goto L_C04A2C8;
@@ -193,7 +194,7 @@ float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4)
     t85 = *(int *)((((((R14 << 1) + R14) << 2) + t83) + 0x0));
     t86 = *(int *)(((*(int *)((((((R14 << 1) + R14) << 2) + t83) + 0x4))) + 0x0));
     *(unsigned int *)(((int)stk + 8)) = (t86 - 1);
-    t88 = ((float (*)(int, int, int, int))(getNearLineIndex))(R9, t85, t86, (((int)stk + 4) + 0x4));
+    t88 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(R9, t85, t86, (((int)stk + 4) + 0x4), a8);
     F4 = (t88);
     if ((!(F15 > t88))) goto L_C04A24C;
     goto L_C04A244;
@@ -219,7 +220,7 @@ float getNearLinkedLine(int a4, int a5, int a6, int a7, int a8, float f4)
     t103 = *(int *)((((((R14 << 1) + R14) << 2) + t101) + 0x0));
     t104 = *(int *)(((*(int *)((((((R14 << 1) + R14) << 2) + t101) + 0x4))) + 0x0));
     *(unsigned int *)(((int)stk + 8)) = (t104 - 1);
-    t106 = ((float (*)(int, int, int, int))(getNearLineIndex))(R9, t103, t104, (((int)stk + 4) + 0x4));
+    t106 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(R9, t103, t104, (((int)stk + 4) + 0x4), a8);
     R12 = (t104);
     F4 = (t106);
     if ((!(F15 > t106))) goto L_C04A156;

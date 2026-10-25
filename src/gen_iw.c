@@ -1,9 +1,11 @@
 /* Straight-line functions with calls and guards (batch gen_iw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-extern float getNearLineIndex();
+float getNearLineIndex(int, int, int, int, int, float);
 float navi_GetRouteTbl(int a4, int a5, int a6);
 
+/* manual: the two getNearLineIndex calls push their fifth argument (the position, a4 / a5) on the stack; the generated form dropped it, so the
+   nearest line was measured from whatever the stack held. */
 float navi_GetRouteTbl(int a4, int a5, int a6)
 {
     int t1;
@@ -52,7 +54,7 @@ float navi_GetRouteTbl(int a4, int a5, int a6)
     u6 = 999999.875f;
     for (;;) {
         *(volatile int *)(((int)stk + 20));
-        t12 = ((float (*)(int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t1 + 0x0))), (*(int *)(((*(int *)((t1 + 0x4))) + 0x0))), (((int)stk + 4) + 0x8));
+        t12 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t1 + 0x0))), (*(int *)(((*(int *)((t1 + 0x4))) + 0x0))), (((int)stk + 4) + 0x8), a4);
         if (u6 > t12) {
             t3 = (*(int *)(((int)stk + 12)));
             t2 = t4;
@@ -74,7 +76,7 @@ float navi_GetRouteTbl(int a4, int a5, int a6)
         u21 = 999999.875f;
         for (;;) {
             *(volatile int *)(((int)stk + 16));
-            t27 = ((float (*)(int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t17 + 0x0))), (*(int *)(((*(int *)((t17 + 0x4))) + 0x0))), (((int)stk + 4) + 0x8));
+            t27 = ((float (*)(int, int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((t17 + 0x0))), (*(int *)(((*(int *)((t17 + 0x4))) + 0x0))), (((int)stk + 4) + 0x8), a5);
             if (u21 > t27) {
                 t19 = t18;
                 u21 = t27;
