@@ -703,6 +703,21 @@ def _run(name,passthru=False,frame=False,flat=False):
             ab=off-c.D; isf=a[0].startswith('fr')
             if ab>=0:
                 # the callee owns the argument area the caller left: a store there is a write to its own copy of a stack argument
+                if mn in ('mov.w','mov.b') and not isf:
+                    # part of its own stack argument (a short or a byte; cameraExec, Virtua Tennis): a narrow read back sees the part, a
+                    # whole-word read or a copy of the area the word with the part merged in (little-endian)
+                    w_=ab&~3; sh_=8*(ab&3); mk_=0xFFFF if mn=='mov.w' else 0xFF
+                    if mn=='mov.w' and ab%2: raise Skip('store into the caller frame')
+                    pv_=fresh(False); emit('int %s;'%pv_); emit('%s = %s;'%(pv_,ex(c.gi(a[0]))))
+                    old_=c.stack.get((w_,'i'))
+                    if old_ is None:
+                        c.iuse.add(8+w_//4); old_=('s','a%d'%(8+w_//4))
+                    wv_=fresh(False); emit('int %s;'%wv_)
+                    emit('%s = (%s & ~0x%X) | ((%s & 0x%X) << %d);'%(wv_,ex(old_),mk_<<sh_,pv_,mk_,sh_))
+                    c.stack[(w_,'i')]=('e',wv_); c.argvars[(w_,'i')]=wv_
+                    c.stack[(ab,'i')]=('e','((%s)%s)'%('short' if mn=='mov.w' else 'signed char',pv_))
+                    if c.frame: store(mn[-1],('expr','((int)stk + @@F:%d@@)'%ab),('e',pv_))
+                    return
                 if ab%4 or mn not in ('mov.l','fmov.s'): raise Skip('store into the caller frame')
                 key_=(ab,'f' if isf else 'i'); val_=c.gf(a[0]) if isf else c.gi(a[0])
                 var_=c.argvars.get(key_)
