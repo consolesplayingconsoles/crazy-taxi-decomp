@@ -26,6 +26,8 @@ takes the next of r4-r7, a float the next of fr4-fr11, past the fourth int the s
 call merely leaves over are not arguments. A callee with no prototype in the file is compared on all of
 r4-r7 and fr4-fr11, as before. An argument that points into the simulator's stack is compared as "the
 stack": a local's address depends on the frame layout, which is the compiler's business.
+What such an argument points at is compared too: the words from it on that each side's body stored since its last call, without
+a gap (pushes left out), up to the shorter run, so a local buffer handed to a call (vertices for a draw call) must hold the same.
 A call in a case's "calls" list may also carry "poke_arg": {"r7": "<hex bytes>"}: those bytes are written at
 the address the register holds when the call is made, as if the callee had filled that output slot (a loop
 that reads it can then run more than once).
@@ -36,6 +38,8 @@ compiled code, the function's place in it, its cases (and any RAM dump they load
 prototypes, returns and casts the comparison reads, and the source of this file and sh4sim.py. A function whose
 key is already there passes without running its cases again: a rename or a comment changes no byte of the
 code, so it costs one compile. --fresh runs every case anyway (and remembers the passes again).
+A change made without rechecking what passed: save this file and sh4sim.py as they were in state/proof-key-frozen/,
+and a pass stored with them still counts (a function's new or changed C and cases are checked by the current checker).
 A change to this file that cannot alter some functions' results (one that only acts on calls through a pointer) need not
 void their passes: save the checker as it was in state/proof-key-equiv.py, and a function with no call through a pointer
 keeps hashing that file, so its key and its pass are unchanged. Functions it can affect hash this file and run again.
@@ -470,21 +474,53 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
             y = final([[fix(w[0])] + w[1:] for w in y])
         if x != y:
             return False, '%s: original %s / C %s' % (k, json.dumps(x)[:SHOW], json.dumps(y)[:SHOW])
+        if k == 'calls':
+            why = same_bufs(xs, b.get('calls') or [], x, y)
+            if why:
+                return False, why
     return True, ''
+
+
+def same_bufs(xs, ys, xv, yv):
+    """A local buffer handed to a call: the words each side's body stored from the argument on, without a gap, since its last
+    call (sh4sim bufs), compared up to the shorter run. Past it lies another local that the other side keeps elsewhere (the
+    frame layout is the compiler's); the saved registers are not counted. Only an argument the call is compared on as the stack."""
+    for i, (cx, cy) in enumerate(zip(xs, ys)):
+        bx, by = cx.get('bufs') or {}, cy.get('bufs') or {}
+        for r in sorted(set(bx) & set(by)):
+            k = int(r[1:]) - 4
+            if k >= len(xv[i][1]) or xv[i][1][k] != 'STACK' or k >= len(yv[i][1]) or yv[i][1][k] != 'STACK':
+                continue
+            for o, (vx, vy) in enumerate(zip(bx[r], by[r])):
+                if vx != vy:
+                    return 'calls: call %d (%s) buffer %s+%d: original %08X / C %08X' % (i + 1, xv[i][0], r, 4 * o, vx, vy)
+    return ''
 
 
 PROOF_CACHE = os.path.join('state', 'proof-cache.json')
 
 
 PROOF_KEY_LEGACY = os.path.join('state', 'proof-key-equiv.py')
+PROOF_KEY_FROZEN = os.path.join('state', 'proof-key-frozen')      # equiv.py and sh4sim.py as they were before a change made without a recheck
 
 
-def proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected=False):
+def proof_keys(code, offset, case_path, sets, orig_bytes, compared, unaffected=False):
+    """The key a pass is stored under, then the keys an earlier pass may be found under: the same, hashed with the checker saved
+    in state/proof-key-frozen/ (a change to the checker made without rechecking what it had passed: those passes still count)."""
+    keys = [proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected)]
+    fe, fs = os.path.join(PROOF_KEY_FROZEN, 'equiv.py'), os.path.join(PROOF_KEY_FROZEN, 'sh4sim.py')
+    if os.path.exists(fe) and os.path.exists(fs):
+        e = PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else fe
+        keys.append(proof_key(code, offset, case_path, sets, orig_bytes, compared, srcs=(e, fs)))
+    return keys
+
+
+def proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected=False, srcs=None):
     """Everything a pass depends on, hashed: see the module notes. `unaffected`: a later change to this file cannot alter this
     function's result (it only acts on calls through a pointer, and the function has none), so its key keeps hashing the
     checker source saved in state/proof-key-equiv.py, when there is one, and its earlier passes still count."""
     h = hashlib.sha1()
-    for f in (PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else os.path.abspath(__file__), sh4sim.__file__):
+    for f in srcs or (PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else os.path.abspath(__file__), sh4sim.__file__):
         h.update(open(f, 'rb').read())
     h.update(code)
     h.update(str(offset).encode())
@@ -567,11 +603,12 @@ def main(argv):
         if isinstance(sets, list):                   # a plain list: all development cases
             sets = {'dev': sets}
         counts = {k: len(v) for k, v in sets.items()}
-        key = proof_key(code, c_at - SCRATCH, case_path, sets, exe_bytes[start - base:start + size - base],
+        keys = proof_keys(code, c_at - SCRATCH, case_path, sets, exe_bytes[start - base:start + size - base],
                         (rets.get(fn), compared_all, indirect_arity(cfile, fn),
                          sorted(indirect_targets(cfile, fn, table).items())),
                         unaffected=indirect_arity(cfile, fn) is None)
-        hit = None if fresh else cache.get(key)
+        key = keys[0]
+        hit = None if fresh else next((cache[k_] for k_ in keys if k_ in cache), None)
         if hit:          # proven before on exactly this code, these cases and this checker
             results[fn] = (True, hit['why'])
             evidence[fn] = (start, size, cfile, counts,

@@ -80,6 +80,7 @@ class Stop(Exception):
 class Memory:
     def __init__(self):
         self.stack_written = set()
+        self.body_written = set()   # the stack words the function's body stored since the last call (pushes left out): what a frame buffer passed to a call holds
         self.pages = {}
         self.writes = []          # (addr, size, value), stack excluded
         self.devices = []         # ('r'/'w', addr, size, value)
@@ -147,6 +148,12 @@ class Memory:
             self.writes.append((a, size, value))
         else:
             self.stack_written.add(a & ~3)      # the words of the stack written since the last call: what a call passes there
+            self.body_written.add(a & ~3)
+
+    def pushed(self, addr, size):
+        """A push (@-r15): the prologue's saved registers and a call's pushed arguments, not the contents of a frame buffer."""
+        for k in range(0, size, 4):
+            self.body_written.discard(self.phys(addr + k) & ~3)
 
 
 class CPU:
@@ -273,7 +280,9 @@ class CPU:
                 size = (1, 2, 4)[lo4 - 4]
                 v = r[m_]
                 r[n] = (r[n] - size) & M32
-                wr(r[n], size, v); return
+                wr(r[n], size, v)
+                if n == 15: self.m.pushed(r[n], size)
+                return
             if lo4 == 7:
                 self.q, self.mq = r[n] >> 31, r[m_] >> 31; self.t = self.q ^ self.mq; return
             if lo4 == 8: self.t = int((r[n] & r[m_]) == 0); return
@@ -365,6 +374,7 @@ class CPU:
                 v = {0x02: self.mach, 0x12: self.macl, 0x22: self.pr, 0x52: self.fpul,
                      0x62: self.get_fpscr(), 0x13: self.gbr, 0x23: self.vbr}[lo8]
                 r[n] = (x - 4) & M32; wr(r[n], 4, v)
+                if n == 15: self.m.pushed(r[n], 4)
                 if lo8 == 0x22 and n == 15:                                 # the prologue's save of the return address: never a call's
                     self.m.stack_written.discard(Memory.phys(r[n]) & ~3)    # argument, though it sits where a fifth one would (cpuDblThink)
                 return
@@ -572,7 +582,9 @@ class CPU:
             if lo4 == 0xa: wr(r[n], 4, self.fr[m_]); return
             if lo4 == 7: wr(r[n] + r[0], 4, self.fr[m_]); return
             if lo4 == 0xb:
-                r[n] = (r[n] - 4) & M32; wr(r[n], 4, self.fr[m_]); return
+                r[n] = (r[n] - 4) & M32; wr(r[n], 4, self.fr[m_])
+                if n == 15: self.m.pushed(r[n], 4)
+                return
 
         def get(k):                      # pair k: (high word, low word)
             bank = self.xf if k & 1 else self.fr
@@ -595,7 +607,9 @@ class CPU:
         if lo4 == 0xa: store(r[n], *get(m_)); return
         if lo4 == 7: store(r[n] + r[0], *get(m_)); return
         if lo4 == 0xb:
-            r[n] = (r[n] - 8) & M32; store(r[n], *get(m_)); return
+            r[n] = (r[n] - 8) & M32; store(r[n], *get(m_))
+            if n == 15: self.m.pushed(r[n], 8)
+            return
 
 
 def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=None):
@@ -653,6 +667,20 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     entry_args = [cpu.r[i] for i in range(4, 8)]      # r4-r7 as the case gave them: a call's argument register that still holds this was not set by the function
     post_args = list(entry_args); post_fargs = list(entry_fargs)   # r4-r7 / fr4-fr11 right after the last call
 
+    def frame_bufs(c):
+        """{argument register: [word, ...]} for each of r4-r7 that points into this function's frame: the words from it that the
+        body stored since its last call, without a gap (at most 64, below the caller's stack): what it filled for the callee."""
+        out = {}
+        for i in range(4, 8):
+            p = c.r[i] & M32
+            if not (c.r[15] & M32) <= p < (entry_r15 & M32) or p & 3:
+                continue
+            run = []
+            while len(run) < 64 and p + 4 * len(run) < (entry_r15 & M32) and Memory.phys(p + 4 * len(run)) in mem.body_written:
+                run.append(mem.read(p + 4 * len(run), 4, True))
+            out['r%d' % i] = run
+        return out
+
     def on_call(c, target, kind, at):
         if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
             if kind in ('call', 'jump'):
@@ -666,7 +694,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                       'stack': '%08X' % mem.read(c.r[15] & M32, 4, True),
                       'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(4)],
                       # which of those words this function stored since its last call: the others are leftovers, not arguments
-                      'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(4)]})
+                      'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(4)],
+                      'bufs': frame_bufs(c)})
+        mem.body_written.clear()
         mem.stack_written.clear()   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
         if not returns:
             c.r[0] = 0                           # a call the case gives no answer for returns 0 (r0 and fr0): a leftover register is not a result, on the original or on the compiled C
