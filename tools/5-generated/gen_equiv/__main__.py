@@ -12,6 +12,7 @@ r0 / fr0, then passing the caller's registers through to the first call.
 
 The result is generated code, plain (temps t0, t1, hex stores, int prototypes) and checked on generated cases: a branch the
 cases never reach can pass by luck, so equiv.py reports the instruction coverage. Report it apart from hand-written C.
+`--regen <name> ...` writes functions again whose generated C exists (after a generator fix): the old C is put back unless the new is proven (regen.py).
 `--retest [gen_x ...]` draws the cases again for functions already generated (see gen_retest.py). Needs: functions.txt, tools/shdis.py,
 tools/5-generated/classify.py, tools/equiv.py, 1ST_READ.BIN."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -45,6 +46,21 @@ def _alarm(sig,frm): raise Timeout()
 signal.signal(signal.SIGALRM,_alarm)
 def _term(sig,frm): raise SystemExit('stopped')
 signal.signal(signal.SIGTERM,_term)
+# --regen <name> ...: functions whose generated C exists are written again (a generator fix). Their old C is taken out so this run picks
+# them as functions with no C, before equivalent.txt is read below, and put back on exit unless the run proves the new C (regen.py)
+if '--regen' in sys.argv:
+    import regen,atexit
+    lock()
+    try: _REGEN,_skipped=regen.take_out([a for i,a in enumerate(sys.argv[1:],1) if not a.startswith('--') and not a.isdigit() and sys.argv[i-1] not in ('--jobs','--run')])
+    finally: unlock()
+    for _n,_why in sorted(_skipped.items()): note('%s not written again: %s'%(_n,_why))
+    def _put_back():
+        proved=globals().get('done',set())
+        lock()
+        try: regen.put_back(_REGEN,proved)
+        finally: unlock()
+        note('regen: %d written again and proven, %d kept their old C'%(len([r for r in _REGEN if r['fn'] in proved]),len([r for r in _REGEN if r['fn'] not in proved])))
+    atexit.register(_put_back)
 # equiv.py records every function it passes in tests/equivalent.txt and docs/equivalent.md, also for the scratch files of a round:
 # both are put back after each round, and if the run is stopped, so nothing is left there that has no C behind it
 KEEP={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
@@ -86,7 +102,7 @@ if '--retest' in sys.argv:
 known='--known' in sys.argv
 JOBS=max(1,(os.cpu_count() or 2)-2)       # worker processes: every function is read and drawn on its own
 if '--jobs' in sys.argv: JOBS=max(1,int(sys.argv[sys.argv.index('--jobs')+1]))
-args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs','--run') and not (i>1 and sys.argv[i-1] in ('--jobs','--run'))]
+args=[a for i,a in enumerate(sys.argv[1:],1) if a not in ('--known','--jobs','--run','--regen') and not (i>1 and sys.argv[i-1] in ('--jobs','--run'))]
 ONLY=[x for x in args if not x.isdigit()]            # function names: run only these (a quick look at a few, a debug run)
 args=[x for x in args if x.isdigit()]
 maxsize=int(args[0]) if args else (100000 if ONLY else 200)

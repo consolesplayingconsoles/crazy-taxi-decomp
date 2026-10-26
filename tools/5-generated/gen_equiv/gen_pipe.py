@@ -82,4 +82,8 @@ def run_file_robust(stem,items):
         for it in use:
             m=re.search(r'^%s\s+(\S+)'%re.escape(it[0]),out,flags=re.M)
             (passed if m and m.group(1)=='EQUIVALENT' else failed).append(it[0])         # only a function that differs or does not compile fails
+        if deferred:        # a function declaring a callee unlike this file did is checked in a file of its own; handed back, no caller checked it
+            p2,f2,d2,dr2,e2=run_file_robust(stem,deferred)       # (Virtua Tennis --regen: 13 of 92 drawn functions got no verdict)
+            LAST['out']=out+'\n'+LAST.get('out','')              # the failure report reads every round's lines
+            return passed+p2,failed+f2,d2,dropped+dr2,e2
         return passed,failed,deferred,dropped,''
