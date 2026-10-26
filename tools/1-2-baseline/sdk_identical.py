@@ -34,17 +34,22 @@ for root in sys.argv[1:]:
                 if os.path.getsize(p) < 150_000_000:
                     files.append(p)
 buf = bytearray(); starts = []
-for p in files:
-    starts.append((len(buf), p)); buf += open(p, 'rb').read() + b'\xff' * 16
+import hashlib
+seen_files = set()
+for p in sorted(files):
+    data = open(p, 'rb').read()
+    h = hashlib.sha1(data).digest()
+    if h in seen_files:          # the same library in another SDK release or copy: scanned once
+        continue
+    seen_files.add(h)
+    starts.append((len(buf), p)); buf += data + b'\xff' * 16
 buf = bytes(buf)
 import bisect
 offs = [s for s, _ in starts]
 out = []
 found = {}
 def find(b):
-    at = buf.find(b)
-    while at >= 0 and at % 2:
-        at = buf.find(b, at + 1)
+    at = buf.find(b)             # at any offset: a library archive does not align its members (_quick_odd_mvn at 23471 in sh4plfzz.lib)
     if at < 0:
         return None
     i = bisect.bisect_right(offs, at) - 1
@@ -93,13 +98,16 @@ while i < len(allf):
 import struct
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shdis
-def relaxed_same(a, b, lib):
-    """b: the game's bytes at a; lib: the library's bytes of the same length. True when every difference is one the linker makes."""
+def pool_words(a, b):
+    """The addresses of the literal-pool halfwords the function at a (bytes b) loads from: words the linker fills in."""
     pools = set()
     for pc in range(a, a + len(b), 2):
         _, pool, ps, _ = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)
         if pool is not None and a <= pool < a + len(b):
             pools.update(range(pool, pool + ps, 2))
+    return pools
+def relaxed_same(a, b, lib, pools):
+    """b: the game's bytes at a; lib: the library's bytes of the same length. True when every difference is one the linker makes."""
     relaxed = False
     for k in range(0, len(b), 2):
         x = struct.unpack_from('<H', b, k)[0]; y = struct.unpack_from('<H', lib, k)[0]
@@ -120,10 +128,10 @@ for n, a, s in todo:
     b = trimmed(a, s)
     if len(b) < 24:
         continue
-    at = buf.find(b[:8]); tries = 0
-    while at >= 0 and tries < 400:
-        tries += 1
-        if at % 2 == 0 and relaxed_same(a, b, buf[at:at + len(b)]):
+    pools = pool_words(a, b)
+    at = buf.find(b[:8])
+    while at >= 0:               # every place that starts the same way: a cap made the result depend on how many SDK directories were given
+        if relaxed_same(a, b, buf[at:at + len(b)], pools):
             i = bisect.bisect_right(offs, at) - 1
             relaxed_found[n] = (s, os.path.basename(starts[i][1]), at - starts[i][0])
             break

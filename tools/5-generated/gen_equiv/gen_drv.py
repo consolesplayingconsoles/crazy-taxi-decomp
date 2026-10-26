@@ -129,6 +129,15 @@ def build(name,ret,passthru=False):
     if frame_decl and stkstruct: body=body[:k_]+['stk[%d] = s.w[%d];'%(W+i,i) for i in range(up)]+body[k_:]
     elif frame_decl and up>16: body=body[:k_]+['{ int *ap = &a8; int k; for (k = 0; k < %d; k++) stk[%d + k] = ap[k]; }'%(up,W)]+body[k_:]
     elif frame_decl and up: body=body[:k_]+['stk[%d] = a%d;'%(W+i,8+i) for i in range(up)]+body[k_:]
+    # a structure returned by value (vecMake, Virtua Tennis): the only stack word read is SHC's hidden return pointer, the destination of
+    # the block copy that ends the function. Written as the source had it, a function returning the structure, not a structure argument
+    # whose first word is the destination (its callers pushed one word and were compared on four, and on phantom r4-r7)
+    if params and re.match(r'Stk\d+ s$',params[0]) and ret=='void' and sorted(c.iuse)==[8]:
+        j=max([i for i,l in enumerate(body) if l.strip()] or [0])
+        m=re.match(r'^(\s*)\{ struct (mv|mvb)(\d+) \{ (?:int w|char b)\[\3\]; \}; \*\(struct \2\3 \*\)\(s\.w\[0\]\) = \*\(struct \2\3 \*\)\((.*)\); \}$',body[j] if body else '')
+        if m and 's.w[' not in '\n'.join(body[:j]) and (m.group(2)=='mv' or int(m.group(3))%4==0):
+            k=int(m.group(3))//(1 if m.group(2)=='mv' else 4)
+            body[j]='%sreturn *(Stk%d *)(%s);'%(m.group(1),k,m.group(4)); params=params[1:]; rt='Stk%d'%k
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
@@ -473,6 +482,7 @@ def protos_text(protos):
         if n in ASMW: out.append(asm_text(n)); continue
         ret='int'
         if sig and sig[-1]=='->float': ret='float'; sig=sig[:-1]
+        elif sig and sig[-1].startswith('->Stk'): ret=sig[-1][2:]; sig=sig[:-1]      # a structure returned by value
         if n=='_builtin_set_imask': out.append('extern void _builtin_set_imask(int);'); continue
         if n in ('_builtin_trapa','_builtin_get_vbr','_builtin_set_vbr','_builtin_get_gbr','_builtin_set_gbr','_builtin_get_cr','_builtin_set_cr',
                  '_builtin_get_fpscr','_builtin_set_fpscr'): continue          # SHC knows these; a declaration of its own does not compile

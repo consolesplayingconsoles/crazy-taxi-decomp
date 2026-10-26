@@ -28,6 +28,8 @@ T0=time.time()
 RUN='run'
 if '--run' in sys.argv: RUN=sys.argv[sys.argv.index('--run')+1]
 SUF='' if RUN=='run' else '-'+RUN
+if '--regen' in sys.argv and not [a for i,a in enumerate(sys.argv[1:],1) if not a.startswith('--') and not a.isdigit() and sys.argv[i-1] not in ('--jobs','--run')]:
+    sys.exit('[ERROR] --regen needs function names: with none it would be a whole step-5 run')      # (an empty name list did that once)
 LOG='build/gen_run%s.log'%SUF; FAILED='build/gen_failed%s.txt'%SUF
 os.makedirs('state',exist_ok=True)
 _LOCKF=open('state/.gen.lock','w')
@@ -83,6 +85,10 @@ k=0
 def write_batch(keep):
     global k
     if not keep: return
+    groups=gen_pipe.compatible_groups(keep)      # functions proven against a callee declared two ways go to files of their own: one head
+    if len(groups)>1:                            # declaring it one way breaks the file for the other (Virtua Tennis gen_ek.c, motionRootFirst)
+        for g_ in groups: write_batch(g_)
+        return
     protos={}
     for it in keep:
         for a,b in it[3].items(): protos[a]=b

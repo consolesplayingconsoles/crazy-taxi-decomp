@@ -463,6 +463,17 @@ def def_arity(fname):
                 _DEFS.setdefault(m.group(1),(sum(1 for x in ps if not (x.startswith('float') and '*' not in x)),sum(1 for x in ps if x.startswith('float') and '*' not in x)))      # a float pointer is an integer argument
     return _DEFS.get(fname)
 
+_DEFSR=None
+def def_struct_ret(fname):
+    """Words of the structure a function's definition in src/ returns by value (`Stk3 vecMake(...)` is 3), or 0."""
+    global _DEFSR
+    if _DEFSR is None:
+        _DEFSR={}
+        for f in glob.glob('src/*.c'):
+            for m in re.finditer(r'^Stk(\d+)\s+(\w+)\s*\([^;{)]*\)\s*\n\{',open(f,errors='replace').read(),re.M):
+                _DEFSR.setdefault(m.group(2),int(m.group(1)))
+    return _DEFSR.get(fname,0)
+
 _DEFSW=None
 def def_stack_words(fname):
     """Words a function's definition in src/ takes from the stack as a leading structure by value (`Stk4 s` is 4), or 0."""
@@ -692,6 +703,10 @@ def _run(name,passthru=False,frame=False,flat=False):
                 if var_ is None:
                     var_=fresh(isf); c.argvars[key_]=var_; emit('%s %s;'%('float' if isf else 'int',var_))
                 emit('%s = %s;'%(var_,fx(val_) if isf else ex(val_)))
+                if c.frame:         # the frame array mirrors the caller's words: a copy or a pointer into it reads the new value too (hudSignFirstPut)
+                    ad_=('expr','((int)stk + @@F:%d@@)'%ab)
+                    if isf: fstore(ad_,('e',var_))
+                    else: store('l',ad_,('e',var_))
                 c.stack[key_]=('e',var_); return
             val=c.gf(a[0]) if isf else c.gi(a[0])
             if c.frame:
@@ -1159,9 +1174,14 @@ def _run(name,passthru=False,frame=False,flat=False):
         nsw=0 if ind else callee_stack_words(fname)
         own_stack=bool(nsw) and len(c.pend)>=nsw
         if own_stack: c.pend=c.pend[-nsw:]      # the words below this callee's own are earlier calls': their stack adjustment was deferred to this one
+        # a callee whose definition returns a structure by value, called with one word pushed: the word is SHC's hidden return pointer,
+        # whatever holds it (a local's address, the caller's own pointer, a register variable in the flat form: cameraExec), and the call
+        # is an assignment of the structure (vecMake's callers, Virtua Tennis)
+        sret=0 if ind else def_struct_ret(fname)
+        if sret and not (len(c.pend)==1 and not isfp(c.pend[0])): sret=0
         cleanup=(isadd(after) and (not teardown(after2) or (bool(c.pend) and c.D-4*len(c.pend)>=getattr(c,'pro_D',0)))) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
-        spill=bool(c.pend) and not cleanup and not own_stack and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
-        if ar and (not c.pend or spill or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
+        spill=bool(c.pend) and not cleanup and not own_stack and not sret and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
+        if ar and (not c.pend or spill or sret or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
@@ -1184,7 +1204,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 for n in hole: c.R['r%d'%n]=0
                 avail=sorted(set(avail)|set(hole))
         five=bool(ar) and ar[0]>4          # a callee whose definition takes five or more integers: the pushed word is its fifth, not a hidden pointer or a variadic argument
-        if (c.pend and not spill and (avail or five) and len(avail)<4 and not c.pt
+        if (c.pend and not spill and not sret and (avail or five) and len(avail)<4 and not c.pt
                 and (five or not (len(c.pend)==1 and not isfp(c.pend[0]) and '@@F' in ex(c.pend[0])))):
             # a word pushed for this call is an argument past the fourth, so r4-r7 are all positional: one this function never touched
             # is its own incoming argument, passed on as it came (mwlRnaStartCopy, serveGetPos in playerInit); one an earlier call has changed
@@ -1219,7 +1239,9 @@ def _run(name,passthru=False,frame=False,flat=False):
         if c.pend and not spill:
             # arguments pushed on the stack: the first of them was pushed last
             variadic=False
-            if len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
+            if sret:
+                hidden=ex(c.pend[0]); c.frame_stack_call=True
+            elif len(ia)==0 and not fa and not ind:    # every argument on the stack: a call to a function declared with `...`
                 variadic=True
             elif len(ia)<4 and len(c.pend)==1 and not isfp(c.pend[0]) and (ia or fa) and '@@F' in ex(c.pend[0]):
                 # the address of a local pushed alone, with the other arguments in registers: SHC passes the hidden return pointer of a
@@ -1250,18 +1272,27 @@ def _run(name,passthru=False,frame=False,flat=False):
             for k_ in range(int_stack_words(fname)):
                 args.append('*(int *)((int)stk + @@F:%d@@%s)'%(-c.D,' + %d'%(4*k_) if k_ else '')); types.append('int')
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
-        if hidden: args.append(hidden); types.append('...')
+        if hidden and not sret: args.append(hidden); types.append('...')
         sig=tuple(types)
         isf=(not ind) and ((fname in c.protos and c.protos[fname][-1:]==('->float',)) or fname in _FLOATRET)
         if not ind: c.ncalls_to[fname]=c.ncalls_to.get(fname,0)+1
         if not ind:
-            if fname not in _CONFLICTS and fname in c.protos and tuple(x for x in c.protos[fname] if x!='->float')!=sig: raise Conflict(fname)
+            if fname not in _CONFLICTS and fname in c.protos and tuple(x for x in c.protos[fname] if not x.startswith('->'))!=sig: raise Conflict(fname)
             if fname in _CONFLICTS: c.protos[fname]=('()',)+(('->float',) if isf else ())
+            elif sret: c.protos[fname]=sig+('->Stk%d'%sret,)
             elif not isf: c.protos[fname]=sig
             elif fname not in c.protos: c.protos[fname]=sig+('->float',)
         if ind: call='((int (*)(%s))(%s))(%s)'%(', '.join(sig) or 'void',ind,', '.join(args))
         elif fname in _CONFLICTS: call='((%s (*)(%s))(%s))(%s)'%('float' if isf else 'int',', '.join(sig) or 'void',fname,', '.join(args))
         else: call='%s(%s)'%(fname,', '.join(args))
+        if sret:
+            if tail: raise Skip('structure returned by a tail call')
+            c.blocks[-1].append('*(Stk%d *)(%s) = %s;'%(sret,hidden,call))
+            c.lastcall=None; c.ncalls+=1; c.pcalls+=1
+            for n in range(1,8): c.R.pop('r%d'%n,None)
+            for n in range(0,12): c.FR.pop('fr%d'%n,None)
+            c.R['r0']=DIRTY; c.fpul=None
+            return
         if tail:
             c.tail=call; c.blocks[-1].append('@@TAIL:%s@@'%call); return
         t='t%d'%c.ntemp; c.ntemp+=1

@@ -112,8 +112,9 @@ def t_input(exe, base, a, sz):
 
 
 def entry_input(exe, base, a, sz):
-    """True when, going from the entry to the first branch, an instruction reads r0-r3 before anything has written it: the register
-    holds a value the caller put there (a custom convention; r4-r7 are the arguments)."""
+    """True when, going from the entry to the first branch, an instruction reads r0-r3, fr0-fr3 or fr12-fr15 before anything has written
+    it: the register holds a value the caller put there (a custom convention; r4-r7 and fr4-fr11 are the arguments, and fr12-fr15 are the
+    callee's to save, which compiled C only does with a push: Virtua Tennis nl_objput_mv_send_p2 reads them from the routine before it)."""
     import re
     defs = set()
     fdefs = set()
@@ -149,7 +150,7 @@ def entry_input(exe, base, a, sz):
                 for r in re.findall(r'\bfr(\d+)\b', x):
                     if fdest and x == fdest and mn in fpure:
                         continue
-                    if int(r) <= 3 and int(r) not in fdefs:
+                    if (int(r) <= 3 or 12 <= int(r) <= 15) and int(r) not in fdefs:
                         return True
             if fdest:
                 fdefs.add(int(fdest[2:]))
@@ -426,7 +427,7 @@ def no_c_form(exe, base, a, sz):
     if ck is not None:
         out.append('reads r%d after a call without writing it: it relies on the callee keeping it (a custom convention)' % ck)
     if entry_input(exe, base, a, sz):
-        out.append('reads r0-r3 on entry before anything writes it: a value its caller left (a custom convention)')
+        out.append('reads a register on entry before anything writes it (r0-r3, fr0-fr3 or fr12-fr15): a value its caller left (a custom convention)')
     if t_input(exe, base, a, sz):
         out.append('reads the T flag before anything sets it: a flag its caller or a helper it calls left (a custom convention)')
     ri = register_inputs(exe, base, a, sz)

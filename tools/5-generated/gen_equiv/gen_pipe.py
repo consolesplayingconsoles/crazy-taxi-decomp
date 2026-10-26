@@ -41,6 +41,17 @@ def run_file(stem,items):
         (passed if m and m.group(1)=='EQUIVALENT' else failed).append(it[0])
     return passed,failed,deferred,''
 
+def compatible_groups(items):
+    """The items in groups whose prototypes agree (no callee declared two ways), in order: what one file can hold"""
+    groups=[]; rest=list(items)
+    while rest:
+        protos={}; g=[]; later=[]
+        for it in rest:
+            if all(protos.get(k,v)==v for k,v in it[3].items()): protos.update(it[3]); g.append(it)
+            else: later.append(it)
+        groups.append(g); rest=later
+    return groups
+
 def run_file_robust(stem,items):
     items=list(items); dropped=[]
     while True:
