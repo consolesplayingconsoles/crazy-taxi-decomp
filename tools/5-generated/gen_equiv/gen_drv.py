@@ -37,6 +37,9 @@ def build(name,ret,passthru=False):
         for m in re.finditer(AT,text):
             off=at(m)
             if off>=0: up=max(up,off//4+1)      # an address above the function's own frame: words the caller left on the stack (arguments, a structure passed by value)
+        for m in re.finditer(r'\((0x[0-9A-Fa-f]+|\d+) \+ \('+AT+r'\)',text):     # the same with the constant first: (0x32C + (stk + n)), a register
+            off=int(m.group(1),0)+int(m.group(2))     # added to r15 (bodyInit, Virtua Tennis: its hidden return pointer)
+            if off>=0: up=max(up,off//4+1)
         for e,n in getattr(c,'spans',[]):       # a block copy covers n bytes from its address
             m=re.search(AT,e)
             if m and at(m)>=0: up=max(up,(at(m)+n-1)//4+1)
@@ -264,7 +267,7 @@ def original_runs(name,case):
     except Exception: return 0,None
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
-    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     LAST_READS[:]=r.get('reads',[])
     k,spill=_saved_words(name)
     if k and not r['error']:
@@ -328,7 +331,37 @@ def draw_seconds(name):
     rest. GEN_DRAW_SECONDS sets it outright."""
     if os.environ.get('GEN_DRAW_SECONDS'): return float(os.environ['GEN_DRAW_SECONDS'])
     return max(60,G.SPANS.get(name,(0,0))[1]//8)*float(os.environ.get('GEN_TIME_FACTOR','1'))*2/3
+def never_returns(name):
+    """True when no instruction control flow reaches in the function leaves it: no rts or rte, no computed jump (jmp, braf, a
+    tail call), no branch to outside its bytes. Calls (jsr, bsr) come back and do not count."""
+    import struct as _s
+    try:
+        sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
+        import classify,shdis
+        exe=open('1ST_READ.BIN','rb').read(); base=int(open('BASE').read().strip(),16)
+        a,sz=G.SPANS[name]
+        for pc in classify.reachable(exe,base,a,sz):
+            w=_s.unpack_from('<H',exe,pc-base)[0]
+            op=(shdis.decode(w,pc)[0] or '').split(' ')[0]
+            if op in ('rts','rte','jmp','braf','bsrf'): return False
+            if (w&0xF000)==0xA000:                                   # bra: its target from the opcode (the listing prints none)
+                d=w&0xFFF; d-=0x1000 if d&0x800 else 0; tg=pc+4+2*d
+            elif (w&0xF900)==0x8900:                                 # bt, bf, bt/s, bf/s
+                d=w&0xFF; d-=0x100 if d&0x80 else 0; tg=pc+4+2*d
+            else: continue
+            if not (a<=tg<a+sz): return False
+        R=classify.reachable(exe,base,a,sz); last=a+sz-2
+        if last in R:                          # control runs past the last byte into the next function (a cut-off shared tail): it leaves
+            lw=_s.unpack_from('<H',exe,last-base)[0]; pw=_s.unpack_from('<H',exe,last-2-base)[0] if sz>=4 else 0
+            ends=lambda w_:(w_&0xF000)==0xA000 or w_ in (0x000B,0x002B) or (w_&0xF0FF) in (0x402B,0x0023)      # bra, rts, rte, jmp, braf
+            if not ends(lw) and not ends(pw): return False
+        return True
+    except Exception: return False
 DEADLINE=[None]      # set when a function's drawing starts (tests); pick and grow stop at it
+GBR_AREA=0x0C9C0000  # the global base register's area in a drawn case: 1 KB of RAM, the reach of @(disp,gbr)
+STEPS=[None]         # the step cap of the original's runs while drawing: max(100000, size*60), or CHECK_STEPS on the retry
+CHECK_STEPS=2000000  # what the check itself allows a run by default (tools/sh4sim.py)
+LONG_STEPS=20000000  # the retry's cap: a fixed loop past the check's default gets cases that carry their own limit
 LAST={}              # the last pick's numbers: cases drawn, cases the original survived (the rest crashed it or never ended)
 def pick(name,cases,want,V=None,rng=None,HOT=None):
     """Of many candidate cases, the ones the original finishes on, chosen greedily by the new instructions each reaches (the
@@ -339,6 +372,9 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         if time.time()>(DEADLINE[0] or t0+draw_seconds(name)): break      # at the deadline, however few ended: a loop that random cases rarely end (a wait on a word a callee sets) would run every candidate to the step cap and time out with nothing
     if V and rng and all(c is not None for d,n,c in runs): runs=grow(name,runs,V,rng,HOT or V)
     ok=[(d,c) for d,n,c in runs if n is not None]
+    if STEPS[0]:                          # the long-cap retry: each case carries its own step limit, past the check's default (crowdSetup: 2,533,314)
+        for d,n,c in runs:
+            if n is not None: d['steps']=max(CHECK_STEPS,2*n)
     LAST['drawn']=len(runs); LAST['survived']=len(ok); LAST['pool']=[d for d,c in ok]      # how many cases the original survived, and which
     if any(c is None for d,c in ok): return [d for d,c in ok][:want]
     chosen=[];seen=set();left=list(ok)
@@ -355,11 +391,14 @@ def tests(name,c,src):
     NOSTACK[0]=not any(n>=8 for n in c.iuse)
     HW[0]=_names_hardware(src)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
+    uses_gbr='_builtin_get_gbr' in src
     loopy=c.has_loop
     addr_params=set()
     for kind,e in c.mem_addrs:
         if kind=='e':
             for m in re.findall(r'\ba(\d)\b',e): addr_params.add(int(m))
+            for v_ in re.findall(r'\b([tu]\d+|R\d+)\b',e):         # a loop's pointer variable started from a parameter (t0 = a4): the
+                for m in re.findall(r'\b%s = \(*a(\d)\b'%v_,src): addr_params.add(int(m))      # parameter is an address too (vmsfs_memcpyl)
     basemap={}
     for n in ip:
         if n in addr_params: basemap['a%d'%n]=0x0C800000+(n-4)*0x10000
@@ -380,14 +419,15 @@ def tests(name,c,src):
     small=[v for v in V if v<=0x100 or v>=0xFFFFFF00]
     ncalls=len(re.findall(r'\b(?:t\d+ = |return )?[A-Za-z_]\w*\([^()]*\);',src))+4
     if loopy: ncalls=max(ncalls,48)
-    for attempt in (0,1,2):               # more candidates and mostly pointers when few survive: the original must finish on them
+    retry=STEPS[0] is not None            # the retry at the long cap: a few candidates, one attempt (each run can take seconds)
+    for attempt in ((0,) if retry else (0,1,2)):               # more candidates and mostly pointers when few survive: the original must finish on them
         if attempt and time.time()>DEADLINE[0]: break      # past the deadline: what is left goes to directed.rescue (a wait loop), not to more random candidates
         mult=(1,3,8)[attempt]; ncand=(1,1.6,2.6)[attempt]
         pw=(8,4,1)[attempt]                  # words a callee writes through a pointer to the frame: fewer when it would overwrite the saved registers
         cases=[]
         rng=random.Random((zlib.crc32(name.encode())&0xffff)+attempt)
         chained=any(k=='e' and re.search(r'\b[tu]\d+\b|\bstk\b|\b[RF]\d+\b',e) for k,e in c.mem_addrs)
-        for i in range(int((160 if (loopy or chained) else 120)*ncand)):
+        for i in range(6 if retry else int((160 if (loopy or chained) else 120)*ncand)):
             bm=dict(basemap)
             for n in ip:
                 if n not in addr_params: bm['a%d'%n]=rng.choice(V)
@@ -430,6 +470,9 @@ def tests(name,c,src):
                 for i in range(16): regs['xf%d'%i]=rng.choice(floats)
             for k_ in [k_ for k_ in poke if _CODE[0]<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<_CODE[1]]: del poke[k_]       # the code is read-only on the console: a case may not change a literal pool
             d={'about':'case %d'%i,'poke':poke}
+            if uses_gbr:            # GBR on RAM, filled like other memory: left 0, @(0,gbr) wrote device memory and the case was thrown out (nlSetPaletteData)
+                d['gbr']='%08X'%GBR_AREA
+                poke['%08X'%GBR_AREA]=struct.pack('<256I',*[rng.choice(pool) for _ in range(256)]).hex()
             if regs: d['regs']=regs
             if c.ncalls or c.tail:
                 d['calls']=[dict({'r0':'%08X'%rng.choice(pool),'fr0':'%08X'%struct.unpack('<I',struct.pack('<f',rng.choice((0.5,1.0,2.5,-3.0,100.0,0.1))))[0]},      # fr0 too: a callee that returns a float answers there
@@ -438,7 +481,7 @@ def tests(name,c,src):
                     for e_ in d['calls']: e_['poke_stack']=struct.pack('<4I',*[rng.choice(pool) for _ in range(4)]).hex()
             cases.append(d)
         cases=pick(name,cases,36,V,rng,sorted(consts|{0,1,2,0xFFFFFFFF}))
-        if len(cases)>=(12 if (loopy or chained) else 6):
+        if len(cases)>=(1 if retry and not ip and not fp else 12 if (loopy or chained) else 6):      # no register input: every case runs the same code
             # the development cases are the ones the coverage pick chose; the holdout cases are other survivors it did not choose
             rest=[d for d in LAST.get('pool',[]) if d not in cases]
             rng.shuffle(rest)
@@ -447,6 +490,21 @@ def tests(name,c,src):
             dev=cases[:18] if indep else cases[0::2][:18]
             LAST['holdout_independent']=indep
             return {'dev':dev,'holdout':hold}
+    # no path leaves the function (no return, no computed jump, no branch out): it never returns by design, an error trap such as
+    # bra . (Virtua Tennis SJMEM_Error). Its cases are marked endless: the check passes them when both sides run to the step cap
+    if never_returns(name):
+        vals=[0,1,2,4,8,0x0C900000,0x0C910000,0xFFFFFFFF,0x10,0x40,0x0C920040,3]
+        mk=lambda i:dict({'about':'endless case %d'%i,'poke':{},'endless':True,'steps':20000},
+                         **({'regs':{'r%d'%n:'%08X'%vals[(i+k)%len(vals)] for k,n in enumerate(n_ for n_ in ip if n_<8)}} if [n_ for n_ in ip if n_<8] else {}))
+        LAST['holdout_independent']=False
+        return {'dev':[mk(i) for i in range(6)],'holdout':[mk(i) for i in range(6,12)]}
+    # no case ends under the fast cap: drawn once more with the check's own limit, for a loop that runs a fixed, long count (Zombie
+    # Revenge adxf_wait_1ms, 100,003 instructions against a cap of 100,000)
+    if STEPS[0] is None:
+        STEPS[0]=LONG_STEPS
+        try: return tests(name,c,src)
+        except G.Skip: pass
+        finally: STEPS[0]=None
     # no case ends: a wait loop on a word nothing changes. Search for cases that end (directed.py): a changed poke, or a word that
     # changes between two reads
     try:

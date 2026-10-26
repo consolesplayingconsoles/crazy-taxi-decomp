@@ -83,6 +83,8 @@ class Ctx:
         if r not in s.FR:
             n=int(r[2:])
             if 4<=n<=11: s.FR[r]=('s','f%d'%n); s.fuse.add(n)
+            elif getattr(s,'uninit',None) and getattr(s,'wrote_somewhere',set()) & {r}:
+                s.uninit(r)                  # the same for a float register: set on another path (uiPanelPut's fr15, kept from one round for the next)
             else: raise Skip('read '+r)
         return s.FR[r]
 def ex(v):
@@ -673,8 +675,12 @@ def _run(name,passthru=False,frame=False,flat=False):
                 elif c.frame: c.R[a[1]]=load('l',('expr','((int)stk + @@F:%d@@)'%ab))
             return
         if mn=='fmov.s' and a[0]=='@r15+' :
+            ab=-c.D
             c.D-=4
             if c.pend and isfp(c.pend[-1]): c.FR[a[1]]=c.pend.pop()[1]
+            elif int(a[1][2:])<12 and ab<0:          # a float kept across calls that took the pending pushes (cpuDblReceivePos): the push
+                if (ab,'f') in c.stack: c.FR[a[1]]=c.stack[(ab,'f')]      # stored it in the frame, read it back there; fr12-fr15 popped
+                elif c.frame: c.FR[a[1]]=fload(('expr','((int)stk + @@F:%d@@)'%ab))      # are the epilogue's restores
             return
         if mn in('add','sub') and a[1]=='r15':
             if a[0].startswith('#'): n=int(a[0][1:])
@@ -1063,7 +1069,9 @@ def _run(name,passthru=False,frame=False,flat=False):
         try:
             # the argument is the copy at SP, the bytes the callee receives: not the source, whose register (a C variable in the flat and
             # loop forms) can be reused before the call (hudFontNumPut, Virtua Tennis: r2 held the point, then the callee's address)
-            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D): c.sarg=(n//4,ex(d),c.D)
+            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D):
+                c.sarg=(n//4,ex(d),c.D)
+                c.sargs=[s_ for s_ in getattr(c,'sargs',[]) if s_[2]!=c.D]+[c.sarg]      # every structure copied to SP: two by value (cpuLineXAtZ)
         except Exception: pass
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
         if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
@@ -1171,7 +1179,8 @@ def _run(name,passthru=False,frame=False,flat=False):
             return True
         def teardown(x):                 # an instruction of the epilogue: the add before it frees the frame, not the call's arguments
             return bool(x) and (x[0]=='rts' or (x[0] in ('lds.l','mov.l','fmov.s') and '@r15+' in (x[1] or '')))
-        nsw=0 if ind else callee_stack_words(fname)
+        nsw=0 if ind else max(callee_stack_words(fname),def_stack_words(fname))      # what its code reads, or its definition takes when more:
+                                                 # a variadic print reads only its format directly (ADXERR_CallErrFunc's Stk3: three words pushed)
         own_stack=bool(nsw) and len(c.pend)>=nsw
         if own_stack: c.pend=c.pend[-nsw:]      # the words below this callee's own are earlier calls': their stack adjustment was deferred to this one
         # a callee whose definition returns a structure by value, called with one word pushed: the word is SHC's hidden return pointer,
@@ -1181,7 +1190,9 @@ def _run(name,passthru=False,frame=False,flat=False):
         if sret and not (len(c.pend)==1 and not isfp(c.pend[0])): sret=0
         cleanup=(isadd(after) and (not teardown(after2) or (bool(c.pend) and c.D-4*len(c.pend)>=getattr(c,'pro_D',0)))) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
         spill=bool(c.pend) and not cleanup and not own_stack and not sret and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
-        if ar and (not c.pend or spill or sret or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
+        positional=not c.pend and not ind and int_stack_words(fname)      # stack words written through the frame, none pushed: r4-r7 come
+                                                 # before them and are the first arguments as set (courtDrawStageModels' callers)
+        if ar and not positional and (not c.pend or spill or sret or (ar[0]==0 and not ar[1])):      # (a callee reading no register argument: everything it takes is on the stack)                    # the registers the callee reads: leftovers set for other reasons are not arguments
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
@@ -1255,8 +1266,14 @@ def _run(name,passthru=False,frame=False,flat=False):
             if variadic: types=['int','...']
             c.pend=[]
         sa=getattr(c,'sarg',None); c.sarg=None
-        if sa and not ind and not hidden and sa[2]==c.D and not variadic_seen(types):
-            args.append('*(Stk%d *)(%s)'%(sa[0],sa[1])); types.append('Stk%d'%sa[0])       # the structure, by value, after the integer arguments
+        chain=[]                       # the structures by value: the one at SP, then each one copied right above the one before it
+        if sa and sa[2]==c.D:
+            byD={s_[2]:s_ for s_ in getattr(c,'sargs',[])}; d_=c.D
+            while d_ in byD:
+                chain.append(byD[d_]); d_-=4*byD[d_][0]
+        c.sargs=[]
+        if chain and not ind and not hidden and not variadic_seen(types):
+            for s_ in chain: args.append('*(Stk%d *)(%s)'%(s_[0],s_[1])); types.append('Stk%d'%s_[0])       # by value, after the integer arguments
         elif not sa and not pushed and not ind and not hidden and not variadic_seen(types) and not tail and def_stack_words(fname):
             # nothing pushed and nothing copied to SP, but the callee's definition takes words from the stack: it reads the caller's own frame
             # at SP (a debug print called without its pushed arguments). The frame the C keeps holds the same words
@@ -1406,9 +1423,12 @@ def _run(name,passthru=False,frame=False,flat=False):
         c.xf_entry=True
     c.xf_snapshot=xf_snapshot
     def uninit(r):
-        v=fresh(False); emit('int %s;'%v); c.R[r]=('e',v)
+        isf=r.startswith('fr')
+        v=fresh(isf); emit('%s %s;'%('float' if isf else 'int',v)); (c.FR if isf else c.R)[r]=('e',v)
     c.uninit=uninit
     c.wrote_somewhere={'r%d'%int(m_.group(1)) for x_ in ins for m_ in [re.search(r',r(\d+)\s*(;|$)',x_[1].split(';')[0])] if m_ and x_[0] not in ('cmp/eq','cmp/ge','cmp/gt','cmp/hi','cmp/hs','tst') and 8<=int(m_.group(1))<=14}
+    c.wrote_somewhere|={'fr%d'%int(m_.group(1)) for x_ in ins for m_ in [re.search(r'(?:^|,)\s*fr(\d+)\s*$',x_[1].split(';')[0].strip())]      # float registers too, but
+                        if m_ and x_[0].startswith('f') and not x_[0].startswith('fcmp') and not 4<=int(m_.group(1))<=11}   # not the arguments fr4-fr11
 
     # registers that a loop changes from one pass to the next are C variables updated where the instruction runs;
     # everything else stays a symbolic expression
@@ -1543,8 +1563,14 @@ def _run(name,passthru=False,frame=False,flat=False):
         argslots={}
         for k in sorted(set(stA[3])|set(stB[3])):
             if k[0]>=0 and stA[3].get(k)!=stB[3].get(k):          # a stack argument slot the arms left different: a variable carries it
-                if k[1]=='f': raise Skip('float stack argument slot written in one arm')
                 nslot=8+k[0]//4
+                if k[1]=='f':           # the float form: the arm that did not write it leaves the parameter's bits, read as a float (sprPutCropH)
+                    tv=fresh(True); emit('float %s;'%tv)
+                    for blk_,st_ in ((A,stA),(B,stB)):
+                        v_=st_[3].get(k)
+                        if v_ is None: c.iuse.add(nslot); v_=('e','*(float *)&a%d'%nslot)
+                        blk_.append('%s = %s;'%(tv,fx(v_)))
+                    argslots[k]=('e',tv); continue
                 tv=fresh(False); emit('int %s = 0;'%tv)
                 for blk_,st_ in ((A,stA),(B,stB)):
                     v_=st_[3].get(k)

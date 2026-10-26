@@ -364,7 +364,10 @@ class CPU:
             if lo8 in (0x02, 0x12, 0x22, 0x52, 0x62, 0x13, 0x23):         # sts.l / stc.l gbr, vbr
                 v = {0x02: self.mach, 0x12: self.macl, 0x22: self.pr, 0x52: self.fpul,
                      0x62: self.get_fpscr(), 0x13: self.gbr, 0x23: self.vbr}[lo8]
-                r[n] = (x - 4) & M32; wr(r[n], 4, v); return
+                r[n] = (x - 4) & M32; wr(r[n], 4, v)
+                if lo8 == 0x22 and n == 15:                                 # the prologue's save of the return address: never a call's
+                    self.m.stack_written.discard(Memory.phys(r[n]) & ~3)    # argument, though it sits where a fifth one would (cpuDblThink)
+                return
             if lo8 in (0x06, 0x16, 0x26, 0x56, 0x66, 0x17, 0x27):         # lds.l / ldc.l gbr, vbr
                 v = rd(x, 4); r[n] = (x + 4) & M32
                 if lo8 == 0x06: self.mach = v

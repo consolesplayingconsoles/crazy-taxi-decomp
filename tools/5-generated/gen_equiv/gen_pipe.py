@@ -41,28 +41,41 @@ def run_file(stem,items):
         (passed if m and m.group(1)=='EQUIVALENT' else failed).append(it[0])
     return passed,failed,deferred,''
 
+def own_signature(it):
+    """The item's own definition as a prototype tuple, the way callers' prototypes are kept: ('int', 'float') or ('Stk3', '->float')"""
+    m=re.match(r'\s*([A-Za-z_][\w \t\*]*?)\s*\b%s\s*\(([^)]*)\)'%re.escape(it[0]),it[1])
+    if not m: return None
+    ps=[x.strip() for x in m.group(2).split(',') if x.strip() and x.strip()!='void']
+    sig=tuple(re.sub(r'\s*\b\w+$','',p).strip() if re.search(r'[\w\*]\s+\w+$',p) else p for p in ps)
+    rt=m.group(1).strip()
+    return sig+(('->float',) if rt=='float' else ('->%s'%rt,) if rt.startswith('Stk') else ())
+def _declares(it):
+    """What one file holding the item must agree on: its callees' prototypes and its own definition (a caller in the same file that
+    declares it otherwise gets the definition's head and too few arguments: Zombie Revenge FUN_0c0de230, "Scalar required")"""
+    d=dict(it[3]); own=own_signature(it)
+    if own is not None: d[it[0]]=own
+    return d
+def _agrees(protos,d):
+    return all(protos.get(k,v)==v or ('()',) in (protos.get(k),v) for k,v in d.items())
 def compatible_groups(items):
-    """The items in groups whose prototypes agree (no callee declared two ways), in order: what one file can hold"""
+    """The items in groups whose prototypes agree (no callee declared two ways, nor declared unlike its definition), in order:
+    what one file can hold"""
     groups=[]; rest=list(items)
     while rest:
         protos={}; g=[]; later=[]
         for it in rest:
-            if all(protos.get(k,v)==v for k,v in it[3].items()): protos.update(it[3]); g.append(it)
+            d=_declares(it)
+            if _agrees(protos,d): protos.update(d); g.append(it)
             else: later.append(it)
+        if not g: g=[later.pop(0)]
         groups.append(g); rest=later
     return groups
 
 def run_file_robust(stem,items):
     items=list(items); dropped=[]
     while True:
-        protos={}
-        use=[]; deferred=[]
-        for it in items:
-            ok=True
-            for k,v in it[3].items():
-                if k in protos and protos[k]!=v: ok=False
-            if ok: protos.update(it[3]); use.append(it)
-            else: deferred.append(it)
+        gs=compatible_groups(items)
+        use=gs[0]; deferred=[it for g in gs[1:] for it in g]
         head='/* scratch */\n'+gen_drv.head_protos(use)+'\n\n'
         text=head
         spans=[]

@@ -5,13 +5,6 @@
 docker_ready() {
   command -v docker >/dev/null 2>&1 || { echo "[ERROR] Docker is not installed. Install Docker Desktop (Mac, Windows) or Docker Engine (Linux)." >&2; return 1; }
   docker info >/dev/null 2>&1 || { echo "[ERROR] Docker is installed but not running or not reachable from this shell: start Docker Desktop (or 'colima start'), then retry. If it is running, check 'docker context ls'." >&2; return 1; }
-  local mem; mem=$(docker info --format '{{.MemTotal}}' 2>/dev/null || echo 0)
-  local cpus; cpus=$(docker info --format '{{.NCPU}}' 2>/dev/null || echo '?')
-  if [ "${mem:-0}" -lt 3500000000 ] 2>/dev/null; then
-    echo "[note] Docker has $((mem / 1048576)) MB of memory, $cpus CPUs: Ghidra steps run one at a time to fit (slower). 4 GB or more is comfortable." >&2
-  else
-    echo "[ok] Docker has $((mem / 1048576)) MB of memory, $cpus CPUs: Ghidra jobs can run side by side (each slower when CPUs are few)." >&2
-  fi
   if [ -n "${1:-}" ]; then
     local tag="${DC_IMAGE_TAG:-dc-tools}"
     if ! docker image inspect "$tag" >/dev/null 2>&1; then
