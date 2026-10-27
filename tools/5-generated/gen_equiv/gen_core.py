@@ -1379,7 +1379,9 @@ def _run(name,passthru=False,frame=False,flat=False):
             elif not isf: c.protos[fname]=sig
             elif fname not in c.protos: c.protos[fname]=sig+('->float',)
         if ind: call='((int (*)(%s))(%s))(%s)'%(', '.join(sig) or 'void',ind,', '.join(args))
-        elif fname in _CONFLICTS: call='((%s (*)(%s))(%s))(%s)'%('float' if isf else 'int',', '.join(sig) or 'void',fname,', '.join(args))
+        elif fname in _CONFLICTS or fname==c.name:      # a call to itself: its own definition, being written, is the prototype in this file and
+            # may take more than the call sets (the rest are an earlier call's leftovers): sklDrawNodeTrnsl, playerSolveArmReach, Virtua Tennis
+            call='((%s (*)(%s))(%s))(%s)'%('float' if isf else 'int',', '.join(sig) or 'void',fname,', '.join(args))
         else: call='%s(%s)'%(fname,', '.join(args))
         if sret:
             if tail: raise Skip('structure returned by a tail call')

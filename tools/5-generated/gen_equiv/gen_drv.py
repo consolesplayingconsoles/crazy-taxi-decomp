@@ -12,14 +12,22 @@ def build(name,ret,passthru=False):
     ip=sorted(c.iuse); fp=sorted(c.fuse)
     params=[]
     stkonly=bool(ip) and not [n for n in ip if n<8]      # only words the caller left on the stack are read: one structure passed by value, not r4-r7 as parameters (every caller would be compared on them)
+    # registers read up to one below r7, and words from the stack: the words are one structure by value after those registers, not a8..
+    # after phantom registers up to a7 (sprPutAtAlpha, Virtua Tennis: r4 and a point; its callers were compared on r5-r7)
+    regs_=[n for n in ip if n<8]
+    stkpart=bool(regs_) and max(regs_)<7 and max(ip)>=9      # two words or more: one word stays a8 (a one-word structure goes in a
+                                                 # register, and padding it to four compares callers on their own locals)
     if stkonly:
         params.append('Stk%d s'%max(max(ip)-8+1,4))
+    elif stkpart:
+        for n in range(4,max(regs_)+1): params.append('int a%d'%n)
+        params.append('Stk%d s'%(max(ip)-8+1))
     elif ip:
         for n in range(4,max(ip)+1): params.append('int a%d'%n)
     if fp:
         for n in range(4,max(fp)+1): params.append('float f%d'%n)
     text='\n'.join(c.stmts)
-    if stkonly: text=re.sub(r'\ba(\d+)\b',lambda m:'s.w[%d]'%(int(m.group(1))-8) if int(m.group(1))>=8 else m.group(0),text)
+    if stkonly or stkpart: text=re.sub(r'\ba(\d+)\b',lambda m:'s.w[%d]'%(int(m.group(1))-8) if int(m.group(1))>=8 else m.group(0),text)
     decls=[]
     def hoist(m):
         decls.append('%s %s;'%(m.group(1),m.group(2))); return '%s = '%m.group(2)
@@ -49,6 +57,9 @@ def build(name,ret,passthru=False):
             if not [n for n in c.iuse if n<8]:      # only the stack is read: no register argument at all, so the words are one structure passed by value (r4-r7 as parameters would be compared at every caller)
                 stkstruct=up
                 params=['Stk%d s'%up]
+            elif max(n for n in c.iuse if n<8)<7 and 2<=up<=16:      # r4.. read up to below r7, two words or more: a structure after them (sprPutAtAlpha)
+                stkstruct=up
+                params=['int a%d'%n for n in range(4,max(n for n in c.iuse if n<8)+1)]+['Stk%d s'%up]
             else:
                 for n in range(8,8+up): c.iuse.add(n)       # they come in as the stack parameters a8..: copied to the top of the frame array
                 ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]

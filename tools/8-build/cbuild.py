@@ -31,6 +31,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_equiv'))
 import boundaries as B
+import buildcache
 import consistency
 import fit as fitmod
 import shdis
@@ -310,8 +311,8 @@ asm1() {   # $1 = source file, $2 = object
   rm -f build/cbuild/log/asm.$$.log
 }
 if [ "$PIECES" = 1 ]; then
-  for f in build/cbuild/asm/*.src; do asm1 $f build/cbuild/obj/$(basename ${f%.src}).obj; done
-  for f in build/cbuild/ptr/*.src; do asm1 $f build/cbuild/obj/p_$(basename ${f%.src}).obj; done
+  for f in build/cbuild/asm/*.src; do o=build/cbuild/obj/$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
+  for f in build/cbuild/ptr/*.src; do o=build/cbuild/obj/p_$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
 fi
 cat $LIST | xargs -P 2 -I{} bash -c 'one {}'
 '''
@@ -335,9 +336,33 @@ def compile_all(stems=None, objd='obj', flags_edit=None):
         subprocess.run([sys.executable, 'tools/8-build/relocptr.py', OUT + '/ptr'], check=True)
     shutil.rmtree('%s/%s' % (OUT, objd), ignore_errors=True)
     os.makedirs('%s/%s' % (OUT, objd))
-    open(OUT + '/list.txt', 'w').write('\n'.join(stems) + '\n')
-    r = docker("export FLAGS='%s' FLAGS_PLAIN='%s' OBJD=%s PIECES=%d LIST=build/cbuild/list.txt; " % (flags, plain, objd, 1 if all_ else 0) + COMPILE)
-    print(r.stdout[-3000:], r.stderr[-1500:])
+    # An object is a function of its C text, the headers it may include, the flags and this compile step: reuse what an earlier build
+    # compiled (build/ccache, buildcache.py), compile the rest. A build changes a handful of files and the fit's link used to compile
+    # every part again for each margin it tried.
+    dest = '%s/%s' % (OUT, objd)
+    tools = buildcache.tools_hash(*equiv.sdk_env())       # the compiler, its own headers
+    keys = {}
+    for s_ in stems:
+        text = open('%s/src/%s.c' % (OUT, s_), 'rb').read()
+        keys[s_] = buildcache.key(text, flags + '\0' + plain, tools + buildcache.includes_hash(text, [OUT + '/src', 'src']), COMPILE, name=s_)
+    todo = [s_ for s_ in stems if not buildcache.restore(keys[s_], dest, s_)]
+    pkeys = {}
+    if all_:                                     # the pieces (assembly files) are keyed by their text alone
+        for src, name in ([(f, os.path.basename(f)[:-4]) for f in sorted(glob.glob(OUT + '/asm/*.src'))]
+                          + [(f, 'p_' + os.path.basename(f)[:-4]) for f in sorted(glob.glob(OUT + '/ptr/*.src'))]):
+            pkeys[name] = buildcache.key(open(src, 'rb').read(), 'piece', tools, COMPILE, name=name)
+            buildcache.restore(pkeys[name], dest, name)
+    open(OUT + '/list.txt', 'w').write('\n'.join(todo) + '\n' if todo else '')
+    missing = [n for n in pkeys if not os.path.exists('%s/%s.obj' % (dest, n))]
+    print('compile: %d of %d objects from the cache%s' % (len(stems) - len(todo), len(stems),
+                                                          ('; %d of %d pieces' % (len(pkeys) - len(missing), len(pkeys))) if pkeys else ''))
+    if todo or missing:
+        r = docker("export FLAGS='%s' FLAGS_PLAIN='%s' OBJD=%s PIECES=%d LIST=build/cbuild/list.txt; " % (flags, plain, objd, 1 if all_ else 0) + COMPILE)
+        print(r.stdout[-3000:], r.stderr[-1500:])
+        for s_ in todo:
+            buildcache.store(keys[s_], dest, s_)
+        for n in missing:
+            buildcache.store(pkeys[n], dest, n)
     print('%d objects of %d' % (len(glob.glob('%s/%s/*.obj' % (OUT, objd))), len(stems)))
 
 

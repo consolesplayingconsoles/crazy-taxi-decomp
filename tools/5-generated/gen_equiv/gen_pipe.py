@@ -86,6 +86,10 @@ def _split(stem,use,deferred,dropped,out):
     LAST['out']='\n'.join(outs)
     return res[0][0]+res[1][0],res[0][1]+res[1][1],res[0][2]+res[1][2],dropped+res[0][3]+res[1][3],''
 
+def failed_in(out,names):
+    """The names whose line in equiv.py's report of a file is not EQUIVALENT (or that have no line): what a written file must not keep"""
+    return [n for n in names if not re.search(r'^%s\s+EQUIVALENT\b'%re.escape(n),out,flags=re.M)]
+
 def run_file_robust(stem,items):
     items=list(items); dropped=[]
     while True:

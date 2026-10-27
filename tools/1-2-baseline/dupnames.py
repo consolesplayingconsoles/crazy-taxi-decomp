@@ -7,8 +7,11 @@ One name for two functions makes a call to either compile as the other, and ever
 one of them. For each name used more than once:
   a stub (8 bytes or less whose code jumps on: mov.l @(pool),rN / jmp @rN, or a bra) becomes thunk_<name>, the function it jumps to keeps
   the name;
+  first, a name that is not a C identifier (a C++ signature: atcomResetBlackList(void)) becomes the name up to its bracket, any other
+  character as _, with its address appended when that name is taken (no C can define or call the signature);
   any further body with the same name (a library function linked twice) gets its address as a suffix: <name>_<address>;
-  two entries at the same address are only reported: which size is right needs a decision.
+  two entries at the same address: the ones running into the next function are dropped when another ends before it (Virtua Tennis
+  sprSet266Free: 54 and 74 bytes, the next function 54 bytes on); when more than one ends before it, they are only reported.
 With --apply, src/ follows: a call to the name (or through a cast of it) in a C function goes to the copy that function's original
 calls, when it calls one of them only. A definition keeps the name: the first copy (the one a name lookup found) is renamed only when
 it is a stub, and a stub runs into the body the C was written for (Virtua Tennis mwRnaErrEntryFunc).
@@ -97,6 +100,16 @@ def main():
     exe = open('1ST_READ.BIN', 'rb').read()
     base = int(open('BASE').read().strip(), 16)
     lines = open('functions.txt').read().split('\n')
+    taken = {l.split()[3] for l in lines if l.startswith('F ') and len(l.split()) >= 4}
+    for i, l in enumerate(lines):
+        p = l.split()
+        if len(p) >= 4 and p[0] == 'F' and not re.fullmatch(r'[A-Za-z_]\w*', p[3]):
+            c = re.sub(r'\W', '_', p[3].split('(')[0]) or 'fn'
+            if c[0].isdigit():
+                c = '_' + c
+            c = c if c not in taken else '%s_%s' % (c, p[1].lower())
+            print('%-28s %s %s -> %s' % (p[3], p[1], p[2], c))
+            taken.add(c); p[3] = c; lines[i] = ' '.join(p)
     by = collections.defaultdict(list)
     for i, l in enumerate(lines):
         p = l.split()
@@ -108,12 +121,26 @@ def main():
         p = l.split()
         if len(p) >= 4 and p[0] == 'F':
             first_addr.setdefault(p[3], (int(p[1], 16), int(p[2])))
+    starts = sorted({e[1] for es in by.values() for e in es})
     dups = {}
     left = 0
     for n, ents in sorted(by.items()):
         if len(ents) < 2:
             continue
         addrs = collections.Counter(a for _, a, _ in ents)
+        for a0 in [a for a, k in addrs.items() if k > 1]:
+            nxt = min([s for s in starts if s > a0] or [a0 + 0x100000])
+            same = [e for e in ents if e[1] == a0]
+            fit = [e for e in same if e[1] + e[2] <= nxt]
+            if len(fit) == 1:
+                for e in same:
+                    if e is not fit[0]:
+                        print('%-28s %08x %d runs into the next function (%08x): dropped, %d kept' % (n, a0, e[2], nxt, fit[0][2]))
+                        lines[e[0]] = None
+                ents = [e for e in ents if e[1] != a0 or e is fit[0]]
+        addrs = collections.Counter(a for _, a, _ in ents)
+        if len(ents) < 2:
+            continue
         if any(k > 1 for k in addrs.values()):
             print('%-28s two entries at %s: left as is (which size is right needs a decision)'
                   % (n, ', '.join('%08x' % a for a, k in addrs.items() if k > 1)))
@@ -136,6 +163,7 @@ def main():
             names.add(nm)
         if new:
             dups[n] = [(a, new.get(i, n)) for i, a, s in ents]
+    lines = [l for l in lines if l is not None]
     if apply:
         open('functions.txt', 'w').write('\n'.join(lines))
         print('functions.txt written')

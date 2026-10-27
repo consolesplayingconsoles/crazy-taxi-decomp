@@ -98,8 +98,19 @@ def write_batch(keep):
     open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%fn],capture_output=True,text=True)
+    r=subprocess.run(['python3','tools/equiv.py','src/%s.c'%fn],capture_output=True,text=True)
     note('%s: %d functions written, %s'%(fn,len(keep),(r.stdout+r.stderr).strip().splitlines()[-1]))
+    bad=gen_pipe.failed_in(r.stdout+r.stderr,[it[0] for it in keep])
+    if bad:                  # it passed in its batch, not in the file it was written to (a callee's definition changed meanwhile: --regen
+        # took it out while the batch ran, hudFadeNearPlayers -> screenProject): it does not stay in src/
+        for n in bad:
+            note('%s: taken out of %s, it does not pass there'%(n,fn)); ledger.record(RUN,n,'DIFFERS','in the written file %s'%fn)
+            try: os.remove('tests/%s/%s.json'%(fn,n))
+            except OSError: pass
+        rest=[it for it in keep if it[0] not in bad]
+        os.remove('src/%s.c'%fn)
+        if not os.listdir('tests/%s'%fn): os.rmdir('tests/%s'%fn)
+        if rest: write_batch(rest)
 if '--recheck' in sys.argv:
     import keep as keepstore
     wanted=[x for x in sys.argv[1:] if not x.startswith('--') and x!=RUN and not (sys.argv[sys.argv.index(x)-1] in ('--run','--jobs'))]
