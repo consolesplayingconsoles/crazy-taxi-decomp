@@ -19,6 +19,9 @@ import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the imp
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import glob
+import hashlib
+import json
+import os
 import re
 import struct
 import sys
@@ -76,11 +79,52 @@ def returns_in(a, size):
     return votes.pop() if len(votes) == 1 else None
 
 
+CACHE = 'build/retcheck.json'
+STATS = {'read': 0, 'cached': 0}
+
+
+def load_cache():
+    """The register the original returns in, per function: it depends only on the original's code (functions.txt, BASE, the
+    executable's bytes) and on how this file reads it, never on the C, so a build does not read the same 1,300 functions again. {} when
+    absent, unreadable or of another original. The executable's bytes, not its size: one of the same size with other code kept the old
+    answers."""
+    key = hashlib.sha1(b''.join(open(f, 'rb').read() if os.path.exists(f) else b''
+                                for f in ('functions.txt', 'BASE', '1ST_READ.BIN', os.path.abspath(__file__)))).hexdigest()
+    try:
+        d = json.load(open(CACHE))
+        if d.get('key') == key and isinstance(d.get('r'), dict):
+            return d
+    except (OSError, ValueError):
+        pass
+    return {'key': key, 'r': {}}
+
+
+def save_cache(d):
+    try:
+        os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+        json.dump(d, open(CACHE + '.tmp', 'w'))
+        os.replace(CACHE + '.tmp', CACHE)
+    except OSError:
+        pass
+
+
+def returns_cached(d, name, addr, size):
+    k = '%s:%x:%d' % (name, addr, size)
+    if k in d['r']:
+        STATS['cached'] += 1
+        return d['r'][k] or None
+    STATS['read'] += 1
+    reg = returns_in(addr, size)
+    d['r'][k] = reg or ''
+    return reg
+
+
 def scan(srcdir='src'):
     """(definitions, callers): [(name, declared type, file, original register)] for definitions whose type names the other
     register; [(name, declared type, file, lines)] for files that declare a function with a type of the other register than its
     definition and use the value."""
     F = functions()
+    cache = load_cache()
     defn, decl, text = {}, {}, {}
     for f in sorted(glob.glob(srcdir + '/*.c')):
         t = open(f, errors='replace').read()
@@ -93,7 +137,7 @@ def scan(srcdir='src'):
     for n, (rt, f) in sorted(defn.items()):
         if n not in F or rt == 'void':
             continue
-        reg = returns_in(*F[n])
+        reg = returns_cached(cache, n, *F[n])
         if reg and reg != cls(rt.rstrip('*'), rt[len(rt.rstrip('*')):]):
             bad.append((n, rt, f, reg))
         for cf, ct in sorted(decl.get(n, {}).items()):
@@ -106,6 +150,7 @@ def scan(srcdir='src'):
                     lines.append(text[cf].count('\n', 0, m.start()) + 1)
             if lines:
                 callers.append((n, ct, cf, lines))
+    save_cache(cache)
     return bad, callers
 
 
@@ -116,7 +161,9 @@ def main(argv):
     if '--callers' in argv:
         for n, ct, cf, lines in callers:
             print('  caller: %s declares %s as %s and uses the value (lines %s)' % (cf, n, ct, ', '.join(str(x) for x in lines[:6])))
-    print('retcheck: %d definition(s) return in the other register%s' % (len(bad), ('; %d caller file(s) declare the other type and use the value' % len(callers)) if '--callers' in argv else ''))
+    print('retcheck: %d definition(s) return in the other register%s (%d function(s) of the original read, %d from %s)' % (
+        len(bad), ('; %d caller file(s) declare the other type and use the value' % len(callers)) if '--callers' in argv else '',
+        STATS['read'], STATS['cached'], CACHE))
     if bad:
         sys.exit('[ERROR] a function declared with the wrong result type passes equiv.py and hands its callers a leftover register: fix the declaration (and the return expression) by hand')
 

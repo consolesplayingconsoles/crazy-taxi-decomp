@@ -17,6 +17,7 @@ import toolpath  # noqa: E402,F401
 import os
 import shutil
 import struct
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -257,6 +258,20 @@ def add(gdi, path, data):
           % (path, len(data), start, sector))
 
 
+def copy_track(src, dst):
+    """A copy of a track file for the new disc. On macOS (APFS) `cp -c` clones it: no bytes are copied and only the sectors the patch then
+    writes take space, so a 1.2 GB disc is ready at once instead of after two minutes of copying. Another file system, another volume
+    or another OS copies the bytes. Returns 'cloned' or 'copied'."""
+    if sys.platform == 'darwin':
+        r = subprocess.run(['cp', '-c', src, dst], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if r.returncode == 0:
+            return 'cloned'
+        if os.path.exists(dst):
+            os.remove(dst)
+    shutil.copyfile(src, dst)
+    return 'copied'
+
+
 def main():
     if len(sys.argv) < 4:
         raise SystemExit(__doc__)
@@ -268,8 +283,7 @@ def main():
         p = line.split()
         if len(p) >= 6:
             name = " ".join(p[4:-1]).strip('"')
-            print("  copying %s" % name)
-            shutil.copyfile(os.path.join(src, name), os.path.join(out, name))
+            print("  copying %s: %s" % (name, copy_track(os.path.join(src, name), os.path.join(out, name))))
     out_gdi = os.path.join(out, os.path.basename(gdi))
     shutil.copyfile(gdi, out_gdi)
     disc = gdi_read.Disc(out_gdi)
