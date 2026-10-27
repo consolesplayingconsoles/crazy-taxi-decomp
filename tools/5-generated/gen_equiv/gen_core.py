@@ -489,6 +489,29 @@ def def_stack_words(fname):
                 if w: _DEFSW.setdefault(m.group(1),w[0])
     return _DEFSW.get(fname,0)
 
+_DEFTOT=None
+def def_stack_total(fname):
+    """Every word a function's definition in src/ takes from the stack: its structures by value and its integers past r4-r7 (floats
+    past fr11 too), in any order (winPartsPut: four ints, Stk3, int is 4). 0 when it has no definition."""
+    global _DEFTOT
+    if _DEFTOT is None:
+        _DEFTOT={}
+        for f in glob.glob('src/*.c'):
+            txt=open(f,errors='replace').read()
+            for m in re.finditer(r'^[A-Za-z_][\w \*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\n\{',txt,re.M):
+                ni=nf=w=0
+                for x in m.group(2).split(','):
+                    x=x.strip(); k=re.match(r'Stk(\d+)\s+\w+$',x)
+                    if not x or x=='void': continue
+                    if k: w+=int(k.group(1))
+                    elif re.match(r'(float|double)\b',x) and '*' not in x:
+                        nf+=1; w+=1 if nf>8 else 0
+                    else:
+                        ni+=1; w+=1 if ni>4 else 0
+                _DEFTOT.setdefault(m.group(1),w)
+    return _DEFTOT.get(fname,0)
+
+
 def int_stack_words(fname):
     """Plain int words a callee takes past r4-r7: what its code reads above its frame (callee_stack_words), else what its definition in
     src/ declares past the fourth integer parameter (`int a4, ..., int a7, int a8` is 1). 0 for a definition taking a `Stk` structure
@@ -1203,6 +1226,16 @@ def _run(name,passthru=False,frame=False,flat=False):
         # is an assignment of the structure (vecMake's callers, Virtua Tennis)
         sret=0 if ind else def_struct_ret(fname)
         if sret and not (len(c.pend)==1 and not isfp(c.pend[0])): sret=0
+        # words pushed before a structure copied to SP for this call sit above it on the stack: arguments after the structure, when the
+        # callee takes more stack words than the structures hold (winDrawA -> winPartsPut, Virtua Tennis: an int pushed, then a point
+        # copied below it). Not a spill, and not before the structure in the argument list
+        post=[]
+        sa0=getattr(c,'sarg',None)
+        if c.pend and sa0 and sa0[2]==c.D and not ind and not sret:
+            byD0={s_[2]:s_ for s_ in getattr(c,'sargs',[])}; d0=c.D; cw=0
+            while d0 in byD0: cw+=byD0[d0][0]; d0-=4*byD0[d0][0]
+            if max(nsw,def_stack_total(fname))>cw:
+                k0=min(len(c.pend),max(nsw,def_stack_total(fname))-cw); post=list(reversed(c.pend))[:k0]; c.pend=c.pend[:len(c.pend)-k0]
         cleanup=(isadd(after) and (not teardown(after2) or (bool(c.pend) and c.D-4*len(c.pend)>=getattr(c,'pro_D',0)))) or (bool(after) and (after[0] in ('bra','bsr') or after[0].startswith(('bt','bf'))) and isadd(after2))   # arguments are dropped right after the call, or in the delay slot of the branch after it
         spill=bool(c.pend) and not cleanup and not own_stack and not sret and not ind_variadic_hint(fname) and ((bool(ar) and ar[0]<=4) or (ar is None and not ind_variadic_hint(fname)))    # a callee taking at most four integer arguments (or one whose arity is unknown, a pointer or an unnamed prototype) and no cleanup: what is on the stack was saved, not passed
         positional=not c.pend and not ind and int_stack_words(fname)      # stack words written through the frame, none pushed: r4-r7 come
@@ -1289,6 +1322,9 @@ def _run(name,passthru=False,frame=False,flat=False):
         c.sargs=[]
         if chain and not ind and not hidden and not variadic_seen(types):
             for s_ in chain: args.append('*(Stk%d *)(%s)'%(s_[0],s_[1])); types.append('Stk%d'%s_[0])       # by value, after the integer arguments
+            for v in post:
+                if isfp(v): args.append(fx(v[1])); types.append('float')
+                else: args.append(ex(v)); types.append('int')
         elif not sa and not pushed and not ind and not hidden and not variadic_seen(types) and not tail and def_stack_words(fname):
             # nothing pushed and nothing copied to SP, but the callee's definition takes words from the stack: it reads the caller's own frame
             # at SP (a debug print called without its pushed arguments). The frame the C keeps holds the same words
