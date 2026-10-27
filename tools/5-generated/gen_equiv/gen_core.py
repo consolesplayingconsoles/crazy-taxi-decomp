@@ -1109,8 +1109,8 @@ def _run(name,passthru=False,frame=False,flat=False):
         try:
             # the argument is the copy at SP, the bytes the callee receives: not the source, whose register (a C variable in the flat and
             # loop forms) can be reused before the call (hudFontNumPut, Virtua Tennis: r2 held the point, then the callee's address)
-            if n%4==0 and 4<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D):
-                c.sarg=(n//4,ex(d),c.D)
+            if 1<=n<=256 and ex(d)=='((int)stk + @@F:%d@@)'%(-c.D):        # a size short of whole words fills its last one (three
+                c.sarg=((n+3)//4,ex(d),c.D)                                  # shorts: miniTargetInit -> bodyCreate, Virtua Tennis)
                 c.sargs=[s_ for s_ in getattr(c,'sargs',[]) if s_[2]!=c.D]+[c.sarg]      # every structure copied to SP: two by value (cpuLineXAtZ)
         except Exception: pass
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
@@ -1174,6 +1174,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 note_sarg(n,d,sr); note_span(n,d,sr)
             elif isint(n) and n<=64:
                 for off in range(n): store('b',addr_expr(d,off),load('b',addr_expr(sr,off)))
+                if fname=='_slow_mvn': note_sarg(n,d,sr)      # a small structure copied to SP byte by byte is passed by value too
             else:                                   # any other length: a byte loop
                 k=fresh(False)
                 emit('int %s = 0;'%k)
@@ -1244,6 +1245,18 @@ def _run(name,passthru=False,frame=False,flat=False):
             c.sarg=(len(c.pend)+sa0[0],'((int)stk + @@F:%d@@)'%(-c.D),c.D)
             c.sargs=[s_ for s_ in getattr(c,'sargs',[]) if s_[2]!=sa0[2]]+[c.sarg]
             c.pend=[]
+        # the same when the definition takes those words as plain ints past a7: the words pushed and the structures copied to SP, all in
+        # the frame (a push is stored there too), are its stack arguments, read from the frame (miniTargetInit -> bodyCreate, Virtua
+        # Tennis: a pointer pushed in the delay slot below a point and three shorts; the C passed the pointer alone)
+        fromframe=False
+        isw=0 if (ind or dsw) else max(int_stack_words(fname),def_stack_total(fname))      # every word the definition takes, not
+                                                 # only those its code reads directly (bodyCreate reads two of its five)
+        if isw and not sret and c.pend and not any(isfp(v) for v in c.pend):
+            byD1={s_[2]:s_ for s_ in getattr(c,'sargs',[])}; d1=c.D-4*len(c.pend); cw1=0
+            while d1 in byD1: cw1+=byD1[d1][0]; d1-=4*byD1[d1][0]
+            if cw1 and len(c.pend)+cw1>=isw:
+                if not c.frame: raise Skip('stack words of the callee read from the frame')
+                c.pend=[]; c.sarg=None; c.sargs=[]; fromframe=True
         post=[]
         sa0=getattr(c,'sarg',None)
         if c.pend and sa0 and sa0[2]==c.D and not ind and not sret:
@@ -1346,13 +1359,13 @@ def _run(name,passthru=False,frame=False,flat=False):
             if not c.frame: raise Skip('stack words of the callee read from the frame')      # the first reading keeps the stack symbolic: read again with the frame as an array
             n_=def_stack_words(fname); args.append('*(Stk%d *)((int)stk + @@F:%d@@)'%(n_,-c.D)); types.append('Stk%d'%n_)
         elif (not sa and not pushed and not ind and not hidden and not variadic_seen(types) and not tail and ia==list(range(4,4+len(ia)))
-              and (len(ia)==4 or c.pcalls) and not fa and int_stack_words(fname)):
+              and (len(ia)==4 or c.pcalls or fromframe) and (not fa or fromframe) and int_stack_words(fname)):
             # the same with a definition that takes its stack words as plain ints past a7 (adxf_read_sj32 -> ADXERR_CallErrFunc, Crazy Taxi).
             # r4-r7 are then positional: after an earlier call one not set here is a leftover and goes as 0, as for pushed words (stackclobberfn)
             if not c.frame: raise Skip('stack words of the callee read from the frame')
             for n in range(4+len(ia),8):
                 args.append('0x0'); types.append('int')
-            for k_ in range(int_stack_words(fname)):
+            for k_ in range(isw if fromframe else int_stack_words(fname)):
                 args.append('*(int *)((int)stk + @@F:%d@@%s)'%(-c.D,' + %d'%(4*k_) if k_ else '')); types.append('int')
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         if hidden and not sret: args.append(hidden); types.append('...')

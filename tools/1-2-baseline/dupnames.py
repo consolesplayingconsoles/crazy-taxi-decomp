@@ -9,12 +9,18 @@ one of them. For each name used more than once:
   the name;
   any further body with the same name (a library function linked twice) gets its address as a suffix: <name>_<address>;
   two entries at the same address are only reported: which size is right needs a decision.
+With --apply, src/ follows: a call to the name (or through a cast of it) in a C function goes to the copy that function's original
+calls, when it calls one of them only. A definition keeps the name: the first copy (the one a name lookup found) is renamed only when
+it is a stub, and a stub runs into the body the C was written for (Virtua Tennis mwRnaErrEntryFunc).
 Without --apply it prints what it would change. Exits 1 when a duplicate is left (two entries at one address).
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import collections
+import glob
+import os
+import re
 import struct
 import sys
 
@@ -28,6 +34,64 @@ def is_stub(exe, base, a, s):
     return 'jmp' in ops or 'bra' in ops
 
 
+HEAD = re.compile(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', re.M)
+MASK = 0x1FFFFFFF
+
+
+def call_targets(exe, base, a, s):
+    """The addresses a function's code loads from its literal pool (mov.l @(disp,pc),rN: a jsr's target) or reaches by bsr."""
+    out = set()
+    for x in range(a, a + s, 2):
+        if x - base + 2 > len(exe):
+            break
+        w = struct.unpack_from('<H', exe, x - base)[0]
+        if w >> 12 == 0xD:
+            lit = (x & ~3) + 4 + 4 * (w & 0xFF)
+            if 0 <= lit - base <= len(exe) - 4:
+                out.add(struct.unpack_from('<I', exe, lit - base)[0] & MASK)
+        elif w >> 12 == 0xB:
+            d = w & 0xFFF
+            out.add((x + 4 + 2 * (d - 0x1000 if d & 0x800 else d)) & MASK)
+    return out
+
+
+def follow_sources(dups, first_addr, exe, base):
+    """dups: {name: [(address, final name)] in functions.txt order}. Rewrites src/ as the module notes say; returns the changes."""
+    done = []
+    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+        text = open(path, errors='replace').read(); orig = text
+        need = {}
+        pos = 0; out = []
+        for m in HEAD.finditer(text):
+            if m.start() < pos:
+                continue
+            end = re.compile(r'^\}', re.M).search(text, m.end())
+            end = end.end() if end else len(text)
+            fn, chunk = m.group(1), text[m.start():end]
+            if fn not in dups:
+                for n, ents in dups.items():
+                    if not re.search(r'\b%s\b' % re.escape(n), chunk[chunk.index('{'):]) or fn not in first_addr:      # a call, or one through a cast
+                        continue
+                    tg = call_targets(exe, base, *first_addr[fn])
+                    hit = [f for a, f in ents if a & MASK in tg]
+                    if len(hit) == 1 and hit[0] != n:
+                        head_end = chunk.index('{')
+                        chunk = chunk[:head_end] + re.sub(r'\b%s\b' % re.escape(n), hit[0], chunk[head_end:])
+                        need[hit[0]] = n
+                        done.append('%s: %s calls %s' % (path, fn, hit[0]))
+                    elif len(hit) > 1:
+                        done.append('%s: %s calls more than one %s: left as is' % (path, fn, n))
+            out.append(text[pos:m.start()] + chunk); pos = end
+        text = ''.join(out) + text[pos:]
+        for new, n in need.items():                     # a prototype for the new name, next to the old one's
+            pm = re.search(r'^(?![ \t])([^\n{}(]*?\b)%s(\([^\n]*\);)$' % re.escape(n), text, re.M)        # a top-level line
+            if pm and not re.search(r'^(?![ \t])[^\n{}(]*\b%s\([^\n]*\);$' % re.escape(new), text, re.M):
+                text = text[:pm.end()] + '\n' + pm.group(1) + new + pm.group(2) + text[pm.end():]
+        if text != orig:
+            open(path, 'w').write(text)
+    return done
+
+
 def main():
     apply = '--apply' in sys.argv
     exe = open('1ST_READ.BIN', 'rb').read()
@@ -39,6 +103,12 @@ def main():
         if len(p) >= 4 and p[0] == 'F':
             by[p[3]].append((i, int(p[1], 16), int(p[2])))
     names = {p.split()[3] for p in lines if p.startswith('F ') and len(p.split()) >= 4}
+    first_addr = {}
+    for l in lines:
+        p = l.split()
+        if len(p) >= 4 and p[0] == 'F':
+            first_addr.setdefault(p[3], (int(p[1], 16), int(p[2])))
+    dups = {}
     left = 0
     for n, ents in sorted(by.items()):
         if len(ents) < 2:
@@ -64,9 +134,13 @@ def main():
             p[3] = nm
             lines[i] = ' '.join(p)
             names.add(nm)
+        if new:
+            dups[n] = [(a, new.get(i, n)) for i, a, s in ents]
     if apply:
         open('functions.txt', 'w').write('\n'.join(lines))
         print('functions.txt written')
+        for d in follow_sources(dups, first_addr, exe, base):
+            print(d)
     sys.exit(1 if left else 0)
 
 

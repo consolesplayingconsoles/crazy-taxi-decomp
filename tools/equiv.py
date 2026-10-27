@@ -492,7 +492,8 @@ def same_bufs(xs, ys, xv, yv):
             if k >= len(xv[i][1]) or xv[i][1][k] != 'STACK' or k >= len(yv[i][1]) or yv[i][1][k] != 'STACK':
                 continue
             for o, (vx, vy) in enumerate(zip(bx[r], by[r])):
-                if vx != vy:
+                if vx != vy and not (stackish('%08X' % vx) == 'STACK' == stackish('%08X' % vy)):    # a stack address: the frames differ
+                    # (nlSetBackColorZ -> kmSetBackGroundPlane, Virtua Tennis), as for an argument
                     return 'calls: call %d (%s) buffer %s+%d: original %08X / C %08X' % (i + 1, xv[i][0], r, 4 * o, vx, vy)
     return ''
 
