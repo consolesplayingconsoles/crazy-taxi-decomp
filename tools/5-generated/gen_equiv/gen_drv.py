@@ -274,6 +274,12 @@ def _argc(t):
     n=G.FUNCS.get(G.canon(t)) if hasattr(G,'canon') else G.FUNCS.get(t)
     a=G.callee_arity(n) if n else None
     return a[0] if a else None
+def stack_moved(devs,devs2,shift,reads2=()):
+    """An access outside RAM made from the stack, not a hardware register: run again with the stack `shift` lower, the same access is at
+    its address minus `shift`, as an access outside RAM again (a local table read at a huge index, rankDrawCharaIcon) or as an ordinary
+    read inside the stack (a table read just past its end, above the stack's top: kmProcessVertexRenderState). A register does not move."""
+    at2={int(b[1],16)&0x1FFFFFFF for b in devs2}|{a&0x1FFFFFFF for a in reads2}
+    return any(((int(a[1],16)-shift)&0x1FFFFFFF) in at2 and (int(a[1],16)&0x1FFFFFFF) not in at2 for a in devs)
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -300,6 +306,13 @@ def original_runs(name,case):
         ERRS[str(r['error'])[:70]]=ERRS.get(str(r['error'])[:70],0)+1
         return None,set()
     if r.get('devices') and not HW[0]: return None,set()      # a wild pointer reached memory the function never names (a null pointer, a random word): not a case
+    if r.get('devices') and HW[0]:              # a function that touches hardware: an access outside RAM that moves with the stack is a local
+        top=int(case.get('regs',{}).get('r15','%X'%(sh4sim.STACK_TOP-0x100)),16)       # table read out of range, no game input (rankDrawCharaIcon)
+        c2=dict(case,regs=dict(case.get('regs',{}),r15='%08X'%(top-0x300)))
+        r2=sh4sim.run(dict(c2,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+        if not r2['error'] and stack_moved(r['devices'],r2.get('devices',[]),0x300,r2.get('reads',[])):
+            ERRS['reaches outside RAM through the stack']=ERRS.get('reaches outside RAM through the stack',0)+1
+            return None,set()
     return r['steps'],set(r.get('covered',[]))
 def grow(name,runs,V,rng,HOT,budget=int(os.environ.get('GEN_BUDGET','1200'))):
     """Coverage-guided growth: take one of the cases that reach the most code, change one input (a word in memory, a register, the

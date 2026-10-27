@@ -12,6 +12,8 @@ and the linker messages of a branch that no longer reaches. Stdlib only; used by
                                      without optimizing first, where parts filled for the optimized sizes overlap; see overlaps()
     overlaps(elf bytes)              loadable segments of the linked file that overlap (what makes a link that did not fit)
 """
+import json
+import os
 import re
 
 ROW = re.compile(r"^(\w+)?[ \t]+H'([0-9A-F]{8})[ \t]+-[ \t]+H'([0-9A-F]{8})[ \t]+H'([0-9A-F]{8})", re.M)
@@ -87,3 +89,24 @@ def overlaps(elf):
     segs.sort()
     return [(a, b) for a, b in zip(segs, segs[1:]) if b[0] < a[1]]
 
+
+
+def save_ratios(path, ratios):
+    """Keep the ratios a link measured ([plain bytes a part], [linked bytes a part]) for the next build's first layout, written whole."""
+    os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    tmp = '%s.tmp%d' % (path, os.getpid())
+    with open(tmp, 'w') as f:
+        json.dump({'plain': list(ratios[0]), 'linked': list(ratios[1])}, f)
+    os.replace(tmp, path)
+
+
+def load_ratios(path):
+    """What save_ratios kept, as ([plain], [linked]), or None when there is nothing usable (no file, not a pair of positive numbers each)."""
+    try:
+        d = json.load(open(path))
+        plain, linked = [float(x) for x in d['plain']], [float(x) for x in d['linked']]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    if len(plain) != 2 or len(linked) != 2 or min(plain + linked) <= 0:
+        return None
+    return plain, linked

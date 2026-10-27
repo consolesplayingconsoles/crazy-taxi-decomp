@@ -706,6 +706,10 @@ def fit_build():
     optimized = OPTIMIZE and os.path.exists(OUT + '/opt.json')
     ratios, guess = None, list(MARGINS if optimized else (1.0,))
     margin = guess.pop(0)
+    seed = os.path.join(buildcache.CACHE, 'fit.json')             # the last build's measured ratios (outside build/cbuild, which a prep clears)
+    if optimized and fitmod.load_ratios(seed):
+        ratios, margin = fitmod.load_ratios(seed), MEASURED_MARGIN     # start from what a link measured: a small change fits at once
+        print('fit: starting from the last build\'s measured ratios')
     for attempt in range(FIT_TRIES if optimized else 1):
         if attempt:
             if ratios:
@@ -730,15 +734,19 @@ def fit_build():
         ov = fitmod.overlaps(open(OUT + '/game.elf', 'rb').read()) if os.path.exists(OUT + '/game.elf') else [('no ELF', '')]
         if ov:
             print('  overlapping segments in the linked file: %s' % ov[:3])
-        if ok and not miss and not bad and not ov and os.path.exists(OUT + '/game.bin'):
-            print('fits: the game block lies in the original space')
-            return
         if 'PB1' in secs and 'PB2' in secs:           # each part's own ratio, from what this link made of it, for the next layout
             sizes = module_sizes(OUT + '/prelim.map')
             parts = json.load(open(OUT + '/layout.json'))['parts']
             plain = [sum(r4(sizes.get(x, 0)) for x in parts[k]) for k in (0, 1)]
-            ratios = (plain, [secs['PB1'][2], secs['PB2'][2]])
-            print('  measured: part 1 %d plain -> %d, part 2 %d plain -> %d' % (plain[0], ratios[1][0], plain[1], ratios[1][1]))
+            measured = (plain, [secs['PB1'][2], secs['PB2'][2]])
+            print('  measured: part 1 %d plain -> %d, part 2 %d plain -> %d' % (plain[0], measured[1][0], plain[1], measured[1][1]))
+            if min(plain + measured[1]) > 0:
+                ratios = measured
+                if ok and not miss and not bad and not ov:
+                    fitmod.save_ratios(seed, measured)    # only a fit that held is worth starting from
+        if ok and not miss and not bad and not ov and os.path.exists(OUT + '/game.bin'):
+            print('fits: the game block lies in the original space')
+            return
     sys.exit('[ERROR] the game block does not fit the original space')
 
 
