@@ -41,6 +41,7 @@ class _Tee:                                  # everything the run prints also go
     def flush(self): self.out.flush(); self.f.flush()
 if os.path.isdir('build') and not any(a in sys.argv for a in ('--draw','--retest')):
     ledger.rotate(LOG,'run'); sys.stdout=_Tee(open(LOG,'w'))
+import stamp; sys.stdout=stamp.Stamp(sys.stdout)       # each line ends with the wall-clock time: the last line says how long ago it was
 def note(msg): print('[%4ds] %s'%(time.time()-T0,msg),flush=True)
 import gen_pipe,gen_drv,gen_core
 class Timeout(Exception): pass

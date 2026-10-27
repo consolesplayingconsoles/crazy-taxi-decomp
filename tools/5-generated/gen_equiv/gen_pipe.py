@@ -89,6 +89,7 @@ def _split(stem,use,deferred,dropped,out):
 def run_file_robust(stem,items):
     items=list(items); dropped=[]
     while True:
+        if not items: return [],[],[],dropped,''        # every function dropped as not compiling: nothing left to check
         gs=compatible_groups(items)
         use=gs[0]; deferred=[it for g in gs[1:] for it in g]
         head='/* scratch */\n'+gen_drv.head_protos(use)+'\n\n'
