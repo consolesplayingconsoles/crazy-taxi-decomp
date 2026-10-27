@@ -41,7 +41,7 @@ def save(item, outcome, detail, run, variant=0, passthru=False):
     name, src, cases, protos, stats = (list(item) + [None])[:5]
     os.makedirs(KEPT, exist_ok=True)
     rec = {'function': name, 'c': src, 'cases': cases, 'protos': {k: list(v) for k, v in protos.items()}, 'stats': stats,
-           'outcome': outcome, 'detail': detail[:600], 'run': run, 'variant': variant, 'passthru': passthru, 'tools': tool_versions()}
+           'outcome': outcome, 'detail': detail, 'run': run, 'variant': variant, 'passthru': passthru, 'tools': tool_versions()}
     json.dump(rec, open('%s/%s.json' % (KEPT, name), 'w'))
 
 
@@ -86,7 +86,7 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
                 src, c = gen_drv.build(n, vs[rec.get('variant', 0)], rec.get('passthru', False))
                 protos = c.protos
             except Exception as e:
-                note('%s: cannot be written again: %s %s' % (n, type(e).__name__, str(e)[:80]))
+                note('%s: cannot be written again: %s %s' % (n, type(e).__name__, str(e)))
                 continue
         items.append((n, src, rec['cases'], protos, rec.get('stats')))
         kept_rec[n] = rec

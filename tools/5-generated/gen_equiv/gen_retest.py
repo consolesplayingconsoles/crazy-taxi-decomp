@@ -32,7 +32,7 @@ def main(batches):
                 s,c=gen_drv.build(fn,vs[0],False)
                 new[fn]=gen_drv.tests(fn,c,s)
             except Exception as e:
-                print('  keep old cases',fn,type(e).__name__,str(e)[:60],flush=True)
+                print('  keep old cases',fn,type(e).__name__,str(e),flush=True)
             finally: signal.alarm(0)
         for fn,t in new.items():
             ledger.archive_cases(fn,'tests/%s/%s.json'%(b,fn),'redrawn')
@@ -80,7 +80,7 @@ def lift(names):
                 t=gen_drv.tests(fn,c,s)
                 ledger.archive_cases(fn,p,'lifted'); shutil.copy(p,p+'.old'); json.dump(t,open(p,'w'),indent=1); n_new+=1
             except Exception as e:
-                print('  keep old cases',fn,type(e).__name__,str(e)[:60],flush=True)
+                print('  keep old cases',fn,type(e).__name__,str(e),flush=True)
             finally: signal.alarm(0)
         if n_new:
             r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%stem],capture_output=True,text=True)

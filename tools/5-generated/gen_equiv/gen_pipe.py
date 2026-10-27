@@ -75,7 +75,7 @@ def _split(stem,use,deferred,dropped,out):
     """A batch that failed as a whole (a link error, a compile error no line traces): each half is checked on its own, down to the one
     function that fails, which is dropped with the error, so every other function still gets its verdict (Zombie Revenge: 456
     functions in 15 batches had none, "undefined _quick_evn_mvn")"""
-    err=out.strip().splitlines()[0][:160] if out.strip() else 'failed'
+    err=out.strip().splitlines()[0] if out.strip() else 'failed'
     if len(use)<=1:
         for it in use: LAST.setdefault('why',{})[it[0]]=err
         rest=run_file_robust(stem,deferred) if deferred else ([],[],[],[],'')
@@ -115,7 +115,7 @@ def run_file_robust(stem,items):
                 for a_,b_,n_ in spans:
                     if a_<=ln<b_ and n_ in bad:
                         m_=re.search(r'gen_\w+\.c\(%d\) : (.*)'%ln,out)
-                        LAST.setdefault('why',{}).setdefault(n_,(m_.group(1) if m_ else '?')[:100]+' [line %d: %s]'%(ln,text.split('\n')[ln-1].strip()[:80]))
+                        LAST.setdefault('why',{}).setdefault(n_,(m_.group(1) if m_ else '?')+' [line %d: %s]'%(ln,text.split('\n')[ln-1].strip()))
             items=[it for it in items if it[0] not in bad]; dropped+=sorted(bad); continue
         if out.startswith('[ERROR') : return _split(stem,use,deferred,dropped,out)
         passed=[];failed=[]

@@ -357,8 +357,9 @@ def used_definitions():
 
 def compared_arity(cfile, table):
     """What each call out is compared on: ({address: (integer, float) register arguments}, {address: arguments on the stack}).
-    The caller's file's prototype, raised to the callee's own definition in src/: a call that passes fewer than the callee takes
-    fails, wherever the caller's file declares fewer (the build links every caller against that one definition)."""
+    A callee defined in src/ is compared on the registers its definition takes (the build links every caller against that one
+    definition): a call that passes fewer fails, and registers past them are leftovers, whatever the caller's file declares. A
+    callee with no definition is compared on the caller's prototype, or on every register when there is none."""
     canon = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t      # callview looks a call up by this address: a game linked at 8C... (the cached mirror) keys the same
     arity = {canon(table[n]): a for n, a in prototypes(cfile).items() if n in table}
     stackn = {canon(table[n]): k for n, k in stack_args(cfile).items() if n in table and k}
@@ -369,14 +370,13 @@ def compared_arity(cfile, table):
         if sw:                                # the stack words the callee reads are compared whatever the caller's file declares
             stackn[key] = max(stackn.get(key, 0), min(sw, 4))
         a = arity.get(key)
-        if a is None:
-            continue                          # no prototype here: every register is compared
+        if a is None or len(a) <= 2:          # the definition says which registers the callee reads: the others are leftovers, whatever the
+            arity[key] = (min(ni, 4), min(nf, 8))      # caller's file declares (more, or no prototype: Virtua Tennis effFootDust -> vecSub(Stk5),
+            continue                                    # r4 a stack pointer in the original, 0 in the C); a call passing fewer still fails
         if len(a) > 2:                        # a variadic prototype in the caller's file: the definition says what the callee takes,
             ui, uf, usw = used_definitions().get(n, (ni, nf, sw))      # counting only the parameters its body reads (a printf-style
             arity[key] = (min(ui, 4), min(uf, 8))                      # function reads its stack word and none of r4-r7)
             stackn[key] = max(stackn.get(key, 0), min(usw, 4)) if usw else stackn.get(key, 0)
-            continue
-        arity[key] = (max(a[0], min(ni, 4)), max(a[1], min(nf, 8)))
     return arity, stackn
 
 

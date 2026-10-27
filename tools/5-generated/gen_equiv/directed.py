@@ -298,7 +298,7 @@ def extend(name, sets, start, size, base, deep):
                         WHY.append((pc, 'value %s cannot be set at %s' % (cand, prov[0]))); continue
                     r2 = run_case(nc, name, start, size, base, deep, True)
                     if r2['error']:
-                        WHY.append((pc, 'flipped case errors: %s' % str(r2['error'])[:40])); continue
+                        WHY.append((pc, 'flipped case errors: %s' % str(r2['error']))); continue
                     gain = set(r2.get('covered', [])) - covered
                     if not gain: WHY.append((pc, 'flipped (%s %s) but no new instruction ran' % (prov[0], cand)))
                     if gain and len(new) < MAX_NEW:
@@ -382,7 +382,7 @@ def main(names, runtime, funcs):
             try:
                 new, b, a = extend(n, sets, start, size, base, deep)
             except Exception as e:
-                new, b, a = [], 0, 0; ledger.record('direct', n, 'error', '%s %s' % (type(e).__name__, str(e)[:80]))
+                new, b, a = [], 0, 0; ledger.record('direct', n, 'error', '%s %s' % (type(e).__name__, str(e)))
             done += 1
             print('[%4ds] directed: %d of %d functions | %s: %d new cases, instructions run %d -> %d' % (time.time() - t0, done, total_fn, n, len(new), b, a), flush=True)
             if os.environ.get('DIRECT_WHY'):                # a dry look: say why the branches stayed one-sided, change nothing

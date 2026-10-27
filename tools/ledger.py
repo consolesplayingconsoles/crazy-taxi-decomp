@@ -25,7 +25,7 @@ def record(run, fn, outcome, detail=''):
     try:
         os.makedirs('state', exist_ok=True)
         with open('state/results.jsonl', 'a') as fh:
-            fh.write(json.dumps({'t': time.strftime('%Y-%m-%dT%H:%M:%S'), 'run': run, 'fn': fn, 'outcome': outcome, 'detail': str(detail)[:400]}) + '\n')
+            fh.write(json.dumps({'t': time.strftime('%Y-%m-%dT%H:%M:%S'), 'run': run, 'fn': fn, 'outcome': outcome, 'detail': str(detail)}) + '\n')
     except OSError:
         pass
 

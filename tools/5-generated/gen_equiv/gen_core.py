@@ -673,6 +673,8 @@ def _run(name,passthru=False,frame=False,flat=False):
             if isinstance(v,tuple) and v[0]=='e' and re.fullmatch(r'[tR]\d+',v[1]):
                 # a variable the code may assign again before the pop (a loop's register variable): the word holds its value now
                 t=fresh(False); emit('int %s = %s;'%(t,v[1])); v=('e',t)
+            if c.frame: emit('*(int *)((int)stk + @@F:%d@@) = %s;'%(-c.D,ex(v)))      # in the frame too, as a float push is: a call that reads its
+                                                 # structure from the frame at SP reads the word there (hudFadeNearPlayers -> camWorldToView)
             c.pend.append(v); return
         if mn=='fmov.s' and a[0].startswith('fr') and a[1]=='@-r15':
             n=int(a[0][2:])
@@ -1229,6 +1231,19 @@ def _run(name,passthru=False,frame=False,flat=False):
         # words pushed before a structure copied to SP for this call sit above it on the stack: arguments after the structure, when the
         # callee takes more stack words than the structures hold (winDrawA -> winPartsPut, Virtua Tennis: an int pushed, then a point
         # copied below it). Not a spill, and not before the structure in the argument list
+        # words pushed after a structure was copied to SP sit below it: the leading words of one structure by value, when the callee's
+        # definition takes a structure that holds both (hudFadeNearPlayers -> camWorldToView(Stk4), footMarkCheck -> vecSub(Stk5), Virtua
+        # Tennis: the result pointer pushed in the call's delay slot was taken for a spill, and word 0 of the structure was never set)
+        sa0=getattr(c,'sarg',None)
+        dsw=0 if ind else def_stack_words(fname)
+        if (c.pend and sa0 and not ind and not sret and sa0[2]==c.D-4*len(c.pend) and not any(isfp(v) for v in c.pend)
+                and dsw>=len(c.pend)+sa0[0]):
+            if not c.frame: raise Skip('stack words of the callee read from the frame')      # the first reading keeps the stack symbolic: read again with the frame as an array
+            for k_,v in enumerate(reversed(c.pend)):
+                c.blocks[-1].append('*(int *)((int)stk + @@F:%d@@) = %s;'%(-(c.D-4*k_),ex(v)))
+            c.sarg=(len(c.pend)+sa0[0],'((int)stk + @@F:%d@@)'%(-c.D),c.D)
+            c.sargs=[s_ for s_ in getattr(c,'sargs',[]) if s_[2]!=sa0[2]]+[c.sarg]
+            c.pend=[]
         post=[]
         sa0=getattr(c,'sarg',None)
         if c.pend and sa0 and sa0[2]==c.D and not ind and not sret:

@@ -144,7 +144,7 @@ def _read(n):
             if 'arg gap' not in str(e): raise
             gen_core.run(n,True); return (n,None)       # a stub that passes its own arguments on
     except Timeout: return (n,'timeout')
-    except gen_core.Skip as e: return (n,re.sub(r'[0-9a-f]{4,}','',str(e).split()[0] if str(e) else '?'))
+    except gen_core.Skip as e: return (n,str(e) or '?')
     except Exception as e: return (n,'EXC '+type(e).__name__)
     finally: signal.alarm(0)
 def stream(fn,names):
@@ -167,7 +167,7 @@ def each(fn,names,what):
 note('reading %d functions with %d workers'%(len(tolook),JOBS))
 for n,why in each(_read,tolook,'read'):
     if why is None: cand.append(n)
-    else: cnt[why]+=1; ledger.record(RUN,n,'cannot read',why)
+    else: cnt[re.sub(r'[0-9a-f]{4,}','',why.split()[0])]+=1; ledger.record(RUN,n,'cannot read',why)      # counted by its first word, recorded whole
 print(len(cand),cnt.most_common(10),flush=True)
 if known:
     # the check of the generator itself: it writes C for functions already proven Equivalent (by hand or by an earlier run)
@@ -194,7 +194,7 @@ def _draw(n):
         c.protos.pop(n,None)               # a function that calls itself: its own definition declares it
         t=gen_drv.tests(n,c,s)
         return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None,secs=round(time.time()-t0,1)))
-    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)[:90]),round(time.time()-t0,1))
+    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)),round(time.time()-t0,1))
     finally: signal.alarm(0)
 rounds=[(0,False)]      # one round: on Crazy Taxi the retry rounds (other code shapes) added nothing and cost as much time again
 done=set()
@@ -241,7 +241,7 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
                 note('round %d batch %d: %d differed only in the return value, %d pass as void'%(ri,bn,len(again),len(p2)))
         finally:
             restore_evidence()
-        print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err[:100],flush=True)
+        print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err,flush=True)
         os.makedirs('state/failed-cases',exist_ok=True)      # the cases of every function that failed, to replay by hand
         for it in items:
             if it[0] in failed:
@@ -254,7 +254,7 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
                     keepstore.save(it,'DIFFERS',' '.join(ln.split()[2:]),RUN,vi,pt)
                 elif it[0] in dropped: keepstore.save(it,'did not compile',gen_pipe.LAST.get('why',{}).get(it[0],''),RUN,vi,pt)
                 elif it[0] in passed: keepstore.drop(it[0])
-            except Exception as e: note('could not keep %s: %s'%(it[0],str(e)[:60]))
+            except Exception as e: note('could not keep %s: %s'%(it[0],str(e)))
         keep=[it for it in items if it[0] in passed]
         with open(FAILED,'a') as fh:        # what failed and the first difference, for whoever improves the generator
             for l in gen_pipe.LAST.get('out','').splitlines():
