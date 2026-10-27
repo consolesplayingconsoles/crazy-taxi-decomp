@@ -116,6 +116,12 @@ def build(name,ret,passthru=False):
             if t2!=text: text=t2; changed=True
         return text
     text=prune(text,decls)
+    # the flat form: a goto to the label right after it falls through, and a label nothing jumps to is not written. SHC takes about 512
+    # labels in a function ("3018 overflow" past ~500: cpuSglHitCheck, cpuChasePlan, cpuDblHitCheck, Virtua Tennis), and half of them
+    # were only reached by the goto just above them
+    text=re.sub(r'goto (L_[0-9A-Fa-f]+);(\s*)\1:;',r'\1:;',text)
+    used_=set(re.findall(r'\bgoto (L_[0-9A-Fa-f]+);',text))
+    text=re.sub(r'^[ \t]*(L_[0-9A-Fa-f]+):;[ \t]*\n',lambda m:m.group(0) if m.group(1) in used_ else '',text,flags=re.M)
     # unused call results: drop the temp
     import collections
     occ=collections.Counter(re.findall(r'\b[A-Za-z_]\w*\b',text))

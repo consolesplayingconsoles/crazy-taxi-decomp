@@ -288,7 +288,7 @@ def extend(name, sets, start, size, base, deep):
                     if which == 'b': continue
                     cands = [c for c in (1, 0xFF, 0x7F, M, 0x80000000, 0) if ((c & M) == 0) != (x & M == 0)]
                 else:
-                    cands = candidates(kind, x, y) if which == 'a' else candidates_b(kind, x, y)
+                    cands = flip_values(kind, which, a, b)
                 for cand in cands:
                     key = (pc, which, prov[0], prov[1], cand if not isf else round(cand, 3))
                     if key in tried: continue
@@ -355,6 +355,45 @@ def candidates_b(kind, a, b):
     return sorted({c & M for c in (a, a + 1, a - 1, 0, 1, 0xFFFFFFFF, 0x7FFFFFFF, 0x80000000) if result(kind, a, c & M) != cur})
 
 
+def out_only(line):
+    """An equiv.py line that differs in the function's return value alone (the registers it returns in), not in calls or memory."""
+    return re.search(r'\bDIFFERS\s+case \d+: out:', line) is not None
+
+
+RETKIND = {'r0': 'int', 'fr0': 'float', 'void': 'void'}
+
+
+def retry_returns(name, path, build, check):
+    """The function written again with each other return kind (build(name, kind) -> its C), in the file at `path`, kept at the first
+    that check() passes, with its prototype in the file; the file as it was, and None, when none passes. Cases that never reach a
+    return with a value pass a void C, and the stronger directed cases then show the return value (cpuSglHitCheck, Virtua Tennis)."""
+    text = open(path).read()
+    m = re.search(r'^(void|int|float)\s+%s\s*\([^;{)]*\)\s*\{' % re.escape(name), text, re.M)
+    if not m:
+        return None
+    end = re.compile(r'^\}', re.M).search(text, m.end())
+    end = end.end() if end else len(text)
+    for kind in [k for k in ('fr0', 'r0', 'void') if RETKIND[k] != m.group(1)]:
+        try:
+            c = build(name, kind).strip('\n')
+        except Exception:
+            continue
+        new = text[:m.start()] + c + text[end:]
+        new = re.sub(r'^(?:void|int|float)\s+%s\s*\([^\n{]*\);$' % re.escape(name), lambda _: c.split('\n')[0] + ';', new, flags=re.M)
+        open(path, 'w').write(new)
+        if check():
+            return kind
+    open(path, 'w').write(text)
+    return None
+
+
+def flip_values(kind, which, a, b):
+    """Values for one operand of the compare `a <kind> b` (which: 'a' or 'b'; the other stays) that make it come out the other way. One
+    place for both callers: the extend loop swapped a and b before asking for the second operand and solved the inverted compare
+    (Virtua Tennis cpuSglHitCheck: 1.0 > Ball+48 got -1.0 for Ball+48, and the branch stayed)."""
+    return candidates(kind, a, b) if which == 'a' else candidates_b(kind, a, b)
+
+
 def main(names, runtime, funcs):
     import fcntl
     import time
@@ -405,6 +444,16 @@ def main(names, runtime, funcs):
                 word = line.split()[1] if len(line.split()) > 1 else 'EQUIVALENT'
                 counts[word] = counts.get(word, 0) + 1
                 ledger.record('direct', n, word, line[len(n):].strip())
+                if word == 'DIFFERS' and out_only(line):       # the return value alone: written again with another return kind, on these cases
+                    import gen_drv
+                    src = 'src/%s.c' % stem
+                    def check_(n=n):
+                        r_ = subprocess.run(['python3', 'tools/equiv.py', src], capture_output=True, text=True)      # every line: -q leaves out a pass
+                        return re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), r_.stdout + r_.stderr, re.M) is not None
+                    kind_ = retry_returns(n, src, lambda n_, k_: gen_drv.build(n_, k_, False)[0], check_)
+                    if kind_:
+                        word = 'EQUIVALENT'; counts['DIFFERS'] -= 1; counts['EQUIVALENT'] = counts.get('EQUIVALENT', 0) + 1
+                        ledger.record('direct', n, 'EQUIVALENT', 'written again returning %s on the directed cases' % RETKIND[kind_])
                 if word == 'DIFFERS':
                     open(path, 'w').write(cur[n])               # keep the old cases; the finding is the difference
                     ledger.record('direct', n, 'DIFFERS on directed cases', line[len(n):].strip())
@@ -476,7 +525,7 @@ def rescue(name, start, size, base, deep, steps=20000):
                         if which == 'b': continue
                         cs = [c_ for c_ in (1, 2, 3, 0xFF, M, 0) if ((c_ & M) == 0) != (x & M == 0)]
                     else:
-                        cs = candidates(kind, x, y) if which == 'a' else candidates_b(kind, y, x)
+                        cs = flip_values(kind, which, x, y) if which == 'a' else flip_values(kind, which, y, x)
                     for cand in cs:
                         key = (pc, which, prov[0], prov[1], cand if not isf else round(cand, 3))
                         if key in tried: continue

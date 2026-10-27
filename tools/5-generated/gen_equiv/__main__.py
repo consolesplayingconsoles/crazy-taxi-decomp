@@ -99,8 +99,8 @@ def write_batch(keep):
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
     r=subprocess.run(['python3','tools/equiv.py','src/%s.c'%fn],capture_output=True,text=True)
-    note('%s: %d functions written, %s'%(fn,len(keep),(r.stdout+r.stderr).strip().splitlines()[-1]))
     bad=gen_pipe.failed_in(r.stdout+r.stderr,[it[0] for it in keep])
+    note('%s: %d functions written, %d EQUIVALENT, %d not'%(fn,len(keep),len(keep)-len(bad),len(bad)))      # equiv.py prints no summary without -q
     if bad:                  # it passed in its batch, not in the file it was written to (a callee's definition changed meanwhile: --regen
         # took it out while the batch ran, hudFadeNearPlayers -> screenProject): it does not stay in src/
         for n in bad:

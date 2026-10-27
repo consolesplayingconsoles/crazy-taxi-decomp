@@ -473,6 +473,12 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
             x = final(x)                 # is the compiler's business (devices keep their order)
             y = final([[fix(w[0])] + w[1:] for w in y])
         if x != y:
+            if k in ('calls', 'writes', 'devices') and isinstance(x, list) and isinstance(y, list):
+                # the first entry that differs, whole: each list cut at SHOW characters lost the entry that differed (cpuChasePlan)
+                i = next((j for j in range(min(len(x), len(y))) if x[j] != y[j]), min(len(x), len(y)))
+                word = {'calls': 'call', 'writes': 'write', 'devices': 'access'}[k]
+                return False, '%s: %s %d/%d: original %s / C %s' % (k, word, i + 1, len(x), json.dumps(x[i]) if i < len(x) else 'none',
+                                                                  json.dumps(y[i]) if i < len(y) else 'none')
             return False, '%s: original %s / C %s' % (k, json.dumps(x)[:SHOW], json.dumps(y)[:SHOW])
         if k == 'calls':
             why = same_bufs(xs, b.get('calls') or [], x, y)
