@@ -245,6 +245,15 @@ def run_case(case, name, start, size, base, deep, trace=False):
     return sh4sim.run(c, '.', deep=deep)
 
 
+def acceptable(case, r, hw, run):
+    """Whether a directed case is an input the game can make, by drawing's own checks: no access outside RAM for a function whose
+    cases touch no hardware (a wild pointer: playerStartReactions, Virtua Tennis, a directed r4 of 4E6E6B28, the C's loads read in
+    another order), and an outcome that does not depend on registers the function never set (unset_dependent)."""
+    if r.get('devices') and not hw:
+        return False
+    return not unset_dependent(case, run)
+
+
 def extend(name, sets, start, size, base, deep):
     """New cases for the function: a list, and the coverage before and after (counts of covered instructions)."""
     cases = sets['dev'] + sets['holdout']
@@ -253,6 +262,7 @@ def extend(name, sets, start, size, base, deep):
     covered = set()
     for r in runs: covered |= set(r.get('covered', []))
     before = len(covered)
+    hw = any(r.get('devices') for r in runs)          # the function's own cases touch hardware: an access outside RAM may be one
     new = []
     tried = set()
     for _ in range(ROUNDS):
@@ -301,6 +311,8 @@ def extend(name, sets, start, size, base, deep):
                         WHY.append((pc, 'flipped case errors: %s' % str(r2['error']))); continue
                     gain = set(r2.get('covered', [])) - covered
                     if not gain: WHY.append((pc, 'flipped (%s %s) but no new instruction ran' % (prov[0], cand)))
+                    if gain and len(new) < MAX_NEW and not acceptable(nc, r2, hw, lambda c_: run_case(c_, name, start, size, base, deep, False)):
+                        WHY.append((pc, 'flipped case is no input the game makes (outside RAM, or registers never set)')); continue
                     if gain and len(new) < MAX_NEW:
                         nc['about'] = 'directed: flips %08X (%s)' % (pc, 'taken' if taken else 'not taken')
                         new.append(nc); cases.append(nc); runs.append(r2); covered |= gain; gained = True
@@ -313,6 +325,8 @@ def extend(name, sets, start, size, base, deep):
                 r2 = run_case(nc, name, start, size, base, deep, True)
                 if r2['error']: continue
                 gain = set(r2.get('covered', [])) - covered
+                if gain and len(new) < MAX_NEW and not acceptable(nc, r2, hw, lambda c_: run_case(c_, name, start, size, base, deep, False)):
+                    continue
                 if gain and len(new) < MAX_NEW:
                     nc['about'] = 'directed: arguments changed together for %08X' % pc
                     new.append(nc); cases.append(nc); runs.append(r2); covered |= gain; gained = True
@@ -676,6 +690,7 @@ def main(names, runtime, funcs):
                         word = 'EQUIVALENT'; counts['DIFFERS'] -= 1; counts['EQUIVALENT'] = counts.get('EQUIVALENT', 0) + 1
                         ledger.record('direct', n, 'EQUIVALENT', 'written again returning %s on the directed cases' % RETKIND[kind_])
                 if word == 'DIFFERS':
+                    ledger.archive_cases(n, path, 'directed-differs')      # the cases that show it, to trace (state/cases-history/)
                     open(path, 'w').write(cur[n])               # keep the old cases; the finding is the difference
                     ledger.record('direct', n, 'DIFFERS on directed cases', line[len(n):].strip())
         finally:
