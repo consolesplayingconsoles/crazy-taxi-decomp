@@ -310,11 +310,15 @@ def mend(name,case,run):
     try:
         import directed
         st,sz=G.SPANS[name]
+        directed.CTX['deep']=lambda t:t in RUNTIME          # calls run inline are not answered by the case: call_index skips them
         fixed=directed.repair(case,run,(0x0C000000|(st&0x1FFFFFFF),0x0C000000|((st+sz)&0x1FFFFFFF)),hw=HW[0])
     except Exception: return False
     if not fixed or fixed==case: return False
-    before=case.get('poke',{})
-    LEARNED[name]={k:v for k,v in fixed.get('poke',{}).items() if before.get(k)!=v}
+    before=case.get('poke',{}); rb=case.get('regs',{}); cb=case.get('calls',[])
+    LEARNED[name]={'poke':{k:v for k,v in fixed.get('poke',{}).items() if before.get(k)!=v},           # memory words, registers and call
+                   'regs':{k:v for k,v in fixed.get('regs',{}).items() if rb.get(k)!=v},             # answers it set (emotFaceReset: an
+                   'calls':{i:{k:v for k,v in e.items() if (cb[i] if i<len(cb) else {}).get(k)!=v}      # index argument, a call's answer)
+                            for i,e in enumerate(fixed.get('calls',[]))}}
     case.clear(); case.update(fixed)
     ERRS['repaired at the source']=ERRS.get('repaired at the source',0)+1
     return True
@@ -330,7 +334,13 @@ def original_runs(name,case,_mended=False):
     base=int(open('BASE').read().strip(),16)
     run=lambda c,trace=False: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60),trace=trace),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     if LEARNED.get(name) and not _mended:          # what an earlier repair set, tried first: kept when the original then ends cleanly
-        c2=dict(case,poke=dict(case.get('poke',{}),**LEARNED[name]))
+        L=LEARNED[name]; calls=[dict(e) for e in case.get('calls',[])]
+        for i,e in L['calls'].items():
+            if not e: continue
+            while len(calls)<=i: calls.append({})
+            calls[i].update(e)
+        c2=dict(case,poke=dict(case.get('poke',{}),**L['poke']),regs=dict(case.get('regs',{}),**L['regs']))
+        if calls: c2['calls']=calls
         r=run(c2)
         if not r['error'] and not (r.get('devices') and not HW[0]):
             case.clear(); case.update(c2)

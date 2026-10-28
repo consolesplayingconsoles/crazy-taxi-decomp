@@ -38,6 +38,81 @@ def succ_of(ins, addr2idx, i, switches=None):
     return [EXIT if s >= len(ins) else s for s in out]
 
 
+def _idom(nodes, root, succ, pred):
+    """Immediate dominators of the nodes reachable from root (Cooper, Harvey, Kennedy, "A Simple, Fast Dominance Algorithm"): {node:
+    idom}, root's own None. The set equations it replaces held every node's whole dominator set: playerControl (Virtua Tennis, 21 KB,
+    about 10,000 nodes) never finished them in 5 minutes."""
+    order, seen, stack = [], {root}, [(root, iter(succ.get(root, ())))]
+    while stack:                                  # postorder, iteratively (a deep function overflows recursion)
+        n, it = stack[-1]
+        for t in it:
+            if t not in seen and t in succ:
+                seen.add(t)
+                stack.append((t, iter(succ[t])))
+                break
+        else:
+            order.append(n)
+            stack.pop()
+    po = {n: i for i, n in enumerate(order)}
+    idom = {root: root}
+    rpo = order[::-1]
+    ch = True
+    while ch:
+        ch = False
+        for n in rpo:
+            if n == root:
+                continue
+            new = None
+            for p in pred.get(n, ()):
+                if p not in idom:
+                    continue
+                if new is None:
+                    new = p
+                    continue
+                a, b = p, new
+                while a != b:
+                    while po[a] < po[b]:
+                        a = idom[a]
+                    while po[b] < po[a]:
+                        b = idom[b]
+                new = a
+            if new is not None and idom.get(n) != new:
+                idom[n] = new
+                ch = True
+    idom[root] = None
+    return idom
+
+
+class _Tree:
+    """dom[n] as a set-like view: `d in dom[n]` when d dominates n (n itself included), from preorder intervals of the dominator tree."""
+    def __init__(s, idom, root):
+        kids = {}
+        for n, d in idom.items():
+            if d is not None:
+                kids.setdefault(d, []).append(n)
+        s.lo, s.hi, k, stack = {}, {}, 0, [(root, False)]
+        while stack:
+            n, done = stack.pop()
+            if done:
+                s.hi[n] = k
+                continue
+            s.lo[n] = k; k += 1
+            stack.append((n, True))
+            stack.extend((c, False) for c in kids.get(n, ()))
+
+    def __getitem__(s, n):
+        return _Doms(s, n)
+
+
+class _Doms:
+    def __init__(s, tree, n):
+        s.t, s.n = tree, n
+
+    def __contains__(s, d):
+        t = s.t
+        return d in t.lo and s.n in t.lo and t.lo[d] <= t.lo[s.n] < t.hi[d]
+
+
 class Graph:
     def __init__(s, ins, addr2idx, switches=None):
         s.ins = ins
@@ -60,42 +135,26 @@ class Graph:
         s._loops()
 
     def _dom(s):
-        allset = set(s.nodes)
-        s.dom = {n: set(allset) for n in s.nodes}
-        s.dom[0] = {0}
-        ch = True
-        while ch:
-            ch = False
-            for n in s.nodes:
-                if n == 0:
-                    continue
-                ps = [s.dom[p] for p in s.pred[n]]
-                new = {n} | (set.intersection(*ps) if ps else set())
-                if new != s.dom[n]:
-                    s.dom[n] = new
-                    ch = True
+        s.idom = _idom(s.nodes, 0, s.succ, s.pred)
+        s.dom = _Tree(s.idom, 0)
 
     def _pdom(s):
-        allset = set(s.nodes) | {EXIT}
-        s.pdom = {n: set(allset) for n in s.nodes}
-        s.pdom[EXIT] = {EXIT}
-        ch = True
-        while ch:
-            ch = False
-            for n in s.nodes:
-                ps = [s.pdom[t] for t in s.succ[n]]
-                new = {n} | set.intersection(*ps)
-                if new != s.pdom[n]:
-                    s.pdom[n] = new
-                    ch = True
+        """Post-dominators: dominators of the reversed graph from EXIT. A node that never reaches EXIT (a loop that never ends) has none;
+        its successors count for nothing in another node's post-dominators, as with the set equations this replaces."""
+        rpred = {n: list(s.succ[n]) for n in s.nodes}
+        rsucc = {EXIT: []}
+        for n in s.nodes:
+            rsucc.setdefault(n, [])
+        for n in s.nodes:
+            for t in s.succ[n]:
+                rsucc[t].append(n)
+        rpred[EXIT] = []
+        s.ipd = _idom([EXIT] + s.nodes, EXIT, rsucc, rpred)
 
     def ipdom(s, n):
         """The nearest node every path from n to the end goes through (EXIT if none before it)."""
-        strict = s.pdom[n] - {n}
-        for d in strict:
-            if len(s.pdom[d]) == len(strict):
-                return d
-        return EXIT
+        d = s.ipd.get(n)
+        return EXIT if d is None else d
 
     def ijoin(s, n):
         """Where the arms of the branch at n meet: the immediate post-dominator; when a path returns early and no node is on every path,

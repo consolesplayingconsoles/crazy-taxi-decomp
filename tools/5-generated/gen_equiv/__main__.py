@@ -44,7 +44,7 @@ if os.path.isdir('build') and not any(a in sys.argv for a in ('--draw','--retest
 import stamp; sys.stdout=stamp.Stamp(sys.stdout)       # each line ends with the wall-clock time: the last line says how long ago it was
 def note(msg): print('[%4ds] %s'%(time.time()-T0,msg),flush=True)
 import gen_pipe,gen_drv,gen_core
-class Timeout(Exception): pass
+class Timeout(BaseException): pass      # not an Exception: the tools' own `except Exception` (gen_drv, directed) swallowed the alarm, which fires once, and drawing ran on unbounded (cpuSglAimTable: 106 min against 38)
 def _alarm(sig,frm): raise Timeout()
 signal.signal(signal.SIGALRM,_alarm)
 def _term(sig,frm): raise SystemExit('stopped')
@@ -205,7 +205,7 @@ def _draw(n):
         c.protos.pop(n,None)               # a function that calls itself: its own definition declares it
         t=gen_drv.tests(n,c,s)
         return (n,s,t,c.protos,dict(gen_drv.LAST,pool=None,secs=round(time.time()-t0,1)))
-    except Exception as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)),round(time.time()-t0,1))
+    except (Exception,Timeout) as e: return ('skip',n,'%s %s'%(type(e).__name__,str(e)),round(time.time()-t0,1))
     finally: signal.alarm(0)
 rounds=[(0,False)]      # one round: on Crazy Taxi the retry rounds (other code shapes) added nothing and cost as much time again
 done=set()

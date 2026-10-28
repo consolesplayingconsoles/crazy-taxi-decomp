@@ -412,17 +412,53 @@ def unhang(c, tr):
     return None
 
 
+def answered_calls(tr):
+    """[(call index, pc of the call), ...]: the calls the case answers, in order (call_index's count)."""
+    lo, hi = CTX['range'] or (0, 1 << 32)
+    out = []
+    for pc, op, r, fr in tr:
+        if not lo <= pc < hi: continue
+        t = call_target(op, pc, r)
+        if t is not None and not (CTX['deep'] and CTX['deep'](t)): out.append((len(out), pc))
+    return out
+
+
+def index_source(tr, k, reg):
+    """Where an address register's value came from when it went through a left shift (shll / shll2 / shll8 / shll16, after copies):
+    the source of the unshifted value, an index (nlSetPaletteData, Virtua Tennis: shll2 r4, then a store at gPaletteData + r4), or None.
+    Through add Rm,Rn too: a table entry plus a call's answer times 4 (emotFaceReset)."""
+    for j in range(k - 1, -1, -1):
+        op, r = tr[j][1], tr[j][2]
+        if tr[j + 1][2][reg] == r[reg]:
+            continue
+        n = (op >> 8) & 15
+        if op & 0xF0FF in (0x4000, 0x4008, 0x4018, 0x4028) and n == reg:
+            return provenance(tr, j, reg)
+        if op & 0xF00F == 0x6003 and n == reg:                       # mov Rm,Rn
+            reg = (op >> 4) & 15
+            continue
+        if op & 0xF00F == 0x300C and n == reg:                       # add Rm,Rn: a shifted Rm is the index, else follow the base in Rn
+            sub = index_source(tr, j, (op >> 4) & 15)
+            if sub:
+                return sub
+            continue
+        return None
+    return None
+
+
 def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
     """A drawn case the original does not finish on, or finishes reaching outside RAM, mended at the source of the value that went wrong:
     run(case) runs the original with a trace; a dt counter at the step cap gets 2 at its source, a pointer that reached outside RAM (or
     an unaligned word) a fresh zeroed block at its source (provenance / apply). The case that finishes cleanly, or None. Zombie Revenge
     FUN_0c05265c: a global {array, count} read as zeros wraps the count to 2^32, then reads through null entries. A run that ends on a
     branch to itself gets the word its last test compared changed instead (unhang: FUN_0c0cac3a stops on a record whose flag is clear)."""
-    CTX['range'] = rng
     c = copy.deepcopy(case); nxt = block
     for _ in range(rounds):
         r = run(c)
         tr = r.get('trace') or []
+        if tr:                                    # the range in the trace's own form (0C... or 8C...: a call's answer is found by its pc)
+            top = tr[0][0] & 0xE0000000
+            CTX['range'] = (top | (rng[0] & 0x1FFFFFFF), top | (rng[1] & 0x1FFFFFFF))
         if not r['error'] and not (r.get('devices') and not hw):
             return c
         if not tr:
@@ -442,7 +478,17 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
             if not acc:
                 return None
             prov = provenance(tr, k, acc[1])
-            nc = apply(c, prov, nxt) if prov else None
+            if prov:
+                nc = apply(c, prov, nxt)
+            else:                                                         # an index scaled by a shift: 0, the table's first entry
+                prov = index_source(tr, k, acc[1])
+                nc = apply(c, prov, 0) if prov else None
+                if nc and prov[0] == 'call':                              # a call in a loop: every answer from that call site
+                    site = answered_calls(tr)
+                    pc = dict(site).get(prov[1])
+                    for i, p_ in site:
+                        if p_ == pc and i != prov[1]:
+                            nc = apply(nc, ('call', i) + prov[2:], 0) or nc
             nxt += 0x400
         if not nc or nc == c:
             return None
