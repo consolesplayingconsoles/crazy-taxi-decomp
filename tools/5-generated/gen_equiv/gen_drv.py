@@ -161,6 +161,8 @@ def build(name,ret,passthru=False):
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
+    import splitflat                              # more labels than the compiler takes (~512, "3018 overflow"): a main function and parts
+    src=splitflat.split(src.rstrip('\n'),int(os.environ.get('GEN_MAX_LABELS','480')))+'\n'
     return src,c
 _ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
 _IDENT=re.compile(r'\b[A-Za-z_]\w*\b')
@@ -280,6 +282,14 @@ def stack_moved(devs,devs2,shift,reads2=()):
     read inside the stack (a table read just past its end, above the stack's top: kmProcessVertexRenderState). A register does not move."""
     at2={int(b[1],16)&0x1FFFFFFF for b in devs2}|{a&0x1FFFFFFF for a in reads2}
     return any(((int(a[1],16)-shift)&0x1FFFFFFF) in at2 and (int(a[1],16)&0x1FFFFFFF) not in at2 for a in devs)
+def ram_mirror(devs,stack_top):
+    """An access in a mirror of main RAM (0D000000-0FFFFFFF on the Dreamcast repeat the 16 MB at 0C000000), outside the simulator's
+    stack (the 1 MB below stack_top): a stray pointer the game never makes, its pointers are 8C.... The simulator takes it for a device,
+    and devices are compared in order: the C's loads reordered by the compiler differ (cpuSglAimTable: 0E6E76C4 and 0E6E7610)."""
+    for a in devs:
+        x=int(a[1],16)&0x1FFFFFFF
+        if 0x0D000000<=x<0x10000000 and not (stack_top-0x100000<=x<stack_top+0x1000): return True
+    return False
 def original_runs(name,case):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
@@ -306,6 +316,9 @@ def original_runs(name,case):
         ERRS[str(r['error'])[:70]]=ERRS.get(str(r['error'])[:70],0)+1
         return None,set()
     if r.get('devices') and not HW[0]: return None,set()      # a wild pointer reached memory the function never names (a null pointer, a random word): not a case
+    if r.get('devices') and HW[0] and ram_mirror(r['devices'],sh4sim.STACK_TOP):       # a stray pointer into a mirror of RAM: not a game input
+        ERRS['reaches a mirror of RAM']=ERRS.get('reaches a mirror of RAM',0)+1
+        return None,set()
     if r.get('devices') and HW[0]:              # a function that touches hardware: an access outside RAM that moves with the stack is a local
         top=int(case.get('regs',{}).get('r15','%X'%(sh4sim.STACK_TOP-0x100)),16)       # table read out of range, no game input (rankDrawCharaIcon)
         c2=dict(case,regs=dict(case.get('regs',{}),r15='%08X'%(top-0x300)))

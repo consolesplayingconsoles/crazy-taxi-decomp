@@ -233,23 +233,28 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
         note('round %d batch %d: compiling and checking %d functions'%(ri,bn,len(items)))
         try:
             passed,failed,deferred,dropped,err=gen_pipe.run_file_robust(stem,items)
-            # differs only in the return value: often a leftover r0/fr0 of a function that returns nothing. Checked again as void on the same cases
+            # differs only in the return value: checked again with each other return kind on the same cases (a leftover r0/fr0 of a function
+            # that returns nothing passes as void; cpuSglAimTable, Virtua Tennis, returns 100.0 in r0 and was retried as void only)
             out_only=[it for it in items if it[0] in failed and re.search(r'^%s\s+DIFFERS\s+case \d+: out:'%re.escape(it[0]),gen_pipe.LAST.get('out',''),re.M)]
-            again=[]
-            for it in out_only:
-                try:
-                    if 'void' not in gen_pipe.variants(it[0],pt) or vi==len(gen_pipe.variants(it[0],pt))-1: continue
-                    s_,c_=gen_drv.build(it[0],'void',pt); c_.protos.pop(it[0],None)
-                    again.append((it[0],s_,it[2],c_.protos)+tuple(it[4:]))
-                except Exception: pass
-            if again:
+            for kind_ in ('r0','fr0','void'):
+                again=[]
+                for it in out_only:
+                    try:
+                        vs_=gen_pipe.variants(it[0],pt)
+                        if kind_==(vs_[vi] if vi<len(vs_) else None): continue
+                        s_,c_=gen_drv.build(it[0],kind_,pt); c_.protos.pop(it[0],None)
+                        again.append((it[0],s_,it[2],c_.protos)+tuple(it[4:]))
+                    except Exception: pass
+                if not again: continue
                 first_out=gen_pipe.LAST.get('out','')
                 p2,f2,d2,dr2,_=gen_pipe.run_file_robust(stem+'v',again)
                 gen_pipe.LAST['out']=first_out
                 for it in again:
                     if it[0] in p2:
                         failed.remove(it[0]); passed.append(it[0]); items[[i[0] for i in items].index(it[0])]=it
-                note('round %d batch %d: %d differed only in the return value, %d pass as void'%(ri,bn,len(again),len(p2)))
+                out_only=[it for it in out_only if it[0] not in p2]
+                note('round %d batch %d: %d differed only in the return value, %d pass returning %s'%(ri,bn,len(again),len(p2),{'r0':'int','fr0':'float','void':'nothing'}[kind_]))
+                if not out_only: break
         finally:
             restore_evidence()
         print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err,flush=True)

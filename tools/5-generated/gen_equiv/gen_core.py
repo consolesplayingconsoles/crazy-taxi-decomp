@@ -194,10 +194,12 @@ _ALLREGS=frozenset(['r%d'%i for i in range(15)]+['fr%d'%i for i in range(16)])
 _RW_ALU=('add','addc','addv','sub','subc','subv','and','or','xor','shad','shld','div1','fadd','fsub','fmul','fdiv','xtrct','rotcl','rotcr',
          'shll','shlr','shal','shar','shll2','shll8','shll16','shlr2','shlr8','shlr16','rotl','rotr','dt','fneg','fabs','fsqrt','fmac')
 _READ_ONLY=('cmp','tst','fcmp','mul','mulu','muls','dmuls','dmulu','mac','lds','ldc','jmp','jsr','braf','bsrf','pref','ocbi','ocbp','ocbwb','ftrc','flds','div0s','fipr','ftrv')
-def reg_liveness(ins,addr2idx):
+def reg_liveness(ins,addr2idx,jumps=None):
     """{instruction index: registers live on entry} over the function's own code: a register a later instruction reads before
     anything writes it. A call reads the argument registers and writes r0-r7 / fr0-fr11; a return reads r0, fr0 and r8-r14.
-    Anything not understood reads every register (conservative)."""
+    Anything not understood reads every register (conservative). jumps: {jmp index: [target index]}, the jmps to a constant inside the
+    function (the flat form's GOTO): their delay slot leads there (cpuChasePlan, Virtua Tennis: r0 tested again after the jmp was
+    taken for dead, its load folded into the first test and never written)."""
     n=len(ins)
     def expand(t):
         out=set()
@@ -274,7 +276,7 @@ def reg_liveness(ins,addr2idx):
     for i,(mn,ops,pc) in enumerate(ins):
         t=gen_cfg.target_of(ops) if ops else None; ti=addr2idx.get(t) if t is not None else None
         if mn in ('bra',): succ[i]=[i+1]; succ[i+1]=[ti] if ti is not None else []
-        elif mn in ('jmp','braf','rts','rte'): succ[i]=[i+1]; succ[i+1]=[] if mn!='braf' else list(range(n))
+        elif mn in ('jmp','braf','rts','rte'): succ[i]=[i+1]; succ[i+1]=list((jumps or {}).get(i,[])) if mn=='jmp' else ([] if mn!='braf' else list(range(n)))
         elif mn in ('bt/s','bf/s'): succ[i]=[i+1]; succ[i+1]=[i+2]+([ti] if ti is not None else [])
         elif mn in ('bt','bf'): succ.setdefault(i,[i+1]+([ti] if ti is not None else []))
         else: succ.setdefault(i,[i+1])
@@ -2194,7 +2196,7 @@ def _run(name,passthru=False,frame=False,flat=False):
     if G is None: raise Skip('empty')
     c.live=None; c.cond_tmps=set()
     if os.environ.get('GEN_FOLD','1')!='0':
-        try: c.live=reg_liveness(ins,addr2idx)
+        try: c.live=reg_liveness(ins,addr2idx,GOTO)
         except Exception: c.live=None
 
     def exec_flat():
@@ -2224,7 +2226,7 @@ def _run(name,passthru=False,frame=False,flat=False):
         for v_ in GOTO.values(): lead.update(v_)
         lead={x for x in lead if x<len(ins)}
         CARRY={}                 # stack depth -> the words pushed for a call that a later block makes: (depth, float?)
-        try: LIVE=reg_liveness(ins,addr2idx)
+        try: LIVE=reg_liveness(ins,addr2idx,GOTO)
         except Exception: LIVE=None
         def fresh_state(D):
             c.R={'r%d'%n:('e','R%d'%n) for n in ints}; c.FR={'fr%d'%n:('e','F%d'%n) for n in flts}
