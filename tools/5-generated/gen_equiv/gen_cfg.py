@@ -171,7 +171,7 @@ class Graph:
             common = (s.reach(ss[0]) & s.reach(ss[1])) - {n}
             if common:
                 # the minimal elements: common nodes that no other common node reaches
-                firsts = [x for x in common if not any(y != x and x in s.reach(y) and y not in s.reach(x) for y in common)]
+                firsts = s._firsts(common)
                 if len(firsts) == 1:
                     res = firsts[0]
         cache[n] = res
@@ -186,8 +186,59 @@ class Graph:
         common = (s.reach(ss[0]) & s.reach(ss[1]) & body) - {n}
         if not common:
             return EXIT
-        firsts = [x for x in common if not any(y != x and x in s.reach(y) and y not in s.reach(x) for y in common)]
+        firsts = s._firsts(common)
         return firsts[0] if len(firsts) == 1 else EXIT
+
+    def _firsts(s, common):
+        """The nodes of common that no other common node comes before: x such that no common y with x in reach(y) and y not in reach(x).
+        On the components (strongly connected): x's component is reached from no other component holding a common node; one pass in
+        topological order instead of reach for every pair (entryCharaSelExec, Virtua Tennis: 56 of 60 s of its reading)."""
+        if '_scc' not in s.__dict__:
+            s._components()
+        scc, topo, cpred = s._scc, s._topo, s._cpred
+        comm = {scc[x] for x in common}
+        before = {}
+        for c in topo:
+            before[c] = any(p in comm or before[p] for p in cpred[c])
+        return [x for x in common if not before[scc[x]]]
+
+    def _components(s):
+        """Strongly connected components (Tarjan, iterative): s._scc {node: component}, s._topo the components sources first,
+        s._cpred {component: the other components with an edge into it}."""
+        index, low, onst, st, scc, comps = {}, {}, set(), [], {}, []
+        k = 0
+        for root in s.nodes:
+            if root in index:
+                continue
+            work = [(root, iter([t for t in s.succ[root] if t != EXIT]))]
+            index[root] = low[root] = k; k += 1; st.append(root); onst.add(root)
+            while work:
+                v, it = work[-1]
+                for w in it:
+                    if w not in index:
+                        index[w] = low[w] = k; k += 1; st.append(w); onst.add(w)
+                        work.append((w, iter([t for t in s.succ[w] if t != EXIT])))
+                        break
+                    if w in onst:
+                        low[v] = min(low[v], index[w])
+                else:
+                    work.pop()
+                    if work:
+                        low[work[-1][0]] = min(low[work[-1][0]], low[v])
+                    if low[v] == index[v]:
+                        cid = len(comps); comp = []
+                        while True:
+                            w = st.pop(); onst.discard(w); scc[w] = cid; comp.append(w)
+                            if w == v:
+                                break
+                        comps.append(comp)
+        cpred = {c: set() for c in range(len(comps))}
+        for n in s.nodes:
+            for t in s.succ[n]:
+                if t != EXIT and scc[t] != scc[n]:
+                    cpred[scc[t]].add(scc[n])
+        s._scc, s._cpred = scc, cpred
+        s._topo = list(range(len(comps)))[::-1]          # Tarjan finishes components sinks first
 
     def _loops(s):
         s.loops = {}                       # header -> set of nodes of the natural loop
@@ -250,7 +301,11 @@ class Graph:
         return best
 
     def reach(s, n):
-        """Every node reachable from n (n included)."""
+        """Every node reachable from n (n included), as a frozenset: the graph does not change once built, so each node's answer is
+        kept (ijoin's search for the first common node asked for every pair: entryCharaSelExec, Virtua Tennis, 56 of 60 s reading)."""
+        cache = s.__dict__.setdefault('_reach', {})
+        if n in cache:
+            return cache[n]
         seen = set()
         todo = [n]
         while todo:
@@ -259,7 +314,8 @@ class Graph:
                 continue
             seen.add(x)
             todo.extend(s.succ[x])
-        return seen
+        cache[n] = frozenset(seen)
+        return cache[n]
 
     def reach_cut(s, n, cut):
         """reach(n) without following any edge into a node of cut (the node itself is still reached from n only when n is it)."""

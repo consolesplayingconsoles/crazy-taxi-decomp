@@ -1283,6 +1283,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                                                  # (with arguments on the stack all four registers are positional: not trimmed)
             avail=[n for n in avail if n<4+ar[0]]
             fav=[n for n in fav if n<4+ar[1]]
+        if ar: fav=[n for n in fav if n<4+ar[1]]      # pushed words make r4-r7 positional, never fr4-fr11: a float past the callee's is a leftover (rankNameEntryExec -> fadeScreenStart)
         if ar and not c.pend and c.pcalls==0 and not c.pt:
             # the callee reads more argument registers than this function set: one it has not touched (and no call has
             # changed) is its own incoming argument, passed on as it came (a wrapper, a thunk, a dispatcher)
@@ -1325,7 +1326,7 @@ def _run(name,passthru=False,frame=False,flat=False):
                 fav=sorted(set(fav)|set(fhole))
         fa=[]; k=4
         while k in fav: fa.append(k); k+=1
-        if any(x>=k for x in fav): raise Skip('farg gap')
+        if any(x>=k for x in fav): raise Skip('farg gap [%s: fr%s set, arity %s]'%(fname,','.join(str(x) for x in fav),ar))      # which call, for the ledger
         args=[]; types=[]
         for n in ia:
             v=c.gi('r%d'%n)

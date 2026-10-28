@@ -405,7 +405,7 @@ def loop_exit(c, tr):
     if not back:
         return None
     pc = max(back, key=back.get)
-    j = max(i for i, x in enumerate(tr) if x[0] == pc)
+    j = min(i for i, x in enumerate(tr) if x[0] == pc)              # its first pass: a bound set from there ends the loop at once
     return flip_test(c, tr, j)
 
 
@@ -419,6 +419,21 @@ def flip_test(c, tr, j):
         elif op & 0xF00F == 0x3000: kind, pairs = 'eq', ((n, r[m]), (m, r[n]))         # cmp/eq Rm,Rn
         elif op >> 8 == 0xC8: kind, pairs = 'tst', ((0, op & 0xFF),)                   # tst #imm,R0
         elif op >> 8 == 0x88: kind, pairs = 'eq', ((0, sx(op & 0xFF, 8) & M),)          # cmp/eq #imm,R0
+        elif op & 0xF00F in (0x3002, 0x3003, 0x3006, 0x3007):     # cmp/hs, cmp/ge, cmp/hi, cmp/gt Rm,Rn: T from Rn against Rm
+            f = {0x3002: lambda a, b: a >= b, 0x3006: lambda a, b: a > b,
+                 0x3003: lambda a, b: sx(a, 32) >= sx(b, 32), 0x3007: lambda a, b: sx(a, 32) > sx(b, 32)}[op & 0xF00F]
+            want_t = not f(r[n], r[m])
+            for reg, vals in ((m, [r[n], r[n] + 1, r[n] - 1, 0, 1]), (n, [r[m], r[m] + 1, r[m] - 1])):      # the bound (Rm) first
+                prov = provenance(tr, i, reg)
+                if not prov:
+                    continue
+                for v in vals:
+                    v &= M
+                    if (f(r[n], v) if reg == m else f(v, r[m])) == want_t:
+                        nc = apply(c, prov, v)
+                        if nc and nc != c:
+                            return nc
+            return None
         else: continue
         for reg, other in pairs:
             prov = provenance(tr, i, reg)

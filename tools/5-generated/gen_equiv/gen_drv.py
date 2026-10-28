@@ -377,7 +377,7 @@ def original_runs(name,case,_mended=False):
             ERRS['reaches outside RAM through the stack']=ERRS.get('reaches outside RAM through the stack',0)+1
             return None,set()
     return r['steps'],set(r.get('covered',[]))
-def unset_free(name,cases):
+def unset_free(name,cases,enough=None):
     """The cases on which what the original does does not depend on r8-r14 it never set (directed.unset_dependent): shopDrawCatPanel,
     Virtua Tennis, indexes with the caller's r10 for an a4 outside its compare chain, the C with an uninitialised variable."""
     try:
@@ -389,6 +389,7 @@ def unset_free(name,cases):
     run=lambda c: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     out=[]
     for d in cases:
+        if enough is not None and len(out)>=enough: break
         if directed.unset_dependent(d,run):
             ERRS['depends on registers it never set']=ERRS.get('depends on registers it never set',0)+1
             continue
@@ -497,7 +498,7 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         chosen.append(d)
     return chosen
 def tests(name,c,src):
-    DEADLINE[0]=time.time()+draw_seconds(name)
+    if STEPS[0] is None: DEADLINE[0]=time.time()+draw_seconds(name)      # the long-cap retry (this function calling itself) keeps it: it reset it, entryCharaSelExec drew 1,214 s against an alarm of 1,029
     NOSTACK[0]=not any(n>=8 for n in c.iuse)
     HW[0]=_names_hardware(src)
     ip=sorted(c.iuse); fp=sorted(c.fuse)
@@ -593,8 +594,9 @@ def tests(name,c,src):
         cases=unset_free(name,pick(name,cases,36,V,rng,sorted(consts|{0,1,2,0xFFFFFFFF})))
         if len(cases)>=(1 if retry and not ip and not fp else 12 if (loopy or chained) else 6):      # no register input: every case runs the same code
             # the development cases are the ones the coverage pick chose; the holdout cases are other survivors it did not choose
-            rest=unset_free(name,[d for d in LAST.get('pool',[]) if d not in cases])
+            rest=[d for d in LAST.get('pool',[]) if d not in cases]
             rng.shuffle(rest)
+            rest=unset_free(name,rest,18)      # only as many as the holdout takes: the pool of a big function is hundreds (entryCharaSelExec ran past its alarm)
             indep=len(rest)>=6
             hold=rest[:18] if indep else cases[1::2][:18]
             dev=cases[:18] if indep else cases[0::2][:18]
