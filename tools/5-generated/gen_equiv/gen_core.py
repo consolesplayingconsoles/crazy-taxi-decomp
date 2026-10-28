@@ -1352,6 +1352,13 @@ def _run(name,passthru=False,frame=False,flat=False):
         c.sargs=[]
         if chain and not ind and not hidden and not variadic_seen(types):
             for s_ in chain: args.append('*(Stk%d *)(%s)'%(s_[0],s_[1])); types.append('Stk%d'%s_[0])       # by value, after the integer arguments
+            got=sum(s_[0] for s_ in chain); d_=def_arity(fname)
+            need=def_stack_words(fname) or (max(0,d_[0]-4) if d_ else 0)     # what the definition takes (its code may read fewer directly)
+            if need>got and not post and c.frame:
+                # the callee takes more stack words than the copies give: the rest are the caller's frame words right above them (selCursorInputC
+                # -> windowFrameDraw, Virtua Tennis: a 12-byte copy to SP, then mov.l r5,@(12,r15), a definition of four stack words)
+                for k_ in range(got,need):
+                    args.append('*(int *)((int)stk + @@F:%d@@ + %d)'%(-c.D,4*k_)); types.append('int')
             for v in post:
                 if isfp(v): args.append(fx(v[1])); types.append('float')
                 else: args.append(ex(v)); types.append('int')
@@ -1369,6 +1376,13 @@ def _run(name,passthru=False,frame=False,flat=False):
                 args.append('0x0'); types.append('int')
             for k_ in range(isw if fromframe else int_stack_words(fname)):
                 args.append('*(int *)((int)stk + @@F:%d@@%s)'%(-c.D,' + %d'%(4*k_) if k_ else '')); types.append('int')
+        if hidden and not sret and (ia or fa):
+            # declared `...`, SHC puts the last named argument on the stack too (fr7 above the pointer: playerChooseSwing ->
+            # playerStartSwing, Virtua Tennis), so the pointer was not at SP. As plain ints: the integer registers not set here go as
+            # 0 (positional, as for pushed words), the pointer is the fifth int, on the stack at SP
+            for n in range(4+len(ia),8):
+                args.append('0x0'); types.append('int')
+            args.append(hidden); types.append('int'); hidden=None
         for n in fa: args.append(fx(c.gf('fr%d'%n))); types.append('float')
         if hidden and not sret: args.append(hidden); types.append('...')
         sig=tuple(types)
