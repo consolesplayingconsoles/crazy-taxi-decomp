@@ -240,7 +240,9 @@ def reg_liveness(ins,addr2idx,jumps=None):
                 use|=expand(x)
                 if x.endswith('+') or x.startswith('@-'): dfn|=expand(x)
         if mn in ('jsr','bsr','bsrf'):
-            use|=expand(raw)|call_args(i_ud); dfn|={'r%d'%k for k in range(8)}|{'fr%d'%k for k in range(12)}
+            ca=call_args(i_ud); use|=expand(raw)|ca
+            if ca in ({'r0','r1','r2'},{'r0','r1'}): dfn|={'r0','r1','r2','r3'}       # a block mover or division helper: r0-r3 only (stageSelNameDraw:
+            else: dfn|={'r%d'%k for k in range(8)}|{'fr%d'%k for k in range(12)}     # r6 set before a structure copy, passed after it)
         elif mn in ('rts','rte'):
             use|={'r0','fr0','fr1'}|{'r%d'%k for k in range(8,15)}
         elif mn in ('nop','bra','bt','bf','bt/s','bf/s','clrt','sett','clrmac','fschg','frchg'):
@@ -1084,7 +1086,14 @@ def _run(name,passthru=False,frame=False,flat=False):
             v=c.gf(a[0])
             if isint(v): c.fpul=v; return
             t=fresh(True); emit('float %s = %s;'%(t,fx(v))); c.fpul=('e','(*(int *)&%s)'%t); return
-        if mn=='fneg': c.FR[a[0]]=('e','(-%s)'%fx(c.gf(a[0]))); return
+        if mn=='fneg':
+            v=c.gf(a[0])
+            if not isint(v) and re.search(r' [-+] ',fx(v)):
+                # a negated sum or difference through a temporary: inline, SHC folds -(a - b) to b - a, +0.0 where the original's
+                # fsub then fneg gives -0.0 (vecAnglesTo, Virtua Tennis)
+                t=fresh(True); emit('float %s = %s;'%(t,fx(v))); emit('%s = -%s;'%(t,t))      # two statements, as fmac: not folded back inline
+                c.FR[a[0]]=('e',t); return
+            c.FR[a[0]]=('e','(-%s)'%fx(v)); return
         if mn=='fmac' and len(a)==3 and a[0]=='fr0':       # frn += fr0 * frm
             acc=c.gf(a[2]); x=c.gf(a[0]); y=c.gf(a[1])
             t=fresh(True); emit('float %s = %s;'%(t,fx(acc))); emit('%s = %s + %s * %s;'%(t,t,fx(x),fx(y)))      # a statement of its own, as the source has it: the compiler then selects fmac (one rounding)
@@ -1357,8 +1366,8 @@ def _run(name,passthru=False,frame=False,flat=False):
             if need>got and not post and c.frame:
                 # the callee takes more stack words than the copies give: the rest are the caller's frame words right above them (selCursorInputC
                 # -> windowFrameDraw, Virtua Tennis: a 12-byte copy to SP, then mov.l r5,@(12,r15), a definition of four stack words)
-                for k_ in range(got,need):
-                    args.append('*(int *)((int)stk + @@F:%d@@ + %d)'%(-c.D,4*k_)); types.append('int')
+                # as a structure: an int would go in a free r4-r7 (hudCallAdvDraw -> hudBarDrawAlt(Stk4, float, float), Virtua Tennis)
+                args.append('*(Stk%d *)((int)stk + @@F:%d@@ + %d)'%(need-got,-c.D,4*got)); types.append('Stk%d'%(need-got))
             for v in post:
                 if isfp(v): args.append(fx(v[1])); types.append('float')
                 else: args.append(ex(v)); types.append('int')

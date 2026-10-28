@@ -390,6 +390,28 @@ def unhang(c, tr):
     j = next((i for i in range(k - 1, -1, -1) if (tr[i][1] >> 8) in (0x89, 0x8B, 0x8D, 0x8F)), None)     # bt / bf / bt/s / bf/s
     if j is None:
         return None
+    return flip_test(c, tr, j)
+
+
+def loop_exit(c, tr):
+    """A run at the step cap in a loop with no counter (entryPickRandomChara, Virtua Tennis: a random index retried while the table
+    entry is 0): the case with the word the loop's own test compares changed so the loop ends, from the backward conditional branch
+    taken most often near the end of the run, or None."""
+    tail = tr[-3000:]
+    back = {}
+    for x in tail:
+        if (x[1] >> 8) in (0x89, 0x8B, 0x8D, 0x8F) and (x[1] & 0x80):          # a backward bt / bf / bt/s / bf/s
+            back[x[0]] = back.get(x[0], 0) + 1
+    if not back:
+        return None
+    pc = max(back, key=back.get)
+    j = max(i for i, x in enumerate(tr) if x[0] == pc)
+    return flip_test(c, tr, j)
+
+
+def flip_test(c, tr, j):
+    """The case with the word the test before the branch at tr[j] compared changed so the test goes the other way (tst / cmp/eq,
+    register or immediate), or None."""
     for i in range(j - 1, max(-1, j - 8), -1):
         op, r = tr[i][1], tr[i][2]
         n, m = (op >> 8) & 15, (op >> 4) & 15
@@ -403,7 +425,8 @@ def unhang(c, tr):
             if not prov:
                 continue
             v = r[reg]
-            if kind == 'tst': want = (v | other) & M if (v & other) == 0 else v & ~other & M
+            if kind == 'tst' and n == m and op & 0xF00F == 0x2008: want = 0 if v else 1      # tst rN,rN: zero or not
+            elif kind == 'tst': want = (v | other) & M if (v & other) == 0 else v & ~other & M
             else: want = (v + 1) & M if v == other else other
             nc = apply(c, prov, want)
             if nc and nc != c:
@@ -433,10 +456,25 @@ def index_source(tr, k, reg):
             continue
         n = (op >> 8) & 15
         if op & 0xF0FF in (0x4000, 0x4008, 0x4018, 0x4028) and n == reg:
-            return provenance(tr, j, reg)
+            p = provenance(tr, j, reg)
+            if p:
+                return p
+            continue                                                 # an index made some other way: on to its source
         if op & 0xF00F == 0x6003 and n == reg:                       # mov Rm,Rn
             reg = (op >> 4) & 15
             continue
+        if op & 0xF0FF == 0x005A and n == reg:                       # sts fpul,Rn: back to the float the ftrc before it truncated
+            for i in range(j - 1, max(-1, j - 12), -1):
+                o = tr[i][1]
+                if o & 0xF0FF == 0xF03D:                             # ftrc FRm,fpul
+                    fr = (o >> 8) & 15
+                    for h in range(i - 1, max(-1, i - 12), -1):      # through a multiply by a scale (fmul FRm,FRn: the value it scaled)
+                        oh = tr[h][1]
+                        if oh & 0xF00F == 0xF002 and (oh >> 8) & 15 == fr:
+                            i = h
+                            break
+                    return provenance(tr, i, fr, True)               # a call's float answer (entryPickRandomChara: nlRandom times 18)
+            return None
         if op & 0xF00F == 0x300C and n == reg:                       # add Rm,Rn: a shifted Rm is the index, else follow the base in Rn
             sub = index_source(tr, j, (op >> 4) & 15)
             if sub:
@@ -465,6 +503,8 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
             return None
         if r['error'] and 'instructions' in str(r['error']) and unhang(c, tr):   # the step cap on a deliberate hang: the test that led there
             nc = unhang(c, tr)
+        elif r['error'] and 'instructions' in str(r['error']) and not any((x[1] & 0xF0FF) == 0x4010 for x in tr):
+            nc = loop_exit(c, tr)                                         # the step cap in a loop with no counter: its own exit test
         elif r['error'] and 'instructions' in str(r['error']):            # the step cap: the counter of the loop it is in
             ks = [k for k, x in enumerate(tr) if (x[1] & 0xF0FF) == 0x4010]   # dt Rn
             if not ks:
@@ -482,6 +522,9 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
                 nc = apply(c, prov, nxt)
             else:                                                         # an index scaled by a shift: 0, the table's first entry
                 prov = index_source(tr, k, acc[1])
+                op_ = tr[k][1]
+                if not prov and ((op_ >> 12 == 0 and op_ & 15 in (4, 5, 6, 0xC, 0xD, 0xE)) or (op_ >> 12 == 0xF and op_ & 15 in (6, 7))):
+                    prov = index_source(tr, k, 0)                         # @(R0,Rn): the index in r0
                 nc = apply(c, prov, 0) if prov else None
                 if nc and prov[0] == 'call':                              # a call in a loop: every answer from that call site
                     site = answered_calls(tr)
@@ -494,6 +537,28 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
             return None
         c = nc
     return None
+
+
+def unset_dependent(case, run):
+    """True when what the original does on the case (its calls and their arguments, its writes, r0 / fr0) changes with the values of
+    r8-r14 and fr12-fr15 it is entered with: it reads a register it never set (shopDrawCatPanel, Virtua Tennis: an index left in r10 for an a4 outside
+    its compare chain). No input the game makes; the C has an uninitialised variable there. run(case): the original's run."""
+    def seen(r):
+        return (str(r.get('error')), [(x['to'], x['r4-r7'], x['fr4-fr11']) for x in r.get('calls', [])], r.get('writes'), r.get('out', {}).get('r0'),
+                r.get('out', {}).get('fr0'))
+    unset = {'r%d' % i: '%08X' % (0x0C9E0000 + 0x100 * i) for i in range(8, 15)}
+    unset.update({'fr%d' % i: '%08X' % (0x3F800000 + 0x10000 * i) for i in range(12, 16)})     # fr12-fr15, callee-saved too (endingSceneDraw)
+    other = dict(case, regs=dict(unset, **case.get('regs', {})))
+    # what an answered call leaves in the caller-saved registers is the callee's: r2-r7 and fr2-fr11 as other values after each one
+    # (r0 / fr0 and r1 / fr1 carry results). entryGridDrawCursors, Virtua Tennis: a colour from r5 after mathLerp on a path that never sets it
+    left = {'r%d' % i: '%08X' % (0x0C9D0000 + 0x100 * i) for i in range(2, 8)}
+    left.update({'fr%d' % i: '%08X' % (0x40000000 + 0x10000 * i) for i in range(2, 12)})
+    first = run(case)
+    given = list(case.get('calls', []))
+    given += [{}] * max(0, len(first.get('calls', [])) - len(given))      # every call the original makes, answered or not
+    if given:
+        other['calls'] = [dict(left, **e) for e in given]
+    return seen(first) != seen(run(other))
 
 
 def out_only(line):

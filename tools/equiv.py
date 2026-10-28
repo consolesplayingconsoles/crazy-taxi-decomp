@@ -317,6 +317,10 @@ def definitions():
 _USED = {}
 
 
+_USEDREGS = {}     # {name: the integer registers (4-7) whose parameters the definition's body reads}, filled by used_definitions
+_RETSTRUCT = {}    # {name: whether the definition returns a structure by value (through a hidden pointer at SP)}
+
+
 def used_definitions():
     """{name: (integer, float, stack) parameters} of every definition in src/, counting a parameter only when the body reads it:
     the highest register parameter read (and every one before it) and the stack words read. A generated definition declares every
@@ -348,6 +352,9 @@ def used_definitions():
                     floats.append(used)
                 else:
                     ints.append(used)
+            _USEDREGS.setdefault(m.group(1), frozenset(4 + k for k, u in enumerate(ints[:4]) if u))
+            rtype = m.group(0)[:m.group(0).index(m.group(1))].replace('static', '').split()
+            _RETSTRUCT.setdefault(m.group(1), bool(rtype) and '*' not in ''.join(rtype) and (rtype[-1] in structs or re.match(r'Stk\d+$', rtype[-1]) is not None))
             ni = max([k + 1 for k, u in enumerate(ints[:4]) if u] + [0])
             nf = max([k + 1 for k, u in enumerate(floats[:8]) if u] + [0])
             sw = stack + sum(1 for u in ints[4:] if u)
@@ -378,6 +385,56 @@ def compared_arity(cfile, table):
             arity[key] = (min(ui, 4), min(uf, 8))                      # function reads its stack word and none of r4-r7)
             stackn[key] = max(stackn.get(key, 0), min(usw, 4)) if usw else stackn.get(key, 0)
     return arity, stackn
+
+
+def fill_regs(table):
+    """{address: the integer registers} a mocked call writes its output through (sh4sim poke_arg): for a callee defined in src/, the
+    registers whose parameters its definition's body reads (used_definitions), not the ones it declares. A generated definition keeps
+    placeholder registers (mtxGetWorldPos(int a4..a7, int a8) reads a7, passed on, and a8, never a4): a leftover r4 pointing into the
+    caller's frame was filled on the original's side and not on the C's (Virtua Tennis playerPut)."""
+    canon = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
+    used_definitions()
+    return {canon(table[n]): rs for n, rs in _USEDREGS.items() if n in table}
+
+
+def no_stack_fill(table):
+    """Addresses of the callees defined in src/ that cannot write through the word at SP: they read no stack word and return no
+    structure. A case's poke_stack for a call to one is not applied (playerPut -> angDiff(int a4, int a5), Virtua Tennis: the word at
+    SP was the caller's own local, the field's address, and the fill landed in the field on the original's side only)."""
+    canon = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
+    used = used_definitions()
+    return {canon(table[n]) for n, (ni, nf, sw) in used.items() if n in table and not sw and not _RETSTRUCT.get(n)}
+
+
+def stack_fills(table, reads=None):
+    """Whether a mocked call to an address may write through the word at SP (a case's poke_stack): a callee defined in src/ when it
+    reads a stack word or returns a structure (no_stack_fill); one with no definition when its code reads a stack word (a structure
+    returned by value reads its hidden pointer there). reads(name): the stack words its code reads (gen_core.callee_stack_words).
+    nlScale(float, float, float) has no definition and reads none: the original's word at SP was a pointer of its own, the fill went
+    there on the original's side only (Virtua Tennis playerPut)."""
+    canon = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t
+    nostack = no_stack_fill(table)
+    defined = set(used_definitions())
+    byaddr = {canon(a): n for n, a in table.items()}
+    if reads is None:
+        def reads(n):
+            try:
+                import gen_core
+                return gen_core.callee_stack_words(n)
+            except Exception:
+                return 1                          # the code cannot be read: as before, the fill is made
+    seen = {}
+    def ok(t):
+        k = canon(t)
+        if k in nostack:
+            return False
+        n = byaddr.get(k)
+        if n is None or n in defined:
+            return True
+        if n not in seen:
+            seen[n] = bool(reads(n))
+        return seen[n]
+    return ok
 
 
 def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None, stackchg=None):
@@ -587,7 +644,10 @@ def main(argv):
     runtime = {a for n, a in table.items() if n.startswith('_')}        # the compiler's own helpers (_divls,
     arity.update({canon_(a): (0, 0) for a in runtime})                           # _quick_odd_mvn...): run, not compared
     helpers_orig = lambda t: t in runtime
-    argc = lambda t: arity[canon_(t)][0] if canon_(t) in arity else None      # output writes of a mocked call go only through its own arguments
+    fills = fill_regs(table)
+    stackfill = stack_fills(table)                                   # a fill through the word at SP only for a callee that can write there
+    argc = lambda t: (fills[canon_(t)] if canon_(t) in fills else      # output writes of a mocked call go only through the arguments its
+                      arity[canon_(t)][0] if canon_(t) in arity else None)       # definition reads (a set), else its own argument count
     results, evidence = {}, {}
     cache = load_cache()
     compared_all = (sorted(arity.items()), sorted(STACKN.items()), sorted(back.items()))
@@ -623,12 +683,12 @@ def main(argv):
             continue
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
-            orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc)
+            orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc, stackfill=stackfill)
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
             observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1
             budget = max(case.get('steps', 2000000), 10 * orig.get('steps', 0) + 100000) if not orig['error'] else case.get('steps', 2000000)
-            mine = sh4sim.run(dict(case, steps=budget), '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers, argc=argc)      # compiled C may take more instructions than the original: its budget follows what the original used
+            mine = sh4sim.run(dict(case, steps=budget), '.', code=(SCRATCH, code), entry=c_at, end=c_end, deep=helpers, argc=argc, stackfill=stackfill)      # compiled C may take more instructions than the original: its budget follows what the original used
             n += 1
             endless = case.get('endless') and str(orig['error']).startswith('more than') and str(mine['error']).startswith('more than')
             if endless:      # a function that never returns, cut at the step limit: the calls both sides made, in order, up to the shorter run

@@ -612,10 +612,12 @@ class CPU:
             return
 
 
-def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=None):
+def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=None, stackfill=None):
     """Run one case. code = (address, bytes) puts other code (a compiled C unit) at its address;
     entry/end then name the function inside it (default: all of it). deep: True runs every call;
-    a function of the target address runs the calls it accepts (the rest return the case's values)."""
+    a function of the target address runs the calls it accepts (the rest return the case's values).
+    argc: the callee's integer argument count or register set, for its fills through r4-r7; stackfill: whether a callee can write
+    through the word at SP (a structure it returns, a stack argument), for the case's poke_stack."""
     mem = Memory()
     path = lambda p: p if os.path.isabs(p) else os.path.join(case_dir, p)
     if case.get('dump'):
@@ -706,13 +708,26 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             c.r[0] = 0                           # an answer that gives no r0 / fr0: the callee's result is 0, not a leftover register
         if 'fr0' not in ret:
             c.fr[0] = 0
-        n_args = argc(target & M32) if argc else None             # the callee's integer argument count, when known
+        n_args = argc(target & M32) if argc else None             # the callee's integer argument count, or the set of registers it reads
+        set_for = calls[-1]['chg'] if calls else [True] * 4         # which of r4-r7 were set for this call: the others are leftovers
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
-            if n_args is not None and int(k[1:]) - 4 >= n_args:
+            if not set_for[int(k[1:]) - 4]:
+                continue                                         # a leftover, not an argument: no fill (circuitDrawMatchInfo -> sprSheetPut,
+                                                                 # Virtua Tennis: the original's leftover r5 was an object pointer, the C's was not)
+            if n_args is not None and (int(k[1:]) not in n_args if isinstance(n_args, (set, frozenset)) else int(k[1:]) - 4 >= n_args):
                 continue                                         # not one of its arguments: the register only holds a leftover
+            if not 0x0C000000 <= (c.r[int(k[1:])] & 0x1FFFFFFF) < 0x0E000000:
+                continue                                         # a value, not an address in RAM or the stack (angDiff(0, ...): the fill went to
+                                                                 # address 0 on one side of a check only, Virtua Tennis playerPut)
             mem.load(c.r[int(k[1:])] & M32, bytes.fromhex(v))
-        if ret.get('poke_stack'):                                # a structure returned by value: the callee fills the buffer the stack word names
-            mem.load(mem.read(c.r[15] & M32, 4, True) & M32, bytes.fromhex(ret['poke_stack']))
+        sp_word = mem.read(c.r[15] & M32, 4, True) & M32
+        sp_set = calls[-1]['stackchg'][0] if calls else True     # the caller stored the word at SP for this call: else a leftover (endingSceneDraw,
+                                                                 # Virtua Tennis: a leftover 8C125E09 got a fill one byte into the game's own table)
+        if (ret.get('poke_stack') and (stackfill is None or stackfill(target & M32)) and sp_set and not sp_word & 3
+                and 0x0C000000 <= (sp_word & 0x1FFFFFFF) < 0x0E000000):
+            # a structure returned by value: the callee fills the buffer the stack word names (not a callee that takes no stack word and
+            # returns no structure, and not a word that is a value: the fill went to page 0 on one side only, playerPut case 4)
+            mem.load(sp_word, bytes.fromhex(ret['poke_stack']))
         for k, v in ret.items():
             if k in ('poke_arg', 'poke_stack'):
                 continue

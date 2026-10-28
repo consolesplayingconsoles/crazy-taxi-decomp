@@ -377,6 +377,23 @@ def original_runs(name,case,_mended=False):
             ERRS['reaches outside RAM through the stack']=ERRS.get('reaches outside RAM through the stack',0)+1
             return None,set()
     return r['steps'],set(r.get('covered',[]))
+def unset_free(name,cases):
+    """The cases on which what the original does does not depend on r8-r14 it never set (directed.unset_dependent): shopDrawCatPanel,
+    Virtua Tennis, indexes with the caller's r10 for an a4 outside its compare chain, the C with an uninitialised variable."""
+    try:
+        sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
+        import sh4sim, directed
+    except Exception: return cases
+    start,size=G.SPANS[name]
+    base=int(open('BASE').read().strip(),16)
+    run=lambda c: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    out=[]
+    for d in cases:
+        if directed.unset_dependent(d,run):
+            ERRS['depends on registers it never set']=ERRS.get('depends on registers it never set',0)+1
+            continue
+        out.append(d)
+    return out
 def grow(name,runs,V,rng,HOT,budget=int(os.environ.get('GEN_BUDGET','1200'))):
     """Coverage-guided growth: take one of the cases that reach the most code, change one input (a word in memory, a register, the
     result of a call) to a value from V, and keep the new case when it runs an instruction no case has run yet. A chain of guards
@@ -573,10 +590,10 @@ def tests(name,c,src):
                 if getattr(c,'frame_stack_call',False):          # a call that returns a structure: the callee fills the buffer its stack argument names
                     for e_ in d['calls']: e_['poke_stack']=struct.pack('<4I',*[rng.choice(pool) for _ in range(4)]).hex()
             cases.append(d)
-        cases=pick(name,cases,36,V,rng,sorted(consts|{0,1,2,0xFFFFFFFF}))
+        cases=unset_free(name,pick(name,cases,36,V,rng,sorted(consts|{0,1,2,0xFFFFFFFF})))
         if len(cases)>=(1 if retry and not ip and not fp else 12 if (loopy or chained) else 6):      # no register input: every case runs the same code
             # the development cases are the ones the coverage pick chose; the holdout cases are other survivors it did not choose
-            rest=[d for d in LAST.get('pool',[]) if d not in cases]
+            rest=unset_free(name,[d for d in LAST.get('pool',[]) if d not in cases])
             rng.shuffle(rest)
             indep=len(rest)>=6
             hold=rest[:18] if indep else cases[1::2][:18]
