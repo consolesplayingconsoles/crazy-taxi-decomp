@@ -60,6 +60,10 @@ def reachable(exe, base, a, sz):
     return seen
 
 
+INPLACE = ('shll', 'shlr', 'shal', 'shar', 'shll2', 'shlr2', 'shll8', 'shlr8', 'shll16', 'shlr16', 'rotl', 'rotr', 'rotcl', 'rotcr', 'dt')
+INPLACE2 = ('add', 'addc', 'addv', 'sub', 'subc', 'subv', 'and', 'or', 'xor', 'shad', 'shld')     # the destination is read too
+
+
 def register_inputs(exe, base, a, sz):
     """Registers r0-r3 and r8-r14 that the function reads and never writes anywhere (stack saves and restores aside): their value
     is whatever the caller left there, an input of a custom calling convention. C has no way to say it, so the function has no C
@@ -78,12 +82,16 @@ def register_inputs(exe, base, a, sz):
         parts = [x.strip() for x in re.split(r',(?![^(]*\))', ops)]
         last = parts[-1]
         dest = last if re.fullmatch(r'r\d+', last) and not mn.startswith(('cmp', 'tst', 'lds', 'ldc', 'jmp', 'jsr', 'bsr', 'bra')) else None
-        if dest:
-            defs.add(int(dest[1:]))
+        zeroing = mn in ('xor', 'sub', 'subc') and len(parts) == 2 and parts[0] == parts[1]        # xor r1,r1: sets it, reads nothing
+        if dest and (zeroing or not (mn in INPLACE or (mn in INPLACE2 and len(parts) == 2))):
+            defs.add(int(dest[1:]))                              # changed in place (add #28,r12; shll r1) is a use, not a definition: the
+                                                                 # incoming value goes on (Zombie Revenge FUN_0c0f1ef4 keeps a buffer in r12)
         for x in parts:
             if len(parts) == 2 and x == parts[0] and re.fullmatch(r'r\d+', x) and re.search(r'@\(?[^,]*r15', parts[1]) and mn.startswith('mov'):
                 continue                                         # a store to the stack frame: a spill, not a use
             for r in re.findall(r'\br(\d+)\b', x):
+                if zeroing:
+                    continue
                 if dest and x == dest and mn in pure:
                     continue
                 uses.add(int(r))

@@ -355,6 +355,101 @@ def candidates_b(kind, a, b):
     return sorted({c & M for c in (a, a + 1, a - 1, 0, 1, 0xFFFFFFFF, 0x7FFFFFFF, 0x80000000) if result(kind, a, c & M) != cur})
 
 
+def access(op, r):
+    """(address, base register) of the memory access an instruction makes, from its registers, or None (pushes and pops of r15 aside)."""
+    hi, n, m, lo = op >> 12, (op >> 8) & 15, (op >> 4) & 15, op & 15
+    if hi == 6 and lo in (0, 1, 2, 4, 5, 6): b, a = m, r[m]                      # mov.x @Rm(+),Rn
+    elif hi == 2 and lo in (0, 1, 2): b, a = n, r[n]                             # mov.x Rm,@Rn
+    elif hi == 2 and lo in (4, 5, 6): b, a = n, r[n] - (1 << (lo - 4))          # mov.x Rm,@-Rn
+    elif hi == 5: b, a = m, r[m] + 4 * lo                                         # mov.l @(disp,Rm),Rn
+    elif hi == 1: b, a = n, r[n] + 4 * lo                                         # mov.l Rm,@(disp,Rn)
+    elif hi == 8 and n in (0, 1, 4, 5): b, a = m, r[m] + (op & 15) * (1 << (n & 1))    # mov.b/w R0,@(disp,Rn) / @(disp,Rm),R0
+    elif hi == 0 and lo in (4, 5, 6): b, a = n, r[n] + r[0]                     # mov.x Rm,@(R0,Rn)
+    elif hi == 0 and lo in (0xC, 0xD, 0xE): b, a = m, r[m] + r[0]               # mov.x @(R0,Rm),Rn
+    elif hi == 0xF and lo in (8, 9): b, a = m, r[m]                               # fmov.s @Rm(+),FRn
+    elif hi == 0xF and lo == 6: b, a = m, r[m] + r[0]                             # fmov.s @(R0,Rm),FRn
+    elif hi == 0xF and lo == 0xA: b, a = n, r[n]                                  # fmov.s FRm,@Rn
+    elif hi == 0xF and lo == 0xB: b, a = n, r[n] - 4                              # fmov.s FRm,@-Rn
+    elif hi == 0xF and lo == 7: b, a = n, r[n] + r[0]                             # fmov.s FRm,@(R0,Rn)
+    else: return None
+    return None if b == 15 else (a & M, b)
+
+
+def in_ram(a):
+    a &= 0x1FFFFFFF
+    return 0x0C000000 <= a < 0x0E000000                                           # main RAM and the simulator's stack above it
+
+
+def unhang(c, tr):
+    """A run that ends spinning on a branch to itself (bra . : the game stops on data it rejects): the case with the word the last
+    test before the hang compared changed so the test goes the other way (tst / cmp/eq, register or immediate), or None."""
+    if not tr or tr[-1][1] != 0xAFFE and not (len(tr) > 1 and tr[-2][1] == 0xAFFE):
+        return None
+    hang = tr[-1][0] if tr[-1][1] == 0xAFFE else tr[-2][0]
+    k = next(i for i, x in enumerate(tr) if x[0] == hang)
+    j = next((i for i in range(k - 1, -1, -1) if (tr[i][1] >> 8) in (0x89, 0x8B, 0x8D, 0x8F)), None)     # bt / bf / bt/s / bf/s
+    if j is None:
+        return None
+    for i in range(j - 1, max(-1, j - 8), -1):
+        op, r = tr[i][1], tr[i][2]
+        n, m = (op >> 8) & 15, (op >> 4) & 15
+        if op & 0xF00F == 0x2008: kind, pairs = 'tst', ((n, r[m]), (m, r[n]))          # tst Rm,Rn
+        elif op & 0xF00F == 0x3000: kind, pairs = 'eq', ((n, r[m]), (m, r[n]))         # cmp/eq Rm,Rn
+        elif op >> 8 == 0xC8: kind, pairs = 'tst', ((0, op & 0xFF),)                   # tst #imm,R0
+        elif op >> 8 == 0x88: kind, pairs = 'eq', ((0, sx(op & 0xFF, 8) & M),)          # cmp/eq #imm,R0
+        else: continue
+        for reg, other in pairs:
+            prov = provenance(tr, i, reg)
+            if not prov:
+                continue
+            v = r[reg]
+            if kind == 'tst': want = (v | other) & M if (v & other) == 0 else v & ~other & M
+            else: want = (v + 1) & M if v == other else other
+            nc = apply(c, prov, want)
+            if nc and nc != c:
+                return nc
+        return None
+    return None
+
+
+def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
+    """A drawn case the original does not finish on, or finishes reaching outside RAM, mended at the source of the value that went wrong:
+    run(case) runs the original with a trace; a dt counter at the step cap gets 2 at its source, a pointer that reached outside RAM (or
+    an unaligned word) a fresh zeroed block at its source (provenance / apply). The case that finishes cleanly, or None. Zombie Revenge
+    FUN_0c05265c: a global {array, count} read as zeros wraps the count to 2^32, then reads through null entries. A run that ends on a
+    branch to itself gets the word its last test compared changed instead (unhang: FUN_0c0cac3a stops on a record whose flag is clear)."""
+    CTX['range'] = rng
+    c = copy.deepcopy(case); nxt = block
+    for _ in range(rounds):
+        r = run(c)
+        tr = r.get('trace') or []
+        if not r['error'] and not (r.get('devices') and not hw):
+            return c
+        if not tr:
+            return None
+        if r['error'] and 'instructions' in str(r['error']) and unhang(c, tr):   # the step cap on a deliberate hang: the test that led there
+            nc = unhang(c, tr)
+        elif r['error'] and 'instructions' in str(r['error']):            # the step cap: the counter of the loop it is in
+            ks = [k for k, x in enumerate(tr) if (x[1] & 0xF0FF) == 0x4010]   # dt Rn
+            if not ks:
+                return None
+            k = ks[0]; reg = (tr[k][1] >> 8) & 15
+            prov = provenance(tr, k, reg)
+            nc = apply(c, prov, 2) if prov else None
+        else:                                                             # the first access outside RAM, or the one that stopped the run
+            k = next((i for i, x in enumerate(tr) if access(x[1], x[2]) and not in_ram(access(x[1], x[2])[0])), len(tr) - 1)
+            acc = access(tr[k][1], tr[k][2])
+            if not acc:
+                return None
+            prov = provenance(tr, k, acc[1])
+            nc = apply(c, prov, nxt) if prov else None
+            nxt += 0x400
+        if not nc or nc == c:
+            return None
+        c = nc
+    return None
+
+
 def out_only(line):
     """An equiv.py line that differs in the function's return value alone (the registers it returns in), not in calls or memory."""
     return re.search(r'\bDIFFERS\s+case \d+: out:', line) is not None

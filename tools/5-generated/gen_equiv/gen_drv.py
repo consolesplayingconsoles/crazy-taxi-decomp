@@ -248,12 +248,20 @@ LAST_READS=[]
 RUNTIME={a for a,n in G.FUNCS.items() if n.startswith('_')}       # the compiler's runtime helpers run for real, as equiv.py runs them
 ERRS={}             # why the original did not finish on the cases drawn, counted (for the failure report)
 HW=[True]           # whether the function names a hardware address: only then are its device accesses part of a case
+HWNAMED=[set()]     # the addresses outside RAM the function's code names (masked to 29 bits): its hardware
 def _names_hardware(src):
+    HWNAMED[0]=set()
     for m in re.findall(r'0x([0-9A-Fa-f]{5,8})',src):
         v=int(m,16)
         ram=0x0C000000<=v<0x0D000000 or 0x8C000000<=v<0x8D000000 or 0xAC000000<=v<0xAD000000
-        if v>=0x00200000 and not ram: return True
-    return False
+        if v>=0x00200000 and not ram: HWNAMED[0].add(v&0x1FFFFFFF)
+    return bool(HWNAMED[0])
+def unnamed_region(devs,named):
+    """An access outside RAM in a 16 MB region the function's code names no address in: a stray pointer from a drawn input (a random
+    word read as a pointer), not the function's hardware, which it reaches through the addresses it names (selCursorInput: 103C3B4C in
+    the original, 1E29B898 in the C, the same random pointer read at another place)."""
+    regions={a>>24 for a in named}
+    return any(((int(a[1],16)&0x1FFFFFFF)>>24) not in regions for a in devs)
 _SAVED={}
 NOSTACK=[True]     # the function being drawn takes no stack arguments
 def _saved_words(name):
@@ -290,7 +298,27 @@ def ram_mirror(devs,stack_top):
         x=int(a[1],16)&0x1FFFFFFF
         if 0x0D000000<=x<0x10000000 and not (stack_top-0x100000<=x<stack_top+0x1000): return True
     return False
-def original_runs(name,case):
+REPAIRS={}          # cases sent to directed.repair per function: a few are enough to give a table walk cases that end
+LEARNED={}          # the words a repair set, per function: given to the next cases before their first run (a drawn case runs to the step
+                    # cap in about 0.35 s, and drawing makes hundreds: FUN_0c05265c still timed out with 16 repairs and nothing reused)
+def mend(name,case,run):
+    """A case the original does not finish on, or finishes reaching memory a non-hardware function never names, mended at the source
+    of the value that went wrong (directed.repair: a dt count wrapped from 0, a null or garbage pointer read from the drawn memory),
+    in place. True when the case changed. At most GEN_REPAIRS (16) cases per function."""
+    if REPAIRS.get(name,0)>=int(os.environ.get('GEN_REPAIRS','16')): return False
+    REPAIRS[name]=REPAIRS.get(name,0)+1
+    try:
+        import directed
+        st,sz=G.SPANS[name]
+        fixed=directed.repair(case,run,(0x0C000000|(st&0x1FFFFFFF),0x0C000000|((st+sz)&0x1FFFFFFF)),hw=HW[0])
+    except Exception: return False
+    if not fixed or fixed==case: return False
+    before=case.get('poke',{})
+    LEARNED[name]={k:v for k,v in fixed.get('poke',{}).items() if before.get(k)!=v}
+    case.clear(); case.update(fixed)
+    ERRS['repaired at the source']=ERRS.get('repaired at the source',0)+1
+    return True
+def original_runs(name,case,_mended=False):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
     tools/sh4sim.py next to this directory; without it every case is kept."""
@@ -300,7 +328,16 @@ def original_runs(name,case):
     except Exception: return 0,None
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
-    r=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    run=lambda c,trace=False: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60),trace=trace),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    if LEARNED.get(name) and not _mended:          # what an earlier repair set, tried first: kept when the original then ends cleanly
+        c2=dict(case,poke=dict(case.get('poke',{}),**LEARNED[name]))
+        r=run(c2)
+        if not r['error'] and not (r.get('devices') and not HW[0]):
+            case.clear(); case.update(c2)
+            return original_runs(name,case,True)
+    r=run(case)
+    if not _mended and (r['error'] or (r.get('devices') and not HW[0])) and mend(name,case,lambda c: run(c,True)):
+        return original_runs(name,case,True)
     LAST_READS[:]=r.get('reads',[])
     k,spill=_saved_words(name)
     if k and not r['error']:
@@ -316,6 +353,9 @@ def original_runs(name,case):
         ERRS[str(r['error'])[:70]]=ERRS.get(str(r['error'])[:70],0)+1
         return None,set()
     if r.get('devices') and not HW[0]: return None,set()      # a wild pointer reached memory the function never names (a null pointer, a random word): not a case
+    if r.get('devices') and HW[0] and unnamed_region(r['devices'],HWNAMED[0]):          # a stray pointer outside the hardware it names
+        ERRS['reaches memory the function never names']=ERRS.get('reaches memory the function never names',0)+1
+        return None,set()
     if r.get('devices') and HW[0] and ram_mirror(r['devices'],sh4sim.STACK_TOP):       # a stray pointer into a mirror of RAM: not a game input
         ERRS['reaches a mirror of RAM']=ERRS.get('reaches a mirror of RAM',0)+1
         return None,set()
