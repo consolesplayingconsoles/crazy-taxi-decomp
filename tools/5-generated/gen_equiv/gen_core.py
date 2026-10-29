@@ -615,6 +615,16 @@ def _run(name,passthru=False,frame=False,flat=False):
         v=ex(val)
         if ad[0]=='const': c.blocks[-1].append('*(%s *)0x%X = %s;'%(T,ad[1],v)); c.mem_addrs.append(('c',ad[1]))
         else: c.blocks[-1].append('*(%s *)(%s) = %s;'%(T,ad[1],v)); c.mem_addrs.append(('e',ad[1]))
+    def held(v):
+        """A pushed word read back into a register. A word carried across a block is the expression that reads its frame cell
+        (`*(int *)((int)stk + 28)`); in a register it must be the value it had when it was read, not the cell read again where the register
+        is used: a store into that cell in between (the sum pushed again) changed what the use would read, and the addend was counted
+        twice (selPortsExec, Virtua Tennis)."""
+        if isinstance(v, tuple) and len(v) == 2 and v[0] == 'e' and isinstance(v[1], str) and v[1].startswith('*(int *)(') and not isfp(v):
+            t = 't%d' % c.ntemp; c.ntemp += 1
+            c.blocks[-1].append('int %s = %s;' % (t, v[1]))
+            return ('e', t)
+        return v
     def fload(ad):
         pa=pool(ad,4)
         if pa is not None: return rd32(pa)
@@ -691,13 +701,13 @@ def _run(name,passthru=False,frame=False,flat=False):
         if mn=='mov.l' and a[1].startswith('r') and c.pend and (a[0]=='@r15' or re.match(r'^@\((\d+),r15\)$',a[0])):      # a reload of a word pushed before a call that took none of it: the pending push, not memory
             dsp=0 if a[0]=='@r15' else int(re.match(r'^@\((\d+),r15\)$',a[0]).group(1))
             if dsp%4==0 and dsp//4<len(c.pend) and not isfp(c.pend[-1-dsp//4]):
-                c.R[a[1]]=c.pend[-1-dsp//4]; return
+                c.R[a[1]]=held(c.pend[-1-dsp//4]); return
         if mn=='mov.l' and a[0]=='@r15+' and a[1].startswith('r'):
             ab=-c.D
             c.D-=4
             if c.pend:
                 if isfp(c.pend[-1]): raise Skip('float popped into integer register')
-                c.R[a[1]]=c.pend.pop()
+                c.R[a[1]]=held(c.pend.pop())
             elif a[1] in ('r0','r1','r2','r3','r4','r5','r6','r7') and ab<0:      # a word stored to the frame with a plain store and read back by a pop (an argument for a tail call): a load from that slot
                 key=(ab,'i')
                 if key in c.stack: c.R[a[1]]=c.stack[key]

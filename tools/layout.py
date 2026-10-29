@@ -38,3 +38,15 @@ def region(name, required=False):
     if r is None and required:
         sys.exit('[ERROR] layout.txt has no "%s" line: <name> <start hex> <end hex> (see tools/layout.py)' % name)
     return r
+
+
+def mirror(a):
+    """The address in the 0C mirror of the same RAM: layout.txt and the build tools work in 0C, a game linked at 8C (the cached mirror)
+    lists its functions as 8c in functions.txt."""
+    return (a & 0x1FFFFFFF) | 0x0C000000
+
+
+def functions():
+    """[(address in the 0C mirror, size, name)] from functions.txt, sorted by address."""
+    return sorted((mirror(int(l.split()[1], 16)), int(l.split()[2]), l.split()[3])
+                  for l in open('functions.txt') if l.startswith('F '))

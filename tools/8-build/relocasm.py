@@ -38,7 +38,7 @@ CHECK = False
 
 
 def functions():
-    return sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F '))
+    return layout.functions()
 
 
 def asm_only():
@@ -105,6 +105,37 @@ def reach_in(start, lo, hi):
     return seen, flags, outs
 
 
+def _pointer_table(a, size):
+    """Whether the entry at a is a table of code pointers: aligned, two words at least, the first two both pointing into the game code.
+    Its first word can decode as an instruction by luck (0x8C0F7FF0 starts with 7FF0, add #-16,r15), so the first word alone is not enough."""
+    if a % 4 or size < 8:
+        return False
+    for k in range(2):
+        v = struct.unpack_from('<I', B.BIN, a + 4 * k - B.BASE)[0]
+        if (v >> 24) not in (0x0C, 0x8C, 0xAC) or not G0 <= ((v & 0x1FFFFFFF) | 0x0C000000) < G1:
+            return False
+    return True
+
+
+def _r0_loaded_once(x, nxt):
+    """Whether the mova at x is followed, in straight-line code that does not touch r0, by a 4-byte load through it (`fmov.s @r0,fr` or
+    `mov.l @r0,r`): the word is read once and r0 is not used as an address for anything else. A branch, a call, a label-less end of the
+    function, or any other use of r0 before that load says no."""
+    for k in range(1, 48):
+        y = x + 2 * k
+        if y >= nxt:
+            return False
+        text = shdis.decode(B.word(y), y)[0] or ''
+        m = text.split()[0] if text else ''
+        if re.match(r'^(fmov\.s|mov\.l) @r0,', text):
+            return True
+        if m in ('bt', 'bf', 'bra', 'bsr', 'jmp', 'jsr', 'rts', 'bt/s', 'bf/s', 'braf', 'bsrf', 'rte', 'trapa') or m.startswith('.word'):
+            return False
+        if re.search(r'\br0\b|\(r0,|@\(r0', text):
+            return False
+    return False
+
+
 def piece(i, F, entry, rename=None, extra=()):
     """rename: export the piece under another name (a second copy of a function that has C); extra: addresses inside it that also
     get an exported label _ent_<address> (a place other code jumps to, in the middle)."""
@@ -112,7 +143,7 @@ def piece(i, F, entry, rename=None, extra=()):
     ename = rename or name
     nxt = F[i + 1][0] if i + 1 < len(F) else G1
     first = B.word(a)
-    if first == 0xEEEE or shdis.decode(first, a)[0].startswith('.word'):
+    if first == 0xEEEE or shdis.decode(first, a)[0].startswith('.word') or _pointer_table(a, size):
         seen, flags, outs = set(), set(), set()          # padding or a table: the whole range is data
     else:
         seen, flags, outs = reach_in(a, a, nxt)
@@ -163,8 +194,7 @@ def piece(i, F, entry, rename=None, extra=()):
                 lines[x] = ['          MOVA       %s,R0' % labels[tab]]
             else:
                 # a word in another function's pool, read through r0 (@r0): this piece keeps its own copy
-                nxt4 = [shdis.decode(B.word(x + 2 * k), x + 2 * k)[0] for k in range(1, 5)]
-                single = any(re.match(r'^(fmov\.s|mov\.l) @r0,', t) for t in nxt4) and not any('(r0,' in t or ',r0' in t.split(';')[0].split(' ', 1)[-1].replace('@r0,', '') for t in nxt4[:1])
+                single = _r0_loaded_once(x, nxt)
                 if tab is None or not single:
                     return None, 'mova at %08x names data outside the function (%s)' % (x, hex(tab) if tab else '?')
                 val = struct.unpack_from('<I', B.BIN, tab - B.BASE)[0]

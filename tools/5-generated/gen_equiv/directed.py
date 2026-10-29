@@ -409,18 +409,35 @@ def unhang(c, tr):
 
 def loop_exit(c, tr):
     """A run at the step cap in a loop with no counter (entryPickRandomChara, Virtua Tennis: a random index retried while the table
-    entry is 0): the case with the word the loop's own test compares changed so the loop ends, from the backward conditional branch
-    taken most often near the end of the run, or None."""
+    entry is 0; vmsfs_c_dispatch: a state field of 21 or more sleeps and tries again): the case with the word the loop's own exit test
+    compares changed so the loop ends, or None. The exit is a conditional branch (backward or forward, the loop may close with an
+    unconditional one) that went the same way every time in the end of the run and whose other way goes to code the loop never ran."""
     tail = tr[-3000:]
-    back = {}
-    for x in tail:
-        if (x[1] >> 8) in (0x89, 0x8B, 0x8D, 0x8F) and (x[1] & 0x80):          # a backward bt / bf / bt/s / bf/s
-            back[x[0]] = back.get(x[0], 0) + 1
-    if not back:
-        return None
-    pc = max(back, key=back.get)
-    j = min(i for i, x in enumerate(tr) if x[0] == pc)              # its first pass: a bound set from there ends the loop at once
-    return flip_test(c, tr, j)
+    pcs = {x[0] for x in tail}
+    outcomes = {}                                                        # pc -> set of 'taken' / 'fell' over the tail, in order of appearance
+    order = []
+    for k in range(len(tail) - 1):
+        x = tail[k]
+        op = x[1]
+        if (op >> 8) not in (0x89, 0x8B, 0x8D, 0x8F):
+            continue
+        delayed = (op >> 8) in (0x8D, 0x8F)
+        nxt = tail[k + 2][0] if delayed and k + 2 < len(tail) else tail[k + 1][0]
+        target = (x[0] + 4 + 2 * sx(op & 0xFF, 8)) & M
+        if x[0] not in outcomes:
+            outcomes[x[0]] = set(); order.append((x[0], target, x[0] + (4 if delayed else 2)))
+        outcomes[x[0]].add(nxt == target)
+    for pc, target, fall in order:
+        if len(outcomes[pc]) != 1:
+            continue                                                     # it went both ways: not the one that keeps the loop
+        alt = fall if True in outcomes[pc] else target                   # the way it never went
+        if alt in pcs:
+            continue                                                     # that way is part of the loop too
+        j = min(i for i, x in enumerate(tr) if x[0] == pc)             # its first pass: a bound set from there ends the loop at once
+        nc = flip_test(c, tr, j)
+        if nc:
+            return nc
+    return None
 
 
 def flip_test(c, tr, j):
@@ -513,6 +530,98 @@ def index_source(tr, k, reg):
     return None
 
 
+def steady_state(tr):
+    """True when a run cut at the step limit has stopped changing: the last step's pc and registers were also those of one cycle
+    earlier and two cycles earlier, and the cycles between stored the same values to the same places. Nothing in the simulator changes
+    then (the calls past the case's answers return 0), so the run never ends: an event loop, a state machine waiting on a word nothing
+    sets, a game loop (Virtua Tennis main, vmsfs_c_dispatch), against a long fixed count, whose registers change on every pass."""
+    tail = tr[-3000:]
+    if len(tail) < 400:
+        return False
+    key = lambda x: (x[0], tuple(x[2]), tuple(x[3]))
+    last = len(tail) - 1
+    k0 = key(tail[last])
+    prev = next((i for i in range(last - 1, -1, -1) if key(tail[i]) == k0), None)
+    if prev is None:
+        return False
+    period = last - prev
+    if prev - period < 0 or key(tail[prev - period]) != k0:
+        return False
+    def stores(a, b):
+        out = []
+        for x in tail[a:b]:
+            s = store_of(x[1], x[2])
+            if s:
+                out.append((s[0] & M, s[1], x[2][s[2]] & M))
+        return sorted(out)
+    return stores(prev, last) == stores(prev - period, prev)
+
+
+def unclobber(c, tr, block=0x0CF00000):
+    """A run that ends executing drawn data: the function returned (rts) through a return address a store had overwritten, an index
+    past the end of a local table writing into its own frame (Virtua Tennis _div64, kmyGenerateRegionArray: "unknown instruction at
+    0C930100"). The case with the index of that store set to 0, or its pointer to a zeroed block, or None. The prologue's own push
+    (sts.l pr,@-r15) is no mov store: any mov store onto the slot pr was reloaded from is the one that overwrote it."""
+    j = next((i for i in range(len(tr) - 2, max(-1, len(tr) - 16), -1) if tr[i][1] == 0x4F26), None)      # lds.l @r15+,pr before the rts
+    if j is None:
+        return None
+    a = tr[j][2][15] & M
+    hits = []
+    for i in range(j):
+        s = store_of(tr[i][1], tr[i][2])
+        if s and (s[0] & M) < a + 4 and a < (s[0] & M) + s[1]:
+            hits.append(i)
+    if not hits:
+        # no store of the function's own: a mocked call's fill (poke_arg) written through a pointer to a buffer smaller than the fill
+        # ran onto the slot (Virtua Tennis _div64). Every such fill in the run is cut to the whole words before the slot: the last one
+        # to write leaves the bad value, and a loop gives each pass its own
+        nc = copy.deepcopy(c)
+        cut = False
+        for jj in range(j):
+            x = tr[jj]
+            if call_target(x[1], x[0], x[2]) is None:
+                continue
+            qi = call_index(tr, jj)
+            ncalls = nc.get('calls', [])
+            if qi >= len(ncalls):
+                continue
+            xr = tr[jj + 2][2] if jj + 2 < len(tr) else x[2]           # the registers after the delay slot, which often sets an argument
+            for k, hexv in list((ncalls[qi].get('poke_arg') or {}).items()):
+                p0 = xr[int(k[1:])] & M
+                if p0 <= a < p0 + len(hexv) // 2:
+                    keep = ((a - p0) // 4) * 8
+                    if keep:
+                        ncalls[qi]['poke_arg'][k] = hexv[:keep]
+                    else:
+                        del ncalls[qi]['poke_arg'][k]
+                    cut = True
+        if cut:
+            return nc
+        return None
+    i = hits[-1]
+    op = tr[i][1]
+    n = (op >> 8) & 15
+    acc = access(op, tr[i][2])
+    regs = []
+    if op & 0xF00F in (0x0004, 0x0005, 0x0006, 0xF007):             # @(R0,Rn): the index is in r0, the base in Rn
+        regs = [0, n]
+    elif acc:
+        regs = [acc[1]]
+    for reg in regs:
+        prov = index_source(tr, i, reg)
+        if prov:
+            nc = apply(c, prov, 0)
+            if nc and nc != c:
+                return nc
+    for reg in regs:
+        prov = provenance(tr, i, reg)
+        if prov:
+            nc = apply(c, prov, block)
+            if nc and nc != c:
+                return nc
+    return None
+
+
 def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
     """A drawn case the original does not finish on, or finishes reaching outside RAM, mended at the source of the value that went wrong:
     run(case) runs the original with a trace; a dt counter at the step cap gets 2 at its source, a pointer that reached outside RAM (or
@@ -532,6 +641,9 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
             return None
         if r['error'] and 'instructions' in str(r['error']) and unhang(c, tr):   # the step cap on a deliberate hang: the test that led there
             nc = unhang(c, tr)
+        elif r['error'] and 'unknown instruction' in str(r['error']):     # it ran drawn data: a return address overwritten by a stray store
+            nc = unclobber(c, tr, nxt)
+            nxt += 0x400
         elif r['error'] and 'instructions' in str(r['error']) and not any((x[1] & 0xF0FF) == 0x4010 for x in tr):
             nc = loop_exit(c, tr)                                         # the step cap in a loop with no counter: its own exit test
         elif r['error'] and 'instructions' in str(r['error']):            # the step cap: the counter of the loop it is in

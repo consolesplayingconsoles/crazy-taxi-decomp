@@ -29,12 +29,17 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shdis
 
-BASE = int(open('BASE').read().strip(), 16)
+def mirror(a):
+    """The address in the 0C mirror of the same RAM (layout.mirror): the build tools work in 0C, a game linked at 8C lists 8c."""
+    return (a & 0x1FFFFFFF) | 0x0C000000
+
+
+BASE = mirror(int(open('BASE').read().strip(), 16))
 BIN = open('1ST_READ.BIN', 'rb').read()
 
 
 def word(a):
-    return struct.unpack_from('<H', BIN, a - BASE)[0]
+    return struct.unpack_from('<H', BIN, mirror(a) - BASE)[0]
 
 
 def entries():
@@ -42,7 +47,7 @@ def entries():
     for l in open('functions.txt'):
         p = l.split()
         if len(p) >= 4 and p[0] == 'F':
-            out.append([int(p[1], 16), int(p[2]), p[3]])
+            out.append([mirror(int(p[1], 16)), int(p[2]), p[3]])
     return sorted(out)
 
 

@@ -19,8 +19,8 @@ stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/h
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 
 It also writes badges/progress.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
-hook stages it with the Progress block. Once status.txt ticks BUILDS FROM C, the badge also lists the statuses in it, ticked or
-crossed; before that it shows the measures only.
+hook stages it with the Progress block. The badge also lists the statuses in status.txt, ticked, crossed or unknown, from the first
+day: a game that does not build from C yet shows BUILDS FROM C crossed.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
@@ -294,8 +294,8 @@ def statuses(path='status.txt'):
 
 status = statuses()
 reached = [n for n, on in status if on]
-# the statuses show once the game builds from the C (the first status); before that the badge carries the measures only
-write_badge(rows, 'decomp', extra=[(n, '\u2753' if on is None else '\u2705' if on else '\u274c') for n, on in status] if reached else ())
+# the statuses show whenever status.txt has any: BUILDS FROM C crossed while the build fails
+write_badge(rows, 'decomp', extra=[(n, '\u2753' if on is None else '\u2705' if on else '\u274c') for n, on in status] if status else ())
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')

@@ -32,7 +32,7 @@ def main(argv):
         sys.exit(__doc__)
     out = argv[1]
     os.makedirs(out, exist_ok=True)
-    F = sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F '))
+    F = layout.functions()
     entry = {a: n for a, s, n in F if G0 <= a < G1}
     files = {}
     for fn in os.listdir('asm'):

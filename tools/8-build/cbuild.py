@@ -37,6 +37,7 @@ import fit as fitmod
 import shdis
 
 import layout  # noqa: E402
+import layout as layout_txt  # noqa: E402  (cbuild defines a function named layout below)
 
 G0, G1 = layout.region('game', True)                     # the game's own code (layout.txt)
 FILL0, FILL1 = layout.region('fill') or (G0, G0)          # spare room in the file before it (none: the game code alone)
@@ -65,7 +66,7 @@ DEF = re.compile(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\n?\{', re.M)
 
 
 def functions():
-    return sorted((int(l.split()[1], 16), int(l.split()[2]), l.split()[3]) for l in open('functions.txt') if l.startswith('F '))
+    return layout_txt.functions()
 
 
 def game_set():
@@ -245,11 +246,20 @@ def pieces():
             out.append(l if is_comment(l) else LIT.sub(sub, l))
         if used or funcs:
             names = sorted({m.group(1) for u in used for m in re.finditer(r'\(int\)(\w+)', u)})
-            head = ''.join('extern char %s[];\n' % n for n in names)
-            head += ''.join('int %s();\n' % n for n in sorted(funcs) if not re.search(r'\b%s\s*\(' % re.escape(n), t))
+            head = extern_head(names, funcs, t)
             nrep += len(used) + len(funcs)
             open(f, 'w').write(head + '\n'.join(out))
     print('%d table pieces, %d second copies, %d literals rewritten' % (len(cl), len(alt), nrep))
+
+
+def extern_head(names, funcs, t):
+    """The declarations at the top of a rewritten C file: `extern char name[]` for each table or function the rewritten numbers are
+    based on, `int name();` for each game function whose address the C names. A name the file already declares or defines as a function
+    (it has `name(` in it) is not declared again as char[]: the two conflict and the file does not compile."""
+    called = lambda n: re.search(r'\b%s\s*\(' % re.escape(n), t)
+    head = ''.join('extern char %s[];\n' % n for n in names if not called(n))
+    head += ''.join('int %s();\n' % n for n in sorted(funcs) if not called(n))
+    return head
 
 
 def prep_sources():
@@ -311,8 +321,8 @@ asm1() {   # $1 = source file, $2 = object
   rm -f build/cbuild/log/asm.$$.log
 }
 if [ "$PIECES" = 1 ]; then
-  for f in build/cbuild/asm/*.src; do o=build/cbuild/obj/$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
-  for f in build/cbuild/ptr/*.src; do o=build/cbuild/obj/p_$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
+  for f in build/cbuild/asm/*.src; do [ -e "$f" ] || continue; o=build/cbuild/obj/$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
+  for f in build/cbuild/ptr/*.src; do [ -e "$f" ] || continue; o=build/cbuild/obj/p_$(basename ${f%.src}).obj; [ -f $o ] || asm1 $f $o; done
 fi
 cat $LIST | xargs -P 2 -I{} bash -c 'one {}'
 '''

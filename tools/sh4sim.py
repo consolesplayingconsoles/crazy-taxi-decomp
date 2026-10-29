@@ -156,10 +156,25 @@ class Memory:
             self.body_written.discard(self.phys(addr + k) & ~3)
 
 
+class _Regs(list):
+    """The integer registers, remembering which were assigned since `written` was last cleared (a bit per register). A mocked call's
+    argument register is set for the call when the function wrote it since the last call, whatever value it holds: a pointer reloaded
+    with the same value for every call counts (ballMove -> nlAddVector). A change of value did not tell, and skipped the fill."""
+    __slots__ = ('written',)
+
+    def __init__(s, *a):
+        list.__init__(s, *a)
+        s.written = 0
+
+    def __setitem__(s, i, v):
+        list.__setitem__(s, i, v)
+        s.written = s.written | (1 << i) if isinstance(i, int) else 0xFFFF
+
+
 class CPU:
     def __init__(self, mem):
         self.m = mem
-        self.r = [0] * 16
+        self.r = _Regs([0] * 16)
         self.t = self.s = self.q = self.mq = 0
         self.srx = 0x40000000         # SR's other bits (MD = 1, interrupt mask 0): read by stc sr, written by ldc sr
         self.gbr = self.mach = self.macl = self.pr = self.pc = 0
@@ -477,6 +492,7 @@ class CPU:
         if call == 'rts' or target == SENTINEL:
             if self.inside and target == self.inside[-1]:
                 self.inside.pop()                 # a deep callee returned
+                self.r.written = 0                # and left r4-r7 undefined: what the caller set before it no longer counts
             self.pc = target
             return
         if self.inside and call != 'call':        # inside a deep callee: its branches are its own
@@ -668,6 +684,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     after_call = []
     entry_args = [cpu.r[i] for i in range(4, 8)]      # r4-r7 as the case gave them: a call's argument register that still holds this was not set by the function
     post_args = list(entry_args); post_fargs = list(entry_fargs)   # r4-r7 / fr4-fr11 right after the last call
+    cpu.r.written = 0                                  # registers written from here on are the function's
 
     def frame_bufs(c):
         """{argument register: [word, ...]} for each of r4-r7 that points into this function's frame: the words from it that the
@@ -688,6 +705,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             if kind in ('call', 'jump'):
                 c.inside.append(c.pr)            # runs until it returns here (a tail jump: to our caller); not a call out
             return False
+        wrote = c.r.written                      # the registers the function wrote since the last call
         calls.append({'to': '%08X' % (target & M32), 'kind': kind,
                       'r4-r7': ['%08X' % c.r[i] for i in range(4, 8)],
                       'fr4-fr11': ['%08X' % c.fr[i] for i in range(4, 12)],
@@ -709,7 +727,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
         if 'fr0' not in ret:
             c.fr[0] = 0
         n_args = argc(target & M32) if argc else None             # the callee's integer argument count, or the set of registers it reads
-        set_for = calls[-1]['chg'] if calls else [True] * 4         # which of r4-r7 were set for this call: the others are leftovers
+        set_for = [bool(wrote >> i & 1) or (i in given_args and not after_call) for i in range(4, 8)]      # which of r4-r7 were set for this call: the others are leftovers
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
             if not set_for[int(k[1:]) - 4]:
                 continue                                         # a leftover, not an argument: no fill (circuitDrawMatchInfo -> sprSheetPut,
@@ -735,6 +753,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                 c.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
             else:
                 c.r[int(k[1:])] = int(v, 16) & M32
+        c.r.written = 0                                        # the mock's own writes (the answer) are not the function's
         post_args[:] = [c.r[i] for i in range(4, 8)]           # a real callee leaves r4-r7 and fr4-fr11 undefined: what still holds these values
         post_fargs[:] = [c.fr[i] for i in range(4, 12)]        # at the next call was not set for it (a leftover, not an argument)
         after_call.append(1)

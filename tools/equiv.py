@@ -437,6 +437,16 @@ def stack_fills(table, reads=None):
     return ok
 
 
+def cut_endless(orig, mine):
+    """The two runs of an endless case, both cut at the step limit, reduced to what both got through: the same number of calls and of
+    device accesses, the first ones in order (writes are left out). Compiled code takes more instructions per pass of a loop, so in the
+    same steps it makes fewer calls and device accesses (Virtua Tennis vmsfs_c_dispatch: "access 1053/1333: original [...] / C none")."""
+    k = min(len(orig['calls']), len(mine['calls']))
+    kd = min(len(orig.get('devices', [])), len(mine.get('devices', [])))
+    return (dict(orig, calls=orig['calls'][:k], devices=orig.get('devices', [])[:kd], writes={}, error=None),
+            dict(mine, calls=mine['calls'][:k], devices=mine.get('devices', [])[:kd], writes={}, error=None))
+
+
 def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None, stackchg=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
@@ -692,8 +702,7 @@ def main(argv):
             n += 1
             endless = case.get('endless') and str(orig['error']).startswith('more than') and str(mine['error']).startswith('more than')
             if endless:      # a function that never returns, cut at the step limit: the calls both sides made, in order, up to the shorter run
-                k_ = min(len(orig['calls']), len(mine['calls']))
-                orig = dict(orig, calls=orig['calls'][:k_], writes={}, error=None); mine = dict(mine, calls=mine['calls'][:k_], writes={}, error=None)
+                orig, mine = cut_endless(orig, mine)
             good, diff = same(orig, mine, rets.get(fn, ['r0', 'fr0']), back, arity, indirect_arity(cfile, fn), indirect_targets(cfile, fn, table))
             faults = case.get('same_fault') and orig['error'] and orig['error'] == mine['error'] and not str(orig['error']).startswith('more than')
             if faults:       # code that cannot run as written (an unaligned constant address): both sides stop with the same fault, nothing else to compare

@@ -161,7 +161,8 @@ def build(name,ret,passthru=False):
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
     src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
-    import splitflat                              # more labels than the compiler takes (~512, "3018 overflow"): a main function and parts
+    import place, splitflat                       # fewer labels first (a block goes where its only jump is), then, if still over the limit,
+    if os.environ.get('GEN_PLACE','1')!='0': src=place.place(src.rstrip('\n'))+'\n'   # more labels than the compiler takes (~512, "3018 overflow"): a main function and parts
     src=splitflat.split(src.rstrip('\n'),int(os.environ.get('GEN_MAX_LABELS','480')))+'\n'
     return src,c
 _ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
@@ -196,6 +197,9 @@ def inline_single(body,decls):
                     # two calls in one statement run in an order C leaves open (SHC: right to left): a value that calls or reads memory
                     # stays a statement of its own when its use would then hold two calls
                     if ok and reads_mem and len(_CALL.findall(_CAST.sub('',l)))+len(_CALL.findall(_CAST.sub('',e)))>=2: ok=False
+                    # a float product that feeds another product stays a statement of its own: written in one expression SHC reassociates
+                    # the chain, which rounds differently past 2^24 (circuitStatsCalc, Virtua Tennis)
+                    if ok and ('float %s;'%v) in decls and ' * ' in e and ' * ' in l: ok=False
                     break
                 if re.search(r'[{}]|^\s*L_\w+:|\bgoto\b|\breturn\b|\bbreak\b|\bcontinue\b',l): break
                 a=re.match(r'^\s*([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*[-+*/&|^]?=',l)
@@ -223,6 +227,23 @@ def const_pool(name):
                 if psize>2: words.add((pool&~3)+4)
         _CPOOL[name]=words
     return _CPOOL[name]
+def _c_ternary(ex):
+    """`(cond) ? x : y` with a parenthesised condition and plain x and y, written as Python `(x if (cond) else y)`; None when one does not
+    fit that shape."""
+    while '?' in ex:
+        q=ex.index('?'); j=q-1
+        while j>=0 and ex[j]==' ': j-=1
+        if j<0 or ex[j]!=')': return None
+        d=0; i=j
+        while i>=0:
+            if ex[i]==')': d+=1
+            elif ex[i]=='(': d-=1
+            if d==0: break
+            i-=1
+        m=re.match(r'\?\s*(\w+)\s*:\s*(\w+)',ex[q:])
+        if i<0 or not m: return None
+        ex=ex[:i]+'(%s if %s else %s)'%(m.group(1),ex[i:j+1],m.group(2))+ex[q+m.end():]
+    return ex
 def addr_vals(c,basemap):
     """The addresses the code touches that follow from the argument values alone (None for one that depends on a loaded
     value or a loop variable)."""
@@ -233,7 +254,8 @@ def addr_vals(c,basemap):
         ex=e
         for k,v in basemap.items(): ex=re.sub(r'\b%s\b'%k,str(v),ex)
         ex=re.sub(r'\(\s*(?:unsigned\s+|signed\s+)?(?:short|char|int|long)\s*\)','',ex)           # a cast only narrows the seed address
-        if not re.match(r'^[\(\)\s\w\+\-\*<>|&~]*$',ex): raise Skip('addr expr '+e)
+        ex=_c_ternary(ex) or ex                             # (cond) ? x : y, a table index from a comparison (cpuDblSignalPut), as Python
+        if not re.match(r'^[\(\)\s\w\+\-\*<>|&~=!]*$',ex): raise Skip('addr expr '+e)
         try: res.append(eval(ex)&0xffffffff)
         except Exception: raise Skip('eval')
     return res
@@ -298,6 +320,16 @@ def ram_mirror(devs,stack_top):
         x=int(a[1],16)&0x1FFFFFFF
         if 0x0D000000<=x<0x10000000 and not (stack_top-0x100000<=x<stack_top+0x1000): return True
     return False
+def declared_endless(name):
+    """Whether endless.txt (one name per line, # comments, in the decomp's root) lists the function: a project's own judgment that it
+    never ends by design and only a counter changes from pass to pass (a game loop: Virtua Tennis main; Crazy Taxi MainLoop, bootMain).
+    Its capped cases are then endless cases without the steady-state test, which a counter fails. Say why in the comment."""
+    try:
+        return name in {l.split('#')[0].split()[0] for l in open('endless.txt') if l.split('#')[0].strip()}
+    except OSError:
+        return False
+MENDT={}            # per function: seconds spent in repair, which stops after GEN_MEND_SECONDS (12)
+ENDLESS={}          # per function: drawn cases whose original ran to the step limit and stopped changing (directed.steady_state), at most 12
 REPAIRS={}          # cases sent to directed.repair per function: a few are enough to give a table walk cases that end
 LEARNED={}          # the words a repair set, per function: given to the next cases before their first run (a drawn case runs to the step
                     # cap in about 0.35 s, and drawing makes hundreds: FUN_0c05265c still timed out with 16 repairs and nothing reused)
@@ -306,13 +338,18 @@ def mend(name,case,run):
     of the value that went wrong (directed.repair: a dt count wrapped from 0, a null or garbage pointer read from the drawn memory),
     in place. True when the case changed. At most GEN_REPAIRS (16) cases per function."""
     if REPAIRS.get(name,0)>=int(os.environ.get('GEN_REPAIRS','16')): return False
+    if MENDT.get(name,0)>float(os.environ.get('GEN_MEND_SECONDS','12')): return False      # repair has had its time on this function (emotFaceMorph: 17 s a case)
+    if declared_endless(name): return False                # declared endless by design: nothing to repair, and one repair of main took 31 s
+    if len(ENDLESS.get(name,()))>=2: return False          # two cases steady and past repair: the rest are not worth 5-10 s of repair each (main, vmsfs_c_dispatch)
     REPAIRS[name]=REPAIRS.get(name,0)+1
+    t_mend=time.time()
     try:
         import directed
         st,sz=G.SPANS[name]
         directed.CTX['deep']=lambda t:t in RUNTIME          # calls run inline are not answered by the case: call_index skips them
         fixed=directed.repair(case,run,(0x0C000000|(st&0x1FFFFFFF),0x0C000000|((st+sz)&0x1FFFFFFF)),hw=HW[0])
     except Exception: return False
+    finally: MENDT[name]=MENDT.get(name,0)+time.time()-t_mend
     if not fixed or fixed==case: return False
     before=case.get('poke',{}); rb=case.get('regs',{}); cb=case.get('calls',[])
     LEARNED[name]={'poke':{k:v for k,v in fixed.get('poke',{}).items() if before.get(k)!=v},           # memory words, registers and call
@@ -332,6 +369,14 @@ def original_runs(name,case,_mended=False):
     except Exception: return 0,None
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
+    if STEPS[0] is None and not _mended and len(ENDLESS.get(name,()))>=2:
+        # the function has been steady on two cases: probe this one for 20,000 steps, traced, instead of running it to the cap
+        import copy,directed
+        pr=sh4sim.run(dict(case,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=20000,trace=True),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+        if str(pr['error']).startswith('more than') and (HW[0] or not pr.get('devices')) and (declared_endless(name) or directed.steady_state(pr.get('trace') or [])):
+            if len(ENDLESS[name])<12: ENDLESS[name].append(copy.deepcopy(case))
+            ERRS['steady at the step limit']=ERRS.get('steady at the step limit',0)+1
+            return None,set()
     run=lambda c,trace=False: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60),trace=trace),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     if LEARNED.get(name) and not _mended:          # what an earlier repair set, tried first: kept when the original then ends cleanly
         L=LEARNED[name]; calls=[dict(e) for e in case.get('calls',[])]
@@ -361,6 +406,9 @@ def original_runs(name,case,_mended=False):
             return None,set()
     if r['error']:
         ERRS[str(r['error'])[:70]]=ERRS.get(str(r['error'])[:70],0)+1
+        if str(r['error']).startswith('more than') and len(ENDLESS.setdefault(name,[]))<12 and (HW[0] or not r.get('devices')):
+            import copy,directed
+            if declared_endless(name) or directed.steady_state(run(case,True).get('trace') or []): ENDLESS[name].append(copy.deepcopy(case))
         return None,set()
     if r.get('devices') and not HW[0]: return None,set()      # a wild pointer reached memory the function never names (a null pointer, a random word): not a case
     if r.get('devices') and HW[0] and unnamed_region(r['devices'],HWNAMED[0]):          # a stray pointer outside the hardware it names
@@ -480,6 +528,7 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
     runs=[]; t0=time.time()
     for d in cases:
         runs.append((d,)+original_runs(name,d))
+        if STEPS[0] is None and len(ENDLESS.get(name,()))>=12 and all(r_[1] is None for r_ in runs): break      # twelve steady runs and none ended: enough
         if time.time()>(DEADLINE[0] or t0+draw_seconds(name)): break      # at the deadline, however few ended: a loop that random cases rarely end (a wait on a word a callee sets) would run every candidate to the step cap and time out with nothing
     if V and rng and all(c is not None for d,n,c in runs): runs=grow(name,runs,V,rng,HOT or V)
     ok=[(d,c) for d,n,c in runs if n is not None]
@@ -497,13 +546,40 @@ def pick(name,cases,want,V=None,rng=None,HOT=None):
         if len(chosen)>=want: break
         chosen.append(d)
     return chosen
+def has_back_goto(src):
+    """Whether generated text jumps back to a label it has already passed: a loop of the flat form (a label per block), which the reader's
+    has_loop does not count (Virtua Tennis _div64: a 66-pass division drawn with huge values, no case ended)."""
+    seen=set()
+    for l in src.split('\n'):
+        m=re.match(r'^\s*(L_\w+):;',l)
+        if m: seen.add(m.group(1))
+        for g in re.findall(r'\bgoto (L_\w+);',l):
+            if g in seen: return True
+    return False
+def hand_cases(name):
+    """Cases supplied by hand for the function: cases-hand/<name>.json in the decomp's root, a list of cases or {dev, holdout}. They are the
+    candidate pool, run on the original and picked by coverage like drawn ones (Virtua Tennis _div64, emotFaceMorph: drawing found
+    none that end, a search over small values found hundreds; Crazy Taxi supplied such cases by hand). [] when there is no file."""
+    try:
+        d=json.load(open(os.path.join('cases-hand','%s.json'%name)))
+    except (OSError,ValueError):
+        return []
+    if isinstance(d,dict): d=list(d.get('dev',[]))+list(d.get('holdout',[]))
+    return [x for x in d if isinstance(x,dict)]
 def tests(name,c,src):
+    if STEPS[0] is None: ENDLESS[name]=[]
     if STEPS[0] is None: DEADLINE[0]=time.time()+draw_seconds(name)      # the long-cap retry (this function calling itself) keeps it: it reset it, entryCharaSelExec drew 1,214 s against an alarm of 1,029
     NOSTACK[0]=not any(n>=8 for n in c.iuse)
     HW[0]=_names_hardware(src)
+    hc=hand_cases(name)
+    if hc and STEPS[0] is None:                                  # supplied by hand: the candidates, filtered and picked as drawn ones are
+        ch=pick(name,hc,36)
+        if len(ch)>=6:
+            LAST['holdout_independent']=False
+            return {'dev':ch[0::2][:18],'holdout':ch[1::2][:18]}
     ip=sorted(c.iuse); fp=sorted(c.fuse)
     uses_gbr='_builtin_get_gbr' in src
-    loopy=c.has_loop
+    loopy=c.has_loop or has_back_goto(src)
     addr_params=set()
     for kind,e in c.mem_addrs:
         if kind=='e':
@@ -610,6 +686,14 @@ def tests(name,c,src):
                          **({'regs':{'r%d'%n:'%08X'%vals[(i+k)%len(vals)] for k,n in enumerate(n_ for n_ in ip if n_<8)}} if [n_ for n_ in ip if n_<8] else {}))
         LAST['holdout_independent']=False
         return {'dev':[mk(i) for i in range(6)],'holdout':[mk(i) for i in range(6,12)]}
+    # every case ran to the step limit and stopped changing (an event loop, a state machine, a game loop: Virtua Tennis main,
+    # vmsfs_c_dispatch; Crazy Taxi proved the same by hand): cases marked endless, which the check passes when both sides run to the
+    # step limit, comparing the calls and writes made so far. Before the long retry, whose runs take minutes each
+    if STEPS[0] is None and len(ENDLESS.get(name,()))>=12 and not LAST.get('survived'):
+        import copy
+        es=[dict(copy.deepcopy(e),endless=True,steps=20000,about='endless (steady) '+str(e.get('about','')).replace('case ','')) for e in ENDLESS[name][:12]]
+        LAST['holdout_independent']=False
+        return {'dev':es[0::2],'holdout':es[1::2]}
     # no case ends under the fast cap: drawn once more with the check's own limit, for a loop that runs a fixed, long count (Zombie
     # Revenge adxf_wait_1ms, 100,003 instructions against a cap of 100,000)
     if STEPS[0] is None:
