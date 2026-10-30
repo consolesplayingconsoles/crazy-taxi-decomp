@@ -35,6 +35,8 @@ int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5)
     float F5;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -42,7 +44,7 @@ int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5)
     F4 = f4;
     F5 = f5;
     L_C053700:;
-    *(unsigned int *)(((int)stk + 4)) = R4;
+    R1004 = R4;
     { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x4)) = *(struct mv2 *)(0xC0D08AC); }
     Money_Array((((int)stk + 4) + 0x4), ((int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) / (int)0x3C)), 0x2, F4);
     t6 = (int)((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) % (int)0x3C);
@@ -57,7 +59,7 @@ int Put_Time_Count(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)(*(int *)(((*(int *)0xC2A8C4C) + 0x0))) < (int)0x3C)) goto L_C05376E;
     goto L_C053768;
     L_C053768:;
-    if (((*(int *)(((int)stk + 4))) != 0)) goto L_C0537B8;
+    if (((R1004) != 0)) goto L_C0537B8;
     goto L_C05376E;
     L_C05376E:;
     pfCleanString();

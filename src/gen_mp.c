@@ -30,7 +30,7 @@ void AnnounceSecretFlag(int a4, int a5, int a6, int a7)
             t7 = 0x0;
             t8 = 0x0;
             for (;;) {
-                if (((*(int *)0xC2A1234) & (((int)t8 >= 0) ? (0x2 << (t8 & 31)) : ((-(int)t8 & 31) ? ((int)0x2 >> (-(int)t8 & 31)) : ((int)0x2 >> 31)))) != 0) {
+                if (((*(int *)0xC2A1234) & ((int)0x2 << (int)t8)) != 0) {
                     t6 = 0x0;
                     t4 = (Voice_ShutUp(t6));
                     t4 = 0xC0A2154;
@@ -40,7 +40,7 @@ void AnnounceSecretFlag(int a4, int a5, int a6, int a7)
                     *(unsigned int *)0xC0EF550 = (*(int *)((t5 + t4)));
                     t6 = 0xC0EF550;
                     t4 = (Voice_Request(t6, t7, 0x7F, 0x0));
-                    *(unsigned int *)0xC2A1234 = ((*(int *)0xC2A1234) & (~(((int)t8 >= 0) ? (0x2 << (t8 & 31)) : ((-(int)t8 & 31) ? ((int)0x2 >> (-(int)t8 & 31)) : ((int)0x2 >> 31)))));
+                    *(unsigned int *)0xC2A1234 = ((*(int *)0xC2A1234) & (~((int)0x2 << (int)t8)));
                 } else {
                     t17 = t6;
                     t18 = t7;

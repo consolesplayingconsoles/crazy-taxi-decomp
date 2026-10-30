@@ -305,7 +305,11 @@ def definitions():
     callee as built reads. The integer count is not capped (compared_arity caps it)."""
     out = {}
     for path in sorted(glob.glob(os.path.join('src', '*.c'))):
-        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(path, errors='replace').read(), flags=re.S)
+        try:
+            raw = open(path, errors='replace').read()
+        except OSError:
+            continue                    # another tool removed or moved the file since the listing
+        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', raw, flags=re.S)
         structs = struct_words(text)
         for m in re.finditer(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', text, flags=re.M):
             if '...' in m.group(2) or not m.group(2).strip():
@@ -328,7 +332,11 @@ def used_definitions():
     if _USED:
         return _USED
     for path in sorted(glob.glob(os.path.join('src', '*.c'))):
-        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(path, errors='replace').read(), flags=re.S)
+        try:
+            raw = open(path, errors='replace').read()
+        except OSError:
+            continue                    # another tool removed or moved the file since the listing
+        text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', raw, flags=re.S)
         structs = struct_words(text)
         for m in re.finditer(r'^(?:static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*\{', text, flags=re.M):
             if '...' in m.group(2) or not m.group(2).strip():
@@ -447,6 +455,29 @@ def cut_endless(orig, mine):
             dict(mine, calls=mine['calls'][:k], devices=mine.get('devices', [])[:kd], writes={}, error=None))
 
 
+READS_NAME = {}     # {address: name} of the game's functions, set by main for orig_reads
+_READS = {}
+
+
+def orig_reads(addr):
+    """The argument registers (numbers 4-7 for r4-r7, 4-11 for fr4-fr11, as two sets) that the original code at addr reads before it
+    writes them (gen_core.entry_reads), or None when not known. A register the callee never reads cannot change what it does: a
+    call is not compared on it, whatever a definition declares (cpuSglAimScore names fr4 and fr5 only to pass them on to
+    cpuShotRange, which reads fr6-fr10; its callers were compared on their leftover fr5, Virtua Tennis cpuSglPickLv07)."""
+    if addr not in _READS:
+        n, res = READS_NAME.get(addr), None
+        if n and not n.startswith('_'):
+            try:
+                import gen_core
+                rs = gen_core.entry_reads(n)
+                if rs is not None:
+                    res = (frozenset(int(x[1:]) for x in rs if x.startswith('r')), frozenset(int(x[2:]) for x in rs if x.startswith('fr')))
+            except Exception:
+                res = None
+        _READS[addr] = res
+    return _READS[addr]
+
+
 def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None, stackchg=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
@@ -467,6 +498,10 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=
         r, f = r[:a[0]], f[:a[1]]
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
             return (to, [stackish(stack)], [])
+    rd = orig_reads(int(to, 16))
+    if rd is not None:                       # registers the callee's original code never reads are leftovers, not arguments
+        r = [v if 4 + k in rd[0] else '*' for k, v in enumerate(r)]
+        f = [v if 4 + k in rd[1] else '*' for k, v in enumerate(f)]
     extra = [stackish(v) if stackchg is None or (k < len(stackchg) and stackchg[k]) else '*'      # arguments past the fourth, on the
              for k, v in enumerate((stackw or [])[:STACKN.get(int(to, 16), 0)])]                 # stack: a word the caller did not
                                                                                                  # store since its last call is a leftover
@@ -648,6 +683,7 @@ def main(argv):
     runtime_addrs = {a for n, a in table.items() if n.startswith('_')}
     helpers = lambda t: (SCRATCH <= t < SCRATCH + len(code) and t not in back) or t in runtime_addrs
     arity, stackn = compared_arity(cfile, table)
+    READS_NAME.update({(0x0C000000 | (a & 0x1FFFFFFF)) if 0x0C000000 <= (a & 0x1FFFFFFF) < 0x0D000000 else a: n for n, a in table.items()})
     STACKN.clear()
     STACKN.update(stackn)
     canon_ = lambda t: 0x0C000000 | (t & 0x1FFFFFFF) if 0x0C000000 <= (t & 0x1FFFFFFF) < 0x0D000000 else t

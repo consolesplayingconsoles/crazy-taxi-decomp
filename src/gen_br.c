@@ -331,7 +331,7 @@ int trigger(int a4, int a5)
             return t2;
         }
         t6 = *(signed char *)(((int)stk + 4));
-        if (((((int)t5 >= 0) ? (0x1 << (t5 & 31)) : ((-(int)t5 & 31) ? ((int)0x1 >> (-(int)t5 & 31)) : ((int)0x1 >> 31))) & (unsigned char)t6) != 0) {
+        if ((((int)0x1 << (int)t5) & (unsigned char)t6) != 0) {
             t3 = 0xC176310;
             t3 = (t3 + t5);
             *(unsigned int *)(((int)stk + 8)) = t3;

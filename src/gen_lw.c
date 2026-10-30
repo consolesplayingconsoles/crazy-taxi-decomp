@@ -66,16 +66,39 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
     float u309;
     float u310;
     int stk[24];
+    float R1004;
+    float R1008;
+    float R1012;
+    float R1016;
+    float R1020;
+    float R1024;
+    float R1028;
+    float R1032;
+    float R1036;
+    float R1040;
+    float R1044;
+
+    R1004 = *(float *)((int)stk + 4);
+    R1008 = *(float *)((int)stk + 8);
+    R1012 = *(float *)((int)stk + 12);
+    R1016 = *(float *)((int)stk + 16);
+    R1020 = *(float *)((int)stk + 20);
+    R1024 = *(float *)((int)stk + 24);
+    R1028 = *(float *)((int)stk + 28);
+    R1032 = *(float *)((int)stk + 32);
+    R1036 = *(float *)((int)stk + 36);
+    R1040 = *(float *)((int)stk + 40);
+    R1044 = *(float *)((int)stk + 44);
 
     carSteerWheels(a4, a5, a6, a7, f4, f5);
     carLoadTransfer(a4);
-    *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 36)) = 0.0f;
+    R1028 = 0.0f;
+    R1032 = 0.0f;
+    R1036 = 0.0f;
     t2 = *(int *)((a4 + 0x120));
     u3 = *(float *)(((t2 << 2) + 0xC08A8D4));
     u4 = *(float *)((a4 + 0x154));
-    *(float *)(((int)stk + 40)) = (u4 * u3);
+    R1040 = (u4 * u3);
     t5 = (t2 << 2);
     t6 = 0x0;
     t7 = (0x1A0 + a4);
@@ -91,9 +114,9 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
             u10 = (*(float *)((a4 + 0x11C)));
             u10 = (u10 * u13);
             u10 = (-u10);
-            *(float *)(((int)stk + 24)) = u10;
+            R1024 = u10;
             u10 = (*(float *)((t7 + 0x24)));
-            u9 = (*(float *)(((int)stk + 40)));
+            u9 = (R1040);
             u9 = (u9 * u10);
             *(float *)((t7 + 0x1C)) = u9;
             t18 = 0x16C;
@@ -101,7 +124,7 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                 t18 = 0x168;
             }
             u10 = (*(float *)((a4 + t18)));
-            *(float *)(((int)stk + 20)) = u10;
+            R1020 = u10;
             u10 = 0.0f;
             u9 = (*(float *)((a4 + 0x15C)));
             if (!(u10 > u9)) {
@@ -164,33 +187,33 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
             *(float *)0xC1EE150 = u10;
             nlCalcVector(0xC1EE148, 0xC1EE154);
             u10 = (*(float *)0xC1EE15C);
-            *(float *)(((int)stk + 12)) = u10;
+            R1012 = u10;
             u11 = (*(float *)0xC1EE154);
             nlPopMatrix(0x1);
             u10 = 0.0f;
-            u9 = (*(float *)(((int)stk + 20)));
+            u9 = (R1020);
             if (u9 != u10) {
                 u10 = 0.0f;
                 u8 = 1.0f;
                 u8 = (u8 + u8);
-                u73 = *(float *)(((int)stk + 24));
+                u73 = R1024;
                 u74 = (u73 * u8);
                 if (u10 > u9) {
                     u74 = (-(u73 * u8));
                 }
-                *(float *)(((int)stk + 8)) = u74;
+                R1008 = u74;
                 u76 = u8;
             } else {
-                *(float *)(((int)stk + 8)) = 0.0f;
+                R1008 = 0.0f;
             }
             u8 = u76;
-            u10 = (*(float *)(((int)stk + 12)));
-            u9 = (*(float *)(((int)stk + 20)));
+            u10 = (R1012);
+            u9 = (R1020);
             u9 = (u9 - u10);
-            *(float *)(((int)stk + 4)) = u9;
-            if (((*(int *)((t7 + 0x0))) != -1) && (u82 = *(float *)(((int)stk + 4)), u9 = u82, u10 = 0.0f, u9 != u10)) {
+            R1004 = u9;
+            if (((*(int *)((t7 + 0x0))) != -1) && (u82 = R1004, u9 = u82, u10 = 0.0f, u9 != u10)) {
                 if (u9 > u10) {
-                    u9 = (*(float *)(((int)stk + 4)));
+                    u9 = (R1004);
                     u10 = (*(float *)((a4 + 0x12C)));
                     u9 = (u9 * u10);
                     u10 = 6.28299999f;
@@ -201,13 +224,13 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u10 = (*(float *)((t7 + 0x2C)));
                     u9 = (u9 + u9);
                     u10 = (u10 * t85);
-                    u8 = (*(float *)(((int)stk + 8)));
+                    u8 = (R1008);
                     u10 = (u10 * u9);
                     u8 = (u8 - u10);
-                    *(float *)(((int)stk + 8)) = u8;
+                    R1008 = u8;
                     u95 = u8;
                 } else {
-                    u9 = (*(float *)(((int)stk + 4)));
+                    u9 = (R1004);
                     u10 = (*(float *)((a4 + 0x12C)));
                     u9 = (u9 * u10);
                     u10 = 6.28299999f;
@@ -215,55 +238,55 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u9 = _builtin_fabsf(u9);
                     t90 = carSpeedGripScale(u9);
                     u10 = (*(float *)((t7 + 0x2C)));
-                    u9 = (*(float *)(((int)stk + 8)));
+                    u9 = (R1008);
                     u10 = (u10 * t90);
                     u93 = u9;
                     u93 = u93 + (1.0f + 1.0f) * u10;
                     u9 = u93;
-                    *(float *)(((int)stk + 8)) = u9;
+                    R1008 = u9;
                 }
                 u8 = u95;
                 u10 = (*(float *)((t7 + 0x28)));
                 u9 = (*(float *)((t7 + 0x10)));
                 u9 = (u9 * u10);
-                u10 = (*(float *)(((int)stk + 4)));
+                u10 = (R1004);
                 u10 = (u10 / 3600.0f);
                 u9 = (u9 * u10);
                 u10 = (*(float *)((a4 + 0x12C)));
                 u9 = (u9 * u10);
                 u10 = 2.5f;
-                u8 = (*(float *)(((int)stk + 8)));
+                u8 = (R1008);
                 u9 = (u9 * u10);
                 u8 = (u8 - u9);
-                *(float *)(((int)stk + 8)) = u8;
+                R1008 = u8;
                 if ((*(int *)((a4 + 0x3B0))) == 4) {
                     u9 = 0.799999952f;
-                    u8 = (*(float *)(((int)stk + 8)));
+                    u8 = (R1008);
                     u8 = (u8 * u9);
-                    *(float *)(((int)stk + 8)) = u8;
+                    R1008 = u8;
                 }
             }
             t5 = 0x1;
             if ((int)t6 <= (int)t5) {
-                u10 = (*(float *)(((int)stk + 8)));
+                u10 = (R1008);
                 u9 = (*(float *)((t7 + 0x1C)));
                 u8 = 6.28317976f;
                 u9 = (u9 + u10);
                 u9 = (u9 / u8);
-                *(float *)(((int)stk + 32)) = ((*(float *)(((int)stk + 32))) + u9);
+                R1032 = ((R1032) + u9);
             } else {
-                u10 = (*(float *)(((int)stk + 8)));
+                u10 = (R1008);
                 u9 = (*(float *)((t7 + 0x1C)));
                 u8 = 6.28317976f;
                 u9 = (u9 + u10);
                 u9 = (u9 / u8);
-                *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 28))) + u9);
+                R1028 = ((R1028) + u9);
             }
             if ((*(int *)((a4 + 0x3B0))) == 2) {
                 u10 = (*(float *)((t7 + 0x28)));
                 u9 = (*(float *)((t7 + 0x10)));
                 u9 = (u9 * u10);
-                u10 = (*(float *)(((int)stk + 4)));
+                u10 = (R1004);
                 u10 = (u10 / 3600.0f);
                 u9 = (u9 * u10);
                 u10 = (*(float *)((a4 + 0x12C)));
@@ -275,7 +298,7 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u10 = (*(float *)((t7 + 0x28)));
                     u9 = (*(float *)((t7 + 0x10)));
                     u9 = (u9 * u10);
-                    u10 = (*(float *)(((int)stk + 4)));
+                    u10 = (R1004);
                     u10 = (u10 / 3600.0f);
                     u9 = (u9 * u10);
                     u10 = (*(float *)((a4 + 0x12C)));
@@ -286,7 +309,7 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u10 = (*(float *)((t7 + 0x28)));
                     u9 = (*(float *)((t7 + 0x10)));
                     u9 = (u9 * u10);
-                    u10 = (*(float *)(((int)stk + 4)));
+                    u10 = (R1004);
                     u10 = (u10 / 3600.0f);
                     u9 = (u9 * u10);
                     u10 = (*(float *)((a4 + 0x12C)));
@@ -311,12 +334,12 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                 }
             }
             u10 = 0.0f;
-            u9 = (*(float *)(((int)stk + 12)));
+            u9 = (R1012);
             if (u9 != u10) {
                 if (u9 > u10) {
-                    u10 = (*(float *)(((int)stk + 24)));
-                    *(float *)(((int)stk + 16)) = u10;
-                    u10 = (*(float *)(((int)stk + 12)));
+                    u10 = (R1024);
+                    R1016 = u10;
+                    u10 = (R1012);
                     u10 = _builtin_fabsf(u10);
                     u9 = (*(float *)((a4 + 0x12C)));
                     u10 = (u10 * u9);
@@ -326,10 +349,10 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u10 = (u10 * 1.5f);
                     u10 = (-u10);
                 } else {
-                    u10 = (*(float *)(((int)stk + 24)));
+                    u10 = (R1024);
                     u10 = (-u10);
-                    *(float *)(((int)stk + 16)) = u10;
-                    u10 = (*(float *)(((int)stk + 12)));
+                    R1016 = u10;
+                    u10 = (R1012);
                     u10 = _builtin_fabsf(u10);
                     u9 = (*(float *)((a4 + 0x12C)));
                     u10 = (u10 * u9);
@@ -338,10 +361,10 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                     u10 = (u10 * t156);
                     u10 = (u10 * 1.5f);
                 }
-                *(float *)(((int)stk + 44)) = u10;
+                R1044 = u10;
             } else {
-                *(float *)(((int)stk + 16)) = 0.0f;
-                *(float *)(((int)stk + 44)) = 0.0f;
+                R1016 = 0.0f;
+                R1044 = 0.0f;
                 t160 = t5;
                 u162 = u8;
                 u164 = u9;
@@ -434,7 +457,7 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                 }
                 u233 = u224;
             } else {
-                u10 = (*(float *)(((int)stk + 16)));
+                u10 = (R1016);
                 u228 = *(float *)((t7 + 0x20));
                 u229 = ((*(float *)((t7 + 0x1C))) + u10);
                 u10 = u228;
@@ -450,7 +473,7 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
             if (u9 == u10) {
                 u9 = 1.0f;
                 *(float *)((t7 + 0x20)) = 0.0f;
-                *(float *)(((int)stk + 16)) = 0.0f;
+                R1016 = 0.0f;
                 *(float *)((t7 + 0x18)) = 0.0f;
                 *(float *)((t7 + 0x40)) = u9;
             } else {
@@ -491,9 +514,9 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
                         u10 = (*(float *)((t7 + 0x14)));
                         u10 = (u10 / u233);
                     }
-                    u9 = (*(float *)(((int)stk + 16)));
+                    u9 = (R1016);
                     u9 = (u9 * u10);
-                    *(float *)(((int)stk + 16)) = u9;
+                    R1016 = u9;
                 }
             }
             t5 = 0xC078250;
@@ -531,9 +554,9 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
             u10 = (u10 + u211);
             *(float *)0xC1EE148 = u10;
             *(float *)0xC1EE14C = 0.0f;
-            u10 = (*(float *)(((int)stk + 44)));
+            u10 = (R1044);
             u9 = (*(float *)((t7 + 0x18)));
-            u8 = (*(float *)(((int)stk + 16)));
+            u8 = (R1016);
             u9 = (u9 + u10);
             u9 = (u9 + u8);
             *(float *)0xC1EE150 = u9;
@@ -542,12 +565,12 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
             t5 = 0x84;
             u10 = 6.28317976f;
             u9 = (*(float *)((t7 + 0x58)));
-            u8 = (*(float *)(((int)stk + 36)));
+            u8 = (R1036);
             u9 = (u9 / u10);
             t6 = (t6 + 0x1);
             t7 = (t7 + t5);
             u8 = (u8 + u9);
-            *(float *)(((int)stk + 36)) = u8;
+            R1036 = u8;
             continue;
         }
         break;
@@ -556,10 +579,10 @@ int carWheelForces(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((*(float *)((a4 + 0x170))) > 1.0f) {
         *(float *)((a4 + 0x170)) = 1.0f;
     }
-    *(float *)((a4 + 0x168)) = ((*(float *)((a4 + 0x168))) + (*(float *)(((((int)stk + 4) + 0x1C) + 0x0))));
-    *(float *)((a4 + 0x16C)) = ((*(float *)((a4 + 0x16C))) + (*(float *)(((((int)stk + 4) + 0x18) + 0x0))));
+    *(float *)((a4 + 0x168)) = ((*(float *)((a4 + 0x168))) + (R1032));
+    *(float *)((a4 + 0x16C)) = ((*(float *)((a4 + 0x16C))) + (R1028));
     u308 = *(float *)((a4 + 0x160));
-    *(float *)((a4 + 0x160)) = ((*(float *)((a4 + 0x160))) + (*(float *)(((((int)stk + 4) + 0x20) + 0x0))));
+    *(float *)((a4 + 0x160)) = ((*(float *)((a4 + 0x160))) + (R1036));
     if ((u308 > 0.0f) && (u309 = *(float *)((a4 + 0x160)), 0.0f > u309)) {
         *(float *)((a4 + 0x160)) = 0.0f;
     } else {

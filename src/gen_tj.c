@@ -69,6 +69,10 @@ float ExecColliObj(int a4, int a5, int a6, float f4)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -165,7 +169,7 @@ float ExecColliObj(int a4, int a5, int a6, float f4)
     goto L_C032E72;
     L_C032E72:;
     t49 = *(short *)0xC26ECDC;
-    *(unsigned int *)(((int)stk + 4)) = ((short)((short)t49 * (short)0x1C) + 0xC0ED440);
+    R1004 = ((short)((short)t49 * (short)0x1C) + 0xC0ED440);
     u51 = *(float *)((((short)((short)t49 * (short)0x1C) + 0xC0ED440) + 0x8));
     *(float *)0xC26ECF4 = (u51 / ((*(float *)((((short)((short)(*(int *)((R9 + 0x0))) * (short)0x1C) + 0xC0ED440) + 0x8))) + u51));
     R12 = ((*(int *)(((((*(int *)0xC26ECDC) << 2) + (0xC26E4E8 + (short)((short)(*(int *)((R9 + 0x0))) * (short)0x54))) + 0x0))));
@@ -373,7 +377,7 @@ float ExecColliObj(int a4, int a5, int a6, float f4)
     goto L_C032C88;
     L_C032C88:;
     t199 = *(short *)0xC26ECDC;
-    *(unsigned int *)(((int)stk + 8)) = ((short)((short)t199 * (short)0x1C) + 0xC0ED440);
+    R1008 = ((short)((short)t199 * (short)0x1C) + 0xC0ED440);
     u201 = *(float *)((((short)((short)t199 * (short)0x1C) + 0xC0ED440) + 0x8));
     *(float *)0xC26ECF4 = (u201 / ((*(float *)((((short)((short)(*(int *)((R9 + 0x0))) * (short)0x1C) + 0xC0ED440) + 0x8))) + u201));
     R13 = ((*(int *)(((((*(int *)0xC26ECDC) << 2) + (0xC26E4E8 + (short)((short)(*(int *)((R9 + 0x0))) * (short)0x54))) + 0x0))));

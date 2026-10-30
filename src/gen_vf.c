@@ -28,12 +28,12 @@ int windowNameSelect(void)
     if ((int)(*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) <= (int)0x1) {
     } else {
         t10 = *(signed char *)0xC28A4F6;
-        t20 = (~(((int)(unsigned char)t10 >= 0) ? (0x1 << ((unsigned char)t10 & 31)) : ((-(int)(unsigned char)t10 & 31) ? ((int)0x1 >> (-(int)(unsigned char)t10 & 31)) : ((int)0x1 >> 31))));
+        t20 = (~((int)0x1 << (int)(unsigned char)t10));
         if ((*(int *)((0xC2A11DC + ((*(int *)0xC2A11D8) << 2)))) == 2) {
         } else {
             t15 = 0xF;
             if ((int)(*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))) <= (int)0x4) {
-                t15 = (((int)(unsigned char)t10 >= 0) ? (0xFFFFFFFF << ((unsigned char)t10 & 31)) : ((-(int)(unsigned char)t10 & 31) ? ((unsigned int)0xFFFFFFFF >> (-(int)(unsigned char)t10 & 31)) : 0));
+                t15 = ((unsigned int)0xFFFFFFFF << (int)(unsigned char)t10);
             }
             t20 = t15;
         }

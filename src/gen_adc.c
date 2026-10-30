@@ -87,6 +87,20 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    float R1012;
+    float R1016;
+    int R1020;
+    float R1024;
+    float R1056;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(float *)((int)stk + 12);
+    R1016 = *(float *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
+    R1024 = *(float *)((int)stk + 24);
+    R1056 = *(float *)((int)stk + 56);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -100,9 +114,9 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     F10 = f10;
     F11 = f11;
     L_C0227C8:;
-    *(float *)(((int)stk + 12)) = 0.0f;
-    *(float *)(((int)stk + 16)) = 0.0f;
-    *(float *)(((int)stk + 24)) = 0.0f;
+    R1012 = 0.0f;
+    R1016 = 0.0f;
+    R1024 = 0.0f;
     nlPushMatrix(0x0);
     nlRotateAY((unsigned short)(*(short *)((R4 + 0x86))));
     nlRotateAX((unsigned short)(*(short *)((R4 + 0x84))));
@@ -144,22 +158,22 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     nlRotateAX((unsigned short)(*(short *)((R14 + 0x84))));
     nlRotateAZ((unsigned short)(*(short *)((R14 + 0x88))));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x24)) = *(struct mv3 *)(0xC08AD94); }
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)((R14 + 0x70)));
+    R1008 = 0x0;
+    R1004 = (*(int *)((R14 + 0x70)));
     R10 = ((((int)stk + 4) + 0x3C));
     R11 = (0xC078C30);
     R13 = ((0x1A0 + R14));
     F14 = (1.0f);
     goto L_C0228E4;
     L_C0228E4:;
-    nlCalcPoint((*(int *)(((int)stk + 4))), 0xC1EE154);
+    nlCalcPoint((R1004), 0xC1EE154);
     nlSubVector3op((((int)stk + 4) + 0x48), 0xC1EE154, (R13 + 0x68));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x54)) = *(struct mv3 *)((R13 + 0x68)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(R10) = *(struct mv3 *)((((int)stk + 4) + 0x48)); }
     *(unsigned int *)((R13 + 0x4)) = (*(int *)((R13 + 0x0)));
     t51 = GetCollision((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x48), F14, 4.0f);
     t52 = *(int *)((t51 + 0x40));
-    *(unsigned int *)(((int)stk + 20)) = t52;
+    R1020 = t52;
     R4 = (t51);
     R5 = (t52);
     F2 = ((*(float *)((t51 + 0x18))));
@@ -175,7 +189,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x54)) = *(struct mv3 *)((R13 + 0x68)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x48)) = *(struct mv3 *)(R10); }
     t60 = GetCollision((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x48), F14, F15);
-    *(unsigned int *)((t60 + 0x40)) = ((*(int *)((t60 + 0x40))) | (*(int *)(((int)stk + 20))));
+    *(unsigned int *)((t60 + 0x40)) = ((*(int *)((t60 + 0x40))) | (R1020));
     R4 = (t60);
     goto L_C0229D0;
     L_C0229D0:;
@@ -206,19 +220,19 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     nlPopMatrix(0x1);
     t85 = nlScalor((R13 + 0x74));
     F13 = (t85);
-    if (((*(float *)(((int)stk + 24))) > t85)) goto L_C022AA0;
+    if (((R1024) > t85)) goto L_C022AA0;
     goto L_C022A86;
     L_C022A86:;
     if ((!(20.0f > F13))) goto L_C022AA0;
     goto L_C022A8E;
     L_C022A8E:;
     nlSubVector3op((((int)stk + 4) + 0x24), (((int)stk + 4) + 0x54), (R13 + 0x68));
-    *(float *)(((int)stk + 24)) = F13;
+    R1024 = F13;
     goto L_C022AA0;
     L_C022AA0:;
-    t91 = *(int *)(((int)stk + 8));
-    *(unsigned int *)(((int)stk + 8)) = (t91 + 0x1);
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0xC);
+    t91 = R1008;
+    R1008 = (t91 + 0x1);
+    R1004 = ((R1004) + 0xC);
     R13 = ((R13 + 0x84));
     if (((int)(t91 + 0x1) >= (int)R9)) goto L_C022AB8;
     goto L_C022AB4;
@@ -232,7 +246,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     nlRotateAY((unsigned short)(*(short *)((R14 + 0x86))));
     nlRotateAX((unsigned short)(*(short *)((R14 + 0x84))));
     nlRotateAZ((unsigned short)(*(short *)((R14 + 0x88))));
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R1004 = 0x0;
     R10 = (0x2);
     R11 = (0xC1794C8);
     R13 = ((0x1A0 + R14));
@@ -255,7 +269,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     *(float *)((R13 + R0)) = ((*(float *)((R13 + R0))) * F3);
     goto L_C022BDC;
     L_C022BDC:;
-    t119 = *(int *)(((int)stk + 4));
+    t119 = R1004;
     *(float *)((R12 + 0x0)) = (*(float *)((((*(int *)((R14 + 0x6C))) + (((t119 << 1) + t119) << 2)) + 0x0)));
     *(float *)((R12 + 0x4)) = ((*(float *)((R14 + 0x12C))) + 3.29999995f);
     *(float *)((R12 + 0x8)) = (*(float *)((((((t119 << 1) + t119) << 2) + (*(int *)((R14 + 0x6C)))) + 0x8)));
@@ -283,8 +297,8 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     goto L_C022CEE;
     L_C022CEE:;
     *(unsigned int *)((R13 + 0x0)) = R3;
-    t148 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t148 + 0x1);
+    t148 = R1004;
+    R1004 = (t148 + 0x1);
     R13 = ((R13 + 0x84));
     if (((int)(t148 + 0x1) >= (int)R9)) goto L_C022D02;
     goto L_C022CFE;
@@ -322,7 +336,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     u174 = *(float *)((R4 + 0x30));
     u176 = F12;
     u176 = u176 + (u173 - u174) * F4;
-    *(float *)(((int)stk + 16)) = ((*(float *)(((int)stk + 16))) + (u173 - u174));
+    R1016 = ((R1016) + (u173 - u174));
     u178 = (*(float *)((R4 + 0x78)));
     u178 = u178 + (u173 - u174) * F14;
     *(float *)((R4 + 0x78)) = u178;
@@ -391,10 +405,10 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     *(float *)((R12 + 0x4)) = F12;
     nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x48));
     *(float *)((R14 + 0x100)) = ((*(float *)((R14 + 0x100))) + (*(float *)(((((int)stk + 4) + 0x4C) + 0x0))));
-    *(float *)((R12 + 0x4)) = ((*(float *)((R12 + 0x4))) + (*(float *)(((((int)stk + 4) + 0xC) + 0x0))));
+    *(float *)((R12 + 0x4)) = ((*(float *)((R12 + 0x4))) + (R1016));
     nlCalcVector(0xC1EE148, (((int)stk + 4) + 0x48));
     nlPopMatrix(0x1);
-    *(float *)((R14 + 0x100)) = ((*(float *)((R14 + 0x100))) + (*(float *)(((((int)stk + 4) + 0x8) + 0x0))));
+    *(float *)((R14 + 0x100)) = ((*(float *)((R14 + 0x100))) + (R1012));
     *(float *)((R14 + 0x78)) = ((*(float *)((R14 + 0x78))) + ((*(float *)(((((int)stk + 4) + 0x24) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x48) + 0x0)))));
     *(float *)((R14 + 0x80)) = ((*(float *)((R14 + 0x80))) + ((*(float *)(((((int)stk + 4) + 0x2C) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x50) + 0x0)))));
     *(float *)((R14 + 0x7C)) = ((*(float *)((R14 + 0x7C))) + ((*(float *)(((((int)stk + 4) + 0x28) + 0x0))) + (*(float *)(((((int)stk + 4) + 0x4C) + 0x0)))));
@@ -403,7 +417,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     u244 = *(float *)(((0x18C + (0x1A0 + R14)) + 0x3C));
     u245 = *(float *)(((0x108 + (0x1A0 + R14)) + 0x3C));
     t246 = *(int *)((R14 + 0x6C));
-    *(unsigned int *)(((int)stk + 4)) = t246;
+    R1004 = t246;
     *(unsigned short *)((R14 + 0x19C)) = (int)((float)(*(short *)((R14 + 0x19C))) - ((((((((u243 + u242) - (u244 + u245)) * ((*(float *)((t246 + 0x14))) - (*(float *)(((t246 + 0x24) + 0x8)))))) * (*(float *)((R14 + 0x148)))) / 6.28317976f)) * 65535.0f));
     *(unsigned short *)((R14 + 0x19C)) = (int)((float)(*(short *)((R14 + 0x19C))) * 0.729999959f);
     t258 = *(int *)((R14 + 0x6C));
@@ -415,9 +429,9 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     R3 = (0xC1794B4);
     goto L_C022E7C;
     L_C022E94:;
-    *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) - F11);
-    *(float *)((R4 + 0x34)) = ((*(float *)((R4 + 0x34))) - ((*(float *)(((((int)stk + 4) + 0x34) + 0x0))) * 0.899999976f));
-    F5 = ((*(float *)(((int)stk + 56))));
+    R1012 = ((R1012) - F11);
+    *(float *)((R4 + 0x34)) = ((*(float *)((R4 + 0x34))) - ((R1056) * 0.899999976f));
+    F5 = ((R1056));
     if (((int)R5 >= (int)R10)) goto L_C022ED8;
     goto L_C022EBC;
     L_C022EBC:;
@@ -472,7 +486,7 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     if ((!((*(float *)((R11 + 0x0))) > (*(float *)((R13 + R0)))))) goto L_C022BDC;
     goto L_C022B98;
     L_C022B98:;
-    if (((int)(*(int *)(((int)stk + 4))) >= (int)R10)) goto L_C022BAE;
+    if (((int)(R1004) >= (int)R10)) goto L_C022BAE;
     goto L_C022B9E;
     L_C022B9E:;
     R0 = (0x3C);

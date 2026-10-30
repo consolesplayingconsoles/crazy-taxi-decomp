@@ -314,7 +314,7 @@ float nlLdexpf(int a4, float f4)
     if ((int)(a4 + (unsigned char)((int)t0 >> 23)) < (int)0x1) {
         t1 = *(int *)((((int)stk + 4) + 0x0));
         t2 = *(int *)((((int)stk + 4) + 0x0));
-        *(unsigned int *)((((int)stk + 4) + 0x0)) = ((t2 & 0x80000000) | (((int)(-(0x1 - (a4 + (unsigned char)((int)t0 >> 23)))) >= 0) ? (((t1 & 0x7FFFFF) | 0x800000) << ((-(0x1 - (a4 + (unsigned char)((int)t0 >> 23)))) & 31)) : ((-(int)(-(0x1 - (a4 + (unsigned char)((int)t0 >> 23)))) & 31) ? ((int)((t1 & 0x7FFFFF) | 0x800000) >> (-(int)(-(0x1 - (a4 + (unsigned char)((int)t0 >> 23)))) & 31)) : ((int)((t1 & 0x7FFFFF) | 0x800000) >> 31))));
+        *(unsigned int *)((((int)stk + 4) + 0x0)) = ((t2 & 0x80000000) | ((int)((t1 & 0x7FFFFF) | 0x800000) << (int)(-(0x1 - (a4 + (unsigned char)((int)t0 >> 23))))));
     } else {
         if ((int)(a4 + (unsigned char)((int)t0 >> 23)) > (int)0xFE) {
             t3 = *(int *)((((int)stk + 4) + 0x0));
@@ -768,7 +768,7 @@ int pdVibSetStopTime(int a4, int a5, int a6, int a7)
                 t3 = (t3 + 0x1);
                 *(unsigned int *)(((int)stk + 20)) = (t4 + 0x1);
                 t5 = *(signed char *)((((t4 + 0x1) - 1) + 0x0));
-                t2 = (t2 | (((int)(unsigned char)t5 >= 0) ? (0x1 << ((unsigned char)t5 & 31)) : ((-(int)(unsigned char)t5 & 31) ? ((int)0x1 >> (-(int)(unsigned char)t5 & 31)) : ((int)0x1 >> 31))));
+                t2 = (t2 | ((int)0x1 << (int)(unsigned char)t5));
             } while ((unsigned int)t3 < (unsigned int)a7);
             t8 = t2;
         }
@@ -2370,7 +2370,7 @@ int mwSbSetSfreq(int a4, int a5)
 
     t0 = (int)((int)0xAC44 / (int)(a5 + 0x1));
     t1 = *(signed char *)((0xC1769AC + t0));
-    t2 = (int)((int)(((a5 - (((int)(-t1) >= 0) ? (0xAC44 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0xAC44 >> (-(int)(-t1) & 31)) : ((int)0xAC44 >> 31)))) << 8) << 2) / (int)(((int)(-t1) >= 0) ? (0xAC44 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0xAC44 >> (-(int)(-t1) & 31)) : ((int)0xAC44 >> 31))));
+    t2 = (int)((int)(((a5 - ((int)0xAC44 << (int)(-t1))) << 8) << 2) / (int)((int)0xAC44 << (int)(-t1)));
     t3 = *(int *)((a4 + 0x1C));
     t4 = *(int *)((t3 + 0x4));
     t5 = nlsndStreamSetHdOctFns(t4, (0xF & (-t1)), (0x3FF & t2));

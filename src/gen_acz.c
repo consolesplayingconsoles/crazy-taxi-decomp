@@ -28,22 +28,33 @@ int SaveBackupData(int a4)
     int t23;
     int t22;
     int stk[38];
+    int R1100;
+    int R1104;
+    int R1112;
+    int R1120;
+    int R1124;
+
+    R1100 = *(int *)((int)stk + 100);
+    R1104 = *(int *)((int)stk + 104);
+    R1112 = *(int *)((int)stk + 112);
+    R1120 = *(int *)((int)stk + 120);
+    R1124 = *(int *)((int)stk + 124);
 
     memset((((int)stk + 12) + 0x14), 0x0, 0x60);
     strcpy((((int)stk + 12) + 0x14), 0xC0EEC58);
     strcpy((((int)stk + 12) + 0x26), 0xC0EEC68);
     memmove((((int)stk + 12) + 0x48), 0xC0EEC73, 0x10);
-    *(unsigned int *)(((int)stk + 100)) = 0xC0EEC83;
-    *(unsigned int *)(((int)stk + 104)) = 0xC0EECA3;
+    R1100 = 0xC0EEC83;
+    R1104 = 0xC0EECA3;
     *(unsigned short *)(((int)stk + 108)) = 0x3;
     *(unsigned short *)(((int)stk + 110)) = 0x2;
-    *(unsigned int *)(((int)stk + 112)) = 0x0;
+    R1112 = 0x0;
     *(unsigned short *)(((int)stk + 116)) = 0x0;
     t4 = 0xC28A4E8;
     t6 = 0xC28F8A0;
     for (;;) { t7 = *(int *)t4; t4 = (t4 + 4); if ((unsigned int)((0xC28A4E8 + 9648)) < (unsigned int)t4) break; *(unsigned int *)t6 = t7; t6 = (t6 + 4); }
-    *(unsigned int *)(((int)stk + 120)) = 0xC28F8A0;
-    *(unsigned int *)(((int)stk + 124)) = 0x25B0;
+    R1120 = 0xC28F8A0;
+    R1124 = 0x25B0;
     t10 = buCalcBackupFileSize((unsigned short)(*(short *)(((int)stk + 108))), (unsigned short)(*(short *)(((int)stk + 116))), 0x25B0);
     t28 = 0xFFFF0000;
     if (t10 == 23) {

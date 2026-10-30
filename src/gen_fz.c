@@ -38,6 +38,8 @@ float Put_Transporter(int a4, int a5)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     L_C04EDF0:;
@@ -58,7 +60,7 @@ float Put_Transporter(int a4, int a5)
     L_C04EEF2:;
     return F0;
     L_C04EE24:;
-    *(unsigned int *)(((int)stk + 4)) = (short)(((R12 << 2) + R12) << 2);
+    R1004 = (short)(((R12 << 2) + R12) << 2);
     t12 = nlLength(((short)(((R12 << 2) + R12) << 2) + R9), 0xC179840);
     R0 = (0xC04EF64);
     F0 = (t12);
@@ -67,7 +69,7 @@ float Put_Transporter(int a4, int a5)
     goto L_C04EE44;
     L_C04EE44:;
     nlPushUnitMatrix();
-    t18 = *(int *)(((int)stk + 4));
+    t18 = R1004;
     nlTranslateV((t18 + R9));
     nlRotateAY(((int)((((*(float *)(((t18 + R9) + 0x10))) * F14) / F13) + F15) & R10));
     nlRotateAX(((int)((((*(float *)(((t18 + R9) + 0xC))) * F14) / F13) + F15) & R10));

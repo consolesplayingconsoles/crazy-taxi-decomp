@@ -342,7 +342,7 @@ int nlFreePalette(int a4)
         t5 = 0xC2AECC8;
         t6 = 0xC2B7BD8;
         t7 = ((((int)t4 >> 4) << 1) + 0xC2AECC8);
-        t8 = (((int)(0xF & t4) >= 0) ? (0x1 << ((0xF & t4) & 31)) : ((-(int)(0xF & t4) & 31) ? ((int)0x1 >> (-(int)(0xF & t4) & 31)) : ((int)0x1 >> 31)));
+        t8 = ((int)0x1 << (int)(0xF & t4));
         t9 = (unsigned char)t3;
         for (;;) {
             t10 = ((int)t9 > 0);
@@ -426,7 +426,7 @@ int nlSearchPalette(int a4, int a5)
             t10 = 0x0;
             for (;;) {
                 t11 = *(short *)((t9 + 0x0));
-                if ((t11 & ((((int)((int)(a5 + 0xF) >> 4) >= 0) ? (0x1 << (((int)(a5 + 0xF) >> 4) & 31)) : ((-(int)((int)(a5 + 0xF) >> 4) & 31) ? ((int)0x1 >> (-(int)((int)(a5 + 0xF) >> 4) & 31)) : ((int)0x1 >> 31))) - 1)) == 0) break;
+                if ((t11 & (((int)0x1 << (int)((int)(a5 + 0xF) >> 4)) - 1)) == 0) break;
                 t9 = (t9 + 0x2);
                 t10 = (t10 + 0x10);
                 if ((unsigned int)t9 >= (unsigned int)0xC2AECD0) {
@@ -2861,9 +2861,9 @@ int syIntAdrChk_printh(int a4)
 
     t0 = 0x1C;
     do {
-        t1 = ((0xF & (((int)(-t0) >= 0) ? (a4 << ((-t0) & 31)) : ((-(int)(-t0) & 31) ? ((unsigned int)a4 >> (-(int)(-t0) & 31)) : 0))) + 0x30);
-        if ((int)(unsigned char)(0xF & (((int)(-t0) >= 0) ? (a4 << ((-t0) & 31)) : ((-(int)(-t0) & 31) ? ((unsigned int)a4 >> (-(int)(-t0) & 31)) : 0))) >= (int)0xA) {
-            t1 = ((0xF & (((int)(-t0) >= 0) ? (a4 << ((-t0) & 31)) : ((-(int)(-t0) & 31) ? ((unsigned int)a4 >> (-(int)(-t0) & 31)) : 0))) + 0x37);
+        t1 = ((0xF & ((unsigned int)a4 << (int)(-t0))) + 0x30);
+        if ((int)(unsigned char)(0xF & ((unsigned int)a4 << (int)(-t0))) >= (int)0xA) {
+            t1 = ((0xF & ((unsigned int)a4 << (int)(-t0))) + 0x37);
         }
         t2 = syIntAdrChk_putchar(t1);
         t0 = (t0 - 4);

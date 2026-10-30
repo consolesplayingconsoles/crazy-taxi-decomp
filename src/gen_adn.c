@@ -173,7 +173,7 @@ void kmRenderTexture(int a4, int a5, int a6, int a7)
     goto L_C15B266;
     L_C15B266:;
     t80 = *(int *)(((int)stk + 8));
-    if ((((((int)t80 >= 0) ? (R13 << (t80 & 31)) : ((-(int)t80 & 31) ? ((int)R13 >> (-(int)t80 & 31)) : ((int)R13 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15B2A4;
+    if (((((int)R13 << (int)t80) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15B2A4;
     goto L_C15B274;
     L_C15B274:;
     kmiMemCopy4((*(int *)(((*(int *)0xC2B8CBC) + (*(int *)(((int)stk + 4)))))), 0xC175DA0, 0x4);

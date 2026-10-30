@@ -38,7 +38,7 @@ def main(argv):
     for fn in os.listdir('asm'):
         m = re.match(r'^([0-9a-f]{8})_(.+)\.src$', fn)
         if m:
-            files[int(m.group(1), 16)] = fn
+            files[layout.mirror(int(m.group(1), 16))] = fn      # the asm files are named in the game's own mirror (8c), the scan runs in 0C
     starts = sorted(files)
     changed = {}
     n = 0

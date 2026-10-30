@@ -33,6 +33,9 @@ int cableCarExec(int a4, int a5, int a6)
     int t27;
     float u10;
     int stk[11];
+    float R1024;
+
+    R1024 = *(float *)((int)stk + 24);
 
     t1 = *(int *)(((*(int *)0xC2A1B30) + 0x64));
     t86 = 0x64;
@@ -89,7 +92,7 @@ int cableCarExec(int a4, int a5, int a6)
             nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
             nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
             nlCalcVector((0x98 + a4), (((int)stk + 4) + 0xC));
-            *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 24)));
+            *(float *)((a4 + 0xCC)) = (R1024);
             nlPopMatrix(0x1);
             carEntry(a4);
             { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }

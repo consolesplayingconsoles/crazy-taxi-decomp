@@ -299,9 +299,9 @@ int kmiInterruptHandlerSH(void)
     t62 = 0x0;
     while ((int)t62 < (int)0xA) {
         t63 = *(int *)0xC2EA930;
-        if ((t63 & (((int)t62 >= 0) ? (0x1 << (t62 & 31)) : ((-(int)t62 & 31) ? ((int)0x1 >> (-(int)t62 & 31)) : ((int)0x1 >> 31)))) != 0) {
+        if ((t63 & ((int)0x1 << (int)t62)) != 0) {
             t64 = *(int *)0xC2EA930;
-            *(unsigned int *)0xC2EA930 = (t64 & (~(((int)t62 >= 0) ? (0x1 << (t62 & 31)) : ((-(int)t62 & 31) ? ((int)0x1 >> (-(int)t62 & 31)) : ((int)0x1 >> 31)))));
+            *(unsigned int *)0xC2EA930 = (t64 & (~((int)0x1 << (int)t62)));
             t61 = t62;
             t61 = (t61 << 2);
             t61 = (t61 << 1);

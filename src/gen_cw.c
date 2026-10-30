@@ -96,9 +96,9 @@ int _setsbit(int a4, int a5, int a6)
     t1 = (int)((int)a6 % (int)0x8);
     t2 = *(signed char *)(((t0 + a4) + 0x0));
     t17 = (-t1);
-    if (((unsigned char)t2 & (unsigned char)(((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31)))) == 0) {
+    if (((unsigned char)t2 & (unsigned char)((int)0x80 << (int)(-t1))) == 0) {
         t3 = 0x0;
-        t4 = (((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31)));
+        t4 = ((int)0x80 << (int)(-t1));
         for (;;) {
             if ((unsigned char)t4 == 0) {
                 break;
@@ -110,7 +110,7 @@ int _setsbit(int a4, int a5, int a6)
         t6 = *(signed char *)(((t0 + a4) + 0x0));
         if (((unsigned char)t6 & (unsigned char)t3) != 0) {
             t7 = *(signed char *)(((t0 + a4) + 0x0));
-            *(unsigned char *)(((t0 + a4) + 0x0)) = (t7 | (((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31))));
+            *(unsigned char *)(((t0 + a4) + 0x0)) = (t7 | ((int)0x80 << (int)(-t1)));
         } else {
             t8 = (t0 + a4);
             for (;;) {
@@ -124,7 +124,7 @@ int _setsbit(int a4, int a5, int a6)
                 }
             }
             t10 = *(signed char *)(((t0 + a4) + 0x0));
-            *(unsigned char *)(((t0 + a4) + 0x0)) = (t10 | (((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31))));
+            *(unsigned char *)(((t0 + a4) + 0x0)) = (t10 | ((int)0x80 << (int)(-t1)));
         }
         t17 = (unsigned char)t3;
     }

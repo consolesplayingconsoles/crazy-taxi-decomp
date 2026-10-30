@@ -57,6 +57,10 @@ int psgEnterState2(int a4, int a5, int a6, float f4, float f5, float f6)
     float F14;
     float F15;
     int T_;
+    float R1008;
+    float R1020;
+    R1008 = *(float *)((int)stk + 8);
+    R1020 = *(float *)((int)stk + 20);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -163,7 +167,7 @@ int psgEnterState2(int a4, int a5, int a6, float f4, float f5, float f6)
     t51 = *(int *)((R13 + 0x0));
     nlTranslate(F15, F15, (*(float *)((((signed char)(((t51 << 1) + t51) << 2) + 0xC0D5588) + 0x8))));
     nlGetTranslate((((int)stk + 4) + 0xC));
-    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) + 7.5f);
+    R1020 = ((R1020) + 7.5f);
     nlScaleVector(((int)stk + 4), 0xC2AD1E0, 20.0f);
     t57 = GetCollisionFirst((((int)stk + 4) + 0xC), ((int)stk + 4), F15);
     R10 = (0xC0D5588);
@@ -190,7 +194,7 @@ int psgEnterState2(int a4, int a5, int a6, float f4, float f5, float f6)
     F14 = ((*(float *)((R4 + 0x18))));
     goto L_C06BB30;
     L_C06BB30:;
-    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) - F12);
+    R1020 = ((R1020) - F12);
     t79 = *(int *)((R13 + 0x0));
     R0 = (R11);
     R8 = (((signed char)(((t79 << 1) + t79) << 2) + R10));
@@ -271,7 +275,7 @@ int psgEnterState2(int a4, int a5, int a6, float f4, float f5, float f6)
     goto L_C06BC12;
     L_C06BB60:;
     nlSubVector3op(((int)stk + 4), (R14 + 0x4), (((int)stk + 4) + 0xC));
-    *(float *)(((int)stk + 8)) = F15;
+    R1008 = F15;
     nlUnitVector(((int)stk + 4));
     t130 = (nlInnerProduct(0xC2AD1E0, ((int)stk + 4))) > 0.0f;
     if (t130) goto L_C06BBDC;

@@ -165,9 +165,9 @@ int _rnd(int a4, int a5)
 
     t0 = (int)((int)a5 / (int)0x8);
     t1 = (int)((int)a5 % (int)0x8);
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31)));
-    *(unsigned int *)(((int)stk + 12)) = (unsigned char)((unsigned char)(((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31))) >> 1);
-    *(unsigned char *)(((int)stk + 8)) = ((unsigned char)((unsigned char)(((int)(-t1) >= 0) ? (0x80 << ((-t1) & 31)) : ((-(int)(-t1) & 31) ? ((int)0x80 >> (-(int)(-t1) & 31)) : ((int)0x80 >> 31))) >> 1) >> 1);
+    *(unsigned int *)(((int)stk + 4)) = (unsigned char)((int)0x80 << (int)(-t1));
+    *(unsigned int *)(((int)stk + 12)) = (unsigned char)((unsigned char)((int)0x80 << (int)(-t1)) >> 1);
+    *(unsigned char *)(((int)stk + 8)) = ((unsigned char)((unsigned char)((int)0x80 << (int)(-t1)) >> 1) >> 1);
     t2 = (int)((int)(a5 - 1) / (int)0x8);
     t3 = (int)((int)(a5 - 1) % (int)0x8);
     t4 = *(signed char *)(((t0 + a4) + 0x0));
@@ -185,7 +185,7 @@ int _rnd(int a4, int a5)
             if (((unsigned char)t8 & t9) == 0) {
                 t10 = *(signed char *)(((t2 + a4) + 0x0));
                 t11 = 0x0;
-                if (((unsigned char)t10 & (unsigned char)(((int)(-t3) >= 0) ? (0x80 << ((-t3) & 31)) : ((-(int)(-t3) & 31) ? ((int)0x80 >> (-(int)(-t3) & 31)) : ((int)0x80 >> 31)))) != 0) {
+                if (((unsigned char)t10 & (unsigned char)((int)0x80 << (int)(-t3))) != 0) {
                     t11 = 0x1;
                 }
                 t12 = t11;
@@ -197,7 +197,7 @@ int _rnd(int a4, int a5)
     t35 = 0x0;
     if (t22 == 1) {
         t25 = (t2 + a4);
-        t26 = (((int)(-t3) >= 0) ? (0x80 << ((-t3) & 31)) : ((-(int)(-t3) & 31) ? ((int)0x80 >> (-(int)(-t3) & 31)) : ((int)0x80 >> 31)));
+        t26 = ((int)0x80 << (int)(-t3));
         for (;;) {
             t27 = *(signed char *)((t25 + 0x0));
             if (((unsigned char)t27 & (unsigned char)t26) != 0) {

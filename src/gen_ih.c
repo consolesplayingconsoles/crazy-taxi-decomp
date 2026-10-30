@@ -46,6 +46,10 @@ int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    float R1012;
+    R1004 = *(int *)((int)stk + 4);
+    R1012 = *(float *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -162,7 +166,7 @@ int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
     R3 = (R4);
     goto L_C043EC4;
     L_C043EC4:;
-    *(unsigned int *)(((int)stk + 4)) = R3;
+    R1004 = R3;
     Sound_Request((*(int *)(((R3 << 2) + 0xC0A3618))), 0x1);
     goto L_C043F36;
     L_C043EC2:;
@@ -208,7 +212,7 @@ int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
     goto L_C043F36;
     L_C043E28:;
     nlCalcPoint(R10, (((int)stk + 4) + 0x4));
-    u97 = *(float *)(((int)stk + 12));
+    u97 = R1012;
     R10 = ((R10 + 0xC));
     R13 = ((R13 - 1));
     F4 = (u97);

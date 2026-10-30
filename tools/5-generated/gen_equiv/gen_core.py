@@ -194,12 +194,13 @@ _ALLREGS=frozenset(['r%d'%i for i in range(15)]+['fr%d'%i for i in range(16)])
 _RW_ALU=('add','addc','addv','sub','subc','subv','and','or','xor','shad','shld','div1','fadd','fsub','fmul','fdiv','xtrct','rotcl','rotcr',
          'shll','shlr','shal','shar','shll2','shll8','shll16','shlr2','shlr8','shlr16','rotl','rotr','dt','fneg','fabs','fsqrt','fmac')
 _READ_ONLY=('cmp','tst','fcmp','mul','mulu','muls','dmuls','dmulu','mac','lds','ldc','jmp','jsr','braf','bsrf','pref','ocbi','ocbp','ocbwb','ftrc','flds','div0s','fipr','ftrv')
-def reg_liveness(ins,addr2idx,jumps=None):
+def reg_liveness(ins,addr2idx,jumps=None,call_reads=None):
     """{instruction index: registers live on entry} over the function's own code: a register a later instruction reads before
     anything writes it. A call reads the argument registers and writes r0-r7 / fr0-fr11; a return reads r0, fr0 and r8-r14.
     Anything not understood reads every register (conservative). jumps: {jmp index: [target index]}, the jmps to a constant inside the
     function (the flat form's GOTO): their delay slot leads there (cpuChasePlan, Virtua Tennis: r0 tested again after the jmp was
-    taken for dead, its load folded into the first test and never written)."""
+    taken for dead, its load folded into the first test and never written). call_reads(name): the argument registers a named callee
+    reads (a set, see entry_reads), used in place of its arity; None when not known."""
     n=len(ins)
     def expand(t):
         out=set()
@@ -217,7 +218,7 @@ def reg_liveness(ins,addr2idx,jumps=None):
         if m_ and mn in ('bsr',): nm=m_.group(1)
         if mn=='jsr':
             rr=re.search(r'@(r\d+)',ops or '')
-            for j in range(i-1,max(-1,i-8),-1):
+            for j in range(i-1,max(-1,i-(64 if call_reads else 8)),-1):     # entry_reads looks further back (cpuShotRange loads nlRand 9 before)
                 mj,oj,_=ins[j]
                 if rr and re.search(r',\s*%s\s*(?:;|$)'%rr.group(1),(oj or '')):
                     m2=re.search(r';\s*=\s*[0-9a-fA-F]+\s+([A-Za-z_]\w*)',oj or '')
@@ -225,6 +226,9 @@ def reg_liveness(ins,addr2idx,jumps=None):
                     break
         if nm in ('_quick_mvn','_quick_odd_mvn','_quick_evn_mvn','_slow_mvn'): return {'r0','r1','r2'}
         if nm in ('_divls','_divlu','_modls','_modlu','_divws'): return {'r0','r1'}
+        if call_reads and nm and not nm.startswith('_'):
+            rs=call_reads(nm)
+            if rs is not None: return set(rs)
         ar=None
         if nm and not nm.startswith('_'):
             try: ar=callee_arity(nm)
@@ -293,6 +297,52 @@ def reg_liveness(ins,addr2idx,jumps=None):
             use,dfn=UD[i]; new=use|(out-dfn)
             if new!=LIN[i]: LIN[i]=new; changed=True
     return {i:LIN[i] for i in range(n)}
+_ARGREGS=frozenset(['r4','r5','r6','r7']+['fr%d'%k for k in range(4,12)])
+def entry_reads_of(ins,call_reads=None):
+    """The argument registers (r4-r7, fr4-fr11) that the code ins (a function's own instructions, as _run reads them) reads before
+    it writes them on some path: its register liveness at the entry. None when that cannot be told from the code alone: a jmp out
+    of the function (a tail call: what it reads is the target's), or frchg/fschg (the float registers named are not the ones read)."""
+    if not ins: return None
+    addr2idx={x[2]:i for i,x in enumerate(ins)}
+    goto={}
+    for i_,x_ in enumerate(ins):
+        if x_[0] in ('frchg','fschg'): return None
+        if x_[0]=='jmp':
+            reg_=(x_[1] or '').strip().lstrip('@')
+            for j_ in range(i_-1,max(i_-5,-1),-1):
+                m_=re.match(r'@\(0x[0-9a-f]+,pc\),%s\s*;\s*=([0-9a-f]{8})'%reg_,(ins[j_][1] or '').strip()) if ins[j_][0]=='mov.l' else None
+                if m_:
+                    if int(m_.group(1),16) in addr2idx: goto[i_]=[addr2idx[int(m_.group(1),16)]]
+                    break
+            if i_ not in goto: return None
+    live=reg_liveness(ins,addr2idx,goto,call_reads)
+    return frozenset(live.get(0,set())&_ARGREGS)
+_ENTRY={}
+def entry_reads(fname,_open=()):
+    """The argument registers the original code of fname reads before writing them (entry_reads_of), a call in it reading only what
+    its callee reads, the same way. A set, not a count: callee_arity counts up to the highest register read, so cpuShotRange, which
+    reads fr6-fr10, counts 7 floats and takes in fr4 and fr5; cpuSglAimScore passes its fr4 and fr5 on to it untouched and its
+    generated C names them, and every caller of it was compared on two registers nothing reads (Virtua Tennis cpuSglPickLv07, a
+    leftover 1.0 in fr5 against 5). None when not known (unreadable code, a cycle of calls, a tail call)."""
+    if fname in _ENTRY: return _ENTRY[fname]
+    if fname in _open: return None
+    res=None
+    try:
+        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        ins=[]
+        for l in out:
+            m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+            if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
+        if ins and ins[-1][0] in ('bra','bsr','jsr','jmp','rts','braf','bsrf','bt/s','bf/s'):     # the delay slot past the size
+            nxt=ins[-1][2]+2
+            for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
+                m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+                if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
+        res=entry_reads_of(ins,lambda n: entry_reads(n,_open+(fname,)))
+    except Exception:
+        res=None
+    _ENTRY[fname]=res
+    return res
 _ARITY={}
 _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','neg','negc','not','swap.b','swap.w','sts','sts.l','float','mova',
              'fmov','fmov.s','fldi0','fldi1','fabs','fneg')
@@ -911,9 +961,12 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if isint(v): c.R[a[1]]=((((v^0x80000000)-0x80000000)>>k)&M) if sg else (v>>k)
                 else: c.R[a[1]]=('e','((int)%s >> 31)'%ex(v)) if sg else 0
             else:
+                # a shift by a register: SHC compiles `y << x` to one shad (int y) or shld (unsigned y), whose meaning for a negative count
+                # (a right shift, zero or the sign past 31) is the hardware's, the same the ternary spelt out at 19 instructions a site
+                # (Crazy Taxi 111 sites, Virtua Tennis 188; tools/7-reduction/textpass.py shift rewrites the C written before this)
                 ty='int' if sg else 'unsigned int'
                 x=ex(m); y=ex(v)
-                c.R[a[1]]=('e','(((int)%s >= 0) ? (%s << (%s & 31)) : ((-(int)%s & 31) ? ((%s)%s >> (-(int)%s & 31)) : %s))'%(x,y,x,x,ty,y,x,'((int)%s >> 31)'%y if sg else '0'))
+                c.R[a[1]]=('e','((%s)%s << (int)%s)'%(ty,y,x))
             return
         if mn=='shar': v=c.gi(a[0]); c.R[a[0]]=('e','(%s >> 1)'%ex(v)) if not isint(v) else ((v>>1)|(v&0x80000000)); return
         if mn=='swap.w':

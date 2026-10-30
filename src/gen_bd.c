@@ -429,7 +429,7 @@ void syG2DmaEndIntrruptHandler(int a4)
     *(unsigned int *)((((t5 << 2) + (0xEC + t4)) + 0x0)) = (t6 + 0x1);
     t7 = *(int *)((a4 + 0x0));
     t8 = *(int *)0xC1786F8;
-    *(unsigned int *)((t8 + 0x0)) = (((int)(t7 + 0xF) >= 0) ? (0x1 << ((t7 + 0xF) & 31)) : ((-(int)(t7 + 0xF) & 31) ? ((int)0x1 >> (-(int)(t7 + 0xF) & 31)) : ((int)0x1 >> 31)));
+    *(unsigned int *)((t8 + 0x0)) = ((int)0x1 << (int)(t7 + 0xF));
     t9 = *(int *)((a4 + 0x1C));
     if (t9 != 0) {
         t10 = *(int *)((a4 + 0x1C));

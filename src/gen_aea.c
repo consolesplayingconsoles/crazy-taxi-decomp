@@ -25,42 +25,53 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     int t20;
     int t23;
     int stk[20];
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
+    float R1032;
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    *(unsigned int *)(((int)stk + 12)) = a5;
-    *(unsigned int *)(((int)stk + 4)) = a6;
-    *(unsigned int *)(((int)stk + 16)) = a7;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+    R1032 = *(float *)((int)stk + 32);
+
+    R1008 = a4;
+    R1012 = a5;
+    R1004 = a6;
+    R1016 = a7;
     t0 = *(int *)(((a8 << 2) + 0xC1331B0));
-    *(unsigned int *)(((int)stk + 12)) = (((int)((int)(*(int *)(((int)stk + 12))) % (int)((unsigned short)(*(short *)(((*(int *)(((int)stk + 8))) + 0x0))) - 1))) + 0x1);
-    *(unsigned int *)(((int)stk + 16)) = (((int)((int)(*(int *)(((int)stk + 16))) % (int)((unsigned short)(*(short *)(((*(int *)(((int)stk + 4))) + 0x0))) - 1))) + 0x1);
-    t10 = *(int *)(((int)stk + 12));
-    t11 = *(int *)(((int)stk + 8));
-    t12 = *(int *)(((*(int *)(((int)stk + 8))) + 0x8));
-    t13 = *(int *)(((int)stk + 4));
+    R1012 = (((int)((int)(R1012) % (int)((unsigned short)(*(short *)(((R1008) + 0x0))) - 1))) + 0x1);
+    R1016 = (((int)((int)(R1016) % (int)((unsigned short)(*(short *)(((R1004) + 0x0))) - 1))) + 0x1);
+    t10 = R1012;
+    t11 = R1008;
+    t12 = *(int *)(((R1008) + 0x8));
+    t13 = R1004;
     t14 = *(int *)((t13 + 0x8));
-    t15 = *(int *)(((int)stk + 16));
+    t15 = R1016;
     nlPushMatrix(0x0);
-    t17 = *(int *)(((int)stk + 4));
-    t20 = *(int *)(((int)stk + 16));
-    t23 = *(int *)(((int)stk + 12));
-    nlGetAverageVector((((*(int *)(((int)stk + 8))) - (*(int *)(((*(int *)(((int)stk + 8))) + 0x4)))) + (((t23 << 1) + t23) << 2)), ((t17 - (*(int *)((t17 + 0x4)))) + (((t20 << 1) + t20) << 2)), (((int)stk + 4) + 0x18), (1.0f - f4), f4);
+    t17 = R1004;
+    t20 = R1016;
+    t23 = R1012;
+    nlGetAverageVector((((R1008) - (*(int *)(((R1008) + 0x4)))) + (((t23 << 1) + t23) << 2)), ((t17 - (*(int *)((t17 + 0x4)))) + (((t20 << 1) + t20) << 2)), (((int)stk + 4) + 0x18), (1.0f - f4), f4);
     if (a9 == 0) {
         nlTranslateV((((int)stk + 4) + 0x18));
     } else {
-        nlTranslate(0.0f, (*(float *)(((int)stk + 32))), 0.0f);
+        nlTranslate(0.0f, (R1032), 0.0f);
     }
     *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x0))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x0))), (1.0f - f4)));
     *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x2))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2))), (1.0f - f4)));
     *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
     nlPushMatrix(0x0);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x30);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x30);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x30) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x20);
+    R1004 = (t0 + 0x20);
     if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
     }
@@ -130,13 +141,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5430);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x6);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x6);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x6) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x4);
+    R1004 = (t0 + 0x4);
     if ((*(int *)(((t0 + 0x4) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x4) + 0x0))));
     }
@@ -389,13 +400,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D543C);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x18);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x18);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x18) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x10);
+    R1004 = (t0 + 0x10);
     if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
     }
@@ -436,13 +447,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC5654D8);
     }
     nlTranslateV(0xC0D5448);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x12);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x12);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x12) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0xC);
+    R1004 = (t0 + 0xC);
     if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
     }
@@ -459,13 +470,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC585FA0);
     }
     nlTranslateV(0xC0D5454);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0xC);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0xC);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0xC) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x8);
+    R1004 = (t0 + 0x8);
     if ((*(int *)(((t0 + 0x8) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x8) + 0x0))));
     }
@@ -482,13 +493,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5460);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x2A);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x2A);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x2A) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x1C);
+    R1004 = (t0 + 0x1C);
     if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
     }
@@ -529,24 +540,24 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC566CB0);
     }
     nlTranslateV(0xC0D546C);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x24);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x24);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x24) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x18);
+    R1004 = (t0 + 0x18);
     if ((*(int *)(((t0 + 0x18) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x18) + 0x0))));
     }
     nlTranslateV(0xC0D5478);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x1E);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x1E);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x1E) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x14);
+    R1004 = (t0 + 0x14);
     if ((*(int *)(((t0 + 0x14) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x14) + 0x0))));
     }
@@ -556,13 +567,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlPopMatrix(0x1);
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x5A);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x5A);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x5A) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x3C);
+    R1004 = (t0 + 0x3C);
     if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
     }
@@ -639,13 +650,13 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5484);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x42);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x42);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x42) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x2C);
+    R1004 = (t0 + 0x2C);
     if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
     }
@@ -666,37 +677,37 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC4BC440);
     }
     nlTranslateV(0xC0D5490);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x3C);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x3C);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x3C) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x28);
+    R1004 = (t0 + 0x28);
     if ((*(int *)(((t0 + 0x28) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x28) + 0x0))));
     }
     nlTranslateV(0xC0D549C);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x36);
-    *(unsigned int *)(((int)stk + 8)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (1.0f - f4)));
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x36);
+    R1008 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1004) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x36) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((R1008) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((R1008) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x24);
+    R1004 = (t0 + 0x24);
     if ((*(int *)(((t0 + 0x24) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x24) + 0x0))));
     }
     nlPopMatrix(0x1);
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D54A8);
-    *(unsigned int *)(((int)stk + 8)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x54);
-    *(unsigned int *)(((int)stk + 4)) = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54);
-    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x2))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 8))) + 0x4))), (*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (1.0f - f4)));
+    R1008 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x54);
+    R1004 = (((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54);
+    *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((R1008) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x54) + 0x0))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1008) + 0x2))), (*(short *)(((R1004) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1008) + 0x4))), (*(short *)(((R1004) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x38);
+    R1004 = (t0 + 0x38);
     if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
     }
@@ -717,10 +728,10 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
         nlObjPutUseViewMatrix(0xC4BC8C8);
     }
     nlTranslateV(0xC0D54B4);
-    *(unsigned int *)(((int)stk + 4)) = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4E);
+    R1004 = (((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4E);
     *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)(((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x4E) + 0x0))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x0))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x2))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x2))), (1.0f - f4)));
-    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((*(int *)(((int)stk + 4))) + 0x4))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x4))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 22)) = (GetAverageAngle((*(short *)(((R1004) + 0x2))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x2))), (1.0f - f4)));
+    *(unsigned short *)(((int)stk + 24)) = (GetAverageAngle((*(short *)(((R1004) + 0x4))), (*(short *)(((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x4E) + 0x4))), (1.0f - f4)));
     sklRotate((((int)stk + 4) + 0x10));
     if ((*(int *)(((t0 + 0x34) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x34) + 0x0))));

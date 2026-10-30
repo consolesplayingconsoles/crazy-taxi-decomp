@@ -165,7 +165,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     *(unsigned int *)((t66 + t65)) = ((*(int *)((t66 + t65))) + 0x20);
     t68 = *(int *)(((int)stk + 4));
     R3 = (t68);
-    if ((((((int)t68 >= 0) ? (R10 << (t68 & 31)) : ((-(int)t68 & 31) ? ((int)R10 >> (-(int)t68 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) != 0)) goto L_C15AF1E;
+    if (((((int)R10 << (int)t68) & (*(int *)0xC2EAAE8)) != 0)) goto L_C15AF1E;
     goto L_C15AF16;
     L_C15AF16:;
     *(unsigned int *)(((*(int *)((R14 + (R3 << 2)))) + 0x0)) = R13;
@@ -173,7 +173,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     L_C15AF1E:;
     t73 = *(int *)(((int)stk + 4));
     R3 = (t73);
-    if ((((((int)t73 >= 0) ? (R10 << (t73 & 31)) : ((-(int)t73 & 31) ? ((int)R10 >> (-(int)t73 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AFC8;
+    if (((((int)R10 << (int)t73) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AFC8;
     goto L_C15AF2C;
     L_C15AF2C:;
     *(unsigned int *)(((int)stk + 8)) = (R3 << 2);
@@ -192,7 +192,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     L_C15AF5E:;
     *(unsigned int *)(((int)stk + 4)) = (R9 << 2);
     R2 = ((R9 << 2));
-    if ((((((int)R9 >= 0) ? (R10 << (R9 & 31)) : ((-(int)R9 & 31) ? ((int)R10 >> (-(int)R9 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AFB2;
+    if (((((int)R10 << (int)R9) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AFB2;
     goto L_C15AF70;
     L_C15AF70:;
     t95 = *(int *)(((int)stk + 12));
@@ -259,7 +259,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     L_C15AD02:;
     t133 = *(int *)(((int)stk + 4));
     R2 = (t133);
-    if ((((((int)t133 >= 0) ? (R10 << (t133 & 31)) : ((-(int)t133 & 31) ? ((int)R10 >> (-(int)t133 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15ADF6;
+    if (((((int)R10 << (int)t133) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15ADF6;
     goto L_C15AD10;
     L_C15AD10:;
     *(unsigned int *)(((int)stk + 12)) = (R2 << 2);
@@ -298,7 +298,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     if ((R10 == (*(int *)0xC2EAAA4))) goto L_C15ADDE;
     goto L_C15AD8C;
     L_C15AD8C:;
-    if ((((((int)R10 >= 0) ? (0x1 << (R10 & 31)) : ((-(int)R10 & 31) ? ((int)0x1 >> (-(int)R10 & 31)) : ((int)0x1 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15ADDE;
+    if (((((int)0x1 << (int)R10) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15ADDE;
     goto L_C15AD98;
     L_C15AD98:;
     t176 = *(int *)(((int)stk + 8));
@@ -329,7 +329,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     L_C15AB42:;
     t192 = *(int *)(((int)stk + 8));
     R3 = (t192);
-    if ((((((int)t192 >= 0) ? (R10 << (t192 & 31)) : ((-(int)t192 & 31) ? ((int)R10 >> (-(int)t192 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AB8C;
+    if (((((int)R10 << (int)t192) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AB8C;
     goto L_C15AB50;
     L_C15AB50:;
     *(unsigned int *)(((int)stk + 4)) = (R3 << 2);
@@ -358,7 +358,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     R4 = (R13);
     goto L_C15AB98;
     L_C15AB98:;
-    if ((((((int)R4 >= 0) ? (R10 << (R4 & 31)) : ((-(int)R4 & 31) ? ((int)R10 >> (-(int)R4 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) != 0)) goto L_C15ABAC;
+    if (((((int)R10 << (int)R4) & (*(int *)0xC2EAAE8)) != 0)) goto L_C15ABAC;
     goto L_C15ABA4;
     L_C15ABA4:;
     *(unsigned int *)(((*(int *)((R14 + (R4 << 2)))) + 0x0)) = R13;
@@ -373,7 +373,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     R4 = (R13);
     goto L_C15ABBA;
     L_C15ABBA:;
-    if ((((((int)R4 >= 0) ? (R10 << (R4 & 31)) : ((-(int)R4 & 31) ? ((int)R10 >> (-(int)R4 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AC54;
+    if (((((int)R10 << (int)R4) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AC54;
     goto L_C15ABC6;
     L_C15ABC6:;
     if (((unsigned int)(*(int *)(((*(int *)((R14 + (R4 << 2)))) + 0x0))) <= (unsigned int)(*(int *)((0xC2F91D4 + (R4 << 2)))))) goto L_C15ABE8;
@@ -389,7 +389,7 @@ int kmRender(int a4, int a5, int a6, int a7)
     R9 = (R13);
     goto L_C15ABFC;
     L_C15ABFC:;
-    if ((((((int)R9 >= 0) ? (R10 << (R9 & 31)) : ((-(int)R9 & 31) ? ((int)R10 >> (-(int)R9 & 31)) : ((int)R10 >> 31))) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AC4A;
+    if (((((int)R10 << (int)R9) & (*(int *)0xC2EAAE8)) == 0)) goto L_C15AC4A;
     goto L_C15AC08;
     L_C15AC08:;
     t238 = *(int *)(((int)stk + 4));

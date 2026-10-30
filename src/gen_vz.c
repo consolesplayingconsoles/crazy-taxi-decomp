@@ -26,7 +26,7 @@ int crowdCreate(int a4, int a5)
         t1 = (int)((int)a5 % (int)0x20);
         t2 = 0x0;
         if ((int)t1 > 0) {
-            t2 = (((int)(t1 - 1) >= 0) ? (0x1 << ((t1 - 1) & 31)) : ((-(int)(t1 - 1) & 31) ? ((int)0x1 >> (-(int)(t1 - 1) & 31)) : ((int)0x1 >> 31)));
+            t2 = ((int)0x1 << (int)(t1 - 1));
         }
         t6 = nlMalloc((((short)(*(short *)((a4 + 0x10))) * (short)0x64) + 0x4));
         if (t6 != 0) {

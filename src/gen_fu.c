@@ -93,11 +93,11 @@ void syChainDeleteHandler(int a4)
                 } else {
                     if (((int)(short)((t10 << 2) << 2) >> 8) == 10) {
                         t18 = *(int *)0xA05F6920;
-                        *(unsigned int *)0xA05F6920 = (t18 & (~(((int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC) >= 0) ? (0x1 << ((((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC) & 31)) : ((-(int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC) & 31) ? ((int)0x1 >> (-(int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC) & 31)) : ((int)0x1 >> 31)))));
+                        *(unsigned int *)0xA05F6920 = (t18 & (~((int)0x1 << (int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC))));
                     } else {
                         if (((int)(short)((t10 << 2) << 2) >> 8) == 11) {
                             t19 = *(int *)0xA05F6924;
-                            *(unsigned int *)0xA05F6924 = (t19 & (~(((int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) >= 0) ? (0x1 << (((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) & 31)) : ((-(int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) & 31) ? ((int)0x1 >> (-(int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) & 31)) : ((int)0x1 >> 31)))));
+                            *(unsigned int *)0xA05F6924 = (t19 & (~((int)0x1 << (int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1))));
                         }
                     }
                     t27 = (int)_builtin_get_vbr();

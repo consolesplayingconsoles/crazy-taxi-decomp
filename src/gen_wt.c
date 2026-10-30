@@ -36,6 +36,13 @@ void goiToolCamera(int a4)
     float u34;
     float u40;
     int stk[18];
+    float R1008;
+    float R1012;
+    float R1016;
+
+    R1008 = *(float *)((int)stk + 8);
+    R1012 = *(float *)((int)stk + 12);
+    R1016 = *(float *)((int)stk + 16);
 
     if (a4 == 0) {
         { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A62C0) = *(struct mv3 *)(0xC0A4788); }
@@ -103,11 +110,11 @@ void goiToolCamera(int a4)
         nlPopMatrix(0x1);
         nlLocate(0x1, 0x32);
         u64 = *(float *)0xC179848;
-        *(float *)(((int)stk + 16)) = u64;
+        R1016 = u64;
         u65 = *(float *)0xC179844;
-        *(float *)(((int)stk + 12)) = u65;
+        R1012 = u65;
         u66 = *(float *)0xC179840;
-        *(float *)(((int)stk + 8)) = u66;
+        R1008 = u66;
         nlPrintf(0xC0C3268, u66, u65, u64);
     }
 }

@@ -4,16 +4,3 @@
 int Advtise(void);
 int AdvExecState(void);
 
-int AdvExecState(void)
-{
-    int t1;
-    int t2;
-
-    t1 = *(int *)((((*(int *)0xC1EE238) << 2) + 0xC08ADC4));
-    if (t1 == 0) {
-        *(unsigned int *)0xC1EE238 = 0x0;
-    } else {
-        t2 = ((int (*)(int))(t1))(0xC1EE238);
-    }
-    return Advtise();
-}

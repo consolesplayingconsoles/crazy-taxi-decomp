@@ -109,7 +109,7 @@ int gdDecSubcode(int a4, int a5, int a6, int a7)
     goto L_C15F5BA;
     L_C15F594:;
     t48 = *(signed char *)((R12 + 0x0));
-    *(unsigned char *)((R13 + 0x0)) = ((*(signed char *)((R13 + 0x0))) | (((int)(-(R10 - R4)) >= 0) ? ((t48 & R6) << ((-(R10 - R4)) & 31)) : ((-(int)(-(R10 - R4)) & 31) ? ((int)(t48 & R6) >> (-(int)(-(R10 - R4)) & 31)) : ((int)(t48 & R6) >> 31))));
+    *(unsigned char *)((R13 + 0x0)) = ((*(signed char *)((R13 + 0x0))) | ((int)(t48 & R6) << (int)(-(R10 - R4))));
     R12 = ((R12 + 0x1));
     goto L_C15F5A6;
 }

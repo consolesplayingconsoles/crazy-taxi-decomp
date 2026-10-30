@@ -95,7 +95,7 @@ int CheckRanking(int a4, int a5, int a6, int a7)
     goto L_C041A20;
     L_C041A20:;
     t40 = *(int *)((R14 + 0x8));
-    *(unsigned int *)((R13 + 0x4)) = ((*(int *)((R13 + 0x4))) | (((int)(t40 - 2) >= 0) ? (0x1 << ((t40 - 2) & 31)) : ((-(int)(t40 - 2) & 31) ? ((int)0x1 >> (-(int)(t40 - 2) & 31)) : ((int)0x1 >> 31))));
+    *(unsigned int *)((R13 + 0x4)) = ((*(int *)((R13 + 0x4))) | ((int)0x1 << (int)(t40 - 2)));
     goto L_C041A2E;
     L_C0419E0:;
     R4 = (0x1);

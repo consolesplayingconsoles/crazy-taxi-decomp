@@ -51,11 +51,6 @@ void nlReloadPalette(int idx, int b)
     }
 }
 
-void setBorderColor(unsigned int c)
-{
-    /* the colour is the callee's fifth (stack) argument; r4 carries it too, as in the original */
-    kmSetBorderColor(c | 0xFF000000, 0, 0, 0, c | 0xFF000000);
-}
 
 float nlCosec(int a)
 {

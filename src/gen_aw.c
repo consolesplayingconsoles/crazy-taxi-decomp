@@ -43,11 +43,11 @@ void _lsfts(int a4, int a5, int a6)
                 t3 = *(signed char *)((t0 + 0x0));
                 t4 = *(signed char *)((t0 + 0x0));
                 t1 = (t1 - 1);
-                *(unsigned char *)((t0 + 0x0)) = (((int)(short)a6 >= 0) ? (t3 << ((short)a6 & 31)) : ((-(int)(short)a6 & 31) ? ((unsigned int)t3 >> (-(int)(short)a6 & 31)) : 0));
+                *(unsigned char *)((t0 + 0x0)) = ((unsigned int)t3 << (int)(short)a6);
                 t5 = *(signed char *)((t0 + 0x0));
                 *(unsigned char *)((t0 + 0x0)) = (t5 | t2);
-                t2 = (unsigned char)(t4 & (((int)(short)(0x8 - a6) >= 0) ? (0xFF << ((short)(0x8 - a6) & 31)) : ((-(int)(short)(0x8 - a6) & 31) ? ((int)0xFF >> (-(int)(short)(0x8 - a6) & 31)) : ((int)0xFF >> 31))));
-                t2 = (((int)(-(short)(0x8 - a6)) >= 0) ? (t2 << ((-(short)(0x8 - a6)) & 31)) : ((-(int)(-(short)(0x8 - a6)) & 31) ? ((unsigned int)t2 >> (-(int)(-(short)(0x8 - a6)) & 31)) : 0));
+                t2 = (unsigned char)(t4 & ((int)0xFF << (int)(short)(0x8 - a6)));
+                t2 = ((unsigned int)t2 << (int)(-(short)(0x8 - a6)));
                 t0 = (t0 - 1);
             } while ((int)t1 >= 0);
             t8 = t2;

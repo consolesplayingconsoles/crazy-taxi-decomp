@@ -48,6 +48,10 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -90,8 +94,8 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     R5 = ((t20 * R5));
     goto L_C053C16;
     L_C053C16:;
-    *(unsigned int *)(((int)stk + 4)) = ((int)((int)R4 / (int)0xA));
-    *(unsigned int *)(((int)stk + 8)) = ((int)((int)R4 % (int)0xA));
+    R1004 = ((int)((int)R4 / (int)0xA));
+    R1008 = ((int)((int)R4 % (int)0xA));
     Put_Remain_Time_Gauge(R4, R5, R6, R7);
     *(unsigned int *)0xC2A7FB0 = 0x200E;
     *(float *)0xC2A7FA0 = F15;
@@ -129,10 +133,10 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     t43 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
     goto L_C053D0A;
     L_C053D0A:;
-    *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((*(int *)(((int)stk + 4))) << 2))));
+    *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1004) << 2))));
     *(float *)((R13 + 0x4)) = 74.0f;
     t47 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
-    *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((*(int *)(((int)stk + 8))) << 2))));
+    *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1008) << 2))));
     *(float *)((R13 + 0x4)) = 116.0f;
     t51 = ((int (*)(int))(nlSprPut))(0xC2A7F7C);
     goto L_C053D32;

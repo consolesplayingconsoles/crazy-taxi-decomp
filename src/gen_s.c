@@ -24,7 +24,7 @@ void nlSetPaletteMap(int a4, int a5)
     int t5;
 
     t0 = ((int)a4 >> 4);
-    t1 = (((int)(a4 & 0xF) >= 0) ? (0x1 << ((a4 & 0xF) & 31)) : ((-(int)(a4 & 0xF) & 31) ? ((int)0x1 >> (-(int)(a4 & 0xF) & 31)) : ((int)0x1 >> 31)));
+    t1 = ((int)0x1 << (int)(a4 & 0xF));
     t2 = ((int)(a5 + 0xF) >> 4);
     t3 = ((((int)a4 >> 4) << 1) + 0xC2AECC8);
     for (;;) {

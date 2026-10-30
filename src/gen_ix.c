@@ -60,6 +60,10 @@ int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f
     float F14;
     float F15;
     int T_;
+    int R1028;
+    int R1032;
+    R1028 = *(int *)((int)stk + 28);
+    R1032 = *(int *)((int)stk + 32);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -73,7 +77,7 @@ int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f
     F10 = f10;
     F11 = f11;
     L_C0357F8:;
-    *(unsigned int *)(((int)stk + 32)) = R5;
+    R1032 = R5;
     R10 = (0xC273F10);
     R13 = (0xC271D30);
     F12 = (10.0f);
@@ -98,7 +102,7 @@ int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f
     u19 = F12;
     u19 = u19 + F12 * F15;
     nlTranslate(F14, u19, F14);
-    R13 = ((*(int *)(((int)stk + 32))));
+    R13 = ((R1032));
     goto L_C035A80;
     L_C035A80:;
     if ((R13 != 0)) goto L_C035A72;
@@ -169,9 +173,9 @@ int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f
     u82 = *(float *)((R14 + 0x8));
     u83 = *(float *)((R14 + 0x4));
     u84 = *(float *)((R14 + 0x0));
-    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
+    R1028 = (R8 << 1);
     nlTriPutSetPoint(R13, (R8 << 1), u84, u83, u82, F15, F15, F15, F13, F14);
-    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R14 + 0x0))), ((*(float *)((R14 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R14 + 0x8))), F15, F15, F15, F13, 0.979999959f);
+    nlTriPutSetPoint(R13, ((R1028) + 0x1), (*(float *)((R14 + 0x0))), ((*(float *)((R14 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R14 + 0x8))), F15, F15, F15, F13, 0.979999959f);
     t92 = (int)(R8 + 0x1) < (int)R9;
     R14 = ((R14 + 0xC));
     R8 = ((R8 + 0x1));
@@ -182,8 +186,8 @@ int PutKyakuStopArea(int a4, int a5, int a6, int a7, float f4, float f5, float f
     u96 = *(float *)((R12 + 0x8));
     u97 = *(float *)((R12 + 0x4));
     u98 = *(float *)((R12 + 0x0));
-    *(unsigned int *)(((int)stk + 28)) = (R8 << 1);
+    R1028 = (R8 << 1);
     nlTriPutSetPoint(R13, (R8 << 1), u98, u97, u96, F15, F15, F15, F13, F14);
-    nlTriPutSetPoint(R13, ((*(int *)(((int)stk + 28))) + 0x1), (*(float *)((R12 + 0x0))), ((*(float *)((R12 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R12 + 0x8))), F15, F15, F15, F13, 0.979999959f);
+    nlTriPutSetPoint(R13, ((R1028) + 0x1), (*(float *)((R12 + 0x0))), ((*(float *)((R12 + 0x4))) + (*(float *)0xC271D1C)), (*(float *)((R12 + 0x8))), F15, F15, F15, F13, 0.979999959f);
     goto L_C0359C4;
 }

@@ -68,6 +68,10 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -76,7 +80,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F5 = f5;
     F6 = f6;
     L_C044576:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
+    R1004 = R5;
     t0 = *(int *)((R4 + 0x78));
     R0 = (t0);
     R13 = (((short)((short)t0 * (short)0xA8) + 0xC0A2628));
@@ -92,7 +96,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     return;
     L_C0445B8:;
     t7 = *(int *)0xC2A1B30;
-    *(unsigned int *)(((int)stk + 8)) = t7;
+    R1008 = t7;
     t8 = *(int *)((t7 + 0x64));
     R4 = (t8);
     if ((t8 == 56)) goto L_C0445D2;
@@ -128,7 +132,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C0448AA;
     L_C044618:;
     nlPushMatrix(0x0);
-    t28 = *(int *)(((int)stk + 4));
+    t28 = R1004;
     R10 = (0xC078250);
     R11 = ((t28 << 2));
     R12 = (0xC078200);
@@ -162,9 +166,9 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (((*(int *)(((R13 + 0x58) + 0x0))) == 0)) goto L_C04487A;
     goto L_C044856;
     L_C044856:;
-    *(unsigned int *)(((int)stk + 4)) = (R13 + 0x70);
+    R1004 = (R13 + 0x70);
     nlPushMatrix(0x0);
-    nlTranslateV((*(int *)(((int)stk + 4))));
+    nlTranslateV((R1004));
     nlRotateAY((*(int *)((R14 + 0xC0))));
     nlObjPutUseViewMatrix((*(int *)(((R13 + 0x58) + 0x0))));
     nlPopMatrix(0x1);
@@ -173,9 +177,9 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (((*(int *)((R13 + 0x60))) == 0)) goto L_C0448A6;
     goto L_C044882;
     L_C044882:;
-    *(unsigned int *)(((int)stk + 4)) = (R13 + 0x7C);
+    R1004 = (R13 + 0x7C);
     nlPushMatrix(0x0);
-    nlTranslateV((*(int *)(((int)stk + 4))));
+    nlTranslateV((R1004));
     nlRotateAY((unsigned short)(*(short *)((R14 + 0xAC))));
     nlObjPutUseViewMatrix((*(int *)((R13 + 0x60))));
     nlPopMatrix(0x1);
@@ -202,7 +206,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     goto L_C044768;
     L_C044768:;
     u95 = (F4 * F4);
-    *(unsigned int *)(((int)stk + 4)) = (int)(((u95 * (1.0f + 1.0f))) * 32768.0f);
+    R1004 = (int)(((u95 * (1.0f + 1.0f))) * 32768.0f);
     F15 = ((u95 * (1.0f + 1.0f)));
     goto L_C0447AC;
     L_C0447AC:;
@@ -230,7 +234,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     L_C0447E0:;
     nlPushMatrix(R4);
     nlTranslateV(R11);
-    t114 = ((int (*)(int))(nlRotateAZ))((*(int *)(((int)stk + 4))));
+    t114 = ((int (*)(int))(nlRotateAZ))((R1004));
     nlScale(F15, F15, F15);
     if ((!(F15 > F14))) goto L_C044802;
     goto L_C0447FC;
@@ -245,7 +249,7 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     L_C044814:;
     nlPushMatrix(0x0);
     nlTranslate((-(*(float *)((R11 + 0x0)))), (*(float *)((R11 + 0x4))), (*(float *)((R11 + 0x8))));
-    t129 = ((int (*)(int))(nlRotateAZ))((*(int *)(((int)stk + 4))));
+    t129 = ((int (*)(int))(nlRotateAZ))((R1004));
     nlScale(F15, F15, F15);
     if ((!(F15 > F14))) goto L_C044840;
     goto L_C04483A;
@@ -257,6 +261,6 @@ void putTrainModel(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     nlPopMatrix(0x1);
     goto L_C04484C;
     L_C0447A8:;
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R1004 = 0x0;
     goto L_C0447AC;
 }

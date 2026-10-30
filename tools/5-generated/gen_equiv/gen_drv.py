@@ -141,6 +141,7 @@ def build(name,ret,passthru=False):
         if m_ and occ[m_.group(2)]==1:
             body[i_]='%s*(volatile %s *)%s;'%(m_.group(1),m_.group(3),m_.group(4))
             decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%m_.group(2),d)]
+    if os.environ.get('GEN_SIGN','1')!='0': body=sign_idiom(body,decls)
     if os.environ.get('GEN_INLINE','1')!='0': body=inline_single(body,decls)
     # the caller-frame copies are statements: after the body's own leading declarations (the flat form declares its register
     # variables there), or a C89 compiler rejects every declaration that follows them
@@ -160,15 +161,45 @@ def build(name,ret,passthru=False):
             body[j]='%sreturn *(Stk%d *)(%s);'%(m.group(1),k,m.group(4)); params=params[1:]; rt='Stk%d'%k
     nlines=len(body)+len(decls)
     if nlines>max(400,25*(G.SPANS.get(name,(0,0))[1]//2)): raise Skip('C too large: %d lines for %d bytes'%(nlines,G.SPANS.get(name,(0,0))[1]))      # duplicated arms made a 298-byte function 30,000 lines; the compiler then runs for an hour
-    src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in decls+([frame_decl] if frame_decl else [])]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
+    src='%s %s(%s)\n{\n%s\n}\n'%(rt,name,', '.join(params) if params else 'void','\n'.join(['    '+d for d in ([frame_decl] if frame_decl else [])+decls]+(['']if decls or frame_decl else [])+['    '+s for s in body]))
+    import frame
+    if os.environ.get('GEN_FRAME','0')=='1': src=frame.scalarize(src.rstrip('\n'))+'\n'      # scalar frame slots become locals (SHC keeps those in registers)
+    import coalesce
+    if os.environ.get('GEN_COALESCE','1')!='0': src=coalesce.coalesce(src.rstrip('\n'))+'\n'      # temporaries with disjoint live ranges share a name (fewer frame slots)
     import place, splitflat                       # fewer labels first (a block goes where its only jump is), then, if still over the limit,
     if os.environ.get('GEN_PLACE','1')!='0': src=place.place(src.rstrip('\n'))+'\n'   # more labels than the compiler takes (~512, "3018 overflow"): a main function and parts
-    src=splitflat.split(src.rstrip('\n'),int(os.environ.get('GEN_MAX_LABELS','480')))+'\n'
+    src=splitflat.split(src.rstrip('\n'),int(os.environ.get('GEN_MAX_LABELS','500')))+'\n'
+    if os.environ.get('GEN_REGISTER','1')!='0': src=register_locals(src.rstrip('\n'))+'\n'
     return src,c
+_LOCAL=re.compile(r'^(\s+)((?:unsigned )?(?:int|short|char)|float) (\w+);$',re.M)
+def register_locals(text):
+    """Every scalar local of a function declared `register`: SHC then keeps it in a register where it can (menuTextMsgPutB, Virtua Tennis:
+    11,220 bytes as written, 5,972 with it; entryGridDrawCursors 7,180 to 5,636). The notes had `register` as no help for matching the
+    original's bytes, which it is not; for size it is. A name whose address is taken, an array and a pointer are left as they are
+    (an array's brackets and a pointer's star do not match)."""
+    taken=set(re.findall(r'&\s*(\w+)',text))
+    return _LOCAL.sub(lambda m: m.group(0) if m.group(3) in taken or m.group(3) in ('NEXT_',) else '%sregister %s %s;'%(m.group(1),m.group(2),m.group(3)),text)
 _ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
 _IDENT=re.compile(r'\b[A-Za-z_]\w*\b')
 _CAST=re.compile(r'\((?:unsigned |signed )?(?:int|float|char|short)\s*\**\)')
 _CALL=re.compile(r'\b(?!_builtin_)[A-Za-z_]\w*\s*\((?!\s*(?:int|float|unsigned|signed|char|short)\b)')      # a call (not a compiler intrinsic)
+_SIGN=re.compile(r'^([ \t]*)([tu]\d+) = 0x1;\n[ \t]*if \((.+?) > 0\.0f\) \{\n[ \t]*\} else \{\n[ \t]*(t\d+) = 0x0;\n[ \t]*if \(0\.0f > \3\) \{\n[ \t]*\4 = 0xFFFFFFFF;\n[ \t]*\}\n[ \t]*\2 = \4;\n[ \t]*\}$',re.M)
+def sign_idiom(body,decls):
+    """The three-way sign of a float, which the reader writes as an if tree (`t = 1; if (u > 0.0f) {} else { t8 = 0; if (0.0f > u) t8 = -1; t = t8; }`),
+    as one expression: `t = (u > 0.0f) - (0.0f > u);`. SHC allocates registers inside one basic block: with the branches every value of the
+    block went to the stack frame (cpuSglAimAddLv21, Virtua Tennis: 80 such blocks, 8,472 bytes for a 2,074-byte original), and the one
+    expression is also what the original's fcmp/gt, movt, sub does. A NaN gives 0 in both."""
+    text='\n'.join(body)
+    gone=set()
+    def sub(m):
+        gone.add(m.group(4))
+        return '%s%s = (%s > 0.0f) - (0.0f > %s);'%(m.group(1),m.group(2),m.group(3),m.group(3))
+    new=_SIGN.sub(sub,text)
+    if not gone: return body
+    out=new.split('\n')
+    for v in gone:
+        if not any(re.search(r'\b%s\b'%v,l) for l in out): decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%v,d)]
+    return out
 def inline_single(body,decls):
     """A temporary set once and read once, further down the same straight run of statements, with nothing in between that
     changes what it reads, is written into its one use: `t9 = R4 != 0; ... if (t9) goto L;` becomes `if (R4 != 0) goto L;`.

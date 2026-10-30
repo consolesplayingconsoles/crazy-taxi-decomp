@@ -310,8 +310,8 @@ int syChainClx1Handler(int a4)
             if (((unsigned int)((unsigned int)((unsigned int)(t0 & t1) >> 8) >> 2) >> 2) != 0) {
                 t2 = 0xA05F6900;
                 t3 = 0x0;
-                while ((((int)t3 >= 0) ? (0x1 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x1 >> (-(int)t3 & 31)) : ((int)0x1 >> 31))) != 0x80) {
-                    if (((((int)t3 >= 0) ? (0x1 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x1 >> (-(int)t3 & 31)) : ((int)0x1 >> 31))) & ((unsigned int)((unsigned int)((unsigned int)(t0 & t1) >> 8) >> 2) >> 2)) != 0) {
+                while (((int)0x1 << (int)t3) != 0x80) {
+                    if ((((int)0x1 << (int)t3) & ((unsigned int)((unsigned int)((unsigned int)(t0 & t1) >> 8) >> 2) >> 2)) != 0) {
                         t4 = syChainMasterHandler(((((t3 << 2) << 2) << 1) + 0xA00));
                         t2 = t4;
                     }
@@ -322,13 +322,13 @@ int syChainClx1Handler(int a4)
                 t5 = *(int *)0xA05F6904;
                 t6 = *(int *)0xA05F6924;
                 t7 = 0x0;
-                while ((((int)t7 >= 0) ? (0x1 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x1 >> (-(int)t7 & 31)) : ((int)0x1 >> 31))) != 16) {
-                    if (((((int)t7 >= 0) ? (0x1 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x1 >> (-(int)t7 & 31)) : ((int)0x1 >> 31))) & (t5 & t6)) != 0) {
+                while (((int)0x1 << (int)t7) != 16) {
+                    if ((((int)0x1 << (int)t7) & (t5 & t6)) != 0) {
                         syChainMasterHandler(((((t7 << 2) << 2) << 1) + 0xB00));
                     }
                     t7 = (t7 + 0x1);
                 }
-                t10 = (((int)t7 >= 0) ? (0x1 << (t7 & 31)) : ((-(int)t7 & 31) ? ((int)0x1 >> (-(int)t7 & 31)) : ((int)0x1 >> 31)));
+                t10 = ((int)0x1 << (int)t7);
             }
             t17 = t10;
         }

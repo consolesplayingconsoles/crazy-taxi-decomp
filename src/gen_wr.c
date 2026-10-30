@@ -29,7 +29,7 @@ int menuRecordsHandler(void)
         t2 = ((unsigned char)t1 + 0x1);
         t3 = 0x0;
         for (;;) {
-            t4 = (((int)t2 >= 0) ? (0x1 << (t2 & 31)) : ((-(int)t2 & 31) ? ((int)0x1 >> (-(int)t2 & 31)) : ((int)0x1 >> 31)));
+            t4 = ((int)0x1 << (int)t2);
             t2 = (t2 + 0x1);
             t3 = (t3 | t4);
             if ((int)t2 >= (int)0x5) {

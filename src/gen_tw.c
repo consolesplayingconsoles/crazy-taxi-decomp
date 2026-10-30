@@ -20,7 +20,7 @@ int CheckSecretFlag(int a4, int a5)
     t2 = a5;
     t3 = 0x0;
     for (;;) {
-        if (((unsigned char)(*(signed char *)0xC28A4E8) & (((int)t3 >= 0) ? (0x2 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x2 >> (-(int)t3 & 31)) : ((int)0x2 >> 31)))) == 0) {
+        if (((unsigned char)(*(signed char *)0xC28A4E8) & ((int)0x2 << (int)t3)) == 0) {
             t2 = 0x0;
             for (;;) {
                 t1 = 0x3C8;
@@ -35,9 +35,9 @@ int CheckSecretFlag(int a4, int a5)
                 break;
             }
             if ((int)t2 >= (int)0x10) {
-                *(unsigned char *)0xC28A4E8 = ((*(signed char *)0xC28A4E8) | (((int)t3 >= 0) ? (0x2 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x2 >> (-(int)t3 & 31)) : ((int)0x2 >> 31))));
+                *(unsigned char *)0xC28A4E8 = ((*(signed char *)0xC28A4E8) | ((int)0x2 << (int)t3));
                 t1 = (*(int *)0xC2A1234);
-                t1 = (t1 | (((int)t3 >= 0) ? (0x2 << (t3 & 31)) : ((-(int)t3 & 31) ? ((int)0x2 >> (-(int)t3 & 31)) : ((int)0x2 >> 31))));
+                t1 = (t1 | ((int)0x2 << (int)t3));
                 *(unsigned int *)0xC2A1234 = t1;
             }
         }

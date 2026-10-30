@@ -39,6 +39,7 @@ import gen_drv       # noqa: E402
 import gen_pipe      # noqa: E402
 import keep          # noqa: E402
 import ledger        # noqa: E402
+import stamp         # noqa: E402
 import time
 import sizes         # noqa: E402
 
@@ -65,9 +66,73 @@ def locked():
     return lock
 
 
+def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
+    """Put the new C in place of the old one, check it on the function's cases; True when it passes, False when the old C and cases are back."""
+    tp = 'tests/%s/%s.json' % (stem, fn)
+    cases = json.load(open(tp))
+    lock = locked()
+    try:
+        keep.save((fn, s, cases, c.protos, None), 'DIFFERS', 'shrink', 'shrink', vs.index(var), False)
+        consistency.remove_def(stem, fn)
+        os.remove(tp)
+        eq = [l for l in open('tests/equivalent.txt') if l.strip() != fn]
+        open('tests/equivalent.txt', 'w').writelines(eq)
+    finally:
+        fcntl.flock(lock, fcntl.LOCK_UN)
+    since = time.strftime('%Y-%m-%dT%H:%M:%S')       # the recheck's own failure row is not older than this
+    rr = subprocess.run(['python3', 'tools/5-generated/gen_equiv', '--recheck', fn], capture_output=True, text=True)
+    out = rr.stdout + rr.stderr
+    passed = '1 pass' in out
+    if passed:
+        # the recheck passes the function on its own; the file it was written into is checked as a whole too (a function that passed alone and
+        # differs in its file is dropped by that check, and the shrink had logged it as shrunk and left it without C: sysVideoSelect, Virtua Tennis)
+        ns, _ = where(fn)
+        res = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % ns, fn], capture_output=True, text=True).stdout if ns else ''
+        if not re.search(r'^%s\s+EQUIVALENT\b' % re.escape(fn), res, flags=re.M):
+            lock = locked()
+            try:
+                if ns:
+                    consistency.remove_def(ns, fn)
+                    for tpn in glob.glob('tests/*/%s.json' % fn):
+                        if tpn != tp:
+                            os.remove(tpn)
+                eq = [l for l in open('tests/equivalent.txt') if l.strip() != fn]
+                open('tests/equivalent.txt', 'w').writelines(eq)
+            finally:
+                fcntl.flock(lock, fcntl.LOCK_UN)
+            out += '\nthe written file differs: ' + ' '.join(res.split())[-200:]
+            passed = False
+    if passed:
+        log.write('%s %s %s -> %s\n' % (fn, 'REGENERATED' if REGEN else 'SHRUNK', o_c, n_new)); log.flush()
+        t = open('src/%s.c' % stem, errors='replace').read()
+        if not re.search(r'^\{', t, flags=re.M) and not glob.glob('tests/%s/*.json' % stem):      # its last function moved out: an empty shell
+            os.remove('src/%s.c' % stem)
+            if os.path.isdir('tests/%s' % stem) and not os.listdir('tests/%s' % stem):
+                os.rmdir('tests/%s' % stem)
+        if fn in table:
+            table[fn][2] = n_new
+            json.dump(list(table.values()), open(sizes.OUT, 'w'))
+        return True
+    lock = locked()
+    try:          # the old C and cases go back
+        t = open('src/%s.c' % stem).read()
+        open('src/%s.c' % stem, 'w').write(t.rstrip('\n') + '\n\n' + old + '\n')
+        json.dump(cases, open(tp, 'w'), indent=1)
+        keep.drop(fn)
+        r = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True).stdout.strip()
+    finally:
+        fcntl.flock(lock, fcntl.LOCK_UN)
+    fail = ledger.last_failure(fn, since)          # what the recheck found, from state/results.jsonl, and the new C that failed
+    os.makedirs(os.path.join('build', 'shrink-failed'), exist_ok=True)
+    open(os.path.join('build', 'shrink-failed', fn + '.c'), 'w').write(s)
+    log.write('%s new C failed, old restored (%s): %s | new C: build/shrink-failed/%s.c | old C check: %s\n' % (
+        fn, fail[0] if fail else 'no row', fail[1] if fail else ' / '.join(out.strip().splitlines()[-3:])[-300:], fn, r[-80:])); log.flush()
+    return False
+
+
 def main():
     os.makedirs('build', exist_ok=True)
-    log = open(LOG, 'a')
+    log = stamp.Stamp(open(LOG, 'a'))               # each line ends with the wall-clock time
     manual = consistency.manual_names()          # written by hand: never written again by a tool
     table = {r[0]: r for r in json.load(open(sizes.OUT))} if os.path.exists(sizes.OUT) else {}
     for fn in NAMES:
@@ -85,6 +150,7 @@ def main():
         except Exception as e:
             log.write('%s build failed %s\n' % (fn, str(e)[:80])); log.flush(); continue
         best = None                         # the generator picks flat or structured by text length: compile each and keep the smaller
+        cands = []                          # every form that compiled, smallest first: when the smallest does not pass, the next is tried
         all_protos = []                     # every form's prototypes: the current C is measured against the first that compiles it
         for form in (('',) if REGEN else ('', 'flat', 'structured')):      # a regeneration takes the generator's own choice
             if form:
@@ -99,6 +165,8 @@ def main():
             if best and s_ == best[0]:
                 continue
             n_ = sizes.c_size(fn, s_, c_.protos)
+            if n_ is not None:
+                cands.append((n_, s_, c_))
             if n_ is not None and (best is None or n_ < best[2]):
                 best = (s_, c_, n_)
         os.environ.pop('GEN_FORM', None)
@@ -111,45 +179,14 @@ def main():
             why = ('new C not measurable' if n_new is None else 'current C not measurable' if not o_c       # no size is not "not smaller"
                    else 'not smaller' if n_new >= o_c else 'smaller by under %d%%' % round(100 * (1 - KEEP)))
             log.write('%s %s (%s -> %s)\n' % (fn, why, o_c, n_new)); log.flush(); continue
-        tp = 'tests/%s/%s.json' % (stem, fn)
-        cases = json.load(open(tp))
-        lock = locked()
-        try:
-            keep.save((fn, s, cases, c.protos, None), 'DIFFERS', 'shrink', 'shrink', vs.index(var), False)
-            consistency.remove_def(stem, fn)
-            os.remove(tp)
-            eq = [l for l in open('tests/equivalent.txt') if l.strip() != fn]
-            open('tests/equivalent.txt', 'w').writelines(eq)
-        finally:
-            fcntl.flock(lock, fcntl.LOCK_UN)
-        since = time.strftime('%Y-%m-%dT%H:%M:%S')       # the recheck's own failure row is not older than this
-        rr = subprocess.run(['python3', 'tools/5-generated/gen_equiv', '--recheck', fn], capture_output=True, text=True)
-        out = rr.stdout + rr.stderr
-        if '1 pass' in out:
-            log.write('%s %s %s -> %s\n' % (fn, 'REGENERATED' if REGEN else 'SHRUNK', o_c, n_new)); log.flush()
-            t = open('src/%s.c' % stem, errors='replace').read()
-            if not re.search(r'^\{', t, flags=re.M) and not glob.glob('tests/%s/*.json' % stem):      # its last function moved out: an empty shell
-                os.remove('src/%s.c' % stem)
-                if os.path.isdir('tests/%s' % stem) and not os.listdir('tests/%s' % stem):
-                    os.rmdir('tests/%s' % stem)
-            if fn in table:
-                table[fn][2] = n_new
-                json.dump(list(table.values()), open(sizes.OUT, 'w'))
-            continue
-        lock = locked()
-        try:          # the old C and cases go back
-            t = open('src/%s.c' % stem).read()
-            open('src/%s.c' % stem, 'w').write(t.rstrip('\n') + '\n\n' + old + '\n')
-            json.dump(cases, open(tp, 'w'), indent=1)
-            keep.drop(fn)
-            r = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True).stdout.strip()
-        finally:
-            fcntl.flock(lock, fcntl.LOCK_UN)
-        fail = ledger.last_failure(fn, since)          # what the recheck found, from state/results.jsonl, and the new C that failed
-        os.makedirs(os.path.join('build', 'shrink-failed'), exist_ok=True)
-        open(os.path.join('build', 'shrink-failed', fn + '.c'), 'w').write(s)
-        log.write('%s new C failed, old restored (%s): %s | new C: build/shrink-failed/%s.c | old C check: %s\n' % (
-            fn, fail[0] if fail else 'no row', fail[1] if fail else ' / '.join(out.strip().splitlines()[-3:])[-300:], fn, r[-80:])); log.flush()
+        cands.sort(key=lambda x: x[0])
+        tried = [x for x in cands if REGEN or (x[0] < o_c and x[0] <= KEEP * o_c)]
+        for ci, (n_new, s, c) in enumerate(tried):
+            if ci and any(s == t[1] for t in tried[:ci]):
+                continue
+            done_ = shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table)
+            if done_:
+                break
     log.write('done\n')
 
 

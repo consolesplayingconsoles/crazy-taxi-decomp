@@ -106,7 +106,7 @@ int syChainAddHandler(int a4, int a5, int a6, int a7)
     if ((((int)R13 >> 8) != 10)) goto L_C160952;
     goto L_C160942;
     L_C160942:;
-    *(unsigned int *)0xA05F6920 = ((*(int *)0xA05F6920) | (((int)(R4 + 0xC) >= 0) ? (R12 << ((R4 + 0xC) & 31)) : ((-(int)(R4 + 0xC) & 31) ? ((int)R12 >> (-(int)(R4 + 0xC) & 31)) : ((int)R12 >> 31))));
+    *(unsigned int *)0xA05F6920 = ((*(int *)0xA05F6920) | ((int)R12 << (int)(R4 + 0xC)));
     goto L_C16099A;
     L_C16099A:;
     R4 = (R14);
@@ -115,7 +115,7 @@ int syChainAddHandler(int a4, int a5, int a6, int a7)
     if ((((int)R13 >> 8) != 11)) goto L_C16099A;
     goto L_C16095C;
     L_C16095C:;
-    *(unsigned int *)0xA05F6924 = ((*(int *)0xA05F6924) | (((int)R4 >= 0) ? (R12 << (R4 & 31)) : ((-(int)R4 & 31) ? ((int)R12 >> (-(int)R4 & 31)) : ((int)R12 >> 31))));
+    *(unsigned int *)0xA05F6924 = ((*(int *)0xA05F6924) | ((int)R12 << (int)R4));
     goto L_C16099A;
     L_C1608BC:;
     if ((R13 != R4)) goto L_C1608F4;

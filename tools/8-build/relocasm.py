@@ -110,9 +110,11 @@ def _pointer_table(a, size):
     Its first word can decode as an instruction by luck (0x8C0F7FF0 starts with 7FF0, add #-16,r15), so the first word alone is not enough."""
     if a % 4 or size < 8:
         return False
-    for k in range(2):
+    F = functions()
+    lo, hi = F[0][0], F[-1][0] + F[-1][1]            # the executable's code, not the game region alone: a table may point at the
+    for k in range(2):                                 # libraries that stay outside it (Virtua Tennis FUN_8c0f8220: 8C0F7FF0, 8C1E2FC0)
         v = struct.unpack_from('<I', B.BIN, a + 4 * k - B.BASE)[0]
-        if (v >> 24) not in (0x0C, 0x8C, 0xAC) or not G0 <= ((v & 0x1FFFFFFF) | 0x0C000000) < G1:
+        if (v >> 24) not in (0x0C, 0x8C, 0xAC) or not lo <= ((v & 0x1FFFFFFF) | 0x0C000000) < hi:
             return False
     return True
 
@@ -130,6 +132,9 @@ def _r0_loaded_once(x, nxt):
         if re.match(r'^(fmov\.s|mov\.l) @r0,', text):
             return True
         if m in ('bt', 'bf', 'bra', 'bsr', 'jmp', 'jsr', 'rts', 'bt/s', 'bf/s', 'braf', 'bsrf', 'rte', 'trapa') or m.startswith('.word'):
+            if m in ('bra', 'bsr', 'jmp', 'jsr', 'rts', 'bt/s', 'bf/s', 'braf', 'bsrf', 'rte') and y + 2 < nxt:
+                slot = shdis.decode(B.word(y + 2), y + 2)[0] or ''      # a delay slot runs before the branch: `jsr @r3 / fmov.s @r0,fr4` loads through r0
+                return bool(re.match(r'^(fmov\.s|mov\.l) @r0,', slot))
             return False
         if re.search(r'\br0\b|\(r0,|@\(r0', text):
             return False

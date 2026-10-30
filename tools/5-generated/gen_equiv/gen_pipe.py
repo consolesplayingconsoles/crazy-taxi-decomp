@@ -13,6 +13,15 @@ def variants(name,passthru):
     if c.rets and all(f!='None' for r,f in c.rets) and not all(lit(f) for r,f in c.rets): out.append('fr0')
     if c.rets and all(r!='None' for r,f in c.rets): out.append('r0')      # a literal return counts too: the check must compare r0 when the function sets it
     out.append('void')
+    # the register the original writes last before its rts decides which result is checked first: with fr0 and r0 both available the
+    # float passed by luck on seven Zombie Revenge functions whose result is in r0, and the C was declared float
+    try:
+        import retcheck
+        reg = retcheck.returns_in(*gen_core.SPANS[name])
+        if reg in out and out[0] != reg:
+            out.remove(reg); out.insert(0, reg)
+    except Exception:
+        pass
     return out
 LAST={}                          # the text of the last check, for the report of what failed
 

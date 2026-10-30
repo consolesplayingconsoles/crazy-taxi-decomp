@@ -62,7 +62,7 @@ int menuCursor(int a4, int a5, int a6)
     goto L_C03BC1A;
     L_C03BC1A:;
     t23 = *(int *)((R14 + 0x0));
-    if ((((((int)t23 >= 0) ? (0x1 << (t23 & 31)) : ((-(int)t23 & 31) ? ((int)0x1 >> (-(int)t23 & 31)) : ((int)0x1 >> 31))) & (*(int *)(((int)stk + 8)))) == 0)) goto L_C03BC2E;
+    if (((((int)0x1 << (int)t23) & (*(int *)(((int)stk + 8)))) == 0)) goto L_C03BC2E;
     goto L_C03BC26;
     L_C03BC26:;
     if ((R12 != 0)) goto L_C03BBCA;

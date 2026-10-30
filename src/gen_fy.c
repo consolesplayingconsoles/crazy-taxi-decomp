@@ -2,179 +2,194 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Sound_Request(int, int);
-int ndPuru2Start(int, int, int);
-int carRumble(int a4);
+int nlSprPut(int, int);
+int hudDrawFareDigits(int a4);
 
-int carRumble(int a4)
+int hudDrawFareDigits(int a4)
 {
-    int t4;
-    int t5;
-    float u20;
-    int t60;
-    int t92;
-    int t74;
-    int t75;
-    int t83;
-    int t80;
-    int t143;
-    int t144;
-    float u148;
-    int t150;
-    int t173;
-    int t1;
-    int t130;
-    int t121;
-    int t87;
-    int t112;
-    int t159;
-    int t153;
-    int t156;
-    float u157;
-    int t176;
+    register int t0;
+    register int t1;
+    register int t2;
+    register int t3;
+    register int t4;
+    register int t5;
+    register int t6;
+    register int t7;
+    register int t8;
+    register int t9;
+    register int t10;
+    register int t11;
+    register float u0;
+    register float u1;
+    register float u2;
 
-    t4 = 0x0;
-    if (((unsigned char)(*(signed char *)0xC1EE277) == 2) && (t1 = *(int *)0xC1EE234, t1 != 0)) {
-        t4 = 0x1;
-    }
-    t5 = *(int *)((a4 + 0x3B0));
-    if (t5 != 0) {
-        if (t5 == 1) {
-            if ((int)(*(int *)((a4 + 0x3B4))) > 0) {
-                if ((int)(*(int *)((a4 + 0x3B4))) > (int)0x3) {
-                    u20 = 0.799999952f;
-                    if (t4 != 0) {
-                        u20 = 0.199999988f;
-                    }
-                    if (((*(float *)((a4 + 0x118))) - (*(float *)((a4 + 0x3B8)))) > u20) {
-                        *(unsigned int *)((a4 + 0x3B0)) = 0x2;
-                        *(unsigned int *)((a4 + 0x3B4)) = 0x5A;
-                        Sound_Request(0x108A9, 0x0);
-                        return ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x100000, 0x3);
-                    }
-                    if ((*(signed char *)0xC1EE268) != 0) {
-                        *(unsigned int *)((a4 + 0x3B0)) = 0x4;
-                        Sound_Request(0x102A9, 0x0);
-                    }
-                    *(unsigned int *)((a4 + 0x3B4)) = ((*(int *)((a4 + 0x3B4))) - 1);
-                    return 0x3B4;
-                }
-                if ((*(signed char *)0xC1EE268) != 0) {
-                    *(unsigned int *)((a4 + 0x3B0)) = 0x4;
-                    Sound_Request(0x102A9, 0x0);
-                }
-                *(unsigned int *)((a4 + 0x3B4)) = ((*(int *)((a4 + 0x3B4))) - 1);
-                return 0x3B4;
-            }
-            *(unsigned int *)((a4 + 0x3B0)) = 0x0;
-            return 0x3B0;
-        }
-        if (t5 == 2) {
-            *(unsigned int *)((a4 + 0x3B4)) = ((*(int *)((a4 + 0x3B4))) - 1);
-            t60 = 0x3B4;
-            if ((int)(*(int *)((a4 + 0x3B4))) <= 0) {
-                *(unsigned int *)((a4 + 0x3B0)) = 0x0;
-                t60 = 0x3B0;
-            }
-            t130 = t60;
-        } else {
-            if (t5 != 3) {
-                t92 = t5;
-                if (t5 != 4) {
+    t5 = 0xC0554A4;
+    t6 = 0x0;
+    for (;;) {
+        if ((*(int *)0xC2A8E8C) == 0) {
+            t5 = 0xC2A8E34;
+            if ((int)(*(int *)(((t6 << 2) + t5))) > 0) {
+                *(unsigned int *)(((t6 << 2) + t5)) = ((*(int *)(((t6 << 2) + t5))) - 1);
+                t5 = 0xC2A8E90;
+                if ((int)t6 > (int)(*(int *)((t5 + 0x0)))) {
+                    t5 = 0xB;
+                    t5 = ((int)((int)((*(int *)((((t6 << 2) + 0xC2A8E50) + 0x0))) + 0x1) % (int)t5));
+                    *(unsigned int *)((((t6 << 2) + 0xC2A8E50) + 0x0)) = t5;
                 } else {
-                    if (t4 != 0) {
-                        t74 = *(signed char *)0xC1EE264;
-                        t75 = 0x18;
-                        if (((int)(unsigned char)t74 > (int)0x7D) && ((int)(unsigned char)t74 < (int)0x83)) {
-                            *(unsigned int *)((a4 + 0x3B0)) = 0x0;
-                            t75 = 0x3B0;
+                    t5 = (t6 << 2);
+                    t5 = (*(int *)((0xC2A8E50 + t5)));
+                    if (t5 == 10) {
+                        if ((int)t6 < (int)(*(int *)0xC2A8E90)) {
+                            t5 = 0xB;
+                            t5 = ((int)((int)((*(int *)((((t6 << 2) + 0xC2A8E50) + 0x0))) + 0x1) % (int)t5));
+                        } else {
+                            t5 = 0xA;
+                            t5 = ((int)((int)((*(int *)((((t6 << 2) + 0xC2A8E50) + 0x0))) + 0x1) % (int)t5));
                         }
-                        t87 = t75;
+                        *(unsigned int *)((((t6 << 2) + 0xC2A8E50) + 0x0)) = t5;
                     } else {
-                        t83 = 0x1B;
-                        if ((*(signed char *)0xC1EE267) == 0) {
-                            t80 = 0x1C;
-                            if ((*(signed char *)0xC1EE268) != 0) {
-                            } else {
-                                *(unsigned int *)((a4 + 0x3B0)) = 0x0;
-                                t80 = 0x3B0;
-                            }
-                            t83 = t80;
+                        t5 = 0xA;
+                        t5 = ((int)((int)((*(int *)((((t6 << 2) + 0xC2A8E50) + 0x0))) + 0x1) % (int)t5));
+                        *(unsigned int *)((((t6 << 2) + 0xC2A8E50) + 0x0)) = t5;
+                    }
+                }
+            } else {
+                t5 = (t6 << 2);
+                if ((*(int *)((0xC2A8E6C + t5))) == 0) {
+                    t5 = (t6 << 2);
+                    *(unsigned int *)((0xC2A8E6C + t5)) = 0x1;
+                    t5 = (Sound_Request(0x205A9, 0x0));
+                }
+            }
+        }
+        t5 = t6;
+        t7 = 0xFFFFFFFA;
+        if ((t5 != 1) && (t0 = (t5 == 1), t5 = t6, t5 != 2)) {
+            t8 = 0x2;
+            if (t5 == 3) {
+            } else {
+                t5 = t6;
+                t9 = 0xA;
+                if ((t5 != 4) && (t1 = (t5 == 4), t5 = t6, t5 != 5)) {
+                    t10 = 0x12;
+                    if (t5 == 6) {
+                    } else {
+                        t5 = t6;
+                        t11 = 0xFFFFFFF2;
+                        if (t5 == 7) {
+                            t11 = 0x1A;
                         }
-                        t87 = t83;
+                        t10 = t11;
                     }
-                    t92 = t87;
+                    t9 = t10;
                 }
-                t121 = t92;
-            } else {
-                if ((int)(*(int *)((a4 + 0x3B4))) > 0) {
-                    if ((*(signed char *)0xC1EE26B) == 0) {
-                    } else {
-                        *(unsigned int *)((a4 + 0x3B0)) = 0x4;
-                        Sound_Request(0x102A9, 0x0);
-                    }
-                    *(unsigned int *)((a4 + 0x3B4)) = ((*(int *)((a4 + 0x3B4))) - 1);
-                    t112 = 0x3B4;
-                } else {
-                    *(unsigned int *)((a4 + 0x3B0)) = 0x0;
-                    t112 = 0x3B0;
-                }
-                t121 = t112;
+                t8 = t9;
             }
-            t130 = t121;
+            t7 = t8;
         }
-        return t130;
-    }
-    if (t4 != 0) {
-        if ((int)(int)_builtin_fabsf((float)((unsigned char)(*(signed char *)0xC1EE27A) - (unsigned char)(*(signed char *)0xC1EE27C))) > (int)0x40) {
-            *(unsigned int *)((a4 + 0x3B0)) = 0x2;
-            *(unsigned int *)((a4 + 0x3B4)) = 0x5A;
-            Sound_Request(0x108A9, 0x0);
-            return ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x100000, 0x0);
-        }
-        t143 = *(signed char *)0xC1EE279;
-        t144 = *(signed char *)0xC1EE27B;
-        if ((int)(int)_builtin_fabsf((float)((unsigned char)t143 - (unsigned char)t144)) > (int)0x40) {
-            *(unsigned int *)((a4 + 0x3B0)) = 0x4;
-            t159 = (Sound_Request(0x102A9, 0x0));
+        if ((int)t6 <= (int)0x1) {
+            t5 = (t6 << 2);
+            t8 = *(int *)((0xC2A8E50 + t5));
+            t5 = 0xC130C80;
+            *(unsigned int *)0xC2A888C = (*(int *)(((t8 << 2) + t5)));
         } else {
-            if ((*(signed char *)0xC1EE26B) != 0) {
-                *(unsigned int *)((a4 + 0x3B4)) = 0x8;
-                u148 = *(float *)((a4 + 0x118));
-                *(float *)((a4 + 0x3B8)) = u148;
-                *(unsigned int *)((a4 + 0x3B0)) = 0x1;
-                t153 = 0x3B0;
-                t156 = 0x1;
-                u157 = u148;
+            t5 = (t6 << 2);
+            t8 = *(int *)((0xC2A8E50 + t5));
+            t5 = 0xC130C54;
+            *(unsigned int *)0xC2A888C = (*(int *)(((t8 << 2) + t5)));
+        }
+        t5 = 0x1A2;
+        t8 = *(int *)0xC2A8EB0;
+        u0 = (float)(((((((0x8 - t6) << 1) + (0x8 - t6)) << 2) << 1) + t7) + t5);
+        t5 = t8;
+        if ((t5 != 1) && (t2 = (t5 == 1), t5 = t8, t5 != 6)) {
+            t5 = 0x1C;
+            *(unsigned int *)0xC2A88C0 = 0xE;
+            *(float *)((0xC2A888C + t5)) = 0.0f;
+            t5 = (t6 << 2);
+            if ((*(int *)((0xC2A8E6C + t5))) == 0) {
+                t5 = 0x24;
+                t7 = *(int *)0xC2A8E8C;
+                *(float *)((0xC2A888C + t5)) = (1.0f - ((float)t7 * 0.25f));
+                t5 = 0x14;
+                *(float *)((0xC2A888C + t5)) = (1.0f - ((float)t7 * 0.25f));
             } else {
-                t150 = 0x20;
-                if ((*(signed char *)0xC1EE26C) == 0) {
-                } else {
-                    *(unsigned int *)((a4 + 0x3B4)) = 0xA;
-                    *(unsigned int *)((a4 + 0x3B0)) = 0x3;
-                    t150 = 0x3B0;
-                }
-                t153 = t150;
-                t156 = (int)_builtin_fabsf((float)((unsigned char)t143 - (unsigned char)t144));
-                u157 = _builtin_fabsf((float)((unsigned char)t143 - (unsigned char)t144));
+                t5 = 0x24;
+                *(float *)((0xC2A888C + t5)) = 1.0f;
+                t5 = 0x14;
+                *(float *)((0xC2A888C + t5)) = 1.0f;
             }
-            t159 = t153;
-        }
-        return t159;
-    }
-    if ((*(signed char *)0xC1EE26B) != 0) {
-        *(unsigned int *)((a4 + 0x3B4)) = 0x8;
-        *(float *)((a4 + 0x3B8)) = (*(float *)((a4 + 0x118)));
-        *(unsigned int *)((a4 + 0x3B0)) = 0x1;
-        t176 = 0x3B0;
-    } else {
-        t173 = 0x20;
-        if ((*(signed char *)0xC1EE26C) == 0) {
+            t5 = 0x4;
+            *(float *)((0xC2A888C + t5)) = u0;
+            u1 = 111.0f;
+            u2 = (*(float *)0xC2A8EB8);
         } else {
-            *(unsigned int *)((a4 + 0x3B4)) = 0xA;
-            *(unsigned int *)((a4 + 0x3B0)) = 0x3;
-            t173 = 0x3B0;
+            t5 = 0x1C;
+            *(unsigned int *)0xC2A88C0 = 0x6;
+            *(float *)((0xC2A888C + t5)) = (1.0f - (*(float *)0xC2A8EA0));
+            t5 = 0x24;
+            *(float *)((0xC2A888C + t5)) = 1.0f;
+            t5 = 0x14;
+            *(float *)((0xC2A888C + t5)) = (*(float *)0xC2A8EA0);
+            t5 = 0x4;
+            *(float *)((0xC2A888C + t5)) = u0;
+            t5 = 0xC0555E8;
+            u1 = (*(float *)((t5 + 0x0)));
+            u2 = (*(float *)0xC2A8EB8);
         }
-        t176 = t173;
+        t5 = 0x8;
+        *(float *)((0xC2A888C + t5)) = (u1 - u2);
+        *(unsigned int *)0xC2A88B4 = 0x0;
+        t5 = (nlSprPut(0xC2A888C, t8));
+        t5 = (*(int *)0xC2A8EB0);
+        if ((t5 != 1) && (t3 = (t5 == 1), t5 = (t6 << 2), t4 = *(int *)((0xC2A8E6C + t5)), t4 == 0)) {
+            t5 = 0x8;
+            *(float *)((0xC2A888C + t5)) = ((*(float *)((0xC2A888C + t5))) - 32.0f);
+            if ((int)t6 <= (int)0x1) {
+                t5 = (t6 << 2);
+                t7 = *(int *)((0xC2A8E50 + t5));
+                t5 = 0xA;
+                t5 = ((int)((int)(t7 + 0x1) % (int)t5));
+                t5 = (t5 << 2);
+                *(unsigned int *)0xC2A888C = (*(int *)((0xC130C80 + t5)));
+            } else {
+                t5 = 0xC2A8E90;
+                if ((int)t6 > (int)(*(int *)((t5 + 0x0)))) {
+                    t5 = (t6 << 2);
+                    t7 = *(int *)((0xC2A8E50 + t5));
+                    t5 = 0xB;
+                    t5 = ((int)((int)(t7 + 0x1) % (int)t5));
+                    t5 = (t5 << 2);
+                    *(unsigned int *)0xC2A888C = (*(int *)((0xC130C54 + t5)));
+                } else {
+                    t5 = (t6 << 2);
+                    t7 = *(int *)((0xC2A8E50 + t5));
+                    t5 = 0xA;
+                    t5 = ((int)((int)(t7 + 0x1) % (int)t5));
+                    t5 = (t5 << 2);
+                    *(unsigned int *)0xC2A888C = (*(int *)((0xC130C54 + t5)));
+                }
+                t7 = 0xC130C54;
+            }
+            t5 = 0x14;
+            *(unsigned int *)0xC2A88C0 = 0x6;
+            u0 = ((float)(*(int *)0xC2A8E8C) * (*(float *)0xC2A8EA0));
+            *(float *)((0xC2A888C + t5)) = (u0 * 0.25f);
+            t5 = 0x1C;
+            u0 = (1.0f - ((float)(*(int *)0xC2A8E8C) * 0.25f));
+            *(float *)((0xC2A888C + t5)) = (u0 * (*(float *)0xC2A8EA0));
+            t5 = 0x24;
+            *(float *)((0xC2A888C + t5)) = 1.0f;
+            *(unsigned int *)0xC2A88B4 = 0x0;
+            t5 = (nlSprPut(0xC2A888C, t7));
+        }
+        t6 = (t6 + 0x1);
+        if ((int)t6 < (int)0x7) continue;
+        break;
     }
-    return t176;
+    t0 = *(int *)((0xC2A8E6C + ((*(int *)0xC2A8E88) << 2)));
+    if (t0 == 1) {
+        *(unsigned int *)0xC2A8E88 = ((*(int *)0xC2A8E88) + 0x1);
+    }
+    return t0;
 }

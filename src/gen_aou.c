@@ -34,6 +34,11 @@ int Drv_Put(void)
     float u59;
     int t3;
     int stk[50];
+    int R1004;
+    int R1008;
+
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
 
     t0 = 0xC0D51E8;
     t2 = (((int)stk + 4) + 0x14);
@@ -43,11 +48,11 @@ int Drv_Put(void)
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD228) = *(struct mv3 *)(0xC2AD21C); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD21C) = *(struct mv3 *)(0xC2AD210); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD210) = *(struct mv3 *)(0xC2AD204); }
-    *(unsigned int *)(((int)stk + 8)) = 0xC1790CC;
+    R1008 = 0xC1790CC;
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD204) = *(struct mv3 *)(0xC179144); }
-    *(unsigned int *)(((int)stk + 4)) = 0xC2AD270;
+    R1004 = 0xC2AD270;
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD27C) = *(struct mv3 *)(0xC2AD270); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((*(int *)(((int)stk + 4)))) = *(struct mv3 *)(0xC2AD264); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((R1004)) = *(struct mv3 *)(0xC2AD264); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD264) = *(struct mv3 *)(0xC2AD258); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD258) = *(struct mv3 *)(0xC2AD24C); }
     nlSubVector3op(0xC2AD24C, 0xC2AD204, 0xC2AD210);
@@ -56,7 +61,7 @@ int Drv_Put(void)
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD2A0) = *(struct mv3 *)(0xC2AD294); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2AD294) = *(struct mv3 *)(0xC2AD288); }
     nlSubVector3op(0xC2AD288, 0xC2AD24C, 0xC2AD258);
-    nlPushMatrix(((*(int *)(((int)stk + 8))) + 0xB4));
+    nlPushMatrix(((R1008) + 0xB4));
     nlCalcVector(0xC0D553C, 0xC2AD1E0);
     nlCalcVector(0xC0D5548, 0xC2AD1EC);
     nlCalcVector(0xC0D5554, 0xC2AD1F8);

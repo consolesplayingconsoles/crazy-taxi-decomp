@@ -1,345 +1,168 @@
 /* Straight-line functions with calls and guards (batch gen_akd): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Drv_CheckSideClear(int, int);
-float Drv_FacePsgFrame(int, float, float, float);
-int Drv_SetMotion(int, float);
-float nlInnerProduct(int, int);
-int nlSubVector3op(int, int, int, float, float, float);
-float nlUnitVector(int);
-int Drv_StartGetOn(int a4, float f4, float f5, float f6);
+typedef struct { int w[3]; } Stk3;
+int GetCollision2D(int, float);
+int GetRotVec4Ang(int, int, int, int);
+int KillColliObj(int);
+int carColliReflection(int);
+int carEntry(int);
+int carResistance(int);
+int convergeRot(int, int, float);
+int getNearLinkedLine(int, int, int, int, int);
+int getYXZrot(int);
+int nlAddVector(int, int);
+int nlAddVector3op(int, int, int);
+int nlArcTan2(float, float);
+int nlCalcVector(int, int);
+int nlCloseEvent(int);
+int nlGetTranslate(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlRotateAZ(int);
+int nlRotateV(int, int);
+int nlScaleUnitVector(int, int, Stk3, float);
+int nlScaleVector(int, int, float);
+int nlSubVector(int, int);
+int nlSubVector3op(int, int, int);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int nlUnitVector(int);
+int technicalCheck(int, int, int);
+int trailerExec(int a4, int a5, int a6);
 
-int Drv_StartGetOn(int a4, float f4, float f5, float f6)
+int trailerExec(int a4, int a5, int a6)
 {
-    int t0;
-    int t1;
-    int t2;
-    int t8;
-    int t14;
-    float t40;
-    float t41;
-    float t42;
-    int t112;
-    int t116;
-    int t120;
-    int t124;
-    int t128;
-    int t148;
-    int t152;
-    int t156;
-    int t160;
-    int t164;
-    int t189;
-    int t190;
-    int t28;
-    int t18;
-    int t106;
-    int t107;
-    int t108;
-    int t109;
-    int t71;
-    int t72;
-    int t73;
-    int t74;
-    int t63;
-    int t64;
-    int t65;
-    int t66;
-    int t54;
-    int t55;
-    int t56;
-    int t57;
-    int t58;
-    int t98;
-    int t99;
-    int t100;
-    int t101;
-    int t90;
-    int t91;
-    int t92;
-    int t93;
-    int t81;
-    int t82;
-    int t83;
-    int t84;
-    int t85;
-    int t185;
-    int t145;
-    int t141;
-    int t137;
-    int t133;
-    int t181;
-    int t177;
-    int t173;
-    int t167;
-    int t169;
-    int stk[268];
+    int stk[23];
 
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3EC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4CF4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3CC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D14); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x3AC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D34); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x38C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D54); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x36C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D74); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x34C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4D94); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x32C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4DB4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x30C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4DD4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x2EC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4DF4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x2CC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4E14); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x2AC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4E34); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x28C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4E54); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x26C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4E74); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x24C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4E94); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x22C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4EB4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x20C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4ED4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x1EC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4EF4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x1CC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4F14); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x1AC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4F34); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x18C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4F54); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x16C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4F74); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x14C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4F94); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x12C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4FB4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x10C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4FD4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0xEC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D4FF4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0xCC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D5014); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0xAC + ((int)stk + 4))) = *(struct mv8 *)(0xC0D5034); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((0x8C + ((int)stk + 4))) = *(struct mv8 *)(0xC0D5054); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x6C)) = *(struct mv8 *)(0xC0D5074); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x4C)) = *(struct mv8 *)(0xC0D5094); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x2C)) = *(struct mv8 *)(0xC0D50B4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0xC)) = *(struct mv8 *)(0xC0D50D4); }
-    t0 = *(int *)0xC2AD018;
-    t1 = *(signed char *)0xC2AD1DF;
-    if (a4 != 0) {
-        if (a4 == 1) {
-            t2 = 0xC8E7070;
-            if ((-(((((t1 & 32) == 0)) ? 1 : 0) - 1)) != 0) {
-                t2 = 0xC8E68CC;
-            }
-            *(unsigned int *)0xC2AD1D0 = 0xC0D3068;
-            *(unsigned int *)0xC2AD1D4 = 0xC0D3080;
-            Drv_SetMotion(t2, (Drv_FacePsgFrame(t0, f4, f5, f6)));
-            *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
-            *(float *)0xC2AD0F4 = 0.0f;
-            *(float *)0xC2AD0F8 = 3e+01f;
-            t28 = 0xF8;
-        } else {
-            if (a4 == 2) {
-                t8 = 0xC8AB4C8;
-                if ((-(((((t1 & 32) == 0)) ? 1 : 0) - 1)) != 0) {
-                    t8 = 0xC8AA754;
-                }
-                *(unsigned int *)0xC2AD1D0 = 0xC0D3068;
-                *(unsigned int *)0xC2AD1D4 = 0xC0D4A10;
-                Drv_SetMotion(t8, 0.0f);
-                *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
-                *(float *)0xC2AD0F4 = 0.0f;
-                *(float *)0xC2AD0F8 = 1e+01f;
-                t18 = 0xF8;
-            } else {
-                t14 = a4;
-                if (a4 == 3) {
-                    *(unsigned int *)0xC2AD020 = 0xC8E8E0C;
-                    *(unsigned int *)0xC2AD1D0 = 0xC0D3068;
-                    *(unsigned int *)0xC2AD1D4 = 0xC0D4A30;
-                    *(float *)0xC2AD024 = 0.0f;
-                    *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) & 0x7F);
-                    *(float *)0xC2AD0F4 = 0.0f;
-                    *(float *)0xC2AD0F8 = 0.0f;
-                    t14 = 0xF8;
-                }
-                t18 = t14;
-            }
-            t28 = t18;
-        }
-        t190 = t28;
-    } else {
-        nlSubVector3op(((int)stk + 4), (t0 + 0x4), 0xC2AD004, f4, f5, f6);
-        *(float *)(((int)stk + 8)) = 0.0f;
-        t40 = nlUnitVector(((int)stk + 4));
-        t41 = nlInnerProduct(0xC2AD1F8, ((int)stk + 4));
-        t42 = nlInnerProduct(0xC2AD1E0, ((int)stk + 4));
-        *(unsigned int *)0xC2AD1DC = (((*(int *)0xC2AD1DC) & 0xDFFFFFFF) | ((unsigned int)((int)((unsigned int)(Drv_CheckSideClear(t0, ((int)stk + 4))) & 0x1)) << 29));
-        if ((*(int *)0xC2AD000) == 3) {
-            if (((*(signed char *)((t0 + 0x14B))) & 2) != 0) {
-                *(unsigned char *)0xC2AD1DF = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x18);
-                t71 = (0xCC + ((int)stk + 4));
-                t72 = (0xAC + ((int)stk + 4));
-                t73 = (((int)stk + 4) + 0xC);
-                t74 = (0x8C + ((int)stk + 4));
-            } else {
-                if (t40 > 80.0f) {
-                    *(unsigned char *)0xC2AD1DF = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x10);
-                    t63 = (0x12C + ((int)stk + 4));
-                    t64 = (0x10C + ((int)stk + 4));
-                    t65 = (((int)stk + 4) + 0x2C);
-                    t66 = (0xEC + ((int)stk + 4));
-                } else {
-                    if (t40 > 40.0f) {
-                        t54 = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x8);
-                        t55 = (0x18C + ((int)stk + 4));
-                        t56 = (0x16C + ((int)stk + 4));
-                        t57 = (((int)stk + 4) + 0x4C);
-                        t58 = (0x14C + ((int)stk + 4));
-                    } else {
-                        t54 = ((*(signed char *)0xC2AD1DF) & 0xE7);
-                        t55 = (0x1EC + ((int)stk + 4));
-                        t56 = (0x1CC + ((int)stk + 4));
-                        t57 = (((int)stk + 4) + 0x6C);
-                        t58 = (0x1AC + ((int)stk + 4));
-                    }
-                    *(unsigned char *)0xC2AD1DF = t54;
-                    t63 = t55;
-                    t64 = t56;
-                    t65 = t57;
-                    t66 = t58;
-                }
-                t71 = t63;
-                t72 = t64;
-                t73 = t65;
-                t74 = t66;
-            }
-            t106 = t71;
-            t107 = t72;
-            t108 = t73;
-            t109 = t74;
-        } else {
-            if (((*(signed char *)((t0 + 0x14B))) & 2) != 0) {
-                *(unsigned char *)0xC2AD1DF = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x18);
-                t98 = (0x2CC + ((int)stk + 4));
-                t99 = (0x2AC + ((int)stk + 4));
-                t100 = (0x20C + ((int)stk + 4));
-                t101 = (0x28C + ((int)stk + 4));
-            } else {
-                if (t40 > 80.0f) {
-                    *(unsigned char *)0xC2AD1DF = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x10);
-                    t90 = (0x32C + ((int)stk + 4));
-                    t91 = (0x30C + ((int)stk + 4));
-                    t92 = (0x22C + ((int)stk + 4));
-                    t93 = (0x2EC + ((int)stk + 4));
-                } else {
-                    if (t40 > 40.0f) {
-                        t81 = (((*(signed char *)0xC2AD1DF) & 0xE7) | 0x8);
-                        t82 = (0x38C + ((int)stk + 4));
-                        t83 = (0x36C + ((int)stk + 4));
-                        t84 = (0x24C + ((int)stk + 4));
-                        t85 = (0x34C + ((int)stk + 4));
-                    } else {
-                        t81 = ((*(signed char *)0xC2AD1DF) & 0xE7);
-                        t82 = (0x3EC + ((int)stk + 4));
-                        t83 = (0x3CC + ((int)stk + 4));
-                        t84 = (0x26C + ((int)stk + 4));
-                        t85 = (0x3AC + ((int)stk + 4));
-                    }
-                    *(unsigned char *)0xC2AD1DF = t81;
-                    t90 = t82;
-                    t91 = t83;
-                    t92 = t84;
-                    t93 = t85;
-                }
-                t98 = t90;
-                t99 = t91;
-                t100 = t92;
-                t101 = t93;
-            }
-            t106 = t98;
-            t107 = t99;
-            t108 = t100;
-            t109 = t101;
-        }
-        if (t41 > 0.0f) {
-            if (t42 > 0.923879504f) {
-                t112 = *(int *)((t106 + 0x0));
-                *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x0)));
-                *(unsigned int *)0xC2AD1D4 = (*(int *)(((t109 + 0x10) + 0x0)));
-                *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x0)));
-                t145 = t112;
-            } else {
-                if (t42 > 0.382683426f) {
-                    t116 = *(int *)((t106 + 0x4));
-                    *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x4)));
-                    *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x4)));
-                    *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x4)));
-                    t141 = t116;
-                } else {
-                    if (t42 > -0.382683426f) {
-                        t120 = *(int *)((t106 + 0x8));
-                        *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x8)));
-                        *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x8)));
-                        *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x8)));
-                        t137 = t120;
-                    } else {
-                        if (t42 > -0.923879504f) {
-                            t124 = *(int *)((t106 + 0xC));
-                            *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0xC)));
-                            *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0xC)));
-                            *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0xC)));
-                            t133 = t124;
-                        } else {
-                            t128 = *(int *)((t106 + 0x10));
-                            *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x10)));
-                            *(unsigned int *)0xC2AD1D4 = (*(int *)(((t109 + 0x10) + 0x0)));
-                            *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x10)));
-                            t133 = t128;
-                        }
-                        t137 = t133;
-                    }
-                    t141 = t137;
-                }
-                t145 = t141;
-            }
-            t185 = t145;
-        } else {
-            if (t42 > 0.923879504f) {
-                t148 = *(int *)((t106 + 0x0));
-                *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x0)));
-                *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x0)));
-                *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x0)));
-                t181 = t148;
-            } else {
-                if (t42 > 0.382683426f) {
-                    t152 = *(int *)((t106 + 0x1C));
-                    *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x1C)));
-                    *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x1C)));
-                    *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x1C)));
-                    t177 = t152;
-                } else {
-                    if (t42 > -0.382683426f) {
-                        t156 = *(int *)((t106 + 0x18));
-                        *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x18)));
-                        *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x18)));
-                        *(unsigned int *)0xC2AD01C = (*(int *)((t108 + 0x18)));
-                        t173 = t156;
-                    } else {
-                        if (t42 > -0.923879504f) {
-                            t160 = *(int *)((t106 + 0x14));
-                            *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x14)));
-                            *(unsigned int *)0xC2AD1D4 = (*(int *)((t109 + 0x14)));
-                            t167 = (*(int *)((t108 + 0x14)));
-                            t169 = t160;
-                        } else {
-                            t164 = *(int *)((t106 + 0x10));
-                            *(unsigned int *)0xC2AD1D0 = (*(int *)((t107 + 0x10)));
-                            *(unsigned int *)0xC2AD1D4 = (*(int *)(((t109 + 0x10) + 0x0)));
-                            t167 = (*(int *)((t108 + 0x10)));
-                            t169 = t164;
-                        }
-                        *(unsigned int *)0xC2AD01C = t167;
-                        t173 = t169;
-                    }
-                    t177 = t173;
-                }
-                t181 = t177;
-            }
-            t185 = t181;
-        }
-        Drv_SetMotion(t185, 0.0f);
-        *(unsigned char *)0xC2AD1DF = ((*(signed char *)0xC2AD1DF) | 0x80);
-        *(float *)0xC2AD0F4 = 0.0f;
-        *(float *)0xC2AD0F8 = 15.0f;
-        t189 = *(signed char *)0xC2AD1DF;
-        *(unsigned char *)0xC2AD1DF = (t189 | 0x2);
-        t190 = (t189 | 0x2);
-    }
-    return t190;
+    register int R2;
+    register int R3;
+    register int R7;
+    register float F2;
+    register float F3;
+    register float F4;
+    register float F5;
+    register float F6;
+    register int T_;
+    register int v0_0;
+    register int v0_1;
+    register int v0_2;
+    register int v0_3;
+    register int v0_4;
+    register float w0_0;
+    v0_3 = a4;
+    v0_0 = a5;
+    v0_1 = a6;
+    technicalCheck(v0_3, v0_0, v0_1);
+    v0_0 = (v0_3);
+    if ((((*(int *)((v0_3 + 0x84))) & 1) != 0)) goto L_C048720;
+    KillColliObj((v0_0 + 0x14));
+    v0_0 = nlCloseEvent(v0_0);
+    *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) - 1);
+    v0_3 = (v0_0);
+    L_C048A80:;
+    return v0_3;
+    L_C048720:;
+    v0_2 = *(int *)((v0_0 + 0x4));
+    nlPushUnitMatrix();
+    nlTranslateV((0x8C + v0_2));
+    nlRotateAY((unsigned short)(*(short *)((v0_2 + 0xA6))));
+    nlRotateAX((unsigned short)(*(short *)((v0_2 + 0xA4))));
+    nlRotateAZ((unsigned short)(*(short *)((v0_2 + 0xA8))));
+    nlTranslate(0.0f, ((*(float *)((v0_2 + 0xF8))) + (*(float *)((v0_2 + 0xFC)))), -32.0f);
+    nlGetTranslate((((int)stk + 8) + 0x24));
+    nlPopMatrix(0x1);
+    *(unsigned int *)((v0_0 + 0x84)) = (*(int *)((v0_2 + 0x84)));
+    *(float *)((v0_0 + 0xC8)) = (*(float *)((v0_2 + 0xC8)));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x18)) = *(struct mv3 *)((0x8C + v0_0)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + v0_0)) = *(struct mv3 *)((v0_0 + 0x14)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + v0_0)) = *(struct mv3 *)((v0_0 + 0x20)); }
+    *(float *)((v0_0 + 0x9C)) = ((*(float *)((v0_0 + 0x9C))) - 0.073499985f);
+    nlAddVector((0x8C + v0_0), (0x98 + v0_0));
+    v0_4 = GetCollision2D((0x8C + v0_0), 30.0f);
+    v0_1 = *(int *)((v0_4 + 0x1C));
+    v0_3 = (v0_1);
+    v0_3 = (0xC0785D0);
+    v0_3 = (0xC078200);
+    v0_3 = (0xC0782E0);
+    v0_2 = (v0_2);
+    v0_3 = (v0_4);
+    v0_4 = (0xC078420);
+    w0_0 = (0.0f);
+    if ((v0_1 == -1)) goto L_C048802;
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + v0_0)) = *(struct mv3 *)((v0_3 + 0xC)); }
+    *(float *)((v0_0 + 0x104)) = (*(float *)((v0_3 + 0x18)));
+    if ((!((*(float *)((v0_0 + 0x104))) > (*(float *)((v0_0 + 0x90)))))) goto L_C048802;
+    *(float *)((v0_0 + 0x90)) = (*(float *)((v0_0 + 0x104)));
+    carColliReflection(v0_0);
+    L_C048802:;
+    nlPushUnitMatrix();
+    *(float *)(((int)stk + 12)) = w0_0;
+    *(float *)(((int)stk + 8)) = w0_0;
+    *(float *)(((int)stk + 16)) = 1.0f;
+    nlSubVector3op((((int)stk + 8) + 0xC), (((int)stk + 8) + 0x24), (0x8C + v0_0));
+    nlUnitVector((((int)stk + 8) + 0xC));
+    nlRotateV(((int)stk + 8), (((int)stk + 8) + 0xC));
+    getYXZrot((0xA4 + v0_0));
+    nlPushUnitMatrix();
+    nlRotateAX((-(unsigned short)(*(short *)((v0_0 + 0xA4)))));
+    nlRotateAY((-(unsigned short)(*(short *)((v0_0 + 0xA6)))));
+    nlCalcVector((0xEC + v0_0), (((int)stk + 8) + 0xC));
+    v0_3 = ((-(nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 24)))))));
+    v0_1 = ((0xA8 + v0_0));
+    v0_4 = (0xC078C30);
+    w0_0 = (1.0f);
+    *(unsigned short *)((v0_1 + 0x0)) = v0_3;
+    nlPopMatrix(0x1);
+    nlPopMatrix(0x1);
+    nlSubVector3op((((int)stk + 8) + 0xC), (((int)stk + 8) + 0x24), (0x8C + v0_0));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 8)) = *(struct mv3 *)((((int)stk + 8) + 0xC)); }
+    nlScaleUnitVector(((int)stk + 8), ((int)stk + 8), *(Stk3 *)(((int)stk + 8)), 100.0f);
+    nlSubVector((((int)stk + 8) + 0xC), ((int)stk + 8));
+    nlAddVector((0x8C + v0_0), (((int)stk + 8) + 0xC));
+    v0_1 = convergeRot((*(short *)((v0_0 + 0xA6))), (*(short *)((v0_2 + 0xA6))), w0_0);
+    v0_2 = (v0_1);
+    if ((!(_builtin_fabsf((float)v0_1) > 12288.0f))) goto L_C0489AE;
+    if (((int)v0_2 >= 0)) goto L_C048970;
+    v0_2 = ((v0_2 + 0x3000));
+    L_C048974:;
+    nlPushUnitMatrix();
+    nlSubVector3op((((int)stk + 8) + 0xC), (0x8C + v0_0), (((int)stk + 8) + 0x24));
+    nlRotateAY(v0_2);
+    nlCalcVector((((int)stk + 8) + 0xC), ((int)stk + 8));
+    nlAddVector3op((0x8C + v0_0), (((int)stk + 8) + 0x24), ((int)stk + 8));
+    *(unsigned short *)((v0_0 + 0xA6)) = ((*(short *)((v0_0 + 0xA6))) + v0_2);
+    nlPopMatrix(0x1);
+    L_C0489AE:;
+    nlSubVector3op((0x98 + v0_0), (0x8C + v0_0), (((int)stk + 8) + 0x18));
+    carResistance(v0_0);
+    nlScaleVector((0x98 + v0_0), (0x98 + v0_0), 0.999799967f);
+    *(unsigned char *)(((0x108 + v0_0) + 0x0)) = (*(signed char *)(((0xA4 + v0_0) + 0x0)));
+    *(unsigned char *)(((0x108 + v0_0) + 0x1)) = (*(signed char *)(((0xA4 + v0_0) + 0x1)));
+    *(unsigned char *)(((0x108 + v0_0) + 0x2)) = (*(signed char *)(((0xA4 + v0_0) + 0x2)));
+    *(unsigned char *)(((0x108 + v0_0) + 0x3)) = (*(signed char *)(((0xA4 + v0_0) + 0x3)));
+    *(unsigned char *)(((0x108 + v0_0) + 0x4)) = (*(signed char *)(((0xA4 + v0_0) + 0x4)));
+    *(unsigned char *)(((0x108 + v0_0) + 0x5)) = (*(signed char *)(((0xA4 + v0_0) + 0x5)));
+    *(int *)((int)stk + 4) = (0x8C + v0_0);
+    getNearLinkedLine(0x2, 0x0, (0x80 + v0_0), (0xD4 + v0_0), (0x8C + v0_0));
+    nlPushUnitMatrix();
+    nlRotateAZ((-(unsigned short)(*(short *)((v0_0 + 0xA8)))));
+    nlRotateAX((-(unsigned short)(*(short *)((v0_0 + 0xA4)))));
+    nlRotateAY((-(unsigned short)(*(short *)((v0_0 + 0xA6)))));
+    nlCalcVector((0x98 + v0_0), (((int)stk + 8) + 0xC));
+    *(float *)((v0_0 + 0xCC)) = (*(float *)(((int)stk + 28)));
+    nlPopMatrix(0x1);
+    carEntry(v0_0);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x14)) = *(struct mv3 *)((0x8C + v0_0)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x20)) = *(struct mv3 *)((0x98 + v0_0)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x5C)) = *(struct mv3 *)(0xC0A4788); }
+    GetRotVec4Ang((v0_0 + 0x44), (unsigned short)(*(short *)((v0_0 + 0xA4))), (unsigned short)(*(short *)((v0_0 + 0xA6))), (unsigned short)(*(short *)((v0_0 + 0xA8))));
+    *(unsigned int *)((v0_0 + 0x68)) = 0x0;
+    v0_3 = (0x68);
+    goto L_C048A80;
+    L_C048970:;
+    v0_2 = ((v0_2 - 12288));
+    goto L_C048974;
 }
-

@@ -44,9 +44,9 @@ int trainControlExec(int a4, int a5)
     goto L_C048326;
     L_C048326:;
     t11 = *(int *)((R11 + 0x0));
-    R0 = ((((int)R14 >= 0) ? (R9 << (R14 & 31)) : ((-(int)R14 & 31) ? ((int)R9 >> (-(int)R14 & 31)) : ((int)R9 >> 31))));
+    R0 = (((int)R9 << (int)R14));
     R4 = (t11);
-    if ((((((int)R14 >= 0) ? (R9 << (R14 & 31)) : ((-(int)R14 & 31) ? ((int)R9 >> (-(int)R14 & 31)) : ((int)R9 >> 31))) & t11) == ((*(int *)((R10 + 0x14))) & (((int)R14 >= 0) ? (R9 << (R14 & 31)) : ((-(int)R14 & 31) ? ((int)R9 >> (-(int)R14 & 31)) : ((int)R9 >> 31)))))) goto L_C0483A0;
+    if (((((int)R9 << (int)R14) & t11) == ((*(int *)((R10 + 0x14))) & ((int)R9 << (int)R14)))) goto L_C0483A0;
     goto L_C04833A;
     L_C04833A:;
     if (((R4 & R0) == 0)) goto L_C04837A;
