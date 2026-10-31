@@ -21,10 +21,12 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import boundaries as B
 import shdis
+import shift
 
 import layout  # noqa: E402
 
 G0, G1 = layout.region('game', True)                  # the game's own code (layout.txt)
+B.BASE_LINK = int(open('BASE').read().strip(), 16)        # the address the game is linked at, in its own mirror (8C for Virtua Tennis)
 
 
 def main(argv):
@@ -33,7 +35,7 @@ def main(argv):
     out = argv[1]
     os.makedirs(out, exist_ok=True)
     F = layout.functions()
-    entry = {a: n for a, s, n in F if G0 <= a < G1}
+    entry = {a: n for a, s, n in F if layout.moving(a)}
     files = {}
     for fn in os.listdir('asm'):
         m = re.match(r'^([0-9a-f]{8})_(.+)\.src$', fn)
@@ -49,7 +51,9 @@ def main(argv):
         v = struct.unpack_from('<I', B.BIN, off)[0]
         c = (v & 0x1FFFFFFF) | 0x0C000000
         if (v >> 24) not in (0x0C, 0x8C, 0xAC) or c not in entry:
-            continue
+            if shift.word(v, at) is None:
+                continue
+            c = None                                    # a reference into the range the shifted layout moves: its new value
         # the piece that holds this word
         i = max(k for k in range(len(starts)) if starts[k] <= at) if False else None
         lo, hi = 0, len(starts) - 1
@@ -60,7 +64,11 @@ def main(argv):
             else:
                 hi = mid - 1
         s = starts[lo]
-        changed.setdefault(s, []).append((at, c, v - c))
+        # what the word adds to the symbol, which is linked in the game's own mirror: nothing for a word in that mirror (an 8C
+        # pointer in a game at 8C is _name, not _name+H'80000000, which wrapped to the 0C mirror: Virtua Tennis's SDK start
+        # called main at 0C... in every build from C)
+        top = ((v & 0xE0000000) - (B.BASE_LINK & 0xE0000000)) & 0xFFFFFFFF if c is not None else None
+        changed.setdefault(s, []).append((at, c, top if c is not None else shift.word(v, at)))
         n += 1
     bad = 0
     for s, items in sorted(changed.items()):
@@ -75,11 +83,11 @@ def main(argv):
                 bad += 1
                 print('NOT WORDS', fn, hex(at))
                 continue
-            repl[k] = '          .DATA.L    _%s%s' % (entry[c], ('+H\'%X' % top) if top else '')
+            repl[k] = ("          .DATA.L    H'%08X" % top) if c is None else '          .DATA.L    _%s%s' % (entry[c], ('+H\'%X' % top) if top else '')
             drop.add(k + 1)
         new = [repl.get(k, l) for k, l in enumerate(lines) if k not in drop]
         # the symbol must be imported
-        names = sorted({entry[c] for _, c, _ in items})
+        names = sorted({entry[c] for _, c, _ in items if c is not None})
         idx = next(k for k, l in enumerate(new) if l.lstrip().startswith('.EXPORT'))
         new[idx + 1:idx + 1] = ['          .IMPORT     _%s' % nm for nm in names]
         open(os.path.join(out, fn), 'w').write('\n'.join(new))
@@ -87,7 +95,7 @@ def main(argv):
     # relative branches from outside the game code into it
     jumps = []
     for a, size, name in F:
-        if G0 <= a < G1 or a < 0x0C010000:
+        if layout.moving(a) or a < 0x0C010000:
             continue
         nxt = next((x for x, _, _ in F if x > a), a + size)
         first = B.word(a)
@@ -102,7 +110,7 @@ def main(argv):
                 t, pool, psz, target = shdis.decode(B.word(x), x)
                 mn = t.split()[0] if t else ''
                 if mn in ('bt', 'bf', 'bt/s', 'bf/s', 'bra', 'bsr') and target is not None:
-                    if G0 <= target < G1:
+                    if layout.moving(target):
                         jumps.append((name, hex(x), hex(target)))
                     elif a <= target < nxt:
                         todo.append(target)

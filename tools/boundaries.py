@@ -71,20 +71,26 @@ def reach(start, stop_at=None):
             end = max(end, a + 2)
             if m in ('bt', 'bf'):
                 if target is not None:
-                    todo.append(target)
+                    if target < start:                 # a conditional branch out of the start backwards: no function does that
+                        flags.add('back')              # (Crazy Taxi data_0c089f4c, a table of words whose first word decodes as bt)
+                    else:
+                        todo.append(target)
                 a += 2
                 continue
             if m in ('bt/s', 'bf/s'):
                 seen.add(a + 2)
                 end = max(end, a + 4)
                 if target is not None:
-                    todo.append(target)
+                    if target < start:
+                        flags.add('back')
+                    else:
+                        todo.append(target)
                 a += 4
                 continue
             if m == 'bra':
                 seen.add(a + 2)
                 end = max(end, a + 4)
-                if target is not None:
+                if target is not None and target >= start:      # a bra before the start is a tail jump into another function
                     todo.append(target)
                 break
             if m in ('rts', 'rte'):
@@ -105,6 +111,11 @@ def reach(start, stop_at=None):
     return end, seen, flags
 
 
+def name_given(n):
+    """A name the candidates file gave (not the FUN_<address> placeholder, which follows the mirror functions.txt uses)."""
+    return not n.startswith('FUN_')
+
+
 def main(argv):
     if len(argv) < 2:
         sys.exit(__doc__)
@@ -114,7 +125,7 @@ def main(argv):
         l = l.split('#')[0].strip()
         if l:
             p = l.split()
-            cands.append((int(p[0], 16), p[1] if len(p) > 1 else None))
+            cands.append((mirror(int(p[0], 16)), p[1] if len(p) > 1 else None))
     ents = entries()
     starts = [e[0] for e in ents]
     known = {e[0] for e in ents}
@@ -141,15 +152,26 @@ def main(argv):
         if 'off' in flags:
             rows.append((a, 'not a function', holder[2] if holder else '-', 'runs into the next entry'))
             continue
+        if 'back' in flags:
+            rows.append((a, 'not a function', holder[2] if holder else '-', 'a conditional branch leaves it backwards'))
+            continue
         if size < 4:
             rows.append((a, 'too small', '', ''))
             continue
         note = 'jump table: size is the straight-line part' if 'table' in flags else ''
         plan.append((a, size, name or 'FUN_%08x' % a))
         rows.append((a, 'function', holder[2] if holder else '(gap)', 'size %d %s' % (size, note)))
-        if holder:
-            hend, hseen, hflags = reach(holder[0])
-            cuts[holder[0]] = hend - holder[0]
+        if holder and a < holder[0] + holder[1]:      # only a start inside its listed size cuts it: one in the gap after it leaves the
+            hend, hseen, hflags = reach(holder[0])    # size alone (Virtua Tennis cpuSglAimTable, 18,398 bytes of jump-table code,
+            cuts[holder[0]] = hend - holder[0]        # would have been cut to the 8,762 its own branches reach)
+    kept, inner = [], set()            # a new start inside another new function's reach is a label of it, not a function (Virtua Tennis:
+    for a, s, n in sorted(plan):       # state handlers behind one jump table that branch into each other)
+        if kept and a < kept[-1][0] + kept[-1][1]:
+            inner.add(a)
+            continue
+        kept.append((a, s, n))
+    plan = kept
+    rows = [(a, 'label inside a new function', '', '') if a in inner else r for r in rows for a in [r[0]]]
     for a, kind, holder, note in rows:
         print('%08x  %-24s %-24s %s' % (a, kind, holder, note))
     print('%d new functions, %d entries cut' % (len(plan), len(cuts)))
@@ -159,15 +181,18 @@ def main(argv):
     src = open('functions.txt').read().split('\n')
     open('build/functions.before-boundaries', 'w').write('\n'.join(src))
     out = []
-    newl = {a: 'F %08x %d %s' % (a, s, n) for a, s, n in plan}
+    # functions.txt keeps the game's own mirror (8c for a game linked at 8C010000); the analysis above works in 0C
+    top = next((int(l.split()[1], 16) & 0xE0000000 for l in src if l.startswith('F ')), 0x0C000000)
+    own = lambda a: (a & 0x1FFFFFFF) | top
+    newl = {a: 'F %08x %d %s' % (own(a), s, n if name_given(n) else 'FUN_%08x' % own(a)) for a, s, n in plan}
     for l in src:
         p = l.split()
-        if len(p) >= 4 and p[0] == 'F' and int(p[1], 16) in cuts:
-            e = next(e for e in ents if e[0] == int(p[1], 16))
+        if len(p) >= 4 and p[0] == 'F' and mirror(int(p[1], 16)) in cuts:
+            e = next(e for e in ents if e[0] == mirror(int(p[1], 16)))
             if cuts[e[0]] < e[1]:
                 l = 'F %s %d %s' % (p[1], cuts[e[0]], p[3])
         out.append(l)
-    allf = [(int(l.split()[1], 16), 0 if l.startswith('D ') else 1, l) for l in out if l.startswith(('F ', 'D '))]
+    allf = [(mirror(int(l.split()[1], 16)), 0 if l.startswith('D ') else 1, l) for l in out if l.startswith(('F ', 'D '))]
     allf += [(a, 1, l) for a, l in newl.items()]
     other = [l for l in out if l.strip() and not l.startswith(('F ', 'D '))]      # comments and anything else stay at the top
     open('functions.txt', 'w').write(''.join(l + '\n' for l in other) + ''.join(l + '\n' for _, _, l in sorted(allf)))

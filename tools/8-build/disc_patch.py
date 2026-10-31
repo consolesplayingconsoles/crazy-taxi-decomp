@@ -133,6 +133,26 @@ def grow(gdi, path, data):
         raise SystemExit("%s not found" % path)
     rec_lba, rec_off, old_lba, old_size = target
 
+    # first where it is: the file grows in place when the sectors after it are free and in its track (Virtua Tennis: the boot file
+    # moved to lba 45100 was never started by the boot ROM, not even with correct data and headers; the last file on the disc, it
+    # grows in place)
+    others = [(ul, un) for ul, un in used if ul != old_lba]
+    t0 = track_of(old_lba)
+    if old_lba + need <= t0["lba"] + t0["count"] and not any(ul < old_lba + need and ul + un > old_lba for ul, un in others):
+        for k in range(need):
+            write_sector(old_lba + k, data[k * 2048:(k + 1) * 2048])
+        sec = bytearray(disc.sector(rec_lba))
+        struct.pack_into("<I", sec, rec_off + 10, len(data))
+        struct.pack_into(">I", sec, rec_off + 14, len(data))
+        write_sector(rec_lba, bytes(sec))
+        disc = gdi_read.Disc(gdi)
+        hit = [f for f in disc.files() if f[2].upper() == "/" + path.strip("/").upper()]
+        if not (hit and hit[0][0] == old_lba and hit[0][1] == len(data) and disc.read(old_lba, len(data)) == data):
+            raise SystemExit("[ERROR] %s: read-back after growing in place differs" % path)
+        print("  grew %s in place: %d -> %d bytes at lba %d, directory entry updated, read back identical"
+              % (path, old_size, len(data), old_lba))
+        return
+
     # lowest free run of `need` sectors in a data track, past the volume descriptors
     want = None
     spans = sorted(used)

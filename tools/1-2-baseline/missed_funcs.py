@@ -61,7 +61,8 @@ def in_body(x, f):                             # x inside f's analysed bytes (it
 def hw(x):
     return struct.unpack_from('<H', exe, x - base)[0]
 
-PUSH = {0x4f22} | {0x2f06 | (r << 4) for r in range(8, 15)}   # sts.l pr,@-r15 / mov.l rN,@-r15
+PUSH = {0x4f22} | {0x2f06 | (r << 4) for r in range(8, 15)} | {0xff0b | (r << 4) for r in range(12, 16)}
+# sts.l pr,@-r15 / mov.l rN,@-r15 / fmov.s frN,@-r15 (fr12-fr15: Virtua Tennis 8c0c4c84 saves fr15 first)
 def ends(op):                                  # rts, a tail jump (jmp @rN, braf rN) or bra: a delay slot follows
     return op == 0x000b or op & 0xf0ff in (0x402b, 0x0023) or op >> 12 == 0xa
 
@@ -110,6 +111,29 @@ for o in range(0, len(exe) - 3, 4):
         continue
     if looks_like_entry(t):
         found.setdefault(t, set()).add('pointed to from %08x, inside %s (merged?)' % (base + o, names[f]))
+# 4. numbers the C names (src/*.c, once there is C): a call or a table through an address no word holds (Virtua Tennis: a call to
+#    8c0c4c84, floats read at 8c089f00 with the function 8c089f20 behind them; the build copied each up to the next entry as data).
+#    A number at a pool word also gives the first function start after it in the same gap.
+import glob, os, re
+LIT = re.compile(r'(?<![\w.])0[xX]([0-9A-Fa-f]{7,8})\b(?![.\w])')
+for f in sorted(glob.glob('src/*.c')):
+    for i, line in enumerate(open(f, errors='replace'), 1):
+        if line.lstrip().startswith(('/*', '*', '//')):
+            continue
+        for m in LIT.finditer(line):
+            v = int(m.group(1), 16)
+            t = (v & 0x1fffffff) | (base & 0xe0000000)
+            g = in_gap(t) if base <= t < end and not t & 1 and (v >> 24) in (0x0c, 0x8c, 0xac) else None
+            if not g or not small(g):          # a big gap is data the C reads by address (Virtua Tennis: 50 such after _mvsto2b)
+                continue
+            why = 'named in %s:%d' % (os.path.basename(f), i)
+            if looks_like_entry(t):
+                found.setdefault(t, set()).add(why)
+                continue
+            for x in range(t + 2, g[1] - 2, 2):
+                if hw(x) in PUSH or (hw(x) >> 8 == 0x7f and hw(x) & 0x80):
+                    found.setdefault(x, set()).add('after a pool %s' % why)
+                    break
 for x in sorted(found, key=lambda x: (not any(r.startswith('pointed') for r in found[x]), x)):
     g = in_gap(x)
     print('%08x  after %-24s %s' % (x, g[2] if g else names.get(owner(x), '?'), '; '.join(sorted(found[x]))[:100]))

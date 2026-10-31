@@ -26,6 +26,7 @@ import os
 import re
 import shutil
 import struct
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +39,7 @@ import shdis
 
 import layout  # noqa: E402
 import layout as layout_txt  # noqa: E402  (cbuild defines a function named layout below)
+import shift  # noqa: E402
 
 G0, G1 = layout.region('game', True)                     # the game's own code (layout.txt)
 FILL0, FILL1 = layout.region('fill') or (G0, G0)          # spare room in the file before it (none: the game code alone)
@@ -102,7 +104,7 @@ def game_set():
     eq = set(open('tests/equivalent.txt').read().split()) - relocasm.asm_only()
     out = {}
     for a, s, n in functions():
-        if G0 <= a < G1 and n in eq:
+        if layout_txt.moving(a) and n in eq:
             for d in glob.glob('tests/*/%s.json' % n):
                 out[n] = d.split('/')[1]
                 break
@@ -155,6 +157,29 @@ def holder_info(a):
     return h, n, nxt, seen, loads
 
 
+def pool_run(h, a):
+    """The end of the run of literal-pool words from a, when a is one inside the listed bytes of the function at h: the addresses its
+    mov.l, mov.w and mova load, read straight through the listed bytes (a jump table's handlers are not reached by branches). None
+    when a is no pool word of it."""
+    s = next((s for x, s, n in functions() if x == h), 0)
+    if not h <= a < h + s:
+        return None
+    pool = {}
+    for x in range(h, h + s, 2):
+        text, p, psz, target = shdis.decode(B.word(x), x)
+        m = text.split()[0] if text else ''
+        if m == 'mova' and target is not None:          # shdis gives a mova's address as its target
+            p, psz = target, 4
+        if p is not None and m in ('mov.l', 'mov.w', 'mova'):
+            pool[p] = max(pool.get(p, 0), psz or 4)
+    if a not in pool:
+        return None
+    end = a
+    while end in pool:
+        end += pool[end]
+    return end
+
+
 def keep_numbers():
     """{address: [('keep', word address)]}: the words of the kept data that point into the game code but not at a function's entry
     (a table after a function's code, a label). The data stays, what they point at moves: they are rewritten like the C's numbers
@@ -163,11 +188,26 @@ def keep_numbers():
     if KEEP1 <= KEEP0:
         return out
     ent = {a for a, s, n in functions()}
+
+    def byte_like(y):
+        w = struct.unpack_from('<I', B.BIN, y - B.BASE)[0] if KEEP0 <= y <= KEEP1 - 4 else 0
+        return w, all(((w >> s) & 0xFF) < 0x40 for s in (0, 8, 16, 24))
+
+    skipped = []
     for x in range(KEEP0 + (-KEEP0 % 4), KEEP1 - 3, 4):
         v = struct.unpack_from('<I', B.BIN, x - B.BASE)[0]
         a = v & 0x1FFFFFFF | 0x0C000000
         if (v >> 24) in CODE_TOP and G0 <= a < G1 and a not in ent and not in_keep(a):
+            # a byte table whose value reads as an address (Virtua Tennis: 07 07 08 08 | 0b 0b 0c 0c | 0d 0d 0d 0c): every byte under 0x40
+            # (a pointer's top byte is 0x8C or 0xAC), a neighbour the same and not zero. Listed, never silent.
+            lw, lb = byte_like(x - 4)
+            rw, rb = byte_like(x + 4)
+            if (v >> 24) not in (0x8C, 0xAC) and all(((v >> s) & 0xFF) < 0x40 for s in (0, 8, 16, 24)) and ((lb and lw) or (rb and rw)):
+                skipped.append(x)
+                continue
             out.setdefault(a, []).append(('keep', x))
+    if skipped:
+        print('kept data: %d words read as table bytes, not pointers: %s' % (len(skipped), ' '.join('%08X' % s for s in skipped)))
     return out
 
 
@@ -185,6 +225,9 @@ def tables(srcdir, extra=None):
             labels[a] = n
             continue
         end = min([x for x in loads if x > a] + [nxt] + ([KEEP0] if a < KEEP0 else []))
+        run = pool_run(h, a)
+        if run:                  # a literal pool inside the function's listed bytes (Virtua Tennis cameraExec: a mova to a float, and
+            end = min(end, run)  # the copy ran 13 KB to the next entry, over handlers its jump table reaches): only the pool's words
         clusters.setdefault((n, end), []).append(a)
     out = [(min(v), end, n, sorted(v)) for (n, end), v in sorted(clusters.items(), key=lambda kv: min(kv[1]))]
     return out, labels
@@ -204,6 +247,9 @@ def words_piece(name, lo, hi, entry, export=True, section='P', align=4, syms=Non
             add = (top_of(v) + off) & 0xFFFFFFFF
             imps.add(sym)
             body.append("          .DATA.L    _%s%s" % (sym, ("+H'%X" % add) if add else ''))
+            x += 4
+        elif v is not None and shift.word(v, x) is not None:      # a reference into the range the shifted layout moves
+            body.append("          .DATA.L    H'%08X" % shift.word(v, x))
             x += 4
         else:
             body.append("          .DATA.W    H'%04X" % B.word(x))
@@ -226,7 +272,7 @@ def pieces():
     for f in glob.glob(asm + '/*.src'):
         os.remove(f)
     F = functions()
-    entry = {a: n for a, s, n in F if G0 <= a < G1}
+    entry = {a: n for a, s, n in F if layout_txt.moving(a)}
     knums = keep_numbers()
     cl, labels = tables(OUT + '/src', knums)
     rep = {}                                  # address -> replacement expression
@@ -295,9 +341,13 @@ def pieces():
             if a in rep:                                   # inside a function: a table or an entry in the middle
                 used.append(rep[a])
                 return rep[a]
-            if a in entry and v == a:                      # a game function's own address: its name, so that it follows the function
-                funcs.add(entry[a])
-                return '((int)%s)' % entry[a]
+            if a in entry:                                 # a game function's own address: its name, so that it follows the function,
+                funcs.add(entry[a])                        # in the mirror the literal names (v == a only matched a game linked at 0C:
+                top = top_of(v)                            # Virtua Tennis's 302 callbacks, nlSetIntrFunction(1, 0x8C010DA8), stayed old)
+                return '((int)%s)' % entry[a] if not top else '((int)%s + 0x%X)' % (entry[a], top)
+            if shift.literal(v) is not None:               # an address in the range the shifted layout moves
+                used.append('')
+                return '0x%08X' % shift.literal(v)
             return m.group(0)
         out = []
         for l in t.split('\n'):
@@ -374,6 +424,14 @@ def extern_head(names, funcs, t):
     return head
 
 
+def strip_names():
+    """Functions a test build leaves empty: strip-functions.txt in the repo, one name per line, # comments (a real build has none).
+    The name stays defined, so calls and pointers to it still land; its body is gone, the room it took is free."""
+    if not os.path.exists('strip-functions.txt'):
+        return set()
+    return {l.split('#')[0].strip() for l in open('strip-functions.txt') if l.split('#')[0].strip()}
+
+
 def prep_sources():
     for f in ('units.json', 'near.json'):
         if os.path.exists('%s/%s' % (OUT, f)):
@@ -384,7 +442,8 @@ def prep_sources():
         os.remove(f)
     stems = sorted(set(gs.values()))
     allfn = {n for _, _, n in functions()}
-    stripped = kept = 0
+    stripped = kept = stubbed = 0
+    stub = strip_names()
     for stem in stems:
         p = 'src/%s.c' % stem
         if not os.path.exists(p):
@@ -392,6 +451,12 @@ def prep_sources():
         t = open(p, errors='replace').read()
         for m in reversed(list(DEF.finditer(re.sub(r'/\*.*?\*/', lambda m_: ' ' * len(m_.group(0)), t, flags=re.S)))):
             n = m.group(1)
+            if n not in allfn and any(n.startswith(s + '_') for s in stub):      # the parts a stubbed function was split into (name_p1 ...)
+                b = consistency.block(t, n)
+                if b:
+                    t = t[:b[0]] + t[b[1]:]
+                    stripped += 1
+                continue
             if n in allfn and gs.get(n) != stem:
                 b = consistency.block(t, n)
                 if b:
@@ -399,8 +464,15 @@ def prep_sources():
                     stripped += 1
             elif n in gs:
                 kept += 1
+                if n in stub:                                  # a test build without these functions' bodies: the name stays defined
+                    b = consistency.block(t, n)
+                    if b:
+                        t = t[:t.index('{', b[0])] + '{\n}\n' + t[b[1]:]
+                        stubbed += 1
         open('%s/src/%s.c' % (OUT, stem), 'w').write(t)
     print('%d files; %d game functions kept, %d other definitions stripped' % (len(stems), kept, stripped))
+    if stub:
+        print('strip-functions.txt: %d of %d functions built as empty stubs (a test build, not the game)' % (stubbed, len(stub)))
     return gs
 
 
@@ -491,7 +563,7 @@ def compile_all(stems=None, objd='obj', flags_edit=None):
 
 def provided():
     """Names the game block's objects define: every game-region function."""
-    return {n for a, s, n in functions() if G0 <= a < G1}
+    return {n for a, s, n in functions() if layout_txt.moving(a)}
 
 
 def game_objects():
@@ -627,7 +699,7 @@ def unity():
 
 
 CAP1 = FILL1 - FILL0                 # the fill block: boot code ends at FILL0, the entry stub starts at FILL1
-CAP2 = KEEP0 - G0                    # the old game code (up to the kept data, when there is one)
+CAP2 = KEEP0 - G0 + shift.D           # the old game code (up to the kept data, when there is one), and the shifted layout's room
 CAP4 = G1 - KEEP1                    # the old game code after the kept data
 
 
@@ -794,13 +866,17 @@ def link():
             if not os.path.exists(dst) or open(dst).read() != re.sub(r'(\.SECTION\s+)P(\s*,)', lambda m: m.group(1) + 'PT' + m.group(2), open(src).read()):
                 renamed(src, dst, 'PT')
             jobs.append((dst, '%s/obj_t/%s.obj' % (OUT, f[:-4])))
+    for f in order:                 # the head before the game code, rewritten by relocptr (a pointer that moved): its copy
+        if obj_addr(f) < (boot_split() or (FILL0,))[0] and f in ptr:
+            renamed('%s/ptr/%s' % (OUT, f), '%s/asm_t/%s' % (OUT, f), 'P')
+            jobs.append(('%s/asm_t/%s' % (OUT, f), '%s/obj_t/%s.obj' % (OUT, f[:-4])))
     b = boot_split()
     for n in ('boot_tail', 'boot_stub', KEEP):
         if os.path.exists('%s/asm/%s.src' % (OUT, n)):
             jobs.append(('%s/asm/%s.src' % (OUT, n), '%s/obj/%s.obj' % (OUT, n)))
     assemble(jobs)
     lo = b[0] if b else FILL0
-    ins = ['build/obj/%s.obj' % f[:-4] for f in order if obj_addr(f) < lo]
+    ins = [('%s/obj_t/%s.obj' % (OUT, f[:-4]) if f in ptr else 'build/obj/%s.obj' % f[:-4]) for f in order if obj_addr(f) < lo]
     if b:
         ins.append(OUT + '/obj/boot_tail.obj')
     ins += ['%s/obj1/%s.obj' % (OUT, x) for x in parts[0]] + (['%s/obj1/pad1.obj' % OUT] if pad[0] else [])
@@ -821,8 +897,12 @@ def link():
             m = re.match(r'\s+\.EXPORT\s+_(\w+)', l)
             if m:
                 exported.add(m.group(1))
-    d = {'_' + n: a for n, a in named_addresses().items() if n in used and n not in exported}
+    d = {'_' + n: (shift.literal(a) or a) for n, a in named_addresses().items() if n in used and n not in exported}
     base = open('BASE').read().strip()
+    for a, s, n in functions():          # the functions inside the kept block: one words piece defines none of them, so each is defined
+        if in_keep(a) and (n in used or '_' + n in used or n.startswith('_')) and '_' + n not in d:      # (asm names it _<name>)      # at its address (shifted with the block) in the
+            # game's own mirror; the compiler's helpers (_divls, _quick_odd_mvn: calls the compiler adds, no C names them) always; left
+            d['_' + n] = at_base(shift.literal(a) or a, base)   # undefined, the linker put 0 in every call (Virtua Tennis: 3,329)
     start = start_lines(base, bool(parts[2]))
     sub = ['elf', 'start ' + ','.join(start),
            'output build\\cbuild\\game.elf', 'print build\\cbuild\\game.map']
@@ -837,6 +917,10 @@ def link():
     bad = [l for l in log.split('\n') if l.startswith('**') and 'CANNOT FIND SECTION' not in l]
     print('\n'.join(bad[:40]), '\n%d linker messages' % len(bad))
     print(open(OUT + '/game.e2b.log', errors='replace').read()[-300:])
+    undef = sorted({m.group(2) for m in re.finditer(r'UNDEFINED EXTERNAL SYMBOL\(([^.)]*)\.(\w+)\)', log)})
+    if undef:                       # the linker only warns, and links each call to an undefined name to address 0 (Virtua Tennis: 3,329
+        # calls into the kept NAOMI block, the game never left the BIOS)
+        sys.exit('[ERROR] %d names are not defined, every call to them would go to address 0: %s' % (len(undef), ' '.join(undef[:40])))
 
 
 def at_base(a, base):
@@ -850,8 +934,9 @@ def start_lines(base, p3=False):
     the stub and zeros, and the game crashed right after the boot ROM's licence screen (Virtua Tennis, its first build that fit)."""
     at = lambda a: at_base(a, base)
     start = ['P(%s)' % base] + (['PB1(%08X)' % at(FILL0)] if FILL1 > FILL0 else []) + (['PS(%08X)' % at(FILL1)] if FILL1 < G0 else [])
-    start += ['PB2(%08X)' % at(G0)] + (['PK(%08X)' % at(KEEP0)] if KEEP1 > KEEP0 else []) + (['PB4(%08X)' % at(KEEP1)] if AFTER else [])
-    return start + ['PT(%08X)' % at(G1)] + (['P3(%08X)' % at(P3)] if P3 is not None and p3 else [])
+    D = shift.D                     # the shifted layout: the kept block and everything after it, D higher
+    start += ['PB2(%08X)' % at(G0)] + (['PK(%08X)' % at(KEEP0 + D)] if KEEP1 > KEEP0 else []) + (['PB4(%08X)' % at(KEEP1 + D)] if AFTER else [])
+    return start + ['PT(%08X)' % at(G1 + D)] + (['P3(%08X)' % at(P3)] if P3 is not None and p3 else [])
 
 
 def bin_short(end, path=None):
@@ -870,11 +955,12 @@ def part_regions():
     """{section: (start, end)} of the parts the build fills: PB2 in the old game code, and PB1 only when layout.txt gives a fill block.
     A game with none (Virtua Tennis) has no PB1 in its map: asking for one failed every fit, a link with 11,404 bytes spare included,
     and the next try at a smaller margin left code out and reported it as over."""
-    out = dict([('PB1', (FILL0, FILL1))] if FILL1 > FILL0 else [], PB2=(G0, KEEP0))
+    D = shift.D
+    out = dict([('PB1', (FILL0, FILL1))] if FILL1 > FILL0 else [], PB2=(G0, KEEP0 + D))
     if KEEP1 > KEEP0:
-        out.update(PK=(KEEP0, KEEP1))
+        out.update(PK=(KEEP0 + D, KEEP1 + D))
     if AFTER:
-        out.update(PB4=(KEEP1, G1))
+        out.update(PB4=(KEEP1 + D, G1 + D))
     return out
 
 
@@ -937,6 +1023,11 @@ def fit_build():
             print('  ' + short)
         if ok and not miss and not bad and not ov and not short:
             print('fits: the game block lies in the original space')
+            # every reference into the moved game code must have followed it; a stale one is a crash a boot finds one per run
+            # (Virtua Tennis: functions copied as data, a white screen, then a hang at the Sega screen). Stops before the disc.
+            r = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'audit.py')])
+            if r.returncode:
+                sys.exit('[ERROR] the audit found references into the old game code: no disc from this build')
             return
     sys.exit('[ERROR] the game block does not fit the original space')
 

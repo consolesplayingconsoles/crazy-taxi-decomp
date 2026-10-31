@@ -4,7 +4,7 @@
 int Start_CrazyBox_Voice(int);
 int Wobble_Record_Window(void);
 int nlSprPut(int);
-int thunk_FUN_0c0409d2(void);
+int thunk_callTryAgain(void);
 int Exec_Fault(void);
 
 int Exec_Fault(void)
@@ -19,7 +19,7 @@ int Exec_Fault(void)
     t0 = *(int *)0xC2A993C;
     *(unsigned int *)0xC2A993C = (t0 + 0x1);
     if ((int)(t0 + 0x1) >= (int)0xB4) {
-        thunk_FUN_0c0409d2();
+        thunk_callTryAgain();
     }
     Wobble_Record_Window();
     *(unsigned int *)0xC2A9898 = 0x73;

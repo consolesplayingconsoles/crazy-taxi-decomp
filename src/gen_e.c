@@ -147,7 +147,7 @@ int vmsfs_exit(void);
 int carFlipTravelDir(int a4);
 int padInitAnalog(void);
 int getSwitch(void);
-int thunk_FUN_0c02a9ac(void);
+int thunk_MainLoop(void);
 int TOANG2(int a4, float f4, float f5);
 int gameState8(void);
 int gameState10(void);
@@ -172,7 +172,7 @@ int Put_Default_Sprite(void);
 int thunk_nlCloseEvent(void);
 int Put_Press_Start(void);
 int Init_RS_Fog(void);
-int thunk_FUN_0c0409d2(void);
+int thunk_callTryAgain(void);
 int Put_PoleMarriageKiss(void);
 int pfTextPut(int a4, int a5, int a6);
 int RinAqua_Init(void);
@@ -181,7 +181,7 @@ int camRestore(void);
 int drvAccelDot(void);
 int psgPutShadow(int a4);
 int LoadBigOne(int a4);
-int thunk_FUN_0c072fe8(void);
+int thunk_BigOneResetState(void);
 int thunk_kmSetFogTable(void);
 int nlIntrSetHSynchLine(void);
 int nlDispStripX(int a4, int a5, int a6);
@@ -445,7 +445,7 @@ int Start_TimeUp(void)
 
 
 
-int thunk_FUN_0c0409d2(void)
+int thunk_callTryAgain(void)
 {
     return callTryAgain();
 }
@@ -454,7 +454,7 @@ int thunk_FUN_0c0409d2(void)
 
 int RinAqua_Init(void)
 {
-    thunk_FUN_0c072fe8();
+    thunk_BigOneResetState();
     return KeepYourBreath();
 }
 

@@ -7015,6 +7015,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 37 of 37 instructions
 
+### ADXT_StartMem (`0C151B4E`, 78 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/ADXT_StartMem.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 34 of 39 instructions
+
 ### ADXT_StartMemIdx (`0C151B9C`, 202 bytes, `src/gen_aab.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_aab/ADXT_StartMemIdx.json`
 - case 27
@@ -16498,6 +16504,412 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 59
 - the cases run 76 of 76 instructions
 
+### FUN_0c14e2ec (`0C14E2EC`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e2ec.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 105
+- case 75
+- case 71
+- case 123
+- case 99
+- case 92
+- case 85
+- case 122
+- case 83
+- case 72
+- case 150
+- case 115
+- case 156
+- case 112
+- case 89
+- case 117
+- case 56
+- case 65
+- the cases run 11 of 11 instructions
+
+### FUN_0c14e302 (`0C14E302`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e302.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 97
+- case 113
+- case 159
+- case 126
+- case 52
+- case 48
+- case 55
+- case 66
+- case 144
+- case 136
+- case 105
+- case 69
+- case 129
+- case 153
+- case 68
+- case 73
+- case 59
+- case 53
+- the cases run 11 of 11 instructions
+
+### FUN_0c14e318 (`0C14E318`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e318.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 159
+- case 110
+- case 156
+- case 44
+- case 59
+- case 102
+- case 92
+- case 69
+- case 134
+- case 51
+- case 114
+- case 103
+- case 138
+- case 132
+- case 128
+- case 127
+- case 107
+- case 79
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e4d4 (`0C14E4D4`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e4d4.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 104
+- case 102
+- case 142
+- case 138
+- case 159
+- case 108
+- case 46
+- case 140
+- case 146
+- case 129
+- case 107
+- case 89
+- case 50
+- case 105
+- case 141
+- case 96
+- case 71
+- case 158
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e4ec (`0C14E4EC`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e4ec.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 37
+- case 93
+- case 69
+- case 108
+- case 51
+- case 79
+- case 158
+- case 84
+- case 125
+- case 159
+- case 140
+- case 83
+- case 38
+- case 106
+- case 111
+- case 74
+- case 107
+- case 122
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e504 (`0C14E504`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e504.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 148
+- case 128
+- case 45
+- case 81
+- case 137
+- case 67
+- case 84
+- case 113
+- case 76
+- case 142
+- case 152
+- case 154
+- case 82
+- case 63
+- case 131
+- case 114
+- case 44
+- case 102
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e51c (`0C14E51C`, 34 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e51c.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 145
+- case 117
+- case 155
+- case 106
+- case 93
+- case 153
+- case 114
+- case 74
+- case 76
+- case 65
+- case 90
+- case 75
+- case 52
+- case 91
+- case 151
+- case 57
+- case 67
+- case 158
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e53e (`0C14E53E`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e53e.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 89
+- case 42
+- case 87
+- case 98
+- case 36
+- case 43
+- case 139
+- case 156
+- case 120
+- case 93
+- case 121
+- case 60
+- case 82
+- case 56
+- case 85
+- case 138
+- case 130
+- case 86
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e556 (`0C14E556`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e556.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 75
+- case 42
+- case 66
+- case 126
+- case 156
+- case 67
+- case 137
+- case 49
+- case 119
+- case 150
+- case 113
+- case 121
+- case 142
+- case 44
+- case 116
+- case 144
+- case 78
+- case 61
+- the cases run 12 of 12 instructions
+
+### FUN_0c14e56e (`0C14E56E`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/FUN_0c14e56e.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 80
+- case 106
+- case 110
+- case 83
+- case 154
+- case 107
+- case 78
+- case 70
+- case 91
+- case 37
+- case 64
+- case 50
+- case 115
+- case 59
+- case 62
+- case 137
+- case 48
+- case 131
+- the cases run 12 of 12 instructions
+
+### FUN_0c151b4e (`0C151B4E`, 78 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/FUN_0c151b4e.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 34 of 39 instructions
+
 ### FcvInterpolateBuffer (`0C066BF0`, 164 bytes, `src/game_p.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/game_p/FcvInterpolateBuffer.json`
 - a
@@ -22247,6 +22659,24 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 45
 - case 42
 - the cases run 93 of 93 instructions
+
+### Put_Adv_FreePlay (`0C057EE2`, 54 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/Put_Adv_FreePlay.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 27 of 27 instructions
+
+### Put_Adv_InsertCoin (`0C057F18`, 54 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/Put_Adv_InsertCoin.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 27 of 27 instructions
+
+### Put_Adv_InsertMoreCoin (`0C057FAC`, 54 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/Put_Adv_InsertMoreCoin.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 27 of 27 instructions
 
 ### Put_Adv_Logo_Sprite (`0C057E9E`, 68 bytes, `src/gen_anc.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_anc/Put_Adv_Logo_Sprite.json`
@@ -32061,6 +32491,63 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - directed: flips 0C0106FA (taken)
 - the cases run 79 of 79 instructions
 
+### bootCopyWords (`0C0109F6`, 26 bytes, `src/gen_atu.c`)
+- equivalent on 7 development and 6 holdout cases, in `tests/gen_atu/bootCopyWords.json`
+- case 0
+- case 3
+- case 5
+- case 8
+- case 10
+- case 12
+- case 14
+- case 1
+- case 4
+- case 7
+- case 9
+- case 11
+- case 13
+- the cases run 13 of 13 instructions
+
+### bootDevCheckStatus (`0C01112A`, 84 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootDevCheckStatus.json`
+- case 26
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 39
+- case 143
+- case 142
+- case 55
+- case 155
+- case 116
+- case 132
+- case 77
+- case 117
+- case 82
+- case 93
+- case 134
+- case 146
+- case 80
+- case 81
+- case 61
+- case 101
+- case 123
+- the cases run 21 of 40 instructions
+
 ### bootDevCommand (`0C0110E6`, 68 bytes, `src/gen_cu.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_cu/bootDevCommand.json`
 - case 0
@@ -32221,6 +32708,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 147
 - the cases run 103 of 111 instructions
 
+### bootDevReset (`0C01138C`, 40 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootDevReset.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 133
+- case 82
+- case 51
+- case 147
+- case 99
+- case 142
+- case 105
+- case 109
+- case 74
+- case 103
+- case 159
+- case 150
+- case 134
+- case 45
+- case 102
+- case 70
+- case 139
+- case 47
+- the cases run 20 of 20 instructions
+
 ### bootDevSend (`0C0112C6`, 198 bytes, `src/gen_ew.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ew/bootDevSend.json`
 - case 12
@@ -32260,6 +32787,55 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 131
 - case 141
 - the cases run 93 of 99 instructions
+
+### bootDevSetReg (`0C011580`, 34 bytes, `src/gen_atu.c`)
+- equivalent on 14 development and 13 holdout cases, in `tests/gen_atu/bootDevSetReg.json`
+- case 13
+- case 22
+- case 39
+- case 47
+- case 63
+- case 70
+- case 74
+- case 99
+- case 109
+- case 127
+- case 131
+- case 140
+- case 142
+- case 153
+- case 16
+- case 25
+- case 43
+- case 48
+- case 67
+- case 72
+- case 79
+- case 101
+- case 116
+- case 129
+- case 134
+- case 141
+- case 152
+- the cases run 17 of 17 instructions
+
+### bootDevWaitBusy (`0C011958`, 30 bytes, `src/gen_atw.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/gen_atw/bootDevWaitBusy.json`
+- flag bit set at once
+- flag bit clear for all 9999 polls
+- other bits set, flag bit clear
+- all bits set
+- only a low bit set
+- the cases run 15 of 15 instructions
+
+### bootDevWaitNotBusy (`0C01193A`, 30 bytes, `src/gen_atv.c`)
+- equivalent on 3 development and 2 holdout cases, in `tests/gen_atv/bootDevWaitNotBusy.json`
+- flag bit set at once
+- flag bit clear for all 9999 polls
+- other bits set, flag bit clear
+- all bits set
+- only a low bit set
+- the cases run 15 of 15 instructions
 
 ### bootDispatchPacket (`0C010402`, 406 bytes, `src/gen_aoh.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_aoh/bootDispatchPacket.json`
@@ -32340,6 +32916,52 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 25 of 25 instructions
+
+### bootFillWords (`0C010A10`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootFillWords.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 104
+- case 86
+- case 133
+- case 87
+- case 94
+- case 149
+- case 123
+- case 68
+- case 85
+- case 148
+- case 66
+- case 130
+- case 95
+- case 156
+- case 121
+- case 138
+- case 63
+- case 40
+- the cases run 11 of 11 instructions
+
+### bootInitBuffers (`0C010C18`, 206 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/bootInitBuffers.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 103 of 103 instructions
 
 ### bootInitLink (`0C010630`, 82 bytes, `src/small_c.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/small_c/bootInitLink.json`
@@ -32461,6 +33083,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 150
 - the cases run 127 of 127 instructions
 
+### bootJumpUncached (`0C010A3A`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootJumpUncached.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 115
+- case 46
+- case 85
+- case 105
+- case 102
+- case 42
+- case 114
+- case 67
+- case 68
+- case 54
+- case 84
+- case 113
+- case 119
+- case 91
+- case 89
+- case 39
+- case 38
+- case 60
+- the cases run 11 of 11 instructions
+
 ### bootJumpVector (`0C010158`, 24 bytes, `src/gen_bp.c`)
 - equivalent on 16 development and 16 holdout cases, in `tests/gen_bp/bootJumpVector.json`
 - case 0
@@ -32508,6 +33170,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - hand 5
 - hand 7
 - the cases run 80 of 177 instructions
+
+### bootNop (`0C0119A4`, 4 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootNop.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 57
+- case 96
+- case 104
+- case 114
+- case 95
+- case 87
+- case 38
+- case 94
+- case 91
+- case 105
+- case 111
+- case 98
+- case 89
+- case 79
+- case 81
+- case 55
+- case 119
+- case 82
+- the cases run 2 of 2 instructions
 
 ### bootParsePacket (`0C0113B4`, 460 bytes, `src/gen_apu.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_apu/bootParsePacket.json`
@@ -32873,6 +33575,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 39
 - the cases run 61 of 77 instructions
 
+### bootSerialDataReady (`0C011AEA`, 20 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootSerialDataReady.json`
+- case 2
+- case 0
+- case 1
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 78
+- case 41
+- case 38
+- case 109
+- case 104
+- case 46
+- case 58
+- case 61
+- case 80
+- case 73
+- case 82
+- case 62
+- case 85
+- case 108
+- case 106
+- case 118
+- case 68
+- case 50
+- the cases run 10 of 10 instructions
+
 ### bootSerialGetByte (`0C011AFE`, 46 bytes, `src/gen_cw.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_cw/bootSerialGetByte.json`
 - case 0
@@ -32912,6 +33654,17 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 102
 - case 125
 - the cases run 23 of 23 instructions
+
+### bootSerialInit (`0C011A90`, 90 bytes, `src/gen_atx.c`)
+- equivalent on 5 development and 2 holdout cases, in `tests/gen_atx/bootSerialInit.json`
+- r5 = 115
+- r5 = 0x180
+- r5 = 0x9600
+- r5 = 0x1c200
+- another value
+- r5 = 0
+- r5 = 0x73 again with r4 set
+- the cases run 45 of 45 instructions
 
 ### bootSerialRecv (`0C0119E0`, 60 bytes, `src/small_c.c`)
 - equivalent on 8 development and 8 holdout cases, in `tests/small_c/bootSerialRecv.json`
@@ -33052,6 +33805,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 38
 - case 100
 - the cases run 46 of 46 instructions
+
+### bootWritePortInv (`0C010A26`, 20 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/bootWritePortInv.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 36
+- case 50
+- case 47
+- case 78
+- case 61
+- case 102
+- case 49
+- case 116
+- case 112
+- case 74
+- case 79
+- case 113
+- case 86
+- case 88
+- case 56
+- case 73
+- case 48
+- case 111
+- the cases run 10 of 10 instructions
 
 ### breathExecOne (`0C07284E`, 54 bytes, `src/gen_acs.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_acs/breathExecOne.json`
@@ -39729,6 +40522,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - tag min
 - the cases run 46 of 46 instructions
 
+### gdFsDaGetInfo (`0C14E556`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaGetInfo.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 75
+- case 42
+- case 66
+- case 126
+- case 156
+- case 67
+- case 137
+- case 49
+- case 119
+- case 150
+- case 113
+- case 121
+- case 142
+- case 44
+- case 116
+- case 144
+- case 78
+- case 61
+- the cases run 12 of 12 instructions
+
 ### gdFsDaGetInfoG (`0C14E216`, 150 bytes, `src/gen_ho.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ho/gdFsDaGetInfoG.json`
 - case 10
@@ -39768,6 +40601,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 159
 - case 156
 - the cases run 75 of 75 instructions
+
+### gdFsDaPause (`0C14E51C`, 34 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaPause.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 145
+- case 117
+- case 155
+- case 106
+- case 93
+- case 153
+- case 114
+- case 74
+- case 76
+- case 65
+- case 90
+- case 75
+- case 52
+- case 91
+- case 151
+- case 57
+- case 67
+- case 158
+- the cases run 12 of 12 instructions
 
 ### gdFsDaPauseG (`0C14E03A`, 188 bytes, `src/gen_sx.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_sx/gdFsDaPauseG.json`
@@ -39809,6 +40682,126 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 79
 - the cases run 85 of 85 instructions
 
+### gdFsDaPlay (`0C14E4D4`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaPlay.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 104
+- case 102
+- case 142
+- case 138
+- case 159
+- case 108
+- case 46
+- case 140
+- case 146
+- case 129
+- case 107
+- case 89
+- case 50
+- case 105
+- case 141
+- case 96
+- case 71
+- case 158
+- the cases run 12 of 12 instructions
+
+### gdFsDaPlaySct (`0C14E4EC`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaPlaySct.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 37
+- case 93
+- case 69
+- case 108
+- case 51
+- case 79
+- case 158
+- case 84
+- case 125
+- case 159
+- case 140
+- case 83
+- case 38
+- case 106
+- case 111
+- case 74
+- case 107
+- case 122
+- the cases run 12 of 12 instructions
+
+### gdFsDaRelease (`0C14E53E`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaRelease.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 89
+- case 42
+- case 87
+- case 98
+- case 36
+- case 43
+- case 139
+- case 156
+- case 120
+- case 93
+- case 121
+- case 60
+- case 82
+- case 56
+- case 85
+- case 138
+- case 130
+- case 86
+- the cases run 12 of 12 instructions
+
 ### gdFsDaReleaseG (`0C14E0F6`, 288 bytes, `src/gen_hr.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_hr/gdFsDaReleaseG.json`
 - case 29
@@ -39848,6 +40841,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 120
 - case 90
 - the cases run 121 of 124 instructions
+
+### gdFsDaStop (`0C14E504`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsDaStop.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 148
+- case 128
+- case 45
+- case 81
+- case 137
+- case 67
+- case 84
+- case 113
+- case 76
+- case 142
+- case 152
+- case 154
+- case 82
+- case 63
+- case 131
+- case 114
+- case 44
+- case 102
+- the cases run 12 of 12 instructions
 
 ### gdFsDaStopG (`0C14DF90`, 170 bytes, `src/gen_sw.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_sw/gdFsDaStopG.json`
@@ -40113,6 +41146,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 3 of 3 instructions
+
+### gdFsGetGlobalErr (`0C14E318`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsGetGlobalErr.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 159
+- case 110
+- case 156
+- case 44
+- case 59
+- case 102
+- case 92
+- case 69
+- case 134
+- case 51
+- case 114
+- case 103
+- case 138
+- case 132
+- case 128
+- case 127
+- case 107
+- case 79
+- the cases run 12 of 12 instructions
 
 ### gdFsGetLE4 (`0C14CFBC`, 38 bytes, `src/sdk_c_2.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/sdk_c_2/gdFsGetLE4.json`
@@ -40461,6 +41534,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 401 no output writes
 - the cases run 126 of 344 instructions
 
+### gdFsIsTrayOpen (`0C14E56E`, 24 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsIsTrayOpen.json`
+- case 1
+- case 0
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 80
+- case 106
+- case 110
+- case 83
+- case 154
+- case 107
+- case 78
+- case 70
+- case 91
+- case 37
+- case 64
+- case 50
+- case 115
+- case 59
+- case 62
+- case 137
+- case 48
+- case 131
+- the cases run 12 of 12 instructions
+
 ### gdFsIsTrayOpenG (`0C14E2AC`, 52 bytes, `src/gen_sy.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_sy/gdFsIsTrayOpenG.json`
 - case 45
@@ -40672,6 +41785,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 146
 - the cases run 47 of 47 instructions
 
+### gdFsReadW (`0C14E2EC`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsReadW.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 105
+- case 75
+- case 71
+- case 123
+- case 99
+- case 92
+- case 85
+- case 122
+- case 83
+- case 72
+- case 150
+- case 115
+- case 156
+- case 112
+- case 89
+- case 117
+- case 56
+- case 65
+- the cases run 11 of 11 instructions
+
 ### gdFsReadWG (`0C14D294`, 62 bytes, `src/sg_gd.c`)
 - equivalent on 5 development and 5 holdout cases, in `tests/sg_gd/gdFsReadWG.json`
 - reopen fails
@@ -40743,6 +41896,46 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - rescue: empty case
 - directed: flips 0C15FE20 (taken)
 - the cases run 100 of 158 instructions
+
+### gdFsSetGlobalErr (`0C14E302`, 22 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/gdFsSetGlobalErr.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 97
+- case 113
+- case 159
+- case 126
+- case 52
+- case 48
+- case 55
+- case 66
+- case 144
+- case 136
+- case 105
+- case 69
+- case 129
+- case 153
+- case 68
+- case 73
+- case 59
+- case 53
+- the cases run 11 of 11 instructions
 
 ### gdFsSetGlobalErrG (`0C14D004`, 10 bytes, `src/sdk_c_2.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_c_2/gdFsSetGlobalErrG.json`
@@ -42693,6 +43886,11 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 48
 - case 118
 - the cases run 189 of 189 instructions
+
+### gdc_SpriteSetMode4 (`0C0308D4`, 64 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 0 holdout cases, in `tests/gen_atu/gdc_SpriteSetMode4.json`
+- case 4
+- the cases run 8 of 30 instructions
 
 ### gdc_StopStreamSongAll (`0C02E15A`, 8 bytes, `src/game_a.c`)
 - equivalent on 1 development and 4 holdout cases, in `tests/game_a/gdc_StopStreamSongAll.json`
@@ -62781,6 +63979,86 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 59
 - the cases run 4 of 4 instructions
 
+### nlIntrSetEventA40Function (`0C07B6C0`, 8 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/nlIntrSetEventA40Function.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 68
+- case 117
+- case 72
+- case 97
+- case 47
+- case 102
+- case 51
+- case 69
+- case 101
+- case 74
+- case 76
+- case 70
+- case 50
+- case 42
+- case 61
+- case 52
+- case 106
+- case 88
+- the cases run 4 of 4 instructions
+
+### nlIntrSetEventB00Function (`0C07B6D0`, 8 bytes, `src/gen_atu.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_atu/nlIntrSetEventB00Function.json`
+- case 0
+- case 1
+- case 2
+- case 3
+- case 4
+- case 5
+- case 6
+- case 7
+- case 8
+- case 9
+- case 10
+- case 11
+- case 12
+- case 13
+- case 14
+- case 15
+- case 16
+- case 17
+- case 59
+- case 60
+- case 114
+- case 64
+- case 112
+- case 66
+- case 55
+- case 47
+- case 96
+- case 70
+- case 40
+- case 41
+- case 58
+- case 79
+- case 51
+- case 103
+- case 90
+- case 45
+- the cases run 4 of 4 instructions
+
 ### nlIntrSetHSynchLine (`0C07B930`, 6 bytes, `src/gen_ars.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ars/nlIntrSetHSynchLine.json`
 - case 0
@@ -62860,6 +64138,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 4 of 4 instructions
+
+### nlIntrSetVectorFunction (`0C07B6E0`, 26 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlIntrSetVectorFunction.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 13 of 13 instructions
 
 ### nlInvLightVector (`0C07B220`, 50 bytes, `src/nlobjput.c`)
 - equivalent on 1 development and 1 holdout cases, in `tests/nlobjput/nlInvLightVector.json`
@@ -65879,6 +67163,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 62
 - the cases run 262 of 268 instructions
 
+### nlPerspective_L_0c079730 (`0C079730`, 422 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlPerspective_L_0c079730.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 172 of 199 instructions
+
 ### nlPopMatrix (`0C078200`, 64 bytes, `src/gen_atn.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_atn/nlPopMatrix.json`
 - case 15
@@ -66111,6 +67401,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - live RAM (Crazy Box 1-1, paused after go)
 - live RAM (Total Records screen)
 - the cases run 5 of 5 instructions
+
+### nlProjectScreen (`0C0798E0`, 126 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlProjectScreen.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 63 of 63 instructions
 
 ### nlProjectScreen3D (`0C079960`, 32 bytes, `src/sdk_b.c`)
 - equivalent on 3 development and 1 holdout cases, in `tests/sdk_b/nlProjectScreen3D.json`
@@ -66883,6 +68179,36 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - -1
 - the cases run 15 of 15 instructions
 
+### nlRotateRX_L (`0C078770`, 30 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlRotateRX_L.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 15 of 15 instructions
+
+### nlRotateRY (`0C078790`, 30 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlRotateRY.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 15 of 15 instructions
+
+### nlRotateRY_L (`0C0787B0`, 30 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlRotateRY_L.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 15 of 15 instructions
+
+### nlRotateRZ (`0C0787D0`, 30 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlRotateRZ.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 15 of 15 instructions
+
+### nlRotateRZ_L (`0C0787F0`, 30 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlRotateRZ_L.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 15 of 15 instructions
+
 ### nlRotateV (`0C078810`, 112 bytes, `src/gen_cv.c`)
 - equivalent on 19 development and 19 holdout cases, in `tests/gen_cv/nlRotateV.json`
 - case 0
@@ -67507,6 +68833,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 0
 - the cases run 3 of 3 instructions
 
+### nlSetDisplayConfig (`0C074B50`, 86 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlSetDisplayConfig.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 39 of 43 instructions
+
 ### nlSetDummyTextureParameter (`0C073FD0`, 28 bytes, `src/sdk_d.c`)
 - equivalent on 3 development and 2 holdout cases, in `tests/sdk_d/nlSetDummyTextureParameter.json`
 - mixed
@@ -67857,6 +69189,12 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - 1
 - -1
 - the cases run 3 of 3 instructions
+
+### nlSetPalette (`0C07E3A0`, 324 bytes, `src/gen_atu.c`)
+- equivalent on 1 development and 1 holdout cases, in `tests/gen_atu/nlSetPalette.json`
+- rescue: empty case
+- rescue: empty case
+- the cases run 45 of 148 instructions
 
 ### nlSetPaletteData (`0C0770F0`, 44 bytes, `src/gen_fp.c`)
 - equivalent on 3 development and 3 holdout cases, in `tests/gen_fp/nlSetPaletteData.json`
@@ -81115,88 +82453,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 35
 - the cases run 3 of 3 instructions
 
-### thunk_FUN_0c02a9ac (`0C02AB40`, 6 bytes, `src/gen_aro.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_aro/thunk_FUN_0c02a9ac.json`
-- case 0
-- case 2
-- case 4
-- case 6
-- case 8
-- case 10
-- case 12
-- case 14
-- case 16
-- case 18
-- case 20
-- case 22
-- case 24
-- case 26
-- case 28
-- case 30
-- case 32
-- case 34
-- case 1
-- case 3
-- case 5
-- case 7
-- case 9
-- case 11
-- case 13
-- case 15
-- case 17
-- case 19
-- case 21
-- case 23
-- case 25
-- case 27
-- case 29
-- case 31
-- case 33
-- case 35
-- the cases run 3 of 3 instructions
-
-### thunk_FUN_0c0409d2 (`0C05BBBE`, 6 bytes, `src/gen_e.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_e/thunk_FUN_0c0409d2.json`
-- case 0
-- case 2
-- case 4
-- case 6
-- case 8
-- case 10
-- case 12
-- case 14
-- case 16
-- case 18
-- case 20
-- case 22
-- case 24
-- case 26
-- case 28
-- case 30
-- case 32
-- case 34
-- case 1
-- case 3
-- case 5
-- case 7
-- case 9
-- case 11
-- case 13
-- case 15
-- case 17
-- case 19
-- case 21
-- case 23
-- case 25
-- case 27
-- case 29
-- case 31
-- case 33
-- case 35
-- the cases run 3 of 3 instructions
-
-### thunk_FUN_0c072fe8 (`0C0738B8`, 4 bytes, `src/gen_st.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_st/thunk_FUN_0c072fe8.json`
+### thunk_BigOneResetState (`0C0738B8`, 4 bytes, `src/gen_st.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_st/thunk_BigOneResetState.json`
 - case 0
 - case 2
 - case 4
@@ -81234,6 +82492,86 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 33
 - case 35
 - the cases run 2 of 2 instructions
+
+### thunk_MainLoop (`0C02AB40`, 6 bytes, `src/gen_aro.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_aro/thunk_MainLoop.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 3 of 3 instructions
+
+### thunk_callTryAgain (`0C05BBBE`, 6 bytes, `src/gen_e.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_e/thunk_callTryAgain.json`
+- case 0
+- case 2
+- case 4
+- case 6
+- case 8
+- case 10
+- case 12
+- case 14
+- case 16
+- case 18
+- case 20
+- case 22
+- case 24
+- case 26
+- case 28
+- case 30
+- case 32
+- case 34
+- case 1
+- case 3
+- case 5
+- case 7
+- case 9
+- case 11
+- case 13
+- case 15
+- case 17
+- case 19
+- case 21
+- case 23
+- case 25
+- case 27
+- case 29
+- case 31
+- case 33
+- case 35
+- the cases run 3 of 3 instructions
 
 ### thunk_kmSetFogTable (`0C0749D0`, 6 bytes, `src/gen_arr.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_arr/thunk_kmSetFogTable.json`
@@ -84084,7 +85422,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 72
 - case 77
 - directed: flips 0C164796 (not taken)
-- the cases run 107 of 156 instructions
+- the cases run 72 of 154 instructions
 
 ### vmsfs_xdefrag (`0C1660F4`, 384 bytes, `src/gen_ar.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_ar/vmsfs_xdefrag.json`

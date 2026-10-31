@@ -2,9 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int BigOneResetState(void);
-int thunk_FUN_0c072fe8(void);
+int thunk_BigOneResetState(void);
 
-int thunk_FUN_0c072fe8(void)
+int thunk_BigOneResetState(void)
 {
     return BigOneResetState();
 }

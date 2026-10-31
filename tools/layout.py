@@ -40,6 +40,14 @@ def region(name, required=False):
     return r
 
 
+def moving(a):
+    """True for an address of the code the build replaces: inside `game` and not inside `keep` (a kept block stays at its address
+    with its functions, as the original bytes: their entries are not rewritten and their C is not compiled)."""
+    g = region('game', True)
+    k = region('keep')
+    return g[0] <= a < g[1] and not (k and k[0] <= a < k[1])
+
+
 def mirror(a):
     """The address in the 0C mirror of the same RAM: layout.txt and the build tools work in 0C, a game linked at 8C (the cached mirror)
     lists its functions as 8c in functions.txt."""

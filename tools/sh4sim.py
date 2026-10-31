@@ -178,6 +178,7 @@ class CPU:
         self.t = self.s = self.q = self.mq = 0
         self.srx = 0x40000000         # SR's other bits (MD = 1, interrupt mask 0): read by stc sr, written by ldc sr
         self.gbr = self.mach = self.macl = self.pr = self.pc = 0
+        self.spc = self.ssr = 0       # rte returns to SPC and loads SR from SSR (run() sets them to the return address and the entry SR)
         self.vbr = 0
         self.fpul = 0
         self.fr = [0] * 16        # float32 bits, current bank
@@ -214,8 +215,10 @@ class CPU:
         return self.srx | (self.mq << 9) | (self.q << 8) | (self.s << 1) | self.t
 
     def set_sr(self, x):
-        if (x ^ self.srx) & 0x30000000:
-            raise Stop('ldc sr changes the register bank or the block bit (not modelled)')
+        if (x ^ self.srx) & 0x20000000:                 # RB: a second bank of r0-r7 the simulator does not have
+            raise Stop('ldc sr changes the register bank (not modelled)')
+        # BL (bit 28, block exceptions) is kept as a bit: there are no exceptions or interrupts here to block, and stc sr reads it back
+        # (Virtua Tennis FUN_8c0f8100 sets it around the interrupt setup)
         self.t, self.s, self.q, self.mq = x & 1, (x >> 1) & 1, (x >> 8) & 1, (x >> 9) & 1
         self.srx = x & 0xFFFFFCFC
 
@@ -250,6 +253,13 @@ class CPU:
                 return
             if op == 0x000b:                                              # rts
                 return branch_slot(self.pr, 'rts')
+            if op == 0x002b:                                              # rte: the delay slot runs, SR = SSR, the return goes to SPC
+                if in_slot:                                               # (an exception handler: SPC and SSR start as the run's return
+                    raise Stop('branch in a delay slot at %08X' % pc)     # address and SR, so rte ends the run like rts and gives SR back)
+                self.step(in_slot=True)
+                self.set_sr(self.ssr)
+                self.go(self.spc, 'rts', pc)
+                return True
             if op == 0x0008: self.t = 0; return
             if op == 0x0018: self.t = 1; return
             if op == 0x0028: self.mach = self.macl = 0; return
@@ -669,6 +679,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
         else:
             cpu.r[int(k[1:])] = int(v, 16) & M32
     cpu.pr = SENTINEL
+    cpu.spc, cpu.ssr = SENTINEL, cpu.sr()
     if case.get('gbr'):                          # the global base register the function's @(disp,gbr) accesses use
         cpu.gbr = int(case['gbr'], 16) & M32
     cpu.pc = entry

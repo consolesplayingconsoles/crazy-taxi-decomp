@@ -158,6 +158,15 @@ written down (what differs) for later; move on.
   label is exactly what the compiler calls and a C unit links without `symbols.txt` entries for
   them. If one is still `FUN_...`, rename it.
 
+## Building from C (step 8)
+Dropped arguments: a pass-through trampoline (a few bytes that jump on to another function, r4-r7
+untouched) whose C predates the generator's count of pass-through arguments is `(void)` in C, and
+`tools/equiv.py` compares its callers on that, so a call that drops the arguments still passes and the
+callee reads leftovers on the console. Before the first build, list the trampolines whose C takes fewer
+integer arguments than `state/arity_scan.json` gives for the original, regenerate them and their callers
+(`python3 tools/5-generated/gen_equiv --regen <name> ...`), and fix by hand (`/* manual: */`) a caller
+that still passes fewer than the original sets before its `jsr` (delay slot included).
+
 ## Changing the game
 The boot block is not free space. The entry stub copies the start of the executable elsewhere and
 runs it there (seen on a game linked at `0x0C010000`: `0x0C010100-0x0C014000` to `0x0C004000`),

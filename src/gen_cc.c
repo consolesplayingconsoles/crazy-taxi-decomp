@@ -48,7 +48,7 @@ int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSize(float, float);
 int putString(int, int, float, float, float);
-int thunk_FUN_0c0409d2(void);
+int thunk_callTryAgain(void);
 void kmiPurgeCache(int a4);
 void nlCalcVector(int a4, int a5);
 int mwRnaFinish(void);

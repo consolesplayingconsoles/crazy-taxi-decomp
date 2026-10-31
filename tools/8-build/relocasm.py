@@ -30,10 +30,18 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import boundaries as B
 import shdis
+import shift
 
 import layout  # noqa: E402
 
 G0, G1 = layout.region('game', True)                  # the game's own code (layout.txt)
+LINK_TOP = int(open('BASE').read().strip(), 16) & 0xE0000000      # the mirror the game is linked in (8C for Virtua Tennis)
+
+
+def top_of(v):
+    """What a pointer word adds to the symbol of its target, which is linked in the game's own mirror: nothing in that mirror (an 8C
+    pointer in a game at 8C is _name; v - target gave _name+H'80000000, which wrapped to 0C)."""
+    return ((v & 0xE0000000) - LINK_TOP) & 0xFFFFFFFF
 CHECK = False
 
 
@@ -54,7 +62,7 @@ def moved_names():
     F = functions()
     out = []
     for i, (a, s, n) in enumerate(F):
-        if G0 <= a < G1 and n not in eq:
+        if layout.moving(a) and n not in eq:
             out.append(n)
     return out
 
@@ -141,6 +149,17 @@ def _r0_loaded_once(x, nxt):
     return False
 
 
+FAR = 3072          # a bsr/bra to a C function farther than this in the original gets the far form
+_MOVED = []
+
+
+def _moved():
+    """The game functions without C (asm pieces): they keep the original's sizes, so a bsr between two of them still reaches."""
+    if not _MOVED:
+        _MOVED.append(set(moved_names()))
+    return _MOVED[0]
+
+
 def piece(i, F, entry, rename=None, extra=()):
     """rename: export the piece under another name (a second copy of a function that has C); extra: addresses inside it that also
     get an exported label _ent_<address> (a place other code jumps to, in the middle)."""
@@ -160,6 +179,7 @@ def piece(i, F, entry, rename=None, extra=()):
     poolsize = {}        # address of a pool word inside the piece -> 4 or 2
     redirected = set()   # instructions whose bytes differ from the original on purpose
     lines = {}           # address -> list of asm lines
+    far = {}             # address of a bsr/bra written in the far form -> (register, target, JSR or JMP)
     # pass 1: instructions
     for x in sorted(seen):
         w = B.word(x)
@@ -171,10 +191,20 @@ def piece(i, F, entry, rename=None, extra=()):
             if target is None:
                 return None, 'branch without a target at %08x' % x
             if a <= target < nxt and target in seen:
-                labels[target] = 'L_%08x' % target
-                op = labels[target]
+                op = labels.setdefault(target, 'L_%08x' % target)     # one name per address: a pool word can also be a mova target
             elif target in entry:
                 op = '_' + entry[target]
+                if m in ('bsr', 'bra') and abs(target - x) > FAR and entry[target] not in _moved():
+                    # a call or tail jump to a C function that was already near the 4 KB reach: the C comes out bigger than the original,
+                    # so the layout can leave it out of reach (Virtua Tennis: 4 calls 4,116-4,888 bytes away). Far form: the address in a
+                    # word beside it, the call through a scratch register the delay slot does not use (r0-r3 are not arguments). It is
+                    # 12 bytes longer whatever its address, so the pool words after it keep their 4-byte alignment (no .ALIGN).
+                    ds = shdis.decode(B.word(x + 2), x + 2)[0] or ''
+                    rn = next(r for r in ('R1', 'R2', 'R3', 'R0') if not re.search(r'\b%s\b' % r, ds.upper()))
+                    far[x] = (rn, op, 'JSR' if m == 'bsr' else 'JMP')
+                    lines[x] = []
+                    redirected.add(x)
+                    continue
             else:
                 return None, 'branch at %08x into the middle of another function (%08x)' % (x, target)
             lines[x] = ['          %-10s %s' % (m.upper(), op)]
@@ -182,7 +212,7 @@ def piece(i, F, entry, rename=None, extra=()):
             size_ = 4 if m.startswith('mov.l') else 2
             rn = text.rsplit(',', 1)[1]
             if a <= pool and pool + size_ <= nxt and pool not in seen and pool + 1 not in seen:
-                labels[pool] = 'P_%08x' % pool                      # its own pool word: stays where it is
+                labels.setdefault(pool, 'P_%08x' % pool)            # its own pool word: stays where it is
                 poolsize[pool] = size_
                 lines[x] = ['          %-10s %s,%s' % (m.upper(), labels[pool], rn.upper())]
             else:                                                   # a word in another function's pool: a copy of its own
@@ -195,7 +225,7 @@ def piece(i, F, entry, rename=None, extra=()):
             mm = re.search(r'0x([0-9a-f]+)', text)
             tab = int(mm.group(1), 16) if mm else None
             if tab is not None and a <= tab < nxt:
-                labels[tab] = 'L_%08x' % tab
+                labels.setdefault(tab, 'L_%08x' % tab)
                 lines[x] = ['          MOVA       %s,R0' % labels[tab]]
             else:
                 # a word in another function's pool, read through r0 (@r0): this piece keeps its own copy
@@ -209,6 +239,14 @@ def piece(i, F, entry, rename=None, extra=()):
                 redirected.add(x)
         else:
             lines[x] = ['          ' + re.sub(r'^(\S+)\s+', lambda mm: '%-10s ' % mm.group(1).upper(), text).upper().replace('0X', 'H\'') if False else '          ' + _upper(text)]
+    for x, (rn, op, call) in far.items():            # now that the delay slot's own line exists
+        if x % 4 == 0:                                 # the literal at x+8: aligned; the delay slot stays at x+2, after the call
+            lines[x] = ['          MOV.L      LF_%08x,%s' % (x, rn), '          BRA        LG_%08x' % x, '          NOP', '          NOP',
+                        'LF_%08x: .DATA.L    %s' % (x, op), 'LG_%08x: %s        @%s' % (x, call, rn)]
+        else:                                          # x+2 mod 4: the delay slot moves in, the literal at x+10 is aligned
+            lines[x] = (['          MOV.L      LF_%08x,%s' % (x, rn), '          %s        @%s' % (call, rn)] + lines[x + 2] +
+                        ['          BRA        LG_%08x' % x, '          NOP', 'LF_%08x: .DATA.L    %s' % (x, op), 'LG_%08x: NOP' % x])
+            lines[x + 2] = []
     for x in extra:
         if x not in seen:
             return None, 'no instruction at %08x' % x
@@ -235,10 +273,10 @@ def piece(i, F, entry, rename=None, extra=()):
         if (poolsize.get(x) == 4 or isptr) and v is not None and x + 2 not in covered and x + 2 not in labels:
             tgt = (v & 0x1FFFFFFF) | 0x0C000000
             if isptr:
-                top = v - tgt
+                top = top_of(v)
                 out.append('          .DATA.L    _%s%s' % (entry[tgt], ('+H\'%X' % top) if top else ''))
-            else:
-                out.append('          .DATA.L    H\'%08X' % v)
+            else:                                       # an address the shifted layout moves takes its new value (shift.py)
+                out.append('          .DATA.L    H\'%08X' % (shift.literal(v) if shift.literal(v) is not None else v))
             x += 4
             continue
         out.append('          .DATA.W    H\'%04X' % B.word(x))
@@ -251,11 +289,12 @@ def piece(i, F, entry, rename=None, extra=()):
         for (size_, val), lab in sorted(pools.items(), key=lambda kv: (-kv[0][0], kv[1])):
             if size_ == 4:
                 tgt = (val & 0x1FFFFFFF) | 0x0C000000
-                top = (val & 0xFFFFFFFF) - tgt
+                top = top_of(val & 0xFFFFFFFF)
                 if tgt in entry and (val >> 24) in (0x0C, 0x8C, 0xAC):
                     tail.append('%s:  .DATA.L    _%s%s' % (lab, entry[tgt], ('+H\'%X' % top) if top else ''))
                 else:
-                    tail.append('%s:  .DATA.L    H\'%08X' % (lab, val & 0xFFFFFFFF))
+                    nv = shift.literal(val & 0xFFFFFFFF)
+                    tail.append('%s:  .DATA.L    H\'%08X' % (lab, nv if nv is not None else val & 0xFFFFFFFF))
             else:
                 tail.append('%s:  .DATA.W    H\'%04X' % (lab, val & 0xFFFF))
     # a piece that falls through into the next function must keep its tail: flagged by reach (no rts) -> 'off'

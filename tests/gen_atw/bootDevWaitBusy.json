@@ -1,0 +1,41 @@
+{
+ "dev": [
+  {
+   "about": "flag bit set at once",
+   "poke": {
+    "0C00F728": "0000400C",
+    "0C400008": "40"
+   }
+  },
+  {
+   "about": "flag bit clear for all 9999 polls",
+   "poke": {
+    "0C00F728": "0000400C",
+    "0C400008": "00"
+   }
+  },
+  {
+   "about": "other bits set, flag bit clear",
+   "poke": {
+    "0C00F728": "0000400C",
+    "0C400008": "BF"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "all bits set",
+   "poke": {
+    "0C00F728": "0000500C",
+    "0C500008": "FF"
+   }
+  },
+  {
+   "about": "only a low bit set",
+   "poke": {
+    "0C00F728": "0000600C",
+    "0C600008": "01"
+   }
+  }
+ ]
+}
