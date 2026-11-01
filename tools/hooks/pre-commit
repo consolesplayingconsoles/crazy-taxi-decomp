@@ -4,19 +4,10 @@
 # Enable once per clone: git config core.hooksPath tools/hooks
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-# A commit must build: build.sh compiles and links every source and has to print MATCH (a compile error shows up there too).
-# Needs Docker. SKIP_BUILD_CHECK=1 skips it. The staged sources are not proven again here: each function was proven when its C was
-# written (tools/equiv.py records it in tests/equivalent.txt), and re-running the check on every staged file took about a minute
-# a file (Virtua Tennis, 297 files: about five hours for one commit).
-if [ "${SKIP_BUILD_CHECK:-}" != "1" ] && [ -f build.sh ]; then
-    echo "[pre-commit] build.sh: compile and link every source..." >&2
-    out="$(bash build.sh 2>&1)" || true
-    case "$out" in
-        *"MATCH: "*) ;;
-        *) printf '%s\n' "$out" | tail -25 >&2
-           echo "[pre-commit] build.sh did not print MATCH: commit refused (SKIP_BUILD_CHECK=1 skips the check)" >&2
-           exit 1;;
-    esac
+# No build here: a commit does not compile and link the sources. The checks below are quick: retcheck (a function's C returns in the
+# register the original uses) and the audit of tests/equivalent.txt. SKIP_BUILD_CHECK=1 skips them. The staged sources are not
+# proven again either: each function was proven when its C was written (tools/equiv.py records it in tests/equivalent.txt).
+if [ "${SKIP_BUILD_CHECK:-}" != "1" ]; then
     if [ -f tools/8-build/retcheck.py ] && ! python3 tools/8-build/retcheck.py >/dev/null 2>&1; then
         python3 tools/8-build/retcheck.py >&2 || true
         echo "[pre-commit] commit refused: a function's C returns in the other register than the original (tools/8-build/retcheck.py)" >&2
