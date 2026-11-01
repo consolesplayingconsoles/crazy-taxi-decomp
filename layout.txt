@@ -1,5 +1,8 @@
 # The executable's layout for the tools (tools/layout.py): <name> <start hex> [<end hex>]
-game    0C020080 0C0739C0    # the game's own code: what the build from C replaces
+game    0C020080 0C14AB88    # the game's own code (0C020080-0C0739C0, what the build from C replaces) up to the Katana SDK libraries at 0C14AB88, which stay as the original bytes
 fill    0C014000 0C020000    # 0xFFFD fill in the file before it: the build may use it (0C010100-0C014000 is cleared at run time)
+keep    0C0739C0 0C14AB88    # the NAOMI library and C runtime (0C0739C0-0C089F26) and ~770 KB of game data after the game's own code: they stay as they are, the words in them that point at moved game code are followed
 code    0C020000 0C089F26    # entry stub, game code, NAOMI library and runtime: the cases may not write there
-spare   0C5D0000             # unused RAM (docs/engine.md, RAM map): test builds only
+shift   00010000 0C5D0000    # the shifted layout (tools/8-build/shift.py): the kept block, the SDK, the BSS, the replay, SPLDCn and POLDC0 buffers (up to 0C5D0000) move up by 0x10000 into the 64 KB that was unused (docs/engine.md, RAM map), so the C gets 64 KB more room. Not further: COLDCn (0CB40000) holds absolute pointers to its own load address
+fixed   0C5E0000             # the first address a movable build may not move
+bss     0C5D0000             # the end of what moves with the image (the BSS, the heaps, the buffers that move); up to fixed is room it may grow into

@@ -72,7 +72,7 @@ def reach(start, stop_at=None):
             if m in ('bt', 'bf'):
                 if target is not None:
                     if target < start:                 # a conditional branch out of the start backwards: no function does that
-                        flags.add('back')              # (Crazy Taxi data_0c089f4c, a table of words whose first word decodes as bt)
+                        flags.add('back')              # (Crazy Taxi FUN_0c089f4c, a table of words whose first word decodes as bt)
                     else:
                         todo.append(target)
                 a += 2
@@ -109,6 +109,27 @@ def reach(start, stop_at=None):
                 continue
             a += 2
     return end, seen, flags
+
+
+def not_an_entry(a, size):
+    """Why code at a, reached by its own branches up to size bytes, is a piece of a function that starts earlier, or None (the three
+    wrong Virtua Tennis entries of 2026-10-31): an undecodable word before its first branch (8c0886cc, the low half of a pointer word
+    read as add #-12,r15), a register popped it never pushed (8c0b5cca pops the pr its fileLoad wrapper pushed), a register read before
+    anything writes it, outside the arguments (8c0d2b02 reads r2, set by the mov.l just before it). The last two are classify.py's rules."""
+    import classify
+    x = a
+    while x < a + size:
+        text = shdis.decode(word(x), x)[0]
+        if not text or text.startswith('.'):
+            return 'no instruction at %08x: data' % x
+        if text.split()[0] in ('bt', 'bf', 'bt/s', 'bf/s', 'bra', 'braf', 'jmp', 'jsr', 'bsr', 'bsrf', 'rts', 'rte'):
+            break
+        x += 2
+    if 16 in classify.pops_unsaved(BIN, BASE, a, size):     # pr only: r8-r14 popped unpushed was also seen in proven functions
+        return 'pops pr, which it never pushed'             # (Virtua Tennis FUN_8c07f038, Crazy Taxi bootSelectDevice)
+    if classify.entry_input(BIN, BASE, a, size):
+        return 'reads a register before anything writes it (not an argument)'
+    return None
 
 
 def name_given(n):
@@ -157,6 +178,10 @@ def main(argv):
             continue
         if size < 4:
             rows.append((a, 'too small', '', ''))
+            continue
+        why = None if name else not_an_entry(a, size)     # a candidate given a name keeps it: hand-written asm has its own conventions
+        if why:
+            rows.append((a, 'not a function', holder[2] if holder else '-', why + ': the function starts earlier'))
             continue
         note = 'jump table: size is the straight-line part' if 'table' in flags else ''
         plan.append((a, size, name or 'FUN_%08x' % a))

@@ -138,8 +138,15 @@ for n, a, s in todo:
         at = buf.find(b[:8], at + 1)
 for n, (s, f, o) in found.items():
     out.append((n, s, f, o))
+# an earlier run may have been given other SDK directories: its lines stay while their function is still open (Virtua Tennis lost
+# _quick_evn_mvn, setjmp and two more, found in sh4plfzz.lib and sh4nlfzz.lib, when a later run was given the NAOMI and r10.1 trees only)
+open_names = set(n for n, a, s in todo)
+this_run = set(o[0] for o in out) | set(relaxed_found)
+kept = [l for l in (open('sdk-identical.txt').read().splitlines() if os.path.exists('sdk-identical.txt') else [])
+        if l.strip() and not l.startswith('#') and l.split()[0] in open_names and l.split()[0] not in this_run]
 open('sdk-identical.txt', 'w').write('# functions whose bytes are verbatim in the SDK\'s compiled library code (tools/1-2-baseline/sdk_identical.py): name size file offset\n'
                                      + ''.join('%s %d %s %d\n' % o for o in out)
-                                     + ''.join('%s %d %s %d relaxed\n' % ((n,) + v) for n, v in sorted(relaxed_found.items())))
+                                     + ''.join('%s %d %s %d relaxed\n' % ((n,) + v) for n, v in sorted(relaxed_found.items()))
+                                     + ''.join(l + '\n' for l in kept))
 print('%d of %d open functions (24 bytes or more) are the SDK library\'s own code: %d bytes (sdk-identical.txt); %d more after the linker\'s relaxation (%d bytes)'
       % (len(out), len(todo), sum(o[1] for o in out), len(relaxed_found), sum(v[0] for v in relaxed_found.values())))

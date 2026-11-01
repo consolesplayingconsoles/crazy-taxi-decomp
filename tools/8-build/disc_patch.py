@@ -78,7 +78,17 @@ def fix_sector(s):
     return bytes(s)
 
 
-def grow(gdi, path, data):
+def _relocate(gdi, path, data):
+    """The same file, the same bytes, in the lowest free run: makes room where it was."""
+    grow(gdi, path, data, force_move=True)
+
+
+def _named(disc):
+    """[(lba, sectors, path)] of every file on the disc."""
+    return [(l, (z + 2047) // 2048, n) for l, z, n in disc.files()]
+
+
+def grow(gdi, path, data, force_move=False):
     """Move a file that no longer fits into free sectors and repoint its directory record."""
     need = (len(data) + 2047) // 2048
     disc = gdi_read.Disc(gdi)
@@ -138,7 +148,7 @@ def grow(gdi, path, data):
     # grows in place)
     others = [(ul, un) for ul, un in used if ul != old_lba]
     t0 = track_of(old_lba)
-    if old_lba + need <= t0["lba"] + t0["count"] and not any(ul < old_lba + need and ul + un > old_lba for ul, un in others):
+    if not force_move and old_lba + need <= t0["lba"] + t0["count"] and not any(ul < old_lba + need and ul + un > old_lba for ul, un in others):
         for k in range(need):
             write_sector(old_lba + k, data[k * 2048:(k + 1) * 2048])
         sec = bytearray(disc.sector(rec_lba))
@@ -152,6 +162,43 @@ def grow(gdi, path, data):
         print("  grew %s in place: %d -> %d bytes at lba %d, directory entry updated, read back identical"
               % (path, old_size, len(data), old_lba))
         return
+
+    # the boot file may not move (Virtua Tennis: moved to lba 45100 the boot ROM never starts it, whatever its content: tests of
+    # 2026-10-30 and 2026-11-01): when it is the last file and the room after it is short, the files just before it make room: each
+    # is moved into the free run (a file the game opens by name; its place is nobody's concern) and the boot file grows downward
+    # over the sectors it leaves, staying the last file, at a high lba, as the original
+    if path.strip("/").upper() == "1ST_READ.BIN" and not force_move:
+        room = t0["lba"] + t0["count"] - old_lba
+        before = sorted((ul, un, nm) for ul, un, nm in _named(disc) if ul + un <= old_lba and nm.upper() != "/1ST_READ.BIN")
+        movers = []
+        while room < need and before:
+            ul, un, nm = before.pop()
+            if ul + un != (old_lba if not movers else movers[-1][0]):
+                break                                                   # a gap: the files are not contiguous below it
+            movers.append((ul, un, nm))
+            room += un
+        if room >= need and movers:
+            for ul, un, nm in movers:
+                moved = disc.read(ul, [z for l, z, n in disc.files() if n == nm][0])
+                print("  %s (%d sectors) makes room for the boot file:" % (nm, un))
+                _relocate(gdi, nm, moved)                           # the same bytes, in the free run
+            new_lba = movers[-1][0]
+            disc = gdi_read.Disc(gdi)
+            for k in range(need):
+                write_sector(new_lba + k, data[k * 2048:(k + 1) * 2048])
+            sec = bytearray(disc.sector(rec_lba))
+            struct.pack_into("<I", sec, rec_off + 2, new_lba)
+            struct.pack_into(">I", sec, rec_off + 6, new_lba)
+            struct.pack_into("<I", sec, rec_off + 10, len(data))
+            struct.pack_into(">I", sec, rec_off + 14, len(data))
+            write_sector(rec_lba, bytes(sec))
+            disc = gdi_read.Disc(gdi)
+            hit = [f for f in disc.files() if f[2].upper() == "/1ST_READ.BIN"]
+            if not (hit and hit[0][0] == new_lba and hit[0][1] == len(data) and disc.read(new_lba, len(data)) == data):
+                raise SystemExit("[ERROR] %s: read-back after growing downward differs" % path)
+            print("  grew %s downward: %d -> %d bytes, lba %d -> %d (still the last file), directory entry updated, read back identical"
+                  % (path, old_size, len(data), old_lba, new_lba))
+            return
 
     # lowest free run of `need` sectors in a data track, past the volume descriptors
     want = None

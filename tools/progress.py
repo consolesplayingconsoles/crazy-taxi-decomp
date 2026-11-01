@@ -3,7 +3,8 @@
 
   Buckets, each game function in one: done (equivalent C: behaves like the original, by
   tools/equiv.py into tests/equivalent.txt; matching C, rebuilt byte for byte, is part of it),
-  named only (a label, not done work), unnamed. A name never counts as done.
+  named only (a label, not done work), unnamed (FUN_<address> or thunk_FUN_<address>). A name never counts as done, and a
+  missing name never counts against it: a proven FUN_ function is done.
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
   documented   functions that a docs/*.md file mentions by name
   with partial C   done plus the functions with C in partial/*.c that is not proven equivalent yet: its own row, done stays apart
@@ -55,12 +56,17 @@ name_at = {a: n for a, sz, n in funcs}
 def is_lib(a):
     return a in sdk_funcs or any(s <= a < e for s, e in ranges)
 
+def nameless(n):
+    """FUN_<address> or thunk_FUN_<address>: no name yet."""
+    return re.match(r'(thunk_)*FUN_[0-9A-Fa-f]+$', n) is not None
+
+
 def stats(sel):
     fs = [x for x in funcs if sel(x[0])]
     code = sum(sz for a, sz, n in fs)
     cb = sum(sz for a, sz, n in fs if in_c(a))
     cf = sum(1 for a, sz, n in fs if in_c(a))
-    nm = [x for x in fs if not x[2].startswith('FUN_')]
+    nm = [x for x in fs if not nameless(x[2])]
     nb = sum(sz for a, sz, n in nm)
     dc = sum(1 for a, sz, n in nm if n in words)
     eq = [x for x in fs if in_c(x[0]) or x[2] in equivalent or x[2] in verified]
@@ -79,8 +85,8 @@ def pct(a, b):
 g = stats(lambda a: True)
 k = stats(is_lib)
 is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in verified
-named_only = sum(1 for x in funcs if not is_done(x) and not x[2].startswith('FUN_'))
-unnamed = sum(1 for x in funcs if not is_done(x) and x[2].startswith('FUN_'))
+named_only = sum(1 for x in funcs if not is_done(x) and not nameless(x[2]))
+unnamed = sum(1 for x in funcs if not is_done(x) and nameless(x[2]))
 # partial C: functions with C written in partial/*.c that is not proven equivalent yet. Its own row (the total with them),
 # done stays apart; the row exists only when partial/ holds some C
 partial = set()
@@ -96,8 +102,8 @@ _exe = open('1ST_READ.BIN', 'rb').read()
 _base = int(open('BASE').read().strip(), 16)
 nocform = set(x[2] for x in funcs if not (in_c(x[0]) or x[2] in equivalent or x[2] in verified)
               and classify.no_c_form(_exe, _base, x[0], x[1]))
-named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and not x[2].startswith('FUN_'))   # each function in one bucket
-unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2].startswith('FUN_'))
+named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and not nameless(x[2]))   # each function in one bucket
+unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and nameless(x[2]))
 doable = g[0] - len(nocform)                       # what can be C: the functions with no C form are not part of the equivalent C measure
 doable_bytes = g[1] - sum(x[1] for x in funcs if x[2] in nocform)
 def med(v):
@@ -134,7 +140,7 @@ try:
             state_rows.append(('  ' + _m.group(1), _m.group(2), '%s bytes' % _m.group(3)))
 except Exception:
     state_rows = []
-unnamed_all = sum(1 for x in funcs if x[2].startswith('FUN_'))              # every function still called FUN_..., done or not
+unnamed_all = sum(1 for x in funcs if nameless(x[2]))              # every function still called FUN_..., done or not
 rows = [
     ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that can be C; the %d functions that reached the check are measured, the others count 0' % (doable, _nfn)),
     ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),

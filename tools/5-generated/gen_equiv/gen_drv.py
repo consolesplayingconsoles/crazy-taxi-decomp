@@ -91,6 +91,13 @@ def build(name,ret,passthru=False):
             return 'return %s;'%f
         return 'return 0;' if e=='None' else 'return %s;'%e
     text=re.sub(r'@@RET:(.*?)@\|@(.*?)@@',retfix,text)
+    # the caller's stack words by the names the parameters give them, once the body is whole (the return line included): a8.. become
+    # s.w[] where the words came in as one structure, s.w[] go back to a8.. where they are plain parameters (Virtua Tennis FUN_8c07fd10
+    # declared a4..a10 and read s.w[0]; a function returning *(float *)&a8 declared Stk3 s): either way it did not compile
+    if any(p_.startswith('Stk') for p_ in params):
+        text=re.sub(r'\ba(\d+)\b',lambda m:'s.w[%d]'%(int(m.group(1))-8) if int(m.group(1))>=8 else m.group(0),text)
+    else:
+        text=re.sub(r'\bs\.w\[(\d+)\]',lambda m:('(&a8)[%d]'%int(m.group(1))) if 'int a9' not in params and int(m.group(1)) else 'a%d'%(8+int(m.group(1))),text)
     if ret=='void': text=re.sub(r'\n?return;\Z','',text)
     # prune dead assignments of pure values (phi leftovers)
     def prune(text,decls):
@@ -177,7 +184,7 @@ def register_locals(text):
     11,220 bytes as written, 5,972 with it; entryGridDrawCursors 7,180 to 5,636). The notes had `register` as no help for matching the
     original's bytes, which it is not; for size it is. A name whose address is taken, an array and a pointer are left as they are
     (an array's brackets and a pointer's star do not match)."""
-    taken=set(re.findall(r'&\s*(\w+)',text))
+    taken=set(re.findall(r'&\s*\(?\s*(\w+)',text))       # &t6 and &(t6) (Virtua Tennis FUN_8c0e6620: *(float *)&(t45))
     return _LOCAL.sub(lambda m: m.group(0) if m.group(3) in taken or m.group(3) in ('NEXT_',) else '%sregister %s %s;'%(m.group(1),m.group(2),m.group(3)),text)
 _ASSIGN=re.compile(r'^\s*([tu]\d+) = (.+);$')
 _IDENT=re.compile(r'\b[A-Za-z_]\w*\b')

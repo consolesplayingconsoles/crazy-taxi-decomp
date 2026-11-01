@@ -48,13 +48,32 @@ def _listed():
     if _code is None:
         F = layout.functions()
         pools = set()
-        for a, s, n in F:
-            for k in range(0, s, 2):
-                if a + k + 2 > B.BASE + len(B.BIN):
+        top = B.BASE + len(B.BIN)
+        for i, (a, s, n) in enumerate(F):
+            nxt = F[i + 1][0] if i + 1 < len(F) else top
+            at = list(range(a, a + s, 2))
+            try:                                  # and the code its own branches reach past its listed size, up to the next entry:
+                at += sorted(B.reach(a, stop_at=nxt)[1])     # a listing can end early (Crazy Taxi nlSysSetDirectListTypeLatency2V
+            except Exception:                                # loads its pool from past its listed bytes: 178 such words were read as code)
+                pass
+            x = a + s                             # and the code straight after the listed size, past a jump through a register (which
+            while x + 2 <= min(nxt, top):         # reach does not follow), while it decodes as instructions or is a pool word found
+                if x in pools or x - 2 in pools:  # already; the first undecodable word ends it, so a long stretch of data after a short
+                    x += 2; continue              # entry is not read as loads (Crazy Taxi charPartModelList, 80 listed bytes and
+                t = B.shdis.decode(B.word(x), x)[0]   # 8 KB of data after: its "loads" would have moved bra/sts instruction pairs)
+                if not t or t.startswith('.'):
                     break
-                w = B.word(a + k)
+                at.append(x)
+                w = B.word(x)
+                if w >> 12 == 0xD:
+                    pools.add(((x + 4) & ~3) + 4 * (w & 0xFF))
+                x += 2
+            for x in at:
+                if x + 2 > top:
+                    continue
+                w = B.word(x)
                 if w >> 12 == 0xD or w >> 8 == 0xC7:             # mov.l @(disp,pc),Rn / mova @(disp,pc),r0
-                    pools.add(((a + k + 4) & ~3) + 4 * (w & 0xFF))
+                    pools.add(((x + 4) & ~3) + 4 * (w & 0xFF))
         _code = ([a for a, s, n in F], [a + s for a, s, n in F], pools)
     return _code
 
@@ -64,6 +83,11 @@ def _byte_like(x):
         return False, 0
     w = struct.unpack_from('<I', B.BIN, x - B.BASE)[0]
     return all(((w >> s) & 0xFF) < 0x40 for s in (0, 8, 16, 24)), w
+
+
+def _points_in(v):
+    """v is an address (0C, 8C or AC on top) in the moved range."""
+    return (v >> 24) in TOPS and S <= ((v & 0x1FFFFFFF) | 0x0C000000) < E
 
 
 def word(v, at):
@@ -83,8 +107,11 @@ def word(v, at):
             bl, _ = _byte_like(at)
             lb, lw = _byte_like(at - 4)
             rb, rw = _byte_like(at + 4)
-            if bl and ((lb and lw) or (rb and rw)):
-                return None                                     # a byte table
+            # a word next to another address into the moved range is one of a table of pointers, small bytes or not (Crazy Taxi's
+            # data at 0C09xxxx: 272 pointers were taken for byte tables and left unmoved); otherwise a neighbour of small bytes
+            # makes it a byte table (Virtua Tennis 07070808 | 0b0b0c0c)
+            if bl and v & 1 and not (_points_in(lw) or _points_in(rw)) and ((lb and lw) or (rb and rw)):
+                return None                                     # a byte table (an odd value: a pointer to the game's data is even)
         _taken[at] = v
     return (v + D) & 0xFFFFFFFF
 
