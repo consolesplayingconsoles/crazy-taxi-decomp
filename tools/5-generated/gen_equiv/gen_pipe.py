@@ -18,7 +18,12 @@ def variants(name,passthru):
     try:
         import retcheck
         reg = retcheck.returns_in(*gen_core.SPANS[name])
-        if reg in out and out[0] != reg:
+        if reg and reg not in out:
+            # the original's code returns in that register although the reader saw no value on some path (a load, a leftover it could
+            # not follow): the C is still checked on it, so a `void` cannot pass while the callers read a result (Virtua Tennis: 99 void
+            # functions returning outcodes, status words and colours passed every case, and retcheck then refused the build)
+            out.insert(0, reg)
+        elif reg in out and out[0] != reg:
             out.remove(reg); out.insert(0, reg)
     except Exception:
         pass

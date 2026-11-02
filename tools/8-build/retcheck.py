@@ -61,7 +61,22 @@ def returns_in(a, size):
     for i, t in enumerate(ins):
         if not t.startswith('rts'):
             continue
-        window = ins[max(0, i - 6):i] + (ins[i + 1:i + 2])
+        # the window runs back to the previous call (plus its delay slot), not a fixed six: an epilogue longer than that hid the
+        # `jsr @r3; mov #12,r0` of a struct copy, and the size argument in the delay slot was taken for a result (Virtua Tennis
+        # bodyLinePerp, padLcdLine3D, motFileRequest: callers read a leftover, and the three were reported as returning in r0)
+        # ... and it stops where the fall-through path into this rts cannot have come from: a literal-pool word, an unconditional transfer
+        # (bra, jmp, rts: its delay slot is the first instruction of the window) or a bank switch (frchg/fschg: what was loaded into fr0
+        # is the other bank's). Walking past those voted on code that is not on the path (Virtua Tennis shotCheckNet, the nlLoadMatrix family)
+        lo = i
+        while lo > 0 and i - lo < 40:
+            p = ins[lo - 1].split(' ')[0]
+            if p.startswith('.word'):
+                break
+            if p in CALLS or p in STOPS:
+                lo += 1                                 # its delay slot, taken in a step ago, belongs to it: a call's argument, or the other path's
+                break
+            lo -= 1
+        window = ins[lo:i] + (ins[i + 1:i + 2])
         vote = None
         for k in range(len(window) - 1, -1, -1):
             tt = window[k]
@@ -79,6 +94,7 @@ def returns_in(a, size):
     return votes.pop() if len(votes) == 1 else None
 
 
+STOPS = ('bra', 'jmp', 'rts', 'rte', 'frchg', 'fschg')      # the window of a return never crosses these (see returns_in)
 CACHE = 'build/retcheck.json'
 STATS = {'read': 0, 'cached': 0}
 
@@ -119,6 +135,15 @@ def returns_cached(d, name, addr, size):
     return reg
 
 
+
+def used_value(n, text):
+    """Does this file use the value of a call to n: a call that is not a bare statement (assigned, compared, returned, passed)."""
+    for m in re.finditer(r'\b%s\s*\(' % re.escape(n), text):
+        line = text[text.rfind('\n', 0, m.start()) + 1:m.start()]
+        if line.strip():
+            return True
+    return False
+
 def scan(srcdir='src'):
     """(definitions, callers): [(name, declared type, file, original register)] for definitions whose type names the other
     register; [(name, declared type, file, lines)] for files that declare a function with a type of the other register than its
@@ -135,7 +160,18 @@ def scan(srcdir='src'):
             decl.setdefault(m.group(3), {})[f] = m.group(1) + m.group(2)
     bad, callers = [], []
     for n, (rt, f) in sorted(defn.items()):
-        if n not in F or rt == 'void':
+        if n not in F:
+            continue
+        if rt == 'void':
+            # a void definition whose original leaves a result in r0 or fr0 is wrong only when a caller reads that result: a caller
+            # that declares it with a value type and uses the value (an assignment, a condition, an argument). Nobody reading it, it
+            # is left alone: generated code often stores a leftover (Virtua Tennis: screenOutcodeMargin, screenOutcode, ambLevelGet
+            # and nlSpriteF2C returned outcodes and a colour that their callers read as leftovers, and passed every case)
+            if not any(ct != 'void' and used_value(n, text[cf]) for cf, ct in decl.get(n, {}).items() if cf != f):
+                continue
+            reg = returns_cached(cache, n, *F[n])
+            if reg:
+                bad.append((n, rt, f, reg))
             continue
         reg = returns_cached(cache, n, *F[n])
         if reg and reg != cls(rt.rstrip('*'), rt[len(rt.rstrip('*')):]):
