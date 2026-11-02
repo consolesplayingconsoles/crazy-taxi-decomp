@@ -66,6 +66,8 @@ FLAGS = ('-cpu=sh4 -endian=little -fpu=single -division=cpu -round=nearest -pic=
          '-optimize=1 -size -string=const -section=p=P,c=C,d=D,b=B -include=src')
 
 
+STACK_CAP = 16        # stack words of a call that the check compares (SHC passes a struct or the arguments past the fourth there); a cap of 4 left words 5+ unchecked
+
 def names():
     out = {}
     for path, a_col, n_col in (('functions.txt', 1, 3), ('globals.txt', 0, 1), ('symbols.txt', 0, 1)):
@@ -296,7 +298,7 @@ def stack_args(cfile):
     for m in re.finditer(r'^(?:extern\s+|static\s+)?[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{)]*)\)\s*[;{]', text, flags=re.M):
         if '...' in m.group(2):
             continue
-        out[m.group(1)] = min(param_kinds(m.group(2), structs)[2], 4)
+        out[m.group(1)] = min(param_kinds(m.group(2), structs)[2], STACK_CAP)
     return out
 
 
@@ -383,7 +385,7 @@ def compared_arity(cfile, table):
         if key is None:
             continue
         if sw:                                # the stack words the callee reads are compared whatever the caller's file declares
-            stackn[key] = max(stackn.get(key, 0), min(sw, 4))
+            stackn[key] = max(stackn.get(key, 0), min(sw, STACK_CAP))
         a = arity.get(key)
         if a is None or len(a) <= 2:          # the definition says which registers the callee reads: the others are leftovers, whatever the
             arity[key] = (min(ni, 4), min(nf, 8))      # caller's file declares (more, or no prototype: Virtua Tennis effFootDust -> vecSub(Stk5),
@@ -391,7 +393,7 @@ def compared_arity(cfile, table):
         if len(a) > 2:                        # a variadic prototype in the caller's file: the definition says what the callee takes,
             ui, uf, usw = used_definitions().get(n, (ni, nf, sw))      # counting only the parameters its body reads (a printf-style
             arity[key] = (min(ui, 4), min(uf, 8))                      # function reads its stack word and none of r4-r7)
-            stackn[key] = max(stackn.get(key, 0), min(usw, 4)) if usw else stackn.get(key, 0)
+            stackn[key] = max(stackn.get(key, 0), min(usw, STACK_CAP)) if usw else stackn.get(key, 0)
     return arity, stackn
 
 

@@ -146,6 +146,10 @@ class Memory:
         if a == 0x1FD8000C:
             self.hw_reads += 1
             return (0xFFFFFFFF - self.hw_reads * 0x400) & 0xFFFFFFFF
+        if a == 0x005F8000:                  # PVR2 core ID: the SDK start-up (kmyInitializeHardware) tells the core type by it, and spins in a trap on any other
+            return 0x17FD11DB
+        if a == 0x005F8004:                  # PVR2 revision of a retail console (a value of 17 or more is core type 6 in the SDK)
+            return 0x00000011
         return 0
 
     def write(self, addr, size, value):
@@ -743,9 +747,9 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                       'chg': [(i in given_args and not after_call) or (c.r[i] != entry_args[i - 4] and c.r[i] != post_args[i - 4]) for i in range(4, 8)],
                       'fchg': [(i in given_fargs and not after_call) or (c.fr[i] != entry_fargs[i - 4] and c.fr[i] != post_fargs[i - 4]) for i in range(4, 12)],
                       'stack': '%08X' % mem.read(c.r[15] & M32, 4, True),
-                      'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(4)],
+                      'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(16)],
                       # which of those words this function stored since its last call: the others are leftovers, not arguments
-                      'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(4)],
+                      'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(16)],
                       'bufs': frame_bufs(c)})
         mem.body_written.clear()
         mem.stack_written.clear()   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
