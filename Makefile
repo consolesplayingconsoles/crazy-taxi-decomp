@@ -2,7 +2,7 @@
 #
 #   make setup GDI="your disc.gdi"   read your disc and split the executable (once)
 #   make                             rebuild 1ST_READ.BIN from asm/ and check it matches the original
-#   make c                           build the executable from the C (build/mbuild/game.bin)
+#   make c                           build the executable from the C on the movable split (build/mbuild/game.bin)
 #   make disc GDI="your disc.gdi"    the same, plus a copy of your disc with it (build/disc-cbuild/)
 #   make progress                    where the decomp stands
 

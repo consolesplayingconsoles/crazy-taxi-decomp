@@ -149,6 +149,21 @@ def hole_text(text, label, start, word):
     return data_copy(text, label, start, word).replace(label + '__d', label + '__h')
 
 
+def hole_pieces(gstart, npieces, dropped, fill_pieces):
+    """The pieces the C replaces that must stay as bytes: in a group (pieces that move together), every replaced piece between the first
+    and the last kept one (not the filler). A kept piece reads literal-pool words only forward (pc-relative loads have no negative
+    distance) and the original compiler put them anywhere after the code, often inside the next function: kept code on both sides of a
+    replaced piece reads across it. Pieces before the first kept one and after the last need no hole; a group with no kept piece has none."""
+    out = set()
+    for g_, st_ in enumerate(gstart):
+        last = (gstart[g_ + 1] if g_ + 1 < len(gstart) else npieces) - 1
+        kept = [k for k in range(st_, last + 1) if k not in dropped]
+        for k in range(min(kept, default=0), max(kept, default=-1) + 1):
+            if k in dropped and k not in fill_pieces:
+                out.add(k)
+    return out
+
+
 def veneers(text, own, tag, only=None, start=0):
     """A running copy whose bsr/bra leave its group: each goes to a veneer after the piece that jumps to the target through r0,
     so it reaches wherever the link puts the target (a bsr reaches 4 KB: a copy lands far from the C functions it calls). pr is
@@ -464,12 +479,7 @@ def main():
     # one object of pieces that follow each other in the original (a group: nothing inside it moves), ALIGN=4 like the C,
     # padded in front so that it lands at its original address modulo 32 (pool loads read (pc + 4) & ~3; data may need its alignment)
     gset = set(gstart)
-    hole = {}                                  # replaced pieces inside a group between kept ones: their size
-    for g_, st_ in enumerate(gstart):
-        run_ = [k for k in range(st_, gstart[g_ + 1] if g_ + 1 < len(gstart) else len(P)) if k not in dropped]
-        for k in range(min(run_, default=0), max(run_, default=-1) + 1):
-            if k in dropped and k not in fill_pieces:
-                hole[k] = (starts[k + 1] if k + 1 < len(P) else end) - starts[k]
+    hole = {k: (starts[k + 1] if k + 1 < len(P) else end) - starts[k] for k in hole_pieces(gstart, len(P), dropped, fill_pieces)}   # replaced pieces inside a group between kept ones: their size
     items = []
 
     def asm(i, path, kind):

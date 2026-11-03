@@ -2,6 +2,7 @@
 """Behaviour check: does a C file's code do what the original does? Run in the repo.
 
     python3 tools/equiv.py src/<file>.c [function ...]
+    STACKFUZZ=<seed> python3 tools/equiv.py src/<file>.c [function ...]     the same cases with distinct nonzero words at the entry stack; nothing is recorded
 
 Compiles the file with the SDK's shc (same flags as build.sh), links it on its own at a scratch
 address with every outside name it uses defined at the game's address (functions.txt,
@@ -53,6 +54,7 @@ import glob
 import hashlib
 import json
 import os
+import random
 import re
 import struct
 import subprocess
@@ -657,6 +659,12 @@ def save_cache(cache):
     os.replace(tmp, PROOF_CACHE)
 
 
+def fuzz_words(seed, fn, n, count=24):
+    """The words STACKFUZZ puts at the entry SP for case n of fn: nonzero, a float in [1, 2) or [8, 16) or a small integer, the same for the same seed."""
+    rnd = random.Random('%s:%s:%d' % (seed, fn, n))
+    return [rnd.choice((0x3F800000 | rnd.randrange(1, 0x7FFFFF), 0x41000000 | rnd.randrange(0x7FFFFF), rnd.randrange(1, 200))) for _ in range(count)]
+
+
 def main(argv):
     global SHOW
     quiet = '-q' in argv
@@ -667,6 +675,9 @@ def main(argv):
         sys.exit(__doc__)
     cfile = argv[1]
     stem = os.path.splitext(os.path.basename(cfile))[0]
+    fuzz = os.environ.get('STACKFUZZ')        # a diagnostic run: the cases' own stack is zeros, where a C that reads its own frame for a word the caller pushed gives the same answer; here those words are not
+    if fuzz:
+        fresh = True
     table, funcs = names(), functions()
     defines, defined = outside_names(cfile, table)
     # the compiler's runtime helpers (_divls, _modls, _quick_evn_mvn...) are called by code it generates, not by name in
@@ -731,7 +742,14 @@ def main(argv):
             continue
         for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
+            if fuzz:
+                words = fuzz_words(fuzz, fn, n)
+                pk = dict(case.get('poke', {}))
+                pk['0DFFFF00'] = b''.join(w.to_bytes(4, 'little') for w in words).hex()
+                case['poke'] = pk
             orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc, stackfill=stackfill)
+            if fuzz and orig['error']:
+                continue                      # words the original takes for pointers can fault it: no verdict from such a case
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
             observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1
@@ -764,7 +782,7 @@ def main(argv):
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
             cache[key] = {'fn': fn, 'why': results[fn][1], 'covtext': covtext}
-    if any(ok for ok, _ in results.values()) and not stem.startswith('zz_'):
+    if any(ok for ok, _ in results.values()) and not (stem.startswith('zz_') or fuzz):
         fresh_cache = load_cache()          # another run may have added keys meanwhile
         fresh_cache.update(cache)
         save_cache(fresh_cache)
@@ -775,7 +793,7 @@ def main(argv):
         print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
             sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),
             sum(1 for ok, _ in results.values() if ok is None)))
-    if stem.startswith('zz_'):          # a scratch file (an experiment): its results are printed, never recorded
+    if stem.startswith('zz_') or fuzz:          # a scratch file (an experiment): its results are printed, never recorded
         return
     path = os.path.join('tests', 'equivalent.txt')
     have = set(open(path).read().split()) if os.path.exists(path) else set()

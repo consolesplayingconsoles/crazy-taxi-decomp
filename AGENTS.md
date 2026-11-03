@@ -165,7 +165,9 @@ untouched) whose C predates the generator's count of pass-through arguments is `
 callee reads leftovers on the console. Before the first build, list the trampolines whose C takes fewer
 integer arguments than `state/arity_scan.json` gives for the original, regenerate them and their callers
 (`python3 tools/5-generated/gen_equiv --regen <name> ...`), and fix by hand (`/* manual: */`) a caller
-that still passes fewer than the original sets before its `jsr` (delay slot included).
+that still passes fewer than the original sets before its `jsr` (delay slot included). An entry `"pass-through"` in the scan is
+a trampoline that jumps through a table (its target is read from memory): its arity is unknown, not zero, so list those too and
+check each caller against the registers the original sets before the call.
 
 ## Changing the game
 The boot block is not free space. The entry stub copies the start of the executable elsewhere and

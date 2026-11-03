@@ -99,7 +99,9 @@ def main(args):
             for pw in (None,1):       # a call answering through a pointer into the frame may overwrite the saved registers: fewer words then
                 rng=random.Random(zlib.crc32(name.encode())&0xffff)
                 cases,V,hot=draw_one(name,split_params(m.group(2)),body_of(src,m.end()),rng,pw)
-                chosen=gen_drv.pick(name,cases,36,V,rng,hot)
+                ps_=[x.strip() for x in m.group(2).split(',')]
+                gen_drv.NOSTACK[0]=not any(re.match(r'Stk\d+\b',x) or (re.match(r'int a(\d+)$',x) and int(re.match(r'int a(\d+)$',x).group(1))>=8) for x in ps_)      # a function that takes stack words reads above its frame
+                chosen=gen_drv.pick(name,gen_drv.hand_cases(name)+cases,36,V,rng,hot)      # cases-hand/<name>.json (tools/6-agentic/casesearch.py) join the draw
                 if len(chosen)>=4: break
         except ValueError as e:
             print('%-28s skipped: %s'%(name,e)); continue
