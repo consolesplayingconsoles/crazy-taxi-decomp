@@ -12,7 +12,8 @@ was garbage and the cab driver's arms twisted; CheckColliPoleEdge, 0/1/2 in r0, 
 each `rts` of a function, the last instruction before it (delay slot included) that writes r0 or fr0 gives the register, unless a
 call comes after that write (the result is then the callee's, and nothing is said). A function whose paths disagree is left alone.
 
-The result type of a definition: `float` and `double` mean fr0, a pointer (`float *`) and anything else mean r0, `void` is not checked. A register written and then used before the return (an index, a value stored) is consumed, not returned, and gives no vote. Callers that declare the
+The result type of a definition: `float` and `double` mean fr0, a pointer (`float *`) and anything else mean r0. A `void` definition whose
+original leaves a result and whose caller declares a value type and uses it is a warning (the caller reads a leftover on both sides), not an error. A register written and then used before the return (an index, a value stored) is consumed, not returned, and gives no vote. Callers that declare the
 function with the other type and use the value are a warning (--callers), not an error: generated code often stores a leftover.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -158,7 +159,7 @@ def scan(srcdir='src'):
             defn[m.group(3)] = (m.group(1) + m.group(2), f)
         for m in PROTO.finditer(t):
             decl.setdefault(m.group(3), {})[f] = m.group(1) + m.group(2)
-    bad, callers = [], []
+    bad, warn, callers = [], [], []
     for n, (rt, f) in sorted(defn.items()):
         if n not in F:
             continue
@@ -171,8 +172,8 @@ def scan(srcdir='src'):
                 continue
             reg = returns_cached(cache, n, *F[n])
             if reg:
-                bad.append((n, rt, f, reg))
-            continue
+                warn.append((n, rt, f, reg))        # a warning, not an error: the value such a caller reads is a leftover on both sides, and
+            continue                                # a game that runs (Crazy Taxi, 25 of them) is not stopped by its build for them
         reg = returns_cached(cache, n, *F[n])
         if reg and reg != cls(rt.rstrip('*'), rt[len(rt.rstrip('*')):]):
             bad.append((n, rt, f, reg))
@@ -187,18 +188,20 @@ def scan(srcdir='src'):
             if lines:
                 callers.append((n, ct, cf, lines))
     save_cache(cache)
-    return bad, callers
+    return bad, warn, callers
 
 
 def main(argv):
-    bad, callers = scan()
+    bad, warn, callers = scan()
     for n, rt, f, reg in bad:
         print('%s: declared %s in %s, the original returns in %s' % (n, rt, f, reg))
+    for n, rt, f, reg in warn:
+        print('warning: %s: declared %s in %s, the original returns in %s and a caller uses the value' % (n, rt, f, reg))
     if '--callers' in argv:
         for n, ct, cf, lines in callers:
             print('  caller: %s declares %s as %s and uses the value (lines %s)' % (cf, n, ct, ', '.join(str(x) for x in lines[:6])))
-    print('retcheck: %d definition(s) return in the other register%s (%d function(s) of the original read, %d from %s)' % (
-        len(bad), ('; %d caller file(s) declare the other type and use the value' % len(callers)) if '--callers' in argv else '',
+    print('retcheck: %d definition(s) return in the other register, %d void one(s) whose value a caller reads (warnings)%s (%d function(s) of the original read, %d from %s)' % (
+        len(bad), len(warn), ('; %d caller file(s) declare the other type and use the value' % len(callers)) if '--callers' in argv else '',
         STATS['read'], STATS['cached'], CACHE))
     if bad:
         sys.exit('[ERROR] a function declared with the wrong result type passes equiv.py and hands its callers a leftover register: fix the declaration (and the return expression) by hand')

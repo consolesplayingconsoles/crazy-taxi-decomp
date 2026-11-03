@@ -47,7 +47,7 @@ float carEngineTorque(float f4);
 float CalcHomingAngle(int a4);
 int nlRotateAxe(int a4, int a5);
 int fcvRotate(int a4);
-float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
+int getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 int Exec_FogColor(void);
 int PutNameEntryScreen(void);
 float ReflectColliWallBox(int a4, int a5, int a6, int a7);

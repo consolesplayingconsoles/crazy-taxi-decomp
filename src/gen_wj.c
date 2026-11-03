@@ -4,9 +4,9 @@
 int abs(int);
 int getShortRootPoint(int, int, int);
 float nlLength(int, int);
-float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
+int getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 
-float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
+int getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
 {
     int t0;
     float t2;
@@ -44,5 +44,5 @@ float getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
         *(float *)((a10 + 0x0)) = u20;
         u22 = u19;
     }
-    return u22;
+    return t0;
 }
