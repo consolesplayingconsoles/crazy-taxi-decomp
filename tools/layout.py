@@ -8,6 +8,9 @@
     code    code the test cases may not write to: the console runs it from ROM-like RAM nobody writes (optional;
             without it the cases may poke anywhere)
     spare   unused RAM for code that does not fit, for test builds only (optional; the build stops without it)
+    mixed   `mixed 1`: the movable build (mbuild.py) may copy a group that also holds pieces without C (a pointer into the middle of a
+            function that is now C), and calls a replaced function through its hole when a bsr could not reach it. Off (the old
+            behaviour, including the old error) when the line is missing. Zombie Revenge sets it; Crazy Taxi and Virtua Tennis do not.
 
 Crazy Taxi's, for example:
     game    0C020080 0C0739C0
@@ -46,6 +49,18 @@ def moving(a):
     g = region('game', True)
     k = region('keep')
     return g[0] <= a < g[1] and not (k and k[0] <= a < k[1])
+
+
+def bss_start(end):
+    """Where the BSS block starts: the image end rounded up to a word. An image that ends mid-word (Zombie Revenge, 10299711 bytes) would
+    give the linker an odd start. The same value for every image that ends on a word (Crazy Taxi, Virtua Tennis)."""
+    return (end + 3) & ~3
+
+
+def flag(name):
+    """True when layout.txt has a `<name> 1` line: a switch for a behaviour only the games that set it get (`mixed`, see mbuild.py)."""
+    r = region(name)
+    return bool(r and r[0])
 
 
 def mirror(a):

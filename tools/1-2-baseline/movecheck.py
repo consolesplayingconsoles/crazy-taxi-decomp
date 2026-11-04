@@ -57,7 +57,7 @@ def piece_starts(objects='objects.txt'):
     return out
 
 
-def groups(starts, listed, code, word, pools, end, stay=None, pool32=None):
+def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_ties=True):
     """Indexes of the pieces that start a group. starts: piece starts (sorted); listed: the starts that are listed functions;
     code: [(start, size)] of the listed functions; word(a): the halfword at a; pools: pool word addresses (not instructions);
     pool32(a): the signed 32-bit word at a (the distance a bsrf or braf takes from a pool); stay: pieces below it stay with the first one (the boot code and the entry stub before layout.txt's `game`: Crazy Taxi's
@@ -80,7 +80,7 @@ def groups(starts, listed, code, word, pools, end, stay=None, pool32=None):
                 t = ((x + 4) & ~3) + 4 * (w & 0xFF)
             elif w >> 12 == 0x9:
                 t = x + 4 + 2 * (w & 0xFF)
-            elif w >> 12 in (0xA, 0xB):
+            elif w >> 12 in (0xA, 0xB) and bsr_ties:      # (bsr_ties=False: a running copy leaves its group by veneer, mbuild ties it by pools only)
                 d = w & 0xFFF
                 d -= 0x1000 if d & 0x800 else 0
                 if abs(2 * d) > REACH:
@@ -232,7 +232,7 @@ def main(argv):
     bss = winpath(os.path.join(d, 'obj', 'bss.obj'))
 
     def sub(name, padded):
-        out = ['elf', 'start P(%s),B(%08X)' % (base_txt, ((end + (pad * (len(G) - 1) if padded else 0)) & 0x1FFFFFFF) | link_top),
+        out = ['elf', 'start P(%s),B(%08X)' % (base_txt, ((layout.bss_start(end) + (pad * (len(G) - 1) if padded else 0)) & 0x1FFFFFFF) | link_top),
                'output %s' % winpath(os.path.join(d, name + '.elf')), 'print %s' % winpath(os.path.join(d, name + '.map'))]
         for i, o in enumerate(inputs):
             if padded and i in gset:

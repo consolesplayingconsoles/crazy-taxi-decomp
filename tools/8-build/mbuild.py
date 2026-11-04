@@ -19,6 +19,14 @@ The steps, each logged with the time in build/mbuild/mbuild.log:
   link 2     the same, with each symbol defined where what it pointed at now is (a piece's label + offset, a C function, _bss +
              offset; the mirror kept): build/mbuild/game.bin
   check      no undefined name, no branch out of reach, and the image with its BSS ends below `fixed`
+
+layout.txt `mixed 1` (off without it: the behaviour of Crazy Taxi and Virtua Tennis, byte for byte, tests/mbuild and their game.bin):
+  - a pointer into the middle of a function that is now C whose group also holds pieces without C is a running copy of the group,
+    tied by pools and conditional branches only (a bsr out of it goes through a veneer), one block after the group's own pieces;
+  - a kept piece's conditional branch into a replaced piece goes to that piece's hole; its bsr/bra goes there too when the hole holds
+    a trampoline to the C function (mov.l pool,r0 / jmp @r0 / nop over its first 12 bytes) or is too short for one and runs its own
+    bytes (proven equal to the C): a bsr reaches 4 KB, the C lands elsewhere, and a long group cannot take a veneer in the middle;
+  - the veneers of a branch near the start of a long unit go before the unit.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
@@ -206,6 +214,100 @@ def veneers(text, own, tag, only=None, start=0):
     return '\n'.join(out), vsrc
 
 
+def lnk_hex(v):
+    """A value for the linker's `define`: a number that starts with a letter (AC210C5A) is read as a symbol, so it gets a leading 0.
+    Unchanged for every address that starts with a digit (0C.., 8C..)."""
+    return ('0' if (v >> 28) > 9 else '') + '%08X' % v
+
+
+def split_routes(offsets, before_ok):
+    """(early, late): the byte offsets of a unit's out-of-reach branches, the ones near its start (under 2000) apart when before_ok. Their
+    veneers go before the unit, where a backward bsr reaches them, not after a unit longer than a bsr reaches. Without before_ok, all late."""
+    early = sorted(o for o in offsets if before_ok and o < 2000)
+    late = sorted(o for o in offsets if not (before_ok and o < 2000))
+    return early, late
+
+
+def cond_ties(code, word, pools, end, lo, group_of):
+    """{(group, group)}: the pairs of groups a conditional branch (bt, bf, bt/s, bf/s: 8-bit reach, no veneer can hold it) joins. code:
+    [(start, size)] of the listed functions; pools: pool word addresses; group_of(a): the group of an address."""
+    ties = set()
+    for fa, fs_ in code:
+        for x in range(fa, min(fa + fs_, end), 2):
+            if x in pools or x - 2 in pools:
+                continue
+            w = word(x)
+            if w >> 8 in (0x89, 0x8B, 0x8D, 0x8F):
+                d = (w & 0xFF) - (0x100 if w & 0x80 else 0)
+                t = x + 4 + 2 * d
+                if lo <= t < end:
+                    ga, gb = group_of(x), group_of(t)
+                    if ga != gb:
+                        ties.add((min(ga, gb), max(ga, gb)))
+    return ties
+
+
+def copy_extent(g, ties):
+    """(lo, hi): the groups a running copy of group g takes in: a conditional branch out of the copy takes the group it lands in, and the
+    groups between, so they stay beside each other (it reaches 256 bytes). Without ties, just g."""
+    lo = hi = g
+    grew = True
+    while grew:
+        grew = False
+        for ga, gb in ties:
+            if (lo <= ga <= hi or lo <= gb <= hi) and (ga < lo or gb > hi):
+                lo, hi = min(lo, ga), max(hi, gb)
+                grew = True
+    return lo, hi
+
+
+def tramp_text(text, label, start, size, pools):
+    """(text, done): the hole of a replaced function with a trampoline over its first instructions (12 bytes, 14 when it starts 2 mod 4 so
+    the pool word is aligned): mov.l pool,r0 / jmp @r0 / nop, to the C function. A kept piece's bsr reaches the hole, which sits where the
+    function was, and the trampoline goes on to the C wherever it landed; nothing moves. Not written (text unchanged, False) when the
+    function is shorter or its first words are pool words a neighbour reads. (r0 is no argument in the C calling convention: the same
+    as the veneers.)"""
+    n = 12 if start % 4 == 0 else 14
+    if size < n or any(x in pools or x - 2 in pools for x in range(start, start + n, 2)):
+        return text, False
+    lines = text.split('\n')
+    k = next((j for j, l in enumerate(lines) if l.strip() == label + '__h:'), None)
+    if k is None:
+        return text, False
+    body = lines[k + 1:k + 1 + n // 2]
+    if len(body) < n // 2 or any(not b.strip().startswith('.DATA.W') for b in body):
+        return text, False
+    tr = ['          MOV.L       LT%s,R0' % label[1:], '          JMP         @R0', '          NOP'] \
+        + ["          .DATA.W     H'0009"] * (1 if n == 12 else 2) + ['LT%s:' % label[1:], '          .DATA.L     %s' % label]
+    lines[k + 1:k + 1 + n // 2] = tr
+    e = next(j for j, l in enumerate(lines) if '.EXPORT' in l)
+    lines.insert(e, '          .IMPORT     %s' % label)
+    return '\n'.join(lines), True
+
+
+CALLB = re.compile(r"(\s+)(BSR|BRA)(\s+)(_\w+)\s*$")
+CONDB = re.compile(r"(\s+)(BT|BF|BT/S|BF/S)(\s+)(_\w+)((?:\+H'[0-9A-F]+)*)\s*$")
+
+
+def retarget_branches(lines, hole_labels, call_labels):
+    """(lines, hit): a kept piece's branches into pieces the C replaced, aimed at the piece's hole (where it was) instead of the C function
+    (which lands elsewhere): a conditional branch (8-bit reach, no veneer can hold it) into any hole, a bsr/bra into a hole whose label is
+    in call_labels (it holds a trampoline to the C, or is too short for one and runs its own proven bytes). hit: the hole labels now used."""
+    lines = list(lines)
+    hit = set()
+    for n_, l in enumerate(lines):
+        m = CONDB.match(l)
+        if m and m.group(4) in hole_labels:
+            lines[n_] = '%s%s%s%s__h%s' % (m.group(1), m.group(2), m.group(3), m.group(4), m.group(5))
+            hit.add(m.group(4) + '__h')
+            continue
+        m = CALLB.match(l)
+        if m and m.group(4) in call_labels:
+            lines[n_] = '%s%s%s%s__h' % (m.group(1), m.group(2), m.group(3), m.group(4))
+            hit.add(m.group(4) + '__h')
+    return lines, hit
+
+
 def bss_pad(end, start):
     """Bytes to put in front of the BSS block so that `_bss` lands at the original image end modulo 32. Every object keeps its offset
     from `_bss`, so the whole block then keeps its alignment: the DMA buffers (Maple, TA, AICA, the file system's work area) were 32-byte
@@ -343,6 +445,8 @@ def main():
     base_txt = open('BASE').read().strip()
     link_top = int(base_txt, 16) & 0xE0000000
     end = B.BASE + len(B.BIN)
+    bend = layout.bss_start(end)                         # the BSS block starts word aligned (an image that ends mid-word)
+    MIXED = layout.flag('mixed')                         # layout.txt `mixed 1`: groups with pieces the C does not replace may be copied and called through holes
     fixed = layout.region('fixed', True)[0]
     bss_end = (layout.region('bss') or (fixed,))[0]
     P = [(s, '_' + re.match(r'[0-9a-f]{8}_(.+)\.src$', f).group(1), f) for s, f in movecheck.piece_starts()]
@@ -401,11 +505,21 @@ def main():
     G = movecheck.groups(starts, listed, [(a, s) for a, s, n in F], B.word, pools, end, stay=game[0] if game else None,
                          pool32=lambda a: struct.unpack_from('<i', B.BIN, a - B.BASE)[0])
     gstart = sorted(G)
+    if MIXED:          # a copy may hold pieces without C: it is tied by pools only (a bsr out of it goes through a veneer), plus the conditional branches
+        gstart_c = sorted(movecheck.groups(starts, listed, [(a, s) for a, s, n in F], B.word, pools, end, stay=game[0] if game else None,
+                                           pool32=lambda a: struct.unpack_from('<i', B.BIN, a - B.BASE)[0], bsr_ties=False))
+        gix_c = lambda i: bisect.bisect_right(gstart_c, i) - 1
+        ties = cond_ties([(a, s) for a, s, n in F], B.word, pools, end, starts[0], lambda a: gix_c(piece(a)))
+    else:
+        gstart_c, ties = gstart, set()
+    gset_c = set(gstart_c)
+    copy_join = set()                      # group starts that are not a unit boundary inside a copy
     second = {}
     for j in run_need:                     # a copy that runs: its whole group, branches as names, labels _name__2
-        g = bisect.bisect_right(gstart, j) - 1
-        run = range(gstart[g], gstart[g + 1] if g + 1 < len(gstart) else len(P))
-        if any(k not in dropped for k in run):
+        lo_g, hi_g = copy_extent(bisect.bisect_right(gstart_c, j) - 1, ties)
+        copy_join |= {gstart_c[g_] for g_ in range(lo_g + 1, hi_g + 1)}
+        run = range(gstart_c[lo_g], gstart_c[hi_g + 1] if hi_g + 1 < len(gstart_c) else len(P))
+        if not MIXED and any(k not in dropped for k in run):
             say('[ERROR] a pointer into %s needs a running copy of its group, which also holds pieces without C' % P[j][2])
             sys.exit(1)
         for k in run:
@@ -464,11 +578,16 @@ def main():
     for a, n in sorted(cfun.items()):
         first.setdefault(gs[n], piece(a))
     group_end = {}                            # a running copy is one block: what would land inside it goes after its last piece
-    for g in range(len(gstart)):
-        run = range(gstart[g], gstart[g + 1] if g + 1 < len(gstart) else len(P))
+    g = 0
+    while g < len(gstart_c):
+        h = g
+        while h + 1 < len(gstart_c) and gstart_c[h + 1] in copy_join:         # groups a conditional branch joined in a copy are one block
+            h += 1
+        run = range(gstart_c[g], gstart_c[h + 1] if h + 1 < len(gstart_c) else len(P))
         if any(second.get(k) == '__2' for k in run):
             for k in run:
                 group_end[k] = run[-1]
+        g = h + 1
     at_piece = {}
     for stem, i in first.items():
         at_piece.setdefault(group_end.get(i, i), []).append(stem)
@@ -484,31 +603,81 @@ def main():
 
     def asm(i, path, kind):
         last = items[-1] if items else None
-        if kind != 'd' and last and last[0] == 'a' and last[3] == kind and last[1][-1][0] == i - 1 and i not in gset:
+        bound = gset_c if kind == '2' else gset
+        if kind != 'd' and last and last[0] == 'a' and last[3] == kind and last[1][-1][0] == i - 1 and (i not in bound or i in copy_join):
             last[1].append((i, path))
         else:
             items.append(['a', [(i, path)], starts[i], kind])
-    for i, (s, label, f) in enumerate(P):
-        if i not in group_end:
-            items += [['c', stem] for stem in at_piece.get(i, [])]
-        if i in copies:
-            asm(i, '%s/asm/%s' % (OUT, copies[i]), '2' if second[i] == '__2' else 'd')
-        if i in group_end and group_end[i] == i:             # the end of a running copy: its veneers, then the C that waited
-            items += [['v', '%s/asm/%s' % (OUT, vf)] for vf in after.get(i, [])]
-            items += [['c', stem] for stem in at_piece.get(i, [])]
-        if i in dropped:
-            if i in hole:                                     # C replaces it, but kept code on both sides reads pools across it
-                hp = '%s/asm/hole_%s' % (OUT, P[i][2])
-                src_ = '%s/asm/%s' % (SYM, f)
-                open(hp, 'w').write(hole_text(open(src_ if os.path.exists(src_) else 'asm/' + f).read(), label, s, B.word))
-                asm(i, hp, 'k')
-            continue
-        if i in repoint:
-            asm(i, '%s/asm/r_%s' % (OUT, f), 'k')
-        elif open('%s/asm/%s' % (SYM, f)).read() != open('asm/' + f).read():
-            asm(i, '%s/asm/%s' % (SYM, f), 'k')
-        else:
-            asm(i, 'asm/' + f, 'k')
+    if not MIXED:
+        for i, (s, label, f) in enumerate(P):
+            if i not in group_end:
+                items += [['c', stem] for stem in at_piece.get(i, [])]
+            if i in copies:
+                asm(i, '%s/asm/%s' % (OUT, copies[i]), '2' if second[i] == '__2' else 'd')
+            if i in group_end and group_end[i] == i:             # the end of a running copy: its veneers, then the C that waited
+                items += [['v', '%s/asm/%s' % (OUT, vf)] for vf in after.get(i, [])]
+                items += [['c', stem] for stem in at_piece.get(i, [])]
+            if i in dropped:
+                if i in hole:                                     # C replaces it, but kept code on both sides reads pools across it
+                    hp = '%s/asm/hole_%s' % (OUT, P[i][2])
+                    src_ = '%s/asm/%s' % (SYM, f)
+                    open(hp, 'w').write(hole_text(open(src_ if os.path.exists(src_) else 'asm/' + f).read(), label, s, B.word))
+                    asm(i, hp, 'k')
+                continue
+            if i in repoint:
+                asm(i, '%s/asm/r_%s' % (OUT, f), 'k')
+            elif open('%s/asm/%s' % (SYM, f)).read() != open('asm/' + f).read():
+                asm(i, '%s/asm/%s' % (SYM, f), 'k')
+            else:
+                asm(i, 'asm/' + f, 'k')
+    else:
+        hole_labels = {P[k][1] for k in hole}
+        hole_files, call_labels = {}, set()           # holes, and the ones a bsr/bra may be aimed at (a trampoline to the C, or too short for one)
+        for k in sorted(hole):
+            hp = '%s/asm/hole_%s' % (OUT, P[k][2])
+            src_ = '%s/asm/%s' % (SYM, P[k][2])
+            txt = hole_text(open(src_ if os.path.exists(src_) else 'asm/' + P[k][2]).read(), P[k][1], P[k][0], B.word)
+            if layout.mirror(P[k][0]) in cfun:
+                size_ = (starts[k + 1] if k + 1 < len(P) else end) - starts[k]
+                txt, ok = tramp_text(txt, P[k][1], P[k][0], size_, pools)
+                if ok or size_ < 12:                      # too short for a trampoline: a call runs the hole's own bytes (proven equal to the C)
+                    call_labels.add(P[k][1])
+            open(hp, 'w').write(txt)
+            hole_files[k] = hp
+        say('holes: %d, %d of them can be called (a trampoline to the C, or too short for one)' % (len(hole_files), len(call_labels)))
+
+        def to_hole(path, name):
+            lines, hit = retarget_branches(open(path).read().split('\n'), hole_labels, call_labels)
+            if not hit:
+                return path
+            out_ = '%s/asm/bt_%s' % (OUT, name)
+            lines[1:1] = ['          .IMPORT     %s' % x for x in sorted(hit)]
+            open(out_, 'w').write('\n'.join(lines))
+            return out_
+        pending = []                                  # a running copy waits for its group's last piece: the copy is one block after the group's own pieces
+        for i, (s, label, f) in enumerate(P):
+            if i not in group_end:
+                items += [['c', stem] for stem in at_piece.get(i, [])]
+            if i in copies:
+                if second[i] == '__2':
+                    pending.append((i, '%s/asm/%s' % (OUT, copies[i])))
+                else:
+                    asm(i, '%s/asm/%s' % (OUT, copies[i]), 'd')
+            if i in dropped:
+                if i in hole:                             # C replaces it, but kept code on both sides reads pools across it
+                    asm(i, hole_files[i], 'k')
+            elif i in repoint:
+                asm(i, to_hole('%s/asm/r_%s' % (OUT, f), f), 'k')
+            elif open('%s/asm/%s' % (SYM, f)).read() != open('asm/' + f).read():
+                asm(i, to_hole('%s/asm/%s' % (SYM, f), f), 'k')
+            else:
+                asm(i, 'asm/' + f, 'k')
+            if i in group_end and group_end[i] == i:         # the end of a running copy: the copy, its veneers, then the C that waited
+                for j, pth in pending:
+                    asm(j, pth, '2')
+                pending = []
+                items += [['v', '%s/asm/%s' % (OUT, vf)] for vf in after.get(i, [])]
+                items += [['c', stem] for stem in at_piece.get(i, [])]
     extra = sorted(set(stems_all) - set(first))     # C that no piece of the original stands for (a mod's own files): linked after the game
     items += [['c', stem] for stem in extra]
     if extra:
@@ -520,12 +689,13 @@ def main():
 
     unit_routes = {}                           # unit index -> body offsets of the branches a link found out of reach: veneered
     unit_veneer = {}                           # unit index -> its veneer source (the object follows the unit in the link)
+    unit_veneer_pre = {}                       # unit index -> the veneers for the branches near its start (`mixed`: the object comes before the unit)
 
     bss_obj = '%s/obj/bsspad.obj' % OUT            # the BSS block with its own front pad (bss_pad): written and assembled here
 
     def write_bss(pad):
         src_ = '%s/asm/bsspad.src' % OUT
-        open(src_, 'w').write(bss_text(end, bss_end, pad))
+        open(src_, 'w').write(bss_text(bend, bss_end, pad))
         assemble([(src_, bss_obj)])
 
     def write_units(pads):
@@ -537,14 +707,28 @@ def main():
             t = unit_source([p for _, p in u[1]], pads[k])
             outs = [(path, t)]
             if unit_routes.get(k):
+                front = (u[2] & 0x1FFFFFFF) >= ((game[0] if game else B.BASE) & 0x1FFFFFFF)       # never ahead of the boot block: it stays where it is
+                early, late = split_routes(unit_routes[k], MIXED and front)
                 try:
-                    t, vsrc = veneers(t, set(), '_u%05d' % k, only={pads[k] + off for off in unit_routes[k]})
+                    vsrc_e = vsrc_l = None
+                    if early:
+                        t, vsrc_e = veneers(t, set(), '_u%05dp' % k, only={pads[k] + off for off in early})
+                    if late:
+                        t, vsrc_l = veneers(t, set(), '_u%05d' % k, only={pads[k] + off for off in late})
                 except ValueError as e:
                     say('[ERROR] unit u%05d: %s' % (k, e))
                     sys.exit(1)
-                vpath = '%s/asm/v_u%05d.src' % (OUT, k)
-                outs = [(path, t), (vpath, vsrc)]
-                unit_veneer[k] = vpath
+                outs = [(path, t)]
+                unit_veneer.pop(k, None)
+                unit_veneer_pre.pop(k, None)
+                if vsrc_e:
+                    vpath = '%s/asm/vp_u%05d.src' % (OUT, k)
+                    outs.append((vpath, vsrc_e))
+                    unit_veneer_pre[k] = vpath
+                if vsrc_l:
+                    vpath = '%s/asm/v_u%05d.src' % (OUT, k)
+                    outs.append((vpath, vsrc_l))
+                    unit_veneer[k] = vpath
             for path_, t_ in outs:
                 o = path_.replace('/asm/', '/obj/')[:-4] + '.obj'
                 if not os.path.exists(path_) or open(path_).read() != t_ or not os.path.exists(o) or os.path.getsize(o) == 0:
@@ -575,6 +759,8 @@ def main():
             elif it[0] == 'v':
                 out.append((it, it[1].replace('/asm/', '/obj/')[:-4] + '.obj'))
             else:
+                if k in unit_veneer_pre:
+                    out.append((['v', unit_veneer_pre[k]], unit_veneer_pre[k].replace('/asm/', '/obj/')[:-4] + '.obj'))
                 out.append((it, '%s/obj/u%05d.obj' % (OUT, k)))
                 if k in unit_veneer:
                     out.append((['v', unit_veneer[k]], unit_veneer[k].replace('/asm/', '/obj/')[:-4] + '.obj'))
@@ -593,7 +779,7 @@ def main():
     def link(tag, defs, soft=False):
         sub = ['elf', 'start P,C,D,B(%s)' % base_txt, 'output %s' % winpath('%s/%s.elf' % (OUT, tag)), 'print %s' % winpath('%s/%s.map' % (OUT, tag))]
         sub += ['input %s' % winpath(o) for _, o in objects()]
-        sub += ['define %s(%08X)' % (n, v) for n, v in sorted(defs.items())] + ['exit']
+        sub += ['define %s(%s)' % (n, lnk_hex(v)) for n, v in sorted(defs.items())] + ['exit']
         open('%s/%s.sub' % (OUT, tag), 'w').write('\n'.join(sub) + '\n')
         for x in ('.elf', '.map', '.bin'):
             if os.path.exists('%s/%s%s' % (OUT, tag, x)):
@@ -664,20 +850,20 @@ def main():
         sum(1 for p in pads if p), sum(pads), len(jobs)))
     settle('link1', names, pads)
     syms = map_symbols(OUT + '/link1.map')
-    pad_b = bss_pad(end, syms['_bss']) if '_bss' in syms else 0
+    pad_b = bss_pad(bend, syms['_bss']) if '_bss' in syms else 0
     if pad_b:                                   # the BSS block starts where the linker left off: move _bss to the original end modulo 32
         write_bss(pad_b)
         settle('link1', names, pads)
         syms = map_symbols(OUT + '/link1.map')
-    if '_bss' in syms and (syms['_bss'] - end) % 32:
-        say('[ERROR] _bss is at %08X, not at the original image end %08X modulo 32' % (syms['_bss'], end))
+    if '_bss' in syms and (syms['_bss'] - bend) % 32:
+        say('[ERROR] _bss is at %08X, not at the original image end %08X modulo 32' % (syms['_bss'], bend))
         sys.exit(1)
     say('bss: _bss at %08X, %d bytes of pad in front: the BSS keeps its original alignment modulo 32' % (syms.get('_bss', 0), pad_b))
-    off = [u[2] for u in units if ((syms.get(P[u[1][0][0]][1] + (second[u[1][0][0]] if u[3] != 'k' else ''), u[2]) - u[2]) % 32)]
+    off = [u[2] for u in units if ((syms.get(P[u[1][0][0]][1] + (second[u[1][0][0]] if u[3] != 'k' else ('__h' if u[1][0][0] in dropped else '')), u[2]) - u[2]) % 32)]
     if off:
         say('[ERROR] %d units are not at their original address modulo 32, e.g. %s' % (len(off), ' '.join('%08X' % x for x in off[:5])))
         sys.exit(1)
-    new = mapper([(s, label) for s, label, _ in P], dropped, second, syms, cfun, end, bss_end, link_top, keep=fill)
+    new = mapper([(s, label) for s, label, _ in P], dropped, second, syms, cfun, bend, bss_end, link_top, keep=fill)
     defs, lost = {}, []
     for n, v in names.items():
         w = new(v)
@@ -729,7 +915,7 @@ def main():
             len(far), '; '.join('%s at %08X, pool %08X' % f for f in far[:4])))
         sys.exit(1)
     say('pool reads: every one across pieces keeps its distance')
-    hi = (((s2['_bss'] & 0x1FFFFFFF) | 0x0C000000) + (bss_end - end)) if '_bss' in s2 else fixed   # the BSS block is linked last
+    hi = (((s2['_bss'] & 0x1FFFFFFF) | 0x0C000000) + (bss_end - bend)) if '_bss' in s2 else fixed   # the BSS block is linked last
     say('game.bin: %d bytes (the original %d); image and BSS end at %08X, fixed at %08X: %s' % (
         os.path.getsize(OUT + '/game.bin'), len(B.BIN), hi, fixed, 'fits' if hi < fixed else 'DOES NOT FIT'))
     if hi >= fixed:

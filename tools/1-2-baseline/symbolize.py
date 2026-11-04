@@ -127,6 +127,7 @@ def main():
     base = layout.mirror(int(open('BASE').read().strip(), 16))
     link_top = int(open('BASE').read().strip(), 16) & 0xE0000000       # the mirror the game is linked in
     end = base + os.path.getsize('1ST_READ.BIN')
+    bend = layout.bss_start(end)                         # the BSS block starts word aligned (an image that ends mid-word)
     fixed = layout.region('fixed', True)[0]
     bss_end = (layout.region('bss') or (fixed,))[0]      # layout.txt `bss <end>`: where the BSS, heaps and buffers that move end;
     P = pieces()                                         # from there to `fixed` is room the image may grow into
@@ -136,8 +137,8 @@ def main():
     def name_of(v):
         t = layout.mirror(v)
         delta = ((v & 0xE0000000) - link_top) & M
-        if t >= end:                                     # (pointers.py names only targets below `fixed`)
-            sym, off = '_bss', t - end
+        if t >= bend:                                    # (pointers.py names only targets below `fixed`)
+            sym, off = '_bss', t - bend
         else:
             i = bisect.bisect_right(starts, t) - 1
             sym, off = P[i][1], t - P[i][0]
@@ -191,14 +192,14 @@ def main():
         open(os.path.join(dst, 'asm', f), 'w').write('\n'.join(out))
     open(os.path.join(dst, 'objects.txt'), 'w').write('\n'.join(f for _, _, f in P) + '\n')
     open(os.path.join(dst, 'bss.src'), 'w').write('\n'.join([
-        '; %08x-%08x the game\'s BSS, heaps and buffers that move with the image, as one block: _bss+offset' % (end, bss_end),
+        '; %08x-%08x the game\'s BSS, heaps and buffers that move with the image, as one block: _bss+offset' % (bend, bss_end),
         '          .SECTION    B, DATA, ALIGN=4',
         '          .EXPORT     _bss',
         '_bss:',
-        "          .RES.B      H'%X" % (bss_end - end),
+        "          .RES.B      H'%X" % (bss_end - bend),
         '          .END', '']))
     print('%d address words and %d branches into other pieces written as names in %d pieces; %d in C units left to the compiler; '
-          'bss %08X-%08X' % (done, nb, len(P), unit, end, bss_end))
+          'bss %08X-%08X' % (done, nb, len(P), unit, bend, bss_end))
     if straddle:
         print('[ERROR] %d address words cross a piece boundary (half in each file), left as numbers: %s' % (
             len(straddle), ' '.join('%08x' % a for a in sorted(straddle)[:10])))

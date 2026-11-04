@@ -40,8 +40,11 @@ def literal(bits):
         return None                                      # C89 has no way to write it as a constant: left as it is, and reported
     for digits in range(1, 18):
         s = '%.*g' % (digits, v)
-        if struct.unpack('<f', struct.pack('<f', float(s)))[0] == v and struct.pack('<f', float(s)) == struct.pack('<I', bits):
-            break
+        try:
+            if struct.unpack('<f', struct.pack('<f', float(s)))[0] == v and struct.pack('<f', float(s)) == struct.pack('<I', bits):
+                break
+        except OverflowError:                            # FLT_MAX: a shorter decimal rounds above the largest float and does not fit; try more digits
+            continue
     if 'e' not in s and '.' not in s:
         s += '.0'
     return '%sf' % s if not s.startswith('-') else '(%sf)' % s
