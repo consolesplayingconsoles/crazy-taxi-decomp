@@ -558,6 +558,14 @@ def indirect_arity(cfile, fn):
     return max(counts) if counts else None
 
 
+def out_compared(a, outs):
+    """The result registers two runs are compared on: not r0 when the original never assigned it (out_set). A function that returns on a
+    path that leaves r0 as it came in hands its caller a leftover, and the C has no way to hand back the same one (Virtua Tennis
+    ballMarkCheck, menuTextIconPut: the original returns the entry r0 on the early path, the C an unset local)."""
+    s = a.get('out_set') or {}
+    return [r for r in outs if s.get(r, True)]
+
+
 def same(a, b, outs, back, arity=None, ind=None, indmap=None):
     """The parts of two runs that must agree, and the first difference. back maps an address in
     the compiled C (one of its own functions or data) to the game's address of the same name."""
@@ -568,7 +576,8 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
         if k == 'sr' and x and y:          # the state SR keeps (interrupt mask...), not the M, Q, S, T flags
             x, y = '%08X' % (int(x, 16) & 0xFFFFFCFC), '%08X' % (int(y, 16) & 0xFFFFFCFC)
         if k == 'out':
-            x, y = [x[r] for r in outs], [y[r] for r in outs]
+            outs = out_compared(a, outs)
+            x, y = [stackish(x[r]) for r in outs], [stackish(y[r]) for r in outs]      # a returned address in the stack is the frame layout's, as an argument's is
         if k == 'calls':
             xs = x
             x = [callview(c['to'], c['r4-r7'], c['fr4-fr11'], arity, c.get('stack'), c.get('chg'), ind, c.get('fchg'), indmap, c.get('stackw'), c.get('stackchg')) for c in xs]

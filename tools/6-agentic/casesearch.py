@@ -31,6 +31,7 @@ import boundaries as B
 
 RAM_LO, RAM_HI = 0x0C000000, 0x0D000000
 CODE = [0, 0]                      # the function's own bytes: its literal pool is read as data and must not be changed by a case
+CODEREG = layout.region('code') or (0, 0)      # layout.txt's code region, the cases may not write there (data inside code too: a library helper's jump table)
 BLOCKS = (0x0C800000, 0x0C810000, 0x0C820000)
 INTS = (0, 0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 20, 32, 64, 100, 255, 256)
 FLOATS = (0.0, 0.0, 0.5, 1.0, 1.0, 2.0, 3.0, 10.0, 30.0, 100.0, 320.0, 480.0, -1.0, 0.01, 0.1)
@@ -86,7 +87,7 @@ def main(argv):
         def read(self, addr, size_, fetch=False):
             if not fetch:
                 p = phys(addr)
-                if RAM_LO <= p < RAM_HI and not (0x0C800000 <= p < 0x0C830000) and not (0x0DFF0000 <= p < 0x0E000000) and not (CODE[0] <= p < CODE[1]):
+                if RAM_LO <= p < RAM_HI and not (0x0C800000 <= p < 0x0C830000) and not (0x0DFF0000 <= p < 0x0E000000) and not (CODE[0] <= p < CODE[1]) and not (CODEREG[0] <= p < CODEREG[1]):
                     reads.add(p & ~3)
             return Base.read(self, addr, size_, fetch)
 

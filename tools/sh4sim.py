@@ -183,15 +183,17 @@ class _Regs(list):
     """The integer registers, remembering which were assigned since `written` was last cleared (a bit per register). A mocked call's
     argument register is set for the call when the function wrote it since the last call, whatever value it holds: a pointer reloaded
     with the same value for every call counts (ballMove -> nlAddVector). A change of value did not tell, and skipped the fill."""
-    __slots__ = ('written',)
+    __slots__ = ('written', 'ever')       # ever: the registers assigned at any time since the run began, never cleared (a result register nothing assigned is the caller's leftover)
 
     def __init__(s, *a):
         list.__init__(s, *a)
         s.written = 0
+        s.ever = 0
 
     def __setitem__(s, i, v):
         list.__setitem__(s, i, v)
         s.written = s.written | (1 << i) if isinstance(i, int) else 0xFFFF
+        s.ever = s.ever | (1 << i) if isinstance(i, int) else 0xFFFF
 
 
 class CPU:
@@ -720,6 +722,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     entry_args = [cpu.r[i] for i in range(4, 8)]      # r4-r7 as the case gave them: a call's argument register that still holds this was not set by the function
     post_args = list(entry_args); post_fargs = list(entry_fargs)   # r4-r7 / fr4-fr11 right after the last call
     cpu.r.written = 0                                  # registers written from here on are the function's
+    cpu.r.ever = 0
 
     def frame_bufs(c):
         """{argument register: [word, ...]} for each of r4-r7 that points into this function's frame: the words from it that the
@@ -812,6 +815,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             'devices': [[k, '%08X' % a, s, '%0*X' % (s * 2, v)] for k, a, s, v in mem.devices],
             'out': {'r0': '%08X' % cpu.r[0], 'r1': '%08X' % cpu.r[1],
                     'fr0': '%08X' % cpu.fr[0], 'fr1': '%08X' % cpu.fr[1]},
+            'out_set': {'r0': bool(cpu.r.ever & 1)},               # False: the function never assigned r0 (a call's result counts), it returns what it was given
             'r15_balanced': cpu.r[15] == entry_r15,
             'xf': ['%08X' % v for v in cpu.xf], 'xf_changed': cpu.xf != xf_entry,
             'covered': sorted(a for a in cpu.covered if entry <= a < end),

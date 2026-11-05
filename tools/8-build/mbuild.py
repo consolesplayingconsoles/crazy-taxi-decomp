@@ -475,9 +475,11 @@ def main():
     import codeconsts                                    # a float read from a pool of code the C replaces: the constant itself
     gone = [(starts[i] & 0x1FFFFFFF, (starts[i + 1] if i + 1 < len(P) else end) & 0x1FFFFFFF) for i in sorted(dropped)]
     allv, nconst = set(), 0
+    calls = set()                                         # addresses the C calls through a cast: code that runs, not bytes that are read
     game_stems = set(gs.values())                         # the decomp's own files; the others are a mod's (mod-sources.txt)
     for f in glob.glob(cbuild.OUT + '/src/*.c') + glob.glob(cbuild.OUT + '/src/**/*.h', recursive=True):     # headers too: a mod's game.h holds function addresses
         t = open(f, errors='replace').read()
+        calls |= {int(m.group(1), 16) for m in re.finditer(r'\(\*\)\([^()]*\)\)\((?:0x|\(\(int\)A_)([0-9A-Fa-f]{8})\)', t)}   # as written, or as cbuild left it
         hits = [h for h in codeconsts.scan(t, B.BIN, int(base_txt, 16), gone) if h[3]]
         for s, e, a, lit in reversed(hits):
             t = t[:s] + lit + t[e:]
@@ -497,7 +499,8 @@ def main():
     infill = lambda a: bool(fill) and fill[0] <= a < fill[1]
     mid = lambda v: (end > layout.mirror(v) >= B.BASE and piece(layout.mirror(v)) in dropped
                      and layout.mirror(v) not in cfun and not infill(layout.mirror(v)))
-    run_need = {piece(layout.mirror(v)) for at, v in words.items() if piece(at) not in dropped and mid(v)}   # code that runs
+    run_need = ({piece(layout.mirror(v)) for at, v in words.items() if piece(at) not in dropped and mid(v)}  # code that runs: asm points into it
+                | {piece(layout.mirror(v)) for v in calls if mid(v)})                                        # or the C calls into it
     read_need = {piece(layout.mirror(v)) for v in allv if mid(v)} - run_need                               # bytes that are read
     listed = {a for a, s, n in F}
     _, _, pools = shift._listed()
