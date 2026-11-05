@@ -1114,7 +1114,6 @@ def _run(name,passthru=False,frame=False,flat=False):
             lo=fload(ad); hi=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return
         if mn=='ftrv' and a[0]=='xmtrx':
             vn=int(a[1][2:]); names=['fr%d'%i for i in range(16)]
-            if c.sz: raise Skip('ftrv in size mode 1')
             if (not c.XF or getattr(c,'xf_entry',False)) and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is
                 c.xf_entry=True; v_=fresh(True); emit('float %s[4];'%v_)
                 for i in range(4): emit('%s[%d] = %s;'%(v_,i,fx(c.gf('fr%d'%(vn+i)))))
@@ -1322,8 +1321,9 @@ def _run(name,passthru=False,frame=False,flat=False):
             return True
         def teardown(x):                 # an instruction of the epilogue: the add before it frees the frame, not the call's arguments
             return bool(x) and (x[0]=='rts' or (x[0] in ('lds.l','mov.l','fmov.s') and '@r15+' in (x[1] or '')))
-        nsw=0 if ind else max(callee_stack_words(fname),def_stack_words(fname))      # what its code reads, or its definition takes when more:
-                                                 # a variadic print reads only its format directly (ADXERR_CallErrFunc's Stk3: three words pushed)
+        nsw=0 if ind else max(callee_stack_words(fname),def_stack_words(fname),def_stack_total(fname))      # what its code reads, or its definition takes when more:
+                                                 # a variadic print reads only its format directly (ADXERR_CallErrFunc's Stk3: three words pushed);
+                                                 # integers it takes and never reads count too (kmiGetVertexBasePointer: seven integers, one read)
         own_stack=bool(nsw) and len(c.pend)>=nsw
         if own_stack: c.pend=c.pend[-nsw:]      # the words below this callee's own are earlier calls': their stack adjustment was deferred to this one
         # a callee whose definition returns a structure by value, called with one word pushed: the word is SHC's hidden return pointer,
@@ -1602,11 +1602,13 @@ def _run(name,passthru=False,frame=False,flat=False):
         if len(st)>8: c.pcalls=st[8]
     # a snapshot keeps the statement lists themselves (their callers hold them) and restores their contents
     def snap():
-        d={k:v for k,v in c.__dict__.items() if k not in ('blocks','stmts')}
-        return copy.deepcopy(d),[(b,list(b)) for b in c.blocks]
+        d={k:v for k,v in c.__dict__.items() if k not in ('blocks','stmts','sr_marks')}
+        marks=[list(m) for m in c.__dict__.get('sr_marks',[])]       # each mark holds its statement list itself: a deep copy would hold another list
+        return copy.deepcopy(d),[(b,list(b)) for b in c.blocks],marks
     def restore(s):
-        d,bl=s
+        d,bl,marks=s
         c.__dict__.clear(); c.__dict__.update(copy.deepcopy(d))
+        if marks: c.sr_marks=[list(m) for m in marks]
         for b,saved in bl: b[:]=saved
         c.blocks=[b for b,_ in bl]; c.stmts=c.blocks[0]
     def fresh(isf):
@@ -2137,7 +2139,9 @@ def _run(name,passthru=False,frame=False,flat=False):
                 for r in set(mm)|set(o[k]):
                     if mm.get(r)!=o[k].get(r): mm[r]=DIRTY
         for (k,r),(var,isf) in newreg.items(): (FR if isf else R)[r]=('e',var)
-        set_regs((R,FR,st[2] if all(o[2]==st[2] for o in exits_) else None,{k:v for k,v in st[3].items() if all(o[3].get(k)==v for o in exits_)},st[4] if all(o[4]==st[4] for o in exits_) else None,st[5],list(st[6]))); c.pcalls=max(o[8] for o in exits_)
+        if any(o[7][:2]!=st[7][:2] for o in exits_): raise Skip('FPU bank or size mode differs')
+        # the FPU mode is the exits': c.sz was whatever the last path read inside the loop left (a tail with fschg back and rts read there)
+        set_regs((R,FR,st[2] if all(o[2]==st[2] for o in exits_) else None,{k:v for k,v in st[3].items() if all(o[3].get(k)==v for o in exits_)},st[4] if all(o[4]==st[4] for o in exits_) else None,st[5],list(st[6]),(st[7][0],st[7][1],dict(c.XF)))); c.pcalls=max(o[8] for o in exits_)
         c.T=None
         return E
 

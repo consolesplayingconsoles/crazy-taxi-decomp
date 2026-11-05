@@ -63,6 +63,9 @@ def place(text):
     while changed:
         changed = False
         refs = {}
+        for l in head:        # the jumps before the first label (the dispatch on a state) reach blocks too
+            for x in ANYGOTO.findall(l):
+                refs[x] = refs.get(x, 0) + 1
         for b in blocks:
             for l in b.lines:
                 for x in ANYGOTO.findall(l):
