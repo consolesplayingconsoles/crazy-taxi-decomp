@@ -73,6 +73,32 @@ def c_size_any(name, src, protos_list, head=None):
     return None
 
 
+def unit_sizes(f, text=None, table=None, funcs=None):
+    """{function: C bytes} of the listed functions a unit defines, compiled as a whole (text in place of the file's own when given),
+    each up to the next symbol; a string ('ERR ...' or 'LINK') when it does not compile or link."""
+    import equiv
+    table = table if table is not None else equiv.names()
+    funcs = funcs if funcs is not None else equiv.functions()
+    tmp = 'src/zz_sizes%d.c' % os.getpid()
+    open(tmp, 'w').write((text if text is not None else open(f, errors='replace').read()) + MARK)
+    try:
+        defines, defined = equiv.outside_names(tmp, table)
+        defines.update({'_' + n: a for n, a in table.items() if n.startswith('_') and n not in defined})
+        try:
+            code, syms = equiv.compile_link(tmp, defines)
+        except SystemExit as e:
+            return 'ERR ' + str(e)[:80]
+        except OSError as e:          # the link wrote no map (a Docker hiccup with another compile running): not measured, the run goes on
+            return 'LINK ' + str(e)[:80]
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    if code is None:
+        return 'LINK'
+    addrs = sorted(set(syms.values()) | {equiv.SCRATCH + len(code)})
+    return {n[1:]: min(x for x in addrs if x > a) - a for n, a in syms.items() if n[1:] in funcs and n[1:] in defined}
+
+
 def measure():
     import equiv
     table, funcs = equiv.names(), equiv.functions()
@@ -80,25 +106,11 @@ def measure():
     for f in sorted(glob.glob('src/*.c')):
         if os.path.basename(f).startswith(('gen_tmp', 'zz_')) or '@unit' in open(f, errors='replace').read(300):
             continue
-        defines, defined = equiv.outside_names(f, table)
-        defines.update({'_' + n: a for n, a in table.items() if n.startswith('_') and n not in defined})
-        tmp = 'src/zz_sizes%d.c' % os.getpid()
-        open(tmp, 'w').write(open(f, errors='replace').read() + MARK)
-        try:
-            code, syms = equiv.compile_link(tmp, defines)
-        except SystemExit as e:
-            print('ERR', f, str(e)[:80], flush=True)
+        got = unit_sizes(f, None, table, funcs)
+        if isinstance(got, str):
+            print(got.split()[0], f, got[4:], flush=True)
             continue
-        finally:
-            os.remove(tmp)
-        if code is None:
-            print('LINK', f, flush=True)
-            continue
-        addrs = sorted(set(syms.values()) | {equiv.SCRATCH + len(code)})
-        for n, a in syms.items():
-            fn = n[1:]
-            if fn in funcs and fn in defined:
-                out.append((fn, funcs[fn][1], min(x for x in addrs if x > a) - a))
+        out += [(fn, funcs[fn][1], n) for fn, n in got.items()]
         print(f, len(out), flush=True)
     os.makedirs('build', exist_ok=True)
     json.dump(out, open(OUT, 'w'))

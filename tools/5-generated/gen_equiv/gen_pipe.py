@@ -117,6 +117,8 @@ def run_file_robust(stem,items):
         for it in use:
             n=it[1].count('\n')+1
             spans.append((line,line+n,it[0])); text+=it[1]+'\n'; line+=n
+        import rewrites
+        text=rewrites.narrow_unit(text)                 # the spans stay: narrowing changes no line count
         open('src/%s.c'%stem,'w').write(text)
         shutil.rmtree('tests/%s'%stem,ignore_errors=True); os.makedirs('tests/%s'%stem)
         for it in use: json.dump(it[2],open('tests/%s/%s.json'%(stem,it[0]),'w'),indent=1)

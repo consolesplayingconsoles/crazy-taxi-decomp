@@ -43,7 +43,7 @@ if os.path.isdir('build') and not any(a in sys.argv for a in ('--draw','--retest
     ledger.rotate(LOG,'run'); sys.stdout=_Tee(open(LOG,'w'))
 import stamp; sys.stdout=stamp.Stamp(sys.stdout)       # each line ends with the wall-clock time: the last line says how long ago it was
 def note(msg): print('[%4ds] %s'%(time.time()-T0,msg),flush=True)
-import gen_pipe,gen_drv,gen_core
+import gen_pipe,gen_drv,gen_core,rewrites
 class Timeout(BaseException): pass      # not an Exception: the tools' own `except Exception` (gen_drv, directed) swallowed the alarm, which fires once, and drawing ran on unbounded (cpuSglAimTable: 106 min against 38)
 def _alarm(sig,frm): raise Timeout()
 signal.signal(signal.SIGALRM,_alarm)
@@ -95,7 +95,7 @@ def write_batch(keep):
         for a,b in it[3].items(): protos[a]=b
     fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc]+[a+b+c_ for a in abc for b in abc for c_ in abc] if not os.path.exists('src/gen_%s.c'%x))
     head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
-    open('src/%s.c'%fn,'w').write(head+'\n'.join(i[1] for i in keep))
+    open('src/%s.c'%fn,'w').write(rewrites.narrow_unit(head+'\n'.join(i[1] for i in keep)))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
     r=subprocess.run(['python3','tools/equiv.py','src/%s.c'%fn],capture_output=True,text=True)

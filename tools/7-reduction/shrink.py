@@ -3,8 +3,25 @@
 Run in the repo.
 
     python3 tools/7-reduction/shrink.py [--keep 1.0] [--regen] <name> ...
+    python3 tools/7-reduction/shrink.py --passes [narrow,selfcopy,struct,frame,globase,switch,copies] [src/<unit>.c ...]
 
 --regen keeps the new C whatever its size, as long as it is proven: for when the generator itself was fixed.
+
+--passes rewrites the current C instead of writing it again, unit by unit (every generated unit when none is named), with the
+rewrites that change no address and no type, in this order, each on what the one before kept:
+  narrow    rewrites.narrow_calls: callees the unit declares wider than their own definitions declared as defined, the extra
+            arguments (leftover registers, frame words) dropped at the calls; kept or put back per unit (gen_ge.c 8,120 to 7,884)
+  selfcopy  rewrites.drop_self_copies: a frame slot stored back with its own value goes (FUN_0c065bb2 1,700 bytes to 1,224)
+  struct    rewrites.struct_access: `*(int *)((a4 + 0x2D4))` as `((struct o2D4_int *)(a4))->v`, which SHC compiles as
+            `mov.w #off,r0; mov.l @(r0,Rn)` instead of keeping far offsets in saved registers (FUN_0c031e5e 360 to 296)
+  frame     frame.scalarize: frame slots read and written as one scalar become locals (it can make a function bigger,
+            FUN_0c09efd4 4,784 to 10,064, which the size check then leaves out)
+  globase   rewrites.global_base: nearby fixed addresses as members off the lowest, loaded once (36 bytes to 20)
+  switch    rewrites.chains_to_switch: a chain of ifs on one state variable as a switch (5 instructions a level to 2)
+  copies    rewrites.merge_copies: a result threaded up through nesting levels by `tA = (tB);` copies, one temporary instead
+For each unit the changed functions are written in place (rewrites.splice), the unit compiled before and after
+(sizes.unit_sizes), a function whose C did not get smaller goes back, and equiv.py checks the rest in the written file; one that
+does not pass goes back and the file is checked again. Zombie Revenge, 80 random units: 28-38% of their excess.
 
 For each name: the generator writes the function again; when the new C compiles smaller than the current C (both measured
 by tools/sizes.py, literal pools included), and under KEEP times its size (default 1.0: any saving), it replaces the old C and is checked on the function's existing cases
@@ -33,6 +50,14 @@ if '--keep' in args:
     k = args.index('--keep')
     KEEP = float(args[k + 1])
     del args[k:k + 2]
+PASSES = None                       # --passes: the rewrite strategies instead of a regeneration
+if '--passes' in args:
+    k = args.index('--passes')
+    PASSES = ['narrow', 'selfcopy', 'struct', 'frame', 'globase', 'switch', 'copies']
+    if k + 1 < len(args) and not args[k + 1].startswith(('src/', '-')):
+        PASSES = args[k + 1].split(',')
+        del args[k + 1]
+    del args[k]
 NAMES = args
 import consistency   # noqa: E402
 import gen_drv       # noqa: E402
@@ -130,9 +155,150 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
     return False
 
 
+_DEFS = []
+
+
+_SAFE = {}          # unit: the proven text to put back when a stop comes between writing new text and its proof
+
+
+def _stop(sig, frame_):
+    """SIGTERM or Ctrl-C: every unit holding text that is not proven yet gets its proven text back, then the run ends. Without it a
+    stop between the write and the proof left unproven C in src/ that consistency.py does not flag (Zombie Revenge gen_bq.c)."""
+    for f, t in _SAFE.items():
+        open(f, 'w').write(t)
+        print('stopped: %s put back to its proven text' % f, flush=True)
+    sys.exit(1)
+
+
+def narrow_pass(f, log):
+    """--passes narrow on one unit: callees declared wider than their own definitions (rewrites.narrow_calls). A declaration is the
+    whole unit's, so the unit is kept or put back as a whole: kept when it compiles smaller and every function whose text changed
+    is proven."""
+    import rewrites
+    if not _DEFS:
+        _DEFS.append(rewrites.definitions(open(p, errors='replace').read() for p in glob.glob('src/*.c')
+                                          if not os.path.basename(p).startswith(('gen_tmp', 'zz_'))))
+    text = open(f, errors='replace').read()
+    new, names = rewrites.narrow_calls(text, _DEFS[0])
+    log.write('%s narrow: %d callees\n' % (f, len(set(names)))); log.flush()
+    if not names:
+        return
+    before, after = sizes.unit_sizes(f, text), sizes.unit_sizes(f, new)
+    if isinstance(before, str) or isinstance(after, str):
+        log.write('%s not measured (%s)\n' % (f, before if isinstance(before, str) else after)); log.flush()
+        return
+    if sum(after.values()) >= sum(before.values()):
+        log.write('%s narrow not smaller (%d -> %d)\n' % (f, sum(before.values()), sum(after.values()))); log.flush()
+        return
+    changed = sorted(n for n in before if (lambda b0, b1: b0 and b1 and text[b0[0]:b0[1]] != new[b1[0]:b1[1]])(
+        consistency.block(text, n), consistency.block(new, n)))
+    lock = locked()
+    try:
+        _SAFE[f] = text
+        open(f, 'w').write(new)
+        out = subprocess.run(['python3', 'tools/equiv.py', f] + changed, capture_output=True, text=True).stdout
+        ok = {n for n in changed if re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), out, re.M)}
+        if ok != set(changed):
+            open(f, 'w').write(text)
+            subprocess.run(['python3', 'tools/equiv.py', f] + changed, capture_output=True, text=True)
+    finally:
+        _SAFE.pop(f, None)
+        fcntl.flock(lock, fcntl.LOCK_UN)
+    if ok != set(changed):
+        log.write('%s narrow DIFFERS (%s), unit restored\n' % (f, ' '.join(sorted(set(changed) - ok)))); log.flush()
+        return
+    for n in changed:
+        log.write('%s NARROW %d -> %d proven\n' % (n, before[n], after.get(n, 0))); log.flush()
+
+
+def rewrite_pass(f, pas, log, manual):
+    """One --passes strategy on one unit: the changed functions that compile smaller and are proven stay, the rest go back."""
+    if pas == 'narrow':
+        return narrow_pass(f, log)
+    import frame
+    import rewrites
+    fn_ = {'selfcopy': rewrites.drop_self_copies, 'struct': rewrites.struct_access, 'globase': rewrites.global_base,
+           'switch': rewrites.chains_to_switch, 'copies': rewrites.merge_copies,
+           'frame': lambda c: frame.scalarize(c.rstrip('\n')) + '\n'}[pas]
+    text = open(f, errors='replace').read()
+    funcs = {}
+    for m in re.finditer(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\n\{', text, re.M):
+        b = consistency.block(text, m.group(1))
+        if b and m.group(1) not in manual:
+            funcs[m.group(1)] = text[b[0]:b[1]]
+    new = {n: fn_(c) for n, c in funcs.items()}
+    new = {n: c for n, c in new.items() if c != funcs[n]}
+    log.write('%s %s: %d functions changed\n' % (f, pas, len(new))); log.flush()
+    if not new:
+        return
+    before = sizes.unit_sizes(f, text)
+    after = sizes.unit_sizes(f, rewrites.splice(text, new))
+    if isinstance(before, str) or isinstance(after, str):
+        log.write('%s not measured (%s)\n' % (f, before if isinstance(before, str) else after)); log.flush()
+        return
+    keep_ = {n: c for n, c in new.items() if n in before and n in after and after[n] < before[n]}
+    for n in sorted(set(new) - set(keep_)):
+        log.write('%s %s not smaller (%s -> %s)\n' % (n, pas, before.get(n), after.get(n))); log.flush()
+    if not keep_:
+        return
+
+    def proven(names):
+        # under the lock: equiv.py rewrites tests/equivalent.txt and the proof cache by reading and writing them whole, so two
+        # workers checking at once would drop each other's entries; the compiles before it run side by side
+        lock = locked()
+        try:
+            out = subprocess.run(['python3', 'tools/equiv.py', f] + sorted(names), capture_output=True, text=True).stdout
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
+        return {n for n in names if re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), out, re.M)}
+
+    def write(t):
+        lock = locked()
+        try:
+            open(f, 'w').write(t)
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
+    _SAFE[f] = text
+    write(rewrites.splice(text, keep_))
+    ok = proven(keep_)
+    if ok != set(keep_):
+        back = set(keep_) - ok
+        write(rewrites.splice(text, {n: keep_[n] for n in ok}))
+        for n in sorted(back):
+            log.write('%s %s DIFFERS, old C restored\n' % (n, pas)); log.flush()
+        again = proven(set(funcs) & (ok | back))
+        for n in sorted((ok | back) - again):
+            log.write('%s NOT EQUIVALENT after the restore: check by hand\n' % n); log.flush()
+        ok &= again
+    _SAFE.pop(f, None)
+    for n in sorted(ok):
+        log.write('%s %s %d -> %d proven\n' % (n, pas.upper(), before[n], after[n])); log.flush()
+    if ok and os.path.exists(sizes.OUT):
+        lock = locked()           # the table as it is now (another worker may have written it), these sizes set in it
+        try:
+            rows = json.load(open(sizes.OUT))
+            for r in rows:
+                if r[0] in ok:
+                    r[2] = after[r[0]]
+            json.dump(rows, open(sizes.OUT, 'w'))
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
+
+
 def main():
+    import signal
+    signal.signal(signal.SIGTERM, _stop)
+    signal.signal(signal.SIGINT, _stop)
     os.makedirs('build', exist_ok=True)
     log = stamp.Stamp(open(LOG, 'a'))               # each line ends with the wall-clock time
+    if PASSES is not None:
+        manual = consistency.manual_names()
+        units = NAMES or sorted(f for f in glob.glob('src/gen_*.c') if not os.path.basename(f).startswith(('gen_tmp', 'zz_')))
+        for f in units:
+            for pas in PASSES:
+                rewrite_pass(f, pas, log, manual)
+        log.write('done\n')
+        return
     manual = consistency.manual_names()          # written by hand: never written again by a tool
     table = {r[0]: r for r in json.load(open(sizes.OUT))} if os.path.exists(sizes.OUT) else {}
     for fn in NAMES:

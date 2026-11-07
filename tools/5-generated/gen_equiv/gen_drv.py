@@ -6,6 +6,7 @@ _CODE=_layout.region('code') or (0,0)      # the code the cases may not write to
 import sys,re,json,os,subprocess,struct,random,zlib,time
 sys.path.insert(0,os.path.dirname(__file__))
 import gen_core as G
+import unpoke_code
 Skip=G.Skip
 def build(name,ret,passthru=False):
     c=G.run(name,passthru)
@@ -155,6 +156,7 @@ def build(name,ret,passthru=False):
         if m_ and occ[m_.group(2)]==1:
             body[i_]='%s*(volatile %s *)%s;'%(m_.group(1),m_.group(3),m_.group(4))
             decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%m_.group(2),d)]
+    if os.environ.get('GEN_EXT','1')!='0': body=merge_ext(body,decls)
     if os.environ.get('GEN_SIGN','1')!='0': body=sign_idiom(body,decls)
     if os.environ.get('GEN_INLINE','1')!='0': body=inline_single(body,decls)
     # the caller-frame copies are statements: after the body's own leading declarations (the flat form declares its register
@@ -180,10 +182,17 @@ def build(name,ret,passthru=False):
     if os.environ.get('GEN_FRAME','0')=='1': src=frame.scalarize(src.rstrip('\n'))+'\n'      # scalar frame slots become locals (SHC keeps those in registers)
     import coalesce
     if os.environ.get('GEN_COALESCE','1')!='0': src=coalesce.coalesce(src.rstrip('\n'))+'\n'      # temporaries with disjoint live ranges share a name (fewer frame slots)
+    if os.environ.get('GEN_TAILS','1')!='0': src='\n'.join(factor_tails(src.rstrip('\n').split('\n')))+'\n'      # after the names are shared: the copies read the same
     import place, splitflat                       # fewer labels first (a block goes where its only jump is), then, if still over the limit,
     if os.environ.get('GEN_PLACE','1')!='0': src=place.place(src.rstrip('\n'))+'\n'   # more labels than the compiler takes (~512, "3018 overflow"): a main function and parts
     src=splitflat.split(src.rstrip('\n'),int(os.environ.get('GEN_MAX_LABELS','500')))+'\n'
     if os.environ.get('GEN_REGISTER','1')!='0': src=register_locals(src.rstrip('\n'))+'\n'
+    import rewrites
+    if os.environ.get('GEN_SELFCOPY','1')!='0': src=rewrites.drop_self_copies(src)      # frame slots stored back unchanged
+    if os.environ.get('GEN_STRUCT','1')!='0': src=rewrites.struct_access(src)      # far field accesses as members (head_protos declares the structures)
+    if os.environ.get('GEN_GLOBASE','1')!='0': src=rewrites.global_base(src)      # nearby fixed addresses off one base
+    if os.environ.get('GEN_SWITCH','1')!='0': src=rewrites.chains_to_switch(src)      # a state chain of ifs as a switch
+    if os.environ.get('GEN_COPIES','1')!='0': src=rewrites.merge_copies(src)      # a result threaded through nesting levels by copies
     return src,c
 _LOCAL=re.compile(r'^(\s+)((?:unsigned )?(?:int|short|char)|float) (\w+);$',re.M)
 def register_locals(text):
@@ -198,6 +207,130 @@ _IDENT=re.compile(r'\b[A-Za-z_]\w*\b')
 _CAST=re.compile(r'\((?:unsigned |signed )?(?:int|float|char|short)\s*\**\)')
 _CALL=re.compile(r'\b(?!_builtin_)[A-Za-z_]\w*\s*\((?!\s*(?:int|float|unsigned|signed|char|short)\b)')      # a call (not a compiler intrinsic)
 _SIGN=re.compile(r'^([ \t]*)([tu]\d+) = 0x1;\n[ \t]*if \((.+?) > 0\.0f\) \{\n[ \t]*\} else \{\n[ \t]*(t\d+) = 0x0;\n[ \t]*if \(0\.0f > \3\) \{\n[ \t]*\4 = 0xFFFFFFFF;\n[ \t]*\}\n[ \t]*\2 = \4;\n[ \t]*\}$',re.M)
+def merge_ext(body,decls):
+    """Writes into the matrix bank (XD registers) one load of the matrix, not one per register pair. Each pair move into the back bank
+    is written as a round trip (`_builtin_st_ext(m); m[i] = ...; m[i+1] = ...; _builtin_ld_ext(m);`): eight of them for a matrix loaded
+    from memory (Zombie Revenge nlLoadMatrix8: 40 bytes, 820 in C; 21 matrix and vertex functions, 18 KB). Round trips with only
+    assignments to temporaries between them (no call, no other matrix use, no control flow) become one: the first one's st_ext, every
+    element in order, the last one's ld_ext; with all 16 elements written, the st_ext goes too."""
+    S=re.compile(r'^(\s*)_builtin_st_ext\(\(float \(\*\)\[4\]\)(u\d+)\);$')
+    A=re.compile(r'^\s*(u\d+)\[(\d+)\] = (.*);$')
+    L=re.compile(r'^\s*_builtin_ld_ext\(\(float \(\*\)\[4\]\)(u\d+)\);$')
+    SAFE=re.compile(r'^\s*[tu]\d+ = [^;]*;$')
+    def group(i):          # a round trip starting at i: (end index after it, array, [(index, value)])
+        m=S.match(body[i]) if i<len(body) else None
+        if not m: return None
+        arr=m.group(2); el=[]; j=i+1
+        while j<len(body):
+            a=A.match(body[j])
+            if a and a.group(1)==arr: el.append((int(a.group(2)),a.group(3))); j+=1; continue
+            break
+        l=L.match(body[j]) if j<len(body) else None
+        if not el or not l or l.group(1)!=arr: return None
+        return j+1,arr,el
+    calls=re.compile(r'\b(?!float\b|int\b|unsigned\b|signed\b|short\b|char\b|volatile\b)[A-Za-z_]\w*\s*\(')
+    out=[]; i=0; dropped=set()
+    while i<len(body):
+        g=group(i)
+        if not g:
+            out.append(body[i]); i+=1; continue
+        end,arr,el=g; ind=S.match(body[i]).group(1); between=[]; k=end
+        while True:
+            j=k; mid=[]
+            while j<len(body) and SAFE.match(body[j]) and not calls.search(body[j].split('=',1)[1]) and 'ext' not in body[j]: mid.append(body[j]); j+=1
+            g2=group(j)
+            if not g2 or S.match(body[j]).group(1)!=ind: break
+            between+=mid; e2,arr2,el2=g2
+            el+=[(x,v.replace(arr2+'[',arr+'[')) for x,v in el2]; dropped.add(arr2); k=e2
+        if k==end:
+            out.extend(body[i:end]); i=end; continue
+        out.extend(between)
+        if len({x for x,v in el})<16: out.append('%s_builtin_st_ext((float (*)[4])%s);'%(ind,arr))
+        out.extend('%s%s[%d] = %s;'%(ind,arr,x,v) for x,v in el)
+        out.append('%s_builtin_ld_ext((float (*)[4])%s);'%(ind,arr))
+        i=k
+    if dropped:
+        txt='\n'.join(out)
+        decls[:]=[d for d in decls if not (re.match(r'^float (u\d+)\[16\];$',d) and re.match(r'^float (u\d+)',d).group(1) in dropped and not re.search(r'\b%s\b'%re.match(r'^float (u\d+)',d).group(1),txt))]
+    return out
+
+
+def factor_tails(body):
+    """A tail written in two places once: `if (c) { P; T } Q; T` with T ending in a return is `if (c) { P } else { Q } T`. The structured
+    form copies the code after a join into each arm that reaches it (Zombie Revenge FUN_0c02ce56: the same ten-line ending three times,
+    244 bytes in the original, 1,376 in C; 229 functions hold such copies). T is whole statements and whole if/loop blocks, compared as
+    text at their own indent (no labels: a copy of a label could not compile anyway). Applied until nothing changes."""
+    def ind(l): return len(l)-len(l.lstrip(' '))
+    def items(lines, I):   # the top-level items of a run of lines at indent I: [(start, end)], or None when something else is there
+        out=[]; i=0
+        while i<len(lines):
+            l=lines[i]
+            if not l.strip(): i+=1; continue
+            if ind(l)!=I or re.match(r'^\s*\w+:', l) or l.strip().startswith('}'): return None
+            if l.rstrip().endswith('{'):
+                d=0; j=i
+                while j<len(lines):
+                    d+=lines[j].count('{')-lines[j].count('}')
+                    if d==0: break
+                    j+=1
+                if j>=len(lines): return None
+                while j+1<len(lines) and lines[j+1].strip().startswith('} else') :      # an if/else chain is one item
+                    d=0; j+=1
+                    while j<len(lines):
+                        d+=lines[j].count('{')-lines[j].count('}')
+                        if d==0 and lines[j].strip()=='}': break
+                        j+=1
+                    if j>=len(lines): return None
+                out.append((i,j+1)); i=j+1
+            else:
+                if '{' in l or '}' in l: return None
+                out.append((i,i+1)); i+=1
+        return out
+    def text(lines, I): return [x[I:] if x.strip() else '' for x in lines]
+    def close(i):
+        d=0
+        for j in range(i,len(body)):
+            d+=body[j].count('{')-body[j].count('}')
+            if d==0: return j
+        return None
+    changed=True
+    while changed:
+        changed=False
+        for i in range(len(body)-1,-1,-1):
+            l=body[i]
+            if not re.match(r'^\s*if \(.*\) \{$',l): continue
+            j=close(i)
+            if j is None or body[j].strip()!='}' or (j+1<len(body) and body[j+1].strip().startswith('} else')): continue
+            I=ind(l)
+            k=j+1; d=0                                             # the rest of the enclosing block: up to the brace that closes it
+            while k<len(body):
+                d+=body[k].count('{')-body[k].count('}')
+                if d<0: break
+                k+=1
+            arm=body[i+1:j]; rest=body[j+1:k]
+            ia=items(arm,I+4); ir=items(rest,I)
+            if not ia or not ir: continue
+            n=0
+            while n<len(ia) and n<len(ir):
+                sa,ea=ia[-1-n]; sr,er=ir[-1-n]
+                if text(arm[sa:ea],I+4)!=text(rest[sr:er],I): break
+                n+=1
+            if n<1 or not arm[ia[-1][0]].strip().startswith('return'): continue
+            if sum(ia[-1-x][1]-ia[-1-x][0] for x in range(n))<2: continue
+            cut_a=ia[-n][0]; cut_r=ir[-n][0]
+            head=arm[:cut_a]; other=rest[:cut_r]; T=rest[cut_r:]
+            if any(x.strip() for x in other):
+                new=[l]+head+[' '*I+'} else {']+['    '+x if x.strip() else x for x in other]+[' '*I+'}']+T
+            else:
+                new=[l]+head+[' '*I+'}']+T
+            if not any(x.strip() for x in head):       # nothing left in the arm: the condition's negation holds the other code
+                new=([' '*I+'if (!%s) {'%re.match(r'^\s*if (\(.*\)) \{$',l).group(1)]+['    '+x if x.strip() else x for x in other]+[' '*I+'}']
+                     if any(x.strip() for x in other) else [])+T
+            body[i:k]=new; changed=True
+            break
+    return body
+
+
 def sign_idiom(body,decls):
     """The three-way sign of a float, which the reader writes as an if tree (`t = 1; if (u > 0.0f) {} else { t8 = 0; if (0.0f > u) t8 = -1; t = t8; }`),
     as one expression: `t = (u > 0.0f) - (0.0f > u);`. SHC allocates registers inside one basic block: with the branches every value of the
@@ -701,6 +834,7 @@ def tests(name,c,src):
             if getattr(c,'xf_entry',False):
                 for i in range(16): regs['xf%d'%i]=rng.choice(floats)
             for k_ in [k_ for k_ in poke if _CODE[0]<=(0x0C000000|(int(k_,16)&0x1FFFFFFF))<_CODE[1]]: del poke[k_]       # the code is read-only on the console: a case may not change a literal pool
+            poke=unpoke_code.code_pointers(poke,G.BIN,G.BASE,list(G.SPANS.values()))      # a jump table's entries keep the image's values: drawn ones sent the original to garbage
             d={'about':'case %d'%i,'poke':poke}
             if uses_gbr:            # GBR on RAM, filled like other memory: left 0, @(0,gbr) wrote device memory and the case was thrown out (nlSetPaletteData)
                 d['gbr']='%08X'%GBR_AREA
@@ -804,4 +938,6 @@ def head_protos(items):
     # a structure passed by value is typed StkN (N words): the typedef goes first, for the prototypes and the definitions below it
     words=sorted({int(w) for w in re.findall(r'\bStk(\d+)\b',out+' '.join(it[1] for it in items))})
     tds=''.join('typedef struct { int w[%d]; } Stk%d;\n'%(w,w) for w in words)
+    from rewrites import struct_decls
+    tds+=''.join(d+'\n' for d in struct_decls(' '.join(it[1] for it in items)))      # the one-field structures of struct_access
     return tds+(out+'\n' if out else '')+'\n'.join(l+';' for l in mine if l.endswith(')'))
