@@ -44,6 +44,10 @@ and a pass stored with them still counts (a function's new or changed C and case
 A change to this file that cannot alter some functions' results (one that only acts on calls through a pointer) need not
 void their passes: save the checker as it was in state/proof-key-equiv.py, and a function with no call through a pointer
 keeps hashing that file, so its key and its pass are unchanged. Functions it can affect hash this file and run again.
+The format-aware comparison of a printf-style call's stack words is such a change: save the checker as it was in
+state/proof-key-printf.py, and a function with no call to a printf-style function keeps its earlier pass. Running a branch into
+another function's epilogue in place (sh4sim.shared_epilogue) is another: the simulator as it was is saved in
+state/proof-key-sh4sim.py, and a function that makes no such branch keeps its earlier pass.
 
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
@@ -482,6 +486,32 @@ def orig_reads(addr):
     return _READS[addr]
 
 
+PRINTF_NAMES = ('nlPrintf',)      # callees whose first stack word is a format string: only the words it consumes are arguments
+FMT_EXE = [None, 0]               # [the executable's bytes, its base], set by main: where the format strings are read
+
+
+def fmt_words(ptr):
+    """How many stack words after the format string a call to a printf-style function consumes, from the format at ptr in the original
+    executable (a conversion takes one word, a double two, each * one more); None when the string cannot be read."""
+    exe, base = FMT_EXE
+    if exe is None:
+        return None
+    try:
+        a = int(ptr, 16)
+    except (TypeError, ValueError):
+        return None
+    o = (0x0C000000 | (a & 0x1FFFFFFF)) - (0x0C000000 | (base & 0x1FFFFFFF))
+    if not 0 <= o < len(exe):
+        return None
+    text = exe[o:o + 512].split(b'\0')[0].decode('latin-1')
+    n = 0
+    for m in re.finditer(r'%([-+ #0]*)(\*|\d+)?(?:\.(\*|\d+))?(?:hh|h|ll|l|L|z|j|t)?([diouxXeEfFgGaAcspn%])', text):
+        if m.group(4) == '%':
+            continue
+        n += (m.group(2) == '*') + (m.group(3) == '*') + (2 if m.group(4) in 'eEfFgGaA' else 1)
+    return n
+
+
 def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=None, stackw=None, stackchg=None):
     """What a call must agree on: its target and the registers its callee takes (arity: {address: (ints,
     floats)}; none known: all of them), a stack address as "STACK"."""
@@ -506,8 +536,13 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=
     if rd is not None:                       # registers the callee's original code never reads are leftovers, not arguments
         r = [v if 4 + k in rd[0] else '*' for k, v in enumerate(r)]
         f = [v if 4 + k in rd[1] else '*' for k, v in enumerate(f)]
+    nstack = STACKN.get(int(to, 16), 0)
+    if stackw and READS_NAME.get(int(to, 16)) in PRINTF_NAMES:        # a printf: the format string and the words its conversions consume
+        nf = fmt_words(stackw[0])
+        if nf is not None:
+            nstack = min(nstack, 1 + nf)
     extra = [stackish(v) if stackchg is None or (k < len(stackchg) and stackchg[k]) else '*'      # arguments past the fourth, on the
-             for k, v in enumerate((stackw or [])[:STACKN.get(int(to, 16), 0)])]                 # stack: a word the caller did not
+             for k, v in enumerate((stackw or [])[:nstack])]                 # stack: a word the caller did not
                                                                                                  # store since its last call is a leftover
     return (to, [stackish(v) for v in r] + extra, f)
 
@@ -556,6 +591,20 @@ def indirect_arity(cfile, fn):
         ps = c.group(1).strip()
         counts.append(0 if ps in ('', 'void') else len([q for q in ps.split(',') if not re.search(r'\b(float|double)\b', q) or '*' in q]))
     return max(counts) if counts else None
+
+
+def calls_printf(cfile, fn):
+    """Does the C of one function call a printf-style function (the stack words of such a call are compared up to its format's
+    conversions, a change that acts only on those calls)."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', ' ', open(cfile, errors='replace').read(), flags=re.S)
+    m = re.search(r'\b%s\s*\([^;{)]*\)\s*\{' % re.escape(fn), text)
+    if not m:
+        return False
+    depth, i = 1, m.end()
+    while i < len(text) and depth:
+        depth += {'{': 1, '}': -1}.get(text[i], 0)
+        i += 1
+    return any(re.search(r'\b%s\s*\(' % re.escape(n), text[m.end():i]) for n in PRINTF_NAMES)
 
 
 def out_compared(a, outs):
@@ -626,15 +675,48 @@ PROOF_KEY_LEGACY = os.path.join('state', 'proof-key-equiv.py')
 PROOF_KEY_FROZEN = os.path.join('state', 'proof-key-frozen')      # equiv.py and sh4sim.py as they were before a change made without a recheck
 
 
-def proof_keys(code, offset, case_path, sets, orig_bytes, compared, unaffected=False):
+PROOF_KEY_PRINTF = os.path.join('state', 'proof-key-printf.py')   # the checker as it was before the printf-format comparison
+
+
+PROOF_KEY_SIM = os.path.join('state', 'proof-key-sh4sim.py')      # the simulator as it was before shared epilogues ran in place
+
+
+def proof_keys(code, offset, case_path, sets, orig_bytes, compared, unaffected=False, printf=True, tail=True):
     """The key a pass is stored under, then the keys an earlier pass may be found under: the same, hashed with the checker saved
-    in state/proof-key-frozen/ (a change to the checker made without rechecking what it had passed: those passes still count)."""
-    keys = [proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected)]
+    in state/proof-key-frozen/ (a change to the checker made without rechecking what it had passed: those passes still count).
+    tail: the original branches into another function's epilogue (sh4sim.shared_epilogue); one that does not keeps a pass found
+    with the simulator saved in state/proof-key-sh4sim.py."""
+    sim = sh4sim.__file__
+    pairs = [(PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else os.path.abspath(__file__), sim)]
     fe, fs = os.path.join(PROOF_KEY_FROZEN, 'equiv.py'), os.path.join(PROOF_KEY_FROZEN, 'sh4sim.py')
     if os.path.exists(fe) and os.path.exists(fs):
-        e = PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else fe
-        keys.append(proof_key(code, offset, case_path, sets, orig_bytes, compared, srcs=(e, fs)))
+        pairs.append((PROOF_KEY_LEGACY if unaffected and os.path.exists(PROOF_KEY_LEGACY) else fe, fs))
+    if not printf and os.path.exists(PROOF_KEY_PRINTF):      # no printf-style call: the format-aware comparison cannot change its result
+        pairs.append((PROOF_KEY_PRINTF, sim))
+    if not tail and os.path.exists(PROOF_KEY_SIM):           # no branch into a shared epilogue: the simulator's change cannot alter it
+        pairs += [(e, PROOF_KEY_SIM) for e, s_ in list(pairs) if s_ == sim]
+    keys = [proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected)]
+    for e, s_ in pairs[1:]:
+        keys.append(proof_key(code, offset, case_path, sets, orig_bytes, compared, srcs=(e, s_)))
     return keys
+
+
+def shared_tail(exe_bytes, base, start, size):
+    """Does the original branch (bra, bt, bf) to another function's epilogue (sh4sim.shared_epilogue)?"""
+    rd = lambda a: struct.unpack_from('<H', exe_bytes, a - base)[0] if 0 <= a - base < len(exe_bytes) - 1 else 0xFFFF
+    for a in range(start, start + size, 2):
+        op = rd(a)
+        if op >> 12 == 0xA:
+            d = op & 0xFFF
+            t = a + 4 + 2 * (d - 0x1000 if d & 0x800 else d)
+        elif op >> 8 in (0x89, 0x8B, 0x8D, 0x8F):
+            d = op & 0xFF
+            t = a + 4 + 2 * (d - 0x100 if d & 0x80 else d)
+        else:
+            continue
+        if not start <= t < start + size and sh4sim.shared_epilogue(rd, t):
+            return True
+    return False
 
 
 def proof_key(code, offset, case_path, sets, orig_bytes, compared, unaffected=False, srcs=None):
@@ -698,6 +780,7 @@ def main(argv):
     want = argv[2:] or sorted(n for n in defined if n in funcs)
     base = int(open('BASE').read().strip(), 16)
     exe_bytes = open('1ST_READ.BIN', 'rb').read()
+    FMT_EXE[:] = [exe_bytes, base]
     rets = returns(cfile)
     back = {a: table[n[1:]] for n, a in syms.items() if n[1:] in table}    # the file's own names
     # a call into the compiled C that is not one of its game-named functions is the C's own helper
@@ -741,7 +824,8 @@ def main(argv):
         keys = proof_keys(code, c_at - SCRATCH, case_path, sets, exe_bytes[start - base:start + size - base],
                         (rets.get(fn), compared_all, indirect_arity(cfile, fn),
                          sorted(indirect_targets(cfile, fn, table).items())),
-                        unaffected=indirect_arity(cfile, fn) is None)
+                        unaffected=indirect_arity(cfile, fn) is None, printf=calls_printf(cfile, fn),
+                        tail=shared_tail(exe_bytes, base, start, size))
         key = keys[0]
         hit = None if fresh else next((cache[k_] for k_ in keys if k_ in cache), None)
         if hit:          # proven before on exactly this code, these cases and this checker

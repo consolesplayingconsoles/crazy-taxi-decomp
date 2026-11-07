@@ -104,12 +104,12 @@ def recheck(wanted, rebuild, run, write_batch, note, ledger, lock, unlock, resto
             drop(it[0])
         if not items:
             return
-        passed, failed, deferred, dropped, err = gen_pipe.run_file_robust('gen_tmpK', items)
+        passed, failed, deferred, dropped, err = gen_pipe.run_file_robust('gen_tmpK%d' % os.getpid(), items)
     finally:
         restore_evidence()
-        for f in glob.glob('src/gen_tmp*.c'):
+        for f in glob.glob('src/gen_tmpK%d.c' % os.getpid()):      # this process's scratch only: runs side by side (shrink workers) keep theirs
             os.remove(f)
-        subprocess.run(['rm', '-rf'] + glob.glob('tests/gen_tmp*'))
+        subprocess.run(['rm', '-rf'] + glob.glob('tests/gen_tmpK%d' % os.getpid()))
         unlock()
     keep = [it for it in items if it[0] in passed]
     for it in keep:

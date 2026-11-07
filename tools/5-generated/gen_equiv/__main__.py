@@ -148,7 +148,7 @@ for l in (subprocess.run(['python3','tools/5-generated/classify.py']+sizes,captu
     if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and (p[2] not in ver or p[2] in ONLY) and not (p[2].startswith('_') and gen_core._custom_convention(p[2])) and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
 def _read(n):
-    signal.alarm(max(READ_LIMIT,gen_core.SPANS[n][1]//4))      # a larger function gets more time: size/4 seconds, at least 300
+    signal.alarm(int(max(READ_LIMIT,gen_core.SPANS[n][1]//4)*TIMEF))      # a larger function gets more time: size/4 seconds, at least 300, times GEN_TIME_FACTOR
     try:
         try: gen_core.run(n); return (n,None)
         except gen_core.Skip as e:
@@ -222,7 +222,7 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
         for _,n_,why in notdrawn: fh.write('%s  not drawn: %s\n'%(n_,why)); ledger.record(RUN,n_,'not drawn',why)
     items.sort(key=lambda it:order[it[0]])
     if not items: return
-    stem='gen_tmp%d'%ri
+    stem='gen_tmp%dp%d'%(ri,os.getpid())      # per process: runs side by side (shrink workers) must not write or remove each other's scratch
     lock()
     try:
         KEEP.update({f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)})      # the files as they are now: other runs may have added to them
@@ -281,8 +281,8 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
         done.update(passed)
         final.append((stem,keep,vi,pt))
         if not known: write_batch(keep)
-        for f in ([] if os.environ.get('GEN_KEEP') else glob.glob('src/gen_tmp*.c')): os.remove(f)      # GEN_KEEP=1 leaves the scratch C to look at
-        for d in glob.glob('tests/gen_tmp*'): shutil.rmtree(d)
+        for f in ([] if os.environ.get('GEN_KEEP') else glob.glob('src/gen_tmp*p%d.c'%os.getpid())): os.remove(f)      # GEN_KEEP=1 leaves the scratch C to look at
+        for d in glob.glob('tests/gen_tmp*p%d'%os.getpid()): shutil.rmtree(d)
     finally:
         unlock()
 for ri,(vi,pt) in enumerate(rounds):

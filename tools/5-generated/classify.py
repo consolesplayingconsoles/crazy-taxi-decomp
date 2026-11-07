@@ -178,11 +178,65 @@ def entry_input(exe, base, a, sz):
 def address_table(exe, base, a, sz):
     """True when the function starts with two 32-bit words that are addresses inside the executable: a table of pointers (a jump table, a
     list of handlers) the function list took for code."""
+    inside = lambda w: base <= w < base + len(exe)
+    if sz == 4:
+        # a single address: its high half, read as an instruction, is no instruction (Zombie Revenge 0x0c01a988 is `bra` and 0x0c01)
+        w0 = struct.unpack_from('<I', exe, a - base)[0]
+        return inside(w0) and shdis.decode(w0 >> 16, a + 2)[0].startswith('.word')
     if sz < 8:
         return False
     w0, w1 = struct.unpack_from('<II', exe, a - base)
-    inside = lambda w: base <= w < base + len(exe)
     return inside(w0) and inside(w1)
+
+
+def fr_inputs(exe, base, a, sz):
+    """fr12-fr15 that the function reads and never writes anywhere: the caller left them (C passes floats in fr4-fr11, and fr12-fr15 are
+    the callee's to save). entry_input() sees only the reads before the first branch; this one the whole function. A function that
+    switches banks (frchg), names them by pair or vector (dr12, dr14, fv12) or as xd/xf, or moves fr12-fr15 in pair mode (fschg) is left alone."""
+    import re
+    reads, writes = set(), set()
+    pcs = sorted(reachable(exe, base, a, sz))
+    decoded = [shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0] for pc in pcs]
+    pairmode = any(t.startswith('fschg') for t in decoded)      # fmov moves pairs there (fr12 is dr12): a move of fr12-fr15 says nothing
+    for t in decoded:
+        mn, _, ops = t.partition(' ')
+        ops = ops.split(';')[0].strip()
+        if mn == 'frchg' or re.search(r'\b(dr1[2-5]|fv12|xd\d+|xf\d+)\b', ops):
+            return []
+        if pairmode and mn.startswith('fmov') and re.search(r'\bfr1[2-5]\b', ops):
+            return []
+        if not ops or '@-r15' in ops or '@r15+' in ops:
+            continue
+        parts = [x.strip() for x in re.split(r',(?![^(]*\))', ops)]
+        last = parts[-1]
+        dest = last if re.fullmatch(r'fr\d+', last) and mn.startswith(('f', 'float')) and mn not in ('fcmp/eq', 'fcmp/gt', 'flds', 'ftst') else None
+        inplace = mn in ('fadd', 'fsub', 'fmul', 'fdiv', 'fmac', 'fneg', 'fabs', 'fsqrt', 'fsrra')      # changed in place: a read too
+        for x in parts:
+            for r in re.findall(r'\bfr(\d+)\b', x):
+                r = int(r)
+                if 12 <= r <= 15:
+                    if x == dest and not inplace and mn in ('fmov', 'fmov.s', 'fldi0', 'fldi1', 'float', 'fsts'):
+                        writes.add(r)
+                    elif x == dest:
+                        reads.add(r)
+                        writes.add(r)
+                    else:
+                        reads.add(r)
+    return sorted(reads - writes)
+
+
+def sp_from_memory(exe, base, a, sz):
+    """True when the function loads the stack pointer from memory (`mov.l @(4,r0),r15`): it returns on a stack it takes from a saved
+    context, which C cannot do. A pop (`@r15+`) and `mov r14,r15` (the frame pointer) are ordinary."""
+    import re
+    for pc in sorted(reachable(exe, base, a, sz)):
+        t = shdis.decode(struct.unpack_from('<H', exe, pc - base)[0], pc)[0]
+        mn, _, ops = t.partition(' ')
+        ops = ops.split(';')[0].strip()
+        m = re.fullmatch(r'(@.+),r15', ops)
+        if mn in ('mov.l', 'mov.w', 'mov.b') and m and m.group(1) != '@r15+':
+            return True
+    return False
 
 
 def _uses_defs(mn, ops):
@@ -436,6 +490,11 @@ def no_c_form(exe, base, a, sz):
         out.append('reads r%d after a call without writing it: it relies on the callee keeping it (a custom convention)' % ck)
     if entry_input(exe, base, a, sz):
         out.append('reads a register on entry before anything writes it (r0-r3, fr0-fr3 or fr12-fr15): a value its caller left (a custom convention)')
+    fi = fr_inputs(exe, base, a, sz)
+    if fi and not entry_input(exe, base, a, sz):
+        out.append('reads fr%s, which it never writes: values its caller left (a custom convention)' % ', fr'.join(str(r) for r in fi))
+    if sp_from_memory(exe, base, a, sz):
+        out.append('loads the stack pointer from memory: it returns on a stack taken from a saved context, not C')
     if t_input(exe, base, a, sz):
         out.append('reads the T flag before anything sets it: a flag its caller or a helper it calls left (a custom convention)')
     ri = register_inputs(exe, base, a, sz)

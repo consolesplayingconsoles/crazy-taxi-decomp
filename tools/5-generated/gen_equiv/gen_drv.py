@@ -65,9 +65,16 @@ def build(name,ret,passthru=False):
                 ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
                 if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
-        W=(c.maxD+3)//4+1
+        ps0=getattr(c,'psaves',0) if os.environ.get('GEN_SAVES','0')!='1' else 0      # the registers the prologue saves are not in the array: the compiler pushes its own below it, and the C's locals then sit where the original's did
+        raw=text
+        for ps in ((ps0,0) if ps0 else (0,)):
+            W=(c.maxD-ps+3)//4+1
+            text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))+(ps if int(m.group(1))<0 else 0)),raw)
+            reach=0
+            for m_ in re.finditer(r'\(int\)stk \+ (\d+)((?: \+ (?:0x[0-9A-Fa-f]+|\d+))*)',text):      # the highest byte of the array the C reaches (an address with its constant offsets added)
+                reach=max(reach,int(m_.group(1))+sum(int(x,0) for x in re.findall(r'\+ (0x[0-9A-Fa-f]+|\d+)',m_.group(2)))+4)
+            if reach<=4*(W+up+(8 if up else 0)): break      # inside the array: this size; else the old one, whose array also held the saved registers' slots
         frame_decl=('int stk[%d] = {0};' if os.environ.get('GEN_ZERO_STK')=='1' else 'int stk[%d];')%(W+up+(8 if up else 0))         # the simulator's stack starts zeroed, so the proof does not need an initialiser (which costs a copy from a constant)
-        text=re.sub(r'@@F:(-?\d+)@@',lambda m:str(4*W+int(m.group(1))),text)
     rt='void'
     if '@@TAIL:' in text:
         if ret=='void': text=re.sub(r'@@TAIL:(.*?)@@',lambda m:m.group(1)+';\nreturn;',text)
@@ -415,7 +422,7 @@ def original_runs(name,case,_mended=False):
             if len(ENDLESS[name])<12: ENDLESS[name].append(copy.deepcopy(case))
             ERRS['steady at the step limit']=ERRS.get('steady at the step limit',0)+1
             return None,set()
-    run=lambda c,trace=False: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60),trace=trace),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    run=lambda c,trace=False: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60,int(c.get('steps',0))),trace=trace),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     if LEARNED.get(name) and not _mended:          # what an earlier repair set, tried first: kept when the original then ends cleanly
         L=LEARNED[name]; calls=[dict(e) for e in case.get('calls',[])]
         for i,e in L['calls'].items():
@@ -458,7 +465,7 @@ def original_runs(name,case,_mended=False):
     if r.get('devices') and HW[0]:              # a function that touches hardware: an access outside RAM that moves with the stack is a local
         top=int(case.get('regs',{}).get('r15','%X'%(sh4sim.STACK_TOP-0x100)),16)       # table read out of range, no game input (rankDrawCharaIcon)
         c2=dict(case,regs=dict(case.get('regs',{}),r15='%08X'%(top-0x300)))
-        r2=sh4sim.run(dict(c2,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+        r2=sh4sim.run(dict(c2,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60,int(c2.get('steps',0)))),'.',deep=lambda t:t in RUNTIME,argc=_argc)
         if not r2['error'] and stack_moved(r['devices'],r2.get('devices',[]),0x300,r2.get('reads',[])):
             ERRS['reaches outside RAM through the stack']=ERRS.get('reaches outside RAM through the stack',0)+1
             return None,set()
@@ -472,7 +479,7 @@ def unset_free(name,cases,enough=None):
     except Exception: return cases
     start,size=G.SPANS[name]
     base=int(open('BASE').read().strip(),16)
-    run=lambda c: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60)),'.',deep=lambda t:t in RUNTIME,argc=_argc)
+    run=lambda c: sh4sim.run(dict(c,exe='1ST_READ.BIN',base='%08X'%base,entry='%08X'%start,end='%08X'%(start+size),steps=STEPS[0] or max(100000,size*60,int(c.get('steps',0)))),'.',deep=lambda t:t in RUNTIME,argc=_argc)
     out=[]
     for d in cases:
         if enough is not None and len(out)>=enough: break

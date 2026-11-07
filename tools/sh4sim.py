@@ -179,6 +179,36 @@ class Memory:
             self.body_written.discard(self.phys(addr + k) & ~3)
 
 
+def shared_epilogue(read16, a):
+    """Is the code at `a` an epilogue only: register pops, a frame add to r15, constants and pool loads into r0-r7, then rts or a jmp
+    with its slot? The compiler lets a function end by branching into another function's epilogue (a shared tail: Zombie Revenge
+    FUN_0c0b8bcc -> 0C0B965A, the pops of FUN_0c0b954e and a jmp to nlPopMatrix). Such a branch is the function's own ending, not a
+    tail call. The address of the instruction after the slot, or None."""
+    pops = 0
+    for k in range(48):
+        op = read16(a + 2 * k)
+        n = (op >> 8) & 15
+        last = op == 0x000B or (op & 0xF0FF) == 0x402B       # rts / jmp @rn
+        if not last and k and _epi_op(op) is None:
+            return None
+        if last:
+            return a + 2 * k + 4 if pops and _epi_op(read16(a + 2 * k + 2)) is not None else None
+        if _epi_op(op) is None:
+            return None
+        pops += _epi_op(op)
+    return None
+
+
+def _epi_op(op):
+    """1 for a pop of a saved register, 0 for another instruction an epilogue holds, None for anything else."""
+    n = (op >> 8) & 15
+    if op == 0x4F26 or ((op & 0xF0FF) == 0x60F6 and n >= 8) or ((op & 0xF0FF) == 0xF0F9 and n >= 12):
+        return 1                                           # lds.l @r15+,pr / mov.l @r15+,r8-r14 / fmov.s @r15+,fr12-fr15
+    if op == 0x0009 or (op & 0xFF00) == 0x7F00 or (op & 0xF000) in (0xE000, 0xD000, 0x9000) and n < 8:
+        return 0                                           # nop / add #imm,r15 / mov #imm, mov.l and mov.w pool loads into r0-r7
+    return None
+
+
 class _Regs(list):
     """The integer registers, remembering which were assigned since `written` was last cleared (a bit per register). A mocked call's
     argument register is set for the call when the function wrote it since the last call, whatever value it holds: a pointer reloaded
@@ -216,6 +246,7 @@ class CPU:
         self.on_call = None       # callback(cpu, target, kind) -> True when the call was handled
         self.lo = self.hi = 0     # the function's own bytes: branches inside stay inside
         self.inside = []          # return addresses of the callees running now (deep calls)
+        self.tails = set()        # instructions of another function's epilogue this one branched into (shared_epilogue)
 
     # FPSCR as a word
     def get_fpscr(self):
@@ -531,6 +562,13 @@ class CPU:
             self.pc = target
             return
         if self.inside and call != 'call':        # inside a deep callee: its branches are its own
+            self.pc = target
+            return
+        if call != 'call' and not (self.lo <= target < self.hi) and target not in self.tails:
+            e = shared_epilogue(lambda x: self.m.read(x, 2, fetch=True), target)
+            if e:
+                self.tails.update(range(target, e, 2))            # another function's epilogue, shared: this function's own ending, run in place
+        if call != 'call' and target in self.tails:
             self.pc = target
             return
         if call == 'call' or not (self.lo <= target < self.hi):      # a braf / jmp to an address inside the function is a branch (a jump table, a long goto)

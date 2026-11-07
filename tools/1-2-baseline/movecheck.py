@@ -160,10 +160,20 @@ def winpath(p):
     return p.replace('/', '\\')
 
 
+def bios_pokes():
+    """The BIOS system-call vectors, each to a stub (no BIOS in the simulator): rts / mov #0,r0, success; the flash-ROM one (B8)
+    to rts / mov #-1,r0, a failed read. A read answered "success" left its buffer as the stack had it, words of earlier frames that
+    differ between the two layouts (Zombie Revenge kbCfgIni: two bytes of a flash read copied to 8C000070, check 2 differed there)."""
+    poke = {'%08X' % v: '0008008c' for v in (0x8C0000B0, 0x8C0000B4, 0x8C0000BC, 0x8C0000C0, 0x8C0000E0)}
+    poke['8C0000B8'] = '0408008c'
+    poke['8C000800'] = '0b0000e0'            # rts / mov #0,r0
+    poke['8C000804'] = '0b00ffe0'            # rts / mov #-1,r0
+    return poke
+
+
 def simulate(exe, steps):
     import sh4sim
-    poke = {'%08X' % v: '0008008c' for v in (0x8C0000B0, 0x8C0000B4, 0x8C0000B8, 0x8C0000BC, 0x8C0000C0, 0x8C0000E0)}
-    poke['8C000800'] = '0b0000e0'            # every BIOS system-call vector -> rts / mov #0,r0 (no BIOS in the simulator)
+    poke = bios_pokes()
     base = int(open('BASE').read().strip(), 16)
     n = os.path.getsize(exe)
     code = layout.region('code')              # the run starts where the game's code does: past a boot block (Crazy Taxi 0C020000),

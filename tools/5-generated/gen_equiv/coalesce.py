@@ -74,12 +74,16 @@ def coalesce(text):
         rng[v] = (a, b)
     pools = {'int': [], 'float': []}
     mapping = {}
+    reserved = set(re.findall(r'\b[tu]\d+\b', '\n'.join(L))) - set(types)      # names of other locals (the ftrv vectors are float arrays u<N>): not for a shared variable
     for v in sorted(rng, key=lambda k: rng[k]):
         a, b = rng[v]
         pool = pools[types[v]]
         got = next((p for p in pool if p[1] < a), None)
         if got is None:
-            got = ['%s%d' % ('t' if types[v] == 'int' else 'u', len(pool)), -1]
+            k = len(pool)
+            while '%s%d' % ('t' if types[v] == 'int' else 'u', k) in reserved or any(p[0] == '%s%d' % ('t' if types[v] == 'int' else 'u', k) for p in pool):
+                k += 1
+            got = ['%s%d' % ('t' if types[v] == 'int' else 'u', k), -1]
             pool.append(got)
         got[1] = b
         mapping[v] = got[0]
