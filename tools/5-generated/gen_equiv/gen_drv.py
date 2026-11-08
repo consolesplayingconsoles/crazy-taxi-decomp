@@ -193,6 +193,9 @@ def build(name,ret,passthru=False):
     if os.environ.get('GEN_GLOBASE','1')!='0': src=rewrites.global_base(src)      # nearby fixed addresses off one base
     if os.environ.get('GEN_SWITCH','1')!='0': src=rewrites.chains_to_switch(src)      # a state chain of ifs as a switch
     if os.environ.get('GEN_COPIES','1')!='0': src=rewrites.merge_copies(src)      # a result threaded through nesting levels by copies
+    if os.environ.get('GEN_DEADFRAME','1')!='0': src=rewrites.drop_dead_frame(src)      # a stack array nothing reads goes (after the self-copies are gone)
+    if os.environ.get('GEN_HOIST','1')!='0': src=rewrites.hoist_builtins(src)      # a pure builtin called more than once with the same variable: once
+    if os.environ.get('GEN_REBASE','1')!='0': src=rewrites.frame_rebase(src)      # the stack array based at its first used word (last: other passes read the old offsets)
     return src,c
 _LOCAL=re.compile(r'^(\s+)((?:unsigned )?(?:int|short|char)|float) (\w+);$',re.M)
 def register_locals(text):

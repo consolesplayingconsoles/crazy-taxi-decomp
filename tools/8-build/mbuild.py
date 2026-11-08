@@ -938,9 +938,19 @@ def main():
     say('pool reads: every one across pieces keeps its distance')
     hi = (((s2['_bss'] & 0x1FFFFFFF) | 0x0C000000) + (bss_end - bend)) if '_bss' in s2 else fixed   # the BSS block is linked last
     say('game.bin: %d bytes (the original %d); image and BSS end at %08X, fixed at %08X: %s' % (
-        os.path.getsize(OUT + '/game.bin'), len(B.BIN), hi, fixed, 'fits' if hi < fixed else 'DOES NOT FIT'))
+        os.path.getsize(OUT + '/game.bin'), len(B.BIN), hi, fixed, fit_text(hi, fixed)))
     if hi >= fixed:
         sys.exit(1)
+
+
+def fit_text(hi, fixed):
+    """The build's verdict with the gap in it: how far past `fixed` the image and BSS end, or how much room is left below it."""
+    spare = fixed - hi
+    if spare > 0:
+        return 'fits, {:,} bytes spare below fixed'.format(spare)
+    if spare == 0:
+        return 'DOES NOT FIT: 0 bytes spare, the image must end below fixed'
+    return 'DOES NOT FIT: {:,} bytes ({:.1f} KB) over fixed'.format(-spare, -spare / 1024.0)
 
 
 if __name__ == '__main__':

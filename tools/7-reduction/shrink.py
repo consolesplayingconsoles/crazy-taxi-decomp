@@ -3,7 +3,7 @@
 Run in the repo.
 
     python3 tools/7-reduction/shrink.py [--keep 1.0] [--regen] <name> ...
-    python3 tools/7-reduction/shrink.py --passes [narrow,selfcopy,struct,frame,globase,switch,copies] [src/<unit>.c ...]
+    python3 tools/7-reduction/shrink.py --passes [narrow,selfcopy,struct,frame,globase,switch,copies,rebase,hoist,deadframe] [src/<unit>.c ...]
 
 --regen keeps the new C whatever its size, as long as it is proven: for when the generator itself was fixed.
 
@@ -53,7 +53,7 @@ if '--keep' in args:
 PASSES = None                       # --passes: the rewrite strategies instead of a regeneration
 if '--passes' in args:
     k = args.index('--passes')
-    PASSES = ['narrow', 'selfcopy', 'struct', 'frame', 'globase', 'switch', 'copies']
+    PASSES = ['narrow', 'selfcopy', 'struct', 'frame', 'globase', 'switch', 'copies', 'rebase', 'hoist', 'deadframe']
     if k + 1 < len(args) and not args[k + 1].startswith(('src/', '-')):
         PASSES = args[k + 1].split(',')
         del args[k + 1]
@@ -167,7 +167,7 @@ def _stop(sig, frame_):
     for f, t in _SAFE.items():
         open(f, 'w').write(t)
         print('stopped: %s put back to its proven text' % f, flush=True)
-    sys.exit(1)
+    os._exit(1)          # not sys.exit: sizes.unit_sizes catches SystemExit, so a signal that landed in a compile did not end the run
 
 
 def narrow_pass(f, log):
@@ -218,7 +218,7 @@ def rewrite_pass(f, pas, log, manual):
     import frame
     import rewrites
     fn_ = {'selfcopy': rewrites.drop_self_copies, 'struct': rewrites.struct_access, 'globase': rewrites.global_base,
-           'switch': rewrites.chains_to_switch, 'copies': rewrites.merge_copies,
+           'switch': rewrites.chains_to_switch, 'copies': rewrites.merge_copies, 'rebase': rewrites.frame_rebase, 'hoist': rewrites.hoist_builtins, 'deadframe': rewrites.drop_dead_frame,
            'frame': lambda c: frame.scalarize(c.rstrip('\n')) + '\n'}[pas]
     text = open(f, errors='replace').read()
     funcs = {}

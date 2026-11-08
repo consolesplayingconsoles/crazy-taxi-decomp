@@ -343,3 +343,120 @@ def chains_to_switch(text, minlen=3):
         out.append(lines[i])
         i += 1
     return '\n'.join(out)
+
+
+_STK = re.compile(r'int stk\[(\d+)\];')
+_STKUSE = re.compile(r'\(int\)stk \+ (\d+)')
+
+
+def frame_rebase(text):
+    """The generator writes a function's stack array one word below its first used slot: `int stk[16]` used from `(int)stk + 4`,
+    so the compiler adds 4 to the frame pointer before every access and the original (the slot at the pointer itself) does not
+    (Zombie Revenge: 1,154 of 1,282 such functions; FUN_0c0c0304 72 bytes to 66). Every `(int)stk + K` becomes `(int)stk + K-m`
+    for the function's lowest K = m, and the array loses m/4 words. Left alone: a function that uses stk any other way
+    (stk[i]), whose lowest offset is 0 or not a word multiple."""
+    def one(m):
+        body = m.group(2)
+        d = _STK.search(body)
+        if not d:
+            return m.group(0)
+        rest = body[:d.start()] + body[d.end():]
+        uses = _STKUSE.findall(rest)
+        if not uses or len(re.findall(r'\bstk\b', rest)) != len(uses):
+            return m.group(0)
+        lo = min(int(k) for k in uses)
+        n = int(d.group(1))
+        if lo == 0 or lo % 4 or n - lo // 4 < 1:
+            return m.group(0)
+        rest = _STKUSE.sub(lambda u: '(int)stk + %d' % (int(u.group(1)) - lo), rest)
+        return m.group(1) + body[:d.start()] + 'int stk[%d];' % (n - lo // 4) + rest[d.start():] + m.group(3)
+    return re.sub(r'(^\{\n)(.*?)(\n\}$)', one, text, flags=re.M | re.S)
+
+
+_BUILTIN = re.compile(r'_builtin_(sqrtf|fabsf)\((\w+)\)')
+_DECL = re.compile(r'^\s+(?:register )?(?:unsigned )?(?:int|float|short|char)\s+[\w\[\], ]+;$')
+
+
+def hoist_builtins(text):
+    """A pure builtin called with the same variable more than once, once per comparison (Zombie Revenge FUN_0c0341a6: three
+    `_builtin_sqrtf(u5)` where the original takes the root once and compares three times; 242 extra evaluations in 96
+    functions), is computed once into a new local before the first call and read from there. Only when the argument is a plain
+    variable that is not assigned at or after the first call and never has its address taken, every call lies in the block of the
+    first (no line between them is indented less), and the function has no loop, goto or label: then the value is the same at
+    every call, and computing it early is harmless (the builtin has no side effect)."""
+    def one(m):
+        lines = m.group(2).split('\n')
+        if any(re.search(r'\b(for|while|do|goto)\b', l) or re.match(r'^\s*\w+:;?\s*$', l) for l in lines):
+            return m.group(0)
+        n = 0
+        while True:
+            hit = None
+            seen = {}
+            for i, l in enumerate(lines):
+                for c in _BUILTIN.finditer(l):
+                    seen.setdefault((c.group(1), c.group(2)), []).append(i)
+            for (fn_, arg), at in sorted(seen.items(), key=lambda kv: kv[1][0]):
+                if len(at) < 2 or arg[0].isdigit() or any('&' + arg in l for l in lines):
+                    continue
+                first, last = at[0], at[-1]
+                ind = len(lines[first]) - len(lines[first].lstrip())
+                if any(re.search(r'(?<![\w.])%s\s*=(?!=)' % re.escape(arg), l) for l in lines[first:]):
+                    continue
+                if any(l.strip() and len(l) - len(l.lstrip()) < ind for l in lines[first:last + 1]):
+                    continue
+                hit = (fn_, arg, first)
+                break
+            if not hit:
+                break
+            fn_, arg, first = hit
+            n += 1
+            name = 's%d' % n
+            while any(re.search(r'\b%s\b' % name, l) for l in lines):
+                n += 1
+                name = 's%d' % n
+            call = '_builtin_%s(%s)' % (fn_, arg)
+            ind = ' ' * (len(lines[first]) - len(lines[first].lstrip()))
+            for i in range(first, len(lines)):
+                lines[i] = lines[i].replace(call, name)
+            lines.insert(first, '%s%s = %s;' % (ind, name, call))
+            d = 0
+            while d < len(lines) and (_DECL.match(lines[d]) or not lines[d].strip()):
+                d += 1
+            while d > 0 and not lines[d - 1].strip():
+                d -= 1
+            lines.insert(d, '    float %s;' % name)
+        return m.group(1) + '\n'.join(lines) + m.group(3)
+    return re.sub(r'(^\{\n)(.*?)(\n\}$)', one, text, flags=re.M | re.S)
+
+
+_BARE_STK = re.compile(r'^\s*\*\(volatile (?:unsigned )?(?:int|short|char|float) \*\)\(\(int\)stk \+ \d+\);$')
+_DEAD_STORE = re.compile(r'^\s*\*\((?:unsigned )?(?:int|short|char|float) \*\)\(\(?\(int\)stk \+ \d+\)\)? = ([^;]*);$')
+
+
+def drop_dead_frame(text):
+    """A function whose stack array nothing reads. The generator keeps register shuffles in `stk` slots and ends some functions with a
+    bare `*(volatile int *)((int)stk + 4);` (the load of a restored register); when no slot is ever read and the array's address
+    goes nowhere, the compiler still builds a frame, keeps a frame-pointer copy and writes the slots (Zombie Revenge FUN_0c0b1800:
+    the original has no frame, the C a 12-byte one). The stores, the bare reads and the array go: 42 functions, 4.3 KB of excess.
+    Left alone: any other use of stk, and a store whose value is a call or a volatile read (it has an effect)."""
+    def one(m):
+        lines = m.group(2).split('\n')
+        di = next((i for i, l in enumerate(lines) if re.match(r'^\s*int stk\[\d+\];$', l)), None)
+        if di is None:
+            return m.group(0)
+        keep = []
+        dropped = 0
+        for i, l in enumerate(lines):
+            if i == di:
+                continue
+            sm = _DEAD_STORE.match(l)
+            if _BARE_STK.match(l) or (sm and 'stk' not in sm.group(1) and 'volatile' not in sm.group(1) and not re.search(r'\w\(', sm.group(1))):
+                dropped += 1
+                continue
+            keep.append(l)
+        if any('stk' in l for l in keep):
+            return m.group(0)
+        while keep and keep[0] == '' and len(keep) > 1 and keep[1] == '':
+            keep.pop(0)
+        return m.group(1) + '\n'.join(keep) + m.group(3)
+    return re.sub(r'(^\{\n)(.*?)(\n\}$)', one, text, flags=re.M | re.S)
