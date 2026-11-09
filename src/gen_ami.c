@@ -9,15 +9,21 @@ int gdc_StopStreamSongAll(void);
 int gdc_StopStreamVoiceAll(void);
 int pfSetZ(float);
 int callGoBackAdvertise(void);
+struct o0_uint { unsigned int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int callGoBackAdvertise(void)
 {
     int t7;
 
-    *(unsigned int *)0xC1EE234 = 0x0;
-    *(unsigned int *)0xC1EE238 = 0x8;
-    *(unsigned int *)0xC2A11D8 = 0x0;
-    *(unsigned int *)0xC2A11DC = 0x0;
+    (((struct o28_uint *)0xC1EE20C)->v) = 0x0;
+    (((struct o2C_uint *)0xC1EE20C)->v) = 0x8;
+    (((struct o0_uint *)0xC2A11D8)->v) = 0x0;
+    (((struct o4_uint *)0xC2A11D8)->v) = 0x0;
     SetScreen(0x0);
     SetWindow(0x0);
     Voice_Clear();
@@ -25,8 +31,8 @@ int callGoBackAdvertise(void)
     gdc_StopStreamSongAll();
     Sound_Init();
     t7 = pfSetZ(0.099999994f);
-    *(unsigned int *)0xC1EE210 = 0x0;
-    *(unsigned int *)0xC1EE214 = 0x0;
-    *(unsigned int *)0xC1EE20C = 0x0;
+    (((struct o4_uint *)0xC1EE20C)->v) = 0x0;
+    (((struct o8_uint *)0xC1EE20C)->v) = 0x0;
+    (((struct o0_uint *)0xC1EE20C)->v) = 0x0;
     return t7;
 }

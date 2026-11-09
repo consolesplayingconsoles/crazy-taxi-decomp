@@ -5,6 +5,22 @@ int mpdrv_init_globals(void);
 int mpdrv_set_dreq_ns(int);
 int mpdrv_set_end_ns(void);
 int mpdrv_init_ex(int a4, int a5, int a6, int a7);
+struct o10A8_int { char p[0x10A8]; int v; };
+struct o10A8_uint { char p[0x10A8]; unsigned int v; };
+struct o10AC_uint { char p[0x10AC]; unsigned int v; };
+struct o10C0_int { char p[0x10C0]; int v; };
+struct o10D0_int { char p[0x10D0]; int v; };
+struct o10F4_int { char p[0x10F4]; int v; };
+struct o60_uint { char p[0x60]; unsigned int v; };
+struct o80_uint { char p[0x80]; unsigned int v; };
+struct o8C_uint { char p[0x8C]; unsigned int v; };
+struct oFC0_uint { char p[0xFC0]; unsigned int v; };
+struct oFC4_int { char p[0xFC4]; int v; };
+struct oFC4_uint { char p[0xFC4]; unsigned int v; };
+struct oFC8_int { char p[0xFC8]; int v; };
+struct oFC8_uint { char p[0xFC8]; unsigned int v; };
+struct oFCC_uint { char p[0xFCC]; unsigned int v; };
+
 
 int mpdrv_init_ex(int a4, int a5, int a6, int a7)
 {
@@ -43,67 +59,74 @@ int mpdrv_init_ex(int a4, int a5, int a6, int a7)
     int t90;
     int t91;
     int stk[11];
+    int R1004;
+    int R1008;
+    int R1012;
 
-    *(unsigned int *)(((int)stk + 12)) = a4;
-    *(unsigned int *)(((int)stk + 4)) = a5;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+
+    R1012 = a4;
+    R1004 = a5;
     *(unsigned int *)0xC2FA538 = 0xC2F943C;
     *(unsigned int *)0xC2FA400 = a6;
-    *(unsigned int *)(((*(int *)0xC2FA538) + 0xFC8)) = (*(int *)(((int)stk + 4)));
-    if (((*(int *)(((*(int *)0xC2FA538) + 0xFC4))) & 0x1F) != 0) {
+    (((struct oFC8_uint *)((*(int *)0xC2FA538)))->v) = (R1004);
+    if ((((((struct oFC4_int *)((*(int *)0xC2FA538)))->v)) & 0x1F) != 0) {
         t4 = *(int *)0xC2FA538;
-        *(unsigned int *)((t4 + 0xFC4)) = ((*(int *)((t4 + 0xFC4))) + 0x20);
+        (((struct oFC4_uint *)(t4))->v) = (((((struct oFC4_int *)(t4))->v)) + 0x20);
         t6 = *(int *)0xC2FA538;
-        *(unsigned int *)((t6 + 0xFC4)) = ((*(int *)((t6 + 0xFC4))) & 0xFFFFFFE0);
+        (((struct oFC4_uint *)(t6))->v) = (((((struct oFC4_int *)(t6))->v)) & 0xFFFFFFE0);
     }
     t12 = *(int *)0xC2FA538;
-    if (((*(int *)((t12 + 0xFC8))) & 0x1F) != 0) {
-        *(unsigned int *)((t12 + 0xFC8)) = ((*(int *)((t12 + 0xFC8))) + 0x20);
+    if ((((((struct oFC8_int *)(t12))->v)) & 0x1F) != 0) {
+        (((struct oFC8_uint *)(t12))->v) = (((((struct oFC8_int *)(t12))->v)) + 0x20);
         t15 = *(int *)0xC2FA538;
-        *(unsigned int *)((t15 + 0xFC8)) = ((*(int *)((t15 + 0xFC8))) & 0xFFFFFFE0);
+        (((struct oFC8_uint *)(t15))->v) = (((((struct oFC8_int *)(t15))->v)) & 0xFFFFFFE0);
     }
     t20 = *(int *)0xC2FA538;
-    *(unsigned int *)((t20 + 0xFC4)) = ((*(int *)((t20 + 0xFC4))) | 0xA0000000);
+    (((struct oFC4_uint *)(t20))->v) = (((((struct oFC4_int *)(t20))->v)) | 0xA0000000);
     t22 = *(int *)0xC2FA538;
-    *(unsigned int *)((t22 + 0xFC8)) = ((*(int *)((t22 + 0xFC8))) | 0xA0000000);
+    (((struct oFC8_uint *)(t22))->v) = (((((struct oFC8_int *)(t22))->v)) | 0xA0000000);
     mpdrv_init_globals();
     t25 = 0x0;
     for (;;) {
         *(unsigned int *)((((0xFE8 + (*(int *)0xC2FA538)) + t25) + 0x0)) = 0x0;
         t28 = ((0xFE8 + (*(int *)0xC2FA538)) + t25);
         t25 = (t25 + 0x4);
-        *(unsigned int *)(((t28 + 0x60) + 0x0)) = 0x0;
+        (((struct o60_uint *)(t28))->v) = 0x0;
         if ((unsigned int)t25 >= (unsigned int)0x60) {
             break;
         }
     }
-    *(unsigned int *)(((int)stk + 8)) = (*(int *)(((int)stk + 12)));
+    R1008 = (R1012);
     if ((int)a7 > 0) {
         t30 = 0x0;
         for (;;) {
-            t31 = *(int *)(((int)stk + 4));
-            *(unsigned int *)(((int)stk + 4)) = (t31 + 0x4);
+            t31 = R1004;
+            R1004 = (t31 + 0x4);
             t32 = *(int *)((((t31 + 0x4) - 4) + 0x0));
             t33 = t32;
             if ((t32 & 0x1F) != 0) {
                 t33 = ((t32 + 0x20) & 0xFFFFFFE0);
             }
-            t35 = *(int *)(((int)stk + 8));
+            t35 = R1008;
             t30 = (t30 + 0x1);
-            *(unsigned int *)(((int)stk + 8)) = (t35 + 0x4);
+            R1008 = (t35 + 0x4);
             t36 = *(int *)((((t35 + 0x4) - 4) + 0x0));
             *(unsigned int *)((((0xFE8 + (*(int *)0xC2FA538)) + (t36 << 2)) + 0x0)) = (t33 | 0xA0000000);
-            *(unsigned int *)(((((t36 << 2) + (0xFE8 + (*(int *)0xC2FA538))) + 0x60) + 0x0)) = ((t33 | 0xA0000000) + 0x400);
+            (((struct o60_uint *)(((t36 << 2) + (0xFE8 + (*(int *)0xC2FA538)))))->v) = ((t33 | 0xA0000000) + 0x400);
             if ((int)t30 >= (int)a7) {
                 break;
             }
         }
     }
     t45 = *(int *)0xC2FA538;
-    *(unsigned int *)((t45 + 0x10A8)) = (*(int *)((t45 + 0xFC4)));
+    (((struct o10A8_uint *)(t45))->v) = ((((struct oFC4_int *)(t45))->v));
     t47 = *(int *)0xC2FA538;
-    *(unsigned int *)((t47 + 0x10AC)) = (((a7 << 8) << 2) + (*(int *)((t47 + 0xFC4))));
+    (((struct o10AC_uint *)(t47))->v) = (((a7 << 8) << 2) + ((((struct oFC4_int *)(t47))->v)));
     t49 = *(int *)0xC2FA538;
-    *(unsigned int *)((t49 + 0xFCC)) = (*(int *)((t49 + 0x10A8)));
+    (((struct oFCC_uint *)(t49))->v) = ((((struct o10A8_int *)(t49))->v));
     t51 = 0x0;
     for (;;) {
         t53 = ((0xF90 + (*(int *)0xC2FA538)) + t51);
@@ -113,7 +136,7 @@ int mpdrv_init_ex(int a4, int a5, int a6, int a7)
             break;
         }
     }
-    t55 = *(int *)(((int)stk + 12));
+    t55 = R1012;
     if ((int)a7 > 0) {
         t56 = 0x0;
         t57 = t55;
@@ -162,11 +185,11 @@ int mpdrv_init_ex(int a4, int a5, int a6, int a7)
         }
     }
     mpdrv_set_end_ns();
-    *(unsigned int *)(((*(int *)0xC2FA538) + 0xFC0)) = 0x1;
-    *(unsigned int *)(((*(int *)(((*(int *)0xC2FA538) + 0x10F4))) + 0x8C)) = 0x6155404F;
-    *(unsigned int *)(((*(int *)(((*(int *)0xC2FA538) + 0x10F4))) + 0x10)) = 0x0;
+    (((struct oFC0_uint *)((*(int *)0xC2FA538)))->v) = 0x1;
+    (((struct o8C_uint *)(((((struct o10F4_int *)((*(int *)0xC2FA538)))->v))))->v) = 0x6155404F;
+    *(unsigned int *)((((((struct o10F4_int *)((*(int *)0xC2FA538)))->v)) + 0x10)) = 0x0;
     t99 = *(int *)0xC2FA538;
-    *(unsigned int *)(((*(int *)((t99 + 0x10F4))) + 0x80)) = ((*(int *)((t99 + 0x10C0))) | (*(int *)((t99 + 0x10D0))));
-    *(unsigned int *)(((*(int *)(((*(int *)0xC2FA538) + 0x10F4))) + 0x14)) = 0x1;
+    (((struct o80_uint *)(((((struct o10F4_int *)(t99))->v))))->v) = (((((struct o10C0_int *)(t99))->v)) | ((((struct o10D0_int *)(t99))->v)));
+    *(unsigned int *)((((((struct o10F4_int *)((*(int *)0xC2FA538)))->v)) + 0x14)) = 0x1;
     return 0x0;
 }

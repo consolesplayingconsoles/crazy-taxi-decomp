@@ -17,6 +17,20 @@ int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
 int nlUnitVector(int);
 int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5);
+struct o10_float { char p[0x10]; float v; };
+struct o114_short { char p[0x114]; short v; };
+struct o15C_float { char p[0x15C]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o38_short { char p[0x38]; short v; };
+struct o38_ushort { char p[0x38]; unsigned short v; };
+struct o3C_float { char p[0x3C]; float v; };
+struct o44_float { char p[0x44]; float v; };
+struct o4C_int { char p[0x4C]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o50_uint { char p[0x50]; unsigned int v; };
+struct o60_short { char p[0x60]; short v; };
+struct oF4_short { char p[0xF4]; short v; };
+
 
 int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
 {
@@ -30,7 +44,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     int t108;
     int t111;
     int t118;
-    int stk[31];
+    int stk[30];
 
     int R0;
     int R1;
@@ -65,14 +79,14 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     R14 = (R4);
     F14 = (F5);
     F15 = (F4);
-    if (((*(int *)((R4 + 0x50))) != 2)) goto L_C04FCAC;
+    if ((((((struct o50_int *)(R4))->v)) != 2)) goto L_C04FCAC;
     goto L_C04FC7E;
     L_C04FC7E:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)((R14 + 0x40)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x30)) = *(struct mv3 *)((R14 + 0x40)); }
     goto L_C04FCBA;
     L_C04FCBA:;
     u7 = 50.0f;
-    u7 = u7 + 15.0f * _builtin_fabsf((*(float *)((R13 + 0x15C))));
+    u7 = u7 + 15.0f * _builtin_fabsf(((((struct o15C_float *)(R13))->v)));
     R11 = (0x0);
     F0 = (15.0f);
     if ((u7 > F15)) goto L_C04FCD4;
@@ -81,15 +95,15 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     goto L_C04FE52;
     L_C04FE52:;
     F13 = (16.5f);
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FF4C;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FF4C;
     goto L_C04FE5E;
     L_C04FE5E:;
     nlPushUnitMatrix();
-    nlRotateAY(((unsigned short)(*(short *)((R14 + 0x38))) + (unsigned short)(*(short *)((R13 + 0xF4)))));
+    nlRotateAY(((unsigned short)((((struct o38_short *)(R14))->v)) + (unsigned short)((((struct oF4_short *)(R13))->v))));
     nlCalcPoint(0xC12FF0C, (R14 + 0x2C));
     nlPopMatrix(0x1);
-    nlScaleVector((((int)stk + 4) + 0xC), (R14 + 0x2C), ((*(float *)((R14 + 0x3C))) * (1.0f + 1.0f)));
-    nlAddVector((R14 + 0x40), (((int)stk + 4) + 0xC));
+    nlScaleVector((((int)stk + 0) + 0xC), (R14 + 0x2C), (((((struct o3C_float *)(R14))->v)) * (1.0f + 1.0f)));
+    nlAddVector((R14 + 0x40), (((int)stk + 0) + 0xC));
     t23 = GetCollision2D((R14 + 0x40), F13);
     t24 = *(int *)((t23 + 0x1C));
     R12 = (t23);
@@ -100,17 +114,17 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     if ((R4 == 2)) goto L_C04FF48;
     goto L_C04FEC6;
     L_C04FEC6:;
-    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C04FED6;
+    if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C04FED6;
     goto L_C04FECE;
     L_C04FECE:;
     if ((R4 != 21)) goto L_C04FEDE;
     goto L_C04FED6;
     L_C04FED6:;
-    if (((*(short *)((R14 + 0x60))) != 0)) goto L_C04FF48;
+    if ((((((struct o60_short *)(R14))->v)) != 0)) goto L_C04FF48;
     goto L_C04FEDE;
     L_C04FEDE:;
-    *(float *)((R14 + 0x44)) = (*(float *)((R12 + 0x18)));
-    *(float *)((R14 + 0x10)) = (*(float *)((R12 + 0x18)));
+    (((struct o44_float *)(R14))->v) = ((((struct o18_float *)(R12))->v));
+    (((struct o10_float *)(R14))->v) = ((((struct o18_float *)(R12))->v));
     CalcShadow4Normal((R14 + 0x54), (R12 + 0xC), F4, F5);
     goto L_C04FF4C;
     L_C04FF4C:;
@@ -124,25 +138,25 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     if ((!(35.0f > _builtin_fabsf(F14)))) goto L_C050026;
     goto L_C04FF5E;
     L_C04FF5E:;
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FF78;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FF78;
     goto L_C04FF66;
     L_C04FF66:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)((R14 + 0x40)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x30)) = *(struct mv3 *)((R14 + 0x40)); }
     goto L_C04FF86;
     L_C04FF86:;
-    nlSubVector3op((((int)stk + 4) + 0x48), (((int)stk + 4) + 0x30), (R13 + 0x78));
-    nlUnitVector((((int)stk + 4) + 0x48));
-    nlScaleVector((((int)stk + 4) + 0x24), (((int)stk + 4) + 0x48), F12);
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FFC2;
+    nlSubVector3op((((int)stk + 0) + 0x48), (((int)stk + 0) + 0x30), (R13 + 0x78));
+    nlUnitVector((((int)stk + 0) + 0x48));
+    nlScaleVector((((int)stk + 0) + 0x24), (((int)stk + 0) + 0x48), F12);
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FFC2;
     goto L_C04FFB4;
     L_C04FFB4:;
     R4 = ((R14 + 0x40));
     R5 = ((R13 + 0x78));
-    R6 = ((((int)stk + 4) + 0x24));
+    R6 = ((((int)stk + 0) + 0x24));
     goto L_C04FFCE;
     L_C04FFCE:;
     nlAddVector3op(R4, R5, R6);
-    t55 = GetCollision2D((((int)stk + 4) + 0x30), F13);
+    t55 = GetCollision2D((((int)stk + 0) + 0x30), F13);
     t56 = *(int *)((t55 + 0x1C));
     R4 = (t55);
     R5 = (t56);
@@ -152,20 +166,20 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     if ((R5 == 2)) goto L_C050022;
     goto L_C04FFF0;
     L_C04FFF0:;
-    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C050000;
+    if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C050000;
     goto L_C04FFF8;
     L_C04FFF8:;
     if ((R5 != 21)) goto L_C050008;
     goto L_C050000;
     L_C050000:;
-    if (((*(short *)((R14 + 0x60))) != 0)) goto L_C050022;
+    if ((((((struct o60_short *)(R14))->v)) != 0)) goto L_C050022;
     goto L_C050008;
     L_C050008:;
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C050018;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C050018;
     goto L_C050010;
     L_C050010:;
     R0 = (0x44);
-    F3 = ((*(float *)((R4 + 0x18))));
+    F3 = (((((struct o18_float *)(R4))->v)));
     goto L_C05001E;
     L_C05001E:;
     *(float *)((R14 + R0)) = F3;
@@ -174,25 +188,25 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     return R0;
     L_C050018:;
     R0 = (0x10);
-    F3 = ((*(float *)((R4 + 0x18))));
+    F3 = (((((struct o18_float *)(R4))->v)));
     goto L_C05001E;
     L_C050022:;
-    *(unsigned int *)((R14 + 0x50)) = R11;
+    (((struct o50_uint *)(R14))->v) = R11;
     R0 = (0x50);
     goto L_C050026;
     L_C04FFC2:;
     R4 = ((R14 + 0xC));
     R5 = ((R13 + 0x78));
-    R6 = ((((int)stk + 4) + 0x24));
+    R6 = ((((int)stk + 0) + 0x24));
     goto L_C04FFCE;
     L_C04FF78:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)((R14 + 0xC)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x30)) = *(struct mv3 *)((R14 + 0xC)); }
     goto L_C04FF86;
     L_C04FF48:;
-    *(unsigned int *)((R14 + 0x50)) = R11;
+    (((struct o50_uint *)(R14))->v) = R11;
     goto L_C04FF4C;
     L_C04FCD4:;
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FCE0;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FCE0;
     goto L_C04FCDC;
     L_C04FCDC:;
     goto L_C04FE52;
@@ -202,26 +216,26 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     L_C04FCEC:;
     goto L_C04FE52;
     L_C04FCF0:;
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FCFC;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FCFC;
     goto L_C04FCF8;
     L_C04FCF8:;
     goto L_C04FE52;
     L_C04FCFC:;
-    nlSubVector3op((((int)stk + 4) + 0x48), (((int)stk + 4) + 0x30), (R13 + 0x78));
-    nlUnitVector((((int)stk + 4) + 0x48));
+    nlSubVector3op((((int)stk + 0) + 0x48), (((int)stk + 0) + 0x30), (R13 + 0x78));
+    nlUnitVector((((int)stk + 0) + 0x48));
     *(unsigned int *)((R14 + 0x20)) = R11;
-    *(unsigned int *)((R14 + 0x50)) = 0x2;
+    (((struct o50_uint *)(R14))->v) = 0x2;
     Sound_Request((*(int *)((((*(int *)((R14 + 0x24))) << 2) + 0xC12FF7C))), 0x1);
-    *(unsigned short *)((R14 + 0x1A)) = (*(short *)((R13 + 0xF4)));
-    if (((*(int *)((R14 + 0x4C))) != 0)) goto L_C04FE1E;
+    *(unsigned short *)((R14 + 0x1A)) = ((((struct oF4_short *)(R13))->v));
+    if ((((((struct o4C_int *)(R14))->v)) != 0)) goto L_C04FE1E;
     goto L_C04FD38;
     L_C04FD38:;
     nlPushUnitMatrix();
-    nlRotateAY((int)((float)(*(short *)((R13 + 0x114))) / (*(float *)((R13 + 0x15C)))));
-    nlCalcVector((0xFC + R13), ((int)stk + 4));
+    nlRotateAY((int)((float)((((struct o114_short *)(R13))->v)) / ((((struct o15C_float *)(R13))->v))));
+    nlCalcVector((0xFC + R13), ((int)stk + 0));
     nlPopMatrix(0x1);
-    nlOuterProduct((((int)stk + 4) + 0x48), ((int)stk + 4), (((int)stk + 4) + 0x3C));
-    if ((!(((*(float *)(((int)stk + 68))) * (*(float *)((R13 + 0x15C)))) > 0.0f))) goto L_C04FDF4;
+    nlOuterProduct((((int)stk + 0) + 0x48), ((int)stk + 0), (((int)stk + 0) + 0x3C));
+    if ((!(((*(float *)(((int)stk + 64))) * ((((struct o15C_float *)(R13))->v))) > 0.0f))) goto L_C04FDF4;
     goto L_C04FD82;
     L_C04FD82:;
     t102 = *(int *)0xC0D61BC;
@@ -229,7 +243,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     R2 = (0xC000);
     goto L_C04FE1A;
     L_C04FE1A:;
-    *(unsigned short *)((R14 + 0x38)) = R2;
+    (((struct o38_ushort *)(R14))->v) = R2;
     goto L_C04FE1E;
     L_C04FE1E:;
     t108 = *(int *)((R14 + 0x28));
@@ -243,7 +257,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     F2 = ((F2 + 4.2949673e+09f));
     goto L_C04FE3C;
     L_C04FE3C:;
-    *(float *)(((0x3C + R14) + 0x0)) = (F3 / F2);
+    (((struct o3C_float *)(R14))->v) = (F3 / F2);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x40)) = *(struct mv3 *)((R14 + 0xC)); }
     goto L_C04FE52;
     L_C04FDF4:;
@@ -252,6 +266,6 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
     R2 = (0x4000);
     goto L_C04FE1A;
     L_C04FCAC:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x30)) = *(struct mv3 *)((R14 + 0xC)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x30)) = *(struct mv3 *)((R14 + 0xC)); }
     goto L_C04FCBA;
 }

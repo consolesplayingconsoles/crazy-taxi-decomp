@@ -3,6 +3,26 @@
 
 float nlPow(float, float);
 float Init_Pass_Fare(void);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_float { char p[0x28]; float v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 float Init_Pass_Fare(void)
 {
@@ -12,28 +32,28 @@ float Init_Pass_Fare(void)
     int t4;
     int t14;
 
-    *(unsigned int *)0xC2A8E9C = 0x0;
-    *(float *)0xC2A8EA0 = -2.0f;
-    *(unsigned int *)0xC2A8EA4 = 0x0;
-    *(unsigned int *)0xC2A8EA8 = 0x0;
-    *(unsigned int *)0xC2A8EAC = 0x0;
-    *(unsigned int *)0xC2A8EB4 = 0xFFFFFFFB;
+    (((struct o0_uint *)0xC2A8E9C)->v) = 0x0;
+    (((struct o4_float *)0xC2A8E9C)->v) = -2.0f;
+    (((struct o8_uint *)0xC2A8E9C)->v) = 0x0;
+    (((struct oC_uint *)0xC2A8E9C)->v) = 0x0;
+    (((struct o10_uint *)0xC2A8E9C)->v) = 0x0;
+    (((struct o18_uint *)0xC2A8E9C)->v) = 0xFFFFFFFB;
     t0 = nlPow(-5.0f, (1.0f + 1.0f));
-    *(float *)0xC2A8EB8 = t0;
-    *(unsigned int *)0xC2A8F6C = 0x0;
-    *(unsigned int *)0xC2A8F70 = 0x0;
-    *(unsigned int *)0xC2A7EB4 = 0x0;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EA8 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7EB8 = 1.0f;
-    *(float *)0xC2A7EB0 = 1.0f;
-    *(unsigned int *)0xC2A7EC0 = 0x6;
-    *(float *)0xC2A7E90 = 0.0f;
-    *(float *)0xC2A7E94 = 0.0f;
-    *(float *)0xC2A7E98 = 0.25f;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = 1.0f;
+    (((struct o1C_float *)0xC2A8E9C)->v) = t0;
+    (((struct o10_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o14_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o24_uint *)0xC2A7E90)->v) = 0x0;
+    (((struct o14_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o18_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o1C_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o28_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o20_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o30_uint *)0xC2A7E90)->v) = 0x6;
+    (((struct o0_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o4_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o8_float *)0xC2A7E90)->v) = 0.25f;
+    (((struct oC_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o10_float *)0xC2A7E90)->v) = 1.0f;
     t1 = 0x0;
     for (;;) {
         *(float *)(((0xC2A810C + (short)((((t1 << 2) + t1) << 2) << 2)) + 0x18)) = 0.0f;
@@ -97,9 +117,9 @@ float Init_Pass_Fare(void)
         if ((int)t1 < (int)0x8) continue;
         break;
     }
-    *(unsigned int *)0xC2A8EB0 = 0x0;
-    *(unsigned int *)0xC2A8F5C = 0x0;
-    *(unsigned int *)0xC2A8F60 = 0x0;
-    *(unsigned int *)0xC2A8F64 = 0x0;
+    (((struct o14_uint *)0xC2A8E9C)->v) = 0x0;
+    (((struct o0_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o4_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o8_uint *)0xC2A8F5C)->v) = 0x0;
     return t0;
 }

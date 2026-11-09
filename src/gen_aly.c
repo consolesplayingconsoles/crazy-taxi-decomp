@@ -6,7 +6,6 @@ int selectInitIconSprite(int a4, int a5, int a6, int a7, float f4, float f5, flo
 int selectInitIconSprite(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     int t9;
-    int stk[1];
 
     int R0;
     int R1;

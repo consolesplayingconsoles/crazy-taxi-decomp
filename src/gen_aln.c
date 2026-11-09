@@ -2,11 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int carListShiftBack(int a4, int a5, int a6, int a7, float f4);
+struct o94_float { char p[0x94]; float v; };
+struct oD4_int { char p[0xD4]; int v; };
+struct oD4_uint { char p[0xD4]; unsigned int v; };
+
 
 int carListShiftBack(int a4, int a5, int a6, int a7, float f4)
 {
     int t8;
-    int stk[1];
 
     int R0;
     int R1;
@@ -39,8 +42,8 @@ int carListShiftBack(int a4, int a5, int a6, int a7, float f4)
     return R0;
     L_C044B48:;
     t8 = *(int *)((R4 + 0x0));
-    *(float *)((t8 + 0x94)) = ((*(float *)((t8 + 0x94))) - F4);
-    *(unsigned int *)((t8 + 0xD4)) = ((*(int *)((t8 + 0xD4))) - R7);
+    (((struct o94_float *)(t8))->v) = (((((struct o94_float *)(t8))->v)) - F4);
+    (((struct oD4_uint *)(t8))->v) = (((((struct oD4_int *)(t8))->v)) - R7);
     R0 = (0xD4);
     R4 = ((R4 + 0x4));
     R6 = ((R6 + 0x1));

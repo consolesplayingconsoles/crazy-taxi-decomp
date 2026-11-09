@@ -3,11 +3,12 @@
 
 int SearchUsed(int, int);
 int kmiMIPallocSub2(int a4, int a5, int a6);
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int kmiMIPallocSub2(int a4, int a5, int a6)
 {
-    int t0;
-    int t1;
     int t43;
     int t2;
     int t4;
@@ -30,27 +31,23 @@ int kmiMIPallocSub2(int a4, int a5, int a6)
     int t26;
     int t27;
     int t28;
-    int t30;
-    int t31;
     int stk[12] = {0};
 
     *(unsigned int *)(((int)stk + 8)) = a5;
     *(unsigned int *)(((int)stk + 12)) = a6;
-    t0 = *(int *)((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC));
-    t1 = *(int *)0xC177FA8;
+    t9 = *(int *)((((((short)a4 << 2) + (short)a4) << 2) + 0xC177FBC));
+    t8 = (((struct o0_int *)0xC177FA8)->v);
     t43 = 0x0;
-    if (t0 != 0) {
+    if (t9 != 0) {
         t2 = 0xC177FBC;
         t4 = (short)a4;
         t5 = a5;
         t6 = a6;
         t7 = 0x0;
-        t8 = t1;
-        t9 = t0;
         for (;;) {
             t10 = *(short *)((t9 + 0x0));
             if ((((unsigned short)t10 & 0x4) == 0) && ((t3 = 0x2, (t3 & (unsigned short)t10) != 0) && ((t4 = 0x1800, (t4 & (unsigned short)t10) != 0) && ((t11 = *(int *)((t9 + 0x10)), t12 = *(int *)(((int)stk + 8)), t3 = t12, (int)t11 >= (int)t3) && (t13 = *(int *)((t9 + 0x10)), (int)t13 < (int)t8))))) {
-                t5 = (*(int *)0xC177FB0);
+                t5 = ((((struct o8_int *)0xC177FA8)->v));
                 if ((short)a4 == 0) {
                     t22 = ((*(int *)((t9 + 0xC))) + t5);
                 } else {
@@ -61,11 +58,9 @@ int kmiMIPallocSub2(int a4, int a5, int a6)
                 if ((t2 != 0) && (t25 = *(int *)((t2 + 0x14)), t4 = t25, t26 = *(short *)((t4 + 0x0)), t27 = *(int *)(((int)stk + 12)), t4 = t27, t28 = *(short *)((t4 + 0x0)), t3 = t28, t3 = (unsigned short)t3, t3 = (t3 & 0xF000), ((unsigned short)t26 & 0xF000) == t3)) {
                     t8 = (*(int *)((t9 + 0x10)));
                     t7 = t9;
-                    t30 = t3;
-                    t31 = t4;
+                    t33 = t3;
+                    t34 = t4;
                 }
-                t33 = t30;
-                t34 = t31;
             } else {
                 t33 = t3;
                 t34 = t4;

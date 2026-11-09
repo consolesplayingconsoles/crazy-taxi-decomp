@@ -23,7 +23,7 @@ int Chat_Direction(int a4, int a5, int a6, int a7)
     int t80;
     int t3;
     int t7;
-    int stk[247];
+    int stk[246];
 
     int R0;
     int R1;
@@ -42,18 +42,18 @@ int Chat_Direction(int a4, int a5, int a6, int a7)
     R7 = a7;
     L_C061530:;
     t0 = 0xC0D3C5C;
-    t2 = (0x21C + ((int)stk + 4));
+    t2 = (0x21C + ((int)stk + 0));
     for (;;) { t3 = *(int *)t0; t0 = (t0 + 4); if ((unsigned int)((0xC0D3C5C + 432)) < (unsigned int)t0) break; *(unsigned int *)t2 = t3; t2 = (t2 + 4); }
     t4 = 0xC0D3E0C;
-    t6 = ((int)stk + 4);
+    t6 = ((int)stk + 0);
     for (;;) { t7 = *(int *)t4; t4 = (t4 + 4); if ((unsigned int)((0xC0D3E0C + 540)) < (unsigned int)t4) break; *(unsigned int *)t6 = t7; t6 = (t6 + 4); }
     t9 = *(int *)((R4 + 0x110));
     R0 = (t9);
     R13 = ((*(int *)0xC13EB90));
     R14 = (0xC13EC38);
     R5 = (0xC13EC50);
-    R6 = (((int)stk + 4));
-    R7 = ((0x21C + ((int)stk + 4)));
+    R6 = (((int)stk + 0));
+    R7 = ((0x21C + ((int)stk + 0)));
     if ((t9 != 0xC8FE818)) goto L_C06156E;
     goto L_C06156A;
     L_C06156A:;

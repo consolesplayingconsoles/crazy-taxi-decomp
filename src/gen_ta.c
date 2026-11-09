@@ -22,6 +22,21 @@ float nlRandom(void);
 int nlScaleVector(int, int, float);
 int nlTranslateV(int);
 void ExecAdvCameraRandom(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_int { char p[0x24]; int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 void ExecAdvCameraRandom(void)
 {
@@ -36,77 +51,77 @@ void ExecAdvCameraRandom(void)
     float u85;
     float u88;
     int t66;
-    int stk[16];
+    int stk[15];
 
     nlPushUnitMatrix();
     nlTranslateV(0xC179144);
     MultiRot4Vec(0xC1790FC);
     t3 = GetCameraDistance();
     if (t3 > 500.0f) {
-        *(unsigned int *)0xC179974 = 0x1;
+        (((struct o0_uint *)0xC179974)->v) = 0x1;
     }
-    if ((*(int *)0xC179974) != 0) {
-        *(float *)0xC179980 = 0.0f;
-        *(float *)0xC179978 = 0.0f;
-        *(float *)0xC17997C = 5.0f;
+    if (((((struct o0_int *)0xC179974)->v)) != 0) {
+        (((struct oC_float *)0xC179974)->v) = 0.0f;
+        (((struct o4_float *)0xC179974)->v) = 0.0f;
+        (((struct o8_float *)0xC179974)->v) = 5.0f;
         nlCalcPoint(0xC179978, 0xC179978);
-        *(float *)0xC179984 = (((nlRandom()) + -0.5f) * 68.0f);
-        *(float *)0xC179988 = (((nlRandom()) + -0.5f) * 16.0f);
+        (((struct o10_float *)0xC179974)->v) = (((nlRandom()) + -0.5f) * 68.0f);
+        (((struct o14_float *)0xC179974)->v) = (((nlRandom()) + -0.5f) * 16.0f);
         u10 = 27.0f;
         u10 = u10 + 27.0f * (nlRandom());
-        *(float *)0xC17998C = u10;
+        (((struct o18_float *)0xC179974)->v) = u10;
         nlCalcVector(0xC179984, 0xC179984);
         GetCollision(0xC179978, 0xC179984, 1.0f, 5.0f);
         nlScaleVector(0xC179984, 0xC1791C8, ((nlRandom()) + (1.0f + 1.0f)));
         camSetEye(0xC179978, 0x0);
         SetCameraPosVelocity(0xC179984);
         SetCameraPosRatio(0.899999976f, 0.199999988f);
-        *(unsigned int *)0xC179990 = ((int)(((nlRand()) << 16) << 1) >> 19);
-        *(unsigned int *)0xC179994 = ((int)(((nlRand()) << 16) << 1) >> 25);
-        *(unsigned int *)0xC179998 = ((nlRand()) & 0x3);
+        (((struct o1C_uint *)0xC179974)->v) = ((int)(((nlRand()) << 16) << 1) >> 19);
+        (((struct o20_uint *)0xC179974)->v) = ((int)(((nlRand()) << 16) << 1) >> 25);
+        (((struct o24_uint *)0xC179974)->v) = ((nlRand()) & 0x3);
         SetCameraMode(0x1);
         ResetSpark();
-        *(unsigned int *)0xC179974 = 0x0;
+        (((struct o0_uint *)0xC179974)->v) = 0x0;
     }
     nlScaleVector(0xC179984, 0xC179984, 0.979999959f);
     GetCollision(0xC179978, 0xC179984, 0.0f, 5.0f);
     CheckColliWall(0xC179978, 5.0f);
     t33 = GetCollision2D(0xC179978, 5.0f);
     if ((*(int *)((t33 + 0x1C))) != -1) {
-        if ((*(float *)((t33 + 0x18))) > ((*(float *)0xC17997C) + -5.0f)) {
-            *(float *)0xC17997C = ((*(float *)((t33 + 0x18))) + 5.0f);
+        if ((*(float *)((t33 + 0x18))) > (((((struct o8_float *)0xC179974)->v)) + -5.0f)) {
+            (((struct o8_float *)0xC179974)->v) = ((*(float *)((t33 + 0x18))) + 5.0f);
         }
-        if (((*(float *)0xC17997C) + -100.0f) > (*(float *)((t33 + 0x18)))) {
-            *(float *)0xC17997C = ((*(float *)((t33 + 0x18))) + 100.0f);
+        if ((((((struct o8_float *)0xC179974)->v)) + -100.0f) > (*(float *)((t33 + 0x18)))) {
+            (((struct o8_float *)0xC179974)->v) = ((*(float *)((t33 + 0x18))) + 100.0f);
         }
     } else {
-        *(unsigned int *)0xC179974 = 0x1;
+        (((struct o0_uint *)0xC179974)->v) = 0x1;
     }
     camSetEye(0xC179978, 0x2);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0965F0); }
-    *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + 5.0f);
-    if (((*(int *)0xC179998) & 2) != 0) {
-        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + 50.0f);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)(0xC0965F0); }
+    *(float *)(((int)stk + 4)) = ((*(float *)(((int)stk + 4))) + 5.0f);
+    if ((((((struct o24_int *)0xC179974)->v)) & 2) != 0) {
+        *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + 50.0f);
     }
-    nlCalcPoint(((int)stk + 4), ((int)stk + 4));
-    camSetTarget(((int)stk + 4), 0x2);
+    nlCalcPoint(((int)stk + 0), ((int)stk + 0));
+    camSetTarget(((int)stk + 0), 0x2);
     nlPopMatrix(0x1);
-    t64 = *(int *)0xC179990;
-    t65 = *(int *)0xC179994;
-    *(unsigned int *)0xC179990 = (t64 + t65);
-    if (((int)(t64 + t65) >= (int)0xFFFFE800) && (t66 = *(int *)0xC179990, (int)t66 <= (int)0x1800)) {
+    t64 = (((struct o1C_int *)0xC179974)->v);
+    t65 = (((struct o20_int *)0xC179974)->v);
+    (((struct o1C_uint *)0xC179974)->v) = (t64 + t65);
+    if (((int)(t64 + t65) >= (int)0xFFFFE800) && (t66 = (((struct o1C_int *)0xC179974)->v), (int)t66 <= (int)0x1800)) {
     } else {
-        t69 = *(int *)0xC179994;
+        t69 = (((struct o20_int *)0xC179974)->v);
         if ((int)t69 < 0) {
-            *(unsigned int *)0xC179994 = ((*(int *)0xC179994) + 0x1);
+            (((struct o20_uint *)0xC179974)->v) = (((((struct o20_int *)0xC179974)->v)) + 0x1);
         } else {
             if ((int)t69 > 0) {
-                *(unsigned int *)0xC179994 = ((*(int *)0xC179994) - 1);
+                (((struct o20_uint *)0xC179974)->v) = (((((struct o20_int *)0xC179974)->v)) - 1);
             }
         }
     }
-    camSetAngles(0x0, 0x0, (*(int *)0xC179990), 0x0);
-    if ((0x1 & (*(int *)0xC179998)) != 0) {
+    camSetAngles(0x0, 0x0, ((((struct o1C_int *)0xC179974)->v)), 0x0);
+    if ((0x1 & ((((struct o24_int *)0xC179974)->v))) != 0) {
         u83 = 4e+02f;
         u84 = 8e+02f;
         u85 = ((u83 - t3) / u84);

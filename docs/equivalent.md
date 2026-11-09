@@ -22483,16 +22483,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 63 of 63 instructions
 
 ### PutVM_Message (`0C03C208`, 384 bytes, `src/gen_hd.c`)
-- equivalent on 47 development and 47 holdout cases, in `tests/gen_hd/PutVM_Message.json`
-- case 2
-- case 22
-- case 40
-- case 53
-- case 61
-- case 68
-- case 92
-- case 97
-- case 108
+- equivalent on 38 development and 38 holdout cases, in `tests/gen_hd/PutVM_Message.json`
 - case 0
 - case 7
 - case 18
@@ -22531,15 +22522,6 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - hand: message 0x11 flags 0x40 languageFlag 0
 - hand: message 0x11 flags 0x0 languageFlag 0
 - hand: message 0x11 flags 0x73 languageFlag 0
-- case 19
-- case 24
-- case 52
-- case 55
-- case 66
-- case 76
-- case 93
-- case 99
-- case 113
 - case 6
 - case 9
 - case 21
@@ -30505,7 +30487,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 217
 - case 65
 - case 250
-- the cases run 80 of 847 instructions
+- the cases run 93 of 847 instructions
 
 ### _fmtout_endstr (`0C087E1A`, 16 bytes, `src/sdk_h.c`)
 - equivalent on 2 development and 1 holdout cases, in `tests/sdk_h/_fmtout_endstr.json`
@@ -48263,7 +48245,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 156 @0C2EAAA4=2
 - case 156 @0C2EAAA4=3
 - case 156 @0C2EAAA4=4
-- the cases run 462 of 627 instructions
+- the cases run 528 of 629 instructions
 
 ### kmRenderDirect (`0C15B000`, 18 bytes, `src/gen_a.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_a/kmRenderDirect.json`

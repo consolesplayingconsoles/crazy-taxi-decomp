@@ -33,69 +33,55 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
     }
-    if (a5 != 1) {
-        if (a5 != 3) {
-            if (a5 != 12) {
-                if (a5 != 17) {
-                    if (a5 != 18) {
-                        if (a5 != 19) {
-                            if (a5 != 20) {
-                                if (a5 != 21) {
-                                    if (a5 != 23) {
-                                        if (a5 != 29) {
-                                            if (a5 != 34) {
-                                                if (a5 != 37) {
-                                                    if (a5 != 53) {
-                                                        if (a5 != 54) {
-                                                            if (a5 != 59) {
-                                                                if (a5 != 61) {
-                                                                } else {
-                                                                    nlObjPutUseViewMatrix(0xC49AFA8);
-                                                                }
-                                                            } else {
-                                                                nlObjPutUseViewMatrix(0xC56E778);
-                                                            }
-                                                        } else {
-                                                            nlObjPutUseViewMatrix(0xC4D35A8);
-                                                        }
-                                                    } else {
-                                                        nlObjPutUseViewMatrix(0xC55C470);
-                                                    }
-                                                } else {
-                                                    nlObjPutUseViewMatrix(0xC5027E8);
-                                                }
-                                            } else {
-                                                nlObjPutUseViewMatrix(0xC4EE460);
-                                            }
-                                        } else {
-                                            nlObjPutUseViewMatrix(0xC4D35A8);
-                                        }
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC4B15B8);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC4AAA40);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC4A87C8);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC4A68B0);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4A49E0);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4A2C40);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC5A0878);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC495C20);
-        }
-    } else {
+    switch (a5) {
+    case 1:
         nlObjPutUseViewMatrix(0xC567178);
+        break;
+    case 3:
+        nlObjPutUseViewMatrix(0xC495C20);
+        break;
+    case 12:
+        nlObjPutUseViewMatrix(0xC5A0878);
+        break;
+    case 17:
+        nlObjPutUseViewMatrix(0xC4A2C40);
+        break;
+    case 18:
+        nlObjPutUseViewMatrix(0xC4A49E0);
+        break;
+    case 19:
+        nlObjPutUseViewMatrix(0xC4A68B0);
+        break;
+    case 20:
+        nlObjPutUseViewMatrix(0xC4A87C8);
+        break;
+    case 21:
+        nlObjPutUseViewMatrix(0xC4AAA40);
+        break;
+    case 23:
+        nlObjPutUseViewMatrix(0xC4B15B8);
+        break;
+    case 29:
+        nlObjPutUseViewMatrix(0xC4D35A8);
+        break;
+    case 34:
+        nlObjPutUseViewMatrix(0xC4EE460);
+        break;
+    case 37:
+        nlObjPutUseViewMatrix(0xC5027E8);
+        break;
+    case 53:
+        nlObjPutUseViewMatrix(0xC55C470);
+        break;
+    case 54:
+        nlObjPutUseViewMatrix(0xC4D35A8);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56E778);
+        break;
+    case 61:
+        nlObjPutUseViewMatrix(0xC49AFA8);
+        break;
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5430);
@@ -356,58 +342,50 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
     }
-    if (a5 != 1) {
-        if (a5 != 2) {
-            if (a5 != 4) {
-                if (a5 != 25) {
-                    if (a5 != 32) {
-                        if (a5 != 42) {
-                            if (a5 != 59) {
-                                if (a5 != 60) {
-                                    if (a5 != 62) {
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC58DAC0);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC57CEC8);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC56C0E8);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC51D520);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4E21F8);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4BB208);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC586508);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC574EA0);
-        }
-    } else {
+    switch (a5) {
+    case 1:
         nlObjPutUseViewMatrix(0xC5654D8);
+        break;
+    case 2:
+        nlObjPutUseViewMatrix(0xC574EA0);
+        break;
+    case 4:
+        nlObjPutUseViewMatrix(0xC586508);
+        break;
+    case 25:
+        nlObjPutUseViewMatrix(0xC4BB208);
+        break;
+    case 32:
+        nlObjPutUseViewMatrix(0xC4E21F8);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51D520);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56C0E8);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC57CEC8);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58DAC0);
+        break;
     }
     nlTranslateV(0xC0D5448);
     vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x48), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x54));
     if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
     }
-    if (a5 != 4) {
-        if (a5 != 5) {
-            if (a5 != 62) {
-            } else {
-                nlObjPutUseViewMatrix(0xC58C9E8);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC594548);
-        }
-    } else {
+    switch (a5) {
+    case 4:
         nlObjPutUseViewMatrix(0xC585FA0);
+        break;
+    case 5:
+        nlObjPutUseViewMatrix(0xC594548);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58C9E8);
+        break;
     }
     nlTranslateV(0xC0D5454);
     vsklRotate(((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x30), ((((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC) + 0x3C));
@@ -431,41 +409,34 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
     }
-    if (a5 != 1) {
-        if (a5 != 2) {
-            if (a5 != 4) {
-                if (a5 != 25) {
-                    if (a5 != 32) {
-                        if (a5 != 42) {
-                            if (a5 != 59) {
-                                if (a5 != 60) {
-                                    if (a5 != 62) {
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC58FB18);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC57F2C8);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC56DCC0);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC51DA80);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4E2720);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4BB7A8);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC587E40);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC5768B8);
-        }
-    } else {
+    switch (a5) {
+    case 1:
         nlObjPutUseViewMatrix(0xC566CB0);
+        break;
+    case 2:
+        nlObjPutUseViewMatrix(0xC5768B8);
+        break;
+    case 4:
+        nlObjPutUseViewMatrix(0xC587E40);
+        break;
+    case 25:
+        nlObjPutUseViewMatrix(0xC4BB7A8);
+        break;
+    case 32:
+        nlObjPutUseViewMatrix(0xC4E2720);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51DA80);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56DCC0);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC57F2C8);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58FB18);
+        break;
     }
     nlTranslateV(0xC0D546C);
     vsklRotate((0x90 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0x9C + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
@@ -485,73 +456,58 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
     }
-    if (a5 != 2) {
-        if (a5 != 3) {
-            if (a5 != 14) {
-                if (a5 != 15) {
-                    if (a5 != 29) {
-                        if (a5 != 31) {
-                            if (a5 != 35) {
-                                if (a5 != 37) {
-                                    if (a5 != 39) {
-                                        if (a5 != 44) {
-                                            if (a5 != 45) {
-                                                if (a5 != 46) {
-                                                    if (a5 != 51) {
-                                                        if (a5 != 54) {
-                                                            if (a5 != 55) {
-                                                                if (a5 != 60) {
-                                                                    if (a5 != 61) {
-                                                                    } else {
-                                                                        nlObjPutUseViewMatrix(0xC499990);
-                                                                    }
-                                                                } else {
-                                                                    nlObjPutUseViewMatrix(0xC5836A0);
-                                                                }
-                                                            } else {
-                                                                nlObjPutUseViewMatrix(0xC4DCDE0);
-                                                            }
-                                                        } else {
-                                                            nlObjPutUseViewMatrix(0xC4D2010);
-                                                        }
-                                                    } else {
-                                                        nlObjPutUseViewMatrix(0xC550020);
-                                                    }
-                                                } else {
-                                                    nlObjPutUseViewMatrix(0xC533FA8);
-                                                }
-                                            } else {
-                                                nlObjPutUseViewMatrix(0xC52E6C8);
-                                            }
-                                        } else {
-                                            nlObjPutUseViewMatrix(0xC528C18);
-                                        }
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC50C828);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC501220);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC4F7C78);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC4DCDE0);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4D2010);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC5A8088);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC5A57E8);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4948E0);
-        }
-    } else {
+    switch (a5) {
+    case 2:
         nlObjPutUseViewMatrix(0xC5786B8);
+        break;
+    case 3:
+        nlObjPutUseViewMatrix(0xC4948E0);
+        break;
+    case 14:
+        nlObjPutUseViewMatrix(0xC5A57E8);
+        break;
+    case 15:
+        nlObjPutUseViewMatrix(0xC5A8088);
+        break;
+    case 29:
+        nlObjPutUseViewMatrix(0xC4D2010);
+        break;
+    case 31:
+        nlObjPutUseViewMatrix(0xC4DCDE0);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F7C78);
+        break;
+    case 37:
+        nlObjPutUseViewMatrix(0xC501220);
+        break;
+    case 39:
+        nlObjPutUseViewMatrix(0xC50C828);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC528C18);
+        break;
+    case 45:
+        nlObjPutUseViewMatrix(0xC52E6C8);
+        break;
+    case 46:
+        nlObjPutUseViewMatrix(0xC533FA8);
+        break;
+    case 51:
+        nlObjPutUseViewMatrix(0xC550020);
+        break;
+    case 54:
+        nlObjPutUseViewMatrix(0xC4D2010);
+        break;
+    case 55:
+        nlObjPutUseViewMatrix(0xC4DCDE0);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC5836A0);
+        break;
+    case 61:
+        nlObjPutUseViewMatrix(0xC499990);
+        break;
     }
     if ((*(int *)0xC13EDA0) != 0) {
         nlGetTranslate(0xC13EDB0);
@@ -562,21 +518,19 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
     }
-    if (a5 != 25) {
-        if (a5 != 35) {
-            if (a5 != 42) {
-                if (a5 != 44) {
-                } else {
-                    nlObjPutUseViewMatrix(0xC529218);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC51E450);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4F8138);
-        }
-    } else {
+    switch (a5) {
+    case 25:
         nlObjPutUseViewMatrix(0xC4BC440);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F8138);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51E450);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC529218);
+        break;
     }
     nlTranslateV(0xC0D5490);
     vsklRotate((0xF0 + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)), (0xFC + (((((((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1)) << 1) + ((t2 + 0x1) * (((t3 + 0x1) << 1) + 0x1))) << 2) + t4) + 0xC)));
@@ -594,21 +548,19 @@ int humanDraw(int a4, int a5, int a6, int a7)
     if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
     }
-    if (a5 != 25) {
-        if (a5 != 35) {
-            if (a5 != 42) {
-                if (a5 != 44) {
-                } else {
-                    nlObjPutUseViewMatrix(0xC5296D8);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC51E990);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4F85A8);
-        }
-    } else {
+    switch (a5) {
+    case 25:
         nlObjPutUseViewMatrix(0xC4BC8C8);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F85A8);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51E990);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC5296D8);
+        break;
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D54B4);

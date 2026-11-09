@@ -10,6 +10,11 @@ int nlSetPaletteMap(int, int);
 int nlSpriteGetNextSpriteIndex(void);
 int nlSpriteSetVtxContext(int, int);
 int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7);
+struct o0_short { short v; };
+struct o0_uint { unsigned int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
 {
@@ -43,12 +48,14 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C07D860:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
+    R1004 = R5;
     R12 = ((((R6 << 2) << 2) + R4));
     R9 = (R6);
     if ((R7 != 1)) goto L_C07D888;
@@ -71,7 +78,7 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     L_C07D8B0:;
     t15 = *(int *)((R13 + 0x0));
     *(unsigned int *)(((t15 + R14) + 0x0)) = ((*(int *)(((t15 + R14) + 0x0))) + 0x1);
-    t18 = *(int *)0xC2B76B8;
+    t18 = (((struct o4_int *)0xC2B76B4)->v);
     t19 = *(int *)((((*(int *)((R13 + 0x0))) + R14) + 0x4));
     R11 = (((t19 * 0x3C) + (*(int *)0xC2B29C0)));
     R14 = (t19);
@@ -84,7 +91,7 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     if ((t26 == -1)) goto L_C07D8F0;
     goto L_C07D8E6;
     L_C07D8E6:;
-    *(unsigned short *)(((R10 << 1) + (*(int *)0xC2B76B8))) = R13;
+    *(unsigned short *)(((R10 << 1) + ((((struct o4_int *)0xC2B76B4)->v)))) = R13;
     goto L_C07D902;
     L_C07D902:;
     if (((*(int *)((R11 + 0x2C))) != 0)) goto L_C07D91A;
@@ -96,8 +103,8 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     goto L_C07D91A;
     L_C07D91A:;
     *(unsigned int *)((R11 + 0x2C)) = ((*(int *)((R11 + 0x2C))) + 0x1);
-    nlSpriteSetVtxContext(((((R13 << 2) << 2) << 1) + (*(int *)0xC2B76C8)), R14);
-    if (((*(int *)(((int)stk + 4))) != 0)) goto L_C07D93C;
+    nlSpriteSetVtxContext(((((R13 << 2) << 2) << 1) + ((((struct o14_int *)0xC2B76B4)->v))), R14);
+    if (((R1004) != 0)) goto L_C07D93C;
     goto L_C07D938;
     L_C07D938:;
     goto L_C07DAAC;
@@ -107,8 +114,8 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     L_C07DAAE:;
     return R0;
     L_C07D93C:;
-    t41 = *(int *)0xC2B76C8;
-    t43 = *(int *)(((R9 << 2) + (*(int *)(((int)stk + 4)))));
+    t41 = (((struct o14_int *)0xC2B76B4)->v);
+    t43 = *(int *)(((R9 << 2) + (R1004)));
     t44 = *(int *)((((((R13 << 2) << 2) << 1) + t41) + 0xC));
     *(unsigned short *)((((((R13 << 2) << 2) << 1) + t41) + 0x16)) = 0xFFFF;
     R12 = (t43);
@@ -142,13 +149,13 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     L_C07D982:;
     goto L_C07DAAC;
     L_C07D986:;
-    if (((int)R12 < (int)(*(short *)0xC2B7BC4))) goto L_C07D992;
+    if (((int)R12 < (int)((((struct o0_short *)0xC2B7BC4)->v)))) goto L_C07D992;
     goto L_C07D98E;
     L_C07D98E:;
     goto L_C07DAAC;
     L_C07D992:;
     *(unsigned short *)((R13 + 0x16)) = R12;
-    t60 = *(int *)0xC2B7BD8;
+    t60 = (((struct o14_int *)0xC2B7BC4)->v);
     R11 = (((((R12 << 1) + R12) << 2) + (*(int *)((R5 + 0x0)))));
     R14 = ((t60 + ((R12 << 2) << 1)));
     if (((*(short *)(((t60 + ((R12 << 2) << 1)) + 0x4))) == 0)) goto L_C07DA20;
@@ -180,7 +187,7 @@ int nlSpriteLoadTextureOnce_Sub(int a4, int a5, int a6, int a7)
     R12 = (0x0);
     goto L_C07DA72;
     L_C07D8F0:;
-    *(unsigned int *)0xC2B76B4 = 0x3;
+    (((struct o0_uint *)0xC2B76B4)->v) = 0x3;
     R0 = (0x2);
     goto L_C07DAAE;
     L_C07D900:;

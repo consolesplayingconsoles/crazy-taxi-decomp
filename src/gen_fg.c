@@ -35,7 +35,7 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     float u129;
     float u136;
     int t139;
-    int stk[21];
+    int stk[20];
 
     int R0;
     int R1;
@@ -101,16 +101,16 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C0716EA:;
     nlPushUnitMatrix();
     nlMakeFastModelProjectMatrixVM();
-    nlFastScreenPoint(0xC13EDA4, (((int)stk + 4) + 0x14));
+    nlFastScreenPoint(0xC13EDA4, (((int)stk + 0) + 0x14));
     nlPopMatrix(0x1);
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F14);
-    *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 28))) + F15);
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) + F14);
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F15);
     u27 = (*(float *)((R14 + 0x10)));
-    u27 = u27 + F13 * (((*(float *)(((((int)stk + 4) + 0x14) + 0x0))) - (*(float *)(((0x8 + R14) + 0x0)))) - (*(float *)(((0x10 + R14) + 0x0))));
+    u27 = u27 + F13 * (((*(float *)(((((int)stk + 0) + 0x14) + 0x0))) - (*(float *)(((0x8 + R14) + 0x0)))) - (*(float *)(((0x10 + R14) + 0x0))));
     *(float *)((R14 + 0x10)) = u27;
     *(float *)((R14 + 0x8)) = ((*(float *)((R14 + 0x8))) + (*(float *)(((0x10 + R14) + 0x0))));
     u33 = (*(float *)((R14 + 0xC)));
-    u33 = u33 + F12 * ((*(float *)(((((int)stk + 4) + 0x18) + 0x0))) - (*(float *)(((0xC + R14) + 0x0))));
+    u33 = u33 + F12 * ((*(float *)(((((int)stk + 0) + 0x18) + 0x0))) - (*(float *)(((0xC + R14) + 0x0))));
     *(float *)((R14 + 0xC)) = u33;
     PTime_Pos_Set((*(float *)((R14 + 0x8))), u33);
     R0 = (0x44);
@@ -134,16 +134,16 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C0717D4:;
     nlPushUnitMatrix();
     nlMakeFastModelProjectMatrixVM();
-    nlFastScreenPoint(0xC13EDA4, (((int)stk + 4) + 0x14));
+    nlFastScreenPoint(0xC13EDA4, (((int)stk + 0) + 0x14));
     nlPopMatrix(0x1);
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F14);
-    *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 28))) + F15);
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) + F14);
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F15);
     u54 = (*(float *)((R14 + 0x10)));
-    u54 = u54 + F13 * (((*(float *)(((((int)stk + 4) + 0x14) + 0x0))) - (*(float *)(((0x8 + R14) + 0x0)))) - (*(float *)(((0x10 + R14) + 0x0))));
+    u54 = u54 + F13 * (((*(float *)(((((int)stk + 0) + 0x14) + 0x0))) - (*(float *)(((0x8 + R14) + 0x0)))) - (*(float *)(((0x10 + R14) + 0x0))));
     *(float *)((R14 + 0x10)) = u54;
     *(float *)((R14 + 0x8)) = ((*(float *)((R14 + 0x8))) + (*(float *)(((0x10 + R14) + 0x0))));
     u60 = (*(float *)((R14 + 0xC)));
-    u60 = u60 + F12 * ((*(float *)(((((int)stk + 4) + 0x18) + 0x0))) - (*(float *)(((0xC + R14) + 0x0))));
+    u60 = u60 + F12 * ((*(float *)(((((int)stk + 0) + 0x18) + 0x0))) - (*(float *)(((0xC + R14) + 0x0))));
     *(float *)((R14 + 0xC)) = u60;
     PTime_Pos_Set((*(float *)((R14 + 0x8))), u60);
     R6 = (0x1E);
@@ -160,13 +160,13 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     if (((int)t67 >= (int)0xB4)) goto L_C0718A2;
     goto L_C07186A;
     L_C07186A:;
-    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 4)) = *(struct mv5 *)(0xC0D607C); }
+    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 0)) = *(struct mv5 *)(0xC0D607C); }
     t73 = (int)((int)(*(int *)((R13 + 0x44))) % (int)R6);
     t74 = (int)((int)t73 % (int)R4);
-    *(float *)((R14 + 0x18)) = ((*(float *)((((t74 << 2) + ((int)stk + 4)) + 0x0))) + F4);
-    *(float *)((R14 + 0x1C)) = ((*(float *)((((t74 << 2) + ((int)stk + 4)) + 0x0))) + F4);
-    R5 = (((int)stk + 4));
-    R6 = (((t74 << 2) + ((int)stk + 4)));
+    *(float *)((R14 + 0x18)) = ((*(float *)((((t74 << 2) + ((int)stk + 0)) + 0x0))) + F4);
+    *(float *)((R14 + 0x1C)) = ((*(float *)((((t74 << 2) + ((int)stk + 0)) + 0x0))) + F4);
+    R5 = (((int)stk + 0));
+    R6 = (((t74 << 2) + ((int)stk + 0)));
     R7 = (t73);
     goto L_C07193E;
     L_C07193E:;
@@ -196,12 +196,12 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     F4 = (-0.5f);
     goto L_C0718F0;
     L_C071914:;
-    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 4)) = *(struct mv5 *)(0xC0D6090); }
+    { struct mv5 { int w[5]; }; *(struct mv5 *)(((int)stk + 0)) = *(struct mv5 *)(0xC0D6090); }
     t100 = (int)((int)R5 % (int)R4);
-    *(float *)((R14 + 0x18)) = ((*(float *)((((t100 << 2) + ((int)stk + 4)) + 0x0))) + F4);
-    *(float *)((R14 + 0x1C)) = ((*(float *)((((t100 << 2) + ((int)stk + 4)) + 0x0))) + F4);
-    R6 = (((int)stk + 4));
-    R7 = (((t100 << 2) + ((int)stk + 4)));
+    *(float *)((R14 + 0x18)) = ((*(float *)((((t100 << 2) + ((int)stk + 0)) + 0x0))) + F4);
+    *(float *)((R14 + 0x1C)) = ((*(float *)((((t100 << 2) + ((int)stk + 0)) + 0x0))) + F4);
+    R6 = (((int)stk + 0));
+    R7 = (((t100 << 2) + ((int)stk + 0)));
     goto L_C07193E;
     L_C0715F2:;
     if ((R0 != 5)) goto L_C0715FA;
@@ -213,14 +213,14 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C07164A:;
     nlPushUnitMatrix();
     nlMakeFastModelProjectMatrixVM();
-    nlFastScreenPoint(0xC13EDA4, (((int)stk + 4) + 0x14));
+    nlFastScreenPoint(0xC13EDA4, (((int)stk + 0) + 0x14));
     nlPopMatrix(0x1);
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F14);
-    *(float *)(((int)stk + 28)) = ((*(float *)(((int)stk + 28))) + F15);
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) + F14);
+    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) + F15);
     u112 = *(float *)((R14 + 0x8));
-    u113 = *(float *)(((int)stk + 24));
+    u113 = *(float *)(((int)stk + 20));
     u114 = *(float *)((R14 + 0xC));
-    u115 = *(float *)(((int)stk + 28));
+    u115 = *(float *)(((int)stk + 24));
     u116 = ((u115 - u114) * (u115 - u114));
     u116 = u116 + (u113 - u112) * (u113 - u112);
     t117 = !(5.0f > _builtin_sqrtf(u116));
@@ -249,10 +249,10 @@ int psgTimeDispExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C071606:;
     nlPushUnitMatrix();
     nlMakeFastModelProjectMatrixVM();
-    nlFastScreenPoint(0xC13EDB0, (((int)stk + 4) + 0x14));
+    nlFastScreenPoint(0xC13EDB0, (((int)stk + 0) + 0x14));
     nlPopMatrix(0x1);
-    *(float *)((R14 + 0x8)) = (*(float *)(((int)stk + 24)));
-    u136 = *(float *)(((int)stk + 28));
+    *(float *)((R14 + 0x8)) = (*(float *)(((int)stk + 20)));
+    u136 = *(float *)(((int)stk + 24));
     *(float *)((R14 + 0xC)) = u136;
     PTime_Pos_Set((*(float *)((R14 + 0x8))), u136);
     t139 = *(int *)0xC1EE210;

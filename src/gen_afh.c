@@ -3,8 +3,25 @@
 
 int Result_Class_Shadow_Put(void);
 int Sound_Request(int, int);
-int nlSprPut(int, int, int);
+int nlSprPut(int, int);
 int Result_Crazy_Put(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_int { char p[0x10]; int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_ushort { char p[0x8]; unsigned short v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int Result_Crazy_Put(void)
 {
@@ -24,7 +41,7 @@ int Result_Crazy_Put(void)
 
     t1 = 0x0;
     for (;;) {
-        t3 = *(int *)0xC2A9864;
+        t3 = (((struct o0_int *)0xC2A9864)->v);
         if ((int)t1 < (int)0x8) {
             t0 = t1;
             t0 = (t0 << 2);
@@ -42,11 +59,11 @@ int Result_Crazy_Put(void)
                         t0 = 0xC072168;
                         Sound_Request(0xA00A9, 0x0);
                         t0 = 0xC2A9754;
-                        *(unsigned int *)0xC2A9870 = ((*(int *)0xC2A9870) + 0x1);
+                        (((struct oC_uint *)0xC2A9864)->v) = (((((struct oC_int *)0xC2A9864)->v)) + 0x1);
                         *(unsigned int *)((t0 + 0x0)) = 0x1;
-                        *(unsigned short *)0xC2A9750 = 0x0;
-                        *(float *)0xC2A974C = 0.5f;
-                        *(float *)0xC2A9758 = 0.0f;
+                        (((struct o8_ushort *)0xC2A9748)->v) = 0x0;
+                        (((struct o4_float *)0xC2A9748)->v) = 0.5f;
+                        (((struct o10_float *)0xC2A9748)->v) = 0.0f;
                         t8 = t0;
                     } else {
                         u12 = u2;
@@ -58,54 +75,54 @@ int Result_Crazy_Put(void)
                 t0 = t15;
                 if ((int)t1 < (int)0x5) {
                     t0 = 0x2;
-                    *(unsigned int *)0xC2A96F8 = (*(int *)((0xC130FFC + (t1 << 2))));
+                    (((struct o0_uint *)0xC2A96F8)->v) = (*(int *)((0xC130FFC + (t1 << 2))));
                     t22 = ((((t1 - 2) << 2) << 2) << 1);
                     if ((int)t1 > (int)t0) {
                         t22 = (((((t1 - 2) << 2) << 2) << 1) - ((t1 - 2) << 2));
                     }
                     u2 = (float)((t22 + (t1 << 1)) + 0x9C);
-                    *(float *)0xC2A96FC = u2;
-                    *(unsigned int *)0xC2A972C = 0x200A;
-                    u2 = (float)((*(int *)0xC2A9748) + 0x18C);
-                    *(float *)0xC2A9700 = u2;
-                    *(float *)0xC2A9704 = 0.149999991f;
-                    u2 = (*(float *)0xC2A9758);
+                    (((struct o4_float *)0xC2A96F8)->v) = u2;
+                    (((struct o34_uint *)0xC2A96F8)->v) = 0x200A;
+                    u2 = (float)(((((struct o0_int *)0xC2A9748)->v)) + 0x18C);
+                    (((struct o8_float *)0xC2A96F8)->v) = u2;
+                    (((struct oC_float *)0xC2A96F8)->v) = 0.149999991f;
+                    u2 = ((((struct o10_float *)0xC2A9748)->v));
                     u2 = (u2 + 1.0f);
-                    *(float *)0xC2A9708 = u2;
-                    u2 = (*(float *)0xC2A9758);
+                    (((struct o10_float *)0xC2A96F8)->v) = u2;
+                    u2 = ((((struct o10_float *)0xC2A9748)->v));
                     u2 = (u2 + 1.0f);
-                    *(float *)0xC2A970C = u2;
-                    *(float *)0xC2A9714 = 0.0f;
+                    (((struct o14_float *)0xC2A96F8)->v) = u2;
+                    (((struct o1C_float *)0xC2A96F8)->v) = 0.0f;
                     t31 = 0x24;
                     t34 = 0x18C;
                     t35 = (t1 << 1);
                 } else {
-                    *(unsigned int *)0xC2A972C = 0xA;
-                    *(unsigned int *)0xC2A96F8 = 0x13D;
+                    (((struct o34_uint *)0xC2A96F8)->v) = 0xA;
+                    (((struct o0_uint *)0xC2A96F8)->v) = 0x13D;
                     u2 = (float)((((t1 - 4) << 2) << 2) + 0xE6);
-                    *(float *)0xC2A96FC = u2;
-                    u2 = (float)((*(int *)0xC2A9748) + 0x18B);
-                    *(float *)0xC2A9700 = u2;
-                    u2 = (*(float *)0xC2A9758);
+                    (((struct o4_float *)0xC2A96F8)->v) = u2;
+                    u2 = (float)(((((struct o0_int *)0xC2A9748)->v)) + 0x18B);
+                    (((struct o8_float *)0xC2A96F8)->v) = u2;
+                    u2 = ((((struct o10_float *)0xC2A9748)->v));
                     u2 = (u2 + 0.399999976f);
-                    *(float *)0xC2A9708 = u2;
-                    u2 = (*(float *)0xC2A9758);
+                    (((struct o10_float *)0xC2A96F8)->v) = u2;
+                    u2 = ((((struct o10_float *)0xC2A9748)->v));
                     u2 = (u2 + 1.5f);
-                    *(float *)0xC2A970C = u2;
-                    *(float *)0xC2A9710 = 0.599999964f;
+                    (((struct o14_float *)0xC2A96F8)->v) = u2;
+                    (((struct o18_float *)0xC2A96F8)->v) = 0.599999964f;
                     t31 = 0x20;
                     t34 = 0x18B;
                 }
                 *(float *)((0xC2A96F8 + t31)) = 1.0f;
-                *(unsigned int *)0xC2A9720 = 0x0;
-                nlSprPut(0xC2A96F8, t34, t35);
-                u2 = (*(float *)0xC2A9758);
+                (((struct o28_uint *)0xC2A96F8)->v) = 0x0;
+                nlSprPut(0xC2A96F8, t34);
+                u2 = ((((struct o10_float *)0xC2A9748)->v));
                 u2 = (u2 + 1.0f);
-                *(float *)0xC2A9708 = u2;
-                u2 = (*(float *)0xC2A9758);
+                (((struct o10_float *)0xC2A96F8)->v) = u2;
+                u2 = ((((struct o10_float *)0xC2A9748)->v));
                 u2 = (u2 + 1.0f);
-                *(float *)0xC2A970C = u2;
-                *(float *)0xC2A9710 = 0.0f;
+                (((struct o14_float *)0xC2A96F8)->v) = u2;
+                (((struct o18_float *)0xC2A96F8)->v) = 0.0f;
             }
             t1 = (t1 + 0x1);
             t0 = t44;
@@ -115,16 +132,16 @@ int Result_Crazy_Put(void)
     }
     if ((int)t3 >= (int)0x3D) {
         if (t3 == 61) {
-            *(unsigned int *)0xC2A9874 = ((*(int *)0xC2A9874) + 0x1);
+            (((struct o10_uint *)0xC2A9864)->v) = (((((struct o10_int *)0xC2A9864)->v)) + 0x1);
             Sound_Request(0xE00A9, 0x0);
-            *(unsigned int *)0xC2A9754 = 0x1;
-            *(unsigned short *)0xC2A9750 = 0x0;
-            *(float *)0xC2A974C = 0.5f;
-            *(float *)0xC2A9758 = 0.0f;
+            (((struct oC_uint *)0xC2A9748)->v) = 0x1;
+            (((struct o8_ushort *)0xC2A9748)->v) = 0x0;
+            (((struct o4_float *)0xC2A9748)->v) = 0.5f;
+            (((struct o10_float *)0xC2A9748)->v) = 0.0f;
         }
         Result_Class_Shadow_Put();
     }
-    *(unsigned int *)0xC2A9864 = ((*(int *)0xC2A9864) + 0x1);
-    *(float *)0xC2A9704 = 0.199999988f;
+    (((struct o0_uint *)0xC2A9864)->v) = (((((struct o0_int *)0xC2A9864)->v)) + 0x1);
+    (((struct oC_float *)0xC2A96F8)->v) = 0.199999988f;
     return 0xC;
 }

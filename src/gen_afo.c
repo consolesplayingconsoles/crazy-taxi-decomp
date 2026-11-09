@@ -5,6 +5,12 @@ int nlAddVector(int, int);
 int nlScaleVector(int, int, float);
 int set_event(int, int);
 int signalInit(int a4, int a5);
+struct o48_int { char p[0x48]; int v; };
+struct o60_int { char p[0x60]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct o88_uint { char p[0x88]; unsigned int v; };
+
 
 int signalInit(int a4, int a5)
 {
@@ -27,8 +33,8 @@ int signalInit(int a4, int a5)
     } else {
         *(unsigned int *)((t0 + 0x14)) = 0x1000;
     }
-    *(unsigned int *)((t0 + 0x84)) = 0x258;
-    *(unsigned int *)((t0 + 0x88)) = (*(int *)((t0 + 0x84)));
+    (((struct o84_uint *)(t0))->v) = 0x258;
+    (((struct o88_uint *)(t0))->v) = ((((struct o84_int *)(t0))->v));
     t4 = *(int *)(((a4 << 2) + 0xC0F2B18));
     t5 = 0xC0F2B18;
     t6 = 0x0;
@@ -54,10 +60,10 @@ int signalInit(int a4, int a5)
         }
     }
     t23 = *(int *)((t0 + 0x18));
-    t25 = *(int *)(((t0 + 0x48) + 0x0));
+    t25 = (((struct o48_int *)(t0))->v);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((t0 + 0x78)) = *(struct mv3 *)(((*(int *)((((((t23 << 1) + t23) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t25 << 1) + t25) << 2))); }
     t27 = *(int *)((t0 + 0x30));
-    t29 = *(int *)((t0 + 0x60));
+    t29 = (((struct o60_int *)(t0))->v);
     nlAddVector((t0 + 0x78), ((*(int *)((((((t27 << 1) + t27) << 2) + (*(int *)0xC2A6690)) + 0x0))) + (((t29 << 1) + t29) << 2)));
     return nlScaleVector((t0 + 0x78), (t0 + 0x78), 0.5f);
 }

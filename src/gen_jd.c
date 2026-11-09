@@ -9,6 +9,12 @@ int setTechnicalBonus(int, int, int);
 int signalInit(int, int);
 int trainControlInit(void);
 int trafficSectionControl(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_short { char p[0xC]; short v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
 {
@@ -66,8 +72,8 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     F4 = f4;
     L_C042BB0:;
     *(unsigned int *)(((int)stk + 20)) = R5;
-    t0 = *(int *)0xC1EE210;
-    t1 = *(int *)0xC1EE214;
+    t0 = (((struct o0_int *)0xC1EE210)->v);
+    t1 = (((struct o4_int *)0xC1EE210)->v);
     R14 = ((((((t0 + t1) << 1) + (t0 + t1)) << 2) + 0xC0C3D4C));
     F15 = (F4);
     if (((*(int *)(((((((t0 + t1) << 1) + (t0 + t1)) << 2) + 0xC0C3D4C) + 0x0))) != 1)) goto L_C042BF4;
@@ -90,8 +96,8 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     goto L_C042C32;
     L_C042C32:;
     setTechnicalBonus(0xFFFFFFFF, 0x0, R6);
-    t16 = *(int *)0xC1EE210;
-    t17 = *(int *)0xC1EE214;
+    t16 = (((struct o0_int *)0xC1EE210)->v);
+    t17 = (((struct o4_int *)0xC1EE210)->v);
     R11 = (0xC049574);
     R13 = ((t16 + t17));
     if (((t16 + t17) == 0)) goto L_C042C50;
@@ -148,7 +154,7 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     R14 = ((R14 + 0x1));
     goto L_C042C78;
     L_C042C06:;
-    *(unsigned int *)0xC2A1B78 = 0x0;
+    (((struct oC_uint *)0xC2A1B6C)->v) = 0x0;
     R4 = (0x3);
     R6 = (((short)(((R5 << 1) + R5) << 2) + R7));
     goto L_C042C26;
@@ -164,9 +170,9 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     R6 = ((R6 + 0x4));
     goto L_C042C26;
     L_C042CA4:;
-    t47 = *(int *)0xC2A1B78;
-    *(unsigned int *)0xC2A1B78 = (t47 + 0x1);
-    *(unsigned int *)0xC2A1B78 = ((t47 + 0x1) & 0x1);
+    t47 = (((struct oC_int *)0xC2A1B6C)->v);
+    (((struct oC_uint *)0xC2A1B6C)->v) = (t47 + 0x1);
+    (((struct oC_uint *)0xC2A1B6C)->v) = ((t47 + 0x1) & 0x1);
     R0 = (((t47 + 0x1) & 0x1));
     R11 = ((*(int *)(((int)stk + 28))));
     goto L_C042DC0;
@@ -197,7 +203,7 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     if (((int)t63 <= (int)0x8)) goto L_C042E2A;
     goto L_C042DF8;
     L_C042DF8:;
-    t70 = *(int *)0xC2A1B6C;
+    t70 = (((struct o0_int *)0xC2A1B6C)->v);
     R5 = ((R2 - t70));
     R6 = (0xC2A1B6C);
     if (((int)(R2 - t70) >= (int)R4)) goto L_C042E24;
@@ -215,7 +221,7 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) << 1);
     goto L_C042E4A;
     L_C042E4A:;
-    *(unsigned int *)(((int)stk + 36)) = (0xC2A1B7C + (short)((short)(*(short *)0xC2A1B78) * (short)0xF60));
+    *(unsigned int *)(((int)stk + 36)) = (0xC2A1B7C + (short)((short)((((struct oC_short *)0xC2A1B6C)->v)) * (short)0xF60));
     *(unsigned int *)(((int)stk + 40)) = (((R13 << 1) + R13) << 2);
     *(unsigned int *)(((int)stk + 48)) = ((((R13 << 1) + R13) << 2) + (*(int *)(((int)stk + 36))));
     *(unsigned int *)(((int)stk + 44)) = (short)(((R13 << 1) + R13) << 2);
@@ -265,7 +271,7 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)(((int)stk + 28)) = ((((R4 << 1) + R4) << 2) + (*(int *)(((int)stk + 36))));
     R14 = ((((int)R6 >= 0) ? (0x1 << (R6 & 31)) : ((-(int)R6 & 31) ? ((int)0x1 >> (-(int)R6 & 31)) : ((int)0x1 >> 31))));
     R7 = ((R5 << 2));
-    if ((((*(int *)(((R11 << 2) + (((short)((short)(((*(short *)0xC2A1B78) + 0x1) & 0x1) * (short)0xF60) + 0xC2A1B7C) + (*(int *)(((int)stk + 44))))))) & (((int)R10 >= 0) ? (0x1 << (R10 & 31)) : ((-(int)R10 & 31) ? ((int)0x1 >> (-(int)R10 & 31)) : ((int)0x1 >> 31)))) == 0)) goto L_C042F44;
+    if ((((*(int *)(((R11 << 2) + (((short)((short)((((((struct oC_short *)0xC2A1B6C)->v)) + 0x1) & 0x1) * (short)0xF60) + 0xC2A1B7C) + (*(int *)(((int)stk + 44))))))) & (((int)R10 >= 0) ? (0x1 << (R10 & 31)) : ((-(int)R10 & 31) ? ((int)0x1 >> (-(int)R10 & 31)) : ((int)0x1 >> 31)))) == 0)) goto L_C042F44;
     goto L_C042F40;
     L_C042F40:;
     goto L_C043066;
@@ -391,14 +397,14 @@ int trafficSectionControl(int a4, int a5, int a6, int a7, float f4)
     goto L_C042E28;
     L_C042D10:;
     R4 = (0x3);
-    R5 = ((((short)((short)(*(short *)0xC2A1B78) * (short)0xF60) + 0xC2A1B7C) + (short)(((R11 << 1) + R11) << 2)));
+    R5 = ((((short)((short)((((struct oC_short *)0xC2A1B6C)->v)) * (short)0xF60) + 0xC2A1B7C) + (short)(((R11 << 1) + R11) << 2)));
     goto L_C042D3A;
     L_C042D3A:;
     if ((R4 != 0)) goto L_C042D32;
     goto L_C042D3E;
     L_C042D3E:;
     t190 = *(int *)0xC2A6690;
-    t191 = *(short *)0xC2A1B78;
+    t191 = (((struct oC_short *)0xC2A1B6C)->v);
     R0 = (0xC2A1B78);
     R10 = ((*(int *)((((((R11 << 1) + R11) << 2) + t190) + 0x0))));
     R12 = (0x0);

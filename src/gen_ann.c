@@ -7,7 +7,6 @@ float carSlipRatio(float f4, float f5, float f6, float f7, float f8)
 {
     int t7;
     int t22;
-    int stk[1];
 
     int R0;
     float F0;

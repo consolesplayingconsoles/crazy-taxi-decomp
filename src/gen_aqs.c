@@ -7,6 +7,9 @@ int nlSubVector3op(int, int, int);
 float nlUnitVector(int);
 int psgSetState(int, int, int, int);
 int psgRoadCheck(int a4, int a5, int a6, int a7, float f4);
+struct o12C_int { char p[0x12C]; int v; };
+struct o12C_uint { char p[0x12C]; unsigned int v; };
+
 
 int psgRoadCheck(int a4, int a5, int a6, int a7, float f4)
 {
@@ -37,18 +40,20 @@ int psgRoadCheck(int a4, int a5, int a6, int a7, float f4)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     F4 = f4;
     L_C071966:;
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R1004 = 0x0;
     R0 = (0x12C);
     R13 = (0x0);
     R14 = (R4);
     R8 = (0x0);
-    if (((int)(*(int *)((R4 + 0x12C))) <= 0)) goto L_C071994;
+    if (((int)((((struct o12C_int *)(R4))->v)) <= 0)) goto L_C071994;
     goto L_C07198E;
     L_C07198E:;
     *(unsigned int *)((R14 + R0)) = ((*(int *)((R14 + R0))) - 2);
@@ -82,18 +87,18 @@ int psgRoadCheck(int a4, int a5, int a6, int a7, float f4)
     if ((!(F13 > t21))) goto L_C071A0E;
     goto L_C071A00;
     L_C071A00:;
-    *(unsigned int *)((R14 + 0x12C)) = ((*(int *)((R14 + 0x12C))) + (R9 - R13));
+    (((struct o12C_uint *)(R14))->v) = (((((struct o12C_int *)(R14))->v)) + (R9 - R13));
     goto L_C071A14;
     L_C071A14:;
-    if (((int)(*(int *)((R14 + 0x12C))) <= (int)0xF)) goto L_C071A32;
+    if (((int)((((struct o12C_int *)(R14))->v)) <= (int)0xF)) goto L_C071A32;
     goto L_C071A1E;
     L_C071A1E:;
     psgSetState(R14, 0x6, (*(int *)((R14 + 0x28))), (*(int *)((R14 + 0x2C))));
-    *(unsigned int *)((R14 + 0x12C)) = R8;
-    *(unsigned int *)(((int)stk + 4)) = 0x1;
+    (((struct o12C_uint *)(R14))->v) = R8;
+    R1004 = 0x1;
     goto L_C071A32;
     L_C071A32:;
-    return (*(int *)(((int)stk + 4)));
+    return (R1004);
     L_C071A0E:;
     t32 = (int)(R13 + 0x1) < (int)R10;
     R13 = ((R13 + 0x1));

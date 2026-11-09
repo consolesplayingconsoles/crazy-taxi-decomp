@@ -12,24 +12,16 @@ int gdc_SpriteSetMenu(void)
 {
     int t0;
     int t82;
-    int t70;
     int t27;
-    int t69;
     int t9;
     int t60;
     int t61;
-    int t54;
-    int t55;
-    int t45;
-    int t46;
-    int t36;
-    int t37;
 
     t0 = *(int *)0xC26E184;
     t82 = t0;
     if (t0 == 2) {
     } else {
-        t70 = t0;
+        t82 = t0;
         if (t0 == 5) {
         } else {
             gdc_CourseTexFree();
@@ -64,41 +56,35 @@ int gdc_SpriteSetMenu(void)
                             if (t27 != 4) {
                                 nlSetCommonTextureOffset(0x2A8);
                                 gdc_FileLoad(0xCB40000, 0xC08D60C, 0x0);
-                                t36 = 0xC1456D8;
-                                t37 = 0xC08B890;
+                                t60 = 0xC1456D8;
+                                t61 = 0xC08B890;
                             } else {
                                 nlSetCommonTextureOffset(0x2A8);
                                 gdc_FileLoad(0xCB40000, 0xC08D60C, 0x0);
                                 nlObjPutSetReplaceTextureDirName(0xC145DF8, 0xC08B890);
                                 nlSetCommonTextureOffset(0x384);
                                 gdc_FileLoad(0xCB40000, 0xC08D630, 0x0);
-                                t36 = 0xC146778;
-                                t37 = 0xC08BA70;
+                                t60 = 0xC146778;
+                                t61 = 0xC08BA70;
                             }
-                            t45 = t36;
-                            t46 = t37;
                         } else {
                             nlSetCommonTextureOffset(0x2A8);
                             gdc_FileLoad(0xCB40000, 0xC08D60C, 0x0);
                             nlObjPutSetReplaceTextureDirName(0xC145DF8, 0xC08B890);
                             nlSetCommonTextureOffset(0x320);
                             gdc_FileLoad(0xCB40000, 0xC08D624, 0x0);
-                            t45 = 0xC1462B8;
-                            t46 = 0xC08BA70;
+                            t60 = 0xC1462B8;
+                            t61 = 0xC08BA70;
                         }
-                        t54 = t45;
-                        t55 = t46;
                     } else {
                         nlSetCommonTextureOffset(0x2A8);
                         gdc_FileLoad(0xCB40000, 0xC08D60C, 0x0);
                         nlObjPutSetReplaceTextureDirName(0xC145DF8, 0xC08B890);
                         nlSetCommonTextureOffset(0x352);
                         gdc_FileLoad(0xCB40000, 0xC08D618, 0x0);
-                        t54 = 0xC146518;
-                        t55 = 0xC08BA70;
+                        t60 = 0xC146518;
+                        t61 = 0xC08BA70;
                     }
-                    t60 = t54;
-                    t61 = t55;
                 } else {
                     nlSetCommonTextureOffset(0x2A8);
                     gdc_FileLoad(0xCB40000, 0xC08D60C, 0x0);
@@ -107,12 +93,10 @@ int gdc_SpriteSetMenu(void)
                 }
                 nlObjPutSetReplaceTextureDirName(t60, t61);
             }
-            t69 = nlSetCommonTextureOffset(0x0);
+            t82 = nlSetCommonTextureOffset(0x0);
             *(unsigned int *)0xC26E184 = 0x2;
             *(unsigned int *)0xC0E5318 = 0x3;
-            t70 = t69;
         }
-        t82 = t70;
     }
     return t82;
 }

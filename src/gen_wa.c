@@ -20,15 +20,19 @@ int nlInitEvent(void);
 int nlInitHeapMemory(int, int);
 int nlSetBackColor(int, int, int);
 int menuModeInit(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o3C_uint { char p[0x3C]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int menuModeInit(void)
 {
     int t20;
-    int t31;
-    int t27;
-    int t44;
     int t37;
-    int t39;
     int t51;
     int t24;
 
@@ -45,38 +49,34 @@ int menuModeInit(void)
     *(unsigned int *)0xC1EE334 = 0x11;
     nlSetBackColor(0xFFFFC500, 0xFFFFC500, 0xFFFFC500);
     LightEffect(0x0);
-    *(unsigned int *)0xC2A11EC = 0x2;
-    *(unsigned int *)0xC2A1ADC = 0x280;
-    *(unsigned int *)0xC2A1AD8 = 0x280;
-    *(unsigned int *)0xC0EF548 = 0x0;
-    *(unsigned int *)0xC0EF54C = 0x0;
-    if ((*(int *)0xC2A1210) == 0xC09DDE0) {
+    (((struct o3C_uint *)0xC2A11B0)->v) = 0x2;
+    (((struct o4_uint *)0xC2A1AD8)->v) = 0x280;
+    (((struct o0_uint *)0xC2A1AD8)->v) = 0x280;
+    (((struct o0_uint *)0xC0EF548)->v) = 0x0;
+    (((struct o4_uint *)0xC0EF548)->v) = 0x0;
+    if (((((struct o0_int *)0xC2A1210)->v)) == 0xC09DDE0) {
         SetWindow(0x0);
     }
     menuReadPad(0x0);
-    t20 = *(int *)0xC2A11B0;
-    t31 = (menuSpriteAttrInit(0xC2A1A84));
+    t20 = (((struct o0_int *)0xC2A11B0)->v);
+    t51 = (menuSpriteAttrInit(0xC2A1A84));
     if (t20 == 0) {
-        t27 = 0xC2A122C;
-        if (((*(int *)0xC2A1228) == 0) && (t24 = *(int *)0xC2A122C, t24 == 0)) {
+        t51 = 0xC2A122C;
+        if ((((((struct o18_int *)0xC2A1210)->v)) == 0) && (t24 = (((struct o1C_int *)0xC2A1210)->v), t24 == 0)) {
         } else {
             gdc_PlayStreamSong(0x0);
-            t27 = (gdc_VolStreamSong(0x7F));
+            t51 = (gdc_VolStreamSong(0x7F));
         }
-        t31 = t27;
     }
-    t44 = t31;
-    if ((*(int *)0xC2A1228) == 0) {
-        t37 = *(int *)0xC2A122C;
-        t39 = t37;
+    if (((((struct o18_int *)0xC2A1210)->v)) == 0) {
+        t37 = (((struct o1C_int *)0xC2A1210)->v);
+        t51 = t37;
         if ((t37 != 7) && (t37 != 9)) {
         } else {
-            t39 = (adxStartAfs2(0x0, 0x2A0));
+            t51 = (adxStartAfs2(0x0, 0x2A0));
         }
-        t44 = t39;
     }
-    t51 = t44;
-    if ((*(int *)0xC2A1214) == 0) {
+    if (((((struct o4_int *)0xC2A1210)->v)) == 0) {
         t51 = (AnnounceSecretFlag(0x1));
     }
     *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);

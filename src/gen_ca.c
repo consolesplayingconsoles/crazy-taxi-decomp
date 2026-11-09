@@ -13,6 +13,11 @@ int nlSetFontSize(int, int);
 int syIntAdrChk_dumpline(int a4, int a5, int a6);
 int Warning(void);
 int nlLineCalcColor(int a4, int a5);
+struct o0_float { float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int syIntAdrChk_dumpline(int a4, int a5, int a6)
 {
@@ -74,19 +79,19 @@ int nlLineCalcColor(int a4, int a5)
                     t3 = a5;
                 }
                 if ((t2 & 0x1) != 0) {
-                    u4 = *(float *)0xC2B762C;
+                    u4 = (((struct o8_float *)0xC2B7624)->v);
                     nlLineCalcFogB(a4, a5, t3, u4);
                 } else {
                     if ((t2 & 0x2) != 0) {
-                        u6 = *(float *)0xC2B7624;
+                        u6 = (((struct o0_float *)0xC2B7624)->v);
                         nlLineCalcFogB(a4, a5, t3, u6);
                     } else {
                         if ((t2 & 0x4) != 0) {
-                            u8 = *(float *)0xC2B7630;
+                            u8 = (((struct oC_float *)0xC2B7624)->v);
                             nlLineCalcFogC(a4, a5, t3, u8);
                         } else {
                             if ((t2 & 0x8) != 0) {
-                                u10 = *(float *)0xC2B7628;
+                                u10 = (((struct o4_float *)0xC2B7624)->v);
                                 nlLineCalcFogC(a4, a5, t3, u10);
                             }
                         }
@@ -105,19 +110,19 @@ int nlLineCalcColor(int a4, int a5)
             t17 = a5;
         }
         if ((t16 & 0x1) != 0) {
-            u18 = *(float *)0xC2B762C;
+            u18 = (((struct o8_float *)0xC2B7624)->v);
             nlLineCalcFogB(a4, a5, t17, u18);
         } else {
             if ((t16 & 0x2) != 0) {
-                u20 = *(float *)0xC2B7624;
+                u20 = (((struct o0_float *)0xC2B7624)->v);
                 nlLineCalcFogB(a4, a5, t17, u20);
             } else {
                 if ((t16 & 0x4) != 0) {
-                    u22 = *(float *)0xC2B7630;
+                    u22 = (((struct oC_float *)0xC2B7624)->v);
                     nlLineCalcFogC(a4, a5, t17, u22);
                 } else {
                     if ((t16 & 0x8) != 0) {
-                        u24 = *(float *)0xC2B7628;
+                        u24 = (((struct o4_float *)0xC2B7624)->v);
                         nlLineCalcFogC(a4, a5, t17, u24);
                     }
                 }

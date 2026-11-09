@@ -16,6 +16,12 @@ int nlPushUnitMatrix(void);
 int nlQuickInvertMatrix(void);
 int nlTranslateV(int);
 int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o20_float { char p[0x20]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
 {
@@ -70,11 +76,11 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     L_C0343E4:;
     *(unsigned int *)(((int)stk + 12)) = R5;
     *(float *)(((int)stk + 28)) = F4;
-    t2 = nlFloor(((*(float *)((R4 + 0x0))) / (*(float *)0xC270478)));
-    t5 = nlFloor(((*(float *)((R4 + 0x8))) / (*(float *)0xC270478)));
-    t6 = *(int *)0xC27045C;
-    t7 = *(int *)0xC270460;
-    t8 = *(int *)0xC27046C;
+    t2 = nlFloor(((*(float *)((R4 + 0x0))) / ((((struct o20_float *)0xC270458)->v))));
+    t5 = nlFloor(((*(float *)((R4 + 0x8))) / ((((struct o20_float *)0xC270458)->v))));
+    t6 = (((struct o4_int *)0xC270458)->v);
+    t7 = (((struct o8_int *)0xC270458)->v);
+    t8 = (((struct o14_int *)0xC270458)->v);
     R11 = (0x0);
     R13 = (0xC27045C);
     R14 = (R4);
@@ -86,7 +92,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     if (((int)R4 >= (int)(*(int *)((R13 + 0x18))))) goto L_C034454;
     goto L_C034446;
     L_C034446:;
-    if (((*(int *)(((R4 << 2) + (*(int *)0xC270458)))) != 0)) goto L_C034458;
+    if (((*(int *)(((R4 << 2) + ((((struct o0_int *)0xC270458)->v))))) != 0)) goto L_C034458;
     goto L_C034454;
     L_C034454:;
     R0 = (0x0);
@@ -98,7 +104,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)(((int)stk + 112)) = R14;
     *(float *)(((int)stk + 132)) = (*(float *)(((int)stk + 28)));
     *(unsigned int *)(((int)stk + 4)) = (R4 << 2);
-    t23 = *(int *)(((R4 << 2) + (*(int *)0xC270458)));
+    t23 = *(int *)(((R4 << 2) + ((((struct o0_int *)0xC270458)->v))));
     R10 = (R11);
     R12 = ((*(short *)((t23 + 0x0))));
     R13 = ((t23 + 0x4));
@@ -110,7 +116,7 @@ int CheckColliWallBox(int a4, int a5, int a6, int a7, float f4)
     if ((R12 != 0)) goto L_C03447E;
     goto L_C0344EA;
     L_C0344EA:;
-    *(unsigned int *)(((int)stk + 16)) = (*(short *)(((*(int *)(((*(int *)0xC270458) + (*(int *)(((int)stk + 4)))))) + 0x2)));
+    *(unsigned int *)(((int)stk + 16)) = (*(short *)(((*(int *)((((((struct o0_int *)0xC270458)->v)) + (*(int *)(((int)stk + 4)))))) + 0x2)));
     *(unsigned int *)(((int)stk + 4)) = ((short)((short)(*(int *)(((int)stk + 12))) * (short)0x1C) + 0xC2708B4);
     *(unsigned int *)(((int)stk + 24)) = (((int)stk + 4) + 0x54);
     *(unsigned int *)(((int)stk + 20)) = (((int)stk + 4) + 0x60);

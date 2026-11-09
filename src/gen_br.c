@@ -95,6 +95,18 @@ int adxb_DecodeInfoAiffSub(int a4, int a5, int a6, int a7, int a8);
 int kmiVQallocFB(int a4, int a5, int a6, int a7, int a8, int a9);
 int nd_Exec_Puru2(int a4);
 int ExecEffect(int a4, int a5);
+struct o10_uchar { char p[0x10]; unsigned char v; };
+struct o10C4_int { char p[0x10C4]; int v; };
+struct o10D8_int { char p[0x10D8]; int v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
+
 
 void sys_init(void)
 {
@@ -103,25 +115,28 @@ void sys_init(void)
     int t2;
     int t3;
     int stk[3] = {0};
+    int R1004;
 
-    *(unsigned int *)0xFFA00020 = 0x0;
-    *(unsigned int *)0xFFA0002C = 0x1201;
-    *(unsigned int *)0xFFA00040 = 0x8201;
+    R1004 = *(int *)((int)stk + 4);
+
+    (((struct o0_uint *)0xFFA00020)->v) = 0x0;
+    (((struct oC_uint *)0xFFA00020)->v) = 0x1201;
+    (((struct o20_uint *)0xFFA00020)->v) = 0x8201;
     t0 = 0x1201;
     for (;;) {
-        t1 = *(int *)0xFFA00040;
+        t1 = (((struct o20_int *)0xFFA00020)->v);
         *(unsigned int *)(((int)stk + 8)) = t1;
         if (t1 == 0x8201) break;
-        *(unsigned int *)(((int)stk + 4)) = 0x0;
+        R1004 = 0x0;
         for (;;) {
-            t2 = *(int *)(((int)stk + 4));
+            t2 = R1004;
             if ((int)t2 >= (int)0x10000) break;
-            t3 = *(int *)(((int)stk + 4));
+            t3 = R1004;
             t0 = t3;
             t0 = (t0 + 0x1);
-            *(unsigned int *)(((int)stk + 4)) = t0;
+            R1004 = t0;
         }
-        *(unsigned int *)0xFFA00040 = 0x8201;
+        (((struct o20_uint *)0xFFA00020)->v) = 0x8201;
     }
 }
 
@@ -247,9 +262,14 @@ int vmsfs_setvolume(int a4, int a5)
     int t13;
     int t14;
     int stk[6] = {0};
+    int R1004;
+    int R1008;
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = (a4 * 0x148);
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+
+    R1004 = a5;
+    R1008 = (a4 * 0x148);
     t0 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x2));
     if (t0 != 0) {
         t1 = vmsio_isready(a4);
@@ -259,7 +279,7 @@ int vmsfs_setvolume(int a4, int a5)
         }
         t3 = vmsio_ismount(a4);
         if (t3 != 0) {
-            t4 = *(int *)(((int)stk + 8));
+            t4 = R1008;
             t5 = *(signed char *)(((t4 + 0xC2EE990) + 0x8));
             if (t5 == 0) {
                 return 0xFFFFFF01;
@@ -280,9 +300,9 @@ int vmsfs_setvolume(int a4, int a5)
             t11 = (t10 + 0x10);
             t12 = 0x0;
             while ((int)t12 < (int)0x20) {
-                t13 = *(int *)(((int)stk + 4));
+                t13 = R1004;
                 t12 = (t12 + 0x1);
-                *(unsigned int *)(((int)stk + 4)) = (t13 + 0x1);
+                R1004 = (t13 + 0x1);
                 t14 = *(signed char *)((((t13 + 0x1) - 1) + 0x0));
                 *(unsigned char *)((t11 + 0x0)) = t14;
                 t11 = (t11 + 0x1);
@@ -304,18 +324,11 @@ int trigger(int a4, int a5)
     int t5;
     int t6;
     int t7;
-    int t8;
-    int t9;
     int t10;
     int t11;
     int t12;
     int t13;
     int t14;
-    int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
     int stk[11] = {0};
 
     t0 = *(int *)0xC2FA538;
@@ -338,10 +351,8 @@ int trigger(int a4, int a5)
             t7 = *(signed char *)((t3 + 0x0));
             t3 = t7;
             t3 = (unsigned char)t3;
-            t8 = kdGetDevice(t3);
-            t2 = t8;
-            t9 = *(int *)(((int)stk + 8));
-            t3 = t9;
+            t2 = kdGetDevice(t3);
+            t3 = *(int *)(((int)stk + 8));
             t10 = *(signed char *)((t3 + 0x0));
             t3 = t10;
             t3 = (unsigned char)t3;
@@ -354,23 +365,18 @@ int trigger(int a4, int a5)
             *(unsigned char *)((0xC2EC54C + t2)) = t13;
             t14 = *(int *)((t3 + 0x0));
             if ((t14 & 0x80) != 0) {
-                t15 = *(signed char *)((t12 + 0x2));
-                t2 = t15;
+                t2 = *(signed char *)((t12 + 0x2));
                 if (t2 == 0) {
-                    t16 = *(signed char *)((t12 + 0x4));
-                    t2 = t16;
+                    t2 = *(signed char *)((t12 + 0x4));
                     t2 = (unsigned char)t2;
                     if (t2 == 8) {
-                        t17 = *(int *)((t12 + 0x8));
-                        t3 = t17;
-                        t18 = *(signed char *)((t3 + 0x8));
-                        t2 = t18;
+                        t3 = *(int *)((t12 + 0x8));
+                        t2 = *(signed char *)((t3 + 0x8));
                         t2 = (t2 & 0x4);
                         t3 = t2;
                         t2 = t5;
                         *(unsigned char *)((0xC2EC550 + t2)) = t3;
-                        t19 = *(signed char *)((0xC2EC54C + t2));
-                        t4 = t19;
+                        t4 = *(signed char *)((0xC2EC54C + t2));
                         t4 = (t4 ^ t3);
                         t3 = (unsigned char)t3;
                         if (t3 == 0) {
@@ -507,20 +513,27 @@ int vmsio_block_read(int a4, int a5, int a6)
     int t26;
     int t27;
     int stk[13] = {0};
+    int R1008;
+    int R1012;
+    int R1016;
 
-    *(unsigned int *)(((int)stk + 16)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+
+    R1016 = a5;
+    R1008 = a6;
     t0 = vmsio_ismount(a4);
     if (t0 != 0) {
         t2 = *(int *)(((a4 << 2) + 0xC176948));
         kdGetDevice(t2);
-        t4 = *(int *)(((int)stk + 8));
-        *(unsigned int *)(((int)stk + 8)) = 0x0;
+        t4 = R1008;
+        R1008 = 0x0;
         t5 = t4;
         t6 = 0x0;
         for (;;) {
             t7 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
-            t8 = *(int *)(((int)stk + 8));
+            t8 = R1008;
             t9 = *(int *)((t7 + 0x3C));
             if ((int)t8 >= (int)t9) {
                 return 0x0;
@@ -528,7 +541,7 @@ int vmsio_block_read(int a4, int a5, int a6)
             for (;;) {
                 t10 = kdIsChanged();
                 if (t10 == 0) {
-                    t11 = *(int *)(((int)stk + 16));
+                    t11 = R1016;
                     t12 = kdSetBlockRead();
                     if ((int)t12 < 0) {
                         vmsfb_sleep();
@@ -543,13 +556,13 @@ int vmsio_block_read(int a4, int a5, int a6)
                         break;
                     }
                     t16 = kdGetDevice(t2);
-                    *(unsigned int *)(((int)stk + 12)) = t16;
+                    R1012 = t16;
                     t17 = kdIsChanged();
                     if (t17 != 0) {
                         return 0xFFFFFF30;
                     }
-                    t18 = *(int *)(((int)stk + 12));
-                    t19 = *(int *)(((int)stk + 12));
+                    t18 = R1012;
+                    t19 = R1012;
                     t20 = *(signed char *)((t18 + 0x4));
                     t21 = *(int *)((t19 + 0x8));
                     if ((unsigned char)t20 != 8) {
@@ -571,9 +584,9 @@ int vmsio_block_read(int a4, int a5, int a6)
             t25 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
             t6 = (t6 + 0x1);
             t26 = *(int *)((t25 + 0x44));
-            t27 = *(int *)(((int)stk + 8));
+            t27 = R1008;
             t5 = (t5 + t26);
-            *(unsigned int *)(((int)stk + 8)) = (t27 + 0x1);
+            R1008 = (t27 + 0x1);
         }
     }
     vmsfb_sleep();
@@ -644,7 +657,7 @@ int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8)
                     t12 = *(int *)((a7 + 0x24));
                     *(unsigned int *)((a7 + 0x24)) = (t12 + 0x1);
                     t13 = *(int *)0xC2FA538;
-                    t14 = *(int *)((t13 + 0x10D8));
+                    t14 = (((struct o10D8_int *)(t13))->v);
                     t15 = *(int *)((a7 + 0x24));
                     if ((unsigned int)t15 <= (unsigned int)t14) {
                         *(unsigned char *)((a7 + 0x4)) = 0x1;
@@ -678,7 +691,7 @@ int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8)
         t30 = *(signed char *)((a7 + 0x7));
         if (t30 != 0) {
             t31 = *(int *)0xC2FA538;
-            t32 = *(int *)((0x10C4 + t31));
+            t32 = (((struct o10C4_int *)(t31))->v);
             if (t32 == 1) {
                 t33 = *(int *)((a8 + 0x0));
                 if (t33 != -1) {
@@ -692,12 +705,12 @@ int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8)
     }
     t41 = *(signed char *)((a7 + 0x2));
     if (t41 != 0) {
-        *(unsigned char *)((a6 + 0x10)) = 0x0;
+        (((struct o10_uchar *)(a6))->v) = 0x0;
         mpdrv_make_deviceinfo(a6, a7, a8);
     }
     t44 = *(signed char *)((a7 + 0x3));
     if (t44 != 0) {
-        *(unsigned char *)((a6 + 0x10)) = 0x0;
+        (((struct o10_uchar *)(a6))->v) = 0x0;
         mpdrv_clear_deviceinfo(a6);
     }
     return 0x0;
@@ -705,10 +718,8 @@ int mpdrv_make_exdevicedata(int a4, int a5, int a6, int a7, int a8)
 
 int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6)
 {
-    int t0;
     int t56;
     int t1;
-    int t53;
     int t2;
     int t3;
     int t4;
@@ -718,110 +729,93 @@ int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6)
     int t8;
     int t15;
     int t9;
-    int t13;
-    int t10;
-    int t11;
     int t16;
-    int t17;
-    int t18;
     int t21;
     int t22;
-    int t23;
     int t24;
-    int t25;
-    int t26;
     int t27;
-    int t28;
     int t29;
     int t30;
     int t32;
     int t34;
-    int t35;
     int t37;
     int t38;
     int t39;
-    int t40;
-    int t41;
     int t42;
-    int t43;
     int t44;
     int t45;
     int t46;
-    int t47;
     int t48;
-    int t49;
-    int t50;
     int t51;
-    int t52;
     int stk[15] = {0};
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
+    int R1020;
 
-    *(unsigned int *)(((int)stk + 8)) = a5;
-    *(unsigned int *)(((int)stk + 12)) = a6;
-    *(unsigned int *)(((int)stk + 20)) = 0x0;
-    t0 = *(int *)((a4 + 0x0));
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
+
+    R1008 = a5;
+    R1012 = a6;
+    R1020 = 0x0;
+    t4 = *(int *)((a4 + 0x0));
     t56 = 0x0;
-    if ((int)t0 >= 0) {
+    if ((int)t4 >= 0) {
         t1 = *(int *)((a4 + 0x18));
-        t53 = 0x0;
+        t56 = 0x0;
         if (t1 != 0) {
-            t2 = *(int *)(((int)stk + 8));
-            *(unsigned int *)(((int)stk + 16)) = ((((t2 == 0)) ? 1 : 0) ^ 0x1);
+            t2 = R1008;
+            R1016 = ((((t2 == 0)) ? 1 : 0) ^ 0x1);
             t3 = ((((t2 == 0)) ? 1 : 0) ^ 0x1);
-            t4 = t0;
             t5 = (a4 + 0x18);
             do {
                 t6 = *(int *)((t5 + 0x20));
                 t7 = t5;
                 t5 = (t5 + 0x50);
                 if ((int)t6 >= 0) {
-                    t8 = *(int *)(((int)stk + 12));
+                    t8 = R1012;
                     t15 = t6;
                     if (t8 != 0) {
-                        t9 = *(int *)(((int)stk + 16));
-                        t13 = t6;
+                        t9 = R1016;
+                        t15 = t6;
                         if (t9 != 0) {
-                            t10 = *(int *)(((int)stk + 8));
-                            t4 = t10;
-                            t11 = *(int *)(((((t6 << 2) << 2) + t4) + 0xC));
-                            t13 = t11;
+                            t4 = R1008;
+                            t15 = *(int *)(((((t6 << 2) << 2) + t4) + 0xC));
                         }
-                        t15 = t13;
                     }
                     t16 = *(int *)0xC2AEC84;
-                    t17 = *(int *)0xC2B3184;
-                    t4 = t17;
-                    t18 = *(int *)(((t16 + (((t15 + t4) << 2) << 1)) + 0x0));
-                    t3 = t18;
+                    t4 = *(int *)0xC2B3184;
+                    t3 = *(int *)(((t16 + (((t15 + t4) << 2) << 1)) + 0x0));
                     t21 = (((t15 + t4) << 2) << 1);
                     t4 = 0x0;
                     if ((unsigned int)t3 > (unsigned int)t4) {
                         t22 = *(int *)0xC2AEC84;
-                        t23 = *(int *)(((t22 + t21) + 0x0));
-                        t3 = t23;
+                        t3 = *(int *)(((t22 + t21) + 0x0));
                         t3 = (t3 - 1);
                         *(unsigned int *)(((t22 + t21) + 0x0)) = t3;
                         t24 = *(int *)0xC2AEC84;
-                        t25 = *(int *)(((t24 + t21) + 0x0));
-                        t3 = t25;
+                        t3 = *(int *)(((t24 + t21) + 0x0));
                         if (t3 == 0) {
-                            t26 = *(int *)0xC2AEC84;
-                            t3 = t26;
+                            t3 = *(int *)0xC2AEC84;
                             t3 = (t3 + t21);
                             t27 = *(int *)((t3 + 0x4));
-                            *(unsigned int *)(((int)stk + 4)) = t27;
-                            t28 = *(int *)(((int)stk + 4));
-                            t3 = t28;
+                            R1004 = t27;
+                            t3 = R1004;
                             t29 = *(int *)0xC2B29C0;
                             t30 = *(int *)(((t29 + (t3 * 0x3C)) + 0x28));
                             t32 = (t3 * 0x3C);
                             t3 = t30;
                             if (t3 == 0) {
                                 t34 = *(int *)0xC2B29C0;
-                                t35 = kmFreeTexture((t34 + t32));
-                                t3 = t35;
+                                t3 = kmFreeTexture((t34 + t32));
                                 if (t3 != 0) {
                                     t4 = 0x1;
-                                    *(unsigned int *)(((int)stk + 20)) = t4;
+                                    R1020 = t4;
                                 }
                             }
                             t37 = *(int *)0xC2B29C0;
@@ -829,11 +823,9 @@ int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6)
                             *(unsigned int *)(((t37 + t32) + 0x2C)) = t4;
                             t38 = *(int *)0xC2B29C0;
                             *(unsigned int *)(((t38 + t32) + 0x38)) = 0xFFFFFFFF;
-                            t39 = *(int *)(((int)stk + 4));
-                            t40 = nlCommonTextureClearTextureIndex(t39);
-                            t3 = t40;
-                            t41 = *(int *)0xC2AEC84;
-                            t4 = t41;
+                            t39 = R1004;
+                            t3 = nlCommonTextureClearTextureIndex(t39);
+                            t4 = *(int *)0xC2AEC84;
                             t4 = (t4 + t21);
                             *(unsigned int *)((t4 + 0x4)) = 0xFFFFFFFF;
                         }
@@ -842,8 +834,7 @@ int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6)
                 t4 = 0xC14A644;
                 t42 = *(int *)((t4 + 0x0));
                 if (t42 == 0) {
-                    t43 = *(int *)((t7 + 0xC));
-                    t3 = t43;
+                    t3 = *(int *)((t7 + 0xC));
                     t3 = ((unsigned int)t3 >> 27);
                     t44 = *(int *)0xC2B3568;
                     if (t44 != 0) {
@@ -853,26 +844,21 @@ int nlObjPutFreeTextureOnce_Sub(int a4, int a5, int a6)
                             t3 = t45;
                             if (t3 == 6) {
                                 t46 = *(int *)((t7 + 0x3C));
-                                t47 = nlFreePalette(t46);
-                                t3 = t47;
+                                t3 = nlFreePalette(t46);
                             }
                         } else {
                             t48 = *(int *)((t7 + 0x3C));
-                            t49 = nlFreePalette(t48);
-                            t3 = t49;
+                            t3 = nlFreePalette(t48);
                         }
                     }
                 }
                 t3 = 0x4C;
-                t50 = *(int *)((t7 + t3));
-                t4 = t50;
+                t4 = *(int *)((t7 + t3));
                 t5 = (t5 + t4);
                 t51 = *(int *)((t5 + 0x0));
             } while (t51 != 0);
-            t52 = *(int *)(((int)stk + 20));
-            t53 = t52;
+            t56 = R1020;
         }
-        t56 = t53;
     }
     return t56;
 }
@@ -962,15 +948,18 @@ int kmiErrorRecover(int a4)
     int t24;
     int t25;
     int stk[10] = {0};
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     if (a4 != 0) {
         if (a4 == 1) {
-            *(unsigned int *)(((int)stk + 4)) = 0x0;
+            R1004 = 0x0;
             t0 = 0x0;
             t1 = 0x0;
             t2 = 0x0;
             do {
-                t3 = *(int *)(((int)stk + 4));
+                t3 = R1004;
                 t4 = *(int *)(((((t3 << 2) << 2) << 1) + 0xC2EAAFC));
                 t5 = *(int *)(((((t3 << 2) << 2) << 1) + 0xC2EAB04));
                 if ((unsigned int)(t4 - 2048) > (unsigned int)(t5 + 0x140)) {
@@ -982,16 +971,16 @@ int kmiErrorRecover(int a4)
                         t9 = *(int *)((t2 + 0xC2EAAFC));
                         *(unsigned int *)(((0xC2EAB08 + t2) + 0x0)) = (t9 - 192);
                     }
-                    *(unsigned int *)0xC2F91B8 = 0x0;
+                    (((struct o0_uint *)0xC2F91B8)->v) = 0x0;
                 } else {
-                    t13 = *(int *)0xC2F91B8;
+                    t13 = (((struct o0_int *)0xC2F91B8)->v);
                     if ((unsigned int)t13 > (unsigned int)0xA) {
                         kmiFatalErrorEntry(0x3);
                     }
                 }
-                t17 = *(int *)(((int)stk + 4));
+                t17 = R1004;
                 t1 = (t1 + 0x20);
-                *(unsigned int *)(((int)stk + 4)) = (t17 + 0x1);
+                R1004 = (t17 + 0x1);
                 t2 = (t2 + 0x20);
                 t0 = (t0 + 0x4);
             } while ((int)(t17 + 0x1) < (int)0x2);
@@ -1007,9 +996,9 @@ int kmiErrorRecover(int a4)
                 *(unsigned int *)((t19 + 0xC2EAB08)) = (t23 + 0x2000);
                 t24 = *(int *)((t19 + 0xC2EAB08));
                 *(unsigned int *)((t19 + 0xC2EAAFC)) = (t24 + 0xC0);
-                *(unsigned int *)0xC2F91BC = 0x0;
+                (((struct o4_uint *)0xC2F91B8)->v) = 0x0;
             } else {
-                t25 = *(int *)0xC2F91BC;
+                t25 = (((struct o4_int *)0xC2F91B8)->v);
                 if ((unsigned int)t25 > (unsigned int)0x0) {
                     kmiFatalErrorEntry(0x3);
                 }
@@ -1067,6 +1056,9 @@ int mwlRnaStartTrans(int a4)
     int t22;
     int t47;
     int stk[13] = {0};
+    int R1008;
+
+    R1008 = *(int *)((int)stk + 8);
 
     t0 = *(int *)((a4 + 0x8));
     t1 = (int)((int)0x20 / (int)t0);
@@ -1082,7 +1074,7 @@ int mwlRnaStartTrans(int a4)
             mwRnaErrCallFunc(0xC176700);
         }
         t10 = *(int *)((((t5 << 2) + (a4 + 0x10)) + 0x0));
-        *(unsigned int *)(((int)stk + 8)) = t10;
+        R1008 = t10;
         t11 = *(int *)((a4 + 0x8));
         t12 = *(int *)((t10 + 0x0));
         t13 = *(int *)((t12 + 0x18));
@@ -1090,7 +1082,7 @@ int mwlRnaStartTrans(int a4)
         if ((int)((t4 * ((t1 << 2) << 1)) * t11) < 0) {
             t14 = (((t4 * ((t1 << 2) << 1)) * t11) + 0x7);
         }
-        t15 = *(int *)(((int)stk + 8));
+        t15 = R1008;
         t16 = ((int (*)(int, int, int, int))(t13))(t15, 0x1, (((t14 >> 1) >> 1) >> 1), (((t5 << 2) << 1) + (a4 + 0x18)));
         t5 = (t5 + 0x1);
     }

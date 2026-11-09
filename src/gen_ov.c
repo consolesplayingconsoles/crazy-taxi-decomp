@@ -19,7 +19,7 @@ int menuItemVolume(int a4, int a5)
     int t29;
     int t31;
     int t33;
-    int stk[12];
+    int stk[11];
 
     t0 = *(int *)0xC2A1ADC;
     t3 = 0xC28A4ED;
@@ -30,10 +30,10 @@ int menuItemVolume(int a4, int a5)
         u5 = 256.0f;
         u6 = (float)(0x1DE - t0);
     }
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
+    *(unsigned int *)(((int)stk + 0)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
     if (a4 != 0) {
-        if ((menuChangeValue(0x0, ((int)stk + 4), 0x9)) == 1) {
-            *(unsigned char *)((t3 + 0x0)) = (*(int *)(((int)stk + 4)));
+        if ((menuChangeValue(0x0, ((int)stk + 0), 0x9)) == 1) {
+            *(unsigned char *)((t3 + 0x0)) = (*(int *)(((int)stk + 0)));
             SetSEvolume();
             Voice_Init();
             gdc_VolStreamSong(0x7F);
@@ -45,7 +45,7 @@ int menuItemVolume(int a4, int a5)
         t29 = 0x0;
         for (;;) {
             t31 = 0xC0A0868;
-            if ((int)t29 < (int)(*(int *)(((int)stk + 4)))) {
+            if ((int)t29 < (int)(*(int *)(((int)stk + 0)))) {
                 t31 = 0xC0A0858;
             }
             t33 = menuPutSprites(t31, 0xC2A1A84, (int)((float)(((((t29 - 3) << 2) + (t29 - 3)) << 2) - 10) + u6), (int)u5);

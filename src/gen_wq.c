@@ -3,6 +3,11 @@
 
 int ADXF_LoadPartition(int, int, int, int);
 int gdc_CourseSet(int a4);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int gdc_CourseSet(int a4)
 {
@@ -36,13 +41,13 @@ int gdc_CourseSet(int a4)
                         *(unsigned int *)0xC1EE208 = (t2 + 0x1);
                     }
                 }
-                *(unsigned int *)0xC26E0FC = 0xC08D21C;
-                *(unsigned int *)0xC26E100 = 0xC08D424;
-                *(unsigned int *)0xC26E104 = 0x82;
-                *(unsigned int *)0xC26E108 = 0x0;
+                (((struct o0_uint *)0xC26E0FC)->v) = 0xC08D21C;
+                (((struct o4_uint *)0xC26E0FC)->v) = 0xC08D424;
+                (((struct o8_uint *)0xC26E0FC)->v) = 0x82;
+                (((struct oC_uint *)0xC26E0FC)->v) = 0x0;
                 *(unsigned int *)0xC0EA3D8 = 0xC149818;
-                *(unsigned int *)0xC1EE800 = 0xC0E9988;
-                *(unsigned int *)0xC1EE804 = 0xC0EA3C4;
+                (((struct o0_uint *)0xC1EE800)->v) = 0xC0E9988;
+                (((struct o4_uint *)0xC1EE800)->v) = 0xC0EA3C4;
                 t5 = 0xC1EE800;
             }
             t16 = t5;
@@ -59,13 +64,13 @@ int gdc_CourseSet(int a4)
                     *(unsigned int *)0xC1EE208 = (t13 + 0x1);
                 }
             }
-            *(unsigned int *)0xC26E0FC = 0xC08CBDC;
-            *(unsigned int *)0xC26E100 = 0xC08CF8C;
-            *(unsigned int *)0xC26E104 = 0xEC;
-            *(unsigned int *)0xC26E108 = 0xA4;
+            (((struct o0_uint *)0xC26E0FC)->v) = 0xC08CBDC;
+            (((struct o4_uint *)0xC26E0FC)->v) = 0xC08CF8C;
+            (((struct o8_uint *)0xC26E0FC)->v) = 0xEC;
+            (((struct oC_uint *)0xC26E0FC)->v) = 0xA4;
             *(unsigned int *)0xC0EA3D8 = 0xC1483C8;
-            *(unsigned int *)0xC1EE800 = 0xC0E7A20;
-            *(unsigned int *)0xC1EE804 = 0xC0E8CA4;
+            (((struct o0_uint *)0xC1EE800)->v) = 0xC0E7A20;
+            (((struct o4_uint *)0xC1EE800)->v) = 0xC0E8CA4;
             t16 = 0xC1EE804;
         }
         t28 = t16;
@@ -82,13 +87,13 @@ int gdc_CourseSet(int a4)
                 *(unsigned int *)0xC1EE208 = (t25 + 0x1);
             }
         }
-        *(unsigned int *)0xC26E0FC = 0xC08C420;
-        *(unsigned int *)0xC26E100 = 0xC08C81C;
-        *(unsigned int *)0xC26E104 = 0xFF;
-        *(unsigned int *)0xC26E108 = 0xF0;
+        (((struct o0_uint *)0xC26E0FC)->v) = 0xC08C420;
+        (((struct o4_uint *)0xC26E0FC)->v) = 0xC08C81C;
+        (((struct o8_uint *)0xC26E0FC)->v) = 0xFF;
+        (((struct oC_uint *)0xC26E0FC)->v) = 0xF0;
         *(unsigned int *)0xC0EA3D8 = 0xC146EB8;
-        *(unsigned int *)0xC1EE800 = 0xC0E534C;
-        *(unsigned int *)0xC1EE804 = 0xC0E674C;
+        (((struct o0_uint *)0xC1EE800)->v) = 0xC0E534C;
+        (((struct o4_uint *)0xC1EE800)->v) = 0xC0E674C;
         t28 = 0xC1EE804;
     }
     return t28;

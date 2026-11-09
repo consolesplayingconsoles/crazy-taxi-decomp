@@ -14,9 +14,7 @@ int syG2Read(int a4, int a5, int a6, int a7, int a8, int a9)
     int t1;
     int t2;
     int t9;
-    int t7;
     int t15;
-    int t13;
     int t19;
     int t20;
     int t21;
@@ -33,8 +31,6 @@ int syG2Read(int a4, int a5, int a6, int a7, int a8, int a9)
     int t63;
     int t64;
     int t65;
-    int t5;
-    int t11;
     int stk[10] = {0};
 
     *(unsigned int *)(((int)stk + 4)) = a6;
@@ -47,27 +43,23 @@ int syG2Read(int a4, int a5, int a6, int a7, int a8, int a9)
     }
     t9 = 0x0;
     if (a8 != 0) {
-        t7 = 0x1;
+        t9 = 0x1;
         if (a8 != 1) {
             if (a8 != 2) {
             } else {
-                t5 = 0xFFFFFFFF;
+                t9 = 0xFFFFFFFF;
             }
-            t7 = t5;
         }
-        t9 = t7;
     }
     t15 = 0x0;
     if (a9 != 0) {
-        t13 = 0x1;
+        t15 = 0x1;
         if (a9 != 1) {
             if (a9 != 2) {
             } else {
-                t11 = 0xFFFFFFFF;
+                t15 = 0xFFFFFFFF;
             }
-            t13 = t11;
         }
-        t15 = t13;
     }
     syG2DmaSuspendAll();
     syG2FifoWaitEmpty();

@@ -2,8 +2,13 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int HomingPosX(int, float, float);
-int nlSprPut(int, int, int);
+int nlSprPut(int, int);
 int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o28_int { char p[0x28]; int v; };
+
 
 int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -42,15 +47,19 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R7 = a7;
     F4 = f4;
     F5 = f5;
     L_C051EEA:;
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    R1008 = 0x0;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(0xC0D083C); }
-    t0 = *(int *)0xC2A759C;
+    t0 = (((struct o0_int *)0xC2A759C)->v);
     R10 = (0x0);
     R12 = (0xC2A7500);
     R13 = (0xC04D49E);
@@ -58,7 +67,7 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     R4 = (t0);
     F14 = (0.599999964f);
     F15 = (0.0f);
-    F4 = ((*(float *)0xC2A7500));
+    F4 = (((((struct o0_float *)0xC2A7500)->v)));
     if ((t0 != 0)) goto L_C051F44;
     goto L_C051F26;
     L_C051F26:;
@@ -71,7 +80,7 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C051FC0;
     L_C051FC0:;
     R9 = (0xC2A7504);
-    if (((*(int *)0xC2A759C) != 2)) goto L_C052052;
+    if ((((((struct o0_int *)0xC2A759C)->v)) != 2)) goto L_C052052;
     goto L_C051FCA;
     L_C051FCA:;
     if ((!(0.0f > (*(float *)((R12 + 0x0)))))) goto L_C051FDE;
@@ -112,13 +121,13 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C052052:;
     R11 = (R10);
     R8 = (0xC2A751C);
-    if (((*(int *)(((*(int *)0xC2A751C) + 0x0))) != 3)) goto L_C052062;
+    if (((*(int *)((((((struct o1C_int *)0xC2A7500)->v)) + 0x0))) != 3)) goto L_C052062;
     goto L_C05205E;
     L_C05205E:;
-    *(unsigned int *)(((int)stk + 8)) = 0xFFFFFFE8;
+    R1008 = 0xFFFFFFE8;
     goto L_C052062;
     L_C052062:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC1305D8;
+    R1004 = 0xC1305D8;
     R14 = (0xC2A7460);
     goto L_C052068;
     L_C052068:;
@@ -132,22 +141,22 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((R13 != 2)) goto L_C052098;
     goto L_C052090;
     L_C052090:;
-    t47 = *(int *)0xC2A75C4;
+    t47 = (((struct o28_int *)0xC2A759C)->v);
     R0 = (t47);
     if ((t47 == 1)) goto L_C052110;
     goto L_C052098;
     L_C052098:;
     *(float *)((R14 + 0x4)) = (float)(int)(F15 + (*(float *)((R12 + 0x0))));
-    *(float *)((R14 + 0x8)) = (float)(int)((float)((((((((R13 - 1) << 2) << 2) << 2) << 1) - (*(int *)((((*(int *)(((*(int *)((R8 + 0x0))) + 0x0))) << 2) + 0xC130728)))) + (*(int *)(((int)stk + 8)))) + 0x118) + (*(float *)((R9 + 0x0))));
+    *(float *)((R14 + 0x8)) = (float)(int)((float)((((((((R13 - 1) << 2) << 2) << 2) << 1) - (*(int *)((((*(int *)(((*(int *)((R8 + 0x0))) + 0x0))) << 2) + 0xC130728)))) + (R1008)) + 0x118) + (*(float *)((R9 + 0x0))));
     *(unsigned int *)((R14 + 0x28)) = R10;
     R4 = ((((R13 << 2) + R11) << 2));
-    if (((*(int *)0xC2A75C4) != 0)) goto L_C052100;
+    if ((((((struct o28_int *)0xC2A759C)->v)) != 0)) goto L_C052100;
     goto L_C0520F0;
     L_C0520F0:;
     *(unsigned int *)((R14 + 0x0)) = (*(int *)((R4 + (*(int *)((0xC1305C8 + ((*(int *)(((*(int *)((R8 + 0x0))) + 0x0))) << 2)))))));
     goto L_C052108;
     L_C052108:;
-    R0 = ((nlSprPut(0xC2A7460, R5, a6)));
+    R0 = ((nlSprPut(0xC2A7460, R5)));
     goto L_C052110;
     L_C052110:;
     t65 = (int)(R13 + 0x1) < (int)0x3;
@@ -162,7 +171,7 @@ int selectDrawDriverTiles(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C052120:;
     return R0;
     L_C052100:;
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R4 + (*(int *)(((*(int *)(((int)stk + 4))) + 0x0))))));
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R4 + (*(int *)(((R1004) + 0x0))))));
     goto L_C052108;
     L_C052020:;
     if ((!(F3 > F4))) goto L_C052050;

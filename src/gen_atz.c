@@ -45,10 +45,43 @@ int psgStepBlend(int);
 int psgUpdatePartTracks(int);
 int psgFrameState4(int a4);
 float cableControlExec(int a4, float f4, float f5);
+struct o118_int { char p[0x118]; int v; };
+struct o11C_float { char p[0x11C]; float v; };
+struct o120_float { char p[0x120]; float v; };
+struct o140_int { char p[0x140]; int v; };
+struct o148_int { char p[0x148]; int v; };
+struct o148_uchar { char p[0x148]; unsigned char v; };
+struct o149_uchar { char p[0x149]; unsigned char v; };
+struct o14A_uchar { char p[0x14A]; unsigned char v; };
+struct o154_int { char p[0x154]; int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o38_float { char p[0x38]; float v; };
+struct o58_int { char p[0x58]; int v; };
+struct o58_uint { char p[0x58]; unsigned int v; };
+struct o64_int { char p[0x64]; int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o78_uint { char p[0x78]; unsigned int v; };
+struct o7C_int { char p[0x7C]; int v; };
+struct o7C_uint { char p[0x7C]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o80_int { char p[0x80]; int v; };
+struct o80_uint { char p[0x80]; unsigned int v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oCC_float { char p[0xCC]; float v; };
+struct oD4_int { char p[0xD4]; int v; };
+struct oD80_int { char p[0xD80]; int v; };
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
+
 
 int psgFrameState4(int a4)
 {
-    int stk[37];
+    int stk[36];
     register int t5;
     register int t15;
     register float u209;
@@ -115,7 +148,7 @@ int psgFrameState4(int a4)
     register int t678;
     register int t743;
 
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 16) + 0x48)) = *(struct mv3 *)(0xC0D5F98); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 12) + 0x48)) = *(struct mv3 *)(0xC0D5F98); }
     if (((*(signed char *)((a4 + 0x148))) & 128) == 0) {
         *(unsigned int *)0xC13EEE4 = ((*(int *)0xC13EEE4) + 0x1);
     }
@@ -125,42 +158,42 @@ int psgFrameState4(int a4)
             nlPushMatrix(0x0);
             psgPutShadow(a4);
             psgUpdatePartTracks(a4);
-            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), ((((struct o38_float *)(a4))->v)));
             FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
-            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+            (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + 1.0f);
             t15 = *(int *)((a4 + 0x34));
             if ((t15 != 0xC95D7C4) && (t15 != 0xC960308)) {
                 if ((t15 != 0xC9A23C8) && (t15 != 0xC9A3E8C)) {
                     if ((t15 != 0xC9BBD68) && ((t15 != 0xC9BE3CC) && ((t15 != 0xC9C0A30) && (t15 != 0xC9C20A4)))) {
                         if ((t15 == 0xC9C3718) || (t15 == 0xC9C51AC)) {
                             if (((*(signed char *)((a4 + 0x14A))) & 2) == 0) {
-                                if (!(29.0f > (*(float *)((a4 + 0x38))))) {
+                                if (!(29.0f > ((((struct o38_float *)(a4))->v)))) {
                                     Sound_Request(0x3A9, 0x2);
-                                    *(unsigned char *)(((0x14A + a4) + 0x0)) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
+                                    (((struct o14A_uchar *)(a4))->v) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
                                 }
                             }
                         }
                     } else {
                         if (((*(signed char *)((a4 + 0x14A))) & 2) == 0) {
-                            if (!(36.0f > (*(float *)((a4 + 0x38))))) {
+                            if (!(36.0f > ((((struct o38_float *)(a4))->v)))) {
                                 Sound_Request(0x3A9, 0x2);
-                                *(unsigned char *)(((0x14A + a4) + 0x0)) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
+                                (((struct o14A_uchar *)(a4))->v) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
                             }
                         }
                     }
                 } else {
-                    u209 = *(float *)((a4 + 0x38));
-                    u210 = *(float *)((a4 + 0x120));
+                    u209 = (((struct o38_float *)(a4))->v);
+                    u210 = (((struct o120_float *)(a4))->v);
                     if (!(((-(u210 * 0.5f)) + 66.0f) > u209) && (((-(u210 * 0.5f)) + 66.0f) > u209)) {
                         Sound_Request(0x9A9, 0x2);
-                        *(unsigned char *)(((0x14A + a4) + 0x0)) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
+                        (((struct o14A_uchar *)(a4))->v) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
                     } else {
                         u229 = u209;
                         u230 = (-(u210 * 0.5f));
                         if (!(((-(u210 * 0.5f)) + 90.0f) > u209)) {
                             if (((-(u210 * 0.5f)) + 90.0f) > u209) {
                                 Sound_Request(0x9A9, 0x2);
-                                *(unsigned char *)(((0x14A + a4) + 0x0)) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
+                                (((struct o14A_uchar *)(a4))->v) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
                             } else {
                                 u220 = u209;
                                 u221 = (-(u210 * 0.5f));
@@ -178,35 +211,35 @@ int psgFrameState4(int a4)
                 u273 = u247;
             } else {
                 if (((*(signed char *)((a4 + 0x14A))) & 2) == 0) {
-                    if (57.0f > (*(float *)((a4 + 0x38)))) {
+                    if (57.0f > ((((struct o38_float *)(a4))->v))) {
                     } else {
                         Sound_Request(0x9A9, 0x2);
-                        *(unsigned char *)(((0x14A + a4) + 0x0)) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
+                        (((struct o14A_uchar *)(a4))->v) = ((*(signed char *)(((0x14A + a4) + 0x0))) | 0x2);
                     }
                 }
             }
             if ((*(int *)((a4 + 0x34))) == 0xC9891B0) {
-                { struct mv6 { int w[6]; }; *(struct mv6 *)((((int)stk + 16) + 0x18)) = *(struct mv6 *)(0xC0D5FA4); }
-                if ((int)(*(float *)((a4 + 0x38))) != 69) {
+                { struct mv6 { int w[6]; }; *(struct mv6 *)((((int)stk + 12) + 0x18)) = *(struct mv6 *)(0xC0D5FA4); }
+                if ((int)((((struct o38_float *)(a4))->v)) != 69) {
                     u307 = u272;
                     u308 = u273;
                 } else {
-                    nlCalcPoint((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
-                    nlCalcVector(((((int)stk + 16) + 0x18) + 0xC), ((int)stk + 16));
-                    SetEffect((((int)stk + 16) + 0xC), ((int)stk + 16), 0x2);
+                    nlCalcPoint((((int)stk + 12) + 0x18), (((int)stk + 12) + 0xC));
+                    nlCalcVector(((((int)stk + 12) + 0x18) + 0xC), ((int)stk + 12));
+                    SetEffect((((int)stk + 12) + 0xC), ((int)stk + 12), 0x2);
                 }
                 u497 = u307;
                 u498 = u308;
             } else {
                 if ((*(int *)((a4 + 0x34))) == 0xC98B054) {
-                    { struct mv6 { int w[6]; }; *(struct mv6 *)((((int)stk + 16) + 0x18)) = *(struct mv6 *)(0xC0D5FBC); }
-                    if ((int)(*(float *)((a4 + 0x38))) != 69) {
+                    { struct mv6 { int w[6]; }; *(struct mv6 *)((((int)stk + 12) + 0x18)) = *(struct mv6 *)(0xC0D5FBC); }
+                    if ((int)((((struct o38_float *)(a4))->v)) != 69) {
                         u341 = u272;
                         u342 = u273;
                     } else {
-                        nlCalcPoint((((int)stk + 16) + 0x18), (((int)stk + 16) + 0xC));
-                        nlCalcVector(((((int)stk + 16) + 0x18) + 0xC), ((int)stk + 16));
-                        SetEffect((((int)stk + 16) + 0xC), ((int)stk + 16), 0x2);
+                        nlCalcPoint((((int)stk + 12) + 0x18), (((int)stk + 12) + 0xC));
+                        nlCalcVector(((((int)stk + 12) + 0x18) + 0xC), ((int)stk + 12));
+                        SetEffect((((int)stk + 12) + 0xC), ((int)stk + 12), 0x2);
                     }
                     u483 = u341;
                     u484 = u342;
@@ -219,7 +252,7 @@ int psgFrameState4(int a4)
                             u392 = u272;
                             u393 = u273;
                             if ((t367 == 0xC9C0A30) || ((t367 == 0xC9C20A4) || ((t367 == 0xC9BBD68) || (t367 == 0xC9BE3CC)))) {
-                                if ((int)(*(float *)((a4 + 0x38))) == 36) {
+                                if ((int)((((struct o38_float *)(a4))->v)) == 36) {
                                     u371 = 1.0f;
                                     if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
                                         u371 = 0.0f;
@@ -235,7 +268,7 @@ int psgFrameState4(int a4)
                             u440 = u392;
                             u441 = u393;
                         } else {
-                            u395 = *(float *)((a4 + 0x38));
+                            u395 = (((struct o38_float *)(a4))->v);
                             if (((int)u395 != 10) && (((int)u395 != 20) && (((int)u395 != 30) && ((int)u395 != 40)))) {
                                 if ((int)u395 != 56) {
                                     u414 = u272;
@@ -262,7 +295,7 @@ int psgFrameState4(int a4)
                         u469 = u440;
                         u470 = u441;
                     } else {
-                        if ((int)(*(float *)((a4 + 0x38))) != 48) {
+                        if ((int)((((struct o38_float *)(a4))->v)) != 48) {
                             u457 = u272;
                             u458 = u273;
                         } else {
@@ -281,34 +314,34 @@ int psgFrameState4(int a4)
                 u497 = u483;
                 u498 = u484;
             }
-            if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > (*(float *)((a4 + 0x38))))) {
-                t506 = ((int (*)(int, float, float))(nlRotateAZ))((*(int *)((a4 + 0x80))), u497, u498);
-                nlRotateAY((*(int *)((a4 + 0x7C))));
-                nlRotateAX((*(int *)((a4 + 0x78))));
-                nlCalcVector(0xC0D5554, (((int)stk + 16) + 0x3C));
-                *(float *)(((int)stk + 80)) = 0.0f;
-                nlUnitVector((((int)stk + 16) + 0x3C));
-                *(unsigned int *)((a4 + 0x10)) = ((nlArcTan2((*(float *)(((int)stk + 76))), (*(float *)(((int)stk + 84))))) - 32768);
-                *(unsigned int *)((a4 + 0x78)) = 0x0;
-                *(unsigned int *)((a4 + 0x7C)) = 0x0;
-                *(unsigned int *)((a4 + 0x80)) = 0x0;
-                *(float *)((a4 + 0x11C)) = 0.0f;
-                *(float *)((a4 + 0x120)) = 0.5f;
+            if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > ((((struct o38_float *)(a4))->v)))) {
+                t506 = ((int (*)(int, float, float))(nlRotateAZ))(((((struct o80_int *)(a4))->v)), u497, u498);
+                nlRotateAY(((((struct o7C_int *)(a4))->v)));
+                nlRotateAX(((((struct o78_int *)(a4))->v)));
+                nlCalcVector(0xC0D5554, (((int)stk + 12) + 0x3C));
+                *(float *)(((int)stk + 76)) = 0.0f;
+                nlUnitVector((((int)stk + 12) + 0x3C));
+                *(unsigned int *)((a4 + 0x10)) = ((nlArcTan2((*(float *)(((int)stk + 72))), (*(float *)(((int)stk + 80))))) - 32768);
+                (((struct o78_uint *)(a4))->v) = 0x0;
+                (((struct o7C_uint *)(a4))->v) = 0x0;
+                (((struct o80_uint *)(a4))->v) = 0x0;
+                (((struct o11C_float *)(a4))->v) = 0.0f;
+                (((struct o120_float *)(a4))->v) = 0.5f;
                 t516 = *(int *)((a4 + 0x24));
                 *(unsigned int *)((a4 + 0x24)) = (t516 + 0x1);
                 psgEnterState4(a4, (t516 + 0x1));
                 if (((*(signed char *)((a4 + 0x148))) & 128) != 0) {
                 } else {
-                    *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
+                    (((struct o148_uchar *)(a4))->v) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                     *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFD);
                     SetLandmark(0x3);
                 }
             } else {
                 if (((*(signed char *)((a4 + 0x148))) & 128) != 0) {
                 } else {
-                    if ((*(float *)((((((int)(((unsigned int)(*(int *)(((0x148 + a4) + 0x0))) >> 21) & 0x3)) << 2) + (((int)stk + 16) + 0x48)) + 0x0))) > (float)(*(int *)0xC13EEE4)) {
+                    if ((*(float *)((((((int)(((unsigned int)((((struct o148_int *)(a4))->v)) >> 21) & 0x3)) << 2) + (((int)stk + 12) + 0x48)) + 0x0))) > (float)(*(int *)0xC13EEE4)) {
                     } else {
-                        *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
+                        (((struct o148_uchar *)(a4))->v) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                         *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFD);
                         SetLandmark(0x3);
                     }
@@ -323,25 +356,25 @@ int psgFrameState4(int a4)
                     psgStepBlend(a4);
                     FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
                 } else {
-                    if ((*(int *)((a4 + 0x118))) != 0) {
+                    if (((((struct o118_int *)(a4))->v)) != 0) {
                         psgFreeIpBuff(a4);
                     }
-                    t582 = *(int *)((a4 + 0x140));
-                    t583 = psgRunToPoint(a4, ((*(int *)((((*(int *)0xC1EE214) << 2) + (*(int *)((0xC13F3B0 + ((*(int *)0xC1EE210) << 2))))))) + (((t582 << 1) + t582) << 2)));
+                    t582 = (((struct o140_int *)(a4))->v);
+                    t583 = psgRunToPoint(a4, ((*(int *)(((((((struct o8_int *)0xC1EE20C)->v)) << 2) + (*(int *)((0xC13F3B0 + (((((struct o4_int *)0xC1EE20C)->v)) << 2))))))) + (((t582 << 1) + t582) << 2)));
                     psgPutShadow(a4);
                     psgUpdatePartTracks(a4);
-                    FcvPlay((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (*(float *)((a4 + 0x38))));
-                    *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + (*(float *)(((0x120 + a4) + 0x0))));
+                    FcvPlay((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), ((((struct o38_float *)(a4))->v)));
+                    (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + ((((struct o120_float *)(a4))->v)));
                     if (3.0f > t583) {
                         *(unsigned int *)((a4 + 0x24)) = ((*(int *)((a4 + 0x24))) + 0x1);
-                        if (((*(int *)0xC1EE20C) == 2) && ((t594 = *(int *)0xC1EE214, t594 == 10) && (t595 = *(int *)((a4 + 0x0)), t595 == 33))) {
+                        if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && ((t594 = (((struct o8_int *)0xC1EE20C)->v), t594 == 10) && (t595 = *(int *)((a4 + 0x0)), t595 == 33))) {
                             Start_PoleMarriageKiss();
                         }
-                        if (((*(int *)0xC1EE20C) == 2) && (t604 = *(int *)0xC1EE214, t604 == 8)) {
+                        if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t604 = (((struct o8_int *)0xC1EE20C)->v), t604 == 8)) {
                             t606 = IsBoyFriend((*(int *)((a4 + 0x0))), 0x0);
                             if (t606 != 0) {
-                                { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((a4 + 0x4)); }
-                                Start_Proposal((*(int *)((a4 + 0x154))), 0x0, *(Stk3 *)(((int)stk + 4)));
+                                { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)((a4 + 0x4)); }
+                                Start_Proposal(((((struct o154_int *)(a4))->v)), 0x0, *(Stk3 *)(((int)stk + 0)));
                             }
                         }
                     }
@@ -351,7 +384,7 @@ int psgFrameState4(int a4)
                 t634 = t5;
                 if (t5 == 3) {
                     t633 = *(signed char *)(((0x149 + a4) + 0x0));
-                    *(unsigned char *)(((0x149 + a4) + 0x0)) = (t633 | 0x40);
+                    (((struct o149_uchar *)(a4))->v) = (t633 | 0x40);
                     t634 = (t633 | 0x40);
                 }
                 t637 = t634;
@@ -367,20 +400,20 @@ int psgFrameState4(int a4)
             FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
         } else {
             psgUpdatePartTracks(a4);
-            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), ((((struct o38_float *)(a4))->v)));
             FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
-            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+            (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + 1.0f);
             t666 = *(int *)((a4 + 0x34));
             if ((t666 != 0xC956FCC) && ((t666 != 0xC95A230) && ((t666 != 0xC95D7C4) && ((t666 != 0xC960308) && ((t666 != 0xC962F0C) && ((t666 != 0xC9659C0) && ((t666 != 0xC9684A4) && (t666 != 0xC96B138)))))))) {
-                if ((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > (*(float *)((a4 + 0x38)))) {
+                if ((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > ((((struct o38_float *)(a4))->v))) {
                 } else {
                     *(unsigned int *)((a4 + 0x24)) = ((*(int *)((a4 + 0x24))) + 0x1);
-                    nlCalcVector(0xC0D5578, (((int)stk + 16) + 0x3C));
-                    *(float *)(((int)stk + 80)) = 0.0f;
-                    nlUnitVector((((int)stk + 16) + 0x3C));
-                    *(unsigned int *)((a4 + 0x10)) = (nlArcTan2((*(float *)(((int)stk + 76))), (*(float *)(((int)stk + 84)))));
+                    nlCalcVector(0xC0D5578, (((int)stk + 12) + 0x3C));
+                    *(float *)(((int)stk + 76)) = 0.0f;
+                    nlUnitVector((((int)stk + 12) + 0x3C));
+                    *(unsigned int *)((a4 + 0x10)) = (nlArcTan2((*(float *)(((int)stk + 72))), (*(float *)(((int)stk + 80)))));
                     nlPushMatrix(0xC179180);
-                    if (((*(int *)0xC1EE20C) == 2) && (t678 = *(int *)0xC1EE214, t678 == 14)) {
+                    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t678 = (((struct o8_int *)0xC1EE20C)->v), t678 == 14)) {
                         if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
                             *(unsigned int *)((a4 + 0x10)) = ((*(int *)((a4 + 0x10))) + 0x8000);
                         }
@@ -392,35 +425,35 @@ int psgFrameState4(int a4)
                         u692 = 14.8279991f;
                     }
                     nlTranslate(u692, 0.0f, -6.46399975f);
-                    nlGetTranslate((((int)stk + 16) + 0x30));
-                    Psg_SetPosPtr(a4, (((int)stk + 16) + 0x30), 0x0, 0x0, *(int *)((int)stk + 16), *(int *)((int)stk + 16 + 4), *(int *)((int)stk + 16 + 8));
+                    nlGetTranslate((((int)stk + 12) + 0x30));
+                    Psg_SetPosPtr(a4, (((int)stk + 12) + 0x30), 0x0, 0x0, *(int *)((int)stk + 12), *(int *)((int)stk + 12 + 4), *(int *)((int)stk + 12 + 8));
                     nlPopMatrix(0x1);
                     psgEnterState4(a4, (*(int *)((a4 + 0x24))));
                 }
             } else {
-                if ((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > (*(float *)((a4 + 0x38)))) {
+                if ((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > ((((struct o38_float *)(a4))->v))) {
                     if (((*(signed char *)((a4 + 0x148))) & 128) != 0) {
                     } else {
                         if ((int)(*(int *)0xC13EEE4) < (int)0xAA) {
                         } else {
-                            *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
+                            (((struct o148_uchar *)(a4))->v) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                             *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFD);
                             SetLandmark(0x3);
                         }
                     }
                 } else {
-                    t731 = ((int (*)(int))(nlRotateAZ))((*(int *)((a4 + 0x80))));
-                    nlRotateAY((*(int *)((a4 + 0x7C))));
-                    nlRotateAX((*(int *)((a4 + 0x78))));
-                    nlCalcVector(0xC0D5554, (((int)stk + 16) + 0x3C));
-                    *(float *)(((int)stk + 80)) = 0.0f;
-                    nlUnitVector((((int)stk + 16) + 0x3C));
-                    *(unsigned int *)((a4 + 0x10)) = ((nlArcTan2((*(float *)(((int)stk + 76))), (*(float *)(((int)stk + 84))))) - 32768);
-                    *(unsigned int *)((a4 + 0x78)) = 0x0;
-                    *(unsigned int *)((a4 + 0x7C)) = 0x0;
-                    *(unsigned int *)((a4 + 0x80)) = 0x0;
+                    t731 = ((int (*)(int))(nlRotateAZ))(((((struct o80_int *)(a4))->v)));
+                    nlRotateAY(((((struct o7C_int *)(a4))->v)));
+                    nlRotateAX(((((struct o78_int *)(a4))->v)));
+                    nlCalcVector(0xC0D5554, (((int)stk + 12) + 0x3C));
+                    *(float *)(((int)stk + 76)) = 0.0f;
+                    nlUnitVector((((int)stk + 12) + 0x3C));
+                    *(unsigned int *)((a4 + 0x10)) = ((nlArcTan2((*(float *)(((int)stk + 72))), (*(float *)(((int)stk + 80))))) - 32768);
+                    (((struct o78_uint *)(a4))->v) = 0x0;
+                    (((struct o7C_uint *)(a4))->v) = 0x0;
+                    (((struct o80_uint *)(a4))->v) = 0x0;
                     nlPushMatrix(0xC179180);
-                    if (((*(int *)0xC1EE20C) == 2) && (t743 = *(int *)0xC1EE214, t743 == 14)) {
+                    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t743 = (((struct o8_int *)0xC1EE20C)->v), t743 == 14)) {
                         t744 = *(signed char *)((a4 + 0x154));
                         nlTranslateV(((signed char)(((t744 << 1) + t744) << 2) + 0xC13F3BC));
                         if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
@@ -432,14 +465,14 @@ int psgFrameState4(int a4)
                         u756 = 14.8279991f;
                     }
                     nlTranslate(u756, 7.5f, -6.46399975f);
-                    nlGetTranslate((((int)stk + 16) + 0x30));
-                    Psg_SetPosPtr(a4, (((int)stk + 16) + 0x30), 0x0, 0x0, *(int *)((int)stk + 16), *(int *)((int)stk + 16 + 4), *(int *)((int)stk + 16 + 8));
+                    nlGetTranslate((((int)stk + 12) + 0x30));
+                    Psg_SetPosPtr(a4, (((int)stk + 12) + 0x30), 0x0, 0x0, *(int *)((int)stk + 12), *(int *)((int)stk + 12 + 4), *(int *)((int)stk + 12 + 8));
                     nlPopMatrix(0x1);
                     *(unsigned int *)((a4 + 0x24)) = 0x2;
                     psgEnterState4(a4, 0x2);
                     if (((*(signed char *)((a4 + 0x148))) & 128) != 0) {
                     } else {
-                        *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
+                        (((struct o148_uchar *)(a4))->v) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                         *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFD);
                         SetLandmark(0x3);
                     }
@@ -475,10 +508,14 @@ float cableControlExec(int a4, float f4, float f5)
     register int v0_7;
     register float w0_0;
     register float w0_1;
+    int R1008;
+    int R1012;
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
     v0_5 = a4;
     w0_0 = f4;
     w0_0 = f5;
-    v0_3 = *(int *)(((*(int *)0xC2A1B30) + 0x64));
+    v0_3 = (((struct o64_int *)((*(int *)0xC2A1B30)))->v);
     v0_6 = (0x64);
     v0_2 = (0xC2A6690);
     v0_4 = (0x121);
@@ -513,16 +550,16 @@ float cableControlExec(int a4, float f4, float f5)
     L_C047E72:;
     v0_7 = *(int *)((v0_5 + 0x8));
     v0_5 = (v0_7);
-    if (((*(int *)((v0_7 + 0x80))) != R7)) goto L_C047EE2;
-    if (((int)(*(int *)((v0_5 + 0xD4))) <= (int)0x122)) goto L_C047EE2;
-    if ((!(0.00199999986f > _builtin_fabsf((*(float *)((v0_5 + 0xCC))))))) goto L_C047EE2;
+    if ((((((struct o80_int *)(v0_7))->v)) != R7)) goto L_C047EE2;
+    if (((int)((((struct oD4_int *)(v0_5))->v)) <= (int)0x122)) goto L_C047EE2;
+    if ((!(0.00199999986f > _builtin_fabsf(((((struct oCC_float *)(v0_5))->v)))))) goto L_C047EE2;
     *(unsigned int *)((((v0_0 + 0x20) + v0_6) + 0x0)) = ((*(int *)((((v0_0 + 0x20) + v0_6) + 0x0))) + 0x1);
-    *(unsigned int *)(((int)stk + 8)) = (*(int *)((((R6 + (*(int *)((v0_2 + 0x0)))) + 0xD80) + 0x0)));
+    R1008 = ((((struct oD80_int *)((R6 + (*(int *)((v0_2 + 0x0))))))->v));
     *(int *)((int)stk + 4) = ((v0_0 + 0x48) + v0_6);
-    v0_5 = *(int *)(((int)stk + 8));
-    *(unsigned int *)(((int)stk + 12)) = (v0_5 + 0x18);
-    v0_7 = *(int *)(((int)stk + 8));
-    *(unsigned int *)((((v0_0 + 0x48) + v0_6) + 0x0)) = (unsigned short)(((int (*)(float, float))(nlArcTan2))(((*(float *)(((v0_5 + 0x18) + 0x0))) - (*(float *)((v0_7 + 0x0)))), ((*(float *)(((v0_5 + 0x18) + 0x8))) - (*(float *)((v0_7 + 0x8))))));
+    v0_5 = R1008;
+    R1012 = (v0_5 + 0x18);
+    v0_7 = R1008;
+    *(unsigned int *)((((v0_0 + 0x48) + v0_6) + 0x0)) = (unsigned short)(((int (*)(float, float))(nlArcTan2))((((((struct o18_float *)(v0_5))->v)) - (*(float *)((v0_7 + 0x0)))), (((((struct o8_float *)((v0_5 + 0x18)))->v)) - ((((struct o8_float *)(v0_7))->v)))));
     *(unsigned int *)((((v0_0 + 0x50) + v0_6) + 0x0)) = R12;
     L_C0480C8:;
     *(unsigned int *)0xC2A4E44 = ((*(int *)0xC2A4E44) & (~((int)0xF << (int)(*(int *)((((v0_0 + 0x18) + (v0_3 << 2)) + 0x0))))));
@@ -555,31 +592,31 @@ float cableControlExec(int a4, float f4, float f5)
     goto L_C0480C8;
     L_C047F3C:;
     v0_5 = convergeRotLimit((*(int *)((((v0_0 + 0x40) + (v0_3 << 2)) + 0x0))), (*(int *)((((v0_0 + 0x48) + (v0_3 << 2)) + 0x0))), w0_1, w0_0);
-    *(unsigned int *)(((int)stk + 8)) = v0_5;
+    R1008 = v0_5;
     v0_5 = (int)(abs(v0_5)) < (int)0x18;
     R12 = (v0_0);
     if (v0_5) goto L_C047F98;
-    *(unsigned int *)((((v0_3 << 2) + (v0_0 + 0x40)) + 0x0)) = ((*(int *)((((v0_3 << 2) + (v0_0 + 0x40)) + 0x0))) + (*(int *)(((int)stk + 8))));
+    *(unsigned int *)((((v0_3 << 2) + (v0_0 + 0x40)) + 0x0)) = ((*(int *)((((v0_3 << 2) + (v0_0 + 0x40)) + 0x0))) + (R1008));
     L_C047FAC:;
-    *(unsigned int *)(((int)stk + 12)) = (signed char)(((v0_3 << 1) + v0_3) << 2);
+    R1012 = (signed char)(((v0_3 << 1) + v0_3) << 2);
     v0_5 = (v0_1);
     R5 = ((v0_4 - v0_3));
     L_C047FC0:;
     v0_6 = *(int *)((R12 + 0x8));
     R12 = (v0_6);
-    if (((*(int *)((v0_6 + 0x80))) != R5)) goto L_C048058;
-    if (((int)(*(int *)((R12 + 0xD4))) <= (int)0x122)) goto L_C048058;
+    if ((((((struct o80_int *)(v0_6))->v)) != R5)) goto L_C048058;
+    if (((int)((((struct oD4_int *)(R12))->v)) <= (int)0x122)) goto L_C048058;
     nlPushUnitMatrix();
-    nlRotateAY((unsigned short)(*(short *)((R12 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((R12 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((R12 + 0xA8))));
-    nlRotateAY((*(int *)(((int)stk + 8))));
+    nlRotateAY((unsigned short)((((struct oA6_short *)(R12))->v)));
+    nlRotateAX((unsigned short)((((struct oA4_short *)(R12))->v)));
+    nlRotateAZ((unsigned short)((((struct oA8_short *)(R12))->v)));
+    nlRotateAY((R1008));
     getYXZrot((0xA4 + R12));
-    nlSubVector3op((((int)stk + 8) + 0x8), (R12 + 0x14), ((v0_0 + 0x28) + (*(int *)(((int)stk + 12)))));
+    nlSubVector3op((((int)stk + 8) + 0x8), (R12 + 0x14), ((v0_0 + 0x28) + (R1012)));
     nlUnitMatrix();
-    nlRotateAY((*(int *)(((int)stk + 8))));
+    nlRotateAY((R1008));
     nlCalcVector((((int)stk + 8) + 0x8), (((int)stk + 8) + 0x8));
-    nlAddVector((((int)stk + 8) + 0x8), ((v0_0 + 0x28) + (*(int *)(((int)stk + 12)))));
+    nlAddVector((((int)stk + 8) + 0x8), ((v0_0 + 0x28) + (R1012)));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R12 + 0x14)) = *(struct mv3 *)((((int)stk + 8) + 0x8)); }
     nlPopMatrix(0x1);
     goto L_C0480C8;
@@ -625,16 +662,16 @@ float cableControlExec(int a4, float f4, float f5)
     v0_5 = *(int *)(((((((v0_4 - v0_3) << 1) + (v0_4 - v0_3)) << 2) + v0_6) + 0x0));
     v0_6 = *(int *)(((*(int *)(((((((v0_4 - v0_3) << 1) + (v0_4 - v0_3)) << 2) + v0_6) + 0x4))) + 0x0));
     *(unsigned int *)((((v0_0 + 0x40) + (v0_3 << 2)) + 0x0)) = ((*(int *)((((v0_0 + 0x40) + (v0_3 << 2)) + 0x0))) + 0x8000);
-    *(unsigned int *)(((int)stk + 8)) = ((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x18);
-    *(unsigned int *)((((v0_3 << 2) + (v0_0 + 0x48)) + 0x0)) = (unsigned short)(((int (*)(int, int, int, int, float, float))(nlArcTan2))(0x8000, R5, R6, R7, ((*(float *)((((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x18) + 0x0))) - (*(float *)(((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x0)))), ((*(float *)((((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x18) + 0x8))) - (*(float *)(((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x8))))));
+    R1008 = ((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x18);
+    *(unsigned int *)((((v0_3 << 2) + (v0_0 + 0x48)) + 0x0)) = (unsigned short)(((int (*)(int, int, int, int, float, float))(nlArcTan2))(0x8000, R5, R6, R7, (((((struct o18_float *)((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2))))->v)) - (*(float *)(((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x0)))), (((((struct o8_float *)(((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2)) + 0x18)))->v)) - ((((struct o8_float *)((v0_5 + ((((v0_6 - 3) << 1) + (v0_6 - 3)) << 2))))->v)))));
     goto L_C0480C8;
     L_C04814C:;
     v0_3 = (courseStatusGet(v0_4, 0x7, 0x0, 0xE)) == 0;
     if (v0_3) goto L_C04816E;
     courseStatusEntry(0xE, ((*(int *)(((*(int *)((((*(int *)((v0_2 + 0x0))) + 0xA8) + 0x4))) + 0x0))) - 2));
     L_C04816E:;
-    *(unsigned int *)(((int)stk + 12)) = v0_1;
-    *(unsigned int *)(((int)stk + 8)) = v0_1;
+    R1012 = v0_1;
+    R1008 = v0_1;
     v0_5 = (v0_0);
     R5 = (0x4);
     L_C048196:;
@@ -644,18 +681,18 @@ float cableControlExec(int a4, float f4, float f5)
     L_C048200:;
     if (((int)v0_3 < (int)R12)) goto L_C0481B8;
     v0_3 = (0xC072168);
-    if (((*(int *)(((int)stk + 8))) == ((*(int *)((v0_0 + 0x58))) & 0x1))) goto L_C04823A;
-    if (((*(int *)(((int)stk + 8))) == 0)) goto L_C048228;
-    *(unsigned int *)((v0_0 + 0x58)) = ((*(int *)((v0_0 + 0x58))) | 0x1);
+    if (((R1008) == (((((struct o58_int *)(v0_0))->v)) & 0x1))) goto L_C04823A;
+    if (((R1008) == 0)) goto L_C048228;
+    (((struct o58_uint *)(v0_0))->v) = (((((struct o58_int *)(v0_0))->v)) | 0x1);
     v0_5 = (0x310A9);
     R5 = (0x1);
     L_C048236:;
     Sound_Request(v0_5, R5);
     L_C04823A:;
     v0_6 = (0x58);
-    if (((*(int *)(((int)stk + 12))) == ((*(int *)((v0_0 + 0x58))) & R12))) goto L_C04826C;
-    if (((*(int *)(((int)stk + 12))) == 0)) goto L_C04825A;
-    *(unsigned int *)((v0_0 + 0x58)) = ((*(int *)((v0_0 + 0x58))) | R12);
+    if (((R1012) == (((((struct o58_int *)(v0_0))->v)) & R12))) goto L_C04826C;
+    if (((R1012) == 0)) goto L_C04825A;
+    (((struct o58_uint *)(v0_0))->v) = (((((struct o58_int *)(v0_0))->v)) | R12);
     v0_5 = (0x11A9);
     R5 = (0x1);
     L_C048268:;
@@ -675,12 +712,12 @@ float cableControlExec(int a4, float f4, float f5)
     v0_3 = ((v0_3 + 0x1));
     goto L_C0482AA;
     L_C04825A:;
-    *(unsigned int *)((v0_0 + 0x58)) = ((*(int *)((v0_0 + 0x58))) & 0xFFFFFFFD);
+    (((struct o58_uint *)(v0_0))->v) = (((((struct o58_int *)(v0_0))->v)) & 0xFFFFFFFD);
     v0_5 = (0x111A9);
     R5 = (0x1);
     goto L_C048268;
     L_C048228:;
-    *(unsigned int *)((v0_0 + 0x58)) = ((*(int *)((v0_0 + 0x58))) & 0xFFFFFFFE);
+    (((struct o58_uint *)(v0_0))->v) = (((((struct o58_int *)(v0_0))->v)) & 0xFFFFFFFE);
     v0_5 = (0x410A9);
     R5 = (0x1);
     goto L_C048236;
@@ -691,16 +728,16 @@ float cableControlExec(int a4, float f4, float f5)
     if (((*(int *)(((v0_0 + 0x20) + (v0_3 << 2)))) == 1)) goto L_C0481F8;
     if (((*(int *)(((v0_0 + 0x20) + (v0_3 << 2)))) != 4)) goto L_C0481FE;
     L_C0481F8:;
-    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) | R12);
+    R1012 = ((R1012) | R12);
     L_C0481FE:;
     v0_3 = ((v0_3 + 0x1));
     goto L_C048200;
     L_C048178:;
     v0_2 = *(int *)((v0_5 + 0x8));
     v0_5 = (v0_2);
-    if (((*(int *)((v0_2 + 0x78))) != 15)) goto L_C048194;
-    if ((!(800.0f > (*(float *)((v0_5 + 0x2C)))))) goto L_C048194;
-    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) | 0x1);
+    if ((((((struct o78_int *)(v0_2))->v)) != 15)) goto L_C048194;
+    if ((!(800.0f > ((((struct o2C_float *)(v0_5))->v))))) goto L_C048194;
+    R1008 = ((R1008) | 0x1);
     L_C048194:;
     R5 = ((R5 - 1));
     goto L_C048196;

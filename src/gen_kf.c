@@ -2,13 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlsndStreamGetParam(int a4, int a5, int a6, int a7);
+struct o2A_short { char p[0x2A]; short v; };
+
 
 int nlsndStreamGetParam(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t7;
     int t35;
-    int stk[5];
 
     int R0;
     int R1;
@@ -148,7 +149,7 @@ int nlsndStreamGetParam(int a4, int a5, int a6, int a7)
     R0 = (R7);
     goto L_C080182;
     L_C0800A0:;
-    R0 = ((unsigned short)(*(short *)(((R4 + 0x2A) + 0x0))));
+    R0 = ((unsigned short)((((struct o2A_short *)(R4))->v)));
     goto L_C080182;
     L_C080050:;
     R7 = (0x4);

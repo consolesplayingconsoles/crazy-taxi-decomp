@@ -17,21 +17,21 @@ int getYXZrot(int a4)
     float u5;
     float u6;
     float u7;
-    int stk[22];
+    int stk[21];
 
     nlPushMatrix(0x0);
-    nlGetMatrix(((int)stk + 4));
-    *(unsigned short *)((a4 + 0x2)) = (nlArcTan2((*(float *)(((int)stk + 36))), (*(float *)(((int)stk + 44)))));
-    u5 = *(float *)(((int)stk + 36));
-    u6 = *(float *)(((int)stk + 44));
+    nlGetMatrix(((int)stk + 0));
+    *(unsigned short *)((a4 + 0x2)) = (nlArcTan2((*(float *)(((int)stk + 32))), (*(float *)(((int)stk + 40)))));
+    u5 = *(float *)(((int)stk + 32));
+    u6 = *(float *)(((int)stk + 40));
     u7 = (u6 * u6);
     u7 = u7 + u5 * u5;
-    *(unsigned short *)((a4 + 0x0)) = (-(nlArcTan2((*(float *)(((int)stk + 40))), _builtin_sqrtf(u7))));
+    *(unsigned short *)((a4 + 0x0)) = (-(nlArcTan2((*(float *)(((int)stk + 36))), _builtin_sqrtf(u7))));
     nlUnitMatrix();
     nlRotateAX((-(unsigned short)(*(short *)((a4 + 0x0)))));
     nlRotateAY((-(unsigned short)(*(short *)((a4 + 0x2)))));
-    nlMultiMatrix(((int)stk + 4));
-    nlGetMatrix(((int)stk + 4));
-    *(unsigned short *)((a4 + 0x4)) = (nlArcTan2((*(float *)(((int)stk + 8))), (*(float *)(((int)stk + 4)))));
+    nlMultiMatrix(((int)stk + 0));
+    nlGetMatrix(((int)stk + 0));
+    *(unsigned short *)((a4 + 0x4)) = (nlArcTan2((*(float *)(((int)stk + 4))), (*(float *)(((int)stk + 0)))));
     return (nlPopMatrix(0x1));
 }

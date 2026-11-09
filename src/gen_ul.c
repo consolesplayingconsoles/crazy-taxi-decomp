@@ -2,6 +2,34 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4);
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o28_float { char p[0x28]; float v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o48_int { char p[0x48]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o54_int { char p[0x54]; int v; };
+struct o58_int { char p[0x58]; int v; };
+struct o5C_int { char p[0x5C]; int v; };
+struct o70_float { char p[0x70]; float v; };
+struct o74_float { char p[0x74]; float v; };
+struct o78_float { char p[0x78]; float v; };
+struct o7C_float { char p[0x7C]; float v; };
+struct o98_int { char p[0x98]; int v; };
+struct o9C_int { char p[0x9C]; int v; };
+struct o0_uint { unsigned int v; };
+struct o2C_int { char p[0x2C]; int v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+
+
 
 int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4)
 {
@@ -31,14 +59,14 @@ int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4)
     R7 = a7;
     F4 = f4;
     L_C15DDC0:;
-    *(unsigned int *)0xC2EABE0 = (*(int *)((R4 + 0x98)));
-    *(unsigned int *)0xC2EABE4 = (*(int *)((R4 + 0x9C)));
-    *(float *)0xC2EABEC = (*(float *)((R4 + 0x70)));
-    *(float *)0xC2EABF0 = (*(float *)((R4 + 0x74)));
-    *(float *)0xC2EABF4 = (*(float *)((R4 + 0x78)));
-    *(float *)0xC2EABF8 = (*(float *)((R4 + 0x7C)));
+    (((struct o0_uint *)0xC2EABE0)->v) = ((((struct o98_int *)(R4))->v));
+    (((struct o4_uint *)0xC2EABE0)->v) = ((((struct o9C_int *)(R4))->v));
+    (((struct oC_float *)0xC2EABE0)->v) = ((((struct o70_float *)(R4))->v));
+    (((struct o10_float *)0xC2EABE0)->v) = ((((struct o74_float *)(R4))->v));
+    (((struct o14_float *)0xC2EABE0)->v) = ((((struct o78_float *)(R4))->v));
+    (((struct o18_float *)0xC2EABE0)->v) = ((((struct o7C_float *)(R4))->v));
     t6 = *(int *)0xC2EAB9C;
-    *(unsigned int *)0xC2EAC0C = (*(int *)((((((((((unsigned int)((unsigned int)(0x20000000 & t6) >> 16) >> 8) | ((unsigned int)((unsigned int)((unsigned int)(0x1000000 & t6) >> 16) >> 2) >> 2)) | ((unsigned int)((unsigned int)(0x40 & t6) >> 2) >> 1)) | ((unsigned int)((unsigned int)(0x20 & t6) >> 2) >> 1)) | ((unsigned int)((unsigned int)(0x10 & t6) >> 2) >> 1)) | ((unsigned int)(0x4 & t6) >> 2)) << 2) + 0xC178344)));
+    (((struct o2C_uint *)0xC2EABE0)->v) = (*(int *)((((((((((unsigned int)((unsigned int)(0x20000000 & t6) >> 16) >> 8) | ((unsigned int)((unsigned int)((unsigned int)(0x1000000 & t6) >> 16) >> 2) >> 2)) | ((unsigned int)((unsigned int)(0x40 & t6) >> 2) >> 1)) | ((unsigned int)((unsigned int)(0x20 & t6) >> 2) >> 1)) | ((unsigned int)((unsigned int)(0x10 & t6) >> 2) >> 1)) | ((unsigned int)(0x4 & t6) >> 2)) << 2) + 0xC178344)));
     *(unsigned int *)0xC178304 = (*(int *)0xC2EAB9C);
     t9 = *(int *)0xC2EAB9C;
     *(unsigned int *)0xC2B8D1C = ((unsigned int)((unsigned int)(t9 & 0x7000000) >> 16) >> 8);
@@ -51,19 +79,19 @@ int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4)
     L_C15DE56:;
     goto L_C15E01E;
     L_C15E01E:;
-    *(unsigned int *)((R4 + 0x0)) = (*(int *)((R5 + 0x40)));
+    *(unsigned int *)((R4 + 0x0)) = ((((struct o40_int *)(R5))->v));
     R0 = (0x40);
     R4 = ((R4 + 0x1C));
     goto L_C15E026;
     L_C15E026:;
-    *(unsigned int *)0xC2B8CA8 = (*(int *)((R7 + 0x0)));
-    *(unsigned int *)0xC2B8CAC = (R4 - R6);
+    (((struct o0_uint *)0xC2B8CA8)->v) = (*(int *)((R7 + 0x0)));
+    (((struct o4_uint *)0xC2B8CA8)->v) = (R4 - R6);
     return 0x0;
     L_C15DE5A:;
     *(unsigned int *)((R4 + 0x0)) = (*(int *)((R5 + 0x10)));
     *(unsigned int *)(((R4 + 0x4) + 0x0)) = (*(int *)((R5 + 0x14)));
     *(unsigned int *)((((R4 + 0x4) + 0x4) + 0x0)) = (*(int *)((R5 + 0x18)));
-    t22 = *(int *)0xC2EAC0C;
+    t22 = (((struct o2C_int *)0xC2EABE0)->v);
     R0 = (t22);
     R3 = ((R5 + 0x10));
     R4 = ((((R4 + 0x4) + 0x4) + 0x4));
@@ -88,25 +116,25 @@ int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4)
     goto L_C15DFA0;
     L_C15DFA0:;
     u32 = *(float *)0xC15E060;
-    *(unsigned int *)((R4 + 0x0)) = ((((((int)((*(float *)((R3 + 0x10))) * u32) << 16) << 8) | ((int)((*(float *)((R3 + 0x14))) * u32) << 16)) | ((int)((*(float *)((R3 + 0x18))) * u32) << 8)) | (int)((*(float *)((R3 + 0x1C))) * u32));
-    u40 = *(float *)(((R5 + 0x10) + 0x2C));
-    *(unsigned int *)(((R4 + 0x4) + 0x0)) = ((((((int)((*(float *)(((R5 + 0x10) + 0x20))) * u32) << 16) << 8) | ((int)((*(float *)(((R5 + 0x10) + 0x24))) * u32) << 16)) | ((int)((*(float *)(((R5 + 0x10) + 0x28))) * u32) << 8)) | (int)(u40 * u32));
+    *(unsigned int *)((R4 + 0x0)) = ((((((int)(((((struct o10_float *)(R3))->v)) * u32) << 16) << 8) | ((int)(((((struct o14_float *)(R3))->v)) * u32) << 16)) | ((int)(((((struct o18_float *)(R3))->v)) * u32) << 8)) | (int)(((((struct o1C_float *)(R3))->v)) * u32));
+    u40 = (((struct o2C_float *)((R5 + 0x10)))->v);
+    *(unsigned int *)(((R4 + 0x4) + 0x0)) = ((((((int)(((((struct o20_float *)((R5 + 0x10)))->v)) * u32) << 16) << 8) | ((int)(((((struct o24_float *)((R5 + 0x10)))->v)) * u32) << 16)) | ((int)(((((struct o28_float *)((R5 + 0x10)))->v)) * u32) << 8)) | (int)(u40 * u32));
     R0 = ((int)(u40 * u32));
     R4 = (((R4 + 0x4) + 0xC));
     goto L_C15E026;
     L_C15DE90:;
     goto L_C15E026;
     L_C15DF46:;
-    *(unsigned int *)((R4 + 0x0)) = (*(int *)((R5 + 0x44)));
-    *(unsigned int *)(((R4 + 0x4) + 0x0)) = (*(int *)((R5 + 0x48)));
+    *(unsigned int *)((R4 + 0x0)) = ((((struct o44_int *)(R5))->v));
+    *(unsigned int *)(((R4 + 0x4) + 0x0)) = ((((struct o48_int *)(R5))->v));
     *(unsigned int *)((((R4 + 0x4) + 0xC) + 0x0)) = (*(int *)((R5 + 0x20)));
     *(unsigned int *)(((((R4 + 0x4) + 0xC) + 0x4) + 0x0)) = (*(int *)((R5 + 0x24)));
     *(unsigned int *)((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x0)) = (*(int *)((R5 + 0x28)));
     *(unsigned int *)(((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x0)) = (*(int *)((R5 + 0x2C)));
-    *(unsigned int *)((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = (*(int *)(((R5 + 0x50) + 0x0)));
-    *(unsigned int *)(((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = (*(int *)(((R5 + 0x54) + 0x0)));
-    *(unsigned int *)((((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = (*(int *)(((R5 + 0x58) + 0x0)));
-    *(unsigned int *)(((((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = (*(int *)(((R5 + 0x5C) + 0x0)));
+    *(unsigned int *)((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = ((((struct o50_int *)(R5))->v));
+    *(unsigned int *)(((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = ((((struct o54_int *)(R5))->v));
+    *(unsigned int *)((((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = ((((struct o58_int *)(R5))->v));
+    *(unsigned int *)(((((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x0)) = ((((struct o5C_int *)(R5))->v));
     R0 = (0x48);
     R4 = ((((((((((R4 + 0x4) + 0xC) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4) + 0x4));
     goto L_C15DF9C;
@@ -114,8 +142,8 @@ int kmSetModifierRenderState(int a4, int a5, int a6, int a7, float f4)
     R4 = ((R4 + 0x4));
     goto L_C15E026;
     L_C15DF34:;
-    *(unsigned int *)((R4 + 0x0)) = (*(int *)((R5 + 0x44)));
-    *(unsigned int *)(((R4 + 0x4) + 0x0)) = (*(int *)((R5 + 0x48)));
+    *(unsigned int *)((R4 + 0x0)) = ((((struct o44_int *)(R5))->v));
+    *(unsigned int *)(((R4 + 0x4) + 0x0)) = ((((struct o48_int *)(R5))->v));
     R0 = (0x48);
     R4 = (((R4 + 0x4) + 0xC));
     goto L_C15E026;

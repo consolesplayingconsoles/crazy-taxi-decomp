@@ -14,10 +14,14 @@ int ndPuru2Reset(int);
 int pfOffsetOff(void);
 int usr_gd_err_func(int, int);
 int CheckSoftReset(int a4);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int CheckSoftReset(int a4)
 {
-    int stk[6];
+    int stk[5];
 
     register int R1;
     register int R2;
@@ -37,15 +41,15 @@ int CheckSoftReset(int a4)
     int R1004;
     int R1008;
     int R1012;
-    R1004 = *(int *)((int)stk + 4);
-    R1008 = *(int *)((int)stk + 8);
-    R1012 = *(int *)((int)stk + 12);
+    R1004 = *(int *)((int)stk + 0);
+    R1008 = *(int *)((int)stk + 4);
+    R1012 = *(int *)((int)stk + 8);
     v0_2 = a4;
     v0_0 = R12;
     R1012 = v0_0;
     v0_1 = R11;
     R1008 = v0_1;
-    v0_2 = (*(int *)0xC2A121C) == 0;
+    v0_2 = ((((struct o0_int *)0xC2A121C)->v)) == 0;
     R1008 = v0_0;
     R1004 = v0_1;
     R12 = (0x0);
@@ -60,8 +64,8 @@ int CheckSoftReset(int a4)
     R1008 = R1008;
     R1004 = R1004;
     L_C04119C:;
+    *(volatile int *)((int)stk + 0);
     *(volatile int *)((int)stk + 4);
-    *(volatile int *)((int)stk + 8);
     return v0_3;
     L_C041090:;
     v0_4 = *(signed char *)((v0_1 + 0x2B));
@@ -124,11 +128,11 @@ int CheckSoftReset(int a4)
     R1008 = R1008;
     R1004 = R1004;
     if (v0_1) goto L_C041148;
-    v0_1 = (*(int *)0xC2A1228) != 0;
+    v0_1 = ((((struct oC_int *)0xC2A121C)->v)) != 0;
     R1008 = R1008;
     R1004 = R1004;
     if (v0_1) goto L_C041154;
-    v0_1 = (*(int *)0xC2A122C) != 0;
+    v0_1 = ((((struct o10_int *)0xC2A121C)->v)) != 0;
     R1008 = R1008;
     R1004 = R1004;
     if (v0_1) goto L_C041154;

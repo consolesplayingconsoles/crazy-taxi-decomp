@@ -3,6 +3,11 @@
 
 extern void _builtin_prefetch(void *);
 float pfPutc(int a4, int a5, int a6, int a7, float f4);
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 float pfPutc(int a4, int a5, int a6, int a7, float f4)
 {
@@ -24,7 +29,6 @@ float pfPutc(int a4, int a5, int a6, int a7, float f4)
     float u51;
     float u52;
     int t64;
-    int stk[9];
 
     int R0;
     int R1;
@@ -81,7 +85,7 @@ float pfPutc(int a4, int a5, int a6, int a7, float f4)
     L_C03123E:;
     u21 = *(float *)0xC26E1F4;
     u22 = (*(float *)((R7 + 0x0)));
-    u22 = u22 + u21 * ((*(float *)((((*(int *)((R6 + 0x0))) + R14) + 0x4))) + F4);
+    u22 = u22 + u21 * (((((struct o4_float *)(((*(int *)((R6 + 0x0))) + R14)))->v)) + F4);
     *(float *)((R7 + 0x0)) = u22;
     R0 = (0x4);
     F0 = (u21);
@@ -89,39 +93,38 @@ float pfPutc(int a4, int a5, int a6, int a7, float f4)
     goto L_C03137E;
     L_C031254:;
     u26 = *(float *)((R7 + 0x0));
-    *(float *)(((R13 + 0x14) + 0x0)) = u26;
+    (((struct o14_float *)(R13))->v) = u26;
     *(float *)((R13 + 0x0)) = u26;
     u31 = (*(float *)((R7 + 0x0)));
-    u31 = u31 + (*(float *)0xC26E1F4) * (*(float *)((((*(int *)((R6 + 0x0))) + R14) + 0x4)));
+    u31 = u31 + (*(float *)0xC26E1F4) * ((((struct o4_float *)(((*(int *)((R6 + 0x0))) + R14)))->v));
     *(float *)0xC0ED21C = u31;
     *(float *)0xC0ED208 = u31;
     u32 = *(float *)0xC0ED254;
     *(float *)0xC0ED20C = u32;
-    *(float *)((R13 + 0x4)) = u32;
+    (((struct o4_float *)(R13))->v) = u32;
     u33 = *(float *)0xC0ED254;
     u34 = *(float *)0xC26E204;
     *(float *)0xC0ED220 = (u33 + u34);
-    *(float *)(((R13 + 0x14) + 0x4)) = (u33 + u34);
+    (((struct o4_float *)((R13 + 0x14)))->v) = (u33 + u34);
     u36 = *(float *)((((*(int *)((R6 + 0x0))) + R14) + 0x0));
     u37 = *(float *)0xC26E20C;
-    *(float *)(((R13 + 0x14) + 0xC)) = (u36 * u37);
-    *(float *)((R13 + 0xC)) = (u36 * u37);
+    (((struct oC_float *)((R13 + 0x14)))->v) = (u36 * u37);
+    (((struct oC_float *)(R13))->v) = (u36 * u37);
     t38 = *(int *)((R6 + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = (t38 + R14);
     u39 = *(float *)(((t38 + R14) + 0x0));
-    u40 = *(float *)(((t38 + R14) + 0x4));
+    u40 = (((struct o4_float *)((t38 + R14)))->v);
     u41 = *(float *)0xC26E20C;
     *(float *)0xC0ED228 = ((u39 + u40) * u41);
     *(float *)0xC0ED214 = ((u39 + u40) * u41);
     u44 = *(float *)((0xC08D67C + ((*(int *)((((*(int *)((R6 + 0x0))) + R14) + 0x8))) << 2)));
     *(float *)0xC0ED218 = u44;
-    *(float *)((R13 + 0x10)) = u44;
+    (((struct o10_float *)(R13))->v) = u44;
     u47 = *(float *)((0xC08D6A8 + ((*(int *)((((*(int *)((R6 + 0x0))) + R14) + 0x8))) << 2)));
     *(float *)0xC0ED22C = u47;
-    *(float *)(((R13 + 0x14) + 0x10)) = u47;
+    (((struct o10_float *)((R13 + 0x14)))->v) = u47;
     u51 = *(float *)0xC26E1F4;
     u52 = (*(float *)((R7 + 0x0)));
-    u52 = u52 + u51 * ((*(float *)((((*(int *)((R6 + 0x0))) + R14) + 0x4))) + F4);
+    u52 = u52 + u51 * (((((struct o4_float *)(((*(int *)((R6 + 0x0))) + R14)))->v)) + F4);
     *(float *)((R7 + 0x0)) = u52;
     *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)R10 >> 16) >> 8);
     *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)R10 >> 16) >> 8);

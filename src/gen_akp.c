@@ -2,8 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXSJD_GetTrapDtLen(int a4);
+struct o44_int { char p[0x44]; int v; };
+
 
 int ADXSJD_GetTrapDtLen(int a4)
 {
-    return (*(int *)((a4 + 0x44)));
+    return ((((struct o44_int *)(a4))->v));
 }

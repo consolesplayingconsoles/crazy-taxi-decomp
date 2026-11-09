@@ -20,6 +20,11 @@ float psgRunToPoint(int, int);
 int psgStepBlend(int);
 int psgUpdatePartTracks(int);
 int psgFrameState2(int a4);
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int psgFrameState2(int a4)
 {
@@ -41,13 +46,15 @@ int psgFrameState2(int a4)
     float t210;
     int t256;
     int t265;
-    int t241;
     float u29;
     float u30;
     float u31;
     int t168;
     int t223;
     int stk[13];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     t0 = *(int *)((a4 + 0x24));
     if (t0 != 0) {
@@ -59,8 +66,8 @@ int psgFrameState2(int a4)
                 if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
                     nlSubVector3op((((int)stk + 4) + 0x4), (0x134 + a4), (a4 + 0x4));
                     nlGetAverageVector((a4 + 0x4), (((int)stk + 4) + 0x4), (((int)stk + 4) + 0x4), 1.0f, 0.25f);
-                    *(unsigned int *)(((int)stk + 4)) = (nlArcTan2((*(float *)0xC2AD1F8), (*(float *)0xC2AD200)));
-                    *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), (*(int *)(((int)stk + 4))), 0.199999988f));
+                    R1004 = (nlArcTan2(((((struct o0_float *)0xC2AD1F8)->v)), ((((struct o8_float *)0xC2AD1F8)->v))));
+                    *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), (R1004), 0.199999988f));
                     psgStepBlend(a4);
                     psgPutShadow(a4);
                     FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
@@ -85,66 +92,8 @@ int psgFrameState2(int a4)
                     if ((*(int *)((a4 + 0x0))) != 32) {
                     } else {
                         t40 = *(int *)0xC2AE33C;
-                        if (t40 != 0) {
-                            if (t40 != 1) {
-                                if (t40 != 2) {
-                                    if (t40 != 3) {
-                                    } else {
-                                        u41 = *(float *)((a4 + 0x38));
-                                        if ((int)u41 != 40) {
-                                            if ((int)u41 != 73) {
-                                                if ((int)u41 != 95) {
-                                                } else {
-                                                    u49 = 1.0f;
-                                                    if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                                                        u49 = 0.0f;
-                                                    }
-                                                    carSpreadWheelLoad(u49, 0.75f, 90.0f);
-                                                }
-                                            } else {
-                                                u56 = 1.0f;
-                                                if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                                                    u56 = 0.0f;
-                                                }
-                                                carSpreadWheelLoad(u56, 0.75f, 60.0f);
-                                            }
-                                        } else {
-                                            u63 = 0.0f;
-                                            if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
-                                                u63 = 1.0f;
-                                            }
-                                            carSpreadWheelLoad(u63, 0.75f, 30.0f);
-                                        }
-                                    }
-                                } else {
-                                    if ((int)(*(float *)((a4 + 0x38))) == 45) {
-                                        u75 = 1.0f;
-                                        if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                                            u75 = 0.0f;
-                                        }
-                                        carSpreadWheelLoad(u75, 0.75f, 90.0f);
-                                    }
-                                }
-                            } else {
-                                u84 = *(float *)((a4 + 0x38));
-                                if ((int)u84 != 17) {
-                                    if ((int)u84 != 45) {
-                                    } else {
-                                        u89 = 1.0f;
-                                        if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                                            u89 = 0.0f;
-                                        }
-                                        carSpreadWheelLoad(u89, 0.75f, 90.0f);
-                                    }
-                                } else {
-                                    u96 = 1.0f;
-                                    if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
-                                        u96 = 0.0f;
-                                    }
-                                    carSpreadWheelLoad(u96, 0.75f, 30.0f);
-                                }
-                            }
-                        } else {
+                        switch (t40) {
+                        case 0:
                             u105 = *(float *)((a4 + 0x38));
                             if ((int)u105 != 23) {
                                 if ((int)u105 != 60) {
@@ -162,6 +111,62 @@ int psgFrameState2(int a4)
                                 }
                                 carSpreadWheelLoad(u117, 0.75f, 30.0f);
                             }
+                            break;
+                        case 1:
+                            u84 = *(float *)((a4 + 0x38));
+                            if ((int)u84 != 17) {
+                                if ((int)u84 != 45) {
+                                } else {
+                                    u89 = 1.0f;
+                                    if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
+                                        u89 = 0.0f;
+                                    }
+                                    carSpreadWheelLoad(u89, 0.75f, 90.0f);
+                                }
+                            } else {
+                                u96 = 1.0f;
+                                if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
+                                    u96 = 0.0f;
+                                }
+                                carSpreadWheelLoad(u96, 0.75f, 30.0f);
+                            }
+                            break;
+                        case 2:
+                            if ((int)(*(float *)((a4 + 0x38))) == 45) {
+                                u75 = 1.0f;
+                                if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
+                                    u75 = 0.0f;
+                                }
+                                carSpreadWheelLoad(u75, 0.75f, 90.0f);
+                            }
+                            break;
+                        case 3:
+                            u41 = *(float *)((a4 + 0x38));
+                            if ((int)u41 != 40) {
+                                if ((int)u41 != 73) {
+                                    if ((int)u41 != 95) {
+                                    } else {
+                                        u49 = 1.0f;
+                                        if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
+                                            u49 = 0.0f;
+                                        }
+                                        carSpreadWheelLoad(u49, 0.75f, 90.0f);
+                                    }
+                                } else {
+                                    u56 = 1.0f;
+                                    if (((*(signed char *)((a4 + 0x14B))) & 4) != 0) {
+                                        u56 = 0.0f;
+                                    }
+                                    carSpreadWheelLoad(u56, 0.75f, 60.0f);
+                                }
+                            } else {
+                                u63 = 0.0f;
+                                if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
+                                    u63 = 1.0f;
+                                }
+                                carSpreadWheelLoad(u63, 0.75f, 30.0f);
+                            }
+                            break;
                         }
                     }
                     if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 1) > (*(float *)((a4 + 0x38))))) {
@@ -172,8 +177,8 @@ int psgFrameState2(int a4)
                         *(unsigned int *)0xC2AE33C = 0x0;
                         *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                         *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFE);
-                        if ((*(int *)0xC1EE20C) == 2) {
-                            if ((*(int *)0xC1EE214) != 8) {
+                        if (((((struct o0_int *)0xC1EE20C)->v)) == 2) {
+                            if (((((struct o8_int *)0xC1EE20C)->v)) != 8) {
                             } else {
                                 *(unsigned int *)0xC179120 = 0x1;
                             }
@@ -182,7 +187,7 @@ int psgFrameState2(int a4)
                         if (!(48.0f > (*(float *)((a4 + 0x38))))) {
                             *(unsigned char *)(((0x148 + a4) + 0x0)) = ((*(signed char *)(((0x148 + a4) + 0x0))) | 0x80);
                             *(unsigned int *)0xC2AD590 = ((*(int *)0xC2AD590) & 0xFFFFFFFE);
-                            if (((*(int *)0xC1EE20C) == 2) && (t168 = *(int *)0xC1EE214, t168 == 8)) {
+                            if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t168 = (((struct o8_int *)0xC1EE20C)->v), t168 == 8)) {
                                 *(unsigned int *)0xC179120 = 0x1;
                             }
                         }
@@ -190,7 +195,7 @@ int psgFrameState2(int a4)
                 }
                 t196 = (nlPopMatrix(0x1));
             }
-            t241 = t196;
+            t265 = t196;
         } else {
             nlPushMatrix(0x0);
             if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
@@ -212,9 +217,8 @@ int psgFrameState2(int a4)
                     psgEnterState2(a4, (*(int *)((a4 + 0x24))));
                 }
             }
-            t241 = (nlPopMatrix(0x1));
+            t265 = (nlPopMatrix(0x1));
         }
-        t265 = t241;
     } else {
         nlPushMatrix(0x0);
         psgPutShadow(a4);

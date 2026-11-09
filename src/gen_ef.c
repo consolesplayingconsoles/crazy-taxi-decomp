@@ -5,6 +5,12 @@ int nlLineBlendFunc(int, int);
 int nlLineSetDiv(float);
 int nlLineSetThickness(float);
 int InitSpark(void);
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int InitSpark(void)
 {
@@ -20,11 +26,11 @@ int InitSpark(void)
             break;
         }
     }
-    *(unsigned int *)0xC2757E0 = 0x0;
-    *(unsigned int *)0xC2757DC = 0x0;
-    *(unsigned int *)0xC2757D8 = 0x0;
-    *(unsigned int *)0xC2757D4 = 0x0;
-    *(unsigned int *)0xC2757D0 = 0x0;
+    (((struct o10_uint *)0xC2757D0)->v) = 0x0;
+    (((struct oC_uint *)0xC2757D0)->v) = 0x0;
+    (((struct o8_uint *)0xC2757D0)->v) = 0x0;
+    (((struct o4_uint *)0xC2757D0)->v) = 0x0;
+    (((struct o0_uint *)0xC2757D0)->v) = 0x0;
     nlLineBlendFunc(0x1, 0x4);
     nlLineSetThickness((1.0f + 1.0f));
     return nlLineSetDiv(128.0f);

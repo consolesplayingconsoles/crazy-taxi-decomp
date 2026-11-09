@@ -3,6 +3,8 @@
 
 int kmtex_TextureSize(int);
 int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7);
+struct oA0_int { char p[0xA0]; int v; };
+
 
 int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
 {
@@ -23,12 +25,14 @@ int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C15C3C8:;
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)R7;
+    R1004 = (unsigned char)R7;
     R10 = (0x3);
     R11 = (0x0);
     R13 = (0x0);
@@ -50,7 +54,7 @@ int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
     if ((R14 != 0x600)) goto L_C15C44C;
     goto L_C15C434;
     L_C15C434:;
-    if (((*(int *)((0xA0 + (*(int *)0xC178268)))) != 3)) goto L_C15C444;
+    if ((((((struct oA0_int *)((*(int *)0xC178268)))->v)) != 3)) goto L_C15C444;
     goto L_C15C440;
     L_C15C440:;
     *(unsigned int *)((R4 + 0x4)) = R10;
@@ -232,7 +236,7 @@ int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
     if ((R14 != 0x800)) goto L_C15C4A0;
     goto L_C15C458;
     L_C15C458:;
-    if (((*(int *)((0xA0 + (*(int *)0xC178268)))) != 3)) goto L_C15C468;
+    if ((((((struct oA0_int *)((*(int *)0xC178268)))->v)) != 3)) goto L_C15C468;
     goto L_C15C464;
     L_C15C464:;
     *(unsigned int *)((R4 + 0x4)) = R10;
@@ -245,7 +249,7 @@ int kmtex_CheckTextureFormat(int a4, int a5, int a6, int a7)
     goto L_C15C46A;
     L_C15C4A0:;
     *(unsigned int *)((R4 + 0x4)) = R12;
-    t74 = *(int *)(((int)stk + 4));
+    t74 = R1004;
     R0 = (t74);
     if ((t74 == 0)) goto L_C15C4BC;
     goto L_C15C4A8;

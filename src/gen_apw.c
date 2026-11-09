@@ -5,9 +5,11 @@ extern int ADXERR_CallErrFunc();
 int ADXF_Close(int);
 int ADXF_Open(int, int);
 int ADXSTM_GetFad(int, int);
-int adxf_ChkPrmPt(int, int, int, int);
+int adxf_ChkPrmPt(int, int);
 int adxf_LoadData(int, int, int);
 int ADXF_AddPartition(int a4, int a5, int a6, int a7);
+struct o12_uchar { char p[0x12]; unsigned char v; };
+
 
 int ADXF_AddPartition(int a4, int a5, int a6, int a7)
 {
@@ -41,14 +43,16 @@ int ADXF_AddPartition(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C152A5E:;
-    *(unsigned int *)(((int)stk + 4)) = R4;
+    R1004 = R4;
     *(unsigned int *)(((int)stk + 16)) = R7;
-    t1 = adxf_ChkPrmPt((*(int *)(((int)stk + 4))), R6, R6, R7);
+    t1 = adxf_ChkPrmPt((R1004), R6);
     R11 = (t1);
     R13 = (R6);
     R14 = (R6);
@@ -84,15 +88,15 @@ int ADXF_AddPartition(int a4, int a5, int a6, int a7)
     R5 = (R8);
     goto L_C152ACE;
     L_C152AD8:;
-    t18 = *(int *)(((int)stk + 4));
+    t18 = R1004;
     *(unsigned int *)((R14 + 0x0)) = (*(int *)((((t18 << 2) + 0xC2B9F38) + 0x0)));
     *(unsigned int *)((((t18 << 2) + 0xC2B9F38) + 0x0)) = R13;
     *(unsigned int *)((R14 + 0x8)) = (*(int *)(((int)stk + 8)));
-    *(unsigned char *)((R14 + 0x12)) = 0x1;
+    (((struct o12_uchar *)(R14))->v) = 0x1;
     *(unsigned int *)(((int)stk + 28)) = (R14 + 0x14);
     *(unsigned int *)(((int)stk + 20)) = 0x0;
     *(unsigned int *)((R14 + 0xC)) = 0x0;
-    *(unsigned int *)(((int)stk + 4)) = 0xC2BD404;
+    R1004 = 0xC2BD404;
     R10 = (0x0);
     R11 = (0xFFFFFFFF);
     R12 = (0xC2BD400);
@@ -130,15 +134,15 @@ int ADXF_AddPartition(int a4, int a5, int a6, int a7)
     goto L_C152B24;
     L_C152B24:;
     R4 = (0x10000);
-    if (((int)(*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) <= (int)0x10000)) goto L_C152B38;
+    if (((int)(*(int *)(((R1004) + 0x0))) <= (int)0x10000)) goto L_C152B38;
     goto L_C152B2E;
     L_C152B2E:;
-    *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x0)) = R4;
+    *(unsigned int *)(((R1004) + 0x0)) = R4;
     R11 = (0xFFFFFFFC);
     R4 = (0xFFFFFFFC);
     goto L_C152BE6;
     L_C152B38:;
-    t53 = *(int *)(((*(int *)(((int)stk + 4))) + 0x0));
+    t53 = *(int *)(((R1004) + 0x0));
     R4 = (t53);
     if (((int)(*(int *)(((int)stk + 16))) >= (int)t53)) goto L_C152B46;
     goto L_C152B42;

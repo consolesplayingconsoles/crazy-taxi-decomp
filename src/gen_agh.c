@@ -23,6 +23,16 @@ float nlScalor2(int);
 int nlSubVector(int, int);
 int nlTranslateV(int);
 float SetObjFly(int a4, int a5, int a6, int a7, float f4);
+struct o10_float { char p[0x10]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o54_int { char p[0x54]; int v; };
+struct o64_int { char p[0x64]; int v; };
+struct o68_int { char p[0x68]; int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+
 
 float SetObjFly(int a4, int a5, int a6, int a7, float f4)
 {
@@ -77,17 +87,17 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     if (((*(int *)((R4 + 0x20))) == 0)) goto L_C037B90;
     goto L_C037B66;
     L_C037B66:;
-    *(unsigned int *)((R14 + 0x68)) = 0x1;
+    (((struct o68_uint *)(R14))->v) = 0x1;
     if ((((*(int *)((R14 + 0x20))) & 1) == 0)) goto L_C037B90;
     goto L_C037B72;
     L_C037B72:;
-    if (((*(int *)((R14 + 0x64))) == 0xC5E0600)) goto L_C037B90;
+    if ((((((struct o64_int *)(R14))->v)) == 0xC5E0600)) goto L_C037B90;
     goto L_C037B7C;
     L_C037B7C:;
-    if ((!((*(float *)((R14 + 0x1C))) > F13))) goto L_C037B90;
+    if ((!(((((struct o1C_float *)(R14))->v)) > F13))) goto L_C037B90;
     goto L_C037B84;
     L_C037B84:;
-    Sound_Request((*(int *)(((*(int *)((R14 + 0x54))) + 0x14))), 0x1);
+    Sound_Request((*(int *)((((((struct o54_int *)(R14))->v)) + 0x14))), 0x1);
     goto L_C037B90;
     L_C037B90:;
     t13 = nlScalor((R14 + 0x48));
@@ -97,20 +107,20 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     if ((t13 > 0.000999999931f)) goto L_C037BD0;
     goto L_C037BA2;
     L_C037BA2:;
-    if (((*(int *)((R14 + 0x68))) != 5)) goto L_C037BD0;
+    if ((((((struct o68_int *)(R14))->v)) != 5)) goto L_C037BD0;
     goto L_C037BAA;
     L_C037BAA:;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x58)) = *(struct mv3 *)(0xC0965F0); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0xC)) = *(struct mv3 *)(0xC0965F0); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x48)) = *(struct mv3 *)(0xC0965F0); }
-    *(unsigned int *)((R14 + 0x68)) = 0x0;
+    (((struct o68_uint *)(R14))->v) = 0x0;
     goto L_C037BD0;
     L_C037BD0:;
-    if (((*(int *)((R14 + 0x68))) != 0)) goto L_C037BE8;
+    if ((((((struct o68_int *)(R14))->v)) != 0)) goto L_C037BE8;
     goto L_C037BD8;
     L_C037BD8:;
     R0 = (0x18);
-    if ((1000.0f > (*(float *)((R14 + 0x18))))) goto L_C037BE8;
+    if ((1000.0f > ((((struct o18_float *)(R14))->v)))) goto L_C037BE8;
     goto L_C037BE4;
     L_C037BE4:;
     goto L_C037FA0;
@@ -126,13 +136,13 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     goto L_C037C1C;
     L_C037C1C:;
     MultiRot4Vec((R14 + 0x30), F4);
-    if ((!(1000.0f > (*(float *)((R14 + 0x18)))))) goto L_C037C38;
+    if ((!(1000.0f > ((((struct o18_float *)(R14))->v))))) goto L_C037C38;
     goto L_C037C30;
     L_C037C30:;
-    nlObjPutUseViewMatrix((*(int *)((R14 + 0x64))));
+    nlObjPutUseViewMatrix(((((struct o64_int *)(R14))->v)));
     goto L_C037C38;
     L_C037C38:;
-    if (((*(int *)((R14 + 0x68))) != 0)) goto L_C037C4A;
+    if ((((((struct o68_int *)(R14))->v)) != 0)) goto L_C037C4A;
     goto L_C037C40;
     L_C037C40:;
     R0 = ((nlPopMatrix(0x1)));
@@ -141,11 +151,11 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     GetRotVec((R14 + 0x30));
     nlScaleVector((R14 + 0xC), (R14 + 0xC), 0.979999959f);
     nlScaleVector((R14 + 0x48), (R14 + 0x48), 0.959999979f);
-    *(float *)((R14 + 0x10)) = ((*(float *)((R14 + 0x10))) - 0.166666657f);
+    (((struct o10_float *)(R14))->v) = (((((struct o10_float *)(R14))->v)) - 0.166666657f);
     nlAddVector(R14, (R14 + 0xC));
-    CheckColliWall(R14, (*(float *)(((*(int *)((R14 + 0x54))) + 0x1C))));
+    CheckColliWall(R14, ((((struct o1C_float *)(((((struct o54_int *)(R14))->v))))->v)));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x38)) = *(struct mv3 *)(0xC0965F0); }
-    t46 = *(int *)((R14 + 0x54));
+    t46 = (((struct o54_int *)(R14))->v);
     t48 = *(int *)((t46 + 0x4));
     t49 = *(int *)((t46 + 0x0));
     *(unsigned int *)(((int)stk + 4)) = (*(int *)((t46 + 0x8)));
@@ -166,13 +176,13 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     L_C037DE8:;
     goto L_C037CB8;
     L_C037CB8:;
-    if ((!(0.0f > (*(float *)((R12 + 0x4)))))) goto L_C037D70;
+    if ((!(0.0f > ((((struct o4_float *)(R12))->v))))) goto L_C037D70;
     goto L_C037CC2;
     L_C037CC2:;
     nlCalcPoint(R9, (((int)stk + 4) + 0x2C));
     nlOuterProduct((R14 + 0x3C), 0xC096644, (((int)stk + 4) + 0x20));
     nlOuterProduct((R14 + 0x3C), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
-    nlScaleUnitVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-(*(float *)((R12 + 0x4)))));
+    nlScaleUnitVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-((((struct o4_float *)(R12))->v))));
     R5 = ((((int)stk + 4) + 0x20));
     R9 = ((R9 + 0xC));
     goto L_C037D92;
@@ -183,7 +193,7 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     if (((*(int *)((t71 + 0x1C))) == -1)) goto L_C037DD4;
     goto L_C037DAA;
     L_C037DAA:;
-    u75 = *(float *)((R4 + 0x18));
+    u75 = (((struct o18_float *)(R4))->v);
     u76 = *(float *)(((int)stk + 52));
     F14 = ((u76 - u75));
     if ((!(0.0f > (u76 - u75)))) goto L_C037DD4;
@@ -205,7 +215,7 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     goto L_C037DDC;
     L_C037D70:;
     nlCalcVector(R9, (((int)stk + 4) + 0x2C));
-    u88 = *(float *)((R12 + 0x4));
+    u88 = (((struct o4_float *)(R12))->v);
     u89 = *(float *)(((int)stk + 52));
     *(float *)(((int)stk + 52)) = (u89 - u88);
     R9 = ((R9 + 0xC));
@@ -222,7 +232,7 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     L_C037F88:;
     nlPopMatrix(0x1);
     R0 = (0x54);
-    if (((*(int *)(((*(int *)((R14 + 0x54))) + 0x10))) == 0)) goto L_C037FA0;
+    if (((*(int *)((((((struct o54_int *)(R14))->v)) + 0x10))) == 0)) goto L_C037FA0;
     goto L_C037F98;
     L_C037F98:;
     R0 = ((((int (*)(int, int, int, int, float))((*(int *)(((*(int *)((R14 + R0))) + 0x10)))))(R14, R5, R6, R7, F4)));
@@ -231,7 +241,7 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x8)) = *(struct mv3 *)(((GetCollision2D((((int)stk + 4) + 0x2C), F14)) + 0xC)); }
     nlScaleVector((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x38), (1.0f / (float)R8));
     nlSubVector((((int)stk + 4) + 0x38), R14);
-    *(float *)((R14 + 0x4)) = ((*(float *)((R14 + 0x4))) - F15);
+    (((struct o4_float *)(R14))->v) = (((((struct o4_float *)(R14))->v)) - F15);
     nlOuterProduct((R14 + 0x48), (((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20));
     nlAddVector((((int)stk + 4) + 0x20), (R14 + 0xC));
     t109 = nlInnerProduct((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8));
@@ -243,14 +253,14 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     L_C037E62:;
     goto L_C037F82;
     L_C037F82:;
-    *(unsigned int *)((R14 + 0x68)) = 0x1;
+    (((struct o68_uint *)(R14))->v) = 0x1;
     goto L_C037F88;
     L_C037E66:;
-    if (((int)(*(int *)((R14 + 0x68))) >= (int)0x3)) goto L_C037F2A;
+    if (((int)((((struct o68_int *)(R14))->v)) >= (int)0x3)) goto L_C037F2A;
     goto L_C037E70;
     L_C037E70:;
     t116 = nlInnerProduct((((int)stk + 4) + 0x8), (((int)stk + 4) + 0x38));
-    u119 = *(float *)(((*(int *)((R14 + 0x54))) + 0x20));
+    u119 = (((struct o20_float *)(((((struct o54_int *)(R14))->v))))->v);
     u120 = _builtin_sqrtf(((t116 * (-t116)) + (nlScalor2((((int)stk + 4) + 0x38)))));
     nlScaleVector((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x8), F15);
     nlAddVector((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x20));
@@ -258,21 +268,21 @@ float SetObjFly(int a4, int a5, int a6, int a7, float f4)
     nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), (((F12 - (u120 * u119))) * ((F15 * 1.5999999f))));
     nlSubVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
     nlAddVector((R14 + 0xC), (((int)stk + 4) + 0x20));
-    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), ((((F15 * 1.5999999f)) * ((u120 * u119))) / (*(float *)(((*(int *)((R14 + 0x54))) + 0x18)))));
+    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x8), ((((F15 * 1.5999999f)) * ((u120 * u119))) / ((((struct o18_float *)(((((struct o54_int *)(R14))->v))))->v))));
     nlSubVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x14));
     nlOuterProduct((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
     nlAddVector((R14 + 0x48), (((int)stk + 4) + 0x20));
-    *(unsigned int *)((R14 + 0x68)) = ((*(int *)((R14 + 0x68))) + 0x1);
+    (((struct o68_uint *)(R14))->v) = (((((struct o68_int *)(R14))->v)) + 0x1);
     goto L_C037F88;
     L_C037F2A:;
     nlSubVector((R14 + 0xC), (((int)stk + 4) + 0x20));
-    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-0.333333284f / (*(float *)(((*(int *)((R14 + 0x54))) + 0x18)))));
+    nlScaleVector((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20), (-0.333333284f / ((((struct o18_float *)(((((struct o54_int *)(R14))->v))))->v))));
     nlOuterProduct((((int)stk + 4) + 0x38), (((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
     nlAddVector((R14 + 0x48), (((int)stk + 4) + 0x20));
     if (((int)(*(int *)(((int)stk + 8))) <= (int)0x2)) goto L_C037F88;
     goto L_C037F6C;
     L_C037F6C:;
     nlScaleVector((R14 + 0x48), (R14 + 0x48), 0.899999976f);
-    *(unsigned int *)((R14 + 0x68)) = 0x5;
+    (((struct o68_uint *)(R14))->v) = 0x5;
     goto L_C037F88;
 }

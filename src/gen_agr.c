@@ -12,6 +12,12 @@ float nlRandom(void);
 int nlScaleVector(int, int, float);
 int nlTranslateV(int);
 int ExecBubble(int a4);
+struct o18_float { char p[0x18]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o28_float { char p[0x28]; float v; };
+struct o2C_float { char p[0x2C]; float v; };
+
 
 int ExecBubble(int a4)
 {
@@ -30,24 +36,24 @@ int ExecBubble(int a4)
     nlPushUnitMatrix();
     nlTranslateV((a4 + 0x14));
     nlObjPutSetFadeColorBase(1.0f, 1.0f, 1.0f);
-    u5 = *(float *)((a4 + 0x2C));
+    u5 = (((struct o2C_float *)(a4))->v);
     Put2DObjUp(0xC463460, u5, u5, 4.0f);
     ResetFadeColor();
     nlPopMatrix(0x1);
     nlAddVector((a4 + 0x14), (a4 + 0x20));
-    if (!((*(float *)0xC274258) > (*(float *)((a4 + 0x18))))) {
+    if (!((*(float *)0xC274258) > ((((struct o18_float *)(a4))->v)))) {
         return nlCloseEvent(a4);
     }
     nlScaleVector((a4 + 0x20), (a4 + 0x20), 0.9f);
     u14 = (-0.5f);
     u15 = 0.099999994f;
-    u18 = (*(float *)(((a4 + 0x20) + 0x0)));
+    u18 = ((((struct o20_float *)(a4))->v));
     u18 = u18 + u15 * ((nlRandom()) + u14);
-    *(float *)(((a4 + 0x20) + 0x0)) = u18;
-    *(float *)((a4 + 0x24)) = ((*(float *)((a4 + 0x24))) + 0.049999997f);
-    u22 = (*(float *)(((a4 + 0x28) + 0x0)));
+    (((struct o20_float *)(a4))->v) = u18;
+    (((struct o24_float *)(a4))->v) = (((((struct o24_float *)(a4))->v)) + 0.049999997f);
+    u22 = ((((struct o28_float *)(a4))->v));
     u22 = u22 + u15 * ((nlRandom()) + u14);
-    *(float *)(((a4 + 0x28) + 0x0)) = u22;
-    *(float *)((a4 + 0x2C)) = ((*(float *)((a4 + 0x2C))) + 0.00999999978f);
+    (((struct o28_float *)(a4))->v) = u22;
+    (((struct o2C_float *)(a4))->v) = (((((struct o2C_float *)(a4))->v)) + 0.00999999978f);
     return 0x2C;
 }

@@ -19,7 +19,7 @@ int goiToolLight(int a4, int a5, int a6, int a7, float f4)
     float u44;
     int t53;
     int t55;
-    int stk[18];
+    int stk[14];
 
     int R0;
     int R1;
@@ -72,7 +72,7 @@ int goiToolLight(int a4, int a5, int a6, int a7, float f4)
     if ((((*(int *)0xC1EE24C) & 4) == 0)) goto L_C04ABA4;
     goto L_C04AAFC;
     L_C04AAFC:;
-    *(unsigned int *)(((int)stk + 20)) = R7;
+    *(unsigned int *)(((int)stk + 4)) = R7;
     t14 = *(int *)((R7 + 0x0));
     R6 = (t14);
     if (((R5 & t14) == 0)) goto L_C04AB7C;
@@ -99,19 +99,19 @@ int goiToolLight(int a4, int a5, int a6, int a7, float f4)
     goto L_C04ABFC;
     L_C04ABFC:;
     t28 = nlFastCos((*(int *)((R14 + 0x0))));
-    *(float *)(((int)stk + 36)) = (t28 * (nlFastSin((*(int *)((R13 + 0x0))))));
-    *(float *)(((int)stk + 40)) = (nlFastSin((*(int *)((R14 + 0x0)))));
+    *(float *)(((int)stk + 20)) = (t28 * (nlFastSin((*(int *)((R13 + 0x0))))));
+    *(float *)(((int)stk + 24)) = (nlFastSin((*(int *)((R14 + 0x0)))));
     t34 = nlFastCos((*(int *)((R14 + 0x0))));
-    *(float *)(((int)stk + 44)) = (t34 * (nlFastCos((*(int *)((R13 + 0x0))))));
-    nlObjPutSetLightDirectionV((((int)stk + 20) + 0x10));
+    *(float *)(((int)stk + 28)) = (t34 * (nlFastCos((*(int *)((R13 + 0x0))))));
+    nlObjPutSetLightDirectionV((((int)stk + 4) + 0x10));
     nlObjPutSetGlobalAmbience((*(float *)((R12 + 0x0))));
-    *(float *)(((int)stk + 24)) = 0.0f;
-    *(float *)(((int)stk + 28)) = 2e+01f;
-    *(float *)(((int)stk + 32)) = (-5e+01f);
-    DispVector((((int)stk + 20) + 0x10), (((int)stk + 20) + 0x4), 0x1, 1.0f);
+    *(float *)(((int)stk + 8)) = 0.0f;
+    *(float *)(((int)stk + 12)) = 2e+01f;
+    *(float *)(((int)stk + 16)) = (-5e+01f);
+    DispVector((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), 0x1, 1.0f);
     nlLocate(0x1E, 0x28);
     u44 = *(float *)((R12 + 0x0));
-    *(float *)(((int)stk + 16)) = u44;
+    *(float *)(((int)stk + 0)) = u44;
     R0 = ((nlPrintf(0xC0C324C, ((*(int *)((R14 + 0x0)))), ((*(int *)((R13 + 0x0)))), u44)));
     goto L_C04AC7C;
     L_C04AB90:;

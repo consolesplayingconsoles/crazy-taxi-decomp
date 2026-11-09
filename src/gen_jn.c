@@ -17,6 +17,12 @@ int nlScaleVector(int, int, float);
 int nlSubVector(int, int);
 int nlSubVector3op(int, int, int);
 int camGetOffShot1(void);
+struct o18_float { char p[0x18]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int camGetOffShot1(void)
 {
@@ -47,18 +53,18 @@ int camGetOffShot1(void)
                 if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                     u6 = 1.0f;
                 }
-                *(float *)(((int)stk + 56)) = (u6 * (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x0))));
-                *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x4)));
-                *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x8)));
+                *(float *)(((int)stk + 56)) = (u6 * ((((struct oC_float *)((((int)stk + 4) + 0x70)))->v)));
+                *(float *)(((int)stk + 60)) = ((((struct o4_float *)(((((int)stk + 4) + 0x70) + 0xC)))->v));
+                *(float *)(((int)stk + 64)) = ((((struct o8_float *)(((((int)stk + 4) + 0x70) + 0xC)))->v));
                 nlCalcPoint((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x34));
                 camSetEye((((int)stk + 4) + 0x34), 0x0);
                 u15 = (-1.0f);
                 if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                     u15 = 1.0f;
                 }
-                *(float *)(((int)stk + 44)) = (u15 * (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x0))));
-                *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x4)));
-                *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x8)));
+                *(float *)(((int)stk + 44)) = (u15 * ((((struct oC_float *)((((int)stk + 4) + 0x40)))->v)));
+                *(float *)(((int)stk + 48)) = ((((struct o4_float *)(((((int)stk + 4) + 0x40) + 0xC)))->v));
+                *(float *)(((int)stk + 52)) = ((((struct o8_float *)(((((int)stk + 4) + 0x40) + 0xC)))->v));
                 nlCalcPoint((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x28));
                 camSetTarget((((int)stk + 4) + 0x28), 0x0);
                 nlPopMatrix(0x1);
@@ -70,17 +76,17 @@ int camGetOffShot1(void)
                     if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                         u28 = 1.0f;
                     }
-                    *(float *)(((int)stk + 56)) = (u28 * (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x0))));
-                    *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x4)));
-                    *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0xC) + 0x8)));
+                    *(float *)(((int)stk + 56)) = (u28 * ((((struct oC_float *)((((int)stk + 4) + 0x70)))->v)));
+                    *(float *)(((int)stk + 60)) = ((((struct o4_float *)(((((int)stk + 4) + 0x70) + 0xC)))->v));
+                    *(float *)(((int)stk + 64)) = ((((struct o8_float *)(((((int)stk + 4) + 0x70) + 0xC)))->v));
                     nlCalcPoint((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x10));
                     u36 = (-1.0f);
                     if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                         u36 = 1.0f;
                     }
-                    *(float *)(((int)stk + 56)) = (u36 * (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x0))));
-                    *(float *)(((int)stk + 60)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x4)));
-                    *(float *)(((int)stk + 64)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x18) + 0x8)));
+                    *(float *)(((int)stk + 56)) = (u36 * ((((struct o18_float *)((((int)stk + 4) + 0x70)))->v)));
+                    *(float *)(((int)stk + 60)) = ((((struct o4_float *)(((((int)stk + 4) + 0x70) + 0x18)))->v));
+                    *(float *)(((int)stk + 64)) = ((((struct o8_float *)(((((int)stk + 4) + 0x70) + 0x18)))->v));
                     nlCalcPoint((((int)stk + 4) + 0x34), (((int)stk + 4) + 0x4));
                     nlSubVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10));
                     nlScaleVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), 0.0166666657f);
@@ -90,17 +96,17 @@ int camGetOffShot1(void)
                     if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                         u48 = 1.0f;
                     }
-                    *(float *)(((int)stk + 44)) = (u48 * (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x0))));
-                    *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x4)));
-                    *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0xC) + 0x8)));
+                    *(float *)(((int)stk + 44)) = (u48 * ((((struct oC_float *)((((int)stk + 4) + 0x40)))->v)));
+                    *(float *)(((int)stk + 48)) = ((((struct o4_float *)(((((int)stk + 4) + 0x40) + 0xC)))->v));
+                    *(float *)(((int)stk + 52)) = ((((struct o8_float *)(((((int)stk + 4) + 0x40) + 0xC)))->v));
                     nlCalcPoint((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x10));
                     u56 = (-1.0f);
                     if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                         u56 = 1.0f;
                     }
-                    *(float *)(((int)stk + 44)) = (u56 * (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x0))));
-                    *(float *)(((int)stk + 48)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x4)));
-                    *(float *)(((int)stk + 52)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x18) + 0x8)));
+                    *(float *)(((int)stk + 44)) = (u56 * ((((struct o18_float *)((((int)stk + 4) + 0x40)))->v)));
+                    *(float *)(((int)stk + 48)) = ((((struct o4_float *)(((((int)stk + 4) + 0x40) + 0x18)))->v));
+                    *(float *)(((int)stk + 52)) = ((((struct o8_float *)(((((int)stk + 4) + 0x40) + 0x18)))->v));
                     nlCalcPoint((((int)stk + 4) + 0x28), (((int)stk + 4) + 0x4));
                     nlSubVector((((int)stk + 4) + 0x4), (((int)stk + 4) + 0x10));
                     nlScaleVector((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0x4), 0.0166666657f);
@@ -117,18 +123,18 @@ int camGetOffShot1(void)
                         if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                             u75 = 1.0f;
                         }
-                        *(float *)(((int)stk + 20)) = (u75 * (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x0))));
-                        *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x4)));
-                        *(float *)(((int)stk + 28)) = (*(float *)((((((int)stk + 4) + 0x70) + 0x24) + 0x8)));
+                        *(float *)(((int)stk + 20)) = (u75 * ((((struct o24_float *)((((int)stk + 4) + 0x70)))->v)));
+                        *(float *)(((int)stk + 24)) = ((((struct o4_float *)(((((int)stk + 4) + 0x70) + 0x24)))->v));
+                        *(float *)(((int)stk + 28)) = ((((struct o8_float *)(((((int)stk + 4) + 0x70) + 0x24)))->v));
                         nlCalcPoint((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x34));
                         camSetEye((((int)stk + 4) + 0x34), 0x0);
                         u84 = (-1.0f);
                         if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
                             u84 = 1.0f;
                         }
-                        *(float *)(((int)stk + 20)) = (u84 * (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x0))));
-                        *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x4)));
-                        *(float *)(((int)stk + 28)) = (*(float *)((((((int)stk + 4) + 0x40) + 0x24) + 0x8)));
+                        *(float *)(((int)stk + 20)) = (u84 * ((((struct o24_float *)((((int)stk + 4) + 0x40)))->v)));
+                        *(float *)(((int)stk + 24)) = ((((struct o4_float *)(((((int)stk + 4) + 0x40) + 0x24)))->v));
+                        *(float *)(((int)stk + 28)) = ((((struct o8_float *)(((((int)stk + 4) + 0x40) + 0x24)))->v));
                         nlCalcPoint((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x28));
                         camSetTarget((((int)stk + 4) + 0x28), 0x0);
                         nlPopMatrix(0x1);

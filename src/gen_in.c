@@ -3,6 +3,19 @@
 
 int kmiWriteRegister(int, int);
 int kmSetUserClipLevelAdjust(int a4, int a5);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o24_int { char p[0x24]; int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o34_int { char p[0x34]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int kmSetUserClipLevelAdjust(int a4, int a5)
 {
@@ -18,52 +31,52 @@ int kmSetUserClipLevelAdjust(int a4, int a5)
     int t49;
     int t16;
 
-    if ((*(int *)0xC2EA6B8) == 1) {
-        t1 = *(int *)0xC2EA944;
-        t2 = *(int *)0xC2EA6BC;
-        *(unsigned int *)0xC2EA898 = ((*(int *)0xC2EA898) - (((t2 * t1) << 2) << 1));
-        *(unsigned int *)0xC2EA89C = ((*(int *)0xC2EA89C) - (((t2 * t1) << 2) << 1));
+    if (((((struct o18_int *)0xC2EA6A0)->v)) == 1) {
+        t1 = (((struct o4_int *)0xC2EA940)->v);
+        t2 = (((struct o1C_int *)0xC2EA6A0)->v);
+        (((struct o0_uint *)0xC2EA898)->v) = (((((struct o0_int *)0xC2EA898)->v)) - (((t2 * t1) << 2) << 1));
+        (((struct o4_uint *)0xC2EA898)->v) = (((((struct o4_int *)0xC2EA898)->v)) - (((t2 * t1) << 2) << 1));
     }
     if (a4 != 0) {
         if (a4 == 1) {
             t14 = 0x0;
-            if (((*(int *)0xC2EA6A0) & 0x1) == 1) {
+            if ((((((struct o0_int *)0xC2EA6A0)->v)) & 0x1) == 1) {
                 t14 = 0x1;
             }
-            if ((t14 != 1) && (t16 = *(int *)0xC2EA6A0, (t16 & 32) == 0)) {
-                *(unsigned int *)0xC2EA6BC = 0x8;
+            if ((t14 != 1) && (t16 = (((struct o0_int *)0xC2EA6A0)->v), (t16 & 32) == 0)) {
+                (((struct o1C_uint *)0xC2EA6A0)->v) = 0x8;
             } else {
-                *(unsigned int *)0xC2EA6BC = 0x10;
+                (((struct o1C_uint *)0xC2EA6A0)->v) = 0x10;
             }
-            t21 = *(int *)0xC2EA944;
-            t22 = *(int *)0xC2EA6BC;
-            *(unsigned int *)0xC2EA898 = ((*(int *)0xC2EA898) + (((t22 * t21) << 2) << 1));
-            *(unsigned int *)0xC2EA89C = ((((t22 * t21) << 2) << 1) + (*(int *)0xC2EA89C));
+            t21 = (((struct o4_int *)0xC2EA940)->v);
+            t22 = (((struct o1C_int *)0xC2EA6A0)->v);
+            (((struct o0_uint *)0xC2EA898)->v) = (((((struct o0_int *)0xC2EA898)->v)) + (((t22 * t21) << 2) << 1));
+            (((struct o4_uint *)0xC2EA898)->v) = ((((t22 * t21) << 2) << 1) + ((((struct o4_int *)0xC2EA898)->v)));
         }
     } else {
-        *(unsigned int *)0xC2EA6BC = 0x0;
+        (((struct o1C_uint *)0xC2EA6A0)->v) = 0x0;
     }
-    t35 = *(int *)0xC2EA940;
-    t38 = *(int *)0xC2EA6C4;
+    t35 = (((struct o0_int *)0xC2EA940)->v);
+    t38 = (((struct o24_int *)0xC2EA6A0)->v);
     t39 = 0xC2EA6BC;
-    if ((int)(*(int *)0xC2EA6BC) < (int)(*(int *)0xC2EA6D4)) {
+    if ((int)((((struct o1C_int *)0xC2EA6A0)->v)) < (int)((((struct o34_int *)0xC2EA6A0)->v))) {
         t39 = 0xC2EA6D4;
     }
     t41 = *(int *)((t39 + 0x0));
     t49 = (t38 - t41);
-    if ((unsigned int)((*(int *)0xC2EA6D4) + (t38 - t41)) > (unsigned int)(*(int *)0xC2EA6C4)) {
-        t49 = ((*(int *)0xC2EA6C4) - (*(int *)0xC2EA6BC));
+    if ((unsigned int)(((((struct o34_int *)0xC2EA6A0)->v)) + (t38 - t41)) > (unsigned int)((((struct o24_int *)0xC2EA6A0)->v))) {
+        t49 = (((((struct o24_int *)0xC2EA6A0)->v)) - ((((struct o1C_int *)0xC2EA6A0)->v)));
     }
-    if ((unsigned int)(*(int *)0xC2EA6C4) < (unsigned int)t49) {
-        *(unsigned int *)0xC2EA6C4 = t49;
+    if ((unsigned int)((((struct o24_int *)0xC2EA6A0)->v)) < (unsigned int)t49) {
+        (((struct o24_uint *)0xC2EA6A0)->v) = t49;
     }
-    *(unsigned int *)0xC2EA940 = ((((t49 & 0x3FF) << 8) << 2) | (t35 & 0xFFF003FF));
+    (((struct o0_uint *)0xC2EA940)->v) = ((((t49 & 0x3FF) << 8) << 2) | (t35 & 0xFFF003FF));
     kmiWriteRegister(0x44, 0x0);
-    kmiWriteRegister(0x5C, (*(int *)0xC2EA940));
-    kmiWriteRegister(0x44, (*(int *)0xC2EA948));
-    *(unsigned int *)0xC2EA6B8 = a4;
+    kmiWriteRegister(0x5C, ((((struct o0_int *)0xC2EA940)->v)));
+    kmiWriteRegister(0x44, ((((struct o8_int *)0xC2EA940)->v)));
+    (((struct o18_uint *)0xC2EA6A0)->v) = a4;
     if (a5 != 0) {
-        *(unsigned int *)((a5 + 0x0)) = (*(int *)0xC2EA6BC);
+        *(unsigned int *)((a5 + 0x0)) = ((((struct o1C_int *)0xC2EA6A0)->v));
     }
     return 0x0;
 }

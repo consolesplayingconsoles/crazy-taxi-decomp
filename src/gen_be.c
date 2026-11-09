@@ -35,19 +35,22 @@ int mwRnaSetPlaySw(int a4, int a5)
     int t16;
     int t20;
     int stk[6];
+    int R1008;
 
-    *(unsigned int *)(((int)stk + 8)) = a5;
+    R1008 = *(int *)((int)stk + 8);
+
+    R1008 = a5;
     if (a4 == 0) {
         t0 = mwRnaErrCallFunc(0xC176680);
         return t0;
     }
     mwRnaLockCs((((int)stk + 8) + 0x4));
-    t2 = *(int *)(((int)stk + 8));
+    t2 = R1008;
     if (t2 == 0) {
         t3 = mwRnaGetPlaySw(a4);
         if (t3 != 0) {
             t4 = *(int *)((a4 + 0x38));
-            *(unsigned int *)(((int)stk + 8)) = t4;
+            R1008 = t4;
             t5 = *(int *)((t4 + 0x0));
             t6 = *(int *)((t5 + 0x14));
             t7 = ((int (*)(int))(t6))(t4);
@@ -55,12 +58,12 @@ int mwRnaSetPlaySw(int a4, int a5)
             *(unsigned char *)((a4 + 0x1)) = (t8 & 0x5);
         }
     } else {
-        t10 = *(int *)(((int)stk + 8));
+        t10 = R1008;
         if (t10 == 1) {
             t11 = mwRnaGetPlaySw(a4);
             if (t11 != 1) {
                 t12 = *(int *)((a4 + 0x38));
-                *(unsigned int *)(((int)stk + 8)) = t12;
+                R1008 = t12;
                 t13 = *(int *)((t12 + 0x0));
                 t14 = *(int *)((t13 + 0x10));
                 t15 = ((int (*)(int))(t14))(t12);

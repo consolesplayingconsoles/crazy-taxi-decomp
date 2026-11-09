@@ -3,8 +3,11 @@
 
 typedef struct { int w[2]; } Stk2;
 int Drv_SetMotion(int, float);
-int rinRand(Stk2);
+int rinRand(void);
 int Drv_StartGetOff(void);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int Drv_StartGetOff(void)
 {
@@ -28,13 +31,13 @@ int Drv_StartGetOff(void)
     { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x10)) = *(struct mv2 *)(0xC0D510C); }
     { struct mv2 { int w[2]; }; *(struct mv2 *)((((int)stk + 4) + 0x8)) = *(struct mv2 *)(0xC0D5114); }
     { struct mv2 { int w[2]; }; *(struct mv2 *)(((int)stk + 4)) = *(struct mv2 *)(0xC0D511C); }
-    v0_7 = *(int *)0xC2AD014;
+    v0_7 = (((struct o0_int *)0xC2AD014)->v);
     v0_2 = (v0_7);
-    v0_6 = ((*(int *)0xC2AD018));
+    v0_6 = (((((struct o4_int *)0xC2AD014)->v)));
     v0_0 = (0xC2AD000);
     v0_1 = (0xC2AE348);
     v0_3 = (0xC0D3068);
-    v0_4 = ((rinRand(*(Stk2 *)(((int)stk + 4)))));
+    v0_4 = ((rinRand()));
     v0_5 = (0xC0D3068);
     w0_0 = (0.0f);
     if ((v0_7 == 0)) goto L_C062898;

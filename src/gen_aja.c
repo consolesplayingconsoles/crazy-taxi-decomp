@@ -4,14 +4,12 @@ int MoveDefPosTbl(void);
 
 int MoveDefPosTbl(void)
 {
-    int t0;
     int t1;
     int t2;
 
-    t0 = *(int *)0xC0EDBB8;
-    t1 = (int)((int)(0xF2A10000 + t0) / (int)0x20);
-    if ((unsigned int)t0 < (unsigned int)0xCE98000) {
-        t2 = t0;
+    t2 = *(int *)0xC0EDBB8;
+    t1 = (int)((int)(0xF2A10000 + t2) / (int)0x20);
+    if ((unsigned int)t2 < (unsigned int)0xCE98000) {
         for (;;) {
             if ((*(int *)((t2 + 0x14))) != 0) {
                 *(unsigned int *)((t2 + 0x14)) = ((*(int *)((t2 + 0x14))) + (((t1 << 2) << 2) << 1));

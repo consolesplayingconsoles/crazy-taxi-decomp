@@ -6,6 +6,8 @@ int getNearLinkedLine(int, int, int, int, int, float);
 int nlGetAverageVector(int, int, int, float, float);
 float nlLength(int, int);
 float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4);
+struct o5C_int { char p[0x5C]; int v; };
+
 
 float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, float f4)
 {
@@ -64,6 +66,6 @@ float getCourseDistPoint(int a4, int a5, int a6, int a7, int a8, int a9, int a10
         if (!(0.000999999931f > _builtin_fabsf((u15 - u16)))) continue;
         break;
     }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((*(int *)(((((int)stk + 8) + 0x5C) + 0x0)))) = *(struct mv3 *)((((int)stk + 8) + 0x4)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((((struct o5C_int *)(((int)stk + 8)))->v))) = *(struct mv3 *)((((int)stk + 8) + 0x4)); }
     return t18;
 }

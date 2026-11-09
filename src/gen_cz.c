@@ -29,37 +29,39 @@ int mwSbClosePort(int a4);
 int mwSbPlay(int a4);
 int syMalloc_default_malloc(int a4);
 float Put_Transporter(int a4);
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o48_int { char p[0x48]; int v; };
+struct o4C_int { char p[0x4C]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o54_int { char p[0x54]; int v; };
+struct o58_short { char p[0x58]; short v; };
+struct o5A_short { char p[0x5A]; short v; };
+struct o5C_int { char p[0x5C]; int v; };
+
 
 int mwSbClosePort(int a4)
 {
     int t0;
     int t1;
-    int t2;
     int t6;
     int t7;
     int t8;
     int t9;
-    int t10;
-    int t11;
     int t12;
     int t13;
     int t14;
     int t15;
-    int t16;
-    int t17;
     int t18;
     int t20;
     int t23;
-    int t3;
 
     if (a4 != 0) {
         t0 = *(int *)((a4 + 0x18));
         if (t0 != 0) {
             t1 = *(short *)((a4 + 0x6));
-            t2 = nlsndStreamStop(t1);
-            t3 = t2;
+            t6 = nlsndStreamStop(t1);
         }
-        t6 = t3;
         t7 = 0x0;
         for (;;) {
             t8 = *(int *)((a4 + 0x8));
@@ -67,11 +69,9 @@ int mwSbClosePort(int a4)
                 break;
             }
             t9 = *(int *)((((t7 << 2) + (a4 + 0x2C)) + 0x0));
-            t10 = nlsndG2DmaHandleClose(t9);
-            t6 = t10;
+            t6 = nlsndG2DmaHandleClose(t9);
             if ((int)t6 < 0) {
-                t11 = mwRnaErrCallFunc(0xC176BE0);
-                t6 = t11;
+                t6 = mwRnaErrCallFunc(0xC176BE0);
             }
             t7 = (t7 + 0x1);
         }
@@ -83,11 +83,9 @@ int mwSbClosePort(int a4)
                 break;
             }
             t15 = *(int *)((((t13 << 2) + (a4 + 0x34)) + 0x0));
-            t16 = nlsndG2DmaHandleClose(t15);
-            t12 = t16;
+            t12 = nlsndG2DmaHandleClose(t15);
             if ((int)t12 < 0) {
-                t17 = mwRnaErrCallFunc(0xC176BE0);
-                t12 = t17;
+                t12 = mwRnaErrCallFunc(0xC176BE0);
             }
             t13 = (t13 + 0x1);
         }
@@ -142,20 +140,20 @@ int mwSbPlay(int a4)
         mwSbSetNumChan(a4, t8);
         t10 = *(int *)((a4 + 0x3C));
         mwSbSetVol(a4, t10);
-        t12 = *(int *)(((a4 + 0x40) + 0x0));
+        t12 = (((struct o40_int *)(a4))->v);
         mwSbSetPan(a4, 0x0, t12);
-        t14 = *(int *)((a4 + 0x44));
+        t14 = (((struct o44_int *)(a4))->v);
         mwSbSetPan(a4, 0x1, t14);
-        t16 = *(int *)((a4 + 0x4C));
-        t17 = *(int *)((a4 + 0x48));
+        t16 = (((struct o4C_int *)(a4))->v);
+        t17 = (((struct o48_int *)(a4))->v);
         mwSbSetExPrm(a4, 0x0, t17, t16);
-        t19 = *(int *)((a4 + 0x54));
-        t20 = *(int *)((a4 + 0x50));
+        t19 = (((struct o54_int *)(a4))->v);
+        t20 = (((struct o50_int *)(a4))->v);
         mwSbSetExPrm(a4, 0x1, t20, t19);
-        t22 = *(short *)((a4 + 0x5A));
-        t23 = *(short *)((a4 + 0x58));
+        t22 = (((struct o5A_short *)(a4))->v);
+        t23 = (((struct o58_short *)(a4))->v);
         mwSbSetExPrm(a4, 0x3, t23, t22);
-        t25 = *(int *)((a4 + 0x5C));
+        t25 = (((struct o5C_int *)(a4))->v);
         mwSbSetExPrm(a4, 0x2, t25, 0x0);
     }
     t29 = 0x2710;

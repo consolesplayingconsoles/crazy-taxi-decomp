@@ -33,6 +33,14 @@ int nlTranslateV(int);
 int replay(int);
 int trafficControl(int);
 int exec_loop_Replay(void);
+struct o0_int { int v; };
+struct o0_short { short v; };
+struct o2_short { char p[0x2]; short v; };
+struct o28_int { char p[0x28]; int v; };
+struct o28_short { char p[0x28]; short v; };
+struct o2C_short { char p[0x2C]; short v; };
+struct o4_short { char p[0x4]; short v; };
+
 
 int exec_loop_Replay(void)
 {
@@ -44,7 +52,7 @@ int exec_loop_Replay(void)
     ExecAdvCamera();
     camUpdate(0x0);
     Exec_Fog();
-    if ((*(int *)0xC1EE234) == 0) {
+    if (((((struct o28_int *)0xC1EE20C)->v)) == 0) {
         execPlayer();
     } else {
         execPlayerADV();
@@ -56,19 +64,19 @@ int exec_loop_Replay(void)
         }
         ExecSetObject();
         ExecKyakuArea();
-        if ((*(int *)0xC1EE20C) == 0) {
+        if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
             ExecHelicopter();
         }
         Act_Execute();
     } else {
         nlPushUnitMatrix();
         nlTranslateV(0xC179144);
-        nlRotateAY((unsigned short)(*(short *)0xC179152));
-        nlRotateAX((unsigned short)(*(short *)0xC179150));
-        nlRotateAZ((unsigned short)(*(short *)0xC179154));
+        nlRotateAY((unsigned short)((((struct o2_short *)0xC179150)->v)));
+        nlRotateAX((unsigned short)((((struct o0_short *)0xC179150)->v)));
+        nlRotateAZ((unsigned short)((((struct o4_short *)0xC179150)->v)));
         nlPushMatrix(0x0);
-        nlRotateAX((unsigned short)(*(short *)0xC179178));
-        nlRotateAZ((unsigned short)(*(short *)0xC17917C));
+        nlRotateAX((unsigned short)((((struct o28_short *)0xC179150)->v)));
+        nlRotateAZ((unsigned short)((((struct o2C_short *)0xC179150)->v)));
         nlTranslate(0.0f, -2.5f, 0.0f);
         nlGetMatrix(0xC179180);
         nlObjPutUseViewMatrix((*(int *)((((*(int *)0xC179488) << 2) + 0xC0E5324))));

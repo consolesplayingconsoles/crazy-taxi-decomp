@@ -17,9 +17,12 @@ int lcdResetData(int a4, int a5)
     int t9;
     int t10;
     int stk[10];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     if (a5 == 1) {
-        *(unsigned int *)(((int)stk + 4)) = 0x0;
+        R1004 = 0x0;
         t0 = 0x0;
         t1 = 0x0;
         t2 = 0x0;
@@ -40,9 +43,9 @@ int lcdResetData(int a4, int a5)
                     break;
                 }
             }
-            t10 = *(int *)(((int)stk + 4));
+            t10 = R1004;
             t0 = (t0 + 0x6);
-            *(unsigned int *)(((int)stk + 4)) = (t10 + 0x1);
+            R1004 = (t10 + 0x1);
             t1 = (t1 + 0x6);
             t2 = (t2 + 0x6);
             if ((int)(t10 + 0x1) >= (int)0x4) {

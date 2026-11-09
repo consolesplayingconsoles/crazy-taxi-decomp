@@ -17,6 +17,22 @@ int putCarModel(int, int, int, float);
 int putTrainModel(int, int, int, float);
 int replay(int, int, int, float);
 int entryCarPut(int a4, int a5, int a6, float f4);
+struct o78_int { char p[0x78]; int v; };
+struct o80_int { char p[0x80]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oB0_float { char p[0xB0]; float v; };
+struct oD4_int { char p[0xD4]; int v; };
+struct o0_uint { unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
+
 
 int entryCarPut(int a4, int a5, int a6, float f4)
 {
@@ -57,7 +73,7 @@ int entryCarPut(int a4, int a5, int a6, float f4)
     goto L_C044938;
     L_C044938:;
     *(unsigned int *)((R9 + 0x0)) = R13;
-    *(unsigned int *)0xC2A44A8 = R13;
+    (((struct o0_uint *)0xC2A44A8)->v) = R13;
     R4 = (0xC2A44CC);
     R5 = (R13);
     R6 = (0x64);
@@ -70,11 +86,11 @@ int entryCarPut(int a4, int a5, int a6, float f4)
     if (t6) goto L_C044944;
     goto L_C04494E;
     L_C04494E:;
-    *(unsigned int *)0xC2A44AC = R13;
+    (((struct o4_uint *)0xC2A44A8)->v) = R13;
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC2A44B0) = *(struct mv3 *)(0xC0A4788); }
-    *(float *)0xC2A44BC = 0.0f;
-    *(float *)0xC2A44C0 = 20.0f;
-    *(float *)0xC2A44C4 = -100.0f;
+    (((struct o14_float *)0xC2A44A8)->v) = 0.0f;
+    (((struct o18_float *)0xC2A44A8)->v) = 20.0f;
+    (((struct o1C_float *)0xC2A44A8)->v) = -100.0f;
     courseStatusInit(0x0);
     R0 = ((carBoxVertexInit()));
     goto L_C044B22;
@@ -97,28 +113,28 @@ int entryCarPut(int a4, int a5, int a6, float f4)
     L_C0449D0:;
     t21 = *(int *)((R10 + 0x0));
     R14 = (t21);
-    if ((((*(int *)((t21 + 0x84))) & R11) != 0)) goto L_C044A0E;
+    if (((((((struct o84_int *)(t21))->v)) & R11) != 0)) goto L_C044A0E;
     goto L_C0449DA;
     L_C0449DA:;
-    courseStatusEntry((*(int *)((R14 + 0x80))), (*(int *)((R14 + 0xD4))));
-    if (((int)(*(int *)((R14 + 0x78))) < (int)0xA)) goto L_C044A0E;
+    courseStatusEntry(((((struct o80_int *)(R14))->v)), ((((struct oD4_int *)(R14))->v)));
+    if (((int)((((struct o78_int *)(R14))->v)) < (int)0xA)) goto L_C044A0E;
     goto L_C0449EE;
     L_C0449EE:;
-    *(unsigned int *)(((int)stk + 8)) = (*(int *)((R14 + 0x80)));
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)((R14 + 0xD4))) - 1);
+    *(unsigned int *)(((int)stk + 8)) = ((((struct o80_int *)(R14))->v));
+    *(unsigned int *)(((int)stk + 4)) = (((((struct oD4_int *)(R14))->v)) - 1);
     getCoursePointMove((((int)stk + 4) + 0x4), ((int)stk + 4), 0x0);
     courseStatusEntry((*(int *)(((int)stk + 8))), (*(int *)(((int)stk + 4))));
     goto L_C044A0E;
     L_C044A0E:;
     nlProjectScreen3D((0x8C + R14), (((int)stk + 4) + 0xC));
-    t39 = (CheckClippingProject3D((((int)stk + 4) + 0xC), (*(float *)((R14 + 0xB0))))) == 0;
+    t39 = (CheckClippingProject3D((((int)stk + 4) + 0xC), ((((struct oB0_float *)(R14))->v)))) == 0;
     if (t39) goto L_C044AF8;
     goto L_C044A2A;
     L_C044A2A:;
     if ((!((*(float *)(((int)stk + 24))) > -1800.0f))) goto L_C044AF8;
     goto L_C044A36;
     L_C044A36:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) | 0x10000);
+    (((struct o84_uint *)(R14))->v) = (((((struct o84_int *)(R14))->v)) | 0x10000);
     R12 = (0x1);
     if ((!((*(float *)(((int)stk + 24))) > F14))) goto L_C044A5A;
     goto L_C044A4A;
@@ -138,10 +154,10 @@ int entryCarPut(int a4, int a5, int a6, float f4)
     L_C044A66:;
     nlPushMatrix(R4);
     nlTranslateV((0x8C + R14));
-    nlRotateAY((unsigned short)(*(short *)((R14 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((R14 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((R14 + 0xA8))));
-    if (((int)(*(int *)((R14 + 0x78))) >= (int)R11)) goto L_C044AA4;
+    nlRotateAY((unsigned short)((((struct oA6_short *)(R14))->v)));
+    nlRotateAX((unsigned short)((((struct oA4_short *)(R14))->v)));
+    nlRotateAZ((unsigned short)((((struct oA8_short *)(R14))->v)));
+    if (((int)((((struct o78_int *)(R14))->v)) >= (int)R11)) goto L_C044AA4;
     goto L_C044A9A;
     L_C044A9A:;
     putCarModel(R14, R12, R6, F4);
@@ -157,7 +173,7 @@ int entryCarPut(int a4, int a5, int a6, float f4)
     putTrainModel(R14, R12, R6, F4);
     goto L_C044AAA;
     L_C044AF8:;
-    *(unsigned int *)((R14 + 0x84)) = ((*(int *)((R14 + 0x84))) & 0xFFFEFFFF);
+    (((struct o84_uint *)(R14))->v) = (((((struct o84_int *)(R14))->v)) & 0xFFFEFFFF);
     goto L_C044B02;
     L_C044B16:;
     t69 = replay(0x0, R5, R6, F4);

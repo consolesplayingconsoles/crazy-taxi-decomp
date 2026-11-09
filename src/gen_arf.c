@@ -28,6 +28,31 @@ int sys_init(void);
 void nlInitLibrary0(int a4, int a5, int a6);
 int ADXSTM_OpenFname(int a4, int a5, int a6, int a7);
 int ADXT_StartAfs(int a4, int a5, int a6);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o14_short { char p[0x14]; short v; };
+struct o14_ushort { char p[0x14]; unsigned short v; };
+struct o16_short { char p[0x16]; short v; };
+struct o16_ushort { char p[0x16]; unsigned short v; };
+struct o18_short { char p[0x18]; short v; };
+struct o18_ushort { char p[0x18]; unsigned short v; };
+struct o1A_short { char p[0x1A]; short v; };
+struct o1A_ushort { char p[0x1A]; unsigned short v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o30_float { char p[0x30]; float v; };
+struct o34_float { char p[0x34]; float v; };
+struct o38_float { char p[0x38]; float v; };
+struct o3C_float { char p[0x3C]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 void nlInitLibrary0(int a4, int a5, int a6)
 {
@@ -36,13 +61,13 @@ void nlInitLibrary0(int a4, int a5, int a6)
     int t30;
     int t28;
 
-    *(unsigned int *)0xC2AED98 = 0x0;
+    (((struct o0_uint *)0xC2AED98)->v) = 0x0;
     if (a4 == 0) {
-        *(unsigned int *)0xC2AED98 = 0x1;
+        (((struct o0_uint *)0xC2AED98)->v) = 0x1;
     }
-    *(unsigned int *)0xC2AED9C = 0x0;
+    (((struct o4_uint *)0xC2AED98)->v) = 0x0;
     if ((a4 == 25) || ((a4 == 24) || ((a4 == 26) || (a4 == 27)))) {
-        *(unsigned int *)0xC2AED9C = 0x1;
+        (((struct o4_uint *)0xC2AED98)->v) = 0x1;
     }
     _builtin_set_imask(0xE);
     if ((int)(*(int *)0xA05F689C) >= (int)0x8) {
@@ -52,45 +77,45 @@ void nlInitLibrary0(int a4, int a5, int a6)
     }
     _builtin_set_gbr((void *)(0xC2B7BC0));
     sys_init();
-    *(unsigned short *)0xC2B3194 = 0x0;
-    *(unsigned short *)0xC2B3196 = 0x0;
+    (((struct o18_ushort *)0xC2B317C)->v) = 0x0;
+    (((struct o1A_ushort *)0xC2B317C)->v) = 0x0;
     if ((0x80 & a5) != 0) {
-        *(unsigned short *)0xC2B3194 = 0x1;
+        (((struct o18_ushort *)0xC2B317C)->v) = 0x1;
     }
     if ((0x8000 & a5) != 0) {
-        *(unsigned short *)0xC2B3196 = 0x1;
+        (((struct o1A_ushort *)0xC2B317C)->v) = 0x1;
     }
-    *(unsigned int *)0xC2AEDB8 = (*(int *)((((a5 & 0xF) << 2) + 0xC0D63D4)));
+    (((struct o20_uint *)0xC2AED98)->v) = (*(int *)((((a5 & 0xF) << 2) + 0xC0D63D4)));
     kmInitDevice((*(int *)(((((a4 << 1) + a4) << 2) + 0xC0D6284))));
-    if ((*(int *)0xC2AED9C) == 1) {
+    if (((((struct o4_int *)0xC2AED98)->v)) == 1) {
         kmSetPALEXTCallback(0xC074310);
     }
-    kmSetDisplayMode((*(int *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x4))), (*(int *)0xC2AEDB8), (*(short *)0xC2B3194), (*(short *)0xC2B3196));
-    *(unsigned short *)0xC2B3190 = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x8)));
-    *(unsigned short *)0xC2B3192 = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA)));
+    kmSetDisplayMode((*(int *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x4))), ((((struct o20_int *)0xC2AED98)->v)), ((((struct o18_short *)0xC2B317C)->v)), ((((struct o1A_short *)0xC2B317C)->v)));
+    (((struct o14_ushort *)0xC2B317C)->v) = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x8)));
+    (((struct o16_ushort *)0xC2B317C)->v) = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA)));
     nlSysInitStripContextBG(0xC2AF388);
     nlSysInitStripContextVtx(0xC2B29C8);
-    *(unsigned int *)0xC2B2FC8 = 0xC2B29C8;
-    *(unsigned int *)0xC2B2FCC = 0x0;
-    *(unsigned int *)0xC2B3180 = 0xFFFFFFFF;
-    *(unsigned int *)0xC2B3188 = 0x0;
-    *(unsigned int *)0xC2B3198 = 0x0;
-    *(unsigned int *)0xC2B317C = 0x0;
-    *(float *)0xC2B31AC = 0.0f;
-    *(float *)0xC2B31B0 = 0.0f;
-    *(float *)0xC2B31B4 = 0.0f;
-    *(float *)0xC2B31B8 = 0.0f;
-    *(unsigned int *)0xC2B319C = 0x0;
-    *(unsigned int *)0xC2B31A0 = 0x0;
-    *(unsigned int *)0xC2B31A4 = 0x0;
-    *(unsigned int *)0xC2B31A8 = 0x0;
-    *(float *)0xC2B7BE8 = 1.0f;
-    *(unsigned int *)0xC2B7C04 = 0x0;
-    t24 = *(short *)0xC2B3192;
-    t25 = *(short *)0xC2B3190;
+    (((struct o0_uint *)0xC2B2FC8)->v) = 0xC2B29C8;
+    (((struct o4_uint *)0xC2B2FC8)->v) = 0x0;
+    (((struct o4_uint *)0xC2B317C)->v) = 0xFFFFFFFF;
+    (((struct oC_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o1C_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o0_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o30_float *)0xC2B317C)->v) = 0.0f;
+    (((struct o34_float *)0xC2B317C)->v) = 0.0f;
+    (((struct o38_float *)0xC2B317C)->v) = 0.0f;
+    (((struct o3C_float *)0xC2B317C)->v) = 0.0f;
+    (((struct o20_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o24_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o28_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o2C_uint *)0xC2B317C)->v) = 0x0;
+    (((struct o0_float *)0xC2B7BE8)->v) = 1.0f;
+    (((struct o1C_uint *)0xC2B7BE8)->v) = 0x0;
+    t24 = (((struct o16_short *)0xC2B317C)->v);
+    t25 = (((struct o14_short *)0xC2B317C)->v);
     if (0x0 != 0) {
         t30 = (short)t24;
-        if ((*(short *)0xC2B3196) == 1) {
+        if (((((struct o1A_short *)0xC2B317C)->v)) == 1) {
             t28 = ((short)t24 + (short)t24);
             if ((int)((short)t24 + (short)t24) > (int)0x1E0) {
                 t28 = 0x1E0;
@@ -102,13 +127,13 @@ void nlInitLibrary0(int a4, int a5, int a6)
         nlSetWindowSize(0.0f, 0.0f, (float)t25, (float)(short)t24);
     }
     kmSetCullingRegister((*(float *)0xC074A34));
-    *(unsigned int *)0xFF000038 = 0xC;
-    *(unsigned int *)0xFF00003C = 0xC;
-    *(unsigned int *)0xC2AEDA0 = a6;
+    (((struct o0_uint *)0xFF000038)->v) = 0xC;
+    (((struct o4_uint *)0xFF000038)->v) = 0xC;
+    (((struct o8_uint *)0xC2AED98)->v) = a6;
     kmSetWaitVsyncCount(a6);
     nl_system_config_init(0x200000);
     nlSetFatalErrorMode(0x0);
-    *(unsigned int *)0xC2AEDC0 = 0x0;
+    (((struct o28_uint *)0xC2AED98)->v) = 0x0;
     _builtin_set_imask(0x0);
 }
 
@@ -116,30 +141,26 @@ int ADXSTM_OpenFname(int a4, int a5, int a6, int a7)
 {
     int t0;
     int t2;
-    int t7;
     int t14;
-    int t11;
-    int stk[8];
+    int stk[5];
 
-    *(unsigned int *)(((int)stk + 16)) = a5;
+    *(unsigned int *)(((int)stk + 4)) = a5;
     t0 = gdFsOpen(a4, 0x0, a6, a7);
     if (t0 == 0) {
         ADXERR_CallErrFunc(0xC176454, a4);
         t14 = 0x0;
     } else {
-        t2 = gdFsGetFileSize(t0, ((int)stk + 12));
+        t2 = gdFsGetFileSize(t0, ((int)stk + 0));
         if (t2 == 0) {
             ADXERR_CallErrFunc(0xC176484);
             gdFsClose(t0);
-            t11 = 0x0;
+            t14 = 0x0;
         } else {
-            t7 = ADXSTMF_Create(t0, 0x0, (*(int *)(((int)stk + 12))), (*(int *)(((int)stk + 16))));
-            if (t7 != 0) {
-                strncpy((t7 + 0x40), a4, 0x20);
+            t14 = ADXSTMF_Create(t0, 0x0, (*(int *)(((int)stk + 0))), (*(int *)(((int)stk + 4))));
+            if (t14 != 0) {
+                strncpy((t14 + 0x40), a4, 0x20);
             }
-            t11 = t7;
         }
-        t14 = t11;
     }
     return t14;
 }

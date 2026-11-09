@@ -2,8 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int ADXT_GetLpCnt(int a4);
+struct o4C_int { char p[0x4C]; int v; };
+
 
 int ADXT_GetLpCnt(int a4)
 {
-    return (*(int *)((a4 + 0x4C)));
+    return ((((struct o4C_int *)(a4))->v));
 }

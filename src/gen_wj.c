@@ -17,9 +17,12 @@ int getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
     float u19;
     float u20;
     float u22;
-    int stk[13];
+    int stk[12];
+    int R1004;
 
-    *(unsigned int *)(((int)stk + 4)) = a7;
+    R1004 = *(int *)((int)stk + 0);
+
+    R1004 = a7;
     t0 = getShortRootPoint(a7, a9, a5);
     if ((int)(abs(t0)) <= (int)0x1) {
         t2 = nlLength(a6, a8);
@@ -28,18 +31,18 @@ int getRootDistance(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
     } else {
         if ((int)t0 < 0) {
             t3 = (int)((int)(a9 + 0x1) % (int)a5);
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(((((t3 << 1) + t3) << 2) + a4)); }
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x4)) = *(struct mv3 *)(((((t3 << 1) + t3) << 2) + a4)); }
         } else {
             t4 = (int)((int)(a9 - 1) % (int)a5);
-            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)(((((t4 << 1) + t4) << 2) + a4)); }
+            { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0x4)) = *(struct mv3 *)(((((t4 << 1) + t4) << 2) + a4)); }
         }
-        t7 = *(int *)(((int)stk + 4));
-        *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + ((*(float *)((a6 + 0x0))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x0)))));
-        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + ((*(float *)((a6 + 0x4))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x4)))));
-        *(float *)(((int)stk + 16)) = ((*(float *)(((int)stk + 16))) + ((*(float *)((a6 + 0x8))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x8)))));
+        t7 = R1004;
+        *(float *)(((int)stk + 4)) = ((*(float *)(((int)stk + 4))) + ((*(float *)((a6 + 0x0))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x0)))));
+        *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + ((*(float *)((a6 + 0x4))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x4)))));
+        *(float *)(((int)stk + 12)) = ((*(float *)(((int)stk + 12))) + ((*(float *)((a6 + 0x8))) - (*(float *)((((((t7 << 1) + t7) << 2) + a4) + 0x8)))));
         t17 = abs(t0);
         u19 = 3e+02f;
-        u20 = (nlLength((((int)stk + 4) + 0x4), a8));
+        u20 = (nlLength((((int)stk + 0) + 0x4), a8));
         u20 = u20 + u19 * (float)(t17 - 1);
         *(float *)((a10 + 0x0)) = u20;
         u22 = u19;

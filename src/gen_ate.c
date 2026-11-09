@@ -5,6 +5,8 @@ int ADXRNA_SetPlaySw(int, int);
 int ADXT_GetStat(int);
 int mwRnaAdjustBuf(int);
 int ADXT_Pause(int a4, int a5);
+struct o72_uchar { char p[0x72]; unsigned char v; };
+
 
 int ADXT_Pause(int a4, int a5)
 {
@@ -12,7 +14,7 @@ int ADXT_Pause(int a4, int a5)
     int t3;
 
     t0 = ADXT_GetStat(a4);
-    *(unsigned char *)((a4 + 0x72)) = a5;
+    (((struct o72_uchar *)(a4))->v) = a5;
     if ((t0 != 3) && (t0 != 4)) {
         return t0;
     }

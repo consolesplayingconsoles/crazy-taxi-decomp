@@ -11,6 +11,16 @@ int nlsndG2DmaHandleClose(int);
 int nlsndG2DmaHandleOpen(void);
 int nlsndStreamGenerateHdInfo(int);
 int mwSbOpenPort(int a4);
+struct o48_uint { char p[0x48]; unsigned int v; };
+struct o4C_uint { char p[0x4C]; unsigned int v; };
+struct o50_uint { char p[0x50]; unsigned int v; };
+struct o54_uint { char p[0x54]; unsigned int v; };
+struct o58_ushort { char p[0x58]; unsigned short v; };
+struct o5A_ushort { char p[0x5A]; unsigned short v; };
+struct o60_uchar { char p[0x60]; unsigned char v; };
+struct o61_uchar { char p[0x61]; unsigned char v; };
+struct o62_ushort { char p[0x62]; unsigned short v; };
+
 
 int mwSbOpenPort(int a4)
 {
@@ -29,6 +39,9 @@ int mwSbOpenPort(int a4)
     int t34;
     int t40;
     int stk[12] = {0};
+    int R1008;
+
+    R1008 = *(int *)((int)stk + 8);
 
     if (((int)a4 >= (int)0x1) && ((int)a4 <= (int)0x2)) {
         t0 = mwlSbAlloc();
@@ -53,7 +66,7 @@ int mwSbOpenPort(int a4)
                                     return 0x0;
                                 }
                                 nlsndStreamGenerateHdInfo((*(int *)(((*(int *)((t0 + 0x1C))) + 0x4))));
-                                *(unsigned char *)((t0 + 0x60)) = 0x0;
+                                (((struct o60_uchar *)(t0))->v) = 0x0;
                                 *(unsigned char *)((t0 + 0x5)) = 0x0;
                                 *(unsigned int *)((t0 + 0x18)) = 0x0;
                                 *(unsigned int *)((t0 + 0xC)) = a4;
@@ -61,14 +74,14 @@ int mwSbOpenPort(int a4)
                                 *(unsigned int *)((t0 + 0x20)) = (nlsndStreamGetBufInfo((*(short *)((t0 + 0x6))), 0x0, (((int)stk + 8) + 0x4)));
                                 *(unsigned int *)((t0 + 0x24)) = (nlsndStreamGetBufInfo((*(short *)((t0 + 0x6))), 0x1, (((int)stk + 8) + 0x4)));
                                 *(unsigned int *)((t0 + 0x28)) = (*(int *)(((int)stk + 12)));
-                                *(unsigned int *)((t0 + 0x48)) = 0xFFFFFFFF;
-                                *(unsigned int *)((t0 + 0x4C)) = 0x0;
-                                *(unsigned int *)((t0 + 0x50)) = 0x0;
-                                *(unsigned int *)((t0 + 0x54)) = 0x0;
-                                *(unsigned short *)((t0 + 0x58)) = 0x0;
-                                *(unsigned short *)((t0 + 0x5A)) = 0x0;
-                                *(unsigned char *)((t0 + 0x61)) = 0xFFFFFFFF;
-                                *(unsigned short *)((t0 + 0x62)) = 0xFFFFFFFF;
+                                (((struct o48_uint *)(t0))->v) = 0xFFFFFFFF;
+                                (((struct o4C_uint *)(t0))->v) = 0x0;
+                                (((struct o50_uint *)(t0))->v) = 0x0;
+                                (((struct o54_uint *)(t0))->v) = 0x0;
+                                (((struct o58_ushort *)(t0))->v) = 0x0;
+                                (((struct o5A_ushort *)(t0))->v) = 0x0;
+                                (((struct o61_uchar *)(t0))->v) = 0xFFFFFFFF;
+                                (((struct o62_ushort *)(t0))->v) = 0xFFFFFFFF;
                                 *(unsigned char *)((t0 + 0x4)) = 0x1;
                                 return t0;
                             }
@@ -84,7 +97,7 @@ int mwSbOpenPort(int a4)
                         *(unsigned int *)((t20 + 0x0)) = t19;
                     }
                     mwRnaErrCallFunc(0xC176B10);
-                    *(unsigned int *)(((int)stk + 8)) = 0x0;
+                    R1008 = 0x0;
                     if ((int)t2 > 0) {
                         t22 = (t0 + 0x2C);
                         t23 = (t0 + 0x34);
@@ -94,8 +107,8 @@ int mwSbOpenPort(int a4)
                             }
                             *(unsigned int *)((t22 + 0x0)) = 0x0;
                             t22 = (t22 + 0x4);
-                            t29 = *(int *)(((int)stk + 8));
-                            *(unsigned int *)(((int)stk + 8)) = (t29 + 0x1);
+                            t29 = R1008;
+                            R1008 = (t29 + 0x1);
                             t23 = (t23 + 0x4);
                             if ((int)(t29 + 0x1) >= (int)t2) {
                                 break;
@@ -114,7 +127,7 @@ int mwSbOpenPort(int a4)
                 *(unsigned int *)((t31 + 0x0)) = t30;
             }
             mwRnaErrCallFunc(0xC176B10);
-            *(unsigned int *)(((int)stk + 8)) = 0x0;
+            R1008 = 0x0;
             if ((int)t2 > 0) {
                 t33 = (t0 + 0x2C);
                 t34 = (t0 + 0x2C);
@@ -124,8 +137,8 @@ int mwSbOpenPort(int a4)
                     }
                     *(unsigned int *)((t34 + 0x0)) = 0x0;
                     t34 = (t34 + 0x4);
-                    t40 = *(int *)(((int)stk + 8));
-                    *(unsigned int *)(((int)stk + 8)) = (t40 + 0x1);
+                    t40 = R1008;
+                    R1008 = (t40 + 0x1);
                     t33 = (t33 + 0x4);
                     if ((int)(t40 + 0x1) >= (int)t2) {
                         break;

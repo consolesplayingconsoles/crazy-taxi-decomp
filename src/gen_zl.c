@@ -3,6 +3,9 @@
 
 float nlScalor(int);
 int InitSetObject(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int InitSetObject(int a4, int a5, int a6, int a7, float f4)
 {
@@ -35,6 +38,8 @@ int InitSetObject(int a4, int a5, int a6, int a7, float f4)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -56,10 +61,10 @@ int InitSetObject(int a4, int a5, int a6, int a7, float f4)
     R4 = (0xC2757EC);
     R5 = (0xC2757E8);
     R7 = (0xC1EE20C);
-    if (((*(int *)0xC1EE20C) != 2)) goto L_C038438;
+    if ((((((struct o0_int *)0xC1EE20C)->v)) != 2)) goto L_C038438;
     goto L_C038426;
     L_C038426:;
-    if (((*(int *)0xC1EE214) == 9)) goto L_C038438;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) == 9)) goto L_C038438;
     goto L_C03842E;
     L_C03842E:;
     *(float *)((R5 + 0x0)) = 3.40282347e+38f;
@@ -89,7 +94,7 @@ int InitSetObject(int a4, int a5, int a6, int a7, float f4)
     if ((t24 != 2)) goto L_C038526;
     goto L_C0384DA;
     L_C0384DA:;
-    t29 = *(int *)0xC1EE214;
+    t29 = (((struct o8_int *)0xC1EE20C)->v);
     R0 = (t29);
     R6 = (t29);
     if ((t29 != 3)) goto L_C0384EA;
@@ -165,7 +170,7 @@ int InitSetObject(int a4, int a5, int a6, int a7, float f4)
     *(float *)((R4 + 0x0)) = 2000.0f;
     goto L_C038444;
     L_C0383C4:;
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)((R11 + 0x0)));
+    R1004 = (*(int *)((R11 + 0x0)));
     R13 = ((*(int *)((R11 + 0x4))));
     R9 = (R14);
     F15 = (F13);
@@ -182,8 +187,8 @@ int InitSetObject(int a4, int a5, int a6, int a7, float f4)
     R8 = ((R8 + 0x1));
     goto L_C038414;
     L_C0383D0:;
-    t63 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t63 + 0xC);
+    t63 = R1004;
+    R1004 = (t63 + 0xC);
     t64 = nlScalor(((t63 + 0xC) - 12));
     R0 = (0x4);
     F0 = (t64);

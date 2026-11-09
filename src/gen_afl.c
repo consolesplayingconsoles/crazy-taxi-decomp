@@ -3,26 +3,24 @@
 
 extern void _builtin_prefetch(void *);
 int PutRenderTexture(int a4);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int PutRenderTexture(int a4)
 {
     int t0;
     float u1;
     float u2;
-    int t3;
     float u5;
-    int t15;
-    int t18;
-    int t9;
-    int t12;
     int t7;
     int t20;
-    int t21;
     int t33;
     int t34;
     int t35;
     int t36;
-    int t37;
     int t38;
     int t39;
     int t40;
@@ -36,41 +34,35 @@ int PutRenderTexture(int a4)
     t0 = *(int *)0xC2B8CBC;
     if (a4 != 0) {
         u1 = 255.0f;
-        u2 = *(float *)0xC0EE904;
-        t3 = *(int *)(((t0 + 0x8) + 0x0));
+        u2 = (((struct o0_float *)0xC0EE904)->v);
+        t27 = *(int *)(((t0 + 0x8) + 0x0));
         u5 = (u2 * u1);
         if (!(2.14748365e+09f > (u2 * u1))) {
             u5 = ((u2 * u1) - (2.14748365e+09f + 2.14748365e+09f));
         }
         *(unsigned int *)0xC0EE7F8 = 0x949184F6;
-        t15 = ((((int)u5 << 16) << 8) | 0xFFFFFF);
-        t18 = 0xC0EE860;
+        t24 = ((((int)u5 << 16) << 8) | 0xFFFFFF);
+        t28 = 0xC0EE860;
         if (a4 == 2) {
         } else {
-            t9 = ((((int)u5 << 16) << 8) | 0xFFFFFF);
-            t12 = 0xC0EE810;
+            t24 = ((((int)u5 << 16) << 8) | 0xFFFFFF);
+            t28 = 0xC0EE810;
             if (a4 == 3) {
-                t7 = *(int *)0xC0EE914;
+                t7 = (((struct o10_int *)0xC0EE904)->v);
                 *(unsigned int *)0xC0EE7F8 = 0x208984F6;
-                t9 = (t7 | 0xFF000000);
-                t12 = 0xC0EE8B0;
+                t24 = (t7 | 0xFF000000);
+                t28 = 0xC0EE8B0;
             }
-            t15 = t9;
-            t18 = t12;
         }
-        t24 = t15;
-        t27 = t3;
-        t28 = t18;
     } else {
-        t20 = *(int *)0xC0EE914;
-        t21 = *(int *)(((t0 + 0x8) + 0x0));
+        t20 = (((struct o10_int *)0xC0EE904)->v);
+        t27 = *(int *)(((t0 + 0x8) + 0x0));
         *(unsigned int *)0xC0EE7F8 = 0x208984F6;
         t24 = (t20 | 0xFF000000);
-        t27 = t21;
         t28 = 0xC0EE810;
     }
-    *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t27 >> 16) >> 8);
-    *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t27 >> 16) >> 8);
+    (((struct o0_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t27 >> 16) >> 8);
+    (((struct o4_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t27 >> 16) >> 8);
     t33 = ((t27 & 0x3FFFFFF) | 0xE0000000);
     t34 = 0xC0EE7F0;
     t35 = 0xFF000038;
@@ -79,9 +71,8 @@ int PutRenderTexture(int a4)
         if (t36 == 0) {
             break;
         }
-        t37 = *(int *)((t34 + 0x0));
+        t35 = *(int *)((t34 + 0x0));
         t34 = (t34 + 0x4);
-        t35 = t37;
         t36 = (t36 - 1);
         *(unsigned int *)((t33 + 0x0)) = t35;
         t33 = (t33 + 0x4);

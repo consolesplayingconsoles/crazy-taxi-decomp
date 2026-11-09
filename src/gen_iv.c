@@ -32,11 +32,20 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
     int t80;
     int t85;
     int stk[13];
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
 
-    *(unsigned int *)(((int)stk + 4)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+
+    R1004 = a5;
+    R1008 = a6;
     if ((*(int *)((0xD4 + (*(int *)0xC178700)))) == 1) {
-        *(unsigned int *)(((int)stk + 16)) = (_builtin_get_imask());
+        R1016 = (_builtin_get_imask());
         _builtin_set_imask(0xF);
     }
     t9 = 0x0;
@@ -65,13 +74,13 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
     }
     syG2DmaSuspendAll();
     syG2FifoWaitEmpty();
-    t19 = *(int *)(((int)stk + 8));
+    t19 = R1008;
     if (t19 != 1) {
         if (t19 != 2) {
             if (t19 == 4) {
-                *(unsigned int *)(((int)stk + 8)) = (*(int *)(((int)stk + 4)));
-                *(unsigned int *)(((int)stk + 4)) = a4;
-                *(unsigned int *)(((int)stk + 12)) = (t9 << 2);
+                R1008 = (R1004);
+                R1004 = a4;
+                R1012 = (t9 << 2);
                 if ((int)a7 > 0) {
                     t24 = 0x0;
                     for (;;) {
@@ -82,15 +91,15 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                             t27 = t22;
                         }
                         t22 = t27;
-                        t23 = (*(int *)(((int)stk + 4)));
+                        t23 = (R1004);
                         t24 = (t24 + 0x1);
-                        t22 = (*(int *)(((int)stk + 8)));
+                        t22 = (R1008);
                         *(unsigned int *)((t22 + 0x0)) = (*(int *)((t23 + 0x0)));
-                        t22 = (*(int *)(((int)stk + 4)));
-                        t23 = (*(int *)(((int)stk + 12)));
+                        t22 = (R1004);
+                        t23 = (R1012);
                         t22 = (t22 + t23);
-                        *(unsigned int *)(((int)stk + 4)) = t22;
-                        *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + (t15 << 2));
+                        R1004 = t22;
+                        R1008 = ((R1008) + (t15 << 2));
                         if ((int)t24 >= (int)a7) {
                             break;
                         }
@@ -98,8 +107,8 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                 }
             }
         } else {
-            *(unsigned int *)(((int)stk + 8)) = (*(int *)(((int)stk + 4)));
-            *(unsigned int *)(((int)stk + 4)) = a4;
+            R1008 = (R1004);
+            R1004 = a4;
             if ((int)a7 > 0) {
                 t53 = 0x0;
                 for (;;) {
@@ -110,14 +119,14 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                         t56 = t51;
                     }
                     t51 = t56;
-                    t52 = (*(int *)(((int)stk + 4)));
+                    t52 = (R1004);
                     t53 = (t53 + 0x1);
-                    t51 = (*(int *)(((int)stk + 8)));
+                    t51 = (R1008);
                     *(unsigned short *)((t51 + 0x0)) = (*(short *)((t52 + 0x0)));
-                    t52 = (*(int *)(((int)stk + 4)));
+                    t52 = (R1004);
                     t52 = (t52 + (t9 << 1));
-                    *(unsigned int *)(((int)stk + 4)) = t52;
-                    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + (t15 << 1));
+                    R1004 = t52;
+                    R1008 = ((R1008) + (t15 << 1));
                     if ((int)t53 >= (int)a7) {
                         break;
                     }
@@ -125,9 +134,9 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
             }
         }
     } else {
-        t78 = *(int *)(((int)stk + 4));
-        *(unsigned int *)(((int)stk + 8)) = t78;
-        *(unsigned int *)(((int)stk + 4)) = a4;
+        t78 = R1004;
+        R1008 = t78;
+        R1004 = a4;
         if ((int)a7 > 0) {
             t81 = t78;
             t82 = 0x0;
@@ -139,14 +148,14 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
                     t85 = t80;
                 }
                 t80 = t85;
-                t81 = (*(int *)(((int)stk + 4)));
+                t81 = (R1004);
                 t82 = (t82 + 0x1);
-                t80 = (*(int *)(((int)stk + 8)));
+                t80 = (R1008);
                 *(unsigned char *)((t80 + 0x0)) = (*(signed char *)((t81 + 0x0)));
-                t81 = (*(int *)(((int)stk + 4)));
+                t81 = (R1004);
                 t81 = (t81 + t9);
-                *(unsigned int *)(((int)stk + 4)) = t81;
-                *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + t15);
+                R1004 = t81;
+                R1008 = ((R1008) + t15);
                 if ((int)t82 >= (int)a7) {
                     break;
                 }
@@ -155,7 +164,7 @@ int syG2Write(int a4, int a5, int a6, int a7, int a8, int a9)
     }
     syG2DmaResumeAll();
     if ((*(int *)((0xD4 + (*(int *)0xC178700)))) == 1) {
-        _builtin_set_imask(((unsigned int)((((*(int *)(((int)stk + 16))) & 0xF) << 2) << 2) >> 4));
+        _builtin_set_imask(((unsigned int)((((R1016) & 0xF) << 2) << 2) >> 4));
     }
     return 0x0;
 }

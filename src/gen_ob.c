@@ -3,7 +3,7 @@
 
 int Put_Remain_Time_Add(void);
 int Put_Remain_Time_Frame(int, int, int);
-int Put_Remain_Time_Gauge(int, int, int, int);
+int Put_Remain_Time_Gauge(void);
 int ResetFadeColor(void);
 int Sound_Request(int, int);
 int Voice_Request(int, int, int, int);
@@ -11,6 +11,14 @@ int Voice_ShutUp(int);
 int nlObjPutSetFadeColor(float, float, float);
 extern int nlSprPut();
 int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct o0_float { float v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+
+
 
 int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
@@ -96,11 +104,11 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C053C16:;
     R1004 = ((int)((int)R4 / (int)0xA));
     R1008 = ((int)((int)R4 % (int)0xA));
-    Put_Remain_Time_Gauge(R4, R5, R6, R7);
-    *(unsigned int *)0xC2A7FB0 = 0x200E;
-    *(float *)0xC2A7FA0 = F15;
-    *(float *)0xC2A7F90 = F15;
-    *(unsigned int *)0xC2A7FA4 = 0x0;
+    Put_Remain_Time_Gauge();
+    (((struct o20_uint *)0xC2A7F90)->v) = 0x200E;
+    (((struct o10_float *)0xC2A7F90)->v) = F15;
+    (((struct o0_float *)0xC2A7F90)->v) = F15;
+    (((struct o14_uint *)0xC2A7F90)->v) = 0x0;
     R10 = (0xC0D0C08);
     R13 = (0xC2A7F7C);
     R9 = (0xC07DF00);
@@ -124,8 +132,8 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     goto L_C053C70;
     L_C053C70:;
     nlObjPutSetFadeColor(F4, F5, F6);
-    *(float *)((R13 + 0x4)) = F13;
-    *(float *)((R13 + 0x8)) = F12;
+    (((struct o4_float *)(R13))->v) = F13;
+    (((struct o8_float *)(R13))->v) = F12;
     if ((R11 == 0)) goto L_C053D0A;
     goto L_C053C80;
     L_C053C80:;
@@ -134,10 +142,10 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     goto L_C053D0A;
     L_C053D0A:;
     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1004) << 2))));
-    *(float *)((R13 + 0x4)) = 74.0f;
+    (((struct o4_float *)(R13))->v) = 74.0f;
     t47 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1008) << 2))));
-    *(float *)((R13 + 0x4)) = 116.0f;
+    (((struct o4_float *)(R13))->v) = 116.0f;
     t51 = ((int (*)(int))(nlSprPut))(0xC2A7F7C);
     goto L_C053D32;
     L_C053D32:;
@@ -254,8 +262,8 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     goto L_C053CE8;
     L_C053CE8:;
     nlObjPutSetFadeColor(F15, F14, F14);
-    *(float *)((R13 + 0x4)) = F13;
-    *(float *)((R13 + 0x8)) = F12;
+    (((struct o4_float *)(R13))->v) = F13;
+    (((struct o8_float *)(R13))->v) = F12;
     if ((R11 == 0)) goto L_C053D0A;
     goto L_C053CFC;
     L_C053CFC:;

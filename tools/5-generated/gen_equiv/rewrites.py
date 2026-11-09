@@ -460,3 +460,15 @@ def drop_dead_frame(text):
             keep.pop(0)
         return m.group(1) + '\n'.join(keep) + m.group(3)
     return re.sub(r'(^\{\n)(.*?)(\n\}$)', one, text, flags=re.M | re.S)
+
+
+def function_names(text):
+    """The names of the functions a unit's text defines."""
+    return re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\n\{', text, re.M)
+
+
+def by_function_size(unit_funcs, size, least):
+    """The units of {unit: [function]} that hold a function of at least `least` bytes (size: {function: bytes}), the one with the
+    largest such function first; ties by name. A unit with none is left out."""
+    best = {u: max((size.get(n, 0) for n in names), default=0) for u, names in unit_funcs.items()}
+    return sorted((u for u in best if best[u] >= least), key=lambda u: (-best[u], u))

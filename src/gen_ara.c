@@ -7,14 +7,17 @@ int SetScreen(int);
 int SetWindow(int);
 int gdc_StopStreamSongDisk(void);
 int windowGoMenu(void);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int windowGoMenu(void)
 {
     int t0;
     int t1;
 
-    *(unsigned int *)0xC1EE234 = 0x3;
-    *(unsigned int *)0xC1EE238 = 0x0;
+    (((struct o0_uint *)0xC1EE234)->v) = 0x3;
+    (((struct o4_uint *)0xC1EE234)->v) = 0x0;
     t0 = GetMenuMode(0x0);
     t1 = 0x1;
     if ((int)t0 <= (int)0x1) {

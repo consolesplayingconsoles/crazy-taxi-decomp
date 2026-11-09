@@ -3,6 +3,10 @@
 
 int nlsndSeqRequest(int);
 int menuCursor(int a4, int a5, int a6);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int menuCursor(int a4, int a5, int a6)
 {
@@ -26,14 +30,20 @@ int menuCursor(int a4, int a5, int a6)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    int R1008;
+    int R1012;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     L_C03BB48:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
-    *(unsigned int *)(((int)stk + 8)) = R6;
+    R1004 = R5;
+    R1008 = R6;
     t0 = *(int *)((((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x0));
-    *(unsigned int *)(((int)stk + 12)) = (*(int *)((((t0 << 2) + (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x4)) + 0x0)));
+    R1012 = (*(int *)((((t0 << 2) + (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x4)) + 0x0)));
     R12 = (0x0);
     R14 = (((t0 << 2) + (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8) + 0x4)));
     R5 = (((signed char)((short)R4 * (short)0x1C) + 0xC2A11D8));
@@ -46,7 +56,7 @@ int menuCursor(int a4, int a5, int a6)
     R10 = (0xC07F5C0);
     R11 = (0x8);
     R13 = (0xC2A11CC);
-    R4 = ((*(int *)0xC2A11CC));
+    R4 = (((((struct o0_int *)0xC2A11CC)->v)));
     R6 = (0x4);
     if ((((*(int *)((R5 + 0x14))) & 0x4) == 0)) goto L_C03BC1A;
     goto L_C03BB94;
@@ -62,7 +72,7 @@ int menuCursor(int a4, int a5, int a6)
     goto L_C03BC1A;
     L_C03BC1A:;
     t23 = *(int *)((R14 + 0x0));
-    if (((((int)0x1 << (int)t23) & (*(int *)(((int)stk + 8)))) == 0)) goto L_C03BC2E;
+    if (((((int)0x1 << (int)t23) & (R1008)) == 0)) goto L_C03BC2E;
     goto L_C03BC26;
     L_C03BC26:;
     if ((R12 != 0)) goto L_C03BBCA;
@@ -72,7 +82,7 @@ int menuCursor(int a4, int a5, int a6)
     L_C03BC0A:;
     t27 = *(int *)((R14 + 0x0));
     *(unsigned int *)((R14 + 0x0)) = (t27 + 0x1);
-    if (((int)(t27 + 0x1) < (int)(*(int *)(((int)stk + 4))))) goto L_C03BC1A;
+    if (((int)(t27 + 0x1) < (int)(R1004))) goto L_C03BC1A;
     goto L_C03BC16;
     L_C03BC16:;
     *(unsigned int *)((R14 + 0x0)) = 0x0;
@@ -95,23 +105,23 @@ int menuCursor(int a4, int a5, int a6)
     if (((int)(t37 - 1) >= 0)) goto L_C03BC1A;
     goto L_C03BBEA;
     L_C03BBEA:;
-    *(unsigned int *)((R14 + 0x0)) = ((*(int *)(((int)stk + 4))) - 1);
+    *(unsigned int *)((R14 + 0x0)) = ((R1004) - 1);
     goto L_C03BC1A;
     L_C03BBF2:;
     R5 = (0x10);
     if (((R4 & 0x10) != 0)) goto L_C03BC08;
     goto L_C03BBF8;
     L_C03BBF8:;
-    if (((*(int *)0xC2A11D4) != 0)) goto L_C03BC1A;
+    if ((((((struct o8_int *)0xC2A11CC)->v)) != 0)) goto L_C03BC1A;
     goto L_C03BC00;
     L_C03BC00:;
-    if ((((*(int *)0xC2A11D0) & R5) == 0)) goto L_C03BC1A;
+    if (((((((struct o4_int *)0xC2A11CC)->v)) & R5) == 0)) goto L_C03BC1A;
     goto L_C03BC08;
     L_C03BC08:;
     R12 = (0x1);
     goto L_C03BC0A;
     L_C03BC2E:;
-    if (((*(int *)((R14 + 0x0))) == (*(int *)(((int)stk + 12))))) goto L_C03BC40;
+    if (((*(int *)((R14 + 0x0))) == (R1012))) goto L_C03BC40;
     goto L_C03BC36;
     L_C03BC36:;
     nlsndSeqRequest(0x404A9);

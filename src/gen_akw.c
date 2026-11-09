@@ -2,6 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 void navi_GetRouteYa(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 void navi_GetRouteYa(int a4, int a5, int a6, int a7)
 {
@@ -54,16 +59,26 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     int R14;
     float F3;
     int T_;
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
+    int R1020;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C02B2D6:;
-    t0 = *(int *)0xC1EE1F8;
-    t2 = *(int *)0xC1EE1E0;
-    t3 = *(int *)0xC1EE1FC;
-    *(unsigned int *)(((int)stk + 8)) = (*(int *)0xC1EE1E4);
-    *(unsigned int *)(((int)stk + 12)) = (*(int *)0xC2A6690);
+    t0 = (((struct o18_int *)0xC1EE1E0)->v);
+    t2 = (((struct o0_int *)0xC1EE1E0)->v);
+    t3 = (((struct o1C_int *)0xC1EE1E0)->v);
+    R1008 = ((((struct o4_int *)0xC1EE1E0)->v));
+    R1012 = (*(int *)0xC2A6690);
     R10 = (t2);
     R11 = (t0);
     R6 = (t3);
@@ -72,7 +87,7 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     if ((t0 != t2)) goto L_C02B35C;
     goto L_C02B308;
     L_C02B308:;
-    t11 = *(int *)(((int)stk + 8));
+    t11 = R1008;
     t12 = (int)(int)_builtin_fabsf((float)(R6 - t11)) > (int)0x8;
     R5 = ((int)_builtin_fabsf((float)(R6 - t11)));
     R6 = ((R6 - t11));
@@ -86,20 +101,20 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     L_C02B89E:;
     return;
     L_C02B320:;
-    if (((int)(*(int *)((R7 + 0x0))) <= (int)(*(int *)0xC1EE1FC))) goto L_C02B32E;
+    if (((int)(*(int *)((R7 + 0x0))) <= (int)((((struct o1C_int *)0xC1EE1E0)->v)))) goto L_C02B32E;
     goto L_C02B32A;
     L_C02B32A:;
     goto L_C02B6DC;
     L_C02B6DC:;
-    t18 = *(int *)0xC1EE1F8;
-    t20 = *(int *)0xC1EE1FC;
+    t18 = (((struct o18_int *)0xC1EE1E0)->v);
+    t20 = (((struct o1C_int *)0xC1EE1E0)->v);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((((t18 << 1) + t18) << 2) + (*(int *)0xC2A6690)) + R8) + 0x0))) + (((t20 << 1) + t20) << 2)) + 0x24)); }
     goto L_C02B89E;
     L_C02B32E:;
     goto L_C02B7E2;
     L_C02B7E2:;
-    t22 = *(int *)0xC1EE1F8;
-    t24 = *(int *)0xC1EE1FC;
+    t22 = (((struct o18_int *)0xC1EE1E0)->v);
+    t24 = (((struct o1C_int *)0xC1EE1E0)->v);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((((t22 << 1) + t22) << 2) + (*(int *)0xC2A6690)) + R8) + 0x0))) + (((t24 << 1) + t24) << 2)) - 36)); }
     goto L_C02B89E;
     L_C02B35C:;
@@ -111,18 +126,18 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     goto L_C02B5EC;
     L_C02B5EC:;
     t29 = *(int *)((((R10 << 2) + R7) + 0x0));
-    *(unsigned int *)(((int)stk + 16)) = 0x270F;
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R1016 = 0x270F;
+    R1004 = 0x0;
     R7 = ((t29 + (((R11 - R10) - 1) * 0x1E)));
     goto L_C02B68E;
     L_C02B68E:;
-    if (((int)(*(int *)(((int)stk + 4))) < (int)0x3)) goto L_C02B610;
+    if (((int)(R1004) < (int)0x3)) goto L_C02B610;
     goto L_C02B696;
     L_C02B696:;
-    if (((int)(*(int *)(((int)stk + 16))) > (int)0x8)) goto L_C02B6AC;
+    if (((int)(R1016) > (int)0x8)) goto L_C02B6AC;
     goto L_C02B69E;
     L_C02B6AC:;
-    t35 = *(int *)(((int)stk + 20));
+    t35 = R1020;
     R14 = ((signed char)((t35 << 2) + t35));
     if (((*(signed char *)((R9 + ((R7 + 0xF) + (signed char)((t35 << 2) + t35))))) == -1)) goto L_C02B6C8;
     goto L_C02B6C4;
@@ -136,13 +151,13 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     goto L_C02B826;
     L_C02B826:;
     t42 = *(signed char *)(((R9 - 1) + (R7 + R14)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((((t42 << 1) + t42) << 2) + (*(int *)(((int)stk + 12)))) + R8) + 0x0))) - (((R6 << 1) + R6) << 2)) + 0x18)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((((t42 << 1) + t42) << 2) + (R1012)) + R8) + 0x0))) - (((R6 << 1) + R6) << 2)) + 0x18)); }
     goto L_C02B89E;
     L_C02B85A:;
     t45 = *(signed char *)(((R9 - 1) + (R7 + R14)));
-    *(unsigned int *)(((int)stk + 8)) = t45;
-    t49 = *(int *)((R5 + ((*(int *)(((int)stk + 8))) << 2)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((*(int *)(((((((t45 << 1) + t45) << 2) + (*(int *)(((int)stk + 12)))) + R8) + 0x0))) + (((R6 << 1) + R6) << 2)) + (((t49 << 1) + t49) << 2)) - 36)); }
+    R1008 = t45;
+    t49 = *(int *)((R5 + ((R1008) << 2)));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((*(int *)(((((((t45 << 1) + t45) << 2) + (R1012)) + R8) + 0x0))) + (((R6 << 1) + R6) << 2)) + (((t49 << 1) + t49) << 2)) - 36)); }
     goto L_C02B89E;
     L_C02B6C8:;
     if (((int)(R6 + 0x3) >= (int)(*(int *)((R5 + ((*(signed char *)((R9 + (R7 + R14)))) << 2)))))) goto L_C02B724;
@@ -151,23 +166,23 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     if (((*(signed char *)(((R9 - 1) + ((R7 + 0xF) + R14)))) != -1)) goto L_C02B782;
     goto L_C02B736;
     L_C02B736:;
-    *(unsigned int *)(((int)stk + 8)) = (R14 + R7);
+    R1008 = (R14 + R7);
     t55 = *(signed char *)((((R14 + R7) + (R9 - 1)) + 0x0));
-    t60 = *(int *)(((((*(signed char *)((R9 + (*(int *)(((int)stk + 8)))))) << 2) + R5) + 0x0));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((((R6 << 1) + R6) << 2) + (*(int *)(((((((t55 << 1) + t55) << 2) + (*(int *)(((int)stk + 12)))) + R8) + 0x0)))) - (((t60 << 1) + t60) << 2)) + 0x24)); }
+    t60 = *(int *)(((((*(signed char *)((R9 + (R1008)))) << 2) + R5) + 0x0));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((((R6 << 1) + R6) << 2) + (*(int *)(((((((t55 << 1) + t55) << 2) + (R1012)) + R8) + 0x0)))) - (((t60 << 1) + t60) << 2)) + 0x24)); }
     R14 = (((R14 + R7) + (R9 - 1)));
     goto L_C02B89E;
     L_C02B782:;
-    *(unsigned int *)(((int)stk + 8)) = (R14 + R7);
+    R1008 = (R14 + R7);
     t62 = *(signed char *)((((R14 + R7) + (R9 - 1)) + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = t62;
-    t66 = *(int *)(((((*(int *)(((int)stk + 4))) << 2) + R5) + 0x0));
-    t69 = *(int *)(((((*(signed char *)((R9 + (*(int *)(((int)stk + 8)))))) << 2) + R5) + 0x0));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((((t66 << 1) + t66) << 2) + (*(int *)(((((((t62 << 1) + t62) << 2) + (*(int *)(((int)stk + 12)))) + R8) + 0x0)))) - (((((R6 - t69) + 0x4) << 1) + ((R6 - t69) + 0x4)) << 2))); }
+    R1004 = t62;
+    t66 = *(int *)(((((R1004) << 2) + R5) + 0x0));
+    t69 = *(int *)(((((*(signed char *)((R9 + (R1008)))) << 2) + R5) + 0x0));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((((t66 << 1) + t66) << 2) + (*(int *)(((((((t62 << 1) + t62) << 2) + (R1012)) + R8) + 0x0)))) - (((((R6 - t69) + 0x4) << 1) + ((R6 - t69) + 0x4)) << 2))); }
     R14 = (((R14 + R7) + (R9 - 1)));
     goto L_C02B89E;
     L_C02B610:;
-    t71 = *(int *)(((int)stk + 4));
+    t71 = R1004;
     R14 = ((signed char)((t71 << 2) + t71));
     if (((*(signed char *)(((signed char)((t71 << 2) + t71) + R7))) == -1)) goto L_C02B688;
     goto L_C02B624;
@@ -176,7 +191,7 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     if (((*(signed char *)((R14 + (R7 + 0xF)))) != 1)) goto L_C02B640;
     goto L_C02B632;
     L_C02B632:;
-    R12 = (((*(int *)((R5 + (R10 << 2)))) - (*(int *)(((int)stk + 8)))));
+    R12 = (((*(int *)((R5 + (R10 << 2)))) - (R1008)));
     goto L_C02B642;
     L_C02B642:;
     goto L_C02B650;
@@ -191,15 +206,15 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     R12 = ((R12 + R6));
     goto L_C02B67A;
     L_C02B67A:;
-    if (((int)R12 >= (int)(*(int *)(((int)stk + 16))))) goto L_C02B688;
+    if (((int)R12 >= (int)(R1016))) goto L_C02B688;
     goto L_C02B680;
     L_C02B680:;
-    *(unsigned int *)(((int)stk + 16)) = R12;
-    *(unsigned int *)(((int)stk + 20)) = (*(int *)(((int)stk + 4)));
+    R1016 = R12;
+    R1020 = (R1004);
     R9 = (R13);
     goto L_C02B688;
     L_C02B688:;
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x1);
+    R1004 = ((R1004) + 0x1);
     goto L_C02B68E;
     L_C02B66E:;
     R12 = ((R12 + ((*(int *)((R5 + (R11 << 2)))) - R6)));
@@ -209,11 +224,11 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     R13 = ((R13 + 0x1));
     goto L_C02B650;
     L_C02B640:;
-    R12 = ((*(int *)(((int)stk + 8))));
+    R12 = ((R1008));
     goto L_C02B642;
     L_C02B368:;
     t100 = *(int *)((R7 + (R11 << 2)));
-    *(unsigned int *)(((int)stk + 16)) = 0x270F;
+    R1016 = 0x270F;
     R14 = (0x0);
     R7 = (((((R10 - R11) - 1) * 0x1E) + t100));
     goto L_C02B432;
@@ -221,7 +236,7 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     if (((int)R14 < (int)0x3)) goto L_C02B388;
     goto L_C02B438;
     L_C02B438:;
-    if (((int)(*(int *)(((int)stk + 16))) > (int)0x8)) goto L_C02B444;
+    if (((int)(R1016) > (int)0x8)) goto L_C02B444;
     goto L_C02B440;
     L_C02B440:;
     goto L_C02B69E;
@@ -237,18 +252,18 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     if (((*(signed char *)((((signed char)((R9 << 2) + R9) + (R7 + 0xF)) + 0x1))) != 1)) goto L_C02B4E2;
     goto L_C02B492;
     L_C02B492:;
-    *(unsigned int *)(((int)stk + 8)) = ((signed char)((R9 << 2) + R9) + R7);
+    R1008 = ((signed char)((R9 << 2) + R9) + R7);
     t113 = *(signed char *)((((signed char)((R9 << 2) + R9) + R7) + 0x1));
-    t118 = *(int *)((R5 + ((*(signed char *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((*(int *)(((((*(int *)(((int)stk + 12))) + (((t113 << 1) + t113) << 2)) + R8) + 0x0))) + (((R6 << 1) + R6) << 2)) - (((t118 << 1) + t118) << 2)) + 0x24)); }
+    t118 = *(int *)((R5 + ((*(signed char *)(((R1008) + 0x0))) << 2)));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)(((((*(int *)(((((R1012) + (((t113 << 1) + t113) << 2)) + R8) + 0x0))) + (((R6 << 1) + R6) << 2)) - (((t118 << 1) + t118) << 2)) + 0x24)); }
     goto L_C02B89E;
     L_C02B4E2:;
-    *(unsigned int *)(((int)stk + 8)) = ((signed char)((R9 << 2) + R9) + R7);
+    R1008 = ((signed char)((R9 << 2) + R9) + R7);
     t119 = *(signed char *)((((signed char)((R9 << 2) + R9) + R7) + 0x1));
-    *(unsigned int *)(((int)stk + 4)) = t119;
-    t123 = *(int *)((R5 + ((*(int *)(((int)stk + 4))) << 2)));
-    t126 = *(int *)((R5 + ((*(signed char *)(((*(int *)(((int)stk + 8))) + 0x0))) << 2)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((*(int *)(((int)stk + 12))) + (((t119 << 1) + t119) << 2)) + R8) + 0x0))) + (((t123 << 1) + t123) << 2)) - (((((R6 - t126) + 0x4) << 1) + ((R6 - t126) + 0x4)) << 2))); }
+    R1004 = t119;
+    t123 = *(int *)((R5 + ((R1004) << 2)));
+    t126 = *(int *)((R5 + ((*(signed char *)(((R1008) + 0x0))) << 2)));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((R1012) + (((t119 << 1) + t119) << 2)) + R8) + 0x0))) + (((t123 << 1) + t123) << 2)) - (((((R6 - t126) + 0x4) << 1) + ((R6 - t126) + 0x4)) << 2))); }
     goto L_C02B89E;
     L_C02B53A:;
     if (((int)(R6 - 3) < 0)) goto L_C02B548;
@@ -260,13 +275,13 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     goto L_C02B560;
     L_C02B560:;
     t130 = *(signed char *)((((signed char)((R9 << 2) + R9) + R7) + 0x1));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((*(int *)(((int)stk + 12))) + (((t130 << 1) + t130) << 2)) + R8) + 0x0))) - (((R6 << 1) + R6) << 2)) + 0x18)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((R1012) + (((t130 << 1) + t130) << 2)) + R8) + 0x0))) - (((R6 << 1) + R6) << 2)) + 0x18)); }
     goto L_C02B89E;
     L_C02B59A:;
     t133 = *(signed char *)((((signed char)((R9 << 2) + R9) + R7) + 0x1));
-    *(unsigned int *)(((int)stk + 8)) = t133;
-    t136 = *(int *)((R5 + ((*(int *)(((int)stk + 8))) << 2)));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((*(int *)(((int)stk + 12))) + (((t133 << 1) + t133) << 2)) + R8) + 0x0))) + (((t136 << 1) + t136) << 2)) + ((((R6 - 3) << 1) + (R6 - 3)) << 2))); }
+    R1008 = t133;
+    t136 = *(int *)((R5 + ((R1008) << 2)));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(R4) = *(struct mv3 *)((((*(int *)(((((R1012) + (((t133 << 1) + t133) << 2)) + R8) + 0x0))) + (((t136 << 1) + t136) << 2)) + ((((R6 - 3) << 1) + (R6 - 3)) << 2))); }
     goto L_C02B89E;
     L_C02B388:;
     if (((*(signed char *)((R7 + (signed char)((R14 << 2) + R14)))) == -1)) goto L_C02B430;
@@ -279,32 +294,32 @@ void navi_GetRouteYa(int a4, int a5, int a6, int a7)
     R13 = (((*(int *)((R5 + (R11 << 2)))) - R6));
     goto L_C02B3C2;
     L_C02B3C2:;
-    *(unsigned int *)(((int)stk + 4)) = (signed char)((R14 << 2) + R14);
+    R1004 = (signed char)((R14 << 2) + R14);
     goto L_C02B3E2;
     L_C02B3E2:;
-    if (((*(signed char *)((R12 + (R7 + (*(int *)(((int)stk + 4))))))) != R10)) goto L_C02B3D0;
+    if (((*(signed char *)((R12 + (R7 + (R1004))))) != R10)) goto L_C02B3D0;
     goto L_C02B3F0;
     L_C02B3F0:;
     if (((*(signed char *)((R12 + ((signed char)((R14 << 2) + R14) + (R7 + 0xF))))) != 1)) goto L_C02B418;
     goto L_C02B408;
     L_C02B408:;
-    R13 = ((R13 + (*(int *)(((int)stk + 8)))));
+    R13 = ((R13 + (R1008)));
     goto L_C02B426;
     L_C02B426:;
-    if (((int)R13 >= (int)(*(int *)(((int)stk + 16))))) goto L_C02B430;
+    if (((int)R13 >= (int)(R1016))) goto L_C02B430;
     goto L_C02B42C;
     L_C02B42C:;
-    *(unsigned int *)(((int)stk + 16)) = R13;
+    R1016 = R13;
     R9 = (R14);
     goto L_C02B430;
     L_C02B430:;
     R14 = ((R14 + 0x1));
     goto L_C02B432;
     L_C02B418:;
-    R13 = ((R13 + ((*(int *)((R5 + (R10 << 2)))) - (*(int *)(((int)stk + 8))))));
+    R13 = ((R13 + ((*(int *)((R5 + (R10 << 2)))) - (R1008))));
     goto L_C02B426;
     L_C02B3D0:;
-    t163 = (R13 + (*(int *)((R5 + ((*(signed char *)((R12 + (R7 + (*(int *)(((int)stk + 4))))))) << 2)))));
+    t163 = (R13 + (*(int *)((R5 + ((*(signed char *)((R12 + (R7 + (R1004))))) << 2)))));
     R12 = ((R12 + 0x1));
     R13 = t163;
     goto L_C02B3E2;

@@ -16,7 +16,6 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
     int t14;
     int t17;
     int t18;
-    int t31;
     float u24;
     int t26;
     int stk[15];
@@ -54,7 +53,7 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
         *(unsigned int *)0xC2A1AB8 = 0x300A;
         t17 = GetNowLanguage(0x0);
         t18 = *(int *)(((int)stk + 4));
-        t31 = ((signed char)(((t17 << 1) + t17) << 2) + t18);
+        t38 = ((signed char)(((t17 << 1) + t17) << 2) + t18);
         if ((*(int *)((((signed char)(((t17 << 1) + t17) << 2) + t18) + 0x8))) != 0) {
             u24 = 6.0f;
             if ((*(int *)0xC2A11C0) == 0) {
@@ -62,10 +61,9 @@ int PutVM_Message(int a4, int a5, int a6, float f4, float f5)
                 u24 = 8.0f;
             }
             t26 = GetNowLanguage(0x0);
-            t31 = (PutStringFixPfont((a4 & 0x73), (*(int *)(((int)stk + 8))), (f4 + (float)(*(int *)(((((short)((short)t1 * (short)0x3C) + 0xC0A1238) + (signed char)(((t26 << 1) + t26) << 2)) + 0x8)))), (f5 - u24), 14.0f, 1.0f));
+            t38 = (PutStringFixPfont((a4 & 0x73), (*(int *)(((int)stk + 8))), (f4 + (float)(*(int *)(((((short)((short)t1 * (short)0x3C) + 0xC0A1238) + (signed char)(((t26 << 1) + t26) << 2)) + 0x8)))), (f5 - u24), 14.0f, 1.0f));
         }
         *(float *)0xC2A1AD4 = u0;
-        t38 = t31;
     }
     return t38;
 }

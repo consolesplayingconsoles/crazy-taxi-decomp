@@ -38,6 +38,10 @@ int carCorneringForce(int a4, int a5, int a6, int a7, float f4)
     float F14;
     float F15;
     int T_;
+    float R1016;
+    float R1020;
+    R1016 = *(float *)((int)stk + 16);
+    R1020 = *(float *)((int)stk + 20);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -96,9 +100,9 @@ int carCorneringForce(int a4, int a5, int a6, int a7, float f4)
     F4 = (((*(float *)((R14 + 0x10))) * F15));
     goto L_C021754;
     L_C02165C:;
-    *(float *)(((int)stk + 16)) = (float)(R13 - 1280);
+    R1016 = (float)(R13 - 1280);
     u30 = 0.287931502f;
-    u30 = u30 + 9.10497765e-05f * (((-((float)(nlArcTan(((float)(R13 - 1280) / 5888.0f))) / F13)) + F12) * (*(float *)(((int)stk + 16))));
+    u30 = u30 + 9.10497765e-05f * (((-((float)(nlArcTan(((float)(R13 - 1280) / 5888.0f))) / F13)) + F12) * (R1016));
     F0 = (9.10497765e-05f);
     F14 = (u30);
     goto L_C02168C;
@@ -120,9 +124,9 @@ int carCorneringForce(int a4, int a5, int a6, int a7, float f4)
     F1 = ((u39 + -30.6122456f));
     goto L_C02171A;
     L_C0216BC:;
-    *(float *)(((int)stk + 20)) = (float)(R13 + 0x500);
+    R1020 = (float)(R13 + 0x500);
     u43 = -0.287931502f;
-    u43 = u43 + 9.10497765e-05f * (((-((float)(nlArcTan(((float)(R13 + 0x500) / -5888.0f))) / F13)) + F12) * (*(float *)(((int)stk + 20))));
+    u43 = u43 + 9.10497765e-05f * (((-((float)(nlArcTan(((float)(R13 + 0x500) / -5888.0f))) / F13)) + F12) * (R1020));
     F0 = (9.10497765e-05f);
     F14 = (u43);
     goto L_C0216EC;

@@ -3,6 +3,10 @@
 
 extern void _builtin_prefetch(void *);
 int nlCharacter(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int nlCharacter(int a4, int a5, int a6, int a7)
 {
@@ -15,10 +19,10 @@ int nlCharacter(int a4, int a5, int a6, int a7)
     int t7;
     int t8;
 
-    t0 = *(int *)0xC2AF0C8;
-    u1 = *(float *)0xC14A7BC;
-    t2 = *(int *)0xC2AF0CC;
-    if ((*(int *)0xC14A7B8) == 0) {
+    t0 = (((struct o0_int *)0xC2AF0C8)->v);
+    u1 = (((struct o4_float *)0xC14A7B8)->v);
+    t2 = (((struct o4_int *)0xC2AF0C8)->v);
+    if (((((struct o0_int *)0xC14A7B8)->v)) == 0) {
         t4 = *(short *)(((((signed char)a6 << 1) + 0xC2AF158) + 0x2));
         t5 = *(short *)(((((signed char)a6 << 1) + 0xC2AF158) + 0x0));
         *(unsigned int *)((a7 + 0x0)) = 0xF0000000;

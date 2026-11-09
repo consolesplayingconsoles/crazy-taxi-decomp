@@ -41,12 +41,19 @@ int nlSingleLineSub(int a4, int a5, int a6, int a7)
     int t34;
     int t36;
     int stk[15] = {0};
+    int R1004;
+    int R1008;
+    int R1012;
+
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
 
     *(unsigned int *)(((int)stk + 48)) = a6;
-    *(unsigned int *)(((int)stk + 4)) = a4;
-    *(unsigned int *)(((int)stk + 8)) = a5;
+    R1004 = a4;
+    R1008 = a5;
     t0 = nlLineSendHeader(a7);
-    *(unsigned int *)(((int)stk + 12)) = t0;
+    R1012 = t0;
     nlPushMatrix(0xC14AA08);
     t2 = *(int *)0xC2B3208;
     nlMultiMatrix8(t2);
@@ -55,9 +62,9 @@ int nlSingleLineSub(int a4, int a5, int a6, int a7)
         nlMultiMatrix8(t4);
     }
     nlMultiPushedMatrix();
-    t10 = *(int *)(((int)stk + 4));
+    t10 = R1004;
     nlCalcPoint4(t10, (((int)stk + 4) + 0x1C));
-    t12 = *(int *)(((int)stk + 8));
+    t12 = R1008;
     nlCalcPoint4(t12, (((int)stk + 4) + 0xC));
     nlPopMatrix(0x1);
     t15 = nlLineClipNear((((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC));
@@ -88,7 +95,7 @@ int nlSingleLineSub(int a4, int a5, int a6, int a7)
         u30 = u28;
         u30 = u30 + (1.0f / u24) * u29;
         *(float *)(((int)stk + 20)) = u30;
-        t31 = *(int *)(((int)stk + 12));
+        t31 = R1012;
         t32 = nlLineDrawThick(t31, (((int)stk + 4) + 0x1C), (((int)stk + 4) + 0xC), (((int)stk + 4) + 0x2C));
         t33 = *(int *)0xC2B8CBC;
         t34 = t33;

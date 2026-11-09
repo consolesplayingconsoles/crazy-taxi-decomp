@@ -20,6 +20,9 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
 int req_load(void);
+struct o0_int { int v; };
+struct o28_int { char p[0x28]; int v; };
+
 
 int req_load(void)
 {
@@ -33,18 +36,18 @@ int req_load(void)
     nlInitEvent();
     gdc_StopStreamSongAll();
     Voice_Clear();
-    if ((*(int *)0xC1EE234) != 0) {
-        if ((*(int *)0xC1EE20C) == 2) {
+    if (((((struct o28_int *)0xC1EE20C)->v)) != 0) {
+        if (((((struct o0_int *)0xC1EE20C)->v)) == 2) {
             gdc_SpriteSetMBox();
         } else {
             gdc_SpriteSetGame();
         }
     }
     Init_Adv_Sprite();
-    t15 = *(int *)0xC1EE20C;
+    t15 = (((struct o0_int *)0xC1EE20C)->v);
     if ((*(int *)0xC0E5318) != t15) {
         *(unsigned int *)0xC0E5318 = t15;
-        if ((*(int *)0xC1EE234) != 0) {
+        if (((((struct o28_int *)0xC1EE20C)->v)) != 0) {
             pfSetFont(0x0);
             pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
             pfSize(1.0f, 1.0f);
@@ -53,22 +56,22 @@ int req_load(void)
             frameFlip();
             frameFlip();
         }
-        loadCity((*(int *)0xC1EE20C), 0x0);
-        CourseTableSet((*(int *)0xC1EE20C));
+        loadCity(((((struct o0_int *)0xC1EE20C)->v)), 0x0);
+        CourseTableSet(((((struct o0_int *)0xC1EE20C)->v)));
     } else {
         if (t15 == 2) {
             gdc_CarSoundLoad();
         }
     }
-    if ((*(int *)0xC1EE234) == 0) {
+    if (((((struct o28_int *)0xC1EE20C)->v)) == 0) {
         t55 = 0xC08AE24;
-        if ((*(int *)0xC1EE20C) == 0) {
+        if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
             t55 = 0xC08AE14;
         }
         t62 = (gdc_FileLoad(0xC30C000, t55, 0x1C000));
     } else {
         t59 = 0xC08AE44;
-        if ((*(int *)0xC1EE20C) == 0) {
+        if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
             t59 = 0xC08AE34;
         }
         t62 = (gdc_FileLoad(0xC30C000, t59, 0x1C000));

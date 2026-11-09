@@ -13,6 +13,10 @@ int nlSetBackColor(int, int, int);
 int replayChangeControl(int);
 int setReplayType(int);
 int gameState12(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int gameState12(void)
 {
@@ -33,7 +37,7 @@ int gameState12(void)
     SetMotionBlurStrength(u9);
     SetMotionBlurColor(0.9f, 0.79999995f, u9);
     t14 = InitEndRoll();
-    *(unsigned int *)0xC1EE238 = ((*(int *)0xC1EE238) + 0x1);
-    *(unsigned int *)0xC1EE240 = 0x0;
+    (((struct o0_uint *)0xC1EE238)->v) = (((((struct o0_int *)0xC1EE238)->v)) + 0x1);
+    (((struct o8_uint *)0xC1EE238)->v) = 0x0;
     return t14;
 }

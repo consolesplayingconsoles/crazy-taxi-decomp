@@ -5,7 +5,7 @@ int CarSel_ChangeCar(void);
 
 int CarSel_ChangeCar(void)
 {
-    int stk[3];
+    int stk[2];
 
     register int R1;
     register int R2;
@@ -27,8 +27,8 @@ int CarSel_ChangeCar(void)
     register float w0_2;
     int R1004;
     int R1008;
-    R1004 = *(int *)((int)stk + 4);
-    R1008 = *(int *)((int)stk + 8);
+    R1004 = *(int *)((int)stk + 0);
+    R1008 = *(int *)((int)stk + 4);
     v0_1 = (0xC2A7584);
     w0_0 = (0.199999988f);
     if ((!(0.199999988f > (*(float *)0xC1EE2F8)))) goto L_C051390;
@@ -133,8 +133,8 @@ int CarSel_ChangeCar(void)
     R1004 = R1004;
     L_C051532:;
     *(unsigned int *)0xC2A758C = (*(int *)((v0_0 + 0x0)));
+    *(volatile int *)((int)stk + 0);
     *(volatile int *)((int)stk + 4);
-    *(volatile int *)((int)stk + 8);
     return v0_3;
     L_C051524:;
     *(unsigned int *)((v0_2 + 0x0)) = R13;

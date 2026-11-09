@@ -12,7 +12,7 @@ int kmiGetNativeRegOBPSize(int);
 int kmiGetPackOBPParam(int, int, int, int, int, int);
 int kmiGetProfileInt(int, int, int);
 int kmiGetVertexBasePointer(int, int, int, int, int, int, int);
-int kmiSetTAEnvironment(int, int, int, int, int, int);
+int kmiSetTAEnvironment(int, int, int, int, int);
 int kmiTAallocEx(int, int, int);
 int kmSetSystemConfiguration(int a4);
 
@@ -49,7 +49,6 @@ int kmSetSystemConfiguration(int a4)
     int t112;
     int t118;
     int t126;
-    int t128;
     int t127;
     int t130;
     int t131;
@@ -57,8 +56,6 @@ int kmSetSystemConfiguration(int a4)
     int t154;
     int t157;
     int t164;
-    int t176;
-    int t181;
     int t182;
     int t183;
     int t184;
@@ -72,14 +69,12 @@ int kmSetSystemConfiguration(int a4)
     int t233;
     int t273;
     int t235;
-    int t271;
     float u70;
     int t83;
     int t84;
     float u86;
     float u93;
     int t104;
-    int t106;
     int t198;
     int t199;
     int t200;
@@ -247,11 +242,10 @@ int kmSetSystemConfiguration(int a4)
         }
         if ((((*(int *)0xC2EA684) & 64) != 0) && (t104 = *(int *)(((((int)stk + 16) + 0x40) + 0x0)), (unsigned int)t104 < (unsigned int)0x38)) {
             *(unsigned int *)(((((int)stk + 16) + 0x40) + 0x0)) = ((*(int *)(((((int)stk + 16) + 0x40) + 0x0))) + 0x38);
-            t106 = 0x38;
+            t108 = 0x38;
         } else {
-            t106 = t88;
+            t108 = t88;
         }
-        t108 = t106;
         t109 = 0xC2EA684;
         t110 = 0x0;
         t111 = 0x0;
@@ -277,13 +271,12 @@ int kmSetSystemConfiguration(int a4)
             *(unsigned int *)((((t118 << 2) + (((int)stk + 16) + 0x40)) + 0x0)) = ((*(int *)((((t118 << 2) + (((int)stk + 16) + 0x40)) + 0x0))) & 0xFFFFFFE0);
         }
         t126 = *(int *)(((((int)stk + 16) + 0x40) + 0x0));
-        t128 = t126;
+        t130 = t126;
         if (t126 != 0) {
             t127 = *(int *)(((((int)stk + 16) + 0x40) + 0x0));
             *(unsigned int *)(((((int)stk + 16) + 0x40) + 0x0)) = (t127 - 16);
-            t128 = (t127 - 16);
+            t130 = (t127 - 16);
         }
-        t130 = t128;
         t131 = ((((int)stk + 16) + 0x40) + 0x4);
         t132 = ((((int)stk + 16) + 0x40) + 0x4);
         for (;;) {
@@ -326,15 +319,13 @@ int kmSetSystemConfiguration(int a4)
         if ((*(int *)0xC2EA9C4) == 1) {
             *(unsigned int *)(((int)stk + 20)) = 0x1;
         }
-        t176 = kmiGetVertexBasePointer((*(int *)(((((int)stk + 16) + 0x40) + 0x0))), (*(int *)(((((int)stk + 16) + 0x40) + 0x4))), (*(int *)(((((int)stk + 16) + 0x40) + 0x8))), (*(int *)(((((int)stk + 16) + 0x40) + 0xC))), ((*(int *)(((((int)stk + 16) + 0x40) + 0x10)))), 0x0, ((*(int *)(((int)stk + 20)))));
+        t182 = kmiGetVertexBasePointer((*(int *)(((((int)stk + 16) + 0x40) + 0x0))), (*(int *)(((((int)stk + 16) + 0x40) + 0x4))), (*(int *)(((((int)stk + 16) + 0x40) + 0x8))), (*(int *)(((((int)stk + 16) + 0x40) + 0xC))), ((*(int *)(((((int)stk + 16) + 0x40) + 0x10)))), 0x0, ((*(int *)(((int)stk + 20)))));
         *(unsigned int *)0xC2B8CF4 = (*(int *)0xC2B8CCC);
         *(unsigned int *)0xC2B8CF8 = (*(int *)0xC2B8CD0);
         *(unsigned int *)0xC2B8CFC = (*(int *)0xC2B8CD4);
         *(unsigned int *)0xC2B8D00 = (*(int *)0xC2B8CD8);
-        t181 = *(int *)0xC2B8CDC;
-        *(unsigned int *)0xC2B8D04 = t181;
-        t182 = t176;
-        t183 = t181;
+        t183 = *(int *)0xC2B8CDC;
+        *(unsigned int *)0xC2B8D04 = t183;
         t184 = 0x0;
         for (;;) {
             if ((unsigned int)t184 >= (unsigned int)0x14) {
@@ -403,10 +394,10 @@ int kmSetSystemConfiguration(int a4)
     if ((unsigned int)t233 < (unsigned int)(*(int *)0xC2B8CA4)) {
     } else {
         t235 = kmiTAallocEx(t233, (((int)stk + 16) + 0x38), (((int)stk + 16) + 0x3C));
-        t271 = t235;
+        t273 = t235;
         if (t235 == 0) {
             *(unsigned int *)0xC2EAAD8 = (*(int *)0xC2B8C98);
-            kmiSetTAEnvironment(((unsigned int)(*(int *)0xC2EA6EC) >> 7), ((unsigned int)(*(int *)0xC2EA6F0) >> 7), ((unsigned int)(*(int *)0xC2EA6F4) >> 7), ((unsigned int)(*(int *)0xC2EA6F8) >> 7), ((~(*(int *)(((int)stk + 28)))) & (*(int *)(((int)stk + 16)))), 0x0);
+            kmiSetTAEnvironment(((unsigned int)(*(int *)0xC2EA6EC) >> 7), ((unsigned int)(*(int *)0xC2EA6F0) >> 7), ((unsigned int)(*(int *)0xC2EA6F4) >> 7), ((unsigned int)(*(int *)0xC2EA6F8) >> 7), ((~(*(int *)(((int)stk + 28)))) & (*(int *)(((int)stk + 16)))));
             if (((*(int *)((a4 + 0x4))) & 0x10000) != 0) {
                 *(unsigned int *)0xC2EA88C = 0x1;
             }
@@ -428,9 +419,8 @@ int kmSetSystemConfiguration(int a4)
             *(unsigned int *)0xC2B8C80 = (*(int *)(((*(int *)((a4 + 0x8))) + 0x4)));
             *(unsigned int *)0xC2B8C84 = (*(int *)(((int)stk + 48)));
             *(unsigned int *)0xC177A84 = 0x80000000;
-            t271 = (kmiAllocSysConfig((*(int *)0xC2B8C94)));
+            t273 = (kmiAllocSysConfig((*(int *)0xC2B8C94)));
         }
-        t273 = t271;
     }
     return t273;
 }

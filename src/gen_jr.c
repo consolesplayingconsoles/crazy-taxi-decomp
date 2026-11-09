@@ -3,6 +3,12 @@
 
 float nlFloor(float);
 float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11);
+struct o0_int { int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o20_float { char p[0x20]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11)
 {
@@ -91,13 +97,13 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     F11 = f11;
     L_C032432:;
     *(float *)(((int)stk + 12)) = F15;
-    t8 = nlFloor(((*(float *)((R4 + 0x0))) / (*(float *)0xC26E410)));
-    t11 = nlFloor(((*(float *)((R4 + 0x8))) / (*(float *)0xC26E410)));
-    t15 = nlFloor((((*(float *)((R4 + 0x0))) + (*(float *)((R5 + 0x0)))) / (*(float *)0xC26E410)));
-    t19 = nlFloor((((*(float *)((R4 + 0x8))) + (*(float *)((R5 + 0x8)))) / (*(float *)0xC26E410)));
-    t20 = *(int *)0xC26E3F8;
-    t21 = *(int *)0xC26E404;
-    t22 = *(int *)0xC26E3F4;
+    t8 = nlFloor(((*(float *)((R4 + 0x0))) / ((((struct o20_float *)0xC26E3F0)->v))));
+    t11 = nlFloor(((*(float *)((R4 + 0x8))) / ((((struct o20_float *)0xC26E3F0)->v))));
+    t15 = nlFloor((((*(float *)((R4 + 0x0))) + (*(float *)((R5 + 0x0)))) / ((((struct o20_float *)0xC26E3F0)->v))));
+    t19 = nlFloor((((*(float *)((R4 + 0x8))) + (*(float *)((R5 + 0x8)))) / ((((struct o20_float *)0xC26E3F0)->v))));
+    t20 = (((struct o8_int *)0xC26E3F0)->v);
+    t21 = (((struct o14_int *)0xC26E3F0)->v);
+    t22 = (((struct o4_int *)0xC26E3F0)->v);
     R1028 = (R13);
     R1024 = (R12);
     R1020 = (R11);
@@ -126,7 +132,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (t37) goto L_C0324D2;
@@ -137,7 +142,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     goto L_C03264C;
@@ -148,7 +152,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if ((R13 != 0)) goto L_C0324E8;
@@ -158,20 +161,18 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if ((R4 != 0)) goto L_C0324E8;
     goto L_C0324DA;
     L_C0324DA:;
-    t40 = *(int *)0xC26E3F0;
+    t40 = (((struct o0_int *)0xC26E3F0)->v);
     *(unsigned int *)((R6 + 0x0)) = (*(int *)(((R5 << 2) + t40)));
     *(float *)((R9 + 0x0)) = F15;
     R1028 = R1028;
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R0 = (t40);
@@ -183,7 +184,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F0 = (u44);
@@ -195,7 +195,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F5 = ((F5 + F0));
@@ -207,7 +206,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F8 = (((float)(t50 + R11) * F0));
@@ -218,7 +216,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F10 = (F0);
@@ -229,7 +226,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if ((R4 != 0)) goto L_C032546;
@@ -239,7 +235,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R13 <= 0)) goto L_C03252C;
@@ -249,7 +244,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0x1);
@@ -261,7 +255,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F4 = (((F5 - u58) / u59));
@@ -272,18 +265,16 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R6 = (0x0);
     goto L_C0325BE;
     L_C0325BE:;
-    *(unsigned int *)(((0xC26E3A0 + (R6 << 2)) + 0x0)) = (*(int *)(((R5 << 2) + (*(int *)0xC26E3F0))));
+    *(unsigned int *)(((0xC26E3A0 + (R6 << 2)) + 0x0)) = (*(int *)(((R5 << 2) + ((((struct o0_int *)0xC26E3F0)->v)))));
     R1028 = R1028;
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R7 = ((R6 << 2));
@@ -297,7 +288,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     u73 = F4;
@@ -311,7 +301,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if ((F7 > F11)) goto L_C032626;
@@ -323,7 +312,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R5 = (((t75 * R11) + R10));
@@ -335,7 +323,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (t79) goto L_C03262E;
@@ -345,7 +332,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R6 >= (int)0x9)) goto L_C032626;
@@ -356,7 +342,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     goto L_C032626;
@@ -366,7 +351,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     goto L_C032636;
@@ -376,7 +360,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (t82) goto L_C032648;
@@ -386,7 +369,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R0 = (((R6 - 1) << 2));
@@ -397,7 +379,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     goto L_C03264C;
@@ -406,7 +387,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R0 = (0x24);
@@ -417,7 +397,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R6 = ((R6 + 0x1));
@@ -430,7 +409,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     u91 = F6;
@@ -444,7 +422,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R13 >= 0)) goto L_C032534;
@@ -454,7 +431,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0xFFFFFFFF);
@@ -464,7 +440,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0x0);
@@ -474,7 +449,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if ((R13 != 0)) goto L_C032560;
@@ -484,7 +458,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R4 <= 0)) goto L_C032552;
@@ -494,7 +467,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0x1);
@@ -504,7 +476,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F4 = (F15);
@@ -516,7 +487,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F6 = (((F8 - u100) / u101));
@@ -526,7 +496,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R4 >= 0)) goto L_C03255A;
@@ -536,7 +505,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0xFFFFFFFF);
@@ -546,7 +514,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0x0);
@@ -556,7 +523,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R13 <= 0)) goto L_C032568;
@@ -566,7 +532,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0x1);
@@ -576,7 +541,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R4 <= 0)) goto L_C03257A;
@@ -586,7 +550,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0x1);
@@ -598,7 +561,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F4 = (((F5 - u110) / u111));
@@ -608,7 +570,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R4 >= 0)) goto L_C0325A0;
@@ -618,7 +579,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0xFFFFFFFF);
@@ -628,7 +588,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R4 = (0x0);
@@ -638,7 +597,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     if (((int)R13 >= 0)) goto L_C032570;
@@ -648,7 +606,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0xFFFFFFFF);
@@ -658,7 +615,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0x0);
@@ -668,7 +624,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F10 = ((-F0));
@@ -678,7 +633,6 @@ float MakeCollisionCellList(int a4, int a5, int a6, int a7, float f4, float f5, 
     R1024 = R1024;
     R1020 = R1020;
     R1016 = R1016;
-    *(unsigned int *)(((int)stk + 12)) = *(int *)((int)stk + 12);
     R1008 = R1008;
     R1004 = R1004;
     F9 = ((-F0));

@@ -2,6 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+
 
 int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
@@ -9,7 +15,6 @@ int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float 
     int t14;
     float u15;
     int t33;
-    int stk[2];
 
     int R0;
     int R1;
@@ -47,10 +52,10 @@ int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float 
     goto L_C039CE2;
     L_C039CE2:;
     F3 = (0.699999988f);
-    if (((*(float *)0xC1EE2F8) > 0.699999988f)) goto L_C039CF6;
+    if ((((((struct o4_float *)0xC1EE2F4)->v)) > 0.699999988f)) goto L_C039CF6;
     goto L_C039CEE;
     L_C039CEE:;
-    u9 = *(float *)0xC1EE2FC;
+    u9 = (((struct o8_float *)0xC1EE2F4)->v);
     F1 = (u9);
     if ((!(u9 > F3))) goto L_C039D40;
     goto L_C039CF6;
@@ -58,15 +63,14 @@ int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float 
     if (((*(int *)((R4 + 0x0))) != 0)) goto L_C039D00;
     goto L_C039CFC;
     L_C039CFC:;
-    *(unsigned int *)0xC2864B0 = R6;
+    (((struct o0_uint *)0xC2864B0)->v) = R6;
     goto L_C039D00;
     L_C039D00:;
     *(unsigned int *)((R4 + 0x0)) = R6;
     goto L_C039D42;
     L_C039D42:;
     t14 = *(int *)((R5 + 0x4));
-    u15 = *(float *)0xC1EE2F4;
-    *(unsigned int *)(((int)stk + 4)) = t14;
+    u15 = (((struct o0_float *)0xC1EE2F4)->v);
     R4 = (0xC0EE9EC);
     R5 = (((*(int *)((R5 + 0x0))) | t14));
     F4 = (u15);
@@ -99,7 +103,7 @@ int CheckNameEntryPad(int a4, int a5, int a6, int a7, float f4, float f5, float 
     F4 = (F5);
     goto L_C039DA0;
     L_C039DA0:;
-    t33 = !(_builtin_fabsf(F4) > (*(float *)0xC2864C0));
+    t33 = !(_builtin_fabsf(F4) > ((((struct o10_float *)0xC2864B0)->v)));
     R4 = (0xC2864C0);
     F5 = (_builtin_fabsf(F4));
     if (t33) goto L_C039DAE;

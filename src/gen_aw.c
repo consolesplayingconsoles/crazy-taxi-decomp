@@ -28,7 +28,6 @@ void _lsfts(int a4, int a5, int a6)
     int t8;
     int t0;
     int t1;
-    int t2;
     int t3;
     int t4;
     int t5;
@@ -38,19 +37,18 @@ void _lsfts(int a4, int a5, int a6)
         if ((int)(a5 - 1) >= 0) {
             t0 = (a4 + (a5 - 1));
             t1 = (a5 - 1);
-            t2 = 0x0;
+            t8 = 0x0;
             do {
                 t3 = *(signed char *)((t0 + 0x0));
                 t4 = *(signed char *)((t0 + 0x0));
                 t1 = (t1 - 1);
                 *(unsigned char *)((t0 + 0x0)) = ((unsigned int)t3 << (int)(short)a6);
                 t5 = *(signed char *)((t0 + 0x0));
-                *(unsigned char *)((t0 + 0x0)) = (t5 | t2);
-                t2 = (unsigned char)(t4 & ((int)0xFF << (int)(short)(0x8 - a6)));
-                t2 = ((unsigned int)t2 << (int)(-(short)(0x8 - a6)));
+                *(unsigned char *)((t0 + 0x0)) = (t5 | t8);
+                t8 = (unsigned char)(t4 & ((int)0xFF << (int)(short)(0x8 - a6)));
+                t8 = ((unsigned int)t8 << (int)(-(short)(0x8 - a6)));
                 t0 = (t0 - 1);
             } while ((int)t1 >= 0);
-            t8 = t2;
         }
         if ((unsigned char)t8 != 0) {
             return;

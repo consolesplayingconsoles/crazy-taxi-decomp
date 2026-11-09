@@ -12,8 +12,8 @@ int Put_Time_Bonus(int, int);
 int Put_Time_Count(int, float);
 int gdc_StopStreamVoice(int);
 int hudDrawJudgement(void);
-int hudDrawJudgement2(int, int);
-int hudDrawPassRanking(int, int);
+int hudDrawJudgement2(void);
+int hudDrawPassRanking(void);
 int hudDrawTime(void);
 int pfColor(int, int, int, int);
 int pfSetFont(int);
@@ -21,35 +21,23 @@ int pfSetZ(float);
 int pfSize(float, float);
 int pfTextPut(int, int, int);
 int hudDraw(float f4);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int hudDraw(float f4)
 {
     int t4;
-    int t58;
-    int t59;
-    int t121;
-    int t163;
-    int t132;
     int t145;
     int t154;
     int t185;
-    int t178;
-    int t177;
-    int t16;
     int t6;
-    int t22;
-    int t23;
-    int t34;
-    int t43;
-    int t51;
     int t52;
     int t67;
     int t68;
     int t129;
     int t134;
-    int t160;
     int t146;
-    int t157;
     int t151;
 
     if (((*(int *)0xC2A75E0) & 0x1) == 1) {
@@ -62,41 +50,33 @@ int hudDraw(float f4)
         }
         hudDrawTime();
     } else {
-        t16 = 0x80;
+        t52 = 0x80;
     }
     if (((*(int *)0xC2A75E0) & 0x100) == 0x100) {
-        Put_Time_Bonus(0x100, t16);
+        Put_Time_Bonus(0x100, t52);
     } else {
-        t22 = 0x100;
-        t23 = t16;
+        t67 = 0x100;
     }
-    t58 = t22;
-    t59 = t23;
+    t68 = t52;
     if ((*(int *)0xC1EE20C) != 2) {
         if (((*(int *)0xC2A75E0) & 0x400) == 0x400) {
             hudDrawJudgement();
         } else {
-            t34 = t23;
         }
         if (((*(int *)0xC2A75E0) & 0x800) == 0x800) {
-            hudDrawJudgement2(0x800, t34);
+            hudDrawJudgement2();
         } else {
-            t43 = t34;
         }
         if (((*(int *)0xC2A75E0) & 0x1000) == 0x1000) {
-            hudDrawPassRanking(0x1000, t43);
+            hudDrawPassRanking();
         } else {
-            t51 = 0x1000;
-            t52 = t43;
+            t67 = 0x1000;
         }
-        t58 = t51;
-        t59 = t52;
+        t68 = t52;
     }
     if (((*(int *)0xC2A75E0) & 0x10) == 16) {
         Put_Default2_Sprite();
     } else {
-        t67 = t58;
-        t68 = t59;
     }
     if (((*(int *)0xC2A75E0) & 0x20) == 32) {
         Put_Default_Sprite(t67, t68);
@@ -113,52 +93,45 @@ int hudDraw(float f4)
     if (((*(int *)0xC2A75E0) & 0x10000000) == 0x10000000) {
         Put_TimeUp();
     }
-    t121 = 0xC052FF8;
+    t185 = 0xC052FF8;
     if ((*(int *)0xC17948C) != 0) {
         pfSetFont(0x0);
         pfSize(1.0f, 1.0f);
         pfSetZ(0.149999991f);
         pfColor(0xFF00FF00, 0xFFFFFF00, 0xFF00FF00, 0xFFFFFF00);
-        t121 = (pfTextPut(0x23, 0x1A9, 0xC0D0878));
+        t185 = (pfTextPut(0x23, 0x1A9, 0xC0D0878));
     }
-    t163 = t121;
-    if (((*(int *)0xC2A736C) == 0) && (t129 = *(int *)0xC2A7368, t129 == 0)) {
+    if ((((((struct o4_int *)0xC2A7368)->v)) == 0) && (t129 = (((struct o0_int *)0xC2A7368)->v), t129 == 0)) {
     } else {
         pfSetFont(0x0);
         pfSize(1.0f, 1.0f);
-        t132 = pfSetZ(0.149999991f);
-        if (((*(int *)0xC2A736C) != 0) && (t134 = *(int *)0xC2A7368, t134 == 0)) {
+        t154 = pfSetZ(0.149999991f);
+        if ((((((struct o4_int *)0xC2A7368)->v)) != 0) && (t134 = (((struct o0_int *)0xC2A7368)->v), t134 == 0)) {
             pfColor(0xFFFFFF00, 0xFFFFFFFF, 0xFFFFFF00, 0xFFFFFFFF);
-            t160 = (pfTextPut(0x23, 0x197, 0xC0D0884));
+            t185 = (pfTextPut(0x23, 0x197, 0xC0D0884));
         } else {
-            t145 = *(int *)0xC2A736C;
-            if ((t145 == 0) && (t146 = *(int *)0xC2A7368, t146 != 0)) {
+            t145 = (((struct o4_int *)0xC2A7368)->v);
+            if ((t145 == 0) && (t146 = (((struct o0_int *)0xC2A7368)->v), t146 != 0)) {
                 pfColor(0xFFFF0000, 0xFF88FFFF, 0xFFFF0000, 0xFF88FFFF);
-                t157 = (pfTextPut(0x23, 0x197, 0xC0D0890));
+                t185 = (pfTextPut(0x23, 0x197, 0xC0D0890));
             } else {
-                t154 = t132;
-                if ((t145 != 0) && (t151 = *(int *)0xC2A7368, t151 != 0)) {
+                if ((t145 != 0) && (t151 = (((struct o0_int *)0xC2A7368)->v), t151 != 0)) {
                     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
                     t154 = (pfTextPut(0x23, 0x197, 0xC0D08A4));
                 }
-                t157 = t154;
+                t185 = t154;
             }
-            t160 = t157;
         }
-        t163 = t160;
     }
     if ((*(int *)0xC2A11B0) == 0) {
         *(unsigned int *)0xC2A91C8 = 0x0;
     }
-    t185 = t163;
     if ((*(int *)0xC2A11B0) != 0) {
-        t178 = 0xC2A91C8;
+        t185 = 0xC2A91C8;
         if ((*(int *)0xC2A91C8) == 0) {
-            t177 = gdc_StopStreamVoice(0x0);
+            t185 = gdc_StopStreamVoice(0x0);
             *(unsigned int *)0xC2A91C8 = 0x1;
-            t178 = t177;
         }
-        t185 = t178;
     }
     return t185;
 }

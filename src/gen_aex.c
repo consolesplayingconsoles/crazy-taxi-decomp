@@ -39,13 +39,15 @@ int vmsio_get_media_info(int a4, int a5, int a6)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     L_C17026C:;
     t0 = *(int *)(((R4 << 2) + 0xC176948));
-    *(unsigned int *)(((int)stk + 4)) = (kdGetDevice(t0));
-    t5 = (*(signed char *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0;
+    R1004 = (kdGetDevice(t0));
+    t5 = (*(signed char *)(((R1004) + 0x0))) != 0;
     R10 = (0xC162094);
     R11 = (0xC170232);
     R13 = (t0);

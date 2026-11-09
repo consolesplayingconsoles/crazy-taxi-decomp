@@ -12,7 +12,6 @@ int windowSaveOff(void)
 {
     int t6;
     int t9;
-    int t8;
 
     windowOpenStep(0x3C);
     PutVM_Message(0x20, 0x27, 0x0, 209.0f, 240.0f);
@@ -23,9 +22,8 @@ int windowSaveOff(void)
     t9 = t6;
     if (t6 == 1) {
         SetScreen(0x4);
-        t8 = SetWindow(0x0);
+        t9 = SetWindow(0x0);
         *(unsigned int *)0xC2A121C = 0x0;
-        t9 = t8;
     }
     return t9;
 }

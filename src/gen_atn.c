@@ -4,6 +4,12 @@
 extern void _builtin_ld_ext(float (*)[4]);
 extern void _builtin_st_ext(float (*)[4]);
 int nlPopMatrix(int a4);
+struct o0_short { short v; };
+struct o0_ushort { unsigned short v; };
+struct o2_short { char p[0x2]; short v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int nlPopMatrix(int a4)
 {
@@ -27,16 +33,16 @@ int nlPopMatrix(int a4)
     if ((int)a4 <= 0) {
         t0 = 0x1;
     }
-    t1 = *(short *)0xC2B31DC;
-    t2 = *(short *)0xC2B31DE;
+    t1 = (((struct o0_short *)0xC2B31DC)->v);
+    t2 = (((struct o2_short *)0xC2B31DC)->v);
     t3 = (t1 - t0);
     if ((int)t1 < (int)t0) {
         t3 = 0x0;
     }
-    t4 = *(int *)0xC2B31E0;
-    *(unsigned short *)0xC2B31DC = t3;
+    t4 = (((struct o4_int *)0xC2B31DC)->v);
+    (((struct o0_ushort *)0xC2B31DC)->v) = t3;
     if ((int)t3 < (int)t2) {
-        *(unsigned int *)0xC2B31E4 = (t4 + ((unsigned int)(t3 << 8) >> 2));
+        (((struct o8_uint *)0xC2B31DC)->v) = (t4 + ((unsigned int)(t3 << 8) >> 2));
     }
     u0 = *(float *)(((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x0));
     u1 = *(float *)((((t4 + ((unsigned int)(t3 << 8) >> 2)) + 0x0) + 4));

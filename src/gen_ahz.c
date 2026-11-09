@@ -17,7 +17,7 @@ int SetStartCamera(void);
 
 int SetStartCamera(void)
 {
-    int stk[10];
+    int stk[9];
 
     *(unsigned int *)0xC17999C = 0xFFFFFFFF;
     *(unsigned int *)0xC1799A0 = 0x0;
@@ -30,11 +30,11 @@ int SetStartCamera(void)
     nlPushUnitMatrix();
     nlTranslateV(0xC179144);
     MultiRot4Vec(0xC1790FC);
-    nlCalcPoint(0xC1799A4, (((int)stk + 4) + 0xC));
-    nlCalcVector(0xC1799BC, ((int)stk + 4));
-    camSetEye((((int)stk + 4) + 0xC), 0x0);
+    nlCalcPoint(0xC1799A4, (((int)stk + 0) + 0xC));
+    nlCalcVector(0xC1799BC, ((int)stk + 0));
+    camSetEye((((int)stk + 0) + 0xC), 0x0);
     SetCameraPosRatio(0.0f, 1.0f);
-    SetCameraPosVelocity(((int)stk + 4));
+    SetCameraPosVelocity(((int)stk + 0));
     *(float *)0xC1799B0 = 0.0f;
     *(float *)0xC1799B4 = 5.0f;
     *(float *)0xC1799B8 = 0.0f;

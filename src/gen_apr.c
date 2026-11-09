@@ -48,13 +48,17 @@ int SetSpark(int a4, int a5, int a6, int a7)
     float F14;
     float F15;
     int T_;
+    int R1008;
+    int R1012;
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C03792E:;
-    *(unsigned int *)(((int)stk + 12)) = R4;
-    *(unsigned int *)(((int)stk + 8)) = R5;
+    R1012 = R4;
+    R1008 = R5;
     t0 = *(int *)0xC2757D0;
     t1 = nlScalor(R5);
     R0 = (0xC0379D8);
@@ -108,21 +112,21 @@ int SetSpark(int a4, int a5, int a6, int a7)
     R0 = ((nlPopMatrix(0x1)));
     goto L_C037AEE;
     L_C037A06:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)((short)(*(int *)((R13 + 0x0))) * (short)0x1C) + R12)) = *(struct mv3 *)((*(int *)(((int)stk + 12)))); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((short)((short)(*(int *)((R13 + 0x0))) * (short)0x1C) + R12)) = *(struct mv3 *)((R1012)); }
     t33 = *(int *)((R13 + 0x0));
-    u37 = (*(float *)(((*(int *)(((int)stk + 8))) + 0x0)));
+    u37 = (*(float *)(((R1008) + 0x0)));
     u37 = u37 + F14 * ((nlRandom()) + F15);
     *(float *)(((0xC + ((short)((short)t33 * (short)0x1C) + R12)) + 0x0)) = u37;
     t38 = *(int *)((R13 + 0x0));
-    u42 = (*(float *)(((*(int *)(((int)stk + 8))) + 0x4)));
+    u42 = (*(float *)(((R1008) + 0x4)));
     u42 = u42 + F14 * ((nlRandom()) + F15);
     *(float *)(((0x10 + ((short)((short)t38 * (short)0x1C) + R12)) + 0x0)) = u42;
     t43 = *(int *)((R13 + 0x0));
-    u47 = (*(float *)(((*(int *)(((int)stk + 8))) + 0x8)));
+    u47 = (*(float *)(((R1008) + 0x8)));
     u47 = u47 + F14 * ((nlRandom()) + F15);
     *(float *)(((0x14 + ((short)((short)t43 * (short)0x1C) + R12)) + 0x0)) = u47;
     *(unsigned int *)((((short)((short)(*(int *)((R13 + 0x0))) * (short)0x1C) + R12) + 0x18)) = R9;
-    nlCalcPoint((*(int *)(((int)stk + 12))), (((int)stk + 8) + 0xC));
+    nlCalcPoint((R1012), (((int)stk + 8) + 0xC));
     *(unsigned int *)(((((((*(int *)((R13 + 0x0))) << 2) << 2) << 1) + R10) + 0x0)) = 0x1;
     t52 = *(int *)((R13 + 0x0));
     *(unsigned int *)(((int)stk + 16)) = ((((t52 << 2) << 2) << 1) + R10);

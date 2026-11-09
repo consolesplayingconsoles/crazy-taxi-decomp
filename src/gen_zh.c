@@ -1,10 +1,10 @@
 /* Straight-line functions with calls and guards (batch gen_zh): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int GetStopPosCenter(int, int, int, float);
+int GetStopPosCenter(int, int, int);
 int abs(int);
 extern int getNearLineIndex();
-float navi_GetRouteTbl(int, int, int, float);
+float navi_GetRouteTbl(int, int, int);
 float nlLength(int, int);
 float kyakuInitStops(int a4, int a5, int a6, int a7, float f4);
 
@@ -57,6 +57,14 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     float F14;
     float F15;
     int T_;
+    int R1008;
+    int R1012;
+    int R1016;
+    int R1020;
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -94,12 +102,12 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     L_C0256FA:;
     goto L_C0257F8;
     L_C0257F8:;
-    *(unsigned int *)(((int)stk + 16)) = 0x0;
+    R1016 = 0x0;
     R0 = (0xC02589C);
     F13 = (300.0f);
     goto L_C025A02;
     L_C025A02:;
-    if (((int)(*(int *)(((int)stk + 16))) >= (int)(*(int *)(((int)stk + 20))))) goto L_C025A0E;
+    if (((int)(R1016) >= (int)(R1020))) goto L_C025A0E;
     goto L_C025A0A;
     L_C025A0A:;
     goto L_C025802;
@@ -114,7 +122,7 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)((R14 + 0x0)) = 0xFFFFFFFF;
     goto L_C0259FA;
     L_C0259FA:;
-    *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 16))) + 0x1);
+    R1016 = ((R1016) + 0x1);
     R14 = ((R14 + 0x28));
     goto L_C025A02;
     L_C02580C:;
@@ -123,8 +131,8 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     goto L_C025818;
     L_C025818:;
     t39 = ((int (*)(int, int, int, int, int, float))(getNearLineIndex))(0x0, (*(int *)((R11 + 0x0))), (*(int *)((R12 + 0x0))), (R14 + 0x14), (R14 + 0x8), F4);
-    *(unsigned int *)(((int)stk + 12)) = (R14 + 0x1C);
-    *(unsigned int *)(((int)stk + 8)) = (R14 + 0x18);
+    R1012 = (R14 + 0x1C);
+    R1008 = (R14 + 0x18);
     R0 = (t39);
     R10 = (0x0);
     R4 = ((R14 + 0x1C));
@@ -149,28 +157,28 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     R6 = (0x1);
     goto L_C0258B4;
     L_C0258B4:;
-    t53 = navi_GetRouteTbl((R14 + 0x8), (((short)((R5 << 2) << 1) + R13) + 0x1C), R6, F4);
+    t53 = navi_GetRouteTbl((R14 + 0x8), (((short)((R5 << 2) << 1) + R13) + 0x1C), R6);
     *(float *)((R8 + 0x0)) = t53;
     F0 = (t53);
     F4 = (t53);
     goto L_C0258D0;
     L_C0258D0:;
-    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0x4);
-    *(unsigned int *)(((int)stk + 8)) = ((*(int *)(((int)stk + 8))) + 0x1);
+    R1012 = ((R1012) + 0x4);
+    R1008 = ((R1008) + 0x1);
     R10 = ((R10 + 0x1));
     R8 = ((R8 + 0x4));
     goto L_C0258E0;
     L_C0258A8:;
-    t61 = *(signed char *)(((*(int *)(((int)stk + 8))) + 0x0));
+    t61 = *(signed char *)(((R1008) + 0x0));
     R5 = (((t61 << 1) + t61));
     R6 = (0xFFFFFFFF);
     goto L_C0258B4;
     L_C0258CC:;
-    *(float *)(((*(int *)(((int)stk + 12))) + 0x0)) = F15;
+    *(float *)(((R1012) + 0x0)) = F15;
     goto L_C0258D0;
     L_C0258E8:;
     t67 = ((int (*)(int, int, int, int, int, float))(getNearLineIndex))(0x0, (*(int *)((R11 + 0x0))), (*(int *)((R12 + 0x0))), (R14 + 0x14), (R14 + 0x8), F4);
-    *(unsigned int *)(((int)stk + 12)) = (R14 + 0x1C);
+    R1012 = (R14 + 0x1C);
     R0 = (t67);
     R10 = (0x0);
     R3 = ((R14 + 0x18));
@@ -178,7 +186,7 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     R8 = ((R14 + 0x1C));
     goto L_C0259EC;
     L_C0259EC:;
-    *(unsigned int *)(((int)stk + 8)) = R3;
+    R1008 = R3;
     if (((int)R10 < (int)R9)) goto L_C02590E;
     goto L_C0259F2;
     L_C0259F2:;
@@ -206,18 +214,18 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     t90 = *(signed char *)((((R14 + 0x18) + R10) + 0x0));
     t92 = *(int *)((((short)((((t90 << 1) + t90) << 2) << 1) + R13) + 0x28));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x10)) = *(struct mv3 *)(((((t92 << 1) + t92) << 2) + (*(int *)((R11 + 0x0))))); }
-    t94 = *(signed char *)(((*(int *)(((int)stk + 8))) + 0x0));
+    t94 = *(signed char *)(((R1008) + 0x0));
     t95 = nlLength((((int)stk + 8) + 0x10), (((short)((((t94 << 1) + t94) << 2) << 1) + R13) + 0x1C));
     t96 = *(int *)((R14 + 0x14));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x10)) = *(struct mv3 *)(((((t96 << 1) + t96) << 2) + (*(int *)((R11 + 0x0))))); }
     t98 = nlLength((((int)stk + 8) + 0x10), (R14 + 0x8));
-    *(float *)(((*(int *)(((int)stk + 12))) + 0x0)) = ((((float)t89 * F13) + t95) + t98);
+    *(float *)(((R1012) + 0x0)) = ((((float)t89 * F13) + t95) + t98);
     F0 = (t98);
     goto L_C0259DE;
     L_C0259DE:;
-    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0x4);
+    R1012 = ((R1012) + 0x4);
     R10 = ((R10 + 0x1));
-    R3 = (((*(int *)(((int)stk + 8))) + 0x1));
+    R3 = (((R1008) + 0x1));
     R8 = ((R8 + 0x4));
     goto L_C0259EC;
     L_C02594A:;
@@ -246,7 +254,7 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     R2 = (0x1);
     goto L_C0257F6;
     L_C0257F6:;
-    *(unsigned int *)(((int)stk + 20)) = R2;
+    R1020 = R2;
     goto L_C0257F8;
     L_C0257E6:;
     R14 = (0xC0E4810);
@@ -255,10 +263,10 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     R14 = (0xC0E4838);
     goto L_C0257E0;
     L_C0257E0:;
-    *(unsigned int *)(((int)stk + 20)) = 0x7;
+    R1020 = 0x7;
     goto L_C0257F8;
     L_C0257D4:;
-    *(unsigned int *)(((int)stk + 20)) = 0xA;
+    R1020 = 0xA;
     R14 = (0xC0E4388);
     goto L_C0257F8;
     L_C0257CE:;
@@ -268,14 +276,14 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     R14 = (0xC0E4310);
     goto L_C0257EE;
     L_C0257BE:;
-    *(unsigned int *)(((int)stk + 20)) = 0x8;
+    R1020 = 0x8;
     R14 = (0xC0E4590);
     goto L_C0257F8;
     L_C0257B8:;
     R14 = (0xC0E4338);
     goto L_C0257EE;
     L_C0257B2:;
-    *(unsigned int *)(((int)stk + 20)) = R9;
+    R1020 = R9;
     R14 = (0xC0E4518);
     goto L_C0257F8;
     L_C02579E:;
@@ -315,7 +323,7 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     if ((R5 != 1)) goto L_C02571C;
     goto L_C025714;
     L_C025714:;
-    *(unsigned int *)(((int)stk + 20)) = 0xCA;
+    R1020 = 0xCA;
     R14 = (R6);
     goto L_C0257F8;
     L_C02571C:;
@@ -326,7 +334,7 @@ float kyakuInitStops(int a4, int a5, int a6, int a7, float f4)
     if ((R10 == -1)) goto L_C0256B6;
     goto L_C025692;
     L_C025692:;
-    GetStopPosCenter((*(int *)((R14 + 0x0))), (R14 + 0x4), (R14 + 0x14), F4);
+    GetStopPosCenter((*(int *)((R14 + 0x0))), (R14 + 0x4), (R14 + 0x14));
     t142 = ((int (*)(int, int, int, int, int))(getNearLineIndex))(0x0, (*(int *)((R11 + 0x0))), (*(int *)((R12 + 0x0))), (R14 + 0x10), (R14 + 0x4));
     goto L_C0256CA;
     L_C0256CA:;

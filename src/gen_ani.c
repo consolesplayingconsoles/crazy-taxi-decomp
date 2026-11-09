@@ -14,7 +14,6 @@ int ExecScreen(float f4)
     float u4;
     float u5;
     int t8;
-    int t6;
     float u11;
     float u15;
 
@@ -30,11 +29,10 @@ int ExecScreen(float f4)
         t8 = 0x1;
         if ((u4 - u5) > 0.0f) {
         } else {
-            t6 = 0x0;
+            t8 = 0x0;
             if (0.0f > (u4 - u5)) {
-                t6 = 0xFFFFFFFF;
+                t8 = 0xFFFFFFFF;
             }
-            t8 = t6;
         }
         u11 = (*(float *)0xC2A1A10);
         u11 = u11 + u0 * (float)t8;

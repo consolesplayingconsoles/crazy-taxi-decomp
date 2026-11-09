@@ -8,15 +8,11 @@ int SeachRankTotal(int a4, int a5, int a6, int a7)
 {
     int t39;
     int t0;
-    int t4;
-    int t8;
-    int t9;
     int t1;
     int t24;
     int t15;
     int t19;
     int t20;
-    int t33;
     int t27;
     int t28;
     int t29;
@@ -29,18 +25,15 @@ int SeachRankTotal(int a4, int a5, int a6, int a7)
             t19 = ((((0xC28A4F8 + (short)((short)a4 * (short)0x788)) + 0x8) + (short)((short)t0 * (short)0x78)) + (signed char)(((a6 << 1) + a6) << 2));
             t20 = (0xC2A1260 + (short)((short)t0 * (short)0x78));
         } else {
-            t4 = 0x5;
-            t8 = (((0x3C8 + ((short)((short)a4 * (short)0x788) + 0xC28A4F8)) + (short)((short)(a5 - 2) * (short)0x3C)) + (signed char)(((a6 << 1) + a6) << 2));
-            t9 = (0xC2A1620 + (short)((short)(a5 - 2) * (short)0x3C));
+            t15 = 0x5;
+            t19 = (((0x3C8 + ((short)((short)a4 * (short)0x788) + 0xC28A4F8)) + (short)((short)(a5 - 2) * (short)0x3C)) + (signed char)(((a6 << 1) + a6) << 2));
+            t20 = (0xC2A1620 + (short)((short)(a5 - 2) * (short)0x3C));
             if (a5 == 1) {
                 t1 = GetMenuMode(0x1);
-                t4 = 0xA;
-                t8 = ((((0xC28A4F8 + (short)((short)a4 * (short)0x788)) + 0x1E8) + (short)((short)t1 * (short)0x78)) + (signed char)(((a6 << 1) + a6) << 2));
-                t9 = (0xC2A1440 + (short)((short)t1 * (short)0x78));
+                t15 = 0xA;
+                t19 = ((((0xC28A4F8 + (short)((short)a4 * (short)0x788)) + 0x1E8) + (short)((short)t1 * (short)0x78)) + (signed char)(((a6 << 1) + a6) << 2));
+                t20 = (0xC2A1440 + (short)((short)t1 * (short)0x78));
             }
-            t15 = t4;
-            t19 = t8;
-            t20 = t9;
         }
         if ((int)t15 > 0) {
             t24 = 0x0;
@@ -53,11 +46,10 @@ int SeachRankTotal(int a4, int a5, int a6, int a7)
                     return 0xFFFFFFFF;
                 }
             }
-            t33 = t24;
+            t39 = t24;
         } else {
-            t33 = 0xFFFFFFFF;
+            t39 = 0xFFFFFFFF;
         }
-        t39 = t33;
     }
     return t39;
 }

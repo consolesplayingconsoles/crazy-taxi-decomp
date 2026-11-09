@@ -6,8 +6,32 @@ int Result_Awesome_Put(void);
 int Result_Crazy_Put(void);
 int Sound_Request(int, int);
 int nlObjPutSetFadeColor(float, float, float);
-int nlSprPut(int, int, int);
+int nlSprPut(int, int);
 void Result_Class_Put(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_int { char p[0x10]; int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_int { char p[0x14]; int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o18_int { char p[0x18]; int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o20_float { char p[0x20]; float v; };
+struct o28_float { char p[0x28]; float v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o30_int { char p[0x30]; int v; };
+struct o38_int { char p[0x38]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct o3C_uint { char p[0x3C]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 void Result_Class_Put(void)
 {
@@ -15,50 +39,50 @@ void Result_Class_Put(void)
     int t73;
     int t70;
 
-    t1 = *(int *)0xC2A97A8;
-    if ((int)(*(int *)0xC2A96F4) <= (int)t1) {
+    t1 = (((struct o0_int *)0xC2A97A8)->v);
+    if ((int)((((struct o0_int *)0xC2A96F4)->v)) <= (int)t1) {
         return;
     }
-    if ((*(int *)0xC2A982C) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o0_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9830) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o4_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9834) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o8_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9838) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct oC_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A983C) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o10_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9840) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o14_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9844) != 1) {
-        *(unsigned int *)0xC2A96F4 = t1;
+    if (((((struct o18_int *)0xC2A982C)->v)) != 1) {
+        (((struct o0_uint *)0xC2A96F4)->v) = t1;
         return;
     }
-    if ((*(int *)0xC2A9848) == 1) {
-        if ((*(int *)0xC2A97E0) == 1) {
-            *(unsigned int *)0xC2A97E4 = ((*(int *)0xC2A97E4) + 0x1);
+    if (((((struct o1C_int *)0xC2A982C)->v)) == 1) {
+        if (((((struct o38_int *)0xC2A97A8)->v)) == 1) {
+            (((struct o3C_uint *)0xC2A97A8)->v) = (((((struct o3C_int *)0xC2A97A8)->v)) + 0x1);
         }
-        if ((*(int *)0xC2A96F4) == ((*(int *)0xC2A97A8) + 0x1)) {
+        if (((((struct o0_int *)0xC2A96F4)->v)) == (((((struct o0_int *)0xC2A97A8)->v)) + 0x1)) {
             Sound_Request(0x405A9, 0x0);
             *(unsigned int *)0xC130E04 = ((*(int *)0xC130E04) + 0x1);
-            *(unsigned int *)0xC2A9754 = 0x1;
+            (((struct oC_uint *)0xC2A9748)->v) = 0x1;
         } else {
             t70 = 0xC2A96F4;
         }
-        t73 = *(int *)0xC2A97D8;
+        t73 = (((struct o30_int *)0xC2A97A8)->v);
         if (t73 == 0x3E7) {
             nlObjPutSetFadeColor(0.75f, 0.0f, 0.0f);
             Result_Crazy_Put();
@@ -71,16 +95,16 @@ void Result_Class_Put(void)
             ResetFadeColor();
     return;
         }
-        *(unsigned int *)0xC2A96F8 = (*(int *)(((t73 << 2) + 0xC130E80)));
-        *(float *)0xC2A96FC = 164.0f;
-        *(float *)0xC2A9700 = (float)((*(int *)0xC2A9748) + 0x18C);
-        *(float *)0xC2A9708 = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A970C = ((*(float *)0xC2A9758) + 1.0f);
-        *(float *)0xC2A9714 = 0.0f;
-        *(float *)0xC2A971C = 1.0f;
-        *(unsigned int *)0xC2A9720 = 0x0;
-        nlSprPut(0xC2A96F8, 0xC2A9758, t70);
+        (((struct o4_uint *)0xC2A96F4)->v) = (*(int *)(((t73 << 2) + 0xC130E80)));
+        (((struct o8_float *)0xC2A96F4)->v) = 164.0f;
+        (((struct oC_float *)0xC2A96F4)->v) = (float)(((((struct o0_int *)0xC2A9748)->v)) + 0x18C);
+        (((struct o14_float *)0xC2A96F4)->v) = (((((struct o10_float *)0xC2A9748)->v)) + 1.0f);
+        (((struct o18_float *)0xC2A96F4)->v) = (((((struct o10_float *)0xC2A9748)->v)) + 1.0f);
+        (((struct o20_float *)0xC2A96F4)->v) = 0.0f;
+        (((struct o28_float *)0xC2A96F4)->v) = 1.0f;
+        (((struct o2C_uint *)0xC2A96F4)->v) = 0x0;
+        nlSprPut(0xC2A96F8, 0xC2A9758);
     return;
     }
-    *(unsigned int *)0xC2A96F4 = t1;
+    (((struct o0_uint *)0xC2A96F4)->v) = t1;
 }

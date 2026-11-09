@@ -3,6 +3,9 @@
 
 float getNearLineIndex(int, int, int, int, int, float);
 float navi_GetRouteDataC(int a4, int a5, int a6, int a7, float f4);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 float navi_GetRouteDataC(int a4, int a5, int a6, int a7, float f4)
 {
@@ -74,8 +77,8 @@ float navi_GetRouteDataC(int a4, int a5, int a6, int a7, float f4)
     goto L_C02B1B0;
     L_C02B1B0:;
     *(float *)((R8 + 0x0)) = F4;
-    *(unsigned int *)0xC1EE1F8 = R14;
-    *(unsigned int *)0xC1EE1FC = (*(int *)(((int)stk + 8)));
+    (((struct o0_uint *)0xC1EE1F8)->v) = R14;
+    (((struct o4_uint *)0xC1EE1F8)->v) = (*(int *)(((int)stk + 8)));
     F15 = (F4);
     goto L_C02B1BE;
 }

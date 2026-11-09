@@ -10,6 +10,12 @@ int pfPuts(int);
 int pfSetFont(int);
 int pfSize(float, float);
 int Put_Max_Combo(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int Put_Max_Combo(void)
 {
@@ -52,7 +58,7 @@ int Put_Max_Combo(void)
     pfSetFont(0x0);
     t29 = 0xFFFFFF00;
     t30 = 0xFFFFFFFF;
-    if (((*(int *)0xC1EE20C) == 2) && (((t20 = *(int *)0xC1EE214, t20 == 12) && (t21 = *(int *)0xC2A7614, (int)t21 >= (int)0x1E)) || ((t22 = *(int *)0xC1EE20C, t22 == 2) && ((t23 = *(int *)0xC1EE214, t23 == 4) && (t24 = *(int *)0xC2A7614, (int)t24 >= (int)0xF))))) {
+    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (((t20 = (((struct o8_int *)0xC1EE20C)->v), t20 == 12) && (t21 = *(int *)0xC2A7614, (int)t21 >= (int)0x1E)) || ((t22 = (((struct o0_int *)0xC1EE20C)->v), t22 == 2) && ((t23 = (((struct o8_int *)0xC1EE20C)->v), t23 == 4) && (t24 = *(int *)0xC2A7614, (int)t24 >= (int)0xF))))) {
         t29 = 0xFF0088FF;
         t30 = 0xFF88FFFF;
     }
@@ -61,12 +67,12 @@ int Put_Max_Combo(void)
     u33 = 98.0f;
     pfLocate((float)(t15 + 0x1B4), u33);
     pfPuts(0xC0D09C4);
-    *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = 564.0f;
-    *(float *)0xC2A88E4 = u33;
+    (((struct o0_uint *)0xC2A88DC)->v) = ((*(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0))) + 0x50);
+    (((struct o4_float *)0xC2A88DC)->v) = 564.0f;
+    (((struct o8_float *)0xC2A88DC)->v) = u33;
     u48 = 1.0f;
     u49 = 0.0f;
-    if (((*(int *)0xC1EE20C) == 2) && (((t39 = *(int *)0xC1EE214, t39 == 12) && (t40 = *(int *)0xC2A7614, (int)t40 >= (int)0x1E)) || ((t41 = *(int *)0xC1EE20C, t41 == 2) && ((t42 = *(int *)0xC1EE214, t42 == 4) && (t43 = *(int *)0xC2A7614, (int)t43 >= (int)0xF))))) {
+    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (((t39 = (((struct o8_int *)0xC1EE20C)->v), t39 == 12) && (t40 = *(int *)0xC2A7614, (int)t40 >= (int)0x1E)) || ((t41 = (((struct o0_int *)0xC1EE20C)->v), t41 == 2) && ((t42 = (((struct o8_int *)0xC1EE20C)->v), t42 == 4) && (t43 = *(int *)0xC2A7614, (int)t43 >= (int)0xF))))) {
         u48 = 0.0f;
         u49 = 1.0f;
     }
@@ -76,12 +82,12 @@ int Put_Max_Combo(void)
     }
     if (((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) == 0) && (t57 = *(int *)((((((int)stk + 4) + 0x4) + 0x8) + 0x0)), t57 == 0)) {
     } else {
-        *(unsigned int *)0xC2A88DC = ((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) + 0x50);
-        *(float *)0xC2A88E0 = 586.0f;
+        (((struct o0_uint *)0xC2A88DC)->v) = ((*(int *)((((((int)stk + 4) + 0x4) + 0x4) + 0x0))) + 0x50);
+        (((struct o4_float *)0xC2A88DC)->v) = 586.0f;
         nlSprPut(0xC2A88DC);
     }
-    *(unsigned int *)0xC2A88DC = ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50);
-    *(float *)0xC2A88E0 = 6.1e+02f;
+    (((struct o0_uint *)0xC2A88DC)->v) = ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x50);
+    (((struct o4_float *)0xC2A88DC)->v) = 6.1e+02f;
     nlSprPut(0xC2A88DC);
     return (ResetFadeColor());
 }

@@ -33,6 +33,21 @@ int PutStringFixPfont(int, int, float, float, float, float);
 int PutVM_Message(int, int, int, float, float);
 extern void _builtin_ftrv(float *, float *);
 #pragma inline_asm(iaOcbwb)
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 static void iaOcbwb(void *p)
 {
     .DATA.W H'04B3
@@ -176,7 +191,7 @@ int kmiInterruptHandlerSH(void)
     int t65;
     int t66;
 
-    t0 = *(int *)0xA05F6900;
+    t0 = (((struct o0_int *)0xA05F6900)->v);
     if ((t0 & 0x8) != 0) {
         t1 = kmiEndOfRenderISR();
         if (t1 != 0) {
@@ -184,99 +199,99 @@ int kmiInterruptHandlerSH(void)
         }
     }
     if ((t0 & 0x20) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x20;
-        t4 = *(int *)0xC2EA930;
-        *(unsigned int *)0xC2EA930 = (t4 | 0x4);
+        (((struct o0_uint *)0xA05F6900)->v) = 0x20;
+        t4 = (((struct o0_int *)0xC2EA930)->v);
+        (((struct o0_uint *)0xC2EA930)->v) = (t4 | 0x4);
     }
     if ((t0 & 0x4) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x7;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x7;
         *(unsigned int *)0xC2EA888 = 0x0;
-        *(unsigned int *)0xC2F91A8 = 0x0;
+        (((struct o0_uint *)0xC2F91A8)->v) = 0x0;
         t6 = *(int *)0xFFD8000C;
-        t7 = *(int *)0xC2F91E8;
-        *(unsigned int *)0xC2F91EC = (t7 - t6);
-        t8 = *(int *)0xC2EA9F8;
+        t7 = (((struct o0_int *)0xC2F91E8)->v);
+        (((struct o4_uint *)0xC2F91E8)->v) = (t7 - t6);
+        t8 = (((struct o18_int *)0xC2EA9E0)->v);
         if (t8 != 0) {
-            *(unsigned int *)0xC2EA9F8 = 0x0;
-            *(unsigned int *)0xC2F91C0 = 0x0;
-            t9 = *(int *)0xC2EA94C;
-            *(unsigned int *)0xA05F8048 = t9;
-            t10 = *(int *)0xC2EA944;
-            *(unsigned int *)0xA05F804C = t10;
-            t11 = *(int *)0xC2EA934;
-            *(unsigned int *)0xA05F8068 = t11;
-            t12 = *(int *)0xC2EA938;
-            *(unsigned int *)0xA05F806C = t12;
+            (((struct o18_uint *)0xC2EA9E0)->v) = 0x0;
+            (((struct o18_uint *)0xC2F91A8)->v) = 0x0;
+            t9 = (((struct o1C_int *)0xC2EA930)->v);
+            (((struct o0_uint *)0xA05F8048)->v) = t9;
+            t10 = (((struct o14_int *)0xC2EA930)->v);
+            (((struct o4_uint *)0xA05F8048)->v) = t10;
+            t11 = (((struct o4_int *)0xC2EA930)->v);
+            (((struct o20_uint *)0xA05F8048)->v) = t11;
+            t12 = (((struct o8_int *)0xC2EA930)->v);
+            (((struct o24_uint *)0xA05F8048)->v) = t12;
         } else {
-            t13 = *(int *)0xC2EA9E0;
+            t13 = (((struct o0_int *)0xC2EA9E0)->v);
             *(unsigned int *)(((t13 << 2) + 0xC2EA9CC)) = 0x5;
         }
-        t18 = *(int *)0xC2EA930;
-        *(unsigned int *)0xC2EA930 = (t18 | 0x1);
-        *(unsigned int *)0xC2F91F8 = 0x0;
+        t18 = (((struct o0_int *)0xC2EA930)->v);
+        (((struct o0_uint *)0xC2EA930)->v) = (t18 | 0x1);
+        (((struct o10_uint *)0xC2F91E8)->v) = 0x0;
     }
     if ((t0 & 0x80000) != 0) {
         t22 = *(int *)0xFFA0002C;
         *(unsigned int *)0xFFA0002C = (t22 & 0xFFFFFFFC);
-        *(unsigned int *)0xA05F6900 = 0x80000;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x80000;
         kmiExecuteDMAChain();
     }
     if ((t0 & 0x40) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x40;
-        t24 = *(int *)0xC2EA930;
-        *(unsigned int *)0xC2EA930 = (t24 | 0x40);
+        (((struct o0_uint *)0xA05F6900)->v) = 0x40;
+        t24 = (((struct o0_int *)0xC2EA930)->v);
+        (((struct o0_uint *)0xC2EA930)->v) = (t24 | 0x40);
     }
     if ((t0 & 0x80) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x80;
-        t26 = *(int *)0xC2EA9EC;
-        *(unsigned int *)0xC2EA9EC = (t26 | 0x1);
-        t27 = *(int *)0xC2EA9EC;
-        t28 = *(int *)0xC2EA9E8;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x80;
+        t26 = (((struct oC_int *)0xC2EA9E0)->v);
+        (((struct oC_uint *)0xC2EA9E0)->v) = (t26 | 0x1);
+        t27 = (((struct oC_int *)0xC2EA9E0)->v);
+        t28 = (((struct o8_int *)0xC2EA9E0)->v);
         if (t28 == t27) {
             kmiFinalizeRender();
         }
     }
     if ((t0 & 0x100) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x100;
-        t31 = *(int *)0xC2EA9EC;
-        *(unsigned int *)0xC2EA9EC = (t31 | 0x2);
-        t32 = *(int *)0xC2EA9EC;
-        t33 = *(int *)0xC2EA9E8;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x100;
+        t31 = (((struct oC_int *)0xC2EA9E0)->v);
+        (((struct oC_uint *)0xC2EA9E0)->v) = (t31 | 0x2);
+        t32 = (((struct oC_int *)0xC2EA9E0)->v);
+        t33 = (((struct o8_int *)0xC2EA9E0)->v);
         if (t33 == t32) {
             kmiFinalizeRender();
         }
     }
     if ((t0 & 0x200) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x200;
-        t36 = *(int *)0xC2EA9EC;
-        *(unsigned int *)0xC2EA9EC = (t36 | 0x4);
-        t37 = *(int *)0xC2EA9EC;
-        t38 = *(int *)0xC2EA9E8;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x200;
+        t36 = (((struct oC_int *)0xC2EA9E0)->v);
+        (((struct oC_uint *)0xC2EA9E0)->v) = (t36 | 0x4);
+        t37 = (((struct oC_int *)0xC2EA9E0)->v);
+        t38 = (((struct o8_int *)0xC2EA9E0)->v);
         if (t38 == t37) {
             kmiFinalizeRender();
         }
     }
     if ((t0 & 0x400) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x400;
-        t41 = *(int *)0xC2EA9EC;
-        *(unsigned int *)0xC2EA9EC = (t41 | 0x8);
-        t42 = *(int *)0xC2EA9EC;
-        t43 = *(int *)0xC2EA9E8;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x400;
+        t41 = (((struct oC_int *)0xC2EA9E0)->v);
+        (((struct oC_uint *)0xC2EA9E0)->v) = (t41 | 0x8);
+        t42 = (((struct oC_int *)0xC2EA9E0)->v);
+        t43 = (((struct o8_int *)0xC2EA9E0)->v);
         if (t43 == t42) {
             kmiFinalizeRender();
         }
     }
     if ((t0 & 0x200000) != 0) {
-        *(unsigned int *)0xA05F6900 = 0x200000;
-        t46 = *(int *)0xC2EA9EC;
-        *(unsigned int *)0xC2EA9EC = (t46 | 0x10);
-        t47 = *(int *)0xC2EA9EC;
-        t48 = *(int *)0xC2EA9E8;
+        (((struct o0_uint *)0xA05F6900)->v) = 0x200000;
+        t46 = (((struct oC_int *)0xC2EA9E0)->v);
+        (((struct oC_uint *)0xC2EA9E0)->v) = (t46 | 0x10);
+        t47 = (((struct oC_int *)0xC2EA9E0)->v);
+        t48 = (((struct o8_int *)0xC2EA9E0)->v);
         if (t48 == t47) {
             kmiFinalizeRender();
         }
     }
-    t51 = *(int *)0xA05F6908;
+    t51 = (((struct o8_int *)0xA05F6900)->v);
     if ((0x4 & t51) != 0) {
         t52 = kmiErrorISR04();
         if (t52 != 0) {
@@ -298,10 +313,10 @@ int kmiInterruptHandlerSH(void)
     t61 = t51;
     t62 = 0x0;
     while ((int)t62 < (int)0xA) {
-        t63 = *(int *)0xC2EA930;
+        t63 = (((struct o0_int *)0xC2EA930)->v);
         if ((t63 & ((int)0x1 << (int)t62)) != 0) {
-            t64 = *(int *)0xC2EA930;
-            *(unsigned int *)0xC2EA930 = (t64 & (~((int)0x1 << (int)t62)));
+            t64 = (((struct o0_int *)0xC2EA930)->v);
+            (((struct o0_uint *)0xC2EA930)->v) = (t64 & (~((int)0x1 << (int)t62)));
             t61 = t62;
             t61 = (t61 << 2);
             t61 = (t61 << 1);

@@ -4,7 +4,7 @@
 int CheckClipping(int, float);
 int crowdCreate(int, int);
 int findSplineSection(int, int, int, int);
-int getPieceWindow(int, int, int, int, int, int, int, int, float);
+int getPieceWindow(int, int, int, int, int, int, int, int);
 int nlCalcPoint(int, int);
 int nlGetMatrix(int);
 float nlLength(int, int);
@@ -15,6 +15,10 @@ int nlTranslateNV(int);
 int nlUnitVector(int);
 int pedGetSubwayFlag(float, float);
 int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_uint { unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -64,7 +68,7 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C04F1E8:;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 20) + 0x20)) = *(struct mv3 *)(0xC0CF584); }
     *(unsigned int *)(((int)stk + 32)) = 0x0;
-    *(unsigned int *)0xC2A6FD8 = (pedGetSubwayFlag(F4, f5));
+    (((struct o0_uint *)0xC2A6FD8)->v) = (pedGetSubwayFlag(F4, f5));
     R0 = (0x64);
     R11 = (0x0);
     R12 = (0x0);
@@ -83,8 +87,8 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
     R9 = (0xC0C8420);
     goto L_C04F278;
     L_C04F278:;
-    t11 = *(int *)0xC2A6FDC;
-    t12 = *(int *)0xC2A6FE0;
+    t11 = (((struct o4_int *)0xC2A6FD8)->v);
+    t12 = (((struct o8_int *)0xC2A6FD8)->v);
     nlPushUnitMatrix();
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 20) + 0x2C)) = *(struct mv3 *)((0xFC + R14)); }
     nlUnitVector((((int)stk + 20) + 0x2C));
@@ -203,7 +207,7 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C04F2E8:;
     goto L_C04F57E;
     L_C04F2EC:;
-    getPieceWindow((((int)stk + 4) + 0x2C), 0xC0CF378, 0xC0CF374, 0xC0CF3FC, ((*(int *)0xC0CB0D0)), (((int)stk + 12) + 0x8), (((int)stk + 16) + 0xC), (((int)stk + 20) + 0x18), F4);
+    getPieceWindow((((int)stk + 4) + 0x2C), 0xC0CF378, 0xC0CF374, 0xC0CF3FC, ((*(int *)0xC0CB0D0)), (((int)stk + 12) + 0x8), (((int)stk + 16) + 0xC), (((int)stk + 20) + 0x18));
     goto L_C04F41A;
     L_C04F41A:;
     if (((int)R11 < (int)(*(int *)(((int)stk + 44))))) goto L_C04F364;

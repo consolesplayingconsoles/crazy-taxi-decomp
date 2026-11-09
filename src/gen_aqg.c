@@ -8,7 +8,7 @@ int PutVM_Message(int, int, int, float, float);
 int callSaveData(int);
 int memcmp(int, int, int);
 int memmove(int, int, int);
-int windowEnterStep(int, int, int);
+int windowEnterStep(int);
 int windowOpenStep(int);
 int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7);
 
@@ -41,6 +41,8 @@ int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7
     float F7;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -80,7 +82,7 @@ int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7
     PutVM_Message(0x20, 0x17, R9, 237.0f, F15);
     goto L_C03F36E;
     L_C03F36E:;
-    t21 = windowEnterStep(0x0, R5, R6);
+    t21 = windowEnterStep(0x0);
     R0 = (t21);
     if ((t21 != 1)) goto L_C03F394;
     goto L_C03F378;
@@ -121,12 +123,12 @@ int windowNameSet(int a4, int a5, int a6, float f4, float f5, float f6, float f7
     if (((int)R4 < (int)R13)) goto L_C03F316;
     goto L_C03F322;
     L_C03F322:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC0EF7A8;
+    R1004 = 0xC0EF7A8;
     R11 = (0x0);
     R8 = (0x20);
     goto L_C03F332;
     L_C03F332:;
-    t50 = (int)R11 < (int)(*(int *)(((((GetNowLanguage(0x0)) << 2) + (*(int *)(((int)stk + 4)))) + 0x14)));
+    t50 = (int)R11 < (int)(*(int *)(((((GetNowLanguage(0x0)) << 2) + (R1004)) + 0x14)));
     if (t50) goto L_C03F32C;
     goto L_C03F344;
     L_C03F344:;

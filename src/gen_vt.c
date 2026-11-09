@@ -3,6 +3,22 @@
 
 extern int nlSprPut();
 int hudDrawFareFrame(int a4, int a5, int a6);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+struct o3C_float { char p[0x3C]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int hudDrawFareFrame(int a4, int a5, int a6)
 {
@@ -16,78 +32,78 @@ int hudDrawFareFrame(int a4, int a5, int a6)
     int t23;
     int t27;
 
-    t0 = *(int *)0xC2A8EB0;
+    t0 = (((struct o0_int *)0xC2A8EB0)->v);
     if ((t0 != 1) && (t0 != 6)) {
-        *(float *)0xC2A7EA8 = 0.0f;
+        (((struct o1C_float *)0xC2A7E8C)->v) = 0.0f;
     } else {
-        *(float *)0xC2A7EA8 = (1.0f - (*(float *)0xC2A8EA0));
+        (((struct o1C_float *)0xC2A7E8C)->v) = (1.0f - ((((struct o3C_float *)0xC2A8E64)->v)));
     }
-    *(float *)0xC2A7EB0 = 1.0f;
-    *(unsigned int *)0xC2A7E8C = 0x128;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7E90 = 532.0f;
-    *(float *)0xC2A7E94 = 96.0f;
-    *(float *)0xC2A7E98 = 0.049999997f;
-    *(float *)0xC2A7E9C = 9.0f;
-    *(float *)0xC2A7EA0 = (1.0f + 1.0f);
-    *(float *)0xC2A7EB8 = 0.699999988f;
-    *(unsigned int *)0xC2A7EB4 = 0x8000;
+    (((struct o24_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x128;
+    (((struct o18_float *)0xC2A7E8C)->v) = 0.0f;
+    (((struct o20_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 532.0f;
+    (((struct o8_float *)0xC2A7E8C)->v) = 96.0f;
+    (((struct oC_float *)0xC2A7E8C)->v) = 0.049999997f;
+    (((struct o10_float *)0xC2A7E8C)->v) = 9.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = (1.0f + 1.0f);
+    (((struct o2C_float *)0xC2A7E8C)->v) = 0.699999988f;
+    (((struct o28_uint *)0xC2A7E8C)->v) = 0x8000;
     t4 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7E8C, a5, a6);
-    *(float *)0xC2A7E94 = (96.0f - (*(float *)0xC2A8EB8));
-    *(unsigned int *)0xC2A7EB4 = 0x0;
+    (((struct o8_float *)0xC2A7E8C)->v) = (96.0f - ((((struct o8_float *)0xC2A8EB0)->v)));
+    (((struct o28_uint *)0xC2A7E8C)->v) = 0x0;
     t6 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = 1.0f;
-    *(float *)0xC2A7EB8 = 1.0f;
-    *(unsigned int *)0xC2A7E8C = 0x102;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7E90 = 458.0f;
-    *(float *)0xC2A7E94 = (79.0f - (*(float *)0xC2A8EB8));
-    *(float *)0xC2A7E98 = 0.289999992f;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = (*(float *)0xC2A8EA0);
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o2C_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x102;
+    (((struct o18_float *)0xC2A7E8C)->v) = 0.0f;
+    (((struct o20_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 458.0f;
+    (((struct o8_float *)0xC2A7E8C)->v) = (79.0f - ((((struct o8_float *)0xC2A8EB0)->v)));
+    (((struct oC_float *)0xC2A7E8C)->v) = 0.289999992f;
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = ((((struct o3C_float *)0xC2A8E64)->v));
     t9 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(float *)0xC2A7E98 = 0.279999971f;
-    *(unsigned int *)0xC2A7E8C = 0x10E;
-    *(float *)0xC2A7E90 = 468.0f;
+    (((struct oC_float *)0xC2A7E8C)->v) = 0.279999971f;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x10E;
+    (((struct o4_float *)0xC2A7E8C)->v) = 468.0f;
     t10 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    if ((*(int *)0xC2A8E64) != 10) {
-        *(unsigned int *)0xC2A7E8C = 0x10D;
+    if (((((struct o0_int *)0xC2A8E64)->v)) != 10) {
+        (((struct o0_uint *)0xC2A7E8C)->v) = 0x10D;
     } else {
-        *(unsigned int *)0xC2A7E8C = 0xFE;
+        (((struct o0_uint *)0xC2A7E8C)->v) = 0xFE;
     }
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7E90 = 512.0f;
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 512.0f;
     t16 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(unsigned int *)0xC2A7E8C = 0x10F;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7E90 = 568.0f;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x10F;
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 568.0f;
     t18 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(unsigned int *)0xC2A7E8C = 0x102;
-    *(unsigned int *)0xC2A7EC0 = 0x200E;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7E90 = 606.0f;
-    *(float *)0xC2A7E94 = (79.0f - (*(float *)0xC2A8EB8));
-    *(float *)0xC2A7E98 = 0.289999992f;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = (*(float *)0xC2A8EA0);
-    *(unsigned int *)0xC2A7EB4 = 0x8000;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x102;
+    (((struct o34_uint *)0xC2A7E8C)->v) = 0x200E;
+    (((struct o18_float *)0xC2A7E8C)->v) = 0.0f;
+    (((struct o20_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 606.0f;
+    (((struct o8_float *)0xC2A7E8C)->v) = (79.0f - ((((struct o8_float *)0xC2A8EB0)->v)));
+    (((struct oC_float *)0xC2A7E8C)->v) = 0.289999992f;
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = ((((struct o3C_float *)0xC2A8E64)->v));
+    (((struct o28_uint *)0xC2A7E8C)->v) = 0x8000;
     t23 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(unsigned int *)0xC2A7EC0 = 0x2006;
-    *(unsigned int *)0xC2A7EB4 = 0x0;
-    *(unsigned int *)0xC2A7E8C = 0x1A2;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7E90 = 532.0f;
-    *(float *)0xC2A7E94 = (111.0f - (*(float *)0xC2A8EB8));
-    *(float *)0xC2A7E98 = 0.289999992f;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = (*(float *)0xC2A8EA0);
+    (((struct o34_uint *)0xC2A7E8C)->v) = 0x2006;
+    (((struct o28_uint *)0xC2A7E8C)->v) = 0x0;
+    (((struct o0_uint *)0xC2A7E8C)->v) = 0x1A2;
+    (((struct o18_float *)0xC2A7E8C)->v) = 0.0f;
+    (((struct o20_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o4_float *)0xC2A7E8C)->v) = 532.0f;
+    (((struct o8_float *)0xC2A7E8C)->v) = (111.0f - ((((struct o8_float *)0xC2A8EB0)->v)));
+    (((struct oC_float *)0xC2A7E8C)->v) = 0.289999992f;
+    (((struct o10_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = ((((struct o3C_float *)0xC2A8E64)->v));
     t27 = ((int (*)(int))(nlSprPut))(0xC2A7E8C);
-    *(float *)0xC2A7EA0 = 1.0f;
-    *(float *)0xC2A7EB0 = 1.0f;
+    (((struct o14_float *)0xC2A7E8C)->v) = 1.0f;
+    (((struct o24_float *)0xC2A7E8C)->v) = 1.0f;
     return 0x24;
 }

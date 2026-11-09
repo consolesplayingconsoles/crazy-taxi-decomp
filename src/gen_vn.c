@@ -2,6 +2,9 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int hudLoadRanking(void);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int hudLoadRanking(void)
 {
@@ -20,7 +23,6 @@ int hudLoadRanking(void)
     int t27;
     int t28;
     int t30;
-    int stk[8];
 
     t0 = 0x0;
     t1 = 0xC2A8FD8;
@@ -39,7 +41,6 @@ int hudLoadRanking(void)
     t7 = 0x0;
     for (;;) {
         t8 = *(int *)0xC1EE210;
-        *(unsigned int *)(((int)stk + 4)) = ((short)((short)t8 * (short)0x3C0) + 0xC28C318);
         if ((unsigned int)(*(int *)(((((t7 << 2) << 1) + (((short)((short)t8 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4))) > (unsigned int)(*(int *)(((((t6 << 2) << 1) + (((short)((short)t8 * (short)0x3C0) + 0xC28C318) + 0x140)) + 0x4)))) {
             t7 = t6;
         }
@@ -78,8 +79,8 @@ int hudLoadRanking(void)
             }
         }
     }
-    *(unsigned int *)0xC2A9164 = 0x0;
-    *(unsigned int *)0xC2A9168 = 0x64;
+    (((struct o0_uint *)0xC2A9164)->v) = 0x0;
+    (((struct o4_uint *)0xC2A9164)->v) = 0x64;
     *(unsigned int *)0xC1EE340 = 0x64;
     return 0x18C;
 }

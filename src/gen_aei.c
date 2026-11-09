@@ -24,16 +24,23 @@ int write_dir(int a4)
     int t5;
     int t6;
     int stk[12] = {0};
+    int R1004;
+    int R1008;
+    int R1012;
+
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
 
     t0 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
     t2 = *(int *)((t0 + 0x14));
-    *(unsigned int *)(((int)stk + 8)) = (*(int *)((t0 + 0x18)));
-    *(unsigned int *)(((int)stk + 12)) = 0x0;
+    R1008 = (*(int *)((t0 + 0x18)));
+    R1012 = 0x0;
     t4 = 0x0;
     t7 = (unsigned short)t2;
     for (;;) {
-        if ((int)t4 >= (int)(*(int *)(((int)stk + 8)))) {
-            if ((*(int *)(((int)stk + 12))) != 0) {
+        if ((int)t4 >= (int)(R1008)) {
+            if ((R1012) != 0) {
                 t12 = write_fat(a4);
                 if ((int)t12 >= 0) {
                     t13 = write_sys(a4);
@@ -47,14 +54,14 @@ int write_dir(int a4)
             return 0x0;
         }
         if ((*(signed char *)((((((a4 * 0x148) + 0xC2EE990) + 0x48) + t4) + 0x0))) != 0) {
-            *(unsigned int *)(((int)stk + 4)) = ((t4 << 8) << 1);
+            R1004 = ((t4 << 8) << 1);
             for (;;) {
-                t17 = vmsfs_write_retry(a4, t7, ((*(int *)((((a4 * 0x148) + 0xC2EE990) + 0x28))) + (*(int *)(((int)stk + 4)))));
+                t17 = vmsfs_write_retry(a4, t7, ((*(int *)((((a4 * 0x148) + 0xC2EE990) + 0x28))) + (R1004)));
                 if (t17 == 0) {
                     break;
                 }
                 if (t17 != 0xFFFFFF01) {
-                    *(unsigned int *)(((int)stk + 12)) = 0x1;
+                    R1012 = 0x1;
                     t5 = (unsigned short)(get_fat(a4, t7));
                     set_fat(a4, t7);
                     t6 = (search_fat_dir(a4, 0xFFFC));

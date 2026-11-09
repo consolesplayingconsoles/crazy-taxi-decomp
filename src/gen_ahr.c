@@ -9,7 +9,6 @@ int menuPutBackground(float f4, float f5, float f6)
     int t0;
     float u1;
     int t5;
-    int t4;
 
     t0 = *(int *)0xC1EE234;
     u1 = *(float *)0xC2A1AD4;
@@ -17,10 +16,9 @@ int menuPutBackground(float f4, float f5, float f6)
     if (t0 != 1) {
         *(float *)0xC2A1AD4 = 1e+02f;
         *(float *)0xC2A1AB0 = 0.5f;
-        t4 = menuPutSprites(0xC0A0678, 0xC2A1A84, 0x170, 0xD0, f4, f5, f6);
+        t5 = menuPutSprites(0xC0A0678, 0xC2A1A84, 0x170, 0xD0, f4, f5, f6);
         *(float *)0xC2A1AB0 = 1.0f;
         *(float *)0xC2A1AD4 = u1;
-        t5 = t4;
     }
     return t5;
 }

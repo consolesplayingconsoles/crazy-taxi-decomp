@@ -4,13 +4,18 @@
 int GetMenuMode(int);
 int nlPrintColor(int);
 int Result_Next_State(int a4);
+struct o0_int { int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o30_int { char p[0x30]; int v; };
+struct o38_int { char p[0x38]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+
 
 int Result_Next_State(int a4)
 {
     int t0;
     int t15;
     int t28;
-    int stk[3];
 
     int R0;
     int R1;
@@ -21,7 +26,7 @@ int Result_Next_State(int a4)
     int T_;
     R4 = a4;
     L_C0595E8:;
-    t0 = *(int *)0xC2A97D8;
+    t0 = (((struct o30_int *)0xC2A97A8)->v);
     R14 = (0xC2A97D8);
     R4 = (t0);
     if ((t0 == 0)) goto L_C059624;
@@ -33,7 +38,7 @@ int Result_Next_State(int a4)
     if ((R4 == 99)) goto L_C059612;
     goto L_C059602;
     L_C059602:;
-    if (((int)(*(int *)0xC2A96F4) >= (int)((*(int *)0xC2A97A8) + 0x186))) goto L_C059646;
+    if (((int)(*(int *)0xC2A96F4) >= (int)(((((struct o0_int *)0xC2A97A8)->v)) + 0x186))) goto L_C059646;
     goto L_C059612;
     L_C059612:;
     if ((R4 == 0)) goto L_C059624;
@@ -45,16 +50,16 @@ int Result_Next_State(int a4)
     if ((R4 != 99)) goto L_C059634;
     goto L_C059624;
     L_C059624:;
-    if (((int)(*(int *)0xC2A96F4) >= (int)((*(int *)0xC2A97A8) + 0x1FE))) goto L_C059646;
+    if (((int)(*(int *)0xC2A96F4) >= (int)(((((struct o0_int *)0xC2A97A8)->v)) + 0x1FE))) goto L_C059646;
     goto L_C059634;
     L_C059634:;
-    t15 = *(int *)0xC2A97E0;
+    t15 = (((struct o38_int *)0xC2A97A8)->v);
     R0 = (t15);
     if ((t15 != 1)) goto L_C05967A;
     goto L_C05963C;
     L_C05963C:;
     R0 = (0xC2A97E4);
-    if (((int)(*(int *)0xC2A97E4) < (int)0x78)) goto L_C05967A;
+    if (((int)((((struct o3C_int *)0xC2A97A8)->v)) < (int)0x78)) goto L_C05967A;
     goto L_C059646;
     L_C059646:;
     nlPrintColor(0xFFFFFFFF);
@@ -64,7 +69,7 @@ int Result_Next_State(int a4)
     if (((int)(*(int *)((R14 + 0x0))) < (int)0x63)) goto L_C059674;
     goto L_C05965A;
     L_C05965A:;
-    if (((*(int *)0xC1EE210) == 2)) goto L_C059674;
+    if ((((((struct o0_int *)0xC1EE210)->v)) == 2)) goto L_C059674;
     goto L_C059662;
     L_C059662:;
     t28 = GetMenuMode(0x1);
@@ -72,12 +77,12 @@ int Result_Next_State(int a4)
     if ((t28 != 0)) goto L_C059674;
     goto L_C05966C;
     L_C05966C:;
-    *(unsigned int *)0xC1EE238 = 0xC;
+    (((struct o28_uint *)0xC1EE210)->v) = 0xC;
     goto L_C05967A;
     L_C05967A:;
     return R0;
     L_C059674:;
-    *(unsigned int *)0xC1EE238 = 0x2;
+    (((struct o28_uint *)0xC1EE210)->v) = 0x2;
     R0 = (0x2);
     goto L_C05967A;
 }

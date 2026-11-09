@@ -8,54 +8,56 @@ int nlPushMatrix(int);
 int nlRotateAY(int);
 int nlTranslateV(int);
 int nd_StartWait_PutCar(void);
+struct o0_short { short v; };
+struct o0_ushort { unsigned short v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int nd_StartWait_PutCar(void)
 {
     int t0;
     int t18;
     int t25;
-    int t20;
 
     t0 = *(int *)0xC2A720C;
-    if (t0 != 0) {
-        if (t0 != 1) {
-            if (t0 != 2) {
-                if (t0 != 3) {
-                    if (t0 != 4) {
-                    } else {
-                        *(unsigned int *)0xC12FFF4 = 0x0;
-                    }
-                } else {
-                    *(unsigned int *)0xC12FFF4 = 0x1;
-                }
-            } else {
-                *(unsigned int *)0xC12FFF4 = 0x0;
-            }
-        } else {
-            *(unsigned int *)0xC12FFF4 = 0x1;
-        }
-    } else {
-        *(unsigned int *)0xC12FFF4 = 0x0;
+    switch (t0) {
+    case 0:
+        (((struct o4_uint *)0xC12FFF0)->v) = 0x0;
+        break;
+    case 1:
+        (((struct o4_uint *)0xC12FFF0)->v) = 0x1;
+        break;
+    case 2:
+        (((struct o4_uint *)0xC12FFF0)->v) = 0x0;
+        break;
+    case 3:
+        (((struct o4_uint *)0xC12FFF0)->v) = 0x1;
+        break;
+    case 4:
+        (((struct o4_uint *)0xC12FFF0)->v) = 0x0;
+        break;
     }
     if ((*(int *)0xC2A720C) == 2) {
-        *(unsigned int *)0xC12FFF8 = 0x0;
+        (((struct o8_uint *)0xC12FFF0)->v) = 0x0;
     } else {
-        *(unsigned int *)0xC12FFF8 = 0x1;
+        (((struct o8_uint *)0xC12FFF0)->v) = 0x1;
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC2A72CC);
     nlRotateAY(0x4000);
-    nd_CarSel_PutCar((*(int *)0xC2A72D8), (*(short *)0xC12FFF0), (*(int *)0xC12FFF4), (*(int *)0xC12FFF8));
+    nd_CarSel_PutCar((*(int *)0xC2A72D8), ((((struct o0_short *)0xC12FFF0)->v)), ((((struct o4_int *)0xC12FFF0)->v)), ((((struct o8_int *)0xC12FFF0)->v)));
     nd_StartWait_PutDriver();
     nlPopMatrix(0x1);
     t18 = *(int *)0xC2A720C;
     t25 = t18;
     if (t18 != 1) {
-        t20 = *(int *)0xC2A720C;
-        if (t20 != 3) {
-            *(unsigned short *)0xC12FFF0 = ((*(short *)0xC12FFF0) + 0x2000);
+        t25 = *(int *)0xC2A720C;
+        if (t25 != 3) {
+            (((struct o0_ushort *)0xC12FFF0)->v) = (((((struct o0_short *)0xC12FFF0)->v)) + 0x2000);
         }
-        t25 = t20;
     }
     return t25;
 }

@@ -1,14 +1,14 @@
 /* Straight-line functions with calls and guards (batch gen_uz): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int nlSprPut(int, int, int);
+int nlSprPut(int, int);
 int PutNameEntryDrum(int a4, int a5, int a6, float f4, float f5);
 
 int PutNameEntryDrum(int a4, int a5, int a6, float f4, float f5)
 {
     float u14;
     int t21;
-    int stk[35];
+    int stk[34];
 
     int R0;
     int R1;
@@ -31,26 +31,34 @@ int PutNameEntryDrum(int a4, int a5, int a6, float f4, float f5)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    float R1008;
+    float R1012;
+    float R1016;
+    R1004 = *(int *)((int)stk + 0);
+    R1008 = *(float *)((int)stk + 4);
+    R1012 = *(float *)((int)stk + 8);
+    R1016 = *(float *)((int)stk + 12);
     R4 = a4;
     F4 = f4;
     F5 = f5;
     L_C039AD4:;
-    *(unsigned int *)(((int)stk + 4)) = R4;
-    *(float *)(((int)stk + 28)) = 420.0f;
-    *(float *)(((int)stk + 32)) = 1.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
+    R1004 = R4;
+    *(float *)(((int)stk + 24)) = 420.0f;
+    *(float *)(((int)stk + 28)) = 1.0f;
     *(float *)(((int)stk + 36)) = 1.0f;
-    *(float *)(((int)stk + 48)) = 0.0f;
+    *(float *)(((int)stk + 32)) = 1.0f;
     *(float *)(((int)stk + 44)) = 0.0f;
-    *(float *)(((int)stk + 56)) = 1.0f;
+    *(float *)(((int)stk + 40)) = 0.0f;
     *(float *)(((int)stk + 52)) = 1.0f;
-    *(unsigned int *)(((int)stk + 60)) = 0x0;
-    *(float *)(((int)stk + 64)) = 1.0f;
-    *(unsigned int *)(((int)stk + 72)) = 0x70E;
-    *(unsigned int *)(((int)stk + 68)) = 0x2;
-    *(float *)(((int)stk + 16)) = ((1.0f + 1.0f) - F4);
-    *(float *)(((int)stk + 12)) = (32.0f - (F4 * 16.0f));
-    *(float *)(((int)stk + 8)) = (F4 + 1.0f);
+    *(float *)(((int)stk + 48)) = 1.0f;
+    *(unsigned int *)(((int)stk + 56)) = 0x0;
+    *(float *)(((int)stk + 60)) = 1.0f;
+    *(unsigned int *)(((int)stk + 68)) = 0x70E;
+    *(unsigned int *)(((int)stk + 64)) = 0x2;
+    R1016 = ((1.0f + 1.0f) - F4);
+    R1012 = (32.0f - (F4 * 16.0f));
+    R1008 = (F4 + 1.0f);
     R10 = (0xC2864D4);
     R11 = (0xC0EE918);
     R12 = (0xC07DF00);
@@ -64,23 +72,23 @@ int PutNameEntryDrum(int a4, int a5, int a6, float f4, float f5)
     F5 = (16.0f);
     goto L_C039B5E;
     L_C039B5E:;
-    *(unsigned int *)(((int)stk + 20)) = (*(int *)((R11 + (((int)((unsigned int)(((*(int *)(((int)stk + 4))) + R14) + 0x2D) % (unsigned int)0x2D)) << 2))));
+    *(unsigned int *)(((int)stk + 16)) = (*(int *)((R11 + (((int)((unsigned int)(((R1004) + R14) + 0x2D) % (unsigned int)0x2D)) << 2))));
     u14 = 336.0f;
     u14 = u14 + F14 * ((float)R14 + F13);
-    *(float *)(((int)stk + 24)) = u14;
+    *(float *)(((int)stk + 20)) = u14;
     if ((R14 != 0)) goto L_C039B9A;
     goto L_C039B86;
     L_C039B86:;
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - F12);
-    F2 = (((*(float *)(((int)stk + 16))) * (*(float *)((R10 + 0x0)))));
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) - F12);
+    F2 = (((R1016) * (*(float *)((R10 + 0x0)))));
     goto L_C039BB4;
     L_C039BB4:;
-    *(float *)(((int)stk + 40)) = F2;
     *(float *)(((int)stk + 36)) = F2;
+    *(float *)(((int)stk + 32)) = F2;
     goto L_C039BD4;
     L_C039BD4:;
     t21 = (int)(R14 + 0x1) < (int)R13;
-    R0 = ((nlSprPut((((int)stk + 4) + 0x10), a5, a6)));
+    R0 = ((nlSprPut((((int)stk + 0) + 0x10), a5)));
     R14 = ((R14 + 0x1));
     if (t21) goto L_C039B5E;
     goto L_C039BE0;
@@ -90,15 +98,15 @@ int PutNameEntryDrum(int a4, int a5, int a6, float f4, float f5)
     if ((R14 != -1)) goto L_C039BBE;
     goto L_C039BA2;
     L_C039BA2:;
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - (*(float *)(((int)stk + 12))));
-    F2 = ((*(float *)(((int)stk + 8))));
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) - (R1012));
+    F2 = ((R1008));
     goto L_C039BB4;
     L_C039BBE:;
-    *(float *)(((int)stk + 40)) = F15;
     *(float *)(((int)stk + 36)) = F15;
+    *(float *)(((int)stk + 32)) = F15;
     if (((int)R14 >= 0)) goto L_C039BD4;
     goto L_C039BCA;
     L_C039BCA:;
-    *(float *)(((int)stk + 24)) = ((*(float *)(((int)stk + 24))) - F14);
+    *(float *)(((int)stk + 20)) = ((*(float *)(((int)stk + 20))) - F14);
     goto L_C039BD4;
 }

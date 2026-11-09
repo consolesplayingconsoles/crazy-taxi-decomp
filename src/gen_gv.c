@@ -27,6 +27,29 @@ int nlTranslateV(int);
 int nlUnitVector(int);
 int technicalCheck(int, int, int);
 float trainExec(int a4, int a5, int a6);
+struct o104_float { char p[0x104]; float v; };
+struct o108_uchar { char p[0x108]; unsigned char v; };
+struct o18_float { char p[0x18]; float v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o80_int { char p[0x80]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct o88_int { char p[0x88]; int v; };
+struct o88_uint { char p[0x88]; unsigned int v; };
+struct o9C_float { char p[0x9C]; float v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oA8_ushort { char p[0xA8]; unsigned short v; };
+struct oAC_ushort { char p[0xAC]; unsigned short v; };
+struct oC0_uint { char p[0xC0]; unsigned int v; };
+struct oC8_float { char p[0xC8]; float v; };
+struct oCC_float { char p[0xCC]; float v; };
+struct oD4_int { char p[0xD4]; int v; };
+struct oF8_float { char p[0xF8]; float v; };
+struct oFC_float { char p[0xFC]; float v; };
+
 
 float trainExec(int a4, int a5, int a6)
 {
@@ -39,7 +62,7 @@ float trainExec(int a4, int a5, int a6)
     int stk[32];
 
     technicalCheck(a4, a5, a6);
-    if (((*(int *)((a4 + 0x84))) & 1) == 0) {
+    if ((((((struct o84_int *)(a4))->v)) & 1) == 0) {
         KillColliObj((a4 + 0x14));
         nlCloseEvent(a4);
         *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) - 1);
@@ -47,30 +70,30 @@ float trainExec(int a4, int a5, int a6)
         t5 = *(int *)((a4 + 0x4));
         nlPushUnitMatrix();
         nlTranslateV((0x8C + t5));
-        nlRotateAY((unsigned short)(*(short *)((t5 + 0xA6))));
-        nlRotateAX((unsigned short)(*(short *)((t5 + 0xA4))));
-        nlRotateAZ((unsigned short)(*(short *)((t5 + 0xA8))));
-        nlTranslate(0.0f, ((*(float *)((t5 + 0xF8))) + (*(float *)((t5 + 0xFC)))), -85.0f);
+        nlRotateAY((unsigned short)((((struct oA6_short *)(t5))->v)));
+        nlRotateAX((unsigned short)((((struct oA4_short *)(t5))->v)));
+        nlRotateAZ((unsigned short)((((struct oA8_short *)(t5))->v)));
+        nlTranslate(0.0f, (((((struct oF8_float *)(t5))->v)) + ((((struct oFC_float *)(t5))->v))), -85.0f);
         nlGetTranslate((((int)stk + 16) + 0x3C));
         nlPopMatrix(0x1);
-        *(unsigned int *)((a4 + 0x84)) = (*(int *)((t5 + 0x84)));
-        *(float *)((a4 + 0xC8)) = (*(float *)((t5 + 0xC8)));
-        *(unsigned int *)((a4 + 0x88)) = (*(int *)((t5 + 0x88)));
+        (((struct o84_uint *)(a4))->v) = ((((struct o84_int *)(t5))->v));
+        (((struct oC8_float *)(a4))->v) = ((((struct oC8_float *)(t5))->v));
+        (((struct o88_uint *)(a4))->v) = ((((struct o88_int *)(t5))->v));
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 16) + 0x30)) = *(struct mv3 *)((0x8C + a4)); }
-        *(float *)((a4 + 0x9C)) = ((*(float *)((a4 + 0x9C))) - 0.073499985f);
-        getCourseDistPoint(0xFFFFFFFF, (((int)stk + 16) + 0x3C), (*(int *)((a4 + 0x80))), (*(int *)((t5 + 0xD4))), (((int)stk + 16) + 0xC), 40.0f);
-        getCourseDistPoint(0xFFFFFFFF, (((int)stk + 12) + 0x10), (*(int *)((a4 + 0x80))), (*(int *)((a4 + 0xD4))), (((int)stk + 12) + 0x4), 90.0f);
+        (((struct o9C_float *)(a4))->v) = (((((struct o9C_float *)(a4))->v)) - 0.073499985f);
+        getCourseDistPoint(0xFFFFFFFF, (((int)stk + 16) + 0x3C), ((((struct o80_int *)(a4))->v)), ((((struct oD4_int *)(t5))->v)), (((int)stk + 16) + 0xC), 40.0f);
+        getCourseDistPoint(0xFFFFFFFF, (((int)stk + 12) + 0x10), ((((struct o80_int *)(a4))->v)), ((((struct oD4_int *)(a4))->v)), (((int)stk + 12) + 0x4), 90.0f);
         t29 = GetCollision2D((((int)stk + 16) + 0xC), 10.0f);
         if ((*(int *)((t29 + 0x1C))) != -1) {
             { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)((t29 + 0xC)); }
-            *(float *)(((int)stk + 32)) = (*(float *)((t29 + 0x18)));
-            *(float *)((a4 + 0x104)) = (*(float *)((t29 + 0x18)));
+            *(float *)(((int)stk + 32)) = ((((struct o18_float *)(t29))->v));
+            (((struct o104_float *)(a4))->v) = ((((struct o18_float *)(t29))->v));
         }
         t39 = GetCollision2D(((int)stk + 16), 10.0f);
         if ((*(int *)((t39 + 0x1C))) != -1) {
             nlGetAverageVector((0xEC + a4), (t39 + 0xC), (0xEC + a4), 0.5f, 0.5f);
-            *(float *)(((int)stk + 20)) = (*(float *)((t39 + 0x18)));
-            *(float *)((a4 + 0x104)) = (((*(float *)((t39 + 0x18))) + (*(float *)((a4 + 0x104)))) * 0.5f);
+            *(float *)(((int)stk + 20)) = ((((struct o18_float *)(t39))->v));
+            (((struct o104_float *)(a4))->v) = ((((((struct o18_float *)(t39))->v)) + ((((struct o104_float *)(a4))->v))) * 0.5f);
         }
         nlGetAverageVector((((int)stk + 16) + 0xC), ((int)stk + 16), (0x8C + a4), 0.5f, 0.5f);
         nlPushUnitMatrix();
@@ -82,27 +105,27 @@ float trainExec(int a4, int a5, int a6)
         nlRotateV((((int)stk + 16) + 0x18), (((int)stk + 16) + 0x24));
         getYXZrot((0xA4 + a4));
         nlPushUnitMatrix();
-        nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-        nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+        nlRotateAX((-(unsigned short)((((struct oA4_short *)(a4))->v))));
+        nlRotateAY((-(unsigned short)((((struct oA6_short *)(a4))->v))));
         nlCalcVector((0xEC + a4), (((int)stk + 16) + 0x24));
-        *(unsigned short *)(((0xA8 + a4) + 0x0)) = (-(nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 56))))));
+        (((struct oA8_ushort *)(a4))->v) = (-(nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 56))))));
         nlPopMatrix(0x1);
         nlPopMatrix(0x1);
         nlSubVector3op((0x98 + a4), (0x8C + a4), (((int)stk + 16) + 0x30));
-        getCourseDistPoint(0x1, (((int)stk + 16) + 0xC), (*(int *)((a4 + 0x80))), (*(int *)((a4 + 0xD4))), (((int)stk + 16) + 0x3C), 30.0f);
+        getCourseDistPoint(0x1, (((int)stk + 16) + 0xC), ((((struct o80_int *)(a4))->v)), ((((struct oD4_int *)(a4))->v)), (((int)stk + 16) + 0x3C), 30.0f);
         nlSubVector((((int)stk + 12) + 0x10), (((int)stk + 12) + 0x40));
-        getCourseDistPoint(0x1, (((int)stk + 12) + 0x4), (*(int *)((a4 + 0x80))), (*(int *)((a4 + 0xD4))), (((int)stk + 12) + 0x40), 30.0f);
+        getCourseDistPoint(0x1, (((int)stk + 12) + 0x4), ((((struct o80_int *)(a4))->v)), ((((struct oD4_int *)(a4))->v)), (((int)stk + 12) + 0x40), 30.0f);
         nlSubVector((((int)stk + 8) + 0x8), (((int)stk + 8) + 0x44));
         nlPushUnitMatrix();
-        nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-        nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-        nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+        nlRotateAZ((-(unsigned short)((((struct oA8_short *)(a4))->v))));
+        nlRotateAX((-(unsigned short)((((struct oA4_short *)(a4))->v))));
+        nlRotateAY((-(unsigned short)((((struct oA6_short *)(a4))->v))));
         nlCalcVector((((int)stk + 8) + 0x14), (((int)stk + 8) + 0x2C));
-        *(unsigned int *)(((0xC0 + a4) + 0x0)) = (nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 60)))));
+        (((struct oC0_uint *)(a4))->v) = (nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 60)))));
         nlCalcVector((((int)stk + 8) + 0x8), (((int)stk + 8) + 0x2C));
-        *(unsigned short *)(((0xAC + a4) + 0x0)) = (nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 60)))));
+        (((struct oAC_ushort *)(a4))->v) = (nlArcTan2((*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 60)))));
         nlPopMatrix(0x1);
-        *(unsigned char *)(((0x108 + a4) + 0x0)) = (*(signed char *)(((0xA4 + a4) + 0x0)));
+        (((struct o108_uchar *)(a4))->v) = (*(signed char *)(((0xA4 + a4) + 0x0)));
         *(unsigned char *)(((0x108 + a4) + 0x1)) = (*(signed char *)(((0xA4 + a4) + 0x1)));
         *(unsigned char *)(((0x108 + a4) + 0x2)) = (*(signed char *)(((0xA4 + a4) + 0x2)));
         *(unsigned char *)(((0x108 + a4) + 0x3)) = (*(signed char *)(((0xA4 + a4) + 0x3)));
@@ -110,22 +133,22 @@ float trainExec(int a4, int a5, int a6)
         *(unsigned char *)(((0x108 + a4) + 0x5)) = (*(signed char *)(((0xA4 + a4) + 0x5)));
         getNearLinkedLine(0x2, 0x0, (0x80 + a4), (0xD4 + a4), (0x8C + a4));
         nlPushUnitMatrix();
-        nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-        nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-        nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+        nlRotateAZ((-(unsigned short)((((struct oA8_short *)(a4))->v))));
+        nlRotateAX((-(unsigned short)((((struct oA4_short *)(a4))->v))));
+        nlRotateAY((-(unsigned short)((((struct oA6_short *)(a4))->v))));
         nlCalcVector((0x98 + a4), (((int)stk + 16) + 0x24));
-        *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 60)));
+        (((struct oCC_float *)(a4))->v) = (*(float *)(((int)stk + 60)));
         nlPopMatrix(0x1);
         carEntry(a4);
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x20)) = *(struct mv3 *)((0x98 + a4)); }
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x5C)) = *(struct mv3 *)(0xC0A4788); }
-        GetRotVec4Ang((a4 + 0x44), (unsigned short)(*(short *)((a4 + 0xA4))), (unsigned short)(*(short *)((a4 + 0xA6))), (unsigned short)(*(short *)((a4 + 0xA8))));
-        *(unsigned int *)((a4 + 0x68)) = 0x0;
+        GetRotVec4Ang((a4 + 0x44), (unsigned short)((((struct oA4_short *)(a4))->v)), (unsigned short)((((struct oA6_short *)(a4))->v)), (unsigned short)((((struct oA8_short *)(a4))->v)));
+        (((struct o68_uint *)(a4))->v) = 0x0;
         t114 = nlLength(((*(int *)0xC2A1B30) + 0x78), (0x8C + a4));
         if (800.0f > t114) {
-            if ((*(float *)((a4 + 0xCC))) > 0.694444537f) {
-                if ((int)(*(int *)((a4 + 0x78))) <= (int)0x12) {
+            if (((((struct oCC_float *)(a4))->v)) > 0.694444537f) {
+                if ((int)((((struct o78_int *)(a4))->v)) <= (int)0x12) {
                     t122 = ((*(int *)0xC2A4E48) | 0x2);
                 } else {
                     t122 = ((*(int *)0xC2A4E48) | 0x8);

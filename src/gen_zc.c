@@ -3,6 +3,12 @@
 
 int nlsndSeqRequest(int);
 int nlsndStreamInit(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int nlsndStreamInit(int a4, int a5, int a6, int a7)
 {
@@ -33,6 +39,12 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    int R1008;
+    int R1012;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -72,14 +84,14 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     if (t13) goto L_C07F8DA;
     goto L_C07F8FA;
     L_C07F8FA:;
-    *(unsigned int *)0xA08000A0 = (short)R4;
-    *(unsigned int *)0xA08000A4 = (short)R5;
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)0xA080008C);
+    (((struct o14_uint *)0xA080008C)->v) = (short)R4;
+    (((struct o18_uint *)0xA080008C)->v) = (short)R5;
+    R1004 = ((((struct o0_int *)0xA080008C)->v));
     R6 = (0xC2B76F8);
     if (((short)R7 == 0)) goto L_C07F990;
     goto L_C07F914;
     L_C07F914:;
-    t20 = (int)((unsigned int)((*(int *)(((int)stk + 4))) - ((((short)R7 << 2) << 2) << 2)) / (unsigned int)(short)R7);
+    t20 = (int)((unsigned int)((R1004) - ((((short)R7 << 2) << 2) << 2)) / (unsigned int)(short)R7);
     *(unsigned int *)((R6 + 0x0)) = (t20 & 0x7FFFFFE0);
     R3 = (0x4000);
     if (((int)(t20 & 0x7FFFFFE0) <= (int)0x4000)) goto L_C07F934;
@@ -88,7 +100,7 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R6 + 0x0)) = R3;
     goto L_C07F934;
     L_C07F934:;
-    t25 = *(int *)(((*(int *)0xC2B76EC) + 0x0));
+    t25 = *(int *)((((((struct o0_int *)0xC2B76EC)->v)) + 0x0));
     R10 = (((*(int *)((R6 + 0x0))) + 0x40));
     R6 = (t25);
     if (((0x1F & t25) == 0)) goto L_C07F94C;
@@ -98,10 +110,10 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     goto L_C07F94C;
     L_C07F94C:;
     R14 = (0xA0800100);
-    R7 = ((((*(int *)0xC2B76F0) - R10) - R6));
+    R7 = (((((((struct o4_int *)0xC2B76EC)->v)) - R10) - R6));
     goto L_C07F994;
     L_C07F994:;
-    *(unsigned int *)0xA08000A8 = R10;
+    (((struct o1C_uint *)0xA080008C)->v) = R10;
     R4 = ((short)R4);
     goto L_C07F99A;
     L_C07F99A:;
@@ -110,7 +122,7 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     T_ = ((((int)R4 > 0)));
     goto L_C07F9A2;
     L_C07F9A2:;
-    *(unsigned int *)(((int)stk + 8)) = R4;
+    R1008 = R4;
     if ((!T_)) goto L_C07F9E2;
     goto L_C07F9A6;
     L_C07F9A6:;
@@ -127,16 +139,16 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R14 + 0x10)) = 0x0;
     *(unsigned int *)((((((R4 + R3) << 2) << 1) + R9) + 0x10)) = (R14 + 0x14);
     *(unsigned int *)((((((R4 + R3) << 2) << 1) + R9) + 0x14)) = (R14 + 0x4);
-    t42 = (int)(short)(R6 + 0x1) < (int)(*(int *)(((int)stk + 8)));
+    t42 = (int)(short)(R6 + 0x1) < (int)(R1008);
     R14 = ((R14 + 0x60));
     R6 = ((R6 + 0x1));
     R7 = ((R7 - R10));
     if (t42) goto L_C07F9A6;
     goto L_C07F9E2;
     L_C07F9E2:;
-    *(unsigned int *)(((int)stk + 12)) = (R14 + 0x4);
-    *(unsigned int *)(((int)stk + 4)) = (R14 + 0x14);
-    t46 = *(int *)(((int)stk + 8));
+    R1012 = (R14 + 0x4);
+    R1004 = (R14 + 0x14);
+    t46 = R1008;
     t47 = (int)(short)R6 >= (int)((short)R5 + t46);
     R5 = (((short)R5 + t46));
     R8 = ((R14 + 0xC));
@@ -149,10 +161,10 @@ int nlsndStreamInit(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R14 + 0x10)) = R7;
     *(unsigned int *)((((((((short)R6 << 1) + (short)R6) << 2) << 1) + R9) + 0x4)) = ((R7 - R10) + R12);
     *(unsigned int *)((R8 + 0x0)) = (R7 - R10);
-    *(unsigned int *)((((((((short)R6 << 1) + (short)R6) << 2) << 1) + R9) + 0x10)) = (*(int *)(((int)stk + 4)));
-    *(unsigned int *)((((((((short)R6 << 1) + (short)R6) << 2) << 1) + R9) + 0x14)) = (*(int *)(((int)stk + 12)));
-    *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 12))) + 0x60);
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x60);
+    *(unsigned int *)((((((((short)R6 << 1) + (short)R6) << 2) << 1) + R9) + 0x10)) = (R1004);
+    *(unsigned int *)((((((((short)R6 << 1) + (short)R6) << 2) << 1) + R9) + 0x14)) = (R1012);
+    R1012 = ((R1012) + 0x60);
+    R1004 = ((R1004) + 0x60);
     t54 = (int)(short)(R6 + 0x1) < (int)R5;
     R14 = ((R14 + 0x60));
     R6 = ((R6 + 0x1));

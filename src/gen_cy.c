@@ -14,6 +14,10 @@ int vsprintf(int a4, int a5, int a6);
 int nlPopMatrix(int a4);
 int nlsndPackLoadInit(int a4, int a5, int a6, int a7);
 int ColliWallTest(void);
+struct o0_int { int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int PatchMotion(void)
 {
@@ -40,27 +44,20 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
     int t4;
     int t5;
     int t6;
-    int t7;
     int t8;
     int t9;
     int t10;
     int t11;
     int t12;
-    int t13;
-    int t14;
     int t15;
-    int t16;
     int t17;
     int t18;
     int t19;
     int t20;
     int t21;
-    int t22;
-    int t23;
     int t24;
     int t25;
     int t32;
-    int t31;
     int t34;
     int t35;
     int t45;
@@ -70,19 +67,22 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
     int t39;
     int t40;
     int t41;
-    int t42;
-    int t43;
     int stk[7] = {0};
+    int R1004;
+    int R1008;
 
-    t0 = *(int *)0xC2B76F4;
-    *(unsigned int *)0xC2B76F4 = (t0 + a6);
-    *(unsigned int *)(((int)stk + 8)) = (((a4 << 1) + a4) << 2);
-    *(unsigned int *)(((int)stk + 4)) = ((((a4 << 1) + a4) << 2) + 0xC2B77DC);
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+
+    t0 = (((struct oC_int *)0xC2B76E8)->v);
+    (((struct oC_uint *)0xC2B76E8)->v) = (t0 + a6);
+    R1008 = (((a4 << 1) + a4) << 2);
+    R1004 = ((((a4 << 1) + a4) << 2) + 0xC2B77DC);
     *(unsigned int *)((((((a4 << 1) + a4) << 2) + 0xC2B77DC) + 0x0)) = a5;
-    t1 = *(int *)(((int)stk + 4));
+    t1 = R1004;
     *(unsigned int *)((t1 + 0x8)) = a6;
     *(unsigned int *)((((a4 << 2) + 0xA0800060) + 0x0)) = a5;
-    *(unsigned int *)(((int)stk + 4)) = (((((a4 - 1) << 1) + (a4 - 1)) << 2) + 0xC2B77DC);
+    R1004 = (((((a4 - 1) << 1) + (a4 - 1)) << 2) + 0xC2B77DC);
     t27 = 0x0;
     if ((unsigned int)(((((a4 - 1) << 1) + (a4 - 1)) << 2) + 0xC2B77DC) >= (unsigned int)0xC2B77DC) {
         t2 = (((((a4 - 1) << 1) + (a4 - 1)) << 2) + 0xC2B77DC);
@@ -96,18 +96,17 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
             t3 = (t3 - 12);
             if ((unsigned int)t2 < (unsigned int)0xC2B77DC) {
                 if (0x0 == 0) {
-                    t5 = *(int *)0xC2B76E8;
-                    t6 = *(int *)(((int)stk + 8));
+                    t5 = (((struct o0_int *)0xC2B76E8)->v);
+                    t6 = R1008;
                     t2 = (a4 + 0x1);
                     t2 = (t2 << 1);
                     t2 = (t2 + (a4 + 0x1));
                     t2 = (t2 << 2);
                     t2 = (t2 + 0xC2B77DC);
                     *(unsigned int *)(((t6 + 0xC2B77DC) + 0x4)) = t5;
-                    *(unsigned int *)(((int)stk + 4)) = 0xC2B77DC;
-                    *(unsigned int *)(((int)stk + 8)) = t2;
-                    t7 = *(int *)(((int)stk + 4));
-                    t3 = t7;
+                    R1004 = 0xC2B77DC;
+                    R1008 = t2;
+                    t3 = R1004;
                     t3 = (t3 + 0x60);
                     if ((unsigned int)t2 < (unsigned int)t3) {
                         t8 = (t6 + 0xC2B77DC);
@@ -117,10 +116,8 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
                         for (;;) {
                             t12 = *(int *)((t10 + 0x0));
                             if (t12 != -1) {
-                                t13 = *(int *)((t2 + 0x4));
-                                t8 = t13;
-                                t14 = *(int *)((t2 + 0x8));
-                                t9 = t14;
+                                t8 = *(int *)((t2 + 0x4));
+                                t9 = *(int *)((t2 + 0x8));
                                 t8 = (t8 + a6);
                                 *(unsigned int *)((t2 + 0x4)) = t8;
                                 t11 = (t11 + t9);
@@ -137,17 +134,16 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
                     *(unsigned int *)((a7 + 0x0)) = 0x0;
                     return t5;
                 }
-                t15 = *(int *)(((int)stk + 8));
+                t15 = R1008;
                 t2 = (a4 + 0x1);
                 t2 = (t2 << 1);
                 t2 = (t2 + (a4 + 0x1));
                 t2 = (t2 << 2);
                 t2 = (t2 + 0xC2B77DC);
                 *(unsigned int *)(((t15 + 0xC2B77DC) + 0x4)) = 0x0;
-                *(unsigned int *)(((int)stk + 4)) = 0xC2B77DC;
-                *(unsigned int *)(((int)stk + 8)) = t2;
-                t16 = *(int *)(((int)stk + 4));
-                t3 = t16;
+                R1004 = 0xC2B77DC;
+                R1008 = t2;
+                t3 = R1004;
                 t3 = (t3 + 0x60);
                 if ((unsigned int)t2 < (unsigned int)t3) {
                     t17 = (t15 + 0xC2B77DC);
@@ -157,10 +153,8 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
                     for (;;) {
                         t21 = *(int *)((t19 + 0x0));
                         if (t21 != -1) {
-                            t22 = *(int *)((t2 + 0x4));
-                            t17 = t22;
-                            t23 = *(int *)((t2 + 0x8));
-                            t18 = t23;
+                            t17 = *(int *)((t2 + 0x4));
+                            t18 = *(int *)((t2 + 0x8));
                             t17 = (t17 + a6);
                             *(unsigned int *)((t2 + 0x4)) = t17;
                             t20 = (t20 + t18);
@@ -184,14 +178,13 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
     }
     t32 = t27;
     if (t27 == 0) {
-        t31 = *(int *)0xC2B76E8;
-        t32 = t31;
+        t32 = (((struct o0_int *)0xC2B76E8)->v);
     }
-    t34 = *(int *)(((int)stk + 8));
+    t34 = R1008;
     *(unsigned int *)(((t34 + 0xC2B77DC) + 0x4)) = t32;
-    *(unsigned int *)(((int)stk + 4)) = 0xC2B77DC;
-    *(unsigned int *)(((int)stk + 8)) = (((((a4 + 0x1) << 1) + (a4 + 0x1)) << 2) + 0xC2B77DC);
-    t35 = *(int *)(((int)stk + 4));
+    R1004 = 0xC2B77DC;
+    R1008 = (((((a4 + 0x1) << 1) + (a4 + 0x1)) << 2) + 0xC2B77DC);
+    t35 = R1004;
     t45 = 0x0;
     if ((unsigned int)(((((a4 + 0x1) << 1) + (a4 + 0x1)) << 2) + 0xC2B77DC) < (unsigned int)(t35 + 0x60)) {
         t36 = (t34 + 0xC2B77DC);
@@ -202,10 +195,8 @@ int nlsndPackLoadInit(int a4, int a5, int a6, int a7)
         for (;;) {
             t41 = *(int *)((t38 + 0x0));
             if (t41 != -1) {
-                t42 = *(int *)((t39 + 0x4));
-                t36 = t42;
-                t43 = *(int *)((t39 + 0x8));
-                t37 = t43;
+                t36 = *(int *)((t39 + 0x4));
+                t37 = *(int *)((t39 + 0x8));
                 t36 = (t36 + a6);
                 *(unsigned int *)((t39 + 0x4)) = t36;
                 t40 = (t40 + t37);

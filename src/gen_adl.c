@@ -4,6 +4,9 @@
 int Chat_PickSomeoneUp(int);
 int Drv_SetMotion(int, float);
 int Drv_StartPickUp(void);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int Drv_StartPickUp(void)
 {
@@ -19,7 +22,7 @@ int Drv_StartPickUp(void)
         Drv_SetMotion(0xC8D62BC, 0.0f);
     }
     *(float *)0xC2AD0F8 = 10.0f;
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
+    (((struct o0_uint *)0xC2AD1D0)->v) = 0xC0D44D8;
+    (((struct o4_uint *)0xC2AD1D0)->v) = 0xC0D44E0;
     return Chat_PickSomeoneUp(0x0);
 }

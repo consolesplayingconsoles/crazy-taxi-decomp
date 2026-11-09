@@ -2,6 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int a10);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int a10)
 {
@@ -29,13 +37,13 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     R6 = a6;
     R7 = a7;
     L_C14C6F8:;
-    *(unsigned int *)0xC2EAB44 = (R4 << 2);
-    *(unsigned int *)0xC2EAB48 = (R5 << 2);
-    *(unsigned int *)0xC2EAB4C = (R6 << 2);
-    *(unsigned int *)0xC2EAB50 = (R7 << 2);
-    *(unsigned int *)0xC2EAB54 = (a8 << 2);
+    (((struct o0_uint *)0xC2EAB44)->v) = (R4 << 2);
+    (((struct o4_uint *)0xC2EAB44)->v) = (R5 << 2);
+    (((struct o8_uint *)0xC2EAB44)->v) = (R6 << 2);
+    (((struct oC_uint *)0xC2EAB44)->v) = (R7 << 2);
+    (((struct o10_uint *)0xC2EAB44)->v) = (a8 << 2);
     *(unsigned int *)(((int)stk + 12)) = (((int)stk + 4) + 0x18);
-    *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x0)) = (*(int *)0xC2EAAC0);
+    *(unsigned int *)(((((int)stk + 4) + 0x18) + 0x0)) = ((((struct o20_int *)0xC2EAAA0)->v));
     *(unsigned int *)(((int)stk + 8)) = 0xC2B8CCC;
     *(unsigned int *)(((int)stk + 16)) = 0xC2B8CCC;
     *(unsigned int *)(((int)stk + 20)) = (*(int *)(((int)stk + 12)));
@@ -67,7 +75,7 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     if (((*(int *)0xC2EA9C4) != 1)) goto L_C14C7AA;
     goto L_C14C79C;
     L_C14C79C:;
-    if (((*(int *)0xC2EAAA0) != 32)) goto L_C14C7AA;
+    if ((((((struct o0_int *)0xC2EAAA0)->v)) != 32)) goto L_C14C7AA;
     goto L_C14C7A4;
     L_C14C7A4:;
     *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x0)) = R10;
@@ -77,7 +85,7 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     if (((*(int *)0xC2EA9C4) != 1)) goto L_C14C7F0;
     goto L_C14C7E2;
     L_C14C7E2:;
-    if (((*(int *)0xC2EAAA0) != 33)) goto L_C14C7F0;
+    if ((((((struct o0_int *)0xC2EAAA0)->v)) != 33)) goto L_C14C7F0;
     goto L_C14C7EA;
     L_C14C7EA:;
     *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x4)) = R10;
@@ -87,7 +95,7 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     if (((*(int *)0xC2EA9C4) != 1)) goto L_C14C880;
     goto L_C14C828;
     L_C14C828:;
-    if (((*(int *)0xC2EAAA0) != 34)) goto L_C14C880;
+    if ((((((struct o0_int *)0xC2EAAA0)->v)) != 34)) goto L_C14C880;
     goto L_C14C830;
     L_C14C830:;
     *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0x8)) = R10;
@@ -97,7 +105,7 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     if (((*(int *)0xC2EA9C4) != 1)) goto L_C14C8C6;
     goto L_C14C8B8;
     L_C14C8B8:;
-    if (((*(int *)0xC2EAAA0) != 35)) goto L_C14C8C6;
+    if ((((((struct o0_int *)0xC2EAAA0)->v)) != 35)) goto L_C14C8C6;
     goto L_C14C8C0;
     L_C14C8C0:;
     *(unsigned int *)(((*(int *)(((int)stk + 4))) + 0xC)) = R10;
@@ -106,7 +114,7 @@ int kmiGetVertexBasePointer(int a4, int a5, int a6, int a7, int a8, int a9, int 
     if (((*(int *)0xC2EA9C4) != 1)) goto L_C14C90A;
     goto L_C14C8F0;
     L_C14C8F0:;
-    if (((*(int *)0xC2EAAA0) != 36)) goto L_C14C90A;
+    if ((((((struct o0_int *)0xC2EAAA0)->v)) != 36)) goto L_C14C90A;
     goto L_C14C8F8;
     L_C14C8F8:;
     *(unsigned int *)((((((R13 << 2) + R13) << 2) + R8) + 0x10)) = R10;

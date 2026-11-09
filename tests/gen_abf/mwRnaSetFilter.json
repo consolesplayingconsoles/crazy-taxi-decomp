@@ -214,7 +214,8 @@
     {
      "r0": "0C900000"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 56",
@@ -322,7 +323,8 @@
     {
      "r0": "4E6E6B28"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 92",
@@ -720,7 +722,8 @@
     {
      "r0": "0000007C"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 42",
@@ -828,7 +831,8 @@
     {
      "r0": "00000039"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 54",
@@ -1044,7 +1048,8 @@
     {
      "r0": "0C930100"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 113",
@@ -1188,7 +1193,8 @@
     {
      "r0": "0C900000"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 147",

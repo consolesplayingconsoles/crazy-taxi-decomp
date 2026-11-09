@@ -10,6 +10,10 @@ int putLevelCTFontAssist(int, int, int, int, int);
 int windowEnterStep(int);
 int windowOpenStep(int);
 int windowNameConfirm(void);
+struct o0_short { short v; };
+struct o18_int { char p[0x18]; int v; };
+struct o30_int { char p[0x30]; int v; };
+
 
 int windowNameConfirm(void)
 {
@@ -27,31 +31,31 @@ int windowNameConfirm(void)
     int t59;
     float u61;
     int t36;
-    int stk[22];
+    int stk[19];
 
     if ((windowOpenStep(0xA)) == 1) {
-        memmove(0xC2A124C, ((short)((short)(*(short *)0xC2A11C4) * (short)0x788) + 0xC28A4F8), 0x4);
+        memmove(0xC2A124C, ((short)((short)((((struct o0_short *)0xC2A11C4)->v)) * (short)0x788) + 0xC28A4F8), 0x4);
     }
     menuCursor(0x1, 0x2, 0x0);
     if ((memcmp(0xC2A124C, 0xC0A2044, 0x4)) == 0) {
-        if ((int)(*(int *)0xC2A11DC) > (int)0x1) {
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
+        if ((int)((((struct o18_int *)0xC2A11C4)->v)) > (int)0x1) {
+            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)((((((((struct o30_int *)0xC2A11C4)->v)) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
             PutVM_Message(0x20, 0x15, 0xC2A1248, 197.0f, 208.0f);
         } else {
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
+            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)((((((((struct o30_int *)0xC2A11C4)->v)) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
             PutVM_Message(0x20, 0x22, 0xC2A1248, 197.0f, 208.0f);
         }
     } else {
-        if ((int)(*(int *)0xC2A11DC) <= (int)0x1) {
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
+        if ((int)((((struct o18_int *)0xC2A11C4)->v)) <= (int)0x1) {
+            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)((((((((struct o30_int *)0xC2A11C4)->v)) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
             t58 = 0x22;
             t59 = 0xC2A1248;
             u61 = 197.0f;
         } else {
-            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)(((((*(int *)0xC2A11F4) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
+            putLevelCTFontAssist(0x2024, (0xC09E1B4 + (short)((short)(GetNowLanguage(0x0)) * (short)0x58)), 0x2, ((*(int *)((((((((struct o30_int *)0xC2A11C4)->v)) << 2) + 0xC2A11F8) + 0x0)))), 0x0);
             t37 = 0x0;
             t38 = 0xC2A124C;
-            t39 = ((int)stk + 12);
+            t39 = ((int)stk + 0);
             for (;;) {
                 if ((int)t37 >= (int)0x3) {
                     break;
@@ -89,7 +93,7 @@ int windowNameConfirm(void)
             }
             *(unsigned char *)((t48 + 0x0)) = 0x0;
             t58 = 0x1C;
-            t59 = ((int)stk + 12);
+            t59 = ((int)stk + 0);
             u61 = 154.0f;
         }
         PutVM_Message(0x20, t58, t59, u61, 208.0f);

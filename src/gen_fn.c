@@ -45,10 +45,7 @@ int vmsfs_fdelete_ex(int a4, int a5, int a6)
     int t15;
     int t16;
     int t22;
-    int t28;
     int t23;
-    int t26;
-    int t24;
     int t40;
     int t31;
     int t32;
@@ -56,10 +53,7 @@ int vmsfs_fdelete_ex(int a4, int a5, int a6)
     int t34;
     int t35;
     int t41;
-    int t47;
     int t42;
-    int t45;
-    int t43;
     int t81;
     int t50;
 
@@ -122,21 +116,18 @@ int vmsfs_fdelete_ex(int a4, int a5, int a6)
                                 t21 = t12;
                             }
                             t22 = write_dir(a4);
-                            t28 = t22;
+                            t50 = t22;
                             if ((int)t22 >= 0) {
                                 t23 = write_fat(a4);
-                                t26 = t23;
+                                t50 = t23;
                                 if ((int)t23 < 0) {
                                 } else {
-                                    t24 = 0x0;
+                                    t50 = 0x0;
                                     if (t21 != 0) {
-                                        t24 = 0xFFFFFF0A;
+                                        t50 = 0xFFFFFF0A;
                                     }
-                                    t26 = t24;
                                 }
-                                t28 = t26;
                             }
-                            t50 = t28;
                         } else {
                             t40 = 0x0;
                             if ((int)a6 > 0) {
@@ -158,21 +149,18 @@ int vmsfs_fdelete_ex(int a4, int a5, int a6)
                                 t40 = t31;
                             }
                             t41 = write_dir(a4);
-                            t47 = t41;
+                            t50 = t41;
                             if ((int)t41 >= 0) {
                                 t42 = write_fat(a4);
-                                t45 = t42;
+                                t50 = t42;
                                 if ((int)t42 < 0) {
                                 } else {
-                                    t43 = 0x0;
+                                    t50 = 0x0;
                                     if (t40 != 0) {
-                                        t43 = 0xFFFFFF0A;
+                                        t50 = 0xFFFFFF0A;
                                     }
-                                    t45 = t43;
                                 }
-                                t47 = t45;
                             }
-                            t50 = t47;
                         }
                         t56 = t50;
                     }

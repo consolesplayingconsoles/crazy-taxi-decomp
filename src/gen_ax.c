@@ -38,6 +38,20 @@ int vmuExit(void);
 int write_dir_all(int);
 int write_fat(int);
 int write_sys(int);
+struct o0_int { int v; };
+struct o0_uchar { unsigned char v; };
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o10_ushort { char p[0x10]; unsigned short v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o24_int { char p[0x24]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uchar { char p[0x4]; unsigned char v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 void SJUNI_Unlock(int a4, int a5)
 {
@@ -94,12 +108,12 @@ void nlSysMetricsInit(void)
 
     _builtin_set_imask(0xE);
     t0 = *(signed char *)0xFFD80004;
-    *(unsigned char *)0xFFD80004 = (0xFFFFFFFE & t0);
-    *(unsigned char *)0xFFD80000 = 0x1;
-    *(unsigned short *)0xFFD80010 = 0x2;
-    *(unsigned int *)0xFFD80008 = 0xFFFFFFFF;
-    *(unsigned int *)0xFFD8000C = 0xFFFFFFFF;
-    *(unsigned char *)0xFFD80004 = (t0 | 0x1);
+    (((struct o4_uchar *)0xFFD80000)->v) = (0xFFFFFFFE & t0);
+    (((struct o0_uchar *)0xFFD80000)->v) = 0x1;
+    (((struct o10_ushort *)0xFFD80000)->v) = 0x2;
+    (((struct o8_uint *)0xFFD80000)->v) = 0xFFFFFFFF;
+    (((struct oC_uint *)0xFFD80000)->v) = 0xFFFFFFFF;
+    (((struct o4_uchar *)0xFFD80000)->v) = (t0 | 0x1);
     *(float *)0xC2AEDBC = 1.27999997f;
     _builtin_set_imask(0x0);
 }
@@ -226,12 +240,12 @@ int buInit(int a4, int a5, int a6, int a7)
 
     t0 = _builtin_get_imask();
     _builtin_set_imask(0xF);
-    *(unsigned int *)0xC2B9994 = a5;
-    *(unsigned int *)0xC2B9990 = a6;
-    *(unsigned int *)0xC2B9980 = 0x0;
-    *(unsigned int *)0xC2B9984 = 0x0;
-    *(unsigned int *)0xC2B9988 = 0x0;
-    *(unsigned int *)0xC2B998C = 0x0;
+    (((struct o14_uint *)0xC2B9980)->v) = a5;
+    (((struct o10_uint *)0xC2B9980)->v) = a6;
+    (((struct o0_uint *)0xC2B9980)->v) = 0x0;
+    (((struct o4_uint *)0xC2B9980)->v) = 0x0;
+    (((struct o8_uint *)0xC2B9980)->v) = 0x0;
+    (((struct oC_uint *)0xC2B9980)->v) = 0x0;
     vmsfs_c_init(a5);
     t2 = vmsfs_init(a4, a5, a6);
     t3 = *(int *)0xC17539C;
@@ -289,38 +303,32 @@ int buFbrCreateServer(int a4)
 int syChainClx1Handler(int a4)
 {
     int t20;
-    int t17;
     int t0;
     int t1;
-    int t2;
     int t3;
-    int t4;
     int t5;
     int t6;
     int t7;
-    int t10;
 
     t20 = ((int)(short)a4 >> 4);
     if (((int)(short)a4 >> 4) != 50) {
-        t17 = ((int)(short)a4 >> 4);
+        t20 = ((int)(short)a4 >> 4);
         if (((int)(short)a4 >> 4) == 54) {
             _builtin_set_imask(0x4);
-            t0 = *(int *)0xA05F6900;
-            t1 = *(int *)0xA05F6920;
+            t0 = (((struct o0_int *)0xA05F6900)->v);
+            t1 = (((struct o20_int *)0xA05F6900)->v);
             if (((unsigned int)((unsigned int)((unsigned int)(t0 & t1) >> 8) >> 2) >> 2) != 0) {
-                t2 = 0xA05F6900;
+                t20 = 0xA05F6900;
                 t3 = 0x0;
                 while (((int)0x1 << (int)t3) != 0x80) {
                     if ((((int)0x1 << (int)t3) & ((unsigned int)((unsigned int)((unsigned int)(t0 & t1) >> 8) >> 2) >> 2)) != 0) {
-                        t4 = syChainMasterHandler(((((t3 << 2) << 2) << 1) + 0xA00));
-                        t2 = t4;
+                        t20 = syChainMasterHandler(((((t3 << 2) << 2) << 1) + 0xA00));
                     }
                     t3 = (t3 + 0x1);
                 }
-                t10 = t2;
             } else {
-                t5 = *(int *)0xA05F6904;
-                t6 = *(int *)0xA05F6924;
+                t5 = (((struct o4_int *)0xA05F6900)->v);
+                t6 = (((struct o24_int *)0xA05F6900)->v);
                 t7 = 0x0;
                 while (((int)0x1 << (int)t7) != 16) {
                     if ((((int)0x1 << (int)t7) & (t5 & t6)) != 0) {
@@ -328,11 +336,9 @@ int syChainClx1Handler(int a4)
                     }
                     t7 = (t7 + 0x1);
                 }
-                t10 = ((int)0x1 << (int)t7);
+                t20 = ((int)0x1 << (int)t7);
             }
-            t17 = t10;
         }
-        t20 = t17;
     }
     return t20;
 }
@@ -358,16 +364,16 @@ void kmiCopyToFrameBuffer(int a4, int a5, int a6)
                     } while (t2 == 0x100);
                     t3 = *(int *)(((int)stk + 8));
                     t4 = *(int *)((t3 + 0x0));
-                    *(unsigned int *)0xC2EAAAC = t4;
+                    (((struct o0_uint *)0xC2EAAAC)->v) = t4;
                 } else {
-                    *(unsigned int *)0xC2EAAAC = 0x0;
+                    (((struct o0_uint *)0xC2EAAAC)->v) = 0x0;
                 }
                 if ((a6 & 0x1F) != 0) {
                     kmiMemCopy4((0xA4000000 + (a4 + (0xFFFFFFE0 & a6))), (a5 + (0xFFFFFFE0 & a6)), (a6 & 0x1F));
                 }
-                t11 = *(int *)0xC2EAAB0;
+                t11 = (((struct o4_int *)0xC2EAAAC)->v);
                 if (t11 == 1) {
-                    t12 = *(int *)0xC2EAAAC;
+                    t12 = (((struct o0_int *)0xC2EAAAC)->v);
                     kmiWaitForFinishDMA(t12);
                 }
             } else {

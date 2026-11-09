@@ -71,7 +71,6 @@ int mwlSbTrnsDat(int a4, int a5, int a6, int a7, int a8)
 int ADXSTM_OpenFileRange(int a4, int a5, int a6, int a7)
 {
     int t0;
-    int t2;
     int t7;
 
     t0 = gdFsOpen(a4, 0x0, a6, a7);
@@ -79,12 +78,11 @@ int ADXSTM_OpenFileRange(int a4, int a5, int a6, int a7)
         ADXERR_CallErrFunc(t0, 0x0, 0x0, 0x0, 0xC1764F8);
         t7 = 0x0;
     } else {
-        t2 = ADXSTMF_Create(t0, a5, (((a6 << 8) << 2) << 1), a7);
-        if (t2 != 0) {
-            strncpy((t2 + 0x40), a4, 0x20);
-            ADXSTM_Seek(t2, 0x0);
+        t7 = ADXSTMF_Create(t0, a5, (((a6 << 8) << 2) << 1), a7);
+        if (t7 != 0) {
+            strncpy((t7 + 0x40), a4, 0x20);
+            ADXSTM_Seek(t7, 0x0);
         }
-        t7 = t2;
     }
     return t7;
 }

@@ -10,6 +10,15 @@ int nlLocate(int, int);
 int nlPrintColor(int);
 int nlPrintf(int, ...);
 int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -22,7 +31,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     int t77;
     int t88;
     int t115;
-    int stk[18];
+    int stk[15];
 
     int R0;
     int R1;
@@ -48,7 +57,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     R6 = a6;
     F4 = f4;
     L_C026052:;
-    t0 = *(int *)0xC1EE20C;
+    t0 = (((struct o0_int *)0xC1EE20C)->v);
     R0 = (t0);
     R12 = (0xC1EE20C);
     R13 = (0x1);
@@ -76,9 +85,9 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C026420;
     L_C026420:;
     *(unsigned int *)0xC1794EC = ((*(int *)0xC1794EC) + 0x1);
-    *(unsigned int *)0xC179838 = ((*(int *)0xC179838) + 0x1);
-    t19 = PutLandmark((*(int *)0xC0E49DC), R5, R6, a7, F4, f5);
-    *(unsigned int *)0xC0E49E0 = ((*(int *)0xC0E49E0) + 0x1);
+    (((struct o18_uint *)0xC179820)->v) = (((((struct o18_int *)0xC179820)->v)) + 0x1);
+    t19 = PutLandmark(((((struct o0_int *)0xC0E49DC)->v)), R5, R6, a7, F4, f5);
+    (((struct o4_uint *)0xC0E49DC)->v) = (((((struct o4_int *)0xC0E49DC)->v)) + 0x1);
     return t19;
     L_C0261AC:;
     F15 = (0.0f);
@@ -116,7 +125,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C02632E;
     L_C02632E:;
     R3 = (0xC1EE214);
-    if (((*(int *)0xC1EE214) == 10)) goto L_C026342;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) == 10)) goto L_C026342;
     goto L_C026336;
     L_C026336:;
     if (((*(int *)((R3 + 0x0))) == 11)) goto L_C026342;
@@ -131,16 +140,16 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R12 + 0x0))) != 2)) goto L_C026378;
     goto L_C026350;
     L_C026350:;
-    if (((*(int *)0xC1EE214) == 10)) goto L_C026378;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) == 10)) goto L_C026378;
     goto L_C026358;
     L_C026358:;
-    if (((*(int *)0xC1EE214) == 11)) goto L_C026378;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) == 11)) goto L_C026378;
     goto L_C026360;
     L_C026360:;
-    if (((*(int *)0xC1EE214) == 14)) goto L_C026378;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) == 14)) goto L_C026378;
     goto L_C026368;
     L_C026368:;
-    if (((*(int *)0xC179828) != 0)) goto L_C026378;
+    if ((((((struct o8_int *)0xC179820)->v)) != 0)) goto L_C026378;
     goto L_C026370;
     L_C026370:;
     if (((*(int *)0xC1EE7EC) != 2)) goto L_C02638E;
@@ -149,7 +158,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R12 + 0x0))) == 2)) goto L_C0263AC;
     goto L_C02637E;
     L_C02637E:;
-    if (((*(int *)0xC179828) != 0)) goto L_C0263AC;
+    if ((((((struct o8_int *)0xC179820)->v)) != 0)) goto L_C0263AC;
     goto L_C026386;
     L_C026386:;
     if (((*(int *)0xC1EE7EC) == 2)) goto L_C0263AC;
@@ -158,7 +167,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)((R14 + 0x0)) = 0x4;
     *(unsigned int *)((R8 + 0x54)) = R9;
     Sound_Request(0x2A9, 0x0);
-    *(unsigned int *)0xC179828 = R13;
+    (((struct o8_uint *)0xC179820)->v) = R13;
     SetKyakuCount(R11);
     goto L_C026414;
     L_C0263AC:;
@@ -189,7 +198,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C0261E0:;
     goto L_C02640C;
     L_C02640C:;
-    *(unsigned int *)0xC179828 = R9;
+    (((struct o8_uint *)0xC179820)->v) = R9;
     *(unsigned int *)((R14 + 0x0)) = 0x7;
     goto L_C026414;
     L_C0261E4:;
@@ -219,16 +228,16 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C026290:;
     goto L_C026414;
     L_C026294:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 12) + 0xC)) = *(struct mv3 *)((R14 + 0x8)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 12)) = *(struct mv3 *)((R8 + 0x78)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)((R14 + 0x8)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)((R8 + 0x78)); }
+    *(float *)(((int)stk + 4)) = F15;
     *(float *)(((int)stk + 16)) = F15;
-    *(float *)(((int)stk + 28)) = F15;
     t88 = (*(int *)((R12 + 0x0))) != 2;
-    F4 = ((nlLength((((int)stk + 12) + 0xC), ((int)stk + 12))));
+    F4 = ((nlLength((((int)stk + 0) + 0xC), ((int)stk + 0))));
     if (t88) goto L_C0262E6;
     goto L_C0262C8;
     L_C0262C8:;
-    if (((*(int *)0xC1EE214) != 8)) goto L_C0262D8;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) != 8)) goto L_C0262D8;
     goto L_C0262D0;
     L_C0262D0:;
     if ((1500.0f > F4)) goto L_C0262FC;
@@ -237,7 +246,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R12 + 0x0))) != 2)) goto L_C0262E6;
     goto L_C0262DE;
     L_C0262DE:;
-    if (((*(int *)0xC1EE214) != 8)) goto L_C0262F0;
+    if ((((((struct o8_int *)0xC1EE20C)->v)) != 8)) goto L_C0262F0;
     goto L_C0262E6;
     L_C0262E6:;
     if (((*(int *)((R12 + 0x0))) != 2)) goto L_C0262F0;
@@ -245,7 +254,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C0262EC:;
     goto L_C026414;
     L_C0262F0:;
-    if (((*(float *)0xC179820) > F4)) goto L_C0262FC;
+    if ((((((struct o0_float *)0xC179820)->v)) > F4)) goto L_C0262FC;
     goto L_C0262F8;
     L_C0262F8:;
     goto L_C026414;
@@ -264,7 +273,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((R11 & R13) == 0)) goto L_C026278;
     goto L_C02626C;
     L_C02626C:;
-    if ((((*(int *)0xC179838) & R13) == 0)) goto L_C026278;
+    if (((((((struct o18_int *)0xC179820)->v)) & R13) == 0)) goto L_C026278;
     goto L_C026274;
     L_C026274:;
     goto L_C026414;
@@ -272,7 +281,7 @@ int exec_KyakuMain(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((R4 != 0)) goto L_C026288;
     goto L_C02627C;
     L_C02627C:;
-    if ((((*(int *)0xC179838) & R13) != 0)) goto L_C026288;
+    if (((((((struct o18_int *)0xC179820)->v)) & R13) != 0)) goto L_C026288;
     goto L_C026284;
     L_C026284:;
     goto L_C026414;

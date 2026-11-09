@@ -2,21 +2,35 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Init_sprCombo(void);
+struct o0_float { float v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_float { char p[0x28]; float v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int Init_sprCombo(void)
 {
-    *(float *)0xC2A88E0 = 3.2e+02f;
-    *(float *)0xC2A88E4 = 2.4e+02f;
-    *(float *)0xC2A88E8 = 0.19999999f;
-    *(float *)0xC2A88EC = 1.0f;
-    *(float *)0xC2A88F0 = 1.0f;
-    *(float *)0xC2A88F4 = 0.0f;
-    *(float *)0xC2A88F8 = 0.0f;
-    *(float *)0xC2A88FC = 1.0f;
-    *(float *)0xC2A8900 = 1.0f;
-    *(unsigned int *)0xC2A8904 = 0x0;
-    *(unsigned int *)0xC2A8910 = 0x200A;
-    *(float *)0xC2A8908 = 1.0f;
-    *(unsigned int *)0xC2A890C = 0x2;
+    (((struct o0_float *)0xC2A88E0)->v) = 3.2e+02f;
+    (((struct o4_float *)0xC2A88E0)->v) = 2.4e+02f;
+    (((struct o8_float *)0xC2A88E0)->v) = 0.19999999f;
+    (((struct oC_float *)0xC2A88E0)->v) = 1.0f;
+    (((struct o10_float *)0xC2A88E0)->v) = 1.0f;
+    (((struct o14_float *)0xC2A88E0)->v) = 0.0f;
+    (((struct o18_float *)0xC2A88E0)->v) = 0.0f;
+    (((struct o1C_float *)0xC2A88E0)->v) = 1.0f;
+    (((struct o20_float *)0xC2A88E0)->v) = 1.0f;
+    (((struct o24_uint *)0xC2A88E0)->v) = 0x0;
+    (((struct o30_uint *)0xC2A88E0)->v) = 0x200A;
+    (((struct o28_float *)0xC2A88E0)->v) = 1.0f;
+    (((struct o2C_uint *)0xC2A88E0)->v) = 0x2;
     return 0x2C;
 }

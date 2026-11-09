@@ -4,6 +4,8 @@
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int Chat_Iraira(int a4, int a5, int a6, int a7);
+struct o148_int { char p[0x148]; int v; };
+
 
 int Chat_Iraira(int a4, int a5, int a6, int a7)
 {
@@ -51,7 +53,7 @@ int Chat_Iraira(int a4, int a5, int a6, int a7)
     if ((R6 != 2)) goto L_C061BC2;
     goto L_C061B8A;
     L_C061B8A:;
-    *(unsigned int *)((R7 + 0x0)) = (*(int *)((((int)stk + 4) + (((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) << 2))));
+    *(unsigned int *)((R7 + 0x0)) = (*(int *)((((int)stk + 4) + (((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) << 2))));
     *(unsigned int *)0xC13ED38 = (*(int *)((((((*(int *)0xC2AD000) - 1) << 2) + (((int)stk + 4) + 0x78)) + 0x0)));
     Voice_ShutUp(0x1);
     Voice_Request(0xC13ED38, 0x1, 0x73, 0x0);
@@ -124,14 +126,14 @@ int Chat_Iraira(int a4, int a5, int a6, int a7)
     L_C061CB0:;
     goto L_C061CEC;
     L_C061CC8:;
-    t53 = (int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7);
+    t53 = (int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7);
     R0 = (((((int)((int)R14 % (int)0x4)) + ((t53 << 2) + t53)) + 0x1));
     goto L_C061CE6;
     L_C061CE6:;
     *(unsigned int *)((R7 + 0x0)) = (*(int *)((R10 + (R0 << 2))));
     goto L_C061CEC;
     L_C061CB4:;
-    t58 = (int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7);
+    t58 = (int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7);
     R0 = (((t58 << 2) + t58));
     goto L_C061CE6;
 }

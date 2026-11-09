@@ -4,6 +4,12 @@
 int Sound_Request(int, int);
 int Put_Remain_Time_Gauge(void);
 int Put_Remain_Time_Flash(void);
+struct o0_float { float v; };
+struct o30_int { char p[0x30]; int v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int Put_Remain_Time_Gauge(void)
 {
@@ -25,29 +31,29 @@ int Put_Remain_Time_Gauge(void)
     int t69;
     int t81;
 
-    t0 = *(int *)0xC2A8CBC;
+    t0 = (((struct o30_int *)0xC2A8C8C)->v);
     if (t0 == 0) {
-        t3 = *(int *)0xC2A8C90;
+        t3 = (((struct o4_int *)0xC2A8C8C)->v);
         if ((int)t3 < (int)0xA) {
-            t4 = *(int *)0xC2A8C90;
-            *(unsigned int *)0xC2A8C90 = (t4 + 0x1);
+            t4 = (((struct o4_int *)0xC2A8C8C)->v);
+            (((struct o4_uint *)0xC2A8C8C)->v) = (t4 + 0x1);
         } else {
-            *(unsigned int *)0xC2A8C90 = 0xA;
-            *(unsigned int *)0xC2A8CBC = 0x1;
+            (((struct o4_uint *)0xC2A8C8C)->v) = 0xA;
+            (((struct o30_uint *)0xC2A8C8C)->v) = 0x1;
         }
     } else {
         if (t0 == 1) {
-            u9 = *(float *)0xC2A8C8C;
+            u9 = (((struct o0_float *)0xC2A8C8C)->v);
             if (1.0f > u9) {
-                u10 = *(float *)0xC2A8C8C;
-                *(float *)0xC2A8C8C = (u10 + 0.099999994f);
+                u10 = (((struct o0_float *)0xC2A8C8C)->v);
+                (((struct o0_float *)0xC2A8C8C)->v) = (u10 + 0.099999994f);
             } else {
                 Sound_Request(0x705A9, 0x0);
-                *(unsigned int *)0xC2A8CBC = 0x2;
+                (((struct o30_uint *)0xC2A8C8C)->v) = 0x2;
             }
-            u18 = *(float *)0xC2A8C8C;
+            u18 = (((struct o0_float *)0xC2A8C8C)->v);
             if (u18 > 1.0f) {
-                *(float *)0xC2A8C8C = 1.0f;
+                (((struct o0_float *)0xC2A8C8C)->v) = 1.0f;
             }
         }
     }

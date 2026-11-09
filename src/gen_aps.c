@@ -8,13 +8,25 @@ int nlLoadMatrix(int);
 int nlPopMatrix(int);
 int nlProjectScreen3D(int, int);
 int nlPushUnitMatrix(void);
-int pedCarNotInSubway(float, float);
+int pedCarNotInSubway(void);
 int pedDodgeCheck(int, float, float);
 int pedDraw(int, float, float);
 int pedGetSubwayFlag(float, float);
 int pedPickIdle(int);
 int pedStand(int);
 int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o14_float { char p[0x14]; float v; };
+struct o38_ushort { char p[0x38]; unsigned short v; };
+struct o3C_float { char p[0x3C]; float v; };
+struct o40_float { char p[0x40]; float v; };
+struct o48_float { char p[0x48]; float v; };
+struct o4C_uint { char p[0x4C]; unsigned int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o50_uint { char p[0x50]; unsigned int v; };
+struct o60_short { char p[0x60]; short v; };
+struct oC_float { char p[0xC]; float v; };
+struct oF4_short { char p[0xF4]; short v; };
+
 
 int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -25,7 +37,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     int t29;
     int t33;
     int t53;
-    int stk[13];
+    int stk[12];
 
     int R0;
     int R1;
@@ -56,21 +68,21 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C04FA82:;
     R13 = (0xC1790CC);
     R14 = (R4);
-    if (((*(int *)((R4 + 0x50))) != 2)) goto L_C04FAD0;
+    if ((((((struct o50_int *)(R4))->v)) != 2)) goto L_C04FAD0;
     goto L_C04FA9C;
     L_C04FA9C:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)((R14 + 0x40)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)((R14 + 0x40)); }
     goto L_C04FADE;
     L_C04FADE:;
     nlPushUnitMatrix();
     nlLoadMatrix(0xC2A6FE4);
-    nlCalcPoint((((int)stk + 4) + 0xC), ((int)stk + 4));
+    nlCalcPoint((((int)stk + 0) + 0xC), ((int)stk + 0));
     nlPopMatrix(0x1);
-    t8 = nlLength((R13 + 0x78), (((int)stk + 4) + 0xC));
-    pedDodgeCheck(R14, t8, (*(float *)(((int)stk + 4))));
-    t11 = nlLength(0xC179840, (((int)stk + 4) + 0xC));
-    nlProjectScreen3D((((int)stk + 4) + 0xC), ((int)stk + 4));
-    t14 = (CheckClipping((((int)stk + 4) + 0xC), 5.0f)) == 0;
+    t8 = nlLength((R13 + 0x78), (((int)stk + 0) + 0xC));
+    pedDodgeCheck(R14, t8, (*(float *)(((int)stk + 0))));
+    t11 = nlLength(0xC179840, (((int)stk + 0) + 0xC));
+    nlProjectScreen3D((((int)stk + 0) + 0xC), ((int)stk + 0));
+    t14 = (CheckClipping((((int)stk + 0) + 0xC), 5.0f)) == 0;
     F14 = (t11);
     F15 = (t8);
     if (t14) goto L_C04FB70;
@@ -83,24 +95,24 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((*(int *)((R2 + 0x0))) != 1)) goto L_C04FB70;
     goto L_C04FB46;
     L_C04FB46:;
-    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C04FB58;
+    if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C04FB58;
     goto L_C04FB4E;
     L_C04FB4E:;
     t25 = (int)(pedGetSubwayFlag(F4, F5)) >= (int)0x1;
     if (t25) goto L_C04FB68;
     goto L_C04FB58;
     L_C04FB58:;
-    if (((*(short *)((R14 + 0x60))) != 0)) goto L_C04FB70;
+    if ((((((struct o60_short *)(R14))->v)) != 0)) goto L_C04FB70;
     goto L_C04FB60;
     L_C04FB60:;
-    t29 = (pedCarNotInSubway(F4, F5)) == 0;
+    t29 = (pedCarNotInSubway()) == 0;
     if (t29) goto L_C04FB70;
     goto L_C04FB68;
     L_C04FB68:;
     pedDraw(R14, F14, F15);
     goto L_C04FB70;
     L_C04FB70:;
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FBD0;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FBD0;
     goto L_C04FB78;
     L_C04FB78:;
     t33 = *(int *)((R14 + 0x20));
@@ -113,22 +125,22 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C04FBD6;
     L_C04FBD6:;
     R12 = (0x0);
-    if (((*(int *)((R14 + 0x50))) != 2)) goto L_C04FC30;
+    if ((((((struct o50_int *)(R14))->v)) != 2)) goto L_C04FC30;
     goto L_C04FBE0;
     L_C04FBE0:;
     if (((unsigned int)(*(int *)(((*(int *)((((*(int *)((R14 + 0x28))) << 2) + 0xC0D61AC))) + 0x0))) > (unsigned int)((*(int *)((R14 + 0x20))) + 0x1))) goto L_C04FC30;
     goto L_C04FBF2;
     L_C04FBF2:;
-    *(unsigned int *)((R14 + 0x50)) = 0x1;
+    (((struct o50_uint *)(R14))->v) = 0x1;
     *(unsigned int *)((R14 + 0x20)) = R12;
     pedPickIdle(R14);
-    *(unsigned short *)((R14 + 0x38)) = R12;
-    *(float *)((R14 + 0x3C)) = 0.0f;
-    *(float *)((R14 + 0xC)) = (*(float *)((R14 + 0x40)));
-    *(float *)((R14 + 0x14)) = (*(float *)((R14 + 0x48)));
+    (((struct o38_ushort *)(R14))->v) = R12;
+    (((struct o3C_float *)(R14))->v) = 0.0f;
+    (((struct oC_float *)(R14))->v) = ((((struct o40_float *)(R14))->v));
+    (((struct o14_float *)(R14))->v) = ((((struct o48_float *)(R14))->v));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((R14 + 0x40)) = *(struct mv3 *)(0xC12FF00); }
-    *(unsigned int *)((R14 + 0x4C)) = R12;
-    t53 = *(short *)((R13 + 0xF4));
+    (((struct o4C_uint *)(R14))->v) = R12;
+    t53 = (((struct oF4_short *)(R13))->v);
     *(unsigned short *)((R14 + 0x1A)) = t53;
     R0 = (t53);
     goto L_C04FC4A;
@@ -138,7 +150,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     if ((!(F15 > 1.5e+03f))) goto L_C04FC3E;
     goto L_C04FC38;
     L_C04FC38:;
-    *(unsigned int *)((R14 + 0x50)) = R12;
+    (((struct o50_uint *)(R14))->v) = R12;
     R0 = (0x50);
     goto L_C04FC4A;
     L_C04FC3E:;
@@ -152,6 +164,6 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)((R14 + 0x20)) = ((*(int *)((R14 + 0x20))) + 0x1);
     goto L_C04FBD6;
     L_C04FAD0:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)((R14 + 0xC)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)((R14 + 0xC)); }
     goto L_C04FADE;
 }

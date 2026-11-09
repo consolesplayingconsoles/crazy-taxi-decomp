@@ -9,6 +9,9 @@ int ADXSJD_GetStat(int);
 int ADXT_GetNumChan(int);
 int memset(int, int, int);
 int adxt_stat_prep(int a4, int a5, int a6, int a7);
+struct o48_int { char p[0x48]; int v; };
+struct o71_uchar { char p[0x71]; unsigned char v; };
+
 
 int adxt_stat_prep(int a4, int a5, int a6, int a7)
 {
@@ -37,21 +40,27 @@ int adxt_stat_prep(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    int R1008;
+    int R1012;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C1692A6:;
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)((R4 + 0x4)));
+    R1004 = (*(int *)((R4 + 0x4)));
     t1 = *(int *)((R4 + 0xC));
-    *(unsigned int *)(((int)stk + 8)) = (ADXRNA_GetNumData(t1, R5, R6, R7));
-    *(unsigned int *)(((int)stk + 12)) = (ADXRNA_GetNumRoom());
+    R1008 = (ADXRNA_GetNumData(t1, R5, R6, R7));
+    R1012 = (ADXRNA_GetNumRoom());
     R13 = (t1);
     R14 = (R4);
-    if (((int)(*(int *)(((int)stk + 8))) >= (int)(*(int *)((R4 + 0x48))))) goto L_C1692EE;
+    if (((int)(R1008) >= (int)((((struct o48_int *)(R4))->v)))) goto L_C1692EE;
     goto L_C1692D8;
     L_C1692D8:;
-    t12 = (int)(*(int *)(((int)stk + 12))) <= (int)(ADXSJD_GetBlkSmpl((*(int *)(((int)stk + 4)))));
+    t12 = (int)(R1012) <= (int)(ADXSJD_GetBlkSmpl((R1004)));
     if (t12) goto L_C1692EE;
     goto L_C1692E4;
     L_C1692E4:;
@@ -71,7 +80,7 @@ int adxt_stat_prep(int a4, int a5, int a6, int a7)
     *(unsigned char *)((R14 + 0x1)) = 0x3;
     goto L_C16930A;
     L_C16930A:;
-    *(unsigned char *)((R14 + 0x71)) = 0x1;
+    (((struct o71_uchar *)(R14))->v) = 0x1;
     goto L_C169310;
     L_C169310:;
     t22 = ADXSJD_GetStat((*(int *)((R14 + 0x4))));
@@ -85,7 +94,7 @@ int adxt_stat_prep(int a4, int a5, int a6, int a7)
     R11 = (0xC081458);
     R12 = (t25);
     R13 = (0x0);
-    R9 = ((((*(int *)((R14 + 0x48))) * t25) << 1));
+    R9 = (((((((struct o48_int *)(R14))->v)) * t25) << 1));
     if (((int)t25 <= 0)) goto L_C169366;
     goto L_C169338;
     L_C169338:;

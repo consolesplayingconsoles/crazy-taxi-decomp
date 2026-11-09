@@ -4,6 +4,9 @@
 int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int Chat_TellDestination(int a4, int a5, int a6, int a7);
+struct o140_int { char p[0x140]; int v; };
+struct o148_int { char p[0x148]; int v; };
+
 
 int Chat_TellDestination(int a4, int a5, int a6, int a7)
 {
@@ -46,8 +49,8 @@ int Chat_TellDestination(int a4, int a5, int a6, int a7)
     if ((t4 != 0)) goto L_C061300;
     goto L_C0612E0;
     L_C0612E0:;
-    t9 = *(int *)((R4 + 0x140));
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + ((t9 << 2) + t9)) << 2))));
+    t9 = (((struct o140_int *)(R4))->v);
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + ((t9 << 2) + t9)) << 2))));
     goto L_C06148E;
     L_C06148E:;
     *(unsigned int *)((R14 + 0x4)) = 0x2;
@@ -68,7 +71,7 @@ int Chat_TellDestination(int a4, int a5, int a6, int a7)
     goto L_C06130C;
     L_C06130C:;
     t25 = *(int *)((R7 + 0x0));
-    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R13 + ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + ((t25 << 2) + t25)) << 2))));
+    *(unsigned int *)((R14 + 0x0)) = (*(int *)((R13 + ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + ((t25 << 2) + t25)) << 2))));
     *(unsigned int *)((R7 + 0x0)) = ((int)((int)((*(int *)((R7 + 0x0))) + 0x1) % (int)0x5));
     goto L_C06148E;
     L_C061364:;
@@ -77,7 +80,7 @@ int Chat_TellDestination(int a4, int a5, int a6, int a7)
     L_C061368:;
     goto L_C06148E;
     L_C06136C:;
-    t32 = *(int *)((R4 + 0x140));
+    t32 = (((struct o140_int *)(R4))->v);
     R0 = (t32);
     if ((t32 == 1)) goto L_C0613B4;
     goto L_C061374;
@@ -130,53 +133,53 @@ int Chat_TellDestination(int a4, int a5, int a6, int a7)
     goto L_C061472;
     L_C061472:;
     t50 = *(int *)((R7 + 0x0));
-    R3 = ((*(int *)((R13 + ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + ((t50 << 2) + t50)) << 2)))));
+    R3 = ((*(int *)((R13 + ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + ((t50 << 2) + t50)) << 2)))));
     goto L_C06148C;
     L_C06148C:;
     *(unsigned int *)((R14 + 0x0)) = R3;
     goto L_C06148E;
     L_C06145E:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x55));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x55));
     goto L_C06146A;
     L_C06146A:;
     *(unsigned int *)((R14 + 0x0)) = (*(int *)((R5 + (R0 << 2))));
     goto L_C06148E;
     L_C06144A:;
-    R0 = (((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)));
+    R0 = (((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)));
     R2 = (0x82);
     goto L_C061456;
     L_C061456:;
     R3 = ((*(int *)((R5 + ((R0 + R2) << 2)))));
     goto L_C06148C;
     L_C06143A:;
-    R0 = (((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)));
+    R0 = (((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)));
     R2 = (0x96);
     goto L_C061456;
     L_C06142C:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x2D));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x2D));
     goto L_C06146A;
     L_C06141E:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x23));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x23));
     goto L_C06146A;
     L_C061410:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x6E));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x6E));
     goto L_C06146A;
     L_C0613FA:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x5F));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x5F));
     goto L_C06146A;
     L_C0613EC:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x46));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x46));
     goto L_C06146A;
     L_C0613DE:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x41));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x41));
     goto L_C06146A;
     L_C0613D0:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x3C));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x3C));
     goto L_C06146A;
     L_C0613C2:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x37));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x37));
     goto L_C06146A;
     L_C0613B4:;
-    R0 = ((((int)(((unsigned int)(*(int *)(((0x148 + R4) + 0x0))) >> 29) & 0x7)) + 0x28));
+    R0 = ((((int)(((unsigned int)((((struct o148_int *)(R4))->v)) >> 29) & 0x7)) + 0x28));
     goto L_C06146A;
 }

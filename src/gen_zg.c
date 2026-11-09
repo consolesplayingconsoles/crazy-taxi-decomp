@@ -6,6 +6,8 @@ float pfLength(int);
 int pfSetFont(int);
 int putString(int, int, float, float, float);
 int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7);
+struct o2F_uchar { char p[0x2F]; unsigned char v; };
+
 
 int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5, float f6, float f7)
 {
@@ -57,7 +59,7 @@ int putRecordUnit(int a4, int a5, int a6, int a7, int a8, float f4, float f5, fl
     L_C03C9CE:;
     *(unsigned int *)(((int)stk + 4)) = R4;
     *(unsigned int *)(((int)stk + 8)) = R6;
-    *(unsigned char *)(((((int)stk + 4) + 0x2F) + 0x0)) = 0x0;
+    (((struct o2F_uchar *)(((int)stk + 4)))->v) = 0x0;
     pfSetFont(((*(int *)(((int)stk + 4))) & 0x3));
     *(unsigned int *)(((int)stk + 12)) = ((*(int *)(((int)stk + 4))) & 0x4);
     *(unsigned int *)(((int)stk + 16)) = ((*(int *)(((int)stk + 4))) & 0x8);

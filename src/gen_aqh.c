@@ -8,19 +8,14 @@ int breathSteer(int a4, int a5);
 int breathSteer(int a4, int a5)
 {
     int t0;
-    int t33;
     float u47;
     int t90;
-    int t93;
-    int t92;
     int t97;
-    int t70;
-    int t26;
 
     t0 = *(int *)((a4 + 0x24));
     if (t0 != 0) {
         if (t0 != 1) {
-            t33 = t0;
+            t97 = t0;
             if (t0 != 2) {
             } else {
                 if ((int)(*(int *)((a4 + 0x20))) >= 0) {
@@ -29,7 +24,7 @@ int breathSteer(int a4, int a5)
                     if (0.19999999f > (*(float *)((a4 + 0x18)))) {
                         *(float *)((a4 + 0x18)) = ((*(float *)((a4 + 0x18))) + 0.00999999978f);
                     }
-                    t26 = 0x18;
+                    t97 = 0x18;
                 } else {
                     *(unsigned int *)((a4 + 0xC)) = (short)(GetAverageAngle((*(int *)((a4 + 0xC))), 0x31C7, 0.98999995f));
                     if (0.39999998f > (*(float *)((a4 + 0x18)))) {
@@ -38,11 +33,9 @@ int breathSteer(int a4, int a5)
                     if (!(((*(float *)((a5 + 0x4))) + (-0.5f)) > (*(float *)((a4 + 0x4))))) {
                         *(unsigned int *)((a4 + 0x24)) = 0x0;
                     }
-                    t26 = 0x4;
+                    t97 = 0x4;
                 }
-                t33 = t26;
             }
-            t70 = t33;
         } else {
             if (((int)((int)(*(int *)0xC1EE330) % (int)0x2D)) == 1) {
                 u47 = (float)(*(int *)((a4 + 0x10)));
@@ -59,9 +52,8 @@ int breathSteer(int a4, int a5)
             } else {
                 *(unsigned int *)((a4 + 0x24)) = 0x0;
             }
-            t70 = 0x18;
+            t97 = 0x18;
         }
-        t97 = t70;
     } else {
         if (0.00999999978f > (*(float *)((a4 + 0x18)))) {
             *(float *)((a4 + 0x18)) = 0.00999999978f;
@@ -71,14 +63,12 @@ int breathSteer(int a4, int a5)
         *(unsigned int *)((a4 + 0xC)) = (short)(GetAverageAngle((*(int *)((a4 + 0xC))), 0x10, 0.98999995f));
         *(unsigned int *)((a4 + 0x20)) = 0xF0;
         t90 = (int)((int)(*(int *)0xC1EE330) % (int)0x78);
-        t93 = t90;
+        t97 = t90;
         if (t90 != 0) {
         } else {
-            t92 = (int)((int)(nlRand()) % (int)0x3);
-            *(unsigned int *)((a4 + 0x24)) = t92;
-            t93 = t92;
+            t97 = (int)((int)(nlRand()) % (int)0x3);
+            *(unsigned int *)((a4 + 0x24)) = t97;
         }
-        t97 = t93;
     }
     return t97;
 }

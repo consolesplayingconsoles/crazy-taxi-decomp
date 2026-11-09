@@ -105,6 +105,13 @@ int BigOneSwimMove(void);
 int trafficSectionControl(int a4, int a5, int a6, float f4);
 int humanDraw(int a4, int a5, int a6, int a7);
 int FcvPlay(int a4, int a5, float f4);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 
 int kmiCopyTextureToTexture(void)
@@ -129,15 +136,12 @@ void nlMvPutPolygon(int a4, int a5, int a6, int a7)
     int t9;
     int t10;
     int t11;
-    int t12;
-    int t13;
     int t14;
     int t15;
     int t16;
     int t17;
     int t18;
     int t19;
-    int t20;
     int t22;
     int t23;
     int t24;
@@ -149,11 +153,10 @@ void nlMvPutPolygon(int a4, int a5, int a6, int a7)
     int t32;
     int t33;
     int t34;
-    int t37;
     int stk[17] = {0};
 
     *(unsigned int *)(((int)stk + 28)) = a6;
-    t0 = *(int *)0xC2B7670;
+    t0 = (((struct o18_int *)0xC2B7658)->v);
     *(unsigned int *)(((int)stk + 4)) = t0;
     *(unsigned int *)(((int)stk + 32)) = 0xC2B7678;
     t1 = *(int *)((a7 + 0x0));
@@ -174,15 +177,13 @@ void nlMvPutPolygon(int a4, int a5, int a6, int a7)
             do {
                 t10 = *(short *)((t8 + 0x0));
                 t8 = (t8 + 0x2);
-                t11 = *(int *)0xC2B766C;
-                t12 = *(signed char *)(((t11 + t10) + 0x0));
-                t3 = t12;
+                t11 = (((struct o14_int *)0xC2B7658)->v);
+                t3 = *(signed char *)(((t11 + t10) + 0x0));
                 if (t3 != 0) {
                     *(unsigned char *)(((t11 + t10) + 0x0)) = 0x2;
                 } else {
                     *(unsigned char *)(((t11 + t10) + 0x0)) = 0x1;
-                    t13 = *(int *)(((int)stk + 28));
-                    t3 = t13;
+                    t3 = *(int *)(((int)stk + 28));
                     t14 = *(short *)((((t10 << 2) + t3) + 0x0));
                     t15 = ((t10 << 2) + t3);
                     t3 = t14;
@@ -191,15 +192,14 @@ void nlMvPutPolygon(int a4, int a5, int a6, int a7)
                     *(unsigned int *)(((int)stk + 8)) = t16;
                     *(unsigned int *)(((int)stk + 20)) = ((t10 << 2) << 2);
                     t17 = *(int *)(((int)stk + 8));
-                    t18 = *(int *)0xC2B7664;
+                    t18 = (((struct oC_int *)0xC2B7658)->v);
                     *(unsigned int *)(((int)stk + 12)) = ((t17 << 2) << 2);
                     t19 = *(int *)(((int)stk + 24));
-                    t20 = *(int *)0xC2B7658;
-                    t3 = t20;
+                    t3 = (((struct o0_int *)0xC2B7658)->v);
                     *(unsigned int *)(((int)stk + 16)) = ((t19 << 2) << 2);
                     nlMvClipEdge((((t19 << 2) << 2) + t3), (((t17 << 2) << 2) + t3), (((t10 << 2) << 2) + t18));
                     t3 = 0xC2B7668;
-                    t22 = *(int *)0xC2B765C;
+                    t22 = (((struct o4_int *)0xC2B7658)->v);
                     t23 = *(int *)(((int)stk + 12));
                     t24 = *(int *)((t3 + 0x0));
                     t25 = *(int *)(((int)stk + 20));
@@ -209,19 +209,18 @@ void nlMvPutPolygon(int a4, int a5, int a6, int a7)
                 t9 = (t9 - 0x1);
             } while (t9 != 0);
             t3 = 0xC2B7658;
-            t29 = *(int *)0xC2B7664;
+            t29 = (((struct oC_int *)0xC2B7658)->v);
             t30 = *(int *)((t3 + 0x0));
             t31 = nlMvGetFaceVerts(t30, (t4 + 0xC));
             t3 = 0xC2B765C;
-            t32 = *(int *)0xC2B7668;
+            t32 = (((struct o10_int *)0xC2B7658)->v);
             t33 = *(int *)((t3 + 0x0));
             t34 = nlMvGetFaceVerts(t33, (t4 + 0xC));
             if ((t31 | t34) != 0) {
                 nlMvPutFaceClip(t31, t34, (t4 + 0xC), (t4 + 0x12));
             }
         }
-        t37 = *(int *)(((int)stk + 4));
-        t3 = t37;
+        t3 = *(int *)(((int)stk + 4));
         t4 = (t4 + 0x18);
         t5 = (t5 - 1);
         t3 = (t3 + 0xC);

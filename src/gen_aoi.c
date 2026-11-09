@@ -21,13 +21,28 @@ void ndPeriCheck(void)
     int t79;
     int t0;
     int stk[19];
+    int R1016;
+    int R1020;
+    int R1024;
+    int R1028;
+    int R1032;
+    int R1036;
+    int R1040;
 
-    *(unsigned int *)(((int)stk + 16)) = 0xC131A04;
-    *(unsigned int *)(((int)stk + 20)) = 0x28;
-    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B4C;
-    *(unsigned int *)(((int)stk + 28)) = 0xC131A48;
-    *(unsigned int *)(((int)stk + 32)) = 0xC0D2B48;
-    *(unsigned int *)(((int)stk + 36)) = 0xC131A44;
+    R1016 = *(int *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
+    R1024 = *(int *)((int)stk + 24);
+    R1028 = *(int *)((int)stk + 28);
+    R1032 = *(int *)((int)stk + 32);
+    R1036 = *(int *)((int)stk + 36);
+    R1040 = *(int *)((int)stk + 40);
+
+    R1016 = 0xC131A04;
+    R1020 = 0x28;
+    R1024 = 0xC0D2B4C;
+    R1028 = 0xC131A48;
+    R1032 = 0xC0D2B48;
+    R1036 = 0xC131A44;
     t1 = 0xC131A48;
     t2 = 0xC131A04;
     t3 = 0x0;
@@ -39,40 +54,40 @@ void ndPeriCheck(void)
         t0 = (ndGetPeripheral((*(int *)(((t3 << 2) + t0)))));
         t1 = (*(int *)0xC2A9C70);
         t8 = *(int *)((t1 + 0x30));
-        t1 = (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)));
+        t1 = (*(int *)(((R1024) + 0x0)));
         if (((*(int *)((t8 + 0x0))) & t1) != 0) {
             t0 = (nlLocate(0x5, (t3 + 0x28)));
-            t1 = (*(int *)(((*(int *)(((int)stk + 28))) + 0x0)));
+            t1 = (*(int *)(((R1028) + 0x0)));
             t0 = t3;
             t0 = (t0 << 2);
             t0 = (nlPrintf(0xC0D2B5C, ((*(int *)((0xC131A04 + t0)))), (t1)));
         } else {
             t1 = (*(int *)0xC2A9C70);
             t26 = *(int *)((t1 + 0x30));
-            t1 = (*(int *)(((*(int *)(((int)stk + 32))) + 0x0)));
+            t1 = (*(int *)(((R1032) + 0x0)));
             if (((*(int *)((t26 + 0x0))) & t1) != 0) {
                 t0 = (nlLocate(0x5, (t3 + 0x28)));
-                t1 = (*(int *)(((*(int *)(((int)stk + 36))) + 0x0)));
+                t1 = (*(int *)(((R1036) + 0x0)));
                 t0 = (nlPrintf(0xC0D2B5C, ((*(int *)((t2 + 0x0)))), (t1)));
             } else {
-                t0 = (nlLocate(0x5, (*(int *)(((int)stk + 20)))));
-                t1 = (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)));
+                t0 = (nlLocate(0x5, (R1020)));
+                t1 = (*(int *)(((R1016) + 0x0)));
                 t0 = (nlPrintf(0xC0D2B6C, (t1)));
             }
         }
-        t1 = (*(int *)(((int)stk + 16)));
+        t1 = (R1016);
         t2 = (t2 + 0x4);
         t3 = (t3 + 0x1);
         t1 = (t1 + 0x4);
-        *(unsigned int *)(((int)stk + 16)) = t1;
-        *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + 0x1);
+        R1016 = t1;
+        R1020 = ((R1020) + 0x1);
     }
-    *(unsigned int *)(((int)stk + 20)) = 0x2C;
-    *(unsigned int *)(((int)stk + 16)) = 0xC131A14;
-    *(unsigned int *)(((int)stk + 32)) = 0xC0D2B50;
-    *(unsigned int *)(((int)stk + 40)) = 0xC131A4C;
-    *(unsigned int *)(((int)stk + 24)) = 0xC0D2B54;
-    *(unsigned int *)(((int)stk + 28)) = 0xC131A50;
+    R1020 = 0x2C;
+    R1016 = 0xC131A14;
+    R1032 = 0xC0D2B50;
+    R1040 = 0xC131A4C;
+    R1024 = 0xC0D2B54;
+    R1028 = 0xC131A50;
     t46 = t0;
     t47 = 0xC0D2B50;
     t48 = 0xC131A14;
@@ -82,37 +97,37 @@ void ndPeriCheck(void)
             break;
         }
         t46 = 0xC0D2B18;
-        *(unsigned int *)(((int)stk + 36)) = (t49 << 2);
+        R1036 = (t49 << 2);
         t46 = (ndGetPeripheral((*(int *)(((t49 << 2) + t46)))));
         t47 = (*(int *)(((*(int *)0xC2A9C70) + 0x30)));
         t47 = (*(int *)((t47 + 0x0)));
-        if ((t47 & (*(int *)(((*(int *)(((int)stk + 32))) + 0x0)))) != 0) {
+        if ((t47 & (*(int *)(((R1032) + 0x0)))) != 0) {
             t46 = (nlLocate(0x5, (t49 + 0x28)));
-            t47 = (*(int *)(((int)stk + 40)));
+            t47 = (R1040);
             t66 = (*(int *)((t47 + 0x0)));
-            t46 = (*(int *)(((int)stk + 36)));
+            t46 = (R1036);
             t47 = (*(int *)((0xC131A04 + t46)));
             t46 = (nlPrintf(0xC0D2B5C, (t47), t66));
         } else {
             t47 = (*(int *)(((*(int *)0xC2A9C70) + 0x30)));
             t47 = (*(int *)((t47 + 0x0)));
-            if ((t47 & (*(int *)(((*(int *)(((int)stk + 24))) + 0x0)))) != 0) {
+            if ((t47 & (*(int *)(((R1024) + 0x0)))) != 0) {
                 t46 = (nlLocate(0x5, (t49 + 0x28)));
-                t47 = (*(int *)(((int)stk + 28)));
+                t47 = (R1028);
                 t79 = (*(int *)((t47 + 0x0)));
-                t47 = (*(int *)(((*(int *)(((int)stk + 16))) + 0x0)));
+                t47 = (*(int *)(((R1016) + 0x0)));
                 t46 = (nlPrintf(0xC0D2B5C, (t47), t79));
             } else {
-                t46 = (nlLocate(0x5, (*(int *)(((int)stk + 20)))));
+                t46 = (nlLocate(0x5, (R1020)));
                 t47 = (*(int *)((t48 + 0x0)));
                 t46 = (nlPrintf(0xC0D2B6C, (t47)));
             }
         }
         t49 = (t49 + 0x1);
         t48 = (t48 + 0x4);
-        *(unsigned int *)(((int)stk + 20)) = ((*(int *)(((int)stk + 20))) + 0x1);
-        t47 = (*(int *)(((int)stk + 16)));
+        R1020 = ((R1020) + 0x1);
+        t47 = (R1016);
         t47 = (t47 + 0x4);
-        *(unsigned int *)(((int)stk + 16)) = t47;
+        R1016 = t47;
     }
 }

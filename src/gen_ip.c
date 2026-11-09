@@ -27,6 +27,24 @@ int nlSubVector3op(int, int, int);
 int technicalCheck(int, int, int);
 int trainCarDrive(int, int, int, int);
 int trainCarExec(int a4, int a5, int a6);
+struct o100_float { char p[0x100]; float v; };
+struct o104_float { char p[0x104]; float v; };
+struct o108_uchar { char p[0x108]; unsigned char v; };
+struct o110_int { char p[0x110]; int v; };
+struct o110_uint { char p[0x110]; unsigned int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o80_int { char p[0x80]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct o90_float { char p[0x90]; float v; };
+struct o9C_float { char p[0x9C]; float v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oCC_float { char p[0xCC]; float v; };
+
 
 int trainCarExec(int a4, int a5, int a6)
 {
@@ -76,11 +94,11 @@ int trainCarExec(int a4, int a5, int a6)
     int stk[29];
 
     technicalCheck(a4, a5, a6);
-    *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0xC);
+    (((struct o84_uint *)(a4))->v) = (((((struct o84_int *)(a4))->v)) | 0xC);
     t3 = nlLength(((*(int *)0xC2A1B30) + 0x78), (0x8C + a4));
-    if ((3000.0f > t3) && (((t4 = *(int *)((a4 + 0x78)), t4 == 19) && (t5 = *(int *)0xC2A9D60, t5 != 0)) || ((t6 = *(int *)((a4 + 0x78)), t6 == 16) && (t7 = *(int *)0xC2A4E4C, t7 == 1)))) {
-        if (((*(int *)((a4 + 0x84))) & 0x1) == 0) {
-            *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) | 0x1);
+    if ((3000.0f > t3) && (((t4 = (((struct o78_int *)(a4))->v), t4 == 19) && (t5 = *(int *)0xC2A9D60, t5 != 0)) || ((t6 = (((struct o78_int *)(a4))->v), t6 == 16) && (t7 = *(int *)0xC2A4E4C, t7 == 1)))) {
+        if ((((((struct o84_int *)(a4))->v)) & 0x1) == 0) {
+            (((struct o84_uint *)(a4))->v) = (((((struct o84_int *)(a4))->v)) | 0x1);
             t14 = 0x5;
             for (;;) {
                 TrainInit(a4, t14);
@@ -94,14 +112,14 @@ int trainCarExec(int a4, int a5, int a6)
         }
         t44 = t22;
     } else {
-        if ((0x1 & (*(int *)((a4 + 0x84)))) != 0) {
-            *(unsigned int *)((a4 + 0x84)) = ((*(int *)((a4 + 0x84))) & 0xFFFFFFFE);
+        if ((0x1 & ((((struct o84_int *)(a4))->v))) != 0) {
+            (((struct o84_uint *)(a4))->v) = (((((struct o84_int *)(a4))->v)) & 0xFFFFFFFE);
             t27 = a4;
             t28 = 0x5;
             for (;;) {
                 t27 = (*(int *)((t27 + 0x8)));
                 t28 = (t28 - 0x1);
-                *(unsigned int *)((t27 + 0x84)) = ((*(int *)((t27 + 0x84))) & 0xFFFFFFFE);
+                (((struct o84_uint *)(t27))->v) = (((((struct o84_int *)(t27))->v)) & 0xFFFFFFFE);
                 if (t28 == 0) {
                     break;
                 }
@@ -113,8 +131,8 @@ int trainCarExec(int a4, int a5, int a6)
         t43 = t35;
         t44 = 0x5;
     }
-    if ((800.0f > t3) && (u47 = *(float *)((a4 + 0xCC)), u47 > 0.694444537f)) {
-        t50 = *(int *)((a4 + 0x78));
+    if ((800.0f > t3) && (u47 = (((struct oCC_float *)(a4))->v), u47 > 0.694444537f)) {
+        t50 = (((struct o78_int *)(a4))->v);
         if (t50 == 16) {
             *(unsigned int *)0xC2A4E48 = ((*(int *)0xC2A4E48) | 0x3);
         } else {
@@ -126,18 +144,18 @@ int trainCarExec(int a4, int a5, int a6)
     trainCarDrive(a4, t42, t43, t44);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x1C)) = *(struct mv3 *)((0x98 + a4)); }
     u72 = t3;
-    if (((*(int *)((a4 + 0x84))) & 8) != 0) {
+    if ((((((struct o84_int *)(a4))->v)) & 8) != 0) {
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)((0x8C + a4)); }
         nlScaleVector((a4 + 0x5C), (a4 + 0x5C), 0.199999988f);
         t66 = nlInnerProduct((a4 + 0x5C), (a4 + 0x44));
-        *(float *)((a4 + 0x100)) = t66;
+        (((struct o100_float *)(a4))->v) = t66;
         u72 = t66;
     }
-    if (((*(int *)((a4 + 0x84))) & 0x4) == 0) {
+    if ((((((struct o84_int *)(a4))->v)) & 0x4) == 0) {
     } else {
-        *(float *)((a4 + 0x9C)) = ((*(float *)((a4 + 0x9C))) - 0.073499985f);
-        if ((int)(*(int *)((a4 + 0x110))) > 0) {
-            *(unsigned int *)((a4 + 0x110)) = ((*(int *)((a4 + 0x110))) - 1);
+        (((struct o9C_float *)(a4))->v) = (((((struct o9C_float *)(a4))->v)) - 0.073499985f);
+        if ((int)((((struct o110_int *)(a4))->v)) > 0) {
+            (((struct o110_uint *)(a4))->v) = (((((struct o110_int *)(a4))->v)) - 1);
             carSteering(a4);
             carResistance(a4);
         }
@@ -146,27 +164,27 @@ int trainCarExec(int a4, int a5, int a6)
         t90 = GetCollision2D((0x8C + a4), 30.0f);
         if ((*(int *)((t90 + 0x1C))) != -1) {
             { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + a4)) = *(struct mv3 *)((t90 + 0xC)); }
-            *(float *)((a4 + 0x104)) = (*(float *)((t90 + 0x18)));
+            (((struct o104_float *)(a4))->v) = ((((struct o18_float *)(t90))->v));
             carMultiCollision(a4, 45.0f);
-            if ((*(float *)((a4 + 0x104))) > (*(float *)((a4 + 0x90)))) {
-                *(float *)((a4 + 0x90)) = (*(float *)((a4 + 0x104)));
+            if (((((struct o104_float *)(a4))->v)) > ((((struct o90_float *)(a4))->v))) {
+                (((struct o90_float *)(a4))->v) = ((((struct o104_float *)(a4))->v));
                 carColliReflection(a4);
-                *(unsigned int *)((a4 + 0x110)) = (int)((float)(*(int *)((a4 + 0x110))) + 5.0f);
+                (((struct o110_uint *)(a4))->v) = (int)((float)((((struct o110_int *)(a4))->v)) + 5.0f);
             }
         } else {
             dropOutCheck(a4);
         }
-        if ((int)(*(int *)((a4 + 0x110))) > (int)0xA) {
-            *(unsigned int *)((a4 + 0x110)) = 0xA;
+        if ((int)((((struct o110_int *)(a4))->v)) > (int)0xA) {
+            (((struct o110_uint *)(a4))->v) = 0xA;
         }
-        *(unsigned int *)((a4 + 0x110)) = 0xA;
-        t114 = *(int *)((a4 + 0x80));
+        (((struct o110_uint *)(a4))->v) = 0xA;
+        t114 = (((struct o80_int *)(a4))->v);
         t115 = *(int *)0xC2A6690;
         *(unsigned int *)(((int)stk + 8)) = ((((t114 << 1) + t114) << 2) + t115);
         getNearLineIndex(0x2, (*(int *)(((*(int *)(((int)stk + 8))) + 0x0))), (*(int *)(((*(int *)((((((t114 << 1) + t114) << 2) + t115) + 0x4))) + 0x0))), (0xD4 + a4), (0x8C + a4));
         nlSubVector3op((((int)stk + 8) + 0x1C), (0x98 + a4), (((int)stk + 8) + 0x1C));
         carBalance(a4, (((int)stk + 8) + 0x1C));
-        *(unsigned char *)(((0x108 + a4) + 0x0)) = (*(signed char *)(((0xA4 + a4) + 0x0)));
+        (((struct o108_uchar *)(a4))->v) = (*(signed char *)(((0xA4 + a4) + 0x0)));
         *(unsigned char *)(((0x108 + a4) + 0x1)) = (*(signed char *)(((0xA4 + a4) + 0x1)));
         *(unsigned char *)(((0x108 + a4) + 0x2)) = (*(signed char *)(((0xA4 + a4) + 0x2)));
         *(unsigned char *)(((0x108 + a4) + 0x3)) = (*(signed char *)(((0xA4 + a4) + 0x3)));
@@ -174,21 +192,21 @@ int trainCarExec(int a4, int a5, int a6)
         *(unsigned char *)(((0x108 + a4) + 0x5)) = (*(signed char *)(((0xA4 + a4) + 0x5)));
     }
     nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((a4 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((a4 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((a4 + 0xA6)))));
+    nlRotateAZ((-(unsigned short)((((struct oA8_short *)(a4))->v))));
+    nlRotateAX((-(unsigned short)((((struct oA4_short *)(a4))->v))));
+    nlRotateAY((-(unsigned short)((((struct oA6_short *)(a4))->v))));
     nlCalcVector((0x98 + a4), (((int)stk + 8) + 0x40));
-    *(float *)((a4 + 0xCC)) = (*(float *)(((int)stk + 80)));
+    (((struct oCC_float *)(a4))->v) = (*(float *)(((int)stk + 80)));
     nlPopMatrix(0x1);
     carEntry(a4);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x14)) = *(struct mv3 *)((0x8C + a4)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((a4 + 0x20)) = *(struct mv3 *)((0x98 + a4)); }
-    nlScaleVector((((int)stk + 8) + 0x40), (a4 + 0x44), ((*(float *)((a4 + 0x100))) - u72));
+    nlScaleVector((((int)stk + 8) + 0x40), (a4 + 0x44), (((((struct o100_float *)(a4))->v)) - u72));
     nlAddVector((a4 + 0x5C), (((int)stk + 8) + 0x40));
     nlScaleVector((a4 + 0x5C), (a4 + 0x5C), 0.899999976f);
-    GetRotVec4Ang((a4 + 0x44), (unsigned short)(*(short *)((a4 + 0xA4))), (unsigned short)(*(short *)((a4 + 0xA6))), (unsigned short)(*(short *)((a4 + 0xA8))));
-    *(unsigned int *)((a4 + 0x68)) = 0x0;
-    if ((*(int *)((a4 + 0x80))) == 0x13B) {
+    GetRotVec4Ang((a4 + 0x44), (unsigned short)((((struct oA4_short *)(a4))->v)), (unsigned short)((((struct oA6_short *)(a4))->v)), (unsigned short)((((struct oA8_short *)(a4))->v)));
+    (((struct o68_uint *)(a4))->v) = 0x0;
+    if (((((struct o80_int *)(a4))->v)) == 0x13B) {
         t154 = 0x80;
         t155 = 0xC0A38B4;
         t156 = 0xC0A3884;
@@ -220,7 +238,7 @@ int trainCarExec(int a4, int a5, int a6)
         t198 = t170;
     } else {
         t189 = 0x80;
-        if ((*(int *)((a4 + 0x80))) == 0x13C) {
+        if (((((struct o80_int *)(a4))->v)) == 0x13C) {
             t172 = 0x80;
             t173 = 0xC0A38B4;
             t174 = 0xC0A389C;

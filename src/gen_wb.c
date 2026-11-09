@@ -7,6 +7,13 @@ int Voice_Request(int, int, int, int);
 int Voice_ShutUp(int);
 int humanDraw(int, int, int, int);
 int selectPlayPickMotion(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int selectPlayPickMotion(int a4, int a5, int a6, int a7, float f4)
 {
@@ -37,19 +44,21 @@ int selectPlayPickMotion(int a4, int a5, int a6, int a7, float f4)
     float F3;
     float F4;
     int T_;
+    int R1012;
+    R1012 = *(int *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     F4 = f4;
     L_C05187A:;
-    t0 = *(int *)0xC2A75A4;
+    t0 = (((struct o0_int *)0xC2A75A4)->v);
     R0 = (t0);
     R10 = (0xC2A7538);
     R11 = (0xC2A7538);
     R12 = (0xC130748);
     R13 = (0xC2A751C);
-    R14 = ((*(int *)0xC2A751C));
+    R14 = (((((struct o4_int *)0xC2A7518)->v)));
     R9 = (0xC2A75A4);
     if ((t0 == 1)) goto L_C0518A4;
     goto L_C05189C;
@@ -63,22 +72,22 @@ int selectPlayPickMotion(int a4, int a5, int a6, int a7, float f4)
     L_C051954:;
     t11 = *(int *)((R14 + 0x0));
     t13 = *(int *)((R11 + ((*(int *)((R14 + 0x0))) << 2)));
-    *(unsigned int *)(((int)stk + 12)) = (((t11 << 2) << 2) + R12);
-    return humanDraw((*(int *)(((*(int *)(((int)stk + 12))) + 0x8))), (*(int *)(((((t11 << 2) << 2) + R12) + 0xC))), t13, 0x0);
+    R1012 = (((t11 << 2) << 2) + R12);
+    return humanDraw((*(int *)(((R1012) + 0x8))), (*(int *)(((((t11 << 2) << 2) + R12) + 0xC))), t13, 0x0);
     L_C0518A4:;
     t20 = *(int *)((R14 + 0x0));
-    VSklIpPlay((*(int *)(((((t20 << 2) << 2) + R12) + 0x4))), (*(int *)0xC2A75AC), (*(int *)(((((t20 << 2) << 2) + R12) + 0x8))), 0x0, ((*(int *)(((((t20 << 2) << 2) + R12) + 0xC)))), 0x0, ((float)(*(int *)((R11 + ((*(int *)((R14 + 0x0))) << 2)))) / (float)(*(int *)0xC2A75B0)));
+    VSklIpPlay((*(int *)(((((t20 << 2) << 2) + R12) + 0x4))), ((((struct o8_int *)0xC2A75A4)->v)), (*(int *)(((((t20 << 2) << 2) + R12) + 0x8))), 0x0, ((*(int *)(((((t20 << 2) << 2) + R12) + 0xC)))), 0x0, ((float)(*(int *)((R11 + ((*(int *)((R14 + 0x0))) << 2)))) / (float)((((struct oC_int *)0xC2A75A4)->v))));
     t28 = *(int *)(((*(int *)((R13 + 0x0))) + 0x0));
     R0 = ((t28 << 2));
-    if (((*(int *)((R10 + (t28 << 2)))) != ((*(int *)0xC2A75B0) - 1))) goto L_C051980;
+    if (((*(int *)((R10 + (t28 << 2)))) != (((((struct oC_int *)0xC2A75A4)->v)) - 1))) goto L_C051980;
     goto L_C0518EC;
     L_C0518EC:;
     *(unsigned int *)((R9 + 0x0)) = ((*(int *)((R9 + 0x0))) + 0x1);
     *(unsigned int *)((R10 + ((*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) << 2))) = 0x0;
-    *(unsigned int *)0xC2A7518 = 0x3;
+    (((struct o0_uint *)0xC2A7518)->v) = 0x3;
     Voice_ShutUp(0x0);
     Voice_Request((*(int *)((((*(int *)(((*(int *)((R13 + 0x0))) + 0x0))) << 2) + 0xC130710))), 0x0, 0x7F, 0x0);
-    t41 = *(int *)0xC2A75C0;
+    t41 = (((struct o1C_int *)0xC2A75A4)->v);
     R0 = (t41);
     if ((t41 != 4)) goto L_C05192C;
     goto L_C051924;
@@ -89,7 +98,7 @@ int selectPlayPickMotion(int a4, int a5, int a6, int a7, float f4)
     if (((*(int *)0xC17948C) == 0)) goto L_C051980;
     goto L_C051934;
     L_C051934:;
-    t48 = *(int *)0xC2A75C0;
+    t48 = (((struct o1C_int *)0xC2A75A4)->v);
     R0 = (t48);
     if ((t48 == 4)) goto L_C051980;
     goto L_C05193C;

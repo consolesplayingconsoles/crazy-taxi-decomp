@@ -22,7 +22,7 @@ int crowdTask(int a4, int a5, float f4)
     float u45;
     int t51;
     int t55;
-    int stk[14];
+    int stk[13];
 
     int R0;
     int R1;
@@ -43,11 +43,13 @@ int crowdTask(int a4, int a5, float f4)
     float F3;
     float F4;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 0);
     R4 = a4;
     R5 = a5;
     F4 = f4;
     L_C04F68A:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;
+    R1004 = 0xC1790CC;
     R10 = (0x0);
     R12 = (0x64);
     R13 = (0x0);
@@ -61,15 +63,15 @@ int crowdTask(int a4, int a5, float f4)
     L_C04F6E0:;
     nlPushUnitMatrix();
     nlLoadMatrix(0xC2A6FE4);
-    nlCalcPoint((*(int *)((R14 + 0x18))), (((int)stk + 4) + 0x4));
+    nlCalcPoint((*(int *)((R14 + 0x18))), (((int)stk + 0) + 0x4));
     nlPopMatrix(0x1);
-    t16 = nlLength((*(int *)((R14 + 0x18))), ((*(int *)(((int)stk + 4))) + 0x78));
+    t16 = nlLength((*(int *)((R14 + 0x18))), ((R1004) + 0x78));
     F0 = (t16);
     F4 = (t16);
     if ((!(1e+03f > t16))) goto L_C04F75C;
     goto L_C04F712;
     L_C04F712:;
-    u21 = *(float *)(((int)stk + 16));
+    u21 = *(float *)(((int)stk + 12));
     R0 = (0xC);
     F1 = (u21);
     if ((!(0.0f > u21))) goto L_C04F75C;
@@ -117,7 +119,7 @@ int crowdTask(int a4, int a5, float f4)
     u45 = 1.2e+03f;
     R0 = (0xC);
     F4 = (u45);
-    if ((!((*(float *)(((int)stk + 16))) > u45))) goto L_C04F7A2;
+    if ((!((*(float *)(((int)stk + 12))) > u45))) goto L_C04F7A2;
     goto L_C04F768;
     L_C04F768:;
     t51 = (int)((int)(*(int *)((R14 + 0x1C))) % (int)0x20);

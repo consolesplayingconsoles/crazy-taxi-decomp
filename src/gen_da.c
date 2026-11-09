@@ -48,9 +48,7 @@ int texLoadIndexed(int a4, int a5)
     int t6;
     int t7;
     int t8;
-    int t11;
     int t9;
-    int t10;
 
     t3 = a4;
     if ((int)a4 >= 0) {
@@ -64,16 +62,14 @@ int texLoadIndexed(int a4, int a5)
         t6 = *(int *)(((((t3 << 2) << 1) + t4) + 0x4));
         t7 = *(int *)0xC2B29C0;
         t8 = *(int *)((((t6 * 0x3C) + t7) + 0x28));
-        t11 = 0x0;
+        t17 = 0x0;
         if (t8 == 0) {
             t9 = kmLoadTexture(((t6 * 0x3C) + t7), a5, 0x0, 0x0);
-            t10 = 0x1;
+            t17 = 0x1;
             if (t9 != 0) {
-                t10 = 0x0;
+                t17 = 0x0;
             }
-            t11 = t10;
         }
-        t17 = t11;
     }
     return t17;
 }

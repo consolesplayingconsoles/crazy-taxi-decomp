@@ -8,15 +8,23 @@ int nlMvSetShadowObjPutPol(int);
 int nlMvSetWorkBuffer(int, int);
 int nlObjPutSetVtxColorMode(int);
 int InitMV(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int InitMV(void)
 {
-    *(unsigned int *)0xC2863F0 = 0x1E0;
-    *(unsigned int *)0xC2863F4 = 0x424;
-    *(unsigned int *)0xC2863F8 = 0x280;
-    *(unsigned int *)0xC2863FC = 0x50;
-    *(unsigned int *)0xC2863EC = ((*(int *)0xC2863EC) & 0xFFFFFFFE);
-    *(float *)0xC286400 = 100.0f;
+    (((struct o4_uint *)0xC2863EC)->v) = 0x1E0;
+    (((struct o8_uint *)0xC2863EC)->v) = 0x424;
+    (((struct oC_uint *)0xC2863EC)->v) = 0x280;
+    (((struct o10_uint *)0xC2863EC)->v) = 0x50;
+    (((struct o0_uint *)0xC2863EC)->v) = (((((struct o0_int *)0xC2863EC)->v)) & 0xFFFFFFFE);
+    (((struct o14_float *)0xC2863EC)->v) = 100.0f;
     nlMvSetWorkBuffer(0xC275948, 0xC2863EC);
     GetLightVector(0xC286410);
     ChangeObjGroup(0x5, 0xC07D5C0);

@@ -2,6 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int hudSplitFareDigits(int a4, int a5);
+struct o0_uint { unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int hudSplitFareDigits(int a4, int a5)
 {
@@ -17,15 +21,15 @@ int hudSplitFareDigits(int a4, int a5)
     int t19;
     int t43;
 
-    *(unsigned int *)0xC2A8E88 = 0x0;
+    (((struct o0_uint *)0xC2A8E88)->v) = 0x0;
     t1 = 0xC2A8E88;
     t2 = 0x6;
     for (;;) {
         t3 = *(int *)((a5 + (t2 << 2)));
         if ((t3 != 0) && ((t3 != 10) && (t0 = 0xC2A8E90, t4 = *(int *)((t0 + 0x0)), t1 = t4, (int)t2 > (int)t1))) {
-            *(unsigned int *)0xC2A8E90 = t2;
+            (((struct o8_uint *)0xC2A8E88)->v) = t2;
         }
-        t6 = *(int *)0xC2A8E90;
+        t6 = (((struct o8_int *)0xC2A8E88)->v);
         t0 = (*(int *)((a4 + (t2 << 2))));
         t1 = (*(int *)((a5 + (t2 << 2))));
         if ((int)t1 >= (int)t0) {

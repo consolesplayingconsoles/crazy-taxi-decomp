@@ -11,7 +11,7 @@ int nlPushMatrix(int);
 int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAZ(int);
-int nlSetBackColor(int, int, int, float);
+int nlSetBackColor(int, int, int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6);
@@ -43,6 +43,8 @@ int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6)
     float F6;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -69,7 +71,7 @@ int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6)
     R6 = (0xFFFFFFFF);
     goto L_C058EE6;
     L_C058EE6:;
-    nlSetBackColor(R4, R5, R6, F4);
+    nlSetBackColor(R4, R5, R6);
     return (nlPopMatrix(0x1));
     L_C058D96:;
     R11 = (0x222);
@@ -81,7 +83,7 @@ int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6)
     L_C058DA2:;
     nlPushUnitMatrix();
     nlRotateAZ((R14 * 0x1999));
-    *(unsigned int *)(((int)stk + 4)) = (signed char)(((R14 << 1) + R14) << 2);
+    R1004 = (signed char)(((R14 << 1) + R14) << 2);
     nlCalcPoint(0xC2A93F8, ((signed char)(((R14 << 1) + R14) << 2) + R9));
     nlPopMatrix(0x1);
     R12 = ((unsigned char)(((R14 << 2) + R14) << 2));
@@ -102,7 +104,7 @@ int Put_SEGA_LOGO2(int a4, int a5, int a6, float f4, float f5, float f6)
     goto L_C058E02;
     L_C058E02:;
     nlPushMatrix(0x0);
-    nlTranslateV(((*(int *)(((int)stk + 4))) + R9));
+    nlTranslateV(((R1004) + R9));
     nlRotateAX((unsigned short)(*(short *)(((R12 + R13) + 0xC))));
     nlObjPutCheapEnvMap((*(int *)((((R14 << 2) + 0xC130D58) + 0x0))));
     nlObjPut((*(int *)((((R14 << 2) + 0xC130D58) + 0x0))));

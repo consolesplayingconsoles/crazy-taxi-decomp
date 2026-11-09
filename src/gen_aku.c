@@ -22,12 +22,18 @@ int nlRotateAZ(int);
 int nlTranslateV(int);
 int set_event(int, int);
 float setObjHitScatter(int a4);
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o54_uint { char p[0x54]; unsigned int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 float setObjHitScatter(int a4)
 {
     float t0;
     int t6;
-    int t8;
     int t9;
     int t11;
     float u51;
@@ -45,9 +51,8 @@ float setObjHitScatter(int a4)
         nlPushMatrix(0x0);
         t6 = 0x0;
         for (;;) {
-            t8 = set_event(0x84, ((int)setObjPieceExecSleep));
-            if (t8 != 0) {
-                t7 = t8;
+            t7 = set_event(0x84, ((int)setObjPieceExecSleep));
+            if (t7 != 0) {
                 t7 = (t7 + 0x14);
                 t9 = a4;
                 t11 = t7;
@@ -63,11 +68,11 @@ float setObjHitScatter(int a4)
                     GetRotVec((t7 + 0x30));
                 }
                 nlGetTranslate(t7);
-                *(unsigned int *)((t7 + 0x54)) = 0xC0EDF8C;
-                *(unsigned int *)((t7 + 0x64)) = (*(int *)(((*(int *)0xC0EE220) + 0x0)));
-                { volatile float rr = ((nlRandom()) + -0.5f); *(float *)(((0xC + t7) + 0x0)) = (*(float *)(((0xC + t7) + 0x0)) + rr); }
-                { volatile float rr = ((nlRandom()) + -0.5f); *(float *)(((0x10 + t7) + 0x0)) = (*(float *)(((0x10 + t7) + 0x0)) + rr); }
-                { volatile float rr = ((nlRandom()) + -0.5f); *(float *)(((0x14 + t7) + 0x0)) = (*(float *)(((0x14 + t7) + 0x0)) + rr); }
+                (((struct o54_uint *)(t7))->v) = 0xC0EDF8C;
+                (((struct o64_uint *)(t7))->v) = (*(int *)(((*(int *)0xC0EE220) + 0x0)));
+                { volatile float rr = ((nlRandom()) + -0.5f); (((struct oC_float *)(t7))->v) = ((((struct oC_float *)(t7))->v) + rr); }
+                { volatile float rr = ((nlRandom()) + -0.5f); (((struct o10_float *)(t7))->v) = ((((struct o10_float *)(t7))->v) + rr); }
+                { volatile float rr = ((nlRandom()) + -0.5f); (((struct o14_float *)(t7))->v) = ((((struct o14_float *)(t7))->v) + rr); }
                 SetColliObj(t7, 0x10);
                 if ((int)(nlRand()) < (int)0x6000) {
                     SetEffect(t7, (t7 + 0xC), 0x2);
@@ -80,7 +85,7 @@ float setObjHitScatter(int a4)
         }
         nlPopMatrix(0x2);
         u51 = KillColliObj(a4);
-        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
+        (((struct o68_uint *)(a4))->v) = 0xFFFFFFFE;
     }
     return u51;
 }

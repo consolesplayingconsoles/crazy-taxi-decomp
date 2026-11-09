@@ -30,6 +30,9 @@ float psgRunToPoint(int, int);
 int psgSetState(int, int, int, int);
 int psgUpdatePartTracks(int);
 int psgFrameState1(int a4);
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int psgFrameState1(int a4)
 {
@@ -55,11 +58,14 @@ int psgFrameState1(int a4)
     int t5;
     int t124;
     int stk[33];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
-    *(unsigned int *)(((int)stk + 4)) = 0xC1790CC;
+    R1004 = 0xC1790CC;
     t1 = nlLength((a4 + 0x4), 0xC179144);
-    nlSubVector3op((((int)stk + 4) + 0x54), ((*(int *)(((int)stk + 4))) + 0x78), (a4 + 0x4));
+    nlSubVector3op((((int)stk + 4) + 0x54), ((R1004) + 0x78), (a4 + 0x4));
     if ((t1 > (*(float *)0xC13EEE0)) && (t5 = *(int *)((a4 + 0x24)), t5 != 1)) {
         *(unsigned int *)((a4 + 0x24)) = 0x1;
         psgEnterState1(a4, 0x1);
@@ -138,7 +144,7 @@ int psgFrameState1(int a4)
             psgUpdatePartTracks(a4);
             t100 = *(int *)((a4 + 0x0));
             u101 = *(float *)((a4 + 0x38));
-            *(unsigned int *)(((int)stk + 4)) = t100;
+            R1004 = t100;
             FcvPlay((*(int *)((((t100 - 23) << 2) + 0xC0D5690))), t100, u101);
             *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + (*(float *)(((0x120 + a4) + 0x0))));
             if (!(3.0f > t97)) {
@@ -151,7 +157,7 @@ int psgFrameState1(int a4)
     } else {
         *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x40);
         nlPushMatrix(0x0);
-        if (((*(int *)0xC1EE20C) == 2) && (t124 = *(int *)0xC1EE214, t124 == 8)) {
+        if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t124 = (((struct o8_int *)0xC1EE20C)->v), t124 == 8)) {
             t126 = IsBoyFriend((*(int *)((a4 + 0x0))), 0x0);
             if (t126 == 0) {
                 psgFaceBoyFriend(a4);

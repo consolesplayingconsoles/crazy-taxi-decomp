@@ -51,6 +51,8 @@ int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     F4 = f4;
@@ -120,7 +122,7 @@ int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6)
     L_C05D05A:;
     return R0;
     L_C05CF8C:;
-    *(unsigned int *)(((int)stk + 4)) = 0xC13132C;
+    R1004 = 0xC13132C;
     R10 = (0x0);
     R11 = (0xC07AEA0);
     R12 = (0x0);
@@ -144,8 +146,8 @@ int Put_Bowling_Pins(int a4, int a5, float f4, float f5, float f6)
     goto L_C05D006;
     L_C05D006:;
     nlObjPutSetFadeColor(F4, F5, F6);
-    t59 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 4)) = (t59 + 0x8);
+    t59 = R1004;
+    R1004 = (t59 + 0x8);
     *(unsigned int *)(((int)stk + 8)) = ((t59 + 0x8) - 8);
     nd_SprPut(0xC2A9898, 0x1F6, (float)(*(int *)((((t59 + 0x8) - 8) + 0x0))), (float)(*(int *)((((t59 + 0x8) - 8) + 0x4))));
     t63 = (int)(R10 + 0x1) < (int)R8;

@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_yu): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ResetFadeColor(float);
+int ResetFadeColor(void);
 int nlObjPutSetFadeColor(float, float, float);
 extern int nlSprPut();
 int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
@@ -45,6 +45,10 @@ int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     float F14;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -53,8 +57,8 @@ int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     F5 = f5;
     F6 = f6;
     L_C03B192:;
-    *(unsigned int *)(((int)stk + 4)) = R6;
-    *(unsigned int *)(((int)stk + 8)) = R7;
+    R1004 = R6;
+    R1008 = R7;
     *(float *)((R5 + 0xC)) = (*(float *)0xC2A1AD4);
     R0 = (0xC03B29C);
     R11 = (0xC);
@@ -85,8 +89,8 @@ int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     *(float *)((R14 + 0x20)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x10)));
     *(float *)((R14 + 0x24)) = (*(float *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x14)));
     t22 = *(signed char *)((R12 + 0x3));
-    *(float *)((R14 + 0x4)) = (float)((*(short *)((R12 + 0x4))) + (*(int *)(((int)stk + 4))));
-    *(float *)((R14 + 0x8)) = (float)((*(short *)((R12 + 0x6))) + (*(int *)(((int)stk + 8))));
+    *(float *)((R14 + 0x4)) = (float)((*(short *)((R12 + 0x4))) + (R1004));
+    *(float *)((R14 + 0x8)) = (float)((*(short *)((R12 + 0x6))) + (R1008));
     t27 = *(int *)((((short)((short)(unsigned char)t15 * (short)0x1C) + 0xC0A04F0) + 0x18));
     R0 = (t27);
     R10 = ((unsigned char)t22);
@@ -116,7 +120,7 @@ int menuPutSprites(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     if (t37) goto L_C03B2B0;
     goto L_C03B2F4;
     L_C03B2F4:;
-    R0 = ((ResetFadeColor(F4)));
+    R0 = ((ResetFadeColor()));
     R12 = ((R12 + 0x8));
     goto L_C03B2FC;
     L_C03B2B0:;

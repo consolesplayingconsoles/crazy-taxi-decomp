@@ -7,9 +7,7 @@ int gdc_CourseObjGroupSet(void);
 int gdc_CourseObjGroupSet(void)
 {
     int t0;
-    int t72;
     int t111;
-    int t75;
 
     t0 = *(int *)0xC1EE20C;
     if (t0 != 0) {
@@ -81,17 +79,15 @@ int gdc_CourseObjGroupSet(void)
             nlMvSetShadowObjPutPol(0xC5FB410);
             nlMvSetShadowObjPutPol(0xC5FBD00);
             nlMvSetShadowObjPutPol(0xC5FC5F0);
-            t75 = (nlMvSetShadowObjPutPol(0xC5FCEE0));
+            t111 = (nlMvSetShadowObjPutPol(0xC5FCEE0));
         } else {
-            t72 = t0;
+            t111 = t0;
             if (t0 == 2) {
                 nlMvSetShadowObjPutPol(0xC5E0000);
                 nlMvSetShadowObjPutPol(0xC5E1998);
-                t72 = (nlMvSetShadowObjPutPol(0xC5E0600));
+                t111 = (nlMvSetShadowObjPutPol(0xC5E0600));
             }
-            t75 = t72;
         }
-        t111 = t75;
     } else {
         nlMvSetShadowObjPutPol(0xC5E0000);
         nlMvSetShadowObjPutPol(0xC5E2630);

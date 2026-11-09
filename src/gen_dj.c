@@ -22,7 +22,6 @@ int pedSpawn(int a4, int a5);
 
 int kmiVQalloc(int a4, int a5, int a6)
 {
-    int t1;
     int t23;
     int t3;
     int t4;
@@ -30,7 +29,6 @@ int kmiVQalloc(int a4, int a5, int a6)
     int t7;
     int t8;
     int t9;
-    int t10;
     int t11;
     int t19;
     int t30;
@@ -43,8 +41,6 @@ int kmiVQalloc(int a4, int a5, int a6)
     int t38;
     int t39;
     int t40;
-    int t42;
-    int t43;
     int t48;
     int t49;
     int t50;
@@ -56,14 +52,12 @@ int kmiVQalloc(int a4, int a5, int a6)
     int t6;
     int t67;
     int t45;
-    int t51;
     int stk[13] = {0};
 
     kmytex_GetSmallVQprofile((((int)stk + 4) + 0x8), a4);
-    t1 = *(int *)0xC177FE4;
+    t3 = *(int *)0xC177FE4;
     t23 = 0x0;
-    if (t1 != 0) {
-        t3 = t1;
+    if (t3 != 0) {
         t4 = a5;
         t5 = a6;
         t7 = 0x0;
@@ -71,8 +65,7 @@ int kmiVQalloc(int a4, int a5, int a6)
             t8 = *(short *)((t3 + 0x0));
             t9 = *(int *)(((int)stk + 12));
             if (((unsigned short)t8 & 0xF000) == t9) {
-                t10 = *(int *)(((int)stk + 28));
-                t5 = t10;
+                t5 = *(int *)(((int)stk + 28));
                 t4 = 0x0;
                 if ((unsigned int)0x0 < (unsigned int)t5) {
                     for (;;) {
@@ -130,15 +123,13 @@ int kmiVQalloc(int a4, int a5, int a6)
                 if ((int)t38 < (int)t39) {
                     t40 = 0x1;
                 }
-                t42 = VQalloc(t40, t35, t30);
-                t45 = t42;
+                t45 = VQalloc(t40, t35, t30);
             } else {
-                t43 = VQalloc(0x1, t35, t30);
-                t45 = t43;
+                t45 = VQalloc(0x1, t35, t30);
             }
             if (t45 != 0) {
                 kmytex_VQFreeEntry(t30);
-                t51 = 0x3;
+                t57 = 0x3;
             } else {
                 t48 = *(int *)(((int)stk + 16));
                 t49 = *(int *)((t30 + 0x8));
@@ -146,9 +137,8 @@ int kmiVQalloc(int a4, int a5, int a6)
                 *(unsigned int *)(((0x0 + (t30 + 0xC)) + 0x0)) = a4;
                 t50 = *(short *)((t30 + 0x0));
                 *(unsigned short *)((t30 + 0x0)) = (t50 | 0x2);
-                t51 = 0x0;
+                t57 = 0x0;
             }
-            t57 = t51;
         }
         t67 = t57;
     } else {

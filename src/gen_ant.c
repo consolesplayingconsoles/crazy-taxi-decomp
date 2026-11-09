@@ -17,26 +17,25 @@ int sysCfgRead(int a4, int a5, int a6)
     t3 = syCfgGetLanguage(0xC2A11C0);
     if (t3 == 0) {
         t5 = *(int *)0xC2A11C0;
-        if (t5 != 0) {
-            if (t5 != 1) {
-                if (t5 != 2) {
-                    if (t5 != 3) {
-                        if (t5 != 4) {
-                            *(unsigned int *)0xC2A11C0 = 0x1;
-                        } else {
-                            *(unsigned int *)0xC2A11C0 = 0x4;
-                        }
-                    } else {
-                        *(unsigned int *)0xC2A11C0 = 0x3;
-                    }
-                } else {
-                    *(unsigned int *)0xC2A11C0 = 0x2;
-                }
-            } else {
-                *(unsigned int *)0xC2A11C0 = 0x1;
-            }
-        } else {
+        switch (t5) {
+        case 0:
             *(unsigned int *)0xC2A11C0 = 0x0;
+            break;
+        case 1:
+            *(unsigned int *)0xC2A11C0 = 0x1;
+            break;
+        case 2:
+            *(unsigned int *)0xC2A11C0 = 0x2;
+            break;
+        case 3:
+            *(unsigned int *)0xC2A11C0 = 0x3;
+            break;
+        case 4:
+            *(unsigned int *)0xC2A11C0 = 0x4;
+            break;
+        default:
+            *(unsigned int *)0xC2A11C0 = 0x1;
+            break;
         }
         t23 = t5;
     } else {

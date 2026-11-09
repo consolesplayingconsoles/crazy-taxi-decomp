@@ -30,6 +30,15 @@ float fcvCalcPosition(int a4, int a5, int a6, float f4);
 int fcvCalcAngle(int a4, int a5, int a6, float f4);
 int nlObjPutMvClosedVolumeUseViewMatrix(int a4);
 float GetStopPosCenter(int a4, int a5, int a6);
+struct o0_int { int v; };
+struct o0_short { short v; };
+struct o0_uint { unsigned int v; };
+struct o0_ushort { unsigned short v; };
+struct o2_short { char p[0x2]; short v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int nlObjPutMvClosedVolume(int a4)
 {
@@ -51,20 +60,20 @@ int nlDecMatrixPtr(int a4)
     int t4;
     int t6;
 
-    t0 = *(short *)0xC2B31DC;
+    t0 = (((struct o0_short *)0xC2B31DC)->v);
     t1 = a4;
     if ((int)a4 <= 0) {
         t1 = 0x1;
     }
-    t3 = *(short *)0xC2B31DE;
+    t3 = (((struct o2_short *)0xC2B31DC)->v);
     t4 = (t0 - t1);
     if ((int)t0 < (int)t1) {
         t4 = 0x0;
     }
-    t6 = *(int *)0xC2B31E0;
-    *(unsigned short *)0xC2B31DC = t4;
+    t6 = (((struct o4_int *)0xC2B31DC)->v);
+    (((struct o0_ushort *)0xC2B31DC)->v) = t4;
     if ((int)t4 < (int)t3) {
-        *(unsigned int *)0xC2B31E4 = (t6 + ((unsigned int)(t4 << 8) >> 2));
+        (((struct o8_uint *)0xC2B31DC)->v) = (t6 + ((unsigned int)(t4 << 8) >> 2));
     }
     return ((((int)t0 >= (int)t1)) ? 1 : 0);
 }
@@ -92,7 +101,7 @@ int nlSysMetricsGetFrameBufferUser(int a4)
 
     t0 = *(int *)0xC2AEE08;
     t1 = *(int *)0xC2AEDB8;
-    t2 = *(short *)0xC2B3190;
+    t2 = (((struct o0_short *)0xC2B3190)->v);
     t7 = (t2 + t2);
     if ((int)t1 > (int)0x3) {
         t4 = ((t2 << 1) + t2);
@@ -113,7 +122,7 @@ int nlSysMetricsGetFrameBufferUser(int a4)
     t14 = 0x0;
     t15 = (a4 + 0x1000);
     for (;;) {
-        t16 = *(short *)0xC2B3192;
+        t16 = (((struct o2_short *)0xC2B3190)->v);
         if ((int)t14 >= (int)t16) {
             break;
         }
@@ -156,14 +165,14 @@ int nlObjPutMvClosedVolumeUseViewMatrix(int a4)
         if (t2 != 0) {
             t3 = *(int *)0xC2B8CBC;
             t4 = *(int *)((t3 + 0x4));
-            *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
-            *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
+            (((struct o0_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
+            (((struct o4_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t4 >> 16) >> 8);
             t5 = *(int *)0xC2B7948;
-            *(unsigned int *)0xC2B3150 = (((t2 | t5) & 0x30000) | 0x818C0000);
-            *(unsigned int *)0xC2B3154 = 0x0;
-            t6 = *(int *)0xC2B356C;
-            *(unsigned int *)0xC2B3158 = t6;
-            t7 = *(int *)0xC2B3570;
+            (((struct o0_uint *)0xC2B3150)->v) = (((t2 | t5) & 0x30000) | 0x818C0000);
+            (((struct o4_uint *)0xC2B3150)->v) = 0x0;
+            t6 = (((struct o0_int *)0xC2B356C)->v);
+            (((struct o8_uint *)0xC2B3150)->v) = t6;
+            t7 = (((struct o4_int *)0xC2B356C)->v);
             nlObjPutMVAsm(a4, 0xC2B3150, 0x0, t7);
         }
     }

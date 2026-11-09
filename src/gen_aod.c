@@ -12,6 +12,11 @@ int nlPushUnitMatrix(void);
 int nlTranslateV(int);
 int set_event(int, int);
 void setObjHitBreakCount(int a4, int a5, int a6);
+struct o54_uint { char p[0x54]; unsigned int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o6C_int { char p[0x6C]; int v; };
+
 
 void setObjHitBreakCount(int a4, int a5, int a6)
 {
@@ -36,6 +41,8 @@ void setObjHitBreakCount(int a4, int a5, int a6)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -53,7 +60,7 @@ void setObjHitBreakCount(int a4, int a5, int a6)
     nlTranslateV(R13);
     MultiRot4Vec((R13 + 0x30));
     nlPushMatrix(0x0);
-    *(unsigned int *)(((int)stk + 4)) = 0xC0EE1E8;
+    R1004 = 0xC0EE1E8;
     R10 = (0xC0789E0);
     R11 = (0x84);
     R12 = (0x0);
@@ -61,12 +68,12 @@ void setObjHitBreakCount(int a4, int a5, int a6)
     R9 = ((((int)stk + 4) + 0x4));
     goto L_C0389AA;
     L_C0389AA:;
-    if (((int)R12 < (int)(*(int *)((R9 + ((*(int *)((R13 + 0x6C))) << 2)))))) goto L_C038950;
+    if (((int)R12 < (int)(*(int *)((R9 + (((((struct o6C_int *)(R13))->v)) << 2)))))) goto L_C038950;
     goto L_C0389B6;
     L_C0389B6:;
     nlPopMatrix(0x2);
     KillColliObj(R13);
-    *(unsigned int *)((R13 + 0x68)) = 0xFFFFFFFE;
+    (((struct o68_uint *)(R13))->v) = 0xFFFFFFFE;
     R0 = (0x68);
     goto L_C0389C8;
     L_C038950:;
@@ -79,10 +86,10 @@ void setObjHitBreakCount(int a4, int a5, int a6)
     t23 = (R4 + 0x14);
     for (;;) { t24 = *(int *)t21; t21 = (t21 + 4); if ((unsigned int)((R13 + 112)) < (unsigned int)t21) break; *(unsigned int *)t23 = t24; t23 = (t23 + 4); }
     nlGetPushedMatrix(0x0);
-    nlTranslateV((((((((*(int *)((R13 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + ((R12 << 2) << 2)));
+    nlTranslateV(((((((((((struct o6C_int *)(R13))->v)) << 2) << 2) << 2) << 1) + 0xC0EE224) + ((R12 << 2) << 2)));
     nlGetTranslate((R4 + 0x14));
-    *(unsigned int *)(((R4 + 0x14) + 0x54)) = R8;
-    *(unsigned int *)(((R4 + 0x14) + 0x64)) = (*(int *)(((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) + 0x0)));
+    (((struct o54_uint *)((R4 + 0x14)))->v) = R8;
+    (((struct o64_uint *)((R4 + 0x14)))->v) = (*(int *)(((*(int *)(((R1004) + 0x0))) + 0x0)));
     SetColliObj((R4 + 0x14), 0x10);
     R14 = ((R4 + 0x14));
     goto L_C0389A8;

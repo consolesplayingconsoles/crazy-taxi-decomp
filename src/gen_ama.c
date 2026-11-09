@@ -2,11 +2,14 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 void Put_TotalDrum_Roll(int a4);
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 void Put_TotalDrum_Roll(int a4)
 {
     int t18;
-    int stk[2];
 
     int R0;
     int R1;
@@ -16,7 +19,7 @@ void Put_TotalDrum_Roll(int a4)
     R4 = a4;
     L_C05473E:;
     R4 = (0xC2A8DBC);
-    if (((*(int *)0xC2A8DD8) == 0)) goto L_C054772;
+    if ((((((struct o0_int *)0xC2A8DD8)->v)) == 0)) goto L_C054772;
     goto L_C054748;
     L_C054748:;
     if (((*(int *)((R4 + 0x18))) == 0)) goto L_C054772;
@@ -40,8 +43,8 @@ void Put_TotalDrum_Roll(int a4)
     if (((*(int *)((R4 + 0x0))) != 0)) goto L_C054780;
     goto L_C054772;
     L_C054772:;
-    t18 = (int)((int)((*(int *)0xC2A8DE0) + 0x1) % (int)0x4);
-    *(unsigned int *)0xC2A8DE0 = t18;
+    t18 = (int)((int)(((((struct o8_int *)0xC2A8DD8)->v)) + 0x1) % (int)0x4);
+    (((struct o8_uint *)0xC2A8DD8)->v) = t18;
     R0 = (t18);
     goto L_C054780;
     L_C054780:;

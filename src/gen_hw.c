@@ -1,18 +1,24 @@
 /* Straight-line functions with calls and guards (batch gen_hw): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Money_Array(int, int, int, float);
-int Put_TotalDrum(int, int, int);
+int Money_Array(int, int, int);
+int Put_TotalDrum(void);
 int Put_TotalDrum_SetDigits(int, int);
 int Sound_Request(int, int);
 int Start_Pass_Ranking(void);
 int Put_TotalDrum_Update(int a4, int a5, int a6, float f4);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct o3C_uint { char p[0x3C]; unsigned int v; };
+
 
 int Put_TotalDrum_Update(int a4, int a5, int a6, float f4)
 {
     int t5;
     int t10;
-    int stk[22];
+    int stk[21];
 
     int R0;
     int R1;
@@ -30,9 +36,9 @@ int Put_TotalDrum_Update(int a4, int a5, int a6, float f4)
     R5 = a5;
     R6 = a6;
     L_C0544A8:;
-    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 4) + 0x20)) = *(struct mv8 *)(0xC0D08B4); }
-    { struct mv8 { int w[8]; }; *(struct mv8 *)(((int)stk + 4)) = *(struct mv8 *)(0xC0D08D4); }
-    R11 = (((int)stk + 4));
+    { struct mv8 { int w[8]; }; *(struct mv8 *)((((int)stk + 0) + 0x20)) = *(struct mv8 *)(0xC0D08B4); }
+    { struct mv8 { int w[8]; }; *(struct mv8 *)(((int)stk + 0)) = *(struct mv8 *)(0xC0D08D4); }
+    R11 = (((int)stk + 0));
     R12 = (0xC072168);
     R13 = (0x0);
     if (((*(int *)0xC2A8EB0) != 9)) goto L_C05452E;
@@ -43,23 +49,23 @@ int Put_TotalDrum_Update(int a4, int a5, int a6, float f4)
     if (((*(int *)((t5 + 0x0))) == 0)) goto L_C05452E;
     goto L_C0544E2;
     L_C0544E2:;
-    t10 = *(int *)0xC2A7600;
+    t10 = (((struct o0_int *)0xC2A7600)->v);
     *(unsigned int *)((t10 + 0x0)) = ((*(int *)((t10 + 0x0))) + (*(int *)((R4 + 0x0))));
     R14 = (0xC2A7600);
     R4 = (0x5F5E0FF);
     R6 = (0x8);
-    if (((int)(*(int *)(((*(int *)0xC2A7600) + 0x0))) <= (int)0x5F5E0FF)) goto L_C0544FE;
+    if (((int)(*(int *)((((((struct o0_int *)0xC2A7600)->v)) + 0x0))) <= (int)0x5F5E0FF)) goto L_C0544FE;
     goto L_C0544FA;
     L_C0544FA:;
     *(unsigned int *)(((*(int *)((R14 + 0x0))) + 0x0)) = R4;
     goto L_C0544FE;
     L_C0544FE:;
-    Money_Array(R11, (*(int *)(((*(int *)((R14 + 0x0))) + 0x0))), R6, f4);
-    Put_TotalDrum_SetDigits((((int)stk + 4) + 0x20), R11);
+    Money_Array(R11, (*(int *)(((*(int *)((R14 + 0x0))) + 0x0))), R6);
+    Put_TotalDrum_SetDigits((((int)stk + 0) + 0x20), R11);
     *(unsigned int *)(((*(int *)0xC2A8C5C) + 0x0)) = R13;
     Sound_Request(0x604A9, 0x0);
-    *(unsigned int *)0xC2A9180 = R13;
-    if (((*(int *)0xC2A7618) == 0)) goto L_C05452E;
+    (((struct o0_uint *)0xC2A9180)->v) = R13;
+    if ((((((struct o18_int *)0xC2A7600)->v)) == 0)) goto L_C05452E;
     goto L_C054528;
     L_C054528:;
     Start_Pass_Ranking();
@@ -90,29 +96,29 @@ int Put_TotalDrum_Update(int a4, int a5, int a6, float f4)
     if (((*(int *)((R4 + 0x0))) != 1)) goto L_C054574;
     goto L_C054560;
     L_C054560:;
-    if (((*(int *)0xC2A9180) != 0)) goto L_C054574;
+    if ((((((struct o0_int *)0xC2A9180)->v)) != 0)) goto L_C054574;
     goto L_C054568;
     L_C054568:;
     Sound_Request(0x704A9, 0x0);
-    *(unsigned int *)0xC2A9180 = 0x1;
+    (((struct o0_uint *)0xC2A9180)->v) = 0x1;
     goto L_C054574;
     L_C054574:;
     R4 = (0xC2A11B0);
     if (((*(int *)0xC2A11B0) != 0)) goto L_C054580;
     goto L_C05457C;
     L_C05457C:;
-    *(unsigned int *)0xC2A91BC = R13;
+    (((struct o3C_uint *)0xC2A9180)->v) = R13;
     goto L_C054580;
     L_C054580:;
     if (((*(int *)((R4 + 0x0))) == 0)) goto L_C05459A;
     goto L_C054586;
     L_C054586:;
-    if (((*(int *)0xC2A91BC) != 0)) goto L_C05459A;
+    if ((((((struct o3C_int *)0xC2A9180)->v)) != 0)) goto L_C05459A;
     goto L_C05458E;
     L_C05458E:;
     Sound_Request(0x704A9, 0x0);
-    *(unsigned int *)0xC2A91BC = 0x1;
+    (((struct o3C_uint *)0xC2A9180)->v) = 0x1;
     goto L_C05459A;
     L_C05459A:;
-    return (Put_TotalDrum(R4, R5, R6));
+    return (Put_TotalDrum());
 }

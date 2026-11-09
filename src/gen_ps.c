@@ -7,6 +7,15 @@ int ADXSTM_GetStat(int);
 int ADXT_Stop(int);
 int adxt_RcvrReplay(int);
 int ADXT_ExecErrChk(int a4, int a5);
+struct o60_short { char p[0x60]; short v; };
+struct o60_ushort { char p[0x60]; unsigned short v; };
+struct o64_int { char p[0x64]; int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_short { char p[0x68]; short v; };
+struct o68_ushort { char p[0x68]; unsigned short v; };
+struct o6A_short { char p[0x6A]; short v; };
+struct o6A_ushort { char p[0x6A]; unsigned short v; };
+
 
 int ADXT_ExecErrChk(int a4, int a5)
 {
@@ -22,7 +31,6 @@ int ADXT_ExecErrChk(int a4, int a5)
     int t63;
     int t66;
     int t78;
-    int stk[7];
 
     int R0;
     int R1;
@@ -55,19 +63,19 @@ int ADXT_ExecErrChk(int a4, int a5)
     L_C169540:;
     t12 = ADXSJD_GetDecNumSmpl((*(int *)((R14 + 0x4))));
     R4 = (t12);
-    if (((*(int *)((R14 + 0x64))) != t12)) goto L_C16956E;
+    if ((((((struct o64_int *)(R14))->v)) != t12)) goto L_C16956E;
     goto L_C169550;
     L_C169550:;
-    *(unsigned short *)((R14 + 0x68)) = ((*(short *)((R14 + 0x68))) + 0x1);
+    (((struct o68_ushort *)(R14))->v) = (((((struct o68_short *)(R14))->v)) + 0x1);
     t17 = *(int *)((R14 + 0x38));
-    if (((int)(*(short *)((R14 + 0x68))) <= (int)((t17 << 2) + t17))) goto L_C169572;
+    if (((int)((((struct o68_short *)(R14))->v)) <= (int)((t17 << 2) + t17))) goto L_C169572;
     goto L_C169566;
     L_C169566:;
-    *(unsigned short *)((R14 + 0x60)) = 0xFFFFFFFE;
+    (((struct o60_ushort *)(R14))->v) = 0xFFFFFFFE;
     goto L_C169572;
     L_C169572:;
-    *(unsigned int *)((R14 + 0x64)) = R4;
-    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C1695A2;
+    (((struct o64_uint *)(R14))->v) = R4;
+    if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C1695A2;
     goto L_C16957E;
     L_C16957E:;
     t22 = *(signed char *)((R14 + 0x6D));
@@ -84,10 +92,10 @@ int ADXT_ExecErrChk(int a4, int a5)
     if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C1695A2;
     goto L_C16959A;
     L_C16959A:;
-    *(unsigned short *)((R14 + 0x60)) = R13;
+    (((struct o60_ushort *)(R14))->v) = R13;
     goto L_C16959E;
     L_C16959E:;
-    *(unsigned short *)((R14 + 0x68)) = R13;
+    (((struct o68_ushort *)(R14))->v) = R13;
     goto L_C1695A2;
     L_C1695A2:;
     if (((int)R12 < (int)0x1)) goto L_C169646;
@@ -107,25 +115,24 @@ int ADXT_ExecErrChk(int a4, int a5)
     goto L_C1695C6;
     L_C1695C6:;
     t38 = *(int *)((R14 + 0x14));
-    *(unsigned int *)(((int)stk + 4)) = t38;
     R4 = ((((int (*)(int, int))((*(int *)(((*(int *)((t38 + 0x0))) + 0x24)))))(t38, 0x1)));
     goto L_C1695DA;
     L_C1695DA:;
     if (((int)R4 >= (int)0x40)) goto L_C169646;
     goto L_C1695E0;
     L_C1695E0:;
-    *(unsigned short *)((R14 + 0x6A)) = ((*(short *)((R14 + 0x6A))) + 0x1);
+    (((struct o6A_ushort *)(R14))->v) = (((((struct o6A_short *)(R14))->v)) + 0x1);
     if ((R12 != 3)) goto L_C169602;
     goto L_C1695EE;
     L_C1695EE:;
     t46 = *(int *)((R14 + 0x38));
-    if (((int)(*(short *)((R14 + 0x6A))) > (int)((t46 << 2) + t46))) goto L_C169614;
+    if (((int)((((struct o6A_short *)(R14))->v)) > (int)((t46 << 2) + t46))) goto L_C169614;
     goto L_C1695FE;
     L_C1695FE:;
     goto L_C16961A;
     L_C16961A:;
     R0 = (0x60);
-    if (((*(short *)((R14 + 0x60))) == 0)) goto L_C16964A;
+    if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C16964A;
     goto L_C169622;
     L_C169622:;
     t52 = *(signed char *)((R14 + 0x6D));
@@ -140,10 +147,10 @@ int ADXT_ExecErrChk(int a4, int a5)
     if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C16964A;
     goto L_C169642;
     L_C169642:;
-    *(unsigned short *)((R14 + 0x60)) = R13;
+    (((struct o60_ushort *)(R14))->v) = R13;
     goto L_C169646;
     L_C169646:;
-    *(unsigned short *)((R14 + 0x6A)) = R13;
+    (((struct o6A_ushort *)(R14))->v) = R13;
     R0 = (0x6A);
     goto L_C16964A;
     L_C16964A:;
@@ -167,8 +174,8 @@ int ADXT_ExecErrChk(int a4, int a5)
     if (((*(signed char *)((R14 + 0x6D))) == 0)) goto L_C169682;
     goto L_C16967A;
     L_C16967A:;
-    *(unsigned short *)((R14 + 0x60)) = R13;
-    *(unsigned short *)((R14 + 0x6A)) = R13;
+    (((struct o60_ushort *)(R14))->v) = R13;
+    (((struct o6A_ushort *)(R14))->v) = R13;
     R0 = (0x6A);
     goto L_C169682;
     L_C169682:;
@@ -186,16 +193,16 @@ int ADXT_ExecErrChk(int a4, int a5)
     adxt_RcvrReplay(R14);
     goto L_C16963A;
     L_C169614:;
-    *(unsigned short *)((R14 + 0x60)) = 0xFFFFFFFF;
+    (((struct o60_ushort *)(R14))->v) = 0xFFFFFFFF;
     goto L_C16961A;
     L_C169602:;
     t78 = *(int *)((R14 + 0x38));
-    if (((int)(*(short *)((R14 + 0x6A))) <= (int)(((t78 << 2) + t78) << 2))) goto L_C16961A;
+    if (((int)((((struct o6A_short *)(R14))->v)) <= (int)(((t78 << 2) + t78) << 2))) goto L_C16961A;
     goto L_C169614;
     L_C1695D8:;
     R4 = (R13);
     goto L_C1695DA;
     L_C16956E:;
-    *(unsigned short *)((R14 + 0x68)) = R13;
+    (((struct o68_ushort *)(R14))->v) = R13;
     goto L_C169572;
 }

@@ -16,6 +16,11 @@ int nlRotateAZ(int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int Put_ProposalWalker(int a4, float f4, float f5);
+struct o34_short { char p[0x34]; short v; };
+struct o36_short { char p[0x36]; short v; };
+struct o38_short { char p[0x38]; short v; };
+struct o40_int { char p[0x40]; int v; };
+
 
 int Put_ProposalWalker(int a4, float f4, float f5)
 {
@@ -31,7 +36,7 @@ int Put_ProposalWalker(int a4, float f4, float f5)
         nlPushMatrix(0x0);
         nlTranslateV((a4 + 0x1C));
         nlRotateAY(((unsigned short)(*(short *)0xC17985A) + 0x8000));
-        t6 = *(int *)((a4 + 0x40));
+        t6 = (((struct o40_int *)(a4))->v);
         nlObjPutUseViewMatrix((*(int *)((((((t6 << 2) + t6) + (*(int *)((a4 + 0x14)))) << 2) + 0xC131C28))));
         return nlPopMatrix(0x1);
     }
@@ -41,16 +46,16 @@ int Put_ProposalWalker(int a4, float f4, float f5)
     }
     nlPushMatrix(0x0);
     nlTranslateV((a4 + 0x1C));
-    nlRotateAY((unsigned short)(*(short *)((a4 + 0x36))));
-    nlRotateAX((unsigned short)(*(short *)((a4 + 0x34))));
-    nlRotateAZ((unsigned short)(*(short *)((a4 + 0x38))));
+    nlRotateAY((unsigned short)((((struct o36_short *)(a4))->v)));
+    nlRotateAX((unsigned short)((((struct o34_short *)(a4))->v)));
+    nlRotateAZ((unsigned short)((((struct o38_short *)(a4))->v)));
     nlTranslate(0.0f, 0.0f, 3.0f);
     if ((*(int *)((a4 + 0x18))) == 1) {
-        t27 = *(int *)((a4 + 0x40));
+        t27 = (((struct o40_int *)(a4))->v);
         t28 = *(int *)((a4 + 0x14));
         FcvPlay((*(int *)(((((*(int *)((a4 + 0x18))) - 1) << 2) + (*(int *)(((t28 << 2) + (*(int *)((0xC131BA4 + (t27 << 2)))))))))), (*(int *)((0xC131BFC + ((((t27 << 2) + t27) + t28) << 2)))), (float)(*(int *)((a4 + 0x3C))));
     } else {
-        t36 = *(int *)((a4 + 0x40));
+        t36 = (((struct o40_int *)(a4))->v);
         t37 = *(int *)((a4 + 0x14));
         humanDraw((*(int *)(((((*(int *)((a4 + 0x18))) - 1) << 2) + (*(int *)(((t37 << 2) + (*(int *)((0xC131BA4 + (t36 << 2)))))))))), (*(int *)((0xC131BFC + ((((t36 << 2) + t36) + t37) << 2)))), (*(int *)((a4 + 0x3C))), 0x0);
     }

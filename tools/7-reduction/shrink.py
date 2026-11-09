@@ -3,7 +3,7 @@
 Run in the repo.
 
     python3 tools/7-reduction/shrink.py [--keep 1.0] [--regen] <name> ...
-    python3 tools/7-reduction/shrink.py --passes [narrow,selfcopy,struct,frame,globase,switch,copies,rebase,hoist,deadframe] [src/<unit>.c ...]
+    python3 tools/7-reduction/shrink.py --passes [narrow,selfcopy,struct,frame,globase,switch,copies,rebase,hoist,deadframe] [--min-size N] [src/<unit>.c ...]
 
 --regen keeps the new C whatever its size, as long as it is proven: for when the generator itself was fixed.
 
@@ -19,6 +19,8 @@ rewrites that change no address and no type, in this order, each on what the one
   globase   rewrites.global_base: nearby fixed addresses as members off the lowest, loaded once (36 bytes to 20)
   switch    rewrites.chains_to_switch: a chain of ifs on one state variable as a switch (5 instructions a level to 2)
   copies    rewrites.merge_copies: a result threaded up through nesting levels by `tA = (tB);` copies, one temporary instead
+--min-size N (with --passes): only functions of at least N bytes (build/sizes.json) are rewritten, the units that hold the largest of them
+first and those with none left out, so a run can be stopped where the gains run out (Crazy Taxi: under 256 bytes, 20% of the savings).
 For each unit the changed functions are written in place (rewrites.splice), the unit compiled before and after
 (sizes.unit_sizes), a function whose C did not get smaller goes back, and equiv.py checks the rest in the written file; one that
 does not pass goes back and the file is checked again. Zombie Revenge, 80 random units: 28-38% of their excess.
@@ -58,6 +60,11 @@ if '--passes' in args:
         PASSES = args[k + 1].split(',')
         del args[k + 1]
     del args[k]
+MIN_SIZE = 0                        # --min-size N with --passes: functions under N bytes are left alone
+if '--min-size' in args:
+    k = args.index('--min-size')
+    MIN_SIZE = int(args[k + 1])
+    del args[k:k + 2]
 NAMES = args
 import consistency   # noqa: E402
 import gen_drv       # noqa: E402
@@ -211,6 +218,9 @@ def narrow_pass(f, log):
         log.write('%s NARROW %d -> %d proven\n' % (n, before[n], after.get(n, 0))); log.flush()
 
 
+_FSIZE = {}                          # --min-size: {function: compiled bytes} from build/sizes.json
+
+
 def rewrite_pass(f, pas, log, manual):
     """One --passes strategy on one unit: the changed functions that compile smaller and are proven stay, the rest go back."""
     if pas == 'narrow':
@@ -226,6 +236,8 @@ def rewrite_pass(f, pas, log, manual):
         b = consistency.block(text, m.group(1))
         if b and m.group(1) not in manual:
             funcs[m.group(1)] = text[b[0]:b[1]]
+    if MIN_SIZE:
+        funcs = {n: c for n, c in funcs.items() if _FSIZE.get(n, 0) >= MIN_SIZE}
     new = {n: fn_(c) for n, c in funcs.items()}
     new = {n: c for n, c in new.items() if c != funcs[n]}
     log.write('%s %s: %d functions changed\n' % (f, pas, len(new))); log.flush()
@@ -294,6 +306,11 @@ def main():
     if PASSES is not None:
         manual = consistency.manual_names()
         units = NAMES or sorted(f for f in glob.glob('src/gen_*.c') if not os.path.basename(f).startswith(('gen_tmp', 'zz_')))
+        if MIN_SIZE:
+            import rewrites
+            _FSIZE.update((r[0], r[1]) for r in json.load(open(sizes.OUT)))
+            units = rewrites.by_function_size({f: rewrites.function_names(open(f, errors='replace').read()) for f in units}, _FSIZE, MIN_SIZE)
+            log.write('min-size %d: %d units\n' % (MIN_SIZE, len(units))); log.flush()
         for f in units:
             for pas in PASSES:
                 rewrite_pass(f, pas, log, manual)

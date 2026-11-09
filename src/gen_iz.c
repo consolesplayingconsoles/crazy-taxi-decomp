@@ -11,6 +11,9 @@ int psgEnterState5(int, int);
 int psgSeatMatrix(int);
 int psgUpdatePartTracks(int);
 int psgFrameState5(int a4);
+struct o149_uchar { char p[0x149]; unsigned char v; };
+struct o38_float { char p[0x38]; float v; };
+
 
 int psgFrameState5(int a4)
 {
@@ -30,32 +33,32 @@ int psgFrameState5(int a4)
             nlPushMatrix(0x0);
             psgSeatMatrix(a4);
             psgUpdatePartTracks(a4);
-            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+            FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), ((((struct o38_float *)(a4))->v)));
             FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
-            u9 = *(float *)((a4 + 0x38));
-            *(float *)((a4 + 0x38)) = (u9 + 1.0f);
+            u9 = (((struct o38_float *)(a4))->v);
+            (((struct o38_float *)(a4))->v) = (u9 + 1.0f);
             if (((int)(u9 + 1.0f) == 5) && (t10 = *(int *)0xC1EE794, (int)t10 > 0)) {
                 Start_Pass_Judgement(0xFFFFFFFF);
             }
-            if ((*(float *)((a4 + 0x38))) == 1.2e+02f) {
+            if (((((struct o38_float *)(a4))->v)) == 1.2e+02f) {
                 Drv_StartAction(0x7, 0x0, 0x1);
             }
-            if (!(1.5e+02f > (*(float *)((a4 + 0x38))))) {
-                *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x20);
+            if (!(1.5e+02f > ((((struct o38_float *)(a4))->v)))) {
+                (((struct o149_uchar *)(a4))->v) = ((*(signed char *)(((0x149 + a4) + 0x0))) | 0x20);
             }
             return nlPopMatrix(0x1);
         }
         nlPushMatrix(0x0);
         psgSeatMatrix(a4);
         psgUpdatePartTracks(a4);
-        FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+        FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), ((((struct o38_float *)(a4))->v)));
         FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
-        *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+        (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + 1.0f);
         if (((*(signed char *)((a4 + 0x149))) & 16) != 0) {
             *(unsigned int *)((a4 + 0x24)) = ((*(int *)((a4 + 0x24))) + 0x1);
             psgEnterState5(a4, (*(int *)((a4 + 0x24))));
         } else {
-            if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > (*(float *)((a4 + 0x38))))) {
+            if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > ((((struct o38_float *)(a4))->v)))) {
                 psgEnterState5(a4, (*(int *)((a4 + 0x24))));
             }
         }
@@ -66,14 +69,14 @@ int psgFrameState5(int a4)
     psgUpdatePartTracks(a4);
     t61 = *(int *)((a4 + 0x34));
     u63 = 58.0f;
-    if (!(58.0f > (*(float *)((a4 + 0x38))))) {
+    if (!(58.0f > ((((struct o38_float *)(a4))->v)))) {
     } else {
-        u63 = (*(float *)((a4 + 0x38)));
+        u63 = ((((struct o38_float *)(a4))->v));
     }
     FcvStoreBuffer(t61, (a4 + 0x3C), u63);
     FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
-    *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
-    if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > (*(float *)((a4 + 0x38))))) {
+    (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + 1.0f);
+    if (!((float)((*(int *)(((*(int *)((a4 + 0x34))) + 0x0))) - 2) > ((((struct o38_float *)(a4))->v)))) {
         t72 = *(int *)((a4 + 0x24));
         *(unsigned int *)((a4 + 0x24)) = (t72 + 0x1);
         psgEnterState5(a4, (t72 + 0x1));

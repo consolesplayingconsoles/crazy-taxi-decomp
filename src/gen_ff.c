@@ -11,6 +11,14 @@ int nlScaleUnitVector(int, int, float);
 float nlScalor(int);
 int nlSubVector(int, int);
 void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+struct o100_float { char p[0x100]; float v; };
+struct o84_int { char p[0x84]; int v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oB4_float { char p[0xB4]; float v; };
+struct oC8_float { char p[0xC8]; float v; };
+
 
 void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
@@ -20,7 +28,7 @@ void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6,
     float u39;
     float u42;
     float u54;
-    int stk[9];
+    int stk[8];
 
     int R0;
     int R1;
@@ -53,14 +61,14 @@ void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6,
     F7 = f7;
     L_C04378C:;
     nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((R4 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((R4 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((R4 + 0xA6)))));
-    nlCalcVector((0x98 + R4), (((int)stk + 4) + 0xC));
+    nlRotateAZ((-(unsigned short)((((struct oA8_short *)(R4))->v))));
+    nlRotateAX((-(unsigned short)((((struct oA4_short *)(R4))->v))));
+    nlRotateAY((-(unsigned short)((((struct oA6_short *)(R4))->v))));
+    nlCalcVector((0x98 + R4), (((int)stk + 0) + 0xC));
     nlPopMatrix(0x1);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    *(float *)(((int)stk + 8)) = 0.0f;
-    t9 = nlScalor(((int)stk + 4));
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)((((int)stk + 0) + 0xC)); }
+    *(float *)(((int)stk + 4)) = 0.0f;
+    t9 = nlScalor(((int)stk + 0));
     R14 = (R4);
     F0 = (t9);
     F4 = (t9);
@@ -71,26 +79,26 @@ void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6,
     L_C043988:;
     return;
     L_C0437F2:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC0A4788); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)(0xC0A4788); }
     R4 = (0xC0A4788);
-    if ((((*(int *)((R14 + 0x84))) & 32) != 0)) goto L_C0438F8;
+    if (((((((struct o84_int *)(R14))->v)) & 32) != 0)) goto L_C0438F8;
     goto L_C043806;
     L_C043806:;
     if ((0.00999999978f > F4)) goto L_C04382E;
     goto L_C04380E;
     L_C04380E:;
     R0 = (0xC8);
-    if (((*(float *)((R14 + 0xC8))) == 0.0f)) goto L_C043846;
+    if ((((((struct oC8_float *)(R14))->v)) == 0.0f)) goto L_C043846;
     goto L_C043818;
     L_C043818:;
     if ((!(F4 > (*(float *)((R14 + R0)))))) goto L_C04382E;
     goto L_C04381E;
     L_C04381E:;
-    nlScaleUnitVector(((int)stk + 4), (((int)stk + 4) + 0xC), (*(float *)((R14 + R0))));
+    nlScaleUnitVector(((int)stk + 0), (((int)stk + 0) + 0xC), (*(float *)((R14 + R0))));
     goto L_C043846;
     L_C043846:;
-    t27 = !(5000.0f > (*(float *)((R14 + 0xB4))));
-    F4 = (_builtin_fabsf((*(float *)(((int)stk + 16)))));
+    t27 = !(5000.0f > ((((struct oB4_float *)(R14))->v)));
+    F4 = (_builtin_fabsf((*(float *)(((int)stk + 12)))));
     if (t27) goto L_C04385E;
     goto L_C043858;
     L_C043858:;
@@ -101,31 +109,31 @@ void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6,
     goto L_C043864;
     L_C043864:;
     F0 = (0.899999976f);
-    F3 = ((*(float *)(((int)stk + 16))));
+    F3 = ((*(float *)(((int)stk + 12))));
     goto L_C0438EC;
     L_C0438EC:;
-    u35 = (*(float *)(((int)stk + 4)));
+    u35 = (*(float *)(((int)stk + 0)));
     u35 = u35 + F0 * F3;
-    *(float *)(((int)stk + 4)) = u35;
+    *(float *)(((int)stk + 0)) = u35;
     F4 = (0.0149999997f);
     goto L_C043934;
     L_C043934:;
-    u39 = (*(float *)(((int)stk + 4)));
-    u39 = u39 + F4 * (*(float *)(((int)stk + 16)));
-    *(float *)(((int)stk + 4)) = u39;
-    u42 = (*(float *)(((int)stk + 12)));
-    u42 = u42 + F4 * (*(float *)(((int)stk + 24)));
-    *(float *)(((int)stk + 12)) = u42;
+    u39 = (*(float *)(((int)stk + 0)));
+    u39 = u39 + F4 * (*(float *)(((int)stk + 12)));
+    *(float *)(((int)stk + 0)) = u39;
+    u42 = (*(float *)(((int)stk + 8)));
+    u42 = u42 + F4 * (*(float *)(((int)stk + 20)));
+    *(float *)(((int)stk + 8)) = u42;
     nlPushUnitMatrix();
-    nlRotateAY((unsigned short)(*(short *)((R14 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((R14 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((R14 + 0xA8))));
-    nlCalcVector(((int)stk + 4), ((int)stk + 4));
+    nlRotateAY((unsigned short)((((struct oA6_short *)(R14))->v)));
+    nlRotateAX((unsigned short)((((struct oA4_short *)(R14))->v)));
+    nlRotateAZ((unsigned short)((((struct oA8_short *)(R14))->v)));
+    nlCalcVector(((int)stk + 0), ((int)stk + 0));
     nlPopMatrix(0x1);
-    R0 = ((nlSubVector((0x98 + R14), ((int)stk + 4))));
+    R0 = ((nlSubVector((0x98 + R14), ((int)stk + 0))));
     goto L_C043988;
     L_C04386E:;
-    u54 = *(float *)(((int)stk + 16));
+    u54 = *(float *)(((int)stk + 12));
     F3 = (0.0f);
     F5 = (u54);
     F7 = (0.099999994f);
@@ -158,18 +166,18 @@ void carResistance(int a4, int a5, int a6, int a7, float f4, float f5, float f6,
     F5 = (1.0f);
     goto L_C043860;
     L_C04382E:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(R4); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)((((int)stk + 0) + 0xC)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)(R4); }
     goto L_C043846;
     L_C0438F8:;
-    if ((_builtin_fabsf((float)(((9.99999994e-09f > (*(float *)((R14 + 0x100))))) ? 1 : 0)) == 0.0f)) goto L_C043930;
+    if ((_builtin_fabsf((float)(((9.99999994e-09f > ((((struct o100_float *)(R14))->v)))) ? 1 : 0)) == 0.0f)) goto L_C043930;
     goto L_C043910;
     L_C043910:;
     if ((!(0.399999976f > F4))) goto L_C043930;
     goto L_C043918;
     L_C043918:;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)((((int)stk + 4) + 0xC)); }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(R4); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)((((int)stk + 0) + 0xC)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)(R4); }
     goto L_C043930;
     L_C043930:;
     F4 = (0.049999997f);

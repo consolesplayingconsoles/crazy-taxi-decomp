@@ -25,6 +25,8 @@ int menuOptionHandler(void);
 int Exec_LCD(void);
 int bootInstallVectors(void);
 int bootInitTables(void);
+struct o3C_uchar { char p[0x3C]; unsigned char v; };
+
 
 int vmsfs_c_fiber7(void)
 {
@@ -69,7 +71,6 @@ int bootRunPacket(int a4, int a5)
 {
     int t9;
     int t1;
-    int t6;
     int t3;
 
     *(unsigned int *)0xAC00F714 = 0x1;
@@ -77,13 +78,12 @@ int bootRunPacket(int a4, int a5)
     t9 = a4;
     if (a4 == 0) {
         t1 = *(signed char *)((a5 + 0x0));
-        t6 = a4;
+        t9 = a4;
         if ((unsigned char)t1 != 41) {
             bootParsePacket(a5);
             t3 = ((int (*)(void))(0xC01138C))();
-            t6 = 0xFF;
+            t9 = 0xFF;
         }
-        t9 = t6;
     }
     return t9;
 }
@@ -260,6 +260,6 @@ int bootInitTables(void)
     t33 = ((int (*)(int, int))(0xC011580))(0x1F, 0x80);
     t34 = ((int (*)(int, int))(0xC011580))(0x64, 0x80);
     t35 = *(int *)0xAC00F728;
-    *(unsigned char *)((t35 + 0x3C)) = 0x0;
+    (((struct o3C_uchar *)(t35))->v) = 0x0;
     return 0x3C;
 }

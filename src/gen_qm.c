@@ -7,7 +7,6 @@ int Init_DramRoll(void)
 {
     int t0;
     int t6;
-    int t2;
     int t7;
     int t8;
     int t9;
@@ -15,25 +14,27 @@ int Init_DramRoll(void)
     int t16;
     int t21;
     int stk[10];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     t0 = *(int *)0xC2A97D8;
     t6 = ((((0x5 - t0) << 1) + (0x5 - t0)) + 0x14);
     if ((int)t0 > (int)0x5) {
-        t2 = 0x28;
+        t6 = 0x28;
         if ((t0 != 0x3E7) && (t0 != 99)) {
-            t2 = 0x14;
+            t6 = 0x14;
         }
-        t6 = t2;
     }
     t7 = 0x0;
     t8 = 0xC2A982C;
     t9 = 0xC2A97AC;
     t10 = ((0x0 + t6) + 0x1);
     for (;;) {
-        *(unsigned int *)(((int)stk + 4)) = ((t7 + t6) + 0x1);
+        R1004 = ((t7 + t6) + 0x1);
         *(unsigned int *)(((t7 << 2) + 0xC2A97EC)) = ((t7 + t6) + 0x1);
         t16 = 0x0;
-        if ((int)((*(int *)((0xC2A97AC + (t7 << 2)))) - ((int)((int)(*(int *)(((int)stk + 4))) % (int)0xA))) < 0) {
+        if ((int)((*(int *)((0xC2A97AC + (t7 << 2)))) - ((int)((int)(R1004) % (int)0xA))) < 0) {
             *(unsigned int *)((0xC2A97AC + (t7 << 2))) = ((*(int *)((0xC2A97AC + (t7 << 2)))) + 0xA);
             t16 = 0x1;
         }

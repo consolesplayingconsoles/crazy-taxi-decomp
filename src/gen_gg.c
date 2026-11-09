@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_gg): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Level_Calc(int, int, int);
+int Level_Calc(int);
 int PutStringFixPfont(int, int, float, float, float, float);
 int putDriverName(int, int, int, float, float);
 int putRecordFrame(int, int, float, float, float);
@@ -338,7 +338,7 @@ void PutRecords(int a4, int a5, int a6, int a7, int a8, int a9, float f4, float 
     putRecordUnit(R14, (*(int *)(((R1016) + 0x4))), 0x8, 0x5, (R12), (R1032), F15, F6, F7);
     goto L_C03D0EA;
     L_C03CFFA:;
-    t164 = Level_Calc((*(int *)((((((R13 << 1) + R13) << 2) + (R1008)) + 0x0))), R5, R6);
+    t164 = Level_Calc((*(int *)((((((R13 << 1) + R13) << 2) + (R1008)) + 0x0))));
     R9 = (t164);
     if ((t164 != 0x3E7)) goto L_C03D01A;
     goto L_C03D016;

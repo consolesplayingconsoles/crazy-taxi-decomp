@@ -3,6 +3,14 @@
 
 int kmiDMAtoTARequest(int, int, int, int, int);
 int kmiStartNextDMA(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int kmiStartNextDMA(int a4, int a5, int a6, int a7)
 {
@@ -34,6 +42,8 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -75,28 +85,28 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     L_C16BCE2:;
     *(unsigned int *)0xC2EA88C = R5;
     *(unsigned int *)(((R6 << 2) + 0xC2EA9CC)) = R8;
-    *(unsigned int *)0xC2EA9E4 = R6;
+    (((struct o0_uint *)0xC2EA9E4)->v) = R6;
     *(unsigned int *)(((int)stk + 12)) = (R6 & R5);
     *(unsigned int *)0xC2F91F0 = (*(int *)0xFFD8000C);
     *(unsigned int *)0xA05F8008 = R5;
     *(unsigned int *)0xA05F8008 = R4;
     t18 = *(int *)(((int)stk + 12));
-    *(unsigned int *)0xA05F8124 = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAAF8)));
-    *(unsigned int *)0xA05F812C = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAAFC)));
-    *(unsigned int *)0xA05F8128 = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAB04)));
-    *(unsigned int *)0xA05F8130 = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAB08)));
+    (((struct o0_uint *)0xA05F8124)->v) = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAAF8)));
+    (((struct o8_uint *)0xA05F8124)->v) = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAAFC)));
+    (((struct o4_uint *)0xA05F8124)->v) = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAB04)));
+    (((struct oC_uint *)0xA05F8124)->v) = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAB08)));
     *(unsigned int *)0xA05F8164 = (*(int *)(((((t18 << 2) << 2) << 1) + 0xC2EAB00)));
     *(unsigned int *)((R7 + 0x0)) = 0x80000000;
     *(volatile int *)((R7 + 0x0));
-    *(unsigned int *)0xC2EA9E8 = R4;
-    *(unsigned int *)0xC2EA9EC = R4;
+    (((struct o4_uint *)0xC2EA9E4)->v) = R4;
+    (((struct o8_uint *)0xC2EA9E4)->v) = R4;
     *(unsigned int *)0xC2F91AC = R4;
     R0 = (0xC2EAA50);
     R14 = ((R6 << 2));
     if (((*(int *)(((R6 << 2) + 0xC2EAA50))) == 0)) goto L_C16BD74;
     goto L_C16BD4E;
     L_C16BD4E:;
-    *(unsigned int *)0xC2EA9E8 = ((*(int *)0xC2EA9E8) | R5);
+    (((struct o4_uint *)0xC2EA9E4)->v) = (((((struct o4_int *)0xC2EA9E4)->v)) | R5);
     t32 = kmiDMAtoTARequest(R13, (*(int *)((R14 + 0xC2EAA00))), ((*(int *)((R14 + R0))) + 0x20), 0x10, ((int)stk + 8));
     R4 = (t32);
     if ((t32 != R12)) goto L_C16BD74;
@@ -116,7 +126,7 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     if (((*(int *)((R14 + 0xC2EAA70))) == 0)) goto L_C16BE9A;
     goto L_C16BE78;
     L_C16BE78:;
-    *(unsigned int *)0xC2EA9E8 = ((*(int *)0xC2EA9E8) | R9);
+    (((struct o4_uint *)0xC2EA9E4)->v) = (((((struct o4_int *)0xC2EA9E4)->v)) | R9);
     t44 = kmiDMAtoTARequest(R13, (*(int *)((R14 + 0xC2EAA20))), ((*(int *)((R14 + R0))) + 0x20), 0x10, ((int)stk + 8));
     R4 = (t44);
     if ((t44 == R12)) goto L_C16BF26;
@@ -125,12 +135,12 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     if (((*(int *)((R14 + 0xC2EAA80))) == 0)) goto L_C16BEFA;
     goto L_C16BEA2;
     L_C16BEA2:;
-    *(unsigned int *)0xC2EA9E8 = ((*(int *)0xC2EA9E8) | 0x8);
-    if (((*(int *)0xC2EAAB4) != 1)) goto L_C16BEDE;
+    (((struct o4_uint *)0xC2EA9E4)->v) = (((((struct o4_int *)0xC2EA9E4)->v)) | 0x8);
+    if ((((((struct o0_int *)0xC2EAAB4)->v)) != 1)) goto L_C16BEDE;
     goto L_C16BEB2;
     L_C16BEB2:;
-    *(unsigned int *)(((*(int *)0xC2EAAB8) + 0x0)) = (((*(int *)(((*(int *)0xC2EAAB8) + 0x0))) & R10) | 0x3000000);
-    t57 = kmiDMAtoTARequest(R13, (*(int *)0xC2EAAB8), (*(int *)0xC2EAABC), 0x10, ((int)stk + 8));
+    *(unsigned int *)((((((struct o4_int *)0xC2EAAB4)->v)) + 0x0)) = (((*(int *)((((((struct o4_int *)0xC2EAAB4)->v)) + 0x0))) & R10) | 0x3000000);
+    t57 = kmiDMAtoTARequest(R13, ((((struct o4_int *)0xC2EAAB4)->v)), ((((struct o8_int *)0xC2EAAB4)->v)), 0x10, ((int)stk + 8));
     R4 = (t57);
     if ((t57 == R12)) goto L_C16BF26;
     goto L_C16BEDE;
@@ -143,17 +153,17 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     if (((*(int *)((R14 + 0xC2EAA90))) == 0)) goto L_C16BF34;
     goto L_C16BF02;
     L_C16BF02:;
-    *(unsigned int *)0xC2EA9E8 = ((*(int *)0xC2EA9E8) | 0x10);
+    (((struct o4_uint *)0xC2EA9E4)->v) = (((((struct o4_int *)0xC2EA9E4)->v)) | 0x10);
     t71 = (kmiDMAtoTARequest(R13, (*(int *)((R14 + 0xC2EAA40))), ((*(int *)((R14 + 0xC2EAA90))) + 0x20), 0x10, ((int)stk + 8))) != R12;
     if (t71) goto L_C16BF34;
     goto L_C16BF26;
     L_C16BD80:;
-    *(unsigned int *)0xC2EA9E8 = ((*(int *)0xC2EA9E8) | R8);
-    if (((*(int *)0xC2EAAB4) != 1)) goto L_C16BDC0;
+    (((struct o4_uint *)0xC2EA9E4)->v) = (((((struct o4_int *)0xC2EA9E4)->v)) | R8);
+    if ((((((struct o0_int *)0xC2EAAB4)->v)) != 1)) goto L_C16BDC0;
     goto L_C16BD90;
     L_C16BD90:;
-    *(unsigned int *)(((*(int *)0xC2EAAB8) + 0x0)) = (((*(int *)(((*(int *)0xC2EAAB8) + 0x0))) & R10) | 0x1000000);
-    t80 = kmiDMAtoTARequest(R13, (*(int *)0xC2EAAB8), (*(int *)0xC2EAABC), 0x10, ((int)stk + 8));
+    *(unsigned int *)((((((struct o4_int *)0xC2EAAB4)->v)) + 0x0)) = (((*(int *)((((((struct o4_int *)0xC2EAAB4)->v)) + 0x0))) & R10) | 0x1000000);
+    t80 = kmiDMAtoTARequest(R13, ((((struct o4_int *)0xC2EAAB4)->v)), ((((struct o8_int *)0xC2EAAB4)->v)), 0x10, ((int)stk + 8));
     R4 = (t80);
     if ((t80 != R12)) goto L_C16BDC0;
     goto L_C16BDBC;
@@ -161,13 +171,13 @@ int kmiStartNextDMA(int a4, int a5, int a6, int a7)
     goto L_C16BF26;
     L_C16BDC0:;
     t83 = *(int *)((R14 + 0xC2EAA60));
-    *(unsigned int *)(((int)stk + 4)) = ((int)stk + 8);
+    R1004 = ((int)stk + 8);
     R0 = (0xC2EAA60);
     R6 = ((t83 + 0x20));
     R7 = (0x10);
     goto L_C16BE60;
     L_C16BE60:;
-    t88 = kmiDMAtoTARequest(R13, (*(int *)((R14 + (R0 - 80)))), R6, R7, *(int *)((int)stk + 4));
+    t88 = kmiDMAtoTARequest(R13, (*(int *)((R14 + (R0 - 80)))), R6, R7, R1004);
     R4 = (t88);
     if ((t88 == R12)) goto L_C16BF26;
     goto L_C16BE70;

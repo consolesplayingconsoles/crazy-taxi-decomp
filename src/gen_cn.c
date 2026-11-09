@@ -153,45 +153,31 @@ void kmiDACControl(void)
 int Level_Calc(int a4)
 {
     int t19;
-    int t17;
-    int t14;
-    int t10;
-    int t6;
-    int t3;
-    int t1;
-    int t0;
 
     t19 = 0x3E7;
     if ((int)a4 < (int)0x1E8480) {
-        t17 = 0x63;
+        t19 = 0x63;
         if ((int)a4 < (int)0xF4240) {
-            t14 = 0x0;
+            t19 = 0x0;
             if ((int)a4 < (int)0x7A120) {
-                t10 = 0x1;
+                t19 = 0x1;
                 if ((int)a4 < (int)0x61A80) {
-                    t6 = 0x2;
+                    t19 = 0x2;
                     if ((int)a4 < (int)0x493E0) {
-                        t3 = 0x3;
+                        t19 = 0x3;
                         if ((int)a4 < (int)0x30D40) {
-                            t1 = 0x4;
+                            t19 = 0x4;
                             if ((int)a4 < (int)0x186A0) {
-                                t0 = 0x6;
+                                t19 = 0x6;
                                 if ((int)a4 >= (int)0x1) {
-                                    t0 = 0x5;
+                                    t19 = 0x5;
                                 }
-                                t1 = t0;
                             }
-                            t3 = t1;
                         }
-                        t6 = t3;
                     }
-                    t10 = t6;
                 }
-                t14 = t10;
             }
-            t17 = t14;
         }
-        t19 = t17;
     }
     return t19;
 }
@@ -208,7 +194,6 @@ int mwRnaCreate(int a4, int a5)
     int t12;
     int t13;
     int t19;
-    int t21;
     int t22;
     int t23;
     int t24;
@@ -216,14 +201,12 @@ int mwRnaCreate(int a4, int a5)
     int t27;
     int t28;
     int t34;
-    int t36;
     int t37;
     int t38;
     int t39;
     int t43;
     int t52;
     int t45;
-    int t46;
     int t47;
     int t53;
     int t54;
@@ -234,17 +217,12 @@ int mwRnaCreate(int a4, int a5)
     int t64;
     int t65;
     int t78;
-    int t76;
-    int t74;
-    int t71;
-    int t69;
-    int t67;
     int stk[10] = {0};
 
     if ((int)a5 >= (int)0x1) {
         if ((int)a5 > (int)0x2) {
             mwRnaErrCallFunc(0xC1765D0);
-            t76 = 0x0;
+            t78 = 0x0;
         } else {
             if (a4 != 0) {
                 if ((int)a5 > 0) {
@@ -299,11 +277,10 @@ int mwRnaCreate(int a4, int a5)
                                 t2 = (unsigned char)t19;
                                 t1 = t5;
                                 mwRnaSetNumChan(t1, t2);
-                                t21 = *(int *)((t5 + 0x38));
-                                *(unsigned int *)(((int)stk + 12)) = t21;
-                                t22 = *(int *)((t21 + 0x0));
+                                t1 = *(int *)((t5 + 0x38));
+                                *(unsigned int *)(((int)stk + 12)) = t1;
+                                t22 = *(int *)((t1 + 0x0));
                                 t23 = *(int *)((t22 + 0x18));
-                                t1 = t21;
                                 t24 = ((int (*)(int))(t23))(t1);
                                 *(unsigned int *)((t5 + 0x28)) = t24;
                                 *(unsigned char *)((t5 + 0x0)) = 0x1;
@@ -334,11 +311,10 @@ int mwRnaCreate(int a4, int a5)
                             t2 = (unsigned char)t34;
                             t1 = t5;
                             mwRnaSetNumChan(t1, t2);
-                            t36 = *(int *)((t5 + 0x38));
-                            *(unsigned int *)(((int)stk + 12)) = t36;
-                            t37 = *(int *)((t36 + 0x0));
+                            t1 = *(int *)((t5 + 0x38));
+                            *(unsigned int *)(((int)stk + 12)) = t1;
+                            t37 = *(int *)((t1 + 0x0));
                             t38 = *(int *)((t37 + 0x18));
-                            t1 = t36;
                             t39 = ((int (*)(int))(t38))(t1);
                             *(unsigned int *)((t5 + 0x28)) = t39;
                             *(unsigned char *)((t5 + 0x0)) = 0x1;
@@ -348,27 +324,26 @@ int mwRnaCreate(int a4, int a5)
                         }
                     }
                     mwRnaErrCallFunc(0xC176600);
-                    t71 = 0x0;
+                    t78 = 0x0;
                 } else {
                     mwRnaLockCs(((int)stk + 8));
                     t43 = mwlRnaAlloc();
                     if (t43 == 0) {
                         mwRnaErrCallFunc(0xC17662C);
-                        t69 = t43;
+                        t78 = t43;
                     } else {
                         *(unsigned char *)((t43 + 0x3)) = a5;
                         *(unsigned char *)((t43 + 0x2)) = a5;
                         t52 = 0x0;
                         if ((int)a5 > 0) {
                             t45 = 0x0;
-                            t46 = 0x0;
+                            t52 = 0x0;
                             do {
                                 t47 = *(int *)((a4 + t45));
-                                t46 = (t46 + 0x1);
+                                t52 = (t52 + 0x1);
                                 *(unsigned int *)((((t43 + 0x10) + t45) + 0x0)) = t47;
                                 t45 = (t45 + 0x4);
-                            } while ((int)t46 < (int)a5);
-                            t52 = t46;
+                            } while ((int)t52 < (int)a5);
                         }
                         t53 = *(int *)0xC178644;
                         t54 = *(int *)((t53 + 0x14));
@@ -376,7 +351,7 @@ int mwRnaCreate(int a4, int a5)
                         *(unsigned int *)((t43 + 0x38)) = t55;
                         if (t55 == 0) {
                             mwRnaErrCallFunc(0xC17665C);
-                            t67 = 0x0;
+                            t78 = 0x0;
                         } else {
                             mwlRnaSetInitMember(t43);
                             mwRnaSetBitPerSmpl(t43, 0x10);
@@ -390,21 +365,16 @@ int mwRnaCreate(int a4, int a5)
                             t65 = ((int (*)(int))(t64))(t62);
                             *(unsigned int *)((t43 + 0x28)) = t65;
                             *(unsigned char *)((t43 + 0x0)) = 0x1;
-                            t67 = t43;
+                            t78 = t43;
                         }
-                        t69 = t67;
                     }
                     mwRnaUnlockCs(((int)stk + 8));
-                    t71 = t69;
                 }
-                t74 = t71;
             } else {
                 mwRnaErrCallFunc(0xC176600);
-                t74 = 0x0;
+                t78 = 0x0;
             }
-            t76 = t74;
         }
-        t78 = t76;
     } else {
         mwRnaErrCallFunc(0xC1765D0);
         t78 = 0x0;
@@ -414,10 +384,8 @@ int mwRnaCreate(int a4, int a5)
 
 int nlMultiLineSub(int a4, int a5)
 {
-    int t0;
     int t2;
     int t4;
-    int t7;
     int t8;
     int t9;
     int t10;
@@ -426,10 +394,6 @@ int nlMultiLineSub(int a4, int a5)
     int t13;
     int t14;
     int t15;
-    int t16;
-    int t17;
-    int t18;
-    int t19;
     float u20;
     float u21;
     float u22;
@@ -440,13 +404,12 @@ int nlMultiLineSub(int a4, int a5)
     float u27;
     float u28;
     float u29;
-    int t30;
     int t32;
     int t33;
     int t34;
     int stk[17] = {0};
 
-    t0 = nlLineSendHeader(a5);
+    t10 = nlLineSendHeader(a5);
     nlPushMatrix(0xC14AA08);
     t2 = *(int *)0xC2B3208;
     nlMultiMatrix8(t2);
@@ -454,10 +417,8 @@ int nlMultiLineSub(int a4, int a5)
         t4 = *(int *)0xC2B31FC;
         nlMultiMatrix8(t4);
     }
-    t7 = nlMultiPushedMatrix();
-    t8 = t7;
+    t8 = nlMultiPushedMatrix();
     t9 = a4;
-    t10 = t0;
     t11 = a4;
     for (;;) {
         t12 = *(int *)((t11 + 0x0));
@@ -471,21 +432,17 @@ int nlMultiLineSub(int a4, int a5)
         t15 = t9;
         while ((unsigned int)t15 < (unsigned int)t13) {
             t9 = t11;
-            t16 = nlCalcPoint4(t9, (((int)stk + 4) + 0x14));
-            t8 = t16;
+            t8 = nlCalcPoint4(t9, (((int)stk + 4) + 0x14));
             t9 = t11;
             t9 = (t9 + 0xC);
-            t17 = nlCalcPoint4(t9, (((int)stk + 4) + 0x4));
-            t8 = t17;
+            t8 = nlCalcPoint4(t9, (((int)stk + 4) + 0x4));
             t9 = ((int)stk + 4);
             t9 = (t9 + 0x14);
-            t18 = nlLineClipNear(t9, (((int)stk + 4) + 0x4));
-            t8 = t18;
+            t8 = nlLineClipNear(t9, (((int)stk + 4) + 0x4));
             if (t8 != 0) {
                 t9 = ((int)stk + 4);
                 t9 = (t9 + 0x14);
-                t19 = nlLineCalcColor(t9, (((int)stk + 4) + 0x4));
-                t8 = t19;
+                t8 = nlLineCalcColor(t9, (((int)stk + 4) + 0x4));
                 if (t8 != 0) {
                     t8 = 0x1C;
                     u20 = *(float *)((((int)stk + 4) + t8));
@@ -513,8 +470,7 @@ int nlMultiLineSub(int a4, int a5)
                     t8 = 0x8;
                     *(float *)((((int)stk + 4) + t8)) = (u28 + (1.0f / u25) * u29);
                     t9 = t10;
-                    t30 = nlLineDrawThick(t9, (((int)stk + 4) + 0x14), (((int)stk + 4) + 0x4), ((int)stk + 4));
-                    t8 = t30;
+                    t8 = nlLineDrawThick(t9, (((int)stk + 4) + 0x14), (((int)stk + 4) + 0x4), ((int)stk + 4));
                     t10 = t8;
                 }
             }

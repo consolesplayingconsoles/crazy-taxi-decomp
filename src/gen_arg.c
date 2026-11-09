@@ -10,37 +10,35 @@ int adxf_read_sj32(int a4, int a5, int a6, int a7);
 
 int adxf_read_sj32(int a4, int a5, int a6, int a7)
 {
-    int t38;
     int t19;
     int t20;
     int t21;
     int t26;
-    int t31;
     int t59;
-    int t52;
-    int t45;
-    int t35;
     int stk[6];
+    int R1004;
 
-    *(unsigned int *)(((int)stk + 4)) = a6;
+    R1004 = *(int *)((int)stk + 4);
+
+    R1004 = a6;
     if (a4 == 0) {
-        ADXERR_CallErrFunc(0xC1757E8, a5, a6, a7, *(int *)((int)stk + 4));
+        ADXERR_CallErrFunc(0xC1757E8, a5, a6, a7, R1004);
         t59 = 0xFFFFFFFD;
     } else {
         if ((int)a5 < 0) {
-            ADXERR_CallErrFunc(0xC175814, a5, a6, a7, *(int *)((int)stk + 4));
-            t52 = 0xFFFFFFFD;
+            ADXERR_CallErrFunc(0xC175814, a5, a6, a7, R1004);
+            t59 = 0xFFFFFFFD;
         } else {
-            if ((*(int *)(((int)stk + 4))) == 0) {
-                ADXERR_CallErrFunc(0xC175844, a5, a6, a7, *(int *)((int)stk + 4));
-                t45 = 0xFFFFFFFD;
+            if ((R1004) == 0) {
+                ADXERR_CallErrFunc(0xC175844, a5, a6, a7, R1004);
+                t59 = 0xFFFFFFFD;
             } else {
-                t38 = 0x0;
+                t59 = 0x0;
                 if ((*(signed char *)((a4 + 0x1))) == 2) {
                 } else {
                     if ((*(int *)((a4 + 0x4))) != 0) {
-                        ADXERR_CallErrFunc(0xC17586C, a5, a6, a7, *(int *)((int)stk + 4));
-                        t35 = 0xFFFFFFFF;
+                        ADXERR_CallErrFunc(0xC17586C, a5, a6, a7, R1004);
+                        t59 = 0xFFFFFFFF;
                     } else {
                         ADXCRS_Lock();
                         *(unsigned int *)((a4 + 0x1C)) = ((*(int *)((a4 + 0xC))) + (*(int *)((a4 + 0x18))));
@@ -52,25 +50,20 @@ int adxf_read_sj32(int a4, int a5, int a6, int a7)
                         }
                         *(unsigned int *)((a4 + 0x20)) = t21;
                         *(unsigned int *)((a4 + 0x24)) = 0x0;
-                        t26 = ADXSTM_OpenRange((*(int *)((a4 + 0x1C))), (*(int *)((a4 + 0x20))), (*(int *)(((int)stk + 4))));
-                        t31 = 0xFFFFFFFF;
+                        t26 = ADXSTM_OpenRange((*(int *)((a4 + 0x1C))), (*(int *)((a4 + 0x20))), (R1004));
+                        t59 = 0xFFFFFFFF;
                         if (t26 == 0) {
                         } else {
                             *(unsigned int *)((a4 + 0x4)) = t26;
                             *(unsigned char *)((a4 + 0x1)) = 0x2;
                             ADXSTM_Start((*(int *)((a4 + 0x4))));
-                            t31 = (*(int *)((a4 + 0x20)));
+                            t59 = (*(int *)((a4 + 0x20)));
                         }
                         ADXCRS_Unlock();
-                        t35 = t31;
                     }
-                    t38 = t35;
                 }
-                t45 = t38;
             }
-            t52 = t45;
         }
-        t59 = t52;
     }
     return t59;
 }

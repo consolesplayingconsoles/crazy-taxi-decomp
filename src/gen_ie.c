@@ -14,6 +14,11 @@ int nlPopMatrix(int);
 int nlPushMatrix(int);
 int nlSubVector3op(int, int, int);
 int camGetOffShot4(int a4, int a5, int a6, float f4, float f5);
+struct oC_float { char p[0xC]; float v; };
+struct o0_int { int v; };
+struct o2C_int { char p[0x2C]; int v; };
+
+
 
 int camGetOffShot4(int a4, int a5, int a6, float f4, float f5)
 {
@@ -49,7 +54,7 @@ int camGetOffShot4(int a4, int a5, int a6, float f4, float f5)
     L_C065BB8:;
     SetCameraMode(0x1);
     nlPushMatrix(0xC179180);
-    t2 = *(int *)0xC2AD578;
+    t2 = (((struct o2C_int *)0xC2AD54C)->v);
     R10 = (0xC2AD578);
     R11 = (0xC078A90);
     R12 = (0xC078C30);
@@ -98,11 +103,11 @@ int camGetOffShot4(int a4, int a5, int a6, float f4, float f5)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x44)) = *(struct mv3 *)(0xC0D5414); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x38)) = *(struct mv3 *)(0xC0D5420); }
     R13 = ((((int)stk + 4) + 0x50));
-    if ((((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0)) goto L_C065C5A;
+    if ((((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0)) goto L_C065C5A;
     goto L_C065C34;
     L_C065C34:;
     *(float *)((R13 + 0x0)) = ((*(float *)((R13 + 0x0))) * (-1.0f));
-    *(float *)((R13 + 0xC)) = ((*(float *)((R13 + 0xC))) * (-1.0f));
+    (((struct oC_float *)(R13))->v) = (((((struct oC_float *)(R13))->v)) * (-1.0f));
     *(float *)(((int)stk + 72)) = ((*(float *)(((int)stk + 72))) * (-1.0f));
     *(float *)(((int)stk + 60)) = ((*(float *)(((int)stk + 60))) * (-1.0f));
     F4 = ((-1.0f));

@@ -8,6 +8,17 @@ int kmCreateVertexBuffer(int, int, int, int, int);
 int kmiReadRegister(int);
 int kmiWriteRegister(int, int);
 int kmiAllocSysConfig(int a4, int a5, int a6, int a7);
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o58_int { char p[0x58]; int v; };
+struct o0_int { int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+
+
 
 int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
 {
@@ -35,12 +46,14 @@ int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1008;
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C14C9A0:;
-    *(unsigned int *)(((int)stk + 8)) = R4;
+    R1008 = R4;
     R11 = (0x2);
     R14 = (0xC2B8C40);
     if ((R4 != 1)) goto L_C14C9D6;
@@ -51,10 +64,10 @@ int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
     if ((t9 != 0)) goto L_C14CA24;
     goto L_C14C9D6;
     L_C14C9D6:;
-    if (((*(int *)(((int)stk + 8))) != 2)) goto L_C14C9EC;
+    if (((R1008) != 2)) goto L_C14C9EC;
     goto L_C14C9DC;
     L_C14C9DC:;
-    t16 = kmCreateTABuffer((*(int *)((R14 + 0x0))), (*(int *)((R14 + 0x58))));
+    t16 = kmCreateTABuffer((*(int *)((R14 + 0x0))), ((((struct o58_int *)(R14))->v)));
     R4 = (t16);
     if ((t16 != 0)) goto L_C14CA24;
     goto L_C14C9EC;
@@ -91,24 +104,24 @@ int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
     if (t39) goto L_C14CA08;
     goto L_C14CA68;
     L_C14CA68:;
-    t46 = kmActivateFrameBuffer((*(int *)((R14 + 0x3C))), (*(int *)((R14 + 0x40))), (*(int *)((R14 + 0x18))), (*(int *)((R14 + 0x44))));
+    t46 = kmActivateFrameBuffer((*(int *)((R14 + 0x3C))), ((((struct o40_int *)(R14))->v)), (*(int *)((R14 + 0x18))), ((((struct o44_int *)(R14))->v)));
     R13 = (t46);
     if ((t46 != 0)) goto L_C14CB0A;
     goto L_C14CA7E;
     L_C14CA7E:;
-    if (((*(int *)0xC2EA9C4) == 1)) goto L_C14CA8E;
+    if ((((((struct o0_int *)0xC2EA9C4)->v)) == 1)) goto L_C14CA8E;
     goto L_C14CA86;
     L_C14CA86:;
     if (((*(int *)0xC177A88) != 1)) goto L_C14CB0A;
     goto L_C14CA8E;
     L_C14CA8E:;
-    *(unsigned int *)0xC2EA9E4 = (*(int *)0xC2EA9DC);
-    *(unsigned int *)((((*(int *)0xC2EA9DC) << 2) + 0xC2EA9CC)) = 0x0;
-    *(unsigned int *)0xC2EA9F4 = R8;
-    *(unsigned int *)(((int)stk + 8)) = (R8 & (*(int *)0xC2EA9DC));
+    (((struct o20_uint *)0xC2EA9C4)->v) = ((((struct o18_int *)0xC2EA9C4)->v));
+    *(unsigned int *)(((((((struct o18_int *)0xC2EA9C4)->v)) << 2) + 0xC2EA9CC)) = 0x0;
+    (((struct o30_uint *)0xC2EA9C4)->v) = R8;
+    R1008 = (R8 & ((((struct o18_int *)0xC2EA9C4)->v)));
     kmiWriteRegister(0x8, 0x1);
     kmiWriteRegister(0x8, 0x0);
-    t58 = *(int *)(((int)stk + 8));
+    t58 = R1008;
     kmiWriteRegister(0x124, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAAF8))));
     kmiWriteRegister(0x12C, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAAFC))));
     kmiWriteRegister(0x128, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAB04))));
@@ -116,8 +129,8 @@ int kmiAllocSysConfig(int a4, int a5, int a6, int a7)
     kmiWriteRegister(0x164, (*(int *)(((((t58 << 2) << 2) << 1) + 0xC2EAB00))));
     kmiWriteRegister(0x144, 0x80000000);
     kmiReadRegister(0x144);
-    *(unsigned int *)0xC2EA9EC = 0x0;
-    *(unsigned int *)0xC2EA9E8 = (*(int *)0xC2EAAE8);
+    (((struct o28_uint *)0xC2EA9C4)->v) = 0x0;
+    (((struct o24_uint *)0xC2EA9C4)->v) = (*(int *)0xC2EAAE8);
     R14 = (0xC159AE4);
     goto L_C14CB0A;
     L_C14CB0A:;

@@ -4,6 +4,11 @@
 int mwRnaErrCallFunc(int, int, int, int, int);
 int mwRnaSetOutPan(int, int, int);
 int mwRnaSetNumChan(int a4, int a5, int a6, int a7);
+struct o64_int { char p[0x64]; int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_int { char p[0x68]; int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+
 
 int mwRnaSetNumChan(int a4, int a5, int a6, int a7)
 {
@@ -20,12 +25,12 @@ int mwRnaSetNumChan(int a4, int a5, int a6, int a7)
     t4 = *(int *)((a4 + 0x38));
     t7 = ((int (*)(int, int))((*(int *)(((*(int *)((t4 + 0x0))) + 0x1C)))))(t4, (signed char)a5);
     if (a5 == 1) {
-        *(unsigned int *)(((a4 + 0x64) + 0x0)) = 0x0;
-        *(unsigned int *)((a4 + 0x68)) = 0x0;
+        (((struct o64_uint *)(a4))->v) = 0x0;
+        (((struct o68_uint *)(a4))->v) = 0x0;
     } else {
-        *(unsigned int *)(((a4 + 0x64) + 0x0)) = 0xFFFFFFF1;
-        *(unsigned int *)((a4 + 0x68)) = 0xF;
+        (((struct o64_uint *)(a4))->v) = 0xFFFFFFF1;
+        (((struct o68_uint *)(a4))->v) = 0xF;
     }
-    mwRnaSetOutPan(a4, 0x0, (*(int *)(((a4 + 0x64) + 0x0))));
-    return mwRnaSetOutPan(a4, 0x1, (*(int *)((a4 + 0x68))));
+    mwRnaSetOutPan(a4, 0x0, ((((struct o64_int *)(a4))->v)));
+    return mwRnaSetOutPan(a4, 0x1, ((((struct o68_int *)(a4))->v)));
 }

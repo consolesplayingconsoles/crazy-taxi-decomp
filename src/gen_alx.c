@@ -4,11 +4,13 @@
 int End_TimeUp(void);
 int SetLandmark(int);
 int GS_GameOver(int a4);
+struct o0_int { int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+
 
 int GS_GameOver(int a4)
 {
     int t2;
-    int stk[2];
 
     int R0;
     int R1;
@@ -27,10 +29,10 @@ int GS_GameOver(int a4)
     if (((int)(t2 - 1) >= 0)) goto L_C02D780;
     goto L_C02D76C;
     L_C02D76C:;
-    if (((*(int *)0xC1EE210) == 2)) goto L_C02D77A;
+    if ((((((struct o0_int *)0xC1EE210)->v)) == 2)) goto L_C02D77A;
     goto L_C02D774;
     L_C02D774:;
-    *(unsigned int *)0xC1EE238 = 0x8;
+    (((struct o28_uint *)0xC1EE210)->v) = 0x8;
     goto L_C02D77A;
     L_C02D77A:;
     return End_TimeUp();

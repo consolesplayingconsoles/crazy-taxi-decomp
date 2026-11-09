@@ -15,26 +15,24 @@ int camGetOnReturn(void)
     int t15;
     float u4;
     int t10;
-    int t12;
-    int stk[13];
+    int stk[12];
 
     t1 = *(signed char *)(((*(int *)0xC2AD54C) + 0x149));
     t15 = t1;
     if ((t1 & 128) == 0) {
         SetCameraMode(0x1);
-        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
+        nlSubVector3op((((int)stk + 0) + 0x18), 0xC2AD554, 0xC179840);
         u4 = 0.049999997f;
-        nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 1.0f, u4);
-        camSetEye((((int)stk + 4) + 0xC), 0x1);
-        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);
-        nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), ((int)stk + 4), 1.0f, u4);
-        camSetTarget(((int)stk + 4), 0x1);
+        nlGetAverageVector(0xC179840, (((int)stk + 0) + 0x18), (((int)stk + 0) + 0xC), 1.0f, u4);
+        camSetEye((((int)stk + 0) + 0xC), 0x1);
+        nlSubVector3op((((int)stk + 0) + 0x18), 0xC2AD560, 0xC17984C);
+        nlGetAverageVector(0xC17984C, (((int)stk + 0) + 0x18), ((int)stk + 0), 1.0f, u4);
+        camSetTarget(((int)stk + 0), 0x1);
         t10 = *(int *)0xC2AD590;
-        t12 = t10;
+        t15 = t10;
         if ((t10 & 1) == 0) {
-            t12 = (camRestore());
+            t15 = (camRestore());
         }
-        t15 = t12;
     }
     return t15;
 }

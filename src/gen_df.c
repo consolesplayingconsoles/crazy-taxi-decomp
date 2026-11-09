@@ -5,6 +5,10 @@ int Exec_Balloon(int);
 int KillColliObj(int);
 int nlCloseEvent(int);
 int Exec_Balloon_Event(int a4);
+struct o78_int { char p[0x78]; int v; };
+struct o78_uint { char p[0x78]; unsigned int v; };
+struct o7C_int { char p[0x7C]; int v; };
+
 
 int Exec_Balloon_Event(int a4)
 {
@@ -12,10 +16,10 @@ int Exec_Balloon_Event(int a4)
     int t2;
 
     Exec_Balloon(a4);
-    t1 = *(int *)((a4 + 0x7C));
+    t1 = (((struct o7C_int *)(a4))->v);
     if (t1 == 1) {
-        t2 = *(int *)((a4 + 0x78));
-        *(unsigned int *)((a4 + 0x78)) = (t2 + 0x1);
+        t2 = (((struct o78_int *)(a4))->v);
+        (((struct o78_uint *)(a4))->v) = (t2 + 0x1);
         if ((int)(t2 + 0x1) >= (int)0x14) {
             KillColliObj((a4 + 0x48));
             return nlCloseEvent(a4);

@@ -19,7 +19,7 @@ int ExecAdvCamera(void)
     int t0;
     int t7;
     int t15;
-    int stk[9];
+    int stk[8];
 
     t0 = *(int *)0xC0E4E38;
     if (t0 != 1) {
@@ -34,11 +34,11 @@ int ExecAdvCamera(void)
         }
         return ExecAdvCameraChase();
     }
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC179144); }
-    *(float *)(((int)stk + 8)) = ((*(float *)(((int)stk + 8))) + 5.0f);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)(0xC179144); }
+    *(float *)(((int)stk + 4)) = ((*(float *)(((int)stk + 4))) + 5.0f);
     if ((*(int *)0xC179974) != 0) {
         SetCameraDistance(60.0f);
-        camSetTarget(((int)stk + 4), 0x0);
+        camSetTarget(((int)stk + 0), 0x0);
         SetCameraTargetRatio(0.299999982f, 0.299999982f);
         if (((*(int *)0xC2A4E50) == 1) && (t7 = *(int *)0xC1EE20C, t7 == 1)) {
             camSetAngles(0x0, ((unsigned short)(*(short *)0xC179152) - 24576), 0x0, 0x0);
@@ -54,5 +54,5 @@ int ExecAdvCamera(void)
         ResetSpark();
         *(unsigned int *)0xC179974 = 0x0;
     }
-    return (camSetTarget(((int)stk + 4), 0x2));
+    return (camSetTarget(((int)stk + 0), 0x2));
 }

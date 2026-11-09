@@ -4,13 +4,15 @@
 int SJ_SplitChunk(int, int, int);
 int mwRnaErrCallFunc(int, ...);
 int mwlRnaAddWrPos(int a4);
+struct o4C_int { char p[0x4C]; int v; };
+struct o4C_uint { char p[0x4C]; unsigned int v; };
+
 
 int mwlRnaAddWrPos(int a4)
 {
     int t3;
     int t4;
     int t5;
-    int t6;
     int t16;
     int t17;
     int t18;
@@ -57,8 +59,7 @@ int mwlRnaAddWrPos(int a4)
         t2 = (t2 + 0x10);
         t1 = (t1 << 2);
         t1 = (t1 + t2);
-        t6 = *(int *)((t1 + 0x0));
-        t0 = t6;
+        t0 = *(int *)((t1 + 0x0));
         if (t0 == 0) {
             mwRnaErrCallFunc(0xC1766A8);
         } else {
@@ -116,9 +117,9 @@ int mwlRnaAddWrPos(int a4)
     t37 = *(int *)((a4 + 0x34));
     t38 = *(int *)((a4 + 0x3C));
     *(unsigned int *)((a4 + 0x34)) = (t37 + t38);
-    t39 = *(int *)((a4 + 0x4C));
+    t39 = (((struct o4C_int *)(a4))->v);
     t40 = *(int *)((a4 + 0x3C));
-    *(unsigned int *)((a4 + 0x4C)) = (t39 + t40);
+    (((struct o4C_uint *)(a4))->v) = (t39 + t40);
     *(unsigned int *)((a4 + 0x3C)) = 0x0;
     return 0x4C;
 }

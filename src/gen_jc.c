@@ -15,15 +15,12 @@ int SetEffect(int a4, int a5, int a6)
     int t46;
     float u4;
     float u6;
-    int t22;
     float t8;
     float u9;
     float u10;
     float u14;
     float u15;
     float u16;
-    int t40;
-    int t31;
 
     t0 = 0xC03663C;
     if (a6 == 3) {
@@ -44,7 +41,7 @@ int SetEffect(int a4, int a5, int a6)
         *(unsigned int *)((t2 + 0x38)) = a6;
         if (a6 != 1) {
             if (a6 != 2) {
-                t22 = a6;
+                t46 = a6;
                 if (a6 != 3) {
                 } else {
                     t8 = nlScalor(a5);
@@ -58,19 +55,16 @@ int SetEffect(int a4, int a5, int a6)
                     *(float *)(((0x24 + t2) + 0x0)) = ((*(float *)(((0x24 + t2) + 0x0))) + (u16 + u15));
                     *(float *)(((0x28 + t2) + 0x0)) = ((*(float *)(((0x28 + t2) + 0x0))) + ((nlRandom()) + u10));
                     *(unsigned int *)((t2 + 0x30)) = 0x14;
-                    t22 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x2));
+                    t46 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x2));
                 }
-                t31 = t22;
             } else {
                 *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * (1.0f + 1.0f));
-                t31 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x1));
+                t46 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x1));
             }
-            t40 = t31;
         } else {
             *(float *)((t2 + 0x2C)) = ((*(float *)((t2 + 0x2C))) * 1.5f);
-            t40 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x0));
+            t46 = (ndPuru2Start((unsigned char)(*(signed char *)0xC1EE278), 0x10000, 0x0));
         }
-        t46 = t40;
     }
     return t46;
 }

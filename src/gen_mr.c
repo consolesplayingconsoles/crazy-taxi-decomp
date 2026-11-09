@@ -32,6 +32,11 @@ int hudDraw(int);
 int nlExecuteEvent(void);
 int trafficControl(int);
 int gameStateDrive(void);
+struct o0_int { int v; };
+struct o28_int { char p[0x28]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int gameStateDrive(void)
 {
@@ -52,7 +57,7 @@ int gameStateDrive(void)
     }
     camUpdate(0x0);
     Exec_Fog();
-    t3 = *(int *)0xC1EE20C;
+    t3 = (((struct o0_int *)0xC1EE20C)->v);
     if (t3 != 0) {
         if (t3 != 1) {
             if (t3 != 2) {
@@ -74,7 +79,7 @@ int gameStateDrive(void)
             LightEffect(0x0);
         }
     }
-    if ((*(int *)0xC1EE234) == 0) {
+    if (((((struct o28_int *)0xC1EE20C)->v)) == 0) {
         execPlayer();
     } else {
         execPlayerADV();
@@ -82,25 +87,25 @@ int gameStateDrive(void)
     exec_GameSystem(0x0);
     gdc_ExecStreamSongDisk();
     exec_CarMain();
-    if (((*(int *)0xC1EE20C) == 2) && ((t33 = *(int *)0xC1EE20C, t33 != 2) || ((t34 = *(int *)0xC1EE214, t34 == 1) || ((t35 = *(int *)0xC1EE214, t35 == 2) || ((t36 = *(int *)0xC1EE214, t36 == 3) || (t37 = *(int *)0xC1EE214, t37 == 0)))))) {
+    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && ((t33 = (((struct o0_int *)0xC1EE20C)->v), t33 != 2) || ((t34 = (((struct o8_int *)0xC1EE20C)->v), t34 == 1) || ((t35 = (((struct o8_int *)0xC1EE20C)->v), t35 == 2) || ((t36 = (((struct o8_int *)0xC1EE20C)->v), t36 == 3) || (t37 = (((struct o8_int *)0xC1EE20C)->v), t37 == 0)))))) {
     } else {
         exec_KyakuMain();
     }
     ExecSetObject();
-    if (((*(int *)0xC1EE20C) == 2) && ((t42 = *(int *)0xC1EE20C, t42 != 2) || (t43 = *(int *)0xC1EE214, t43 == 0))) {
+    if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && ((t42 = (((struct o0_int *)0xC1EE20C)->v), t42 != 2) || (t43 = (((struct o8_int *)0xC1EE20C)->v), t43 == 0))) {
     } else {
         ExecKyakuArea();
     }
-    if ((*(int *)0xC1EE20C) == 0) {
+    if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
         ExecHelicopter();
     }
     Act_Execute();
     entryCarPut(0x1);
     trafficControl(0x1);
-    if ((*(int *)0xC1EE20C) != 2) {
+    if (((((struct o0_int *)0xC1EE20C)->v)) != 2) {
         crowdSpawn();
     }
-    if ((*(int *)0xC1EE210) == 2) {
+    if (((((struct o4_int *)0xC1EE20C)->v)) == 2) {
         execDCmini();
     }
     nlExecuteEvent();

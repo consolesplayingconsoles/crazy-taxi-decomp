@@ -7,7 +7,6 @@ int CleanColliObj(void)
 {
     int t1;
     int t2;
-    int t4;
     int t5;
     int t9;
     int t10;
@@ -17,9 +16,8 @@ int CleanColliObj(void)
     t1 = 0xC26EBCC;
     t2 = 0x0;
     for (;;) {
-        t4 = *(int *)((t1 + 0x0));
+        t5 = *(int *)((t1 + 0x0));
         t1 = (t1 + 0x4);
-        t5 = t4;
         for (;;) {
             if (t5 == 0) {
                 break;

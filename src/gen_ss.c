@@ -32,13 +32,15 @@ int syChainAddHandler(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C16081C:;
     *(unsigned short *)(((int)stk + 8)) = R4;
-    *(unsigned int *)(((int)stk + 4)) = R5;
+    R1004 = R5;
     *(unsigned short *)(((int)stk + 12)) = (_builtin_get_imask());
     _builtin_set_imask(0xF);
     t1 = *(short *)(((int)stk + 8));
@@ -99,7 +101,7 @@ int syChainAddHandler(int a4, int a5, int a6, int a7)
     L_C16090E:;
     *(unsigned int *)((R9 + (((int)R13 >> 4) << 2))) = (((R14 << 2) << 2) + R10);
     *(unsigned int *)(((((R14 << 2) << 2) + R10) + 0x4)) = 0x0;
-    *(unsigned int *)(((((R14 << 2) << 2) + R10) + 0x0)) = (*(int *)(((int)stk + 4)));
+    *(unsigned int *)(((((R14 << 2) << 2) + R10) + 0x0)) = (R1004);
     *(unsigned int *)(((((R14 << 2) << 2) + R10) + 0x8)) = R8;
     *(unsigned int *)(((((R14 << 2) << 2) + R10) + 0xC)) = R11;
     R4 = (((unsigned int)((unsigned int)((unsigned int)(unsigned char)(*(short *)(((int)stk + 8))) >> 2) >> 2) >> 1));
@@ -141,7 +143,7 @@ int syChainAddHandler(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R9 + (((int)R13 >> 4) << 2))) = R12;
     goto L_C160992;
     L_C160992:;
-    *(unsigned int *)((R12 + 0x0)) = (*(int *)(((int)stk + 4)));
+    *(unsigned int *)((R12 + 0x0)) = (R1004);
     *(unsigned int *)((R12 + 0x8)) = R8;
     *(unsigned int *)((R12 + 0xC)) = R11;
     goto L_C16099A;

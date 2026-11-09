@@ -12,6 +12,12 @@ int pfPutSEGALogo(void);
 int pfPuts(int);
 int pfSize(float, float);
 int ExecEndRoll(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int ExecEndRoll(void)
 {
@@ -32,8 +38,8 @@ int ExecEndRoll(void)
     int t54;
     int t55;
 
-    t0 = *(int *)0xC1EE33C;
-    *(unsigned int *)0xC2864E0 = t0;
+    t0 = (((struct o0_int *)0xC1EE33C)->v);
+    (((struct o0_uint *)0xC2864E0)->v) = t0;
     t1 = 0xC03A4F4;
     t2 = t0;
     t4 = 0x0;
@@ -48,7 +54,7 @@ int ExecEndRoll(void)
         t3 = (t3 << 2);
         t2 = 0x28A;
         t3 = (t3 << 1);
-        t3 = (t3 - (*(int *)0xC2864E0));
+        t3 = (t3 - ((((struct o0_int *)0xC2864E0)->v)));
         t3 = (t3 + t2);
         if (((int)t3 > (int)0xFFFFFFE8) && (t1 = 0x1E0, (int)t3 < (int)t1)) {
             t2 = 0xC030FA2;
@@ -89,31 +95,31 @@ int ExecEndRoll(void)
         t4 = (t4 + 0x1);
         t2 = t25;
     }
-    t26 = *(int *)0xC2864E0;
+    t26 = (((struct o0_int *)0xC2864E0)->v);
     if (((int)(0xF2A - t26) <= (int)0xFFFFFFC0) && ((int)(0xF2A - t26) >= (int)0x1E0)) {
     } else {
         pfLocate(330.0f, (float)(0xF2A - t26));
         pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
         pfPutSEGALogo();
     }
-    if (((int)(*(int *)0xC2864E0) >= (int)0xD8E) && (t35 = *(int *)0xC2864E4, t35 == 2)) {
+    if (((int)((((struct o0_int *)0xC2864E0)->v)) >= (int)0xD8E) && (t35 = (((struct o4_int *)0xC2864E0)->v), t35 == 2)) {
         Voice_ShutUp(0x0);
         Voice_Request(0xC0EEC40, 0x0, 0x7F, 0x0);
-        *(unsigned int *)0xC2864E4 = 0x1;
+        (((struct o4_uint *)0xC2864E0)->v) = 0x1;
     }
-    if (((int)(*(int *)0xC2864E0) >= (int)0xE10) && (t43 = *(int *)0xC2864E4, t43 != 0)) {
+    if (((int)((((struct o0_int *)0xC2864E0)->v)) >= (int)0xE10) && (t43 = (((struct o4_int *)0xC2864E0)->v), t43 != 0)) {
         gdc_FadeStopStreamSong(0x0, 0x104);
-        *(unsigned int *)0xC2864E4 = 0x0;
+        (((struct o4_uint *)0xC2864E0)->v) = 0x0;
     }
-    if (((*(int *)0xC1EE250) & 8) != 0) {
-        *(unsigned int *)0xC2864E0 = 0x2710;
+    if ((((((struct o18_int *)0xC1EE238)->v)) & 8) != 0) {
+        (((struct o0_uint *)0xC2864E0)->v) = 0x2710;
     }
-    if ((int)(*(int *)0xC2864E0) >= (int)0xFB4) {
+    if ((int)((((struct o0_int *)0xC2864E0)->v)) >= (int)0xFB4) {
         *(unsigned int *)0xC2A4E50 = 0x0;
-        if (((GetMenuMode(0x1)) == 0) && ((t54 = *(int *)0xC1EE340, (int)t54 <= (int)0x14) && (t55 = *(int *)0xC17948C, t55 == 0))) {
-            *(unsigned int *)0xC1EE238 = 0xE;
+        if (((GetMenuMode(0x1)) == 0) && ((t54 = (((struct o4_int *)0xC1EE33C)->v), (int)t54 <= (int)0x14) && (t55 = *(int *)0xC17948C, t55 == 0))) {
+            (((struct o0_uint *)0xC1EE238)->v) = 0xE;
         } else {
-            *(unsigned int *)0xC1EE238 = 0x2;
+            (((struct o0_uint *)0xC1EE238)->v) = 0x2;
         }
     }
     return gdc_FadeManStreamSong();

@@ -77,7 +77,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     goto L_C06010E;
     L_C06010E:;
@@ -86,7 +85,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R4 = (t10);
     R5 = (0xC2A9F68);
@@ -97,7 +95,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     goto L_C06011A;
     L_C06011A:;
@@ -108,7 +105,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R13 = (0xC1322C0);
     R14 = (0xC2A9F70);
@@ -122,7 +118,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     if (t26) goto L_C05FFE8;
     goto L_C05FFCA;
@@ -135,7 +130,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     goto L_C05FFE8;
     L_C05FFE8:;
@@ -144,7 +138,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     F15 = ((1.0f + 1.0f));
     if (t33) goto L_C060046;
@@ -155,7 +148,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R1 = (0xC2A9F64);
     if (t38) goto L_C060046;
@@ -166,7 +158,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R0 = (((signed char)(((t40 << 2) + t40) << 2) + R13));
     if (t43) goto L_C06010E;
@@ -178,7 +169,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R0 = (0x4);
     if (t49) goto L_C06010E;
@@ -189,7 +179,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R0 = (0x8);
     R1 = (0xC2A9F64);
@@ -201,7 +190,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R0 = (((signed char)(((t57 << 2) + t57) << 2) + R13));
     if (t60) goto L_C06010E;
@@ -218,7 +206,6 @@ int Exec_Fog(int a4, int a5, float f4, float f5)
     R1020 = R1020;
     R1016 = R1016;
     R1012 = R1012;
-    *(unsigned int *)(((int)stk + 8)) = *(int *)((int)stk + 8);
     R1004 = R1004;
     R0 = (0xC);
     goto L_C06010E;

@@ -4,9 +4,19 @@
 int Init_DramRoll(void);
 int Init_RS_Fog(void);
 int Init_RS_Light(void);
-int Level_Calc(int, int);
-int Money_Array(int, int, int, float);
+int Level_Calc(int);
+int Money_Array(int, int, int);
 int Init_Result_Parm(float f4);
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct o8_ushort { char p[0x8]; unsigned short v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int Init_Result_Parm(float f4)
 {
@@ -15,7 +25,7 @@ int Init_Result_Parm(float f4)
     int t9;
     int t16;
 
-    *(unsigned int *)0xC2A978C = 0x0;
+    (((struct o4_uint *)0xC2A9788)->v) = 0x0;
     t0 = 0xC2A97AC;
     t1 = 0x0;
     for (;;) {
@@ -26,24 +36,24 @@ int Init_Result_Parm(float f4)
             break;
         }
     }
-    Money_Array(0xC2A97AC, (*(int *)(((*(int *)0xC2A7600) + 0x0))), 0x8, f4);
+    Money_Array(0xC2A97AC, (*(int *)(((*(int *)0xC2A7600) + 0x0))), 0x8);
     if ((int)(*(int *)0xC1794D0) > (int)0x3E7) {
         *(unsigned int *)0xC1794D0 = 0x3E7;
     }
-    t9 = Level_Calc((*(int *)(((*(int *)0xC2A7600) + 0x0))), 0x3E7);
-    *(unsigned int *)0xC2A97D8 = t9;
+    t9 = Level_Calc((*(int *)(((*(int *)0xC2A7600) + 0x0))));
+    (((struct o0_uint *)0xC2A97D8)->v) = t9;
     if ((int)t9 <= (int)0x6) {
-        *(unsigned int *)0xC2A97A8 = (((((0x6 - t9) << 2) + (0x6 - t9)) << 1) + 0x109);
+        (((struct o20_uint *)0xC2A9788)->v) = (((((0x6 - t9) << 2) + (0x6 - t9)) << 1) + 0x109);
     } else {
-        *(unsigned int *)0xC2A97A8 = 0x145;
+        (((struct o20_uint *)0xC2A9788)->v) = 0x145;
     }
     Init_DramRoll();
     Init_RS_Light();
     Init_RS_Fog();
     *(unsigned int *)0xC2A96F4 = 0x0;
-    *(unsigned int *)0xC2A9788 = 0x0;
-    *(unsigned int *)0xC2A97E0 = 0x0;
-    *(unsigned int *)0xC2A97E4 = 0x0;
+    (((struct o0_uint *)0xC2A9788)->v) = 0x0;
+    (((struct o8_uint *)0xC2A97D8)->v) = 0x0;
+    (((struct oC_uint *)0xC2A97D8)->v) = 0x0;
     t16 = 0x6;
     for (;;) {
         t16 = (t16 - 0x1);
@@ -51,14 +61,14 @@ int Init_Result_Parm(float f4)
             break;
         }
     }
-    *(unsigned int *)0xC2A97E8 = 0x0;
-    *(unsigned int *)0xC2A9850 = 0x0;
-    *(unsigned int *)0xC2A9854 = 0x0;
-    *(unsigned int *)0xC2A984C = 0x0;
-    *(unsigned int *)0xC2A9748 = 0x0;
-    *(float *)0xC2A9758 = 0.0f;
-    *(float *)0xC2A974C = 0.5f;
-    *(unsigned short *)0xC2A9750 = 0x0;
-    *(unsigned int *)0xC2A9754 = 0x0;
+    (((struct o10_uint *)0xC2A97D8)->v) = 0x0;
+    (((struct o4_uint *)0xC2A984C)->v) = 0x0;
+    (((struct o8_uint *)0xC2A984C)->v) = 0x0;
+    (((struct o0_uint *)0xC2A984C)->v) = 0x0;
+    (((struct o0_uint *)0xC2A9748)->v) = 0x0;
+    (((struct o10_float *)0xC2A9748)->v) = 0.0f;
+    (((struct o4_float *)0xC2A9748)->v) = 0.5f;
+    (((struct o8_ushort *)0xC2A9748)->v) = 0x0;
+    (((struct oC_uint *)0xC2A9748)->v) = 0x0;
     return 0xC059390;
 }

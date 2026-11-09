@@ -24,15 +24,15 @@ int BigOneFollowTaxi(int a4, float f4, float f5, float f6)
     float u14;
     float u16;
     int t56;
-    int stk[19];
+    int stk[18];
 
     if ((f4 - (*(float *)0xC179148)) > 30.0f) {
-        t2 = ((int (*)(int, int, float, float, float))(nlScaleVector))((((int)stk + 4) + 0xC), 0xC2AD1F8, 100.0f, f5, f6);
-        nlAddVector3op((((int)stk + 4) + 0x18), 0xC179144, (((int)stk + 4) + 0xC));
-        nlSubVector3op((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x18), 0xC2AEC20);
-        *(float *)(((int)stk + 20)) = 0.0f;
-        nlUnitVector((((int)stk + 4) + 0xC));
-        t8 = nlArcTan2((*(float *)(((int)stk + 16))), (*(float *)(((int)stk + 24))));
+        t2 = ((int (*)(int, int, float, float, float))(nlScaleVector))((((int)stk + 0) + 0xC), 0xC2AD1F8, 100.0f, f5, f6);
+        nlAddVector3op((((int)stk + 0) + 0x18), 0xC179144, (((int)stk + 0) + 0xC));
+        nlSubVector3op((((int)stk + 0) + 0xC), (((int)stk + 0) + 0x18), 0xC2AEC20);
+        *(float *)(((int)stk + 16)) = 0.0f;
+        nlUnitVector((((int)stk + 0) + 0xC));
+        t8 = nlArcTan2((*(float *)(((int)stk + 12))), (*(float *)(((int)stk + 20))));
         HomingAngle1(t8, 0xC2AEC30, 0.00999999978f);
         t10 = *(int *)0xC2AEC30;
         t11 = (t10 - t8);
@@ -64,9 +64,9 @@ int BigOneFollowTaxi(int a4, float f4, float f5, float f6)
     }
     nlPushUnitMatrix();
     nlRotateAY((*(int *)0xC2AEC30));
-    nlCalcVector(0xC0D5554, (((int)stk + 4) + 0xC));
-    t56 = ((int (*)(int, int, float))(nlScaleVector))(((int)stk + 4), (((int)stk + 4) + 0xC), (*(float *)0xC2AEC38));
-    nlAddVector(0xC2AEC20, ((int)stk + 4));
+    nlCalcVector(0xC0D5554, (((int)stk + 0) + 0xC));
+    t56 = ((int (*)(int, int, float))(nlScaleVector))(((int)stk + 0), (((int)stk + 0) + 0xC), (*(float *)0xC2AEC38));
+    nlAddVector(0xC2AEC20, ((int)stk + 0));
     CheckColliWall(0xC2AEC20, 21.0f);
     nlPopMatrix(0x1);
     *(float *)0xC2AEC5C = (((*(float *)0xC2AEC38) * 1.0f) / 1.0f);

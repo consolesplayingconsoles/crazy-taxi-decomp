@@ -230,17 +230,12 @@ int vmsfs_findnext_ex(int a4, int a5, int a6)
     int t6;
     int t60;
     int t7;
-    int t8;
-    int t9;
     int t10;
     int t11;
     int t12;
-    int t13;
-    int t14;
     int t15;
     int t16;
     int t17;
-    int t18;
     int t20;
     int t21;
     int t22;
@@ -256,7 +251,6 @@ int vmsfs_findnext_ex(int a4, int a5, int a6)
     int t34;
     int t35;
     int t36;
-    int t37;
     int t39;
     int t40;
     int t41;
@@ -293,28 +287,23 @@ int vmsfs_findnext_ex(int a4, int a5, int a6)
                     if ((int)t6 < 0) {
                     } else {
                         t7 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x18));
-                        t8 = direntry(a4, t7);
-                        t9 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x18));
-                        t10 = t8;
-                        t11 = t9;
+                        t10 = direntry(a4, t7);
+                        t11 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x18));
                         for (;;) {
                             t12 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
-                            t13 = *(int *)((t12 + 0x30));
-                            if ((int)t11 >= (int)t13) {
+                            t15 = *(int *)((t12 + 0x30));
+                            if ((int)t11 >= (int)t15) {
                                 if (0x0 == 0) {
                                     return 0xFFFFFF05;
                                 }
-                                t14 = *(int *)(((int)stk + 4));
-                                t11 = t14;
-                                t15 = t13;
+                                t11 = *(int *)(((int)stk + 4));
                                 t16 = (t10 + 0x4);
                                 t17 = (t11 + 0xC);
                                 for (;;) {
                                     if ((unsigned int)t11 >= (unsigned int)t17) {
                                         break;
                                     }
-                                    t18 = *(signed char *)((t16 + 0x0));
-                                    t15 = t18;
+                                    t15 = *(signed char *)((t16 + 0x0));
                                     t16 = (t16 + 0x1);
                                     *(unsigned char *)((t11 + 0x0)) = t15;
                                     t11 = (t11 + 0x1);
@@ -377,8 +366,7 @@ int vmsfs_findnext_ex(int a4, int a5, int a6)
                                 if ((unsigned int)t35 >= (unsigned int)(t33 + 0xC)) {
                                     break;
                                 }
-                                t37 = *(signed char *)((t36 + 0x0));
-                                t34 = t37;
+                                t34 = *(signed char *)((t36 + 0x0));
                                 t36 = (t36 + 0x1);
                                 *(unsigned char *)((t35 + 0x0)) = t34;
                                 t35 = (t35 + 0x1);

@@ -1,9 +1,16 @@
 /* Straight-line functions with calls and guards (batch gen_agt): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Start_Fog(int, int, int, int);
+int Start_Fog(int);
 float getNearLineIndex(int, int, int, int, int);
 void RailroadAreaCheck(int a4, int a5, int a6, int a7);
+struct o64_int { char p[0x64]; int v; };
+struct o7C_float { char p[0x7C]; float v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
+
 
 void RailroadAreaCheck(int a4, int a5, int a6, int a7)
 {
@@ -32,8 +39,8 @@ void RailroadAreaCheck(int a4, int a5, int a6, int a7)
 
     *(unsigned int *)(((int)stk + 12)) = a5;
     if (a4 == 0) {
-        *(unsigned int *)0xC2A4E40 = 0x0;
-        *(unsigned int *)0xC2A4E4C = 0x0;
+        (((struct o0_uint *)0xC2A4E40)->v) = 0x0;
+        (((struct oC_uint *)0xC2A4E40)->v) = 0x0;
         t2 = 0x0;
         for (;;) {
             t4 = (signed char)(((t2 << 1) + t2) << 2);
@@ -46,12 +53,12 @@ void RailroadAreaCheck(int a4, int a5, int a6, int a7)
     } else {
         if ((*(int *)0xC1EE20C) != 1) {
         } else {
-            t7 = *(int *)0xC2A4E40;
+            t7 = (((struct o0_int *)0xC2A4E40)->v);
             if (t7 == 1) {
-                *(unsigned int *)0xC2A4E40 = 0x0;
+                (((struct o0_uint *)0xC2A4E40)->v) = 0x0;
             } else {
                 if (t7 == 2) {
-                    *(unsigned int *)0xC2A4E40 = 0x3;
+                    (((struct o0_uint *)0xC2A4E40)->v) = 0x3;
                 }
             }
             t10 = 0x0;
@@ -88,37 +95,37 @@ void RailroadAreaCheck(int a4, int a5, int a6, int a7)
                     break;
                 }
             }
-            if (t10 != (*(int *)0xC2A4E40)) {
+            if (t10 != ((((struct o0_int *)0xC2A4E40)->v))) {
                 if (t10 == 3) {
-                    *(unsigned int *)0xC2A4E40 = 0x2;
+                    (((struct o0_uint *)0xC2A4E40)->v) = 0x2;
                 } else {
-                    *(unsigned int *)0xC2A4E40 = 0x1;
+                    (((struct o0_uint *)0xC2A4E40)->v) = 0x1;
                 }
             }
-            t52 = *(int *)0xC2A4E40;
+            t52 = (((struct o0_int *)0xC2A4E40)->v);
             if (t52 == 2) {
                 if (t11 == 0) {
-                    Start_Fog(0x2, t42, t43, t44);
+                    Start_Fog(0x2);
                 } else {
                     if (t11 == 1) {
-                        Start_Fog(0x1, t42, t43, t44);
+                        Start_Fog(0x1);
                     }
                 }
             } else {
                 if (t52 == 1) {
-                    Start_Fog(0x0, t42, t43, t44);
+                    Start_Fog(0x0);
                 }
             }
             t96 = *(int *)0xC2A1B30;
-            t97 = *(int *)((t96 + 0x64));
+            t97 = (((struct o64_int *)(t96))->v);
             if (((*(int *)(((((int)t97 >> 5) << 2) + 0xC0A37B8))) & (((int)(t97 & 0x1F) >= 0) ? (0x1 << ((t97 & 0x1F) & 31)) : ((-(int)(t97 & 0x1F) & 31) ? ((int)0x1 >> (-(int)(t97 & 0x1F) & 31)) : ((int)0x1 >> 31)))) != 0) {
-                if (2000.0f > (*(float *)((t96 + 0x7C)))) {
-                    *(unsigned int *)0xC2A4E4C = 0x1;
+                if (2000.0f > ((((struct o7C_float *)(t96))->v))) {
+                    (((struct oC_uint *)0xC2A4E40)->v) = 0x1;
                 } else {
-                    *(unsigned int *)0xC2A4E4C = 0x0;
+                    (((struct oC_uint *)0xC2A4E40)->v) = 0x0;
                 }
             } else {
-                *(unsigned int *)0xC2A4E4C = 0x0;
+                (((struct oC_uint *)0xC2A4E40)->v) = 0x0;
             }
         }
     }

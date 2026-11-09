@@ -26,10 +26,28 @@ int pcarDrive(int, int, int, int);
 int pcarEnd(int);
 int technicalCheck(int, int, int);
 int pcarExec(int a4, int a5, int a6);
+struct o10_float { char p[0x10]; float v; };
+struct o100_float { char p[0x100]; float v; };
+struct o104_float { char p[0x104]; float v; };
+struct o110_int { char p[0x110]; int v; };
+struct o110_uint { char p[0x110]; unsigned int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o60_float { char p[0x60]; float v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o90_float { char p[0x90]; float v; };
+struct o9C_float { char p[0x9C]; float v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oCC_float { char p[0xCC]; float v; };
+struct oF8_float { char p[0xF8]; float v; };
+
 
 int pcarExec(int a4, int a5, int a6)
 {
-    int stk[11];
+    int stk[10];
 
     register int R1;
     register int R2;
@@ -54,11 +72,11 @@ int pcarExec(int a4, int a5, int a6)
     v0_3 = a4;
     v0_1 = a5;
     v0_2 = a6;
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)((0x98 + v0_3)); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)((0x98 + v0_3)); }
     technicalCheck(v0_3, v0_1, v0_2);
-    v0_4 = *(int *)((v0_3 + 0x84));
+    v0_4 = (((struct o84_int *)(v0_3))->v);
     calcCheck(v0_3);
-    v0_5 = *(int *)((v0_3 + 0x84));
+    v0_5 = (((struct o84_int *)(v0_3))->v);
     v0_6 = ((v0_4 ^ v0_5));
     v0_0 = (v0_3);
     if (((v0_4 ^ v0_5) == 0)) goto L_C0465E6;
@@ -70,40 +88,40 @@ int pcarExec(int a4, int a5, int a6)
     return v0_4;
     L_C0465E6:;
     pcarDrive(v0_0, v0_1, v0_2, R7);
-    v0_3 = *(int *)((v0_0 + 0x84));
+    v0_3 = (((struct o84_int *)(v0_0))->v);
     v0_4 = (v0_3);
     if (((v0_3 & 8) == 0)) goto L_C046622;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + v0_0)) = *(struct mv3 *)((v0_0 + 0x14)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + v0_0)) = *(struct mv3 *)((v0_0 + 0x20)); }
     w0_0 = nlInnerProduct((v0_0 + 0x5C), (v0_0 + 0x44));
-    *(float *)((v0_0 + 0x100)) = w0_0;
+    (((struct o100_float *)(v0_0))->v) = w0_0;
     F15 = (w0_0);
     L_C046622:;
     v0_6 = (0xC078BC0);
-    if (!((((*(int *)((v0_0 + 0x84))) & 4) != 0))) goto L_C0467A6;
-    *(float *)((v0_0 + 0x9C)) = ((*(float *)((v0_0 + 0x9C))) - 0.073499985f);
-    if (((int)(*(int *)((v0_0 + 0x110))) <= 0)) goto L_C04666E;
-    *(unsigned int *)((v0_0 + 0x110)) = ((*(int *)((v0_0 + 0x110))) - 1);
-    if ((((*(int *)((v0_0 + 0x84))) & 32) != 0)) goto L_C046668;
-    if ((!(9.99999975e-06f > (*(float *)((v0_0 + 0x60)))))) goto L_C046668;
+    if (!(((((((struct o84_int *)(v0_0))->v)) & 4) != 0))) goto L_C0467A6;
+    (((struct o9C_float *)(v0_0))->v) = (((((struct o9C_float *)(v0_0))->v)) - 0.073499985f);
+    if (((int)((((struct o110_int *)(v0_0))->v)) <= 0)) goto L_C04666E;
+    (((struct o110_uint *)(v0_0))->v) = (((((struct o110_int *)(v0_0))->v)) - 1);
+    if (((((((struct o84_int *)(v0_0))->v)) & 32) != 0)) goto L_C046668;
+    if ((!(9.99999975e-06f > ((((struct o60_float *)(v0_0))->v))))) goto L_C046668;
     carSteering(v0_0);
     goto L_C046668;
     L_C0467A6:;
     nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((v0_0 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((v0_0 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((v0_0 + 0xA6)))));
-    nlCalcVector((0x98 + v0_0), ((int)stk + 4));
-    *(float *)((v0_0 + 0xCC)) = (*(float *)(((int)stk + 12)));
+    nlRotateAZ((-(unsigned short)((((struct oA8_short *)(v0_0))->v))));
+    nlRotateAX((-(unsigned short)((((struct oA4_short *)(v0_0))->v))));
+    nlRotateAY((-(unsigned short)((((struct oA6_short *)(v0_0))->v))));
+    nlCalcVector((0x98 + v0_0), ((int)stk + 0));
+    (((struct oCC_float *)(v0_0))->v) = (*(float *)(((int)stk + 8)));
     nlPopMatrix(0x1);
     carEntry(v0_0);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x14)) = *(struct mv3 *)((0x8C + v0_0)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x20)) = *(struct mv3 *)((0x98 + v0_0)); }
-    nlScaleVector(((int)stk + 4), (v0_0 + 0x44), ((*(float *)((v0_0 + 0x100))) - F15));
-    nlAddVector((v0_0 + 0x5C), ((int)stk + 4));
+    nlScaleVector(((int)stk + 0), (v0_0 + 0x44), (((((struct o100_float *)(v0_0))->v)) - F15));
+    nlAddVector((v0_0 + 0x5C), ((int)stk + 0));
     nlScaleVector((v0_0 + 0x5C), (v0_0 + 0x5C), 0.996999979f);
-    GetRotVec4Ang((v0_0 + 0x44), (unsigned short)(*(short *)((v0_0 + 0xA4))), (unsigned short)(*(short *)((v0_0 + 0xA6))), (unsigned short)(*(short *)((v0_0 + 0xA8))));
-    *(unsigned int *)((v0_0 + 0x68)) = 0x0;
+    GetRotVec4Ang((v0_0 + 0x44), (unsigned short)((((struct oA4_short *)(v0_0))->v)), (unsigned short)((((struct oA6_short *)(v0_0))->v)), (unsigned short)((((struct oA8_short *)(v0_0))->v)));
+    (((struct o68_uint *)(v0_0))->v) = 0x0;
     v0_4 = (0x68);
     goto L_C046850;
     L_C046668:;
@@ -117,26 +135,26 @@ int pcarExec(int a4, int a5, int a6)
     v0_3 = (v0_2);
     if ((v0_1 == -1)) goto L_C046740;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + v0_0)) = *(struct mv3 *)((v0_3 + 0xC)); }
-    *(float *)((v0_0 + 0x104)) = (*(float *)((v0_3 + 0x18)));
-    if (((*(int *)((v0_0 + 0x78))) != 10)) goto L_C04670E;
+    (((struct o104_float *)(v0_0))->v) = ((((struct o18_float *)(v0_3))->v));
+    if ((((((struct o78_int *)(v0_0))->v)) != 10)) goto L_C04670E;
     v0_3 = (v0_0);
     F4 = (36.6999969f);
     carMultiCollision(v0_3, F4);
     L_C04670E:;
-    if ((!((*(float *)((v0_0 + 0x104))) > (*(float *)((v0_0 + 0x90)))))) goto L_C046760;
-    *(float *)((v0_0 + 0x90)) = (*(float *)((v0_0 + 0x104)));
+    if ((!(((((struct o104_float *)(v0_0))->v)) > ((((struct o90_float *)(v0_0))->v))))) goto L_C046760;
+    (((struct o90_float *)(v0_0))->v) = ((((struct o104_float *)(v0_0))->v));
     carColliReflection(v0_0);
-    *(unsigned int *)((v0_0 + 0x110)) = (int)((float)(*(int *)((v0_0 + 0x110))) + 5.0f);
+    (((struct o110_uint *)(v0_0))->v) = (int)((float)((((struct o110_int *)(v0_0))->v)) + 5.0f);
     L_C046760:;
     v0_4 = (0x110);
     v0_3 = (0xA);
-    if (((int)(*(int *)((v0_0 + 0x110))) <= (int)0xA)) goto L_C04676C;
+    if (((int)((((struct o110_int *)(v0_0))->v)) <= (int)0xA)) goto L_C04676C;
     *(unsigned int *)((v0_0 + v0_4)) = v0_3;
     L_C04676C:;
-    nlSubVector3op((((int)stk + 4) + 0xC), (0x98 + v0_0), (((int)stk + 4) + 0xC));
-    *(float *)((v0_0 + 0xF8)) = ((*(float *)((v0_0 + 0xF8))) - ((*(float *)(((((int)stk + 4) + 0x10) + 0x0))) * (1.0f + 1.0f)));
-    *(float *)((v0_0 + 0xF8)) = ((*(float *)((v0_0 + 0xF8))) * 0.849999964f);
-    carBalance(v0_0, (((int)stk + 4) + 0xC));
+    nlSubVector3op((((int)stk + 0) + 0xC), (0x98 + v0_0), (((int)stk + 0) + 0xC));
+    (((struct oF8_float *)(v0_0))->v) = (((((struct oF8_float *)(v0_0))->v)) - (((((struct o10_float *)(((int)stk + 0)))->v)) * (1.0f + 1.0f)));
+    (((struct oF8_float *)(v0_0))->v) = (((((struct oF8_float *)(v0_0))->v)) * 0.849999964f);
+    carBalance(v0_0, (((int)stk + 0) + 0xC));
     goto L_C0467A6;
     L_C046740:;
     v0_1 = (dropOutCheck(v0_0)) == 0;

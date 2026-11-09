@@ -41,6 +41,9 @@ int nlRenderTextureEnd(void);
 int windowNameSelect(void);
 int Exec_DCmini_Game9(int a4);
 int camGetOffShot3(void);
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int nlPow(float f4, float f5)
 {
@@ -62,16 +65,16 @@ int bootDevCommand(void)
     int t4;
     int t5;
 
-    t0 = *(int *)0xAC00F728;
+    t0 = (((struct o0_int *)0xAC00F728)->v);
     *(unsigned char *)((t0 + 0x3C)) = 0xFFFFFFC0;
-    t1 = *(int *)0xAC00F730;
+    t1 = (((struct o8_int *)0xAC00F728)->v);
     *(unsigned char *)((t1 + 0xC)) = 0xFFFFFF80;
-    t2 = *(int *)0xAC00F730;
+    t2 = (((struct o8_int *)0xAC00F728)->v);
     *(unsigned char *)((t2 + 0x24)) = 0xFFFFFF80;
-    t3 = *(int *)0xAC00F728;
+    t3 = (((struct o0_int *)0xAC00F728)->v);
     *(unsigned char *)((t3 + 0x14)) = 0x43;
     t4 = ((int (*)(int, int))(0xC0118F8))(0xFFFFFF80, 0xAC00F730);
-    t5 = *(int *)0xAC00F728;
+    t5 = (((struct o0_int *)0xAC00F728)->v);
     *(unsigned char *)((t5 + 0x3C)) = 0x0;
     return 0x3C;
 }

@@ -187,14 +187,19 @@ int nlRotateAxe(int a4, int a5)
     float u6;
     int t7;
     int stk[20] = {0};
+    int R1068;
+    int R1072;
 
-    *(unsigned int *)(((int)stk + 72)) = a4;
-    *(unsigned int *)(((int)stk + 68)) = a5;
+    R1068 = *(int *)((int)stk + 68);
+    R1072 = *(int *)((int)stk + 72);
+
+    R1072 = a4;
+    R1068 = a5;
     t0 = nlCos(a5);
     *(float *)(((int)stk + 64)) = t0;
-    t1 = *(int *)(((int)stk + 68));
+    t1 = R1068;
     t2 = nlSin(t1);
-    t3 = *(int *)(((int)stk + 72));
+    t3 = R1072;
     u4 = *(float *)((t3 + 0x0));
     u5 = *(float *)((t3 + 0x4));
     u6 = *(float *)((t3 + 0x8));

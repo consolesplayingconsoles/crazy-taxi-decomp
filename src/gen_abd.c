@@ -11,6 +11,10 @@ int ADXSJD_GetLpStartOfst(int);
 int ADXSJD_GetLpEndPos(int);
 int ADXSJD_GetLpEndOfst(int);
 void adxt_trap_entry(int a4);
+struct o4C_int { char p[0x4C]; int v; };
+struct o4C_uint { char p[0x4C]; unsigned int v; };
+struct o50_int { char p[0x50]; int v; };
+
 
 void adxt_trap_entry(int a4)
 {
@@ -31,8 +35,8 @@ void adxt_trap_entry(int a4)
     t3 = ADXSJD_GetLpStartOfst(t1);
     *(unsigned int *)(((int)stk + 8)) = (ADXSJD_GetLpEndPos(t1));
     ADXSJD_GetLpEndOfst(t1);
-    t9 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x18)))))(t0, 0x1, (*(int *)((a4 + 0x50))), (((int)stk + 8) + 0x4));
-    if ((int)(*(int *)(((int)stk + 16))) < (int)(*(int *)((a4 + 0x50)))) {
+    t9 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x18)))))(t0, 0x1, ((((struct o50_int *)(a4))->v)), (((int)stk + 8) + 0x4));
+    if ((int)(*(int *)(((int)stk + 16))) < (int)((((struct o50_int *)(a4))->v))) {
         ADXERR_CallErrFunc(0xC176558);
     }
     t19 = ((int (*)(int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x20)))))(t0, 0x0, (((int)stk + 8) + 0x4));
@@ -45,5 +49,5 @@ void adxt_trap_entry(int a4)
         t31 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x18)))))(t0, 0x1, t3, (((int)stk + 8) + 0x4));
         t34 = ((int (*)(int, int, int))((*(int *)(((*(int *)((t0 + 0x0))) + 0x20)))))(t0, 0x0, (((int)stk + 8) + 0x4));
     }
-    *(unsigned int *)((a4 + 0x4C)) = ((*(int *)((a4 + 0x4C))) + 0x1);
+    (((struct o4C_uint *)(a4))->v) = (((((struct o4C_int *)(a4))->v)) + 0x1);
 }

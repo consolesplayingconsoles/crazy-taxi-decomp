@@ -7,13 +7,16 @@ void kmiWaitAccurate(float f4)
 {
     float u0;
     int stk[2] = {0};
+    int R1004;
 
-    *(unsigned int *)(((int)stk + 4)) = 0x0;
+    R1004 = *(int *)((int)stk + 4);
+
+    R1004 = 0x0;
     u0 = *(float *)0xC158840;
-    if ((unsigned int)(*(int *)(((int)stk + 4))) < (unsigned int)(int)(f4 * u0)) {
+    if ((unsigned int)(R1004) < (unsigned int)(int)(f4 * u0)) {
         for (;;) {
-            *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x1);
-            if ((unsigned int)(*(int *)(((int)stk + 4))) >= (unsigned int)(int)(f4 * u0)) {
+            R1004 = ((R1004) + 0x1);
+            if ((unsigned int)(R1004) >= (unsigned int)(int)(f4 * u0)) {
                 break;
             }
         }

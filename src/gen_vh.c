@@ -8,6 +8,12 @@ int nlPushUnitMatrix(void);
 int nlRotateAX(int);
 int nlRotateAY(int);
 int setObjPlace(int a4, int a5);
+struct o18_float { char p[0x18]; float v; };
+struct o54_uint { char p[0x54]; unsigned int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o6C_uint { char p[0x6C]; unsigned int v; };
+
 
 int setObjPlace(int a4, int a5)
 {
@@ -20,9 +26,6 @@ int setObjPlace(int a4, int a5)
     int t39;
     int t44;
     int t46;
-    int t54;
-    int t52;
-    int t49;
 
     t0 = *(short *)((a4 + 0x10));
     t55 = t0;
@@ -30,7 +33,7 @@ int setObjPlace(int a4, int a5)
     } else {
         { struct mv3 { int w[3]; }; *(struct mv3 *)(a5) = *(struct mv3 *)(a4); }
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a5 + 0xC)) = *(struct mv3 *)(0xC0965F0); }
-        *(float *)((a5 + 0x18)) = 0.0f;
+        (((struct o18_float *)(a5))->v) = 0.0f;
         nlPushUnitMatrix();
         nlRotateAY((*(int *)((a4 + 0xC))));
         t4 = *(short *)((a4 + 0x10));
@@ -42,37 +45,34 @@ int setObjPlace(int a4, int a5)
         { struct mv3 { int w[3]; }; *(struct mv3 *)((a5 + 0x58)) = *(struct mv3 *)(0xC0965F0); }
         t9 = *(short *)((a4 + 0x10));
         if ((t9 != 17) && ((t9 != 20) && ((t9 != 19) && ((t9 != 7) && (t9 != 16))))) {
-            *(unsigned int *)((a5 + 0x68)) = 0x1;
+            (((struct o68_uint *)(a5))->v) = 0x1;
         } else {
-            *(unsigned int *)((a5 + 0x68)) = 0x0;
+            (((struct o68_uint *)(a5))->v) = 0x0;
         }
         t12 = *(short *)((a4 + 0x10));
-        *(unsigned int *)(((0x54 + a5) + 0x0)) = (((((t12 << 2) << 1) + t12) << 2) + 0xC0EDBC0);
-        *(unsigned int *)(((0x6C + a5) + 0x0)) = (*(short *)((a4 + 0x12)));
-        *(unsigned int *)(((0x64 + a5) + 0x0)) = (*(int *)(((*(int *)((0xC0EE1B4 + ((*(short *)((a4 + 0x10))) << 2)))) + ((*(short *)((a4 + 0x12))) << 2))));
+        (((struct o54_uint *)(a5))->v) = (((((t12 << 2) << 1) + t12) << 2) + 0xC0EDBC0);
+        (((struct o6C_uint *)(a5))->v) = (*(short *)((a4 + 0x12)));
+        (((struct o64_uint *)(a5))->v) = (*(int *)(((*(int *)((0xC0EE1B4 + ((*(short *)((a4 + 0x10))) << 2)))) + ((*(short *)((a4 + 0x12))) << 2))));
         t18 = *(short *)((a4 + 0x10));
         if ((t18 != 7) && ((t18 != 8) && ((t18 != 10) && (t18 != 14)))) {
             t39 = *(short *)((a4 + 0x10));
             if ((t39 != 11) && ((t39 != 12) && ((t39 != 15) && (t39 != 16)))) {
                 t44 = *(short *)((a4 + 0x10));
                 if (t44 == 19) {
-                    t49 = (SetColliObj(a5, 0x13));
+                    t55 = (SetColliObj(a5, 0x13));
                 } else {
                     t46 = 0x10;
                     if (t44 == 20) {
                         t46 = 0x14;
                     }
-                    t49 = (SetColliObj(a5, t46));
+                    t55 = (SetColliObj(a5, t46));
                 }
-                t52 = t49;
             } else {
-                t52 = (SetColliObj(a5, 0x12));
+                t55 = (SetColliObj(a5, 0x12));
             }
-            t54 = t52;
         } else {
-            t54 = (SetColliObj(a5, 0x11));
+            t55 = (SetColliObj(a5, 0x11));
         }
-        t55 = t54;
     }
     return t55;
 }

@@ -6,6 +6,10 @@ int ndPuru2Stop(int);
 int pdVibStart(int, int, int);
 int syCacheOCWB(int, int);
 int nd_Exec_Puru2(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
 {
@@ -20,7 +24,6 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     int t145;
     int t148;
     int t155;
-    int stk[10];
 
     int R0;
     int R1;
@@ -43,24 +46,23 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     R6 = a6;
     R7 = a7;
     L_C05F07A:;
-    *(unsigned char *)(((int)stk + 4)) = (*(signed char *)0xC0D2B5A);
     R11 = (0xC2A9C8C);
     R12 = (0xC2A9C90);
     R13 = (0xC2A9C60);
     R14 = (R4);
-    R4 = ((*(int *)0xC2A9C90));
+    R4 = (((((struct o4_int *)0xC2A9C8C)->v)));
     R8 = (0xC131A00);
     R9 = (0xC2A9C64);
-    if (((*(int *)0xC1EE234) != 1)) goto L_C05F0B0;
+    if ((((((struct o0_int *)0xC1EE234)->v)) != 1)) goto L_C05F0B0;
     goto L_C05F0A8;
     L_C05F0A8:;
-    if (((*(int *)0xC1EE238) == 1)) goto L_C05F0DA;
+    if ((((((struct o4_int *)0xC1EE234)->v)) == 1)) goto L_C05F0DA;
     goto L_C05F0B0;
     L_C05F0B0:;
-    if (((*(int *)0xC1EE234) != 3)) goto L_C05F0C0;
+    if ((((((struct o0_int *)0xC1EE234)->v)) != 3)) goto L_C05F0C0;
     goto L_C05F0B8;
     L_C05F0B8:;
-    if (((*(int *)0xC1EE238) == 1)) goto L_C05F0DA;
+    if ((((((struct o4_int *)0xC1EE234)->v)) == 1)) goto L_C05F0DA;
     goto L_C05F0C0;
     L_C05F0C0:;
     R0 = (R4);
@@ -93,7 +95,7 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     if (((*(int *)0xC2A11B0) == 0)) goto L_C05F11C;
     goto L_C05F0FC;
     L_C05F0FC:;
-    t28 = *(int *)0xC2A9C8C;
+    t28 = (((struct o0_int *)0xC2A9C8C)->v);
     R0 = (t28);
     if (((t28 & 1) != 0)) goto L_C05F11C;
     goto L_C05F104;
@@ -134,7 +136,7 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     R10 = (0xC151636);
     R12 = (0xC131A74);
     R4 = (0xC2A9C68);
-    R5 = ((*(int *)0xC2A9C98));
+    R5 = (((((struct oC_int *)0xC2A9C8C)->v)));
     R6 = (t45);
     if (((0x10000000 & t45) == 0)) goto L_C05F18C;
     goto L_C05F13E;
@@ -332,12 +334,12 @@ int nd_Exec_Puru2(int a4, int a5, int a6, int a7)
     R0 = (t143);
     goto L_C05F35C;
     L_C05F362:;
-    t145 = *(int *)0xC1EE234;
+    t145 = (((struct o0_int *)0xC1EE234)->v);
     R0 = (t145);
     if ((t145 != 1)) goto L_C05F396;
     goto L_C05F36A;
     L_C05F36A:;
-    t148 = *(int *)0xC1EE238;
+    t148 = (((struct o4_int *)0xC1EE234)->v);
     R0 = (t148);
     if ((t148 != 1)) goto L_C05F396;
     goto L_C05F372;

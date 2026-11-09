@@ -9,6 +9,12 @@ int nlFogDensityF(float);
 int nlFogTableColor(int);
 int pdExecPeripheralServer(void);
 void TaxiBlankInterrupt(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 void TaxiBlankInterrupt(int a4, int a5, int a6, int a7)
 {
@@ -25,15 +31,15 @@ void TaxiBlankInterrupt(int a4, int a5, int a6, int a7)
     pdExecPeripheralServer();
     Voice_Execute();
     ADXT_ExecServer();
-    t8 = *(int *)0xC0E4E40;
-    if ((*(int *)0xC0E4E44) != t8) {
+    t8 = (((struct o0_int *)0xC0E4E40)->v);
+    if (((((struct o4_int *)0xC0E4E40)->v)) != t8) {
         nlFogTableColor(t8);
-        *(unsigned int *)0xC0E4E44 = (*(int *)0xC0E4E40);
+        (((struct o4_uint *)0xC0E4E40)->v) = ((((struct o0_int *)0xC0E4E40)->v));
     }
-    u16 = *(float *)0xC0E4E48;
-    if ((*(float *)0xC0E4E4C) != u16) {
+    u16 = (((struct o8_float *)0xC0E4E40)->v);
+    if (((((struct oC_float *)0xC0E4E40)->v)) != u16) {
         nlFogDensityF(u16);
-        *(float *)0xC0E4E4C = (*(float *)0xC0E4E48);
+        (((struct oC_float *)0xC0E4E40)->v) = ((((struct o8_float *)0xC0E4E40)->v));
     }
     if ((*(int *)0xC1EE228) != 2) {
         *(unsigned int *)0xC1EE33C = ((*(int *)0xC1EE33C) + 0x1);

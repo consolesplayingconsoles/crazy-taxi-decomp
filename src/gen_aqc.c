@@ -20,7 +20,7 @@ int PutCollisionPoly(int a4, int a5, int a6, int a7, float f4, float f5, float f
     float u11;
     float u12;
     int t36;
-    int stk[27];
+    int stk[20];
 
     int R0;
     int R1;
@@ -70,8 +70,8 @@ int PutCollisionPoly(int a4, int a5, int a6, int a7, float f4, float f5, float f
     u10 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0x4));
     u11 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0x8));
     u12 = *(float *)((((t9 * 0x1C) + 0xC08F748) + 0xC));
-    nlScaleVector(((int)stk + 28), R4, 0.00999999978f);
-    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 28) + 0xC)) = *(struct mv3 *)(0xC0965F0); }
+    nlScaleVector(((int)stk + 0), R4, 0.00999999978f);
+    { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 0) + 0xC)) = *(struct mv3 *)(0xC0965F0); }
     R10 = (0xC078A50);
     R11 = ((((0xFF000000 | ((unsigned char)(int)(u10 * 255.0f) << 16)) | ((unsigned char)(int)(u11 * 255.0f) << 8)) | (unsigned char)(int)(u12 * 255.0f)));
     R12 = (0x0);
@@ -87,15 +87,15 @@ int PutCollisionPoly(int a4, int a5, int a6, int a7, float f4, float f5, float f
     L_C035432:;
     nlTriPutSetClipping(R13, (*(float *)(((R14 + 0x14) + 0x0))), (*(float *)(((R14 + 0x14) + 0x4))), (*(float *)(((R14 + 0x14) + 0x8))), (*(float *)((R14 + 0x10))));
     nlObjPutUseViewMatrix(R13);
-    nlScaleVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0xC), (1.0f / (float)(*(int *)((R14 + 0x48)))));
-    nlScaleVector((((int)stk + 28) + 0x18), R14, ((*(float *)((R14 + 0x10))) * 0.099999994f));
-    nlAddVector((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC));
-    return (nlSingleLineUseViewMatrix((((int)stk + 28) + 0x18), (((int)stk + 28) + 0xC), R11));
+    nlScaleVector((((int)stk + 0) + 0xC), (((int)stk + 0) + 0xC), (1.0f / (float)(*(int *)((R14 + 0x48)))));
+    nlScaleVector((((int)stk + 0) + 0x18), R14, ((*(float *)((R14 + 0x10))) * 0.099999994f));
+    nlAddVector((((int)stk + 0) + 0x18), (((int)stk + 0) + 0xC));
+    return (nlSingleLineUseViewMatrix((((int)stk + 0) + 0x18), (((int)stk + 0) + 0xC), R11));
     L_C0353DC:;
     t36 = *(int *)(((R12 << 2) + 0xC0ED910));
-    nlAddVector3op((((int)stk + 28) + 0x18), ((int)stk + 28), ((signed char)(((t36 << 1) + t36) << 2) + (R14 + 0x14)));
-    nlAddVector((((int)stk + 28) + 0xC), (((int)stk + 28) + 0x18));
-    nlTriPutSetPoint(R13, R12, (*(float *)(((int)stk + 52))), (*(float *)(((int)stk + 56))), (*(float *)(((int)stk + 60))), (*(float *)((R14 + 0x0))), (*(float *)((R14 + 0x4))), (*(float *)((R14 + 0x8))), F15, F15);
+    nlAddVector3op((((int)stk + 0) + 0x18), ((int)stk + 0), ((signed char)(((t36 << 1) + t36) << 2) + (R14 + 0x14)));
+    nlAddVector((((int)stk + 0) + 0xC), (((int)stk + 0) + 0x18));
+    nlTriPutSetPoint(R13, R12, (*(float *)(((int)stk + 24))), (*(float *)(((int)stk + 28))), (*(float *)(((int)stk + 32))), (*(float *)((R14 + 0x0))), (*(float *)((R14 + 0x4))), (*(float *)((R14 + 0x8))), F15, F15);
     R12 = ((R12 + 0x1));
     goto L_C03542A;
 }

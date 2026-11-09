@@ -19,8 +19,8 @@ int kmiAllocSysConfig(int);
 int kmiChkActiveListType(int, int, int, int, int);
 int kmiGetDisplayData(int, int, int);
 int kmiGetNativeRegOBPSize(int);
-int kmiGetPackOBPParam(int, int, int, int, int, int, int);
-int kmiSetTAEnvironment(int, int, int, int, int, int);
+int kmiGetPackOBPParam(int, int, int, int, int, int);
+int kmiSetTAEnvironment(int, int, int, int, int);
 int kmiTAallocEx(int, int, int);
 int nlAddVector(int, int);
 int nlFastSinCos(int, int, int);
@@ -123,7 +123,7 @@ int kmCreateTABuffer(int a4, int a5)
         t23 = *(int *)((((((int)stk + 16) + 0x4) + 0x8) + 0x0));
         t24 = *(int *)((((((int)stk + 16) + 0x4) + 0x4) + 0x0));
         t25 = *(int *)(((((int)stk + 16) + 0x4) + 0x0));
-        t26 = kmiGetPackOBPParam(t25, t24, t23, t22, 0x0, 0x1, 0x0);
+        t26 = kmiGetPackOBPParam(t25, t24, t23, t22, 0x0, 0x1);
         kmiGetNativeRegOBPSize(t26);
         t28 = *(int *)0xC2B8C98;
         *(unsigned int *)0xC2B8C98 = ((unsigned int)t28 >> 1);
@@ -145,7 +145,7 @@ int kmCreateTABuffer(int a4, int a5)
             t39 = *(int *)0xC2EA6F4;
             t40 = *(int *)0xC2EA6F0;
             t41 = *(int *)0xC2EA6EC;
-            kmiSetTAEnvironment(((unsigned int)t41 >> 7), ((unsigned int)t40 >> 7), ((unsigned int)t39 >> 7), ((unsigned int)t38 >> 7), (t26 & (~t37)), 0x0);
+            kmiSetTAEnvironment(((unsigned int)t41 >> 7), ((unsigned int)t40 >> 7), ((unsigned int)t39 >> 7), ((unsigned int)t38 >> 7), (t26 & (~t37)));
             *(unsigned int *)0xC2EA88C = 0x1;
         }
         t49 = t35;

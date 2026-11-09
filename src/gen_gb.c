@@ -17,6 +17,15 @@ void InitColliWall(int a4)
     int t33;
     int t34;
     int stk[15];
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
+
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
 
     t0 = *(int *)0xC1EE20C;
     if (t0 != -1) {
@@ -45,27 +54,27 @@ void InitColliWall(int a4)
     } else {
         t20 = 0x0;
         for (;;) {
-            *(unsigned int *)(((int)stk + 12)) = (0xC27047C + (short)(((((t20 << 2) << 1) + t20) << 2) << 1));
+            R1012 = (0xC27047C + (short)(((((t20 << 2) << 1) + t20) << 2) << 1));
             t21 = 0x0;
             for (;;) {
-                *(unsigned int *)(((int)stk + 16)) = (signed char)(((t21 << 1) + t21) << 2);
-                t22 = *(int *)(((int)stk + 12));
-                *(unsigned int *)(((int)stk + 8)) = ((signed char)(((t21 << 1) + t21) << 2) + t22);
-                t23 = *(int *)(((int)stk + 16));
-                *(unsigned int *)(((int)stk + 4)) = (t23 + ((t20 * 0x78) + 0xC26ED00));
-                nlGetAverageVector((*(int *)(((int)stk + 4))), ((t23 + ((t20 * 0x78) + 0xC26ED00)) + 0x30), ((signed char)(((t21 << 1) + t21) << 2) + t22), 0.5f, 0.5f);
-                nlAddVector((*(int *)(((int)stk + 8))), (((t20 * 0x78) + 0xC26ED00) + 0x60));
+                R1016 = (signed char)(((t21 << 1) + t21) << 2);
+                t22 = R1012;
+                R1008 = ((signed char)(((t21 << 1) + t21) << 2) + t22);
+                t23 = R1016;
+                R1004 = (t23 + ((t20 * 0x78) + 0xC26ED00));
+                nlGetAverageVector((R1004), ((t23 + ((t20 * 0x78) + 0xC26ED00)) + 0x30), ((signed char)(((t21 << 1) + t21) << 2) + t22), 0.5f, 0.5f);
+                nlAddVector((R1008), (((t20 * 0x78) + 0xC26ED00) + 0x60));
                 t21 = (t21 + 0x1);
                 if ((int)t21 >= (int)0x4) {
                     break;
                 }
             }
-            *(unsigned int *)(((int)stk + 8)) = ((short)((short)t20 * (short)0x1C) + 0xC2708B4);
-            *(unsigned int *)(((int)stk + 4)) = ((short)(((((t20 << 2) << 1) + t20) << 2) << 1) + 0xC27047C);
+            R1008 = ((short)((short)t20 * (short)0x1C) + 0xC2708B4);
+            R1004 = ((short)(((((t20 << 2) << 1) + t20) << 2) << 1) + 0xC27047C);
             t28 = 0x0;
             for (;;) {
-                t30 = *(int *)(((int)stk + 4));
-                nlGetAverageVector(((signed char)((((t28 << 1) + t28) << 2) << 1) + t30), (((signed char)((((t28 << 1) + t28) << 2) << 1) + t30) + 0xC), ((*(int *)(((int)stk + 8))) + (signed char)(((t28 << 1) + t28) << 2)), 0.5f, 0.5f);
+                t30 = R1004;
+                nlGetAverageVector(((signed char)((((t28 << 1) + t28) << 2) << 1) + t30), (((signed char)((((t28 << 1) + t28) << 2) << 1) + t30) + 0xC), ((R1008) + (signed char)(((t28 << 1) + t28) << 2)), 0.5f, 0.5f);
                 t28 = (t28 + 0x1);
                 if ((int)t28 >= (int)0x2) {
                     break;

@@ -4,6 +4,9 @@
 float drvAccelDot(float, float);
 int psgEnterState3(int, int);
 void EndPsg_CrushReact(int a4, float f4, float f5);
+struct o40_int { char p[0x40]; int v; };
+struct o40_uint { char p[0x40]; unsigned int v; };
+
 
 void EndPsg_CrushReact(int a4, float f4, float f5)
 {
@@ -19,27 +22,27 @@ void EndPsg_CrushReact(int a4, float f4, float f5)
             if ((((*(int *)0xC1790EC) & 0x1F0000) == 0) && (t15 = *(int *)0xC1790EC, (t15 & 0x20000) == 0)) {
                 return;
             }
-            *(unsigned int *)((a4 + 0x40)) = 0xE;
-            psgEnterState3((a4 + 0x1C), (*(int *)((a4 + 0x40))));
+            (((struct o40_uint *)(a4))->v) = 0xE;
+            psgEnterState3((a4 + 0x1C), ((((struct o40_int *)(a4))->v)));
     return;
         }
         if (!(-6.0f > t8) && !(-4.0f > t8)) {
             return;
         }
-        *(unsigned int *)((a4 + 0x40)) = 0xD;
-        psgEnterState3((a4 + 0x1C), (*(int *)((a4 + 0x40))));
+        (((struct o40_uint *)(a4))->v) = 0xD;
+        psgEnterState3((a4 + 0x1C), ((((struct o40_int *)(a4))->v)));
     return;
     }
-    if ((*(int *)((a4 + 0x40))) != 12) {
-        if (((*(int *)((a4 + 0x40))) != 11) && (t26 = *(int *)0xC2AD010, t26 == 1)) {
-            *(unsigned int *)((a4 + 0x40)) = 0xB;
-            psgEnterState3((a4 + 0x1C), (*(int *)((a4 + 0x40))));
+    if (((((struct o40_int *)(a4))->v)) != 12) {
+        if ((((((struct o40_int *)(a4))->v)) != 11) && (t26 = *(int *)0xC2AD010, t26 == 1)) {
+            (((struct o40_uint *)(a4))->v) = 0xB;
+            psgEnterState3((a4 + 0x1C), ((((struct o40_int *)(a4))->v)));
     return;
         }
-        if ((*(int *)((a4 + 0x40))) == 11) {
+        if (((((struct o40_int *)(a4))->v)) == 11) {
             if ((*(int *)0xC2AD010) != 1) {
-                *(unsigned int *)((a4 + 0x40)) = 0xC;
-                psgEnterState3((a4 + 0x1C), (*(int *)((a4 + 0x40))));
+                (((struct o40_uint *)(a4))->v) = 0xC;
+                psgEnterState3((a4 + 0x1C), ((((struct o40_int *)(a4))->v)));
     return;
             }
             return;

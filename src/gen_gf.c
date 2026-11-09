@@ -20,7 +20,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     int t57;
     int t61;
     int t64;
-    int stk[11];
+    int stk[10];
 
     int R0;
     int R1;
@@ -41,8 +41,8 @@ int kmiFBallocSub(int a4, int a5, int a6)
     R5 = a5;
     R6 = a6;
     L_C156742:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
-    *(unsigned int *)(((int)stk + 8)) = 0x0;
+    *(unsigned int *)(((int)stk + 0)) = R5;
+    *(unsigned int *)(((int)stk + 4)) = 0x0;
     R0 = (R4);
     R11 = (R4);
     R9 = (0x0);
@@ -66,7 +66,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     L_C1567BE:;
     goto L_C1568A8;
     L_C1568A8:;
-    if (((*(int *)(((int)stk + 8))) != 2)) goto L_C1568B6;
+    if (((*(int *)(((int)stk + 4))) != 2)) goto L_C1568B6;
     goto L_C1568AE;
     L_C1568AE:;
     if ((R9 == 0)) goto L_C1568B6;
@@ -87,7 +87,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     if (((int)(*(int *)((R13 + 0x10))) < (int)R11)) goto L_C1568A2;
     goto L_C1567CC;
     L_C1567CC:;
-    t23 = *(int *)(((*(int *)(((int)stk + 4))) + 0x18));
+    t23 = *(int *)(((*(int *)(((int)stk + 0))) + 0x18));
     R14 = ((((*(int *)((R13 + 0xC))) + (*(int *)((R13 + 0x10)))) - R11));
     R4 = (t23);
     if (((t23 & R8) == 0)) goto L_C156880;
@@ -99,7 +99,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     if (((0x20 & R4) != 0)) goto L_C156880;
     goto L_C1567EA;
     L_C1567EA:;
-    *(volatile int *)(((int)stk + 4));
+    *(volatile int *)(((int)stk + 0));
     t30 = kmiFBFitBlock(R13, R11);
     R4 = (t30);
     if (((int)t30 < 0)) goto L_C156816;
@@ -119,7 +119,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     if (t39) goto L_C1567FE;
     goto L_C156816;
     L_C156816:;
-    *(unsigned int *)(((int)stk + 8)) = 0x2;
+    *(unsigned int *)(((int)stk + 4)) = 0x2;
     if ((R9 != 0)) goto L_C1568A2;
     goto L_C15681E;
     L_C15681E:;
@@ -153,7 +153,7 @@ int kmiFBallocSub(int a4, int a5, int a6)
     R0 = (R12);
     goto L_C1568B8;
     L_C156880:;
-    *(unsigned int *)(((int)stk + 8)) = R8;
+    *(unsigned int *)(((int)stk + 4)) = R8;
     t57 = *(int *)((R13 + 0xC));
     R12 = (t57);
     if (((int)t57 > (int)R14)) goto L_C1568A2;

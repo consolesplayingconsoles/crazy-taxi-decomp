@@ -21,6 +21,9 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     int t5;
     int t6;
     int stk[19];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     t0 = *(int *)(((a8 << 2) + 0xC1331B0));
     t2 = (int)((unsigned int)a5 % (unsigned int)((*(int *)((a4 + 0x0))) - 1));
@@ -45,73 +48,59 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x20);
+    R1004 = (t0 + 0x20);
     if ((*(int *)(((t0 + 0x20) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x20) + 0x0))));
     }
-    if (a8 != 1) {
-        if (a8 != 3) {
-            if (a8 != 12) {
-                if (a8 != 17) {
-                    if (a8 != 18) {
-                        if (a8 != 19) {
-                            if (a8 != 20) {
-                                if (a8 != 21) {
-                                    if (a8 != 23) {
-                                        if (a8 != 29) {
-                                            if (a8 != 34) {
-                                                if (a8 != 37) {
-                                                    if (a8 != 53) {
-                                                        if (a8 != 54) {
-                                                            if (a8 != 59) {
-                                                                if (a8 != 61) {
-                                                                } else {
-                                                                    nlObjPutUseViewMatrix(0xC49AFA8);
-                                                                }
-                                                            } else {
-                                                                nlObjPutUseViewMatrix(0xC56E778);
-                                                            }
-                                                        } else {
-                                                            nlObjPutUseViewMatrix(0xC4D35A8);
-                                                        }
-                                                    } else {
-                                                        nlObjPutUseViewMatrix(0xC55C470);
-                                                    }
-                                                } else {
-                                                    nlObjPutUseViewMatrix(0xC5027E8);
-                                                }
-                                            } else {
-                                                nlObjPutUseViewMatrix(0xC4EE460);
-                                            }
-                                        } else {
-                                            nlObjPutUseViewMatrix(0xC4D35A8);
-                                        }
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC4B15B8);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC4AAA40);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC4A87C8);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC4A68B0);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4A49E0);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4A2C40);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC5A0878);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC495C20);
-        }
-    } else {
+    switch (a8) {
+    case 1:
         nlObjPutUseViewMatrix(0xC567178);
+        break;
+    case 3:
+        nlObjPutUseViewMatrix(0xC495C20);
+        break;
+    case 12:
+        nlObjPutUseViewMatrix(0xC5A0878);
+        break;
+    case 17:
+        nlObjPutUseViewMatrix(0xC4A2C40);
+        break;
+    case 18:
+        nlObjPutUseViewMatrix(0xC4A49E0);
+        break;
+    case 19:
+        nlObjPutUseViewMatrix(0xC4A68B0);
+        break;
+    case 20:
+        nlObjPutUseViewMatrix(0xC4A87C8);
+        break;
+    case 21:
+        nlObjPutUseViewMatrix(0xC4AAA40);
+        break;
+    case 23:
+        nlObjPutUseViewMatrix(0xC4B15B8);
+        break;
+    case 29:
+        nlObjPutUseViewMatrix(0xC4D35A8);
+        break;
+    case 34:
+        nlObjPutUseViewMatrix(0xC4EE460);
+        break;
+    case 37:
+        nlObjPutUseViewMatrix(0xC5027E8);
+        break;
+    case 53:
+        nlObjPutUseViewMatrix(0xC55C470);
+        break;
+    case 54:
+        nlObjPutUseViewMatrix(0xC4D35A8);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56E778);
+        break;
+    case 61:
+        nlObjPutUseViewMatrix(0xC49AFA8);
+        break;
     }
     nlPushMatrix(0x0);
     nlTranslateV(0xC0D5430);
@@ -120,7 +109,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x4);
+    R1004 = (t0 + 0x4);
     if ((*(int *)(((t0 + 0x4) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x4) + 0x0))));
     }
@@ -377,45 +366,38 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x10);
+    R1004 = (t0 + 0x10);
     if ((*(int *)(((t0 + 0x10) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x10) + 0x0))));
     }
-    if (a8 != 1) {
-        if (a8 != 2) {
-            if (a8 != 4) {
-                if (a8 != 25) {
-                    if (a8 != 32) {
-                        if (a8 != 42) {
-                            if (a8 != 59) {
-                                if (a8 != 60) {
-                                    if (a8 != 62) {
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC58DAC0);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC57CEC8);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC56C0E8);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC51D520);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4E21F8);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4BB208);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC586508);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC574EA0);
-        }
-    } else {
+    switch (a8) {
+    case 1:
         nlObjPutUseViewMatrix(0xC5654D8);
+        break;
+    case 2:
+        nlObjPutUseViewMatrix(0xC574EA0);
+        break;
+    case 4:
+        nlObjPutUseViewMatrix(0xC586508);
+        break;
+    case 25:
+        nlObjPutUseViewMatrix(0xC4BB208);
+        break;
+    case 32:
+        nlObjPutUseViewMatrix(0xC4E21F8);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51D520);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56C0E8);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC57CEC8);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58DAC0);
+        break;
     }
     nlTranslateV(0xC0D5448);
     nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x48), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x48), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
@@ -423,21 +405,20 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0xC);
+    R1004 = (t0 + 0xC);
     if ((*(int *)(((t0 + 0xC) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0xC) + 0x0))));
     }
-    if (a8 != 4) {
-        if (a8 != 5) {
-            if (a8 != 62) {
-            } else {
-                nlObjPutUseViewMatrix(0xC58C9E8);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC594548);
-        }
-    } else {
+    switch (a8) {
+    case 4:
         nlObjPutUseViewMatrix(0xC585FA0);
+        break;
+    case 5:
+        nlObjPutUseViewMatrix(0xC594548);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58C9E8);
+        break;
     }
     nlTranslateV(0xC0D5454);
     nlGetAverageVector((((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC) + 0x30), (((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC) + 0x30), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
@@ -445,7 +426,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x8);
+    R1004 = (t0 + 0x8);
     if ((*(int *)(((t0 + 0x8) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x8) + 0x0))));
     }
@@ -466,45 +447,38 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x1C);
+    R1004 = (t0 + 0x1C);
     if ((*(int *)(((t0 + 0x1C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x1C) + 0x0))));
     }
-    if (a8 != 1) {
-        if (a8 != 2) {
-            if (a8 != 4) {
-                if (a8 != 25) {
-                    if (a8 != 32) {
-                        if (a8 != 42) {
-                            if (a8 != 59) {
-                                if (a8 != 60) {
-                                    if (a8 != 62) {
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC58FB18);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC57F2C8);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC56DCC0);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC51DA80);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4E2720);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC4BB7A8);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC587E40);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC5768B8);
-        }
-    } else {
+    switch (a8) {
+    case 1:
         nlObjPutUseViewMatrix(0xC566CB0);
+        break;
+    case 2:
+        nlObjPutUseViewMatrix(0xC5768B8);
+        break;
+    case 4:
+        nlObjPutUseViewMatrix(0xC587E40);
+        break;
+    case 25:
+        nlObjPutUseViewMatrix(0xC4BB7A8);
+        break;
+    case 32:
+        nlObjPutUseViewMatrix(0xC4E2720);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51DA80);
+        break;
+    case 59:
+        nlObjPutUseViewMatrix(0xC56DCC0);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC57F2C8);
+        break;
+    case 62:
+        nlObjPutUseViewMatrix(0xC58FB18);
+        break;
     }
     nlTranslateV(0xC0D546C);
     nlGetAverageVector((0x90 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x90 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
@@ -512,7 +486,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x18);
+    R1004 = (t0 + 0x18);
     if ((*(int *)(((t0 + 0x18) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x18) + 0x0))));
     }
@@ -522,7 +496,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x14);
+    R1004 = (t0 + 0x14);
     if ((*(int *)(((t0 + 0x14) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x14) + 0x0))));
     }
@@ -536,77 +510,62 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x3C);
+    R1004 = (t0 + 0x3C);
     if ((*(int *)(((t0 + 0x3C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x3C) + 0x0))));
     }
-    if (a8 != 2) {
-        if (a8 != 3) {
-            if (a8 != 14) {
-                if (a8 != 15) {
-                    if (a8 != 29) {
-                        if (a8 != 31) {
-                            if (a8 != 35) {
-                                if (a8 != 37) {
-                                    if (a8 != 39) {
-                                        if (a8 != 44) {
-                                            if (a8 != 45) {
-                                                if (a8 != 46) {
-                                                    if (a8 != 51) {
-                                                        if (a8 != 54) {
-                                                            if (a8 != 55) {
-                                                                if (a8 != 60) {
-                                                                    if (a8 != 61) {
-                                                                    } else {
-                                                                        nlObjPutUseViewMatrix(0xC499990);
-                                                                    }
-                                                                } else {
-                                                                    nlObjPutUseViewMatrix(0xC5836A0);
-                                                                }
-                                                            } else {
-                                                                nlObjPutUseViewMatrix(0xC4DCDE0);
-                                                            }
-                                                        } else {
-                                                            nlObjPutUseViewMatrix(0xC4D2010);
-                                                        }
-                                                    } else {
-                                                        nlObjPutUseViewMatrix(0xC550020);
-                                                    }
-                                                } else {
-                                                    nlObjPutUseViewMatrix(0xC533FA8);
-                                                }
-                                            } else {
-                                                nlObjPutUseViewMatrix(0xC52E6C8);
-                                            }
-                                        } else {
-                                            nlObjPutUseViewMatrix(0xC528C18);
-                                        }
-                                    } else {
-                                        nlObjPutUseViewMatrix(0xC50C828);
-                                    }
-                                } else {
-                                    nlObjPutUseViewMatrix(0xC501220);
-                                }
-                            } else {
-                                nlObjPutUseViewMatrix(0xC4F7C78);
-                            }
-                        } else {
-                            nlObjPutUseViewMatrix(0xC4DCDE0);
-                        }
-                    } else {
-                        nlObjPutUseViewMatrix(0xC4D2010);
-                    }
-                } else {
-                    nlObjPutUseViewMatrix(0xC5A8088);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC5A57E8);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4948E0);
-        }
-    } else {
+    switch (a8) {
+    case 2:
         nlObjPutUseViewMatrix(0xC5786B8);
+        break;
+    case 3:
+        nlObjPutUseViewMatrix(0xC4948E0);
+        break;
+    case 14:
+        nlObjPutUseViewMatrix(0xC5A57E8);
+        break;
+    case 15:
+        nlObjPutUseViewMatrix(0xC5A8088);
+        break;
+    case 29:
+        nlObjPutUseViewMatrix(0xC4D2010);
+        break;
+    case 31:
+        nlObjPutUseViewMatrix(0xC4DCDE0);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F7C78);
+        break;
+    case 37:
+        nlObjPutUseViewMatrix(0xC501220);
+        break;
+    case 39:
+        nlObjPutUseViewMatrix(0xC50C828);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC528C18);
+        break;
+    case 45:
+        nlObjPutUseViewMatrix(0xC52E6C8);
+        break;
+    case 46:
+        nlObjPutUseViewMatrix(0xC533FA8);
+        break;
+    case 51:
+        nlObjPutUseViewMatrix(0xC550020);
+        break;
+    case 54:
+        nlObjPutUseViewMatrix(0xC4D2010);
+        break;
+    case 55:
+        nlObjPutUseViewMatrix(0xC4DCDE0);
+        break;
+    case 60:
+        nlObjPutUseViewMatrix(0xC5836A0);
+        break;
+    case 61:
+        nlObjPutUseViewMatrix(0xC499990);
+        break;
     }
     if ((*(int *)0xC13EDA0) != 0) {
         nlGetTranslate(0xC13EDB0);
@@ -618,25 +577,23 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x2C);
+    R1004 = (t0 + 0x2C);
     if ((*(int *)(((t0 + 0x2C) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x2C) + 0x0))));
     }
-    if (a8 != 25) {
-        if (a8 != 35) {
-            if (a8 != 42) {
-                if (a8 != 44) {
-                } else {
-                    nlObjPutUseViewMatrix(0xC529218);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC51E450);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4F8138);
-        }
-    } else {
+    switch (a8) {
+    case 25:
         nlObjPutUseViewMatrix(0xC4BC440);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F8138);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51E450);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC529218);
+        break;
     }
     nlTranslateV(0xC0D5490);
     nlGetAverageVector((0xF0 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0xF0 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
@@ -644,7 +601,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x28);
+    R1004 = (t0 + 0x28);
     if ((*(int *)(((t0 + 0x28) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x28) + 0x0))));
     }
@@ -654,7 +611,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x24);
+    R1004 = (t0 + 0x24);
     if ((*(int *)(((t0 + 0x24) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x24) + 0x0))));
     }
@@ -665,25 +622,23 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x38);
+    R1004 = (t0 + 0x38);
     if ((*(int *)(((t0 + 0x38) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x38) + 0x0))));
     }
-    if (a8 != 25) {
-        if (a8 != 35) {
-            if (a8 != 42) {
-                if (a8 != 44) {
-                } else {
-                    nlObjPutUseViewMatrix(0xC5296D8);
-                }
-            } else {
-                nlObjPutUseViewMatrix(0xC51E990);
-            }
-        } else {
-            nlObjPutUseViewMatrix(0xC4F85A8);
-        }
-    } else {
+    switch (a8) {
+    case 25:
         nlObjPutUseViewMatrix(0xC4BC8C8);
+        break;
+    case 35:
+        nlObjPutUseViewMatrix(0xC4F85A8);
+        break;
+    case 42:
+        nlObjPutUseViewMatrix(0xC51E990);
+        break;
+    case 44:
+        nlObjPutUseViewMatrix(0xC5296D8);
+        break;
     }
     nlTranslateV(0xC0D54B4);
     nlGetAverageVector((0x138 + ((((((((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1)) << 1) + (((((t2 + 0x1) << 2) << 2) << 1) + (t2 + 0x1))) << 2) + t5) + 0xC)), (0x138 + ((((((((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1)) << 1) + (((((t4 + 0x1) << 2) << 2) << 1) + (t4 + 0x1))) << 2) + t6) + 0xC)), (((int)stk + 4) + 0x10), (1.0f - f4), f4);
@@ -691,7 +646,7 @@ int VSklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     nlUnitVector((((int)stk + 4) + 0x10));
     nlUnitVector((((int)stk + 4) + 0x4));
     vsklRotate((((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4));
-    *(unsigned int *)(((int)stk + 4)) = (t0 + 0x34);
+    R1004 = (t0 + 0x34);
     if ((*(int *)(((t0 + 0x34) + 0x0))) != 0) {
         nlObjPutUseViewMatrix((*(int *)(((t0 + 0x34) + 0x0))));
     }

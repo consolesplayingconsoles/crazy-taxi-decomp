@@ -15,7 +15,6 @@ int adxt_stat_playing(int a4)
     int t4;
     int t5;
     int t8;
-    int t14;
     int t11;
 
     t1 = ADXSJD_GetStat((*(int *)((a4 + 0x4))));
@@ -42,13 +41,12 @@ int adxt_stat_playing(int a4)
         } else {
             t11 = 0x0;
         }
-        t14 = t9;
+        t16 = t9;
         if (t11 == t3) {
             ADXRNA_SetTransSw((*(int *)((a4 + 0xC))), 0x0);
             *(unsigned char *)((a4 + 0x1)) = 0x4;
-            t14 = 0x4;
+            t16 = 0x4;
         }
-        t16 = t14;
     }
     return t16;
 }

@@ -4,10 +4,17 @@
 int Sound_Request(int, int);
 int ndPuru2Start(int, int, int);
 int carRumble(int a4, float f4);
+struct o118_float { char p[0x118]; float v; };
+struct o3B0_int { char p[0x3B0]; int v; };
+struct o3B0_uint { char p[0x3B0]; unsigned int v; };
+struct o3B4_int { char p[0x3B4]; int v; };
+struct o3B4_uint { char p[0x3B4]; unsigned int v; };
+struct o3B8_float { char p[0x3B8]; float v; };
+
 
 int carRumble(int a4, float f4)
 {
-    int stk[6];
+    int stk[5];
 
     register int R1;
     register int R2;
@@ -29,10 +36,10 @@ int carRumble(int a4, float f4)
     int R1008;
     int R1012;
     int R1016;
-    R1004 = *(int *)((int)stk + 4);
-    R1008 = *(int *)((int)stk + 8);
-    R1012 = *(int *)((int)stk + 12);
-    R1016 = *(int *)((int)stk + 16);
+    R1004 = *(int *)((int)stk + 0);
+    R1008 = *(int *)((int)stk + 4);
+    R1012 = *(int *)((int)stk + 8);
+    R1016 = *(int *)((int)stk + 12);
     v0_1 = a4;
     w0_0 = f4;
     v0_0 = R13;
@@ -59,7 +66,7 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     v0_1 = (0x1);
     L_C020704:;
-    v0_6 = *(int *)((v0_0 + 0x3B0));
+    v0_6 = (((struct o3B0_int *)(v0_0))->v);
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -76,7 +83,7 @@ int carRumble(int a4, float f4)
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
-    v0_6 = (int)(*(int *)((v0_0 + 0x3B4))) <= 0;
+    v0_6 = (int)((((struct o3B4_int *)(v0_0))->v)) <= 0;
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -96,22 +103,22 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     w0_0 = (0.199999988f);
     L_C020844:;
-    v0_1 = !(((*(float *)((v0_0 + 0x118))) - (*(float *)((v0_0 + 0x3B8)))) > w0_0);
+    v0_1 = !((((((struct o118_float *)(v0_0))->v)) - ((((struct o3B8_float *)(v0_0))->v))) > w0_0);
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
     if (v0_1) goto L_C020898;
-    *(unsigned int *)((v0_0 + 0x3B0)) = v0_3;
-    *(unsigned int *)((v0_0 + 0x3B4)) = v0_4;
+    (((struct o3B0_uint *)(v0_0))->v) = v0_3;
+    (((struct o3B4_uint *)(v0_0))->v) = v0_4;
     Sound_Request(0x108A9, 0x0);
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
     L_C020862:;
     v0_0 = *(signed char *)((R13 + 0x2C));
+    *(volatile int *)((int)stk + 0);
     *(volatile int *)((int)stk + 4);
     *(volatile int *)((int)stk + 8);
-    *(volatile int *)((int)stk + 12);
     return ndPuru2Start((unsigned char)v0_0, 0x100000, v0_3);
     L_C020898:;
     v0_1 = (*(signed char *)((R12 + 0x1C))) == 0;
@@ -120,13 +127,13 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     if (v0_1) goto L_C0208AC;
     L_C0208A0:;
-    *(unsigned int *)((v0_0 + 0x3B0)) = 0x4;
+    (((struct o3B0_uint *)(v0_0))->v) = 0x4;
     Sound_Request(0x102A9, 0x0);
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
     L_C0208AC:;
-    v0_1 = *(int *)((v0_0 + 0x3B4));
+    v0_1 = (((struct o3B4_int *)(v0_0))->v);
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -138,9 +145,9 @@ int carRumble(int a4, float f4)
     R1008 = R1008;
     R1004 = R1004;
     L_C0208CA:;
+    *(volatile int *)((int)stk + 0);
     *(volatile int *)((int)stk + 4);
     *(volatile int *)((int)stk + 8);
-    *(volatile int *)((int)stk + 12);
     return v0_2;
     L_C020840:;
     R1012 = R1012;
@@ -149,7 +156,7 @@ int carRumble(int a4, float f4)
     w0_0 = (0.799999952f);
     goto L_C020844;
     L_C0208C4:;
-    *(unsigned int *)((v0_0 + 0x3B0)) = 0x0;
+    (((struct o3B0_uint *)(v0_0))->v) = 0x0;
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -163,8 +170,8 @@ int carRumble(int a4, float f4)
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
-    *(unsigned int *)((v0_0 + 0x3B4)) = ((*(int *)((v0_0 + 0x3B4))) - 1);
-    v0_1 = (int)(*(int *)((v0_0 + 0x3B4))) > 0;
+    (((struct o3B4_uint *)(v0_0))->v) = (((((struct o3B4_int *)(v0_0))->v)) - 1);
+    v0_1 = (int)((((struct o3B4_int *)(v0_0))->v)) > 0;
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -222,7 +229,7 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     goto L_C0208CA;
     L_C0207E6:;
-    v0_1 = (int)(*(int *)((v0_0 + 0x3B4))) <= 0;
+    v0_1 = (int)((((struct o3B4_int *)(v0_0))->v)) <= 0;
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -247,8 +254,8 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     v0_1 = (0x40);
     if (v0_2) goto L_C020764;
-    *(unsigned int *)((v0_0 + 0x3B0)) = v0_3;
-    *(unsigned int *)((v0_0 + 0x3B4)) = v0_4;
+    (((struct o3B0_uint *)(v0_0))->v) = v0_3;
+    (((struct o3B4_uint *)(v0_0))->v) = v0_4;
     Sound_Request(0x108A9, 0x0);
     R1012 = R1012;
     R1008 = R1008;
@@ -260,7 +267,7 @@ int carRumble(int a4, float f4)
     R1008 = R1008;
     R1004 = R1004;
     if (v0_1) goto L_C0207B0;
-    *(unsigned int *)((v0_0 + 0x3B0)) = 0x4;
+    (((struct o3B0_uint *)(v0_0))->v) = 0x4;
     v0_0 = Sound_Request(0x102A9, 0x0);
     R1012 = R1012;
     R1008 = R1008;
@@ -274,8 +281,8 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     v0_1 = (R13);
     if (v0_2) goto L_C0207CE;
-    *(unsigned int *)((v0_0 + 0x3B4)) = 0x8;
-    *(float *)((v0_0 + 0x3B8)) = (*(float *)((v0_0 + 0x118)));
+    (((struct o3B4_uint *)(v0_0))->v) = 0x8;
+    (((struct o3B8_float *)(v0_0))->v) = ((((struct o118_float *)(v0_0))->v));
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;
@@ -294,8 +301,8 @@ int carRumble(int a4, float f4)
     R1004 = R1004;
     goto L_C0208CA;
     L_C0207DA:;
-    *(unsigned int *)((v0_0 + 0x3B4)) = 0xA;
-    *(unsigned int *)((v0_0 + 0x3B0)) = v0_5;
+    (((struct o3B4_uint *)(v0_0))->v) = 0xA;
+    (((struct o3B0_uint *)(v0_0))->v) = v0_5;
     R1012 = R1012;
     R1008 = R1008;
     R1004 = R1004;

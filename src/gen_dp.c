@@ -42,6 +42,23 @@ int buSetProgressCallback(int);
 int BupCompleteCallback();
 int BupProgressCallback();
 #pragma inline_asm(iaOcbp)
+struct o20_ushort { char p[0x20]; unsigned short v; };
+struct o204_int { char p[0x204]; int v; };
+struct o204_uint { char p[0x204]; unsigned int v; };
+struct o208_int { char p[0x208]; int v; };
+struct o22_ushort { char p[0x22]; unsigned short v; };
+struct oD78_uint { char p[0xD78]; unsigned int v; };
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o0_ushort { unsigned short v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
+
 static void iaOcbp(void *p)
 {
     .DATA.W H'04A3
@@ -172,7 +189,6 @@ int mwSbSetExPrm(int a4, int a5, int a6, int a7)
 int mwSbGetExPrm(int a4, int a5, int a6, int a7)
 {
     int t0;
-    int t1;
     int t2;
 
     if (a5 == 0) {
@@ -191,9 +207,8 @@ int mwSbGetExPrm(int a4, int a5, int a6, int a7)
         return mwlSbGetFilter(a4, a6, a7);
     }
     if (a5 == 4) {
-        t1 = mwlSbGetDrctLvl();
-        *(unsigned int *)((a6 + 0x0)) = t1;
-        t2 = t1;
+        t2 = mwlSbGetDrctLvl();
+        *(unsigned int *)((a6 + 0x0)) = t2;
     } else {
         *(unsigned int *)((a6 + 0x0)) = 0x0;
         t2 = a5;
@@ -243,8 +258,8 @@ int nlPushMatrix(int a4)
     float u21[16];
     float u38[16];
 
-    t0 = *(int *)0xC2B31E4;
-    t1 = *(int *)0xC2B31DC;
+    t0 = (((struct o8_int *)0xC2B31DC)->v);
+    t1 = (((struct o0_int *)0xC2B31DC)->v);
     _builtin_st_ext((float (*)[4])u2);
     *(float *)((((t0 + 0x40) - 0x8) + 0x0)) = u2[15];
     *(float *)(((((t0 + 0x40) - 0x8) + 0x0) + 4)) = u2[14];
@@ -262,9 +277,9 @@ int nlPushMatrix(int a4)
     *(float *)(((((((((((t0 + 0x40) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) + 0x0) + 4)) = u2[2];
     *(float *)(((((((((((t0 + 0x40) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) + 0x0)) = u2[1];
     *(float *)((((((((((((t0 + 0x40) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) - 0x8) + 0x0) + 4)) = u2[0];
-    *(unsigned int *)0xC2B31E4 = (t0 + 0x40);
+    (((struct o8_uint *)0xC2B31DC)->v) = (t0 + 0x40);
     
-    *(unsigned short *)0xC2B31DC = ((short)t1 + 0x1);
+    (((struct o0_ushort *)0xC2B31DC)->v) = ((short)t1 + 0x1);
     if (a4 == 0) {
         _builtin_st_ext((float (*)[4])u4);
         u4[0] = u2[0];
@@ -371,10 +386,7 @@ int _mult(int a4, int a5, int a6)
     int t7;
     int t8;
     int t9;
-    int t11;
-    int t12;
     int t2;
-    int t13;
     int stk[16] = {0};
 
     *(unsigned int *)(((int)stk + 8)) = a4;
@@ -401,13 +413,10 @@ int _mult(int a4, int a5, int a6)
                 }
             }
             if ((short)t1 == 7) {
-                t11 = memmove(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
-                t13 = t11;
+                t15 = memmove(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
             } else {
-                t12 = _add(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
-                t13 = t12;
+                t15 = _add(((short)t1 + a6), ((short)t1 + (((int)stk + 4) + 0x8)), 0x9);
             }
-            t15 = t13;
         }
         t1 = (t1 - 1);
         if ((int)(short)t1 < 0) {
@@ -420,14 +429,12 @@ int _mult(int a4, int a5, int a6)
 int nlGetMatrix8(int a4)
 {
     int t1;
-    int t0;
     float u3[16];
     int stk[1] = {0};
 
     t1 = a4;
     if (a4 == 0) {
-        t0 = *(int *)0xC2B31E4;
-        t1 = t0;
+        t1 = *(int *)0xC2B31E4;
     }
     _builtin_st_ext((float (*)[4])u3);
     *(float *)((((t1 + 0x40) - 0x8) + 0x0)) = u3[15];
@@ -456,8 +463,6 @@ float _in_coss(float f4)
     int t1;
     int t14;
     int t3;
-    int t8;
-    int t5;
     float u16;
     float u17;
     float u19;
@@ -494,26 +499,24 @@ float _in_coss(float f4)
     if (f4 == 0.0f) {
     } else {
         t3 = *(int *)(((int)stk + 8));
-        t8 = (t1 | 0x2);
+        t14 = (t1 | 0x2);
         if ((t3 & 0x7FFFFFFF) == 0x7F800000) {
         } else {
-            t5 = t1;
+            t14 = t1;
             if (f4 != f4) {
-                t5 = (t1 | 0x1);
+                t14 = (t1 | 0x1);
             }
-            t8 = t5;
         }
-        t14 = t8;
     }
     if ((0x3 & t14) != 0) {
-        u16 = *(float *)0xC0DACD0;
+        u16 = (((struct o0_float *)0xC0DACD0)->v);
         return u16;
     }
     u17 = f4;
     if ((0x8 & t14) != 0) {
         u17 = (-f4);
     }
-    u19 = *(float *)0xC0DACFC;
+    u19 = (((struct o2C_float *)0xC0DACD0)->v);
     t20 = _in_fmods(((int)stk + 4), u17, u19);
     t21 = *(int *)(((int)stk + 4));
     *(unsigned int *)(((int)stk + 4)) = (t21 & 0x7);
@@ -587,20 +590,20 @@ int buFbrExecFiberServer(int a4)
     int t31;
     int t3;
 
-    t0 = *(int *)0xC2FD290;
-    *(unsigned int *)0xC2FD294 = t0;
+    t0 = (((struct o0_int *)0xC2FD290)->v);
+    (((struct o4_uint *)0xC2FD290)->v) = t0;
     t1 = _builtin_get_fpscr();
     _builtin_set_fpscr(0x40001);
-    *(unsigned int *)0xC2FD290 = a4;
+    (((struct o0_uint *)0xC2FD290)->v) = a4;
     setjmp((a4 + 0x4));
     t4 = 0x0;
     t5 = (0x210 + a4);
     for (;;) {
-        t6 = *(int *)((a4 + 0x208));
+        t6 = (((struct o208_int *)(a4))->v);
         if ((int)t4 >= (int)t6) {
             break;
         }
-        *(unsigned int *)((a4 + 0xD78)) = t5;
+        (((struct oD78_uint *)(a4))->v) = t5;
         t7 = *(int *)((t5 + 0xC));
         if (t7 != 0) {
             if (t7 != 3) {
@@ -614,7 +617,7 @@ int buFbrExecFiberServer(int a4)
                 } else {
                     t10 = *(int *)((t5 + 0x14));
                     t3 = t10;
-                    t11 = *(int *)((a4 + 0x204));
+                    t11 = (((struct o204_int *)(a4))->v);
                     if ((unsigned int)t3 <= (unsigned int)t11) {
                         longjmp((t5 + 0x18), 0x1);
                     }
@@ -627,10 +630,10 @@ int buFbrExecFiberServer(int a4)
         t4 = (t4 + 0x1);
         t5 = (t5 + t3);
     }
-    t30 = *(int *)((a4 + 0x204));
-    *(unsigned int *)((a4 + 0x204)) = (t30 + 0x1);
-    t31 = *(int *)0xC2FD294;
-    *(unsigned int *)0xC2FD290 = t31;
+    t30 = (((struct o204_int *)(a4))->v);
+    (((struct o204_uint *)(a4))->v) = (t30 + 0x1);
+    t31 = (((struct o4_int *)0xC2FD290)->v);
+    (((struct o0_uint *)0xC2FD290)->v) = t31;
     _builtin_set_fpscr(t1);
     return 0x204;
 }
@@ -755,39 +758,54 @@ int _its(int a4, int a5, int a6)
     int t25;
     int t26;
     int stk[20] = {0};
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1016;
+    int R1020;
+    int R1024;
+    int R1028;
 
-    *(unsigned int *)(((int)stk + 16)) = a5;
-    *(unsigned int *)(((int)stk + 4)) = a6;
-    *(unsigned int *)(((int)stk + 28)) = 0x1;
-    t0 = *(int *)(((int)stk + 16));
-    t1 = *(int *)(((int)stk + 4));
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1016 = *(int *)((int)stk + 16);
+    R1020 = *(int *)((int)stk + 20);
+    R1024 = *(int *)((int)stk + 24);
+    R1028 = *(int *)((int)stk + 28);
+
+    R1016 = a5;
+    R1004 = a6;
+    R1028 = 0x1;
+    t0 = R1016;
+    t1 = R1004;
     *(unsigned char *)(((t1 + t0) + 0x0)) = 0x0;
     t2 = memmove((((int)stk + 4) + 0x24), a4, 0x8);
-    t3 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 8)) = (t3 - 1);
-    *(unsigned int *)(((int)stk + 24)) = ((((t3 - 1) << 2) << 1) + 0xC0DAC48);
-    t4 = *(int *)(((int)stk + 8));
-    *(unsigned int *)(((int)stk + 20)) = (t4 + 0x1);
+    t3 = R1004;
+    R1008 = (t3 - 1);
+    R1024 = ((((t3 - 1) << 2) << 1) + 0xC0DAC48);
+    t4 = R1008;
+    R1020 = (t4 + 0x1);
     t5 = t2;
     t6 = (t1 + t0);
     for (;;) {
-        t7 = *(int *)(((int)stk + 8));
+        t7 = R1008;
         if ((int)t7 < 0) {
             return t5;
         }
-        t8 = *(int *)(((int)stk + 20));
+        t8 = R1020;
         t5 = 0x5;
         t9 = (int)((int)t8 / (int)t5);
         t5 = t9;
         t5 = (t5 + 0x1);
         t5 = (t5 << 1);
-        t10 = *(int *)(((int)stk + 24));
+        t10 = R1024;
         t11 = memmove(((0x8 - t5) + (((int)stk + 4) + 0x1C)), (t10 + (0x8 - t5)), (0x8 - (0x8 - t5)));
         t12 = (0x8 - t5);
         t13 = (0x8 - (0x8 - t5));
         t5 = t11;
-        *(unsigned int *)(((int)stk + 12)) = 0x0;
-        *(unsigned int *)(((int)stk + 4)) = 0x0;
+        R1012 = 0x0;
+        R1004 = 0x0;
         t14 = 0x8;
         for (;;) {
             t15 = _umemcmp((t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
@@ -795,9 +813,9 @@ int _its(int a4, int a5, int a6)
             if ((int)t5 >= 0) {
                 t16 = _sub(0x0, (t12 + (((int)stk + 4) + 0x24)), (t12 + (((int)stk + 4) + 0x1C)), t13);
                 t5 = t16;
-                *(unsigned int *)(((int)stk + 28)) = t5;
-                t17 = *(int *)(((int)stk + 12));
-                *(unsigned int *)(((int)stk + 12)) = (t17 + t14);
+                R1028 = t5;
+                t17 = R1012;
+                R1012 = (t17 + t14);
             }
             t20 = (int)((unsigned int)t14 + (unsigned int)0x0);
             t21 = (int)((unsigned int)t20 + ((((int)0x0 > (int)t14)) ? 1u : 0u));
@@ -806,8 +824,8 @@ int _its(int a4, int a5, int a6)
             if (t14 != 0) {
                 t23 = _rsfts((t12 + (((int)stk + 4) + 0x1C)), t13, 0x1);
                 t5 = t23;
-                t24 = *(int *)(((int)stk + 4));
-                *(unsigned int *)(((int)stk + 4)) = (t24 + 0x1);
+                t24 = R1004;
+                R1004 = (t24 + 0x1);
                 if ((int)(t24 + 0x1) >= (int)0x4) {
                     t25 = (t24 + 0x1); t26 = 0x4; break;
                 }
@@ -815,25 +833,25 @@ int _its(int a4, int a5, int a6)
             }
             t26 = 0x0; break;
         }
-        t27 = *(int *)(((int)stk + 28));
-        t28 = *(int *)(((int)stk + 12));
+        t27 = R1028;
+        t28 = R1012;
         if (t27 == 0) {
             break;
         }
         *(unsigned char *)(((t6 - 0x1) + 0x0)) = (t28 + 0x30);
         t6 = (t6 - 0x1);
-        t29 = *(int *)(((int)stk + 8));
-        *(unsigned int *)(((int)stk + 8)) = (t29 - 1);
-        t30 = *(int *)(((int)stk + 24));
-        *(unsigned int *)(((int)stk + 24)) = (t30 - 8);
-        t31 = *(int *)(((int)stk + 20));
-        *(unsigned int *)(((int)stk + 20)) = (t31 - 1);
+        t29 = R1008;
+        R1008 = (t29 - 1);
+        t30 = R1024;
+        R1024 = (t30 - 8);
+        t31 = R1020;
+        R1020 = (t31 - 1);
     }
     *(unsigned char *)(((t6 - 0x1) + 0x0)) = (t28 + 0x30);
     t32 = t25;
     t33 = (t6 - 0x1);
     for (;;) {
-        t34 = *(int *)(((int)stk + 16));
+        t34 = R1016;
         t33 = (t33 - 1);
         if ((unsigned int)t33 < (unsigned int)t34) {
             break;
@@ -952,13 +970,11 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
     int t5;
     int t6;
     int t7;
-    int t9;
     int t20;
     int t21;
     int t22;
     int t23;
     int t24;
-    int t26;
     int t37;
     int t39;
     int t41;
@@ -980,9 +996,7 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
     int t65;
     int t63;
     int t18;
-    int t13;
     int t35;
-    int t30;
 
     t0 = *(int *)((a5 + 0x8));
     t1 = *(signed char *)(((t0 + 0x8) + 0x1));
@@ -997,16 +1011,14 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
         t6 = *(signed char *)0xC2B92ED;
         if ((unsigned int)t5 <= (unsigned int)t6) {
             *(unsigned char *)(((0xC2B92EE + a6) + 0x0)) = 0x0;
-            t13 = ((((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000) | 0x20000);
+            t18 = ((((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000) | 0x20000);
         } else {
             t7 = *(signed char *)(((0xC2B92EE + a6) + 0x0));
-            t9 = (((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000);
+            t18 = (((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000);
             if (t7 != 0) {
-                t9 = ((((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000) & 0xFFFDFFFF);
+                t18 = ((((unsigned char)t2 | ((unsigned char)t1 << 8)) | 0xFFFF0000) & 0xFFFDFFFF);
             }
-            t13 = t9;
         }
-        t18 = t13;
     }
     t20 = *(signed char *)0xC2B92EC;
     t21 = *(signed char *)((((t0 + 0x8) + 0x2) + 0x0));
@@ -1018,16 +1030,14 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
         t23 = *(signed char *)0xC2B92ED;
         if ((unsigned int)t22 <= (unsigned int)t23) {
             *(unsigned char *)(((0xC2B9306 + a6) + 0x0)) = 0x0;
-            t30 = (t18 | 0x10000);
+            t35 = (t18 | 0x10000);
         } else {
             t24 = *(signed char *)(((0xC2B9306 + a6) + 0x0));
-            t26 = t18;
+            t35 = t18;
             if (t24 != 0) {
-                t26 = (t18 & 0xFFFEFFFF);
+                t35 = (t18 & 0xFFFEFFFF);
             }
-            t30 = t26;
         }
-        t35 = t30;
     }
     t37 = *(int *)0xC2B92E8;
     t39 = t35;
@@ -1069,14 +1079,14 @@ int _pd_peripheral_set_data(int a4, int a5, int a6)
         t58 = *(signed char *)(((t0 + 0x8) + 0x6));
         t60 = ((unsigned char)t58 - 128);
     }
-    *(unsigned short *)((a4 + 0x20)) = t60;
+    (((struct o20_ushort *)(a4))->v) = t60;
     t62 = *(int *)((a4 + 0x4));
     t65 = 0x0;
     if ((t62 & 0x200000) != 0) {
         t63 = *(signed char *)(((t0 + 0x8) + 0x7));
         t65 = ((unsigned char)t63 - 128);
     }
-    *(unsigned short *)((a4 + 0x22)) = t65;
+    (((struct o22_ushort *)(a4))->v) = t65;
     return 0x22;
 }
 

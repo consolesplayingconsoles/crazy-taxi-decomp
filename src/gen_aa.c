@@ -14,6 +14,19 @@ int pfColor(int, int, int, int);
 int pfSetFont(int);
 int pfSize(float, float);
 int Put_Remain_Time_Mode2(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int Put_Remain_Time_Mode2(void)
 {
@@ -32,27 +45,24 @@ int Put_Remain_Time_Mode2(void)
     int t84;
     int t87;
     int t130;
-    int t136;
-    int t132;
     int t1;
     int t10;
     int t14;
     int t48;
     int t49;
     float u111;
-    int t78;
     float u107;
     int t121;
     int t122;
     int stk[23];
 
     *(unsigned int *)(((int)stk + 8)) = 0x0;
-    t0 = *(int *)0xC1EE20C;
+    t0 = (((struct o0_int *)0xC1EE20C)->v);
     t141 = t0;
-    if ((t0 == 2) && (t1 = *(int *)0xC1EE214, t1 == 0)) {
+    if ((t0 == 2) && (t1 = (((struct o8_int *)0xC1EE20C)->v), t1 == 0)) {
     } else {
         t9 = *(int *)0xC2A8C54;
-        if (((*(int *)0xC1EE210) == 2) && (t10 = *(int *)0xC2A9904, t10 != 0)) {
+        if ((((((struct o4_int *)0xC1EE20C)->v)) == 2) && (t10 = *(int *)0xC2A9904, t10 != 0)) {
             t14 = ((*(int *)((t9 + 0x0))) + 0x1);
         } else {
             t14 = (*(int *)((t9 + 0x0)));
@@ -76,19 +86,19 @@ int Put_Remain_Time_Mode2(void)
         *(unsigned int *)(((((int)stk + 4) + 0xC) + 0xC)) = ((int)((int)t19 % (int)0xA));
         *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x10)) = ((int)((int)t21 / (int)0xA));
         *(unsigned int *)(((((int)stk + 4) + 0xC) + 0x14)) = ((int)((int)t21 % (int)0xA));
-        if ((*(int *)0xC1EE210) != 2) {
+        if (((((struct o4_int *)0xC1EE20C)->v)) != 2) {
             Put_Remain_Time_Gauge(0xA);
         }
-        *(unsigned int *)0xC2A7FB0 = 0x200E;
-        *(float *)0xC2A7FA0 = 1.0f;
-        *(unsigned int *)0xC2A7FA4 = 0x0;
-        *(float *)0xC2A7F88 = 0.0399999991f;
+        (((struct o34_uint *)0xC2A7F7C)->v) = 0x200E;
+        (((struct o24_float *)0xC2A7F7C)->v) = 1.0f;
+        (((struct o28_uint *)0xC2A7F7C)->v) = 0x0;
+        (((struct oC_float *)0xC2A7F7C)->v) = 0.0399999991f;
         if ((int)t16 <= (int)0x258) {
             nlObjPutSetFadeColor(1.0f, 0.0f, 0.0f);
         } else {
             nlObjPutSetFadeColor(1.0f, 1.0f, 0.0f);
         }
-        *(float *)0xC2A7F84 = 84.0f;
+        (((struct o8_float *)0xC2A7F7C)->v) = 84.0f;
         if (((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) == 0) && (t48 = *(int *)(((int)stk + 12)), t49 = *(int *)((t48 + 0x0)), t49 == 0)) {
             t54 = 0xC054080;
             t55 = 0x2;
@@ -104,7 +114,7 @@ int Put_Remain_Time_Mode2(void)
                 t54 = (t54 << 2);
                 t57 = *(int *)(((((int)stk + 4) + 0xC) + t54));
                 t54 = 0xC0D0C08;
-                *(unsigned int *)0xC2A7F7C = (*(int *)(((t57 << 2) + t54)));
+                (((struct o0_uint *)0xC2A7F7C)->v) = (*(int *)(((t57 << 2) + t54)));
                 if ((int)t55 >= (int)0x4) {
                     t54 = 0x10;
                     *(float *)((0xC2A7F7C + t54)) = 0.5f;
@@ -130,27 +140,26 @@ int Put_Remain_Time_Mode2(void)
             u111 = 1.5e+02f;
         } else {
             if ((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) != 0) {
-                *(float *)0xC2A7F80 = (float)(*(int *)0xC130BD4);
-                *(unsigned int *)0xC2A7F7C = (*(int *)((((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) << 2) + 0xC0D0C08)));
-                *(float *)0xC2A7F8C = 1.0f;
-                *(float *)0xC2A7F90 = 1.0f;
-                t78 = (nlSprPut(0xC2A7F7C));
+                (((struct o4_float *)0xC2A7F7C)->v) = (float)(*(int *)0xC130BD4);
+                (((struct o0_uint *)0xC2A7F7C)->v) = (*(int *)((((*(int *)(((*(int *)(((int)stk + 4))) + 0x0))) << 2) + 0xC0D0C08)));
+                (((struct o10_float *)0xC2A7F7C)->v) = 1.0f;
+                (((struct o14_float *)0xC2A7F7C)->v) = 1.0f;
+                t83 = (nlSprPut(0xC2A7F7C));
             } else {
                 *(unsigned int *)(((int)stk + 8)) = 0x24;
-                t78 = 0xC054080;
+                t83 = 0xC054080;
             }
-            t83 = t78;
             t84 = 0x1;
             for (;;) {
                 if ((int)t84 >= (int)0x6) {
                     break;
                 }
                 t83 = 0xC130BD4;
-                *(float *)0xC2A7F80 = (float)((*(int *)(((t84 << 2) + t83))) - (*(int *)(((int)stk + 8))));
+                (((struct o4_float *)0xC2A7F7C)->v) = (float)((*(int *)(((t84 << 2) + t83))) - (*(int *)(((int)stk + 8))));
                 t83 = (t84 << 2);
                 t87 = *(int *)(((((int)stk + 4) + 0xC) + t83));
                 t83 = 0xC0D0C08;
-                *(unsigned int *)0xC2A7F7C = (*(int *)(((t87 << 2) + t83)));
+                (((struct o0_uint *)0xC2A7F7C)->v) = (*(int *)(((t87 << 2) + t83)));
                 if ((int)t84 >= (int)0x4) {
                     t83 = 0x10;
                     *(float *)((0xC2A7F7C + t83)) = 0.5f;
@@ -196,15 +205,13 @@ int Put_Remain_Time_Mode2(void)
             }
         }
         t130 = (int)((int)t16 % (int)0x3C);
-        t136 = t130;
+        t141 = t130;
         if (t130 != 0) {
-            t132 = *(int *)0xC2A8CB0;
-            if (t132 == 1) {
+            t141 = *(int *)0xC2A8CB0;
+            if (t141 == 1) {
                 *(unsigned int *)0xC2A8CB0 = 0x0;
             }
-            t136 = t132;
         }
-        t141 = t136;
     }
     return t141;
 }

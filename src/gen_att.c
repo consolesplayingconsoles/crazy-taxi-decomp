@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int GetCollision2D(int, float);
-float getNearLineIndex(int, int, int, int, int, float, float);
+float getNearLineIndex(int, int, int, int, int, float);
 extern int getNearLineIndexAll();
 int nlCalcPoint(int, int);
 int nlFastSinCos(int, int, int);
@@ -14,6 +14,32 @@ int nlRotateAY(int);
 int nlRotateAZ(int);
 int nlSetTranslate(int);
 void carGroundCheck(int a4);
+struct o100_float { char p[0x100]; float v; };
+struct o104_float { char p[0x104]; float v; };
+struct o12C_float { char p[0x12C]; float v; };
+struct o15C_float { char p[0x15C]; float v; };
+struct o160_float { char p[0x160]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o198_ushort { char p[0x198]; unsigned short v; };
+struct o19A_ushort { char p[0x19A]; unsigned short v; };
+struct o19C_ushort { char p[0x19C]; unsigned short v; };
+struct o30_float { char p[0x30]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o6C_int { char p[0x6C]; int v; };
+struct o7C_float { char p[0x7C]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct o84_short { char p[0x84]; short v; };
+struct o84_uchar { char p[0x84]; unsigned char v; };
+struct o86_short { char p[0x86]; short v; };
+struct o88_short { char p[0x88]; short v; };
+struct o90_float { char p[0x90]; float v; };
+struct oF4_short { char p[0xF4]; short v; };
+struct oFC_float { char p[0xFC]; float v; };
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
+
 
 void carGroundCheck(int a4)
 {
@@ -61,9 +87,9 @@ void carGroundCheck(int a4)
     *(unsigned int *)0xC179490 = 0xFFFFFFFF;
     nlPushMatrix(0x0);
     nlSetTranslate((v0_8 + 0x78));
-    nlRotateAY((unsigned short)(*(short *)((v0_8 + 0x86))));
-    nlRotateAX((unsigned short)(*(short *)((v0_8 + 0x84))));
-    nlRotateAZ((unsigned short)(*(short *)((v0_8 + 0x88))));
+    nlRotateAY((unsigned short)((((struct o86_short *)(v0_8))->v)));
+    nlRotateAX((unsigned short)((((struct o84_short *)(v0_8))->v)));
+    nlRotateAZ((unsigned short)((((struct o88_short *)(v0_8))->v)));
     R1008 = (0x1A0 + v0_8);
     v0_1 = (0xC179490);
     v0_3 = (0xC1EE148);
@@ -71,7 +97,7 @@ void carGroundCheck(int a4)
     v0_5 = (0x0);
     v0_0 = (v0_8);
     v0_4 = (0x4);
-    v0_7 = ((*(int *)((v0_8 + 0x6C))));
+    v0_7 = (((((struct o6C_int *)(v0_8))->v)));
     w0_0 = (0.0f);
     w0_3 = (0.0f);
     w0_1 = (0.099999994f);
@@ -79,8 +105,8 @@ void carGroundCheck(int a4)
     L_C023222:;
     nlPushMatrix(0x0);
     *(float *)((v0_3 + 0x0)) = (*(float *)((v0_7 + 0x0)));
-    *(float *)((v0_3 + 0x4)) = (((*(float *)((v0_0 + 0x12C))) - (*(float *)(((R1008) + 0x30)))) + -0.699999988f);
-    *(float *)((v0_3 + 0x8)) = (*(float *)((v0_7 + 0x8)));
+    (((struct o4_float *)(v0_3))->v) = ((((((struct o12C_float *)(v0_0))->v)) - ((((struct o30_float *)((R1008)))->v))) + -0.699999988f);
+    (((struct o8_float *)(v0_3))->v) = ((((struct o8_float *)(v0_7))->v));
     nlCalcPoint(0xC1EE148, 0xC1EE154);
     nlPopMatrix(0x1);
     v0_6 = GetCollision2D(0xC1EE154, 20.0f);
@@ -91,21 +117,21 @@ void carGroundCheck(int a4)
     L_C023272:;
     w0_4 = *(float *)0xC1EE158;
     F4 = (w0_4);
-    if ((!((*(float *)((v0_8 + 0x18))) > w0_4))) goto L_C023332;
+    if ((!(((((struct o18_float *)(v0_8))->v)) > w0_4))) goto L_C023332;
     R1012 = ((R1012) + 0x1);
     v0_6 = (0x18);
-    if ((!(((*(float *)((v0_8 + 0x18))) - F4) > w0_3))) goto L_C023332;
+    if ((!((((((struct o18_float *)(v0_8))->v)) - F4) > w0_3))) goto L_C023332;
     if ((25.0f > (((*(float *)((v0_8 + v0_6))) - F4) + w0_2))) goto L_C0232A6;
     if (!(((int)(*(int *)0xC0DAEC4) <= (int)0x1E))) goto L_C0232A6;
     *(unsigned int *)((v0_2 + 0x0)) = ((*(int *)((v0_2 + 0x0))) + 0x1);
     goto L_C023332;
     L_C0232A6:;
-    w0_3 = *(float *)((v0_8 + 0x18));
-    *(unsigned short *)((v0_0 + 0x19A)) = v0_5;
-    *(unsigned short *)((v0_0 + 0x198)) = v0_5;
-    *(unsigned short *)((v0_0 + 0x19C)) = v0_5;
-    *(float *)((v0_0 + 0x100)) = ((*(float *)((v0_0 + 0x100))) * w0_1);
-    *(float *)((v0_0 + 0x15C)) = ((*(float *)((v0_0 + 0x15C))) * w0_1);
+    w0_3 = (((struct o18_float *)(v0_8))->v);
+    (((struct o19A_ushort *)(v0_0))->v) = v0_5;
+    (((struct o198_ushort *)(v0_0))->v) = v0_5;
+    (((struct o19C_ushort *)(v0_0))->v) = v0_5;
+    (((struct o100_float *)(v0_0))->v) = (((((struct o100_float *)(v0_0))->v)) * w0_1);
+    (((struct o15C_float *)(v0_0))->v) = (((((struct o15C_float *)(v0_0))->v)) * w0_1);
     *(unsigned int *)((v0_2 + 0x0)) = v0_5;
     w0_3 = (((w0_3 - F4) + w0_2));
     L_C023332:;
@@ -123,37 +149,37 @@ void carGroundCheck(int a4)
     L_C023354:;
     if ((!(w0_3 > w0_1))) goto L_C023368;
     *(unsigned int *)((v0_2 + 0x0)) = v0_5;
-    w0_1 = *(float *)((v0_0 + 0x7C));
-    *(float *)((v0_0 + 0x7C)) = (w0_1 + w0_3);
-    *(float *)((v0_0 + 0x90)) = (w0_1 + w0_3);
+    w0_1 = (((struct o7C_float *)(v0_0))->v);
+    (((struct o7C_float *)(v0_0))->v) = (w0_1 + w0_3);
+    (((struct o90_float *)(v0_0))->v) = (w0_1 + w0_3);
     w0_1 = ((w0_1 + w0_3));
     L_C023368:;
     if (!(((int)(R1024) > (int)0x3))) goto L_C023580;
-    v0_2 = *(int *)0xC1EE20C;
+    v0_2 = (((struct o0_int *)0xC1EE20C)->v);
     v0_8 = (v0_2);
     w0_1 = (30.0f);
     if ((v0_2 != 2)) goto L_C023386;
     v0_1 = ((int (*)(int, float, float))(getNearLineIndexAll))((v0_0 + 0x78), F4, F5);
-    *(float *)((v0_0 + 0x7C)) = ((*(float *)((v0_0 + 0x7C))) + w0_1);
+    (((struct o7C_float *)(v0_0))->v) = (((((struct o7C_float *)(v0_0))->v)) + w0_1);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + v0_0)) = *(struct mv3 *)((v0_0 + 0x78)); }
-    if (((*(int *)0xC1EE20C) != 2)) goto L_C023562;
-    v0_1 = *(int *)0xC1EE214;
+    if ((((((struct o0_int *)0xC1EE20C)->v)) != 2)) goto L_C023562;
+    v0_1 = (((struct o8_int *)0xC1EE20C)->v);
     v0_6 = (v0_1);
     if ((v0_1 != 3)) goto L_C023562;
-    *(unsigned char *)(((0x84 + v0_0) + 0x0)) = (*(signed char *)0xC08ADAC);
+    (((struct o84_uchar *)(v0_0))->v) = (*(signed char *)0xC08ADAC);
     *(unsigned char *)(((0x84 + v0_0) + 0x1)) = (*(signed char *)0xC08ADAD);
     *(unsigned char *)(((0x84 + v0_0) + 0x2)) = (*(signed char *)0xC08ADAE);
     *(unsigned char *)(((0x84 + v0_0) + 0x3)) = (*(signed char *)0xC08ADAF);
     *(unsigned char *)(((0x84 + v0_0) + 0x4)) = (*(signed char *)0xC08ADB0);
     *(unsigned char *)(((0x84 + v0_0) + 0x5)) = (*(signed char *)0xC08ADB1);
-    *(float *)((v0_0 + 0x160)) = w0_0;
+    (((struct o160_float *)(v0_0))->v) = w0_0;
     goto L_C023562;
     L_C023580:;
     F4 = (-18.0f);
     F5 = (18.0f);
     w0_0 = (0.849999964f);
-    if ((!(_builtin_fabsf((*(float *)((v0_0 + 0x100)))) > 16.5f))) goto L_C0235BA;
-    w0_2 = *(float *)((v0_0 + 0x100));
+    if ((!(_builtin_fabsf(((((struct o100_float *)(v0_0))->v))) > 16.5f))) goto L_C0235BA;
+    w0_2 = (((struct o100_float *)(v0_0))->v);
     v0_6 = (0x100);
     w0_1 = (w0_2);
     if ((!(w0_2 > F5))) goto L_C0235A6;
@@ -162,20 +188,20 @@ void carGroundCheck(int a4)
     *(float *)((v0_0 + (v0_6 + 0xC))) = (*(float *)((v0_0 + v0_6)));
     L_C0235BA:;
     v0_6 = (0xC023618);
-    if ((!(_builtin_fabsf((*(float *)((v0_0 + 0x15C)))) > 14.5f))) goto L_C02367A;
-    w0_2 = *(float *)((v0_0 + 0x15C));
+    if ((!(_builtin_fabsf(((((struct o15C_float *)(v0_0))->v))) > 14.5f))) goto L_C02367A;
+    w0_2 = (((struct o15C_float *)(v0_0))->v);
     v0_6 = (0x15C);
     w0_1 = (w0_2);
     if ((!(w0_2 > F5))) goto L_C0235D4;
     *(float *)((v0_0 + v0_6)) = F5;
     L_C023622:;
-    nlFastSinCos((unsigned short)(*(short *)((v0_0 + 0xF4))), (0xFC + v0_0), (0x104 + v0_0));
-    *(float *)((v0_0 + 0xFC)) = ((*(float *)((v0_0 + 0xFC))) * (*(float *)(((0x15C + v0_0) + 0x0))));
-    *(float *)((v0_0 + 0x104)) = ((*(float *)((v0_0 + 0x104))) * (*(float *)(((0x15C + v0_0) + 0x0))));
+    nlFastSinCos((unsigned short)((((struct oF4_short *)(v0_0))->v)), (0xFC + v0_0), (0x104 + v0_0));
+    (((struct oFC_float *)(v0_0))->v) = (((((struct oFC_float *)(v0_0))->v)) * ((((struct o15C_float *)(v0_0))->v)));
+    (((struct o104_float *)(v0_0))->v) = (((((struct o104_float *)(v0_0))->v)) * ((((struct o15C_float *)(v0_0))->v)));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x108 + v0_0)) = *(struct mv3 *)((0xFC + v0_0)); }
-    w0_0 = *(float *)0xC023760;
-    w0_1 = *(float *)((v0_0 + 0x12C));
-    *(float *)((v0_0 + 0x160)) = (((*(float *)((v0_0 + 0x15C))) * (*(float *)0xC02375C)) / (w0_1 * w0_0));
+    w0_0 = (((struct o4_float *)0xC02375C)->v);
+    w0_1 = (((struct o12C_float *)(v0_0))->v);
+    (((struct o160_float *)(v0_0))->v) = ((((((struct o15C_float *)(v0_0))->v)) * ((((struct o0_float *)0xC02375C)->v))) / (w0_1 * w0_0));
     v0_6 = (0x160);
     w0_3 = ((w0_1 * w0_0));
     w0_1 = (w0_0);
@@ -196,8 +222,8 @@ void carGroundCheck(int a4)
     *(float *)((v0_0 + v0_6)) = ((*(float *)((v0_0 + v0_6))) * w0_0);
     goto L_C0235B4;
     L_C023562:;
-    *(float *)((v0_0 + 0x160)) = w0_0;
-    *(float *)((v0_0 + 0x15C)) = w0_0;
+    (((struct o160_float *)(v0_0))->v) = w0_0;
+    (((struct o15C_float *)(v0_0))->v) = w0_0;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0xFC + v0_0)) = *(struct mv3 *)(0xC08AD94); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x108 + v0_0)) = *(struct mv3 *)(0xC08AD94); }
     goto L_C023580;
@@ -205,7 +231,7 @@ void carGroundCheck(int a4)
     if ((v0_8 == 1)) goto L_C023392;
     v0_1 = ((int (*)(int, float, float))(getNearLineIndexAll))((v0_0 + 0x78), F4, F5);
     L_C0234F8:;
-    *(float *)((v0_0 + 0x7C)) = ((*(float *)((v0_0 + 0x7C))) + w0_1);
+    (((struct o7C_float *)(v0_0))->v) = (((((struct o7C_float *)(v0_0))->v)) + w0_1);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + v0_0)) = *(struct mv3 *)((v0_0 + 0x78)); }
     goto L_C023562;
     L_C023392:;
@@ -226,7 +252,7 @@ void carGroundCheck(int a4)
     R1004 = (((int)stk + 8) + 0x2C);
     v0_5 = *(int *)((v0_2 + 0x0));
     v0_6 = R1008;
-    w0_4 = getNearLineIndex(0x0, (*(int *)((((v0_6 + v0_5) + v0_1) + 0x0))), (*(int *)(((*(int *)((((v0_6 + v0_5) + v0_1) + 0x4))) + 0x0))), (((int)stk + 4) + 0x10), (((int)stk + 8) + 0x2C), F4, F5);
+    w0_4 = getNearLineIndex(0x0, (*(int *)((((v0_6 + v0_5) + v0_1) + 0x0))), (*(int *)(((*(int *)((((v0_6 + v0_5) + v0_1) + 0x4))) + 0x0))), (((int)stk + 4) + 0x10), (((int)stk + 8) + 0x2C), F4);
     w0_3 = (w0_4);
     F4 = (w0_4);
     if ((!(w0_2 > w0_4))) goto L_C023400;
@@ -251,7 +277,7 @@ void carGroundCheck(int a4)
     R1004 = (((int)stk + 8) + 0x2C);
     v0_5 = *(int *)((v0_2 + 0x0));
     v0_6 = R1008;
-    w0_3 = getNearLineIndex(0x0, (*(int *)((((v0_6 + v0_5) + v0_1) + 0x0))), (*(int *)(((*(int *)((((v0_6 + v0_5) + v0_1) + 0x4))) + 0x0))), (((int)stk + 4) + 0xC), (((int)stk + 8) + 0x2C), F4, F5);
+    w0_3 = getNearLineIndex(0x0, (*(int *)((((v0_6 + v0_5) + v0_1) + 0x0))), (*(int *)(((*(int *)((((v0_6 + v0_5) + v0_1) + 0x4))) + 0x0))), (((int)stk + 4) + 0xC), (((int)stk + 8) + 0x2C), F4);
     F4 = (w0_3);
     if ((!(w0_2 > w0_3))) goto L_C023494;
     v0_5 = R1016;

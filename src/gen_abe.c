@@ -2,6 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 void kmfGetInternalSystemMetrics(int a4);
+struct o0_int { int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 void kmfGetInternalSystemMetrics(int a4)
 {
@@ -36,19 +42,19 @@ void kmfGetInternalSystemMetrics(int a4)
             break;
         }
     }
-    if ((*(int *)0xC2EA9C4) == 0) {
-        *(unsigned int *)((a4 + 0x30)) = (*(int *)(((((*(int *)0xC2EA9DC) & 0x1) << 2) + 0xC2EA9B4)));
-        *(unsigned int *)((a4 + 0x34)) = (*(int *)(((((-((*(int *)0xC2EA9DC) & 0x1)) + 0x1) << 2) + 0xC2EA9B4)));
+    if (((((struct o0_int *)0xC2EA9C4)->v)) == 0) {
+        *(unsigned int *)((a4 + 0x30)) = (*(int *)((((((((struct o18_int *)0xC2EA9C4)->v)) & 0x1) << 2) + 0xC2EA9B4)));
+        *(unsigned int *)((a4 + 0x34)) = (*(int *)(((((-(((((struct o18_int *)0xC2EA9C4)->v)) & 0x1)) + 0x1) << 2) + 0xC2EA9B4)));
     } else {
-        *(unsigned int *)((a4 + 0x34)) = (*(int *)((0xC2EA9B4 + (((*(int *)0xC2EA9DC) & 0x1) << 2))));
-        *(unsigned int *)((a4 + 0x30)) = (*(int *)(((((-((*(int *)0xC2EA9DC) & 0x1)) + 0x1) << 2) + 0xC2EA9B4)));
+        *(unsigned int *)((a4 + 0x34)) = (*(int *)((0xC2EA9B4 + ((((((struct o18_int *)0xC2EA9C4)->v)) & 0x1) << 2))));
+        *(unsigned int *)((a4 + 0x30)) = (*(int *)(((((-(((((struct o18_int *)0xC2EA9C4)->v)) & 0x1)) + 0x1) << 2) + 0xC2EA9B4)));
     }
-    *(unsigned int *)((a4 + 0x40)) = (*(int *)0xC2EA934);
-    *(unsigned int *)((a4 + 0x44)) = (*(int *)0xC2EA938);
-    *(unsigned int *)((a4 + 0x48)) = (*(int *)0xC2F91B0);
-    *(unsigned int *)((a4 + 0x4C)) = (*(int *)0xC2F91B4);
-    *(unsigned int *)((a4 + 0x50)) = (*(int *)0xC2F91C4);
-    *(unsigned int *)((a4 + 0x54)) = (*(int *)0xC2F91C8);
+    *(unsigned int *)((a4 + 0x40)) = ((((struct o0_int *)0xC2EA934)->v));
+    *(unsigned int *)((a4 + 0x44)) = ((((struct o4_int *)0xC2EA934)->v));
+    *(unsigned int *)((a4 + 0x48)) = ((((struct o0_int *)0xC2F91B0)->v));
+    *(unsigned int *)((a4 + 0x4C)) = ((((struct o4_int *)0xC2F91B0)->v));
+    *(unsigned int *)((a4 + 0x50)) = ((((struct o14_int *)0xC2F91B0)->v));
+    *(unsigned int *)((a4 + 0x54)) = ((((struct o18_int *)0xC2F91B0)->v));
     t33 = 0x0;
     t34 = 0x0;
     for (;;) {
@@ -65,5 +71,5 @@ void kmfGetInternalSystemMetrics(int a4)
         }
     }
     *(unsigned int *)((a4 + 0xA8)) = (*(int *)0xC2F91F4);
-    *(unsigned int *)((a4 + 0xAC)) = (*(int *)0xC2F91EC);
+    *(unsigned int *)((a4 + 0xAC)) = ((((struct o3C_int *)0xC2F91B0)->v));
 }

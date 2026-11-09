@@ -75,10 +75,38 @@ int bootSerialDataReady(void);
 int nlIntrSetEventB00Function(int a4, int a5);
 int nlIntrSetEventA40Function(int a4, int a5);
 void bootNop(void);
+struct o14_uchar { char p[0x14]; unsigned char v; };
+struct o4C_int { char p[0x4C]; int v; };
+struct o5C_int { char p[0x5C]; int v; };
+struct o60_int { char p[0x60]; int v; };
+struct o64_int { char p[0x64]; int v; };
+struct o68_int { char p[0x68]; int v; };
+struct o6C_int { char p[0x6C]; int v; };
+struct o70_int { char p[0x70]; int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_short { short v; };
+struct o0_uint { unsigned int v; };
+struct o0_ushort { unsigned short v; };
+struct o10_int { char p[0x10]; int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o2_short { char p[0x2]; short v; };
+struct o2_ushort { char p[0x2]; unsigned short v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+struct o38_uint { char p[0x38]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_float { char p[0xC]; float v; };
+
+
 
 int nlPerspective_L_0c079730(int a4, float f4, float f5, float f6)
 {
-    int stk[31];
+    int stk[30];
     register int t0;
     register float t3;
     register int t5;
@@ -98,23 +126,23 @@ int nlPerspective_L_0c079730(int a4, float f4, float f5, float f6)
     register float u40;
     register float u41;
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
-    *(float *)(((int)stk + 12)) = f4;
-    t0 = *(int *)(((int)stk + 8));
-    *(float *)(((int)stk + 4)) = (1.0f / (nlTan((t0 >> 1))));
+    *(unsigned int *)(((int)stk + 4)) = a4;
+    *(float *)(((int)stk + 8)) = f4;
+    t0 = *(int *)(((int)stk + 4));
+    *(float *)(((int)stk + 0)) = (1.0f / (nlTan((t0 >> 1))));
     if ((*(float *)0xC14A81C) != 0.0f) {
         t3 = nlTan((t0 >> 1));
         t5 = nlArcTan((t3 * ((*(float *)0xC14A81C) + 1.0f)));
-        *(float *)(((int)stk + 16)) = (1.0f / (nlCos(t5)));
+        *(float *)(((int)stk + 12)) = (1.0f / (nlCos(t5)));
     } else {
-        *(float *)(((int)stk + 16)) = (1.0f / (nlCos((t0 >> 1))));
+        *(float *)(((int)stk + 12)) = (1.0f / (nlCos((t0 >> 1))));
     }
-    u13 = *(float *)(((int)stk + 4));
-    u14 = *(float *)(((int)stk + 12));
+    u13 = *(float *)(((int)stk + 0));
+    u14 = *(float *)(((int)stk + 8));
     u23 = (1.0f / (u14 * u13));
     if ((*(float *)0xC14A820) != 0.0f) {
         t15 = nlArcTan((1.0f / (u14 * u13)));
-        *(unsigned int *)(((int)stk + 8)) = t15;
+        *(unsigned int *)(((int)stk + 4)) = t15;
         u23 = ((nlTan(t15)) * ((*(float *)0xC14A820) + 1.0f));
     }
     t25 = nlArcTan(u23);
@@ -123,7 +151,7 @@ int nlPerspective_L_0c079730(int a4, float f4, float f5, float f6)
     *(float *)0xC14A820 = 0.0f;
     u27 = *(float *)0xC079A04;
     u30 = (u14 * u13);
-    u31 = ((*(float *)(((int)stk + 4))) * (*(float *)(((int)stk + 16))));
+    u31 = ((*(float *)(((int)stk + 0))) * (*(float *)(((int)stk + 12))));
     u32 = (u30 * (1.0f / t26));
     *(float *)0xC14A810 = (u31 * u27);
     *(float *)0xC14A814 = (u32 * u27);
@@ -137,25 +165,25 @@ int nlPerspective_L_0c079730(int a4, float f4, float f5, float f6)
     } else {
         *(float *)0xC14A818 = (u36 * u35);
     }
-    *(float *)(((int)stk + 20)) = (*(float *)(((int)stk + 4)));
+    *(float *)(((int)stk + 16)) = (*(float *)(((int)stk + 0)));
+    *(float *)(((int)stk + 20)) = 0.0f;
     *(float *)(((int)stk + 24)) = 0.0f;
     *(float *)(((int)stk + 28)) = 0.0f;
     *(float *)(((int)stk + 32)) = 0.0f;
-    *(float *)(((int)stk + 36)) = 0.0f;
-    *(float *)(((int)stk + 40)) = (u14 * u13);
+    *(float *)(((int)stk + 36)) = (u14 * u13);
+    *(float *)(((int)stk + 40)) = 0.0f;
     *(float *)(((int)stk + 44)) = 0.0f;
     *(float *)(((int)stk + 48)) = 0.0f;
     *(float *)(((int)stk + 52)) = 0.0f;
-    *(float *)(((int)stk + 56)) = 0.0f;
-    *(float *)(((int)stk + 60)) = ((f5 + f6) / (f5 - f6));
-    *(float *)(((int)stk + 64)) = 1.0f;
+    *(float *)(((int)stk + 56)) = ((f5 + f6) / (f5 - f6));
+    *(float *)(((int)stk + 60)) = 1.0f;
+    *(float *)(((int)stk + 64)) = 0.0f;
     *(float *)(((int)stk + 68)) = 0.0f;
-    *(float *)(((int)stk + 72)) = 0.0f;
     u40 = (f5 * f6);
     u41 = (u40 * (1.0f + 1.0f));
     u41 = -u41;
-    *(float *)(((int)stk + 76)) = (u41 / (f5 - f6));
-    *(float *)(((int)stk + 80)) = 0.0f;
+    *(float *)(((int)stk + 72)) = (u41 / (f5 - f6));
+    *(float *)(((int)stk + 76)) = 0.0f;
     *(float *)0xC2B7BDC = f5;
     *(float *)0xC2B7BE0 = f6;
     *(float *)0xC2B7BE4 = (1.0f / f5);
@@ -163,7 +191,7 @@ int nlPerspective_L_0c079730(int a4, float f4, float f5, float f6)
     *(float *)0xC2B315C = (-f5);
     *(float *)0xC2B3178 = f6;
     *(float *)0xC2B3170 = (1.0f / f5);
-    nlMultiMatrix((((int)stk + 4) + 0x10));
+    nlMultiMatrix((((int)stk + 0) + 0x10));
     return (nl_set_cnv_proj_pers());
 }
 
@@ -178,10 +206,9 @@ int nlSetPalette(int a4, int a5)
     register int t6;
     register int t7;
     register int t8;
-    register int t9;
 
-    t0 = *(short *)((((a4 + (*(int *)0xC2B3184)) << 1) + (*(int *)0xC2B76B8)));
-    t1 = *(int *)0xC2B76C8;
+    t0 = *(short *)((((a4 + (*(int *)0xC2B3184)) << 1) + ((((struct o0_int *)0xC2B76B8)->v))));
+    t1 = (((struct o10_int *)0xC2B76B8)->v);
     t2 = *(int *)((((((t0 << 2) << 2) << 1) + t1) + 0xC));
     if ((*(int *)0xC14A644) != 0) {
         if (((0x7 & ((unsigned int)t2 >> 27)) == 5) || ((0x7 & ((unsigned int)t2 >> 27)) == 6)) {
@@ -195,9 +222,9 @@ int nlSetPalette(int a4, int a5)
             t2 = *(short *)((((((t0 << 2) << 2) << 1) + t1) + 0x16));
             nlFreePalette((unsigned short)t2);
             *(unsigned short *)((((((t0 << 2) << 2) << 1) + t1) + 0x16)) = 0xFFFF;
-            if ((int)a5 < (int)(*(short *)0xC2B7BC4)) {
+            if ((int)a5 < (int)((((struct o0_short *)0xC2B7BC4)->v))) {
                 *(unsigned short *)((((((t0 << 2) << 2) << 1) + t1) + 0x16)) = a5;
-                t4 = *(int *)0xC2B7BD8;
+                t4 = (((struct o14_int *)0xC2B7BC4)->v);
                 t5 = *(int *)0xC2B3568;
                 if ((*(short *)(((t4 + ((a5 << 2) << 1)) + 0x4))) != 0) {
                     *(unsigned short *)(((t4 + ((a5 << 2) << 1)) + 0x4)) = ((*(short *)(((t4 + ((a5 << 2) << 1)) + 0x4))) + 0x1);
@@ -209,14 +236,13 @@ int nlSetPalette(int a4, int a5)
                     *(unsigned short *)(((t4 + ((a5 << 2) << 1)) + 0x6)) = a5;
                     t7 = *(int *)((((((a5 << 1) + a5) << 2) + t5) + 0x8));
                     t8 = nlSearchPalette((*(short *)((((((a5 << 1) + a5) << 2) + t5) + 0x2))), t7);
-                    t9 = 0x0;
+                    t6 = 0x0;
                     if ((int)t8 >= 0) {
                         *(unsigned short *)(((t4 + ((a5 << 2) << 1)) + 0x0)) = t8;
                         nlSetPaletteMap(t8, t7);
                         nlSetPaletteData(((t8 << 2) << 2), (*(int *)((((((a5 << 1) + a5) << 2) + t5) + 0x4))), t7);
-                        t9 = t8;
+                        t6 = t8;
                     }
-                    t6 = t9;
                 }
                 *(unsigned int *)((((((t0 << 2) << 2) << 1) + t1) + 0xC)) = (((*(int *)((((((t0 << 2) << 2) << 1) + t1) + 0xC))) & 0xF81FFFFF) | (t6 << 21));
             }
@@ -244,8 +270,8 @@ int bootInitBuffers(void)
             break;
         }
     }
-    *(unsigned int *)0x8C00E070 = 0x8C00F400;
-    *(unsigned int *)0x8C00E074 = 0x600000E0;
+    (((struct o34_uint *)0x8C00E03C)->v) = 0x8C00F400;
+    (((struct o38_uint *)0x8C00E03C)->v) = 0x600000E0;
     *(unsigned int *)0x8C00E0C4 = 0x40001;
     t0 = 0x1;
     t1 = 0x200;
@@ -273,10 +299,10 @@ int bootInitBuffers(void)
             break;
         }
     }
-    *(unsigned int *)0x8C00E03C = 0xC00F400;
+    (((struct o0_uint *)0x8C00E03C)->v) = 0xC00F400;
     *(unsigned int *)0x8C00F520 = 0x8C00E000;
-    *(unsigned int *)0x8C00FA18 = 0x0;
-    *(unsigned int *)0x8C00FA1C = 0x8C00E000;
+    (((struct o0_uint *)0x8C00FA18)->v) = 0x0;
+    (((struct o4_uint *)0x8C00FA18)->v) = 0x8C00E000;
     return (((int (*)(int, int, int, int))(0xAC010368))(t0, 0x120, t1, t2));
 }
 
@@ -307,17 +333,17 @@ int nlProjectScreen(int a4, int a5)
 
 int nlSetDisplayConfig(int a4, int a5, int a6, int a7)
 {
-    *(unsigned short *)0xC2B3194 = 0x0;
+    (((struct o0_ushort *)0xC2B3194)->v) = 0x0;
     if ((0x80 & a4) != 0) {
-        *(unsigned short *)0xC2B3194 = 0x1;
+        (((struct o0_ushort *)0xC2B3194)->v) = 0x1;
     }
-    *(unsigned short *)0xC2B3196 = 0x0;
+    (((struct o2_ushort *)0xC2B3194)->v) = 0x0;
     if ((a4 & 0x8000) != 0) {
-        *(unsigned short *)0xC2B3196 = 0x1;
+        (((struct o2_ushort *)0xC2B3194)->v) = 0x1;
     }
-    kmChangeDisplayFilterMode((*(short *)0xC2B3194), (*(short *)0xC2B3196), 0x0, a7);
-    nlSetBackColor((*(int *)0xC14A654), (*(int *)0xC14A658), (*(int *)0xC14A65C));
-    return nlSetWindowSize((*(float *)0xC2B34A0), (*(float *)0xC2B34A4), (*(float *)0xC2B3498), (*(float *)0xC2B349C));
+    kmChangeDisplayFilterMode(((((struct o0_short *)0xC2B3194)->v)), ((((struct o2_short *)0xC2B3194)->v)), 0x0, a7);
+    nlSetBackColor(((((struct o0_int *)0xC14A654)->v)), ((((struct o4_int *)0xC14A654)->v)), ((((struct o8_int *)0xC14A654)->v)));
+    return nlSetWindowSize(((((struct o8_float *)0xC2B3498)->v)), ((((struct oC_float *)0xC2B3498)->v)), ((((struct o0_float *)0xC2B3498)->v)), ((((struct o4_float *)0xC2B3498)->v)));
 }
 
 int bootDevCheckStatus(void)
@@ -326,7 +352,7 @@ int bootDevCheckStatus(void)
     register int t4;
     register int t6;
 
-    t0 = *(int *)0xAC00F728;
+    t0 = (((struct o0_int *)0xAC00F728)->v);
     if (((*(signed char *)((t0 + 0x8))) & 0x80) != 0) {
         t4 = *(signed char *)((t0 + 0x10));
         *(volatile signed char *)(((0x14 + t0) + 0x0));
@@ -334,9 +360,9 @@ int bootDevCheckStatus(void)
             return 0x0;
         }
         if ((unsigned char)t4 == 0x81) {
-            *(unsigned char *)((t0 + 0x14)) = 0x39;
+            (((struct o14_uchar *)(t0))->v) = 0x39;
             t6 = ((int (*)(int, int, int))(0xAC0118F8))(t0, t4, 0x80);
-            *(volatile signed char *)(((*(int *)0xAC00F72C) + 0x0));
+            *(volatile signed char *)((((((struct o4_int *)0xAC00F728)->v)) + 0x0));
         }
         return 0x1;
     }
@@ -409,9 +435,9 @@ int Put_Adv_InsertCoin(void)
 
 int bootDevReset(void)
 {
-    *(unsigned char *)(((*(int *)0xAC00F72C) + 0x0)) = 0x0;
-    *(unsigned char *)(((*(int *)0xAC00F72C) + 0x4)) = 0x0;
-    *(unsigned char *)(((*(int *)0xAC00F728) + 0x14)) = 0x24;
+    *(unsigned char *)((((((struct o4_int *)0xAC00F728)->v)) + 0x0)) = 0x0;
+    *(unsigned char *)((((((struct o4_int *)0xAC00F728)->v)) + 0x4)) = 0x0;
+    *(unsigned char *)((((((struct o0_int *)0xAC00F728)->v)) + 0x14)) = 0x24;
     return ((int (*)(int, int))(0xAC0118F8))(0x0, 0xAC00F72C);
 }
 
@@ -429,7 +455,7 @@ int gdFsDaPause(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x68));
+        t1 = (((struct o68_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -526,7 +552,7 @@ int gdFsGetGlobalErr(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x4C));
+        t1 = (((struct o4C_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -539,7 +565,7 @@ int gdFsDaPlaySct(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x60));
+        t1 = (((struct o60_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -552,7 +578,7 @@ int gdFsDaPlay(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x5C));
+        t1 = (((struct o5C_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -565,7 +591,7 @@ int gdFsDaStop(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x64));
+        t1 = (((struct o64_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -578,7 +604,7 @@ int gdFsDaGetInfo(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x70));
+        t1 = (((struct o70_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -591,7 +617,7 @@ int gdFsDaRelease(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x6C));
+        t1 = (((struct o6C_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;
@@ -604,7 +630,7 @@ int gdFsIsTrayOpen(void)
 
     t0 = *(int *)0xC177A98;
     if (t0 != 0) {
-        t1 = *(int *)((t0 + 0x78));
+        t1 = (((struct o78_int *)(t0))->v);
         return ((int (*)(void))(t1))();
     }
     return 0x0;

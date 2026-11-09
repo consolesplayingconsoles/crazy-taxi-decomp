@@ -5,19 +5,15 @@ int kmtex_QuantizeLevel8(int a4);
 
 int kmtex_QuantizeLevel8(int a4)
 {
-    int t0;
-    int t3;
     int t6;
 
-    t0 = 0x4;
+    t6 = 0x4;
     if ((int)(unsigned char)a4 < (int)0x80) {
-        t0 = 0x3;
+        t6 = 0x3;
     }
-    t3 = t0;
     if ((int)(unsigned char)a4 < (int)0x70) {
-        t3 = ((int)((unsigned char)a4 + 0x10) >> 5);
+        t6 = ((int)((unsigned char)a4 + 0x10) >> 5);
     }
-    t6 = t3;
     if ((int)(unsigned char)a4 > (int)0x8F) {
         t6 = ((int)((unsigned char)a4 - 15) >> 5);
     }

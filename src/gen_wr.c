@@ -10,6 +10,9 @@ int menuPutHelpBar(int, float, float);
 int menuPutSprites(int, int, int, int);
 int putLevelCTFontAssist(int, int, int, int, int);
 int menuRecordsHandler(void);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int menuRecordsHandler(void)
 {
@@ -40,12 +43,12 @@ int menuRecordsHandler(void)
     }
     menuCursor(0x0, 0x6, t5);
     menuPutFrame();
-    menuPutSprites(0xC0A0898, 0xC2A1A84, ((*(int *)0xC2A1AD8) + 0x8), 0x18);
-    menuPutHelpBar(0x0, (float)(-(*(int *)0xC2A1AD8)), 416.0f);
+    menuPutSprites(0xC0A0898, 0xC2A1A84, (((((struct o0_int *)0xC2A1AD8)->v)) + 0x8), 0x18);
+    menuPutHelpBar(0x0, (float)(-((((struct o0_int *)0xC2A1AD8)->v))), 416.0f);
     putLevelCTFontAssist(0x117, 0xC09F28C, 0x6, (*(int *)(((((*(int *)0xC2A11D8) << 2) + 0xC2A11DC) + 0x0))), (t5));
     t18 = 0x1;
     for (;;) {
-        t19 = *(int *)0xC2A1ADC;
+        t19 = (((struct o4_int *)0xC2A1AD8)->v);
         if ((t18 & 0x1) != 0) {
             t22 = (t19 - 64);
         } else {

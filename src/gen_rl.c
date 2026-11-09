@@ -14,6 +14,13 @@ int nlPopMatrix(int);
 int nlPushUnitMatrix(void);
 int nlScaleVector(int, int, float);
 void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -50,6 +57,10 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     float F5;
     float F15;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -58,7 +69,7 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     F5 = f5;
     L_C037700:;
     R11 = (0xC2757D0);
-    if (((int)(*(int *)0xC2757D0) >= (int)0x1)) goto L_C037724;
+    if (((int)((((struct o0_int *)0xC2757D0)->v)) >= (int)0x1)) goto L_C037724;
     goto L_C037720;
     L_C037720:;
     goto L_C037916;
@@ -67,9 +78,9 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C037724:;
     nlPushUnitMatrix();
     nlMultiViewMatrix();
-    *(unsigned int *)(((int)stk + 4)) = (*(int *)((R11 + 0x0)));
-    t6 = *(int *)0xC2757D4;
-    *(unsigned int *)(((int)stk + 8)) = t6;
+    R1004 = (*(int *)((R11 + 0x0)));
+    t6 = (((struct o4_int *)0xC2757D0)->v);
+    R1008 = t6;
     R13 = (0xC2757D4);
     R14 = (((short)((short)t6 * (short)0x1C) + 0xC274DF8));
     R4 = (t6);
@@ -77,7 +88,7 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C037888:;
     R10 = (0xC274298);
     R12 = (0x0);
-    if (((*(int *)(((int)stk + 4))) == 0)) goto L_C037896;
+    if (((R1004) == 0)) goto L_C037896;
     goto L_C037892;
     L_C037892:;
     goto L_C037748;
@@ -96,16 +107,16 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     *(unsigned int *)((R13 + 0x0)) = R12;
     goto L_C037818;
     L_C037818:;
-    t19 = *(int *)(((int)stk + 8));
-    *(unsigned int *)(((int)stk + 8)) = (t19 + 0x1);
+    t19 = R1008;
+    R1008 = (t19 + 0x1);
     if (((int)(t19 + 0x1) < (int)0x5A)) goto L_C037880;
     goto L_C037824;
     L_C037824:;
-    *(unsigned int *)(((int)stk + 8)) = R12;
+    R1008 = R12;
     R14 = (0xC274DF8);
     goto L_C037882;
     L_C037882:;
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) - 1);
+    R1004 = ((R1004) - 1);
     goto L_C037888;
     L_C037880:;
     R14 = ((R14 + 0x1C));
@@ -122,7 +133,7 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C0377C8;
     L_C0377C8:;
     nlAddVector(R4, R5);
-    t32 = *(int *)(((int)stk + 8));
+    t32 = R1008;
     t33 = *(signed char *)0xC2757DC;
     nlCalcPoint(R14, ((signed char)(((t33 << 1) + t33) << 2) + (((((t32 << 2) << 2) << 1) + R10) + 0x8)));
     *(float *)((R14 + 0x10)) = ((*(float *)((R14 + 0x10))) - 0.136666596f);
@@ -144,7 +155,7 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)(*(int *)((R11 + 0x0))) <= 0)) goto L_C037904;
     goto L_C0378A4;
     L_C0378A4:;
-    if (((*(int *)0xC2757E0) != 0)) goto L_C03790A;
+    if ((((((struct o10_int *)0xC2757D0)->v)) != 0)) goto L_C03790A;
     goto L_C0378AC;
     L_C0378AC:;
     nlLineBlendFunc(0x1, 0x4);
@@ -162,9 +173,9 @@ void ExecSpark(int a4, int a5, int a6, int a7, float f4, float f5)
     nlMultiLineTrnsl(R4);
     goto L_C03790A;
     L_C03790A:;
-    t63 = *(int *)0xC2757DC;
-    *(unsigned int *)0xC2757DC = (t63 ^ 0x1);
-    *(unsigned int *)0xC2757E0 = R12;
+    t63 = (((struct oC_int *)0xC2757D0)->v);
+    (((struct oC_uint *)0xC2757D0)->v) = (t63 ^ 0x1);
+    (((struct o10_uint *)0xC2757D0)->v) = R12;
     R0 = ((t63 ^ 0x1));
     goto L_C037916;
     L_C0378D6:;

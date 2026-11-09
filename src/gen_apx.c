@@ -28,6 +28,10 @@ int nlTriPutSetAttrib(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
     float F10;
     float F11;
     int T_;
+    int R1004;
+    int R1008;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -53,7 +57,7 @@ int nlTriPutSetAttrib(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
     goto L_C07A660;
     L_C07A660:;
     *(unsigned char *)((R2 + 0x0)) = R0;
-    *(unsigned int *)(((int)stk + 4)) = (((R14 << 2) << 2) << 1);
+    R1004 = (((R14 << 2) << 2) << 1);
     R3 = ((((R14 << 2) << 2) << 1));
     if (((int)(((R14 << 2) << 2) << 1) >= 0)) goto L_C07A672;
     goto L_C07A670;
@@ -61,10 +65,10 @@ int nlTriPutSetAttrib(int a4, int a5, int a6, int a7, int a8, int a9, int a10, i
     R3 = ((R3 + 0x3));
     goto L_C07A672;
     L_C07A672:;
-    *(unsigned int *)(((int)stk + 8)) = (((R3 >> 1) >> 1) << 2);
+    R1008 = (((R3 >> 1) >> 1) << 2);
     *(unsigned int *)((((((R3 >> 1) >> 1) << 2) + (R4 + 0x58)) + 0x0)) = 0x0;
-    *(unsigned int *)((((R4 + 0x58) + (*(int *)(((int)stk + 8)))) + 0x4)) = R14;
-    *(unsigned int *)((R4 + 0x4C)) = ((*(int *)(((int)stk + 4))) + 0x8);
+    *(unsigned int *)((((R4 + 0x58) + (R1008)) + 0x4)) = R14;
+    *(unsigned int *)((R4 + 0x4C)) = ((R1004) + 0x8);
     *(unsigned int *)(((R4 + 0x50) + 0x0)) = (((*(int *)(((R4 + 0x50) + 0x0))) & 0xFFFFFFBF) | ((unsigned int)((int)((unsigned int)R6 & 0x1)) << 6));
     *(unsigned int *)(((R4 + 0x50) + 0x0)) = (((*(int *)(((R4 + 0x50) + 0x0))) & 0xFFFFFFFC) | ((unsigned int)((int)((unsigned int)R5 & 0x3)) << 0));
     *(float *)((R4 + 0x28)) = F4;

@@ -7,6 +7,10 @@ int menuChangeValue(int, int, int);
 int menuPutSprites(int, int, int, int, float, float, float);
 int putMenuValue(int, int, int, int);
 int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+struct o0_int { int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+
 
 int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
 {
@@ -64,16 +68,16 @@ int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     if (t10) goto L_C03D486;
     goto L_C03D480;
     L_C03D480:;
-    *(unsigned int *)0xC2A1230 = 0x0;
+    (((struct o1C_uint *)0xC2A1214)->v) = 0x0;
     goto L_C03D486;
     L_C03D486:;
-    if ((((*(int *)0xC2A11EC) & 4) == 0)) goto L_C03D4C2;
+    if (((((((struct o20_int *)0xC2A11CC)->v)) & 4) == 0)) goto L_C03D4C2;
     goto L_C03D48E;
     L_C03D48E:;
-    if ((((*(int *)0xC2A11CC) & 2) == 0)) goto L_C03D4C2;
+    if (((((((struct o0_int *)0xC2A11CC)->v)) & 2) == 0)) goto L_C03D4C2;
     goto L_C03D496;
     L_C03D496:;
-    if (((*(int *)0xC2A1214) != 0)) goto L_C03D4C2;
+    if ((((((struct o0_int *)0xC2A1214)->v)) != 0)) goto L_C03D4C2;
     goto L_C03D49E;
     L_C03D49E:;
     if (((int)(*(int *)((R14 + 0x0))) < (int)(unsigned char)(*(signed char *)((R12 + 0xE))))) goto L_C03D4C2;
@@ -84,7 +88,7 @@ int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     if ((R11 == 0)) goto L_C03D504;
     goto L_C03D4C6;
     L_C03D4C6:;
-    if (((*(int *)0xC2A1214) != 0)) goto L_C03D504;
+    if ((((((struct o0_int *)0xC2A1214)->v)) != 0)) goto L_C03D504;
     goto L_C03D4CE;
     L_C03D4CE:;
     R4 = (0x8017);
@@ -104,7 +108,7 @@ int menuItemName(int a4, int a5, int a6, int a7, float f4, float f5, float f6, f
     if ((((*(int *)0xC1EE330) & 16) != 0)) goto L_C03D53C;
     goto L_C03D534;
     L_C03D534:;
-    t36 = *(int *)0xC2A1214;
+    t36 = (((struct o0_int *)0xC2A1214)->v);
     R0 = (t36);
     if ((t36 != 1)) goto L_C03D586;
     goto L_C03D53C;

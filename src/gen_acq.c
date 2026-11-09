@@ -14,6 +14,11 @@ int nlRotateAY(int);
 int nlTranslateV(int);
 int set_event(int, int);
 void setObjHitBreakSet(int a4);
+struct o54_uint { char p[0x54]; unsigned int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o6C_int { char p[0x6C]; int v; };
+
 
 void setObjHitBreakSet(int a4)
 {
@@ -29,7 +34,7 @@ void setObjHitBreakSet(int a4)
     if ((*(int *)((a4 + 0x20))) == 0) {
     } else {
         t3 = 0x8;
-        if ((int)(*(int *)((a4 + 0x6C))) < (int)0x3) {
+        if ((int)((((struct o6C_int *)(a4))->v)) < (int)0x3) {
             t3 = 0x3;
         }
         nlPushUnitMatrix();
@@ -48,12 +53,12 @@ void setObjHitBreakSet(int a4)
                     t15 = t11;
                     for (;;) { t16 = *(int *)t13; t13 = (t13 + 4); if ((unsigned int)((a4 + 112)) < (unsigned int)t13) break; *(unsigned int *)t15 = t16; t15 = (t15 + 4); }
                     nlGetPushedMatrix(0x0);
-                    nlTranslateV((((((((*(int *)((a4 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10));
-                    nlRotateAY((*(int *)(((((((((*(int *)((a4 + 0x6C))) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10) + 0xC))));
+                    nlTranslateV(((((((((((struct o6C_int *)(a4))->v)) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10));
+                    nlRotateAY((*(int *)((((((((((((struct o6C_int *)(a4))->v)) << 2) << 2) << 2) << 1) + 0xC0EE224) + t10) + 0xC))));
                     nlGetTranslate(t11);
                     GetRotVec((t11 + 0x30));
-                    *(unsigned int *)((t11 + 0x54)) = 0xC0EDBC0;
-                    *(unsigned int *)((t11 + 0x64)) = (*(int *)(((*(int *)0xC0EE1B4) + 0x0)));
+                    (((struct o54_uint *)(t11))->v) = 0xC0EDBC0;
+                    (((struct o64_uint *)(t11))->v) = (*(int *)(((*(int *)0xC0EE1B4) + 0x0)));
                     SetColliObj(t11, 0x10);
                 }
                 t9 = (t9 + 0x1);
@@ -65,6 +70,6 @@ void setObjHitBreakSet(int a4)
         }
         nlPopMatrix(0x2);
         KillColliObj(a4);
-        *(unsigned int *)((a4 + 0x68)) = 0xFFFFFFFE;
+        (((struct o68_uint *)(a4))->v) = 0xFFFFFFFE;
     }
 }

@@ -2,6 +2,8 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlObjPutGetNumOfVtx(int a4);
+struct o4C_int { char p[0x4C]; int v; };
+
 
 int nlObjPutGetNumOfVtx(int a4)
 {
@@ -12,7 +14,7 @@ int nlObjPutGetNumOfVtx(int a4)
     if (((int)(*(int *)((a4 + 0x0))) >= 0) && (t1 = *(int *)((a4 + 0x18)), t1 != 0)) {
         t2 = (a4 + 0x18);
         for (;;) {
-            t3 = *(int *)((t2 + 0x4C));
+            t3 = (((struct o4C_int *)(t2))->v);
             t2 = (t2 + 0x50);
             t2 = (t2 + t3);
             if ((*(int *)((t2 + 0x0))) == 0) {

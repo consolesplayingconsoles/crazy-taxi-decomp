@@ -5,6 +5,10 @@ extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 void SJMEM_Unlock(int a4, int a5);
 void ADXCRS_Lock(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 void SJMEM_Unlock(int a4, int a5)
 {
@@ -17,12 +21,12 @@ void ADXCRS_Lock(void)
     int t1;
     int t3;
 
-    t0 = *(int *)0xC178628;
+    t0 = (((struct o0_int *)0xC178628)->v);
     if (t0 == 0) {
         t1 = _builtin_get_imask();
         _builtin_set_imask(0xF);
-        *(unsigned int *)0xC17862C = t1;
+        (((struct o4_uint *)0xC178628)->v) = t1;
     }
-    t3 = *(int *)0xC178628;
-    *(unsigned int *)0xC178628 = (t3 + 0x1);
+    t3 = (((struct o0_int *)0xC178628)->v);
+    (((struct o0_uint *)0xC178628)->v) = (t3 + 0x1);
 }

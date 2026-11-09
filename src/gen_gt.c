@@ -5,6 +5,9 @@ int fcvCalcAngle(int, int, float);
 int fcvCalcPosition(int, int, float);
 float nlFloor(float);
 void FcvStoreBuffer(int a4, int a5, float f4);
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+
 
 void FcvStoreBuffer(int a4, int a5, float f4)
 {
@@ -16,7 +19,7 @@ void FcvStoreBuffer(int a4, int a5, float f4)
     fcvCalcPosition((((*(int *)((a4 + 0x18))) << 2) + a4), (a5 + 0xC), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcPosition((((*(int *)((a4 + 0x24))) << 2) + a4), (a5 + 0x18), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcPosition((((*(int *)((a4 + 0x34))) << 2) + a4), (a5 + 0x24), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcPosition((((*(int *)((a4 + 0x40))) << 2) + a4), (a5 + 0x30), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcPosition(((((((struct o40_int *)(a4))->v)) << 2) + a4), (a5 + 0x30), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcPosition((((*(int *)((a4 + 0x4))) << 2) + a4), a5, (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcAngle((((*(int *)((a4 + 0x8))) << 2) + a4), (a5 + 0x3C), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcAngle((((*(int *)((a4 + 0xC))) << 2) + a4), (a5 + 0x48), (f4 - (t1 * (float)(t2 - 1))));
@@ -29,5 +32,5 @@ void FcvStoreBuffer(int a4, int a5, float f4)
     fcvCalcAngle((((*(int *)((a4 + 0x30))) << 2) + a4), ((a5 + 0x3C) + 0x60), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcAngle((((*(int *)((a4 + 0x38))) << 2) + a4), ((a5 + 0x3C) + 0x6C), (f4 - (t1 * (float)(t2 - 1))));
     fcvCalcAngle((((*(int *)((a4 + 0x3C))) << 2) + a4), ((a5 + 0x3C) + 0x78), (f4 - (t1 * (float)(t2 - 1))));
-    fcvCalcAngle((((*(int *)((a4 + 0x44))) << 2) + a4), ((a5 + 0x3C) + 0x84), (f4 - (t1 * (float)(t2 - 1))));
+    fcvCalcAngle(((((((struct o44_int *)(a4))->v)) << 2) + a4), ((a5 + 0x3C) + 0x84), (f4 - (t1 * (float)(t2 - 1))));
 }

@@ -29,7 +29,7 @@ int goiToolCourseMap(int a4, int a5, int a6, int a7, float f4, float f5, float f
     int t117;
     int t124;
     int t140;
-    int stk[25];
+    int stk[18];
 
     int R0;
     int R1;
@@ -60,12 +60,12 @@ int goiToolCourseMap(int a4, int a5, int a6, int a7, float f4, float f5, float f
     int R1040;
     int R1044;
     int R1048;
-    R1028 = *(int *)((int)stk + 28);
-    R1032 = *(int *)((int)stk + 32);
-    R1036 = *(int *)((int)stk + 36);
-    R1040 = *(int *)((int)stk + 40);
-    R1044 = *(int *)((int)stk + 44);
-    R1048 = *(int *)((int)stk + 48);
+    R1028 = *(int *)((int)stk + 0);
+    R1032 = *(int *)((int)stk + 4);
+    R1036 = *(int *)((int)stk + 8);
+    R1040 = *(int *)((int)stk + 12);
+    R1044 = *(int *)((int)stk + 16);
+    R1048 = *(int *)((int)stk + 20);
     R4 = a4;
     R5 = a5;
     R6 = a6;

@@ -3,6 +3,9 @@
 
 extern int gdc_CourseAdvLoadSub();
 int gdc_CourseAdvLoadReq(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o1C_int { char p[0x1C]; int v; };
+
 
 int gdc_CourseAdvLoadReq(int a4, int a5, int a6, int a7, float f4)
 {
@@ -51,13 +54,13 @@ int gdc_CourseAdvLoadReq(int a4, int a5, int a6, int a7, float f4)
     R7 = a7;
     L_C04C104:;
     *(unsigned int *)0xC1790C8 = 0x1;
-    t0 = *(int *)0xC1EE20C;
+    t0 = (((struct o0_int *)0xC1EE20C)->v);
     R11 = (0xFFFFFFFF);
     R12 = (0xC1EE33C);
     R13 = (0xC1790C8);
     R14 = (R5);
     R4 = ((*(int *)0xC1EE33C));
-    R5 = ((*(int *)0xC1EE228));
+    R5 = (((((struct o1C_int *)0xC1EE20C)->v)));
     R7 = (t0);
     if ((t0 == 0)) goto L_C04C12E;
     goto L_C04C12A;

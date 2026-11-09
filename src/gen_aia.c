@@ -8,7 +8,6 @@ int General_Key_Control(int a4, int a5, int a6, int a7, int a8)
     int t7;
     int t9;
     int t19;
-    int stk[2];
 
     int R0;
     int R1;

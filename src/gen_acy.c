@@ -17,7 +17,7 @@ int GetAng4Mat(int a4)
     float u5;
     float u6;
     int t17;
-    int stk[10];
+    int stk[9];
 
     t0 = nlGetMatrix(0x0);
     *(unsigned int *)((a4 + 0x4)) = (nlArcTan2((*(float *)((t0 + 0x20))), (*(float *)((t0 + 0x28)))));
@@ -26,12 +26,12 @@ int GetAng4Mat(int a4)
     u6 = (u5 * u5);
     u6 = u6 + u4 * u4;
     *(unsigned int *)((a4 + 0x0)) = (-(nlArcTan2((*(float *)((t0 + 0x24))), _builtin_sqrtf(u6))));
-    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(t0); }
+    { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 0)) = *(struct mv3 *)(t0); }
     nlUnitMatrix();
     nlRotateAX((-(*(int *)((a4 + 0x0)))));
     nlRotateAY((-(*(int *)((a4 + 0x4)))));
-    nlCalcVector(((int)stk + 4), ((int)stk + 4));
-    t17 = nlArcTan2((*(float *)(((int)stk + 8))), (*(float *)(((int)stk + 4))));
+    nlCalcVector(((int)stk + 0), ((int)stk + 0));
+    t17 = nlArcTan2((*(float *)(((int)stk + 4))), (*(float *)(((int)stk + 0))));
     *(unsigned int *)((a4 + 0x8)) = t17;
     return t17;
 }

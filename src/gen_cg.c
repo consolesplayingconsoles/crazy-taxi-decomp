@@ -27,13 +27,11 @@ int write_dir_all(int a4)
 {
     int t0;
     int t1;
-    int t2;
     int t3;
     int t4;
     int t5;
     int t6;
     int t7;
-    int t12;
     int t13;
     int t14;
     int t15;
@@ -47,21 +45,18 @@ int write_dir_all(int a4)
     int t25;
     int t26;
     int t27;
-    int t29;
     int t32;
     int t33;
     int t34;
-    int t36;
     int stk[13] = {0};
 
     t0 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
     t1 = *(short *)((t0 + 0x14));
     *(unsigned short *)(((int)stk + 8)) = t1;
-    t2 = *(short *)(((int)stk + 8));
+    t5 = *(short *)(((int)stk + 8));
     t3 = *(int *)((t0 + 0x18));
     if ((int)t3 > 0) {
         t4 = 0x0;
-        t5 = t2;
         for (;;) {
             *(unsigned int *)(((int)stk + 4)) = (unsigned short)t5;
             t6 = get_fat(a4, (unsigned short)t5);
@@ -79,10 +74,9 @@ int write_dir_all(int a4)
             break;
         }
     }
-    t12 = *(short *)(((int)stk + 8));
+    t14 = *(short *)(((int)stk + 8));
     *(unsigned int *)(((int)stk + 12)) = (t3 - 1);
     t13 = 0x0;
-    t14 = t12;
     for (;;) {
         if ((int)t13 >= (int)t3) {
             t15 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
@@ -110,8 +104,7 @@ int write_dir_all(int a4)
                     return t27;
                 }
                 set_fat(a4, (unsigned short)t14);
-                t29 = search_fat_dir(a4, 0xFFFC);
-                t14 = t29;
+                t14 = search_fat_dir(a4, 0xFFFC);
                 continue;
             }
             break;
@@ -127,8 +120,7 @@ int write_dir_all(int a4)
             *(unsigned short *)(((int)stk + 4)) = t33;
             t34 = *(int *)(((int)stk + 16));
             set_fat(a4, t34);
-            t36 = *(short *)(((int)stk + 4));
-            t14 = t36;
+            t14 = *(short *)(((int)stk + 4));
         }
         t13 = (t13 + 0x1);
     }

@@ -4,6 +4,16 @@
 int Sound_Request(int, int);
 extern int nlSprPut();
 int hudUpdateRankDrum(int a4, int a5);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_float { char p[0x8]; float v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int hudUpdateRankDrum(int a4, int a5)
 {
@@ -12,7 +22,6 @@ int hudUpdateRankDrum(int a4, int a5)
     int t1;
     int t2;
     int t3;
-    int t4;
     int t5;
     int t6;
     int t7;
@@ -20,8 +29,6 @@ int hudUpdateRankDrum(int a4, int a5)
     int t9;
     int t10;
     int t11;
-    int t12;
-    int t17;
     int t18;
     int t44;
     int t45;
@@ -40,9 +47,6 @@ int hudUpdateRankDrum(int a4, int a5)
     float u76;
     float u77;
     float u78;
-    int t85;
-    int t86;
-    int t87;
     int t88;
     float u89;
     int t90;
@@ -50,29 +54,25 @@ int hudUpdateRankDrum(int a4, int a5)
     int t92;
     int t93;
     int t94;
-    int t95;
     int t103;
     int t126;
     int t129;
     int t138;
     int t130;
     int t132;
-    int t131;
-    int t115;
     float u82;
     float u73;
 
-    t0 = *(int *)0xC2A9178;
+    t0 = (((struct oC_int *)0xC2A916C)->v);
     if (t0 != 0) {
         t104 = t0;
         if (t0 != 6) {
             t1 = 0xC055FB4;
             t2 = 0x0;
             for (;;) {
-                t3 = *(int *)0xC2A8F90;
+                t3 = (((struct o4_int *)0xC2A8F8C)->v);
                 if (t3 == 0) {
-                    t4 = *(int *)0xC2A9178;
-                    t1 = t4;
+                    t1 = (((struct oC_int *)0xC2A916C)->v);
                     if (t1 == 3) {
                         t1 = (t2 << 2);
                         t5 = *(int *)((0xC2A8F74 + t1));
@@ -89,18 +89,16 @@ int hudUpdateRankDrum(int a4, int a5)
                                 t1 = 0xC2A8F84;
                                 t10 = *(int *)(((t2 << 2) + t1));
                                 if (t10 == 0) {
-                                    t11 = *(int *)0xC2A9188;
+                                    t11 = (((struct o1C_int *)0xC2A916C)->v);
                                     if (t11 == 0) {
-                                        t12 = Sound_Request(0x704A9, 0x0);
-                                        t1 = t12;
-                                        *(unsigned int *)0xC2A9188 = 0x1;
+                                        t1 = Sound_Request(0x704A9, 0x0);
+                                        (((struct o1C_uint *)0xC2A916C)->v) = 0x1;
                                     }
-                                    t17 = Sound_Request(0x205A9, 0x0);
-                                    t1 = t17;
+                                    t1 = Sound_Request(0x205A9, 0x0);
                                     t1 = 0xC2A8F84;
                                     *(unsigned int *)(((t2 << 2) + t1)) = 0x1;
-                                    t18 = *(int *)0xC2A8F8C;
-                                    *(unsigned int *)0xC2A8F8C = (t18 + 0x1);
+                                    t18 = (((struct o0_int *)0xC2A8F8C)->v);
+                                    (((struct o0_uint *)0xC2A8F8C)->v) = (t18 + 0x1);
                                 }
                             }
                         }
@@ -118,34 +116,34 @@ int hudUpdateRankDrum(int a4, int a5)
                     t47 = *(int *)(((t2 << 2) + t1));
                     t1 = t47;
                     if (t1 == 9) {
-                        *(unsigned int *)0xC2A80BC = 0x152;
+                        (((struct o0_uint *)0xC2A80BC)->v) = 0x152;
                     } else {
                         t1 = 0xC2A8F7C;
                         t48 = *(int *)(((t2 << 2) + t1));
                         t1 = 0xC130CB0;
                         t49 = *(int *)(((t48 << 2) + t1));
-                        *(unsigned int *)0xC2A80BC = t49;
+                        (((struct o0_uint *)0xC2A80BC)->v) = t49;
                     }
                 } else {
                     t1 = 0xC2A8F7C;
                     t53 = *(int *)(((t2 << 2) + t1));
                     t1 = 0xC130CB0;
                     t54 = *(int *)(((t53 << 2) + t1));
-                    *(unsigned int *)0xC2A80BC = t54;
+                    (((struct o0_uint *)0xC2A80BC)->v) = t54;
                 }
-                t58 = *(int *)0xC2A9178;
+                t58 = (((struct oC_int *)0xC2A916C)->v);
                 t1 = t58;
                 if (t1 != 1) {
                     t1 = t58;
                     if (t1 == 5) {
                         t1 = 0x1C;
-                        *(unsigned int *)0xC2A80F0 = 0x6;
-                        u59 = *(float *)0xC2A9174;
+                        (((struct o34_uint *)0xC2A80BC)->v) = 0x6;
+                        u59 = (((struct o8_float *)0xC2A916C)->v);
                         *(float *)((0xC2A80BC + t1)) = (1.0f - (u59 * 0.5f));
                         t1 = 0x24;
                         *(float *)((0xC2A80BC + t1)) = 1.0f;
                         t1 = 0x14;
-                        u60 = *(float *)0xC2A9174;
+                        u60 = (((struct o8_float *)0xC2A916C)->v);
                         *(float *)((0xC2A80BC + t1)) = (u60 * 0.5f);
                         t1 = 0x4;
                         *(float *)((0xC2A80BC + t1)) = (float)(((((((0x1 - t2) << 2) + (0x1 - t2)) << 2) << 1) + t45) + 0x1FA);
@@ -154,12 +152,12 @@ int hudUpdateRankDrum(int a4, int a5)
                         u73 = u61;
                     } else {
                         t1 = 0x1C;
-                        *(unsigned int *)0xC2A80F0 = 0xE;
+                        (((struct o34_uint *)0xC2A80BC)->v) = 0xE;
                         *(float *)((0xC2A80BC + t1)) = 0.0f;
                         t1 = 0xC2A8F84;
                         t62 = *(int *)(((t2 << 2) + t1));
                         if (t62 == 0) {
-                            t63 = *(int *)0xC2A8F90;
+                            t63 = (((struct o4_int *)0xC2A8F8C)->v);
                             t1 = 0x24;
                             *(float *)((0xC2A80BC + t1)) = (1.0f - ((float)t63 * 0.25f));
                             t1 = 0x14;
@@ -179,13 +177,13 @@ int hudUpdateRankDrum(int a4, int a5)
                     u82 = u73;
                 } else {
                     t1 = 0x1C;
-                    *(unsigned int *)0xC2A80F0 = 0x6;
-                    u76 = *(float *)0xC2A9174;
+                    (((struct o34_uint *)0xC2A80BC)->v) = 0x6;
+                    u76 = (((struct o8_float *)0xC2A916C)->v);
                     *(float *)((0xC2A80BC + t1)) = (1.0f - (u76 * 0.5f));
                     t1 = 0x24;
                     *(float *)((0xC2A80BC + t1)) = 1.0f;
                     t1 = 0x14;
-                    u77 = *(float *)0xC2A9174;
+                    u77 = (((struct o8_float *)0xC2A916C)->v);
                     *(float *)((0xC2A80BC + t1)) = (u77 * 0.5f);
                     t1 = 0x4;
                     *(float *)((0xC2A80BC + t1)) = (float)(((((((0x1 - t2) << 2) + (0x1 - t2)) << 2) << 1) + t45) + 0x1FA);
@@ -195,14 +193,11 @@ int hudUpdateRankDrum(int a4, int a5)
                 }
                 t1 = 0x8;
                 *(float *)((0xC2A80BC + t1)) = u82;
-                *(unsigned int *)0xC2A80E4 = 0x0;
-                t85 = ((int (*)(int, int))(nlSprPut))(0xC2A80BC, t45);
-                t1 = t85;
-                t86 = *(int *)0xC2A9178;
-                t1 = t86;
+                (((struct o28_uint *)0xC2A80BC)->v) = 0x0;
+                t1 = ((int (*)(int, int))(nlSprPut))(0xC2A80BC, t45);
+                t1 = (((struct oC_int *)0xC2A916C)->v);
                 if (t1 != 1) {
-                    t87 = *(int *)0xC2A9178;
-                    t1 = t87;
+                    t1 = (((struct oC_int *)0xC2A916C)->v);
                     if (t1 != 5) {
                         t1 = 0xC2A8F84;
                         t88 = *(int *)(((t2 << 2) + t1));
@@ -218,18 +213,17 @@ int hudUpdateRankDrum(int a4, int a5)
                             t1 = (t1 << 2);
                             t92 = *(int *)((0xC130CB0 + t1));
                             t1 = 0x14;
-                            *(unsigned int *)0xC2A80BC = t92;
-                            *(unsigned int *)0xC2A80F0 = 0x6;
-                            t93 = *(int *)0xC2A8F90;
+                            (((struct o0_uint *)0xC2A80BC)->v) = t92;
+                            (((struct o34_uint *)0xC2A80BC)->v) = 0x6;
+                            t93 = (((struct o4_int *)0xC2A8F8C)->v);
                             *(float *)((0xC2A80BC + t1)) = ((float)t93 * 0.25f);
                             t1 = 0x1C;
-                            t94 = *(int *)0xC2A8F90;
+                            t94 = (((struct o4_int *)0xC2A8F8C)->v);
                             *(float *)((0xC2A80BC + t1)) = (1.0f - ((float)t94 * 0.25f));
                             t1 = 0x24;
                             *(float *)((0xC2A80BC + t1)) = 1.0f;
-                            *(unsigned int *)0xC2A80E4 = 0x0;
-                            t95 = ((int (*)(int))(nlSprPut))(0xC2A80BC);
-                            t1 = t95;
+                            (((struct o28_uint *)0xC2A80BC)->v) = 0x0;
+                            t1 = ((int (*)(int))(nlSprPut))(0xC2A80BC);
                         }
                     }
                 }
@@ -237,25 +231,23 @@ int hudUpdateRankDrum(int a4, int a5)
                 if ((int)t2 <= (int)0x1) continue;
                 break;
             }
-            t103 = *(int *)0xC2A916C;
-            *(unsigned int *)0xC2A916C = (t103 + 0x1);
+            t103 = (((struct o0_int *)0xC2A916C)->v);
+            (((struct o0_uint *)0xC2A916C)->v) = (t103 + 0x1);
             t104 = t1;
         }
-        t115 = t104;
+        t132 = t104;
     }
     t126 = *(int *)0xC2A11B0;
     if (t126 == 0) {
         *(unsigned int *)0xC2A91C4 = 0x0;
     }
     t129 = *(int *)0xC2A11B0;
-    t138 = t115;
+    t138 = t132;
     if (t129 != 0) {
         t130 = *(int *)0xC2A91C4;
-        t132 = t115;
         if (t130 == 0) {
-            t131 = Sound_Request(0x704A9, 0x0);
+            t132 = Sound_Request(0x704A9, 0x0);
             *(unsigned int *)0xC2A91C4 = 0x1;
-            t132 = t131;
         }
         t138 = t132;
     }

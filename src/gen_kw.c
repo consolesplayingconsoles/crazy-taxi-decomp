@@ -2,6 +2,10 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int DC_Chari_Command_Check(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
 {
@@ -23,17 +27,19 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     int R12;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     R7 = a7;
     L_C0511A4:;
     R4 = (0xC2A75B8);
-    if (((*(int *)0xC2A75B8) != 0)) goto L_C0511C6;
+    if ((((((struct o0_int *)0xC2A75B8)->v)) != 0)) goto L_C0511C6;
     goto L_C0511AE;
     L_C0511AE:;
     R3 = (0xC1EE24C);
-    if ((((*(int *)0xC1EE24C) & 0x20000) == 0)) goto L_C0511C6;
+    if (((((((struct o0_int *)0xC1EE24C)->v)) & 0x20000) == 0)) goto L_C0511C6;
     goto L_C0511B8;
     L_C0511B8:;
     if ((((*(int *)((R3 + 0x0))) & 0x10000) == 0)) goto L_C0511C6;
@@ -50,11 +56,11 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     L_C0511D2:;
     *(unsigned int *)(((int)stk + 12)) = R6;
     t14 = *(int *)((R6 + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = t14;
+    R1004 = t14;
     if (((t14 & R5) != 0)) goto L_C0511EC;
     goto L_C0511DC;
     L_C0511DC:;
-    if ((((*(int *)(((int)stk + 4))) & 0x10000) == 0)) goto L_C0511EC;
+    if ((((R1004) & 0x10000) == 0)) goto L_C0511EC;
     goto L_C0511E4;
     L_C0511E4:;
     *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
@@ -66,11 +72,11 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     L_C0511FE:;
     *(unsigned int *)(((int)stk + 8)) = R6;
     t22 = *(int *)((R6 + 0x0));
-    *(unsigned int *)(((int)stk + 4)) = t22;
+    R1004 = t22;
     if (((t22 & R5) != 0)) goto L_C051250;
     goto L_C051208;
     L_C051208:;
-    if ((((*(int *)(((int)stk + 4))) & 0x10000) != 0)) goto L_C051250;
+    if ((((R1004) & 0x10000) != 0)) goto L_C051250;
     goto L_C051210;
     L_C051210:;
     *(unsigned int *)((R4 + 0x0)) = ((*(int *)((R4 + 0x0))) + 0x1);
@@ -80,7 +86,7 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     goto L_C05125E;
     L_C05125E:;
     R3 = (0xC1EE24C);
-    if ((((*(int *)0xC1EE24C) & 0x20000) == 0)) goto L_C051276;
+    if (((((((struct o0_int *)0xC1EE24C)->v)) & 0x20000) == 0)) goto L_C051276;
     goto L_C051268;
     L_C051268:;
     if ((((*(int *)((R3 + 0x0))) & 0x10000) == 0)) goto L_C051276;
@@ -93,7 +99,7 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     goto L_C05127C;
     L_C05127C:;
     R3 = (0xC1EE24C);
-    if ((((*(int *)0xC1EE24C) & 0x20000) != 0)) goto L_C051294;
+    if (((((((struct o0_int *)0xC1EE24C)->v)) & 0x20000) != 0)) goto L_C051294;
     goto L_C051286;
     L_C051286:;
     if ((((*(int *)((R3 + 0x0))) & 0x10000) != 0)) goto L_C051294;
@@ -107,12 +113,12 @@ int DC_Chari_Command_Check(int a4, int a5, int a6, int a7)
     if ((t43 != 5)) goto L_C0512A8;
     goto L_C05129A;
     L_C05129A:;
-    t46 = *(int *)0xC1EE250;
+    t46 = (((struct o4_int *)0xC1EE24C)->v);
     R0 = (t46);
     if (((t46 & 4) == 0)) goto L_C0512A8;
     goto L_C0512A2;
     L_C0512A2:;
-    *(unsigned int *)0xC2A75C0 = 0x4;
+    (((struct o8_uint *)0xC2A75B8)->v) = 0x4;
     goto L_C0512A8;
     L_C0512A8:;
     return R0;

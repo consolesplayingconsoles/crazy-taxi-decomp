@@ -9,19 +9,17 @@ int mwSbGetTrnsStat(int a4, int a5)
 {
     int t1;
     int t11;
-    int t6;
 
     t1 = nlsndG2DmaGetStatus((*(int *)((((a5 << 2) + (a4 + 0x2C)) + 0x0))));
     t11 = 0x1;
     if (t1 == 0x100) {
     } else {
-        t6 = 0x2;
+        t11 = 0x2;
         if (t1 == 0x101) {
         } else {
             mwRnaErrCallFunc(0xC176D44);
-            t6 = 0x0;
+            t11 = 0x0;
         }
-        t11 = t6;
     }
     return t11;
 }

@@ -15,6 +15,12 @@ int psgSeatMatrix(int);
 int psgStepBlend(int);
 int psgUpdatePartTracks(int);
 int psgFrameState3(int a4);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o38_int { char p[0x38]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
 
 int psgFrameState3(int a4)
 {
@@ -36,9 +42,9 @@ int psgFrameState3(int a4)
     float u268;
     int t170;
 
-    *(unsigned int *)0xC13ED98 = 0x0;
-    *(unsigned int *)0xC13ED9C = 0x1;
-    *(unsigned int *)0xC13EDA0 = 0x1;
+    (((struct o0_uint *)0xC13ED98)->v) = 0x0;
+    (((struct o4_uint *)0xC13ED98)->v) = 0x1;
+    (((struct o8_uint *)0xC13ED98)->v) = 0x1;
     nlPushMatrix(0x0);
     psgSeatMatrix(a4);
     if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
@@ -153,7 +159,7 @@ int psgFrameState3(int a4)
                                     *(unsigned int *)((a4 + 0x24)) = 0x9;
                                 }
                             } else {
-                                if ((int)(*(int *)0xC1EE7CC) <= (int)0x69) {
+                                if ((int)((((struct o38_int *)0xC1EE794)->v)) <= (int)0x69) {
                                     *(unsigned int *)((a4 + 0x24)) = 0x6;
                                 } else {
                                     if ((*(int *)((a4 + 0x24))) == 9) {
@@ -208,7 +214,7 @@ int psgFrameState3(int a4)
                     nlPopMatrix(0x1);
                     t164 = *(int *)((a4 + 0x34));
                     if ((t164 == 0xC92FC64) || ((t164 == 0xC9323F8) || ((t164 == 0xC934CCC) || ((t164 == 0xC937750) || ((t164 == 0xC93A1A4) || ((t164 == 0xC93CD68) || ((t164 == 0xC93F94C) || (t164 == 0xC9424C0)))))))) {
-                        if (((*(float *)((a4 + 0x38))) == 5.0f) && (t170 = *(int *)0xC1EE794, (int)t170 > 0)) {
+                        if (((*(float *)((a4 + 0x38))) == 5.0f) && (t170 = (((struct o0_int *)0xC1EE794)->v), (int)t170 > 0)) {
                             Start_Pass_Judgement(0xFFFFFFFF);
                             Pass_Angry();
                         }
@@ -295,8 +301,8 @@ int psgFrameState3(int a4)
         }
     }
     t293 = nlPopMatrix(0x1);
-    *(unsigned int *)0xC13ED98 = 0x1;
-    *(unsigned int *)0xC13ED9C = 0x0;
-    *(unsigned int *)0xC13EDA0 = 0x0;
+    (((struct o0_uint *)0xC13ED98)->v) = 0x1;
+    (((struct o4_uint *)0xC13ED98)->v) = 0x0;
+    (((struct o8_uint *)0xC13ED98)->v) = 0x0;
     return t293;
 }

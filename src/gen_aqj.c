@@ -2,6 +2,15 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmiGetDisplayData(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int kmiGetDisplayData(int a4, int a5, int a6, int a7)
 {
@@ -9,7 +18,7 @@ int kmiGetDisplayData(int a4, int a5, int a6, int a7)
     int t2;
     int t4;
     int t45;
-    int stk[8];
+    int stk[7];
 
     int R0;
     int R1;
@@ -26,20 +35,20 @@ int kmiGetDisplayData(int a4, int a5, int a6, int a7)
     R6 = a6;
     R7 = a7;
     L_C159920:;
-    t0 = *(int *)0xC175D64;
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = (*(int *)0xC175D60);
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = t0;
-    t2 = *(int *)0xC175D6C;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = (*(int *)0xC175D68);
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = t2;
-    t4 = *(int *)0xC175D74;
-    *(unsigned int *)((((int)stk + 4) + 0x10)) = (*(int *)0xC175D70);
-    *(unsigned int *)((((int)stk + 4) + 0x14)) = t4;
-    R14 = (((int)stk + 4));
-    if (((*(int *)0xC2EA69C) == 1)) goto L_C159952;
+    t0 = (((struct o4_int *)0xC175D60)->v);
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = ((((struct o0_int *)0xC175D60)->v));
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = t0;
+    t2 = (((struct oC_int *)0xC175D60)->v);
+    *(unsigned int *)((((int)stk + 0) + 0x8)) = ((((struct o8_int *)0xC175D60)->v));
+    *(unsigned int *)((((int)stk + 0) + 0xC)) = t2;
+    t4 = (((struct o14_int *)0xC175D60)->v);
+    *(unsigned int *)((((int)stk + 0) + 0x10)) = ((((struct o10_int *)0xC175D60)->v));
+    *(unsigned int *)((((int)stk + 0) + 0x14)) = t4;
+    R14 = (((int)stk + 0));
+    if ((((((struct o0_int *)0xC2EA69C)->v)) == 1)) goto L_C159952;
     goto L_C15994A;
     L_C15994A:;
-    if ((((*(int *)0xC2EA6A0) & 16) == 0)) goto L_C159958;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 16) == 0)) goto L_C159958;
     goto L_C159952;
     L_C159952:;
     R7 = (0x280);
@@ -52,8 +61,8 @@ int kmiGetDisplayData(int a4, int a5, int a6, int a7)
     R6 = (((R6 + 0x1F) & 0xFFFFFFE0));
     goto L_C159A62;
     L_C159A62:;
-    *(unsigned int *)0xC2B8C88 = R7;
-    *(unsigned int *)0xC2B8C8C = R6;
+    (((struct o0_uint *)0xC2B8C88)->v) = R7;
+    (((struct o4_uint *)0xC2B8C88)->v) = R6;
     R5 = (0xC2B8C40);
     if ((R4 == 0xFF)) goto L_C159A76;
     goto L_C159A72;
@@ -65,20 +74,20 @@ int kmiGetDisplayData(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R5 + 0x60)) = (((*(int *)((R5 + 0x48))) * (*(int *)((R5 + 0x4C)))) * (*(int *)((R5 + 0x50))));
     return 0x60;
     L_C159A76:;
-    R0 = ((*(int *)0xC2EA6A4));
+    R0 = (((((struct o8_int *)0xC2EA69C)->v)));
     goto L_C159A7A;
     L_C159988:;
-    if (((*(int *)0xC2EA69C) != 1)) goto L_C1599C0;
+    if ((((((struct o0_int *)0xC2EA69C)->v)) != 1)) goto L_C1599C0;
     goto L_C159990;
     L_C159990:;
     R6 = (0x1E0);
     goto L_C159A62;
     L_C1599C0:;
     R5 = (0x1);
-    if ((((*(int *)0xC2EA6A0) & 0x1) == 1)) goto L_C1599E0;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 0x1) == 1)) goto L_C1599E0;
     goto L_C1599CC;
     L_C1599CC:;
-    if ((((*(int *)0xC2EA6A0) & 0x2C) != 32)) goto L_C1599E0;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 0x2C) != 32)) goto L_C1599E0;
     goto L_C1599D6;
     L_C1599D6:;
     if ((R5 == 0)) goto L_C1599E0;
@@ -87,22 +96,22 @@ int kmiGetDisplayData(int a4, int a5, int a6, int a7)
     R6 = (0xF0);
     goto L_C159A62;
     L_C1599E0:;
-    if ((((*(int *)0xC2EA6A0) & 32) == 0)) goto L_C159A04;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 32) == 0)) goto L_C159A04;
     goto L_C1599E8;
     L_C1599E8:;
-    if ((((*(int *)0xC2EA6A0) & 0x42) != 66)) goto L_C1599FE;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 0x42) != 66)) goto L_C1599FE;
     goto L_C1599F2;
     L_C1599F2:;
-    R6 = ((*(int *)((((*(int *)0xC2EA6B0) << 2) + 0xC2EAB58))));
+    R6 = ((*(int *)(((((((struct o14_int *)0xC2EA69C)->v)) << 2) + 0xC2EAB58))));
     goto L_C159A62;
     L_C1599FE:;
     R6 = (0x1E0);
     goto L_C159A62;
     L_C159A04:;
-    if ((((*(int *)0xC2EA6A0) & 0x62) != 66)) goto L_C159A60;
+    if (((((((struct o4_int *)0xC2EA69C)->v)) & 0x62) != 66)) goto L_C159A60;
     goto L_C159A0E;
     L_C159A0E:;
-    t45 = *(int *)((((*(int *)0xC2EA6B0) << 2) + 0xC2EAB58));
+    t45 = *(int *)(((((((struct o14_int *)0xC2EA69C)->v)) << 2) + 0xC2EAB58));
     R6 = ((((int)((unsigned int)((int)((unsigned int)t45 + (unsigned int)0x0)) + ((((int)0x0 > (int)t45)) ? 1u : 0u))) >> 1));
     goto L_C159A62;
     L_C159A60:;

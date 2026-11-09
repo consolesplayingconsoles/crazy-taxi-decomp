@@ -247,32 +247,52 @@ void mwlSbFreeWork(int a4);
 int mwlSbGetFilter(int a4, int a5, int a6);
 int buFbrInit(void);
 int ADXPD_Init(void);
+struct o15C_float { char p[0x15C]; float v; };
+struct o160_float { char p[0x160]; float v; };
+struct o3C_short { char p[0x3C]; short v; };
+struct o3E_short { char p[0x3E]; short v; };
+struct o58_short { char p[0x58]; short v; };
+struct o58_ushort { char p[0x58]; unsigned short v; };
+struct o5A_short { char p[0x5A]; short v; };
+struct o5A_ushort { char p[0x5A]; unsigned short v; };
+struct o86_short { char p[0x86]; short v; };
+struct o9C_uint { char p[0x9C]; unsigned int v; };
+struct oF4_short { char p[0xF4]; short v; };
+struct oF4_ushort { char p[0xF4]; unsigned short v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o34_int { char p[0x34]; int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
+
 
 int carFlipTravelDir(int a4)
 {
     int t0;
     int t1;
     int t7;
-    int t5;
     int t2;
     float u3;
     float u4;
 
-    t0 = *(short *)((a4 + 0x86));
-    t1 = *(short *)((a4 + 0xF4));
+    t0 = (((struct o86_short *)(a4))->v);
+    t1 = (((struct oF4_short *)(a4))->v);
     t7 = 0xF4;
     if ((int)(unsigned short)(t1 - t0) > (int)0x4000) {
-        t5 = 0xF4;
+        t7 = 0xF4;
         if ((int)(unsigned short)(t1 - t0) < (int)0xC000) {
-            t2 = *(short *)((a4 + 0xF4));
-            *(unsigned short *)((a4 + 0xF4)) = (t2 + 0x8000);
-            u3 = *(float *)((a4 + 0x160));
-            *(float *)((a4 + 0x160)) = (-u3);
-            u4 = *(float *)((a4 + 0x15C));
-            *(float *)((a4 + 0x15C)) = (-u4);
-            t5 = 0x15C;
+            t2 = (((struct oF4_short *)(a4))->v);
+            (((struct oF4_ushort *)(a4))->v) = (t2 + 0x8000);
+            u3 = (((struct o160_float *)(a4))->v);
+            (((struct o160_float *)(a4))->v) = (-u3);
+            u4 = (((struct o15C_float *)(a4))->v);
+            (((struct o15C_float *)(a4))->v) = (-u4);
+            t7 = 0x15C;
         }
-        t7 = t5;
     }
     return t7;
 }
@@ -335,9 +355,9 @@ int gameState10(void)
 {
     int t0;
 
-    t0 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC1EE238 = (t0 + 0x1);
-    *(unsigned int *)0xC1EE240 = 0x0;
+    t0 = (((struct o0_int *)0xC1EE238)->v);
+    (((struct o0_uint *)0xC1EE238)->v) = (t0 + 0x1);
+    (((struct o8_uint *)0xC1EE238)->v) = 0x0;
     nlInitEvent();
     Sound_Init();
     return gdc_StopStreamSongAll();
@@ -382,12 +402,12 @@ int GotoMenu(void)
     int t0;
     int t1;
 
-    t0 = *(int *)0xC1EE234;
-    *(unsigned int *)0xC2A1228 = t0;
-    t1 = *(int *)0xC1EE238;
-    *(unsigned int *)0xC2A122C = t1;
-    *(unsigned int *)0xC1EE234 = 0x3;
-    *(unsigned int *)0xC1EE238 = 0x0;
+    t0 = (((struct o0_int *)0xC1EE234)->v);
+    (((struct o0_uint *)0xC2A1228)->v) = t0;
+    t1 = (((struct o4_int *)0xC1EE234)->v);
+    (((struct o4_uint *)0xC2A1228)->v) = t1;
+    (((struct o0_uint *)0xC1EE234)->v) = 0x3;
+    (((struct o4_uint *)0xC1EE234)->v) = 0x0;
     return TitleWaitSet(0x0);
 }
 
@@ -409,7 +429,7 @@ int hudShowPickUpNag(void)
     int t1;
     int t5;
 
-    t0 = *(int *)0xC1EE210;
+    t0 = (((struct o0_int *)0xC1EE210)->v);
     t6 = t0;
     if (t0 != 2) {
         t1 = *(int *)0xC2A75E0;
@@ -417,9 +437,9 @@ int hudShowPickUpNag(void)
         Init_Standard();
         Voice_ShutUp(0x0);
         Voice_Request(0xC130B60, 0x0, 0x7F, 0x0);
-        *(unsigned int *)0xC2A8FB4 = 0x0;
-        t5 = *(int *)0xC1EE244;
-        *(unsigned int *)0xC2A8FBC = t5;
+        (((struct o0_uint *)0xC2A8FB4)->v) = 0x0;
+        t5 = (((struct o34_int *)0xC1EE210)->v);
+        (((struct o8_uint *)0xC2A8FB4)->v) = t5;
         t6 = 0xC1EE244;
     }
     return t6;
@@ -501,8 +521,8 @@ int adxt_start_stm(int a4)
     int t6;
     int t8;
 
-    t0 = *(short *)((a4 + 0x3C));
-    t1 = *(short *)((a4 + 0x3E));
+    t0 = (((struct o3C_short *)(a4))->v);
+    t1 = (((struct o3E_short *)(a4))->v);
     t2 = *(int *)((a4 + 0x8));
     ADXSTM_SetBufSize(t2, (((t1 << 8) << 2) << 1), (((t0 << 8) << 2) << 1));
     t4 = *(int *)((a4 + 0x8));
@@ -678,12 +698,12 @@ int kmiErrorISR08(void)
     int t2;
 
     *(unsigned int *)0xA05F6908 = 0x8;
-    t0 = *(int *)0xC2F91C4;
-    *(unsigned int *)0xC2F91C4 = (t0 + 0x1);
+    t0 = (((struct oC_int *)0xC2F91B8)->v);
+    (((struct oC_uint *)0xC2F91B8)->v) = (t0 + 0x1);
     t1 = *(int *)0xC2EAB2C;
     if (t1 == 1) {
-        t2 = *(int *)0xC2F91B8;
-        *(unsigned int *)0xC2F91B8 = (t2 + 0x1);
+        t2 = (((struct o0_int *)0xC2F91B8)->v);
+        (((struct o0_uint *)0xC2F91B8)->v) = (t2 + 0x1);
         kmiErrorRecover(0x1);
     }
     return 0x0;
@@ -730,7 +750,7 @@ int ADXB_Reset(int a4)
     if (t0 == 3) {
         t1 = *(int *)((a4 + 0x8));
         ADXPD_Reset(t1);
-        *(unsigned int *)((a4 + 0x9C)) = 0x0;
+        (((struct o9C_uint *)(a4))->v) = 0x0;
         *(unsigned int *)((a4 + 0x4)) = 0x0;
         t3 = 0x9C;
     }
@@ -757,12 +777,12 @@ int mwlSbGetFilter(int a4, int a5, int a6)
     int t3;
 
     t0 = mwlSbGetStreamParam(a4, 0x9, 0x0);
-    *(unsigned short *)(((0x58 + a4) + 0x0)) = t0;
+    (((struct o58_ushort *)(a4))->v) = t0;
     t1 = mwlSbGetStreamParam(a4, 0xA, 0x0);
-    *(unsigned short *)(((0x5A + a4) + 0x0)) = t1;
-    t2 = *(short *)((a4 + 0x58));
+    (((struct o5A_ushort *)(a4))->v) = t1;
+    t2 = (((struct o58_short *)(a4))->v);
     *(unsigned int *)((a5 + 0x0)) = t2;
-    t3 = *(short *)((a4 + 0x5A));
+    t3 = (((struct o5A_short *)(a4))->v);
     *(unsigned int *)((a6 + 0x0)) = t3;
     return 0x5A;
 }
@@ -770,9 +790,9 @@ int mwlSbGetFilter(int a4, int a5, int a6)
 int buFbrInit(void)
 {
     memset(0xC2FB798, 0x0, 0x1AF8);
-    *(unsigned int *)0xC2FD290 = 0x0;
-    *(unsigned int *)0xC2FD294 = 0x0;
-    *(unsigned int *)0xC2FD298 = 0x0;
+    (((struct o0_uint *)0xC2FD290)->v) = 0x0;
+    (((struct o4_uint *)0xC2FD290)->v) = 0x0;
+    (((struct o8_uint *)0xC2FD290)->v) = 0x0;
     return 0xC2FD298;
 }
 

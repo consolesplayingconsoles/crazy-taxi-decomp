@@ -251,7 +251,8 @@
     {
      "r0": "7FFFFFFF"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 22",
@@ -320,7 +321,8 @@
     {
      "r0": "00000002"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 28",
@@ -343,7 +345,8 @@
     {
      "r0": "000000FC"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 30",
@@ -437,7 +440,8 @@
     {
      "r0": "00000001"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 3",
@@ -460,7 +464,8 @@
     {
      "r0": "00000002"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 5",
@@ -483,7 +488,8 @@
     {
      "r0": "FFFFFEFF"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 7",
@@ -529,7 +535,8 @@
     {
      "r0": "00000100"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 11",
@@ -621,7 +628,8 @@
     {
      "r0": "00000010"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 19",
@@ -736,7 +744,8 @@
     {
      "r0": "40200000"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 29",
@@ -805,7 +814,8 @@
     {
      "r0": "000000FC"
     }
-   ]
+   ],
+   "same_fault": true
   },
   {
    "about": "case 35",

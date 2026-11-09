@@ -31,6 +31,8 @@ int gdDecSubcode(int a4, int a5, int a6, int a7)
     float F0;
     float F15;
     int T_;
+    int R1008;
+    R1008 = *(int *)((int)stk + 8);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -75,8 +77,8 @@ int gdDecSubcode(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R11 + 0x4)) = (bcd2bin((*(signed char *)((R14 + 0xF)))));
     *(unsigned int *)((R11 + 0x8)) = (bcd2bin((*(signed char *)((R14 + 0x10)))));
     *(unsigned int *)((R11 + 0xC)) = (bcd2bin((*(signed char *)((R14 + 0x11)))));
-    *(unsigned int *)(((int)stk + 8)) = (R14 + 0xC);
-    *(unsigned int *)((R11 + 0x10)) = ((bcdtime2fad(((*(int *)(((int)stk + 8))) + 0x7))) | (((*(signed char *)(((R14 + 0xC) + 0x0))) << 16) << 8));
+    R1008 = (R14 + 0xC);
+    *(unsigned int *)((R11 + 0x10)) = ((bcdtime2fad(((R1008) + 0x7))) | (((*(signed char *)(((R14 + 0xC) + 0x0))) << 16) << 8));
     *(unsigned int *)((R11 + 0x14)) = (bcd2bin((*(signed char *)((R14 + 0xE)))));
     R0 = (0x0);
     goto L_C15F622;

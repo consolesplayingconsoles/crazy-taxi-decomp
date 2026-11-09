@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_are): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int ADXPD_EntrySte(int, int, int, int, int, int);
+int ADXPD_EntrySte(int, int, int, int, int);
 int ADXPD_Start(int);
 extern int _builtin_tas(char *);
 int fmMngAddData(int);
@@ -51,6 +51,19 @@ int gdDcfGetToc_(int a4, int a5);
 int gdFsHdlG1DmaEnd(int a4);
 int nlCommonTextureReloadI(int a4, int a5, int a6);
 int nlObjPutLoadTextureOnceGI(void);
+struct o10E8_int { char p[0x10E8]; int v; };
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+
+
 
 int nlExp(float f4)
 {
@@ -63,16 +76,16 @@ int nlExp(float f4)
     float u12;
     float u4;
 
-    u0 = *(float *)0xC075DB4;
+    u0 = (((struct o0_float *)0xC075DB4)->v);
     if (!(0.0f > f4)) {
-        u4 = (*(float *)0xC075DB8);
+        u4 = ((((struct o4_float *)0xC075DB4)->v));
     } else {
-        u4 = (*(float *)0xC075DBC);
+        u4 = ((((struct o8_float *)0xC075DB4)->v));
     }
     u7 = (f4 - ((float)(int)(u4 + (f4 / u0)) * u0));
     u8 = (f4 - ((float)(int)(u4 + (f4 / u0)) * u0));
     t9 = 0xA;
-    u10 = ((u7 * u8) / (*(float *)0xC075DC0));
+    u10 = ((u7 * u8) / ((((struct oC_float *)0xC075DB4)->v)));
     for (;;) {
         t11 = t9;
         t9 = (t9 - 4);
@@ -91,15 +104,18 @@ int nlsndStreamChgFx(int a4, int a5, int a6)
     int t0;
     int t2;
     int t3;
-    int stk[7];
+    int stk[6];
+    int R1008;
 
-    *(unsigned short *)(((int)stk + 4)) = a5;
+    R1008 = *(int *)((int)stk + 4);
+
+    *(unsigned short *)(((int)stk + 0)) = a5;
     t0 = *(signed char *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B771C));
     if (t0 == 1) {
-        *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
+        R1008 = ((((short)a4 << 8) << 2) << 2);
         nlsndSeqRequest(((((((short)a4 << 8) << 2) << 2) | ((short)a6 << 16)) | 0x2A2));
-        t2 = *(short *)(((int)stk + 4));
-        t3 = *(int *)(((int)stk + 8));
+        t2 = *(short *)(((int)stk + 0));
+        t3 = R1008;
         nlsndSeqRequest((((t2 << 16) | t3) | 0x3A2));
         if ((*(int *)(((((((short)a4 << 1) + (short)a4) << 2) << 1) + 0xC2B7724))) != 0) {
             nlsndSeqRequest((((((((short)a4 << 8) << 2) << 2) | ((short)a6 << 16)) | 0x2A2) + 0x800));
@@ -123,7 +139,7 @@ int kdSetDeviceResetEx(int a4, int a5)
         kdSetCallback(a4, a5, t2);
     }
     *(unsigned char *)(((*(int *)0xC1701BC) + 0x0)) = 0x0;
-    if ((*(int *)(((*(int *)0xC2FA538) + 0x10E8))) != 0) {
+    if (((((struct o10E8_int *)((*(int *)0xC2FA538)))->v)) != 0) {
         kdRecvFrame();
     }
     return t2;
@@ -135,12 +151,12 @@ int nlsndBlockMove(int a4, int a5, int a6)
     int t2;
     int t3;
 
-    *(unsigned int *)0xA0800090 = (a4 + 0x5F800000);
-    *(unsigned int *)0xA0800094 = (a5 + 0x5F800000);
-    *(unsigned int *)0xA0800098 = a6;
+    (((struct o0_uint *)0xA0800090)->v) = (a4 + 0x5F800000);
+    (((struct o4_uint *)0xA0800090)->v) = (a5 + 0x5F800000);
+    (((struct o8_uint *)0xA0800090)->v) = a6;
     t0 = 0x0;
     for (;;) {
-        if ((*(int *)0xA0800098) == 0) {
+        if (((((struct o8_int *)0xA0800090)->v)) == 0) {
             t0 = (t0 + 0x1);
             if ((int)t0 >= (int)0x400000) {
                 break;
@@ -167,42 +183,34 @@ int nlsndBlockMove(int a4, int a5, int a6)
 int fmMngWriteData(int a4, int a5, int a6)
 {
     int t0;
-    int t3;
     int t6;
-    int t8;
     int t14;
-    int t16;
     int t20;
-    int t12;
 
     t0 = *(int *)((a4 + 0x24));
     if (t0 != 0) {
         if (t0 != 1) {
-            t3 = 0xFFFFFFFE;
+            t20 = 0xFFFFFFFE;
             if (t0 != 2) {
             } else {
-                t3 = (fmMngSctRefresh(a4));
+                t20 = (fmMngSctRefresh(a4));
             }
-            t12 = t3;
         } else {
             t6 = syBtFlDeleteSct((*(int *)((a4 + 0x4))), a5, a6);
-            t8 = 0xFFFFFFFD;
+            t20 = 0xFFFFFFFD;
             if (t6 == -1) {
             } else {
                 *(unsigned int *)((a4 + 0x24)) = 0x2;
-                t8 = 0x1;
+                t20 = 0x1;
             }
-            t12 = t8;
         }
-        t20 = t12;
     } else {
         t14 = fmMngAddData(a4);
-        t16 = t14;
+        t20 = t14;
         if (t14 == -10) {
             *(unsigned int *)((a4 + 0x24)) = 0x1;
-            t16 = 0x1;
+            t20 = 0x1;
         }
-        t20 = t16;
     }
     return t20;
 }
@@ -229,14 +237,14 @@ int mwRnaInit(void)
             break;
         }
     }
-    if ((*(int *)0xC178644) == 0) {
-        *(unsigned int *)0xC178644 = (mwlSbGetWorkTbl());
+    if (((((struct o0_int *)0xC178644)->v)) == 0) {
+        (((struct o0_uint *)0xC178644)->v) = (mwlSbGetWorkTbl());
     } else {
         t11 = 0x80808080;
         t12 = t4;
         t13 = 0x200;
     }
-    t18 = ((int (*)(int, int, int, int))((*(int *)(((*(int *)0xC178644) + 0xC)))))((*(int *)0xC178648), t11, t12, t13);
+    t18 = ((int (*)(int, int, int, int))((*(int *)((((((struct o0_int *)0xC178644)->v)) + 0xC)))))(((((struct o4_int *)0xC178644)->v)), t11, t12, t13);
     mwlRnaSetSvrInt();
     return mwRnaErrEntryFunc(0x0, 0x0);
 }
@@ -244,14 +252,14 @@ int mwRnaInit(void)
 int nlsndStreamChgFilter(int a4, int a5, int a6)
 {
     int t0;
-    int stk[4];
+    int stk[3];
 
-    *(unsigned short *)(((int)stk + 4)) = a6;
+    *(unsigned short *)(((int)stk + 0)) = a6;
     t0 = *(signed char *)((0xC2B771C + (((((short)a4 << 1) + (short)a4) << 2) << 1)));
     if (t0 == 1) {
-        *(unsigned int *)(((int)stk + 8)) = ((((short)a4 << 8) << 2) << 2);
+        *(unsigned int *)(((int)stk + 4)) = ((((short)a4 << 8) << 2) << 2);
         nlsndSeqRequest(((((((short)a4 << 8) << 2) << 2) | ((short)a5 << 16)) | 0xAA1));
-        return nlsndSeqRequest(((((*(short *)(((int)stk + 4))) << 16) | (*(int *)(((int)stk + 8)))) | 0xBA1));
+        return nlsndSeqRequest(((((*(short *)(((int)stk + 0))) << 16) | (*(int *)(((int)stk + 4)))) | 0xBA1));
     }
     return t0;
 }
@@ -298,7 +306,7 @@ int ADXB_EvokeExpandSte(int a4, int a5)
     t0 = *(int *)(((a4 + 0x50) + 0x20));
     t2 = *(int *)((a4 + 0x8));
     t4 = *(int *)(((a4 + 0x50) + 0x14));
-    ADXPD_EntrySte(t2, (*(int *)((a4 + 0x50))), (a5 << 1), (t4 + (t0 << 1)), (((*(int *)(((a4 + 0x50) + 0x1C))) << 1) + (t4 + (t0 << 1))), a5);
+    ADXPD_EntrySte(t2, (*(int *)((a4 + 0x50))), (a5 << 1), (t4 + (t0 << 1)), (((*(int *)(((a4 + 0x50) + 0x1C))) << 1) + (t4 + (t0 << 1))));
     return ADXPD_Start(t2);
 }
 
@@ -337,64 +345,64 @@ int gdFsExecServerG(void)
 
 int gdDcfDaPlay_(int a4, int a5, int a6)
 {
-    int stk[7];
+    int stk[6];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = 0x0;
-    return (gdGdcReqCmd(0x14, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = a5;
+    *(unsigned int *)((((int)stk + 0) + 0x8)) = a6;
+    *(unsigned int *)((((int)stk + 0) + 0xC)) = 0x0;
+    return (gdGdcReqCmd(0x14, ((int)stk + 0)));
 }
 
 int gdDcfDaPlay2_(int a4, int a5, int a6)
 {
-    int stk[7];
+    int stk[6];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = 0x0;
-    return (gdGdcReqCmd(0x15, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = a5;
+    *(unsigned int *)((((int)stk + 0) + 0x8)) = a6;
+    *(unsigned int *)((((int)stk + 0) + 0xC)) = 0x0;
+    return (gdGdcReqCmd(0x15, ((int)stk + 0)));
 }
 
 int gdDcfGetScd_(int a4, int a5, int a6)
 {
-    int stk[7];
+    int stk[6];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = 0x0;
-    return (gdGdcReqCmd(0x22, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = a5;
+    *(unsigned int *)((((int)stk + 0) + 0x8)) = a6;
+    *(unsigned int *)((((int)stk + 0) + 0xC)) = 0x0;
+    return (gdGdcReqCmd(0x22, ((int)stk + 0)));
 }
 
 int gdDcfReqStat_(int a4, int a5, int a6, int a7)
 {
-    int stk[7];
+    int stk[6];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = a6;
-    *(unsigned int *)((((int)stk + 4) + 0xC)) = a7;
-    return (gdGdcReqCmd(0x24, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = a5;
+    *(unsigned int *)((((int)stk + 0) + 0x8)) = a6;
+    *(unsigned int *)((((int)stk + 0) + 0xC)) = a7;
+    return (gdGdcReqCmd(0x24, ((int)stk + 0)));
 }
 
 int gdDcfDaRelease_(int a4)
 {
-    int stk[5];
+    int stk[4];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = 0x0;
-    return (gdGdcReqCmd(0x17, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = 0x0;
+    return (gdGdcReqCmd(0x17, ((int)stk + 0)));
 }
 
 int gdDcfGetVer_(int a4)
 {
-    int stk[5];
+    int stk[4];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = 0x0;
-    return (gdGdcReqCmd(0x28, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = 0x0;
+    return (gdGdcReqCmd(0x28, ((int)stk + 0)));
 }
 
 int nlSetColorClampValue(int a4, int a5, int a6, int a7)
@@ -404,11 +412,11 @@ int nlSetColorClampValue(int a4, int a5, int a6, int a7)
 
 int gdDcfGetToc_(int a4, int a5)
 {
-    int stk[5];
+    int stk[4];
 
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = a4;
-    *(unsigned int *)((((int)stk + 4) + 0x4)) = a5;
-    return (gdGdcReqCmd(0x13, ((int)stk + 4)));
+    *(unsigned int *)((((int)stk + 0) + 0x0)) = a4;
+    *(unsigned int *)((((int)stk + 0) + 0x4)) = a5;
+    return (gdGdcReqCmd(0x13, ((int)stk + 0)));
 }
 
 int gdFsHdlG1DmaEnd(int a4)

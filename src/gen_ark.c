@@ -3,6 +3,28 @@
 
 typedef struct { int w[29]; } Stk29;
 int kmiWriteFBRegister(Stk29 s);
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o48_int { char p[0x48]; int v; };
+struct o4C_int { char p[0x4C]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o54_int { char p[0x54]; int v; };
+struct o58_int { char p[0x58]; int v; };
+struct o5C_int { char p[0x5C]; int v; };
+struct o60_int { char p[0x60]; int v; };
+struct o64_int { char p[0x64]; int v; };
+struct o68_int { char p[0x68]; int v; };
+struct o6C_int { char p[0x6C]; int v; };
+struct o0_uint { unsigned int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_int { char p[0x14]; int v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
+
 
 int kmiWriteFBRegister(Stk29 s)
 {
@@ -40,23 +62,23 @@ int kmiWriteFBRegister(Stk29 s)
     stk[29] = s.w[26];
     stk[30] = s.w[27];
     stk[31] = s.w[28];
-    *(unsigned int *)0xC2EA934 = (((*(int *)(((((int)stk + 4) + 0x8) + 0x58))) & 0x7FF) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x54))) & 0x7FF) << 16));
-    *(unsigned int *)0xC2EA938 = (((*(int *)(((((int)stk + 4) + 0x8) + 0x60))) & 0x7FF) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x5C))) & 0x7FF) << 16));
-    *(unsigned int *)0xC2EA93C = ((((*(int *)(((((int)stk + 4) + 0x8) + 0x48))) & 0xF) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x4C))) & 0x1F) << 2) << 2)) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x50))) & 0xF) << 8) << 1));
-    *(unsigned int *)0xC2EA6C0 = (*(int *)(((((int)stk + 4) + 0x8) + 0x0)));
-    *(unsigned int *)0xC2EA6C4 = (*(int *)(((((int)stk + 4) + 0x8) + 0x4)));
+    (((struct o0_uint *)0xC2EA934)->v) = ((((((struct o58_int *)((((int)stk + 4) + 0x8)))->v)) & 0x7FF) | ((((((struct o54_int *)((((int)stk + 4) + 0x8)))->v)) & 0x7FF) << 16));
+    (((struct o4_uint *)0xC2EA934)->v) = ((((((struct o60_int *)((((int)stk + 4) + 0x8)))->v)) & 0x7FF) | ((((((struct o5C_int *)((((int)stk + 4) + 0x8)))->v)) & 0x7FF) << 16));
+    (((struct o8_uint *)0xC2EA934)->v) = (((((((struct o48_int *)((((int)stk + 4) + 0x8)))->v)) & 0xF) | (((((((struct o4C_int *)((((int)stk + 4) + 0x8)))->v)) & 0x1F) << 2) << 2)) | (((((((struct o50_int *)((((int)stk + 4) + 0x8)))->v)) & 0xF) << 8) << 1));
+    (((struct o0_uint *)0xC2EA6C0)->v) = (*(int *)(((((int)stk + 4) + 0x8) + 0x0)));
+    (((struct o4_uint *)0xC2EA6C0)->v) = (*(int *)(((((int)stk + 4) + 0x8) + 0x4)));
     t9 = *(int *)(((((int)stk + 4) + 0x8) + 0x8));
     t10 = *(int *)(((((int)stk + 4) + 0x8) + 0x0));
     t11 = *(int *)(((((int)stk + 4) + 0x8) + 0x4));
-    if ((int)(*(int *)0xC2EA6D4) > 0) {
-        *(unsigned int *)0xC2EA940 = (((t10 & 0x3FF) | ((((t11 - (*(int *)0xC2EA6D4)) & 0x3FF) << 8) << 2)) | ((((t9 & 0x3FF) << 16) << 2) << 2));
+    if ((int)((((struct o14_int *)0xC2EA6C0)->v)) > 0) {
+        (((struct oC_uint *)0xC2EA934)->v) = (((t10 & 0x3FF) | ((((t11 - ((((struct o14_int *)0xC2EA6C0)->v))) & 0x3FF) << 8) << 2)) | ((((t9 & 0x3FF) << 16) << 2) << 2));
     } else {
-        *(unsigned int *)0xC2EA940 = (((t10 & 0x3FF) | (((t11 & 0x3FF) << 8) << 2)) | ((((t9 & 0x3FF) << 16) << 2) << 2));
+        (((struct oC_uint *)0xC2EA934)->v) = (((t10 & 0x3FF) | (((t11 & 0x3FF) << 8) << 2)) | ((((t9 & 0x3FF) << 16) << 2) << 2));
     }
-    *(unsigned int *)0xC2EA97C = ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x14))) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x18))) << 8));
-    *(unsigned int *)0xC2EA980 = (((unsigned short)(*(int *)(((((int)stk + 4) + 0x8) + 0x10))) | (((*(int *)(((((int)stk + 4) + 0x8) + 0xC))) & 0x1) << 16)) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x1C))) & 0x1) << 16) << 2));
-    *(unsigned int *)0xC2EA944 = ((*(int *)(((((int)stk + 4) + 0x8) + 0x44))) & 0x1FF);
-    *(unsigned int *)0xC2EA94C = (((((*(int *)(((((int)stk + 4) + 0x8) + 0x30))) & 0x7) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x2C))) & 0x1) << 2) << 1)) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x34))) << 8)) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x38))) << 16));
-    *(unsigned int *)0xC2EA948 = (((((((((*(int *)(((((int)stk + 4) + 0x8) + 0x20))) & 0x1) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x28))) & 0x1) << 1)) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x3C))) & 0x3) << 2)) | (((0x7 & (*(int *)(((((int)stk + 4) + 0x8) + 0x40)))) << 2) << 2)) | ((unsigned char)(*(signed char *)(((((int)stk + 4) + 0x8) + 0x70))) << 8)) | ((0x1F & (*(int *)(((((int)stk + 4) + 0x8) + 0x68)))) << 16)) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x64))) & 0x1) << 22)) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x6C))) & 0x1) << 23));
+    (((struct o0_uint *)0xC2EA97C)->v) = ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x14))) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x18))) << 8));
+    (((struct o4_uint *)0xC2EA97C)->v) = (((unsigned short)(*(int *)(((((int)stk + 4) + 0x8) + 0x10))) | (((*(int *)(((((int)stk + 4) + 0x8) + 0xC))) & 0x1) << 16)) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x1C))) & 0x1) << 16) << 2));
+    (((struct o10_uint *)0xC2EA934)->v) = (((((struct o44_int *)((((int)stk + 4) + 0x8)))->v)) & 0x1FF);
+    (((struct o18_uint *)0xC2EA934)->v) = (((((*(int *)(((((int)stk + 4) + 0x8) + 0x30))) & 0x7) | ((((*(int *)(((((int)stk + 4) + 0x8) + 0x2C))) & 0x1) << 2) << 1)) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x34))) << 8)) | ((unsigned char)(*(int *)(((((int)stk + 4) + 0x8) + 0x38))) << 16));
+    (((struct o14_uint *)0xC2EA934)->v) = (((((((((*(int *)(((((int)stk + 4) + 0x8) + 0x20))) & 0x1) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x28))) & 0x1) << 1)) | (((*(int *)(((((int)stk + 4) + 0x8) + 0x3C))) & 0x3) << 2)) | (((0x7 & ((((struct o40_int *)((((int)stk + 4) + 0x8)))->v))) << 2) << 2)) | ((unsigned char)(*(signed char *)(((((int)stk + 4) + 0x8) + 0x70))) << 8)) | ((0x1F & ((((struct o68_int *)((((int)stk + 4) + 0x8)))->v))) << 16)) | ((((((struct o64_int *)((((int)stk + 4) + 0x8)))->v)) & 0x1) << 22)) | ((((((struct o6C_int *)((((int)stk + 4) + 0x8)))->v)) & 0x1) << 23));
     return 0x6C;
 }

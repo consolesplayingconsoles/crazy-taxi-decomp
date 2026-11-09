@@ -168,6 +168,20 @@ int ADXF_LoadPartition(int a4, int a5, int a6, int a7);
 int trafficControl(int a4);
 int gdFsGetStatG(void);
 int psgFrameState1(int a4);
+struct o40_uint { char p[0x40]; unsigned int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o48_int { char p[0x48]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o50_uint { char p[0x50]; unsigned int v; };
+struct o54_int { char p[0x54]; int v; };
+struct o64_uint { char p[0x64]; unsigned int v; };
+struct o74_uint { char p[0x74]; unsigned int v; };
+struct o78_uint { char p[0x78]; unsigned int v; };
+struct o88_int { char p[0x88]; int v; };
+struct o0_int { int v; };
+struct o8_int { char p[0x8]; int v; };
+
+
 
 int ovLibOpen(int a4)
 {
@@ -177,7 +191,6 @@ int ovLibOpen(int a4)
     int t7;
     int t4;
     int t5;
-    int t6;
     int stk[7] = {0};
 
     *(unsigned int *)(((int)stk + 12)) = a4;
@@ -190,9 +203,8 @@ int ovLibOpen(int a4)
     if ((int)t3 >= 0) {
         t4 = *(int *)(((int)stk + 16));
         t5 = *(int *)((((t4 + 0x8) + ((t3 << 2) << 1)) + 0x4));
-        t6 = *(int *)((((t4 + 0x8) + ((t3 << 2) << 1)) + 0x0));
+        t7 = *(int *)((((t4 + 0x8) + ((t3 << 2) << 1)) + 0x0));
         *(unsigned int *)((((t4 + 0x8) + ((t3 << 2) << 1)) + 0x4)) = (t5 + 0x1);
-        t7 = t6;
     }
     ovUnlockCs(((int)stk + 4));
     return t7;
@@ -229,7 +241,7 @@ int mwlSbSetDrctLvl(int a4, int a5)
         t10 = *(int *)((t8 + 0x4));
         nlsndStreamSetHdInfo(t9, t10);
         t12 = *(int *)(((int)stk + 8));
-        *(unsigned int *)((a4 + 0x64)) = t12;
+        (((struct o64_uint *)(a4))->v) = t12;
         t13 = 0x1;
     }
     *(unsigned char *)((a4 + 0x5)) = t13;
@@ -265,17 +277,17 @@ int mwRnaSetPitch(int a4, int a5, int a6)
     t2 = *(int *)((t1 + 0x0));
     t3 = *(int *)(((int)stk + 24));
     t4 = *(int *)(((int)stk + 20));
-    t5 = *(int *)((t2 + 0x44));
+    t5 = (((struct o44_int *)(t2))->v);
     t6 = ((int (*)(int, int, int, int))(t5))(t1, 0x1, t4, t3);
     t7 = *(int *)((a4 + 0x38));
     *(unsigned int *)(((int)stk + 16)) = t7;
     t8 = *(int *)((t7 + 0x0));
-    t9 = *(int *)((t8 + 0x48));
+    t9 = (((struct o48_int *)(t8))->v);
     t10 = ((int (*)(int, int, int, int))(t9))(t7, 0x1, ((int)stk + 8), (((int)stk + 8) + 0x4));
     t11 = *(int *)(((int)stk + 8));
-    *(unsigned int *)((a4 + 0x74)) = t11;
+    (((struct o74_uint *)(a4))->v) = t11;
     t12 = *(int *)(((int)stk + 12));
-    *(unsigned int *)((a4 + 0x78)) = t12;
+    (((struct o78_uint *)(a4))->v) = t12;
     return 0x78;
 }
 
@@ -391,8 +403,8 @@ int mwRnaStart(int a4)
         mwRnaStop(a4);
     }
     *(unsigned char *)((a4 + 0x1)) = 0x4;
-    t5 = *(int *)((a4 + 0x44));
-    *(unsigned int *)((a4 + 0x40)) = t5;
+    t5 = (((struct o44_int *)(a4))->v);
+    (((struct o40_uint *)(a4))->v) = t5;
     mwRnaSetTransSw(a4, 0x1);
     t7 = mwRnaUnlockCs(((int)stk + 8));
     return t7;
@@ -418,17 +430,17 @@ void syG2DmaEndIntrruptHandler(int a4)
     t0 = _builtin_get_imask();
     _builtin_set_imask(0xF);
     t1 = *(int *)((a4 + 0x0));
-    t2 = *(int *)0xC178700;
+    t2 = (((struct o8_int *)0xC1786F8)->v);
     t3 = *(int *)((t2 + 0x0));
     *(unsigned int *)(((t3 + (((t1 << 2) << 2) << 1)) + 0x14)) = 0x0;
     *(unsigned int *)((a4 + 0x2C)) = 0x0;
     *(unsigned int *)((a4 + 0x30)) = 0x1;
-    t4 = *(int *)0xC178700;
+    t4 = (((struct o8_int *)0xC1786F8)->v);
     t5 = *(int *)((a4 + 0x0));
     t6 = *(int *)((((t5 << 2) + (0xEC + t4)) + 0x0));
     *(unsigned int *)((((t5 << 2) + (0xEC + t4)) + 0x0)) = (t6 + 0x1);
     t7 = *(int *)((a4 + 0x0));
-    t8 = *(int *)0xC1786F8;
+    t8 = (((struct o0_int *)0xC1786F8)->v);
     *(unsigned int *)((t8 + 0x0)) = ((int)0x1 << (int)(t7 + 0xF));
     t9 = *(int *)((a4 + 0x1C));
     if (t9 != 0) {
@@ -453,12 +465,7 @@ int kmiFBfree(int a4)
     int t9;
     int t10;
     int t12;
-    int t13;
     int t17;
-    int t18;
-    int t19;
-    int t16;
-    int t15;
     int stk[6] = {0};
 
     t0 = SearchUsed(a4, ((int)stk + 4));
@@ -476,29 +483,24 @@ int kmiFBfree(int a4)
             if (t5 == 0) {
                 t6 = *(short *)(((int)stk + 4));
                 FBfree(t6, t0);
-                t16 = 0x0;
+                t21 = 0x0;
             } else {
                 t8 = *(short *)((t5 + 0x0));
                 if (((unsigned short)t8 & 4) != 0) {
                     t9 = *(short *)((t0 + 0x0));
                     *(unsigned short *)((t0 + 0x0)) = (t9 & 0xFFFB);
-                    t15 = 0x0;
+                    t21 = 0x0;
                 } else {
                     t10 = *(short *)(((int)stk + 4));
                     FBfree(t10, t0);
                     t12 = *(short *)(((int)stk + 8));
-                    t13 = FBfree(t12, t5);
-                    t15 = t13;
+                    t21 = FBfree(t12, t5);
                 }
-                t16 = t15;
             }
-            t19 = t16;
         } else {
             t17 = *(short *)(((int)stk + 4));
-            t18 = FBfree(t17, t0);
-            t19 = t18;
+            t21 = FBfree(t17, t0);
         }
-        t21 = t19;
     }
     return t21;
 }
@@ -553,15 +555,15 @@ int mwRnaAdjustBuf(int a4)
             t11 = *(int *)((a4 + 0x30));
             *(unsigned int *)(((int)stk + 16)) = t10;
             t12 = *(int *)((t10 + 0x0));
-            t13 = *(int *)((t12 + 0x54));
+            t13 = (((struct o54_int *)(t12))->v);
             t14 = ((int (*)(int, int, int))(t13))(t10, t11, ((int)stk + 8));
-            t15 = *(int *)((a4 + 0x88));
+            t15 = (((struct o88_int *)(a4))->v);
             if (t15 == 2) {
                 t16 = *(int *)((a4 + 0x28));
-                t17 = *(int *)((a4 + 0x50));
+                t17 = (((struct o50_int *)(a4))->v);
                 t18 = *(int *)(((int)stk + 8));
                 t19 = (int)((int)((t17 + t16) - t18) % (int)t16);
-                *(unsigned int *)(((0x50 + a4) + 0x0)) = t19;
+                (((struct o50_uint *)(a4))->v) = t19;
             }
             t21 = *(int *)((a4 + 0x2C));
             t22 = *(int *)((a4 + 0x28));
@@ -589,19 +591,12 @@ int vmsfs_rewrite_exec_file(int a4, int a5, int a6, int a7, int a8)
     int t1;
     int t41;
     int t2;
-    int t36;
     int t3;
-    int t31;
-    int t26;
-    int t21;
     int t4;
     int t5;
-    int t16;
-    int t10;
     int t6;
     int t7;
     int t8;
-    int t9;
     int stk[14] = {0};
 
     *(unsigned int *)(((int)stk + 4)) = a5;
@@ -612,27 +607,27 @@ int vmsfs_rewrite_exec_file(int a4, int a5, int a6, int a7, int a8)
     t41 = t1;
     if ((int)t1 >= 0) {
         t2 = *(signed char *)(((int)stk + 14));
-        t36 = 0xFFFFFF0B;
+        t41 = 0xFFFFFF0B;
         if ((unsigned char)t2 == 1) {
             t3 = *(short *)(((int)stk + 12));
-            t31 = 0xFFFFFF00;
+            t41 = 0xFFFFFF00;
             if ((unsigned int)a7 < (unsigned int)(unsigned short)t3) {
-                t26 = 0xFFFFFF00;
+                t41 = 0xFFFFFF00;
                 if ((unsigned int)a8 <= (unsigned int)(unsigned short)t3) {
-                    t21 = 0xFFFFFF00;
+                    t41 = 0xFFFFFF00;
                     if ((unsigned int)(a7 + a8) <= (unsigned int)(unsigned short)t3) {
                         t4 = *(int *)(((int)stk + 4));
                         t5 = check_file_correct(a4);
-                        t16 = t5;
+                        t41 = t5;
                         if ((int)t5 >= 0) {
-                            t10 = 0x0;
+                            t41 = 0x0;
                             if ((unsigned int)0x0 < (unsigned int)a8) {
                                 t6 = 0x0;
                                 t7 = a6;
                                 t8 = a7;
                                 for (;;) {
-                                    t9 = vmsfs_write_retry(a4, t8, t7);
-                                    if ((int)t9 < 0) break;
+                                    t41 = vmsfs_write_retry(a4, t8, t7);
+                                    if ((int)t41 < 0) break;
                                     t6 = (t6 + 0x1);
                                     t7 = (t7 + 0x200);
                                     t8 = (t8 + 0x1);
@@ -640,19 +635,12 @@ int vmsfs_rewrite_exec_file(int a4, int a5, int a6, int a7, int a8)
                                         return 0x0;
                                     }
                                 }
-                                t10 = t9;
                             }
-                            t16 = t10;
                         }
-                        t21 = t16;
                     }
-                    t26 = t21;
                 }
-                t31 = t26;
             }
-            t36 = t31;
         }
-        t41 = t36;
     }
     return t41;
 }
@@ -671,12 +659,10 @@ int adxsjd_decode_prep(int a4)
     int t8;
     int t9;
     int t10;
-    int t11;
     int t12;
     int t14;
     int t15;
     int t17;
-    int t16;
     int t18;
     int t22;
     int t23;
@@ -686,14 +672,13 @@ int adxsjd_decode_prep(int a4)
     int t27;
     int t29;
     int t30;
-    int t31;
     int t33;
     int t34;
-    int t35;
     int t36;
-    int t32;
-    int t28;
     int stk[11] = {0};
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     t0 = *(int *)((a4 + 0x8));
     t1 = *(int *)((t0 + 0x0));
@@ -709,8 +694,7 @@ int adxsjd_decode_prep(int a4)
             if ((int)t7 > (int)t8) {
                 t9 = *(int *)((t0 + 0x0));
                 t10 = *(int *)((t9 + 0x1C));
-                t11 = ((int (*)(int, int, int))(t10))(t0, 0x1, (((int)stk + 4) + 0xC));
-                t28 = t11;
+                t36 = ((int (*)(int, int, int))(t10))(t0, 0x1, (((int)stk + 4) + 0xC));
             } else {
                 t12 = ADXB_GetFormat(t2);
                 if (t12 == 4) {
@@ -719,11 +703,10 @@ int adxsjd_decode_prep(int a4)
                 t14 = ADXB_GetFormat(t2);
                 if (t14 == 2) {
                     t15 = *(int *)(((int)stk + 20));
-                    *(unsigned int *)(((int)stk + 4)) = t15;
+                    R1004 = t15;
                     t17 = 0x40;
                     if ((int)t15 < (int)0x40) {
-                        t16 = *(int *)(((int)stk + 4));
-                        t17 = t16;
+                        t17 = R1004;
                     }
                     t18 = *(int *)(((int)stk + 16));
                     memmove((a4 + 0x58), t18, t17);
@@ -736,21 +719,17 @@ int adxsjd_decode_prep(int a4)
                 t26 = *(int *)((t25 + 0x1C));
                 t27 = ((int (*)(int, int, int))(t26))(t0, 0x1, (((int)stk + 4) + 0x4));
                 *(unsigned char *)((a4 + 0x1)) = 0x2;
-                t28 = 0x2;
+                t36 = 0x2;
             }
-            t32 = t28;
         } else {
             t29 = *(int *)((t0 + 0x0));
             t30 = *(int *)((t29 + 0x1C));
-            t31 = ((int (*)(int, int, int))(t30))(t0, 0x1, (((int)stk + 4) + 0xC));
-            t32 = t31;
+            t36 = ((int (*)(int, int, int))(t30))(t0, 0x1, (((int)stk + 4) + 0xC));
         }
-        t36 = t32;
     } else {
         t33 = *(int *)((t0 + 0x0));
         t34 = *(int *)((t33 + 0x1C));
-        t35 = ((int (*)(int, int, int))(t34))(t0, 0x1, (((int)stk + 4) + 0xC));
-        t36 = t35;
+        t36 = ((int (*)(int, int, int))(t34))(t0, 0x1, (((int)stk + 4) + 0xC));
     }
     return t36;
 }

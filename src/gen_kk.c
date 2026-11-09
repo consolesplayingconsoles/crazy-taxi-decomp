@@ -13,7 +13,7 @@ int vmsfs_fwrite(int, int, int);
 int vmsfs_load_file(int, int, int, int);
 int vmsfs_load_file_ex(int, int, int, int, int);
 int vmsfs_mount(int);
-int vmsfs_read_disk_image(int, int, int, int);
+int vmsfs_read_disk_image(int, int);
 int vmsfs_rewrite_exec_file(int, int, int, int, int);
 int vmsfs_save_exec_file(int, int, int, int, int, int);
 int vmsfs_save_file(int, int, int, int, int, int);
@@ -21,6 +21,9 @@ int vmsfs_unmount(int);
 int vmsfs_write_disk_image(int, int);
 int vmsfs_xdefrag(int, int);
 void vmsfs_c_dispatch(int a4, int a5, int a6, int a7);
+struct o74_int { char p[0x74]; int v; };
+struct o7C_int { char p[0x7C]; int v; };
+
 
 void vmsfs_c_dispatch(int a4, int a5, int a6, int a7)
 {
@@ -88,7 +91,7 @@ void vmsfs_c_dispatch(int a4, int a5, int a6, int a7)
     goto L_C16344E;
     L_C16344E:;
     *(unsigned int *)((R9 + 0x0)) = R12;
-    t25 = *(int *)((R14 + 0x7C));
+    t25 = (((struct o7C_int *)(R14))->v);
     t26 = *(int *)((R14 + 0x8));
     *(unsigned int *)((R14 + 0x0)) = R13;
     *(unsigned int *)((R14 + 0x4)) = R13;
@@ -101,7 +104,7 @@ void vmsfs_c_dispatch(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R14 + 0x20)) = R13;
     *(unsigned int *)((R14 + 0x24)) = R13;
     *(unsigned int *)((R14 + 0x28)) = R13;
-    t27 = *(int *)((R14 + 0x74));
+    t27 = (((struct o74_int *)(R14))->v);
     R0 = (0x74);
     R3 = (t27);
     R5 = (t26);
@@ -139,7 +142,7 @@ void vmsfs_c_dispatch(int a4, int a5, int a6, int a7)
     goto L_C163436;
     L_C16337C:;
     *(unsigned int *)((R14 + 0x10)) = (*(int *)((R14 + 0x14)));
-    R0 = ((vmsfs_read_disk_image((*(int *)((R14 + 0x14))), (*(int *)((R14 + 0x18))), R6, R7)));
+    R0 = ((vmsfs_read_disk_image((*(int *)((R14 + 0x14))), (*(int *)((R14 + 0x18))))));
     goto L_C163436;
     L_C16336C:;
     *(unsigned int *)((R14 + 0x10)) = (*(int *)((R14 + 0x14)));

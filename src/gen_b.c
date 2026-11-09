@@ -49,6 +49,24 @@ int mwlSbGetGain(int a4);
 int mwlSbGetDrctLvl(int a4);
 int ADXPD_GetStat(int a4);
 int ADXPD_GetNumBlk(int a4);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o14_float { char p[0x14]; float v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o20_float { char p[0x20]; float v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_float { char p[0x28]; float v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o3C_uint { char p[0x3C]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 void SetCameraDistance(float f4)
 {
@@ -99,27 +117,27 @@ int Init_Pass_Time(void)
     float u2;
     float u3;
 
-    u0 = *(float *)0xC2A7604;
-    *(float *)0xC2A8070 = u0;
-    u1 = *(float *)0xC2A7608;
-    *(float *)0xC2A8074 = u1;
+    u0 = (((struct o0_float *)0xC2A7604)->v);
+    (((struct o0_float *)0xC2A8070)->v) = u0;
+    u1 = (((struct o4_float *)0xC2A7604)->v);
+    (((struct o4_float *)0xC2A8070)->v) = u1;
     u2 = 0.099999994f;
-    *(float *)0xC2A8078 = u2;
+    (((struct o8_float *)0xC2A8070)->v) = u2;
     u3 = 0.5f;
-    *(float *)0xC2A807C = u3;
-    *(float *)0xC2A8080 = u3;
-    *(float *)0xC2A8084 = 0.0f;
-    *(float *)0xC2A8088 = 0.0f;
-    *(float *)0xC2A808C = 1.0f;
-    *(float *)0xC2A8090 = 1.0f;
-    *(unsigned int *)0xC2A8094 = 0x0;
-    *(unsigned int *)0xC2A80A0 = 0x300A;
-    *(float *)0xC2A8098 = 1.0f;
-    *(unsigned int *)0xC2A809C = 0x2;
-    *(unsigned int *)0xC2A8DF4 = 0x0;
-    *(unsigned int *)0xC2A8DF8 = 0x0;
-    *(unsigned int *)0xC2A8DFC = 0x0;
-    *(unsigned int *)0xC2A8E30 = 0x0;
+    (((struct oC_float *)0xC2A8070)->v) = u3;
+    (((struct o10_float *)0xC2A8070)->v) = u3;
+    (((struct o14_float *)0xC2A8070)->v) = 0.0f;
+    (((struct o18_float *)0xC2A8070)->v) = 0.0f;
+    (((struct o1C_float *)0xC2A8070)->v) = 1.0f;
+    (((struct o20_float *)0xC2A8070)->v) = 1.0f;
+    (((struct o24_uint *)0xC2A8070)->v) = 0x0;
+    (((struct o30_uint *)0xC2A8070)->v) = 0x300A;
+    (((struct o28_float *)0xC2A8070)->v) = 1.0f;
+    (((struct o2C_uint *)0xC2A8070)->v) = 0x2;
+    (((struct o0_uint *)0xC2A8DF4)->v) = 0x0;
+    (((struct o4_uint *)0xC2A8DF4)->v) = 0x0;
+    (((struct o8_uint *)0xC2A8DF4)->v) = 0x0;
+    (((struct o3C_uint *)0xC2A8DF4)->v) = 0x0;
     return 0xC2A8DF4;
 }
 

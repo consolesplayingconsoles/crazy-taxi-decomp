@@ -28,6 +28,8 @@ int kmiFBallocQueue(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -122,8 +124,8 @@ int kmiFBallocQueue(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     *(unsigned int *)((R13 + 0x10)) = R12;
     *(unsigned int *)((R14 + 0x10)) = ((*(int *)((R14 + 0x10))) - R12);
     *(unsigned int *)((R14 + 0xC)) = (R12 + (*(int *)((R14 + 0xC))));
-    *(unsigned int *)(((int)stk + 4)) = (R10 + R11);
-    kmytex_FBEnQueueTop((*(int *)(((int)stk + 4))), ((R10 + R11) + 0x4), R13);
+    R1004 = (R10 + R11);
+    kmytex_FBEnQueueTop((R1004), ((R10 + R11) + 0x4), R13);
     R0 = (R8);
     if ((R8 == 8)) goto L_C156D96;
     goto L_C156D8C;

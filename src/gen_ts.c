@@ -3,18 +3,40 @@
 
 int Count_Down_Clock(void);
 int GS_GuestResult(void);
-int ResetFadeColor(float);
+int ResetFadeColor(void);
 int Sound_Request(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 int nlSprPut(int);
 int Put_Pass_Time(void);
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_int { char p[0x10]; int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_int { char p[0x14]; int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o24_float { char p[0x24]; float v; };
+struct o28_float { char p[0x28]; float v; };
+struct o28_int { char p[0x28]; int v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o2C_int { char p[0x2C]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct o3C_uint { char p[0x3C]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int Put_Pass_Time(void)
 {
     int t69;
-    int t75;
-    int t71;
-    int t102;
     int t187;
     int t188;
     int t192;
@@ -40,66 +62,57 @@ int Put_Pass_Time(void)
     float u297;
     int t1;
     int t181;
-    int t64;
-    int t79;
-    int t83;
-    int t177;
     float u278;
     float u302;
     float u317;
 
-    if (((*(int *)0xC2A8E98) == 0) && (t1 = *(int *)0xC2A8EB0, (int)t1 <= (int)0x3)) {
-        *(unsigned int *)0xC2A8E30 = (*(int *)(((*(int *)0xC2A8C78) + 0x0)));
+    if ((((((struct o10_int *)0xC2A8E88)->v)) == 0) && (t1 = (((struct o28_int *)0xC2A8E88)->v), (int)t1 <= (int)0x3)) {
+        (((struct o3C_uint *)0xC2A8DF4)->v) = (*(int *)((((((struct o14_int *)0xC2A8C64)->v)) + 0x0)));
     }
-    if ((int)(*(int *)0xC2A8E30) <= 0) {
-        if (((*(int *)0xC2A75E0) & 0x80) == 0x80) {
-            if (((*(int *)0xC2A8EB0) == 2) && (t64 = *(int *)0xC2A8F70, t64 == 1)) {
-                *(unsigned int *)0xC2A8EB0 = 0x6;
-                t79 = t64;
+    if ((int)((((struct o3C_int *)0xC2A8DF4)->v)) <= 0) {
+        if ((((((struct o0_int *)0xC2A75E0)->v)) & 0x80) == 0x80) {
+            if ((((((struct o28_int *)0xC2A8E88)->v)) == 2) && (t181 = (((struct o10_int *)0xC2A8F60)->v), t181 == 1)) {
+                (((struct o28_uint *)0xC2A8E88)->v) = 0x6;
             } else {
-                t69 = *(int *)0xC2A8EB0;
-                t75 = t69;
+                t69 = (((struct o28_int *)0xC2A8E88)->v);
+                t181 = t69;
                 if (t69 != 3) {
                 } else {
-                    t71 = *(int *)0xC2A8E88;
-                    if (t71 != 7) {
+                    t181 = (((struct o0_int *)0xC2A8E88)->v);
+                    if (t181 != 7) {
                     } else {
-                        *(unsigned int *)0xC2A8EB0 = 0x4;
-                        *(unsigned int *)0xC2A8F64 = 0x0;
-                        *(unsigned int *)0xC2A8F60 = 0x0;
+                        (((struct o28_uint *)0xC2A8E88)->v) = 0x4;
+                        (((struct o4_uint *)0xC2A8F60)->v) = 0x0;
+                        (((struct o0_uint *)0xC2A8F60)->v) = 0x0;
                     }
-                    t75 = t71;
                 }
-                t79 = t75;
             }
-            t181 = t79;
         } else {
-            if (((*(int *)0xC2A8EB0) == 2) && (t83 = *(int *)0xC2A8F70, t83 == 1)) {
-                *(unsigned int *)0xC2A8EB0 = 0x6;
-                t177 = t83;
+            if ((((((struct o28_int *)0xC2A8E88)->v)) == 2) && (t181 = (((struct o10_int *)0xC2A8F60)->v), t181 == 1)) {
+                (((struct o28_uint *)0xC2A8E88)->v) = 0x6;
             } else {
-                t102 = *(int *)0xC2A8EB0;
-                if (t102 != 3) {
+                t181 = (((struct o28_int *)0xC2A8E88)->v);
+                if (t181 != 3) {
                 } else {
-                    if ((*(int *)0xC2A8EDC) != 0) {
+                    if (((((struct o0_int *)0xC2A8EDC)->v)) != 0) {
                     } else {
-                        if ((*(int *)0xC2A8EE0) != 0) {
+                        if (((((struct o4_int *)0xC2A8EDC)->v)) != 0) {
                         } else {
-                            if ((*(int *)0xC2A8EE4) != 0) {
+                            if (((((struct o8_int *)0xC2A8EDC)->v)) != 0) {
                             } else {
-                                if ((*(int *)0xC2A8EE8) != 0) {
+                                if (((((struct oC_int *)0xC2A8EDC)->v)) != 0) {
                                 } else {
-                                    if ((*(int *)0xC2A8EEC) != 0) {
+                                    if (((((struct o10_int *)0xC2A8EDC)->v)) != 0) {
                                     } else {
-                                        if ((*(int *)0xC2A8EF0) != 0) {
+                                        if (((((struct o14_int *)0xC2A8EDC)->v)) != 0) {
                                         } else {
-                                            if ((*(int *)0xC2A8EF4) != 0) {
+                                            if (((((struct o18_int *)0xC2A8EDC)->v)) != 0) {
                                             } else {
-                                                if ((*(int *)0xC2A8EF8) != 0) {
+                                                if (((((struct o1C_int *)0xC2A8EDC)->v)) != 0) {
                                                 } else {
-                                                    *(unsigned int *)0xC2A8EB0 = 0x4;
-                                                    *(unsigned int *)0xC2A8F64 = 0x0;
-                                                    *(unsigned int *)0xC2A8F60 = 0x0;
+                                                    (((struct o28_uint *)0xC2A8E88)->v) = 0x4;
+                                                    (((struct o4_uint *)0xC2A8F60)->v) = 0x0;
+                                                    (((struct o0_uint *)0xC2A8F60)->v) = 0x0;
                                                 }
                                             }
                                         }
@@ -109,13 +122,11 @@ int Put_Pass_Time(void)
                         }
                     }
                 }
-                t177 = t102;
             }
-            t181 = t177;
         }
         return t181;
     }
-    t187 = (int)((int)(*(int *)0xC2A8E30) / (int)0x3C);
+    t187 = (int)((int)((((struct o3C_int *)0xC2A8DF4)->v)) / (int)0x3C);
     t188 = t187;
     if ((int)t187 > (int)0x3E7) {
         t188 = 0x3E7;
@@ -129,7 +140,7 @@ int Put_Pass_Time(void)
     }
     t196 = (int)((int)t193 / (int)0xA);
     t197 = (int)((int)t193 % (int)0xA);
-    if ((*(int *)0xC2A8E98) == 0) {
+    if (((((struct o10_int *)0xC2A8E88)->v)) == 0) {
         t200 = GS_GuestResult();
         if (t200 == 2) {
             nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
@@ -148,13 +159,13 @@ int Put_Pass_Time(void)
                 nlObjPutSetFadeColor(u204, u205, u206);
             }
         }
-        if ((int)(*(int *)0xC2A8E30) <= (int)(*(int *)0xC1EE7D4)) {
-            if (((int)((int)(*(int *)0xC2A8E30) % (int)0x3C)) == 0) {
+        if ((int)((((struct o3C_int *)0xC2A8DF4)->v)) <= (int)(*(int *)0xC1EE7D4)) {
+            if (((int)((int)((((struct o3C_int *)0xC2A8DF4)->v)) % (int)0x3C)) == 0) {
                 Sound_Request(0x4A9, 0x0);
             }
         }
     } else {
-        t224 = *(int *)0xC2A760C;
+        t224 = (((struct o2C_int *)0xC2A75E0)->v);
         if (t224 == 2) {
             nlObjPutSetFadeColor(0.0f, 1.0f, 0.0f);
         } else {
@@ -173,52 +184,52 @@ int Put_Pass_Time(void)
             }
         }
     }
-    if ((*(int *)0xC2A8EB0) == 3) {
-        *(float *)0xC2A8098 = 0.0f;
+    if (((((struct o28_int *)0xC2A8E88)->v)) == 3) {
+        (((struct o2C_float *)0xC2A806C)->v) = 0.0f;
         Count_Down_Clock();
     }
-    *(unsigned int *)0xC2A8DF4 = (int)(*(float *)0xC2A7604);
-    *(unsigned int *)0xC2A8DF8 = (int)(*(float *)0xC2A7608);
+    (((struct o0_uint *)0xC2A8DF4)->v) = (int)((((struct o24_float *)0xC2A75E0)->v));
+    (((struct o4_uint *)0xC2A8DF4)->v) = (int)((((struct o28_float *)0xC2A75E0)->v));
     u247 = 0.79999995f;
-    if ((*(float *)0xC2A8C64) > u247) {
-        *(float *)0xC2A8C64 = u247;
+    if (((((struct o0_float *)0xC2A8C64)->v)) > u247) {
+        (((struct o0_float *)0xC2A8C64)->v) = u247;
     }
-    if ((*(float *)0xC2A8C68) > u247) {
-        *(float *)0xC2A8C68 = u247;
+    if (((((struct o4_float *)0xC2A8C64)->v)) > u247) {
+        (((struct o4_float *)0xC2A8C64)->v) = u247;
     }
-    *(float *)0xC2A807C = (*(float *)0xC2A8C64);
-    *(float *)0xC2A8080 = (*(float *)0xC2A8C68);
-    *(float *)0xC2A8098 = 1.0f;
-    *(unsigned int *)0xC2A8094 = 0x0;
+    (((struct o10_float *)0xC2A806C)->v) = ((((struct o0_float *)0xC2A8C64)->v));
+    (((struct o14_float *)0xC2A806C)->v) = ((((struct o4_float *)0xC2A8C64)->v));
+    (((struct o2C_float *)0xC2A806C)->v) = 1.0f;
+    (((struct o28_uint *)0xC2A806C)->v) = 0x0;
     if (t192 != 0) {
-        *(float *)0xC2A8070 = (float)(*(int *)0xC2A8DF4);
-        *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-        *(float *)0xC2A8078 = 0.14999999f;
-        *(unsigned int *)0xC2A806C = (*(int *)(((t192 << 2) + 0xC0D0C08)));
+        (((struct o4_float *)0xC2A806C)->v) = (float)((((struct o0_int *)0xC2A8DF4)->v));
+        (((struct o8_float *)0xC2A806C)->v) = (float)((((struct o4_int *)0xC2A8DF4)->v));
+        (((struct oC_float *)0xC2A806C)->v) = 0.14999999f;
+        (((struct o0_uint *)0xC2A806C)->v) = (*(int *)(((t192 << 2) + 0xC0D0C08)));
         nlSprPut(0xC2A806C);
     }
     u269 = 4e+01f;
     if ((t192 == 0) && (t196 == 0)) {
     } else {
         if (t192 != 0) {
-            u272 = (float)(*(int *)0xC2A8DF4);
-            u272 = u272 + u269 * (*(float *)0xC2A8C64);
+            u272 = (float)((((struct o0_int *)0xC2A8DF4)->v));
+            u272 = u272 + u269 * ((((struct o0_float *)0xC2A8C64)->v));
             u278 = u272;
         } else {
-            u278 = (float)(*(int *)0xC2A8DF4);
+            u278 = (float)((((struct o0_int *)0xC2A8DF4)->v));
         }
-        *(float *)0xC2A8070 = u278;
-        *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-        *(float *)0xC2A8078 = 0.225f;
-        *(unsigned int *)0xC2A806C = (*(int *)(((t196 << 2) + 0xC0D0C08)));
+        (((struct o4_float *)0xC2A806C)->v) = u278;
+        (((struct o8_float *)0xC2A806C)->v) = (float)((((struct o4_int *)0xC2A8DF4)->v));
+        (((struct oC_float *)0xC2A806C)->v) = 0.225f;
+        (((struct o0_uint *)0xC2A806C)->v) = (*(int *)(((t196 << 2) + 0xC0D0C08)));
         nlSprPut(0xC2A806C);
     }
-    t293 = *(int *)0xC2A8DF4;
-    u294 = *(float *)0xC2A8C64;
+    t293 = (((struct o0_int *)0xC2A8DF4)->v);
+    u294 = (((struct o0_float *)0xC2A8C64)->v);
     if (t192 != 0) {
         u296 = (float)t293;
         u296 = u296 + 8e+01f * u294;
-        *(float *)0xC2A8070 = u296;
+        (((struct o4_float *)0xC2A806C)->v) = u296;
         u302 = u296;
     } else {
         u299 = (float)t293;
@@ -227,17 +238,17 @@ int Put_Pass_Time(void)
             u297 = u297 + u269 * u294;
             u299 = u297;
         }
-        *(float *)0xC2A8070 = u299;
+        (((struct o4_float *)0xC2A806C)->v) = u299;
         u302 = u299;
     }
-    *(float *)0xC2A8074 = (float)(*(int *)0xC2A8DF8);
-    *(float *)0xC2A8078 = 0.19999999f;
-    *(unsigned int *)0xC2A806C = (*(int *)(((t197 << 2) + 0xC0D0C08)));
-    if ((int)(*(int *)0xC2A8E30) > 0) {
+    (((struct o8_float *)0xC2A806C)->v) = (float)((((struct o4_int *)0xC2A8DF4)->v));
+    (((struct oC_float *)0xC2A806C)->v) = 0.19999999f;
+    (((struct o0_uint *)0xC2A806C)->v) = (*(int *)(((t197 << 2) + 0xC0D0C08)));
+    if ((int)((((struct o3C_int *)0xC2A8DF4)->v)) > 0) {
         nlSprPut(0xC2A806C);
     } else {
         u317 = u302;
     }
-    *(float *)0xC2A8098 = 1.0f;
-    return ResetFadeColor(u317);
+    (((struct o2C_float *)0xC2A806C)->v) = 1.0f;
+    return ResetFadeColor();
 }

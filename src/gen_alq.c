@@ -7,7 +7,6 @@ void Voice_CancelToNext(int a4);
 void Voice_CancelToNext(int a4)
 {
     int t3;
-    int stk[3];
 
     int R0;
     int R2;

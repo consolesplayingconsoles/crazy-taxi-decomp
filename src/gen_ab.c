@@ -14,18 +14,27 @@ int nd_CarSel_PutCar(int a4, int a5, int a6, int a7)
     int t4;
     int t16;
     int stk[14];
+    int R1004;
+    int R1008;
+    int R1012;
+    int R1020;
 
-    *(unsigned int *)(((int)stk + 4)) = a4;
+    R1004 = *(int *)((int)stk + 4);
+    R1008 = *(int *)((int)stk + 8);
+    R1012 = *(int *)((int)stk + 12);
+    R1020 = *(int *)((int)stk + 20);
+
+    R1004 = a4;
     *(unsigned short *)(((int)stk + 16)) = a5;
-    *(unsigned int *)(((int)stk + 8)) = a6;
-    *(unsigned int *)(((int)stk + 12)) = a7;
-    t0 = *(int *)(((int)stk + 4));
+    R1008 = a6;
+    R1012 = a7;
+    t0 = R1004;
     nlPushMatrix(0x0);
     nlObjPutUseViewMatrix((*(int *)((((short)(((((t0 << 2) << 2) << 1) + t0) << 2) + 0xC130788) + 0x0))));
-    t4 = *(int *)(((int)stk + 4));
-    *(unsigned int *)(((int)stk + 20)) = (t4 << 2);
-    nlObjPutUseViewMatrix((*(int *)((((*(int *)(((int)stk + 8))) << 2) + (*(int *)((0xC1309B8 + (t4 << 2))))))));
-    nlObjPutUseViewMatrix((*(int *)((((*(int *)(((int)stk + 12))) << 2) + (*(int *)(((*(int *)(((int)stk + 20))) + 0xC1309E8)))))));
+    t4 = R1004;
+    R1020 = (t4 << 2);
+    nlObjPutUseViewMatrix((*(int *)((((R1008) << 2) + (*(int *)((0xC1309B8 + (t4 << 2))))))));
+    nlObjPutUseViewMatrix((*(int *)((((R1012) << 2) + (*(int *)(((R1020) + 0xC1309E8)))))));
     nlPushMatrix(0x0);
     nlTranslateV((((short)(((((t0 << 2) << 2) << 1) + t0) << 2) + 0xC130788) + 0x14));
     t16 = *(short *)(((int)stk + 16));

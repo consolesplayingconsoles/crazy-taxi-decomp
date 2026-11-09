@@ -8,6 +8,11 @@ int mwRnaGetTransSw(int);
 int gdFsExecServerG(void);
 int adxt_start_sj(int a4, int a5);
 int mwlRnaAddRdPos(int a4);
+struct o48_int { char p[0x48]; int v; };
+struct o48_uint { char p[0x48]; unsigned int v; };
+struct o4C_uint { char p[0x4C]; unsigned int v; };
+struct o71_uchar { char p[0x71]; unsigned char v; };
+
 
 int adxt_start_sj(int a4, int a5)
 {
@@ -36,8 +41,8 @@ int adxt_start_sj(int a4, int a5)
     t8 = *(int *)((a4 + 0x4));
     ADXSJD_Start();
     *(unsigned char *)((a4 + 0x1)) = 0x1;
-    *(unsigned int *)((a4 + 0x4C)) = 0x0;
-    *(unsigned char *)((a4 + 0x71)) = 0x0;
+    (((struct o4C_uint *)(a4))->v) = 0x0;
+    (((struct o71_uchar *)(a4))->v) = 0x0;
     return 0x71;
 }
 
@@ -95,8 +100,8 @@ int mwlRnaAddRdPos(int a4)
         }
     }
     *(unsigned int *)((a4 + 0x34)) = t14;
-    t21 = *(int *)((a4 + 0x48));
-    *(unsigned int *)((a4 + 0x48)) = (t21 + t15);
+    t21 = (((struct o48_int *)(a4))->v);
+    (((struct o48_uint *)(a4))->v) = (t21 + t15);
     return 0x48;
 }
 

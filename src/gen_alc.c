@@ -12,9 +12,13 @@ int buIsExistFile(int, int);
 int callWarnning(int, int, int, int);
 int putLevelCTFontAssist(int, int, int, int, int);
 int windowClose(void);
-int windowEnterStep(int, int, int, int);
+int windowEnterStep(int);
 int windowOpenStep(int);
 void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7, float f8, float f9)
 {
@@ -64,14 +68,14 @@ void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     F9 = f9;
     L_C03E254:;
     R13 = (0xC2A11F4);
-    if (((*(int *)0xC2A1220) == 0)) goto L_C03E27C;
+    if ((((((struct o4_int *)0xC2A121C)->v)) == 0)) goto L_C03E27C;
     goto L_C03E278;
     L_C03E278:;
     goto L_C03E5C0;
     L_C03E5C0:;
     return;
     L_C03E27C:;
-    t3 = *(int *)0xC2A121C;
+    t3 = (((struct o0_int *)0xC2A121C)->v);
     R0 = (t3);
     R8 = (0xC2A121C);
     if ((t3 != 1)) goto L_C03E2FC;
@@ -79,7 +83,7 @@ void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     L_C03E284:;
     *(unsigned int *)((R8 + 0x0)) = 0x2;
     *(unsigned int *)((R13 + 0x14)) = 0x2;
-    if (((*(int *)0xC2A1224) == 0)) goto L_C03E296;
+    if ((((((struct o8_int *)0xC2A121C)->v)) == 0)) goto L_C03E296;
     goto L_C03E292;
     L_C03E292:;
     goto L_C03E5C0;
@@ -165,7 +169,7 @@ void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     if ((t53 == 0)) goto L_C03E598;
     goto L_C03E54E;
     L_C03E598:;
-    windowEnterStep(0x14, R5, R6, R7);
+    windowEnterStep(0x14);
     windowClose();
     SetScreen(0x4);
     t60 = ((int (*)(int))(SetWindow))(0x0);
@@ -174,7 +178,7 @@ void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     if ((t61 != 1)) goto L_C03E5C0;
     goto L_C03E5B4;
     L_C03E5B4:;
-    t64 = *(int *)0xC2A121C;
+    t64 = (((struct o0_int *)0xC2A121C)->v);
     R0 = (t64);
     if ((t64 != 2)) goto L_C03E5C0;
     goto L_C03E5BC;
@@ -192,7 +196,7 @@ void windowSaveData(int a4, int a5, int a6, int a7, float f4, float f5, float f6
     if ((R5 != 0)) goto L_C03E448;
     goto L_C03E35E;
     L_C03E35E:;
-    if (((*(int *)0xC2A121C) != 2)) goto L_C03E448;
+    if ((((((struct o0_int *)0xC2A121C)->v)) != 2)) goto L_C03E448;
     goto L_C03E366;
     L_C03E366:;
     if (((0x18 & R4) == 0)) goto L_C03E376;

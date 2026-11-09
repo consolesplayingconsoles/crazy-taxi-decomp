@@ -16,6 +16,12 @@ int nlSubVector3op(int, int, int);
 int nlTranslate(float, float, float);
 int nlTranslateV(int);
 int Drv_Put(void);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o18_int { char p[0x18]; int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o24_float { char p[0x24]; float v; };
+
 
 int Drv_Put(void)
 {
@@ -28,8 +34,6 @@ int Drv_Put(void)
     int t29;
     int t41;
     int t33;
-    int t36;
-    int t34;
     float u48;
     float u59;
     int t3;
@@ -68,8 +72,8 @@ int Drv_Put(void)
     t13 = *(signed char *)0xC179488;
     nlTranslateV(((unsigned char)(((t13 << 1) + t13) << 2) + (((int)stk + 4) + 0x14)));
     nlRotateAY(0x8000);
-    t16 = *(int *)0xC2AD010;
-    t17 = *(int *)0xC2AD000;
+    t16 = (((struct o10_int *)0xC2AD000)->v);
+    t17 = (((struct o0_int *)0xC2AD000)->v);
     if ((t16 != 2) && (t16 != 4)) {
         if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
             FcvPlayBuffer(0xC2AD028, t17);
@@ -82,36 +86,34 @@ int Drv_Put(void)
     nlGetTranslate(0xC2AD004);
     if (((*(signed char *)0xC2AD1DF) & 1) != 0) {
         nlTranslate(0.0f, 3.5f, -3.25999999f);
-        u28 = *(float *)0xC2AD024;
-        t29 = *(int *)0xC2AD020;
+        u28 = (((struct o24_float *)0xC2AD000)->v);
+        t29 = (((struct o20_int *)0xC2AD000)->v);
         t41 = ((-(int)((u28 * 65535.0f) / 60.0f)) + 0x8000);
         if ((t29 != 0xC136BE4) && ((t29 != 0xC138BF8) && (t29 != 0xC13A3BC))) {
-            t33 = *(int *)0xC2AD020;
-            t36 = (0xFFFF8000 + (int)((u28 * 65535.0f) / 60.0f));
+            t33 = (((struct o20_int *)0xC2AD000)->v);
+            t41 = (0xFFFF8000 + (int)((u28 * 65535.0f) / 60.0f));
             if (t33 == 0xC13BB20) {
             } else {
-                t34 = 0xC2AD258;
+                t41 = 0xC2AD258;
                 if (t33 == 0xC13D404) {
-                    t34 = 0x8000;
+                    t41 = 0x8000;
                 }
-                t36 = t34;
             }
-            t41 = t36;
         }
         nlRotateAX(t41);
         nlObjPutUseViewMatrix(0xC3BFFE0);
         nlPushMatrix(0x0);
         u48 = (-2.3f);
         nlTranslate(u48, u48, 0.0f);
-        if ((*(int *)0xC2AD020) != 0xC135150) {
-            nlRotateAX(((*(int *)0xC2AD0D0) - t41));
+        if (((((struct o20_int *)0xC2AD000)->v)) != 0xC135150) {
+            nlRotateAX((((((struct o0_int *)0xC2AD0D0)->v)) - t41));
         }
         nlObjPutUseViewMatrix(0xC3C05A8);
         nlGetPushedMatrix(0x0);
         u59 = 2.3f;
         nlTranslate(u59, u59, 0.0f);
-        if ((*(int *)0xC2AD020) != 0xC135150) {
-            nlRotateAX(((*(int *)0xC2AD0E8) - t41));
+        if (((((struct o20_int *)0xC2AD000)->v)) != 0xC135150) {
+            nlRotateAX((((((struct o18_int *)0xC2AD0D0)->v)) - t41));
         }
         nlObjPutUseViewMatrix(0xC3C07C8);
         nlPopMatrix(0x1);

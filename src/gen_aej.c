@@ -459,14 +459,17 @@ int mwSbOpenPort(int a4);
 int ExecEndRoll(void);
 int ndPeriCheck2(int a4, int a5);
 int ExecNameEntrySelect(void);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 void Drv_StartDrive(void)
 {
     float t0;
     float u2;
 
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
+    (((struct o0_uint *)0xC2AD1D0)->v) = 0xC0D44D8;
+    (((struct o4_uint *)0xC2AD1D0)->v) = 0xC0D44E0;
     t0 = Drv_DriveFrame();
     Drv_SetMotion(0xC8E4D64, t0);
     u2 = 15.0f;

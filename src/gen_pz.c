@@ -4,6 +4,9 @@
 int gdc_CourseBlockFind(int, int, int, int);
 int nlObjPutUseViewMatrix(int);
 int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4)
 {
@@ -48,7 +51,7 @@ int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4)
     if ((R5 != 0)) goto L_C02EBB4;
     goto L_C02EBAA;
     L_C02EBAA:;
-    R10 = ((*(int *)((R6 + (*(int *)0xC26E0FC)))));
+    R10 = ((*(int *)((R6 + ((((struct o0_int *)0xC26E0FC)->v))))));
     R2 = (0xC1EE800);
     goto L_C02EBBC;
     L_C02EBBC:;
@@ -139,7 +142,7 @@ int gdc_CoursePut(int a4, int a5, int a6, int a7, float f4)
     if (t56) goto L_C02ECB6;
     goto L_C02ECC8;
     L_C02EBB4:;
-    R10 = ((*(int *)((R6 + (*(int *)0xC26E100)))));
+    R10 = ((*(int *)((R6 + ((((struct o4_int *)0xC26E0FC)->v))))));
     R2 = (0xC1EE804);
     goto L_C02EBBC;
 }

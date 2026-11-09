@@ -20,24 +20,24 @@ int Put_Record_Window(void);
 int Set_Record_Time(void);
 int gdc_StopStreamVoice(int);
 int execDCmini(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o34_short { char p[0x34]; short v; };
+struct o38_int { char p[0x38]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int execDCmini(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     int t0;
-    int t40;
-    int t59;
     int t41;
     int t53;
     int t45;
-    int t48;
-    int t46;
-    int t80;
     int t105;
-    int t96;
-    int t95;
     int t68;
     int t69;
-    int t71;
 
     t0 = *(int *)0xC1EE214;
     if ((unsigned int)t0 < (unsigned int)0x13) {
@@ -91,7 +91,7 @@ int execDCmini(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
             case 28:
             case 36:
             {
-                Exec_DCmini_Game9((*(int *)0xC2A9900));
+                Exec_DCmini_Game9(((((struct o8_int *)0xC2A98F8)->v)));
             }
                 break;
             case 24:
@@ -114,59 +114,51 @@ int execDCmini(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
     } else {
         Check_DCmini_End();
     }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x4) == 4) {
+    if (((unsigned short)((((struct o34_short *)0xC2A98F8)->v)) & 0x4) == 4) {
         Put_JumpDistance();
     }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x10) == 16) {
+    if (((unsigned short)((((struct o34_short *)0xC2A98F8)->v)) & 0x10) == 16) {
         Exec_Excellent();
     }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x20) == 32) {
+    if (((unsigned short)((((struct o34_short *)0xC2A98F8)->v)) & 0x20) == 32) {
         Exec_Fault();
     }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x40) == 64) {
+    if (((unsigned short)((((struct o34_short *)0xC2A98F8)->v)) & 0x40) == 64) {
         Put_Record_Window();
     }
-    if (((unsigned short)(*(short *)0xC2A992C) & 0x100) == 0x100) {
+    if (((unsigned short)((((struct o34_short *)0xC2A98F8)->v)) & 0x100) == 0x100) {
         Put_PoleMarriageKiss();
     }
-    t40 = *(int *)0xC1EE788;
-    t59 = t40;
-    if (t40 == 1) {
+    t53 = (((struct o0_int *)0xC1EE788)->v);
+    t105 = t53;
+    if (t53 == 1) {
         t41 = *(int *)0xC1EE214;
-        t53 = t40;
-        if ((int)((*(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0))) * 0x3C) > (int)(*(int *)0xC2A98F8)) {
-            t45 = *(int *)0xC2A9904;
-            t48 = t45;
+        if ((int)((*(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0))) * 0x3C) > (int)((((struct o0_int *)0xC2A98F8)->v))) {
+            t45 = (((struct oC_int *)0xC2A98F8)->v);
+            t53 = t45;
             if (t45 == 0) {
-                t46 = *(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0));
-                *(unsigned int *)0xC2A98F8 = ((t46 * 0x3C) - (*(int *)0xC1EE794));
-                t48 = t46;
+                t53 = *(int *)((((t41 << 2) + 0xC0D0DD0) + 0x0));
+                (((struct o0_uint *)0xC2A98F8)->v) = ((t53 * 0x3C) - ((((struct oC_int *)0xC1EE788)->v)));
             }
-            t53 = t48;
         }
-        t59 = t53;
+        t105 = t53;
     }
-    t80 = t59;
-    if (((*(int *)0xC2A9934) == 0) && ((t68 = *(int *)0xC2A9930, t68 == 0) && (t69 = *(int *)0xC1EE214, t69 != 0))) {
+    if ((((((struct o3C_int *)0xC2A98F8)->v)) == 0) && ((t68 = (((struct o38_int *)0xC2A98F8)->v), t68 == 0) && (t69 = *(int *)0xC1EE214, t69 != 0))) {
         if (t69 != 20) {
-            t71 = (Set_Record_Time());
+            t105 = (Set_Record_Time());
         } else {
-            t71 = t69;
+            t105 = t69;
         }
-        t80 = t71;
     }
     if ((*(int *)0xC2A11B0) == 0) {
         *(unsigned int *)0xC2A9A68 = 0x0;
     }
-    t105 = t80;
     if ((*(int *)0xC2A11B0) != 0) {
-        t96 = 0xC2A9A68;
+        t105 = 0xC2A9A68;
         if ((*(int *)0xC2A9A68) == 0) {
-            t95 = gdc_StopStreamVoice(0x0);
+            t105 = gdc_StopStreamVoice(0x0);
             *(unsigned int *)0xC2A9A68 = 0x1;
-            t96 = t95;
         }
-        t105 = t96;
     }
     return t105;
 }

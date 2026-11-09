@@ -31,6 +31,8 @@ int _fmtout_intcnv(int a4, int a5, int a6, int a7)
     int R13;
     int R14;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -100,7 +102,7 @@ int _fmtout_intcnv(int a4, int a5, int a6, int a7)
     L_C087C90:;
     goto L_C087CB2;
     L_C087CB2:;
-    *(unsigned int *)(((int)stk + 4)) = R13;
+    R1004 = R13;
     R11 = ((R11 + R13));
     if ((R6 == 100)) goto L_C087CC2;
     goto L_C087CBC;
@@ -178,7 +180,7 @@ int _fmtout_intcnv(int a4, int a5, int a6, int a7)
     *(unsigned int *)((R7 + 0x28)) = R9;
     goto L_C087D88;
     L_C087D88:;
-    t63 = *(int *)(((int)stk + 4));
+    t63 = R1004;
     R4 = ((t63 - 1));
     if (((int)(t63 - 1) < 0)) goto L_C087D9E;
     goto L_C087D90;
@@ -262,9 +264,9 @@ int _fmtout_intcnv(int a4, int a5, int a6, int a7)
     if (((unsigned int)R12 <= (unsigned int)0x0)) goto L_C087C7C;
     goto L_C087C28;
     L_C087C28:;
-    *(unsigned int *)(((int)stk + 4)) = (R13 + R14);
+    R1004 = (R13 + R14);
     *(unsigned char *)(((R13 + R14) + 0x0)) = ((int)((unsigned int)R12 % (unsigned int)R8));
-    if (((int)(*(signed char *)(((*(int *)(((int)stk + 4))) + 0x0))) > (int)0x9)) goto L_C087C50;
+    if (((int)(*(signed char *)(((R1004) + 0x0))) > (int)0x9)) goto L_C087C50;
     goto L_C087C44;
     L_C087C44:;
     *(unsigned char *)((R14 + R13)) = ((*(signed char *)((R14 + R13))) + 0x30);
@@ -276,7 +278,7 @@ int _fmtout_intcnv(int a4, int a5, int a6, int a7)
     if (((unsigned int)t96 > (unsigned int)0x0)) goto L_C087C28;
     goto L_C087C7C;
     L_C087C50:;
-    *(unsigned int *)(((int)stk + 4)) = (R13 + R14);
+    R1004 = (R13 + R14);
     R1 = ((R13 + R14));
     if ((R6 != 120)) goto L_C087C64;
     goto L_C087C5C;

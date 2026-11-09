@@ -1,7 +1,7 @@
 /* Straight-line functions with calls and guards (batch gen_gs): generated from the code and checked by tests. Calls are
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
-int Check_Bowling_Pins(int);
+int Check_Bowling_Pins(void);
 int Put_Bowling_Message(int, int, int, float);
 int Put_Bowling_Pins(void);
 int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4);
@@ -55,7 +55,7 @@ int Exec_Bowling_Pins(int a4, int a5, int a6, int a7, float f4)
     *(unsigned int *)((R4 + 0x0)) = R6;
     goto L_C05CA32;
     L_C05CA32:;
-    Check_Bowling_Pins(R4);
+    Check_Bowling_Pins();
     goto L_C05CA36;
     L_C05C912:;
     if ((!(((*(float *)((R6 + 0x30))) + 450.0f) > (*(float *)((R1 + 0x78)))))) goto L_C05C9A4;

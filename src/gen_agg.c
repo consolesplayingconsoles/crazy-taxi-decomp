@@ -22,6 +22,10 @@ int psgPutShadow(int);
 int psgSetState(int, int, int, int);
 int psgUpdatePartTracks(int);
 int psgFrameState6(int a4);
+struct o149_uchar { char p[0x149]; unsigned char v; };
+struct o14B_uchar { char p[0x14B]; unsigned char v; };
+struct o38_float { char p[0x38]; float v; };
+
 
 int psgFrameState6(int a4)
 {
@@ -37,24 +41,27 @@ int psgFrameState6(int a4)
     int t42;
     float u45;
     int stk[14];
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     if ((*(int *)((a4 + 0x24))) != 0) {
     } else {
-        *(unsigned char *)(((0x149 + a4) + 0x0)) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
-        *(unsigned char *)(((0x14B + a4) + 0x0)) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x2);
+        (((struct o149_uchar *)(a4))->v) = ((*(signed char *)(((0x149 + a4) + 0x0))) & 0xBF);
+        (((struct o14B_uchar *)(a4))->v) = ((*(signed char *)(((0x14B + a4) + 0x0))) | 0x2);
         nlPushMatrix(0x0);
         nlSubVector3op((((int)stk + 4) + 0x4), (a4 + 0x4), 0xC179144);
         nlUnitVector((((int)stk + 4) + 0x4));
-        *(unsigned int *)(((int)stk + 4)) = (nlArcTan2((-(*(float *)(((int)stk + 8)))), (-(*(float *)(((int)stk + 16))))));
-        t12 = GetAverageAngle((*(int *)((a4 + 0x10))), (*(int *)(((int)stk + 4))), 0.849999964f);
+        R1004 = (nlArcTan2((-(*(float *)(((int)stk + 8)))), (-(*(float *)(((int)stk + 16))))));
+        t12 = GetAverageAngle((*(int *)((a4 + 0x10))), (R1004), 0.849999964f);
         *(unsigned int *)((a4 + 0x10)) = (short)t12;
         nlRotateAY(((short)t12 + 0x8000));
         t14 = *(int *)((a4 + 0x34));
-        u15 = *(float *)((a4 + 0x38));
+        u15 = (((struct o38_float *)(a4))->v);
         t16 = *(int *)((t14 + 0x4));
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x1C)) = *(struct mv3 *)(((*(int *)((t14 + 0x8))) + ((((((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1)) << 1) + (((int)u15 - 1) * (((t16 + 0x1) << 1) + 0x1))) << 2))); }
         t18 = *(int *)((a4 + 0x34));
-        u19 = *(float *)((a4 + 0x38));
+        u19 = (((struct o38_float *)(a4))->v);
         t20 = *(int *)((t18 + 0x4));
         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x10)) = *(struct mv3 *)(((*(int *)((t18 + 0x8))) + (((((int)u19 * (((t20 + 0x1) << 1) + 0x1)) << 1) + ((int)u19 * (((t20 + 0x1) << 1) + 0x1))) << 2))); }
         *(float *)(((int)stk + 24)) = 0.0f;
@@ -76,14 +83,14 @@ int psgFrameState6(int a4)
             psgPlayBlend(a4, 0x1);
         } else {
             psgUpdatePartTracks(a4);
-            humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)(*(float *)((a4 + 0x38))), 0x1);
-            *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+            humanDraw((*(int *)((a4 + 0x34))), (*(int *)((a4 + 0x0))), (int)((((struct o38_float *)(a4))->v)), 0x1);
+            (((struct o38_float *)(a4))->v) = (((((struct o38_float *)(a4))->v)) + 1.0f);
             t42 = *(int *)(((*(int *)((a4 + 0x34))) + 0x0));
             u45 = (float)(t42 - 2);
             if ((int)(t42 - 2) < 0) {
                 u45 = ((float)(t42 - 2) + 4.2949673e+09f);
             }
-            if (!(u45 > (*(float *)((a4 + 0x38))))) {
+            if (!(u45 > ((((struct o38_float *)(a4))->v)))) {
                 psgSetState(a4, 0x0, 0x0, 0x0);
             }
         }

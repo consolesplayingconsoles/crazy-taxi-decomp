@@ -28,31 +28,28 @@ int bootSendFromBuffer(int a4, int a5, int a6, int a7);
 int bootRecvToBuffer(int a4, int a5, int a6, int a7);
 int bootCopyBuffer(int a4, int a5, int a6, int a7);
 int menuSaveLoadHandler(void);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 
 int nlCommonTextureGarbageCollection(void)
 {
-    int t0;
-    int t1;
     int t2;
     int t3;
     int t4;
     int t5;
     int t6;
-    int t7;
 
-    t0 = kmGarbageCollectTexture();
-    t1 = *(int *)0xC2B29C0;
-    t2 = t0;
+    t2 = kmGarbageCollectTexture();
+    t4 = (((struct o0_int *)0xC2B29C0)->v);
     t3 = 0x0;
-    t4 = t1;
     for (;;) {
-        t5 = *(int *)0xC2B29C4;
+        t5 = (((struct o4_int *)0xC2B29C0)->v);
         if ((int)t3 >= (int)t5) break;
         t6 = *(int *)((t4 + 0x28));
         if (t6 == 0) {
-            t7 = nlCreateTextureParamA(t4);
-            t2 = t7;
+            t2 = nlCreateTextureParamA(t4);
         }
         t4 = (t4 + 0x3C);
         t3 = (t3 + 0x1);
@@ -206,37 +203,8 @@ int bootCopyBuffer(int a4, int a5, int a6, int a7)
     int t22;
     int t23;
 
-    if (a5 != 1) {
-        if (a5 != 2) {
-            if (a5 == 4) {
-                if ((int)a7 > 0) {
-                    t0 = a6;
-                    t1 = 0x0;
-                    t2 = 0xAC007800;
-                    do {
-                        t3 = *(int *)((t0 + 0x0));
-                        t0 = (t0 + 0x4);
-                        t1 = (t1 + 0x1);
-                        *(unsigned int *)((t2 + 0x0)) = t3;
-                        t2 = (t2 + 0x4);
-                    } while ((int)t1 < (int)a7);
-                }
-            }
-        } else {
-            if ((int)a7 > 0) {
-                t10 = a6;
-                t11 = 0x0;
-                t12 = 0xAC007800;
-                do {
-                    t13 = *(short *)((t10 + 0x0));
-                    t10 = (t10 + 0x2);
-                    t11 = (t11 + 0x1);
-                    *(unsigned short *)((t12 + 0x0)) = t13;
-                    t12 = (t12 + 0x2);
-                } while ((int)t11 < (int)a7);
-            }
-        }
-    } else {
+    switch (a5) {
+    case 1:
         if ((int)a7 > 0) {
             t20 = 0xAC007800;
             t21 = 0x0;
@@ -249,6 +217,35 @@ int bootCopyBuffer(int a4, int a5, int a6, int a7)
                 t20 = (t20 + 0x1);
             } while ((int)t21 < (int)a7);
         }
+        break;
+    case 2:
+        if ((int)a7 > 0) {
+            t10 = a6;
+            t11 = 0x0;
+            t12 = 0xAC007800;
+            do {
+                t13 = *(short *)((t10 + 0x0));
+                t10 = (t10 + 0x2);
+                t11 = (t11 + 0x1);
+                *(unsigned short *)((t12 + 0x0)) = t13;
+                t12 = (t12 + 0x2);
+            } while ((int)t11 < (int)a7);
+        }
+        break;
+    case 4:
+        if ((int)a7 > 0) {
+            t0 = a6;
+            t1 = 0x0;
+            t2 = 0xAC007800;
+            do {
+                t3 = *(int *)((t0 + 0x0));
+                t0 = (t0 + 0x4);
+                t1 = (t1 + 0x1);
+                *(unsigned int *)((t2 + 0x0)) = t3;
+                t2 = (t2 + 0x4);
+            } while ((int)t1 < (int)a7);
+        }
+        break;
     }
     bootSendData(a4, 0xAC007800, (a5 * a7));
     return bootEndTransfer(a4);

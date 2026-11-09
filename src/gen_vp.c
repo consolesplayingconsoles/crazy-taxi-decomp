@@ -13,6 +13,8 @@ int nlRotateAY(int);
 int nlSubVector3op(int, int, int, float, float, float);
 float nlUnitVector(int);
 float psgRunToPoint(int a4, int a5, float f4, float f5, float f6);
+struct o11C_float { char p[0x11C]; float v; };
+
 
 float psgRunToPoint(int a4, int a5, float f4, float f5, float f6)
 {
@@ -50,13 +52,13 @@ float psgRunToPoint(int a4, int a5, float f4, float f5, float f6)
     t23 = nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 28))));
     *(unsigned int *)(((int)stk + 4)) = t23;
     *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), t23, u17));
-    if (0.625f > (*(float *)((a4 + 0x11C)))) {
-        Psg_SetMoveSpeed(a4, ((*(float *)((a4 + 0x11C))) + 0.02f));
+    if (0.625f > ((((struct o11C_float *)(a4))->v))) {
+        Psg_SetMoveSpeed(a4, (((((struct o11C_float *)(a4))->v)) + 0.02f));
     }
     nlPushUnitMatrix();
     nlRotateAY(((*(int *)((a4 + 0x10))) + 0x8000));
     nlCalcVector(0xC0D5578, (((int)stk + 4) + 0x10));
-    nlGetAverageVector((a4 + 0x4), (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), 1.0f, (*(float *)((a4 + 0x11C))));
+    nlGetAverageVector((a4 + 0x4), (((int)stk + 4) + 0x10), (((int)stk + 4) + 0x4), 1.0f, ((((struct o11C_float *)(a4))->v)));
     Psg_SetPosPtr(a4, (((int)stk + 4) + 0x4));
     nlPopMatrix(0x1);
     return t1;

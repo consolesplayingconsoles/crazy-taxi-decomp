@@ -2,6 +2,11 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int kmiGetPackOBPParam(int a4, int a5, int a6, int a7, int a8, int a9);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 int kmiGetPackOBPParam(int a4, int a5, int a6, int a7, int a8, int a9)
 {
@@ -29,11 +34,11 @@ int kmiGetPackOBPParam(int a4, int a5, int a6, int a7, int a8, int a9)
     R6 = a6;
     R7 = a7;
     L_C14C2D6:;
-    t0 = *(int *)0xC174CA4;
-    *(unsigned int *)((((int)stk + 4) + 0x0)) = (*(int *)0xC174CA0);
+    t0 = (((struct o4_int *)0xC174CA0)->v);
+    *(unsigned int *)((((int)stk + 4) + 0x0)) = ((((struct o0_int *)0xC174CA0)->v));
     *(unsigned int *)((((int)stk + 4) + 0x4)) = t0;
-    t2 = *(int *)0xC174CAC;
-    *(unsigned int *)((((int)stk + 4) + 0x8)) = (*(int *)0xC174CA8);
+    t2 = (((struct oC_int *)0xC174CA0)->v);
+    *(unsigned int *)((((int)stk + 4) + 0x8)) = ((((struct o8_int *)0xC174CA0)->v));
     *(unsigned int *)((((int)stk + 4) + 0xC)) = t2;
     R10 = (0x0);
     R11 = (0x0);

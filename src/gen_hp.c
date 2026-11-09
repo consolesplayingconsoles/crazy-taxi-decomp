@@ -35,12 +35,10 @@ int adxstmf_stat_exec(int a4, int a5)
     int t52;
     int t109;
     int t53;
-    int t54;
     int t55;
     int t56;
     int t57;
     int t58;
-    int t90;
     int t59;
     int t60;
     int t61;
@@ -58,16 +56,12 @@ int adxstmf_stat_exec(int a4, int a5)
     int t77;
     int t78;
     int t79;
-    int t80;
     int t84;
     int t85;
-    int t86;
-    int t102;
-    int t103;
-    int t96;
-    int t87;
-    int t81;
     int stk[11] = {0};
+    int R1008;
+
+    R1008 = *(int *)((int)stk + 8);
 
     t0 = *(signed char *)((a4 + 0x2));
     t1 = *(int *)((a4 + 0x4));
@@ -119,14 +113,13 @@ int adxstmf_stat_exec(int a4, int a5)
         if (t1 != 0) {
             t53 = *(int *)((t1 + 0x0));
             if (t53 == 0) {
-                t54 = adxstm_sj_internal_error();
-                t96 = t54;
+                t109 = adxstm_sj_internal_error();
             } else {
                 t55 = *(int *)((t1 + 0x0));
                 t56 = *(int *)((t55 + 0x24));
                 t57 = ((int (*)(int, int))(t56))(t1, 0x1);
                 t58 = *(int *)((a4 + 0x1C));
-                t90 = t57;
+                t109 = t57;
                 if ((int)t57 < (int)t58) {
                     t59 = *(int *)((t1 + 0x0));
                     t60 = *(int *)((a4 + 0x18));
@@ -138,9 +131,9 @@ int adxstmf_stat_exec(int a4, int a5)
                         t64 = (t63 + 0x7FF);
                     }
                     t67 = *(int *)((a4 + 0x30));
-                    *(unsigned int *)(((int)stk + 8)) = t67;
+                    R1008 = t67;
                     t68 = ADXSTM_Tell(a4);
-                    t69 = *(int *)(((int)stk + 8));
+                    t69 = R1008;
                     t70 = *(int *)((a4 + 0x2C));
                     t71 = (t69 - t68);
                     if ((int)((int)t64 >> 11) < (int)(t69 - t68)) {
@@ -158,29 +151,21 @@ int adxstmf_stat_exec(int a4, int a5)
                         if ((int)t77 <= 0) {
                             t78 = *(int *)((t1 + 0x0));
                             t79 = *(int *)((t78 + 0x1C));
-                            t80 = ((int (*)(int, int, int))(t79))(t1, 0x0, (a4 + 0x24));
-                            t81 = t80;
+                            t109 = ((int (*)(int, int, int))(t79))(t1, 0x0, (a4 + 0x24));
                         } else {
                             *(unsigned char *)((a4 + 0x2)) = 0x1;
-                            t81 = 0x1;
+                            t109 = 0x1;
                         }
-                        t87 = t81;
                     } else {
                         t84 = *(int *)((t1 + 0x0));
                         t85 = *(int *)((t84 + 0x1C));
-                        t86 = ((int (*)(int, int, int))(t85))(t1, 0x0, (a4 + 0x24));
-                        t87 = t86;
+                        t109 = ((int (*)(int, int, int))(t85))(t1, 0x0, (a4 + 0x24));
                     }
-                    t90 = t87;
                 }
-                t96 = t90;
             }
-            t103 = t96;
         } else {
-            t102 = adxstm_sj_internal_error();
-            t103 = t102;
+            t109 = adxstm_sj_internal_error();
         }
-        t109 = t103;
     }
     return t109;
 }

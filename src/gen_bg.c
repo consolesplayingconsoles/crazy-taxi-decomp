@@ -33,13 +33,15 @@ int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, flo
     float F4;
     float F8;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     R6 = a6;
     F4 = f4;
     F8 = f8;
     L_C04F7B8:;
-    *(unsigned int *)(((int)stk + 4)) = R5;
+    R1004 = R5;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x4)) = *(struct mv3 *)((*(int *)((R4 + 0x18)))); }
     R13 = (0xC075F70);
     R14 = (R4);
@@ -98,7 +100,7 @@ int pedSpawn(int a4, int a5, int a6, float f4, float f5, float f6, float f7, flo
     if (((*(int *)((R13 + 0x1C))) != 10)) goto L_C04F9A8;
     goto L_C04F912;
     L_C04F912:;
-    t47 = *(int *)(((int)stk + 4));
+    t47 = R1004;
     pedInit(((*(int *)((R14 + 0x20))) + (t47 * 0x64)), (*(int *)((R14 + 0x1C))));
     { struct mv3 { int w[3]; }; *(struct mv3 *)(((*(int *)((R14 + 0x20))) + (t47 * 0x64))) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((*(int *)((R14 + 0x20))) + (t47 * 0x64)) + 0xC)) = *(struct mv3 *)((((int)stk + 4) + 0x4)); }

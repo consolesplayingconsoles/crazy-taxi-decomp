@@ -6,6 +6,9 @@ int Drv_StartAction(int, int, int);
 int FcvStoreBuffer(int, int, float);
 int drvUpdatePartTracks(void);
 int Drv_ExecPickUp(float f4, float f5, float f6, float f7, float f8);
+struct o0_int { int v; };
+struct o4_float { char p[0x4]; float v; };
+
 
 int Drv_ExecPickUp(float f4, float f5, float f6, float f7, float f8)
 {
@@ -13,9 +16,9 @@ int Drv_ExecPickUp(float f4, float f5, float f6, float f7, float f8)
         return Drv_ExecBlend(f4, f5, f6, f7, f8);
     }
     drvUpdatePartTracks();
-    FcvStoreBuffer((*(int *)0xC2AD020), 0xC2AD028, (*(float *)0xC2AD024));
-    *(float *)0xC2AD024 = ((*(float *)0xC2AD024) + 1.0f);
-    if (!((float)((*(int *)(((*(int *)0xC2AD020) + 0x0))) - 1) > (*(float *)0xC2AD024))) {
+    FcvStoreBuffer(((((struct o0_int *)0xC2AD020)->v)), 0xC2AD028, ((((struct o4_float *)0xC2AD020)->v)));
+    (((struct o4_float *)0xC2AD020)->v) = (((((struct o4_float *)0xC2AD020)->v)) + 1.0f);
+    if (!((float)((*(int *)((((((struct o0_int *)0xC2AD020)->v)) + 0x0))) - 1) > ((((struct o4_float *)0xC2AD020)->v)))) {
         return Drv_StartAction(0x0, 0x0, 0x0);
     }
     return 0x24;

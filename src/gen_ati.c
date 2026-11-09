@@ -31,6 +31,13 @@ int ADXSTM_SetEos(int, int);
 int ADXT_Stop(int);
 int adxt_set_outpan(int);
 int adxt_stat_decinfo(int a4);
+struct o40_short { char p[0x40]; short v; };
+struct o48_int { char p[0x48]; int v; };
+struct o48_uint { char p[0x48]; unsigned int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o50_uint { char p[0x50]; unsigned int v; };
+struct o74_int { char p[0x74]; int v; };
+
 
 int adxt_stat_decinfo(int a4)
 {
@@ -71,17 +78,17 @@ int adxt_stat_decinfo(int a4)
         t13 = (int)((int)t8 / (int)(*(int *)((a4 + 0x38))));
         t17 = (((int)((unsigned int)((int)((unsigned int)((t13 << 1) + t13) + (unsigned int)0x0)) + ((((int)0x0 > (int)((t13 << 1) + t13))) ? 1u : 0u))) >> 1);
     }
-    *(unsigned int *)(((0x48 + a4) + 0x0)) = t17;
+    (((struct o48_uint *)(a4))->v) = t17;
     t21 = ADXSJD_GetBlkSmpl(t0);
-    *(unsigned int *)(((0x48 + a4) + 0x0)) = (((int)((int)((*(int *)((a4 + 0x48))) + (t21 << 1)) / (int)(t21 << 1))) * (t21 << 1));
-    ADXSJD_SetMaxDecSmpl(t0, (*(int *)((a4 + 0x48))));
+    (((struct o48_uint *)(a4))->v) = (((int)((int)(((((struct o48_int *)(a4))->v)) + (t21 << 1)) / (int)(t21 << 1))) * (t21 << 1));
+    ADXSJD_SetMaxDecSmpl(t0, ((((struct o48_int *)(a4))->v)));
     if ((int)t9 > 0) {
         if ((*(signed char *)((a4 + 0x2))) == 2) {
-            *(unsigned int *)((a4 + 0x50)) = 0x0;
+            (((struct o50_uint *)(a4))->v) = 0x0;
         } else {
             t29 = ADXSJD_GetLpEndOfst(t0);
-            *(unsigned int *)((a4 + 0x50)) = (0x800 - ((int)((int)t29 % (int)0x800)));
-            *(unsigned int *)(((0x50 + a4) + 0x0)) = ((int)((int)(*(int *)(((0x50 + a4) + 0x0))) % (int)0x800));
+            (((struct o50_uint *)(a4))->v) = (0x800 - ((int)((int)t29 % (int)0x800)));
+            (((struct o50_uint *)(a4))->v) = ((int)((int)((((struct o50_int *)(a4))->v)) % (int)0x800));
             ADXSTM_SetEos((*(int *)((a4 + 0x8))), ((int)((int)((0x800 + t29) - 1) / (int)0x800)));
             ADXSTM_EntryEosFunc((*(int *)((a4 + 0x8))), 0xC168FCC, a4);
         }
@@ -104,10 +111,10 @@ int adxt_stat_decinfo(int a4)
     ADXRNA_SetNumChan((*(int *)((a4 + 0xC))), t56);
     *(volatile int *)((a4 + 0xC));
     ADXRNA_SetTotalNumSmpl();
-    ADXRNA_SetOutVol((*(int *)((a4 + 0xC))), (*(short *)((a4 + 0x40))));
+    ADXRNA_SetOutVol((*(int *)((a4 + 0xC))), ((((struct o40_short *)(a4))->v)));
     adxt_set_outpan(a4);
-    if ((*(int *)((a4 + 0x74))) != 0) {
-        ADXAMP_SetSfreq((*(int *)((a4 + 0x74))), t55);
+    if (((((struct o74_int *)(a4))->v)) != 0) {
+        ADXAMP_SetSfreq(((((struct o74_int *)(a4))->v)), t55);
     }
     t77 = ADXSJD_GetFormat(t0);
     if (t77 == 2) {

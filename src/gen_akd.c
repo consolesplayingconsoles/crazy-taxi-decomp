@@ -32,6 +32,23 @@ int nlTranslateV(int);
 int nlUnitVector(int);
 int technicalCheck(int, int, int);
 int trailerExec(int a4, int a5, int a6);
+struct o104_float { char p[0x104]; float v; };
+struct o108_uchar { char p[0x108]; unsigned char v; };
+struct o18_float { char p[0x18]; float v; };
+struct o68_uint { char p[0x68]; unsigned int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct o90_float { char p[0x90]; float v; };
+struct o9C_float { char p[0x9C]; float v; };
+struct oA4_short { char p[0xA4]; short v; };
+struct oA6_short { char p[0xA6]; short v; };
+struct oA6_ushort { char p[0xA6]; unsigned short v; };
+struct oA8_short { char p[0xA8]; short v; };
+struct oC8_float { char p[0xC8]; float v; };
+struct oCC_float { char p[0xCC]; float v; };
+struct oF8_float { char p[0xF8]; float v; };
+struct oFC_float { char p[0xFC]; float v; };
+
 
 int trailerExec(int a4, int a5, int a6)
 {
@@ -57,7 +74,7 @@ int trailerExec(int a4, int a5, int a6)
     v0_1 = a6;
     technicalCheck(v0_3, v0_0, v0_1);
     v0_0 = (v0_3);
-    if ((((*(int *)((v0_3 + 0x84))) & 1) != 0)) goto L_C048720;
+    if (((((((struct o84_int *)(v0_3))->v)) & 1) != 0)) goto L_C048720;
     KillColliObj((v0_0 + 0x14));
     v0_0 = nlCloseEvent(v0_0);
     *(unsigned int *)0xC2A44A8 = ((*(int *)0xC2A44A8) - 1);
@@ -68,18 +85,18 @@ int trailerExec(int a4, int a5, int a6)
     v0_2 = *(int *)((v0_0 + 0x4));
     nlPushUnitMatrix();
     nlTranslateV((0x8C + v0_2));
-    nlRotateAY((unsigned short)(*(short *)((v0_2 + 0xA6))));
-    nlRotateAX((unsigned short)(*(short *)((v0_2 + 0xA4))));
-    nlRotateAZ((unsigned short)(*(short *)((v0_2 + 0xA8))));
-    nlTranslate(0.0f, ((*(float *)((v0_2 + 0xF8))) + (*(float *)((v0_2 + 0xFC)))), -32.0f);
+    nlRotateAY((unsigned short)((((struct oA6_short *)(v0_2))->v)));
+    nlRotateAX((unsigned short)((((struct oA4_short *)(v0_2))->v)));
+    nlRotateAZ((unsigned short)((((struct oA8_short *)(v0_2))->v)));
+    nlTranslate(0.0f, (((((struct oF8_float *)(v0_2))->v)) + ((((struct oFC_float *)(v0_2))->v))), -32.0f);
     nlGetTranslate((((int)stk + 8) + 0x24));
     nlPopMatrix(0x1);
-    *(unsigned int *)((v0_0 + 0x84)) = (*(int *)((v0_2 + 0x84)));
-    *(float *)((v0_0 + 0xC8)) = (*(float *)((v0_2 + 0xC8)));
+    (((struct o84_uint *)(v0_0))->v) = ((((struct o84_int *)(v0_2))->v));
+    (((struct oC8_float *)(v0_0))->v) = ((((struct oC8_float *)(v0_2))->v));
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x18)) = *(struct mv3 *)((0x8C + v0_0)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x8C + v0_0)) = *(struct mv3 *)((v0_0 + 0x14)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0x98 + v0_0)) = *(struct mv3 *)((v0_0 + 0x20)); }
-    *(float *)((v0_0 + 0x9C)) = ((*(float *)((v0_0 + 0x9C))) - 0.073499985f);
+    (((struct o9C_float *)(v0_0))->v) = (((((struct o9C_float *)(v0_0))->v)) - 0.073499985f);
     nlAddVector((0x8C + v0_0), (0x98 + v0_0));
     v0_4 = GetCollision2D((0x8C + v0_0), 30.0f);
     v0_1 = *(int *)((v0_4 + 0x1C));
@@ -93,9 +110,9 @@ int trailerExec(int a4, int a5, int a6)
     w0_0 = (0.0f);
     if ((v0_1 == -1)) goto L_C048802;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((0xEC + v0_0)) = *(struct mv3 *)((v0_3 + 0xC)); }
-    *(float *)((v0_0 + 0x104)) = (*(float *)((v0_3 + 0x18)));
-    if ((!((*(float *)((v0_0 + 0x104))) > (*(float *)((v0_0 + 0x90)))))) goto L_C048802;
-    *(float *)((v0_0 + 0x90)) = (*(float *)((v0_0 + 0x104)));
+    (((struct o104_float *)(v0_0))->v) = ((((struct o18_float *)(v0_3))->v));
+    if ((!(((((struct o104_float *)(v0_0))->v)) > ((((struct o90_float *)(v0_0))->v))))) goto L_C048802;
+    (((struct o90_float *)(v0_0))->v) = ((((struct o104_float *)(v0_0))->v));
     carColliReflection(v0_0);
     L_C048802:;
     nlPushUnitMatrix();
@@ -107,8 +124,8 @@ int trailerExec(int a4, int a5, int a6)
     nlRotateV(((int)stk + 8), (((int)stk + 8) + 0xC));
     getYXZrot((0xA4 + v0_0));
     nlPushUnitMatrix();
-    nlRotateAX((-(unsigned short)(*(short *)((v0_0 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((v0_0 + 0xA6)))));
+    nlRotateAX((-(unsigned short)((((struct oA4_short *)(v0_0))->v))));
+    nlRotateAY((-(unsigned short)((((struct oA6_short *)(v0_0))->v))));
     nlCalcVector((0xEC + v0_0), (((int)stk + 8) + 0xC));
     v0_3 = ((-(nlArcTan2((*(float *)(((int)stk + 20))), (*(float *)(((int)stk + 24)))))));
     v0_1 = ((0xA8 + v0_0));
@@ -122,7 +139,7 @@ int trailerExec(int a4, int a5, int a6)
     nlScaleUnitVector(((int)stk + 8), ((int)stk + 8), *(Stk3 *)(((int)stk + 8)), 100.0f);
     nlSubVector((((int)stk + 8) + 0xC), ((int)stk + 8));
     nlAddVector((0x8C + v0_0), (((int)stk + 8) + 0xC));
-    v0_1 = convergeRot((*(short *)((v0_0 + 0xA6))), (*(short *)((v0_2 + 0xA6))), w0_0);
+    v0_1 = convergeRot(((((struct oA6_short *)(v0_0))->v)), ((((struct oA6_short *)(v0_2))->v)), w0_0);
     v0_2 = (v0_1);
     if ((!(_builtin_fabsf((float)v0_1) > 12288.0f))) goto L_C0489AE;
     if (((int)v0_2 >= 0)) goto L_C048970;
@@ -133,13 +150,13 @@ int trailerExec(int a4, int a5, int a6)
     nlRotateAY(v0_2);
     nlCalcVector((((int)stk + 8) + 0xC), ((int)stk + 8));
     nlAddVector3op((0x8C + v0_0), (((int)stk + 8) + 0x24), ((int)stk + 8));
-    *(unsigned short *)((v0_0 + 0xA6)) = ((*(short *)((v0_0 + 0xA6))) + v0_2);
+    (((struct oA6_ushort *)(v0_0))->v) = (((((struct oA6_short *)(v0_0))->v)) + v0_2);
     nlPopMatrix(0x1);
     L_C0489AE:;
     nlSubVector3op((0x98 + v0_0), (0x8C + v0_0), (((int)stk + 8) + 0x18));
     carResistance(v0_0);
     nlScaleVector((0x98 + v0_0), (0x98 + v0_0), 0.999799967f);
-    *(unsigned char *)(((0x108 + v0_0) + 0x0)) = (*(signed char *)(((0xA4 + v0_0) + 0x0)));
+    (((struct o108_uchar *)(v0_0))->v) = (*(signed char *)(((0xA4 + v0_0) + 0x0)));
     *(unsigned char *)(((0x108 + v0_0) + 0x1)) = (*(signed char *)(((0xA4 + v0_0) + 0x1)));
     *(unsigned char *)(((0x108 + v0_0) + 0x2)) = (*(signed char *)(((0xA4 + v0_0) + 0x2)));
     *(unsigned char *)(((0x108 + v0_0) + 0x3)) = (*(signed char *)(((0xA4 + v0_0) + 0x3)));
@@ -148,18 +165,18 @@ int trailerExec(int a4, int a5, int a6)
     *(int *)((int)stk + 4) = (0x8C + v0_0);
     getNearLinkedLine(0x2, 0x0, (0x80 + v0_0), (0xD4 + v0_0), (0x8C + v0_0));
     nlPushUnitMatrix();
-    nlRotateAZ((-(unsigned short)(*(short *)((v0_0 + 0xA8)))));
-    nlRotateAX((-(unsigned short)(*(short *)((v0_0 + 0xA4)))));
-    nlRotateAY((-(unsigned short)(*(short *)((v0_0 + 0xA6)))));
+    nlRotateAZ((-(unsigned short)((((struct oA8_short *)(v0_0))->v))));
+    nlRotateAX((-(unsigned short)((((struct oA4_short *)(v0_0))->v))));
+    nlRotateAY((-(unsigned short)((((struct oA6_short *)(v0_0))->v))));
     nlCalcVector((0x98 + v0_0), (((int)stk + 8) + 0xC));
-    *(float *)((v0_0 + 0xCC)) = (*(float *)(((int)stk + 28)));
+    (((struct oCC_float *)(v0_0))->v) = (*(float *)(((int)stk + 28)));
     nlPopMatrix(0x1);
     carEntry(v0_0);
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x14)) = *(struct mv3 *)((0x8C + v0_0)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x20)) = *(struct mv3 *)((0x98 + v0_0)); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x5C)) = *(struct mv3 *)(0xC0A4788); }
-    GetRotVec4Ang((v0_0 + 0x44), (unsigned short)(*(short *)((v0_0 + 0xA4))), (unsigned short)(*(short *)((v0_0 + 0xA6))), (unsigned short)(*(short *)((v0_0 + 0xA8))));
-    *(unsigned int *)((v0_0 + 0x68)) = 0x0;
+    GetRotVec4Ang((v0_0 + 0x44), (unsigned short)((((struct oA4_short *)(v0_0))->v)), (unsigned short)((((struct oA6_short *)(v0_0))->v)), (unsigned short)((((struct oA8_short *)(v0_0))->v)));
+    (((struct o68_uint *)(v0_0))->v) = 0x0;
     v0_3 = (0x68);
     goto L_C048A80;
     L_C048970:;

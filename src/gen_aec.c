@@ -17,6 +17,21 @@ int nlScaleVector(int, int, float);
 int nlSubVector3op(int, int, int);
 float nlUnitVector(int);
 int camGetOffShot2(void);
+struct o18_float { char p[0x18]; float v; };
+struct o24_float { char p[0x24]; float v; };
+struct o30_float { char p[0x30]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o8_float { char p[0x8]; float v; };
+struct o84_float { char p[0x84]; float v; };
+struct o90_float { char p[0x90]; float v; };
+struct oA8_float { char p[0xA8]; float v; };
+struct oC_float { char p[0xC]; float v; };
+struct o0_int { int v; };
+struct o2C_int { char p[0x2C]; int v; };
+struct o34_int { char p[0x34]; int v; };
+struct o34_uint { char p[0x34]; unsigned int v; };
+
+
 
 int camGetOffShot2(void)
 {
@@ -38,152 +53,147 @@ int camGetOffShot2(void)
     { struct mv15 { int w[15]; }; *(struct mv15 *)((((int)stk + 4) + 0x78)) = *(struct mv15 *)(0xC0D530C); }
     { struct mv15 { int w[15]; }; *(struct mv15 *)((((int)stk + 4) + 0x3C)) = *(struct mv15 *)(0xC0D5348); }
     SetCameraMode(0x1);
-    t1 = *(int *)0xC2AD580;
-    t2 = *(int *)0xC2AD578;
-    if (t1 != 0) {
-        if (t1 != 1) {
-            if (t1 == 2) {
-                nlPushMatrix(0xC179180);
-                u6 = 1.0f;
-                if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                    u6 = (-1.0f);
-                }
-                *(float *)(((int)stk + 16)) = (u6 * (*(float *)(((0x90 + ((int)stk + 4)) + 0x0))));
-                *(float *)(((int)stk + 20)) = (*(float *)(((0x90 + ((int)stk + 4)) + 0x4)));
-                *(float *)(((int)stk + 24)) = (*(float *)(((0x90 + ((int)stk + 4)) + 0x8)));
-                nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
-                u14 = 1.0f;
-                if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                    u14 = (-1.0f);
-                }
-                *(float *)(((int)stk + 16)) = (u14 * (*(float *)((((((int)stk + 4) + 0x3C) + 0x18) + 0x0))));
-                *(float *)(((int)stk + 20)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x18) + 0x4)));
-                *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x18) + 0x8)));
-                nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
-                nlPopMatrix(0x1);
-                camSetEye((((int)stk + 4) + 0x30), 0x0);
-                camSetTarget((((int)stk + 4) + 0x24), 0x0);
-                *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-            } else {
-                if (t1 == 3) {
-                    nlPushMatrix(0xC179180);
-                    u27 = 1.0f;
-                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                        u27 = (-1.0f);
-                    }
-                    *(float *)(((int)stk + 16)) = (u27 * (*(float *)((((((int)stk + 4) + 0x3C) + 0x24) + 0x0))));
-                    *(float *)(((int)stk + 20)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x24) + 0x4)));
-                    *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x24) + 0x8)));
-                    nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
-                    nlSubVector3op((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24), 0xC17984C);
-                    nlScaleVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 0.0349999964f);
-                    nlAddVector3op((((int)stk + 4) + 0x24), 0xC17984C, (((int)stk + 4) + 0x18));
-                    camSetTarget((((int)stk + 4) + 0x24), 0x0);
-                    nlPopMatrix(0x1);
-                    nlPushUnitMatrix();
-                    nlSubVector3op((((int)stk + 4) + 0x18), 0xC179840, (((int)stk + 4) + 0x24));
-                    t42 = 0x178;
-                    if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                        t42 = 0xFFFFFE88;
-                    }
-                    nlRotateAxe(0xC2AD1EC, t42);
-                    nlCalcVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC));
-                    nlScaleVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), ((nlUnitVector((((int)stk + 4) + 0xC))) + 0.099999994f));
-                    nlAddVector3op((((int)stk + 4) + 0x30), 0xC17984C, (((int)stk + 4) + 0x18));
-                    *(float *)(((int)stk + 56)) = ((*(float *)(((int)stk + 56))) - 0.222222209f);
-                    camSetEye((((int)stk + 4) + 0x30), 0x0);
-                    nlPopMatrix(0x1);
-                    if ((int)(*(int *)0xC2AD578) < (int)0x91) {
-                    } else {
-                        *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-                    }
-                } else {
-                    if (t1 == 4) {
-                        if ((int)t2 < (int)0x96) {
-                        } else {
-                            *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-                        }
-                    } else {
-                        if (t1 == 5) {
-                            nlPushMatrix(0xC179180);
-                            u63 = (-1.0f);
-                            if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                                u63 = 1.0f;
-                            }
-                            *(float *)(((int)stk + 16)) = (u63 * (*(float *)(((0xA8 + ((int)stk + 4)) + 0x0))));
-                            *(float *)(((int)stk + 20)) = (*(float *)(((0xA8 + ((int)stk + 4)) + 0x4)));
-                            *(float *)(((int)stk + 24)) = (*(float *)(((0xA8 + ((int)stk + 4)) + 0x8)));
-                            nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
-                            camSetEye((((int)stk + 4) + 0x30), 0x0);
-                            u72 = (-1.0f);
-                            if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                                u72 = 1.0f;
-                            }
-                            *(float *)(((int)stk + 16)) = (u72 * (*(float *)((((((int)stk + 4) + 0x3C) + 0x30) + 0x0))));
-                            *(float *)(((int)stk + 20)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x30) + 0x4)));
-                            *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0x30) + 0x8)));
-                            nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
-                            camSetTarget((((int)stk + 4) + 0x24), 0x0);
-                            nlPopMatrix(0x1);
-                            *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-                        } else {
-                            if (t1 == 6) {
-                                if ((int)t2 >= (int)0x93) {
-                                    *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-                                }
-                            } else {
-                                if (t1 == 7) {
-                                    nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
-                                    u85 = 0.08f;
-                                    nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 1.0f, u85);
-                                    camSetEye((((int)stk + 4) + 0x30), 0x0);
-                                    nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);
-                                    nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 1.0f, u85);
-                                    camSetTarget((((int)stk + 4) + 0x24), 0x0);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            nlPushMatrix(0xC179180);
-            u137 = 1.0f;
-            if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                u137 = (-1.0f);
-            }
-            *(float *)(((int)stk + 16)) = (u137 * (*(float *)(((0x84 + ((int)stk + 4)) + 0x0))));
-            *(float *)(((int)stk + 20)) = (*(float *)(((0x84 + ((int)stk + 4)) + 0x4)));
-            *(float *)(((int)stk + 24)) = (*(float *)(((0x84 + ((int)stk + 4)) + 0x8)));
-            nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
-            nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 0xC179840);
-            nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 1.0f, (((float)t2 * 0.149999991f) / 100.0f));
-            camSetEye((((int)stk + 4) + 0x30), 0x0);
-            u148 = 1.0f;
-            if (((*(signed char *)(((*(int *)0xC2AD54C) + 0x14B))) & 4) != 0) {
-                u148 = (-1.0f);
-            }
-            *(float *)(((int)stk + 16)) = (u148 * (*(float *)((((((int)stk + 4) + 0x3C) + 0xC) + 0x0))));
-            *(float *)(((int)stk + 20)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0xC) + 0x4)));
-            *(float *)(((int)stk + 24)) = (*(float *)((((((int)stk + 4) + 0x3C) + 0xC) + 0x8)));
-            nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
-            nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 0xC17984C);
-            nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 1.0f, (((float)t2 * 0.149999991f) / 100.0f));
-            camSetTarget((((int)stk + 4) + 0x24), 0x0);
-            nlPopMatrix(0x1);
-            if ((int)(*(int *)0xC2AD578) < (int)0x64) {
-            } else {
-                *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
-            }
-        }
-    } else {
+    t1 = (((struct o34_int *)0xC2AD54C)->v);
+    t2 = (((struct o2C_int *)0xC2AD54C)->v);
+    switch (t1) {
+    case 0:
         nlPushMatrix(0xC179180);
         nlCalcPoint((((int)stk + 4) + 0x78), (((int)stk + 4) + 0x30));
         nlCalcPoint((((int)stk + 4) + 0x3C), (((int)stk + 4) + 0x24));
         nlPopMatrix(0x1);
         camSetEye((((int)stk + 4) + 0x30), 0x0);
         camSetTarget((((int)stk + 4) + 0x24), 0x0);
-        *(unsigned int *)0xC2AD580 = ((*(int *)0xC2AD580) + 0x1);
+        (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        break;
+    case 1:
+        nlPushMatrix(0xC179180);
+        u137 = 1.0f;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u137 = (-1.0f);
+        }
+        *(float *)(((int)stk + 16)) = (u137 * ((((struct o84_float *)(((int)stk + 4)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)((0x84 + ((int)stk + 4))))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)((0x84 + ((int)stk + 4))))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+        nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 0xC179840);
+        nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 1.0f, (((float)t2 * 0.149999991f) / 100.0f));
+        camSetEye((((int)stk + 4) + 0x30), 0x0);
+        u148 = 1.0f;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u148 = (-1.0f);
+        }
+        *(float *)(((int)stk + 16)) = (u148 * ((((struct oC_float *)((((int)stk + 4) + 0x3C)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)(((((int)stk + 4) + 0x3C) + 0xC)))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)(((((int)stk + 4) + 0x3C) + 0xC)))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+        nlSubVector3op((((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 0xC17984C);
+        nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 1.0f, (((float)t2 * 0.149999991f) / 100.0f));
+        camSetTarget((((int)stk + 4) + 0x24), 0x0);
+        nlPopMatrix(0x1);
+        if ((int)((((struct o2C_int *)0xC2AD54C)->v)) < (int)0x64) {
+        } else {
+            (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        }
+        break;
+    case 2:
+        nlPushMatrix(0xC179180);
+        u6 = 1.0f;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u6 = (-1.0f);
+        }
+        *(float *)(((int)stk + 16)) = (u6 * ((((struct o90_float *)(((int)stk + 4)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)((0x90 + ((int)stk + 4))))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)((0x90 + ((int)stk + 4))))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+        u14 = 1.0f;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u14 = (-1.0f);
+        }
+        *(float *)(((int)stk + 16)) = (u14 * ((((struct o18_float *)((((int)stk + 4) + 0x3C)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)(((((int)stk + 4) + 0x3C) + 0x18)))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)(((((int)stk + 4) + 0x3C) + 0x18)))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+        nlPopMatrix(0x1);
+        camSetEye((((int)stk + 4) + 0x30), 0x0);
+        camSetTarget((((int)stk + 4) + 0x24), 0x0);
+        (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        break;
+    case 3:
+        nlPushMatrix(0xC179180);
+        u27 = 1.0f;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u27 = (-1.0f);
+        }
+        *(float *)(((int)stk + 16)) = (u27 * ((((struct o24_float *)((((int)stk + 4) + 0x3C)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)(((((int)stk + 4) + 0x3C) + 0x24)))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)(((((int)stk + 4) + 0x3C) + 0x24)))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+        nlSubVector3op((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24), 0xC17984C);
+        nlScaleVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), 0.0349999964f);
+        nlAddVector3op((((int)stk + 4) + 0x24), 0xC17984C, (((int)stk + 4) + 0x18));
+        camSetTarget((((int)stk + 4) + 0x24), 0x0);
+        nlPopMatrix(0x1);
+        nlPushUnitMatrix();
+        nlSubVector3op((((int)stk + 4) + 0x18), 0xC179840, (((int)stk + 4) + 0x24));
+        t42 = 0x178;
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            t42 = 0xFFFFFE88;
+        }
+        nlRotateAxe(0xC2AD1EC, t42);
+        nlCalcVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC));
+        nlScaleVector((((int)stk + 4) + 0x18), (((int)stk + 4) + 0xC), ((nlUnitVector((((int)stk + 4) + 0xC))) + 0.099999994f));
+        nlAddVector3op((((int)stk + 4) + 0x30), 0xC17984C, (((int)stk + 4) + 0x18));
+        *(float *)(((int)stk + 56)) = ((*(float *)(((int)stk + 56))) - 0.222222209f);
+        camSetEye((((int)stk + 4) + 0x30), 0x0);
+        nlPopMatrix(0x1);
+        if ((int)((((struct o2C_int *)0xC2AD54C)->v)) < (int)0x91) {
+        } else {
+            (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        }
+        break;
+    case 4:
+        if ((int)t2 < (int)0x96) {
+        } else {
+            (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        }
+        break;
+    case 5:
+        nlPushMatrix(0xC179180);
+        u63 = (-1.0f);
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u63 = 1.0f;
+        }
+        *(float *)(((int)stk + 16)) = (u63 * ((((struct oA8_float *)(((int)stk + 4)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)((0xA8 + ((int)stk + 4))))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)((0xA8 + ((int)stk + 4))))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x30));
+        camSetEye((((int)stk + 4) + 0x30), 0x0);
+        u72 = (-1.0f);
+        if (((*(signed char *)((((((struct o0_int *)0xC2AD54C)->v)) + 0x14B))) & 4) != 0) {
+            u72 = 1.0f;
+        }
+        *(float *)(((int)stk + 16)) = (u72 * ((((struct o30_float *)((((int)stk + 4) + 0x3C)))->v)));
+        *(float *)(((int)stk + 20)) = ((((struct o4_float *)(((((int)stk + 4) + 0x3C) + 0x30)))->v));
+        *(float *)(((int)stk + 24)) = ((((struct o8_float *)(((((int)stk + 4) + 0x3C) + 0x30)))->v));
+        nlCalcPoint((((int)stk + 4) + 0xC), (((int)stk + 4) + 0x24));
+        camSetTarget((((int)stk + 4) + 0x24), 0x0);
+        nlPopMatrix(0x1);
+        (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        break;
+    case 6:
+        if ((int)t2 >= (int)0x93) {
+            (((struct o34_uint *)0xC2AD54C)->v) = (((((struct o34_int *)0xC2AD54C)->v)) + 0x1);
+        }
+        break;
+    case 7:
+        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD554, 0xC179840);
+        u85 = 0.08f;
+        nlGetAverageVector(0xC179840, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x30), 1.0f, u85);
+        camSetEye((((int)stk + 4) + 0x30), 0x0);
+        nlSubVector3op((((int)stk + 4) + 0x18), 0xC2AD560, 0xC17984C);
+        nlGetAverageVector(0xC17984C, (((int)stk + 4) + 0x18), (((int)stk + 4) + 0x24), 1.0f, u85);
+        camSetTarget((((int)stk + 4) + 0x24), 0x0);
+        break;
     }
     t186 = *(int *)0xC2AD590;
     t188 = t186;

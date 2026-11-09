@@ -4,6 +4,11 @@
 extern int _builtin_get_imask(void);
 extern void _builtin_set_imask(int);
 #pragma inline_asm(iaOcbp)
+struct o200_uint { char p[0x200]; unsigned int v; };
+struct o0_uint { unsigned int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+
+
 static void iaOcbp(void *p)
 {
     .DATA.W H'04A3
@@ -46,13 +51,13 @@ void syIntInit(int a4, int a5)
     if (a4 == 0x80000000) {
         *(unsigned int *)0xC16DE34 = 0xC16E030;
         *(unsigned int *)0xC16DE90 = 0xC16E030;
-        *(unsigned int *)0xC16E1DC = 0x0;
-        *(unsigned int *)0xC16E1D4 = a5;
+        (((struct o8_uint *)0xC16E1D4)->v) = 0x0;
+        (((struct o0_uint *)0xC16E1D4)->v) = a5;
     } else {
         *(unsigned int *)0xC16DE34 = 0xC16DEC4;
         *(unsigned int *)0xC16DE90 = 0xC16DEC4;
-        *(unsigned int *)0xC16E1DC = 0x0;
-        *(unsigned int *)0xC16E1D4 = 0x0;
+        (((struct o8_uint *)0xC16E1D4)->v) = 0x0;
+        (((struct o0_uint *)0xC16E1D4)->v) = 0x0;
     }
     t5 = 0xC16E1DC;
     t6 = 0xC16DE94;
@@ -151,7 +156,7 @@ void syIntInit(int a4, int a5)
     for (;;) {
         t43 = (((int)_builtin_get_vbr()) + (((t40 >> 1) >> 1) >> 1));
         t40 = (t40 + 0x20);
-        *(unsigned int *)(((t43 + 0x200) + 0x0)) = 0xC16DD08;
+        (((struct o200_uint *)(t43))->v) = 0xC16DD08;
         if ((int)t40 >= (int)0x620) {
             break;
         }

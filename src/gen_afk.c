@@ -7,6 +7,11 @@ int Sound_Request(int, int);
 int Start_Excellent(void);
 int Start_Fault(int);
 int Exec_DCmini_Game7(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o28_float { char p[0x28]; float v; };
+
 
 int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
 {
@@ -37,7 +42,7 @@ int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
     L_C05D556:;
     R13 = (0xC2A991C);
     R14 = (0xC1EE214);
-    if (((*(int *)0xC2A991C) != 0)) goto L_C05D648;
+    if ((((((struct o20_int *)0xC2A98FC)->v)) != 0)) goto L_C05D648;
     goto L_C05D566;
     L_C05D566:;
     if (((*(int *)0xC1EE794) != 0)) goto L_C05D5BC;
@@ -47,7 +52,7 @@ int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
     goto L_C05D626;
     L_C05D626:;
     *(unsigned int *)((R13 + 0x0)) = 0x1;
-    *(unsigned int *)0xC179120 = 0x0;
+    (((struct o0_uint *)0xC179120)->v) = 0x0;
     goto L_C05D648;
     L_C05D648:;
     t7 = *(int *)((R14 + 0x0));
@@ -60,7 +65,7 @@ int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
     L_C05D65A:;
     return R0;
     L_C05D5BC:;
-    if ((!((*(float *)0xC179148) > 0.0f))) goto L_C05D636;
+    if ((!(((((struct o28_float *)0xC179120)->v)) > 0.0f))) goto L_C05D636;
     goto L_C05D5C8;
     L_C05D5C8:;
     if (((*(int *)((R14 + 0x0))) != 11)) goto L_C05D5D8;
@@ -87,7 +92,7 @@ int Exec_DCmini_Game7(int a4, int a5, int a6, int a7)
     if ((!(u28 > _builtin_fabsf((float)(*(short *)((R2 + 0x198))))))) goto L_C05D618;
     goto L_C05D610;
     L_C05D610:;
-    if (((*(int *)0xC2A98FC) == 6)) goto L_C05D620;
+    if ((((((struct o0_int *)0xC2A98FC)->v)) == 6)) goto L_C05D620;
     goto L_C05D618;
     L_C05D618:;
     if (((*(int *)0xC1EE214) == 11)) goto L_C05D648;

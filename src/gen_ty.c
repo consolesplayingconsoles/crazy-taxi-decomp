@@ -6,9 +6,64 @@ int InitSpark(void);
 int SetColliObj(int, int);
 int carCalcInertia(int);
 int carInitDriveSplit(int);
-int getReplayPoint(int, int, int, int, int, float);
+int getReplayPoint(int, int, int, int, int);
 int init_CarSound(void);
 int init_CarMain(void);
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_uchar { unsigned char v; };
+struct o0_uint { unsigned int v; };
+struct o0_ushort { unsigned short v; };
+struct o1_uchar { char p[0x1]; unsigned char v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_int { char p[0x14]; int v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o2_uchar { char p[0x2]; unsigned char v; };
+struct o20_float { char p[0x20]; float v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o20_ushort { char p[0x20]; unsigned short v; };
+struct o24_float { char p[0x24]; float v; };
+struct o24_ushort { char p[0x24]; unsigned short v; };
+struct o26_ushort { char p[0x26]; unsigned short v; };
+struct o28_float { char p[0x28]; float v; };
+struct o28_int { char p[0x28]; int v; };
+struct o28_ushort { char p[0x28]; unsigned short v; };
+struct o2C_float { char p[0x2C]; float v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o3_uchar { char p[0x3]; unsigned char v; };
+struct o30_float { char p[0x30]; float v; };
+struct o30_uchar { char p[0x30]; unsigned char v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o30_ushort { char p[0x30]; unsigned short v; };
+struct o31_uchar { char p[0x31]; unsigned char v; };
+struct o32_short { char p[0x32]; short v; };
+struct o32_uchar { char p[0x32]; unsigned char v; };
+struct o32_ushort { char p[0x32]; unsigned short v; };
+struct o33_uchar { char p[0x33]; unsigned char v; };
+struct o34_float { char p[0x34]; float v; };
+struct o34_uchar { char p[0x34]; unsigned char v; };
+struct o35_uchar { char p[0x35]; unsigned char v; };
+struct o38_float { char p[0x38]; float v; };
+struct o3C_float { char p[0x3C]; float v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uchar { char p[0x4]; unsigned char v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o5_uchar { char p[0x5]; unsigned char v; };
+struct o6_uchar { char p[0x6]; unsigned char v; };
+struct o7_uchar { char p[0x7]; unsigned char v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int init_CarMain(void)
 {
@@ -45,115 +100,115 @@ int init_CarMain(void)
     int t222;
     float u225;
 
-    *(unsigned int *)0xC0DB000 = 0x0;
-    *(unsigned int *)0xC0DAEC0 = 0x0;
-    *(unsigned int *)0xC0DAEC4 = 0x0;
-    *(unsigned int *)0xC1790C8 = 0x1;
-    *(unsigned int *)0xC179120 = 0x3;
-    *(unsigned int *)0xC179124 = 0x0;
-    *(unsigned int *)0xC179128 = 0x2;
-    *(unsigned int *)0xC17912C = 0x0;
-    *(unsigned int *)0xC179130 = 0xFFFFFFFF;
-    *(unsigned int *)0xC179134 = 0x0;
-    if ((int)(*(int *)0xC179488) < (int)0x4) {
-        *(unsigned int *)0xC179138 = (*(int *)((0xC0DAFD8 + ((*(int *)0xC179488) << 2))));
-        *(unsigned int *)0xC17913C = (*(int *)((0xC0DAFEC + ((*(int *)0xC179488) << 2))));
-        *(unsigned int *)0xC179140 = (*(int *)((0xC0DAFC4 + ((*(int *)0xC179488) << 2))));
-        *(float *)0xC1794B8 = 0.179999992f;
-        *(float *)0xC1794BC = 0.174999997f;
-        *(float *)0xC1794B0 = 23.0f;
-        *(float *)0xC1794B4 = 24.0f;
-        *(float *)0xC1794C0 = 4.19999981f;
+    (((struct o2C_uint *)0xC0DAFD4)->v) = 0x0;
+    (((struct o0_uint *)0xC0DAEC0)->v) = 0x0;
+    (((struct o4_uint *)0xC0DAEC0)->v) = 0x0;
+    (((struct o0_uint *)0xC1790C8)->v) = 0x1;
+    (((struct o0_uint *)0xC179120)->v) = 0x3;
+    (((struct o4_uint *)0xC179120)->v) = 0x0;
+    (((struct o8_uint *)0xC179120)->v) = 0x2;
+    (((struct oC_uint *)0xC179120)->v) = 0x0;
+    (((struct o10_uint *)0xC179120)->v) = 0xFFFFFFFF;
+    (((struct o14_uint *)0xC179120)->v) = 0x0;
+    if ((int)((((struct o0_int *)0xC179488)->v)) < (int)0x4) {
+        (((struct o18_uint *)0xC179120)->v) = (*(int *)((0xC0DAFD8 + (((((struct o0_int *)0xC179488)->v)) << 2))));
+        (((struct o1C_uint *)0xC179120)->v) = (*(int *)((0xC0DAFEC + (((((struct o0_int *)0xC179488)->v)) << 2))));
+        (((struct o20_uint *)0xC179120)->v) = (*(int *)((0xC0DAFC4 + (((((struct o0_int *)0xC179488)->v)) << 2))));
+        (((struct o30_float *)0xC179488)->v) = 0.179999992f;
+        (((struct o34_float *)0xC179488)->v) = 0.174999997f;
+        (((struct o28_float *)0xC179488)->v) = 23.0f;
+        (((struct o2C_float *)0xC179488)->v) = 24.0f;
+        (((struct o38_float *)0xC179488)->v) = 4.19999981f;
         u13 = 3.5f;
     } else {
-        *(unsigned int *)0xC179138 = (*(int *)0xC0DAFE8);
-        *(unsigned int *)0xC17913C = (*(int *)0xC0DAFFC);
-        *(unsigned int *)0xC179140 = (*(int *)0xC0DAFD4);
-        *(float *)0xC1794B8 = 0.099999994f;
-        *(float *)0xC1794BC = 0.0949999988f;
-        *(float *)0xC1794B0 = 27.0f;
-        *(float *)0xC1794B4 = 26.0f;
-        *(float *)0xC1794C0 = 2.79999995f;
+        (((struct o18_uint *)0xC179120)->v) = ((((struct o14_int *)0xC0DAFD4)->v));
+        (((struct o1C_uint *)0xC179120)->v) = ((((struct o28_int *)0xC0DAFD4)->v));
+        (((struct o20_uint *)0xC179120)->v) = ((((struct o0_int *)0xC0DAFD4)->v));
+        (((struct o30_float *)0xC179488)->v) = 0.099999994f;
+        (((struct o34_float *)0xC179488)->v) = 0.0949999988f;
+        (((struct o28_float *)0xC179488)->v) = 27.0f;
+        (((struct o2C_float *)0xC179488)->v) = 26.0f;
+        (((struct o38_float *)0xC179488)->v) = 2.79999995f;
         u13 = 2.29999995f;
     }
-    *(float *)0xC1794C4 = u13;
+    (((struct o3C_float *)0xC179488)->v) = u13;
     *(float *)0xC1794C8 = 0.0f;
-    *(unsigned char *)0xC179150 = (*(signed char *)0xC08ADAC);
-    *(unsigned char *)0xC179151 = (*(signed char *)0xC08ADAD);
-    *(unsigned char *)0xC179152 = (*(signed char *)0xC08ADAE);
-    *(unsigned char *)0xC179153 = (*(signed char *)0xC08ADAF);
-    *(unsigned char *)0xC179154 = (*(signed char *)0xC08ADB0);
-    *(unsigned char *)0xC179155 = (*(signed char *)0xC08ADB1);
-    t21 = *(int *)0xC1EE20C;
-    t22 = *(int *)0xC17948C;
+    (((struct o30_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADAC);
+    (((struct o31_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADAD);
+    (((struct o32_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADAE);
+    (((struct o33_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADAF);
+    (((struct o34_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADB0);
+    (((struct o35_uchar *)0xC179120)->v) = (*(signed char *)0xC08ADB1);
+    t21 = (((struct o0_int *)0xC1EE20C)->v);
+    t22 = (((struct o4_int *)0xC179488)->v);
     if (t21 != 0) {
         if (t21 == 1) {
             if (t22 != 1) {
-                *(float *)0xC179144 = 288.459991f;
-                *(float *)0xC179148 = 2304.11987f;
-                *(float *)0xC17914C = 4535.48975f;
-                *(unsigned short *)0xC179152 = 0x349F;
-                *(unsigned short *)0xC179150 = 0xF866;
+                (((struct o24_float *)0xC179120)->v) = 288.459991f;
+                (((struct o28_float *)0xC179120)->v) = 2304.11987f;
+                (((struct o2C_float *)0xC179120)->v) = 4535.48975f;
+                (((struct o32_ushort *)0xC179120)->v) = 0x349F;
+                (((struct o30_ushort *)0xC179120)->v) = 0xF866;
                 t23 = 0x88;
                 t25 = 0xFE8C;
             } else {
-                *(float *)0xC179144 = -1087.70996f;
-                *(float *)0xC179148 = 102.079994f;
-                *(float *)0xC17914C = -6556.45996f;
+                (((struct o24_float *)0xC179120)->v) = -1087.70996f;
+                (((struct o28_float *)0xC179120)->v) = 102.079994f;
+                (((struct o2C_float *)0xC179120)->v) = -6556.45996f;
                 t23 = 0x86;
                 t25 = 0xC69;
             }
             *(unsigned short *)((0xC1790CC + t23)) = t25;
-            if ((int)(*(int *)0xC179488) < (int)0x4) {
-                u31 = ((*(float *)0xC179148) + 0.199999988f);
+            if ((int)((((struct o0_int *)0xC179488)->v)) < (int)0x4) {
+                u31 = (((((struct o28_float *)0xC179120)->v)) + 0.199999988f);
             } else {
-                u31 = ((*(float *)0xC179148) + 0.099999994f);
+                u31 = (((((struct o28_float *)0xC179120)->v)) + 0.099999994f);
             }
-            *(float *)0xC179148 = u31;
+            (((struct o28_float *)0xC179120)->v) = u31;
             { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179158) = *(struct mv3 *)(0xC179144); }
         } else {
             if (t21 == 2) {
-                *(unsigned short *)0xC179152 = 0x0;
+                (((struct o32_ushort *)0xC179120)->v) = 0x0;
                 { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)(((*(int *)0xC1EE800) + 0x4)); }
-                *(float *)0xC179148 = ((*(float *)0xC179148) + 50.0f);
+                (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 50.0f);
             } else {
                 t35 = *(signed char *)0xC1EE35C;
                 if (t35 != 0) {
                     if (t35 != 1) {
                         if (t35 == 2) {
-                            *(unsigned short *)0xC179152 = 0x4000;
-                            getReplayPoint(0xC2A1B28, t22, 0x4000, 0xC0DAFC4, 0xC179144, 0.199999988f);
-                            *(float *)0xC179148 = ((*(float *)0xC179148) + 20.0f);
+                            (((struct o32_ushort *)0xC179120)->v) = 0x4000;
+                            getReplayPoint(0xC2A1B28, t22, 0x4000, 0xC0DAFC4, 0xC179144);
+                            (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
                         }
                     } else {
-                        if ((t22 == 1) && (t52 = *(int *)0xC1EE214, t52 != 15)) {
-                            *(unsigned short *)0xC179152 = 0xD000;
-                            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)(((*(int *)0xC2A1B28) + 0x18)); }
-                            *(float *)0xC17914C = ((*(float *)0xC17914C) - 140.0f);
-                            if ((int)(*(int *)0xC179488) < (int)0x4) {
-                                u58 = ((*(float *)0xC179148) + 0.199999988f);
+                        if ((t22 == 1) && (t52 = (((struct o8_int *)0xC1EE20C)->v), t52 != 15)) {
+                            (((struct o32_ushort *)0xC179120)->v) = 0xD000;
+                            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((struct o0_int *)0xC2A1B28)->v)) + 0x18)); }
+                            (((struct o2C_float *)0xC179120)->v) = (((((struct o2C_float *)0xC179120)->v)) - 140.0f);
+                            if ((int)((((struct o0_int *)0xC179488)->v)) < (int)0x4) {
+                                u58 = (((((struct o28_float *)0xC179120)->v)) + 0.199999988f);
                             } else {
-                                u58 = ((*(float *)0xC179148) + 0.099999994f);
+                                u58 = (((((struct o28_float *)0xC179120)->v)) + 0.099999994f);
                             }
                             u72 = u58;
                         } else {
-                            *(unsigned short *)0xC179152 = 0x5000;
-                            t60 = *(int *)0xC2A1B2C;
-                            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((t60 << 1) + t60) << 2) + (*(int *)0xC2A1B28)) - 12)); }
-                            *(float *)0xC17914C = ((*(float *)0xC17914C) + 135.0f);
-                            if ((int)(*(int *)0xC179488) >= (int)0x4) {
-                                u66 = ((*(float *)0xC179148) + 0.099999994f);
+                            (((struct o32_ushort *)0xC179120)->v) = 0x5000;
+                            t60 = (((struct o4_int *)0xC2A1B28)->v);
+                            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((t60 << 1) + t60) << 2) + ((((struct o0_int *)0xC2A1B28)->v))) - 12)); }
+                            (((struct o2C_float *)0xC179120)->v) = (((((struct o2C_float *)0xC179120)->v)) + 135.0f);
+                            if ((int)((((struct o0_int *)0xC179488)->v)) >= (int)0x4) {
+                                u66 = (((((struct o28_float *)0xC179120)->v)) + 0.099999994f);
                             } else {
-                                u66 = ((*(float *)0xC179148) + 0.199999988f);
+                                u66 = (((((struct o28_float *)0xC179120)->v)) + 0.199999988f);
                             }
                             u72 = u66;
                         }
-                        *(float *)0xC179148 = u72;
+                        (((struct o28_float *)0xC179120)->v) = u72;
                     }
                 } else {
-                    *(unsigned short *)0xC179152 = 0x4000;
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)(((*(int *)0xC2A1B28) + 0x4B0)); }
-                    *(float *)0xC179148 = ((*(float *)0xC179148) + 20.0f);
+                    (((struct o32_ushort *)0xC179120)->v) = 0x4000;
+                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((struct o0_int *)0xC2A1B28)->v)) + 0x4B0)); }
+                    (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
                 }
             }
         }
@@ -162,103 +217,103 @@ int init_CarMain(void)
         if (t124 != 0) {
             if (t124 != 1) {
                 if (t124 == 2) {
-                    *(unsigned short *)0xC179152 = 0x4000;
-                    getReplayPoint(0xC2A1B28, t22, 0x4000, 0xC0DAFC4, 0xC179144, 0.199999988f);
-                    *(float *)0xC179148 = ((*(float *)0xC179148) + 20.0f);
+                    (((struct o32_ushort *)0xC179120)->v) = 0x4000;
+                    getReplayPoint(0xC2A1B28, t22, 0x4000, 0xC0DAFC4, 0xC179144);
+                    (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
                 }
             } else {
-                if ((t22 == 1) && (t141 = *(int *)0xC1EE214, t141 != 15)) {
-                    *(unsigned short *)0xC179152 = 0xD000;
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)(((*(int *)0xC2A1B28) + 0x18)); }
-                    *(float *)0xC17914C = ((*(float *)0xC17914C) - 140.0f);
-                    if ((int)(*(int *)0xC179488) < (int)0x4) {
-                        u147 = ((*(float *)0xC179148) + 0.199999988f);
+                if ((t22 == 1) && (t141 = (((struct o8_int *)0xC1EE20C)->v), t141 != 15)) {
+                    (((struct o32_ushort *)0xC179120)->v) = 0xD000;
+                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((struct o0_int *)0xC2A1B28)->v)) + 0x18)); }
+                    (((struct o2C_float *)0xC179120)->v) = (((((struct o2C_float *)0xC179120)->v)) - 140.0f);
+                    if ((int)((((struct o0_int *)0xC179488)->v)) < (int)0x4) {
+                        u147 = (((((struct o28_float *)0xC179120)->v)) + 0.199999988f);
                     } else {
-                        u147 = ((*(float *)0xC179148) + 0.099999994f);
+                        u147 = (((((struct o28_float *)0xC179120)->v)) + 0.099999994f);
                     }
                     u161 = u147;
                 } else {
-                    *(unsigned short *)0xC179152 = 0x5000;
-                    t149 = *(int *)0xC2A1B2C;
-                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((t149 << 1) + t149) << 2) + (*(int *)0xC2A1B28)) - 12)); }
-                    *(float *)0xC17914C = ((*(float *)0xC17914C) + 135.0f);
-                    if ((int)(*(int *)0xC179488) >= (int)0x4) {
-                        u155 = ((*(float *)0xC179148) + 0.099999994f);
+                    (((struct o32_ushort *)0xC179120)->v) = 0x5000;
+                    t149 = (((struct o4_int *)0xC2A1B28)->v);
+                    { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((t149 << 1) + t149) << 2) + ((((struct o0_int *)0xC2A1B28)->v))) - 12)); }
+                    (((struct o2C_float *)0xC179120)->v) = (((((struct o2C_float *)0xC179120)->v)) + 135.0f);
+                    if ((int)((((struct o0_int *)0xC179488)->v)) >= (int)0x4) {
+                        u155 = (((((struct o28_float *)0xC179120)->v)) + 0.099999994f);
                     } else {
-                        u155 = ((*(float *)0xC179148) + 0.199999988f);
+                        u155 = (((((struct o28_float *)0xC179120)->v)) + 0.199999988f);
                     }
                     u161 = u155;
                 }
-                *(float *)0xC179148 = u161;
+                (((struct o28_float *)0xC179120)->v) = u161;
             }
         } else {
-            *(unsigned short *)0xC179152 = 0x4000;
-            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)(((*(int *)0xC2A1B28) + 0x4B0)); }
-            *(float *)0xC179148 = ((*(float *)0xC179148) + 20.0f);
+            (((struct o32_ushort *)0xC179120)->v) = 0x4000;
+            { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179144) = *(struct mv3 *)((((((struct o0_int *)0xC2A1B28)->v)) + 0x4B0)); }
+            (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
         }
     }
     { struct mv5 { int w[5]; }; *(struct mv5 *)(0xC179158) = *(struct mv5 *)(0xC179144); }
-    *(unsigned char *)0xC179178 = (*(signed char *)0xC08ADAC);
-    *(unsigned char *)0xC179179 = (*(signed char *)0xC08ADAD);
-    *(unsigned char *)0xC17917A = (*(signed char *)0xC08ADAE);
-    *(unsigned char *)0xC17917B = (*(signed char *)0xC08ADAF);
-    *(unsigned char *)0xC17917C = (*(signed char *)0xC08ADB0);
-    *(unsigned char *)0xC17917D = (*(signed char *)0xC08ADB1);
+    (((struct o0_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAC);
+    (((struct o1_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAD);
+    (((struct o2_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAE);
+    (((struct o3_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAF);
+    (((struct o4_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADB0);
+    (((struct o5_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADB1);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC17916C) = *(struct mv3 *)(0xC08AD94); }
-    *(unsigned short *)0xC1791C0 = (*(short *)0xC179152);
-    *(unsigned char *)0xC1791C2 = (*(signed char *)0xC08ADAC);
-    *(unsigned char *)0xC1791C3 = (*(signed char *)0xC08ADAD);
-    *(unsigned char *)0xC1791C4 = (*(signed char *)0xC08ADAE);
-    *(unsigned char *)0xC1791C5 = (*(signed char *)0xC08ADAF);
-    *(unsigned char *)0xC1791C6 = (*(signed char *)0xC08ADB0);
-    *(unsigned char *)0xC1791C7 = (*(signed char *)0xC08ADB1);
+    (((struct o0_ushort *)0xC1791C0)->v) = ((((struct o32_short *)0xC179120)->v));
+    (((struct o2_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADAC);
+    (((struct o3_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADAD);
+    (((struct o4_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADAE);
+    (((struct o5_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADAF);
+    (((struct o6_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADB0);
+    (((struct o7_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADB1);
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1791C8) = *(struct mv3 *)(0xC08AD94); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1791D4) = *(struct mv3 *)(0xC1791C8); }
-    *(unsigned short *)0xC1791E0 = 0x0;
-    *(float *)0xC1791E4 = (float)0x0;
-    *(float *)0xC1791E8 = (float)0x0;
-    *(unsigned int *)0xC1791EC = 0x1;
-    *(unsigned int *)0xC1791F0 = 0x0;
-    if ((int)(*(int *)0xC179488) < (int)0x4) {
-        *(float *)0xC1791F4 = 204.081635f;
-        *(float *)0xC1791F8 = 2.86999989f;
-        *(float *)0xC179210 = 15.0f;
-        *(float *)0xC1791FC = 15.5f;
-        *(float *)0xC179200 = 17.5f;
-        *(float *)0xC179204 = 0.0f;
+    (((struct o20_ushort *)0xC1791C0)->v) = 0x0;
+    (((struct o24_float *)0xC1791C0)->v) = (float)0x0;
+    (((struct o28_float *)0xC1791C0)->v) = (float)0x0;
+    (((struct o2C_uint *)0xC1791C0)->v) = 0x1;
+    (((struct o30_uint *)0xC1791C0)->v) = 0x0;
+    if ((int)((((struct o0_int *)0xC179488)->v)) < (int)0x4) {
+        (((struct o34_float *)0xC1791C0)->v) = 204.081635f;
+        (((struct o38_float *)0xC1791C0)->v) = 2.86999989f;
+        (((struct o10_float *)0xC179200)->v) = 15.0f;
+        (((struct o3C_float *)0xC1791C0)->v) = 15.5f;
+        (((struct o0_float *)0xC179200)->v) = 17.5f;
+        (((struct o4_float *)0xC179200)->v) = 0.0f;
         u216 = 40.0f;
     } else {
-        *(float *)0xC1791F4 = 214.285721f;
-        *(float *)0xC1791F8 = 3.5999999f;
-        *(float *)0xC179210 = 11.0f;
-        *(float *)0xC1791FC = 14.5f;
-        *(float *)0xC179200 = 13.5f;
-        *(float *)0xC179204 = 0.0f;
+        (((struct o34_float *)0xC1791C0)->v) = 214.285721f;
+        (((struct o38_float *)0xC1791C0)->v) = 3.5999999f;
+        (((struct o10_float *)0xC179200)->v) = 11.0f;
+        (((struct o3C_float *)0xC1791C0)->v) = 14.5f;
+        (((struct o0_float *)0xC179200)->v) = 13.5f;
+        (((struct o4_float *)0xC179200)->v) = 0.0f;
         u216 = 32.0f;
     }
-    *(float *)0xC179208 = u216;
-    *(float *)0xC17920C = 25.0f;
+    (((struct o8_float *)0xC179200)->v) = u216;
+    (((struct oC_float *)0xC179200)->v) = 25.0f;
     carCalcInertia(0xC1790CC);
-    *(float *)0xC179228 = 0.0f;
-    *(float *)0xC179238 = 0.0f;
-    *(float *)0xC179234 = 0.0f;
-    *(float *)0xC179230 = 0.0f;
-    *(float *)0xC179224 = 0.0f;
-    *(float *)0xC17922C = 0.0f;
-    *(float *)0xC179220 = 0.0f;
-    *(float *)0xC179240 = 0.0f;
-    *(float *)0xC17923C = 0.0f;
-    *(float *)0xC179244 = 1.0f;
-    *(float *)0xC17924C = 0.0f;
-    *(float *)0xC179248 = 0.0f;
-    *(float *)0xC179250 = 1.0f;
-    *(float *)0xC179258 = 0.0f;
-    *(float *)0xC179254 = 0.0f;
-    *(float *)0xC17925C = 1.0f;
-    *(float *)0xC179260 = 1.0f;
-    *(unsigned short *)0xC179268 = 0x0;
-    *(unsigned short *)0xC179266 = 0x0;
-    *(unsigned short *)0xC179264 = 0x0;
+    (((struct o28_float *)0xC179200)->v) = 0.0f;
+    (((struct o38_float *)0xC179200)->v) = 0.0f;
+    (((struct o34_float *)0xC179200)->v) = 0.0f;
+    (((struct o30_float *)0xC179200)->v) = 0.0f;
+    (((struct o24_float *)0xC179200)->v) = 0.0f;
+    (((struct o2C_float *)0xC179200)->v) = 0.0f;
+    (((struct o20_float *)0xC179200)->v) = 0.0f;
+    (((struct o0_float *)0xC179240)->v) = 0.0f;
+    (((struct o3C_float *)0xC179200)->v) = 0.0f;
+    (((struct o4_float *)0xC179240)->v) = 1.0f;
+    (((struct oC_float *)0xC179240)->v) = 0.0f;
+    (((struct o8_float *)0xC179240)->v) = 0.0f;
+    (((struct o10_float *)0xC179240)->v) = 1.0f;
+    (((struct o18_float *)0xC179240)->v) = 0.0f;
+    (((struct o14_float *)0xC179240)->v) = 0.0f;
+    (((struct o1C_float *)0xC179240)->v) = 1.0f;
+    (((struct o20_float *)0xC179240)->v) = 1.0f;
+    (((struct o28_ushort *)0xC179240)->v) = 0x0;
+    (((struct o26_ushort *)0xC179240)->v) = 0x0;
+    (((struct o24_ushort *)0xC179240)->v) = 0x0;
     t219 = 0xC023BF8;
     t223 = 0x4;
     t224 = 0xC17926C;
@@ -269,7 +324,7 @@ int init_CarMain(void)
         t219 = 0x30;
         *(unsigned int *)((t224 + 0x0)) = 0x1;
         *(unsigned int *)((t224 + 0x4)) = 0x1;
-        u225 = (*(float *)0xC1794C4);
+        u225 = ((((struct o3C_float *)0xC179488)->v));
         *(float *)((t224 + t219)) = u225;
         t219 = 0x34;
         *(float *)((t224 + t219)) = 0.0f;
@@ -339,13 +394,13 @@ int init_CarMain(void)
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC179114) = *(struct mv3 *)(0xC08AD94); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1790CC) = *(struct mv3 *)(0xC179144); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1790D8) = *(struct mv3 *)(0xC1791C8); }
-    *(unsigned int *)0xC1790F4 = 0xC1790FC;
-    *(unsigned int *)0xC1790F8 = 0x0;
+    (((struct o2C_uint *)0xC1790C8)->v) = 0xC1790FC;
+    (((struct o30_uint *)0xC1790C8)->v) = 0x0;
     SetColliObj(0xC1790CC, 0x0);
     init_CarSound();
     InitEffect();
     t237 = InitSpark();
-    *(unsigned int *)0xC179490 = 0x0;
-    *(unsigned int *)0xC179494 = 0x0;
+    (((struct o8_uint *)0xC179488)->v) = 0x0;
+    (((struct oC_uint *)0xC179488)->v) = 0x0;
     return t237;
 }

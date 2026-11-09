@@ -5,6 +5,14 @@ int mpdrv_memset_l(int, int, int);
 int get_data(int a4);
 int make_header(int a4, int a5);
 int mpdrv_clear_deviceinfo(int a4);
+struct o14_uchar { char p[0x14]; unsigned char v; };
+struct o15_uchar { char p[0x15]; unsigned char v; };
+struct o16_uchar { char p[0x16]; unsigned char v; };
+struct o17_uchar { char p[0x17]; unsigned char v; };
+struct o18_uchar { char p[0x18]; unsigned char v; };
+struct o19_uchar { char p[0x19]; unsigned char v; };
+struct o33_uchar { char p[0x33]; unsigned char v; };
+
 
 int get_data(int a4)
 {
@@ -94,18 +102,18 @@ int mpdrv_clear_deviceinfo(int a4)
     int t1;
 
     mpdrv_memset_l(a4, 0x0, 0x1E);
-    *(unsigned char *)(((a4 + 0x14) + 0x0)) = 0x28;
-    *(unsigned char *)((a4 + 0x15)) = 0x6E;
-    *(unsigned char *)((a4 + 0x16)) = 0x6F;
-    *(unsigned char *)((a4 + 0x17)) = 0x6E;
-    *(unsigned char *)((a4 + 0x18)) = 0x65;
-    *(unsigned char *)((a4 + 0x19)) = 0x29;
+    (((struct o14_uchar *)(a4))->v) = 0x28;
+    (((struct o15_uchar *)(a4))->v) = 0x6E;
+    (((struct o16_uchar *)(a4))->v) = 0x6F;
+    (((struct o17_uchar *)(a4))->v) = 0x6E;
+    (((struct o18_uchar *)(a4))->v) = 0x65;
+    (((struct o19_uchar *)(a4))->v) = 0x29;
     t1 = (a4 + 0x1A);
     do {
         *(unsigned char *)((t1 + 0x0)) = 0x20;
         t1 = (t1 + 0x1);
     } while ((unsigned int)t1 < (unsigned int)(a4 + 0x33));
-    *(unsigned char *)((a4 + 0x33)) = 0x0;
+    (((struct o33_uchar *)(a4))->v) = 0x0;
     return 0x0;
 }
 

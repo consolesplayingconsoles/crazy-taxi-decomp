@@ -8,6 +8,17 @@ int nlsndSeqRequest(int);
 int num2char(int);
 int putString(int, int, float, float, float);
 int EditEntryName(int a4, float f4);
+struct o0_int { int v; };
+struct o0_uchar { unsigned char v; };
+struct o1_uchar { char p[0x1]; unsigned char v; };
+struct o2_uchar { char p[0x2]; unsigned char v; };
+struct o3_uchar { char p[0x3]; unsigned char v; };
+struct o4_int { char p[0x4]; int v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int EditEntryName(int a4, float f4)
 {
@@ -45,54 +56,54 @@ int EditEntryName(int a4, float f4)
     float u83;
 
     if (a4 == 0) {
-        *(unsigned int *)0xC2A1250 = 0x0;
-        *(unsigned int *)0xC2A1254 = 0x0;
-        *(unsigned char *)0xC2A1248 = 0x41;
-        *(unsigned char *)0xC2A1249 = 0x41;
-        *(unsigned char *)0xC2A124A = 0x41;
-        *(unsigned char *)0xC2A124B = 0x0;
+        (((struct o8_uint *)0xC2A1248)->v) = 0x0;
+        (((struct oC_uint *)0xC2A1248)->v) = 0x0;
+        (((struct o0_uchar *)0xC2A1248)->v) = 0x41;
+        (((struct o1_uchar *)0xC2A1248)->v) = 0x41;
+        (((struct o2_uchar *)0xC2A1248)->v) = 0x41;
+        (((struct o3_uchar *)0xC2A1248)->v) = 0x0;
         t92 = 0x0;
     } else {
-        if ((((*(int *)0xC2A11CC) & 0x20) == 0) && ((t4 = *(int *)0xC2A11D4, t4 != 0) || (t5 = *(int *)0xC2A11D0, (t5 & 0x20) == 0))) {
+        if (((((((struct o0_int *)0xC2A11CC)->v)) & 0x20) == 0) && ((t4 = (((struct o8_int *)0xC2A11CC)->v), t4 != 0) || (t5 = (((struct o4_int *)0xC2A11CC)->v), (t5 & 0x20) == 0))) {
         } else {
-            t6 = *(int *)0xC2A1250;
-            *(unsigned int *)0xC2A1250 = (t6 - 1);
+            t6 = (((struct o8_int *)0xC2A1248)->v);
+            (((struct o8_uint *)0xC2A1248)->v) = (t6 - 1);
             if ((int)(t6 - 1) < 0) {
-                *(unsigned int *)0xC2A1250 = 0x2;
+                (((struct o8_uint *)0xC2A1248)->v) = 0x2;
             }
-            *(unsigned int *)0xC2A1254 = (char2num((*(signed char *)((0xC2A1248 + (*(int *)0xC2A1250))))));
+            (((struct oC_uint *)0xC2A1248)->v) = (char2num((*(signed char *)((0xC2A1248 + ((((struct o8_int *)0xC2A1248)->v)))))));
             nlsndSeqRequest(0x804A9);
         }
-        if ((((*(int *)0xC2A11CC) & 0x40) == 0) && ((t18 = *(int *)0xC2A11D4, t18 != 0) || (t19 = *(int *)0xC2A11D0, (t19 & 0x40) == 0))) {
+        if (((((((struct o0_int *)0xC2A11CC)->v)) & 0x40) == 0) && ((t18 = (((struct o8_int *)0xC2A11CC)->v), t18 != 0) || (t19 = (((struct o4_int *)0xC2A11CC)->v), (t19 & 0x40) == 0))) {
         } else {
-            t20 = *(int *)0xC2A1250;
-            *(unsigned int *)0xC2A1250 = (t20 + 0x1);
+            t20 = (((struct o8_int *)0xC2A1248)->v);
+            (((struct o8_uint *)0xC2A1248)->v) = (t20 + 0x1);
             if ((int)(t20 + 0x1) >= (int)0x3) {
-                *(unsigned int *)0xC2A1250 = 0x0;
+                (((struct o8_uint *)0xC2A1248)->v) = 0x0;
             }
-            *(unsigned int *)0xC2A1254 = (char2num((*(signed char *)((0xC2A1248 + (*(int *)0xC2A1250))))));
+            (((struct oC_uint *)0xC2A1248)->v) = (char2num((*(signed char *)((0xC2A1248 + ((((struct o8_int *)0xC2A1248)->v)))))));
             nlsndSeqRequest(0x804A9);
         }
-        t30 = *(int *)0xC2A11CC;
-        if (((t30 & 0x8) == 0) && ((t31 = *(int *)0xC2A11D4, t31 != 0) || (t32 = *(int *)0xC2A11D0, (t32 & 0x8) == 0))) {
-            if (((t30 & 0x10) == 0) && ((t39 = *(int *)0xC2A11D4, t39 != 0) || (t40 = *(int *)0xC2A11D0, (t40 & 0x10) == 0))) {
+        t30 = (((struct o0_int *)0xC2A11CC)->v);
+        if (((t30 & 0x8) == 0) && ((t31 = (((struct o8_int *)0xC2A11CC)->v), t31 != 0) || (t32 = (((struct o4_int *)0xC2A11CC)->v), (t32 & 0x8) == 0))) {
+            if (((t30 & 0x10) == 0) && ((t39 = (((struct o8_int *)0xC2A11CC)->v), t39 != 0) || (t40 = (((struct o4_int *)0xC2A11CC)->v), (t40 & 0x10) == 0))) {
             } else {
-                t41 = *(int *)0xC2A1254;
-                *(unsigned int *)0xC2A1254 = (t41 - 1);
+                t41 = (((struct oC_int *)0xC2A1248)->v);
+                (((struct oC_uint *)0xC2A1248)->v) = (t41 - 1);
                 if ((int)(t41 - 1) < 0) {
-                    *(unsigned int *)0xC2A1254 = 0x2A;
+                    (((struct oC_uint *)0xC2A1248)->v) = 0x2A;
                 }
                 nlsndSeqRequest(0x504A9);
             }
         } else {
-            t51 = *(int *)0xC2A1254;
-            *(unsigned int *)0xC2A1254 = (t51 + 0x1);
+            t51 = (((struct oC_int *)0xC2A1248)->v);
+            (((struct oC_uint *)0xC2A1248)->v) = (t51 + 0x1);
             if ((int)(t51 + 0x1) > (int)0x2A) {
-                *(unsigned int *)0xC2A1254 = 0x0;
+                (((struct oC_uint *)0xC2A1248)->v) = 0x0;
             }
             nlsndSeqRequest(0x504A9);
         }
-        *(unsigned char *)((((*(int *)0xC2A1250) + 0xC2A1248) + 0x0)) = (num2char((*(int *)0xC2A1254)));
+        *(unsigned char *)(((((((struct o8_int *)0xC2A1248)->v)) + 0xC2A1248) + 0x0)) = (num2char(((((struct oC_int *)0xC2A1248)->v))));
         PutVM_Message(0x20, 0x14, 0x0, 235.0f, 208.0f);
         PutStringFixPfont(0x26, 0xC2A1248, 320.0f, 260.0f, 32.0f, 1.0f);
         t67 = 0xC041364;
@@ -110,7 +121,7 @@ int EditEntryName(int a4, float f4)
             t69 = (t69 << 1);
             t69 = (t69 + t70);
             t75 = t69;
-            t69 = (*(int *)0xC2A1250);
+            t69 = ((((struct o8_int *)0xC2A1248)->v));
             u72 = (float)t75;
             u73 = u72;
             if (t71 == t69) {

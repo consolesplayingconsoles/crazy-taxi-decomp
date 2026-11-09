@@ -3,6 +3,13 @@
 
 int bootInstallVectors(void);
 void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10);
+struct o0_uint { unsigned int v; };
+struct o10_uchar { char p[0x10]; unsigned char v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_int { char p[0x1C]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, float f9, float f10)
 {
@@ -40,6 +47,8 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     float F10;
     float F12;
     int T_;
+    int R1004;
+    R1004 = *(int *)((int)stk + 4);
     R4 = a4;
     R5 = a5;
     F5 = f5;
@@ -48,7 +57,7 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     t0 = ((int (*)(int, int, float, float, float, float, float, float, float))(0xAC010A88))(R4, R5, f4, F5, f6, f7, f8, f9, F10);
     bootInstallVectors();
     t2 = ((int (*)(void))(0xAC010C18))();
-    *(unsigned int *)0xAC00F718 = 0x2;
+    (((struct o18_uint *)0xAC00F700)->v) = 0x2;
     R14 = (0xA0000000);
     R4 = (0xAC00F71C);
     if (((*(short *)0x8C000070) != 0x3030)) goto L_C0101B6;
@@ -57,8 +66,8 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     *(unsigned int *)((R4 + 0x0)) = 0x8F;
     goto L_C0101BE;
     L_C0101BE:;
-    *(unsigned int *)0xAC00F700 = 0xC011BB0;
-    *(unsigned int *)0xAC00F704 = 0xC011BF8;
+    (((struct o0_uint *)0xAC00F700)->v) = 0xC011BB0;
+    (((struct o4_uint *)0xAC00F700)->v) = 0xC011BF8;
     R10 = (0x0);
     R11 = (0x0);
     R12 = (0x20000);
@@ -70,16 +79,16 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     goto L_C010266;
     L_C010266:;
     t13 = ((int (*)(int, int, float, float, float, float, float, float, float))((0xC010630 | R14)))(R4, R5, 0.0f, F5, 0.0f, 0.0f, 0.0f, 0.0f, F10);
-    *(unsigned char *)0xAC00F710 = 0x1;
-    *(unsigned int *)0xAC00F714 = R10;
-    *(unsigned int *)(((int)stk + 4)) = R10;
+    (((struct o10_uchar *)0xAC00F700)->v) = 0x1;
+    (((struct o14_uint *)0xAC00F700)->v) = R10;
+    R1004 = R10;
     R11 = (0xAC00F714);
     R12 = (0x1);
     R8 = (0xAC00F708);
     goto L_C010282;
     L_C010282:;
     t17 = ((int (*)(int, int, float, float, float, float, float, float, float))((0xC0105D4 | R14)))(R4, R5, 0.0f, F5, 0.0f, 0.0f, 0.0f, 0.0f, F10);
-    t18 = *(int *)(((int)stk + 4));
+    t18 = R1004;
     t20 = (((int (*)(int))((0xC01089A | R14)))((t18 & R12))) == 0;
     R10 = ((t18 & R12));
     R9 = (R13);
@@ -98,7 +107,7 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     if (((*(int *)((R11 + 0x0))) != 0)) goto L_C010324;
     goto L_C0102D6;
     L_C0102D6:;
-    if ((((*(int *)0xAC00F71C) & 128) == 0)) goto L_C010324;
+    if (((((((struct o1C_int *)0xAC00F700)->v)) & 128) == 0)) goto L_C010324;
     goto L_C0102DE;
     L_C0102DE:;
     if (((*(int *)((R8 + 0x0))) == 0)) goto L_C0102F2;
@@ -118,7 +127,7 @@ void bootMain(int a4, int a5, float f4, float f5, float f6, float f7, float f8, 
     *(unsigned int *)((R11 + 0x0)) = R12;
     goto L_C010324;
     L_C010324:;
-    *(unsigned int *)(((int)stk + 4)) = ((*(int *)(((int)stk + 4))) + 0x1);
+    R1004 = ((R1004) + 0x1);
     goto L_C010282;
     L_C010238:;
     t40 = ((int (*)(int, int, float, float, float, float, float, float, float))((0xC010A26 | R14)))(R13, R5, 0.0f, F5, 0.0f, 0.0f, 0.0f, 0.0f, F10);

@@ -5,7 +5,7 @@ int gdc_CourseStartLoadReq(void);
 int gdc_FadeManStreamSong(void);
 int gdc_StopStreamSongAll(void);
 int nd_CarSelExec(int);
-int nlLookAtUp(int, int, int, float, float, float);
+int nlLookAtUp(int, int, int);
 int gameState5(int a4, int a5, int a6, float f4, float f5, float f6);
 
 int gameState5(int a4, int a5, int a6, float f4, float f5, float f6)
@@ -34,7 +34,7 @@ int gameState5(int a4, int a5, int a6, float f4, float f5, float f6)
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0xC)) = *(struct mv3 *)(0xC08AD94); }
     { struct mv3 { int w[3]; }; *(struct mv3 *)(((int)stk + 4)) = *(struct mv3 *)(0xC08AD94); }
     *(float *)(((int)stk + 12)) = 10.0f;
-    nlLookAtUp((((int)stk + 4) + 0xC), ((int)stk + 4), (((int)stk + 4) + 0x18), 0.0f, f5, f6);
+    nlLookAtUp((((int)stk + 4) + 0xC), ((int)stk + 4), (((int)stk + 4) + 0x18));
     nd_CarSelExec(0xC179488);
     if (((*(int *)0xC2A7518) != 4)) goto L_C02CDA8;
     goto L_C02CD9C;

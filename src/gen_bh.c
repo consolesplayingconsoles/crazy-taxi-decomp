@@ -150,6 +150,8 @@ int Put_Remain_Time(void);
 int Init_DCmini(void);
 int Put_JumpDistance(void);
 int Put_Ranking(void);
+struct oA8_short { char p[0xA8]; short v; };
+
 
 
 
@@ -157,45 +159,31 @@ int Put_Ranking(void);
 int nlCommonTextureConvertUVnum(int a4)
 {
     int t10;
-    int t9;
-    int t8;
-    int t7;
-    int t6;
-    int t4;
-    int t2;
-    int t0;
 
     t10 = 0x0;
     if (a4 != 8) {
-        t9 = 0x1;
+        t10 = 0x1;
         if (a4 != 16) {
-            t8 = 0x2;
+            t10 = 0x2;
             if (a4 != 32) {
-                t7 = 0x3;
+                t10 = 0x3;
                 if (a4 != 64) {
-                    t6 = 0x4;
+                    t10 = 0x4;
                     if (a4 != 0x80) {
-                        t4 = 0x5;
+                        t10 = 0x5;
                         if (a4 != 0x100) {
-                            t2 = 0x6;
+                            t10 = 0x6;
                             if (a4 != 0x200) {
-                                t0 = a4;
+                                t10 = a4;
                                 if (a4 == 0x400) {
-                                    t0 = 0x7;
+                                    t10 = 0x7;
                                 }
-                                t2 = t0;
                             }
-                            t4 = t2;
                         }
-                        t6 = t4;
                     }
-                    t7 = t6;
                 }
-                t8 = t7;
             }
-            t9 = t8;
         }
-        t10 = t9;
     }
     return t10;
 }
@@ -208,21 +196,21 @@ int ADXB_ExecHndl(int a4)
     int t3;
     int t4;
 
-    t0 = *(short *)((a4 + 0xA8));
+    t0 = (((struct oA8_short *)(a4))->v);
     if (t0 != 0) {
-        t1 = *(short *)((a4 + 0xA8));
+        t1 = (((struct oA8_short *)(a4))->v);
         if (t1 == 2) {
             return ADXB_ExecOneSpsd(a4);
         }
-        t2 = *(short *)((a4 + 0xA8));
+        t2 = (((struct oA8_short *)(a4))->v);
         if (t2 == 3) {
             return ADXB_ExecOneAiff(a4);
         }
-        t3 = *(short *)((a4 + 0xA8));
+        t3 = (((struct oA8_short *)(a4))->v);
         if (t3 == 4) {
             return ADXB_ExecOneAu(a4);
         }
-        t4 = *(short *)((a4 + 0xA8));
+        t4 = (((struct oA8_short *)(a4))->v);
         if (t4 == 1) {
             return ADXB_ExecOneWav(a4);
         }
@@ -270,76 +258,62 @@ int vmsfs_fwrite(int a4, int a5, int a6)
     int t25;
     int t0;
     int t1;
-    int t23;
     int t2;
-    int t11;
     int t3;
-    int t7;
     int t4;
     int t5;
-    int t6;
     int t13;
-    int t17;
     int t14;
     int t15;
-    int t16;
-    int t21;
 
     t25 = 0xFFFFFF00;
     if (a4 != 0) {
         t0 = *(int *)((a4 + 0x28));
         t1 = *(signed char *)((((t0 * 0x148) + 0xC2EE990) + 0x2));
-        t23 = 0xFFFFFF01;
+        t25 = 0xFFFFFF01;
         if (t1 != 0) {
             t2 = *(int *)((a4 + 0x4));
             if (t2 != 1) {
-                t11 = 0xFFFFFF0B;
+                t25 = 0xFFFFFF0B;
                 if (t2 == 2) {
                     t3 = *(int *)((a4 + 0x28));
                     *(unsigned int *)(((0xC2EE990 + (t3 * 0x148)) + 0x30)) = 0x1;
                     *(unsigned int *)(((0xC2EE990 + (t3 * 0x148)) + 0x34)) = a6;
-                    t7 = 0x0;
+                    t25 = 0x0;
                     if ((int)a6 > 0) {
                         t4 = 0x0;
                         t5 = a5;
                         for (;;) {
-                            t6 = vmsfs_xwrite1(a4, t5);
-                            if ((int)t6 < 0) break;
+                            t25 = vmsfs_xwrite1(a4, t5);
+                            if ((int)t25 < 0) break;
                             t4 = (t4 + 0x1);
                             t5 = (t5 + 0x200);
                             if ((int)t4 >= (int)a6) {
                                 return 0x0;
                             }
                         }
-                        t7 = t6;
                     }
-                    t11 = t7;
                 }
-                t21 = t11;
             } else {
                 t13 = *(int *)((a4 + 0x28));
                 *(unsigned int *)(((0xC2EE990 + (t13 * 0x148)) + 0x30)) = 0x1;
                 *(unsigned int *)(((0xC2EE990 + (t13 * 0x148)) + 0x34)) = a6;
-                t17 = 0x0;
+                t25 = 0x0;
                 if ((int)a6 > 0) {
                     t14 = 0x0;
                     t15 = a5;
                     for (;;) {
-                        t16 = vmsfs_fwrite1(a4, t15);
-                        if ((int)t16 < 0) break;
+                        t25 = vmsfs_fwrite1(a4, t15);
+                        if ((int)t25 < 0) break;
                         t14 = (t14 + 0x1);
                         t15 = (t15 + 0x200);
                         if ((int)t14 >= (int)a6) {
                             return 0x0;
                         }
                     }
-                    t17 = t16;
                 }
-                t21 = t17;
             }
-            t23 = t21;
         }
-        t25 = t23;
     }
     return t25;
 }

@@ -33,40 +33,32 @@ int stopingCarExec(int a4);
 
 int pfAddNumber(int a4, int a5)
 {
-    int t3;
     int t0;
     int t4;
-    int t5;
     int t6;
     int t7;
     int t8;
     int t9;
     int t10;
     int t11;
-    int t12;
     int t16;
     int t17;
     int t18;
     int t19;
-    int t1;
-    int t2;
 
-    t3 = a4;
+    t6 = a4;
     if ((int)a4 < 0) {
         t0 = *(int *)0xC26E310;
         *(unsigned int *)0xC26E310 = (t0 + 0x1);
         *(unsigned char *)((((t0 + 0x1) - 0x1) + 0x0)) = 0x2D;
-        t1 = ((t0 + 0x1) - 0x1);
-        t2 = 0x2D;
-        t3 = (-a4);
+        t4 = ((t0 + 0x1) - 0x1);
+        t10 = 0x2D;
+        t6 = (-a4);
     }
-    t4 = t1;
-    t5 = t2;
-    t6 = t3;
     t7 = 0x0;
     while ((int)t6 >= (int)0xA) {
         t4 = t7;
-        t5 = 0xC08106C;
+        t10 = 0xC08106C;
         t4 = (t4 << 2);
         t4 = (t4 + 0xC26E314);
         t8 = (int)((int)t6 % (int)0xA);
@@ -78,11 +70,9 @@ int pfAddNumber(int a4, int a5)
     }
     *(unsigned int *)((0xC26E314 + (t7 << 2))) = t6;
     if ((int)(a5 - (t7 + 0x1)) > 0) {
-        t10 = t5;
         t11 = (a5 - (t7 + 0x1));
         while (t11 != 0) {
-            t12 = *(int *)0xC26E310;
-            t10 = t12;
+            t10 = *(int *)0xC26E310;
             t11 = (t11 - 1);
             t10 = (t10 + 0x1);
             *(unsigned int *)0xC26E310 = t10;

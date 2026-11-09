@@ -44,6 +44,12 @@ int kmSetHSyncLine(int a4);
 int adxt_stat_decinfo(int a4);
 int kmiInitNTSC(void);
 int kmiInitPAL(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o34_int { char p[0x34]; int v; };
+struct o3C_int { char p[0x3C]; int v; };
+struct oC_int { char p[0xC]; int v; };
+
 
 
 int vmsfs_sysdiskfree(int a4)
@@ -52,21 +58,14 @@ int vmsfs_sysdiskfree(int a4)
     int t20;
     int t1;
     int t3;
-    int t18;
     int t4;
-    int t17;
-    int t5;
-    int t16;
     int t6;
-    int t7;
     int t8;
     int t9;
     int t10;
     int t11;
     int t12;
     int t13;
-    int t15;
-    int t19;
 
     t0 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x2));
     t20 = 0xFFFFFF01;
@@ -74,19 +73,18 @@ int vmsfs_sysdiskfree(int a4)
         t1 = vmsio_isready(a4);
         if (t1 == 0) {
             vmsfs_unmount(a4);
-            t19 = 0xFFFFFF01;
+            t20 = 0xFFFFFF01;
         } else {
             t3 = vmsio_ismount(a4);
-            t18 = 0xFFFFFF01;
+            t20 = 0xFFFFFF01;
             if (t3 != 0) {
                 t4 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x8));
-                t17 = 0xFFFFFF01;
+                t20 = 0xFFFFFF01;
                 if (t4 != 0) {
-                    t5 = buIsFormat();
-                    t16 = 0xFFFFFF03;
-                    if ((int)t5 >= 0) {
-                        t6 = t5;
-                        t7 = 0x0;
+                    t6 = buIsFormat();
+                    t20 = 0xFFFFFF03;
+                    if ((int)t6 >= 0) {
+                        t20 = 0x0;
                         t8 = 0x0;
                         for (;;) {
                             t9 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
@@ -95,23 +93,17 @@ int vmsfs_sysdiskfree(int a4)
                             t12 = (int)((unsigned int)(t11 * (t10 + 0x1)) + (unsigned int)0x0);
                             t13 = (int)((unsigned int)t12 + ((((int)0x0 > (int)(t11 * (t10 + 0x1)))) ? 1u : 0u));
                             if ((int)t8 >= (int)(t13 >> 1)) break;
-                            t15 = get_fat(a4, t8);
-                            t6 = t15;
+                            t6 = get_fat(a4, t8);
                             t6 = (unsigned short)t6;
                             t8 = (t8 + 0x1);
                             if (t6 == 0xFFFC) {
-                                t7 = (t7 + 0x1);
+                                t20 = (t20 + 0x1);
                             }
                         }
-                        t16 = t7;
                     }
-                    t17 = t16;
                 }
-                t18 = t17;
             }
-            t19 = t18;
         }
-        t20 = t19;
     }
     return t20;
 }
@@ -127,13 +119,10 @@ int kmSetHSyncLine(int a4)
     int t9;
     int t13;
     int t18;
-    int t29;
     int t19;
-    int t25;
     int t20;
     int t21;
     int t30;
-    int t36;
     int t31;
     int t32;
     int t41;
@@ -141,56 +130,49 @@ int kmSetHSyncLine(int a4)
     int t43;
     int t44;
     int t17;
-    int t12;
-    int t8;
     int t40;
 
-    t0 = *(int *)0xC2EA6D4;
-    t1 = *(int *)0xC2EA6DC;
-    t2 = *(int *)0xC2EA6A0;
+    t0 = (((struct o34_int *)0xC2EA6A0)->v);
+    t1 = (((struct o3C_int *)0xC2EA6A0)->v);
+    t2 = (((struct o0_int *)0xC2EA6A0)->v);
     if ((t2 & 0x1) != 1) {
-        t3 = *(int *)0xC2EA6A0;
+        t3 = (((struct o0_int *)0xC2EA6A0)->v);
         if ((t3 & 44) != 0) {
             if (0x1 != 0) {
-                t4 = *(int *)0xC2EA970;
-                t8 = ((unsigned int)((unsigned int)t4 >> 16) >> 1);
+                t4 = (((struct oC_int *)0xC2EA964)->v);
+                t17 = ((unsigned int)((unsigned int)t4 >> 16) >> 1);
             } else {
-                t5 = *(int *)0xC2EA970;
-                t8 = ((unsigned int)t5 >> 16);
+                t5 = (((struct oC_int *)0xC2EA964)->v);
+                t17 = ((unsigned int)t5 >> 16);
             }
-            t12 = t8;
         } else {
-            t9 = *(int *)0xC2EA970;
-            t12 = ((unsigned int)t9 >> 16);
+            t9 = (((struct oC_int *)0xC2EA964)->v);
+            t17 = ((unsigned int)t9 >> 16);
         }
-        t17 = t12;
     } else {
-        t13 = *(int *)0xC2EA970;
+        t13 = (((struct oC_int *)0xC2EA964)->v);
         t17 = ((unsigned int)t13 >> 16);
     }
-    t18 = *(int *)0xC2EA6A0;
+    t18 = (((struct o0_int *)0xC2EA6A0)->v);
     if ((t18 & 0x1) == 1) {
-        t29 = (a4 + (t1 + t0));
+        t40 = (a4 + (t1 + t0));
         if (0x1 == 0) {
-            t19 = *(int *)0xC2EA6A0;
-            t25 = (a4 + (t1 + t0));
+            t19 = (((struct o0_int *)0xC2EA6A0)->v);
+            t40 = (a4 + (t1 + t0));
             if ((t19 & 32) != 0) {
                 t20 = (int)((unsigned int)a4 + (unsigned int)0x0);
                 t21 = (int)((unsigned int)t20 + ((((int)0x0 > (int)a4)) ? 1u : 0u));
-                t25 = ((t21 >> 1) + (t1 + t0));
+                t40 = ((t21 >> 1) + (t1 + t0));
             }
-            t29 = t25;
         }
-        t40 = t29;
     } else {
-        t30 = *(int *)0xC2EA6A0;
-        t36 = (a4 + (t1 + t0));
+        t30 = (((struct o0_int *)0xC2EA6A0)->v);
+        t40 = (a4 + (t1 + t0));
         if ((t30 & 32) != 0) {
             t31 = (int)((unsigned int)a4 + (unsigned int)0x0);
             t32 = (int)((unsigned int)t31 + ((((int)0x0 > (int)a4)) ? 1u : 0u));
-            t36 = ((t32 >> 1) + (t1 + t0));
+            t40 = ((t32 >> 1) + (t1 + t0));
         }
-        t40 = t36;
     }
     t41 = t40;
     if ((int)t40 < 0) {
@@ -204,8 +186,8 @@ int kmSetHSyncLine(int a4)
     if ((int)t42 < 0) {
         t43 = 0x0;
     }
-    t44 = *(int *)0xC2EA964;
-    *(unsigned int *)0xC2EA964 = ((t44 & 0x3FF0000) | (0x3FF & t43));
+    t44 = (((struct o0_int *)0xC2EA964)->v);
+    (((struct o0_uint *)0xC2EA964)->v) = ((t44 & 0x3FF0000) | (0x3FF & t43));
     kmiWriteRegister(0xC8, ((t44 & 0x3FF0000) | (0x3FF & t43)));
     return 0x0;
 }

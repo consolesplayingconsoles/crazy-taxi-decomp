@@ -162,25 +162,28 @@ int _rnd(int a4, int a5)
     int t33;
     int t32;
     int stk[7] = {0};
+    int R1004;
+
+    R1004 = *(int *)((int)stk + 4);
 
     t0 = (int)((int)a5 / (int)0x8);
     t1 = (int)((int)a5 % (int)0x8);
-    *(unsigned int *)(((int)stk + 4)) = (unsigned char)((int)0x80 << (int)(-t1));
+    R1004 = (unsigned char)((int)0x80 << (int)(-t1));
     *(unsigned int *)(((int)stk + 12)) = (unsigned char)((unsigned char)((int)0x80 << (int)(-t1)) >> 1);
     *(unsigned char *)(((int)stk + 8)) = ((unsigned char)((unsigned char)((int)0x80 << (int)(-t1)) >> 1) >> 1);
     t2 = (int)((int)(a5 - 1) / (int)0x8);
     t3 = (int)((int)(a5 - 1) % (int)0x8);
     t4 = *(signed char *)(((t0 + a4) + 0x0));
-    t5 = *(int *)(((int)stk + 4));
+    t5 = R1004;
     t22 = 0x0;
     if (((unsigned char)t4 & t5) != 0) {
         t6 = *(signed char *)(((t0 + a4) + 0x0));
-        *(unsigned int *)(((int)stk + 4)) = (unsigned char)t6;
+        R1004 = (unsigned char)t6;
         t7 = *(int *)(((int)stk + 12));
         t17 = 0x1;
         if (((unsigned char)t6 & t7) == 0) {
             t8 = *(signed char *)(((int)stk + 8));
-            t9 = *(int *)(((int)stk + 4));
+            t9 = R1004;
             t12 = 0x1;
             if (((unsigned char)t8 & t9) == 0) {
                 t10 = *(signed char *)(((t2 + a4) + 0x0));

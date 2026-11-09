@@ -8,6 +8,11 @@ int Start_CrazyBox_Voice(int);
 float nlLength(int, int);
 int nlObjPutSetFadeColor(float, float, float);
 void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
 {
@@ -61,7 +66,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     L_C05D708:;
     R1012 = F15;
     R1008 = F14;
-    t2 = (*(int *)0xC1794D0) == (*(int *)0xC2A98FC);
+    t2 = (*(int *)0xC1794D0) == ((((struct o10_int *)0xC2A98EC)->v));
     R1008 = F15;
     R1004 = F14;
     R12 = (0xC1EE214);
@@ -76,7 +81,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if ((t5 != 14)) goto L_C05D746;
     goto L_C05D72E;
     L_C05D72E:;
-    t10 = (*(int *)0xC2A9A2C) == (0x7 - (*(int *)0xC2A98EC));
+    t10 = ((((struct o0_int *)0xC2A9A2C)->v)) == (0x7 - ((((struct o0_int *)0xC2A98EC)->v)));
     R1008 = R1008;
     R1004 = R1004;
     if (t10) goto L_C05D790;
@@ -89,7 +94,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if ((t11 != 14)) goto L_C05D790;
     goto L_C05D746;
     L_C05D746:;
-    t15 = (*(int *)0xC2A98EC) == 0;
+    t15 = ((((struct o0_int *)0xC2A98EC)->v)) == 0;
     R1008 = R1008;
     R1004 = R1004;
     R13 = (0xC2A98EC);
@@ -117,7 +122,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if (t24) goto L_C05D790;
     goto L_C05D77C;
     L_C05D77C:;
-    t26 = (*(int *)0xC2A98EC) == 0;
+    t26 = ((((struct o0_int *)0xC2A98EC)->v)) == 0;
     R1008 = R1008;
     R1004 = R1004;
     if (t26) goto L_C05D790;
@@ -166,7 +171,7 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     if (t46) goto L_C05D818;
     goto L_C05D7E6;
     L_C05D7E6:;
-    t49 = (int)(*(int *)0xC2A9A2C) < (int)0x7;
+    t49 = (int)((((struct o0_int *)0xC2A9A2C)->v)) < (int)0x7;
     R1008 = R1008;
     R1004 = R1004;
     if (t49) goto L_C05D818;
@@ -202,8 +207,8 @@ void Exec_Remain_Arrow(int a4, int a5, float f4, float f5, float f6)
     R5 = ((0xC131030 + R10));
     goto L_C05D7C8;
     L_C05D76C:;
-    *(unsigned int *)0xC2A9A34 = 0x1;
-    *(unsigned int *)0xC2A9A38 = R4;
+    (((struct o8_uint *)0xC2A9A2C)->v) = 0x1;
+    (((struct oC_uint *)0xC2A9A2C)->v) = R4;
     R1008 = R1008;
     R1004 = R1004;
     goto L_C05D776;

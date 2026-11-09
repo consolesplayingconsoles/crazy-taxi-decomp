@@ -5,6 +5,10 @@ int ADXF_GetFsizeSct(int);
 int ADXF_OpenAfs(int, int);
 int ADXF_ReadNw32(int, int, int);
 int gdc_CourseBlockReadNext(void);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int gdc_CourseBlockReadNext(void)
 {
@@ -28,7 +32,7 @@ int gdc_CourseBlockReadNext(void)
     t3 = 0x0;
     for (;;) {
         if (((unsigned char)(*(signed char *)((t1 + 0x0))) == 1) && (t5 = *(int *)((t1 + 0xC)), t0 = t5, (int)t3 < (int)t0)) {
-            *(unsigned int *)0xC26E0F4 = t2;
+            (((struct o0_uint *)0xC26E0F4)->v) = t2;
             t3 = (*(int *)((t1 + 0xC)));
         }
         t7 = *(int *)((t1 + 0x8));
@@ -39,12 +43,12 @@ int gdc_CourseBlockReadNext(void)
             break;
         }
     }
-    t9 = *(int *)0xC26E0F4;
+    t9 = (((struct o0_int *)0xC26E0F4)->v);
     if (t9 != -1) {
-        *(unsigned int *)0xC26E0F8 = 0x1;
-        t10 = *(int *)0xC26E0F4;
+        (((struct o4_uint *)0xC26E0F4)->v) = 0x1;
+        t10 = (((struct o0_int *)0xC26E0F4)->v);
         *(unsigned char *)((((short)((((t10 << 1) + t10) << 2) << 1) + 0xC26C5DC) + 0x0)) = 0x2;
-        t11 = *(int *)0xC26E0F4;
+        t11 = (((struct o0_int *)0xC26E0F4)->v);
         t13 = ADXF_OpenAfs(0x0, (*(int *)((((short)((((t11 << 1) + t11) << 2) << 1) + 0xC26C5DC) + 0x4))));
         *(unsigned int *)0xC26C5D8 = t13;
         t18 = t13;
@@ -56,7 +60,7 @@ int gdc_CourseBlockReadNext(void)
         }
         t22 = t18;
     } else {
-        *(unsigned int *)0xC26E0F8 = 0x0;
+        (((struct o4_uint *)0xC26E0F4)->v) = 0x0;
         t22 = t9;
     }
     return t22;

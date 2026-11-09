@@ -16,6 +16,11 @@ int CheckSecretFlag(int a4, int a5);
 int ADXT_Create(int a4, int a5, int a6);
 int buMakeBackupFileImage(int a4, int a5);
 void syChainDeleteHandler(int a4);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 
 
@@ -25,7 +30,6 @@ void syChainDeleteHandler(int a4)
     int t0;
     int t2;
     int t3;
-    int t4;
     int t9;
     int t10;
     int t11;
@@ -46,8 +50,7 @@ void syChainDeleteHandler(int a4)
     for (;;) {
         t3 = *(int *)(((((t2 << 2) << 2) + 0xC2EAC10) + 0x4));
         if (t3 == (((a4 << 2) << 2) + 0xC2EAC10)) {
-            t4 = *(int *)(((((t2 << 2) << 2) + 0xC2EAC10) + 0xC));
-            t1 = t4;
+            t1 = *(int *)(((((t2 << 2) << 2) + 0xC2EAC10) + 0xC));
             if ((t1 & 0x80000000) == 0) {
                 t2 = (t2 + 0x1);
                 if ((unsigned int)t2 >= (unsigned int)0x100) {
@@ -92,12 +95,12 @@ void syChainDeleteHandler(int a4)
                     kmSetHSyncCallback(0x0, 0x0);
                 } else {
                     if (((int)(short)((t10 << 2) << 2) >> 8) == 10) {
-                        t18 = *(int *)0xA05F6920;
-                        *(unsigned int *)0xA05F6920 = (t18 & (~((int)0x1 << (int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC))));
+                        t18 = (((struct o0_int *)0xA05F6920)->v);
+                        (((struct o0_uint *)0xA05F6920)->v) = (t18 & (~((int)0x1 << (int)(((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1) + 0xC))));
                     } else {
                         if (((int)(short)((t10 << 2) << 2) >> 8) == 11) {
-                            t19 = *(int *)0xA05F6924;
-                            *(unsigned int *)0xA05F6924 = (t19 & (~((int)0x1 << (int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1))));
+                            t19 = (((struct o4_int *)0xA05F6920)->v);
+                            (((struct o4_uint *)0xA05F6920)->v) = (t19 & (~((int)0x1 << (int)((unsigned int)((unsigned int)((unsigned int)(unsigned char)((t10 << 2) << 2) >> 2) >> 2) >> 1))));
                         }
                     }
                     t27 = (int)_builtin_get_vbr();

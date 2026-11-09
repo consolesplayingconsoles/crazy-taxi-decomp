@@ -10,15 +10,15 @@ int gdc_GetStreamVoiceRemainTime(int a4)
 {
     int t12;
     int t2;
-    int stk[6];
+    int stk[5];
 
-    *(unsigned int *)(((int)stk + 8)) = a4;
+    *(unsigned int *)(((int)stk + 4)) = a4;
     t12 = 0x58764;
     if ((int)(ADXT_GetStat((*(int *)(((a4 << 2) + 0xC1EE810))))) >= (int)0x2) {
-        t2 = *(int *)(((int)stk + 8));
-        *(unsigned int *)(((int)stk + 16)) = ((t2 << 2) + 0xC1EE810);
-        ADXT_GetTime((*(int *)((((t2 << 2) + 0xC1EE810) + 0x0))), ((int)stk + 4), (((int)stk + 4) + 0x8));
-        t12 = (int)((float)((ADXT_GetNumSmpl((*(int *)(((*(int *)(((int)stk + 16))) + 0x0))))) - (*(int *)(((int)stk + 4)))) * 0.0013605441f);
+        t2 = *(int *)(((int)stk + 4));
+        *(unsigned int *)(((int)stk + 12)) = ((t2 << 2) + 0xC1EE810);
+        ADXT_GetTime((*(int *)((((t2 << 2) + 0xC1EE810) + 0x0))), ((int)stk + 0), (((int)stk + 0) + 0x8));
+        t12 = (int)((float)((ADXT_GetNumSmpl((*(int *)(((*(int *)(((int)stk + 12))) + 0x0))))) - (*(int *)(((int)stk + 0)))) * 0.0013605441f);
     }
     return t12;
 }

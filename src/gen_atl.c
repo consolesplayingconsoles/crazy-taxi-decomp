@@ -8,6 +8,20 @@ int kmStopDisplayFrameBuffer(void);
 int nlSetBackColor(int, int, int);
 int nlSetWindowSize(float, float, float, float);
 int nlChangeDisplayMode(int a4, int a5);
+struct o0_int { int v; };
+struct o0_short { short v; };
+struct o0_uint { unsigned int v; };
+struct o0_ushort { unsigned short v; };
+struct o2_short { char p[0x2]; short v; };
+struct o2_ushort { char p[0x2]; unsigned short v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_short { char p[0x4]; short v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o4_ushort { char p[0x4]; unsigned short v; };
+struct o6_short { char p[0x6]; short v; };
+struct o6_ushort { char p[0x6]; unsigned short v; };
+struct o8_int { char p[0x8]; int v; };
+
 
 int nlChangeDisplayMode(int a4, int a5)
 {
@@ -16,44 +30,42 @@ int nlChangeDisplayMode(int a4, int a5)
     int t24;
     int t25;
     int t30;
-    int t28;
 
-    *(unsigned int *)0xC2AED98 = 0x0;
+    (((struct o0_uint *)0xC2AED98)->v) = 0x0;
     if (a4 == 0) {
-        *(unsigned int *)0xC2AED98 = 0x1;
+        (((struct o0_uint *)0xC2AED98)->v) = 0x1;
     }
-    *(unsigned int *)0xC2AED9C = 0x0;
+    (((struct o4_uint *)0xC2AED98)->v) = 0x0;
     if ((a4 == 25) || ((a4 == 24) || ((a4 == 26) || (a4 == 27)))) {
-        *(unsigned int *)0xC2AED9C = 0x1;
+        (((struct o4_uint *)0xC2AED98)->v) = 0x1;
     }
     kmStopDisplayFrameBuffer();
-    *(unsigned short *)0xC2B3194 = 0x0;
-    *(unsigned short *)0xC2B3196 = 0x0;
+    (((struct o4_ushort *)0xC2B3190)->v) = 0x0;
+    (((struct o6_ushort *)0xC2B3190)->v) = 0x0;
     if ((0x80 & a5) != 0) {
-        *(unsigned short *)0xC2B3194 = 0x1;
+        (((struct o4_ushort *)0xC2B3190)->v) = 0x1;
     }
     if ((0x8000 & a5) != 0) {
-        *(unsigned short *)0xC2B3196 = 0x1;
+        (((struct o6_ushort *)0xC2B3190)->v) = 0x1;
     }
     t6 = *(int *)((((a5 & 0xF) << 2) + 0xC0D63D4));
-    if ((*(int *)0xC2AED9C) == 1) {
+    if (((((struct o4_int *)0xC2AED98)->v)) == 1) {
         kmSetPALEXTCallback(0xC074310);
     }
-    kmSetDisplayMode((*(int *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x4))), t6, (*(short *)0xC2B3194), (*(short *)0xC2B3196));
-    *(unsigned short *)0xC2B3190 = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x8)));
-    *(unsigned short *)0xC2B3192 = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA)));
+    kmSetDisplayMode((*(int *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x4))), t6, ((((struct o4_short *)0xC2B3190)->v)), ((((struct o6_short *)0xC2B3190)->v)));
+    (((struct o0_ushort *)0xC2B3190)->v) = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0x8)));
+    (((struct o2_ushort *)0xC2B3190)->v) = (*(short *)((((((a4 << 1) + a4) << 2) + 0xC0D6284) + 0xA)));
     t19 = kmSetSystemConfiguration(0xC2AECD0);
-    nlSetBackColor((*(int *)0xC14A654), (*(int *)0xC14A658), (*(int *)0xC14A65C));
-    t24 = *(short *)0xC2B3192;
-    t25 = *(short *)0xC2B3190;
+    nlSetBackColor(((((struct o0_int *)0xC14A654)->v)), ((((struct o4_int *)0xC14A654)->v)), ((((struct o8_int *)0xC14A654)->v)));
+    t24 = (((struct o2_short *)0xC2B3190)->v);
+    t25 = (((struct o0_short *)0xC2B3190)->v);
     if (0x0 != 0) {
         t30 = (short)t24;
-        if ((*(short *)0xC2B3196) == 1) {
-            t28 = ((short)t24 + (short)t24);
+        if (((((struct o6_short *)0xC2B3190)->v)) == 1) {
+            t30 = ((short)t24 + (short)t24);
             if ((int)((short)t24 + (short)t24) > (int)0x1E0) {
-                t28 = 0x1E0;
+                t30 = 0x1E0;
             }
-            t30 = t28;
         }
         nlSetWindowSize(0.0f, 0.0f, (float)t25, (float)t30);
     } else {

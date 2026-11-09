@@ -7,22 +7,22 @@ int PutShotLandmark(void);
 
 int PutShotLandmark(void)
 {
-    int stk[22];
+    int stk[21];
 
     ShotLandmarkStub();
-    *(unsigned int *)(((int)stk + 4)) = 0x7A;
-    *(float *)(((int)stk + 8)) = 500.0f;
-    *(float *)(((int)stk + 12)) = 128.0f;
-    *(float *)(((int)stk + 16)) = 0.299999982f;
-    *(float *)(((int)stk + 24)) = 1.0f;
+    *(unsigned int *)(((int)stk + 0)) = 0x7A;
+    *(float *)(((int)stk + 4)) = 500.0f;
+    *(float *)(((int)stk + 8)) = 128.0f;
+    *(float *)(((int)stk + 12)) = 0.299999982f;
     *(float *)(((int)stk + 20)) = 1.0f;
-    *(float *)(((int)stk + 32)) = 0.0f;
+    *(float *)(((int)stk + 16)) = 1.0f;
     *(float *)(((int)stk + 28)) = 0.0f;
-    *(float *)(((int)stk + 40)) = 1.0f;
+    *(float *)(((int)stk + 24)) = 0.0f;
     *(float *)(((int)stk + 36)) = 1.0f;
-    *(unsigned int *)(((int)stk + 44)) = 0x0;
-    *(float *)(((int)stk + 48)) = 1.0f;
-    *(unsigned int *)(((int)stk + 56)) = 0x725;
-    *(unsigned int *)(((int)stk + 52)) = 0x0;
-    return (nlSprPut(((int)stk + 4)));
+    *(float *)(((int)stk + 32)) = 1.0f;
+    *(unsigned int *)(((int)stk + 40)) = 0x0;
+    *(float *)(((int)stk + 44)) = 1.0f;
+    *(unsigned int *)(((int)stk + 52)) = 0x725;
+    *(unsigned int *)(((int)stk + 48)) = 0x0;
+    return (nlSprPut(((int)stk + 0)));
 }

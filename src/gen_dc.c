@@ -8,7 +8,6 @@ void nlLoadMatrix(int a4);
 void nlLoadMatrix(int a4)
 {
     int t1;
-    int t0;
     float u3;
     float u4;
     float u5;
@@ -29,8 +28,7 @@ void nlLoadMatrix(int a4)
 
     t1 = a4;
     if (a4 == 0) {
-        t0 = *(int *)0xC2B31E4;
-        t1 = t0;
+        t1 = *(int *)0xC2B31E4;
     }
     u3 = *(float *)((t1 + 0x0));
     u4 = *(float *)(((t1 + 0x4) + 0x0));

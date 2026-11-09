@@ -2,49 +2,72 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int Init_Drum_Fare(void);
+struct o0_float { float v; };
+struct o0_uint { unsigned int v; };
+struct o10_float { char p[0x10]; float v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_float { char p[0x18]; float v; };
+struct o1C_float { char p[0x1C]; float v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o20_float { char p[0x20]; float v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_float { char p[0x28]; float v; };
+struct o28_uint { char p[0x28]; unsigned int v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o30_float { char p[0x30]; float v; };
+struct o30_uint { char p[0x30]; unsigned int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+
 
 int Init_Drum_Fare(void)
 {
     int t0;
     int t2;
 
-    *(unsigned int *)0xC2A8EA4 = 0x0;
-    *(unsigned int *)0xC2A8EA8 = 0x0;
-    *(unsigned int *)0xC2A8EAC = 0x0;
-    *(unsigned int *)0xC2A8EB4 = 0x0;
-    *(float *)0xC2A8EB8 = 36.0f;
-    *(unsigned int *)0xC2A8F6C = 0x0;
-    *(unsigned int *)0xC2A8F70 = 0x0;
-    *(unsigned int *)0xC2A8EB0 = 0x1;
-    *(unsigned int *)0xC2A8F5C = 0x0;
-    *(unsigned int *)0xC2A8F60 = 0x0;
-    *(unsigned int *)0xC2A8F64 = 0x0;
-    *(unsigned int *)0xC2A7EB4 = 0x0;
-    *(float *)0xC2A7EA4 = 0.0f;
-    *(float *)0xC2A7EA8 = 0.0f;
-    *(float *)0xC2A7EAC = 1.0f;
-    *(float *)0xC2A7EB8 = 0.299999982f;
-    *(float *)0xC2A7EB0 = 1.0f;
-    *(unsigned int *)0xC2A7EC0 = 0x2006;
-    *(float *)0xC2A7E90 = 0.0f;
-    *(float *)0xC2A7E94 = 0.0f;
-    *(float *)0xC2A7E98 = 0.25f;
-    *(float *)0xC2A7E9C = 1.0f;
-    *(float *)0xC2A7EA0 = 1.0f;
-    *(unsigned int *)0xC2A7EBC = 0x2;
-    *(float *)0xC2A8890 = 0.0f;
-    *(float *)0xC2A8894 = 0.0f;
-    *(float *)0xC2A8898 = 0.279999971f;
-    *(float *)0xC2A889C = 1.0f;
-    *(float *)0xC2A88A0 = 1.0f;
-    *(float *)0xC2A88A4 = 0.0f;
-    *(float *)0xC2A88A8 = 0.0f;
-    *(float *)0xC2A88AC = 1.0f;
-    *(float *)0xC2A88B0 = 1.0f;
-    *(unsigned int *)0xC2A88B4 = 0x0;
-    *(unsigned int *)0xC2A88C0 = 0xA;
-    *(float *)0xC2A88B8 = 1.0f;
-    *(unsigned int *)0xC2A88BC = 0x2;
+    (((struct o1C_uint *)0xC2A8E88)->v) = 0x0;
+    (((struct o20_uint *)0xC2A8E88)->v) = 0x0;
+    (((struct o24_uint *)0xC2A8E88)->v) = 0x0;
+    (((struct o2C_uint *)0xC2A8E88)->v) = 0x0;
+    (((struct o30_float *)0xC2A8E88)->v) = 36.0f;
+    (((struct o10_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o14_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o28_uint *)0xC2A8E88)->v) = 0x1;
+    (((struct o0_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o4_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o8_uint *)0xC2A8F5C)->v) = 0x0;
+    (((struct o24_uint *)0xC2A7E90)->v) = 0x0;
+    (((struct o14_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o18_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o1C_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o28_float *)0xC2A7E90)->v) = 0.299999982f;
+    (((struct o20_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o30_uint *)0xC2A7E90)->v) = 0x2006;
+    (((struct o0_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o4_float *)0xC2A7E90)->v) = 0.0f;
+    (((struct o8_float *)0xC2A7E90)->v) = 0.25f;
+    (((struct oC_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o10_float *)0xC2A7E90)->v) = 1.0f;
+    (((struct o2C_uint *)0xC2A7E90)->v) = 0x2;
+    (((struct o0_float *)0xC2A8890)->v) = 0.0f;
+    (((struct o4_float *)0xC2A8890)->v) = 0.0f;
+    (((struct o8_float *)0xC2A8890)->v) = 0.279999971f;
+    (((struct oC_float *)0xC2A8890)->v) = 1.0f;
+    (((struct o10_float *)0xC2A8890)->v) = 1.0f;
+    (((struct o14_float *)0xC2A8890)->v) = 0.0f;
+    (((struct o18_float *)0xC2A8890)->v) = 0.0f;
+    (((struct o1C_float *)0xC2A8890)->v) = 1.0f;
+    (((struct o20_float *)0xC2A8890)->v) = 1.0f;
+    (((struct o24_uint *)0xC2A8890)->v) = 0x0;
+    (((struct o30_uint *)0xC2A8890)->v) = 0xA;
+    (((struct o28_float *)0xC2A8890)->v) = 1.0f;
+    (((struct o2C_uint *)0xC2A8890)->v) = 0x2;
     t0 = 0x0;
     for (;;) {
         *(unsigned int *)((0xC2A8E34 + (t0 << 2))) = 0x0;
@@ -60,8 +83,8 @@ int Init_Drum_Fare(void)
             break;
         }
     }
-    *(unsigned int *)0xC2A8E90 = 0x2;
-    *(unsigned int *)0xC2A8E88 = 0x7;
-    *(unsigned int *)0xC2A8E8C = 0x3;
+    (((struct o8_uint *)0xC2A8E88)->v) = 0x2;
+    (((struct o0_uint *)0xC2A8E88)->v) = 0x7;
+    (((struct o4_uint *)0xC2A8E88)->v) = 0x3;
     return t2;
 }

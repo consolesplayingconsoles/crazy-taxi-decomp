@@ -25,11 +25,14 @@ int Put_Adv_Rating(void);
 void setObjHitShed(int a4);
 int nldispstripSub(int a4, int a5, int a6);
 int carAngularMotion(int a4);
+struct o0_uint { unsigned int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
 
 int Drv_StartHorn(void)
 {
-    *(unsigned int *)0xC2AD1D0 = 0xC0D44D8;
-    *(unsigned int *)0xC2AD1D4 = 0xC0D44E0;
+    (((struct o0_uint *)0xC2AD1D0)->v) = 0xC0D44D8;
+    (((struct o4_uint *)0xC2AD1D0)->v) = 0xC0D44E0;
     Drv_SetMotion(0xC8D5798, 14.0f);
     *(float *)0xC2AD0F8 = (1.0f + 1.0f);
     return 0xF8;

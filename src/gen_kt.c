@@ -12,6 +12,17 @@ int pfCleanString(void);
 int pfLocate(float, float);
 int pfPuts(int);
 int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_int { int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o24_int { char p[0x24]; int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o28_int { char p[0x28]; int v; };
+struct o2C_uint { char p[0x2C]; unsigned int v; };
+struct o8_int { char p[0x8]; int v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
 
 int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -57,8 +68,8 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     F5 = f5;
     L_C039E58:;
     CheckNameEntryPad(F4, F5);
-    t1 = *(int *)0xC2864C4;
-    *(unsigned int *)0xC2864C4 = (t1 - 1);
+    t1 = (((struct o24_int *)0xC2864A0)->v);
+    (((struct o24_uint *)0xC2864A0)->v) = (t1 - 1);
     R10 = (0xC2864B4);
     R11 = (0xC2864C4);
     R13 = (0x0);
@@ -68,13 +79,13 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C039E7E:;
     *(unsigned int *)((R11 + 0x0)) = R13;
     *(unsigned int *)((R10 + 0x0)) = R13;
-    *(unsigned int *)0xC2864B0 = R13;
+    (((struct o10_uint *)0xC2864A0)->v) = R13;
     goto L_C039E86;
     L_C039E86:;
     pfLocate(560.0f, 420.0f);
     pfCleanString();
     pfAddNumber(((int)((int)(*(int *)((R11 + 0x0))) / (int)0x3C)), 0x0);
-    t15 = (*(int *)0xC2864A8) != 0;
+    t15 = ((((struct o8_int *)0xC2864A0)->v)) != 0;
     R0 = ((pfPuts((*(int *)0xC08D678))));
     R12 = (0xC2864A8);
     R14 = (0xC2864A0);
@@ -83,7 +94,7 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     if (t15) goto L_C039F66;
     goto L_C039EBE;
     L_C039EBE:;
-    if (((*(int *)0xC2864B0) == 0)) goto L_C039F1C;
+    if ((((((struct o10_int *)0xC2864A0)->v)) == 0)) goto L_C039F1C;
     goto L_C039EC6;
     L_C039EC6:;
     if (((*(int *)((R14 + 0x0))) != 44)) goto L_C039ED0;
@@ -93,20 +104,20 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     goto L_C039F0E;
     L_C039F0E:;
     t25 = Sound_Request(0x405A9, 0x0);
-    *(unsigned int *)0xC2864CC = 0xC03A07C;
+    (((struct o2C_uint *)0xC2864A0)->v) = 0xC03A07C;
     R0 = (t25);
     goto L_C03A01C;
     L_C03A01C:;
     if (((int)(*(int *)((R11 + 0x0))) > 0)) goto L_C03A04A;
     goto L_C03A022;
     L_C03A022:;
-    if (((*(int *)0xC2864A8) != 0)) goto L_C03A04A;
+    if ((((((struct o8_int *)0xC2864A0)->v)) != 0)) goto L_C03A04A;
     goto L_C03A02A;
     L_C03A02A:;
     CheckXWord(R9);
     Voice_ShutUp(0x0);
     t33 = Voice_Request(0xC0EE9F0, 0x0, 0x7F, 0x0);
-    *(unsigned int *)0xC2864CC = 0xC03A120;
+    (((struct o2C_uint *)0xC2864A0)->v) = 0xC03A120;
     *(unsigned int *)((R11 + 0x0)) = 0xE6;
     R0 = (t33);
     goto L_C03A04A;
@@ -134,7 +145,7 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)(*(int *)((R10 + 0x0))) < (int)0x3)) goto L_C039F0E;
     goto L_C039F06;
     L_C039F06:;
-    *(unsigned int *)0xC2864AC = 0x1;
+    (((struct oC_uint *)0xC2864A0)->v) = 0x1;
     *(unsigned int *)((R12 + 0x0)) = 0x1;
     goto L_C039F0E;
     L_C039F1C:;
@@ -143,10 +154,10 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)t46 <= 0)) goto L_C039F48;
     goto L_C039F22;
     L_C039F22:;
-    if (((int)(*(int *)0xC2864C8) < (int)0x3)) goto L_C039F34;
+    if (((int)((((struct o28_int *)0xC2864A0)->v)) < (int)0x3)) goto L_C039F34;
     goto L_C039F2C;
     L_C039F2C:;
-    t51 = *(int *)0xC2864A0;
+    t51 = (((struct o0_int *)0xC2864A0)->v);
     R0 = (t51);
     if ((t51 == 44)) goto L_C039F48;
     goto L_C039F34;
@@ -162,10 +173,10 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((int)t57 >= 0)) goto L_C03A01C;
     goto L_C039F4E;
     L_C039F4E:;
-    if (((int)(*(int *)0xC2864C8) < (int)0x3)) goto L_C039F60;
+    if (((int)((((struct o28_int *)0xC2864A0)->v)) < (int)0x3)) goto L_C039F60;
     goto L_C039F58;
     L_C039F58:;
-    t62 = *(int *)0xC2864A0;
+    t62 = (((struct o0_int *)0xC2864A0)->v);
     R0 = (t62);
     if ((t62 == 43)) goto L_C03A01C;
     goto L_C039F60;
@@ -176,7 +187,7 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     R0 = ((Sound_Request(0x304A9, 0x0)));
     goto L_C03A01C;
     L_C039F66:;
-    if (((*(int *)0xC2864AC) == 0)) goto L_C039FE8;
+    if ((((((struct oC_int *)0xC2864A0)->v)) == 0)) goto L_C039FE8;
     goto L_C039F6E;
     L_C039F6E:;
     t69 = *(int *)((R14 + 0x0));
@@ -184,7 +195,7 @@ int ExecNameEntrySelect(int a4, int a5, int a6, int a7, float f4, float f5)
     if (((t69 + 0x1) != 44)) goto L_C039F7E;
     goto L_C039F78;
     L_C039F78:;
-    *(unsigned int *)0xC2864AC = R13;
+    (((struct oC_uint *)0xC2864A0)->v) = R13;
     *(unsigned int *)((R12 + 0x0)) = R13;
     goto L_C039F7E;
     L_C039FE8:;

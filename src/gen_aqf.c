@@ -4,6 +4,13 @@
 extern int Chat_Iraira();
 int extRand(void);
 int psgEnterState5(int a4, int a5, int a6, float f4, float f5);
+struct o108_float { char p[0x108]; float v; };
+struct o10C_float { char p[0x10C]; float v; };
+struct o124_uint { char p[0x124]; unsigned int v; };
+struct o128_uint { char p[0x128]; unsigned int v; };
+struct o149_uchar { char p[0x149]; unsigned char v; };
+struct o38_float { char p[0x38]; float v; };
+
 
 int psgEnterState5(int a4, int a5, int a6, float f4, float f5)
 {
@@ -55,13 +62,13 @@ int psgEnterState5(int a4, int a5, int a6, float f4, float f5)
     L_C06D77E:;
     t8 = (int)((unsigned int)(extRand()) % (unsigned int)0x3);
     *(unsigned int *)((R14 + 0x34)) = (*(int *)((((t8 << 2) + ((int)stk + 4)) + 0x0)));
-    *(float *)((R14 + 0x38)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
-    *(float *)((R14 + 0x108)) = F15;
-    *(float *)((R14 + 0x10C)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
-    *(unsigned int *)((R14 + 0x124)) = 0xC0D5720;
-    *(unsigned int *)((R14 + 0x128)) = 0xC0D5728;
+    (((struct o38_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
+    (((struct o108_float *)(R14))->v) = F15;
+    (((struct o10C_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
+    (((struct o124_uint *)(R14))->v) = 0xC0D5720;
+    (((struct o128_uint *)(R14))->v) = 0xC0D5728;
     R4 = (((t8 << 2) + ((int)stk + 4)));
     R5 = (0x2);
     R6 = (0x2);
@@ -72,13 +79,13 @@ int psgEnterState5(int a4, int a5, int a6, float f4, float f5)
     L_C06D720:;
     t18 = (int)((unsigned int)(extRand()) % (unsigned int)0x3);
     *(unsigned int *)((R14 + 0x34)) = (*(int *)((((t18 << 2) + (((int)stk + 4) + 0x30)) + 0x0)));
-    *(float *)((R14 + 0x38)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
-    *(float *)((R14 + 0x108)) = F15;
-    *(float *)((R14 + 0x10C)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
-    *(unsigned int *)(((0x124 + R14) + 0x0)) = (*(int *)((((((int)stk + 4) + 0x24) + (t18 << 2)) + 0x0)));
-    *(unsigned int *)((R14 + 0x128)) = (*(int *)((((t18 << 2) + (((int)stk + 4) + 0x18)) + 0x0)));
+    (((struct o38_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
+    (((struct o108_float *)(R14))->v) = F15;
+    (((struct o10C_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
+    (((struct o124_uint *)(R14))->v) = (*(int *)((((((int)stk + 4) + 0x24) + (t18 << 2)) + 0x0)));
+    (((struct o128_uint *)(R14))->v) = (*(int *)((((t18 << 2) + (((int)stk + 4) + 0x18)) + 0x0)));
     R4 = (((t18 << 2) + (((int)stk + 4) + 0x18)));
     R6 = (0x1);
     goto L_C06D77A;
@@ -87,13 +94,13 @@ int psgEnterState5(int a4, int a5, int a6, float f4, float f5)
     goto L_C06D7C8;
     L_C06D69C:;
     *(unsigned int *)((R14 + 0x34)) = 0xC945094;
-    *(float *)((R14 + 0x38)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
-    *(float *)((R14 + 0x108)) = F15;
-    *(float *)((R14 + 0x10C)) = F15;
-    *(unsigned char *)(((0x149 + R14) + 0x0)) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
-    *(unsigned int *)((R14 + 0x124)) = 0xC0D5720;
-    *(unsigned int *)((R14 + 0x128)) = 0xC0D5728;
+    (((struct o38_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0x7F);
+    (((struct o108_float *)(R14))->v) = F15;
+    (((struct o10C_float *)(R14))->v) = F15;
+    (((struct o149_uchar *)(R14))->v) = ((*(signed char *)(((0x149 + R14) + 0x0))) & 0xF9);
+    (((struct o124_uint *)(R14))->v) = 0xC0D5720;
+    (((struct o128_uint *)(R14))->v) = 0xC0D5728;
     R6 = (0x0);
     goto L_C06D77A;
 }

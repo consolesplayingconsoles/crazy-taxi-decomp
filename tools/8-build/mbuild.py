@@ -20,6 +20,9 @@ The steps, each logged with the time in build/mbuild/mbuild.log:
              offset; the mirror kept): build/mbuild/game.bin
   check      no undefined name, no branch out of reach, and the image with its BSS ends below `fixed`
 
+layout.txt `trimdata 1` (off without it): a data copy (bytes the C reads out of a replaced function, __d) holds only the data runs that contain a read,
+  from the code/data split of the original (data_runs, data_copy_runs): Zombie Revenge 98 KB of data copies, 23 KB as runs.
+
 layout.txt `mixed 1` (off without it: the behaviour of Crazy Taxi and Virtua Tennis, byte for byte, tests/mbuild and their game.bin):
   - a pointer into the middle of a function that is now C whose group also holds pieces without C is a running copy of the group,
     tied by pools and conditional branches only (a bsr out of it goes through a veneer), one block after the group's own pieces;
@@ -95,11 +98,12 @@ def rewrite_literals(text, lo, hi, macro_consts=False):
     return head + '\n'.join(out), used
 
 
-def mapper(pieces, dropped, second, syms, cfun, end, bss_end, link_top, keep=None):
+def mapper(pieces, dropped, second, syms, cfun, end, bss_end, link_top, keep=None, druns=None):
     """new(v) for an address value v (any mirror) of the original: where the built image has it, or None when nothing there.
     pieces: [(start, label)] in address order; dropped: their indexes replaced by C; second: {index: label suffix} of the
     pieces with a copy (__2 code that runs, __d bytes that are read); syms: {symbol: address} of the link; cfun: {entry
-    address: C function name}; keep: a range whose addresses do not change (the fill block, left out of the link)."""
+    address: C function name}; keep: a range whose addresses do not change (the fill block, left out of the link); druns: {index:
+    [(lo, hi), ...]} for a data copy that holds only those address ranges, run k labelled <label>__d<k> (data_copy_runs)."""
     starts = [s for s, _ in pieces]
 
     def new(v):
@@ -119,6 +123,12 @@ def mapper(pieces, dropped, second, syms, cfun, end, bss_end, link_top, keep=Non
                 b = syms.get('_' + cfun[a])
                 return None if b is None else ((b & 0x1FFFFFFF) | top)
             if i in second:
+                if druns and i in druns:
+                    for k, (lo, hi) in enumerate(druns[i]):
+                        if lo <= a < hi:
+                            b = syms.get(label + second[i] + str(k))
+                            return None if b is None else (((b & 0x1FFFFFFF) + (a - lo)) | top)
+                    return None                        # a byte of the piece the copy does not hold
                 b = syms.get(label + second[i])
                 return None if b is None else (((b & 0x1FFFFFFF) + (a - s)) | top)
             return None
@@ -149,6 +159,72 @@ def data_copy(text, label, start, word):
     return '\n'.join(out)
 
 
+def data_runs(code, reads, start, size):
+    """[(lo, hi)] address ranges of one replaced piece that a data copy must hold, sorted and merged, 4-aligned and inside the piece:
+    for each address the C reads, the run of bytes around it that are no instruction (the pool or table it lies in); an address inside
+    code gets its own word. code: the set of byte addresses instructions cover (shdis.reachable); None (no code map) keeps the whole
+    piece. Zombie Revenge: 205 pieces, 98 KB whole, 23 KB as runs."""
+    end = start + size
+    if code is None:
+        return [(start, end)]
+    out = []
+    for v in reads:
+        a = v & ~1
+        if a in code:
+            lo, hi = a & ~3, (a & ~3) + 4
+        else:
+            lo = a
+            while lo - 2 >= start and (lo - 2) not in code:
+                lo -= 2
+            hi = a + 2
+            while hi < end and hi not in code:
+                hi += 2
+            lo, hi = lo & ~3, (hi + 3) & ~3
+        out.append((max(lo, start), min(hi, end)))
+    out.sort()
+    merged = []
+    for lo, hi in out:
+        if merged and lo <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], hi))
+        else:
+            merged.append((lo, hi))
+    return merged
+
+
+def data_copy_runs(text, label, start, word, runs):
+    """data_copy for a piece, holding only the address ranges `runs` (data_runs): <label>__d0 is the first run, <label>__d1 the next,
+    each in the order of the original, the section ALIGN=4 (a run starts and ends on a word). None when a word kept in the runs
+    names a label of the piece itself (a pointer into the part left out): the caller then keeps the whole copy."""
+    full = data_copy(text, label, start, word).split('\n')
+    own = set(m.group(1) for m in (re.match(r'^([\w$.]+):\s*$', l) for l in text.split('\n')) if m) | {label + '__d'}
+    head, body, off = [], [], 0
+    for l in full:
+        s_ = l.strip()
+        size = 2 if s_.startswith('.DATA.W') else 4 if s_.startswith('.DATA.L') else 1 if s_.startswith('.DATA.B') else 0
+        if size:
+            body.append((off, size, l))
+            off += size
+        elif not body and not re.match(r'^[\w$.]+:\s*$', l):
+            head.append(l)
+    out = []
+    for l in head:
+        if l.strip().startswith('.EXPORT') and label + '__d' in l:
+            out += ['          .EXPORT     %s__d%d' % (label, k) for k in range(len(runs))]
+        else:
+            out.append(l.replace('ALIGN=2', 'ALIGN=4'))
+    for k, (lo, hi) in enumerate(runs):
+        out.append('%s__d%d:' % (label, k))
+        for o, size, l in body:
+            if lo - start <= o < hi - start:
+                parts = l.split(None, 1)
+                ops = parts[1] if len(parts) > 1 else ''
+                if any(re.search(r'(?<![\w$.])%s(?![\w$.])' % re.escape(x), ops) for x in own):
+                    return None
+                out.append(l)
+    out.append('          .END')
+    return '\n'.join(out)
+
+
 def hole_text(text, label, start, word):
     """The bytes of a piece the C replaces, kept so the pieces around it keep their distance: its own words, not zeros. A kept
     piece reads literal-pool words that the original compiler put inside a neighbour (fadeScreenStart's constants sit inside the
@@ -157,16 +233,19 @@ def hole_text(text, label, start, word):
     return data_copy(text, label, start, word).replace(label + '__d', label + '__h')
 
 
-def hole_pieces(gstart, npieces, dropped, fill_pieces):
+def hole_pieces(gstart, npieces, dropped, fill_pieces, donors=()):
     """The pieces the C replaces that must stay as bytes: in a group (pieces that move together), every replaced piece between the first
     and the last kept one (not the filler). A kept piece reads literal-pool words only forward (pc-relative loads have no negative
     distance) and the original compiler put them anywhere after the code, often inside the next function: kept code on both sides of a
-    replaced piece reads across it. Pieces before the first kept one and after the last need no hole; a group with no kept piece has none."""
+    replaced piece reads across it. Pieces before the first kept one need no hole, nor do those after the last unless a kept piece reads a
+    pool word in one (donors: Zombie Revenge's FUN_0c0c932c took its frame size from the next piece, gone, and returned 8 KB down the
+    stack); a group with no kept piece has none."""
     out = set()
     for g_, st_ in enumerate(gstart):
         last = (gstart[g_ + 1] if g_ + 1 < len(gstart) else npieces) - 1
         kept = [k for k in range(st_, last + 1) if k not in dropped]
-        for k in range(min(kept, default=0), max(kept, default=-1) + 1):
+        tail = [d for d in donors if st_ <= d <= last] if kept else []
+        for k in range(min(kept, default=0), max(kept + tail, default=-1) + 1):
             if k in dropped and k not in fill_pieces:
                 out.add(k)
     return out
@@ -261,14 +340,15 @@ def copy_extent(g, ties):
     return lo, hi
 
 
-def tramp_text(text, label, start, size, pools):
+def tramp_text(text, label, start, size, pools, halves=()):
     """(text, done): the hole of a replaced function with a trampoline over its first instructions (12 bytes, 14 when it starts 2 mod 4 so
     the pool word is aligned): mov.l pool,r0 / jmp @r0 / nop, to the C function. A kept piece's bsr reaches the hole, which sits where the
     function was, and the trampoline goes on to the C wherever it landed; nothing moves. Not written (text unchanged, False) when the
-    function is shorter or its first words are pool words a neighbour reads. (r0 is no argument in the C calling convention: the same
+    function is shorter or its first words are pool words a neighbour reads (pools: mov.l and mova; halves: the words a mov.w reads,
+    Zombie Revenge's scheduler read its frame size out of the next hole and got the trampoline's nop). (r0 is no argument in the C calling convention: the same
     as the veneers.)"""
     n = 12 if start % 4 == 0 else 14
-    if size < n or any(x in pools or x - 2 in pools for x in range(start, start + n, 2)):
+    if size < n or any(x in pools or x - 2 in pools or x in halves for x in range(start, start + n, 2)):
         return text, False
     lines = text.split('\n')
     k = next((j for j, l in enumerate(lines) if l.strip() == label + '__h:'), None)
@@ -536,6 +616,26 @@ def main():
             second[k] = '__2'
     for j in read_need:                    # bytes the C reads (pool words, mova tables, the data after the code): that piece
         second.setdefault(j, '__d')        # alone, never run, its branches back as raw words (so none can be out of reach)
+    druns = {}
+    if layout.flag('trimdata'):            # layout.txt `trimdata 1`: of that piece only the data runs the C reads (data_runs)
+        import shdis
+        reads_by = {}
+        for v in allv:
+            if mid(v):
+                reads_by.setdefault(piece(layout.mirror(v)), []).append(layout.mirror(v))
+        base0 = (B.BASE & 0x1FFFFFFF) | 0x0C000000
+        for j in sorted(read_need):
+            if second.get(j) != '__d':
+                continue
+            s_, e_ = starts[j], (starts[j + 1] if j + 1 < len(P) else end)
+            try:
+                code = set()
+                for pc in shdis.reachable(B.BIN, base0, s_, e_):
+                    if s_ <= pc < e_:
+                        code.update((pc, pc + 1))
+            except Exception:
+                code = None                # no code map: the whole piece, as before
+            druns[j] = data_runs(code, reads_by.get(j, []), s_, e_ - s_)
     os.makedirs(OUT + '/asm', exist_ok=True)
     os.makedirs(OUT + '/obj', exist_ok=True)
     labels2 = {P[k][1] for k, x in second.items() if x == '__2'}
@@ -554,9 +654,16 @@ def main():
                 open('%s/asm/v_%s' % (OUT, P[k][2]), 'w').write(vsrc)
                 vfiles[k] = 'v_' + P[k][2]
         else:
-            t = data_copy(t, P[k][1], starts[k], B.word)
+            t0 = t
+            t = data_copy_runs(t0, P[k][1], starts[k], B.word, druns[k]) if k in druns else None
+            if t is None:                  # a kept word points into the part left out, or no trimming: the whole copy
+                druns.pop(k, None)
+                t = data_copy(t0, P[k][1], starts[k], B.word)
         open('%s/asm/c%s_%s' % (OUT, second[k][2:], P[k][2]), 'w').write(t)
         copies[k] = 'c%s_%s' % (second[k][2:], P[k][2])
+    if druns:
+        say('data copies: %d pieces cut to their data runs (%d bytes kept of %d)' % (len(druns), sum(h - l for r in druns.values() for l, h in r),
+            sum((starts[k + 1] if k + 1 < len(P) else end) - starts[k] for k in druns)))
     # pieces that point into the middle of a C function: their words point at the copy
     repoint = {}
     for at, v in words.items():
@@ -613,7 +720,8 @@ def main():
     # one object of pieces that follow each other in the original (a group: nothing inside it moves), ALIGN=4 like the C,
     # padded in front so that it lands at its original address modulo 32 (pool loads read (pc + 4) & ~3; data may need its alignment)
     gset = set(gstart)
-    hole = {k: (starts[k + 1] if k + 1 < len(P) else end) - starts[k] for k in hole_pieces(gstart, len(P), dropped, fill_pieces)}   # replaced pieces inside a group between kept ones: their size
+    donors = {piece(p_) for _n, x_, p_ in pool_items(B, F, end) if B.BASE <= p_ < end and piece(x_) not in dropped and piece(p_) in dropped}   # replaced pieces a kept piece reads a pool word from
+    hole = {k: (starts[k + 1] if k + 1 < len(P) else end) - starts[k] for k in hole_pieces(gstart, len(P), dropped, fill_pieces, donors)}   # replaced pieces inside a group between kept ones: their size
     items = []
 
     def asm(i, path, kind):
@@ -647,6 +755,7 @@ def main():
                 asm(i, 'asm/' + f, 'k')
     else:
         hole_labels = {P[k][1] for k in hole}
+        halves = {p_ for _n, x_, p_ in pool_items(B, F, end) if B.word(x_) >> 12 == 0x9}
         hole_files, call_labels = {}, set()           # holes, and the ones a bsr/bra may be aimed at (a trampoline to the C, or too short for one)
         for k in sorted(hole):
             hp = '%s/asm/hole_%s' % (OUT, P[k][2])
@@ -654,7 +763,7 @@ def main():
             txt = hole_text(open(src_ if os.path.exists(src_) else 'asm/' + P[k][2]).read(), P[k][1], P[k][0], B.word)
             if layout.mirror(P[k][0]) in cfun:
                 size_ = (starts[k + 1] if k + 1 < len(P) else end) - starts[k]
-                txt, ok = tramp_text(txt, P[k][1], P[k][0], size_, pools)
+                txt, ok = tramp_text(txt, P[k][1], P[k][0], size_, pools, halves)
                 if ok or size_ < 12:                      # too short for a trampoline: a call runs the hole's own bytes (proven equal to the C)
                     call_labels.add(P[k][1])
             open(hp, 'w').write(txt)
@@ -884,7 +993,7 @@ def main():
     if off:
         say('[ERROR] %d units are not at their original address modulo 32, e.g. %s' % (len(off), ' '.join('%08X' % x for x in off[:5])))
         sys.exit(1)
-    new = mapper([(s, label) for s, label, _ in P], dropped, second, syms, cfun, bend, bss_end, link_top, keep=fill)
+    new = mapper([(s, label) for s, label, _ in P], dropped, second, syms, cfun, bend, bss_end, link_top, keep=fill, druns=druns)
     defs, lost = {}, []
     for n, v in names.items():
         w = new(v)

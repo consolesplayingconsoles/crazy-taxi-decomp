@@ -2,13 +2,12 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int nlGetMatrix(int);
-int nlLoadMatrix(int, int);
+int nlLoadMatrix(int);
 float nlLUDecomp(int a4, int a5, float f4, float f5);
 
 float nlLUDecomp(int a4, int a5, float f4, float f5)
 {
     int t2;
-    int t0;
     int t5;
     int t8;
     int t9;
@@ -16,8 +15,6 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
     float u13;
     int t18;
     float u20;
-    int t1;
-    int t3;
     int t6;
     int t7;
     int t10;
@@ -27,19 +24,16 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
     int t16;
     int t17;
     float u19;
-    int stk[17];
+    int stk[16];
 
-    *(unsigned int *)(((int)stk + 12)) = a4;
+    *(unsigned int *)(((int)stk + 8)) = a4;
     t2 = a4;
     if (a4 == 0) {
-        t0 = nlGetMatrix(0x0);
-        t1 = t0;
-        t2 = t0;
+        t2 = nlGetMatrix(0x0);
+        t5 = t2;
     } else {
-        t3 = a5;
+        t8 = a5;
     }
-    t5 = t1;
-    t8 = t3;
     t9 = 0x0;
     u12 = f4;
     u13 = f5;
@@ -48,7 +42,7 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
             t7 = a5;
             t7 = (t7 + 0x4);
             t9 = 0x0;
-            *(unsigned int *)(((int)stk + 8)) = t7;
+            *(unsigned int *)(((int)stk + 4)) = t7;
             t18 = 0x0;
             u20 = 1.0f;
             for (;;) {
@@ -64,7 +58,7 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
                         t5 = t18;
                         t17 = (*(signed char *)((a5 + t5)));
                         t7 = t2;
-                        t6 = ((int)stk + 4);
+                        t6 = ((int)stk + 0);
                         t5 = t17;
                         t5 = (t5 << 2);
                         t5 = (t5 << 2);
@@ -113,7 +107,7 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
                     t14 = t17;
                     t14 = (t14 + a5);
                     for (;;) {
-                        t6 = (*(int *)(((int)stk + 8)));
+                        t6 = (*(int *)(((int)stk + 4)));
                         if ((unsigned int)t14 >= (unsigned int)t6) {
                             break;
                         }
@@ -133,9 +127,9 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
                                 t16 = (t16 << 2);
                                 u19 = u13;
                                 t5 = t2;
-                                *(unsigned int *)(((int)stk + 4)) = t5;
+                                *(unsigned int *)(((int)stk + 0)) = t5;
                                 t5 = (t5 + t18);
-                                t7 = (*(int *)(((int)stk + 4)));
+                                t7 = (*(int *)(((int)stk + 0)));
                                 t8 = (t8 + 0x1);
                                 t7 = (t7 + t15);
                                 t7 = (t7 + t16);
@@ -155,10 +149,10 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
                 }
                 return u20;
             }
-            t7 = (*(int *)(((int)stk + 12)));
+            t7 = (*(int *)(((int)stk + 8)));
             if (t7 == 0) {
                 t7 = 0xC077AE0;
-                t5 = (nlLoadMatrix(t2, t8));
+                t5 = (nlLoadMatrix(t2));
                 return u20;
             }
             return u20;
@@ -192,7 +186,7 @@ float nlLUDecomp(int a4, int a5, float f4, float f5)
         }
         u11 = 1.0f;
         u11 = (u11 / u12);
-        t6 = ((int)stk + 4);
+        t6 = ((int)stk + 0);
         t7 = t9;
         t7 = (t7 << 2);
         t6 = (t6 + 0xC);

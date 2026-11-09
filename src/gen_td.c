@@ -2,7 +2,7 @@
    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
 
 int gdc_LandmarkReq(int);
-int nlSprPut(int, int, int);
+int nlSprPut(int, int);
 int pfAddChar(int);
 int pfAddNumber(int, int);
 int pfAddString(int);
@@ -15,6 +15,9 @@ int pfSetFont(int);
 int pfSetZ(float);
 int pfSize(float, float);
 int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5);
+struct o0_int { int v; };
+struct o4_int { char p[0x4]; int v; };
+
 
 int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
 {
@@ -30,7 +33,7 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     int t111;
     float u127;
     int t140;
-    int stk[34];
+    int stk[33];
 
     int R0;
     int R1;
@@ -63,7 +66,7 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     F4 = f4;
     F5 = f5;
     L_C0314F8:;
-    t0 = *(int *)0xC1EE234;
+    t0 = (((struct o0_int *)0xC1EE234)->v);
     R0 = (t0);
     R11 = (R4);
     R12 = (0xC0ED2A8);
@@ -78,7 +81,7 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C0318D0:;
     return R0;
     L_C031528:;
-    t9 = *(int *)0xC1EE238;
+    t9 = (((struct o4_int *)0xC1EE234)->v);
     R0 = (t9);
     if ((t9 == 1)) goto L_C031534;
     goto L_C031530;
@@ -137,25 +140,25 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     R0 = ((pfPuts((*(int *)((((*(int *)((R12 + 0x0))) << 2) + (*(int *)((0xC0ED3B4 + ((*(int *)((R10 + 0x0))) << 2))))))))));
     goto L_C0318D0;
     L_C0316FA:;
-    *(unsigned int *)(((int)stk + 12)) = 0x7A;
-    *(float *)(((int)stk + 16)) = (*(float *)((R14 + 0x0)));
-    *(float *)(((int)stk + 20)) = (*(float *)((R9 + 0x0)));
-    *(float *)(((int)stk + 24)) = 0.299999982f;
-    *(float *)(((int)stk + 32)) = F15;
+    *(unsigned int *)(((int)stk + 8)) = 0x7A;
+    *(float *)(((int)stk + 12)) = (*(float *)((R14 + 0x0)));
+    *(float *)(((int)stk + 16)) = (*(float *)((R9 + 0x0)));
+    *(float *)(((int)stk + 20)) = 0.299999982f;
     *(float *)(((int)stk + 28)) = F15;
-    *(float *)(((int)stk + 40)) = 0.0f;
+    *(float *)(((int)stk + 24)) = F15;
     *(float *)(((int)stk + 36)) = 0.0f;
-    *(float *)(((int)stk + 48)) = F15;
+    *(float *)(((int)stk + 32)) = 0.0f;
     *(float *)(((int)stk + 44)) = F15;
-    *(unsigned int *)(((int)stk + 52)) = 0x0;
-    *(float *)(((int)stk + 56)) = F15;
-    *(unsigned int *)(((int)stk + 64)) = 0x725;
-    *(unsigned int *)(((int)stk + 60)) = 0x0;
+    *(float *)(((int)stk + 40)) = F15;
+    *(unsigned int *)(((int)stk + 48)) = 0x0;
+    *(float *)(((int)stk + 52)) = F15;
+    *(unsigned int *)(((int)stk + 60)) = 0x725;
+    *(unsigned int *)(((int)stk + 56)) = 0x0;
     F13 = (0.0f);
     if (((*(int *)((R10 + 0x0))) == 2)) goto L_C03174A;
     goto L_C031742;
     L_C031742:;
-    nlSprPut((((int)stk + 8) + 0x4), R5, R6);
+    nlSprPut((((int)stk + 4) + 0x4), R5);
     goto L_C03174A;
     L_C03174A:;
     pfSetFont(0x0);
@@ -179,14 +182,14 @@ int PutLandmark(int a4, int a5, int a6, int a7, float f4, float f5)
     L_C03179E:;
     pfAddNumber((int)(F15 / F13), 0x0);
     pfAddChar(0x2E);
-    *(unsigned int *)(((int)stk + 8)) = (int)(F15 * 0.00999999978f);
+    *(unsigned int *)(((int)stk + 4)) = (int)(F15 * 0.00999999978f);
     pfAddNumber(((int)((int)(int)(F15 * 0.00999999978f) % (int)0x64)), 0x2);
     pfAddString(0xC08D6D8);
     goto L_C03183E;
     L_C03183E:;
     u85 = *(float *)((R9 + 0x0));
     u86 = 146.0f;
-    *(float *)(((int)stk + 4)) = (u85 + u86);
+    *(float *)(((int)stk + 0)) = (u85 + u86);
     pfLocate((((*(float *)((R14 + 0x0))) - (pfLength((*(int *)0xC08D678)))) + 64.0f), (u85 + u86));
     pfColor(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
     R0 = ((pfPuts((*(int *)0xC08D678))));

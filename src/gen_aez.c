@@ -17,7 +17,6 @@ int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float 
     int t38;
     int t48;
     int t55;
-    int stk[11];
 
     int R0;
     int R1;
