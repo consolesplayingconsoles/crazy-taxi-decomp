@@ -59,9 +59,10 @@ def _outer(operand):
         i = r + 1
 
 
-def scalarize(text, addr_window=64, min_uses=2):
+def scalarize(text, addr_window=None, min_uses=2):
     """addr_window: how many bytes a frame address passed on (`(int)stk + 40` as a value) may reach: a slot inside stays memory.
-    The default 64 is a guess at the biggest structure a callee fills; the real reach is known only to the callee.
+    The default None is the rest of the frame: only the callee knows the real reach, and a guess is wrong (Zombie Revenge FUN_0c0154c0: a
+    call filled a struct whose field lay 92 bytes on, and the local loaded at the top read the slot before the call).
     min_uses: a slot with fewer accesses than this stays (one store never read, one read: a local gains nothing by the old count, but
     SHC drops the dead store and keeps the read in a register)."""
     if 'int stk[' not in text:
@@ -109,7 +110,7 @@ def scalarize(text, addr_window=64, min_uses=2):
             WHY[0] = 'a frame address that is not a constant offset: %s' % text[at:at + 40]
             return text
         base = int(mm.group(1)) + (int(mm.group(2), 0) if mm.group(2) else 0)      # `((int)stk + 8) + 0x1C` is the address of slot 36, not of slot 8
-        ranges.append((base, base + addr_window, 'address'))
+        ranges.append((base, base + addr_window if addr_window is not None else 1 << 30, 'address'))
     by = {}
     for s, e, t, n in spans:
         by.setdefault(n, []).append((s, e, t))

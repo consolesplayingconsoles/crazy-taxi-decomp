@@ -46,7 +46,6 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     R1008 = *(int *)((int)stk + 8);
     R1012 = *(int *)((int)stk + 12);
     R1016 = *(int *)((int)stk + 16);
-    R1032 = *(float *)((int)stk + 32);
 
     R1008 = a4;
     R1012 = a5;
@@ -69,6 +68,8 @@ int SklIpPlay(int a4, int a5, int a6, int a7, int a8, int a9, float f4)
     if (a9 == 0) {
         nlTranslateV((((int)stk + 4) + 0x18));
     } else {
+        /* manual: read here, not at the top: the call above fills this slot */
+        R1032 = *(float *)((int)stk + 32);
         nlTranslate(0.0f, (R1032), 0.0f);
     }
     *(unsigned short *)(((int)stk + 20)) = (GetAverageAngle((*(short *)((((t11 - t12) + ((((t10 << 2) << 2) << 1) + (((t10 << 2) << 2) << 2))) + 0x0))), (*(short *)((((t13 - t14) + ((((t15 << 2) << 2) << 1) + (((t15 << 2) << 2) << 2))) + 0x0))), (1.0f - f4)));

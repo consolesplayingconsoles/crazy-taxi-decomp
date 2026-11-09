@@ -67,7 +67,6 @@ int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
     int R1004;
     float R1012;
     R1004 = *(int *)((int)stk + 4);
-    R1012 = *(float *)((int)stk + 12);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -230,6 +229,8 @@ int carBalanceRoll(int a4, int a5, int a6, int a7, float f4)
     goto L_C043F36;
     L_C043E28:;
     nlCalcPoint(R10, (((int)stk + 4) + 0x4));
+    /* manual: read here, not at the top: the call above fills this slot */
+    R1012 = *(float *)((int)stk + 12);
     u97 = R1012;
     R10 = ((R10 + 0xC));
     R13 = ((R13 - 1));

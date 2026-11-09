@@ -159,6 +159,13 @@ written down (what differs) for later; move on.
   them. If one is still `FUN_...`, rename it.
 
 ## Building from C (step 8)
+The libraries are not game code, so they are not built from C: before the first build, `keep` in `layout.txt` must cover the
+NAOMI library and C runtime (`nl*`, sprites, textures, the `nl_objasm_*` renderer) as well as the Katana libraries. Their functions then
+stay as the original bytes at their address, whatever C exists for them. The block starts at the library's first function
+(`nlInitCommonTexture`, 0xA0 before `nlFreeCommonTextureAll`, or earlier: every function the library reaches by `bsrf` or `braf` at a fixed distance must be inside the block, or the call lands elsewhere once the code moves) and runs on to the end of the C runtime. Left in
+`game`, the library's hand-written assembly passes state in registers and the T flag, so C for part of it breaks what the rest relies on,
+and `tools/equiv.py`, which compares results, memory and calls, cannot see it.
+
 Dropped arguments: a pass-through trampoline (a few bytes that jump on to another function, r4-r7
 untouched) whose C predates the generator's count of pass-through arguments is `(void)` in C, and
 `tools/equiv.py` compares its callers on that, so a call that drops the arguments still passes and the

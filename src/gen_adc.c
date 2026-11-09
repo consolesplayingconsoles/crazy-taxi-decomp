@@ -141,7 +141,6 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     R1016 = *(float *)((int)stk + 16);
     R1020 = *(int *)((int)stk + 20);
     R1024 = *(float *)((int)stk + 24);
-    R1056 = *(float *)((int)stk + 56);
     R4 = a4;
     R5 = a5;
     R6 = a6;
@@ -471,6 +470,8 @@ int carWheelCollision(int a4, int a5, int a6, int a7, float f4, float f5, float 
     goto L_C022E7C;
     L_C022E94:;
     R1012 = ((R1012) - F11);
+    /* manual: read here, not at the top: the call above fills this slot */
+    R1056 = *(float *)((int)stk + 56);
     (((struct o34_float *)(R4))->v) = (((((struct o34_float *)(R4))->v)) - ((R1056) * 0.899999976f));
     F5 = ((R1056));
     if (((int)R5 >= (int)R10)) goto L_C022ED8;

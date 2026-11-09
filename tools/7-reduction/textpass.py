@@ -27,10 +27,10 @@ def passes():
     import gen_drv
     import frame
     return {'register': gen_drv.register_locals,
-            # scalar frame slots become locals, a frame address passed on taken to reach one word, single-use slots included: measured
-            # per unit on Virtua Tennis it is -32% on one function and +6% on another (the locals overflow the registers), so it is a
-            # text pass, kept function by function only when smaller and proven, not a generator default
-            'frame': lambda t: frame.scalarize(t, addr_window=4, min_uses=1),
+            # scalar frame slots become locals, single-use slots included: measured per unit on Virtua Tennis it is -32% on one function and
+            # +6% on another (the locals overflow the registers), so it is a text pass, kept function by function only when smaller and proven,
+            # not a generator default. A frame address passed on reaches the rest of the frame (frame.scalarize): a call can fill any slot past it.
+            'frame': lambda t: frame.scalarize(t, min_uses=1),
             'shift': shift_idiom}
 
 

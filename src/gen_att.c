@@ -78,8 +78,6 @@ void carGroundCheck(int a4)
     R1004 = *(int *)((int)stk + 4);
     R1008 = *(int *)((int)stk + 8);
     R1012 = *(int *)((int)stk + 12);
-    R1016 = *(int *)((int)stk + 16);
-    R1020 = *(int *)((int)stk + 20);
     R1024 = *(int *)((int)stk + 24);
     v0_8 = a4;
     R1024 = 0x0;
@@ -256,6 +254,8 @@ void carGroundCheck(int a4)
     w0_3 = (w0_4);
     F4 = (w0_4);
     if ((!(w0_2 > w0_4))) goto L_C023400;
+    /* manual: read here, not at the top: the call above fills this slot */
+    R1020 = *(int *)((int)stk + 20);
     v0_5 = R1020;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((v0_0 + 0x78)) = *(struct mv3 *)(((*(int *)(((((*(int *)((v0_2 + 0x0))) + v0_4) + v0_1) + 0x0))) + (((v0_5 << 1) + v0_5) << 2))); }
     w0_2 = (F4);
@@ -280,6 +280,8 @@ void carGroundCheck(int a4)
     w0_3 = getNearLineIndex(0x0, (*(int *)((((v0_6 + v0_5) + v0_1) + 0x0))), (*(int *)(((*(int *)((((v0_6 + v0_5) + v0_1) + 0x4))) + 0x0))), (((int)stk + 4) + 0xC), (((int)stk + 8) + 0x2C), F4);
     F4 = (w0_3);
     if ((!(w0_2 > w0_3))) goto L_C023494;
+    /* manual: read here, not at the top: the call above fills this slot */
+    R1016 = *(int *)((int)stk + 16);
     v0_5 = R1016;
     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x20)) = *(struct mv3 *)(((*(int *)(((((*(int *)((v0_2 + 0x0))) + v0_4) + v0_1) + 0x0))) + (((v0_5 << 1) + v0_5) << 2))); }
     w0_2 = (F4);
