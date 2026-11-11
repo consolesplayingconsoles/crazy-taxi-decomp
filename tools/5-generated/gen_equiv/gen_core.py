@@ -14,6 +14,35 @@ def canon(a):
     b=(a&0x1FFFFFFF)|(BASE&0xE0000000)
     return b if b in FUNCS else a
 def rd32(a): return struct.unpack_from('<I',BIN,a-BASE)[0]
+_INSIDE=[]
+def inside_of(a):
+    """The name of the listed function whose bytes hold address a past its first instruction, else None."""
+    import bisect
+    if not _INSIDE:
+        _INSIDE.append(sorted((v[0],v[1],n) for n,v in SPANS.items() if isinstance(v,tuple) and len(v)==2 and isinstance(v[0],int) and isinstance(v[1],int)))
+        _INSIDE.append([e[0] for e in _INSIDE[0]])
+    b=(a&0x1FFFFFFF)|(BASE&0xE0000000)
+    i=bisect.bisect_right(_INSIDE[1],b)-1
+    if i>=0:
+        s,z,n=_INSIDE[0][i]
+        if s<b<s+z: return n
+    return None
+def frame_piece(a):
+    """True when the code at a stores into or closes a stack frame before it opens one: the rest of another function, entered by a
+    branch, never a function of its own. The same test as tools/1-2-baseline/checksizes.py frame_piece (which merges such entries)."""
+    w=lambda x:struct.unpack_from('<H',BIN,x-BASE)[0] if 0<=x-BASE<len(BIN)-1 else 0x0009
+    pc=a
+    for _ in range(16):
+        op=w(pc)
+        if (op&0xFF0F)==0x2F06 or op in (0x4F22,0x4F12,0x4F02) or (op&0xFF0F)==0xFF0B or ((op&0xFF00)==0x7F00 and op&0x80): return False
+        if (op&0xFF00)==0x1F00 or (op&0xF0FF)==0x60F6 or op in (0x4F26,0x4F16,0x4F06) or (op&0xF0FF)==0xF0F9 or ((op&0xFF00)==0x7F00 and 0<op&0xFF<0x80): return True
+        if op in (0x000B,0x002B) or (op&0xF0FF) in (0x400B,0x402B,0x0003,0x0023) or (op&0xF000)==0xB000: return False
+        if (op&0xF000)==0xA000:
+            d=op&0xFFF; s=w(pc+2)
+            if (s&0xFF00)==0x1F00 or (s&0xF0FF)==0x60F6 or s==0x4F26 or ((s&0xFF00)==0x7F00 and 0<s&0xFF<0x80): return True
+            pc=pc+4+2*(d-0x1000 if d&0x800 else d); continue
+        pc+=2
+    return False
 M=0xffffffff
 class Skip(Exception): pass
 class Restart(Exception): pass     # something learned mid-reading (a callee returns a float) that earlier call sites need: read again
@@ -37,6 +66,13 @@ def _custom_convention(name):
 for _l in open('functions.txt'):
     _p=_l.split()
     if len(_p)>=4 and _p[0]=='F': FUNCS[int(_p[1],16)]=_p[3]; SPANS[_p[3]]=(int(_p[1],16),int(_p[2]))
+HELPERS=('_divls','_divlu','_modls','_modlu','_divws','_quick_mvn','_quick_odd_mvn','_quick_evn_mvn','_slow_mvn','_slow_strcpy')
+HELPER_OF={}     # a compiler runtime helper listed under FUN_<address> with its real name only in symbols.txt: read as the helper, or its operands in r0-r2 are lost
+if os.path.exists('symbols.txt'):
+    for _l in open('symbols.txt'):
+        _p=_l.split('#',1)[0].split()
+        if len(_p)>=2 and _p[1] in HELPERS and not FUNCS.get(canon(int(_p[0],16)),'_').startswith('_'):
+            HELPER_OF[FUNCS[canon(int(_p[0],16))]]=_p[1]
 _STARTS=sorted(FUNCS)
 ENDS={}          # where the code and literal pool of a function end: the next function's start (the pool after its last rts is in the gap, outside its listed size)
 for _i,_a in enumerate(_STARTS):
@@ -247,6 +283,7 @@ def reg_liveness(ins,addr2idx,jumps=None,call_reads=None):
                     m2=re.search(r';\s*=\s*[0-9a-fA-F]+\s+([A-Za-z_]\w*)',oj or '')
                     nm=m2.group(1) if (m2 and mj.startswith('mov')) else None
                     break
+        nm=HELPER_OF.get(nm,nm)
         if nm in ('_quick_mvn','_quick_odd_mvn','_quick_evn_mvn','_slow_mvn'): return {'r0','r1','r2'}
         if nm in ('_divls','_divlu','_modls','_modlu','_divws'): return {'r0','r1'}
         if call_reads and nm and not nm.startswith('_'):
@@ -468,7 +505,7 @@ def callee_arity(fname):
         return _combine_def(fname,res)
     try:
         out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
-        seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False
+        seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False; clobber=0
         targets=set(); skipping=False        # branch targets seen: code after a return that a branch reaches is read too (an early return)
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
@@ -553,8 +590,10 @@ def callee_arity(fname):
                     touched=set(re.findall(r'\b(r[4-7])\b',' '.join(x.split(';')[0] for x in out)))
                     for i in range(4):
                         if 'r%d'%(4+i) not in wrote|slot_w and 'r%d'%(4+i) not in touched: maxi=max(maxi,i)
-            if mn in ('jsr','bsr'):
-                wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
+            if clobber:                      # the instruction after a call's delay slot: the call has now happened
+                clobber-=1
+                if not clobber: wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
+            if mn in ('jsr','bsr'): clobber=1      # not yet: the delay slot runs before the call and can still read an argument (Zombie Revenge ADXT_Stop)
             if mn=='rts': after_ret=2
         res=(maxi+1,maxf+1)
     except _PassThrough as e:
@@ -1349,7 +1388,19 @@ def _run(name,passthru=False,frame=False,flat=False):
                 c.sargs=[s_ for s_ in getattr(c,'sargs',[]) if s_[2]!=c.D]+[c.sarg]      # every structure copied to SP: two by value (cpuLineXAtZ)
         except Exception: pass
     def do_call(fname,tail=False,ind=None,after=None,after2=None):
+        fname=HELPER_OF.get(fname,fname)
         if c.sz or c.swapped: raise Skip('call with the FPU mode changed')
+        if tail and fname in SPANS and frame_piece(SPANS[fname][0]):
+            # a branch into code that runs in this function's frame: the rest of this function listed apart, not a tail call (Zombie Revenge
+            # FUN_0c0b8bcc `bra` FUN_0c0b954e: written as a call, the piece closed the original's 28-byte frame inside the C's 120 and returned to the heap)
+            raise Skip('branches into %s, the rest of this function (it uses this frame): merge them (checksizes.py --merge)'%fname)
+        if fname=='@indirect' and isinstance(ind,str) and re.fullmatch(r'0x[0-9A-Fa-f]+',ind):
+            host=inside_of(int(ind,16))
+            if host:
+                # a call or jump to an address inside another listed function: a function functions.txt does not list (Zombie Revenge
+                # FUN_0c018142 `bra 0C017AE2` inside FUN_0c017aca: written as a call to 0xC017AE2, which the movable build sent into a
+                # trimmed data copy, and the game ran zeros after the intro video)
+                raise Skip('calls %s, inside %s: an entry functions.txt does not list (checksizes.py --inner)'%(ind,host))
         if fname in ('_divls','_divlu','_modls','_modlu'):
             # the compiler's division helpers: dividend r1, divisor r0, result r0 (r1 is used up, the others come back unchanged)
             if tail: raise Skip('helper as a tail call')

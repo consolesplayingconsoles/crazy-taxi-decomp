@@ -15,7 +15,13 @@ Everything on the disc that is code is part of the game, the bundled library inc
 the compiler runtime, the boot block): one total, fixed from the start, and a function is in the same bucket
 whether it is done or not. sdk.txt only marks which functions are library, to show their share of the total.
 
-The project's main metric ("done: equivalent C") is the FIRST row of the first section, and its label
+MODE: status.txt may have a line "MODE: equivalent" (the default, also when there is no MODE line) or "MODE: matching" (any other
+word is an error). "matching" is a matching project: a function is done only when its C
+rebuilds byte for byte (an @unit file in src/, or the SDK's own source reproducing it). tests/equivalent.txt is not read, and there is no
+test coverage, no "no C form" class and no equivalent-pipeline state rows. The main row reads "done: matching C" and the badge
+says MATCHED. "equivalent": the project described above, unchanged.
+
+The project's main metric ("done: equivalent C", "done: matching C" in a matching project) is the FIRST row of the first section, and its label
 stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/homebrew/decompMetric.ts,
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 
@@ -27,6 +33,16 @@ import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the imp
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
 import toolpath  # noqa: E402,F401
 import os, re, subprocess, sys
+
+MODE = 'equivalent'                    # status.txt may say "MODE: matching" on a line of its own; none: equivalent
+if os.path.exists('status.txt'):
+    for _l in open('status.txt'):
+        _m = re.match(r'^MODE:\s*(\S+)\s*(#.*)?$', _l)
+        if _m:
+            MODE = _m.group(1)
+if MODE not in ('equivalent', 'matching'):
+    sys.exit('[ERROR] status.txt: "MODE: %s" must be "MODE: equivalent" or "MODE: matching" (no MODE line means equivalent)' % MODE)
+MATCHING = MODE == 'matching'
 
 here = os.path.dirname(os.path.abspath(__file__))
 units = [l.split() for l in subprocess.run([sys.executable, os.path.join(here, '1-2-baseline', 'units.py'), '--units'],
@@ -44,7 +60,7 @@ if os.path.exists('sdk.txt'):
 def in_c(a):
     return any(int(s, 16) <= a < int(e, 16) for _, s, e, *o in units)
 
-equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') else set()
+equivalent = set(open('tests/equivalent.txt').read().split()) if os.path.exists('tests/equivalent.txt') and not MATCHING else set()
 # functions whose bytes the SDK's own source reproduces (tools/5-generated/sdk_source.py, from the source the user supplied)
 verified = set(l.strip() for l in open('sdk-verified.txt') if l.strip() and not l.startswith('#')) if os.path.exists('sdk-verified.txt') else set()
 # functions whose bytes are verbatim in the SDK's compiled library code (tools/1-2-baseline/sdk_identical.py): the library's own code, not C
@@ -52,9 +68,14 @@ identical = set(l.split()[0] for l in open('sdk-identical.txt') if l.strip() and
 verified_src = set(verified)
 verified |= identical
 name_at = {a: n for a, sz, n in funcs}
-
 def is_lib(a):
     return a in sdk_funcs or any(s <= a < e for s, e in ranges)
+# not built from C: the SDK's own source or object code stands for them (the library stays original in the build). They are neither done
+# nor left: out of the 100%, like the no C form functions
+# A matching project delivers the SDK: its source (or the library's own code) is built into the game, so there they are done work and nothing is left out.
+unbuilt = set() if MATCHING else set(n for a, sz, n in funcs if (is_lib(a) or n in verified) and not (in_c(a) or n in equivalent))
+lib_done = verified if MATCHING else set()
+
 
 def nameless(n):
     """FUN_<address> or thunk_FUN_<address>: no name yet."""
@@ -69,7 +90,7 @@ def stats(sel):
     nm = [x for x in fs if not nameless(x[2])]
     nb = sum(sz for a, sz, n in nm)
     dc = sum(1 for a, sz, n in nm if n in words)
-    eq = [x for x in fs if in_c(x[0]) or x[2] in equivalent or x[2] in verified]
+    eq = [x for x in fs if in_c(x[0]) or x[2] in equivalent or x[2] in lib_done]
     vs = [x for x in fs if x[2] in verified_src and not (in_c(x[0]) or x[2] in equivalent)]
     vi = [x for x in fs if x[2] in identical and x[2] not in verified_src and not (in_c(x[0]) or x[2] in equivalent)]
     return len(fs), code, cb, cf, len(nm), nb, dc, len(eq), sum(sz for a, sz, n in eq), len(vs), sum(sz for a, sz, n in vs), len(vi), sum(sz for a, sz, n in vi)
@@ -84,9 +105,7 @@ def pct(a, b):
 
 g = stats(lambda a: True)
 k = stats(is_lib)
-is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in verified
-named_only = sum(1 for x in funcs if not is_done(x) and not nameless(x[2]))
-unnamed = sum(1 for x in funcs if not is_done(x) and nameless(x[2]))
+is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in lib_done
 # partial C: functions with C written in partial/*.c that is not proven equivalent yet. Its own row (the total with them),
 # done stays apart; the row exists only when partial/ holds some C
 partial = set()
@@ -96,16 +115,19 @@ for pf in glob.glob('partial/*.c'):
 partial = set(x[2] for x in funcs if x[2] in partial and not is_done(x))
 # no C form: functions with an instruction this compiler has no C for (tools/5-generated/classify.py); done by the proof that the instruction
 # exists, not by C. Its own row; the main number stays equivalent C
-sys.path.insert(0, here)
-import classify
-_exe = open('1ST_READ.BIN', 'rb').read()
-_base = int(open('BASE').read().strip(), 16)
-nocform = set(x[2] for x in funcs if not (in_c(x[0]) or x[2] in equivalent or x[2] in verified)
-              and classify.no_c_form(_exe, _base, x[0], x[1]))
-named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and not nameless(x[2]))   # each function in one bucket
-unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and nameless(x[2]))
-doable = g[0] - len(nocform)                       # what can be C: the functions with no C form are not part of the equivalent C measure
-doable_bytes = g[1] - sum(x[1] for x in funcs if x[2] in nocform)
+if MATCHING:
+    nocform = set()   # a matching project has no function exempt from matching
+else:
+    sys.path.insert(0, here)
+    import classify
+    _exe = open('1ST_READ.BIN', 'rb').read()
+    _base = int(open('BASE').read().strip(), 16)
+    nocform = set(x[2] for x in funcs if not (in_c(x[0]) or x[2] in equivalent or x[2] in lib_done) and x[2] not in unbuilt
+                  and classify.no_c_form(_exe, _base, x[0], x[1]))
+named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2] not in unbuilt and not nameless(x[2]))   # each function in one bucket
+unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2] not in unbuilt and nameless(x[2]))
+doable = g[0] - len(nocform) - len(unbuilt)                       # what can be C: the functions with no C form are not part of the equivalent C measure
+doable_bytes = g[1] - sum(x[1] for x in funcs if x[2] in nocform or x[2] in unbuilt)
 def med(v):
     v = sorted(v)
     return v[len(v) // 2] if v else 0
@@ -120,42 +142,58 @@ def coverage_all(proven, unproven_sizes):
     return 100.0 * run / total if total else 0.0
 
 
-# the quality figure: the instructions the cases ran, of all the instructions, over every function that can be C (what has no cases counts as 0)
-_run = _all = _nfn = 0
-_proven = []
-if os.path.exists('docs/equivalent.md'):
-    for _b in open('docs/equivalent.md').read().split('\n### ')[1:]:
-        _fn = _b.split(' ', 1)[0]
-        _m = re.search(r'the cases run (\d+) of (\d+) instructions', _b)
-        if _fn in equivalent and _m and int(_m.group(2)):
-            _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1; _proven.append((int(_m.group(1)), int(_m.group(2))))
-_unproven = [x[1] for x in funcs if not is_done(x) and x[2] not in nocform]
-wavg = coverage_all(_proven, _unproven)
-state_rows = []                                   # where the functions that are not done stand, from tools/5-generated/remaining.py --table (it reads nothing)
-try:
-    _t = subprocess.run([sys.executable, os.path.join(here, '5-generated', 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
-    for _l in _t:
-        _m = re.match(r'^(\S.*?)\s+(\d+)\s+(\d+)$', _l)
-        if _m and _m.group(1) != 'State':
-            state_rows.append(('  ' + _m.group(1), _m.group(2), '%s bytes' % _m.group(3)))
-except Exception:
+if MATCHING:
+    wavg = 0.0   # no test coverage in a matching project: a function is matched or it is not
     state_rows = []
+else:
+    # the quality figure: the instructions the cases ran, of all the instructions, over every function that can be C (what has no cases counts as 0)
+    _run = _all = _nfn = 0
+    _proven = []
+    if os.path.exists('docs/equivalent.md'):
+        for _b in open('docs/equivalent.md').read().split('\n### ')[1:]:
+            _fn = _b.split(' ', 1)[0]
+            _m = re.search(r'the cases run (\d+) of (\d+) instructions', _b)
+            if _fn in equivalent and _m and int(_m.group(2)):
+                _run += int(_m.group(1)); _all += int(_m.group(2)); _nfn += 1; _proven.append((int(_m.group(1)), int(_m.group(2))))
+    _unproven = [x[1] for x in funcs if not is_done(x) and x[2] not in nocform and x[2] not in unbuilt]
+    wavg = coverage_all(_proven, _unproven)
+    state_rows = []                                   # where the functions that are not done stand, from tools/5-generated/remaining.py --table (it reads nothing)
+    try:
+        _t = subprocess.run([sys.executable, os.path.join(here, '5-generated', 'remaining.py'), '--table'], capture_output=True, text=True, timeout=600).stdout.splitlines()
+        for _l in _t:
+            _m = re.match(r'^(\S.*?)\s+(\d+)\s+(\d+)$', _l)
+            if _m and _m.group(1) != 'State':
+                state_rows.append(('  ' + _m.group(1), _m.group(2), '%s bytes' % _m.group(3)))
+    except Exception:
+        state_rows = []
 unnamed_all = sum(1 for x in funcs if nameless(x[2]))              # every function still called FUN_..., done or not
-rows = [
+if MATCHING:
+    _done_rows = [
+        ('  done: matching C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that rebuilds byte for byte'
+         % (g[7], doable, g[8], pct(g[8], doable_bytes).strip())),
+        ('    of which source files', pct(g[3], doable), '%d functions, %d bytes, %d units (src/*.c with an @unit header)'
+         % (g[3], g[2], len(units))),
+    ]
+else:
+    _done_rows = [
+        ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
+         % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform)) if nocform else '')),
+        ('    of which matching C', pct(g[3], doable), '%d functions, %d bytes, %d units: rebuilt byte for byte'
+         % (g[3], g[2], len(units))),
+    ]
+rows = ([] if MATCHING else [
     ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that can be C; the %d functions that reached the check are measured, the others count 0' % (doable, _nfn)),
+    ]) + [
     ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),
-    ('  functions left', '%d' % (doable - g[7]), 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
-    ('  bytes left', '%d' % (doable_bytes - g[8]), 'of %d bytes of code that can be C' % doable_bytes),
+    ('  functions left', '%d' % (doable - g[7]), ('of the %d functions' % doable) if MATCHING else 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
+    ('  bytes left', '%d' % (doable_bytes - g[8]), ('of %d bytes of code' % doable_bytes) if MATCHING else 'of %d bytes of code that can be C' % doable_bytes),
     ('  unnamed', '%d' % unnamed_all, 'functions still called FUN_... (%d of %d)' % (unnamed_all, g[0])),
     ] + state_rows + [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
-    ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
-     % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform)) if nocform else '')),
-    ('    of which matching C', pct(g[3], doable), '%d functions, %d bytes, %d units: rebuilt byte for byte'
-     % (g[3], g[2], len(units))),
-    ('    of which SDK source', pct(g[9], doable), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local)'
+    ] + _done_rows + [
+    ('    of which SDK source' if MATCHING else '  not built: SDK source', pct(g[9], doable if MATCHING else g[0]), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local); not C, out of the 100%%'
      % (g[9], g[10])),
-    ('    of which SDK object code', pct(g[11], doable), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt)'
+    ('    of which SDK object code' if MATCHING else '  not built: SDK object code', pct(g[11], doable if MATCHING else g[0]), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt); not C, out of the 100%%'
      % (g[11], g[12])),
     ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction or a register convention with no C form (tools/5-generated/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
     ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
@@ -164,7 +202,7 @@ rows = [
         pct(sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000), g[1]).strip())),
     ('  named only', pct(named_only, doable), '%d functions: a name, no C yet (not done work)' % named_only),
     ('  unnamed', pct(unnamed, doable), '%d functions (FUN_...), no C yet' % unnamed),
-    ] + ([('  with partial C', pct(g[7] + len(partial), doable), '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)'
+    ] + ([('  with partial C', pct(g[7] + len(partial), doable), ('%d functions: %d done + %d partial (C written in partial/, not matching yet)' if MATCHING else '%d functions: %d done + %d partial (C written in partial/, not yet proven equivalent)')
            % (g[7] + len(partial), g[7], len(partial)))] if partial else []) + [
     ('  documented', pct(g[6], g[0]), '%d named functions in docs/*.md' % g[6]),
     ('  named globals', '', '%d' % globals_named),
@@ -219,11 +257,11 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
     wd = int(round(bar * min(done, 100.0) / 100.0))
     if done > 0 and wd < 2:
         wd = 2
-    code_total = sum(sz for _, sz, n in funcs if n not in nocform) or 1
+    code_total = sum(sz for _, sz, n in funcs if n not in nocform and n not in unbuilt) or 1
     dark = [0] * bar
     pos = done_bytes = 0
-    for fa, fsz, fn in sorted(x for x in funcs if x[2] not in nocform):
-        if in_c(fa) or fn in equivalent or fn in verified:
+    for fa, fsz, fn in sorted(x for x in funcs if x[2] not in nocform and x[2] not in unbuilt):
+        if in_c(fa) or fn in equivalent or fn in lib_done:
             done_bytes += fsz
             for b in range(pos, pos + fsz):
                 dark[min(bar - 1, b * bar // code_total)] += 1
@@ -243,7 +281,12 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
     ftext = '%.1f%%' % done
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
     gtext = '%.1f%%' % wavg
-    title = '%s: %s of functions, %s of code bytes done; the total test coverage over all of them is %s' % (label, ftext, btext, gtext)
+    if MATCHING:
+        _w, _head = 'MATCHED', ''
+        title = '%s: %s of functions, %s of code bytes matched' % (label, ftext, btext)
+    else:
+        _w, _head = 'COVERED', '<text x="152" y="14">TOTAL TEST COVERAGE: %s</text>' % gtext
+        title = '%s: %s of functions, %s of code bytes done; the total test coverage over all of them is %s' % (label, ftext, btext, gtext)
     H = 60 + 20 * len(extra)
     lines = ''.join('<text x="71" y="%d">%s</text><text x="278" y="%d">%s</text>' % (74 + 20 * k, t, 74 + 20 * k, v)
                     for k, (t, v) in enumerate(extra))
@@ -254,9 +297,9 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
            '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#c87053"/>%s'
            '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
-           '<text x="71" y="34">COVERED FUNCTIONS</text><text x="71" y="54">COVERED BYTES</text>'
-           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text><text x="152" y="14">TOTAL TEST COVERAGE: %s</text>' + lines + '</g></svg>\n'
-           ) % (title, title, X, bar, X, wd, strip, ftext, btext, gtext)
+           '<text x="71" y="34">%s FUNCTIONS</text><text x="71" y="54">%s BYTES</text>'
+           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text>%s' + lines + '</g></svg>\n'
+           ) % (title, title, X, bar, X, wd, strip, _w, _w, ftext, btext, _head)
     import os as _os
     _os.makedirs(_os.path.dirname(path) or '.', exist_ok=True)
     try:
@@ -286,7 +329,7 @@ def statuses(path='status.txt'):
     out = []
     for i, l in enumerate(open(path), 1):
         l = l.split('#')[0].strip()
-        if not l:
+        if not l or re.match(r'^MODE:', l):      # the mode line is not a status (it is read at the top of this file)
             continue
         m = re.match(r'^\[([ xX?])\]\s+(\S.*)$', l)
         if not m:
@@ -303,7 +346,7 @@ reached = [n for n, on in status if on]
 # the statuses show whenever status.txt has any: BUILDS FROM C crossed while the build fails
 write_badge(rows, 'decomp', extra=[(n, '\u2753' if on is None else '\u2705' if on else '\u274c') for n, on in status] if status else ())
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
-_drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'of which SDK source', 'of which SDK object code', 'size of what is done',
+_drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'done: matching C', 'of which source files', 'not built: SDK source', 'not built: SDK object code', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')
 _shown = []
 _top = []

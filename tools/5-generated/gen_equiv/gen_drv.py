@@ -448,7 +448,7 @@ def stack_top():
         return sh4sim.STACK_TOP-0x100
     except Exception: raise Skip('no simulator for stack arguments')
 LAST_READS=[]
-RUNTIME={a for a,n in G.FUNCS.items() if n.startswith('_')}       # the compiler's runtime helpers run for real, as equiv.py runs them
+RUNTIME={a for a,n in G.FUNCS.items() if n.startswith('_') or n in G.HELPER_OF}       # the compiler's runtime helpers run for real, as equiv.py runs them
 ERRS={}             # why the original did not finish on the cases drawn, counted (for the failure report)
 HW=[True]           # whether the function names a hardware address: only then are its device accesses part of a case
 HWNAMED=[set()]     # the addresses outside RAM the function's code names (masked to 29 bits): its hardware

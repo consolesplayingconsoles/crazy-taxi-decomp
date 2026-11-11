@@ -589,6 +589,11 @@ def main():
     game = layout.region('game')
     G = movecheck.groups(starts, listed, [(a, s) for a, s, n in F], B.word, pools, end, stay=game[0] if game else None,
                          pool32=lambda a: struct.unpack_from('<i', B.BIN, a - B.BASE)[0])
+    if layout.region('keep'):
+        escapes = keep_escapes(distance_items(B, F, piece, end), layout.region('keep'), layout.mirror)
+        if escapes:
+            say('[ERROR] a fixed-distance call leaves the keep block, so the target belongs in it (layout.txt): %s' % ', '.join('%s %08X -> %08X' % e for e in escapes[:8]))
+            sys.exit(1)
     for _n, x_, p_, t_ in distance_items(B, F, piece, end):      # a distance branch keeps its pool and its target in its group, also one
         lo_, hi_ = sorted((piece(x_), piece(t_)))                 # movecheck.groups skipped as a pool word (Zombie Revenge _slow_strcpy at
         lo_, hi_ = min(lo_, piece(p_)), max(hi_, piece(p_))       # 0C0E62CA -> quick_strcpy1: groups split, the braf landed 0x1DC0 short)
@@ -1050,6 +1055,12 @@ def main():
         os.path.getsize(OUT + '/game.bin'), len(B.BIN), hi, fixed, fit_text(hi, fixed)))
     if hi >= fixed:
         sys.exit(1)
+
+
+def keep_escapes(items, keep, mirror=lambda a: a):
+    """[(name, branch, target)] of the distance branches (distance_items) from inside the keep block to outside it. The block moves as one, so such a
+    fixed distance lands somewhere else: the function it reaches belongs in the block (Zombie Revenge: keep began one function late, and the call fell into another)."""
+    return [(n, x, t) for n, x, p, t in items if keep[0] <= mirror(x) < keep[1] and not keep[0] <= mirror(t) < keep[1]]
 
 
 def fit_text(hi, fixed):

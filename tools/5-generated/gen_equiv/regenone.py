@@ -19,6 +19,7 @@ sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp
 import gen_core  # noqa: E402
 import gen_drv  # noqa: E402
 import gen_pipe  # noqa: E402
+import rewrites  # noqa: E402
 
 
 def generate(name):
@@ -57,6 +58,19 @@ def splice(name, new, protos=None):
                 k = [x for x in re.finditer(r'(?m)^typedef struct \{ int w\[\d+\]; \} Stk\d+;\n', t)]
                 at = k[-1].end() if k else 0
                 t = t[:at] + line.split('\n')[-1] + '\n' + t[at:]
+        # the function's own prototype, when the file declares it, takes the new signature (Zombie Revenge FUN_0c0b8bcc: the old
+        # `int FUN_0c0b8bcc(int a4);` stayed above a definition with five parameters)
+        hdr = ' '.join(body[:body.index('\n{')].split())
+        own = re.compile(r'(?m)^(?:extern )?(?:int|void|float|Stk\d+)\s+\**%s\s*\([^;{]*\);$' % re.escape(name))
+        t = own.sub(lambda mm: hdr + ';', t)
+        # the field structures the new text names and the file does not declare yet (FUN_0c0b8bcc: o0_int, o4_int, o8_int and o8_uint
+        # were missing, and shc stopped with an internal error): declared before the file's first one, else before the function
+        have = set(re.findall(r'(?m)^struct (o[0-9A-F]+_\w+) \{', t))
+        need = [d for d in rewrites.struct_decls(body) if d.split()[1] not in have]
+        if need:
+            first = re.search(r'(?m)^struct o[0-9A-F]+_\w+ \{', t)
+            at = first.start() if first else re.search(r'(?m)^(?:int|void|float|Stk\d+)\s+\**%s\s*\(' % re.escape(name), t).start()
+            t = t[:at] + '\n'.join(need) + '\n' + t[at:]
         for w in sorted({int(x) for x in re.findall(r'\bStk(\d+)\b', t)}):
             td = 'typedef struct { int w[%d]; } Stk%d;\n' % (w, w)
             if td not in t:

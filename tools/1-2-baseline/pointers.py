@@ -20,6 +20,10 @@ listed code. Each candidate gets one decision, P (an address: becomes a name) or
                 Zombie Revenge 0C20A6E8, the AFS names of the partition table; instructions never repeat like that)
     bytes    N  an odd value whose bytes are all under 0x40 next to a word of the same kind (a table of small bytes:
                 Virtua Tennis 07070808 | 0b0b0c0c), unless a neighbour is an address into the image
+    halves   N  a table of 16-bit numbers: two numbers side by side read as an address when both are near 0x0Cxx (Zombie Revenge
+                0C1127D8, a model-to-slot table: 0C9C 0C9B read as 0C9C0C9B and shifted to 0C9EDC5B, a slot number nothing has). Two
+                halves within 0x40 of each other, next to a word of the same shape with one among them that is not 4-aligned (a list of
+                4-aligned pointers has none), the words at the ends of such a run, and a lone pair within 2
     fixed    N  an address at or above layout.txt's `fixed` line: a load buffer, hardware, a file that holds its own load address;
                 it stays where it is, so it stays a number
     outside  N  an address in RAM below the image (the system area, the boot copy): nothing there moves
@@ -92,6 +96,32 @@ def code_words(starts, ends, pools, fx):
     return out
 
 
+def _close(v, reach=0x40):
+    return (v >> 24) == 0x0C and abs((v >> 16) - (v & 0xFFFF)) <= reach
+
+
+def is_halves(at, word, fstart=()):
+    """True when the word at `at` is two 16-bit numbers of a table, not an address. word(a) is the image word at a, None outside it."""
+    v = word(at)
+    if v is None or (v >> 24) != 0x0C or layout.mirror(v) in fstart:   # the start of a listed function is an address (Zombie Revenge 0C202CC0)
+        return False
+    run = [word(at - 4), v, word(at + 4)]
+    if _close(v):
+        if any(x is not None and x is not v and _close(x) for x in (run[0], run[2])):
+            near = [x for x in run if x is not None and _close(x)]
+            if any(x & 3 for x in near):
+                return True
+        hi, lo = v >> 16, v & 0xFFFF
+        if abs(hi - lo) <= 2:
+            return True
+    nxt, prv = run[2], run[0]                                  # the end of a run: its number continues its neighbour's
+    if nxt is not None and _close(nxt) and nxt & 3 and abs((v >> 16) - (nxt & 0xFFFF)) <= 0x10:
+        return True
+    if prv is not None and _close(prv) and prv & 3 and (prv >> 16) >> 8 == (v & 0xFFFF) >> 8 and abs((v & 0xFFFF) - (prv >> 16)) <= 0x10:
+        return True
+    return False
+
+
 def classify():
     """[(word address, value, decision, rule)] for every candidate word, in address order."""
     fx = layout.region('fixed', True)[0]
@@ -99,6 +129,10 @@ def classify():
     starts, ends, pools = shift._listed()
     force = overrides()
     inside_code = code_words(starts, ends, pools, fx)
+    fstart = set(starts)
+
+    def word(a):
+        return struct.unpack_from('<I', B.BIN, a - B.BASE)[0] if B.BASE <= a <= top - 4 else None
 
     def is_addr(v):
         return (v >> 24) in TOPS and B.BASE <= layout.mirror(v) < fx
@@ -128,6 +162,9 @@ def classify():
         elif v >> 24 == 0x8C:
             out.append((at, v, 'P', '8c'))
         else:
+            if is_halves(at, word, fstart):
+                out.append((at, v, 'N', 'halves'))
+                continue
             bl, _ = shift._byte_like(at)
             lb, lw = shift._byte_like(at - 4)
             rb, rw = shift._byte_like(at + 4)

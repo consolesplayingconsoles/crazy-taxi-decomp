@@ -58,7 +58,12 @@ def main():
         if len(chunk) % 2:
             lines.append("          .DATA.B     H'%02X" % chunk[-1])
         lines.append("          .END")
-        open(os.path.join(out, fname), "w").write("\n".join(lines) + "\n")
+        text = "\n".join(lines) + "\n"
+        path = os.path.join(out, fname)
+        # written only when it changes: build.sh and movecheck.py assemble a piece whose source is newer than its object, and a rerun
+        # after one entry changed in functions.txt rewrote all 5790 Zombie Revenge pieces (every one then counted as changed)
+        if not os.path.exists(path) or open(path).read() != text:
+            open(path, "w").write(text)
         order.append(fname)
     open(os.path.join(sys.argv[4], "objects.txt"), "w").write("\n".join(order) + "\n")
     if os.path.abspath(sys.argv[3]) != os.path.abspath(os.path.join(sys.argv[4], "functions.txt")):

@@ -182,6 +182,22 @@ def simulate(exe, steps):
                        'steps': steps}, '.', deep=True)
 
 
+def to_assemble(d, files):
+    """(changed, stale, missing): the pieces linked from <d>/obj (a source symbolize.py changed, or one build.sh left no object for, or
+    an object older than its source: a function split or merged in functions.txt, then split_asm.py. Zombie Revenge FUN_0c017ad0 and
+    FUN_0c031014 had none and the build stopped asking for build.sh), the ones of those to assemble now (no object in <d>/obj or an
+    older one), and the ones without a build/obj object. The others link build.sh's objects. The first link still has to give
+    1ST_READ.BIN byte for byte, so a piece assembled here is checked as one from build.sh is."""
+    have = lambda o: os.path.exists(o) and os.path.getsize(o) > 0        # an empty object is what a run killed midway leaves
+    newer = lambda src, o: not have(o) or os.path.getmtime(src) > os.path.getmtime(o)
+    changed = [f for f in files if open(os.path.join(d, 'asm', f)).read() != open(os.path.join('asm', f)).read()]
+    ch = set(changed)
+    missing = [f for f in files if f not in ch and newer(os.path.join('asm', f), os.path.join('build', 'obj', f[:-4] + '.obj'))]
+    changed += missing
+    stale = [f for f in changed if newer(os.path.join(d, 'asm', f), os.path.join(d, 'obj', f[:-4] + '.obj'))]
+    return changed, stale, missing
+
+
 def main(argv):
     d, pad, steps = 'build/sym', 32, 20000000
     a = list(argv)
@@ -208,14 +224,11 @@ def main(argv):
     P = piece_starts()
     starts = [s for s, _ in P]
     files = [f for _, f in P]
-    changed = [f for f in files if open(os.path.join(d, 'asm', f)).read() != open(os.path.join('asm', f)).read()]
     os.makedirs(os.path.join(d, 'obj'), exist_ok=True)
     have = lambda o: os.path.exists(o) and os.path.getsize(o) > 0        # an empty object is what a run killed midway leaves
-    stale = [f for f in changed if not have(os.path.join(d, 'obj', f[:-4] + '.obj'))
-             or os.path.getmtime(os.path.join(d, 'asm', f)) > os.path.getmtime(os.path.join(d, 'obj', f[:-4] + '.obj'))]
-    missing = [f for f in files if f not in changed and not have(os.path.join('build', 'obj', f[:-4] + '.obj'))]
+    changed, stale, missing = to_assemble(d, files)
     if missing:
-        sys.exit('[ERROR] %d pieces have no build/obj object (bash build.sh first, it must print MATCH): %s' % (len(missing), missing[:3]))
+        say('%d pieces have no build/obj object or an older one: assembled here (%s)' % (len(missing), ', '.join(missing[:3])), log)
     say('%d pieces, %d with names, %d to assemble' % (len(files), len(changed), len(stale)), log)
 
     # the groups and their pads

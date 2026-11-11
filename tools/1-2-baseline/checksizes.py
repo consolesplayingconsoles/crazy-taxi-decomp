@@ -187,6 +187,33 @@ def hidden(only):
     print('%d function(s) listed longer than their code; %d skipped (jump table)' % (found, skipped))
 
 
+def frame_piece(word, a):
+    """True when the code at a stores into or closes a stack frame before it opens one: `mov.l rm,@(d,r15)`, a pop, `lds.l @r15+,pr` or
+    `add #+n,r15` before any push or `add #-n,r15`. Such code is the rest of another function (entered by a branch, in its frame), never a
+    function of its own: a function reads its stack arguments but does not write its caller's frame before saving anything. The same test
+    is in tools/5-generated/gen_equiv/gen_core.py (frame_piece)."""
+    pc = a
+    for _ in range(16):
+        op = word(pc)
+        if (op & 0xFF0F) == 0x2F06 or op in (0x4F22, 0x4F12, 0x4F02) or (op & 0xFF0F) == 0xFF0B or ((op & 0xFF00) == 0x7F00 and op & 0x80):
+            return False                                  # opens a frame first: a function
+        if ((op & 0xFF00) == 0x1F00 or (op & 0xF0FF) == 0x60F6 or op in (0x4F26, 0x4F16, 0x4F06) or (op & 0xF0FF) == 0xF0F9
+                or ((op & 0xFF00) == 0x7F00 and 0 < op & 0xFF < 0x80)):
+            return True                                   # writes or closes a frame it never opened
+        if op in (0x000B, 0x002B) or (op & 0xF0FF) in (0x400B, 0x402B, 0x0003, 0x0023) or (op & 0xF000) == 0xB000:
+            return False                                  # returns, calls or jumps away first
+        if (op & 0xF000) == 0xA000:                       # bra: its delay slot, then the target
+            d = op & 0xFFF
+            nxt = pc + 4 + 2 * (d - 0x1000 if d & 0x800 else d)
+            s = word(pc + 2)
+            if (s & 0xFF00) == 0x1F00 or (s & 0xF0FF) == 0x60F6 or s in (0x4F26,) or ((s & 0xFF00) == 0x7F00 and 0 < s & 0xFF < 0x80):
+                return True
+            pc = nxt
+            continue
+        pc += 2
+    return False
+
+
 def merge(only, write):
     exe = open('1ST_READ.BIN', 'rb').read()
     base = int(open('BASE').read().strip(), 16)
@@ -246,11 +273,27 @@ def merge(only, write):
                 pc += 2
         return fall
 
+    def branches_to(start, end, target):
+        """True when a bra, bt or bf in [start, end) goes to target (a call does not count)"""
+        for pc in range(start, end, 2):
+            text, _, _, t = shdis.decode(word(pc), pc)
+            if t == target and text.split()[0] in ('bra', 'bt', 'bf', 'bt/s', 'bf/s'):
+                return True
+        return False
+
     absorbed, plan = set(), []
     for k, (li, a, sz, name) in enumerate(entries):
         if k in absorbed or (only and name not in only) or a + sz - base > len(exe):
             continue
-        end, j, gap = a + sz, k, 0
+        end, j, gap, pieces = a + sz, k, 0, 0
+        # an entry the previous one branches into, that stores to or closes a stack frame it never opened, is the rest of that function:
+        # it runs in the caller's frame (Zombie Revenge FUN_0c0b954e, the end of FUN_0c0b8bcc after `bra`: written as a call from C,
+        # it closed the 28-byte frame of the original inside the 120-byte frame of the C, popped a local into pr and ran the heap)
+        while (j + 1 < len(entries) and j - k < 8 and entries[j + 1][1] == end and end - base + entries[j + 1][2] <= len(exe)
+               and frame_piece(word, entries[j + 1][1]) and branches_to(a, end, entries[j + 1][1])):
+            j += 1
+            end += entries[j][2]
+            pieces += 1
         while runs_off(a, end) and j + 1 < len(entries) and j - k < 8:
             nxt_start = entries[j + 1][1]
             if nxt_start > end:                         # the code goes on into the gap before the next entry
@@ -261,7 +304,7 @@ def merge(only, write):
             if runs_off(a, end):                        # still running: the next entry is the rest of the function
                 j += 1
                 end += entries[j][2]
-        if (j > k or gap) and runs_off(a, end) is False:
+        if (j > k or gap) and (runs_off(a, end) is False or (pieces and runs_off(a, end) is not True)):    # a piece may end in a tail jmp
             plan.append((k, j, a, end - a, gap))
             absorbed.update(range(k + 1, j + 1))
     lost = 0
@@ -324,7 +367,70 @@ def extend(only, write):
         open('functions.txt', 'w').write('\n'.join(lines))
 
 
+def inner(only):
+    """Functions inside a listed entry that other entries reach: a bra, bt, bf or bsr from another entry, or a call through a pool constant,
+    lands past the start of an entry, on code that opens a frame of its own. functions.txt lists one entry where there are two (Zombie
+    Revenge FUN_0c017aca: a 4-byte stub at 0C017ACA, a small function at 0C017AD0 and the real one at 0C017AE2, which FUN_0c018142 reaches
+    by `bra`). Report only: split the entry in functions.txt, run split_asm.py and build.sh (MATCH), then generate the new entries and every
+    caller that wrote a call to the address."""
+    exe = open('1ST_READ.BIN', 'rb').read()
+    base = int(open('BASE').read().strip(), 16)
+    ent = sorted((int(p[1], 16), int(p[2]), p[3]) for p in (l.split() for l in open('functions.txt')) if len(p) >= 4 and p[0] == 'F')
+    starts = [e[0] for e in ent]
+
+    def word(pc):
+        return struct.unpack_from('<H', exe, pc - base)[0] if 0 <= pc - base < len(exe) - 1 else 0x0009
+
+    def host(t):
+        import bisect
+        i = bisect.bisect_right(starts, t) - 1
+        return ent[i] if i >= 0 and ent[i][0] < t < ent[i][0] + ent[i][1] else None
+
+    def opens(t):
+        """The code at t opens a frame: a push, sts.l pr or add #-n, as its first instruction or after one or two pool loads
+        (Zombie Revenge 0C0B301E: `mov.w @(disp,pc),r0` then `mov.l r14,@-r15`)"""
+        for k in range(3):
+            op = word(t + 2 * k)
+            if (op & 0xFF0F) == 0x2F06 or op == 0x4F22 or ((op & 0xFF00) == 0x7F00 and op & 0x80) or (op & 0xFF0F) == 0xFF0B:
+                return True
+            if not ((op & 0xF000) in (0x9000, 0xD000) or (op & 0xFF00) == 0xC700):
+                return False
+        return False
+
+    found = {}
+    for a, sz, name in ent:
+        if a + sz - base > len(exe):
+            continue
+        for pc in range(a, a + sz, 2):
+            op = word(pc)
+            text, _, _, t = shdis.decode(op, pc)
+            kind = text.split()[0] if text else ''
+            if kind in ('bra', 'bsr', 'bt', 'bf', 'bt/s', 'bf/s') and t is not None:
+                pass
+            elif (op & 0xF000) == 0xD000:                 # mov.l @(disp,pc),rn: the constant, called (jsr, jmp) or kept as a value
+                p = (pc & ~3) + 4 + (op & 0xFF) * 4
+                t = struct.unpack_from('<I', exe, p - base)[0] if 0 <= p - base < len(exe) - 3 else None
+                if t is None:
+                    continue
+                nxt = [word(pc + 2 * k) for k in range(1, 6)]
+                # a value: a callback the function stores or passes (Zombie Revenge FUN_0c0b2fb0 keeps 0C0B301E and 0C0B30F4, two
+                # functions inside itself; a C function's address constant into another C function becomes a cut-down data copy)
+                kind = 'call' if any((x & 0xF0FF) in (0x400B, 0x402B) and (x >> 8) & 15 == (op >> 8) & 15 for x in nxt) else 'value'
+                t = (t & 0x1FFFFFFF) | (base & 0xE0000000)
+            else:
+                continue
+            h = host(t)
+            if h and (h[2] != name or kind == 'value') and opens(t) and (only == set() or h[2] in only or name in only):
+                found.setdefault((h, t), []).append('%s %s' % (name, kind))
+    for (h, t), by in sorted(found.items(), key=lambda x: x[0][1]):
+        print('%08x inside %s (%08x, %d bytes): reached from %s' % (t, h[2], h[0], h[1], ', '.join(sorted(set(by)))))
+    print('%d function start(s) inside listed entries' % len(found))
+
+
 if __name__ == '__main__':
+    if sys.argv[1:2] == ['--inner']:
+        inner(set(sys.argv[2:]))
+        sys.exit(0)
     if sys.argv[1:2] == ['--extend']:
         rest = sys.argv[2:]
         extend(set(x for x in rest if x != '--write'), '--write' in rest)

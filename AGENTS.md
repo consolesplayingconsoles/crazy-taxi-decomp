@@ -3,15 +3,29 @@
 This repo rebuilds the game's `1ST_READ.BIN` byte for byte. Keep it that way: every change ends
 with `bash build.sh` printing `MATCH`.
 
-Game code counts as decompiled when its C **behaves like the original** (Equivalent: same calls,
-same memory writes, same result on every test case, checked by `tools/equiv.py`). C that also
-rebuilds the original bytes (Matching) is the bonus tier: it goes into the build as a unit.
+## First: the mode
 
-## The steps of this decomp
+Read the mode before anything else: `grep '^MODE:' status.txt` (no `MODE:` line means `equivalent`).
+
+- **`MODE: matching`**: game code counts as decompiled when its C **rebuilds the original bytes**: an `@unit` file in
+  `src/` that the build compiles, lays out like the original and links in place, with `bash build.sh` still printing `MATCH`. Follow the
+  sections marked *(matching)* and *(both)*. Ignore the ones marked *(equivalent)*: there are no test cases, no
+  `tests/equivalent.txt`, no `partial/` C counted as done, and `python3 tools/progress.py` reports "done: matching C".
+- **`MODE: equivalent`** (the default): game code counts as decompiled when its C **behaves like the original** (same calls, same memory writes, same
+  result on every test case, checked by `tools/equiv.py`); C that also rebuilds the original bytes (Matching) is the bonus tier. Follow
+  the sections marked *(equivalent)* and *(both)*.
+
+If the mode is anything else, stop: `tools/progress.py` refuses it too.
+
+## The steps of this decomp *(both)*
 
 This repo follows the steps of the dc-decomp-kickoff skill: six to proven C for every function, then three to build, run and stabilise the game from it. They are the milestones of the run: say which step you are in, announce
 each by its title before you start it (`=== Step N of 8: <title> ===`), and end it by printing the results
 (`python3 tools/progress.py`, with generated and hand-written C apart). The user decides at each boundary whether to go on.
+
+In `matching` mode steps 1 to 4 are the same and the rest is one step: **5. Matching C**, the *Matching* section below (one original
+source file at a time; where you have the SDK's own library source, `tools/5-generated/sdk_source.py <folder>` reproduces library functions
+byte for byte too). Say which step you are in, and end it with `python3 tools/progress.py`. The table is the `equivalent` mode's.
 
 | # | Step | State in this repo |
 |---|---|---|
@@ -28,24 +42,24 @@ each by its title before you start it (`=== Step N of 8: <title> ===`), and end 
 If you are the session that ran the kickoff and the user chose to continue, this file is your instructions. If you are a new session,
 you are a guided agent: read this file, run `python3 tools/progress.py` to see where the run stands, and start at the first step not done.
 
-A function is only as proven as its cases: `equiv.py` prints how many of the original's instructions they ran. Aim for all of them; an
+*(equivalent)* A function is only as proven as its cases: `equiv.py` prints how many of the original's instructions they ran. Aim for all of them; an
 instruction no case ran is a branch nobody checked. Details: the kickoff skill's `references/equivalent-pipeline.md` and `references/agentic-decomp.md`.
 
-## Layout
+## Layout *(both)*
 - `functions.txt`: every function (`F <addr> <size> <name>`). The source of truth for names and
   boundaries: `asm/` is generated from it (`python3 tools/1-2-baseline/split_asm.py 1ST_READ.BIN "$(cat BASE)"
   functions.txt .`).
 - `asm/<addr>_<name>.src`: one file per function, in link order (`objects.txt`). Each starts as data
   words (`.DATA.W`), which is what makes the first build match.
-- `src/<file>.c`: C for the game's code. Without a header it is checked for behaviour only
-  (`tools/equiv.py`) and stays out of the build. A file whose first line is `/* @unit <start>-<end> [shc options] */`
+- `src/<file>.c`: C for the game's code. (equivalent mode: without a header it is checked for behaviour only
+  (`tools/equiv.py`) and stays out of the build; in matching mode every file has a header.) A file whose first line is `/* @unit <start>-<end> [shc options] */`
   replaces every asm file in that range (`tools/1-2-baseline/units.py`, `tools/1-2-baseline/fill.py`). A unit with constant
   data (tables, strings) adds `@data <dstart>-<dend>`: the range where the original link put that data. Its ends are
   `D <addr> 0 data_<addr>` lines in `functions.txt` (data boundaries, not counted as functions).
 - `symbols.txt`: `<addr> <name>` for what the C uses that no file defines yet (RAM, data still inside
   asm); the linker gets them as defines.
 - `sdk.txt`: the bundled Sega SDK's code. `python3 tools/progress.py` reports the state.
-- `tests/<file>/<function>.json`: test cases for a function (a list; each gives registers, bytes to
+- `tests/<file>/<function>.json` *(equivalent)*: test cases for a function (a list; each gives registers, bytes to
   put in memory, return values for the calls it makes, optionally a RAM dump to start from:
   `tools/sh4sim.py`). `tests/equivalent.txt`: the functions `tools/equiv.py` found equivalent.
 - `python3 tools/shdis.py <start> <end>`: SH-4 disassembly with FPU, pool values and names, to
@@ -54,7 +68,7 @@ instruction no case ran is a branch nobody checked. Details: the kickoff skill's
 - Names: `FUN_<addr>` is unknown; anything else came from SDK signatures or
   reading the code.
 
-## Naming (step 2: fast, safe, worth doing first)
+## Naming (step 2: fast, safe, worth doing first) *(both)*
 Rename in `functions.txt`, delete the old `asm/<addr>_FUN_<addr>.src`, re-run `split_asm.py`, build:
 still `MATCH` (names never change bytes). A function missed by the analysis (`tools/1-2-baseline/missed_funcs.py`
 lists candidates) is added the same way, as `F <addr> <size> FUN_<addr>`. Its size runs to the end
@@ -67,7 +81,7 @@ by address or by name (`python3 tools/4-boosts/live.py watch <name>`, `vec <name
 name can be checked against what the value does in play. Setup and commands: `tools/4-boosts/live.py` with
 no arguments. Reading the code stays the evidence; a live value confirms it or sends you back.
 
-## Tools to try (step 6)
+## Tools to try (step 6) *(equivalent)*
 
 Games differ, so there is no fixed order. Try a tool on a small sample, note what it gained and what it cost, keep it if it pays and drop it for this game if it doesn't. Write the result in `state/` (gitignored project state) so the next session does not repeat the experiment.
 
@@ -88,7 +102,7 @@ Games differ, so there is no fixed order. Try a tool on a small sample, note wha
 | `tools/1-2-baseline/sdk_identical.py` | Functions that look like the SDK's own library code | Functions byte-identical to the compiled SDK libraries |
 | Hand-written C with cases | The tools above have run dry | Functions per hour, in the order below |
 
-## The C loop: Equivalent first (step 6)
+## The C loop: Equivalent first (step 6) *(equivalent)*
 
 Take the functions that unlock the most others first: many callers, a family of similar siblings, or a neighbour whose size or arguments they settle. Smallest-first is only the tiebreak.
 
@@ -114,13 +128,13 @@ Take the functions that unlock the most others first: many callers, a family of 
    `tests/equivalent.txt`, and its evidence (address, size, file, case counts, what they cover)
    into `docs/equivalent.md`, one entry per function.
    Blind spot: the simulator gives 0 for RAM a case did not set, so C that reads memory the original does not passes whenever that memory is 0 (a console holds leftovers there). `python3 tools/5-generated/overreads.py src/<file>.c` reruns the cases with junk in unused RAM and lists the functions that differ; a report, it records nothing.
-4. **Progress**: `python3 tools/progress.py` (Equivalent first, Matching beside it).
+4. **Progress**: `python3 tools/progress.py`.
 
 Cases are the evidence: one case proves little; cover each branch and edge (zero, negative, the
 values the game really uses). A RAM dump from the running game (`tools/4-boosts/live.py`) gives real
 world state to start from.
 
-## Matching (step 6, the bonus tier, one original source file at a time)
+## Matching (step 5 in matching mode; the bonus tier in equivalent mode) *(both)*
 1. **Find the unit.** The compiler's literal pools are shared by every function of one source file,
    and `bsr` calls only reach functions of the same file: a unit runs from just after the previous
    file's pool (and its padding) to the end of its own last pool. Both ends must be function
@@ -136,7 +150,7 @@ world state to start from.
 A unit goes in only when all of it matches. One that will not match after a fair try stays asm,
 written down (what differs) for later; move on.
 
-## Matching notes
+## Matching notes *(both)*
 - Library-style code padded with `nop`s to 16 or 32 bytes between functions and before branch
   targets was built with `-align16`: put it in the `@unit` header.
 - Gaps the compiler reserves (`.RES`) were filled with `0xEE` by the original link; padding before
@@ -158,7 +172,7 @@ written down (what differs) for later; move on.
   label is exactly what the compiler calls and a C unit links without `symbols.txt` entries for
   them. If one is still `FUN_...`, rename it.
 
-## Building from C (step 8)
+## Building from C (step 8) *(equivalent)*
 The libraries are not game code, so they are not built from C: before the first build, `keep` in `layout.txt` must cover the
 NAOMI library and C runtime (`nl*`, sprites, textures, the `nl_objasm_*` renderer) as well as the Katana libraries. Their functions then
 stay as the original bytes at their address, whatever C exists for them. The block starts at the library's first function
@@ -176,7 +190,7 @@ that still passes fewer than the original sets before its `jsr` (delay slot incl
 a trampoline that jumps through a table (its target is read from memory): its arity is unknown, not zero, so list those too and
 check each caller against the registers the original sets before the call.
 
-## Changing the game
+## Changing the game *(equivalent)*
 The boot block is not free space. The entry stub copies the start of the executable elsewhere and
 runs it there (seen on a game linked at `0x0C010000`: `0x0C010100-0x0C014000` to `0x0C004000`),
 and the filler after the boot code, which looks unused and has no pointer into it, can be reused
