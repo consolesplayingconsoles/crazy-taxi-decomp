@@ -71,9 +71,10 @@ name_at = {a: n for a, sz, n in funcs}
 def is_lib(a):
     return a in sdk_funcs or any(s <= a < e for s, e in ranges)
 # not built from C: the SDK's own source or object code stands for them (the library stays original in the build). They are neither done
-# nor left: out of the 100%, like the no C form functions
+# nor left: out of the 100%, like the no C form functions. Only proven ones (sdk-verified.txt, sdk-identical.txt): a function merely listed
+# in sdk.txt is still to do (ZR, 2026-11-11: two listed by hand, with no proof, hid behind 100%)
 # A matching project delivers the SDK: its source (or the library's own code) is built into the game, so there they are done work and nothing is left out.
-unbuilt = set() if MATCHING else set(n for a, sz, n in funcs if (is_lib(a) or n in verified) and not (in_c(a) or n in equivalent))
+unbuilt = set() if MATCHING else set(n for a, sz, n in funcs if n in verified and not (in_c(a) or n in equivalent))
 lib_done = verified if MATCHING else set()
 
 
@@ -375,3 +376,7 @@ for row in rows:
         print('%s%s  %s' % (name, cell.rjust(w + 2 + 7 - len(name)), detail))
     else:
         print('%-*s  %7s  %s' % (w, name, p, detail))
+
+if os.path.exists('overlays.tsv'):      # a game with code overlays (docs: references/overlays.md): their own total, after this report
+    sys.stdout.flush()
+    subprocess.run([sys.executable, os.path.join(here, 'overlay', 'progress.py')])

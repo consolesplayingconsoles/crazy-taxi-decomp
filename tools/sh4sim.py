@@ -701,6 +701,45 @@ class CPU:
             return
 
 
+_ALSO = None
+
+
+def also():
+    """Code that is in memory on every run, from the JSON file SH4SIM_ALSO names ({hex address: hex bytes}); nothing when the variable is
+    not set. An overlay's calls into the compiler's runtime helpers, which live in the main executable (tools/overlay/in.sh sets it)."""
+    global _ALSO
+    if _ALSO is None:
+        p = os.environ.get('SH4SIM_ALSO')
+        _ALSO = [(int(a, 16), bytes.fromhex(b)) for a, b in json.load(open(p)).items()] if p else []
+    return _ALSO
+
+
+_BODY = {}
+
+
+def body_before(case_dir='.'):
+    """{entry: start} for the functions whose code begins before their entry: `B <start> <size> <name>` lines in functions.txt, the
+    `F` line of the same name giving the entry. SHC can lay a loop's body out above the function's address and enter at the loop test
+    (Zombie Revenge FUN_0c016d20: the body at 0C016CE0, the entry at 0C016D20, `bt` back up): a branch there is the function's own code,
+    not a jump out of it."""
+    p = os.path.join(case_dir, 'functions.txt')
+    try:
+        key = (p, os.path.getmtime(p))
+    except OSError:
+        return {}
+    if key not in _BODY:
+        ents, body = {}, {}
+        for line in open(p):
+            f = line.split()
+            if len(f) >= 4 and f[0] == 'F':
+                ents[f[3]] = int(f[1], 16)
+            elif len(f) >= 4 and f[0] == 'B':
+                body[f[3]] = int(f[1], 16)
+        _BODY.clear()
+        _BODY[key] = {(ents[n] & 0x1FFFFFFF) | 0x0C000000: s for n, s in body.items() if n in ents}      # by the 0C mirror (an 8c list too)
+    return _BODY[key]
+
+
 def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=None, stackfill=None):
     """Run one case. code = (address, bytes) puts other code (a compiled C unit) at its address;
     entry/end then name the function inside it (default: all of it). deep: True runs every call;
@@ -712,6 +751,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     path = lambda p: p if os.path.isabs(p) else os.path.join(case_dir, p)
     if case.get('dump'):
         mem.load(RAM_LO, open(path(case['dump']), 'rb').read())
+    for a, data in also():
+        mem.load(a, data)
     if case.get('exe'):
         mem.load(int(case['base'], 16), open(path(case['exe']), 'rb').read())
     if code:
@@ -727,7 +768,10 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
         mem.device_reads[Memory.phys(int(a, 16))] = [int(v, 16) for v in vals]
     mem.writes.clear()
     cpu = CPU(mem)
-    cpu.lo, cpu.hi = entry, end
+    bb = {} if code or case.get('lo') else body_before(case_dir)       # the original's own code below its entry (functions.txt `B`)
+    k = (entry & 0x1FFFFFFF) | 0x0C000000
+    lo = int(case['lo'], 16) if case.get('lo') else ((entry & 0xE0000000) | (bb[k] & 0x1FFFFFFF) if k in bb else entry)
+    cpu.lo, cpu.hi = lo, end
     cpu.r[15] = STACK_TOP - 0x100
     if 'sr' in case:                                     # the starting SR (interrupt mask and the rest)
         cpu.set_sr(int(case['sr'], 16))
@@ -856,7 +900,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             'out_set': {'r0': bool(cpu.r.ever & 1)},               # False: the function never assigned r0 (a call's result counts), it returns what it was given
             'r15_balanced': cpu.r[15] == entry_r15,
             'xf': ['%08X' % v for v in cpu.xf], 'xf_changed': cpu.xf != xf_entry,
-            'covered': sorted(a for a in cpu.covered if entry <= a < end),
+            'covered': sorted(a for a in cpu.covered if cpu.lo <= a < end),      # from a body laid out before the entry too (functions.txt `B`)
             'reads': mem.reads, 'seq_used': dict(mem.seq_used), 'trace': cpu.trace}
 
 

@@ -66,6 +66,10 @@ def _custom_convention(name):
 for _l in open('functions.txt'):
     _p=_l.split()
     if len(_p)>=4 and _p[0]=='F': FUNCS[int(_p[1],16)]=_p[3]; SPANS[_p[3]]=(int(_p[1],16),int(_p[2]))
+BODY={}         # name: (start, end) of the code a function has before its entry (functions.txt `B` lines; sh4sim.body_before)
+for _l in open('functions.txt'):
+    _p=_l.split()
+    if len(_p)>=4 and _p[0]=='B': BODY[_p[3]]=(int(_p[1],16),int(_p[1],16)+int(_p[2]))
 HELPERS=('_divls','_divlu','_modls','_modlu','_divws','_quick_mvn','_quick_odd_mvn','_quick_evn_mvn','_slow_mvn','_slow_strcpy')
 HELPER_OF={}     # a compiler runtime helper listed under FUN_<address> with its real name only in symbols.txt: read as the helper, or its operands in r0-r2 are lost
 if os.path.exists('symbols.txt'):
@@ -791,6 +795,11 @@ def _run(name,passthru=False,frame=False,flat=False):
             for l in subprocess.run(['python3','tools/shdis.py','%x'%t_,'%x'%e_],capture_output=True,text=True).stdout.splitlines():
                 m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
                 if m and t_<=int(m.group(1),16)<e_: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
+    if ins and name in BODY:      # a body laid out before the entry (functions.txt `B`: a loop entered at its test): this function's own code
+        b0_,b1_=BODY[name]; have_={pc_ for _,_,pc_ in ins}
+        for l in subprocess.run(['python3','tools/shdis.py','%x'%b0_,'%x'%b1_],capture_output=True,text=True).stdout.splitlines():
+            m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+            if m and b0_<=int(m.group(1),16)<b1_ and int(m.group(1),16) not in have_: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
     c=Ctx(name); c.nemit=0; c.emit_limit=10**9 if flat else 6*(SPANS.get(name,(0,0))[1]//2)+300; c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.psaves=0; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.ncalls_to={}; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
@@ -2372,6 +2381,8 @@ def _run(name,passthru=False,frame=False,flat=False):
                     # no return at the end: the code runs on into the next function, which is a tail call to the address after the last
                     # instruction (its registers are set up above)
                     tgt=ins[-1][2]+2
+                    if tgt in addr2idx and addr2idx[tgt] in G.succ:      # its own code: a body laid out before the entry (functions.txt `B`)
+                        i=addr2idx[tgt]; continue                        # runs on into the entry, the loop test (FUN_0c016d20), not a call
                     if tgt in FUNCS: do_call(FUNCS[tgt],tail=True)
                     elif in_ram(tgt): do_call('@indirect',tail=True,ind='0x%X'%tgt)
                     else: raise Skip('runs off the code')

@@ -9,7 +9,8 @@ own code: nothing to decompile, a decomp links the library. Writes sdk-identical
 counts the names as done, in a row of their own (they are not C). Hand-written assembly the SDK ships only as object code (a maths
 library, startup code) is the usual case. Compiled game code never matches: its literal pools hold addresses of the game.
 A second pass takes what is still open and allows the linker's own changes: a call it relaxed (jsr @rN in the library, bsrf rN in the
-game), a pool load whose displacement moved, and literal-pool words (addresses the linker filled in). Those lines end in "relaxed".
+game), a pool load whose displacement moved, and literal-pool words (addresses the linker filled in), any of them alone or together.
+Those lines end in "relaxed".
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
@@ -107,20 +108,28 @@ def pool_words(a, b):
             pools.update(range(pool, pool + ps, 2))
     return pools
 def relaxed_same(a, b, lib, pools):
-    """b: the game's bytes at a; lib: the library's bytes of the same length. True when every difference is one the linker makes."""
-    relaxed = False
+    """b: the game's bytes at a; lib: the library's bytes of the same length. True when every difference is one the linker makes:
+    a pool word it filled in, a call it relaxed, a pool load whose displacement moved. A function that differs only in its pool
+    words is the library's code too (Zombie Revenge FUN_0c0ef250 and FUN_0c0efd04 in sh4plfzz.elf: no call of theirs relaxed, and
+    the pass that asked for one left them out). The exact pass runs first, so b and lib always differ somewhere here."""
+    addr = lambda v: v == 0 or (v >> 24) in (0x0C, 0x8C, 0xAC)
     for k in range(0, len(b), 2):
         x = struct.unpack_from('<H', b, k)[0]; y = struct.unpack_from('<H', lib, k)[0]
         if x == y:
             continue
         if (a + k) in pools:
             continue
+        w = ((a + k) & ~3) - a              # a pool word no reachable load reads (the compiler left it), holding an address in the game and
+        if 0 <= w <= len(b) - 4:            # an address or 0 in the library: the linker filled it in (Zombie Revenge syTmrGenMicroToCount: _divls, _modls)
+            gv, lv = struct.unpack_from('<I', b, w)[0], struct.unpack_from('<I', lib, w)[0]
+            if gv and addr(gv) and addr(lv):
+                continue
         if (x & 0xF0FF) == 0x0003 and (y & 0xF0FF) == 0x400B and (x >> 8) & 15 == (y >> 8) & 15:
-            relaxed = True; continue
+            continue
         if (x & 0xF000) == 0xD000 and (y & 0xF000) == 0xD000 and (x & 0x0F00) == (y & 0x0F00):
             continue
         return False
-    return relaxed
+    return True
 relaxed_found = {}
 for n, a, s in todo:
     if n in found:

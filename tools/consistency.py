@@ -15,6 +15,17 @@ What it looks at, for the functions of functions.txt that src/*.c defines (match
                      size was short (code past a literal pool in the middle of the body was left out), so a jump to that code was
                      written as a call; the proof stays in tests/equivalent.txt and the current checker fails it. Dropped with its
                      cases and its proof, so the generator writes it again with the right size
+  args outside       C that addresses its stack-argument structure (`StkN s`) outside it: `(int)&s + K` with K below 0 or past its
+                     4N bytes, or s.w[i] past N-1. Below are the registers the compiled function saved on entry, its return address
+                     among them; past the end is the caller's frame (Zombie Revenge FUN_0c0a6928, a hand draft that kept the
+                     original's locals at &s - 52 .. &s - 4: it overwrote its saved pr and the game ran the stack; four such
+                     functions). The proof passed: writes below the entry stack pointer are not compared. Dropped with its cases
+                     and its proof, so the generator writes it again
+  helper call        generated C that calls one of the compiler's register helpers (_quick_odd_mvn, _divls ...) by name, as if it took
+                     C arguments: they take theirs in r0-r2, so the call runs on whatever those registers hold. It was generated while
+                     the helper had a FUN_ name and was renamed later (Zombie Revenge: _quick_odd_mvn's `braf r0` with a stale r0 jumped
+                     into a texture as the player took control). The proof passed because its cases never reached the call. Dropped
+                     with its cases and its proof, so the generator writes the copy or division again
 C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the generator writes it again; hand-written C moves to
 partial/<file>.c, where progress.py counts it as partial work. Nothing written by hand is deleted.
 """
@@ -95,6 +106,40 @@ def lists():
     return eq
 
 
+HELPERS = ('_divls', '_divlu', '_modls', '_modlu', '_divws', '_quick_mvn', '_quick_odd_mvn', '_quick_evn_mvn', '_slow_mvn',
+           '_slow_strcpy')   # the compiler's runtime helpers that take their operands in r0-r2 (gen_core.HELPERS)
+HELPER_CALL = re.compile(r'(?:\((?:%s)\)\)\(|(?<![\w])(?:%s)\s*\()' % ('|'.join(HELPERS), '|'.join(HELPERS)))
+
+
+STK_PARAM = re.compile(r'\bStk(\d+)\s+s\b')
+S_OFF = re.compile(r'\(int\)&s\s*\+\s*(-?\s*(?:0x[0-9A-Fa-f]+|\d+))')
+S_WORD = re.compile(r'(?<![\w.])s\.w\[(\d+)\]')
+
+
+def args_outside(text, name):
+    """The offsets (bytes) at which the definition of name addresses its stack-argument structure `StkN s` outside its 4N bytes, [] when none."""
+    b = block(text, name)
+    if not b:
+        return []
+    body = text[b[0]:b[1]]
+    k = body.index('{')
+    m = STK_PARAM.search(body[:k])
+    if not m:
+        return []
+    size = 4 * int(m.group(1))
+    offs = [int(x.replace(' ', ''), 0) for x in S_OFF.findall(body[k:])] + [4 * int(x) for x in S_WORD.findall(body[k:])]
+    return sorted({o for o in offs if o < 0 or o >= size})
+
+
+def calls_helper(text, name):
+    """True when the definition of name in text calls a register helper as a C function (its declaration lines are outside the body)."""
+    b = block(text, name)
+    if not b:
+        return False
+    body = text[b[0]:b[1]]
+    return bool(HELPER_CALL.search(body[body.index('{'):]))
+
+
 CALL_ADDR = re.compile(r'\(\(\w[\w ]*\(\*\)\([^)]*\)\)\((0x[0-9A-Fa-f]+)\)\)')
 
 
@@ -126,11 +171,15 @@ def survey():
         if fn in funcs and not stem.startswith(('gen_tmp', 'zz_')):
             cases.setdefault(fn, []).append(stem)
     eq = lists()
-    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': []}
+    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': []}
     span = spans()
     for n, stems in sorted(defs.items()):
         if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open('src/%s.c' % stems[0], errors='replace').read(), n, span):
             found['stale size'].append((n, stems[0]))
+        elif len(stems) == 1 and args_outside(open('src/%s.c' % stems[0], errors='replace').read(), n):
+            found['args outside'].append((n, stems[0]))
+        elif len(stems) == 1 and stems[0].startswith('gen_') and calls_helper(open('src/%s.c' % stems[0], errors='replace').read(), n):
+            found['helper call'].append((n, stems[0]))
     for n, stems in sorted(defs.items()):
         if len(stems) > 1:
             found['defined twice'].append((n, stems))
@@ -215,6 +264,14 @@ def fix():
         stale = [(n, st) for n, st in found['stale size']]
         for n, st in stale:
             leave_src(n, st); say(done, '%s: calls an address inside itself in src/%s.c (the size was short when it was proven): dropped for the generator' % (n, st))
+        outside = [(n, st) for n, st in found['args outside']]
+        for n, st in outside:
+            leave_src(n, st); say(done, '%s: addresses its stack arguments outside them in src/%s.c: %s' % (n, st, 'moved to partial/' if not st.startswith('gen_') else 'dropped for the generator'))
+        stale = stale + outside
+        helper = [(n, st) for n, st in found['helper call']]
+        for n, st in helper:
+            leave_src(n, st); say(done, '%s: calls a register helper as a C function in src/%s.c: dropped for the generator' % (n, st))
+        stale = stale + helper
         if stale and os.path.exists('tests/equivalent.txt'):
             gone = {n for n, st in stale}
             lines = open('tests/equivalent.txt').read().split('\n')

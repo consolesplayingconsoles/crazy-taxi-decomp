@@ -255,6 +255,22 @@ def flush(items,notdrawn,ri,vi,pt,order,bn):
                 out_only=[it for it in out_only if it[0] not in p2]
                 note('round %d batch %d: %d differed only in the return value, %d pass returning %s'%(ri,bn,len(again),len(p2),{'r0':'int','fr0':'float','void':'nothing'}[kind_]))
                 if not out_only: break
+            # still differing: once more with a temporary per value (gen_pipe.retry_uncoalesced: SHC merged two tails of FUN_0c02ad98)
+            def _rebuild(n_):
+                it=next(i for i in items if i[0]==n_)
+                vs_=gen_pipe.variants(n_,pt)
+                s_,c_=gen_drv.build(n_,vs_[vi] if vi<len(vs_) else vs_[-1],pt); c_.protos.pop(n_,None)
+                return (n_,s_,it[2],c_.protos)+tuple(it[4:]) if s_!=it[1] else None
+            def _check(again):
+                first_out=gen_pipe.LAST.get('out','')
+                p2,f2,d2,dr2,_=gen_pipe.run_file_robust(stem+'c',again)
+                gen_pipe.LAST['out']=first_out
+                return p2
+            still=[it[0] for it in items if it[0] in failed]
+            fixed=gen_pipe.retry_uncoalesced(still,_rebuild,_check)
+            for n_,it in fixed.items():
+                failed.remove(n_); passed.append(n_); items[[i[0] for i in items].index(n_)]=it
+            if still: note('round %d batch %d: %d still differed, %d pass with a temporary per value'%(ri,bn,len(still),len(fixed)))
         finally:
             restore_evidence()
         print(ri,vi,pt,'batch',bn,'items',len(items),'passed',len(passed),'failed',len(failed),'dropped',len(dropped),err,flush=True)

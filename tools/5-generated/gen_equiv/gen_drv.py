@@ -196,6 +196,13 @@ def build(name,ret,passthru=False):
     if os.environ.get('GEN_DEADFRAME','1')!='0': src=rewrites.drop_dead_frame(src)      # a stack array nothing reads goes (after the self-copies are gone)
     if os.environ.get('GEN_HOIST','1')!='0': src=rewrites.hoist_builtins(src)      # a pure builtin called more than once with the same variable: once
     if os.environ.get('GEN_REBASE','1')!='0': src=rewrites.frame_rebase(src)      # the stack array based at its first used word (last: other passes read the old offsets)
+    # the structure of stack words covers every word the body reads: a word read on one path only (Zombie Revenge FUN_0c0a6928 reads
+    # s.w[4] under an if) was left out of the count, the function was declared Stk4, and its callers, generated against that, never
+    # passed the fifth word the original's caller stores (consistency.py: args outside)
+    m_=re.search(r'\bStk(\d+) s\b',src.split('{',1)[0])
+    if m_:
+        top_=max([int(x) for x in re.findall(r'(?<![\w.])s\.w\[(\d+)\]',src)]+[-1])
+        if top_>=int(m_.group(1)): src=src.replace('Stk%s s'%m_.group(1),'Stk%d s'%(top_+1),1)
     return src,c
 _LOCAL=re.compile(r'^(\s+)((?:unsigned )?(?:int|short|char)|float) (\w+);$',re.M)
 def register_locals(text):

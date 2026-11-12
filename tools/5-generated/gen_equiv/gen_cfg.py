@@ -21,10 +21,18 @@ def succ_of(ins, addr2idx, i, switches=None):
     """Successor nodes of node i (EXIT for a return or a jump out of the function)."""
     mn, ops, pc = ins[i]
     out = []
+
+    def nxt(k):
+        """The instruction k after this one: the next in the list, or, where the list is not in address order (code appended after
+        the body: a shared epilogue, or a body laid out before the entry, functions.txt `B`), the one at that address. Zombie Revenge
+        FUN_0c016d20: its loop body, listed after the entry's code, falls into the entry; read by list position it fell off the end."""
+        if i + k < len(ins) and ins[i + k][2] == pc + 2 * k:
+            return i + k
+        return addr2idx.get(pc + 2 * k, i + k)
     if mn in ('bt', 'bf', 'bt/s', 'bf/s'):
         t = target_of(ops)
         out.append(addr2idx.get(t, EXIT))
-        out.append(i + (2 if mn.endswith('/s') else 1))
+        out.append(nxt(2 if mn.endswith('/s') else 1))
     elif mn == 'bra':
         out.append(addr2idx.get(target_of(ops), EXIT))
     elif mn in ('braf', 'jmp') and switches and i in switches:
@@ -32,9 +40,9 @@ def succ_of(ins, addr2idx, i, switches=None):
     elif mn in ('rts', 'jmp', 'braf', 'rte'):
         out.append(EXIT)
     elif mn in ('jsr', 'bsr', 'bsrf'):
-        out.append(i + 2)
+        out.append(nxt(2))
     else:
-        out.append(i + 1)
+        out.append(nxt(1))
     return [EXIT if s >= len(ins) else s for s in out]
 
 

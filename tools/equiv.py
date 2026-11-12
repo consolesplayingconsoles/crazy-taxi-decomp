@@ -862,6 +862,10 @@ def main(argv):
                 ok, why = False, 'case %d: %s' % (n, diff)
                 break
         total = code_addresses(exe_bytes, base, start, size)
+        b0 = sh4sim.body_before('.').get((start & 0x1FFFFFFF) | 0x0C000000)
+        if b0 is not None:      # a body laid out before the entry (functions.txt `B`): its instructions count too
+            b0 = (start & 0xE0000000) | (b0 & 0x1FFFFFFF)
+            total = code_addresses(exe_bytes, base, b0, start - b0) + total
         total = [a for a in total if a in seen or struct.unpack_from('<H', exe_bytes, a - base)[0] != 0x0009]       # padding nops no case runs are not code
         cov = len([a for a in total if a in seen])
         covtext = '%d of %d instructions' % (cov, len(total)) if total else ''

@@ -1,0 +1,1 @@
+-cpu=sh4 -endian=little -fpu=single -division=cpu -round=nearest -pic=0 -macsave=0 -optimize=1 -size -string=const -section=p=P,c=C,d=D,b=B -include=src

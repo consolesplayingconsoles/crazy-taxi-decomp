@@ -99,6 +99,27 @@ def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_t
     for i in range(len(starts) - 1):
         if starts[i] not in listed or starts[i + 1] not in listed:
             tie(i, i + 1)
+
+    def closes(h):                  # rts, rte, jmp @Rn, bra, braf Rn: control does not continue past it (after its delay slot)
+        return h in (0x000B, 0x002B) or (h & 0xF0FF) in (0x402B, 0x0023) or h >> 12 == 0xA
+
+    def last_before(y, lo):         # the last instruction halfword at or before y, pool words skipped
+        while y >= lo and (y in pools or y - 2 in pools):
+            y -= 2
+        return y if y >= lo else None
+    for a, s in code:               # a function that runs on into the next piece (a 2-byte `mov #7,r4` that falls into the routine it
+        e = a + s                   # sets up: vmsfs_c_fiber7 -> vmsfs_c_dispatch), or ends on a branch whose delay slot is the next
+        i = piece(a)                # piece's first word, stays with it: a pad between them is executed
+        if a < e <= end and i + 1 < len(starts) and starts[i + 1] == e:
+            y = last_before(e - 2, a)
+            if y is None:
+                continue
+            if closes(word(y)):                       # the branch itself is last: its delay slot is in the next piece
+                tie(i, i + 1)
+                continue
+            y2 = last_before(y - 2, a)
+            if y2 is None or not closes(word(y2)):    # no return or jump before the slot: it falls through
+                tie(i, i + 1)
     out, run = [0], 0
     for i in range(len(starts) - 1):
         run += link[i]

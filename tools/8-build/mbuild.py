@@ -64,14 +64,16 @@ def is_addr(v, lo, hi):
     return (v >> 24) in TOPS and lo <= ((v & 0x1FFFFFFF) | 0x0C000000) < hi
 
 
-def rewrite_literals(text, lo, hi, macro_consts=False):
+def rewrite_literals(text, lo, hi, macro_consts=False, numbers=frozenset()):
     """(text, {values}): every hex number of 7-8 digits in [lo, hi) (any RAM mirror) as ((int)A_<VALUE>), with its extern
-    declaration at the top; comment lines are left alone (a line that starts with `*` is code: a dereference)."""
+    declaration at the top; comment lines are left alone (a line that starts with `*` is code: a dereference). numbers: values
+    (0C mirror) that build/pointers.txt decides are numbers wherever the executable holds them (number_values()): they stay as
+    written (Zombie Revenge 0x0C01A000, a render-state bit field FUN_0c0ca794 passes to FUN_0c0cbafc, not an address)."""
     used = set()
 
     def sub(m):
         v = int(m.group(1), 16)
-        if not is_addr(v, lo, hi):
+        if not is_addr(v, lo, hi) or ((v & 0x1FFFFFFF) | 0x0C000000) in numbers:
             return m.group(0)
         used.add(v)
         before = m.string[:m.start()]
@@ -96,6 +98,109 @@ def rewrite_literals(text, lo, hi, macro_consts=False):
         out.append(LIT.sub(sub, l) if not s.startswith('/*') else l)      # a one-line comment; `*(int *)0x...` is code
     head = ''.join('extern char A_%08X[];\n' % v for v in sorted(used))
     return head + '\n'.join(out), used
+
+
+def needs_assembly(src, text, obj):
+    """True when the unit `text` must be written to `src` and assembled into `obj`: the source is missing or says something else, the
+    object is missing or empty, or the object is older than the source. A run that wrote the sources and stopped before assembling
+    them left the old objects behind with sources that already match (Zombie Revenge, 2026-11-11: 522 units from an earlier build,
+    which still defined six functions that had become C, linked beside the C: DUPLICATE SYMBOL)."""
+    return (not os.path.exists(src) or open(src).read() != text or not os.path.exists(obj) or os.path.getsize(obj) == 0
+            or os.path.getmtime(obj) < os.path.getmtime(src))
+
+
+def _ends_flow(w):
+    """True for an instruction after whose delay slot nothing runs on: rts, rte, jmp @rN, braf rN, bra."""
+    return w in (0x000B, 0x002B) or (w & 0xF0FF) in (0x402B, 0x0023) or (w & 0xF000) == 0xA000
+
+
+def read_values(text):
+    """{value (0C mirror)}: the address numbers a C text reads through or indexes, so data, not code: right after a pointer cast
+    (`*(float *)0x0C0499D8`, `((struct o8_float *)0x0C23FE68)->v`, `*(struct mv3 *)(0x0C0F9BCC)`) or as a base with `+` after it
+    (`0x0C15244C + (a4 << 2)`). unlisted_entries() leaves these out: a float table can decode as instructions (0x3D4CCCCC reads tst.b)."""
+    out = set()
+    num = r'(?:0[xX]([0-9A-Fa-f]{7,8})[uUlL]*\b|\(\((?:unsigned )?int\)A_([0-9A-Fa-f]{8})\))'     # as written, or as the build rewrote it
+    for m in re.finditer(r'\*\s*\)\s*\(?\s*%s|%s\s*\+' % (num, num), text):
+        g = [x for x in m.groups() if x]
+        v = int(g[0], 16)
+        out.add((v & 0x1FFFFFFF) | 0x0C000000)
+    return out
+
+
+def passed_values(text):
+    """{value (0C mirror)}: the address numbers a C text hands on: a call's argument (`FUN_0c0e14c4(0xC0B39A8)`), a value stored to
+    memory (`*(unsigned int *)((v0_0 + 0x0)) = 0xC057824;`, `p->v = ...`) or a return value, written as a number or as the build
+    rewrote it. A number only put in a local (`t15 = 0xC011ED8;`, a register load the C keeps and overwrites) is not handed on:
+    unlisted_entries() looks at these only (Zombie Revenge: four vector tables loaded that way decode as code)."""
+    num = r'(?:0[xX]([0-9A-Fa-f]{7,8})[uUlL]*\b|\(\((?:unsigned )?int\)A_([0-9A-Fa-f]{8})\))'
+    out = set()
+    for m in re.finditer(num, text):
+        g = [x for x in m.groups() if x]
+        v = (int(g[0], 16) & 0x1FFFFFFF) | 0x0C000000
+        after = text[m.end():].lstrip()
+        if not after or after[0] not in ',);':
+            continue                                    # part of an expression (a base + index, a member access)
+        before = text[:m.start()].rstrip()
+        b = before.rstrip('(').rstrip()
+        line = before[before.rfind('\n') + 1:]
+        if b.endswith(',') or re.search(r'\b[A-Za-z_]\w*\s*\(\s*$', before) or re.search(r'\breturn\s*\(*\s*$', before):
+            out.add(v)                                  # an argument, or the value returned
+        elif b.endswith('=') and not b.endswith(('==', '!=', '<=', '>=')):
+            lhs = b[:-1].rstrip()
+            if lhs.endswith((')', '->v', ']')) or re.search(r'->\s*\w+$', lhs) or lhs.lstrip().startswith('*'):
+                out.add(v)                              # stored to memory, not to a local
+            elif re.match(r'\s*\*', line):
+                out.add(v)
+    return out
+
+
+def unlisted_entries(values, half, decode, reach=0x200):
+    """[address]: of `values` (addresses the C passes on, 0C mirror, each inside a piece the C replaces and not a C function's start),
+    those that are the entry of a routine functions.txt does not list: the instruction 2 or 4 bytes before it ends a routine (rts, bra,
+    jmp: a routine ends there) or it opens with a prologue (it saves a register or makes stack room: after a literal pool, Zombie Revenge
+    0C0BFC10, the task FUN_0c0bfb5c creates, made the allocator hang once it ran from a copy), and from it every instruction decodes (no undefined word) up to the next end of a routine within `reach`.
+    The build gives such an address a copy that is only read: the C would hand that copy on as code (a task's callback, a state's
+    function), and its pc-relative bsr and bra land elsewhere once moved (Zombie Revenge 0C0B39A8, the attract demo's task, in the gap
+    after FUN_0c0b3998: the console reset as the task first ran). A float table after a routine (0000 4080 ...) fails at its first
+    word. half(a): the halfword at a, or None outside the image; decode(w, pc): shdis.decode's text first."""
+    out = []
+    for v in sorted(set(values)):
+        if v & 1:
+            continue
+        before = [half(v - 2), half(v - 4)]
+        first = half(v)
+        prologue = first is not None and ((first & 0xFF0F) == 0x2F06 or first == 0x4F22 or (first & 0xFF0F) == 0xFF0B
+                                          or ((first & 0xFF00) == 0x7F00 and first & 0x80))     # saves a register, or makes stack room
+        if not prologue and not any(w is not None and _ends_flow(w) for w in before):
+            continue                    # neither after the end of a routine nor a routine's own start (after a literal pool: Zombie Revenge 0C0BFC10)
+        pc, ok = v, False
+        while pc < v + reach:
+            w = half(pc)
+            if w is None:
+                break
+            text = decode(w, pc)[0]
+            if text.startswith('.word') or w == 0x0000:
+                break
+            if _ends_flow(w):
+                ok = half(pc + 2) is not None
+                break
+            pc += 2
+        if ok:
+            out.append(v)
+    return out
+
+
+def number_values(path='build/pointers.txt'):
+    """{value (0C mirror)}: the values every word of build/pointers.txt that holds them decides N (a number), at least one word.
+    The C's literals come from those words (pool words of the code it replaces), so a value no word calls an address is a number."""
+    dec = {}
+    if os.path.exists(path):
+        for l in open(path):
+            p = l.split()
+            if len(p) >= 3:
+                v = (int(p[1], 16) & 0x1FFFFFFF) | 0x0C000000
+                dec[v] = dec.get(v, True) and p[2] == 'N'
+    return {v for v, n in dec.items() if n}
 
 
 def mapper(pieces, dropped, second, syms, cfun, end, bss_end, link_top, keep=None, druns=None):
@@ -406,6 +511,16 @@ def bss_text(end, bss_end, pad):
     return '\n'.join(out)
 
 
+def unit_start(kind, i, starts, druns):
+    """The original address a unit's first byte stands for, which its pad puts it at modulo 32: the piece's start, except for a data
+    copy cut to its runs (kind 'd', i in druns), whose first byte is its first run's (Zombie Revenge: padded from the piece start, 74
+    of 202 runs landed 2 bytes off a word, FUN_0c0c73e6__d0 at 0C0F6466 among them, and the HUD's float and pointer reads from them
+    were misaligned: an address error on the console, the wrong word in an emulator; the game hung as the player took control)."""
+    if kind == 'd' and druns and i in druns and druns[i]:
+        return druns[i][0][0]
+    return starts[i]
+
+
 def unit_source(paths, pad):
     """One object of pieces that follow each other in the original: their bodies in order, ALIGN=4 (the C compiler's: a section
     of another alignment is laid out apart from the others by the linker, whatever the input order), pad zero bytes in front,
@@ -555,16 +670,22 @@ def main():
     import codeconsts                                    # a float read from a pool of code the C replaces: the constant itself
     gone = [(starts[i] & 0x1FFFFFFF, (starts[i + 1] if i + 1 < len(P) else end) & 0x1FFFFFFF) for i in sorted(dropped)]
     allv, nconst = set(), 0
+    numbers = number_values()                             # literals pointers.txt decides are numbers: left as they are
     calls = set()                                         # addresses the C calls through a cast: code that runs, not bytes that are read
+    reads = set()
+    passed = set()
     game_stems = set(gs.values())                         # the decomp's own files; the others are a mod's (mod-sources.txt)
     for f in glob.glob(cbuild.OUT + '/src/*.c') + glob.glob(cbuild.OUT + '/src/**/*.h', recursive=True):     # headers too: a mod's game.h holds function addresses
         t = open(f, errors='replace').read()
         calls |= {int(m.group(1), 16) for m in re.finditer(r'\(\*\)\([^()]*\)\)\((?:0x|\(\(int\)A_)([0-9A-Fa-f]{8})\)', t)}   # as written, or as cbuild left it
+        reads |= read_values(t)                           # addresses the C reads through: data (unlisted_entries)
+        passed |= passed_values(t)                        # addresses the C hands on: a callback is among them
         hits = [h for h in codeconsts.scan(t, B.BIN, int(base_txt, 16), gone) if h[3]]
         for s, e, a, lit in reversed(hits):
             t = t[:s] + lit + t[e:]
         nconst += len(hits)
-        t, used = rewrite_literals(t, B.BASE, bss_end, macro_consts=f.endswith('.h') or os.path.basename(f)[:-2] not in game_stems)
+        t, used = rewrite_literals(t, B.BASE, bss_end, macro_consts=f.endswith('.h') or os.path.basename(f)[:-2] not in game_stems,
+                                   numbers=numbers)
         open(f, 'w').write(t)
         allv |= used
     say('prep: %d C functions in %d files replace %d pieces; %d float reads of their pools written as constants; %d address '
@@ -584,6 +705,15 @@ def main():
                                                  # (an odd word is no code address: a byte table taken for pointers, Zombie Revenge 0C0E0C0D
                                                  # in 0C11581C's bytes 0B F7 0B F8 .., made a 1.3 MB running copy of FUN_0c0e07b4's group)
     read_need = {piece(layout.mirror(v)) for v in allv if mid(v)} - run_need                               # bytes that are read
+    import shdis as _shdis
+    _half = lambda a: struct.unpack_from('<H', B.BIN, a - B.BASE)[0] if B.BASE <= a < B.BASE + len(B.BIN) - 1 else None
+    hidden = unlisted_entries([layout.mirror(v) for v in allv if mid(v) and piece(layout.mirror(v)) in read_need
+                               and layout.mirror(v) in passed and layout.mirror(v) not in reads], _half, _shdis.decode)
+    if hidden:                           # the C hands on the address of a routine functions.txt does not list: its copy would not run
+        say('[ERROR] %d address(es) the C passes on are the entry of a routine functions.txt does not list, inside a piece the C replaces; '
+            'the build would hand on a copy that does not run: list each as a function (F <addr> <size> FUN_<addr>), split_asm.py, '
+            'gen_equiv: %s' % (len(hidden), ', '.join('%08X (in %s)' % (v, P[piece(v)][2]) for v in hidden[:12])))
+        sys.exit(1)
     listed = {a for a, s, n in F}
     _, _, pools = shift._listed()
     game = layout.region('game')
@@ -735,7 +865,7 @@ def main():
         if kind != 'd' and last and last[0] == 'a' and last[3] == kind and last[1][-1][0] == i - 1 and (i not in bound or i in copy_join):
             last[1].append((i, path))
         else:
-            items.append(['a', [(i, path)], starts[i], kind])
+            items.append(['a', [(i, path)], unit_start(kind, i, starts, druns), kind])
     if not MIXED:
         for i, (s, label, f) in enumerate(P):
             if i not in group_end:
@@ -866,7 +996,7 @@ def main():
                     unit_veneer[k] = vpath
             for path_, t_ in outs:
                 o = path_.replace('/asm/', '/obj/')[:-4] + '.obj'
-                if not os.path.exists(path_) or open(path_).read() != t_ or not os.path.exists(o) or os.path.getsize(o) == 0:
+                if needs_assembly(path_, t_, o):
                     open(path_, 'w').write(t_)
                     jobs.append((path_, o))
         return jobs
@@ -994,7 +1124,12 @@ def main():
         say('[ERROR] _bss is at %08X, not at the original image end %08X modulo 32' % (syms['_bss'], bend))
         sys.exit(1)
     say('bss: _bss at %08X, %d bytes of pad in front: the BSS keeps its original alignment modulo 32' % (syms.get('_bss', 0), pad_b))
-    off = [u[2] for u in units if ((syms.get(P[u[1][0][0]][1] + (second[u[1][0][0]] if u[3] != 'k' else ('__h' if u[1][0][0] in dropped else '')), u[2]) - u[2]) % 32)]
+    def _first_label(u):
+        i = u[1][0][0]
+        if u[3] == 'k':
+            return P[i][1] + ('__h' if i in dropped else '')
+        return P[i][1] + second[i] + ('0' if u[3] == 'd' and i in druns else '')     # a data copy cut to runs: its first run's label
+    off = [u[2] for u in units if ((syms.get(_first_label(u), u[2]) - u[2]) % 32)]
     if off:
         say('[ERROR] %d units are not at their original address modulo 32, e.g. %s' % (len(off), ' '.join('%08X' % x for x in off[:5])))
         sys.exit(1)

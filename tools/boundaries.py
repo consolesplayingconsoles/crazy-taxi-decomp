@@ -51,9 +51,11 @@ def entries():
     return sorted(out)
 
 
-def reach(start, stop_at=None):
+def reach(start, stop_at=None, tails=()):
     """(end, flags): the end of the code reachable from start by its own branches (calls are not followed), the set of reached
-    addresses, and what was seen: 'table' (a jump through a register), 'off' (ran past stop_at or the executable)."""
+    addresses, and what was seen: 'table' (a jump through a register), 'off' (ran past stop_at or the executable).
+    tails: entry addresses a `bra` to is a tail jump into that function, not more of this one (Zombie Revenge 0C04179C ends with
+    `bra FUN_0c041f2a`, a function after it: followed, it ran into that entry and seven functions the C calls stayed unlisted)."""
     seen, todo, flags, end = set(), [start], set(), start
     top = BASE + len(BIN)
     while todo:
@@ -90,8 +92,8 @@ def reach(start, stop_at=None):
             if m == 'bra':
                 seen.add(a + 2)
                 end = max(end, a + 4)
-                if target is not None and target >= start:      # a bra before the start is a tail jump into another function
-                    todo.append(target)
+                if target is not None and target >= start and target not in tails:      # a bra before the start, or to another
+                    todo.append(target)                                                  # entry, is a tail jump into that function
                 break
             if m in ('rts', 'rte'):
                 seen.add(a + 2)
@@ -168,7 +170,7 @@ def main(argv):
                 rows.append((a, 'label inside %s' % holder[2], '', 'reached by its own branches'))
                 continue
         nxt_entry = next((s for s in starts if s > a), BASE + len(BIN))
-        end, seen, flags = reach(a, stop_at=nxt_entry)
+        end, seen, flags = reach(a, stop_at=nxt_entry, tails=set(starts) - {a})
         size = end - a
         if 'off' in flags:
             rows.append((a, 'not a function', holder[2] if holder else '-', 'runs into the next entry'))

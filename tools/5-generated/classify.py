@@ -467,6 +467,38 @@ def pops_unsaved(exe, base, a, sz):
     return sorted(r for r in popped - pushed if r >= 8)
 
 
+def self_mirror_jump(exe, base, a, sz):
+    """The address a function jumps to when that is its own code seen through another mirror (A0000000: uncached, P2), or None.
+
+    The SDK's cache flush (Zombie Revenge FUN_0c22b324) raises the interrupt mask, then `mova` takes the address of its own next block,
+    ORs it with A0000000 and `jmp`s there: the rest of the function runs uncached, as the SH4 requires of code that rewrites the cache
+    arrays, on the same stack frame. C has no form for moving the running code to another mirror of itself."""
+    reg = {}
+    word = lambda x: struct.unpack_from('<H', exe, x - base)[0]
+    long_ = lambda x: struct.unpack_from('<I', exe, x - base)[0] if 0 <= x - base <= len(exe) - 4 else None
+    canon = lambda v: v & 0x1FFFFFFF
+    for pc in sorted(reachable(exe, base, a, sz)):
+        w = word(pc)
+        d = shdis.decode(w, pc)
+        t = d[0]
+        n, m = (w >> 8) & 15, (w >> 4) & 15
+        if t.startswith('mova'):
+            reg[0] = d[3]
+        elif t.startswith('mov.l @(') and ',pc)' in t:
+            reg[n] = long_(d[1])
+        elif (w & 0xF00F) == 0x6003:                       # mov rm,rn
+            reg[n] = reg.get(m)
+        elif (w & 0xF00F) == 0x200B:                       # or rm,rn
+            reg[n] = (reg[n] | reg[m]) if reg.get(n) is not None and reg.get(m) is not None else None
+        elif (w & 0xF0FF) == 0x402B:                       # jmp @rn
+            v = reg.get(n)
+            if v is not None and (v & 0xE0000000) != (a & 0xE0000000) and canon(a) < canon(v) < canon(a) + sz:      # inside itself: a jump to another function through a mirror (syHwCacheFinish -> p2_cache_set) is a call C can make
+                return v
+        elif (w & 0xF000) in (0xE000, 0x9000, 0xD000) or (w & 0xF00F) in (0x6002, 0x6006):
+            reg[n] = None                                  # another write to rn: no longer the computed address
+    return None
+
+
 def no_c_form(exe, base, a, sz):
     """The instructions of one function that have no C form with this compiler (see above): ['ldc r3,r0_bank', ...], pools skipped."""
     out = []
@@ -481,6 +513,9 @@ def no_c_form(exe, base, a, sz):
     if pu and ji is None:
         out.append('pops %s, which it never pushed: it returns through a frame another function built (a piece of that function)'
                    % ', '.join('pr' if r == 16 else 'r%d' % r for r in pu))
+    mj = self_mirror_jump(exe, base, a, sz)
+    if mj is not None:
+        out.append('jumps to its own code through another mirror (%08X): the rest of it runs uncached, which C cannot ask for' % mj)
     if double_precision(exe, base, a, sz):
         out.append('runs double-precision code (FPSCR.PR = 1); this project compiles C with -fpu=single')
     if address_table(exe, base, a, sz):

@@ -30,6 +30,8 @@ def variants(name,passthru):
     return out
 LAST={}                          # the text of the last check, for the report of what failed
 
+from uncoalesced import retry_uncoalesced  # noqa: E402  (its own module: tested without a game repo)
+
 
 def run_file(stem,items):
     """items: list of (name,src,tests,protos). returns passed names, failed names, compile_error"""

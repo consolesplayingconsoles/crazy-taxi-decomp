@@ -18,6 +18,11 @@ listed code. Each candidate gets one decision, P (an address: becomes a name) or
     coderun  P  a word inside a listed function, not a pool word, in a run of three at a fixed stride (4, 8, 12 or 16) whose
                 4-aligned values lie within 0x100 of each other and inside the image (a table of addresses or of names:
                 Zombie Revenge 0C20A6E8, the AFS names of the partition table; instructions never repeat like that)
+    dataref  P  a word inside a listed function, not its own pool word, whose address other code loads from a pool (so it is a
+                variable, not two instructions), holding a 4-aligned address in the image: Zombie Revenge 0C20B184, the end of the
+                game's heap (0C94315C) inside the C library's FUN_0c20ad7c; left a number, the heap start moved with the data and its
+                end did not, so the heap lost 170 KB (the reboot after player selection fits an allocation failing there; not yet
+                confirmed by a build)
     bytes    N  an odd value whose bytes are all under 0x40 next to a word of the same kind (a table of small bytes:
                 Virtua Tennis 07070808 | 0b0b0c0c), unless a neighbour is an address into the image
     halves   N  a table of 16-bit numbers: two numbers side by side read as an address when both are near 0x0Cxx (Zombie Revenge
@@ -137,6 +142,11 @@ def classify():
     def is_addr(v):
         return (v >> 24) in TOPS and B.BASE <= layout.mirror(v) < fx
 
+    loaded = set()                      # the addresses listed code loads from its pools: a word there is a variable the code reads
+    for p in pools:
+        pv = word(p)
+        if pv is not None and (pv >> 24) in TOPS:
+            loaded.add(layout.mirror(pv))
     out = []
     for at in range(B.BASE, top - 3, 4):
         v = struct.unpack_from('<I', B.BIN, at - B.BASE)[0]
@@ -152,6 +162,8 @@ def classify():
             if i >= 0 and at < ends[i] and v >> 24 != 0x8C:
                 if at in inside_code:
                     out.append((at, v, 'P', inside_code[at]))
+                elif at in loaded and v % 4 == 0 and is_addr(v) and not is_halves(at, word, fstart):
+                    out.append((at, v, 'P', 'dataref'))         # a variable inside a listed function's range, read by address
                 continue                                        # two instructions of listed code
         if a < B.BASE:
             out.append((at, v, 'N', 'outside'))
