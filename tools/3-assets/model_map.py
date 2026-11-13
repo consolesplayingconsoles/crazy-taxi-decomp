@@ -86,6 +86,9 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
   textures <model file> <texture file> index    texture n of the model file is the n-th texture of the texture file, a PVM archive
                                                 (`.PRS` files read decompressed): for a model file that keeps its texture lists
                                                 inside its own data and has no table in the executable
+  textures <model file> <texture file> entries  both are AFS archives of as many entries: texture n of a model in entry i of
+                                                the model file is the n-th `PRESSEDPVRFORMAT` texture of entry i of the texture
+                                                file (each entry's models get texture set "e<i>")
   textures <model file> <texture file> <texture base hex> <table addr hex>
                                                 a list of 16-byte entries (height << 16 | width, data type << 8 | pixel
                                                 format, data address, x) in the
@@ -204,9 +207,11 @@ def prs_decompress(src):
     return prs_stream(src)[0]
 
 
-def prs_stream(src):
-    """(the original bytes, the number of bytes of `src` the PRS stream took, end marker included)."""
-    dst, pos, ctrl, bits = bytearray(), 0, 0, 0
+def prs_stream(src, need=None):
+    """(the original bytes, the number of bytes of `src` the PRS stream took, end marker included). need: called once with
+    the first 32 bytes of output, the whole output's size when they tell it (None when not): the stream stops there,
+    for a stream with no end marker (some games' PVR textures end where the texture does, then padding)."""
+    dst, pos, ctrl, bits, want = bytearray(), 0, 0, 0, None
 
     def flag():
         nonlocal ctrl, pos, bits
@@ -217,6 +222,11 @@ def prs_stream(src):
 
     try:
         while True:
+            if need is not None and len(dst) >= 32:
+                if want is None:
+                    want = need(bytes(dst[:32])) or -1
+                if 0 < want <= len(dst):
+                    return bytes(dst[:want]), pos
             if flag():                                     # a literal byte
                 dst.append(src[pos])
                 pos += 1
@@ -432,13 +442,21 @@ def find_object_trees(data):
 
 
 PRESSED = b"PRESSED"
+PRESSED_PVR = b"PRESSEDPVRFORMAT"
+
+
+def pvr_need(head):
+    """The size of a texture from its first bytes (a GBIX header, then PVRT and its chunk size), or None."""
+    q = head.find(b"PVRT")
+    return q + 8 + struct.unpack_from("<I", head, q + 4)[0] if 0 <= q <= len(head) - 8 else None
 
 
 def pressed_blocks(data):
     """[(offset of the tag, name, decompressed bytes, offset past the block)] of every PRS stream tagged `PRESSED` plus a
     kind (`PRESSEDPOLFORMAT`, `PRESSEDPVRFORMAT`: 16 bytes) in data. Two layouts: the tag, a 4-byte big-endian size, a 12-byte
     name, the stream (the size must equal what the stream decompresses to); or the tag and the stream. A candidate that does
-    not decompress, or whose size does not match, is passed over."""
+    not decompress, or whose size does not match, is passed over. A `PRESSEDPVRFORMAT` stream of the second layout ends
+    where its texture does (pvr_need), end marker or not."""
     out, mv, p = [], memoryview(data), data.find(PRESSED)
     while p >= 0:
         block = None
@@ -452,7 +470,7 @@ def pressed_blocks(data):
                 pass
         if block is None and p + 16 < len(data):
             try:
-                dec, used = prs_stream(mv[p + 16:])
+                dec, used = prs_stream(mv[p + 16:], pvr_need if data[p:p + 16] == PRESSED_PVR else None)
                 if dec:
                     block = (p, "", dec, p + 16 + used)
             except ValueError:
@@ -1546,6 +1564,62 @@ def index_texture_rows(disc, mfile, tfile):
             for n, e in enumerate(pvm_entries(file_data(disc, lba, size, path)))]
 
 
+def afs_table(data):
+    """[(offset, size)] of an AFS archive's entries, or None when data is not one."""
+    if data[:4] != b"AFS\0":
+        return None
+    n = struct.unpack_from("<I", data, 4)[0]
+    if not 0 < n < 100000 or 8 + 8 * n > len(data):
+        return None
+    return [struct.unpack_from("<II", data, 8 + 8 * i) for i in range(n)]
+
+
+def entry_texture_rows(disc, mfile, tfile, models):
+    """Rows for a `textures <model file> <texture file> entries` rule: a model in entry i of the AFS archive mfile takes texture
+    n from the n-th `PRESSEDPVRFORMAT` block of entry i of the AFS archive tfile (a block of its own, `block_path`). Each
+    entry's models get texture set "e<i>". An entry with a block that does not start as a texture gets no rows: numbering
+    past it would pair wrongly."""
+    files = dict((path.lstrip("/").upper(), (lba, size, path)) for lba, size, path in disc.files())
+    got = []
+    for f in (mfile, tfile):
+        if f.lstrip("/").upper() not in files:
+            print("textures: no disc file %s" % f)
+            return []
+        lba, size, path = files[f.lstrip("/").upper()]
+        got.append((path.lstrip("/"), file_data(disc, lba, size, path)))
+    (mpath, mdata), (tpath, tdata) = got
+    mt, tt = afs_table(mdata), afs_table(tdata)
+    if mt is None or tt is None or len(mt) != len(tt):
+        print("textures %s %s entries: %s" % (mfile, tfile, "not AFS archives" if mt is None or tt is None else
+                                              "%d and %d entries" % (len(mt), len(tt))))
+        return []
+    rows, skipped = [], []
+    for i, ((toff, tsize), (moff, msize)) in enumerate(zip(tt, mt)):
+        ent, mine, p = memoryview(tdata)[toff:toff + tsize], [], tdata.find(PRESSED_PVR, toff, toff + tsize)
+        while p >= 0:
+            try:
+                head, _ = prs_stream(memoryview(tdata)[p + 16:toff + tsize], lambda h: 32)
+            except ValueError:
+                head = b""
+            q = head.find(b"PVRT")
+            if not 0 <= q <= len(head) - 16:
+                mine = None
+                break
+            size, pf, dt, w, h = struct.unpack_from("<I2B2xHH", head, q + 4)
+            mine.append([mpath, str(len(mine)), block_path(tpath, p), "%x" % (q + 16), str(size - 8), str(w), str(h), "%x" % dt, str(pf), "e%d" % i])   # the pixel data, as pvm_entries
+            p = tdata.find(PRESSED_PVR, p + 16, toff + tsize)
+        if mine is None:
+            skipped.append(i)
+            continue
+        rows += mine
+        for m in models:
+            if m["file"].upper() == mpath.upper() and moff <= m["offset"] < moff + msize:
+                m["texset"] = "e%d" % i
+    print("textures %s %s entries: %d rows, %d entries%s" % (mfile, tfile, len(rows), len(tt) - len(skipped),
+                                                            ", left out (a block that is not a texture): %s" % skipped if skipped else ""))
+    return rows
+
+
 def texture_rows(rules, disc, exe, base, maxtex):
     """Rows for the [textures] section: the `textures` rules, then every other model file that has a texture file of
     the same name (POLYGON_x / TEXTURE_x, POLx / TEXx) and exactly one list in the executable that fits it."""
@@ -1556,6 +1630,8 @@ def texture_rows(rules, disc, exe, base, maxtex):
             continue
         if len(r) == 3:
             continue                                  # a pair: handled with the automatic ones below
+        if len(r) == 4 and r[3].lower() == "entries":
+            continue                                  # entry_texture_rows: it marks the models with their sets
         if len(r) == 4 and r[3].lower() == "index":
             got = index_texture_rows(disc, r[1], r[2])
             rows += got
@@ -1580,7 +1656,7 @@ def texture_rows(rules, disc, exe, base, maxtex):
             size = starts[starts.index(off) + 1] - off
             rows.append([mfile, str(n), tfile, "%x" % off, str(size), str(w), str(h), "%x" % dt, str(pf)])
         print("textures %s: %d entries from %08X" % (tfile, len(entries), table))
-    done = set(r[0] for r in rows)
+    done = set(r[0] for r in rows) | set(r[1].lstrip("/").upper() for r in rules if r[0] == "textures" and len(r) == 4 and r[3].lower() == "entries")
     lists = texture_lists(exe, base)
     pairs = dict((r[1].upper(), r[2].upper()) for r in rules if r[0] == "textures" and len(r) == 3)
     for mfile in sorted(maxtex):
@@ -2192,6 +2268,9 @@ def main():
     sha = hashlib.sha1(exe).hexdigest()
     tex = [row + [""] for row in texture_rows(rules, disc, exe, base, maxtex)]
     tex += texture_set_rows(rules, disc, exe, base, ptr_at, by_addr)
+    for r in rules:
+        if r[0] == "textures" and len(r) == 4 and r[3].lower() == "entries":
+            tex += entry_texture_rows(disc, r[1], r[2], models)
     own, handled = own_texture_rows(disc, ninja_models)
     tex += own
     tex += [row + [""] for row in ninja_texture_rows(disc, ninja, handled)]
