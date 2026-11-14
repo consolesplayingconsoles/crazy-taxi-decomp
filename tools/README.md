@@ -5,7 +5,7 @@ The tools of each step are in their own folder: [1-2-baseline/](1-2-baseline/), 
 | tool | what it does |
 |---|---|
 | [apply_bin.py](apply_bin.py) | Write a modified executable's changes into the repo's asm data words. |
-| [boundaries.py](boundaries.py) | Function boundaries from reachability: which code addresses are functions of their own. |
+| [boundaries.py](boundaries.py) | Function boundaries from reachability: which code addresses are functions of their own (a branch to another listed function is a tail jump). |
 | [consistency.py](consistency.py) | Every function with C in src/ has its cases where the check looks for them and a recorded outcome. |
 | [docker_check.sh](docker_check.sh) | Checks Docker is installed and running, and whether Ghidra steps run one at a time (sourced by build.sh) |
 | [fcmp.py](fcmp.py) | Compare a C unit with the game function by function, instruction by instruction (`--score` for the permuter). |

@@ -1264,35 +1264,6 @@ int buExit(void)
     return 0xFFFFFFFF;
 }
 
-int syCfgGetSoundMode(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-
-    if (a4 != 0) {
-        *(unsigned int *)((a4 + 0x0)) = 0x0;
-        t0 = *(int *)0xC177AC8;
-        if (t0 != 0) {
-            t1 = syBtCfgSet(0x0);
-            if (t1 != -1) {
-                t2 = *(signed char *)0x8C00007E;
-                if ((signed char)t2 == 0) {
-                    *(unsigned int *)((a4 + 0x0)) = 0x0;
-                    return 0x0;
-                }
-                if ((signed char)t2 == 1) {
-                    *(unsigned int *)((a4 + 0x0)) = 0x1;
-                    return 0x0;
-                }
-                return 0xFFFFFFFF;
-            }
-            return 0xFFFFFFFF;
-        }
-        return 0xFFFFFFFF;
-    }
-    return 0xFFFFFFFF;
-}
 
 int kmiInitializeDMA(void)
 {
@@ -2197,20 +2168,6 @@ int adxsjd_decode_exec(int a4)
     return t5;
 }
 
-int ADXSTM_Seek(int a4, int a5)
-{
-    int t0;
-    int t3;
-    int t4;
-
-    t0 = *(int *)((a4 + 0x14));
-    
-    
-    t3 = *(int *)((a4 + 0x10));
-    t4 = *(int *)((a4 + 0x8));
-    gdFsSeek(t4);
-    return ADXSTM_Tell(a4);
-}
 
 void ADXSTM_SetEos(int a4, int a5)
 {

@@ -298,6 +298,7 @@ def reg_liveness(ins,addr2idx,jumps=None,call_reads=None):
             try: ar=callee_arity(nm)
             except Exception: ar=None
         if ar: return {'r%d'%k for k in range(4,4+min(ar[0],4))}|{'fr%d'%k for k in range(4,4+min(ar[1],8))}
+        if _SURE: return set()               # entry_reads_sure: a call whose target is not known reads nothing for certain
         return {'r4','r5','r6','r7'}|{'fr%d'%k for k in range(4,12)}
     for i_ud,(mn,ops,pc) in enumerate(ins):
         raw=(ops or '').split(';')[0].strip(); a=[x.strip() for x in re.split(r',(?![^(]*\))',raw)] if raw else []
@@ -381,6 +382,20 @@ def entry_reads_of(ins,call_reads=None):
             if i_ not in goto: return None
     live=reg_liveness(ins,addr2idx,goto,call_reads)
     return frozenset(live.get(0,set())&_ARGREGS)
+_SURE=False
+_ENTRY_SURE={}
+def entry_reads_sure(fname):
+    """entry_reads counting only what is certain: a call through a pointer or to an unnamed place reads no argument register (entry_reads
+    takes it to read them all, the safe side for a generator). For a check that reports a lost argument: Crazy Taxi set_file_info never
+    touches r6 or r7 and calls through a pointer, and its caller was reported for the scratch values it left there."""
+    global _SURE,_ENTRY
+    if fname in _ENTRY_SURE: return _ENTRY_SURE[fname]
+    old=_ENTRY; _ENTRY={}; _SURE=True
+    try: res=entry_reads(fname)
+    finally: _SURE=False; _ENTRY=old
+    _ENTRY_SURE[fname]=res
+    return res
+
 _ENTRY={}
 def entry_reads(fname,_open=()):
     """The argument registers the original code of fname reads before writing them (entry_reads_of), a call in it reading only what
@@ -413,8 +428,12 @@ _WRITE_ONLY=('mov','mov.b','mov.w','mov.l','extu.b','extu.w','exts.b','exts.w','
 _COMPARE=('cmp','tst','fcmp')
 class _PassThrough(Exception): pass
 _SCAN_FILE=os.path.join('state','arity_scan.json')
-try: _SCAN={k:v for k,v in json.load(open(_SCAN_FILE)).items() if v is not None}      # a null is rescanned: it did not say why it was unknown
+_SCAN_VER=5          # 2: a call to a runtime helper no longer hides the arguments read after it; 3: a register-saving routine counts only its buffer register. An older file is scanned again
+try:
+    _raw=json.load(open(_SCAN_FILE))
+    _SCAN={k:v for k,v in _raw.items() if v is not None} if _raw.get('__scan')==_SCAN_VER else {}      # a null is rescanned: it did not say why it was unknown
 except Exception: _SCAN={}
+_SCAN['__scan']=_SCAN_VER
 UNRESOLVED_PT='pass-through'     # arity_scan.json value of a pass-through trampoline whose target arity is not known (a table jump)
 _STACKW={}
 def callee_stack_words(fname):
@@ -496,6 +515,29 @@ def callee_pops(fname):
     _POPS[fname]=n
     return n
 
+_KEEPS={}
+def keeps_args(fname):
+    """True when the code of fname leaves r4-r7 as they came in: it writes none of them and calls nothing (a leaf that masks interrupts or
+    reads a status). A caller may read its own arguments after calling it; anything else is taken to use them up."""
+    if fname in _KEEPS: return _KEEPS[fname]
+    res=False
+    try:
+        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        n=0; res=True
+        for l in out:
+            m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
+            if not m: continue
+            n+=1; mn=m.group(3); ops=m.group(4).split(';')[0].strip()
+            if mn in ('jsr','bsr','bsrf','jmp','braf','trapa') or mn.startswith('.'): res=False; break
+            last=ops.split(',')[-1].strip() if ops else ''
+            if re.fullmatch(r'r[4-7]',last) and mn.split('/')[0] not in _COMPARE and not mn.startswith(('tst','cmp')): res=False; break
+            if re.search(r'@-?r[4-7]\+?',ops) and ('+' in ops or '@-' in ops): res=False; break      # a post-increment or pre-decrement moves the register
+        if not n: res=False
+    except Exception:
+        res=False
+    _KEEPS[fname]=res
+    return res
+
 def callee_arity(fname):
     """(integer arguments, float arguments) a function reads before it writes them, from a straight scan of its code up to its
     first return: r4-r7 and fr4-fr11. None when the code cannot be read. A guess for the prototype, not a proof: the call is
@@ -510,6 +552,9 @@ def callee_arity(fname):
     try:
         out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False; clobber=0
+        early=False                          # a call met before any argument was read: this straight scan cannot tell a call on a side branch
+        scratch=False; basei=-1              # a routine that reads r1-r3 as they came in saves the caller's registers (setjmp, a context save):
+                                             # what it stores are not its arguments, only the registers it addresses through are
         targets=set(); skipping=False        # branch targets seen: code after a return that a branch reaches is read too (an early return)
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
@@ -556,7 +601,9 @@ def callee_arity(fname):
             if mn=='frchg': banked=not banked      # the other float bank: its registers are the saved matrix, not arguments
             for r in reads:
                 if r in wrote or (banked and r.startswith('fr')): continue
+                if r in ('r1','r2','r3'): scratch=True
                 if re.fullmatch(r'r[4-7]',r): maxi=max(maxi,int(r[1:])-4)
+                if re.fullmatch(r'r[4-7]',r) and any('@' in x_ and re.search(r'\b%s\b'%r,x_) for x_ in a): basei=max(basei,int(r[1:])-4)
                 elif re.fullmatch(r'fr(4|5|6|7|8|9|10|11)',r): maxf=max(maxf,int(r[2:])-4)
             if dest: wrote.add(dest)
             slot=next((re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',x) for x in out[out.index(l)+1:] if re.match(r'[0-9a-f]{8} ',x)),None)
@@ -572,6 +619,7 @@ def callee_arity(fname):
                         if mm: tgt_=mm.group(1); break
                         if re.search(r',\s*%s\s*(;|$)'%rg,x.split(';')[0]+';'): break
                 raise _PassThrough(tgt_)  # its arity is the arity of what it calls (unknown when that is unknown)
+            tgt_=None
             if mn in ('jsr','bsr','jmp'):
                 # an argument register this function has not written goes on to the callee as it came in: an argument here
                 # too when the callee reads it (when the callee is unknown, a register this function never touches at all)
@@ -585,6 +633,7 @@ def callee_arity(fname):
                         if mm: tgt_=mm.group(1); break
                         if re.search(r',\s*%s\s*(;|$)'%rg,x.split(';')[0]+';'): break
                 sub=callee_arity(tgt_) if tgt_ and tgt_!=fname else None
+                if HELPER_OF.get(tgt_,tgt_) in HELPERS: sub=None      # a runtime helper takes r0-r2: the registers it saves and restores are not arguments passed on to it
                 if tgt_ and sub:
                     for i in range(min(sub[0],4)):        # r4-r7 only: further arguments are on the stack
                         if 'r%d'%(4+i) not in wrote|slot_w: maxi=max(maxi,i)
@@ -597,9 +646,14 @@ def callee_arity(fname):
             if clobber:                      # the instruction after a call's delay slot: the call has now happened
                 clobber-=1
                 if not clobber: wrote.update(['r4','r5','r6','r7']+['fr%d'%i for i in range(4,12)])
-            if mn in ('jsr','bsr'): clobber=1      # not yet: the delay slot runs before the call and can still read an argument (Zombie Revenge ADXT_Stop)
+            if mn in ('jsr','bsr') and HELPER_OF.get(tgt_,tgt_) not in HELPERS and not (tgt_ and tgt_!=fname and keeps_args(tgt_)):
+                clobber=1; early=early or (maxi<0 and maxf<0)      # (nor does a leaf that writes none of r4-r7: Crazy Taxi kdSetSetCondition masks interrupts first, then reads its four arguments)      # (a compiler runtime helper works in r0-r3: the arguments are still there after it. Zombie Revenge syRtcDateToCount copies a table with _quick_evn_mvn, then reads r4 and r5: it counted 0 arguments and its callers were generated passing none) not yet: the delay slot runs before the call and can still read an argument (Zombie Revenge ADXT_Stop)
             if mn=='rts': after_ret=2
-        res=(maxi+1,maxf+1)
+        if early and maxi<0 and not scratch:      # (an error print under an `if`) from one every path makes: the liveness of the code decides.
+            er=entry_reads(fname)                # Crazy Taxi kdSetSetCondition -> mpdrv_set_setcond: a debug print on one branch, the four
+            if er:                               # arguments passed on untouched on the other; it counted 0 and pdVibStart called it with nothing
+                maxi=max([int(r_[1:])-4 for r_ in er if re.fullmatch(r'r[4-7]',r_)]+[maxi])
+        res=(basei+1,0) if scratch else (maxi+1,maxf+1)      # (Zombie Revenge FUN_0c0e3550 stores r0-r15 and fr0-fr15 into the buffer in r4: 1 argument, not 4 and 8 floats)
     except _PassThrough as e:
         res=None
         if e.args and e.args[0] and e.args[0]!=fname:

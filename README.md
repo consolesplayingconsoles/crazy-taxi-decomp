@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=83&s=4)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=4)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -23,9 +23,9 @@ everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE           82.6%  the instructions the cases ran, of all instructions, over the 2997 functions that can be C; the 2952 functions that reached the check are measured, the others count 0
-FUNCTIONS LEFT  (100.0% complete) 0  of the 2997 functions that can be C (54 with no C form are counted apart)
-BYTES LEFT      (100.0% complete) 0  of 510094 bytes of code that can be C
+TOTAL TEST COVERAGE           81.5%  the instructions the cases ran, of all instructions, over the 2998 functions that can be C; the 2953 functions that reached the check are measured, the others count 0
+FUNCTIONS LEFT  (100.0% complete) 0  of the 2998 functions that can be C (54 with no C form are counted apart)
+BYTES LEFT      (100.0% complete) 0  of 510448 bytes of code that can be C
 FUNCTIONS                            
   unnamed                         0  functions still called FUN_... (0 of 3417)
   Not written C                   0  0 bytes
@@ -34,7 +34,7 @@ FUNCTIONS
   Drawn with errors               0  0 bytes
   Checked with errors             0  0 bytes
   No C form                    1.6%  an instruction or a register convention with no C form (tools/5-generated/classify.py names it)
-  documented                  88.1%  3009 named functions in docs/*.md
+  documented                  88.1%  3010 named functions in docs/*.md
 GAME ASSETS (EXTRA)                  
   models named                37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named            15.5%  9 of 58 characters (note rules)

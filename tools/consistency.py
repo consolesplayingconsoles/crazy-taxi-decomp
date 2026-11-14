@@ -26,6 +26,13 @@ What it looks at, for the functions of functions.txt that src/*.c defines (match
                      the helper had a FUN_ name and was renamed later (Zombie Revenge: _quick_odd_mvn's `braf r0` with a stale r0 jumped
                      into a texture as the player took control). The proof passed because its cases never reached the call. Dropped
                      with its cases and its proof, so the generator writes the copy or division again
+  short call         C that calls a function without an argument the original gives it: the file's prototype of the callee names
+                     fewer integer registers than the callee takes, and the original writes the register before every such call
+                     (tools/8-build/protocheck.py --lost). The callee's arity was found out after the caller was generated; the
+                     proof passed, a call being compared on the caller's own prototype (Virtua Tennis uniformPreviewFree freed no
+                     model and Exhibition went black on the console). Generated
+                     C is dropped with its cases and its proof, so the generator writes the call again with the argument; C written
+                     by hand is listed and left for its author (the prototype and the call are theirs to correct)
 C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the generator writes it again; hand-written C moves to
 partial/<file>.c, where progress.py counts it as partial work. Nothing written by hand is deleted.
 """
@@ -162,6 +169,18 @@ def calls_itself(text, name, span):
     return any(a < int(t, 16) < a + size for t in CALL_ADDR.findall(text[b[0]:b[1]]))
 
 
+def short_calls(defs):
+    """[(function, file stem, callee)]: the functions of defs that call a callee without an integer register the original sets before
+    the same call, their file prototyping the callee with fewer than it takes (protocheck.scan_lost)."""
+    import protocheck
+    out = []
+    for caller, f, callee, regs in sorted(protocheck.scan_lost()):
+        stem = os.path.basename(f)[:-2]
+        if stem in defs.get(caller, []):
+            out.append((caller, stem, callee))
+    return out
+
+
 def survey():
     funcs = {l.split()[3] for l in open('functions.txt') if l.startswith('F ') and len(l.split()) > 3}
     defs = {n: s for n, s in definitions().items() if n in funcs}
@@ -171,7 +190,7 @@ def survey():
         if fn in funcs and not stem.startswith(('gen_tmp', 'zz_')):
             cases.setdefault(fn, []).append(stem)
     eq = lists()
-    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': []}
+    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': [], 'short call': []}
     span = spans()
     for n, stems in sorted(defs.items()):
         if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open('src/%s.c' % stems[0], errors='replace').read(), n, span):
@@ -180,6 +199,12 @@ def survey():
             found['args outside'].append((n, stems[0]))
         elif len(stems) == 1 and stems[0].startswith('gen_') and calls_helper(open('src/%s.c' % stems[0], errors='replace').read(), n):
             found['helper call'].append((n, stems[0]))
+    taken = {x[0] for k in ('stale size', 'args outside', 'helper call') for x in found[k]}
+    seen = set()
+    for n, stem, callee in short_calls(defs):
+        if n not in taken and n not in seen:
+            seen.add(n)
+            found['short call'].append((n, stem, callee))
     for n, stems in sorted(defs.items()):
         if len(stems) > 1:
             found['defined twice'].append((n, stems))
@@ -272,6 +297,13 @@ def fix():
         for n, st in helper:
             leave_src(n, st); say(done, '%s: calls a register helper as a C function in src/%s.c: dropped for the generator' % (n, st))
         stale = stale + helper
+        short = [(n, st) for n, st, callee in found['short call'] if st.startswith('gen_')]
+        for n, st, callee in found['short call']:
+            if st.startswith('gen_'):
+                leave_src(n, st); say(done, '%s: calls %s with fewer arguments than it takes in src/%s.c: dropped for the generator' % (n, callee, st))
+            else:
+                print('%s: calls %s with fewer arguments than it takes in src/%s.c: written by hand, left as it is' % (n, callee, st), flush=True)
+        stale = stale + short
         if stale and os.path.exists('tests/equivalent.txt'):
             gone = {n for n, st in stale}
             lines = open('tests/equivalent.txt').read().split('\n')

@@ -52,61 +52,6 @@ struct oC_int { char p[0xC]; int v; };
 
 
 
-int vmsfs_sysdiskfree(int a4)
-{
-    int t0;
-    int t20;
-    int t1;
-    int t3;
-    int t4;
-    int t6;
-    int t8;
-    int t9;
-    int t10;
-    int t11;
-    int t12;
-    int t13;
-
-    t0 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x2));
-    t20 = 0xFFFFFF01;
-    if (t0 != 0) {
-        t1 = vmsio_isready(a4);
-        if (t1 == 0) {
-            vmsfs_unmount(a4);
-            t20 = 0xFFFFFF01;
-        } else {
-            t3 = vmsio_ismount(a4);
-            t20 = 0xFFFFFF01;
-            if (t3 != 0) {
-                t4 = *(signed char *)((((a4 * 0x148) + 0xC2EE990) + 0x8));
-                t20 = 0xFFFFFF01;
-                if (t4 != 0) {
-                    t6 = buIsFormat();
-                    t20 = 0xFFFFFF03;
-                    if ((int)t6 >= 0) {
-                        t20 = 0x0;
-                        t8 = 0x0;
-                        for (;;) {
-                            t9 = *(int *)((((a4 * 0x148) + 0xC2EE990) + 0x1C));
-                            t10 = *(int *)((t9 + 0x2C));
-                            t11 = *(int *)((t9 + 0x10));
-                            t12 = (int)((unsigned int)(t11 * (t10 + 0x1)) + (unsigned int)0x0);
-                            t13 = (int)((unsigned int)t12 + ((((int)0x0 > (int)(t11 * (t10 + 0x1)))) ? 1u : 0u));
-                            if ((int)t8 >= (int)(t13 >> 1)) break;
-                            t6 = get_fat(a4, t8);
-                            t6 = (unsigned short)t6;
-                            t8 = (t8 + 0x1);
-                            if (t6 == 0xFFFC) {
-                                t20 = (t20 + 0x1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return t20;
-}
 
 int kmSetHSyncLine(int a4)
 {

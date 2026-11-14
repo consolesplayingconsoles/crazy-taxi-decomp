@@ -51,7 +51,10 @@ def entries():
     return sorted(out)
 
 
-def reach(start, stop_at=None, tails=()):
+_held = {}
+
+
+def reach(start, stop_at=None, tails=(), funcs=None):
     """(end, flags): the end of the code reachable from start by its own branches (calls are not followed), the set of reached
     addresses, and what was seen: 'table' (a jump through a register), 'off' (ran past stop_at or the executable).
     tails: entry addresses a `bra` to is a tail jump into that function, not more of this one (Zombie Revenge 0C04179C ends with
@@ -71,9 +74,23 @@ def reach(start, stop_at=None, tails=()):
             text, pool, psize, target = shdis.decode(w, a)
             m = text.split()[0] if text else ''
             end = max(end, a + 2)
+            if funcs is not None:
+                # data that happens to decode (a table of floats, a model: Zombie Revenge 0C0F4310 and nine more were listed as functions
+                # because the walk reached something like a return; the build then rewrote their bytes as branches and pool loads and
+                # the game stopped with "memory allocation error"): code calls functions, data "calls" anywhere
+                lim = stop_at if stop_at is not None else top
+                if not m or m.startswith('.'):
+                    flags.add('wild')
+                    break
+                if m == 'bsr' and target is not None and target not in funcs and not start <= target < lim:
+                    flags.add('wild')
+                if m == 'bra' and target is not None and target not in funcs and not start <= target < lim:
+                    flags.add('wild')
             if m in ('bt', 'bf'):
                 if target is not None:
-                    if target < start:                 # a conditional branch out of the start backwards: no function does that
+                    if target in tails:                # to another listed function's entry: a conditional tail jump, not more of
+                        pass                           # this one (Zombie Revenge 0C086A44 ends a path with `bt FUN_0c08696c`, before it)
+                    elif target < start:               # a conditional branch out of the start backwards: no function does that
                         flags.add('back')              # (Crazy Taxi FUN_0c089f4c, a table of words whose first word decodes as bt)
                     else:
                         todo.append(target)
@@ -165,15 +182,20 @@ def main(argv):
                 break
         why = []
         if holder:
-            hend, hseen, hflags = reach(holder[0], stop_at=None)
+            if holder[0] not in _held:            # one walk a holding function: a whole-game list asks about the same one many times
+                _held[holder[0]] = reach(holder[0], stop_at=None)
+            hend, hseen, hflags = _held[holder[0]]
             if a in hseen:
                 rows.append((a, 'label inside %s' % holder[2], '', 'reached by its own branches'))
                 continue
         nxt_entry = next((s for s in starts if s > a), BASE + len(BIN))
-        end, seen, flags = reach(a, stop_at=nxt_entry, tails=set(starts) - {a})
+        end, seen, flags = reach(a, stop_at=nxt_entry, tails=set(starts) - {a}, funcs=known | set(c for c, _ in cands))
         size = end - a
         if 'off' in flags:
             rows.append((a, 'not a function', holder[2] if holder else '-', 'runs into the next entry'))
+            continue
+        if 'wild' in flags:
+            rows.append((a, 'not a function', holder[2] if holder else '-', 'calls or jumps to a place that is no function, or holds a word that is no instruction: data'))
             continue
         if 'back' in flags:
             rows.append((a, 'not a function', holder[2] if holder else '-', 'a conditional branch leaves it backwards'))

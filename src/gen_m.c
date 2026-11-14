@@ -72,44 +72,6 @@ float nlLog(float f4)
     return 0.0f;
 }
 
-int syCfgGetLanguage(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t4;
-    int t5;
-    int t6;
-    int stk[4] = {0};
-
-    if (a4 != 0) {
-        *(unsigned int *)((a4 + 0x0)) = 0x0;
-        t0 = *(int *)0xC177AC8;
-        if (t0 != 0) {
-            t1 = syBtCfgSet(0x0);
-            if (t1 == -1) {
-                return 0xFFFFFFFF;
-            }
-            t2 = *(signed char *)0x8C00007D;
-            if ((signed char)t2 == -1) {
-                syCfgGetDefaultLanguage(((int)stk + 4));
-                t4 = *(int *)(((int)stk + 4));
-                if (t4 == -1) {
-                    *(unsigned int *)((a4 + 0x0)) = 0x1;
-                } else {
-                    t5 = *(int *)(((int)stk + 4));
-                    t6 = syCfgConvLang(t5);
-                    *(unsigned int *)((a4 + 0x0)) = t6;
-                }
-            } else {
-                *(unsigned int *)((a4 + 0x0)) = (signed char)t2;
-            }
-            return 0x0;
-        }
-        return 0xFFFFFFFF;
-    }
-    return 0xFFFFFFFF;
-}
 
 int ADXB_CheckAiff(int a4)
 {

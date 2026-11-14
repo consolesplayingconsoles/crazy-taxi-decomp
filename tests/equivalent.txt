@@ -2828,6 +2828,7 @@ syRtcAicaGetCount
 syRtcAicaSetDateHi
 syRtcAicaSetDateLo
 syRtcAicaSetWriteFlag
+syRtcCountToDate
 syRtcDbgSetLogAddr
 syRtcExecServer
 syRtcFinish

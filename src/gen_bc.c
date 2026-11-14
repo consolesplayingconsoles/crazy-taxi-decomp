@@ -120,22 +120,6 @@ int mwRnaGetOutPan(int a4, int a5)
     return t1;
 }
 
-int ADXSTM_OpenRange(int a4, int a5, int a6)
-{
-    int t0;
-    int t2;
-
-    t0 = gdFsOpenRange();
-    if (t0 == 0) {
-        ADXERR_CallErrFunc(0xC1764B4, a4, a5);
-        return 0x0;
-    }
-    t2 = ADXSTMF_Create(t0, 0x0, (((a5 << 8) << 2) << 1), a6);
-    if (t2 != 0) {
-        strncpy((t2 + 0x40), 0xC1764EC, 0x20);
-    }
-    return t2;
-}
 
 
 int kdSetSetConditionEx(int a4, int a5, int a6, int a7, int a8)

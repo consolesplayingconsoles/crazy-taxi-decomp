@@ -17,6 +17,8 @@ Writes:
   sdk-source/<function>.c   the exact C of each verified function, from the source you supplied. It is the SDK's own
                             code: the folder is git-ignored and stays on this machine. Putting it in the repo is your choice.
   sdk-verified.txt          the names of the verified functions (progress.py counts them in)
+  sdk-source/units/<file>.c each source file that reproduces whole, as a C unit a build can take (see units()): its range and the
+                            header folders in its first line; build/sdkinc and build/sdkpriv hold the headers
   build/sdk-source/         scratch: copies of the sources, compiler logs, results.tsv (why a file did not compile)
 
 A function whose listed bytes (functions.txt) hold no return or tail jump is reported, not counted: its size is wrong.
@@ -25,6 +27,7 @@ Needs Docker and the dc-tools image, and SDK_PATH (.env or environment), as buil
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import bisect
 import glob
 import os
 import re
@@ -263,6 +266,10 @@ def main(argv):
                 continue
             code = open(binp, 'rb').read()
             mp = open(os.path.join(outdir, stem + '.map'), errors='replace').read()
+            try:
+                DATA[path] = data_places(code, mp, exe, base, funcs, wanted)
+            except Exception:
+                DATA[path] = None
             # a call to another function of the same file goes through a literal that holds that function's scratch
             # address here and its game address in the executable: put the game's address in the literal first
             where = {}
@@ -332,6 +339,9 @@ def main(argv):
         for path, why, detail, k in report:
             f.write('%s\t%s\t%s\t%d\n' % (os.path.relpath(path, WORK), why, detail, k))
     print('verified against the SDK source: %d functions (names in sdk-verified.txt)' % len(verified))
+    whole, part = units(verified)
+    print('units: %d whole source files written to %s (%d functions); %d files reproduce only in part'
+          % (len(whole), os.path.join('sdk-source', 'units'), sum(k for _, k, _, _ in whole), len(part)))
     skipped = {}
     for path, why, detail, k in report:
         skipped[why] = skipped.get(why, 0) + k
@@ -340,6 +350,103 @@ def main(argv):
     print('')
     print('WARNING: sdk-source/ holds the SDK\'s own source code, copied from the folder you supplied. It is git-ignored and stays on')
     print('this machine. Whether it goes into the repo is your decision; tools/progress.py counts these functions either way.')
+
+
+DATA = {}      # source file -> data_places() of its link, filled by main() for units()
+
+def data_places(code, mp, exe, base, funcs, names):
+    """{section: (length, {game addresses its start can be at})} for the data sections (C constants, D and B variables) of one
+    linked file: a literal in a function's code that holds an address inside a section here holds the game's address of the same
+    item there, so the section starts that far below it. A section of constants or initialised variables that no literal reaches
+    is looked for in the game by its bytes. Neither: an empty set."""
+    secs = {}
+    for m in re.finditer(r"^([CDB])\s+H'([0-9A-Fa-f]{8})\s+-\s+H'[0-9A-Fa-f]{8}\s+H'([0-9A-Fa-f]{8})", mp.replace('\r', ''), re.M):
+        if int(m.group(3), 16):
+            secs[m.group(1)] = (int(m.group(2), 16), int(m.group(3), 16), set())
+    starts = sorted(set(s for v in funcs.values() for s, _ in v))
+    for n in names:
+        m = re.search(r"_%s\s*\n?\s*H'([0-9A-Fa-f]{8})" % re.escape(n), mp)
+        if not m:
+            continue
+        at = int(m.group(1), 16)
+        for start, size in funcs[n]:
+            nxt = starts[bisect.bisect_right(starts, start)] if bisect.bisect_right(starts, start) < len(starts) else start + size
+            size = max(size, min(nxt - start, size + 64))      # the literal pool after the code, up to the next entry: that is where the
+            mine, orig = code[at - SCRATCH:at - SCRATCH + size], exe[start - base:start - base + size]      # addresses of its data are
+            for off in range(0, min(len(mine), len(orig)) - 3, 2):
+                v1, v2 = struct.unpack_from('<I', mine, off)[0], struct.unpack_from('<I', orig, off)[0]
+                for s0, ln, found in secs.values():
+                    if s0 <= v1 < s0 + ln and v2 != v1:
+                        found.add(v2 - (v1 - s0))
+    for k, (s0, ln, found) in secs.items():      # nothing points at it (a library's build string): constants and initialised
+        blob = code[s0 - SCRATCH:s0 - SCRATCH + ln]      # variables are still in the game as bytes, placed when they are there once
+        if k in 'CD' and not found and ln >= 8 and len(blob) == ln and exe.count(blob) == 1:
+            found.add(base + exe.find(blob))
+    lo, hi = base & 0x1FFFFFFF, (base & 0x1FFFFFFF) + len(exe)
+    for k, (s0, ln, found) in secs.items():      # a place outside the executable (variables in the BSS past its end) has no piece of the
+        for at in [x for x in found if not lo <= (x & 0x1FFFFFFF) < hi]:      # split to take the place of: not placed (Sonic Adventure
+            found.discard(at)                                              # LCDVMS, Vms_rw, Vmsfib: their zeroed variables)
+    return {k: (ln, found) for k, (s0, ln, found) in secs.items()}
+
+def units(verified, work=os.path.join(WORK, 'work'), out=os.path.join('sdk-source', 'units')):
+    r"""Writes the source files that reproduce whole as C units a build can take, and returns ([(unit, functions, start, end)],
+    [(source file, verified, listed)] for the files that reproduce only in part).
+
+    A file is whole when every function it defines that functions.txt lists is verified and those functions are one run of
+    functions.txt, in the file's order. Its unit is the file itself with one header line, the range and the folders its headers are
+    in: `/* @unit <start>-<end> -include=build\sdkinc,build\sdkpriv,src */`. build/sdkinc is a copy of the SDK's include folders
+    (the reconstructed sdk-headers/ first) and build/sdkpriv of the library's private headers; the folder names hold no hyphen,
+    which the compiler rejects in an include path. An include written with a path (`..\fl\SG_FL.H`) is cut to its file name.
+    The units are the SDK's own code: sdk-source/ is git-ignored. Copy one into src/ and run build.sh: MATCH proves it; a unit
+    whose file has constants or variables carries their ranges too (@data, @ddata=, @bdata=) when a literal in its code gives the
+    game's address of the section (data_places); a section no literal reaches is named in a second comment line."""
+    ents = []
+    for line in open('functions.txt'):
+        p = line.split()
+        if len(p) >= 4 and p[0] in ('F', 'D'):
+            ents.append((int(p[1], 16), p[3]))
+    ents.sort()
+    idx = {n: i for i, (a, n) in enumerate(ents)}
+    for dst, srcs in (('sdkinc', sorted(glob.glob(os.path.join(work, 'sdkinc*')))), ('sdkpriv', sorted(glob.glob(os.path.join(work, 't[0-9]*'))))):
+        os.makedirs(os.path.join('build', dst), exist_ok=True)
+        for root in srcs:
+            for r, _, fs in os.walk(root):
+                if 'SAMPLE' in r.upper():
+                    continue
+                for f in fs:
+                    to = os.path.join('build', dst, f)
+                    if f.lower().endswith('.h') and not os.path.exists(to):
+                        shutil.copyfile(os.path.join(r, f), to)
+    by = {}
+    for n, (path, _) in verified.items():
+        by.setdefault(path, []).append(n)
+    os.makedirs(out, exist_ok=True)
+    whole, part = [], []
+    for path, names in sorted(by.items()):
+        listed = [n for n in definitions(path) if n in idx]
+        ii = [idx[n] for n in listed]
+        if not listed or set(listed) != set(names) or ii != list(range(ii[0], ii[0] + len(ii))):
+            part.append((os.path.basename(path), len(names), len(listed)))
+            continue
+        start, end = ents[ii[0]][0], (ents[ii[-1] + 1][0] if ii[-1] + 1 < len(ents) else None)
+        if end is None:
+            part.append((os.path.basename(path), len(names), len(listed)))
+            continue
+        text = open(path, 'rb').read().decode('latin1')
+        text = re.sub(r'(#[ \t]*include[ \t]*[<"])[^>"\r\n]*[\\/]([^>"\\/\r\n]+[>"])', r'\1\2', text)
+        unit = re.sub(r'_?\.[cC]$', '', os.path.basename(path))
+        head, lost = '@unit %08X-%08X' % (start, end), []
+        for sec, key in (('C', '@data %08X-%08X'), ('D', '@ddata %08X-%08X'), ('B', '@bdata %08X-%08X')):      # the header's own syntax (units.py)
+            ln, found = (DATA.get(path) or {}).get(sec, (0, set()))
+            if ln and len(found) == 1:
+                at = (next(iter(found)) & 0x1FFFFFFF) | (start & 0xE0000000)      # in the mirror functions.txt uses
+                head += ' ' + key % (at, at + ln)
+            elif ln:
+                lost.append('%s (%d bytes)' % (sec, ln))
+        note = '/* data not placed: %s. The build cannot check this unit until its range is in the line above */\n' % ', '.join(lost) if lost else ''
+        open(os.path.join(out, unit + '.c'), 'wb').write(('/* %s -include=build\\sdkinc,build\\sdkpriv,src */\n' % head + note + text).encode('latin1'))
+        whole.append((unit, len(listed), start, end))
+    return whole, part
 
 
 RELWIN = ''

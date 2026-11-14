@@ -141,20 +141,6 @@ int nlSetIntrFunction(int a4, int a5)
     return t4;
 }
 
-void kmiRegisterCallback(int a4, int a5, int a6, int a7)
-{
-    int t0;
-
-    t0 = _builtin_get_imask();
-    _builtin_set_imask(0xF);
-    if (a6 != 0) {
-        *(unsigned int *)(((((a5 << 2) << 1) + (0x234 + a4)) + 0x0)) = a6;
-        *(unsigned int *)((((0x234 + a4) + ((a5 << 2) << 1)) + 0x4)) = a7;
-    } else {
-        kmiResetCallback();
-    }
-    _builtin_set_imask(((unsigned int)(((t0 & 0xF) << 2) << 2) >> 4));
-}
 
 int SJMEM_UngetChunk(int a4, int a5, int a6)
 {

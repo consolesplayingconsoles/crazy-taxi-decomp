@@ -1368,41 +1368,6 @@ int ADXB_DecodeHeaderWav(int a4, int a5, int a6)
     return t13;
 }
 
-int fmMngAddData(int a4)
-{
-    int t36;
-    int t10;
-    int t18;
-    int t20;
-    int t23;
-
-    t36 = 0xFFFFFFFA;
-    if ((*(short *)((a4 + 0x2))) == 0) {
-        (((struct o34_ushort *)(a4))->v) = (*(int *)((a4 + 0x28)));
-        *(volatile int *)((a4 + 0x30));
-        fmMngMcpy();
-        (((struct o3E_ushort *)((a4 + 0x34)))->v) = (fmcalccrc(0x3E, (a4 + 0x34)));
-        fmMngMcpy4((a4 + 0x34), ((*(int *)((a4 + 0xC))) + (((((*(int *)((a4 + 0x28))) + 0x1) << 2) << 2) << 2)), 0x40);
-        t36 = 0xFFFFFFF6;
-        if ((int)(*(int *)((a4 + 0x10))) >= (int)(*(int *)((a4 + 0x14)))) {
-        } else {
-            t10 = *(int *)((a4 + 0x14));
-            fmMngNum2Bit(((*(int *)((a4 + 0x10))) + 0x1), ((*(int *)((a4 + 0xC))) + ((((t10 + 0x1) << 2) << 2) << 2)), (*(int *)((a4 + 0x18))));
-            t18 = syBtFlWrite(((*(int *)((a4 + 0x4))) + ((((t10 + 0x1) << 2) << 2) << 2)), ((*(int *)((a4 + 0xC))) + ((((t10 + 0x1) << 2) << 2) << 2)), ((((*(int *)((a4 + 0x18))) << 2) << 2) << 2));
-            t36 = 0xFFFFFFFE;
-            if (t18 == ((((*(int *)((a4 + 0x18))) << 2) << 2) << 2)) {
-                t20 = *(int *)((a4 + 0x10));
-                *(unsigned int *)((a4 + 0x10)) = ((*(int *)((a4 + 0x10))) + 0x1);
-                t23 = syBtFlWrite(((*(int *)((a4 + 0x4))) + ((((t20 + 0x1) << 2) << 2) << 2)), (a4 + 0x34), 0x40);
-                t36 = 0x0;
-                if (t23 != 64) {
-                    t36 = 0xFFFFFFFE;
-                }
-            }
-        }
-    }
-    return t36;
-}
 
 int fmMngSctRefresh(int a4)
 {

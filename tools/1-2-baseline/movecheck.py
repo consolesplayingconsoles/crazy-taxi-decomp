@@ -57,6 +57,30 @@ def piece_starts(objects='objects.txt'):
     return out
 
 
+def cond_joined(G, starts, code, word, pools, end):
+    """G without the group starts that a conditional branch crosses: a bt / bf reaches 256 bytes, and one that leaves its piece (a tail
+    jump to another function: Zombie Revenge 0C086A44 -> FUN_0c08696c, three pieces before) needs the pieces between at their original
+    distance, or this check's pad link overflows the branch. For this check's own links of the original pieces only. The game build
+    (mbuild) must see such a branch as a tie BETWEEN groups: that is how it knows to make a running copy of a piece that C replaced
+    (its cond_ties). With the two already merged here it saw none: Virtua Tennis's stringEquals, bufferEquals and copyBytes lost their
+    copies and the game hung on its first file read after the court select, 2026-11-14."""
+    piece = lambda a: bisect.bisect_right(starts, a) - 1
+    cut = set()
+    for a, s in code:
+        for x in range(a, min(a + s, end), 2):
+            if x in pools or x - 2 in pools:
+                continue
+            w = word(x)
+            if w >> 8 in (0x89, 0x8B, 0x8D, 0x8F):
+                d = w & 0xFF
+                d -= 0x100 if d & 0x80 else 0
+                t = x + 4 + 2 * d
+                if starts[0] <= t < end:
+                    lo, hi = sorted((piece(x), piece(t)))
+                    cut.update(range(lo + 1, hi + 1))
+    return [g for g in G if g not in cut]
+
+
 def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_ties=True):
     """Indexes of the pieces that start a group. starts: piece starts (sorted); listed: the starts that are listed functions;
     code: [(start, size)] of the listed functions; word(a): the halfword at a; pools: pool word addresses (not instructions);
@@ -258,6 +282,7 @@ def main(argv):
     game = layout.region('game')
     G = groups(starts, listed, [(a, s) for a, s, n in layout.functions()], B.word, pools, end, stay=game[0] if game else None,
                pool32=lambda a: struct.unpack_from('<i', B.BIN, a - B.BASE)[0])
+    G = cond_joined(G, starts, [(a, s) for a, s, n in layout.functions()], B.word, pools, end)
     gset = set(G[1:])
     os.makedirs(os.path.join(d, 'pads'), exist_ok=True)
     padsrc = '          .SECTION    P, CODE, ALIGN=2\n' + "          .DATA.L     H'00000000\n" * (pad // 4) + '          .END\n'

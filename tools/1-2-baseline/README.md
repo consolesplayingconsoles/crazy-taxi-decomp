@@ -5,6 +5,7 @@
 | [checksizes.py](checksizes.py) | Functions whose size in functions.txt looks wrong. |
 | [fill.py](fill.py) | Shc's asm output laid out exactly like the game. |
 | [missed_funcs.py](missed_funcs.py) | List code the analysis did not make into functions. |
+| [movecheck.py](movecheck.py) | Does the executable move: the named split linked with pads between groups and run against the original. Pieces that share a pool, a far branch or a conditional tail jump stay together. |
 | [sdk_identical.py](sdk_identical.py) | Open functions whose bytes are verbatim in the SDK's own compiled library code. |
 | [sdk_masked.py](sdk_masked.py) | Name more SDK functions after the signature tables: compare instructions, not hashes. |
 | [shc_flags.txt](shc_flags.txt) | The shc flags of every C unit (build.sh and tools/fcmp.py read them; a unit adds its own in its header). `shc_flags.<x>.txt`: the set a unit's `+<x>flags` picks instead. |

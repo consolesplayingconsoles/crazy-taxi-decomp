@@ -193,7 +193,7 @@ ROUND=[0,False]
 def _draw(n):
     vi,pt=ROUND
     t0=time.time()
-    signal.alarm(int(max(BUILD_LIMIT,gen_core.SPANS[n][1]//8)*TIMEF))      # a larger function gets more time: size/8 seconds, at least 60, times GEN_TIME_FACTOR
+    signal.alarm(int(max(BUILD_LIMIT,gen_core.SPANS[n][1]//2)*TIMEF))      # a larger function gets more time: size/2 seconds (a 384-byte one needed 156 s on a busy machine and kept its old C at size/8), at least 60, times GEN_TIME_FACTOR
     try:
         try: vs=gen_pipe.variants(n,pt)
         except gen_core.Skip as e:

@@ -14,37 +14,6 @@ struct o4C_uint { char p[0x4C]; unsigned int v; };
 struct o71_uchar { char p[0x71]; unsigned char v; };
 
 
-int adxt_start_sj(int a4, int a5)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-    int t4;
-    int t5;
-    int t6;
-    int t8;
-
-    t0 = 0x0;
-    for (;;) {
-        t1 = *(signed char *)((a4 + 0x3));
-        if ((int)t0 >= (int)t1) break;
-        t2 = *(int *)((((t0 << 2) + (a4 + 0x18)) + 0x0));
-        t3 = *(int *)((t2 + 0x0));
-        t4 = *(int *)((t3 + 0x14));
-        t5 = ((int (*)(int, int))(t4))(t2, a5);
-        t0 = (t0 + 0x1);
-    }
-    t6 = *(int *)((a4 + 0x4));
-    ADXSJD_SetInSj(t6, a5);
-    *(unsigned int *)((a4 + 0x14)) = a5;
-    t8 = *(int *)((a4 + 0x4));
-    ADXSJD_Start();
-    *(unsigned char *)((a4 + 0x1)) = 0x1;
-    (((struct o4C_uint *)(a4))->v) = 0x0;
-    (((struct o71_uchar *)(a4))->v) = 0x0;
-    return 0x71;
-}
 
 int mwlRnaAddRdPos(int a4)
 {

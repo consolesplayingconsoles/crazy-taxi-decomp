@@ -486,6 +486,27 @@ def orig_reads(addr):
     return _READS[addr]
 
 
+_READS_SURE = {}
+
+
+def orig_reads_sure(addr):
+    """orig_reads counting only what the callee's code reads for certain (gen_core.entry_reads_sure): a call through a pointer inside it
+    proves nothing. The registers a call is compared on beyond its declaration: Zombie Revenge's task runner FUN_0c0e16c0 only calls
+    through a pointer, and its callers were failed for the leftovers they had in r5-r7."""
+    if addr not in _READS_SURE:
+        n, res = READS_NAME.get(addr), None
+        if n and not n.startswith('_'):
+            try:
+                import gen_core
+                rs = gen_core.entry_reads_sure(n)
+                if rs is not None:
+                    res = frozenset(int(x[1:]) for x in rs if x.startswith('r'))
+            except Exception:
+                res = None
+        _READS_SURE[addr] = res
+    return _READS_SURE[addr]
+
+
 PRINTF_NAMES = ('nlPrintf',)      # callees whose first stack word is a format string: only the words it consumes are arguments
 FMT_EXE = [None, 0]               # [the executable's bytes, its base], set by main: where the format strings are read
 
@@ -529,7 +550,13 @@ def callview(to, r, f, arity, stack=None, chg=None, ind=None, fchg=None, indmap=
         if fchg:
             f = [v if ch else '*' for v, ch in zip(f, fchg)]
     if a is not None:
-        r, f = r[:a[0]], f[:a[1]]
+        ni = a[0]
+        rd0 = orig_reads_sure(int(to, 16))
+        if rd0 is not None and chg and len(a) <= 2:      # a register the original set for this call and the callee's code reads is an
+            for k in range(len(r)):                      # argument whatever this file's declaration says: a caller generated against
+                if k >= ni and k < len(chg) and chg[k] and 4 + k in rd0:      # `f(void)` passed nothing and was compared on nothing
+                    ni = k + 1                           # (Zombie Revenge FUN_0c0161aa, syRtcDateToCount: froze on the console)
+        r, f = r[:ni], f[:a[1]]
         if len(a) > 2:                       # variadic: the registers are leftovers, its first argument is on top of the stack
             return (to, [stackish(stack)], [])
     rd = orig_reads(int(to, 16))

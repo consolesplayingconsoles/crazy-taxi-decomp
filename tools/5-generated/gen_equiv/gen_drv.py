@@ -66,7 +66,7 @@ def build(name,ret,passthru=False):
                 ip=sorted(c.iuse); params=['int a%d'%n for n in range(4,max(ip)+1)]
                 if up>16: params=['int a%d'%n for n in range(4,9)]      # more than the compiler takes as parameters (a structure by value): the first one's address reaches the rest
             if fp: params+=['float f%d'%n for n in range(4,max(fp)+1)]
-        ps0=getattr(c,'psaves',0) if os.environ.get('GEN_SAVES','0')!='1' else 0      # the registers the prologue saves are not in the array: the compiler pushes its own below it, and the C's locals then sit where the original's did
+        ps0=getattr(c,'psaves',0) if os.environ.get('GEN_SAVES','0')!='1' and not up else 0      # (a function with stack arguments keeps the saved registers' slots in the array: without them it read its stack argument from the wrong slot. Zombie Revenge FUN_0c0f2b70, the number formatting of the memory-card messages, proven on the console 2026-11-14; GEN_SAVES=1 asks for that form anywhere)      # the registers the prologue saves are not in the array: the compiler pushes its own below it, and the C's locals then sit where the original's did
         raw=text
         for ps in ((ps0,0) if ps0 else (0,)):
             W=(c.maxD-ps+3)//4+1
