@@ -33,6 +33,12 @@ What it looks at, for the functions of functions.txt that src/*.c defines (match
                      model and Exhibition went black on the console). Generated
                      C is dropped with its cases and its proof, so the generator writes the call again with the argument; C written
                      by hand is listed and left for its author (the prototype and the call are theirs to correct)
+  low address        C that reads or writes memory through a variable just set to a constant below 0x1000, adding only constants
+                     and scaled indexes: `t208 = 0x12; ... *(int *)(((t212 << 2) + (t208 + 0x14)))`. No game data lives there (the
+                     boot ROM does), so the constant stands where the original had a pointer it read from its stack (Virtua Tennis
+                     FUN_8c01219e: the stack word holding 0x8C287ACC came out as 0x12, each player's CPU flag was read from 0x26 + 4i,
+                     and a CPU opponent paused the exhibition as player 2). The proof passed, its cases never running that path.
+                     Reported, never dropped: the original's code is the reference for the right value
 C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the generator writes it again; hand-written C moves to
 partial/<file>.c, where progress.py counts it as partial work. Nothing written by hand is deleted.
 """
@@ -147,6 +153,47 @@ def calls_helper(text, name):
     return bool(HELPER_CALL.search(body[body.index('{'):]))
 
 
+LOW_SET = re.compile(r'(?:^\s*|[(,]\s*)([A-Za-z_]\w*) = \(?(0x[0-9A-Fa-f]+|\d+)\)?\s*[;,)]', re.M)   # a statement or comma term
+DEREF = re.compile(r'\*\((?:[\w ]+?) \*\)\s*(\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\))')
+SDEREF = re.compile(r'\(\(struct \w+ \*\)\s*\(?\s*(\w+)\s*\)?\)->v')
+
+
+def low_address(text, name):
+    """[(variable, constant)] where the definition of name sets a variable to a constant below 0x1000 and then, before a label or a new
+    value for it, reads or writes memory at that variable plus constants and scaled indexes only: an address no game data has."""
+    b = block(text, name)
+    if not b:
+        return []
+    body = text[b[0]:b[1]]
+    body = body[body.index('{'):]
+    out = []
+    for m in LOW_SET.finditer(body):
+        v, c = m.group(1), int(m.group(2), 0)
+        if not 0 < c < 0x1000 or (v, c) in out:
+            continue
+        seg = body[m.end():]
+        for pat in (r'^\s*L_\w+:', r'\b%s\s*=(?!=)' % re.escape(v)):
+            mm = re.search(pat, seg, re.M)
+            if mm:
+                seg = seg[:mm.start()]
+        hit = any(sm.group(1) == v for sm in SDEREF.finditer(seg))
+        for d in DEREF.finditer(seg):
+            e = d.group(1)
+            if hit or not re.search(r'\b%s\b' % re.escape(v), e):
+                continue
+            if re.search(r'\b%s\s*<<' % re.escape(v), e):                # the constant is an index, scaled onto a base
+                continue
+            if any(int(k, 0) >= 0x1000 for k in re.findall(r'0x[0-9A-Fa-f]+|\b\d+\b', e)):
+                continue                                                 # an offset onto a real address: 0xC2A888C + t5
+            rest = re.sub(r'\b%s\b' % re.escape(v), '', e)
+            rest = re.sub(r'\b[A-Za-z_]\w*\s*<<\s*\d+', '', rest)      # a scaled index: (i << 2)
+            rest = re.sub(r'0x[0-9A-Fa-f]+|\b\d+\b', '', rest)
+            hit = not re.search(r'[A-Za-z_]', rest)
+        if hit:
+            out.append((v, c))
+    return out
+
+
 CALL_ADDR = re.compile(r'\(\(\w[\w ]*\(\*\)\([^)]*\)\)\((0x[0-9A-Fa-f]+)\)\)')
 
 
@@ -190,7 +237,7 @@ def survey():
         if fn in funcs and not stem.startswith(('gen_tmp', 'zz_')):
             cases.setdefault(fn, []).append(stem)
     eq = lists()
-    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': [], 'short call': []}
+    found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': [], 'short call': [], 'low address': []}
     span = spans()
     for n, stems in sorted(defs.items()):
         if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open('src/%s.c' % stems[0], errors='replace').read(), n, span):
@@ -199,6 +246,11 @@ def survey():
             found['args outside'].append((n, stems[0]))
         elif len(stems) == 1 and stems[0].startswith('gen_') and calls_helper(open('src/%s.c' % stems[0], errors='replace').read(), n):
             found['helper call'].append((n, stems[0]))
+    for n, stems in sorted(defs.items()):
+        for st in stems:
+            low = low_address(open('src/%s.c' % st, errors='replace').read(), n)
+            if low:
+                found['low address'].append((n, st, low))
     taken = {x[0] for k in ('stale size', 'args outside', 'helper call') for x in found[k]}
     seen = set()
     for n, stem, callee in short_calls(defs):
@@ -304,6 +356,9 @@ def fix():
             else:
                 print('%s: calls %s with fewer arguments than it takes in src/%s.c: written by hand, left as it is' % (n, callee, st), flush=True)
         stale = stale + short
+        for n, st, low in found['low address']:
+            print('%s: reads memory at a constant below 0x1000 in src/%s.c (%s): left as it is, compare it with the original' %
+                  (n, st, ', '.join('%s = 0x%X' % vc for vc in low)), flush=True)
         if stale and os.path.exists('tests/equivalent.txt'):
             gone = {n for n, st in stale}
             lines = open('tests/equivalent.txt').read().split('\n')

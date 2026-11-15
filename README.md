@@ -7,8 +7,11 @@
 **A complete decompilation of the Dreamcast Crazy Taxi**. It builds and plays. No issues are known, please report any.
 
 It rebuilds the game's executable byte for byte.
-A function is **done** when its C behaves like the original (Equivalent);
-byte-identical C (Matching) is the bonus tier.
+A function is **done** when its C behaves like the original's code: `tools/equiv.py` runs both on test cases and compares
+every register and memory write the original makes. The C is not the original's bytes. The game is built from it with the
+movable build (`make c`), which compiles the C, lays it out where the original code was, and keeps the original's data and
+library code at their addresses. How strong each function's proof is depends on how much of its code the cases run;
+`docs/equivalent.md` lists that per function.
 
 _**This is not a traditional, human-idiomatic decompilation.** It is structured and documented for AI consumption,
 and its tooling is built for the automation and scale of that paradigm.
