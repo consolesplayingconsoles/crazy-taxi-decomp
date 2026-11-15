@@ -488,15 +488,27 @@ def docker(script):
 
 COMPILE = r'''set -e
 mkdir -p build/cbuild/$OBJD build/cbuild/log build/tmp
+# shc.exe stops with "Command parameter buffer overflow" at about 280 characters of command line, and the name of the file is in it twice
+# (the source and -object): a C file with a name of 25 characters or more did not compile. A long command goes to it in a -subcommand file.
+shc_run() {
+  n=0; for a in "$@"; do n=$((n + ${#a} + 1)); done
+  if [ $n -gt 200 ]; then
+    printf '%s\n' "$@" > build/tmp/$me/shc.sub
+    wibo "/sdk/$REL/shc.exe" -subcommand="build\\tmp\\$me\\shc.sub"
+  else
+    wibo "/sdk/$REL/shc.exe" "$@"
+  fi
+}
+export -f shc_run
 one() {
   s=$1; me=cb.$s
   mkdir -p build/tmp/$me
   if grep -q '#pragma inline_asm' build/cbuild/src/$s.c; then
-    if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -code=asm -object="build\\cbuild\\$OBJD\\$s.s" ${FLAGS_PLAIN:-$FLAGS} > build/cbuild/log/$s.log 2>&1 && wibo "/sdk/$REL/asmsh.exe" "build\\cbuild\\$OBJD\\$s.s" -object="build\\cbuild\\$OBJD\\$s.obj" -cpu=sh4 -endian=little >> build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; else echo "FAIL $s"; fi
+    if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" shc_run "build\\cbuild\\src\\$s.c" -code=asm -object="build\\cbuild\\$OBJD\\$s.s" ${FLAGS_PLAIN:-$FLAGS} > build/cbuild/log/$s.log 2>&1 && wibo "/sdk/$REL/asmsh.exe" "build\\cbuild\\$OBJD\\$s.s" -object="build\\cbuild\\$OBJD\\$s.obj" -cpu=sh4 -endian=little >> build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; else echo "FAIL $s"; fi
     rm -rf build/tmp/$me; return
   fi
-  if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log
-  elif [ -n "$FLAGS_PLAIN" ] && SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" wibo "/sdk/$REL/shc.exe" "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS_PLAIN > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; echo "PLAIN $s"
+  if SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" shc_run "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log
+  elif [ -n "$FLAGS_PLAIN" ] && SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\$me" shc_run "build\\cbuild\\src\\$s.c" -object="build\\cbuild\\$OBJD\\$s.obj" $FLAGS_PLAIN > build/cbuild/log/$s.log 2>&1; then rm -f build/cbuild/log/$s.log; echo "PLAIN $s"
   else echo "FAIL $s"; fi
   rm -rf build/tmp/$me
 }

@@ -20,7 +20,7 @@ that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run fro
                  (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
                  empty when it has none; every name is tidied: no parentheses, each word capitalised; texset is the
                  texture set it takes its textures from, empty when its file's rows apply)
-  [assemblies]   one row per placed part (`assemble` and `nodes` rules): group sub part file offset, then a 3x4 matrix
+  [assemblies]   one row per placed part (`assemble`, `fileparts` and `nodes` rules): group sub part file offset, then a 3x4 matrix
                  row by row
   [rigs]         one row per skeleton: rig kind (bones or nodes) group motion_file motion_format (v, or empty) pose_offset
                  pose_record (the motion and record the assemblies were posed with; empty for a bind pose)
@@ -65,6 +65,17 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
   rig <name> <motion file> <file base hex> <motion header addr hex> <record>
                                                 a skeleton posed from one record of a V-format motion
   bone <rig> <bone> <parent|-> <offset addr|->  a bone: its parent and the 3 floats at <offset addr> (bind offset)
+  fileparts <group> <sub> file=<model file> models=<addr>:<n> bones=<addr> parents=<addr>:<root> [extra=<models addr>:<n>:<vec addr>:<links addr>] [mot=<motion file>]
+                                                a character whose parts are models of one file, placed in bind pose with no motion: models is
+                                                an array of n offsets into the file in the executable (hex address; bone i carries model i),
+                                                bones the bone offsets (3 floats each, in the parent's axes), parents the parent index of
+                                                each bone (n 32-bit ints; <root> marks a root). extra: n more parts, each given a vector at
+                                                <vec addr> and a link (two bytes, the first is ignored, the second the bone it hangs from)
+                                                at <links addr>. attach=<models addr>:<n>:<bone> (repeatable): the first n of an array of model
+                                                offsets hung on a bone with no offset. mot=: the motion file of the character: the rig then plays 16-bit
+                                                Euler motions (format e16: the viewer's pose program from the bones, z of the offsets negated) read by the game's plugin
+                                                or reader. Parts whose offset is not a model of the file are skipped. Written to
+                                                [assemblies] under <group> and <sub>
   assemble <rig> <group>                        each character of <group> (a `chars` rule) placed on the rig, one
                                                 part per slot = bone, into the [assemblies] section
   nodes <rig> <table addr> <count> <entry size> <list offset> <nodes per entry> <group>
@@ -1445,6 +1456,86 @@ def assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base):
     return rows
 
 
+def file_parts(rules, exe, base, models):
+    """(placed, rigs, bones, motionbones, poses) from the `fileparts` rules: a character's parts (models of one file) placed in bind pose, no
+    rotation, each bone's place the sum of the offsets from the root down, for [assemblies]; and its skeleton: one rig a rule (the group of the
+    rule is the rig's), a tree of bones for [bones] (the parts hung on a bone are nodes of the tree, with a fixed offset), and, when the rule
+    names the motion file (mot=), [motionbones] and [poses] for 16-bit Euler motions (format e16: root, then each bone is its offset from
+    the parent and its rotation; z of every offset is written negated, the way that pose program applies it). The parts get the rule's group and
+    sub (their label is the bone number)."""
+    rows, rigs, bones, mbones, poses = [], [], [], [], []
+    for r in rules:
+        if r[0] != "fileparts":
+            continue
+        group, sub = r[1].replace("_", " "), r[2].replace("_", " ")
+        opt = dict(x.split("=", 1) for x in r[3:])
+        attach = [x.split("=", 1)[1] for x in r[3:] if x.startswith("attach=")]
+        mfile, mot = opt["file"], opt.get("mot", "")
+        maddr, n = opt["models"].split(":")
+        paddr, root = opt["parents"].split(":")
+        maddr, n, paddr, root, baddr = A(int(maddr, 16)), int(n, 0), A(int(paddr, 16)), int(root, 0), A(int(opt["bones"], 16))
+        by_off = {m["offset"]: m for m in models if m["file"].upper() == mfile.upper()}
+        parent = [struct.unpack_from("<i", exe, paddr - base + 4 * i)[0] for i in range(n)]
+        vec = lambda a: struct.unpack_from("<3f", exe, a - base)
+        world = {}
+        for i in range(n):                                   # parents come before their children in the table
+            off = vec(baddr + 12 * i)
+            world[i] = off if parent[i] == root else tuple(world[parent[i]][k] + off[k] for k in range(3))
+        rig = group.lower().replace(" ", "_")
+        rigs.append([rig, "bones", group, mot, "e16" if mot else "", "", "1"])
+        carried = {}
+        def put(offset, t, label):
+            m = by_off.get(offset)
+            if m is None:
+                return False
+            carried[label] = True
+            m["group"], m["sub"], m["name"] = group, sub, tidy(label)
+            rows.append([group, sub, label, m["file"], "%x" % offset] + ["%.5f" % x for k in range(3) for x in [1.0 if j == k else 0.0 for j in range(3)] + [t[k]]])
+            return True
+        for i in range(n):
+            put(struct.unpack_from("<I", exe, maddr - base + 4 * i)[0], world[i], "bone %d" % i)
+            o = vec(baddr + 12 * i)
+            bones.append([rig, sub, str(i), "" if parent[i] == root else str(parent[i]), "bone %d" % i if "bone %d" % i in carried else "",
+                          "%.5f" % o[0], "%.5f" % o[1], "%.5f" % o[2]])
+            if mot:
+                mbones.append([rig, str(i), "1", "%.5f" % o[0], "%.5f" % o[1], "%.5f" % -o[2]])
+                poses.append([rig, str(i), "-" if parent[i] == root else str(parent[i]), "root bone:%d" % i if parent[i] == root else "bone:%d" % i])
+        nodes = [n]                                          # the next free node number: parts hung on bones follow the 19
+        def hang(label, up, o, offset):
+            """A part on a node of the tree: a bone of its own (no rotation of its own), at the fixed offset o from its parent node."""
+            node, t = nodes[0], tuple(world_of[up][k] + o[k] for k in range(3))
+            has = put(offset, t, label)                       # a node without a model is a joint other parts may hang from
+            world_of[node] = t
+            bones.append([rig, sub, str(node), str(up), label if has else "", "%.5f" % o[0], "%.5f" % o[1], "%.5f" % o[2]])
+            if mot:
+                poses.append([rig, str(node), str(up), "t:%.5f,%.5f,%.5f" % o])
+            nodes[0] += 1
+            return node
+        world_of = dict(world)
+        if "extra" in opt:
+            eaddr, en, vaddr, laddr = opt["extra"].split(":")
+            eaddr, en, vaddr, laddr = A(int(eaddr, 16)), int(en, 0), A(int(vaddr, 16)), A(int(laddr, 16))
+            links = [(exe[laddr - base + 2 * j], exe[laddr - base + 2 * j + 1]) for j in range(en)]
+            node_of = {}                                     # a link is (layer, index): layer 0 a bone, layer 1 another of these parts
+            for _ in range(en):
+                for j, (layer, idx) in enumerate(links):
+                    if j in node_of:
+                        continue
+                    up = idx if layer == 0 else node_of.get(idx) if layer == 1 else None
+                    if up is None or up not in world_of:
+                        continue
+                    node = hang("extra %d (%s %d)" % (j, "bone" if layer == 0 else "extra", idx), up, vec(vaddr + 12 * j),
+                                struct.unpack_from("<I", exe, eaddr - base + 4 * j)[0])
+                    if node is not None:
+                        node_of[j] = node
+        for spec in attach:                                  # models hung on a bone with no offset (several variants: place the first n)
+            aaddr, an, abone = spec.split(":")
+            aaddr, an, abone = A(int(aaddr, 16)), int(an, 0), int(abone, 0)
+            for j in range(an):
+                hang("bone %d model %d" % (abone, j), abone, (0.0, 0.0, 0.0), struct.unpack_from("<I", exe, aaddr - base + 4 * j)[0])
+    return rows, rigs, bones, mbones, poses
+
+
 def rotation(order, angles):
     """The 3x3 matrix of rotations about x, y, z by angles (radians), applied as order reads: zyx = Rz * Ry * Rx."""
     out = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
@@ -2251,11 +2342,13 @@ def main():
                 if m["table"] == key:
                     m["group"], m["sublabel"] = r[2].replace("_", " "), tidy(r[3].replace("_", " "))
 
-    placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base)
+    fplaced, frigs, fbones, fmbones, fposes = file_parts(rules, exe, base, models)
+    placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base) + fplaced
     rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
     nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)
-    placed, rigs, bones = placed + nplaced, rigs + nrigs, bones + nbones
+    placed, rigs, bones = placed + nplaced, rigs + nrigs + frigs, bones + nbones + fbones
     mbones, poses, scales = pose_rows(rules, disc, exe, base, rigs)
+    mbones, poses = mbones + fmbones, poses + fposes
     welds = weld_rows(rules, ptr_at, exe, base, by_addr, disc)
     # notes last: they name a hex sub-group whatever rule made it (chars, nodes)
     for r in rules:
