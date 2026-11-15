@@ -11,3 +11,4 @@
 | [shc_flags.txt](shc_flags.txt) | The shc flags of every C unit (build.sh and tools/fcmp.py read them; a unit adds its own in its header). `shc_flags.<x>.txt`: the set a unit's `+<x>flags` picks instead. |
 | [split_asm.py](split_asm.py) | Split a Dreamcast executable into one Hitachi asmsh source per function. |
 | [units.py](units.py) | The link order with C units in place of the asm files they replace. |
+| [overlay_scan.py](overlay_scan.py) | Classify every file of an extracted disc (SH-4 code, ARM code, sound bank, texture, data) and prove whether it holds SH-4 code. |

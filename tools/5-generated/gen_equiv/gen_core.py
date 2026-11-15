@@ -1325,12 +1325,12 @@ def _run(name,passthru=False,frame=False,flat=False):
                 if mm[0]=='pre':
                     nb=iop('sub',c.gi(mm[1]),8); c.R[mm[1]]=nb; ad=addr_expr(nb,0)
                 else: ad=memaddr(mm)
-                fstore(ad,lo); fstore(plus4(ad),hi); return
+                fstore(ad,hi); fstore(plus4(ad),lo); return
             mm=parse_mem(a[0])
             if mm[0]=='post':
                 b=c.gi(mm[1]); ad=addr_expr(b,0); c.R[mm[1]]=iop('add',b,8)
             else: ad=memaddr(mm)
-            lo=fload(ad); hi=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return
+            hi=fload(ad); lo=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return      # in order, as tools/sh4sim.py moves pairs
         if mn=='ftrv' and a[0]=='xmtrx':
             vn=int(a[1][2:]); names=['fr%d'%i for i in range(16)]
             if (not c.XF or getattr(c,'xf_entry',False)) and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is

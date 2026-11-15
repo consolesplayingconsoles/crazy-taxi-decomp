@@ -68,13 +68,18 @@ def struct_access(text):
             k=plus(inner); ty=m.group(2)
             off=re.fullmatch(r'\s*0x([0-9A-Fa-f]+)\s*',inner[k+3:]) if k>0 else None
             base=inner[:k].strip() if k>0 else ''
-            if (m.group(1) or not off or not lim[ty]<int(off.group(1),16)<0x10000 or base in scaled
+            if (m.group(1) or not off or not lim[ty]<int(off.group(1),16)<0x10000 or int(off.group(1),16) % _TSIZE.get(ty, 1) or base in scaled
                     or re.fullmatch(r'\(*(\w+)\)*',base) and re.fullmatch(r'\(*(\w+)\)*',base).group(1) in scaled):
                 out.append(s[i:o+1]); i=o+1; continue
             out.append(s[i:m.start()])
             out.append('(((struct o%X_%s *)(%s))->v)'%(int(off.group(1),16),ty.replace('unsigned ','u'),walk(base)))
             i=c+1
     return walk(text)
+# a one-field structure `struct oN_T { char p[N]; T v; }` puts v at N only when N is a multiple of T's size: the compiler pads it
+# to the next one (o13_float lands at 0x14), so an access at a misaligned offset stays a plain pointer access
+_TSIZE = {'int': 4, 'unsigned int': 4, 'float': 4, 'short': 2, 'unsigned short': 2}
+
+
 def global_base(text, span=60):
     """Globals a function reaches at nearby fixed addresses, `*(int *)0xC94D964`, as members off the lowest of them,
     `((struct o4_int *)0xC94D960)->v`, where two or more lie within span bytes of it. SHC loads each fixed address from the pool and
@@ -91,7 +96,7 @@ def global_base(text, span=60):
         i=j+1
     def sub(m):
         a=int(m.group(2),16)
-        if a not in base: return m.group(0)
+        if a not in base or (a-base[a]) % _TSIZE.get(m.group(1), 1): return m.group(0)      # a member at an offset its type does not align
         return '(((struct o%X_%s *)0x%X)->v)'%(a-base[a],m.group(1).replace('unsigned ','u'),base[a])
     return pat.sub(sub,text) if base else text
 def struct_decls(text):

@@ -20,7 +20,8 @@ between two runs of this interpreter is meaningful, never a value against the co
 
 The case (JSON): {"exe": path, "base": hex, "dump": path, "entry": hex, "end": hex,
 "regs": {"r4": hex, "fr4": float, ...}, "sr": hex (optional, the starting SR), "poke": {hex addr: hex bytes}, "calls": [{"r0": hex,
-"fr0": float, "poke_arg": {"r7": hexbytes}}, ...], "steps": max}. Paths are relative to the case file.
+"fr0": float, "t": 0|1, "poke_arg": {"r7": hexbytes}}, ...], "steps": max}. Paths are relative to the case file.
+A call's "t" sets the T flag on return (a hand-written callee that answers in T); without it T is left as it was.
 A call's "poke_arg" writes those bytes at the address the named register holds when the call is made.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -683,11 +684,14 @@ class CPU:
             bank = self.xf if k & 1 else self.fr
             bank[k & 14], bank[(k & 14) + 1] = hi, lo
 
-        def load(a):                     # little endian: the low word first in memory
-            return rd(a + 4, 4), rd(a, 4)
+        # a pair move keeps the singles' order: FR(2n) (or XF(2n)) goes to and from the lower address, as two fmov.s
+        # would, in either endianness (hardware and Flycast; KallistiOS loads a natural float[4][4] into XMTRX this way).
+        # Only a double's value has FR(2n) as its high word, and this code, built -fpu=single, moves pairs only as data.
+        def load(a):
+            return rd(a, 4), rd(a + 4, 4)
 
-        def store(a, hi, lo):
-            wr(a, 4, lo); wr(a + 4, 4, hi)
+        def store(a, first, second):
+            wr(a, 4, first); wr(a + 4, 4, second)
         if lo4 == 0xc: put(n, *get(m_)); return
         if lo4 == 8: put(n, *load(r[m_])); return
         if lo4 == 6: put(n, *load(r[m_] + r[0])); return
@@ -846,6 +850,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             c.r[0] = 0                           # an answer that gives no r0 / fr0: the callee's result is 0, not a leftover register
         if 'fr0' not in ret:
             c.fr[0] = 0
+        if 't' in ret:
+            c.t = int(ret['t']) & 1              # a hand-written callee that answers in the T flag
         n_args = argc(target & M32) if argc else None             # the callee's integer argument count, or the set of registers it reads
         set_for = [bool(wrote >> i & 1) or (i in given_args and not after_call) for i in range(4, 8)]      # which of r4-r7 were set for this call: the others are leftovers
         for k, v in ret.get('poke_arg', {}).items():             # the callee filled an output slot
@@ -867,7 +873,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             # returns no structure, and not a word that is a value: the fill went to page 0 on one side only, playerPut case 4)
             mem.load(sp_word, bytes.fromhex(ret['poke_stack']))
         for k, v in ret.items():
-            if k in ('poke_arg', 'poke_stack'):
+            if k in ('poke_arg', 'poke_stack', 't'):
                 continue
             if k.startswith('fr'):
                 c.fr[int(k[2:])] = f_bits(float(v)) if not isinstance(v, str) else int(v, 16)
@@ -895,8 +901,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
     return {'error': error, 'steps': cpu.steps, 'calls': calls, 'sr': '%08X' % cpu.sr(),
             'writes': [['%08X' % a, s, '%0*X' % (s * 2, v)] for a, s, v in mem.writes],
             'devices': [[k, '%08X' % a, s, '%0*X' % (s * 2, v)] for k, a, s, v in mem.devices],
-            'out': {'r0': '%08X' % cpu.r[0], 'r1': '%08X' % cpu.r[1],
-                    'fr0': '%08X' % cpu.fr[0], 'fr1': '%08X' % cpu.fr[1]},
+            'out': dict({'r%d' % i: '%08X' % cpu.r[i] for i in range(16)},
+                        **{'fr%d' % i: '%08X' % cpu.fr[i] for i in range(16)}),     # every register: a routine with @out in its C is compared on the ones it names
             'out_set': {'r0': bool(cpu.r.ever & 1)},               # False: the function never assigned r0 (a call's result counts), it returns what it was given
             'r15_balanced': cpu.r[15] == entry_r15,
             'xf': ['%08X' % v for v in cpu.xf], 'xf_changed': cpu.xf != xf_entry,
