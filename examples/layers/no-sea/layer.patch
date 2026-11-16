@@ -1,0 +1,38 @@
+diff --git a/src/gen_anh.c b/src/gen_anh.c
+--- a/src/gen_anh.c
++++ b/src/gen_anh.c
+@@ -12,8 +12,8 @@
+     if (t0 != 0) {
+         return t0;
+     }
+-    if (!((*(float *)0xC179148) > -1237.0f)) {
+-        return BigOnePut(-1237.0f);
++    if (!((*(float *)0xC179148) > -1.0e9f)) {
++        return BigOnePut(-1.0e9f);
+     }
+     return 0x7C;
+ }
+diff --git a/src/gen_mr.c b/src/gen_mr.c
+--- a/src/gen_mr.c
++++ b/src/gen_mr.c
+@@ -71,7 +71,7 @@
+             }
+         }
+     } else {
+-        if (-1237.0f > (*(float *)0xC179844)) {
++        if (-1.0e9f > (*(float *)0xC179844)) {
+             LightEffect(0x1);
+             ResetSpark();
+             RinAqua_Execute();
+diff --git a/src/gen_sz.c b/src/gen_sz.c
+--- a/src/gen_sz.c
++++ b/src/gen_sz.c
+@@ -53,7 +53,7 @@
+     *(unsigned int *)0xC274264 = 0x1;
+     t9 = *(int *)0xC1EE20C;
+     if (t9 == 0) {
+-        *(float *)0xC274258 = (-1237.0f);
++        *(float *)0xC274258 = (-1.0e9f);
+         t23 = 0xC03676C;
+     } else {
+         if (t9 == 1) {

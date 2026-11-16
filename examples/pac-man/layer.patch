@@ -1,0 +1,591 @@
+diff --git a/src/course_b.c b/src/course_b.c
+index f9bad9f..57ff94e 100644
+--- a/src/course_b.c
++++ b/src/course_b.c
+@@ -15,6 +15,304 @@ typedef struct { float radius; NLpoint3 pos; float pad; } CoursePiece;
+ #define SUBWAY_CAMERA   (*(int *)0x0C2A9D60)
+ #define AREA_LIST       (*(unsigned char **)0x0C2A6EC4)
+ 
++/* OSM (osm layer): Arcade's city is replaced by a place from OpenStreetMap. tools/osm_coldc.py and tools/osm_model.py write the ground, the
++   buildings' walls and the model into COLDC1.BIN (read at 0x0CB40000 and kept) and osm.h (where the model is, where the cab starts, the
++   name on the menu). The city's pieces are not drawn in Arcade (putSplinePiece), the model is (osmDraw, in PutCourse), the textures go into
++   free slots at a run's start (osmStart, gameState0, before init_CarMain: the game frees every texture when the city loads). */
++#include "osm.h"
++
++#include "course_kit.h"                                 /* course-kit layer: the blob's textures, the stops, the customers */
++
++extern void nlPushMatrix(int n);
++extern void nlPopMatrix(int n);
++extern void nlObjPutUseViewMatrix(void *model);
++
++/* The blob (tools/osm_model.py, the Doom layout): +4 texture count, +8 the tile list, +12 the texture table, +16 the first texture number,
++   +20 the tile count, +24 the places for customers (their offset, how many: x, y, z each, reachable on the roads). */
++#define OSM_DRAW_RANGE  3000.0f                         /* tiles (1024 units) farther than this from the camera are not sent to the video buffer */
++#define OSM_FARE_TRIES  64                              /* the random places a fare's pick-up is chosen among (the farthest from the others) */
++
++/* The stops (where the customers wait and where they want to go): Arcade's 33 are polygons in the executable at the city's coordinates. Each
++   run they are put at random places of the roads (the blob's list), a regular polygon of OSM_STOP_R on the ground there, before init_KyakuMain
++   reads them. The tables: per Game_No a table per MiniGame_No, of the stops (8 bytes: points, pointer). The customers are Arcade's 246
++   requests (kyakuStops0 at 0C0DB008, 0x28 bytes each, a pick-up spot at +8, +0xC, +0x10): OSM_FARES of them are put on the roads, each at the
++   farthest of OSM_FARE_TRIES places from the ones placed, the rest are sent far away, where no customer ever comes within reach. */
++static void osmStops(unsigned int *o)
++{
++    int game = *(int *)0x0C1EE210, mg = *(int *)0x0C1EE214;
++    int count = *(int *)(*(int *)(0x0C0ED9D4 + 4 * game) + 4 * mg);
++    int *list = (int *)*(int *)(*(int *)(0x0C0ED974 + 4 * game) + 4 * mg);
++    int *dlist = (int *)*(int *)(*(int *)(0x0C0ED9C8 + 4 * game) + 4 * mg);
++    /* the frame counter is the same number at every run's start; the SH-4's timer unit (TMU0's counter) keeps counting whatever the game does */
++    unsigned int seed = ((unsigned int)*(int *)0x0C1EE330 ^ *(volatile unsigned int *)0xFFD8000C) * 2654435761u + 12345u;
++    float *sp = (float *)((unsigned char *)o + o[6]);
++    int n = (int)o[7];
++    float sx[33], sz[33], fx[64], fz[64];
++    float cx, cz, tx, tz, d, closest, best;
++    int i, k, t, tries;
++
++    if (count <= 0 || count > 33 || !list || n <= 0)
++        return;
++    for (i = 0; i < count; i++) {
++        t = (int)(ctRand(&seed) % (unsigned int)n);
++        sx[i] = sp[3 * t];
++        sz[i] = sp[3 * t + 2];
++        ctPlaceStop(list, dlist, i, sx[i], sz[i], ctGround(sx[i], sz[i], 0.0f), OSM_STOP_R);
++    }
++    for (i = 0; i < 246; i++) {
++        float *e = (float *)(0x0C0DB008 + 0x28 * i);
++        signed char *dest = (signed char *)(0x0C0DB008 + 0x28 * i + 0x18);
++
++        if (i >= OSM_FARES) {
++            e[2] = 1.0e6f;
++            e[3] = 0.0f;
++            e[4] = 1.0e6f;
++            continue;
++        }
++        best = -1.0f;
++        cx = sp[0];
++        cz = sp[2];
++        for (tries = 0; tries < OSM_FARE_TRIES; tries++) {
++            t = (int)(ctRand(&seed) % (unsigned int)n);
++            tx = sp[3 * t];
++            tz = sp[3 * t + 2];
++            closest = 1.0e12f;
++            for (k = 0; k < i && k < 64; k++) {
++                d = (tx - fx[k]) * (tx - fx[k]) + (tz - fz[k]) * (tz - fz[k]);
++                if (d < closest)
++                    closest = d;
++            }
++            if (closest > best) {
++                best = closest;
++                cx = tx;
++                cz = tz;
++            }
++        }
++        if (i < 64) {
++            fx[i] = cx;
++            fz[i] = cz;
++        }
++        e[2] = cx;
++        e[3] = ctGround(cx, cz, 0.0f);
++        e[4] = cz;
++        ctDestinations(e, dest, cx, cz, sx, sz, count, OSM_MIN_TRIP, &seed);
++    }
++}
++
++/* Pac-Man as the cab's driver (pacman_coldc.py): the blob has a tile listed at 1.0e7, which osmDraw never draws: his sphere and eyes, in the
++   torso bone's axes (the mouth along the chest's front, the top up the spine, a little above the bone). A character is 16 part-model pointers (the table at 0x0C1331B0, a pointer to an entry a character; slot 0
++   unused, a null slot is not drawn, slot 8 is the torso's). Character 0 is no pedestrian, customer or cabbie, its entry (0x0C132330) is its own
++   (no other character points to it) and humanDraw's and FcvPlayBuffer's switches give it no extra parts: its entry is rewritten in place (no
++   static data: the executable's data must not move) to the torso slot alone, Pac-Man's model, and slot 0 marks it done; its grips (the game puts them
++   in parts 2 and 5 while driving, from the table at 0x0C1337CC, one array a character, this one shared with the pedestrians) become OSM_ZEROS. Drv_Put draws the driver
++   as character 0 (osmDriver). The driver's motion moves him with the torso. */
++#define OSM_MAN_MARK    0x4E4D4150
++
++int osmDriver(int c)
++{
++    int *e = (int *)*(int *)0x0C1331B0;
++
++    return (*(int *)0x0C1EE20C == 0 && e[0] == OSM_MAN_MARK) ? 0 : c;
++}
++
++/* The ghosts (the passengers): the blob's solo tiles 1 to 4 are a ghost each (pacman_coldc.py). Characters 24, 26, 28 and 33 have an entry of their
++   own and no extra models in the draw switches (23 to 58 are the customers': 36 characters, most with hats, bags or sleeves that would draw over a
++   ghost), so those four are rewritten in place as Pac-Man's is (the torso slot alone) and Psg_Init gives every customer one of them (osmGhost: its
++   character number's low two bits pick the colour). */
++static int osmGhostChar(int i)
++{
++    switch (i & 3) {
++    case 0:
++        return 24;
++    case 1:
++        return 26;
++    case 2:
++        return 28;
++    default:
++        return 33;
++    }
++}
++
++int osmGhost(int chara)
++{
++    int *e = (int *)*(int *)(0x0C1331B0 + 4 * 24);
++
++    return (*(int *)0x0C1EE20C == 0 && e[0] == OSM_MAN_MARK) ? osmGhostChar(chara) : chara;
++}
++
++static void osmMan(unsigned int *o)
++{
++    int k, i, g, *e;
++
++    for (k = 0; k < (int)o[5]; k++) {
++        unsigned int *t = TILE(o, k);
++
++        if (*(float *)&t[1] <= 1.0e6f)
++            continue;
++        g = (int)(*(float *)&t[1] - 1.0e7f + 0.5f);     /* the group: 0 Pac-Man, 1 to 4 the ghosts, 5 to 8 their far models */
++        if (g < 0 || g > 8)
++            continue;
++        if (g > 4) {                                    /* psgFrameState0's flat model beyond PsgPeraDistance (a table, a character - 23) */
++            ((int *)0x0C13F410)[osmGhostChar(g - 5) - 23] = (int)((unsigned char *)o + t[0]);
++            continue;
++        }
++        e = (int *)*(int *)(0x0C1331B0 + 4 * (g == 0 ? 0 : osmGhostChar(g - 1)));
++        for (i = 1; i < 16; i++)
++            e[i] = 0;
++        e[8] = (int)((unsigned char *)o + t[0]);
++        e[0] = OSM_MAN_MARK;
++        if (g == 0)
++            ((unsigned int *)0x0C1337CC)[0] = OSM_ZEROS;     /* his grips: none (the game's array is the pedestrians' too) */
++        else
++            ((unsigned int *)0x0C1337CC)[osmGhostChar(g - 1)] = OSM_ZEROS;   /* a ghost's: psgUpdatePartTracks put hands in its parts 2 and 5 */
++    }
++}
++
++/* The regular camera's eye (gen_el.c, after its GetCollision, which pulls the eye in front of the course's triangles and knows nothing of our
++   walls): the segment from the target t to the eye e against the maze's wall segments (the blob's list), where the ray is still lower than the
++   walls' top; the eye is brought in to OSM_CAM_MARGIN short of the first one. */
++#define OSM_CAM_MARGIN  5.0f
++void osmCamClip(float *t, float *e)
++{
++    unsigned int *w = (unsigned int *)OSM_CAMWALLS;
++    float *s = (float *)(w + 1);
++    float dx = e[0] - t[0], dz = e[2] - t[2], best = 1.0f, den, a, b, len;
++    unsigned int i;
++
++    if (*(int *)0x0C1EE20C != 0)
++        return;
++    for (i = 0; i < w[0]; i++, s += 4) {
++        float ex = s[2] - s[0], ez = s[3] - s[1];
++
++        den = dx * ez - dz * ex;
++        if (den > -1.0e-6f && den < 1.0e-6f)
++            continue;
++        a = ((s[0] - t[0]) * ez - (s[1] - t[2]) * ex) / den;
++        b = ((s[0] - t[0]) * dz - (s[1] - t[2]) * dx) / den;
++        if (a <= 0.0f || a >= best || b < 0.0f || b > 1.0f)
++            continue;
++        if (t[1] + (e[1] - t[1]) * a > OSM_WALL_TOP)
++            continue;
++        best = a;
++    }
++    if (best < 1.0f) {
++        len = _builtin_sqrtf(dx * dx + dz * dz);
++        if (len > 1.0f)
++            best -= OSM_CAM_MARGIN / len;
++        if (best < 0.05f)
++            best = 0.05f;
++        e[0] = t[0] + dx * best;
++        e[1] = t[1] + (e[1] - t[1]) * best;
++        e[2] = t[2] + dz * best;
++    }
++}
++
++/* gameState0, before init_CarMain: the blob's textures into the game's slots (ctLoadTiles), then the stops and the driver's model. */
++void osmStart(void)
++{
++    unsigned int *o = (unsigned int *)OSM_MODEL;
++
++    if (*(int *)0x0C1EE20C != 0 || o[0] != TUX_MAGIC)
++        return;
++    ctLoadTiles(o);
++    osmStops(o);
++    osmMan(o);
++}
++
++void camSetMode(int m);
++
++/* gameState0, after the start camera is set up: the camera looks down. The game's own view mode 3 (the camera function's: 78.75 degrees
++   down, 600 units from the point 120 ahead of the cab, field of view 60, turning with the cab; the distance is at least 300) is taken. */
++void osmView(void)
++{
++    if (*(int *)0x0C1EE20C != 0 || ((unsigned int *)OSM_MODEL)[0] != TUX_MAGIC)
++        return;
++    camSetMode(3);
++}
++
++void camSnapToCar(int n);
++
++/* The views Y steps through: the game's regular camera (mode 0), then the top view (mode 3) tilted, then the top view steeper. The two top views
++   are the same mode, told apart by the pitch and the distance gen_el.c's mode 3 reads from osmTopPitch and osmTopDist (16-bit angle, units). */
++typedef struct { int mode, pitch; float dist; } OsmView;
++#define OSM_VIEWS       3
++static const OsmView osmViews[OSM_VIEWS] = { { 0, 0, 0.0f }, { 3, 0xE000, 1000.0f }, { 3, 0xCC00, 600.0f } };
++int osmTopPitch = 0xE000;                               /* 45 degrees down */
++float osmTopDist = 1000.0f;
++static int osmViewNo;
++
++/* The side tunnel (osm.h's OSM_WRAP_*, pacman_coldc.py): a cab in the tunnel's row (OSM_WRAP_Z, half OSM_WRAP_HALF) that goes past the left edge comes in
++   at the right one, and the other way, keeping its speed: Car_Data's position (0x0C179144, x y z) and the copy of it the game keeps next to it
++   (0x0C179158, set from the position at a start) move together by the maze's width, so nothing sees the cab cross the maze in one step. */
++static void osmWrap(void)
++{
++    float *p = (float *)0x0C179144, *q = (float *)0x0C179158;
++    float d;
++
++    if (*(int *)0x0C1EE234 != 1 || *(int *)0x0C1EE238 != 1)
++        return;
++    if (p[2] < OSM_WRAP_Z - OSM_WRAP_HALF || p[2] > OSM_WRAP_Z + OSM_WRAP_HALF)
++        return;
++    if (p[0] < OSM_WRAP_X0)
++        d = OSM_WRAP_X1 - OSM_WRAP_X0;
++    else if (p[0] > OSM_WRAP_X1)
++        d = OSM_WRAP_X0 - OSM_WRAP_X1;
++    else
++        return;
++    p[0] += d;
++    q[0] += d;
++    camSnapToCar(0);
++}
++
++/* getSwitch, right after player 1's pad is converted: Y (the byte at 0x0C1EE26E, "pressed this frame", which the horn's three readers take)
++   steps the camera round the views above in a circle instead. The press is cleared so the horn does not sound. Only while an Arcade run is played
++   (main mode 1, sub mode 1). Any camera mode but the top view counts as the regular one: the next press is the tilted top view. */
++void osmPad(void)
++{
++    const OsmView *v;
++
++    if (*(int *)0x0C1EE20C != 0 || ((unsigned int *)OSM_MODEL)[0] != TUX_MAGIC)
++        return;
++    osmWrap();
++    if (*(int *)0x0C1EE234 != 1 || *(int *)0x0C1EE238 != 1 || *(signed char *)0x0C1EE26E == 0)
++        return;
++    *(signed char *)0x0C1EE26E = 0;
++    if (*(int *)0x0C179860 != 3)
++        osmViewNo = 0;
++    osmViewNo = (osmViewNo + 1) % OSM_VIEWS;
++    v = &osmViews[osmViewNo];
++    if (v->mode == 3) {
++        osmTopPitch = v->pitch;
++        osmTopDist = v->dist;
++    }
++    camSetMode(v->mode);
++    *(int *)0x0C0E4A14 = 1;                             /* the mode's set-up runs again: the two top views are one mode */
++    camSnapToCar(0);
++}
++
++/* The model: the tiles near the camera, each its own model, at the camera's view matrix (the world's own coordinates). */
++static void osmDraw(void)
++{
++    unsigned int *o = (unsigned int *)OSM_MODEL;
++    float *cam = (float *)CAM_POS;
++    float dx, dz;
++    int k;
++
++    if (o[0] != TUX_MAGIC)
++        return;
++    for (k = 0; k < (int)o[5]; k++) {
++        unsigned int *t = TILE(o, k);
++
++        dx = *(float *)&t[1] - cam[0];
++        dz = *(float *)&t[2] - cam[2];
++        if (dx * dx + dz * dz > OSM_DRAW_RANGE * OSM_DRAW_RANGE)
++            continue;
++        nlPushMatrix(0);
++        nlObjPutUseViewMatrix((unsigned char *)o + t[0]);
++        nlPopMatrix(1);
++    }
++}
++
+ int PutCourse_Sky(void);
+ int Put_Course_Obj_Dist(void);
+ int Put_Build_Patch(void);
+@@ -29,7 +327,6 @@ int CheckClipping(NLpoint3 *, float);
+ void nlProjectScreen3D(NLpoint3 *, float *);
+ float nlLength(NLpoint3 *, NLpoint3 *);
+ int gdc_CoursePut(int, int, float);
+-float nlFastSin(int);
+ 
+ /* one piece of a spline course: drawn when it is in the view and PutCourse_CheckPiece agrees */
+ static void putSplinePiece(int piece, int type)
+@@ -39,6 +336,7 @@ static void putSplinePiece(int piece, int type)
+     float proj[3];
+     float d;
+ 
++    return;                                                     /* osm layer: Arcade's city is not drawn, the model is */
+     pt = p->pos;
+     nlProjectScreen3D(&pt, proj);
+     d = nlLength(&pt, CAM_POS);
+@@ -62,6 +360,7 @@ void PutCourse(void)
+ 
+     PutCourse_Sky();
+     if (COURSE_MODE == 0) {                                     /* a spline course */
++        osmDraw();
+         setFov();
+         n = CourseSplineNumGet(0);
+         getNearLineIndex(0, CourseSplineGet(0), n, 0x0C2A6EC0, (int)CAM_POS);
+diff --git a/src/game_f.c b/src/game_f.c
+index 48891cc..c74eedf 100644
+--- a/src/game_f.c
++++ b/src/game_f.c
+@@ -47,11 +47,18 @@ int IsBoyFriend(int x, int f)
+     return 0;
+ }
+ 
++void gdc_StopStreamSongAll(void);
++void gdc_CourseStartLoadReq(void);
++
+ void gameState4(void)
+ {
++    int own = *(int *)0x0C1EE20C == 0;                  /* pacman layer: Arcade has one driver, Pac-Man: no select screen (as Snake Way's stages) */
++
+     Init_Adv_Global_Parm();
+-    nd_CarSelInit();
+-    gdc_PlayStreamSong(2);
++    if (!own) {
++        nd_CarSelInit();
++        gdc_PlayStreamSong(2);
++    }
+     (*(int *)0x0C1EE238)++;
+     *(int *)0x0C1EE240 = 0;
+     nlInitEvent();
+@@ -59,6 +66,14 @@ void gameState4(void)
+     *(int *)0x0C179488 = 0;
+     *(int *)0x0C17948C = 0;
+     *(int *)0x0C1EE780 = 0;
++    if (own) {                                          /* what gameState5 leaves when the pick is done: the driver (slot 0: osmDriver draws
++                                                           Pac-Man whatever it is), the course's start pieces asked for, the menu's song
++                                                           stopped, gameState0 next */
++        *(int *)0x0C179488 = 0;
++        gdc_CourseStartLoadReq();
++        gdc_StopStreamSongAll();
++        *(int *)0x0C1EE238 = 0;
++    }
+ }
+ 
+ /* Whether voice i's stream is in a state between 1 and 5 (exclusive). */
+diff --git a/src/game_k.c b/src/game_k.c
+index b47ab0c..e5a82d7 100644
+--- a/src/game_k.c
++++ b/src/game_k.c
+@@ -1,6 +1,8 @@
+ /* Game functions (batch k): the new-game state reset, the course object tables' init, the 24-byte entry start, the
+    vibration init, and Kamui's fog density register. Globals are addressed directly where the decomp has no name for them yet. */
+ 
++#include "osm.h"
++
+ void nlRandomSeed(int seed);
+ void nlsndSeqRequest(int a);
+ int pdVibSetStopTime(int t, char *a, char *b, int c);
+@@ -17,6 +19,28 @@ int kmSetFogDensity(int x)
+ void game_init(void)
+ {
+     *(char *)0x0C1EE35C = 1;
++    /* osm layer: the menu's first item, which started Arcade, carries the place's name (its 32-byte text field in the label table at
++       0x0C09F8BC + 12, the proportional font draws it; osm.h has the words). Original (its field at +44) and Crazy Box (+88) are dropped: their text is emptied (the
++       cursor steps over them: menuTopHandler's skip mask) and Options, Records, Save & Load and Exit move up two steps of the menu's stair
++       (48 right, 36 down a step; Exit keeps its wider step) */
++    ((int *)0x0C09F8C8)[0] = OSM_NAME_0;
++    ((int *)0x0C09F8C8)[1] = OSM_NAME_1;
++    ((int *)0x0C09F8C8)[2] = OSM_NAME_2;
++    ((int *)0x0C09F8C8)[3] = OSM_NAME_3;
++    ((int *)0x0C09F8C8)[4] = OSM_NAME_4;
++    ((int *)0x0C09F8C8)[5] = OSM_NAME_5;
++    ((int *)0x0C09F8C8)[6] = OSM_NAME_6;
++    ((int *)0x0C09F8C8)[7] = OSM_NAME_7;
++    ((int *)0x0C09F8F4)[0] = 0;                         /* ORIGINAL */
++    ((int *)0x0C09F920)[0] = 0;                         /* CRAZY BOX */
++    ((float *)0x0C09F940)[0] = 224.0f;                  /* OPTIONS, at Original's place */
++    ((float *)0x0C09F940)[1] = 180.0f;
++    ((float *)0x0C09F96C)[0] = 272.0f;                  /* RECORDS, at Crazy Box's */
++    ((float *)0x0C09F96C)[1] = 216.0f;
++    ((float *)0x0C09F998)[0] = 320.0f;                  /* SAVE & LOAD, at Options' */
++    ((float *)0x0C09F998)[1] = 252.0f;
++    ((float *)0x0C09F9C4)[0] = 432.0f;                  /* EXIT, 112 right and 36 down from Save & Load, as it was */
++    ((float *)0x0C09F9C4)[1] = 288.0f;
+     *(int *)0x0C179488 = 0;
+     *(int *)0x0C17948C = 0;
+     nlRandomSeed(12345);
+diff --git a/src/game_p.c b/src/game_p.c
+index df3e918..2399c31 100644
+--- a/src/game_p.c
++++ b/src/game_p.c
+@@ -1985,7 +1985,7 @@ void Put_TotalDrum_Meter(void)
+ void menuTopHandler(void)
+ {
+     menuOpenStep();
+-    menuCursor(0, 7, 0);
++    menuCursor(0, 7, 0x6);                                      /* osm layer: Original (bit 1) and Crazy Box (bit 2) are skipped */
+     menuPutFrame();
+     menuPutSprites(0x0C0A0720, (void *)0x0C2A1A84, *(int *)0x0C2A1AD8 + 8, 24);
+     menuPutHelpBar(0, (float)(-*(int *)0x0C2A1AD8), 416.0f);
+diff --git a/src/gen_aou.c b/src/gen_aou.c
+index 39e9a5b..96df83e 100644
+--- a/src/gen_aou.c
++++ b/src/gen_aou.c
+@@ -15,6 +15,7 @@ float nlScalor(int);
+ int nlSubVector3op(int, int, int);
+ int nlTranslate(float, float, float);
+ int nlTranslateV(int);
++int osmDriver(int);
+ int Drv_Put(void);
+ struct o0_int { int v; };
+ struct o10_int { char p[0x10]; int v; };
+@@ -73,7 +74,7 @@ int Drv_Put(void)
+     nlTranslateV(((unsigned char)(((t13 << 1) + t13) << 2) + (((int)stk + 4) + 0x14)));
+     nlRotateAY(0x8000);
+     t16 = (((struct o10_int *)0xC2AD000)->v);
+-    t17 = (((struct o0_int *)0xC2AD000)->v);
++    t17 = osmDriver((((struct o0_int *)0xC2AD000)->v));   /* osm layer: Pac-Man is character 0 */
+     if ((t16 != 2) && (t16 != 4)) {
+         if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+             FcvPlayBuffer(0xC2AD028, t17);
+diff --git a/src/gen_dy.c b/src/gen_dy.c
+index 2177241..76372f9 100644
+--- a/src/gen_dy.c
++++ b/src/gen_dy.c
+@@ -2,6 +2,7 @@
+    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+ 
+ int FcvPlayBuffer(int, int);
++int osmDriver(int);
+ int FcvStoreBuffer(int, int, float);
+ extern float nlInnerProduct();
+ int drvJolt(float f4, float f5);
+@@ -136,5 +137,5 @@ int drvJolt(float f4, float f5)
+             (((struct oC_uint *)0xC2AD4A4)->v) = 0x2000;
+         }
+     }
+-    return (FcvPlayBuffer(0xC2AD460, ((((struct o0_int *)0xC2AD000)->v))));
++    return (FcvPlayBuffer(0xC2AD460, osmDriver(((((struct o0_int *)0xC2AD000)->v)))));   /* osm layer: the driving pose, Pac-Man (character 0) */
+ }
+diff --git a/src/gen_e.c b/src/gen_e.c
+index f502817..39c0e67 100644
+--- a/src/gen_e.c
++++ b/src/gen_e.c
+@@ -339,10 +339,13 @@ int padInitAnalog(void)
+     return 0x19;
+ }
+ 
++void osmPad(void);
++
+ int getSwitch(void)
+ {
+     padReadSlot(0x0);
+     ConvertSwitch(0x0);
++    osmPad();                                           /* osm layer */
+     padReadSlot(0x2);
+     ConvertSwitch2();
+     return padToAnalog();
+diff --git a/src/gen_el.c b/src/gen_el.c
+index 79ae74e..e12b1b3 100644
+--- a/src/gen_el.c
++++ b/src/gen_el.c
+@@ -1,3 +1,6 @@
++extern int osmTopPitch;                                /* osm layer: course_b.c's top view */
++extern float osmTopDist;
++void osmCamClip(float *, float *);
+ /* Straight-line functions with calls and guards (batch gen_el): generated from the code and checked by tests. Calls are
+    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+ 
+@@ -284,7 +287,7 @@ int camUpdate(int a4)
+     (((struct o0_float *)0xC1798A4)->v) = 60.0f;
+     SetCameraAngleRatio(0.599999964f, 0.099999994f);
+     SetCameraTargetRatio(0.799999952f, 0.099999994f);
+-    SetCameraDistance(600.0f);
++    SetCameraDistance(osmTopDist);   /* osm layer: was 600 */
+     SetCameraMode(0x2);
+     L_C0272BC:;
+     if (((((((struct o34_int *)0xC1EE280)->v)) & 4) == 0)) goto L_C0272D0;
+@@ -304,7 +307,7 @@ int camUpdate(int a4)
+     *(float *)(((int)stk + 92)) = 0.0f;
+     *(float *)(((int)stk + 96)) = 120.0f;
+     nlCalcPoint((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x54));
+-    camSetAngles(0xCC00, ((unsigned short)((((struct o86_short *)((*(int *)(((int)stk + 84)))))->v)) + 0x8000), 0x0, 0x2);
++    camSetAngles(osmTopPitch, ((unsigned short)((((struct o86_short *)((*(int *)(((int)stk + 84)))))->v)) + 0x8000), 0x0, 0x2);   /* osm layer: was 0xCC00 */
+     camSetTarget((((int)stk + 4) + 0x54), 0x2);
+     goto L_C0283F6;
+     L_C026A1C:;
+@@ -950,6 +953,7 @@ int camUpdate(int a4)
+     nlSubVector3op((((int)stk + 4) + 0x44), (((int)stk + 4) + 0x54), 0xC179914);
+     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x54)) = *(struct mv3 *)(0xC179914); }
+     GetCollision((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x44), 0.0f, 5.0f);
++    osmCamClip((float *)0xC179914, (float *)(((int)stk + 4) + 0x54));   /* osm layer: and the maze's walls */
+     camSetEye((((int)stk + 4) + 0x54), 0x2);
+     v0_0 = (0xC179954);
+     if (((int)((((struct o2C_int *)0xC179928)->v)) <= 0)) goto L_C026FF4;
+diff --git a/src/gen_hh.c b/src/gen_hh.c
+index 2f6b715..17bc13e 100644
+--- a/src/gen_hh.c
++++ b/src/gen_hh.c
+@@ -2,6 +2,7 @@
+    to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+ 
+ int Psg_Init(int, int, int);
++int osmGhost(int);
+ int Psg_SetPosPtrSet(int, int);
+ int set_event(int, int);
+ void kyakuTaskStart(int a4, int a5, int a6);
+@@ -36,7 +37,7 @@ void kyakuTaskStart(int a4, int a5, int a6)
+         (((struct o19C_uint *)(t0))->v) = t3;
+         t4 = *(signed char *)((((a4 + 0x18) + t3) + 0x0));
+         (((struct o198_uint *)(t0))->v) = (((short)((((t4 << 1) + t4) << 2) << 1) + 0xC1794F0) + 0x18);
+-        Psg_Init((t0 + 0x1C), (*(int *)((((*(int *)(((*(int *)((t0 + 0x14))) + 0x4))) << 2) + 0xC08A9B8))), (*(int *)((((((struct o198_int *)(t0))->v)) + 0x0))));
++        Psg_Init((t0 + 0x1C), osmGhost((*(int *)((((*(int *)(((*(int *)((t0 + 0x14))) + 0x4))) << 2) + 0xC08A9B8)))), (*(int *)((((((struct o198_int *)(t0))->v)) + 0x0))));   /* pacman layer: every customer is a ghost */
+         Psg_SetPosPtrSet((t0 + 0x1C), ((*(int *)((t0 + 0x14))) + 0x8));
+         (((struct o178_float *)(t0))->v) = 0.699999988f;
+         (((struct o17C_float *)(t0))->v) = 35.0f;
+diff --git a/src/gen_jj.c b/src/gen_jj.c
+index a6e80f8..dc79a9f 100644
+--- a/src/gen_jj.c
++++ b/src/gen_jj.c
+@@ -27,6 +27,7 @@ int initCamera(int);
+ int initPlayer(void);
+ int initPlayerADV(void);
+ int init_CarMain(void);
++void osmStart(void);
+ int init_GameSystem(void);
+ int init_KyakuMain(void);
+ int nd_peopleInitialize(int);
+@@ -115,6 +116,7 @@ int gameState0(float f4)
+         PutCourse_Init(((((struct o0_int *)0xC1EE20C)->v)));
+         nd_peopleInitialize(0x46);
+     }
++    osmStart();                                         /* osm layer */
+     init_CarMain();
+     if (((((struct o4_int *)0xC1EE20C)->v)) == 2) {
+         Init_DCmini();
+diff --git a/src/gen_ty.c b/src/gen_ty.c
+index 35951a4..17f41a2 100644
+--- a/src/gen_ty.c
++++ b/src/gen_ty.c
+@@ -8,6 +8,7 @@ int carCalcInertia(int);
+ int carInitDriveSplit(int);
+ int getReplayPoint(int, int, int, int, int);
+ int init_CarSound(void);
++#include "osm.h"
+ int init_CarMain(void);
+ struct o0_float { float v; };
+ struct o0_int { int v; };
+@@ -252,6 +253,14 @@ int init_CarMain(void)
+             (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
+         }
+     }
++    /* osm layer: every Arcade start (stages 0 and 1, game_init sets 1; not the replay's 2) puts the cab on a road of the map, facing along it:
++       the car moves along (sin yaw, cos yaw), so yaw 0 is +z */
++    if ((*(int *)0xC1EE20C) == 0 && (*(signed char *)0xC1EE35C) != 2) {
++        *(unsigned short *)0xC179152 = OSM_START_YAW;
++        *(float *)0xC179144 = OSM_START_X;
++        *(float *)0xC179148 = OSM_START_Y + 4.0f;                /* on the ground (the cab's centre rides about 3 units over it) */
++        *(float *)0xC17914C = OSM_START_Z;
++    }
+     { struct mv5 { int w[5]; }; *(struct mv5 *)(0xC179158) = *(struct mv5 *)(0xC179144); }
+     (((struct o0_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAC);
+     (((struct o1_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAD);

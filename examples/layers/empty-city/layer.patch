@@ -1,0 +1,59 @@
+diff --git a/src/gen_ee.c b/src/gen_ee.c
+--- a/src/gen_ee.c
++++ b/src/gen_ee.c
+@@ -62,7 +62,9 @@
+         if ((getKyakuOffFlag()) == 0) {
+             exec_KyakuMain();
+         }
+-        ExecSetObject();
++        if ((*(int *)0xC1EE20C) != 0) {                 /* empty-city layer: no set objects in Arcade (gen_mr.c) */
++            ExecSetObject();
++        }
+         ExecKyakuArea();
+         if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
+             ExecHelicopter();
+diff --git a/src/gen_ju.c b/src/gen_ju.c
+--- a/src/gen_ju.c
++++ b/src/gen_ju.c
+@@ -75,8 +75,10 @@
+         *(unsigned int *)(((int)stk + 8)) = t20;
+         getNearLineIndex(0x0, ((((struct o10_int *)0xC2A1B18)->v)), ((((struct o14_int *)0xC2A1B18)->v)), ((*(int *)(((int)stk + 8))) + 0x60), (t20 + 0x78), 1700.0f);
+         trafficLevelControl(0x0);
+-        trafficSectionControl(0x0, 0x0, 0.0f);
+-        parkingControl(0x0, 0xC2A1B34);
++        if ((*(int *)0xC1EE20C) != 0) {                 /* empty-city layer: no traffic and no parked cars in Arcade, whose city   */
++            trafficSectionControl(0x0, 0x0, 0.0f);      /* is replaced (Snake Way): the city's roads and parking places are still there, and */
++            parkingControl(0x0, 0xC2A1B34);             /* their cars floated over the new course */
++        }
+         nlObjPutMvInit(0x50);
+         t82 = (RailroadAreaCheck(0x0, 0x0));
+     } else {
+@@ -96,10 +98,12 @@
+             trafficLevelControl(0x1);
+         }
+         t56 = getGoiToolFlag(0x2);
+-        if ((t56 == 1) && (t57 = *(int *)0xC2A6FD8, t57 != 2)) {
++        if ((t56 == 1) && (t57 = *(int *)0xC2A6FD8, t57 != 2) && (*(int *)0xC1EE20C) != 0) {     /* empty-city layer: none in Arcade */
+             trafficSectionControl(0x1, 0xC2A1B34, ((((struct o0_float *)0xC2A1B18)->v)));
+         }
+-        parkingControl(0x1, 0xC2A1B34);
++        if ((*(int *)0xC1EE20C) != 0) {
++            parkingControl(0x1, 0xC2A1B34);
++        }
+         RailroadAreaCheck(0x1, 0xC179840);
+         (((struct o28_uint *)0xC2A1B18)->v) = ((((struct o60_int *)(((((struct o18_int *)0xC2A1B18)->v))))->v));
+         { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x4)) = *(struct mv3 *)(0xC0A4788); }
+diff --git a/src/gen_mr.c b/src/gen_mr.c
+--- a/src/gen_mr.c
++++ b/src/gen_mr.c
+@@ -91,7 +91,9 @@
+     } else {
+         exec_KyakuMain();
+     }
+-    ExecSetObject();
++    if ((*(int *)0xC1EE20C) != 0) {                     /* empty-city layer: no set objects (postboxes, phone booths, crates) in Arcade, */
++        ExecSetObject();                                /* whose city is replaced: they opened at the city's places and fell onto the course */
++    }
+     if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && ((t42 = (((struct o0_int *)0xC1EE20C)->v), t42 != 2) || (t43 = (((struct o8_int *)0xC1EE20C)->v), t43 == 0))) {
+     } else {
+         ExecKyakuArea();

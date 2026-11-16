@@ -1,0 +1,184 @@
+diff --git a/src/course_kit.h b/src/course_kit.h
+new file mode 100644
+--- /dev/null
++++ b/src/course_kit.h
+@@ -0,0 +1,168 @@
++/* course-kit layer: what a course of the Crazy Taxi mods needs, whatever the course (included by a mod's course_b.c, once): a blob of models
++   and textures written into a COLDCn.BIN by the mod's tools, its textures loaded into free slots, and the stops and the customers put on the
++   course at a run's start. Functions only: an initialised static or a string goes after the end of the executable, over the game's first
++   variable (a build with one did not boot). */
++#ifndef COURSE_KIT_H
++#define COURSE_KIT_H
++
++#define TUX_MAGIC       0x52585554                      /* "TUXR": a blob (tools: the 'TUXR' layout) */
++/* By name, not by number: the C build moves the numbers in .c files with the shifted layout, not a header's; the linker puts each name at its
++   address, moved (symbols.txt). */
++extern unsigned char *nl_texture_loadflag;
++extern int g_0c2b3184;
++#define SLOT_BASE       nl_texture_loadflag             /* 0C2AEC84: 8 bytes a slot, a use count first */
++#define SLOT_OFFSET     g_0c2b3184                      /* nlSetCommonTextureOffset's: a number's slot is number + this */
++
++/* The blob: +4 texture count, +8 the tile list (16 bytes a tile: its model's offset, its centre x and z, a fourth word of the mod's), +12 the
++   texture table, +16 the first texture number, +20 the tile count, from +24 the mod's. A tile's model is a 24-byte header, its records, a 0
++   word. */
++#define TILE(o, k)      ((unsigned int *)((unsigned char *)(o) + (o)[2]) + 4 * (k))
++
++extern int nlObjPutLoadTexture(void *model, void *table);
++extern void gdc_CourseTexFree(void);
++extern float *GetCollision2D(float *pos, float tol);
++float nlFastSin(int);
++float nlFastCos(int);
++extern float _builtin_sqrtf(float);
++
++/* The first number from which n consecutive texture slots are unused, searched from the top of the slot table (3001 slots, nlInitCommonTexture)
++   down to slot 2500: the city's textures sit in the slots from 2000 up (numbers 2000 + i), and one of ours that landed among them came out
++   red (the dummy), so ours are kept above them; -1 when the table is not set up. */
++static int ctFreeRun(int n)
++{
++    unsigned char *base = SLOT_BASE;
++    int off = SLOT_OFFSET, num, k;
++
++    if (!base)
++        return -1;
++    for (num = 2990 - n - off; num > 2500 - off; num--) {
++        for (k = 0; k < n; k++)
++            if (*(int *)(base + 8 * (num + k + off)))
++                break;
++        if (k == n)
++            return num;
++    }
++    return -1;
++}
++
++/* A blob whose tiles hold several records (a record starts with its PCW, negative; its texture number is at +0x20 and the length of its
++   strips at +0x4C, they follow it at +0x50; the next record or a 0 word follows them): the city's textures are freed (they take most of
++   the texture memory, and the course draws none of the city), the blob's go to a free run of slots with every record's number moved there,
++   and every tile is given its textures by the loader (it writes the surface's parameters into the records it walks, and only those: a tile
++   left out keeps the placeholder address 0 and draws video memory). The loader indexes the table by number. The texture offset is put back
++   as it was: gdc_CourseTexFree leaves it at 2000, and the game's text (pfSetFont, InitProportionalText) finds its texture's slot through it
++   while it draws, so at 2000 the tips and the fare panel drew with our course's textures. */
++static void ctLoadTiles(unsigned int *o)
++{
++    unsigned char *table, *p;
++    int first, k, offset = SLOT_OFFSET;
++
++    gdc_CourseTexFree();
++    table = (unsigned char *)o + o[3];
++    first = ctFreeRun((int)o[1]);
++    if (first < 0)
++        first = (int)o[4];
++    for (k = 0; k < (int)o[5]; k++) {
++        p = (unsigned char *)o + TILE(o, k)[0] + 24;
++        while (*(int *)p < 0) {
++            *(int *)(p + 0x20) += first - (int)o[4];
++            p += 0x50 + *(unsigned int *)(p + 0x4C);
++        }
++    }
++    for (k = 0; k < (int)o[5]; k++)
++        nlObjPutLoadTexture((unsigned char *)o + TILE(o, k)[0], table - 16 * first);
++    o[4] = first;
++    SLOT_OFFSET = offset;
++}
++
++/* corner k of n on a circle of radius r */
++static void ctStopPoint(int k, int n, float r, float *dx, float *dz)
++{
++    int a = (k * 65536) / n;
++
++    *dx = r * nlFastCos(a);
++    *dz = r * nlFastSin(a);
++}
++
++static float ctLength2D(float dx, float dz)
++{
++    return _builtin_sqrtf(dz * dz + dx * dx);
++}
++
++/* the ground's height under (x, z), or dflt where there is none */
++static float ctGround(float x, float z, float dflt)
++{
++    float pos[3];
++    float *res;
++
++    pos[0] = x;
++    pos[1] = 1000.0f;
++    pos[2] = z;
++    res = GetCollision2D(pos, 20.0f);
++    return (*(int *)((char *)res + 0x1C) == -1) ? dflt : res[1];
++}
++
++/* Stop `id` (where a customer wants to go): the polygon of radius r centred on (cx, cz), written to both polygon tables, the one the game
++   tests (0C0ED974) and the one it draws the stop's ring and curtain from (0C0ED9C8, other points at other addresses: the ring was drawn at the
++   city's old place). The ring and the curtain are a metre high: at the centre's height they were buried in a slope on its uphill side and
++   floated over it on the other, so each corner stands on the ground below it (cy where there is none). */
++static void ctPlaceStop(int *list, int *dlist, int id, float cx, float cz, float cy, float r)
++{
++    int t, k, n;
++    float dx, dz, *pts;
++    int *lists[2];
++
++    lists[0] = list;
++    lists[1] = dlist;
++    for (t = 0; t < 2; t++) {
++        n = lists[t] ? lists[t][2 * id] : 0;
++        pts = lists[t] ? (float *)lists[t][2 * id + 1] : 0;
++        if (n <= 0 || !pts)
++            continue;
++        for (k = 0; k < n; k++) {
++            ctStopPoint(k, n, r, &dx, &dz);
++            pts[3 * k] = cx + dx;
++            pts[3 * k + 2] = cz + dz;
++            pts[3 * k + 1] = ctGround(pts[3 * k], pts[3 * k + 2], cy) + 2.0f;
++        }
++    }
++}
++
++static unsigned int ctRand(unsigned int *seed)
++{
++    *seed = *seed * 1103515245u + 12345u;
++    return (*seed >> 16) & 0x7FFF;
++}
++
++/* A customer waiting at (cx, cz), a request of the table exec_KyakuMain reads (0x28 bytes): its three destinations (the stop ids at +0x18,
++   the route lengths to them at +0x1C: the fare and the time) are chosen among the count stops (sx, sz) at least mintrip away from it (the
++   farthest ones, if fewer are). */
++static void ctDestinations(float *e, signed char *dest, float cx, float cz, float *sx, float *sz, int count, float mintrip, unsigned int *seed)
++{
++    float dd[33];
++    int cand[33], j, k, b;
++
++    for (j = 0; j < count; j++) {
++        cand[j] = j;
++        dd[j] = ctLength2D(sx[j] - cx, sz[j] - cz);
++    }
++    for (j = 0; j < count; j++)                         /* far first */
++        for (k = j + 1; k < count; k++)
++            if (dd[cand[k]] > dd[cand[j]]) {
++                b = cand[j];
++                cand[j] = cand[k];
++                cand[k] = b;
++            }
++    for (j = 0, b = 0; j < count; j++)
++        if (dd[cand[j]] >= mintrip)
++            b++;
++    if (b < 3)
++        b = count < 3 ? count : 3;
++    for (k = 0; k < 3; k++) {
++        j = cand[(int)(ctRand(seed) % (unsigned int)b)];
++        dest[k] = (signed char)j;
++        e[7 + k] = dd[j];
++    }
++}
++
++#endif
+diff --git a/symbols.txt b/symbols.txt
+--- a/symbols.txt
++++ b/symbols.txt
+@@ -152,6 +152,7 @@
+ 0C2B29C4 g_0c2b29c4
+ 0C2B317C g_0c2b317c
+ 0C2B3184 g_0c2b3184
++0C2AEC84 nl_texture_loadflag
+ 0C14A640 g_0c14a640
+ 0C2AF364 g_0c2af364
+ 0C14A7B8 g_0c14a7b8

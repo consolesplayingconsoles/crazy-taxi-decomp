@@ -49,6 +49,67 @@ GAME ASSETS (EXTRA)
 Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 `git config core.hooksPath tools/hooks`).
 
+## Examples
+
+Mods built on top of this decomp, running on a real Dreamcast: an Extreme Tux Racer course, Doom's E1M1 and the Pac-Man maze, as playable levels.
+More pictures, how to build them and their licences are in the [examples README](examples/README.md).
+
+<table>
+  <tr>
+    <td><img src="examples/screenshots/tux-racer-1.jpg" width="200" alt="Tux Racer course: the cab on the snow"></td>
+    <td><img src="examples/screenshots/doom-1.jpg" width="200" alt="Doom E1M1: the cab with the arrow"></td>
+    <td><img src="examples/screenshots/pac-man-1.jpg" width="200" alt="Pac-Man maze: a ghost over the cab"></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://www.instagram.com/reel/DfCv8f5x_46/">Tux Racer Video</a></td>
+    <td align="center"><a href="https://www.instagram.com/reel/DfF62DVxLiG/">Doom Video</a></td>
+    <td align="center"><a href="https://www.instagram.com/reel/Dfy8q-7RTQ7/">Pac-Man Video</a></td>
+  </tr>
+</table>
+
+### Other mods (not included)
+
+Four Dragon Ball mods are built the same way on this decomp.
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/snake-way-1.jpg" width="200" alt="Snake Way: the cab driving down the road"></td>
+    <td><img src="docs/screenshots/snake-way-2.jpg" width="200" alt="Snake Way: Goku driving, the cab seen from the side"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><a href="https://www.instagram.com/reel/DfRemPvRd4t/">Snake Way Video</a></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/namek-1.jpg" width="200" alt="Namek: the cab on a path by the cliffs and water"></td>
+    <td><img src="docs/screenshots/namek-2.jpg" width="200" alt="Namek: the cab racing across the water"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><a href="https://www.instagram.com/reel/DfXQBXJxI0P/">Namek Video</a></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/satan-1.jpg" width="200" alt="Mr. Satan: a passenger waving by the cab in the arena"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="1"><a href="https://www.instagram.com/reel/DfmRFXWxy7w/">Mr. Satan Video</a></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/trunks-1.jpg" width="200" alt="Future Trunks: the cab in the grey wasteland"></td>
+    <td><img src="docs/screenshots/trunks-2.jpg" width="200" alt="Future Trunks: the cab crossing the wasteland, a figure on the right"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><a href="https://www.instagram.com/reel/DfmRFXWxy7w/">Future Trunks Video</a></td>
+  </tr>
+</table>
+
 ## The steps
 
 This decomp follows the steps of the dc-decomp-kickoff skill: six from the disc to proven C for every function, then three to build, run and stabilise the game from that C. `AGENTS.md` has the detail.

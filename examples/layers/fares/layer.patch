@@ -1,0 +1,78 @@
+diff --git a/src/gen_gx.c b/src/gen_gx.c
+--- a/src/gen_gx.c
++++ b/src/gen_gx.c
+@@ -172,6 +172,15 @@
+     L_C0248EA:;
+     goto L_C024D66;
+     L_C024D66:;
++    /* fares layer: once the customer is aboard (phase 2: riding to the destination), whatever path got here (the city's road polyline, its
++       waypoints, the spline lines of Arcade), the target of the bearing and of the distance below (the arrow's colour, the drop-off test, the
++       stop's area) is the customer's destination, at the car's height: there are no roads here to follow, and the city's waypoints are 10,000
++       units away. Before that (phase 0, 1) the target is the waiting customer, as the game has it: the pick-up measures the distance to it. */
++    if ((*(int *)((R14 + 0x174))) >= 2) {
++        { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 8) + 0x28)) = *(struct mv3 *)(((*(int *)((R14 + 0x198))) + 0x4)); }
++        *(float *)(((int)stk + 52)) = (*(float *)(((int)stk + 40)));
++        TOANG2(((int)stk + 8), ((-(*(float *)(((int)stk + 48)))) + (*(float *)(((int)stk + 36)))), ((*(float *)(((int)stk + 56))) - (*(float *)(((int)stk + 44)))));
++    }
+     HomingAngle1((*(short *)(((int)stk + 8))), (0x182 + R14), 0.0799999982f);
+     t22 = nlLength((((int)stk + 8) + 0x28), (((int)stk + 8) + 0x1C));
+     *(unsigned short *)0xC2AE344 = (*(short *)(((int)stk + 8)));
+@@ -396,7 +405,7 @@
+     kyakuTaskPut((*(short *)((R14 + 0x182))), 0x1, F15);
+     goto L_C025328;
+     L_C025162:;
+-    if ((!(_builtin_fabsf((*(float *)(((*(int *)((R14 + 0x18))) + 0x15C)))) > 0.149999991f))) goto L_C025176;
++    if ((!(_builtin_fabsf((*(float *)(((*(int *)((R14 + 0x18))) + 0x15C)))) > 2.0f))) goto L_C025176;
+     goto L_C025172;
+     L_C025172:;
+     goto L_C025284;
+@@ -569,12 +578,12 @@
+     goto L_C024EE8;
+     L_C024EE8:;
+     F1 = (0.149999991f);
+-    if ((_builtin_fabsf((*(float *)(((*(int *)((R14 + 0x18))) + 0x15C)))) > 0.149999991f)) goto L_C024F1C;
++    if ((_builtin_fabsf((*(float *)(((*(int *)((R14 + 0x18))) + 0x15C)))) > 2.0f)) goto L_C024F1C;
+     goto L_C024EF8;
+     L_C024EF8:;
+     u277 = *(float *)(((*(int *)((R14 + 0x18))) + 0x7C));
+     u278 = *(float *)(((*(int *)((R14 + 0x14))) + 0xC));
+-    t279 = !(50.0f > _builtin_fabsf((u278 - u277)));
++    t279 = !(200.0f > _builtin_fabsf((u278 - u277)));    /* fares layer: a stop on a slope; speed limits 0.15 -> 2.0 */
+     F0 = (_builtin_fabsf((u278 - u277)));
+     if (t279) goto L_C024F1C;
+     goto L_C024F10;
+@@ -870,7 +879,9 @@
+     L_C024982:;
+     goto L_C024AAA;
+     L_C024AAA:;
+-    if (((*(int *)((R12 + 0x0))) == 0)) goto L_C024AB4;
++    /* fares layer: Arcade (CourseMode 0) follows the city's road polyline three points ahead (0C2A1B28); there are no roads here, so
++       it takes the direct bearing to the destination, as every other course mode does */
++    if (((*(int *)((R12 + 0x0))) == 0x7FFFFFFF)) goto L_C024AB4;
+     goto L_C024AB0;
+     L_C024AB0:;
+     goto L_C024BE6;
+diff --git a/src/gen_rm.c b/src/gen_rm.c
+--- a/src/gen_rm.c
++++ b/src/gen_rm.c
+@@ -86,7 +86,7 @@
+     L_C026420:;
+     *(unsigned int *)0xC1794EC = ((*(int *)0xC1794EC) + 0x1);
+     (((struct o18_uint *)0xC179820)->v) = (((((struct o18_int *)0xC179820)->v)) + 0x1);
+-    t19 = PutLandmark(((((struct o0_int *)0xC0E49DC)->v)), R5, R6, a7, F4, f5);
++    t19 = 0;                                            /* fares layer: no destination card (PutLandmark: the picture, the name and the distance of a place of the city) */
+     (((struct o4_uint *)0xC0E49DC)->v) = (((((struct o4_int *)0xC0E49DC)->v)) + 0x1);
+     return t19;
+     L_C0261AC:;
+diff --git a/src/psg_b.c b/src/psg_b.c
+--- a/src/psg_b.c
++++ b/src/psg_b.c
+@@ -117,7 +117,7 @@
+         if (MAIN_MODE == 1) {
+             B(0x149) |= 1;
+             *(int *)0x0C0E49DC = I(0x140);
+-            SetLandmark(0);
++            /* fares layer: no destination card (the picture and the name of a place of the city: the id names a landmark of the disc's archive) */
+         }
+         break;
+ 

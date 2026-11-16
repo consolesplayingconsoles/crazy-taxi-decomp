@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pac-Man Level (Namco) (NES)
+* source:	https://sketchfab.com/3d-models/pac-man-level-namco-nes-48b1251436b04c14951f9f614503099f
+* author:	Alfking49 (https://sketchfab.com/alfking49)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pac-Man Level (Namco) (NES)" (https://sketchfab.com/3d-models/pac-man-level-namco-nes-48b1251436b04c14951f9f614503099f) by Alfking49 (https://sketchfab.com/alfking49) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,12 @@
+{
+  "name": "Tux Racer",
+  "decomp": "crazy-taxi-decomp",
+  "layers": [
+    "layers/fares",
+    "layers/no-sea",
+    "layers/no-demo",
+    "layers/empty-city",
+    "layers/course-kit",
+    "layers/no-route"
+  ]
+}

@@ -1,0 +1,14 @@
+diff --git a/src/gen_lf.c b/src/gen_lf.c
+--- a/src/gen_lf.c
++++ b/src/gen_lf.c
+@@ -72,7 +72,9 @@
+         gdc_CoursePointLoadReq(*(NLpoint3 *)(((int)stk + 76)), u58);
+         t63 = 0x135;
+     }
+-    if ((int)(*(int *)0xC1EE240) >= (int)t63) {
++    /* no-demo layer: the title no longer times out into the attract demo (a replay of a drive through the city: here it shows the
++       cab in the air over the road); it waits for START, which Chk_DispCredit takes to the menu */
++    if (0) {
+         t71 = *(int *)0xC1EE23C;
+         if (t71 == 0) {
+             *(unsigned int *)0xC1EE238 = 0x2;

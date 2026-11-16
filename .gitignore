@@ -3,6 +3,7 @@
 IP.BIN
 *.gdi
 *.bin
+!examples/pac-man/assets/maze/scene.bin
 *.raw
 *.chd
 asm/

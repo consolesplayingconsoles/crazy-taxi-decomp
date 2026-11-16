@@ -1,0 +1,9 @@
+{
+  "name": "Pac-Man",
+  "decomp": "crazy-taxi-decomp",
+  "layers": [
+    "layers/fares",
+    "layers/no-demo",
+    "layers/course-kit"
+  ]
+}

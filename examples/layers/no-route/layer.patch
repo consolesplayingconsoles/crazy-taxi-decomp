@@ -1,0 +1,47 @@
+diff -ru a/src/gen_aon.c b/src/gen_aon.c
+--- a/src/gen_aon.c	2026-11-09 18:01:59
++++ b/src/gen_aon.c	2026-11-09 18:02:39
+@@ -187,7 +187,7 @@
+         *(float *)0xC1791E4 = ((*(float *)0xC1791E4) * 0.00999999978f);
+     }
+     getNearLineIndex(0x0, (*(int *)0xC2A1B28), (*(int *)0xC2A1B2C), 0xC17912C, 0xC179144);
+-    if ((*(int *)0xC1EE20C) == 1) {
++    if (0) {                                            /* no-route layer: Original's city areas and route (getAreaFromPos, navi_GetRouteDataC) mean nothing on a course of ours */
+         *(unsigned int *)0xC179130 = (getAreaFromPos(0xC179144, (*(int *)0xC179130)));
+         if ((int)(*(int *)0xC179130) < 0) {
+             *(unsigned int *)0xC179130 = 0x0;
+diff -ru a/src/gen_gx.c b/src/gen_gx.c
+--- a/src/gen_gx.c	2026-11-09 18:02:11
++++ b/src/gen_gx.c	2026-11-09 18:02:39
+@@ -717,7 +717,7 @@
+     GS_GuestIn(R14);
+     *(unsigned int *)(((*(int *)((R14 + 0x14))) + 0x0)) = 0x5;
+     SetLandmarkDist((F15 - (*(float *)(((*(int *)((R14 + 0x198))) + 0x14)))));
+-    if (((*(int *)((R12 + 0x0))) != 1)) goto L_C024FD4;
++    goto L_C024FD4;                                     /* no-route layer: no city route (navi_GetRouteDataB) to a destination on a course of ours */
+     goto L_C024F8C;
+     L_C024F8C:;
+     if (((*(int *)((*(int *)((R14 + 0x198))) + 0x0)) != 26)) goto L_C024FC8;
+@@ -779,7 +779,7 @@
+     L_C0248EE:;
+     t397 = *(int *)((R12 + 0x0));
+     R0 = (t397);
+-    if ((t397 != 1)) goto L_C024900;
++    if (1) goto L_C024900;                              /* no-route layer: no city route (navi_GetRouteYa) on a course of ours: the direct bearing */
+     goto L_C0248F4;
+     L_C0248F4:;
+     navi_GetRouteYa((((int)stk + 8) + 0x28));
+diff -ru a/src/gen_zh.c b/src/gen_zh.c
+--- a/src/gen_zh.c	2026-11-09 18:02:00
++++ b/src/gen_zh.c	2026-11-09 18:02:39
+@@ -157,7 +157,9 @@
+     R6 = (0x1);
+     goto L_C0258B4;
+     L_C0258B4:;
+-    t53 = navi_GetRouteTbl((R14 + 0x8), (((short)((R5 << 2) << 1) + R13) + 0x1C), R6);
++    /* no-route layer: the route length to each destination stays the one the course's stops wrote (course-kit's ctDestinations): the city's route table is walked
++       from the stop's area to a terminator that a stop of ours never reaches (the run hung in navi_GetRouteTbl at the start, in init_KyakuMain) */
++    t53 = *(float *)((R8 + 0x0));
+     *(float *)((R8 + 0x0)) = t53;
+     F0 = (t53);
+     F4 = (t53);

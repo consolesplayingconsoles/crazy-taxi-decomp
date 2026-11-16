@@ -1,0 +1,330 @@
+diff --git a/src/course_b.c b/src/course_b.c
+index f9bad9f..13df3cb 100644
+--- a/src/course_b.c
++++ b/src/course_b.c
+@@ -15,6 +15,192 @@ typedef struct { float radius; NLpoint3 pos; float pad; } CoursePiece;
+ #define SUBWAY_CAMERA   (*(int *)0x0C2A9D60)
+ #define AREA_LIST       (*(unsigned char **)0x0C2A6EC4)
+ 
++/* Tux Racer Map (tux-racer layer): Arcade's city is replaced by an Extreme Tux Racer course. tools/coldc.py and tools/tuxmodel.py write the
++   ground, the edge walls and the terrain model into COLDC1.BIN (read at 0x0CB40000 and kept) and tux.h (where the model is, where the
++   cab starts). The city's pieces are not drawn in Arcade (putSplinePiece), the terrain is (tuxDraw, in PutCourse), the textures go into
++   free slots at a run's start (tuxStart, gameState0, before init_CarMain: the game frees every texture when the city loads). */
++#include "tux.h"
++
++#include "course_kit.h"                                 /* course-kit layer: the blob's textures, the stops, the customers */
++
++extern void nlPushMatrix(int n);
++extern void nlPopMatrix(int n);
++extern void nlObjPutUseViewMatrix(void *model);
++int nlTranslateV(int);
++int nlSetScaleFactor(float);
++int nlTranslate(float, float, float);
++int nlScale(float, float, float);
++int nlObjPutUseViewMatrixTrnsl(int, float);
++
++/* The blob (tools/tuxmodel.py): +4 texture count, +8 the tile list (16 bytes a tile: its model's offset, centre x and z, texture slot),
++   +12 the texture table, +16 the first texture number, +20 the tile count. A tile's model is the 24-byte header, one record, a 0 word. */
++#define TUX_DRAW_RANGE  1500.0f                         /* tiles farther than this from the camera are not sent to the video buffer */
++
++/* The stops (where the customers wait and where they want to go): Arcade's 33 are polygons in the executable at the city's coordinates, and
++   a pick-up needs the cab within the stop's circle, nearly stopped, at a height within 50 of the stop's: at the city's altitudes the slope
++   never matched. Each run they are put at random places of the player's area, one in each of 33 bands down the slope (so the trips are of
++   every length), a regular octagon of 200 units on the ground there, before init_KyakuMain reads them; the game picks the pick-up and the
++   destination among them as it always did. The tables: per Game_No a table per MiniGame_No, of the stops (8 bytes: points, pointer). */
++
++/* A random place in x0..x1 and zlo..zhi (the band) on the Tux course (all ground). */
++static void tuxPlace(unsigned int *seed, float x0, float x1, float zlo, float zhi, float *cx, float *cz)
++{
++    *cx = x0 + (x1 - x0) * (float)ctRand(seed) / 32768.0f;
++    *cz = zlo + (zhi - zlo) * (float)ctRand(seed) / 32768.0f;
++}
++
++static void tuxStops(void)
++{
++    int game = *(int *)0x0C1EE210, mg = *(int *)0x0C1EE214;
++    int count = *(int *)(*(int *)(0x0C0ED9D4 + 4 * game) + 4 * mg);
++    int *list = (int *)*(int *)(*(int *)(0x0C0ED974 + 4 * game) + 4 * mg);
++    int *dlist = (int *)*(int *)(*(int *)(0x0C0ED9C8 + 4 * game) + 4 * mg);
++    /* the frame counter is the same number at every run's start (the stops came out in the same places each run); the SH-4's timer unit
++       (TMU0's counter, TCNT0) keeps counting whatever the game does, so it is not */
++    unsigned int seed = ((unsigned int)*(int *)0x0C1EE330 ^ *(volatile unsigned int *)0xFFD8000C) * 2654435761u + 12345u;
++    float sx[33], sz[33];
++    float band, cz, cx, cy, px0, px1, pz0, pz1;
++    int i;
++    unsigned int tab = 0x0C0DB008u;                             /* the request table exec_KyakuMain reads (gen_rm.c): Arcade's 246 */
++
++    if (count <= 0 || count > 33 || !list)
++        return;
++    px0 = TUX_PLAY_X0 + 250.0f;
++    px1 = TUX_PLAY_X1 - 250.0f;
++    pz0 = TUX_PLAY_Z0 + 400.0f;
++    pz1 = TUX_PLAY_Z1 - 400.0f;
++    band = (pz1 - pz0) / (float)count;
++    for (i = 0; i < count; i++) {
++        tuxPlace(&seed, px0, px1, pz0 + band * (float)i, pz0 + band * (float)(i + 1), &cx, &cz);
++        sx[i] = cx;
++        sz[i] = cz;
++        ctPlaceStop(list, dlist, i, cx, cz, ctGround(cx, cz, 0.0f), 200.0f);
++    }
++    /* The customers are not the stops: Arcade's 246 requests (kyakuStops0 at 0C0DB008, 0x28 bytes each), read by exec_KyakuMain and kyakuInitStops) each
++       carry their own pick-up spot at +8, +0xC and +0x10, in the city's coordinates and at its altitudes: the few that fell on the slope sat in the
++       same place every run and, at 1500 up, never passed the pick-up's height test. TUX_FARES of them (tux.h, from TUX_FARES_PER_KM) are put
++       on the course, one in each of as many bands down the slope, on the ground; the rest are sent far away, where no customer ever comes within
++       reach. Each fare's destinations are at least TUX_MIN_TRIP away (ctDestinations). */
++    for (i = 0; i < 246; i++) {
++        float *e = (float *)(tab + 0x28 * i);
++        signed char *dest = (signed char *)(tab + 0x28 * i + 0x18);
++
++        if (i >= TUX_FARES) {
++            e[2] = 1.0e6f;
++            e[3] = 0.0f;
++            e[4] = 1.0e6f;
++            continue;
++        }
++        band = (pz1 - pz0) / (float)TUX_FARES;
++        tuxPlace(&seed, px0, px1, pz0 + band * (float)i, pz0 + band * (float)(i + 1), &cx, &cz);
++        cy = ctGround(cx, cz, 0.0f);
++        e[2] = cx;
++        e[3] = cy;
++        e[4] = cz;
++        ctDestinations(e, dest, cx, cz, sx, sz, count, TUX_MIN_TRIP, &seed);
++    }
++}
++
++/* gameState0, before init_CarMain: the course's textures into the game's slots. */
++void tuxStart(void)
++{
++    unsigned int *o = (unsigned int *)TUX_MODEL;
++    unsigned char *table;
++    int first, k, offset = SLOT_OFFSET;
++
++    if (*(int *)0x0C1EE20C != 0 || o[0] != TUX_MAGIC)
++        return;
++    /* The Arcade city's textures (numbers 2000 and up, gdc_CourseTexLoad) take most of the texture memory, and this course draws none of the
++       city: free them first, or the game refuses our surfaces and draws the dummy texture (red). The sky is a POLDC0 model, not one of them. */
++    gdc_CourseTexFree();
++    table = (unsigned char *)o + o[3];
++    first = ctFreeRun((int)o[1]);
++    if (first < 0)
++        first = (int)o[4];
++    for (k = 0; k < (int)o[5]; k++)                     /* every record's texture number moved to the free run */
++        *(int *)((unsigned char *)o + TILE(o, k)[0] + 24 + 0x20) = first + (int)TILE(o, k)[3];
++    /* Every tile's record gets its texture's address from the loader (it writes the surface's parameters into the records it walks, and only
++       those): a tile left out keeps the placeholder address 0 and draws video memory (red stripes). The textures themselves load once; the
++       other calls count another use of the slot. The loader indexes the table by number. */
++    for (k = 0; k < (int)o[5]; k++)
++        nlObjPutLoadTexture((unsigned char *)o + TILE(o, k)[0], table - 16 * first);
++    o[4] = first;
++    SLOT_OFFSET = offset;                               /* as ctLoadTiles: the game's text finds its texture through it */
++    tuxStops();
++}
++
++
++/* The terrain: the tiles near the camera, each its own model, at the camera's view matrix (the world's own coordinates). */
++static void tuxDraw(void)
++{
++    unsigned int *o = (unsigned int *)TUX_MODEL;
++    float *cam = (float *)CAM_POS;
++    float dx, dz;
++    int k;
++
++    if (o[0] != TUX_MAGIC)
++        return;
++    for (k = 0; k < (int)o[6]; k++) {                  /* o[6]: the terrain's tiles; the sky box's faces follow them */
++        unsigned int *t = TILE(o, k);
++        dx = *(float *)&t[1] - cam[0];
++        dz = *(float *)&t[2] - cam[2];
++        if (dx * dx + dz * dz > TUX_DRAW_RANGE * TUX_DRAW_RANGE)
++            continue;
++        nlPushMatrix(0);
++        nlObjPutUseViewMatrix((unsigned char *)o + t[0]);
++        nlPopMatrix(1);
++    }
++}
++
++/* The sky: ETR's own box (tools/tuxmodel.py: the faces of its environment for the course) around the camera, in place of the Arcade city's
++   dome (PutCourse_Sky, a POLDC0 model of the town and the sea), whose place it takes in the order of drawing. The box's faces are the
++   tiles after the terrain's, at the origin: moved to the camera's position (0C179840, what the dome is translated to). */
++static void tuxSky(void)
++{
++    unsigned int *o = (unsigned int *)TUX_MODEL;
++    int k;
++
++    for (k = (int)o[6]; k < (int)o[7]; k++) {                  /* o[7]: the first tree model */
++        nlPushMatrix(0);
++        nlTranslateV(0x0C179840);
++        nlSetScaleFactor(1.0f);
++        nlObjPutUseViewMatrix((unsigned char *)o + TILE(o, k)[0]);
++        nlPopMatrix(1);
++    }
++    /* the dome's code (PutCourse_Sky) leaves the model scale factor at 2, and what is drawn after it (the terrain, the sprites of the tips and
++       the bonuses) is drawn with that: leave it as the game does */
++    nlSetScaleFactor(2.0f);
++}
++
++/* The trees (tools/trees.py, tuxmodel.py): the list at o[8] (24 bytes each: x, y, z, radius, height, kind) and a model of each kind after the sky's,
++   two quads crossing at unit size, in the translucent list (the textures have alpha): each tree within TUX_TREE_RANGE of the camera is drawn at
++   its place, scaled to its radius and height (and the scale factor the game culls with, to the larger). */
++#define TUX_TREE_RANGE  2500.0f
++
++static void tuxTrees(void)
++{
++    unsigned int *o = (unsigned int *)TUX_MODEL;
++    float *cam = (float *)CAM_POS;
++    unsigned char *list = (unsigned char *)o + o[8];
++    int n = (int)o[9], k;
++    float dx, dz, *t;
++
++    for (k = 0; k < n; k++) {
++        t = (float *)(list + 24 * k);
++        dx = t[0] - cam[0];
++        dz = t[2] - cam[2];
++        if (dx * dx + dz * dz > TUX_TREE_RANGE * TUX_TREE_RANGE)
++            continue;
++        nlPushMatrix(0);
++        nlTranslate(t[0], t[1], t[2]);
++        nlScale(t[3], t[4], t[3]);
++        nlSetScaleFactor(t[4] > t[3] ? t[4] : t[3]);
++        nlObjPutUseViewMatrixTrnsl((int)((unsigned char *)o + TILE(o, (int)o[7] + (int)*(unsigned int *)(t + 5))[0]), 1.0f);
++        nlPopMatrix(1);
++    }
++    nlSetScaleFactor(2.0f);
++}
++
+ int PutCourse_Sky(void);
+ int Put_Course_Obj_Dist(void);
+ int Put_Build_Patch(void);
+@@ -29,7 +215,6 @@ int CheckClipping(NLpoint3 *, float);
+ void nlProjectScreen3D(NLpoint3 *, float *);
+ float nlLength(NLpoint3 *, NLpoint3 *);
+ int gdc_CoursePut(int, int, float);
+-float nlFastSin(int);
+ 
+ /* one piece of a spline course: drawn when it is in the view and PutCourse_CheckPiece agrees */
+ static void putSplinePiece(int piece, int type)
+@@ -39,6 +224,7 @@ static void putSplinePiece(int piece, int type)
+     float proj[3];
+     float d;
+ 
++    return;                                                     /* tux-racer layer: Arcade's city is not drawn, the terrain is */
+     pt = p->pos;
+     nlProjectScreen3D(&pt, proj);
+     d = nlLength(&pt, CAM_POS);
+@@ -60,8 +246,13 @@ void PutCourse(void)
+     int sec, start, w, count, k, piece, n, type, i, area, *list;
+     unsigned char *pieces;
+ 
+-    PutCourse_Sky();
++    if (COURSE_MODE == 0 && ((unsigned int *)TUX_MODEL)[0] == TUX_MAGIC)
++        tuxSky();
++    else
++        PutCourse_Sky();
+     if (COURSE_MODE == 0) {                                     /* a spline course */
++        tuxDraw();
++        tuxTrees();
+         setFov();
+         n = CourseSplineNumGet(0);
+         getNearLineIndex(0, CourseSplineGet(0), n, 0x0C2A6EC0, (int)CAM_POS);
+diff --git a/src/game_k.c b/src/game_k.c
+index b47ab0c..9d290aa 100644
+--- a/src/game_k.c
++++ b/src/game_k.c
+@@ -17,6 +17,25 @@ int kmSetFogDensity(int x)
+ void game_init(void)
+ {
+     *(char *)0x0C1EE35C = 1;
++    /* tux-racer layer: the menu's first item, the only one left, carries this game's name (its 32-byte text field in the label table at 0x0C09F8BC + 12, the proportional font draws it). Original (its field at +44) and Crazy Box (+88) are dropped: their text is emptied (the cursor steps over them: menuTopHandler's skip mask) and Options, Records, Save & Load and Exit move up two steps of the menu's stair (48 right, 36 down a step; Exit keeps its wider step) */
++    ((int *)0x0C09F8C8)[0] = 0x20585554;
++    ((int *)0x0C09F8C8)[1] = 0x45434152;
++    ((int *)0x0C09F8C8)[2] = 0x00000052;
++    ((int *)0x0C09F8C8)[3] = 0x00000000;
++    ((int *)0x0C09F8C8)[4] = 0x00000000;
++    ((int *)0x0C09F8C8)[5] = 0x00000000;
++    ((int *)0x0C09F8C8)[6] = 0x00000000;
++    ((int *)0x0C09F8C8)[7] = 0x00000000;
++    ((int *)0x0C09F8F4)[0] = 0;                         /* ORIGINAL */
++    ((int *)0x0C09F920)[0] = 0;                         /* CRAZY BOX */
++    ((float *)0x0C09F940)[0] = 224.0f;                  /* OPTIONS, at Original's place */
++    ((float *)0x0C09F940)[1] = 180.0f;
++    ((float *)0x0C09F96C)[0] = 272.0f;                  /* RECORDS, at Crazy Box's */
++    ((float *)0x0C09F96C)[1] = 216.0f;
++    ((float *)0x0C09F998)[0] = 320.0f;                  /* SAVE & LOAD, at Options' */
++    ((float *)0x0C09F998)[1] = 252.0f;
++    ((float *)0x0C09F9C4)[0] = 432.0f;                  /* EXIT, 112 right and 36 down from Save & Load, as it was */
++    ((float *)0x0C09F9C4)[1] = 288.0f;
+     *(int *)0x0C179488 = 0;
+     *(int *)0x0C17948C = 0;
+     nlRandomSeed(12345);
+diff --git a/src/game_p.c b/src/game_p.c
+index df3e918..5fccc9b 100644
+--- a/src/game_p.c
++++ b/src/game_p.c
+@@ -1985,7 +1985,7 @@ void Put_TotalDrum_Meter(void)
+ void menuTopHandler(void)
+ {
+     menuOpenStep();
+-    menuCursor(0, 7, 0);
++    menuCursor(0, 7, 0x6);                                      /* tux-racer layer: Original (bit 1) and Crazy Box (bit 2) are skipped */
+     menuPutFrame();
+     menuPutSprites(0x0C0A0720, (void *)0x0C2A1A84, *(int *)0x0C2A1AD8 + 8, 24);
+     menuPutHelpBar(0, (float)(-*(int *)0x0C2A1AD8), 416.0f);
+diff --git a/src/gen_jj.c b/src/gen_jj.c
+index a6e80f8..5b39c79 100644
+--- a/src/gen_jj.c
++++ b/src/gen_jj.c
+@@ -27,6 +27,7 @@ int initCamera(int);
+ int initPlayer(void);
+ int initPlayerADV(void);
+ int init_CarMain(void);
++void tuxStart(void);
+ int init_GameSystem(void);
+ int init_KyakuMain(void);
+ int nd_peopleInitialize(int);
+@@ -115,6 +116,7 @@ int gameState0(float f4)
+         PutCourse_Init(((((struct o0_int *)0xC1EE20C)->v)));
+         nd_peopleInitialize(0x46);
+     }
++    tuxStart();                                         /* tux-racer layer */
+     init_CarMain();
+     if (((((struct o4_int *)0xC1EE20C)->v)) == 2) {
+         Init_DCmini();
+diff --git a/src/gen_ty.c b/src/gen_ty.c
+index 35951a4..af6c1f2 100644
+--- a/src/gen_ty.c
++++ b/src/gen_ty.c
+@@ -8,6 +8,7 @@ int carCalcInertia(int);
+ int carInitDriveSplit(int);
+ int getReplayPoint(int, int, int, int, int);
+ int init_CarSound(void);
++#include "tux.h"
+ int init_CarMain(void);
+ struct o0_float { float v; };
+ struct o0_int { int v; };
+@@ -252,6 +253,14 @@ int init_CarMain(void)
+             (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
+         }
+     }
++    /* tux-racer layer: every Arcade start (stages 0 and 1, game_init sets 1; not the replay's 2) puts the cab on the course, facing down
++       it: the car moves along (sin yaw, cos yaw) (its heading is TOANG2(-vx, vz) = nlArcTan2(vx, vz)), so yaw 0 is +z, the way down */
++    if ((*(int *)0xC1EE20C) == 0 && (*(signed char *)0xC1EE35C) != 2) {
++        *(unsigned short *)0xC179152 = 0x0;
++        *(float *)0xC179144 = TUX_START_X;
++        *(float *)0xC179148 = TUX_START_Y + 4.0f;                /* on the snow (the cab's centre rides about 3 units over it), not dropped from above */
++        *(float *)0xC17914C = TUX_START_Z;
++    }
+     { struct mv5 { int w[5]; }; *(struct mv5 *)(0xC179158) = *(struct mv5 *)(0xC179144); }
+     (((struct o0_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAC);
+     (((struct o1_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAD);
+@@ -268,6 +277,11 @@ int init_CarMain(void)
+     (((struct o6_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADB0);
+     (((struct o7_uchar *)0xC1791C0)->v) = (*(signed char *)0xC08ADB1);
+     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1791C8) = *(struct mv3 *)(0xC08AD94); }
++    /* tux-racer layer: the cab starts at the course's own incline (a level cab dropped onto the slope tipped over as it landed): the pitch the
++       settled cab has there (tux.h) */
++    if ((*(int *)0xC1EE20C) == 0 && (*(signed char *)0xC1EE35C) != 2) {
++        *(unsigned short *)0xC179150 = TUX_START_PITCH;                                          /* the pitch word (the settled cab's: 0x12CC here); the others stay 0, as they do settled */
++    }
+     { struct mv3 { int w[3]; }; *(struct mv3 *)(0xC1791D4) = *(struct mv3 *)(0xC1791C8); }
+     (((struct o20_ushort *)0xC1791C0)->v) = 0x0;
+     (((struct o24_float *)0xC1791C0)->v) = (float)0x0;

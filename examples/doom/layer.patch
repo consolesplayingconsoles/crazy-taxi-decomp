@@ -1,0 +1,433 @@
+diff --git a/src/course_b.c b/src/course_b.c
+index f9bad9f..137679b 100644
+--- a/src/course_b.c
++++ b/src/course_b.c
+@@ -15,6 +15,221 @@ typedef struct { float radius; NLpoint3 pos; float pad; } CoursePiece;
+ #define SUBWAY_CAMERA   (*(int *)0x0C2A9D60)
+ #define AREA_LIST       (*(unsigned char **)0x0C2A6EC4)
+ 
++/* Doom Map (doom layer): Original's city is replaced by Doom's map. tools/doom_coldc.py and tools/doom_model.py write the ground, the walls and
++   the model into COLDC2.BIN (read at 0x0CB40000 and kept) and doom.h (where the model is, where the cab starts). The map is drawn in PutCourse
++   (doomDraw), the textures go into free slots at a run's start (doomStart, gameState0, before init_CarMain). */
++#include "doom.h"
++
++#include "course_kit.h"                                 /* course-kit layer: the blob's textures, the stops, the customers */
++
++extern void nlPushMatrix(int n);
++extern void nlPopMatrix(int n);
++extern void nlObjPutUseViewMatrix(void *model);
++int nlTranslateV(int);
++int nlSetScaleFactor(float);
++int nlTranslate(float, float, float);
++int nlScale(float, float, float);
++int nlObjPutUseViewMatrixTrnsl(int, float);
++
++/* The stops (where the customers wait and where they want to go): Arcade's 33 are polygons in the executable at the city's coordinates, and
++   a pick-up needs the cab within the stop's circle, nearly stopped, at a height within 50 of the stop's: at the city's altitudes the slope
++   never matched. Each run they are put at places of Doom's map, one in each of 33 bands, a regular octagon on the ground there, before init_KyakuMain reads them; the game picks the pick-up and the
++   destination among them as it always did. The tables: per Game_No a table per MiniGame_No, of the stops (8 bytes: points, pointer). */
++
++/* A place in the model's blob (o[6] the offset, o[7] how many: x, y, z each, tools/doom_coldc.py reachable_spots): floor the cab can reach from
++   the start and that is clear of the walls, not a random point, which could be in a pit, a sealed room or against a wall, where nobody could
++   pick a customer up. */
++static void doomPlace(unsigned int *seed, float *cx, float *cz)
++{
++    unsigned int *o = (unsigned int *)DOOM_MODEL;
++    float *sp;
++    int n, t;
++
++    *cx = 0.0f;
++    *cz = 0.0f;
++    if (o[0] == TUX_MAGIC && (int)o[7] > 0) {
++        sp = (float *)((unsigned char *)o + o[6]);
++        n = (int)o[7];
++        t = (int)(ctRand(seed) % (unsigned int)n);
++        *cx = sp[3 * t];
++        *cz = sp[3 * t + 2];
++    }
++}
++
++#define DOOM_FARE_TRIES 64                              /* in Doom's map, the random places a fare's pick-up is chosen among (the farthest from the others) */
++
++static void doomStops(void)
++{
++    int game = *(int *)0x0C1EE210, mg = *(int *)0x0C1EE214;
++    int count = *(int *)(*(int *)(0x0C0ED9D4 + 4 * game) + 4 * mg);
++    int *list = (int *)*(int *)(*(int *)(0x0C0ED974 + 4 * game) + 4 * mg);
++    int *dlist = (int *)*(int *)(*(int *)(0x0C0ED9C8 + 4 * game) + 4 * mg);
++    /* the frame counter is the same number at every run's start (the stops came out in the same places each run); the SH-4's timer unit
++       (TMU0's counter, TCNT0) keeps counting whatever the game does, so it is not */
++    unsigned int seed = ((unsigned int)*(int *)0x0C1EE330 ^ *(volatile unsigned int *)0xFFD8000C) * 2654435761u + 12345u;
++    float sx[33], sz[33], fx[64], fz[64];
++    float cz, cx, cy, tx, tz, d, closest, best;
++    int i, k, tries;
++    /* The request table exec_KyakuMain reads (gen_rm.c): Original's 246 are at 0C0DF608, or at 0C0E1C78 when the stage word (0C17948C, which
++       picks Original's start too) is 1. */
++    unsigned int tab = *(int *)0x0C17948C == 1 ? 0x0C0E1C78u : 0x0C0DF608u;
++
++    if (count <= 0 || count > 33 || !list)
++        return;
++    for (i = 0; i < count; i++) {
++        doomPlace(&seed, &cx, &cz);
++        sx[i] = cx;
++        sz[i] = cz;
++        ctPlaceStop(list, dlist, i, cx, cz, ctGround(cx, cz, 0.0f), DOOM_STOP_R);
++    }
++    /* The customers are not the stops: Original's 246 requests (0x28 bytes each), read by exec_KyakuMain and kyakuInitStops, each carry their own
++       pick-up spot at +8, +0xC and +0x10, in the city's coordinates. DOOM_FARES of them (doom.h) are put in the map, on the ground; the rest are
++       sent far away, where no customer ever comes within reach. Each fare's destinations are at least DOOM_MIN_TRIP away (ctDestinations). */
++    for (i = 0; i < 246; i++) {
++        float *e = (float *)(tab + 0x28 * i);
++        signed char *dest = (signed char *)(tab + 0x28 * i + 0x18);
++
++        if (i >= DOOM_FARES) {
++            e[2] = 1.0e6f;
++            e[3] = 0.0f;
++            e[4] = 1.0e6f;
++            continue;
++        }
++        /* Of DOOM_FARE_TRIES random places, the one farthest from every fare placed (a fixed least distance ran out of room after half the fares,
++           and the rest landed where the last try fell: in groups) */
++        best = -1.0f;
++        for (tries = 0; tries < DOOM_FARE_TRIES; tries++) {
++            doomPlace(&seed, &tx, &tz);
++            closest = 1.0e12f;
++            for (k = 0; k < i && k < 64; k++) {
++                d = (tx - fx[k]) * (tx - fx[k]) + (tz - fz[k]) * (tz - fz[k]);
++                if (d < closest)
++                    closest = d;
++            }
++            if (closest > best) {
++                best = closest;
++                cx = tx;
++                cz = tz;
++            }
++        }
++        if (i < 64) {
++            fx[i] = cx;
++            fz[i] = cz;
++        }
++        cy = ctGround(cx, cz, 0.0f);
++        e[2] = cx;
++        e[3] = cy;
++        e[4] = cz;
++        ctDestinations(e, dest, cx, cz, sx, sz, count, DOOM_MIN_TRIP, &seed);
++    }
++}
++
++/* gameState0, before init_CarMain: Doom's map as CourseMode 1 (the menu's DOOM): the blob of tools/doom_model.py (a tile holds several records,
++   one for each texture and light level), at DOOM_MODEL in COLDC2.BIN: its textures into the game's slots (ctLoadTiles), then the stops. */
++void doomStart(void)
++{
++    unsigned int *o = (unsigned int *)DOOM_MODEL;
++
++    if (*(int *)0x0C1EE20C != 1 || o[0] != TUX_MAGIC)
++        return;
++    o[13] = 0;                                          /* doomKeepIn: no place to come back to yet */
++    o[14] = 0;
++    ctLoadTiles(o);
++    doomStops();
++}
++
++#define DOOM_DRAW_RANGE 4000.0f                         /* tiles (1024 units) farther than this from the camera are not sent to the video buffer */
++
++/* Doom's sky (tools/doom_model.py sky_model: SKY1 round a cylinder, the last tile: o[8] tiles are the map's): at the camera, drawn first, so
++   what Doom shows through an outdoor window or over a wall is not black. */
++static void doomSky(void)
++{
++    unsigned int *o = (unsigned int *)DOOM_MODEL;
++
++    nlPushMatrix(0);
++    nlTranslateV(0x0C179840);
++    nlSetScaleFactor(1.0f);
++    nlObjPutUseViewMatrix((unsigned char *)o + TILE(o, o[8])[0]);
++    nlPopMatrix(1);
++    nlSetScaleFactor(2.0f);                             /* what the dome's code leaves it at (the dome's code, PutCourse_Sky, leaves it at 2) */
++}
++
++/* Doom's map is rooms, and the game was made for streets: a ramp or a wall can throw the cab over the walls, out of the map, where the game's
++   own recovery (carGroundCheck) puts it on a course point of the city's, nowhere near. Each frame: a cab on the ground (within 8 of the floor
++   under it) is a place to come back to (o[9]-o[11], its heading o[12], o[14] set); a cab with no floor under it, or under the lowest floor,
++   for DOOM_OUT_FRAMES frames running (o[13]) is put back there, stopped and upright, as the game's recovery does (engine.md, carGroundCheck). */
++#define DOOM_OUT_FRAMES 30
++#define DOOM_CAR ((unsigned char *)0x0C1790CC)
++
++static void doomKeepIn(unsigned int *o)
++{
++    float *pos = (float *)(DOOM_CAR + 0x78);
++    float *keep = (float *)&o[9];
++    float g = ctGround(pos[0], pos[2], 1.0e9f);
++    int k;
++
++    if (g < 1.0e8f && pos[1] > DOOM_FLOOR_MIN - 40.0f) {
++        o[13] = 0;
++        if (pos[1] - g < 8.0f && g - pos[1] < 8.0f) {
++            keep[0] = pos[0];
++            keep[1] = g;
++            keep[2] = pos[2];
++            o[12] = *(unsigned short *)(DOOM_CAR + 0x86);
++            o[14] = 1;
++        }
++        return;
++    }
++    if (o[14] != 1 || ++o[13] < DOOM_OUT_FRAMES)
++        return;
++    o[13] = 0;
++    pos[0] = keep[0];
++    pos[1] = keep[1] + 5.0f;
++    pos[2] = keep[2];
++    for (k = 0; k < 3; k++) {
++        ((float *)(DOOM_CAR + 0x8C))[k] = pos[k];
++        ((float *)(DOOM_CAR + 0xFC))[k] = 0.0f;
++        ((float *)(DOOM_CAR + 0x108))[k] = 0.0f;
++    }
++    *(float *)(DOOM_CAR + 0x15C) = 0.0f;
++    *(float *)(DOOM_CAR + 0x160) = 0.0f;
++    *(unsigned short *)(DOOM_CAR + 0x84) = 0;
++    *(unsigned short *)(DOOM_CAR + 0x86) = (unsigned short)o[12];
++    *(unsigned short *)(DOOM_CAR + 0x88) = 0;
++    *(unsigned short *)(DOOM_CAR + 0xF6) = (unsigned short)o[12];
++}
++
++static void doomDraw(void)
++{
++    unsigned int *o = (unsigned int *)DOOM_MODEL;
++    float *cam = (float *)CAM_POS;
++    float dx, dz;
++    int k;
++
++    doomKeepIn(o);
++    for (k = 0; k < (int)o[8]; k++) {                   /* o[8]: the map's tiles; the sky's follows them */
++        unsigned int *t = TILE(o, k);
++
++        dx = *(float *)&t[1] - cam[0];
++        dz = *(float *)&t[2] - cam[2];
++        if (dx * dx + dz * dz > DOOM_DRAW_RANGE * DOOM_DRAW_RANGE)
++            continue;
++        nlPushMatrix(0);
++        nlObjPutUseViewMatrix((unsigned char *)o + t[0]);
++        nlPopMatrix(1);
++    }
++}
++
++#define DOOM_CAM 1.0f                                   /* the chase camera's offsets (camUpdate, gen_el.c: 15 above and 60 behind the cab) times this, in Doom's map */
++
++/* The scale of the chase camera's eye offsets: Doom's rooms are small for the cab and the camera at its usual distance sat in their walls and
++   showed the cab small; closer, the cab fills more of the view. Called by camUpdate (the layer's gen_el.c hunk), 1 anywhere but Doom's map. */
++float doomCam(void)
++{
++    if (COURSE_MODE == 1 && ((unsigned int *)DOOM_MODEL)[0] == TUX_MAGIC)
++        return DOOM_CAM;
++    return 1.0f;
++}
++
+ int PutCourse_Sky(void);
+ int Put_Course_Obj_Dist(void);
+ int Put_Build_Patch(void);
+@@ -29,7 +244,6 @@ int CheckClipping(NLpoint3 *, float);
+ void nlProjectScreen3D(NLpoint3 *, float *);
+ float nlLength(NLpoint3 *, NLpoint3 *);
+ int gdc_CoursePut(int, int, float);
+-float nlFastSin(int);
+ 
+ /* one piece of a spline course: drawn when it is in the view and PutCourse_CheckPiece agrees */
+ static void putSplinePiece(int piece, int type)
+@@ -60,6 +274,11 @@ void PutCourse(void)
+     int sec, start, w, count, k, piece, n, type, i, area, *list;
+     unsigned char *pieces;
+ 
++    if (COURSE_MODE == 1 && ((unsigned int *)DOOM_MODEL)[0] == TUX_MAGIC) {      /* Doom's map: no city, no dome */
++        doomSky();
++        doomDraw();
++        return;
++    }
+     PutCourse_Sky();
+     if (COURSE_MODE == 0) {                                     /* a spline course */
+         setFov();
+diff --git a/src/game_k.c b/src/game_k.c
+index b47ab0c..5b1d1b6 100644
+--- a/src/game_k.c
++++ b/src/game_k.c
+@@ -17,6 +17,25 @@ int kmSetFogDensity(int x)
+ void game_init(void)
+ {
+     *(char *)0x0C1EE35C = 1;
++    /* doom layer: the menu's first item, the only one left, carries this game's name (its 32-byte text field in the label table at 0x0C09F8BC + 12, the proportional font draws it). Original (its field at +44) and Crazy Box (+88) are dropped: their text is emptied (the cursor steps over them: menuTopHandler's skip mask) and Options, Records, Save & Load and Exit move up two steps of the menu's stair (48 right, 36 down a step; Exit keeps its wider step) */
++    ((int *)0x0C09F8C8)[0] = 0x4D4F4F44;
++    ((int *)0x0C09F8C8)[1] = 0x00000000;
++    ((int *)0x0C09F8C8)[2] = 0x00000000;
++    ((int *)0x0C09F8C8)[3] = 0x00000000;
++    ((int *)0x0C09F8C8)[4] = 0x00000000;
++    ((int *)0x0C09F8C8)[5] = 0x00000000;
++    ((int *)0x0C09F8C8)[6] = 0x00000000;
++    ((int *)0x0C09F8C8)[7] = 0x00000000;
++    ((int *)0x0C09F8F4)[0] = 0;                         /* ORIGINAL */
++    ((int *)0x0C09F920)[0] = 0;                         /* CRAZY BOX */
++    ((float *)0x0C09F940)[0] = 224.0f;                  /* OPTIONS, at Original's place */
++    ((float *)0x0C09F940)[1] = 180.0f;
++    ((float *)0x0C09F96C)[0] = 272.0f;                  /* RECORDS, at Crazy Box's */
++    ((float *)0x0C09F96C)[1] = 216.0f;
++    ((float *)0x0C09F998)[0] = 320.0f;                  /* SAVE & LOAD, at Options' */
++    ((float *)0x0C09F998)[1] = 252.0f;
++    ((float *)0x0C09F9C4)[0] = 432.0f;                  /* EXIT, 112 right and 36 down from Save & Load, as it was */
++    ((float *)0x0C09F9C4)[1] = 288.0f;
+     *(int *)0x0C179488 = 0;
+     *(int *)0x0C17948C = 0;
+     nlRandomSeed(12345);
+diff --git a/src/game_p.c b/src/game_p.c
+index df3e918..eff9a16 100644
+--- a/src/game_p.c
++++ b/src/game_p.c
+@@ -1985,7 +1985,7 @@ void Put_TotalDrum_Meter(void)
+ void menuTopHandler(void)
+ {
+     menuOpenStep();
+-    menuCursor(0, 7, 0);
++    menuCursor(0, 7, 0x6);                                      /* doom layer: Original (bit 1) and Crazy Box (bit 2) are skipped */
+     menuPutFrame();
+     menuPutSprites(0x0C0A0720, (void *)0x0C2A1A84, *(int *)0x0C2A1AD8 + 8, 24);
+     menuPutHelpBar(0, (float)(-*(int *)0x0C2A1AD8), 416.0f);
+@@ -2271,7 +2271,7 @@ void menuSetMode(void)
+         *(int *)0x0C1EE214 = p[2] - 2;
+     } else {
+         *(int *)0x0C1EE238 = 4;
+-        *(int *)0x0C1EE210 = 0;
++        *(int *)0x0C1EE210 = 1;                         /* doom layer: the menu's one item (the first) starts Original, which is Doom's map */
+         *(int *)0x0C1EE214 = 0;
+     }
+     *(int *)0x0C2A11C8 = 0;
+diff --git a/src/gen_ee.c b/src/gen_ee.c
+index 19c892a..266b4df 100644
+--- a/src/gen_ee.c
++++ b/src/gen_ee.c
+@@ -62,7 +62,7 @@ int exec_loop_Replay(void)
+         if ((getKyakuOffFlag()) == 0) {
+             exec_KyakuMain();
+         }
+-        if ((*(int *)0xC1EE20C) != 0) {                 /* empty-city layer: no set objects in Arcade (gen_mr.c) */
++        if ((*(int *)0xC1EE20C) > 1) {      /* doom layer: nor in Original (Doom) */                 /* empty-city layer: no set objects in Arcade (gen_mr.c) */
+             ExecSetObject();
+         }
+         ExecKyakuArea();
+diff --git a/src/gen_el.c b/src/gen_el.c
+index 79ae74e..9068bc8 100644
+--- a/src/gen_el.c
++++ b/src/gen_el.c
+@@ -5,6 +5,7 @@ int CalcHomingAngle(int);
+ extern int CalcHomingVector();
+ int GetAng4Mat(int);
+ int GetCollision(int, int, float, float);
++float doomCam(void);                                    /* doom layer: the chase camera's scale (course_b.c) */
+ int HomingAngle1(int, int, float);
+ int KyaCamera(int);
+ int MultiRot4Vec(int, float, float, float);
+@@ -943,8 +944,8 @@ int camUpdate(int a4)
+     if ((((((struct o38_int *)0xC179928)->v)) == 0)) goto L_C026F34;
+     w0_0 = 15.0f;
+     w0_0 = w0_0 + 0.466666609f * ((((struct o10_float *)0xC1798A4)->v));
+-    *(float *)(((int)stk + 92)) = w0_0;
+-    *(float *)(((int)stk + 96)) = (((((((struct o0_float *)0xC0E4DD8)->v)) * ((((struct o14_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f);
++    *(float *)(((int)stk + 92)) = w0_0 * doomCam();
++    *(float *)(((int)stk + 96)) = (((((((struct o0_float *)0xC0E4DD8)->v)) * ((((struct o14_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f) * doomCam();
+     L_C026F6E:;
+     nlCalcPoint((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x54));
+     nlSubVector3op((((int)stk + 4) + 0x44), (((int)stk + 4) + 0x54), 0xC179914);
+@@ -978,8 +979,8 @@ int camUpdate(int a4)
+     L_C026F34:;
+     w0_0 = (((((struct o10_float *)0xC1798A4)->v)) * 0.333333313f);
+     w0_0 = w0_0 + ((((struct o0_float *)0xC0E4D90)->v)) * ((((struct o4_float *)0xC0E4DD8)->v));
+-    *(float *)(((int)stk + 92)) = (w0_0 + 15.0f);
+-    *(float *)(((int)stk + 96)) = (((((((struct o4_float *)0xC0E4DD8)->v)) * ((((struct o4_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f);
++    *(float *)(((int)stk + 92)) = (w0_0 + 15.0f) * doomCam();
++    *(float *)(((int)stk + 96)) = (((((((struct o4_float *)0xC0E4DD8)->v)) * ((((struct o4_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f) * doomCam();
+     goto L_C026F6E;
+     L_C026E88:;
+     w0_0 = 5.0f;
+diff --git a/src/gen_jj.c b/src/gen_jj.c
+index a6e80f8..4ffbb57 100644
+--- a/src/gen_jj.c
++++ b/src/gen_jj.c
+@@ -27,6 +27,7 @@ int initCamera(int);
+ int initPlayer(void);
+ int initPlayerADV(void);
+ int init_CarMain(void);
++void doomStart(void);
+ int init_GameSystem(void);
+ int init_KyakuMain(void);
+ int nd_peopleInitialize(int);
+@@ -115,6 +116,7 @@ int gameState0(float f4)
+         PutCourse_Init(((((struct o0_int *)0xC1EE20C)->v)));
+         nd_peopleInitialize(0x46);
+     }
++    doomStart();                                        /* doom layer */
+     init_CarMain();
+     if (((((struct o4_int *)0xC1EE20C)->v)) == 2) {
+         Init_DCmini();
+diff --git a/src/gen_ju.c b/src/gen_ju.c
+index 9db56ab..5fedf3e 100644
+--- a/src/gen_ju.c
++++ b/src/gen_ju.c
+@@ -75,7 +75,8 @@ int trafficControl(int a4)
+         *(unsigned int *)(((int)stk + 8)) = t20;
+         getNearLineIndex(0x0, ((((struct o10_int *)0xC2A1B18)->v)), ((((struct o14_int *)0xC2A1B18)->v)), ((*(int *)(((int)stk + 8))) + 0x60), (t20 + 0x78), 1700.0f);
+         trafficLevelControl(0x0);
+-        if ((*(int *)0xC1EE20C) != 0) {                 /* empty-city layer: no traffic and no parked cars in Arcade, whose city   */
++        /* doom layer: none in Original either (Doom: > 1, not != 0) */
++        if ((*(int *)0xC1EE20C) > 1) {                 /* empty-city layer: no traffic and no parked cars in Arcade, whose city   */
+             trafficSectionControl(0x0, 0x0, 0.0f);      /* is replaced (Snake Way): the city's roads and parking places are still there, and */
+             parkingControl(0x0, 0xC2A1B34);             /* their cars floated over the new course */
+         }
+@@ -98,10 +99,10 @@ int trafficControl(int a4)
+             trafficLevelControl(0x1);
+         }
+         t56 = getGoiToolFlag(0x2);
+-        if ((t56 == 1) && (t57 = *(int *)0xC2A6FD8, t57 != 2) && (*(int *)0xC1EE20C) != 0) {     /* empty-city layer: none in Arcade */
++        if ((t56 == 1) && (t57 = *(int *)0xC2A6FD8, t57 != 2) && (*(int *)0xC1EE20C) > 1) {     /* empty-city layer: none in Arcade */
+             trafficSectionControl(0x1, 0xC2A1B34, ((((struct o0_float *)0xC2A1B18)->v)));
+         }
+-        if ((*(int *)0xC1EE20C) != 0) {
++        if ((*(int *)0xC1EE20C) > 1) {
+             parkingControl(0x1, 0xC2A1B34);
+         }
+         RailroadAreaCheck(0x1, 0xC179840);
+diff --git a/src/gen_mr.c b/src/gen_mr.c
+index 8539d14..a42fd94 100644
+--- a/src/gen_mr.c
++++ b/src/gen_mr.c
+@@ -91,7 +91,7 @@ int gameStateDrive(void)
+     } else {
+         exec_KyakuMain();
+     }
+-    if ((*(int *)0xC1EE20C) != 0) {                     /* empty-city layer: no set objects (postboxes, phone booths, crates) in Arcade, */
++    if ((*(int *)0xC1EE20C) > 1) {      /* doom layer: nor in Original (Doom) */                     /* empty-city layer: no set objects (postboxes, phone booths, crates) in Arcade, */
+         ExecSetObject();                                /* whose city is replaced: they opened at the city's places and fell onto the course */
+     }
+     if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && ((t42 = (((struct o0_int *)0xC1EE20C)->v), t42 != 2) || (t43 = (((struct o8_int *)0xC1EE20C)->v), t43 == 0))) {
+diff --git a/src/gen_ty.c b/src/gen_ty.c
+index 35951a4..d5c6275 100644
+--- a/src/gen_ty.c
++++ b/src/gen_ty.c
+@@ -8,6 +8,7 @@ int carCalcInertia(int);
+ int carInitDriveSplit(int);
+ int getReplayPoint(int, int, int, int, int);
+ int init_CarSound(void);
++#include "doom.h"
+ int init_CarMain(void);
+ struct o0_float { float v; };
+ struct o0_int { int v; };
+@@ -252,6 +253,15 @@ int init_CarMain(void)
+             (((struct o28_float *)0xC179120)->v) = (((((struct o28_float *)0xC179120)->v)) + 20.0f);
+         }
+     }
++    /* doom layer: Original is Doom's map: the cab starts at Doom's player 1 start, facing as it does (doom.h). Whatever the start word
++       (0C1EE35C): Original's own start is its case 2 (getReplayPoint), which a test for the replay's 2 left in place (the replay is off:
++       no-demo) */
++    if ((*(int *)0xC1EE20C) == 1) {
++        *(unsigned short *)0xC179152 = DOOM_START_YAW;
++        *(float *)0xC179144 = DOOM_START_X;
++        *(float *)0xC179148 = DOOM_START_Y + 4.0f;
++        *(float *)0xC17914C = DOOM_START_Z;
++    }
+     { struct mv5 { int w[5]; }; *(struct mv5 *)(0xC179158) = *(struct mv5 *)(0xC179144); }
+     (((struct o0_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAC);
+     (((struct o1_uchar *)0xC179178)->v) = (*(signed char *)0xC08ADAD);
