@@ -1,0 +1,3756 @@
+diff --git a/mod-sources.txt b/mod-sources.txt
+new file mode 100644
+index 0000000..95f0221
+--- /dev/null
++++ b/mod-sources.txt
+@@ -0,0 +1,8 @@
++# New code built into the game block with the C (tools/8-build/cbuild.py, mod_sources): Walking Tour's own files.
++mod.c
++touch.c
++traffic.c
++tram.c
++game.h
++config/*.h
++quick.h
+diff --git a/src/checkpiece_b.c b/src/checkpiece_b.c
+index 0f6363e..a2599a8 100644
+--- a/src/checkpiece_b.c
++++ b/src/checkpiece_b.c
+@@ -10,6 +10,7 @@
+ int CheckAreaGrid(int, int);
+ 
+ /* manual: written by hand from the Dreamcast code; tools must not regenerate it */
++extern unsigned char *carView;
+ int PutCourse_CheckPiece(int n, int g, int type, int pt, float d, float sx, float r)
+ {
+     int cg, k;
+@@ -82,7 +83,7 @@ int PutCourse_CheckPiece(int n, int g, int type, int pt, float d, float sx, floa
+     cg = CAR(0x60);
+     if (IN(g, 0x14F, 0x162) || cg == 0x147 || cg == 0x148) {
+         if (cg == 0x147 || cg == 0x148) {                       /* the camera's grid is the tunnel's: which area it is in */
+-            k = CheckAreaGrid(0x0C1790CC + 0x78, AREA);
++            k = CheckAreaGrid((int)carView + 0x78, AREA);                                   /* walking-tour layer */
+             if (k != -1)
+                 AREA = k;
+             if (AREA == 23 || AREA == 22)
+diff --git a/src/config/README.md b/src/config/README.md
+new file mode 100644
+index 0000000..bea670c
+--- /dev/null
++++ b/src/config/README.md
+@@ -0,0 +1,23 @@
++# Settings
++
++Every value you might tweak to change how the game plays: controls, speeds, distances, timings. The
++game's own addresses and facts are in `../game.h`; menu and HUD positions are in `../../patch_exe.py`
++(`LAYOUT`); `.env` configures the build, not the game.
++
++One file per mode, plus one for what every mode shares:
++
++| File | What |
++|---|---|
++| `foot.h` | On foot: controls, walking and running, jumping and falling, the follow camera, a fare walking with you |
++| `drive.h` | Driving and the cars you take: getting out and in, taking a car, hailing a taxi, the chase camera for taken cars, cars' boxes |
++| `debug.h` | Debugging only, off in a release: the quick start straight into an Arcade run |
++| `world.h` | Shared by every mode: people dodging and storming off, set objects you push, passers-by flying |
++
++Rules:
++
++* A value goes in the file of the mode that uses it; one used by two or more modes goes in `world.h`.
++* A new mode gets its own file.
++* Each value is a named `#define` with a one-line comment: what it is, its unit when not obvious.
++* Code never writes a tunable as a bare number: it names one from here. Maths constants (0, 1, 0.5
++  for a half) stay in the code.
++* The split changes only when growth shows it is needed.
+diff --git a/src/config/debug.h b/src/config/debug.h
+new file mode 100644
+index 0000000..1f67114
+--- /dev/null
++++ b/src/config/debug.h
+@@ -0,0 +1,8 @@
++/* Walking Tour settings: debugging. See README.md here for how they are split. Off (0) in a release. */
++
++#include "quick.h"
++
++/* DEBUG_QUICK_START is not set here: build.sh writes it to src/quick.h from .env's QUICK_START (a Pluto param). 1:
++   press Start and A by itself through the boot screens, title, mode menu and driver select (the
++   default cabbie): straight into an Arcade run, again after each run. 0: the menus are yours. */
++#define DEBUG_PRESS_EVERY 20            /* frames between those presses */
+diff --git a/src/config/drive.h b/src/config/drive.h
+new file mode 100644
+index 0000000..f1a5985
+--- /dev/null
++++ b/src/config/drive.h
+@@ -0,0 +1,38 @@
++/* Walking Tour settings: driving and the cars you take. See README.md here for how they are split. */
++
++/* Getting out and in */
++#define BOARD_WAIT      60              /* frames in a car before a fare may board */
++#define DOOR_REACH      10.0f           /* about 1 m from the driver's door to step in */
++#define CAB_DOOR_SIDE   15.0f           /* the cab's door from its centre line (a taken car: its box + BODY) */
++#define DOOR_DROP_MAX   20.0f           /* steps out only onto ground this far below the door at most */
++#define WALK_LOAD_RADIUS 1800.0f        /* the city loads this far around him (the moving taxi's radius) */
++#define REST_HEIGHT     3.0f            /* the player car's height above the ground at rest, until
++                                           measured (carRestSample) */
++
++/* Cars */
++#define TAKE_REACH      12.0f           /* how close to a car's side to take it */
++#define NEAR            120.0f          /* cars further than this are not looked at */
++#define FAR             600.0f          /* about 60 m: a taken car left this far behind is gone */
++#define ROAD_NEAR       300.0f          /* cars this close have their course checked */
++#define ROAD_WIDTH      12.0f           /* standing this close to a course point blocks it */
++#define TILTED          0x2E00          /* about 65 degrees of pitch or roll: not one to get into */
++#define FLIP_GONE       400.0f          /* about 40 m: a flipped traffic car this far from you is removed (it blocked the road for good) */
++#define LAST_TYPE       10              /* types up to here can be taken (not the convoy) */
++#define HAIL_DIST       70.0f           /* a hailed taxi pulls up this far in front of him */
++#define HAIL_KEEP       500.0f          /* about 50 m: a taxi this close already stays where it is */
++#define TAKEN_BODY_DROP 1.2f            /* a taken car's body, this far down (as putPlayerCar's) */
++#define CABLE_HALF_WIDTH 13.0f          /* the cable cars' box (they have none of their own) */
++#define CABLE_HEIGHT    40.0f
++#define CABLE_HALF_LENGTH 45.0f
++#define TRAIN_HALF_WIDTH 14.0f          /* trains' box: their axles' reach plus TRAIN_MARGIN */
++#define TRAIN_HEIGHT    60.0f
++#define TRAIN_MARGIN    15.0f
++#define BIG_HIGH        11.0f           /* a taken car taller than this (the cab's height) gets the
++                                           chase camera level over its roof (the wagon's hid the road) */
++#define TALL_KNEE       8.0f            /* the extra height over BIG_HIGH followed in full (the ice box) */
++#define CAM_SLOPE_FROM  0x0800          /* uphill, from this angle (about 11 degrees; 0x10000 = a turn) the chase */
++#define CAM_SLOPE_GAIN  0.0006f         /* camera looks further up: this much (units) per angle unit over it */
++#define CAM_SLOPE_MAX   4.0f            /* (about the slope again: 17 ahead), at most this much up */
++#define CAM_DOWN_FROM   0x0800          /* downhill the same, looking further down: from this angle, */
++#define CAM_DOWN_GAIN   0.0032f         /* this much (units) per angle unit over it, */
++#define CAM_DOWN_MAX    20.0f           /* at most this much down */
+diff --git a/src/config/foot.h b/src/config/foot.h
+new file mode 100644
+index 0000000..21bb647
+--- /dev/null
++++ b/src/config/foot.h
+@@ -0,0 +1,70 @@
++/* Walking Tour settings: on foot. See README.md here for how they are split. */
++
++/* Controls on foot (PAD_* in game.h). Driving is the game's own. */
++#define BTN_ENTER       PAD_Y           /* step out; at the driver's door step in; beside a car take it */
++#define BTN_JUMP        PAD_A
++#define BTN_HAIL        PAD_X           /* a taxi pulls up in front of you */
++#define BTN_SPRINT      PAD_B           /* held: run */
++#define SPRINTING       (PAD_HELD & BTN_SPRINT)
++#define STICK_DEAD      16              /* stick travel (of 128) ignored around the centre */
++
++/* Timing on foot */
++#define INTRO           300             /* frames after a run starts before BTN_ENTER works (no signal
++                                           for the intro's end yet: a timer, and Ready-Go gone) */
++#define HAIL_TIME       60              /* frames the hand stays up */
++
++/* Walking and running: a customer jog (set off, jog, halt: 121 frames); the game has no walk:
++   played slowly, it is one. Root motion: the stride says how far each frame moves him. */
++#define WALK            ((Motion *)0x0CAB6BBC)
++#define WALK_FIRST      39.0f           /* its steady stride, one cycle */
++#define WALK_LAST       83.0f
++#define HALT_LAST       120.0f          /* 83-120: slowing down to a stop */
++#define HALT_RATE       1.5f            /* clip frames per game frame: halting */
++#define WALK_RATE       1.1f            /* walking */
++#define RUN_RATE        1.8f            /* running (SPRINTING) */
++#define WALK_STRIDE     1.8f            /* ground covered per frame, against the clip's own */
++#define RUN_STRIDE      2.9f
++#define SEAM            16.0f           /* the stride's ends differ: crossfade over its last frames */
++#define TURN_SHIFT      2               /* each frame he turns 1/2^n of the way to the stick */
++#define RUN_TURN_SHIFT  3               /* a sprint turns wide */
++#define BODY            5.0f            /* his radius against walls and cars */
++#define PED_REACH       10.0f           /* his radius against a person's: BODY + 5 */
++#define WALK_MAX        10.0f           /* a move further than this in a frame is a step out or a
++                                           jump across, not a walk (no pushes, no dodging) */
++#define HAIL            ((Motion *)0x0CB17990)   /* a customer holding a hand up for a cab */
++#define STAND_TURN      0x4500          /* the standing pose (and the hail) faces 97 degrees right of his
++                                           stride: turned back to it (the halt eases it in) */
++
++/* Jumping and falling */
++#define JUMP_SPEED      2.2f            /* walk mode: about 1 m high (peak = speed^2 / 2 gravity) */
++#define GRAVITY         0.25f
++#define AIR_RATE        RUN_RATE        /* a jump from standing runs in the air: stride frames per frame */
++#define JUMP_OUT        ((Motion *)0x0CB32654)   /* out of the car at any speed: Crazy Taxi's own Jump Left (MOTDC.BIN
++                                           0x2B2654, 66 frames, its root travels 38.7 along his facing) */
++#define JUMP_OUT_RATE   1.0f            /* its frames per frame */
++#define JUMP_OUT_FIRST  20.0f           /* the frame he appears in: already in the take-off (0 is standing at the door) */
++#define DIVE_SLIDE      0.6f            /* share of the car's speed he carries out with him */
++#define DIVE_FRICTION   0.92f           /* share of the slide kept each frame */
++
++/* The music on foot: this much under the volume chosen in the options (0.1 dB; driving it is the
++   options' own) */
++#define MUSIC_ON_FOOT   (-20.0f)
++#define MUSIC_FADE      2.0f            /* 0.1 dB a frame, in and out (under a second) */
++
++/* The camera on foot (GTA-style follow) */
++#define CAM_DIST        45.0f           /* how far behind */
++#define CAM_HEIGHT      22.0f           /* and how high */
++#define HEAD_HEIGHT     15.0f           /* it looks at his head */
++#define SLOPE_SPAN      30.0f           /* the slope under him: the ground this far ahead and behind */
++#define SLOPE_PROBE     30.0f           /* probed from this far above his feet */
++#define SLOPE_MAX       1.0f            /* the steepest it follows (45 degrees) */
++#define CAM_LOOK        17.0f           /* the look-at rises with the slope over this reach (the game's chase: 17 ahead) */
++#define CAM_PULL        0.5f            /* the eye eases to its goal as the game's chase camera does: */
++#define CAM_KEEP        0.1f            /* this much of the gap a frame, this much of its speed kept */
++#define TARGET_PULL     0.8f            /* and the look-at */
++#define TARGET_KEEP     0.3f
++
++/* A fare on foot */
++#define FARE_BEHIND     14.0f           /* jogs this far behind him */
++#define FARE_CATCH      0.12f           /* closing this share of the gap a frame */
++#define PICKUP_RAISE    3.0f            /* a passenger standing in the pickup's bed, raised to show */
+diff --git a/src/config/tram.h b/src/config/tram.h
+new file mode 100644
+index 0000000..4624b75
+--- /dev/null
++++ b/src/config/tram.h
+@@ -0,0 +1,40 @@
++/* Walking Tour settings: riding a tram (cable car). See README.md here for how they are split. */
++
++#define TRAM_TYPE       15              /* the cable cars' car type */
++#define TRAM_MAX        3.0f            /* top speed along the rail, units a frame (the game's own go 0.8-7.4) */
++#define TRAM_ACCEL      0.02f           /* gas (R, fully pressed) adds this a frame to the speed */
++#define TRAM_BRAKE      0.08f           /* brake (L, fully pressed) takes this off a frame */
++#define TRAM_DRAG       0.004f          /* what rolling loses a frame */
++#define TRAM_END        2               /* stops at this many points before a rail's last point (the game's own stop: the third from the end) */
++#define TRAM_REACH      30.0f           /* how close to a tram's side to board it (its box is wide: the cab's is 12) */
++#define TRAM_TURN_AHEAD 16              /* the turntable turns to the arrival rail when you are this many points from its end (the game's own) */
++
++/* The chase camera behind a tram: up and back from its centre (the cab's: 15, 60), and the look-at point
++   up and ahead (the cab's: 5, 17). Low and far enough back to see the tram's rear, not just its roof. */
++#define TRAM_CAM_UP     28.0f
++#define TRAM_CAM_BACK   (-140.0f)
++#define TRAM_AIM_UP     12.0f
++#define TRAM_AIM_AHEAD  40.0f
++#define TRAM_PITCH_EASE 4               /* the tilt follows the rail's slope by 1/this a frame */
++#define TRAM_GAP        110.0f          /* stays this far from the centre of another tram ahead on its rail (a tram is about 90 long) */
++#define TRAM_GATE       10              /* waits this many points before the turntable until it is turned to your rail */
++
++/* The turntable by hand (tram.c): at the end of a rail, stopped on the table, the stick swirled turns it. */
++#define TABLE_DEAD      28              /* the stick (-128..127) counts as moved from this far out, */
++#define TABLE_PUSH      70              /* and starts the turn from this far */
++#define TABLE_FOLLOW    0.05f           /* the table turns this share of the stick's swirl (angle units a frame) */
++#define TABLE_DRAG      0.96f           /* share of its spin kept a frame: the momentum (half gone in 17 frames) */
++#define TABLE_PICKUP    0.12f           /* how quickly it takes up a faster swirl (share of the gap a frame) */
++#define TABLE_MAX_SPIN  24.0f           /* at most this spin, angle units a frame (0x10000 = a turn): the game's own turn of the table (convergeRotLimit */
++                                        /* clamps its step to 24; a half turn takes about 23 seconds) */
++#define TABLE_SPIN_DIR  (-1)            /* a clockwise swirl turns it clockwise seen from above (-1: if it goes */
++                                        /* the other way, 1) */
++#define TABLE_CENTRE    0.92f           /* the tram settles on the table's centre by this share a frame */
++#define TABLE_FREE      0x0C00          /* the magnet works once the table has turned this far from where it was */
++#define TABLE_MAGNET    0x0700          /* a rail pulls within this angle (10 degrees)... */
++#define TABLE_MAGNET_SPEED 30.0f        /* ...when the spin is slower than this, */
++#define TABLE_PULL      0.5f            /* by this share of the angle left a frame (at most the spin above: the game's own step), */
++#define TABLE_DAMP      0.6f            /* slowing the spin too; */
++#define TABLE_LOCK      24              /* closer than this (and nearly still) it snaps (the game's own snap) and the tram may go */
++#define TABLE_LOCK_SPEED 8.0f
++#define TRAM_HALT       0.15f           /* what it slows by a frame when something ahead holds it (braking from the top speed takes about 20 frames) */
+diff --git a/src/config/world.h b/src/config/world.h
+new file mode 100644
+index 0000000..5b3b2d0
+--- /dev/null
++++ b/src/config/world.h
+@@ -0,0 +1,24 @@
++/* Walking Tour settings: the world every mode shares. See README.md here for how they are split. */
++
++/* People */
++#define PEOPLE_MIN_SPEED 0.3f           /* slower than this, he neither scares nor annoys anyone */
++#define DODGE_AHEAD     5.0f            /* how far ahead they react: 10 + 5 speed^2 (walking 1.8: 26,
++                                           running 2.9: 52; the car's is 15 speed + 50) */
++#define DODGE_LANE      20.0f           /* pedDodgeCheck's: this close to his path */
++#define ANNOY           12.0f           /* waiting customers this close storm off: just past the push's
++                                           reach (10), he walked into them */
++#define KICK            4.0f            /* a walk is much slower than a car: the push is scaled up */
++#define KICK_HEIGHT     5.0f            /* the push comes from his middle, not his feet */
++#define WALKER_MASS     80.0f           /* the cab's is 2500: light things fly, a postbox (3000) hardly moves */
++
++/* Passers-by hit by a car fly */
++#define FLYER_MAX       8               /* passers-by flying at once */
++#define FLY_LAUNCH      0.5f            /* a push deeper than this in a frame launches */
++#define FLY_PUSH        1.5f            /* along the push, at about the car's speed */
++#define FLY_UP          1.2f            /* and up, by the push */
++#define FLY_LIFT        1.0f            /* plus this */
++#define FLY_GRAVITY     0.17f           /* the set objects' 1/6 a frame */
++#define FLY_SKID        0.5f            /* share of the speed along the ground kept at a bounce */
++#define FLY_BOUNCE      0.3f            /* share of the fall turned up at a bounce */
++#define FLY_SETTLE      0.5f            /* a bounce lower than this: standing again */
++#define FLY_FLAT        15.0f           /* this high above the ground, flat out (a plank) */
+diff --git a/src/course_b.c b/src/course_b.c
+index f9bad9f..9840716 100644
+--- a/src/course_b.c
++++ b/src/course_b.c
+@@ -1,3 +1,4 @@
++extern unsigned char *carView;
+ /* PutCourse: the course pieces to draw this frame, written from the shape of the Android port's function and the Dreamcast code
+    (which keeps the window and section searches as functions of their own: getPieceWindow, findSplineSection). */
+ 
+@@ -11,7 +12,7 @@ typedef struct { float radius; NLpoint3 pos; float pad; } CoursePiece;
+ #define COURSE_B        (*(CoursePiece **)0x0C1EE804)
+ #define CAM_POS         ((NLpoint3 *)0x0C179840)
+ #define CAM_SP_NUM      (*(int *)0x0C2A6EC0)
+-#define CAR_GRID        (*(int *)(0x0C1790CC + 0x60))
++#define CAR_GRID        (*(int *)((int)carView + 0x60))                                   /* walking-tour layer */
+ #define SUBWAY_CAMERA   (*(int *)0x0C2A9D60)
+ #define AREA_LIST       (*(unsigned char **)0x0C2A6EC4)
+ 
+diff --git a/src/game.h b/src/game.h
+new file mode 100644
+index 0000000..7badba2
+--- /dev/null
++++ b/src/game.h
+@@ -0,0 +1,173 @@
++/* Crazy Taxi (Europe) addresses the Walking Tour code uses. Names and layouts: crazy-taxi-decomp,
++   docs/engine.md. World units are about 10 cm; angles are 16-bit (0x10000 = a full turn). */
++
++typedef struct {
++    int frames;             /* number of frames */
++    int bones;
++    void *data;
++} Motion;
++
++typedef struct {            /* character-select table, one per driver */
++    int unk;
++    Motion *idle;           /* loops on the select screen */
++    Motion *picked;         /* plays once when chosen */
++    int character;          /* human character index (0x3B-0x3E) */
++} DriverEntry;
++
++void humanDraw(Motion *, int, int, int);   /* motion, character, frame, mode */
++void vsklRotate(float *, float *);  /* the current matrix times R = [a, c, a x c] (a bone of a V record) */
++void VSklIpPlay(Motion *, int, Motion *, int, float, int, int);
++#define humanDrawMix    VSklIpPlay
++                                /* VSklIpPlay: motion a, frame a, motion b, frame b, weight of b, character, mode */
++void nlPushMatrix(void *);
++#define mtxPush         nlPushMatrix  /* nlPushMatrix(NL_MATRIX *m): push, then load *m; 0 keeps
++                                                           the current matrix (a copy of the camera view) */
++void nlPopMatrix(int);
++#define mtxPop          nlPopMatrix     /* nlPopMatrix(n): pop n */
++void nlTranslateV(float *);
++#define mtxTranslate    nlTranslateV
++void nlRotateAY(int);
++#define mtxRotY         nlRotateAY
++void nlGetTranslate(float *);
++#define mtxGetTranslate nlGetTranslate /* nlGetTranslate: where the matrix points */
++void camSetEye(float *, int);   /* mode 0 puts it there at once (pull 1, keep 0), 1 sets the goal and stops, 2 sets the goal only: it eases */
++void camSetTarget(float *, int);
++void SetCameraPosRatio(float, float);
++#define camSetRatio     SetCameraPosRatio   /* SetCameraPosRatio(pull, keep): the eye's easing */
++void SetCameraTargetRatio(float, float);
++#define camSetTargetRatio SetCameraTargetRatio /* the look-at's */
++void camSnapToCar(int);     /* eye and target straight onto the car */
++float nlLength(float *, float *);
++#define vecDistance     nlLength   /* nlLength(a, b) = |a - b| */
++int nlArcTan2(float, float);
++#define arcTan2         nlArcTan2         /* nlArcTan2(y, x): 0x10000 = a turn */
++float nlSin(int);    /* nlSin(NLangle): 0x10000 = a turn */
++float nlInnerProduct(float *, float *);           /* v1 . v2 */
++void nlScaleVector(float *, float *, float);    /* vd = vs * sc */
++void nlSubVector3op(float *, float *, float *);  /* vd = vs1 - vs2 */
++void nlAddVector(float *, float *);            /* vd += vs */
++void nlScale(float, float, float);         /* scales XMTRX */
++int nlObjPutLoadTexture(void *, void *);  /* (model, texture info): loads its
++                                                           textures, writes their addresses in; 0 = done */
++float nlCos(int);    /* nlCos(NLangle) */
++void fromCar(float *at, int yaw, float *local, float *p);   /* at + local turned by yaw (traffic.c) */
++void carsPush(float *p);                             /* traffic.c: out of every car's box */
++void Sound_Request(int, int);
++#define soundRequest    Sound_Request   /* Sound_Request(sound, channel): queued, sound = */
++                                                    /* SE << 16 | port << 8 | 0xA9 (play an SE) */
++void ADXT_SetOutVol(void *, int);
++#define adxtSetOutVol   ADXT_SetOutVol /* ADXT_SetOutVol(stream, 0.1 dB: 0 full, -960 off) */
++#define ADX_AFS1        ((void **)0x0C1EE820)              /* adxStartAfs1's stream handles (the music) */
++#define ADX_AFS1_COUNT  4
++#define MUSIC_LEVEL     (*(unsigned char *)0x0C1EE80C)      /* the music's level: the options' setting scaled */
++int volumeToDb(int);
++#define musicLevelDb    volumeToDb          /* a level to ADXT_SetOutVol's 0.1 dB (0: off) */
++int menuOpenStep(void);
++#define CAM_EYE         ((float *)0x0C179840)       /* the current camera: eye, then target at +0x0C */
++void nlSetTranslate(float *);
++#define mtxSetTranslate nlSetTranslate   /* nlSetTranslate */
++void nlRotateAX(int);
++#define mtxRotX         nlRotateAX     /* nlRotateAX */
++void nlRotateAZ(int);
++#define mtxRotZ         nlRotateAZ     /* nlRotateAZ */
++void nlObjPutUseViewMatrix(void *);
++#define objPut          nlObjPutUseViewMatrix  /* draws a model at the current matrix (putCarModel, putPlayerCar) */
++void nlTranslate(float, float, float);
++#define mtxTranslateXYZ nlTranslate   /* nlTranslate */
++void hudDraw(int);     /* the 2D HUD (its clock call is patched out) */
++void camUpdate(int);     /* the game's camera, every driving frame */
++typedef struct { float x, y, z; } Point3;
++void gdc_CoursePointLoadReq(Point3, float);
++#define courseLoadAround gdc_CoursePointLoadReq  /* gdc_CoursePointLoadReq: map within radius */
++void FcvPlayBuffer(void *, int);
++#define fcvPlayBuffer   FcvPlayBuffer   /* FcvPlayBuffer: draws the cab driver from his pose buffer */
++void CheckColliWall(float *, float);
++#define checkColliWall  CheckColliWall   /* CheckColliWall: pushes a point out of walls, in place */
++void Psg_SetPosPtr(void *, float *);
++#define psgSetPosPtr    Psg_SetPosPtr  /* Psg_SetPosPtr: move + snap to ground */
++float * GetCollision2D(float *, float);
++#define getCollision2D  GetCollision2D   /* GetCollision2D: the ground under a point (x y z; +0x1C = -1: none) */
++
++#define TAXI            ((unsigned char *)0x0C1790CC)
++#define TAXI_POS        ((float *)(TAXI + 0x78))
++#define TAXI_YAW        (*(unsigned short *)(TAXI + 0x86))
++#define DRIVER          (*(int *)0x0C179488)        /* chosen driver, 0-3 */
++#define DRIVERS         ((DriverEntry *)0x0C130748)
++
++#define VR_MODE         (*(int *)0x0C179860)        /* camera mode; 9 keeps the eye/look-at targets */
++#define CAM_SUBMODE     (*(int *)0x0C1798B8)        /* 1 = ease eye and look-at, nlLookAt */
++#define PAD_PRESSED     (*(unsigned int *)(0x0C1EE24C + 0x04))   /* TaxiSW[0]: buttons pressed this frame */
++#define PAD_HELD        (*(unsigned int *)0x0C1EE24C)            /* TaxiSW[0]: buttons held */
++#define PAD_Y           0x0200                      /* Shinobi PDD_DGT_TY */
++#define PAD_X           0x0400                      /* Shinobi PDD_DGT_TX */
++#define PAD_A           0x0004                      /* Shinobi PDD_DGT_TA */
++#define PAD_B           0x0002                      /* Shinobi PDD_DGT_TB */
++#define PAD_START       0x0008                      /* Shinobi PDD_DGT_ST */
++#define MAIN_MODE       (*(int *)0x0C1EE234)        /* MainMode: 0 boot and title, 1 a run, 3 menus */
++void CheckSoftReset(void);
++#define checkSoftReset  CheckSoftReset    /* CheckSoftReset: MainLoop's every frame, after getSwitch */
++#define PAD_CAR_FLAGS   ((unsigned char *)0x0C1EE267)     /* TaxiSW[0] +0x1B, +0x1C: button flags exec_CarMain reads */
++#define PAD_STICK_X     (*(unsigned short *)0x0C1EE25C)   /* TaxiSW[0] +0x10: (x + 128) * 256 */
++#define PAD_STICK_Y     (*(unsigned short *)0x0C1EE262)   /* TaxiSW[0] +0x16: (y + 128) * 256, up < 128 */
++#define PAD_L           (*(unsigned char *)0x0C1EE266)    /* TaxiSW[0] +0x1A: left trigger, 0..255 */
++#define PAD_R           (*(unsigned char *)0x0C1EE265)    /* TaxiSW[0] +0x19: right trigger, 0..255 */
++#define STR_ADC         (*(float *)0x0C1EE2F4)      /* the taxi's steering, -1..1 */
++#define ACC_ADC         (*(float *)0x0C1EE2F8)      /* accelerator, 0..1 */
++#define BRK_ADC         (*(float *)0x0C1EE2FC)      /* brake, 0..1 */
++
++/* Traffic: cars are events; each live one adds itself to a per-frame list (carEntry), which
++   entryCarPut draws and then empties. Offsets of a traffic _car: decomp docs, Traffic. */
++void entryCarPut(int);
++void courseStatusEntry(int, int);         /* course, point: taken this frame */
++float getNearCoursePoint(int, int, int *, float *);  /* mode, course, &point, position: distance */
++void nlCloseEvent(void *);
++void KillColliObj(void *);
++#define killColliObj    KillColliObj
++void SetColliObj(void *, int);
++#define setColliObj     SetColliObj   /* object, collision type */
++void putPlayerCar(int);     /* draws the player car (index) */
++void putPlayerCarByView(int);
++#define putCab          putPlayerCarByView     /* draws the player car for drivers 0-3 (exec_CarMain picks by DRIVER) */
++void init_CarMain(void);
++#define initCarMain     init_CarMain    /* init_CarMain: the player car at a run's start */
++#define HUD_FLAGS       (*(unsigned int *)0x0C2A75E0)   /* one bit per HUD element (hudDraw) */
++#define HUD_TIME_UP     0x10000000                  /* Put_TimeUp on screen (Start_TimeUp sets it, End_TimeUp clears it) */
++unsigned char * ParkingCarInit(int, int, int, float *, int);
++#define parkingCarInit  ParkingCarInit
++                                /* type, spawn point, course, position, heading (< 0: no random flip) */
++void trafficControl(int);
++#define PLAYER_EV_AT    ((float *)(0x0C2A1B30 + 4))   /* playerEV +4: where traffic is placed around (trafficControl) */
++#define CAR_COUNT       (*(int *)0x0C2A44C8)
++#define CAR_LIST        ((unsigned char **)0x0C2A44CC)
++#define CAR_ENTRY_NUM   (*(int *)0x0C2A44A8)        /* CarEntryNum: live traffic cars */
++#define CAR_TBL         ((unsigned char *)0x0C0A2628)   /* carTbl, 0xA8 bytes per type */
++#define CAR_BOXES       ((float *)0x0C0ED68C)       /* ColliObjBoxSimpleTbl: half-width, height, front, back */
++#define CAR_TYPE(c)     (*(short *)((c) + 0x78))
++#define CAR_POS(c)      ((float *)((c) + 0x8C))
++#define CAR_PITCH(c)    (*(short *)((c) + 0xA4))   /* rotation x */
++#define CAR_ROLL(c)     (*(short *)((c) + 0xA8))   /* rotation z */
++#define CAR_BODY_ROLL(c) (*(unsigned short *)((c) + 0xAE))   /* the body's roll on top of the road's tilt (putCarModel draws it) */
++#define CAR_FLIPPED(c)  ((*(int *)((c) + 0x84) & 0x20) || (CAR_BODY_ROLL(c) >= 0x3000 && CAR_BODY_ROLL(c) < 0xD000))
++                                                           /* carBalanceRoll (0x0C043C28) sets flag 0x20 of +0x84 while the body roll is in 0x3000-0xD000, and settles it at
++                                                              0x4000 / 0xC000 (on a side) or 0x8000 (roof) */
++#define CAR_FLAGS(c)    (*(unsigned int *)((c) + 0x84))
++#define CAR_ON_SCREEN   0x10000                     /* set by entryCarPut for a drawn car; a parked car off screen with no spawn record goes */
++#define CAR_YAW(c)      (*(unsigned short *)((c) + 0xA6))
++#define CAR_COURSE(c)   (*(int *)((c) + 0x80))
++#define CAR_POINT(c)    (*(int *)((c) + 0xD4))
++#define TAXI_WHEELS     (*(float **)(TAXI + 0x6C))  /* wheel positions x y z (putPlayerCar draws from them) */
++#define CAR_COLOUR(c)   (*(int *)((c) + 0x7C))      /* -1, or an entry of COLOURS: putCarModel tints the body */
++#define COLOURS         ((float *)0x0C0A3498)       /* r g b per colour */
++void SetFadeColorBaseMulti(float, float, float);
++#define setFadeColorBaseMulti SetFadeColorBaseMulti
++void ResetFadeColor(void);
++#define resetFadeColor  ResetFadeColor
++#define TAXI_MODELS     (*(void ***)(TAXI + 0x74))  /* its model set: 4 wheels, body, body variants */
++
++/* The event list (nlExecuteEvent's) and the people in it */
++#define EVENT_HEAD      (*(unsigned char **)0x0C1799C8)   /* the event list's first event */
++void crowdTask(void);
++#define CROWD_TASK      ((unsigned int)crowdTask)                  /* crowdTask: the function of a crowd's event */
++void kyakuTaskExec(void);
++#define CUSTOMER_TASK   ((unsigned int)kyakuTaskExec)                  /* kyakuTaskExec: a customer's event */
++#define PERSON_SIZE     100                         /* a crowd's person record */
+diff --git a/src/game_p.c b/src/game_p.c
+index df3e918..9acf885 100644
+--- a/src/game_p.c
++++ b/src/game_p.c
+@@ -319,6 +319,7 @@ extern void PutRenderTexture(int mode);
+ extern void nlRenderTextureEnd(void);
+ 
+ /* Game 2, or menu mode 1 set: Put_Remain_Time_Mode2; otherwise Put_Remain_Time; the gear box either way. */
++void modGearDraw(void);
+ void Put_Default2_Sprite(void)
+ {
+     if (*(int *)0x0C1EE210 == 2 || GetMenuMode(1) != 0) {
+@@ -326,7 +327,7 @@ void Put_Default2_Sprite(void)
+     } else {
+         Put_Remain_Time();
+     }
+-    Put_GearBox();
++    modGearDraw();                                   /* walking-tour layer */
+ }
+ 
+ /* Run frames (gdc_CourseLoadExec, then a flip) until the busy flag at 0C26E0F8 drops; at least one. */
+@@ -1985,7 +1986,7 @@ void Put_TotalDrum_Meter(void)
+ void menuTopHandler(void)
+ {
+     menuOpenStep();
+-    menuCursor(0, 7, 0);
++    menuCursor(0, 7, 0x14);                                   /* walking-tour layer */
+     menuPutFrame();
+     menuPutSprites(0x0C0A0720, (void *)0x0C2A1A84, *(int *)0x0C2A1AD8 + 8, 24);
+     menuPutHelpBar(0, (float)(-*(int *)0x0C2A1AD8), 416.0f);
+@@ -2267,7 +2268,7 @@ void menuSetMode(void)
+         *(int *)0x0C1EE214 = 0;
+     } else if (p[1] == 2) {
+         *(int *)0x0C1EE238 = 0;
+-        *(int *)0x0C1EE210 = 2;
++        *(int *)0x0C1EE210 = 0;                                   /* walking-tour layer */
+         *(int *)0x0C1EE214 = p[2] - 2;
+     } else {
+         *(int *)0x0C1EE238 = 4;
+diff --git a/src/gen_adr.c b/src/gen_adr.c
+index 15dca03..430fc38 100644
+--- a/src/gen_adr.c
++++ b/src/gen_adr.c
+@@ -25,14 +25,14 @@ int menuItemDifficulty(int a4, int a5)
+     t0 = *(int *)0xC2A1ADC;
+     t12 = 0x8;
+     t13 = 0xC28A4EA;
+-    u16 = 154.0f;
++    u16 = 2000.0f;                                   /* walking-tour layer */
+     u17 = (float)(t0 + 0x1DE);
+     if (a5 == 1) {
+     } else {
+         if (a5 == 2) {
+             t12 = 0x8;
+             t13 = 0xC28A4EB;
+-            u6 = 188.0f;
++            u6 = 2000.0f;                                   /* walking-tour layer */
+             u7 = (float)(0x1DE - t0);
+         }
+         u16 = u6;
+diff --git a/src/gen_aes.c b/src/gen_aes.c
+index cc1f668..409b048 100644
+--- a/src/gen_aes.c
++++ b/src/gen_aes.c
+@@ -87,6 +87,7 @@ struct oBC_uint { char p[0xBC]; unsigned int v; };
+ struct oC_float { char p[0xC]; float v; };
+ 
+ 
++void modPassengerDraw(int, int);
+ int psgJolt(int a4, int a5, float f4)
+ {
+     int stk[14];
+@@ -344,5 +345,6 @@ int psgJolt(int a4, int a5, float f4)
+     *(unsigned int *)((((((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x4)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x4)));
+     *(unsigned int *)((((((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x8)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x8)));
+     psgUpdatePartTracks(a4, 0.919999957f);
+-    return (FcvPlayBuffer(((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4), (*(int *)((a4 + 0x0)))));
++    modPassengerDraw(((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
++    return 0;
+ }
+diff --git a/src/gen_aez.c b/src/gen_aez.c
+index 807fa0e..54e1980 100644
+--- a/src/gen_aez.c
++++ b/src/gen_aez.c
+@@ -10,6 +10,7 @@ extern int nlRotateAY();
+ int nlTranslateV(int);
+ int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
+ 
++void modPedDraw(int, int, int, int);
+ int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
+ {
+     int t13;
+@@ -83,7 +84,7 @@ int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float
+     R7 = (0x0);
+     goto L_C0501F2;
+     L_C0501F2:;
+-    humanDraw((*(int *)((((*(int *)((R14 + 0x28))) << 2) + R0))), R5, R6, R7);
++    modPedDraw((*(int *)((((*(int *)((R14 + 0x28))) << 2) + R0))), R5, R6, R7);                                   /* walking-tour layer */
+     CalcShadow2Matrix((R14 + 0x54));
+     nlObjPutUseViewMatrix(0xC5AA038);
+     goto L_C05024E;
+diff --git a/src/gen_afb.c b/src/gen_afb.c
+index 827196d..6c5aca6 100644
+--- a/src/gen_afb.c
++++ b/src/gen_afb.c
+@@ -26,6 +26,7 @@ struct o8_float { char p[0x8]; float v; };
+ struct o8_int { char p[0x8]; int v; };
+ 
+ 
++void modPassengerDraw(int, int);
+ int psgFrameState2(int a4)
+ {
+     int t0;
+@@ -70,7 +71,7 @@ int psgFrameState2(int a4)
+                     *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), (R1004), 0.199999988f));
+                     psgStepBlend(a4);
+                     psgPutShadow(a4);
+-                    FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++                    modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+                 } else {
+                     FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+                     nlMultiMatrix(0xC179180);
+@@ -87,7 +88,7 @@ int psgFrameState2(int a4)
+                     }
+                     nlTranslate(u29, u30, u31);
+                     psgUpdatePartTracks(a4);
+-                    FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++                    modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+                     *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+                     if ((*(int *)((a4 + 0x0))) != 32) {
+                     } else {
+@@ -201,13 +202,13 @@ int psgFrameState2(int a4)
+             if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
+                 psgPutShadow(a4);
+                 psgStepBlend(a4);
+-                FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++                modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+             } else {
+                 t210 = psgRunToPoint(a4, (0x134 + a4));
+                 psgPutShadow(a4);
+                 psgUpdatePartTracks(a4);
+                 FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
+-                FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++                modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+                 *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + (*(float *)(((0x120 + a4) + 0x0))));
+                 *(unsigned int *)(((0x150 + a4) + 0x0)) = (((*(int *)(((0x150 + a4) + 0x0))) & 0x0) | ((unsigned int)((int)((unsigned int)((*(int *)((a4 + 0x150))) + 0x1) & 0xFFFFFFFF)) << 0));
+                 if (!(3.0f > t210) && (t223 = *(int *)(((0x150 + a4) + 0x0)), (unsigned int)t223 <= (unsigned int)0x258)) {
+@@ -223,7 +224,7 @@ int psgFrameState2(int a4)
+         nlPushMatrix(0x0);
+         psgPutShadow(a4);
+         psgUpdatePartTracks(a4);
+-        FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++        modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+         *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
+         if (!((*(float *)((a4 + 0x38))) > 10.0f)) {
+         } else {
+diff --git a/src/gen_agj.c b/src/gen_agj.c
+index c97c8b0..f81b11f 100644
+--- a/src/gen_agj.c
++++ b/src/gen_agj.c
+@@ -8,6 +8,7 @@ float nlLength(int, int);
+ int setObjPlace(int, int);
+ void setObjGroupExec(int a4, int a5, int a6, int a7, float f4);
+ 
++extern float focus[3];
+ void setObjGroupExec(int a4, int a5, int a6, int a7, float f4)
+ {
+     int t2;
+@@ -70,7 +71,7 @@ void setObjGroupExec(int a4, int a5, int a6, int a7, float f4)
+         t1 = t23;
+         t2 = t25;
+     }
+-    t29 = nlLength((*(int *)((a4 + 0x14))), 0xC179144);
++    t29 = nlLength((*(int *)((a4 + 0x14))), (int)focus);                                   /* walking-tour layer */
+     if ((*(float *)0xC2757E8) > t29) {
+         t33 = *(int *)((a4 + 0x14));
+         t34 = *(short *)((t33 + 0x10));
+diff --git a/src/gen_ahj.c b/src/gen_ahj.c
+index 4638be9..009432c 100644
+--- a/src/gen_ahj.c
++++ b/src/gen_ahj.c
+@@ -57,7 +57,7 @@ int GS_GameMain(void)
+     (((struct o8_uint *)0xC1EE788)->v) = (((((struct o8_int *)0xC1EE788)->v)) + 0x1);
+     t23 = (((struct o0_int *)0xC1EE210)->v);
+     if (((*(int *)0xC0E5338) == 0) && ((t24 = (((struct o24_int *)0xC1EE7C8)->v), t24 == 1) && ((t25 = (((struct o0_int *)0xC1EE788)->v), t25 == 1) && ((t26 = (((struct oC_int *)0xC1EE788)->v), (int)t26 > 0) && ((t23 != 2) || ((t23 == 2) && ((t27 = (((struct o4_int *)0xC1EE210)->v), t27 != 0) && (t28 = *(int *)0xC2A9904, t28 == 0)))))))) {
+-        (((struct oC_uint *)0xC1EE788)->v) = (((((struct oC_int *)0xC1EE788)->v)) - 1);
++        /* walking-tour layer: the timer is frozen */
+     }
+     t33 = (((struct o0_int *)0xC1EE210)->v);
+     t111 = t33;
+@@ -75,7 +75,7 @@ int GS_GameMain(void)
+                 t76 = t59;
+                 if (t59 != 1) {
+                     if ((int)((((struct o2C_int *)0xC1EE7C8)->v)) >= (int)((((struct o20_int *)0xC1EE7C8)->v))) {
+-                        hudShowPickUpNag();
++                        /* walking-tour layer: no pick-up nag */
+                         (((struct o20_uint *)0xC1EE7C8)->v) = 0x258;
+                         (((struct o2C_uint *)0xC1EE7C8)->v) = 0x0;
+                     }
+diff --git a/src/gen_ahy.c b/src/gen_ahy.c
+index e3f5a13..d6e8dec 100644
+--- a/src/gen_ahy.c
++++ b/src/gen_ahy.c
+@@ -8,6 +8,7 @@ extern int Put_Remain_Time_Mode2();
+ int Put_TotalDrum_Update(void);
+ int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
+ 
++void modGearDraw(void);
+ int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
+ {
+     int t2;
+@@ -23,5 +24,6 @@ int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float
+     } else {
+         t7 = ((int (*)(int, int, int, int, float, float, float))(Put_Remain_Time_Mode2))(a4, a5, a6, a7, f4, f5, f6);
+     }
+-    return Put_GearBox();
++    modGearDraw();                                   /* walking-tour layer */
++    return 0;
+ }
+diff --git a/src/gen_alh.c b/src/gen_alh.c
+index 2bd1f11..b8e96cc 100644
+--- a/src/gen_alh.c
++++ b/src/gen_alh.c
+@@ -22,6 +22,7 @@ struct o4_uint { char p[0x4]; unsigned int v; };
+ struct o8_uint { char p[0x8]; unsigned int v; };
+ 
+ 
++void modPassengerDraw(int, int);
+ int psgFrameState3(int a4)
+ {
+     int t5;
+@@ -297,7 +298,7 @@ int psgFrameState3(int a4)
+         if ((t282 != 4) && ((t282 != 5) && ((t282 != 6) && ((t282 != 7) && ((t282 != 8) && ((t282 != 9) && (t282 != 10))))))) {
+             t283 = ((int (*)(int, int, float, float))(psgJolt))(a4, (a4 + 0x3C), u276, u280);
+         } else {
+-            FcvPlayBuffer((a4 + 0x3C), (*(int *)((a4 + 0x0))));
++            modPassengerDraw((a4 + 0x3C), (*(int *)((a4 + 0x0))));                                   /* walking-tour layer */
+         }
+     }
+     t293 = nlPopMatrix(0x1);
+diff --git a/src/gen_ane.c b/src/gen_ane.c
+index 41ba8bc..7f715e6 100644
+--- a/src/gen_ane.c
++++ b/src/gen_ane.c
+@@ -4,6 +4,7 @@
+ int GetCollision2D(int, float, float);
+ int pedGetSubwayFlag(float f4, float f5);
+ 
++extern unsigned char *carView;
+ int pedGetSubwayFlag(float f4, float f5)
+ {
+     int t1;
+@@ -13,10 +14,10 @@ int pedGetSubwayFlag(float f4, float f5)
+     float u5;
+     int t13;
+ 
+-    t1 = GetCollision2D(0xC179144, 2e+01f, f5);
++    t1 = GetCollision2D((int)carView + 0x78, 2e+01f, f5);                                   /* walking-tour layer */
+     t16 = 0;
+     if ((*(int *)((t1 + 0x1C))) != -1) {
+-        u3 = *(float *)0xC179148;
++        u3 = *(float *)((int)carView + 0x7C);                                   /* walking-tour layer */
+         u4 = *(float *)((t1 + 0x4));
+         u5 = 8e+01f;
+         if (!(_builtin_fabsf((u4 - u3)) > u5)) {
+diff --git a/src/gen_ano.c b/src/gen_ano.c
+index d856f2e..0326106 100644
+--- a/src/gen_ano.c
++++ b/src/gen_ano.c
+@@ -11,6 +11,7 @@ int putLevelCTFontAssist(int, int, int, int, int);
+ int vibIsReady(void);
+ int menuOptionHandler(void);
+ 
++void modOptionsOpen();
+ int menuOptionHandler(void)
+ {
+     int t2;
+@@ -18,10 +19,10 @@ int menuOptionHandler(void)
+     int t10;
+     int t11;
+ 
+-    menuOpenStep();
+-    t2 = 0x0;
++    modOptionsOpen();                                   /* walking-tour layer */
++    t2 = 0x47;                                   /* walking-tour layer */
+     if ((vibIsReady()) == 0) {
+-        t2 = 0x80;
++        t2 = 0xC7;
+     }
+     menuCursor(0x0, 0x9, t2);
+     menuPutFrame();
+diff --git a/src/gen_ant.c b/src/gen_ant.c
+index 6b5337f..68bacc6 100644
+--- a/src/gen_ant.c
++++ b/src/gen_ant.c
+@@ -15,7 +15,7 @@ int sysCfgRead(int a4, int a5, int a6)
+         *(unsigned int *)0xC2A11BC = 0x0;
+     }
+     t3 = syCfgGetLanguage(0xC2A11C0);
+-    if (t3 == 0) {
++    if (0) {                                   /* walking-tour layer */ /* English only */
+         t5 = *(int *)0xC2A11C0;
+         switch (t5) {
+         case 0:
+@@ -39,7 +39,7 @@ int sysCfgRead(int a4, int a5, int a6)
+         }
+         t23 = t5;
+     } else {
+-        *(unsigned int *)0xC2A11C0 = 0x0;
++        *(unsigned int *)0xC2A11C0 = 0x1;                                   /* walking-tour layer */
+         t23 = t3;
+     }
+     return t23;
+diff --git a/src/gen_aon.c b/src/gen_aon.c
+index 9c289b7..e0fd006 100644
+--- a/src/gen_aon.c
++++ b/src/gen_aon.c
+@@ -45,6 +45,9 @@ int replay(int);
+ /* manual: the point goes to gdc_CoursePointLoadReq by value (the generated form dropped it and passed only the float) */
+ int exec_CarMain(void);
+ 
++void modCabDraw(int);
++void modPlayerCar(int);
++int modCourseLoad(NLpoint3, float);
+ int exec_CarMain(void)
+ {
+     float u8;
+@@ -119,9 +122,9 @@ int exec_CarMain(void)
+     nlUnitMatrix();
+     carGroundCheck(0xC1790CC);
+     if ((int)(*(int *)0xC179488) < (int)0x4) {
+-        putPlayerCarByView(0x0);
++        modCabDraw(0x0);                                   /* walking-tour layer */
+     } else {
+-        putPlayerCar(0x0);
++        modPlayerCar(0x0);                                   /* walking-tour layer */
+     }
+     replay(0x5);
+     u8 = *(float *)0xC1EE2F4;
+@@ -394,7 +397,7 @@ int exec_CarMain(void)
+             u296 = (*(float *)(((int)stk + 44)));
+             u296 = u296 + 600.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
+             *(float *)(((int)stk + 44)) = u296;
+-            t298 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 1800.0f));
++            t298 = (modCourseLoad(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 1800.0f));                                   /* walking-tour layer */
+         }
+         t349 = t298;
+     } else {
+@@ -417,7 +420,7 @@ int exec_CarMain(void)
+                 u320 = (*(float *)(((int)stk + 44)));
+                 u320 = u320 + 220.0f * (nlFastCos(((unsigned short)(*(short *)0xC1791C0) - 3072)));
+                 *(float *)(((int)stk + 44)) = u320;
+-                t337 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 560.0f));
++                t337 = (modCourseLoad(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 560.0f));                                   /* walking-tour layer */
+             } else {
+                 t331 = t303;
+                 if (t303 == 3) {
+@@ -428,7 +431,7 @@ int exec_CarMain(void)
+                     u329 = (*(float *)(((int)stk + 44)));
+                     u329 = u329 + 30.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
+                     *(float *)(((int)stk + 44)) = u329;
+-                    t331 = (gdc_CoursePointLoadReq(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 50.0f));
++                    t331 = (modCourseLoad(*(NLpoint3 *)((((int)stk + 16) + 0x14)), 50.0f));                                   /* walking-tour layer */
+                 }
+                 t337 = t331;
+             }
+diff --git a/src/gen_aou.c b/src/gen_aou.c
+index 39e9a5b..8ae7a25 100644
+--- a/src/gen_aou.c
++++ b/src/gen_aou.c
+@@ -23,6 +23,7 @@ struct o20_int { char p[0x20]; int v; };
+ struct o24_float { char p[0x24]; float v; };
+ 
+ 
++void modDriverDraw(int, int);
+ int Drv_Put(void)
+ {
+     int t0;
+@@ -76,12 +77,12 @@ int Drv_Put(void)
+     t17 = (((struct o0_int *)0xC2AD000)->v);
+     if ((t16 != 2) && (t16 != 4)) {
+         if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
+-            FcvPlayBuffer(0xC2AD028, t17);
++            modDriverDraw(0xC2AD028, t17);                                   /* walking-tour layer */
+         } else {
+             drvJolt();
+         }
+     } else {
+-        FcvPlayBuffer(0xC2AD028, t17);
++        modDriverDraw(0xC2AD028, t17);                                   /* walking-tour layer */
+     }
+     nlGetTranslate(0xC2AD004);
+     if (((*(signed char *)0xC2AD1DF) & 1) != 0) {
+diff --git a/src/gen_aps.c b/src/gen_aps.c
+index 0c9e6cf..fa9e0c4 100644
+--- a/src/gen_aps.c
++++ b/src/gen_aps.c
+@@ -28,6 +28,7 @@ struct oC_float { char p[0xC]; float v; };
+ struct oF4_short { char p[0xF4]; short v; };
+ 
+ 
++extern unsigned char *carView;
+ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
+ {
+     float t8;
+@@ -66,7 +67,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
+     F4 = f4;
+     F5 = f5;
+     L_C04FA82:;
+-    R13 = (0xC1790CC);
++    R13 = ((int)carView);                                   /* walking-tour layer */
+     R14 = (R4);
+     if ((((((struct o50_int *)(R4))->v)) != 2)) goto L_C04FAD0;
+     goto L_C04FA9C;
+diff --git a/src/gen_atz.c b/src/gen_atz.c
+index 5d1b85c..ea7ac1a 100644
+--- a/src/gen_atz.c
++++ b/src/gen_atz.c
+@@ -79,6 +79,7 @@ struct o8_int { char p[0x8]; int v; };
+ 
+ 
+ 
++extern unsigned char *carView;
+ int psgFrameState4(int a4)
+ {
+     int stk[36];
+@@ -412,7 +413,7 @@ int psgFrameState4(int a4)
+                     *(float *)(((int)stk + 76)) = 0.0f;
+                     nlUnitVector((((int)stk + 12) + 0x3C));
+                     *(unsigned int *)((a4 + 0x10)) = (nlArcTan2((*(float *)(((int)stk + 72))), (*(float *)(((int)stk + 80)))));
+-                    nlPushMatrix(0xC179180);
++                    nlPushMatrix((int)carView + 0xB4);                                   /* walking-tour layer */
+                     if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t678 = (((struct o8_int *)0xC1EE20C)->v), t678 == 14)) {
+                         if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
+                             *(unsigned int *)((a4 + 0x10)) = ((*(int *)((a4 + 0x10))) + 0x8000);
+@@ -452,7 +453,7 @@ int psgFrameState4(int a4)
+                     (((struct o78_uint *)(a4))->v) = 0x0;
+                     (((struct o7C_uint *)(a4))->v) = 0x0;
+                     (((struct o80_uint *)(a4))->v) = 0x0;
+-                    nlPushMatrix(0xC179180);
++                    nlPushMatrix((int)carView + 0xB4);                                   /* walking-tour layer */
+                     if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t743 = (((struct o8_int *)0xC1EE20C)->v), t743 == 14)) {
+                         t744 = *(signed char *)((a4 + 0x154));
+                         nlTranslateV(((signed char)(((t744 << 1) + t744) << 2) + 0xC13F3BC));
+diff --git a/src/gen_dk.c b/src/gen_dk.c
+index dd71e3c..b6ad235 100644
+--- a/src/gen_dk.c
++++ b/src/gen_dk.c
+@@ -45,9 +45,7 @@ int menuCrazyBoxHandler(void)
+     }
+     t6 = *(signed char *)0xC28A4F6;
+     t7 = ((CheckBoxFlag(((((struct o0_int *)0xC2A11C4)->v)))) << 2);
+-    if (t6 == 0) {
+-        t7 = 0x3FFFE;
+-    }
++    t7 = 0x3FFFC;                                   /* walking-tour layer */
+     menuCursorBox(0x0, 0x13, t7);
+     menuPutFrame();
+     menuPutSprites(0xC0A0770, 0xC2A1A84, (((((struct o0_int *)0xC2A1AD8)->v)) + 0x8), 0x18);
+diff --git a/src/gen_dn.c b/src/gen_dn.c
+index abb3d46..0b6ad66 100644
+--- a/src/gen_dn.c
++++ b/src/gen_dn.c
+@@ -32,6 +32,7 @@ struct o60_short { char p[0x60]; short v; };
+ struct oF4_short { char p[0xF4]; short v; };
+ 
+ 
++extern unsigned char *carView;
+ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
+ {
+     float u7;
+@@ -75,7 +76,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
+     F4 = f4;
+     F5 = f5;
+     L_C04FC5A:;
+-    R13 = (0xC1790CC);
++    R13 = ((int)carView);                                   /* walking-tour layer */
+     R14 = (R4);
+     F14 = (F5);
+     F15 = (F4);
+@@ -111,7 +112,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
+     if ((t24 == -1)) goto L_C04FF48;
+     goto L_C04FEBE;
+     L_C04FEBE:;
+-    if ((R4 == 2)) goto L_C04FF48;
++    /* walking-tour layer: passers-by may run onto the road */
+     goto L_C04FEC6;
+     L_C04FEC6:;
+     if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C04FED6;
+diff --git a/src/gen_dy.c b/src/gen_dy.c
+index 2177241..978a108 100644
+--- a/src/gen_dy.c
++++ b/src/gen_dy.c
+@@ -21,6 +21,7 @@ struct oC_int { char p[0xC]; int v; };
+ struct oC_uint { char p[0xC]; unsigned int v; };
+ 
+ 
++void modDriverDraw(int, int);
+ int drvJolt(float f4, float f5)
+ {
+     float u12;
+@@ -136,5 +137,6 @@ int drvJolt(float f4, float f5)
+             (((struct oC_uint *)0xC2AD4A4)->v) = 0x2000;
+         }
+     }
+-    return (FcvPlayBuffer(0xC2AD460, ((((struct o0_int *)0xC2AD000)->v))));
++    modDriverDraw(0xC2AD460, ((((struct o0_int *)0xC2AD000)->v)));                                   /* walking-tour layer */
++    return 0;
+ }
+diff --git a/src/gen_el.c b/src/gen_el.c
+index 79ae74e..4fc83f2 100644
+--- a/src/gen_el.c
++++ b/src/gen_el.c
+@@ -118,6 +118,7 @@ struct oD_uchar { char p[0xD]; unsigned char v; };
+ 
+ 
+ 
++extern float camEyeUp, camEyeBack, camAimUp, camAimAhead;
+ int camUpdate(int a4)
+ {
+     int stk[28];
+@@ -933,18 +934,18 @@ int camUpdate(int a4)
+     L_C026E62:;
+     *(float *)(((int)stk + 88)) = w0_0;
+     if ((((((struct o38_int *)0xC179928)->v)) == 0)) goto L_C026E88;
+-    *(float *)(((int)stk + 92)) = 5.0f;
+-    w0_0 = 17.0f;
++    *(float *)(((int)stk + 92)) = camAimUp;                                   /* walking-tour layer */
++    w0_0 = camAimAhead;
+     w0_0 = w0_0 + ((((struct o18_float *)0xC0E4D90)->v)) * ((((struct o0_float *)0xC0E4DD8)->v));
+     w0_0 = (w0_0);
+     L_C026EA0:;
+     *(float *)(((int)stk + 96)) = w0_0;
+     nlCalcPoint((((int)stk + 4) + 0x54), 0xC179914);
+     if ((((((struct o38_int *)0xC179928)->v)) == 0)) goto L_C026F34;
+-    w0_0 = 15.0f;
++    w0_0 = camEyeUp;                                   /* walking-tour layer */
+     w0_0 = w0_0 + 0.466666609f * ((((struct o10_float *)0xC1798A4)->v));
+     *(float *)(((int)stk + 92)) = w0_0;
+-    *(float *)(((int)stk + 96)) = (((((((struct o0_float *)0xC0E4DD8)->v)) * ((((struct o14_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f);
++    *(float *)(((int)stk + 96)) = (((((((struct o0_float *)0xC0E4DD8)->v)) * ((((struct o14_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + camEyeBack);                                   /* walking-tour layer */
+     L_C026F6E:;
+     nlCalcPoint((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x54));
+     nlSubVector3op((((int)stk + 4) + 0x44), (((int)stk + 4) + 0x54), 0xC179914);
+@@ -978,14 +979,14 @@ int camUpdate(int a4)
+     L_C026F34:;
+     w0_0 = (((((struct o10_float *)0xC1798A4)->v)) * 0.333333313f);
+     w0_0 = w0_0 + ((((struct o0_float *)0xC0E4D90)->v)) * ((((struct o4_float *)0xC0E4DD8)->v));
+-    *(float *)(((int)stk + 92)) = (w0_0 + 15.0f);
+-    *(float *)(((int)stk + 96)) = (((((((struct o4_float *)0xC0E4DD8)->v)) * ((((struct o4_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + -60.0f);
++    *(float *)(((int)stk + 92)) = (w0_0 + camEyeUp);                                   /* walking-tour layer */
++    *(float *)(((int)stk + 96)) = (((((((struct o4_float *)0xC0E4DD8)->v)) * ((((struct o4_float *)0xC0E4D90)->v))) - ((((struct o10_float *)0xC1798A4)->v))) + camEyeBack);                                   /* walking-tour layer */
+     goto L_C026F6E;
+     L_C026E88:;
+-    w0_0 = 5.0f;
++    w0_0 = camAimUp;                                   /* walking-tour layer */
+     w0_0 = w0_0 + ((((struct o8_float *)0xC0E4D90)->v)) * ((((struct o4_float *)0xC0E4DD8)->v));
+     *(float *)(((int)stk + 92)) = w0_0;
+-    w0_0 = (17.0f);
++    w0_0 = (camAimAhead);                                   /* walking-tour layer */
+     goto L_C026EA0;
+     L_C026D70:;
+     (((struct o0_float *)0xC0E4DD8)->v) = ((((struct o15C_float *)((*(int *)(((int)stk + 84)))))->v));
+diff --git a/src/gen_gx.c b/src/gen_gx.c
+index 7dd7ea9..9668acb 100644
+--- a/src/gen_gx.c
++++ b/src/gen_gx.c
+@@ -45,6 +45,8 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5);
+    leaves whatever register it last wrote, so the result is void here. Every use of the value the original re-reads from memory
+    (**(R14 + 0x198)) is written as that read: the hoisted variable h0 was only set on one path, and the get-off count and the
+    replay passenger number came out 0 on the others (directed cases 30 and 57). */
++extern int kyakuVr;
++extern float boardRange;
+ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
+ {
+     int h0;
+@@ -222,7 +224,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
+     L_C025602:;
+     return;
+     L_C025328:;
+-    t50 = *(int *)0xC179860;
++    t50 = kyakuVr;                                   /* walking-tour layer */
+     R4 = (t50);
+     if ((t50 == 0)) goto L_C025344;
+     goto L_C025330;
+@@ -559,7 +561,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
+     R0 = ((nlCloseEvent(R14)));
+     goto L_C025602;
+     L_C024EC4:;
+-    if ((!(500.0f > F15))) goto L_C024F1C;
++    if ((!(boardRange > F15))) goto L_C024F1C;                                   /* walking-tour layer */
+     goto L_C024ECC;
+     L_C024ECC:;
+     if (((*(int *)((*(int *)((R14 + 0x198))) + 0x0)) == -1)) goto L_C024F1C;
+diff --git a/src/gen_ha.c b/src/gen_ha.c
+index d29e244..a48e52a 100644
+--- a/src/gen_ha.c
++++ b/src/gen_ha.c
+@@ -11,6 +11,7 @@ int pedSpawn(int, int, float);
+ int pedUpdate(int, int, float);
+ int crowdTask(int a4, int a5, float f4);
+ 
++extern unsigned char *carView;
+ int crowdTask(int a4, int a5, float f4)
+ {
+     float t16;
+@@ -49,7 +50,7 @@ int crowdTask(int a4, int a5, float f4)
+     R5 = a5;
+     F4 = f4;
+     L_C04F68A:;
+-    R1004 = 0xC1790CC;
++    R1004 = (int)carView;                                   /* walking-tour layer */
+     R10 = (0x0);
+     R12 = (0x64);
+     R13 = (0x0);
+diff --git a/src/gen_hv.c b/src/gen_hv.c
+index 856430c..39354ab 100644
+--- a/src/gen_hv.c
++++ b/src/gen_hv.c
+@@ -8,6 +8,7 @@ int nlRotateAY(int);
+ int nlTranslateV(int);
+ int psgSeatMatrix(int a4);
+ 
++extern unsigned char *carView;
+ int psgSeatMatrix(int a4)
+ {
+     int t2;
+@@ -18,7 +19,7 @@ int psgSeatMatrix(int a4)
+     int t4;
+     int stk[9];
+ 
+-    nlMultiMatrix(0xC179180);
++    nlMultiMatrix((int)carView + 0xB4);                                   /* walking-tour layer */
+     t2 = *(int *)0xC179488;
+     if ((((*(int *)0xC1EE20C) == 2) && (t3 = *(int *)0xC1EE214, t3 == 11)) || (t4 = *(int *)0xC1EE214, t4 == 14)) {
+         if ((*(int *)0xC1EE214) == 11) {
+diff --git a/src/gen_ik.c b/src/gen_ik.c
+index f0c13fd..82bd884 100644
+--- a/src/gen_ik.c
++++ b/src/gen_ik.c
+@@ -48,7 +48,7 @@ int hudDraw(float f4)
+         if (((t4 & 0x10000000) != 0x10000000) && (t6 = *(int *)0xC1EE20C, t6 != 2)) {
+             Put_Pass_Time();
+         }
+-        hudDrawTime();
++        /* walking-tour layer: no clock */
+     } else {
+         t52 = 0x80;
+     }
+diff --git a/src/gen_ji.c b/src/gen_ji.c
+index 903b6ce..4064b02 100644
+--- a/src/gen_ji.c
++++ b/src/gen_ji.c
+@@ -20,6 +20,7 @@ struct o4_int { char p[0x4]; int v; };
+ struct o8_int { char p[0x8]; int v; };
+ 
+ 
++extern unsigned char *carView;
+ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
+ {
+     int t11;
+@@ -72,8 +73,8 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
+     R0 = (0x64);
+     R11 = (0x0);
+     R12 = (0x0);
+-    R14 = (0xC1790CC);
+-    if (((int)(*(int *)0xC179130) >= 0)) goto L_C04F224;
++    R14 = ((int)carView);                                   /* walking-tour layer */
++    if (((int)(*(int *)(R14 + 0x64)) >= 0)) goto L_C04F224;
+     goto L_C04F220;
+     L_C04F220:;
+     goto L_C04F584;
+diff --git a/src/gen_jj.c b/src/gen_jj.c
+index a6e80f8..4a2b71b 100644
+--- a/src/gen_jj.c
++++ b/src/gen_jj.c
+@@ -49,6 +49,7 @@ struct o4_uint { char p[0x4]; unsigned int v; };
+ struct o8_int { char p[0x8]; int v; };
+ 
+ 
++void modRunStart(void);
+ int gameState0(float f4)
+ {
+     int t26;
+@@ -115,7 +116,7 @@ int gameState0(float f4)
+         PutCourse_Init(((((struct o0_int *)0xC1EE20C)->v)));
+         nd_peopleInitialize(0x46);
+     }
+-    init_CarMain();
++    modRunStart();                                   /* walking-tour layer */
+     if (((((struct o4_int *)0xC1EE20C)->v)) == 2) {
+         Init_DCmini();
+     }
+diff --git a/src/gen_mr.c b/src/gen_mr.c
+index 9ad4382..ee862bb 100644
+--- a/src/gen_mr.c
++++ b/src/gen_mr.c
+@@ -38,6 +38,10 @@ struct o4_int { char p[0x4]; int v; };
+ struct o8_int { char p[0x8]; int v; };
+ 
+ 
++void modCamera(int);
++void modCarsPut(int);
++void modTraffic(int);
++void modFrame(int);
+ int gameStateDrive(void)
+ {
+     int t0;
+@@ -55,7 +59,7 @@ int gameStateDrive(void)
+     if (t0 == 1) {
+         return t0;
+     }
+-    camUpdate(0x0);
++    modCamera(0x0);                                   /* walking-tour layer */
+     Exec_Fog();
+     t3 = (((struct o0_int *)0xC1EE20C)->v);
+     if (t3 != 0) {
+@@ -100,8 +104,8 @@ int gameStateDrive(void)
+         ExecHelicopter();
+     }
+     Act_Execute();
+-    entryCarPut(0x1);
+-    trafficControl(0x1);
++    modCarsPut(0x1);                                   /* walking-tour layer */
++    modTraffic(0x1);                                   /* walking-tour layer */
+     if (((((struct o0_int *)0xC1EE20C)->v)) != 2) {
+         crowdSpawn();
+     }
+@@ -116,7 +120,7 @@ int gameStateDrive(void)
+         *(unsigned int *)0xC0E5320 = ((int)((int)((*(int *)0xC0E5320) + 0x1) % (int)0x2));
+     }
+     if ((*(int *)0xC0E5320) != 0) {
+-        hudDraw(0xC0E5320);
++        modFrame(0xC0E5320);                                   /* walking-tour layer */
+     } else {
+         t80 = 0xC0E5320;
+     }
+diff --git a/src/gen_ob.c b/src/gen_ob.c
+index c123c60..ae152a1 100644
+--- a/src/gen_ob.c
++++ b/src/gen_ob.c
+@@ -138,15 +138,15 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+     goto L_C053C80;
+     L_C053C80:;
+     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + (R11 << 2))));
+-    t43 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
++    /* walking-tour layer: no game time digits */
+     goto L_C053D0A;
+     L_C053D0A:;
+     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1004) << 2))));
+     (((struct o4_float *)(R13))->v) = 74.0f;
+-    t47 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
++    /* walking-tour layer: no game time digits */
+     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + ((R1008) << 2))));
+     (((struct o4_float *)(R13))->v) = 116.0f;
+-    t51 = ((int (*)(int))(nlSprPut))(0xC2A7F7C);
++    /* walking-tour layer: no game time digits */
+     goto L_C053D32;
+     L_C053D32:;
+     if (((int)R14 >= (int)0xB)) goto L_C053D40;
+@@ -155,7 +155,7 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+     nlObjPutSetFadeColor(F15, F14, F14);
+     goto L_C053D40;
+     L_C053D40:;
+-    Put_Remain_Time_Frame(R4, R5, R6);
++    /* walking-tour layer: no game time label */
+     t57 = (int)(*(int *)((R12 + 0x0))) <= (int)0x14;
+     R0 = ((ResetFadeColor()));
+     if (t57) goto L_C053D5E;
+@@ -268,7 +268,7 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+     goto L_C053CFC;
+     L_C053CFC:;
+     *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + (R11 << 2))));
+-    t107 = ((int (*)(int, int, int))(nlSprPut))(0xC2A7F7C, R5, R6);
++    /* walking-tour layer: no game time digits */
+     goto L_C053D0A;
+     L_C053BFC:;
+     R14 = (R13);
+diff --git a/src/gen_ov.c b/src/gen_ov.c
+index 8e9f9ef..bc9bc12 100644
+--- a/src/gen_ov.c
++++ b/src/gen_ov.c
+@@ -23,11 +23,11 @@ int menuItemVolume(int a4, int a5)
+ 
+     t0 = *(int *)0xC2A1ADC;
+     t3 = 0xC28A4ED;
+-    u5 = 290.0f;
++    u5 = 256.0f;                                   /* walking-tour layer */
+     u6 = (float)(t0 + 0x1DE);
+     if (a5 == 4) {
+         t3 = 0xC28A4EC;
+-        u5 = 256.0f;
++        u5 = 222.0f;                                   /* walking-tour layer */
+         u6 = (float)(0x1DE - t0);
+     }
+     *(unsigned int *)(((int)stk + 0)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
+diff --git a/src/gen_uf.c b/src/gen_uf.c
+index e87a231..4d02dce 100644
+--- a/src/gen_uf.c
++++ b/src/gen_uf.c
+@@ -17,6 +17,7 @@ struct o4_int { char p[0x4]; int v; };
+ 
+ 
+ 
++extern unsigned char *carView;
+ int psgPickExitSide(int a4)
+ {
+     int t4;
+@@ -28,7 +29,7 @@ int psgPickExitSide(int a4)
+     *(unsigned int *)(((int)stk + 4)) = a4;
+     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x20)) = *(struct mv3 *)(0xC0D6064); }
+     { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)(0xC0D6070); }
+-    nlPushMatrix(0xC179180);
++    nlPushMatrix((int)carView + 0xB4);                                   /* walking-tour layer */
+     nlCalcPoint((((int)stk + 4) + 0x20), (((int)stk + 4) + 0x20));
+     nlCalcPoint((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14));
+     *(unsigned int *)(((int)stk + 8)) = 0xC2AD204;
+diff --git a/src/gen_uo.c b/src/gen_uo.c
+index 44fdfbf..bed41c8 100644
+--- a/src/gen_uo.c
++++ b/src/gen_uo.c
+@@ -5,6 +5,7 @@ float nlLength(int, int);
+ int setObjGroupOpen(int);
+ void ExecSetObject(int a4);
+ 
++extern float focus[3];
+ void ExecSetObject(int a4)
+ {
+     int t0;
+@@ -75,7 +76,7 @@ void ExecSetObject(int a4)
+         if (((int)t17 > 0) && (t33 = *(int *)((t19 + 0x1C)), t33 == 0)) {
+             t19 = t24;
+             t19 = (t19 + t20);
+-            u25 = (nlLength(t19, 0xC179144));
++            u25 = (nlLength(t19, (int)focus));                                   /* walking-tour layer */
+             u26 = (*(float *)0xC2757E8);
+             if (u26 > u25) {
+                 t19 = (*(int *)0xC0EDBB8);
+diff --git a/src/gen_vc.c b/src/gen_vc.c
+index 996cb87..37a85ec 100644
+--- a/src/gen_vc.c
++++ b/src/gen_vc.c
+@@ -31,7 +31,7 @@ int GS_StartWait(void)
+         if (t7 == 1) {
+             t9 = *(int *)0xC2A9904;
+             if (t9 == 0) {
+-                *(unsigned int *)0xC1EE794 = ((*(int *)0xC1EE794) - 1);
++                /* walking-tour layer: the timer is frozen */
+             }
+             t14 = t9;
+         }
+diff --git a/src/gen_vu.c b/src/gen_vu.c
+index aab58fb..d0f5e94 100644
+--- a/src/gen_vu.c
++++ b/src/gen_vu.c
+@@ -9,6 +9,7 @@ int nlSubVector3op(int, int, int);
+ int nlUnitVector(int);
+ int psgFaceTaxi(int a4);
+ 
++extern unsigned char *carView;
+ int psgFaceTaxi(int a4)
+ {
+     float t2;
+@@ -18,7 +19,7 @@ int psgFaceTaxi(int a4)
+     int t9;
+     int stk[8];
+ 
+-    nlSubVector3op(((int)stk + 4), 0xC179144, (a4 + 0x4));
++    nlSubVector3op(((int)stk + 4), (int)carView + 0x78, (a4 + 0x4));                                   /* walking-tour layer */
+     *(float *)(((int)stk + 8)) = 0.0f;
+     nlUnitVector(((int)stk + 4));
+     t2 = nlInnerProduct(((int)stk + 4), 0xC0D5554);
+diff --git a/src/gen_wl.c b/src/gen_wl.c
+index ca47561..e5c3a14 100644
+--- a/src/gen_wl.c
++++ b/src/gen_wl.c
+@@ -18,6 +18,7 @@ int nlObjPutSetFadeColor(float, float, float);
+ int paletteUpload(void);
+ void MainLoop(int a4, float f4, float f5, float f6);
+ 
++void modEveryFrame(void);
+ void MainLoop(int a4, float f4, float f5, float f6)
+ {
+     int t19;
+@@ -76,7 +77,7 @@ void MainLoop(int a4, float f4, float f5, float f6)
+     L_C02AA24:;
+     getSwitch();
+     nlObjPutSetFadeColor(F15, F15, F15);
+-    CheckSoftReset();
++    modEveryFrame();                                   /* walking-tour layer */
+     CheckDrive();
+     t19 = *(int *)(((((*(int *)((R14 + 0x0))) & R9) << 2) + 0xC08ACEC));
+     R13 = (t19);
+diff --git a/src/gen_xj.c b/src/gen_xj.c
+index bd745d0..bfca699 100644
+--- a/src/gen_xj.c
++++ b/src/gen_xj.c
+@@ -68,13 +68,13 @@ int req_load(void)
+         if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
+             t55 = 0xC08AE14;
+         }
+-        t62 = (gdc_FileLoad(0xC30C000, t55, 0x1C000));
++        /* walking-tour layer: no demo file */
+     } else {
+         t59 = 0xC08AE44;
+         if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
+             t59 = 0xC08AE34;
+         }
+-        t62 = (gdc_FileLoad(0xC30C000, t59, 0x1C000));
++        /* walking-tour layer: no demo file */
+     }
+     return t62;
+ }
+diff --git a/src/mod.c b/src/mod.c
+new file mode 100644
+index 0000000..5826ac8
+--- /dev/null
++++ b/src/mod.c
+@@ -0,0 +1,690 @@
++/* Crazy Taxi Walking Tour code. All of the mod is one block in the executable's filler (0x0C014000,
++   48 KB; build.sh, patch_exe.py) and its data at run time comes from its own heap (heap.c). Hooks
++   reach it through the game's own pool words; two of them in the driving frame handler: modCamera instead of camUpdate (early in the frame, after the pad is
++   read and before the taxi moves) and modFrame instead of hudDraw (at the end, after the scene).
++
++   Y: your driver steps out beside the cab door: the cab driver is hidden, the taxi stays put and
++   the camera follows the one outside. The stick points where they go on screen (R: run, A: jump).
++   Y again, standing at the driver's door (the cab's left side): back in. Y beside a traffic car:
++   take it over; X: hail a taxi (traffic.c).
++
++   Globals must be initialised: the blob has no zeroed (B) section. */
++#include "game.h"
++#include "config/foot.h"
++#include "config/drive.h"
++#include "config/world.h"
++#include "config/debug.h"
++#include "config/tram.h"
++
++static void doorPoint(float *door);
++static float groundDistance(float *a, float *b);
++static void stepOut(void);
++void stepIn(void);
++int carTakeOver(void);
++void carHail(void);
++void camSlope(void);
++void carsPush(float *p);
++void carLeftBehind(void);
++void carRestSample(float ground);
++void carsReset(void);
++void touchAfter(void);
++unsigned char *ridingTask(void);
++void touchBefore(void);
++void flyersReset(void);
++float carDoorSide(void);
++int tramRiding(void);
++int tramGearDrive(void);
++void tramDrive(void);
++extern int carGone;
++extern int look;
++static void walk(void);
++static void pedsPush(float *p);
++static void standPush(void);
++static void drawDriver(void);
++static void dive(void);
++static void drawFare(void);
++static void followCam(void);
++
++int out = 0;                                            /* 1 while the driver stands outside */
++int kyakuVr = 0;                                        /* the camera mode as kyakuTaskExec's circle test reads it (pool word
++                                                           0x0C02544C): the real one, except 0 on foot with a fare riding, so
++                                                           the drop-off zone is drawn (not the pickup's) */
++static int savedMode = 0, savedSub = 0;                 /* camera to restore on the way back */
++int yaw = 0;
++static int hail = 0;                                    /* frames since X hailed (0: not hailing) */
++static int runFrames = 0;                               /* frames since the run started */
++static int gait = 0;                                     /* 0 standing, 1 walking or running, 2 halting */
++static float walkFrame = 0.0f;
++static float stride = 1.0f;
++static float rate = WALK_RATE;                          /* stride frames per game frame */
++float jumpY = 0.0f;                                     /* walk mode's jump: height above the ground (touch.c's kick reads it) */
++static float jumpV = 0.0f;                              /* its speed */
++static float airFrame = WALK_FIRST;                     /* a jump from standing: the stride it runs in the air */
++static float fare[3];                                   /* where the fare walking with him is */
++static int tumble = 0;                                  /* 1 while he jumps out of the car (JUMP_OUT), else 0 */
++static float outKey = 0.0f;                             /* its frame */
++static float tumbleV[2] = { 0.0f, 0.0f };               /* its slide on the ground (x, z), per frame */
++float ped[10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
++                                                        /* a stand-in customer record: position
++                                                           at +0x04, state +0x20 left at 0, so
++                                                           Psg_SetPosPtr snaps it to the ground */
++static float head[3] = { 0.0f, HEAD_HEIGHT, 0.0f };
++
++#define POS (&ped[1])
++#define PICKUP 6                                        /* P_Picup: the pickup truck's type */
++
++/* Entry point: must stay the first function in this file (it is the start of the blob). */
++void modFrame(int hud)
++{
++    hudDraw(hud);
++    if (runFrames < INTRO)
++        runFrames++;
++    if ((PAD_PRESSED & BTN_ENTER) && runFrames >= INTRO && !(HUD_FLAGS & HUD_TIME_UP) && !tumble) {
++        float door[3];
++
++        if (!out)
++            stepOut();                                  /* not during the opening: no signal for it yet */
++        else {
++            doorPoint(door);
++            if (!carGone && groundDistance(POS, door) < DOOR_REACH)
++                stepIn();
++            else
++                carTakeOver();
++        }
++    }
++    if (out && tumble) {                                /* diving out: no control until he is up */
++        carLeftBehind();
++        dive();
++        touchAfter();
++        drawDriver();
++        followCam();
++    } else if (out) {
++        carLeftBehind();
++        if ((PAD_PRESSED & BTN_JUMP) && jumpY == 0.0f) {
++            jumpV = JUMP_SPEED;                         /* no jump motion in the game: a run carries on */
++            airFrame = WALK_FIRST;                      /* in the air; from standing he runs there */
++        }
++        if (hail || ((PAD_PRESSED & BTN_HAIL) && jumpY == 0.0f)) {
++            gait = 0;                                   /* standing still to hail: one press, the taxi */
++            if (hail++ == 0)                            /* comes at once and the hand stays up a while */
++                carHail();
++            if (hail == HAIL_TIME)
++                hail = 0;
++        } else {
++            hail = 0;
++            walk();
++        }
++        jumpY += jumpV;
++        jumpV -= GRAVITY;
++        if (jumpY <= 0.0f) {
++            jumpY = 0.0f;
++            jumpV = 0.0f;
++        }
++        touchAfter();                                   /* set objects fly, people jump aside */
++        drawDriver();
++        followCam();
++    }
++}
++
++
++
++/* The Options page's menuOpenStep call (its only literal: patch_exe.py). Pages open on item 0, which
++   the mod hides (with 1, 2 and 6): the cursor moves to AUDIO (3) while it sits on one of them. */
++void modOptionsOpen(void)
++{
++    int *sel;
++
++    menuOpenStep();
++    sel = (int *)0x0C2A11DC + *(int *)0x0C2A11D8;       /* the menu state: depth, then a selection per depth */
++    if (*sel < 3 || *sel == 6)
++        *sel = 3;
++}
++
++/* MainLoop's CheckSoftReset call, every frame in every mode, just after the pads are read (its only
++   pool word: patch_exe.py). With DEBUG_QUICK_START, outside a run (MainMode 1) it presses Start and A
++   every DEBUG_PRESS_EVERY frames: boot screens, title, mode menu (Arcade) and driver select go by. */
++/* The menus' data (node links, label positions: words of the game's data block): no rules screen after
++   ARCADE and ORIGINAL, CRAZY BOX and RECORDS and four options drawn off screen, the rest moved up. */
++static const unsigned int menuData[][2] = {
++    { 0x0C09DFF0, 0x0C09DE08 },   /* no rules screen (Arcade) */
++    { 0x0C09DFF8, 0x0C09DE08 },   /* no rules screen (Original) */
++    { 0x0C09F914, 0x44FA0000 },   /* no Crazy Box in the menu (drawn off screen) */
++    { 0x0C09F940, 0x43880000 },   /* menu: item 3 up a slot (320,252 -> 272,216) */
++    { 0x0C09F944, 0x43580000 },   /* menu: item 3 up a slot (320,252 -> 272,216) */
++    { 0x0C09F96C, 0x44FA0000 },   /* no Records in the menu (drawn off screen) */
++    { 0x0C09F970, 0x437C0000 },   /* no Records in the menu (drawn off screen) */
++    { 0x0C09F998, 0x43A00000 },   /* menu: item 5 up two slots (416,324 -> 320,252) */
++    { 0x0C09F99C, 0x437C0000 },   /* menu: item 5 up two slots (416,324 -> 320,252) */
++    { 0x0C09F9C4, 0x43D80000 },   /* menu: item 6 up two slots (528,360 -> 432,288) */
++    { 0x0C09F9C8, 0x43900000 },   /* menu: item 6 up two slots (528,360 -> 432,288) */
++    { 0x0C09F100, 0x44FA0000 },   /* options: no TIME SETTING */
++    { 0x0C09F12C, 0x44FA0000 },   /* options: no TIME DIFFICULTY */
++    { 0x0C09F158, 0x44FA0000 },   /* options: no TRAFFIC DIFFICULTY */
++    { 0x0C09F208, 0x44FA0000 },   /* options: no CONTROLLER SETTING */
++    { 0x0C09F188, 0x43340000 },   /* options: AUDIO to y 180 */
++    { 0x0C09F1B4, 0x43560000 },   /* options: MUSIC VOLUME to y 214 */
++    { 0x0C09F1E0, 0x43780000 },   /* options: SE VOLUME to y 248 */
++    { 0x0C09F238, 0x438D0000 },   /* options: VIBRATION to y 282 */
++    { 0x0C09F264, 0x439E0000 },   /* options: EXIT to y 316 */
++    { 0x0C09EB00, 0x43340000 },   /* options: STEREO y 180 */
++    { 0x0C09EB2C, 0x43340000 },   /* options: MONO y 180 */
++    { 0x0C09EB58, 0x438D0000 },   /* options: OFF y 282 */
++    { 0x0C09EB84, 0x438D0000 },   /* options: ON y 282 */
++    { 0x0C09E99C, 0x44FA0000 },   /* options: time value 0 off screen */
++    { 0x0C09E9C8, 0x44FA0000 },   /* options: time value 1 off screen */
++    { 0x0C09E9F4, 0x44FA0000 },   /* options: time value 2 off screen */
++    { 0x0C09EA20, 0x44FA0000 },   /* options: time value 3 off screen */
++    { 0x0C09EA4C, 0x44FA0000 },   /* options: time value 4 off screen */
++    { 0x0C09EA78, 0x44FA0000 },   /* options: time value 5 off screen */
++    { 0x0C09EAA4, 0x44FA0000 },   /* options: time value 6 off screen */
++    { 0x0C09EAD0, 0x44FA0000 },   /* options: time value 7 off screen */
++};
++
++void modEveryFrame(void)
++{
++    static int frames = 0, menus = 0;
++    unsigned int i;
++
++    if (!menus) {
++        for (i = 0; i < sizeof menuData / sizeof menuData[0]; i++)
++            *(unsigned int *)menuData[i][0] = menuData[i][1];
++        menus = 1;
++    }
++
++    if (DEBUG_QUICK_START && MAIN_MODE != 1 && ++frames >= DEBUG_PRESS_EVERY) {
++        frames = 0;
++        PAD_PRESSED |= PAD_START | PAD_A;
++    }
++    kyakuVr = (out && ridingTask()) ? 0 : VR_MODE;       /* the drop-off zone shows on foot (kyakuTaskExec draws */
++                                                        /* it only in camera modes 0-2) */
++    {                                                   /* the music: on foot MUSIC_ON_FOOT under the */
++        static float drop = 0.0f;                       /* volume chosen in the options, eased in and */
++        float want = out ? MUSIC_ON_FOOT : 0.0f;        /* out; driving the game's own (untouched) */
++        int i, v;
++
++        drop += want > drop ? (want - drop > MUSIC_FADE ? MUSIC_FADE : want - drop)
++                            : (drop - want > MUSIC_FADE ? -MUSIC_FADE : want - drop);
++        if (drop < 0.0f) {                              /* the game's level (gdc_PlayStreamSong's: the option */
++            v = musicLevelDb(MUSIC_LEVEL);              /* scaled into MUSIC_LEVEL, in 0.1 dB), set every */
++            if (MUSIC_LEVEL)                            /* frame (a new track resets it); muted (0: the */
++                v = v + (int)drop < -960 ? -960 : v + (int)drop;   /* game's -999) stays muted */
++            for (i = 0; i < ADX_AFS1_COUNT; i++)
++                if (ADX_AFS1[i])
++                    adxtSetOutVol(ADX_AFS1[i], v);
++        }
++    }
++    checkSoftReset();
++}
++
++/* gameState0's init_CarMain call, at every run's start: the mod starts over with it. */
++void modRunStart(void)
++{
++    out = 0;
++    gait = 0;
++    hail = 0;
++    tumble = 0;
++    jumpY = 0.0f;
++    jumpV = 0.0f;
++    runFrames = 0;
++    carsReset();
++    initCarMain();
++    touchBefore();                                      /* the crowd's stand-in car is the car from the start */
++    flyersReset();
++}
++
++/* camUpdate's call: the game's camera, then, while the driver is out, the taxi gets no input. */
++void modCamera(int car)
++{
++    camSlope();                                         /* a steep uphill: the view looks further up */
++    camUpdate(car);
++    if (tramRiding()) {                                 /* the pad drives the tram (tram.c), not the taxi */
++        tramDrive();
++        STR_ADC = 0.0f;
++        ACC_ADC = 0.0f;
++        BRK_ADC = 0.0f;
++        PAD_CAR_FLAGS[0] = 0;
++        PAD_CAR_FLAGS[1] = 0;
++    }
++    if (out) {
++        STR_ADC = 0.0f;
++        ACC_ADC = 0.0f;
++        BRK_ADC = 0.0f;
++        PAD_CAR_FLAGS[0] = 0;                           /* A and the other buttons stay off the taxi */
++        PAD_CAR_FLAGS[1] = 0;
++    }
++}
++
++/* The D/R gear box (bottom right): Put_GearBox, the tail jump of the HUD's elements 0x10 and 0x20
++   (Put_Default2_Sprite, Put_Default_Sprite; their two pool words). Not on foot: there is no gear to show. */
++void Put_GearBox(void);
++#define gearBoxDraw     Put_GearBox
++void modGearDraw(void)
++{
++    int *g = *(int **)0x0C2A8C60;                       /* the game's gear (zero: reverse), which the box reads */
++    int saved;
++
++    if (out)
++        return;
++    if (!g || !tramRiding()) {
++        gearBoxDraw();
++        return;
++    }
++    saved = *g;                                         /* in a tram the box shows the tram's gear */
++    *g = tramGearDrive();
++    gearBoxDraw();
++    *g = saved;
++}
++
++/* Drv_Put's and drvJolt's draws of the seated driver (the action pose, and the jolting driving pose): not
++   while he is outside, nor in a taken car (seated for the open cab, his head came through its roof). */
++void modDriverDraw(void *buffer, int character)
++{
++    if (!out && look < 0)
++        fcvPlayBuffer(buffer, character);
++}
++
++/* psgFrameState2's (getting in), psgFrameState3's and psgJolt's (seated, riding) draws of a
++   passenger: not in a taken car either (through its roof too). */
++void modPassengerDraw(void *buffer, int character)
++{
++    if (out)                                            /* on foot the fare walks with him (drawDriver) */
++        return;
++    if (look == PICKUP)                                 /* the pickup's open bed: kept (a passenger standing */
++        mtxTranslateXYZ(0.0f, PICKUP_RAISE, 0.0f);      /* in the back), a bit higher to show above its sides */
++    else if (look >= 0)
++        return;
++    fcvPlayBuffer(buffer, character);
++}
++
++/* exec_CarMain's map requests (the city pieces around a point ahead of the taxi): while the driver
++   is out, around him instead, so the pieces near the taxi can make room. */
++void modCourseLoad(Point3 at, float radius)
++{
++    if (out) {
++        at.x = POS[0];
++        at.y = POS[1];
++        at.z = POS[2];
++        radius = WALK_LOAD_RADIUS;                           /* the moving taxi's radius: a parked one asks for less */
++    }
++    courseLoadAround(at, radius);
++}
++
++/* The driver's door (the cab's left side), in world space. */
++/* How far apart on the ground: a kerb between him and the door is no reason to stay out. */
++static float groundDistance(float *a, float *b)
++{
++    float p[3];
++
++    p[0] = b[0];
++    p[1] = a[1];
++    p[2] = b[2];
++    return vecDistance(a, p);
++}
++
++static void doorPoint(float *door)
++{
++    float side[3];
++
++    side[0] = carDoorSide();
++    side[1] = side[2] = 0.0f;
++    fromCar(TAXI_POS, TAXI_YAW, side, door);
++}
++
++static void stepOut(void)
++{
++    float door[3], *ground;
++
++    doorPoint(door);
++    ground = getCollision2D(door, 5.0f);                /* Psg_SetPosPtr's own look-up, which moves him */
++    if (((int *)ground)[7] == -1 || door[1] - ground[1] > DOOR_DROP_MAX)   /* only to ground near below: no */
++        return;                                         /* getting out in the air (or over water) */
++    psgSetPosPtr(ped, door);
++    carRestSample(POS[1]);
++    yaw = TAXI_YAW;
++    savedMode = VR_MODE;
++    savedSub = CAM_SUBMODE;
++    VR_MODE = 9;
++    CAM_SUBMODE = 1;
++    gait = 0;
++    jumpY = 0.0f;
++    jumpV = 0.0f;
++    tumble = 0;
++    tumbleV[0] = ((float *)(TAXI + 0xFC))[0];           /* the car's velocity: diving out of a fast one */
++    tumbleV[1] = ((float *)(TAXI + 0xFC))[2];
++    if (look == TRAM_TYPE) {                            /* a tram left behind stops dead on its rail */
++        int i;
++
++        for (i = 0; i < 3; i++)
++            ((float *)(TAXI + 0xFC))[i] = ((float *)(TAXI + 0x108))[i] = 0.0f;
++        *(float *)(TAXI + 0x15C) = 0.0f;
++    }
++    tumble = 1;                                         /* out by the door, at any speed: Crazy Taxi's Jump Left */
++    outKey = JUMP_OUT_FIRST;
++    tumbleV[0] *= DIVE_SLIDE;
++    tumbleV[1] *= DIVE_SLIDE;
++    {
++        float d[3];
++
++        d[0] = door[0] - TAXI_POS[0];                   /* the jump goes from the cab to its door: the */
++        d[2] = door[2] - TAXI_POS[2];                   /* clip travels along his facing (local -x) */
++        if (d[0] != 0.0f || d[2] != 0.0f)
++            yaw = (short)arcTan2(d[2], -d[0]);
++    }
++    out = 1;
++}
++
++void stepIn(void)
++{
++    VR_MODE = savedMode;
++    CAM_SUBMODE = savedSub;
++    camSnapToCar(0);                                    /* the camera may be far away: jump back */
++    out = 0;
++}
++
++
++/* The root's x (the walk's forward axis is -x) at a fractional frame of a motion. */
++static float rootX(Motion *m, float f)
++{
++    float *d = (float *)m->data;
++    int i = (int)f;
++    float t = f - (float)i;
++
++    return d[i * 99] + (d[(i + 1) * 99] - d[i * 99]) * t;
++}
++
++/* The driver's facing in world space for a heading: the motions' forward is local -x. */
++static void facing(int h, float *f)
++{
++    f[0] = -nlCos(h);
++    f[1] = 0.0f;
++    f[2] = nlSin(h);
++}
++
++
++/* Pushes a point on foot out of every person in the crowds (a crowd's event: +0x14 its people, +0x20
++   their records; a person's state at +0x50 is 1 standing or 2 dodging while there). */
++static void pedsPush(float *p)
++{
++    unsigned char *e, *q;
++    int n;
++
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08)) {
++        if (*(unsigned int *)(e + 0x0C) != CROWD_TASK)
++            continue;
++        q = *(unsigned char **)(e + 0x20);
++        for (n = *(unsigned short *)(e + 0x14); n > 0; n--, q += PERSON_SIZE) {
++            float *at = (float *)(q + 0x0C), len;
++
++            if (*(int *)(q + 0x50) < 1)
++                continue;
++            len = vecDistance(p, at);
++            if (len < PED_REACH) {
++                len = PED_REACH / (len + 0.01f);
++                p[0] = at[0] + (p[0] - at[0]) * len;
++                p[2] = at[2] + (p[2] - at[2]) * len;
++            }
++        }
++    }
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08)) {   /* and customers (kyakuTaskExec's */
++        float *at = (float *)(e + 0x1C + 4), len;                   /* tasks: the passenger at +0x1C) */
++
++        if (*(unsigned int *)(e + 0x0C) != CUSTOMER_TASK || *(int *)(e + 0x1C + 0x20) > 1)
++            continue;                                   /* only waiting (states 0, 1): not riding */
++        len = vecDistance(p, at);
++        if (len < PED_REACH) {
++            len = PED_REACH / (len + 0.01f);
++            p[0] = at[0] + (p[0] - at[0]) * len;
++            p[2] = at[2] + (p[2] - at[2]) * len;
++        }
++    }
++}
++
++/* Standing still: what pushes him when he walks pushes him here too, walls, cars and people. */
++static void standPush(void)
++{
++    float stand[3];
++
++    stand[0] = POS[0];
++    stand[1] = POS[1];
++    stand[2] = POS[2];
++    checkColliWall(stand, BODY);
++    carsPush(stand);
++    pedsPush(stand);
++    if (stand[0] == POS[0] && stand[2] == POS[2])
++        return;                                         /* nothing pushed him: he is not placed again (not every frame */
++    if (((int *)getCollision2D(stand, 5.0f))[7] != -1)  /* he stands still) */
++        psgSetPosPtr(ped, stand);
++}
++
++/* Out of the car by the door, at any speed: Crazy Taxi's Jump Left (JUMP_OUT), moving as far as its
++   root does, plus what is left of the car's speed (DIVE_SLIDE), with walls, cars and people in the way
++   as when walking. */
++static void dive(void)
++{
++    float next[3], step[3], from = outKey, last = (float)(JUMP_OUT->frames - 1);
++
++    outKey += JUMP_OUT_RATE;
++    if (outKey > last)
++        outKey = last;
++    step[0] = rootX(JUMP_OUT, outKey) - rootX(JUMP_OUT, from);
++    step[1] = step[2] = 0.0f;
++    fromCar(POS, yaw, step, next);
++    next[0] += tumbleV[0];
++    next[2] += tumbleV[1];
++    tumbleV[0] *= DIVE_FRICTION;
++    tumbleV[1] *= DIVE_FRICTION;
++    checkColliWall(next, BODY);
++    carsPush(next);
++    pedsPush(next);
++    if (((int *)getCollision2D(next, 5.0f))[7] != -1)
++        psgSetPosPtr(ped, next);
++    if (outKey >= last)
++        tumble = 0;
++}
++
++
++/* Camera-relative controls: the stick points where to go on screen; the driver turns toward it
++   and walks (B held: runs). Root motion: they move exactly as far as the animation's root does,
++   so the feet stay planted at any speed. Letting go plays the clip's halt. The ground keeps them
++   on it. */
++static void walk(void)
++{
++    int sx = (PAD_STICK_X >> 8) - 128;
++    int sy = (PAD_STICK_Y >> 8) - 128;                  /* up < 0 */
++    float cam[3], fwd[3], f[3], f2[3], want[3], len, cross, dot, fr, dx = 0.0f, next[3], step[3];
++    int turn, moving = (sx > STICK_DEAD || sx < -STICK_DEAD || sy > STICK_DEAD || sy < -STICK_DEAD);
++
++    if (jumpY > 0.0f || jumpV > 0.0f)
++        moving = (gait == 1);                           /* in the air: no steering, the take-off's run goes on */
++    else if (moving) {
++        cam[0] = CAM_EYE[0];                            /* camera forward, on the ground plane */
++        cam[1] = POS[1];
++        cam[2] = CAM_EYE[2];
++        len = vecDistance(POS, cam);
++        if (len < 1.0f)
++            return;
++        nlSubVector3op(fwd, POS, cam);
++        nlScaleVector(fwd, fwd, 1.0f / len);
++        want[0] = fwd[0] * (float)(-sy) + (-fwd[2]) * (float)sx;   /* forward and right */
++        want[1] = 0.0f;
++        want[2] = fwd[2] * (float)(-sy) + fwd[0] * (float)sx;
++        facing(yaw, f);
++        facing(yaw + 0x400, f2);                        /* which way a bigger heading turns */
++        cross = f[2] * want[0] - f[0] * want[2];
++        dot = nlInnerProduct(f, want);
++        turn = (short)arcTan2(cross, dot);
++        if (f[2] * f2[0] - f[0] * f2[2] < 0.0f)
++            turn = -turn;
++        yaw += turn >> (SPRINTING ? RUN_TURN_SHIFT : TURN_SHIFT);
++        rate = (SPRINTING ? RUN_RATE : WALK_RATE);
++        stride = (SPRINTING ? RUN_STRIDE : WALK_STRIDE);
++        if (gait != 1 || walkFrame < WALK_FIRST || walkFrame >= WALK_LAST)
++            walkFrame = WALK_FIRST;
++        gait = 1;
++    }
++    if (moving) {
++        fr = walkFrame + rate;
++        if (fr >= WALK_LAST) {
++            dx = rootX(WALK, WALK_LAST) - rootX(WALK, walkFrame);
++            fr -= WALK_LAST - WALK_FIRST;
++            dx += rootX(WALK, fr) - rootX(WALK, WALK_FIRST);
++        } else
++            dx = rootX(WALK, fr) - rootX(WALK, walkFrame);
++        walkFrame = fr;
++    } else if (gait == 1) {
++        gait = 2;                                       /* let go: halt from the stride's end */
++        walkFrame = WALK_LAST;
++    } else if (gait == 2) {
++        fr = walkFrame + HALT_RATE;
++        if (fr >= HALT_LAST) {
++            gait = 0;
++        } else {
++            dx = rootX(WALK, fr) - rootX(WALK, walkFrame);
++            walkFrame = fr;
++        }
++    }
++    if (dx != 0.0f) {
++        step[0] = dx * stride;
++        step[1] = step[2] = 0.0f;
++        fromCar(POS, yaw, step, next);
++        checkColliWall(next, BODY);                     /* walls and poles push him back out */
++        carsPush(next);                                 /* and so do cars */
++        pedsPush(next);                                 /* and people */
++        if (((int *)getCollision2D(next, 5.0f))[7] != -1)   /* no ground there (past the shore: the */
++            psgSetPosPtr(ped, next);                    /* snap left him in the air over the sea) */
++    } else
++        standPush();                                    /* standing still: cars and people push him as when he walks */
++}
++
++
++
++/* The chosen driver: walking, running or halting (the jog clip, played in place: mode 1, as
++   moving customers do; walk() moves them) or standing (a customer waiting idle, facing the same
++   way). */
++static void drawDriver(void)
++{
++    int d = DRIVER;
++    DriverEntry *e;
++
++    if (d < 0 || d > 3)
++        return;
++    e = &DRIVERS[d];
++    mtxPush(0);
++    mtxTranslate(POS);
++    mtxTranslateXYZ(0.0f, jumpY, 0.0f);
++    mtxRotY(yaw);
++    if (gait == 1 && walkFrame > WALK_LAST - SEAM) {   /* ease into the stride's first pose */
++        humanDrawMix(WALK, (int)walkFrame, WALK, (int)(walkFrame - (WALK_LAST - WALK_FIRST)),
++                     (walkFrame - (WALK_LAST - SEAM)) / SEAM, e->character, 1);
++    } else if (jumpY > 0.0f && !gait) {                /* jumped from standing: running in the air */
++        airFrame += AIR_RATE;
++        if (airFrame >= WALK_LAST)
++            airFrame -= WALK_LAST - WALK_FIRST;
++        humanDraw(WALK, e->character, (int)airFrame, 1);
++    } else if (gait) {
++        if (gait == 2)                                  /* the halt turns him to the standing pose's */
++            mtxRotY((int)(STAND_TURN * (walkFrame - WALK_LAST) / (HALT_LAST - WALK_LAST)));   /* facing: undone */
++        humanDraw(WALK, e->character, (int)walkFrame, 1);
++    } else if (tumble) {
++        humanDraw(JUMP_OUT, e->character, (int)outKey, 1);   /* the jump out of the car */
++    } else if (hail) {
++        mtxRotY(STAND_TURN);
++        humanDraw(HAIL, e->character, hail < HAIL->frames ? hail : HAIL->frames - 1, 0);
++    } else {
++        mtxRotY(STAND_TURN);
++        humanDraw(WALK, e->character, 0, 1);            /* standing, before setting off (= where halts end) */
++    }
++    mtxPop(1);
++    drawFare();
++}
++
++/* A fare riding with him, on foot: jogs along FARE_BEHIND behind him, in their own character, his
++   gait (the seated passenger is hidden: modPassengerDraw). */
++static void drawFare(void)
++{
++    unsigned char *t = ridingTask();
++    float f[3], to[3], *g;
++
++    if (!t) {
++        fare[0] = POS[0];                               /* none: the next starts where he is */
++        fare[1] = POS[1];
++        fare[2] = POS[2];
++        return;
++    }
++    facing(yaw, f);
++    to[0] = POS[0] - f[0] * FARE_BEHIND;
++    to[2] = POS[2] - f[2] * FARE_BEHIND;
++    fare[0] += (to[0] - fare[0]) * FARE_CATCH;
++    fare[2] += (to[2] - fare[2]) * FARE_CATCH;
++    fare[1] = POS[1];
++    g = getCollision2D(fare, 5.0f);
++    if (((int *)g)[7] != -1)
++        fare[1] = g[1];
++    mtxPush(0);
++    mtxTranslate(fare);
++    mtxRotY(yaw);
++    humanDraw(WALK, *(int *)(t + 0x1C), gait ? (int)walkFrame : 0, 1);
++    mtxPop(1);
++}
++
++/* The ground height under a point beside him (his height, then a probe from above), or -1e9: none. */
++static float groundAt(float *p)
++{
++    float probe[3], *g;
++
++    probe[0] = p[0];
++    probe[1] = POS[1] + SLOPE_PROBE;
++    probe[2] = p[2];
++    g = getCollision2D(probe, 5.0f);
++    return ((int *)g)[7] != -1 ? g[1] : -1.0e9f;
++}
++
++/* GTA-style follow with the game's own chase-camera mechanics: the eye keeps its distance from the
++   driver, from wherever it already is (dragged along, not spun), but sits along the slope under him
++   (up the slope it drops behind him, down it rises) and the look-at tilts with it, as the game's
++   chase camera places both in the car's yaw and pitch axes. Both points then ease to their goals
++   (camSetEye/camSetTarget mode 2, with the game's pull and keep) instead of snapping there. */
++static void followCam(void)
++{
++    float cam[3], eye[3], target[3], len, f[3], d[3], ahead[3], behind[3], hA, hB, slope = 0.0f;
++    int snap = 0;
++
++    cam[0] = CAM_EYE[0];
++    cam[1] = POS[1];
++    cam[2] = CAM_EYE[2];
++    len = vecDistance(POS, cam);
++    if (len < 1.0f) {                                   /* right on top: start behind them */
++        snap = 1;
++        facing(yaw, f);
++        d[0] = f[0];
++        d[1] = 0.0f;
++        d[2] = f[2];
++    } else {
++        nlSubVector3op(d, POS, cam);                    /* the way the camera looks, on the ground plane */
++        nlScaleVector(d, d, 1.0f / len);
++    }
++    ahead[0] = POS[0] + d[0] * SLOPE_SPAN;
++    ahead[2] = POS[2] + d[2] * SLOPE_SPAN;
++    behind[0] = POS[0] - d[0] * SLOPE_SPAN;
++    behind[2] = POS[2] - d[2] * SLOPE_SPAN;
++    hA = groundAt(ahead);
++    hB = groundAt(behind);
++    if (hA > -1.0e8f && hB > -1.0e8f) {                  /* rise per unit along his way: + uphill */
++        slope = (hA - hB) / (2.0f * SLOPE_SPAN);
++        if (slope > SLOPE_MAX)
++            slope = SLOPE_MAX;
++        if (slope < -SLOPE_MAX)
++            slope = -SLOPE_MAX;
++    }
++    eye[0] = POS[0] - d[0] * CAM_DIST;
++    eye[1] = POS[1] + CAM_HEIGHT - slope * CAM_DIST;
++    eye[2] = POS[2] - d[2] * CAM_DIST;
++    target[0] = POS[0] + head[0];
++    target[1] = POS[1] + head[1] + slope * CAM_LOOK;
++    target[2] = POS[2] + head[2];
++    camSetRatio(CAM_PULL, CAM_KEEP);
++    camSetTargetRatio(TARGET_PULL, TARGET_KEEP);
++    camSetEye(eye, snap ? 0 : 2);
++    camSetTarget(target, snap ? 1 : 2);
++}
++
+diff --git a/src/small_b.c b/src/small_b.c
+index ab0f18f..b32a556 100644
+--- a/src/small_b.c
++++ b/src/small_b.c
+@@ -157,11 +157,12 @@ int nlsndStreamGetBitSize(int a)
+     return 0;
+ }
+ 
++extern unsigned char *carView;
+ int pedCarNotInSubway(void)
+ {
+     int *hit;
+ 
+-    hit = (int *)GetCollision2D(0xC1790CC + 120, 20.0f);
++    hit = (int *)GetCollision2D((int)carView + 120, 20.0f);                                   /* walking-tour layer */
+     return hit[7] != 21;
+ }
+ 
+diff --git a/src/touch.c b/src/touch.c
+new file mode 100644
+index 0000000..cf4dfea
+--- /dev/null
++++ b/src/touch.c
+@@ -0,0 +1,480 @@
++/* The driver on foot and the world: set objects (postboxes, signs, crates) fly when he walks into
++   them, people jump out of his way, customers he bumps storm off, and no customer boards a cab he
++   left. All of it copies what the game does for the player car (crazy-taxi-decomp,
++   docs/engine.md: Set objects, Pedestrians, Passengers). */
++#include "game.h"
++#include "config/foot.h"
++#include "config/drive.h"
++#include "config/world.h"
++
++
++extern int out;
++extern float jumpY;
++extern float ped[];
++extern int yaw;
++void carsPush(float *p);
++
++#define POS (&ped[1])
++
++float boardRange = 500.0f;                              /* kyakuTaskExec: a customer boards only nearer the cab than this */
++#define BOARD_RANGE boardRange
++static int inCar = BOARD_WAIT;
++
++#define SETOBJ_GROUPS (*(unsigned char **)0x0C0EDBB8)   /* setObjGroupTbl: 32-byte groups */
++#define SETOBJ_FIRST (*(int *)0x0C2757F0)
++#define SETOBJ_END (*(int *)0x0C2757F4)
++#define COLLI_KINDS ((float *)0x0C0ED440)               /* colliKindTbl: 7 floats a kind, +1 radius, +2 mass */
++#define CAR_HEADING (*(unsigned short *)(TAXI + 0xF4))  /* the heading the crowd's jumps are turned by */
++
++#define JUMP_CLIPS ((Motion **)0x0C0D61AC)              /* the dodge clips; even: to one side (0xC000), odd: the other */
++#define JUMP_DIST ((float *)0x0C12FF24)
++#define SCREAMS ((int *)0x0C12FF7C)
++
++float focus[3] = { 0.0f, 0.0f, 0.0f };                 /* where set objects open around: him on foot, else the car */
++static float last[3] = { 0.0f, 0.0f, 0.0f };
++
++static unsigned int crowdCar[0x1A0 / 4] = { 0 };      /* the stand-in car, 0x1A0 bytes */
++#define CROWD_CAR ((unsigned char *)crowdCar)
++/* Car_Data as the crowd and the passengers read it (crowdSpawn, crowdTask, pedUpdate, the ground-kind helpers
++   pedGetSubwayFlag/pedCarNotInSubway: passers-by spawn ahead of and stay around him; PutCourse and PutCourse_CheckPiece: the
++   Arcade city draws the land listed for the car's nearest course point, +0x60, around the parked cab, the void around him; a
++   passenger's seat matrix, exit side and door, psgSeatMatrix, psgFaceTaxi, psgPickExitSide, psgFrameState4: dropped off on foot,
++   they get out beside him; and pedDodgeCheck: it is handed his distance, pedUpdate's, but put anyone nearer than 25 at 25 from
++   the car itself, the parked cab: sprinting into people sent them there). The layer's C reads it through this: the stand-in
++   on foot, else the car. */
++unsigned char *carView = TAXI;
++#define DRV_PASSENGER (*(unsigned char **)0x0C2AD1D8)    /* the customer in the cab (TaxiDriver + 0x1D8) */
++static float walkSpeed = 0.0f;                          /* his speed last frame: the drop-off waits for him to stop */
++
++/* The customer task riding (phase 2), or 0. */
++unsigned char *ridingTask(void)
++{
++    unsigned char *p = DRV_PASSENGER, *e;
++
++    if (!p)
++        return 0;
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08))
++        if (e == p - 0x1C)
++            return *(unsigned int *)(e + 0x0C) == CUSTOMER_TASK && *(int *)(e + 0x174) == 2 ? e : 0;
++    return 0;
++}
++#define CAR_SIZE 0x19C                                  /* up to the yaw rate, +0x198, the drop-off reads */
++float getNearLineIndex(int, void *, int, int *, float *);   /* mode 0: search every point */
++#define COURSE_LINE (*(void **)0x0C2A1B28)               /* courseLineTbl: 12-byte points */
++#define COURSE_LINE_COUNT (*(int *)0x0C2A1B2C)
++
++
++/* Passers-by hit by a car fly, as set objects do (SetObjFly: a velocity, gravity, bounces): a car
++   pushing a standing person out of its box (carsPush, to its nearest side) launches them along the
++   push, harder the deeper it got in one frame (about the car's speed); a slow nudge just moves them.
++   Cleared each run. */
++#define FLY 5                                           /* floats a flyer */
++static float flyers[FLYER_MAX * FLY] = { 0 };          /* FLYER_MAX x { person, vx, vy, vz, ground y } */
++#define FLYERS flyers
++
++/* Customers (a tagPASSENGER at their task + 0x1C, position at +4) fly the same way, moved before
++   their task runs (touchBefore): it draws them where they are. FLYER_MAX x { task, vx, vy, vz }. */
++static float custFlyers[FLYER_MAX * 4] = { 0 };
++
++void flyersReset(void)
++{
++    int i;
++
++    for (i = 0; i < FLYER_MAX * FLY; i++)
++        ((int *)FLYERS)[i] = 0;
++    for (i = 0; i < FLYER_MAX * 4; i++)
++        ((int *)custFlyers)[i] = 0;
++}
++
++/* Each flying customer: still a customer task in the list (else dropped), moved, falling, bouncing
++   until settled; then they wait where they landed. */
++static void custFly(void)
++{
++    int i;
++
++    for (i = 0; i < FLYER_MAX; i++) {
++        float *f = &custFlyers[i * 4], *at, *g;
++        unsigned char *t = ((unsigned char **)f)[0], *e;
++
++        if (!t)
++            continue;
++        for (e = EVENT_HEAD; e && e != t; e = *(unsigned char **)(e + 0x08))
++            ;
++        if (!e || *(unsigned int *)(e + 0x0C) != CUSTOMER_TASK) {
++            ((int *)f)[0] = 0;
++            continue;
++        }
++        at = (float *)(t + 0x1C + 4);
++        at[0] += f[1];
++        at[1] += f[2];
++        at[2] += f[3];
++        f[2] -= FLY_GRAVITY;
++        g = getCollision2D(at, 16.5f);
++        if (((int *)g)[7] == -1) {                      /* off the ground: dropped where it is */
++            ((int *)f)[0] = 0;
++            continue;
++        }
++        if (at[1] <= g[1] && f[2] < 0.0f) {
++            at[1] = g[1];
++            f[1] *= FLY_SKID;
++            f[3] *= FLY_SKID;
++            f[2] = -f[2] * FLY_BOUNCE;
++            if (f[2] < FLY_SETTLE)
++                ((int *)f)[0] = 0;
++        }
++    }
++}
++
++static int flying(unsigned char *q)
++{
++    int i;
++
++    for (i = 0; i < FLYER_MAX; i++)
++        if (((unsigned char **)FLYERS)[i * FLY] == q)
++            return 1;
++    return 0;
++}
++
++static void launch(unsigned char *q, float dx, float dz, float d)
++{
++    float *f = 0;
++    int i;
++
++    for (i = 0; i < FLYER_MAX; i++)
++        if (((int *)FLYERS)[i * FLY] == 0) {
++            f = &FLYERS[i * FLY];
++            break;
++        }
++    if (!f)
++        return;
++    ((unsigned char **)f)[0] = q;
++    f[1] = dx / d * d * FLY_PUSH;                          /* along the push, at about the car's speed */
++    f[2] = d * FLY_UP + FLY_LIFT;                          /* and up */
++    f[3] = dz / d * d * FLY_PUSH;
++    f[4] = ((float *)(q + 0x0C))[1];                   /* the ground they stood on: the tilt's zero (a lookup
++                                                           in flight can find a ledge at their own height) */
++}
++
++/* Each flyer: moved by its velocity, falling, bouncing off the ground until it has settled. */
++static void fly(void)
++{
++    int i;
++
++    for (i = 0; i < FLYER_MAX; i++) {
++        float *f = &FLYERS[i * FLY], *at, *g;
++        unsigned char *q = ((unsigned char **)f)[0];
++
++        if (!q)
++            continue;
++        if (*(int *)(q + 0x50) != 1) {                  /* gone or running: no longer ours */
++            ((int *)f)[0] = 0;
++            continue;
++        }
++        at = (float *)(q + 0x0C);
++        at[0] += f[1];
++        at[1] += f[2];
++        at[2] += f[3];
++        f[2] -= FLY_GRAVITY;
++        g = getCollision2D(at, 16.5f);
++        if (((int *)g)[7] == -1) {                      /* off the ground: dropped where it is */
++            ((int *)f)[0] = 0;
++            continue;
++        }
++        if (at[1] <= g[1] && f[2] < 0.0f) {
++            at[1] = g[1];
++            f[1] *= FLY_SKID;
++            f[3] *= FLY_SKID;
++            f[2] = -f[2] * FLY_BOUNCE;
++            if (f[2] < FLY_SETTLE)                          /* settled: standing again */
++                ((int *)f)[0] = 0;
++        }
++    }
++}
++
++/* pedDraw's humanDraw (one pool word, 0x0C0502FC; people within 300 of the camera, farther ones are
++   a far model): the matrix is at the person, in world space, and turned to their heading. A flyer is
++   found by that position, and tipped forward by its height: upright leaving and reaching the ground,
++   flat out (a plank) from FLY_FLAT up. */
++void modPedDraw(Motion *m, int character, int frame, int mode)
++{
++    float cur[3];
++    int i;
++
++    mtxGetTranslate(cur);
++    for (i = 0; i < FLYER_MAX; i++) {
++        float *f = &FLYERS[i * FLY], *at, h;
++        unsigned char *q = ((unsigned char **)f)[0];
++
++        if (!q)
++            continue;
++        at = (float *)(q + 0x0C);
++        if (vecDistance(at, cur) > 0.5f)
++            continue;
++        h = at[1] - f[4];
++        mtxRotZ(-(int)(h >= FLY_FLAT ? 16384.0f : h <= 0.0f ? 0.0f : h * (16384.0f / FLY_FLAT)));
++        break;
++    }
++    humanDraw(m, character, frame, mode);
++}
++
++/* Standing passers-by in a car's way: pushed out of its box, and launched if it came in fast. */
++static void pedsBumped(void)
++{
++    unsigned char *e, *q;
++    int n;
++
++    fly();
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08)) {
++        if (*(unsigned int *)(e + 0x0C) != CROWD_TASK)
++            continue;
++        q = *(unsigned char **)(e + 0x20);
++        for (n = *(unsigned short *)(e + 0x14); n > 0; n--, q += PERSON_SIZE) {
++            float *at = (float *)(q + 0x0C), was[3], d;
++
++            if (*(int *)(q + 0x50) == 2) {              /* running: about to leave the ground? pedDodgeCheck */
++                float *run = (float *)(q + 0x40), *dir = (float *)(q + 0x2C), next[3];   /* would end them; */
++                                                        /* the run ends here instead, as a finished one does */
++                next[0] = run[0] + dir[0] * 2.0f * *(float *)(q + 0x3C);
++                next[1] = run[1];
++                next[2] = run[2] + dir[2] * 2.0f * *(float *)(q + 0x3C);
++                if (((int *)getCollision2D(next, 16.5f))[7] == -1) {
++                    at[0] = run[0];
++                    at[1] = run[1];
++                    at[2] = run[2];
++                    *(int *)(q + 0x20) = 0;
++                    *(int *)(q + 0x50) = 1;
++                }
++                continue;
++            }
++            if (*(int *)(q + 0x50) != 1 || flying(q))
++                continue;
++            was[0] = at[0];
++            was[1] = at[1];
++            was[2] = at[2];
++            carsPush(at);
++            d = vecDistance(at, was);
++            if (d > FLY_LAUNCH)
++                launch(q, at[0] - was[0], at[2] - was[2], d);
++        }
++    }
++}
++
++
++/* Before the executors (modTraffic): on foot, no boarding, and set objects and passers-by around
++   him. The crowd reads its car from CROWD_CAR: the car itself, or on foot one where he stands,
++   moving the way he walks (its direction picks where people spawn: ahead). */
++void touchBefore(void)
++{
++    float *at = out ? POS : TAXI_POS, *v = (float *)(CROWD_CAR + 0xFC), f[3];
++    unsigned char *r;
++    int i;
++
++    inCar = out ? 0 : inCar < BOARD_WAIT ? inCar + 1 : inCar;
++    BOARD_RANGE = inCar < BOARD_WAIT ? 0.0f : 500.0f;   /* the test is range > distance: 0 never passes; on */
++                                                        /* foot, and a moment after getting in (a fare by a */
++                                                        /* taken car boarded before it had settled) */
++    pedsBumped();
++    custFly();
++    focus[0] = at[0];
++    focus[1] = at[1];
++    focus[2] = at[2];
++    for (i = 0; i < CAR_SIZE / 4; i++)
++        ((int *)CROWD_CAR)[i] = ((int *)TAXI)[i];
++    carView = out ? CROWD_CAR : TAXI;                   /* the stand-in only on foot: elsewhere (driving, */
++                                                        /* the attract demo) the car as the game had it */
++    if ((r = ridingTask()) != 0)                        /* a fare rides with him: kyakuTaskExec decides the */
++        *(unsigned char **)(r + 0x18) = out ? CROWD_CAR : TAXI;   /* arrival by its car, so by him on foot */
++    if (!out)
++        return;
++    ((float *)(CROWD_CAR + 0xB4))[12] = POS[0];        /* the car matrix's place: getting out beside him */
++    ((float *)(CROWD_CAR + 0xB4))[13] = POS[1];
++    ((float *)(CROWD_CAR + 0xB4))[14] = POS[2];
++    *(float *)(CROWD_CAR + 0x15C) = walkSpeed;          /* the drop-off: stopped (0.15) in the radius */
++    *(short *)(CROWD_CAR + 0x198) = 0;                  /* and not turning */
++    *(unsigned short *)(CROWD_CAR + 0xF4) = (unsigned short)(yaw - 0x4000);   /* his heading as a car's (forward +z, */
++                                                        /* his motions' -x): the crowd's jumps turn by it */
++    for (i = 0; i < 3; i++)
++        ((float *)(CROWD_CAR + 0x78))[i] = ((float *)(CROWD_CAR + 0x8C))[i] = POS[i];
++    f[0] = -nlCos(yaw);                                 /* his facing: the motions walk along -x */
++    f[2] = nlSin(yaw);
++    v[0] = f[0] * 0.5f;                                 /* a slow car's velocity his way: standing still */
++    v[1] = 0.0f;                                        /* too (a zero one has no direction) */
++    v[2] = f[2] * 0.5f;
++    getNearLineIndex(0, COURSE_LINE, COURSE_LINE_COUNT, (int *)(CROWD_CAR + 0x60), (float *)(CROWD_CAR + 0x78));
++}                                                       /* his nearest course point: Arcade draws the land by it */
++
++/* A side of his path in the crowd's angle convention (rotY(a) of +z): his yaw's +z or -z. */
++static void sideOf(int a, float *f)
++{
++    f[0] = nlSin(a);
++    f[1] = 0.0f;
++    f[2] = nlCos(a);
++}
++
++/* Whether a run of dist along the crowd's angle a from at ends on ground (pedDodgeCheck's
++   GetCollision2D at 16.5: none and the person is gone; its kind 2, the road, no longer ends them:
++   patch_exe.py, so the road is a landing like any other). */
++static int landsOn(float *at, int a, float dist)
++{
++    float f[3], to[3];
++    int kind;
++
++    sideOf(a, f);
++    to[0] = at[0] + f[0] * dist;
++    to[1] = at[1];
++    to[2] = at[2] + f[2] * dist;
++    kind = ((int *)getCollision2D(to, 16.5f))[7];
++    return kind != -1;
++}
++
++/* People ahead in his path jump aside, as from the car (pedDodgeCheck's start). */
++static void dodge(float *v, float speed)
++{
++    unsigned char *e, *q;
++    float side[3];
++    int n;
++
++    if (speed < PEOPLE_MIN_SPEED)
++        return;
++    sideOf(yaw, side);
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08)) {
++        if (*(unsigned int *)(e + 0x0C) != CROWD_TASK)
++            continue;
++        q = *(unsigned char **)(e + 0x20);
++        for (n = *(unsigned short *)(e + 0x14); n > 0; n--, q += PERSON_SIZE) {
++            float *at = (float *)(q + 0x0C), d[3], ahead, lat;
++            int a, clip;
++
++            if (*(int *)(q + 0x50) != 1)
++                continue;
++            d[0] = at[0] - POS[0];
++            d[1] = 0.0f;
++            d[2] = at[2] - POS[2];
++            ahead = nlInnerProduct(d, v) / speed;
++            lat = (d[0] * v[2] - d[2] * v[0]) / speed;
++            if (ahead < 0.0f || ahead > speed * speed * DODGE_AHEAD + 10.0f || lat > DODGE_LANE || lat < -DODGE_LANE)
++                continue;
++            a = (nlInnerProduct(d, side) > 0.0f) ? yaw : yaw + 0x8000;   /* away from his path, */
++            clip = 0;                                   /* an even clip goes 0xC000 from the facing */
++            if (!landsOn(at, a, JUMP_DIST[clip])) {     /* or the other way: pedUpdate ends a run that */
++                a += 0x8000;                            /* lands off the ground or on kind 2 */
++                if (!landsOn(at, a, JUMP_DIST[clip]))
++                    continue;
++            }
++            *(int *)(q + 0x20) = 0;
++            *(int *)(q + 0x50) = 2;
++            *(int *)(q + 0x28) = clip;
++            *(short *)(q + 0x1A) = (short)(a - 0xC000);
++            *(unsigned short *)(q + 0x38) = (unsigned short)(a - CAR_HEADING);  /* moved along rotY(+0x38 + the car's) */
++            *(float *)(q + 0x3C) = JUMP_DIST[clip] / (float)JUMP_CLIPS[clip]->frames;
++            ((float *)(q + 0x40))[0] = at[0];
++            ((float *)(q + 0x40))[1] = at[1];
++            ((float *)(q + 0x40))[2] = at[2];
++            soundRequest(SCREAMS[*(int *)(q + 0x24)], 1);
++        }
++    }
++}
++
++/* Waiting customers he walks into give up and storm off: the game's own way out of waiting
++   (psgRoadCheck's state 6: walk away, or run with the cab near; psgEnterState6). */
++void psgSetState(void *, int, int, int);
++
++static void annoy(float speed)
++{
++    unsigned char *e;
++
++    if (speed < PEOPLE_MIN_SPEED)
++        return;
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08)) {
++        unsigned char *p = e + 0x1C;
++
++        if (*(unsigned int *)(e + 0x0C) != CUSTOMER_TASK || *(int *)(p + 0x20) > 1)
++            continue;
++        if (vecDistance(POS, (float *)(p + 4)) < ANNOY)
++            psgSetState(p, 6, *(int *)(p + 0x28), *(int *)(p + 0x2C));
++    }
++}
++
++/* Set objects within `reach` of c fly, knocked along v (on the ground plane) by something of `mass`,
++   as from the car (colliBoxSphere's push and kick), the push scaled by `scale`. `him`: c is him, and
++   every object keeps its distance to him, which draws and closes them (ExecColliObj's is the cab's).
++   Returns how many were knocked. */
++static int knock(float *c, float reach, float *v, float mass, float scale, int him)
++{
++    int gi, hits = 0;
++
++    for (gi = SETOBJ_FIRST; gi < SETOBJ_END; gi++) {
++        unsigned char *g = SETOBJ_GROUPS + gi * 32, *o = *(unsigned char **)(g + 0x1C);
++        int i;
++
++        if (!o)
++            continue;
++        for (i = *(short *)(g + 0x10); i > 0; i--, o += 0x70) {
++            float *p = (float *)o, *ov = (float *)(o + 0x0C), n[3], t[3], d, r, m, k, rel, j;
++            int kind;
++
++            if (*(int *)(o + 0x68) < 0)
++                continue;
++            d = vecDistance(p, c);
++            if (him)
++                *(float *)(o + 0x18) = d;
++            kind = *(int *)(*(unsigned char **)(o + 0x2C) + 4);
++            r = COLLI_KINDS[kind * 7 + 1];
++            if (d >= reach + r || d < 0.01f)
++                continue;
++            nlSubVector3op(n, p, c);
++            nlScaleVector(n, n, 1.0f / d);
++            nlScaleVector(t, n, reach + r - d);
++            nlAddVector(p, t);                          /* pushed out of the way */
++            rel = nlInnerProduct(n, v) - nlInnerProduct(n, ov);   /* v is on the ground plane */
++            if (rel <= 0.0f)
++                continue;
++            m = COLLI_KINDS[kind * 7 + 2];
++            k = m / (mass + m);
++            j = rel * 1.8f * scale;
++            nlScaleVector(t, n, (1.0f - k) * j);
++            nlAddVector(ov, t);
++            *(float *)(o + 0x1C) = k * j;               /* the hit sound's strength */
++            *(int *)(o + 0x20) |= 1;                    /* "hit by the player car": SetObjFly flies it */
++            hits++;
++        }
++    }
++    return hits;
++}
++
++/* Set objects he walks into fly. */
++static void kick(float *v)
++{
++    float c[3];
++
++    c[0] = POS[0];
++    c[1] = POS[1] + jumpY + KICK_HEIGHT;                /* his middle, not his feet (and in the air, that high up: he flies over set objects) */
++    c[2] = POS[2];
++    knock(c, BODY, v, WALKER_MASS, KICK, 1);
++}
++
++/* Every frame on foot, after he moved (modFrame, after ExecColliObj). */
++void touchAfter(void)
++{
++    float v[3], speed;
++
++    v[0] = POS[0] - last[0];
++    v[1] = 0.0f;
++    v[2] = POS[2] - last[2];
++    last[1] = POS[1];                                   /* on the ground plane */
++    speed = vecDistance(POS, last);
++    last[0] = POS[0];
++    last[2] = POS[2];
++    if (speed > WALK_MAX) {                                /* a step out or a jump across: not a walk */
++        v[0] = v[2] = 0.0f;
++        speed = 0.0f;
++    }
++    walkSpeed = speed;
++    VR_MODE = 9;                                        /* a drop-off's camera script (VR mode 11) stays out */
++    *(int *)(TAXI + 0x54) = *(int *)(CROWD_CAR + 0x54);   /* the drop-off's resets, made to the stand-in */
++    *(int *)(TAXI + 0x58) = *(int *)(CROWD_CAR + 0x58);
++    kick(v);
++    dodge(v, speed);
++    annoy(speed);
++}
++
+diff --git a/src/traffic.c b/src/traffic.c
+new file mode 100644
+index 0000000..5c63d84
+--- /dev/null
++++ b/src/traffic.c
+@@ -0,0 +1,637 @@
++/* Traffic for the driver on foot: cars stop them, Y takes one over, X hails a taxi.
++
++   The game has one drivable car, the player's. Taking a traffic car over gives the player's car
++   that car's look, place and heading, and closes the traffic car's event; the car left behind
++   stays as a parked prop of its type (the cab: type 14, P_Mercury, a cab's body), which the game
++   removes once it is off screen. Taking a type 14 taxi gives you your own cab back. A taken car
++   you walk away from (FAR) is gone: not drawn, no collision, no door; you are on foot until you
++   take another. */
++#include "game.h"
++#include "config/foot.h"
++#include "config/drive.h"
++#include "config/world.h"
++#include "config/tram.h"
++
++
++extern int out;
++extern float ped[];
++extern int yaw;
++void stepIn(void);
++
++#define POS (&ped[1])
++#define CAB 14                                          /* the parked taxi's type */
++
++int carGone = 0;                                        /* the player car was left behind and is gone */
++int carCount = 0;                                       /* this frame's cars, kept before entryCarPut empties the list */
++int look = -1;                                          /* the player car's look: -1 your cab, else a type */
++static void **ownModels = 0;
++static float *ownWheels = 0;                            /* the cab's wheel positions (init_CarMain's table) */
++static float wheels[24] = { 0.0f };                     /* a taken car's, for drawing only */
++#define SEATS ((float *)0x0C0D51E8)                     /* Drv_Put's seat per driver (x, y, z in the car), copied every frame */
++static float *seat = 0, seatZ;                          /* the entry a taken car moved, and its own z */
++float restH = REST_HEIGHT;                       /* the player car's height above the ground at rest (carRestSample) */
++static int lookColour = -1;                             /* a taken car's colour (CAR_COLOUR), -1 none */
++static int hailFresh = 0;                               /* hailed this frame: not on the car list until its executor runs */
++static unsigned char *hailed = 0;                      /* the cab carHail parked, kept until taken */
++static void keepHailed(void);
++void touchBefore(void);
++void carDrop(void);
++void endCar(unsigned char *c);
++static void *lookBody = 0;                              /* a taken car's body (carTbl +0x00) */
++static int noBody[8] = { 2, 2, 0, 0, 0, 0, 0, 0 };     /* a model that draws nothing: type 2 (neither mesh kind
++                                                           objPut draws), flag 2 (no light set-up) */
++void carsAroundYou(void);
++void tramBoard(unsigned char *t);
++void tramPlace(void);
++int tramRiding(void);
++int tramHolds(void);
++static void takenBody(void);
++static void camFit(int t);
++/* The player car's model set (TAXI + 0x74): 4 wheels, then the body and its variants. putPlayerCarByView reads up to index
++   13, not 7: seen head-on (the camera's yaw about 180 degrees from the car's) it takes the wheels from 9 to 12 and the body
++   from 13. With 8 entries those reads ran past the array into whatever the linker put after it, and a stray pointer
++   drawn as a model hung the game. */
++static void *models[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
++
++/* A new run (init_CarMain sets the player car up afresh): nothing taken, nothing gone. */
++void carsReset(void)
++{
++    look = -1;
++    carGone = 0;
++    carCount = 0;
++    ownModels = 0;
++    ownWheels = 0;
++    lookColour = -1;
++    hailed = 0;
++    if (seat)                                           /* the table outlives a run too */
++        *seat = seatZ;
++    seat = 0;
++    camFit(-1);                                         /* the literals outlive a run: the cab's again */
++}
++
++
++/* Stepping out: the car's height above the ground at the door, when it is at rest. A car taken over
++   is put at that height above the traffic car's place (on the ground), so it does not drop onto its
++   springs. */
++void carRestSample(float ground)
++{
++    float v[3] = { 0.0f, 0.0f, 0.0f }, h = TAXI_POS[1] - ground;
++
++    if (look == TRAM_TYPE)                              /* a tram's height above its rail is not a car's rest height */
++        return;
++
++    if (vecDistance((float *)(TAXI + 0xFC), v) < 0.3f && h > 0.5f && h < 10.0f)
++        restH = h;
++}
++
++/* A car type's box (half-width, height, front, back): the cable cars have none of their own. */
++static float cableBox[4] = { CABLE_HALF_WIDTH, CABLE_HEIGHT, CABLE_HALF_LENGTH, -CABLE_HALF_LENGTH };
++static float *boxOf(int t)
++{
++    return t == TRAM_TYPE ? cableBox : &CAR_BOXES[t * 4];
++}
++
++/* How far the driver's door is from the player car's centre line: the cab's, or outside a
++   taken car's box. */
++float carDoorSide(void)
++{
++    return look < 0 ? CAB_DOOR_SIDE : boxOf(look)[0] + BODY;
++}
++
++/* On foot, in the road: entryCarPut has just rebuilt the course occupancy grid from the cars;
++   your point on the course of every car near you is added, so cars coming along it stop for you
++   as for a car (and, stopped near the player, honk: pcarDrive). */
++static void standInTheRoad(void)
++{
++    int done[8];
++    int n = 0, i, j, course, point;
++
++    for (i = 0; i < carCount && n < 8; i++) {
++        unsigned char *c = CAR_LIST[i];
++
++        if (vecDistance(POS, CAR_POS(c)) > ROAD_NEAR)
++            continue;
++        course = CAR_COURSE(c);
++        for (j = 0; j < n && done[j] != course; j++)
++            ;
++        if (j < n)
++            continue;
++        done[n++] = course;
++        point = CAR_POINT(c);
++        if (getNearCoursePoint(0, course, &point, POS) < ROAD_WIDTH)
++            courseStatusEntry(course, point);
++    }
++}
++
++/* A flipped traffic car (on its side or roof: carBalanceRoll's flag and body roll) far from you goes: it would block its
++   road for good, and the cars behind it jam and honk. The list is closed up around it. */
++static void flippedGone(void)
++{
++    float *me = out ? POS : TAXI_POS;
++    int i, j, t;
++
++    for (i = 0; i < carCount; i++) {
++        unsigned char *c = CAR_LIST[i];
++
++        t = CAR_TYPE(c);
++        if (t < 0 || t > CAB || c == hailed)
++            continue;
++        if (!CAR_FLIPPED(c))
++            continue;
++        if (vecDistance(me, CAR_POS(c)) <= FLIP_GONE)
++            continue;
++        endCar(c);
++        for (j = i; j + 1 < carCount; j++)
++            CAR_LIST[j] = CAR_LIST[j + 1];
++        carCount--;
++        i--;
++    }
++}
++
++/* entryCarPut's call in the driving frame: the list is complete here, and empty after it. On foot,
++   the point traffic is placed around (playerEV, rebuilt from the player car at the end of
++   trafficControl) becomes yours before trafficControl reads it. */
++void modCarsPut(int mode)
++{
++    carCount = CAR_COUNT;
++    entryCarPut(mode);
++    flippedGone();
++    if (tramHolds())
++        tramPlace();                                    /* on its rail, whatever the physics did */
++    if (mode && look >= 0 && !carGone)
++        takenBody();
++    if (out) {                                          /* trafficControl, next: cars come around you */
++        carsAroundYou();
++        standInTheRoad();
++    }
++}
++
++/* gameStateDrive's trafficControl call: on foot, the point traffic lives around is the walker's
++   again as soon as trafficControl has rebuilt it ahead of the player car. nlExecuteEvent runs next,
++   and its executors (calcCheck) remove every car farther than CarControlArea + 30 from that point:
++   away from the car left behind, that was every car that had just come around you. */
++void modTraffic(int mode)
++{
++    touchBefore();
++    trafficControl(mode);
++    if (out)
++        carsAroundYou();
++    if (hailed)
++        keepHailed();
++}
++
++/* A taken car's body, where putPlayerCar would put it (its place, heading, tilt and body roll, 1.2
++   down), drawn after the traffic: the player car is drawn in a lighting state that ignores the
++   fade colour, so a traffic car's colour (putCarModel's SetFadeColorBaseMulti) only shows here. */
++static void takenBody(void)
++{
++    mtxPush(0);
++    mtxSetTranslate(TAXI_POS);
++    mtxRotY(TAXI_YAW);
++    mtxRotX(*(unsigned short *)(TAXI + 0x84));
++    mtxRotZ(*(unsigned short *)(TAXI + 0x88));
++    mtxPush(0);
++    mtxRotX(*(unsigned short *)(TAXI + 0xAC));
++    mtxRotZ(*(unsigned short *)(TAXI + 0xB0));
++    mtxTranslateXYZ(0.0f, -TAKEN_BODY_DROP, 0.0f);
++    if (lookColour >= 0)
++        setFadeColorBaseMulti(COLOURS[lookColour * 3], COLOURS[lookColour * 3 + 1], COLOURS[lookColour * 3 + 2]);
++    objPut(lookBody);
++    resetFadeColor();
++    mtxPop(1);
++    mtxPop(1);
++}
++
++/* The point traffic lives around becomes the walker's. */
++void carsAroundYou(void)
++{
++    PLAYER_EV_AT[0] = POS[0];
++    PLAYER_EV_AT[1] = POS[1];
++    PLAYER_EV_AT[2] = POS[2];
++}
++
++/* exec_CarMain's call for DRIVER 4 and up: the player car is drawn unless it is gone. */
++void modPlayerCar(int car)
++{
++    float *w = TAXI_WHEELS;
++
++    if (carGone)
++        return;
++    if (look < 0) {
++        putPlayerCar(car);
++        return;
++    }
++    if (tramHolds())
++        tramPlace();
++    TAXI_WHEELS = wheels;                               /* drawn at the taken car's axles; the physics */
++    putPlayerCar(car);                                  /* keeps the cab's (another type's bounced) */
++    TAXI_WHEELS = w;
++}
++
++/* Its call for the four cabbies (DRIVER 0-3), which reads the same wheel table (+0x6C): not drawn
++   once gone, and a taken car's axles at their centres (at the cab's wheels they stuck out). */
++void modCabDraw(int car)
++{
++    float *w = TAXI_WHEELS;
++
++    if (carGone)
++        return;
++    if (look >= 0)
++        TAXI_WHEELS = wheels;
++    putCab(car);
++    TAXI_WHEELS = w;
++}
++
++/* The player car is gone: not drawn, no collision. */
++void carDrop(void)
++{
++    if (!carGone) {
++        carGone = 1;
++        killColliObj(TAXI);                             /* the player car's own collision object, +0x00 */
++    }
++}
++
++/* A traffic car ends, as its own executor would. */
++void endCar(unsigned char *c)
++{
++    killColliObj(c + 0x14);
++    nlCloseEvent(c);
++    CAR_ENTRY_NUM--;
++}
++
++/* Every frame on foot: a taken car left far behind goes (your own cab stays). */
++void carLeftBehind(void)
++{
++    if (look >= 0 && vecDistance(POS, TAXI_POS) > FAR)
++        carDrop();
++}
++
++/* A point in a car's own axes (front is +z), and back. A turn by yaw is nlRotateAY's:
++   x' = x cos + z sin, z' = z cos - x sin. */
++static void toCar(float *at, int yaw, float *p, float *local)
++{
++    float s = nlSin(yaw), c = nlCos(yaw), dx = p[0] - at[0], dz = p[2] - at[2];
++
++    local[0] = dx * c - dz * s;
++    local[1] = p[1] - at[1];
++    local[2] = dz * c + dx * s;
++}
++
++void fromCar(float *at, int yaw, float *local, float *p)
++{
++    float s = nlSin(yaw), c = nlCos(yaw), x = local[0], z = local[2];
++
++    p[0] = at[0] + x * c + z * s;
++    p[1] = at[1] + local[1];
++    p[2] = at[2] + z * c - x * s;
++}
++
++
++/* Whether car c's event is still on the event list. The list carCount counts is taken in
++   modCarsPut, before nlExecuteEvent: a car whose executor ended it there (pcarEnd) is still on
++   it when modFrame runs, and closing it again (endCar) freed its block twice. */
++static int carLive(unsigned char *c)
++{
++    unsigned char *e;
++
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08))
++        if (e == c)
++            return 1;
++    return 0;
++}
++
++/* The car the driver stands next to, or 0. */
++static unsigned char *carBeside(void)
++{
++    unsigned char *best = 0;
++    float l[3], *b, d, bestD = NEAR, reach;
++    int i, t;
++
++    for (i = 0; i < carCount; i++) {
++        unsigned char *c = CAR_LIST[i];
++
++        if (!carLive(c))
++            continue;
++        t = CAR_TYPE(c);
++        if (t < 0 || (t > LAST_TYPE && t != CAB && t != TRAM_TYPE))
++            continue;
++        if (CAR_PITCH(c) > TILTED || CAR_PITCH(c) < -TILTED || CAR_ROLL(c) > TILTED || CAR_ROLL(c) < -TILTED)
++            continue;                                   /* on its side or roof: not one to get into */
++        d = vecDistance(POS, CAR_POS(c));
++        if (d >= bestD)
++            continue;
++        b = boxOf(t);
++        toCar(CAR_POS(c), CAR_YAW(c), POS, l);
++        reach = t == TRAM_TYPE ? TRAM_REACH : TAKE_REACH;
++        if (l[0] > -(b[0] + reach) && l[0] < b[0] + reach && l[2] < b[2] + reach && l[2] > b[3] - reach) {
++            best = c;
++            bestD = d;
++        }
++    }
++    return best;
++}
++
++/* The player car's look: type t's models, or your own cab (t < 0 or the taxi). The wheel
++   positions stay the cab's (another type's made the car bounce). */
++static void lookLike(int t, int colour)
++{
++    unsigned char *e = CAR_TBL + t * 0xA8;
++    int i;
++
++    if (!ownModels)
++        ownModels = TAXI_MODELS;
++    if (seat)
++        *seat = seatZ;
++    seat = 0;
++    if (t < 0 || t == CAB) {
++        TAXI_MODELS = ownModels;
++        look = -1;
++        camFit(-1);
++        return;
++    }
++    models[0] = models[1] = *(void **)(e + 0x58);       /* front wheels */
++    models[2] = models[3] = *(void **)(e + 0x60) ? *(void **)(e + 0x60) : models[0];
++    if (t == TRAM_TYPE)                                 /* the cable car has no wheel models: none drawn */
++        models[0] = models[1] = models[2] = models[3] = noBody;
++    lookBody = *(void **)e;                             /* the body: drawn with the traffic (modCarsPut), */
++    for (i = 4; i < 16; i++)                            /* where the colour tint applies */
++        models[i] = noBody;
++    for (i = 0; i < 4; i++)                             /* the wheels again, for the head-on view */
++        models[9 + i] = models[i];
++    TAXI_MODELS = models;
++    if (!ownWheels)
++        ownWheels = TAXI_WHEELS;
++    for (i = 0; i < 24; i++)                            /* a traffic car's wheel model is a whole axle, */
++        wheels[i] = ownWheels[i];                       /* drawn at the axle's centre (carTbl +0x70/+0x7C) */
++    for (i = 0; i < 4; i++) {
++        wheels[i * 3] = 0.0f;
++        wheels[i * 3 + 2] = *(float *)(e + (ownWheels[i * 3 + 2] > 0.0f ? 0x78 : 0x84));
++    }
++    if (t == TRAM_TYPE) {                               /* the driver is hidden in it (modDriverDraw) */
++        lookColour = -1;
++        look = t;
++        camFit(t);
++        return;
++    }
++    seat = &SEATS[DRIVER * 3 + 2];                      /* as far behind the front axle as in the cab (a */
++    seatZ = *seat;                                      /* pickup's cab is further forward: the cab's seat */
++    for (i = 0; ownWheels[i * 3 + 2] <= 0.0f; i++)      /* was in its bed) */
++        ;
++    *seat += *(float *)(e + 0x78) - ownWheels[i * 3 + 2];
++    lookColour = colour;
++    look = t;
++    camFit(t);
++}
++
++/* The four tyre records (from +0x1A0, 0x84 apart): each keeps where its wheel was last frame (five
++   copies of a position, +0x44 to +0x74; the wheel's ground check sweeps from the one at +0x68 to
++   the wheel's place now) and its spring's motion. Moved to another place, the sweep ran from the old
++   place to the new: on a slope, from a ground far above or below, and the spring got a huge kick
++   (the car shot into the air, or the game hung). As init_CarMain seeds them: the car's place in all
++   five, the spring's motion zero (its rest +0x30 and the settings stay). */
++static void tiresReset(void)
++{
++    static const unsigned char still[] = { 0x0C, 0x14, 0x18, 0x1C, 0x20, 0x28, 0x2C, 0x34, 0x38, 0x3C, 0x40 };
++    int i, k;
++
++    for (i = 0; i < 4; i++) {
++        unsigned char *t = TAXI + 0x1A0 + 0x84 * i;
++
++        for (k = 0; k < 5; k++) {
++            float *p = (float *)(t + 0x44 + 12 * k);
++
++            p[0] = TAXI_POS[0];
++            p[1] = TAXI_POS[1];
++            p[2] = TAXI_POS[2];
++        }
++        for (k = 0; k < (int)sizeof(still); k++)
++            *(float *)(t + still[k]) = 0.0f;
++    }
++}
++
++/* The player car to car c's place, heading and tilt, at rest (the game's own recovery zeroes the same speeds). */
++static void moveTo(unsigned char *c)
++{
++    float *at = CAR_POS(c), *g;
++    int i;
++
++    for (i = 0; i < 3; i++) {
++        TAXI_POS[i] = at[i];
++        ((float *)(TAXI + 0x8C))[i] = at[i];
++        ((float *)(TAXI + 0xFC))[i] = 0.0f;             /* velocity and its copy */
++        ((float *)(TAXI + 0x108))[i] = 0.0f;
++    }
++    g = getCollision2D(TAXI_POS, 5.0f);                 /* on the ground under it (a hailed cab stood at */
++    if (((int *)g)[7] != -1) {                          /* his height, the kerb's: it dropped) */
++        TAXI_POS[1] = g[1];
++        ((float *)(TAXI + 0x8C))[1] = g[1];
++    }
++    TAXI_POS[1] += restH;
++    ((float *)(TAXI + 0x8C))[1] += restH;
++    *(unsigned short *)(TAXI + 0x84) = CAR_PITCH(c);    /* its tilt too: flat on a hill (traffic leans up to */
++    *(unsigned short *)(TAXI + 0x86) = CAR_YAW(c);      /* 23 degrees) the nose was in the slope and the */
++    *(unsigned short *)(TAXI + 0x88) = CAR_ROLL(c);     /* springs threw the car */
++    *(unsigned short *)(TAXI + 0xF4) = CAR_YAW(c);
++    *(float *)(TAXI + 0x15C) = 0.0f;                    /* speed */
++    *(float *)(TAXI + 0x160) = 0.0f;
++    tiresReset();
++}
++
++/* Y beside a traffic car: leave the player car as a parked prop, take the traffic car's look and
++   place, and end the traffic car as its own executor would. Returns 1 if taken. */
++int carTakeOver(void)
++{
++    unsigned char *c = carBeside();
++
++    if (!c)
++        return 0;
++    if (carGone) {
++        setColliObj(TAXI, 0);                           /* as init_CarMain registers it */
++        carGone = 0;
++    } else if (look != TRAM_TYPE)                       /* a tram left behind just goes (no prop of its type) */
++        parkingCarInit(look < 0 ? CAB : look, 0, 0, TAXI_POS, (int)TAXI_YAW - 0x10000);
++    lookLike(CAR_TYPE(c), CAR_COLOUR(c));
++    moveTo(c);
++    if (CAR_TYPE(c) == TRAM_TYPE)
++        tramBoard(c);                                   /* from here the rail moves it (tram.c) */
++    if (c == hailed)
++        hailed = 0;
++    endCar(c);
++    carCount = 0;                                       /* the list holds a closed car now */
++    stepIn();
++    return 1;
++}
++
++
++
++/* The chase camera's eye (camUpdate, mode 0) sits 15 up and 60 behind the car's centre for every
++   car: right for the cab (box back -30, 11 high), inside a bus's view (back -44, 45 high). Its two
++   literals, in both camera branches, move with the car's box: as far above its top and behind its
++   back as for the cab. */
++float camEyeUp = 15.0f, camEyeBack = -60.0f, camAimUp = 5.0f, camAimAhead = 17.0f;   /* the layer's camUpdate reads these */
++#define EYE_UP_A    camEyeUp
++#define EYE_BACK_A  camEyeBack
++#define CAB_HIGH    11.0f
++#define CAB_BACK    -30.0f
++#define AIM_UP      camAimUp                        /* the target: 5 up and 17 ahead of the car (into */
++#define AIM_AHEAD   camAimAhead                     /* camSetTarget's goal, 0x0C179914), both branches */
++#define CAB_FRONT   23.5f
++
++static float aimUpBase = 5.0f;                           /* the target's height camFit chose (camSlope adds to it) */
++
++static void camFit(int t)
++{
++    float up = 15.0f, back = -60.0f, aimUp = 5.0f, aimAhead = 17.0f;
++
++    if (t >= 0 && t != CAB) {
++        float high = boxOf(t)[1], over = high - BIG_HIGH;
++
++        if (over > TALL_KNEE)                           /* the bus gets the ice box's: more overcompensated */
++            over = TALL_KNEE;
++
++        up += high - CAB_HIGH;
++        back += boxOf(t)[3] - CAB_BACK;
++        if (over > 0.0f) {                              /* tall: rise again by the extra height, step */
++            up += over;                                 /* back by half, and aim just under the eye and */
++            back -= over * 0.5f;                        /* past the front: a level view over the roof */
++            aimUp = up - 10.0f;
++            aimAhead += boxOf(t)[2] - CAB_FRONT + over * 2.0f;
++        }
++    }
++    if (t == TRAM_TYPE) {                               /* low and far back: the tram's rear shows, not only its roof */
++        up = TRAM_CAM_UP;
++        back = TRAM_CAM_BACK;
++        aimUp = TRAM_AIM_UP;
++        aimAhead = TRAM_AIM_AHEAD;
++    }
++    EYE_UP_A = up;
++    EYE_BACK_A = back;
++    aimUpBase = aimUp;
++    AIM_UP = aimUp;
++    AIM_AHEAD = aimAhead;
++}
++
++/* Every driving frame, before the camera: on a steep slope the target rises (uphill) or sinks (downhill)
++   with it beyond CAM_SLOPE_FROM / CAM_DOWN_FROM (the game's target follows the car's pitch only as far as
++   the car tilts: a steep street still hid the road ahead). The game's pitch is minus the slope (nose up
++   is negative). */
++void camSlope(void)
++{
++    int up = -(int)*(short *)(TAXI + 0x84);
++    float extra = 0.0f;
++
++    if (up > CAM_SLOPE_FROM) {
++        extra = (float)(up - CAM_SLOPE_FROM) * CAM_SLOPE_GAIN;
++        if (extra > CAM_SLOPE_MAX)
++            extra = CAM_SLOPE_MAX;
++    } else if (-up > CAM_DOWN_FROM) {
++        extra = -(float)(-up - CAM_DOWN_FROM) * CAM_DOWN_GAIN;
++        if (extra < -CAM_DOWN_MAX)
++            extra = -CAM_DOWN_MAX;
++    }
++    AIM_UP = aimUpBase + extra;
++}
++
++
++
++/* The hail's end: a parked taxi pulls up in front of the driver, unless one is already near
++   (HAIL_KEEP): the cab he left (his own look) or the last one hailed. */
++void carHail(void)
++{
++    float at[3], eye[3], len;
++
++    if (look < 0 && !carGone && vecDistance(POS, TAXI_POS) < HAIL_KEEP)
++        return;
++    if (hailed && vecDistance(POS, CAR_POS(hailed)) < HAIL_KEEP)
++        return;
++    eye[0] = CAM_EYE[0];                                /* in front = away from the camera, on the ground plane */
++    eye[1] = POS[1];
++    eye[2] = CAM_EYE[2];
++    len = vecDistance(POS, eye);
++    if (len < 1.0f)                                     /* camera straight above: no direction to go by */
++        return;
++    if (hailed) {                                       /* the last one hailed goes: only the new cab stands there */
++        endCar(hailed);
++        hailed = 0;
++        carCount = 0;                                   /* the list holds a closed car now */
++    }
++    nlSubVector3op(at, POS, eye);                      /* eye is on his ground plane: at too */
++    nlScaleVector(at, at, HAIL_DIST / len);
++    nlAddVector(at, POS);
++    hailed = parkingCarInit(CAB, 0, 0, at, ((yaw + 0x4000) & 0xFFFF) - 0x10000);
++    if (hailed) {                                       /* parkingCarExec ends a car with no spawn record */
++        hailFresh = 1;
++        CAR_FLAGS(hailed) |= CAR_ON_SCREEN;             /* while off screen: it is not drawn yet */
++        if (look < 0)                                   /* the cab you left goes, as a far car does */
++            carDrop();
++    }
++}
++
++
++/* After trafficControl, before the executors: the hailed cab stays while it is on this frame's car
++   list (alive), whether on screen or not, until it is taken. */
++static void keepHailed(void)
++{
++    int i;
++
++    for (i = 0; i < carCount && CAR_LIST[i] != hailed; i++)
++        ;
++    if (hailFresh || i < carCount)
++        CAR_FLAGS(hailed) |= CAR_ON_SCREEN;
++    else
++        hailed = 0;
++    hailFresh = 0;
++}
++
++/* Pushes a point on foot out of a car's box (half-width, height, front, back; front is +z). */
++static void pushOut(float *p, float *at, int yaw, float hw, float height, float front, float back)
++{
++    float l[3], dx, y = p[1];
++
++    toCar(at, yaw, p, l);
++    hw += BODY;
++    front += BODY;
++    back -= BODY;
++    if (l[1] > height || l[0] <= -hw || l[0] >= hw || l[2] >= front || l[2] <= back)
++        return;
++    dx = hw - (l[0] < 0.0f ? -l[0] : l[0]);
++    if (dx <= front - l[2] && dx <= l[2] - back)
++        l[0] = (l[0] < 0.0f ? -hw : hw);                /* out of the nearest side */
++    else if (front - l[2] < l[2] - back)
++        l[2] = front;
++    else
++        l[2] = back;
++    fromCar(at, yaw, l, p);
++    p[1] = y;
++}
++
++/* Pushes a point on foot out of every car's box: its type's ColliObjBoxSimpleTbl entry, a cable
++   car's size for type 15, or for trains (types 16-19) their axles' reach plus a margin; and out of
++   the player car left standing (the cab's box, or the taken car's). */
++void carsPush(float *p)
++{
++    float *b;
++    int i, t;
++
++    for (i = 0; i < carCount; i++) {
++        unsigned char *c = CAR_LIST[i];
++
++        t = CAR_TYPE(c);
++        if (t < 0 || t > 19 || vecDistance(p, CAR_POS(c)) > NEAR * 2.0f)
++            continue;
++        if (t == 15)                                    /* the cable cars: no box of their own */
++            pushOut(p, CAR_POS(c), CAR_YAW(c), CABLE_HALF_WIDTH, CABLE_HEIGHT, CABLE_HALF_LENGTH, -CABLE_HALF_LENGTH);
++        else if (t <= CAB) {
++            b = &CAR_BOXES[t * 4];
++            pushOut(p, CAR_POS(c), CAR_YAW(c), b[0], b[1], b[2], b[3]);
++        } else {
++            float front = *(float *)(CAR_TBL + t * 0xA8 + 0x78) + TRAIN_MARGIN;
++
++            pushOut(p, CAR_POS(c), CAR_YAW(c), TRAIN_HALF_WIDTH, TRAIN_HEIGHT, front, -front);
++        }
++    }
++    if (!carGone) {
++        b = boxOf(look < 0 ? 0 : look);
++        pushOut(p, TAXI_POS, TAXI_YAW, b[0], b[1], b[2], b[3]);
++    }
++}
+diff --git a/src/tram.c b/src/tram.c
+new file mode 100644
+index 0000000..143fe9e
+--- /dev/null
++++ b/src/tram.c
+@@ -0,0 +1,474 @@
++/* Riding a tram (a type 15 cable car): Y beside one boards it. The player car takes its look (traffic.c)
++   and runs on its rail by our own movement, not the game's physics, so it never leaves the rails.
++
++   The rail is a course: CourseTable (0x0C2A6690) -> 12-byte entries, +0x00 the points (x y z each),
++   +0x04 a pointer to their count. A position on it is a point index and a share of the way to the next.
++   R is the gas, L the brake, A puts it in reverse and B in drive (as the taxi's gears). The tram stops
++   TRAM_END points before either end of its rail.
++   Stage 1: boarding, riding, stopping at the ends, stepping out (Y; the dive out of a fast one is
++   mod.c's, from the car's velocity written here). The turntables, the bell and the bumps come next. */
++#include "game.h"
++#include "config/drive.h"
++#include "config/tram.h"
++
++extern int out;
++extern int look;
++extern int carCount;
++extern int carGone;
++extern float restH;
++
++#define COURSE_TABLE (*(unsigned char **)0x0C2A6690)
++
++static int course = 0;                                  /* the rail */
++static int idx = 0;                                     /* the point it has passed */
++static float share = 0.0f;                              /* and how far to the next (0..1) */
++static float speed = 0.0f;                              /* along the rail, a frame; negative: backwards */
++static int gear = 1;                                    /* 1 drive, -1 reverse */
++static int pitchNow = 0;                                /* its tilt (the game's sign: nose up is negative) */
++void cableControlExec(void);
++#define CONTROL_TASK ((unsigned int)cableControlExec)                         /* cableControlExec: the turntables' event */
++
++static int tbl = 0;                                     /* 1: the table has the tram and the stick turns it */
++static int tblArr = 288, tblDep = 289, tblLine = 0;     /* the table's courses (arriving, leaving) and its line */
++static float tblA = 0.0f, tblW = 0.0f;                  /* its angle (0x10000 = a turn) and spin */
++static float tblOff[2] = { 0.0f, 0.0f };                /* the tram from its centre, in the table's own axes */
++static float tblMoved = 0.0f;                           /* how far it has turned since the tram took it */
++static int tblWait = 0;                                 /* after a lock: the stick must come to rest first */
++static int stickWas = 0, stickAng = 0;                  /* the stick's last angle in a swirl */
++
++static float *railPoints(int *count)
++{
++    unsigned char *e = COURSE_TABLE + course * 12;
++
++    *count = **(int **)(e + 4);
++    return *(float **)e;
++}
++
++/* The player car is a tram you are sitting in. */
++int tramRiding(void)
++{
++    return look == TRAM_TYPE && !out && !carGone;
++}
++
++/* The player car is a tram, in or beside it: it stays on its rail either way (the game's physics would let
++   it bounce when you step out). */
++int tramHolds(void)
++{
++    return look == TRAM_TYPE && !carGone;
++}
++
++/* 1 in drive, 0 in reverse: what the gear box shows (the game's own gear, zero for reverse). */
++int tramGearDrive(void)
++{
++    return gear > 0;
++}
++
++/* Boarding tram t (its place on its rail): the point it is at, and how far past it we are. */
++void tramBoard(unsigned char *t)
++{
++    int n, i;
++    float *p, d[3], e[3], len2, f;
++
++    course = CAR_COURSE(t);
++    p = railPoints(&n);
++    idx = CAR_POINT(t);
++    if (idx < 0)
++        idx = 0;
++    if (idx > n - 2)
++        idx = n - 2;
++    for (i = 0; i < 3; i++) {                           /* project its place on the segment */
++        d[i] = CAR_POS(t)[i] - p[idx * 3 + i];
++        e[i] = p[idx * 3 + 3 + i] - p[idx * 3 + i];
++    }
++    len2 = nlInnerProduct(e, e);
++    f = len2 > 0.0f ? nlInnerProduct(d, e) / len2 : 0.0f;
++    share = f < 0.0f ? 0.0f : f > 1.0f ? 1.0f : f;
++    if (idx > n - 2 - TRAM_END) {                       /* parked at the rail's stop: on its last point */
++        idx = n - 2 - TRAM_END;
++        share = 1.0f;
++    }
++    speed = 0.0f;
++    gear = 1;
++    pitchNow = 0;
++    tbl = 0;
++    tblWait = 0;
++    stickWas = 0;
++}
++
++/* Along the rail by dist (negative: back), stopping at its limits. */
++static void advance(float dist, float *p, int n)
++{
++    int last = n - 1 - TRAM_END;
++
++    while (dist != 0.0f) {
++        float *a = &p[idx * 3], *b = &p[idx * 3 + 3], seg = vecDistance(a, b);
++
++        if (seg < 0.001f) {                             /* a repeated point: step over it */
++            if (dist > 0.0f && idx < last)
++                idx++;
++            else if (dist < 0.0f && idx > 0)
++                idx--;
++            else
++                break;
++            share = dist > 0.0f ? 0.0f : 1.0f;
++            continue;
++        }
++        if (dist > 0.0f) {
++            float left = (1.0f - share) * seg;
++
++            if (dist < left) {
++                share += dist / seg;
++                break;
++            }
++            dist -= left;
++            if (idx + 1 >= last) {                      /* the end of the rail */
++                idx = last > 0 ? last - 1 : 0;
++                share = 1.0f;
++                speed = 0.0f;
++                break;
++            }
++            idx++;
++            share = 0.0f;
++        } else {
++            float left = share * seg;
++
++            if (-dist < left) {
++                share += dist / seg;
++                break;
++            }
++            dist += left;
++            if (idx == 0) {                             /* the start of the rail */
++                share = 0.0f;
++                speed = 0.0f;
++                break;
++            }
++            idx--;
++            share = 1.0f;
++        }
++    }
++}
++
++/* A course's points (the rail is any course, not only the tram's own). */
++static float *railOf(int c, int *count)
++{
++    unsigned char *e = COURSE_TABLE + c * 12;
++
++    *count = **(int **)(e + 4);
++    return *(float **)e;
++}
++
++/* The heading of a course's last segment (the table's target when it receives a tram: the game's own,
++   points n-3 to n-1) and of its first (the table's target to send one off: points 0 to 2). */
++static int arriveHeading(int c)
++{
++    int n;
++    float *p = railOf(c, &n);
++
++    return (unsigned short)arcTan2(p[(n - 1) * 3] - p[(n - 3) * 3], p[(n - 1) * 3 + 2] - p[(n - 3) * 3 + 2]);
++}
++
++static int departHeading(int c)
++{
++    int n;
++    float *p = railOf(c, &n);
++
++    return (unsigned short)arcTan2(p[6] - p[0], p[8] - p[2]);
++}
++
++static unsigned char *control(void);
++
++/* The tram stopped at a table: at the end of its rail (the one that arrives there) or at the start of the
++   other (the one that leaves from there). Sets the table's two courses and line. */
++static int onTable(int n)
++{
++    int last = n - 1 - TRAM_END;
++
++    if (speed != 0.0f || n < 4 || (course != 288 && course != 289))
++        return 0;
++    if (idx == last - 1 && share >= 0.999f) {
++        tblArr = course;
++        tblDep = 577 - course;
++    } else if (idx == 0 && share <= 0.001f) {
++        tblArr = 577 - course;
++        tblDep = course;
++    } else
++        return 0;
++    tblLine = tblArr == 288 ? 1 : 0;                    /* the game's lines: course 289 is line 0, 288 line 1 */
++    return 1;
++}
++
++/* Gives the table back to the game: waiting for a tram turned to the arriving rail (2), or, turned
++   elsewhere, idle (0), so the next arrival turns it to the arriving rail as it always does. */
++static void tableLeave(void)
++{
++    unsigned char *e = control();
++
++    if (e) {
++        int near = (short)((unsigned short)arriveHeading(tblArr) - (unsigned short)(int)tblA);
++
++        *(int *)(e + 0x20 + tblLine * 4) = (near < 64 && near > -64) ? 2 : 0;
++    }
++    tbl = 0;
++    tblW = 0.0f;
++}
++
++static float absf(float v)
++{
++    return v < 0.0f ? -v : v;
++}
++
++/* Every frame, stopped on a table (and while turning it): the stick's swirl spins it, the spin carries on
++   (momentum), and a rail within reach pulls it in and holds it. Aligned with the leaving rail the tram
++   goes on that rail (forward, R); aligned with the arriving one it can reverse out as it came. Returns 1
++   while the table has the tram. */
++static int tableMode(int n)
++{
++    unsigned char *e = control();
++    int sx = (PAD_STICK_X >> 8) - 128, sy = (PAD_STICK_Y >> 8) - 128;
++    int mag2 = sx * sx + sy * sy, moved = mag2 > TABLE_DEAD * TABLE_DEAD;
++    int hArr, hDep, d, k;
++    float *c;
++
++    if (!e || (!tbl && !onTable(n))) {
++        tbl = 0;
++        return 0;
++    }
++    if (!moved)
++        tblWait = 0;
++    if (!tbl) {
++        if (tblWait || mag2 < TABLE_PUSH * TABLE_PUSH)
++            return 0;
++        tbl = 1;                                        /* the table has the tram */
++        tblA = (float)(*(int *)(e + 0x40 + tblLine * 4) & 0xFFFF);
++        tblW = 0.0f;
++        tblMoved = 0.0f;
++        stickWas = 0;
++        c = (float *)(e + 0x28 + tblLine * 12);
++        {
++            float s = nlSin((int)tblA), co = nlCos((int)tblA), dx = TAXI_POS[0] - c[0], dz = TAXI_POS[2] - c[2];
++
++            tblOff[0] = dx * co - dz * s;               /* (traffic.c's toCar) */
++            tblOff[1] = dz * co + dx * s;
++        }
++    }
++    *(int *)(e + 0x20 + tblLine * 4) = 3;               /* busy: the game leaves the angle to us */
++    *(int *)(e + 0x50 + tblLine * 4) = 180;
++    if (moved) {                                        /* the swirl: the stick's angle, clockwise up, right, down */
++        int a = (unsigned short)arcTan2((float)sx, (float)-sy);
++
++        if (stickWas) {                                 /* it follows the swirl: quickly up to it, slowly down from it */
++            float want = TABLE_FOLLOW * (float)TABLE_SPIN_DIR * (float)(short)(a - stickAng);
++            float rate = absf(want) > absf(tblW) ? TABLE_PICKUP : 1.0f - TABLE_DRAG;
++
++            tblW += (want - tblW) * rate;
++        } else
++            tblW *= TABLE_DRAG;
++        stickAng = a;
++        stickWas = 1;
++    } else {
++        tblW *= TABLE_DRAG;
++        stickWas = 0;
++    }
++    if (tblW > TABLE_MAX_SPIN)
++        tblW = TABLE_MAX_SPIN;
++    if (tblW < -TABLE_MAX_SPIN)
++        tblW = -TABLE_MAX_SPIN;
++    if (!moved && absf(tblW) < 2.0f)
++        tblW = 0.0f;
++    tblA += tblW;
++    tblMoved += absf(tblW);
++    while (tblA < 0.0f)
++        tblA += 65536.0f;
++    while (tblA >= 65536.0f)
++        tblA -= 65536.0f;
++    hArr = arriveHeading(tblArr);
++    hDep = departHeading(tblDep);
++    if (tblMoved > TABLE_FREE) {                        /* the magnet: the leaving rail first, then the arriving one */
++        for (k = 0; k < 2; k++) {
++            int h = k == 0 ? hDep : hArr;
++
++            d = (short)(h - (int)tblA);
++            if (d < TABLE_MAGNET && d > -TABLE_MAGNET && absf(tblW) < TABLE_MAGNET_SPEED) {
++                {
++                    float pull = (float)d * TABLE_PULL;      /* the game's own homing step: half the gap, at most its top spin */
++
++                    tblA += pull > TABLE_MAX_SPIN ? TABLE_MAX_SPIN : pull < -TABLE_MAX_SPIN ? -TABLE_MAX_SPIN : pull;
++                }
++                tblW *= TABLE_DAMP;
++                if (d < TABLE_LOCK && d > -TABLE_LOCK && absf(tblW) < TABLE_LOCK_SPEED) {
++                    tblA = (float)h;                    /* lined up: it snaps, and the tram may go */
++                    *(int *)(e + 0x40 + tblLine * 4) = h;
++                    if (k == 0) {                       /* out on the leaving rail, forward */
++                        course = tblDep;
++                        idx = 0;
++                        share = 0.0f;
++                        gear = 1;
++                    }
++                    tbl = 0;
++                    tblW = 0.0f;
++                    *(int *)(e + 0x20 + tblLine * 4) = k == 0 ? 0 : 2;
++                    tblWait = 1;
++                    return 0;
++                }
++                break;
++            }
++        }
++    }
++    *(int *)(e + 0x40 + tblLine * 4) = (unsigned short)(int)tblA;
++    if (!moved && tblW == 0.0f && tblMoved < TABLE_FREE) {   /* touched, not turned: back to the game */
++        tableLeave();
++        tblWait = 1;
++        return 0;
++    }
++    return 1;
++}
++
++/* While the table has the tram: it turns with the table about the table's centre, its offset from the
++   centre settling to nothing. */
++static void tablePose(void)
++{
++    unsigned char *e = control();
++    float *c, s, co;
++    int yaw = (unsigned short)(int)tblA;
++
++    if (!e)
++        return;
++    c = (float *)(e + 0x28 + tblLine * 12);
++    tblOff[0] *= TABLE_CENTRE;
++    tblOff[1] *= TABLE_CENTRE;
++    s = nlSin(yaw);
++    co = nlCos(yaw);
++    TAXI_POS[0] = c[0] + tblOff[0] * co + tblOff[1] * s;
++    TAXI_POS[2] = c[2] + tblOff[1] * co - tblOff[0] * s;
++    ((float *)(TAXI + 0x8C))[0] = TAXI_POS[0];
++    ((float *)(TAXI + 0x8C))[2] = TAXI_POS[2];
++    TAXI_YAW = (unsigned short)yaw;
++    *(unsigned short *)(TAXI + 0xF4) = (unsigned short)yaw;
++    pitchNow -= pitchNow / 4;                           /* the table is flat */
++    *(unsigned short *)(TAXI + 0x84) = (unsigned short)pitchNow;
++}
++
++/* The player car where the tram is: on the rail, its heading along it, at rest height, with the velocity
++   the rail gives it (the dive out of a fast tram reads it) and nothing of the game's own physics. */
++void tramPlace(void)
++{
++    int n, i, want, d;
++    float *p = railPoints(&n), dir[3], flat[3], zero[3] = { 0.0f, 0.0f, 0.0f }, len, v = tramRiding() ? speed : 0.0f;
++    float *a = &p[idx * 3], *b = &p[idx * 3 + 3];
++
++    if (tbl && !tramRiding())                           /* stepped out mid-turn: the table goes back to the game */
++        tableLeave();
++    for (i = 0; i < 3; i++) {
++        dir[i] = b[i] - a[i];
++        TAXI_POS[i] = a[i] + dir[i] * share;
++    }
++    TAXI_POS[1] += restH;
++    len = vecDistance(a, b);
++    if (len > 0.001f) {
++        TAXI_YAW = (unsigned short)arcTan2(dir[0], dir[2]);
++        flat[0] = dir[0];                               /* the tilt follows the road: the game's pitch is */
++        flat[1] = 0.0f;                                 /* minus the slope angle (getYXZrot); eased */
++        flat[2] = dir[2];
++        want = -arcTan2(dir[1], vecDistance(flat, zero));
++        d = (short)(want - pitchNow);
++        pitchNow += d / TRAM_PITCH_EASE;
++    }
++    for (i = 0; i < 3; i++) {
++        ((float *)(TAXI + 0x8C))[i] = TAXI_POS[i];
++        ((float *)(TAXI + 0xFC))[i] = len > 0.001f ? dir[i] / len * v : 0.0f;
++        ((float *)(TAXI + 0x108))[i] = ((float *)(TAXI + 0xFC))[i];
++    }
++    *(unsigned short *)(TAXI + 0xF4) = TAXI_YAW;
++    *(unsigned short *)(TAXI + 0x84) = (unsigned short)pitchNow;
++    *(unsigned short *)(TAXI + 0x88) = 0;
++    *(float *)(TAXI + 0x15C) = v;
++    *(float *)(TAXI + 0x160) = 0.0f;
++    if (tbl)
++        tablePose();
++}
++
++/* The turntable at the end of the rail you are coming to: the game turns it to the arrival rail when its
++   occupancy grid shows a tram within TRAM_TURN_AHEAD points of the end (state 0 to 1: a half turn on, then
++   toward the arrival heading, the last segment's). The grid does not know the tram you drive, so the same
++   change is made here. The control's lines: course 289 is line 0, 288 line 1; state at +0x20, centre
++   +0x28, angle +0x40, target +0x48 (a word per line, the centre 12 bytes). */
++static unsigned char *control(void)
++{
++    unsigned char *e;
++
++    for (e = EVENT_HEAD; e; e = *(unsigned char **)(e + 0x08))
++        if (*(unsigned int *)(e + 0x0C) == CONTROL_TASK)
++            break;
++    return e;
++}
++
++static void tableTurn(float *p, int n)
++{
++    unsigned char *e = control();
++    int line = course == 288 ? 1 : 0;
++
++    if (!e || *(int *)(e + 0x20 + line * 4) != 0 || idx < n - 3 - TRAM_TURN_AHEAD)
++        return;
++    *(int *)(e + 0x20 + line * 4) = 1;
++    *(int *)(e + 0x40 + line * 4) += 0x8000;
++    *(int *)(e + 0x48 + line * 4) = (unsigned short)arcTan2(p[(n - 1) * 3] - p[(n - 3) * 3],
++                                                           p[(n - 1) * 3 + 2] - p[(n - 3) * 3 + 2]);
++}
++
++/* Something holds the tram ahead: another tram on its rail within TRAM_GAP (plus the way it takes to stop), or
++   the turntable at the end of the line not yet turned to this rail. The game's control keeps a state per line
++   (+0x20): 0 waiting, 1 turning to the arrival rail, 2 turned and waiting, 3-6 busy with another tram. Only 2
++   lets the tram on; before that it waits TRAM_GATE points short of the platform (the turn itself starts
++   TRAM_TURN_AHEAD points out, tableTurn), so a tram standing on the table keeps this one back until it has
++   left and the table has turned. Reversing is never held. */
++static int held(float *p, int n)
++{
++    unsigned char *e = control();
++    int line = course == 288 ? 1 : 0, i;
++    float reach = TRAM_GAP + speed * 40.0f;
++
++    for (i = 0; i < carCount; i++) {
++        unsigned char *c = CAR_LIST[i];
++
++        if (CAR_TYPE(c) == TRAM_TYPE && CAR_COURSE(c) == course && CAR_POINT(c) >= idx
++            && vecDistance(TAXI_POS, CAR_POS(c)) < reach)
++            return 1;
++    }
++    if (e && idx >= n - 3 - TRAM_GATE && *(int *)(e + 0x20 + line * 4) != 2)
++        return 1;
++    return 0;
++}
++
++/* Every frame in the tram, early (modCamera, before the car's own physics): the pad moves it. */
++void tramDrive(void)
++{
++    int n;
++    float *p = railPoints(&n), gas = PAD_R / 255.0f, brake = PAD_L / 255.0f, drag = TRAM_DRAG;
++
++    if (tableMode(n)) {                                 /* on a table, turning it: the gas does nothing */
++        speed = 0.0f;
++        tramPlace();
++        return;
++    }
++    if (PAD_PRESSED & PAD_A)
++        gear = -1;
++    if (PAD_PRESSED & PAD_B)
++        gear = 1;
++    speed += gear * TRAM_ACCEL * gas;
++    if (speed > TRAM_MAX)
++        speed = TRAM_MAX;
++    if (speed < -TRAM_MAX)
++        speed = -TRAM_MAX;
++    drag += TRAM_BRAKE * brake;                         /* the brake only slows: it never reverses */
++    if (speed > drag)
++        speed -= drag;
++    else if (speed < -drag)
++        speed += drag;
++    else
++        speed = 0.0f;
++    if (speed > 0.0f && held(p, n))
++        speed = speed > TRAM_HALT ? speed - TRAM_HALT : 0.0f;
++    advance(speed, p, n);
++    tableTurn(p, n);
++    tramPlace();
++}
+diff --git a/tools/8-build/cbuild.py b/tools/8-build/cbuild.py
+index 73651a2..aa4854b 100644
+--- a/tools/8-build/cbuild.py
++++ b/tools/8-build/cbuild.py
+@@ -329,7 +329,7 @@ def pieces():
+     if FILL1 < G0:                # between the fill block and the game code (an entry stub): as words, where it was
+         open(asm + '/boot_stub.src', 'w').write(words_piece('fillEndStub', FILL1, G0, entry, section='PS'))
+     nrep = 0
+-    for f in glob.glob(OUT + '/src/*.c'):
++    for f in glob.glob(OUT + '/src/*.c') + glob.glob(OUT + '/src/**/*.h', recursive=True):   # headers: a mod's (mod_sources)
+         t = open(f, errors='replace').read()
+         used, funcs = [], set()
+ 
+@@ -432,6 +432,24 @@ def strip_names():
+     return {l.split('#')[0].strip() for l in open('strip-functions.txt') if l.split('#')[0].strip()}
+ 
+ 
++def mod_sources():
++    """New code that is no game function (a mod's own files): mod-sources.txt in the repo, one src/ pattern per line (# comments).
++    Each match is copied into build/cbuild/src/ whole, its comments blanked (their addresses are prose, not code; the line numbers
++    stay), so it is compiled and placed like the game's files and its numbers are rewritten like theirs, headers included."""
++    if not os.path.exists('mod-sources.txt'):
++        return []
++    out = []
++    for pat in [l.split('#')[0].strip() for l in open('mod-sources.txt')]:
++        for p in sorted(glob.glob('src/' + pat)) if pat else []:
++            dst = '%s/%s' % (OUT, p)
++            os.makedirs(os.path.dirname(dst), exist_ok=True)
++            t = open(p, errors='replace').read()
++            t = re.sub(r'/\*.*?\*/', lambda m: re.sub(r'[^\n]', ' ', m.group(0)), t, flags=re.S)
++            open(dst, 'w').write(t)
++            out.append(p)
++    return out
++
++
+ def prep_sources():
+     for f in ('units.json', 'near.json'):
+         if os.path.exists('%s/%s' % (OUT, f)):
+@@ -470,7 +488,10 @@ def prep_sources():
+                         t = t[:t.index('{', b[0])] + '{\n}\n' + t[b[1]:]
+                         stubbed += 1
+         open('%s/src/%s.c' % (OUT, stem), 'w').write(t)
++    mods = mod_sources()
+     print('%d files; %d game functions kept, %d other definitions stripped' % (len(stems), kept, stripped))
++    if mods:
++        print('mod-sources.txt: %d files of new code' % len(mods))
+     if stub:
+         print('strip-functions.txt: %d of %d functions built as empty stubs (a test build, not the game)' % (stubbed, len(stub)))
+     return gs

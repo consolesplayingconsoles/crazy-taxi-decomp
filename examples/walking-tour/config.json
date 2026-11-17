@@ -1,0 +1,7 @@
+{
+  "name": "Walking Tour",
+  "decomp": "crazy-taxi-decomp",
+  "layers": [
+    "layers/no-demo"
+  ]
+}

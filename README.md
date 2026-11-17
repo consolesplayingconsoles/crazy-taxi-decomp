@@ -51,7 +51,7 @@ Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 
 ## Examples
 
-Mods built on top of this decomp, running on a real Dreamcast: an Extreme Tux Racer course, Doom's E1M1 and the Pac-Man maze, as playable levels.
+Mods built on top of this decomp, running on a real Dreamcast: an Extreme Tux Racer course, Doom's E1M1 and the Pac-Man maze, as playable levels, and Walking Tour on foot.
 More pictures, how to build them and their licences are in the [examples README](examples/README.md).
 
 <table>
@@ -59,11 +59,13 @@ More pictures, how to build them and their licences are in the [examples README]
     <td><img src="examples/screenshots/tux-racer-1.jpg" width="200" alt="Tux Racer course: the cab on the snow"></td>
     <td><img src="examples/screenshots/doom-1.jpg" width="200" alt="Doom E1M1: the cab with the arrow"></td>
     <td><img src="examples/screenshots/pac-man-1.jpg" width="200" alt="Pac-Man maze: a ghost over the cab"></td>
+    <td><img src="examples/screenshots/walking-tour-1.jpg" width="200" alt="Walking Tour: picture 1"></td>
   </tr>
   <tr>
     <td align="center"><a href="https://www.instagram.com/reel/DfCv8f5x_46/">Tux Racer Video</a></td>
     <td align="center"><a href="https://www.instagram.com/reel/DfF62DVxLiG/">Doom Video</a></td>
     <td align="center"><a href="https://www.instagram.com/reel/Dfy8q-7RTQ7/">Pac-Man Video</a></td>
+    <td align="center"><a href="https://www.instagram.com/reel/DexUUJZxsxl/">Walking Tour Video</a></td>
   </tr>
 </table>
 

@@ -1,6 +1,6 @@
 # Examples
 
-Three mods that use this decomp. Each is this repository plus a stack of small source changes (layers), 
+Four mods that use this decomp. Each is this repository plus a stack of small source changes (layers), 
 built by the decomp's own `make` and`make c` into a copy of your own disc. 
 Nothing from the game is shipped: you bring the disc and the Katana SDK.
 
@@ -45,6 +45,20 @@ The Pac-Man maze in place of Arcade's city: Pac-Man drives, the ghosts are the f
   </tr>
 </table>
 
+## Walking Tour
+
+Get out of the cab and walk, run and jump around Crazy Taxi's city, take over traffic cars and trams, and hail a taxi, with no time limit.
+[Walking Tour Video](https://www.instagram.com/reel/DexUUJZxsxl/).
+
+<table>
+  <tr>
+    <td><img src="screenshots/walking-tour-1.jpg" width="170" alt="Walking Tour: picture 1"></td>
+    <td><img src="screenshots/walking-tour-2.jpg" width="170" alt="Walking Tour: picture 2"></td>
+    <td><img src="screenshots/walking-tour-3.jpg" width="170" alt="Walking Tour: picture 3"></td>
+    <td><img src="screenshots/walking-tour-4.jpg" width="170" alt="Walking Tour: picture 4"></td>
+  </tr>
+</table>
+
 ## Layout
 
 ```
@@ -57,6 +71,8 @@ examples/
     config.json    the example's name and the shared layers it uses, in order
     layer.patch    its own source changes, applied after the shared layers
     tools/         writes the example's data file (COLDC1.BIN or COLDC2.BIN) and the header its C reads
+  walking-tour/
+    build.sh  config.json  layer.patch
 ```
 
 ## Building a mod
@@ -84,6 +100,7 @@ What each example contains:
 | Tux Racer    | the layer, the build script, the tools, and the `bunny_hill` course with the Extreme Tux Racer data it needs (`tux-racer/assets/`) | GPL-2.0-or-later, [`COPYING`](tux-racer/assets/COPYING)                         |
 | Doom         | the layer, the build script, the tools, and the unmodified shareware `doom1.wad` (`doom/assets/`)                                  | id Software's licence, [`doom1.wad.copyright`](doom/assets/doom1.wad.copyright) |
 | Pac-Man      | the layer, the build script, the tools, and the maze and character models in `pac-man/assets/`                                     | the models are CC BY 4.0 (below)                                                |
+| Walking Tour | the layer and the build script                                                                                                     | none included                                                                   |
 
 The layers, scripts and tools are this repository's own. The game's disc and the Katana SDK are never included.
 
