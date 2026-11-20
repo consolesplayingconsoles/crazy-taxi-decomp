@@ -1,0 +1,9 @@
+{
+ "dev": [
+  {
+   "about": "hand: timer 2's interrupt off, the start register put back as it was",
+   "regs": {},
+   "poke": {}
+  }
+ ]
+}

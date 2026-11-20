@@ -13,6 +13,7 @@ to tests/gen_*/<function>.json, with the usual evidence. Nothing is kept when no
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import itertools
 import json
@@ -31,7 +32,7 @@ def free_name():
     for k in range(1, 4):
         for t in itertools.product(string.ascii_lowercase, repeat=k):
             n = 'gen_' + ''.join(t)
-            if not os.path.exists('src/%s.c' % n) and not os.path.exists('tests/%s' % n):
+            if not os.path.exists(layout.c_path(n)) and not os.path.exists('tests/%s' % n):
                 return n
 
 
@@ -49,17 +50,17 @@ def main(argv):
             print('%s: cannot be written as %s: %s %s' % (fn, variant, type(e).__name__, str(e)[:80]))
             continue
         stem = free_name()
-        open('src/%s.c' % stem, 'w').write('/* A function proven on cases written by hand (tools/6-agentic/handcase.py). */\n\n' +
+        open(layout.c_path(stem), 'w').write('/* A function proven on cases written by hand (tools/6-agentic/handcase.py). */\n\n' +
                                            gen_drv.head_protos([(fn, src, None, c.protos)]) + '\n\n' + src)
         os.makedirs('tests/%s' % stem)
         json.dump(cases, open('tests/%s/%s.json' % (stem, fn), 'w'), indent=1)
-        r = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True)
+        r = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
         line = (r.stdout + r.stderr).strip().splitlines()[-1] if (r.stdout + r.stderr).strip() else ''
         print('%s as %s: %s' % (fn, variant, line[:200]))
         if ' EQUIVALENT' in line:
             print('kept in src/%s.c' % stem)
             return
-        os.remove('src/%s.c' % stem)
+        os.remove(layout.c_path(stem))
         shutil.rmtree('tests/%s' % stem)
     print('%s: no variant passed; nothing kept' % fn)
 

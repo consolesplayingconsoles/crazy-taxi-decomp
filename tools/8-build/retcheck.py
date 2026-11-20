@@ -96,6 +96,30 @@ def returns_in(a, size):
 
 
 STOPS = ('bra', 'jmp', 'rts', 'rte', 'frchg', 'fschg')      # the window of a return never crosses these (see returns_in)
+
+
+def tail_returns_in(a, size, spans, _seen=None):
+    """returns_in for a function that may end in a tail call: when its own code names no register, the register of the functions it
+    jumps into with `bra` (and of theirs, to the end of the chain). spans: {name: (address, size)} of every function. None when the
+    chain reaches no return, when two targets disagree, or when it comes back to a function already visited. The function's own code
+    writes no result before such a jump: its callers get what the last function of the chain returns."""
+    own = returns_in(a, size)
+    if own:
+        return own
+    ph = lambda x: x & 0x1FFFFFFF                # functions.txt may say 0C... or 8C...: the same bytes
+    seen = (_seen or set()) | {ph(a)}
+    starts = {ph(s): (s, z) for s, z in spans.values()}
+    votes = set()
+    x = a
+    while x < a + size:
+        d = shdis.decode(B.word(x), x)
+        t = d[3]
+        if (d[0] or '').split(' ')[0] == 'bra' and t is not None and not ph(a) <= ph(t) < ph(a) + size and ph(t) in starts:
+            if ph(t) in seen:
+                return None
+            votes.add(tail_returns_in(starts[ph(t)][0], starts[ph(t)][1], spans, seen))
+        x += 2
+    return votes.pop() if len(votes) == 1 else None
 CACHE = 'build/retcheck.json'
 STATS = {'read': 0, 'cached': 0}
 

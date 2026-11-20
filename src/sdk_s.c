@@ -8,53 +8,10 @@ void selectDrawDriver(int d);
 
 #define KM_DEVICE       (*(int *)0x0C178268)
 
-int kmfSetFatalErrorCallback(void *f)
-{
-    kmiRegisterCallback(KM_DEVICE, 8, f, 0);
-    return 0;
-}
-
-int kmSetPALEXTCallback(void *f)
-{
-    kmiRegisterCallback(KM_DEVICE, 9, f, 0);
-    return 0;
-}
-
-int kmfSetVertexBufferBaseAddress(int a, int b)
-{
-    *(int *)0x0C2EAAC0 = a;
-    *(int *)0x0C2EAAC4 = b;
-    return 0;
-}
-
-int kmSetStripLength(int n)
-{
-    *(int *)0x0C2EA85C = n;
-    return 0;
-}
-
-int nlsndBlockMoveStatus(void)
-{
-    if (*(volatile int *)0xA0800098)
-        return 1;
-    return 0;
-}
 
 /* A busy-wait of 50000 steps. */
-void adxf_wait_1ms(void)
-{
-    volatile int n = 0xC350;
-
-    do
-        n--;
-    while (n);
-}
 
 /* A packed decimal byte (two digits) as a number. */
-int bcd2bin(signed char c)
-{
-    return ((c & 0xF0) >> 4) * 10 + (c & 15);
-}
 
 void Voice_Clear(void)
 {

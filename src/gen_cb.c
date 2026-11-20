@@ -46,10 +46,6 @@ int ADXF_AddPartition(int a4, int a5, int a6, int a7);
 int gameStateDrive(void);
 int Result_Insert_Rank(void);
 
-void nl_objput_mv_xchg_p0p1(float f4, float f5, float f6, float f7, float f8, float f9, float f10)
-{
-    
-}
 
 int table(int a4)
 {
@@ -86,7 +82,5 @@ int table(int a4)
     }
     return t7;
 }
-
-
 
 

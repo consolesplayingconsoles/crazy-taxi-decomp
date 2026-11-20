@@ -1,0 +1,228 @@
+/* Straight-line functions with calls and guards (batch gen_bk): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int kmiMemCopy8(int, int, int);
+extern void _builtin_prefetch(void *);
+int kmGetCurrentVertexOffset(int);
+int nl_objput_mv_send_p0(int a4, int a5, int a6, float f4, float f5, float f6, float f7);
+void nlMvEndList(void);
+int kmiSetOpaqueDummy(void);
+int kmStartVertexStrip(int a4);
+int nlMvSendTriangle(int a4, int a5, int a6);
+int kmSetUserClipping(int a4, int a5, int a6, int a7, int a8, int a9);
+int nlPuts(int a4);
+int nlCharacter(int a4, int a5, int a6, int a7);
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o24_int { char p[0x24]; int v; };
+struct o28_int { char p[0x28]; int v; };
+struct o2C_int { char p[0x2C]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+
+
+int nl_objput_mv_send_p0(int a4, int a5, int a6, float f4, float f5, float f6, float f7)
+{
+    _builtin_prefetch((void *)a6);
+    *(float *)((((a6 - 4) - 0x4) + 0x0)) = f7;
+    *(float *)(((((a6 - 4) - 0x4) - 0x4) + 0x0)) = (f6 * f7);
+    *(float *)((((((a6 - 4) - 0x4) - 0x4) - 0x4) + 0x0)) = (f5 * f7);
+    _builtin_prefetch((void *)((((a6 - 4) - 0x4) - 0x4) - 0x4));
+    return ((((a6 - 4) - 0x4) - 0x4) - 0x4);
+}
+
+void nlMvEndList(void)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = (((struct o0_int *)0xC2B7684)->v);
+    if (t0 != 0) {
+        t1 = (((struct o10_int *)0xC2B7684)->v);
+        _builtin_prefetch((void *)t1);
+        _builtin_prefetch((void *)(t1 + 0x20));
+        t2 = (((struct o20_int *)0xC2B7684)->v);
+        *(unsigned int *)((((t1 + 0x20) - 96) + 0x0)) = t2;
+        t3 = (((struct o24_int *)0xC2B7684)->v);
+        *(unsigned int *)((((t1 + 0x20) - 96) + 0x4)) = t3;
+        _builtin_prefetch((void *)((t1 + 0x20) - 96));
+        t4 = (((struct o28_int *)0xC2B7684)->v);
+        *(unsigned int *)(((((t1 + 0x20) - 96) + 0x20) + 0x0)) = t4;
+        t5 = (((struct o2C_int *)0xC2B7684)->v);
+        *(unsigned int *)(((((t1 + 0x20) - 96) + 0x20) + 0x4)) = t5;
+        _builtin_prefetch((void *)(((t1 + 0x20) - 96) + 0x20));
+        t6 = *(int *)0xC2B8CBC;
+        t7 = *(int *)(((t6 + 0x4) + 0x0));
+        *(unsigned int *)(((t6 + 0x4) + 0x0)) = ((t7 & 0xFC000000) | (((((t1 + 0x20) - 96) + 0x20) + 0x60) & 0x3FFFFFF));
+    }
+}
+
+
+int nlMvSendTriangle(int a4, int a5, int a6)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    float u9;
+    float u10;
+    float u11;
+    float u12;
+    float u13;
+    float u14;
+    float u15;
+    float u16;
+    float u17;
+    int t8;
+
+    t0 = (((struct o0_int *)0xC2B7684)->v);
+    if (t0 == 0) {
+        (((struct o0_uint *)0xC2B7684)->v) = 0x1;
+        t1 = *(int *)0xC2B8CBC;
+        t2 = *(int *)((t1 + 0x4));
+        (((struct o0_uint *)0xFF000038)->v) = 0xC;
+        (((struct o4_uint *)0xFF000038)->v) = 0xC;
+        t3 = (((struct o20_int *)0xC2B7684)->v);
+        *(unsigned int *)((((t2 & 0x3FFFFFF) | 0xE0000000) + 0x0)) = t3;
+        t4 = (((struct o24_int *)0xC2B7684)->v);
+        *(unsigned int *)((((t2 & 0x3FFFFFF) | 0xE0000000) + 0x4)) = t4;
+        _builtin_prefetch((void *)((t2 & 0x3FFFFFF) | 0xE0000000));
+        t8 = (((t2 & 0x3FFFFFF) | 0xE0000000) + 0x20);
+    } else {
+        t8 = (((struct o10_int *)0xC2B7684)->v);
+    }
+    u9 = *(float *)((a4 + 0xC));
+    *(unsigned int *)((t8 + 0x0)) = 0xFFFFFFFF;
+    u10 = *(float *)((a4 + 0x0));
+    *(float *)((t8 + 0x4)) = (u10 * u9);
+    u11 = *(float *)((a4 + 0x4));
+    *(float *)((t8 + 0x8)) = (u11 * u9);
+    *(float *)((t8 + 0xC)) = u9;
+    u12 = *(float *)((a5 + 0x0));
+    u13 = *(float *)((a5 + 0xC));
+    *(float *)((t8 + 0x10)) = (u12 * u13);
+    u14 = *(float *)((a5 + 0x4));
+    *(float *)((t8 + 0x14)) = (u14 * u13);
+    *(float *)((t8 + 0x18)) = u13;
+    u15 = *(float *)((a6 + 0xC));
+    u16 = *(float *)((a6 + 0x0));
+    *(float *)((t8 + 0x1C)) = (u16 * u15);
+    _builtin_prefetch((void *)t8);
+    u17 = *(float *)((a6 + 0x4));
+    *(float *)(((t8 + 0x20) + 0x0)) = (u17 * u15);
+    *(float *)(((t8 + 0x20) + 0x4)) = u15;
+    _builtin_prefetch((void *)(t8 + 0x20));
+    (((struct o10_uint *)0xC2B7684)->v) = ((t8 + 0x20) + 0x20);
+    return 0x4;
+}
+
+
+int nlPuts(int a4)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t18;
+    int t19;
+    int t22;
+    int t23;
+    int t24;
+    int t28;
+    int t29;
+
+    t0 = *(int *)0xC2AF12C;
+    t1 = 0x2;
+    if (t0 != 0) {
+        t1 = 0x0;
+    }
+    t2 = *(int *)0xC2B8CBC;
+    t3 = *(int *)(((t1 << 2) + t2));
+    t4 = *(int *)0xC2AF0BC;
+    t18 = *(int *)0xC2AF0C0;
+    t15 = *(int *)0xC2AF0C4;
+    *(unsigned int *)0xFF000038 = ((unsigned int)((unsigned int)t3 >> 16) >> 8);
+    *(unsigned int *)0xFF00003C = ((unsigned int)((unsigned int)t3 >> 16) >> 8);
+    t7 = *(int *)0xC2AF118;
+    *(unsigned int *)((((0x3FFFFFF & t3) | 0xE0000000) + 0x0)) = t7;
+    t8 = *(int *)0xC2AF11C;
+    *(unsigned int *)((((0x3FFFFFF & t3) | 0xE0000000) + 0x4)) = t8;
+    t9 = *(int *)0xC2AF120;
+    *(unsigned int *)((((0x3FFFFFF & t3) | 0xE0000000) + 0x8)) = t9;
+    t10 = *(int *)0xC2AF124;
+    *(unsigned int *)((((0x3FFFFFF & t3) | 0xE0000000) + 0xC)) = t10;
+    t11 = *(int *)0xC2AF128;
+    *(unsigned int *)((((0x3FFFFFF & t3) | 0xE0000000) + 0x10)) = t11;
+    _builtin_prefetch((void *)((0x3FFFFFF & t3) | 0xE0000000));
+    t12 = 0xFF000038;
+    t13 = 0xE0000000;
+    t14 = 0xC2AF118;
+    t16 = a4;
+    t17 = (((0x3FFFFFF & t3) | 0xE0000000) + 0x20);
+    for (;;) {
+        t19 = *(signed char *)((t16 + 0x0));
+        if (t19 == 0) break;
+        t12 = *(signed char *)((t16 + 0x0));
+        if (t12 != 32) {
+            t12 = *(signed char *)((t16 + 0x0));
+            t14 = 0x0;
+            t22 = *(int *)0xC2AF0D0;
+            if (t12 == 10) {
+                t18 = t14;
+                if ((t4 & 0x1) != 0) {
+                    t18 = t22;
+                }
+                t14 = 0xC2AF0CC;
+                t23 = *(int *)((t14 + 0x0));
+                t15 = (t15 + t23);
+            } else if (t12 == 13) {
+                t18 = t14;
+                if ((t4 & 0x1) != 0) {
+                    t18 = t22;
+                }
+            } else {
+                t24 = *(signed char *)((t16 + 0x0));
+                t14 = t18;
+                t12 = nlCharacter(t14, t15, t24, t17);
+                t17 = t12;
+                t14 = 0xC2AF0C8;
+                t13 = *(int *)((t14 + 0x0));
+                t18 = (t18 + t13);
+            }
+        } else {
+            t14 = 0xC2AF0C8;
+            t13 = *(int *)((t14 + 0x0));
+            t18 = (t18 + t13);
+        }
+        t16 = (t16 + 0x1);
+    }
+    *(unsigned int *)0xC2AF0C0 = t18;
+    *(unsigned int *)0xC2AF0C4 = t15;
+    t28 = *(int *)0xC2B8CBC;
+    t29 = *(int *)((((t1 << 2) + t28) + 0x0));
+    *(unsigned int *)((((t1 << 2) + t28) + 0x0)) = ((t29 & 0xFC000000) | (t17 & 0x3FFFFFF));
+    return ((t29 & 0xFC000000) | (t17 & 0x3FFFFFF));
+}
+
+

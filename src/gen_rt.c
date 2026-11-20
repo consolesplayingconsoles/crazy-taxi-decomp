@@ -19,7 +19,9 @@ int pfSize(float, float);
 int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
 
 /* manual: both Model_Put_Sprite3D calls pass the 6-byte angle by value on the stack (copied there by _quick_odd_mvn before the
-   call, 0C0433CC and 0C0433F6); the generated casts dropped it and the callee read a leftover. */
+   call, 0C0433CC and 0C0433F6); the generated casts dropped it and the callee read a leftover. The parameters are in the
+   order of the definition (gen_wn.c: x, y, angle, scale, model): the SH-4 puts them in the same places in any order, a
+   host with another calling convention does not. */
 int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
 {
     float u17;
@@ -119,7 +121,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     u41 = *(float *)((R14 + 0x2C));
     u42 = *(float *)((R14 + 0x38));
     *(unsigned int *)(((int)stk + 20)) = (int)F14;
-    t43 = ((int (*)(int, int, int, AngleR, float))(Model_Put_Sprite3D))((int)F14, (int)u42, 0xC0EA5D8, *(AngleR *)R2, u41);
+    t43 = ((int (*)(int, int, AngleR, float, int))(Model_Put_Sprite3D))((int)F14, (int)u42, *(AngleR *)R2, u41, 0xC0EA5D8);
     *(unsigned short *)((R13 + 0x2)) = 0x0;
     *(unsigned char *)((((int)stk + 4) + 0x0)) = (*(signed char *)((R13 + 0x0)));
     *(unsigned char *)((((int)stk + 4) + 0x1)) = (*(signed char *)((R13 + 0x1)));
@@ -127,7 +129,7 @@ int technicalBonusExec(int a4, int a5, int a6, int a7, float f4, float f5, float
     *(unsigned char *)((((int)stk + 4) + 0x3)) = (*(signed char *)((R13 + 0x3)));
     *(unsigned char *)((((int)stk + 4) + 0x4)) = (*(signed char *)((R13 + 0x4)));
     *(unsigned char *)((((int)stk + 4) + 0x5)) = (*(signed char *)((R13 + 0x5)));
-    t53 = ((int (*)(int, int, int, AngleR, float))(Model_Put_Sprite3D))((*(int *)(((int)stk + 20))), (int)(*(float *)((R14 + 0x38))), 0xC0EB340, *(AngleR *)R13, (*(float *)((R14 + 0x2C))));
+    t53 = ((int (*)(int, int, AngleR, float, int))(Model_Put_Sprite3D))((*(int *)(((int)stk + 20))), (int)(*(float *)((R14 + 0x38))), *(AngleR *)R13, (*(float *)((R14 + 0x2C))), 0xC0EB340);
     nlPopMatrix(0x1);
     ResetFadeColor();
     ResetFadeColor();

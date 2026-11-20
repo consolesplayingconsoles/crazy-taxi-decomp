@@ -13,6 +13,7 @@ checked with tools/equiv.py and the old C goes back unless the function is EQUIV
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import os
 import re
 import subprocess
@@ -50,7 +51,7 @@ def shift_idiom(text):
 def where(fn):
     import consistency
     import glob
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         if os.path.basename(f).startswith(('zz_', 'gen_tmp')):
             continue
         try:

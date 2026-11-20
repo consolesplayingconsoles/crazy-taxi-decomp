@@ -14,3 +14,29 @@ func 0c0887e0 _app_coss
 func 0c088e64 _allzero
 func 0c0892e4 _rsfts
 func 0c0896f4 _duchek
+# Hardware a host does not have: hardware <start> <end> <what>. A port replaces these libraries at their entry points with host
+# code and never runs what is below them: such a function is never built for a port and never interpreted (tools/layout.py).
+hardware 0c14cfbc 0c14e586 GD-ROM file system (gdFs*)
+hardware 0c15f460 0c1607c8 GD-ROM subcode decoder and file system (gdDec*, gdFs*)
+hardware 0c16766c 0c16772c GD-ROM drive commands (gdGdc*)
+hardware 0c161864 0c162cc0 Maple bus driver (kd*)
+hardware 0c16e580 0c17019c Maple bus driver (mpdrv*)
+hardware 0c1727e4 0c1727f8 Maple bus driver (mpdrv_swaplong)
+hardware 0c150278 0c1512ac Memory card: backup library (bu*)
+hardware 0c162e00 0c167668 Memory card: file system (vmsfs*)
+hardware 0c1701c4 0c17081e Memory card: file system and I/O (vmsfs*, vmsio*)
+hardware 0c1727f8 0c172c00 Memory card: backup fibers (buFbr*)
+hardware 0c14e58c 0c14e70a Pad and peripherals (pd*)
+hardware 0c14e982 0c14ec40 Pad and peripherals (pd*)
+hardware 0c14f978 0c14fb50 Real-time clock (syRtc*)
+hardware 0c14fcc6 0c14ff68 Real-time clock (syRtc*)
+hardware 0c162ddc 0c162dfa Video cable check (syCbl*)
+hardware 0c160e88 0c160fb8 Store queues (sySq*)
+hardware 0c1614b8 0c16153c SH-4 timers (syTmr*)
+hardware 0c1615be 0c1615d2 SH-4 timers (syTmr*)
+hardware 0c1616e2 0c161854 SH-4 timers (syTmr*)
+hardware 0c14ff74 0c14ffea Hardware set-up (syHw*)
+hardware 0c167814 0c1678f6 Boot configuration in flash (syBtCfg*)
+hardware 0c1745b0 0c17467c Serial port check (syIntChk*)
+hardware 0c17472e 0c1747be Serial port check (syIntChk*)
+hardware 0c1747f4 0c174830 Serial port check (syIntChk*)

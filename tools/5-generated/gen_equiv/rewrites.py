@@ -7,6 +7,7 @@
     struct_decls       the declarations the two above need
     splice             a unit's text with rewritten functions in place and those declarations after its head
 """
+import layout  # noqa: E402  (tools/toolpath.py has put tools/ on the path)
 import re
 
 _SELF = re.compile(r'^[ \t]*\*\(((?:unsigned )?(?:int|short|char|float)) \*\)\(\(\(int\)stk \+ (\d+)\)\) = '
@@ -227,7 +228,7 @@ def narrow_unit(text):
     if os.environ.get('GEN_NARROW', '1') == '0':
         return text
     if not _DEFS:
-        _DEFS.append(definitions(open(p, errors='replace').read() for p in glob.glob('src/*.c')
+        _DEFS.append(definitions(open(p, errors='replace').read() for p in layout.c_files()
                                  if not os.path.basename(p).startswith(('gen_tmp', 'zz_'))))
     return narrow_calls(text, _DEFS[0])[0]
 

@@ -1,6 +1,6 @@
 # Tools several steps use
 
-The tools of each step are in their own folder: [1-2-baseline/](1-2-baseline/), [3-assets/](3-assets/), [4-boosts/](4-boosts/), [5-generated/](5-generated/), [6-agentic/](6-agentic/), [7-reduction/](7-reduction/), [8-build/](8-build/). `toolpath.py` puts every folder on the import path, so a tool imports another by name wherever it lives. [overlay/](overlay/) holds the code overlays' tools (`references/overlays.md` in the kickoff skill; only a game with `overlays.tsv` uses them), [hooks/](hooks/) holds the pre-commit hook, [tools-image/](tools-image/) the Docker image the SDK tools run in.
+The tools of each step are in their own folder: [1-2-baseline/](1-2-baseline/), [3-assets/](3-assets/), [4-boosts/](4-boosts/), [5-generated/](5-generated/), [6-agentic/](6-agentic/), [7-reduction/](7-reduction/), [8-build/](8-build/), [10-port/](10-port/). `toolpath.py` puts every folder on the import path, so a tool imports another by name wherever it lives. [overlay/](overlay/) holds the code overlays' tools (`docs/overlays.md` in the kickoff skill; only a game with `overlays.tsv` uses them), [hooks/](hooks/) holds the pre-commit hook, [tools-image/](tools-image/) the Docker image the SDK tools run in.
 
 | tool | what it does |
 |---|---|

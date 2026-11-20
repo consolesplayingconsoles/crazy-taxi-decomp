@@ -8,11 +8,6 @@ int kmiWriteRegister(int off, int v);
 
 #define ENTRIES         ((char *)0x0C2B771C)
 
-int kmSetFogDensity(int x)
-{
-    kmiWriteRegister(184, x);
-    return 0;
-}
 
 void game_init(void)
 {
@@ -48,18 +43,6 @@ void CourseObj_Init(void)
 }
 
 /* Starts entry i when it is in use and not yet started (marking it started); else returns its byte 0 or 1. */
-int nlsndStreamStart(short i)
-{
-    char *e = ENTRIES + i * 24;
-
-    if (e[0] != 1)
-        return e[0];
-    if (e[1])
-        return e[1];
-    nlsndSeqRequest((i << 12) + 0x1A1);
-    e[1] = 1;
-    return 1;
-}
 
 void nd_Init_Puru2(void)
 {

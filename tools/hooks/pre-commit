@@ -4,10 +4,24 @@
 # Enable once per clone: git config core.hooksPath tools/hooks
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
+# No large file: a staged file over PRE_COMMIT_MAX_MB (default 50) refuses the commit, naming it. GitHub refuses a push with a file
+# over 100 MB, and by then the file is in a commit: a 141 MB core dump at a repo's root went in that way.
+max_mb="${PRE_COMMIT_MAX_MB:-50}"
+big=""
+while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    size="$(git cat-file -s ":$f" 2>/dev/null || echo 0)"
+    [ "$size" -gt $((max_mb * 1048576)) ] && big="$big  $f ($((size / 1048576)) MB)"$'\n'
+done < <(git diff --cached --name-only --diff-filter=AM)
+if [ -n "$big" ]; then
+    printf '%s' "$big" >&2
+    echo "[pre-commit] commit refused: staged files over ${max_mb} MB (above): unstage them (git rm --cached <file>) or raise PRE_COMMIT_MAX_MB" >&2
+    exit 1
+fi
 # No build here: a commit does not compile and link the sources. The checks below are quick: retcheck (a function's C returns in the
-# register the original uses) and the audit of tests/equivalent.txt. SKIP_BUILD_CHECK=1 skips them. The staged sources are not
+# register the original uses) and the audit of tests/equivalent.txt. SKIP_COMMIT_CHECKS=1 skips them. The staged sources are not
 # proven again either: each function was proven when its C was written (tools/equiv.py records it in tests/equivalent.txt).
-if [ "${SKIP_BUILD_CHECK:-}" != "1" ]; then
+if [ "${SKIP_COMMIT_CHECKS:-}" != "1" ]; then
     if [ -f tools/8-build/retcheck.py ] && ! python3 tools/8-build/retcheck.py >/dev/null 2>&1; then
         python3 tools/8-build/retcheck.py >&2 || true
         echo "[pre-commit] commit refused: a function's C returns in the other register than the original (tools/8-build/retcheck.py)" >&2
@@ -19,12 +33,19 @@ if [ "${SKIP_BUILD_CHECK:-}" != "1" ]; then
             echo "[pre-commit] commit refused: tests/equivalent.txt names functions with no C behind them (python3 tools/5-generated/audit_equivalent.py --fix removes them)" >&2
             exit 1
         fi
-        git add tests/equivalent.txt docs/equivalent.md 2>/dev/null || true
     fi
 fi
 grep -q '<!-- progress -->' README.md || exit 0
 [ -f functions.txt ] || exit 0
-report="$(python3 tools/progress.py 2>/dev/null)" || { echo "[pre-commit] tools/progress.py failed: Progress block left as is" >&2; exit 0; }
+# progress.py failing refuses the commit with its error (a status.txt it cannot read, a crash): the badge and the Progress block
+# would otherwise go stale without a word
+if ! report="$(python3 tools/progress.py 2>/tmp/pre-commit-progress.$$)"; then
+    cat /tmp/pre-commit-progress.$$ >&2
+    rm -f /tmp/pre-commit-progress.$$
+    echo "[pre-commit] commit refused: tools/progress.py failed (above)" >&2
+    exit 1
+fi
+rm -f /tmp/pre-commit-progress.$$
 python3 - "$report" <<'PY'
 import re, sys
 s = open("README.md", encoding="utf-8").read()

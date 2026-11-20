@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=4)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=8)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -22,22 +22,62 @@ the Shuriken Explorer code and asset views, the build pipeline and the author's 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
 everything game-derived on your machine, and `.gitignore` keeps it out of git.
 
+## Build and run
+
+You need: your own copy of the disc as a `.gdi` with its track files, Python 3, Docker, and a Katana SDK (its Hitachi
+assembler and linker do the build; any folder layout works).
+Docker must be running: the first build makes a small tools image and assembles every file (a few minutes). On Linux
+x86_64 without Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
+
+### On the Dreamcast
+
+1. Read your disc and split the executable (once):
+
+   ```
+   make setup GDI="path/to/your disc.gdi"
+   echo 'SDK_PATH="/path/to/katana-sdk"' > .env
+   ```
+
+2. Check the split rebuilds the original byte for byte (ends with `MATCH`):
+
+   ```
+   make
+   ```
+
+3. Build the game from the C into a copy of your disc:
+
+   ```
+   make disc GDI="path/to/your disc.gdi"
+   ```
+
+4. Play `build/disc-cbuild/Crazy Taxi (Europe) (En,Ja).gdi` in a Dreamcast emulator, or from a GDEMU SD card on the console.
+
+### Native (x86-64 Linux)
+
+See [port/README.md](port/README.md#to-bring-up-a-game).
+
 ## Progress
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE           81.5%  the instructions the cases ran, of all instructions, over the 2998 functions that can be C; the 2953 functions that reached the check are measured, the others count 0
-FUNCTIONS LEFT  (100.0% complete) 0  of the 2998 functions that can be C (54 with no C form are counted apart)
-BYTES LEFT      (100.0% complete) 0  of 510448 bytes of code that can be C
+TOTAL TEST COVERAGE           81.5%  the instructions the cases ran, of all instructions, over the 3188 functions that can be C; the 3148 functions that reached the check are measured, the others count 0
+FUNCTIONS LEFT  (100.0% complete) 0  of the 3188 functions that can be C (8 with no C form are counted apart)
+BYTES LEFT      (100.0% complete) 0  of 528578 bytes of code that can be C
 FUNCTIONS                            
-  unnamed                         0  functions still called FUN_... (0 of 3417)
+  unnamed                         0  functions still called FUN_... (0 of 3416)
   Not written C                   0  0 bytes
   Written C with errors           0  0 bytes
   Not drawn                       0  0 bytes
   Drawn with errors               0  0 bytes
   Checked with errors             0  0 bytes
-  No C form                    1.6%  an instruction or a register convention with no C form (tools/5-generated/classify.py names it)
-  documented                  88.1%  3010 named functions in docs/*.md
+  No C form                    0.2%  an instruction or a register convention with no C form
+  documented                  93.5%  3195 named functions in docs/*.md
+SDK                                  
+  with C                      96.4%  2056 of 2132
+  object code only             3.6%  76 of 2132
+  not done                     0.0%  0 of 2132
+  no C form                    2.1%  an instruction or a register convention with no C form
+  hardware (from total)       25.9%  564 of 2178
 GAME ASSETS (EXTRA)                  
   models named                37.1%  1010 of 2723 models: a name, or a named table or collection
   characters named            15.5%  9 of 58 characters (note rules)
@@ -114,39 +154,20 @@ Four Dragon Ball mods are built the same way on this decomp.
 
 ## The steps
 
-This decomp follows the steps of the dc-decomp-kickoff skill: six from the disc to proven C for every function, then three to build, run and stabilise the game from that C. `AGENTS.md` has the detail.
+This decomp follows the steps of the dc-decomp-kickoff skill: six from the disc to proven C for every function, then three to build, run and stabilise the game from that C, then the native port. `AGENTS.md` has the detail.
 
-| # | Step                                    | Decomp completion                              | You provide                           | What it does                                                                                                                                                                                                                                                                                                               |
-|---|-----------------------------------------|------------------------------------------------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | **Decomp project setup**                | -                                              | The disc as a `.gdi`, a Katana SDK    | Installs the tools (Docker, Python 3) and checks your game disc and SDK.                                                                                                                                                                                                                                                   |
-| 2 | **Signature-driven baseline**           | -                                              |                                       | Reads the disc, splits the executable into one assembly file per function, rebuilds it **byte for byte** with the SDK's own assembler and linker, and names every function it can match by signature.                                                                                                                      |
-| 3 | **Asset mapping**                       | -                                              |                                       | Writes the text map (every string with its pointers, text per disc file), the model map, the texture list and the audio map.                                                                                                                                                                                               |
-| 4 | **Opportunity-driven optional boosts**  | Varies greatly by project                      | The materials                         | Uses what you hand over to save work in every step after it, the earlier the better: a later port (Android is the strongest), a prototype or debug build, cheat codes, other regions, existing notes, the same game on another console, a sibling decomp. It never looks for these itself and never reads your other code. |
-| 5 | **Incremental script-generated decomp** | up to 50%                                      | SDK library sources (optional)        | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then directed test cases that reach the branches the first ones missed. Generated C is reported apart from hand-written C.                                                                           |
-| 6 | **Experience-driven agentic decomp**    | 100%                                           |                                       | Takes what is left one pocket at a time, function by function: C and test cases until each function is proven. The plan is in the repo's `AGENTS.md`.                                                                                                                                                                      |
-| 7 | **Code size reduction**                 | -                                              |                                       | Shrinks the code compiled from the proven C to the size of the original game code. A smaller version of a function replaces the old one only if it is still equivalent to the original.                                                                                                                                    |
-| 8 | **Build from C**                        | -                                              | The disc as a `.gdi`                  | Builds the executable from the C and a disc image with it (`make disc GDI="your disc.gdi"`). Libraries, data and SDK stay as they are; pointers to game functions follow them.                                                                                                                                             |
-| 9 | **Runtime repairs**                     | BOOTS TO MENU, PLAYABLE, STABLE (`status.txt`) | The console or an emulator, your play | Runs the game using Flycast GDB, locates and tracks bugs and iterates builds until the game is stable.                                                                                                                                                                                                                     |
-
-## Build
-
-You need: your own copy of the disc as a `.gdi` with its track files, Python 3, Docker, and a Katana SDK (its Hitachi
-assembler and linker do the build; any folder layout works).
-
-```
-make setup GDI="path/to/your disc.gdi"
-echo 'SDK_PATH="/path/to/katana-sdk"' > .env      # once: where your SDK is (not committed)
-make
-make c                                            # the executable built from the C (build/cbuild/game.bin)
-make disc GDI="path/to/your disc.gdi"             # the same, plus a disc image with it (build/disc-cbuild/)
-```
-
-`make` (which runs `build.sh`) should end with `MATCH`. The other targets are listed at the top of the `Makefile`.
-
-It builds its own small tools image the first time (Docker must be running). The first build assembles every file
-(a few minutes); after that only changed files. (Running the scripts with `bash` means file permissions never matter;
-`./build.sh` works too once `setup.sh` has run.) Docker is required; on Linux x86_64 without
-Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
+| # | Step                                    | Decomp completion                              | You provide                        | What it does                                                                                                                                                                                                                                                                                                               |
+|---|-----------------------------------------|------------------------------------------------|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | **Decomp project setup**                | -                                              | The disc as a `.gdi`, a Katana SDK | Installs the tools (Docker, Python 3) and checks your game disc and SDK.                                                                                                                                                                                                                                                   |
+| 2 | **Signature-driven baseline**           | -                                              |                                    | Reads the disc, splits the executable into one assembly file per function, rebuilds it **byte for byte** with the SDK's own assembler and linker, and names every function it can match by signature.                                                                                                                      |
+| 3 | **Asset mapping**                       | -                                              |                                    | Writes the text map (every string with its pointers, text per disc file), the model map, the texture list and the audio map.                                                                                                                                                                                               |
+| 4 | **Opportunity-driven optional boosts**  | Varies greatly by project                      | The materials                      | Uses what you hand over to save work in every step after it, the earlier the better: a later port (Android is the strongest), a prototype or debug build, cheat codes, other regions, existing notes, the same game on another console, a sibling decomp. It never looks for these itself and never reads your other code. |
+| 5 | **Incremental script-generated decomp** | up to 50%                                      | SDK library sources (optional)     | Proves C for what the tools can write on their own: the SDK's own library source where you have it, then generated C, then directed test cases that reach the branches the first ones missed. Generated C is reported apart from hand-written C.                                                                           |
+| 6 | **Experience-driven agentic decomp**    | 100%                                           |                                    | Takes what is left one pocket at a time, function by function: C and test cases until each function is proven. The plan is in the repo's `AGENTS.md`.                                                                                                                                                                      |
+| 7 | **Code size reduction**                 | -                                              |                                    | Shrinks the code compiled from the proven C to the size of the original game code. A smaller version of a function replaces the old one only if it is still equivalent to the original.                                                                                                                                    |
+| 8 | **Build from C**                        | -                                              | The disc as a `.gdi`               | Builds the executable from the C and a disc image with it (`make disc GDI="your disc.gdi"`). Libraries, data and SDK stay as they are; pointers to game functions follow them.                                                                                                                                             |
+| 9 | **Runtime repairs**                     | BOOTS TO MENU, PLAYABLE, STABLE (`status.txt`) | Flycast GDB                        | Runs the game using Flycast GDB, locates and tracks bugs and iterates builds until the game is stable.                                                                                                                                                                                                                     |
+| 10 | **Native port**                         | Native column (`status.txt`)                   | Docker, the disc as a `.gdi`       | Builds the game from the proven C as an x86-64 Linux program and runs it outside the console (experimental). Every SDK function needs C except the hardware drivers.                                                                                                                                                       |
 
 ## Supported version
 
@@ -165,7 +186,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 
 | path           | what                                                                                                                                               |
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| [AGENTS.md](AGENTS.md)    | The six steps this decomp follows, and the per-function loop: Equivalent first, Matching as the bonus. The tools to try at step 6 are listed there |
+| [AGENTS.md](AGENTS.md)    | The steps this decomp follows, and the per-function loop: Equivalent first, Matching as the bonus. The tools to try at step 6 are listed there |
 | [KICKOFF](KICKOFF)      | The version of dc-decomp-kickoff this repo follows                                                                                                 |
 | [.recomp.json](.recomp.json) | The project's metadata (game, version, status, approach) in the recomp.fyi format                                                                  |
 
@@ -204,7 +225,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 |---|---|
 | [tests/<file>/<function>.json](tests/) | The test cases of each function |
 | [tests/equivalent.txt](tests/equivalent.txt) | The functions found Equivalent |
-| [badges/](badges) | The progress badge, written by [tools/progress.py](tools/progress.py): `progress.svg`. It also lists the statuses in [status.txt](status.txt) (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE), ticked, crossed, or a question mark where not tested yet (`[?]`); each needs the ones above it |
+| [badges/](badges) | The progress badge, written by [tools/progress.py](tools/progress.py): `progress.svg`. It also shows the statuses of [status.txt](status.txt) that have two marks (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE) as a grid, Dreamcast and Native, ticked, crossed, or a question mark where not tested yet (`[?]`); each needs the ones above it in its column |
 
 **Scripts and tools**
 
@@ -261,13 +282,13 @@ that stays local). Regenerate it with `python3 tools/3-assets/model_map.py 1ST_R
 How strong an Equivalent function is depends on its test cases, so `tools/equiv.py` reports how many of the original's instructions they
 run. The original's code is kept as one assembly file per function, the baseline the build keeps checking. C written by `tools/5-generated/gen_equiv` is
 script-generated: it is checked on generated cases, which are then widened (`gen_equiv --direct` and `--retest`, and cases by hand for the branches
-nobody ran). There is no pass mark: a function that passes is done, and the total test coverage on the badge says how strong the evidence is. `AGENTS.md` lists the six steps this decomp follows, up to 100%.
+nobody ran). There is no pass mark: a function that passes is done, and the total test coverage on the badge says how strong the evidence is. `AGENTS.md` lists the steps this decomp follows.
 
 `src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/equiv.py src/<file>.c`
 runs each function in an SH-4 interpreter twice per test case, the original bytes and your compiled C,
 and they must agree on calls, memory writes and the result. Passing functions are listed in
 `tests/equivalent.txt` and counted as done. The loop, and how to write many of them quickly, is in
-`AGENTS.md` and the kickoff skill's `references/equivalent-pipeline.md`.
+`AGENTS.md` and the kickoff skill's `docs/equivalent-pipeline.md`.
 
 ## Matching C units (the build tier)
 
@@ -281,7 +302,11 @@ data becomes its own piece at that range, in source order; both ranges must star
 file boundaries (add them to `functions.txt`: `F <addr> 0 FUN_<addr>` for a function start,
 `D <addr> 0 data_<addr>` for a data boundary, which is not counted as a function). A unit is one
 original source file: all its functions share literal pools, so it goes in only when all of it
-matches. `python3 tools/progress.py` reports the state,
+matches. A unit can sit in a folder of `src/` (`src/<dir>/<file>.c`) and name pieces of its own (`@ddata`, `@bdata`); options starting with `+` in the header
+(`+pool32`, `+synth16`, `+r04`, ...) are opt-in layouts and compilers for the files that need them; a unit that asks for none gets the default layout.
+`tools/fcmp.py` and `tools/permute.py` compare and rewrite a unit function by function. A game with code overlays builds them with
+`bash build_overlays.sh`. The options and overlays are described in the kickoff skill's `docs/matching-units.md` and `docs/overlays.md`.
+`python3 tools/progress.py` reports the state,
 each function in one bucket: done (equivalent C; matching C and SDK source part of it), named only (a name is
 not done work), unnamed; plus documented functions and named globals. `docs/equivalent.md` holds
 the evidence for each equivalent function.
@@ -294,7 +319,7 @@ small wrappers inherit the name of the function they call.
 ## How this was started
 
 This repo was autogenerated using
-[dc-decomp-kickoff](https://github.com/consolesplayingconsoles/dc-decomp-kickoff) unstable. It follows the six steps above; `AGENTS.md` says how.
+[dc-decomp-kickoff](https://github.com/consolesplayingconsoles/dc-decomp-kickoff) unstable. It follows the steps above; `AGENTS.md` says how.
 
 ## Third-party sources
 
@@ -311,5 +336,8 @@ or endorsed by them.
 
 It came out of real work on Consoles Playing Consoles. See what Pluto has helped me build:
 
-- 📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
-- 🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
+📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
+
+🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
+
+☕ **buymeacoffee:** [@consolesplayingconsoles](https://buymeacoffee.com/consolesplayingconsoles)

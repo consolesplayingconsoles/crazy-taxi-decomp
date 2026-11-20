@@ -15,13 +15,14 @@ Virtua Tennis: found vecDistXZ, netJudgeExec, hudMatchDraw and infoPlayerDrawWra
 """
 import os, sys, re, bisect, collections, json, time, glob
 sys.path.insert(0, 'tools'); import toolpath, sh4sim, layout, equiv
+import layout  # noqa: E402
 root, dump = sys.argv[1], sys.argv[2]; rest = sys.argv[3:]
 ints = [int(x, 16) for x in rest[:4]]; flts = [float(x) for x in rest[4:8]]
 def say(m): print('%s  %s' % (m, time.strftime('%H:%M:%S')), flush=True)
 F = {n: (a, s) for a, s, n in layout.functions()}
 cs = sorted(((a & 0x1FFFFFFF), n) for a, s, n in layout.functions()); st = [v for v, k in cs]; entries = {v: k for v, k in cs}
 defs, rtype = {}, {}
-for f in glob.glob('src/*.c'):
+for f in layout.c_files():
     t = open(f, errors='replace').read()
     for m in re.finditer(r'(?m)^(int|void|float|Stk\d+)\s+(\**)(\w+)\s*\([^;{]*\)\s*\n\{', t): defs[m.group(3)] = f; rtype[m.group(3)] = 'fr0' if m.group(1) == 'float' and not m.group(2) else 'r0' if m.group(1) != 'void' else None
 rec = {}

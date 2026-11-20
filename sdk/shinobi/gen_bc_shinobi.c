@@ -1,0 +1,328 @@
+/* Straight-line functions with calls and guards (batch gen_bc): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int ADXCRS_Lock(void);
+int ADXCRS_Unlock(void);
+int ADXERR_CallErrFunc(int, ...);
+int ADXRNA_SetPlaySw(void);
+int ADXRNA_SetTransSw(void);
+int ADXSJD_Stop(int);
+int ADXSTM_Close(int);
+int ADXSTM_Seek(int, int);
+int ADXSTM_Stop(int);
+int CheckColliWall(int, float);
+int HomingAngle1(int, int, float);
+int colliObjPairHit(int, int, int, int, int, int);
+int nlCalcPoint(int, int);
+int nlCalcVector(int, int);
+int nlMultiViewMatrix(void);
+int nlQuickInvertMatrix(void);
+int nlAddVector3op(int, int, int);
+float nlScalor2(int);
+float nlUnitVectorsd(int, int);
+int nlsndG2DmaRequest(int);
+int crcchk(int, int);
+int bcd2bin(int);
+int bcdtime2fad(int);
+int ADXSTMF_Create(int, int, int, int);
+int IsBoyFriend(int, int);
+int ResetFadeColor(void);
+int MultiRot4Vec(int);
+int SetSpark(int, int, int);
+extern float _builtin_sqrtf(float);
+extern int _builtin_tas(char *);
+int colliBoxAhead(int, int, int);
+int gdFsOpen(void);
+int gdFsOpenRange(void);
+int kdRecvFrame(void);
+int kdSetCallback(int, int, int);
+int kmCreateTextureSurface(void);
+int kmSetBorderColor(int, int, int, int, int);
+int memset(int, int, int);
+int mpdrv_dpf(int, ...);
+int mpdrv_insertnop(int);
+int mpdrv_set_arctrl_ns(int);
+int mpdrv_set_bwrite_ns(int);
+int mpdrv_set_getcond_ns(int);
+int mpdrv_set_setcond_ns(int);
+int mpdrv_v2p(int);
+int mwRnaErrCallFunc(int, ...);
+int nlAddVector(int, int);
+int nlArcTan2(float, float);
+float nlCeil(float);
+int nlCommonTextureGetNextTextureIndex(void);
+int nlCreateTextureParam(int);
+float nlFloor(float);
+int nlGetTranslate(int);
+float nlInnerProduct(int, int);
+int nlObjPut(int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlObjPutUseViewMatrix(int);
+int nlOuterProduct(int, int, int);
+int nlPopMatrix(int);
+int nlPushMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAY(int);
+int nlScale(float, float, float);
+int nlScaleVector(int, int, float);
+int nlSetScaleFactor(float);
+int nlSubVector(int, int);
+int nlSubVector3op(int, int, int);
+int nlTranslate(float, float, float);
+int nlTranslateV(int);
+int nlUnitMatrix(void);
+int nlUnitVector(int);
+int strlen(int);
+int strncpy(int, int, int);
+int syChainAddHandler(int, int, int, int);
+int syG2DmaReset(int);
+int syG2DmaSetProtect(int, int);
+int syMmuAddEntry(int, int, int);
+int mwRnaGetOutPan(int a4, int a5);
+int ADXSTM_OpenRange(int a4, int a5, int a6);
+int ADXSTM_OpenFileRange(int a4, int a5, int a6, int a7);
+int ADXT_Stop(int a4);
+int kdSetSetConditionEx(int a4, int a5, int a6, int a7, int a8);
+int kdSetGetConditionEx(int a4, int a5, int a6);
+int kdSetARControlEx(int a4, int a5, int a6);
+int kdSetBlockWriteEx(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
+int mwlSbTrnsDat(int a4, int a5, int a6, int a7, int a8);
+int sySqInit(void);
+int setBorderColor(int a4);
+int syG2SysInit(void);
+int BigOneFollowTaxi(float f4);
+int nlRenderTextureSet_Sub(int a4, int a5, int a6, int a7);
+int psgPutMarker(int a4, int a5);
+int mpdrv_setcmd_force(int a4, int a5, int a6, int a7, int a8, int a9);
+int mpdrv_setcmd(int a4, int a5, int a6, int a7, int a8, int a9);
+int gdDecSubcode(int a4, int a5);
+int colliBoxBox(int a4, int a5);
+int ConvertSwitch(int a4);
+struct o10C_uint { char p[0x10C]; unsigned int v; };
+struct o110_uint { char p[0x110]; unsigned int v; };
+struct oD4_uint { char p[0xD4]; unsigned int v; };
+struct oD8_uint { char p[0xD8]; unsigned int v; };
+struct o0_int { int v; };
+struct o0_uint { unsigned int v; };
+struct o4_int { char p[0x4]; int v; };
+
+
+int kdSetSetConditionEx(int a4, int a5, int a6, int a7, int a8)
+{
+    int t0;
+    int t2;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = *(int *)0xC1701BC;
+    if (_builtin_tas((char *)t0) == 0) {
+        mpdrv_dpf(0xC176314);
+        return 0xFFFFFFFE;
+    }
+    t2 = mpdrv_set_setcond_ns(a4);
+    if ((int)t2 > 0) {
+        kdSetCallback(a4, a8, t2);
+    }
+    t5 = *(int *)0xC1701BC;
+    *(unsigned char *)((t5 + 0x0)) = 0x0;
+    t6 = *(int *)0xC2FA538;
+    t7 = *(int *)((t6 + 0x10E8));
+    if (t7 != 0) {
+        kdRecvFrame();
+    }
+    return t2;
+}
+
+int kdSetGetConditionEx(int a4, int a5, int a6)
+{
+    int t0;
+    int t2;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = *(int *)0xC1701BC;
+    if (_builtin_tas((char *)t0) == 0) {
+        mpdrv_dpf(0xC176314);
+        return 0xFFFFFFFE;
+    }
+    t2 = mpdrv_set_getcond_ns(a4);
+    if ((int)t2 > 0) {
+        kdSetCallback(a4, a6, t2);
+    }
+    t5 = *(int *)0xC1701BC;
+    *(unsigned char *)((t5 + 0x0)) = 0x0;
+    t6 = *(int *)0xC2FA538;
+    t7 = *(int *)((t6 + 0x10E8));
+    if (t7 != 0) {
+        kdRecvFrame();
+    }
+    return t2;
+}
+
+int kdSetARControlEx(int a4, int a5, int a6)
+{
+    int t0;
+    int t2;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = *(int *)0xC1701BC;
+    if (_builtin_tas((char *)t0) == 0) {
+        mpdrv_dpf(0xC176314);
+        return 0xFFFFFFFE;
+    }
+    t2 = mpdrv_set_arctrl_ns(a4);
+    if ((int)t2 > 0) {
+        kdSetCallback(a4, a6, t2);
+    }
+    t5 = *(int *)0xC1701BC;
+    *(unsigned char *)((t5 + 0x0)) = 0x0;
+    t6 = *(int *)0xC2FA538;
+    t7 = *(int *)((t6 + 0x10E8));
+    if (t7 != 0) {
+        kdRecvFrame();
+    }
+    return t2;
+}
+
+int kdSetBlockWriteEx(int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11)
+{
+    int t0;
+    int t2;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = *(int *)0xC1701BC;
+    if (_builtin_tas((char *)t0) == 0) {
+        mpdrv_dpf(0xC176314);
+        return 0xFFFFFFFE;
+    }
+    t2 = mpdrv_set_bwrite_ns(a4);
+    if ((int)t2 > 0) {
+        kdSetCallback(a4, a11, t2);
+    }
+    t5 = *(int *)0xC1701BC;
+    *(unsigned char *)((t5 + 0x0)) = 0x0;
+    t6 = *(int *)0xC2FA538;
+    t7 = *(int *)((t6 + 0x10E8));
+    if (t7 != 0) {
+        kdRecvFrame();
+    }
+    return t2;
+}
+
+
+/* manual: kmSetBorderColor reads its colour from the stack (its fifth argument), and the caller also leaves it in r4; the generated form passed
+   it only in r4, so the border register took a stack leftover. */
+
+int syG2SysInit(void)
+{
+    int t0;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t18;
+    int t19;
+    int t21;
+    int t23;
+    int t25;
+    int t26;
+    int t27;
+    int t28;
+    int t30;
+    int t31;
+    int t32;
+    int t33;
+    int t34;
+    int t35;
+    int t36;
+    int t37;
+    int t38;
+
+    t0 = (((struct o4_int *)0xC178700)->v);
+    strlen(t0);
+    (((struct o0_uint *)0xC178700)->v) = 0xC2F9220;
+    memset(0xC2F9220, 0xFF, 0x114);
+    t3 = (((struct o0_int *)0xC178700)->v);
+    *(unsigned int *)((t3 + 0x0)) = 0xA05F7800;
+    t4 = (((struct o0_int *)0xC178700)->v);
+    (((struct oD4_uint *)(t4))->v) = 0x1;
+    t5 = (((struct o0_int *)0xC178700)->v);
+    (((struct oD8_uint *)(t5))->v) = 0x0;
+    t6 = 0x0;
+    do {
+        t7 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t7 + 0x4) + (t6 * 0x34)) + 0x0)) = t6;
+        t8 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t8 + 0x4) + (t6 * 0x34)) + 0x28)) = 0x0;
+        t9 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t9 + 0x4) + (t6 * 0x34)) + 0x2C)) = 0x0;
+        t10 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t10 + 0x4) + (t6 * 0x34)) + 0x30)) = 0x0;
+        t11 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t11 + 0x4) + (t6 * 0x34)) + 0x4)) = 0x0;
+        t12 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t12 + 0x4) + (t6 * 0x34)) + 0x8)) = 0x0;
+        t13 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t13 + 0x4) + (t6 * 0x34)) + 0xC)) = 0x0;
+        t14 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t14 + 0x4) + (t6 * 0x34)) + 0x10)) = 0x0;
+        t15 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t15 + 0x4) + (t6 * 0x34)) + 0x14)) = 0x0;
+        t16 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t16 + 0x4) + (t6 * 0x34)) + 0x18)) = 0x3;
+        t17 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t17 + 0x4) + (t6 * 0x34)) + 0x1C)) = 0x0;
+        t18 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((t18 + 0x4) + (t6 * 0x34)) + 0x20)) = 0x0;
+        t19 = (((struct o0_int *)0xC178700)->v);
+        syG2DmaReset(((t19 + 0x4) + (t6 * 0x34)));
+        t21 = (((struct o0_int *)0xC178700)->v);
+        t23 = (t6 << 2);
+        t6 = (t6 + 0x1);
+        *(unsigned int *)((((0xDC + t21) + t23) + 0x0)) = 0x0;
+        t25 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)((((0xFC + t25) + t23) + 0x0)) = 0x0;
+        t26 = (((struct o0_int *)0xC178700)->v);
+        *(unsigned int *)(((t23 + (0xEC + t26)) + 0x0)) = 0x0;
+    } while ((int)t6 < (int)0x4);
+    t27 = (((struct o0_int *)0xC178700)->v);
+    (((struct o10C_uint *)(t27))->v) = 0x0;
+    t28 = (((struct o0_int *)0xC178700)->v);
+    (((struct o110_uint *)(t28))->v) = 0x0;
+    syG2DmaSetProtect(0xC000000, 0xCFFFFFF);
+    t30 = (((struct o0_int *)0xC178700)->v);
+    (((struct oD4_uint *)(t30))->v) = 0x1;
+    t31 = (((struct o0_int *)0xC178700)->v);
+    t32 = syChainAddHandler(0xA60, 0xC16E330, 0x60, (t31 + 0x4));
+    *(unsigned int *)(((0x24 + (t31 + 0x4)) + 0x0)) = t32;
+    t33 = (((struct o0_int *)0xC178700)->v);
+    t34 = syChainAddHandler(0xA80, 0xC16E330, 0x60, (t33 + 0x38));
+    *(unsigned int *)(((0x24 + (t33 + 0x38)) + 0x0)) = t34;
+    t35 = (((struct o0_int *)0xC178700)->v);
+    t36 = syChainAddHandler(0xAA0, 0xC16E330, 0x60, (t35 + 0x6C));
+    *(unsigned int *)(((0x24 + (t35 + 0x6C)) + 0x0)) = t36;
+    t37 = (((struct o0_int *)0xC178700)->v);
+    t38 = syChainAddHandler(0xAC0, 0xC16E330, 0x60, ((t37 + 0x4) + 0x9C));
+    *(unsigned int *)(((0x24 + ((t37 + 0x4) + 0x9C)) + 0x0)) = t38;
+    *(unsigned int *)0xC2F9338 = 0x0;
+    return 0x0;
+}
+
+

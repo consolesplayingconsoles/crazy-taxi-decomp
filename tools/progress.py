@@ -26,12 +26,13 @@ stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/h
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 
 It also writes badges/progress.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
-hook stages it with the Progress block. The badge also lists the statuses in status.txt, ticked, crossed or unknown, from the first
-day: a game that does not build from C yet shows BUILDS FROM C crossed.
+hook stages it with the Progress block. The badge also lists the statuses of status.txt that have a Dreamcast and a Native mark, ticked, crossed or unknown, from the first
+day (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE).
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import os, re, subprocess, sys
 
 MODE = 'equivalent'                    # status.txt may say "MODE: matching" on a line of its own; none: equivalent
@@ -106,6 +107,9 @@ def pct(a, b):
 
 g = stats(lambda a: True)
 k = stats(is_lib)
+# library code that drives hardware a host does not have (sdk.txt's `hardware` lines, tools/layout.py): a port replaces that
+# library from above and never runs it. A row of its own beside the C states, not one of them: a hardware function may have C
+hw = [x for x in funcs if is_lib(x[0]) and layout.is_hardware(x[0])]
 is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in lib_done
 # partial C: functions with C written in partial/*.c that is not proven equivalent yet. Its own row (the total with them),
 # done stays apart; the row exists only when partial/ holds some C
@@ -125,6 +129,12 @@ else:
     _base = int(open('BASE').read().strip(), 16)
     nocform = set(x[2] for x in funcs if not (in_c(x[0]) or x[2] in equivalent or x[2] in lib_done) and x[2] not in unbuilt
                   and classify.no_c_form(_exe, _base, x[0], x[1]))
+# the count the report shows is the game's own: a library function with no C form is the SDK's, in the SDK rows
+nocform_game = set(x[2] for x in funcs if x[2] in nocform and not is_lib(x[0]))
+# the SDK's functions with no C form, as the game's: a row of their own, and the rows above it are of what can be C
+sdk_nf = [x for x in funcs if x[2] in nocform and is_lib(x[0])]
+sdk_nf_obj = sum(1 for x in sdk_nf if x[2] in identical and x[2] not in verified_src)
+sdk_can = k[0] - len(sdk_nf)
 named_only = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2] not in unbuilt and not nameless(x[2]))   # each function in one bucket
 unnamed = sum(1 for x in funcs if not is_done(x) and x[2] not in nocform and x[2] not in unbuilt and nameless(x[2]))
 doable = g[0] - len(nocform) - len(unbuilt)                       # what can be C: the functions with no C form are not part of the equivalent C measure
@@ -178,7 +188,7 @@ if MATCHING:
 else:
     _done_rows = [
         ('  done: equivalent C', pct(g[7], doable), '%d of %d functions, %d bytes (%s): C that behaves like the original%s'
-         % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform)) if nocform else '')),
+         % (g[7], doable, g[8], pct(g[8], doable_bytes).strip(), (' (the %d with no C form are counted apart)' % len(nocform_game)) if nocform_game else '')),
         ('    of which matching C', pct(g[3], doable), '%d functions, %d bytes, %d units: rebuilt byte for byte'
          % (g[3], g[2], len(units))),
     ]
@@ -186,17 +196,17 @@ rows = ([] if MATCHING else [
     ('TOTAL TEST COVERAGE', '%.1f%%' % wavg, 'the instructions the cases ran, of all instructions, over the %d functions that can be C; the %d functions that reached the check are measured, the others count 0' % (doable, _nfn)),
     ]) + [
     ('COUNTDOWN', '', 'what is left, counting down to zero; the percentages below say the same the other way round'),
-    ('  functions left', '%d' % (doable - g[7]), ('of the %d functions' % doable) if MATCHING else 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform))),
+    ('  functions left', '%d' % (doable - g[7]), ('of the %d functions' % doable) if MATCHING else 'of the %d functions that can be C (%d with no C form are counted apart)' % (doable, len(nocform_game))),
     ('  bytes left', '%d' % (doable_bytes - g[8]), ('of %d bytes of code' % doable_bytes) if MATCHING else 'of %d bytes of code that can be C' % doable_bytes),
     ('  unnamed', '%d' % unnamed_all, 'functions still called FUN_... (%d of %d)' % (unnamed_all, g[0])),
     ] + state_rows + [
     ('THE GAME', '', '%d functions, %d bytes of code; each function in one bucket' % (g[0], g[1])),
     ] + _done_rows + [
-    ('    of which SDK source' if MATCHING else '  not built: SDK source', pct(g[9], doable if MATCHING else g[0]), '%d functions, %d bytes: the SDK\'s own source reproduces them (sdk-source/, local); not C, out of the 100%%'
+    ('    of which SDK source' if MATCHING else '  not built: SDK source', pct(g[9], doable if MATCHING else g[0]), '%d functions, %d bytes: reproduced by the SDK\'s own source; excluded from the 100%%'
      % (g[9], g[10])),
-    ('    of which SDK object code' if MATCHING else '  not built: SDK object code', pct(g[11], doable if MATCHING else g[0]), '%d functions, %d bytes: byte-identical to the SDK library\'s own compiled code (sdk-identical.txt); not C, out of the 100%%'
+    ('    of which SDK object code' if MATCHING else '  not built: SDK object code', pct(g[11], doable if MATCHING else g[0]), '%d functions, %d bytes: byte-identical to the library\'s compiled code; excluded from the 100%%'
      % (g[11], g[12])),
-    ] + ([('  done: no C form', pct(len(nocform), g[0]), '%d functions of the %d: an instruction or a register convention with no C form (tools/5-generated/classify.py names it); the rows above are of the %d that can be C' % (len(nocform), g[0], doable))] if nocform else []) + [
+    ] + ([('  done: no C form', pct(len(nocform_game), g[0]), '%d functions of the %d: an instruction or a register convention with no C form; the rows above are of the %d that can be C' % (len(nocform_game), g[0], doable))] if nocform_game else []) + [
     ('  size of what is done', '', 'median %d bytes; what is left: median %d bytes, %d functions of 1000 bytes or more holding %d bytes (%s of all code)'
      % (med([x[1] for x in funcs if is_done(x)]), med([x[1] for x in funcs if not is_done(x)]),
         sum(1 for x in funcs if not is_done(x) and x[1] >= 1000), sum(x[1] for x in funcs if not is_done(x) and x[1] >= 1000),
@@ -210,7 +220,12 @@ rows = ([] if MATCHING else [
     ('  of which library', '', '%d functions, %d bytes of code: the Sega SDK, the NAOMI library and the C runtime bundled in the game' % (k[0], k[1])),
     ('    done', pct(k[7], k[0]), '%d of %d library functions, %d bytes (%s)' % (k[7], k[0], k[8], pct(k[8], k[1]).strip())),
     ('    named', pct(k[4], k[0]), '%d of %d (the library\'s own names, from SDK tables)' % (k[4], k[0])),
-]
+] + ([] if MATCHING else [
+    ('SDK', '', ''),
+    ('  with C', pct(k[7] + k[9], sdk_can), '%d of %d' % (k[7] + k[9], sdk_can)),
+    ('  object code only', pct(k[11] - sdk_nf_obj, sdk_can), '%d of %d' % (k[11] - sdk_nf_obj, sdk_can)),
+    ('  not done', pct(sdk_can - k[7] - k[9] - (k[11] - sdk_nf_obj), sdk_can), '%d of %d' % (sdk_can - k[7] - k[9] - (k[11] - sdk_nf_obj), sdk_can)),
+] + ([('  no C form', pct(len(sdk_nf), k[0]), 'an instruction or a register convention with no C form')] if sdk_nf else []) + ([('  hardware (from total)', pct(len(hw), k[0]), '%d of %d' % (len(hw), k[0]))] if layout.hardware() else []))
 
 def map_sections(path):
     """{section: [row dicts]} of a game.dcgs file."""
@@ -249,10 +264,11 @@ if os.path.exists('model-map/game.dcgs'):
         rows += [('GAME ASSETS (EXTRA)', '', 'reverse engineering: what the model map identifies; it does not affect the measures above and is not done work')]
         rows += [row for n, row in re_rows]
 def write_badge(rows, label, path='badges/progress.svg', extra=()):
-    """badge.svg beside the README, two rows in Pluto's colours: functions (a bar filled to the main metric, "done: ...", and its
-    percentage) and bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of the slice is
-    done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both rows, and
-    the numbers are always printed."""
+    """badge.svg beside the README, in Pluto's colours. The main metrics, large: covered functions (a bar filled to the main metric
+    and its percentage) and covered bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of
+    the slice is done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both
+    rows, and the numbers are always printed. The secondary metrics, small: test coverage and the matching percentage. Below them,
+    the statuses that have a Dreamcast and a Native column (extra: [(name, Dreamcast mark, Native mark)]), one check per status in each column."""
     done = float(pct(g[7], doable).strip().rstrip('%')) if doable else 0.0      # the same number the 'done: equivalent C' row used to carry, straight from the counts
     bar = 100
     wd = int(round(bar * min(done, 100.0) / 100.0))
@@ -276,31 +292,39 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
         while e < bar and (dark[e] * 2 > per) == on:
             e += 1
         if on:
-            runs.append('<rect x="%d" y="46" width="%d" height="8" fill="#c87053"/>' % (X + c, e - c))
+            runs.append('<rect x="%d" y="56" width="%d" height="10" fill="#c87053"/>' % (X + c, e - c))
         c = e
-    strip = '<rect x="%d" y="46" width="%d" height="8" fill="#ecc9b9"/>%s' % (X, bar, ''.join(runs))
+    strip = '<rect x="%d" y="56" width="%d" height="10" fill="#ecc9b9"/>%s' % (X, bar, ''.join(runs))
     ftext = '%.1f%%' % done
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
     gtext = '%.1f%%' % wavg
+    mtext = pct(g[3], doable).strip()
     if MATCHING:
-        _w, _head = 'MATCHED', ''
+        _w = 'MATCHED'
         title = '%s: %s of functions, %s of code bytes matched' % (label, ftext, btext)
     else:
-        _w, _head = 'COVERED', '<text x="152" y="14">TOTAL TEST COVERAGE: %s</text>' % gtext
-        title = '%s: %s of functions, %s of code bytes done; the total test coverage over all of them is %s' % (label, ftext, btext, gtext)
-    H = 60 + 20 * len(extra)
-    lines = ''.join('<text x="71" y="%d">%s</text><text x="278" y="%d">%s</text>' % (74 + 20 * k, t, 74 + 20 * k, v)
-                    for k, (t, v) in enumerate(extra))
+        _w = 'COVERED'
+        title = '%s: %s of functions, %s of code bytes covered; test coverage %s, matching %s' % (label, ftext, btext, gtext, mtext)
+    H = 78 if MATCHING else 100
+    sec = '' if MATCHING else ('<g font-size="10" fill="#b8c4d9"><text x="76" y="92">TEST COVERAGE %s</text>'
+                               '<text x="228" y="92">MATCHING %s</text></g>' % (gtext, mtext))
+    cols = ''
+    if extra:
+        cols = ('<g font-size="10" fill="#b8c4d9"><text x="196" y="%d">DREAMCAST</text><text x="262" y="%d">NATIVE</text></g>'
+                % (H + 20, H + 20)) + ''.join(
+            '<text x="14" y="%d" text-anchor="start">%s</text><text x="196" y="%d">%s</text><text x="262" y="%d">%s</text>'
+            % (H + 40 + 18 * k, n, H + 40 + 18 * k, d, H + 40 + 18 * k, nv) for k, (n, d, nv) in enumerate(extra))
+        H += 28 + 18 * len(extra)
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="%d" role="img" aria-label="%%s">' % H +
            '<title>%%s</title><clipPath id="r"><rect width="304" height="%d" rx="3"/></clipPath>' % H +
            '<g clip-path="url(#r)"><rect width="304" height="%d" fill="#1a2233"/>' % H +
-           '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#ecc9b9"/>'
-           '<rect x="%d" y="26" width="%d" height="8" rx="2" fill="#c87053"/>%s'
+           '<rect x="%d" y="24" width="%d" height="10" rx="2" fill="#ecc9b9"/>'
+           '<rect x="%d" y="24" width="%d" height="10" rx="2" fill="#c87053"/>%s'
            '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
-           '<text x="71" y="34">%s FUNCTIONS</text><text x="71" y="54">%s BYTES</text>'
-           '<text x="278" y="34">%s</text><text x="278" y="54">%s</text>%s' + lines + '</g></svg>\n'
-           ) % (title, title, X, bar, X, wd, strip, _w, _w, ftext, btext, _head)
+           '<g font-size="12"><text x="10" y="34" text-anchor="start">%s FUNCTIONS</text><text x="10" y="66" text-anchor="start">%s BYTES</text></g><g font-size="11">'
+           '<text x="298" y="34" text-anchor="end">%s</text><text x="298" y="66" text-anchor="end">%s</text></g>%s%s</g></svg>\n'
+           ) % (title, title, X, bar, X, wd, strip, _w, _w, ftext, btext, sec, cols)
     import os as _os
     _os.makedirs(_os.path.dirname(path) or '.', exist_ok=True)
     try:
@@ -322,9 +346,10 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
 
 
 def statuses(path='status.txt'):
-    """[(status, state)] from status.txt, in its order: one status a line, "[x] NAME" reached (state True), "[ ] NAME" not reached
-    (False), "[?] NAME" unknown, not tested yet (None); # starts a comment. Each status needs the ones above it, so a ticked line
-    under an unticked or unknown one stops the report. No file: no statuses."""
+    """[(status, Dreamcast)] or [(status, Dreamcast, Native)] from status.txt, in its order: one status a line, "[x] NAME" reached
+    (state True), "[ ] NAME" not reached (False), "[?] NAME" unknown, not tested yet (None); a line with two marks, "[x] [ ] NAME",
+    gives the Dreamcast then the Native state; # starts a comment. Each status needs the ones above it in its own column, so a
+    ticked line under an unticked or unknown one stops the report. No file: no statuses."""
     if not os.path.exists(path):
         return []
     out = []
@@ -332,20 +357,28 @@ def statuses(path='status.txt'):
         l = l.split('#')[0].strip()
         if not l or re.match(r'^MODE:', l):      # the mode line is not a status (it is read at the top of this file)
             continue
-        m = re.match(r'^\[([ xX?])\]\s+(\S.*)$', l)
+        m = re.match(r'^\[([ xX?])\]\s+(?:\[([ xX?])\]\s+)?(\S.*)$', l)
         if not m:
-            sys.exit('[ERROR] %s line %d: expected "[x] NAME", "[ ] NAME" or "[?] NAME", found: %s' % (path, i, l))
-        out.append((m.group(2).strip(), None if m.group(1) == '?' else m.group(1) != ' '))
-    for k, (n, on) in enumerate(out):
-        if on and not all(o for _, o in out[:k]):
-            sys.exit('[ERROR] %s: "%s" is ticked but %s above it is not' % (path, n, ', '.join('"%s"' % x for x, o in out[:k] if not o)))
+            sys.exit('[ERROR] %s line %d: expected "[x] NAME", "[x] [ ] NAME" ([ ] or [?] for each mark), found: %s' % (path, i, l))
+        state = lambda c: None if c == '?' else c != ' '
+        out.append((m.group(3).strip(), state(m.group(1))) + ((state(m.group(2)),) if m.group(2) else ()))
+    for col in (1, 2):
+        seen = [e for e in out if len(e) > col]
+        for k, e in enumerate(seen):
+            if e[col] and not all(o[col] for o in seen[:k]):
+                sys.exit('[ERROR] %s: "%s" is ticked but %s above it is not' % (path, e[0], ', '.join('"%s"' % o[0] for o in seen[:k] if not o[col])))
     return out
 
 
+def mark(on):
+    """a status as the badge shows it: a tick, a cross, or a question mark for not tested yet"""
+    return '\u2753' if on is None else '\u2705' if on else '\u274c'
+
+
 status = statuses()
-reached = [n for n, on in status if on]
+reached = [e[0] for e in status for on in e[1:] if on]
 # the statuses show whenever status.txt has any: BUILDS FROM C crossed while the build fails
-write_badge(rows, 'decomp', extra=[(n, '\u2753' if on is None else '\u2705' if on else '\u274c') for n, on in status] if status else ())
+write_badge(rows, 'decomp', extra=[(e[0], mark(e[1]), mark(e[2])) for e in status if len(e) == 3])      # the statuses with a Dreamcast and a Native column
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'done: matching C', 'of which source files', 'not built: SDK source', 'not built: SDK object code', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')
@@ -377,6 +410,6 @@ for row in rows:
     else:
         print('%-*s  %7s  %s' % (w, name, p, detail))
 
-if os.path.exists('overlays.tsv'):      # a game with code overlays (docs: references/overlays.md): their own total, after this report
+if os.path.exists('overlays.tsv'):      # a game with code overlays (docs: docs/overlays.md): their own total, after this report
     sys.stdout.flush()
     subprocess.run([sys.executable, os.path.join(here, 'overlay', 'progress.py')])

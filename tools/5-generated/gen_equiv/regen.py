@@ -4,6 +4,7 @@ Step 5 only looks at functions no C covers, so the named functions' generated C 
 tests/equivalent.txt line, kept in state/regen/ until the run ends), and the run picks them like any function with no C. A function
 the run proves gets the new C in a new src/gen_<letter>.c; any other gets its old C, cases and line back, also when the run is stopped.
 Hand-written C, and C marked manual, is never taken out."""
+import layout  # noqa: E402  (tools/toolpath.py has put tools/ on the path)
 import json
 import os
 import re
@@ -25,8 +26,9 @@ def _write_eq(names):
 def take_out(names):
     """([record, ...], {name: why skipped}); a record holds what put_back needs"""
     manual = consistency.manual_names()
-    files = sorted(f for f in os.listdir('src') if f.endswith('.c')) if os.path.isdir('src') else []
-    texts = {f: open(os.path.join('src', f), errors='replace').read() for f in files}
+    paths = layout.c_files()                    # the game's C and the SDK's (tools/layout.py)
+    files = sorted(os.path.basename(p) for p in paths)
+    texts = {os.path.basename(p): open(p, errors='replace').read() for p in paths}
     recs, skipped = [], {}
     eq = _eq()
     os.makedirs(BACKUP, exist_ok=True)
@@ -35,11 +37,11 @@ def take_out(names):
         if stem is None:
             skipped[fn] = 'no C'; continue
         if not stem.startswith('gen_') or stem.startswith('gen_tmp'):
-            skipped[fn] = 'hand-written C (src/%s.c)' % stem; continue
+            skipped[fn] = 'hand-written C (%s)' % layout.c_path(stem); continue
         if fn in manual:
             skipped[fn] = 'manual: %s' % manual[fn]; continue
         code = consistency.remove_def(stem, fn)
-        texts[stem + '.c'] = open('src/%s.c' % stem, errors='replace').read()
+        texts[stem + '.c'] = open(layout.c_path(stem), errors='replace').read()
         tp = 'tests/%s/%s.json' % (stem, fn)
         cases = json.load(open(tp)) if os.path.exists(tp) else None
         rec = {'fn': fn, 'stem': stem, 'code': code, 'cases': cases, 'eq': fn in eq}
@@ -58,7 +60,7 @@ def put_back(recs, proved):
         bk = os.path.join(BACKUP, r['fn'] + '.json')
         if not os.path.exists(bk):
             continue                        # already handled (the run's end, then its exit)
-        path = 'src/%s.c' % r['stem']
+        path = layout.c_path(r['stem'])
         tdir = 'tests/%s' % r['stem']
         if r['fn'] in proved:
             if os.path.exists(path) and not re.search(r'^\{', open(path, errors='replace').read(), flags=re.M) and \

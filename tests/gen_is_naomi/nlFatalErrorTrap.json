@@ -1,0 +1,150 @@
+{
+ "dev": [
+  {
+   "about": "endless case 0",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000000",
+    "r5": "00000001",
+    "r6": "00000002",
+    "r7": "00000004"
+   }
+  },
+  {
+   "about": "endless case 1",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000001",
+    "r5": "00000002",
+    "r6": "00000004",
+    "r7": "00000008"
+   }
+  },
+  {
+   "about": "endless case 2",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000002",
+    "r5": "00000004",
+    "r6": "00000008",
+    "r7": "0C900000"
+   }
+  },
+  {
+   "about": "endless case 3",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000004",
+    "r5": "00000008",
+    "r6": "0C900000",
+    "r7": "0C910000"
+   }
+  },
+  {
+   "about": "endless case 4",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000008",
+    "r5": "0C900000",
+    "r6": "0C910000",
+    "r7": "FFFFFFFF"
+   }
+  },
+  {
+   "about": "endless case 5",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "0C900000",
+    "r5": "0C910000",
+    "r6": "FFFFFFFF",
+    "r7": "00000010"
+   }
+  }
+ ],
+ "holdout": [
+  {
+   "about": "endless case 6",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "0C910000",
+    "r5": "FFFFFFFF",
+    "r6": "00000010",
+    "r7": "00000040"
+   }
+  },
+  {
+   "about": "endless case 7",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "FFFFFFFF",
+    "r5": "00000010",
+    "r6": "00000040",
+    "r7": "0C920040"
+   }
+  },
+  {
+   "about": "endless case 8",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000010",
+    "r5": "00000040",
+    "r6": "0C920040",
+    "r7": "00000003"
+   }
+  },
+  {
+   "about": "endless case 9",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000040",
+    "r5": "0C920040",
+    "r6": "00000003",
+    "r7": "00000000"
+   }
+  },
+  {
+   "about": "endless case 10",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "0C920040",
+    "r5": "00000003",
+    "r6": "00000000",
+    "r7": "00000001"
+   }
+  },
+  {
+   "about": "endless case 11",
+   "poke": {},
+   "endless": true,
+   "steps": 20000,
+   "regs": {
+    "r4": "00000003",
+    "r5": "00000000",
+    "r6": "00000001",
+    "r7": "00000002"
+   }
+  }
+ ]
+}

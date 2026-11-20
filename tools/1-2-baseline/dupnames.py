@@ -20,6 +20,7 @@ Without --apply it prints what it would change. Exits 1 when a duplicate is left
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import collections
 import glob
 import os
@@ -61,7 +62,7 @@ def call_targets(exe, base, a, s):
 def follow_sources(dups, first_addr, exe, base):
     """dups: {name: [(address, final name)] in functions.txt order}. Rewrites src/ as the module notes say; returns the changes."""
     done = []
-    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+    for path in sorted(layout.c_files()):
         text = open(path, errors='replace').read(); orig = text
         need = {}
         pos = 0; out = []

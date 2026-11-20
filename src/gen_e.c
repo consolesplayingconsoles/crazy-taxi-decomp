@@ -269,7 +269,6 @@ struct oC_int { char p[0xC]; int v; };
 struct oC_uint { char p[0xC]; unsigned int v; };
 
 
-
 int carFlipTravelDir(int a4)
 {
     int t0;
@@ -349,8 +348,6 @@ int getSwitch(void)
 }
 
 
-
-
 int gameState10(void)
 {
     int t0;
@@ -380,11 +377,6 @@ int ResetLight(void)
 }
 
 
-
-
-
-
-
 int SetSEvolume(void)
 {
     float u0;
@@ -410,7 +402,6 @@ int GotoMenu(void)
     (((struct o4_uint *)0xC1EE234)->v) = 0x0;
     return TitleWaitSet(0x0);
 }
-
 
 
 int selectPutHelpBar(void)
@@ -462,338 +453,16 @@ int Start_TimeUp(void)
 }
 
 
-
-
-
 int thunk_callTryAgain(void)
 {
     return callTryAgain();
 }
 
 
-
 int RinAqua_Init(void)
 {
     thunk_BigOneResetState();
     return KeepYourBreath();
-}
-
-
-
-
-
-
-
-
-
-int nlDispStripX(int a4, int a5, int a6)
-{
-    nlstripSetVertexContext(0xC14AAC8);
-    return nldispstripSub(a4, a5, a6);
-}
-
-int kmResetRenderer(void)
-{
-    kmiDiscardRenderPipeline();
-    kmiResetBoard();
-    return 0x0;
-}
-
-int buExitForce(void)
-{
-    int t0;
-
-    *(unsigned int *)0xC177AA4 = 0x0;
-    t0 = *(int *)0xC17539C;
-    kdSetHandler(t0, 0x0);
-    vmsfs_c_exit();
-    return vmsfs_exit();
-}
-
-
-
-int adxt_start_stm(int a4)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t4;
-    int t6;
-    int t8;
-
-    t0 = (((struct o3C_short *)(a4))->v);
-    t1 = (((struct o3E_short *)(a4))->v);
-    t2 = *(int *)((a4 + 0x8));
-    ADXSTM_SetBufSize(t2, (((t1 << 8) << 2) << 1), (((t0 << 8) << 2) << 1));
-    t4 = *(int *)((a4 + 0x8));
-    ADXSTM_SetEos(t4, 0x19);
-    t6 = *(int *)((a4 + 0x8));
-    ADXSTM_Start(t6);
-    t8 = *(int *)((a4 + 0x10));
-    adxt_start_sj(a4, t8);
-    *(unsigned char *)((a4 + 0x2)) = 0x0;
-    return 0x0;
-}
-
-
-
-
-
-
-
-
-
-
-
-int ADXRNA_Init(void)
-{
-    return mwRnaInit();
-}
-
-int ADXRNA_Finish(void)
-{
-    return mwRnaFinish();
-}
-
-
-
-
-
-
-
-int ADXRNA_ExecServer(void)
-{
-    return mwRnaExecServer();
-}
-
-
-
-
-
-
-
-
-
-
-
-int ADXRNA_DiscardData(void)
-{
-    return mwRnaDiscardData();
-}
-
-
-int ADXSJD_Stop(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    ADXB_Stop(t0);
-    *(unsigned char *)((a4 + 0x1)) = 0x0;
-    return 0x0;
-}
-
-int ADXSJD_GetFormat(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetFormat(t0);
-}
-
-int ADXSJD_GetSfreq(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetSfreq(t0);
-}
-
-int ADXSJD_GetNumChan(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetNumChan(t0);
-}
-
-int ADXSJD_GetOutBps(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetOutBps(t0);
-}
-
-int ADXSJD_GetBlkSmpl(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetBlkSmpl(t0);
-}
-
-int ADXSJD_GetTotalNumSmpl(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetTotalNumSmpl(t0);
-}
-
-int ADXSJD_GetNumLoop(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetNumLoop(t0);
-}
-
-int ADXSJD_GetLpStartPos(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetLpStartPos(t0);
-}
-
-int ADXSJD_GetLpStartOfst(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetLpStartOfst(t0);
-}
-
-int ADXSJD_GetLpEndPos(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetLpEndPos(t0);
-}
-
-int ADXSJD_GetLpEndOfst(int a4)
-{
-    int t0;
-
-    t0 = *(int *)((a4 + 0x4));
-    return ADXB_GetLpEndOfst(t0);
-}
-
-int ADXF_InitCache_P2_(int a4)
-{
-    int t1;
-
-    adxf_purge_all();
-    *(unsigned int *)0xFF00001C = ((a4 & 0xFFFFF7FF) | 0x800);
-    t1 = *(int *)0xFF00001C;
-    *(unsigned int *)0xFF00001C = ((t1 & 0xFFFFFFF7) | 0x8);
-    return ((t1 & 0xFFFFFFF7) | 0x8);
-}
-
-int kmiErrorISR08(void)
-{
-    int t0;
-    int t1;
-    int t2;
-
-    *(unsigned int *)0xA05F6908 = 0x8;
-    t0 = (((struct oC_int *)0xC2F91B8)->v);
-    (((struct oC_uint *)0xC2F91B8)->v) = (t0 + 0x1);
-    t1 = *(int *)0xC2EAB2C;
-    if (t1 == 1) {
-        t2 = (((struct o0_int *)0xC2F91B8)->v);
-        (((struct o0_uint *)0xC2F91B8)->v) = (t2 + 0x1);
-        kmiErrorRecover(0x1);
-    }
-    return 0x0;
-}
-
-
-
-int vmsfb_sleep(void)
-{
-    return buFbrSleepVFiber();
-}
-
-int vmsfb_end(void)
-{
-    return buFbrEndFiber();
-}
-
-int fmMngSncmp(void)
-{
-    return fmMngSncmp_tail_0c170880();
-}
-
-
-void ADXB_Destroy(int a4)
-{
-    int t0;
-
-    if (a4 != 0) {
-        t0 = *(int *)((a4 + 0x8));
-        ADXPD_Destroy(t0);
-        memset(a4, 0x0, 0xAC);
-        *(unsigned short *)((a4 + 0x0)) = 0x0;
-    }
-}
-
-int ADXB_Reset(int a4)
-{
-    int t0;
-    int t3;
-    int t1;
-
-    t0 = *(int *)((a4 + 0x4));
-    t3 = t0;
-    if (t0 == 3) {
-        t1 = *(int *)((a4 + 0x8));
-        ADXPD_Reset(t1);
-        (((struct o9C_uint *)(a4))->v) = 0x0;
-        *(unsigned int *)((a4 + 0x4)) = 0x0;
-        t3 = 0x9C;
-    }
-    return t3;
-}
-
-void mwlSbFreeWork(int a4)
-{
-    int t0;
-
-    if (a4 != 0) {
-        t0 = *(int *)((a4 + 0x4));
-        memset(t0, 0x0, 0x100);
-        memset(a4, 0x0, 0x8);
-        *(unsigned int *)((a4 + 0x0)) = 0x0;
-    }
-}
-
-int mwlSbGetFilter(int a4, int a5, int a6)
-{
-    int t0;
-    int t1;
-    int t2;
-    int t3;
-
-    t0 = mwlSbGetStreamParam(a4, 0x9, 0x0);
-    (((struct o58_ushort *)(a4))->v) = t0;
-    t1 = mwlSbGetStreamParam(a4, 0xA, 0x0);
-    (((struct o5A_ushort *)(a4))->v) = t1;
-    t2 = (((struct o58_short *)(a4))->v);
-    *(unsigned int *)((a5 + 0x0)) = t2;
-    t3 = (((struct o5A_short *)(a4))->v);
-    *(unsigned int *)((a6 + 0x0)) = t3;
-    return 0x5A;
-}
-
-int buFbrInit(void)
-{
-    memset(0xC2FB798, 0x0, 0x1AF8);
-    (((struct o0_uint *)0xC2FD290)->v) = 0x0;
-    (((struct o4_uint *)0xC2FD290)->v) = 0x0;
-    (((struct o8_uint *)0xC2FD290)->v) = 0x0;
-    return 0xC2FD298;
 }
 
 

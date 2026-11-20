@@ -33,6 +33,7 @@ build/shrink.log. The size table is updated as functions shrink.
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import fcntl
 import glob
 import json
@@ -56,7 +57,7 @@ PASSES = None                       # --passes: the rewrite strategies instead o
 if '--passes' in args:
     k = args.index('--passes')
     PASSES = ['narrow', 'selfcopy', 'struct', 'frame', 'globase', 'switch', 'copies', 'rebase', 'hoist', 'deadframe']
-    if k + 1 < len(args) and not args[k + 1].startswith(('src/', '-')):
+    if k + 1 < len(args) and not args[k + 1].startswith(('src/', 'sdk/', '-')):
         PASSES = args[k + 1].split(',')
         del args[k + 1]
     del args[k]
@@ -79,7 +80,7 @@ LOG = os.path.join('build', 'shrink.log')
 
 
 def where(fn):
-    for f in glob.glob('src/*.c'):
+    for f in layout.c_files():
         if os.path.basename(f).startswith('zz_'):      # another tool's scratch file: it may be gone by the time it is read
             continue
         try:
@@ -119,7 +120,7 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
         # the recheck passes the function on its own; the file it was written into is checked as a whole too (a function that passed alone and
         # differs in its file is dropped by that check, and the shrink had logged it as shrunk and left it without C: sysVideoSelect, Virtua Tennis)
         ns, _ = where(fn)
-        res = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % ns, fn], capture_output=True, text=True).stdout if ns else ''
+        res = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(ns), fn], capture_output=True, text=True).stdout if ns else ''
         if not re.search(r'^%s\s+EQUIVALENT\b' % re.escape(fn), res, flags=re.M):
             lock = locked()
             try:
@@ -136,9 +137,9 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
             passed = False
     if passed:
         log.write('%s %s %s -> %s\n' % (fn, 'REGENERATED' if REGEN else 'SHRUNK', o_c, n_new)); log.flush()
-        t = open('src/%s.c' % stem, errors='replace').read()
+        t = open(layout.c_path(stem), errors='replace').read()
         if not re.search(r'^\{', t, flags=re.M) and not glob.glob('tests/%s/*.json' % stem):      # its last function moved out: an empty shell
-            os.remove('src/%s.c' % stem)
+            os.remove(layout.c_path(stem))
             if os.path.isdir('tests/%s' % stem) and not os.listdir('tests/%s' % stem):
                 os.rmdir('tests/%s' % stem)
         if fn in table:
@@ -147,11 +148,11 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
         return True
     lock = locked()
     try:          # the old C and cases go back
-        t = open('src/%s.c' % stem).read()
-        open('src/%s.c' % stem, 'w').write(t.rstrip('\n') + '\n\n' + old + '\n')
+        t = open(layout.c_path(stem)).read()
+        open(layout.c_path(stem), 'w').write(t.rstrip('\n') + '\n\n' + old + '\n')
         json.dump(cases, open(tp, 'w'), indent=1)
         keep.drop(fn)
-        r = subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True).stdout.strip()
+        r = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True).stdout.strip()
     finally:
         fcntl.flock(lock, fcntl.LOCK_UN)
     fail = ledger.last_failure(fn, since)          # what the recheck found, from state/results.jsonl, and the new C that failed
@@ -183,7 +184,7 @@ def narrow_pass(f, log):
     is proven."""
     import rewrites
     if not _DEFS:
-        _DEFS.append(rewrites.definitions(open(p, errors='replace').read() for p in glob.glob('src/*.c')
+        _DEFS.append(rewrites.definitions(open(p, errors='replace').read() for p in layout.c_files()
                                           if not os.path.basename(p).startswith(('gen_tmp', 'zz_'))))
     text = open(f, errors='replace').read()
     new, names = rewrites.narrow_calls(text, _DEFS[0])
@@ -305,7 +306,7 @@ def main():
     log = stamp.Stamp(open(LOG, 'a'))               # each line ends with the wall-clock time
     if PASSES is not None:
         manual = consistency.manual_names()
-        units = NAMES or sorted(f for f in glob.glob('src/gen_*.c') if not os.path.basename(f).startswith(('gen_tmp', 'zz_')))
+        units = NAMES or sorted(f for f in layout.c_files() if layout.stem(f).startswith('gen_') and not layout.stem(f).startswith('gen_tmp'))
         if MIN_SIZE:
             import rewrites
             _FSIZE.update((r[0], r[1]) for r in json.load(open(sizes.OUT)))
@@ -357,7 +358,7 @@ def main():
             log.write('%s build failed (no form compiles)\n' % fn); log.flush(); continue
         s, c, n_new = best
         o_c = sizes.c_size_any(fn, old, [c.protos] + [p for p in all_protos if p is not c.protos],
-                               sizes.unit_head(open('src/%s.c' % stem, errors='replace').read()))      # the current C, measured the same way as the new
+                               sizes.unit_head(open(layout.c_path(stem), errors='replace').read()))      # the current C, measured the same way as the new
         if n_new is None or (not REGEN and (not o_c or n_new >= o_c or n_new > KEEP * o_c)):      # strictly smaller than the current C, measured the same way
             why = ('new C not measurable' if n_new is None else 'current C not measurable' if not o_c       # no size is not "not smaller"
                    else 'not smaller' if n_new >= o_c else 'smaller by under %d%%' % round(100 * (1 - KEEP)))

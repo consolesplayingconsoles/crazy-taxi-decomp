@@ -1,6 +1,7 @@
 # The decomp's status, read by tools/progress.py for the badge. Tick each one reached: [x]; [?] = not tested yet, [ ] = tested and not reached. Each needs the ones above it.
+# A line with two marks is [Dreamcast] [Native]: the badge shows those lines as a grid, one check per line in each column. A line with one mark is not on the badge.
 MODE: equivalent
-[x] BUILDS FROM C
-[x] BOOTS TO MENU
-[x] PLAYABLE
-[x] STABLE
+[x] [x] BUILDS FROM C
+[x] [x] BOOTS TO MENU
+[x] [x] PLAYABLE
+[x] [x] STABLE

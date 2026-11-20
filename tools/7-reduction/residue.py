@@ -17,6 +17,7 @@ import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the imp
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import collections
+import layout  # noqa: E402
 import glob
 import json
 import os
@@ -89,7 +90,7 @@ def main(argv):
     bloat, fine, top, mins = opt('--bloat', 1.2), opt('--fine', 1.1), opt('--top', 30), opt('--min', 12)
     sizes = {n: (o, c) for n, o, c in json.load(open('build/sizes.json')) if c}
     funcs = {}
-    for f in glob.glob('src/gen_*.c'):
+    for f in [f for f in layout.c_files() if layout.stem(f).startswith('gen_')]:
         if not os.path.basename(f).startswith(('gen_tmp', 'zz_')):
             funcs.update(functions(open(f, errors='replace').read()))
     b, q = select(funcs, sizes, bloat, fine, hand_written())
@@ -105,7 +106,7 @@ def main(argv):
 def _stk(argv):
     """The stack-array statistics: how many functions use `int stk[N]`, the lowest offset they use, and the span left unused."""
     n = lows = wide = 0
-    for f in glob.glob('src/gen_*.c'):
+    for f in [f for f in layout.c_files() if layout.stem(f).startswith('gen_')]:
         if os.path.basename(f).startswith(('gen_tmp', 'zz_')):
             continue
         for m in _DEF.finditer(open(f, errors='replace').read()):

@@ -37,7 +37,7 @@ def main(argv):
     declared_rx = {n: re.compile(r'\b%s\s*\(' % re.escape(n)) for n in entry.values()}
     rewritten = inside = files = 0
     left = []
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         if os.path.basename(f).startswith('zz_') or 'gen_tmp' in f:
             continue
         text = open(f, errors='replace').read()

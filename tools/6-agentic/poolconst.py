@@ -16,6 +16,7 @@ not compared by tools/equiv.py, so a rewritten function stays Equivalent; re-che
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import bisect
 import glob
 import os
@@ -57,7 +58,7 @@ def main(argv):
             if p and p[0] == 'range' and ('SDK librar' in l or 'boot block' in l):
                 skip_ranges.append((int(p[1], 16), int(p[2], 16)))
     STORE = re.compile(r'\*\(\s*(?:volatile\s+)?(?:unsigned\s+|signed\s+)?(?:int|short|char|float)\s*\*\s*\)\s*\(?\s*(0x[0-9A-Fa-f]{6,8})\s*\)?\s*(?:[-+*/&|^]?=)(?!=)')
-    for f in glob.glob('src/*.c'):
+    for f in layout.c_files():
         for m in STORE.finditer(open(f, errors='replace').read()):
             written.add(canon(int(m.group(1), 16)))
 
@@ -85,7 +86,7 @@ def main(argv):
 
     counts = {'float': 0, 'int': 0, 'function': 0, 'kept (volatile or not a float)': 0}
     changed = {}
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         if os.path.basename(f).startswith('zz_'):
             continue
         s = open(f, errors='replace').read()

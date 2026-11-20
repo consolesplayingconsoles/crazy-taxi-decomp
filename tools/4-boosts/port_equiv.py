@@ -16,7 +16,8 @@ src/*.c with tests/<file>/<function>.json). For every function the source has as
    function. Each mapped RAM address or callee is added to the destination's symbols.txt under the SOURCE's
    name (several names may share an address), and a destination function with no real name (FUN_...) takes
    the source's.
-3. Port the C: the matched functions with the file's declarations, to src/<tag>_<file>.c, and each function's
+3. Port the C: the matched functions with the file's declarations, to src/<tag>_<file>.c (an address the C names as a
+   number is written as the destination's, by the same map), and each function's
    cases to tests/<tag>_<file>/<function>.json with their addresses translated (mapped addresses, and the
    other 0C... RAM addresses of the source moved to the destination's 8C... base).
 4. Run the destination's own `tools/equiv.py -q` on the ported file; a function whose body names something
@@ -67,6 +68,16 @@ def repo(path):
     return r
 
 
+def repo_c_files(path):
+    """the C files of the repo at path, the game's then the SDK's (tools/layout.py), as paths inside it"""
+    import layout
+    cwd = os.getcwd()
+    os.chdir(path)
+    try:
+        return layout.c_files()
+    finally:
+        os.chdir(cwd)
+
 def code(r, a, sz):
     return M.words(r['exe'], a - r['base'], sz // 2)
 
@@ -108,6 +119,17 @@ def split_c(text):
     return pre, out
 
 
+def translate_c(text, amap):
+    """The C with every address the pools map (amap: source address -> destination address) written as the destination's.
+    Generated C names a global or a callee it has no symbol for by its number (`v0_5 = (0x8C46ABA4);`), and that number is the
+    source game's: left as it is, the carried function reads or calls the wrong place and fails its check although its code
+    is the same. Only whole 7- or 8-digit hex literals that are keys of the map change; anything else is left to the check."""
+    def one(m):
+        v = int(m.group(0), 16)
+        return '0x%08X' % amap[v] if v in amap else m.group(0)
+    return re.sub(r'\b0[xX][0-9A-Fa-f]{7,8}\b', one, text)
+
+
 def main(argv):
     dry = '--dry' in argv
     tag = 'libs'
@@ -125,10 +147,11 @@ def main(argv):
     only = set(args[2:])
     # candidates: Equivalent functions by source file
     files = {}
-    for f in sorted(os.listdir(os.path.join(src['path'], 'src'))):
-        if not f.endswith('.c') or (only and 'src/' + f not in only and f not in only):
+    for rel in repo_c_files(src['path']):
+        f = os.path.basename(rel)
+        if only and rel not in only and 'src/' + f not in only and f not in only:
             continue
-        text = open(os.path.join(src['path'], 'src', f), errors='replace').read()
+        text = open(os.path.join(src['path'], rel), errors='replace').read()
         if text.startswith('/* @unit'):
             continue
         _, defs = split_c(text)
@@ -261,7 +284,7 @@ def main(argv):
             keep = [n for n, _ in old if n not in mine and n in dict(defs)]
         tried = list(mine)
         for attempt in range(6):
-            body = ''.join(pre) + '\n'.join(t for n, t in defs if n in mine or n in keep or t.lstrip().startswith('static')) + '\n'
+            body = translate_c(''.join(pre) + '\n'.join(t for n, t in defs if n in mine or n in keep or t.lstrip().startswith('static')) + '\n', amap)
             open(out_c, 'w').write(
                 '/* Library code: C that behaves like this game\'s own bytes. */\n' + body)
             tdir = os.path.join(dst['path'], 'tests', stem)
@@ -320,7 +343,7 @@ def main(argv):
             if os.path.isdir(tdir) and not os.listdir(tdir):
                 os.rmdir(tdir)
         elif passed != tried:
-            body = ''.join(pre) + '\n'.join(t for n, t in defs if n in passed or n in keep or t.lstrip().startswith('static')) + '\n'
+            body = translate_c(''.join(pre) + '\n'.join(t for n, t in defs if n in passed or n in keep or t.lstrip().startswith('static')) + '\n', amap)
             open(out_c, 'w').write(
                 '/* Library code: C that behaves like this game\'s own bytes. */\n' + body)
     for n, why in report:

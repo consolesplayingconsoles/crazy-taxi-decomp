@@ -1378,8 +1378,7 @@ F 0c075d70 168 nlLdexpf
 F 0c075e20 128 nlLog
 F 0c075ea0 16 nlLog10
 F 0c075eb0 16 nlLog2
-F 0c075ec0 34 nlPow
-F 0c075ee2 134 nlPow_tail_0c075ee2
+F 0c075ec0 168 nlPow
 F 0c075f70 30 nlRand
 F 0c075f90 22 nlRandom
 F 0c075fb0 6 nlRandomSeed
@@ -1422,7 +1421,7 @@ F 0c076c00 432 nlRenderTextureSet_Sub
 F 0c076db0 156 nlRenderTextureFree
 F 0c076e50 96 nlRenderTextureFreeAll
 F 0c076eb0 190 nlRenderTextureBegin
-F 0c076f70 148 nlRenderTextureEnd
+F 0c076f70 158 nlRenderTextureEnd
 F 0c0770f0 44 nlSetPaletteData
 F 0c077120 80 nlAddMatrix
 F 0c077170 24 nlCalcPoint4

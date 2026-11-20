@@ -65,100 +65,12 @@ int BupGetOperationString(void);
 int __nl_sprver_include__(void);
 int nlsndVersion(void);
 
-void nlFatalErrorReturn(void)
-{
-    
-}
-
-void nlLoadMatrix33_tail_0c0777ec(void)
-{
-    
-}
 
 void Const_Proposal(void)
 {
     
 }
 
-void nlLoadMatrix33on44_tail_0c077830(void)
-{
-    
-}
-
-void nlMvDummy(void)
-{
-    
-}
-
-void nlLoadMatrix34_tail_0c077884(void)
-{
-    
-}
-
-int kmiProcessVertex_15(void)
-{
-    return 0xA;
-}
-
-void kmiNullCallback0(void)
-{
-    
-}
-
-void kmiNullCallback1(void)
-{
-    
-}
-
-int kmiProcessVertex_17(void)
-{
-    return 0xA;
-}
-
-int kmiProcessVertex_16(void)
-{
-    return 0xA;
-}
-
-void kmiNullCallback3(void)
-{
-    
-}
-
-void kmiNullCallback2(void)
-{
-    
-}
-
-void kmiNullCallback4(void)
-{
-    
-}
-
-void kmiNullCallback5(void)
-{
-    
-}
-
-void kmiNullCallback6(void)
-{
-    
-}
-
-void kmiNullCallback7(void)
-{
-    
-}
-
-void mwRnaFinishCs(void)
-{
-    
-}
-
-int mwlSbDummyFunc(void)
-{
-    return 0x0;
-}
 
 int BupErrStrBusy(void)
 {
@@ -368,11 +280,6 @@ int BupOpStrRewriteExecFile(void)
 int BupGetOperationString(void)
 {
     return 0xC09DA2C;
-}
-
-int __nl_sprver_include__(void)
-{
-    return 0xC0DAAC1;
 }
 
 

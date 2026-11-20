@@ -56,58 +56,9 @@ void Voice_Init(void)
 
 /* Round an ASCII decimal string at digit n: when s[n] > '4' it becomes '0', the digit before it goes
    up by one, and carries ripple left (s[0] last). */
-void _xtostr_rounddigits(char *s, int n)
-{
-    char *q;
-    int k;
-
-    if (s[n] > '4') {
-        s[n] = '0';
-        s[n - 1] += 1;
-        q = s + n - 1;
-        for (k = n - 1; k > 0; k--, q--) {
-            if (*q > '9') {
-                *q -= 10;
-                q[-1] += 1;
-            }
-        }
-        if (s[1] > '9') {
-            s[1] -= 10;
-            s[0] += 1;
-        }
-    }
-}
 
 /* a -= b over n bytes, most significant first. Returns -1 when it underflows and sign is 0,
    otherwise 0 for a zero result and 1 for a nonzero one. */
-int _sub(int sign, unsigned char *a, unsigned char *b, int n)
-{
-    int borrow = 0;
-    int zero = 1;
-    int d;
-    int i;
-
-    for (i = n - 1; i >= 0; i--) {
-        d = a[i] - b[i] - borrow;
-        if (d < 0) {
-            d += 256;
-            borrow = 1;
-        } else {
-            borrow = 0;
-        }
-        if (d != 0) {
-            zero = 0;
-        }
-        a[i] = d;
-    }
-    if (borrow == 1 && sign == 0) {
-        return -1;
-    }
-    if (zero == 1) {
-        return 0;
-    }
-    return 1;
-}
 
 extern void nlSetFogColor(int color);
 extern void nlSetFogVertexColor(int color);
@@ -510,20 +461,6 @@ extern int Check2DAreaEdge(float *p, float *b, float *a);
 
 /* Against the plane z at 0C2B7BDC (z at +8 of each point): both below it, 0; otherwise 1, after
    nlLineClipPoint with the point that is below (if any) as the third argument. */
-int nlLineClipNear(float *a, float *b)
-{
-    float z = *(float *)0x0C2B7BDC;
-
-    if (z > a[2]) {
-        if (z > b[2]) {
-            return 0;
-        }
-        nlLineClipPoint(a, b, a);
-    } else if (z > b[2]) {
-        nlLineClipPoint(a, b, b);
-    }
-    return 1;
-}
 
 /* Start a camera script: save the camera, VR mode 10 (mode 0) or 11, the script and the taxi driver
    as its target, its three counters cleared. */
@@ -539,19 +476,6 @@ void camPlayScript(int script, int mode)
 }
 
 /* Free each texture of a 16-byte-entry list (ends at word +4 == -1); returns the OR of the results. */
-int nlSpriteFreeTextureGI(int *tbl, int x)
-{
-    int *p = tbl;
-    int acc = 0;
-    int i = 0;
-
-    while (p[1] != -1) {
-        acc |= nlSpriteFreeTextureOnce_Sub(tbl, x, i, 1);
-        i++;
-        p += 4;
-    }
-    return acc;
-}
 
 /* Copy the area state (0C2A9FA4) to 0C2A9D60 after checking the ground under the camera: kind 17+
    (except area 21) takes SubwayFlag; below that, a camera above the ground's +24 height clears it. */
@@ -768,12 +692,6 @@ void Start_Party_Remain_Voice(void)
 }
 
 /* nlMvSendTriangle over the three consecutive pairs of four points (b-c, c-d, d-e). */
-void nlMvSendFan3(int a, int b, int c, int d, int e)
-{
-    nlMvSendTriangle(a, b, c);
-    nlMvSendTriangle(a, c, d);
-    nlMvSendTriangle(a, d, e);
-}
 
 /* Store a new driver value (TaxiDriver +252 id, +256 value) and buffer it, unless it is unchanged. */
 void Drv_SetMotion(int id, float v)
@@ -1045,22 +963,6 @@ int gdc_GetVolGainMute(int v)
 
 /* Look a name up in the current directory (0C177A8C) and copy its 44-byte entry's sector (+150),
    size and flags into info; -8 when it is not there. */
-int gdFsGetDirInfoG(char *name, int *info)
-{
-    char *dir = *(char **)(*(int *)0x0C177A8C + 16);
-    int *e;
-    int n;
-
-    n = gdFsSearchName(name, (int)dir, 0);
-    if (n == 0) {
-        return -8;
-    }
-    e = (int *)(dir + 16 + (n - 1) * 44);
-    info[0] = e[0] + 150;
-    info[1] = e[1];
-    ((char *)info)[8] = ((char *)e)[8];
-    return 0;
-}
 
 /* Camera angles (+24..+32 of g_camHV3): mode 1 also takes the default eye (0C0965FC) at +12, mode 0
    copies the angles to +0 with scale 1 and roll 0. */
@@ -1404,10 +1306,6 @@ void PutCourse_Init(int course)
 }
 
 /* Pass the 32-bit fog table colour to the kit split into its parts as well. */
-void nlFogTableColor(int c)
-{
-    kmSetFogTableColor(c, (short)((unsigned int)c >> 16), c >> 8, (signed char)((unsigned int)c >> 24), c);
-}
 
 /* Steer a homing object: its velocity (+12) is blended toward the offset from it to its target (+24)
    with the weights at +40 and +36, then added to its position. */
@@ -1457,17 +1355,6 @@ void Drv_StartBikePedal(int i)
 }
 
 /* Replace each row's third element of the current matrix with its fourth. */
-void nlMvLoadFlatMatrix(void)
-{
-    float m[16];
-
-    nlGetMatrix(m);
-    m[2] = m[3];
-    m[6] = m[7];
-    m[10] = m[11];
-    m[14] = m[15];
-    nlLoadMatrix(m);
-}
 
 extern float nlInnerProduct(float *a, float *b);
 extern void nlUnitVector(float *v);
@@ -1478,17 +1365,6 @@ typedef struct {
 
 /* Switch to matrix slot i (12-byte slots at 0C2B31DC, the current one at slot 0, its index at
    0C2B31D8): save slot 0 back to the old index, take slot i, and load its matrix (+8). */
-void nlMatrixMode(int i)
-{
-    Mat12 *slot = (Mat12 *)0x0C2B31DC;
-    signed char *cur = (signed char *)0x0C2B31D8;
-
-    nlGetMatrix(0);
-    slot[*cur] = slot[0];
-    *cur = i;
-    slot[0] = slot[*cur];
-    nlLoadMatrix((float *)slot[0].w[2]);
-}
 
 /* Is p ahead of the box (within about 20 degrees of its facing, +40)? Then set that bit of +36. */
 void colliBoxAhead(float *o, float *p, int bit)
@@ -1725,14 +1601,6 @@ void Start_Adv_Title_LOGO(int k, int v)
 }
 
 /* Free every render texture (count at 0C2B31BC +4). */
-void nlRenderTextureFreeAll(void)
-{
-    int i;
-
-    for (i = 0; i < ((int *)0x0C2B31BC)[1]; i++) {
-        nlRenderTextureFree(i);
-    }
-}
 
 /* The advertise screen step: once it is done (1), sub modes 7 and 9 wait 5 frames and leave through
    GotoMenu; any other goes to sub mode 8. 0 while it runs. */
@@ -2355,24 +2223,6 @@ void callSaveData(int k)
 
 /* A thick line from p to q: the four corners offset by (dx, -dy) and (-dx, dy), drawn by
    nlLineSendVertex. */
-void nlLineSendQuadC(int a, float *p, float *q, int d, float dy, float dx)
-{
-    float v[12];
-
-    v[0] = p[0] + dx;
-    v[1] = p[1] - dy;
-    v[2] = p[2];
-    v[3] = p[0] - dx;
-    v[4] = p[1] + dy;
-    v[5] = p[2];
-    v[6] = q[0] + dx;
-    v[7] = q[1] - dy;
-    v[8] = q[2];
-    v[9] = q[0] - dx;
-    v[10] = q[1] + dy;
-    v[11] = q[2];
-    nlLineSendVertex(a, v, d);
-}
 
 /* Course collision set-up: the wall table and its 32-byte header for the course (Crazy Box: per mini
    game, and x kept at 0C0ED438), then the walls. */
@@ -2444,44 +2294,8 @@ void PutVMSMessage(void)
 }
 
 /* A square of half side r around p (z kept), drawn by nlLineSendVertex. */
-void nlLineSendQuadE(int a, float *p, int d, float r)
-{
-    float v[12];
-
-    v[0] = p[0] - r;
-    v[1] = p[1] - r;
-    v[2] = p[2];
-    v[3] = p[0] + r;
-    v[4] = p[1] - r;
-    v[5] = p[2];
-    v[6] = p[0] - r;
-    v[7] = p[1] + r;
-    v[8] = p[2];
-    v[9] = p[0] + r;
-    v[10] = p[1] + r;
-    v[11] = p[2];
-    nlLineSendVertex(a, v, d);
-}
 
 /* An arrow-head quad: the near corners of p shifted by (dy, dx) more than the far ones at q. */
-void nlLineSendQuadB(int a, float *p, float *q, int d, float dy, float dx)
-{
-    float v[12];
-
-    v[0] = p[0] + dx + dy;
-    v[1] = p[1] - dy + dx;
-    v[2] = p[2];
-    v[3] = p[0] - dx + dy;
-    v[4] = p[1] + dy + dx;
-    v[5] = p[2];
-    v[6] = q[0] + dx;
-    v[7] = q[1] - dy;
-    v[8] = q[2];
-    v[9] = q[0] - dx;
-    v[10] = q[1] + dy;
-    v[11] = q[2];
-    nlLineSendVertex(a, v, d);
-}
 
 extern void SetColliObj(void *o, int kind);
 extern void adxStartAfs2(int ch, int file);
@@ -3201,20 +3015,6 @@ void callRecordEntry(void)
 
 /* Print mode: stores the flag (+20) and sets the blend bits of two words: opaque (x != 0) leaves
    word 2 with bit 29; transparent adds bit 25 to word 0 and the 0x94 top byte to word 2. */
-void nlPrintSetOpaqueMode(int x)
-{
-    unsigned int *g = (unsigned int *)0x0C2AF118;
-
-    g[5] = x;
-    g[0] &= 0xF8FFFFFF;
-    g[2] &= 0x03FFFFFF;
-    if (x == 0) {
-        g[0] |= 0x02000000;
-        g[2] |= 0x94000000;
-    } else {
-        g[2] |= 0x20000000;
-    }
-}
 
 /* Reset the result popup: its sprite (0C2A91D8: scale 1, 0.2 start, flags), the 20 x 9 word grid at
    0C2A9404 (and the first five words of 0C2A9690), and the counters and 0.5 scale. */
@@ -3613,24 +3413,6 @@ void ExecKyakuArea(void)
 
 /* A thick quad: p's near corners shifted by (dx, dy) and q's far corners by (-dx, -dy), with the two
    edge directions flipped from nlLineSendQuadB; drawn by nlLineSendVertex. */
-void nlLineSendQuadA(int a, float *p, float *q, int d, float dy, float dx)
-{
-    float v[12];
-
-    v[0] = p[0] + dx + dy;
-    v[1] = p[1] - dy + dx;
-    v[2] = p[2];
-    v[3] = p[0] - dx + dy;
-    v[4] = p[1] + dy + dx;
-    v[5] = p[2];
-    v[6] = q[0] + dx - dy;
-    v[7] = q[1] - dy - dx;
-    v[8] = q[2];
-    v[9] = q[0] - dx - dy;
-    v[10] = q[1] + dy - dx;
-    v[11] = q[2];
-    nlLineSendVertex(a, v, d);
-}
 
 extern void TOANG(short *a, short *b, float x, float y, float z);
 extern void nlScale(float x, float y, float z);
@@ -3710,34 +3492,6 @@ extern int gdFsGetSearchID(char *name);
 /* Parse one ISO 9660 directory record (rec) into out: +0 extent, +4 size, +8 flags, +9 the name's
    hash, +10 the name. Records shorter than 34 give 0. A plain file's name loses its ";1" (2 bytes);
    a directory's "." and ".." entries (names 0 and 1) become "." and "..". */
-int gdFsGet1DirEnt(unsigned char *rec, char *out)
-{
-    int n;
-
-    if (rec[0] < 34) {
-        return 0;
-    }
-    gdFsMemcpy((char *)rec + 2, out, 4);
-    gdFsMemcpy((char *)rec + 10, out + 4, 4);
-    out[8] = rec[25];
-    n = rec[32];
-    if (!(out[8] & 2)) {
-        n -= 2;
-    }
-    gdFsMemcpy((char *)rec + 33, out + 10, n);
-    out[10 + n] = 0;
-    if (out[8] & 2) {
-        if (out[10] == 0) {
-            out[10] = 46;
-        } else if (out[10] == 1) {
-            out[10] = 46;
-            out[11] = 46;
-            out[12] = 0;
-        }
-    }
-    out[9] = gdFsGetSearchID(out + 10);
-    return rec[0];
-}
 
 extern int kmSetCheapShadowMode(int mode);
 extern void nlMvInitParam(void);
@@ -3746,58 +3500,9 @@ extern int kmUseAnotherModifier(int m);
 /* Lay out the render regions from base: a table of cfg[1] x16-byte entries, cfg[2] x16-byte
    entries and cfg[3] x12-byte entries, one after another (starting 3 x cfg[1]*16 in), the
    boundaries kept in globals; then the cheap shadow mode of cfg[4] and the modifier switched on. */
-int nlMvSetWorkBuffer(int base, int *cfg)
-{
-    int a = cfg[1] * 16;
-    int b = cfg[2] * 16;
-    int c = cfg[3] * 12;
-
-    *(int *)0x0C14AA88 = cfg[1];
-    *(int *)0x0C14AA8C = cfg[2];
-    *(int *)0x0C14AA90 = cfg[3];
-    *(int *)0x0C2B7658 = base;
-    *(int *)0x0C2B765C = base + a;
-    *(int *)0x0C2B7660 = base + 2 * a;
-    *(int *)0x0C2B7664 = base + 3 * a;
-    *(int *)0x0C2B7668 = base + 3 * a + b;
-    *(int *)0x0C2B7670 = base + 3 * a + 2 * b;
-    *(int *)0x0C2B766C = base + 3 * a + 2 * b + c;
-    kmSetCheapShadowMode(cfg[4]);
-    nlMvInitParam();
-    return kmUseAnotherModifier(1);
-}
 
 /* Is the copy finished on every channel (h+3 of them)? Each channel object (h+56) answers through
    its vtable slot +80; both flags must be 1. When so, the pending flag (+92) is cleared. */
-int mwlRnaIsCopyEnd(char *h)
-{
-    int ok[2];
-    int *p0 = &ok[0];
-    int *p1 = &ok[1];
-    int res;
-    int i;
-    int *obj;
-
-    if (*(int *)(h + 92) == 0) {
-        return 0;
-    }
-    res = 1;
-    *p1 = 1;
-    *p0 = 1;
-    for (i = 0; i < (unsigned char)h[3]; i++) {
-        obj = *(int **)(h + 56);
-        if ((*(int (**)(int *, int))(*obj + 80))(obj, i) != 1) {
-            ok[i] = 0;
-        }
-    }
-    if (*p0 == 0 || *p1 == 0) {
-        res = 0;
-    }
-    if (res == 1) {
-        *(int *)(h + 92) = 0;
-    }
-    return res;
-}
 
 /* Draw the four result-screen sprites (ids 413, 414, 412, then the table[idx] one) through the
    sprite state at 0C2A7EDC with an orange fade. */
@@ -3943,60 +3648,8 @@ void psgPlayBlend(char *h, int arg)
    in q the line is solved for z = t = (dz*px - dx*pz) / (k*dz - dx), x = k*t and y follows the line;
    with the same z, z stays p's, x = k*pz and y follows the line, or is out's own when q has the same
    x too. The result goes to out. (The factor k is the float argument.) */
-void nlLineCalcFogB(float *p, float *q, float *out, float k)
-{
-    float tmp[3];
-    float dy = q[1] - p[1];
-    float dz = q[2] - p[2];
-    float dx = q[0] - p[0];
-    float t;
-
-    if (dz == 0.0f) {
-        tmp[2] = p[2];
-        tmp[0] = k * p[2];
-        if (dx == 0.0f) {
-            tmp[1] = out[1];
-        } else {
-            tmp[1] = dy * (tmp[0] - p[0]) / dx + p[1];
-        }
-    } else {
-        t = (dz * p[0] - dx * p[2]) / (k * dz - dx);
-        tmp[2] = t;
-        tmp[0] = k * t;
-        tmp[1] = dy * (t - p[2]) / dz + p[1];
-    }
-    out[0] = tmp[0];
-    out[1] = tmp[1];
-    out[2] = tmp[2];
-}
 
 /* The same with x and y swapped: y = k*t, and x follows the line. */
-void nlLineCalcFogC(float *p, float *q, float *out, float k)
-{
-    float tmp[3];
-    float dy = q[1] - p[1];
-    float dz = q[2] - p[2];
-    float dx = q[0] - p[0];
-    float t;
-
-    if (dz == 0.0f) {
-        tmp[2] = p[2];
-        tmp[1] = k * p[2];
-        if (dy == 0.0f) {
-            tmp[0] = out[0];
-        } else {
-            tmp[0] = dx * (tmp[1] - p[1]) / dy + p[0];
-        }
-    } else {
-        t = (dz * p[1] - dy * p[2]) / (k * dz - dy);
-        tmp[2] = t;
-        tmp[1] = k * t;
-        tmp[0] = dx * (t - p[2]) / dz + p[0];
-    }
-    out[0] = tmp[0];
-    out[1] = tmp[1];
-    out[2] = tmp[2];
-}
 
 extern float nlLdexpf(float x, int n);
 

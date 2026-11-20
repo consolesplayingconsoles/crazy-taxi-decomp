@@ -1,0 +1,176 @@
+/* Straight-line functions with calls and guards (batch gen_cz): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int nlsndStreamSetHdInfo(int, int);
+int nlsndStreamClose(int);
+int nlsndStreamStart(int);
+int nlsndStreamStop(int);
+int mwlSbFreeWork(int);
+int mwSbSetNumChan(int, int);
+int mwSbSetSfreq(int, int);
+int mwSbSetBitPerSmpl(int, int);
+int mwSbSetVol(int, int);
+int mwSbSetPan(int, int, int);
+int mwSbSetExPrm(int, int, int, int);
+extern int _builtin_get_imask(void);
+extern void _builtin_set_imask(int);
+int memset(int, int, int);
+int mwRnaErrCallFunc(int, ...);
+float nlLength(int, int);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPushUnitMatrix(void);
+int nlRotateAX(int);
+int nlRotateAY(int);
+int nlTranslateV(int);
+int nlsndG2DmaHandleClose(int);
+int nlsndStreamGenerateHdInfo(int);
+int mwSbClosePort(int a4);
+int mwSbPlay(int a4);
+int syMalloc_default_malloc(int a4);
+float Put_Transporter(int a4);
+struct o40_int { char p[0x40]; int v; };
+struct o44_int { char p[0x44]; int v; };
+struct o48_int { char p[0x48]; int v; };
+struct o4C_int { char p[0x4C]; int v; };
+struct o50_int { char p[0x50]; int v; };
+struct o54_int { char p[0x54]; int v; };
+struct o58_short { char p[0x58]; short v; };
+struct o5A_short { char p[0x5A]; short v; };
+struct o5C_int { char p[0x5C]; int v; };
+
+
+int mwSbClosePort(int a4)
+{
+    int t0;
+    int t1;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t18;
+    int t20;
+    int t23;
+
+    if (a4 != 0) {
+        t0 = *(int *)((a4 + 0x18));
+        if (t0 != 0) {
+            t1 = *(short *)((a4 + 0x6));
+            t6 = nlsndStreamStop(t1);
+        }
+        t7 = 0x0;
+        for (;;) {
+            t8 = *(int *)((a4 + 0x8));
+            if ((int)t7 >= (int)t8) {
+                break;
+            }
+            t9 = *(int *)((((t7 << 2) + (a4 + 0x2C)) + 0x0));
+            t6 = nlsndG2DmaHandleClose(t9);
+            if ((int)t6 < 0) {
+                t6 = mwRnaErrCallFunc(0xC176BE0);
+            }
+            t7 = (t7 + 0x1);
+        }
+        t12 = t6;
+        t13 = 0x0;
+        for (;;) {
+            t14 = *(int *)((a4 + 0x8));
+            if ((int)t13 >= (int)t14) {
+                break;
+            }
+            t15 = *(int *)((((t13 << 2) + (a4 + 0x34)) + 0x0));
+            t12 = nlsndG2DmaHandleClose(t15);
+            if ((int)t12 < 0) {
+                t12 = mwRnaErrCallFunc(0xC176BE0);
+            }
+            t13 = (t13 + 0x1);
+        }
+        t18 = *(short *)((a4 + 0x6));
+        nlsndStreamClose(t18);
+        t20 = *(int *)((a4 + 0x1C));
+        mwlSbFreeWork(t20);
+        *(unsigned int *)((a4 + 0x8)) = 0x0;
+        *(unsigned int *)((a4 + 0xC)) = 0x0;
+        memset(a4, 0x0, 0x68);
+        *(unsigned char *)((a4 + 0x4)) = 0x0;
+        t23 = 0x0;
+    }
+    return t23;
+}
+
+int mwSbPlay(int a4)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t4;
+    int t6;
+    int t8;
+    int t10;
+    int t12;
+    int t14;
+    int t16;
+    int t17;
+    int t19;
+    int t20;
+    int t22;
+    int t23;
+    int t25;
+    int t29;
+    int t30;
+    int t31;
+    int t32;
+    int t34;
+    int t35;
+
+    t0 = *(signed char *)((a4 + 0x5));
+    if (t0 == 0) {
+        t1 = *(int *)((a4 + 0x1C));
+        t2 = *(int *)((t1 + 0x4));
+        nlsndStreamGenerateHdInfo(t2);
+        t4 = *(int *)((a4 + 0x14));
+        mwSbSetSfreq(a4, t4);
+        t6 = *(int *)((a4 + 0x10));
+        mwSbSetBitPerSmpl(a4, t6);
+        t8 = *(int *)((a4 + 0xC));
+        mwSbSetNumChan(a4, t8);
+        t10 = *(int *)((a4 + 0x3C));
+        mwSbSetVol(a4, t10);
+        t12 = (((struct o40_int *)(a4))->v);
+        mwSbSetPan(a4, 0x0, t12);
+        t14 = (((struct o44_int *)(a4))->v);
+        mwSbSetPan(a4, 0x1, t14);
+        t16 = (((struct o4C_int *)(a4))->v);
+        t17 = (((struct o48_int *)(a4))->v);
+        mwSbSetExPrm(a4, 0x0, t17, t16);
+        t19 = (((struct o54_int *)(a4))->v);
+        t20 = (((struct o50_int *)(a4))->v);
+        mwSbSetExPrm(a4, 0x1, t20, t19);
+        t22 = (((struct o5A_short *)(a4))->v);
+        t23 = (((struct o58_short *)(a4))->v);
+        mwSbSetExPrm(a4, 0x3, t23, t22);
+        t25 = (((struct o5C_int *)(a4))->v);
+        mwSbSetExPrm(a4, 0x2, t25, 0x0);
+    }
+    t29 = 0x2710;
+    for (;;) {
+        t29 = (t29 - 0x1);
+        if (t29 == 0) {
+            break;
+        }
+    }
+    t30 = *(int *)((a4 + 0x1C));
+    t31 = *(short *)((a4 + 0x6));
+    t32 = *(int *)((t30 + 0x4));
+    nlsndStreamSetHdInfo(t31, t32);
+    t34 = *(short *)((a4 + 0x6));
+    t35 = nlsndStreamStart(t34);
+    *(unsigned int *)((a4 + 0x18)) = 0x1;
+    return t35;
+}
+
+

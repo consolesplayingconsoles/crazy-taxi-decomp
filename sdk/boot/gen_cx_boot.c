@@ -1,0 +1,172 @@
+/* Straight-line functions with calls and guards (batch gen_cx): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int bootRecvHeader(int, int);
+int bootParsePacket(int);
+int lcdFillData(int, int);
+float _in_coss(void);
+int memmove(int, int, int);
+int menuCursor(int, int, int);
+int menuEnterStep(void);
+int menuOpenStep(void);
+int menuPutFrame(void);
+int menuPutHelpBar(int, float, float);
+int menuPutSprites(int, int, int, int);
+int pdGetPeripheral(int);
+int putLevelCTFontAssist(int, int, int, int, int);
+int vibIsReady(void);
+int vmsfs_c_dispatch(int);
+int vmsfs_c_fiber7(void);
+int kmytex_ABSalloc(int a4, int a5, int a6, int a7);
+float cos(void);
+int bootRunPacket(int a4, int a5);
+int _fmtout_putstr(int a4, int a5, int a6);
+int menuOptionHandler(void);
+int Exec_LCD(void);
+int bootInstallVectors(void);
+int bootInitTables(void);
+struct o3C_uchar { char p[0x3C]; unsigned char v; };
+
+
+int bootRunPacket(int a4, int a5)
+{
+    int t9;
+    int t1;
+    int t3;
+
+    *(unsigned int *)0xAC00F714 = 0x1;
+    bootRecvHeader(a4, a5);
+    t9 = a4;
+    if (a4 == 0) {
+        t1 = *(signed char *)((a5 + 0x0));
+        t9 = a4;
+        if ((unsigned char)t1 != 41) {
+            bootParsePacket(a5);
+            t3 = ((int (*)(void))(0xC01138C))();
+            t9 = 0xFF;
+        }
+    }
+    return t9;
+}
+
+
+int bootInstallVectors(void)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+
+    t0 = ((int (*)(int, int, int))(0xC010A10))(0x8C00F400, 0x0, 0x1C0);
+    t1 = ((int (*)(int, int, int))(0xC010A10))(0xC010000, 0x0, 0x1000);
+    t2 = ((int (*)(int, int, int))(0xC0109F6))(0x8C00FA20, 0xC010D20, 0x8);
+    *(unsigned int *)0x8C00FA2C = 0x8C00FA30;
+    *(unsigned int *)0xC010F04 = 0x8C00FA20;
+    *(unsigned int *)0xC010F08 = 0x8C00FA3C;
+    t3 = ((int (*)(int, int, int))(0xC0109F6))(0x8C00F500, 0xC010D40, 0x8);
+    t4 = ((int (*)(int, int, int))(0xC0109F6))(0x8C00F800, 0xC010D40, 0x8);
+    t5 = ((int (*)(int, int, int))(0xC0109F6))(0x8C00FA00, 0xC010D40, 0x8);
+    *(unsigned int *)0x8C00F514 = 0xC010D60;
+    *(unsigned int *)0x8C00F814 = 0xC010D60;
+    *(unsigned int *)0x8C00FA14 = 0xC010D66;
+    t6 = 0x8C00F5C0;
+    t7 = 0x0;
+    for (;;) {
+        t7 = (t7 + 0x1);
+        *(unsigned int *)((t6 + 0x0)) = 0xC010154;
+        t6 = (t6 + 0x4);
+        if ((int)t7 >= (int)0x42) {
+            break;
+        }
+    }
+    return 0xC010B80;
+}
+
+int bootInitTables(void)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t18;
+    int t19;
+    int t20;
+    int t21;
+    int t22;
+    int t23;
+    int t24;
+    int t25;
+    int t26;
+    int t27;
+    int t28;
+    int t29;
+    int t30;
+    int t31;
+    int t32;
+    int t33;
+    int t34;
+    int t35;
+
+    t0 = 0x0;
+    for (;;) {
+        t1 = ((int (*)(int, int))(0xC011580))(t0, 0x0);
+        t0 = (t0 + 0x1);
+        if ((int)t0 >= (int)0x100) {
+            break;
+        }
+    }
+    t2 = ((int (*)(int, int))(0xC011580))(0x0, 0xEC);
+    t3 = ((int (*)(int, int))(0xC011580))(0x1, 0x60);
+    t4 = ((int (*)(int, int))(0xC011580))(0x2, 0xED);
+    t5 = ((int (*)(int, int))(0xC011580))(0x3, 0x61);
+    t6 = ((int (*)(int, int))(0xC011580))(0x4, 0xE7);
+    t7 = ((int (*)(int, int))(0xC011580))(0x5, 0x60);
+    t8 = ((int (*)(int, int))(0xC011580))(0x6, 0xC7);
+    t9 = ((int (*)(int, int))(0xC011580))(0x7, 0x81);
+    t10 = ((int (*)(int, int))(0xC011580))(0x8, 0xD1);
+    t11 = ((int (*)(int, int))(0xC011580))(0x9, 0xC);
+    t12 = ((int (*)(int, int))(0xC011580))(0xA, 0x39);
+    t13 = ((int (*)(int, int))(0xC011580))(0xB, 0x62);
+    t14 = ((int (*)(int, int))(0xC011580))(0xC, 0x3B);
+    t15 = ((int (*)(int, int))(0xC011580))(0xD, 0x70);
+    t16 = ((int (*)(int, int))(0xC011580))(0xE, 0x3A);
+    t17 = ((int (*)(int, int))(0xC011580))(0xF, 0x64);
+    t18 = ((int (*)(int, int))(0xC011580))(0x10, 0x38);
+    t19 = ((int (*)(int, int))(0xC011580))(0x11, 0x65);
+    t20 = ((int (*)(int, int))(0xC011580))(0x12, 0x33);
+    t21 = ((int (*)(int, int))(0xC011580))(0x13, 0x80);
+    t22 = ((int (*)(int, int))(0xC011580))(0x14, 0xE7);
+    t23 = ((int (*)(int, int))(0xC011580))(0x15, 0x70);
+    t24 = ((int (*)(int, int))(0xC011580))(0x16, 0xC7);
+    t25 = ((int (*)(int, int))(0xC011580))(0x17, 0x2);
+    t26 = ((int (*)(int, int))(0xC011580))(0x18, 0xD1);
+    t27 = ((int (*)(int, int))(0xC011580))(0x19, 0x1C);
+    t28 = ((int (*)(int, int))(0xC011580))(0x1A, 0x91);
+    t29 = ((int (*)(int, int))(0xC011580))(0x1B, 0xE0);
+    t30 = ((int (*)(int, int))(0xC011580))(0x1C, 0x90);
+    t31 = ((int (*)(int, int))(0xC011580))(0x1D, 0xE0);
+    t32 = ((int (*)(int, int))(0xC011580))(0x1E, 0x80);
+    t33 = ((int (*)(int, int))(0xC011580))(0x1F, 0x80);
+    t34 = ((int (*)(int, int))(0xC011580))(0x64, 0x80);
+    t35 = *(int *)0xAC00F728;
+    (((struct o3C_uchar *)(t35))->v) = 0x0;
+    return 0x3C;
+}
