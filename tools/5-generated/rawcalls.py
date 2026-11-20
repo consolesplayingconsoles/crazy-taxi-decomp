@@ -44,7 +44,7 @@ def scan():
     """(target, caller, file) for each raw call to an address no listed function starts at"""
     starts = listed()
     found = set()
-    for d, _, fs in os.walk(os.path.join(ROOT, 'src')):
+    for d, _, fs in [w for top in ('src', 'sdk') for w in os.walk(os.path.join(ROOT, top))]:      # the game's C and the SDK's (tools/layout.py)
         for f in fs:
             if not f.endswith('.c'):
                 continue

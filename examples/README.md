@@ -77,19 +77,41 @@ examples/
 
 ## Building a mod
 
-You need: the [decomp set up](../README.md#build) (`make setup GDI="..."`, then `make`, which must end with `MATCH`), your Katana SDK, and Python 3 with
-`numpy` and `Pillow` (the example tools use them).
-
-1. Copy the example's `.env.sample` (`examples/<example>/.env.sample`) to `.env` in the same folder and fill it in. Each key has a comment; none has a default, and a missing one stops the build. `.env` is git-ignored.
-2. Run the example's script:
-
 ```bash
-bash examples/pac-man/build.sh
+make setup GDI="path/to/your disc.gdi"
+echo 'SDK_PATH="/path/to/katana-sdk"' > .env
+make
+python3 -m pip install numpy Pillow
 ```
 
-The build copies this repository into `examples/build/<example>/tree` (the tree keeps its own `build/`, so later builds only rebuild what
-changed), applies the layers, runs `make` and `make c` there, writes the example's data file into a copy of your disc and names the result
-`Crazy Taxi [<name> by cpc]` in `examples/build/`. This repository's own files are never edited.
+```bash
+cp examples/tux-racer/.env.sample examples/tux-racer/.env
+cp examples/doom/.env.sample examples/doom/.env
+cp examples/pac-man/.env.sample examples/pac-man/.env
+cp examples/walking-tour/.env.sample examples/walking-tour/.env
+```
+
+### Dreamcast
+
+Build the mod into a copy of your game disc.
+
+```bash
+bash examples/tux-racer/build.sh
+bash examples/doom/build.sh
+bash examples/pac-man/build.sh
+bash examples/walking-tour/build.sh
+```
+
+### Native (x86-64 Linux)
+
+Builds the mod into a native game (prints how to run it)
+
+```bash
+bash examples/native.sh tux-racer
+bash examples/native.sh doom
+bash examples/native.sh pac-man
+bash examples/native.sh walking-tour
+```
 
 ## Licences and credits
 

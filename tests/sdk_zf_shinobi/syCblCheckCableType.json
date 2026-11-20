@@ -1,0 +1,9 @@
+{
+ "dev": [
+  {
+   "about": "hand: the port's pins read once",
+   "regs": {},
+   "poke": {}
+  }
+ ]
+}

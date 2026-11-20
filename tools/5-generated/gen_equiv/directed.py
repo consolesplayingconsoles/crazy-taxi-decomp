@@ -12,6 +12,7 @@ Whatever the old case file held is archived (state/cases-history/).
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import copy
 import glob
 import json
@@ -680,12 +681,23 @@ def repair(case, run, rng, hw=False, rounds=8, block=0x0CF00000):
     return None
 
 
-def unset_dependent(case, run):
+def unset_dependent(case, run, argc=None, fargc=None):
     """True when what the original does on the case (its calls and their arguments, its writes, r0 / fr0) changes with the values of
     r8-r14 and fr12-fr15 it is entered with: it reads a register it never set (shopDrawCatPanel, Virtua Tennis: an index left in r10 for an a4 outside
-    its compare chain). No input the game makes; the C has an uninitialised variable there. run(case): the original's run."""
+    its compare chain). No input the game makes; the C has an uninitialised variable there. run(case): the original's run.
+    argc(target): the callee's integer argument count, or the set of registers it reads (as sh4sim.run takes it); fargc(target): its
+    float argument count. Of r4-r7 and fr4-fr11 only the ones the callee takes are its arguments: the others hold what an earlier
+    call left, and a difference there is no dependence. Without a count, or for a callee it does not know (None), every register of
+    that kind is compared."""
+    def taken(x):
+        to = int(x['to'], 16)
+        n = argc(to) if argc else None
+        ints = x['r4-r7'] if n is None else [v for i, v in enumerate(x['r4-r7'], 4) if (i in n if isinstance(n, (set, frozenset)) else i - 4 < n)]
+        f = fargc(to) if fargc else None
+        return ints, (x['fr4-fr11'] if f is None else x['fr4-fr11'][:f])
+
     def seen(r):
-        return (str(r.get('error')), [(x['to'], x['r4-r7'], x['fr4-fr11']) for x in r.get('calls', [])], r.get('writes'), r.get('out', {}).get('r0'),
+        return (str(r.get('error')), [(x['to'],) + taken(x) for x in r.get('calls', [])], r.get('writes'), r.get('out', {}).get('r0'),
                 r.get('out', {}).get('fr0'))
     unset = {'r%d' % i: '%08X' % (0x0C9E0000 + 0x100 * i) for i in range(8, 15)}
     unset.update({'fr%d' % i: '%08X' % (0x3F800000 + 0x10000 * i) for i in range(12, 16)})     # fr12-fr15, callee-saved too (endingSceneDraw)
@@ -784,7 +796,7 @@ def main(names, runtime, funcs):
                 ledger.archive_cases(n, path, 'directed-before')
                 sets['dev'] += new[0::2]; sets['holdout'] += new[1::2]
                 json.dump(sets, open(path, 'w'), indent=1)
-            r = subprocess.run(['python3', 'tools/equiv.py', '-q', 'src/%s.c' % stem], capture_output=True, text=True)
+            r = subprocess.run(['python3', 'tools/equiv.py', '-q', layout.c_path(stem)], capture_output=True, text=True)
             out = r.stdout + r.stderr
             for n, path, sets, new in changed:
                 line = next((l for l in out.splitlines() if l.startswith(n + ' ')), '')
@@ -793,7 +805,7 @@ def main(names, runtime, funcs):
                 ledger.record('direct', n, word, line[len(n):].strip())
                 if word == 'DIFFERS' and out_only(line):       # the return value alone: written again with another return kind, on these cases
                     import gen_drv
-                    src = 'src/%s.c' % stem
+                    src = layout.c_path(stem)
                     def check_(n=n):
                         r_ = subprocess.run(['python3', 'tools/equiv.py', src], capture_output=True, text=True)      # every line: -q leaves out a pass
                         return re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), r_.stdout + r_.stderr, re.M) is not None

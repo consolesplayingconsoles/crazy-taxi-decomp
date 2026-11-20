@@ -1,0 +1,26 @@
+{
+ "dev": [
+  {
+   "about": "runs, calls the routine at 0xAC004000 and returns from the exception",
+   "regs": {},
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ],
+ "holdout": [
+  {
+   "about": "with other register contents (they are saved and restored)",
+   "regs": {
+    "r0": "00000011",
+    "r4": "00000022",
+    "r5": "00000033"
+   },
+   "poke": {},
+   "calls": [
+    {}
+   ]
+  }
+ ]
+}

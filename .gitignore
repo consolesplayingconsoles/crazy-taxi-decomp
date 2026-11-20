@@ -24,3 +24,7 @@ state/
 # patch leftovers
 *.orig
 walking-tour-debug
+pc-port
+native-port
+
+core

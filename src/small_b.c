@@ -1,64 +1,5 @@
 /* Small functions in the gaps between proven ones: empty bodies and constants. */
 
-void ADXRNA_ClearBuf(void)
-{
-}
-
-void ADXRNA_SetPcmType(void)
-{
-}
-
-void ADXRNA_SetTotalNumSmpl(void)
-{
-}
-
-void ADXRNA_SetWavFname(void)
-{
-}
-
-void ADXSTM_Finish(void)
-{
-}
-
-void mwlRnaSetSvrInt(void)
-{
-}
-
-void mwRnaInitCs(void)
-{
-}
-
-void adxt_stat_playend(void)
-{
-}
-
-void kmiInitRenderer(void)
-{
-}
-
-void mwlRnaClearBuf(void)
-{
-}
-
-int kmiEnableVSyncInterrupt(void)
-{
-    return 1;
-}
-
-int kmiEnableHSyncInterrupt(void)
-{
-    return 1;
-}
-
-int mwRnaDiscardData(void)
-{
-    return 0;
-}
-
-int mwlSbGetWorkTbl(void)
-{
-    return 0x0C17872C;
-}
 
 void Psg_SetPosPtr(int a, float *v);
 int GetCollision2D(int a, float b);
@@ -74,37 +15,6 @@ void Psg_SetPosVal(int a, float x, float y, float z)
     Psg_SetPosPtr(a, v);
 }
 
-float _app_coss(float x)
-{
-    float *t;
-    float x2;
-    float p;
-    int i;
-
-    t = (float *)0xC0DAC08;
-    x2 = x * x;
-    p = t[0];
-    for (i = 1; i <= 6; i++) {
-        p = x2 * p + t[i];
-    }
-    return p;
-}
-
-float _app_sins(float x)
-{
-    float *t;
-    float x2;
-    float p;
-    int i;
-
-    t = (float *)0xC0DAC28;
-    x2 = x * x;
-    p = t[0];
-    for (i = 1; i <= 6; i++) {
-        p = x2 * p + t[i];
-    }
-    return x * p;
-}
 
 int CheckClippingProject3D(float *v, float k)
 {
@@ -124,38 +34,6 @@ void exec_GameSystem(void)
     }
 }
 
-void syChainMasterHandler(int a)
-{
-    int *n;
-
-    n = ((int **)0xC2EBC10)[(short)a >> 4];
-    while (n != 0) {
-        ((void (*)(int))n[0])(n[2]);
-        n = (int *)n[1];
-    }
-}
-
-int nlsndStreamGetFreq(int a)
-{
-    int e;
-
-    e = 0xC2B771C + (short)a * 24;
-    if (*(signed char *)e == 1) {
-        return *(int *)(e + 12);
-    }
-    return 0;
-}
-
-int nlsndStreamGetBitSize(int a)
-{
-    int e;
-
-    e = 0xC2B771C + (short)a * 24;
-    if (*(signed char *)e == 1) {
-        return *(short *)(e + 2);
-    }
-    return 0;
-}
 
 int pedCarNotInSubway(void)
 {
@@ -224,3 +102,4 @@ void psgCallEnter(int a, int b, int c)
     t = *(Words7 *)0xC0D5A98;
     ((void (*)(int, int, int *))t.v[b])(a, c, t.v);
 }
+

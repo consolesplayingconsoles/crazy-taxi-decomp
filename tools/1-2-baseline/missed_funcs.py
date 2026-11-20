@@ -24,6 +24,7 @@ split_asm.py and build.sh (still MATCH).
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import struct, sys
 
 if len(sys.argv) != 4:
@@ -116,7 +117,7 @@ for o in range(0, len(exe) - 3, 4):
 #    A number at a pool word also gives the first function start after it in the same gap.
 import glob, os, re
 LIT = re.compile(r'(?<![\w.])0[xX]([0-9A-Fa-f]{7,8})\b(?![.\w])')
-for f in sorted(glob.glob('src/*.c')):
+for f in sorted(layout.c_files()):
     for i, line in enumerate(open(f, errors='replace'), 1):
         if line.lstrip().startswith(('/*', '*', '//')):
             continue

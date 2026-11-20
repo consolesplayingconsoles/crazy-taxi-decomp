@@ -79,7 +79,14 @@ def build(name,ret,passthru=False):
     rt='void'
     if '@@TAIL:' in text:
         if ret=='void': text=re.sub(r'@@TAIL:(.*?)@@',lambda m:m.group(1)+';\nreturn;',text)
-        else: text=re.sub(r'@@TAIL:(.*?)@@',lambda m:'return %s;'%m.group(1),text); rt='int'
+        else:
+            text=re.sub(r'@@TAIL:(.*?)@@',lambda m:'return %s;'%m.group(1),text); rt='int'
+            if ret=='fr0':
+                # written as returning a float, the value is the one the tail call's target returns: the target is declared float
+                # too. Declared int, `return target(...)` converted the integer in r0 to a float
+                tm=re.match(r'(\w+)\(',c.tail if isinstance(c.tail,str) else '')
+                if tm and tm.group(1) in c.protos and c.protos[tm.group(1)][-1:]!=('->float',) and not str(c.protos[tm.group(1)][-1:]).startswith("('->Stk"):
+                    c.protos[tm.group(1)]=tuple(c.protos[tm.group(1)])+('->float',)
     if not c.terminated:
         if ret=='r0':
             v=c.R.get('r0')
@@ -494,6 +501,11 @@ def _argc(t):
     n=G.FUNCS.get(G.canon(t)) if hasattr(G,'canon') else G.FUNCS.get(t)
     a=G.callee_arity(n) if n else None
     return a[0] if a else None
+def _fargc(t):
+    """The callee's float argument count (None when not known), beside _argc's integer one."""
+    n=G.FUNCS.get(G.canon(t)) if hasattr(G,'canon') else G.FUNCS.get(t)
+    a=G.callee_arity(n) if n else None
+    return a[1] if a else None
 def stack_moved(devs,devs2,shift,reads2=()):
     """An access outside RAM made from the stack, not a hardware register: run again with the stack `shift` lower, the same access is at
     its address minus `shift`, as an access outside RAM again (a local table read at a huge index, rankDrawCharaIcon) or as an ordinary
@@ -626,7 +638,7 @@ def unset_free(name,cases,enough=None):
     out=[]
     for d in cases:
         if enough is not None and len(out)>=enough: break
-        if directed.unset_dependent(d,run):
+        if directed.unset_dependent(d,run,argc=_argc,fargc=_fargc):
             ERRS['depends on registers it never set']=ERRS.get('depends on registers it never set',0)+1
             continue
         out.append(d)

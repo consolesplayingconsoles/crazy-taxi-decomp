@@ -10,6 +10,7 @@ tests/equivalent.txt and their entries from docs/equivalent.md."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import os
 import re
@@ -23,7 +24,7 @@ def main():
         return 0
     names = [l.strip() for l in open('tests/equivalent.txt') if l.strip()]
     defined = set()
-    for f in glob.glob('src/*.c'):
+    for f in layout.c_files():
         text = open(f, errors='replace').read()
         defined |= set(re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', text, flags=re.M))
     tests = set(os.path.basename(p)[:-5] for p in glob.glob('tests/*/*.json'))

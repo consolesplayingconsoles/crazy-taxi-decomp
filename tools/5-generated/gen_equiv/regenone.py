@@ -10,6 +10,7 @@ second or two, and a batch run's move of files and parallel compiles is what has
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import re
 import sys
@@ -35,7 +36,7 @@ def generate(name):
 
 
 def splice(name, new, protos=None):
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         t = open(f, errors='replace').read()
         m = re.search(r'(?m)^(?:int|void|float|Stk\d+)\s+\**%s\s*\([^;{]*\)\s*\n\{' % re.escape(name), t)
         if not m:

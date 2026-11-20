@@ -18,6 +18,7 @@ tools/5-generated/classify.py, tools/equiv.py, 1ST_READ.BIN."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import sys,json,os,shutil,glob,re,subprocess,collections,signal,time,multiprocessing,fcntl
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
@@ -83,6 +84,10 @@ if '--lift' in sys.argv:
     import gen_retest; gen_retest.lift([x for x in sys.argv[1:] if x!='--lift']); sys.exit(0)
 abc='abcdefghijklmnopqrstuvwxyz'
 k=0
+def _taken():
+    """the file names in use: every C file of the repo, wherever it lives (tools/layout.py), and every cases folder. A new
+    file is written through the name lookup, so a name taken in another folder would replace that file"""
+    return {layout.stem(f) for f in layout.c_files()} | (set(os.listdir('tests')) if os.path.isdir('tests') else set())
 def write_batch(keep):
     global k
     if not keep: return
@@ -93,12 +98,12 @@ def write_batch(keep):
     protos={}
     for it in keep:
         for a,b in it[3].items(): protos[a]=b
-    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc]+[a+b+c_ for a in abc for b in abc for c_ in abc] if not os.path.exists('src/gen_%s.c'%x))
+    fn=next('gen_'+x for x in list(abc)+[a+b for a in abc for b in abc]+[a+b+c_ for a in abc for b in abc for c_ in abc] if 'gen_'+x not in _taken())
     head='/* Straight-line functions with calls and guards (batch %s): generated from the code and checked by tests. Calls are\n   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */\n\n'%fn+gen_drv.head_protos(keep)+'\n\n'
-    open('src/%s.c'%fn,'w').write(rewrites.narrow_unit(head+'\n'.join(i[1] for i in keep)))
+    open(layout.c_path(fn),'w').write(rewrites.narrow_unit(head+'\n'.join(i[1] for i in keep)))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/equiv.py','src/%s.c'%fn],capture_output=True,text=True)
+    r=subprocess.run(['python3','tools/equiv.py',layout.c_path(fn)],capture_output=True,text=True)
     bad=gen_pipe.failed_in(r.stdout+r.stderr,[it[0] for it in keep])
     note('%s: %d functions written, %d EQUIVALENT, %d not'%(fn,len(keep),len(keep)-len(bad),len(bad)))      # equiv.py prints no summary without -q
     if bad:                  # it passed in its batch, not in the file it was written to (a callee's definition changed meanwhile: --regen
@@ -108,7 +113,7 @@ def write_batch(keep):
             try: os.remove('tests/%s/%s.json'%(fn,n))
             except OSError: pass
         rest=[it for it in keep if it[0] not in bad]
-        os.remove('src/%s.c'%fn)
+        os.remove(layout.c_path(fn))
         if not os.listdir('tests/%s'%fn): os.rmdir('tests/%s'%fn)
         if rest: write_batch(rest)
 if '--recheck' in sys.argv:
@@ -128,7 +133,7 @@ os.makedirs('tests',exist_ok=True)
 if not os.path.exists('tests/equivalent.txt'): open('tests/equivalent.txt','w').close()      # a first run has none: an empty one is a repo with nothing proven yet
 eq=set(open('tests/equivalent.txt').read().split())
 defined=set()
-for f in glob.glob('src/*.c'):
+for f in layout.c_files():
     t=open(f,errors='replace').read()
     defined|=set(re.findall(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{',t,flags=re.M))
 ver=set()
@@ -184,7 +189,7 @@ if known:
     # the check of the generator itself: it writes C for functions already proven Equivalent (by hand or by an earlier run)
     # and tests it. The evidence equiv.py writes for them is put back afterwards.
     saved={f:open(f).read() for f in ('tests/equivalent.txt','docs/equivalent.md') if os.path.exists(f)}
-existing=[os.path.basename(f)[4:-2] for f in glob.glob('src/gen_*.c')]
+existing=[layout.stem(f)[4:] for f in layout.c_files() if layout.stem(f).startswith('gen_')]      # a generated file's letters, wherever the file lives
 letters=[x for x in list(abc)+[a+b for a in abc for b in abc] if x not in existing]   # gen_a .. gen_z, then gen_aa ..
 remaining=sorted(cand,key=lambda n:-gen_core.SPANS[n][1]); final=[]            # the biggest first: the slow ones start early and never hold the others back
 BATCH=int(os.environ.get('GEN_BATCH','8000'))      # bytes of original code per batch: results are checked and written each time this many bytes have been drawn

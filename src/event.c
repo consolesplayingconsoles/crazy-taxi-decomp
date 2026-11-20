@@ -212,12 +212,4 @@ void eventRunAll(void)
     }
 }
 
-int eventCount(void)
-{
-    return gEventCount;
-}
 
-int eventAllocCount(void)
-{
-    return gEventAllocCount;
-}

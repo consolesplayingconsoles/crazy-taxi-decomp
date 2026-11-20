@@ -16,6 +16,7 @@ A call that matches neither is listed and left alone.
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import re
 import sys
@@ -126,7 +127,7 @@ def find_setup(text, call_start, args, k, ptr_i):
 
 def protos(names, only=None):
     """Every prototype (not a definition, not an old-style `()` one) of these functions takes the definition's parameter types."""
-    texts = {f: open(f, errors='replace').read() for f in glob.glob('src/*.c')}
+    texts = {f: open(f, errors='replace').read() for f in layout.c_files()}
     defs = {}
     for f, tx in texts.items():
         for m in re.finditer(r'(?m)^(?:int|void|float|Stk\d+)\s+(\**)(\w+)\s*\(([^;{]*)\)\s*\n\{', tx):
@@ -192,7 +193,7 @@ def main(argv):
             only = json.load(open(a[1:]))
     done = bad = 0
     changed_names = set()
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         text = open(f, errors='replace').read()
         orig = text
         for spec in specs:

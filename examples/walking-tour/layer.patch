@@ -1,6 +1,5 @@
 diff --git a/mod-sources.txt b/mod-sources.txt
 new file mode 100644
-index 0000000..95f0221
 --- /dev/null
 +++ b/mod-sources.txt
 @@ -0,0 +1,8 @@
@@ -13,7 +12,6 @@ index 0000000..95f0221
 +config/*.h
 +quick.h
 diff --git a/src/checkpiece_b.c b/src/checkpiece_b.c
-index 0f6363e..a2599a8 100644
 --- a/src/checkpiece_b.c
 +++ b/src/checkpiece_b.c
 @@ -10,6 +10,7 @@
@@ -24,7 +22,7 @@ index 0f6363e..a2599a8 100644
  int PutCourse_CheckPiece(int n, int g, int type, int pt, float d, float sx, float r)
  {
      int cg, k;
-@@ -82,7 +83,7 @@ int PutCourse_CheckPiece(int n, int g, int type, int pt, float d, float sx, floa
+@@ -82,7 +83,7 @@
      cg = CAR(0x60);
      if (IN(g, 0x14F, 0x162) || cg == 0x147 || cg == 0x148) {
          if (cg == 0x147 || cg == 0x148) {                       /* the camera's grid is the tunnel's: which area it is in */
@@ -35,7 +33,6 @@ index 0f6363e..a2599a8 100644
              if (AREA == 23 || AREA == 22)
 diff --git a/src/config/README.md b/src/config/README.md
 new file mode 100644
-index 0000000..bea670c
 --- /dev/null
 +++ b/src/config/README.md
 @@ -0,0 +1,23 @@
@@ -64,7 +61,6 @@ index 0000000..bea670c
 +* The split changes only when growth shows it is needed.
 diff --git a/src/config/debug.h b/src/config/debug.h
 new file mode 100644
-index 0000000..1f67114
 --- /dev/null
 +++ b/src/config/debug.h
 @@ -0,0 +1,8 @@
@@ -78,7 +74,6 @@ index 0000000..1f67114
 +#define DEBUG_PRESS_EVERY 20            /* frames between those presses */
 diff --git a/src/config/drive.h b/src/config/drive.h
 new file mode 100644
-index 0000000..f1a5985
 --- /dev/null
 +++ b/src/config/drive.h
 @@ -0,0 +1,38 @@
@@ -122,7 +117,6 @@ index 0000000..f1a5985
 +#define CAM_DOWN_MAX    20.0f           /* at most this much down */
 diff --git a/src/config/foot.h b/src/config/foot.h
 new file mode 100644
-index 0000000..21bb647
 --- /dev/null
 +++ b/src/config/foot.h
 @@ -0,0 +1,70 @@
@@ -198,7 +192,6 @@ index 0000000..21bb647
 +#define PICKUP_RAISE    3.0f            /* a passenger standing in the pickup's bed, raised to show */
 diff --git a/src/config/tram.h b/src/config/tram.h
 new file mode 100644
-index 0000000..4624b75
 --- /dev/null
 +++ b/src/config/tram.h
 @@ -0,0 +1,40 @@
@@ -244,7 +237,6 @@ index 0000000..4624b75
 +#define TRAM_HALT       0.15f           /* what it slows by a frame when something ahead holds it (braking from the top speed takes about 20 frames) */
 diff --git a/src/config/world.h b/src/config/world.h
 new file mode 100644
-index 0000000..5b3b2d0
 --- /dev/null
 +++ b/src/config/world.h
 @@ -0,0 +1,24 @@
@@ -273,7 +265,6 @@ index 0000000..5b3b2d0
 +#define FLY_SETTLE      0.5f            /* a bounce lower than this: standing again */
 +#define FLY_FLAT        15.0f           /* this high above the ground, flat out (a plank) */
 diff --git a/src/course_b.c b/src/course_b.c
-index f9bad9f..9840716 100644
 --- a/src/course_b.c
 +++ b/src/course_b.c
 @@ -1,3 +1,4 @@
@@ -281,7 +272,7 @@ index f9bad9f..9840716 100644
  /* PutCourse: the course pieces to draw this frame, written from the shape of the Android port's function and the Dreamcast code
     (which keeps the window and section searches as functions of their own: getPieceWindow, findSplineSection). */
  
-@@ -11,7 +12,7 @@ typedef struct { float radius; NLpoint3 pos; float pad; } CoursePiece;
+@@ -11,7 +12,7 @@
  #define COURSE_B        (*(CoursePiece **)0x0C1EE804)
  #define CAM_POS         ((NLpoint3 *)0x0C179840)
  #define CAM_SP_NUM      (*(int *)0x0C2A6EC0)
@@ -292,7 +283,6 @@ index f9bad9f..9840716 100644
  
 diff --git a/src/game.h b/src/game.h
 new file mode 100644
-index 0000000..7badba2
 --- /dev/null
 +++ b/src/game.h
 @@ -0,0 +1,173 @@
@@ -470,10 +460,9 @@ index 0000000..7badba2
 +#define CUSTOMER_TASK   ((unsigned int)kyakuTaskExec)                  /* kyakuTaskExec: a customer's event */
 +#define PERSON_SIZE     100                         /* a crowd's person record */
 diff --git a/src/game_p.c b/src/game_p.c
-index df3e918..9acf885 100644
 --- a/src/game_p.c
 +++ b/src/game_p.c
-@@ -319,6 +319,7 @@ extern void PutRenderTexture(int mode);
+@@ -270,6 +270,7 @@
  extern void nlRenderTextureEnd(void);
  
  /* Game 2, or menu mode 1 set: Put_Remain_Time_Mode2; otherwise Put_Remain_Time; the gear box either way. */
@@ -481,7 +470,7 @@ index df3e918..9acf885 100644
  void Put_Default2_Sprite(void)
  {
      if (*(int *)0x0C1EE210 == 2 || GetMenuMode(1) != 0) {
-@@ -326,7 +327,7 @@ void Put_Default2_Sprite(void)
+@@ -277,7 +278,7 @@
      } else {
          Put_Remain_Time();
      }
@@ -490,7 +479,7 @@ index df3e918..9acf885 100644
  }
  
  /* Run frames (gdc_CourseLoadExec, then a flip) until the busy flag at 0C26E0F8 drops; at least one. */
-@@ -1985,7 +1986,7 @@ void Put_TotalDrum_Meter(void)
+@@ -1853,7 +1854,7 @@
  void menuTopHandler(void)
  {
      menuOpenStep();
@@ -499,7 +488,7 @@ index df3e918..9acf885 100644
      menuPutFrame();
      menuPutSprites(0x0C0A0720, (void *)0x0C2A1A84, *(int *)0x0C2A1AD8 + 8, 24);
      menuPutHelpBar(0, (float)(-*(int *)0x0C2A1AD8), 416.0f);
-@@ -2267,7 +2268,7 @@ void menuSetMode(void)
+@@ -2135,7 +2136,7 @@
          *(int *)0x0C1EE214 = 0;
      } else if (p[1] == 2) {
          *(int *)0x0C1EE238 = 0;
@@ -509,10 +498,9 @@ index df3e918..9acf885 100644
      } else {
          *(int *)0x0C1EE238 = 4;
 diff --git a/src/gen_adr.c b/src/gen_adr.c
-index 15dca03..430fc38 100644
 --- a/src/gen_adr.c
 +++ b/src/gen_adr.c
-@@ -25,14 +25,14 @@ int menuItemDifficulty(int a4, int a5)
+@@ -25,14 +25,14 @@
      t0 = *(int *)0xC2A1ADC;
      t12 = 0x8;
      t13 = 0xC28A4EA;
@@ -530,10 +518,9 @@ index 15dca03..430fc38 100644
          }
          u16 = u6;
 diff --git a/src/gen_aes.c b/src/gen_aes.c
-index cc1f668..409b048 100644
 --- a/src/gen_aes.c
 +++ b/src/gen_aes.c
-@@ -87,6 +87,7 @@ struct oBC_uint { char p[0xBC]; unsigned int v; };
+@@ -87,6 +87,7 @@
  struct oC_float { char p[0xC]; float v; };
  
  
@@ -541,7 +528,7 @@ index cc1f668..409b048 100644
  int psgJolt(int a4, int a5, float f4)
  {
      int stk[14];
-@@ -344,5 +345,6 @@ int psgJolt(int a4, int a5, float f4)
+@@ -344,5 +345,6 @@
      *(unsigned int *)((((((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x4)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x4)));
      *(unsigned int *)((((((short)((short)((((struct o154_short *)(a4))->v)) * (short)0xCC) + 0xC2ADCE4) + 0x3C) + 0x84) + 0x8)) = (*(int *)((((a5 + 0x3C) + 0x84) + 0x8)));
      psgUpdatePartTracks(a4, 0.919999957f);
@@ -550,10 +537,9 @@ index cc1f668..409b048 100644
 +    return 0;
  }
 diff --git a/src/gen_aez.c b/src/gen_aez.c
-index 807fa0e..54e1980 100644
 --- a/src/gen_aez.c
 +++ b/src/gen_aez.c
-@@ -10,6 +10,7 @@ extern int nlRotateAY();
+@@ -10,6 +10,7 @@
  int nlTranslateV(int);
  int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7);
  
@@ -561,7 +547,7 @@ index 807fa0e..54e1980 100644
  int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float f7)
  {
      int t13;
-@@ -83,7 +84,7 @@ int pedDraw(int a4, int a5, int a6, int a7, float f4, float f5, float f6, float
+@@ -83,7 +84,7 @@
      R7 = (0x0);
      goto L_C0501F2;
      L_C0501F2:;
@@ -571,10 +557,9 @@ index 807fa0e..54e1980 100644
      nlObjPutUseViewMatrix(0xC5AA038);
      goto L_C05024E;
 diff --git a/src/gen_afb.c b/src/gen_afb.c
-index 827196d..6c5aca6 100644
 --- a/src/gen_afb.c
 +++ b/src/gen_afb.c
-@@ -26,6 +26,7 @@ struct o8_float { char p[0x8]; float v; };
+@@ -26,6 +26,7 @@
  struct o8_int { char p[0x8]; int v; };
  
  
@@ -582,7 +567,7 @@ index 827196d..6c5aca6 100644
  int psgFrameState2(int a4)
  {
      int t0;
-@@ -70,7 +71,7 @@ int psgFrameState2(int a4)
+@@ -70,7 +71,7 @@
                      *(unsigned int *)((a4 + 0x10)) = (short)(GetAverageAngle((*(int *)((a4 + 0x10))), (R1004), 0.199999988f));
                      psgStepBlend(a4);
                      psgPutShadow(a4);
@@ -591,7 +576,7 @@ index 827196d..6c5aca6 100644
                  } else {
                      FcvStoreBuffer((*(int *)((a4 + 0x34))), (a4 + 0x3C), (*(float *)((a4 + 0x38))));
                      nlMultiMatrix(0xC179180);
-@@ -87,7 +88,7 @@ int psgFrameState2(int a4)
+@@ -87,7 +88,7 @@
                      }
                      nlTranslate(u29, u30, u31);
                      psgUpdatePartTracks(a4);
@@ -600,7 +585,7 @@ index 827196d..6c5aca6 100644
                      *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + 1.0f);
                      if ((*(int *)((a4 + 0x0))) != 32) {
                      } else {
-@@ -201,13 +202,13 @@ int psgFrameState2(int a4)
+@@ -201,13 +202,13 @@
              if (((*(signed char *)((a4 + 0x149))) & 128) != 0) {
                  psgPutShadow(a4);
                  psgStepBlend(a4);
@@ -616,7 +601,7 @@ index 827196d..6c5aca6 100644
                  *(float *)((a4 + 0x38)) = ((*(float *)((a4 + 0x38))) + (*(float *)(((0x120 + a4) + 0x0))));
                  *(unsigned int *)(((0x150 + a4) + 0x0)) = (((*(int *)(((0x150 + a4) + 0x0))) & 0x0) | ((unsigned int)((int)((unsigned int)((*(int *)((a4 + 0x150))) + 0x1) & 0xFFFFFFFF)) << 0));
                  if (!(3.0f > t210) && (t223 = *(int *)(((0x150 + a4) + 0x0)), (unsigned int)t223 <= (unsigned int)0x258)) {
-@@ -223,7 +224,7 @@ int psgFrameState2(int a4)
+@@ -223,7 +224,7 @@
          nlPushMatrix(0x0);
          psgPutShadow(a4);
          psgUpdatePartTracks(a4);
@@ -626,10 +611,9 @@ index 827196d..6c5aca6 100644
          if (!((*(float *)((a4 + 0x38))) > 10.0f)) {
          } else {
 diff --git a/src/gen_agj.c b/src/gen_agj.c
-index c97c8b0..f81b11f 100644
 --- a/src/gen_agj.c
 +++ b/src/gen_agj.c
-@@ -8,6 +8,7 @@ float nlLength(int, int);
+@@ -8,6 +8,7 @@
  int setObjPlace(int, int);
  void setObjGroupExec(int a4, int a5, int a6, int a7, float f4);
  
@@ -637,7 +621,7 @@ index c97c8b0..f81b11f 100644
  void setObjGroupExec(int a4, int a5, int a6, int a7, float f4)
  {
      int t2;
-@@ -70,7 +71,7 @@ void setObjGroupExec(int a4, int a5, int a6, int a7, float f4)
+@@ -70,7 +71,7 @@
          t1 = t23;
          t2 = t25;
      }
@@ -647,10 +631,9 @@ index c97c8b0..f81b11f 100644
          t33 = *(int *)((a4 + 0x14));
          t34 = *(short *)((t33 + 0x10));
 diff --git a/src/gen_ahj.c b/src/gen_ahj.c
-index 4638be9..009432c 100644
 --- a/src/gen_ahj.c
 +++ b/src/gen_ahj.c
-@@ -57,7 +57,7 @@ int GS_GameMain(void)
+@@ -57,7 +57,7 @@
      (((struct o8_uint *)0xC1EE788)->v) = (((((struct o8_int *)0xC1EE788)->v)) + 0x1);
      t23 = (((struct o0_int *)0xC1EE210)->v);
      if (((*(int *)0xC0E5338) == 0) && ((t24 = (((struct o24_int *)0xC1EE7C8)->v), t24 == 1) && ((t25 = (((struct o0_int *)0xC1EE788)->v), t25 == 1) && ((t26 = (((struct oC_int *)0xC1EE788)->v), (int)t26 > 0) && ((t23 != 2) || ((t23 == 2) && ((t27 = (((struct o4_int *)0xC1EE210)->v), t27 != 0) && (t28 = *(int *)0xC2A9904, t28 == 0)))))))) {
@@ -659,7 +642,7 @@ index 4638be9..009432c 100644
      }
      t33 = (((struct o0_int *)0xC1EE210)->v);
      t111 = t33;
-@@ -75,7 +75,7 @@ int GS_GameMain(void)
+@@ -75,7 +75,7 @@
                  t76 = t59;
                  if (t59 != 1) {
                      if ((int)((((struct o2C_int *)0xC1EE7C8)->v)) >= (int)((((struct o20_int *)0xC1EE7C8)->v))) {
@@ -669,10 +652,9 @@ index 4638be9..009432c 100644
                          (((struct o2C_uint *)0xC1EE7C8)->v) = 0x0;
                      }
 diff --git a/src/gen_ahy.c b/src/gen_ahy.c
-index e3f5a13..d6e8dec 100644
 --- a/src/gen_ahy.c
 +++ b/src/gen_ahy.c
-@@ -8,6 +8,7 @@ extern int Put_Remain_Time_Mode2();
+@@ -8,6 +8,7 @@
  int Put_TotalDrum_Update(void);
  int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float f6);
  
@@ -680,7 +662,7 @@ index e3f5a13..d6e8dec 100644
  int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float f6)
  {
      int t2;
-@@ -23,5 +24,6 @@ int Put_Default_Sprite(int a4, int a5, int a6, int a7, float f4, float f5, float
+@@ -23,5 +24,6 @@
      } else {
          t7 = ((int (*)(int, int, int, int, float, float, float))(Put_Remain_Time_Mode2))(a4, a5, a6, a7, f4, f5, f6);
      }
@@ -689,10 +671,9 @@ index e3f5a13..d6e8dec 100644
 +    return 0;
  }
 diff --git a/src/gen_alh.c b/src/gen_alh.c
-index 2bd1f11..b8e96cc 100644
 --- a/src/gen_alh.c
 +++ b/src/gen_alh.c
-@@ -22,6 +22,7 @@ struct o4_uint { char p[0x4]; unsigned int v; };
+@@ -22,6 +22,7 @@
  struct o8_uint { char p[0x8]; unsigned int v; };
  
  
@@ -700,7 +681,7 @@ index 2bd1f11..b8e96cc 100644
  int psgFrameState3(int a4)
  {
      int t5;
-@@ -297,7 +298,7 @@ int psgFrameState3(int a4)
+@@ -297,7 +298,7 @@
          if ((t282 != 4) && ((t282 != 5) && ((t282 != 6) && ((t282 != 7) && ((t282 != 8) && ((t282 != 9) && (t282 != 10))))))) {
              t283 = ((int (*)(int, int, float, float))(psgJolt))(a4, (a4 + 0x3C), u276, u280);
          } else {
@@ -710,7 +691,6 @@ index 2bd1f11..b8e96cc 100644
      }
      t293 = nlPopMatrix(0x1);
 diff --git a/src/gen_ane.c b/src/gen_ane.c
-index 41ba8bc..7f715e6 100644
 --- a/src/gen_ane.c
 +++ b/src/gen_ane.c
 @@ -4,6 +4,7 @@
@@ -721,7 +701,7 @@ index 41ba8bc..7f715e6 100644
  int pedGetSubwayFlag(float f4, float f5)
  {
      int t1;
-@@ -13,10 +14,10 @@ int pedGetSubwayFlag(float f4, float f5)
+@@ -13,10 +14,10 @@
      float u5;
      int t13;
  
@@ -735,10 +715,9 @@ index 41ba8bc..7f715e6 100644
          u5 = 8e+01f;
          if (!(_builtin_fabsf((u4 - u3)) > u5)) {
 diff --git a/src/gen_ano.c b/src/gen_ano.c
-index d856f2e..0326106 100644
 --- a/src/gen_ano.c
 +++ b/src/gen_ano.c
-@@ -11,6 +11,7 @@ int putLevelCTFontAssist(int, int, int, int, int);
+@@ -11,6 +11,7 @@
  int vibIsReady(void);
  int menuOptionHandler(void);
  
@@ -746,7 +725,7 @@ index d856f2e..0326106 100644
  int menuOptionHandler(void)
  {
      int t2;
-@@ -18,10 +19,10 @@ int menuOptionHandler(void)
+@@ -18,10 +19,10 @@
      int t10;
      int t11;
  
@@ -761,10 +740,9 @@ index d856f2e..0326106 100644
      menuCursor(0x0, 0x9, t2);
      menuPutFrame();
 diff --git a/src/gen_ant.c b/src/gen_ant.c
-index 6b5337f..68bacc6 100644
 --- a/src/gen_ant.c
 +++ b/src/gen_ant.c
-@@ -15,7 +15,7 @@ int sysCfgRead(int a4, int a5, int a6)
+@@ -15,7 +15,7 @@
          *(unsigned int *)0xC2A11BC = 0x0;
      }
      t3 = syCfgGetLanguage(0xC2A11C0);
@@ -773,7 +751,7 @@ index 6b5337f..68bacc6 100644
          t5 = *(int *)0xC2A11C0;
          switch (t5) {
          case 0:
-@@ -39,7 +39,7 @@ int sysCfgRead(int a4, int a5, int a6)
+@@ -39,7 +39,7 @@
          }
          t23 = t5;
      } else {
@@ -783,10 +761,9 @@ index 6b5337f..68bacc6 100644
      }
      return t23;
 diff --git a/src/gen_aon.c b/src/gen_aon.c
-index 9c289b7..e0fd006 100644
 --- a/src/gen_aon.c
 +++ b/src/gen_aon.c
-@@ -45,6 +45,9 @@ int replay(int);
+@@ -45,6 +45,9 @@
  /* manual: the point goes to gdc_CoursePointLoadReq by value (the generated form dropped it and passed only the float) */
  int exec_CarMain(void);
  
@@ -796,7 +773,7 @@ index 9c289b7..e0fd006 100644
  int exec_CarMain(void)
  {
      float u8;
-@@ -119,9 +122,9 @@ int exec_CarMain(void)
+@@ -119,9 +122,9 @@
      nlUnitMatrix();
      carGroundCheck(0xC1790CC);
      if ((int)(*(int *)0xC179488) < (int)0x4) {
@@ -808,7 +785,7 @@ index 9c289b7..e0fd006 100644
      }
      replay(0x5);
      u8 = *(float *)0xC1EE2F4;
-@@ -394,7 +397,7 @@ int exec_CarMain(void)
+@@ -394,7 +397,7 @@
              u296 = (*(float *)(((int)stk + 44)));
              u296 = u296 + 600.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
              *(float *)(((int)stk + 44)) = u296;
@@ -817,7 +794,7 @@ index 9c289b7..e0fd006 100644
          }
          t349 = t298;
      } else {
-@@ -417,7 +420,7 @@ int exec_CarMain(void)
+@@ -417,7 +420,7 @@
                  u320 = (*(float *)(((int)stk + 44)));
                  u320 = u320 + 220.0f * (nlFastCos(((unsigned short)(*(short *)0xC1791C0) - 3072)));
                  *(float *)(((int)stk + 44)) = u320;
@@ -826,7 +803,7 @@ index 9c289b7..e0fd006 100644
              } else {
                  t331 = t303;
                  if (t303 == 3) {
-@@ -428,7 +431,7 @@ int exec_CarMain(void)
+@@ -428,7 +431,7 @@
                      u329 = (*(float *)(((int)stk + 44)));
                      u329 = u329 + 30.0f * (nlFastCos((unsigned short)(*(short *)0xC1791C0)));
                      *(float *)(((int)stk + 44)) = u329;
@@ -836,10 +813,9 @@ index 9c289b7..e0fd006 100644
                  t337 = t331;
              }
 diff --git a/src/gen_aou.c b/src/gen_aou.c
-index 39e9a5b..8ae7a25 100644
 --- a/src/gen_aou.c
 +++ b/src/gen_aou.c
-@@ -23,6 +23,7 @@ struct o20_int { char p[0x20]; int v; };
+@@ -23,6 +23,7 @@
  struct o24_float { char p[0x24]; float v; };
  
  
@@ -847,7 +823,7 @@ index 39e9a5b..8ae7a25 100644
  int Drv_Put(void)
  {
      int t0;
-@@ -76,12 +77,12 @@ int Drv_Put(void)
+@@ -76,12 +77,12 @@
      t17 = (((struct o0_int *)0xC2AD000)->v);
      if ((t16 != 2) && (t16 != 4)) {
          if (((*(signed char *)0xC2AD1DF) & 128) != 0) {
@@ -863,10 +839,9 @@ index 39e9a5b..8ae7a25 100644
      nlGetTranslate(0xC2AD004);
      if (((*(signed char *)0xC2AD1DF) & 1) != 0) {
 diff --git a/src/gen_aps.c b/src/gen_aps.c
-index 0c9e6cf..fa9e0c4 100644
 --- a/src/gen_aps.c
 +++ b/src/gen_aps.c
-@@ -28,6 +28,7 @@ struct oC_float { char p[0xC]; float v; };
+@@ -28,6 +28,7 @@
  struct oF4_short { char p[0xF4]; short v; };
  
  
@@ -874,7 +849,7 @@ index 0c9e6cf..fa9e0c4 100644
  int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
  {
      float t8;
-@@ -66,7 +67,7 @@ int pedUpdate(int a4, int a5, int a6, int a7, float f4, float f5)
+@@ -66,7 +67,7 @@
      F4 = f4;
      F5 = f5;
      L_C04FA82:;
@@ -884,10 +859,9 @@ index 0c9e6cf..fa9e0c4 100644
      if ((((((struct o50_int *)(R4))->v)) != 2)) goto L_C04FAD0;
      goto L_C04FA9C;
 diff --git a/src/gen_atz.c b/src/gen_atz.c
-index 5d1b85c..ea7ac1a 100644
 --- a/src/gen_atz.c
 +++ b/src/gen_atz.c
-@@ -79,6 +79,7 @@ struct o8_int { char p[0x8]; int v; };
+@@ -79,6 +79,7 @@
  
  
  
@@ -895,7 +869,7 @@ index 5d1b85c..ea7ac1a 100644
  int psgFrameState4(int a4)
  {
      int stk[36];
-@@ -412,7 +413,7 @@ int psgFrameState4(int a4)
+@@ -412,7 +413,7 @@
                      *(float *)(((int)stk + 76)) = 0.0f;
                      nlUnitVector((((int)stk + 12) + 0x3C));
                      *(unsigned int *)((a4 + 0x10)) = (nlArcTan2((*(float *)(((int)stk + 72))), (*(float *)(((int)stk + 80)))));
@@ -904,7 +878,7 @@ index 5d1b85c..ea7ac1a 100644
                      if ((((((struct o0_int *)0xC1EE20C)->v)) == 2) && (t678 = (((struct o8_int *)0xC1EE20C)->v), t678 == 14)) {
                          if (((*(signed char *)((a4 + 0x14B))) & 4) == 0) {
                              *(unsigned int *)((a4 + 0x10)) = ((*(int *)((a4 + 0x10))) + 0x8000);
-@@ -452,7 +453,7 @@ int psgFrameState4(int a4)
+@@ -452,7 +453,7 @@
                      (((struct o78_uint *)(a4))->v) = 0x0;
                      (((struct o7C_uint *)(a4))->v) = 0x0;
                      (((struct o80_uint *)(a4))->v) = 0x0;
@@ -914,10 +888,9 @@ index 5d1b85c..ea7ac1a 100644
                          t744 = *(signed char *)((a4 + 0x154));
                          nlTranslateV(((signed char)(((t744 << 1) + t744) << 2) + 0xC13F3BC));
 diff --git a/src/gen_dk.c b/src/gen_dk.c
-index dd71e3c..b6ad235 100644
 --- a/src/gen_dk.c
 +++ b/src/gen_dk.c
-@@ -45,9 +45,7 @@ int menuCrazyBoxHandler(void)
+@@ -45,9 +45,7 @@
      }
      t6 = *(signed char *)0xC28A4F6;
      t7 = ((CheckBoxFlag(((((struct o0_int *)0xC2A11C4)->v)))) << 2);
@@ -929,10 +902,9 @@ index dd71e3c..b6ad235 100644
      menuPutFrame();
      menuPutSprites(0xC0A0770, 0xC2A1A84, (((((struct o0_int *)0xC2A1AD8)->v)) + 0x8), 0x18);
 diff --git a/src/gen_dn.c b/src/gen_dn.c
-index abb3d46..0b6ad66 100644
 --- a/src/gen_dn.c
 +++ b/src/gen_dn.c
-@@ -32,6 +32,7 @@ struct o60_short { char p[0x60]; short v; };
+@@ -32,6 +32,7 @@
  struct oF4_short { char p[0xF4]; short v; };
  
  
@@ -940,7 +912,7 @@ index abb3d46..0b6ad66 100644
  int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
  {
      float u7;
-@@ -75,7 +76,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
+@@ -75,7 +76,7 @@
      F4 = f4;
      F5 = f5;
      L_C04FC5A:;
@@ -949,7 +921,7 @@ index abb3d46..0b6ad66 100644
      R14 = (R4);
      F14 = (F5);
      F15 = (F4);
-@@ -111,7 +112,7 @@ int pedDodgeCheck(int a4, int a5, int a6, float f4, float f5)
+@@ -111,7 +112,7 @@
      if ((t24 == -1)) goto L_C04FF48;
      goto L_C04FEBE;
      L_C04FEBE:;
@@ -959,10 +931,9 @@ index abb3d46..0b6ad66 100644
      L_C04FEC6:;
      if ((((((struct o60_short *)(R14))->v)) == 0)) goto L_C04FED6;
 diff --git a/src/gen_dy.c b/src/gen_dy.c
-index 2177241..978a108 100644
 --- a/src/gen_dy.c
 +++ b/src/gen_dy.c
-@@ -21,6 +21,7 @@ struct oC_int { char p[0xC]; int v; };
+@@ -21,6 +21,7 @@
  struct oC_uint { char p[0xC]; unsigned int v; };
  
  
@@ -970,7 +941,7 @@ index 2177241..978a108 100644
  int drvJolt(float f4, float f5)
  {
      float u12;
-@@ -136,5 +137,6 @@ int drvJolt(float f4, float f5)
+@@ -136,5 +137,6 @@
              (((struct oC_uint *)0xC2AD4A4)->v) = 0x2000;
          }
      }
@@ -979,10 +950,9 @@ index 2177241..978a108 100644
 +    return 0;
  }
 diff --git a/src/gen_el.c b/src/gen_el.c
-index 79ae74e..4fc83f2 100644
 --- a/src/gen_el.c
 +++ b/src/gen_el.c
-@@ -118,6 +118,7 @@ struct oD_uchar { char p[0xD]; unsigned char v; };
+@@ -118,6 +118,7 @@
  
  
  
@@ -990,7 +960,7 @@ index 79ae74e..4fc83f2 100644
  int camUpdate(int a4)
  {
      int stk[28];
-@@ -933,18 +934,18 @@ int camUpdate(int a4)
+@@ -933,18 +934,18 @@
      L_C026E62:;
      *(float *)(((int)stk + 88)) = w0_0;
      if ((((((struct o38_int *)0xC179928)->v)) == 0)) goto L_C026E88;
@@ -1013,7 +983,7 @@ index 79ae74e..4fc83f2 100644
      L_C026F6E:;
      nlCalcPoint((((int)stk + 4) + 0x54), (((int)stk + 4) + 0x54));
      nlSubVector3op((((int)stk + 4) + 0x44), (((int)stk + 4) + 0x54), 0xC179914);
-@@ -978,14 +979,14 @@ int camUpdate(int a4)
+@@ -978,14 +979,14 @@
      L_C026F34:;
      w0_0 = (((((struct o10_float *)0xC1798A4)->v)) * 0.333333313f);
      w0_0 = w0_0 + ((((struct o0_float *)0xC0E4D90)->v)) * ((((struct o4_float *)0xC0E4DD8)->v));
@@ -1033,10 +1003,9 @@ index 79ae74e..4fc83f2 100644
      L_C026D70:;
      (((struct o0_float *)0xC0E4DD8)->v) = ((((struct o15C_float *)((*(int *)(((int)stk + 84)))))->v));
 diff --git a/src/gen_gx.c b/src/gen_gx.c
-index 7dd7ea9..9668acb 100644
 --- a/src/gen_gx.c
 +++ b/src/gen_gx.c
-@@ -45,6 +45,8 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5);
+@@ -45,6 +45,8 @@
     leaves whatever register it last wrote, so the result is void here. Every use of the value the original re-reads from memory
     (**(R14 + 0x198)) is written as that read: the hoisted variable h0 was only set on one path, and the get-off count and the
     replay passenger number came out 0 on the others (directed cases 30 and 57). */
@@ -1045,7 +1014,7 @@ index 7dd7ea9..9668acb 100644
  void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
  {
      int h0;
-@@ -222,7 +224,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
+@@ -222,7 +224,7 @@
      L_C025602:;
      return;
      L_C025328:;
@@ -1054,7 +1023,7 @@ index 7dd7ea9..9668acb 100644
      R4 = (t50);
      if ((t50 == 0)) goto L_C025344;
      goto L_C025330;
-@@ -559,7 +561,7 @@ void kyakuTaskExec(int a4, int a5, int a6, int a7, float f4, float f5)
+@@ -559,7 +561,7 @@
      R0 = ((nlCloseEvent(R14)));
      goto L_C025602;
      L_C024EC4:;
@@ -1064,10 +1033,9 @@ index 7dd7ea9..9668acb 100644
      L_C024ECC:;
      if (((*(int *)((*(int *)((R14 + 0x198))) + 0x0)) == -1)) goto L_C024F1C;
 diff --git a/src/gen_ha.c b/src/gen_ha.c
-index d29e244..a48e52a 100644
 --- a/src/gen_ha.c
 +++ b/src/gen_ha.c
-@@ -11,6 +11,7 @@ int pedSpawn(int, int, float);
+@@ -11,6 +11,7 @@
  int pedUpdate(int, int, float);
  int crowdTask(int a4, int a5, float f4);
  
@@ -1075,7 +1043,7 @@ index d29e244..a48e52a 100644
  int crowdTask(int a4, int a5, float f4)
  {
      float t16;
-@@ -49,7 +50,7 @@ int crowdTask(int a4, int a5, float f4)
+@@ -49,7 +50,7 @@
      R5 = a5;
      F4 = f4;
      L_C04F68A:;
@@ -1085,10 +1053,9 @@ index d29e244..a48e52a 100644
      R12 = (0x64);
      R13 = (0x0);
 diff --git a/src/gen_hv.c b/src/gen_hv.c
-index 856430c..39354ab 100644
 --- a/src/gen_hv.c
 +++ b/src/gen_hv.c
-@@ -8,6 +8,7 @@ int nlRotateAY(int);
+@@ -8,6 +8,7 @@
  int nlTranslateV(int);
  int psgSeatMatrix(int a4);
  
@@ -1096,7 +1063,7 @@ index 856430c..39354ab 100644
  int psgSeatMatrix(int a4)
  {
      int t2;
-@@ -18,7 +19,7 @@ int psgSeatMatrix(int a4)
+@@ -18,7 +19,7 @@
      int t4;
      int stk[9];
  
@@ -1106,10 +1073,9 @@ index 856430c..39354ab 100644
      if ((((*(int *)0xC1EE20C) == 2) && (t3 = *(int *)0xC1EE214, t3 == 11)) || (t4 = *(int *)0xC1EE214, t4 == 14)) {
          if ((*(int *)0xC1EE214) == 11) {
 diff --git a/src/gen_ik.c b/src/gen_ik.c
-index f0c13fd..82bd884 100644
 --- a/src/gen_ik.c
 +++ b/src/gen_ik.c
-@@ -48,7 +48,7 @@ int hudDraw(float f4)
+@@ -48,7 +48,7 @@
          if (((t4 & 0x10000000) != 0x10000000) && (t6 = *(int *)0xC1EE20C, t6 != 2)) {
              Put_Pass_Time();
          }
@@ -1119,10 +1085,9 @@ index f0c13fd..82bd884 100644
          t52 = 0x80;
      }
 diff --git a/src/gen_ji.c b/src/gen_ji.c
-index 903b6ce..4064b02 100644
 --- a/src/gen_ji.c
 +++ b/src/gen_ji.c
-@@ -20,6 +20,7 @@ struct o4_int { char p[0x4]; int v; };
+@@ -20,6 +20,7 @@
  struct o8_int { char p[0x8]; int v; };
  
  
@@ -1130,7 +1095,7 @@ index 903b6ce..4064b02 100644
  int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
  {
      int t11;
-@@ -72,8 +73,8 @@ int crowdSpawn(int a4, int a5, int a6, int a7, float f4, float f5)
+@@ -72,8 +73,8 @@
      R0 = (0x64);
      R11 = (0x0);
      R12 = (0x0);
@@ -1142,10 +1107,9 @@ index 903b6ce..4064b02 100644
      L_C04F220:;
      goto L_C04F584;
 diff --git a/src/gen_jj.c b/src/gen_jj.c
-index a6e80f8..4a2b71b 100644
 --- a/src/gen_jj.c
 +++ b/src/gen_jj.c
-@@ -49,6 +49,7 @@ struct o4_uint { char p[0x4]; unsigned int v; };
+@@ -49,6 +49,7 @@
  struct o8_int { char p[0x8]; int v; };
  
  
@@ -1153,7 +1117,7 @@ index a6e80f8..4a2b71b 100644
  int gameState0(float f4)
  {
      int t26;
-@@ -115,7 +116,7 @@ int gameState0(float f4)
+@@ -115,7 +116,7 @@
          PutCourse_Init(((((struct o0_int *)0xC1EE20C)->v)));
          nd_peopleInitialize(0x46);
      }
@@ -1163,10 +1127,9 @@ index a6e80f8..4a2b71b 100644
          Init_DCmini();
      }
 diff --git a/src/gen_mr.c b/src/gen_mr.c
-index 9ad4382..ee862bb 100644
 --- a/src/gen_mr.c
 +++ b/src/gen_mr.c
-@@ -38,6 +38,10 @@ struct o4_int { char p[0x4]; int v; };
+@@ -38,6 +38,10 @@
  struct o8_int { char p[0x8]; int v; };
  
  
@@ -1177,7 +1140,7 @@ index 9ad4382..ee862bb 100644
  int gameStateDrive(void)
  {
      int t0;
-@@ -55,7 +59,7 @@ int gameStateDrive(void)
+@@ -55,7 +59,7 @@
      if (t0 == 1) {
          return t0;
      }
@@ -1186,7 +1149,7 @@ index 9ad4382..ee862bb 100644
      Exec_Fog();
      t3 = (((struct o0_int *)0xC1EE20C)->v);
      if (t3 != 0) {
-@@ -100,8 +104,8 @@ int gameStateDrive(void)
+@@ -100,8 +104,8 @@
          ExecHelicopter();
      }
      Act_Execute();
@@ -1197,7 +1160,7 @@ index 9ad4382..ee862bb 100644
      if (((((struct o0_int *)0xC1EE20C)->v)) != 2) {
          crowdSpawn();
      }
-@@ -116,7 +120,7 @@ int gameStateDrive(void)
+@@ -116,7 +120,7 @@
          *(unsigned int *)0xC0E5320 = ((int)((int)((*(int *)0xC0E5320) + 0x1) % (int)0x2));
      }
      if ((*(int *)0xC0E5320) != 0) {
@@ -1207,10 +1170,9 @@ index 9ad4382..ee862bb 100644
          t80 = 0xC0E5320;
      }
 diff --git a/src/gen_ob.c b/src/gen_ob.c
-index c123c60..ae152a1 100644
 --- a/src/gen_ob.c
 +++ b/src/gen_ob.c
-@@ -138,15 +138,15 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+@@ -138,15 +138,15 @@
      goto L_C053C80;
      L_C053C80:;
      *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + (R11 << 2))));
@@ -1229,7 +1191,7 @@ index c123c60..ae152a1 100644
      goto L_C053D32;
      L_C053D32:;
      if (((int)R14 >= (int)0xB)) goto L_C053D40;
-@@ -155,7 +155,7 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+@@ -155,7 +155,7 @@
      nlObjPutSetFadeColor(F15, F14, F14);
      goto L_C053D40;
      L_C053D40:;
@@ -1238,7 +1200,7 @@ index c123c60..ae152a1 100644
      t57 = (int)(*(int *)((R12 + 0x0))) <= (int)0x14;
      R0 = ((ResetFadeColor()));
      if (t57) goto L_C053D5E;
-@@ -268,7 +268,7 @@ int Put_Remain_Time(int a4, int a5, int a6, int a7, float f4, float f5, float f6
+@@ -268,7 +268,7 @@
      goto L_C053CFC;
      L_C053CFC:;
      *(unsigned int *)((R13 + 0x0)) = (*(int *)((R10 + (R11 << 2))));
@@ -1248,10 +1210,9 @@ index c123c60..ae152a1 100644
      L_C053BFC:;
      R14 = (R13);
 diff --git a/src/gen_ov.c b/src/gen_ov.c
-index 8e9f9ef..bc9bc12 100644
 --- a/src/gen_ov.c
 +++ b/src/gen_ov.c
-@@ -23,11 +23,11 @@ int menuItemVolume(int a4, int a5)
+@@ -23,11 +23,11 @@
  
      t0 = *(int *)0xC2A1ADC;
      t3 = 0xC28A4ED;
@@ -1266,10 +1227,9 @@ index 8e9f9ef..bc9bc12 100644
      }
      *(unsigned int *)(((int)stk + 0)) = (unsigned char)(*(signed char *)((t3 + 0x0)));
 diff --git a/src/gen_uf.c b/src/gen_uf.c
-index e87a231..4d02dce 100644
 --- a/src/gen_uf.c
 +++ b/src/gen_uf.c
-@@ -17,6 +17,7 @@ struct o4_int { char p[0x4]; int v; };
+@@ -17,6 +17,7 @@
  
  
  
@@ -1277,7 +1237,7 @@ index e87a231..4d02dce 100644
  int psgPickExitSide(int a4)
  {
      int t4;
-@@ -28,7 +29,7 @@ int psgPickExitSide(int a4)
+@@ -28,7 +29,7 @@
      *(unsigned int *)(((int)stk + 4)) = a4;
      { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x20)) = *(struct mv3 *)(0xC0D6064); }
      { struct mv3 { int w[3]; }; *(struct mv3 *)((((int)stk + 4) + 0x14)) = *(struct mv3 *)(0xC0D6070); }
@@ -1287,10 +1247,9 @@ index e87a231..4d02dce 100644
      nlCalcPoint((((int)stk + 4) + 0x14), (((int)stk + 4) + 0x14));
      *(unsigned int *)(((int)stk + 8)) = 0xC2AD204;
 diff --git a/src/gen_uo.c b/src/gen_uo.c
-index 44fdfbf..bed41c8 100644
 --- a/src/gen_uo.c
 +++ b/src/gen_uo.c
-@@ -5,6 +5,7 @@ float nlLength(int, int);
+@@ -5,6 +5,7 @@
  int setObjGroupOpen(int);
  void ExecSetObject(int a4);
  
@@ -1298,7 +1257,7 @@ index 44fdfbf..bed41c8 100644
  void ExecSetObject(int a4)
  {
      int t0;
-@@ -75,7 +76,7 @@ void ExecSetObject(int a4)
+@@ -75,7 +76,7 @@
          if (((int)t17 > 0) && (t33 = *(int *)((t19 + 0x1C)), t33 == 0)) {
              t19 = t24;
              t19 = (t19 + t20);
@@ -1308,10 +1267,9 @@ index 44fdfbf..bed41c8 100644
              if (u26 > u25) {
                  t19 = (*(int *)0xC0EDBB8);
 diff --git a/src/gen_vc.c b/src/gen_vc.c
-index 996cb87..37a85ec 100644
 --- a/src/gen_vc.c
 +++ b/src/gen_vc.c
-@@ -31,7 +31,7 @@ int GS_StartWait(void)
+@@ -31,7 +31,7 @@
          if (t7 == 1) {
              t9 = *(int *)0xC2A9904;
              if (t9 == 0) {
@@ -1321,10 +1279,9 @@ index 996cb87..37a85ec 100644
              t14 = t9;
          }
 diff --git a/src/gen_vu.c b/src/gen_vu.c
-index aab58fb..d0f5e94 100644
 --- a/src/gen_vu.c
 +++ b/src/gen_vu.c
-@@ -9,6 +9,7 @@ int nlSubVector3op(int, int, int);
+@@ -9,6 +9,7 @@
  int nlUnitVector(int);
  int psgFaceTaxi(int a4);
  
@@ -1332,7 +1289,7 @@ index aab58fb..d0f5e94 100644
  int psgFaceTaxi(int a4)
  {
      float t2;
-@@ -18,7 +19,7 @@ int psgFaceTaxi(int a4)
+@@ -18,7 +19,7 @@
      int t9;
      int stk[8];
  
@@ -1342,10 +1299,9 @@ index aab58fb..d0f5e94 100644
      nlUnitVector(((int)stk + 4));
      t2 = nlInnerProduct(((int)stk + 4), 0xC0D5554);
 diff --git a/src/gen_wl.c b/src/gen_wl.c
-index ca47561..e5c3a14 100644
 --- a/src/gen_wl.c
 +++ b/src/gen_wl.c
-@@ -18,6 +18,7 @@ int nlObjPutSetFadeColor(float, float, float);
+@@ -18,6 +18,7 @@
  int paletteUpload(void);
  void MainLoop(int a4, float f4, float f5, float f6);
  
@@ -1353,7 +1309,7 @@ index ca47561..e5c3a14 100644
  void MainLoop(int a4, float f4, float f5, float f6)
  {
      int t19;
-@@ -76,7 +77,7 @@ void MainLoop(int a4, float f4, float f5, float f6)
+@@ -76,7 +77,7 @@
      L_C02AA24:;
      getSwitch();
      nlObjPutSetFadeColor(F15, F15, F15);
@@ -1363,10 +1319,9 @@ index ca47561..e5c3a14 100644
      t19 = *(int *)(((((*(int *)((R14 + 0x0))) & R9) << 2) + 0xC08ACEC));
      R13 = (t19);
 diff --git a/src/gen_xj.c b/src/gen_xj.c
-index bd745d0..bfca699 100644
 --- a/src/gen_xj.c
 +++ b/src/gen_xj.c
-@@ -68,13 +68,13 @@ int req_load(void)
+@@ -68,13 +68,13 @@
          if (((((struct o0_int *)0xC1EE20C)->v)) == 0) {
              t55 = 0xC08AE14;
          }
@@ -1384,7 +1339,6 @@ index bd745d0..bfca699 100644
  }
 diff --git a/src/mod.c b/src/mod.c
 new file mode 100644
-index 0000000..5826ac8
 --- /dev/null
 +++ b/src/mod.c
 @@ -0,0 +1,690 @@
@@ -2079,12 +2033,11 @@ index 0000000..5826ac8
 +}
 +
 diff --git a/src/small_b.c b/src/small_b.c
-index ab0f18f..b32a556 100644
 --- a/src/small_b.c
 +++ b/src/small_b.c
-@@ -157,11 +157,12 @@ int nlsndStreamGetBitSize(int a)
-     return 0;
+@@ -35,11 +35,12 @@
  }
+ 
  
 +extern unsigned char *carView;
  int pedCarNotInSubway(void)
@@ -2098,7 +2051,6 @@ index ab0f18f..b32a556 100644
  
 diff --git a/src/touch.c b/src/touch.c
 new file mode 100644
-index 0000000..cf4dfea
 --- /dev/null
 +++ b/src/touch.c
 @@ -0,0 +1,480 @@
@@ -2584,7 +2536,6 @@ index 0000000..cf4dfea
 +
 diff --git a/src/traffic.c b/src/traffic.c
 new file mode 100644
-index 0000000..5c63d84
 --- /dev/null
 +++ b/src/traffic.c
 @@ -0,0 +1,637 @@
@@ -3227,7 +3178,6 @@ index 0000000..5c63d84
 +}
 diff --git a/src/tram.c b/src/tram.c
 new file mode 100644
-index 0000000..143fe9e
 --- /dev/null
 +++ b/src/tram.c
 @@ -0,0 +1,474 @@
@@ -3706,10 +3656,9 @@ index 0000000..143fe9e
 +    tramPlace();
 +}
 diff --git a/tools/8-build/cbuild.py b/tools/8-build/cbuild.py
-index 73651a2..aa4854b 100644
 --- a/tools/8-build/cbuild.py
 +++ b/tools/8-build/cbuild.py
-@@ -329,7 +329,7 @@ def pieces():
+@@ -329,7 +329,7 @@
      if FILL1 < G0:                # between the fill block and the game code (an entry stub): as words, where it was
          open(asm + '/boot_stub.src', 'w').write(words_piece('fillEndStub', FILL1, G0, entry, section='PS'))
      nrep = 0
@@ -3718,7 +3667,7 @@ index 73651a2..aa4854b 100644
          t = open(f, errors='replace').read()
          used, funcs = [], set()
  
-@@ -432,6 +432,24 @@ def strip_names():
+@@ -432,6 +432,24 @@
      return {l.split('#')[0].strip() for l in open('strip-functions.txt') if l.split('#')[0].strip()}
  
  
@@ -3743,7 +3692,7 @@ index 73651a2..aa4854b 100644
  def prep_sources():
      for f in ('units.json', 'near.json'):
          if os.path.exists('%s/%s' % (OUT, f)):
-@@ -470,7 +488,10 @@ def prep_sources():
+@@ -470,7 +488,10 @@
                          t = t[:t.index('{', b[0])] + '{\n}\n' + t[b[1]:]
                          stubbed += 1
          open('%s/src/%s.c' % (OUT, stem), 'w').write(t)

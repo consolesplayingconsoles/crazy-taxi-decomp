@@ -45,6 +45,7 @@ partial/<file>.c, where progress.py counts it as partial work. Nothing written b
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import fcntl
 import glob
 import os
@@ -58,7 +59,7 @@ DEF = re.compile(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', re.M)
 def definitions():
     """{function: [file stem, ...]} for the functions src/*.c defines (scratch files left out)."""
     out = {}
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         stem = os.path.basename(f)[:-2]
         if stem.startswith(('gen_tmp', 'zz_')):
             continue
@@ -87,7 +88,7 @@ def manual_names():
     """{name: reason} of every function marked by hand in src/*.c."""
     import glob
     out = {}
-    for f in glob.glob('src/*.c'):
+    for f in layout.c_files():
         t = open(f, errors='replace').read()
         for m in re.finditer(r'/\*\s*manual:([^*]*(?:\*(?!/)[^*]*)*)\*/\s*\n[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(', t):
             out[m.group(2)] = m.group(1).strip()
@@ -240,15 +241,15 @@ def survey():
     found = {'defined twice': [], 'stray cases': [], 'no recorded pass': [], 'no cases': [], 'stale size': [], 'helper call': [], 'args outside': [], 'short call': [], 'low address': []}
     span = spans()
     for n, stems in sorted(defs.items()):
-        if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open('src/%s.c' % stems[0], errors='replace').read(), n, span):
+        if len(stems) == 1 and stems[0].startswith('gen_') and calls_itself(open(layout.c_path(stems[0]), errors='replace').read(), n, span):
             found['stale size'].append((n, stems[0]))
-        elif len(stems) == 1 and args_outside(open('src/%s.c' % stems[0], errors='replace').read(), n):
+        elif len(stems) == 1 and args_outside(open(layout.c_path(stems[0]), errors='replace').read(), n):
             found['args outside'].append((n, stems[0]))
-        elif len(stems) == 1 and stems[0].startswith('gen_') and calls_helper(open('src/%s.c' % stems[0], errors='replace').read(), n):
+        elif len(stems) == 1 and stems[0].startswith('gen_') and calls_helper(open(layout.c_path(stems[0]), errors='replace').read(), n):
             found['helper call'].append((n, stems[0]))
     for n, stems in sorted(defs.items()):
         for st in stems:
-            low = low_address(open('src/%s.c' % st, errors='replace').read(), n)
+            low = low_address(open(layout.c_path(st), errors='replace').read(), n)
             if low:
                 found['low address'].append((n, st, low))
     taken = {x[0] for k in ('stale size', 'args outside', 'helper call') for x in found[k]}
@@ -274,7 +275,7 @@ def survey():
 
 
 def remove_def(stem, name):
-    path = 'src/%s.c' % stem
+    path = layout.c_path(stem)
     text = open(path).read()
     b = block(text, name)
     if not b:
@@ -330,7 +331,7 @@ def fix():
         stems = sorted({st for n, st in found['no recorded pass']})
         for st in stems:
             print('checking src/%s.c ...' % st, flush=True)
-            subprocess.run([sys.executable, 'tools/equiv.py', '-q', 'src/%s.c' % st], capture_output=True, text=True)
+            subprocess.run([sys.executable, 'tools/equiv.py', '-q', layout.c_path(st)], capture_output=True, text=True)
         eq = lists()
         for n, st in found['no recorded pass']:
             if n not in eq:

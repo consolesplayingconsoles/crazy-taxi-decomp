@@ -1,0 +1,1071 @@
+extern int EndPsg_Execute();
+extern int ExecNameEntrySelect();
+/* Straight-line functions with calls and guards (batch gen_q): generated from the code and checked by tests. Calls are
+   to the game or library function at the address, with the arguments in r4-r7 and fr4-fr11 as set. */
+
+int ADXB_CheckAu(int);
+int ADXB_CheckSpsd(void);
+int ADXB_CheckWav(int);
+int ADXB_DecodeHeaderAdx(int, int, int);
+int ADXB_DecodeHeaderAiff(int, int, int);
+int ADXB_DecodeHeaderAu(int, int, int);
+int ADXB_DecodeHeaderSpsd(int, int, int);
+int ADXB_DecodeHeaderWav(int, int, int);
+int ADXB_Destroy(int);
+int ADXB_ExecHndl(int);
+int ADXB_ExecOneAiff16(int);
+int ADXB_ExecOneAiff8(int);
+int ADXB_ExecOneAu16(int);
+int ADXB_ExecOneAu8(int);
+int ADXB_ExecOneAuUlaw(int);
+int ADXB_GetStat(int);
+int ADXF_GetFsizeSct(int);
+int ADXF_OpenAfs(int, int);
+int ADXF_ReadNw32(int, int, int);
+int ADXPD_Create(void);
+int ADXRNA_SetOutPan(void);
+int ADXSTM_Tell(int);
+int ADXT_SetOutVol(int, int);
+int gdc_GetStreamSongRemainTime(int);
+int gdc_GetVolGainMute(int);
+int gdc_VolStreamSong(int);
+int gdc_PlayStreamSong(int);
+int pfOffsetColor(int, int, int, int);
+int pfSetFilterMode(int);
+int MotionBlurOff(void);
+int SetMotionBlurStrength(float);
+int callSaveData(int);
+int goiToolPointEntry(int, int);
+int goiToolCourseMap(int);
+int goiToolCoursePoint(int);
+int goiToolLight(int);
+int goiToolCamData(int);
+int setReplayType(int);
+int HomingPosX(int, float, float);
+int CarSel_SetBackColor(void);
+int Money_Array(int, int, int);
+int nd_SprPut(int, int, float, float);
+int Init_DramRoll(void);
+int Level_Calc(int);
+int Init_RS_Light(void);
+int Init_RS_Fog(void);
+int Start_Excellent(void);
+int Start_Fault(int);
+int psgAllocIpBuff(int);
+int breathExecOne(int, int);
+int nlSetPaletteMap(int, int);
+int nlCreateVertexBuffer_clx16(void);
+int nlCreateVertexBuffer_clx22(void);
+int nlSetPaletteData(int, int, int);
+int memcmp(int, int, int);
+int prefetch(int);
+int kmiFBallocQueue(int, int, int, int);
+int kmiInitializeDriver(void);
+int kmiMemCopy8(int, int, int);
+int ADXSJD_GetNumChan(int);
+int adxstmf_stat_exec(int);
+int kmiErrorRecover(int);
+int syBtFlWrite(void);
+int syBtFlDeleteSct(void);
+int fmMngMcpy4(int, int, int);
+int fmMngNum2Bit(int, int, int);
+int ADXB_CheckAiff(int);
+int GetMenuMode(int);
+int BigOnePut(void);
+int KillColliObj(int);
+int LightEffect(int);
+int Psg_Init(int, int, int);
+int Put_Max_Combo(void);
+int ResetFadeColor(void);
+int ResetSpark(void);
+int Sound_Request(int, int);
+int StopingCarInit(int, int);
+int Voice_Request(int, int, int, int);
+int Voice_ShutUp(int);
+int adxStartAfs1(int, int);
+int adxsjd_decexec_end(int);
+int adxsjd_decexec_start(int);
+int buExitForce(void);
+int callGoBackAdvertise(void);
+int courseCarType(void);
+int fmcalccrc(int, int);
+int gdFsInit(void);
+int gdFsSeek(int);
+int gdc_StopStreamSongAll(void);
+int kmChangeLatencyModel(int, int);
+int kmProcessVertexRenderState(int);
+int kmSetVertexRenderState(int);
+int kmfSetVertexBufferBaseAddress(int, int);
+int kmiCopyToFrameBuffer(int, int, int);
+int kmiGetProfileInt(int, int);
+int kmiInitializeHardware(void);
+int kmiRegisterPhIntHandler(int);
+int kmiWriteRegister(int, int);
+int kmtex_GetTextureLevel(int, int);
+int kmyConvertAddress64to32(int);
+int longjmp(int, int);
+int memset(int, int, int);
+int nlCloseEvent(int);
+int nlGetMatrix(int);
+int nlLoadMatrix(int);
+int nlObjPutSetFadeColor(float, float, float);
+int nlObjPutUseViewMatrix(int);
+int nlPopMatrix(int);
+int nlPrintColor(int);
+int nlPushMatrix(int);
+int nlScale(float, float, float);
+int nlSetScaleFactor(float);
+int nlSetTextureParameter(int);
+int nlSprPut(int);
+int nlTranslateV(int);
+int nlsndStreamSetHdChs(int, int);
+int ovLibDeleteTbl(int);
+int pfColor(int, int, int, int);
+int pfSetFont(int);
+int pfSetZ(float);
+int pfSize(float, float);
+int psgSetState(int, int, int, int);
+int replay(int);
+int set_event(int, int);
+int setjmp(int);
+int syBtCfgSet(int);
+int syCfgSetSoundMode(int);
+int fmMngMcpy(void);
+int vmsfs_c_getstate(int);
+int gdc_PlayStreamSongDisk(void);
+int fsInit(void);
+int gdc_CourseBlockReadNext(void);
+int InitEffect(void);
+int gameState14(void);
+int SetScreen(int a4);
+int menuEnterStep(void);
+int menuGoBack(void);
+int stopingCarSpawn(int a4, int a5);
+int pcarEnd(int a4);
+int trainControlExec(int a4);
+void GoiTool(int a4);
+int PutCourse_Sky(void);
+int selectInitIconSprite(void);
+void selectDrawPanels(void);
+int Init_Result_Parm(void);
+int Result_Next_State(void);
+int Exec_DCmini_Game12(void);
+int execMiniLight(void);
+int GetAverageAngle(int a4, int a5, float f4);
+int Psg_IsMotionSetA(int a4);
+int Psg_CheckCharaBit4(int a4);
+int EndPsg_Start(int a4, int a5, int a6, int a7);
+int AreYouBreathing(void);
+int BigOneSwims(void);
+int nlFreePalette(int a4);
+int nlSearchPalette(int a4, int a5);
+int nlSysUseLatency2V(void);
+int nlSysSetDirectListTypeLatency2V(int a4);
+int nlSysSetVertexBufferBaseAddress(int a4);
+int nlCreateVertexBuffer(void);
+float nlTan(int a4);
+int nlCopyMatrix(int a4, int a5);
+int nlLineSendHeader(int a4);
+int nlLineCalcFogA(int a4);
+int nlSpriteSetVtxContext(int a4);
+int nlSpriteF2C(float f4);
+int nlsndCheckPackLoadError(int a4, int a5);
+int nlsndSeqRequest(int a4);
+int nlsndStreamOpen(int a4);
+int nlsndG2DmaRequest(int a4, int a5, int a6, int a7);
+int nlsndG2DmaGetStatus(int a4);
+int nlDispStripLoadPalette(int a4, int a5);
+int nlstripSetVertexContext(int a4);
+int kmSetPaletteBankData(int a4, int a5, int a6);
+int kmSetPixelClipping(int a4, int a5, int a6, int a7);
+int ovMdlDeleteTbl(int a4);
+void p2_cache_set(void);
+int buExit(void);
+int syCfgGetSoundMode(int a4);
+int kmiInitializeDMA(void);
+int kmiDMAHazardReset(void);
+int kmiCh2DMAtoTA(int a4, int a5);
+int kmiTAallocEx(int a4, int a5, int a6);
+int kmiFBFitBlock(int a4, int a5);
+int kmInitDevice(int a4);
+void kmiWriteRegisters(int a4, int a5, int a6, int a7);
+int kmfSetTimeOutCount(int a4, int a5);
+int kmiCheckRenderTexture(int a4);
+int kmLoadVQCodebook(int a4, int a5);
+int kmtex_TextureSize_Twiddled(int a4);
+int kmtex_TextureSize_Palettized(int a4);
+int kmiConvertUVnum(int a4);
+int kmSetCheapShadowMode(int a4);
+int kmiPutGlobalParam(void);
+int kmChangeContextZWriteDisable(int a4);
+int kmChangeContextFogMode(int a4);
+int kmChangeContextPaletteBank(int a4);
+int kmiCalcTABufferSize(int a4);
+int ccitt_updcrc(int a4, int a5, int a6, int a7);
+int gdFsGetTokenSize(int a4, int a5, int a6);
+int kdVbOverHandler(void);
+int pdVmsLcdBltAsmFlipV(int a4, int a5);
+int pdVmsLcdBltAsmFlipH(int a4, int a5);
+int pdVmsLcdBltAsmFlipHV(int a4, int a5);
+int check_caps(int a4);
+int ADX_DecodeInfoExADPCM2(int a4, int a5, int a6);
+int adxsjd_decode_exec(int a4);
+int ADXSTM_Seek(int a4, int a5);
+void ADXSTM_SetEos(int a4, int a5);
+int ADXSTMF_ExecHndl(int a4);
+int adxt_set_outpan(int a4);
+void mwRnaSetupSnd(int a4, int a5);
+void SJMEM_Finish(void);
+void SJRBF_Finish(void);
+void SJUNI_Finish(void);
+int kmiInitInterrupt(void);
+int kmiUpdateRenderStatus(void);
+int kmiErrorISR04(void);
+int syG2DmaReset(int a4);
+int fmMngBit2Num(int a4, int a5, int a6);
+int fmMngChkEmptyData(int a4, int a5);
+int fmMngSctRefresh(int a4);
+int fmMngAddData(int a4);
+int fmMngWriteData(int a4);
+int ADXB_Create(int a4, int a5, int a6, int a7);
+int ADXB_DecodeHeader(int a4, int a5, int a6);
+int mwlSbAllocWork(int a4);
+int mwSbSetNumChan(int a4, int a5);
+int buFbrSleepFiber(int a4);
+int ADXB_ExecOneAiff(int a4);
+int ADXB_ExecOneAu(int a4);
+int syIntAdrChk_putchar(int a4);
+void syIntAdrChk_prints(int a4);
+int syIntAdrChk_printh(int a4);
+struct o3E_short { char p[0x3E]; short v; };
+struct o40_uint { char p[0x40]; unsigned int v; };
+struct o44_uint { char p[0x44]; unsigned int v; };
+struct o78_int { char p[0x78]; int v; };
+struct o84_int { char p[0x84]; int v; };
+struct o84_uint { char p[0x84]; unsigned int v; };
+struct o88_uint { char p[0x88]; unsigned int v; };
+struct o8C_uint { char p[0x8C]; unsigned int v; };
+struct o90_int { char p[0x90]; int v; };
+struct o90_uint { char p[0x90]; unsigned int v; };
+struct o94_uint { char p[0x94]; unsigned int v; };
+struct o98_int { char p[0x98]; int v; };
+struct o98_uint { char p[0x98]; unsigned int v; };
+struct oAA_short { char p[0xAA]; short v; };
+struct o0_float { float v; };
+struct o0_int { int v; };
+struct o0_short { short v; };
+struct o0_uint { unsigned int v; };
+struct o10_int { char p[0x10]; int v; };
+struct o10_uint { char p[0x10]; unsigned int v; };
+struct o14_float { char p[0x14]; float v; };
+struct o14_int { char p[0x14]; int v; };
+struct o14_uint { char p[0x14]; unsigned int v; };
+struct o18_uint { char p[0x18]; unsigned int v; };
+struct o1C_uint { char p[0x1C]; unsigned int v; };
+struct o20_int { char p[0x20]; int v; };
+struct o20_uint { char p[0x20]; unsigned int v; };
+struct o24_uint { char p[0x24]; unsigned int v; };
+struct o30_int { char p[0x30]; int v; };
+struct o34_int { char p[0x34]; int v; };
+struct o4_float { char p[0x4]; float v; };
+struct o4_int { char p[0x4]; int v; };
+struct o4_uint { char p[0x4]; unsigned int v; };
+struct o8_float { char p[0x8]; float v; };
+struct o8_int { char p[0x8]; int v; };
+struct o8_uint { char p[0x8]; unsigned int v; };
+struct oC_float { char p[0xC]; float v; };
+struct oC_int { char p[0xC]; int v; };
+struct oC_uint { char p[0xC]; unsigned int v; };
+
+
+int nlFreePalette(int a4)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+
+    t0 = *(int *)0xC2B7BD8;
+    t1 = *(short *)(((t0 + ((a4 << 2) << 1)) + 0x4));
+    if ((int)t1 > (int)0x1) {
+        t2 = *(short *)(((t0 + ((a4 << 2) << 1)) + 0x4));
+        *(unsigned short *)(((t0 + ((a4 << 2) << 1)) + 0x4)) = (t2 - 1);
+        t12 = (t2 - 1);
+    } else {
+        t3 = *(signed char *)(((t0 + ((a4 << 2) << 1)) + 0x3));
+        t4 = *(short *)(((t0 + ((a4 << 2) << 1)) + 0x0));
+        *(unsigned short *)(((t0 + ((a4 << 2) << 1)) + 0x6)) = 0xFFFFFFFF;
+        *(unsigned short *)(((t0 + ((a4 << 2) << 1)) + 0x0)) = 0xFFFFFFFF;
+        *(unsigned char *)(((t0 + ((a4 << 2) << 1)) + 0x2)) = 0xFFFFFFFF;
+        *(unsigned short *)(((t0 + ((a4 << 2) << 1)) + 0x4)) = 0x0;
+        t5 = 0xC2AECC8;
+        t6 = 0xC2B7BD8;
+        t7 = ((((int)t4 >> 4) << 1) + 0xC2AECC8);
+        t8 = ((int)0x1 << (int)(0xF & t4));
+        t9 = (unsigned char)t3;
+        for (;;) {
+            t10 = ((int)t9 > 0);
+            t9 = (t9 - 1);
+            if (!t10) break;
+            t11 = *(short *)((t7 + 0x0));
+            t5 = t11;
+            t6 = (~t8);
+            t8 = (t8 + t8);
+            t5 = (t5 & t6);
+            *(unsigned short *)((t7 + 0x0)) = t5;
+            if (t8 == 0x10000) {
+                t7 = (t7 + 0x2);
+                t8 = 0x1;
+            }
+        }
+        t12 = 0x0;
+    }
+    return t12;
+}
+
+int nlSearchPalette(int a4, int a5)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t9;
+    int t11;
+    int t25;
+    int t22;
+
+    if (a4 == 16) {
+        t0 = 0x0;
+        t1 = 0x0;
+        t2 = 0xFFFFFFFF;
+        do {
+            t3 = ((t1 << 2) << 2);
+            t4 = 0x0;
+            t5 = 0x1;
+            for (;;) {
+                t6 = *(short *)((((t1 << 1) + 0xC2AECC8) + 0x0));
+                if ((t6 & t5) == 0) {
+                    t7 = (t0 == 0);
+                    t0 = (t0 + 0x1);
+                    if (t7) {
+                        t2 = t3;
+                    }
+                    if ((int)t0 < (int)((int)(a5 + 0xF) >> 4)) {
+                        t4 = (t4 + 0x1);
+                        t5 = (t5 + t5);
+                        t3 = (t3 + 0x1);
+                        if ((int)t4 >= (int)0x10) break;
+                        continue;
+                    }
+                    break;
+                }
+                t0 = 0x0;
+                t4 = (t4 + 0x1);
+                t5 = (t5 + t5);
+                t3 = (t3 + 0x1);
+                if ((int)t4 >= (int)0x10) break;
+            }
+            t1 = (t1 + 0x1);
+        } while ((int)t1 < (int)0x4);
+        t25 = t2;
+        t22 = t0;
+    } else {
+        t25 = 0xFFFFFFFF;
+        t22 = 0x0;
+        if ((unsigned int)0xC2AECC8 < (unsigned int)0xC2AECD0) {
+            t9 = 0xC2AECC8;
+            t25 = 0x0;
+            for (;;) {
+                t11 = *(short *)((t9 + 0x0));
+                if ((t11 & (((int)0x1 << (int)((int)(a5 + 0xF) >> 4)) - 1)) == 0) break;
+                t9 = (t9 + 0x2);
+                t25 = (t25 + 0x10);
+                if ((unsigned int)t9 >= (unsigned int)0xC2AECD0) {
+                    if ((int)0x0 < (int)((int)(a5 + 0xF) >> 4)) {
+                        return 0xFFFFFFFF;
+                    }
+                    return 0xFFFFFFFF;
+                }
+            }
+            t22 = ((int)(a5 + 0xF) >> 4);
+        }
+    }
+    if ((int)t22 < (int)((int)(a5 + 0xF) >> 4)) {
+        t25 = 0xFFFFFFFF;
+    }
+    return t25;
+}
+
+int nlSysUseLatency2V(void)
+{
+    int t0;
+    int t1;
+
+    t0 = (((struct o14_int *)0xC2AED2C)->v);
+    if (t0 == 1) {
+        (((struct o0_uint *)0xC2AED2C)->v) = 0x20;
+        t1 = *(int *)0xC2AECD4;
+        *(unsigned int *)0xC2AECD4 = (t1 | 0x10);
+        (((struct oC_uint *)0xC2AED2C)->v) = 0x2;
+        return (t1 | 0x10);
+    }
+    return kmChangeLatencyModel(0x1, 0x20);
+}
+
+int nlSysSetDirectListTypeLatency2V(int a4)
+{
+    int t2;
+    int t3;
+
+    t2 = 0x20;
+    if (a4 != 0) {
+        t2 = 0x22;
+        if (a4 != 2) {
+            t2 = 0x24;
+            if (a4 != 4) {
+                t2 = 0x20;
+            }
+        }
+    }
+    t3 = (((struct o14_int *)0xC2AED2C)->v);
+    if (t3 == 1) {
+        (((struct o0_uint *)0xC2AED2C)->v) = t2;
+        return t3;
+    }
+    return kmChangeLatencyModel(0x1, t2);
+}
+
+int nlSysSetVertexBufferBaseAddress(int a4)
+{
+    int t0;
+
+    t0 = *(int *)0xC2AED40;
+    if (t0 == 1) {
+        *(unsigned int *)0xC2AECF4 = (0xA0000000 | a4);
+        return t0;
+    }
+    return kmfSetVertexBufferBaseAddress((0xA0000000 | a4), 0x0);
+}
+
+int nlCreateVertexBuffer(void)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+
+    t0 = *(int *)0xC2AED40;
+    if (t0 == 1) {
+        t1 = nlCreateVertexBuffer_clx22();
+        t3 = t1;
+    } else {
+        t2 = nlCreateVertexBuffer_clx16();
+        t3 = t2;
+    }
+    return t3;
+}
+
+float nlTan(int a4)
+{
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+    int t4;
+    float u5;
+    float u6;
+    int t7;
+    float u8;
+    float u9;
+
+    if ((0x7FFF & (unsigned short)a4) != 0x4000) {
+        u0 = 6.283185f;
+        u1 = 65536.0f;
+        u2 = 1.5707963f;
+        u3 = 0.5f;
+        t4 = 0xD;
+        u5 = ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2);
+        u6 = 0.0f;
+        while ((int)t4 >= (int)0x3) {
+            t7 = t4;
+            t4 = (t4 - 2);
+            u5 = (float)t7;
+            u5 = (u5 - u6);
+            u6 = (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) * ((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)));
+            u6 = (u6 / u5);
+        }
+        if (((int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) & 0x1) == 0) {
+            return (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6));
+        }
+        if ((((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6)) != 0.0f) {
+            return ((-1.0f) / (((((float)(unsigned short)(unsigned short)a4 * u0) / u1) - ((float)(int)(((((float)(unsigned short)(unsigned short)a4 * u0) / u1) / u2) + u3) * u2)) / (1.0f - u6)));
+        }
+        u8 = 3.4028235e+38f;
+        return u8;
+    }
+    u9 = 3.4028235e+38f;
+    return u9;
+}
+
+int nlCopyMatrix(int a4, int a5)
+{
+    int t0;
+    int t1;
+    int t2;
+    float u3;
+
+    if (a4 == 0) {
+        if (a5 != 0) {
+            return nlLoadMatrix(a5);
+        }
+        return 0;
+    }
+    if (a5 == 0) {
+        return nlGetMatrix(a4);
+    }
+    t0 = 0x10;
+    t1 = a4;
+    t2 = a5;
+    do {
+        u3 = *(float *)((t2 + 0x0));
+        t2 = (t2 + 0x4);
+        t0 = (t0 - 0x1);
+        *(float *)((t1 + 0x0)) = u3;
+        t1 = (t1 + 0x4);
+    } while (t0 != 0);
+    return 0;
+}
+
+int nlLineSendHeader(int a4)
+{
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+    float u4;
+    float u5;
+    float u6;
+    int t7;
+    int t12;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t10;
+
+    u0 = 0.5f;
+    u1 = (((struct o0_float *)0xC14A824)->v);
+    (((struct o0_float *)0xC2B7624)->v) = (u1 * u0);
+    u2 = (((struct o4_float *)0xC14A824)->v);
+    (((struct o4_float *)0xC2B7624)->v) = (u2 * u0);
+    u3 = (((struct o0_float *)0xC2B7624)->v);
+    (((struct o8_float *)0xC2B7624)->v) = ((-1.0f) - u3);
+    u4 = (((struct o4_float *)0xC2B7624)->v);
+    (((struct oC_float *)0xC2B7624)->v) = ((-1.0f) - u4);
+    u5 = (((struct o0_float *)0xC2B7624)->v);
+    (((struct o0_float *)0xC14AA08)->v) = u5;
+    u6 = (((struct o4_float *)0xC2B7624)->v);
+    (((struct o14_float *)0xC14AA08)->v) = (-u6);
+    t7 = *(int *)0xC2B8CBC;
+    if ((a4 & 0x1) != 0) {
+        t10 = *(int *)((t7 + 0x8));
+        t16 = 0xC14AA68;
+    } else {
+        t10 = *(int *)((t7 + 0x0));
+        t16 = 0xC14AA48;
+    }
+    t12 = *(int *)((t16 + 0x0));
+    *(unsigned int *)((t16 + 0x0)) = (t12 & 0xFFFCFFFF);
+    t13 = *(int *)0xC14A650;
+    t14 = *(int *)((t16 + 0x0));
+    *(unsigned int *)((t16 + 0x0)) = (t14 | ((t13 << 16) | 0x8C0000));
+    (((struct o0_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t10 >> 16) >> 8);
+    (((struct o4_uint *)0xFF000038)->v) = ((unsigned int)((unsigned int)t10 >> 16) >> 8);
+    t15 = ((0x3FFFFFF & t10) | 0xE0000000);
+    do {
+        t17 = *(int *)((t16 + 0x0));
+        t16 = (t16 + 0x4);
+        *(unsigned int *)((t15 + 0x0)) = t17;
+        t15 = (t15 + 0x4);
+    } while ((unsigned int)t15 < (unsigned int)(((0x3FFFFFF & t10) | 0xE0000000) + 0x20));
+    prefetch(((0x3FFFFFF & t10) | 0xE0000000));
+    return (((0x3FFFFFF & t10) | 0xE0000000) + 0x20);
+}
+
+int nlLineCalcFogA(int a4)
+{
+    float u0;
+    float u1;
+    float u2;
+    float u3;
+    float u4;
+    float u5;
+    float u6;
+    int t8;
+    int t13;
+
+    u0 = *(float *)((a4 + 0x4));
+    u1 = (((struct o0_float *)0xC2B7624)->v);
+    u2 = *(float *)((a4 + 0x8));
+    u3 = (((struct o4_float *)0xC2B7624)->v);
+    u4 = (((struct o8_float *)0xC2B7624)->v);
+    u5 = *(float *)((a4 + 0x0));
+    u6 = (((struct oC_float *)0xC2B7624)->v);
+    t8 = 0x2;
+    if (!(u5 > (u1 * u2))) {
+        t8 = 0x0;
+        if ((u4 * u2) > u5) {
+            t8 = 0x1;
+        }
+    }
+    t13 = (t8 | 0x8);
+    if (!(u0 > (u3 * u2))) {
+        t13 = t8;
+        if ((u6 * u2) > u0) {
+            t13 = (t8 | 0x4);
+        }
+    }
+    return t13;
+}
+
+int nlSpriteSetVtxContext(int a4)
+{
+    int t1;
+    int t6;
+    float u7;
+    int t8;
+    float u9;
+
+    *(unsigned int *)((a4 + 0x0)) = 0xA0000009;
+    *(unsigned int *)((a4 + 0x4)) = 0x0;
+    *(unsigned int *)((a4 + 0x8)) = 0x4C0;
+    *(unsigned int *)((a4 + 0xC)) = 0x0;
+    nlSetTextureParameter(a4);
+    t1 = *(int *)((a4 + 0xC));
+    *(unsigned short *)((a4 + 0x14)) = 0x0;
+    if ((((unsigned int)t1 >> 27) & 0x7) != 0) {
+        if ((((unsigned int)t1 >> 27) & 0x7) != 2) {
+            if ((((unsigned int)t1 >> 27) & 0x7) != 5) {
+                if ((((unsigned int)t1 >> 27) & 0x7) == 6) {
+                    *(unsigned short *)((a4 + 0x14)) = 0x1;
+                }
+            } else {
+                *(unsigned short *)((a4 + 0x14)) = 0x1;
+            }
+        } else {
+            *(unsigned short *)((a4 + 0x14)) = 0x1;
+        }
+    } else {
+        *(unsigned short *)((a4 + 0x14)) = 0x1;
+    }
+    t6 = *(int *)((a4 + 0x8));
+    u7 = *(float *)((0xC0D6880 + ((((unsigned int)((unsigned int)t6 >> 2) >> 1) & 0x7) << 2)));
+    *(float *)((a4 + 0x18)) = u7;
+    t8 = *(int *)((a4 + 0x8));
+    u9 = *(float *)((0xC0D6880 + ((t8 & 0x7) << 2)));
+    *(float *)((a4 + 0x1C)) = u9;
+    return 0x1C;
+}
+
+int nlSpriteF2C(float f4)
+{
+    float u0;
+    float u1;
+    float u4;
+    float u2;
+    int t5;
+
+    u0 = 255.0f;
+    u1 = 2.1474836e+09f;
+    u4 = (f4 * u0);
+    if ((f4 * u0) > u1) {
+        u2 = -4.2949673e+09f;
+        u4 = ((f4 * u0) + u2);
+    }
+    t5 = (int)u4;
+    if ((unsigned int)(int)u4 > (unsigned int)0xFF) {
+        t5 = 0xFF;
+    }
+    return t5;
+}
+
+int nlsndCheckPackLoadError(int a4, int a5)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+
+    if ((int)a5 >= 0) {
+        if ((int)a5 >= (int)0x8) {
+            return 0xFFFFFFFF;
+        }
+        t0 = 0xC0D68D4;
+        t1 = a4;
+        t2 = 0x0;
+        for (;;) {
+            t3 = *(signed char *)((t0 + 0x0));
+            t0 = (t0 + 0x1);
+            t4 = *(signed char *)((t1 + 0x0));
+            t1 = (t1 + 0x1);
+            if (t4 != t3) break;
+            t2 = (t2 + 0x1);
+            if ((int)t2 >= (int)0x4) {
+                t0 = a5;
+                t0 = (t0 << 1);
+                t1 = 0xC2B77DC;
+                t0 = (t0 + a5);
+                t0 = (t0 << 2);
+                t5 = *(int *)((t1 + t0));
+                t0 = t5;
+                if (t0 != -1) {
+                    t0 = 0xFFFFFFFD;
+                    return t0;
+                }
+                t6 = *(int *)((a4 + 0x8));
+                t7 = *(int *)0xA0800088;
+                t1 = 0xC2B76F4;
+                t8 = *(int *)((t1 + 0x0));
+                if ((int)(t6 + t8) > (int)t7) {
+                    t0 = 0xFFFFFFFC;
+                    return t0;
+                }
+                t9 = *(int *)0xC2B76FC;
+                if (t9 != 0) {
+                    t0 = 0xFFFFFFFB;
+                    return t0;
+                }
+                t0 = 0x0;
+                return t0;
+            }
+        }
+        return 0xFFFFFFFE;
+    }
+    return 0xFFFFFFFF;
+}
+
+int nlsndSeqRequest(int a4)
+{
+    int t0;
+    int t10;
+    int t1;
+    int t2;
+    int t7;
+    int t3;
+    int t4;
+
+    t0 = (((struct o0_int *)0xC2B76DC)->v);
+    if (t0 != 0) {
+        return 0xFFFFFFFD;
+    }
+    (((struct o0_uint *)0xC2B76DC)->v) = 0xFFFFFFFF;
+    t10 = 0xFFFFFFFE;
+    if ((0x80 & a4) != 0) {
+        t1 = (((struct o4_int *)0xC2B76DC)->v);
+        t2 = *(int *)((t1 + 0x0));
+        t7 = 0xFFFFFFFF;
+        if (t2 == 0) {
+            t3 = (((struct o4_int *)0xC2B76DC)->v);
+            (((struct o4_uint *)0xC2B76DC)->v) = (t3 + 0x4);
+            *(unsigned int *)((((t3 + 0x4) - 4) + 0x0)) = a4;
+            t4 = (((struct o4_int *)0xC2B76DC)->v);
+            if (t4 == 0xA0800500) {
+                (((struct o4_uint *)0xC2B76DC)->v) = 0xA0800400;
+            }
+            t7 = 0x0;
+        }
+        t10 = t7;
+    }
+    (((struct o0_uint *)0xC2B76DC)->v) = 0x0;
+    return t10;
+}
+
+int nlsndStreamOpen(int a4)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t8;
+    int t20;
+    int t9;
+    int t10;
+    int t11;
+    int t12;
+    int t17;
+    int t25;
+
+    if ((short)a4 == 1) {
+        t0 = 0x0;
+        t1 = 0x0;
+        for (;;) {
+            t2 = *(signed char *)((((((((short)t1 << 1) + (short)t1) << 2) << 1) + 0xC2B771C) + 0x0));
+            if (t2 == 0) {
+                t3 = *(int *)((((((((short)t1 << 1) + (short)t1) << 2) << 1) + 0xC2B771C) + 0x8));
+                t0 = t3;
+                if (t0 != 0) {
+                    t1 = (t1 + 0x1);
+                    if ((int)(short)t1 >= (int)0x8) break;
+                    continue;
+                }
+                if (0x1 == 0) {
+                    return 0xFFFFFFFF;
+                }
+                *(unsigned char *)((((((((short)t1 << 1) + (short)t1) << 2) << 1) + 0xC2B771C) + 0x0)) = 0x1;
+                return t1;
+            }
+            t1 = (t1 + 0x1);
+            if ((int)(short)t1 >= (int)0x8) break;
+        }
+        t8 = 0xFFFFFFFF;
+        if (0x0 != 0) {
+            *(unsigned char *)((((((((short)t1 << 1) + (short)t1) << 2) << 1) + 0xC2B771C) + 0x0)) = 0x1;
+            t8 = t1;
+        }
+        t25 = t8;
+    } else {
+        t20 = 0xFFFFFFFF;
+        if ((short)a4 == 2) {
+            t9 = 0x0;
+            t10 = 0x0;
+            for (;;) {
+                t11 = *(signed char *)((((((((short)t10 << 1) + (short)t10) << 2) << 1) + 0xC2B771C) + 0x0));
+                if (t11 == 0) {
+                    t12 = *(int *)((((((((short)t10 << 1) + (short)t10) << 2) << 1) + 0xC2B771C) + 0x8));
+                    t9 = t12;
+                    if (t9 != 0) break;
+                    t10 = (t10 + 0x1);
+                    if ((int)(short)t10 >= (int)0x8) {
+                        if (0x0 == 0) {
+                            return 0xFFFFFFFF;
+                        }
+                        *(unsigned char *)((((((((short)t10 << 1) + (short)t10) << 2) << 1) + 0xC2B771C) + 0x0)) = 0x1;
+                        return t10;
+                    }
+                    continue;
+                }
+                t10 = (t10 + 0x1);
+                if ((int)(short)t10 >= (int)0x8) {
+                    if (0x0 == 0) {
+                        return 0xFFFFFFFF;
+                    }
+                    *(unsigned char *)((((((((short)t10 << 1) + (short)t10) << 2) << 1) + 0xC2B771C) + 0x0)) = 0x1;
+                    return t10;
+                }
+            }
+            t17 = 0xFFFFFFFF;
+            if (0x1 != 0) {
+                *(unsigned char *)((((((((short)t10 << 1) + (short)t10) << 2) << 1) + 0xC2B771C) + 0x0)) = 0x1;
+                t17 = t10;
+            }
+            t20 = t17;
+        }
+        t25 = t20;
+    }
+    return t25;
+}
+
+int nlsndG2DmaRequest(int a4, int a5, int a6, int a7)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+
+    t0 = *(int *)((a4 + 0x0));
+    if (t0 != 1) {
+        return 0xFFFFFFFF;
+    }
+    if ((a5 & 0x1F) != 0) {
+        return 0xFFFFFFFE;
+    }
+    if ((a6 & 0x1F) != 0) {
+        return 0xFFFFFFFD;
+    }
+    if ((0x1F & a7) != 0) {
+        return 0xFFFFFFFC;
+    }
+    t1 = *(int *)0xC2B7714;
+    if (t1 == 0) {
+        if ((unsigned int)0x0 < (unsigned int)((unsigned int)a7 >> 2)) {
+            t2 = a6;
+            t3 = a5;
+            t4 = 0x0;
+            do {
+                t5 = *(int *)((t3 + 0x0));
+                t3 = (t3 + 0x4);
+                *(unsigned int *)((t2 + 0x0)) = t5;
+                t4 = (t4 + 0x1);
+                t2 = (t2 + 0x4);
+            } while ((unsigned int)t4 < (unsigned int)((unsigned int)a7 >> 2));
+        }
+        return 0x0;
+    }
+    if (t1 != 1) {
+        return 0xFFFFFFFB;
+    }
+    return 0x0;
+}
+
+int nlsndG2DmaGetStatus(int a4)
+{
+    int t0;
+    int t1;
+
+    t0 = *(int *)((a4 + 0x0));
+    if (t0 != 1) {
+        return 0xFFFFFFFF;
+    }
+    t1 = *(int *)0xC2B7714;
+    if (t1 == 0) {
+        return 0x100;
+    }
+    if (t1 != 1) {
+        return 0xFFFFFFFB;
+    }
+    return 0x0;
+}
+
+int nlDispStripLoadPalette(int a4, int a5)
+{
+    int t0;
+    int t18;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t12;
+    int t13;
+
+    t0 = *(int *)0xC14A644;
+    t18 = 0x0;
+    if (t0 == 0) {
+        t1 = (((struct o0_short *)0xC2B7BC4)->v);
+        t18 = 0x1;
+        if ((int)a4 < (int)t1) {
+            t2 = (((struct o14_int *)0xC2B7BC4)->v);
+            t3 = *(short *)(((((a4 << 2) << 1) + t2) + 0x4));
+            if (t3 != 0) {
+                t4 = *(short *)(((((a4 << 2) << 1) + t2) + 0x4));
+                *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x4)) = (t4 + 0x1);
+                t18 = 0x0;
+            } else {
+                t5 = *(short *)((a5 + 0x2));
+                t6 = *(int *)((a5 + 0x8));
+                t7 = nlSearchPalette(t5, t6);
+                t18 = 0x1;
+                if ((int)t7 >= 0) {
+                    t8 = *(signed char *)((a5 + 0x2));
+                    *(unsigned char *)(((((a4 << 2) << 1) + t2) + 0x2)) = t8;
+                    t9 = *(int *)((a5 + 0x8));
+                    *(unsigned char *)(((((a4 << 2) << 1) + t2) + 0x3)) = ((int)(t9 + 0xF) >> 4);
+                    *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x4)) = 0x1;
+                    *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x6)) = a4;
+                    *(unsigned short *)(((((a4 << 2) << 1) + t2) + 0x0)) = t7;
+                    t10 = *(int *)((a5 + 0x8));
+                    nlSetPaletteMap(t7, t10);
+                    t12 = *(int *)((a5 + 0x8));
+                    t13 = *(int *)((a5 + 0x4));
+                    nlSetPaletteData(((t7 << 2) << 2), t13, t12);
+                    t18 = 0x0;
+                }
+            }
+        }
+    }
+    return t18;
+}
+
+int nlstripSetVertexContext(int a4)
+{
+    int t0;
+    int t1;
+    int t2;
+    int t3;
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+    int t8;
+    int t9;
+    int t10;
+    int t11;
+    int t13;
+    int t14;
+    int t15;
+    int t16;
+    int t17;
+    int t18;
+    int t19;
+    int t20;
+    int t21;
+    int t22;
+    int t23;
+    int t24;
+
+    t0 = *(int *)0xC2B2FC8;
+    *(unsigned int *)((t0 + 0x0)) = 0x600608;
+    t1 = *(int *)((a4 + 0x0));
+    t2 = *(int *)0xC2B2FC8;
+    *(unsigned int *)((t2 + 0x8)) = t1;
+    t3 = *(int *)(((a4 + 0x4) + 0x0));
+    t4 = *(int *)0xC2B2FC8;
+    *(unsigned int *)((t4 + 0xC)) = t3;
+    t5 = *(int *)((((a4 + 0x4) + 0x4) + 0x0));
+    t6 = *(int *)0xC2B2FC8;
+    *(unsigned int *)((t6 + 0x20)) = t5;
+    t7 = *(int *)(((((a4 + 0x4) + 0x4) + 0x4) + 0x0));
+    t8 = *(int *)0xC2B2FC8;
+    (((struct o44_uint *)(t8))->v) = t7;
+    t9 = *(int *)((((((a4 + 0x4) + 0x4) + 0x4) + 0x4) + 0x0));
+    t10 = *(int *)0xC2B2FC8;
+    (((struct o40_uint *)(t10))->v) = t9;
+    t11 = *(int *)0xC2B2FC8;
+    kmProcessVertexRenderState(t11);
+    t13 = *(int *)0xC2B2FC8;
+    t14 = (((struct o90_int *)(t13))->v);
+    (((struct o90_uint *)(t13))->v) = (t14 & 0xFFFCFF3F);
+    t15 = *(int *)0xC2B2FC8;
+    t16 = (((struct o0_int *)0xC2B7948)->v);
+    t17 = (((struct o90_int *)(t15))->v);
+    (((struct o90_uint *)(t15))->v) = (t17 | t16);
+    t18 = *(int *)0xC2B2FC8;
+    t19 = (((struct o98_int *)(t18))->v);
+    (((struct o98_uint *)(t18))->v) = (t19 & 0x31FF0FF);
+    t20 = *(int *)0xC2B2FC8;
+    t21 = (((struct o4_int *)0xC2B7948)->v);
+    t22 = *(int *)0xC14A648;
+    t23 = (((struct o98_int *)(t20))->v);
+    (((struct o98_uint *)(t20))->v) = (t23 | ((((t22 ^ 0xFC) << 16) << 8) | t21));
+    t24 = *(int *)0xC2B2FC8;
+    return kmSetVertexRenderState(t24);
+}
+
+

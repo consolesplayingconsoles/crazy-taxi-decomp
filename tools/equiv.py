@@ -54,6 +54,7 @@ Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import hashlib
 import json
@@ -113,6 +114,12 @@ def sdk_env():
     sys.exit('[ERROR] no shc.exe under %s' % sdk)
 
 
+def compiler_path(cfile):
+    """the file as the compiler is handed it: its path inside the repo, with the compiler's separators. A file may live in
+    src/ or under sdk/ (tools/layout.py)"""
+    return os.path.relpath(cfile).replace(os.sep, '\\')
+
+
 def compile_link(cfile, defines):
     """shc + lnk + elf2bin in the dc-tools container: (bytes, {symbol: address})."""
     sdk, rel = sdk_env()
@@ -125,15 +132,15 @@ def compile_link(cfile, defines):
     sub += ['define %s(%08X)' % (n, a) for n, a in sorted(defines.items())] + ['exit']
     open('build/equiv/%s.sub' % stem, 'w').write('\n'.join(sub) + '\n')
     inline = '#pragma inline_asm' in open(cfile, errors='replace').read()      # C with assembly text: shc to assembly source, then asmsh
-    first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "src\\%s.c" '
+    first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "%s" '
              '-object="build\\equiv\\%s.obj" %s > build/equiv/%s.shc.log 2>&1 || { cat build/equiv/%s.shc.log; exit 1; }; '
-             % (me, rel, stem, stem, FLAGS, me, me))
+             % (me, rel, compiler_path(cfile), stem, FLAGS, me, me))
     if inline:
-        first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "src\\%s.c" -code=asm '
+        first = ('SHC_LIB="$TW" SHC_INC="$TW" SHC_TMP="Z:\\app\\build\\tmp\\%s" wibo "/sdk/%s/shc.exe" "%s" -code=asm '
                  '-object="build\\equiv\\%s.s" %s > build/equiv/%s.shc.log 2>&1 || { cat build/equiv/%s.shc.log; exit 1; }; '
                  'wibo "/sdk/%s/asmsh.exe" "build\\equiv\\%s.s" -object="build\\equiv\\%s.obj" -cpu=sh4 -endian=little '
                  '> build/equiv/%s.asm.log 2>&1 || { cat build/equiv/%s.asm.log; exit 1; }; '
-                 % (me, rel, stem, stem, FLAGS, me, me, rel, stem, stem, me, me))
+                 % (me, rel, compiler_path(cfile), stem, FLAGS, me, me, rel, stem, stem, me, me))
     steps = ('set -e; mkdir -p build/tmp/%s; ' % me + first +
              'wibo "/sdk/%s/lnk.exe" -subcommand="build\\equiv\\%s.sub" > build/equiv/%s.lnk.log 2>&1 || true; '
              'wibo "/sdk/%s/elf2bin.exe" -s %08X "build\\equiv\\%s.elf" "build\\equiv\\%s.bin" > build/equiv/%s.elf2bin.log 2>&1 || true; '
@@ -318,7 +325,7 @@ def definitions():
     """{name: (integer and pointer parameters, float parameters, words on the stack)} of every function defined in src/: what the
     callee as built reads. The integer count is not capped (compared_arity caps it)."""
     out = {}
-    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+    for path in sorted(layout.c_files()):
         try:
             raw = open(path, errors='replace').read()
         except OSError:
@@ -345,7 +352,7 @@ def used_definitions():
     register the generator saw; a variadic callee (printf-style) reads its arguments from the stack and none of r4-r7."""
     if _USED:
         return _USED
-    for path in sorted(glob.glob(os.path.join('src', '*.c'))):
+    for path in sorted(layout.c_files()):
         try:
             raw = open(path, errors='replace').read()
         except OSError:

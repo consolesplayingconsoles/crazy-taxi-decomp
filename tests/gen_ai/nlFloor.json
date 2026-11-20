@@ -125,6 +125,34 @@
    "regs": {
     "fr4": 0.0
    }
+  },
+  {
+   "about": "negative fraction -1.587",
+   "poke": {},
+   "regs": {
+    "fr4": -1.587
+   }
+  },
+  {
+   "about": "negative fraction -0.5",
+   "poke": {},
+   "regs": {
+    "fr4": -0.5
+   }
+  },
+  {
+   "about": "negative fraction -2.25",
+   "poke": {},
+   "regs": {
+    "fr4": -2.25
+   }
+  },
+  {
+   "about": "negative fraction -158.7",
+   "poke": {},
+   "regs": {
+    "fr4": -158.7
+   }
   }
  ],
  "holdout": [
@@ -252,6 +280,34 @@
    "poke": {},
    "regs": {
     "fr4": 1000000000.0
+   }
+  },
+  {
+   "about": "negative fraction -7.9",
+   "poke": {},
+   "regs": {
+    "fr4": -7.9
+   }
+  },
+  {
+   "about": "negative fraction -0.001",
+   "poke": {},
+   "regs": {
+    "fr4": -0.001
+   }
+  },
+  {
+   "about": "negative fraction -141.3",
+   "poke": {},
+   "regs": {
+    "fr4": -141.3
+   }
+  },
+  {
+   "about": "negative fraction -1.5",
+   "poke": {},
+   "regs": {
+    "fr4": -1.5
    }
   }
  ]

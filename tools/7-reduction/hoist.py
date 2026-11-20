@@ -14,6 +14,7 @@ replaces the old C (tools/equiv.py records the proof).
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import glob
 import os
 import re
@@ -132,7 +133,7 @@ def hoisted(old):
 
 
 def where(fn):
-    for f in glob.glob('src/*.c'):
+    for f in layout.c_files():
         if os.path.basename(f).startswith('zz_'):
             continue
         t = open(f, errors='replace').read()
@@ -179,10 +180,10 @@ def main():
         if 'EQUIVALENT' not in r.stdout:
             print('  | not equivalent, left as it was')
             continue
-        t2 = open('src/%s.c' % stem).read()
+        t2 = open(layout.c_path(stem)).read()
         b2 = consistency.block(t2, fn)
-        open('src/%s.c' % stem, 'w').write(t2[:b2[0]] + new + t2[b2[1]:])
-        subprocess.run(['python3', 'tools/equiv.py', 'src/%s.c' % stem, fn], capture_output=True, text=True)
+        open(layout.c_path(stem), 'w').write(t2[:b2[0]] + new + t2[b2[1]:])
+        subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
         print('  | installed')
 
 

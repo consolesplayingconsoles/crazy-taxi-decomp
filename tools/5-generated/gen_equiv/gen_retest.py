@@ -5,6 +5,7 @@ new cases is listed (the C was wrong on a branch the old cases never reached) an
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
+import layout  # noqa: E402
 import os as _os, sys as _sys
 _sys.path.insert(0,_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..'))
 import ledger
@@ -40,7 +41,7 @@ def main(batches):
             json.dump(t,open('tests/%s/%s.json'%(b,fn),'w'),indent=1)
         if not new:
             print(b,'already drawn',flush=True); continue
-        r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%b],capture_output=True,text=True)
+        r=subprocess.run(['python3','tools/equiv.py','-q',layout.c_path(b)],capture_output=True,text=True)
         restore()
         bad=[l for l in r.stdout.splitlines() if l.split() and 'EQUIVALENT' not in l.split()[1:2] and not l.startswith('[')]
         failed=set(l.split()[0] for l in r.stdout.splitlines() if len(l.split())>1 and l.split()[1] in ('DIFFERS','-'))
@@ -63,7 +64,7 @@ def lift(names):
     if not names:
         sys.exit('name the functions to give more cases (python3 tools/5-generated/gen_equiv --lift NAME ...)')
     byfile={}
-    for f in sorted(glob.glob('src/*.c')):
+    for f in sorted(layout.c_files()):
         t=open(f,errors='replace').read()
         for n in names:
             if re.search(r'^[A-Za-z_][\w \t\*]*\b%s\s*\([^;{]*\)\s*\{'%re.escape(n),t,flags=re.M): byfile.setdefault(os.path.basename(f)[:-2],[]).append(n)
@@ -83,5 +84,5 @@ def lift(names):
                 print('  keep old cases',fn,type(e).__name__,str(e),flush=True)
             finally: signal.alarm(0)
         if n_new:
-            r=subprocess.run(['python3','tools/equiv.py','-q','src/%s.c'%stem],capture_output=True,text=True)
+            r=subprocess.run(['python3','tools/equiv.py','-q',layout.c_path(stem)],capture_output=True,text=True)
             print(stem,'redrawn',n_new,'|',(r.stdout.strip().splitlines() or ['?'])[-1][:110],flush=True)
