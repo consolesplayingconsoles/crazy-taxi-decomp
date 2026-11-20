@@ -15,7 +15,12 @@
 #include <math.h>
 #include <xmmintrin.h>
 #include <stdlib.h>
+#ifdef __APPLE__                 /* macOS: its OpenGL header (the C tests run there, tests/c) */
+#define GL_SILENCE_DEPRECATION
+#include <OpenGL/gl3.h>
+#else
 #include <GL/gl.h>
+#endif
 
 #include "port.h"
 #include "game.h"

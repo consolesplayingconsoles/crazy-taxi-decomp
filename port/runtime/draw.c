@@ -6,8 +6,13 @@
    glass over objects). Depth is written per fragment as a logarithm of W: the PowerVR keeps 1/W in a 32-bit float, whose
    relative precision a 24-bit fixed buffer holding 0.1/W cannot match at a distance (wall decals fought the wall). */
 #define GL_GLEXT_PROTOTYPES
+#ifdef __APPLE__                 /* macOS: its OpenGL core profile header (the C tests run there, tests/c) */
+#define GL_SILENCE_DEPRECATION
+#include <OpenGL/gl3.h>
+#else
 #include <GL/gl.h>
 #include <GL/glext.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
