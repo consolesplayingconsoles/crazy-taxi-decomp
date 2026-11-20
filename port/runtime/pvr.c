@@ -11,8 +11,13 @@
      ARGB1555, RGB565, ARGB4444, YUV422, 4 and 8 bit palettes (palette RAM at 0xA05F9000), twiddled, VQ, mipmaps,
      strides; a decoded texture is kept while the bytes it came from (and its palette) hash the same. */
 #define GL_GLEXT_PROTOTYPES
+#ifdef __APPLE__                 /* macOS: its OpenGL header (the C tests run there, tests/c) */
+#define GL_SILENCE_DEPRECATION
+#include <OpenGL/gl3.h>
+#else
 #include <GL/gl.h>
 #include <GL/glext.h>
+#endif
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +37,7 @@ unsigned port_host_fp_enter(void);
 void port_host_fp_leave(unsigned);
 void hw_raise(int bit);
 void hw_raise_later(int bit, unsigned us);
+void hw_raise_err(int bit);
 void port_frame_end(void);
 extern int port_headless;
 
@@ -596,11 +602,31 @@ static void end_of_list(void)
     ta.poly_open = 0;
 }
 
+/* PORT_DEBUG_TA: a frame that brought the TA under 1 KB (a stall's frames: almost nothing drawn) prints its control
+   parameters at the next list init: each one's PCW, the list the TA had open when it came, and whether an end of list
+   raised its interrupt */
+static int ta_debug = -1;
+static struct { uint32_t pcw; int list, raised; } ta_log[32];
+static int ta_nlog;
+static uint32_t ta_frame_bytes;
+
+static void ta_log_param(uint32_t pcw, int list, int raised)
+{
+    if (ta_nlog < 32) {
+        ta_log[ta_nlog].pcw = pcw;
+        ta_log[ta_nlog].list = list;
+        ta_log[ta_nlog].raised = raised;
+        ta_nlog++;
+    }
+}
+
 /* one parameter of 32 or 64 bytes */
 static void parameter(const uint32_t *w)
 {
     uint32_t pcw = w[0];
     int type = (int)(pcw >> 29);
+    if (ta_debug > 0 && (type == 0 || type == 1 || type == 2 || type == 4 || type == 5))
+        ta_log_param(pcw, ta.list, type == 0 && ta.list >= 0 && ta.list < 5);
     switch (type) {
     case 0:                                           /* end of list */
         end_of_list();
@@ -679,11 +705,32 @@ static int parameter_size(const uint32_t *w)
 
 static unsigned long ta_bytes;
 
+/* TA_ITP_CURRENT (0x138): where the TA writes the next polygon parameters. A list init sets it to TA_ISP_BASE and the
+   frame's parameters move it up; here by the bytes the TA takes in, which is at least what the hardware writes. Kamui
+   reads it (kmiFinalizeRender, when its flags' bit 0 is set: Crazy Taxi's are) to put the background plane right after
+   the frame's parameters and to point the render at it; it read 0 here, and every frame's background went to the start
+   of video memory. Past TA_ISP_LIMIT the TA reports a parameter overflow (SB_ISTERR bit 2), once a frame, which Kamui's
+   kmiErrorISR04 handles */
+static int ta_overflow;
+
+static void ta_param_advance(uint32_t bytes)
+{
+    uint32_t base = REG(PVR + 0x124) & VRAM_MASK, limit = REG(PVR + 0x130) & VRAM_MASK;
+    uint32_t cur = (REG(PVR + 0x138) & VRAM_MASK) + bytes;
+    REG(PVR + 0x138) = cur;
+    if (!ta_overflow && limit > base && cur > limit) {
+        ta_overflow = 1;
+        hw_raise_err(2);
+    }
+}
+
 void pvr_ta_write(const void *data, uint32_t bytes)
 {
     unsigned game = port_host_fp_enter();
     const uint8_t *p = data;
     ta_bytes += bytes;
+    ta_frame_bytes += bytes;
+    ta_param_advance(bytes);
     for (uint32_t i = 0; i + 32 <= bytes; i += 32) {
         uint32_t w[16];
         if (ta.have_half) {
@@ -726,6 +773,18 @@ void pvr_ta_list_init(void)
     cur = b;
     memset(&ta, 0, sizeof ta);
     ta.list = -1;
+    REG(PVR + 0x138) = key;                  /* TA_ITP_CURRENT: the frame's parameters start at TA_ISP_BASE */
+    ta_overflow = 0;
+    if (ta_debug < 0)
+        ta_debug = getenv("PORT_DEBUG_TA") != 0;
+    if (ta_debug > 0 && ta_frame_bytes < 1024) {
+        fprintf(stderr, PORT_NAME ": ta: frame of %u bytes:", ta_frame_bytes);
+        for (int i = 0; i < ta_nlog; i++)
+            fprintf(stderr, " %08X(list %d%s)", ta_log[i].pcw, ta_log[i].list, ta_log[i].raised ? ", end raised" : "");
+        fprintf(stderr, "\n");
+    }
+    ta_nlog = 0;
+    ta_frame_bytes = 0;
     if (pvr_debug)
         fprintf(stderr, "pvr: list init, buffer %06X\n", key);
 }
@@ -796,31 +855,16 @@ static void background(void)
 int port_dump_polys;
 void port_render_to(uint32_t *out, int w, int h);
 
-/* the frame's records drawn into texture memory at addr: the size from FB_X_CLIP / FB_Y_CLIP, the line stride from
-   FB_W_LINESTRIDE (8-byte units), the pixel format from FB_W_CTRL (0 RGB555, 1 RGB565, 2 ARGB4444, 3 ARGB1555,
-   4 RGB888, 5 KRGB0888, 6 ARGB8888) */
+/* the frame's records drawn into texture memory at addr: the area from FB_X_CLIP / FB_Y_CLIP (the last pixel, inclusive), the
+   line stride from FB_W_LINESTRIDE (8-byte units), the pixel format from FB_W_CTRL (0 RGB555, 1 RGB565, 2 ARGB4444,
+   3 ARGB1555, 4 RGB888, 5 KRGB0888, 6 ARGB8888). Not the region array's tiles: in Crazy Taxi's pause (the race drawn into a
+   512x512 texture) entries 37 and 38 of it held other words, the first with its last-entry bit, and a size counted from
+   the tiles came out 96 pixels wide: the right of the pause screen was black */
 static void render_to_texture(uint32_t addr)
 {
     uint32_t xc = REG(PVR + 0x068), yc = REG(PVR + 0x06C), ctrl = REG(PVR + 0x048);
     int x0 = (int)(xc & 0x7FF), x1 = (int)((xc >> 16) & 0x7FF), y0 = (int)(yc & 0x3FF), y1 = (int)((yc >> 16) & 0x3FF);
-    /* what the PowerVR renders: the 32x32 tiles the region array (REGION_BASE, 32-bit view) lists; its entries are 6
-       words (5 when FPU_PARAM_CFG's bit 21 is clear), the control word's bits 2-7 the tile's x, 8-13 its y, bit 31 the
-       last one */
-    uint32_t rb = REG(PVR + 0x02C) & VRAM_MASK, words = (REG(PVR + 0x07C) & (1u << 21)) ? 6 : 5;
-    int tx = 0, ty = 0;
-    for (int i = 0; i < 1200; i++) {
-        uint32_t c = *(const uint32_t *)(VRAM32 + ((rb + (uint32_t)i * words * 4) & VRAM_MASK));
-        int x = (int)((c >> 2) & 63), y = (int)((c >> 8) & 63);
-        tx = x > tx ? x : tx;
-        ty = y > ty ? y : ty;
-        if (c & 0x80000000u)
-            break;
-    }
-    int w = (tx + 1) * 32, h = (ty + 1) * 32;
-    if (x1 + 1 < w)
-        w = x1 + 1;
-    if (y1 + 1 < h)
-        h = y1 + 1;
+    int w = x1 + 1, h = y1 + 1;
     uint32_t stride = (REG(PVR + 0x04C) & 0x1FF) * 8;
     int fmt = (int)(ctrl & 7);
     if (w <= 0 || h <= 0 || w > 1024 || h > 1024)

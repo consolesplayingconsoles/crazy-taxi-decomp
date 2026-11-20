@@ -43,7 +43,7 @@ sizes, and this runtime stands in for the hardware and the boot ROM. The tools t
    docker build -t mygame-port port
    ```
 
-5. **Build** the program, `build/native/game`. With `--keep-objects`, a later build
+5. **Build** the program, named after your disc image (`GDI` in `.env`): `build/native/<your disc's name>`. With `--keep-objects`, a later build
    compiles again only the files whose text changed:
 
    ```
@@ -59,14 +59,14 @@ sizes, and this runtime stands in for the hardware and the boot ROM. The tools t
 7. **Run** it. On x86-64 Linux with SDL 3, directly:
 
    ```
-   build/native/game --data build/native/data
+   "build/native/<your disc's name>" --data build/native/data
    ```
 
    Anywhere else, in the container on a virtual screen, with a screenshot every 300 frames (`--seconds` ends the run):
 
    ```
    docker run --rm --security-opt seccomp=unconfined -v "$PWD":/work -w /work "$PORT_IMAGE" \
-       xvfb-run -a -s "-screen 0 1280x960x24" build/native/game --data build/native/data --seconds 60 \
+       xvfb-run -a -s "-screen 0 1280x960x24" "build/native/<your disc's name>" --data build/native/data --seconds 60 \
        --screenshot-every 300 build/native/shot
    ```
 

@@ -4,4 +4,4 @@ MODE: equivalent
 [x] [x] BUILDS FROM C
 [x] [x] BOOTS TO MENU
 [x] [x] PLAYABLE
-[x] [?] STABLE
+[x] [x] STABLE

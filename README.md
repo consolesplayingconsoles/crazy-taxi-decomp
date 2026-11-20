@@ -1,6 +1,6 @@
 # Crazy Taxi decomp
 
-![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=7)
+![decomp progress](badges/progress.svg?p=100.0&b=100.0&a=82&s=8)
 
 **Explore this decomp project with [Shuriken Explorer](https://consolesplayingconsoles.github.io/dc-shuriken-explorer/) and see the game's models, skeletons, animations, textures, images, sounds, text and side-by-side C and assembly code directly in your browser.**
 
@@ -60,7 +60,7 @@ See [port/README.md](port/README.md#to-bring-up-a-game).
 
 <!-- progress -->
 ```
-TOTAL TEST COVERAGE           81.6%  the instructions the cases ran, of all instructions, over the 3188 functions that can be C; the 3148 functions that reached the check are measured, the others count 0
+TOTAL TEST COVERAGE           81.5%  the instructions the cases ran, of all instructions, over the 3188 functions that can be C; the 3148 functions that reached the check are measured, the others count 0
 FUNCTIONS LEFT  (100.0% complete) 0  of the 3188 functions that can be C (8 with no C form are counted apart)
 BYTES LEFT      (100.0% complete) 0  of 528578 bytes of code that can be C
 FUNCTIONS                            

@@ -6,9 +6,11 @@ W) to OUT_PREFIX.txt, and the console's RAM (16 MB at 0x0C000000) to OUT_PREFIX_
 
     python3 tools/10-port/frame_capture.py build/native/capture/race_0
 
-The game is found by its command line (build/native/game --data); the records by their symbol, `bufs`, in the program
-(nm). Nothing is attached and no signal is sent: the game runs on. tools/10-port/capture.sh calls it at the mode it waits for.
+The game is found by its command line (build/native/<your disc's name> --data: GDI in the repo's .env, as native_build.py
+names it); the records by their symbol, `bufs`, in the program (nm). Nothing is attached and no signal is sent: the game runs on. tools/10-port/capture.sh calls it at the mode it waits for.
 Layouts are pvr.c's (x86-64): struct tabuf 48 bytes, struct poly 28, struct rvert 36 (render.h)."""
+import os
+import re
 import struct
 import subprocess
 import sys
@@ -58,14 +60,27 @@ def write_frame(path, frame, buf, polys):
             f.write('\n')
 
 
+def program():
+    """build/native/<the disc image's name>: GDI in the repo's .env, without its folder and .gdi (native_build.py's name)"""
+    gdi = None
+    for line in open('.env', errors='replace'):
+        m = re.match(r'\s*GDI\s*=\s*(.*?)\s*$', line)
+        if m:
+            gdi = m.group(1).strip('"\'')
+    if not gdi:
+        sys.exit('frame_capture: GDI is not set in .env (the program is named after your disc image)')
+    return 'build/native/' + re.sub(r'(?i)\.gdi$', '', os.path.basename(gdi.replace('\\', '/')))
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     out = sys.argv[1]
-    pid = int(subprocess.check_output(['pgrep', '-f', '^build/native/game --data']).split()[0])
-    bufs = symbol('build/native/game', 'bufs')
+    exe = program()
+    pid = int(subprocess.check_output(['pgrep', '-f', '^' + re.escape(exe) + ' --data']).split()[0])
+    bufs = symbol(exe, 'bufs')
     if bufs is None:
-        sys.exit('frame_capture: build/native/game has no symbol bufs (pvr.c)')
+        sys.exit('frame_capture: %s has no symbol bufs (pvr.c)' % exe)
     mem = open('/proc/%d/mem' % pid, 'rb', 0)
 
     def read(a, n):

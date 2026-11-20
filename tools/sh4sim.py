@@ -94,6 +94,10 @@ class Memory:
         self.hw_reads = 0
         self.seq_reads = {}       # RAM addr -> what each read returns, in order (the last value stays): a word an interrupt changes
         self.seq_used = {}        # RAM addr -> how many reads took one of those values
+        self.ever_written = set() # the stack words the function's body stored at any time (pushes left out): set by it, not a leftover
+        self.watch = None         # (lo, hi): the callee probe's range, the caller's frame (frame_reach)
+        self.watched = set()      # the words of it the probe read before writing them
+        self.watch_wrote = set()  # the words of it the probe wrote
 
     @staticmethod
     def phys(a):
@@ -114,6 +118,8 @@ class Memory:
 
     def read(self, addr, size, fetch=False):
         a = self.phys(addr)
+        if self.watch and not fetch and self.watch[0] <= a < self.watch[1] and (a & ~3) not in self.watch_wrote:
+            self.watched.add(a & ~3)
         if not fetch and len(self.reads) < 4000:
             self.reads.append(a)
         sq = self.seq_reads.get(a) if not fetch else None
@@ -158,6 +164,8 @@ class Memory:
         if a & (size - 1):
             raise Stop('unaligned %d-byte write at %08X' % (size, addr))
         value &= (1 << (8 * size)) - 1
+        if self.watch and self.watch[0] <= a < self.watch[1]:
+            self.watch_wrote.add(a & ~3)
         page = self.pages.get(a >> 12)
         in_stack = self.stack[0] <= a < self.stack[1]
         if page is None and not (RAM_LO <= a < RAM_HI) and not in_stack:
@@ -173,11 +181,41 @@ class Memory:
         else:
             self.stack_written.add(a & ~3)      # the words of the stack written since the last call: what a call passes there
             self.body_written.add(a & ~3)
+            self.ever_written.add(a & ~3)
 
     def pushed(self, addr, size):
         """A push (@-r15): the prologue's saved registers and a call's pushed arguments, not the contents of a frame buffer."""
         for k in range(0, size, 4):
             self.body_written.discard(self.phys(addr + k) & ~3)
+            self.ever_written.discard(self.phys(addr + k) & ~3)
+
+
+class _CowPages(dict):
+    """A memory's pages for a probe run (frame_reach): read from the run's own memory, copied before the first change, so what
+    the probe does never reaches the run"""
+    def __init__(s, parent):
+        dict.__init__(s)
+        s.parent = parent
+
+    def get(s, k, d=None):
+        v = dict.get(s, k)
+        if v is None:
+            pv = s.parent.get(k)
+            if pv is None:
+                return d
+            v = bytearray(pv)
+            dict.__setitem__(s, k, v)
+        return v
+
+    def setdefault(s, k, d=None):
+        v = s.get(k)
+        if v is None:
+            dict.__setitem__(s, k, d)
+            v = d
+        return v
+
+    def __contains__(s, k):
+        return dict.__contains__(s, k) or k in s.parent
 
 
 def shared_epilogue(read16, a):
@@ -824,6 +862,45 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
             out['r%d' % i] = run
         return out
 
+    def frame_reach(c, target):
+        """{argument register: [[offset, word, stored], ...]} for each of r4-r7 that points into this function's frame: the words the
+        callee itself reads through it before writing them, found by running the callee (its code in the run's memory, every call it
+        makes run too) on a copy of the memory, from this call's registers. offset from the argument; word as the caller left it;
+        stored: the caller's body stored it at some time (else it holds what the frame held before: a leftover on both sides).
+        A record the callee takes from the frame is compared on what the callee reads of it, gaps and all: the words stored
+        right from the argument since the last call missed SaveBackupData's record, whose fields lie 0x44 on, stored after the
+        record's memmove (the C kept them in locals and passed the record unfilled: the save file was never made, Crazy Taxi)"""
+        lo, hi = c.r[15] & M32, entry_r15 & M32
+        ptrs = sorted((c.r[i] & M32, i) for i in range(4, 8) if lo <= (c.r[i] & M32) < hi)
+        if not ptrs:
+            return {}
+        m2 = Memory()
+        m2.pages = _CowPages(mem.pages)
+        m2.stack, m2.hw_model = mem.stack, mem.hw_model
+        m2.device_reads = {k: list(v) for k, v in mem.device_reads.items()}
+        m2.device_latched = dict(mem.device_latched)
+        m2.seq_reads = {k: list(v) for k, v in mem.seq_reads.items()}
+        m2.watch = (Memory.phys(ptrs[0][0]), Memory.phys(hi))
+        c2 = CPU(m2)
+        c2.r = _Regs(list(c.r))
+        c2.fr, c2.xf = list(c.fr), list(c.xf)
+        c2.frbit, c2.sz, c2.prec, c2.fpscr_rest = c.frbit, c.sz, c.prec, c.fpscr_rest
+        c2.t, c2.s, c2.q, c2.mq, c2.srx = c.t, c.s, c.q, c.mq, c.srx
+        c2.gbr, c2.mach, c2.macl, c2.vbr, c2.fpul = c.gbr, c.mach, c.macl, c.vbr, c.fpul
+        c2.pr, c2.pc = SENTINEL, target & M32
+        try:
+            while c2.pc != SENTINEL and c2.steps < 200000:
+                c2.step()
+        except Stop:
+            pass                                 # what it read until it stopped
+        out = {}
+        for n, (p, i) in enumerate(ptrs):
+            top = ptrs[n + 1][0] if n + 1 < len(ptrs) and ptrs[n + 1][0] != p else hi
+            words = sorted(a for a in m2.watched if Memory.phys(p) <= a < Memory.phys(top))
+            if words:
+                out['r%d' % i] = [[a - Memory.phys(p), mem.read(a, 4, True), a in mem.ever_written] for a in words]
+        return out
+
     def on_call(c, target, kind, at):
         if deep is True or (callable(deep) and deep(target)):   # True: every call; a test: those it accepts
             if kind in ('call', 'jump'):
@@ -839,7 +916,7 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
                       'stackw': ['%08X' % mem.read((c.r[15] + 4 * k) & M32, 4, True) for k in range(16)],
                       # which of those words this function stored since its last call: the others are leftovers, not arguments
                       'stackchg': [Memory.phys((c.r[15] + 4 * k) & M32) & ~3 in mem.stack_written for k in range(16)],
-                      'bufs': frame_bufs(c)})
+                      'bufs': frame_bufs(c), 'reach': frame_reach(c, target)})
         mem.body_written.clear()
         mem.stack_written.clear()   # words passed on the stack (a 5th argument on)   # the word on top of the stack: the first argument of a variadic call
         if not returns:

@@ -27221,9 +27221,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - equal
 - the cases run 22 of 22 instructions
 
-### SaveBackupData (`0C03ADE4`, 296 bytes, `src/gen_acz.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/gen_acz/SaveBackupData.json`
-- case 78
+### SaveBackupData (`0C03ADE4`, 296 bytes, `src/gen_o.c`)
+- equivalent on 18 development and 18 holdout cases, in `tests/gen_o/SaveBackupData.json`
 - case 0
 - case 1
 - case 2
@@ -27241,25 +27240,26 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 14
 - case 15
 - case 16
-- case 122
-- case 83
-- case 56
-- case 72
+- case 17
+- case 119
+- case 60
 - case 115
-- case 149
-- case 132
-- case 130
-- case 150
-- case 136
-- case 95
+- case 111
+- case 102
+- case 38
+- case 124
+- case 50
+- case 112
+- case 56
+- case 64
+- case 68
+- case 37
+- case 51
+- case 77
+- case 57
 - case 153
-- case 86
-- case 116
-- case 82
-- case 85
-- case 44
-- case 120
-- the cases run 130 of 148 instructions
+- case 43
+- the cases run 83 of 146 instructions
 
 ### SaveVMSicon (`0C03B080`, 162 bytes, `src/gen_acm.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_acm/SaveVMSicon.json`
@@ -71320,13 +71320,15 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 13 of 13 instructions
 
 ### nlOuterProduct (`0C078B00`, 52 bytes, `sdk/naomi/sdk_a.c`)
-- equivalent on 4 development and 2 holdout cases, in `tests/sdk_a/nlOuterProduct.json`
+- equivalent on 4 development and 4 holdout cases, in `tests/sdk_a/nlOuterProduct.json`
 - x cross y
 - y cross z
 - general ints
 - parallel
 - fractions
 - negatives
+- output over b (SetObjFly's spin: nlOuterProduct(v, s, s)): the original reads both inputs before it writes
+- output over a
 - the cases run 26 of 26 instructions
 
 ### nlOuterProductLength (`0C078B40`, 52 bytes, `sdk/naomi/gen_is_naomi.c`)

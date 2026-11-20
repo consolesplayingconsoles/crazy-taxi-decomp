@@ -1,5 +1,5 @@
 """extract_disc.py <your disc.gdi> [DIR]: every file of the disc into DIR (default build/native/data), the folder the
-native game reads (build/native/game --data DIR). Subfolders are kept. Uses tools/gdi_read.py's reader."""
+native game reads (build/native/<your disc's name> --data DIR). Subfolders are kept. Uses tools/gdi_read.py's reader."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401

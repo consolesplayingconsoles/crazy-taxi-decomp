@@ -704,10 +704,38 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
     return True, ''
 
 
+def alias_variants(case, orig):
+    """The case again with an output pointer set to an input: one of r4-r7 the case passes as an address in RAM that the original
+    wrote through (within 64 bytes on), set to another it read through. Games call vector code that way, the result over an operand
+    (SetObjFly -> nlOuterProduct(v, s, s), Crazy Taxi), and a C that writes one result before it has read every operand gives
+    another answer there only: its cases, each with its own output, all agreed, and in the game the street objects never came
+    to rest. At most three a case; none from a variant itself."""
+    if case.get('alias'):
+        return []
+    regs = case.get('regs', {})
+    ram = lambda v: 0x0C000000 <= (v & 0x1FFFFFFF) < 0x0D000000 and not v & 3
+    ptr = {k: int(v, 16) for k, v in regs.items() if re.match(r'r[4-7]$', k) and isinstance(v, str) and ram(int(v, 16))}
+    phys = lambda v: v & 0x1FFFFFFF
+    wrote = {phys(int(a, 16)) for a, _, _ in orig.get('writes', [])}
+    read = {phys(a) for a in orig.get('reads', [])}
+    out = []
+    for d in sorted(ptr):
+        if not any(0 <= w - phys(ptr[d]) < 64 for w in wrote):
+            continue
+        for s in sorted(ptr):
+            if s == d or phys(ptr[s]) == phys(ptr[d]) or not any(0 <= r - phys(ptr[s]) < 64 for r in read):
+                continue
+            v = dict(case, regs=dict(regs), alias='output %s over %s' % (d, s))
+            v['regs'][d] = regs[s]
+            out.append(v)
+    return out[:3]
+
+
 def same_bufs(xs, ys, xv, yv):
     """A local buffer handed to a call: the words each side's body stored from the argument on, without a gap, since its last
     call (sh4sim bufs), compared up to the shorter run. Past it lies another local that the other side keeps elsewhere (the
-    frame layout is the compiler's); the saved registers are not counted. Only an argument the call is compared on as the stack."""
+    frame layout is the compiler's); the saved registers are not counted. Then the words the callee reads through the argument
+    (sh4sim reach), wherever they lie. Only an argument the call is compared on as the stack."""
     for i, (cx, cy) in enumerate(zip(xs, ys)):
         bx, by = cx.get('bufs') or {}, cy.get('bufs') or {}
         for r in sorted(set(bx) & set(by)):
@@ -718,6 +746,20 @@ def same_bufs(xs, ys, xv, yv):
                 if vx != vy and not (stackish('%08X' % vx) == 'STACK' == stackish('%08X' % vy)):    # a stack address: the frames differ
                     # (nlSetBackColorZ -> kmSetBackGroundPlane, Virtua Tennis), as for an argument
                     return 'calls: call %d (%s) buffer %s+%d: original %08X / C %08X' % (i + 1, xv[i][0], r, 4 * o, vx, vy)
+        # and what the callee itself reads through it (sh4sim frame_reach: the callee run on a copy), gaps and all: a word either
+        # side's body stored at some time must agree; one neither stored is what the frame held before, a leftover on both
+        rx, ry = cx.get('reach') or {}, cy.get('reach') or {}
+        for r in sorted(set(rx) & set(ry)):
+            k = int(r[1:]) - 4
+            if k >= len(xv[i][1]) or xv[i][1][k] != 'STACK' or k >= len(yv[i][1]) or yv[i][1][k] != 'STACK':
+                continue
+            wx = {o: (v, s) for o, v, s in rx[r]}
+            wy = {o: (v, s) for o, v, s in ry[r]}
+            for o in sorted(set(wx) & set(wy)):
+                (vx, sx), (vy, sy) = wx[o], wy[o]
+                if (sx or sy) and vx != vy and not (stackish('%08X' % vx) == 'STACK' == stackish('%08X' % vy)):
+                    return 'calls: call %d (%s) reads %s+%d: original %08X%s / C %08X%s' % (
+                        i + 1, xv[i][0], r, o, vx, '' if sx else ' (not stored)', vy, '' if sy else ' (not stored)')
     return ''
 
 
@@ -886,7 +928,8 @@ def main(argv):
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % hit['covtext']])
             continue
-        for case in [c for k in ('dev', 'holdout') for c in sets.get(k, [])]:
+        queue = [c for k in ('dev', 'holdout') for c in sets.get(k, [])]
+        for case in queue:
             case = dict(case, exe='1ST_READ.BIN', base='%08X' % base, entry='%08X' % start, end='%08X' % (start + size))
             if fuzz:
                 words = fuzz_words(fuzz, fn, n)
@@ -915,8 +958,10 @@ def main(argv):
             if orig['error'] and not endless and not faults and not trapped:      # a case marked endless: a function that never returns by design (an error trap), both sides run to the step limit
                 good, diff = False, 'the original stopped: ' + orig['error']
             if not good:
-                ok, why = False, 'case %d: %s' % (n, diff)
+                ok, why = False, 'case %d%s: %s' % (n, (' (%s)' % case['alias']) if case.get('alias') else '', diff)
                 break
+            if not fuzz and not orig['error']:
+                queue.extend(alias_variants(case, orig))
         total = code_addresses(exe_bytes, base, start, size)
         b0 = sh4sim.body_before('.').get((start & 0x1FFFFFFF) | 0x0C000000)
         if b0 is not None:      # a body laid out before the entry (functions.txt `B`): its instructions count too

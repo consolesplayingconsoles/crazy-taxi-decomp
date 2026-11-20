@@ -237,19 +237,19 @@ int32_t bu_file_info(int32_t drive, uint32_t name, uint32_t info)
 int32_t bu_exists(int32_t drive, uint32_t name) __asm__("buIsExistFile");
 int32_t bu_exists(int32_t drive, uint32_t name)
 {
-    if (!ours(drive))
-        return BUD_ERR_NO_DISK;
-    return file_bytes(name) >= 0 ? BUD_ERR_OK : BUD_ERR_FILE_NOT_FOUND;
+    int32_t r = !ours(drive) ? BUD_ERR_NO_DISK : file_bytes(name) >= 0 ? BUD_ERR_OK : BUD_ERR_FILE_NOT_FOUND;
+    LOG("exists %.12s, drive %d: %d\n", (const char *)(uintptr_t)name, drive, r);
+    return r;
 }
 
 /* buGetFileSize(drive, name): in blocks */
 int32_t bu_file_size(int32_t drive, uint32_t name) __asm__("buGetFileSize");
 int32_t bu_file_size(int32_t drive, uint32_t name)
 {
-    if (!ours(drive))
-        return BUD_ERR_NO_DISK;
-    long n = file_bytes(name);
-    return n < 0 ? BUD_ERR_FILE_NOT_FOUND : (int32_t)((n + BLOCK - 1) / BLOCK);
+    long n = ours(drive) ? file_bytes(name) : -1;
+    int32_t r = !ours(drive) ? BUD_ERR_NO_DISK : n < 0 ? BUD_ERR_FILE_NOT_FOUND : (int32_t)((n + BLOCK - 1) / BLOCK);
+    LOG("size %.12s, drive %d: %d\n", (const char *)(uintptr_t)name, drive, r);
+    return r;
 }
 
 /* buLoadFile(drive, name, buffer, blocks) */

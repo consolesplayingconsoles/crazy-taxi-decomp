@@ -71,6 +71,12 @@ void hw_raise_ext(int bit)
     __atomic_or_fetch(&ist_ext, 1u << bit, __ATOMIC_SEQ_CST);
 }
 
+/* SB_ISTERR bit: the hardware's errors (the TA's parameter overflow, pvr.c) */
+void hw_raise_err(int bit)
+{
+    __atomic_or_fetch(&ist_err, 1u << bit, __ATOMIC_SEQ_CST);
+}
+
 /* raise SB_ISTNRM bit after us microseconds of the host's time (the console's DMA and rendering take time; the code that
    starts them sets up its waiting after the start) */
 void hw_raise_later(int bit, unsigned us)
@@ -360,12 +366,84 @@ static void bus_write(uint32_t a, const void *src, uint32_t n)
 /* for host code that writes where the library's store queues would (nlib.c's model kernel) */
 void hw_bus_write(uint32_t a, const void *src, uint32_t n) { bus_write(a, src, n); }
 
-/* port_prefetch (shim.c): a store queue's flush */
+/* port_prefetch (shim.c): a store queue's flush. The SH-4 has two store queues of 32 bytes, SQ0 and SQ1, picked by
+   address bit 5 whatever the other bits; a flush sends the queue's contents, and the queue keeps them. The NAOMI library
+   counts on that: closing a shadow volume (the code before nlMvSendTriangle) flushes both queues again at the next
+   address without storing to them, so the last triangle goes out once more after the closing headers. Here the area is
+   memory (runner.c), so each queue is modelled on it: a word the game stored since the last flush of that block is the
+   game's; a word it did not store (still the marker the flush leaves) is the queue's kept word. With the area as plain
+   memory, those flushes sent stale bytes, the opaque modifier list went 32 bytes out of step, its end of list was read
+   as data, the translucent list's end never came, and Kamui gave up the frame (the recorded stalls in the race).
+   A page's words become markers at the first flush in it, and the next page's with it (a block flushed first thing in a
+   page was then marked before), all but the block being flushed and the blocks either side of it (the other queue's,
+   which may hold stores not yet flushed); only the pages the game touches take memory.
+
+   PORT_DEBUG_SQ: a flush into the opaque modifier list whose first word is a parameter kind no game writes there (types 2,
+   3 and 6) is logged with its destination, its words and the host call stack (tools/10-port/where.sh names them) */
+#include <execinfo.h>
+#define SQ_MARK 0x7FA5C3E1u
+#define SQ_BASE 0xE0000000u
+#define SQ_SIZE 0x04000000u
+static uint32_t sq_kept[2][8];
+static uint8_t sq_page_ready[SQ_SIZE >> 12];
+
+static void sq_mark_page(uint32_t page, uint32_t keep)
+{
+    if (page >= (SQ_SIZE >> 12) || sq_page_ready[page])
+        return;
+    uint32_t *w = (uint32_t *)(uintptr_t)(SQ_BASE + (page << 12));
+    for (uint32_t i = 0; i < 1024; i++) {
+        uint32_t at = SQ_BASE + (page << 12) + i * 4;
+        if (at - keep >= 96)                      /* the flushed block and its neighbours hold the game's stores */
+            w[i] = SQ_MARK;
+    }
+    sq_page_ready[page] = 1;
+}
+
 void hw_sq_flush(uint32_t a)
 {
     uint32_t qacr = REG(0xFF000038u + ((a >> 5) & 1) * 4);
     uint32_t dest = ((qacr & 0x1C) << 24) | (a & 0x03FFFFE0u);
-    bus_write(dest, (const void *)(uintptr_t)(a & ~31u), 32);
+    uint32_t page = ((a & ~31u) - SQ_BASE) >> 12, k = (a >> 5) & 1;
+    sq_mark_page(page, (a & ~31u) - 32);
+    sq_mark_page(page + 1, (a & ~31u) - 32);
+    uint32_t *m = (uint32_t *)(uintptr_t)(a & ~31u), out[8];
+    for (int i = 0; i < 8; i++) {
+        out[i] = m[i] == SQ_MARK ? sq_kept[k][i] : m[i];
+        sq_kept[k][i] = out[i];
+        m[i] = SQ_MARK;
+    }
+    static int sq_debug = -1, logged;
+    if (sq_debug < 0)
+        sq_debug = getenv("PORT_DEBUG_SQ") != 0;
+    /* only into the opaque modifier list's buffer (the NAOMI library's list pointers, game.h): from the lowest its pointer
+       has been to the lowest the translucent list's has been. A sprite's second half starts with a float in any list */
+    static uint32_t base1 = 0xFFFFFFFFu, base2 = 0xFFFFFFFFu;
+    if (sq_debug > 0 && GAME_NL_LIST_PTRS) {
+        uint32_t arr = REG(GAME_NL_LIST_PTRS);
+        uint32_t p1 = arr ? REG(arr + 4) & 0x1FFFFFFFu : 0, p2 = arr ? REG(arr + 8) & 0x1FFFFFFFu : 0;
+        if (p1 && p1 < base1)
+            base1 = p1;
+        if (p2 && p2 < base2)
+            base2 = p2;
+    }
+    if (sq_debug > 0 && logged < 200 && dest >= base1 && dest < base2) {
+        int type = (int)(out[0] >> 29);
+        if (type == 2 || type == 3 || type == 6) {
+            void *bt[8];
+            int n = backtrace(bt, 8);
+            char line[400];
+            int c = snprintf(line, sizeof line, PORT_NAME ": sq: flush %08X -> %08X:", a, dest);
+            for (int i = 0; i < 8; i++)
+                c += snprintf(line + c, sizeof line - c, " %08X", out[i]);
+            c += snprintf(line + c, sizeof line - c, " | callers");
+            for (int i = 1; i < n && c < (int)sizeof line - 20; i++)
+                c += snprintf(line + c, sizeof line - c, " %p", bt[i]);
+            fprintf(stderr, "%s\n", line);
+            logged++;
+        }
+    }
+    bus_write(dest, out, 32);
 }
 
 /* channel 2 to the PowerVR: SAR2 (0xFFA00020) the source, SB_C2DSTAT the destination, SB_C2DLEN the length */

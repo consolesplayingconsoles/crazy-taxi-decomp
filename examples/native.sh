@@ -7,7 +7,8 @@
 #   bash examples/native.sh pac-man
 #
 # Needs what build.sh needs, and Docker. The port image (port/Dockerfile) is built the first time and reused after. The program:
-# examples/build/<example>/tree/build/native/game, its files in .../build/native/data.
+# examples/build/<example>/tree/build/native/<your disc image's name> (GDI in the decomp's .env), its files in
+# .../build/native/data.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 source "$HERE/common.sh"
@@ -79,6 +80,10 @@ python3 "$TREE/tools/10-port/extract_disc.py" "$GDI" "$TREE/build/native/data"
 ORIGINAL_GDI_DIR="$(sed -n 's/^ORIGINAL_GDI_DIR=//p' "$HERE/$EX/.env" | tr -d '"' | tail -1)"
 ORIG="$(ls "$ORIGINAL_GDI_DIR"/*.gdi | head -1)"
 python3 "$DECOMP/tools/gdi_read.py" "$ORIG" 1ST_READ.BIN "$TREE/build/native/data/1ST_READ.BIN"
-echo "Built: $TREE/build/native/game"
-echo "Run: $TREE/build/native/game --data $TREE/build/native/data"
-echo "##OUTPUT:$TREE/build/native/game"
+# the program is named after the disc image (native_build.py, from GDI in the tree's .env, the decomp's)
+EXE="$(sed -n 's/^[[:space:]]*GDI[[:space:]]*=[[:space:]]*//p' "$TREE/.env" | tail -1 | tr -d "\"'")"
+EXE="$(basename "$EXE")"
+EXE="${EXE%.[gG][dD][iI]}"
+echo "Built: $TREE/build/native/$EXE"
+echo "Run: \"$TREE/build/native/$EXE\" --data \"$TREE/build/native/data\""
+echo "##OUTPUT:$TREE/build/native/$EXE"

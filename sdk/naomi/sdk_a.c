@@ -69,11 +69,15 @@ void nlFogTableOff(void)
     nlFogTableSet(t);
 }
 
+/* out may be a or b (SetObjFly's spin: nlOuterProduct(v, s, s)): both are read before out is written, as the original
+   loads all six into registers first */
 void nlOuterProduct(float *a, float *b, float *out)
 {
-    out[2] = a[0] * b[1] - a[1] * b[0];
-    out[1] = a[2] * b[0] - a[0] * b[2];
-    out[0] = a[1] * b[2] - a[2] * b[1];
+    float a0 = a[0], a1 = a[1], a2 = a[2], b0 = b[0], b1 = b[1], b2 = b[2];
+
+    out[2] = a0 * b1 - a1 * b0;
+    out[1] = a2 * b0 - a0 * b2;
+    out[0] = a1 * b2 - a2 * b1;
 }
 
 void nlTriPutSetAttribBlendingMode(unsigned int *p, int src, int dst)

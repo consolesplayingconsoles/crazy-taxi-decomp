@@ -6,7 +6,7 @@ Steps:
   stubs    a stub for each function the game needs and no object defines (it reports itself once and returns 0);
            symbols.txt's data names become absolute symbols at their console addresses
   table    the dispatch table: console address -> host function, for calls through pointers and addresses
-  link     build/native/game, with port/runtime and the play math
+  link     build/native/<your disc image's name>, with port/runtime and the play math
 
 The game's C runs unchanged. It is compiled for x32 (x86-64 instructions and register calling convention, 32-bit int, long
 and pointers: the SH-4's sizes, so every record keeps its console layout), then converted to ELF64 and linked with the
@@ -540,15 +540,28 @@ def host_libc():
 
 
 def program_name(root):
-    """(file name, title) of the native program: build/native/game in every repo. The runtime gets them as PORT_NAME (its
-    messages, its save folder) and PORT_TITLE (its window)"""
-    return 'game', 'game'
+    """(file name, title) of the native program: the name of your disc image, the GDI in the repo's .env, without its folder
+    and .gdi ("Crazy Taxi (Europe) (En,Ja)"), for both. Read from the .env, which the build container sees in the repo,
+    not from the repo's folder (the container mounts it at /work). The runtime gets them as PORT_NAME (its messages, its
+    save folder) and PORT_TITLE (its window). No GDI: the build stops and says so"""
+    gdi = None
+    env = os.path.join(root, '.env')
+    if os.path.exists(env):
+        for line in open(env, errors='replace'):
+            m = re.match(r'\s*GDI\s*=\s*(.*?)\s*$', line)
+            if m:
+                gdi = m.group(1).strip('"\'')
+    if not gdi:
+        sys.exit('native_build: GDI is not set in %s: the program is named after your disc image (GDI="/path/to/your disc.gdi")'
+                 % env)
+    name = re.sub(r'(?i)\.gdi$', '', os.path.basename(gdi.replace('\\', '/')))
+    return name, name
 
 
 def host_compile(src, quiet=False):
     o = os.path.join(OUT, os.path.splitext(os.path.basename(src))[0] + '.host.o')
     name, title = program_name(ROOT)
-    names = ['-DPORT_NAME="%s"' % name, '-DPORT_TITLE="%s"' % title.replace('"', '')]
+    names = ['-DPORT_NAME="%s"' % name.replace('"', '').replace('\\', ''), '-DPORT_TITLE="%s"' % title.replace('"', '').replace('\\', '')]
     r = subprocess.run([CC] + HOST_FLAGS + names + (['-w'] if quiet else []) + ['-c', os.path.join(ROOT, src), '-o', o],
                        capture_output=True, text=True)
     if r.returncode:
