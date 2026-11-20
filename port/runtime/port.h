@@ -4,6 +4,13 @@
 
 #include <stdint.h>
 
+/* the picture's shape: PORT_WIDESCREEN in the repo's .env, 1 or 0, which native_build.py passes as two numbers, 16:9 or the
+   console's 4:3. PORT_WIDE: the view's width over the console's 4:3 width, 1 for 4:3, 4/3 for 16:9 */
+#if !defined(PORT_ASPECT_W) || !defined(PORT_ASPECT_H)
+#error "PORT_ASPECT_W and PORT_ASPECT_H: the build passes them from PORT_WIDESCREEN in the repo's .env (tools/10-port/native_build.py)"
+#endif
+#define PORT_WIDE ((float)(PORT_ASPECT_W) * 3.0f / ((float)(PORT_ASPECT_H) * 4.0f))
+
 /* the dispatch table, console address -> host function (build/native/gen.c, sorted by address) */
 struct port_entry {
     uint32_t addr;       /* canonical: 0x8C000000 | (the address & 0x00FFFFFF) */

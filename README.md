@@ -31,26 +31,33 @@ x86_64 without Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 
 ### On the Dreamcast
 
-1. Read your disc and split the executable (once):
+1. Copy the settings file:
+
+   ```
+   cp .env.sample .env
+   ```
+
+2. Fill in the values in `.env`.
+
+3. Read your disc and split the executable (once):
 
    ```
    make setup GDI="path/to/your disc.gdi"
-   echo 'SDK_PATH="/path/to/katana-sdk"' > .env
    ```
 
-2. Check the split rebuilds the original byte for byte (ends with `MATCH`):
+4. Check the split rebuilds the original byte for byte (ends with `MATCH`):
 
    ```
    make
    ```
 
-3. Build the game from the C into a copy of your disc:
+5. Build the game from the C into a copy of your disc:
 
    ```
    make disc GDI="path/to/your disc.gdi"
    ```
 
-4. Play `build/disc-cbuild/Crazy Taxi (Europe) (En,Ja).gdi` in a Dreamcast emulator, or from a GDEMU SD card on the console.
+6. Play `build/disc-cbuild/Crazy Taxi (Europe) (En,Ja).gdi` in a Dreamcast emulator, or from a GDEMU SD card on the console.
 
 ### Native (x86-64 Linux)
 

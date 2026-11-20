@@ -23,6 +23,8 @@
 #include <sys/mman.h>
 #include <sys/personality.h>
 #include <ucontext.h>
+#include <fcntl.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <pthread.h>
@@ -90,6 +92,14 @@ static void map_machine(void)
        then flushes it (hw.c); only the pages it touches take memory */
     map_fixed(0xE0000000u, 0x04000000u, -1, "store queues");
     map_fixed(0xFF000000u, 0x01000000u, -1, "SH-4 control registers");
+    /* the boot ROM and flash (0x00000000-0x0021FFFF), read as zeros: the game reads there through a null entry of its own
+       tables and goes on, on the console with the ROM's bytes (Crazy Taxi's Chat_Choin: a passenger of type 5 or above
+       has no voice table, 0x0C13ED0C, and the comment after a stunt read address 0 and faulted here). Read only: a write
+       still faults. Below vm.mmap_min_addr only root may map; else the runtime says so and such a read faults as before */
+    void *rom = mmap((void *)0, 0x00220000u, PROT_READ, MAP_FIXED_NOREPLACE | MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    if (rom != (void *)0)
+        fprintf(stderr, PORT_NAME ": the boot ROM's addresses (0x00000000) could not be mapped (%s): a read there faults\n",
+                strerror(errno));
     map_fixed(GAME_STACK, GAME_STACK_SIZE, -1, "the game's stack");
 }
 
@@ -461,6 +471,43 @@ static void *watchdog(void *arg)
     return 0;
 }
 
+/* PORT_PROFILE=<file>: where the program is, 1,000 times a second of the CPU time it uses (SIGPROF), written to <file> as
+   8-byte addresses every 4,096 samples; the hot spots are named afterwards from the program's symbols (nm, addr2line).
+   Without it nothing is sampled */
+static uint64_t prof_buf[4096];
+static unsigned prof_n;
+static int prof_fd = -1;
+static void on_prof(int sig, siginfo_t *si, void *ctx)
+{
+    (void)sig, (void)si;
+    prof_buf[prof_n++] = (uint64_t)((ucontext_t *)ctx)->uc_mcontext.gregs[REG_RIP];
+    if (prof_n == 4096) {
+        if (write(prof_fd, prof_buf, sizeof prof_buf) < 0)
+            prof_fd = -1;
+        prof_n = 0;
+    }
+}
+
+static void start_profile(void)
+{
+    const char *f = getenv("PORT_PROFILE");
+    if (!f || !*f)
+        return;
+    prof_fd = open(f, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (prof_fd < 0) {
+        fprintf(stderr, PORT_NAME ": PORT_PROFILE %s: %s\n", f, strerror(errno));
+        return;
+    }
+    struct sigaction sa;
+    memset(&sa, 0, sizeof sa);
+    sa.sa_sigaction = on_prof;
+    sa.sa_flags = SA_SIGINFO | SA_RESTART;
+    sigaction(SIGPROF, &sa, 0);
+    struct itimerval it = {{0, 1000}, {0, 1000}};
+    setitimer(ITIMER_PROF, &it, 0);
+    fprintf(stderr, PORT_NAME ": profiling to %s\n", f);
+}
+
 static void install_handlers(void)
 {
     static char altstack[1 << 20]; /* below 4 GB with the host binary: the vsync runs the game's handler here */
@@ -602,6 +649,7 @@ int main(int argc, char **argv)
     map_machine();
     load_image();
     install_handlers();
+    start_profile();
     if (!port_platform_init())
         return 2;
     port_pvr_init();

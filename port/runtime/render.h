@@ -25,6 +25,13 @@ struct rdraw {
     uint8_t textured;         /* the polygon takes a texture (texture 0 then: one that was not found, drawn white) */
     uint8_t shade;            /* the TSP's shading instruction: 0 decal, 1 modulate, 2 decal alpha, 3 modulate alpha */
     uint8_t ignore_tex_alpha; /* the TSP's: the texture's alpha counts as 1 */
+    uint8_t flat2d;           /* the 2D the game draws (pvr.c mode_of: the control word's group bit clear) */
+    uint8_t bar;              /* set by render_flush: part of a band across the whole width, drawn edge to edge */
+    uint8_t anchor;           /* set by render_flush: 0 squeezed to the middle, 1 pinned to the left edge, 2 to the right */
+    uint8_t extended;         /* set by render_flush: a piece moved out to the wider screen's left edge */
+    uint8_t fill;             /* untextured, or a texture of at most 32x32: stretched it stays a plain fill */
+    uint8_t no_squeeze;       /* a wider picture (PORT_WIDESCREEN): drawn as it is even as a screen sprite (a picture of the game's own
+                                 render, the pause screen's background, holds the wider view already) */
 };
 
 void render_setup(void);

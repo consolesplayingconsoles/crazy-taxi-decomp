@@ -558,10 +558,44 @@ def program_name(root):
     return name, name
 
 
+PORT_SETTINGS = {
+    'PORT_WIDESCREEN': ('1: a 16:9 picture, a wider view of the game with its menus kept 4:3 in the middle and its HUD at '
+                        'the sides; 0: the console\'s 4:3', r'([01])'),
+}
+
+
+def port_settings(root):
+    """{key: re match} of the port's settings in the repo's .env (PORT_SETTINGS: each key, what it is, its form). They are built
+    into the runtime. A key missing, empty or in another form stops the build with every such key listed: there is no default"""
+    env, vals = os.path.join(root, '.env'), {}
+    if os.path.exists(env):
+        for line in open(env, errors='replace'):
+            m = re.match(r'\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$', line)
+            if m and m.group(1) in PORT_SETTINGS:
+                vals[m.group(1)] = m.group(2).strip('"\'')
+    out, bad = {}, []
+    for k, (what, form) in PORT_SETTINGS.items():
+        m = re.fullmatch(form, vals.get(k, ''))
+        if m:
+            out[k] = m
+        else:
+            bad.append('  %s: %s (now: %s)' % (k, what, repr(vals[k]) if k in vals else 'missing'))
+    if bad:
+        sys.exit('native_build: the port\'s settings in %s are missing or wrong:\n%s' % (env, '\n'.join(bad)))
+    return out
+
+
+def aspect_defines(root):
+    """the runtime's picture shape from PORT_WIDESCREEN: 16:9 for 1, the console's 4:3 for 0 (port.h: PORT_ASPECT_W, _H)"""
+    wide = port_settings(root)['PORT_WIDESCREEN'].group(1) == '1'
+    return ['-DPORT_ASPECT_W=%d' % (16 if wide else 4), '-DPORT_ASPECT_H=%d' % (9 if wide else 3)]
+
+
 def host_compile(src, quiet=False):
     o = os.path.join(OUT, os.path.splitext(os.path.basename(src))[0] + '.host.o')
     name, title = program_name(ROOT)
     names = ['-DPORT_NAME="%s"' % name.replace('"', '').replace('\\', ''), '-DPORT_TITLE="%s"' % title.replace('"', '').replace('\\', '')]
+    names += aspect_defines(ROOT)
     r = subprocess.run([CC] + HOST_FLAGS + names + (['-w'] if quiet else []) + ['-c', os.path.join(ROOT, src), '-o', o],
                        capture_output=True, text=True)
     if r.returncode:
@@ -710,7 +744,11 @@ def main():
     exe = os.path.join(OUT, program_name(ROOT)[0])
     # the binary at 0x60000000: the game's code reaches its globals (absolute symbols at 0x8C......) RIP-relative, which
     # needs them within 2 GB, and its records hold host function addresses in 32-bit words, which needs it below 4 GB
-    r = subprocess.run([CC, '-no-pie', '-g', '-Wl,-Ttext-segment=0x60000000', '-o', exe, '@' + rsp, '-lSDL3', '-lGL', '-lm'],
+    # a game function the runtime wraps (it defines __wrap_<name>): the game's calls go to the wrapper, which reaches the game's
+    # own definition as __real_<name> (nlPerspective: the picture's shape, PORT_WIDESCREEN)
+    wraps = sorted({n[len('__wrap_'):] for o in hobjs for n in nm(o)[0] if n.startswith('__wrap_')})
+    r = subprocess.run([CC, '-no-pie', '-g', '-Wl,-Ttext-segment=0x60000000'] + ['-Wl,--wrap=' + n for n in wraps] +
+                       ['-o', exe, '@' + rsp, '-lSDL3', '-lGL', '-lm'],
                        capture_output=True, text=True)
     if r.returncode:
         open(os.path.join(OUT, 'link_errors.txt'), 'w').write(r.stderr)

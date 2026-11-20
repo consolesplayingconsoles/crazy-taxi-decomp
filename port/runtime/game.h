@@ -36,5 +36,7 @@
    mode 0x8C1EE234 (0 attract, 1 the game, 3 menu) and its sub-mode 0x8C1EE238 */
 #define GAME_MAIN_MODE         0x8C1EE234u
 #define GAME_SUB_MODE          0x8C1EE238u
+/* the main mode whose 2D is the play HUD: on a wider picture (PORT_WIDESCREEN) its pieces go to the screen's sides (draw.c) */
+#define GAME_HUD_MODE          1
 
 #endif

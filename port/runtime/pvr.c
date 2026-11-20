@@ -802,6 +802,9 @@ void port_render_frame(int w, int h); /* render.c */
 void render_set_background(float r, float g, float b);
 extern int port_no_window;
 
+/* where the last render into a texture went: a sprite drawn with that texture shows the game's own (wider) picture */
+static uint32_t rtt_addr = 0xFFFFFFFFu;
+
 static void mode_of(const struct poly *p, struct rdraw *d)
 {
     memset(d, 0, sizeof *d);
@@ -826,12 +829,18 @@ static void mode_of(const struct poly *p, struct rdraw *d)
     d->filter = (uint8_t)(((tsp >> 13) & 3) != 0);
     d->shade = (uint8_t)((tsp >> 6) & 3);
     d->ignore_tex_alpha = (uint8_t)((tsp >> 19) & 1);
+    /* the 2D the game draws (HUD, menus, their text): its control words leave the group bit (23) clear; the 3D models'
+       strips set it. Seen on every polygon of three race frames and a pause screen: the 3D, camera-facing models included,
+       all with it; the HUD (PowerVR sprites) and the pause text (polygons) without */
+    d->flat2d = !((pcw >> 23) & 1);
+    d->fill = !((pcw >> 3) & 1) || (((tsp >> 3) & 7) <= 2 && (tsp & 7) <= 2);
     d->texture = 0;
     if ((pcw >> 3) & 1) {
         struct tex *t = texture(p->tcw, tsp);
         if (t)
             d->texture = t->gl;
         d->textured = 1;
+        d->no_squeeze = ((p->tcw & 0x1FFFFFu) << 3) == rtt_addr;
     }
 }
 
@@ -862,6 +871,7 @@ void port_render_to(uint32_t *out, int w, int h);
    the tiles came out 96 pixels wide: the right of the pause screen was black */
 static void render_to_texture(uint32_t addr)
 {
+    rtt_addr = addr & VRAM_MASK;
     uint32_t xc = REG(PVR + 0x068), yc = REG(PVR + 0x06C), ctrl = REG(PVR + 0x048);
     int x0 = (int)(xc & 0x7FF), x1 = (int)((xc >> 16) & 0x7FF), y0 = (int)(yc & 0x3FF), y1 = (int)((yc >> 16) & 0x3FF);
     int w = x1 + 1, h = y1 + 1;

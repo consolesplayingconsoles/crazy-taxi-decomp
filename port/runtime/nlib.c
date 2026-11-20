@@ -502,6 +502,34 @@ void nl_display_polygon_trnsl(uint32_t obj, uint32_t ctx, float alpha) { draw_mo
 int32_t nl_objput_mv(void) __asm__("nlObjPutMVAsm");
 int32_t nl_objput_mv(void) { return 0; }
 
+/* --- the picture's shape ---------------------------------------------------------------------------------------------
+
+   nlPerspective(field of view, aspect, near, far): the game gives the console's 4:3 (1.333). For a wider picture (PORT_WIDESCREEN)
+   the aspect is scaled by PORT_WIDE, so the game itself draws and culls the wider view into its 640 pixels, and the renderer
+   (draw.c) spreads them over the wider screen. The build links the game's calls here (--wrap: native_build.py); the game's
+   own function is __real_nlPerspective */
+int32_t __real_nlPerspective(int32_t fov, float aspect, float near_z, float far_z);
+int32_t __wrap_nlPerspective(int32_t fov, float aspect, float near_z, float far_z);
+int32_t __wrap_nlPerspective(int32_t fov, float aspect, float near_z, float far_z)
+{
+    return __real_nlPerspective(fov, aspect * PORT_WIDE, near_z, far_z);
+}
+
+/* nlPerspectiveX(field of view, aspect, near, far), the race camera's: its field of view is the horizontal one and its aspect
+   sets the vertical scale. Wider: the horizontal angle with tan(fov / 2) times PORT_WIDE, and the aspect times PORT_WIDE, so
+   the vertical stays the console's. Angles: 65536 to a turn */
+int32_t __real_nlPerspectiveX(int32_t fov, float aspect, float near_z, float far_z);
+int32_t __wrap_nlPerspectiveX(int32_t fov, float aspect, float near_z, float far_z);
+int32_t __wrap_nlPerspectiveX(int32_t fov, float aspect, float near_z, float far_z)
+{
+    if (PORT_WIDE != 1.0f) {
+        double half = (double)(fov & 0xFFFF) * 3.14159265358979 / 65536.0;
+        fov = (int32_t)(atan(tan(half) * PORT_WIDE) * 65536.0 / 3.14159265358979 + 0.5) & 0xFFFF;
+        aspect *= PORT_WIDE;
+    }
+    return __real_nlPerspectiveX(fov, aspect, near_z, far_z);
+}
+
 /* --- the matrix stack and the "8" matrix functions ------------------------------------------------------------------
 
    The library moves XMTRX to and from memory with pair moves (fschg, fmov DRn/XDn), which keep the singles' order:

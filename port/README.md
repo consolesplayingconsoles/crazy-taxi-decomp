@@ -43,7 +43,9 @@ sizes, and this runtime stands in for the hardware and the boot ROM. The tools t
    docker build -t mygame-port port
    ```
 
-5. **Build** the program, named after your disc image (`GDI` in `.env`): `build/native/<your disc's name>`. With `--keep-objects`, a later build
+5. **Build** the program, named after your disc image (`GDI` in `.env`): `build/native/<your disc's name>`. `PORT_WIDESCREEN` in `.env`
+   sets its picture: `1` 16:9 (the game's view wider, its menus 4:3 in the middle, its HUD at the sides with `GAME_HUD_MODE` in
+   `game.h`), `0` the console's 4:3. With `--keep-objects`, a later build
    compiles again only the files whose text changed:
 
    ```

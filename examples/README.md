@@ -78,17 +78,19 @@ examples/
 ## Building a mod
 
 ```bash
-make setup GDI="path/to/your disc.gdi"
-echo 'SDK_PATH="/path/to/katana-sdk"' > .env
-make
-python3 -m pip install numpy Pillow
-```
-
-```bash
+cp .env.sample .env
 cp examples/tux-racer/.env.sample examples/tux-racer/.env
 cp examples/doom/.env.sample examples/doom/.env
 cp examples/pac-man/.env.sample examples/pac-man/.env
 cp examples/walking-tour/.env.sample examples/walking-tour/.env
+```
+
+Fill in the values in each `.env`.
+
+```bash
+make setup GDI="path/to/your disc.gdi"
+make
+python3 -m pip install numpy Pillow
 ```
 
 ### Dreamcast

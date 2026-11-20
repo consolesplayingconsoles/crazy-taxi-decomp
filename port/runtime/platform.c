@@ -311,7 +311,7 @@ int port_platform_init(void)
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-        window = SDL_CreateWindow(PORT_TITLE, 1280, 960, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow(PORT_TITLE, 1280, 1280 * PORT_ASPECT_H / PORT_ASPECT_W, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);   /* the picture's shape (PORT_WIDESCREEN) */
         if (!window || !(gl = SDL_GL_CreateContext(window))) {
             fprintf(stderr, PORT_NAME ": window: %s\n", SDL_GetError());
             return 0;
