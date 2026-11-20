@@ -143,4 +143,3 @@ by [Alfking49](https://sketchfab.com/alfking49), licensed under [CC-BY-4.0](http
 
 This work is based on [Pacman Ghost](https://sketchfab.com/3d-models/pacman-ghost-a1c987366ca54b098ca24adfe374aa44) by elina_ailurophile,
 licensed under [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/).
-a

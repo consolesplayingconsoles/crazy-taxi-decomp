@@ -336,5 +336,8 @@ or endorsed by them.
 
 It came out of real work on Consoles Playing Consoles. See what Pluto has helped me build:
 
-- 📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
-- 🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
+📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
+
+🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
+
+☕ **buymeacoffee:** [@consolesplayingconsoles](https://buymeacoffee.com/consolesplayingconsoles)
