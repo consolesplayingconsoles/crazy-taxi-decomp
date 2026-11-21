@@ -397,6 +397,18 @@
    "regs": {
     "r4": "0C800000"
    }
+  },
+  {
+   "about": "a store-queue address, queue 0, at its block's start: pref flushes the block",
+   "regs": {
+    "r4": "E0EA32A0"
+   }
+  },
+  {
+   "about": "a store-queue address, queue 1, inside its block: pref flushes the whole block",
+   "regs": {
+    "r4": "E0FE7FC4"
+   }
   }
  ]
 }

@@ -706,10 +706,9 @@ def same(a, b, outs, back, arity=None, ind=None, indmap=None):
 
 def alias_variants(case, orig):
     """The case again with an output pointer set to an input: one of r4-r7 the case passes as an address in RAM that the original
-    wrote through (within 64 bytes on), set to another it read through. Games call vector code that way, the result over an operand
-    (SetObjFly -> nlOuterProduct(v, s, s), Crazy Taxi), and a C that writes one result before it has read every operand gives
-    another answer there only: its cases, each with its own output, all agreed, and in the game the street objects never came
-    to rest. At most three a case; none from a variant itself."""
+    wrote through (within 64 bytes on), set to another it read through. Vector code is called that way, the result over an
+    operand, and a C that writes one result before it has read every operand gives another answer there only: cases that each
+    have their own output all agree with it. At most three a case; none from a variant itself."""
     if case.get('alias'):
         return []
     regs = case.get('regs', {})

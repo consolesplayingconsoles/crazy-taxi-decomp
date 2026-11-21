@@ -81120,7 +81120,7 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - the cases run 14 of 14 instructions
 
 ### prefetch (`0C08160A`, 4 bytes, `sdk/naomi/small_a_naomi.c`)
-- equivalent on 18 development and 18 holdout cases, in `tests/small_a_naomi/prefetch.json`
+- equivalent on 18 development and 20 holdout cases, in `tests/small_a_naomi/prefetch.json`
 - case 0
 - case 2
 - case 4
@@ -81157,6 +81157,8 @@ Functions whose C behaves like the original on every test case (`tools/equiv.py`
 - case 31
 - case 33
 - case 35
+- a store-queue address, queue 0, at its block's start: pref flushes the block
+- a store-queue address, queue 1, inside its block: pref flushes the whole block
 - the cases run 2 of 2 instructions
 
 ### psgAllocIpBuff (`0C070E8A`, 84 bytes, `src/gen_pm.c`)

@@ -344,6 +344,11 @@ class CPU:
             return True
 
         if hi == 0:
+            if lo4 == 3 and m_ == 8 and 0xE0000000 <= (self.r[n] & M32) < 0xE4000000:
+                # pref on a store-queue address: the queue's 32 bytes go out (a flush), an effect like a device write. Taken
+                # for a no-op, a C that leaves the flush out (an empty body for a pref @r4; rts helper) passed as Equivalent
+                self.m.devices.append(('f', (self.r[n] & M32) & ~31, 32, 0))
+                return
             if op == 0x0009 or lo4 == 3 and m_ in (8, 9, 0xa, 0xb):      # nop, pref, ocbi, ocbp, ocbwb
                 return
             if op == 0x000b:                                              # rts
@@ -868,8 +873,8 @@ def run(case, case_dir='.', code=None, deep=False, entry=None, end=None, argc=No
         makes run too) on a copy of the memory, from this call's registers. offset from the argument; word as the caller left it;
         stored: the caller's body stored it at some time (else it holds what the frame held before: a leftover on both sides).
         A record the callee takes from the frame is compared on what the callee reads of it, gaps and all: the words stored
-        right from the argument since the last call missed SaveBackupData's record, whose fields lie 0x44 on, stored after the
-        record's memmove (the C kept them in locals and passed the record unfilled: the save file was never made, Crazy Taxi)"""
+        right from the argument since the last call miss fields stored after a call that filled the record's start (a C that
+        kept those fields in locals passed the record unfilled and was not caught)"""
         lo, hi = c.r[15] & M32, entry_r15 & M32
         ptrs = sorted((c.r[i] & M32, i) for i in range(4, 8) if lo <= (c.r[i] & M32) < hi)
         if not ptrs:

@@ -10,8 +10,12 @@ typedef struct {
 } Triple;
 
 
+extern void _builtin_prefetch(void *);
+
+/* prefetch(p): pref @r4, the store queue's flush on a store-queue address */
 void prefetch(void *p)
 {
+    _builtin_prefetch(p);
 }
 
 
