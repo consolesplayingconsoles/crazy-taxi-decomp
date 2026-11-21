@@ -6,6 +6,10 @@ import glob,json,os,re,struct,subprocess,copy
 import gen_cfg
 import sh4sim
 BIN=open('1ST_READ.BIN','rb').read(); BASE=int(open('BASE').read().strip(),16)
+def is_device_addr(a):
+    """A constant address outside main RAM (in any mirror): a device register, the BIOS or the on-chip ones. Reads and writes there are
+    effects and have an order; the C writes them as volatile accesses (a plain load is scheduled by the compiler)."""
+    return isinstance(a,int) and not (0x0C000000<=(a&0x1FFFFFFF)<0x0D000000)
 def in_ram(a):
     """An address in main RAM, in any of its mirrors (0x0C, 0x8C, 0xAC...)."""
     return isinstance(a,int) and 0x0C000000<=(a&0x1FFFFFFF)<0x0D000000
@@ -828,6 +832,69 @@ def _run_structured(name,passthru=False):
             if 'too long' in str(e) and not _IJOIN[0]: _IJOIN[0]=True; continue
             raise
     raise Skip('proto conflict: %s'%', '.join(sorted(_CONFLICTS)))
+_ENDS_OK=('rts','rte','bra','braf','jmp','jsr','bsr','bsrf')      # a body may end here (a call that never returns included)
+_BRANCHES=('bra','bt','bf','bt/s','bf/s')
+def tail_region(t,own_end=0):
+    """The instructions a branch to t runs in another function (a shared tail longer than an epilogue: Power Stone FUN_0c0fd240 ->
+    0C0FC870, the rest of FUN_0c0fc812): every instruction control flow reaches from t, with the code lower in that function that a
+    branch of the tail goes back to, within the host's listed range and at most 0x600 bytes around t. A set of addresses; None when
+    the flow reaches no return or jump, or when t starts like a function (a register push: an entry the listing lacks, which the
+    check that names the host refuses, as before)."""
+    import shdis
+    rd=lambda x: struct.unpack_from('<H',BIN,x-BASE)[0]
+    if (rd(t)&0xFF0F)==0x2F06 or rd(t)==0x4F22: return None
+    sp=sorted((v[0],v[0]+v[1]) for v in SPANS.values() if isinstance(v,tuple) and len(v)==2 and isinstance(v[0],int))
+    host=[(s,e) for s,e in sp if s<=t<e]
+    if host:
+        lo,hi=host[0]
+    else:
+        # in no listed function: either the caller's own code just past its listed end, before the next entry (a size too short: the
+        # guard refuses it), or code no entry owns beyond other functions, a tail in a gap (followed, between the entries around it)
+        nxt=[s for s,e in sp if s>=own_end]
+        if own_end and (not nxt or t<nxt[0]): return None
+        lo=max([e for s,e in sp if e<=t] or [t-0x600]); hi=min([s for s,e in sp if s>t] or [t+0x600])
+    lo=max(lo,t-0x600); hi=min(max(hi,t+0x20),t+0x600)
+    entries=[t]; reach=set(); done=set()
+    while entries:
+        a=entries.pop()
+        if a in done: continue
+        done.add(a)
+        r=shdis.reachable(BIN,BASE,a,hi)
+        reach|=r
+        for pc in r:
+            d=shdis.decode(rd(pc),pc)
+            if d[3] is not None and d[0].split()[0] in ('bra','bt','bf','bt/s','bf/s') and lo<=d[3]<hi and d[3] not in reach: entries.append(d[3])
+    if not reach or not any(rd(pc)==0x000B or (rd(pc)&0xF0FF)==0x402B for pc in reach): return None
+    return reach
+def listed_size_guard(name,ins):
+    """Skip a function whose listed size is shorter than its code (tools/1-2-baseline/checksizes.py names them: the sweep stopped at a
+    literal pool in the middle of the body, and the code after it is outside the size). Read to the listed end, such a body gives C
+    that stops where the listing does: a path that runs off the end becomes `return r0`, a branch past it a return too (Power Stone
+    vmsfs_mount2: the call after the pool left out, the base address in r0 returned). Two cases, each skipped with the reason:
+    a branch to an address outside the body that is no function's entry (and no epilogue or `B` body added to it above), and a body
+    whose last instruction is no return or jump while the address after it is no function's entry (falling into the next function
+    is a tail call, written as one)."""
+    if not ins: return
+    pcs={x[2] for x in ins}
+    for mn,ops,pc in ins:
+        if mn not in _BRANCHES or not ops: continue
+        t=gen_cfg.target_of(ops)
+        if t is None or t in pcs or canon(t) in FUNCS: continue
+        if inside_of(t) is not None: continue      # into the middle of another listed function: the check that names that host refuses it
+        raise Skip('branch past the listed size: %x -> %x (size of %s may be short, tools/1-2-baseline/checksizes.py)'%(pc,t,name))
+    # the listed code: what lies in [start, start + size), plus the delay slot at the end; what was added to it (an epilogue branched to, a
+    # `B` body) is another run and must not hide where this one ends. A pool in the middle leaves gaps, so no run of consecutive addresses
+    sp=SPANS.get(name)
+    run=[x for x in ins if sp[0]<=x[2]<=sp[0]+sp[1]] if sp else list(ins)
+    if not run: return
+    nxt=run[-1][2]+2
+    body=list(run)
+    while len(body)>1 and (body[-1][0].startswith('.') or (body[-1][0]=='nop' and body[-1][2]>body[-2][2])): body.pop()      # a literal pool inside the listed size; padding after the return's delay slot (or the slot itself, a nop)
+    last=body[-1]
+    if len(body)>1 and body[-2][0] in _ENDS_OK and body[-2][2]+2==last[2]: return      # the last instruction is the delay slot of a return or jump
+    if last[0] in _ENDS_OK: return
+    if canon(nxt) in FUNCS: return
+    raise Skip('runs off the end of its listed size at %x: the next address is no function (size of %s may be short, tools/1-2-baseline/checksizes.py)'%(nxt,name))
 def _run(name,passthru=False,frame=False,flat=False):
     out=subprocess.run(['python3','tools/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
     ins=[]
@@ -839,22 +906,30 @@ def _run(name,passthru=False,frame=False,flat=False):
         for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
-    if ins:      # a branch into another function's epilogue (sh4sim.shared_epilogue): its instructions are this function's own ending
-        lo_,hi_=ins[0][2],ins[-1][2]; seen_=set()
-        for mn_,ops_,pc_ in list(ins):
+    if ins:      # a branch into another function's epilogue or tail (sh4sim.shared_epilogue, tail_region): its instructions are this function's own ending
+        lo_,hi_=ins[0][2],ins[-1][2]; seen_=set(); k_=0
+        while k_<len(ins):      # the appended code is read for branches out of the function too
+            mn_,ops_,pc_=ins[k_]; k_+=1
             t_=gen_cfg.target_of(ops_) if mn_ in ('bra','bt','bf','bt/s','bf/s') and ops_ else None
-            if t_ is None or lo_<=t_<=hi_ or t_ in seen_ or t_ in FUNCS: continue
+            if t_ is None or lo_<=t_<=hi_ or t_ in seen_ or t_ in FUNCS or any(x[2]==t_ for x in ins): continue
             e_=sh4sim.shared_epilogue(lambda x: struct.unpack_from('<H',BIN,x-BASE)[0],t_)
-            if not e_: continue
+            if e_:
+                wlo,whi=t_,e_; keep_=lambda pc,t_=t_,e_=e_: t_<=pc<e_
+            else:
+                rg_=tail_region(t_,hi_+4)
+                if not rg_: continue
+                have_={x[2] for x in ins}; wlo,whi=min(rg_),max(rg_)+4
+                keep_=lambda pc,rg_=rg_,have_=have_: pc in rg_ and pc not in have_
             seen_.add(t_)
-            for l in subprocess.run(['python3','tools/shdis.py','%x'%t_,'%x'%e_],capture_output=True,text=True).stdout.splitlines():
+            for l in subprocess.run(['python3','tools/shdis.py','%x'%wlo,'%x'%whi],capture_output=True,text=True).stdout.splitlines():
                 m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
-                if m and t_<=int(m.group(1),16)<e_: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
+                if m and keep_(int(m.group(1),16)): ins.append((m.group(3),m.group(4),int(m.group(1),16)))
     if ins and name in BODY:      # a body laid out before the entry (functions.txt `B`: a loop entered at its test): this function's own code
         b0_,b1_=BODY[name]; have_={pc_ for _,_,pc_ in ins}
         for l in subprocess.run(['python3','tools/shdis.py','%x'%b0_,'%x'%b1_],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and b0_<=int(m.group(1),16)<b1_ and int(m.group(1),16) not in have_: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
+    listed_size_guard(name,ins)
     c=Ctx(name); c.nemit=0; c.emit_limit=10**9 if flat else 6*(SPANS.get(name,(0,0))[1]//2)+300; c.sz=False; c.XF={}; c.swapped=False; c.in_prologue=True; c.psaves=0; c.T=None; c.blocks=[c.stmts]; c.stack={}; c.protos={}; c.ncalls=0; c.ncalls_to={}; c.pcalls=0; c.argvars={}; c.tail=None; c.pt=passthru; c.start_pc=ins[0][2] if ins else 0
     TY={'l':('int',4),'w':('short',2),'b':('signed char',1)}
     def addr_expr(base,off):
@@ -875,13 +950,13 @@ def _run(name,passthru=False,frame=False,flat=False):
             return ((v^h)-h)&M
         t='t%d'%c.ntemp; c.ntemp+=1
         ty=TY[sz][0]
-        if ad[0]=='const': c.blocks[-1].append('%s %s = *(%s *)0x%X;'%('int',t,ty,ad[1])); c.mem_addrs.append(('c',ad[1]))
+        if ad[0]=='const': c.blocks[-1].append('%s %s = *(%s%s *)0x%X;'%('int',t,'volatile ' if is_device_addr(ad[1]) else '',ty,ad[1])); c.mem_addrs.append(('c',ad[1]))      # a device register: volatile, or the compiler may read it after a later one
         else: c.blocks[-1].append('int %s = *(%s *)(%s);'%(t,ty,ad[1])); c.mem_addrs.append(('e',ad[1]))
         return ('e',t)
     def store(sz,ad,val):
         T={'l':'unsigned int','w':'unsigned short','b':'unsigned char'}[sz]
         v=ex(val)
-        if ad[0]=='const': c.blocks[-1].append('*(%s *)0x%X = %s;'%(T,ad[1],v)); c.mem_addrs.append(('c',ad[1]))
+        if ad[0]=='const': c.blocks[-1].append('*(%s%s *)0x%X = %s;'%('volatile ' if is_device_addr(ad[1]) else '',T,ad[1],v)); c.mem_addrs.append(('c',ad[1]))
         else: c.blocks[-1].append('*(%s *)(%s) = %s;'%(T,ad[1],v)); c.mem_addrs.append(('e',ad[1]))
     def pend_gap():      # bytes of frame made below the pushed words still pending (0 when they are at SP)
         po=getattr(c,'pend_off',None)
@@ -2011,6 +2086,15 @@ def _run(name,passthru=False,frame=False,flat=False):
                     if va is not None: out[r]=va
                     continue
                 bad=lambda v: v is not None and (v==DIRTY or (isinstance(v,tuple) and v[0] in ('addr','srx')))
+                if (not isf and isinstance(va,tuple) and isinstance(vb,tuple) and va[0]=='srx' and vb[0]=='srx' and va[1:3]==vb[1:3]
+                        and (va[2]==0xFFFFFF0F or va[4:]==vb[4:])):
+                    # the same SR word built with a different value or-ed in on each arm (the next interrupt mask): the values go into one
+                    # variable, and the word after the join is the SR bits with that variable. set_imask takes it; the restore of SR
+                    # (sr_read) comes from the mark both arms read it at (the same, or the mask form which does not use it)
+                    Va=0 if va[3] is None else va[3]; Vb=0 if vb[3] is None else vb[3]
+                    var=fresh(False); emit('int %s;'%var)
+                    A.append('%s = %s;'%(var,ex(Va))); B.append('%s = %s;'%(var,ex(Vb)))
+                    out[r]=('srx',va[1],va[2],('e',var))+va[4:]; continue
                 if bad(va) or bad(vb) or (va is None and vb is None):
                     out[r]=DIRTY; c.dwhy[r]='%s | %s'%(str(va)[:40],str(vb)[:40]); continue
                 own=('s','a%d'%int(r[1:])) if not isf and r[1:].isdigit() and 4<=int(r[1:])<=7 else ('s','f%d'%int(r[2:])) if isf and r[2:].isdigit() and 4<=int(r[2:])<=11 else None

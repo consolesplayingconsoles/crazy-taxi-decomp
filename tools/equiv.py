@@ -730,6 +730,13 @@ def alias_variants(case, orig):
     return out[:3]
 
 
+def alias_unusable(case, orig):
+    """An aliased variant (alias_variants) is an input the case never had. When the original stops on it (a loop that never ends
+    because an output now overlaps an input it walks, a fault), the variant says nothing about the C: no verdict, as for a fuzzed
+    case. Power Stone FUN_0c115fb8: `output r6 over r4` ran the original past 2,000,000 instructions and failed a correct C."""
+    return bool(case.get('alias')) and bool(orig.get('error'))
+
+
 def same_bufs(xs, ys, xv, yv):
     """A local buffer handed to a call: the words each side's body stored from the argument on, without a gap, since its last
     call (sh4sim bufs), compared up to the shorter run. Past it lies another local that the other side keeps elsewhere (the
@@ -938,6 +945,8 @@ def main(argv):
             orig = sh4sim.run(case, '.', deep=helpers_orig, argc=argc, stackfill=stackfill)
             if fuzz and orig['error']:
                 continue                      # words the original takes for pointers can fault it: no verdict from such a case
+            if alias_unusable(case, orig):
+                continue                      # an aliased input the original cannot run on: no verdict from such a case
             seen.update(orig.get('covered', []))
             srs.add(orig.get('sr'))
             observed = observed or bool(orig.get('calls') or orig.get('writes') or orig.get('devices') or orig.get('seq_used') or orig.get('xf_changed')) or len(srs) > 1

@@ -364,6 +364,13 @@ def sign_idiom(body,decls):
     for v in gone:
         if not any(re.search(r'\b%s\b'%v,l) for l in out): decls[:]=[d for d in decls if not re.match(r'^(int|float) %s;$'%v,d)]
     return out
+def device_read(e):
+    """True when the expression reads a constant address outside main RAM: a device register (the PVR, the G1/G2 buses, the on-chip
+    ones). Two of them in one expression are read in an order C leaves open: SHC reads the right one first."""
+    for m in re.finditer(r'\*\([^()]*\*\)\s*0x([0-9A-Fa-f]+)\b',e):
+        phys=int(m.group(1),16)&0x1FFFFFFF
+        if not 0x0C000000<=phys<0x0D000000: return True
+    return False
 def inline_single(body,decls):
     """A temporary set once and read once, further down the same straight run of statements, with nothing in between that
     changes what it reads, is written into its one use: `t9 = R4 != 0; ... if (t9) goto L;` becomes `if (R4 != 0) goto L;`.
@@ -382,6 +389,8 @@ def inline_single(body,decls):
             v,e=m.group(1),m.group(2)
             if re.search(r'\b%s\b'%v,e) or 'volatile' in e:
                 i+=1; continue
+            if device_read(e):      # a device register read stays a statement of its own: folded into a use that holds another one, the two are read
+                i+=1; continue      # in the compiler's order, not the original's (Power Stone FUN_0c100260: PVR 810C was read after 80DC)
             reads_mem='*(' in e or re.search(r'\b[A-Za-z_]\w*\s*\(',e.replace('(int)','').replace('(float)','')) or 'stk' in e
             names=set(_IDENT.findall(e))
             j=i+1; ok=False
