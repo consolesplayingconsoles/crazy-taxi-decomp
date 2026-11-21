@@ -51,11 +51,19 @@ def _listed():
         top = B.BASE + len(B.BIN)
         for i, (a, s, n) in enumerate(F):
             nxt = F[i + 1][0] if i + 1 < len(F) else top
-            at = list(range(a, a + s, 2))
+            walked = []
             try:                                  # and the code its own branches reach past its listed size, up to the next entry:
-                at += sorted(B.reach(a, stop_at=nxt)[1])     # a listing can end early (Crazy Taxi nlSysSetDirectListTypeLatency2V
+                walked = sorted(B.reach(a, stop_at=nxt)[1])  # a listing can end early (Crazy Taxi nlSysSetDirectListTypeLatency2V
             except Exception:                                # loads its pool from past its listed bytes: 178 such words were read as code)
                 pass
+            lit = set()                           # a literal that the walked code loads is data: its two halves are not instructions, and
+            for x in walked:                      # a half that looks like mov.l @(disp,pc) must not add a pool word of its own
+                if x + 2 <= top:
+                    w = B.word(x)
+                    if w >> 12 == 0xD or w >> 8 == 0xC7:
+                        p = ((x + 4) & ~3) + 4 * (w & 0xFF)
+                        lit.update((p, p + 2))
+            at = [x for x in range(a, a + s, 2) if x not in lit] + walked
             x = a + s                             # and the code straight after the listed size, past a jump through a register (which
             while x + 2 <= min(nxt, top):         # reach does not follow), while it decodes as instructions or is a pool word found
                 if x in pools or x - 2 in pools:  # already; the first undecodable word ends it, so a long stretch of data after a short

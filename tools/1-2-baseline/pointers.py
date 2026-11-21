@@ -33,6 +33,8 @@ listed code. Each candidate gets one decision, P (an address: becomes a name) or
                 it stays where it is, so it stays a number
     outside  N  an address in RAM below the image (the system area, the boot copy): nothing there moves
     words    P/N  a decision from words.txt, which overrides every rule above
+    arm      N  a word inside layout.txt's `arm <start> <end>` (code for the sound CPU, copied to it as it is): never an SH-4 address,
+                whatever its top byte; after words.txt, before every other rule
 
 words.txt (committed, optional): `P <addr>` or `N <addr>` per line, `#` comments: a person's decision about one word, kept as data.
 layout.txt must give `fixed <addr>`: the first address the build may not move (Virtua Tennis 0C500000, its first file buffer).
@@ -133,6 +135,7 @@ def classify():
     top = B.BASE + len(B.BIN)
     starts, ends, pools = shift._listed()
     force = overrides()
+    arm = layout.region('arm')          # layout.txt `arm <start> <end>`: code for the sound CPU, whose words are never SH-4 addresses
     inside_code = code_words(starts, ends, pools, fx)
     fstart = set(starts)
 
@@ -155,6 +158,9 @@ def classify():
         a = layout.mirror(v)
         if at in force:
             out.append((at, v, force[at], 'words'))
+            continue
+        if arm and arm[0] <= at < arm[1]:
+            out.append((at, v, 'N', 'arm'))
             continue
         pool = at in pools
         if not pool:
