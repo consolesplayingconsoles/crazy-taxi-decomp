@@ -26,8 +26,8 @@ stays as is: Pluto's Homebrew tab finds it by that label (pluto/src/components/h
 MAIN_METRICS) and prints and formats this report. Renaming or reordering it means updating Pluto too.
 
 It also writes badges/progress.svg (the main metric as a bar and a number) for the top of the README; the pre-commit
-hook stages it with the Progress block. The badge also lists the statuses of status.txt that have a Dreamcast and a Native mark, ticked, crossed or unknown, from the first
-day (BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE).
+hook stages it with the Progress block. The badge also lists the statuses of status.txt that have a Flycast, a Dreamcast and a Native mark, ticked, crossed or unknown
+(BUILDS FROM C, BOOTS TO MENU, PLAYABLE, STABLE), in the columns whose BUILDS FROM C is ticked.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
@@ -268,7 +268,8 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
     and its percentage) and covered bytes (the game's code laid out by bytes, data left out, one column per slice, dark where most of
     the slice is done, light where it is not, and the share of code bytes done). The same two colours mean done and not yet in both
     rows, and the numbers are always printed. The secondary metrics, small: test coverage and the matching percentage. Below them,
-    the statuses that have a Dreamcast and a Native column (extra: [(name, Dreamcast mark, Native mark)]), one check per status in each column."""
+    the statuses that have a Flycast, a Dreamcast and a Native column, as grid_columns() gives them (extra: (the shown columns'
+    headings, [(name, [their marks])])), one check per status in each shown column."""
     done = float(pct(g[7], doable).strip().rstrip('%')) if doable else 0.0      # the same number the 'done: equivalent C' row used to carry, straight from the counts
     bar = 100
     wd = int(round(bar * min(done, 100.0) / 100.0))
@@ -309,12 +310,14 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
     sec = '' if MATCHING else ('<g font-size="10" fill="#b8c4d9"><text x="76" y="92">TEST COVERAGE %s</text>'
                                '<text x="228" y="92">MATCHING %s</text></g>' % (gtext, mtext))
     cols = ''
-    if extra:
-        cols = ('<g font-size="10" fill="#b8c4d9"><text x="196" y="%d">DREAMCAST</text><text x="262" y="%d">NATIVE</text></g>'
-                % (H + 20, H + 20)) + ''.join(
-            '<text x="14" y="%d" text-anchor="start">%s</text><text x="196" y="%d">%s</text><text x="262" y="%d">%s</text>'
-            % (H + 40 + 18 * k, n, H + 40 + 18 * k, d, H + 40 + 18 * k, nv) for k, (n, d, nv) in enumerate(extra))
-        H += 28 + 18 * len(extra)
+    heads, grid = extra if extra else ((), [])
+    if heads and grid:
+        xs = (150, 208, 268)[3 - len(heads):]           # the shown columns, kept to the right
+        cols = ('<g font-size="10" fill="#b8c4d9">%s</g>' % ''.join('<text x="%d" y="%d">%s</text>' % (x, H + 20, h) for x, h in zip(xs, heads))
+                ) + ''.join('<text x="14" y="%d" text-anchor="start">%s</text>' % (H + 40 + 18 * k, n) +
+                            ''.join('<text x="%d" y="%d">%s</text>' % (x, H + 40 + 18 * k, mk) for x, mk in zip(xs, marks))
+                            for k, (n, marks) in enumerate(grid))
+        H += 28 + 18 * len(grid)
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="%d" role="img" aria-label="%%s">' % H +
            '<title>%%s</title><clipPath id="r"><rect width="304" height="%d" rx="3"/></clipPath>' % H +
            '<g clip-path="url(#r)"><rect width="304" height="%d" fill="#1a2233"/>' % H +
@@ -346,10 +349,12 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
 
 
 def statuses(path='status.txt'):
-    """[(status, Dreamcast)] or [(status, Dreamcast, Native)] from status.txt, in its order: one status a line, "[x] NAME" reached
-    (state True), "[ ] NAME" not reached (False), "[?] NAME" unknown, not tested yet (None); a line with two marks, "[x] [ ] NAME",
-    gives the Dreamcast then the Native state; # starts a comment. Each status needs the ones above it in its own column, so a
-    ticked line under an unticked or unknown one stops the report. No file: no statuses."""
+    """[(status, state)] or [(status, Flycast, Dreamcast, Native)] from status.txt, in its order: one status a line, "[x] NAME"
+    reached (state True), "[ ] NAME" not reached (False), "[?] NAME" unknown, not tested yet (None); a line with three marks,
+    "[x] [x] [ ] NAME", gives the Flycast, the Dreamcast and the Native state (the badge's grid); one with two marks, the form
+    before Flycast had a column, the Dreamcast and the Native state, Flycast not tested; # starts a comment. Each status needs
+    the ones above it in its own column (the grid's columns, and the lines with one mark among themselves), so a ticked line
+    under an unticked or unknown one stops the report. No file: no statuses."""
     if not os.path.exists(path):
         return []
     out = []
@@ -357,17 +362,29 @@ def statuses(path='status.txt'):
         l = l.split('#')[0].strip()
         if not l or re.match(r'^MODE:', l):      # the mode line is not a status (it is read at the top of this file)
             continue
-        m = re.match(r'^\[([ xX?])\]\s+(?:\[([ xX?])\]\s+)?(\S.*)$', l)
+        m = re.match(r'^((?:\[[ xX?]\]\s+){1,3})(\S.*)$', l)
         if not m:
-            sys.exit('[ERROR] %s line %d: expected "[x] NAME", "[x] [ ] NAME" ([ ] or [?] for each mark), found: %s' % (path, i, l))
+            sys.exit('[ERROR] %s line %d: expected "[x] NAME" or "[x] [x] [ ] NAME" ([ ] or [?] for each mark), found: %s' % (path, i, l))
         state = lambda c: None if c == '?' else c != ' '
-        out.append((m.group(3).strip(), state(m.group(1))) + ((state(m.group(2)),) if m.group(2) else ()))
-    for col in (1, 2):
-        seen = [e for e in out if len(e) > col]
+        s = [state(c) for c in re.findall(r'\[([ xX?])\]', m.group(1))]
+        name = m.group(2).strip()
+        out.append((name, s[0]) if len(s) == 1 else (name, None, s[0], s[1]) if len(s) == 2 else (name, s[0], s[1], s[2]))
+    for group, col in ((2, 1), (4, 1), (4, 2), (4, 3)):       # the one-mark lines; the grid's Flycast, Dreamcast, Native columns
+        seen = [e for e in out if len(e) == group]
         for k, e in enumerate(seen):
             if e[col] and not all(o[col] for o in seen[:k]):
                 sys.exit('[ERROR] %s: "%s" is ticked but %s above it is not' % (path, e[0], ', '.join('"%s"' % o[0] for o in seen[:k] if not o[col])))
     return out
+
+
+def grid_columns(status, mark):
+    """the badge's grid from statuses(): (the shown columns' headings, [(status, [its mark in each shown column])]). The lines with
+    three marks, columns Flycast, Dreamcast, Native; a column shows only when its first line (BUILDS FROM C) is ticked: a target the
+    game does not build for yet has no column. None shown: no grid"""
+    grid = [e for e in status if len(e) == 4]
+    shown = [c for c in (1, 2, 3) if grid and grid[0][c] is True]
+    heads = [('FLYCAST', 'DREAMCAST', 'NATIVE')[c - 1] for c in shown]
+    return heads, [(e[0], [mark(e[c]) for c in shown]) for e in grid] if shown else []
 
 
 def mark(on):
@@ -377,8 +394,8 @@ def mark(on):
 
 status = statuses()
 reached = [e[0] for e in status for on in e[1:] if on]
-# the statuses show whenever status.txt has any: BUILDS FROM C crossed while the build fails
-write_badge(rows, 'decomp', extra=[(e[0], mark(e[1]), mark(e[2])) for e in status if len(e) == 3])      # the statuses with a Dreamcast and a Native column
+# a column of the grid shows once its BUILDS FROM C is ticked
+write_badge(rows, 'decomp', extra=grid_columns(status, mark))      # the grid: Flycast, Dreamcast, Native, the columns that build from C
 # what the status shows (the badge above was written from every row): the layout the README uses, one group per kind of measure
 _drop = ('THE GAME', 'done: equivalent C', 'of which matching C', 'done: matching C', 'of which source files', 'not built: SDK source', 'not built: SDK object code', 'of which SDK source', 'of which SDK object code', 'size of what is done',
          'named only', 'with partial C', 'named globals', 'of which library', 'done', 'named')
