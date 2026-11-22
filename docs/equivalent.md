@@ -1,6 +1,6 @@
 # Equivalent functions
 
-Functions whose C behaves like the original on every test case (`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/4-boosts/live.py`.
+Functions whose C behaves like the original on every test case (`tools/sim/equiv.py`: same calls, same final memory, same result). Written by `tools/sim/equiv.py`; the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/6-agentic/live.py`.
 
 ### ADXAMP_Create (`0C16794E`, 180 bytes, `sdk/sofdec/gen_is_sofdec.c`)
 - equivalent on 18 development and 18 holdout cases, in `tests/gen_is_sofdec/ADXAMP_Create.json`

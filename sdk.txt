@@ -15,7 +15,7 @@ func 0c088e64 _allzero
 func 0c0892e4 _rsfts
 func 0c0896f4 _duchek
 # Hardware a host does not have: hardware <start> <end> <what>. A port replaces these libraries at their entry points with host
-# code and never runs what is below them: such a function is never built for a port and never interpreted (tools/layout.py).
+# code and never runs what is below them: such a function is never built for a port and never interpreted (tools/common/layout.py).
 hardware 0c14cfbc 0c14e586 GD-ROM file system (gdFs*)
 hardware 0c15f460 0c1607c8 GD-ROM subcode decoder and file system (gdDec*, gdFs*)
 hardware 0c16766c 0c16772c GD-ROM drive commands (gdGdc*)

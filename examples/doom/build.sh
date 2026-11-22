@@ -29,7 +29,7 @@ prepare_tree "$TREE" $(mod_layers doom) doom
 
 echo "##STEP:course"
 # Original's COLDC2.BIN from your disc, then Doom's map (the ground, the walls and the model) written into it, and src/doom.h for the layer's C.
-python3 "$DECOMP/tools/gdi_read.py" "$GDI" COLDC2.BIN "$B/COLDC2.orig"
+python3 "$DECOMP/tools/1-2-baseline/gdi_read.py" "$GDI" COLDC2.BIN "$B/COLDC2.orig"
 "$PYTHON" "$HERE/tools/doom_coldc.py" "$B/COLDC2.orig" "$TREE/1ST_READ.BIN" "$DOOM_WAD" "$DOOM_MAP" "$B/COLDC2.BIN" "$TREE/src/doom.h" "$DOOM_FARES" "$DOOM_MIN_TRIP_M"
 
 echo "##STEP:base"

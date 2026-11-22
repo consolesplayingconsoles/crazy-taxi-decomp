@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """SH-4 disassembly of part of the executable, FPU included, with names. Stdlib only.
 
-    python3 tools/shdis.py <start hex> <end hex>        (run in the repo)
-    python3 tools/shdis.py --func <name or address>     one function of functions.txt
+    python3 tools/sim/shdis.py <start hex> <end hex>        (run in the repo)
+    python3 tools/sim/shdis.py --func <name or address>     one function of functions.txt
 
 Reads 1ST_READ.BIN and BASE, and names from functions.txt, symbols.txt and globals.txt (when they
 exist). Prints one instruction per line; pc-relative loads show the pool value (as a name when it
@@ -10,7 +10,7 @@ is one, else as a number and, for a 32-bit value, as a float), branches and call
 FPU moves are decoded as single precision (the games are built with -fpu=single).
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import os
 import re

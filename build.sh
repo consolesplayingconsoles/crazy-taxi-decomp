@@ -65,7 +65,7 @@ STEPS='
     fi
   done < objects.txt
   echo "assembled $n files"
-  # C units: shc (its flags: tools/1-2-baseline/shc_flags.txt, shared with tools/fcmp.py) -> asm, gaps filled with 0xEE and padded to the unit size (tools/1-2-baseline/fill.py), asmsh
+  # C units: shc (its flags: tools/1-2-baseline/shc_flags.txt, shared with tools/common/fcmp.py) -> asm, gaps filled with 0xEE and padded to the unit size (tools/1-2-baseline/fill.py), asmsh
   mkdir -p build/tmp
   case "$SHCT" in Z:*tmp*shc_*) mkdir -p "/tmp/${SHCT##*\\}";; esac
   while read -r name start end dstart dend opts; do
@@ -118,7 +118,7 @@ if [ "${DC_LOCAL:-0}" = 1 ]; then
   R04="${SDK_R04_PATH:-}"; R04W=""; [ -n "$R04" ] && R04W="Z:$(printf '%s' "$R04" | tr / '\\')"
   T="$SDK_PATH/$TOOLS_REL" TW="$TW" B="$BASE" IMG="$IMG" R="$R" SHCT="$SHCT" OV="$OV" INC="$INC" R04="$R04" R04W="$R04W" bash -c "$STEPS" </dev/null
 else
-  . "$R/tools/docker_check.sh"
+  . "$R/tools/common/docker_check.sh"
   docker_ready "$R/tools/tools-image" || exit 1      # builds the dc-tools image (wibo) on first use
   IMAGE="${DC_TOOLS_IMAGE:-dc-tools}"
   TW="Z:$(printf '%s' "/sdk/$TOOLS_REL" | tr / '\\')"

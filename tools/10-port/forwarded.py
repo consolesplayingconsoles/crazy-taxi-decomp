@@ -36,7 +36,7 @@ def functions():
 
 def disasm(start, size):
     """[(address, mnemonic, operands, annotation)] of the function's code"""
-    r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'shdis.py'), '%x' % start, '%x' % (start + size)],
+    r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'sim', 'shdis.py'), '%x' % start, '%x' % (start + size)],
                        cwd=ROOT, capture_output=True, text=True)
     out = []
     for line in r.stdout.split('\n'):

@@ -7,7 +7,7 @@
 **A complete decompilation of the Dreamcast Crazy Taxi**. It builds and plays. No issues are known, please report any.
 
 It rebuilds the game's executable byte for byte.
-A function is **done** when its C behaves like the original's code: `tools/equiv.py` runs both on test cases and compares
+A function is **done** when its C behaves like the original's code: `tools/sim/equiv.py` runs both on test cases and compares
 every register and memory write the original makes. The C is not the original's bytes. The game is built from it with the
 movable build (`make c`), which compiles the C, lays it out where the original code was, and keeps the original's data and
 library code at their addresses. How strong each function's proof is depends on how much of its code the cases run;
@@ -203,7 +203,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 |----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [README.md](README.md)                      | This file                                                                                                                                              |
 | [docs/engine.md](docs/engine.md) | The author's notes: the particularities of this game's code and data, and what was learned                                                             |
-| [docs/equivalent.md](docs/equivalent.md)             | The evidence for each Equivalent function (written by [tools/equiv.py](tools/equiv.py))                                                                                |
+| [docs/equivalent.md](docs/equivalent.md)             | The evidence for each Equivalent function (written by [tools/sim/equiv.py](tools/sim/equiv.py))                                                                                |
 | text-map/                      | (generated) The executable's strings, how much text each disc file holds, and every image file (`images.tsv`): counts and lists to read, not a verdict |
 
 **The functions and their names**
@@ -221,7 +221,7 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 
 | path | what |
 |---|---|
-| [src/](src/) | C: Equivalent files (checked by [tools/equiv.py](tools/equiv.py), not built; the `gen_*.c` files were written by [tools/5-generated/gen_equiv](tools/5-generated/gen_equiv)) and matching C units (built, see below) |
+| [src/](src/) | C: Equivalent files (checked by [tools/sim/equiv.py](tools/sim/equiv.py), not built; the `gen_*.c` files were written by [tools/5-generated/gen_equiv](tools/5-generated/gen_equiv)) and matching C units (built, see below) |
 | [partial/](partial/) | C that was written but did not pass the check: drafts, counted apart from done |
 | [sdk-verified.txt](sdk-verified.txt) | Library functions whose bytes the SDK source you supplied reproduces (written by [tools/5-generated/sdk_source.py](tools/5-generated/sdk_source.py)) |
 | [sdk-headers/](sdk-headers/), [sdk-patches.txt](sdk-patches.txt) | The SDK headers and the changes to the supplied sources that [tools/5-generated/sdk_source.py](tools/5-generated/sdk_source.py) needs |
@@ -256,10 +256,10 @@ Other releases are different builds: `setup.sh` refuses them rather than produce
 
 | path | what | written by |
 |---|---|---|
-| 1ST_READ.BIN, asm/, objects.txt | Your executable and the assembly generated from it | [setup.sh](setup.sh) (with `tools/gdi_read.py` and `tools/1-2-baseline/split_asm.py`) |
+| 1ST_READ.BIN, asm/, objects.txt | Your executable and the assembly generated from it | [setup.sh](setup.sh) (with `tools/1-2-baseline/gdi_read.py` and `tools/1-2-baseline/split_asm.py`) |
 | sdk-source/ | The C of the library functions, from the SDK source you supplied | `tools/5-generated/sdk_source.py` |
 | build/ | Build output, the generator's log ([build/gen_run.log](build/gen_run.log)) and its report of why functions failed ([build/gen_failed.txt](build/gen_failed.txt)) | `make` (build/obj/, build/out.bin), `make c` (build/cbuild/), `tools/5-generated/gen_equiv` (its log and report) |
-| state/ | Working state: notes, failed cases, the remaining-functions report ([state/remaining.md](state/remaining.md)) and its cache | `tools/5-generated/gen_equiv` (failed cases), `tools/5-generated/remaining.py` (the report), `tools/ledger.py` (notes) |
+| state/ | Working state: notes, failed cases, the remaining-functions report ([state/remaining.md](state/remaining.md)) and its cache | `tools/5-generated/gen_equiv` (failed cases), `tools/5-generated/remaining.py` (the report), `tools/common/ledger.py` (notes) |
 
 ## Model map
 
@@ -286,12 +286,12 @@ that stays local). Regenerate it with `python3 tools/3-assets/model_map.py 1ST_R
 
 ## Equivalent C and shared library code
 
-How strong an Equivalent function is depends on its test cases, so `tools/equiv.py` reports how many of the original's instructions they
+How strong an Equivalent function is depends on its test cases, so `tools/sim/equiv.py` reports how many of the original's instructions they
 run. The original's code is kept as one assembly file per function, the baseline the build keeps checking. C written by `tools/5-generated/gen_equiv` is
 script-generated: it is checked on generated cases, which are then widened (`gen_equiv --direct` and `--retest`, and cases by hand for the branches
 nobody ran). There is no pass mark: a function that passes is done, and the total test coverage on the badge says how strong the evidence is. `AGENTS.md` lists the steps this decomp follows.
 
-`src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/equiv.py src/<file>.c`
+`src/<file>.c` with no `@unit` header is C checked for behaviour only: `python3 tools/sim/equiv.py src/<file>.c`
 runs each function in an SH-4 interpreter twice per test case, the original bytes and your compiled C,
 and they must agree on calls, memory writes and the result. Passing functions are listed in
 `tests/equivalent.txt` and counted as done. The loop, and how to write many of them quickly, is in
@@ -311,7 +311,7 @@ file boundaries (add them to `functions.txt`: `F <addr> 0 FUN_<addr>` for a func
 original source file: all its functions share literal pools, so it goes in only when all of it
 matches. A unit can sit in a folder of `src/` (`src/<dir>/<file>.c`) and name pieces of its own (`@ddata`, `@bdata`); options starting with `+` in the header
 (`+pool32`, `+synth16`, `+r04`, ...) are opt-in layouts and compilers for the files that need them; a unit that asks for none gets the default layout.
-`tools/fcmp.py` and `tools/permute.py` compare and rewrite a unit function by function. A game with code overlays builds them with
+`tools/common/fcmp.py` and `tools/7-reduction/permute.py` compare and rewrite a unit function by function. A game with code overlays builds them with
 `bash build_overlays.sh`. The options and overlays are described in the kickoff skill's `docs/matching-units.md` and `docs/overlays.md`.
 `python3 tools/progress.py` reports the state,
 each function in one bucket: done (equivalent C; matching C and SDK source part of it), named only (a name is

@@ -7,7 +7,7 @@ For a function whose random draw never finishes (a loop over a linked list finds
 node, a search that waits for a flag), a few hand-made cases show it: memory words set with "poke", registers with "regs", answers of
 calls with "calls". <cases.json>: {"dev": [case, ...], "holdout": [case, ...]} or a plain list (all development), each case
 {"about": "...", "poke": {"0C26EBCC": "<hex bytes, little endian>"}, "regs": {"r4": "<hex>"}}. The generator writes the function's C for
-each return variant in turn; the first variant tools/equiv.py calls Equivalent stays: the C goes to a new src/gen_*.c and the cases
+each return variant in turn; the first variant tools/sim/equiv.py calls Equivalent stays: the C goes to a new src/gen_*.c and the cases
 to tests/gen_*/<function>.json, with the usual evidence. Nothing is kept when none passes.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
@@ -54,7 +54,7 @@ def main(argv):
                                            gen_drv.head_protos([(fn, src, None, c.protos)]) + '\n\n' + src)
         os.makedirs('tests/%s' % stem)
         json.dump(cases, open('tests/%s/%s.json' % (stem, fn), 'w'), indent=1)
-        r = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
+        r = subprocess.run(['python3', 'tools/sim/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
         line = (r.stdout + r.stderr).strip().splitlines()[-1] if (r.stdout + r.stderr).strip() else ''
         print('%s as %s: %s' % (fn, variant, line[:200]))
         if ' EQUIVALENT' in line:

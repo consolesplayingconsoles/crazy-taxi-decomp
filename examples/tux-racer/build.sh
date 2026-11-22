@@ -29,7 +29,7 @@ prepare_tree "$TREE" $(mod_layers tux-racer) tux-racer
 echo "##STEP:course"
 # Arcade's COLDC1.BIN from your disc, then the course's ground, edge walls and terrain model written into it, and src/tux.h (where the
 # model is, where the cab starts) for the layer's C.
-python3 "$DECOMP/tools/gdi_read.py" "$GDI" COLDC1.BIN "$B/COLDC1.orig"
+python3 "$DECOMP/tools/1-2-baseline/gdi_read.py" "$GDI" COLDC1.BIN "$B/COLDC1.orig"
 "$PYTHON" "$HERE/tools/coldc.py" "$B/COLDC1.orig" "$TREE/1ST_READ.BIN" "$TUX_COURSE" "$B/COLDC1.BIN" "$TREE/src/tux.h" "$TUX_COPIES" "$TUX_FARES_PER_KM" "$TUX_MIN_TRIP_M"
 
 echo "##STEP:base"

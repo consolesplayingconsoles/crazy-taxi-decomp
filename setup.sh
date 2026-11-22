@@ -11,7 +11,7 @@ PY="${PYTHON:-python3}"
 BOOT="1ST_READ.BIN"                                    # boot file named in IP.BIN
 SHA1="2756d6c828b5a3848189cd84cac62bc9cb0a94b7"                                    # of the supported release's boot file
 
-"$PY" tools/gdi_read.py "$GDI" "$BOOT" 1ST_READ.BIN
+"$PY" tools/1-2-baseline/gdi_read.py "$GDI" "$BOOT" 1ST_READ.BIN
 got="$( (sha1sum 1ST_READ.BIN 2>/dev/null || shasum -a 1 1ST_READ.BIN) | cut -d' ' -f1)"
 [ "$got" = "$SHA1" ] || { echo "[ERROR] $BOOT has SHA-1 $got, expected $SHA1: not the supported release (see README)"; exit 1; }
 "$PY" tools/1-2-baseline/split_asm.py 1ST_READ.BIN "$(cat BASE)" functions.txt .

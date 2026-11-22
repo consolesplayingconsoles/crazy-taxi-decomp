@@ -26,7 +26,7 @@ def _write_eq(names):
 def take_out(names):
     """([record, ...], {name: why skipped}); a record holds what put_back needs"""
     manual = consistency.manual_names()
-    paths = layout.c_files()                    # the game's C and the SDK's (tools/layout.py)
+    paths = layout.c_files()                    # the game's C and the SDK's (tools/common/layout.py)
     files = sorted(os.path.basename(p) for p in paths)
     texts = {os.path.basename(p): open(p, errors='replace').read() for p in paths}
     recs, skipped = [], {}

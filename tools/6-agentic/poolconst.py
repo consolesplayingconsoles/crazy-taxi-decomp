@@ -11,7 +11,7 @@ patched at run time). That works while the original executable is in memory (the
 from the C, where other code sits at that address. Every read of a 1-, 2- or 4-byte value at an address inside a function's
 span (functions.txt), or between two functions less than GAP apart, becomes the value itself, from 1ST_READ.BIN: a float literal (exact: the same bits), an integer, or the
 name of the function whose entry the word holds (a function moves in a build from the C; its name follows it). Reads are
-not compared by tools/equiv.py, so a rewritten function stays Equivalent; re-check its file anyway.
+not compared by tools/sim/equiv.py, so a rewritten function stays Equivalent; re-check its file anyway.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
@@ -128,7 +128,7 @@ def main(argv):
     if apply:
         for f, t in changed.items():
             open(f, 'w').write(t)
-        print('applied: re-check the changed files (tools/equiv.py) and declare the functions the C now names')
+        print('applied: re-check the changed files (tools/sim/equiv.py) and declare the functions the C now names')
 
 
 if __name__ == '__main__':

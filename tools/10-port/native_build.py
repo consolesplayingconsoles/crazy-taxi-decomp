@@ -116,7 +116,7 @@ def sdk_source_units(root):
 
 def interpreted(stub_fns, fns, root):
     """of the functions with no C (fns: name -> address), the ones the port runs from the original code. One inside a
-    `hardware` range of sdk.txt (tools/layout.py) is not: its code talks to hardware the host does not have, the port's
+    `hardware` range of sdk.txt (tools/common/layout.py) is not: its code talks to hardware the host does not have, the port's
     host code stands in for that library from above, and a stub that reports itself is all it gets"""
     import layout
     cwd = os.getcwd()
@@ -130,7 +130,7 @@ def interpreted(stub_fns, fns, root):
 def fixed_src():
     """build/native/src_fixed: the C as the port compiles it, in one folder: src/ as the decomp has it (the port never
     changes it: a fix to the C is made in src/, for the console build too), and the SDK's C from sdk/ beside it
-    (tools/layout.py). Files are rewritten only when their text changes"""
+    (tools/common/layout.py). Files are rewritten only when their text changes"""
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     src, out = os.path.join(root, 'src'), os.path.join(root, 'build', 'native', 'src_fixed')
     os.makedirs(out, exist_ok=True)
@@ -143,7 +143,7 @@ def fixed_src():
         dst = os.path.join(out, f)
         if not os.path.exists(dst) or open(dst, 'rb').read() != data:
             open(dst, 'wb').write(data)
-    import layout                                    # tools/layout.py: where the C lives
+    import layout                                    # tools/common/layout.py: where the C lives
     cwd = os.getcwd()
     os.chdir(root)
     try:

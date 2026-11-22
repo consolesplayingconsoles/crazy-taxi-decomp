@@ -478,7 +478,7 @@ SKIP_FRAME = {'main'}      # the host calls the game's main with nothing
 def prologue_bytes(name):
     """the bytes the function's prologue takes off r15 (its pushes and its frame), from its disassembly; None if unclear"""
     import subprocess
-    r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'shdis.py'), '--func', name], capture_output=True,
+    r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'sim', 'shdis.py'), '--func', name], capture_output=True,
                        text=True, cwd=ROOT)
     total = 0
     for line in r.stdout.splitlines():

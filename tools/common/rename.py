@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rename functions (and globals) everywhere in the repo at once. Run in the repo.
 
-    python3 tools/rename.py <map> [--apply]
+    python3 tools/common/rename.py <map> [--apply]
 
 <map>: one rename per line, `<function address>\t<new name>`, or `name:<old>\t<new>` for a global or symbol by name.
 Lines starting with # are skipped. Without --apply it checks the map and prints what would change.
@@ -12,7 +12,7 @@ pass (chains and swaps such as a->b, b->a come out right), and tests/<file>/<old
 to the new name. Afterwards the asm pieces carry old labels: run setup.sh's split (tools/1-2-baseline/split_asm.py) and build.sh.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import os
 import re

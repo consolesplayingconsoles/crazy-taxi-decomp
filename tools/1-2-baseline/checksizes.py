@@ -10,7 +10,7 @@ the pool begins; a sweep that stops at the pool leaves the code after it outside
 many times (the C then "stops" or jumps to an address just past the function). For each function this
 reports a branch (bra, bt, bf) that lands outside [start, start + size), or a body with no rts, and the
 size that would cover the code after the pool (up to the next function). Pool words are skipped when
-decoding. Only a hint: read the disassembly (tools/shdis.py --func <name>) before changing a size.
+decoding. Only a hint: read the disassembly (tools/sim/shdis.py --func <name>) before changing a size.
 
 --hidden looks the other way: an entry listed longer than its code, with another function inside it. The listed
 range is followed instruction by instruction (every branch); past the last reachable instruction, an address that

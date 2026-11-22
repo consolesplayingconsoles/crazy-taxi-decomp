@@ -58,7 +58,7 @@ def run_file(stem,items):
     open(layout.c_path(stem),'w').write(head+'\n'.join(i[1] for i in use))
     shutil.rmtree('tests/%s'%stem,ignore_errors=True); os.makedirs('tests/%s'%stem)
     for it in use: json.dump(it[2],open('tests/%s/%s.json'%(stem,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/equiv.py',layout.c_path(stem)],capture_output=True,text=True); out=r.stdout+r.stderr
+    r=subprocess.run(['python3','tools/sim/equiv.py',layout.c_path(stem)],capture_output=True,text=True); out=r.stdout+r.stderr
     passed=[];failed=[]
     if 'compile failed' in out or 'ERROR' in out[:200]:
         return [],[i[0] for i in use],deferred,out[:400]
@@ -134,7 +134,7 @@ def run_file_robust(stem,items):
         open(layout.c_path(stem),'w').write(text)
         shutil.rmtree('tests/%s'%stem,ignore_errors=True); os.makedirs('tests/%s'%stem)
         for it in use: json.dump(it[2],open('tests/%s/%s.json'%(stem,it[0]),'w'),indent=1)
-        r=subprocess.run(['python3','tools/equiv.py','--full',layout.c_path(stem)],capture_output=True,text=True); out=r.stdout+r.stderr
+        r=subprocess.run(['python3','tools/sim/equiv.py','--full',layout.c_path(stem)],capture_output=True,text=True); out=r.stdout+r.stderr
         LAST['out']=out
         if 'compile failed' in out:
             lines=[int(x) for x in re.findall(r'gen_\w+\.c\((\d+)\)',out)]

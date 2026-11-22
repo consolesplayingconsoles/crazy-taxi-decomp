@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """watch.py: one line of progress with an estimate per running generator run, every few minutes, and a result line when all are done.
 
-    python3 tools/watch.py [--every SECONDS] [--once] run1 run2 ...      (run names as given to gen_equiv --run; none = the plain run)
+    python3 tools/5-generated/watch.py [--every SECONDS] [--once] run1 run2 ...      (run names as given to gen_equiv --run; none = the plain run)
 
 Meant to run under a monitor, so whoever started the jobs is woken at every line. The estimate is rough: the drawing phase from its
 own rate so far, the checking phase from a fixed cost per function (CHECK_S). A line starting DONE ends the watch.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import json
 import os

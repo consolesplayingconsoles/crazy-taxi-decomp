@@ -4,7 +4,7 @@
     python3 tools/5-generated/sdk_place.py [--fix]
 
 src/ is the game's own code. A function inside a library block of sdk.txt (a `range` line) is the SDK's, and its C belongs in
-sdk/<library>/ (tools/layout.py): sdk/naomi/, sdk/kamui/, sdk/shinobi/, sdk/sofdec/, sdk/runtime/, sdk/boot/.
+sdk/<library>/ (tools/common/layout.py): sdk/naomi/, sdk/kamui/, sdk/shinobi/, sdk/sofdec/, sdk/runtime/, sdk/boot/.
 
 Which library: by the function's name where the SDK's naming says it (nl... the NAOMI library; km... Kamui; ADX..., SJ..., mw...
 Sofdec and ADX; sy..., gd..., pd..., kd..., mpdrv..., bu..., vms..., fm..., ov... Shinobi; boot... the boot block; an all-lowercase

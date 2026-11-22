@@ -26,7 +26,7 @@ For each unit the changed functions are written in place (rewrites.splice), the 
 does not pass goes back and the file is checked again. Zombie Revenge, 80 random units: 28-38% of their excess.
 
 For each name: the generator writes the function again; when the new C compiles smaller than the current C (both measured
-by tools/sizes.py, literal pools included), and under KEEP times its size (default 1.0: any saving), it replaces the old C and is checked on the function's existing cases
+by tools/7-reduction/sizes.py, literal pools included), and under KEEP times its size (default 1.0: any saving), it replaces the old C and is checked on the function's existing cases
 (gen_equiv --recheck, through state/kept). If it fails, the old C and cases go back. One line per function goes to
 build/shrink.log. The size table is updated as functions shrink.
 """
@@ -120,7 +120,7 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
         # the recheck passes the function on its own; the file it was written into is checked as a whole too (a function that passed alone and
         # differs in its file is dropped by that check, and the shrink had logged it as shrunk and left it without C: sysVideoSelect, Virtua Tennis)
         ns, _ = where(fn)
-        res = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(ns), fn], capture_output=True, text=True).stdout if ns else ''
+        res = subprocess.run(['python3', 'tools/sim/equiv.py', layout.c_path(ns), fn], capture_output=True, text=True).stdout if ns else ''
         if not re.search(r'^%s\s+EQUIVALENT\b' % re.escape(fn), res, flags=re.M):
             lock = locked()
             try:
@@ -152,7 +152,7 @@ def shrink_one(fn, stem, old, s, c, n_new, o_c, var, vs, log, table):
         open(layout.c_path(stem), 'w').write(t.rstrip('\n') + '\n\n' + old + '\n')
         json.dump(cases, open(tp, 'w'), indent=1)
         keep.drop(fn)
-        r = subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True).stdout.strip()
+        r = subprocess.run(['python3', 'tools/sim/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True).stdout.strip()
     finally:
         fcntl.flock(lock, fcntl.LOCK_UN)
     fail = ledger.last_failure(fn, since)          # what the recheck found, from state/results.jsonl, and the new C that failed
@@ -204,11 +204,11 @@ def narrow_pass(f, log):
     try:
         _SAFE[f] = text
         open(f, 'w').write(new)
-        out = subprocess.run(['python3', 'tools/equiv.py', f] + changed, capture_output=True, text=True).stdout
+        out = subprocess.run(['python3', 'tools/sim/equiv.py', f] + changed, capture_output=True, text=True).stdout
         ok = {n for n in changed if re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), out, re.M)}
         if ok != set(changed):
             open(f, 'w').write(text)
-            subprocess.run(['python3', 'tools/equiv.py', f] + changed, capture_output=True, text=True)
+            subprocess.run(['python3', 'tools/sim/equiv.py', f] + changed, capture_output=True, text=True)
     finally:
         _SAFE.pop(f, None)
         fcntl.flock(lock, fcntl.LOCK_UN)
@@ -260,7 +260,7 @@ def rewrite_pass(f, pas, log, manual):
         # workers checking at once would drop each other's entries; the compiles before it run side by side
         lock = locked()
         try:
-            out = subprocess.run(['python3', 'tools/equiv.py', f] + sorted(names), capture_output=True, text=True).stdout
+            out = subprocess.run(['python3', 'tools/sim/equiv.py', f] + sorted(names), capture_output=True, text=True).stdout
         finally:
             fcntl.flock(lock, fcntl.LOCK_UN)
         return {n for n in names if re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), out, re.M)}

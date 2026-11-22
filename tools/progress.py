@@ -2,7 +2,7 @@
 """progress.py: the decomp's state, in several measures. Run from the repo root after setup.sh.
 
   Buckets, each game function in one: done (equivalent C: behaves like the original, by
-  tools/equiv.py into tests/equivalent.txt; matching C, rebuilt byte for byte, is part of it),
+  tools/sim/equiv.py into tests/equivalent.txt; matching C, rebuilt byte for byte, is part of it),
   named only (a label, not done work), unnamed (FUN_<address> or thunk_FUN_<address>). A name never counts as done, and a
   missing name never counts against it: a proven FUN_ function is done.
   named        functions with a real name (functions.txt), globals with a name (globals.txt)
@@ -107,7 +107,7 @@ def pct(a, b):
 
 g = stats(lambda a: True)
 k = stats(is_lib)
-# library code that drives hardware a host does not have (sdk.txt's `hardware` lines, tools/layout.py): a port replaces that
+# library code that drives hardware a host does not have (sdk.txt's `hardware` lines, tools/common/layout.py): a port replaces that
 # library from above and never runs it. A row of its own beside the C states, not one of them: a hardware function may have C
 hw = [x for x in funcs if is_lib(x[0]) and layout.is_hardware(x[0])]
 is_done = lambda x: in_c(x[0]) or x[2] in equivalent or x[2] in lib_done

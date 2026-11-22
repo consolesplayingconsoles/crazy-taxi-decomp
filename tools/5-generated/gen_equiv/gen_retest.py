@@ -41,7 +41,7 @@ def main(batches):
             json.dump(t,open('tests/%s/%s.json'%(b,fn),'w'),indent=1)
         if not new:
             print(b,'already drawn',flush=True); continue
-        r=subprocess.run(['python3','tools/equiv.py','-q',layout.c_path(b)],capture_output=True,text=True)
+        r=subprocess.run(['python3','tools/sim/equiv.py','-q',layout.c_path(b)],capture_output=True,text=True)
         restore()
         bad=[l for l in r.stdout.splitlines() if l.split() and 'EQUIVALENT' not in l.split()[1:2] and not l.startswith('[')]
         failed=set(l.split()[0] for l in r.stdout.splitlines() if len(l.split())>1 and l.split()[1] in ('DIFFERS','-'))
@@ -84,5 +84,5 @@ def lift(names):
                 print('  keep old cases',fn,type(e).__name__,str(e),flush=True)
             finally: signal.alarm(0)
         if n_new:
-            r=subprocess.run(['python3','tools/equiv.py','-q',layout.c_path(stem)],capture_output=True,text=True)
+            r=subprocess.run(['python3','tools/sim/equiv.py','-q',layout.c_path(stem)],capture_output=True,text=True)
             print(stem,'redrawn',n_new,'|',(r.stdout.strip().splitlines() or ['?'])[-1][:110],flush=True)

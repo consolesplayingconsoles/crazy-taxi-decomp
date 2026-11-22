@@ -9,7 +9,7 @@ between may change it, so it loads and computes it again for each use. The origi
 finds the longest expression with a dereference that repeats four times or more inside a stretch with no branch, call
 or assignment to anything the expression reads, holds it in a local from its first use, and reports the compiled size
 before and after. With --apply a smaller version is checked on the function's cases in a scratch file and, when equivalent,
-replaces the old C (tools/equiv.py records the proof).
+replaces the old C (tools/sim/equiv.py records the proof).
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
@@ -174,7 +174,7 @@ def main():
         os.makedirs('tests/zz_hoist', exist_ok=True)
         shutil.copy('tests/%s/%s.json' % (stem, fn), 'tests/zz_hoist/%s.json' % fn)
         open('src/zz_hoist.c', 'w').write('/* scratch */\n' + gen_drv.head_protos([(fn, new, None, c.protos)]) + '\n\n' + new + '\n')
-        r = subprocess.run(['python3', 'tools/equiv.py', '--fresh', 'src/zz_hoist.c', fn], capture_output=True, text=True)
+        r = subprocess.run(['python3', 'tools/sim/equiv.py', '--fresh', 'src/zz_hoist.c', fn], capture_output=True, text=True)
         shutil.rmtree('tests/zz_hoist', ignore_errors=True)
         os.remove('src/zz_hoist.c')
         if 'EQUIVALENT' not in r.stdout:
@@ -183,7 +183,7 @@ def main():
         t2 = open(layout.c_path(stem)).read()
         b2 = consistency.block(t2, fn)
         open(layout.c_path(stem), 'w').write(t2[:b2[0]] + new + t2[b2[1]:])
-        subprocess.run(['python3', 'tools/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
+        subprocess.run(['python3', 'tools/sim/equiv.py', layout.c_path(stem), fn], capture_output=True, text=True)
         print('  | installed')
 
 

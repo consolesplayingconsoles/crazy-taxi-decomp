@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Compare this repo's C with the game, function by function, instruction by instruction. Run in the repo.
 
-    python3 tools/fcmp.py src/<file>.c [function ...] [-v]
+    python3 tools/common/fcmp.py src/<file>.c [function ...] [-v]
 
 Compiles the file with the build's flags (shc under wibo, SDK_PATH from .env; options from its @unit header), and for each function it defines
 that functions.txt names: MATCH when its instructions equal the game's with addresses masked (tools/1-2-baseline/sdk_masked.py), else the first instruction that differs
 and, with -v, both listings side by side. Literal pools are not compared here: the build does that, on the whole unit.
 """
 import os, re, shutil, struct, subprocess, sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401  (the shared tools: sdk_masked, shdis, fill)
 _a, sys.argv = sys.argv, ['x']
 try:

@@ -7,14 +7,14 @@ loads and stores, integer and single-precision float arithmetic, forward if / el
 (arguments are the registers r4-r7 / fr4-fr11 set before the call). Anything else (a jump table, an indirect call, stack
 arguments, address of a local) is skipped. The C goes to src/gen_<letter>.c, the cases to
 tests/gen_<letter>/ (up to 36 cases: candidates from a fixed set plus the constants the code compares against, calls answered
-with varied results, then grown and chosen by how much of the original they run), and a function stays only if tools/equiv.py calls it Equivalent: first as a void function, then returning
+with varied results, then grown and chosen by how much of the original they run), and a function stays only if tools/sim/equiv.py calls it Equivalent: first as a void function, then returning
 r0 / fr0, then passing the caller's registers through to the first call.
 
 The result is generated code, plain (temps t0, t1, hex stores, int prototypes) and checked on generated cases: a branch the
 cases never reach can pass by luck, so equiv.py reports the instruction coverage. Report it apart from hand-written C.
 `--regen <name> ...` writes functions again whose generated C exists (after a generator fix): the old C is put back unless the new is proven (regen.py).
-`--retest [gen_x ...]` draws the cases again for functions already generated (see gen_retest.py). Needs: functions.txt, tools/shdis.py,
-tools/5-generated/classify.py, tools/equiv.py, 1ST_READ.BIN."""
+`--retest [gen_x ...]` draws the cases again for functions already generated (see gen_retest.py). Needs: functions.txt, tools/sim/shdis.py,
+tools/5-generated/classify.py, tools/sim/equiv.py, 1ST_READ.BIN."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '../..')))
 import toolpath  # noqa: E402,F401
@@ -85,7 +85,7 @@ if '--lift' in sys.argv:
 abc='abcdefghijklmnopqrstuvwxyz'
 k=0
 def _taken():
-    """the file names in use: every C file of the repo, wherever it lives (tools/layout.py), and every cases folder. A new
+    """the file names in use: every C file of the repo, wherever it lives (tools/common/layout.py), and every cases folder. A new
     file is written through the name lookup, so a name taken in another folder would replace that file"""
     return {layout.stem(f) for f in layout.c_files()} | (set(os.listdir('tests')) if os.path.isdir('tests') else set())
 def write_batch(keep):
@@ -103,7 +103,7 @@ def write_batch(keep):
     open(layout.c_path(fn),'w').write(rewrites.narrow_unit(head+'\n'.join(i[1] for i in keep)))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/equiv.py',layout.c_path(fn)],capture_output=True,text=True)
+    r=subprocess.run(['python3','tools/sim/equiv.py',layout.c_path(fn)],capture_output=True,text=True)
     bad=gen_pipe.failed_in(r.stdout+r.stderr,[it[0] for it in keep])
     note('%s: %d functions written, %d EQUIVALENT, %d not'%(fn,len(keep),len(keep)-len(bad),len(bad)))      # equiv.py prints no summary without -q
     if bad:                  # it passed in its batch, not in the file it was written to (a callee's definition changed meanwhile: --regen

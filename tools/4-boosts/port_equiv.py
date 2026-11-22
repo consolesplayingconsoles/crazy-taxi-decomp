@@ -20,7 +20,7 @@ src/*.c with tests/<file>/<function>.json). For every function the source has as
    number is written as the destination's, by the same map), and each function's
    cases to tests/<tag>_<file>/<function>.json with their addresses translated (mapped addresses, and the
    other 0C... RAM addresses of the source moved to the destination's 8C... base).
-4. Run the destination's own `tools/equiv.py -q` on the ported file; a function whose body names something
+4. Run the destination's own `tools/sim/equiv.py -q` on the ported file; a function whose body names something
    still unmapped (a link error) is dropped and the run repeated. Only what equiv.py prints EQUIVALENT stays: the
    file keeps those (and what an earlier port put in it), the cases of the rest are removed. Only that counts:
    the destination's tests/equivalent.txt and docs/equivalent.md are its own tool's output.
@@ -69,7 +69,7 @@ def repo(path):
 
 
 def repo_c_files(path):
-    """the C files of the repo at path, the game's then the SDK's (tools/layout.py), as paths inside it"""
+    """the C files of the repo at path, the game's then the SDK's (tools/common/layout.py), as paths inside it"""
     import layout
     cwd = os.getcwd()
     os.chdir(path)
@@ -304,7 +304,7 @@ def main(argv):
                         return tr(o)
                     return o
                 json.dump(conv(sets), open(os.path.join(tdir, n + '.json'), 'w'), indent=1)
-            r = subprocess.run([sys.executable, 'tools/equiv.py', 'src/%s.c' % stem] + mine,
+            r = subprocess.run([sys.executable, 'tools/sim/equiv.py', 'src/%s.c' % stem] + mine,
                                cwd=dst['path'], capture_output=True, text=True)
             out = r.stdout + r.stderr
             und = re.search(r'link: undefined ([^(\n]+?) \(', out)

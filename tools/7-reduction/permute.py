@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """A permuter: small rewrites of one function's C that do not change what it does, kept when the compiled code gets closer to the game's.
 
-    python3 tools/permute.py <file.c> <function> [--image NAME] [--iters N] [--jobs J] [--seed S] [--out PATH]
+    python3 tools/7-reduction/permute.py <file.c> <function> [--image NAME] [--iters N] [--jobs J] [--seed S] [--out PATH]
 
-Run in the repo; --image an overlay (default 1ST_READ.BIN). The score is tools/fcmp.py --score: instructions the C and the original do not
+Run in the repo; --image an overlay (default 1ST_READ.BIN). The score is tools/common/fcmp.py --score: instructions the C and the original do not
 have in common, addresses masked (0: the instructions match; the build still decides about the pool). Each round, J candidates of one or two rewrites
 of the best text so far are compiled at once; the best of them is kept when its score is no worse (a plateau is walked). Stops at 0 or after N rounds.
 The rewrites keep the meaning: swap the operands of a commutative operator, swap two neighbouring statements that share no names written by either,
@@ -68,7 +68,7 @@ def score(body, k):
     os.makedirs(p, exist_ok=True)
     c = os.path.join(p, 'try.c')
     open(c, 'w', encoding='latin1').write(HEAD + body + TAIL)
-    r = subprocess.run(['python3', os.path.join(R, 'tools/fcmp.py'), c, fn, '--score'], cwd=CWD,
+    r = subprocess.run(['python3', os.path.join(R, 'tools/common/fcmp.py'), c, fn, '--score'], cwd=CWD,
                        env=dict(os.environ, FCMP_DIR=os.path.join(d, 'fc')), capture_output=True, text=True, errors='replace')
     m = re.search(r'^SCORE %s (\d+)$' % re.escape(fn), r.stdout, re.M)
     return int(m.group(1)) if m else None

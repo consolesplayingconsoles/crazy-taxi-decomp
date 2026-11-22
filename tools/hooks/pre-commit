@@ -20,14 +20,14 @@ if [ -n "$big" ]; then
 fi
 # No build here: a commit does not compile and link the sources. The checks below are quick: retcheck (a function's C returns in the
 # register the original uses) and the audit of tests/equivalent.txt. SKIP_COMMIT_CHECKS=1 skips them. The staged sources are not
-# proven again either: each function was proven when its C was written (tools/equiv.py records it in tests/equivalent.txt).
+# proven again either: each function was proven when its C was written (tools/sim/equiv.py records it in tests/equivalent.txt).
 if [ "${SKIP_COMMIT_CHECKS:-}" != "1" ]; then
     if [ -f tools/8-build/retcheck.py ] && ! python3 tools/8-build/retcheck.py >/dev/null 2>&1; then
         python3 tools/8-build/retcheck.py >&2 || true
         echo "[pre-commit] commit refused: a function's C returns in the other register than the original (tools/8-build/retcheck.py)" >&2
         exit 1
     fi
-    if [ -f tools/equiv.py ]; then
+    if [ -f tools/sim/equiv.py ]; then
         if [ -f tools/5-generated/audit_equivalent.py ] && ! python3 tools/5-generated/audit_equivalent.py >/dev/null 2>&1; then
             python3 tools/5-generated/audit_equivalent.py >&2 || true
             echo "[pre-commit] commit refused: tests/equivalent.txt names functions with no C behind them (python3 tools/5-generated/audit_equivalent.py --fix removes them)" >&2

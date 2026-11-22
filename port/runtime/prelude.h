@@ -51,5 +51,5 @@ float port_fipr();
 #define _builtin_ld_ext port_ld_ext
 #define _builtin_st_ext port_st_ext
 
-/* an absolute address above 2 GB kept in a register, zero-extended (tools/native_build.py high_literals) */
+/* an absolute address above 2 GB kept in a register, zero-extended (tools/10-port/native_build.py high_literals) */
 static __inline__ unsigned int port_k(unsigned int a) { __asm__("" : "+r"(a)); return a; }

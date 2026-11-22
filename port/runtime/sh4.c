@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 /* An SH-4 interpreter for the guest functions that have no C (the SDK's assembly-only functions): a C port of the decomp's own simulator
-   (tools/sh4sim.py, which is the specification for every instruction here). It runs the original code from guest RAM. A call to an address
+   (tools/sim/sh4sim.py, which is the specification for every instruction here). It runs the original code from guest RAM. A call to an address
    that has host C (the build's function table) is made as a host call; anything else keeps interpreting. Single precision only (FPSCR.PR = 0). */
 extern int printf(const char *, ...);
 extern void abort(void);
@@ -150,7 +150,7 @@ static void fmov(u32 op, int n, int m, int lo4)
     {
         u32 h, l;
         if (lo4 == 0xc) { PAIR(m, h, l); PUT(n, h, l); return; }
-        /* a pair move keeps the singles' order, as the repo's simulator (tools/sh4sim.py) has it: the first register of the pair goes
+        /* a pair move keeps the singles' order, as the repo's simulator (tools/sim/sh4sim.py) has it: the first register of the pair goes
            to and from the lower address */
         if (lo4 == 8) { h = rd(R[m], 4); l = rd(R[m] + 4, 4); PUT(n, h, l); return; }
         if (lo4 == 6) { h = rd(R[m] + R[0], 4); l = rd(R[m] + R[0] + 4, 4); PUT(n, h, l); return; }

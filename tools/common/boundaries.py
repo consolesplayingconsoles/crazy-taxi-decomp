@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Function boundaries from reachability: which code addresses are functions of their own. Run in the repo. Stdlib only.
 
-    python3 tools/boundaries.py candidates.txt            report the plan
-    python3 tools/boundaries.py candidates.txt --apply    write functions.txt (a copy is kept in build/functions.before-boundaries)
+    python3 tools/common/boundaries.py candidates.txt            report the plan
+    python3 tools/common/boundaries.py candidates.txt --apply    write functions.txt (a copy is kept in build/functions.before-boundaries)
 
 candidates.txt: one address per line (hex), optionally followed by a name; # starts a comment. For each address the tool checks
 that it begins a function, by what the code can do rather than by how it looks:
@@ -15,11 +15,11 @@ that it begins a function, by what the code can do rather than by how it looks:
     extent needs the table, so the size is only the straight-line part.
 
 The function that holds a new one is cut to what it reaches itself. New entries are named FUN_<address> unless the line
-gives a name. The size of an entry is the byte count the C proof runs to (tools/equiv.py), so a changed size is a changed
+gives a name. The size of an entry is the byte count the C proof runs to (tools/sim/equiv.py), so a changed size is a changed
 proof range: re-prove the files of the entries that were cut.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import os
 import re

@@ -31,7 +31,7 @@ prepare_tree "$TREE" $(mod_layers pac-man) pac-man
 echo "##STEP:course"
 # Arcade's COLDC1.BIN from your disc, then the maze's floor, walls and model written into it, and src/osm.h (where the model is, where the cab
 # starts, the menu's name) for the layer's C.
-python3 "$DECOMP/tools/gdi_read.py" "$GDI" COLDC1.BIN "$B/COLDC1.orig"
+python3 "$DECOMP/tools/1-2-baseline/gdi_read.py" "$GDI" COLDC1.BIN "$B/COLDC1.orig"
 "$PYTHON" "$HERE/tools/pacman_coldc.py" "$B/COLDC1.orig" "$TREE/1ST_READ.BIN" "$MAZE" "$PACMAN_NAME" "$B/COLDC1.BIN" "$TREE/src/osm.h" "$PACMAN_FARES" "$PACMAN_MIN_TRIP_M" "$PACMAN_CORRIDOR_M" "$PACMAN_WALL_M" "$HERE/assets/characters/pacman_ghost.glb"
 
 echo "##STEP:base"

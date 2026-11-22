@@ -412,14 +412,14 @@ def entry_reads(fname,_open=()):
     if fname in _open: return None
     res=None
     try:
-        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        out=subprocess.run(['python3','tools/sim/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         ins=[]
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
         if ins and ins[-1][0] in ('bra','bsr','jsr','jmp','rts','braf','bsrf','bt/s','bf/s'):     # the delay slot past the size
             nxt=ins[-1][2]+2
-            for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
+            for l in subprocess.run(['python3','tools/sim/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
                 m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
                 if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
         res=entry_reads_of(ins,lambda n: entry_reads(n,_open+(fname,)))
@@ -449,7 +449,7 @@ def callee_stack_words(fname):
     if fname in _STACKW: return _STACKW[fname]
     n=0
     try:
-        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        out=subprocess.run(['python3','tools/sim/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         delta=0; seen=set()
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
@@ -481,7 +481,7 @@ def callee_pops(fname):
     if fname in _POPS: return _POPS[fname]
     n=0
     try:
-        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        out=subprocess.run(['python3','tools/sim/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         ins=[]
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
@@ -527,7 +527,7 @@ def keeps_args(fname):
     if fname in _KEEPS: return _KEEPS[fname]
     res=False
     try:
-        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        out=subprocess.run(['python3','tools/sim/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         n=0; res=True
         for l in out:
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
@@ -555,7 +555,7 @@ def callee_arity(fname):
         res=tuple(_SCAN[fname]) if _SCAN[fname] is not None else None
         return _combine_def(fname,res)
     try:
-        out=subprocess.run(['python3','tools/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
+        out=subprocess.run(['python3','tools/sim/shdis.py','--func',fname],capture_output=True,text=True).stdout.splitlines()[2:]
         seen_r=set(); wrote=set(); maxi=-1; maxf=-1; after_ret=0; banked=False; clobber=0
         early=False                          # a call met before any argument was read: this straight scan cannot tell a call on a side branch
         scratch=False; basei=-1              # a routine that reads r1-r3 as they came in saves the caller's registers (setjmp, a context save):
@@ -896,14 +896,14 @@ def listed_size_guard(name,ins):
     if canon(nxt) in FUNCS: return
     raise Skip('runs off the end of its listed size at %x: the next address is no function (size of %s may be short, tools/1-2-baseline/checksizes.py)'%(nxt,name))
 def _run(name,passthru=False,frame=False,flat=False):
-    out=subprocess.run(['python3','tools/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
+    out=subprocess.run(['python3','tools/sim/shdis.py','--func',name],capture_output=True,text=True).stdout.splitlines()[2:]
     ins=[]
     for l in out:
         m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
         if m: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
     if ins and ins[-1][0] in ('bra','bsr','jsr','jmp','rts','braf','bsrf','bt/s','bf/s'):      # a function whose size stops at its last branch: the delay slot is the next instruction in the binary
         nxt=ins[-1][2]+2
-        for l in subprocess.run(['python3','tools/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
+        for l in subprocess.run(['python3','tools/sim/shdis.py','%x'%nxt,'%x'%(nxt+2)],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and int(m.group(1),16)==nxt: ins.append((m.group(3),m.group(4),nxt)); break
     if ins:      # a branch into another function's epilogue or tail (sh4sim.shared_epilogue, tail_region): its instructions are this function's own ending
@@ -921,12 +921,12 @@ def _run(name,passthru=False,frame=False,flat=False):
                 have_={x[2] for x in ins}; wlo,whi=min(rg_),max(rg_)+4
                 keep_=lambda pc,rg_=rg_,have_=have_: pc in rg_ and pc not in have_
             seen_.add(t_)
-            for l in subprocess.run(['python3','tools/shdis.py','%x'%wlo,'%x'%whi],capture_output=True,text=True).stdout.splitlines():
+            for l in subprocess.run(['python3','tools/sim/shdis.py','%x'%wlo,'%x'%whi],capture_output=True,text=True).stdout.splitlines():
                 m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
                 if m and keep_(int(m.group(1),16)): ins.append((m.group(3),m.group(4),int(m.group(1),16)))
     if ins and name in BODY:      # a body laid out before the entry (functions.txt `B`: a loop entered at its test): this function's own code
         b0_,b1_=BODY[name]; have_={pc_ for _,_,pc_ in ins}
-        for l in subprocess.run(['python3','tools/shdis.py','%x'%b0_,'%x'%b1_],capture_output=True,text=True).stdout.splitlines():
+        for l in subprocess.run(['python3','tools/sim/shdis.py','%x'%b0_,'%x'%b1_],capture_output=True,text=True).stdout.splitlines():
             m=re.match(r'([0-9a-f]{8}) ([0-9a-f]{4})\s+(\S+)\s*(.*)',l)
             if m and b0_<=int(m.group(1),16)<b1_ and int(m.group(1),16) not in have_: ins.append((m.group(3),m.group(4),int(m.group(1),16)))
     listed_size_guard(name,ins)
@@ -1406,7 +1406,7 @@ def _run(name,passthru=False,frame=False,flat=False):
             if mm[0]=='post':
                 b=c.gi(mm[1]); ad=addr_expr(b,0); c.R[mm[1]]=iop('add',b,8)
             else: ad=memaddr(mm)
-            hi=fload(ad); lo=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return      # in order, as tools/sh4sim.py moves pairs
+            hi=fload(ad); lo=fload(plus4(ad)); pair_put(num(a[1]),hi,lo); return      # in order, as tools/sim/sh4sim.py moves pairs
         if mn=='ftrv' and a[0]=='xmtrx':
             vn=int(a[1][2:]); names=['fr%d'%i for i in range(16)]
             if (not c.XF or getattr(c,'xf_entry',False)) and not c.swapped:           # the matrix is whatever the caller left in the back bank: use it as it is

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Compiled size of every proven function's C against the original's size. Run in the repo.
 
-    python3 tools/sizes.py              compiles every src/*.c unit, writes build/sizes.json ([name, original bytes, C bytes])
-    python3 tools/sizes.py --report     the totals from build/sizes.json: game code, library, the worst functions
+    python3 tools/7-reduction/sizes.py              compiles every src/*.c unit, writes build/sizes.json ([name, original bytes, C bytes])
+    python3 tools/7-reduction/sizes.py --report     the totals from build/sizes.json: game code, library, the worst functions
 
 A function's C size is the distance from its symbol to the next one in its compiled file, so a file's helpers count
 toward the function before them. Each file is compiled with an empty marker function after its last one (MARK), so the
 last function ends where the code ends, not where the linker's constant and data sections do. Library functions are the ones sdk.txt marks (its ranges and funcs), as in progress.py.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import layout  # noqa: E402
 import glob

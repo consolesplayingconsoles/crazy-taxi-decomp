@@ -39,7 +39,7 @@ def region(name, required=False):
     """(start, end) of one region; None when it is not given (an [ERROR] exit when required)."""
     r = regions().get(name)
     if r is None and required:
-        sys.exit('[ERROR] layout.txt has no "%s" line: <name> <start hex> <end hex> (see tools/layout.py)' % name)
+        sys.exit('[ERROR] layout.txt has no "%s" line: <name> <start hex> <end hex> (see tools/common/layout.py)' % name)
     return r
 
 

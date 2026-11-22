@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """consistency.py: every function with C in src/ has its cases where the check looks for them and a recorded outcome. Run in the repo.
 
-    python3 tools/consistency.py            report what is out of step
-    python3 tools/consistency.py --fix      repair it (takes state/.gen.lock, the generator's lock)
+    python3 tools/common/consistency.py            report what is out of step
+    python3 tools/common/consistency.py --fix      repair it (takes state/.gen.lock, the generator's lock)
 
 What it looks at, for the functions of functions.txt that src/*.c defines (matching C units, proven by the build, left out):
   defined twice      the same function in two files: the copy in the file whose cases exist stays, the other is removed
   stray cases        tests/<file>/<function>.json where <file>.c does not define the function: moved to the file that does, or
                      deleted when no file does (left behind when C moved or was regenerated)
   no recorded pass   C and cases, but the function is not in tests/equivalent.txt: the file is checked
-                     again (tools/equiv.py); what still fails leaves src/
+                     again (tools/sim/equiv.py); what still fails leaves src/
   no cases           C with no case file anywhere
   stale size         generated C that calls an address inside its own function's span in functions.txt: it was proven while the
                      size was short (code past a literal pool in the middle of the body was left out), so a jump to that code was
@@ -43,7 +43,7 @@ C that leaves src/: generated C (src/gen_*.c) is dropped with its cases, so the 
 partial/<file>.c, where progress.py counts it as partial work. Nothing written by hand is deleted.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import layout  # noqa: E402
 import fcntl
@@ -331,7 +331,7 @@ def fix():
         stems = sorted({st for n, st in found['no recorded pass']})
         for st in stems:
             print('checking src/%s.c ...' % st, flush=True)
-            subprocess.run([sys.executable, 'tools/equiv.py', '-q', layout.c_path(st)], capture_output=True, text=True)
+            subprocess.run([sys.executable, 'tools/sim/equiv.py', '-q', layout.c_path(st)], capture_output=True, text=True)
         eq = lists()
         for n, st in found['no recorded pass']:
             if n not in eq:

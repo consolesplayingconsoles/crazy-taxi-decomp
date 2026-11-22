@@ -1,4 +1,4 @@
-"""frametest.py: the C against the original on REAL game state. Run in the repo; needs a RAM snapshot of the original (scripts/gdbsnap.py).
+"""frametest.py: the C against the original on REAL game state. Run in the repo; needs a RAM snapshot of the original (gdbsnap.py, beside it).
 
     python3 tools/6-agentic/frametest.py <root function> <snapshot prefix> [r4 r5 r6 r7 hex] [fr4..fr7]
     START=<pc hex> ... <root function> <prefix>      start in the middle of the root (the snapshot's registers all loaded)

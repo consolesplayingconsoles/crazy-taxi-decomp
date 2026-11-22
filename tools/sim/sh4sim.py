@@ -15,8 +15,8 @@ address. What it does is the result:
   - devices: reads and writes outside RAM (hardware registers, store queues);
   - out: r0, r1, fr0, fr1 at the return.
 Compiled C runs with FPSCR.PR = 0 (single precision); double precision is not implemented and
-stops the run. fipr and ftrv are exact here, approximate on the hardware: only the comparison
-between two runs of this interpreter is meaningful, never a value against the console's.
+stops the run. fipr, ftrv, fsrra and fsca give the hardware's own bits (sh4fpu.py, a bit-exact model of
+the SH-4's approximating datapath); with FPSCR.DN = 1 a denormal operand is a zero, as on the hardware.
 
 The case (JSON): {"exe": path, "base": hex, "dump": path, "entry": hex, "end": hex,
 "regs": {"r4": hex, "fr4": float, ...}, "sr": hex (optional, the starting SR), "poke": {hex addr: hex bytes}, "calls": [{"r0": hex,
@@ -25,13 +25,15 @@ A call's "t" sets the T flag on return (a hand-written callee that answers in T)
 A call's "poke_arg" writes those bytes at the address the named register holds when the call is made.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
+import sh4fpu  # noqa: E402  the hardware's fipr / ftrv / fsrra / fsca
 import json
 import math
 import os
 import re
 import struct
+from fractions import Fraction
 import sys
 
 M32 = 0xFFFFFFFF
@@ -59,6 +61,56 @@ def s32(x):
 
 def bits_f(b):
     return struct.unpack('<f', struct.pack('<I', b & M32))[0]
+
+
+def _isqrt(n):
+    """floor(sqrt(n)) for an integer n >= 0 (math.isqrt is Python 3.8+)."""
+    if n < 2:
+        return n
+    x = 1 << ((n.bit_length() + 1) // 2)
+    while True:
+        y = (x + n // x) // 2
+        if y >= x:
+            return x
+        x = y
+
+
+def round_single(q, rz, root=False):
+    """The float32 bits of the exact value q (a non-zero Fraction; root: of its square root), rounded as FPSCR.RM says:
+    to nearest-even, or toward zero (RM = 1, the mode games run in). Below the normal range: a signed zero (DN = 1);
+    above it: infinity, or the largest finite value when rounding toward zero."""
+    sign = 1 if q < 0 else 0
+    mag = -q if sign else q
+    e = mag.numerator.bit_length() - mag.denominator.bit_length()      # 2^e <= mag < 2^(e+2)
+    if root:
+        e //= 2
+    while True:                                                         # find e with 2^23 <= the scaled value < 2^24
+        if root:
+            scaled = mag * Fraction(2) ** (2 * (23 - e))
+            whole = _isqrt(scaled.numerator // scaled.denominator)
+        else:
+            scaled = mag * Fraction(2) ** (23 - e)
+            whole = scaled.numerator // scaled.denominator
+        if whole >= 1 << 24:
+            e += 1
+        elif whole < 1 << 23:
+            e -= 1
+        else:
+            break
+    if not rz:
+        half_up = (scaled > (Fraction(whole) + Fraction(1, 2)) ** 2) if root else (scaled - whole > Fraction(1, 2))
+        tie = (not root) and scaled - whole == Fraction(1, 2)
+        if half_up or (tie and whole & 1):
+            whole += 1
+            if whole >> 24:
+                whole >>= 1
+                e += 1
+    biased = e + 127
+    if biased >= 255:
+        return (sign << 31) | (0x7F7FFFFF if rz else 0x7F800000)
+    if biased < 1:
+        return sign << 31
+    return (sign << 31) | (biased << 23) | (whole & 0x7FFFFF)
 
 
 def f_bits(f):
@@ -278,7 +330,7 @@ class CPU:
         self.fr = [0] * 16        # float32 bits, current bank
         self.xf = [0] * 16        # the other bank
         self.sz = self.prec = self.frbit = 0
-        self.fpscr_rest = 0x00040001   # DN = 1, RM = nearest
+        self.fpscr_rest = 0x00040001   # DN = 1, RM = 01: round to zero (what games run with)
         self.steps = 0
         self.covered = set()                  # the address of every instruction that ran
         self.trace = None                     # with case['trace']: (pc, opcode, r0-r15, fr0-fr15) of every instruction, before it runs
@@ -301,10 +353,27 @@ class CPU:
             raise Stop('double precision (FPSCR.PR = 1) is not implemented')
 
     def f(self, n):
-        return bits_f(self.fr[n])
+        b = self.fr[n]
+        if not b & 0x7F800000 and self.fpscr_rest & (1 << 18):
+            b &= 0x80000000                  # FPSCR.DN = 1: a denormal operand is a zero (0 * inf is NaN, not inf)
+        return bits_f(b)
+
+    def rz(self):
+        return (self.fpscr_rest & 3) == 1   # FPSCR.RM = 1: round to zero
+
+    def dn(self):
+        return bool(self.fpscr_rest & (1 << 18))
 
     def setf(self, n, x):
         self.fr[n] = f_bits(x)
+
+    def setq(self, n, f, exact, root=False):
+        """FRn = an arithmetic result: f is it in double precision (it gives the specials: NaN, infinity, the sign of a
+        zero); exact() its exact value, rounded once as FPSCR.RM says (round_single)."""
+        if f != f or f in (float('inf'), float('-inf')) or f == 0:
+            self.fr[n] = f_bits(f)
+        else:
+            self.fr[n] = round_single(exact(), self.rz(), root)
 
     def sr(self):
         return self.srx | (self.mq << 9) | (self.q << 8) | (self.s << 1) | self.t
@@ -653,7 +722,7 @@ class CPU:
             k = m_
             if k == 0: self.fr[n] = self.fpul; return                    # fsts
             if k == 1: self.fpul = self.fr[n]; return                    # flds
-            if k == 2: self.setf(n, float(s32(self.fpul))); return       # float
+            if k == 2: self.setq(n, float(s32(self.fpul)), lambda: Fraction(s32(self.fpul))); return   # float
             if k == 3:                                                    # ftrc
                 x = self.f(n)
                 if x != x: v = 0x80000000
@@ -665,42 +734,38 @@ class CPU:
             if k == 5: self.fr[n] &= 0x7FFFFFFF; return                  # fabs
             if k == 6:                                                    # fsqrt
                 x = self.f(n)
-                self.setf(n, math.sqrt(x) if x >= 0 else float('nan')); return
+                self.setq(n, math.sqrt(x) if x >= 0 else float('nan'), lambda: Fraction(x), root=True); return
             if k == 8: self.fr[n] = 0; return                            # fldi0
             if k == 9: self.fr[n] = 0x3F800000; return                   # fldi1
-            if k == 7:                                                    # fsrra frn
-                x = self.f(n)
-                self.setf(n, 1.0 / math.sqrt(x) if x > 0 else float('inf')); return
+            if k == 7:                                                    # fsrra frn: the hardware's 1/sqrt (sh4fpu)
+                self.fr[n] = sh4fpu.fsrra(self.fr[n], self.rz()); return
             if k == 0xf and (n & 1) == 0:                                 # fsca fpul,drn: sine and cosine of an angle in 1/65536 turns
-                a = 2.0 * math.pi * (self.fpul & 0xFFFF) / 65536.0
-                self.setf(n, math.sin(a)); self.setf(n + 1, math.cos(a)); return
+                self.fr[n], self.fr[n + 1] = sh4fpu.fsca(self.fpul, self.rz()); return
             if k == 0xe:                                                  # fipr fvm,fvn
                 vn, vm = (n >> 2) * 4, (n & 3) * 4
-                s = sum(self.f(vm + i) * self.f(vn + i) for i in range(4))
-                self.setf(vn + 3, s); return
+                self.fr[vn + 3] = sh4fpu.fipr(self.fr[vm:vm + 4], self.fr[vn:vn + 4], self.rz(), self.dn()); return
             if k == 0xf and (n & 3) == 1:                                 # ftrv xmtrx,fvn
                 vn = (n >> 2) * 4
-                v = [self.f(vn + i) for i in range(4)]
-                xm = [bits_f(b) for b in self.xf]
-                for i in range(4):
-                    self.setf(vn + i, sum(xm[i + 4 * j] * v[j] for j in range(4)))
+                self.fr[vn:vn + 4] = sh4fpu.ftrv(self.xf, self.fr[vn:vn + 4], self.rz(), self.dn())
                 return
             raise Stop('FPU instruction %04X not implemented (k=%d)' % (op, k))
         if lo4 in (6, 7, 8, 9, 0xa, 0xb, 0xc):
             return self.fmov(op, n, m_, lo4)
         a, b = self.f(n), self.f(m_)
-        if lo4 == 0: self.setf(n, a + b); return
-        if lo4 == 1: self.setf(n, a - b); return
-        if lo4 == 2: self.setf(n, a * b); return
+        if lo4 == 0: self.setq(n, a + b, lambda: Fraction(a) + Fraction(b)); return
+        if lo4 == 1: self.setq(n, a - b, lambda: Fraction(a) - Fraction(b)); return
+        if lo4 == 2: self.setq(n, a * b, lambda: Fraction(a) * Fraction(b)); return
         if lo4 == 3:
             if b == 0:
                 self.setf(n, float('nan') if a == 0 or a != a else math.copysign(float('inf'), a) * math.copysign(1, b))
             else:
-                self.setf(n, a / b)
+                self.setq(n, a / b, lambda: Fraction(a) / Fraction(b))
             return
         if lo4 == 4: self.t = int(a == b); return
         if lo4 == 5: self.t = int(a > b); return
-        if lo4 == 0xe: self.setf(n, self.f(0) * b + a); return            # fmac fr0,frm,frn
+        if lo4 == 0xe:                                                     # fmac fr0,frm,frn
+            c = self.f(0)
+            self.setq(n, c * b + a, lambda: Fraction(c) * Fraction(b) + Fraction(a)); return
         raise Stop('FPU instruction %04X not implemented' % op)
 
     def fmov(self, op, n, m_, lo4):

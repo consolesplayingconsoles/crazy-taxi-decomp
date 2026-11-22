@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""classify.py: which functions can have Equivalent C written for them (tools/equiv.py), and which not. Run in the repo.
+"""classify.py: which functions can have Equivalent C written for them (tools/sim/equiv.py), and which not. Run in the repo.
 
     python3 tools/5-generated/classify.py [name ...]     (no names: every function of at most 128 bytes, as a table)
 

@@ -5,7 +5,7 @@
 For each function (it has C in src/ and a case file in tests/): run the cases on the original with an instruction trace, find every
 conditional branch that only ever went one way, work out where the compared value came from (a memory word the function loaded, an
 argument register, with an offset from adds), and write a copy of a case that makes the compare come out the other way. A new case is
-kept when it runs instructions no case ran yet. The new cases are checked by tools/equiv.py on the C: a function that now differs is
+kept when it runs instructions no case ran yet. The new cases are checked by tools/sim/equiv.py on the C: a function that now differs is
 the finding (the C was wrong on a path the old cases never took), it keeps its old cases and the difference goes in the ledger.
 Whatever the old case file held is archived (state/cases-history/).
 """
@@ -796,7 +796,7 @@ def main(names, runtime, funcs):
                 ledger.archive_cases(n, path, 'directed-before')
                 sets['dev'] += new[0::2]; sets['holdout'] += new[1::2]
                 json.dump(sets, open(path, 'w'), indent=1)
-            r = subprocess.run(['python3', 'tools/equiv.py', '-q', layout.c_path(stem)], capture_output=True, text=True)
+            r = subprocess.run(['python3', 'tools/sim/equiv.py', '-q', layout.c_path(stem)], capture_output=True, text=True)
             out = r.stdout + r.stderr
             for n, path, sets, new in changed:
                 line = next((l for l in out.splitlines() if l.startswith(n + ' ')), '')
@@ -807,7 +807,7 @@ def main(names, runtime, funcs):
                     import gen_drv
                     src = layout.c_path(stem)
                     def check_(n=n):
-                        r_ = subprocess.run(['python3', 'tools/equiv.py', src], capture_output=True, text=True)      # every line: -q leaves out a pass
+                        r_ = subprocess.run(['python3', 'tools/sim/equiv.py', src], capture_output=True, text=True)      # every line: -q leaves out a pass
                         return re.search(r'^%s\s+EQUIVALENT\b' % re.escape(n), r_.stdout + r_.stderr, re.M) is not None
                     kind_ = retry_returns(n, src, lambda n_, k_: gen_drv.build(n_, k_, False)[0], check_)
                     if kind_:

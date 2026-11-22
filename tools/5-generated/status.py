@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """status.py: what is running in this repo right now, and where to follow it. Run in the repo.
 
-    python3 tools/status.py
+    python3 tools/5-generated/status.py
 
 Lists the long jobs the tools start (the generator, the equivalence check, the build, the remaining report), how long each has
 been running, and the last line of its log. The logs are plain files: follow one with `tail -f <file>`.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import os
 import re
@@ -18,7 +18,7 @@ import time
 JOBS = (
     ('generator run', r'tools/5-generated/gen_equiv\b|gen_equiv/__main__', 'build/gen_run.log', 'python3 tools/5-generated/gen_equiv [names]'),
     ('generator report', None, 'build/gen_failed.txt', 'why each function of the last run failed'),
-    ('equivalence check', r'tools/equiv\.py', 'build/equiv/shc.log', 'python3 tools/equiv.py src/<file>.c'),
+    ('equivalence check', r'tools/equiv\.py', 'build/equiv/shc.log', 'python3 tools/sim/equiv.py src/<file>.c'),
     ('build', r'build\.sh', None, 'bash build.sh (never two at once: they share build/)'),
     ('remaining report', r'tools/remaining\.py', 'state/remaining.md', 'python3 tools/5-generated/remaining.py'),
     ('return-value recheck', r'fixret', 'state/fixret.log', 'one-off'),

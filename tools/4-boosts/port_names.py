@@ -7,7 +7,7 @@ For every source function with a real name (not FUN_...), its code with the posi
 (sdk_masked.mask) is looked up among the destination's functions. One exact match that is still FUN_... in the
 destination gets the source's name, when the name is free there and the function is library code in both repos
 (sdk.txt) or at least 32 bytes long (a small game function with the same code in another game is a coincidence
-as often as not). Writes a tools/rename.py map to stdout; a summary and the conflicts (the destination already
+as often as not). Writes a tools/common/rename.py map to stdout; a summary and the conflicts (the destination already
 names it differently) go to stderr.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)

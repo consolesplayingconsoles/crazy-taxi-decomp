@@ -79,7 +79,7 @@ python3 "$TREE/tools/10-port/extract_disc.py" "$GDI" "$TREE/build/native/data"
 # the C for the console, laid out otherwise: with it the start code read garbage and the game faulted at once.
 ORIGINAL_GDI_DIR="$(sed -n 's/^ORIGINAL_GDI_DIR=//p' "$HERE/$EX/.env" | tr -d '"' | tail -1)"
 ORIG="$(ls "$ORIGINAL_GDI_DIR"/*.gdi | head -1)"
-python3 "$DECOMP/tools/gdi_read.py" "$ORIG" 1ST_READ.BIN "$TREE/build/native/data/1ST_READ.BIN"
+python3 "$DECOMP/tools/1-2-baseline/gdi_read.py" "$ORIG" 1ST_READ.BIN "$TREE/build/native/data/1ST_READ.BIN"
 # the program is named after the disc image (native_build.py, from GDI in the tree's .env, the decomp's)
 EXE="$(sed -n 's/^[[:space:]]*GDI[[:space:]]*=[[:space:]]*//p' "$TREE/.env" | tail -1 | tr -d "\"'")"
 EXE="$(basename "$EXE")"

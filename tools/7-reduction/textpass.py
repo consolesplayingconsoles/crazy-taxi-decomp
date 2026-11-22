@@ -7,8 +7,8 @@ still passes in its file. Run in the repo, alone (it rewrites src/ and tests/equ
 A pass changes how the C is written, not what it does. `register` declares the function's scalar locals register
 (gen_drv.register_locals): written again by the generator the same function can come out bigger than it is (entryGridDrawCursors,
 Virtua Tennis: 7,180 bytes as it is, 7,416 written again, 5,636 as it is with register), so a regeneration misses what the pass alone gives.
-For each name: the current C and the passed C are compiled alone (tools/sizes.py); a smaller one replaces the old in its file, the file is
-checked with tools/equiv.py and the old C goes back unless the function is EQUIVALENT. One line per function in build/textpass.log.
+For each name: the current C and the passed C are compiled alone (tools/7-reduction/sizes.py); a smaller one replaces the old in its file, the file is
+checked with tools/sim/equiv.py and the old C goes back unless the function is EQUIVALENT. One line per function in build/textpass.log.
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
@@ -65,8 +65,8 @@ def where(fn):
 
 
 def checked(path, fn):
-    """the function's line of tools/equiv.py on its file: EQUIVALENT or not"""
-    out = subprocess.run(['python3', 'tools/equiv.py', path, fn], capture_output=True, text=True)
+    """the function's line of tools/sim/equiv.py on its file: EQUIVALENT or not"""
+    out = subprocess.run(['python3', 'tools/sim/equiv.py', path, fn], capture_output=True, text=True)
     m = re.search(r'^%s\s+(\S+).*$' % re.escape(fn), out.stdout, re.M)
     return (m.group(1) if m else 'no result'), (m.group(0) if m else (out.stdout + out.stderr).strip()[-160:])
 

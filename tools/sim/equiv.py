@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Behaviour check: does a C file's code do what the original does? Run in the repo.
 
-    python3 tools/equiv.py src/<file>.c [function ...]
-    STACKFUZZ=<seed> python3 tools/equiv.py src/<file>.c [function ...]     the same cases with distinct nonzero words at the entry stack; nothing is recorded
+    python3 tools/sim/equiv.py src/<file>.c [function ...]
+    STACKFUZZ=<seed> python3 tools/sim/equiv.py src/<file>.c [function ...]     the same cases with distinct nonzero words at the entry stack; nothing is recorded
 
 Compiles the file with the SDK's shc (same flags as build.sh), links it on its own at a scratch
 address with every outside name it uses defined at the game's address (functions.txt,
-globals.txt, symbols.txt), and runs each of its functions in tools/sh4sim.py twice per case:
+globals.txt, symbols.txt), and runs each of its functions in tools/sim/sh4sim.py twice per case:
 the original bytes at the original address, then the compiled C. The two runs must agree on
 every call out (target and arguments, in order), the memory they leave behind (the final value at
 every address either one wrote), the return register and the final SR without its M, Q, S, T flags (a case may set the starting SR: "sr"). The cases
@@ -32,7 +32,7 @@ a gap (pushes left out), up to the shorter run, so a local buffer handed to a ca
 A call in a case's "calls" list may also carry "poke_arg": {"r7": "<hex bytes>"}: those bytes are written at
 the address the register holds when the call is made, as if the callee had filled that output slot (a loop
 that reads it can then run more than once).
-    python3 tools/equiv.py -q src/<file>.c    prints only what is not EQUIVALENT, and a count.
+    python3 tools/sim/equiv.py -q src/<file>.c    prints only what is not EQUIVALENT, and a count.
 
 Every pass is remembered in state/proof-cache.json under a key made of everything the proof depends on: the
 compiled code, the function's place in it, its cases (and any RAM dump they load), the original's bytes, the
@@ -52,7 +52,7 @@ state/proof-key-sh4sim.py, and a function that makes no such branch keeps its ea
 Needs Docker and the dc-tools image, as build.sh does (SDK_PATH from .env).
 """
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
-_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '.')))
+_tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
 import toolpath  # noqa: E402,F401
 import layout  # noqa: E402
 import glob
@@ -116,7 +116,7 @@ def sdk_env():
 
 def compiler_path(cfile):
     """the file as the compiler is handed it: its path inside the repo, with the compiler's separators. A file may live in
-    src/ or under sdk/ (tools/layout.py)"""
+    src/ or under sdk/ (tools/common/layout.py)"""
     return os.path.relpath(cfile).replace(os.sep, '\\')
 
 
@@ -1030,9 +1030,9 @@ def write_evidence(new, failed):
         entries[fn] = '\n'.join(lines) + '\n'
     os.makedirs('docs', exist_ok=True)
     head = ('# Equivalent functions\n\nFunctions whose C behaves like the original on every test case '
-            '(`tools/equiv.py`: same calls, same final memory, same result). Written by `tools/equiv.py`; '
+            '(`tools/sim/equiv.py`: same calls, same final memory, same result). Written by `tools/sim/equiv.py`; '
             'the cases are the evidence. Cases that start from a RAM dump (`"dump": "build/ram/<name>.bin"`) need '
-            'your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/4-boosts/live.py`.\n')
+            'your own dump there: all of RAM (16 MB from `0C000000`) at that moment, e.g. read with `tools/6-agentic/live.py`.\n')
     open(path, 'w').write(head + ''.join('\n' + entries[k] for k in sorted(entries)))
 
 

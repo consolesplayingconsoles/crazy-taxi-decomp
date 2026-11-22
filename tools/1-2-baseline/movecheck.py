@@ -6,7 +6,7 @@
 Two links of <dir>/asm (the pieces with names; the others from build/obj, which build.sh left):
   1. as the original: it must be 1ST_READ.BIN byte for byte (MATCH): the names point where the numbers did;
   2. with a pad (zeros) between every two groups, so each group lands at another distance from every other one, as a build from C
-     moves them. Both images run from the entry in tools/sh4sim.py (BIOS calls answered by a stub) for --steps instructions, and
+     moves them. Both images run from the entry in tools/sim/sh4sim.py (BIOS calls answered by a stub) for --steps instructions, and
      every write must be the same, an address or an address value in the moved range at its group's new place. A number left in
      the image for an address, or a distance between pieces that do not move together, writes somewhere else or runs off.
 
@@ -187,10 +187,10 @@ def script(d, name, text):
 
 def docker(steps):
     """Run a shell script in the dc-tools container with the SDK's tools as $T; its stdout+stderr. The image is built on first
-    use (tools/docker_check.sh, as build.sh does: a Docker restart can drop it)."""
+    use (tools/common/docker_check.sh, as build.sh does: a Docker restart can drop it)."""
     import equiv
     sdk, rel = equiv.sdk_env()
-    chk = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docker_check.sh')
+    chk = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'common', 'docker_check.sh')
     img = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tools-image')
     r = subprocess.run(['bash', '-c', '. "%s" && docker_ready "%s"' % (chk, img)], stdin=subprocess.DEVNULL, capture_output=True, text=True)
     if r.returncode:

@@ -28,7 +28,7 @@ to a function of unknown arity declares four, and a caller that never had them t
 where the original gives the answer: in the caller's own code, the register is written between the call before and this one, at every
 call of that callee, and the callee's C uses the parameter. Those are the calls that lost an argument (the three of Virtua Tennis
 above among them). Integer registers only: the float registers are the compiler's working registers too, written before a call for
-other reasons. tools/consistency.py lists the calling functions as `short call` and --fix drops the generated ones, so the generator
+other reasons. tools/common/consistency.py lists the calling functions as `short call` and --fix drops the generated ones, so the generator
 writes them again.
 
 --reads is the other half: a definition that declares fewer registers than the original reads before writing them. The generator names

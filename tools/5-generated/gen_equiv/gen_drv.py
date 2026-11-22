@@ -571,7 +571,7 @@ def mend(name,case,run):
 def original_runs(name,case,_mended=False):
     """What the original does on a case: (instructions it takes, the instruction addresses it ran), or (None, set()) when it does not
     finish. Lets the generator keep only the cases a loop actually ends on, and pick the cases that reach the most code. Needs
-    tools/sh4sim.py next to this directory; without it every case is kept."""
+    tools/sim/sh4sim.py next to this directory; without it every case is kept."""
     try:
         sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
         import sh4sim
@@ -728,7 +728,7 @@ def never_returns(name):
 DEADLINE=[None]      # set when a function's drawing starts (tests); pick and grow stop at it
 GBR_AREA=0x0C9C0000  # the global base register's area in a drawn case: 1 KB of RAM, the reach of @(disp,gbr)
 STEPS=[None]         # the step cap of the original's runs while drawing: max(100000, size*60), or CHECK_STEPS on the retry
-CHECK_STEPS=2000000  # what the check itself allows a run by default (tools/sh4sim.py)
+CHECK_STEPS=2000000  # what the check itself allows a run by default (tools/sim/sh4sim.py)
 LONG_STEPS=20000000  # the retry's cap: a fixed loop past the check's default gets cases that carry their own limit
 LAST={}              # the last pick's numbers: cases drawn, cases the original survived (the rest crashed it or never ended)
 def pick(name,cases,want,V=None,rng=None,HOT=None):

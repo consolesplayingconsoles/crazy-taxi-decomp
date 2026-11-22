@@ -88,8 +88,8 @@ def main(argv):
             print('%s: skipped: %s' % (name, info))
             return 1
         open(path, 'w').write(new)
-        fuzz = last_line([sys.executable, 'tools/equiv.py', path, name], {'STACKFUZZ': '1'})
-        plain = last_line([sys.executable, 'tools/equiv.py', path, name])
+        fuzz = last_line([sys.executable, 'tools/sim/equiv.py', path, name], {'STACKFUZZ': '1'})
+        plain = last_line([sys.executable, 'tools/sim/equiv.py', path, name])
         print('K=%d (%s): fuzz %s | plain %s' % (k, info, fuzz[:90], plain[:90]), flush=True)
         if 'EQUIVALENT' in fuzz and 'EQUIVALENT' in plain:
             return 0

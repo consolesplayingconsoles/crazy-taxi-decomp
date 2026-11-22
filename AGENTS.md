@@ -12,7 +12,7 @@ Read the mode before anything else: `grep '^MODE:' status.txt` (no `MODE:` line 
   sections marked *(matching)* and *(both)*. Ignore the ones marked *(equivalent)*: there are no test cases, no
   `tests/equivalent.txt`, no `partial/` C counted as done, and `python3 tools/progress.py` reports "done: matching C".
 - **`MODE: equivalent`** (the default): game code counts as decompiled when its C **behaves like the original** (same calls, same memory writes, same
-  result on every test case, checked by `tools/equiv.py`); C that rebuilds the original bytes (Matching) is also done. Follow
+  result on every test case, checked by `tools/sim/equiv.py`); C that rebuilds the original bytes (Matching) is also done. Follow
   the sections marked *(equivalent)* and *(both)*.
 
 If the mode is anything else, stop: `tools/progress.py` refuses it too.
@@ -36,7 +36,7 @@ byte for byte too). Say which step you are in, and end it with `python3 tools/pr
 | 5 | Incremental script-generated decomp | `tools/5-generated/sdk_source.py <folder>`, `python3 tools/5-generated/gen_equiv`, `python3 tools/5-generated/gen_equiv --retest` |
 | 6 | Experience-driven agentic decomp | you: pocket by pocket (library without source, the game's own code, runtime routines and tables), writing cases for the branches `equiv.py` says no case ran; RAM dumps (`"dump"`) for what depends on run-time state |
 | 7 | Code size reduction | `tools/7-reduction/`: `shrink.py <name> ...` writes a function again and keeps the new C only when it compiles smaller and still passes its cases; `hoist.py [--loose] [--apply] <name> ...` holds a value the C reloads at every use in a local, as the original did. The target is the room the original code had: `make c` stops at `layout` while the C does not fit |
-| 8 | Build from C | The SDK and the other libraries stay the original bytes by default; building them from C as well is possible, and is work for the user. `make c` (`tools/8-build/retcheck.py` first: every function's result register against its declaration; then the executable from the C, build/cbuild/game.bin), `make disc GDI="<disc>.gdi"` (a disc image with it). The steps are `tools/8-build/cbuild.py` prep, compile, prelim, unity, layout, link; the regions come from `layout.txt` (`tools/layout.py`). The check: the image has the original size, and outside the game code only the pointer words to game functions differ |
+| 8 | Build from C | The SDK and the other libraries stay the original bytes by default; building them from C as well is possible, and is work for the user. `make c` (`tools/8-build/retcheck.py` first: every function's result register against its declaration; then the executable from the C, build/cbuild/game.bin), `make disc GDI="<disc>.gdi"` (a disc image with it). The steps are `tools/8-build/cbuild.py` prep, compile, prelim, unity, layout, link; the regions come from `layout.txt` (`tools/common/layout.py`). The check: the image has the original size, and outside the game code only the pointer words to game functions differ |
 | 9 | Runtime repairs | Traces each stop to its function and the step that caused it, fixes it there and builds again until the game is stable; Flycast GDB is the last resort when reading does not settle it. `status.txt` records how far it gets: `[x]` reached, `[ ]` tested and not reached, `[?]` not tested yet |
 | 10 | Native port | Runs the game on a host from the proven C (experimental). The steps are in `port/README.md`; `port/runtime/game.h` is the only per-game file. The console build and the decomp are complete without the SDK as C; for a port, every SDK function needs C except the hardware drivers (`sdk.txt`'s `hardware` lines); how to debug it is in "Debugging the native port" below. It needs nothing from steps 7 to 9; what it finds goes back to steps 2, 5 and 6 |
 
@@ -53,7 +53,7 @@ instruction no case ran is a branch nobody checked. Details: the kickoff skill's
 - `asm/<addr>_<name>.src`: one file per function, in link order (`objects.txt`). Each starts as data
   words (`.DATA.W`), which is what makes the first build match.
 - `src/<file>.c`: C for the game's code. (equivalent mode: without a header it is checked for behaviour only
-  (`tools/equiv.py`) and stays out of the build; in matching mode every file has a header.) A file whose first line is `/* @unit <start>-<end> [shc options] */`
+  (`tools/sim/equiv.py`) and stays out of the build; in matching mode every file has a header.) A file whose first line is `/* @unit <start>-<end> [shc options] */`
   replaces every asm file in that range (`tools/1-2-baseline/units.py`, `tools/1-2-baseline/fill.py`). A unit with constant
   data (tables, strings) adds `@data <dstart>-<dend>`: the range where the original link put that data. Its ends are
   `D <addr> 0 data_<addr>` lines in `functions.txt` (data boundaries, not counted as functions).
@@ -63,8 +63,8 @@ instruction no case ran is a branch nobody checked. Details: the kickoff skill's
 - `sdk.txt`: the bundled Sega SDK's code. `python3 tools/progress.py` reports the state.
 - `tests/<file>/<function>.json` *(equivalent)*: test cases for a function (a list; each gives registers, bytes to
   put in memory, return values for the calls it makes, optionally a RAM dump to start from:
-  `tools/sh4sim.py`). `tests/equivalent.txt`: the functions `tools/equiv.py` found equivalent.
-- `python3 tools/shdis.py <start> <end>`: SH-4 disassembly with FPU, pool values and names, to
+  `tools/sim/sh4sim.py`). `tests/equivalent.txt`: the functions `tools/sim/equiv.py` found equivalent.
+- `python3 tools/sim/shdis.py <start> <end>`: SH-4 disassembly with FPU, pool values and names, to
   read the original while writing C.
 - `BASE`: the address the executable is linked at. `1ST_READ.BIN`: yours, never committed.
 - Names: `FUN_<addr>` is unknown; anything else came from SDK signatures or
@@ -78,9 +78,9 @@ of its last `rts` and delay slot before the next entry, pool included: a functio
 pool in the middle of its body (a stray "branch" inside the pool fools a linear sweep) is sized
 that way, not by where the sweep stopped.
 
-Optional, when RetroArch with the Flycast core is at hand: `tools/4-boosts/live.py` reads the running game
-by address or by name (`python3 tools/4-boosts/live.py watch <name>`, `vec <name>+4`), so a global's
-name can be checked against what the value does in play. Setup and commands: `tools/4-boosts/live.py` with
+Optional, when RetroArch with the Flycast core is at hand: `tools/6-agentic/live.py` reads the running game
+by address or by name (`python3 tools/6-agentic/live.py watch <name>`, `vec <name>+4`), so a global's
+name can be checked against what the value does in play. Setup and commands: `tools/6-agentic/live.py` with
 no arguments. Reading the code stays the evidence; a live value confirms it or sends you back.
 
 ## Matching (step 5 in matching mode; also written in step 6 in equivalent mode) *(both)*
@@ -103,8 +103,8 @@ written down (what differs) for later; move on.
 - Options starting with `+` in an `@unit` header go to `fill.py` or `build.sh` (the original's literal-pool layout: `+pool32`, `+pool00`,
   `+tail0900`, `+poolafter=`, `+synth16`; another `shc` flag set: `+<x>flags`; another `shc` release: `+r04`, from `SDK_R04_PATH` in `.env`;
   `@ddata`/`@bdata` pieces; a unit in a folder of `src/`), the others to `shc`. A unit that asks for none gets the default layout. What each is
-  for: the kickoff skill's `docs/matching-units.md`. `python3 tools/fcmp.py src/<file>.c [function ...] -v` compares a file function by
-  function; `python3 tools/permute.py src/<file>.c <function>` tries rewrites that keep the meaning.
+  for: the kickoff skill's `docs/matching-units.md`. `python3 tools/common/fcmp.py src/<file>.c [function ...] -v` compares a file function by
+  function; `python3 tools/7-reduction/permute.py src/<file>.c <function>` tries rewrites that keep the meaning.
 - Code overlays (a game with `overlays.tsv`): `bash build.sh --overlay <name>`, `bash build_overlays.sh`; the kickoff skill's `docs/overlays.md`.
 - Library-style code padded with `nop`s to 16 or 32 bytes between functions and before branch
   targets was built with `-align16`: put it in the `@unit` header.
@@ -139,12 +139,12 @@ Games differ, so there is no fixed order. Try a tool on a small sample, note wha
 | `tools/1-2-baseline/checksizes.py` (`--hidden`, `--merge`) | Function sizes look wrong or entries run into each other | Entries fixed; `build.sh` still prints MATCH |
 | `tools/5-generated/sdk_source.py` | You have the SDK's own library source | Functions verified byte-identical |
 | `tools/5-generated/classify.py`, `tools/1-2-baseline/missed_funcs.py` | Choosing what to take next, or finding code not listed as functions | Functions per class; code left unlisted |
-| `tools/gdbsnap.py` | A function depends on run-time state (a loop, a dispatcher, a struct) | Struct fields or counters found |
+| `tools/6-agentic/gdbsnap.py` | A function depends on run-time state (a loop, a dispatcher, a struct) | Struct fields or counters found |
 | `tools/5-generated/gen_equiv --recheck [--rebuild]` | You fixed the checker, the compiler flags or the C writer | Kept functions that now pass, without drawing their cases again (`state/kept`) |
 | `tools/5-generated/remaining.py` | Choosing what to take next | Functions and bytes per state, and per cause |
 | `tools/5-generated/diverge.py <function>` | A generated function differs from the original | The first mismatching call and where each side's value came from |
 | `tools/5-generated/overreads.py src/<file>.c [function ...]` | A build from C runs in the emulator but not on the console, or before trusting a file of proven C | Functions whose C differs from the original when unused RAM holds junk instead of 0 (reads memory the original does not); how many cases touched unset memory at all |
-| `tools/consistency.py` (`--fix`) | After several runs overlapped, or before a commit. It is expensive: it needs the operator's approval each time | C defined twice, cases without C, C without a recorded pass, a call without an argument the original sets (`short call`) |
+| `tools/common/consistency.py` (`--fix`) | After several runs overlapped, or before a commit. It is expensive: it needs the operator's approval each time | C defined twice, cases without C, C without a recorded pass, a call without an argument the original sets (`short call`) |
 | `tools/1-2-baseline/sdk_identical.py` | Functions that look like the SDK's own library code | Functions byte-identical to the compiled SDK libraries |
 | Hand-written C with cases | The tools above have run dry | Functions per hour, in the order below |
 
@@ -163,9 +163,9 @@ Take the functions that unlock the most others first: many callers, a family of 
    Before writing C, run the three checks (`docs/equivalent-pipeline.md` in the kickoff skill): the
    size is right (`python3 tools/1-2-baseline/checksizes.py <name>`: a literal pool mid-body ends a listing early), the
    function can be C (`python3 tools/5-generated/classify.py <name>`: FPU register banks, `fsrra`, control registers
-   other than SR cannot) and every name it uses exists (`python3 tools/6-agentic/poollist.py <name>`; `python3 tools/shdis.py --func <name>`
+   other than SR cannot) and every name it uses exists (`python3 tools/6-agentic/poollist.py <name>`; `python3 tools/sim/shdis.py --func <name>`
    prints it).
-3. **Check**: `python3 tools/equiv.py src/<file>.c` (`-q`: only what is not Equivalent). Each function runs in the SH-4 interpreter
+3. **Check**: `python3 tools/sim/equiv.py src/<file>.c` (`-q`: only what is not Equivalent). Each function runs in the SH-4 interpreter
    twice per case, the original bytes and your compiled C, and must agree on calls (target and the
    arguments the callee takes, from the prototype you declare for it; the compiler's `_...` runtime helpers
    run for real; a stack address is "the stack"), memory writes and the return register (from your prototype).
@@ -177,7 +177,7 @@ Take the functions that unlock the most others first: many callers, a family of 
 4. **Progress**: `python3 tools/progress.py`.
 
 Cases are the evidence: one case proves little; cover each branch and edge (zero, negative, the
-values the game really uses). A RAM dump from the running game (`tools/4-boosts/live.py`) gives real
+values the game really uses). A RAM dump from the running game (`tools/6-agentic/live.py`) gives real
 world state to start from.
 
 ## Building from C (step 8) *(equivalent)*
@@ -186,11 +186,11 @@ NAOMI library and C runtime (`nl*`, sprites, textures, the `nl_objasm_*` rendere
 stay as the original bytes at their address, whatever C exists for them. The block starts at the library's first function
 (`nlInitCommonTexture`, 0xA0 before `nlFreeCommonTextureAll`, or earlier: every function the library reaches by `bsrf` or `braf` at a fixed distance must be inside the block, or the call lands elsewhere once the code moves) and runs on to the end of the C runtime. Left in
 `game`, the library's hand-written assembly passes state in registers and the T flag, so C for part of it breaks what the rest relies on,
-and `tools/equiv.py`, which compares results, memory and calls, cannot see it.
+and `tools/sim/equiv.py`, which compares results, memory and calls, cannot see it.
 
 Dropped arguments: a pass-through trampoline (a few bytes that jump on to another function, r4-r7
 untouched) whose C predates the generator's count of pass-through arguments is `(void)` in C, and
-`tools/equiv.py` compares its callers on that, so a call that drops the arguments still passes and the
+`tools/sim/equiv.py` compares its callers on that, so a call that drops the arguments still passes and the
 callee reads leftovers on the console. Before the first build, list the trampolines whose C takes fewer
 integer arguments than `state/arity_scan.json` gives for the original, regenerate them and their callers
 (`python3 tools/5-generated/gen_equiv --regen <name> ...`), and fix by hand (`/* manual: */`) a caller
@@ -233,7 +233,7 @@ For a port, the SDK code at 100% is required: nothing on the host runs the origi
 - **A stopped picture is a wait.** The watchdog's "no frame for N s" means the game waits on something the runtime never
   gives; the game thread's position in the report says what.
 
-What a port finds that `tools/equiv.py` cannot see, because the SH-4 puts the values in the same places either way and the
+What a port finds that `tools/sim/equiv.py` cannot see, because the SH-4 puts the values in the same places either way and the
 host does not. Each goes back to the C of the decomp by its documented step; none is patched in the port:
 
 | What differs | On the SH-4 | On the host |

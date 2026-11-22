@@ -1,6 +1,6 @@
 """thunks.py ALL.DIS: short functions that end in a tail jump (jmp @rN) to another function, passing on argument
 registers they never write: the target reads them, so the thunk's C must take them and pass them on. ALL.DIS is
-tools/shdis.py's listing of the whole executable. Prints: thunk, its file, target, the registers passed on that the
+tools/sim/shdis.py's listing of the whole executable. Prints: thunk, its file, target, the registers passed on that the
 thunk's C does not declare. Run in the repo."""
 import os as _tp_os, sys as _tp_sys  # noqa: E401  every tools folder on the import path (tools/toolpath.py)
 _tp_sys.path.insert(0, _tp_os.path.normpath(_tp_os.path.join(_tp_os.path.dirname(_tp_os.path.abspath(__file__)), '..')))
