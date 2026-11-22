@@ -354,7 +354,9 @@ static void draw_model(uint32_t obj, uint32_t ctx, float alpha)
     if (!(near > 1e-4f))                        /* no near W in the context: the library's near plane, as nlPerspective
                                                    and nlFrustum set it. Clipped at 1e-4 instead, a strip crossing the
                                                    camera came out with points 10^10 pixels away: triangles over the screen */
+#ifdef GAME_NL_NEAR
         near = F32(GAME_NL_NEAR);
+#endif
     if (!(near > 1e-4f))
         near = 1e-4f;
     float lx = F32(ctx + 16) * inv, ly = F32(ctx + 20) * inv, lz = F32(ctx + 24) * inv;

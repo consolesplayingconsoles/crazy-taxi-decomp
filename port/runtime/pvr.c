@@ -707,7 +707,7 @@ static unsigned long ta_bytes;
 
 /* TA_ITP_CURRENT (0x138): where the TA writes the next polygon parameters. A list init sets it to TA_ISP_BASE and the
    frame's parameters move it up; here by the bytes the TA takes in, which is at least what the hardware writes. Kamui
-   reads it (kmiFinalizeRender, when its flags' bit 0 is set: Crazy Taxi's are) to put the background plane right after
+   reads it (kmiFinalizeRender, when its flags' bit 0 is set) to put the background plane right after
    the frame's parameters and to point the render at it; it read 0 here, and every frame's background went to the start
    of video memory. Past TA_ISP_LIMIT the TA reports a parameter overflow (SB_ISTERR bit 2), once a frame, which Kamui's
    kmiErrorISR04 handles */
@@ -866,9 +866,8 @@ void port_render_to(uint32_t *out, int w, int h);
 
 /* the frame's records drawn into texture memory at addr: the area from FB_X_CLIP / FB_Y_CLIP (the last pixel, inclusive), the
    line stride from FB_W_LINESTRIDE (8-byte units), the pixel format from FB_W_CTRL (0 RGB555, 1 RGB565, 2 ARGB4444,
-   3 ARGB1555, 4 RGB888, 5 KRGB0888, 6 ARGB8888). Not the region array's tiles: in Crazy Taxi's pause (the race drawn into a
-   512x512 texture) entries 37 and 38 of it held other words, the first with its last-entry bit, and a size counted from
-   the tiles came out 96 pixels wide: the right of the pause screen was black */
+   3 ARGB1555, 4 RGB888, 5 KRGB0888, 6 ARGB8888). Not from the region array's tiles: the array can hold entries that are
+   not the target's, and a size counted from them is wrong */
 static void render_to_texture(uint32_t addr)
 {
     rtt_addr = addr & VRAM_MASK;

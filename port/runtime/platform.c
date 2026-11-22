@@ -170,10 +170,10 @@ struct pds_peripheral_info *pd_get_peripheral_info(uint32_t port) __asm__("pdGet
 struct pds_peripheral *pdGetPeripheral(uint32_t port)
 {
     struct pds_peripheral *p = &peripheral[(port / 6) & 3];
-    /* .info points at the device's record (PDS_PERIPHERALINFO): Crazy Taxi's vibration check reads its function bits through it */
+    /* .info points at the device's record (PDS_PERIPHERALINFO): its function bits say what the device has (0x100: vibration) */
     struct pds_peripheral_info *info = pd_get_peripheral_info(((port / 6) & 3) * 6);
     p->info = (uint32_t)(uintptr_t)info;
-    /* .name points at the device's product name: Crazy Taxi's ConvertSwitch tells the pads apart by its letters */
+    /* .name points at the device's product name, in the same record */
     p->name = (uint32_t)(uintptr_t)info->product_name;
     if (p == &peripheral[0]) {
         p->id = 1;

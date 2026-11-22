@@ -57,6 +57,7 @@ int syHwInit2(void)
     return 0;
 }
 
+#ifdef GAME_DEFAULT_HANDLER
 /* Interrupts. The game's exception vector code (copied by syIntInit) is assembly with no C, and its table has only the default
    handler for the HOLLY interrupts: Kamui registers its handler with kmiRegisterPhIntHandler, and the vertical blank goes through the
    system's handler chain (syChainMasterHandler, event 0x900). port_game_irq does what that code does for those: Kamui's handler (which
@@ -77,3 +78,4 @@ void port_game_irq(int evt)
     if (pending & 8)                                   /* the vertical blank */
         syChainMasterHandler(0x900);
 }
+#endif

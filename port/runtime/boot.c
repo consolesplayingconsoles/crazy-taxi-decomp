@@ -14,6 +14,13 @@
 
 #define I32(a) (*(volatile int32_t *)(uintptr_t)(a))
 
+#ifndef GAME_MAIN_MODE
+#define GAME_MAIN_MODE 0                  /* not in game.h: no boot log */
+#endif
+#ifndef GAME_SUB_MODE
+#define GAME_SUB_MODE 0
+#endif
+
 extern unsigned long port_frames;
 
 void port_boot_step(void)

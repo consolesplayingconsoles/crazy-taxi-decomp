@@ -175,8 +175,8 @@ int32_t bu_set_progress(uint32_t fn) { (void)fn; return 0; }
 int32_t bu_stat(int32_t drive) __asm__("buStat");
 int32_t bu_stat(int32_t drive) { (void)drive; return 0; }
 
-/* buIsReady(drive), buIsFormat(drive): 1 for the card once the library is up, else 0. Crazy Taxi asks them before each
-   load or save (its "LOAD failed" when not ready); the library's own C would ask the Maple driver, which has none. The
+/* buIsReady(drive), buIsFormat(drive): 1 for the card once the library is up, else 0, asked before each
+   load or save; the library's own C would ask the Maple driver, which has none. The
    file system's vmsio_isready / vmsio_ismount, which the game's card code also asks, say the same */
 int32_t bu_is_ready(int32_t drive) __asm__("buIsReady");
 int32_t bu_is_ready(int32_t drive) { return ours(drive) ? 1 : 0; }

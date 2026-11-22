@@ -153,8 +153,10 @@ void hw_deliver(void)
         uint32_t handler = REG(0x8C000000u + 0x200u + (((uint32_t)evt - 0x200u) >> 3));
         const struct port_entry *e = handler ? port_lookup(0x8C000000u | (handler & 0x00FFFFFFu)) : 0;
         void *fn = e ? e->fn : 0;
+#ifdef GAME_DEFAULT_HANDLER
         if ((!fn || (handler & 0x00FFFFFFu) == (GAME_DEFAULT_HANDLER & 0x00FFFFFFu)) && (evt == 0x320 || evt == 0x360 || evt == 0x3A0))
             fn = (void *)port_game_irq;          /* no handler in the table: game.c runs Kamui's and the vertical blank chain */
+#endif
         if (!fn) {
             static int warned;
             if (!warned++)

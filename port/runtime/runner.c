@@ -93,8 +93,7 @@ static void map_machine(void)
     map_fixed(0xE0000000u, 0x04000000u, -1, "store queues");
     map_fixed(0xFF000000u, 0x01000000u, -1, "SH-4 control registers");
     /* the boot ROM and flash (0x00000000-0x0021FFFF), read as zeros: the game reads there through a null entry of its own
-       tables and goes on, on the console with the ROM's bytes (Crazy Taxi's Chat_Choin: a passenger of type 5 or above
-       has no voice table, 0x0C13ED0C, and the comment after a stunt read address 0 and faulted here). Read only: a write
+       tables and goes on, on the console with the ROM's bytes. Read only: a write
        still faults. Below vm.mmap_min_addr only root may map; else the runtime says so and such a read faults as before */
     void *rom = mmap((void *)0, 0x00220000u, PROT_READ, MAP_FIXED_NOREPLACE | MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (rom != (void *)0)
@@ -591,7 +590,7 @@ static void game_main(void)
     call_console(GAME_INITSCT, 0);                /* _INITSCT: the bss cleared, the initial data copied */
     call_console(GAME_INITLIBH, 0);               /* _INITLIBH: the library modules' entries */
     call_console(GAME_MAIN, 0);                   /* what the start code calls: main, or the game's own main loop */
-    fprintf(stderr, "crazytaxi: MainLoop returned\n");
+    fprintf(stderr, PORT_NAME ": main returned\n");
 }
 
 static void on_alarm(int sig)
