@@ -19,7 +19,7 @@ import re
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-SRC = os.environ.get('PORT_SRC') or os.path.join(ROOT, 'src')   # native_build.py: src/ with port/src_fixes.patch
+SRC = os.environ.get('PORT_SRC') or os.path.join(ROOT, 'src')   # native_build.py: the C it compiles (src/ and sdk/)
 
 PROTO = re.compile(r'^(?:extern\s+|static\s+)?([A-Za-z_][\w \t\*]*?)\s*\b(\w+)\s*\(([^;{}()]*(?:\([^()]*\)[^;{}()]*)*)\)\s*(;|\{|$)', re.M)
 STK = re.compile(r'^Stk(\d+)$')

@@ -12,7 +12,6 @@ check the port are here.
 | [frame_reads.py](frame_reads.py) | Functions whose C reads past its own local frame: stack words the caller passed that the C does not declare. |
 | [thunks.py](thunks.py) | Short functions that end in a tail jump to another function, passing on argument registers they never write. |
 | [extract_disc.py](extract_disc.py) | Every file of the disc into the folder the native game reads (`build/native/data`). |
-| [mkpatch.sh](mkpatch.sh) | `port/src_fixes.patch` from the build's fixed copy of `src/` (`build/native/src_fixed`). |
 | [where.sh](where.sh) | The host addresses a fault report prints, as functions and source lines. |
 | [capture.sh](capture.sh) | Waits for the running game to reach a mode (its `PORT_BOOT_LOG` line), then reads its frame and RAM a few times with `frame_capture.py`. |
 | [frame_capture.py](frame_capture.py) | The running game's last frame (every polygon and vertex) and its RAM, read from its memory without stopping it. |

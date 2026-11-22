@@ -128,34 +128,18 @@ def interpreted(stub_fns, fns, root):
 
 
 def fixed_src():
-    """build/native/src_fixed: the C as the port compiles it, in one folder: src/ with port/src_fixes.patch applied (the
-    port's fixes to the decomp's C for the host: src/ itself stays as the decomp has it), and the SDK's C from sdk/ beside it
+    """build/native/src_fixed: the C as the port compiles it, in one folder: src/ as the decomp has it (the port never
+    changes it: a fix to the C is made in src/, for the console build too), and the SDK's C from sdk/ beside it
     (tools/layout.py). Files are rewritten only when their text changes"""
-    import shutil, tempfile
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     src, out = os.path.join(root, 'src'), os.path.join(root, 'build', 'native', 'src_fixed')
-    patch = os.path.join(root, 'port', 'src_fixes.patch')
     os.makedirs(out, exist_ok=True)
-    texts = {}
-    if os.path.exists(patch) and os.path.getsize(patch):
-        names = sorted(set(re.findall(r'(?m)^\+\+\+ b/src/(\S+)', open(patch).read())))
-        work = tempfile.mkdtemp(prefix='vtpatch')
-        os.makedirs(os.path.join(work, 'src'))
-        for n in names:
-            shutil.copy(os.path.join(src, n), os.path.join(work, 'src', n))
-        r = subprocess.run(['patch', '-p1', '-s', '--no-backup-if-mismatch', '-d', work, '-i', patch],
-                           capture_output=True, text=True)
-        if r.returncode:
-            sys.exit('port/src_fixes.patch does not apply:\n' + r.stdout + r.stderr)
-        for n in names:
-            texts[n] = open(os.path.join(work, 'src', n), 'rb').read()
-        shutil.rmtree(work)
     keep = set()
     for f in os.listdir(src):
         if not os.path.isfile(os.path.join(src, f)):
             continue
         keep.add(f)
-        data = texts.get(f) or open(os.path.join(src, f), 'rb').read()
+        data = open(os.path.join(src, f), 'rb').read()
         dst = os.path.join(out, f)
         if not os.path.exists(dst) or open(dst, 'rb').read() != data:
             open(dst, 'wb').write(data)
@@ -492,12 +476,6 @@ def read_functions():
         p = line.split()
         if len(p) == 4 and p[0] == 'F':
             fns[p[3]] = int(p[1], 16)
-    # functions the game calls by address inside a listed one (port/extra_functions.txt)
-    extra = os.path.join(ROOT, 'port', 'extra_functions.txt')
-    for line in open(extra) if os.path.exists(extra) else []:
-        p = line.split('#')[0].split()
-        if len(p) == 2:
-            fns[p[1]] = int(p[0], 16)
     return fns
 
 
