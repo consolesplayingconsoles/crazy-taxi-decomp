@@ -103,8 +103,7 @@ def write_batch(keep):
     open(layout.c_path(fn),'w').write(rewrites.narrow_unit(head+'\n'.join(i[1] for i in keep)))
     shutil.rmtree('tests/%s'%fn,ignore_errors=True); os.makedirs('tests/%s'%fn)
     for it in keep: json.dump(it[2],open('tests/%s/%s.json'%(fn,it[0]),'w'),indent=1)
-    r=subprocess.run(['python3','tools/sim/equiv.py',layout.c_path(fn)],capture_output=True,text=True)
-    bad=gen_pipe.failed_in(r.stdout+r.stderr,[it[0] for it in keep])
+    bad=gen_pipe.failed_in(gen_pipe._equiv([layout.c_path(fn)]),[it[0] for it in keep])     # its lines go to the log as they come
     note('%s: %d functions written, %d EQUIVALENT, %d not'%(fn,len(keep),len(keep)-len(bad),len(bad)))      # equiv.py prints no summary without -q
     if bad:                  # it passed in its batch, not in the file it was written to (a callee's definition changed meanwhile: --regen
         # took it out while the batch ran, hudFadeNearPlayers -> screenProject): it does not stay in src/
@@ -152,7 +151,17 @@ for l in (subprocess.run(['python3','tools/5-generated/classify.py']+sizes,captu
     p=l.split()
     if len(p)>=4 and p[3]=='ok' and (p[2] in eq if known else p[2] not in eq and p[2] not in defined) and (p[2] not in ver or p[2] in ONLY) and not (p[2].startswith('_') and gen_core._custom_convention(p[2])) and int(p[1])<=maxsize:
         if not ONLY or p[2] in ONLY: tolook.append(p[2])
+def _cap_memory():
+    """a pool worker's address space capped (GEN_MEM_GB, default 4): a function whose reading blows up (one worker reached 16 GB, the kernel
+    killed it, and the pool then waited forever for its function) gets a MemoryError, recorded as a failure, instead"""
+    import resource
+    lim=int(float(os.environ.get('GEN_MEM_GB','4'))*(1<<30))
+    soft,hard=resource.getrlimit(resource.RLIMIT_AS)
+    if soft==resource.RLIM_INFINITY or soft>lim:
+        try: resource.setrlimit(resource.RLIMIT_AS,(lim,hard))
+        except (ValueError,OSError): pass          # macOS takes no address-space cap: the worker runs uncapped
 def _read(n):
+    if JOBS>1: _cap_memory()
     signal.alarm(int(max(READ_LIMIT,gen_core.SPANS[n][1]//4)*TIMEF))      # a larger function gets more time: size/4 seconds, at least 300, times GEN_TIME_FACTOR
     try:
         try: gen_core.run(n); return (n,None)
@@ -161,7 +170,7 @@ def _read(n):
             gen_core.run(n,True); return (n,None)       # a stub that passes its own arguments on
     except Timeout: return (n,'timeout')
     except gen_core.Skip as e: return (n,str(e) or '?')
-    except Exception as e: return (n,'EXC '+type(e).__name__)
+    except (Exception,SystemExit,KeyboardInterrupt) as e: return (n,'EXC '+type(e).__name__)      # in a pool worker an exit ended the worker, and the pool waited forever for its function
     finally: signal.alarm(0)
 def stream(fn,names):
     """fn over the names in worker processes (or here with --jobs 1); each result as it finishes, in the order the workers are given the names"""

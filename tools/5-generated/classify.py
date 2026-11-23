@@ -143,12 +143,12 @@ def entry_input(exe, base, a, sz):
             parts = [x.strip() for x in re.split(r',(?![^(]*\))', ops)]
             last = parts[-1]
             dest = last if re.fullmatch(r'r\d+', last) and not mn.startswith(('cmp', 'tst', 'lds', 'ldc', 'jmp', 'jsr', 'bsr', 'bra')) else None
-            for x in parts:
+            for k, x in enumerate(parts):
                 if len(parts) == 2 and x == parts[0] and re.fullmatch(r'r\d+', x) and re.search(r'@\(?[^,]*r15', parts[1]) and mn.startswith('mov'):
                     continue                                         # a store to the stack frame: a spill
                 for r in re.findall(r'\br(\d+)\b', x):
-                    if dest and x == dest and mn in pure:
-                        continue
+                    if dest and x == dest and k == len(parts) - 1 and mn in pure:
+                        continue                                     # the destination only: `exts.w r0,r0` reads r0 as its source
                     if int(r) <= 3 and int(r) not in defs:
                         return True
             if re.fullmatch(r'dr\d+', last) and mn in fpure:        # a pair written at once (fsca fpul,drN; fmov in pair mode)

@@ -903,13 +903,21 @@ def main(argv):
     results, evidence = {}, {}
     cache = load_cache()
     compared_all = (sorted(arity.items()), sorted(STACKN.items()), sorted(back.items()))
+
+    def report(fn):
+        """a function's line, printed as soon as its result is final (a long check shows its progress)"""
+        ok, why = results[fn]
+        if not quiet or ok is not True:
+            print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why), flush=True)
     for fn in want:
         case_path = os.path.join('tests', stem, fn + '.json')
         if fn not in funcs or '_' + fn not in syms:
             results[fn] = (None, 'not in functions.txt or not compiled')
+            report(fn)
             continue
         if not os.path.exists(case_path):
             results[fn] = (None, 'no cases (%s)' % case_path)
+            report(fn)
             continue
         start, size = funcs[fn]
         c_at = syms['_' + fn]
@@ -933,6 +941,7 @@ def main(argv):
             results[fn] = (True, hit['why'])
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % hit['covtext']])
+            report(fn)
             continue
         queue = [c for k in ('dev', 'holdout') for c in sets.get(k, [])]
         for case in queue:
@@ -988,13 +997,11 @@ def main(argv):
             evidence[fn] = (start, size, cfile, counts,
                             [c.get('about', '') for k in ('dev', 'holdout') for c in sets.get(k, [])] + ['the cases run %s' % covtext])
             cache[key] = {'fn': fn, 'why': results[fn][1], 'covtext': covtext}
+        report(fn)
     if any(ok for ok, _ in results.values()) and not (stem.startswith('zz_') or fuzz):
         fresh_cache = load_cache()          # another run may have added keys meanwhile
         fresh_cache.update(cache)
         save_cache(fresh_cache)
-    for fn, (ok, why) in results.items():
-        if not quiet or ok is not True:
-            print('%-28s %-11s %s' % (fn, {True: 'EQUIVALENT', False: 'DIFFERS', None: '-'}[ok], why))
     if quiet:
         print('%d EQUIVALENT, %d DIFFERS, %d without cases or not compiled' % (
             sum(1 for ok, _ in results.values() if ok is True), sum(1 for ok, _ in results.values() if ok is False),

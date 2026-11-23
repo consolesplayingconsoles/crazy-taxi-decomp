@@ -31,7 +31,7 @@ KEPT = 'state/kept'
 def tool_versions():
     """A short hash of the source of the parts that make a result: the reader/writer (gen_core), the draw (gen_drv) and the check."""
     out = {}
-    for key, rel in (('core', 'gen_core.py'), ('draw', 'gen_drv.py'), ('check', '../../equiv.py'), ('sim', '../../sh4sim.py')):
+    for key, rel in (('core', 'gen_core.py'), ('draw', 'gen_drv.py'), ('check', '../../sim/equiv.py'), ('sim', '../../sim/sh4sim.py')):
         out[key] = hashlib.sha1(open(os.path.join(HERE, rel), 'rb').read()).hexdigest()[:10]
     return out
 

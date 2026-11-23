@@ -36,6 +36,7 @@ import time
 
 import layout
 
+BSS_ALIGN = 0x1000                # the padded image's BSS moves by a multiple of this (see bss_shift)
 REACH = 3072                     # a bsr/bra farther than this from its target is kept with it (the reach is 4 KB)
 TOPS = (0x0C, 0x8C, 0xAC)
 
@@ -81,11 +82,14 @@ def cond_joined(G, starts, code, word, pools, end):
     return [g for g in G if g not in cut]
 
 
-def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_ties=True):
+def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_ties=True, data_tail=0x800):
     """Indexes of the pieces that start a group. starts: piece starts (sorted); listed: the starts that are listed functions;
     code: [(start, size)] of the listed functions; word(a): the halfword at a; pools: pool word addresses (not instructions);
     pool32(a): the signed 32-bit word at a (the distance a bsrf or braf takes from a pool); stay: pieces below it stay with the first one (the boot code and the entry stub before layout.txt's `game`: Crazy Taxi's
-    boot block copies 0C010100-0C014000 to 0C004000 by number, so a pad inside it changes what is copied)."""
+    boot block copies 0C010100-0C014000 to 0C004000 by number, so a pad inside it changes what is copied); data_tail: a listed function
+    followed by more than this many bytes before the next piece (a long data tail: a data section, tables) stays with that next piece
+    (None: off). The tail's end is the next piece's start, and an address word marking the END of a data section is that same number:
+    written as the later piece's label, it would lengthen the section by the pad between them (Power Stone 2 _INITSCT)."""
     piece = lambda a: bisect.bisect_right(starts, a) - 1
     link = [0] * (len(starts) + 1)
 
@@ -123,6 +127,11 @@ def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_t
     for i in range(len(starts) - 1):
         if starts[i] not in listed or starts[i + 1] not in listed:
             tie(i, i + 1)
+    if data_tail is not None:
+        for a, sz in code:
+            i = piece(a)
+            if i + 1 < len(starts) and starts[i] == a and starts[i + 1] - (a + sz) > data_tail:
+                tie(i, i + 1)
 
     def closes(h):                  # rts, rte, jmp @Rn, bra, braf Rn: control does not continue past it (after its delay slot)
         return h in (0x000B, 0x002B) or (h & 0xF0FF) in (0x402B, 0x0023) or h >> 12 == 0xA
@@ -152,17 +161,27 @@ def groups(starts, listed, code, word, pools, end, stay=None, pool32=None, bsr_t
     return out
 
 
-def mapper(gstart, pad, end, lo, hi):
+def bss_shift(pad, groups, align=BSS_ALIGN):
+    """how far the padded image's BSS moves: the pads in front of it (one fewer than the groups), rounded up to a multiple of `align`
+    (0: as they are). Code rounds addresses (`and #-256` / `add #256` on a pointer into BSS): a round-up commutes with a move only when the
+    move is a multiple of the alignment, so a BSS moved by 0x172C0 held 0C336500 where the moved original value was 0C3364C0 (Power Stone 2)."""
+    n = pad * max(groups - 1, 0)
+    return (n + align - 1) // align * align if align else n
+
+
+def mapper(gstart, pad, end, lo, hi, bss_align=0):
     """new(v): where the padded image has what the original has at v (an address or an address value, any RAM mirror). gstart:
-    the group starts (0C mirror); the first group does not move, each later one moves pad more; past the image (BSS) all of them."""
+    the group starts (0C mirror); the first group does not move, each later one moves pad more; past the image (BSS) all of them
+    (bss_shift(): rounded up to bss_align when it is given)."""
     def new(v):
         if (v >> 24) not in TOPS:
             return v
         a = (v & 0x1FFFFFFF) | 0x0C000000
         if not (lo <= a < hi):
             return v
-        n = len(gstart) - 1 if a >= end else bisect.bisect_right(gstart, a) - 1
-        return (v + pad * n) & 0xFFFFFFFF
+        if a >= end:
+            return (v + bss_shift(pad, len(gstart), bss_align)) & 0xFFFFFFFF
+        return (v + pad * (bisect.bisect_right(gstart, a) - 1)) & 0xFFFFFFFF
     return new
 
 
@@ -243,6 +262,42 @@ def to_assemble(d, files):
     return changed, stale, missing
 
 
+def writes_diff(wa, wb, new, limit=8):
+    """[(k, original write, padded write)]: where the writes of the original and of the padded image differ, the first `limit`, one write
+    against its own (as far as both lists go). A write is [address hex, size, value hex]. The padded one is at new(address), of the same
+    size, and has the same value, or for an address value its place new(value) (a 4-byte write). A run of four byte writes to the four
+    bytes of an aligned word, in ascending order in both images (a table of addresses copied a byte at a time), is compared as the word,
+    the same rule: each byte of a relocated address differs, the word is its place. Whatever one-by-one passed, this passes."""
+    out = []
+    n = min(len(wa), len(wb))
+    k = 0
+    while k < n:
+        x, y = wa[k], wb[k]
+        ax, s, av = int(x[0], 16), x[1], int(x[2], 16)
+        bx, s2, bv = int(y[0], 16), y[1], int(y[2], 16)
+        run = s == 1 and s2 == 1 and ax % 4 == 0 and k + 4 <= n
+        if run:
+            for j in range(1, 4):
+                p, q = wa[k + j], wb[k + j]
+                if p[1] != 1 or q[1] != 1 or int(p[0], 16) != ax + j or int(q[0], 16) != bx + j:
+                    run = False
+                    break
+        if run:
+            word = lambda ws: sum(int(ws[k + j][2], 16) << (8 * j) for j in range(4))
+            av4, bv4 = word(wa), word(wb)
+            ok = all(int(wb[k + j][0], 16) == new(ax + j) for j in range(4)) and (bv4 == av4 or bv4 == new(av4))
+            step = 4
+        else:
+            ok = not (bx != new(ax) or s != s2 or not (bv == av or (s == 4 and bv == new(av))))
+            step = 1
+        if not ok:
+            out.append((k, x, y))
+            if len(out) >= limit:
+                break
+        k += step
+    return out
+
+
 def main(argv):
     d, pad, steps = 'build/sym', 32, 20000000
     a = list(argv)
@@ -301,7 +356,7 @@ def main(argv):
     bss = winpath(os.path.join(d, 'obj', 'bss.obj'))
 
     def sub(name, padded):
-        out = ['elf', 'start P(%s),B(%08X)' % (base_txt, ((layout.bss_start(end) + (pad * (len(G) - 1) if padded else 0)) & 0x1FFFFFFF) | link_top),
+        out = ['elf', 'start P(%s),B(%08X)' % (base_txt, ((layout.bss_start(end) + (bss_shift(pad, len(G)) if padded else 0)) & 0x1FFFFFFF) | link_top),
                'output %s' % winpath(os.path.join(d, name + '.elf')), 'print %s' % winpath(os.path.join(d, name + '.map'))]
         for i, o in enumerate(inputs):
             if padded and i in gset:
@@ -362,19 +417,12 @@ def main(argv):
         sys.exit(1)
 
     # check 2: the padded image runs as the original
-    new = mapper([starts[i] for i in G], pad, end, starts[0], fixed)
+    new = mapper([starts[i] for i in G], pad, end, starts[0], fixed, bss_align=BSS_ALIGN)
     ra = simulate('1ST_READ.BIN', steps)
     say('original: %s after %d steps, %d writes' % (ra['error'], ra['steps'], len(ra['writes'])), log)
     rb = simulate(os.path.join(d, 'pad.bin'), steps)
     say('padded:   %s after %d steps, %d writes' % (rb['error'], rb['steps'], len(rb['writes'])), log)
-    diff = []
-    for k, (x, y) in enumerate(zip(ra['writes'], rb['writes'])):
-        ax, s, av = int(x[0], 16), x[1], int(x[2], 16)
-        bx, s2, bv = int(y[0], 16), y[1], int(y[2], 16)
-        if bx != new(ax) or s != s2 or not (bv == av or (s == 4 and bv == new(av))):
-            diff.append((k, x, y))
-            if len(diff) >= 8:
-                break
+    diff = writes_diff(ra['writes'], rb['writes'], new)
     if diff:
         say('check 2: DIFFERS at write #%d of %d:' % (diff[0][0], len(ra['writes'])), log)
         for k, x, y in diff:

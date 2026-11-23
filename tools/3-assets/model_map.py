@@ -20,7 +20,7 @@ that wrote it: the repo's KICKOFF file, or the skill's VERSION file when run fro
                  (sub is the id of its table or collection, sublabel its name if it has one; name is the model's own name,
                  empty when it has none; every name is tidied: no parentheses, each word capitalised; texset is the
                  texture set it takes its textures from, empty when its file's rows apply)
-  [assemblies]   one row per placed part (`assemble`, `fileparts` and `nodes` rules): group sub part file offset, then a 3x4 matrix
+  [assemblies]   one row per placed part (`assemble`, `fileparts`, `recordparts` and `nodes` rules): group sub part file offset, then a 3x4 matrix
                  row by row
   [rigs]         one row per skeleton: rig kind (bones or nodes) group motion_file motion_format (v, or empty) pose_offset
                  pose_record (the motion and record the assemblies were posed with; empty for a bind pose)
@@ -65,6 +65,16 @@ models.txt (curated rules, one per line, `#` comments, `_` is a space in labels)
   rig <name> <motion file> <file base hex> <motion header addr hex> <record>
                                                 a skeleton posed from one record of a V-format motion
   bone <rig> <bone> <parent|-> <offset addr|->  a bone: its parent and the 3 floats at <offset addr> (bind offset)
+  recordparts <group> <sub> file=<model file> segment=<n> count=<word> table=<word> stride=<hex> model=<hex> parent=<hex> bone=<hex>
+                                                a character whose parts, parent bones and bone offsets are a table of records inside its own model
+                                                file, segment n of a container (a table of (offset, size) 32-bit pairs at the start of the file):
+                                                count and table are the words of the segment holding the number of records and where the first
+                                                starts; per record, model is the field with a part's offset in the segment, parent the field with
+                                                its parent bone's index (-1: a root), bone the field with 3 floats (the bone's offset in its
+                                                parent's axes). Placed in bind pose as `fileparts` does, no executable table needed
+  segmentset <model file> <n> <set>             every model of the file inside segment n of a container (a table of (offset, size) 32-bit
+                                                pairs at the start of the file) takes texture set <set>: it looks its texture numbers up in
+                                                the [textures] rows of that set, not the file's own (a file with a texture list in each segment)
   fileparts <group> <sub> file=<model file> models=<addr>:<n> bones=<addr> parents=<addr>:<root> [extra=<models addr>:<n>:<vec addr>:<links addr>] [mot=<motion file>]
                                                 a character whose parts are models of one file, placed in bind pose with no motion: models is
                                                 an array of n offsets into the file in the executable (hex address; bone i carries model i),
@@ -1536,6 +1546,74 @@ def file_parts(rules, exe, base, models):
     return rows, rigs, bones, mbones, poses
 
 
+def record_parts(rules, disc, models):
+    """(placed, rigs, bones) from the `recordparts` rules: a character whose parts, parent bones and bone offsets are a table of records inside its
+    own model file, a segment of a container file (a table of (offset, size) 32-bit pairs at the start, then the segments). Placed as `fileparts`
+    places a character: bind pose, no rotation, each bone's place the sum of the offsets from the root down; one rig a rule, a tree of bones.
+    The rule: recordparts <group> <sub> file=<name> segment=<n> count=<word> table=<word> stride=<hex> model=<hex> parent=<hex> bone=<hex>
+    (count and table: which 32-bit words of the segment hold the number of records and where the first starts, in the segment; model: the
+    record's field with a part's offset in the segment; parent: its field with the parent's index, -1 for a root; bone: its three floats)."""
+    rows, rigs, bones = [], [], []
+    files = dict((path.lstrip("/").upper(), (lba, size, path)) for lba, size, path in disc.files())
+    for r in rules:
+        if r[0] != "recordparts":
+            continue
+        group, sub = r[1].replace("_", " "), r[2].replace("_", " ")
+        opt = dict(x.split("=", 1) for x in r[3:])
+        found = files.get(opt["file"].upper())
+        if not found:
+            continue
+        data = file_data(disc, *found)
+        k = int(opt["segment"], 0)
+        if k >= 16 or 8 * k + 8 > len(data):
+            continue
+        start, size = struct.unpack_from("<II", data, 8 * k)
+        stride, moff, poff, boff = (int(opt[x], 16) for x in ("stride", "model", "parent", "bone"))
+        if size == 0 or start + size > len(data) or 4 * max(int(opt["count"], 0), int(opt["table"], 0)) + 4 > size:
+            continue
+        n = struct.unpack_from("<I", data, start + 4 * int(opt["count"], 0))[0]
+        at = struct.unpack_from("<I", data, start + 4 * int(opt["table"], 0))[0]
+        if n < 1 or at + stride * n > size or max(moff + 4, poff + 4, boff + 12) > stride:
+            continue
+        recs = [(struct.unpack_from("<I", data, start + at + stride * i + moff)[0], struct.unpack_from("<i", data, start + at + stride * i + poff)[0],
+                 struct.unpack_from("<3f", data, start + at + stride * i + boff)) for i in range(n)]
+        by_off = dict((m["offset"], m) for m in models if m["file"].upper() == opt["file"].upper())
+        world = {}
+        for i, (model, parent, off) in enumerate(recs):      # parents come before their children in the table
+            world[i] = off if parent < 0 or parent not in world else tuple(world[parent][c] + off[c] for c in range(3))
+        rig = group.lower().replace(" ", "_")
+        rigs.append([rig, "bones", group, "", "", "", "1"])
+        for i, (model, parent, off) in enumerate(recs):
+            m, label = by_off.get(start + model), "bone %d" % i
+            if m is not None:
+                m["group"], m["sub"], m["name"] = group, sub, tidy(label)
+                rows.append([group, sub, label, m["file"], "%x" % m["offset"]] +
+                            ["%.5f" % x for c in range(3) for x in [1.0 if j == c else 0.0 for j in range(3)] + [world[i][c]]])
+            bones.append([rig, sub, str(i), str(parent) if parent >= 0 and parent in world else "", label if m is not None else "",
+                          "%.5f" % off[0], "%.5f" % off[1], "%.5f" % off[2]])
+    return rows, rigs, bones
+
+
+def segment_sets(rules, disc, models):
+    """The `segmentset` rules: segmentset <file> <n> <set>: every model of the file inside segment n of the container (a table of (offset, size)
+    32-bit pairs at the start of the file) takes texture set <set>, so it looks its texture numbers up in the rows of that set."""
+    files = dict((path.lstrip("/").upper(), (lba, size, path)) for lba, size, path in disc.files())
+    for r in rules:
+        if r[0] != "segmentset" or len(r) < 4:
+            continue
+        found = files.get(r[1].upper())
+        k = int(r[2], 0)
+        if not found or k >= 16:
+            continue
+        data = file_data(disc, *found)
+        if 8 * k + 8 > len(data):
+            continue
+        start, size = struct.unpack_from("<II", data, 8 * k)
+        for m in models:
+            if m["file"].upper() == r[1].upper() and size and start <= m["offset"] < start + size:
+                m["texset"] = r[3]
+
+
 def rotation(order, angles):
     """The 3x3 matrix of rotations about x, y, z by angles (radians), applied as order reads: zyx = Rz * Ry * Rx."""
     out = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
@@ -2137,12 +2215,17 @@ def skill_version():
     sys.exit("[ERROR] no version: no KICKOFF (in a repo) or VERSION (in the skill) file above %s" % HERE)
 
 
+def rules_path():
+    """Where the repo's models.txt is when no path is given: beside its KICKOFF, one level above tools/ (this file is tools/3-assets/)."""
+    return os.path.join(os.path.dirname(os.path.dirname(HERE)), "models.txt")
+
+
 def main():
     if len(sys.argv) < 6:
         sys.exit(__doc__)
     version = skill_version()
     exe_path, base, fn_path, gdi, out_dir = sys.argv[1], A(int(sys.argv[2], 16)), sys.argv[3], sys.argv[4], sys.argv[5]
-    rules = read_rules(sys.argv[6] if len(sys.argv) > 6 else os.path.join(os.path.dirname(HERE), "models.txt"))
+    rules = read_rules(sys.argv[6] if len(sys.argv) > 6 else rules_path())
     exe = open(exe_path, "rb").read()
     nw = len(exe) // 4
     words = struct.unpack("<%dI" % nw, exe[:nw * 4])
@@ -2343,6 +2426,9 @@ def main():
                     m["group"], m["sublabel"] = r[2].replace("_", " "), tidy(r[3].replace("_", " "))
 
     fplaced, frigs, fbones, fmbones, fposes = file_parts(rules, exe, base, models)
+    rplaced, rrigs, rbones = record_parts(rules, disc, models)
+    segment_sets(rules, disc, models)
+    fplaced, frigs, fbones = fplaced + rplaced, frigs + rrigs, fbones + rbones
     placed = assemble(rules, disc, ptr_at, models, by_addr, char_parts, exe, base) + fplaced
     rigs, bones = bone_rigs(rules, exe, base, slots_by_group)
     nplaced, nrigs, nbones = node_trees(rules, ptr_at, exe, base, by_addr, put)

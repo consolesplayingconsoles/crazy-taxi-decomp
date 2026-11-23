@@ -284,7 +284,11 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
             for b in range(pos, pos + fsz):
                 dark[min(bar - 1, b * bar // code_total)] += 1
         pos += fsz
-    X = 150                                        # the bars start here; the label column is wide enough for "Min. accuracy"
+    # the card: four equal margins (M), the labels on the left edge, the figures on the right edge, the bars between them
+    W, M = 320, 12
+    Y1 = M + 10                                    # the first row's baseline: its bar (10 high) starts at the top margin
+    Y2 = Y1 + 32                                   # the second row's baseline
+    X = 156                                        # the bars start here: after the widest label, and 9 before the figure at the right edge
     per = float(code_total) / bar
     runs, c = [], 0
     while c < bar:
@@ -293,9 +297,9 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
         while e < bar and (dark[e] * 2 > per) == on:
             e += 1
         if on:
-            runs.append('<rect x="%d" y="56" width="%d" height="10" fill="#c87053"/>' % (X + c, e - c))
+            runs.append('<rect x="%d" y="%d" width="%d" height="10" fill="#c87053"/>' % (X + c, Y2 - 10, e - c))
         c = e
-    strip = '<rect x="%d" y="56" width="%d" height="10" fill="#ecc9b9"/>%s' % (X, bar, ''.join(runs))
+    strip = '<rect x="%d" y="%d" width="%d" height="10" fill="#ecc9b9"/>%s' % (X, Y2 - 10, bar, ''.join(runs))
     ftext = '%.1f%%' % done
     btext = '%.1f%%' % (100.0 * done_bytes / code_total)
     gtext = '%.1f%%' % wavg
@@ -306,28 +310,31 @@ def write_badge(rows, label, path='badges/progress.svg', extra=()):
     else:
         _w = 'COVERED'
         title = '%s: %s of functions, %s of code bytes covered; test coverage %s, matching %s' % (label, ftext, btext, gtext, mtext)
-    H = 78 if MATCHING else 100
-    sec = '' if MATCHING else ('<g font-size="10" fill="#b8c4d9"><text x="76" y="92">TEST COVERAGE %s</text>'
-                               '<text x="228" y="92">MATCHING %s</text></g>' % (gtext, mtext))
+    Y3 = Y2 + 26                                   # the secondary metrics' baseline
+    last = Y2 if MATCHING else Y3                  # the baseline of the last line so far; the bottom edge is 15 below it (3 of descender, then M)
+    sec = '' if MATCHING else ('<g font-size="10" fill="#b8c4d9"><text x="%d" y="%d" text-anchor="start">TEST COVERAGE %%s</text>'
+                               '<text x="%d" y="%d" text-anchor="end">MATCHING %%s</text></g>' % (M, Y3, W - M, Y3) % (gtext, mtext))
     cols = ''
     heads, grid = extra if extra else ((), [])
     if heads and grid:
-        xs = (150, 208, 268)[3 - len(heads):]           # the shown columns, kept to the right
-        cols = ('<g font-size="10" fill="#b8c4d9">%s</g>' % ''.join('<text x="%d" y="%d">%s</text>' % (x, H + 20, h) for x, h in zip(xs, heads))
-                ) + ''.join('<text x="14" y="%d" text-anchor="start">%s</text>' % (H + 40 + 18 * k, n) +
-                            ''.join('<text x="%d" y="%d">%s</text>' % (x, H + 40 + 18 * k, mk) for x, mk in zip(xs, marks))
+        xs = (170, 231, W - M - 19)[3 - len(heads):]    # the shown columns' centres, kept to the right: the last one ends on the right margin
+        yh = last + 28                                  # the columns' headings
+        cols = ('<g font-size="10" fill="#b8c4d9">%s</g>' % ''.join('<text x="%d" y="%d">%s</text>' % (x, yh, h) for x, h in zip(xs, heads))
+                ) + ''.join('<text x="%d" y="%d" text-anchor="start">%s</text>' % (M, yh + 20 + 18 * k, n) +
+                            ''.join('<text x="%d" y="%d">%s</text>' % (x, yh + 20 + 18 * k, mk) for x, mk in zip(xs, marks))
                             for k, (n, marks) in enumerate(grid))
-        H += 28 + 18 * len(grid)
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="304" height="%d" role="img" aria-label="%%s">' % H +
-           '<title>%%s</title><clipPath id="r"><rect width="304" height="%d" rx="3"/></clipPath>' % H +
-           '<g clip-path="url(#r)"><rect width="304" height="%d" fill="#1a2233"/>' % H +
-           '<rect x="%d" y="24" width="%d" height="10" rx="2" fill="#ecc9b9"/>'
-           '<rect x="%d" y="24" width="%d" height="10" rx="2" fill="#c87053"/>%s'
+        last = yh + 20 + 18 * (len(grid) - 1)
+    H = last + M + 3
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" role="img" aria-label="%%s">' % (W, H) +
+           '<title>%%s</title><clipPath id="r"><rect width="%d" height="%d" rx="3"/></clipPath>' % (W, H) +
+           '<g clip-path="url(#r)"><rect width="%d" height="%d" fill="#1a2233"/>' % (W, H) +
+           '<rect x="%d" y="%d" width="%d" height="10" rx="2" fill="#ecc9b9"/>'
+           '<rect x="%d" y="%d" width="%d" height="10" rx="2" fill="#c87053"/>%s'
            '</g>'
            '<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">'
-           '<g font-size="12"><text x="10" y="34" text-anchor="start">%s FUNCTIONS</text><text x="10" y="66" text-anchor="start">%s BYTES</text></g><g font-size="11">'
-           '<text x="298" y="34" text-anchor="end">%s</text><text x="298" y="66" text-anchor="end">%s</text></g>%s%s</g></svg>\n'
-           ) % (title, title, X, bar, X, wd, strip, _w, _w, ftext, btext, sec, cols)
+           '<g font-size="12"><text x="%d" y="%d" text-anchor="start">%s FUNCTIONS</text><text x="%d" y="%d" text-anchor="start">%s BYTES</text></g><g font-size="11">'
+           '<text x="%d" y="%d" text-anchor="end">%s</text><text x="%d" y="%d" text-anchor="end">%s</text></g>%s%s</g></svg>\n'
+           ) % (title, title, X, Y1 - 10, bar, X, Y1 - 10, wd, strip, M, Y1, _w, M, Y2, _w, W - M, Y1, ftext, W - M, Y2, btext, sec, cols)
     import os as _os
     _os.makedirs(_os.path.dirname(path) or '.', exist_ok=True)
     try:
